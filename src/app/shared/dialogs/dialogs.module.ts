@@ -19,6 +19,8 @@ import { CarCatalogsDialogTableDataSource } from './car-catalogs/car-catalogs-di
 import { CarCatalogsDialogComponent } from './car-catalogs/car-catalogs-dialog.component';
 import { CarMakersTableDataSource } from './car-makers/car-makers-dialog-table-data-source';
 import { CarMakersDialogComponent } from './car-makers/car-makers-dialog.component';
+import { CarsDialogTableDataSource } from './cars/cars-dialog-table-data-source';
+import { CarsDialogComponent } from './cars/cars-dialog.component';
 import { ChargingStationsDialogTableDataSource } from './charging-stations/charging-stations-dialog-table-data-source';
 import { ChargingStationsDialogComponent } from './charging-stations/charging-stations-dialog.component';
 import { CompaniesDialogTableDataSource } from './companies/companies-dialog-table-data-source';
@@ -28,6 +30,7 @@ import { ErrorCodeDetailsDialogComponent } from './error-code-details/error-code
 import { GeoMapDialogComponent } from './geomap/geomap-dialog.component';
 import { LOG_ACTIONSDialogTableDataSource } from './logs/log-actions-dialog-table-data-source';
 import { LOG_ACTIONSDialogComponent } from './logs/log-actions-dialog.component';
+import { QrCodeDialogComponent } from './qr-code/qr-code-dialog.component';
 import { ReportsDialogTableDataSource } from './reports/reports-dialog-table-data-source';
 import { ReportsDialogComponent } from './reports/reports-dialog.component';
 import { SiteAreasDialogTableDataSource } from './site-areas/site-areas-dialog-table-data-source';
@@ -51,7 +54,7 @@ import { UsersDialogComponent } from './users/users-dialog.component';
     ComponentModule,
     FormattersModule,
     AgmCoreModule,
-    GooglePlaceModule,
+    GooglePlaceModule
   ],
   declarations: [
     CarMakersDialogComponent,
@@ -60,12 +63,14 @@ import { UsersDialogComponent } from './users/users-dialog.component';
     SitesDialogComponent,
     UsersDialogComponent,
     TagsDialogComponent,
+    CarsDialogComponent,
     ConfirmationDialogComponent,
     ChargingStationsDialogComponent,
     SiteAreasDialogComponent,
     AssetsDialogComponent,
     CompaniesDialogComponent,
     GeoMapDialogComponent,
+    QrCodeDialogComponent,
     ErrorCodeDetailsDialogComponent,
     ErrorCodeDetailsComponent,
     ReportsDialogComponent,
@@ -79,6 +84,7 @@ import { UsersDialogComponent } from './users/users-dialog.component';
     SitesDialogComponent,
     UsersDialogComponent,
     TagsDialogComponent,
+    CarsDialogComponent,
     ConfirmationDialogComponent,
     ChargingStationsDialogComponent,
     SiteAreasDialogComponent,
@@ -86,6 +92,7 @@ import { UsersDialogComponent } from './users/users-dialog.component';
     CompaniesDialogComponent,
     ConsumptionChartComponent,
     GeoMapDialogComponent,
+    QrCodeDialogComponent,
     ErrorCodeDetailsDialogComponent,
     ErrorCodeDetailsComponent,
     ReportsDialogComponent,
@@ -99,12 +106,14 @@ import { UsersDialogComponent } from './users/users-dialog.component';
     SitesDialogComponent,
     UsersDialogComponent,
     TagsDialogComponent,
+    CarsDialogComponent,
     ConfirmationDialogComponent,
     ChargingStationsDialogComponent,
     SiteAreasDialogComponent,
     AssetsDialogComponent,
     CompaniesDialogComponent,
     GeoMapDialogComponent,
+    QrCodeDialogComponent,
     ErrorCodeDetailsDialogComponent,
     ErrorCodeDetailsComponent,
     ReportsDialogComponent,
@@ -121,6 +130,7 @@ import { UsersDialogComponent } from './users/users-dialog.component';
     AssetsDialogTableDataSource,
     UsersDialogTableDataSource,
     TagsDialogTableDataSource,
+    CarsDialogTableDataSource,
     ChargingStationsDialogTableDataSource,
     SitesDialogTableDataSource,
     SiteAreasDialogTableDataSource,

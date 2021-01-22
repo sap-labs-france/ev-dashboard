@@ -13,14 +13,14 @@ import { Transaction, TransactionButtonAction } from '../../../../types/Transact
 import { Utils } from '../../../../utils/Utils';
 import { TableAction } from '../table-action';
 
-export interface TableRoamingPushCdrActionDef extends TableActionDef {
+export interface TablePushTransactionOcpiCdrActionDef extends TableActionDef {
   action: (transaction: Transaction, dialogService: DialogService, translateService: TranslateService,
     messageService: MessageService, centralServerService: CentralServerService,
     spinnerService: SpinnerService, router: Router, refresh: () => Observable<void>) => void;
 }
 
-export class TableRoamingPushCdrAction implements TableAction {
-  private action: TableRoamingPushCdrActionDef = {
+export class TablePushTransactionOcpiCdrAction implements TableAction {
+  private action: TablePushTransactionOcpiCdrActionDef = {
     id: TransactionButtonAction.PUSH_TRANSACTION_CDR,
     type: 'button',
     icon: 'cloud_upload',
@@ -31,7 +31,7 @@ export class TableRoamingPushCdrAction implements TableAction {
   };
 
   // Return an action
-  public getActionDef(): TableRoamingPushCdrActionDef {
+  public getActionDef(): TablePushTransactionOcpiCdrActionDef {
     return this.action;
   }
 

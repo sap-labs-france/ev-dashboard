@@ -24,6 +24,217 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.38',
+        date: new Date('2020-01-20'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added EVBox G4 Elvi and BusinessLine Charging Station in templates`,
+              `Added Innogy eBox Professional S Charging Station in templates`,
+              `Disable firmware upload in production`,
+              `Remove ABB workarounds: firmware have been upgraded`,
+              `Clear the locks by hostname at server startup`,
+              `Fixed sync of car's images with EV-Database due to a change on their interface`,
+              `Linked toolbar button activation with list selection`,
+              `Store credentials in SAP User Provided Services`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.37',
+        date: new Date('2020-01-09'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added Tag multi-selection + Mass delete`,
+              `Added Active/Inactive Tag filter`,
+              `Added static consumption/production and fluctuation percentage in Asset`,
+              `Handle Asset that consumes and produces energy like a battery`,
+              `Do not display Car's image when no image is provided`,
+              `Disable row actions in list when Charging Station is inactive`,
+              `Improve WebSocket events logging to help debugging`,
+              `Added Wallbox Commander 2 in Charging Station's template`,
+              `Fix initial Static Charging Station's limitation value`,
+              `Add OCPP backend configuration support for secure and insecure URIs`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.36',
+        date: new Date('2020-01-04'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Handle Scheduled status in OCPP Change Availability command`,
+              `Fixed Roaming badges are not checked when Site Area access control is not active`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.35',
+        date: new Date('2020-12-24'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Set Sticky Smart Charging threshold to 20%`,
+              `Fixed configuration file not loading at the right time in Firefox`,
+              `Handle connection issues with the Refunding system`,
+              `Fixed Demo role cannot read its profile`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.34',
+        date: new Date('2020-12-21'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Generate QR-Codes for Charging Stations`,
+              `Export OCPI Session CDR in Session History list`,
+              `Handle Charging Station with time in the future in Smart Charging`,
+              `Set non public OCPP parameters when applying templates (Delta)`,
+              `Do not take into account amperage leaks on a phase in Smart Charging`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.33',
+        date: new Date('2020-12-12'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Implemented sticky Smart Charging that adjusts limitation to real Car's consumption`,
+              `Fixed Smart Charging rounding amperage per phase in Car`,
+              `Do not authorize roaming Badges on a private Charging Station`,
+              `Add Charging Station vendor integration for Shelly wallboxes`,
+              `Added QA flag in Charging Station's templates for testing purpose`,
+              `Added Tenant Logo in auth pages and in side bar`,
+              `Auto refresh of user data and logo in side bar`,
+              `Enabled database notification on Charging Station's backends`,
+              `Use of default image when not provided and limit image types in Company Site, Site Area, Asset and Tenant`,
+              `Fixed auto-focus not working in auth pages`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.32',
+        date: new Date('2020-12-08'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Do not show Car plate ID in Session details for role Demo`,
+              `Fixed Car Default and Owner props not returned to Basic users`,
+              `Fixed CSS in Car Catalog popup for mid-size screens`,
+              `Enhanced performances of the Carousel control used to display all the Car's images`,
+              `Hide car features in front if Car component is not active`,
+              `Added new Delta OCPP parameter in templates to correctly read Badge ID with shorter length like New Motion`,
+              `Setup backup notification email server in AWS in addition to the one in SCP`,
+              `Fixed translation issues`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.31',
+        date: new Date('2020-12-05'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Start a Transaction with a given Car and Badge ID`,
+              `Fixed refresh of power when nbr phase is changed`,
+              `Fixed Instant Power progress bar with wrong Max Power in Charging Station's list`,
+              `Added debug logs for Charging Stations connection issues`,
+              `Fixed Save button is disabled in Tenant pop-up`,
+              `Fix Keba Model in Charging Station's template`,
+              `Add support for Static Limitation for Shelly in Charging Station's template`,
+              `Fixed cannot set the phase order for a connector with single phase Site Area`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.30',
+        date: new Date('2020-12-02'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Do not exclude Charging Station permanently when Smart Charging fails to push the Charging Plans to it`,
+              `Moved Site column after the Charging Station's name in Charging Station's list`,
+              `Add Keba P30 model in Charging Station's template`,
+              `Increased performances for listing 800k Badges`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.29',
+        date: new Date('2020-11-30'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Truncate the OCPI pricing to 2 decimals instead of rounding it`,
+              `Fixed wrong Connector status displayed in Sessions in progress`,
+              `Enhanced Unlock Connector error message when not supported by the Charging Station`,
+              `Used OCPI EVSE ID for Charging Station's name`,
+              `Fixed pushing OCPI Charging Station with connectors that cannot charge in parallel`,
+              `Force sort of Connector IDs in Charging Station list`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.28',
+        date: new Date('2020-11-29'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Unlock Charging Station's Connector`,
+              `Added JSon security schemas to filter Tenant HTTP requests`,
+              `Published public REST API for Authentication and Tenants endpoints`,
+              `Fixed computation of total DC Charging Station's power in UI`,
+              `Optimized Heartbeat intervals for Charging Stations using WebSocket connections (OCPP 1.6)`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.27',
+        date: new Date('2020-11-24'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Demo user can now display the Cars`,
+              `Fixed Connector with wrong status in Session History`,
+              `Fixed rounded consumptions in OCPI`,
+              `Fixed default sorting in all lists`,
+              `Hide spinner when EULA is displayed`,
+              `Fixed Demo users can display User in Session details`,
+              `Registration Token Site Area is hidden when Organization is inactive`,
+              `Keep track of unmatched template sections`,
+              `Do not add custom OCPP param if already exists in OCPP (Delta)`
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.26',
         date: new Date('2020-11-18'),
         componentChanges: [

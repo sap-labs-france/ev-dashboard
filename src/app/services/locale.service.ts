@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject } from 'rxjs';
+import { Utils } from 'utils/Utils';
 
 import { KeyValue } from '../types/GlobalType';
 import { UserToken } from '../types/User';
@@ -49,10 +50,10 @@ export class LocaleService {
 
   public getLocaleByKey(localeKey: string): KeyValue {
     // Return the found key
-    const locales = this.getLocales().filter((locale) => {
+    const locales: KeyValue[] = this.getLocales().filter((locale) => {
       return locale.key === localeKey;
     });
-    return (locales && locales.length > 0 ? locales[0] :
+    return (!Utils.isEmptyArray(locales) ? locales[0] :
       { key: 'U', value: this.translateService.instant('users.locale_unknown', {}) });
   }
 

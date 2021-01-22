@@ -1,9 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { mergeMap } from 'rxjs/operators';
 
 import { CentralServerService } from '../../../services/central-server.service';
 import { ConfigService } from '../../../services/config.service';
@@ -14,8 +14,9 @@ import { Address } from '../../../types/Address';
 import { RestResponse } from '../../../types/GlobalType';
 import { HTTPError } from '../../../types/HTTPError';
 import { AnalyticsSettingsType, BillingSettingsType, PricingSettingsType, RefundSettingsType, RoamingSettingsType, SmartChargingSettingsType } from '../../../types/Setting';
-import { Tenant, TenantLogo } from '../../../types/Tenant';
+import { Tenant } from '../../../types/Tenant';
 import TenantComponents from '../../../types/TenantComponents';
+import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 
 @Component({
@@ -33,7 +34,8 @@ export class TenantComponent implements OnInit {
   public subdomain!: AbstractControl;
   public email!: AbstractControl;
   public components!: FormGroup;
-  public logo: string = TenantLogo.NO_LOGO;
+  public logo = Constants.NO_IMAGE;
+  public logoHasChanged = false;
   public maxSize: number;
   public address!: Address;
   public pricingTypes = [
@@ -128,10 +130,20 @@ export class TenantComponent implements OnInit {
     this.loadTenant();
   }
 
+  public toggleDropDownActivation(event: MatSlideToggleChange, inputControl: FormControl) {
+    if (inputControl) {
+      if (event.checked) {
+        inputControl.enable();
+      } else {
+        inputControl.disable();
+      }
+    }
+  }
+
   public loadTenant() {
     if (this.currentTenantID) {
       this.spinnerService.show();
-      this.centralServerService.getTenant(this.currentTenantID).pipe(mergeMap((tenant) => {
+      this.centralServerService.getTenant(this.currentTenantID).subscribe((tenant) => {
         this.spinnerService.hide();
         if (tenant) {
           this.currentTenant = tenant;
@@ -157,13 +169,11 @@ export class TenantComponent implements OnInit {
                 this.currentTenant.components[componentIdentifier].type);
             }
           }
+          // Get Tenant logo
+          this.centralServerService.getTenantLogo(this.currentTenantID).subscribe((tenantLogo) => {
+            this.logo = tenantLogo ? tenantLogo : Constants.NO_IMAGE;
+          });
         }
-        return this.centralServerService.getTenantLogo(this.currentTenantID);
-      })).subscribe((tenantLogo) => {
-        if (tenantLogo && tenantLogo.logo) {
-          this.logo = tenantLogo.logo.toString();
-        }
-        this.spinnerService.hide();
       }, (error) => {
         // Hide
         this.spinnerService.hide();
@@ -285,7 +295,7 @@ export class TenantComponent implements OnInit {
     });
   }
 
-  public logoChanged(event: any) {
+  public onLogoChanged(event: any) {
     // load picture
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
@@ -295,6 +305,7 @@ export class TenantComponent implements OnInit {
         const reader = new FileReader();
         reader.onload = () => {
           this.logo = reader.result as string;
+          this.logoHasChanged = true;
           this.formGroup.markAsDirty();
         };
         reader.readAsDataURL(file);
@@ -304,17 +315,22 @@ export class TenantComponent implements OnInit {
 
   public clearLogo() {
     // Clear
-    this.logo = TenantLogo.NO_LOGO;
+    this.logo = Constants.NO_IMAGE;
+    this.logoHasChanged = true;
     // Set form dirty
     this.formGroup.markAsDirty();
   }
 
   public updateTenantLogo(tenant: Tenant) {
-    if (!this.logo.endsWith(TenantLogo.NO_LOGO)) {
-      // Set to tenant
-      tenant.logo = this.logo;
+    if (this.logoHasChanged) {
+      // Set new logo
+      if (this.logo !== Constants.NO_IMAGE) {
+        tenant.logo = this.logo;
+      } else {
+        tenant.logo = null;
+      }
     } else {
-      // No logo
+      // No changes
       delete tenant.logo;
     }
   }

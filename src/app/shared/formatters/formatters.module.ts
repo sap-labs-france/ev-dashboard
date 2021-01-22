@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { LocaleService } from '../../services/locale.service';
 import { AppArrayToStringPipe } from './app-array-to-string.pipe';
 import { AppBatteryPercentagePipe } from './app-battery-percentage.pipe';
+import { AppCarCatalogNamePipe } from './app-car-catalog-name.pipe';
 import { AppColorByStatusPipe } from './app-color-by-status.pipe';
 import { AppConnectorErrorCodePipe } from './app-connector-error-code.pipe';
 import { AppConnectorIdPipe } from './app-connector-id.pipe';
@@ -24,6 +25,7 @@ import { AppUserNamePipe } from './app-user-name.pipe';
   declarations: [
     AppArrayToStringPipe,
     AppUserNamePipe,
+    AppCarCatalogNamePipe,
     AppDatePipe,
     AppDecimalPipe,
     AppDurationPipe,
@@ -43,6 +45,7 @@ import { AppUserNamePipe } from './app-user-name.pipe';
   exports: [
     AppArrayToStringPipe,
     AppUserNamePipe,
+    AppCarCatalogNamePipe,
     AppDatePipe,
     AppDecimalPipe,
     AppDurationPipe,
@@ -63,6 +66,7 @@ import { AppUserNamePipe } from './app-user-name.pipe';
     LocaleService,
     AppArrayToStringPipe,
     AppUserNamePipe,
+    AppCarCatalogNamePipe,
     AppDatePipe,
     AppDecimalPipe,
     AppDurationPipe,

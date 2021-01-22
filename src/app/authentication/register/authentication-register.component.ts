@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -12,6 +12,7 @@ import { WindowService } from '../../services/window.service';
 import { RestResponse } from '../../types/GlobalType';
 import { HTTPError } from '../../types/HTTPError';
 import { User } from '../../types/User';
+import { Constants } from '../../utils/Constants';
 import { ParentErrorStateMatcher } from '../../utils/ParentStateMatcher';
 import { Users } from '../../utils/Users';
 import { Utils } from '../../utils/Utils';
@@ -33,10 +34,11 @@ export class AuthenticationRegisterComponent implements OnInit, OnDestroy {
   public acceptEula: AbstractControl;
   public hidePassword = true;
   public hideRepeatPassword = true;
-  private messages: object;
+  private messages: Record<string, string>;
   private subDomain: string;
 
   private siteKey: string;
+  public tenantLogo = Constants.TENANT_DEFAULT_LOGO;
 
   constructor(
     private centralServerService: CentralServerService,
@@ -108,6 +110,12 @@ export class AuthenticationRegisterComponent implements OnInit, OnDestroy {
     const body = document.getElementsByTagName('body')[0];
     body.classList.add('lock-page');
     body.classList.add('off-canvas-sidebar');
+    // Retrieve tenant's logo
+    this.centralServerService.getTenantLogoBySubdomain(this.subDomain).subscribe((tenantLogo: string) => {
+      if (tenantLogo) {
+        this.tenantLogo = tenantLogo;
+      }
+    });
   }
 
   public ngOnDestroy() {

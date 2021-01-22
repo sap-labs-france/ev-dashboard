@@ -15,10 +15,10 @@ export interface Site extends Data, CreatedUpdatedProps {
   siteAreas: SiteArea[];
   address: Address;
   image: string;
-  images: object[];
+  images: Record<string, unknown>[];
   gps: string;
-  consumptionData: object;
-  occupationData: object;
+  consumptionData: Record<string, unknown>;
+  occupationData: Record<string, unknown>;
   userIDs: string[];
   users: User[];
   public?: boolean;
@@ -37,8 +37,4 @@ export enum SiteButtonAction {
   CREATE_SITE = 'create_site',
   DELETE_SITE = 'delete_site',
   ASSIGN_USERS_TO_SITE = 'assign_users_to_site'
-}
-
-export enum SiteImage {
-  NO_IMAGE = 'assets/img/theme/no-logo.png',
 }

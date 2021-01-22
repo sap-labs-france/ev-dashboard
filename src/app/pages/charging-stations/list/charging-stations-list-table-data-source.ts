@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
@@ -11,6 +11,7 @@ import { ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
+import { TableChargingStationGenerateQrCodeConnectorAction, TableChargingStationGenerateQrCodeConnectorActionDef } from '../../../shared/table/actions/charging-stations/table-charging-station-generate-qr-code-connector-action';
 import { TableChargingStationsClearCacheAction, TableChargingStationsClearCacheActionDef } from '../../../shared/table/actions/charging-stations/table-charging-stations-clear-cache-action';
 import { TableChargingStationsForceAvailableStatusAction, TableChargingStationsForceAvailableStatusActionDef } from '../../../shared/table/actions/charging-stations/table-charging-stations-force-available-status-action';
 import { TableChargingStationsForceUnavailableStatusAction, TableChargingStationsForceUnavailableStatusActionDef } from '../../../shared/table/actions/charging-stations/table-charging-stations-force-unavailable-status-action';
@@ -29,7 +30,7 @@ import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-tab
 import { SiteTableFilter } from '../../../shared/table/filters/site-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import ChangeNotification from '../../../types/ChangeNotification';
-import { ChargePointStatus, ChargingStation, ChargingStationButtonAction, Connector } from '../../../types/ChargingStation';
+import { ChargePointStatus, ChargingStation, ChargingStationButtonAction, Connector, FirmwareStatus } from '../../../types/ChargingStation';
 import { DataResult } from '../../../types/DataResult';
 import { ButtonAction } from '../../../types/GlobalType';
 import { DropdownItem, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
@@ -47,13 +48,9 @@ import { ChargingStationsConnectorsDetailComponent } from '../details-component/
 export class ChargingStationsListTableDataSource extends TableDataSource<ChargingStation> {
   private readonly isOrganizationComponentActive: boolean;
   private editAction = new TableEditChargingStationAction().getActionDef();
-  private rebootAction = new TableChargingStationsRebootAction().getActionDef();
   private smartChargingAction = new TableChargingStationsSmartChargingAction().getActionDef();
-  private clearCacheAction = new TableChargingStationsClearCacheAction().getActionDef();
-  private resetAction = new TableChargingStationsResetAction().getActionDef();
-  private forceAvailableStatusAction = new TableChargingStationsForceAvailableStatusAction().getActionDef();
-  private forceUnavailableStatusAction = new TableChargingStationsForceUnavailableStatusAction().getActionDef();
   private deleteAction = new TableDeleteChargingStationAction().getActionDef();
+  private generateQrCodeConnectorAction = new TableChargingStationGenerateQrCodeConnectorAction().getActionDef();
 
   constructor(
     public spinnerService: SpinnerService,
@@ -86,11 +83,21 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
       this.centralServerService.getChargingStations(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((chargers) => {
           // Update details status
-          chargers.result.forEach((charger: ChargingStation) => {
+          chargers.result.forEach((chargingStation: ChargingStation) => {
             // At first filter out the connectors that are null
-            charger.connectors = charger.connectors.filter((connector: Connector) => !Utils.isNullOrUndefined(connector));
-            charger.connectors.forEach((connector) => {
+            chargingStation.connectors = chargingStation.connectors.filter((connector: Connector) => !Utils.isNullOrUndefined(connector));
+            chargingStation.connectors.forEach((connector) => {
               connector.hasDetails = connector.currentTransactionID > 0;
+              let connectorIsInactive = false;
+              if (chargingStation.inactive ||
+                chargingStation.firmwareUpdateStatus === FirmwareStatus.INSTALLING) {
+                connectorIsInactive = true;
+              }
+              connector.status = connectorIsInactive ? ChargePointStatus.UNAVAILABLE : connector.status;
+              connector.currentInstantWatts = connectorIsInactive ? 0 : connector.currentInstantWatts;
+              connector.currentStateOfCharge = connectorIsInactive ? 0 : connector.currentStateOfCharge;
+              connector.currentTotalConsumptionWh = connectorIsInactive ? 0 : connector.currentTotalConsumptionWh;
+              connector.currentTotalInactivitySecs = connectorIsInactive ? 0 : connector.currentTotalInactivitySecs;
             });
           });
           // Ok
@@ -125,7 +132,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
   public buildTableColumnDefs(): TableColumnDef[] {
     // As sort directive in table can only be unset in Angular 7, all columns will be sortable
     // Build common part for all cases
-    let tableColumns: TableColumnDef[] = [
+    const tableColumns: TableColumnDef[] = [
       {
         id: 'id',
         name: 'chargers.name',
@@ -135,6 +142,19 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
         sorted: true,
         direction: 'asc',
       },
+    ];
+    if (this.isOrganizationComponentActive) {
+      tableColumns.push(
+        {
+          id: 'siteArea.site.name',
+          name: 'sites.site',
+          defaultValue: 'sites.unassigned',
+          class: 'd-none d-xl-table-cell col-20p',
+          headerClass: 'd-none d-xl-table-cell col-20p',
+        },
+      );
+    }
+    tableColumns.push(
       {
         id: 'inactive',
         name: 'chargers.heartbeat_title',
@@ -164,11 +184,12 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
         name: 'chargers.public_charger',
         headerClass: 'text-center col-5em',
         class: 'text-center col-5em',
-        formatter: (publicChargingStation: boolean) => publicChargingStation ? this.translateService.instant('general.yes') : this.translateService.instant('general.no')
+        formatter: (publicChargingStation: boolean) => publicChargingStation ?
+          this.translateService.instant('general.yes') : this.translateService.instant('general.no')
       },
-    ];
+    );
     if (this.authorizationService.isAdmin()) {
-      tableColumns = tableColumns.concat([
+      tableColumns.push(
         {
           id: 'firmwareVersion',
           name: 'chargers.firmware_version',
@@ -192,18 +213,6 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
           class: 'd-none d-xl-table-cell text-center col-10p',
           sortable: false,
           formatter: (ocppVersion: string, row: ChargingStation) => `${ocppVersion} / ${row.ocppProtocol}`
-        },
-      ]);
-    }
-    if (this.isOrganizationComponentActive) {
-      tableColumns.push(
-        {
-          id: 'siteArea.site.name',
-          name: 'sites.site',
-          sortable: true,
-          defaultValue: 'sites.unassigned',
-          class: 'd-none d-xl-table-cell col-20p',
-          headerClass: 'd-none d-xl-table-cell col-20p',
         },
       );
     }
@@ -296,6 +305,13 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
             this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
         }
         break;
+      case ChargingStationButtonAction.GENERATE_QR_CODE:
+        if (actionDef.action) {
+          (actionDef as TableChargingStationGenerateQrCodeConnectorActionDef).action(
+            chargingStation, this.translateService, this.spinnerService, this.messageService,
+            this.centralServerService, this.router);
+        }
+        break;
       case ChargingStationButtonAction.FORCE_UNAVAILABLE_STATUS:
         if (actionDef.action) {
           (actionDef as TableChargingStationsForceUnavailableStatusActionDef).action(
@@ -336,16 +352,27 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
     if (chargingStation.issuer) {
       if (this.authorizationService.isAdmin() ||
         this.authorizationService.isSiteAdmin(chargingStation.siteArea ? chargingStation.siteArea.siteID : '')) {
+        const rebootAction = new TableChargingStationsRebootAction().getActionDef();
+        rebootAction.disabled = chargingStation.inactive;
+        const clearCacheAction = new TableChargingStationsClearCacheAction().getActionDef();
+        clearCacheAction.disabled = chargingStation.inactive;
+        const resetAction = new TableChargingStationsResetAction().getActionDef();
+        resetAction.disabled = chargingStation.inactive;
+        const forceAvailableStatusAction = new TableChargingStationsForceAvailableStatusAction().getActionDef();
+        forceAvailableStatusAction.disabled = chargingStation.inactive;
+        const forceUnavailableStatusAction = new TableChargingStationsForceUnavailableStatusAction().getActionDef();
+        forceUnavailableStatusAction.disabled = chargingStation.inactive;
         return [
           this.editAction,
           this.smartChargingAction,
-          this.rebootAction,
+          rebootAction,
           new TableMoreAction([
-            this.clearCacheAction,
-            this.resetAction,
-            isUnavailable ? this.forceAvailableStatusAction : this.forceUnavailableStatusAction,
-            this.deleteAction,
+            clearCacheAction,
+            resetAction,
+            isUnavailable ? forceAvailableStatusAction : forceUnavailableStatusAction,
+            this.generateQrCodeConnectorAction,
             openInMaps,
+            this.deleteAction,
           ]).getActionDef()
           ,
         ];

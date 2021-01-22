@@ -9,7 +9,7 @@
         <div class="card-body">
           <div class="row app-organization">
             <div class="col-md-2">
-              <div class="rotating-card-container app-organization-image-border"
+              <div class="rotating-card-container"
                 [ngStyle]="{ 'pointer-events': this.isAdmin ? 'all' : 'none'}">
                 <div class="card card-rotate card-background app-company-image mt-0">
                   <div class="front front-background"
@@ -24,7 +24,7 @@
                         <button mat-flat-button color="primary" class="mr-2">
                           <mat-icon (click)="file.click()">mode_edit</mat-icon>
                           <div class="d-none">
-                            <input type="file" name="..." (change)="logoChanged($event)" #file>
+                            <input #file type="file" name="..." (change)="onLogoChanged($event)" accept="image/jpg,image/jpeg,image/png,image/gif">
                           </div>
                         </button>
                         <button mat-flat-button color="warn">

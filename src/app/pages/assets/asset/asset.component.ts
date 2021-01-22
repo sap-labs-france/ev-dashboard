@@ -3,7 +3,6 @@ import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { mergeMap } from 'rxjs/operators';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -13,7 +12,7 @@ import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { GeoMapDialogComponent } from '../../../shared/dialogs/geomap/geomap-dialog.component';
 import { SiteAreasDialogComponent } from '../../../shared/dialogs/site-areas/site-areas-dialog.component';
-import { Asset, AssetImage, AssetTypes } from '../../../types/Asset';
+import { Asset, AssetTypes } from '../../../types/Asset';
 import { KeyValue, RestResponse } from '../../../types/GlobalType';
 import { HTTPError } from '../../../types/HTTPError';
 import { AssetSettings } from '../../../types/Setting';
@@ -34,7 +33,8 @@ export class AssetComponent implements OnInit {
 
   public parentErrorStateMatcher = new ParentErrorStateMatcher();
   public isAdmin = false;
-  public image: string = AssetImage.NO_IMAGE;
+  public image: string = Constants.NO_IMAGE;
+  public imageHasChanged = false;
   public maxSize: number;
   public selectedSiteArea: SiteArea;
   public assetTypes!: KeyValue[];
@@ -46,6 +46,8 @@ export class AssetComponent implements OnInit {
   public siteArea!: AbstractControl;
   public siteAreaID!: AbstractControl;
   public assetType!: AbstractControl;
+  public fluctuation!: AbstractControl;
+  public fallbackValue!: AbstractControl;
   public coordinates!: FormArray;
   public longitude!: AbstractControl;
   public latitude!: AbstractControl;
@@ -98,6 +100,15 @@ export class AssetComponent implements OnInit {
           Validators.required,
         ])
       ),
+      fluctuation: new FormControl('',
+        Validators.compose([
+          Validators.pattern('^[+]?[0-9]*$'),
+        ])),
+      fallbackValue: new FormControl('',
+        Validators.compose([
+          Validators.required,
+        ])
+      ),
       coordinates: new FormArray([
         new FormControl('',
           Validators.compose([
@@ -128,6 +139,8 @@ export class AssetComponent implements OnInit {
     this.siteArea = this.formGroup.controls['siteArea'];
     this.siteAreaID = this.formGroup.controls['siteAreaID'];
     this.assetType = this.formGroup.controls['assetType'];
+    this.fluctuation = this.formGroup.controls['fluctuation'];
+    this.fallbackValue = this.formGroup.controls['fallbackValue'];
     this.coordinates = this.formGroup.controls['coordinates'] as FormArray;
     this.longitude = this.coordinates.at(0);
     this.latitude = this.coordinates.at(1);
@@ -163,7 +176,8 @@ export class AssetComponent implements OnInit {
       return;
     }
     this.spinnerService.show();
-    this.centralServerService.getAsset(this.currentAssetID, false, true).pipe(mergeMap((asset) => {
+    this.centralServerService.getAsset(this.currentAssetID, false, true).subscribe((asset) => {
+      this.spinnerService.hide();
       this.asset = asset;
       if (this.asset.id) {
         this.formGroup.controls.id.setValue(this.asset.id);
@@ -178,6 +192,12 @@ export class AssetComponent implements OnInit {
       }
       if (this.asset.assetType) {
         this.formGroup.controls.assetType.setValue(this.asset.assetType);
+      }
+      if (this.asset.fluctuation) {
+        this.formGroup.controls.fluctuation.setValue(this.asset.fluctuation);
+      }
+      if (!Utils.isUndefined(this.asset.fallbackValue)) {
+        this.formGroup.controls.fallbackValue.setValue(this.asset.fallbackValue);
       }
       if (this.asset.coordinates) {
         this.longitude.setValue(this.asset.coordinates[0]);
@@ -196,13 +216,10 @@ export class AssetComponent implements OnInit {
       this.formGroup.updateValueAndValidity();
       this.formGroup.markAsPristine();
       this.formGroup.markAllAsTouched();
-      // Yes, get image
-      return this.centralServerService.getAssetImage(this.currentAssetID);
-    })).subscribe((assetImage) => {
-      if (assetImage && assetImage.image) {
-        this.image = assetImage.image.toString();
-      }
-      this.spinnerService.hide();
+      // Get Site image
+      this.centralServerService.getAssetImage(this.currentAssetID).subscribe((assetImage) => {
+        this.image = assetImage ? assetImage : Constants.NO_IMAGE;
+      });
     }, (error) => {
       this.spinnerService.hide();
       switch (error.status) {
@@ -228,9 +245,13 @@ export class AssetComponent implements OnInit {
 
   public updateAssetImage(asset: Asset) {
     // Check no asset?
-    if (!this.image.endsWith(AssetImage.NO_IMAGE)) {
-      // Set to asset
-      asset.image = this.image;
+    if (!this.image.endsWith(Constants.NO_IMAGE)) {
+      // Set new image
+      if (this.image !== Constants.NO_IMAGE) {
+        asset.image = this.image;
+      } else {
+        asset.image = null;
+      }
     } else {
       // No image
       delete asset.image;
@@ -251,16 +272,17 @@ export class AssetComponent implements OnInit {
     }
   }
 
-  public imageChanged(event: any) {
+  public onImageChanged(event: any) {
     // load picture
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
       if (file.size > (this.maxSize * 1024)) {
-        this.messageService.showErrorMessage('assets.logo_size_error', {maxPictureKb: this.maxSize});
+        this.messageService.showErrorMessage('assets.logo_size_error', { maxPictureKb: this.maxSize });
       } else {
         const reader = new FileReader();
         reader.onload = () => {
           this.image = reader.result as string;
+          this.imageHasChanged = true;
           this.formGroup.markAsDirty();
         };
         reader.readAsDataURL(file);
@@ -270,7 +292,8 @@ export class AssetComponent implements OnInit {
 
   public clearImage() {
     // Clear
-    this.image = AssetImage.NO_IMAGE;
+    this.image = Constants.NO_IMAGE;
+    this.imageHasChanged = true;
     // Set form dirty
     this.formGroup.markAsDirty();
   }
@@ -305,7 +328,7 @@ export class AssetComponent implements OnInit {
           this.formGroup.controls.siteAreaID.setValue(siteArea.id);
           this.selectedSiteArea = siteArea;
         }
-    });
+      });
   }
 
   public assignGeoMap() {
@@ -345,17 +368,17 @@ export class AssetComponent implements OnInit {
     // Open
     this.dialog.open(GeoMapDialogComponent, dialogConfig)
       .afterClosed().subscribe((result) => {
-      if (result) {
-        if (result.latitude) {
-          this.latitude.setValue(result.latitude);
-          this.formGroup.markAsDirty();
+        if (result) {
+          if (result.latitude) {
+            this.latitude.setValue(result.latitude);
+            this.formGroup.markAsDirty();
+          }
+          if (result.longitude) {
+            this.longitude.setValue(result.longitude);
+            this.formGroup.markAsDirty();
+          }
         }
-        if (result.longitude) {
-          this.longitude.setValue(result.longitude);
-          this.formGroup.markAsDirty();
-        }
-      }
-    });
+      });
   }
 
   private createAsset(asset: Asset) {
@@ -397,7 +420,7 @@ export class AssetComponent implements OnInit {
         const assetSetting = response.result[0] as AssetSettings;
         const connections = [] as KeyValue[];
         for (const connection of assetSetting.content.asset.connections) {
-          connections.push({ key: connection.id, value: connection.name});
+          connections.push({ key: connection.id, value: connection.name });
         }
         this.assetConnections = connections;
       }

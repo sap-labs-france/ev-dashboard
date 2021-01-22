@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { StatusCodes } from 'http-status-codes';
-import { BehaviorSubject, EMPTY, Observable, TimeoutError, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { BehaviorSubject, EMPTY, Observable, TimeoutError, of, throwError } from 'rxjs';
+import { catchError, switchMap } from 'rxjs/operators';
 
 import { Asset, AssetConsumption } from '../types/Asset';
 import { BillingInvoice, BillingTax } from '../types/Billing';
@@ -13,9 +13,9 @@ import { ChargingProfile, GetCompositeScheduleCommandResult } from '../types/Cha
 import { ChargePoint, ChargingStation, OCPPAvailabilityType, OcppParameter } from '../types/ChargingStation';
 import { Company } from '../types/Company';
 import { IntegrationConnection, UserConnection } from '../types/Connection';
-import { ActionResponse, ActionsResponse, CheckAssetConnectionResponse, CheckBillingConnectionResponse, DataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OCPITriggerJobsResponse, Ordering, Paging } from '../types/DataResult';
+import { ActionResponse, ActionsResponse, CheckAssetConnectionResponse, CheckBillingConnectionResponse, DataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, Ordering, Paging } from '../types/DataResult';
 import { EndUserLicenseAgreement } from '../types/Eula';
-import { FilterParams, Image, KeyValue, Logo } from '../types/GlobalType';
+import { FilterParams, Image, KeyValue } from '../types/GlobalType';
 import { AssetInError, ChargingStationInError, TransactionInError } from '../types/InError';
 import { Log } from '../types/Log';
 import { RefundReport } from '../types/Refund';
@@ -27,8 +27,8 @@ import { SiteArea, SiteAreaConsumption } from '../types/SiteArea';
 import { StatisticData } from '../types/Statistic';
 import { Tag } from '../types/Tag';
 import { Tenant } from '../types/Tenant';
-import { Transaction } from '../types/Transaction';
-import { User, UserCar, UserSite, UserToken } from '../types/User';
+import { OcpiData, Transaction } from '../types/Transaction';
+import { User, UserCar, UserDefaultTagCar, UserSite, UserToken } from '../types/User';
 import CentralSystemServerConfiguration from '../types/configuration/CentralSystemServerConfiguration';
 import { OcpiEndpoint } from '../types/ocpi/OCPIEndpoint';
 import { OCPPResetType } from '../types/ocpp/OCPP';
@@ -44,7 +44,7 @@ export class CentralServerService {
   private centralRestServerServiceBaseURL!: string;
   private centralRestServerServiceSecuredURL!: string;
   private centralRestServerServiceUtilURL!: string;
-  private centralRestServerServiceAuthURL!: string;
+  private restServerAuthURL!: string;
   private centralSystemServerConfig: CentralSystemServerConfiguration;
   private initialized = false;
   private currentUserToken!: string;
@@ -70,8 +70,8 @@ export class CentralServerService {
     return this.centralRestServerServiceSecuredURL;
   }
 
-  public getCentralRestServerServiceAuthURL(): string {
-    return this.centralRestServerServiceAuthURL;
+  public getRestServerAuthURL(): string {
+    return this.restServerAuthURL;
   }
 
   public removeChargersFromSiteArea(siteAreaID: string, chargerIDs: string[]): Observable<ActionResponse> {
@@ -260,19 +260,23 @@ export class CentralServerService {
       );
   }
 
-  public getCompanyLogo(companyId: string): Observable<Logo> {
+  public getCompanyLogo(companyID: string): Observable<string> {
     const params: { [param: string]: string } = {};
-    params['ID'] = companyId;
+    params['ID'] = companyID;
+    params['TenantID'] = this.currentUser?.tenantID;
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<Logo>(
-      `${this.centralRestServerServiceSecuredURL}/${ServerAction.COMPANY_LOGO}`,
+    return this.httpClient.get<Blob>(`${this.centralRestServerServiceUtilURL}/${ServerAction.COMPANY_LOGO}`,
       {
         headers: this.buildHttpHeaders(),
+        responseType: 'blob' as 'json',
         params,
       })
       .pipe(
+        switchMap((blob: Blob) => {
+          return this.processImage(blob);
+        }),
         catchError(this.handleHttpError),
       );
   }
@@ -314,18 +318,23 @@ export class CentralServerService {
       );
   }
 
-  public getAssetImage(assetId: string): Observable<Image> {
+  public getAssetImage(assetID: string): Observable<string> {
     const params: { [param: string]: string } = {};
-    params['ID'] = assetId;
+    params['ID'] = assetID;
+    params['TenantID'] = this.currentUser?.tenantID;
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<Image>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.ASSET_IMAGE}`,
+    return this.httpClient.get<Blob>(`${this.centralRestServerServiceUtilURL}/${ServerAction.ASSET_IMAGE}`,
       {
         headers: this.buildHttpHeaders(),
+        responseType: 'blob' as 'json',
         params,
       })
       .pipe(
+        switchMap((blob: Blob) => {
+          return this.processImage(blob);
+        }),
         catchError(this.handleHttpError),
       );
   }
@@ -436,18 +445,23 @@ export class CentralServerService {
       );
   }
 
-  public getSiteImage(siteID: string): Observable<Image> {
+  public getSiteImage(siteID: string): Observable<string> {
     const params: { [param: string]: string } = {};
     params['ID'] = siteID;
+    params['TenantID'] = this.currentUser?.tenantID;
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<Image>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.SITE_IMAGE}`,
+    return this.httpClient.get<Blob>(`${this.centralRestServerServiceUtilURL}/${ServerAction.SITE_IMAGE}`,
       {
         headers: this.buildHttpHeaders(),
+        responseType: 'blob' as 'json',
         params,
       })
       .pipe(
+        switchMap((blob: Blob) => {
+          return this.processImage(blob);
+        }),
         catchError(this.handleHttpError),
       );
   }
@@ -490,18 +504,23 @@ export class CentralServerService {
       );
   }
 
-  public getSiteAreaImage(siteAreaID: string): Observable<Image> {
+  public getSiteAreaImage(siteAreaID: string): Observable<string> {
     const params: { [param: string]: string } = {};
     params['ID'] = siteAreaID;
+    params['TenantID'] = this.currentUser?.tenantID;
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<Image>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.SITE_AREA_IMAGE}`,
+    return this.httpClient.get<Blob>(`${this.centralRestServerServiceUtilURL}/${ServerAction.SITE_AREA_IMAGE}`,
       {
         headers: this.buildHttpHeaders(),
+        responseType: 'blob' as 'json',
         params,
       })
       .pipe(
+        switchMap((blob: Blob) => {
+          return this.processImage(blob);
+        }),
         catchError(this.handleHttpError),
       );
   }
@@ -736,6 +755,26 @@ export class CentralServerService {
       );
   }
 
+  public getConnectorQrCode(chargeBoxID: string, connectorID: number): Observable<Image> {
+    // Verify init
+    this.checkInit();
+    if (!chargeBoxID || connectorID < 0) {
+      return EMPTY;
+    }
+    // Execute the REST service
+    return this.httpClient.get<Image>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.GENERATE_QR_CODE_FOR_CONNECTOR}`,
+      {
+        headers: this.buildHttpHeaders(),
+        params: {
+          ChargeBoxID: chargeBoxID,
+          ConnectorID: connectorID.toString()
+        },
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
   // tslint:disable-next-line:max-line-length
   public getChargingStationsInError(params: FilterParams,
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<ChargingStationInError>> {
@@ -810,6 +849,22 @@ export class CentralServerService {
       );
   }
 
+  public getUserDefaultTagCar(userID: string): Observable<UserDefaultTagCar> {
+    // Verify init
+    this.checkInit();
+    const params: { [param: string]: string } = {};
+    params['UserID'] = userID;
+    // Execute the REST service
+    return this.httpClient.get<UserDefaultTagCar>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.USER_DEFAUlT_TAG_CAR}`,
+      {
+        headers: this.buildHttpHeaders(),
+        params
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
   public getTags(params: FilterParams,
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Tag>> {
     // Verify init
@@ -837,6 +892,20 @@ export class CentralServerService {
       {
         headers: this.buildHttpHeaders(),
       })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public deleteTags(tagsIDs: string[]): Observable<ActionsResponse> {
+    // Verify init
+    this.checkInit();
+    const options = {
+      headers: this.buildHttpHeaders(),
+      body: { tagsIDs },
+    };
+    // Execute the REST service
+    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TAGS_DELETE}`, options)
       .pipe(
         catchError(this.handleHttpError),
       );
@@ -923,19 +992,44 @@ export class CentralServerService {
       );
   }
 
-  public getTenantLogo(tenantId: string): Observable<Logo> {
+  public getTenantLogo(tenantID: string): Observable<string> {
     const params: { [param: string]: string } = {};
-    params['ID'] = tenantId;
+    params['ID'] = tenantID;
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<Logo>(
-      `${this.centralRestServerServiceSecuredURL}/${ServerAction.TENANT_LOGO}`,
+    return this.httpClient.get<Blob>(
+      `${this.centralRestServerServiceUtilURL}/${ServerAction.TENANT_LOGO}`,
       {
         headers: this.buildHttpHeaders(),
+        responseType: 'blob' as 'json',
         params,
       })
       .pipe(
+        switchMap((blob: Blob) => {
+          return this.processImage(blob);
+        }),
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public getTenantLogoBySubdomain(tenantSubDomain: string): Observable<string> {
+    const params: { [param: string]: string } = {};
+    params['Subdomain'] = tenantSubDomain;
+    // Verify init
+    this.checkInit();
+    // Execute the REST service
+    return this.httpClient.get<Blob>(
+      `${this.centralRestServerServiceUtilURL}/${ServerAction.TENANT_LOGO}`,
+      {
+        headers: this.buildHttpHeaders(),
+        responseType: 'blob' as 'json',
+        params,
+      })
+      .pipe(
+        switchMap((blob: Blob) => {
+          return this.processImage(blob);
+        }),
         catchError(this.handleHttpError),
       );
   }
@@ -993,6 +1087,23 @@ export class CentralServerService {
       {
         headers: this.buildHttpHeaders(),
         params,
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public exportTransactionOcpiCdr(id: number): Observable<OcpiData> {
+    // Verify init
+    this.checkInit();
+    if (!id) {
+      return EMPTY;
+    }
+    // Execute the REST service
+    return this.httpClient.get<OcpiData>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TRANSACTION_OCPI_CDR_EXPORT}`,
+      {
+        headers: this.buildHttpHeaders(),
+        params: { ID: id.toString() },
       })
       .pipe(
         catchError(this.handleHttpError),
@@ -1083,14 +1194,14 @@ export class CentralServerService {
   public exportUsers(params: FilterParams): Observable<Blob> {
     this.checkInit();
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/${ServerAction.USERS_EXPORT}`,
-    {
-      headers: this.buildHttpHeaders(),
-      responseType: 'blob',
-      params,
-    })
-    .pipe(
-      catchError(this.handleHttpError),
-    );
+      {
+        headers: this.buildHttpHeaders(),
+        responseType: 'blob',
+        params,
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
   }
 
   public exportTransactions(params: FilterParams): Observable<Blob> {
@@ -1539,6 +1650,54 @@ export class CentralServerService {
       );
   }
 
+  public downloadSiteQrCodes(siteID: string): Observable<Blob> {
+    this.checkInit();
+    const params: { [param: string]: string } = {};
+    params['SiteID'] = siteID;
+    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CHARGING_STATION_DOWNLOAD_QR_CODE_PDF}`,
+      {
+        headers: this.buildHttpHeaders(),
+        params,
+        responseType: 'blob',
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public downloadSiteAreaQrCodes(siteAreaID?: string): Observable<Blob> {
+    this.checkInit();
+    const params: { [param: string]: string } = {};
+    params['SiteAreaID'] = siteAreaID;
+    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CHARGING_STATION_DOWNLOAD_QR_CODE_PDF}`,
+      {
+        headers: this.buildHttpHeaders(),
+        params,
+        responseType: 'blob',
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public downloadChargingStationQrCodes(chargingStationID: string, connectorID?: number): Observable<Blob> {
+    this.checkInit();
+    const params: { [param: string]: string } = {};
+    params['ChargeBoxID'] = chargingStationID;
+    if (connectorID) {
+      params['ConnectorID'] = connectorID.toString();
+    }
+    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CHARGING_STATION_DOWNLOAD_QR_CODE_PDF}`,
+      {
+        headers: this.buildHttpHeaders(),
+        params,
+        responseType: 'blob',
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
   public getRegistrationTokens(params: FilterParams,
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<RegistrationToken>> {
     // Verify init
@@ -1595,9 +1754,10 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<EndUserLicenseAgreement>(`${this.centralRestServerServiceAuthURL}/${ServerAction.END_USER_LICENSE_AGREEMENT}?Language=${language}`,
+    return this.httpClient.get<EndUserLicenseAgreement>(`${this.restServerAuthURL}/${ServerAction.REST_END_USER_LICENSE_AGREEMENT}`,
       {
         headers: this.buildHttpHeaders(this.windowService.getSubdomain()),
+        params: { language }
       })
       .pipe(
         catchError(this.handleHttpError),
@@ -1610,7 +1770,7 @@ export class CentralServerService {
     // Set the tenant
     user['tenant'] = this.windowService.getSubdomain();
     // Execute
-    return this.httpClient.post<LoginResponse>(`${this.centralRestServerServiceAuthURL}/${ServerAction.LOGIN}`, user,
+    return this.httpClient.post<LoginResponse>(`${this.restServerAuthURL}/${ServerAction.REST_SIGNIN}`, user,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -1682,7 +1842,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<ActionResponse>(`${this.centralRestServerServiceAuthURL}/${ServerAction.LOGOUT}`,
+    return this.httpClient.get<ActionResponse>(`${this.restServerAuthURL}/${ServerAction.REST_SIGNOUT}`,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -1705,7 +1865,7 @@ export class CentralServerService {
     // Set the tenant
     data['tenant'] = this.windowService.getSubdomain();
     // Execute
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceAuthURL}/${ServerAction.PASSWORD_RESET}`, data,
+    return this.httpClient.post<ActionResponse>(`${this.restServerAuthURL}/${ServerAction.REST_PASSWORD_RESET}`, data,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -1720,7 +1880,7 @@ export class CentralServerService {
     // Set the tenant
     user['tenant'] = this.windowService.getSubdomain();
     // Execute
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceAuthURL}/${ServerAction.REGISTER_USER}`, user,
+    return this.httpClient.post<ActionResponse>(`${this.restServerAuthURL}/${ServerAction.REST_SIGNON}`, user,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2215,7 +2375,7 @@ export class CentralServerService {
     // Set the tenant
     params['Tenant'] = this.windowService.getSubdomain();
     // Execute the REST service
-    return this.httpClient.get<ActionResponse>(`${this.centralRestServerServiceAuthURL}/${ServerAction.VERIFY_EMAIL}`,
+    return this.httpClient.get<ActionResponse>(`${this.restServerAuthURL}/${ServerAction.REST_MAIL_CHECK}`,
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -2231,7 +2391,7 @@ export class CentralServerService {
     // Set the tenant
     user['tenant'] = this.windowService.getSubdomain();
     // Execute
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceAuthURL}/${ServerAction.RESEND_VERIFICATION_MAIL}`, user,
+    return this.httpClient.post<ActionResponse>(`${this.restServerAuthURL}/${ServerAction.REST_MAIL_RESEND}`, user,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2319,10 +2479,29 @@ export class CentralServerService {
       );
   }
 
-  public chargingStationStartTransaction(chargeBoxId: string, connectorId: number, tagID: string): Observable<ActionResponse> {
+  public chargingStationsUnlockConnector(chargeBoxId: string, connectorId: number): Observable<ActionResponse> {
     this.checkInit();
     const body = {
       chargeBoxID: chargeBoxId,
+      args: {
+        connectorId,
+      },
+    };
+    return this.httpClient.post<ActionResponse>(
+      `${this.centralRestServerServiceSecuredURL}/${ServerAction.CHARGING_STATION_UNLOCK_CONNECTOR}`, body,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public chargingStationStartTransaction(chargeBoxId: string, connectorId: number, tagID: string, carID?: string): Observable<ActionResponse> {
+    this.checkInit();
+    const body = {
+      chargeBoxID: chargeBoxId,
+      carID,
       args: {
         tagID,
         connectorId,
@@ -2817,7 +2996,7 @@ export class CentralServerService {
       // Set REST base URL
       this.centralServerNotificationService.setcentralRestServerServiceURL(this.centralRestServerServiceBaseURL);
       // Auth API
-      this.centralRestServerServiceAuthURL = this.centralRestServerServiceBaseURL + '/client/auth';
+      this.restServerAuthURL = this.centralRestServerServiceBaseURL + '/v1/auth';
       // Secured API
       this.centralRestServerServiceSecuredURL = this.centralRestServerServiceBaseURL + '/client/api';
       // Util API
@@ -2831,12 +3010,12 @@ export class CentralServerService {
     }
   }
 
-  private buildHttpHeaders(tenant?: string): HttpHeaders {
+  private buildHttpHeaders(tenantID?: string): HttpHeaders {
     const header = {
       'Content-Type': 'application/json'
     };
-    if (!Utils.isUndefined(tenant)) {
-      header['Tenant'] = tenant;
+    if (!Utils.isUndefined(tenantID)) {
+      header['Tenant'] = tenantID;
     }
     // Check token
     if (this.getLoggedUserToken()) {
@@ -2885,5 +3064,18 @@ export class CentralServerService {
       errMsg.details = error.error ? error.error : undefined;
     }
     return throwError(errMsg);
+  }
+
+  private processImage(blob: Blob): Observable<string> {
+    if (blob.size > 0) {
+      return new Observable(observer => {
+        const  reader = new FileReader();
+        reader.readAsDataURL(blob); // convert blob to base64
+        reader.onloadend = () => {
+          observer.next(reader.result?.toString()); // emit the base64 string result
+        };
+      });
+    }
+    return of(null);
   }
 }

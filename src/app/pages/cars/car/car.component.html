@@ -8,18 +8,18 @@
         </ng-template>
         <div class="card-body">
           <div class="row app-car align-items-start">
-            <div class="col-md-5">
-              <div class="rotating-card-container app-car-image-border" [ngStyle]="{ 'pointer-events': 'none'}">
+            <div class="col-md-12 col-xl-5 d-block mt-0 m-auto">
+              <div class="rotating-card-container" [ngStyle]="{ 'pointer-events': 'none'}">
                 <div class="card card-rotate card-background mt-0">
                   <div class="front front-background"
-                    [ngStyle]="{'background-image': (selectedCarCatalog ? 'url(' + carCatalogImage + ')' : 'url(' + noImage + ')'), 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
+                    [ngStyle]="{'background-image': (selectedCarCatalog && carCatalogImage ? 'url(' + carCatalogImage + ')' : 'url(' + noImage + ')'), 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
                     <div class="card-body">
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="col-md-7">
+            <div class="col-md-12 col-xl-7">
               <div  *ngIf="!owner && !isAdmin" class="form-group text-left car-warn">
                 {{"cars.user_not_owner" | translate }}
               </div>

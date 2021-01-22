@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import Landscape, { LandscapeType } from 'types/configuration/Landscape';
 
 import AdvancedConfiguration from '../types/configuration/AdvancedConfiguration';
 import AssetConfiguration from '../types/configuration/AssetConfiguration';
@@ -42,7 +43,7 @@ export class ConfigService {
   }
 
   public getFrontEnd(): FrontEndConfiguration {
-    return (this.getConfig().FrontEnd ? this.getConfig().FrontEnd : { host: 'localhost' });
+    return this.getConfig()?.FrontEnd ? this.getConfig().FrontEnd : { host: 'localhost' };
   }
 
   public getLocales(): LocalesConfiguration {
@@ -93,6 +94,16 @@ export class ConfigService {
       this.getConfig().Debug.enabled = false;
     }
     return this.getConfig().Debug;
+  }
+
+  public getLandscape(): Landscape {
+    if (this.isUndefined(this.getConfig().Landscape)) {
+      this.getConfig().Landscape = {} as Landscape;
+    }
+    if (this.isUndefined(this.getConfig().Landscape.type)) {
+      this.getConfig().Landscape.type = LandscapeType.DEVELOPMENT;
+    }
+    return this.getConfig().Landscape;
   }
 
   private isUndefined(obj: any): boolean {

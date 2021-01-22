@@ -22,7 +22,7 @@ import { Utils } from '../../../../../utils/Utils';
 
 export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit {
   @Input() public siteAreaId!: string;
-  @Input() public siteAreaConsumption!: SiteAreaConsumption;
+  @Input() public siteArea!: SiteAreaConsumption;
 
   @ViewChild('primary', { static: true }) public primaryElement!: ElementRef;
   @ViewChild('danger', { static: true }) public dangerElement!: ElementRef;
@@ -90,11 +90,11 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
     this.centralServerService.getSiteAreaConsumption(this.siteAreaId, this.startDate, this.endDate)
       .subscribe((siteAreaConsumption) => {
         this.spinnerService.hide();
-        this.siteAreaConsumption = siteAreaConsumption;
+        this.siteArea = siteAreaConsumption;
         this.prepareOrUpdateGraph();
       }, (error) => {
         this.spinnerService.hide();
-        delete this.siteAreaConsumption;
+        delete this.siteArea;
       });
   }
 
@@ -185,7 +185,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
   }
 
   private canDisplayGraph() {
-    return this.siteAreaConsumption && this.siteAreaConsumption.values && this.siteAreaConsumption.values.length > 1;
+    return this.siteArea && this.siteArea.values && this.siteArea.values.length > 1;
   }
 
   private refreshDataSets() {
@@ -198,8 +198,8 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
       const limitWattsDataSet = this.getDataSet('limitWatts');
       const limitAmpsDataSet = this.getDataSet('limitAmps');
       const labels: number[] = [];
-      for (const consumption of this.siteAreaConsumption.values) {
-        labels.push(new Date(consumption.date).getTime());
+      for (const consumption of this.siteArea.values) {
+        labels.push(new Date(consumption.startedAt).getTime());
         if (instantPowerDataSet) {
           instantPowerDataSet.push(consumption.instantWatts);
         }

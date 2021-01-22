@@ -155,8 +155,8 @@ export enum OCPPChargingProfilePurposeType {
 }
 
 export interface OCPPChangeAvailabilityCommandParam extends OCPPCommandParam {
-  connectorId?: number;
-  type?: OCPPAvailabilityType;
+  connectorId: number;
+  type: OCPPAvailabilityType;
 }
 
 export interface OCPPChangeAvailabilityCommandResult {

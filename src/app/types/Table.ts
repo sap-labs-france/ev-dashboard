@@ -121,6 +121,7 @@ export interface TableActionDef {
   dropdownActions?: TableActionDef[];
   tooltip: string;
   formRowAction?: boolean;
+  linkedToListSelection?: boolean;
   action?(...args: any[]): void;
 }
 
@@ -165,7 +166,7 @@ export interface TableColumnDef {
   errors?: {
     id: string;
     message: string;
-    messageParams?: object;
+    messageParams?: Record<string, unknown>;
   }[];
   headerClass?: string;
   class?: string;

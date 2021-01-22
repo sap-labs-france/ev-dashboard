@@ -11,6 +11,7 @@ import { SpinnerService } from '../../services/spinner.service';
 import { WindowService } from '../../services/window.service';
 import { RestResponse } from '../../types/GlobalType';
 import { HTTPError } from '../../types/HTTPError';
+import { Constants } from '../../utils/Constants';
 import { Utils } from '../../utils/Utils';
 
 @Component({
@@ -24,9 +25,11 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
   public verificationToken: string | null;
   public resetToken: string | null;
   public verificationEmail: string | null;
-  private messages!: object;
+  private messages!: Record<string, string>;
 
   private siteKey: string;
+  private subDomain: string;
+  public tenantLogo = Constants.TENANT_DEFAULT_LOGO;
 
   constructor(
     private centralServerService: CentralServerService,
@@ -54,6 +57,8 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
     });
     // Form
     this.email = this.formGroup.controls['email'];
+    // Keep the sub-domain
+    this.subDomain = this.windowService.getSubdomain();
     // Get verificationToken & email
     this.verificationToken = this.route.snapshot.queryParamMap.get('VerificationToken');
     this.resetToken = this.route.snapshot.queryParamMap.get('ResetToken');
@@ -94,6 +99,12 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
         this.verifyEmailAction = false;
       }
     }
+    // Retrieve tenant's logo
+    this.centralServerService.getTenantLogoBySubdomain(this.subDomain).subscribe((tenantLogo: string) => {
+      if (tenantLogo) {
+        this.tenantLogo = tenantLogo;
+      }
+    });
   }
 
   public ngOnDestroy() {

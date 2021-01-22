@@ -46,6 +46,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ChartModule } from 'angular2-chartjs';
 import { NgxCaptchaModule } from 'ngx-captcha';
 import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
+import { UtilsService } from 'services/utils.service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -191,6 +192,7 @@ export function localeFactory(
     LocalStorageService,
     MessageService,
     ConfigService,
+    UtilsService,
     TranslateService,
     WindowService,
     DashboardService,

@@ -3,35 +3,38 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { SpinnerService } from 'services/spinner.service';
+import { WindowService } from 'services/window.service';
+import { AppDatePipe } from 'shared/formatters/app-date.pipe';
+import { TableMoreAction } from 'shared/table/actions/table-more-action';
+import { TableOpenURLActionDef } from 'shared/table/actions/table-open-url-action';
+import { TableNavigateToTransactionsAction } from 'shared/table/actions/transactions/table-navigate-to-transactions-action';
+import { TableDeleteTagsAction, TableDeleteTagsActionDef } from 'shared/table/actions/users/table-delete-tags-action';
+import { organisations } from 'shared/table/filters/issuer-filter';
+import { StatusFilter } from 'shared/table/filters/status-filter';
+import { UserTableFilter } from 'shared/table/filters/user-table-filter';
+import { DataResult } from 'types/DataResult';
+import { HTTPError } from 'types/HTTPError';
+import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'types/Table';
+import { Tag } from 'types/Tag';
+import { TransactionButtonAction } from 'types/Transaction';
+import { User, UserButtonAction } from 'types/User';
 
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
-import { SpinnerService } from '../../../services/spinner.service';
-import { WindowService } from '../../../services/window.service';
-import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
-import { TableMoreAction } from '../../../shared/table/actions/table-more-action';
-import { TableOpenURLActionDef } from '../../../shared/table/actions/table-open-url-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
-import { TableNavigateToTransactionsAction } from '../../../shared/table/actions/transactions/table-navigate-to-transactions-action';
 import { TableActivateTagAction, TableActivateTagActionDef } from '../../../shared/table/actions/users/table-activate-tag-action';
 import { TableCreateTagAction, TableCreateTagActionDef } from '../../../shared/table/actions/users/table-create-tag-action';
 import { TableDeactivateTagAction, TableDeactivateTagActionDef } from '../../../shared/table/actions/users/table-deactivate-tag-action';
 import { TableDeleteTagAction, TableDeleteTagActionDef } from '../../../shared/table/actions/users/table-delete-tag-action';
 import { TableEditTagAction, TableEditTagActionDef } from '../../../shared/table/actions/users/table-edit-tag-action';
 import { TableNavigateToUserAction } from '../../../shared/table/actions/users/table-navigate-to-user-action';
-import { IssuerFilter, organisations } from '../../../shared/table/filters/issuer-filter';
-import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
+import { IssuerFilter } from '../../../shared/table/filters/issuer-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import ChangeNotification from '../../../types/ChangeNotification';
-import { DataResult } from '../../../types/DataResult';
-import { HTTPError } from '../../../types/HTTPError';
-import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
-import { Tag } from '../../../types/Tag';
-import { TransactionButtonAction } from '../../../types/Transaction';
-import { User, UserButtonAction } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';
 import { TagStatusFormatterComponent } from '../formatters/tag-status-formatter.component';
 import { TagDialogComponent } from '../tag/tag.dialog.component';
@@ -44,6 +47,8 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
   private editAction = new TableEditTagAction().getActionDef();
   private navigateToUserAction = new TableNavigateToUserAction().getActionDef();
   private navigateToTransactionsAction = new TableNavigateToTransactionsAction().getActionDef();
+  private deleteManyAction = new TableDeleteTagsAction().getActionDef();
+
 
   constructor(
     public spinnerService: SpinnerService,
@@ -134,10 +139,18 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
     });
   }
 
+  public isSelectable(row: Tag) {
+    return row.issuer;
+  }
+
   public buildTableDef(): TableDef {
     return {
       search: {
         enabled: true,
+      },
+      rowSelection: {
+        enabled: true,
+        multiple: true,
       },
       hasDynamicRowAction: true,
     };
@@ -171,6 +184,16 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
         sortable: true,
       },
       {
+        id: 'createdOn',
+        name: 'users.created_on',
+        formatter: (createdOn: Date) => this.datePipe.transform(createdOn),
+        headerClass: 'col-15em',
+        class: 'col-15em',
+        sortable: true,
+        sorted: true,
+        direction: 'desc'
+      },
+      {
         id: 'default',
         name: 'general.default',
         headerClass: 'text-center col-5em',
@@ -195,21 +218,6 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
     );
     tableColumnDef.push(
       {
-        id: 'createdOn',
-        name: 'users.created_on',
-        formatter: (createdOn: Date) => this.datePipe.transform(createdOn),
-        headerClass: 'col-15em',
-        class: 'col-15em',
-        sortable: true,
-        sorted: true,
-      },
-      {
-        id: 'createdBy',
-        name: 'users.created_by',
-        headerClass: 'col-15em',
-        class: 'col-15em',
-      },
-      {
         id: 'lastChangedOn',
         name: 'users.changed_on',
         formatter: (lastChangedOn: Date) => this.datePipe.transform(lastChangedOn),
@@ -220,6 +228,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
       {
         id: 'lastChangedBy',
         name: 'users.changed_by',
+        formatter: (user: User) => Utils.buildUserFullName(user),
         headerClass: 'col-15em',
         class: 'col-15em',
       },
@@ -238,6 +247,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
+    tableActionsDef.unshift(this.deleteManyAction);
     tableActionsDef.unshift(new TableCreateTagAction().getActionDef());
     return [
       ...tableActionsDef,
@@ -249,10 +259,12 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
     const moreActions = new TableMoreAction([]);
     if (tag.issuer) {
       actions.push(this.editAction);
-      if (tag.active) {
-        moreActions.addActionInMoreActions(this.deactivateAction);
-      } else {
-        moreActions.addActionInMoreActions(this.activateAction);
+      if (tag.userID) {
+        if (tag.active) {
+          moreActions.addActionInMoreActions(this.deactivateAction);
+        } else {
+          moreActions.addActionInMoreActions(this.activateAction);
+        }
       }
       moreActions.addActionInMoreActions(this.navigateToTransactionsAction);
       if (tag.userID) {
@@ -275,6 +287,15 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
       case UserButtonAction.CREATE_TAG:
         if (actionDef.action) {
           (actionDef as TableCreateTagActionDef).action(TagDialogComponent, this.dialog, this.refreshData.bind(this));
+        }
+        break;
+      // Delete
+      case UserButtonAction.DELETE_TAGS:
+        if (actionDef.action) {
+          (actionDef as TableDeleteTagsActionDef).action(
+            this.getSelectedRows(), this.dialogService, this.translateService, this.messageService,
+            this.centralServerService, this.spinnerService, this.router,
+            this.clearSelectedRows.bind(this), this.refreshData.bind(this));
         }
         break;
     }
@@ -328,6 +349,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
   public buildTableFiltersDef(): TableFilterDef[] {
     return [
       new IssuerFilter().getFilterDef(),
+      new StatusFilter().getFilterDef(),
       new UserTableFilter().getFilterDef(),
     ];
   }

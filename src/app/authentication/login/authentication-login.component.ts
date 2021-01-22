@@ -3,6 +3,7 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { User } from 'types/User';
 
 import { AuthorizationService } from '../../services/authorization.service';
 import { CentralServerService } from '../../services/central-server.service';
@@ -12,6 +13,7 @@ import { SpinnerService } from '../../services/spinner.service';
 import { WindowService } from '../../services/window.service';
 import { HTTPError } from '../../types/HTTPError';
 import { ButtonType } from '../../types/Table';
+import { Constants } from '../../utils/Constants';
 import { Users } from '../../utils/Users';
 import { Utils } from '../../utils/Utils';
 
@@ -22,17 +24,20 @@ declare var $: any;
   templateUrl: './authentication-login.component.html',
 })
 export class AuthenticationLoginComponent implements OnInit, OnDestroy {
-  public returnUrl!: string;
-  public formGroup: FormGroup;
-  public email: AbstractControl;
-  public password: AbstractControl;
-  public acceptEula: AbstractControl;
-  public hidePassword = true;
   private toggleButton: any;
   private sidebarVisible: boolean;
-  private nativeElement: Node;
-  private messages!: object;
+  private messages!: Record<string, string>;
   private subDomain: string;
+  private nativeElement: Node;
+
+  public formGroup: FormGroup;
+  public email: AbstractControl;
+  public returnUrl!: string;
+  public password: AbstractControl;
+  public acceptEula: AbstractControl;
+
+  public hidePassword = true;
+  public tenantLogo = Constants.TENANT_DEFAULT_LOGO;
 
   constructor(
     private element: ElementRef,
@@ -110,6 +115,12 @@ export class AuthenticationLoginComponent implements OnInit, OnDestroy {
       this.acceptEula.setValue('true');
       this.login(this.formGroup.value);
     }
+    // Retrieve tenant's logo
+    this.centralServerService.getTenantLogoBySubdomain(this.subDomain).subscribe((tenantLogo: string) => {
+      if (tenantLogo) {
+        this.tenantLogo = tenantLogo;
+      }
+    });
   }
 
   public sidebarToggle() {
@@ -135,7 +146,7 @@ export class AuthenticationLoginComponent implements OnInit, OnDestroy {
     body.classList.remove('off-canvas-sidebar');
   }
 
-  public login(user: object): void {
+  public login(user: User): void {
     this.spinnerService.show();
     // clear User and UserAuthorization
     this.authorizationService.cleanUserAndUserAuthorization();

@@ -1,4 +1,4 @@
-import { AbstractConsumption } from './Consumption';
+import Consumption, { AbstractConsumption } from './Consumption';
 import CreatedUpdatedProps from './CreatedUpdatedProps';
 import { KeyValue } from './GlobalType';
 import { SiteArea } from './SiteArea';
@@ -9,7 +9,9 @@ export interface Asset extends Data, CreatedUpdatedProps {
   name: string;
   siteAreaID: string;
   siteArea: SiteArea;
-  assetType: string;
+  assetType: AssetType;
+  fallbackValue: number;
+  fluctuation: number;
   coordinates: number[];
   image: string;
   dynamicAsset: boolean;
@@ -20,24 +22,24 @@ export interface Asset extends Data, CreatedUpdatedProps {
   createdOn: Date;
   lastChangedBy: string;
   lastChangedOn: Date;
+  connected: boolean;
 }
 
 export interface AssetConsumption {
   assetID: string;
-  values: AssetConsumptionValues[];
+  values: Consumption[];
 }
 
-export interface AssetConsumptionValues {
-  date: Date;
-  instantWatts: number;
-  instantAmps: number;
-  limitWatts: number;
-  limitAmps: number;
+export enum AssetType {
+  CO = 'CO',
+  PR = 'PR',
+  CO_PR = 'CO-PR',
 }
 
 export const AssetTypes: KeyValue[] = [
-  { key: 'CO', value: 'assets.consume' },
-  { key: 'PR', value: 'assets.produce' },
+  { key: AssetType.CO, value: 'assets.consume' },
+  { key: AssetType.PR, value: 'assets.produce' },
+  { key: AssetType.CO_PR, value: 'assets.consume_and_produce' },
 ];
 
 export enum AssetButtonAction {
@@ -47,8 +49,4 @@ export enum AssetButtonAction {
   DELETE_ASSET = 'delete_asset',
   RETRIEVE_ASSET_CONSUMPTION = 'retrieve_asset_connection',
   CHECK_ASSET_CONNECTION = 'check_asset_connection',
-}
-
-export enum AssetImage {
-  NO_IMAGE = 'assets/img/theme/no-logo.png',
 }

@@ -24,7 +24,7 @@ import { Car, CarButtonAction, CarConverter, CarType } from '../../../types/Car'
 import ChangeNotification from '../../../types/ChangeNotification';
 import { DataResult } from '../../../types/DataResult';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
-import { UserCar } from '../../../types/User';
+import { User, UserCar } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';
 import { CarDialogComponent } from '../car/car.dialog.component';
 import { CarCatalogImageFormatterCellComponent } from '../cell-components/car-catalog-image-formatter-cell.component';
@@ -108,6 +108,18 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
         isAngularComponent: true,
         angularComponent: CarCatalogImageFormatterCellComponent,
       },
+    ];
+    if (this.authorizationService.canUpdateCar()) {
+      tableColumnDef.push(
+        {
+          id: 'carCatalog.id',
+          name: 'general.id',
+          headerClass: 'col-20p',
+          class: 'col-20p',
+        },
+      );
+    }
+    tableColumnDef.push(
       {
         id: 'carCatalog.vehicleMake',
         name: 'cars.vehicle_make',
@@ -131,6 +143,57 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
         sortable: true,
         formatter: (vehicleModelVersion: string) => vehicleModelVersion ? vehicleModelVersion : '-',
       },
+    );
+    if (this.authorizationService.isAdmin()) {
+      tableColumnDef.push(
+        {
+          id: 'carUsers',
+          name: 'cars.users',
+          headerClass: 'col-20p',
+          class: 'col-20p',
+          formatter: (carUsers: UserCar[]) => Utils.buildCarUsersFullName(carUsers),
+        },
+      );
+    }
+    if (this.authorizationService.canUpdateCar()) {
+      tableColumnDef.push(
+        {
+          id: 'licensePlate',
+          name: 'cars.license_plate',
+          headerClass: 'text-center col-15p',
+          class: 'text-center col-15p',
+          sortable: true,
+        },
+        {
+          id: 'vin',
+          name: 'cars.vin',
+          headerClass: 'text-center col-15p',
+          class: 'text-center col-15p',
+          sortable: true,
+        },
+        {
+          id: 'default',
+          name: 'cars.default_car',
+          headerClass: 'text-center col-10p',
+          class: 'text-center col-10p',
+          formatter: (defaultCar: boolean, car: Car) => {
+            return car.carUsers.find((userCar) => userCar.default) ?
+              this.translateService.instant('general.yes') : this.translateService.instant('general.no');
+          },
+        },
+        {
+          id: 'owner',
+          name: 'cars.car_owner',
+          headerClass: 'text-center col-10p',
+          class: 'text-center col-10p',
+          formatter: (carOwner: boolean, car: Car) => {
+            return car.carUsers.find((userCar) => userCar.owner) ?
+              this.translateService.instant('general.yes') : this.translateService.instant('general.no');
+          }
+        }
+      );
+    }
+    tableColumnDef.push(
       {
         id: 'converter',
         name: 'cars.converter',
@@ -140,68 +203,27 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
         formatter: (converter: CarConverter) => Utils.buildCarCatalogConverterName(converter, this.translateService),
       },
       {
-        id: 'licensePlate',
-        name: 'cars.license_plate',
-        headerClass: 'text-center col-15p',
-        class: 'text-center col-15p',
-        sortable: true,
-      },
-      {
-        id: 'vin',
-        name: 'cars.vin',
-        headerClass: 'text-center col-15p',
-        class: 'text-center col-15p',
-        sortable: true,
-      },
-      {
         id: 'type',
         name: 'cars.type',
         headerClass: 'text-center col-15p',
         class: 'text-center col-15p',
         formatter: (carType: CarType) => Utils.getCarType(carType, this.translateService),
       },
-    ];
-    if (this.authorizationService.isBasic()) {
-      tableColumnDef.push({
-        id: 'default',
-        name: 'cars.default_car',
-        headerClass: 'text-center col-10p',
-        class: 'text-center col-10p',
-        formatter: (defaultCar: boolean, car: Car) => {
-          return car.carUsers.find((userCar) => userCar.default) ?
-            this.translateService.instant('general.yes') : this.translateService.instant('general.no');
-        }
-      });
-      tableColumnDef.push({
-        id: 'owner',
-        name: 'cars.car_owner',
-        headerClass: 'text-center col-10p',
-        class: 'text-center col-10p',
-        formatter: (carOwner: boolean, car: Car) => {
-          return car.carUsers.find((userCar) => userCar.owner) ?
-            this.translateService.instant('general.yes') : this.translateService.instant('general.no');
-        }
-      });
-    }
+    );
     if (this.authorizationService.isAdmin()) {
-      tableColumnDef.splice(3, 0, {
-        id: 'carUsers',
-        name: 'cars.users',
-        headerClass: 'col-20p',
-        class: 'col-20p',
-        formatter: (carUsers: UserCar[]) => Utils.buildCarUsersFullName(carUsers),
-      });
-      tableColumnDef.push({
-        id: 'createdOn',
-        name: 'users.created_on',
-        formatter: (createdOn: Date) => this.datePipe.transform(createdOn),
-        headerClass: 'col-15em',
-        class: 'col-15em',
-        sortable: true,
-      },
+      tableColumnDef.push(
+        {
+          id: 'createdOn',
+          name: 'users.created_on',
+          formatter: (createdOn: Date) => this.datePipe.transform(createdOn),
+          headerClass: 'col-15em',
+          class: 'col-15em',
+          sortable: true,
+        },
         {
           id: 'createdBy',
           name: 'users.created_by',
+          formatter: (user: User) => Utils.buildUserFullName(user),
           headerClass: 'col-15em',
           class: 'col-15em',
         },
@@ -216,9 +238,11 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
         {
           id: 'lastChangedBy',
           name: 'users.changed_by',
+          formatter: (user: User) => Utils.buildUserFullName(user),
           headerClass: 'col-15em',
           class: 'col-15em',
-        });
+        }
+      );
     }
     return tableColumnDef;
   }

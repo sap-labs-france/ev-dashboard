@@ -329,8 +329,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
         // new ChargingStationTableFilter().getFilterDef(),
         new IssuerFilter().getFilterDef(),
         new SiteTableFilter().getFilterDef(),
-        new SiteAreaTableFilter().getFilterDef(),
-        new ConnectorTableFilter().getFilterDef()
+        new SiteAreaTableFilter().getFilterDef()
       ];
     }
     return [];

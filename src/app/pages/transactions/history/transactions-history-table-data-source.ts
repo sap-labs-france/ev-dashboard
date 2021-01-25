@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
+import { ConnectorTableFilter } from 'shared/table/filters/connector-table-filter';
 import { CarCatalog } from 'types/Car';
 
 import { AuthorizationService } from '../../../services/authorization.service';
@@ -362,6 +363,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
       new StartDateFilter(moment().startOf('y').toDate()).getFilterDef(),
       new EndDateFilter().getFilterDef(),
       new ChargingStationTableFilter().getFilterDef(),
+      new ConnectorTableFilter().getFilterDef(),
       new TransactionsInactivityStatusFilter().getFilterDef(),
     ];
     // Show Site Area Filter If Organization component is active

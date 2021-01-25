@@ -97,16 +97,16 @@
 .chart-container-statistics {
   position: relative;
   margin: auto;
-  width: 75vw;
-  height: 70vh;
-  @media (max-width: 1280px) {
-    width: 90vw;
-    height: 50vh;
-  }
+  width: calc((100vw - 260px) * 0.95);
+  height: calc((100vw - 260px) * 0.5);
   @media (max-width: 991px) {
-    width: 100vw;
-    height: 30vh;
+    width: 95vw;
+    height: calc(95vw * 0.5);
   }
+    .chartjs-render-monitor {
+      width: 100% !important;
+      height: 100% !important;
+    }
 }
 
 .chart {

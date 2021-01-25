@@ -25,7 +25,7 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.4.38',
-        date: new Date('2020-01-20'),
+        date: new Date('2020-01-25'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -38,6 +38,7 @@ export class ReleaseNotesComponent {
               `Fixed sync of car's images with EV-Database due to a change on their interface`,
               `Linked toolbar button activation with list selection`,
               `Store credentials in SAP User Provided Services`,
+              `Fixed Stats legend is not displayed in wide screen`,
             ],
           },
         ],

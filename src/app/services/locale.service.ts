@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject } from 'rxjs';
+import { Utils } from 'utils/Utils';
 
 import { KeyValue } from '../types/GlobalType';
 import { UserToken } from '../types/User';
@@ -49,10 +50,10 @@ export class LocaleService {
 
   public getLocaleByKey(localeKey: string): KeyValue {
     // Return the found key
-    const locales = this.getLocales().filter((locale) => {
+    const locales: KeyValue[] = this.getLocales().filter((locale) => {
       return locale.key === localeKey;
     });
-    return (locales && locales.length > 0 ? locales[0] :
+    return (!Utils.isEmptyArray(locales) ? locales[0] :
       { key: 'U', value: this.translateService.instant('users.locale_unknown', {}) });
   }
 
@@ -106,6 +107,7 @@ export class LocaleService {
       case 'es':
       case 'de':
       case 'pt':
+      case 'it':
         return language;
       default:
         return 'en';
@@ -122,6 +124,8 @@ export class LocaleService {
         return 'de_DE';
       case 'pt':
         return 'pt-PT';
+      case 'it':
+        return 'it-IT';
       case 'en':
       default:
         return 'en_US';
@@ -138,6 +142,8 @@ export class LocaleService {
         return 'de-DE';
       case 'pt':
         return 'pt-PT';
+      case 'it':
+        return 'it-IT';
       case 'en':
       default:
         return 'en-US';
@@ -156,6 +162,8 @@ export class LocaleService {
         return this.translateService.instant('users.locale_desc_german');
       case 'pt_PT':
       return this.translateService.instant('users.locale_desc_portuguese');
+      case 'it_IT':
+      return this.translateService.instant('users.locale_desc_italian');
       default:
         return '';
     }

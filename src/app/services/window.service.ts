@@ -5,7 +5,6 @@ import { ConfigService } from './config.service';
 
 @Injectable()
 export class WindowService {
-
   constructor(@Inject(WINDOW) private window: Window, private configService: ConfigService) {
   }
 

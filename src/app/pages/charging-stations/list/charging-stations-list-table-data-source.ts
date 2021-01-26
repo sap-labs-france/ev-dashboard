@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { ConnectorTableFilter } from 'shared/table/filters/connector-table-filter';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
@@ -48,12 +49,7 @@ import { ChargingStationsConnectorsDetailComponent } from '../details-component/
 export class ChargingStationsListTableDataSource extends TableDataSource<ChargingStation> {
   private readonly isOrganizationComponentActive: boolean;
   private editAction = new TableEditChargingStationAction().getActionDef();
-  private rebootAction = new TableChargingStationsRebootAction().getActionDef();
   private smartChargingAction = new TableChargingStationsSmartChargingAction().getActionDef();
-  private clearCacheAction = new TableChargingStationsClearCacheAction().getActionDef();
-  private resetAction = new TableChargingStationsResetAction().getActionDef();
-  private forceAvailableStatusAction = new TableChargingStationsForceAvailableStatusAction().getActionDef();
-  private forceUnavailableStatusAction = new TableChargingStationsForceUnavailableStatusAction().getActionDef();
   private deleteAction = new TableDeleteChargingStationAction().getActionDef();
   private generateQrCodeConnectorAction = new TableChargingStationGenerateQrCodeConnectorAction().getActionDef();
 
@@ -95,7 +91,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
               connector.hasDetails = connector.currentTransactionID > 0;
               let connectorIsInactive = false;
               if (chargingStation.inactive ||
-                  chargingStation.firmwareUpdateStatus === FirmwareStatus.INSTALLING) {
+                chargingStation.firmwareUpdateStatus === FirmwareStatus.INSTALLING) {
                 connectorIsInactive = true;
               }
               connector.status = connectorIsInactive ? ChargePointStatus.UNAVAILABLE : connector.status;
@@ -310,7 +306,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
             this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
         }
         break;
-       case ChargingStationButtonAction.GENERATE_QR_CODE:
+      case ChargingStationButtonAction.GENERATE_QR_CODE:
         if (actionDef.action) {
           (actionDef as TableChargingStationGenerateQrCodeConnectorActionDef).action(
             chargingStation, this.translateService, this.spinnerService, this.messageService,
@@ -333,7 +329,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
         // new ChargingStationTableFilter().getFilterDef(),
         new IssuerFilter().getFilterDef(),
         new SiteTableFilter().getFilterDef(),
-        new SiteAreaTableFilter().getFilterDef(),
+        new SiteAreaTableFilter().getFilterDef()
       ];
     }
     return [];
@@ -357,14 +353,24 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
     if (chargingStation.issuer) {
       if (this.authorizationService.isAdmin() ||
         this.authorizationService.isSiteAdmin(chargingStation.siteArea ? chargingStation.siteArea.siteID : '')) {
+        const rebootAction = new TableChargingStationsRebootAction().getActionDef();
+        rebootAction.disabled = chargingStation.inactive;
+        const clearCacheAction = new TableChargingStationsClearCacheAction().getActionDef();
+        clearCacheAction.disabled = chargingStation.inactive;
+        const resetAction = new TableChargingStationsResetAction().getActionDef();
+        resetAction.disabled = chargingStation.inactive;
+        const forceAvailableStatusAction = new TableChargingStationsForceAvailableStatusAction().getActionDef();
+        forceAvailableStatusAction.disabled = chargingStation.inactive;
+        const forceUnavailableStatusAction = new TableChargingStationsForceUnavailableStatusAction().getActionDef();
+        forceUnavailableStatusAction.disabled = chargingStation.inactive;
         return [
           this.editAction,
           this.smartChargingAction,
-          this.rebootAction,
+          rebootAction,
           new TableMoreAction([
-            this.clearCacheAction,
-            this.resetAction,
-            isUnavailable ? this.forceAvailableStatusAction : this.forceUnavailableStatusAction,
+            clearCacheAction,
+            resetAction,
+            isUnavailable ? forceAvailableStatusAction : forceUnavailableStatusAction,
             this.generateQrCodeConnectorAction,
             openInMaps,
             this.deleteAction,

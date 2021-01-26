@@ -135,6 +135,14 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         formatter: (value: Date) => this.datePipe.transform(value),
       },
       {
+        id: 'currentTotalDurationSecs',
+        name: 'transactions.duration',
+        headerClass: 'col-10p',
+        class: 'text-left col-10p',
+        formatter: (currentTotalDurationSecs: number, row: Transaction) =>
+          this.appDurationPipe.transform((new Date().getTime() - new Date(row.timestamp).getTime()) / 1000),
+      },
+      {
         id: 'chargeBoxID',
         name: 'transactions.charging_station',
         headerClass: 'col-15p',
@@ -188,14 +196,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         });
       }
     }
-    columns.push({
-      id: 'currentTotalDurationSecs',
-      name: 'transactions.duration',
-      headerClass: 'col-10p',
-      class: 'text-left col-10p',
-      formatter: (currentTotalDurationSecs: number, row: Transaction) =>
-        this.appDurationPipe.transform((new Date().getTime() - new Date(row.timestamp).getTime()) / 1000),
-    },
+    columns.push(
       {
         id: 'currentTotalInactivitySecs',
         name: 'transactions.inactivity',

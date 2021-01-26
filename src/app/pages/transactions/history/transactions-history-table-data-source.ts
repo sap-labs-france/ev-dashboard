@@ -214,6 +214,13 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         formatter: (value: Date) => this.datePipe.transform(value),
       },
       {
+        id: 'stop.totalDurationSecs',
+        name: 'transactions.duration',
+        headerClass: 'col-10p',
+        class: 'text-left col-10p',
+        formatter: (totalDurationSecs: number) => this.appDurationPipe.transform(totalDurationSecs),
+      },
+      {
         id: 'chargeBoxID',
         name: 'transactions.charging_station',
         headerClass: 'col-15p',
@@ -266,13 +273,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         });
       }
     }
-    columns.push({
-        id: 'stop.totalDurationSecs',
-        name: 'transactions.duration',
-        headerClass: 'col-10p',
-        class: 'text-left col-10p',
-        formatter: (totalDurationSecs: number) => this.appDurationPipe.transform(totalDurationSecs),
-      },
+    columns.push(
       {
         id: 'stop.totalInactivitySecs',
         name: 'transactions.inactivity',

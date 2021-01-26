@@ -9,7 +9,9 @@ import { AppDatePipe } from 'shared/formatters/app-date.pipe';
 import { TableMoreAction } from 'shared/table/actions/table-more-action';
 import { TableOpenURLActionDef } from 'shared/table/actions/table-open-url-action';
 import { TableNavigateToTransactionsAction } from 'shared/table/actions/transactions/table-navigate-to-transactions-action';
+import { TableDeleteTagsAction, TableDeleteTagsActionDef } from 'shared/table/actions/users/table-delete-tags-action';
 import { organisations } from 'shared/table/filters/issuer-filter';
+import { StatusFilter } from 'shared/table/filters/status-filter';
 import { UserTableFilter } from 'shared/table/filters/user-table-filter';
 import { DataResult } from 'types/DataResult';
 import { HTTPError } from 'types/HTTPError';
@@ -45,6 +47,8 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
   private editAction = new TableEditTagAction().getActionDef();
   private navigateToUserAction = new TableNavigateToUserAction().getActionDef();
   private navigateToTransactionsAction = new TableNavigateToTransactionsAction().getActionDef();
+  private deleteManyAction = new TableDeleteTagsAction().getActionDef();
+
 
   constructor(
     public spinnerService: SpinnerService,
@@ -135,10 +139,18 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
     });
   }
 
+  public isSelectable(row: Tag) {
+    return row.issuer;
+  }
+
   public buildTableDef(): TableDef {
     return {
       search: {
         enabled: true,
+      },
+      rowSelection: {
+        enabled: true,
+        multiple: true,
       },
       hasDynamicRowAction: true,
     };
@@ -235,6 +247,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
+    tableActionsDef.unshift(this.deleteManyAction);
     tableActionsDef.unshift(new TableCreateTagAction().getActionDef());
     return [
       ...tableActionsDef,
@@ -274,6 +287,15 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
       case UserButtonAction.CREATE_TAG:
         if (actionDef.action) {
           (actionDef as TableCreateTagActionDef).action(TagDialogComponent, this.dialog, this.refreshData.bind(this));
+        }
+        break;
+      // Delete
+      case UserButtonAction.DELETE_TAGS:
+        if (actionDef.action) {
+          (actionDef as TableDeleteTagsActionDef).action(
+            this.getSelectedRows(), this.dialogService, this.translateService, this.messageService,
+            this.centralServerService, this.spinnerService, this.router,
+            this.clearSelectedRows.bind(this), this.refreshData.bind(this));
         }
         break;
     }
@@ -327,6 +349,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
   public buildTableFiltersDef(): TableFilterDef[] {
     return [
       new IssuerFilter().getFilterDef(),
+      new StatusFilter().getFilterDef(),
       new UserTableFilter().getFilterDef(),
     ];
   }

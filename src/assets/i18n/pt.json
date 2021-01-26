@@ -25,7 +25,7 @@
     "connectors": "Conexões",
     "notifications": "Notificações",
     "app_name": "e-Mobility",
-    "last_update": "Versão 2.4.36",
+    "last_update": "Versão 2.4.38",
     "version": "Versão",
     "about_us": "Sobre Nós",
     "unexpected_error_backend": "Ocurreu um erro inesperado",
@@ -310,8 +310,11 @@
     "logo": "Logo",
     "name": "Nome",
     "asset_type": "Tipo de Ativo",
+    "fluctuation": "Short term fluctuation (W)",
+    "fallback_value": "Fallback value (W)",
     "produce": "Produção de Energia",
     "consume": "Consumo de Energia",
+    "consume_and_produce": "Consume and Produce Energy",
     "dynamic_asset": "Ativo Dinâmico",
     "instant_power": "Poder Instantâneo",
     "asset_connection": "Conexão de Ativos",
@@ -1107,6 +1110,7 @@
     "locale_desc_spanish": "Espanhol",
     "locale_desc_german": "Alemão",
     "locale_desc_portuguese": "Português",
+    "locale_desc_portuguese": "Portuguese",
     "role_unknown": "Desconhecido",
     "locale_unknown": "Desconhecido",
     "status": "Esatdos",
@@ -1273,7 +1277,12 @@
     "tag_id_already_used": "O badge '{{tagID}}' já existe",
     "redirect": "Navegue até as tags",
     "title": "Badge",
-    "default_tag": "Badge padrão"
+    "default_tag": "Badge padrão",
+    "delete_tags_title": "Delete Badge(s)",
+    "delete_tags_confirm": "Do you really want to delete '{{quantity}}' badge(s)?",
+    "delete_tags_success": "'{{inSuccess}}' badges have been deleted successfully",
+    "delete_tags_partial": "'{{inSuccess}}' badges have been deleted successfully and '{{inError}}' badges have encountered an error, check the logs",
+    "delete_tags_error": "Error occurred while deleting the badges, check the logs"
   },
   "tenants": {
     "title": "Organização",
@@ -1352,7 +1361,10 @@
       "generate_connection_url": "Conecte uma estação de carregamento",
       "ocpp_15_soap": "OCPP 1.5 SOAP",
       "ocpp_16_json": "OCPP 1.6 JSON",
-      "ocpp_16_soap": "OCPP 1.6 SOAP"
+      "ocpp_16_soap": "OCPP 1.6 SOAP",
+      "ocpp_15_soap_secure": "Secure OCPP 1.5 SOAP",
+      "ocpp_16_json_secure": "Secure OCPP 1.6 JSON",
+      "ocpp_16_soap_secure": "Secure OCPP 1.6 SOAP"
     },
     "refund": {
       "description": "O E-Mobility fornece um serviço de reembolso para um sistema de despesas externas. <br> Este recurso permite que o utilizador envie suas sessões para um sistema de despesas e seja reembolsado pela eletricidade que consumiu. <br> O E-Mobility está usando o SAP Concur. Mais informações técnicas disponíveis em ",
@@ -1479,7 +1491,11 @@
         "title": "SAP Carregamento Inteligente",
         "settings": "Configurações",
         "user": "Utilizador",
-        "password": "Password"
+        "password": "Password",
+        "additional_settings":"Additional settings:",
+        "sticky_limitation": "Adjust limit according to current consumption",
+        "limit_buffer_dc": "Buffer for Limit DC (%)",
+        "limit_buffer_ac": "Buffer for Limit AC (%)"
       },
       "description": "E-Mobility pode usar algoritmo de carregamento inteligente para otimizar a distribuição de energia e horários de carregamento com base em restrições complexas",
       "setting_do_not_exist": "A configuração não foi encontrada",

@@ -46,6 +46,8 @@ export class AssetComponent implements OnInit {
   public siteArea!: AbstractControl;
   public siteAreaID!: AbstractControl;
   public assetType!: AbstractControl;
+  public fluctuation!: AbstractControl;
+  public fallbackValue!: AbstractControl;
   public coordinates!: FormArray;
   public longitude!: AbstractControl;
   public latitude!: AbstractControl;
@@ -98,6 +100,15 @@ export class AssetComponent implements OnInit {
           Validators.required,
         ])
       ),
+      fluctuation: new FormControl('',
+        Validators.compose([
+          Validators.pattern('^[+]?[0-9]*$'),
+        ])),
+      fallbackValue: new FormControl('',
+        Validators.compose([
+          Validators.required,
+        ])
+      ),
       coordinates: new FormArray([
         new FormControl('',
           Validators.compose([
@@ -128,6 +139,8 @@ export class AssetComponent implements OnInit {
     this.siteArea = this.formGroup.controls['siteArea'];
     this.siteAreaID = this.formGroup.controls['siteAreaID'];
     this.assetType = this.formGroup.controls['assetType'];
+    this.fluctuation = this.formGroup.controls['fluctuation'];
+    this.fallbackValue = this.formGroup.controls['fallbackValue'];
     this.coordinates = this.formGroup.controls['coordinates'] as FormArray;
     this.longitude = this.coordinates.at(0);
     this.latitude = this.coordinates.at(1);
@@ -179,6 +192,12 @@ export class AssetComponent implements OnInit {
       }
       if (this.asset.assetType) {
         this.formGroup.controls.assetType.setValue(this.asset.assetType);
+      }
+      if (this.asset.fluctuation) {
+        this.formGroup.controls.fluctuation.setValue(this.asset.fluctuation);
+      }
+      if (!Utils.isUndefined(this.asset.fallbackValue)) {
+        this.formGroup.controls.fallbackValue.setValue(this.asset.fallbackValue);
       }
       if (this.asset.coordinates) {
         this.longitude.setValue(this.asset.coordinates[0]);
@@ -258,7 +277,7 @@ export class AssetComponent implements OnInit {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
       if (file.size > (this.maxSize * 1024)) {
-        this.messageService.showErrorMessage('assets.logo_size_error', {maxPictureKb: this.maxSize});
+        this.messageService.showErrorMessage('assets.logo_size_error', { maxPictureKb: this.maxSize });
       } else {
         const reader = new FileReader();
         reader.onload = () => {
@@ -309,7 +328,7 @@ export class AssetComponent implements OnInit {
           this.formGroup.controls.siteAreaID.setValue(siteArea.id);
           this.selectedSiteArea = siteArea;
         }
-    });
+      });
   }
 
   public assignGeoMap() {
@@ -349,17 +368,17 @@ export class AssetComponent implements OnInit {
     // Open
     this.dialog.open(GeoMapDialogComponent, dialogConfig)
       .afterClosed().subscribe((result) => {
-      if (result) {
-        if (result.latitude) {
-          this.latitude.setValue(result.latitude);
-          this.formGroup.markAsDirty();
+        if (result) {
+          if (result.latitude) {
+            this.latitude.setValue(result.latitude);
+            this.formGroup.markAsDirty();
+          }
+          if (result.longitude) {
+            this.longitude.setValue(result.longitude);
+            this.formGroup.markAsDirty();
+          }
         }
-        if (result.longitude) {
-          this.longitude.setValue(result.longitude);
-          this.formGroup.markAsDirty();
-        }
-      }
-    });
+      });
   }
 
   private createAsset(asset: Asset) {
@@ -401,7 +420,7 @@ export class AssetComponent implements OnInit {
         const assetSetting = response.result[0] as AssetSettings;
         const connections = [] as KeyValue[];
         for (const connection of assetSetting.content.asset.connections) {
-          connections.push({ key: connection.id, value: connection.name});
+          connections.push({ key: connection.id, value: connection.name });
         }
         this.assetConnections = connections;
       }

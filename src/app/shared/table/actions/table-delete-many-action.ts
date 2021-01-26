@@ -21,6 +21,7 @@ export class TableDeleteManyAction implements TableAction {
     name: 'general.delete',
     tooltip: 'general.tooltips.delete',
     action: this.deleteMany,
+    linkedToListSelection: true
   };
 
   // Return an action

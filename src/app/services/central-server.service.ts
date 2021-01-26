@@ -897,6 +897,20 @@ export class CentralServerService {
       );
   }
 
+  public deleteTags(tagsIDs: string[]): Observable<ActionsResponse> {
+    // Verify init
+    this.checkInit();
+    const options = {
+      headers: this.buildHttpHeaders(),
+      body: { tagsIDs },
+    };
+    // Execute the REST service
+    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TAGS_DELETE}`, options)
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
   public createTag(tag: Tag): Observable<ActionResponse> {
     // Verify init
     this.checkInit();

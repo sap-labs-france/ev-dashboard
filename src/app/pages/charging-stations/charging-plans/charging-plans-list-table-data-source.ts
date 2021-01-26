@@ -33,7 +33,7 @@ import { ChargingStationLimitationDialogComponent } from '../charging-station-li
 export class ChargingPlansListTableDataSource extends TableDataSource<ChargingProfile> {
   private readonly isOrganizationComponentActive: boolean;
   private smartChargingAction = new TableChargingStationsSmartChargingAction().getActionDef();
-  private checkSiteAreaAction = new TableNavigateToSiteAreaAction().getActionDef();
+  private navigateToSiteAreaAction = new TableNavigateToSiteAreaAction().getActionDef();
 
   constructor(
     public spinnerService: SpinnerService,
@@ -181,7 +181,7 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
         }
         break;
         case ChargingStationButtonAction.NAVIGATE_TO_SITE_AREA:
-          this.checkSiteAreaAction.action('organization#site-areas?SiteAreaID=' + chargingProfile.chargingStation.siteArea.id);
+          this.navigateToSiteAreaAction.action('organization#site-areas?SiteAreaID=' + chargingProfile.chargingStation.siteArea.id);
           break;
     }
   }
@@ -206,7 +206,7 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
     }
     if (this.authorizationService.isAdmin() ||
       this.authorizationService.isSiteAdmin(chargingProfile.chargingStation.siteArea ? chargingProfile.chargingStation.siteArea.siteID : '')) {
-      const moreActions = new TableMoreAction([this.checkSiteAreaAction]);
+      const moreActions = new TableMoreAction([this.navigateToSiteAreaAction]);
       return [
         this.smartChargingAction,
         moreActions.getActionDef(),

@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { ConnectorTableFilter } from 'shared/table/filters/connector-table-filter';
 import { CarCatalog } from 'types/Car';
 
 import { AuthorizationService } from '../../../services/authorization.service';
@@ -150,12 +151,12 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
     );
     if (this.isAdmin || this.isSiteAdmin) {
       columns.push({
-          id: 'user',
-          name: 'transactions.user',
-          headerClass: 'col-15p',
-          class: 'text-left col-15p',
-          formatter: (value: User) => this.appUserNamePipe.transform(value),
-        },
+        id: 'user',
+        name: 'transactions.user',
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
+        formatter: (value: User) => this.appUserNamePipe.transform(value),
+      },
         {
           id: 'tagID',
           name: 'transactions.badge_id',
@@ -188,13 +189,13 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
       }
     }
     columns.push({
-        id: 'currentTotalDurationSecs',
-        name: 'transactions.duration',
-        headerClass: 'col-10p',
-        class: 'text-left col-10p',
-        formatter: (currentTotalDurationSecs: number, row: Transaction) =>
-          this.appDurationPipe.transform((new Date().getTime() - new Date(row.timestamp).getTime()) / 1000),
-      },
+      id: 'currentTotalDurationSecs',
+      name: 'transactions.duration',
+      headerClass: 'col-10p',
+      class: 'text-left col-10p',
+      formatter: (currentTotalDurationSecs: number, row: Transaction) =>
+        this.appDurationPipe.transform((new Date().getTime() - new Date(row.timestamp).getTime()) / 1000),
+    },
       {
         id: 'currentTotalInactivitySecs',
         name: 'transactions.inactivity',
@@ -279,6 +280,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
       filters.push(new SiteAreaTableFilter().getFilterDef());
     }
     filters.push(new ChargingStationTableFilter().getFilterDef());
+    filters.push(new ConnectorTableFilter().getFilterDef());
     if (this.authorizationService.isAdmin() || this.authorizationService.hasSitesAdminRights()) {
       filters.push(new UserTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
       filters.push(new TagTableFilter().getFilterDef());

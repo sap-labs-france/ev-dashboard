@@ -24,6 +24,18 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.39',
+        date: new Date('2020-01-26'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added Connector ID filter in Transaction lists`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.38',
         date: new Date('2020-01-25'),
         componentChanges: [

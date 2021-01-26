@@ -31,6 +31,8 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Added Connector ID filter in Transaction lists`,
+              `Aligned Transaction's time with Charging Station's locale in Export CSV`,
+              `Translated CSV headers in all export`,
             ],
           },
         ],

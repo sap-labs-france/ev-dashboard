@@ -24,20 +24,35 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.4.38',
-        date: new Date('2020-01-20'),
+        version: '2.4.39',
+        date: new Date('2020-01-26'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
-              `Added EVBox G4 Elvi and BusinessLine Charging Statiom in templates`,
-              `Added Innogy eBox Professional S Charging Statiom in templates`,
+              `Added Connector ID filter in Transaction lists`,
+              `Aligned Transaction's time with Charging Station's locale in Export CSV`,
+              `Translated CSV headers in all export`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.38',
+        date: new Date('2020-01-25'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added EVBox G4 Elvi and BusinessLine Charging Station in templates`,
+              `Added Innogy eBox Professional S Charging Station in templates`,
               `Disable firmware upload in production`,
               `Remove ABB workarounds: firmware have been upgraded`,
               `Clear the locks by hostname at server startup`,
               `Fixed sync of car's images with EV-Database due to a change on their interface`,
-              `Linked toolbar bouton activation with list selection`,
+              `Linked toolbar button activation with list selection`,
               `Store credentials in SAP User Provided Services`,
+              `Fixed Stats legend is not displayed in wide screen`,
             ],
           },
         ],
@@ -49,7 +64,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
-              `Added Tag multiselection + Mass delete`,
+              `Added Tag multi-selection + Mass delete`,
               `Added Active/Inactive Tag filter`,
               `Added static consumption/production and fluctuation percentage in Asset`,
               `Handle Asset that consumes and produces energy like a battery`,
@@ -157,7 +172,7 @@ export class ReleaseNotesComponent {
               `Start a Transaction with a given Car and Badge ID`,
               `Fixed refresh of power when nbr phase is changed`,
               `Fixed Instant Power progress bar with wrong Max Power in Charging Station's list`,
-              `Added debug logs for Charging Stations connexion issues`,
+              `Added debug logs for Charging Stations connection issues`,
               `Fixed Save button is disabled in Tenant pop-up`,
               `Fix Keba Model in Charging Station's template`,
               `Add support for Static Limitation for Shelly in Charging Station's template`,

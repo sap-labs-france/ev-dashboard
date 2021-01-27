@@ -123,6 +123,7 @@ export enum UserButtonAction {
   SYNCHRONIZE_BILLING_USERS = 'billing_synchronize_users',
   ASSIGN_SITES_TO_USER = 'assign_sites_to_user',
   EXPORT_USERS = 'export_users',
+  IMPORT_USERS = 'import_users',
   NAVIGATE_TO_TAGS = 'navigate_to_tags',
   NAVIGATE_TO_USER = 'navigate_to_user'
 }

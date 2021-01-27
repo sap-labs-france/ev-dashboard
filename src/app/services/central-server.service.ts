@@ -12,12 +12,15 @@ import { Car, CarCatalog, CarMaker, ImageObject } from '../types/Car';
 import { ChargingProfile, GetCompositeScheduleCommandResult } from '../types/ChargingProfile';
 import { ChargePoint, ChargingStation, OCPPAvailabilityType, OcppParameter } from '../types/ChargingStation';
 import { Company } from '../types/Company';
+import CentralSystemServerConfiguration from '../types/configuration/CentralSystemServerConfiguration';
 import { IntegrationConnection, UserConnection } from '../types/Connection';
 import { ActionResponse, ActionsResponse, CheckAssetConnectionResponse, CheckBillingConnectionResponse, DataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, Ordering, Paging } from '../types/DataResult';
 import { EndUserLicenseAgreement } from '../types/Eula';
 import { FilterParams, Image, KeyValue } from '../types/GlobalType';
 import { AssetInError, ChargingStationInError, TransactionInError } from '../types/InError';
 import { Log } from '../types/Log';
+import { OcpiEndpoint } from '../types/ocpi/OCPIEndpoint';
+import { OCPPResetType } from '../types/ocpp/OCPP';
 import { RefundReport } from '../types/Refund';
 import { RegistrationToken } from '../types/RegistrationToken';
 import { ServerAction } from '../types/Server';
@@ -29,9 +32,6 @@ import { Tag } from '../types/Tag';
 import { Tenant } from '../types/Tenant';
 import { OcpiData, Transaction } from '../types/Transaction';
 import { User, UserCar, UserDefaultTagCar, UserSite, UserToken } from '../types/User';
-import CentralSystemServerConfiguration from '../types/configuration/CentralSystemServerConfiguration';
-import { OcpiEndpoint } from '../types/ocpi/OCPIEndpoint';
-import { OCPPResetType } from '../types/ocpp/OCPP';
 import { Constants } from '../utils/Constants';
 import { Utils } from '../utils/Utils';
 import { CentralServerNotificationService } from './central-server-notification.service';
@@ -1915,6 +1915,32 @@ export class CentralServerService {
       );
   }
 
+  public importUser(file: any): Observable<ActionResponse> {
+
+    // Verify init
+    this.checkInit();
+    // const formData: FormData = new FormData();
+    // formData.append('fileKey', file, file.name);
+
+    // const header = {
+    //   'Content-Type': 'multipart/form-data'
+    // };
+    // // Check token
+    // if (this.getLoggedUserToken()) {
+    //   header['Authorization'] = 'Bearer ' + this.getLoggedUserToken();
+    // }
+
+    // Execute
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.USERS_IMPORT}`, file,
+      {
+        // headers: new HttpHeaders(header),
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
   public createCompany(company: any): Observable<ActionResponse> {
     // Verify init
     this.checkInit();
@@ -3023,6 +3049,18 @@ export class CentralServerService {
     }
     // Build Header
     return new HttpHeaders(header);
+  }
+
+  public buildHttpHeadersFile(tenantID?: string) {
+    const headers = [
+      {value: tenantID,
+      name:'Tenant'},
+      {value: 'Bearer ' + this.getLoggedUserToken(),
+      name:'Authorization'},
+    ]
+
+    // Build Header
+    return headers;
   }
 
   private getSorting(ordering: Ordering[], queryParams: FilterParams) {

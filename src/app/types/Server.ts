@@ -338,6 +338,7 @@ export enum ServerAction {
   USER_CREATE = 'UserCreate',
   USER_DELETE = 'UserDelete',
   USER_UPDATE = 'UserUpdate',
+  USERS_IMPORT = 'UsersImport',
   USER_UPDATE_MOBILE_TOKEN = 'UpdateUserMobileToken',
   USERS = 'Users',
   USER_SITES = 'UserSites',

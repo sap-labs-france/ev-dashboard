@@ -1,8 +1,11 @@
 import { AgmCoreModule } from '@agm/core';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { FileSelectDirective, FileUploadModule } from 'ng2-file-upload';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 
 import { MaterialModule } from '../../app.module';
@@ -28,6 +31,7 @@ import { CompaniesDialogComponent } from './companies/companies-dialog.component
 import { ConfirmationDialogComponent } from './confirmation/confirmation-dialog.component';
 import { ErrorCodeDetailsDialogComponent } from './error-code-details/error-code-details-dialog.component';
 import { GeoMapDialogComponent } from './geomap/geomap-dialog.component';
+import { ImportDialogComponent } from './import/import-dialog.component';
 import { LOG_ACTIONSDialogTableDataSource } from './logs/log-actions-dialog-table-data-source';
 import { LOG_ACTIONSDialogComponent } from './logs/log-actions-dialog.component';
 import { QrCodeDialogComponent } from './qr-code/qr-code-dialog.component';
@@ -54,7 +58,9 @@ import { UsersDialogComponent } from './users/users-dialog.component';
     ComponentModule,
     FormattersModule,
     AgmCoreModule,
-    GooglePlaceModule
+    GooglePlaceModule,
+    FileUploadModule,
+    // FormsModule
   ],
   declarations: [
     CarMakersDialogComponent,
@@ -71,11 +77,13 @@ import { UsersDialogComponent } from './users/users-dialog.component';
     CompaniesDialogComponent,
     GeoMapDialogComponent,
     QrCodeDialogComponent,
+    ImportDialogComponent,
     ErrorCodeDetailsDialogComponent,
     ErrorCodeDetailsComponent,
     ReportsDialogComponent,
     CarCatalogsDialogComponent,
-    LOG_ACTIONSDialogComponent
+    LOG_ACTIONSDialogComponent,
+    // FileSelectDirective
   ],
   entryComponents: [
     CarMakersDialogComponent,
@@ -93,6 +101,7 @@ import { UsersDialogComponent } from './users/users-dialog.component';
     ConsumptionChartComponent,
     GeoMapDialogComponent,
     QrCodeDialogComponent,
+    ImportDialogComponent,
     ErrorCodeDetailsDialogComponent,
     ErrorCodeDetailsComponent,
     ReportsDialogComponent,
@@ -114,6 +123,7 @@ import { UsersDialogComponent } from './users/users-dialog.component';
     CompaniesDialogComponent,
     GeoMapDialogComponent,
     QrCodeDialogComponent,
+    ImportDialogComponent,
     ErrorCodeDetailsDialogComponent,
     ErrorCodeDetailsComponent,
     ReportsDialogComponent,

@@ -95,6 +95,7 @@
     "moment": "^2.29.1",
     "moment-duration-format": "^2.3.2",
     "moment-timezone": "^0.5.32",
+    "ng2-file-upload": "^1.4.0",
     "ngx-captcha": "^8.0.1",
     "ngx-daterangepicker-material": "^4.0.1",
     "ngx-google-places-autocomplete": "^2.0.5",

@@ -31,15 +31,15 @@ export interface AssetConsumption {
 }
 
 export enum AssetType {
-  CO = 'CO',
-  PR = 'PR',
-  CO_PR = 'CO-PR',
+  CONSUMPTION = 'CO',
+  PRODUCTION = 'PR',
+  CONSUMPTION_AND_PRODUCTION = 'CO-PR',
 }
 
 export const AssetTypes: KeyValue[] = [
-  { key: AssetType.CO, value: 'assets.consume' },
-  { key: AssetType.PR, value: 'assets.produce' },
-  { key: AssetType.CO_PR, value: 'assets.consume_and_produce' },
+  { key: AssetType.CONSUMPTION, value: 'assets.consume' },
+  { key: AssetType.PRODUCTION, value: 'assets.produce' },
+  { key: AssetType.CONSUMPTION_AND_PRODUCTION, value: 'assets.consume_and_produce' },
 ];
 
 export enum AssetButtonAction {

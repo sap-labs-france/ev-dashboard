@@ -133,11 +133,11 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
         sortable: true,
         formatter: (assetType: AssetType) => {
           switch (assetType) {
-            case AssetType.PR:
+            case AssetType.PRODUCTION:
               return this.translateService.instant('assets.produce');
-            case AssetType.CO:
+            case AssetType.CONSUMPTION:
               return this.translateService.instant('assets.consume');
-            case AssetType.CO_PR:
+            case AssetType.CONSUMPTION_AND_PRODUCTION:
               return this.translateService.instant('assets.consume_and_produce');
           }
         }

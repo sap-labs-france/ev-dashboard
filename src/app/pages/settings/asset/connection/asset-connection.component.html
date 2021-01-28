@@ -59,8 +59,8 @@
                   <div class="form-group">
                     <mat-form-field>
                       <mat-select [formControl]="type" placeholder="{{'settings.asset.connection.type' | translate}}" required>
-                        <mat-option *ngFor="let type of assetConnectionTypes" value="{{type.key}}">
-                          {{ type.value | translate }}
+                        <mat-option *ngFor="let assetConnectionType of assetConnectionTypes" value="{{assetConnectionType.key}}">
+                          {{ assetConnectionType.value | translate }}
                         </mat-option>
                       </mat-select>
                       <mat-error *ngIf="type.errors?.required">

@@ -311,7 +311,7 @@
     "name": "Nom",
     "asset_type": "Type de ressource",
     "fluctuation_percent": "Fluctuation à court terme (%)",
-    "static_value_watt": "Valeur de secours (W)",
+    "static_value_watt": "Puissance Statique (W)",
     "produce": "Produit de l'Energie'",
     "consume": "Consomme de l'Energie",
     "consume_and_produce": "Consomme et Produit de l'energy",

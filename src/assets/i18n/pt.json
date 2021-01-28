@@ -311,7 +311,7 @@
     "name": "Nome",
     "asset_type": "Tipo de Ativo",
     "fluctuation_percent": "Fluctuation (%)",
-    "static_value_watt": "Static value (W)",
+    "static_value_watt": "Static Power (W)",
     "produce": "Produção de Energia",
     "consume": "Consumo de Energia",
     "consume_and_produce": "Consume and Produce Energy",

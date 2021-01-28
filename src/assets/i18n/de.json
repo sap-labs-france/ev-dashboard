@@ -1004,7 +1004,8 @@
     "tabs": {
       "list": "Ladestationen",
       "charging_plans": "Ladepläne",
-      "in_error": "Fehlerhaft"
+      "in_error": "Fehlerhaft",
+      "connection": "Onboard New Station"
     },
     "errors": {
       "missing_settings": {
@@ -1027,6 +1028,37 @@
         "description": "Die Ladesäule sendet einen Fehlercode für einen Ihrer Anschlüsse.",
         "action": "Überprüfen Sie die Fehlercodedetails und starten Sie den Ladevorgang eventuell neu."
       }
+    },
+    "connections": {
+      "registration_tokens_title": "Ladestation Registrierungstokens",
+      "registration_token_site_area_name": "Token für Standortbereich '{{siteAreaName}}'",
+      "registration_token_creation_title": "Registrierungstoken erstellen",
+      "registration_token_creation_confirm": "Wollen Sie wirklich einen Registrierungstoken für Ladestationen dieses Standortbereichs erstellen?",
+      "registration_token_creation_success": "Registrierungstoken wurde erfolgreich erstellt",
+      "registration_token_creation_error": "Beim Erstellen des Registrierungstoken ist ein Fehler aufgetreten",
+      "registration_token_revoke_title": "Registierungstoken widerrufen",
+      "registration_token_revoke_confirm": "Wollen Sie den Registrierungstoken wirklich widerrufen?",
+      "registration_token_revoke_success": "Registrierungstoken wurde erfolgreich widerrufen",
+      "registration_token_revoke_error": "Beim Widerrufen des Registrierungstokens ist ein Fehler aufgetreten",
+      "registration_token_delete_title": "Registrierungstoken löschen",
+      "registration_token_delete_confirm": "Wollen Sie den Registrierungstoken wirklich löschen?",
+      "registration_token_delete_success": "Registrierungstoken wurde erfolgreich gelöscht",
+      "registration_token_delete_error": "Beim Löschen des Registrierungstokens ist ein Fehler aufgetreten",
+      "registration_token_url": "Registrierungs-URL",
+      "registration_token_valid": "Gültig",
+      "registration_token_expired": "Abgelaufen",
+      "registration_token_revoked": "Widerrufen",
+      "token_restrict_site_area": "Zugang auf einen Standortbereich beschränken",
+      "url": "OCPP-URL",
+      "copy_url_tooltip": "OCPP-URL kopieren",
+      "url_copied": "OCPP-Url wurde kopiert",
+      "generate_connection_url": "Verbinden einer Ladestation",
+      "ocpp_15_soap": "OCPP 1.5 SOAP",
+      "ocpp_16_json": "OCPP 1.6 JSON",
+      "ocpp_16_soap": "OCPP 1.6 SOAP",
+      "ocpp_15_soap_secure": "Secure OCPP 1.5 SOAP",
+      "ocpp_16_json_secure": "Secure OCPP 1.6 JSON",
+      "ocpp_16_soap_secure": "Secure OCPP 1.6 SOAP"
     }
   },
   "logs": {
@@ -1315,7 +1347,6 @@
     "settings_not_saved": "Bitte speichern Sie zuerst Ihre Einstellungen",
     "tabs": {
       "ocpi": "Roaming",
-      "charging_station": "Ladestation",
       "refund": "Rückerstattung",
       "pricing": "Preisbildung",
       "billing": "Rechnungslegung",
@@ -1334,37 +1365,6 @@
       "update_success": "OCPI-Einstellungen wurden erfolgreich aktualisiert",
       "update_error": "Beim Aktualisieren der OCPI-Einstellungen ist ein Fehler aufgetreten",
       "description": "E-Mobility stellt einen zertifizierten Service zur Verbindung zur externen E-Roaming Plattform zur Verfügung.<br>Dieses Feature legt in Echtzeit die Lade-Infrastruktur und -Verfügbarkeit via OCPI-Standard-Protokoll (Open Charge Point Interface) offen.<br>E-Mobility nutzt momentan die Gireve Inter-Operability Platform (IOP)."
-    },
-    "charging_station": {
-      "registration_tokens_title": "Ladestation Registrierungstokens",
-      "registration_token_site_area_name": "Token für Standortbereich '{{siteAreaName}}'",
-      "registration_token_creation_title": "Registrierungstoken erstellen",
-      "registration_token_creation_confirm": "Wollen Sie wirklich einen Registrierungstoken für Ladestationen dieses Standortbereichs erstellen?",
-      "registration_token_creation_success": "Registrierungstoken wurde erfolgreich erstellt",
-      "registration_token_creation_error": "Beim Erstellen des Registrierungstoken ist ein Fehler aufgetreten",
-      "registration_token_revoke_title": "Registierungstoken widerrufen",
-      "registration_token_revoke_confirm": "Wollen Sie den Registrierungstoken wirklich widerrufen?",
-      "registration_token_revoke_success": "Registrierungstoken wurde erfolgreich widerrufen",
-      "registration_token_revoke_error": "Beim Widerrufen des Registrierungstokens ist ein Fehler aufgetreten",
-      "registration_token_delete_title": "Registrierungstoken löschen",
-      "registration_token_delete_confirm": "Wollen Sie den Registrierungstoken wirklich löschen?",
-      "registration_token_delete_success": "Registrierungstoken wurde erfolgreich gelöscht",
-      "registration_token_delete_error": "Beim Löschen des Registrierungstokens ist ein Fehler aufgetreten",
-      "registration_token_url": "Registrierungs-URL",
-      "registration_token_valid": "Gültig",
-      "registration_token_expired": "Abgelaufen",
-      "registration_token_revoked": "Widerrufen",
-      "token_restrict_site_area": "Zugang auf einen Standortbereich beschränken",
-      "url": "OCPP-URL",
-      "copy_url_tooltip": "OCPP-URL kopieren",
-      "url_copied": "OCPP-Url wurde kopiert",
-      "generate_connection_url": "Verbinden einer Ladestation",
-      "ocpp_15_soap": "OCPP 1.5 SOAP",
-      "ocpp_16_json": "OCPP 1.6 JSON",
-      "ocpp_16_soap": "OCPP 1.6 SOAP",
-      "ocpp_15_soap_secure": "Secure OCPP 1.5 SOAP",
-      "ocpp_16_json_secure": "Secure OCPP 1.6 JSON",
-      "ocpp_16_soap_secure": "Secure OCPP 1.6 SOAP"
     },
     "refund": {
       "description": "E-Mobility bietet einen Rückerstattungsservice für ein externes Kostensystem.<br>Dieses Feature ermöglicht es die Ladevorgänge in ein externes Kostensystem zu übertragen und die verbrauchte Energie zurückerstattet zu bekommen.<br>E-Mobility benutzt zur Zeit SAP Concur. Weitere technische Informationen finden Sie auf ",

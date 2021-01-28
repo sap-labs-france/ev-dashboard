@@ -25,5 +25,13 @@
         <app-charging-stations-in-error></app-charging-stations-in-error>
       </ng-template>
     </mat-tab>
+    <mat-tab *ngIf="canListTokens">
+      <ng-template mat-tab-label>
+        <mat-icon>link</mat-icon><span>{{'chargers.tabs.connection' | translate}}</span>
+      </ng-template>
+      <ng-template matTabContent>
+        <app-charging-stations-connection></app-charging-stations-connection>
+      </ng-template>
+    </mat-tab>
   </mat-tab-group>
 </div>

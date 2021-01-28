@@ -1004,7 +1004,8 @@
     "tabs": {
       "list": "Stazioni di Ricarica",
       "charging_plans": "Piani di Ricarica",
-      "in_error": "In Errore"
+      "in_error": "In Errore",
+      "connection": "Onboard New Station"
     },
     "errors": {
       "missing_settings": {
@@ -1027,6 +1028,37 @@
         "description": "La stazione di ricarica ha inviato un codice di errore per una delle sue prese",
         "action": "Controlla i dettagli del codice di errore ed eventualmente riavviare la stazione di ricarica"
       }
+    },
+    "charging_station": {
+      "registration_tokens_title": "Token Registrazione Stazione di Ricarica",
+      "registration_token_site_area_name": "Token per l'Area del Sito '{{siteAreaName}}'",
+      "registration_token_creation_title": "Crea Token Registrazione",
+      "registration_token_creation_confirm": "Vuoi veramente creare un token di registrazione per le stazioni di ricarica di quest'area del sito?",
+      "registration_token_creation_success": "Il token di registrazione è stato creato correttamente",
+      "registration_token_creation_error": "Si è verificato un errore durante la creazione di un token di registrazione",
+      "registration_token_revoke_title": "Revoca Token Registrazione",
+      "registration_token_revoke_confirm": "Vuoi veramente revocare il token di registrazione?",
+      "registration_token_revoke_success": "Il token di registrazione è stato revocato correttamente",
+      "registration_token_revoke_error": "Si è verificato un errore durante la revoca di un token di registrazione",
+      "registration_token_delete_title": "Cancella Token Registrazione",
+      "registration_token_delete_confirm": "Vuoi veramente cancellare il token di registrazione?",
+      "registration_token_delete_success": "Il token di registrazione è stato cancellato correttamente",
+      "registration_token_delete_error": "Si è verificato un errore durante la cancellazione di un token di registrazione",
+      "registration_token_url": "URL di Registrazione",
+      "registration_token_valid": "Valido",
+      "registration_token_expired": "Scaduto",
+      "registration_token_revoked": "Revocato",
+      "token_restrict_site_area": "Limita l'accesso ad un'Area del Sito",
+      "url": "URL OCPP",
+      "copy_url_tooltip": "Copia l'URL OCPP",
+      "url_copied": "L'URL OCPP è stato copiato negli appunti",
+      "generate_connection_url": "Connetti una Stazione di Ricarica",
+      "ocpp_15_soap": "OCPP 1.5 SOAP",
+      "ocpp_16_json": "OCPP 1.6 JSON",
+      "ocpp_16_soap": "OCPP 1.6 SOAP",
+      "ocpp_15_soap_secure": "Secure OCPP 1.5 SOAP",
+      "ocpp_16_json_secure": "Secure OCPP 1.6 JSON",
+      "ocpp_16_soap_secure": "Secure OCPP 1.6 SOAP"
     }
   },
   "logs": {
@@ -1334,37 +1366,6 @@
       "update_success": "Le impostazioni OCPI sono state aggiornate correttamente",
       "update_error": "Si è verificato un errore durante l'aggiornamento delle impostazioni OCPI",
       "description": "E-Mobility fornisce un servizio certificato per la connessione ad una Piattaforma E-Roaming esterna.<br>Questa funzionalità espone in tempo reale l'infrastruttura e la disponibilità della stazione di ricarica tramite il protocollo standard OCPI (Open Charge Point Interface).<br>E-Mobility sta attualmente utilizzando la Gireve Inter-Operability Platform (IOP)."
-    },
-    "charging_station": {
-      "registration_tokens_title": "Token Registrazione Stazione di Ricarica",
-      "registration_token_site_area_name": "Token per l'Area del Sito '{{siteAreaName}}'",
-      "registration_token_creation_title": "Crea Token Registrazione",
-      "registration_token_creation_confirm": "Vuoi veramente creare un token di registrazione per le stazioni di ricarica di quest'area del sito?",
-      "registration_token_creation_success": "Il token di registrazione è stato creato correttamente",
-      "registration_token_creation_error": "Si è verificato un errore durante la creazione di un token di registrazione",
-      "registration_token_revoke_title": "Revoca Token Registrazione",
-      "registration_token_revoke_confirm": "Vuoi veramente revocare il token di registrazione?",
-      "registration_token_revoke_success": "Il token di registrazione è stato revocato correttamente",
-      "registration_token_revoke_error": "Si è verificato un errore durante la revoca di un token di registrazione",
-      "registration_token_delete_title": "Cancella Token Registrazione",
-      "registration_token_delete_confirm": "Vuoi veramente cancellare il token di registrazione?",
-      "registration_token_delete_success": "Il token di registrazione è stato cancellato correttamente",
-      "registration_token_delete_error": "Si è verificato un errore durante la cancellazione di un token di registrazione",
-      "registration_token_url": "URL di Registrazione",
-      "registration_token_valid": "Valido",
-      "registration_token_expired": "Scaduto",
-      "registration_token_revoked": "Revocato",
-      "token_restrict_site_area": "Limita l'accesso ad un'Area del Sito",
-      "url": "URL OCPP",
-      "copy_url_tooltip": "Copia l'URL OCPP",
-      "url_copied": "L'URL OCPP è stato copiato negli appunti",
-      "generate_connection_url": "Connetti una Stazione di Ricarica",
-      "ocpp_15_soap": "OCPP 1.5 SOAP",
-      "ocpp_16_json": "OCPP 1.6 JSON",
-      "ocpp_16_soap": "OCPP 1.6 SOAP",
-      "ocpp_15_soap_secure": "Secure OCPP 1.5 SOAP",
-      "ocpp_16_json_secure": "Secure OCPP 1.6 JSON",
-      "ocpp_16_soap_secure": "Secure OCPP 1.6 SOAP"
     },
     "refund": {
       "description": "E-Mobility fornisce un servizio di rimborso per un sistema di gestione spese esterno.<br>Questa funzionalità consente all'utente di inoltrare le sue sessioni ad un sistema di gestione spese esterno ed ottenere il rimborso per l'elettricità consumata.<br>E-Mobility sta usando attualmente SAP Concur. Ulteriori informazioni tecniche disponibili all'indirizzo ",

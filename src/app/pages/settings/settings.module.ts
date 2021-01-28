@@ -40,10 +40,6 @@ import { SettingsPricingComponent } from './pricing/settings-pricing.component';
 import { SettingsSimplePricingComponent } from './pricing/simple/settings-simple-pricing.component';
 import { SettingsConcurComponent } from './refund/concur/settings-concur.component';
 import { SettingsRefundComponent } from './refund/settings-refund.component';
-import { AppRegistrationTokenStatusPipe, RegistrationTokenStatusComponent } from './registration-tokens/registration-token/registration-token-status.component';
-import { RegistrationTokenComponent } from './registration-tokens/registration-token/registration-token.component';
-import { RegistrationTokenDialogComponent } from './registration-tokens/registration-token/registration-token.dialog.component';
-import { RegistrationTokensComponent } from './registration-tokens/registration-tokens.component';
 import { SettingsComponent } from './settings.component';
 import { SettingsRoutes } from './settings.routing';
 import { SettingsSapSmartChargingComponent } from './smart-charging/sap-smart-charging/settings-sap-smart-charging.component';
@@ -65,7 +61,6 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
   declarations: [
     SettingsComponent,
     SettingsOcpiComponent,
-    RegistrationTokensComponent,
     SettingsRefundComponent,
     SettingsConcurComponent,
     SettingsPricingComponent,
@@ -86,7 +81,6 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     SettingsAssetComponent,
     AssetConnectionComponent,
     AssetConnectionDialogComponent,
-    RegistrationTokenDialogComponent,
     SchneiderAssetConnectionComponent,
     OcpiEndpointStatusFormatterComponent,
     AppFormatOcpiStatusPipe,
@@ -103,14 +97,10 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     OcpiPatchJobStatusFormatterComponent,
     AppFormatOcpiPatchJobStatusPipe,
     SettingsOcpiEnpointsDetailsComponent,
-    RegistrationTokenComponent,
-    RegistrationTokenStatusComponent,
-    AppRegistrationTokenStatusPipe,
   ],
   entryComponents: [
     SettingsComponent,
     SettingsOcpiComponent,
-    RegistrationTokensComponent,
     SettingsOcpiEnpointsComponent,
     SettingsRefundComponent,
     SettingsConcurComponent,
@@ -126,7 +116,6 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     SettingsAssetComponent,
     AssetConnectionComponent,
     AssetConnectionDialogComponent,
-    RegistrationTokenDialogComponent,
     SchneiderAssetConnectionComponent,
     AnalyticsLinkDialogComponent,
     SettingsOcpiEnpointDialogComponent,
@@ -139,8 +128,6 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     OcpiDetailFailureEvsesStatusFormatterComponent,
     OcpiPatchJobStatusFormatterComponent,
     SettingsOcpiEnpointsDetailsComponent,
-    RegistrationTokenComponent,
-    RegistrationTokenStatusComponent,
   ],
   providers: [
     SettingsOcpiEndpointsDetailsTableDataSource,

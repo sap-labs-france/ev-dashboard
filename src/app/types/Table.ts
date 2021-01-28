@@ -10,6 +10,7 @@ import { CompanyButtonAction } from './Company';
 import { ButtonAction, KeyValue } from './GlobalType';
 import { LogButtonAction } from './Log';
 import { OcpiButtonAction } from './ocpi/OCPIEndpoint';
+import { OicpButtonAction } from './oicp/OICPEndpoint';
 import { SiteButtonAction } from './Site';
 import { SiteAreaButtonAction } from './SiteArea';
 import { TenantButtonAction } from './Tenant';

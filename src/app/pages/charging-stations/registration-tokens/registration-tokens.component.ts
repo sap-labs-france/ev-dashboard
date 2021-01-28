@@ -1,6 +1,6 @@
-import { Component } from "@angular/core";
+import { Component } from '@angular/core';
 
-import { RegistrationTokensTableDataSource } from "./registration-tokens-table-data-source";
+import { RegistrationTokensTableDataSource } from './registration-tokens-table-data-source';
 
 @Component({
   selector: 'app-charging-stations-connection',

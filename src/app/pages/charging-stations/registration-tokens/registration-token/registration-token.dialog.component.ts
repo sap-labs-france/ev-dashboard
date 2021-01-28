@@ -1,8 +1,8 @@
-import { AfterViewInit, Component, Inject, ViewChild } from "@angular/core";
-import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
-import { RegistrationToken } from "types/RegistrationToken";
+import { AfterViewInit, Component, Inject, ViewChild } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
-import { RegistrationTokenComponent } from "./registration-token.component";
+import { RegistrationToken } from '../../../../types/RegistrationToken';
+import { RegistrationTokenComponent } from './registration-token.component';
 
 @Component({
   template: '<app-charging-stations-registration-token #appRef [currentToken]="currentToken" [inDialog]="true" [dialogRef]="dialogRef"></app-charging-stations-registration-token>',

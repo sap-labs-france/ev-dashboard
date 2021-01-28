@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
+import { ConnectorTableFilter } from 'shared/table/filters/connector-table-filter';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
@@ -84,9 +85,6 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
       this.centralServerService.getTransactionsInError(this.buildFilterValues(), this.getPaging(), this.getSorting())
         .subscribe((transactions) => {
           this.formatErrorMessages(transactions.result);
-          if (transactions.count === 0) {
-            this.deleteManyAction.disabled = true;
-          }
           observer.next(transactions);
           observer.complete();
         }, (error) => {
@@ -97,25 +95,9 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     });
   }
 
-  public toggleRowSelection(row: Transaction, checked: boolean) {
-    super.toggleRowSelection(row, checked);
-    this.deleteManyAction.disabled = this.selectedRows === 0;
-  }
-
-  public selectAllRows() {
-    super.selectAllRows();
-    this.deleteManyAction.disabled = this.selectedRows === 0;
-  }
-
-  public clearSelectedRows() {
-    super.clearSelectedRows();
-    this.deleteManyAction.disabled = true;
-  }
-
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
     if (this.authorizationService.isAdmin()) {
-      this.deleteManyAction.disabled = true;
       return [
         this.deleteManyAction,
         ...tableActionsDef,
@@ -287,6 +269,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     // Show Site Area Filter If Organization component is active
     if (this.componentService.isActive(TenantComponents.ORGANIZATION)) {
       filters.push(new ChargingStationTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
+      filters.push(new ConnectorTableFilter().getFilterDef());
       filters.push(new SiteTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
       filters.push(new SiteAreaTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
     } else {

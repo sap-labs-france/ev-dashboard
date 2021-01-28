@@ -1,5 +1,6 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import * as moment from 'moment';
+
 import { CellContentTemplateDirective } from '../../../../shared/table/cell-content-template/cell-content-template.directive';
 import { ChipType } from '../../../../types/GlobalType';
 import { RegistrationToken } from '../../../../types/RegistrationToken';

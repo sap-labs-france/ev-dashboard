@@ -10,13 +10,13 @@ import { RegistrationTokenComponent } from './registration-token.component';
 export class RegistrationTokenDialogComponent implements AfterViewInit {
   @ViewChild('appRef') public appRef!: RegistrationTokenComponent;
   public currentToken!: RegistrationToken;
-  
+
   constructor(
     public dialogRef: MatDialogRef<RegistrationTokenDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data: RegistrationToken) {
       this.currentToken = data;
     }
-    
+
     public ngAfterViewInit() {
     // TODO: Escape key already closes the pop-up! Need to check how!?
     // // Register key event

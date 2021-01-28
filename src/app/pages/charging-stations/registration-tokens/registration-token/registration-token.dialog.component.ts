@@ -14,10 +14,10 @@ export class RegistrationTokenDialogComponent implements AfterViewInit {
   constructor(
     public dialogRef: MatDialogRef<RegistrationTokenDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data: RegistrationToken) {
-      this.currentToken = data;
-    }
+    this.currentToken = data;
+  }
 
-    public ngAfterViewInit() {
+  public ngAfterViewInit() {
     // TODO: Escape key already closes the pop-up! Need to check how!?
     // // Register key event
     // Utils.registerSaveCloseKeyEvents(this.dialogRef, this.appRef.formGroup,

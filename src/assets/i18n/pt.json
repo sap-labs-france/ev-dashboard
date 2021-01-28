@@ -1518,7 +1518,7 @@
         "user": "Utilizador",
         "password": "Password",
         "client_id":"Client ID",
-        "client_secret":"Client secret",
+        "client_secret":"Client Secret",
         "delete_title": "Excluir conexão de ativo",
         "delete_confirm": "Tem certeza de que deseja excluir a conexão '{{assetConnectionName}}'?"
       },

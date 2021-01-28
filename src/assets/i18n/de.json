@@ -1518,7 +1518,7 @@
         "user": "Nutzer",
         "password": "Passwort",
         "client_id":"Client ID",
-        "client_secret":"Client secret",
+        "client_secret":"Client Secret",
         "delete_title": "Asset-Verbindung löschen",
         "delete_confirm": "Möchten Sie die Verbindung '{{assetConnectionName}}' wirklich löschen?"
       },

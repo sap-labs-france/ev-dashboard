@@ -10,7 +10,7 @@ import { RegistrationTokensTableDataSource } from './registration-tokens-table-d
 export class RegistrationTokensComponent {
   constructor(
     public registrationTokenDataSource: RegistrationTokensTableDataSource,
-    ) {
-    }
+  ) {
+  }
 }
   

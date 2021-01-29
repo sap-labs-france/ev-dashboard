@@ -25,11 +25,13 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.4.39',
-        date: new Date('2020-01-26'),
+        date: new Date('2020-01-29'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Greencom Asset integration`,
+              `Let the car increases its consumption in sticky Smart Charging`,
               `Added Connector ID filter in Transaction lists`,
               `Aligned Transaction's time with Charging Station's locale in Export CSV`,
               `Translated CSV headers in all export`,

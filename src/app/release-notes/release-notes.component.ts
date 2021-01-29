@@ -31,6 +31,7 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Greencom Asset integration`,
+              `Let the car increases its consumption in sticky Smart Charging`,
               `Added Connector ID filter in Transaction lists`,
               `Aligned Transaction's time with Charging Station's locale in Export CSV`,
               `Translated CSV headers in all export`,

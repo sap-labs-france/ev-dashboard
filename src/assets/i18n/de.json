@@ -164,6 +164,8 @@
       "pricing": "Preisbildung",
       "components": "Komponenten",
       "settings": "Einstellungen",
+      "integration_settings": "Integration Settings",
+      "technical_settings": "Technical Settings",
       "assets": "Assets",
       "organization": "Organisation",
       "template": "Vorlagen",
@@ -310,8 +312,8 @@
     "logo": "Logo",
     "name": "Name",
     "asset_type": "Asset-Typ",
-    "fluctuation": "Kurzfristige Schwankungen (W)",
-    "fallback_value": "Standardwert (W)",
+    "fluctuation_percent": "Fluctuation (%)",
+    "static_value_watt": "Static Power (W)",
     "produce": "Produziert Energie",
     "consume": "Verbraucht Energie",
     "consume_and_produce": "Verbraucht und erzeugt Energie",
@@ -1517,11 +1519,14 @@
         "base_url": "URL",
         "user": "Nutzer",
         "password": "Passwort",
+        "client_id":"Client ID",
+        "client_secret":"Client Secret",
         "delete_title": "Asset-Verbindung löschen",
         "delete_confirm": "Möchten Sie die Verbindung '{{assetConnectionName}}' wirklich löschen?"
       },
       "types": {
-        "schneider": "Schneider Building Management System"
+        "schneider": "Schneider Building Management System",
+        "greencom": "GreenCom Asset Management System"
       },
       "connection_success": "Die Verbindung zum System wurde erfolgreich getestet.",
       "unknown_connection_error": "Unbekannter Verbindungsfehler",
@@ -1543,6 +1548,24 @@
       "synchronize_car_catalogs_dialog_confirm": "Möchten Sie die Synchronisierung aller elektrischen Fahrzeuge wirklich starten?",
       "assign_user_to_car_dialog_title": "Nutzer zum Fahrzeug zuordnen",
       "assign_user_to_car_dialog_confirm": "Das Fahrzeug existiert bereits, möchten Sie es wirklich wiederverwenden?"
+    }
+  },
+  "technical_settings": {
+    "tabs": {
+      "crypto": "Crypto"
+    },
+    "crypto": {
+      "crypto_key": {
+        "title": "Crypto Settings",
+        "subtitle": "Crypto Key",
+        "key": "Key",
+        "block_cypher": "Block Cypher",
+        "block_size": "Block Size",
+        "operation_mode": "Operation Mode"
+      },
+      "setting_do_not_exist": "Crypto Technical Settings not found",
+      "update_success": "Crypto Technical Settings have been updated successfully",
+      "update_error": "Error occurred while updating the Crypto Technical Settings, check the logs"
     }
   },
   "ocpiendpoints": {

@@ -37,4 +37,4 @@ import { TechnicalSettingsRoutes } from './settings-technical.routing';
     SettingsCryptoKeyComponent
   ]
 })
-export class TechnicalSettingsModule { }
+export class SettingsTechnicalModule { }

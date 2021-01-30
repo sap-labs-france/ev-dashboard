@@ -41,8 +41,8 @@ import { SettingsPricingComponent } from './pricing/settings-pricing.component';
 import { SettingsSimplePricingComponent } from './pricing/simple/settings-simple-pricing.component';
 import { SettingsConcurComponent } from './refund/concur/settings-concur.component';
 import { SettingsRefundComponent } from './refund/settings-refund.component';
-import { SettingsComponent } from './settings.component';
-import { SettingsRoutes } from './settings.routing';
+import { SettingsIntegrationComponent } from './settings-integration.component';
+import { SettingsRoutes } from './settings-integration.routing';
 import { SettingsSapSmartChargingComponent } from './smart-charging/sap-smart-charging/settings-sap-smart-charging.component';
 import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-charging.component';
 
@@ -60,7 +60,7 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     FormattersModule,
   ],
   declarations: [
-    SettingsComponent,
+    SettingsIntegrationComponent,
     SettingsOcpiComponent,
     SettingsRefundComponent,
     SettingsConcurComponent,
@@ -101,7 +101,7 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     SettingsOcpiEnpointsDetailsComponent,
   ],
   entryComponents: [
-    SettingsComponent,
+    SettingsIntegrationComponent,
     SettingsOcpiComponent,
     SettingsOcpiEnpointsComponent,
     SettingsRefundComponent,
@@ -140,5 +140,5 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
   ],
 })
 
-export class SettingsModule {
+export class SettingsIntegrationModule {
 }

@@ -9,10 +9,10 @@ import TenantComponents from '../../types/TenantComponents';
 declare const $: any;
 
 @Component({
-  selector: 'app-settings',
-  templateUrl: './settings.component.html',
+  selector: 'app-settings-integration',
+  templateUrl: './settings-integration.component.html',
 })
-export class SettingsComponent extends AbstractTabComponent {
+export class SettingsIntegrationComponent extends AbstractTabComponent {
   public isOCPIActive = false;
   public isOrganizationActive = false;
   public isRefundActive = false;

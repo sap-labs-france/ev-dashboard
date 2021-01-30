@@ -2,17 +2,17 @@ import { AfterViewInit, Component, Inject, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import { RegistrationToken } from '../../../../types/RegistrationToken';
-import { RegistrationTokenComponent } from './registration-token.component';
+import { ChargingStationsRegistrationTokenComponent } from './charging-stations-registration-token.component';
 
 @Component({
-  template: '<app-settings-registration-token #appRef [currentToken]="currentToken" [inDialog]="true" [dialogRef]="dialogRef"></app-settings-registration-token>',
+  template: '<app-charging-stations-registration-token #appRef [currentToken]="currentToken" [inDialog]="true" [dialogRef]="dialogRef"></app-charging-stations-registration-token>',
 })
-export class RegistrationTokenDialogComponent implements AfterViewInit {
-  @ViewChild('appRef') public appRef!: RegistrationTokenComponent;
+export class ChargingStationsRegistrationTokenDialogComponent implements AfterViewInit {
+  @ViewChild('appRef') public appRef!: ChargingStationsRegistrationTokenComponent;
   public currentToken!: RegistrationToken;
 
   constructor(
-    public dialogRef: MatDialogRef<RegistrationTokenDialogComponent>,
+    public dialogRef: MatDialogRef<ChargingStationsRegistrationTokenDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data: RegistrationToken) {
     this.currentToken = data;
   }
@@ -24,3 +24,4 @@ export class RegistrationTokenDialogComponent implements AfterViewInit {
     //   this.appRef.save.bind(this.appRef), this.appRef.close.bind(this.appRef));
   }
 }
+  

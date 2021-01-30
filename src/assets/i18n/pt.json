@@ -1006,7 +1006,8 @@
     "tabs": {
       "list": "Estações de Carregamento",
       "charging_plans": "Planos de Carregamento",
-      "in_error": "Em Erro"
+      "in_error": "Em Erro",
+      "connection": "Onboard New Station"
     },
     "errors": {
       "missing_settings": {
@@ -1029,6 +1030,37 @@
         "description": "A estação de carregamento enviou um código de erro para um de seus conectores",
         "action": "Verifique os detalhes do código de erro e, eventualmente, reinicie a estação de carregamento"
       }
+    },
+    "connections": {
+      "registration_tokens_title": "Tokens de registro da estação de carregamento",
+      "registration_token_site_area_name": "Token para a área do site '{{siteAreaName}}'",
+      "registration_token_creation_title": "Criar token de registo",
+      "registration_token_creation_confirm": "Você realmente deseja criar um token de registo para estações de carregamento desta área do site?",
+      "registration_token_creation_success": "O token de registro foi criado com sucesso",
+      "registration_token_creation_error": "Ocorreu um erro ao criar um token de registo",
+      "registration_token_revoke_title": "Revogar token de registo",
+      "registration_token_revoke_confirm": "Você realmente deseja revogar o token de registo ?",
+      "registration_token_revoke_success": "O token de registo foi revogado com sucesso",
+      "registration_token_revoke_error": "Ocorreu um erro ao revogar um token de registo",
+      "registration_token_delete_title": "Eliminar registo de Token",
+      "registration_token_delete_confirm": "Você realmente deseja excluir o token de registo ?",
+      "registration_token_delete_success": "O token de registo foi excluído com sucesso",
+      "registration_token_delete_error": "Ocorreu um erro ao excluir um token de registo",
+      "registration_token_url": "Registar URL",
+      "registration_token_valid": "Validar",
+      "registration_token_expired": "Expirado",
+      "registration_token_revoked": "Revogado",
+      "token_restrict_site_area": "Acesso retrito a Area de Site",
+      "url": "OCPP URL",
+      "copy_url_tooltip": "Copiar OCPP URL",
+      "url_copied": "O URL OCPP foi copiado para sua área de transferência",
+      "generate_connection_url": "Conecte uma estação de carregamento",
+      "ocpp_15_soap": "OCPP 1.5 SOAP",
+      "ocpp_16_json": "OCPP 1.6 JSON",
+      "ocpp_16_soap": "OCPP 1.6 SOAP",
+      "ocpp_15_soap_secure": "Secure OCPP 1.5 SOAP",
+      "ocpp_16_json_secure": "Secure OCPP 1.6 JSON",
+      "ocpp_16_soap_secure": "Secure OCPP 1.6 SOAP"
     }
   },
   "logs": {
@@ -1317,7 +1349,6 @@
     "settings_not_saved": "Você deve gravar suas configurações primeiro",
     "tabs": {
       "ocpi": "Roaming",
-      "charging_station": "Estações de Carregamento",
       "refund": "Reembolsando",
       "pricing": "Preço",
       "billing": "Faturação",
@@ -1336,37 +1367,6 @@
       "update_success": "As configurações OCPI foram atualizadas com sucesso",
       "update_error": "Ocorreu um erro ao atualizar as configurações OCPI",
       "description": "E-Mobility fornece um serviço certificado para se conectar a uma plataforma E-Roaming externa. <br> Este recurso expõe em tempo real a infraestrutura da estação de carregamento e a disponibilidade por meio do protocolo padrão OCPI (Open Charge Point Interface). <br> E-Mobility está atualmente usando a Gireve Inter-Operability Platform (IOP)."
-    },
-    "charging_station": {
-      "registration_tokens_title": "Tokens de registro da estação de carregamento",
-      "registration_token_site_area_name": "Token para a área do site '{{siteAreaName}}'",
-      "registration_token_creation_title": "Criar token de registo",
-      "registration_token_creation_confirm": "Você realmente deseja criar um token de registo para estações de carregamento desta área do site?",
-      "registration_token_creation_success": "O token de registro foi criado com sucesso",
-      "registration_token_creation_error": "Ocorreu um erro ao criar um token de registo",
-      "registration_token_revoke_title": "Revogar token de registo",
-      "registration_token_revoke_confirm": "Você realmente deseja revogar o token de registo ?",
-      "registration_token_revoke_success": "O token de registo foi revogado com sucesso",
-      "registration_token_revoke_error": "Ocorreu um erro ao revogar um token de registo",
-      "registration_token_delete_title": "Eliminar registo de Token",
-      "registration_token_delete_confirm": "Você realmente deseja excluir o token de registo ?",
-      "registration_token_delete_success": "O token de registo foi excluído com sucesso",
-      "registration_token_delete_error": "Ocorreu um erro ao excluir um token de registo",
-      "registration_token_url": "Registar URL",
-      "registration_token_valid": "Validar",
-      "registration_token_expired": "Expirado",
-      "registration_token_revoked": "Revogado",
-      "token_restrict_site_area": "Acesso retrito a Area de Site",
-      "url": "OCPP URL",
-      "copy_url_tooltip": "Copiar OCPP URL",
-      "url_copied": "O URL OCPP foi copiado para sua área de transferência",
-      "generate_connection_url": "Conecte uma estação de carregamento",
-      "ocpp_15_soap": "OCPP 1.5 SOAP",
-      "ocpp_16_json": "OCPP 1.6 JSON",
-      "ocpp_16_soap": "OCPP 1.6 SOAP",
-      "ocpp_15_soap_secure": "Secure OCPP 1.5 SOAP",
-      "ocpp_16_json_secure": "Secure OCPP 1.6 JSON",
-      "ocpp_16_soap_secure": "Secure OCPP 1.6 SOAP"
     },
     "refund": {
       "description": "O E-Mobility fornece um serviço de reembolso para um sistema de despesas externas. <br> Este recurso permite que o utilizador envie suas sessões para um sistema de despesas e seja reembolsado pela eletricidade que consumiu. <br> O E-Mobility está usando o SAP Concur. Mais informações técnicas disponíveis em ",

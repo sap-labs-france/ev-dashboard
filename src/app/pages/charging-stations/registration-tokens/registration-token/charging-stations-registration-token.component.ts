@@ -4,27 +4,27 @@ import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dial
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
-import { ComponentService } from 'services/component.service';
-import TenantComponents from 'types/TenantComponents';
 
 import { CentralServerService } from '../../../../services/central-server.service';
+import { ComponentService } from '../../../../services/component.service';
 import { DialogService } from '../../../../services/dialog.service';
 import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
 import { SiteAreasDialogComponent } from '../../../../shared/dialogs/site-areas/site-areas-dialog.component';
 import { RegistrationToken } from '../../../../types/RegistrationToken';
 import { SiteArea } from '../../../../types/SiteArea';
+import TenantComponents from '../../../../types/TenantComponents';
 import { Utils } from '../../../../utils/Utils';
-import { RegistrationTokenDialogComponent } from './registration-token.dialog.component';
+import { ChargingStationsRegistrationTokenDialogComponent } from './charging-stations-registration-token.dialog.component';
 
 @Component({
-  selector: 'app-settings-registration-token',
-  templateUrl: 'registration-token.component.html',
+  selector: 'app-charging-stations-registration-token',
+  templateUrl: 'charging-stations-registration-token.component.html',
 })
-export class RegistrationTokenComponent implements OnInit {
+export class ChargingStationsRegistrationTokenComponent implements OnInit {
   @Input() public currentToken!: RegistrationToken;
   @Input() public inDialog!: boolean;
-  @Input() public dialogRef!: MatDialogRef<RegistrationTokenDialogComponent>;
+  @Input() public dialogRef!: MatDialogRef<ChargingStationsRegistrationTokenDialogComponent>;
   public readonly isOrganizationComponentActive: boolean;
   public formGroup!: FormGroup;
   public siteArea!: AbstractControl;
@@ -79,11 +79,11 @@ export class RegistrationTokenComponent implements OnInit {
     this.centralServerService.createRegistrationToken(token).subscribe((response) => {
       this.spinnerService.hide();
       if (token) {
-        this.messageService.showSuccessMessage('settings.charging_station.registration_token_creation_success');
+        this.messageService.showSuccessMessage('chargers.connections.registration_token_creation_success');
         this.closeDialog(true);
       } else {
         Utils.handleError(null,
-          this.messageService, 'settings.charging_station.registration_token_creation_error');
+          this.messageService, 'chargers.connections.registration_token_creation_error');
       }
     }, (error) => {
       this.spinnerService.hide();

@@ -52,6 +52,10 @@ import { ChargingStationsInErrorTableDataSource } from './in-error/charging-stat
 import { ChargingStationsInErrorComponent } from './in-error/charging-stations-in-error.component';
 import { ChargingStationsListTableDataSource } from './list/charging-stations-list-table-data-source';
 import { ChargingStationsListComponent } from './list/charging-stations-list.component';
+import { ChargingStationsRegistrationTokensComponent } from './registration-tokens/charging-stations-registration-tokens.component';
+import { AppRegistrationTokenStatusPipe, ChargingStationsRegistrationTokenStatusComponent } from './registration-tokens/registration-token/charging-stations-registration-token-status.component';
+import { ChargingStationsRegistrationTokenComponent } from './registration-tokens/registration-token/charging-stations-registration-token.component';
+import { ChargingStationsRegistrationTokenDialogComponent } from './registration-tokens/registration-token/charging-stations-registration-token.dialog.component';
 
 @NgModule({
   imports: [
@@ -103,6 +107,10 @@ import { ChargingStationsListComponent } from './list/charging-stations-list.com
     ChargingStationFirmwareUpdateComponent,
     ChargingStationsFirmwareStatusCellComponent,
     ChargingPlansListComponent,
+    ChargingStationsRegistrationTokenStatusComponent,
+    ChargingStationsRegistrationTokenComponent,
+    ChargingStationsRegistrationTokenDialogComponent,
+    ChargingStationsRegistrationTokensComponent,
   ],
   declarations: [
     ChargingStationLimitationComponent,
@@ -142,6 +150,11 @@ import { ChargingStationsListComponent } from './list/charging-stations-list.com
     ChargingStationFirmwareUpdateComponent,
     ChargingStationsFirmwareStatusCellComponent,
     ChargingPlansListComponent,
+    AppRegistrationTokenStatusPipe,
+    ChargingStationsRegistrationTokenStatusComponent,
+    ChargingStationsRegistrationTokenComponent,
+    ChargingStationsRegistrationTokenDialogComponent,
+    ChargingStationsRegistrationTokensComponent,
   ],
   providers: [
     ChargingStationsInErrorTableDataSource,

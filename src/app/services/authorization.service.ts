@@ -175,6 +175,22 @@ export class AuthorizationService {
     return false;
   }
 
+  public canCreateToken(): boolean {
+    return this.canAccess(Entity.TOKEN, Action.CREATE);
+  }
+
+  public canListTokens(): boolean {
+    return this.canAccess(Entity.TOKENS, Action.LIST);
+  }
+
+  public canUpdateToken(): boolean {
+    return this.canAccess(Entity.TOKEN, Action.UPDATE);
+  }
+
+  public canDeleteToken(): boolean {
+    return this.canAccess(Entity.TOKEN, Action.DELETE);
+  }
+
   public isSiteAdmin(siteID: string): boolean {
     return !!this.loggedUser && !!this.loggedUser.sitesAdmin && this.loggedUser.sitesAdmin.includes(siteID);
   }

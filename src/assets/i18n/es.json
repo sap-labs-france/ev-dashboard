@@ -164,6 +164,8 @@
       "pricing": "Precio",
       "components": "Componentes",
       "settings": "Configuración",
+      "integration_settings": "Integration Settings",
+      "technical_settings": "Technical Settings",
       "assets": "Activos",
       "organization": "Organización",
       "template": "Plantillas",
@@ -1546,6 +1548,24 @@
       "synchronize_car_catalogs_dialog_confirm": "¿Está seguro de que desea iniciar la sincronización de vehículos eléctricos?",
       "assign_user_to_car_dialog_title": "Agregar usuario al automóvil",
       "assign_user_to_car_dialog_confirm": "Este automóvil ya existe, ¿Desea reutilizarlo?"
+    }
+  },
+  "technical_settings": {
+    "tabs": {
+      "crypto": "Crypto"
+    },
+    "crypto": {
+      "crypto_key": {
+        "title": "Crypto Settings",
+        "subtitle": "Crypto Key",
+        "key": "Key",
+        "block_cypher": "Block Cypher",
+        "block_size": "Block Size",
+        "operation_mode": "Operation Mode"
+      },
+      "setting_do_not_exist": "Crypto Technical Settings not found",
+      "update_success": "Crypto Technical Settings have been updated successfully",
+      "update_error": "Error occurred while updating the Crypto Technical Settings, check the logs"
     }
   },
   "ocpiendpoints": {

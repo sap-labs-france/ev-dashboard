@@ -50,7 +50,7 @@ export class SettingsCryptoKeyComponent implements OnInit, OnChanges {
 
   public updateFormData() {
     // Set data
-    if (this.cryptoSettings && this.cryptoSettings.crypto && this.cryptoKey) {
+    if (this.cryptoSettings?.crypto && this.cryptoKey) {
       this.key.setValue(this.cryptoSettings.crypto.key);
       this.blockCypher.setValue(this.cryptoSettings.crypto.keyProperties.blockCypher);
       this.blockSize.setValue(this.cryptoSettings.crypto.keyProperties.blockSize);

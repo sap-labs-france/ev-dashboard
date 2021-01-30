@@ -217,6 +217,7 @@ export interface AssetSchneiderConnectionType extends AssetUserPasswordConnectio
 export enum CryptoSettingsType {
   CRYPTO = 'crypto',
 }
+
 export interface KeySettings extends Setting {
   identifier: TenantComponents.CRYPTO;
   type: CryptoSettingsType;

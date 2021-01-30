@@ -218,14 +218,14 @@ const routes: Routes = [
         },
       },
       {
-        path: 'technical-settings',
-        loadChildren: () => import('./pages/technical-settings/technical-settings.module').then((m) => m.TechnicalSettingsModule),
+        path: 'settings-technical',
+        loadChildren: () => import('./pages/settings-technical/settings-technical.module').then((m) => m.TechnicalSettingsModule),
         data: {
           menu: {
             title: 'technical_settings',
             type: 'link',
             icon: 'settings_applications',
-            path: '/technical-settings',
+            path: '/settings-technical',
           },
           auth: {
             entity: Entity.SETTING,

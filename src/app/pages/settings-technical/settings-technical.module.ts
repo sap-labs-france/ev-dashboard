@@ -11,12 +11,12 @@ import { FormattersModule } from '../../shared/formatters/formatters.module';
 import { TableModule } from '../../shared/table/table.module'
 import { SettingsCryptoKeyComponent } from './crypto/crypto-key/settings-crypto-key.component';
 import { SettingsCryptoComponent } from './crypto/settings-crypto.component';
-import { TechnicalSettingsComponent } from './technical-settings.component';
-import { TechnicalSettingsRoutes } from './technical-settings.routing';
+import { SettingsTechnicalComponent } from './settings-technical.component';
+import { TechnicalSettingsRoutes } from './settings-technical.routing';
 
 @NgModule({
   declarations: [
-    TechnicalSettingsComponent,
+    SettingsTechnicalComponent,
     SettingsCryptoComponent,
     SettingsCryptoKeyComponent
   ],

@@ -4,10 +4,10 @@ import { WindowService } from 'services/window.service';
 import { AbstractTabComponent } from 'shared/component/abstract-tab/abstract-tab.component';
 
 @Component({
-  selector: 'app-technical-settings',
-  templateUrl: './technical-settings.component.html'
+  selector: 'app-settings-technical',
+  templateUrl: './settings-technical.component.html'
 })
-export class TechnicalSettingsComponent extends AbstractTabComponent {
+export class SettingsTechnicalComponent extends AbstractTabComponent {
   constructor(
     activatedRoute: ActivatedRoute,
     windowService: WindowService,

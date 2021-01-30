@@ -4,10 +4,10 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { KeySettings } from '../../../../types/Setting';
 
 @Component({
-    selector: 'app-crypto-key',
-    templateUrl: 'crypto-key.component.html',
+    selector: 'app-settings-crypto-key',
+    templateUrl: 'settings-crypto-key.component.html',
 })
-export class CryptoKeyComponent implements OnInit, OnChanges {
+export class SettingsCryptoKeyComponent implements OnInit, OnChanges {
     @Input() public formGroup!: FormGroup;
     @Input() public cryptoSettings!: KeySettings;
 

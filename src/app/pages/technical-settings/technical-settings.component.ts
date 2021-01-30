@@ -8,7 +8,6 @@ import { AbstractTabComponent } from 'shared/component/abstract-tab/abstract-tab
   templateUrl: './technical-settings.component.html'
 })
 export class TechnicalSettingsComponent extends AbstractTabComponent {
-
   constructor(
     activatedRoute: ActivatedRoute,
     windowService: WindowService,

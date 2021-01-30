@@ -9,16 +9,16 @@ import { DialogsModule } from '../../shared/dialogs/dialogs.module';
 import { CommonDirectivesModule } from '../../shared/directives/directives.module';
 import { FormattersModule } from '../../shared/formatters/formatters.module';
 import { TableModule } from '../../shared/table/table.module'
-import { CryptoKeyComponent } from './crypto/crypto-key/crypto-key.component';
-import { CryptoSettingsComponent } from './crypto/crypto-settings.component';
+import { SettingsCryptoKeyComponent } from './crypto/crypto-key/settings-crypto-key.component';
+import { SettingsCryptoComponent } from './crypto/settings-crypto.component';
 import { TechnicalSettingsComponent } from './technical-settings.component';
 import { TechnicalSettingsRoutes } from './technical-settings.routing';
 
 @NgModule({
   declarations: [
     TechnicalSettingsComponent,
-    CryptoSettingsComponent,
-    CryptoKeyComponent
+    SettingsCryptoComponent,
+    SettingsCryptoKeyComponent
   ],
   imports: [
     CommonModule,
@@ -33,8 +33,8 @@ import { TechnicalSettingsRoutes } from './technical-settings.routing';
     ReactiveFormsModule
   ],
   entryComponents: [
-    CryptoSettingsComponent,
-    CryptoKeyComponent
+    SettingsCryptoComponent,
+    SettingsCryptoKeyComponent
   ]
 })
 export class TechnicalSettingsModule { }

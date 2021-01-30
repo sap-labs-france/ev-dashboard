@@ -14,7 +14,7 @@ import { RegistrationToken } from '../../../../types/RegistrationToken';
     </mat-chip-list>
   `,
 })
-export class RegistrationTokenStatusComponent extends CellContentTemplateDirective {
+export class ChargingStationsRegistrationTokenStatusComponent extends CellContentTemplateDirective {
   @Input() public row!: RegistrationToken;
 }
 

@@ -23,12 +23,10 @@ import { ButtonType } from '../../../../types/Table';
 import TenantComponents from '../../../../types/TenantComponents';
 import { Constants } from '../../../../utils/Constants';
 import { Utils } from '../../../../utils/Utils';
-import { RegistrationTokensTableDataSource } from '../../../charging-stations/registration-tokens/registration-tokens-table-data-source';
 
 @Component({
   selector: 'app-site-area',
   templateUrl: 'site-area.component.html',
-  providers: [RegistrationTokensTableDataSource],
 })
 export class SiteAreaComponent implements OnInit {
   @Input() public currentSiteAreaID!: string;

@@ -52,10 +52,10 @@ import { ChargingStationsInErrorTableDataSource } from './in-error/charging-stat
 import { ChargingStationsInErrorComponent } from './in-error/charging-stations-in-error.component';
 import { ChargingStationsListTableDataSource } from './list/charging-stations-list-table-data-source';
 import { ChargingStationsListComponent } from './list/charging-stations-list.component';
-import { AppRegistrationTokenStatusPipe, RegistrationTokenStatusComponent } from './registration-tokens/registration-token/registration-token-status.component';
-import { RegistrationTokenComponent } from './registration-tokens/registration-token/registration-token.component';
-import { RegistrationTokenDialogComponent } from './registration-tokens/registration-token/registration-token.dialog.component';
-import { RegistrationTokensComponent } from './registration-tokens/registration-tokens.component';
+import { ChargingStationsRegistrationTokensComponent } from './registration-tokens/charging-stations-registration-tokens.component';
+import { AppRegistrationTokenStatusPipe, ChargingStationsRegistrationTokenStatusComponent } from './registration-tokens/registration-token/charging-stations-registration-token-status.component';
+import { ChargingStationsRegistrationTokenComponent } from './registration-tokens/registration-token/charging-stations-registration-token.component';
+import { ChargingStationsRegistrationTokenDialogComponent } from './registration-tokens/registration-token/charging-stations-registration-token.dialog.component';
 
 @NgModule({
   imports: [
@@ -107,10 +107,10 @@ import { RegistrationTokensComponent } from './registration-tokens/registration-
     ChargingStationFirmwareUpdateComponent,
     ChargingStationsFirmwareStatusCellComponent,
     ChargingPlansListComponent,
-    RegistrationTokenStatusComponent,
-    RegistrationTokenComponent,
-    RegistrationTokenDialogComponent,
-    RegistrationTokensComponent,
+    ChargingStationsRegistrationTokenStatusComponent,
+    ChargingStationsRegistrationTokenComponent,
+    ChargingStationsRegistrationTokenDialogComponent,
+    ChargingStationsRegistrationTokensComponent,
   ],
   declarations: [
     ChargingStationLimitationComponent,
@@ -151,10 +151,10 @@ import { RegistrationTokensComponent } from './registration-tokens/registration-
     ChargingStationsFirmwareStatusCellComponent,
     ChargingPlansListComponent,
     AppRegistrationTokenStatusPipe,
-    RegistrationTokenStatusComponent,
-    RegistrationTokenComponent,
-    RegistrationTokenDialogComponent,
-    RegistrationTokensComponent,
+    ChargingStationsRegistrationTokenStatusComponent,
+    ChargingStationsRegistrationTokenComponent,
+    ChargingStationsRegistrationTokenDialogComponent,
+    ChargingStationsRegistrationTokensComponent,
   ],
   providers: [
     ChargingStationsInErrorTableDataSource,

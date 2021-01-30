@@ -30,11 +30,11 @@ import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } 
 import TenantComponents from '../../../types/TenantComponents';
 import { User } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';
-import { RegistrationTokenStatusComponent } from './registration-token/registration-token-status.component';
-import { RegistrationTokenDialogComponent } from './registration-token/registration-token.dialog.component';
+import { ChargingStationsRegistrationTokenStatusComponent } from './registration-token/charging-stations-registration-token-status.component';
+import { ChargingStationsRegistrationTokenDialogComponent } from './registration-token/charging-stations-registration-token.dialog.component';
 
 @Injectable()
-export class RegistrationTokensTableDataSource extends TableDataSource<RegistrationToken> {
+export class ChargingStationsRegistrationTokensTableDataSource extends TableDataSource<RegistrationToken> {
   private readonly isOrganizationComponentActive: boolean;
   private deleteAction = new TableDeleteAction().getActionDef();
   private revokeAction = new TableRevokeAction().getActionDef();
@@ -99,7 +99,7 @@ export class RegistrationTokensTableDataSource extends TableDataSource<Registrat
         id: 'status',
         name: 'users.status',
         isAngularComponent: true,
-        angularComponent: RegistrationTokenStatusComponent,
+        angularComponent: ChargingStationsRegistrationTokenStatusComponent,
         headerClass: 'col-5p text-center',
         class: 'col-5p table-cell-angular-big-component',
         sortable: true,
@@ -279,7 +279,7 @@ export class RegistrationTokensTableDataSource extends TableDataSource<Registrat
     dialogConfig.panelClass = 'transparent-dialog-container';
     dialogConfig.minWidth = '50vw';
     // Open
-    const dialogRef = this.dialog.open(RegistrationTokenDialogComponent, dialogConfig);
+    const dialogRef = this.dialog.open(ChargingStationsRegistrationTokenDialogComponent, dialogConfig);
     dialogRef.afterClosed().subscribe((saved) => {
       if (saved) {
         this.refreshData().subscribe();

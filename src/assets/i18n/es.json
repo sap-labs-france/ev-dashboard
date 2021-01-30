@@ -25,7 +25,7 @@
     "connectors": "Conexiones",
     "notifications": "Notificaciones",
     "app_name": "e-Mobility",
-    "last_update": "Versión 2.4.38",
+    "last_update": "Versión 2.4.39",
     "version": "Versión",
     "about_us": "Sobre nosotros",
     "unexpected_error_backend": "Ocurrió un error inesperado",
@@ -310,8 +310,8 @@
     "logo": "Logo",
     "name": "Nombre",
     "asset_type": "Tipo de activos",
-    "fluctuation": "Short term fluctuation (W)",
-    "fallback_value": "Fallback value (W)",
+    "fluctuation_percent": "Fluctuation (%)",
+    "static_value_watt": "Static Power (W)",
     "produce": "Producto energético",
     "consume": "Consumo de energía",
     "consume_and_produce": "Consume and Produce Energy",
@@ -1110,6 +1110,7 @@
     "locale_desc_spanish": "Español",
     "locale_desc_german": "Alemán",
     "locale_desc_portuguese": "Portuguese",
+    "locale_desc_italian": "Italian",
     "role_unknown": "Desconocido",
     "locale_unknown": "Desconocido",
     "status": "Estatus",
@@ -1516,11 +1517,14 @@
         "base_url": "URL",
         "user": "Usuario",
         "password": "Contraseña",
+        "client_id":"Client ID",
+        "client_secret":"Client Secret",
         "delete_title": "Eliminar la conexión del activo",
         "delete_confirm": "¿Está seguro de que desea eliminar la conexión '{{assetConnectionName}}'?"
       },
       "types": {
-        "schneider": "Gestión de edificios Schneider"
+        "schneider": "Gestión de edificios Schneider",
+        "greencom": "GreenCom Asset Management System"
       },
       "connection_success": "Connection to the system was tested successfully",
       "unknown_connection_error": "Error de conexión desconocido",

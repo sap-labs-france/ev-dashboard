@@ -9,7 +9,7 @@ import { AssetSchneiderConnectionType } from '../../../../../types/Setting';
 })
 export class SchneiderAssetConnectionComponent implements OnInit {
   @Input() public formGroup!: FormGroup;
-  @Input() public connection!: AssetSchneiderConnectionType;
+  @Input() public schneiderConnection!: AssetSchneiderConnectionType;
 
   public schneiderLoginForm!: FormGroup;
   public user!: AbstractControl;
@@ -28,7 +28,7 @@ export class SchneiderAssetConnectionComponent implements OnInit {
         ])),
     });
     if (!this.formGroup.disabled) {
-      this.formGroup.addControl('connection', this.schneiderLoginForm);
+      this.formGroup.addControl('schneiderConnection', this.schneiderLoginForm);
     } else {
       this.schneiderLoginForm.disable();
     }
@@ -39,12 +39,12 @@ export class SchneiderAssetConnectionComponent implements OnInit {
   }
 
   public loadCredentials(): void {
-    if (this.connection) {
-      if (this.connection.user) {
-        this.schneiderLoginForm.controls.user.setValue(this.connection.user);
+    if (this.schneiderConnection) {
+      if (this.schneiderConnection.user) {
+        this.schneiderLoginForm.controls.user.setValue(this.schneiderConnection.user);
       }
-      if (this.connection.password) {
-        this.schneiderLoginForm.controls.password.setValue(this.connection.password);
+      if (this.schneiderConnection.password) {
+        this.schneiderLoginForm.controls.password.setValue(this.schneiderConnection.password);
       }
     }
   }

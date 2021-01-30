@@ -25,7 +25,7 @@
     "connectors": "Connexions",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.4.38",
+    "last_update": "Version 2.4.39",
     "version": "Version",
     "about_us": "A Propos",
     "unexpected_error_backend": "Une erreur inattendue s'est produite, vérifiez les logs",
@@ -310,8 +310,8 @@
     "logo": "Logo",
     "name": "Nom",
     "asset_type": "Type de ressource",
-    "fluctuation": "Fluctuation à court terme (W)",
-    "fallback_value": "Valeur de secours (W)",
+    "fluctuation_percent": "Fluctuation à court terme (%)",
+    "static_value_watt": "Puissance Statique (W)",
     "produce": "Produit de l'Energie'",
     "consume": "Consomme de l'Energie",
     "consume_and_produce": "Consomme et Produit de l'energy",
@@ -1110,6 +1110,7 @@
     "locale_desc_spanish": "Espagnol",
     "locale_desc_german": "Allemand",
     "locale_desc_portuguese": "Portuguese",
+    "locale_desc_italian": "Italian",
     "role_unknown": "Inconnu",
     "locale_unknown": "Inconnu",
     "status": "Statut",
@@ -1516,11 +1517,14 @@
         "base_url": "URL",
         "user": "Utilisateur",
         "password": "Mot de passe",
+        "client_id":"Client ID",
+        "client_secret":"Client Secret",
         "delete_title": "Supprimer la connexion à la ressource",
         "delete_confirm": "Voulez-vous vraiment supprimer la connexion '{{assetConnectionName}}'?"
       },
       "types": {
-        "schneider": "Gestion Bâtiment Schneider"
+        "schneider": "Gestion Bâtiment Schneider",
+        "greencom": "GreenCom Gestion des Ressources"
       },
       "connection_success": "Connexion vers le système vérifiée avec succès",
       "unknown_connection_error": "Erreur de connexion inconnue",

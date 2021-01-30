@@ -25,7 +25,7 @@
     "connectors": "Verknüpfungen",
     "notifications": "Benachrichtungen",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.4.38",
+    "last_update": "Version 2.4.39",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "Ein unerwarteter Fehler ist aufgetreten",
@@ -310,8 +310,8 @@
     "logo": "Logo",
     "name": "Name",
     "asset_type": "Asset-Typ",
-    "fluctuation": "Kurzfristige Schwankungen (W)",
-    "fallback_value": "Standardwert (W)",
+    "fluctuation_percent": "Fluctuation (%)",
+    "static_value_watt": "Static Power (W)",
     "produce": "Produziert Energie",
     "consume": "Verbraucht Energie",
     "consume_and_produce": "Verbraucht und erzeugt Energie",
@@ -1110,6 +1110,7 @@
     "locale_desc_spanish": "Spanisch",
     "locale_desc_german": "Deutsch",
     "locale_desc_portuguese": "Portugiesisch",
+    "locale_desc_italian": "Italienisch",
     "role_unknown": "Unbekannt",
     "locale_unknown": "Unbekannt",
     "status": "Status",
@@ -1516,11 +1517,14 @@
         "base_url": "URL",
         "user": "Nutzer",
         "password": "Passwort",
+        "client_id":"Client ID",
+        "client_secret":"Client Secret",
         "delete_title": "Asset-Verbindung löschen",
         "delete_confirm": "Möchten Sie die Verbindung '{{assetConnectionName}}' wirklich löschen?"
       },
       "types": {
-        "schneider": "Schneider Building Management System"
+        "schneider": "Schneider Building Management System",
+        "greencom": "GreenCom Asset Management System"
       },
       "connection_success": "Die Verbindung zum System wurde erfolgreich getestet.",
       "unknown_connection_error": "Unbekannter Verbindungsfehler",

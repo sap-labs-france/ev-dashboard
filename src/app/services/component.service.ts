@@ -170,9 +170,15 @@ export class ComponentService {
       content: Utils.cloneObject(settings) as AssetSettings,
     };
     settingsToSave.content.asset.connections.forEach((settingConnection, index) => {
-      if (settingConnection.type === AssetConnectionType.SCHNEIDER) {
-        settingsToSave.sensitiveData.push(`content.asset.connections[${index}].connection.password`);
+      switch(settingConnection.type){
+        case AssetConnectionType.SCHNEIDER:
+          settingsToSave.sensitiveData.push(`content.asset.connections[${index}].schneiderConnection.password`);
+          break;
+        case AssetConnectionType.GREENCOM:
+          settingsToSave.sensitiveData.push(`content.asset.connections[${index}].greencomConnection.clientSecret`);
+          break;
       }
+
     });
     // Delete IDS
     delete settingsToSave.content.id;

@@ -4,6 +4,8 @@ import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dial
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
+import { RestResponse } from 'types/GlobalType';
+import { HTTPError } from 'types/HTTPError';
 
 import { CentralServerService } from '../../../../services/central-server.service';
 import { ComponentService } from '../../../../services/component.service';
@@ -31,6 +33,7 @@ export class ChargingStationsRegistrationTokenComponent implements OnInit {
   public siteAreaID!: AbstractControl;
   public expirationDate!: AbstractControl;
   public description!: AbstractControl;
+  public id!: AbstractControl;
 
   constructor(
     private centralServerService: CentralServerService,
@@ -46,6 +49,7 @@ export class ChargingStationsRegistrationTokenComponent implements OnInit {
 
   public ngOnInit(): void {
     this.formGroup = new FormGroup({
+      id: new FormControl(),
       siteArea: new FormControl(),
       siteAreaID: new FormControl(),
       description: new FormControl('', Validators.compose([
@@ -57,10 +61,20 @@ export class ChargingStationsRegistrationTokenComponent implements OnInit {
           Validators.required,
         ])),
     });
+
     this.siteArea = this.formGroup.controls['siteArea'];
     this.siteAreaID = this.formGroup.controls['siteAreaID'];
     this.description = this.formGroup.controls['description'];
     this.expirationDate = this.formGroup.controls['expirationDate'];
+    this.id = this.formGroup.controls['id'];
+    
+    if (this.currentToken) {
+      this.siteArea.setValue(this.currentToken.siteArea ? this.currentToken.siteArea.name : null);
+      this.siteAreaID.setValue(this.currentToken.siteAreaID || null);
+      this.description.setValue(this.currentToken.description);
+      this.expirationDate.setValue(this.currentToken.expirationDate);
+      this.id.setValue(this.currentToken.id);
+    };
   }
 
   public closeDialog(saved: boolean = false) {
@@ -75,6 +89,14 @@ export class ChargingStationsRegistrationTokenComponent implements OnInit {
   }
 
   public save(token: RegistrationToken) {
+    if (this.currentToken) {
+      this.updateToken(token);
+    } else {
+      this.createToken(token);
+    }
+  }
+
+  public createToken(token: RegistrationToken) {
     this.spinnerService.show();
     this.centralServerService.createRegistrationToken(token).subscribe((response) => {
       this.spinnerService.hide();
@@ -88,6 +110,31 @@ export class ChargingStationsRegistrationTokenComponent implements OnInit {
     }, (error) => {
       this.spinnerService.hide();
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tenants.create_error');
+    });
+  }
+
+  public updateToken(token: RegistrationToken) {
+    this.spinnerService.show();
+    // Update
+    this.centralServerService.updateRegistrationToken(token).subscribe((response) => {
+      this.spinnerService.hide();
+      if (response.status === RestResponse.SUCCESS) {
+        this.messageService.showSuccessMessage('chargers.connections.registration_token_update_success');
+        this.closeDialog(true);
+      } else {
+        Utils.handleError(JSON.stringify(response),
+          this.messageService, 'chargers.connections.registration_token_update_error');
+      }
+    }, (error) => {
+      this.spinnerService.hide();
+      switch (error.status) {
+        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+          this.messageService.showErrorMessage('chargers.connections.registration_token_not_found');
+          break;
+        default:
+          Utils.handleHttpError(error, this.router, this.messageService,
+            this.centralServerService, 'chargers.connections.registration_token_update_error');
+      }
     });
   }
 

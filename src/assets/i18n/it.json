@@ -141,6 +141,8 @@
     "reset_filters": "Resetta i Filtri",
     "browser_not_supported": "Questo browser non è supportato! Usa Chrome o Firefox.",
     "status": "Stato",
+    "revoke": "Revoca",
+    "edit": "Modifica",
     "menu": {
       "dashboard": "Cruscotto",
       "charging_stations": "Stazioni di Ricarica",
@@ -1042,6 +1044,11 @@
       "registration_token_revoke_confirm": "Vuoi veramente revocare il token di registrazione?",
       "registration_token_revoke_success": "Il token di registrazione è stato revocato correttamente",
       "registration_token_revoke_error": "Si è verificato un errore durante la revoca di un token di registrazione",
+      "registration_token_update_title": "Update Registration Token",
+      "registration_token_update_confirm": "Do you really want to update the registration token ?",
+      "registration_token_update_success": "Registration token has been updated successfully",
+      "registration_token_update_error": "Error occurred while updating a registration token, check the logs",
+      "registration_token_not_found": "Registration token has not been found",
       "registration_token_delete_title": "Cancella Token Registrazione",
       "registration_token_delete_confirm": "Vuoi veramente cancellare il token di registrazione?",
       "registration_token_delete_success": "Il token di registrazione è stato cancellato correttamente",
@@ -1525,7 +1532,7 @@
         "delete_confirm": "Vuoi veramente cancellare la connessione '{{assetConnectionName}}'?"
       },
       "types": {
-        "schneider": "Sistema Gestione Edifici Schneider"
+        "schneider": "Sistema Gestione Edifici Schneider",
         "greencom": "GreenCom Asset Management System"
       },
       "connection_success": "La connessione al sistema è stata testata con successo",

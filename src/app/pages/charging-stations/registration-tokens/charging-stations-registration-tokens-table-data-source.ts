@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
+import { TableEditAction } from 'shared/table/actions/table-edit-action';
+import { TableMoreAction } from 'shared/table/actions/table-more-action';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
@@ -37,6 +39,7 @@ import { ChargingStationsRegistrationTokenDialogComponent } from './registration
 export class ChargingStationsRegistrationTokensTableDataSource extends TableDataSource<RegistrationToken> {
   private readonly isOrganizationComponentActive: boolean;
   private deleteAction = new TableDeleteAction().getActionDef();
+  private editAction = new TableEditAction().getActionDef();
   private revokeAction = new TableRevokeAction().getActionDef();
   private copySOAP15Action = new TableCopyAction('chargers.connections.ocpp_15_soap').getActionDef();
   private copySOAP16Action = new TableCopyAction('chargers.connections.ocpp_16_soap').getActionDef();
@@ -189,7 +192,7 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
   }
 
   public buildTableDynamicRowActions(registrationToken: RegistrationToken): TableActionDef[] {
-    const rowActions = [];
+    const moreActions = [];
     if (registrationToken.revocationDate || moment().isAfter(registrationToken.expirationDate)) {
       if (this.authorizationService.canDeleteToken()) {
         return [this.deleteAction];
@@ -209,12 +212,21 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
       'chargers.connections.copy_url_tooltip',
       'chargers.connections.copy_url_tooltip').getActionDef();
     
-    rowActions.push(this.copyUrlAction, this.revokeAction);
+    if (this.authorizationService.canUpdateToken()) {
+      moreActions.push(this.editAction)
+      moreActions.push(this.revokeAction)
+    }
 
     if (this.authorizationService.canDeleteToken()) {
-      rowActions.push(this.deleteAction)
+      moreActions.push(this.deleteAction)
     }
-    return rowActions;
+
+    return [
+      this.copyUrlAction,
+      new TableMoreAction(
+        moreActions
+      ).getActionDef()
+    ];
   }
 
   public actionTriggered(actionDef: TableActionDef) {
@@ -259,6 +271,9 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
         Utils.copyToClipboard(url);
         this.messageService.showInfoMessage('chargers.connections.url_copied');
         break;
+        case ButtonAction.EDIT:
+          this.editToken(registrationToken);
+          break;
     }
   }
 
@@ -278,6 +293,27 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
     const dialogConfig = new MatDialogConfig();
     dialogConfig.panelClass = 'transparent-dialog-container';
     dialogConfig.minWidth = '50vw';
+    // Open
+    const dialogRef = this.dialog.open(ChargingStationsRegistrationTokenDialogComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe((saved) => {
+      if (saved) {
+        this.refreshData().subscribe();
+      }
+    });
+  }
+
+  private editToken(registrationToken: RegistrationToken) {
+    // Create the dialog
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.panelClass = 'transparent-dialog-container';
+    dialogConfig.minWidth = '50vw';
+    dialogConfig.data = {
+      siteArea : registrationToken.siteArea,
+      siteAreaID : registrationToken.siteAreaID,
+      description : registrationToken.description,
+      expirationDate : registrationToken.expirationDate,
+      id : registrationToken.id
+    }
     // Open
     const dialogRef = this.dialog.open(ChargingStationsRegistrationTokenDialogComponent, dialogConfig);
     dialogRef.afterClosed().subscribe((saved) => {

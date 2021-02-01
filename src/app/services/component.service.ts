@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { ActionResponse } from '../types/DataResult';
-import { AnalyticsSettings, AssetConnectionType, AssetSettings, AssetSettingsType, BillingSettings, BillingSettingsType, PricingSettings, PricingSettingsType, RefundSettings, RefundSettingsType, RoamingSettings, SmartChargingSettings, SmartChargingSettingsType } from '../types/Setting';
+import { AnalyticsSettings, AssetConnectionType, AssetSettings, AssetSettingsType, BillingSettings, BillingSettingsType, KeySettings, PricingSettings, PricingSettingsType, RefundSettings, RefundSettingsType, RoamingSettings, SmartChargingSettings, SmartChargingSettingsType } from '../types/Setting';
 import TenantComponents from '../types/TenantComponents';
 import { Utils } from '../utils/Utils';
 import { CentralServerService } from './central-server.service';
@@ -170,9 +170,15 @@ export class ComponentService {
       content: Utils.cloneObject(settings) as AssetSettings,
     };
     settingsToSave.content.asset.connections.forEach((settingConnection, index) => {
-      if (settingConnection.type === AssetConnectionType.SCHNEIDER) {
-        settingsToSave.sensitiveData.push(`content.asset.connections[${index}].connection.password`);
+      switch(settingConnection.type){
+        case AssetConnectionType.SCHNEIDER:
+          settingsToSave.sensitiveData.push(`content.asset.connections[${index}].schneiderConnection.password`);
+          break;
+        case AssetConnectionType.GREENCOM:
+          settingsToSave.sensitiveData.push(`content.asset.connections[${index}].greencomConnection.clientSecret`);
+          break;
       }
+
     });
     // Delete IDS
     delete settingsToSave.content.id;
@@ -360,5 +366,46 @@ export class ComponentService {
         observer.error(error);
       });
     });
+  }
+
+  public getCryptoSettings(): Observable<KeySettings> {
+    return new Observable((observer) => {
+      const cryptoSettings = {
+        identifier: TenantComponents.CRYPTO,
+      } as KeySettings;
+      // Get the Asset settings
+      this.centralServerService.getSettings(TenantComponents.CRYPTO).subscribe((settings) => {
+        // Get the currency
+        if (settings && settings.count > 0 && settings.result[0].content) {
+          // ID
+          cryptoSettings.id = settings.result[0].id;
+          // Crypto Key
+          cryptoSettings.crypto = {
+            key: settings.result[0].content.crypto.key,
+            keyProperties: settings.result[0].content.crypto.keyProperties,
+          };
+        }
+        observer.next(cryptoSettings);
+        observer.complete();
+      }, (error) => {
+        observer.error(error);
+      });
+    });
+  }
+
+  public saveCryptoSettings(settings: KeySettings): Observable<ActionResponse> {
+    // build setting payload
+    const settingsToSave = {
+      id: settings.id,
+      identifier: TenantComponents.CRYPTO,
+      sensitiveData: [],
+      content: Utils.cloneObject(settings),
+    };
+    // Delete IDS
+    delete settingsToSave.content.id;
+    delete settingsToSave.content.identifier;
+    delete settingsToSave.content.sensitiveData;
+    
+    return this.centralServerService.updateSetting(settingsToSave);
   }
 }

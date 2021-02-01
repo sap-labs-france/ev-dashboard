@@ -4,7 +4,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 
 import { KeyValue } from '../../../../types/GlobalType';
-import { AssetConnectionSetting, AssetConnectionType, AssetSchneiderConnectionType } from '../../../../types/Setting';
+import { AssetConnectionSetting, AssetConnectionType, AssetGreencomConnectionType, AssetSchneiderConnectionType } from '../../../../types/Setting';
 import { Constants } from '../../../../utils/Constants';
 import { AssetConnectionDialogComponent } from './asset-connection.dialog.component';
 
@@ -24,9 +24,11 @@ export class AssetConnectionComponent implements OnInit {
   public type!: AbstractControl;
   public url!: AbstractControl;
 
-  public connection!: AssetSchneiderConnectionType;
+  public schneiderConnection!: AssetSchneiderConnectionType;
+  public greencomConnection!: AssetGreencomConnectionType;
   public assetConnectionTypes: KeyValue[] = [
-    { key: AssetConnectionType.SCHNEIDER, value: 'settings.asset.types.schneider' }
+    { key: AssetConnectionType.SCHNEIDER, value: 'settings.asset.types.schneider' },
+    { key: AssetConnectionType.GREENCOM, value: 'settings.asset.types.greencom' }
   ];
   public submitButtonTranslation!: any;
 
@@ -91,7 +93,10 @@ export class AssetConnectionComponent implements OnInit {
   public loadConnectionType(): void {
     switch (this.currentAssetConnection.type) {
       case AssetConnectionType.SCHNEIDER:
-        this.connection = this.currentAssetConnection.connection;
+        this.schneiderConnection = this.currentAssetConnection.schneiderConnection;
+        break;
+      case AssetConnectionType.GREENCOM:
+        this.greencomConnection = this.currentAssetConnection.greencomConnection;
         break;
     }
   }

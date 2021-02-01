@@ -202,14 +202,14 @@ const routes: Routes = [
         },
       },
       {
-        path: 'settings',
-        loadChildren: () => import('./pages/settings/settings.module').then((m) => m.SettingsModule),
+        path: 'settings-integration',
+        loadChildren: () => import('./pages/settings-integration/settings-integration.module').then((m) => m.SettingsIntegrationModule),
         data: {
           menu: {
             title: 'integration_settings',
             type: 'link',
             icon: 'settings',
-            path: '/settings',
+            path: '/settings-integration',
           },
           auth: {
             entity: Entity.SETTING,
@@ -218,14 +218,14 @@ const routes: Routes = [
         },
       },
       {
-        path: 'technical-settings',
-        loadChildren: () => import('./pages/technical-settings/technical-settings.module').then((m) => m.TechnicalSettingsModule),
+        path: 'settings-technical',
+        loadChildren: () => import('./pages/settings-technical/settings-technical.module').then((m) => m.SettingsTechnicalModule),
         data: {
           menu: {
             title: 'technical_settings',
             type: 'link',
             icon: 'settings_applications',
-            path: '/technical-settings',
+            path: '/settings-technical',
           },
           auth: {
             entity: Entity.SETTING,

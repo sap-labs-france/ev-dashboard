@@ -195,12 +195,14 @@ export interface AssetConnectionSetting extends Data {
   description: string;
   url: string;
   type: AssetConnectionType;
-  connection?: AssetSchneiderConnectionType;
+  schneiderConnection?: AssetSchneiderConnectionType;
+  greencomConnection?: AssetGreencomConnectionType;
 }
 
 export enum AssetConnectionType {
   NONE = '',
   SCHNEIDER = 'schneider',
+  GREENCOM = 'greencom'
 }
 
 export interface AssetUserPasswordConnectionType {
@@ -212,7 +214,10 @@ export interface AssetUserPasswordConnectionType {
 export interface AssetSchneiderConnectionType extends AssetUserPasswordConnectionType {
 }
 
-
+export interface AssetGreencomConnectionType {
+  clientId: string;
+  clientSecret: string;
+}
 
 export enum CryptoSettingsType {
   CRYPTO = 'crypto',

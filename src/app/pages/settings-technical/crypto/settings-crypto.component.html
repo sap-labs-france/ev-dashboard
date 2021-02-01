@@ -1,0 +1,12 @@
+<div>
+  <form class="form" [formGroup]="formGroup" height="100%">
+    <div class="mat-toolbar-row left-actions">
+      <button mat-raised-button color="warn" (click)="save(formGroup.value)"
+          [disabled]="!formGroup.valid || !formGroup.dirty">
+        <mat-icon>save</mat-icon><span>{{'general.save' | translate}}</span>
+      </button>
+    </div>
+    <app-settings-crypto-key *ngIf="cryptoSettings?.crypto" [cryptoSettings]="cryptoSettings" [formGroup]="formGroup">
+    </app-settings-crypto-key>
+  </form>
+</div>

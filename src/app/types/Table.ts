@@ -121,6 +121,7 @@ export interface TableActionDef {
   dropdownActions?: TableActionDef[];
   tooltip: string;
   formRowAction?: boolean;
+  linkedToListSelection?: boolean;
   action?(...args: any[]): void;
 }
 

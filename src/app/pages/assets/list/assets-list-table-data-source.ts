@@ -21,7 +21,7 @@ import { TableMoreAction } from '../../../shared/table/actions/table-more-action
 import { TableOpenInMapsAction } from '../../../shared/table/actions/table-open-in-maps-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { TableDataSource } from '../../../shared/table/table-data-source';
-import { Asset, AssetButtonAction } from '../../../types/Asset';
+import { Asset, AssetButtonAction, AssetType } from '../../../types/Asset';
 import ChangeNotification from '../../../types/ChangeNotification';
 import { DataResult } from '../../../types/DataResult';
 import { ButtonAction } from '../../../types/GlobalType';
@@ -50,11 +50,11 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
     private centralServerService: CentralServerService,
     private authorizationService: AuthorizationService,
     private appUnitPipe: AppUnitPipe
-) {
+  ) {
     super(spinnerService, translateService);
     // Init
     this.isAdmin = this.authorizationService.isAdmin();
-    this.setStaticFilters([{WithLogo: true, WithSiteArea: true}]);
+    this.setStaticFilters([{ WithLogo: true, WithSiteArea: true }]);
     this.initDataSource();
   }
 
@@ -131,8 +131,16 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
         headerClass: 'col-20p text-center',
         class: 'col-20p text-center',
         sortable: true,
-        formatter: (assetType: string) => assetType === 'PR' ?
-          this.translateService.instant('assets.produce') : this.translateService.instant('assets.consume'),
+        formatter: (assetType: AssetType) => {
+          switch (assetType) {
+            case AssetType.PRODUCTION:
+              return this.translateService.instant('assets.produce');
+            case AssetType.CONSUMPTION:
+              return this.translateService.instant('assets.consume');
+            case AssetType.CONSUMPTION_AND_PRODUCTION:
+              return this.translateService.instant('assets.consume_and_produce');
+          }
+        }
       },
       {
         id: 'currentInstantWatts',

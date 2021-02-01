@@ -25,14 +25,14 @@
     "connectors": "Verknüpfungen",
     "notifications": "Benachrichtungen",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.4.37",
+    "last_update": "Version 2.4.39",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "Ein unerwarteter Fehler ist aufgetreten",
     "select_at_least_one_record": "Sie müssen mindestens einen Eintrag aus der Liste auswählen",
     "mandatory_field": "Pflichtfeld",
     "no_record_found": "Keine Einträge gefunden",
-    "no_image_found": "No images have been found",
+    "no_image_found": "Keine Bilder gefunden",
     "no_connector_available": "Keine Verbindung verfügbar",
     "error_max_length": "Maximalelänge ist '{{length}}'",
     "error_min_length": "Minimallänge ist '{{length}}'",
@@ -69,7 +69,7 @@
     "create": "Erstellen",
     "update": "Update",
     "refresh": "Aktualisieren",
-    "generate_qr": "Generate QR code",
+    "generate_qr": "QR-Code generieren",
     "save": "Speichern",
     "delete": "Löschen",
     "export": "Exportieren",
@@ -104,7 +104,7 @@
     "error": "Fehler",
     "drag_drop": "Drag & Drop",
     "picture": "Bild",
-    "pictures": "Pictures",
+    "pictures": "Bilder",
     "change_picture": "Bild ändern",
     "search": "Suche",
     "search_place": "Adresse suchen",
@@ -164,6 +164,8 @@
       "pricing": "Preisbildung",
       "components": "Komponenten",
       "settings": "Einstellungen",
+      "integration_settings": "Integration Settings",
+      "technical_settings": "Technical Settings",
       "assets": "Assets",
       "organization": "Organisation",
       "template": "Vorlagen",
@@ -171,7 +173,7 @@
       "invoices": "Rechnungen"
     },
     "tooltips": {
-      "push_cdr": "Push CDR",
+      "push_cdr": "CDR senden",
       "activate": "Aktivieren",
       "deactivate": "Deaktivieren",
       "export": "OCPP Parameter exportieren",
@@ -199,7 +201,7 @@
       "open": "Öffnen",
       "open_in_maps": "In google maps öffnen",
       "refresh": "Aktulisieren",
-      "generate_qr": "Generate QR code",
+      "generate_qr": "QR-Code generieren",
       "refund": "Erstattung",
       "register": "Registerieren",
       "unregister": "Abmelden",
@@ -310,8 +312,11 @@
     "logo": "Logo",
     "name": "Name",
     "asset_type": "Asset-Typ",
+    "fluctuation_percent": "Fluctuation (%)",
+    "static_value_watt": "Static Power (W)",
     "produce": "Produziert Energie",
     "consume": "Verbraucht Energie",
+    "consume_and_produce": "Verbraucht und erzeugt Energie",
     "dynamic_asset": "Dynamisches Asset",
     "instant_power": "Aktuelle Energie",
     "asset_connection": "Asset-Verbindung",
@@ -924,7 +929,7 @@
     "force_unavailable_status_error": "Beim Ändern des Statuses der Anschlüsse von der Ladestation ist ein Fehler aufgetreten",
     "retrieve_config_success": "Die Konfiguration von Ladestation '{{chargeBoxID}}' wurde erfolgreich abgerufen",
     "change_config_success": "Die Ladestation '{{chargeBoxID}}' wurde erfolgreich gespeichert",
-    "change_config_error": "Cannot change the configuration of the charging station, check the logs",
+    "change_config_error": "Die Konfiguration der Ladestation kann nicht geändert werden, überprüfen Sie die Logs",
     "change_config_phase_error": "Einem einphasigen Standortbereich kann keine dreiphasige Ladestation zugewiesen werden",
     "change_params_success": "Die Parameter '{{paramKey}}' bei '{{chargeBoxID}}' wurden erfolgreich Ladestation aktualisiert",
     "change_params_error": "Beim Aktualisieren der Parameter der Ladestation ist ein Fehler aufgetreten",
@@ -957,8 +962,8 @@
     "unlock_connector_button": "Entsperren",
     "unlock_connector_confirm": "Wollen Sie den Anschluss '{{connectorId}}' der Ladestation '{{chargeBoxID}}' wirklich entsperren?",
     "unlock_connector_success": "Der Anschluss '{{connectorId}}' der Ladestation '{{chargeBoxID}}' wurde erfolgreich entsperrt",
-    "unlock_connector_error": "The Charging Station has not been able to unlock the connector",
-    "unlock_connector_not_supported_error": "This Charging Station does not support the unlock of the connector",
+    "unlock_connector_error": "Die Ladestation konnte den Anschluss nicht entsperren",
+    "unlock_connector_not_supported_error": "Die Entsperrfunktion für den Anschluss wird von dieser Ladestation nicht unterstütz",
     "connector_type_unknown": "Nicht festgelegt",
     "connector_type_type2": "Type 2",
     "connector_type_type1": "Type 1",
@@ -988,8 +993,8 @@
     "button_get_configuration": "Konfigurationen anfordern",
     "button_force_ocpp_params_update_from_template": "OCPP Parameter Update erzwingen",
     "created_on": "Erstellungsdatum",
-    "start_transaction_details_title": "Start session on charging station '{{chargeBoxID}}'",
-    "start_transaction": "Start session",
+    "start_transaction_details_title": "Ladevorgang an Ladestation '{{chargeBoxID}}' starten",
+    "start_transaction": "Ladevorgang starten",
     "power_limit_unit": "Leistungseinheit des Anschlusses",
     "watt": "Watt",
     "amper": "Amper",
@@ -997,11 +1002,12 @@
     "amperage": "Gesamttromstärke (A)",
     "amperagePerPhase": "Stromstärke pro Phase (A)",
     "session_details": "Ladevorgang",
-    "qr_code_generation_error": "Error occurred while generating QR code",
+    "qr_code_generation_error": "Beim Generieren des QR-Codes ist ein Fehler aufgetreten",
     "tabs": {
       "list": "Ladestationen",
       "charging_plans": "Ladepläne",
-      "in_error": "Fehlerhaft"
+      "in_error": "Fehlerhaft",
+      "connection": "Onboard New Station"
     },
     "errors": {
       "missing_settings": {
@@ -1024,6 +1030,37 @@
         "description": "Die Ladesäule sendet einen Fehlercode für einen Ihrer Anschlüsse.",
         "action": "Überprüfen Sie die Fehlercodedetails und starten Sie den Ladevorgang eventuell neu."
       }
+    },
+    "connections": {
+      "registration_tokens_title": "Ladestation Registrierungstokens",
+      "registration_token_site_area_name": "Token für Standortbereich '{{siteAreaName}}'",
+      "registration_token_creation_title": "Registrierungstoken erstellen",
+      "registration_token_creation_confirm": "Wollen Sie wirklich einen Registrierungstoken für Ladestationen dieses Standortbereichs erstellen?",
+      "registration_token_creation_success": "Registrierungstoken wurde erfolgreich erstellt",
+      "registration_token_creation_error": "Beim Erstellen des Registrierungstoken ist ein Fehler aufgetreten",
+      "registration_token_revoke_title": "Registierungstoken widerrufen",
+      "registration_token_revoke_confirm": "Wollen Sie den Registrierungstoken wirklich widerrufen?",
+      "registration_token_revoke_success": "Registrierungstoken wurde erfolgreich widerrufen",
+      "registration_token_revoke_error": "Beim Widerrufen des Registrierungstokens ist ein Fehler aufgetreten",
+      "registration_token_delete_title": "Registrierungstoken löschen",
+      "registration_token_delete_confirm": "Wollen Sie den Registrierungstoken wirklich löschen?",
+      "registration_token_delete_success": "Registrierungstoken wurde erfolgreich gelöscht",
+      "registration_token_delete_error": "Beim Löschen des Registrierungstokens ist ein Fehler aufgetreten",
+      "registration_token_url": "Registrierungs-URL",
+      "registration_token_valid": "Gültig",
+      "registration_token_expired": "Abgelaufen",
+      "registration_token_revoked": "Widerrufen",
+      "token_restrict_site_area": "Zugang auf einen Standortbereich beschränken",
+      "url": "OCPP-URL",
+      "copy_url_tooltip": "OCPP-URL kopieren",
+      "url_copied": "OCPP-Url wurde kopiert",
+      "generate_connection_url": "Verbinden einer Ladestation",
+      "ocpp_15_soap": "OCPP 1.5 SOAP",
+      "ocpp_16_json": "OCPP 1.6 JSON",
+      "ocpp_16_soap": "OCPP 1.6 SOAP",
+      "ocpp_15_soap_secure": "Secure OCPP 1.5 SOAP",
+      "ocpp_16_json_secure": "Secure OCPP 1.6 JSON",
+      "ocpp_16_soap_secure": "Secure OCPP 1.6 SOAP"
     }
   },
   "logs": {
@@ -1107,6 +1144,7 @@
     "locale_desc_spanish": "Spanisch",
     "locale_desc_german": "Deutsch",
     "locale_desc_portuguese": "Portugiesisch",
+    "locale_desc_italian": "Italienisch",
     "role_unknown": "Unbekannt",
     "locale_unknown": "Unbekannt",
     "status": "Status",
@@ -1273,7 +1311,12 @@
     "tag_id_already_used": "Der Badge '{{tagID}}' existiert bereits",
     "redirect": "Zu den Badges navigieren",
     "title": "Badge",
-    "default_tag": "Default badge"
+    "default_tag": "Standard-Badge",
+    "delete_tags_title": "Badge(s) löschen",
+    "delete_tags_confirm": "Möchten Sie wirklich '{{quantity}}' Badge(s) löschen?",
+    "delete_tags_success": "'{{inSuccess}}' Badges wurden erfolgreich gelöscht",
+    "delete_tags_partial": "'{{inSuccess}}' Badges wurden erfolgreich gelöscht und '{{inError}}' Badges haben einen Fehler ausgelöst, überpfüfen Sie die Logs",
+    "delete_tags_error": "Beim Löschen der Badges ist ein Fehler aufgetreten, überpfüfen Sie die Logs"
   },
   "tenants": {
     "title": "Organisation",
@@ -1306,7 +1349,6 @@
     "settings_not_saved": "Bitte speichern Sie zuerst Ihre Einstellungen",
     "tabs": {
       "ocpi": "Roaming",
-      "charging_station": "Ladestation",
       "refund": "Rückerstattung",
       "pricing": "Preisbildung",
       "billing": "Rechnungslegung",
@@ -1326,34 +1368,6 @@
       "update_error": "Beim Aktualisieren der OCPI-Einstellungen ist ein Fehler aufgetreten",
       "description": "E-Mobility stellt einen zertifizierten Service zur Verbindung zur externen E-Roaming Plattform zur Verfügung.<br>Dieses Feature legt in Echtzeit die Lade-Infrastruktur und -Verfügbarkeit via OCPI-Standard-Protokoll (Open Charge Point Interface) offen.<br>E-Mobility nutzt momentan die Gireve Inter-Operability Platform (IOP)."
     },
-    "charging_station": {
-      "registration_tokens_title": "Ladestation Registrierungstokens",
-      "registration_token_site_area_name": "Token für Standortbereich '{{siteAreaName}}'",
-      "registration_token_creation_title": "Registrierungstoken erstellen",
-      "registration_token_creation_confirm": "Wollen Sie wirklich einen Registrierungstoken für Ladestationen dieses Standortbereichs erstellen?",
-      "registration_token_creation_success": "Registrierungstoken wurde erfolgreich erstellt",
-      "registration_token_creation_error": "Beim Erstellen des Registrierungstoken ist ein Fehler aufgetreten",
-      "registration_token_revoke_title": "Registierungstoken widerrufen",
-      "registration_token_revoke_confirm": "Wollen Sie den Registrierungstoken wirklich widerrufen?",
-      "registration_token_revoke_success": "Registrierungstoken wurde erfolgreich widerrufen",
-      "registration_token_revoke_error": "Beim Widerrufen des Registrierungstokens ist ein Fehler aufgetreten",
-      "registration_token_delete_title": "Registrierungstoken löschen",
-      "registration_token_delete_confirm": "Wollen Sie den Registrierungstoken wirklich löschen?",
-      "registration_token_delete_success": "Registrierungstoken wurde erfolgreich gelöscht",
-      "registration_token_delete_error": "Beim Löschen des Registrierungstokens ist ein Fehler aufgetreten",
-      "registration_token_url": "Registrierungs-URL",
-      "registration_token_valid": "Gültig",
-      "registration_token_expired": "Abgelaufen",
-      "registration_token_revoked": "Widerrufen",
-      "token_restrict_site_area": "Zugang auf einen Standortbereich beschränken",
-      "url": "OCPP-URL",
-      "copy_url_tooltip": "OCPP-URL kopieren",
-      "url_copied": "OCPP-Url wurde kopiert",
-      "generate_connection_url": "Verbinden einer Ladestation",
-      "ocpp_15_soap": "OCPP 1.5 SOAP",
-      "ocpp_16_json": "OCPP 1.6 JSON",
-      "ocpp_16_soap": "OCPP 1.6 SOAP"
-    },
     "refund": {
       "description": "E-Mobility bietet einen Rückerstattungsservice für ein externes Kostensystem.<br>Dieses Feature ermöglicht es die Ladevorgänge in ein externes Kostensystem zu übertragen und die verbrauchte Energie zurückerstattet zu bekommen.<br>E-Mobility benutzt zur Zeit SAP Concur. Weitere technische Informationen finden Sie auf ",
       "not_found": "Rückerstattungseinstellungen nicht gefunden",
@@ -1366,7 +1380,7 @@
       "synchronize_started": "Die Synchronisierung der rückerstatteten Ladevorgänge wurde erfolgreich gestartet",
       "synchronize_success": "Rückerstattete Ladevorgänge wurden erfolgreich synchronisiert",
       "synchronize_error": "Beim synchronisieren der rückerstatteten Ladevorgänge ist ein Fehler aufgetreten",
-      "connection_error": "Error in connecting to the refunding system, check your connection in your profile",
+      "connection_error": "Fehler in der Verbindung zum Rückerstattungssystem, überprüfen Sie die Verbindung in Ihrem Profil",
       "concur": {
         "title": "SAP Concur",
         "authentication_url": "Authentifizierungs-Url",
@@ -1479,7 +1493,11 @@
         "title": "SAP Smart Charging",
         "settings": "Einstellungen",
         "user": "Nutzer",
-        "password": "Passwort"
+        "password": "Passwort",
+        "additional_settings":"Zusätzliche Einstellungen:",
+        "sticky_limitation": "Limit an akutellen Verbrauch anpassen",
+        "limit_buffer_dc": "Puffer für Limit DC (%)",
+        "limit_buffer_ac": "Puffer für Limit AC (%)"
       },
       "description": "E-Mobility kann Smart-Charging Algorithmen nutzen um die Leistungsbereitstellung und den Ladezeitplan auf Basis komplexer Abhängigkeiten zu optimieren",
       "setting_do_not_exist": "Konfiguration nicht gefunden",
@@ -1501,11 +1519,14 @@
         "base_url": "URL",
         "user": "Nutzer",
         "password": "Passwort",
+        "client_id":"Client ID",
+        "client_secret":"Client Secret",
         "delete_title": "Asset-Verbindung löschen",
         "delete_confirm": "Möchten Sie die Verbindung '{{assetConnectionName}}' wirklich löschen?"
       },
       "types": {
-        "schneider": "Schneider Building Management System"
+        "schneider": "Schneider Building Management System",
+        "greencom": "GreenCom Asset Management System"
       },
       "connection_success": "Die Verbindung zum System wurde erfolgreich getestet.",
       "unknown_connection_error": "Unbekannter Verbindungsfehler",
@@ -1527,6 +1548,24 @@
       "synchronize_car_catalogs_dialog_confirm": "Möchten Sie die Synchronisierung aller elektrischen Fahrzeuge wirklich starten?",
       "assign_user_to_car_dialog_title": "Nutzer zum Fahrzeug zuordnen",
       "assign_user_to_car_dialog_confirm": "Das Fahrzeug existiert bereits, möchten Sie es wirklich wiederverwenden?"
+    }
+  },
+  "technical_settings": {
+    "tabs": {
+      "crypto": "Crypto"
+    },
+    "crypto": {
+      "crypto_key": {
+        "title": "Crypto Settings",
+        "subtitle": "Crypto Key",
+        "key": "Key",
+        "block_cypher": "Block Cypher",
+        "block_size": "Block Size",
+        "operation_mode": "Operation Mode"
+      },
+      "setting_do_not_exist": "Crypto Technical Settings not found",
+      "update_success": "Crypto Technical Settings have been updated successfully",
+      "update_error": "Error occurred while updating the Crypto Technical Settings, check the logs"
     }
   },
   "ocpiendpoints": {
@@ -1658,7 +1697,7 @@
     "pull_tokens": "Tokens abrufen",
     "check_locations": "Standorte überprüfen",
     "check_sessions": "Ladevorgänge überprüfen",
-    "check_cdrs": "Cdrs überprüfen",
+    "check_cdrs": "CDRs überprüfen",
     "businessdetails": {
       "name": "Name des Betreibers",
       "website": "Link zur Betreiber-Website",
@@ -1792,7 +1831,7 @@
     "delete_title": "Fahrzeug löschen",
     "delete_confirm": "Möchten Sie das Fahrzeug  '{{carName}}' wirklich löschen?",
     "users": "Nutzer",
-    "select_car": "Select Car",
+    "select_car": "Fahrzeug auswählen",
     "unit": {
       "meters": "m",
       "seconde": "sek",
@@ -1911,10 +1950,10 @@
     "delete_transactions_success": "'{{inSuccess}}' Ladevorgänge wurden erfolgreich gelöscht",
     "delete_transactions_partial": "'{{inSuccess}}' Ladevorgänge wurden erfolgreich gelöscht und '{{inError}}' Ladevorgänge haben einen Fehler ausgelöst",
     "delete_transactions_error": "Beim Löschen der Ladevorgänge ist ein Fehler aufgetreten",
-    "export_ocpi_cdr_button_title": "Export Cdr",
-    "export_ocpi_cdr_title": "Export Transaction's Cdr",
-    "export_ocpi_cdr_confirm": "Do you really want to export the Cdr of the Session '{{transactionID}}'",
-    "export_ocpi_cdr_error": "Error occurred while exporting the Cdr of the Session '{{transactionID}}'",
+    "export_ocpi_cdr_button_title": "CDR exportieren",
+    "export_ocpi_cdr_title": "CDR des Ladevorgangs exportieren",
+    "export_ocpi_cdr_confirm": "Möchten Sie wirklich den CDR für den Ladevorgang '{{transactionID}}' exportieren?",
+    "export_ocpi_cdr_error": "Beim Exportieren des CDR des Ladevorgangs '{{transactionID}}' ist ein Fehler aufgetreten",
     "inactivity_info": "Alle Inaktivitäten",
     "inactivity_warning": "Mittlere Inaktivitäten",
     "inactivity_error": "Hohe Inaktivitäten",

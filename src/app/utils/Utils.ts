@@ -4,10 +4,10 @@ import { Data, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { StatusCodes } from 'http-status-codes';
 import * as moment from 'moment';
+import { ConfigService } from 'services/config.service';
 import { Tag } from 'types/Tag';
 
 import { CentralServerService } from '../services/central-server.service';
-import { ConfigService } from '../services/config.service';
 import { DialogService } from '../services/dialog.service';
 import { MessageService } from '../services/message.service';
 import { AppUnitPipe } from '../shared/formatters/app-unit.pipe';
@@ -153,7 +153,7 @@ export class Utils {
   }
 
   public static objectHasProperty(object: any, key: string): boolean {
-    return Object.prototype.hasOwnProperty.call(object, key);
+    return Object.prototype.hasOwnProperty.call(object, key) as boolean;
   }
 
   public static formatBarColor(color: string): any {
@@ -671,7 +671,7 @@ export class Utils {
     if (withVIN && car.vin) {
       carName.push(`${translateService.instant('cars.vin')} '${car.vin}'`);
     }
-    // License platee
+    // License plate
     carName.push(`${translateService.instant('cars.license_plate')} '${car.licensePlate}'`);
     // Car ID
     if (withID && car.id) {

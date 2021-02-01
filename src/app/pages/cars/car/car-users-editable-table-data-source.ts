@@ -116,7 +116,6 @@ export class CarUsersEditableTableDataSource extends EditableTableDataSource<Use
             }
             // Create the form controls
             this.createFormControls();
-            this.removeAction.disabled = (usersCar.count === 0 || !this.hasSelectedRows());
             observer.next({
               count: usersCar.count + this.getAddedCarUsers().length - this.getRemovedCarUsers().length,
               result: paging.skip !== 0 ? usersCar.result : this.editableRows,
@@ -131,7 +130,6 @@ export class CarUsersEditableTableDataSource extends EditableTableDataSource<Use
       } else {
         // Recreate the form controls
         this.createFormControls();
-        this.removeAction.disabled = (this.editableRows.length === 0 || !this.hasSelectedRows());
         observer.next({
           count: this.editableRows.length,
           result: this.editableRows,
@@ -158,11 +156,6 @@ export class CarUsersEditableTableDataSource extends EditableTableDataSource<Use
       this.addAction,
       this.removeAction,
     ];
-  }
-
-  public toggleRowSelection(row: UserCar, checked: boolean) {
-    super.toggleRowSelection(row, checked);
-    this.removeAction.disabled = !this.hasSelectedRows();
   }
 
   public buildTableRowActions(): TableActionDef[] {

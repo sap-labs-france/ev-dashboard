@@ -38,8 +38,6 @@ export class SettingsCryptoKeyComponent implements OnInit, OnChanges {
     this.blockCypher = this.cryptoKey.controls['blockCypher'];
     this.blockSize = this.cryptoKey.controls['blockSize'];
     this.operationMode = this.cryptoKey.controls['operationMode'];
-    // Disable
-    // this.cryptoKey.disable();
     // Set data
     this.updateFormData();
   }

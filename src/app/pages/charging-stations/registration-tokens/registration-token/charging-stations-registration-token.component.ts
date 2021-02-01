@@ -68,6 +68,7 @@ export class ChargingStationsRegistrationTokenComponent implements OnInit {
     this.expirationDate = this.formGroup.controls['expirationDate'];
     this.id = this.formGroup.controls['id'];
     
+    // If currentToken is set we are in update mode
     if (this.currentToken) {
       this.siteArea.setValue(this.currentToken.siteArea ? this.currentToken.siteArea.name : null);
       this.siteAreaID.setValue(this.currentToken.siteAreaID || null);

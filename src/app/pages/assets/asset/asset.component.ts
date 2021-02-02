@@ -322,7 +322,7 @@ export class AssetComponent implements OnInit {
       rowMultipleSelection: false,
       staticFilter: {​​
         Issuer: true
-        }​​,
+      }​​,
     };
     this.dialog.open(SiteAreasDialogComponent, dialogConfig)
       .afterClosed().subscribe((result) => {

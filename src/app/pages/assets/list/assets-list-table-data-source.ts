@@ -152,15 +152,6 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
         isAngularComponent: true,
         angularComponent: AssetConsumptionCellComponent,
       },
-      // {
-      //   id: 'currentInstantWatts',
-      //   name: 'assets.instant_power',
-      //   headerClass: 'col-20p text-center',
-      //   class: 'col-20p text-center',
-      //   sortable: true,
-      //   formatter: (instantWatts: number) => instantWatts || instantWatts === 0 ?
-      //     this.appUnitPipe.transform(instantWatts, 'W', 'kW') : '-',
-      // },
     ];
     return tableColumnDef;
   }

@@ -102,6 +102,7 @@ export class AssetComponent implements OnInit {
       ),
       fluctuationPercent: new FormControl('',
         Validators.compose([
+          Validators.max(100),
           Validators.pattern('^[+]?[0-9]*$'),
         ])),
       staticValueWatt: new FormControl('',
@@ -319,6 +320,9 @@ export class AssetComponent implements OnInit {
       validateButtonTitle: 'general.select',
       sitesAdminOnly: true,
       rowMultipleSelection: false,
+      staticFilter: {​​
+        Issuer: true
+      }​​,
     };
     this.dialog.open(SiteAreasDialogComponent, dialogConfig)
       .afterClosed().subscribe((result) => {

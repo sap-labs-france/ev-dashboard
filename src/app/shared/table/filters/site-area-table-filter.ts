@@ -3,7 +3,7 @@ import { FilterType, TableFilterDef } from '../../../types/Table';
 import { TableFilter } from './table-filter';
 
 export class SiteAreaTableFilter extends TableFilter {
-  constructor(siteIDs?: ReadonlyArray<string>, dependentFilters?: TableFilterDef[]) {
+  constructor(dependentFilters?: TableFilterDef[]) {
     super();
     // Define filter
     const filterDef: TableFilterDef = {
@@ -20,13 +20,6 @@ export class SiteAreaTableFilter extends TableFilter {
       dependentFilters: dependentFilters,
     };
 
-    if (siteIDs) {
-      filterDef.dialogComponentData = {
-        staticFilter: {
-          SiteID: siteIDs.join('|'),
-        },
-      };
-    }
     // Set
     this.setFilterDef(filterDef);
   }

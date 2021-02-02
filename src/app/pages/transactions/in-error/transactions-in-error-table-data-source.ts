@@ -266,12 +266,13 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
       new EndDateFilter().getFilterDef(),
       new ErrorTypeTableFilter(errorTypes).getFilterDef(),
     ];
+    const siteFilter = new SiteTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef();
     // Show Site Area Filter If Organization component is active
     if (this.componentService.isActive(TenantComponents.ORGANIZATION)) {
       filters.push(new ChargingStationTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
       filters.push(new ConnectorTableFilter().getFilterDef());
-      filters.push(new SiteTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
-      filters.push(new SiteAreaTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
+      filters.push(siteFilter);
+      filters.push(new SiteAreaTableFilter([siteFilter]).getFilterDef());
     } else {
       filters.push(new ChargingStationTableFilter().getFilterDef());
     }

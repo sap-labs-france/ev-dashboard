@@ -9,12 +9,12 @@ import { ChargingStationButtonAction } from './ChargingStation';
 import { CompanyButtonAction } from './Company';
 import { ButtonAction, KeyValue } from './GlobalType';
 import { LogButtonAction } from './Log';
+import { OcpiButtonAction } from './ocpi/OCPIEndpoint';
 import { SiteButtonAction } from './Site';
 import { SiteAreaButtonAction } from './SiteArea';
 import { TenantButtonAction } from './Tenant';
 import { TransactionButtonAction } from './Transaction';
 import { UserButtonAction } from './User';
-import { OcpiButtonAction } from './ocpi/OCPIEndpoint';
 
 export interface Data {
   id: string | number;
@@ -41,6 +41,7 @@ export interface TableFilterDef {
   exhaustive?: boolean;
   cleared?: boolean;
   dateRangeTableFilterDef?: DateRangeTableFilterDef;
+  dependentFilters?: TableFilterDef[];
 }
 
 export interface DateRangeTableFilterDef {

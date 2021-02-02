@@ -345,14 +345,14 @@ export abstract class TableDataSource<T extends Data> {
           } else if (filterDef.type === FilterType.DIALOG_TABLE) {
             if (!Utils.isEmptyArray(filterDef.dependentFilters)) {
               filterDef.dialogComponentData = {
-                staticFilter: {
-
-                }
+                staticFilter: {}
               };
               for (const dependentFilter of filterDef.dependentFilters) {
                 if (!Utils.isEmptyArray(dependentFilter.currentValue)) {
                   if (dependentFilter.multiple) {
-                    if (dependentFilter.type === FilterType.DROPDOWN && dependentFilter.currentValue.length === dependentFilter.items.length && dependentFilter.exhaustive) {
+                    if (dependentFilter.type === FilterType.DROPDOWN &&
+                        dependentFilter.currentValue.length === dependentFilter.items.length &&
+                        dependentFilter.exhaustive) {
                       continue;
                     }
                     filterDef.dialogComponentData.staticFilter[dependentFilter.httpId] = dependentFilter.currentValue.map((obj) => obj.key).join('|');

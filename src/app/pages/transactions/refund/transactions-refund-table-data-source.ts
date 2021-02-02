@@ -257,7 +257,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
       if (this.componentService.isActive(TenantComponents.ORGANIZATION)) {
         filters.push(new ChargingStationTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
         filters.push(new ConnectorTableFilter().getFilterDef());
-        filters.push(new SiteAreaTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
+        filters.push(new SiteAreaTableFilter().getFilterDef());
         filters.push(new UserTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
         filters.push(new ReportTableFilter().getFilterDef());
       }

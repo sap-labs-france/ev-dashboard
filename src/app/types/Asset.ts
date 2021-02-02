@@ -1,10 +1,10 @@
-import Consumption, { AbstractConsumption } from './Consumption';
+import Consumption, { AbstractConsumption, AbstractCurrentConsumption } from './Consumption';
 import CreatedUpdatedProps from './CreatedUpdatedProps';
 import { KeyValue } from './GlobalType';
 import { SiteArea } from './SiteArea';
 import { Data } from './Table';
 
-export interface Asset extends Data, CreatedUpdatedProps {
+export interface Asset extends Data, CreatedUpdatedProps, AbstractCurrentConsumption {
   id: string;
   name: string;
   siteAreaID: string;

@@ -44,8 +44,24 @@ export class AuthorizationService {
     return this.canAccess(Entity.CHARGING_STATION, Action.UPDATE);
   }
 
+  public canCreateCompany(): boolean {
+    return this.canAccess(Entity.COMPANY, Action.CREATE);
+  }
+
+  public canReadCompany(): boolean {
+    return this.canAccess(Entity.COMPANY, Action.READ);
+  }
+
   public canUpdateCompany(): boolean {
     return this.canAccess(Entity.COMPANY, Action.UPDATE);
+  }
+
+  public canDeleteCompany(): boolean {
+    return this.canAccess(Entity.COMPANY, Action.DELETE);
+  }
+
+  public canListCompanies(): boolean {
+    return this.canAccess(Entity.COMPANIES, Action.LIST);
   }
 
   public canUpdateAsset(): boolean {

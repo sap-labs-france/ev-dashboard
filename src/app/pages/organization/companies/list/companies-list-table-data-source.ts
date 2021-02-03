@@ -51,7 +51,10 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
     private authorizationService: AuthorizationService) {
     super(spinnerService, translateService);
     // Init
-    this.isAdmin = this.authorizationService.isAdmin();
+    this.isAdmin = this.authorizationService.canCreateCompany() &&
+      this.authorizationService.canReadCompany() &&
+      this.authorizationService.canUpdateCompany() &&
+      this.authorizationService.canDeleteCompany();
     this.setStaticFilters([{ WithLogo: true }]);
     this.initDataSource();
   }
@@ -118,7 +121,7 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
         sortable: true,
       },
     ];
-    if (this.authorizationService.isAdmin()) {
+    if (this.isAdmin) {
       tableColumnDef.push(
         {
           id: 'createdOn',

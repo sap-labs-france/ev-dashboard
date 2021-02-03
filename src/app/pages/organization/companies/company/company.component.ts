@@ -57,7 +57,10 @@ export class CompanyComponent implements OnInit {
       this.router.navigate(['/']);
     }
     // get admin flag
-    this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
+    this.isAdmin = this.authorizationService.canCreateCompany() &&
+      this.authorizationService.canReadCompany() &&
+      this.authorizationService.canUpdateCompany() &&
+      this.authorizationService.canDeleteCompany();
   }
 
   public ngOnInit() {

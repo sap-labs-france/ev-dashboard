@@ -10,7 +10,7 @@ export interface Setting extends Data {
 }
 
 export interface SettingContent {
-  type: RoamingSettingsType | AnalyticsSettingsType | RefundSettingsType | PricingSettingsType | BillingSettingsType | SmartChargingSettingsType | AssetSettingsType;
+  type: CryptoSettingsType | RoamingSettingsType | AnalyticsSettingsType | RefundSettingsType | PricingSettingsType | BillingSettingsType | SmartChargingSettingsType | AssetSettingsType;
   ocpi?: OcpiSetting;
   oicp?: OicpSetting;
   simple?: SimplePricingSetting;
@@ -21,6 +21,7 @@ export interface SettingContent {
   concur?: ConcurRefundSetting;
   sapSmartCharging?: SapSmartChargingSetting;
   asset?: AssetSetting;
+  crypto?: CryptoSetting;
 }
 
 export interface SettingLink extends Data {
@@ -222,12 +223,14 @@ export interface AssetConnectionSetting extends Data {
   description: string;
   url: string;
   type: AssetConnectionType;
-  connection?: AssetSchneiderConnectionType;
+  schneiderConnection?: AssetSchneiderConnectionType;
+  greencomConnection?: AssetGreencomConnectionType;
 }
 
 export enum AssetConnectionType {
   NONE = '',
   SCHNEIDER = 'schneider',
+  GREENCOM = 'greencom'
 }
 
 export interface AssetUserPasswordConnectionType {
@@ -237,4 +240,31 @@ export interface AssetUserPasswordConnectionType {
 
 // tslint:disable-next-line: no-empty-interface
 export interface AssetSchneiderConnectionType extends AssetUserPasswordConnectionType {
+}
+
+export enum CryptoSettingsType {
+  CRYPTO = 'crypto',
+}
+
+export interface KeySettings extends Setting {
+  identifier: TenantComponents.CRYPTO;
+  type: CryptoSettingsType;
+  crypto?: CryptoSetting;
+}
+
+export interface KeyCryptoSetting {
+  blockCypher: string;
+  blockSize: number;
+  operationMode: string;
+}
+
+export interface CryptoSetting {
+  key: string;
+  keyProperties: KeyCryptoSetting;
+  formerKey?: string;
+  formerKeyProperties?: KeyCryptoSetting;
+}
+export interface AssetGreencomConnectionType {
+  clientId: string;
+  clientSecret: string;
 }

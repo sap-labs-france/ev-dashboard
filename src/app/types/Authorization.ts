@@ -29,6 +29,8 @@ export enum Entity {
   BILLING = 'Billing',
   SETTING = 'Setting',
   SETTINGS = 'Settings',
+  TECHNICAL_SETTING = 'Technical Setting',
+  TECHNICAL_SETTINGS = 'Technical Settings',
   TOKENS = 'Tokens',
   TOKEN = 'Token',
   OCPI_ENDPOINT = 'OcpiEndpoint',

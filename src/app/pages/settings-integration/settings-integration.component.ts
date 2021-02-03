@@ -9,10 +9,10 @@ import TenantComponents from '../../types/TenantComponents';
 declare const $: any;
 
 @Component({
-  selector: 'app-settings',
-  templateUrl: './settings.component.html',
+  selector: 'app-settings-integration',
+  templateUrl: './settings-integration.component.html',
 })
-export class SettingsComponent extends AbstractTabComponent {
+export class SettingsIntegrationComponent extends AbstractTabComponent {
   public isOCPIActive = false;
   public isOICPActive = false;
   public isOrganizationActive = false;
@@ -28,7 +28,7 @@ export class SettingsComponent extends AbstractTabComponent {
     activatedRoute: ActivatedRoute,
     windowService: WindowService,
   ) {
-    super(activatedRoute, windowService, [ 'organization','ocpi', 'oicp', 'refund', 'pricing', 'billing', 'sac', 'smartCharging', 'asset']);
+    super(activatedRoute, windowService, ['roaming', 'ocpi', 'refunding', 'pricing', 'billing', 'analytics', 'smartCharging', 'asset']);
     this.isOCPIActive = this.componentService.isActive(TenantComponents.OCPI);
     this.isOICPActive = this.componentService.isActive(TenantComponents.OICP);
     this.isOrganizationActive = this.componentService.isActive(TenantComponents.ORGANIZATION);

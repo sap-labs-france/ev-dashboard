@@ -122,46 +122,46 @@
                       <div *ngIf="registrationToken" class="mr-2">
                         <button mat-raised-button [matMenuTriggerFor]="ocppUrlMenu" color="primary">
                           <mat-icon>file_copy</mat-icon>
-                          <span>{{'settings.charging_station.copy_url_tooltip' | translate}}</span>
+                          <span>{{'chargers.connections.copy_url_tooltip' | translate}}</span>
                         </button>
                         <mat-menu #ocppUrlMenu="matMenu" yPosition="below" [overlapTrigger]="false"
                           class="dropdown-button">
                           <button *ngIf="registrationToken.ocpp15SOAPUrl" mat-menu-item
                             (click)="copyUrl(registrationToken.ocpp15SOAPUrl)">
                             <mat-icon color="primary">file_copy</mat-icon>
-                            <span>{{'settings.charging_station.ocpp_15_soap' | translate}}</span>
+                            <span>{{'chargers.connections.ocpp_15_soap' | translate}}</span>
                           </button>
                           <button *ngIf="registrationToken.ocpp16SOAPUrl" mat-menu-item
                             (click)="copyUrl(registrationToken.ocpp16SOAPUrl)">
                             <mat-icon color="primary">file_copy</mat-icon>
-                            <span>{{'settings.charging_station.ocpp_16_soap' | translate}}</span>
+                            <span>{{'chargers.connections.ocpp_16_soap' | translate}}</span>
                           </button>
                           <button *ngIf="registrationToken.ocpp16JSONUrl" mat-menu-item
                             (click)="copyUrl(registrationToken.ocpp16JSONUrl)">
                             <mat-icon color="primary">file_copy</mat-icon>
-                            <span>{{'settings.charging_station.ocpp_16_json' | translate}}</span>
+                            <span>{{'chargers.connections.ocpp_16_json' | translate}}</span>
                           </button>
                           <button *ngIf="registrationToken.ocpp15SOAPSecureUrl" mat-menu-item
                             (click)="copyUrl(registrationToken.ocpp15SOAPSecureUrl)">
                             <mat-icon color="primary">file_copy</mat-icon>
-                            <span>{{'settings.charging_station.ocpp_15_soap_secure' | translate}}</span>
+                            <span>{{'chargers.connections.ocpp_15_soap_secure' | translate}}</span>
                           </button>
                           <button *ngIf="registrationToken.ocpp16SOAPSecureUrl" mat-menu-item
                             (click)="copyUrl(registrationToken.ocpp16SOAPSecureUrl)">
                             <mat-icon color="primary">file_copy</mat-icon>
-                            <span>{{'settings.charging_station.ocpp_16_soap_secure' | translate}}</span>
+                            <span>{{'chargers.connections.ocpp_16_soap_secure' | translate}}</span>
                           </button>
                           <button *ngIf="registrationToken.ocpp16JSONSecureUrl" mat-menu-item
                             (click)="copyUrl(registrationToken.ocpp16JSONSecureUrl)">
                             <mat-icon color="primary">file_copy</mat-icon>
-                            <span>{{'settings.charging_station.ocpp_16_json_secure' | translate}}</span>
+                            <span>{{'chargers.connections.ocpp_16_json_secure' | translate}}</span>
                           </button>
                         </mat-menu>
                       </div>
                       <div *ngIf="!registrationToken">
                         <button mat-raised-button color="primary" (click)="generateRegistrationToken()">
                           <mat-icon>link</mat-icon>
-                          <span>{{'settings.charging_station.generate_connection_url' | translate}}</span>
+                          <span>{{'chargers.connections.generate_connection_url' | translate}}</span>
                         </button>
                       </div>
                     </div>

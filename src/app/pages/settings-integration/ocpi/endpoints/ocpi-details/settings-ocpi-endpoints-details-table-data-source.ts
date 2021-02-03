@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 
-import { TableRefreshAction } from '../../../../..//shared/table/actions/table-refresh-action';
 import { CentralServerService } from '../../../../../services/central-server.service';
 import { DialogService } from '../../../../../services/dialog.service';
 import { MessageService } from '../../../../../services/message.service';
@@ -12,6 +11,7 @@ import { AppDatePipe } from '../../../../../shared/formatters/app-date.pipe';
 import { TableAutoRefreshAction } from '../../../../../shared/table/actions/table-auto-refresh-action';
 import { TableDownloadAction } from '../../../../../shared/table/actions/table-download-action';
 import { TableMoreAction } from '../../../../../shared/table/actions/table-more-action';
+import { TableRefreshAction } from '../../../../../shared/table/actions/table-refresh-action';
 import { TableStartAction } from '../../../../../shared/table/actions/table-start-action';
 import { TableStopAction } from '../../../../../shared/table/actions/table-stop-action';
 import { TableUploadAction } from '../../../../../shared/table/actions/table-upload-action';

@@ -1525,7 +1525,7 @@
         "delete_confirm": "Vuoi veramente cancellare la connessione '{{assetConnectionName}}'?"
       },
       "types": {
-        "schneider": "Sistema Gestione Edifici Schneider"
+        "schneider": "Sistema Gestione Edifici Schneider",
         "greencom": "GreenCom Asset Management System"
       },
       "connection_success": "La connessione al sistema è stata testata con successo",

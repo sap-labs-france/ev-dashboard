@@ -25,7 +25,7 @@
     "connectors": "Connections",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.4.38",
+    "last_update": "Version 2.4.39",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "An unexpected error occurred, check the logs",
@@ -165,6 +165,8 @@
       "pricing": "Pricing",
       "components": "Components",
       "settings": "Settings",
+      "integration_settings": "Integration Settings",
+      "technical_settings": "Technical Settings",
       "assets": "Assets",
       "organization": "Organization",
       "template": "Templates",
@@ -311,8 +313,8 @@
     "logo": "Logo",
     "name": "Name",
     "asset_type": "Asset type",
-    "fluctuation": "Short term fluctuation (W)",
-    "fallback_value": "Fallback value (W)",
+    "fluctuation_percent": "Fluctuation (%)",
+    "static_value_watt": "Static Power (W)",
     "produce": "Produce Energy",
     "consume": "Consume Energy",
     "consume_and_produce": "Consume and Produce Energy",
@@ -339,8 +341,8 @@
     "asset_settings_error": "Error occurred while getting asset connections, check the logs",
     "create_success": "The asset '{{assetName}}' has been created successfully",
     "create_error": "Error occurred while creating the asset, check the logs",
-    "refresh_success": "The asset connection has been successfully refreshed",
-    "refresh_error": "Error occurred while refreshing the asset connection, check the logs",
+    "refresh_success": "The asset's consumption or production has been successfully retrieved",
+    "refresh_error": "Error occurred while retrieving the asset's consumption or production'",
     "logo_size_error": "The image size limit exceeded, limit is below '{{maxPictureKb}}' Kb",
     "select_assets": "Select Asset",
     "consumption_date": "Date",
@@ -1005,7 +1007,8 @@
     "tabs": {
       "list": "Charging Stations",
       "charging_plans": "Charging Plans",
-      "in_error": "In Error"
+      "in_error": "In Error",
+      "connection": "Onboard New Station"
     },
     "errors": {
       "missing_settings": {
@@ -1028,6 +1031,37 @@
         "description": "The charging station sent an error code for one of its connectors",
         "action": "Check the error code details and eventually restart the charging station"
       }
+    },
+    "connections": {
+      "registration_tokens_title": "Charging Station Registration Tokens",
+      "registration_token_site_area_name": "Token for Site Area '{{siteAreaName}}'",
+      "registration_token_creation_title": "Create Registration Token",
+      "registration_token_creation_confirm": "Do you really want to create a registration token for charging stations of this site area?",
+      "registration_token_creation_success": "Registration token has been created successfully",
+      "registration_token_creation_error": "Error occurred while creating a registration token, check the logs",
+      "registration_token_revoke_title": "Revoke Registration Token",
+      "registration_token_revoke_confirm": "Do you really want to revoke the registration token ?",
+      "registration_token_revoke_success": "Registration token has been revoked successfully",
+      "registration_token_revoke_error": "Error occurred while revoking a registration token, check the logs",
+      "registration_token_delete_title": "Delete Registration Token",
+      "registration_token_delete_confirm": "Do you really want to delete the registration token ?",
+      "registration_token_delete_success": "Registration token has been deleted successfully",
+      "registration_token_delete_error": "Error occurred while deleting a registration token, check the logs",
+      "registration_token_url": "Registration URL",
+      "registration_token_valid": "Valid",
+      "registration_token_expired": "Expired",
+      "registration_token_revoked": "Revoked",
+      "token_restrict_site_area": "Restrict access to one Site Area",
+      "url": "OCPP URL",
+      "copy_url_tooltip": "Copy OCPP URL",
+      "url_copied": "OCPP Url has been copied to your clipboard",
+      "generate_connection_url": "Connect a Charging Station",
+      "ocpp_15_soap": "OCPP 1.5 SOAP",
+      "ocpp_16_json": "OCPP 1.6 JSON",
+      "ocpp_16_soap": "OCPP 1.6 SOAP",
+      "ocpp_15_soap_secure": "Secure OCPP 1.5 SOAP",
+      "ocpp_16_json_secure": "Secure OCPP 1.6 JSON",
+      "ocpp_16_soap_secure": "Secure OCPP 1.6 SOAP"
     }
   },
   "logs": {
@@ -1111,6 +1145,7 @@
     "locale_desc_spanish": "Spanish",
     "locale_desc_german": "German",
     "locale_desc_portuguese": "Portuguese",
+    "locale_desc_italian": "Italian",
     "role_unknown": "Unknown",
     "locale_unknown": "Unknown",
     "status": "Status",
@@ -1315,7 +1350,6 @@
     "settings_not_saved": "You must save your settings first",
     "tabs": {
       "ocpi": "Roaming",
-      "charging_station": "Charging Station",
       "refund": "Refunding",
       "pricing": "Pricing",
       "billing": "Billing",
@@ -1334,37 +1368,6 @@
       "update_success": "OCPI settings have been updated successfully",
       "update_error": "Error occurred while updating the OCPI settings, check the logs",
       "description": "E-Mobility provides a certified service to connect to an external E-Roaming Platform.<br>This feature exposes real-time the charging station infrastructure and availability via the OCPI standard protocol (Open Charge Point Interface).<br>E-Mobility is currently using the Gireve Inter-Operability Platform (IOP)."
-    },
-    "charging_station": {
-      "registration_tokens_title": "Charging Station Registration Tokens",
-      "registration_token_site_area_name": "Token for Site Area '{{siteAreaName}}'",
-      "registration_token_creation_title": "Create Registration Token",
-      "registration_token_creation_confirm": "Do you really want to create a registration token for charging stations of this site area?",
-      "registration_token_creation_success": "Registration token has been created successfully",
-      "registration_token_creation_error": "Error occurred while creating a registration token, check the logs",
-      "registration_token_revoke_title": "Revoke Registration Token",
-      "registration_token_revoke_confirm": "Do you really want to revoke the registration token ?",
-      "registration_token_revoke_success": "Registration token has been revoked successfully",
-      "registration_token_revoke_error": "Error occurred while revoking a registration token, check the logs",
-      "registration_token_delete_title": "Delete Registration Token",
-      "registration_token_delete_confirm": "Do you really want to delete the registration token ?",
-      "registration_token_delete_success": "Registration token has been deleted successfully",
-      "registration_token_delete_error": "Error occurred while deleting a registration token, check the logs",
-      "registration_token_url": "Registration URL",
-      "registration_token_valid": "Valid",
-      "registration_token_expired": "Expired",
-      "registration_token_revoked": "Revoked",
-      "token_restrict_site_area": "Restrict access to one Site Area",
-      "url": "OCPP URL",
-      "copy_url_tooltip": "Copy OCPP URL",
-      "url_copied": "OCPP Url has been copied to your clipboard",
-      "generate_connection_url": "Connect a Charging Station",
-      "ocpp_15_soap": "OCPP 1.5 SOAP",
-      "ocpp_16_json": "OCPP 1.6 JSON",
-      "ocpp_16_soap": "OCPP 1.6 SOAP",
-      "ocpp_15_soap_secure": "Secure OCPP 1.5 SOAP",
-      "ocpp_16_json_secure": "Secure OCPP 1.6 JSON",
-      "ocpp_16_soap_secure": "Secure OCPP 1.6 SOAP"
     },
     "refund": {
       "description": "E-Mobility provides a refund service for an external expense system.<br>This feature allows the user to push his sessions to an expense system and get reimbursed of the electricity he consumed.<br>E-Mobility is currently using SAP Concur. More technical information available at ",
@@ -1517,11 +1520,14 @@
         "base_url": "URL",
         "user": "User",
         "password": "Password",
+        "client_id":"Client ID",
+        "client_secret":"Client Secret",
         "delete_title": "Delete Asset connection",
         "delete_confirm": "Do you really want to delete the connection '{{assetConnectionName}}'?"
       },
       "types": {
-        "schneider": "Schneider Building Management System"
+        "schneider": "Schneider Building Management System",
+        "greencom": "GreenCom Asset Management System"
       },
       "connection_success": "Connection to the system was tested successfully",
       "unknown_connection_error": "Unknown connection error",
@@ -1543,6 +1549,24 @@
       "synchronize_car_catalogs_dialog_confirm": "Do you really want to launch the synchronization of all the electric vehicles?",
       "assign_user_to_car_dialog_title": "Assign user to car",
       "assign_user_to_car_dialog_confirm": "This car already exists, do you really want to reuse it?"
+    }
+  },
+  "technical_settings": {
+    "tabs": {
+      "crypto": "Crypto"
+    },
+    "crypto": {
+      "crypto_key": {
+        "title": "Crypto Settings",
+        "subtitle": "Crypto Key",
+        "key": "Key",
+        "block_cypher": "Block Cypher",
+        "block_size": "Block Size",
+        "operation_mode": "Operation Mode"
+      },
+      "setting_do_not_exist": "Crypto Technical Settings not found",
+      "update_success": "Crypto Technical Settings have been updated successfully",
+      "update_error": "Error occurred while updating the Crypto Technical Settings, check the logs"
     }
   },
   "ocpiendpoints": {

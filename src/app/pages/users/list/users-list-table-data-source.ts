@@ -375,11 +375,12 @@ export class UsersListTableDataSource extends TableDataSource<User> {
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {
+    const issuerFilter = new IssuerFilter().getFilterDef();
     return [
-      new IssuerFilter().getFilterDef(),
+      issuerFilter,
       new UserRoleFilter(this.centralServerService).getFilterDef(),
       new UserStatusFilter().getFilterDef(),
-      new TagTableFilter().getFilterDef(),
+      new TagTableFilter([issuerFilter]).getFilterDef(),
       new SiteTableFilter().getFilterDef(),
     ];
   }

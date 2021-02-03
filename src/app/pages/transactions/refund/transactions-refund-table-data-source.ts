@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
+import { ConnectorTableFilter } from 'shared/table/filters/connector-table-filter';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
@@ -255,7 +256,8 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
     if (this.authorizationService.isAdmin() || this.authorizationService.hasSitesAdminRights()) {
       if (this.componentService.isActive(TenantComponents.ORGANIZATION)) {
         filters.push(new ChargingStationTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
-        filters.push(new SiteAreaTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
+        filters.push(new ConnectorTableFilter().getFilterDef());
+        filters.push(new SiteAreaTableFilter().getFilterDef());
         filters.push(new UserTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
         filters.push(new ReportTableFilter().getFilterDef());
       }

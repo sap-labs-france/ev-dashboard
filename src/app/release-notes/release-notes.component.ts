@@ -24,8 +24,27 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.39',
+        date: new Date('2020-02-02'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Greencom Asset integration`,
+              `Let the car increases its consumption in sticky Smart Charging`,
+              `Added Connector ID filter in Transaction lists`,
+              `Stored encryption key of sensitive data in the database per organization (tenant)`,
+              `Split Settings menu into Technical Settings and Integration Settings`,
+              `Moved Charging Station registration from Settings to Charging Stations menu`,
+              `Aligned Transaction's time with Charging Station's locale in Export CSV`,
+              `Translated CSV headers in all export`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.38',
-        date: new Date('2020-01-20'),
+        date: new Date('2020-01-25'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -38,6 +57,7 @@ export class ReleaseNotesComponent {
               `Fixed sync of car's images with EV-Database due to a change on their interface`,
               `Linked toolbar button activation with list selection`,
               `Store credentials in SAP User Provided Services`,
+              `Fixed Stats legend is not displayed in wide screen`,
             ],
           },
         ],

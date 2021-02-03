@@ -14,7 +14,7 @@ import { RegistrationToken } from '../../../../types/RegistrationToken';
     </mat-chip-list>
   `,
 })
-export class RegistrationTokenStatusComponent extends CellContentTemplateDirective {
+export class ChargingStationsRegistrationTokenStatusComponent extends CellContentTemplateDirective {
   @Input() public row!: RegistrationToken;
 }
 
@@ -44,12 +44,12 @@ export class AppRegistrationTokenStatusPipe implements PipeTransform {
 
   public buildStatusText(registrationToken: RegistrationToken): string {
     if (this.isExpired(registrationToken)) {
-      return 'settings.charging_station.registration_token_expired';
+      return 'chargers.connections.registration_token_expired';
     }
     if (this.isRevoked(registrationToken)) {
-      return 'settings.charging_station.registration_token_revoked';
+      return 'chargers.connections.registration_token_revoked';
     }
-    return 'settings.charging_station.registration_token_valid';
+    return 'chargers.connections.registration_token_valid';
   }
 
   private isExpired(registrationToken: RegistrationToken): boolean {

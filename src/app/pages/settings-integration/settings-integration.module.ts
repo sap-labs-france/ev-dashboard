@@ -15,6 +15,7 @@ import { SettingsSacComponent } from './analytics/sac/settings-sac.component';
 import { SettingsAnalyticsComponent } from './analytics/settings-analytics.component';
 import { AssetConnectionComponent } from './asset/connection/asset-connection.component';
 import { AssetConnectionDialogComponent } from './asset/connection/asset-connection.dialog.component';
+import { GreencomAssetConnectionComponent } from './asset/connection/greencom/greencom-asset-connection.component';
 import { SchneiderAssetConnectionComponent } from './asset/connection/schneider/schneider-asset-connection.component';
 import { SettingsAssetConnectionEditableTableDataSource } from './asset/settings-asset-connections-list-table-data-source';
 import { SettingsAssetComponent } from './asset/settings-asset.component';
@@ -40,12 +41,8 @@ import { SettingsPricingComponent } from './pricing/settings-pricing.component';
 import { SettingsSimplePricingComponent } from './pricing/simple/settings-simple-pricing.component';
 import { SettingsConcurComponent } from './refund/concur/settings-concur.component';
 import { SettingsRefundComponent } from './refund/settings-refund.component';
-import { AppRegistrationTokenStatusPipe, RegistrationTokenStatusComponent } from './registration-tokens/registration-token/registration-token-status.component';
-import { RegistrationTokenComponent } from './registration-tokens/registration-token/registration-token.component';
-import { RegistrationTokenDialogComponent } from './registration-tokens/registration-token/registration-token.dialog.component';
-import { RegistrationTokensComponent } from './registration-tokens/registration-tokens.component';
-import { SettingsComponent } from './settings.component';
-import { SettingsRoutes } from './settings.routing';
+import { SettingsIntegrationComponent } from './settings-integration.component';
+import { SettingsRoutes } from './settings-integration.routing';
 import { SettingsSapSmartChargingComponent } from './smart-charging/sap-smart-charging/settings-sap-smart-charging.component';
 import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-charging.component';
 
@@ -63,9 +60,8 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     FormattersModule,
   ],
   declarations: [
-    SettingsComponent,
+    SettingsIntegrationComponent,
     SettingsOcpiComponent,
-    RegistrationTokensComponent,
     SettingsRefundComponent,
     SettingsConcurComponent,
     SettingsPricingComponent,
@@ -86,8 +82,8 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     SettingsAssetComponent,
     AssetConnectionComponent,
     AssetConnectionDialogComponent,
-    RegistrationTokenDialogComponent,
     SchneiderAssetConnectionComponent,
+    GreencomAssetConnectionComponent,
     OcpiEndpointStatusFormatterComponent,
     AppFormatOcpiStatusPipe,
     OcpiDetailJobStatusFomatterComponent,
@@ -103,14 +99,10 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     OcpiPatchJobStatusFormatterComponent,
     AppFormatOcpiPatchJobStatusPipe,
     SettingsOcpiEnpointsDetailsComponent,
-    RegistrationTokenComponent,
-    RegistrationTokenStatusComponent,
-    AppRegistrationTokenStatusPipe,
   ],
   entryComponents: [
-    SettingsComponent,
+    SettingsIntegrationComponent,
     SettingsOcpiComponent,
-    RegistrationTokensComponent,
     SettingsOcpiEnpointsComponent,
     SettingsRefundComponent,
     SettingsConcurComponent,
@@ -126,8 +118,8 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     SettingsAssetComponent,
     AssetConnectionComponent,
     AssetConnectionDialogComponent,
-    RegistrationTokenDialogComponent,
     SchneiderAssetConnectionComponent,
+    GreencomAssetConnectionComponent,
     AnalyticsLinkDialogComponent,
     SettingsOcpiEnpointDialogComponent,
     SettingsOcpiEnpointComponent,
@@ -139,8 +131,6 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     OcpiDetailFailureEvsesStatusFormatterComponent,
     OcpiPatchJobStatusFormatterComponent,
     SettingsOcpiEnpointsDetailsComponent,
-    RegistrationTokenComponent,
-    RegistrationTokenStatusComponent,
   ],
   providers: [
     SettingsOcpiEndpointsDetailsTableDataSource,
@@ -150,5 +140,5 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
   ],
 })
 
-export class SettingsModule {
+export class SettingsIntegrationModule {
 }

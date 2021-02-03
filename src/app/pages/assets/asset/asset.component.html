@@ -65,37 +65,37 @@
                     required />
                 </mat-form-field>
               </div>
+              <div class="form-group">
+                <mat-form-field>
+                  <mat-select [formControl]="assetType" placeholder="{{'assets.asset_type' | translate}}" required>
+                    <mat-option *ngFor="let assetType of assetTypes" value="{{assetType.key}}">
+                      {{assetType.value | translate}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="assetType.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+                </mat-form-field>
+              </div>
               <div class="row">
                 <div class="col-md-6">
                   <div class="form-group">
                     <mat-form-field>
-                      <mat-select [formControl]="assetType" placeholder="{{'assets.asset_type' | translate}}" required>
-                        <mat-option *ngFor="let assetType of assetTypes" value="{{assetType.key}}">
-                          {{assetType.value | translate}}
-                        </mat-option>
-                      </mat-select>
-                      <mat-error *ngIf="assetType.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+                      <input matInput [formControl]="staticValueWatt"
+                        placeholder="{{'assets.static_value_watt' | translate}}" required type='number'>
+                      <mat-error *ngIf="assetType.errors?.required">{{"general.mandatory_field" | translate}}
+                      </mat-error>
                     </mat-form-field>
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
                     <mat-form-field>
-                      <input matInput [formControl]="fluctuation" placeholder="{{'assets.fluctuation' | translate}}"
-                        type='number'>
-                        <mat-error *ngIf="fluctuation.errors?.pattern">{{"chargers.invalid_power" | translate}}
-                        </mat-error>
+                      <input matInput [formControl]="fluctuationPercent"
+                        placeholder="{{'assets.fluctuation_percent' | translate}}" type='number'>
+                      <mat-error *ngIf="fluctuationPercent.errors?.pattern || fluctuationPercent.errors?.max">{{"chargers.invalid_efficiency" | translate}}
+                      </mat-error>
                     </mat-form-field>
                   </div>
                 </div>
-              </div>
-              <div class="form-group">
-                <mat-form-field>
-                  <input matInput [formControl]="fallbackValue"
-                    placeholder="{{'assets.fallback_value' | translate}}" required type='number'>
-                  <mat-error *ngIf="assetType.errors?.required">{{"general.mandatory_field" | translate}}
-                  </mat-error>
-                </mat-form-field>
               </div>
               <div class="row">
                 <div class="col-md-6">

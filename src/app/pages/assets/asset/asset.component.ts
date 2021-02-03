@@ -46,8 +46,8 @@ export class AssetComponent implements OnInit {
   public siteArea!: AbstractControl;
   public siteAreaID!: AbstractControl;
   public assetType!: AbstractControl;
-  public fluctuation!: AbstractControl;
-  public fallbackValue!: AbstractControl;
+  public fluctuationPercent!: AbstractControl;
+  public staticValueWatt!: AbstractControl;
   public coordinates!: FormArray;
   public longitude!: AbstractControl;
   public latitude!: AbstractControl;
@@ -100,11 +100,12 @@ export class AssetComponent implements OnInit {
           Validators.required,
         ])
       ),
-      fluctuation: new FormControl('',
+      fluctuationPercent: new FormControl('',
         Validators.compose([
+          Validators.max(100),
           Validators.pattern('^[+]?[0-9]*$'),
         ])),
-      fallbackValue: new FormControl('',
+      staticValueWatt: new FormControl('',
         Validators.compose([
           Validators.required,
         ])
@@ -139,8 +140,8 @@ export class AssetComponent implements OnInit {
     this.siteArea = this.formGroup.controls['siteArea'];
     this.siteAreaID = this.formGroup.controls['siteAreaID'];
     this.assetType = this.formGroup.controls['assetType'];
-    this.fluctuation = this.formGroup.controls['fluctuation'];
-    this.fallbackValue = this.formGroup.controls['fallbackValue'];
+    this.fluctuationPercent = this.formGroup.controls['fluctuationPercent'];
+    this.staticValueWatt = this.formGroup.controls['staticValueWatt'];
     this.coordinates = this.formGroup.controls['coordinates'] as FormArray;
     this.longitude = this.coordinates.at(0);
     this.latitude = this.coordinates.at(1);
@@ -193,11 +194,12 @@ export class AssetComponent implements OnInit {
       if (this.asset.assetType) {
         this.formGroup.controls.assetType.setValue(this.asset.assetType);
       }
-      if (this.asset.fluctuation) {
-        this.formGroup.controls.fluctuation.setValue(this.asset.fluctuation);
+      if (this.asset.fluctuationPercent){
+        this.formGroup.controls.fluctuationPercent.setValue(this.asset.fluctuationPercent);
       }
-      if (!Utils.isUndefined(this.asset.fallbackValue)) {
-        this.formGroup.controls.fallbackValue.setValue(this.asset.fallbackValue);
+
+      if (!Utils.isUndefined(this.asset.staticValueWatt)) {
+        this.formGroup.controls.staticValueWatt.setValue(this.asset.staticValueWatt);
       }
       if (this.asset.coordinates) {
         this.longitude.setValue(this.asset.coordinates[0]);
@@ -318,6 +320,9 @@ export class AssetComponent implements OnInit {
       validateButtonTitle: 'general.select',
       sitesAdminOnly: true,
       rowMultipleSelection: false,
+      staticFilter: {​​
+        Issuer: true
+      }​​,
     };
     this.dialog.open(SiteAreasDialogComponent, dialogConfig)
       .afterClosed().subscribe((result) => {

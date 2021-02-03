@@ -25,7 +25,7 @@
     "connectors": "Verknüpfungen",
     "notifications": "Benachrichtungen",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.4.38",
+    "last_update": "Version 2.4.39",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "Ein unerwarteter Fehler ist aufgetreten",
@@ -164,6 +164,8 @@
       "pricing": "Preisbildung",
       "components": "Komponenten",
       "settings": "Einstellungen",
+      "integration_settings": "Integration Settings",
+      "technical_settings": "Technical Settings",
       "assets": "Assets",
       "organization": "Organisation",
       "template": "Vorlagen",
@@ -310,8 +312,8 @@
     "logo": "Logo",
     "name": "Name",
     "asset_type": "Asset-Typ",
-    "fluctuation": "Kurzfristige Schwankungen (W)",
-    "fallback_value": "Standardwert (W)",
+    "fluctuation_percent": "Fluctuation (%)",
+    "static_value_watt": "Static Power (W)",
     "produce": "Produziert Energie",
     "consume": "Verbraucht Energie",
     "consume_and_produce": "Verbraucht und erzeugt Energie",
@@ -338,8 +340,8 @@
     "asset_settings_error": "Beim Abrufen der Asset-Verbindung ist ein Fehler aufgetreten",
     "create_success": "Das Asset '{{assetName}}' wurde erfolgreich erstellt",
     "create_error": "Beim Erstellen des Assets ist ein Fehler aufgetreten",
-    "refresh_success": "Die Asset-Verbingund wurde erfolgreich aktualisiert",
-    "refresh_error": "Error occurred while refreshing the asset connection",
+    "refresh_success": "The asset's consumption or production has been successfully retrieved",
+    "refresh_error": "Error occurred while retrieving the asset's consumption or production'",
     "logo_size_error": "Die maximale Bildgröße wurde überschritten, die maximale Bildgröße ist '{{maxPictureKb}}' Kb",
     "select_assets": "Asset auswählen",
     "consumption_date": "Datum",
@@ -1004,7 +1006,8 @@
     "tabs": {
       "list": "Ladestationen",
       "charging_plans": "Ladepläne",
-      "in_error": "Fehlerhaft"
+      "in_error": "Fehlerhaft",
+      "connection": "Onboard New Station"
     },
     "errors": {
       "missing_settings": {
@@ -1027,6 +1030,37 @@
         "description": "Die Ladesäule sendet einen Fehlercode für einen Ihrer Anschlüsse.",
         "action": "Überprüfen Sie die Fehlercodedetails und starten Sie den Ladevorgang eventuell neu."
       }
+    },
+    "connections": {
+      "registration_tokens_title": "Ladestation Registrierungstokens",
+      "registration_token_site_area_name": "Token für Standortbereich '{{siteAreaName}}'",
+      "registration_token_creation_title": "Registrierungstoken erstellen",
+      "registration_token_creation_confirm": "Wollen Sie wirklich einen Registrierungstoken für Ladestationen dieses Standortbereichs erstellen?",
+      "registration_token_creation_success": "Registrierungstoken wurde erfolgreich erstellt",
+      "registration_token_creation_error": "Beim Erstellen des Registrierungstoken ist ein Fehler aufgetreten",
+      "registration_token_revoke_title": "Registierungstoken widerrufen",
+      "registration_token_revoke_confirm": "Wollen Sie den Registrierungstoken wirklich widerrufen?",
+      "registration_token_revoke_success": "Registrierungstoken wurde erfolgreich widerrufen",
+      "registration_token_revoke_error": "Beim Widerrufen des Registrierungstokens ist ein Fehler aufgetreten",
+      "registration_token_delete_title": "Registrierungstoken löschen",
+      "registration_token_delete_confirm": "Wollen Sie den Registrierungstoken wirklich löschen?",
+      "registration_token_delete_success": "Registrierungstoken wurde erfolgreich gelöscht",
+      "registration_token_delete_error": "Beim Löschen des Registrierungstokens ist ein Fehler aufgetreten",
+      "registration_token_url": "Registrierungs-URL",
+      "registration_token_valid": "Gültig",
+      "registration_token_expired": "Abgelaufen",
+      "registration_token_revoked": "Widerrufen",
+      "token_restrict_site_area": "Zugang auf einen Standortbereich beschränken",
+      "url": "OCPP-URL",
+      "copy_url_tooltip": "OCPP-URL kopieren",
+      "url_copied": "OCPP-Url wurde kopiert",
+      "generate_connection_url": "Verbinden einer Ladestation",
+      "ocpp_15_soap": "OCPP 1.5 SOAP",
+      "ocpp_16_json": "OCPP 1.6 JSON",
+      "ocpp_16_soap": "OCPP 1.6 SOAP",
+      "ocpp_15_soap_secure": "Secure OCPP 1.5 SOAP",
+      "ocpp_16_json_secure": "Secure OCPP 1.6 JSON",
+      "ocpp_16_soap_secure": "Secure OCPP 1.6 SOAP"
     }
   },
   "logs": {
@@ -1315,7 +1349,6 @@
     "settings_not_saved": "Bitte speichern Sie zuerst Ihre Einstellungen",
     "tabs": {
       "ocpi": "Roaming",
-      "charging_station": "Ladestation",
       "refund": "Rückerstattung",
       "pricing": "Preisbildung",
       "billing": "Rechnungslegung",
@@ -1334,37 +1367,6 @@
       "update_success": "OCPI-Einstellungen wurden erfolgreich aktualisiert",
       "update_error": "Beim Aktualisieren der OCPI-Einstellungen ist ein Fehler aufgetreten",
       "description": "E-Mobility stellt einen zertifizierten Service zur Verbindung zur externen E-Roaming Plattform zur Verfügung.<br>Dieses Feature legt in Echtzeit die Lade-Infrastruktur und -Verfügbarkeit via OCPI-Standard-Protokoll (Open Charge Point Interface) offen.<br>E-Mobility nutzt momentan die Gireve Inter-Operability Platform (IOP)."
-    },
-    "charging_station": {
-      "registration_tokens_title": "Ladestation Registrierungstokens",
-      "registration_token_site_area_name": "Token für Standortbereich '{{siteAreaName}}'",
-      "registration_token_creation_title": "Registrierungstoken erstellen",
-      "registration_token_creation_confirm": "Wollen Sie wirklich einen Registrierungstoken für Ladestationen dieses Standortbereichs erstellen?",
-      "registration_token_creation_success": "Registrierungstoken wurde erfolgreich erstellt",
-      "registration_token_creation_error": "Beim Erstellen des Registrierungstoken ist ein Fehler aufgetreten",
-      "registration_token_revoke_title": "Registierungstoken widerrufen",
-      "registration_token_revoke_confirm": "Wollen Sie den Registrierungstoken wirklich widerrufen?",
-      "registration_token_revoke_success": "Registrierungstoken wurde erfolgreich widerrufen",
-      "registration_token_revoke_error": "Beim Widerrufen des Registrierungstokens ist ein Fehler aufgetreten",
-      "registration_token_delete_title": "Registrierungstoken löschen",
-      "registration_token_delete_confirm": "Wollen Sie den Registrierungstoken wirklich löschen?",
-      "registration_token_delete_success": "Registrierungstoken wurde erfolgreich gelöscht",
-      "registration_token_delete_error": "Beim Löschen des Registrierungstokens ist ein Fehler aufgetreten",
-      "registration_token_url": "Registrierungs-URL",
-      "registration_token_valid": "Gültig",
-      "registration_token_expired": "Abgelaufen",
-      "registration_token_revoked": "Widerrufen",
-      "token_restrict_site_area": "Zugang auf einen Standortbereich beschränken",
-      "url": "OCPP-URL",
-      "copy_url_tooltip": "OCPP-URL kopieren",
-      "url_copied": "OCPP-Url wurde kopiert",
-      "generate_connection_url": "Verbinden einer Ladestation",
-      "ocpp_15_soap": "OCPP 1.5 SOAP",
-      "ocpp_16_json": "OCPP 1.6 JSON",
-      "ocpp_16_soap": "OCPP 1.6 SOAP",
-      "ocpp_15_soap_secure": "Secure OCPP 1.5 SOAP",
-      "ocpp_16_json_secure": "Secure OCPP 1.6 JSON",
-      "ocpp_16_soap_secure": "Secure OCPP 1.6 SOAP"
     },
     "refund": {
       "description": "E-Mobility bietet einen Rückerstattungsservice für ein externes Kostensystem.<br>Dieses Feature ermöglicht es die Ladevorgänge in ein externes Kostensystem zu übertragen und die verbrauchte Energie zurückerstattet zu bekommen.<br>E-Mobility benutzt zur Zeit SAP Concur. Weitere technische Informationen finden Sie auf ",
@@ -1517,11 +1519,14 @@
         "base_url": "URL",
         "user": "Nutzer",
         "password": "Passwort",
+        "client_id":"Client ID",
+        "client_secret":"Client Secret",
         "delete_title": "Asset-Verbindung löschen",
         "delete_confirm": "Möchten Sie die Verbindung '{{assetConnectionName}}' wirklich löschen?"
       },
       "types": {
-        "schneider": "Schneider Building Management System"
+        "schneider": "Schneider Building Management System",
+        "greencom": "GreenCom Asset Management System"
       },
       "connection_success": "Die Verbindung zum System wurde erfolgreich getestet.",
       "unknown_connection_error": "Unbekannter Verbindungsfehler",
@@ -1543,6 +1548,24 @@
       "synchronize_car_catalogs_dialog_confirm": "Möchten Sie die Synchronisierung aller elektrischen Fahrzeuge wirklich starten?",
       "assign_user_to_car_dialog_title": "Nutzer zum Fahrzeug zuordnen",
       "assign_user_to_car_dialog_confirm": "Das Fahrzeug existiert bereits, möchten Sie es wirklich wiederverwenden?"
+    }
+  },
+  "technical_settings": {
+    "tabs": {
+      "crypto": "Crypto"
+    },
+    "crypto": {
+      "crypto_key": {
+        "title": "Crypto Settings",
+        "subtitle": "Crypto Key",
+        "key": "Key",
+        "block_cypher": "Block Cypher",
+        "block_size": "Block Size",
+        "operation_mode": "Operation Mode"
+      },
+      "setting_do_not_exist": "Crypto Technical Settings not found",
+      "update_success": "Crypto Technical Settings have been updated successfully",
+      "update_error": "Error occurred while updating the Crypto Technical Settings, check the logs"
     }
   },
   "ocpiendpoints": {

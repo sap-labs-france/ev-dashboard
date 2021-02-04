@@ -340,8 +340,8 @@
     "asset_settings_error": "Si è verificato un errore durante il recupero delle connessioni della risorsa",
     "create_success": "La risorsa '{{assetName}}' è stata creata correttamente",
     "create_error": "Si è verificato un errore durante la creazione della risorsa",
-    "refresh_success": "La connessione alla risorsa è stata aggiornata correttamente",
-    "refresh_error": "Si è verificato un errore durante l'aggiornamento della connessione alla risorsa",
+    "refresh_success": "The asset's consumption or production has been successfully retrieved",
+    "refresh_error": "Error occurred while retrieving the asset's consumption or production'",
     "logo_size_error": "Il limite di dimensione dell'immagine è stato superato, il limite è inferiore a {{maxPictureKb}} Kb",
     "select_assets": "Seleziona Risorsa",
     "consumption_date": "Data",
@@ -1525,7 +1525,7 @@
         "delete_confirm": "Vuoi veramente cancellare la connessione '{{assetConnectionName}}'?"
       },
       "types": {
-        "schneider": "Sistema Gestione Edifici Schneider"
+        "schneider": "Sistema Gestione Edifici Schneider",
         "greencom": "GreenCom Asset Management System"
       },
       "connection_success": "La connessione al sistema è stata testata con successo",

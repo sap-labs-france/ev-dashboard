@@ -28,7 +28,10 @@ export class CompanyComponent implements OnInit {
   @Input() public inDialog!: boolean;
   @Input() public dialogRef!: MatDialogRef<any>;
 
-  public isAdmin = false;
+  public canReadCompany = false;
+  public canCreateCompany = false;
+  public canUpdateCompany = false;
+  public canDeleteCompany = false;
   public logo = Constants.NO_IMAGE;
   public logoHasChanged = false;
   public maxSize: number;
@@ -56,11 +59,10 @@ export class CompanyComponent implements OnInit {
       // Not authorized
       this.router.navigate(['/']);
     }
-    // get admin flag
-    this.isAdmin = this.authorizationService.canCreateCompany() &&
-      this.authorizationService.canReadCompany() &&
-      this.authorizationService.canUpdateCompany() &&
-      this.authorizationService.canDeleteCompany();
+    this.canReadCompany = this.authorizationService.canReadCompany();
+    this.canCreateCompany = this.authorizationService.canCreateCompany();
+    this.canUpdateCompany = this.authorizationService.canUpdateCompany();
+    this.canDeleteCompany = this.authorizationService.canDeleteCompany();
   }
 
   public ngOnInit() {
@@ -76,7 +78,7 @@ export class CompanyComponent implements OnInit {
     this.id = this.formGroup.controls['id'];
     this.name = this.formGroup.controls['name'];
     // if not admin switch in readonly mode
-    if (!this.isAdmin) {
+    if (!(this.canCreateCompany && this.canReadCompany && this.canUpdateCompany && this.canDeleteCompany)) {
       this.formGroup.disable();
     }
     if (this.currentCompanyID) {

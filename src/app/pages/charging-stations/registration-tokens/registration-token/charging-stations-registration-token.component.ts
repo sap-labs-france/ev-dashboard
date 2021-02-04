@@ -61,13 +61,11 @@ export class ChargingStationsRegistrationTokenComponent implements OnInit {
           Validators.required,
         ])),
     });
-
     this.siteArea = this.formGroup.controls['siteArea'];
     this.siteAreaID = this.formGroup.controls['siteAreaID'];
     this.description = this.formGroup.controls['description'];
     this.expirationDate = this.formGroup.controls['expirationDate'];
     this.id = this.formGroup.controls['id'];
-    
     // If currentToken is set we are in update mode
     if (this.currentToken) {
       this.siteArea.setValue(this.currentToken.siteArea ? this.currentToken.siteArea.name : null);

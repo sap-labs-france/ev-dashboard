@@ -60,6 +60,9 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
     private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
     private authorizationService: AuthorizationService,
+    private canUpdateToken = authorizationService.canUpdateToken(),
+    private canCreateToken = authorizationService.canCreateToken(),
+    private canDeleteToken = authorizationService.canDeleteToken(),
     private datePipe: AppDatePipe) {
     super(spinnerService, translateService);
     this.isOrganizationComponentActive = this.componentService.isActive(TenantComponents.ORGANIZATION);
@@ -182,7 +185,7 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-    if (this.authorizationService.canCreateToken()) {
+    if (this.canCreateToken) {
       return [
         new TableCreateAction().getActionDef(),
         ...tableActionsDef,
@@ -194,7 +197,7 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
   public buildTableDynamicRowActions(registrationToken: RegistrationToken): TableActionDef[] {
     const moreActions = [];
     if (registrationToken.revocationDate || moment().isAfter(registrationToken.expirationDate)) {
-      if (this.authorizationService.canDeleteToken()) {
+      if (this.canDeleteToken) {
         return [this.deleteAction];
       }
       return [];
@@ -211,16 +214,13 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
       copyUrlActions,
       'chargers.connections.copy_url_tooltip',
       'chargers.connections.copy_url_tooltip').getActionDef();
-    
-    if (this.authorizationService.canUpdateToken()) {
+    if (this.canUpdateToken) {
       moreActions.push(this.editAction)
       moreActions.push(this.revokeAction)
     }
-
-    if (this.authorizationService.canDeleteToken()) {
+    if (this.canDeleteToken) {
       moreActions.push(this.deleteAction)
     }
-
     return [
       this.copyUrlAction,
       new TableMoreAction(

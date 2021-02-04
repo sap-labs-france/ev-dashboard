@@ -12,7 +12,7 @@
               <div class="row app-organization">
                 <div class="col-md-5">
                   <div class="rotating-card-container"
-                    [ngStyle]="{ 'pointer-events': this.isAdmin ? 'all' : 'none'}">
+                    [ngStyle]="{ 'pointer-events': this.canCreateSite ? 'all' : 'none'}">
                     <div class="card card-rotate card-background app-site-image-padding mt-0">
                       <div class="front front-background"
                         [ngStyle]="{'background-image': 'url(' + image + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
@@ -21,7 +21,7 @@
                       </div>
                       <div class="back back-background"
                         [ngStyle]="{'background-image': 'url(' + image + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
-                        <div *ngIf="this.isAdmin" class="card-body">
+                        <div *ngIf="this.canCreateSite" class="card-body">
                           <h5 class="card-title">
                             {{'general.change_picture' | translate}}
                           </h5>
@@ -29,7 +29,8 @@
                             <button mat-flat-button color="primary" class="mr-2">
                               <mat-icon (click)="file.click()">mode_edit</mat-icon>
                               <div class="d-none">
-                                <input #file type="file" name="..." (change)="onImageChanged($event)" accept="image/jpg,image/jpeg,image/png,image/gif">
+                                <input #file type="file" name="..." (change)="onImageChanged($event)"
+                                  accept="image/jpg,image/jpeg,image/png,image/gif">
                               </div>
                             </button>
                             <button mat-flat-button color="warn">
@@ -52,9 +53,9 @@
                     </mat-form-field>
                   </div>
                   <div class="form-group">
-                    <mat-form-field *ngIf="formGroup.enabled" >
+                    <mat-form-field *ngIf="formGroup.enabled">
                       <input matInput type="text" readonly=true placeholder="{{'companies.company' | translate}}"
-                          class="form-field-popup" (click)="assignCompany()" [formControl]="company" required/>
+                        class="form-field-popup" (click)="assignCompany()" [formControl]="company" required />
                       <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignCompany()">
                         <mat-icon>create</mat-icon>
                       </button>
@@ -62,9 +63,9 @@
                         {{"general.mandatory_field" | translate}}
                       </mat-error>
                     </mat-form-field>
-                    <mat-form-field *ngIf="!formGroup.enabled" >
+                    <mat-form-field *ngIf="!formGroup.enabled">
                       <input matInput type="text" placeholder="{{'companies.company' | translate}}"
-                        [formControl]="company" required/>
+                        [formControl]="company" required />
                     </mat-form-field>
                   </div>
                   <div class="form-group">
@@ -85,21 +86,23 @@
               </div>
               <div class="row">
                 <div class="col-md-12">
-                  <app-address [address]="address" [formGroup]="formGroup" componentName="{{'sites.site' | translate}}" [itemComponentName]="name.value"></app-address>
+                  <app-address [address]="address" [formGroup]="formGroup" componentName="{{'sites.site' | translate}}"
+                    [itemComponentName]="name.value"></app-address>
                 </div>
               </div>
               <div class="clearfix"></div>
             </div>
             <div class="tab-pane" id="address">
-              <app-address [address]="address" [formGroup]="formGroup" componentName="{{'sites.site' | translate}}" [itemComponentName]="name.value"></app-address>
+              <app-address [address]="address" [formGroup]="formGroup" componentName="{{'sites.site' | translate}}"
+                [itemComponentName]="name.value"></app-address>
             </div>
           </div>
         </div>
       </mat-tab>
     </mat-tab-group>
     <div class="tabs-actions">
-      <button mat-button *ngIf="this.isAdmin"
-        (click)="saveSite(formGroup.value)" [disabled]="!formGroup.valid || !formGroup.dirty">
+      <button mat-button *ngIf="this.canCreateSite" (click)="saveSite(formGroup.value)"
+        [disabled]="!formGroup.valid || !formGroup.dirty">
         <mat-icon>save</mat-icon>
         <span>{{'general.save' | translate}}</span>
       </button>

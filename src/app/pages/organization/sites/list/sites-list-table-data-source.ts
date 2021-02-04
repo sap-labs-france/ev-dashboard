@@ -38,6 +38,10 @@ import { SiteDialogComponent } from '../site/site-dialog.component';
 
 @Injectable()
 export class SitesListTableDataSource extends TableDataSource<Site> {
+  private canReadSite = false;
+  private canCreateSite = false;
+  private canUpdateSite = false;
+  private canDeleteSite = false;
   private editAction = new TableEditSiteAction().getActionDef();
   private assignUsersToSite = new TableAssignUsersToSiteAction().getActionDef();
   private deleteAction = new TableDeleteSiteAction().getActionDef();
@@ -57,6 +61,10 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
     private datePipe: AppDatePipe,
     private authorizationService: AuthorizationService) {
     super(spinnerService, translateService);
+    this.canReadSite = this.authorizationService.canReadSite();
+    this.canCreateSite = this.authorizationService.canCreateSite();
+    this.canUpdateSite = this.authorizationService.canUpdateSite();
+    this.canDeleteSite = this.authorizationService.canDeleteSite();
     this.setStaticFilters([{ WithCompany: true }]);
     this.initDataSource();
   }
@@ -139,7 +147,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
         sortable: true,
       },
     ];
-    if (this.authorizationService.isAdmin()) {
+    if (this.canReadSite && this.canCreateSite && this.canUpdateSite && this.canDeleteSite) {
       tableColumnDef.push(
         {
           id: 'createdOn',
@@ -194,7 +202,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
     openInMaps.disabled = !Utils.containsAddressGPSCoordinates(site.address);
     let moreActions;
     if (site.issuer) {
-      if (this.authorizationService.isAdmin() ||
+      if ((this.canReadSite && this.canCreateSite && this.canUpdateSite && this.canDeleteSite) ||
         this.authorizationService.isSiteAdmin(site.id) ||
         this.authorizationService.isSiteOwner(site.id)) {
         actions.push(this.editAction);

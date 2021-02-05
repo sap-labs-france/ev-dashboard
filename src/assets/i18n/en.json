@@ -1566,7 +1566,7 @@
       "setting_do_not_exist": "Crypto Technical Settings not found",
       "update_success": "Crypto Technical Settings have been updated successfully",
       "update_error": "Error occurred while updating the Crypto Technical Settings, check the logs",
-      "migration_in_progress_warning": "Crypto Settings cannot be changed while migration is in progress."
+      "migration_in_progress_error": "Crypto Settings cannot be changed while migration is in progress."
     }
   },
   "ocpiendpoints": {

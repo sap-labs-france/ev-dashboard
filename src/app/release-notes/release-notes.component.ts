@@ -31,6 +31,8 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Allow OCPI Remote Start Transaction on Charging Stations with status Preparing`,
+              `Authorize a Remote Start when connector's status is Preparing`,
+              `Enhanced OCPI logs for Remote Start/Stop`,
               `Added Renault Twizzy and Goupil G5 EVs`,
               `Italian translation provided`,
             ],

@@ -25,12 +25,13 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.4.40',
-        date: new Date('2020-02-04'),
+        date: new Date('2020-02-05'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `Allow OCPI Remote Start Transaction on Charging Stations with status Preparing`,
+              `Added Renault Twizzy and Goupil G5 EVs`,
               `Italian translation provided`,
             ],
           },

@@ -48,6 +48,9 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
   private copySOAP16SecureAction = new TableCopyAction('chargers.connections.ocpp_16_soap_secure').getActionDef();
   private copyJSON16SecureAction = new TableCopyAction('chargers.connections.ocpp_16_json_secure').getActionDef();
   private copyUrlAction: TableActionDef;
+  private canUpdateToken: boolean;
+  private canCreateToken: boolean;
+  private canDeleteToken: boolean;
 
   constructor(
     public spinnerService: SpinnerService,
@@ -60,12 +63,12 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
     private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
     private authorizationService: AuthorizationService,
-    private canUpdateToken = authorizationService.canUpdateToken(),
-    private canCreateToken = authorizationService.canCreateToken(),
-    private canDeleteToken = authorizationService.canDeleteToken(),
     private datePipe: AppDatePipe) {
     super(spinnerService, translateService);
     this.isOrganizationComponentActive = this.componentService.isActive(TenantComponents.ORGANIZATION);
+    this.canUpdateToken = this.authorizationService.canUpdateToken(),
+    this.canCreateToken = this.authorizationService.canCreateToken(),
+    this.canDeleteToken = this.authorizationService.canDeleteToken(),
     // Init
     this.initDataSource();
   }

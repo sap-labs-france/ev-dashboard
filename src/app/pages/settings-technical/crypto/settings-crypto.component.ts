@@ -68,9 +68,7 @@ export class SettingsCryptoComponent implements OnInit {
       return;
     }
     this.cryptoSettings.type = CryptoSettingsType.CRYPTO;
-    this.cryptoSettings.crypto.formerKey = this.cryptoSettings.crypto.key;
     this.cryptoSettings.crypto.key = content.crypto.key;
-    this.cryptoSettings.crypto.formerKeyProperties = this.cryptoSettings.crypto.keyProperties;
     this.cryptoSettings.crypto.keyProperties = {
       blockCypher: content.crypto.blockCypher,
       blockSize: content.crypto.blockSize,

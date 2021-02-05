@@ -84,6 +84,10 @@ export class AuthorizationService {
     return this.canAccess(Entity.SITE, Action.UPDATE);
   }
 
+  public canReadSiteArea(): boolean {
+    return this.canAccess(Entity.SITE_AREA, Action.READ);
+  }
+
   public canCreateSiteArea(): boolean {
     return this.canAccess(Entity.SITE_AREA, Action.CREATE);
   }

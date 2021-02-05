@@ -56,7 +56,7 @@ export class SiteAreaComponent implements OnInit {
   ];
 
   public address!: Address;
-  public isAdmin!: boolean;
+  public canCreateSiteArea!: boolean;
   public isSmartChargingComponentActive = false;
 
   public registrationToken!: RegistrationToken;
@@ -81,7 +81,7 @@ export class SiteAreaComponent implements OnInit {
       this.router.navigate(['/']);
     }
     // Set
-    this.isAdmin = this.authorizationService.canCreateSiteArea();
+    this.canCreateSiteArea = this.authorizationService.canCreateSiteArea();
     this.isSmartChargingComponentActive = this.componentService.isActive(TenantComponents.SMART_CHARGING);
   }
 
@@ -194,10 +194,10 @@ export class SiteAreaComponent implements OnInit {
     this.centralServerService.getSiteArea(this.currentSiteAreaID, true).subscribe((siteArea) => {
       this.spinnerService.hide();
       this.siteArea = siteArea;
-      this.isAdmin = this.authorizationService.isAdmin() ||
+      this.canCreateSiteArea = this.authorizationService.canCreateSiteArea() ||
         this.authorizationService.isSiteAdmin(siteArea.siteID);
       // if not admin switch in readonly mode
-      if (!this.isAdmin) {
+      if (!this.canCreateSiteArea) {
         this.formGroup.disable();
       }
       // Init form

@@ -33,6 +33,10 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
   public startDate = moment().startOf('d').toDate();
   public endDate = moment().endOf('d').toDate();
 
+  private canReadSiteArea = false;
+  private canCreateSiteArea = false;
+  private canUpdateSiteArea = false;
+  private canDeleteSiteArea = false;
   private graphCreated = false;
   private lineTension = 0;
   private data: ChartData = {
@@ -45,10 +49,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
   private limitColor!: string;
   private defaultColor!: string;
   private language!: string;
-  private activeLegend = [
-    { key: this.translateService.instant('transactions.graph.amps') + this.translateService.instant('organization.graph.power'), hidden: false },
-    { key: this.translateService.instant('transactions.graph.limit_amps') + this.translateService.instant('organization.graph.limit_watts'), hidden: this.authorizationService.isAdmin() ? false : true },
-  ];
+  private activeLegend = [{ key: this.translateService.instant('transactions.graph.amps') + this.translateService.instant('organization.graph.power'), hidden: false }];
 
   constructor(
     private spinnerService: SpinnerService,
@@ -62,6 +63,10 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
     this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
       this.language = locale.language;
     });
+    this.canReadSiteArea = this.authorizationService.canReadSiteArea();
+    this.canCreateSiteArea = this.authorizationService.canCreateSiteArea();
+    this.canUpdateSiteArea = this.authorizationService.canUpdateSiteArea();
+    this.canDeleteSiteArea = this.authorizationService.canDeleteSiteArea();
   }
 
   public ngOnInit() {
@@ -71,6 +76,12 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
         Validators.required,
       ]));
     this.dateControl.setValue(this.startDate);
+    this.activeLegend.push(
+      {
+        key: this.translateService.instant('transactions.graph.limit_amps') + this.translateService.instant('organization.graph.limit_watts'),
+        hidden: this.canReadSiteArea && this.canCreateSiteArea && this.canUpdateSiteArea && this.canDeleteSiteArea ? false : true
+      },
+    )
   }
 
   public ngAfterViewInit() {

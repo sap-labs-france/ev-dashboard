@@ -11,7 +11,8 @@
             <div class="tab-pane active" id="profile">
               <div class="row app-organization">
                 <div class="col-md-5 d-block mt-auto">
-                  <div class="rotating-card-container" [ngStyle]="{ 'pointer-events': isAdmin ? 'all' : 'none'}">
+                  <div class="rotating-card-container"
+                    [ngStyle]="{ 'pointer-events': canCreateSiteArea ? 'all' : 'none'}">
                     <div class="card card-rotate card-background app-site-area-image-padding mt-0">
                       <div class="front front-background"
                         [ngStyle]="{'background-image': 'url(' + image + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
@@ -20,7 +21,7 @@
                       </div>
                       <div class="back back-background"
                         [ngStyle]="{'background-image': 'url(' + image + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
-                        <div *ngIf="isAdmin" class="card-body">
+                        <div *ngIf="canCreateSiteArea" class="card-body">
                           <h5 class="card-title">
                             {{'general.change_picture' | translate}}
                           </h5>
@@ -117,7 +118,7 @@
                       </div>
                     </div>
                   </div>
-                  <div *ngIf="isAdmin && currentSiteAreaID">
+                  <div *ngIf="canCreateSiteArea && currentSiteAreaID">
                     <div class="d-flex justify-content-start">
                       <div *ngIf="registrationToken" class="mr-2">
                         <button mat-raised-button [matMenuTriggerFor]="ocppUrlMenu" color="primary">
@@ -181,7 +182,7 @@
       </mat-tab>
     </mat-tab-group>
     <div class="tabs-actions">
-      <button mat-button *ngIf="isAdmin" (click)="saveSiteArea(formGroup.getRawValue())"
+      <button mat-button *ngIf="canCreateSiteArea" (click)="saveSiteArea(formGroup.getRawValue())"
         [disabled]="!formGroup.valid || !formGroup.dirty">
         <mat-icon>save</mat-icon>
         <span>{{'general.save' | translate}}</span>

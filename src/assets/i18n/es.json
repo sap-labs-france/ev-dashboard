@@ -70,6 +70,7 @@
     "update": "Actualizar",
     "refresh": "Actualizar",
     "generate_qr": "Generate QR code",
+    "display_qr": "Display QR code",
     "save": "Guardar",
     "delete": "Eliminar",
     "export": "Exportar",

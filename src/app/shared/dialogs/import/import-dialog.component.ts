@@ -14,6 +14,7 @@ export class ImportDialogComponent {
 
   public uploader:FileUploader;
   public response:string;
+  public progress: number = 0;
 
   private endpoint;
 
@@ -89,6 +90,9 @@ export class ImportDialogComponent {
 //   }
 
 this.uploader.uploadAll();
+this.uploader.onProgressItem = (progress: any) => {
+  console.log(progress['progress']);
+};
 
 
 }}

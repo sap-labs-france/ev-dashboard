@@ -51,6 +51,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
   private canCreateSiteArea = false;
   private canUpdateSiteArea = false;
   private canDeleteSiteArea = false;
+  private canCrudSiteArea = false;
   private readonly isAssetComponentActive: boolean;
   private editAction = new TableEditSiteAreaAction().getActionDef();
   private assignChargingStationsToSiteAreaAction = new TableAssignChargingStationsToSiteAreaAction().getActionDef();
@@ -83,6 +84,9 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     this.canCreateSiteArea = this.authorizationService.canCreateSiteArea();
     this.canUpdateSiteArea = this.authorizationService.canUpdateSiteArea();
     this.canDeleteSiteArea = this.authorizationService.canDeleteSiteArea();
+    this.canCrudSiteArea = this.canCrudSiteArea && this.canReadSiteArea &&
+      this.canUpdateSiteArea && this.canDeleteSiteArea;
+
     this.isAssetComponentActive = this.componentService.isActive(TenantComponents.ASSET);
     this.setStaticFilters([{ WithSite: true }]);
     this.initDataSource();
@@ -203,7 +207,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
         sortable: true,
       },
     );
-    if (this.canReadSiteArea && this.canCreateSiteArea && this.canUpdateSiteArea && this.canDeleteSiteArea) {
+    if (this.canCrudSiteArea) {
       tableColumnDef.push(
         {
           id: 'createdOn',
@@ -242,7 +246,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-    if (this.authorizationService.canCreateSiteArea()) {
+    if (this.canCreateSiteArea) {
       return [
         new TableCreateSiteAreaAction().getActionDef(),
         ...tableActionsDef,
@@ -257,11 +261,11 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     let actions: TableActionDef[];
     openInMaps.disabled = !Utils.containsAddressGPSCoordinates(siteArea.address);
     if (siteArea.issuer) {
-      if ((this.canReadSiteArea && this.canCreateSiteArea && this.canUpdateSiteArea && this.canDeleteSiteArea) ||
+      if (this.canCrudSiteArea ||
         this.authorizationService.isSiteAdmin(siteArea.siteID)) {
         actions = [
           this.editAction,
-          this.canReadSiteArea && this.canCreateSiteArea && this.canUpdateSiteArea && this.canDeleteSiteArea ?
+          this.canCrudSiteArea ?
             this.assignChargingStationsToSiteAreaAction :
             this.viewChargingStationsOfSiteArea,
           new TableMoreAction([

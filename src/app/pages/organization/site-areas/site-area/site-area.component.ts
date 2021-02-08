@@ -194,7 +194,7 @@ export class SiteAreaComponent implements OnInit {
     this.centralServerService.getSiteArea(this.currentSiteAreaID, true).subscribe((siteArea) => {
       this.spinnerService.hide();
       this.siteArea = siteArea;
-      this.canCreateSiteArea = this.authorizationService.canCreateSiteArea() ||
+      this.canCreateSiteArea = this.canCreateSiteArea ||
         this.authorizationService.isSiteAdmin(siteArea.siteID);
       // if not admin switch in readonly mode
       if (!this.canCreateSiteArea) {

@@ -32,11 +32,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
   public dateControl!: AbstractControl;
   public startDate = moment().startOf('d').toDate();
   public endDate = moment().endOf('d').toDate();
-
-  private canReadSiteArea = false;
-  private canCreateSiteArea = false;
-  private canUpdateSiteArea = false;
-  private canDeleteSiteArea = false;
+  private canCrudSiteArea = false;
   private graphCreated = false;
   private lineTension = 0;
   private data: ChartData = {
@@ -63,10 +59,8 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
     this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
       this.language = locale.language;
     });
-    this.canReadSiteArea = this.authorizationService.canReadSiteArea();
-    this.canCreateSiteArea = this.authorizationService.canCreateSiteArea();
-    this.canUpdateSiteArea = this.authorizationService.canUpdateSiteArea();
-    this.canDeleteSiteArea = this.authorizationService.canDeleteSiteArea();
+    this.canCrudSiteArea = this.authorizationService.canCreateSiteArea() && this.authorizationService.canReadSiteArea() &&
+      this.authorizationService.canUpdateSiteArea() && this.authorizationService.canDeleteSiteArea();
   }
 
   public ngOnInit() {
@@ -79,9 +73,9 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
     this.activeLegend.push(
       {
         key: this.translateService.instant('transactions.graph.limit_amps') + this.translateService.instant('organization.graph.limit_watts'),
-        hidden: this.canReadSiteArea && this.canCreateSiteArea && this.canUpdateSiteArea && this.canDeleteSiteArea ? false : true
+        hidden: this.canCrudSiteArea ? false : true
       },
-    )
+    );
   }
 
   public ngAfterViewInit() {

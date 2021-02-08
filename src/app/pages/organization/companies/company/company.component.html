@@ -9,8 +9,7 @@
         <div class="card-body">
           <div class="row app-organization">
             <div class="col-md-2">
-              <div class="rotating-card-container"
-                [ngStyle]="{ 'pointer-events': this.canCreateCompany && this.canReadCompany && this.canUpdateCompany && this.canDeleteCompany ? 'all' : 'none'}">
+              <div class="rotating-card-container" [ngStyle]="{ 'pointer-events': canCrudCompany ? 'all' : 'none'}">
                 <div class="card card-rotate card-background app-company-image mt-0">
                   <div class="front front-background"
                     [ngStyle]="{'background-image': 'url(' + logo + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
@@ -19,9 +18,7 @@
                   </div>
                   <div class="back back-background"
                     [ngStyle]="{'background-image': 'url(' + logo + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
-                    <div
-                      *ngIf="this.canCreateCompany && this.canReadCompany && this.canUpdateCompany && this.canDeleteCompany"
-                      class="card-body">
+                    <div *ngIf="canCrudCompany" class="card-body">
                       <div class="footer justify-content-center">
                         <button mat-flat-button color="primary" class="mr-2">
                           <mat-icon (click)="file.click()">mode_edit</mat-icon>
@@ -62,9 +59,8 @@
       </mat-tab>
     </mat-tab-group>
     <div class="tabs-actions">
-      <button mat-button
-        *ngIf="this.canCreateCompany && this.canReadCompany && this.canUpdateCompany && this.canDeleteCompany"
-        (click)="saveCompany(formGroup.value)" [disabled]="!formGroup.valid || !formGroup.dirty">
+      <button mat-button *ngIf="canCrudCompany" (click)="saveCompany(formGroup.value)"
+        [disabled]="!formGroup.valid || !formGroup.dirty">
         <mat-icon>save</mat-icon>
         <span>{{'general.save' | translate}}</span>
       </button>

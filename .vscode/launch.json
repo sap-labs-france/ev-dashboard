@@ -7,9 +7,17 @@
     {
       "type": "chrome",
       "request": "launch",
-      "name": "Launch Chrome against localhost",
+      "name": "tenant: slf",
       "url": "http://slf.localhost:45000",
       "webRoot": "${workspaceFolder}"
+    },
+    {
+      "type": "chrome",
+      "request": "launch",
+      "name": "tenant: salvatore",
+      "url": "http://salvatore.localhost:45000",
+      "webRoot": "${workspaceFolder}"
     }
+
   ]
 }

@@ -11,8 +11,7 @@
             <div class="tab-pane active" id="profile">
               <div class="row app-organization">
                 <div class="col-md-5">
-                  <div class="rotating-card-container"
-                    [ngStyle]="{ 'pointer-events': this.canCreateSite ? 'all' : 'none'}">
+                  <div class="rotating-card-container" [ngStyle]="{ 'pointer-events': canCreateSite ? 'all' : 'none'}">
                     <div class="card card-rotate card-background app-site-image-padding mt-0">
                       <div class="front front-background"
                         [ngStyle]="{'background-image': 'url(' + image + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
@@ -21,7 +20,7 @@
                       </div>
                       <div class="back back-background"
                         [ngStyle]="{'background-image': 'url(' + image + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
-                        <div *ngIf="this.canCreateSite" class="card-body">
+                        <div *ngIf="canCreateSite" class="card-body">
                           <h5 class="card-title">
                             {{'general.change_picture' | translate}}
                           </h5>
@@ -101,7 +100,7 @@
       </mat-tab>
     </mat-tab-group>
     <div class="tabs-actions">
-      <button mat-button *ngIf="this.canCreateSite" (click)="saveSite(formGroup.value)"
+      <button mat-button *ngIf="canCreateSite" (click)="saveSite(formGroup.value)"
         [disabled]="!formGroup.valid || !formGroup.dirty">
         <mat-icon>save</mat-icon>
         <span>{{'general.save' | translate}}</span>

@@ -42,6 +42,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
   private canCreateSite = false;
   private canUpdateSite = false;
   private canDeleteSite = false;
+  private canCrudSite = false;
   private editAction = new TableEditSiteAction().getActionDef();
   private assignUsersToSite = new TableAssignUsersToSiteAction().getActionDef();
   private deleteAction = new TableDeleteSiteAction().getActionDef();
@@ -65,6 +66,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
     this.canCreateSite = this.authorizationService.canCreateSite();
     this.canUpdateSite = this.authorizationService.canUpdateSite();
     this.canDeleteSite = this.authorizationService.canDeleteSite();
+    this.canCrudSite = this.canCreateSite && this.canReadSite && this.canUpdateSite && this.canDeleteSite;
     this.setStaticFilters([{ WithCompany: true }]);
     this.initDataSource();
   }
@@ -147,7 +149,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
         sortable: true,
       },
     ];
-    if (this.canReadSite && this.canCreateSite && this.canUpdateSite && this.canDeleteSite) {
+    if (this.canCrudSite) {
       tableColumnDef.push(
         {
           id: 'createdOn',
@@ -202,7 +204,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
     openInMaps.disabled = !Utils.containsAddressGPSCoordinates(site.address);
     let moreActions;
     if (site.issuer) {
-      if ((this.canReadSite && this.canCreateSite && this.canUpdateSite && this.canDeleteSite) ||
+      if (this.canCrudSite ||
         this.authorizationService.isSiteAdmin(site.id) ||
         this.authorizationService.isSiteOwner(site.id)) {
         actions.push(this.editAction);
@@ -218,7 +220,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
           openInMaps,
         ]).getActionDef();
       }
-      if (this.authorizationService.canDeleteSite()) {
+      if (this.canDeleteSite) {
         if (moreActions.dropdownActions) {
           moreActions.dropdownActions.push(this.deleteAction);
         }

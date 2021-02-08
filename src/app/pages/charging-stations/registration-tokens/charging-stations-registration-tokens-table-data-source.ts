@@ -274,9 +274,9 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
         Utils.copyToClipboard(url);
         this.messageService.showInfoMessage('chargers.connections.url_copied');
         break;
-        case ButtonAction.EDIT:
-          this.editToken(registrationToken);
-          break;
+      case ButtonAction.EDIT:
+        this.editToken(registrationToken);
+        break;
     }
   }
 

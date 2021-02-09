@@ -1058,6 +1058,7 @@
       "registration_token_valid": "Valide",
       "registration_token_expired": "Expiré",
       "registration_token_revoked": "Révoqué",
+      "registration_token_error": "Une erreur est survenue pendant la récupération du jeton d'enregistrement, vérifiez les logs",
       "token_restrict_site_area": "Restreindre l'accès à une zone",
       "url": "URL OCPP",
       "copy_url_tooltip": "Copier l'URL OCPP",

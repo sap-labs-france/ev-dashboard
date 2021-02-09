@@ -1,5 +1,15 @@
-import { ButtonAction } from '../../../types/GlobalType';
-import { ButtonColor, TableActionDef } from '../../../types/Table';
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { Observable } from 'rxjs';
+
+import { CentralServerService } from '../../../services/central-server.service';
+import { DialogService } from '../../../services/dialog.service';
+import { MessageService } from '../../../services/message.service';
+import { SpinnerService } from '../../../services/spinner.service';
+import { ActionResponse } from '../../../types/DataResult';
+import { ButtonAction, RestResponse } from '../../../types/GlobalType';
+import { ButtonColor, ButtonType, Data, TableActionDef } from '../../../types/Table';
+import { Utils } from '../../../utils/Utils';
 import { TableAction } from './table-action';
 
 export class TableRevokeAction implements TableAction {
@@ -10,10 +20,40 @@ export class TableRevokeAction implements TableAction {
     color: ButtonColor.WARN,
     name: 'general.revoke',
     tooltip: 'general.tooltips.revoke',
+    action: this.revoke
   };
 
   // Return an action
   public getActionDef(): TableActionDef {
     return this.action;
+  }
+
+  protected revoke(data: Data, messageTitle: string, messageConfirm: string,
+    messageSuccess: string, messageError: string, revokeData: (id: string | number) => Observable<ActionResponse>,
+    dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
+    centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) {
+      dialogService.createAndShowYesNoDialog(
+      messageTitle,
+      messageConfirm,
+    ).subscribe((result) => {
+      if (result === ButtonType.YES) {
+        spinnerService.show();
+        revokeData(data.id).subscribe((response) => {
+          spinnerService.hide();
+          if (response.status === RestResponse.SUCCESS) {
+            messageService.showSuccessMessage(messageSuccess);
+            if (refresh) {
+              refresh().subscribe();
+            }
+          } else {
+            Utils.handleError(JSON.stringify(response),
+              messageService, messageError);
+          }
+        }, (error) => {
+          spinnerService.hide();
+          Utils.handleHttpError(error, router, messageService, centralServerService, messageError);
+        });
+      }
+    });
   }
 }

@@ -1058,6 +1058,7 @@
       "registration_token_valid": "Valido",
       "registration_token_expired": "Scaduto",
       "registration_token_revoked": "Revocato",
+      "registration_token_error": "Error occurred while retrieving the token, check the logs",
       "token_restrict_site_area": "Limita l'accesso ad un'Area del Sito",
       "url": "URL OCPP",
       "copy_url_tooltip": "Copia l'URL OCPP",

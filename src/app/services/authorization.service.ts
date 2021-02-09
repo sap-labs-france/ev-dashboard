@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 
-import { Action, Entity, Role } from '../types/Authorization';
+import { Action, Entity } from '../types/Authorization';
 import { SiteArea } from '../types/SiteArea';
 import TenantComponents from '../types/TenantComponents';
-import { UserToken } from '../types/User';
+import { UserRole, UserToken } from '../types/User';
 import { CentralServerService } from './central-server.service';
 import { ComponentService } from './component.service';
 
@@ -62,6 +62,18 @@ export class AuthorizationService {
 
   public canUpdateSite(): boolean {
     return this.canAccess(Entity.SITE, Action.UPDATE);
+  }
+
+  public canAssignUsersSites(): boolean {
+    return this.canAccess(Entity.USERS_SITES, Action.ASSIGN);
+  }
+
+  public canUnassignUsersSites(): boolean {
+    return this.canAccess(Entity.USERS_SITES, Action.UNASSIGN);
+  }
+
+  public canListUsersSites(): boolean {
+    return this.canAccess(Entity.USERS_SITES, Action.LIST);
   }
 
   public canCreateSiteArea(): boolean {
@@ -211,7 +223,7 @@ export class AuthorizationService {
 
   public isAdmin(): boolean {
     if (this.loggedUser) {
-      return this.loggedUser.role === Role.ADMIN;
+      return this.loggedUser.role === UserRole.ADMIN;
     }
     return false;
   }
@@ -229,21 +241,21 @@ export class AuthorizationService {
 
   public isSuperAdmin(): boolean {
     if (this.loggedUser) {
-      return this.loggedUser.role === Role.SUPER_ADMIN;
+      return this.loggedUser.role === UserRole.SUPER_ADMIN;
     }
     return false;
   }
 
   public isBasic(): boolean {
     if (this.loggedUser) {
-      return this.loggedUser.role === Role.BASIC;
+      return this.loggedUser.role === UserRole.BASIC;
     }
     return false;
   }
 
   public isDemo(): boolean {
     if (this.loggedUser) {
-      return this.loggedUser.role === Role.DEMO;
+      return this.loggedUser.role === UserRole.DEMO;
     }
     return false;
   }

@@ -251,32 +251,27 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       this.authorizationService.canSynchronizeBillingUsers()) {
       tableActionsDef.splice(1, 0, this.syncBillingUsersAction);
     }
-    return [
-      ...tableActionsDef,
-    ];
+    return tableActionsDef;
   }
 
   public buildTableDynamicRowActions(user: User): TableActionDef[] {
-    let actions = [];
+    const actions = [];
     if (user.issuer) {
       const moreActions = new TableMoreAction([]);
+      if (this.authorizationService.canUpdateUser()) {
+        actions.push(this.editAction);
+      }
+      if (this.componentService.isActive(TenantComponents.ORGANIZATION)) {
+        if (this.authorizationService.canListUsersSites()) {
+          actions.push(this.assignSitesToUser);
+        }
+      }
       moreActions.addActionInMoreActions(this.navigateToTagsAction);
       moreActions.addActionInMoreActions(this.navigateToTransactionsAction);
-      if (this.componentService.isActive(TenantComponents.ORGANIZATION) &&
-        this.authorizationService.canUpdateUser() &&
-        this.authorizationService.canUpdateSite()) {
-        actions = [
-          this.editAction,
-          this.assignSitesToUser,
-        ];
-      } else {
-        actions = [
-          this.editAction,
-        ];
-      }
-      if (this.componentService.isActive(TenantComponents.BILLING) &&
-        this.authorizationService.canSynchronizeBillingUser()) {
-        moreActions.addActionInMoreActions(this.forceSyncBillingUserAction);
+      if (this.componentService.isActive(TenantComponents.BILLING)) {
+        if (this.authorizationService.canSynchronizeBillingUser()) {
+          moreActions.addActionInMoreActions(this.forceSyncBillingUserAction);
+        }
       }
       if (this.currentUser.id !== user.id && this.authorizationService.canDeleteUser()) {
         moreActions.addActionInMoreActions(this.deleteAction);

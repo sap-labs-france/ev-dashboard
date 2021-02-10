@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
+import { AccountsActivationComponent } from 'pages/settings-technical/accounts-activation/settings-accounts-activation.component';
 import { Observable } from 'rxjs';
 
 import { ActionResponse } from '../types/DataResult';
-import { AnalyticsSettings, AssetConnectionType, AssetSettings, AssetSettingsType, BillingSettings, BillingSettingsType, KeySettings, PricingSettings, PricingSettingsType, RefundSettings, RefundSettingsType, RoamingSettings, SmartChargingSettings, SmartChargingSettingsType } from '../types/Setting';
+import { AccountActivationSetting, AnalyticsSettings, AssetConnectionType, AssetSettings, AssetSettingsType, BillingSettings, BillingSettingsType, KeySettings, PricingSettings, PricingSettingsType, RefundSettings, RefundSettingsType, RoamingSettings, SmartChargingSettings, SmartChargingSettingsType } from '../types/Setting';
 import TenantComponents from '../types/TenantComponents';
 import { Utils } from '../utils/Utils';
 import { CentralServerService } from './central-server.service';
@@ -405,7 +406,36 @@ export class ComponentService {
     delete settingsToSave.content.id;
     delete settingsToSave.content.identifier;
     delete settingsToSave.content.sensitiveData;
-    
+    return this.centralServerService.updateSetting(settingsToSave);
+  }
+
+  public getAccountActivationSettings(): Observable<AccountActivationSetting> {
+    return new Observable((observer) => {
+      const accountActivationSettings = {
+        identifier: TenantComponents.ACCOUNT_ACTIVATION,
+      } as AccountActivationSetting;
+      // Get the account activation settings
+      this.centralServerService.getSettings(TenantComponents.ACCOUNT_ACTIVATION).subscribe((settings) => {
+        // Get the needed settings for update
+        if (settings && settings.count > 0 && settings.result[0]) {
+          accountActivationSettings.id = settings.result[0].id;
+          accountActivationSettings.doNotActivateByDefault = settings.result[0].doNotActivateByDefault;
+        }
+        observer.next(accountActivationSettings);
+        observer.complete();
+      }, (error) => {
+        observer.error(error);
+      });
+    });
+  }
+
+  public saveAccountActivationSettings(settings: AccountActivationSetting): Observable<ActionResponse> {
+    // build settings to proceed update
+    const settingsToSave = {
+      id: settings.id,
+      doNotActivateByDefault: settings.doNotActivateByDefault,
+      identifier: settings.identifier
+    };
     return this.centralServerService.updateSetting(settingsToSave);
   }
 }

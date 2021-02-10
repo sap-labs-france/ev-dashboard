@@ -8,7 +8,8 @@ import { MaterialModule } from '../../app.module';
 import { DialogsModule } from '../../shared/dialogs/dialogs.module';
 import { CommonDirectivesModule } from '../../shared/directives/directives.module';
 import { FormattersModule } from '../../shared/formatters/formatters.module';
-import { TableModule } from '../../shared/table/table.module'
+import { TableModule } from '../../shared/table/table.module';
+import { AccountsActivationComponent } from './accounts-activation/settings-accounts-activation.component';
 import { SettingsCryptoKeyComponent } from './crypto/crypto-key/settings-crypto-key.component';
 import { SettingsCryptoComponent } from './crypto/settings-crypto.component';
 import { SettingsTechnicalComponent } from './settings-technical.component';
@@ -18,7 +19,8 @@ import { TechnicalSettingsRoutes } from './settings-technical.routing';
   declarations: [
     SettingsTechnicalComponent,
     SettingsCryptoComponent,
-    SettingsCryptoKeyComponent
+    SettingsCryptoKeyComponent,
+    AccountsActivationComponent
   ],
   imports: [
     CommonModule,
@@ -34,7 +36,8 @@ import { TechnicalSettingsRoutes } from './settings-technical.routing';
   ],
   entryComponents: [
     SettingsCryptoComponent,
-    SettingsCryptoKeyComponent
+    SettingsCryptoKeyComponent,
+    AccountsActivationComponent
   ]
 })
 export class SettingsTechnicalModule { }

@@ -1553,7 +1553,8 @@
   },
   "technical_settings": {
     "tabs": {
-      "crypto": "Crypto"
+      "crypto": "Crypto",
+      "users_account_activation": "Users"
     },
     "crypto": {
       "crypto_key": {
@@ -1567,6 +1568,13 @@
       "setting_do_not_exist": "Crypto Technical Settings not found",
       "update_success": "Crypto Technical Settings have been updated successfully",
       "update_error": "Error occurred while updating the Crypto Technical Settings, check the logs"
+    },
+    "account_activation": {
+      "title": "Account Activation Settings",
+      "do_not_activate_by_default": "Do not activate new user account by default at registration time.",
+      "update_success": "Account activation settings have been updated successfully",
+      "update_error": "Error occurred while updating the account activation settings, check the logs",
+      "setting_do_not_exist": "Account activation settings not found"
     }
   },
   "ocpiendpoints": {

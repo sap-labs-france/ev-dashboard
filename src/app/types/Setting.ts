@@ -7,6 +7,7 @@ export interface Setting extends Data {
   sensitiveData: string[];
   category?: 'business' | 'technical';
   content: SettingContent;
+  doNotActivateByDefault?: boolean;
 }
 
 export interface SettingContent {
@@ -239,4 +240,8 @@ export interface CryptoSetting {
 export interface AssetGreencomConnectionType {
   clientId: string;
   clientSecret: string;
+}
+
+export interface AccountActivationSetting extends Setting {
+  doNotActivateByDefault: boolean;
 }

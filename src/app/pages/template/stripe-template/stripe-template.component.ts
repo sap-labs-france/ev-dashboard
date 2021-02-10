@@ -107,6 +107,11 @@ export class StripeTemplateComponent implements OnInit {
     }
   }
 
+  openTestingCardsUrl() {
+    // TBC - This has a side effect - it will load strpi.js twice and hang forever!!!
+    //window.open('https://stripe.com/docs/testing#cards', '_blank');
+  }
+
   linkCardToAccount() {
     this.doCreatePaymentMethod();
   }

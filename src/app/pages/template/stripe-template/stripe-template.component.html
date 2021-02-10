@@ -1,13 +1,121 @@
-<div class="card-header">
-</div>
-<div class="card-body">
+<!-- <div class="card-header card-header-primary">
   <h3 class="card-title">Stripe Integration Sandbox</h3>
-  <br />
+</div> -->
+<div class="card-body">
+
+  <h3 class="mat-display-2">Stripe Integration Sandbox</h3>
   <div id="card-info" #cardInfo></div>
   <br />
-  <button mat-raised-button (click)="linkCardToAccount()">Link your card to your account</button>
+  <button mat-raised-button (click)="linkCardToAccount()">
+    Link your card to your account
+  </button>
   <br />
   <br />
   <p>{{ feedback | json }}</p>
-</div>
 
+
+  <br />
+  <br />
+  <h3 class="mat-display-1">Stripe Testing Cards</h3>
+  <!-- <button mat-raised-button (click)="openTestingCardsUrl()">
+    Show Testing Cards
+  </button> -->
+  <table>
+    <thead>
+      <tr>
+        <th>Number</th>
+        <th>Brand</th>
+        <th>CVC</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="CardNumber"><span>4242</span><span>4242</span><span>4242</span><span>4242</span></span></td>
+        <td>Visa</td>
+        <td>Any 3 digits</td>
+        <td>Any future date</td>
+      </tr>
+      <tr>
+        <td><span class="CardNumber"><span>4000</span><span>0566</span><span>5566</span><span>5556</span></span></td>
+        <td>Visa (debit)</td>
+        <td>Any 3 digits</td>
+        <td>Any future date</td>
+      </tr>
+      <tr>
+        <td><span class="CardNumber"><span>5555</span><span>5555</span><span>5555</span><span>4444</span></span></td>
+        <td>Mastercard</td>
+        <td>Any 3 digits</td>
+        <td>Any future date</td>
+      </tr>
+      <tr>
+        <td><span class="CardNumber"><span>2223</span><span>0031</span><span>2200</span><span>3222</span></span></td>
+        <td>Mastercard (2-series)</td>
+        <td>Any 3 digits</td>
+        <td>Any future date</td>
+      </tr>
+      <tr>
+        <td><span class="CardNumber"><span>5200</span><span>8282</span><span>8282</span><span>8210</span></span></td>
+        <td>Mastercard (debit)</td>
+        <td>Any 3 digits</td>
+        <td>Any future date</td>
+      </tr>
+      <tr>
+        <td><span class="CardNumber"><span>5105</span><span>1051</span><span>0510</span><span>5100</span></span></td>
+        <td>Mastercard (prepaid)</td>
+        <td>Any 3 digits</td>
+        <td>Any future date</td>
+      </tr>
+      <tr>
+        <td><span class="CardNumber"><span>3782</span><span>822463</span><span>10005</span></span></td>
+        <td>American Express</td>
+        <td>Any 4 digits</td>
+        <td>Any future date</td>
+      </tr>
+      <tr>
+        <td><span class="CardNumber"><span>3714</span><span>496353</span><span>98431</span></span></td>
+        <td>American Express</td>
+        <td>Any 4 digits</td>
+        <td>Any future date</td>
+      </tr>
+      <tr>
+        <td><span class="CardNumber"><span>6011</span><span>1111</span><span>1111</span><span>1117</span></span></td>
+        <td>Discover</td>
+        <td>Any 3 digits</td>
+        <td>Any future date</td>
+      </tr>
+      <tr>
+        <td><span class="CardNumber"><span>6011</span><span>0009</span><span>9013</span><span>9424</span></span></td>
+        <td>Discover</td>
+        <td>Any 3 digits</td>
+        <td>Any future date</td>
+      </tr>
+      <tr>
+        <td><span class="CardNumber"><span>3056</span><span>9300</span><span>0902</span><span>0004</span></span></td>
+        <td>Diners Club</td>
+        <td>Any 3 digits</td>
+        <td>Any future date</td>
+      </tr>
+      <tr>
+        <td><span class="CardNumber"><span>3622</span><span>720627</span><span>1667</span></span></td>
+        <td>Diners Club (14 digit card)</td>
+        <td>Any 3 digits</td>
+        <td>Any future date</td>
+      </tr>
+      <tr>
+        <td><span class="CardNumber"><span>3566</span><span>0020</span><span>2036</span><span>0505</span></span></td>
+        <td>JCB</td>
+        <td>Any 3 digits</td>
+        <td>Any future date</td>
+      </tr>
+      <tr>
+        <td><span class="CardNumber"><span>6200</span><span>0000</span><span>0000</span><span>0005</span></span></td>
+        <td>UnionPay</td>
+        <td>Any 3 digits</td>
+        <td>Any future date</td>
+      </tr>
+    </tbody>
+  </table>
+
+
+</div>

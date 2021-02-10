@@ -25,14 +25,15 @@ import { Utils } from '../../../utils/Utils';
 
 export class StripeTemplateComponent implements OnInit {
 
+  // TODO - Clarify the life-cycle - a single STRIPE instance can be loaded and initialized!
+  private static stripeFacade: Stripe;
+
   // Billing & Billing Information
   public isActive = false;
   public billingSettings!: BillingSettings;
 
   @ViewChild('cardInfo', { static: true }) cardInfo: ElementRef;
-
   feedback: any;
-  stripe: Stripe;
   elements: StripeElements;
   card: StripeCardElement;
 
@@ -62,7 +63,7 @@ export class StripeTemplateComponent implements OnInit {
       if ( !this.billingSettings || !this.billingSettings.stripe ) {
         this.feedback = "Stripe configuration is not set for the current tenant";
       } else {
-        this.stripe = await this.initializeStripe(this.billingSettings.stripe.publicKey);
+        await this.initializeStripe(this.billingSettings.stripe.publicKey);
         this.initializeCardElements();
       }
     }
@@ -77,13 +78,21 @@ export class StripeTemplateComponent implements OnInit {
 
   async initializeStripe(publicKey: string) : Promise<Stripe> {
 
-    loadStripe.setLoadParameters({ advancedFraudSignals: false })
-    return await loadStripe(publicKey);
+    if ( !StripeTemplateComponent.stripeFacade ) {
+      loadStripe.setLoadParameters({ advancedFraudSignals: false })
+      StripeTemplateComponent.stripeFacade = await loadStripe(publicKey);
+    }
+
+    return StripeTemplateComponent.stripeFacade;
+  }
+
+  getStripeFacade() {
+    return StripeTemplateComponent.stripeFacade;
   }
 
   initializeCardElements() {
 
-    this.elements = this.stripe.elements();
+    this.elements = this.getStripeFacade().elements();
     this.card = this.elements.create('card');
     this.card.mount(this.cardInfo.nativeElement);
   }
@@ -108,8 +117,8 @@ export class StripeTemplateComponent implements OnInit {
   }
 
   openTestingCardsUrl() {
-    // TBC - This has a side effect - it will load strpi.js twice and hang forever!!!
-    //window.open('https://stripe.com/docs/testing#cards', '_blank');
+    // TBC - This has a side effect - it will load stripe.js twice and hang forever!!!
+    window.open('https://stripe.com/docs/testing#cards', '_blank');
   }
 
   linkCardToAccount() {
@@ -137,8 +146,9 @@ export class StripeTemplateComponent implements OnInit {
       //-----------------------------------------------------------------------------------------------
       // Step #1 - client-side  - Calling stripe to create a payment method
       //-----------------------------------------------------------------------------------------------
-      let operationResult = await this.stripe.createPaymentMethod({
+      let operationResult = await this.getStripeFacade().createPaymentMethod({
         type: 'card',
+
         card: this.card,
         billing_details: {
           name: "Just a stripe test",

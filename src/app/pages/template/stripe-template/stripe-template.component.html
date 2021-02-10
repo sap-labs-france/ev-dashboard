@@ -117,5 +117,47 @@
     </tbody>
   </table>
 
+  <br />
+  <br />
+  <h3 class="mat-display-1">Cards for Testing Payment Authentication</h3>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Number</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="CardNumber"><span>4000</span><span>0025</span><span>0000</span><span>3155</span></span></td>
+        <td>This card requires authentication for <a href="/docs/payments/accept-a-payment#web">one-time payments</a>.
+          However, if you <a href="/docs/payments/save-and-reuse">set up this card</a> and use the saved card for
+          subsequent off-session payments, no further authentication is needed.</td>
+      </tr>
+      <tr>
+        <td><span class="CardNumber"><span>4000</span><span>0027</span><span>6000</span><span>3184</span></span></td>
+        <td>This card requires authentication on all transactions, regardless of how the card is set up.</td>
+      </tr>
+      <tr>
+        <td><span class="CardNumber"><span>4000</span><span>0082</span><span>6000</span><span>3178</span></span></td>
+        <td>This card requires authentication for <a href="/docs/payments/accept-a-payment#web">one-time payments</a>.
+          All payments will be declined with an <code class="InlineCode">insufficient_funds</code> failure code even
+          after being successfully authenticated or previously <a href="/docs/payments/save-and-reuse">set up</a>.</td>
+      </tr>
+      <tr>
+        <td><span class="CardNumber"><span>4000</span><span>0038</span><span>0000</span><span>0446</span></span></td>
+        <td>This card requires authentication for <a href="/docs/payments/accept-a-payment#web">one-time</a> and other
+          <a href="/docs/payments/save-during-payment#web-submit-payment">on-session</a> payments. However, all <a
+            href="/docs/payments/save-during-payment#web-create-payment-intent-off-session">off-session payments</a>
+          will succeed as if the card has been previously <a href="/docs/payments/save-and-reuse">set up</a>.</td>
+      </tr>
+      <tr>
+        <td><span class="CardNumber"><span>4000</span><span>0535</span><span>6000</span><span>0011</span></span></td>
+        <td>This card requires authentication on all transactions, regardless of how you set it up. You can only use
+          this card for INR payments.</td>
+      </tr>
+    </tbody>
+  </table>
 
 </div>

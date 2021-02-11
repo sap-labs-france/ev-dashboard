@@ -532,6 +532,7 @@
     "verify_email_title": "Attivazione Account",
     "verify_email_already_active": "Il tuo account è già attivo!",
     "verify_email_success": "Il tuo account è stato attivato correttamente!",
+    "verify_email_success_inactive": "Your account has been activated with success but need admin action to be validated",
     "verify_email_success_set_password": "Il tuo account è stato attivato, imposta la password per finalizzare la registrazione",
     "verify_email_token_not_valid": "Il link di attivazione del tuo account non è più valido",
     "verify_email_email_not_valid": "Questa Email non esiste",

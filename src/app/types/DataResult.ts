@@ -98,3 +98,6 @@ export interface Paging {
   limit: number;
   skip: number;
 }
+export interface VerifyEmailResponse extends ActionResponse {
+  userStatus?: string;
+}

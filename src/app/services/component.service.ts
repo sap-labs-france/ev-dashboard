@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import { AccountsActivationComponent } from 'pages/settings-technical/accounts-activation/settings-accounts-activation.component';
 import { Observable } from 'rxjs';
 
 import { ActionResponse } from '../types/DataResult';
-import { AccountActivationSetting, AnalyticsSettings, AssetConnectionType, AssetSettings, AssetSettingsType, BillingSettings, BillingSettingsType, KeySettings, PricingSettings, PricingSettingsType, RefundSettings, RefundSettingsType, RoamingSettings, SmartChargingSettings, SmartChargingSettingsType } from '../types/Setting';
+import { AnalyticsSettings, AssetConnectionType, AssetSettings, AssetSettingsType, BillingSettings, BillingSettingsType, KeySettings, PricingSettings, PricingSettingsType, RefundSettings, RefundSettingsType, RoamingSettings, SmartChargingSettings, SmartChargingSettingsType, UserSetting, UserSettingsContentType, UserSettingsType } from '../types/Setting';
 import TenantComponents from '../types/TenantComponents';
 import { Utils } from '../utils/Utils';
 import { CentralServerService } from './central-server.service';
@@ -409,19 +408,19 @@ export class ComponentService {
     return this.centralServerService.updateSetting(settingsToSave);
   }
 
-  public getAccountActivationSettings(): Observable<AccountActivationSetting> {
+  public getUserSettings(): Observable<UserSetting> {
     return new Observable((observer) => {
-      const accountActivationSettings = {
-        identifier: TenantComponents.ACCOUNT_ACTIVATION,
-      } as AccountActivationSetting;
-      // Get the account activation settings
-      this.centralServerService.getSettings(TenantComponents.ACCOUNT_ACTIVATION).subscribe((settings) => {
+      const userSettings = {
+        identifier: UserSettingsType.USER,
+      } as UserSetting;
+      // Get the user settings
+      this.centralServerService.getSettings(UserSettingsType.USER).subscribe((settings) => {
         // Get the needed settings for update
-        if (settings && settings.count > 0 && settings.result[0]) {
-          accountActivationSettings.id = settings.result[0].id;
-          accountActivationSettings.doNotActivateByDefault = settings.result[0].doNotActivateByDefault;
+        if (settings && settings.count > 0 && settings.result[0].content) {
+          userSettings.id = settings.result[0].id;
+          userSettings.doNotActivateByDefault = settings.result[0].content.accountActivation.doNotActivateByDefault;
         }
-        observer.next(accountActivationSettings);
+        observer.next(userSettings);
         observer.complete();
       }, (error) => {
         observer.error(error);
@@ -429,12 +428,17 @@ export class ComponentService {
     });
   }
 
-  public saveAccountActivationSettings(settings: AccountActivationSetting): Observable<ActionResponse> {
+  public saveUserSettings(settings: UserSetting): Observable<ActionResponse> {
     // build settings to proceed update
     const settingsToSave = {
       id: settings.id,
-      doNotActivateByDefault: settings.doNotActivateByDefault,
-      identifier: settings.identifier
+      identifier: settings.identifier,
+      content: {
+        type: UserSettingsContentType.ACCOUNT_ACTIVATION,
+        accountActivation: {
+          doNotActivateByDefault: settings.doNotActivateByDefault,
+        }
+      }
     };
     return this.centralServerService.updateSetting(settingsToSave);
   }

@@ -3,7 +3,7 @@ import TenantComponents from './TenantComponents';
 
 export interface Setting extends Data {
   id: string;
-  identifier: TenantComponents;
+  identifier: TenantComponents | UserSettingsType;
   sensitiveData: string[];
   category?: 'business' | 'technical';
   content: SettingContent;
@@ -22,6 +22,7 @@ export interface SettingContent {
   sapSmartCharging?: SapSmartChargingSetting;
   asset?: AssetSetting;
   crypto?: CryptoSetting;
+  accountActivation?: AccountActivationSetting;
 }
 
 export interface SettingLink extends Data {
@@ -242,6 +243,19 @@ export interface AssetGreencomConnectionType {
   clientSecret: string;
 }
 
-export interface AccountActivationSetting extends Setting {
+export enum UserSettingsType {
+  USER = 'user'
+}
+
+export enum UserSettingsContentType {
+  ACCOUNT_ACTIVATION = 'accountActivation',
+}
+
+export interface UserSetting extends Setting {
+  identifier: UserSettingsType.USER;
+  type: UserSettingsContentType;
+  accountActivation?: AccountActivationSetting;
+}
+export interface AccountActivationSetting {
   doNotActivateByDefault: boolean;
 }

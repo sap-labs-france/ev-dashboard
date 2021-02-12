@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -8,7 +8,7 @@ import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { RestResponse } from '../../../types/GlobalType';
 import { HTTPError } from '../../../types/HTTPError';
-import { AccountActivationSetting } from '../../../types/Setting';
+import { UserSetting } from '../../../types/Setting';
 import { Utils } from '../../../utils/Utils';
 
 @Component({
@@ -18,7 +18,7 @@ import { Utils } from '../../../utils/Utils';
 export class AccountsActivationComponent implements OnInit {
   public isDisabled: boolean;
 
-  public accountSettings: AccountActivationSetting;
+  public userSettings: UserSetting;
   public router: Router;
 
   public formGroup!: FormGroup;
@@ -39,7 +39,7 @@ export class AccountsActivationComponent implements OnInit {
     this.disableDefaultAccountActivation = this.formGroup.controls['disableDefaultAccountActivation'];
     // Register check event
     this.formGroup.controls['disableDefaultAccountActivation'].valueChanges.subscribe((value: boolean) => {
-      this.accountSettings.doNotActivateByDefault = value;
+      this.userSettings.doNotActivateByDefault = value;
     });
     this.loadSettings();
   }
@@ -50,7 +50,7 @@ export class AccountsActivationComponent implements OnInit {
 
   public save() {
     this.spinnerService.show();
-    this.componentService.saveAccountActivationSettings(this.accountSettings).subscribe(
+    this.componentService.saveUserSettings(this.userSettings).subscribe(
       (response) => {
         this.spinnerService.hide();
         if (response.status === RestResponse.SUCCESS) {
@@ -83,14 +83,15 @@ export class AccountsActivationComponent implements OnInit {
     );
   }
 
+  // Load with data from db
   public loadSettings() {
     this.spinnerService.show();
-    this.componentService.getAccountActivationSettings().subscribe((settings) => {
+    this.componentService.getUserSettings().subscribe((settings) => {
         this.spinnerService.hide();
         // Init values
         this.isDisabled = true;
-        this.accountSettings = settings;
-        this.disableDefaultAccountActivation.setValue(this.accountSettings.doNotActivateByDefault);
+        this.userSettings = settings;
+        this.disableDefaultAccountActivation.setValue(this.userSettings.doNotActivateByDefault);
       }, (error) => {
         this.spinnerService.hide();
         switch (error.status) {

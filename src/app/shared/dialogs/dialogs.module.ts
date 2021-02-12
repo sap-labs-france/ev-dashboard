@@ -57,8 +57,7 @@ import { UsersDialogComponent } from './users/users-dialog.component';
     FormattersModule,
     AgmCoreModule,
     GooglePlaceModule,
-    FileUploadModule,
-    // FormsModule
+    FileUploadModule
   ],
   declarations: [
     CarMakersDialogComponent,

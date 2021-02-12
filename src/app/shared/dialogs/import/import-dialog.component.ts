@@ -4,14 +4,12 @@ import { TranslateService } from '@ngx-translate/core';
 import { FileItem, FileUploader, ParsedResponseHeaders } from 'ng2-file-upload';
 import { CentralServerService } from 'services/central-server.service';
 import { MessageService } from 'services/message.service';
-import { ServerAction } from 'types/Server';
 import { Utils } from 'utils/Utils';
 
 @Component({
   templateUrl: './import-dialog.component.html',
 })
 export class ImportDialogComponent {
-  public fileToUpload = null;
 
   public uploader: FileUploader;
   public response: string;
@@ -65,11 +63,6 @@ export class ImportDialogComponent {
 
   public cancel() {
     this.dialogRef.close();
-  }
-
-
-  public handleFileInput(files: FileList) {
-    this.fileToUpload = files.item(0);
   }
 
   public upload(): void {

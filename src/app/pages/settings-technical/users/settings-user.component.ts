@@ -12,10 +12,10 @@ import { UserSetting } from '../../../types/Setting';
 import { Utils } from '../../../utils/Utils';
 
 @Component({
-  selector: 'app-settings-accounts-activation',
-  templateUrl: 'settings-accounts-activation.component.html',
+  selector: 'app-settings-user',
+  templateUrl: 'settings-user.component.html',
 })
-export class AccountsActivationComponent implements OnInit {
+export class SettingsUserComponent implements OnInit {
   public isDisabled: boolean;
 
   public userSettings: UserSetting;

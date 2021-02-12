@@ -1,11 +1,9 @@
 import { AgmCoreModule } from '@agm/core';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { FileSelectDirective, FileUploadModule } from 'ng2-file-upload';
+import { FileUploadModule } from 'ng2-file-upload';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 
 import { MaterialModule } from '../../app.module';
@@ -82,8 +80,7 @@ import { UsersDialogComponent } from './users/users-dialog.component';
     ErrorCodeDetailsComponent,
     ReportsDialogComponent,
     CarCatalogsDialogComponent,
-    LOG_ACTIONSDialogComponent,
-    // FileSelectDirective
+    LOG_ACTIONSDialogComponent
   ],
   entryComponents: [
     CarMakersDialogComponent,

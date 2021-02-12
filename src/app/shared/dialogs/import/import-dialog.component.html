@@ -1,8 +1,7 @@
-
 <div class="card">
   <div class="card-header card-header-tabs card-header-primary">
     <div class="nav-tabs-navigation">
-      <h4 class="nav-tabs-title"></h4>
+      <h4 class="nav-tabs-title">{{"users.import_users" | translate}}</h4>
       <ul class="nav nav-tabs" data-tabs="tabs">
         <span class="toolbar-spacer"></span>
         <button mat-icon-button mat-dialog-close>
@@ -11,12 +10,22 @@
       </ul>
     </div>
   </div>
-
-
+  <div class="card-body">
+    <button mat-flat-button color="primary" (click)="file.click()" class="mr-2">
+      {{"general.choose_file" | translate}}
+      <div class="d-none">
+        <input #file type="file" ng2FileSelect [uploader]="uploader"
+          accept=".csv, .json" />
+      </div>
+    </button>
+    <span> {{ fileName }}</span>
+    <div class="row pt-3">
+      <mat-progress-bar mode="determinate" [value]="progress" [hidden]="!showProgressBar"></mat-progress-bar>
+    </div>
+  </div>
   <div class="card-footer mat-dialog-actions">
-    <input type="file" ng2FileSelect [uploader]="uploader" />
-    <span class="app-spacer"></span>
-    <button mat-raised-button color="primary" (click)="upload()">
+    <span class="toolbar-spacer"></span>
+    <button mat-raised-button color="primary" [disabled]="!file.value" (click)="upload()">
       {{"general.import" | translate}}
     </button>
     <button mat-raised-button (click)="cancel()">
@@ -24,4 +33,3 @@
     </button>
   </div>
 </div>
-

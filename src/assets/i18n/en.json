@@ -130,6 +130,9 @@
     "cars_error": "Error occurred while retrieving the user cars, check the logs",
     "car_image_error": "Error occurred while retrieving the car images, check the logs",
     "success_backend": "Connection to the central server has been restored",
+    "success_import": "File imported successfully",
+    "error_import": "Error occurred while importing the file, check the logs",
+    "choose_file": "Choose File",
     "user_or_tenant_updated": "You have been logged off because either your profile or your organization's settings have been updated",
     "invalid_content": "Invalid Content",
     "open_in_maps": "Localization",
@@ -1117,6 +1120,7 @@
       "in_error": "In Error",
       "tags": "Badges"
     },
+    "import_users": "Import users",
     "number_of_sites": "Nb Sites",
     "number_of_transactions": "Nb Sessions",
     "eula_accepted_on": "EULA Accepted On",

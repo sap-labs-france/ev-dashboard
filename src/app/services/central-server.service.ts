@@ -1915,32 +1915,6 @@ export class CentralServerService {
       );
   }
 
-  public importUser(file: any): Observable<ActionResponse> {
-
-    // Verify init
-    this.checkInit();
-    // const formData: FormData = new FormData();
-    // formData.append('fileKey', file, file.name);
-
-    // const header = {
-    //   'Content-Type': 'multipart/form-data'
-    // };
-    // // Check token
-    // if (this.getLoggedUserToken()) {
-    //   header['Authorization'] = 'Bearer ' + this.getLoggedUserToken();
-    // }
-
-    // Execute
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.USERS_IMPORT}`, file,
-      {
-        // headers: new HttpHeaders(header),
-        headers: this.buildHttpHeaders(),
-      })
-      .pipe(
-        catchError(this.handleHttpError),
-      );
-  }
-
   public createCompany(company: any): Observable<ActionResponse> {
     // Verify init
     this.checkInit();

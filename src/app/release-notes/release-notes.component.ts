@@ -31,6 +31,7 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Added Circontrol Charging Station in templates`,
+              `Fix sending email error handling to avoid useless sending retries`,
             ],
           },
         ],

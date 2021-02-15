@@ -23,7 +23,7 @@ stages:
   Additional Unit Tests:
     karmaExecuteTests: false
     
-  #Acceptance:
+  Acceptance:
   #  cloudFoundryDeploy: true
   #  cloudFoundry:
   #    org: 'SAP IT Cloud_sapitcfd'

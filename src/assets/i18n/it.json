@@ -2179,7 +2179,7 @@
     "charging_stations_offline": "Avvisami quando una stazione di ricarica è offline",
     "preparing_session_not_started": "Avvisami quando una sessione non è stata avviata (solo proprietario del sito)",
     "ocpi_patch_status_error": "Avvisami se il trasferimento degli stati di una stazione di ricarica alla piattaforma di roaming (OCPI) fallisce",
-    "smtp_auth_error": "Avvisami se l'autenticazione backend al server di posta non è riuscita",
+    "smtp_error": "Notify me if an error occurred with the email server",
     "billing_synchronization_failed": "Avvisami quando una sincronizzazione con un sistema di fatturazione non è riuscita",
     "session_not_started": "Avvisami se nessuna sessione è stata avviata dopo l'inserimento di un badge",
     "user_account_inactivity": "Avvisami quando non accedo all'applicazione da più di 6 mesi",

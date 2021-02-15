@@ -24,6 +24,18 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.42',
+        date: new Date('2020-02-15'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added Circontrol Charging Station in templates`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.41',
         date: new Date('2020-02-09'),
         componentChanges: [

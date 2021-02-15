@@ -32,6 +32,7 @@ export class ReleaseNotesComponent {
             changes: [
               `Added Circontrol Charging Station in templates`,
               `Fix sending email error handling to avoid useless sending retries`,
+              `Handle Charging Station's vendors property longer than 20 characters at Boot Notification`,
             ],
           },
         ],

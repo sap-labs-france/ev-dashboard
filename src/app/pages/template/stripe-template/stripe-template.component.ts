@@ -55,9 +55,7 @@ export class StripeTemplateComponent implements OnInit {
   }
 
   async initialize(): Promise<void> {
-
     try {
-
       this.spinnerService.show();
       this.billingSettings = await this.loadBillingConfiguration();
       if ( !this.billingSettings || !this.billingSettings.stripe ) {
@@ -66,23 +64,18 @@ export class StripeTemplateComponent implements OnInit {
         await this.initializeStripe(this.billingSettings.stripe.publicKey);
         this.initializeCardElements();
       }
-    }
-    catch (error) {
+    } catch (error) {
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
-    }
-    finally {
+    } finally {
       this.spinnerService.hide();
     }
-
   }
 
   async initializeStripe(publicKey: string) : Promise<Stripe> {
-
     if ( !StripeTemplateComponent.stripeFacade ) {
       loadStripe.setLoadParameters({ advancedFraudSignals: false })
       StripeTemplateComponent.stripeFacade = await loadStripe(publicKey);
     }
-
     return StripeTemplateComponent.stripeFacade;
   }
 
@@ -91,20 +84,15 @@ export class StripeTemplateComponent implements OnInit {
   }
 
   initializeCardElements() {
-
     this.elements = this.getStripeFacade().elements();
     this.card = this.elements.create('card');
     this.card.mount(this.cardInfo.nativeElement);
   }
 
   async loadBillingConfiguration(): Promise<BillingSettings> {
-
     try {
-
       return await this.componentService.getBillingSettings().toPromise();
-
     } catch (error) {
-
       switch (error.status) {
         case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
           this.messageService.showErrorMessage('settings.billing.not_found');
@@ -126,7 +114,6 @@ export class StripeTemplateComponent implements OnInit {
   }
 
   async doCreatePaymentMethod() {
-
     const operationResult: any = await this.createPaymentMethod()
     if (operationResult.error) {
       // Operation failed
@@ -134,12 +121,10 @@ export class StripeTemplateComponent implements OnInit {
     } else {
       // Operation succeeded
       this.feedback = operationResult;
-
     }
   }
 
   async createPaymentMethod(): Promise<any> {
-
     // c.f. STRIPE SAMPLE at: https://stripe.com/docs/billing/subscriptions/fixed-price#collect-payment
     try {
       this.spinnerService.show();
@@ -148,7 +133,6 @@ export class StripeTemplateComponent implements OnInit {
       //-----------------------------------------------------------------------------------------------
       let operationResult = await this.getStripeFacade().createPaymentMethod({
         type: 'card',
-
         card: this.card,
         billing_details: {
           name: "Just a stripe test",
@@ -161,7 +145,6 @@ export class StripeTemplateComponent implements OnInit {
         const response: ActionResponse = await this.centralServerService.attachPaymentMethod({
           paymentMethodId: operationResult.paymentMethod.id
         }).toPromise();
-
         // TODO - check response status!
       }
       //-----------------------------------------------------------------------------------------------
@@ -171,11 +154,9 @@ export class StripeTemplateComponent implements OnInit {
         // ##CR - TBC!
       }
       return operationResult;
-
     } catch (error) {
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
-    }
-    finally {
+    } finally {
       this.spinnerService.hide();
     }
   }

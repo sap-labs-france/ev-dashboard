@@ -29,6 +29,7 @@ import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../
 import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 import { AssetDialogComponent } from '../asset/asset.dialog.component';
+import { AssetConsumptionCellComponent } from '../cell-components/asset-consumption-cell.component';
 import { AssetConsumptionChartDetailComponent } from './consumption-chart/asset-consumption-chart-detail.component';
 
 @Injectable()
@@ -147,9 +148,9 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
         name: 'assets.instant_power',
         headerClass: 'col-20p text-center',
         class: 'col-20p text-center',
-        sortable: true,
-        formatter: (instantWatts: number) => instantWatts || instantWatts === 0 ?
-          this.appUnitPipe.transform(instantWatts, 'W', 'kW') : '-',
+        sortable: false,
+        isAngularComponent: true,
+        angularComponent: AssetConsumptionCellComponent,
       },
     ];
     return tableColumnDef;

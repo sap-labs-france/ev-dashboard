@@ -91,7 +91,7 @@
                     <mat-form-field>
                       <input matInput [formControl]="fluctuationPercent"
                         placeholder="{{'assets.fluctuation_percent' | translate}}" type='number'>
-                      <mat-error *ngIf="fluctuationPercent.errors?.pattern">{{"chargers.invalid_power" | translate}}
+                      <mat-error *ngIf="fluctuationPercent.errors?.pattern || fluctuationPercent.errors?.max">{{"chargers.invalid_efficiency" | translate}}
                       </mat-error>
                     </mat-form-field>
                   </div>

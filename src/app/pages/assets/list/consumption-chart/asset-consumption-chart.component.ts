@@ -3,7 +3,6 @@ import { AbstractControl, FormControl, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { Chart, ChartColor, ChartData, ChartDataSets, ChartOptions, ChartTooltipItem } from 'chart.js';
 import * as moment from 'moment';
-import { AppUnitPipe } from 'shared/formatters/app-unit.pipe';
 
 import { AuthorizationService } from '../../../../services/authorization.service';
 import { CentralServerService } from '../../../../services/central-server.service';
@@ -12,6 +11,7 @@ import { SpinnerService } from '../../../../services/spinner.service';
 import { AppDatePipe } from '../../../../shared/formatters/app-date.pipe';
 import { AppDecimalPipe } from '../../../../shared/formatters/app-decimal-pipe';
 import { AppDurationPipe } from '../../../../shared/formatters/app-duration.pipe';
+import { AppUnitPipe } from '../../../../shared/formatters/app-unit.pipe';
 import { AssetConsumption, AssetType } from '../../../../types/Asset';
 import { ConsumptionUnit } from '../../../../types/Transaction';
 import { Utils } from '../../../../utils/Utils';

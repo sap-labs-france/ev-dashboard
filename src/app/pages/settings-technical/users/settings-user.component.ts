@@ -22,7 +22,7 @@ export class SettingsUserComponent implements OnInit {
   public router: Router;
 
   public formGroup!: FormGroup;
-  public disableDefaultAccountActivation!: AbstractControl;
+  public manualAccountActivation!: AbstractControl;
 
   constructor(
     private messageService: MessageService,
@@ -34,12 +34,12 @@ export class SettingsUserComponent implements OnInit {
 
   public ngOnInit(): void {
     this.formGroup = new FormGroup({
-      disableDefaultAccountActivation : new FormControl(),
+      manualAccountActivation : new FormControl(),
     });
-    this.disableDefaultAccountActivation = this.formGroup.controls['disableDefaultAccountActivation'];
+    this.manualAccountActivation = this.formGroup.controls['manualAccountActivation'];
     // Register check event
-    this.formGroup.controls['disableDefaultAccountActivation'].valueChanges.subscribe((value: boolean) => {
-      this.userSettings.doNotActivateByDefault = value;
+    this.formGroup.controls['manualAccountActivation'].valueChanges.subscribe((value: boolean) => {
+      this.userSettings.manualAccountActivation = value;
     });
     this.loadSettings();
   }
@@ -54,13 +54,13 @@ export class SettingsUserComponent implements OnInit {
       (response) => {
         this.spinnerService.hide();
         if (response.status === RestResponse.SUCCESS) {
-          this.messageService.showSuccessMessage('technical_settings.account_activation.update_success');
+          this.messageService.showSuccessMessage('technical_settings.user.update_success');
           this.refresh();
         } else {
           Utils.handleError(
             JSON.stringify(response),
             this.messageService,
-            'technical_settings.account_activation.update_error'
+            'technical_settings.user.update_error'
           );
         }
       },
@@ -68,7 +68,7 @@ export class SettingsUserComponent implements OnInit {
         this.spinnerService.hide();
         switch (error.status) {
           case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
-            this.messageService.showErrorMessage('technical_settings.account_activation.setting_do_not_exist');
+            this.messageService.showErrorMessage('technical_settings.user.setting_do_not_exist');
             break;
           default:
             Utils.handleHttpError(
@@ -76,7 +76,7 @@ export class SettingsUserComponent implements OnInit {
               this.router,
               this.messageService,
               this.centralServerService,
-              'technical_settings.account_activation.update_error'
+              'technical_settings.user.update_error'
             );
         }
       }
@@ -91,12 +91,12 @@ export class SettingsUserComponent implements OnInit {
         // Init values
         this.isDisabled = true;
         this.userSettings = settings;
-        this.disableDefaultAccountActivation.setValue(this.userSettings.doNotActivateByDefault);
+        this.manualAccountActivation.setValue(this.userSettings.manualAccountActivation);
       }, (error) => {
         this.spinnerService.hide();
         switch (error.status) {
           case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
-            this.messageService.showErrorMessage('settings.smart_charging.setting_do_not_exist');
+            this.messageService.showErrorMessage('technical_settings.user.setting_do_not_exist');
             break;
           default:
             Utils.handleHttpError(error, this.router, this.messageService,

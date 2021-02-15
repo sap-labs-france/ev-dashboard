@@ -418,7 +418,7 @@ export class ComponentService {
         // Get the needed settings for update
         if (settings && settings.count > 0 && settings.result[0].content) {
           userSettings.id = settings.result[0].id;
-          userSettings.doNotActivateByDefault = settings.result[0].content.accountActivation.doNotActivateByDefault;
+          userSettings.manualAccountActivation = settings.result[0].content.user.manualAccountActivation;
         }
         observer.next(userSettings);
         observer.complete();
@@ -434,9 +434,9 @@ export class ComponentService {
       id: settings.id,
       identifier: settings.identifier,
       content: {
-        type: UserSettingsContentType.ACCOUNT_ACTIVATION,
-        accountActivation: {
-          doNotActivateByDefault: settings.doNotActivateByDefault,
+        type: UserSettingsContentType.USER,
+        user: {
+          manualAccountActivation: settings.manualAccountActivation,
         }
       }
     };

@@ -7,11 +7,11 @@ export interface Setting extends Data {
   sensitiveData: string[];
   category?: 'business' | 'technical';
   content: SettingContent;
-  doNotActivateByDefault?: boolean;
+  manualAccountActivation?: boolean;
 }
 
 export interface SettingContent {
-  type: CryptoSettingsType | RoamingSettingsType | AnalyticsSettingsType | RefundSettingsType | PricingSettingsType | BillingSettingsType | SmartChargingSettingsType | AssetSettingsType;
+  type: CryptoSettingsType | RoamingSettingsType | AnalyticsSettingsType | RefundSettingsType | PricingSettingsType | BillingSettingsType | SmartChargingSettingsType | AssetSettingsType | UserSettingsType;
   ocpi?: OcpiSetting;
   simple?: SimplePricingSetting;
   convergentCharging?: ConvergentChargingPricingSetting;
@@ -22,7 +22,7 @@ export interface SettingContent {
   sapSmartCharging?: SapSmartChargingSetting;
   asset?: AssetSetting;
   crypto?: CryptoSetting;
-  accountActivation?: AccountActivationSetting;
+  user?: UserSetting;
 }
 
 export interface SettingLink extends Data {
@@ -248,14 +248,14 @@ export enum UserSettingsType {
 }
 
 export enum UserSettingsContentType {
-  ACCOUNT_ACTIVATION = 'accountActivation',
+  USER = 'user',
 }
 
 export interface UserSetting extends Setting {
   identifier: UserSettingsType.USER;
   type: UserSettingsContentType;
-  accountActivation?: AccountActivationSetting;
+  user?: UserSettings;
 }
-export interface AccountActivationSetting {
-  doNotActivateByDefault: boolean;
+export interface UserSettings {
+  manualAccountActivation: boolean;
 }

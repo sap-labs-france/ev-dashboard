@@ -54,7 +54,7 @@ export class StripeTemplateComponent implements OnInit {
     this.initialize();
   }
 
-  async initialize(): Promise<void> {
+  private async initialize(): Promise<void> {
     try {
       this.spinnerService.show();
       this.billingSettings = await this.loadBillingConfiguration();
@@ -71,7 +71,7 @@ export class StripeTemplateComponent implements OnInit {
     }
   }
 
-  async initializeStripe(publicKey: string) : Promise<Stripe> {
+  private async initializeStripe(publicKey: string) : Promise<Stripe> {
     if ( !StripeTemplateComponent.stripeFacade ) {
       loadStripe.setLoadParameters({ advancedFraudSignals: false })
       StripeTemplateComponent.stripeFacade = await loadStripe(publicKey);
@@ -79,17 +79,17 @@ export class StripeTemplateComponent implements OnInit {
     return StripeTemplateComponent.stripeFacade;
   }
 
-  getStripeFacade() {
+  private getStripeFacade() {
     return StripeTemplateComponent.stripeFacade;
   }
 
-  initializeCardElements() {
+  private initializeCardElements() {
     this.elements = this.getStripeFacade().elements();
     this.card = this.elements.create('card');
     this.card.mount(this.cardInfo.nativeElement);
   }
 
-  async loadBillingConfiguration(): Promise<BillingSettings> {
+  private async loadBillingConfiguration(): Promise<BillingSettings> {
     try {
       return await this.componentService.getBillingSettings().toPromise();
     } catch (error) {
@@ -104,16 +104,16 @@ export class StripeTemplateComponent implements OnInit {
     }
   }
 
-  openTestingCardsUrl() {
+  private openTestingCardsUrl() {
     // TBC - This has a side effect - it will load stripe.js twice and hang forever!!!
     window.open('https://stripe.com/docs/testing#cards', '_blank');
   }
 
-  linkCardToAccount() {
+  public linkCardToAccount() {
     this.doCreatePaymentMethod();
   }
 
-  async doCreatePaymentMethod() {
+  private async doCreatePaymentMethod() {
     const operationResult: any = await this.createPaymentMethod()
     if (operationResult.error) {
       // Operation failed
@@ -124,7 +124,7 @@ export class StripeTemplateComponent implements OnInit {
     }
   }
 
-  async createPaymentMethod(): Promise<any> {
+  private async createPaymentMethod(): Promise<any> {
     // c.f. STRIPE SAMPLE at: https://stripe.com/docs/billing/subscriptions/fixed-price#collect-payment
     try {
       this.spinnerService.show();

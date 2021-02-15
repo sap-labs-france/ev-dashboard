@@ -25,9 +25,8 @@ import { Utils } from '../../../utils/Utils';
 
 export class StripeTemplateComponent implements OnInit {
 
-  // TODO - Clarify the life-cycle - a single STRIPE instance can be loaded and initialized!
+  // TODO - Clarify the life-cycle - ONLY a single STRIPE instance can be loaded and initialized!
   private static stripeFacade: Stripe;
-
   // Billing & Billing Information
   public isActive = false;
   public billingSettings!: BillingSettings;

@@ -6,6 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
+import { ComponentService } from '../../../services/component.service';
 import { ConfigService } from '../../../services/config.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
@@ -32,6 +33,7 @@ export class AssetComponent implements OnInit {
   @Input() public dialogRef!: MatDialogRef<any>;
 
   public parentErrorStateMatcher = new ParentErrorStateMatcher();
+  public isSmartChargingComponentActive = false;
   public isAdmin = false;
   public image: string = Constants.NO_IMAGE;
   public imageHasChanged = false;
@@ -46,6 +48,7 @@ export class AssetComponent implements OnInit {
   public siteArea!: AbstractControl;
   public siteAreaID!: AbstractControl;
   public assetType!: AbstractControl;
+  public excludeFromSmartCharging!: AbstractControl;
   public fluctuationPercent!: AbstractControl;
   public staticValueWatt!: AbstractControl;
   public coordinates!: FormArray;
@@ -66,7 +69,8 @@ export class AssetComponent implements OnInit {
       private dialog: MatDialog,
       private dialogService: DialogService,
       private translateService: TranslateService,
-      private router: Router) {
+      private router: Router,
+      private componentService: ComponentService) {
     this.maxSize = this.configService.getAsset().maxImageKb;
     // Check auth
     if (this.activatedRoute.snapshot.params['id'] &&
@@ -80,6 +84,7 @@ export class AssetComponent implements OnInit {
     this.loadAssetConnections();
     // Get admin flag
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
+    this.isSmartChargingComponentActive = this.componentService.isActive(TenantComponents.SMART_CHARGING);
   }
 
   public ngOnInit() {
@@ -100,6 +105,7 @@ export class AssetComponent implements OnInit {
           Validators.required,
         ])
       ),
+      excludeFromSmartCharging: new FormControl(''),
       fluctuationPercent: new FormControl('',
         Validators.compose([
           Validators.max(100),
@@ -140,6 +146,7 @@ export class AssetComponent implements OnInit {
     this.siteArea = this.formGroup.controls['siteArea'];
     this.siteAreaID = this.formGroup.controls['siteAreaID'];
     this.assetType = this.formGroup.controls['assetType'];
+    this.excludeFromSmartCharging = this.formGroup.controls['excludeFromSmartCharging'];
     this.fluctuationPercent = this.formGroup.controls['fluctuationPercent'];
     this.staticValueWatt = this.formGroup.controls['staticValueWatt'];
     this.coordinates = this.formGroup.controls['coordinates'] as FormArray;
@@ -193,6 +200,9 @@ export class AssetComponent implements OnInit {
       }
       if (this.asset.assetType) {
         this.formGroup.controls.assetType.setValue(this.asset.assetType);
+      }
+      if (this.asset.excludeFromSmartCharging) {
+        this.formGroup.controls.excludeFromSmartCharging.setValue(this.asset.excludeFromSmartCharging);
       }
       if (this.asset.fluctuationPercent){
         this.formGroup.controls.fluctuationPercent.setValue(this.asset.fluctuationPercent);

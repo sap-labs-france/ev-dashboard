@@ -208,11 +208,11 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
       copyUrlActions,
       'chargers.connections.copy_url_tooltip',
       'chargers.connections.copy_url_tooltip').getActionDef();
-    
+
     rowActions.push(this.copyUrlAction, this.revokeAction);
 
     if (this.authorizationService.canDeleteToken()) {
-      rowActions.push(this.deleteAction)
+      rowActions.push(this.deleteAction);
     }
     return rowActions;
   }

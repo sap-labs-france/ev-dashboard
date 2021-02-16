@@ -170,7 +170,7 @@ export class ComponentService {
       content: Utils.cloneObject(settings) as AssetSettings,
     };
     settingsToSave.content.asset.connections.forEach((settingConnection, index) => {
-      switch(settingConnection.type){
+      switch (settingConnection.type) {
         case AssetConnectionType.SCHNEIDER:
           settingsToSave.sensitiveData.push(`content.asset.connections[${index}].schneiderConnection.password`);
           break;
@@ -440,6 +440,7 @@ export class ComponentService {
         }
       }
     };
+
     return this.centralServerService.updateSetting(settingsToSave);
   }
 }

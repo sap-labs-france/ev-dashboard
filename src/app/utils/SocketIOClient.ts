@@ -27,7 +27,7 @@ export default class SocketIOClient {
     if (!this.socketIO && serverURL && token) {
       // Init and connect Socket IO client
       const manager = new Manager(serverURL, {
-        query: 'auth_token=' + token,
+        query: { auth_token: token },
         transports: ['websocket'],
       });
       this.socketIO = manager.socket('/');

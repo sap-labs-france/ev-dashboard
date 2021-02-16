@@ -17,7 +17,7 @@ export class TagTableFilter extends TableFilter {
       dialogComponent: TagsDialogComponent,
       multiple: true,
       cleared: true,
-      dependentFilters: dependentFilters,
+      dependentFilters,
     };
     // Set
     this.setFilterDef(filterDef);

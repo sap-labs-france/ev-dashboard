@@ -204,10 +204,9 @@ export class AssetComponent implements OnInit {
       if (this.asset.excludeFromSmartCharging) {
         this.formGroup.controls.excludeFromSmartCharging.setValue(this.asset.excludeFromSmartCharging);
       }
-      if (this.asset.fluctuationPercent){
+      if (this.asset.fluctuationPercent) {
         this.formGroup.controls.fluctuationPercent.setValue(this.asset.fluctuationPercent);
       }
-
       if (!Utils.isUndefined(this.asset.staticValueWatt)) {
         this.formGroup.controls.staticValueWatt.setValue(this.asset.staticValueWatt);
       }
@@ -330,9 +329,9 @@ export class AssetComponent implements OnInit {
       validateButtonTitle: 'general.select',
       sitesAdminOnly: true,
       rowMultipleSelection: false,
-      staticFilter: {​​
+      staticFilter: {
         Issuer: true
-      }​​,
+      },
     };
     this.dialog.open(SiteAreasDialogComponent, dialogConfig)
       .afterClosed().subscribe((result) => {

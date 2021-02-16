@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
-import { ConnectorTableFilter } from 'shared/table/filters/connector-table-filter';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
@@ -27,10 +26,11 @@ import { TableDeleteTransactionAction, TableDeleteTransactionActionDef } from '.
 import { TableDeleteTransactionsAction, TableDeleteTransactionsActionDef } from '../../../shared/table/actions/transactions/table-delete-transactions-action';
 import { TableViewTransactionAction, TableViewTransactionActionDef } from '../../../shared/table/actions/transactions/table-view-transaction-action';
 import { ChargingStationTableFilter } from '../../../shared/table/filters/charging-station-table-filter';
+import { ConnectorTableFilter } from '../../../shared/table/filters/connector-table-filter';
 import { EndDateFilter } from '../../../shared/table/filters/end-date-filter';
 import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-table-filter';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
-import { SiteTableFilter } from '../../../shared/table/filters/site-table-filter.js';
+import { SiteTableFilter } from '../../../shared/table/filters/site-table-filter';
 import { StartDateFilter } from '../../../shared/table/filters/start-date-filter';
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
@@ -266,12 +266,13 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
       new EndDateFilter().getFilterDef(),
       new ErrorTypeTableFilter(errorTypes).getFilterDef(),
     ];
+    const siteFilter = new SiteTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef();
     // Show Site Area Filter If Organization component is active
     if (this.componentService.isActive(TenantComponents.ORGANIZATION)) {
       filters.push(new ChargingStationTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
       filters.push(new ConnectorTableFilter().getFilterDef());
-      filters.push(new SiteTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
-      filters.push(new SiteAreaTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
+      filters.push(siteFilter);
+      filters.push(new SiteAreaTableFilter([siteFilter]).getFilterDef());
     } else {
       filters.push(new ChargingStationTableFilter().getFilterDef());
     }

@@ -11,7 +11,7 @@ import { SpinnerService } from '../../../../services/spinner.service';
 import { AppDatePipe } from '../../../../shared/formatters/app-date.pipe';
 import { AppDecimalPipe } from '../../../../shared/formatters/app-decimal-pipe';
 import { AppDurationPipe } from '../../../../shared/formatters/app-duration.pipe';
-import { AssetConsumption } from '../../../../types/Asset';
+import { AssetConsumption, AssetType } from '../../../../types/Asset';
 import { ConsumptionUnit } from '../../../../types/Transaction';
 import { Utils } from '../../../../utils/Utils';
 
@@ -23,6 +23,7 @@ import { Utils } from '../../../../utils/Utils';
 export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
   @Input() public assetID!: string;
   @Input() public asset!: AssetConsumption;
+  @Input() public assetType!: AssetType;
 
   @ViewChild('primary', { static: true }) public primaryElement!: ElementRef;
   @ViewChild('danger', { static: true }) public dangerElement!: ElementRef;
@@ -214,10 +215,10 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
       for (const consumption of this.asset.values) {
         labels.push(new Date(consumption.startedAt).getTime());
         if (instantPowerDataSet) {
-          instantPowerDataSet.push(consumption.instantWatts);
+          this.assetType === AssetType.PRODUCTION ? instantPowerDataSet.push(consumption.instantWatts * -1) : instantPowerDataSet.push(consumption.instantWatts);
         }
         if (instantAmpsDataSet) {
-          instantAmpsDataSet.push(consumption.instantAmps);
+          this.assetType === AssetType.PRODUCTION ? instantAmpsDataSet.push(consumption.instantAmps * -1) : instantAmpsDataSet.push(consumption.instantAmps);
         }
         if (limitWattsDataSet) {
           if (consumption.limitWatts) {

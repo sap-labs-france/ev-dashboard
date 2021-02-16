@@ -41,6 +41,7 @@ export interface TableFilterDef {
   exhaustive?: boolean;
   cleared?: boolean;
   dateRangeTableFilterDef?: DateRangeTableFilterDef;
+  dependentFilters?: TableFilterDef[];
 }
 
 export interface DateRangeTableFilterDef {

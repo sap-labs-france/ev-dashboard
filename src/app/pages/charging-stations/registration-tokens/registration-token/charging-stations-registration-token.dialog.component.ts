@@ -24,4 +24,4 @@ export class ChargingStationsRegistrationTokenDialogComponent implements AfterVi
     //   this.appRef.save.bind(this.appRef), this.appRef.close.bind(this.appRef));
   }
 }
-  
+

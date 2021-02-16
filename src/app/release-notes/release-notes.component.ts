@@ -24,8 +24,51 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.42',
+        date: new Date('2020-02-15'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added Circontrol Charging Station in templates`,
+              `Fix sending email error handling to avoid useless sending retries`,
+              `Handle Charging Station's vendors property longer than 20 characters at Boot Notification`,
+              `Fixed User Account activation + Reset password in new RESTful endpoint`,
+              `Inbound OSS Security updates`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.41',
+        date: new Date('2020-02-09'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Handle Assets consumptions and productions in Smart Charging`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.40',
+        date: new Date('2020-02-07'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Allow OCPI Remote Start Transaction on Charging Stations with status Preparing`,
+              `Enhanced OCPI logs for Remote Start/Stop`,
+              `Added Renault Twizzy and Goupil G5 EVs`,
+              `Italian translation provided`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.39',
-        date: new Date('2020-01-30'),
+        date: new Date('2020-02-02'),
         componentChanges: [
           {
             name: 'Dashboard',

@@ -33,7 +33,8 @@ export class ReleaseNotesComponent {
               `Added Circontrol Charging Station in templates`,
               `Fix sending email error handling to avoid useless sending retries`,
               `Handle Charging Station's vendors property longer than 20 characters at Boot Notification`,
-              `Inbound OSS Security updates`
+              `Fixed User Account activation + Reset password in new RESTful endpoint`,
+              `Inbound OSS Security updates`,
             ],
           },
         ],

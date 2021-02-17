@@ -24,6 +24,22 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.42',
+        date: new Date('2020-02-15'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added Circontrol and Wallbox Copper SB Charging Stations in templates`,
+              `Fix sending email error handling to avoid useless sending retries`,
+              `Handle Charging Station's vendors property longer than 20 characters at Boot Notification`,
+              `Fixed User Account activation + Reset password in new RESTful endpoint`,
+              `Inbound OSS Security updates`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.41',
         date: new Date('2020-02-09'),
         componentChanges: [

@@ -23,7 +23,7 @@ import { Utils } from '../../../../utils/Utils';
 export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
   @Input() public assetID!: string;
   @Input() public asset!: AssetConsumption;
-  @Input() public assetType!: AssetType
+  @Input() public assetType!: AssetType;
 
   @ViewChild('primary', { static: true }) public primaryElement!: ElementRef;
   @ViewChild('danger', { static: true }) public dangerElement!: ElementRef;

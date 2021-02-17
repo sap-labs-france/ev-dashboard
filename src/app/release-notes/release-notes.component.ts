@@ -30,7 +30,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
-              `Added Circontrol Charging Station in templates`,
+              `Added Circontrol and Wallbox Copper SB Charging Stations in templates`,
               `Fix sending email error handling to avoid useless sending retries`,
               `Handle Charging Station's vendors property longer than 20 characters at Boot Notification`,
               `Fixed User Account activation + Reset password in new RESTful endpoint`,

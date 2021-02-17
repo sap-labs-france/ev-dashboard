@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
+import { StatusCodes } from 'http-status-codes';
 import { FileItem, FileUploader, ParsedResponseHeaders } from 'ng2-file-upload';
 import { CentralServerService } from 'services/central-server.service';
 import { MessageService } from 'services/message.service';
@@ -46,12 +47,13 @@ export class ImportDialogComponent {
       this.fileName = fileItem.file.name;
     };
     this.uploader.onCompleteItem = (fileItem: FileItem, response: string, status: number, headers: ParsedResponseHeaders) => {
-      this.messageService.showSuccessMessage('general.success_import');
+      if (status === StatusCodes.OK) {
+        this.messageService.showSuccessMessage('general.success_import');
+      }
       this.uploader.destroy();
       this.dialogRef.close();
     };
     this.uploader.onErrorItem = (item: FileItem, response: string, status: number, headers: ParsedResponseHeaders) => {
-      debugger;
       this.messageService.showErrorMessage('general.error_import');
     };
 

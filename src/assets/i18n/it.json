@@ -679,6 +679,7 @@
     "public_charger": "Pubblica",
     "exclude_smart_charging": "Escludi dalla Carica Smart",
     "force_inactive": "Questa stazione di ricarica è inattiva",
+    "manual_configuration": "Manual configuration",
     "public_url": "URL Pubblico",
     "current_ip": "Percorso IP Corrente",
     "select_chargers": "Seleziona la Stazione di Ricarica",
@@ -763,6 +764,14 @@
       "settings": {
         "fixedURLforOCPP": "Da OCPP 1.6 in poi, l'URL è fissato dal server",
         "callbackURLforOCPP": "URL callback per inviare la richiesta HTTP alla stazione di ricarica"
+      },
+      "enableManualConfiguration":{
+        "title": "Enable manual configuration",
+        "confirm": "If you enable the manual configuration, all charge points will be deleted and the technical capabilities will not be taken from the template anymore. After saving the charging station will perform a reboot. Do you want to continue?"
+      },
+      "disableManualConfiguration":{
+        "title": "Disable manual configuration",
+        "confirm": "If you disable the manual configuration, all charge points will be restored and the technical capabilities will be taken from the template. After saving the charging station will perform a reboot. Do you want to continue?"
       }
     },
     "force_available_status_action": "Imposta come Disponibile",

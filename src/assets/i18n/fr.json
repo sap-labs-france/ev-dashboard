@@ -679,6 +679,7 @@
     "public_charger": "Public",
     "exclude_smart_charging": "Exclure de la charge intelligente",
     "force_inactive": "Cette borne est inactive",
+    "manual_configuration": "Manual configuration",
     "public_url": "URL Publique",
     "current_ip": "Route IP Actuelle",
     "select_chargers": "Selection Borne",
@@ -763,6 +764,14 @@
       "settings": {
         "fixedURLforOCPP": "Depuis la version OCPP 1.6, l'URL est fixée par le serveur",
         "callbackURLforOCPP": "URL de retour pour envoyer les requêtes HHTP à la borne"
+      },
+      "enableManualConfiguration":{
+        "title": "Enable manual configuration",
+        "confirm": "If you enable the manual configuration, all charge points will be deleted and the technical capabilities will not be taken from the template anymore. After saving the charging station will perform a reboot. Do you want to continue?"
+      },
+      "disableManualConfiguration":{
+        "title": "Disable manual configuration",
+        "confirm": "If you disable the manual configuration, all charge points will be restored and the technical capabilities will be taken from the template. After saving the charging station will perform a reboot. Do you want to continue?"
       }
     },
     "force_available_status_action": "Rendre Disponible",

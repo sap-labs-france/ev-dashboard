@@ -28,7 +28,7 @@ export class SettingsIntegrationComponent extends AbstractTabComponent {
     activatedRoute: ActivatedRoute,
     windowService: WindowService,
   ) {
-    super(activatedRoute, windowService, ['roaming', 'ocpi', 'refunding', 'pricing', 'billing', 'analytics', 'smartCharging', 'asset']);
+    super(activatedRoute, windowService, ['roaming', 'oicp', 'refunding', 'pricing', 'billing', 'analytics', 'smartCharging', 'asset']);
     this.isOCPIActive = this.componentService.isActive(TenantComponents.OCPI);
     this.isOICPActive = this.componentService.isActive(TenantComponents.OICP);
     this.isOrganizationActive = this.componentService.isActive(TenantComponents.ORGANIZATION);

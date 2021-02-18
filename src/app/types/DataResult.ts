@@ -1,5 +1,6 @@
 import { Data } from './Table';
 import { Transaction } from './Transaction';
+import { UserStatus } from './User';
 
 export interface ActionResponse {
   status: string;
@@ -99,5 +100,5 @@ export interface Paging {
   skip: number;
 }
 export interface VerifyEmailResponse extends ActionResponse {
-  userStatus?: string;
+  userStatus?: UserStatus;
 }

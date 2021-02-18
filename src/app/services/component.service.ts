@@ -418,7 +418,7 @@ export class ComponentService {
         // Get the needed settings for update
         if (settings && settings.count > 0 && settings.result[0].content) {
           userSettings.id = settings.result[0].id;
-          userSettings.autoAccountActivation = settings.result[0].content.user.autoAccountActivation;
+          userSettings.autoActivateAccountAfterValidation = settings.result[0].content.user.autoActivateAccountAfterValidation;
         }
         observer.next(userSettings);
         observer.complete();
@@ -436,7 +436,7 @@ export class ComponentService {
       content: {
         type: UserSettingsContentType.USER,
         user: {
-          autoAccountActivation: settings.autoAccountActivation,
+          autoActivateAccountAfterValidation: settings.autoActivateAccountAfterValidation,
         }
       }
     };

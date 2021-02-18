@@ -7,7 +7,7 @@ export interface Setting extends Data {
   sensitiveData: string[];
   category?: 'business' | 'technical';
   content: SettingContent;
-  autoAccountActivation?: boolean;
+  autoActivateAccountAfterValidation?: boolean;
 }
 
 export interface SettingContent {
@@ -258,5 +258,5 @@ export interface UserSetting extends Setting {
   user?: UserSettings;
 }
 export interface UserSettings {
-  autoAccountActivation: boolean;
+  autoActivateAccountAfterValidation: boolean;
 }

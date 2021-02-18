@@ -1690,7 +1690,7 @@
     "business_details": "Business Details",
     "logo": "Image",
     "sync_all": "Synchronize All",
-    "push_locations": "Push Locations",
+    "push_evse_statuses": "Push Statuses",
     "push_tokens": "Push Tokens",
     "pull_cdrs": "Pull CDRs",
     "pull_locations": "Pull Locations",

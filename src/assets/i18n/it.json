@@ -1690,7 +1690,7 @@
     "business_details": "Dettagli Business",
     "logo": "Immagine",
     "sync_all": "Sincronizza Tutto",
-    "push_locations": "Invio Postazioni",
+    "push_evse_statuses": "Push Statuses",
     "push_tokens": "Invio Token",
     "pull_cdrs": "Recupero Rendiconti Sessioni Ricarica (CDR)",
     "pull_locations": "Recupero Postazioni",

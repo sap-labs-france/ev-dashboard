@@ -24,6 +24,18 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.43',
+        date: new Date('2020-02-18'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Basic user cannot unlock connector`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.42',
         date: new Date('2020-02-15'),
         componentChanges: [

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { ActionResponse } from '../types/DataResult';
-import { AnalyticsSettings, AssetConnectionType, AssetSettings, AssetSettingsType, BillingSettings, BillingSettingsType, KeySettings, PricingSettings, PricingSettingsType, RefundSettings, RefundSettingsType, RoamingSettings, SmartChargingSettings, SmartChargingSettingsType, UserSetting, UserSettingsContentType, UserSettingsType } from '../types/Setting';
+import { AnalyticsSettings, AssetConnectionType, AssetSettings, AssetSettingsType, BillingSettings, BillingSettingsType, KeySettings, PricingSettings, PricingSettingsType, RefundSettings, RefundSettingsType, RoamingSettings, SmartChargingSettings, SmartChargingSettingsType, TechnicalSettingsType, UserSetting, UserSettingsContentType } from '../types/Setting';
 import TenantComponents from '../types/TenantComponents';
 import { Utils } from '../utils/Utils';
 import { CentralServerService } from './central-server.service';
@@ -411,14 +411,14 @@ export class ComponentService {
   public getUserSettings(): Observable<UserSetting> {
     return new Observable((observer) => {
       const userSettings = {
-        identifier: UserSettingsType.USER,
+        identifier: TechnicalSettingsType.USER,
       } as UserSetting;
       // Get the user settings
-      this.centralServerService.getSettings(UserSettingsType.USER).subscribe((settings) => {
+      this.centralServerService.getSettings(TechnicalSettingsType.USER).subscribe((settings) => {
         // Get the needed settings for update
         if (settings && settings.count > 0 && settings.result[0].content) {
           userSettings.id = settings.result[0].id;
-          userSettings.manualAccountActivation = settings.result[0].content.user.manualAccountActivation;
+          userSettings.autoAccountActivation = settings.result[0].content.user.autoAccountActivation;
         }
         observer.next(userSettings);
         observer.complete();
@@ -436,7 +436,7 @@ export class ComponentService {
       content: {
         type: UserSettingsContentType.USER,
         user: {
-          manualAccountActivation: settings.manualAccountActivation,
+          autoAccountActivation: settings.autoAccountActivation,
         }
       }
     };

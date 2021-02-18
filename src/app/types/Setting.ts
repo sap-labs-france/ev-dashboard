@@ -3,15 +3,15 @@ import TenantComponents from './TenantComponents';
 
 export interface Setting extends Data {
   id: string;
-  identifier: TenantComponents | UserSettingsType;
+  identifier: TenantComponents | TechnicalSettingsType;
   sensitiveData: string[];
   category?: 'business' | 'technical';
   content: SettingContent;
-  manualAccountActivation?: boolean;
+  autoAccountActivation?: boolean;
 }
 
 export interface SettingContent {
-  type: CryptoSettingsType | RoamingSettingsType | AnalyticsSettingsType | RefundSettingsType | PricingSettingsType | BillingSettingsType | SmartChargingSettingsType | AssetSettingsType | UserSettingsType;
+  type: CryptoSettingsType | RoamingSettingsType | AnalyticsSettingsType | RefundSettingsType | PricingSettingsType | BillingSettingsType | SmartChargingSettingsType | AssetSettingsType | TechnicalSettingsType;
   ocpi?: OcpiSetting;
   simple?: SimplePricingSetting;
   convergentCharging?: ConvergentChargingPricingSetting;
@@ -243,8 +243,9 @@ export interface AssetGreencomConnectionType {
   clientSecret: string;
 }
 
-export enum UserSettingsType {
-  USER = 'user'
+export enum TechnicalSettingsType {
+  USER = 'user',
+  //TODO: add CRYPTO = 'crypto' here
 }
 
 export enum UserSettingsContentType {
@@ -252,10 +253,10 @@ export enum UserSettingsContentType {
 }
 
 export interface UserSetting extends Setting {
-  identifier: UserSettingsType.USER;
+  identifier: TechnicalSettingsType.USER;
   type: UserSettingsContentType;
   user?: UserSettings;
 }
 export interface UserSettings {
-  manualAccountActivation: boolean;
+  autoAccountActivation: boolean;
 }

@@ -1572,7 +1572,7 @@
     },
     "user": {
       "title": "Account Activation Settings",
-      "manual_activation": "Manually activate new user account at registration time.",
+      "auto_activation": "Automatically activate new user account at registration time.",
       "update_success": "User settings have been updated successfully",
       "update_error": "Error occurred while updating the user settings, check the logs",
       "setting_do_not_exist": "User settings not found"

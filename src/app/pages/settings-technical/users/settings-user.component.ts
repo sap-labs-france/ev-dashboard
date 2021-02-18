@@ -22,7 +22,7 @@ export class SettingsUserComponent implements OnInit {
   public router: Router;
 
   public formGroup!: FormGroup;
-  public manualAccountActivation!: AbstractControl;
+  public autoAccountActivation!: AbstractControl;
 
   constructor(
     private messageService: MessageService,
@@ -34,12 +34,12 @@ export class SettingsUserComponent implements OnInit {
 
   public ngOnInit(): void {
     this.formGroup = new FormGroup({
-      manualAccountActivation : new FormControl(),
+      autoAccountActivation : new FormControl(),
     });
-    this.manualAccountActivation = this.formGroup.controls['manualAccountActivation'];
+    this.autoAccountActivation = this.formGroup.controls['autoAccountActivation'];
     // Register check event
-    this.formGroup.controls['manualAccountActivation'].valueChanges.subscribe((value: boolean) => {
-      this.userSettings.manualAccountActivation = value;
+    this.formGroup.controls['autoAccountActivation'].valueChanges.subscribe((value: boolean) => {
+      this.userSettings.autoAccountActivation = value;
     });
     this.loadSettings();
   }
@@ -91,7 +91,7 @@ export class SettingsUserComponent implements OnInit {
         // Init values
         this.isDisabled = true;
         this.userSettings = settings;
-        this.manualAccountActivation.setValue(this.userSettings.manualAccountActivation);
+        this.autoAccountActivation.setValue(this.userSettings.autoAccountActivation);
       }, (error) => {
         this.spinnerService.hide();
         switch (error.status) {

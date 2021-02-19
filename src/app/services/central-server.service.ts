@@ -12,12 +12,15 @@ import { Car, CarCatalog, CarMaker, ImageObject } from '../types/Car';
 import { ChargingProfile, GetCompositeScheduleCommandResult } from '../types/ChargingProfile';
 import { ChargePoint, ChargingStation, OCPPAvailabilityType, OcppParameter } from '../types/ChargingStation';
 import { Company } from '../types/Company';
+import CentralSystemServerConfiguration from '../types/configuration/CentralSystemServerConfiguration';
 import { IntegrationConnection, UserConnection } from '../types/Connection';
 import { ActionResponse, ActionsResponse, CheckAssetConnectionResponse, CheckBillingConnectionResponse, DataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, Ordering, Paging } from '../types/DataResult';
 import { EndUserLicenseAgreement } from '../types/Eula';
 import { FilterParams, Image, KeyValue } from '../types/GlobalType';
 import { AssetInError, ChargingStationInError, TransactionInError } from '../types/InError';
 import { Log } from '../types/Log';
+import { OcpiEndpoint } from '../types/ocpi/OCPIEndpoint';
+import { OCPPResetType } from '../types/ocpp/OCPP';
 import { RefundReport } from '../types/Refund';
 import { RegistrationToken } from '../types/RegistrationToken';
 import { ServerAction } from '../types/Server';
@@ -29,9 +32,6 @@ import { Tag } from '../types/Tag';
 import { Tenant } from '../types/Tenant';
 import { OcpiData, Transaction } from '../types/Transaction';
 import { User, UserCar, UserDefaultTagCar, UserSite, UserToken } from '../types/User';
-import CentralSystemServerConfiguration from '../types/configuration/CentralSystemServerConfiguration';
-import { OcpiEndpoint } from '../types/ocpi/OCPIEndpoint';
-import { OCPPResetType } from '../types/ocpp/OCPP';
 import { Constants } from '../utils/Constants';
 import { Utils } from '../utils/Utils';
 import { CentralServerNotificationService } from './central-server-notification.service';
@@ -755,10 +755,10 @@ export class CentralServerService {
       );
   }
 
-  public getConnectorQrCode(chargeBoxID: string, connectorID: number): Observable<Image> {
+  public getConnectorQrCode(chargingStationID: string, connectorID: number): Observable<Image> {
     // Verify init
     this.checkInit();
-    if (!chargeBoxID || connectorID < 0) {
+    if (!chargingStationID || connectorID < 0) {
       return EMPTY;
     }
     // Execute the REST service
@@ -766,7 +766,7 @@ export class CentralServerService {
       {
         headers: this.buildHttpHeaders(),
         params: {
-          ChargeBoxID: chargeBoxID,
+          ChargingStationID: chargingStationID,
           ConnectorID: connectorID.toString()
         },
       })
@@ -1683,7 +1683,7 @@ export class CentralServerService {
   public downloadChargingStationQrCodes(chargingStationID: string, connectorID?: number): Observable<Blob> {
     this.checkInit();
     const params: { [param: string]: string } = {};
-    params['ChargeBoxID'] = chargingStationID;
+    params['ChargingStationID'] = chargingStationID;
     if (connectorID) {
       params['ConnectorID'] = connectorID.toString();
     }

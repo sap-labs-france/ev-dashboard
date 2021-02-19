@@ -24,13 +24,26 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.43',
+        date: new Date('2020-02-18'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Charging Stations public API for B2B access`,
+              `Basic user cannot unlock connector`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.42',
         date: new Date('2020-02-15'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
-              `Added Circontrol Charging Station in templates`,
+              `Added Circontrol and Wallbox Copper SB Charging Stations in templates`,
               `Fix sending email error handling to avoid useless sending retries`,
               `Handle Charging Station's vendors property longer than 20 characters at Boot Notification`,
               `Fixed User Account activation + Reset password in new RESTful endpoint`,

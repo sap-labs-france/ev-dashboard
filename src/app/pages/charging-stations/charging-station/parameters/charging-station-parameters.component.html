@@ -77,7 +77,7 @@
           {{'chargers.force_inactive' | translate}}
         </mat-checkbox>
       </div>
-      <div
+      <div *ngIf="currentType === 'AC' || chargingStation.chargePoints?.length === 0"
       class="col-md-3 text-left form-group">
         <mat-checkbox [formControl]="manualConfiguration" (change)="manualConfigurationChanged($event.checked)">
           {{'chargers.manual_configuration' | translate}}
@@ -96,7 +96,7 @@
       <div class="row charging-station-connector-component">
         <div class="col-md-6" *ngFor="let connector of chargingStation?.connectors">
           <app-charging-station-connector [chargingStation]="chargingStation" [connector]="connector"
-            [formConnectorsArray]="connectors" [isAdmin]="isAdmin" (connectorChanged)="connectorChanged()" [manualConfiguration]="manualConfiguration.value">
+            [formConnectorsArray]="connectors" [isAdmin]="isAdmin" (connectorChanged)="connectorChanged()">
           </app-charging-station-connector>
         </div>
       </div>

@@ -44,6 +44,26 @@ export class AuthorizationService {
     return this.canAccess(Entity.CHARGING_STATION, Action.UPDATE);
   }
 
+  public canListChargingStations(): boolean {
+    return this.canAccess(Entity.CHARGING_STATIONS, Action.LIST);
+  }
+
+  public canListChargingStationsInError(): boolean {
+    return this.canAccess(Entity.CHARGING_STATIONS, Action.IN_ERROR);
+  }
+
+  public canListAssets(): boolean {
+    return this.canAccess(Entity.ASSETS, Action.LIST);
+  }
+
+  public canListAssetsInError(): boolean {
+    return this.canAccess(Entity.ASSETS, Action.IN_ERROR);
+  }
+
+  public canListChargingProfiles(): boolean {
+    return this.canAccess(Entity.CHARGING_PROFILES, Action.LIST);
+  }
+
   public canUpdateCompany(): boolean {
     return this.canAccess(Entity.COMPANY, Action.UPDATE);
   }
@@ -105,12 +125,32 @@ export class AuthorizationService {
     return this.canAccess(Entity.TRANSACTION, Action.DELETE);
   }
 
+  public canExportTransactions(): boolean {
+    return this.canAccess(Entity.TRANSACTIONS, Action.EXPORT);
+  }
+
+  public canListUsers(): boolean {
+    return this.canAccess(Entity.USERS, Action.LIST);
+  }
+
+  public canListUsersInError(): boolean {
+    return this.canAccess(Entity.USERS, Action.IN_ERROR);
+  }
+
   public canDeleteUser(): boolean {
     return this.canAccess(Entity.USER, Action.DELETE);
   }
 
   public canUpdateUser(): boolean {
     return this.canAccess(Entity.USER, Action.UPDATE);
+  }
+
+  public canCreateUser(): boolean {
+    return this.canAccess(Entity.USER, Action.CREATE);
+  }
+
+  public canExportUsers(): boolean {
+    return this.canAccess(Entity.USERS, Action.EXPORT);
   }
 
   public canSynchronizeBillingUser(): boolean {
@@ -185,6 +225,14 @@ export class AuthorizationService {
       return this.isAdmin() || this.isDemo();
     }
     return false;
+  }
+
+  public canListTransactions(): boolean {
+    return this.canAccess(Entity.TRANSACTIONS, Action.LIST);
+  }
+
+  public canListTransactionsInError(): boolean {
+    return this.canAccess(Entity.TRANSACTIONS, Action.IN_ERROR);
   }
 
   public canCreateToken(): boolean {

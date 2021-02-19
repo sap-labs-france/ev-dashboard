@@ -245,19 +245,23 @@ export class UsersListTableDataSource extends TableDataSource<User> {
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-    tableActionsDef.unshift(new TableExportUsersAction().getActionDef());
-    tableActionsDef.unshift(new TableCreateUserAction().getActionDef());
+    if (this.authorizationService.canExportUsers()) {
+      tableActionsDef.unshift(new TableExportUsersAction().getActionDef());
+    }
     if (this.componentService.isActive(TenantComponents.BILLING) &&
-      this.authorizationService.canSynchronizeBillingUsers()) {
-      tableActionsDef.splice(1, 0, this.syncBillingUsersAction);
+        this.authorizationService.canSynchronizeBillingUsers()) {
+      tableActionsDef.unshift(this.syncBillingUsersAction);
+    }
+    if (this.authorizationService.canCreateUser()) {
+      tableActionsDef.unshift(new TableCreateUserAction().getActionDef());
     }
     return tableActionsDef;
   }
 
   public buildTableDynamicRowActions(user: User): TableActionDef[] {
     const actions = [];
+    const moreActions = new TableMoreAction([]);
     if (user.issuer) {
-      const moreActions = new TableMoreAction([]);
       if (this.authorizationService.canUpdateUser()) {
         actions.push(this.editAction);
       }
@@ -266,22 +270,29 @@ export class UsersListTableDataSource extends TableDataSource<User> {
           actions.push(this.assignSitesToUser);
         }
       }
-      moreActions.addActionInMoreActions(this.navigateToTagsAction);
-      moreActions.addActionInMoreActions(this.navigateToTransactionsAction);
+      if (this.authorizationService.canListTokens()) {
+        moreActions.addActionInMoreActions(this.navigateToTagsAction);
+      }
+      if (this.authorizationService.canListTransactions()) {
+        moreActions.addActionInMoreActions(this.navigateToTransactionsAction);
+      }
       if (this.componentService.isActive(TenantComponents.BILLING)) {
         if (this.authorizationService.canSynchronizeBillingUser()) {
           moreActions.addActionInMoreActions(this.forceSyncBillingUserAction);
         }
       }
-      if (this.currentUser.id !== user.id && this.authorizationService.canDeleteUser()) {
+      if (this.currentUser.id !== user.id &&
+          this.authorizationService.canDeleteUser()) {
         moreActions.addActionInMoreActions(this.deleteAction);
       }
       actions.push(moreActions.getActionDef());
     } else {
-      const moreActions = new TableMoreAction([
-        this.navigateToTagsAction,
-        this.navigateToTransactionsAction
-      ]);
+      if (this.authorizationService.canListTokens()) {
+        moreActions.addActionInMoreActions(this.navigateToTagsAction);
+      }
+      if (this.authorizationService.canListTransactions()) {
+        moreActions.addActionInMoreActions(this.navigateToTransactionsAction);
+      }
       actions.push(moreActions.getActionDef());
     }
     return actions;

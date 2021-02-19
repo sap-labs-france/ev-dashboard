@@ -5,6 +5,7 @@
     "captcha_text_3": " et l'application des ",
     "captcha_text_4": "Conditions d’Utilisation",
     "captcha_text_5": "",
+    "not_authorized": "Vous n'êtes pas autorisé a exécuter cette action",
     "created_on": "Créé le",
     "created_by": "Créé par",
     "changed_on": "Modifié le",
@@ -436,7 +437,7 @@
     "image": "Image",
     "assigned_chargers": "Bornes",
     "assigned_chargers_to_site_area": "Bornes assignées à '{{siteAreaName}}'",
-    "assigned_assets_to_site_area": "Assets assignés à '{{siteAreaName}}'",
+    "assigned_assets_to_site_area": "Ressources assignées à '{{siteAreaName}}'",
     "name": "Nom",
     "title": "Zone",
     "titles": "Zones",
@@ -1730,7 +1731,7 @@
     "title": "Asset",
     "description": "Gestion des Assets",
     "tabs": {
-      "assets": "Assets",
+      "assets": "Ressources",
       "in_error": "En Erreur"
     },
     "graph": {

@@ -1,7 +1,7 @@
 <div class="transactions main-content">
   <mat-tab-group (selectedIndexChange)="updateRoute($event)" [selectedIndex]="activeTabIndex" animationDuration="0ms"
     class="h-100 mat-tab-info" disableRipple="true">
-    <mat-tab>
+    <mat-tab *ngIf="canListTransactions">
       <ng-template mat-tab-label>
         <mat-icon>flash_on</mat-icon><span>{{'transactions.tabs.in_progress' | translate}}</span>
       </ng-template>
@@ -9,7 +9,7 @@
         <app-transactions-in-progress></app-transactions-in-progress>
       </ng-template>
     </mat-tab>
-    <mat-tab>
+    <mat-tab *ngIf="canListTransactions">
       <ng-template mat-tab-label>
         <mat-icon>history</mat-icon><span>{{'transactions.tabs.history' | translate}}</span>
       </ng-template>
@@ -17,7 +17,7 @@
         <app-transactions-history></app-transactions-history>
       </ng-template>
     </mat-tab>
-    <ng-container *ngIf="showTransactionInError">
+    <ng-container *ngIf="canListTransactionsInError">
       <mat-tab>
         <ng-template mat-tab-label>
           <mat-icon>warning</mat-icon><span>{{'transactions.tabs.in_error' | translate}}</span>
@@ -27,7 +27,7 @@
         </ng-template>
       </mat-tab>
     </ng-container>
-    <ng-container *ngIf="showTransactionRefundTab">
+    <ng-container *ngIf="canRefundTransaction">
       <mat-tab>
         <ng-template mat-tab-label>
           <mat-icon>money</mat-icon><span>{{'transactions.tabs.refund' | translate}}</span>

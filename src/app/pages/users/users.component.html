@@ -1,7 +1,7 @@
 <div class="main-content flex-grow-1">
   <mat-tab-group (selectedIndexChange)="updateRoute($event)" [selectedIndex]="activeTabIndex"
                  animationDuration="0ms" disableRipple="true" class="h-100 mat-tab-info">
-    <mat-tab>
+    <mat-tab *ngIf="canListUsers">
       <ng-template mat-tab-label>
         <mat-icon>people</mat-icon>
         <span>{{'users.tabs.list' | translate}}</span>
@@ -10,7 +10,7 @@
         <app-users-list></app-users-list>
       </ng-template>
     </mat-tab>
-    <mat-tab *ngIf="isAdmin">
+    <mat-tab *ngIf="canListTokens">
       <ng-template mat-tab-label>
         <mat-icon>nfc</mat-icon>
         <span>{{'users.tabs.tags' | translate}}</span>
@@ -19,7 +19,7 @@
         <app-tags-list></app-tags-list>
       </ng-template>
     </mat-tab>
-    <mat-tab *ngIf="isAdmin">
+    <mat-tab *ngIf="canListUsersInError">
       <ng-template mat-tab-label>
         <mat-icon>warning</mat-icon>
         <span>{{'users.tabs.in_error' | translate}}</span>

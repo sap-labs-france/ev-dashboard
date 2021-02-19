@@ -323,7 +323,6 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
           }
           delete this.chargingStation.chargePoints;
           this.manualConfiguration.disable();
-          this.formGroup.markAsDirty();
         }
       });
     } else if (event === false){
@@ -332,7 +331,6 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
         this.translateService.instant('chargers.dialog.disableManualConfiguration.confirm'),
       ).subscribe((result) => {
         if (result === ButtonType.YES) {
-          this.formGroup.markAsDirty();
         }
       });
     }

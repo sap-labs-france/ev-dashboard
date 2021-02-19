@@ -179,10 +179,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
     if (this.authorizationService.canCreateSite()) {
-      return [
-        new TableCreateSiteAction().getActionDef(),
-        ...tableActionsDef,
-      ];
+      tableActionsDef.unshift(new TableCreateSiteAction().getActionDef());
     }
     return tableActionsDef;
   }
@@ -194,7 +191,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
     openInMaps.disabled = !Utils.containsAddressGPSCoordinates(site.address);
     const moreActions = new TableMoreAction([]);
     if (site.issuer) {
-      if (this.authorizationService.canUpdateSite()) {
+      if (site.canUpdate) {
         actions.push(this.editAction);
         moreActions.addActionInMoreActions(this.exportOCPPParamsAction);
         moreActions.addActionInMoreActions(this.siteGenerateQrCodeConnectorAction);
@@ -205,7 +202,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
         actions.push(this.assignUsersToSite);
       }
       moreActions.addActionInMoreActions(openInMaps);
-      if (this.authorizationService.canDeleteSite()) {
+      if (site.canDelete) {
         moreActions.addActionInMoreActions(this.deleteAction);
       }
     } else {

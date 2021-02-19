@@ -145,3 +145,10 @@ export interface AuthorizationContext {
   asset?: string;
   assets?: string[];
 }
+
+export interface AuthorizationActions {
+  canRead?: boolean;
+  canCreate?: boolean;
+  canUpdate?: boolean;
+  canDelete?: boolean;
+}

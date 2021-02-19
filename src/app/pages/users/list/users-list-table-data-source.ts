@@ -262,7 +262,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
     const actions = [];
     const moreActions = new TableMoreAction([]);
     if (user.issuer) {
-      if (this.authorizationService.canUpdateUser()) {
+      if (user.canUpdate) {
         actions.push(this.editAction);
       }
       if (this.componentService.isActive(TenantComponents.ORGANIZATION)) {
@@ -281,8 +281,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
           moreActions.addActionInMoreActions(this.forceSyncBillingUserAction);
         }
       }
-      if (this.currentUser.id !== user.id &&
-          this.authorizationService.canDeleteUser()) {
+      if (this.currentUser.id !== user.id && user.canDelete) {
         moreActions.addActionInMoreActions(this.deleteAction);
       }
       actions.push(moreActions.getActionDef());

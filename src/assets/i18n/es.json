@@ -1690,7 +1690,7 @@
     "business_details": "Detalles de la empresa",
     "logo": "Imagen",
     "sync_all": "Sincronizar todo",
-    "push_locations": "Enviar ubicaciones",
+    "push_evse_statuses": "Push Statuses",
     "push_tokens": "Enviar tokens",
     "pull_cdrs": "Descargar cdrs",
     "pull_locations": "Descargar ubicaciones",

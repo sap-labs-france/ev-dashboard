@@ -30,6 +30,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `Charging Stations public API for B2B access`,
               `Basic user cannot unlock connector`,
             ],
           },

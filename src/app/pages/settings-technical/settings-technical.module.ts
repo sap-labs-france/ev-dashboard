@@ -8,7 +8,7 @@ import { MaterialModule } from '../../app.module';
 import { DialogsModule } from '../../shared/dialogs/dialogs.module';
 import { CommonDirectivesModule } from '../../shared/directives/directives.module';
 import { FormattersModule } from '../../shared/formatters/formatters.module';
-import { TableModule } from '../../shared/table/table.module'
+import { TableModule } from '../../shared/table/table.module';
 import { SettingsCryptoKeyComponent } from './crypto/crypto-key/settings-crypto-key.component';
 import { SettingsCryptoComponent } from './crypto/settings-crypto.component';
 import { SettingsTechnicalComponent } from './settings-technical.component';

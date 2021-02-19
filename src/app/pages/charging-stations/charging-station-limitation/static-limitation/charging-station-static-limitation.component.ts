@@ -57,7 +57,7 @@ export class ChargingStationStaticLimitationComponent {
     ).subscribe((result) => {
       if (result === ButtonType.YES) {
         this.spinnerService.show();
-        this.centralServerService.getChargingProfiles({ChargeBoxID: this.chargingStation.id}).subscribe((chargingProfilesResult) => {
+        this.centralServerService.getChargingProfiles({ ChargingStationID: this.chargingStation.id }).subscribe((chargingProfilesResult) => {
           this.spinnerService.hide();
           let foundLimitIsExeeded = false;
           if (chargingProfilesResult.count > 0) {

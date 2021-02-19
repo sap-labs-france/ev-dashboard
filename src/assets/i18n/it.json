@@ -1572,8 +1572,8 @@
       "update_error": "Error occurred while updating the Crypto Technical Settings, check the logs"
     },
     "user": {
-      "title": "Account Activation Settings",
-      "auto_activation": "Automatically activate new user account at registration time.",
+      "title": "Account Settings",
+      "auto_activation": "Automatically activate new user account at registration time",
       "update_success": "User settings have been updated successfully",
       "update_error": "Error occurred while updating the user settings, check the logs",
       "setting_do_not_exist": "User settings not found"

@@ -58,9 +58,7 @@ export class SettingsUserComponent implements OnInit {
           this.refresh();
         } else {
           Utils.handleError(
-            JSON.stringify(response),
-            this.messageService,
-            'technical_settings.user.update_error'
+            JSON.stringify(response), this.messageService, 'technical_settings.user.update_error'
           );
         }
       },
@@ -72,11 +70,7 @@ export class SettingsUserComponent implements OnInit {
             break;
           default:
             Utils.handleHttpError(
-              error,
-              this.router,
-              this.messageService,
-              this.centralServerService,
-              'technical_settings.user.update_error'
+              error, this.router, this.messageService, this.centralServerService, 'technical_settings.user.update_error'
             );
         }
       }

@@ -130,7 +130,7 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
           // Go to reset password
           this.router.navigate(['auth/define-password'], { queryParams: { hash: this.resetToken } });
         } else {
-          if (response.userStatus && response.userStatus === UserStatus.INACTIVE) {
+          if (response?.userStatus === UserStatus.INACTIVE) {
             // Show message for inactive new account by default
             this.messageService.showWarningMessage(this.messages['verify_email_success_inactive']);
           } else {

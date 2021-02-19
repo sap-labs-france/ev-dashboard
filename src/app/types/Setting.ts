@@ -1,9 +1,13 @@
 import { Data } from './Table';
 import TenantComponents from './TenantComponents';
 
+export enum TechnicalSettings {
+  USER = 'user',
+  CRYPTO = 'crypto'
+}
 export interface Setting extends Data {
   id: string;
-  identifier: TenantComponents | TechnicalSettingsType;
+  identifier: TenantComponents | TechnicalSettings;
   sensitiveData: string[];
   category?: 'business' | 'technical';
   content: SettingContent;
@@ -11,7 +15,15 @@ export interface Setting extends Data {
 }
 
 export interface SettingContent {
-  type: CryptoSettingsType | RoamingSettingsType | AnalyticsSettingsType | RefundSettingsType | PricingSettingsType | BillingSettingsType | SmartChargingSettingsType | AssetSettingsType | TechnicalSettingsType;
+  type: CryptoSettingsType
+    | RoamingSettingsType
+    | AnalyticsSettingsType
+    | RefundSettingsType
+    | PricingSettingsType
+    | BillingSettingsType
+    | SmartChargingSettingsType
+    | AssetSettingsType
+    | UserSettingsType;
   ocpi?: OcpiSetting;
   simple?: SimplePricingSetting;
   convergentCharging?: ConvergentChargingPricingSetting;
@@ -45,8 +57,7 @@ export interface PricingSettings extends Setting {
   convergentCharging: ConvergentChargingPricingSetting;
 }
 
-export interface PricingSetting {
-}
+export interface PricingSetting {}
 
 export interface SimplePricingSetting extends PricingSetting {
   price: number;
@@ -82,7 +93,7 @@ export interface OcpiSetting {
       type: string;
       width: string;
       height: string;
-    }
+    };
   };
   cpo: {
     countryCode: string;
@@ -204,7 +215,7 @@ export interface AssetConnectionSetting extends Data {
 export enum AssetConnectionType {
   NONE = '',
   SCHNEIDER = 'schneider',
-  GREENCOM = 'greencom'
+  GREENCOM = 'greencom',
 }
 
 export interface AssetUserPasswordConnectionType {
@@ -213,15 +224,14 @@ export interface AssetUserPasswordConnectionType {
 }
 
 // tslint:disable-next-line: no-empty-interface
-export interface AssetSchneiderConnectionType extends AssetUserPasswordConnectionType {
-}
+export interface AssetSchneiderConnectionType extends AssetUserPasswordConnectionType {}
 
 export enum CryptoSettingsType {
   CRYPTO = 'crypto',
 }
 
 export interface KeySettings extends Setting {
-  identifier: TenantComponents.CRYPTO;
+  identifier: TechnicalSettings.CRYPTO;
   type: CryptoSettingsType;
   crypto?: CryptoSetting;
 }
@@ -243,18 +253,13 @@ export interface AssetGreencomConnectionType {
   clientSecret: string;
 }
 
-export enum TechnicalSettingsType {
-  USER = 'user',
-  //TODO: add CRYPTO = 'crypto' here
-}
-
-export enum UserSettingsContentType {
+export enum UserSettingsType {
   USER = 'user',
 }
 
 export interface UserSetting extends Setting {
-  identifier: TechnicalSettingsType.USER;
-  type: UserSettingsContentType;
+  identifier: TechnicalSettings.USER;
+  type: UserSettingsType;
   user?: UserSettings;
 }
 export interface UserSettings {

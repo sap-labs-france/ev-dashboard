@@ -25,13 +25,14 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.4.43',
-        date: new Date('2020-02-19'),
+        date: new Date('2020-02-20'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Manually activate new Users accounts`,
               `Charging Stations public API for B2B access`,
-              `Adjusted the Site Admin role to not assign Users on Sites where they are Site Admin`,
+              `Adjusted the Site Admin role to not have access to all Users`,
             ],
           },
         ],

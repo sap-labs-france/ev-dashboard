@@ -1506,11 +1506,11 @@ export class CentralServerService {
       );
   }
 
-  public getSettings(identifier: string, contentFilter = false): Observable<DataResult<SettingDB>> {
+  public getSetting(identifier: string): Observable<SettingDB> {
     // verify init
     this.checkInit();
     // Execute the REST Service
-    return this.httpClient.get<DataResult<SettingDB>>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.SETTINGS}?Identifier=${identifier}&ContentFilter=${contentFilter}`,
+    return this.httpClient.get<SettingDB>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.SETTING_BY_INDENTIFIER}?ID=${identifier}`,
       {
         headers: this.buildHttpHeaders(),
       })

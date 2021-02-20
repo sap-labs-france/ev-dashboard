@@ -39,13 +39,13 @@ export class ComponentService {
         identifier: TenantComponents.PRICING,
       } as PricingSettings;
       // Get the Pricing settings
-      this.centralServerService.getSettings(TenantComponents.PRICING).subscribe((settings) => {
+      this.centralServerService.getSetting(TenantComponents.PRICING).subscribe((settings) => {
         // Get the currency
-        if (settings && settings.count > 0 && settings.result[0].content) {
-          const config = settings.result[0].content;
+        if (settings) {
+          const config = settings.content;
           // ID
-          pricingSettings.id = settings.result[0].id;
-          pricingSettings.sensitiveData = settings.result[0].sensitiveData;
+          pricingSettings.id = settings.id;
+          pricingSettings.sensitiveData = settings.sensitiveData;
           // Simple price
           if (config.simple) {
             pricingSettings.type = PricingSettingsType.SIMPLE;
@@ -229,12 +229,12 @@ export class ComponentService {
         identifier: TenantComponents.BILLING,
       } as BillingSettings;
       // Get the Billing settings
-      this.centralServerService.getSettings(TenantComponents.BILLING).subscribe((settings) => {
-        if (settings && settings.count > 0 && settings.result[0].content) {
-          const config = settings.result[0].content;
+      this.centralServerService.getSetting(TenantComponents.BILLING).subscribe((settings) => {
+        if (settings) {
+          const config = settings.content;
           // ID
-          billingSettings.id = settings.result[0].id;
-          billingSettings.sensitiveData = settings.result[0].sensitiveData;
+          billingSettings.id = settings.id;
+          billingSettings.sensitiveData = settings.sensitiveData;
           // Stripe
           if (config.stripe) {
             billingSettings.type = BillingSettingsType.STRIPE;
@@ -255,13 +255,13 @@ export class ComponentService {
         identifier: TenantComponents.OCPI,
       } as RoamingSettings;
       // Get the Pricing settings
-      this.centralServerService.getSettings(TenantComponents.OCPI).subscribe((settings) => {
+      this.centralServerService.getSetting(TenantComponents.OCPI).subscribe((settings) => {
         // Get the currency
-        if (settings && settings.count > 0 && settings.result[0].content) {
-          const config = settings.result[0].content;
+        if (settings) {
+          const config = settings.content;
           // Set
-          ocpiSettings.id = settings.result[0].id;
-          ocpiSettings.sensitiveData = settings.result[0].sensitiveData;
+          ocpiSettings.id = settings.id;
+          ocpiSettings.sensitiveData = settings.sensitiveData;
           ocpiSettings.ocpi = config.ocpi;
         }
         observer.next(ocpiSettings);
@@ -272,19 +272,19 @@ export class ComponentService {
     });
   }
 
-  public getSacSettings(contentFilter = false): Observable<AnalyticsSettings> {
+  public getSacSettings(): Observable<AnalyticsSettings> {
     return new Observable((observer) => {
       const analyticsSettings = {
         identifier: TenantComponents.ANALYTICS,
       } as AnalyticsSettings;
       // Get the Pricing settings
-      this.centralServerService.getSettings(TenantComponents.ANALYTICS, contentFilter).subscribe((settings) => {
+      this.centralServerService.getSetting(TenantComponents.ANALYTICS).subscribe((settings) => {
         // Get the currency
-        if (settings && settings.count > 0 && settings.result[0].content) {
-          const config = settings.result[0].content;
+        if (settings) {
+          const config = settings.content;
           // Set
-          analyticsSettings.id = settings.result[0].id;
-          analyticsSettings.sensitiveData = settings.result[0].sensitiveData;
+          analyticsSettings.id = settings.id;
+          analyticsSettings.sensitiveData = settings.sensitiveData;
           analyticsSettings.sac = config.sac;
           analyticsSettings.links = config.links;
         }
@@ -302,14 +302,14 @@ export class ComponentService {
         identifier: TenantComponents.REFUND,
       } as RefundSettings;
       // Get the Pricing settings
-      this.centralServerService.getSettings(TenantComponents.REFUND).subscribe((settings) => {
+      this.centralServerService.getSetting(TenantComponents.REFUND).subscribe((settings) => {
         // Get the currency
-        if (settings && settings.count > 0 && settings.result[0].content) {
-          const config = settings.result[0].content;
+        if (settings) {
+          const config = settings.content;
           // ID
-          refundSettings.id = settings.result[0].id;
+          refundSettings.id = settings.id;
           // Sensitive data
-          refundSettings.sensitiveData = settings.result[0].sensitiveData;
+          refundSettings.sensitiveData = settings.sensitiveData;
           // Set
           refundSettings.concur = config.concur;
         }
@@ -321,18 +321,18 @@ export class ComponentService {
     });
   }
 
-  public getSmartChargingSettings(contentFilter = false): Observable<SmartChargingSettings> {
+  public getSmartChargingSettings(): Observable<SmartChargingSettings> {
     return new Observable((observer) => {
       const smartChargingSettings = {
         identifier: TenantComponents.SMART_CHARGING,
       } as SmartChargingSettings;
       // Get the SmartCharging settings
-      this.centralServerService.getSettings(TenantComponents.SMART_CHARGING, contentFilter).subscribe((settings) => {
-        if (settings && settings.count > 0 && settings.result[0].content) {
-          const config = settings.result[0].content;
+      this.centralServerService.getSetting(TenantComponents.SMART_CHARGING).subscribe((settings) => {
+        if (settings) {
+          const config = settings.content;
           // Set
-          smartChargingSettings.id = settings.result[0].id;
-          smartChargingSettings.sensitiveData = settings.result[0].sensitiveData;
+          smartChargingSettings.id = settings.id;
+          smartChargingSettings.sensitiveData = settings.sensitiveData;
           smartChargingSettings.sapSmartCharging = config.sapSmartCharging;
         }
         observer.next(smartChargingSettings);
@@ -349,14 +349,14 @@ export class ComponentService {
         identifier: TenantComponents.ASSET,
       } as AssetSettings;
       // Get the Asset settings
-      this.centralServerService.getSettings(TenantComponents.ASSET).subscribe((settings) => {
+      this.centralServerService.getSetting(TenantComponents.ASSET).subscribe((settings) => {
         // Get the currency
-        if (settings && settings.count > 0 && settings.result[0].content) {
-          const config = settings.result[0].content;
+        if (settings) {
+          const config = settings.content;
           // ID
-          assetSettings.id = settings.result[0].id;
+          assetSettings.id = settings.id;
           // Sensitive data
-          assetSettings.sensitiveData = settings.result[0].sensitiveData;
+          assetSettings.sensitiveData = settings.sensitiveData;
           // Set
           assetSettings.asset = config.asset;
         }
@@ -374,15 +374,15 @@ export class ComponentService {
         identifier: TechnicalSettings.CRYPTO,
       } as CryptoSettings;
       // Get the Asset settings
-      this.centralServerService.getSettings(TechnicalSettings.CRYPTO).subscribe((settings) => {
+      this.centralServerService.getSetting(TechnicalSettings.CRYPTO).subscribe((settings) => {
         // Get the currency
-        if (settings && settings.count > 0 && settings.result[0].content) {
+        if (settings) {
           // ID
-          cryptoSettings.id = settings.result[0].id;
+          cryptoSettings.id = settings.id;
           // Crypto Key
           cryptoSettings.crypto = {
-            key: settings.result[0].content.crypto.key,
-            keyProperties: settings.result[0].content.crypto.keyProperties,
+            key: settings.content.crypto.key,
+            keyProperties: settings.content.crypto.keyProperties,
           };
         }
         observer.next(cryptoSettings);
@@ -411,15 +411,15 @@ export class ComponentService {
   public getUserSettings(): Observable<UserSettings> {
     return new Observable((observer) => {
       // Get the user settings
-      this.centralServerService.getSettings(TechnicalSettings.USER).subscribe((settings) => {
+      this.centralServerService.getSetting(TechnicalSettings.USER).subscribe((settings) => {
         let userSettings: UserSettings;
           // Get the needed settings for update
-        if (settings.count > 0) {
+        if (settings) {
           userSettings = {
-            id: settings.result[0].id,
+            id: settings.id,
             identifier: TechnicalSettings.USER,
-            type: settings.result[0].content.type as UserSettingsType,
-            user: settings.result[0].content.user,
+            type: settings.content.type as UserSettingsType,
+            user: settings.content.user,
           };
         }
         observer.next(userSettings);

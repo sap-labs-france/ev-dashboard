@@ -1,3 +1,4 @@
+import CreatedUpdatedProps from './CreatedUpdatedProps';
 import { Data } from './Table';
 import TenantComponents from './TenantComponents';
 
@@ -5,16 +6,16 @@ export enum TechnicalSettings {
   USER = 'user',
   CRYPTO = 'crypto'
 }
-export interface Setting extends Data {
-  id: string;
+export interface Setting extends Data, CreatedUpdatedProps {
   identifier: TenantComponents | TechnicalSettings;
-  sensitiveData: string[];
+  sensitiveData?: string[];
   category?: 'business' | 'technical';
-  content: SettingContent;
-  autoActivateAccountAfterValidation?: boolean;
+}
+export interface SettingDB extends CreatedUpdatedProps, Setting {
+  content: SettingDBContent;
 }
 
-export interface SettingContent {
+export interface SettingDBContent {
   type: CryptoSettingsType
     | RoamingSettingsType
     | AnalyticsSettingsType
@@ -230,16 +231,10 @@ export enum CryptoSettingsType {
   CRYPTO = 'crypto',
 }
 
-export interface KeySettings extends Setting {
+export interface CryptoSettings extends Setting {
   identifier: TechnicalSettings.CRYPTO;
   type: CryptoSettingsType;
   crypto?: CryptoSetting;
-}
-
-export interface KeyCryptoSetting {
-  blockCypher: string;
-  blockSize: number;
-  operationMode: string;
 }
 
 export interface CryptoSetting {
@@ -248,6 +243,12 @@ export interface CryptoSetting {
   formerKey?: string;
   formerKeyProperties?: KeyCryptoSetting;
 }
+export interface KeyCryptoSetting {
+  blockCypher: string;
+  blockSize: number;
+  operationMode: string;
+}
+
 export interface AssetGreencomConnectionType {
   clientId: string;
   clientSecret: string;
@@ -257,11 +258,12 @@ export enum UserSettingsType {
   USER = 'user',
 }
 
-export interface UserSetting extends Setting {
+export interface UserSettings extends Setting {
   identifier: TechnicalSettings.USER;
   type: UserSettingsType;
-  user?: UserSettings;
+  user?: UserSetting;
 }
-export interface UserSettings {
+
+export interface UserSetting {
   autoActivateAccountAfterValidation: boolean;
 }

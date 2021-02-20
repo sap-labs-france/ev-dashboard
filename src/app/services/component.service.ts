@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { ActionResponse } from '../types/DataResult';
-import { AnalyticsSettings, AssetConnectionType, AssetSettings, AssetSettingsType, BillingSettings, BillingSettingsType, KeySettings, PricingSettings, PricingSettingsType, RefundSettings, RefundSettingsType, RoamingSettings, SmartChargingSettings, SmartChargingSettingsType, TechnicalSettings, UserSetting, UserSettingsType } from '../types/Setting';
+import { AnalyticsSettings, AssetConnectionType, AssetSettings, AssetSettingsType, BillingSettings, BillingSettingsType, CryptoSettings, PricingSettings, PricingSettingsType, RefundSettings, RefundSettingsType, RoamingSettings, SmartChargingSettings, SmartChargingSettingsType, TechnicalSettings, UserSettings, UserSettingsType } from '../types/Setting';
 import TenantComponents from '../types/TenantComponents';
 import { Utils } from '../utils/Utils';
 import { CentralServerService } from './central-server.service';
@@ -368,11 +368,11 @@ export class ComponentService {
     });
   }
 
-  public getCryptoSettings(): Observable<KeySettings> {
+  public getCryptoSettings(): Observable<CryptoSettings> {
     return new Observable((observer) => {
       const cryptoSettings = {
         identifier: TechnicalSettings.CRYPTO,
-      } as KeySettings;
+      } as CryptoSettings;
       // Get the Asset settings
       this.centralServerService.getSettings(TechnicalSettings.CRYPTO).subscribe((settings) => {
         // Get the currency
@@ -393,7 +393,7 @@ export class ComponentService {
     });
   }
 
-  public saveCryptoSettings(settings: KeySettings): Observable<ActionResponse> {
+  public saveCryptoSettings(settings: CryptoSettings): Observable<ActionResponse> {
     // build setting payload
     const settingsToSave = {
       id: settings.id,
@@ -408,17 +408,19 @@ export class ComponentService {
     return this.centralServerService.updateSetting(settingsToSave);
   }
 
-  public getUserSettings(): Observable<UserSetting> {
+  public getUserSettings(): Observable<UserSettings> {
     return new Observable((observer) => {
-      const userSettings = {
-        identifier: TechnicalSettings.USER,
-      } as UserSetting;
       // Get the user settings
       this.centralServerService.getSettings(TechnicalSettings.USER).subscribe((settings) => {
-        // Get the needed settings for update
-        if (settings && settings.count > 0 && settings.result[0].content) {
-          userSettings.id = settings.result[0].id;
-          userSettings.autoActivateAccountAfterValidation = settings.result[0].content.user.autoActivateAccountAfterValidation;
+        let userSettings: UserSettings;
+          // Get the needed settings for update
+        if (settings.count > 0) {
+          userSettings = {
+            id: settings.result[0].id,
+            identifier: TechnicalSettings.USER,
+            type: settings.result[0].content.type as UserSettingsType,
+            user: settings.result[0].content.user,
+          };
         }
         observer.next(userSettings);
         observer.complete();
@@ -428,17 +430,12 @@ export class ComponentService {
     });
   }
 
-  public saveUserSettings(settings: UserSetting): Observable<ActionResponse> {
+  public saveUserSettings(settings: UserSettings): Observable<ActionResponse> {
     // build settings to proceed update
     const settingsToSave = {
       id: settings.id,
       identifier: settings.identifier,
-      content: {
-        type: UserSettingsType.USER,
-        user: {
-          autoActivateAccountAfterValidation: settings.autoActivateAccountAfterValidation,
-        }
-      }
+      content: Utils.cloneObject(settings)
     };
     return this.centralServerService.updateSetting(settingsToSave);
   }

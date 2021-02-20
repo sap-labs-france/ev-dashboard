@@ -8,7 +8,7 @@ import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { RestResponse } from '../../../types/GlobalType';
 import { HTTPError } from '../../../types/HTTPError';
-import { UserSetting } from '../../../types/Setting';
+import { UserSettings } from '../../../types/Setting';
 import { Utils } from '../../../utils/Utils';
 
 @Component({
@@ -18,7 +18,7 @@ import { Utils } from '../../../utils/Utils';
 export class SettingsUserComponent implements OnInit {
   public isDisabled: boolean;
 
-  public userSettings: UserSetting;
+  public userSettings: UserSettings;
   public router: Router;
 
   public formGroup!: FormGroup;
@@ -39,7 +39,7 @@ export class SettingsUserComponent implements OnInit {
     this.autoActivateAccountAfterValidation = this.formGroup.controls['autoActivateAccountAfterValidation'];
     // Register check event
     this.formGroup.controls['autoActivateAccountAfterValidation'].valueChanges.subscribe((value: boolean) => {
-      this.userSettings.autoActivateAccountAfterValidation = value;
+      this.userSettings.user.autoActivateAccountAfterValidation = value;
     });
     this.loadSettings();
   }
@@ -85,7 +85,7 @@ export class SettingsUserComponent implements OnInit {
         // Init values
         this.isDisabled = true;
         this.userSettings = settings;
-        this.autoActivateAccountAfterValidation.setValue(this.userSettings.autoActivateAccountAfterValidation);
+        this.autoActivateAccountAfterValidation.setValue(this.userSettings.user.autoActivateAccountAfterValidation);
       }, (error) => {
         this.spinnerService.hide();
         switch (error.status) {

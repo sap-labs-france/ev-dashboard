@@ -132,7 +132,7 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
         } else {
           if (response?.userStatus === UserStatus.INACTIVE) {
             // Show message for inactive new account by default
-            this.messageService.showWarningMessage(this.messages['verify_email_success_inactive']);
+            this.messageService.showSuccessMessage(this.messages['verify_email_success_inactive']);
           } else {
             // Show message for automatic activated account
             this.messageService.showSuccessMessage(this.messages['verify_email_success']);

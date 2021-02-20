@@ -3,6 +3,7 @@ import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { ComponentService } from 'services/component.service';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -15,9 +16,7 @@ import { SiteAreasDialogComponent } from '../../../shared/dialogs/site-areas/sit
 import { Asset, AssetTypes } from '../../../types/Asset';
 import { KeyValue, RestResponse } from '../../../types/GlobalType';
 import { HTTPError } from '../../../types/HTTPError';
-import { AssetSettings } from '../../../types/Setting';
 import { SiteArea } from '../../../types/SiteArea';
-import TenantComponents from '../../../types/TenantComponents';
 import { Constants } from '../../../utils/Constants';
 import { ParentErrorStateMatcher } from '../../../utils/ParentStateMatcher';
 import { Utils } from '../../../utils/Utils';
@@ -59,6 +58,7 @@ export class AssetComponent implements OnInit {
   constructor(
       private authorizationService: AuthorizationService,
       private centralServerService: CentralServerService,
+      private componentService: ComponentService,
       private messageService: MessageService,
       private spinnerService: SpinnerService,
       private configService: ConfigService,
@@ -419,12 +419,11 @@ export class AssetComponent implements OnInit {
 
   public loadAssetConnections() {
     this.spinnerService.show();
-    this.centralServerService.getSettings(TenantComponents.ASSET).subscribe((response) => {
+    this.componentService.getAssetSettings().subscribe((assetSettings) => {
       this.spinnerService.hide();
-      if (response && response.result && response.result.length > 0) {
-        const assetSetting = response.result[0] as AssetSettings;
+      if (assetSettings) {
         const connections = [] as KeyValue[];
-        for (const connection of assetSetting.content.asset.connections) {
+        for (const connection of assetSettings.asset.connections) {
           connections.push({ key: connection.id, value: connection.name });
         }
         this.assetConnections = connections;

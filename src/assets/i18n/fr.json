@@ -533,6 +533,7 @@
     "verify_email_title": "Activation de votre Compte",
     "verify_email_already_active": "Votre compte est déjà actif !",
     "verify_email_success": "Votre compte a été activé avec succès!",
+    "verify_email_success_inactive": "Votre compte a été vérifié avec succès, un administrateur va examiner et activer votre compte.",
     "verify_email_success_set_password": "Votre compte a été activé ! Merci de définir un mot de passe pour finaliser l'enregistrement",
     "verify_email_token_not_valid": "Le lien d'activation de votre compte n'est plus valide",
     "verify_email_email_not_valid": "Cet Email n'existe plus",
@@ -1554,7 +1555,8 @@
   },
   "technical_settings": {
     "tabs": {
-      "crypto": "Crypto"
+      "crypto": "Crypto",
+      "users": "Utilisateurs"
     },
     "crypto": {
       "crypto_key": {
@@ -1568,6 +1570,13 @@
       "setting_do_not_exist": "La configuration Crypto n'a pas été trouvée",
       "update_success": "La configuration Crypto a été mise à jour avec succès",
       "update_error": "Une erreur est survenue pendant la mise à jour de la configuration Crypto, vérifiez les logs"
+    },
+    "user": {
+      "title": "Configuration des Comptes",
+      "auto_activation": "Activer automatiquement les comptes des nouveaux utilisateurs lors de leur enregistrement",
+      "update_success": "La configuration utilisateurs été mise à jour avec succès",
+      "update_error": "Une erreur est survenue pendant la mise à jour de la configuration des utilisateurs, vérifiez les logs",
+      "setting_do_not_exist": "La configuration des utilisateurs n'a pas été trouvée"
     }
   },
   "ocpiendpoints": {

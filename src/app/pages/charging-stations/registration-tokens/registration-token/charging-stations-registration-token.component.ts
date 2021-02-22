@@ -104,10 +104,10 @@ export class ChargingStationsRegistrationTokenComponent implements OnInit {
 
   public close() {
     Utils.checkAndSaveAndCloseDialog(this.formGroup, this.dialogService,
-      this.translateService, this.save.bind(this), this.closeDialog.bind(this));
+      this.translateService, this.saveToken.bind(this), this.closeDialog.bind(this));
   }
 
-  public save(token: RegistrationToken) {
+  public saveToken(token: RegistrationToken) {
     if (this.currentTokenID) {
       this.updateToken(token);
     } else {

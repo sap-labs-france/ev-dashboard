@@ -19,7 +19,7 @@ export class ChargingStationsRegistrationTokenDialogComponent implements AfterVi
 
   public ngAfterViewInit() {
     Utils.registerSaveCloseKeyEvents(this.dialogRef, this.appRef.formGroup,
-      this.appRef.save.bind(this.appRef), this.appRef.close.bind(this.appRef));
+      this.appRef.saveToken.bind(this.appRef), this.appRef.close.bind(this.appRef));
   }
 }
 

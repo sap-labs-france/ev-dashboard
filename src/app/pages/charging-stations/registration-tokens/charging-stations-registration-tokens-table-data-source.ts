@@ -188,22 +188,14 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
     if (this.canCreateToken) {
-      return [
-        new TableCreateRegistrationTokenAction().getActionDef(),
-        ...tableActionsDef,
-      ];
+      tableActionsDef.unshift(new TableCreateRegistrationTokenAction().getActionDef());
     }
     return tableActionsDef;
   }
 
   public buildTableDynamicRowActions(registrationToken: RegistrationToken): TableActionDef[] {
-    const moreActions = [];
-    if (registrationToken.revocationDate || moment().isAfter(registrationToken.expirationDate)) {
-      if (this.canDeleteToken) {
-        return [this.deleteAction];
-      }
-      return [];
-    }
+    const actions: TableActionDef[] = [];
+    const moreActions = new TableMoreAction([]);
     const copyUrlActions: TableActionDef[] = [
       ...(!Utils.isUndefined(registrationToken.ocpp15SOAPUrl) ? [this.copySOAP15Action] : []),
       ...(!Utils.isUndefined(registrationToken.ocpp16SOAPUrl) ? [this.copySOAP16Action] : []),
@@ -212,23 +204,19 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
       ...(!Utils.isUndefined(registrationToken.ocpp16SOAPSecureUrl) ? [this.copySOAP16SecureAction] : []),
       ...(!Utils.isUndefined(registrationToken.ocpp16JSONSecureUrl) ? [this.copyJSON16SecureAction] : [])
     ];
-    this.copyUrlAction = new TableMultiCopyAction(
+    actions.push(new TableMultiCopyAction(
       copyUrlActions,
       'chargers.connections.copy_url_tooltip',
-      'chargers.connections.copy_url_tooltip').getActionDef();
+      'chargers.connections.copy_url_tooltip').getActionDef());
     if (this.canUpdateToken) {
-      moreActions.push(this.editAction);
-      moreActions.push(this.revokeAction);
+      actions.push(this.editAction);
+      actions.push(this.revokeAction);
     }
     if (this.canDeleteToken) {
-      moreActions.push(this.deleteAction);
+      moreActions.addActionInMoreActions(this.deleteAction);
     }
-    return [
-      this.copyUrlAction,
-      new TableMoreAction(
-        moreActions
-      ).getActionDef()
-    ];
+    actions.push(moreActions.getActionDef())
+    return actions;
   }
 
   public actionTriggered(actionDef: TableActionDef) {

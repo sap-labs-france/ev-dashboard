@@ -259,7 +259,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
   }
 
   public buildTableDynamicRowActions(user: User): TableActionDef[] {
-    const actions = [];
+    const actions: TableActionDef[] = [];
     const moreActions = new TableMoreAction([]);
     if (user.issuer) {
       if (user.canUpdate) {

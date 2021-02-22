@@ -24,7 +24,7 @@ import { OCPPResetType } from '../types/ocpp/OCPP';
 import { RefundReport } from '../types/Refund';
 import { RegistrationToken } from '../types/RegistrationToken';
 import { ServerAction } from '../types/Server';
-import { Setting } from '../types/Setting';
+import { Setting, SettingDB } from '../types/Setting';
 import { Site, SiteUser } from '../types/Site';
 import { SiteArea, SiteAreaConsumption } from '../types/SiteArea';
 import { StatisticData } from '../types/Statistic';
@@ -755,10 +755,10 @@ export class CentralServerService {
       );
   }
 
-  public getConnectorQrCode(chargeBoxID: string, connectorID: number): Observable<Image> {
+  public getConnectorQrCode(chargingStationID: string, connectorID: number): Observable<Image> {
     // Verify init
     this.checkInit();
-    if (!chargeBoxID || connectorID < 0) {
+    if (!chargingStationID || connectorID < 0) {
       return EMPTY;
     }
     // Execute the REST service
@@ -766,7 +766,7 @@ export class CentralServerService {
       {
         headers: this.buildHttpHeaders(),
         params: {
-          ChargeBoxID: chargeBoxID,
+          ChargingStationID: chargingStationID,
           ConnectorID: connectorID.toString()
         },
       })
@@ -1506,11 +1506,11 @@ export class CentralServerService {
       );
   }
 
-  public getSettings(identifier: string, contentFilter = false): Observable<DataResult<Setting>> {
+  public getSetting(identifier: string): Observable<SettingDB> {
     // verify init
     this.checkInit();
     // Execute the REST Service
-    return this.httpClient.get<DataResult<Setting>>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.SETTINGS}?Identifier=${identifier}&ContentFilter=${contentFilter}`,
+    return this.httpClient.get<SettingDB>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.SETTING_BY_INDENTIFIER}?ID=${identifier}`,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -1694,7 +1694,7 @@ export class CentralServerService {
   public downloadChargingStationQrCodes(chargingStationID: string, connectorID?: number): Observable<Blob> {
     this.checkInit();
     const params: { [param: string]: string } = {};
-    params['ChargeBoxID'] = chargingStationID;
+    params['ChargingStationID'] = chargingStationID;
     if (connectorID) {
       params['ConnectorID'] = connectorID.toString();
     }

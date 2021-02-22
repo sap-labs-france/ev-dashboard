@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, Inject, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
+import { Utils } from '../../../../utils/Utils';
 import { ChargingStationsRegistrationTokenComponent } from './charging-stations-registration-token.component';
 
 @Component({
@@ -17,10 +18,8 @@ export class ChargingStationsRegistrationTokenDialogComponent implements AfterVi
   }
 
   public ngAfterViewInit() {
-    // TODO: Escape key already closes the pop-up! Need to check how!?
-    // // Register key event
-    // Utils.registerSaveCloseKeyEvents(this.dialogRef, this.appRef.formGroup,
-    //   this.appRef.save.bind(this.appRef), this.appRef.close.bind(this.appRef));
+    Utils.registerSaveCloseKeyEvents(this.dialogRef, this.appRef.formGroup,
+      this.appRef.save.bind(this.appRef), this.appRef.close.bind(this.appRef));
   }
 }
 

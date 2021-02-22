@@ -30,6 +30,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `Retrieve SoC of battery Assets and display it in the Asset's charts`,
               `Manually activate new Users accounts`,
               `Charging Stations public API for B2B access`,
               `Adjusted the Site Admin role to not have access to all Users`,

@@ -739,10 +739,8 @@ export class Utils {
         break;
       // Unauthorized!
       case StatusCodes.UNAUTHORIZED:
-        // Log Off (remove token)
-        centralServerService.logoutSucceeded();
-        // Not logged in so redirect to login page with the return url
-        router.navigate(['/auth/login']);
+        // Not Authorized
+        messageService.showErrorMessage('general.not_authorized');
         break;
       // Conflict in User Session
       case StatusCodes.FORBIDDEN:

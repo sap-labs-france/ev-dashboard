@@ -125,8 +125,8 @@ const routes: Routes = [
             path: '/users',
           },
           auth: {
-            entity: Entity.USER,
-            action: Action.CREATE,
+            entity: Entity.USERS,
+            action: Action.LIST,
           },
         },
       },

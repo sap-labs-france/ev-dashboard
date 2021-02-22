@@ -604,12 +604,12 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   }
 
   public linkRefundAccount() {
-    if (!this.refundSetting || !this.refundSetting.content || !this.refundSetting.content.concur) {
+    if (!this.refundSetting || !this.refundSetting.concur) {
       this.messageService.showErrorMessage(
         this.translateService.instant('transactions.notification.refund.tenant_concur_connection_invalid'));
     } else {
       // Concur
-      const concurSetting = this.refundSetting.content.concur;
+      const concurSetting = this.refundSetting.concur;
       const returnedUrl = `${this.windowService.getOrigin()}/users/connections`;
       const state = {
         connector: 'concur',
@@ -622,18 +622,16 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   }
 
   public getRefundUrl(): string | null {
-    if (this.refundSetting && this.refundSetting.content && this.refundSetting.content.concur) {
-      return this.refundSetting.content.concur.apiUrl;
+    if (this.refundSetting && this.refundSetting.concur) {
+      return this.refundSetting.concur.apiUrl;
     }
     return null;
   }
 
   private loadRefundSettings() {
     if (this.componentService.isActive(TenantComponents.REFUND)) {
-      this.centralServerService.getSettings(TenantComponents.REFUND).subscribe((settingResult) => {
-        if (settingResult && settingResult.result && settingResult.result.length > 0) {
-          this.refundSetting = settingResult.result[0] as RefundSettings;
-        }
+      this.componentService.getRefundSettings().subscribe((refundSettings) => {
+        this.refundSetting = refundSettings;
       });
       if (this.currentUserID) {
         this.centralServerService.getIntegrationConnections(this.currentUserID).subscribe((connectionResult) => {

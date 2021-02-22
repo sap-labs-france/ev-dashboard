@@ -25,13 +25,16 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.4.43',
-        date: new Date('2020-02-18'),
+        date: new Date('2020-02-22'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Retrieve SoC of battery Assets and display it in the Asset's charts`,
+              `Manually activate new Users accounts`,
               `Charging Stations public API for B2B access`,
-              `Basic user cannot unlock connector`,
+              `Adjusted the Site Admin role to not have access to all Users`,
+              `Do not return deleted Users when filtering is provided`,
             ],
           },
         ],

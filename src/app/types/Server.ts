@@ -325,6 +325,7 @@ export enum ServerAction {
 
   SETTING_CREATE = 'SettingCreate',
   SETTINGS = 'Settings',
+  SETTING_BY_INDENTIFIER = 'SettingByIdentifier',
   SETTING = 'Setting',
   SETTING_UPDATE = 'SettingUpdate',
   SETTING_DELETE = 'SettingDelete',

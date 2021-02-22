@@ -10,6 +10,7 @@ import { CompanyButtonAction } from './Company';
 import { ButtonAction, KeyValue } from './GlobalType';
 import { LogButtonAction } from './Log';
 import { OcpiButtonAction } from './ocpi/OCPIEndpoint';
+import { RegistrationTokenButtonAction } from './RegistrationToken';
 import { SiteButtonAction } from './Site';
 import { SiteAreaButtonAction } from './SiteArea';
 import { TenantButtonAction } from './Tenant';
@@ -111,7 +112,7 @@ export enum DialogType {
 export interface TableActionDef {
   id: ButtonAction | CompanyButtonAction | TenantButtonAction | SiteAreaButtonAction | ChargingStationButtonAction |
   UserButtonAction | TransactionButtonAction | SiteButtonAction | OcpiButtonAction | AssetButtonAction |
-  BillingButtonAction | CarButtonAction | LogButtonAction;
+  BillingButtonAction | CarButtonAction | LogButtonAction | RegistrationTokenButtonAction;
   type: ActionType;
   currentValue?: any;
   name: string;

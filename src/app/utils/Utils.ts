@@ -64,12 +64,11 @@ export class Utils {
     save: (data: Data) => void, close: () => void) {
     // listen to keystroke
     dialogRef.keydownEvents().subscribe((keydownEvents) => {
-      if (keydownEvents && keydownEvents.code === 'Escape') {
+      if (keydownEvents?.code === 'Escape') {
         close();
       }
-      if (keydownEvents && keydownEvents.code === 'Enter') {
+      if (keydownEvents?.code === 'Enter') {
         if (formGroup.valid && formGroup.dirty) {
-          // tslint:disable-next-line: no-unsafe-any
           save(formGroup.getRawValue());
         }
       }

@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import * as moment from 'moment';
 import { Observable } from 'rxjs';
 
 import { AuthorizationService } from '../../../services/authorization.service';
@@ -46,23 +45,22 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
   private copySOAP15SecureAction = new TableCopyAction('chargers.connections.ocpp_15_soap_secure').getActionDef();
   private copySOAP16SecureAction = new TableCopyAction('chargers.connections.ocpp_16_soap_secure').getActionDef();
   private copyJSON16SecureAction = new TableCopyAction('chargers.connections.ocpp_16_json_secure').getActionDef();
-  private copyUrlAction: TableActionDef;
   private canUpdateToken: boolean;
   private canCreateToken: boolean;
   private canDeleteToken: boolean;
 
   constructor(
-    public spinnerService: SpinnerService,
-    public translateService: TranslateService,
-    private messageService: MessageService,
-    private dialogService: DialogService,
-    private router: Router,
-    private dialog: MatDialog,
-    private componentService: ComponentService,
-    private centralServerNotificationService: CentralServerNotificationService,
-    private centralServerService: CentralServerService,
-    private authorizationService: AuthorizationService,
-    private datePipe: AppDatePipe) {
+      public spinnerService: SpinnerService,
+      public translateService: TranslateService,
+      private messageService: MessageService,
+      private dialogService: DialogService,
+      private router: Router,
+      private dialog: MatDialog,
+      private componentService: ComponentService,
+      private centralServerNotificationService: CentralServerNotificationService,
+      private centralServerService: CentralServerService,
+      private authorizationService: AuthorizationService,
+      private datePipe: AppDatePipe) {
     super(spinnerService, translateService);
     this.isOrganizationComponentActive = this.componentService.isActive(TenantComponents.ORGANIZATION);
     this.canUpdateToken = this.authorizationService.canUpdateToken(),
@@ -224,7 +222,8 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
     switch (actionDef.id) {
       case RegistrationTokenButtonAction.CREATE_TOKEN:
         if (actionDef.id) {
-          (actionDef as TableCreateRegistrationTokenActionDef).action(ChargingStationsRegistrationTokenDialogComponent, this.dialog, this.refreshData.bind(this));
+          (actionDef as TableCreateRegistrationTokenActionDef).action(
+            ChargingStationsRegistrationTokenDialogComponent, this.dialog, this.refreshData.bind(this));
         }
         break;
     }

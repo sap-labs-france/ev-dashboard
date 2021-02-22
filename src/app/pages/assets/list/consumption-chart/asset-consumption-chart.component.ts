@@ -180,17 +180,17 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
           'transactions.graph.limit_amps' : 'asset.graph.limit_watts'),
       });
       if (this.asset.values[this.asset.values.length - 1].stateOfCharge) {
-      datasets.push({
-        name: 'stateOfCharge',
-        type: 'line',
-        hidden: this.activeLegend[this.activeLegend.findIndex((x => x.key.includes(this.translateService.instant('transactions.graph.battery'))))].hidden,
-        data: [],
-        yAxisID: 'percentage',
-        lineTension: this.lineTension,
-        ...Utils.formatLineColor(this.stateOfChargeColor),
-        label: this.translateService.instant('transactions.graph.battery'),
-      });
-    }
+        datasets.push({
+          name: 'stateOfCharge',
+          type: 'line',
+          hidden: this.activeLegend[this.activeLegend.findIndex((x => x.key.includes(this.translateService.instant('transactions.graph.battery'))))].hidden,
+          data: [],
+          yAxisID: 'percentage',
+          lineTension: this.lineTension,
+          ...Utils.formatLineColor(this.stateOfChargeColor),
+          label: this.translateService.instant('transactions.graph.battery'),
+        });
+      }
       // Assign
       this.data.labels = [];
       this.data.datasets = datasets;

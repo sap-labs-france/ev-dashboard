@@ -75,7 +75,7 @@ export class TableRefundTransactionsAction implements TableAction {
           }, (error: any) => {
             spinnerService.hide();
             switch (error.status) {
-              case HTTPAuthError.ERROR:
+              case HTTPAuthError.FORBIDDEN:
                 Utils.handleHttpError(error, router, messageService,
                   centralServerService, 'transactions.notification.refund.not_authorized');
                 break;

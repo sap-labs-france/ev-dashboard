@@ -3,7 +3,6 @@ import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { ComponentService } from 'services/component.service';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -18,6 +17,7 @@ import { Asset, AssetTypes } from '../../../types/Asset';
 import { KeyValue, RestResponse } from '../../../types/GlobalType';
 import { HTTPError } from '../../../types/HTTPError';
 import { SiteArea } from '../../../types/SiteArea';
+import TenantComponents from '../../../types/TenantComponents';
 import { Constants } from '../../../utils/Constants';
 import { ParentErrorStateMatcher } from '../../../utils/ParentStateMatcher';
 import { Utils } from '../../../utils/Utils';
@@ -69,8 +69,7 @@ export class AssetComponent implements OnInit {
       private dialog: MatDialog,
       private dialogService: DialogService,
       private translateService: TranslateService,
-      private router: Router,
-      private componentService: ComponentService) {
+      private router: Router,) {
     this.maxSize = this.configService.getAsset().maxImageKb;
     // Check auth
     if (this.activatedRoute.snapshot.params['id'] &&

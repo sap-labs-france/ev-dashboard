@@ -19,7 +19,7 @@ export class TableCreateRegistrationTokenAction extends TableCreateAction {
     };
   }
 
-  private createRegistrationToken(RegistrationTokenDialogComponent: ComponentType<unknown>, dialog: MatDialog, refresh?: () => Observable<void>) {
-    super.create(RegistrationTokenDialogComponent, dialog, refresh);
+  private createRegistrationToken(ChargingStationsRegistrationTokenDialogComponent: ComponentType<unknown>, dialog: MatDialog, refresh?: () => Observable<void>) {
+    super.create(ChargingStationsRegistrationTokenDialogComponent, dialog, refresh);
   }
 }

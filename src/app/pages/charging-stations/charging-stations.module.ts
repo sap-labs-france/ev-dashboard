@@ -55,7 +55,7 @@ import { ChargingStationsListComponent } from './list/charging-stations-list.com
 import { ChargingStationsRegistrationTokensComponent } from './registration-tokens/charging-stations-registration-tokens.component';
 import { AppRegistrationTokenStatusPipe, ChargingStationsRegistrationTokenStatusComponent } from './registration-tokens/registration-token/charging-stations-registration-token-status.component';
 import { ChargingStationsRegistrationTokenComponent } from './registration-tokens/registration-token/charging-stations-registration-token.component';
-import { RegistrationTokenDialogComponent } from './registration-tokens/registration-token/charging-stations-registration-token.dialog.component';
+import { ChargingStationsRegistrationTokenDialogComponent } from './registration-tokens/registration-token/charging-stations-registration-token.dialog.component';
 
 @NgModule({
   imports: [
@@ -109,7 +109,7 @@ import { RegistrationTokenDialogComponent } from './registration-tokens/registra
     ChargingPlansListComponent,
     ChargingStationsRegistrationTokenStatusComponent,
     ChargingStationsRegistrationTokenComponent,
-    RegistrationTokenDialogComponent,
+    ChargingStationsRegistrationTokenDialogComponent,
     ChargingStationsRegistrationTokensComponent,
   ],
   declarations: [
@@ -153,7 +153,7 @@ import { RegistrationTokenDialogComponent } from './registration-tokens/registra
     AppRegistrationTokenStatusPipe,
     ChargingStationsRegistrationTokenStatusComponent,
     ChargingStationsRegistrationTokenComponent,
-    RegistrationTokenDialogComponent,
+    ChargingStationsRegistrationTokenDialogComponent,
     ChargingStationsRegistrationTokensComponent,
   ],
   providers: [

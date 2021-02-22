@@ -6,12 +6,12 @@ import { ChargingStationsRegistrationTokenComponent } from './charging-stations-
 @Component({
   template: '<app-charging-stations-registration-token #appRef [currentTokenID]="currentTokenID" [inDialog]="true" [dialogRef]="dialogRef"></app-charging-stations-registration-token>',
 })
-export class RegistrationTokenDialogComponent implements AfterViewInit {
+export class ChargingStationsRegistrationTokenDialogComponent implements AfterViewInit {
   @ViewChild('appRef') public appRef!: ChargingStationsRegistrationTokenComponent;
   public currentTokenID!: string;
 
   constructor(
-    public dialogRef: MatDialogRef<RegistrationTokenDialogComponent>,
+    public dialogRef: MatDialogRef<ChargingStationsRegistrationTokenDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data: string) {
     this.currentTokenID = data;
   }

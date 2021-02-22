@@ -32,7 +32,7 @@ import TenantComponents from '../../../types/TenantComponents';
 import { User } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';
 import { ChargingStationsRegistrationTokenStatusComponent } from './registration-token/charging-stations-registration-token-status.component';
-import { RegistrationTokenDialogComponent } from './registration-token/charging-stations-registration-token.dialog.component';
+import { ChargingStationsRegistrationTokenDialogComponent } from './registration-token/charging-stations-registration-token.dialog.component';
 
 @Injectable()
 export class ChargingStationsRegistrationTokensTableDataSource extends TableDataSource<RegistrationToken> {
@@ -236,7 +236,7 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
     switch (actionDef.id) {
       case RegistrationTokenButtonAction.CREATE_TOKEN:
         if (actionDef.id) {
-          (actionDef as TableCreateRegistrationTokenActionDef).action(RegistrationTokenDialogComponent, this.dialog, this.refreshData.bind(this));
+          (actionDef as TableCreateRegistrationTokenActionDef).action(ChargingStationsRegistrationTokenDialogComponent, this.dialog, this.refreshData.bind(this));
         }
         break;
     }
@@ -272,7 +272,7 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
         break;
       case RegistrationTokenButtonAction.EDIT_TOKEN:
         if (actionDef.action) {
-          (actionDef as TableEditRegistrationTokenActionDef).action(RegistrationTokenDialogComponent,
+          (actionDef as TableEditRegistrationTokenActionDef).action(ChargingStationsRegistrationTokenDialogComponent,
             registrationToken, this.dialog, this.refreshData.bind(this))
         }
         break;

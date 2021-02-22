@@ -17,7 +17,7 @@ import { RegistrationToken } from '../../../../types/RegistrationToken';
 import { SiteArea } from '../../../../types/SiteArea';
 import TenantComponents from '../../../../types/TenantComponents';
 import { Utils } from '../../../../utils/Utils';
-import { RegistrationTokenDialogComponent } from './charging-stations-registration-token.dialog.component';
+import { ChargingStationsRegistrationTokenDialogComponent } from './charging-stations-registration-token.dialog.component';
 
 @Component({
   selector: 'app-charging-stations-registration-token',
@@ -26,7 +26,7 @@ import { RegistrationTokenDialogComponent } from './charging-stations-registrati
 export class ChargingStationsRegistrationTokenComponent implements OnInit {
   @Input() public currentTokenID!: string;
   @Input() public inDialog!: boolean;
-  @Input() public dialogRef!: MatDialogRef<RegistrationTokenDialogComponent>;
+  @Input() public dialogRef!: MatDialogRef<ChargingStationsRegistrationTokenDialogComponent>;
   public readonly isOrganizationComponentActive: boolean;
   public formGroup!: FormGroup;
   public siteArea!: AbstractControl;

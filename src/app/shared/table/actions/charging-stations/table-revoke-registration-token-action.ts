@@ -35,7 +35,7 @@ export class TableRevokeRegistrationTokenAction extends TableRevokeAction {
       translateService.instant('chargers.connections.registration_token_revoke_success'),
       translateService.instant('chargers.connections.registration_token_revoke_error'),
       centralServerService.revokeRegistrationToken.bind(centralServerService),
-      dialogService, translateService, messageService, centralServerService, spinnerService, router, refresh
+      dialogService, messageService, centralServerService, spinnerService, router, refresh
     );
   }
 }

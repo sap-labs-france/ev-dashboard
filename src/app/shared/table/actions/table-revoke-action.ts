@@ -1,5 +1,4 @@
 import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 
 import { CentralServerService } from '../../../services/central-server.service';
@@ -30,7 +29,7 @@ export class TableRevokeAction implements TableAction {
 
   protected revoke(data: Data, messageTitle: string, messageConfirm: string,
     messageSuccess: string, messageError: string, revokeData: (id: string | number) => Observable<ActionResponse>,
-    dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
+    dialogService: DialogService, messageService: MessageService,
     centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) {
       dialogService.createAndShowYesNoDialog(
       messageTitle,

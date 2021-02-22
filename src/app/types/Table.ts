@@ -19,7 +19,7 @@ import { UserButtonAction } from './User';
 
 export interface Data {
   id: string | number;
-  key: string;
+  key?: string;
   isSelected?: boolean;
   isSelectable?: boolean;
   isExpanded?: boolean;

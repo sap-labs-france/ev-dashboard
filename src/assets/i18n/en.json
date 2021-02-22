@@ -5,6 +5,7 @@
     "captcha_text_3": " and ",
     "captcha_text_4": "Terms of Service",
     "captcha_text_5": " apply",
+    "not_authorized": "You are not authorized to perform this action",
     "created_on": "Created On",
     "created_by": "Created By",
     "changed_on": "Changed On",
@@ -25,7 +26,7 @@
     "connectors": "Connections",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.4.40",
+    "last_update": "Version 2.4.43",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "An unexpected error occurred, check the logs",
@@ -534,6 +535,7 @@
     "verify_email_title": "Account Activation",
     "verify_email_already_active": "Your account is already active!",
     "verify_email_success": "Your account has been activated with success!",
+    "verify_email_success_inactive": "Your account has been verified with success, an administrator will check and activate your account.",
     "verify_email_success_set_password": "Your account has been activated, please set up your password to finalize the registration",
     "verify_email_token_not_valid": "Your account's activation link is no longer valid",
     "verify_email_email_not_valid": "This Email does not exist",
@@ -1561,7 +1563,8 @@
   },
   "technical_settings": {
     "tabs": {
-      "crypto": "Crypto"
+      "crypto": "Crypto",
+      "users": "Users"
     },
     "crypto": {
       "crypto_key": {
@@ -1575,6 +1578,13 @@
       "setting_do_not_exist": "Crypto Technical Settings not found",
       "update_success": "Crypto Technical Settings have been updated successfully",
       "update_error": "Error occurred while updating the Crypto Technical Settings, check the logs"
+    },
+    "user": {
+      "title": "Account Settings",
+      "auto_activation": "Automatically activate new user account at registration time",
+      "update_success": "User settings have been updated successfully",
+      "update_error": "Error occurred while updating the user settings, check the logs",
+      "setting_do_not_exist": "User settings not found"
     }
   },
   "ocpiendpoints": {
@@ -1698,7 +1708,7 @@
     "business_details": "Business Details",
     "logo": "Image",
     "sync_all": "Synchronize All",
-    "push_locations": "Push Locations",
+    "push_evse_statuses": "Push Statuses",
     "push_tokens": "Push Tokens",
     "pull_cdrs": "Pull CDRs",
     "pull_locations": "Pull Locations",
@@ -2187,7 +2197,7 @@
     "charging_stations_offline": "Notify me when a charging station is offline",
     "preparing_session_not_started": "Notify me when a session has not been started (site owner only)",
     "ocpi_patch_status_error": "Notify me if the transfer of a charging station’s statuses has failed to the roaming platform (OCPI)",
-    "smtp_auth_error": "Notify me if the backend authentication to the email server has failed",
+    "smtp_error": "Notify me if an error occurred with the email server",
     "billing_synchronization_failed": "Notify me when a synchronization with billing system has failed",
     "session_not_started": "Notify me if no session has been started after badging",
     "user_account_inactivity": "Notify me when I haven't logged in to the application for more than 6 months",

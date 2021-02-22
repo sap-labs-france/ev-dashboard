@@ -5,6 +5,7 @@
     "captcha_text_3": " e ",
     "captcha_text_4": "Termos de Serviço",
     "captcha_text_5": " aplicar",
+    "not_authorized": "Você não está autorizado a realizar esta ação",
     "created_on": "Criado em",
     "created_by": "Criado por",
     "changed_on": "Modificado em",
@@ -25,7 +26,7 @@
     "connectors": "Conexões",
     "notifications": "Notificações",
     "app_name": "e-Mobility",
-    "last_update": "Versão 2.4.40",
+    "last_update": "Versão 2.4.43",
     "version": "Versão",
     "about_us": "Sobre Nós",
     "unexpected_error_backend": "Ocurreu um erro inesperado",
@@ -534,6 +535,7 @@
     "verify_email_title": "Ativação de Conta",
     "verify_email_already_active": "A sua conta ja esta ativa!",
     "verify_email_success": "A sua conta foi ativada com sucesso!",
+    "verify_email_success_inactive": "Your account has been verified with success, an administrator will check and activate your account.",
     "verify_email_success_set_password": "A sua conta foi ativada, por favor crie a sua password para poder reinicializar a conta",
     "verify_email_token_not_valid": "O seu link de ativação da conta não está valido",
     "verify_email_email_not_valid": "Este email não existe",
@@ -1561,7 +1563,8 @@
   },
   "technical_settings": {
     "tabs": {
-      "crypto": "Crypto"
+      "crypto": "Crypto",
+      "users": "Users"
     },
     "crypto": {
       "crypto_key": {
@@ -1575,6 +1578,13 @@
       "setting_do_not_exist": "Crypto Technical Settings not found",
       "update_success": "Crypto Technical Settings have been updated successfully",
       "update_error": "Error occurred while updating the Crypto Technical Settings, check the logs"
+    },
+    "user": {
+      "title": "Account Settings",
+      "auto_activation": "Automatically activate new user account at registration time",
+      "update_success": "User settings have been updated successfully",
+      "update_error": "Error occurred while updating the user settings, check the logs",
+      "setting_do_not_exist": "User settings not found"
     }
   },
   "ocpiendpoints": {
@@ -1698,7 +1708,7 @@
     "business_details": "Detalhes da empresa",
     "logo": "Imagem",
     "sync_all": "Sincronizar tudo",
-    "push_locations": "Locais de envio",
+    "push_evse_statuses": "Push Statuses",
     "push_tokens": "Push Tokens",
     "pull_cdrs": "Puxar CDRs",
     "pull_locations": "Localizações de extração",
@@ -2187,7 +2197,7 @@
     "charging_stations_offline": "Notifique-me quando uma estação de carregamento estiver offline",
     "preparing_session_not_started": "Notifique-me quando uma sessão não tiver sido iniciada (apenas proprietário do site)",
     "ocpi_patch_status_error": "Notifique-me se a transferência dos status de uma estação de carregamento falhar para a plataforma de roaming (OCPI)",
-    "smtp_auth_error": "Notifique-me se a autenticação de back-end para o servidor de e-mail falhar",
+    "smtp_error": "Notify me if an error occurred with the email server",
     "billing_synchronization_failed": "Notifique-me quando uma sincronização com o sistema de faturamento falhar",
     "session_not_started": "Notifique-me se nenhuma sessão tiver sido iniciada após o selo",
     "user_account_inactivity": "Notifique-me quando eu não fizer login no aplicativo por mais de 6 meses",

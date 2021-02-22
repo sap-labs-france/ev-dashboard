@@ -6,7 +6,7 @@ import { ComponentService } from 'services/component.service';
 import { MessageService } from 'services/message.service';
 import { SpinnerService } from 'services/spinner.service';
 import { RestResponse } from 'types/GlobalType';
-import { CryptoSettingsType, KeySettings } from 'types/Setting';
+import { CryptoSettings, CryptoSettingsType } from 'types/Setting';
 
 import { HTTPError } from '../../../types/HTTPError';
 import { Utils } from '../../../utils/Utils';
@@ -17,7 +17,7 @@ import { Utils } from '../../../utils/Utils';
 })
 export class SettingsCryptoComponent implements OnInit {
   public formGroup!: FormGroup;
-  public cryptoSettings: KeySettings;
+  public cryptoSettings: CryptoSettings;
 
   constructor(
     private centralServerService: CentralServerService,

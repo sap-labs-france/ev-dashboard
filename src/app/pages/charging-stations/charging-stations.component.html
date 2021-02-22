@@ -1,7 +1,7 @@
 <div class="main-content flex-grow-1">
   <mat-tab-group (selectedIndexChange)="updateRoute($event)" [selectedIndex]="activeTabIndex" animationDuration="0ms"
     disableRipple="true" class="h-100 mat-tab-info">
-    <mat-tab>
+    <mat-tab *ngIf="canListChargingStations">
       <ng-template mat-tab-label>
         <mat-icon>ev_station</mat-icon><span>{{'chargers.tabs.list' | translate}}</span>
       </ng-template>
@@ -9,7 +9,7 @@
         <app-charging-stations-list></app-charging-stations-list>
       </ng-template>
     </mat-tab>
-    <mat-tab *ngIf="isAdmin">
+    <mat-tab *ngIf="canListChargingProfiles">
       <ng-template mat-tab-label>
         <mat-icon>show_chart</mat-icon><span>{{'chargers.tabs.charging_plans' | translate}}</span>
       </ng-template>
@@ -17,7 +17,7 @@
         <app-charging-plans-list></app-charging-plans-list>
       </ng-template>
     </mat-tab>
-    <mat-tab *ngIf="isAdmin">
+    <mat-tab *ngIf="canListChargingStationsInError">
       <ng-template mat-tab-label>
         <mat-icon>warning</mat-icon><span>{{'chargers.tabs.in_error' | translate}}</span>
       </ng-template>

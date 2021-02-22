@@ -9,6 +9,14 @@
         <app-settings-crypto></app-settings-crypto>
       </ng-template>
     </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon>manage_accounts</mat-icon><span>{{'technical_settings.tabs.users' | translate}}</span>
+      </ng-template>
+      <ng-template matTabContent>
+        <app-settings-user></app-settings-user>
+      </ng-template>
+    </mat-tab>
   </mat-tab-group>
 </div>
 

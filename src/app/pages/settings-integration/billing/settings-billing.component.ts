@@ -42,7 +42,9 @@ export class SettingsBillingComponent implements OnInit {
     // Build the form
     this.formGroup = new FormGroup({});
     // Load the conf
-    this.loadConfiguration();
+    if (this.isActive) {
+      this.loadConfiguration();
+    }
   }
 
   public loadConfiguration() {

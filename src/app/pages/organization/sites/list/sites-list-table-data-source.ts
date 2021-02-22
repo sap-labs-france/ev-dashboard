@@ -179,10 +179,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
     if (this.authorizationService.canCreateSite()) {
-      return [
-        new TableCreateSiteAction().getActionDef(),
-        ...tableActionsDef,
-      ];
+      tableActionsDef.unshift(new TableCreateSiteAction().getActionDef());
     }
     return tableActionsDef;
   }
@@ -192,37 +189,27 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
     // Check if GPS is available
     const openInMaps = new TableOpenInMapsAction().getActionDef();
     openInMaps.disabled = !Utils.containsAddressGPSCoordinates(site.address);
-    let moreActions;
+    const moreActions = new TableMoreAction([]);
     if (site.issuer) {
-      if (this.authorizationService.isAdmin() ||
-        this.authorizationService.isSiteAdmin(site.id) ||
-        this.authorizationService.isSiteOwner(site.id)) {
+      if (site.canUpdate) {
         actions.push(this.editAction);
-        actions.push(this.assignUsersToSite);
-        moreActions = new TableMoreAction([
-          this.exportOCPPParamsAction,
-          openInMaps,
-          this.siteGenerateQrCodeConnectorAction
-        ]).getActionDef();
+        moreActions.addActionInMoreActions(this.exportOCPPParamsAction);
+        moreActions.addActionInMoreActions(this.siteGenerateQrCodeConnectorAction);
       } else {
         actions.push(this.viewAction);
-        moreActions = new TableMoreAction([
-          openInMaps,
-        ]).getActionDef();
       }
-      if (this.authorizationService.canDeleteSite()) {
-        if (moreActions.dropdownActions) {
-          moreActions.dropdownActions.push(this.deleteAction);
-        }
+      if (this.authorizationService.canListUsersSites()) {
+        actions.push(this.assignUsersToSite);
+      }
+      moreActions.addActionInMoreActions(openInMaps);
+      if (site.canDelete) {
+        moreActions.addActionInMoreActions(this.deleteAction);
       }
     } else {
       actions.push(this.viewAction);
-      actions.push(this.assignUsersToSite);
-      moreActions = new TableMoreAction([
-        openInMaps,
-      ]).getActionDef();
+      moreActions.addActionInMoreActions(openInMaps);
     }
-    actions.push(moreActions);
+    actions.push(moreActions.getActionDef());
     return actions;
   }
 

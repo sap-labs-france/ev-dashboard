@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import * as moment from 'moment';
 import { Observable } from 'rxjs';
 
 import { AuthorizationService } from '../../../services/authorization.service';
@@ -208,7 +209,10 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
       'chargers.connections.copy_url_tooltip').getActionDef());
     if (this.canUpdateToken) {
       actions.push(this.editAction);
-      actions.push(this.revokeAction);
+      if (registrationToken.expirationDate &&
+          moment(registrationToken.expirationDate).isAfter(new Date())) {
+        actions.push(this.revokeAction);
+      }
     }
     if (this.canDeleteToken) {
       moreActions.addActionInMoreActions(this.deleteAction);

@@ -235,37 +235,25 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
       case RegistrationTokenButtonAction.REVOKE_TOKEN:
         if (actionDef.action) {
           (actionDef as TableRevokeRegistrationTokenActionDef).action(
-            registrationToken,
-            this.dialogService,
-            this.translateService,
-            this.messageService,
-            this.centralServerService,
-            this.spinnerService,
-            this.router,
-            this.refreshData.bind(this));
+            registrationToken, this.dialogService, this.translateService, this.messageService,
+            this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
         }
         break;
       case RegistrationTokenButtonAction.DELETE_TOKEN:
         if (actionDef.action) {
           (actionDef as TableDeleteRegistrationTokenActionDef).action(
-            registrationToken,
-            this.dialogService,
-            this.translateService,
-            this.messageService,
-            this.centralServerService,
-            this.spinnerService,
-            this.router,
-            this.refreshData.bind(this));
+            registrationToken, this.dialogService, this.translateService, this.messageService,
+            this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
         }
         break;
       case RegistrationTokenButtonAction.EDIT_TOKEN:
         if (actionDef.action) {
-          (actionDef as TableEditRegistrationTokenActionDef).action(ChargingStationsRegistrationTokenDialogComponent,
-            registrationToken, this.dialog, this.refreshData.bind(this))
+          (actionDef as TableEditRegistrationTokenActionDef).action(
+            ChargingStationsRegistrationTokenDialogComponent, registrationToken, this.dialog, this.refreshData.bind(this))
         }
         break;
       case RegistrationTokenButtonAction.COPY_URL:
-        let url;
+        let url: string;
         switch (actionDef.name) {
           case 'chargers.connections.ocpp_15_soap':
             url = registrationToken.ocpp15SOAPUrl;

@@ -77,7 +77,7 @@
           {{'chargers.force_inactive' | translate}}
         </mat-checkbox>
       </div>
-      <div *ngIf="currentType === 'AC' || chargingStation.chargePoints?.length === 0"
+      <div *ngIf="currentType !== 'DC' || chargingStation?.chargePoints?.length === 0"
       class="col-md-3 text-left form-group">
         <mat-checkbox [formControl]="manualConfiguration" (change)="manualConfigurationChanged($event.checked)">
           {{'chargers.manual_configuration' | translate}}

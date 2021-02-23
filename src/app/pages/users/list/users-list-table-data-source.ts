@@ -281,7 +281,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
           moreActions.addActionInMoreActions(this.forceSyncBillingUserAction);
         }
       }
-      if (this.currentUser.id !== user.id && user.canDelete) {
+      if (user.canDelete) {
         moreActions.addActionInMoreActions(this.deleteAction);
       }
       actions.push(moreActions.getActionDef());

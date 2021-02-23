@@ -32,6 +32,7 @@ export class ReleaseNotesComponent {
             changes: [
               `Retrieve SoC of battery Assets and display it in the Asset's charts`,
               `Manually activate new Users accounts`,
+              `Charging Station's Token can now be extended after having expired`,
               `Charging Stations public API for B2B access`,
               `Adjusted the Site Admin role to not have access to all Users`,
               `Do not return deleted Users when filtering is provided`,

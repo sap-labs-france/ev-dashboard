@@ -143,6 +143,8 @@
     "reset_filters": "Reset Filters",
     "browser_not_supported": "This browser is not supported! Use Chrome or Firefox.",
     "status": "Status",
+    "revoke": "Revoke",
+    "edit": "Edit",
     "menu": {
       "dashboard": "Dashboard",
       "charging_stations": "Charging Stations",
@@ -413,7 +415,7 @@
     "update_remove_site_owner_success": "The user '{{userName}}' is no more owner on this site",
     "update_site_users_owner_error": "Error occurred while trying to grant the user '{{userName}}' as site owner, check the logs",
     "export_all_params_title": "Export OCPP parameters",
-    "export_all_params_confirm": "Do you really want to export all the OCPP parameters of all the charging stations belonging to the site '{{siteName}}' ?",
+    "export_all_params_confirm": "Do you really want to export all the OCPP parameters of all the charging stations belonging to the site '{{siteName}}'?",
     "export_all_params_error": "Error occurred while trying to export all the OCPP parameters, check the logs"
   },
   "site_areas": {
@@ -474,7 +476,7 @@
     "maximum_energy_amps": "Maximum Amperage (A)",
     "number_of_phases": "Number of phases",
     "export_all_params_title": "Export OCPP parameters",
-    "export_all_params_confirm": "Do you really want to export all the OCPP parameters of all the charging stations belonging to the site area '{{siteAreaName}}' ?",
+    "export_all_params_confirm": "Do you really want to export all the OCPP parameters of all the charging stations belonging to the site area '{{siteAreaName}}'?",
     "export_all_params_error": "Error occurred while trying to export all the OCPP parameters, check the logs",
     "consumption_date": "Date",
     "single_phased": "Single Phase",
@@ -753,12 +755,12 @@
     "dialog": {
       "export": {
         "title": "Export charging stations",
-        "confirm": "Do you really want to export all the charging stations matching the filters ?",
+        "confirm": "Do you really want to export all the charging stations matching the filters?",
         "error": "Error occurred while trying to export the charging stations, check the logs"
       },
       "exportConfig": {
         "title": "Export charging station parameters",
-        "confirm": "Do you really want to export all the parameters matching the filter ?"
+        "confirm": "Do you really want to export all the parameters matching the filter?"
       },
       "localisation": {
         "title": "Charging stations localisations"
@@ -1051,17 +1053,23 @@
       "registration_token_creation_success": "Registration token has been created successfully",
       "registration_token_creation_error": "Error occurred while creating a registration token, check the logs",
       "registration_token_revoke_title": "Revoke Registration Token",
-      "registration_token_revoke_confirm": "Do you really want to revoke the registration token ?",
+      "registration_token_revoke_confirm": "Do you really want to revoke the registration token?",
       "registration_token_revoke_success": "Registration token has been revoked successfully",
       "registration_token_revoke_error": "Error occurred while revoking a registration token, check the logs",
+      "registration_token_update_title": "Update Registration Token",
+      "registration_token_update_confirm": "Do you really want to update the registration token?",
+      "registration_token_update_success": "Registration token has been updated successfully",
+      "registration_token_update_error": "Error occurred while updating a registration token, check the logs",
+      "registration_token_not_found": "Registration token has not been found",
       "registration_token_delete_title": "Delete Registration Token",
-      "registration_token_delete_confirm": "Do you really want to delete the registration token ?",
+      "registration_token_delete_confirm": "Do you really want to delete the registration token?",
       "registration_token_delete_success": "Registration token has been deleted successfully",
       "registration_token_delete_error": "Error occurred while deleting a registration token, check the logs",
       "registration_token_url": "Registration URL",
       "registration_token_valid": "Valid",
       "registration_token_expired": "Expired",
       "registration_token_revoked": "Revoked",
+      "registration_token_error": "Error occurred while retrieving the token, check the logs",
       "token_restrict_site_area": "Restrict access to one Site Area",
       "url": "OCPP URL",
       "copy_url_tooltip": "Copy OCPP URL",
@@ -1115,7 +1123,7 @@
     "dialog": {
       "export": {
         "title": "Export Logs",
-        "confirm": "Do you really want to export all the logs matching the filters ?",
+        "confirm": "Do you really want to export all the logs matching the filters?",
         "error": "Error occurred while trying to export the logs"
       }
     }
@@ -1388,7 +1396,7 @@
       "update_success": "Refunding settings have been updated successfully",
       "update_error": "Error occurred while updating the Refunding settings, check the logs",
       "synchronize_dialog_refund_title": "Synchronize Refunded Transactions",
-      "synchronize_dialog_refund_confirm": "Do you really want to synchronize the refunded transactions ?",
+      "synchronize_dialog_refund_confirm": "Do you really want to synchronize the refunded transactions?",
       "synchronize_started": "Refunded transactions synchronization has been started",
       "synchronize_success": "Refunded transactions have been synchronized successfully",
       "synchronize_error": "Error occurred while synchronizing the refunded transactions, check the logs",
@@ -2060,13 +2068,13 @@
     "dialog": {
       "delete": {
         "title": "Delete Session",
-        "confirm": "Do you really want to delete the session of '{{user}}' ?",
+        "confirm": "Do you really want to delete the session of '{{user}}'?",
         "rejected_refunded_msg": "You cannot delete a session that has been already refunded!",
         "rejected_billed_msg": "You cannot delete a session that has been already billed!"
       },
       "export": {
         "title": "Export Sessions",
-        "confirm": "Do you really want to export all the sessions matching the filters ?",
+        "confirm": "Do you really want to export all the sessions matching the filters?",
         "error": "An error occurred during the export of the sessions, check the logs"
       },
       "soft_stop": {

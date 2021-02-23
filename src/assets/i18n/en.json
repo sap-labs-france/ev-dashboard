@@ -945,6 +945,7 @@
     "change_config_success": "The charging station '{{chargeBoxID}}' has been saved successfully",
     "change_config_error": "Cannot change the configuration of the charging station, check the logs",
     "change_config_phase_error": "Cannot assign three phases charging station to a single phase site area",
+    "charging_station_reset_error": "Charging Station has been saved successfully, but an error occurred while restarting, please check the logs",
     "change_params_success": "The parameter '{{paramKey}}' has been updated successfully in the charging station '{{chargeBoxID}}'",
     "change_params_error": "The parameter '{{paramKey}}' has been rejected by the charging station '{{chargeBoxID}}'",
     "delete_title": "Delete",

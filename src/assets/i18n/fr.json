@@ -944,6 +944,7 @@
     "retrieve_config_success": "La configuration de la borne '{{chargeBoxID}}' a été téléchargée avec succès",
     "change_config_error": "impossible de changer la configuration de la borne, vérifier les logs",
     "change_config_phase_error": "Impossible d'assigner une borne triphasée sur une zone monophasée",
+    "charging_station_reset_error": "Charging Station has been saved successfully, but an error occurred while restarting, please check the logs",
     "change_config_success": "La borne '{{chargeBoxID}}' a été sauvegardée avec succès",
     "change_params_success": "Le paramètre '{{paramKey}}' a bien été mis à jour dans la borne '{{chargeBoxID}}'",
     "change_params_error": "Le paramètre '{{paramKey}}' a été refusé par la borne '{{chargeBoxID}}'",

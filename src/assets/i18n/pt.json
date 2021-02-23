@@ -945,6 +945,7 @@
     "change_config_success": "A estação de carregamento '{{chargeBoxID}}' foi guardado com sucesso",
     "change_config_error": "Cannot change the configuration of the charging station, check the logs",
     "change_config_phase_error": "Não é possível atribuir estação de carregamento de três fases a uma área de local de fase única",
+    "charging_station_reset_error": "Charging Station has been saved successfully, but an error occurred while restarting, please check the logs",
     "change_params_success": "O parametro '{{paramKey}}' foi atualizado com sucesso na estação de carregamento '{{chargeBoxID}}'",
     "change_params_error": "Ocorreu um erro ao tentar atualizar o parâmetro da estação de carregamento",
     "delete_title": "Eliminar",

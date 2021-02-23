@@ -768,12 +768,12 @@
         "callbackURLforOCPP": "Callback URL um HTTP Anfrage zur Ladestation zu senden"
       },
       "enableManualConfiguration":{
-        "title": "Enable manual configuration",
-        "confirm": "If you enable the manual configuration, all charge points will be deleted and the technical capabilities will not be taken from the template anymore. After saving the charging station will perform a reboot. Do you want to continue?"
+        "title": "Manuelle Konfiguration aktivieren",
+        "confirm": "Wenn Sie die manuelle Konfiguration aktivieren, werden alle Ladepunkte gelöscht und die technische Konfiguration wird nicht mehr vom Template übernommen. Nach diesem Vorgang wird die Ladestation einen Neustart ausführen. Sind Sie sicher, dass Sie fortfahren möchten?"
       },
       "disableManualConfiguration":{
-        "title": "Disable manual configuration",
-        "confirm": "If you disable the manual configuration, all charge points will be restored and the technical capabilities will be taken from the template. After saving the charging station will perform a reboot. Do you want to continue?"
+        "title": "Manuelle Konfiguration deaktivieren",
+        "confirm": "Wenn Sie die manuelle Konfiguration deaktivieren, werden alle Ladepunkte wiederhergestellt und die technische Konfiguration wird vom Template übernommen. Nach diesem Vorgang wird die Ladestation einen Neustart ausführen. Sind Sie sicher, dass Sie fortfahren möchten?"
       }
     },
     "force_available_status_action": "Verfügbar setzen",

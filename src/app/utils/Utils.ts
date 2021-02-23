@@ -738,16 +738,9 @@ export class Utils {
         break;
       // Unauthorized!
       case StatusCodes.UNAUTHORIZED:
+      case StatusCodes.FORBIDDEN:
         // Not Authorized
         messageService.showErrorMessage('general.not_authorized');
-        break;
-      // Conflict in User Session
-      case StatusCodes.FORBIDDEN:
-        messageService.showWarningMessageUserOrTenantUpdated();
-        // Log Off (remove token)
-        centralServerService.logoutSucceeded();
-        // Navigate to Login
-        router.navigate(['/auth/login']);
         break;
       case StatusCodes.BAD_REQUEST:
         messageService.showErrorMessage('general.invalid_content');

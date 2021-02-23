@@ -100,7 +100,7 @@ export class StatisticsFiltersComponent implements OnInit {
       }
     });
     // Get SAC links
-    this.componentService.getSacSettings(true).subscribe((sacSettings) => {
+    this.componentService.getSacSettings().subscribe((sacSettings) => {
       if (this.isAdmin) {
         this.sacLinks = sacSettings.links;
       } else {

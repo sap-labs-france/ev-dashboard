@@ -306,10 +306,10 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
         if (!this.refundSetting) {
           this.messageService.showErrorMessage(
             this.translateService.instant('transactions.notification.refund.concur_connection_invalid'));
-        } else if (this.refundSetting && this.refundSetting.content && this.refundSetting.content.concur && actionDef.action) {
-          (actionDef as TableOpenURLActionDef).action(this.refundSetting.content.concur.appUrl ?
-            this.refundSetting.content.concur.appUrl :
-            this.refundSetting.content.concur.apiUrl);
+        } else if (this.refundSetting && this.refundSetting.concur && actionDef.action) {
+          (actionDef as TableOpenURLActionDef).action(this.refundSetting.concur.appUrl ?
+            this.refundSetting.concur.appUrl :
+            this.refundSetting.concur.apiUrl);
         }
         break;
       case TransactionButtonAction.EXPORT_TRANSACTIONS:
@@ -335,9 +335,9 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
 
   private checkConcurConnection() {
     if (this.authorizationService.canListSettings()) {
-      this.centralServerService.getSettings(TenantComponents.REFUND).subscribe((settingResult) => {
-        if (settingResult && settingResult.result && settingResult.result.length > 0) {
-          this.refundSetting = settingResult.result[0] as RefundSettings;
+      this.componentService.getRefundSettings().subscribe((refundSettings) => {
+        if (refundSettings) {
+          this.refundSetting = refundSettings;
         }
       });
     }

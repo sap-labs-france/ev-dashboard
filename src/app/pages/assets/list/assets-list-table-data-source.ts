@@ -10,7 +10,6 @@ import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
-import { AppUnitPipe } from '../../../shared/formatters/app-unit.pipe';
 import { TableCreateAssetAction, TableCreateAssetActionDef } from '../../../shared/table/actions/assets/table-create-asset-action';
 import { TableDeleteAssetAction, TableDeleteAssetActionDef } from '../../../shared/table/actions/assets/table-delete-asset-action';
 import { TableEditAssetAction, TableEditAssetActionDef } from '../../../shared/table/actions/assets/table-edit-asset-action';
@@ -50,7 +49,6 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
     private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
     private authorizationService: AuthorizationService,
-    private appUnitPipe: AppUnitPipe
   ) {
     super(spinnerService, translateService);
     // Init
@@ -151,6 +149,18 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
         sortable: false,
         isAngularComponent: true,
         angularComponent: AssetConsumptionCellComponent,
+      },
+      {
+        id: 'currentStateOfCharge',
+        name: 'transactions.state_of_charge',
+        headerClass: 'col-20p text-center',
+        class: 'col-20p text-center',
+        formatter: (currentStateOfCharge: number) => {
+          if (!currentStateOfCharge) {
+            return '-';
+          }
+          return `${currentStateOfCharge} %`;
+        },
       },
     ];
     return tableColumnDef;

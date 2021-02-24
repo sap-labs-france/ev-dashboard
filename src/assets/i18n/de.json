@@ -1043,6 +1043,7 @@
       "registration_token_creation_confirm": "Wollen Sie wirklich einen Registrierungstoken für Ladestationen dieses Standortbereichs erstellen?",
       "registration_token_creation_success": "Registrierungstoken wurde erfolgreich erstellt",
       "registration_token_creation_error": "Beim Erstellen des Registrierungstoken ist ein Fehler aufgetreten",
+      "registration_token_site_admin_creation_error": "You must provide a site linked to this registration token",
       "registration_token_revoke_title": "Registierungstoken widerrufen",
       "registration_token_revoke_confirm": "Wollen Sie den Registrierungstoken wirklich widerrufen?",
       "registration_token_revoke_success": "Registrierungstoken wurde erfolgreich widerrufen",

@@ -33,6 +33,7 @@ export class ReleaseNotesComponent {
               `Can now exclude some Assets from the Smart Charging`,
               `Enhanced obfuscation of sensitive data in Logs + Unit Tests`,
               `Get OCPI Charging Station by Serial Number`,
+              `Added support for latest Ebee firmware version in Charging Station's template`,
               `Fixed Site Admin cannot read Charging Station's logs`,
               `Cannot create Asset connection when different providers have been selected`,
               `Handled Registration Token for Site Admin role`,

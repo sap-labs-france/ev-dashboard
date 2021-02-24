@@ -752,6 +752,8 @@ export class Utils {
         messageService.showErrorMessage('general.not_authorized');
         break;
       case StatusCodes.BAD_REQUEST:
+        messageService.showErrorMessage('general.invalid_content');
+        break;
       case StatusCodes.CONFLICT:
         if (error.details) {
           messageService.showErrorMessage(error.details.message, error.details.params);

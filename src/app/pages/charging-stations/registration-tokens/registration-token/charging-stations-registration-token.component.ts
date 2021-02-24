@@ -12,7 +12,7 @@ import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
 import { SiteAreasDialogComponent } from '../../../../shared/dialogs/site-areas/site-areas-dialog.component';
 import { RestResponse } from '../../../../types/GlobalType';
-import { HTTPError } from '../../../../types/HTTPError';
+import { HTTPAuthError, HTTPError } from '../../../../types/HTTPError';
 import { RegistrationToken } from '../../../../types/RegistrationToken';
 import { SiteArea } from '../../../../types/SiteArea';
 import TenantComponents from '../../../../types/TenantComponents';
@@ -130,7 +130,7 @@ export class ChargingStationsRegistrationTokenComponent implements OnInit {
     }, (error) => {
       this.spinnerService.hide();
       switch (error.status) {
-        case HTTPError.BAD_REQUEST:
+        case HTTPAuthError.FORBIDDEN:
           this.messageService.showErrorMessage('chargers.connections.registration_token_site_admin_creation_error');
           break;
         default:

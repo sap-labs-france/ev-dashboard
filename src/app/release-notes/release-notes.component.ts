@@ -30,6 +30,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `Can now exclude some Assets from the Smart Charging`,
               `Enhanced obfuscation of sensitive data in Logs + Unit Tests`,
               `Fixed Site Admin cannot read Charging Station's logs`,
             ],

@@ -33,6 +33,7 @@ export class ReleaseNotesComponent {
               `Can now exclude some Assets from the Smart Charging`,
               `Enhanced obfuscation of sensitive data in Logs + Unit Tests`,
               `Fixed Site Admin cannot read Charging Station's logs`,
+              `Cannot create Asset connection when different providers have been selected`,
               `Fixed cannot retrieve Site's image`,
             ],
           },

@@ -246,7 +246,7 @@ export class ChargingPlansComponent implements OnInit, AfterViewInit, OnChanges 
   public loadChargingProfiles() {
     if (this.chargingStation) {
       this.spinnerService.show();
-      this.centralServerService.getChargingProfiles({ ChargeBoxID: this.chargingStation.id }).subscribe((chargingProfiles) => {
+      this.centralServerService.getChargingProfiles({ ChargingStationID: this.chargingStation.id }).subscribe((chargingProfiles) => {
         this.spinnerService.hide();
         this.formGroup.markAsPristine();
         // Set Profile

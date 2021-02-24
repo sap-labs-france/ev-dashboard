@@ -74,6 +74,7 @@ export class ChargingStationsRegistrationTokenComponent implements OnInit {
     if (this.currentTokenID) {
       this.spinnerService.show();
       this.centralServerService.getRegistrationToken(this.currentTokenID).subscribe((registrationToken) => {
+        this.formGroup.markAsPristine();
         this.spinnerService.hide();
         this.currentToken = registrationToken;
         // Init form
@@ -128,7 +129,13 @@ export class ChargingStationsRegistrationTokenComponent implements OnInit {
       }
     }, (error) => {
       this.spinnerService.hide();
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tenants.create_error');
+      switch (error.status) {
+        case HTTPError.BAD_REQUEST:
+          this.messageService.showErrorMessage('chargers.connections.registration_token_site_admin_creation_error');
+          break;
+        default:
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'chargers.connections.registration_token_creation_error');
+      }
     });
   }
 
@@ -177,6 +184,7 @@ export class ChargingStationsRegistrationTokenComponent implements OnInit {
         const siteArea = (result[0].objectRef) as SiteArea;
         this.siteArea.setValue(`${(siteArea.site ? siteArea.site.name + ' - ' : '')}${siteArea.name}`);
         this.siteAreaID.setValue(siteArea.id);
+        this.formGroup.markAsDirty();
       }
     });
   }

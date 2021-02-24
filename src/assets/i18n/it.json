@@ -1043,6 +1043,7 @@
       "registration_token_creation_confirm": "Vuoi veramente creare un token di registrazione per le stazioni di ricarica di quest'area del sito?",
       "registration_token_creation_success": "Il token di registrazione è stato creato correttamente",
       "registration_token_creation_error": "Si è verificato un errore durante la creazione di un token di registrazione",
+      "registration_token_site_admin_creation_error": "You must provide a site linked to this registration token",
       "registration_token_revoke_title": "Revoca Token Registrazione",
       "registration_token_revoke_confirm": "Vuoi veramente revocare il token di registrazione?",
       "registration_token_revoke_success": "Il token di registrazione è stato revocato correttamente",

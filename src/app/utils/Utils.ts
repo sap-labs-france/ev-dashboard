@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { StatusCodes } from 'http-status-codes';
 import * as moment from 'moment';
 import { ConfigService } from 'services/config.service';
+import { HTTPError } from 'types/HTTPError';
 import { Tag } from 'types/Tag';
 
 import { CentralServerService } from '../services/central-server.service';
@@ -735,6 +736,14 @@ export class Utils {
           // Navigate to Login
           router.navigate(['/auth/login']);
         }
+        break;
+      case HTTPError.USER_ACCOUNT_CHANGED:
+      case HTTPError.TENANT_COMPONENT_CHANGED:
+        messageService.showWarningMessageUserOrTenantUpdated();
+        // Log Off (remove token)
+        centralServerService.logoutSucceeded();
+        // Navigate to Login
+        router.navigate(['/auth/login']);
         break;
       // Unauthorized!
       case StatusCodes.UNAUTHORIZED:

@@ -24,6 +24,25 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.44',
+        date: new Date('2020-02-24'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Can now exclude some Assets from the Smart Charging`,
+              `Enhanced obfuscation of sensitive data in Logs + Unit Tests`,
+              `Get OCPI Charging Station by Serial Number`,
+              `Added support for latest Ebee firmware version in Charging Station's template`,
+              `Fixed Site Admin cannot read Charging Station's logs`,
+              `Cannot create Asset connection when different providers have been selected`,
+              `Handled Registration Token for Site Admin role`,
+              `Fixed cannot retrieve Site's image`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.43',
         date: new Date('2020-02-23'),
         componentChanges: [

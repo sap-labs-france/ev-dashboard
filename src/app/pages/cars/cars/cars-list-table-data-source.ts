@@ -196,11 +196,20 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
     tableColumnDef.push(
       {
         id: 'converter',
-        name: 'cars.converter',
+        name: 'cars.charge_standard_tables',
         headerClass: 'text-center col-15p',
         class: 'text-center col-15p',
         sortable: true,
         formatter: (converter: CarConverter) => Utils.buildCarCatalogConverterName(converter, this.translateService),
+      },
+      {
+        id: 'carCatalog.fastChargePowerMax',
+        name: 'cars.fast_charge_power_max',
+        headerClass: 'col-20p',
+        class: 'col-20p',
+        sortable: true,
+        formatter: (fastChargePowerMax: number) => fastChargePowerMax ?
+          this.appUnitPipe.transform(fastChargePowerMax, 'kW', 'kW', true, 1, 0, 0) : '-',
       },
       {
         id: 'type',

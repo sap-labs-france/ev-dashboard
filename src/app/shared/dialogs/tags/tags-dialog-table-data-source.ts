@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { TagStatusFormatterComponent } from 'pages/users/formatters/tag-status-formatter.component';
 import { Observable } from 'rxjs';
 
 import { CentralServerService } from '../../../services/central-server.service';
@@ -44,6 +45,15 @@ export class TagsDialogTableDataSource extends DialogTableDataSource<Tag> {
 
   public buildTableColumnDefs(): TableColumnDef[] {
     return [
+      {
+        id: 'active',
+        name: 'tags.status',
+        isAngularComponent: true,
+        angularComponent: TagStatusFormatterComponent,
+        headerClass: 'text-center col-10em',
+        class: 'text-center col-10em',
+        sortable: true,
+      },
       {
         id: 'id',
         name: 'tags.id',

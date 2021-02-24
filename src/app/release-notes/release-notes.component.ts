@@ -31,6 +31,7 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Enhanced obfuscation of sensitive data in Logs + Unit Tests`,
+              `Fixed Site Admin cannot read Charging Station's logs`,
             ],
           },
         ],

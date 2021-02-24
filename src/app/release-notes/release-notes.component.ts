@@ -24,6 +24,18 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.44',
+        date: new Date('2020-02-24'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Enhanced obfuscation of sensitive data in Logs + Unit Tests`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.43',
         date: new Date('2020-02-23'),
         componentChanges: [

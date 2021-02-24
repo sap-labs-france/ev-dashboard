@@ -35,6 +35,7 @@ export class ReleaseNotesComponent {
               `Get OCPI Charging Station by Serial Number`,
               `Fixed Site Admin cannot read Charging Station's logs`,
               `Cannot create Asset connection when different providers have been selected`,
+              `Handled Registration Token for Site Admin role`,
               `Fixed cannot retrieve Site's image`,
             ],
           },

@@ -32,7 +32,9 @@ export class ReleaseNotesComponent {
             changes: [
               `Can now exclude some Assets from the Smart Charging`,
               `Enhanced obfuscation of sensitive data in Logs + Unit Tests`,
+              `Get OCPI Charging Station by Serial Number`,
               `Fixed Site Admin cannot read Charging Station's logs`,
+              `Cannot create Asset connection when different providers have been selected`,
               `Fixed cannot retrieve Site's image`,
             ],
           },

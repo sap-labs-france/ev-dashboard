@@ -33,18 +33,14 @@ export class UsersListComponent implements OnInit {
 
   public ngOnInit(): void {
     let userId: string = null;
-    // Check we are in /users/id route and get User ID if so
-    if (this.activatedRoute.snapshot.params['id']) {
+    // Check we are in /users/id route and get User ID if so or don't go further if user not authorize to update
+    if (this.activatedRoute.snapshot.params['id'] &&
+        !this.authorizationService.canUpdateUser()) {
+        this.router.navigate(['/']);
+    } else {
       this.activatedRoute.params.subscribe((params: Params) => {
         userId = params['id'];
       });
-    }
-    if (userId) {
-      // Don't go further if user cannot update user
-      if (this.activatedRoute.snapshot.params['id'] &&
-        !this.authorizationService.canUpdateUser()) {
-        this.router.navigate(['/']);
-      }
       this.centralServerService.getUser(userId).subscribe((user) => {
         const editAction = new TableEditUserAction().getActionDef();
         if (editAction.action) {

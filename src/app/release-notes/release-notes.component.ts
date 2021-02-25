@@ -31,6 +31,7 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Do not try to retrieve the Settings if Tenant's components are not active`,
+              `Fixed Car's thumbnails not displayed`,
             ],
           },
         ],

@@ -37,11 +37,11 @@ export class SettingsAnalyticsComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    if(this.isActive){
-    // Build form
-    this.formGroup = new FormGroup({});
-    // Load the conf
-    this.loadConfiguration();
+    if (this.isActive) {
+      // Build form
+      this.formGroup = new FormGroup({});
+      // Load the conf
+      this.loadConfiguration();
     }
   }
 

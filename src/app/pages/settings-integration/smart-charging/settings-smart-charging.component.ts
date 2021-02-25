@@ -18,7 +18,6 @@ import { Utils } from '../../../utils/Utils';
 })
 export class SettingsSmartChargingComponent implements OnInit {
   public isActive = false;
-
   public formGroup!: FormGroup;
   public smartChargingSettings!: SmartChargingSettings;
 
@@ -34,10 +33,10 @@ export class SettingsSmartChargingComponent implements OnInit {
 
   public ngOnInit(): void {
     if (this.isActive) {
-    // Build the form
-    this.formGroup = new FormGroup({});
-    // Load the conf
-    this.loadConfiguration();
+      // Build the form
+      this.formGroup = new FormGroup({});
+      // Load the conf
+      this.loadConfiguration();
     }
   }
 

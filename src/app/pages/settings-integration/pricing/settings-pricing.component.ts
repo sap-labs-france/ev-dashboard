@@ -18,7 +18,6 @@ import { Utils } from '../../../utils/Utils';
 })
 export class SettingsPricingComponent implements OnInit {
   public isActive = false;
-
   public formGroup!: FormGroup;
   public pricingSettings!: PricingSettings;
 
@@ -33,11 +32,11 @@ export class SettingsPricingComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    if(this.isActive) {
-    // Build the form
-    this.formGroup = new FormGroup({});
-    // Load the conf
-    this.loadConfiguration();
+    if (this.isActive) {
+      // Build the form
+      this.formGroup = new FormGroup({});
+      // Load the conf
+      this.loadConfiguration();
     }
   }
 

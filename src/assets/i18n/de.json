@@ -5,6 +5,7 @@
     "captcha_text_3": " und ",
     "captcha_text_4": "Nutzungsbedingungen",
     "captcha_text_5": " anwenden",
+    "not_authorized": "Sie sind nicht berechtigt diese Aktion durchzuführen",
     "created_on": "Erstellt am",
     "created_by": "Erstellt von",
     "changed_on": "Geändert am",
@@ -25,7 +26,7 @@
     "connectors": "Verknüpfungen",
     "notifications": "Benachrichtungen",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.4.39",
+    "last_update": "Version 2.4.44",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "Ein unerwarteter Fehler ist aufgetreten",
@@ -70,6 +71,7 @@
     "update": "Update",
     "refresh": "Aktualisieren",
     "generate_qr": "QR-Code generieren",
+    "display_qr": "Display QR code",
     "save": "Speichern",
     "delete": "Löschen",
     "export": "Exportieren",
@@ -141,6 +143,8 @@
     "reset_filters": "Filter löschen",
     "browser_not_supported": "Dieser Browser wird nicht unterstützt! Bitte nutzen Sie Chrome oder Firefox.",
     "status": "Status",
+    "revoke": "Widerrufen",
+    "edit": "Bearbeiten",
     "menu": {
       "dashboard": "Dashboard",
       "charging_stations": "Ladestationen",
@@ -531,6 +535,7 @@
     "verify_email_title": "Account Activierung",
     "verify_email_already_active": "Ihr Account ist bereits aktiviert!",
     "verify_email_success": "Ihr Account wurde erfolgreich aktiviert!",
+    "verify_email_success_inactive": "Your account has been verified with success, an administrator will check and activate your account.",
     "verify_email_success_set_password": "Ihr Account wurde aktiviert, bitte legen Sie ein Passwort fest und schließen Sie die Registrierung ab",
     "verify_email_token_not_valid": "Ihr Account Aktivierungslink ist nicht mehr gültig",
     "verify_email_email_not_valid": "Diese Email existiert nicht",
@@ -1038,10 +1043,16 @@
       "registration_token_creation_confirm": "Wollen Sie wirklich einen Registrierungstoken für Ladestationen dieses Standortbereichs erstellen?",
       "registration_token_creation_success": "Registrierungstoken wurde erfolgreich erstellt",
       "registration_token_creation_error": "Beim Erstellen des Registrierungstoken ist ein Fehler aufgetreten",
+      "registration_token_site_admin_creation_error": "You must provide a site linked to this registration token",
       "registration_token_revoke_title": "Registierungstoken widerrufen",
       "registration_token_revoke_confirm": "Wollen Sie den Registrierungstoken wirklich widerrufen?",
       "registration_token_revoke_success": "Registrierungstoken wurde erfolgreich widerrufen",
       "registration_token_revoke_error": "Beim Widerrufen des Registrierungstokens ist ein Fehler aufgetreten",
+      "registration_token_update_title": "Update Registration Token",
+      "registration_token_update_confirm": "Do you really want to update the registration token ?",
+      "registration_token_update_success": "Registration token has been updated successfully",
+      "registration_token_update_error": "Error occurred while updating a registration token, check the logs",
+      "registration_token_not_found": "Registration token has not been found",
       "registration_token_delete_title": "Registrierungstoken löschen",
       "registration_token_delete_confirm": "Wollen Sie den Registrierungstoken wirklich löschen?",
       "registration_token_delete_success": "Registrierungstoken wurde erfolgreich gelöscht",
@@ -1050,6 +1061,7 @@
       "registration_token_valid": "Gültig",
       "registration_token_expired": "Abgelaufen",
       "registration_token_revoked": "Widerrufen",
+      "registration_token_error": "Error occurred while retrieving the token, check the logs",
       "token_restrict_site_area": "Zugang auf einen Standortbereich beschränken",
       "url": "OCPP-URL",
       "copy_url_tooltip": "OCPP-URL kopieren",
@@ -1552,7 +1564,8 @@
   },
   "technical_settings": {
     "tabs": {
-      "crypto": "Crypto"
+      "crypto": "Crypto",
+      "users": "Users"
     },
     "crypto": {
       "crypto_key": {
@@ -1566,6 +1579,13 @@
       "setting_do_not_exist": "Crypto Technical Settings not found",
       "update_success": "Crypto Technical Settings have been updated successfully",
       "update_error": "Error occurred while updating the Crypto Technical Settings, check the logs"
+    },
+    "user": {
+      "title": "Account Settings",
+      "auto_activation": "Automatically activate new user account at registration time",
+      "update_success": "User settings have been updated successfully",
+      "update_error": "Error occurred while updating the user settings, check the logs",
+      "setting_do_not_exist": "User settings not found"
     }
   },
   "ocpiendpoints": {
@@ -1689,8 +1709,8 @@
     "business_details": "Business Details",
     "logo": "Logo",
     "sync_all": "Alle synchronisieren",
-    "push_locations": "Standorte abrufen",
-    "push_tokens": "Tokens abrufen",
+    "push_evse_statuses": "EVSE Status senden",
+    "push_tokens": "Tokens senden",
     "pull_cdrs": "CDRs abrufen",
     "pull_locations": "Standorte abrufen",
     "pull_sessions": "Ladevorgänge abrufen",
@@ -2178,7 +2198,7 @@
     "charging_stations_offline": "Benachrichtigen Sie mich, wenn eine Ladestation Offline ist",
     "preparing_session_not_started": "Benachrichtigen Sie mich, wenn ein Ladevorgang nicht gestartet wurde (nur Standortbesitzer)",
     "ocpi_patch_status_error": "Benachrichtigen Sie mich, wenn der Transfer eines Ladestationsstatuses zur Roaming Plattform fehlgeschlagen ist (OCPI)",
-    "smtp_auth_error": "Benachrichtigen Sie mich, wenn die Authentifizierung zum Email Server fehlgeschlagen ist.",
+    "smtp_error": "Notify me if an error occurred with the email server",
     "billing_synchronization_failed": "Benachrichtigen Sie mich, wenn eine Synchronisierung mit dem Abrechnungssystem fehlgeschlagen ist",
     "session_not_started": "Benachrichtigen Sie mich, wenn kein Ladevorgang nach dem authentifizieren gestartet wurde",
     "user_account_inactivity": "Benachrichtigen Sie mich, wenn ich mich seit mehr als 6 Monaten nicht eingeloggt habe",

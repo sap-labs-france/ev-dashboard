@@ -1,6 +1,6 @@
 <div class="main-content">
   <mat-tab-group (selectedIndexChange)="updateRoute($event)" [selectedIndex]="activeTabIndex" animationDuration="0ms" disableRipple="true" class="h-100 mat-tab-info">
-    <mat-tab>
+    <mat-tab *ngIf="canListAssets">
       <ng-template mat-tab-label>
         <i class="fa fa-lg fa-university"></i>
         &nbsp;&nbsp;{{'asset.tabs.assets' | translate}}
@@ -9,7 +9,7 @@
         <app-assets-list></app-assets-list>
       </ng-template>
     </mat-tab>
-    <mat-tab *ngIf="isAdmin">
+    <mat-tab *ngIf="canListAssetsInError">
       <ng-template mat-tab-label>
         <mat-icon>warning</mat-icon><span>{{'asset.tabs.in_error' | translate}}</span>
       </ng-template>

@@ -123,4 +123,13 @@ export class AssetConnectionComponent implements OnInit {
       this.dialogRef.close(assetConnection);
     }
   }
+
+  public typeChanged(type: AssetConnectionType){
+    if (this.formGroup.controls.greencomConnection && type !== AssetConnectionType.GREENCOM) {
+      delete this.formGroup.controls.greencomConnection;
+    }
+    if (this.formGroup.controls.schneiderConnection && type !== AssetConnectionType.SCHNEIDER) {
+      delete this.formGroup.controls.schneiderConnection;
+    }
+  }
 }

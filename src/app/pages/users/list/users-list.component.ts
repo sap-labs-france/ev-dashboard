@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -24,19 +25,31 @@ export class UsersListComponent implements OnInit {
     private dialog: MatDialog,
     private messageService: MessageService,
     private centralServerService: CentralServerService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
     private windowService: WindowService) {
     this.isAdmin = this.authorizationService.isAdmin();
   }
 
   public ngOnInit(): void {
-    // Check if User ID id provided
-    const userId = this.windowService.getSearch('UserID');
+    let userId: string = null;
+    // Check we are in /users/id route and get User ID if so
+    if (this.activatedRoute.snapshot.params['id']) {
+      this.activatedRoute.params.subscribe((params: Params) => {
+        userId = params['id'];
+      });
+    }
     if (userId) {
+      // Don't go further if user cannot update user
+      if (this.activatedRoute.snapshot.params['id'] &&
+        !this.authorizationService.canUpdateUser()) {
+        this.router.navigate(['/']);
+      }
       this.centralServerService.getUser(userId).subscribe((user) => {
-      const editAction = new TableEditUserAction().getActionDef();
-      if (editAction.action) {
-          editAction.action(UserDialogComponent, user, this.dialog);
-        }
+        const editAction = new TableEditUserAction().getActionDef();
+        if (editAction.action) {
+            editAction.action(UserDialogComponent, user, this.dialog);
+          }
       }, (error) => {
         // Not Found
         this.messageService.showErrorMessage('users.user_id_not_found', {userId});

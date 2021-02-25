@@ -26,7 +26,7 @@
     "connectors": "Verknüpfungen",
     "notifications": "Benachrichtungen",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.4.44",
+    "last_update": "Version 2.4.45",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "Ein unerwarteter Fehler ist aufgetreten",
@@ -168,8 +168,8 @@
       "pricing": "Preisbildung",
       "components": "Komponenten",
       "settings": "Einstellungen",
-      "integration_settings": "Integration Settings",
-      "technical_settings": "Technical Settings",
+      "integration_settings": "Integrationen",
+      "technical_settings": "Technische Einstellungen",
       "assets": "Assets",
       "organization": "Organisation",
       "template": "Vorlagen",
@@ -316,8 +316,8 @@
     "logo": "Logo",
     "name": "Name",
     "asset_type": "Asset-Typ",
-    "fluctuation_percent": "Fluctuation (%)",
-    "static_value_watt": "Static Power (W)",
+    "fluctuation_percent": "Schwankungen (%)",
+    "static_value_watt": "Statische Leistung (W)",
     "produce": "Produziert Energie",
     "consume": "Verbraucht Energie",
     "consume_and_produce": "Verbraucht und erzeugt Energie",
@@ -344,8 +344,8 @@
     "asset_settings_error": "Beim Abrufen der Asset-Verbindung ist ein Fehler aufgetreten",
     "create_success": "Das Asset '{{assetName}}' wurde erfolgreich erstellt",
     "create_error": "Beim Erstellen des Assets ist ein Fehler aufgetreten",
-    "refresh_success": "The asset's consumption or production has been successfully retrieved",
-    "refresh_error": "Error occurred while retrieving the asset's consumption or production'",
+    "refresh_success": "Die Verbrauchs-/Produktionsdaten des Assets wurden erfolgreich aktualisiert",
+    "refresh_error": "Beim Abrufen der Verbrauchs-/Produktionsdaten des Assets ist ein Fehler aufgetreten",
     "logo_size_error": "Die maximale Bildgröße wurde überschritten, die maximale Bildgröße ist '{{maxPictureKb}}' Kb",
     "select_assets": "Asset auswählen",
     "consumption_date": "Datum",
@@ -535,7 +535,7 @@
     "verify_email_title": "Account Activierung",
     "verify_email_already_active": "Ihr Account ist bereits aktiviert!",
     "verify_email_success": "Ihr Account wurde erfolgreich aktiviert!",
-    "verify_email_success_inactive": "Your account has been verified with success, an administrator will check and activate your account.",
+    "verify_email_success_inactive": "Ihr Konto wurde erfolgreich verifiziert. Ein Administrator wird ihren Account überprüfen und aktivieren",
     "verify_email_success_set_password": "Ihr Account wurde aktiviert, bitte legen Sie ein Passwort fest und schließen Sie die Registrierung ab",
     "verify_email_token_not_valid": "Ihr Account Aktivierungslink ist nicht mehr gültig",
     "verify_email_email_not_valid": "Diese Email existiert nicht",
@@ -1012,7 +1012,7 @@
       "list": "Ladestationen",
       "charging_plans": "Ladepläne",
       "in_error": "Fehlerhaft",
-      "connection": "Onboard New Station"
+      "connection": "Neue Ladestation anmelden"
     },
     "errors": {
       "missing_settings": {
@@ -1564,28 +1564,28 @@
   },
   "technical_settings": {
     "tabs": {
-      "crypto": "Crypto",
-      "users": "Users"
+      "crypto": "Krypto",
+      "users": "Nutzer"
     },
     "crypto": {
       "crypto_key": {
-        "title": "Crypto Settings",
-        "subtitle": "Crypto Key",
+        "title": "Krypto-Einstellungen",
+        "subtitle": "Krypto-Key",
         "key": "Key",
-        "block_cypher": "Block Cypher",
-        "block_size": "Block Size",
-        "operation_mode": "Operation Mode"
+        "block_cypher": "Blockverschlüsselung",
+        "block_size": "Blockgröße",
+        "operation_mode": "Betriebsart"
       },
-      "setting_do_not_exist": "Crypto Technical Settings not found",
-      "update_success": "Crypto Technical Settings have been updated successfully",
-      "update_error": "Error occurred while updating the Crypto Technical Settings, check the logs"
+      "setting_do_not_exist": "Technische Krypto-Einstellungen nicht gefunden",
+      "update_success": "Technische Krypto-Einstellungen wurden erfolgreich aktualisiert",
+      "update_error": "Beim Aktualisieren der technischen Krypto-Einstellungen ist ein Fehler aufgetreten, überprüfen Sie die Logs."
     },
     "user": {
-      "title": "Account Settings",
-      "auto_activation": "Automatically activate new user account at registration time",
-      "update_success": "User settings have been updated successfully",
-      "update_error": "Error occurred while updating the user settings, check the logs",
-      "setting_do_not_exist": "User settings not found"
+      "title": "Account Einstellungen",
+      "auto_activation": "Neue Nutzerkonten automatisch aktivieren, wenn sie registriert werden",
+      "update_success": "Nutzereinstellungen wurden erfolgreich aktualisiert",
+      "update_error": "Beim Aktualisieren der Nutzereinstellungen ist ein Fehler aufgetreten, überprüfen Sie die Logs",
+      "setting_do_not_exist": "Nutzereinstellungen wurden nicht gefunden"
     }
   },
   "ocpiendpoints": {
@@ -2198,7 +2198,7 @@
     "charging_stations_offline": "Benachrichtigen Sie mich, wenn eine Ladestation Offline ist",
     "preparing_session_not_started": "Benachrichtigen Sie mich, wenn ein Ladevorgang nicht gestartet wurde (nur Standortbesitzer)",
     "ocpi_patch_status_error": "Benachrichtigen Sie mich, wenn der Transfer eines Ladestationsstatuses zur Roaming Plattform fehlgeschlagen ist (OCPI)",
-    "smtp_error": "Notify me if an error occurred with the email server",
+    "smtp_error": "Benachrichtigen Sie mich, wenn ein Fehler beim E-Mail-Server auftritt",
     "billing_synchronization_failed": "Benachrichtigen Sie mich, wenn eine Synchronisierung mit dem Abrechnungssystem fehlgeschlagen ist",
     "session_not_started": "Benachrichtigen Sie mich, wenn kein Ladevorgang nach dem authentifizieren gestartet wurde",
     "user_account_inactivity": "Benachrichtigen Sie mich, wenn ich mich seit mehr als 6 Monaten nicht eingeloggt habe",

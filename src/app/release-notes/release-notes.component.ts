@@ -24,6 +24,18 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.45',
+        date: new Date('2020-02-25'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Do not try to retrieve the Settings if Tenant's components are not active`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.44',
         date: new Date('2020-02-24'),
         componentChanges: [

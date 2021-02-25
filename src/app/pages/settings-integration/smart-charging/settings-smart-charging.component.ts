@@ -33,10 +33,12 @@ export class SettingsSmartChargingComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+    if (this.isActive) {
     // Build the form
     this.formGroup = new FormGroup({});
     // Load the conf
     this.loadConfiguration();
+    }
   }
 
   public loadConfiguration() {

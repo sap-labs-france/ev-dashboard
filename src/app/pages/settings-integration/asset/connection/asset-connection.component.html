@@ -58,7 +58,7 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <mat-form-field>
-                      <mat-select [formControl]="type" placeholder="{{'settings.asset.connection.type' | translate}}" required>
+                      <mat-select [formControl]="type" placeholder="{{'settings.asset.connection.type' | translate}}" (selectionChange)="typeChanged($event.value)" required>
                         <mat-option *ngFor="let assetConnectionType of assetConnectionTypes" value="{{assetConnectionType.key}}">
                           {{ assetConnectionType.value | translate }}
                         </mat-option>

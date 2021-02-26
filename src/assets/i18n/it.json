@@ -5,6 +5,7 @@
     "captcha_text_3": " e ",
     "captcha_text_4": "Termini di Servizio",
     "captcha_text_5": " applica",
+    "not_authorized": "Non sei autorizzato ad eseguire questa azione",
     "created_on": "Creato Il",
     "created_by": "Creato Da",
     "changed_on": "Modificato Il",
@@ -25,7 +26,7 @@
     "connectors": "Prese",
     "notifications": "Notifiche",
     "app_name": "e-Mobility",
-    "last_update": "Versione 2.4.40",
+    "last_update": "Versione 2.4.45",
     "version": "Versione",
     "about_us": "A proposito di noi",
     "unexpected_error_backend": "Si è verificato un errore imprevisto",
@@ -142,6 +143,8 @@
     "reset_filters": "Resetta i Filtri",
     "browser_not_supported": "Questo browser non è supportato! Usa Chrome o Firefox.",
     "status": "Stato",
+    "revoke": "Revoca",
+    "edit": "Modifica",
     "menu": {
       "dashboard": "Cruscotto",
       "charging_stations": "Stazioni di Ricarica",
@@ -532,6 +535,7 @@
     "verify_email_title": "Attivazione Account",
     "verify_email_already_active": "Il tuo account è già attivo!",
     "verify_email_success": "Il tuo account è stato attivato correttamente!",
+    "verify_email_success_inactive": "Your account has been verified with success, an administrator will check and activate your account.",
     "verify_email_success_set_password": "Il tuo account è stato attivato, imposta la password per finalizzare la registrazione",
     "verify_email_token_not_valid": "Il link di attivazione del tuo account non è più valido",
     "verify_email_email_not_valid": "Questa Email non esiste",
@@ -1039,10 +1043,16 @@
       "registration_token_creation_confirm": "Vuoi veramente creare un token di registrazione per le stazioni di ricarica di quest'area del sito?",
       "registration_token_creation_success": "Il token di registrazione è stato creato correttamente",
       "registration_token_creation_error": "Si è verificato un errore durante la creazione di un token di registrazione",
+      "registration_token_site_admin_creation_error": "You must provide a site linked to this registration token",
       "registration_token_revoke_title": "Revoca Token Registrazione",
       "registration_token_revoke_confirm": "Vuoi veramente revocare il token di registrazione?",
       "registration_token_revoke_success": "Il token di registrazione è stato revocato correttamente",
       "registration_token_revoke_error": "Si è verificato un errore durante la revoca di un token di registrazione",
+      "registration_token_update_title": "Update Registration Token",
+      "registration_token_update_confirm": "Do you really want to update the registration token ?",
+      "registration_token_update_success": "Registration token has been updated successfully",
+      "registration_token_update_error": "Error occurred while updating a registration token, check the logs",
+      "registration_token_not_found": "Registration token has not been found",
       "registration_token_delete_title": "Cancella Token Registrazione",
       "registration_token_delete_confirm": "Vuoi veramente cancellare il token di registrazione?",
       "registration_token_delete_success": "Il token di registrazione è stato cancellato correttamente",
@@ -1051,6 +1061,7 @@
       "registration_token_valid": "Valido",
       "registration_token_expired": "Scaduto",
       "registration_token_revoked": "Revocato",
+      "registration_token_error": "Error occurred while retrieving the token, check the logs",
       "token_restrict_site_area": "Limita l'accesso ad un'Area del Sito",
       "url": "URL OCPP",
       "copy_url_tooltip": "Copia l'URL OCPP",
@@ -1553,7 +1564,8 @@
   },
   "technical_settings": {
     "tabs": {
-      "crypto": "Crypto"
+      "crypto": "Crypto",
+      "users": "Users"
     },
     "crypto": {
       "crypto_key": {
@@ -1564,10 +1576,17 @@
         "block_size": "Block Size",
         "operation_mode": "Operation Mode"
       },
-      "setting_do_not_exist": "Crypto settings not found",
-      "update_success": "Crypto settings have been updated successfully",
-      "update_error": "Error occurred while updating the crypto settings, check the logs",
+      "setting_do_not_exist": "Crypto Technical Settings not found",
+      "update_success": "Crypto Technical Settings have been updated successfully",
+      "update_error": "Error occurred while updating the Crypto Technical Settings, check the logs",
       "migration_in_progress_error": "Crypto settings cannot be changed while migration is in progress"
+    },
+    "user": {
+      "title": "Account Settings",
+      "auto_activation": "Automatically activate new user account at registration time",
+      "update_success": "User settings have been updated successfully",
+      "update_error": "Error occurred while updating the user settings, check the logs",
+      "setting_do_not_exist": "User settings not found"
     }
   },
   "ocpiendpoints": {
@@ -1691,7 +1710,7 @@
     "business_details": "Dettagli Business",
     "logo": "Immagine",
     "sync_all": "Sincronizza Tutto",
-    "push_locations": "Invio Postazioni",
+    "push_evse_statuses": "Push Statuses",
     "push_tokens": "Invio Token",
     "pull_cdrs": "Recupero Rendiconti Sessioni Ricarica (CDR)",
     "pull_locations": "Recupero Postazioni",
@@ -2180,12 +2199,12 @@
     "charging_stations_offline": "Avvisami quando una stazione di ricarica è offline",
     "preparing_session_not_started": "Avvisami quando una sessione non è stata avviata (solo proprietario del sito)",
     "ocpi_patch_status_error": "Avvisami se il trasferimento degli stati di una stazione di ricarica alla piattaforma di roaming (OCPI) fallisce",
-    "smtp_auth_error": "Avvisami se l'autenticazione backend al server di posta non è riuscita",
+    "smtp_error": "Notify me if an error occurred with the email server",
     "billing_synchronization_failed": "Avvisami quando una sincronizzazione con un sistema di fatturazione non è riuscita",
     "session_not_started": "Avvisami se nessuna sessione è stata avviata dopo l'inserimento di un badge",
     "user_account_inactivity": "Avvisami quando non accedo all'applicazione da più di 6 mesi",
-    "compute_and_apply_charging_profiles_failed": "Avvisami quando l'applicazione dei profili di ricarica intelligenti non riesce per una determinata area del sito",
     "car_catalog_synchronization_failed": "Avvisami se si verifica un errore durante la sincronizzazione delle vetture",
+    "compute_and_apply_charging_profiles_failed": "Notify me when applying the smart charging profiles fails for a site area",
     "end_user_error_notification": "Avvisami quando un utente riporta un errore",
     "billing_new_invoice": "Avvisami quando è disponibile una nuova fattura"
   }

@@ -72,8 +72,14 @@
                       {{assetType.value | translate}}
                     </mat-option>
                   </mat-select>
-                  <mat-error *ngIf="assetType.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+                  <mat-error *ngIf="assetType.errors?.required">{{"general.mandatory_field" | translate}}
+                  </mat-error>
                 </mat-form-field>
+              </div>
+              <div *ngIf="isSmartChargingComponentActive && asset?.siteArea?.smartCharging" class="text-left form-group">
+                <mat-checkbox [formControl]="excludeFromSmartCharging">
+                  {{'chargers.exclude_smart_charging' | translate}}
+                </mat-checkbox>
               </div>
               <div class="row">
                 <div class="col-md-6">
@@ -91,7 +97,8 @@
                     <mat-form-field>
                       <input matInput [formControl]="fluctuationPercent"
                         placeholder="{{'assets.fluctuation_percent' | translate}}" type='number'>
-                      <mat-error *ngIf="fluctuationPercent.errors?.pattern || fluctuationPercent.errors?.max">{{"chargers.invalid_efficiency" | translate}}
+                      <mat-error *ngIf="fluctuationPercent.errors?.pattern || fluctuationPercent.errors?.max">
+                        {{"chargers.invalid_efficiency" | translate}}
                       </mat-error>
                     </mat-form-field>
                   </div>

@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { KeySettings } from '../../../../types/Setting';
+import { CryptoSettings } from '../../../../types/Setting';
 
 @Component({
   selector: 'app-settings-crypto-key',
@@ -9,7 +9,7 @@ import { KeySettings } from '../../../../types/Setting';
 })
 export class SettingsCryptoKeyComponent implements OnInit, OnChanges {
   @Input() public formGroup!: FormGroup;
-  @Input() public cryptoSettings!: KeySettings;
+  @Input() public cryptoSettings!: CryptoSettings;
 
   public cryptoKey!: FormGroup;
   public key!: AbstractControl;

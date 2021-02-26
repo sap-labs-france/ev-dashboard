@@ -5,6 +5,7 @@
     "captcha_text_3": " and ",
     "captcha_text_4": "Terms of Service",
     "captcha_text_5": " apply",
+    "not_authorized": "You are not authorized to perform this action",
     "created_on": "Created On",
     "created_by": "Created By",
     "changed_on": "Changed On",
@@ -25,7 +26,7 @@
     "connectors": "Connections",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.4.40",
+    "last_update": "Version 2.4.45",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "An unexpected error occurred, check the logs",
@@ -142,6 +143,8 @@
     "reset_filters": "Reset Filters",
     "browser_not_supported": "This browser is not supported! Use Chrome or Firefox.",
     "status": "Status",
+    "revoke": "Revoke",
+    "edit": "Edit",
     "menu": {
       "dashboard": "Dashboard",
       "charging_stations": "Charging Stations",
@@ -412,7 +415,7 @@
     "update_remove_site_owner_success": "The user '{{userName}}' is no more owner on this site",
     "update_site_users_owner_error": "Error occurred while trying to grant the user '{{userName}}' as site owner, check the logs",
     "export_all_params_title": "Export OCPP parameters",
-    "export_all_params_confirm": "Do you really want to export all the OCPP parameters of all the charging stations belonging to the site '{{siteName}}' ?",
+    "export_all_params_confirm": "Do you really want to export all the OCPP parameters of all the charging stations belonging to the site '{{siteName}}'?",
     "export_all_params_error": "Error occurred while trying to export all the OCPP parameters, check the logs"
   },
   "site_areas": {
@@ -473,7 +476,7 @@
     "maximum_energy_amps": "Maximum Amperage (A)",
     "number_of_phases": "Number of phases",
     "export_all_params_title": "Export OCPP parameters",
-    "export_all_params_confirm": "Do you really want to export all the OCPP parameters of all the charging stations belonging to the site area '{{siteAreaName}}' ?",
+    "export_all_params_confirm": "Do you really want to export all the OCPP parameters of all the charging stations belonging to the site area '{{siteAreaName}}'?",
     "export_all_params_error": "Error occurred while trying to export all the OCPP parameters, check the logs",
     "consumption_date": "Date",
     "single_phased": "Single Phase",
@@ -532,6 +535,7 @@
     "verify_email_title": "Account Activation",
     "verify_email_already_active": "Your account is already active!",
     "verify_email_success": "Your account has been activated with success!",
+    "verify_email_success_inactive": "Your account has been verified with success, an administrator will check and activate your account.",
     "verify_email_success_set_password": "Your account has been activated, please set up your password to finalize the registration",
     "verify_email_token_not_valid": "Your account's activation link is no longer valid",
     "verify_email_email_not_valid": "This Email does not exist",
@@ -750,12 +754,12 @@
     "dialog": {
       "export": {
         "title": "Export charging stations",
-        "confirm": "Do you really want to export all the charging stations matching the filters ?",
+        "confirm": "Do you really want to export all the charging stations matching the filters?",
         "error": "Error occurred while trying to export the charging stations, check the logs"
       },
       "exportConfig": {
         "title": "Export charging station parameters",
-        "confirm": "Do you really want to export all the parameters matching the filter ?"
+        "confirm": "Do you really want to export all the parameters matching the filter?"
       },
       "localisation": {
         "title": "Charging stations localisations"
@@ -1039,18 +1043,25 @@
       "registration_token_creation_confirm": "Do you really want to create a registration token for charging stations of this site area?",
       "registration_token_creation_success": "Registration token has been created successfully",
       "registration_token_creation_error": "Error occurred while creating a registration token, check the logs",
+      "registration_token_site_admin_creation_error": "You must provide a site linked to this registration token",
       "registration_token_revoke_title": "Revoke Registration Token",
-      "registration_token_revoke_confirm": "Do you really want to revoke the registration token ?",
+      "registration_token_revoke_confirm": "Do you really want to revoke the registration token?",
       "registration_token_revoke_success": "Registration token has been revoked successfully",
       "registration_token_revoke_error": "Error occurred while revoking a registration token, check the logs",
+      "registration_token_update_title": "Update Registration Token",
+      "registration_token_update_confirm": "Do you really want to update the registration token?",
+      "registration_token_update_success": "Registration token has been updated successfully",
+      "registration_token_update_error": "Error occurred while updating a registration token, check the logs",
+      "registration_token_not_found": "Registration token has not been found",
       "registration_token_delete_title": "Delete Registration Token",
-      "registration_token_delete_confirm": "Do you really want to delete the registration token ?",
+      "registration_token_delete_confirm": "Do you really want to delete the registration token?",
       "registration_token_delete_success": "Registration token has been deleted successfully",
       "registration_token_delete_error": "Error occurred while deleting a registration token, check the logs",
       "registration_token_url": "Registration URL",
       "registration_token_valid": "Valid",
       "registration_token_expired": "Expired",
       "registration_token_revoked": "Revoked",
+      "registration_token_error": "Error occurred while retrieving the token, check the logs",
       "token_restrict_site_area": "Restrict access to one Site Area",
       "url": "OCPP URL",
       "copy_url_tooltip": "Copy OCPP URL",
@@ -1104,7 +1115,7 @@
     "dialog": {
       "export": {
         "title": "Export Logs",
-        "confirm": "Do you really want to export all the logs matching the filters ?",
+        "confirm": "Do you really want to export all the logs matching the filters?",
         "error": "Error occurred while trying to export the logs"
       }
     }
@@ -1377,7 +1388,7 @@
       "update_success": "Refunding settings have been updated successfully",
       "update_error": "Error occurred while updating the Refunding settings, check the logs",
       "synchronize_dialog_refund_title": "Synchronize Refunded Transactions",
-      "synchronize_dialog_refund_confirm": "Do you really want to synchronize the refunded transactions ?",
+      "synchronize_dialog_refund_confirm": "Do you really want to synchronize the refunded transactions?",
       "synchronize_started": "Refunded transactions synchronization has been started",
       "synchronize_success": "Refunded transactions have been synchronized successfully",
       "synchronize_error": "Error occurred while synchronizing the refunded transactions, check the logs",
@@ -1553,7 +1564,8 @@
   },
   "technical_settings": {
     "tabs": {
-      "crypto": "Crypto"
+      "crypto": "Crypto",
+      "users": "Users"
     },
     "crypto": {
       "crypto_key": {
@@ -1564,10 +1576,17 @@
         "block_size": "Block Size",
         "operation_mode": "Operation Mode"
       },
-      "setting_do_not_exist": "Crypto settings not found",
-      "update_success": "Crypto settings have been updated successfully",
-      "update_error": "Error occurred while updating the crypto settings, check the logs",
+      "setting_do_not_exist": "Crypto Technical Settings not found",
+      "update_success": "Crypto Technical Settings have been updated successfully",
+      "update_error": "Error occurred while updating the Crypto Technical Settings, check the logs",
       "migration_in_progress_error": "Crypto settings cannot be changed while migration is in progress"
+    },
+    "user": {
+      "title": "Account Settings",
+      "auto_activation": "Automatically activate new user account at registration time",
+      "update_success": "User settings have been updated successfully",
+      "update_error": "Error occurred while updating the user settings, check the logs",
+      "setting_do_not_exist": "User settings not found"
     }
   },
   "ocpiendpoints": {
@@ -1691,7 +1710,7 @@
     "business_details": "Business Details",
     "logo": "Image",
     "sync_all": "Synchronize All",
-    "push_locations": "Push Locations",
+    "push_evse_statuses": "Push Statuses",
     "push_tokens": "Push Tokens",
     "pull_cdrs": "Pull CDRs",
     "pull_locations": "Pull Locations",
@@ -2042,13 +2061,13 @@
     "dialog": {
       "delete": {
         "title": "Delete Session",
-        "confirm": "Do you really want to delete the session of '{{user}}' ?",
+        "confirm": "Do you really want to delete the session of '{{user}}'?",
         "rejected_refunded_msg": "You cannot delete a session that has been already refunded!",
         "rejected_billed_msg": "You cannot delete a session that has been already billed!"
       },
       "export": {
         "title": "Export Sessions",
-        "confirm": "Do you really want to export all the sessions matching the filters ?",
+        "confirm": "Do you really want to export all the sessions matching the filters?",
         "error": "An error occurred during the export of the sessions, check the logs"
       },
       "soft_stop": {
@@ -2180,12 +2199,12 @@
     "charging_stations_offline": "Notify me when a charging station is offline",
     "preparing_session_not_started": "Notify me when a session has not been started (site owner only)",
     "ocpi_patch_status_error": "Notify me if the transfer of a charging station’s statuses has failed to the roaming platform (OCPI)",
-    "smtp_auth_error": "Notify me if the backend authentication to the email server has failed",
+    "smtp_error": "Notify me if an error occurred with the email server",
     "billing_synchronization_failed": "Notify me when a synchronization with billing system has failed",
     "session_not_started": "Notify me if no session has been started after badging",
     "user_account_inactivity": "Notify me when I haven't logged in to the application for more than 6 months",
-    "compute_and_apply_charging_profiles_failed": "Notify me when applying the Smart Charging-Profiles fails for a certain site area",
     "car_catalog_synchronization_failed": "Notify me if an error has occurred while synchronization cars, check the logs",
+    "compute_and_apply_charging_profiles_failed": "Notify me when applying the smart charging profiles fails for a site area",
     "end_user_error_notification": "Notify me when a user reports an error",
     "billing_new_invoice": "Notify me when a new invoice is available"
   }

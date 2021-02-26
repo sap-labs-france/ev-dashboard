@@ -36,7 +36,7 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
     private dialog: MatDialog,
     private dialogService: DialogService,
     private centralServerService: CentralServerService,
-    private authorisationService: AuthorizationService) {
+    private authorizationService: AuthorizationService) {
     super(spinnerService, translateService);
     this.initDataSource();
   }
@@ -110,7 +110,7 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
       },
     ];
 
-    if (this.authorisationService.canCreateSite()) {
+    if (this.authorizationService.canCreateSite()) {
       columns.push({
         id: 'siteOwner',
         isAngularComponent: true,
@@ -129,11 +129,13 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-    return [
-      this.addAction,
-      this.removeAction,
-      ...tableActionsDef,
-    ];
+    if (this.authorizationService.canAssignUsersSites()) {
+      tableActionsDef.push(this.addAction);
+    }
+    if (this.authorizationService.canUnassignUsersSites()) {
+      tableActionsDef.push(this.removeAction);
+    }
+    return tableActionsDef;
   }
 
   public actionTriggered(actionDef: TableActionDef) {

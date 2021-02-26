@@ -23,6 +23,7 @@ export interface Asset extends Data, CreatedUpdatedProps, AbstractCurrentConsump
   lastChangedBy: string;
   lastChangedOn: Date;
   connected: boolean;
+  excludeFromSmartCharging?: boolean;
 }
 
 export interface AssetConsumption {

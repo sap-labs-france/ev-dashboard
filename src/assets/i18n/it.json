@@ -2201,8 +2201,8 @@
     "billing_synchronization_failed": "Avvisami quando una sincronizzazione con un sistema di fatturazione non è riuscita",
     "session_not_started": "Avvisami se nessuna sessione è stata avviata dopo l'inserimento di un badge",
     "user_account_inactivity": "Avvisami quando non accedo all'applicazione da più di 6 mesi",
-    "compute_and_apply_charging_profiles_failed": "Avvisami quando l'applicazione dei profili di ricarica intelligenti non riesce per una determinata area del sito",
     "car_catalog_synchronization_failed": "Avvisami se si verifica un errore durante la sincronizzazione delle vetture",
+    "compute_and_apply_charging_profiles_failed": "Notify me when applying the smart charging profiles fails for a site area",
     "end_user_error_notification": "Avvisami quando un utente riporta un errore",
     "billing_new_invoice": "Avvisami quando è disponibile una nuova fattura"
   }

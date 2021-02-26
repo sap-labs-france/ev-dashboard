@@ -2203,7 +2203,7 @@
     "session_not_started": "Benachrichtigen Sie mich, wenn kein Ladevorgang nach dem authentifizieren gestartet wurde",
     "user_account_inactivity": "Benachrichtigen Sie mich, wenn ich mich seit mehr als 6 Monaten nicht eingeloggt habe",
     "car_catalog_synchronization_failed": "Benachrichtigen Sie mich, wenn bei der Synchronisierung der Fahrzeuge ein Fehler auftrat",
-    "compute_and_apply_charging_profiles_failed": "Benachrichtigen Sie mich, wenn das Anwenden der Smart Charging-Profile für einen Standortbereich fehlschlägt",
+    "compute_and_apply_charging_profiles_failed": "Notify me when applying the smart charging profiles fails for a site area",
     "end_user_error_notification": "Benachrichtigen Sie mich, wenn ein Nutzer einen Fehler meldet",
     "billing_new_invoice": "Benachrichtigen Sie mich, wenn eine neue Rechnung verfügbar ist"
   }

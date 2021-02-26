@@ -8,7 +8,7 @@ void call(Map params) {
 	//sh "ls"
 	//sh "ls dist"
 	//sh "ls src/assets"
-	//sh "ls src/assets/configs-scp"
+	sh "ls src/assets/configs-aws"
 	//deleteDir()
 	//sh "ls"
 	//echo "checkout dashboard source"

@@ -96,8 +96,17 @@ export class SettingsCryptoComponent implements OnInit {
           case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
             this.messageService.showErrorMessage('technical_settings.crypto.setting_do_not_exist');
             break;
-          case HTTPError.MIGRATION_IN_PROGRESS:
-            this.messageService.showErrorMessage('technical_settings.crypto.migration_in_progress_error');
+          case HTTPError.CRYPTO_MIGRATION_IN_PROGRESS:
+            this.messageService.showErrorMessage('technical_settings.crypto.crypto_migration_in_progress_error');
+            break;
+          case HTTPError.CRYPTO_ALGORITHM_NOT_SUPPORTED:
+            this.messageService.showErrorMessage('technical_settings.crypto.crypto_algorithm_error');
+            break;
+          case HTTPError.CRYPTO_KEY_LENGTH_INVALID:
+            this.messageService.showErrorMessage('technical_settings.crypto.crypto_key_length_error');
+            break;
+          case HTTPError.CRYPTO_CHECK_FAILED:
+            this.messageService.showErrorMessage('technical_settings.crypto.crypto_check_error');
             break;
           default:
             Utils.handleHttpError(

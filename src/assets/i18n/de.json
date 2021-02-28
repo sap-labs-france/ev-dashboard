@@ -1578,7 +1578,11 @@
       },
       "setting_do_not_exist": "Technische Krypto-Einstellungen nicht gefunden",
       "update_success": "Technische Krypto-Einstellungen wurden erfolgreich aktualisiert",
-      "update_error": "Beim Aktualisieren der technischen Krypto-Einstellungen ist ein Fehler aufgetreten, überprüfen Sie die Logs."
+      "update_error": "Beim Aktualisieren der technischen Krypto-Einstellungen ist ein Fehler aufgetreten, überprüfen Sie die Logs.",
+      "crypto_check_error": "Crypto check has failed, check your settings",
+      "crypto_key_length_error": "Crypto key length is invalid, check your settings",
+      "crypto_algorithm_error": "Crypto algorithm is not supported, check your settings",
+      "crypto_migration_in_progress_error": "Crypto settings cannot be changed while migration is in progress"
     },
     "user": {
       "title": "Account Einstellungen",

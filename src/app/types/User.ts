@@ -63,6 +63,7 @@ export interface UserNotifications {
   sendComputeAndApplyChargingProfilesFailed: boolean;
   sendEndUserErrorNotification: boolean;
   sendBillingNewInvoice: boolean;
+  sendAdminAccountVerificationNotification: boolean;
 }
 
 export interface UserDefaultTagCar {

@@ -227,6 +227,11 @@ export interface AssetUserPasswordConnectionType {
 // tslint:disable-next-line: no-empty-interface
 export interface AssetSchneiderConnectionType extends AssetUserPasswordConnectionType {}
 
+export interface AssetGreencomConnectionType {
+  clientId: string;
+  clientSecret: string;
+}
+
 export enum CryptoSettingsType {
   CRYPTO = 'crypto',
 }
@@ -236,22 +241,18 @@ export interface CryptoSettings extends Setting {
   type: CryptoSettingsType;
   crypto?: CryptoSetting;
 }
-
-export interface CryptoSetting {
-  key: string;
-  keyProperties: KeyCryptoSetting;
-  formerKey?: string;
-  formerKeyProperties?: KeyCryptoSetting;
-}
-export interface KeyCryptoSetting {
+export interface CryptoKeyProperties {
   blockCypher: string;
   blockSize: number;
   operationMode: string;
 }
 
-export interface AssetGreencomConnectionType {
-  clientId: string;
-  clientSecret: string;
+export interface CryptoSetting {
+  key: string;
+  keyProperties: CryptoKeyProperties;
+  formerKey?: string;
+  formerKeyProperties?: CryptoKeyProperties;
+  migrationToBeDone?: boolean;
 }
 
 export enum UserSettingsType {

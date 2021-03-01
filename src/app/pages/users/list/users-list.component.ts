@@ -37,7 +37,7 @@ export class UsersListComponent implements OnInit {
     if (this.activatedRoute.snapshot.params['id'] &&
         !this.authorizationService.canUpdateUser()) {
         this.router.navigate(['/']);
-    } else {
+    } else if (this.activatedRoute.snapshot.params['id']) {
       this.activatedRoute.params.subscribe((params: Params) => {
         userId = params['id'];
       });
@@ -50,8 +50,6 @@ export class UsersListComponent implements OnInit {
         // Not Found
         this.messageService.showErrorMessage('users.user_id_not_found', {userId});
       });
-      // Clear Search
-      this.windowService.deleteSearch('UserID');
     }
   }
 }

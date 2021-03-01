@@ -94,6 +94,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public sendUserAccountInactivity!: AbstractControl;
   public sendEndUserErrorNotification!: AbstractControl;
   public sendBillingNewInvoice!: AbstractControl;
+  public sendAdminAccountVerificationNotification!: AbstractControl;
   public user!: User;
   public isRefundConnectionValid!: boolean;
   public canSeeInvoice: boolean;
@@ -182,6 +183,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         sendComputeAndApplyChargingProfilesFailed: new FormControl(false),
         sendEndUserErrorNotification: new FormControl(false),
         sendBillingNewInvoice: new FormControl(false),
+        sendAdminAccountVerificationNotification: new FormControl(true)
       }),
       email: new FormControl('',
         Validators.compose([
@@ -270,6 +272,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.sendComputeAndApplyChargingProfilesFailed = this.notifications.controls['sendComputeAndApplyChargingProfilesFailed'];
     this.sendEndUserErrorNotification = this.notifications.controls['sendEndUserErrorNotification'];
     this.sendBillingNewInvoice = this.notifications.controls['sendBillingNewInvoice'];
+    this.sendAdminAccountVerificationNotification = this.notifications.controls['sendAdminAccountVerificationNotification'];
     if (this.activatedRoute.snapshot.url[0]?.path === 'profile') {
       this.currentUserID = this.centralServerService.getLoggedUser().id;
     }
@@ -441,6 +444,11 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         this.notifications.controls.sendBillingNewInvoice.setValue(user.notifications.sendBillingNewInvoice);
       } else {
         this.notifications.controls.sendBillingNewInvoice.setValue(false);
+      }
+      if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendAdminAccountVerificationNotification')) {
+        this.notifications.controls.sendAdminAccountVerificationNotification.setValue(user.notifications.sendAdminAccountVerificationNotification);
+      } else {
+        this.notifications.controls.sendAdminAccountVerificationNotification.setValue(false);
       }
       if (user.address) {
         this.address = user.address;

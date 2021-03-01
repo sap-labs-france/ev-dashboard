@@ -2209,6 +2209,7 @@
     "car_catalog_synchronization_failed": "Benachrichtigen Sie mich, wenn bei der Synchronisierung der Fahrzeuge ein Fehler auftrat",
     "compute_and_apply_charging_profiles_failed": "Notify me when applying the smart charging profiles fails for a site area",
     "end_user_error_notification": "Benachrichtigen Sie mich, wenn ein Nutzer einen Fehler meldet",
-    "billing_new_invoice": "Benachrichtigen Sie mich, wenn eine neue Rechnung verfügbar ist"
+    "billing_new_invoice": "Benachrichtigen Sie mich, wenn eine neue Rechnung verfügbar ist",
+    "admin_account_verification": "Notify me when new account creation needs to be verified"
   }
 }

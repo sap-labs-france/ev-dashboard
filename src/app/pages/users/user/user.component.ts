@@ -183,7 +183,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         sendComputeAndApplyChargingProfilesFailed: new FormControl(false),
         sendEndUserErrorNotification: new FormControl(false),
         sendBillingNewInvoice: new FormControl(false),
-        sendAdminAccountVerificationNotification: new FormControl(false)
+        sendAdminAccountVerificationNotification: new FormControl(true)
       }),
       email: new FormControl('',
         Validators.compose([

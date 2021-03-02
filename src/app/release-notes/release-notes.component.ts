@@ -24,6 +24,22 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.45',
+        date: new Date('2020-02-28'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Crypto key used for encrypting sensitive data can now be changed per tenant`,
+              `Admin users are now notified when new end-users register and need their account activated`,
+              `Do not try to retrieve the Settings if Tenant's components are not active`,
+              `Added Legrand model 059011 in Charging Station's template`,
+              `Fixed Car's thumbnails not displayed`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.44',
         date: new Date('2020-02-24'),
         componentChanges: [
@@ -33,8 +49,10 @@ export class ReleaseNotesComponent {
               `Can now exclude some Assets from the Smart Charging`,
               `Enhanced obfuscation of sensitive data in Logs + Unit Tests`,
               `Get OCPI Charging Station by Serial Number`,
+              `Added support for latest Ebee firmware version in Charging Station's template`,
               `Fixed Site Admin cannot read Charging Station's logs`,
               `Cannot create Asset connection when different providers have been selected`,
+              `Handled Registration Token for Site Admin role`,
               `Fixed cannot retrieve Site's image`,
             ],
           },

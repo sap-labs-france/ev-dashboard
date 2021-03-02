@@ -113,9 +113,6 @@ export class ChargingStationComponent implements OnInit {
     }, (error) => {
       this.spinnerService.hide();
       switch (error.status) {
-        case HTTPAuthError.FORBIDDEN:
-          this.messageService.showErrorMessage('chargers.change_config_error');
-          break;
         case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
           this.messageService.showErrorMessage('chargers.change_config_error');
           break;

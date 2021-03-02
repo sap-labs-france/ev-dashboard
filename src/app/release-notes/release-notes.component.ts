@@ -25,11 +25,12 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.4.45',
-        date: new Date('2020-02-28'),
+        date: new Date('2020-03-02'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Retrieve the completed Transactions via the new RESTful endpoint`,
               `Crypto key used for encrypting sensitive data can now be changed per tenant`,
               `Admin users are now notified when new end-users register and need their account activated`,
               `Do not try to retrieve the Settings if Tenant's components are not active`,

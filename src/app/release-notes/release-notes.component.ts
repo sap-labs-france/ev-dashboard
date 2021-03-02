@@ -37,6 +37,7 @@ export class ReleaseNotesComponent {
               `Do not try to retrieve the Settings if Tenant's components are not active`,
               `Added Legrand model 059011 in Charging Station's template`,
               `Fixed Car's thumbnails not displayed`,
+              `Track backend server's performances in database`
             ],
           },
         ],

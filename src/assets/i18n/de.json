@@ -1588,7 +1588,11 @@
       },
       "setting_do_not_exist": "Technische Krypto-Einstellungen nicht gefunden",
       "update_success": "Technische Krypto-Einstellungen wurden erfolgreich aktualisiert",
-      "update_error": "Beim Aktualisieren der technischen Krypto-Einstellungen ist ein Fehler aufgetreten, überprüfen Sie die Logs."
+      "update_error": "Beim Aktualisieren der technischen Krypto-Einstellungen ist ein Fehler aufgetreten, überprüfen Sie die Logs.",
+      "crypto_check_error": "Crypto check has failed, check your settings",
+      "crypto_key_length_error": "Crypto key length is invalid, check your settings",
+      "crypto_algorithm_error": "Crypto algorithm is not supported, check your settings",
+      "crypto_migration_in_progress_error": "Crypto settings cannot be changed while migration is in progress"
     },
     "user": {
       "title": "Account Einstellungen",
@@ -2215,6 +2219,7 @@
     "car_catalog_synchronization_failed": "Benachrichtigen Sie mich, wenn bei der Synchronisierung der Fahrzeuge ein Fehler auftrat",
     "compute_and_apply_charging_profiles_failed": "Notify me when applying the smart charging profiles fails for a site area",
     "end_user_error_notification": "Benachrichtigen Sie mich, wenn ein Nutzer einen Fehler meldet",
-    "billing_new_invoice": "Benachrichtigen Sie mich, wenn eine neue Rechnung verfügbar ist"
+    "billing_new_invoice": "Benachrichtigen Sie mich, wenn eine neue Rechnung verfügbar ist",
+    "admin_account_verification": "Notify me when new account creation needs to be verified"
   }
 }

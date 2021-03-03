@@ -12,7 +12,7 @@ import { DialogService } from '../../../services/dialog.service';
 import { LocaleService } from '../../../services/locale.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
-import { ChargingStation } from '../../../types/ChargingStation';
+import { ChargePoint, ChargingStation } from '../../../types/ChargingStation';
 import { KeyValue, RestResponse } from '../../../types/GlobalType';
 import { HTTPAuthError, HTTPError } from '../../../types/HTTPError';
 import { Utils } from '../../../utils/Utils';
@@ -97,8 +97,15 @@ export class ChargingStationComponent implements OnInit {
   public saveChargingStation(chargingStation: ChargingStation) {
     // Clone
     const chargingStationToSave = Utils.cloneObject(chargingStation) as ChargingStation;
-    // Do not save charge point
-    delete chargingStationToSave.chargePoints;
+    if (!chargingStationToSave.manualConfiguration) {
+      // Do not save charge point
+      delete chargingStationToSave.chargePoints;
+    } else {
+      for (const chargePoint of chargingStationToSave.chargePoints) {
+        this.adjustChargePoints(chargingStationToSave, chargePoint);
+      }
+    }
+
     // Save
     this.spinnerService.show();
     this.centralServerService.updateChargingStationParams(chargingStationToSave).subscribe((response) => {
@@ -143,5 +150,18 @@ export class ChargingStationComponent implements OnInit {
   public close() {
     Utils.checkAndSaveAndCloseDialog(this.formGroup, this.dialogService, this.translateService,
       this.saveChargingStation.bind(this), this.closeDialog.bind(this));
+  }
+
+  private adjustChargePoints(chargingStation: ChargingStation, chargePoint: ChargePoint) {
+    delete chargePoint.numberOfConnectedPhase;
+    chargePoint.amperage = 0;
+    chargePoint.power = 0;
+    for (const connectorID of chargePoint.connectorIDs) {
+      const connector = Utils.getConnectorFromID(chargingStation, connectorID);
+      chargePoint.amperage += connector.amperage;
+      chargePoint.power += connector.power;
+      chargePoint.numberOfConnectedPhase = connector.numberOfConnectedPhase;
+    }
+    console.log(chargePoint);
   }
 }

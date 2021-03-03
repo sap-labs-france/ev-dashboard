@@ -2,7 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { StripeCardElement, StripeElements } from '@stripe/stripe-js';
 import { StripeService } from 'services/stripe.service';
-import { ActionResponse } from 'types/DataResult';
+import { ActionResponse, BillingOperationResponse } from 'types/DataResult';
 
 import { CentralServerService } from '../../../services/central-server.service';
 import { MessageService } from '../../../services/message.service';
@@ -86,39 +86,61 @@ export class StripeTemplateComponent implements OnInit {
 
   private async createPaymentMethod(): Promise<any> {
     // c.f. STRIPE SAMPLE at: https://stripe.com/docs/billing/subscriptions/fixed-price#collect-payment
+    let operationResult=null;
+
     try {
       this.spinnerService.show();
+
       //-----------------------------------------------------------------------------------------------
-      // Step #1 - client-side  - Calling stripe to create a payment method
+      // Step #0 - Create Setup Intent
       //-----------------------------------------------------------------------------------------------
-      let operationResult = await this.getStripeFacade().createPaymentMethod({
-        type: 'card',
-        card: this.card,
-        billing_details: {
-          name: "Just a stripe test",
-        },
-      })
-      //-----------------------------------------------------------------------------------------------
-      // Step #2 - server-side  - call or rest end-point to attach the payment method to the customer
-      //-----------------------------------------------------------------------------------------------
-      if (!operationResult.error) {
-        const response: ActionResponse = await this.centralServerService.attachPaymentMethod({
-          paymentMethodId: operationResult.paymentMethod.id
-        }).toPromise();
-        // TODO - check response status!
+      const response: BillingOperationResponse = await this.centralServerService.attachPaymentMethod({
+        // paymentMethodId: operationResult.paymentMethod.id
+      }).toPromise();
+
+      if ( response ) {
+        const setupIntent: any = response.internalData;
+        if (setupIntent.status === 'requires_payment_method') {
+          // The setup inten requires additional actions, such as authenticating with 3D Secure
+          this.spinnerService.hide();
+          //-----------------------------------------------------------------------------------------------
+          // Step #1 - client-side  - Calling stripe to validate the setup intent
+          //-----------------------------------------------------------------------------------------------
+          operationResult = await this.getStripeFacade().confirmCardSetup(setupIntent.client_secret, {
+            payment_method: {
+              card: this.card,
+              billing_details: {
+                name: "Just a stripe test",
+              },
+            }
+          });
+          this.spinnerService.show();
+          
+          if (!operationResult.error && operationResult?.setupIntent?.payment_method) {
+            const response: BillingOperationResponse = await this.centralServerService.attachPaymentMethod({
+              setupIntentId: operationResult?.setupIntent?.id,
+              paymentMethodId: operationResult?.setupIntent?.payment_method,
+            }).toPromise();
+          }
+
+        } else {
+          operationResult = response.internalData;
+        }
+            
+        // let operationResult = await this.getStripeFacade().createPaymentMethod({
+        //   type: 'card',
+        //   card: this.card,
+        //   billing_details: {
+        //     name: "Just a stripe test",
+        //   },
+        // })
       }
-      //-----------------------------------------------------------------------------------------------
-      // Step #3 - check if something else must be done
-      //-----------------------------------------------------------------------------------------------
-      if (operationResult.error) {
-        // ##CR - TBC!
-      }
-      return operationResult;
     } catch (error) {
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
     } finally {
       this.spinnerService.hide();
     }
+    return operationResult;
   }
 
 }

@@ -14,7 +14,7 @@ import { ChargePoint, ChargingStation, OCPPAvailabilityType, OcppParameter } fro
 import { Company } from '../types/Company';
 import CentralSystemServerConfiguration from '../types/configuration/CentralSystemServerConfiguration';
 import { IntegrationConnection, UserConnection } from '../types/Connection';
-import { ActionResponse, ActionsResponse, CheckAssetConnectionResponse, CheckBillingConnectionResponse, DataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, Ordering, Paging } from '../types/DataResult';
+import { ActionResponse, ActionsResponse, BillingOperationResponse, CheckAssetConnectionResponse, CheckBillingConnectionResponse, DataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, Ordering, Paging } from '../types/DataResult';
 import { EndUserLicenseAgreement } from '../types/Eula';
 import { FilterParams, Image, KeyValue } from '../types/GlobalType';
 import { AssetInError, ChargingStationInError, TransactionInError } from '../types/InError';
@@ -1555,10 +1555,10 @@ export class CentralServerService {
         catchError(this.handleHttpError),
       );
   }
-  public attachPaymentMethod(parameters: any): Observable<ActionResponse> {
+  public attachPaymentMethod(parameters: any): Observable<BillingOperationResponse> {
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.BILLING_ATTACH_PAYMENT_METHOD}`, parameters,
+    return this.httpClient.post<BillingOperationResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.BILLING_ATTACH_PAYMENT_METHOD}`, parameters,
       {
         headers: this.buildHttpHeaders(),
       })

@@ -21,6 +21,7 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
   @Input() public chargePoint!: ChargePoint;
   @Input() public formConnectorsArray: FormArray;
   @Input() public isAdmin!: boolean;
+  @Input() public manualConfiguration!: boolean;
   @Output() public connectorChanged = new EventEmitter<any>();
 
   public connectorTypeMap = CONNECTOR_TYPE_MAP;
@@ -126,8 +127,6 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
     this.currentType = this.formConnectorGroup.controls['currentType'];
     this.numberOfConnectedPhase = this.formConnectorGroup.controls['numberOfConnectedPhase'];
     this.phaseAssignmentToGrid = this.formConnectorGroup.controls['phaseAssignmentToGrid'];
-    this.power.disable();
-    this.amperage.disable();
     this.loadConnector();
     this.phaseAssignmentToGrid.enable();
     if (!this.isAdmin) {
@@ -170,9 +169,16 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
           phaseAssignmentToGrid);
       }
       this.amperagePerPhase.setValue((this.amperage.value as number) / (this.numberOfConnectedPhase.value as number));
-      if (this.chargePoint) {
+      if (this.chargePoint && !this.manualConfiguration) {
         this.formConnectorGroup.disable();
+        this.phaseAssignmentToGrid.enable();
+        if (!this.isAdmin) {
+          this.phaseAssignmentToGrid.disable();
+        }
       } else {
+        this.formConnectorGroup.enable();
+        this.power.disable();
+        this.amperage.disable();
         this.refreshPower();
         this.refreshNumberOfPhases();
       }

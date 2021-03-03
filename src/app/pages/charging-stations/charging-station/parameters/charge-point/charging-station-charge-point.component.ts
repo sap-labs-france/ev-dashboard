@@ -13,6 +13,7 @@ export class ChargingStationChargePointComponent implements OnInit, OnChanges {
   @Input() public formChargePointsArray: FormArray;
   @Input() public formConnectorsArray: FormArray;
   @Input() public isAdmin!: boolean;
+  @Input() public manualConfiguration!: boolean;
   @Output() public chargePointChanged = new EventEmitter<any>();
 
   public connectedPhaseMap = [
@@ -36,6 +37,7 @@ export class ChargingStationChargePointComponent implements OnInit, OnChanges {
   public ngOnInit() {
     // Init charge point
     this.formChargePointGroup = new FormGroup({
+      chargePointID: new FormControl(this.chargePoint.chargePointID),
       currentType: new FormControl(CurrentType.AC,
         Validators.compose([
         ])

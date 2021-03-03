@@ -38,7 +38,7 @@
           <div class="col-md-6" *ngFor="let connectorID of chargePoint?.connectorIDs">
             <app-charging-station-connector [chargingStation]="chargingStation" [chargePoint]="chargePoint"
               [connector]="chargingStation?.connectors[connectorID - 1]" [formConnectorsArray]="formConnectorsArray"
-              [isAdmin]="isAdmin" (connectorChanged)="connectorChanged()"></app-charging-station-connector>
+              [isAdmin]="isAdmin" (connectorChanged)="connectorChanged()" [manualConfiguration]="manualConfiguration"></app-charging-station-connector>
           </div>
         </div>
       </div>

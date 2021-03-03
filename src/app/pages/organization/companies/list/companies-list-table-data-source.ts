@@ -179,7 +179,7 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
     const openInMaps = new TableOpenInMapsAction().getActionDef();
     openInMaps.disabled = !Utils.containsAddressGPSCoordinates(company.address);
     if (company.issuer) {
-      if (this.canUpdateCompany) {
+      if (company.canUpdate) {
         return [
           this.editAction,
           new TableMoreAction([
@@ -188,7 +188,7 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
           ]).getActionDef(),
         ];
       }
-    } else if (this.canReadCompany) {
+    } else if (company.canRead) {
         return [
           this.viewAction,
           new TableMoreAction([

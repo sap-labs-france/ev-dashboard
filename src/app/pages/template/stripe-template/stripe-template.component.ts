@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { StripeCardElement, StripeElements } from '@stripe/stripe-js';
+import { SetupIntent, StripeCardElement, StripeElements, StripeError } from '@stripe/stripe-js';
 import { StripeService } from 'services/stripe.service';
 import { ActionResponse, BillingOperationResponse } from 'types/DataResult';
 
@@ -8,8 +8,6 @@ import { CentralServerService } from '../../../services/central-server.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { Utils } from '../../../utils/Utils';
-
-//declare var Stripe: any;
 
 @Component({
   selector: 'app-stripe-template',
@@ -19,10 +17,10 @@ import { Utils } from '../../../utils/Utils';
 
 export class StripeTemplateComponent implements OnInit {
 
-  @ViewChild('cardInfo', { static: true }) cardInfo: ElementRef;
-  feedback: any;
-  elements: StripeElements;
-  card: StripeCardElement;
+  @ViewChild('cardInfo', { static: true }) public cardInfo: ElementRef;
+  public feedback: any;
+  public elements: StripeElements;
+  public card: StripeCardElement;
 
   constructor(
     private centralServerService: CentralServerService,
@@ -41,10 +39,9 @@ export class StripeTemplateComponent implements OnInit {
     try {
       this.spinnerService.show();
       const stripeFacade = await this.stripeService.initializeStripe();
-      if ( !stripeFacade ) { 
-        this.feedback = "Stripe configuration is not set for the current tenant";
-      }
-      else {
+      if ( !stripeFacade ) {
+        this.feedback = 'Stripe configuration is not set for the current tenant';
+      } else {
         this.initializeCardElements();
       }
     } catch (error) {
@@ -60,7 +57,7 @@ export class StripeTemplateComponent implements OnInit {
 
   private initializeCardElements() {
     this.elements = this.getStripeFacade().elements();
-    this.card = this.elements.create('card');
+    this.card = this.elements.create('card', {hidePostalCode: true});
     this.card.mount(this.cardInfo.nativeElement);
   }
 
@@ -74,7 +71,7 @@ export class StripeTemplateComponent implements OnInit {
   }
 
   private async doCreatePaymentMethod() {
-    const operationResult: any = await this.createPaymentMethod()
+    const operationResult: any = await this.createPaymentMethod();
     if (operationResult.error) {
       // Operation failed
       this.feedback = operationResult.error.message;
@@ -86,54 +83,37 @@ export class StripeTemplateComponent implements OnInit {
 
   private async createPaymentMethod(): Promise<any> {
     // c.f. STRIPE SAMPLE at: https://stripe.com/docs/billing/subscriptions/fixed-price#collect-payment
-    let operationResult=null;
+    let operationResult = null;
 
     try {
       this.spinnerService.show();
-
-      //-----------------------------------------------------------------------------------------------
+      // -----------------------------------------------------------------------------------------------
       // Step #0 - Create Setup Intent
-      //-----------------------------------------------------------------------------------------------
-      const response: BillingOperationResponse = await this.centralServerService.attachPaymentMethod({
-        // paymentMethodId: operationResult.paymentMethod.id
-      }).toPromise();
+      // -----------------------------------------------------------------------------------------------
 
-      if ( response ) {
-        const setupIntent: any = response.internalData;
-        if (setupIntent.status === 'requires_payment_method') {
-          // The setup inten requires additional actions, such as authenticating with 3D Secure
-          this.spinnerService.hide();
-          //-----------------------------------------------------------------------------------------------
-          // Step #1 - client-side  - Calling stripe to validate the setup intent
-          //-----------------------------------------------------------------------------------------------
-          operationResult = await this.getStripeFacade().confirmCardSetup(setupIntent.client_secret, {
-            payment_method: {
-              card: this.card,
-              billing_details: {
-                name: "Just a stripe test",
-              },
-            }
-          });
-          this.spinnerService.show();
-          
-          if (!operationResult.error && operationResult?.setupIntent?.payment_method) {
-            const response: BillingOperationResponse = await this.centralServerService.attachPaymentMethod({
-              setupIntentId: operationResult?.setupIntent?.id,
-              paymentMethodId: operationResult?.setupIntent?.payment_method,
-            }).toPromise();
-          }
+      const response: BillingOperationResponse = await this.centralServerService.setupPaymentMethod({}).toPromise();
 
+      // -----------------------------------------------------------------------------------------------
+      // Step #1 - Confirm the SetupIntent with data provided and carry out 3DS
+      // c.f. https://stripe.com/docs/js/setup_intents/confirm_card_setup
+      // -----------------------------------------------------------------------------------------------
+
+      this.spinnerService.hide();
+      const setupIntent: any = response?.internalData;
+      const result: {setupIntent?: SetupIntent; error?: StripeError} = await this.getStripeFacade().confirmCardSetup( setupIntent.client_secret, {
+        payment_method: {
+          card: this.card,
+          billing_details: {
+            name: 'Jenny Rosen ' + new Date(),
+          },
+        },
+      });
+      console.log('RESULT FROM CONFIRM SETUP');
+      console.log(result);
+      if (result.error?.code === 'setup_intent_authentication_failure') {
+        operationResult = result;
         } else {
-          operationResult = response.internalData;
-        }
-            
-        // let operationResult = await this.getStripeFacade().createPaymentMethod({
-        //   type: 'card',
-        //   card: this.card,
-        //   billing_details: {
-        //     name: "Just a stripe test",
-        //   },
-        // })
+          operationResult = this.attachPaymentMethod(result);
       }
     } catch (error) {
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
@@ -143,4 +123,15 @@ export class StripeTemplateComponent implements OnInit {
     return operationResult;
   }
 
-}
+      // -----------------------------------------------------------------------------------------------
+      // Step #2 - Really attach the payment method / not called when 3DS failed
+      // -----------------------------------------------------------------------------------------------
+
+  private async attachPaymentMethod(operationResult: {setupIntent?: SetupIntent; error?: StripeError}) {
+      const response: BillingOperationResponse = await this.centralServerService.setupPaymentMethod({
+        setupIntentId: operationResult.setupIntent?.id,
+        paymentMethodId: operationResult.setupIntent?.payment_method,
+      }).toPromise();
+      return response;
+    }
+  }

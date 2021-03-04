@@ -1555,10 +1555,10 @@ export class CentralServerService {
         catchError(this.handleHttpError),
       );
   }
-  public attachPaymentMethod(parameters: any): Observable<BillingOperationResponse> {
+  public setupPaymentMethod(parameters: any): Observable<BillingOperationResponse> {
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.post<BillingOperationResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.BILLING_ATTACH_PAYMENT_METHOD}`, parameters,
+    return this.httpClient.post<BillingOperationResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.BILLING_SETUP_PAYMENT_METHOD}`, parameters,
       {
         headers: this.buildHttpHeaders(),
       })

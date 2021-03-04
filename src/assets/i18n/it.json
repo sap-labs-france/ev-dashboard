@@ -26,7 +26,7 @@
     "connectors": "Prese",
     "notifications": "Notifiche",
     "app_name": "e-Mobility",
-    "last_update": "Versione 2.4.44",
+    "last_update": "Versione 2.4.45",
     "version": "Versione",
     "about_us": "A proposito di noi",
     "unexpected_error_backend": "Si è verificato un errore imprevisto",
@@ -1569,7 +1569,7 @@
     },
     "crypto": {
       "crypto_key": {
-        "title": "Crypto Settings",
+        "title": "Crypto settings",
         "subtitle": "Crypto Key",
         "key": "Key",
         "block_cypher": "Block Cypher",
@@ -1578,7 +1578,11 @@
       },
       "setting_do_not_exist": "Crypto Technical Settings not found",
       "update_success": "Crypto Technical Settings have been updated successfully",
-      "update_error": "Error occurred while updating the Crypto Technical Settings, check the logs"
+      "update_error": "Error occurred while updating the Crypto Technical Settings, check the logs",
+      "crypto_check_error": "Crypto check has failed, check your settings",
+      "crypto_key_length_error": "Crypto key length is invalid, check your settings",
+      "crypto_algorithm_error": "Crypto algorithm is not supported, check your settings",
+      "crypto_migration_in_progress_error": "Crypto settings cannot be changed while migration is in progress"
     },
     "user": {
       "title": "Account Settings",
@@ -2202,9 +2206,10 @@
     "billing_synchronization_failed": "Avvisami quando una sincronizzazione con un sistema di fatturazione non è riuscita",
     "session_not_started": "Avvisami se nessuna sessione è stata avviata dopo l'inserimento di un badge",
     "user_account_inactivity": "Avvisami quando non accedo all'applicazione da più di 6 mesi",
-    "compute_and_apply_charging_profiles_failed": "Avvisami quando l'applicazione dei profili di ricarica intelligenti non riesce per una determinata area del sito",
     "car_catalog_synchronization_failed": "Avvisami se si verifica un errore durante la sincronizzazione delle vetture",
+    "compute_and_apply_charging_profiles_failed": "Notify me when applying the smart charging profiles fails for a site area",
     "end_user_error_notification": "Avvisami quando un utente riporta un errore",
-    "billing_new_invoice": "Avvisami quando è disponibile una nuova fattura"
+    "billing_new_invoice": "Avvisami quando è disponibile una nuova fattura",
+    "admin_account_verification": "Notify me when new account creation needs to be verified"
   }
 }

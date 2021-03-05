@@ -32,6 +32,7 @@ export class ReleaseNotesComponent {
             changes: [
               `Added IES Wallbox g3 MonoCombo in Charging Station's template`,
               `Added Ingeteam in Charging Station's template`,
+              `Firmware patches in Charging Station template are always accepted`,
             ],
           },
         ],

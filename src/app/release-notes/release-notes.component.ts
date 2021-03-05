@@ -31,6 +31,7 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Added IES Wallbox g3 MonoCombo in Charging Station's template`,
+              `Added Ingeteam in Charging Station's template`,
             ],
           },
         ],

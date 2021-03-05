@@ -25,7 +25,7 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.4.47',
-        date: new Date('2020-03-05'),
+        date: new Date('2021-03-05'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -38,7 +38,7 @@ export class ReleaseNotesComponent {
       },
       {
         version: '2.4.45',
-        date: new Date('2020-03-03'),
+        date: new Date('2021-03-03'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -57,7 +57,7 @@ export class ReleaseNotesComponent {
       },
       {
         version: '2.4.44',
-        date: new Date('2020-02-24'),
+        date: new Date('2021-02-24'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -76,7 +76,7 @@ export class ReleaseNotesComponent {
       },
       {
         version: '2.4.43',
-        date: new Date('2020-02-23'),
+        date: new Date('2021-02-23'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -93,7 +93,7 @@ export class ReleaseNotesComponent {
       },
       {
         version: '2.4.42',
-        date: new Date('2020-02-15'),
+        date: new Date('2021-02-15'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -109,7 +109,7 @@ export class ReleaseNotesComponent {
       },
       {
         version: '2.4.41',
-        date: new Date('2020-02-09'),
+        date: new Date('2021-02-09'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -121,7 +121,7 @@ export class ReleaseNotesComponent {
       },
       {
         version: '2.4.40',
-        date: new Date('2020-02-07'),
+        date: new Date('2021-02-07'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -136,7 +136,7 @@ export class ReleaseNotesComponent {
       },
       {
         version: '2.4.39',
-        date: new Date('2020-02-02'),
+        date: new Date('2021-02-02'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -155,7 +155,7 @@ export class ReleaseNotesComponent {
       },
       {
         version: '2.4.38',
-        date: new Date('2020-01-25'),
+        date: new Date('2021-01-25'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -175,7 +175,7 @@ export class ReleaseNotesComponent {
       },
       {
         version: '2.4.37',
-        date: new Date('2020-01-09'),
+        date: new Date('2021-01-09'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -196,7 +196,7 @@ export class ReleaseNotesComponent {
       },
       {
         version: '2.4.36',
-        date: new Date('2020-01-04'),
+        date: new Date('2021-01-04'),
         componentChanges: [
           {
             name: 'Dashboard',

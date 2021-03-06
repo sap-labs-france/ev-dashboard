@@ -30,8 +30,9 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
-              `Added IES Wallbox g3 MonoCombo in Charging Station's template`,
+              `Added IES Wallbox G3 MonoCombo in Charging Station's template`,
               `Added Ingeteam in Charging Station's template`,
+              `Added Asset's Site Area and Site in Consumption`,
               `Firmware patches in Charging Station template are always accepted`,
             ],
           },

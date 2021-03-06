@@ -84,9 +84,8 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     this.canCreateSiteArea = this.authorizationService.canCreateSiteArea();
     this.canUpdateSiteArea = this.authorizationService.canUpdateSiteArea();
     this.canDeleteSiteArea = this.authorizationService.canDeleteSiteArea();
-    this.canCrudSiteArea = this.canCrudSiteArea && this.canReadSiteArea &&
+    this.canCrudSiteArea = this.canCreateSiteArea && this.canReadSiteArea &&
       this.canUpdateSiteArea && this.canDeleteSiteArea;
-
     this.isAssetComponentActive = this.componentService.isActive(TenantComponents.ASSET);
     this.setStaticFilters([{ WithSite: true }]);
     this.initDataSource();
@@ -261,8 +260,10 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     let actions: TableActionDef[];
     openInMaps.disabled = !Utils.containsAddressGPSCoordinates(siteArea.address);
     if (siteArea.issuer) {
+      console.log(this.canCrudSiteArea);
+      
       if (this.canCrudSiteArea ||
-        this.authorizationService.isSiteAdmin(siteArea.siteID)) {
+          this.authorizationService.isSiteAdmin(siteArea.siteID)) {
         actions = [
           this.editAction,
           this.canCrudSiteArea ?

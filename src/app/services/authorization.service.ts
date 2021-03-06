@@ -44,6 +44,13 @@ export class AuthorizationService {
     return this.canAccess(Entity.CHARGING_STATION, Action.UPDATE);
   }
 
+  public canCreateCompany(): boolean {
+    return this.canAccess(Entity.COMPANY, Action.CREATE);
+  }
+
+  public canReadCompany(): boolean {
+    return this.canAccess(Entity.COMPANY, Action.READ);
+
   public canListChargingStations(): boolean {
     return this.canAccess(Entity.CHARGING_STATIONS, Action.LIST);
   }
@@ -68,8 +75,20 @@ export class AuthorizationService {
     return this.canAccess(Entity.COMPANY, Action.UPDATE);
   }
 
+  public canDeleteCompany(): boolean {
+    return this.canAccess(Entity.COMPANY, Action.DELETE);
+  }
+
+  public canListCompanies(): boolean {
+    return this.canAccess(Entity.COMPANIES, Action.LIST);
+  }
+
   public canUpdateAsset(): boolean {
     return this.canAccess(Entity.ASSET, Action.UPDATE);
+  }
+
+  public canReadSite(): boolean {
+    return this.canAccess(Entity.SITE, Action.READ);
   }
 
   public canCreateSite(): boolean {
@@ -83,6 +102,9 @@ export class AuthorizationService {
   public canUpdateSite(): boolean {
     return this.canAccess(Entity.SITE, Action.UPDATE);
   }
+
+  public canReadSiteArea(): boolean {
+    return this.canAccess(Entity.SITE_AREA, Action.READ);
 
   public canAssignUsersSites(): boolean {
     return this.canAccess(Entity.USERS_SITES, Action.ASSIGN);

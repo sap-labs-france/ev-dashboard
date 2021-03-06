@@ -13,7 +13,7 @@ import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { AppDecimalPipe } from '../../../shared/formatters/app-decimal-pipe';
 import { AppUnitPipe } from '../../../shared/formatters/app-unit.pipe';
-import { TableSyncCarCatalogsAction } from '../../../shared/table/actions/cars/table-sync-car-catalogs-action';
+import { TableSyncCarCatalogsAction, TableSyncCarCatalogsActionDef } from '../../../shared/table/actions/cars/table-sync-car-catalogs-action';
 import { TableViewCarCatalogAction, TableViewCarCatalogActionDef } from '../../../shared/table/actions/cars/table-view-car-catalog-action';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
@@ -23,7 +23,6 @@ import { CarButtonAction, CarCatalog } from '../../../types/Car';
 import ChangeNotification from '../../../types/ChangeNotification';
 import { DataResult } from '../../../types/DataResult';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
-import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 import { CarCatalogDialogComponent } from '../car-catalog/car-catalog.dialog.component';
 import { CarCatalogImageFormatterCellComponent } from '../cell-components/car-catalog-image-formatter-cell.component';
@@ -109,19 +108,13 @@ export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> 
         class: 'col-8p p-0',
         isAngularComponent: true,
         angularComponent: CarCatalogImageFormatterCellComponent,
-      }
-    ];
-    if (this.authorizationService.canUpdateCar()) {
-      tableColumnDef.push(
-        {
-          id: 'id',
-          name: 'general.id',
-          headerClass: 'col-20p',
-          class: 'col-20p',
-        },
-      );
-    }
-    tableColumnDef.push(
+      },
+      {
+        id: 'id',
+        name: 'general.id',
+        headerClass: 'col-20p',
+        class: 'col-20p',
+      },
       {
         id: 'vehicleMake',
         name: 'cars.vehicle_make',
@@ -239,7 +232,7 @@ export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> 
         formatter: (acceleration: number) => acceleration ?
           this.decimalPipe.transform(acceleration) + ' ' + this.translateService.instant('cars.unit.secondes') : '-',
       },
-    );
+    ];
     return tableColumnDef;
   }
 
@@ -258,14 +251,10 @@ export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> 
     // Action
     switch (actionDef.id) {
       case CarButtonAction.SYNCHRONIZE:
-        if (this.tableSyncCarCatalogsAction.action) {
-          this.tableSyncCarCatalogsAction.action(
-            this.dialogService,
-            this.translateService,
-            this.messageService,
-            this.centralServerService,
-            this.spinnerService,
-            this.router,
+        if (actionDef.action) {
+          (actionDef as TableSyncCarCatalogsActionDef).action(
+            this.dialogService, this.translateService, this.messageService,
+            this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this)
           );
         }
         break;

@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { StatusCodes } from 'http-status-codes';
 import * as moment from 'moment';
 import { ConfigService } from 'services/config.service';
+import { HTTPError } from 'types/HTTPError';
 import { Tag } from 'types/Tag';
 
 import { CentralServerService } from '../services/central-server.service';
@@ -64,12 +65,11 @@ export class Utils {
     save: (data: Data) => void, close: () => void) {
     // listen to keystroke
     dialogRef.keydownEvents().subscribe((keydownEvents) => {
-      if (keydownEvents && keydownEvents.code === 'Escape') {
+      if (keydownEvents?.code === 'Escape') {
         close();
       }
-      if (keydownEvents && keydownEvents.code === 'Enter') {
+      if (keydownEvents?.code === 'Enter') {
         if (formGroup.valid && formGroup.dirty) {
-          // tslint:disable-next-line: no-unsafe-any
           save(formGroup.getRawValue());
         }
       }
@@ -737,20 +737,19 @@ export class Utils {
           router.navigate(['/auth/login']);
         }
         break;
-      // Unauthorized!
-      case StatusCodes.UNAUTHORIZED:
-        // Log Off (remove token)
-        centralServerService.logoutSucceeded();
-        // Not logged in so redirect to login page with the return url
-        router.navigate(['/auth/login']);
-        break;
-      // Conflict in User Session
-      case StatusCodes.FORBIDDEN:
+      case HTTPError.USER_ACCOUNT_CHANGED:
+      case HTTPError.TENANT_COMPONENT_CHANGED:
         messageService.showWarningMessageUserOrTenantUpdated();
         // Log Off (remove token)
         centralServerService.logoutSucceeded();
         // Navigate to Login
         router.navigate(['/auth/login']);
+        break;
+      // Unauthorized!
+      case StatusCodes.UNAUTHORIZED:
+      case StatusCodes.FORBIDDEN:
+        // Not Authorized
+        messageService.showErrorMessage('general.not_authorized');
         break;
       case StatusCodes.BAD_REQUEST:
         messageService.showErrorMessage('general.invalid_content');

@@ -8,17 +8,19 @@ import { MaterialModule } from '../../app.module';
 import { DialogsModule } from '../../shared/dialogs/dialogs.module';
 import { CommonDirectivesModule } from '../../shared/directives/directives.module';
 import { FormattersModule } from '../../shared/formatters/formatters.module';
-import { TableModule } from '../../shared/table/table.module'
+import { TableModule } from '../../shared/table/table.module';
 import { SettingsCryptoKeyComponent } from './crypto/crypto-key/settings-crypto-key.component';
 import { SettingsCryptoComponent } from './crypto/settings-crypto.component';
 import { SettingsTechnicalComponent } from './settings-technical.component';
 import { TechnicalSettingsRoutes } from './settings-technical.routing';
+import { SettingsUserComponent } from './users/settings-user.component';
 
 @NgModule({
   declarations: [
     SettingsTechnicalComponent,
     SettingsCryptoComponent,
-    SettingsCryptoKeyComponent
+    SettingsCryptoKeyComponent,
+    SettingsUserComponent
   ],
   imports: [
     CommonModule,
@@ -34,7 +36,8 @@ import { TechnicalSettingsRoutes } from './settings-technical.routing';
   ],
   entryComponents: [
     SettingsCryptoComponent,
-    SettingsCryptoKeyComponent
+    SettingsCryptoKeyComponent,
+    SettingsUserComponent
   ]
 })
 export class SettingsTechnicalModule { }

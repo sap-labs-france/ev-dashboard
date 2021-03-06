@@ -16,7 +16,15 @@ export const UserRoutes: Routes = [
     },
   },
   {
-    path: ':id', component: UserComponent, canActivate: [RouteGuardService], data: {
+    path: 'profile', component: UserComponent, canActivate: [RouteGuardService], data: {
+      auth: {
+        entity: Entity.USER,
+        action: Action.UPDATE,
+      },
+    },
+  },
+  {
+    path: ':id', component: UsersComponent, canActivate: [RouteGuardService], data: {
       auth: {
         entity: Entity.USER,
         action: Action.UPDATE,
@@ -26,8 +34,8 @@ export const UserRoutes: Routes = [
   {
     path: '', component: UsersComponent, canActivate: [RouteGuardService], data: {
       auth: {
-        entity: Entity.USER,
-        action: Action.CREATE,
+        entity: Entity.USERS,
+        action: Action.LIST,
       },
     },
   },

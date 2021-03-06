@@ -187,8 +187,7 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
             this.deleteAction,
           ]).getActionDef(),
         ];
-      }
-    } else if (this.canReadCompany) {
+      } else if (this.canReadCompany) {
         return [
           this.viewAction,
           new TableMoreAction([
@@ -196,6 +195,7 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
           ]).getActionDef(),
         ];
       }
+    }
   }
 
   public actionTriggered(actionDef: TableActionDef) {

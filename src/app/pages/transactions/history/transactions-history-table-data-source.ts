@@ -300,11 +300,11 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     );
     if (this.componentService.isActive(TenantComponents.PRICING)) {
       columns.push({
-        id: 'stop.price',
+        id: 'stop.roundedPrice',
         name: 'transactions.price',
         headerClass: 'col-10p',
         class: 'col-10p',
-        formatter: (price: number, transaction: Transaction) => this.appCurrencyPipe.transform(price, transaction.stop.priceUnit),
+        formatter: (roundedPrice: number, transaction: Transaction) => this.appCurrencyPipe.transform(roundedPrice, transaction.stop.priceUnit),
       });
     }
     if (this.componentService.isActive(TenantComponents.BILLING) &&
@@ -465,7 +465,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         if (actionDef.action) {
           (actionDef as TableRebuildTransactionConsumptionsActionDef).action(
             transaction, this.dialogService, this.translateService, this.messageService,
-            this.centralServerService, this.router, this.spinnerService);
+            this.centralServerService, this.router, this.spinnerService, this.refreshData.bind(this));
         }
         break;
       case TransactionButtonAction.PUSH_TRANSACTION_CDR:

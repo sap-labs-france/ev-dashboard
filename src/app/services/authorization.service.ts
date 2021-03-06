@@ -50,6 +50,7 @@ export class AuthorizationService {
 
   public canReadCompany(): boolean {
     return this.canAccess(Entity.COMPANY, Action.READ);
+  }
 
   public canListChargingStations(): boolean {
     return this.canAccess(Entity.CHARGING_STATIONS, Action.LIST);
@@ -105,6 +106,7 @@ export class AuthorizationService {
 
   public canReadSiteArea(): boolean {
     return this.canAccess(Entity.SITE_AREA, Action.READ);
+  }
 
   public canAssignUsersSites(): boolean {
     return this.canAccess(Entity.USERS_SITES, Action.ASSIGN);

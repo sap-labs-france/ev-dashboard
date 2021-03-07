@@ -260,8 +260,6 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     let actions: TableActionDef[];
     openInMaps.disabled = !Utils.containsAddressGPSCoordinates(siteArea.address);
     if (siteArea.issuer) {
-      console.log(this.canCrudSiteArea);
-      
       if (this.canCrudSiteArea ||
           this.authorizationService.isSiteAdmin(siteArea.siteID)) {
         actions = [

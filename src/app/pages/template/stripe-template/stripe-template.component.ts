@@ -104,15 +104,21 @@ export class StripeTemplateComponent implements OnInit {
         payment_method: {
           card: this.card,
           billing_details: {
+            //TODO - does it make sense here to keep track of how userID - for troubleshooting purposes only?
             name: 'Jenny Rosen ' + new Date(),
           },
         },
       });
       console.log('RESULT FROM CONFIRM SETUP');
       console.log(result);
-      if (result.error?.code === 'setup_intent_authentication_failure') {
+      if (result.error?.code) {
+        // TODO - provide a clear feedback depending on the error code?
+        // e.g. 'setup_intent_authentication_failure', "card_declined", etc
+        // exhaustive list at: https://stripe.com/docs/declines/codes
         operationResult = result;
-        } else {
+        // TODO - how to log the fact that the user did an attempt which was refused?
+        // No call to our the backend? no traces in our logs?
+      } else {
           operationResult = this.attachPaymentMethod(result);
       }
     } catch (error) {

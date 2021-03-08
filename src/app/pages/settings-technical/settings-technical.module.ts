@@ -13,12 +13,14 @@ import { SettingsCryptoKeyComponent } from './crypto/crypto-key/settings-crypto-
 import { SettingsCryptoComponent } from './crypto/settings-crypto.component';
 import { SettingsTechnicalComponent } from './settings-technical.component';
 import { TechnicalSettingsRoutes } from './settings-technical.routing';
+import { SettingsUserComponent } from './users/settings-user.component';
 
 @NgModule({
   declarations: [
     SettingsTechnicalComponent,
     SettingsCryptoComponent,
-    SettingsCryptoKeyComponent
+    SettingsCryptoKeyComponent,
+    SettingsUserComponent
   ],
   imports: [
     CommonModule,
@@ -34,7 +36,8 @@ import { TechnicalSettingsRoutes } from './settings-technical.routing';
   ],
   entryComponents: [
     SettingsCryptoComponent,
-    SettingsCryptoKeyComponent
+    SettingsCryptoKeyComponent,
+    SettingsUserComponent
   ]
 })
 export class SettingsTechnicalModule { }

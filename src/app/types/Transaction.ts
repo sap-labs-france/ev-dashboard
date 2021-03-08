@@ -1,14 +1,14 @@
 import { BillingTransactionData } from './Billing';
 import { Car, CarCatalog } from './Car';
 import { ChargingStation } from './ChargingStation';
-import Consumption from './Consumption';
+import Consumption, { AbstractCurrentConsumption } from './Consumption';
+import { OCPICdr } from './ocpi/OCPICdr';
+import { OCPISession } from './ocpi/OCPISession';
 import { RefundStatus, RefundType } from './Refund';
 import { Data } from './Table';
 import { User } from './User';
-import { OCPICdr } from './ocpi/OCPICdr';
-import { OCPISession } from './ocpi/OCPISession';
 
-export interface Transaction extends Data {
+export interface Transaction extends Data, AbstractCurrentConsumption {
   id: number;
   timestamp: Date;
   chargeBox: ChargingStation;
@@ -17,22 +17,6 @@ export interface Transaction extends Data {
   connectorId: number;
   meterStart: number;
   issuer: boolean;
-  currentInstantWatts: number;
-  currentInstantWattsL1?: number;
-  currentInstantWattsL2?: number;
-  currentInstantWattsL3?: number;
-  currentInstantWattsDC?: number;
-  currentInstantVolts?: number;
-  currentInstantVoltsL1?: number;
-  currentInstantVoltsL2?: number;
-  currentInstantVoltsL3?: number;
-  currentInstantVoltsDC?: number;
-  currentInstantAmps?: number;
-  currentInstantAmpsL1?: number;
-  currentInstantAmpsL2?: number;
-  currentInstantAmpsL3?: number;
-  currentInstantAmpsDC?: number;
-  currentTotalConsumptionWh: number;
   currentTotalInactivitySecs: number;
   currentInactivityStatus: InactivityStatus;
   currentTotalDurationSecs: number;

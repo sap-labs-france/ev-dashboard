@@ -5,6 +5,7 @@
     "captcha_text_3": " e ",
     "captcha_text_4": "Termos de Serviço",
     "captcha_text_5": " aplicar",
+    "not_authorized": "Você não está autorizado a realizar esta ação",
     "created_on": "Criado em",
     "created_by": "Criado por",
     "changed_on": "Modificado em",
@@ -25,7 +26,7 @@
     "connectors": "Conexões",
     "notifications": "Notificações",
     "app_name": "e-Mobility",
-    "last_update": "Versão 2.4.42",
+    "last_update": "Versão 2.4.47",
     "version": "Versão",
     "about_us": "Sobre Nós",
     "unexpected_error_backend": "Ocurreu um erro inesperado",
@@ -146,6 +147,8 @@
     "reset_filters": "Redefinit Filtros",
     "browser_not_supported": "Este browser não é suportado! Por favor utilise Google Chrome ou Mozilla Firefox",
     "status": "Status",
+    "revoke": "Reivocar",
+    "edit": "Editar",
     "menu": {
       "dashboard": "Painel de Controlo",
       "charging_stations": "Estações de Carga",
@@ -536,6 +539,7 @@
     "verify_email_title": "Ativação de Conta",
     "verify_email_already_active": "A sua conta ja esta ativa!",
     "verify_email_success": "A sua conta foi ativada com sucesso!",
+    "verify_email_success_inactive": "Your account has been verified with success, an administrator will check and activate your account.",
     "verify_email_success_set_password": "A sua conta foi ativada, por favor crie a sua password para poder reinicializar a conta",
     "verify_email_token_not_valid": "O seu link de ativação da conta não está valido",
     "verify_email_email_not_valid": "Este email não existe",
@@ -1043,10 +1047,16 @@
       "registration_token_creation_confirm": "Você realmente deseja criar um token de registo para estações de carregamento desta área do site?",
       "registration_token_creation_success": "O token de registro foi criado com sucesso",
       "registration_token_creation_error": "Ocorreu um erro ao criar um token de registo",
+      "registration_token_site_admin_creation_error": "You must provide a site linked to this registration token",
       "registration_token_revoke_title": "Revogar token de registo",
       "registration_token_revoke_confirm": "Você realmente deseja revogar o token de registo ?",
       "registration_token_revoke_success": "O token de registo foi revogado com sucesso",
       "registration_token_revoke_error": "Ocorreu um erro ao revogar um token de registo",
+      "registration_token_update_title": "Update Registration Token",
+      "registration_token_update_confirm": "Do you really want to update the registration token ?",
+      "registration_token_update_success": "Registration token has been updated successfully",
+      "registration_token_update_error": "Error occurred while updating a registration token, check the logs",
+      "registration_token_not_found": "Registration token has not been found",
       "registration_token_delete_title": "Eliminar registo de Token",
       "registration_token_delete_confirm": "Você realmente deseja excluir o token de registo ?",
       "registration_token_delete_success": "O token de registo foi excluído com sucesso",
@@ -1055,6 +1065,7 @@
       "registration_token_valid": "Validar",
       "registration_token_expired": "Expirado",
       "registration_token_revoked": "Revogado",
+      "registration_token_error": "Error occurred while retrieving the token, check the logs",
       "token_restrict_site_area": "Acesso retrito a Area de Site",
       "url": "OCPP URL",
       "copy_url_tooltip": "Copiar OCPP URL",
@@ -1558,11 +1569,12 @@
   },
   "technical_settings": {
     "tabs": {
-      "crypto": "Crypto"
+      "crypto": "Crypto",
+      "users": "Users"
     },
     "crypto": {
       "crypto_key": {
-        "title": "Crypto Settings",
+        "title": "Crypto settings",
         "subtitle": "Crypto Key",
         "key": "Key",
         "block_cypher": "Block Cypher",
@@ -1571,7 +1583,18 @@
       },
       "setting_do_not_exist": "Crypto Technical Settings not found",
       "update_success": "Crypto Technical Settings have been updated successfully",
-      "update_error": "Error occurred while updating the Crypto Technical Settings, check the logs"
+      "update_error": "Error occurred while updating the Crypto Technical Settings, check the logs",
+      "crypto_check_error": "Crypto check has failed, check your settings",
+      "crypto_key_length_error": "Crypto key length is invalid, check your settings",
+      "crypto_algorithm_error": "Crypto algorithm is not supported, check your settings",
+      "crypto_migration_in_progress_error": "Crypto settings cannot be changed while migration is in progress"
+    },
+    "user": {
+      "title": "Account Settings",
+      "auto_activation": "Automatically activate new user account at registration time",
+      "update_success": "User settings have been updated successfully",
+      "update_error": "Error occurred while updating the user settings, check the logs",
+      "setting_do_not_exist": "User settings not found"
     }
   },
   "ocpiendpoints": {
@@ -1695,7 +1718,7 @@
     "business_details": "Detalhes da empresa",
     "logo": "Imagem",
     "sync_all": "Sincronizar tudo",
-    "push_locations": "Locais de envio",
+    "push_evse_statuses": "Push Statuses",
     "push_tokens": "Push Tokens",
     "pull_cdrs": "Puxar CDRs",
     "pull_locations": "Localizações de extração",
@@ -2188,9 +2211,10 @@
     "billing_synchronization_failed": "Notifique-me quando uma sincronização com o sistema de faturamento falhar",
     "session_not_started": "Notifique-me se nenhuma sessão tiver sido iniciada após o selo",
     "user_account_inactivity": "Notifique-me quando eu não fizer login no aplicativo por mais de 6 meses",
-    "compute_and_apply_charging_profiles_failed": "Notify me when applying the Smart Charging-Profiles fails for a certain site area",
     "car_catalog_synchronization_failed": "Notifique-me se ocorrer um erro durante os carros de sincronização",
+    "compute_and_apply_charging_profiles_failed": "Notify me when applying the smart charging profiles fails for a site area",
     "end_user_error_notification": "Notifique-me quando um utilizador relatar um erro",
-    "billing_new_invoice": "Notify me when a new invoice is available"
+    "billing_new_invoice": "Notify me when a new invoice is available",
+    "admin_account_verification": "Notify me when new account creation needs to be verified"
   }
 }

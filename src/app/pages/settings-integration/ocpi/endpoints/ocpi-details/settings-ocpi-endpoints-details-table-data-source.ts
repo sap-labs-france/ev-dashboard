@@ -19,8 +19,8 @@ import { TableDataSource } from '../../../../../shared/table/table-data-source';
 import { DataResult } from '../../../../../types/DataResult';
 import { ButtonAction, RestResponse } from '../../../../../types/GlobalType';
 import { HTTPError } from '../../../../../types/HTTPError';
-import { ButtonType, TableActionDef, TableColumnDef, TableDef } from '../../../../../types/Table';
 import { OcpiButtonAction, OcpiEndpoint, OcpiEndpointDetail, OcpiRole } from '../../../../../types/ocpi/OCPIEndpoint';
+import { ButtonType, TableActionDef, TableColumnDef, TableDef } from '../../../../../types/Table';
 import { Utils } from '../../../../../utils/Utils';
 import { OcpiDetailFailureEvsesStatusFormatterComponent } from '../formatters/ocpi-detail-failure-evses-status-formatter.component';
 import { OcpiDetailJobStatusFomatterComponent } from '../formatters/ocpi-detail-job-status-formatter.component';
@@ -32,7 +32,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
   private ocpiEndpoint!: OcpiEndpoint;
   private startAction = new TableStartAction().getActionDef();
   private stopAction = new TableStopAction().getActionDef();
-  private pushLocationsAction = new TableUploadAction(OcpiButtonAction.PUSH_LOCATIONS, 'ocpi.push_locations').getActionDef();
+  private pushEVSEStatusesAction = new TableUploadAction(OcpiButtonAction.PUSH_EVSE_STATUSES, 'ocpi.push_evse_statuses').getActionDef();
   private pushTokensAction = new TableUploadAction(OcpiButtonAction.PUSH_TOKENS, 'ocpi.push_tokens').getActionDef();
   private getCdrsAction = new TableDownloadAction(OcpiButtonAction.PULL_CDRS, 'ocpi.pull_cdrs').getActionDef();
   private getLocationsAction = new TableDownloadAction(OcpiButtonAction.PULL_LOCATIONS, 'ocpi.pull_locations').getActionDef();
@@ -178,7 +178,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
       let syncActions: TableActionDef;
       if (rowItem.ocpiendpoint.role === OcpiRole.CPO) {
         syncActions = new TableMoreAction([
-          this.pushLocationsAction,
+          this.pushEVSEStatusesAction,
           this.getTokensAction,
           this.checkLocationsAction,
           this.checkSessionsAction,
@@ -200,7 +200,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
       case OcpiButtonAction.PUSH_TOKENS:
         this.pushTokensOcpiEndpoint(ocpiEndpointDetail.ocpiendpoint);
         break;
-      case OcpiButtonAction.PUSH_LOCATIONS:
+      case OcpiButtonAction.PUSH_EVSE_STATUSES:
         this.pushEVSEStatusesOcpiEndpoint(ocpiEndpointDetail.ocpiendpoint);
         break;
       case OcpiButtonAction.PULL_CDRS:

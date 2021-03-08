@@ -771,11 +771,11 @@
       },
       "enableManualConfiguration":{
         "title": "Enable manual configuration",
-        "confirm": "If you enable the manual configuration, all charge points will be deleted and the technical configuration will not be taken from the template anymore. After saving the charging station will perform a reboot. Do you want to continue?"
+        "confirm": "If you enable the manual configuration, the charging station will not be adjusted with the automatic configuration template anymore. Do you want to continue?"
       },
       "disableManualConfiguration":{
         "title": "Disable manual configuration",
-        "confirm": "If you disable the manual configuration, all charge points will be restored and the technical configuration will be taken from the template. After saving the charging station will perform a reboot. Do you want to continue?"
+        "confirm": "If you disable the manual configuration, the charging station will be adjusted with the automatic configuration template again. Do you want to continue?"
       }
     },
     "force_available_status_action": "Imposta come Disponibile",
@@ -946,6 +946,7 @@
     "change_config_error": "Impossibile modificare la configurazione della stazione di ricarica, controllare i log",
     "change_config_phase_error": "Impossibile assegnare una stazione di ricarica trifase ad un'area del sito monofase",
     "charging_station_reset_error": "Charging Station has been saved successfully, but an error occurred while restarting, please check the logs",
+    "change_point_connectors_error": "Error occurred while saving the charging station. The charge points properties do not match its connectors",
     "change_params_success": "Il parametro '{{paramKey}}' è stato aggiornato correttamente nella stazione di ricarica '{{chargeBoxID}}'",
     "change_params_error": "Si è verificato un errore durante il tentativo di aggiornamento del parametro della stazione di ricarica",
     "delete_title": "Cancella",

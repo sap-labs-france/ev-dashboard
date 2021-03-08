@@ -204,7 +204,6 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
       this.numberOfConnectedPhase.setValue(3);
       this.phaseAssignmentToGridMap = this.phaseAssignmentToGridMapThreePhased;
       this.phaseAssignmentToGrid.setValue(this.phaseAssignmentToGridMap[0].phaseAssignmentToGrid);
-      this.phaseAssignmentToGrid.disable();
       this.numberOfConnectedPhase.disable();
       this.amperage.updateValueAndValidity();
     } else {

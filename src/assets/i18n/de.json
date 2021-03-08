@@ -771,11 +771,11 @@
       },
       "enableManualConfiguration":{
         "title": "Manuelle Konfiguration aktivieren",
-        "confirm": "Wenn Sie die manuelle Konfiguration aktivieren, werden alle Ladepunkte gelöscht und die technische Konfiguration wird nicht mehr vom Template übernommen. Nach diesem Vorgang wird die Ladestation einen Neustart ausführen. Sind Sie sicher, dass Sie fortfahren möchten?"
+        "confirm": "Wenn Sie die manuelle Konfiguration aktivieren, wird die Konfiguration nicht mehr vom automatischen Template übernommen. Sind Sie sicher, dass Sie fortfahren möchten?"
       },
       "disableManualConfiguration":{
         "title": "Manuelle Konfiguration deaktivieren",
-        "confirm": "Wenn Sie die manuelle Konfiguration deaktivieren, werden alle Ladepunkte wiederhergestellt und die technische Konfiguration wird vom Template übernommen. Nach diesem Vorgang wird die Ladestation einen Neustart ausführen. Sind Sie sicher, dass Sie fortfahren möchten?"
+        "confirm": "Wenn Sie die manuelle Konfiguration deaktivieren, wird die Konfiguration wieder vom automatischen Template übernommen. Nach diesem Vorgang wird die Ladestation einen Neustart ausführen. Sind Sie sicher, dass Sie fortfahren möchten?"
       }
     },
     "force_available_status_action": "Verfügbar setzen",
@@ -946,6 +946,7 @@
     "change_config_error": "Die Konfiguration der Ladestation kann nicht geändert werden, überprüfen Sie die Logs",
     "change_config_phase_error": "Einem einphasigen Standortbereich kann keine dreiphasige Ladestation zugewiesen werden",
     "charging_station_reset_error": "Die Ladestation wurde erfolgreich gespeichert, beim Neustarten ist allerdings ein Fehler aufgetreten, bitte überprüfen Sie die Logs",
+    "change_point_connectors_error": "Beim Speichern der Ladestation ist ein Fehler aufgetreten, die Eigenschaften des Ladepunktes passen nicht zu den zugeordneten Anschlüssen",
     "change_params_success": "Die Parameter '{{paramKey}}' bei '{{chargeBoxID}}' wurden erfolgreich Ladestation aktualisiert",
     "change_params_error": "Beim Aktualisieren der Parameter der Ladestation ist ein Fehler aufgetreten",
     "delete_title": "Löschen",

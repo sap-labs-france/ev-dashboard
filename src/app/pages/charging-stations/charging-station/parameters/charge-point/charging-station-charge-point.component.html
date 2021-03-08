@@ -18,17 +18,17 @@
               <mat-error *ngIf="efficiency?.invalid">{{'chargers.invalid_efficiency' | translate}}</mat-error>
             </mat-form-field>
           </div>
-          <div class="col-md-3" *ngIf="cannotChargeInParallel?.value">
+          <div class="col-md-3" *ngIf="cannotChargeInParallel?.value || manualConfiguration">
             <mat-checkbox [formControl]="cannotChargeInParallel">
               {{'chargers.cant_charge_in_parallel' | translate}}
             </mat-checkbox>
           </div>
-          <div class="col-md-3" *ngIf="sharePowerToAllConnectors?.value">
+          <div class="col-md-3" *ngIf="sharePowerToAllConnectors?.value || manualConfiguration">
             <mat-checkbox [formControl]="sharePowerToAllConnectors">
               {{'chargers.share_power_to_all_connectors' | translate}}
             </mat-checkbox>
           </div>
-          <div class="col-md-3" *ngIf="excludeFromPowerLimitation?.value">
+          <div class="col-md-3" *ngIf="excludeFromPowerLimitation?.value || manualConfiguration">
             <mat-checkbox [formControl]="excludeFromPowerLimitation">
               {{'chargers.exclude_from_power_limitation' | translate}}
             </mat-checkbox>

@@ -98,7 +98,6 @@ export class ChargingStationChargePointComponent implements OnInit, OnChanges {
     this.power = this.formChargePointGroup.controls['power'];
     this.efficiency = this.formChargePointGroup.controls['efficiency'];
     this.connectorIDs = this.formChargePointGroup.controls['connectorIDs'];
-    this.formChargePointsArray.disable();
     this.loadChargePoint();
   }
 
@@ -119,6 +118,11 @@ export class ChargingStationChargePointComponent implements OnInit, OnChanges {
       this.power.setValue(this.chargePoint.power);
       this.efficiency.setValue(this.chargePoint.efficiency);
       this.connectorIDs.setValue(this.chargePoint.connectorIDs);
+    }
+    if (this.manualConfiguration) {
+      this.formChargePointsArray.enable();
+    } else {
+      this.formChargePointsArray.disable();
     }
   }
 

@@ -18,7 +18,6 @@ import { Utils } from '../../../utils/Utils';
 })
 export class SettingsPricingComponent implements OnInit {
   public isActive = false;
-
   public formGroup!: FormGroup;
   public pricingSettings!: PricingSettings;
 
@@ -33,10 +32,12 @@ export class SettingsPricingComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    // Build the form
-    this.formGroup = new FormGroup({});
-    // Load the conf
-    this.loadConfiguration();
+    if (this.isActive) {
+      // Build the form
+      this.formGroup = new FormGroup({});
+      // Load the conf
+      this.loadConfiguration();
+    }
   }
 
   public loadConfiguration() {
@@ -51,7 +52,7 @@ export class SettingsPricingComponent implements OnInit {
       this.spinnerService.hide();
       switch (error.status) {
         case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
-          this.messageService.showErrorMessage('settings.pricing.setting_do_not_exist');
+          this.messageService.showErrorMessage('settings.pricing.not_found');
           break;
         default:
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');

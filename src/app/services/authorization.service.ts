@@ -88,6 +88,10 @@ export class AuthorizationService {
     return this.canAccess(Entity.ASSET, Action.UPDATE);
   }
 
+  public canReadSite(): boolean {
+    return this.canAccess(Entity.SITE, Action.READ);
+  }
+
   public canCreateSite(): boolean {
     return this.canAccess(Entity.SITE, Action.CREATE);
   }
@@ -98,6 +102,10 @@ export class AuthorizationService {
 
   public canUpdateSite(): boolean {
     return this.canAccess(Entity.SITE, Action.UPDATE);
+  }
+
+  public canReadSiteArea(): boolean {
+    return this.canAccess(Entity.SITE_AREA, Action.READ);
   }
 
   public canAssignUsersSites(): boolean {

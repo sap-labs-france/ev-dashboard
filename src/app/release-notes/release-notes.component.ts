@@ -24,8 +24,43 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.47',
+        date: new Date('2021-03-06'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added IES Wallbox G3 MonoCombo in Charging Station's template`,
+              `Added Ingeteam in Charging Station's template`,
+              `Remove usage of Roles in the front-end (Security)`,
+              `Added Asset's Site Area and Site in Consumption`,
+              `Firmware patches in Charging Station template are always accepted`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.45',
+        date: new Date('2021-03-03'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Retrieve the completed Transactions via the new RESTful endpoint`,
+              `Crypto key used for encrypting sensitive data can now be changed per tenant`,
+              `Admin users are now notified when new end-users register and need their account activated`,
+              `Export Badge ID and Description in Session History`,
+              `Do not try to retrieve the Settings if Tenant's components are not active`,
+              `Added Legrand model 059011 in Charging Station's template`,
+              `Fixed Car's thumbnails not displayed`,
+              `Track backend server's performances in database`
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.44',
-        date: new Date('2020-02-24'),
+        date: new Date('2021-02-24'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -44,7 +79,7 @@ export class ReleaseNotesComponent {
       },
       {
         version: '2.4.43',
-        date: new Date('2020-02-23'),
+        date: new Date('2021-02-23'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -61,7 +96,7 @@ export class ReleaseNotesComponent {
       },
       {
         version: '2.4.42',
-        date: new Date('2020-02-15'),
+        date: new Date('2021-02-15'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -77,7 +112,7 @@ export class ReleaseNotesComponent {
       },
       {
         version: '2.4.41',
-        date: new Date('2020-02-09'),
+        date: new Date('2021-02-09'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -89,7 +124,7 @@ export class ReleaseNotesComponent {
       },
       {
         version: '2.4.40',
-        date: new Date('2020-02-07'),
+        date: new Date('2021-02-07'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -104,7 +139,7 @@ export class ReleaseNotesComponent {
       },
       {
         version: '2.4.39',
-        date: new Date('2020-02-02'),
+        date: new Date('2021-02-02'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -123,7 +158,7 @@ export class ReleaseNotesComponent {
       },
       {
         version: '2.4.38',
-        date: new Date('2020-01-25'),
+        date: new Date('2021-01-25'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -143,7 +178,7 @@ export class ReleaseNotesComponent {
       },
       {
         version: '2.4.37',
-        date: new Date('2020-01-09'),
+        date: new Date('2021-01-09'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -164,7 +199,7 @@ export class ReleaseNotesComponent {
       },
       {
         version: '2.4.36',
-        date: new Date('2020-01-04'),
+        date: new Date('2021-01-04'),
         componentChanges: [
           {
             name: 'Dashboard',

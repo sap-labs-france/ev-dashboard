@@ -19,8 +19,8 @@ export class UsersComponent extends AbstractTabComponent {
       authorizationService: AuthorizationService,
       windowService: WindowService) {
       super(activatedRoute, windowService, ['all', 'tag', 'inerror']);
-    this.canListUsers = authorizationService.canListUsers();
-    this.canListTokens = authorizationService.canListTokens();
-    this.canListUsersInError = authorizationService.canListUsersInError();
+      this.canListUsers = authorizationService.canListUsers();
+      this.canListTokens = authorizationService.canListTokens();
+      this.canListUsersInError = authorizationService.canListUsersInError();
   }
 }

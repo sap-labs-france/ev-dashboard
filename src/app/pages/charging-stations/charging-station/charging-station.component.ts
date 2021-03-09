@@ -103,7 +103,6 @@ export class ChargingStationComponent implements OnInit {
     } else {
       this.adjustChargePoints(chargingStationToSave);
     }
-
     // Save
     this.spinnerService.show();
     this.centralServerService.updateChargingStationParams(chargingStationToSave).subscribe((response) => {

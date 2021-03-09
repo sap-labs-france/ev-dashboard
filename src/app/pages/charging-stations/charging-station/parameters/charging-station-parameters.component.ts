@@ -9,7 +9,7 @@ import { DialogService } from '../../../../services/dialog.service';
 import { LocaleService } from '../../../../services/locale.service';
 import { GeoMapDialogComponent } from '../../../../shared/dialogs/geomap/geomap-dialog.component';
 import { SiteAreasDialogComponent } from '../../../../shared/dialogs/site-areas/site-areas-dialog.component';
-import { ChargingStation, CurrentType, OCPPProtocol } from '../../../../types/ChargingStation';
+import { ChargingStation, OCPPProtocol } from '../../../../types/ChargingStation';
 import { KeyValue } from '../../../../types/GlobalType';
 import { SiteArea } from '../../../../types/SiteArea';
 import { ButtonType } from '../../../../types/Table';
@@ -48,7 +48,6 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
   public chargePoints!: FormArray;
 
   public isOrganizationComponentActive: boolean;
-  public currentType: CurrentType
 
   constructor(
     private authorizationService: AuthorizationService,
@@ -177,7 +176,6 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
       if (!(this.chargingStation.chargePoints?.length > 0)) {
         this.manualConfiguration.setValue(true);
       }
-      this.currentType = Utils.getChargingStationCurrentType(this.chargingStation, null);
       if (this.chargingStation.maximumPower) {
         this.maximumPower.setValue(this.chargingStation.maximumPower);
         this.maximumPowerAmps.setValue(
@@ -200,7 +198,7 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
       if (this.chargingStation.ocppProtocol === OCPPProtocol.JSON) {
         this.chargingStationURL.disable();
       }
-      if (this.chargingStation.chargePoints) {
+      if (this.chargingStation.chargePoints && !this.manualConfiguration.value) {
         this.maximumPower.disable();
       }
       // Force refresh the form
@@ -311,26 +309,28 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
       });
   }
 
-  public manualConfigurationChanged(event) {
-    if (this.chargingStation.chargePoints.length > 0 && event) {
+  public manualConfigurationChanged(checked: boolean) {
+    if (this.chargingStation.chargePoints.length > 0 && checked) {
       // Show yes/no dialog
       this.dialogService.createAndShowYesNoDialog(
         this.translateService.instant('chargers.dialog.enableManualConfiguration.title'),
         this.translateService.instant('chargers.dialog.enableManualConfiguration.confirm'),
       ).subscribe((result) => {
-        if (result === ButtonType.YES) {
-        }
         if (result === ButtonType.NO) {
           this.manualConfiguration.setValue(false);
+        } else {
+          this.maximumPower.enable();
         }
       });
-    } else if (!event){
+    } else if (!checked){
       this.dialogService.createAndShowYesNoDialog(
         this.translateService.instant('chargers.dialog.disableManualConfiguration.title'),
         this.translateService.instant('chargers.dialog.disableManualConfiguration.confirm'),
       ).subscribe((result) => {
        if (result === ButtonType.NO) {
           this.manualConfiguration.setValue(true);
+        } else {
+          this.maximumPower.disable();
         }
       });
     }

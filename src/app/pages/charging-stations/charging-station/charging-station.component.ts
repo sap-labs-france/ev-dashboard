@@ -101,9 +101,7 @@ export class ChargingStationComponent implements OnInit {
       // Do not save charge point
       delete chargingStationToSave.chargePoints;
     } else {
-      for (const chargePoint of chargingStationToSave.chargePoints) {
-        this.adjustChargePoints(chargingStationToSave, chargePoint);
-      }
+      this.adjustChargePoints(chargingStationToSave);
     }
 
     // Save
@@ -126,8 +124,8 @@ export class ChargingStationComponent implements OnInit {
         case HTTPError.THREE_PHASE_CHARGER_ON_SINGLE_PHASE_SITE_AREA:
           this.messageService.showErrorMessage('chargers.change_config_phase_error');
           break;
-        case HTTPError.CHARGING_POINT_NOT_VALID:
-          this.messageService.showErrorMessage('chargers.change_point_connectors_error');
+        case HTTPError.CHARGE_POINT_NOT_VALID:
+          this.messageService.showErrorMessage('chargers.charge_point_connectors_error');
           break;
         default:
           Utils.handleHttpError(error, this.router, this.messageService,
@@ -151,21 +149,23 @@ export class ChargingStationComponent implements OnInit {
       this.saveChargingStation.bind(this), this.closeDialog.bind(this));
   }
 
-  private adjustChargePoints(chargingStation: ChargingStation, chargePoint: ChargePoint) {
-    chargePoint.amperage = 0;
-    chargePoint.power = 0;
-    for (const connectorID of chargePoint.connectorIDs) {
-      const connector = Utils.getConnectorFromID(chargingStation, connectorID);
-      if (!chargePoint.sharePowerToAllConnectors) {
-      chargePoint.amperage += connector.amperage;
-      chargePoint.power += connector.power;
-      } else {
-        chargePoint.amperage = connector.amperage;
-        chargePoint.power = connector.power;
+  private adjustChargePoints(chargingStation: ChargingStation) {
+    for (const chargePoint of chargingStation.chargePoints) {
+      chargePoint.amperage = 0;
+      chargePoint.power = 0;
+      for (const connectorID of chargePoint.connectorIDs) {
+        const connector = Utils.getConnectorFromID(chargingStation, connectorID);
+        if (!chargePoint.sharePowerToAllConnectors) {
+          chargePoint.amperage += connector.amperage;
+          chargePoint.power += connector.power;
+        } else {
+          chargePoint.amperage = connector.amperage;
+          chargePoint.power = connector.power;
+        }
+        chargePoint.numberOfConnectedPhase = connector.numberOfConnectedPhase;
+        chargePoint.currentType = connector.currentType;
+        chargePoint.voltage = connector.voltage;
       }
-      chargePoint.numberOfConnectedPhase = connector.numberOfConnectedPhase;
-      chargePoint.currentType = connector.currentType;
-      chargePoint.voltage = connector.voltage;
     }
   }
 }

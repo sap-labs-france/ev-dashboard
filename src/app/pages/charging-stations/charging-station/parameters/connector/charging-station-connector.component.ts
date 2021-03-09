@@ -171,9 +171,8 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
       this.amperagePerPhase.setValue((this.amperage.value as number) / (this.numberOfConnectedPhase.value as number));
       if (this.chargePoint && !this.manualConfiguration) {
         this.formConnectorGroup.disable();
+        if (this.isAdmin) {
         this.phaseAssignmentToGrid.enable();
-        if (!this.isAdmin) {
-          this.phaseAssignmentToGrid.disable();
         }
       } else {
         this.formConnectorGroup.enable();

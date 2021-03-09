@@ -66,7 +66,7 @@ export enum HTTPError {
   CANNOT_ACQUIRE_LOCK = 510,
   INVALID_FILE_FORMAT = 583,
 
-  CHARGING_POINT_NOT_VALID = 584,
+  CHARGE_POINT_NOT_VALID = 584,
 }
 
 export enum HTTPAuthError {

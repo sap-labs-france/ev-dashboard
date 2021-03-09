@@ -38,6 +38,7 @@ export class ChargingStationChargePointComponent implements OnInit, OnChanges {
     // Init charge point
     this.formChargePointGroup = new FormGroup({
       chargePointID: new FormControl(this.chargePoint.chargePointID),
+      ocppParamForPowerLimitation: new FormControl(this.chargePoint.ocppParamForPowerLimitation),
       currentType: new FormControl(CurrentType.AC,
         Validators.compose([
         ])

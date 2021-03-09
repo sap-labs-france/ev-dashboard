@@ -126,7 +126,7 @@ export class ChargingStationComponent implements OnInit {
         case HTTPError.THREE_PHASE_CHARGER_ON_SINGLE_PHASE_SITE_AREA:
           this.messageService.showErrorMessage('chargers.change_config_phase_error');
           break;
-        case HTTPError.CHARGING_STATION_RESET:
+        case HTTPError.CHARGING_POINT_NOT_VALID:
           this.messageService.showErrorMessage('chargers.change_point_connectors_error');
           break;
         default:
@@ -167,6 +167,5 @@ export class ChargingStationComponent implements OnInit {
       chargePoint.currentType = connector.currentType;
       chargePoint.voltage = connector.voltage;
     }
-    console.log(chargePoint);
   }
 }

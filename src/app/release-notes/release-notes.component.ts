@@ -25,7 +25,7 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.4.47',
-        date: new Date('2021-03-08'),
+        date: new Date('2021-03-09'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -36,6 +36,7 @@ export class ReleaseNotesComponent {
               `Remove usage of Roles in the front-end (Security)`,
               `Linked both Site Area and Site in Asset’s Consumptions`,
               `Firmware patches in Charging Station's template are always accepted`,
+              `Added new Unit Tests on crypto changes on sensitive data (Security)`,
             ],
           },
         ],

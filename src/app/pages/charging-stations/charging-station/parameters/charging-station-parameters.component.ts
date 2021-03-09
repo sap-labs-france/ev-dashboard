@@ -173,6 +173,7 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
       if (this.manualConfiguration) {
         this.manualConfiguration.setValue(this.chargingStation.manualConfiguration);
       }
+      // If no charge points are available, charging station is manual configurable
       if (!(this.chargingStation.chargePoints?.length > 0)) {
         this.manualConfiguration.setValue(true);
       }
@@ -319,6 +320,7 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
         if (result === ButtonType.NO) {
           this.manualConfiguration.setValue(false);
         } else {
+          // Make maximum power of charging station configurable, when manual config is enabled (Rules can not really be applied here)
           this.maximumPower.enable();
         }
       });

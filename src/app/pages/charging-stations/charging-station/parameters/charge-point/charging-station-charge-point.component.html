@@ -10,25 +10,25 @@
         </h4>
       </div>
       <div class="card-body">
-        <div class="row text-left">
-          <div class="col-md-3" *ngIf="efficiency?.value">
+        <div class="d-flex flex-row text-left">
+          <div class="col-md-3" *ngIf="efficiency?.value || manualConfiguration">
             <mat-form-field>
               <input matInput placeholder="{{'chargers.efficiency' | translate}}" [formControl]="efficiency"
                 [readOnly]="!isAdmin" />
               <mat-error *ngIf="efficiency?.invalid">{{'chargers.invalid_efficiency' | translate}}</mat-error>
             </mat-form-field>
           </div>
-          <div class="col-md-3" *ngIf="cannotChargeInParallel?.value || manualConfiguration">
+          <div class="flex-fill" *ngIf="cannotChargeInParallel?.value || manualConfiguration">
             <mat-checkbox [formControl]="cannotChargeInParallel">
               {{'chargers.cant_charge_in_parallel' | translate}}
             </mat-checkbox>
           </div>
-          <div class="col-md-3" *ngIf="sharePowerToAllConnectors?.value || manualConfiguration">
+          <div class="flex-fill" *ngIf="sharePowerToAllConnectors?.value || manualConfiguration">
             <mat-checkbox [formControl]="sharePowerToAllConnectors">
               {{'chargers.share_power_to_all_connectors' | translate}}
             </mat-checkbox>
           </div>
-          <div class="col-md-3" *ngIf="excludeFromPowerLimitation?.value || manualConfiguration">
+          <div  class="flex-fill"*ngIf="excludeFromPowerLimitation?.value || manualConfiguration">
             <mat-checkbox [formControl]="excludeFromPowerLimitation">
               {{'chargers.exclude_from_power_limitation' | translate}}
             </mat-checkbox>

@@ -127,8 +127,7 @@ export class ChargingStationComponent implements OnInit {
           this.messageService.showErrorMessage('chargers.change_config_phase_error');
           break;
         case HTTPError.CHARGING_STATION_RESET:
-          this.messageService.showWarningMessage('chargers.charging_station_reset_error');
-          this.closeDialog(true);
+          this.messageService.showErrorMessage('chargers.change_point_connectors_error');
           break;
         default:
           Utils.handleHttpError(error, this.router, this.messageService,

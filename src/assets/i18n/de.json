@@ -945,7 +945,6 @@
     "change_config_success": "Die Ladestation '{{chargeBoxID}}' wurde erfolgreich gespeichert",
     "change_config_error": "Die Konfiguration der Ladestation kann nicht geändert werden, überprüfen Sie die Logs",
     "change_config_phase_error": "Einem einphasigen Standortbereich kann keine dreiphasige Ladestation zugewiesen werden",
-    "charging_station_reset_error": "Die Ladestation wurde erfolgreich gespeichert, beim Neustarten ist allerdings ein Fehler aufgetreten, bitte überprüfen Sie die Logs",
     "change_point_connectors_error": "Beim Speichern der Ladestation ist ein Fehler aufgetreten, die Eigenschaften des Ladepunktes passen nicht zu den zugeordneten Anschlüssen",
     "change_params_success": "Die Parameter '{{paramKey}}' bei '{{chargeBoxID}}' wurden erfolgreich Ladestation aktualisiert",
     "change_params_error": "Beim Aktualisieren der Parameter der Ladestation ist ein Fehler aufgetreten",

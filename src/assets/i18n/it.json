@@ -945,7 +945,6 @@
     "change_config_success": "La stazione di ricarica '{{chargeBoxID}}' è stata salvata correttamente",
     "change_config_error": "Impossibile modificare la configurazione della stazione di ricarica, controllare i log",
     "change_config_phase_error": "Impossibile assegnare una stazione di ricarica trifase ad un'area del sito monofase",
-    "charging_station_reset_error": "Charging Station has been saved successfully, but an error occurred while restarting, please check the logs",
     "change_point_connectors_error": "Error occurred while saving the charging station. The charge points properties do not match its connectors",
     "change_params_success": "Il parametro '{{paramKey}}' è stato aggiornato correttamente nella stazione di ricarica '{{chargeBoxID}}'",
     "change_params_error": "Si è verificato un errore durante il tentativo di aggiornamento del parametro della stazione di ricarica",

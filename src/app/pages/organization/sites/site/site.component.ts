@@ -41,7 +41,7 @@ export class SiteComponent implements OnInit {
   public public!: AbstractControl;
 
   public address!: Address;
-  public isAdmin = false;
+  public canCreateSite = false;
 
   constructor(
     private authorizationService: AuthorizationService,
@@ -62,7 +62,7 @@ export class SiteComponent implements OnInit {
       this.router.navigate(['/']);
     }
     // Set
-    this.isAdmin = this.authorizationService.canCreateSite();
+    this.canCreateSite = this.authorizationService.canCreateSite();
   }
 
   public ngOnInit() {
@@ -141,11 +141,11 @@ export class SiteComponent implements OnInit {
     if (!this.currentSiteID) {
       return;
     }
-    this.isAdmin = this.authorizationService.canCreateSite() ||
+    this.canCreateSite = this.authorizationService.canCreateSite() ||
       this.authorizationService.isSiteAdmin(this.currentSiteID) ||
       this.authorizationService.isSiteOwner(this.currentSiteID);
     // if not admin switch in readonly mode
-    if (!this.isAdmin) {
+    if (!this.canCreateSite) {
       this.formGroup.disable();
     }
     this.spinnerService.show();

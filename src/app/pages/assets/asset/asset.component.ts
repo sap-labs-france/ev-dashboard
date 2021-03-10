@@ -69,7 +69,8 @@ export class AssetComponent implements OnInit {
       private dialog: MatDialog,
       private dialogService: DialogService,
       private translateService: TranslateService,
-      private router: Router,) {
+      private router: Router
+    ) {
     this.maxSize = this.configService.getAsset().maxImageKb;
     // Check auth
     if (this.activatedRoute.snapshot.params['id'] &&

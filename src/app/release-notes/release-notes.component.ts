@@ -35,6 +35,7 @@ export class ReleaseNotesComponent {
               `Added Joint Lightning Charging Station in template`,
               `Made Company service authorization based (Security)`,
               `Fixed empty fields in User's profile are not saved in the database`,
+              `Fixed Firmware upload RESTful endpoint`,
             ],
           },
         ],

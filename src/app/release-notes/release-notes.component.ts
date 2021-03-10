@@ -24,17 +24,33 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.48',
+        date: new Date('2021-03-10'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Accept more firmware versions for IES Charging Stations`,
+              `Fixed Shelly in Charging Station's template`,
+              `Added Joint Lightning Charging Station in template`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.47',
-        date: new Date('2021-03-06'),
+        date: new Date('2021-03-09'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `Added IES Wallbox G3 MonoCombo in Charging Station's template`,
               `Added Ingeteam in Charging Station's template`,
+              `Added getUsers and getUser in RESTful endpoint`,
               `Remove usage of Roles in the front-end (Security)`,
-              `Added Asset's Site Area and Site in Consumption`,
-              `Firmware patches in Charging Station template are always accepted`,
+              `Linked both Site Area and Site in Asset’s Consumptions`,
+              `Firmware patches in Charging Station's template are always accepted`,
+              `Added new Unit Tests on crypto changes on sensitive data (Security)`,
             ],
           },
         ],

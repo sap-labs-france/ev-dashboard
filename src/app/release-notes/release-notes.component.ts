@@ -34,6 +34,7 @@ export class ReleaseNotesComponent {
               `Fixed Shelly in Charging Station's template`,
               `Added Joint Lightning Charging Station in template`,
               `Made Company service authorization based (Security)`,
+              `Fixed empty fields in User's profile are not saved in the database`,
             ],
           },
         ],

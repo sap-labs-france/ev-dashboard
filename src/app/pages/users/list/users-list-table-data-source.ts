@@ -247,12 +247,14 @@ export class UsersListTableDataSource extends TableDataSource<User> {
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-    tableActionsDef.unshift(new TableImportUsersAction().getActionDef())
+    if (this.authorizationService.canImportUsers()) {
+      tableActionsDef.unshift(new TableImportUsersAction().getActionDef())
+    }
     if (this.authorizationService.canExportUsers()) {
       tableActionsDef.unshift(new TableExportUsersAction().getActionDef());
     }
     if (this.componentService.isActive(TenantComponents.BILLING) &&
-        this.authorizationService.canSynchronizeBillingUsers()) {
+      this.authorizationService.canSynchronizeBillingUsers()) {
       tableActionsDef.unshift(this.syncBillingUsersAction);
     }
     if (this.authorizationService.canCreateUser()) {
@@ -315,11 +317,11 @@ export class UsersListTableDataSource extends TableDataSource<User> {
             this.spinnerService);
         }
         break;
-        case UserButtonAction.IMPORT_USERS:
-          if (actionDef.action) {
-            (actionDef as TableImportUsersActionDef).action(ImportDialogComponent, this.dialog);
-          }
-          break;
+      case UserButtonAction.IMPORT_USERS:
+        if (actionDef.action) {
+          (actionDef as TableImportUsersActionDef).action(ImportDialogComponent, this.dialog);
+        }
+        break;
       case BillingButtonAction.SYNCHRONIZE_BILLING_USERS:
         if (this.syncBillingUsersAction.action) {
           this.syncBillingUsersAction.action(

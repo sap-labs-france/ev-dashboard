@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { User } from 'types/User';
+import {  readCFServices } from '@sap/xsenv';
 
 import { AuthorizationService } from '../../services/authorization.service';
 import { CentralServerService } from '../../services/central-server.service';
@@ -78,6 +79,8 @@ export class AuthenticationLoginComponent implements OnInit, OnDestroy {
           Validators.required,
         ])),
     });
+    //Get JWT Details
+    console.log(readCFServices());
     // Get controls
     this.email = this.formGroup.controls['email'];
     this.password = this.formGroup.controls['password'];

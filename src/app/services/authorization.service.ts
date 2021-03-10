@@ -44,14 +44,6 @@ export class AuthorizationService {
     return this.canAccess(Entity.CHARGING_STATION, Action.UPDATE);
   }
 
-  public canCreateCompany(): boolean {
-    return this.canAccess(Entity.COMPANY, Action.CREATE);
-  }
-
-  public canReadCompany(): boolean {
-    return this.canAccess(Entity.COMPANY, Action.READ);
-  }
-
   public canListChargingStations(): boolean {
     return this.canAccess(Entity.CHARGING_STATIONS, Action.LIST);
   }
@@ -72,8 +64,16 @@ export class AuthorizationService {
     return this.canAccess(Entity.CHARGING_PROFILES, Action.LIST);
   }
 
+  public canReadCompany(): boolean {
+    return this.canAccess(Entity.COMPANY, Action.READ);
+  }
+
   public canUpdateCompany(): boolean {
     return this.canAccess(Entity.COMPANY, Action.UPDATE);
+  }
+
+  public canCreateCompany(): boolean {
+    return this.canAccess(Entity.COMPANY, Action.CREATE);
   }
 
   public canDeleteCompany(): boolean {
@@ -86,6 +86,10 @@ export class AuthorizationService {
 
   public canUpdateAsset(): boolean {
     return this.canAccess(Entity.ASSET, Action.UPDATE);
+  }
+
+  public canListSites(): boolean {
+    return this.canAccess(Entity.SITES, Action.LIST);
   }
 
   public canReadSite(): boolean {
@@ -102,6 +106,10 @@ export class AuthorizationService {
 
   public canUpdateSite(): boolean {
     return this.canAccess(Entity.SITE, Action.UPDATE);
+  }
+
+  public canListSiteAreas(): boolean {
+    return this.canAccess(Entity.SITE_AREAS, Action.LIST);
   }
 
   public canReadSiteArea(): boolean {
@@ -276,7 +284,7 @@ export class AuthorizationService {
   }
 
   public isSiteAdmin(siteID: string): boolean {
-    return !!this.loggedUser && !!this.loggedUser.sitesAdmin && this.loggedUser.sitesAdmin.includes(siteID);
+    return this.isAdmin() || (!!this.loggedUser && !!this.loggedUser.sitesAdmin && this.loggedUser.sitesAdmin.includes(siteID));
   }
 
   public isSiteOwner(siteID: string): boolean {

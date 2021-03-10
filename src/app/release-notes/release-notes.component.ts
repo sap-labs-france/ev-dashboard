@@ -24,6 +24,20 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.48',
+        date: new Date('2021-03-10'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Accept more firmware versions for IES Charging Stations`,
+              `Fixed Shelly in Charging Station's template`,
+              `Added Joint Lightning Charging Station in template`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.47',
         date: new Date('2021-03-09'),
         componentChanges: [

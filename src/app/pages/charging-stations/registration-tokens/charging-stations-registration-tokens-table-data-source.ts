@@ -255,7 +255,7 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
       case RegistrationTokenButtonAction.EDIT_TOKEN:
         if (actionDef.action) {
           (actionDef as TableEditRegistrationTokenActionDef).action(
-            ChargingStationsRegistrationTokenDialogComponent, registrationToken, this.dialog, this.refreshData.bind(this))
+            ChargingStationsRegistrationTokenDialogComponent, registrationToken, this.dialog, this.refreshData.bind(this));
         }
         break;
       case RegistrationTokenButtonAction.COPY_URL:

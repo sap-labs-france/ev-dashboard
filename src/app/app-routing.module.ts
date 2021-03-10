@@ -157,10 +157,11 @@ const routes: Routes = [
             icon: 'business',
             path: '/organization',
           },
-          auth: {
-            entity: Entity.COMPANIES,
-            action: Action.LIST,
-          },
+          auth: [
+            { entity: Entity.COMPANIES, action: Action.LIST },
+            { entity: Entity.SITES, action: Action.LIST },
+            { entity: Entity.SITE_AREAS, action: Action.LIST },
+          ],
           component: TenantComponents.ORGANIZATION,
         },
       },

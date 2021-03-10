@@ -11,6 +11,9 @@ import { AbstractTabComponent } from '../../shared/component/abstract-tab/abstra
 })
 export class OrganizationComponent extends AbstractTabComponent {
   public canListCompanies = false;
+  public canListSites = false;
+  public canListSiteAreas = false;
+
   constructor(
     activatedRoute: ActivatedRoute,
     windowService: WindowService,
@@ -18,5 +21,7 @@ export class OrganizationComponent extends AbstractTabComponent {
   ) {
     super(activatedRoute, windowService, ['companies', 'sites', 'site-areas']);
     this.canListCompanies = authorizationService.canListCompanies();
+    this.canListSites = authorizationService.canListSites();
+    this.canListSiteAreas = authorizationService.canListSiteAreas();
   }
 }

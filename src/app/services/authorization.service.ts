@@ -276,7 +276,7 @@ export class AuthorizationService {
   }
 
   public isSiteAdmin(siteID: string): boolean {
-    return !!this.loggedUser && !!this.loggedUser.sitesAdmin && this.loggedUser.sitesAdmin.includes(siteID);
+    return this.isAdmin() || (!!this.loggedUser && !!this.loggedUser.sitesAdmin && this.loggedUser.sitesAdmin.includes(siteID));
   }
 
   public isSiteOwner(siteID: string): boolean {

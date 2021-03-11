@@ -209,7 +209,7 @@ export class SettingsOicpEndpointsDetailsTableDataSource extends TableDataSource
       if (result === ButtonType.YES) {
         // Ping
         this.centralServerService.sendEVSEStatusesOicpEndpoint(oicpendpoint).subscribe((response) => {
-          if (response.failure === 0 && response.success > 0) {
+          if (response.failure === 0) {
             this.messageService.showSuccessMessage('oicpendpoints.push_evse_statuses_success', { success: response.success });
           } else if (response.failure > 0 && response.success > 0) {
             this.messageService.showWarningMessage('oicpendpoints.push_evse_statuses_partial',
@@ -238,7 +238,7 @@ export class SettingsOicpEndpointsDetailsTableDataSource extends TableDataSource
       if (result === ButtonType.YES) {
         // Ping
         this.centralServerService.sendEVSEsOicpEndpoint(oicpendpoint).subscribe((response) => {
-          if (response.failure === 0 && response.success > 0) {
+          if (response.failure === 0) {
             this.messageService.showSuccessMessage('oicpendpoints.push_evses_success', { success: response.success });
           } else if (response.failure > 0 && response.success > 0) {
             this.messageService.showWarningMessage('oicpendpoints.push_evses_partial',

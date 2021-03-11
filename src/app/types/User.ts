@@ -1,11 +1,12 @@
 import { Address } from './Address';
+import { AuthorizationActions } from './Authorization';
 import { BillingUserData } from './Billing';
 import { Car } from './Car';
 import CreatedUpdatedProps from './CreatedUpdatedProps';
 import { Data } from './Table';
 import { Tag } from './Tag';
 
-export interface User extends Data, CreatedUpdatedProps {
+export interface User extends Data, CreatedUpdatedProps, AuthorizationActions {
   id: string;
   issuer: boolean;
   name: string;
@@ -53,7 +54,7 @@ export interface UserNotifications {
   sendChargingStationRegistered: boolean;
   sendOcpiPatchStatusError: boolean;
   sendOicpPatchStatusError: boolean;
-  sendSmtpAuthError: boolean;
+  sendSmtpError: boolean;
   sendUserAccountInactivity: boolean;
   sendPreparingSessionNotStarted: boolean;
   sendOfflineChargingStations: boolean;
@@ -63,6 +64,7 @@ export interface UserNotifications {
   sendComputeAndApplyChargingProfilesFailed: boolean;
   sendEndUserErrorNotification: boolean;
   sendBillingNewInvoice: boolean;
+  sendAdminAccountVerificationNotification: boolean;
 }
 
 export interface UserDefaultTagCar {

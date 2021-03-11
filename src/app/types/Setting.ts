@@ -1,16 +1,30 @@
+import CreatedUpdatedProps from './CreatedUpdatedProps';
 import { Data } from './Table';
 import TenantComponents from './TenantComponents';
 
-export interface Setting extends Data {
-  id: string;
-  identifier: TenantComponents;
-  sensitiveData: string[];
+export enum TechnicalSettings {
+  USER = 'user',
+  CRYPTO = 'crypto'
+}
+export interface Setting extends Data, CreatedUpdatedProps {
+  identifier: TenantComponents | TechnicalSettings;
+  sensitiveData?: string[];
   category?: 'business' | 'technical';
-  content: SettingContent;
+}
+export interface SettingDB extends CreatedUpdatedProps, Setting {
+  content: SettingDBContent;
 }
 
-export interface SettingContent {
-  type: CryptoSettingsType | RoamingSettingsType | AnalyticsSettingsType | RefundSettingsType | PricingSettingsType | BillingSettingsType | SmartChargingSettingsType | AssetSettingsType;
+export interface SettingDBContent {
+  type: CryptoSettingsType
+    | RoamingSettingsType
+    | AnalyticsSettingsType
+    | RefundSettingsType
+    | PricingSettingsType
+    | BillingSettingsType
+    | SmartChargingSettingsType
+    | AssetSettingsType
+    | UserSettingsType;
   ocpi?: OcpiSetting;
   oicp?: OicpSetting;
   simple?: SimplePricingSetting;
@@ -22,6 +36,7 @@ export interface SettingContent {
   sapSmartCharging?: SapSmartChargingSetting;
   asset?: AssetSetting;
   crypto?: CryptoSetting;
+  user?: UserSetting;
 }
 
 export interface SettingLink extends Data {
@@ -44,8 +59,7 @@ export interface PricingSettings extends Setting {
   convergentCharging: ConvergentChargingPricingSetting;
 }
 
-export interface PricingSetting {
-}
+export interface PricingSetting {}
 
 export interface SimplePricingSetting extends PricingSetting {
   price: number;
@@ -83,7 +97,7 @@ export interface OcpiSetting {
       type: string;
       width: string;
       height: string;
-    }
+    };
   };
   cpo: {
     countryCode: string;
@@ -230,7 +244,7 @@ export interface AssetConnectionSetting extends Data {
 export enum AssetConnectionType {
   NONE = '',
   SCHNEIDER = 'schneider',
-  GREENCOM = 'greencom'
+  GREENCOM = 'greencom',
 }
 
 export interface AssetUserPasswordConnectionType {
@@ -239,20 +253,23 @@ export interface AssetUserPasswordConnectionType {
 }
 
 // tslint:disable-next-line: no-empty-interface
-export interface AssetSchneiderConnectionType extends AssetUserPasswordConnectionType {
+export interface AssetSchneiderConnectionType extends AssetUserPasswordConnectionType {}
+
+export interface AssetGreencomConnectionType {
+  clientId: string;
+  clientSecret: string;
 }
 
 export enum CryptoSettingsType {
   CRYPTO = 'crypto',
 }
 
-export interface KeySettings extends Setting {
-  identifier: TenantComponents.CRYPTO;
+export interface CryptoSettings extends Setting {
+  identifier: TechnicalSettings.CRYPTO;
   type: CryptoSettingsType;
   crypto?: CryptoSetting;
 }
-
-export interface KeyCryptoSetting {
+export interface CryptoKeyProperties {
   blockCypher: string;
   blockSize: number;
   operationMode: string;
@@ -260,11 +277,22 @@ export interface KeyCryptoSetting {
 
 export interface CryptoSetting {
   key: string;
-  keyProperties: KeyCryptoSetting;
+  keyProperties: CryptoKeyProperties;
   formerKey?: string;
-  formerKeyProperties?: KeyCryptoSetting;
+  formerKeyProperties?: CryptoKeyProperties;
+  migrationToBeDone?: boolean;
 }
-export interface AssetGreencomConnectionType {
-  clientId: string;
-  clientSecret: string;
+
+export enum UserSettingsType {
+  USER = 'user',
+}
+
+export interface UserSettings extends Setting {
+  identifier: TechnicalSettings.USER;
+  type: UserSettingsType;
+  user?: UserSetting;
+}
+
+export interface UserSetting {
+  autoActivateAccountAfterValidation: boolean;
 }

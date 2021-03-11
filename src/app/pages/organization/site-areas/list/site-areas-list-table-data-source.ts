@@ -47,6 +47,11 @@ import { SiteAreaConsumptionChartDetailComponent } from './consumption-chart/sit
 
 @Injectable()
 export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
+  private canReadSiteArea = false;
+  private canCreateSiteArea = false;
+  private canUpdateSiteArea = false;
+  private canDeleteSiteArea = false;
+  private canCrudSiteArea = false;
   private readonly isAssetComponentActive: boolean;
   private editAction = new TableEditSiteAreaAction().getActionDef();
   private assignChargingStationsToSiteAreaAction = new TableAssignChargingStationsToSiteAreaAction().getActionDef();
@@ -75,6 +80,12 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     private componentService: ComponentService) {
     super(spinnerService, translateService);
     // Init
+    this.canReadSiteArea = this.authorizationService.canReadSiteArea();
+    this.canCreateSiteArea = this.authorizationService.canCreateSiteArea();
+    this.canUpdateSiteArea = this.authorizationService.canUpdateSiteArea();
+    this.canDeleteSiteArea = this.authorizationService.canDeleteSiteArea();
+    this.canCrudSiteArea = this.canCreateSiteArea && this.canReadSiteArea &&
+      this.canUpdateSiteArea && this.canDeleteSiteArea;
     this.isAssetComponentActive = this.componentService.isActive(TenantComponents.ASSET);
     this.setStaticFilters([{ WithSite: true }]);
     this.initDataSource();
@@ -195,7 +206,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
         sortable: true,
       },
     );
-    if (this.authorizationService.isAdmin()) {
+    if (this.canCrudSiteArea) {
       tableColumnDef.push(
         {
           id: 'createdOn',
@@ -234,7 +245,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-    if (this.authorizationService.canCreateSiteArea()) {
+    if (this.canCreateSiteArea) {
       return [
         new TableCreateSiteAreaAction().getActionDef(),
         ...tableActionsDef,
@@ -249,11 +260,13 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     let actions: TableActionDef[];
     openInMaps.disabled = !Utils.containsAddressGPSCoordinates(siteArea.address);
     if (siteArea.issuer) {
-      if (this.authorizationService.isAdmin() ||
-        this.authorizationService.isSiteAdmin(siteArea.siteID)) {
+      if (this.canCrudSiteArea &&
+          this.authorizationService.isSiteAdmin(siteArea.siteID)) {
         actions = [
           this.editAction,
-          this.authorizationService.isAdmin() ? this.assignChargingStationsToSiteAreaAction : this.viewChargingStationsOfSiteArea,
+          this.canCrudSiteArea ?
+            this.assignChargingStationsToSiteAreaAction :
+            this.viewChargingStationsOfSiteArea,
           new TableMoreAction([
             this.exportOCPPParamsAction,
             openInMaps,

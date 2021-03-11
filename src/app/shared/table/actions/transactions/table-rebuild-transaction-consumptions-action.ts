@@ -1,5 +1,6 @@
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { Observable } from 'rxjs';
 
 import { CentralServerService } from '../../../../services/central-server.service';
 import { DialogService } from '../../../../services/dialog.service';
@@ -13,7 +14,8 @@ import { TableAction } from '../table-action';
 
 export interface TableRebuildTransactionConsumptionsActionDef extends TableActionDef {
   action: (transaction: Transaction, dialogService: DialogService, translateService: TranslateService,
-    messageService: MessageService, centralServerService: CentralServerService, router: Router, spinnerService: SpinnerService) => void;
+    messageService: MessageService, centralServerService: CentralServerService, router: Router,
+    spinnerService: SpinnerService, refresh?: () => Observable<void>) => void;
 }
 
 export class TableRebuildTransactionConsumptionsAction implements TableAction {
@@ -33,7 +35,8 @@ export class TableRebuildTransactionConsumptionsAction implements TableAction {
   }
 
   private rebuildTransactionConsumptions(transaction: Transaction, dialogService: DialogService, translateService: TranslateService,
-    messageService: MessageService, centralServerService: CentralServerService, router: Router, spinnerService: SpinnerService) {
+    messageService: MessageService, centralServerService: CentralServerService, router: Router,
+    spinnerService: SpinnerService, refresh?: () => Observable<void>) {
     // Confirm
     dialogService.createAndShowYesNoDialog(
       translateService.instant('transactions.rebuild_transaction_consumptions_title'),
@@ -45,6 +48,9 @@ export class TableRebuildTransactionConsumptionsAction implements TableAction {
           spinnerService.hide();
           if (response.status === RestResponse.SUCCESS) {
             messageService.showSuccessMessage('transactions.rebuild_transaction_consumptions_success');
+            if (refresh) {
+              refresh().subscribe();
+            }
           } else {
             Utils.handleError(JSON.stringify(response),
               messageService, 'transactions.rebuild_transaction_consumptions_error');

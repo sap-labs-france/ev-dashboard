@@ -286,6 +286,12 @@
                   <div class="row ml-1">
                     <div class="col-sm-12">
                       <mat-checkbox [disabled]="!notificationsActive.value"
+                        [formControl]="sendSmtpError">{{"notifications.smtp_error" | translate}}</mat-checkbox>
+                    </div>
+                  </div>
+                  <div class="row ml-1">
+                    <div class="col-sm-12">
+                      <mat-checkbox [disabled]="!notificationsActive.value"
                         [formControl]="sendBillingSynchronizationFailed">{{"notifications.billing_synchronization_failed" | translate}}</mat-checkbox>
                     </div>
                   </div>
@@ -299,6 +305,12 @@
                     <div class="col-sm-12">
                       <mat-checkbox [disabled]="!notificationsActive.value"
                         [formControl]="sendEndUserErrorNotification">{{"notifications.end_user_error_notification" | translate}}</mat-checkbox>
+                    </div>
+                  </div>
+                  <div class="row ml-1">
+                    <div class="col-sm-12">
+                      <mat-checkbox [disabled]="!notificationsActive.value"
+                        [formControl]="sendAdminAccountVerificationNotification">{{"notifications.admin_account_verification" | translate}}</mat-checkbox>
                     </div>
                   </div>
                 </div>

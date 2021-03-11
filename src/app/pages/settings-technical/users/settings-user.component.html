@@ -1,0 +1,29 @@
+<div>
+  <form class="form" [formGroup]="formGroup" height="100%">
+    <div class="mat-toolbar-row left-actions">
+      <button mat-raised-button color="warn" (click)="save()" [disabled]="isDisabled">
+        <mat-icon>save</mat-icon><span>{{ "general.save" | translate }}</span>
+      </button>
+    </div>
+    <div class="card">
+      <div class="card-header card-header-icon card-header-primary">
+        <div class="card-icon">
+          <mat-icon>how_to_reg</mat-icon>
+        </div>
+        <h3 class="card-title">{{ "technical_settings.user.title" | translate }}</h3>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-6">
+            <mat-checkbox
+              formControlName="autoActivateAccountAfterValidation"
+              (change)="handleAccountActivation()"
+            >
+              {{ "technical_settings.user.auto_activation" | translate }}
+            </mat-checkbox>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

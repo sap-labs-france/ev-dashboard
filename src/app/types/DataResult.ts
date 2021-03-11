@@ -1,5 +1,6 @@
 import { Data } from './Table';
 import { Transaction } from './Transaction';
+import { UserStatus } from './User';
 
 export interface ActionResponse {
   status: string;
@@ -111,4 +112,7 @@ export interface Ordering {
 export interface Paging {
   limit: number;
   skip: number;
+}
+export interface VerifyEmailResponse extends ActionResponse {
+  userStatus?: UserStatus;
 }

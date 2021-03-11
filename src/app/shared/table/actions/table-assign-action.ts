@@ -32,11 +32,9 @@ export class TableAssignAction implements TableAction {
     dialogConfig.disableClose = true;
     // Open
     const dialogRef = dialog.open(component, dialogConfig);
-    dialogRef.afterClosed().subscribe((saved) => {
-      if (saved) {
-        if (refresh) {
-          refresh().subscribe();
-        }
+    dialogRef.afterClosed().subscribe(() => {
+      if (refresh) {
+        refresh().subscribe();
       }
     });
   }

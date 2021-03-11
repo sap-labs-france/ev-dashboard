@@ -39,9 +39,11 @@ export enum ServerAction {
   CHECK_SMART_CHARGING_CONNECTION = 'CheckSmartChargingConnection',
   TRIGGER_SMART_CHARGING = 'TriggerSmartCharging',
 
+  REGISTRATION_TOKEN = 'RegistrationToken',
   REGISTRATION_TOKENS = 'RegistrationTokens',
   REGISTRATION_TOKEN_DELETE = 'RegistrationTokenDelete',
   REGISTRATION_TOKEN_REVOKE = 'RegistrationTokenRevoke',
+  REGISTRATION_TOKEN_UPDATE = 'RegistrationTokenUpdate',
 
   STATUS_NOTIFICATIONS = 'StatusNotifications',
 
@@ -131,7 +133,7 @@ export enum ServerAction {
   OCPI_PUSH_TOKENS = 'OcpiPushTokens',
   OCPI_PUSH_SESSION = 'OcpiPushSession',
   OCPI_PUSH_SESSIONS = 'OcpiPushSessions',
-  OCPI_PUSH_LOCATIONS = 'OcpiPushLocations',
+  OCPI_PUSH_EVSE_STATUSES = 'OcpiPushEVSEStatuses',
   OCPI_PUSH_CDRS = 'OcpiPushCdrs',
   OCPI_PULL_CDRS = 'OcpiPullCdrs',
   OCPI_PULL_LOCATIONS = 'OcpiPullLocations',
@@ -356,6 +358,7 @@ export enum ServerAction {
 
   SETTING_CREATE = 'SettingCreate',
   SETTINGS = 'Settings',
+  SETTING_BY_INDENTIFIER = 'SettingByIdentifier',
   SETTING = 'Setting',
   SETTING_UPDATE = 'SettingUpdate',
   SETTING_DELETE = 'SettingDelete',

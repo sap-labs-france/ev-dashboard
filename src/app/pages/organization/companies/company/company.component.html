@@ -9,8 +9,7 @@
         <div class="card-body">
           <div class="row app-organization">
             <div class="col-md-2">
-              <div class="rotating-card-container"
-                [ngStyle]="{ 'pointer-events': this.isAdmin ? 'all' : 'none'}">
+              <div class="rotating-card-container" [ngStyle]="{ 'pointer-events': canCrudCompany ? 'all' : 'none'}">
                 <div class="card card-rotate card-background app-company-image mt-0">
                   <div class="front front-background"
                     [ngStyle]="{'background-image': 'url(' + logo + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
@@ -19,12 +18,13 @@
                   </div>
                   <div class="back back-background"
                     [ngStyle]="{'background-image': 'url(' + logo + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
-                    <div *ngIf="this.isAdmin" class="card-body">
+                    <div *ngIf="canCrudCompany" class="card-body">
                       <div class="footer justify-content-center">
                         <button mat-flat-button color="primary" class="mr-2">
                           <mat-icon (click)="file.click()">mode_edit</mat-icon>
                           <div class="d-none">
-                            <input #file type="file" name="..." (change)="onLogoChanged($event)" accept="image/jpg,image/jpeg,image/png,image/gif">
+                            <input #file type="file" name="..." (change)="onLogoChanged($event)"
+                              accept="image/jpg,image/jpeg,image/png,image/gif">
                           </div>
                         </button>
                         <button mat-flat-button color="warn">
@@ -59,7 +59,7 @@
       </mat-tab>
     </mat-tab-group>
     <div class="tabs-actions">
-      <button mat-button *ngIf="this.isAdmin" (click)="saveCompany(formGroup.value)"
+      <button mat-button *ngIf="canCrudCompany" (click)="saveCompany(formGroup.value)"
         [disabled]="!formGroup.valid || !formGroup.dirty">
         <mat-icon>save</mat-icon>
         <span>{{'general.save' | translate}}</span>

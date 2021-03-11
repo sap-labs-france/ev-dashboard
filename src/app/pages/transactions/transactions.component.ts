@@ -12,19 +12,19 @@ import TenantComponents from '../../types/TenantComponents';
   templateUrl: './transactions.component.html',
 })
 export class TransactionsComponent extends AbstractTabComponent {
-  public showTransactionRefundTab: boolean;
-  public showTransactionInError: boolean;
-  public showInvoices: boolean;
+  public canListTransactions: boolean;
+  public canRefundTransaction: boolean;
+  public canListTransactionsInError: boolean;
 
   constructor(
-    private authorizationService: AuthorizationService,
-    private componentService: ComponentService,
-    activatedRoute: ActivatedRoute, windowService: WindowService) {
+      private authorizationService: AuthorizationService,
+      private componentService: ComponentService,
+      activatedRoute: ActivatedRoute, windowService: WindowService) {
     super(activatedRoute, windowService, ['inprogress', 'history', 'inerror', 'refund']);
-    this.showTransactionRefundTab = this.componentService.isActive(TenantComponents.REFUND) &&
-      (this.authorizationService.canRefundTransaction()
-        || this.authorizationService.isAdmin() || this.authorizationService.hasSitesAdminRights());
-    this.showTransactionInError = this.authorizationService.isAdmin() || this.authorizationService.hasSitesAdminRights();
-    this.showInvoices = this.componentService.isActive(TenantComponents.BILLING);
+    this.canListTransactions = this.authorizationService.canListTransactions();
+    this.canListTransactionsInError = this.authorizationService.canListTransactionsInError();
+    if (this.componentService.isActive(TenantComponents.REFUND)) {
+      this.canRefundTransaction = this.authorizationService.canRefundTransaction();
+    }
   }
 }

@@ -30,8 +30,6 @@ export class PaymentMethodsTableDataSource extends TableDataSource<PaymentMethod
     public windowService: WindowService,
     private dialog: MatDialog) {
     super(spinnerService, translateService);
-    // TODO: Fix getSearch with param canCreatePaymentMethod from parent
-    this.canCreatePaymentMethod = Utils.convertToBoolean(this.windowService.getSearch('canCreatePaymentMethod'));
     // Init
     this.initDataSource();
   }
@@ -86,6 +84,9 @@ export class PaymentMethodsTableDataSource extends TableDataSource<PaymentMethod
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
+    // TODO: Fix getSearch with param canCreatePaymentMethod from parent
+    this.canCreatePaymentMethod = Utils.convertToBoolean(this.windowService.getSearch('canCreatePaymentMethod'));
+
     if (this.canCreatePaymentMethod) {
       tableActionsDef.unshift(new TableCreatePaymentMethodAction().getActionDef());
     }

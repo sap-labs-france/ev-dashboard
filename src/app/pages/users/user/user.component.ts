@@ -100,6 +100,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public canSeeInvoice: boolean;
   private currentLocale!: string;
   public canListPaymentMethods: boolean;
+  public canCreatePaymentMethod: boolean;
 
   constructor(
     private authorizationService: AuthorizationService,
@@ -142,7 +143,6 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         }
       });
     }
-    this.canListPaymentMethods = this.authorizationService.canListPaymentMethods();
   }
 
   public updateRoute(event: number) {
@@ -304,6 +304,11 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     if (!this.currentUserID) {
       return;
     }
+    this.canListPaymentMethods = this.authorizationService.canListPaymentMethods();
+    this.canCreatePaymentMethod = this.authorizationService.canCreatePaymentMethod(this.currentUserID);
+    // TODO: Fix setSearch with param canCreatePaymentMethod as param
+    this.windowService.setSearch('canCreatePaymentMethod', (this.canCreatePaymentMethod).toString())
+
     this.spinnerService.show();
     // tslint:disable-next-line: cyclomatic-complexity
     this.centralServerService.getUser(this.currentUserID).pipe(mergeMap((user) => {
@@ -720,10 +725,6 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     });
   }
 
-  public createPaymentMethod() {
-
-  }
-  
   public closeDialog(saved: boolean = false) {
     if (this.inDialog) {
       this.dialogRef.close(saved);

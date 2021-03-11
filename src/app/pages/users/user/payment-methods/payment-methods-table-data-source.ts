@@ -5,9 +5,11 @@ import { PaymentMethod } from '@stripe/stripe-js';
 import { Observable } from 'rxjs';
 import { AuthorizationService } from 'services/authorization.service';
 import { ComponentService } from 'services/component.service';
+import { WindowService } from 'services/window.service';
 import { TableCreatePaymentMethodAction, TableCreatePaymentMethodActionDef } from 'shared/table/actions/users/table-create-payment-method-action';
 import { BillingButtonAction } from 'types/Billing';
 import TenantComponents from 'types/TenantComponents';
+import { Utils } from 'utils/Utils';
 
 import { SpinnerService } from '../../../../services/spinner.service';
 import { TableAutoRefreshAction } from '../../../../shared/table/actions/table-auto-refresh-action';
@@ -19,20 +21,17 @@ import { PaymentMethodDialogComponent } from './payment-method/payment-method.di
 
 @Injectable()
 export class PaymentMethodsTableDataSource extends TableDataSource<PaymentMethod> {
-  private canCreatePaymentMethod: boolean;
-  
-  private isBillingComponentActive: boolean;
-
+  public canCreatePaymentMethod: boolean;
   constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     public componentService: ComponentService,
     public authorizationService: AuthorizationService,
+    public windowService: WindowService,
     private dialog: MatDialog) {
     super(spinnerService, translateService);
-    this.isBillingComponentActive = this.componentService.isActive(TenantComponents.BILLING);
-    this.canCreatePaymentMethod = this.authorizationService.canCreatePaymentMethod(),
-
+    // TODO: Fix getSearch with param canCreatePaymentMethod from parent
+    this.canCreatePaymentMethod = Utils.convertToBoolean(this.windowService.getSearch('canCreatePaymentMethod'));
     // Init
     this.initDataSource();
   }

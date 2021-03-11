@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import { BillingButtonAction } from 'types/Billing';
 
 import { TableActionDef } from '../../../../types/Table';
-import { UserButtonAction } from '../../../../types/User';
 import { TableCreateAction } from '../table-create-action';
 
 export interface TableCreatePaymentMethodActionDef extends TableActionDef {

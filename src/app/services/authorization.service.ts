@@ -255,18 +255,15 @@ export class AuthorizationService {
     return this.canAccess(Entity.PAYMENT_METHODS, Action.LIST);
   }
 
-  public canCreatePaymentMethod(): boolean {
-    return this.canAccess(Entity.PAYMENT_METHOD, Action.CREATE);
+  public canCreatePaymentMethod(userId: string): boolean {
+    if (this.canAccess(Entity.PAYMENT_METHOD, Action.CREATE)) {
+      return !!this.loggedUser && this.loggedUser.id === userId;
+    }
   }
 
-  public canReadPaymentMethod(userId: string) {
-    if (this.canAccess(Entity.PAYMENT_METHOD, Action.READ)) {
-      if (this.componentService.isActive(TenantComponents.BILLING)) {
-        return this.isAdmin() || (!!this.loggedUser && this.loggedUser.id === userId);
-      }
-      return false;
-    }
-    return false;
+  // TODO: Use canRead when we have the list of payment method
+  public canReadPaymentMethod() {
+    return (this.canAccess(Entity.PAYMENT_METHOD, Action.READ));
   }
 
   public isSiteAdmin(siteID: string): boolean {

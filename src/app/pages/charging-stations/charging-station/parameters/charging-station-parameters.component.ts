@@ -174,7 +174,7 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
         this.manualConfiguration.setValue(this.chargingStation.manualConfiguration);
       }
       // If no charge points are available, charging station is manual configurable
-      if (!(this.chargingStation.chargePoints?.length > 0)) {
+      if (!this.chargingStation.chargePoints || Utils.isEmptyArray(this.chargingStation.chargePoints)) {
         this.manualConfiguration.setValue(true);
       }
       if (this.chargingStation.maximumPower) {
@@ -247,9 +247,6 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
       validateButtonTitle: 'general.select',
       sitesAdminOnly: true,
       rowMultipleSelection: false,
-      staticFilter: {
-        Issuer: true
-      },
     };
     // Open
     this.dialog.open(SiteAreasDialogComponent, dialogConfig).afterClosed().subscribe((result) => {

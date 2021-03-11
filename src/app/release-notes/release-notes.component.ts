@@ -30,9 +30,11 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
-              `Increased Charging Station's list performances`,
+              `Increased Charging Station's REST performances`,
               `Aligned all Sessions' consumptions`,
               `Added getTags and getTag in RESTful endpoint`,
+              `Fixed Shelly Charging Station's amperage`,
+              `Fixed Signed Meter Values on EBEE Charging Station`,
             ],
           },
         ],

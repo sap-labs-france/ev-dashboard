@@ -99,6 +99,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public isRefundConnectionValid!: boolean;
   public canSeeInvoice: boolean;
   private currentLocale!: string;
+  public canListPaymentMethods: boolean;
 
   constructor(
     private authorizationService: AuthorizationService,
@@ -114,7 +115,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     @Inject(DOCUMENT) private document: any,
     activatedRoute: ActivatedRoute,
     windowService: WindowService) {
-    super(activatedRoute, windowService, ['common', 'notifications', 'address', 'password', 'connections', 'miscs'], false);
+    super(activatedRoute, windowService, ['common', 'notifications', 'address', 'password', 'connections', 'miscs', 'billing'], false);
     this.maxSize = this.configService.getUser().maxPictureKb;
     // Get statuses
     this.userStatuses = USER_STATUSES;
@@ -141,6 +142,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         }
       });
     }
+    this.canListPaymentMethods = this.authorizationService.canListPaymentMethods();
   }
 
   public updateRoute(event: number) {
@@ -718,6 +720,10 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     });
   }
 
+  public createPaymentMethod() {
+
+  }
+  
   public closeDialog(saved: boolean = false) {
     if (this.inDialog) {
       this.dialogRef.close(saved);

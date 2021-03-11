@@ -1125,7 +1125,8 @@
     "tabs": {
       "list": "Utenti",
       "in_error": "In Errore",
-      "tags": "Badges"
+      "tags": "Badges",
+      "billing": "Billing"
     },
     "number_of_sites": "Num. Siti",
     "number_of_transactions": "Num. Sessioni",

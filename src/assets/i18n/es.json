@@ -1125,7 +1125,8 @@
     "tabs": {
       "list": "Usuarios",
       "in_error": "Con errores",
-      "tags": "Insignia"
+      "tags": "Insignia",
+      "billing": "Billing"
     },
     "number_of_sites": "No. de sitios",
     "number_of_transactions": "No. de sesiones",

@@ -1125,7 +1125,8 @@
     "tabs": {
       "list": "Nutzer",
       "in_error": "Fehlerhaft",
-      "tags": "Badges"
+      "tags": "Badges",
+      "billing": "Billing"
     },
     "number_of_sites": "Anz. Standorte",
     "number_of_transactions": "Anz. Ladevorgänge",

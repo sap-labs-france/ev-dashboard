@@ -1125,7 +1125,8 @@
     "tabs": {
       "list": "Utilizadores",
       "in_error": "Erro",
-      "tags": "Badge"
+      "tags": "Badge",
+      "billing": "Billing"
     },
     "number_of_sites": "Nb Sites",
     "number_of_transactions": "Nb Sessões",

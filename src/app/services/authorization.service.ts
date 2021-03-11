@@ -251,6 +251,24 @@ export class AuthorizationService {
     return this.canAccess(Entity.TOKEN, Action.DELETE);
   }
 
+  public canListPaymentMethods(): boolean {
+    return this.canAccess(Entity.PAYMENT_METHODS, Action.LIST);
+  }
+
+  public canCreatePaymentMethod(): boolean {
+    return this.canAccess(Entity.PAYMENT_METHOD, Action.CREATE);
+  }
+
+  public canReadPaymentMethod(userId: string) {
+    if (this.canAccess(Entity.PAYMENT_METHOD, Action.READ)) {
+      if (this.componentService.isActive(TenantComponents.BILLING)) {
+        return this.isAdmin() || (!!this.loggedUser && this.loggedUser.id === userId);
+      }
+      return false;
+    }
+    return false;
+  }
+
   public isSiteAdmin(siteID: string): boolean {
     return !!this.loggedUser && !!this.loggedUser.sitesAdmin && this.loggedUser.sitesAdmin.includes(siteID);
   }

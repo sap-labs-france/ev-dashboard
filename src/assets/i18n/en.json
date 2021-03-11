@@ -1125,7 +1125,8 @@
     "tabs": {
       "list": "Users",
       "in_error": "In Error",
-      "tags": "Badges"
+      "tags": "Badges",
+      "billing": "Billing"
     },
     "number_of_sites": "Nb Sites",
     "number_of_transactions": "Nb Sessions",
@@ -1442,6 +1443,7 @@
       "connection_success": "Connection to the billing system was tested successfully",
       "connection_error": "Impossible to connect to the billing system. Check your secret key.",
       "force_synchronize": "Force Billing Synchronization",
+      "create_payment_method": "Create a payment method",
       "user": {
         "synchronize_users": "Synchronize Billing Users",
         "synchronize_user": "Synchronize Billing User",

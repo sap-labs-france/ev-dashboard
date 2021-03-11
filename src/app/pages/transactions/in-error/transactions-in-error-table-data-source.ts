@@ -30,7 +30,7 @@ import { ChargingStationTableFilter } from '../../../shared/table/filters/chargi
 import { EndDateFilter } from '../../../shared/table/filters/end-date-filter';
 import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-table-filter';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
-import { SiteTableFilter } from '../../../shared/table/filters/site-table-filter.js';
+import { SiteTableFilter } from '../../../shared/table/filters/site-table-filter';
 import { StartDateFilter } from '../../../shared/table/filters/start-date-filter';
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';

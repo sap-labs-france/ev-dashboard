@@ -2094,7 +2094,7 @@
     "reportId": "Report ID",
     "select_report": "Select Report",
     "create_invoice_success": "Invoice has been created successfully for this session",
-    "create_invoice_error": "Error occured while creating an invoice for this session",
+    "create_invoice_error": "Error occurred while creating an invoice for this session",
     "redirect": "Navigate to Sessions",
     "filter": {
       "type": {
@@ -2241,7 +2241,7 @@
       "missing_price": {
         "title": "Missing price",
         "description": "The session has not been priced.",
-        "action": "Eventhough the pricing is activated in the organization, the session has not been priced. Contact your site administrator."
+        "action": "Even though the pricing is activated in the organization, the session has not been priced. Contact your site administrator."
       },
       "incorrect_starting_date": {
         "title": "Incorrect Starting Date",

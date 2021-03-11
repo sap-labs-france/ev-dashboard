@@ -32,6 +32,7 @@ export class ReleaseNotesComponent {
             changes: [
               `Increased Charging Station's list performances`,
               `Aligned all Sessions' consumptions`,
+              `Added getTags and getTag in RESTful endpoint`,
             ],
           },
         ],

@@ -24,6 +24,19 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.49',
+        date: new Date('2021-03-11'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Increased Charging Station's list performances`,
+              `Aligned all Sessions' consumptions`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.48',
         date: new Date('2021-03-10'),
         componentChanges: [

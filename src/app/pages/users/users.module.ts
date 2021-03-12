@@ -26,9 +26,9 @@ import { UserSitesAdminCheckboxComponent } from './user-sites/user-sites-admin-c
 import { UserSitesDialogComponent } from './user-sites/user-sites-dialog.component';
 import { UserSitesOwnerRadioComponent } from './user-sites/user-sites-owner-radio.component';
 import { UserSitesTableDataSource } from './user-sites/user-sites-table-data-source';
-import { PaymentMethodComponent } from './user/payment-methods/payment-method/payment-method.component';
-import { PaymentMethodDialogComponent } from './user/payment-methods/payment-method/payment-method.dialog.component';
-import { PaymentMethodsComponent } from './user/payment-methods/payment-methods.component';
+import { PaymentMethodComponent } from './user/stripe/payment-methods/payment-method/payment-method.component';
+import { PaymentMethodDialogComponent } from './user/stripe/payment-methods/payment-method/payment-method.dialog.component';
+import { PaymentMethodsComponent } from './user/stripe/payment-methods/payment-methods.component';
 import { UserComponent } from './user/user.component';
 import { UserDialogComponent } from './user/user.dialog.component';
 import { UsersComponent } from './users.component';

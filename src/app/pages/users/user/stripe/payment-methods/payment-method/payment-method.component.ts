@@ -7,13 +7,14 @@ import { SetupIntent, StripeCardElement, StripeElements, StripeError } from '@st
 import { ComponentService } from 'services/component.service';
 import { DialogService } from 'services/dialog.service';
 import { StripeService } from 'services/stripe.service';
+import { WindowService } from 'services/window.service';
 import { BillingOperationResponse } from 'types/DataResult';
 import TenantComponents from 'types/TenantComponents';
 
-import { CentralServerService } from '../../../../../services/central-server.service';
-import { MessageService } from '../../../../../services/message.service';
-import { SpinnerService } from '../../../../../services/spinner.service';
-import { Utils } from '../../../../../utils/Utils';
+import { CentralServerService } from '../../../../../../services/central-server.service';
+import { MessageService } from '../../../../../../services/message.service';
+import { SpinnerService } from '../../../../../../services/spinner.service';
+import { Utils } from '../../../../../../utils/Utils';
 import { PaymentMethodDialogComponent } from './payment-method.dialog.component';
 
 @Component({
@@ -25,12 +26,14 @@ export class PaymentMethodComponent implements OnInit {
 
   @Input() public inDialog!: boolean;
   @Input() public dialogRef!: MatDialogRef<PaymentMethodDialogComponent>;
+  @Input() public currentUserID!: string;
   @ViewChild('cardInfo', { static: true }) public cardInfo: ElementRef;
   public feedback: any;
   public elements: StripeElements;
   public card: StripeCardElement;
   public formGroup!: FormGroup;
   public isBillingComponentActive: boolean;
+  public userID: string;
 
   constructor(
     private centralServerService: CentralServerService,
@@ -41,12 +44,14 @@ export class PaymentMethodComponent implements OnInit {
     private dialogService: DialogService,
     private componentService: ComponentService,
     private translateService: TranslateService,
+    private windowService: WindowService,
     private dialog: MatDialog) {
       this.isBillingComponentActive = this.componentService.isActive(TenantComponents.BILLING);
   }
 
   public ngOnInit(): void {
     this.initialize();
+    this.userID = this.dialogRef.componentInstance.userID;
   }
 
   private async initialize(): Promise<void> {
@@ -107,7 +112,9 @@ export class PaymentMethodComponent implements OnInit {
       // Step #0 - Create Setup Intent
       // -----------------------------------------------------------------------------------------------
 
-      const response: BillingOperationResponse = await this.centralServerService.setupPaymentMethod({}).toPromise();
+      const response: BillingOperationResponse = await this.centralServerService.setupPaymentMethod({
+        userID: this.userID
+      }).toPromise();
 
       // -----------------------------------------------------------------------------------------------
       // Step #1 - Confirm the SetupIntent with data provided and carry out 3DS
@@ -148,6 +155,7 @@ export class PaymentMethodComponent implements OnInit {
       const response: BillingOperationResponse = await this.centralServerService.setupPaymentMethod({
         setupIntentId: operationResult.setupIntent?.id,
         paymentMethodId: operationResult.setupIntent?.payment_method,
+        userID: this.userID
       }).toPromise();
       return response;
     }
@@ -156,6 +164,7 @@ export class PaymentMethodComponent implements OnInit {
     // TODO: check how we handle popup close as we don't have the usual form form
     // Utils.checkAndSaveAndCloseDialog(this.formGroup, this.dialogService,
     //   this.translateService, this.createPaymentMethod.bind(this), this.closeDialog.bind(this));
+    this.windowService.clearSearch();
     this.closeDialog();
   }
 

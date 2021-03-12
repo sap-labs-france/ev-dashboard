@@ -305,9 +305,8 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       return;
     }
     this.canListPaymentMethods = this.authorizationService.canListPaymentMethods();
-    this.canCreatePaymentMethod = this.authorizationService.canCreatePaymentMethod(this.currentUserID);
-    // TODO: Fix setSearch with param canCreatePaymentMethod as param
-    this.windowService.setSearch('canCreatePaymentMethod', (this.canCreatePaymentMethod).toString())
+    // TODO: Fix setSearch with userIDs as param
+    this.windowService.setSearch('userID', (this.currentUserID).toString())
 
     this.spinnerService.show();
     // tslint:disable-next-line: cyclomatic-complexity
@@ -727,6 +726,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
 
   public closeDialog(saved: boolean = false) {
     if (this.inDialog) {
+      this.windowService.clearSearch();
       this.dialogRef.close(saved);
     }
   }

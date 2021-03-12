@@ -1,37 +1,40 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { PaymentMethod } from '@stripe/stripe-js';
 import { Observable } from 'rxjs';
 import { AuthorizationService } from 'services/authorization.service';
+import { CentralServerService } from 'services/central-server.service';
 import { ComponentService } from 'services/component.service';
 import { WindowService } from 'services/window.service';
 import { TableCreatePaymentMethodAction, TableCreatePaymentMethodActionDef } from 'shared/table/actions/users/table-create-payment-method-action';
 import { BillingButtonAction } from 'types/Billing';
-import TenantComponents from 'types/TenantComponents';
-import { Utils } from 'utils/Utils';
 
-import { SpinnerService } from '../../../../services/spinner.service';
-import { TableAutoRefreshAction } from '../../../../shared/table/actions/table-auto-refresh-action';
-import { TableRefreshAction } from '../../../../shared/table/actions/table-refresh-action';
-import { TableDataSource } from '../../../../shared/table/table-data-source';
-import { DataResult } from '../../../../types/DataResult';
-import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../../types/Table';
+import { SpinnerService } from '../../../../../services/spinner.service';
+import { TableAutoRefreshAction } from '../../../../../shared/table/actions/table-auto-refresh-action';
+import { TableRefreshAction } from '../../../../../shared/table/actions/table-refresh-action';
+import { TableDataSource } from '../../../../../shared/table/table-data-source';
+import { DataResult } from '../../../../../types/DataResult';
+import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../../../types/Table';
 import { PaymentMethodDialogComponent } from './payment-method/payment-method.dialog.component';
 
 @Injectable()
 export class PaymentMethodsTableDataSource extends TableDataSource<PaymentMethod> {
   public canCreatePaymentMethod: boolean;
+  public currentUserID: string;
   constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     public componentService: ComponentService,
     public authorizationService: AuthorizationService,
     public windowService: WindowService,
+    public activatedRoute: ActivatedRoute,
+    public centralServerService: CentralServerService,
     private dialog: MatDialog) {
-    super(spinnerService, translateService);
-    // Init
-    this.initDataSource();
+      super(spinnerService, translateService);
+      // Init
+      this.initDataSource();
   }
 
 //   public getDataChangeSubject(): Observable<ChangeNotification> {
@@ -84,9 +87,10 @@ export class PaymentMethodsTableDataSource extends TableDataSource<PaymentMethod
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-    // TODO: Fix getSearch with param canCreatePaymentMethod from parent
-    this.canCreatePaymentMethod = Utils.convertToBoolean(this.windowService.getSearch('canCreatePaymentMethod'));
-
+    if (this.activatedRoute.snapshot.url[0]?.path === 'profile') {
+      this.currentUserID = this.centralServerService.getLoggedUser().id;
+    }
+    this.canCreatePaymentMethod = this.authorizationService.canCreatePaymentMethod(this.currentUserID);
     if (this.canCreatePaymentMethod) {
       tableActionsDef.unshift(new TableCreatePaymentMethodAction().getActionDef());
     }
@@ -131,7 +135,7 @@ export class PaymentMethodsTableDataSource extends TableDataSource<PaymentMethod
       case BillingButtonAction.CREATE_PAYMENT_METHOD:
         if (actionDef.id) {
           (actionDef as TableCreatePaymentMethodActionDef).action(
-            PaymentMethodDialogComponent, this.dialog, this.refreshData.bind(this));
+            PaymentMethodDialogComponent, this.currentUserID, this.dialog, this.refreshData.bind(this));
         }
         break;
     }

@@ -1,21 +1,21 @@
 import { AfterViewInit, Component, Inject, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
-import { Utils } from '../../../../../utils/Utils';
+import { Utils } from '../../../../../../utils/Utils';
 import { PaymentMethodComponent } from './payment-method.component';
 
 @Component({
   // template: '<app-payment-method #appRef [currentUserID]="userID" [inDialog]="true" [dialogRef]="dialogRef"></app-payment-method>',
-  template: '<app-payment-method #appRef [inDialog]="true" [dialogRef]="dialogRef"></app-payment-method>',
+  template: '<app-payment-method #appRef [currentUserID]="userID" [inDialog]="true" [dialogRef]="dialogRef"></app-payment-method>',
 })
 export class PaymentMethodDialogComponent implements AfterViewInit {
   @ViewChild('appRef') public appRef!: PaymentMethodComponent;
-  // public userID!: string;
+  public userID!: string;
 
   constructor(
     public dialogRef: MatDialogRef<PaymentMethodDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data: string) {
-      // this.userID = data;
+      this.userID = data;
     }
 
   public ngAfterViewInit() {

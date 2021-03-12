@@ -2872,7 +2872,6 @@ export class CentralServerService {
     const date = new Date().toISOString();
     const body = (
       `{
-        "chargeBoxID": "${charger.id}",
         "args": {
           "location": "${locationURL}",
           "retries": 0,
@@ -2882,7 +2881,7 @@ export class CentralServerService {
       }`
     );
     // Execute
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CHARGING_STATION_UPDATE_FIRMWARE}`, body,
+    return this.httpClient.put<ActionResponse>(`${this.restServerSecuredURL}/${ServerAction.CHARGING_STATIONS}/${charger.id}/firmware/update`, body,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2893,7 +2892,7 @@ export class CentralServerService {
 
   public chargingStationChangeAvailability(id: string, available: boolean, connectorID: number = 0): Observable<ActionResponse> {
     return this.actionChargingStation(
-      ServerAction.CHARGING_STATION_CHANGE_AVAILABILITY, id, JSON.stringify({
+      `${ServerAction.CHARGING_STATIONS}/${id}/availability/change`, JSON.stringify({
         connectorId: connectorID,
         type: available ? OCPPAvailabilityType.OPERATIVE : OCPPAvailabilityType.INOPERATIVE,
       })
@@ -2902,28 +2901,24 @@ export class CentralServerService {
 
   public chargingStationReset(id: string, hard: boolean = false): Observable<ActionResponse> {
     return this.actionChargingStation(
-      ServerAction.CHARGING_STATION_RESET, id, JSON.stringify({ type: hard ? OCPPResetType.HARD : OCPPResetType.SOFT }));
+      `${ServerAction.REST_CHARGING_STATIONS}/${id}/reset`, JSON.stringify({ type: hard ? OCPPResetType.HARD : OCPPResetType.SOFT }));
   }
 
   public chargingStationClearCache(id: string): Observable<ActionResponse> {
-    return this.actionChargingStation(ServerAction.CHARGING_STATION_CLEAR_CACHE, id, '');
+    return this.actionChargingStation(`${ServerAction.REST_CHARGING_STATIONS}/${id}/cache/clear`, '');
   }
 
-  public actionChargingStation(action: string, id: string, args: string): Observable<ActionResponse> {
+  public actionChargingStation(action: string, args: string): Observable<ActionResponse> {
     // Verify init
     this.checkInit();
     // Execute the REST service
     const body = (args ?
       `{
-        "chargeBoxID": "${id}",
         "args": ${args}
-      }` :
-      `{
-        "chargeBoxID": "${id}"
-      }`
+      }` : ''
     );
     // Execute
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${action}`, body,
+    return this.httpClient.put<ActionResponse>(`${this.restServerSecuredURL}/${action}`, body,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2937,7 +2932,7 @@ export class CentralServerService {
     this.checkInit();
     // Execute the REST service
     return this.httpClient.post<ActionResponse>(
-      `${this.centralRestServerServiceSecuredURL}/${ServerAction.CHARGING_STATION_REQUEST_OCPP_PARAMETERS}`,
+      `${this.restServerSecuredURL}/${ServerAction.REST_CHARGING_STATION_REQUEST_OCPP_PARAMETERS}`,
       {
         chargeBoxID: id,
         forceUpdateOCPPParamsFromTemplate: false,
@@ -2955,7 +2950,7 @@ export class CentralServerService {
     this.checkInit();
     // Execute the REST service
     return this.httpClient.post<ActionResponse>(
-      `${this.centralRestServerServiceSecuredURL}/${ServerAction.CHARGING_STATION_REQUEST_OCPP_PARAMETERS}`,
+      `${this.restServerSecuredURL}/${ServerAction.REST_CHARGING_STATION_REQUEST_OCPP_PARAMETERS}`,
       {
         chargeBoxID: id,
         forceUpdateOCPPParamsFromTemplate: true,

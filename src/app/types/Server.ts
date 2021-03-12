@@ -409,6 +409,7 @@ export enum ServerAction {
   REST_CHARGING_STATIONS_EXPORT = 'chargingstations/action/export',
   REST_CHARGING_STATIONS_OCPP_PARAMS_EXPORT = 'chargingstations/ocpp/parameters/export',
   REST_CHARGING_STATION_DOWNLOAD_QR_CODE_PDF = 'chargingstations/qrcode/download',
+  REST_CHARGING_STATION_REQUEST_OCPP_PARAMETERS = 'chargingstations/ocpp/parameters',
 
 
   REST_CHARGING_PROFILES = 'chargingprofiles'

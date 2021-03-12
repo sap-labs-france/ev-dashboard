@@ -894,7 +894,7 @@
       "delete_active_transaction": "Charging station deletion is not allowed when a session is ongoing",
       "command_title": "Charging station command error",
       "command_charger_disconnected": "Charging station is not available, no command can be sent",
-      "smart_charging_title": "Snart charging error",
+      "smart_charging_title": "Smart charging error",
       "smart_charging_charger_disconnected": "Charging station is not available, no command can be sent",
       "smart_charging_charger_version": "Smart charging needs at least OCPP version 1.6 on the charging station",
       "session_details_title": "Session details error",

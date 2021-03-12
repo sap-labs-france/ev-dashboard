@@ -25,12 +25,13 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.4.49',
-        date: new Date('2021-03-11'),
+        date: new Date('2021-03-12'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `Increased Charging Station's REST performances`,
+              `Updated Charging Station's action in RESTful endpoint`,
               `Aligned all Sessions' consumptions`,
               `Added Badge CRUD operations in RESTful endpoint`,
               `Fixed Shelly Charging Station's amperage`,

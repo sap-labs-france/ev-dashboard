@@ -2784,7 +2784,6 @@ export class CentralServerService {
     // Execute the REST service
     const custom = chargerParameter.custom ? chargerParameter.custom : false;
     const body = `{
-      "chargeBoxID": "${id}",
       "args": {
         "key": "${chargerParameter.key}",
         "value": "${chargerParameter.value}",
@@ -2792,7 +2791,7 @@ export class CentralServerService {
       }
     }`;
     // Execute
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CHARGING_STATION_CHANGE_CONFIGURATION}`, body,
+    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.REST_CHARGING_STATIONS}/${id}/configuration`, body,
       {
         headers: this.buildHttpHeaders(),
       })

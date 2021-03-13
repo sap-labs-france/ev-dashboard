@@ -162,12 +162,9 @@ export class ComponentService {
     const settingsToSave = {
       id: settings.id,
       identifier: TenantComponents.OICP,
-      sensitiveData: [],
       content: Utils.cloneObject(settings),
+      sensitiveData: ['content.oicp.cpo.key', 'content.oicp.cpo.cert','content.oicp.emsp.key', 'content.oicp.emsp.cert']
     };
-    if (settings.type === RoamingSettingsType.OICP) {
-      settingsToSave.sensitiveData = ['content.oicp.cpo.key', 'content.oicp.cpo.cert','content.oicp.emsp.key', 'content.oicp.emsp.cert'];
-    }
     // Delete IDS
     delete settingsToSave.content.id;
     delete settingsToSave.content.identifier;

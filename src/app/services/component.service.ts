@@ -165,7 +165,7 @@ export class ComponentService {
       sensitiveData: [],
       content: Utils.cloneObject(settings),
     };
-    if (settings.type === RoamingSettingsType.HUBJECT) {
+    if (settings.type === RoamingSettingsType.OICP) {
       settingsToSave.sensitiveData = ['content.oicp.cpo.key', 'content.oicp.cpo.cert','content.oicp.emsp.key', 'content.oicp.emsp.cert'];
     }
     // Delete IDS

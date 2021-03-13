@@ -210,7 +210,7 @@ export class SettingsOicpComponent implements OnInit {
 
   public save(content: OicpSetting) {
     this.oicpSettings.oicp = content;
-    this.oicpSettings.type = RoamingSettingsType.HUBJECT;
+    this.oicpSettings.type = RoamingSettingsType.OICP;
     this.spinnerService.show();
     this.componentService.saveOicpSettings(this.oicpSettings).subscribe((response) => {
       this.spinnerService.hide();

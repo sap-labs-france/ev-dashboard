@@ -74,8 +74,8 @@ export interface ConvergentChargingPricingSetting extends PricingSetting {
 }
 
 export enum RoamingSettingsType {
-  GIREVE = 'gireve',
-  HUBJECT = 'hubject',
+  OCPI = 'ocpi',
+  OICP = 'oicp',
 }
 
 export interface RoamingSettings extends Setting {

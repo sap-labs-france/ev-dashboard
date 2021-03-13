@@ -1714,7 +1714,7 @@
     "failed": "Fallido"
   },
   "ocpi": {
-    "title": "Roaming",
+    "title": "Roaming OCPI",
     "type_placeholder": "Tipo",
     "roaming_platforms": "Plataforma de interoperabilidad",
     "cpo": "Identificación del operador del punto de carga",
@@ -1815,7 +1815,7 @@
     "failed": "Failed"
   },
   "oicp": {
-    "title": "Roaming Hubject",
+    "title": "Roaming Hubject (OICP)",
     "type_placeholder": "Type",
     "roaming_platforms": "Roaming Platforms",
     "cpo": "Charging Point Operator Identification",

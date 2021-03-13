@@ -1714,7 +1714,7 @@
     "failed": "Failed"
   },
   "ocpi": {
-    "title": "Roaming Gireve",
+    "title": "Roaming OCPI",
     "type_placeholder": "Type",
     "roaming_platforms": "Inter Operability Platform",
     "cpo": "Charging Point Operator Identification",
@@ -1815,7 +1815,7 @@
     "failed": "Failed"
   },
   "oicp": {
-    "title": "Roaming Hubject",
+    "title": "Roaming Hubject (OICP)",
     "type_placeholder": "Type",
     "roaming_platforms": "Roaming Platforms",
     "cpo": "Charging Point Operator Identification",

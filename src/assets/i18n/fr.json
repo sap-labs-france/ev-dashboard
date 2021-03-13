@@ -1714,7 +1714,7 @@
     "failed": "Echecs"
   },
   "ocpi": {
-    "title": "Itinérance",
+    "title": "Itinérance OCPI",
     "type_placeholder": "Type",
     "roaming_platforms": "Plate-forme d'interopérabilité",
     "cpo": "Identification de l'Opérateur d’Infrastructure de Recharge",
@@ -1815,7 +1815,7 @@
     "failed": "Failed"
   },
   "oicp": {
-    "title": "Roaming Hubject",
+    "title": "Roaming Hubject (OICP)",
     "type_placeholder": "Type",
     "roaming_platforms": "Roaming Platforms",
     "cpo": "Charging Point Operator Identification",

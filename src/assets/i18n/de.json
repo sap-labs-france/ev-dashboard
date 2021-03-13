@@ -1714,7 +1714,7 @@
     "failed": "Fehlgeschlagen"
   },
   "ocpi": {
-    "title": "Roaming",
+    "title": "Roaming OCPI",
     "type_placeholder": "Typ",
     "roaming_platforms": "Interoperabilitäts-Plattform",
     "cpo": "Ladepunkt Operator Identifikation",
@@ -1815,7 +1815,7 @@
     "failed": "Fehlgeschlagen"
   },
   "oicp": {
-    "title": "Roaming Hubject",
+    "title": "Roaming Hubject (OICP)",
     "type_placeholder": "Typ",
     "roaming_platforms": "Roaming Plattformen",
     "cpo": "Ladepunkt Operator ID",

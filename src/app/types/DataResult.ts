@@ -41,6 +41,7 @@ export interface OICPJobStatusesResponse extends ActionResponse {
   chargeBoxIDsInFailure: string[];
   chargeBoxIDsInSuccess: string[];
 }
+
 export interface OCPIPingResponse extends ActionResponse {
   statusCode: number;
   statusText: string;
@@ -113,6 +114,7 @@ export interface Paging {
   limit: number;
   skip: number;
 }
+
 export interface VerifyEmailResponse extends ActionResponse {
   userStatus?: UserStatus;
 }

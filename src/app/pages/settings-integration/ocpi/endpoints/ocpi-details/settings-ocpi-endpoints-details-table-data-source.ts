@@ -573,7 +573,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
             if (ocpiendpoint.backgroundPatchJob) {
               this.messageService.showSuccessMessage('ocpiendpoints.background_job_activated');
             } else {
-              this.messageService.showSuccessMessage('ocpiendpoints.background_job_desactivated');
+              this.messageService.showSuccessMessage('ocpiendpoints.background_job_deactivated');
             }
           } else {
             Utils.handleError(JSON.stringify(response),

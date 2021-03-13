@@ -59,12 +59,6 @@ export class TenantComponent implements OnInit {
       description: 'settings.refund.concur.title',
     },
   ];
-  public ocpiTypes = [
-    {
-      key: RoamingSettingsType.GIREVE,
-      description: 'settings.ocpi.gireve.title',
-    },
-  ];
   public analyticsTypes = [
     {
       key: AnalyticsSettingsType.SAC,

@@ -6,6 +6,7 @@ import { StatusCodes } from 'http-status-codes';
 import { BehaviorSubject, EMPTY, Observable, TimeoutError, of, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 
+import { OicpEndpoint } from 'types/oicp/OICPEndpoint';
 import { Asset, AssetConsumption } from '../types/Asset';
 import { BillingInvoice, BillingTax } from '../types/Billing';
 import { Car, CarCatalog, CarMaker, ImageObject } from '../types/Car';
@@ -38,7 +39,6 @@ import { CentralServerNotificationService } from './central-server-notification.
 import { ConfigService } from './config.service';
 import { LocalStorageService } from './local-storage.service';
 import { WindowService } from './window.service';
-import { OicpEndpoint } from 'types/oicp/OICPEndpoint';
 
 @Injectable()
 export class CentralServerService {

@@ -102,12 +102,12 @@ export class SettingsOicpComponent implements OnInit {
               Validators.maxLength(3),
               Validators.minLength(3),
             ])),
-            key: new FormControl('',
+          key: new FormControl('',
             Validators.compose([
               Validators.required,
               Validators.minLength(2),
             ])),
-            cert: new FormControl('',
+          cert: new FormControl('',
               Validators.compose([
                 Validators.required,
                 Validators.minLength(3),

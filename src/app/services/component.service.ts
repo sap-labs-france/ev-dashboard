@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { ActionResponse } from '../types/DataResult';
-import { AnalyticsSettings, AssetConnectionType, AssetSettings, AssetSettingsType, BillingSettings, BillingSettingsType, CryptoSettings, PricingSettings, PricingSettingsType, RefundSettings, RefundSettingsType, RoamingSettings, SmartChargingSettings, SmartChargingSettingsType, TechnicalSettings, UserSettings, UserSettingsType } from '../types/Setting';
+import { AnalyticsSettings, AssetConnectionType, AssetSettings, AssetSettingsType, BillingSettings, BillingSettingsType, CryptoSettings, PricingSettings, PricingSettingsType, RefundSettings, RefundSettingsType, RoamingSettings, RoamingSettingsType, SmartChargingSettings, SmartChargingSettingsType, TechnicalSettings, UserSettings, UserSettingsType } from '../types/Setting';
 import TenantComponents from '../types/TenantComponents';
 import { Utils } from '../utils/Utils';
 import { CentralServerService } from './central-server.service';
@@ -157,6 +157,22 @@ export class ComponentService {
     return this.centralServerService.updateSetting(settingsToSave);
   }
 
+  public saveOicpSettings(settings: RoamingSettings): Observable<ActionResponse> {
+    // build setting payload
+    const settingsToSave = {
+      id: settings.id,
+      identifier: TenantComponents.OICP,
+      content: Utils.cloneObject(settings),
+      sensitiveData: ['content.oicp.cpo.key', 'content.oicp.cpo.cert', 'content.oicp.emsp.key', 'content.oicp.emsp.cert']
+    };
+    // Delete IDS
+    delete settingsToSave.content.id;
+    delete settingsToSave.content.identifier;
+    delete settingsToSave.content.sensitiveData;
+    // Save
+    return this.centralServerService.updateSetting(settingsToSave);
+  }
+
   public saveAssetConnectionSettings(settings: AssetSettings): Observable<ActionResponse> {
     // Check the type
     if (!settings.type) {
@@ -265,6 +281,29 @@ export class ComponentService {
           ocpiSettings.ocpi = config.ocpi;
         }
         observer.next(ocpiSettings);
+        observer.complete();
+      }, (error) => {
+        observer.error(error);
+      });
+    });
+  }
+
+  public getOicpSettings(): Observable<RoamingSettings> {
+    return new Observable((observer) => {
+      const oicpSettings = {
+        identifier: TenantComponents.OICP,
+      } as RoamingSettings;
+      // Get the Pricing settings
+      this.centralServerService.getSetting(TenantComponents.OICP).subscribe((settings) => {
+        // Get the currency
+        if (settings) {
+          const config = settings.content;
+          // Set
+          oicpSettings.id = settings.id;
+          oicpSettings.sensitiveData = settings.sensitiveData;
+          oicpSettings.oicp = config.oicp;
+        }
+        observer.next(oicpSettings);
         observer.complete();
       }, (error) => {
         observer.error(error);

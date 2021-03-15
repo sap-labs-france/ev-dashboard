@@ -24,6 +24,21 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.50',
+        date: new Date('2021-03-15'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Roaming: Hubject CPO implementation (beta)`,
+              `Billing: Stripe implementation (alpha)`,
+              `Enhanced the RESTful documentation API`,
+              `Added Ingeteam Charging Station in template`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.49',
         date: new Date('2021-03-12'),
         componentChanges: [

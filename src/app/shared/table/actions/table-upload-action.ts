@@ -1,3 +1,4 @@
+import { OicpButtonAction } from 'types/oicp/OICPEndpoint';
 import { ChargingStationButtonAction } from '../../../types/ChargingStation';
 import { ButtonAction } from '../../../types/GlobalType';
 import { SiteButtonAction } from '../../../types/Site';
@@ -17,7 +18,7 @@ export class TableUploadAction implements TableAction {
     tooltip: 'general.tooltips.upload',
   };
 
-  constructor(id?: ButtonAction | ChargingStationButtonAction | UserButtonAction | TransactionButtonAction | SiteButtonAction | OcpiButtonAction,
+  constructor(id?: ButtonAction | ChargingStationButtonAction | UserButtonAction | TransactionButtonAction | SiteButtonAction | OcpiButtonAction | OicpButtonAction,
     name?: string, tooltip?: string) {
     if (id) {
       this.action.id = id;

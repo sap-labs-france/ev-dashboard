@@ -24,15 +24,31 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.4.49',
-        date: new Date('2021-03-11'),
+        version: '2.4.50',
+        date: new Date('2021-03-13'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
-              `Increased Charging Station's list performances`,
+              `Roaming: Hubject CPO implementation (beta)`,
+              `Billing: Stripe implementation (alpha)`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.49',
+        date: new Date('2021-03-12'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Increased Charging Station's REST performances`,
+              `Updated Charging Station's action in RESTful endpoint`,
               `Aligned all Sessions' consumptions`,
-              `Added getTags and getTag in RESTful endpoint`,
+              `Added Badge CRUD operations in RESTful endpoint`,
+              `Fixed Shelly Charging Station's amperage`,
+              `Fixed Signed Meter Values on EBEE Charging Station`,
             ],
           },
         ],
@@ -47,8 +63,8 @@ export class ReleaseNotesComponent {
               `Accept more firmware versions for IES Charging Stations`,
               `Fixed Shelly in Charging Station's template`,
               `Added Joint Lightning Charging Station in template`,
-              `Made Company RESTful service authorization based (Security)`,
-              `Added User CRUD operations in RESTful API`,
+              `Made Company RESTful endpoints based on authorization (Security)`,
+              `Added User CRUD operations in RESTful endpoint`,
               `Fixed Firmware upload RESTful endpoint`,
               `Fixed empty fields in User's profile are not saved in the database`,
             ],
@@ -493,7 +509,7 @@ export class ReleaseNotesComponent {
               `Added Portuguese translation`,
               `Export users to CSV`,
               `Handle Schneider model EV2S22P4 in Charging Station's Template`,
-              `RESTful API PoC for external consumer (Open Data, Proviridis)`,
+              `RESTful endpoint PoC for external consumer (Open Data, Proviridis)`,
             ],
           },
         ],

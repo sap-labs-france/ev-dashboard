@@ -33,7 +33,22 @@ export interface OCPIJobStatusesResponse extends ActionResponse {
   chargeBoxIDsInSuccess: string[];
 }
 
+export interface OICPJobStatusesResponse extends ActionResponse {
+  success: number;
+  failure: number;
+  total: number;
+  logs: string[];
+  chargeBoxIDsInFailure: string[];
+  chargeBoxIDsInSuccess: string[];
+}
+
 export interface OCPIPingResponse extends ActionResponse {
+  statusCode: number;
+  statusText: string;
+  message: string;
+}
+
+export interface OICPPingResponse extends ActionResponse {
   statusCode: number;
   statusText: string;
   message: string;
@@ -99,6 +114,7 @@ export interface Paging {
   limit: number;
   skip: number;
 }
+
 export interface VerifyEmailResponse extends ActionResponse {
   userStatus?: UserStatus;
 }

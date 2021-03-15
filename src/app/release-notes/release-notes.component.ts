@@ -33,6 +33,7 @@ export class ReleaseNotesComponent {
               `Roaming: Hubject CPO implementation (beta)`,
               `Billing: Stripe implementation (alpha)`,
               `Enhanced the RESTful documentation API`,
+              `Added Ingeteam Charging Station in template`,
             ],
           },
         ],

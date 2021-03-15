@@ -5,8 +5,8 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { StatusCodes } from 'http-status-codes';
 import { BehaviorSubject, EMPTY, Observable, TimeoutError, of, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
-
 import { OicpEndpoint } from 'types/oicp/OICPEndpoint';
+
 import { Asset, AssetConsumption } from '../types/Asset';
 import { BillingInvoice, BillingTax } from '../types/Billing';
 import { Car, CarCatalog, CarMaker, ImageObject } from '../types/Car';
@@ -1670,7 +1670,7 @@ export class CentralServerService {
     this.checkInit();
     const params: { [param: string]: string } = {};
     params['SiteID'] = siteID;
-    return this.httpClient.get(`${this.restServerSecuredURL}/${ServerAction.REST_CHARGING_STATION}/`,
+    return this.httpClient.get(`${this.restServerSecuredURL}/${ServerAction.REST_CHARGING_STATION_DOWNLOAD_QR_CODE_PDF}/`,
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -3015,7 +3015,7 @@ export class CentralServerService {
       }`
     );
     // Execute
-    return this.httpClient.put<ActionResponse>(`${this.restServerSecuredURL}/${ServerAction.CHARGING_STATIONS}/${charger.id}/firmware/update`, body,
+    return this.httpClient.put<ActionResponse>(`${this.restServerSecuredURL}/${ServerAction.REST_CHARGING_STATIONS}/${charger.id}/firmware/update`, body,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -3026,7 +3026,7 @@ export class CentralServerService {
 
   public chargingStationChangeAvailability(id: string, available: boolean, connectorID: number = 0): Observable<ActionResponse> {
     return this.actionChargingStation(
-      `${ServerAction.CHARGING_STATIONS}/${id}/availability/change`, JSON.stringify({
+      `${ServerAction.REST_CHARGING_STATIONS}/${id}/availability/change`, JSON.stringify({
         connectorId: connectorID,
         type: available ? OCPPAvailabilityType.OPERATIVE : OCPPAvailabilityType.INOPERATIVE,
       })

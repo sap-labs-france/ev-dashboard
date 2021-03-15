@@ -1,3 +1,4 @@
+import { OicpButtonAction } from 'types/oicp/OICPEndpoint';
 import { ChargingStationButtonAction } from '../../../types/ChargingStation';
 import { ButtonAction } from '../../../types/GlobalType';
 import { SiteButtonAction } from '../../../types/Site';
@@ -6,7 +7,6 @@ import { TransactionButtonAction } from '../../../types/Transaction';
 import { UserButtonAction } from '../../../types/User';
 import { OcpiButtonAction } from '../../../types/ocpi/OCPIEndpoint';
 import { TableAction } from './table-action';
-import { OicpButtonAction } from 'types/oicp/OICPEndpoint';
 
 export class TableUploadAction implements TableAction {
   private action: TableActionDef = {

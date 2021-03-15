@@ -25,13 +25,14 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.4.50',
-        date: new Date('2021-03-13'),
+        date: new Date('2021-03-15'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `Roaming: Hubject CPO implementation (beta)`,
               `Billing: Stripe implementation (alpha)`,
+              `Enhanced the RESTful documentation API`,
             ],
           },
         ],

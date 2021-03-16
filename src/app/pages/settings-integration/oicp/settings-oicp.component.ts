@@ -8,16 +8,16 @@ import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { RestResponse } from '../../../types/GlobalType';
 import { HTTPError } from '../../../types/HTTPError';
-import { OcpiSetting, RoamingSettings, RoamingSettingsType } from '../../../types/Setting';
+import { OicpSetting, RoamingSettings, RoamingSettingsType } from '../../../types/Setting';
 import TenantComponents from '../../../types/TenantComponents';
 import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 
 @Component({
-  selector: 'app-settings-ocpi',
-  templateUrl: 'settings-ocpi.component.html',
+  selector: 'app-settings-oicp',
+  templateUrl: 'settings-oicp.component.html',
 })
-export class SettingsOcpiComponent implements OnInit {
+export class SettingsOicpComponent implements OnInit {
   public isActive = false;
 
   public formGroup!: FormGroup;
@@ -25,6 +25,8 @@ export class SettingsOcpiComponent implements OnInit {
 
   public cpoCountryCode!: AbstractControl;
   public cpoPartyID!: AbstractControl;
+  public cpoKey!: AbstractControl;
+  public cpoCert!: AbstractControl;
   public emspCountryCode!: AbstractControl;
   public emspPartyID!: AbstractControl;
   public website!: AbstractControl;
@@ -38,7 +40,7 @@ export class SettingsOcpiComponent implements OnInit {
   public logoHeight!: AbstractControl;
   public currency!: AbstractControl;
 
-  public ocpiSettings!: RoamingSettings;
+  public oicpSettings!: RoamingSettings;
 
   public logoTypes: any = [
     { key: '', description: '' },
@@ -64,7 +66,7 @@ export class SettingsOcpiComponent implements OnInit {
     private componentService: ComponentService,
     private spinnerService: SpinnerService,
     private router: Router) {
-    this.isActive = this.componentService.isActive(TenantComponents.OCPI);
+    this.isActive = this.componentService.isActive(TenantComponents.OICP);
   }
 
   public ngOnInit() {
@@ -100,6 +102,16 @@ export class SettingsOcpiComponent implements OnInit {
               Validators.maxLength(3),
               Validators.minLength(3),
             ])),
+          key: new FormControl('',
+            Validators.compose([
+              Validators.required,
+              Validators.minLength(2),
+            ])),
+          cert: new FormControl('',
+              Validators.compose([
+                Validators.required,
+                Validators.minLength(3),
+             ])),
         }),
         emsp: new FormGroup({
           countryCode: new FormControl('',
@@ -125,6 +137,9 @@ export class SettingsOcpiComponent implements OnInit {
       // CPO identifier
       this.cpoCountryCode = (this.formGroup.controls['cpo'] as FormGroup).controls['countryCode'];
       this.cpoPartyID = (this.formGroup.controls['cpo'] as FormGroup).controls['partyID'];
+      // CPO Certificates
+      this.cpoKey = (this.formGroup.controls['cpo'] as FormGroup).controls['key'];
+      this.cpoCert = (this.formGroup.controls['cpo'] as FormGroup).controls['cert'];
       // EMSP identifier
       this.emspCountryCode = (this.formGroup.controls['emsp'] as FormGroup).controls['countryCode'];
       this.emspPartyID = (this.formGroup.controls['emsp'] as FormGroup).controls['partyID'];
@@ -146,23 +161,25 @@ export class SettingsOcpiComponent implements OnInit {
 
   public loadConfiguration() {
     this.spinnerService.show();
-    this.componentService.getOcpiSettings().subscribe((settings) => {
+    this.componentService.getOicpSettings().subscribe((settings) => {
       this.spinnerService.hide();
       // Keep
-      this.ocpiSettings = settings;
+      this.oicpSettings = settings;
       // CPO identifier
-      if (settings.ocpi.cpo) {
-        this.cpoCountryCode.setValue(settings.ocpi.cpo.countryCode);
-        this.cpoPartyID.setValue(settings.ocpi.cpo.partyID);
+      if (settings.oicp.cpo) {
+        this.cpoCountryCode.setValue(settings.oicp.cpo.countryCode);
+        this.cpoPartyID.setValue(settings.oicp.cpo.partyID);
+        this.cpoKey.setValue(settings.oicp.cpo.key);
+        this.cpoCert.setValue(settings.oicp.cpo.cert);
       }
       // EMSP identifier
-      if (settings.ocpi.cpo) {
-        this.emspCountryCode.setValue(settings.ocpi.emsp.countryCode);
-        this.emspPartyID.setValue(settings.ocpi.emsp.partyID);
+      if (settings.oicp.cpo) {
+        this.emspCountryCode.setValue(settings.oicp.emsp.countryCode);
+        this.emspPartyID.setValue(settings.oicp.emsp.partyID);
       }
       // Currency
-      this.currency.setValue(settings.ocpi.currency);
-      const businessDetails = settings.ocpi.businessDetails;
+      this.currency.setValue(settings.oicp.currency);
+      const businessDetails = settings.oicp.businessDetails;
       if (businessDetails) {
         this.name.setValue(businessDetails.name);
         this.website.setValue(businessDetails.website);
@@ -182,7 +199,7 @@ export class SettingsOcpiComponent implements OnInit {
       this.spinnerService.hide();
       switch (error.status) {
         case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
-          this.messageService.showErrorMessage('settings.ocpi.setting_not_found');
+          this.messageService.showErrorMessage('settings.oicp.setting_not_found');
           break;
         default:
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
@@ -191,29 +208,29 @@ export class SettingsOcpiComponent implements OnInit {
     });
   }
 
-  public save(content: OcpiSetting) {
-    this.ocpiSettings.ocpi = content;
-    this.ocpiSettings.type = RoamingSettingsType.OCPI;
+  public save(content: OicpSetting) {
+    this.oicpSettings.oicp = content;
+    this.oicpSettings.type = RoamingSettingsType.OICP;
     this.spinnerService.show();
-    this.componentService.saveOcpiSettings(this.ocpiSettings).subscribe((response) => {
+    this.componentService.saveOicpSettings(this.oicpSettings).subscribe((response) => {
       this.spinnerService.hide();
       if (response.status === RestResponse.SUCCESS) {
         this.messageService.showSuccessMessage(
-          (!this.ocpiSettings.id ? 'settings.ocpi.create_success' : 'settings.ocpi.update_success'));
+          (!this.oicpSettings.id ? 'settings.oicp.create_success' : 'settings.oicp.update_success'));
         this.refresh();
       } else {
         Utils.handleError(JSON.stringify(response),
-          this.messageService, (!this.ocpiSettings.id ? 'settings.ocpi.create_error' : 'settings.ocpi.update_error'));
+          this.messageService, (!this.oicpSettings.id ? 'settings.oicp.create_error' : 'settings.oicp.update_error'));
       }
     }, (error) => {
       this.spinnerService.hide();
       switch (error.status) {
         case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
-          this.messageService.showErrorMessage('settings.ocpi.setting_do_not_exist');
+          this.messageService.showErrorMessage('settings.oicp.setting_do_not_exist');
           break;
         default:
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            (!this.ocpiSettings.id ? 'settings.ocpi.create_error' : 'settings.ocpi.update_error'));
+            (!this.oicpSettings.id ? 'settings.oicp.create_error' : 'settings.oicp.update_error'));
       }
     });
   }

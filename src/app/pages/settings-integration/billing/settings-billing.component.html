@@ -10,7 +10,7 @@
     {{'settings.activation_contact_msg' | translate}}
   </div>
 </div>
-<form *ngIf="isActive" class="form" [formGroup]="formGroup">
+<form *ngIf="isActive" class="form" [formGroup]="formGroup" autocomplete="off">
   <div class="mat-toolbar-row left-actions">
     <button mat-raised-button color="warn" (click)="save(formGroup.value)"
       [disabled]="!formGroup.valid || !formGroup.dirty">

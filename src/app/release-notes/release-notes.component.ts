@@ -31,7 +31,8 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Keba: Add support for latest firmware version`,
-              `Billing - Check that Stripe settings are provided in Start Transaction`
+              `Billing - Check that Stripe settings are provided in Start Transaction`,
+              `Optimized Assets with Site ID like Charging Stations`,
             ],
           },
         ],

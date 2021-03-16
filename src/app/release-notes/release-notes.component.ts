@@ -33,6 +33,7 @@ export class ReleaseNotesComponent {
               `Keba: Add support for latest firmware version`,
               `Billing - Check that Stripe settings are provided in Start Transaction`,
               `Optimized Assets with Site ID like Charging Stations`,
+              `Angular front-end uses the new RESTful enpoint for Charging Station's actions`
             ],
           },
         ],

@@ -24,6 +24,19 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.51',
+        date: new Date('2021-03-16'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Keba: Add support for latest firmware version`,
+              `Billing - Check that Stripe settings are provided in Start Transaction`
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.50',
         date: new Date('2021-03-15'),
         componentChanges: [

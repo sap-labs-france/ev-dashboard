@@ -32,6 +32,7 @@ export class ReleaseNotesComponent {
             changes: [
               `Keba: Add support for latest firmware version`,
               `Billing - Check that Stripe settings are provided in Start Transaction`,
+              `Added Lock aquisition with a timeout`,
               `Optimized Assets with Site ID like Charging Stations`,
               `Angular front-end uses the new RESTful enpoint for Charging Station's actions`
             ],

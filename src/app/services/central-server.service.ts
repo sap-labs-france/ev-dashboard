@@ -5,20 +5,23 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { StatusCodes } from 'http-status-codes';
 import { BehaviorSubject, EMPTY, Observable, TimeoutError, of, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
-
 import { OicpEndpoint } from 'types/oicp/OICPEndpoint';
+
 import { Asset, AssetConsumption } from '../types/Asset';
 import { BillingInvoice, BillingTax } from '../types/Billing';
 import { Car, CarCatalog, CarMaker, ImageObject } from '../types/Car';
 import { ChargingProfile, GetCompositeScheduleCommandResult } from '../types/ChargingProfile';
 import { ChargePoint, ChargingStation, OCPPAvailabilityType, OcppParameter } from '../types/ChargingStation';
 import { Company } from '../types/Company';
+import CentralSystemServerConfiguration from '../types/configuration/CentralSystemServerConfiguration';
 import { IntegrationConnection, UserConnection } from '../types/Connection';
 import { ActionResponse, ActionsResponse, CheckAssetConnectionResponse, CheckBillingConnectionResponse, DataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OICPJobStatusesResponse, OICPPingResponse, Ordering, Paging } from '../types/DataResult';
 import { EndUserLicenseAgreement } from '../types/Eula';
 import { FilterParams, Image, KeyValue } from '../types/GlobalType';
 import { AssetInError, ChargingStationInError, TransactionInError } from '../types/InError';
 import { Log } from '../types/Log';
+import { OcpiEndpoint } from '../types/ocpi/OCPIEndpoint';
+import { OCPPResetType } from '../types/ocpp/OCPP';
 import { RefundReport } from '../types/Refund';
 import { RegistrationToken } from '../types/RegistrationToken';
 import { ServerAction } from '../types/Server';
@@ -30,9 +33,6 @@ import { Tag } from '../types/Tag';
 import { Tenant } from '../types/Tenant';
 import { OcpiData, Transaction } from '../types/Transaction';
 import { User, UserCar, UserDefaultTagCar, UserSite, UserToken } from '../types/User';
-import CentralSystemServerConfiguration from '../types/configuration/CentralSystemServerConfiguration';
-import { OcpiEndpoint } from '../types/ocpi/OCPIEndpoint';
-import { OCPPResetType } from '../types/ocpp/OCPP';
 import { Constants } from '../utils/Constants';
 import { Utils } from '../utils/Utils';
 import { CentralServerNotificationService } from './central-server-notification.service';
@@ -46,6 +46,7 @@ export class CentralServerService {
   private centralRestServerServiceSecuredURL!: string;
   private centralRestServerServiceUtilURL!: string;
   private restServerAuthURL!: string;
+  private restServerSecuredURL!: string;
   private centralSystemServerConfig: CentralSystemServerConfiguration;
   private initialized = false;
   private currentUserToken!: string;
@@ -404,7 +405,7 @@ export class CentralServerService {
     // Build Ordering
     this.getSorting(ordering, params);
     return this.httpClient.get<DataResult<ChargingProfile>>(
-      `${this.centralRestServerServiceSecuredURL}/${ServerAction.CHARGING_PROFILES}`,
+      `${this.restServerSecuredURL}/${ServerAction.REST_CHARGING_PROFILES}`,
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -418,7 +419,7 @@ export class CentralServerService {
     this.checkInit();
     const params: { [param: string]: string } = {};
     params['SiteAreaID'] = siteAreaID;
-    return this.httpClient.get<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TRIGGER_SMART_CHARGING}`,
+    return this.httpClient.get<ActionResponse>(`${this.restServerSecuredURL}/${ServerAction.REST_CHARGING_STATION_TRIGGER_SMART_CHARGING}`,
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -639,14 +640,13 @@ export class CentralServerService {
 
   public getLastTransaction(chargingStationID: string, connectorID: number): Observable<DataResult<Transaction>> {
     const params: { [param: string]: string } = {};
-    params['ChargeBoxID'] = chargingStationID;
     params['ConnectorId'] = connectorID.toString();
     params['Limit'] = '1';
     params['Skip'] = '0';
     params['SortFields'] = '-timestamp';
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<DataResult<Transaction>>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CHARGING_STATION_TRANSACTIONS}`,
+    return this.httpClient.get<DataResult<Transaction>>(`${this.restServerSecuredURL}/${ServerAction.REST_CHARGING_STATIONS}/${chargingStationID}/transactions`,
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -729,7 +729,7 @@ export class CentralServerService {
     // Build Ordering
     this.getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<DataResult<ChargingStation>>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CHARGING_STATIONS}`,
+    return this.httpClient.get<DataResult<ChargingStation>>(`${this.restServerSecuredURL}/${ServerAction.REST_CHARGING_STATIONS}`,
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -746,10 +746,9 @@ export class CentralServerService {
       return EMPTY;
     }
     // Execute the REST service
-    return this.httpClient.get<ChargingStation>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CHARGING_STATION}`,
+    return this.httpClient.get<ChargingStation>(`${this.restServerSecuredURL}/${ServerAction.REST_CHARGING_STATIONS}/${id}`,
       {
         headers: this.buildHttpHeaders(),
-        params: { ID: id },
       })
       .pipe(
         catchError(this.handleHttpError),
@@ -763,13 +762,9 @@ export class CentralServerService {
       return EMPTY;
     }
     // Execute the REST service
-    return this.httpClient.get<Image>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.GENERATE_QR_CODE_FOR_CONNECTOR}`,
+    return this.httpClient.get<Image>(`${this.restServerSecuredURL}/${ServerAction.REST_CHARGING_STATIONS}/${chargingStationID}/connectors/${connectorID}/qrcode/generate`,
       {
         headers: this.buildHttpHeaders(),
-        params: {
-          ChargingStationID: chargingStationID,
-          ConnectorID: connectorID.toString()
-        },
       })
       .pipe(
         catchError(this.handleHttpError),
@@ -786,7 +781,7 @@ export class CentralServerService {
     // Build Ordering
     this.getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<DataResult<ChargingStationInError>>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CHARGING_STATIONS_IN_ERROR}`,
+    return this.httpClient.get<DataResult<ChargingStationInError>>(`${this.restServerSecuredURL}/${ServerAction.REST_CHARGING_STATIONS_IN_ERROR}`,
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -1246,7 +1241,7 @@ export class CentralServerService {
 
   public exportChargingStations(params: FilterParams): Observable<Blob> {
     this.checkInit();
-    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CHARGING_STATIONS_EXPORT}`,
+    return this.httpClient.get(`${this.restServerSecuredURL}/${ServerAction.REST_CHARGING_STATIONS_EXPORT}`,
       {
         headers: this.buildHttpHeaders(),
         responseType: 'blob',
@@ -1260,7 +1255,7 @@ export class CentralServerService {
   public exportAllChargingStationsOCPPParams(params: FilterParams): Observable<Blob> {
     // Verify init
     this.checkInit();
-    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CHARGING_STATIONS_OCPP_PARAMS_EXPORT}`,
+    return this.httpClient.get(`${this.restServerSecuredURL}/${ServerAction.REST_CHARGING_STATIONS_OCPP_PARAMS_EXPORT}`,
       {
         headers: this.buildHttpHeaders(),
         responseType: 'blob',
@@ -1675,7 +1670,7 @@ export class CentralServerService {
     this.checkInit();
     const params: { [param: string]: string } = {};
     params['SiteID'] = siteID;
-    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CHARGING_STATION_DOWNLOAD_QR_CODE_PDF}`,
+    return this.httpClient.get(`${this.restServerSecuredURL}/${ServerAction.REST_CHARGING_STATION_DOWNLOAD_QR_CODE_PDF}/`,
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -1690,7 +1685,7 @@ export class CentralServerService {
     this.checkInit();
     const params: { [param: string]: string } = {};
     params['SiteAreaID'] = siteAreaID;
-    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CHARGING_STATION_DOWNLOAD_QR_CODE_PDF}`,
+    return this.httpClient.get(`${this.restServerSecuredURL}/${ServerAction.REST_CHARGING_STATION_DOWNLOAD_QR_CODE_PDF}`,
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -1708,7 +1703,7 @@ export class CentralServerService {
     if (connectorID) {
       params['ConnectorID'] = connectorID.toString();
     }
-    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CHARGING_STATION_DOWNLOAD_QR_CODE_PDF}`,
+    return this.httpClient.get(`${this.restServerSecuredURL}/${ServerAction.REST_CHARGING_STATION_DOWNLOAD_QR_CODE_PDF}`,
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -2157,7 +2152,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute
-    return this.httpClient.get<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CHECK_SMART_CHARGING_CONNECTION}`,
+    return this.httpClient.get<ActionResponse>(`${this.restServerSecuredURL}/${ServerAction.REST_CHARGING_STATION_CHECK_SMART_CHARGING_CONNECTION}`,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2628,13 +2623,12 @@ export class CentralServerService {
   public chargingStationStopTransaction(chargeBoxId: string, transactionId: number): Observable<ActionResponse> {
     this.checkInit();
     const body = {
-      chargeBoxID: chargeBoxId,
       args: {
         transactionId,
       },
     };
-    return this.httpClient.post<ActionResponse>(
-      `${this.centralRestServerServiceSecuredURL}/${ServerAction.CHARGING_STATION_REMOTE_STOP_TRANSACTION}`, body,
+    return this.httpClient.put<ActionResponse>(
+      `${this.restServerSecuredURL}/${ServerAction.REST_CHARGING_STATIONS}/${chargeBoxId}/remote/stop`, body,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2651,8 +2645,8 @@ export class CentralServerService {
         connectorId,
       },
     };
-    return this.httpClient.post<ActionResponse>(
-      `${this.centralRestServerServiceSecuredURL}/${ServerAction.CHARGING_STATION_UNLOCK_CONNECTOR}`, body,
+    return this.httpClient.put<ActionResponse>(
+      `${this.restServerSecuredURL}/${ServerAction.REST_CHARGING_STATIONS}/${chargeBoxId}/connectors/${connectorId}/unlock`, body,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2664,15 +2658,14 @@ export class CentralServerService {
   public chargingStationStartTransaction(chargeBoxId: string, connectorId: number, tagID: string, carID?: string): Observable<ActionResponse> {
     this.checkInit();
     const body = {
-      chargeBoxID: chargeBoxId,
       carID,
       args: {
         tagID,
         connectorId,
       },
     };
-    return this.httpClient.post<ActionResponse>(
-      `${this.centralRestServerServiceSecuredURL}/${ServerAction.CHARGING_STATION_REMOTE_START_TRANSACTION}`, body,
+    return this.httpClient.put<ActionResponse>(
+      `${this.restServerSecuredURL}/${ServerAction.REST_CHARGING_STATIONS}/${chargeBoxId}/remote/start`, body,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2686,7 +2679,7 @@ export class CentralServerService {
     this.checkInit();
     // Execute
     return this.httpClient.put<ActionResponse>(
-      `${this.centralRestServerServiceSecuredURL}/${ServerAction.CHARGING_STATION_UPDATE_PARAMS}`, chargingStation,
+      `${this.restServerSecuredURL}/${ServerAction.REST_CHARGING_STATIONS}/${chargingStation.id}/parameters`, chargingStation,
       {
         headers: this.buildHttpHeaders(this.windowService.getSubdomain()),
       })
@@ -2700,7 +2693,7 @@ export class CentralServerService {
     this.checkInit();
     // Execute
     return this.httpClient.put<ActionResponse>(
-      `${this.centralRestServerServiceSecuredURL}/${ServerAction.CHARGING_PROFILE_UPDATE}`, chargingProfile,
+      `${this.restServerSecuredURL}/${ServerAction.REST_CHARGING_PROFILES}/${chargingProfile.id}`, chargingProfile,
       {
         headers: this.buildHttpHeaders(this.windowService.getSubdomain()),
       })
@@ -2714,7 +2707,7 @@ export class CentralServerService {
     this.checkInit();
     // Execute
     return this.httpClient.delete<ActionResponse>(
-      `${this.centralRestServerServiceSecuredURL}/${ServerAction.CHARGING_PROFILE_DELETE}?ID=${id}`,
+      `${this.restServerSecuredURL}/${ServerAction.REST_CHARGING_PROFILES}/${id}`,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2728,7 +2721,7 @@ export class CentralServerService {
     this.checkInit();
     // Execute the REST service
     return this.httpClient.delete<ActionResponse>(
-      `${this.centralRestServerServiceSecuredURL}/${ServerAction.CHARGING_STATION_DELETE}?ID=${id}`,
+      `${this.restServerSecuredURL}/${ServerAction.REST_CHARGING_STATIONS}/${id}`,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2742,7 +2735,7 @@ export class CentralServerService {
     this.checkInit();
     // Execute REST Service
     return this.httpClient.get<DataResult<OcppParameter>>(
-      `${this.centralRestServerServiceSecuredURL}/${ServerAction.CHARGING_STATIONS_OCPP_PARAMETERS}?ChargeBoxID=${chargingStationID}`,
+      `${this.restServerSecuredURL}/${ServerAction.REST_CHARGING_STATIONS}/${chargingStationID}/ocpp/parameters`,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2926,7 +2919,6 @@ export class CentralServerService {
     // Execute the REST service
     const custom = chargerParameter.custom ? chargerParameter.custom : false;
     const body = `{
-      "chargeBoxID": "${id}",
       "args": {
         "key": "${chargerParameter.key}",
         "value": "${chargerParameter.value}",
@@ -2934,7 +2926,7 @@ export class CentralServerService {
       }
     }`;
     // Execute
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CHARGING_STATION_CHANGE_CONFIGURATION}`, body,
+    return this.httpClient.put<ActionResponse>(`${this.restServerSecuredURL}/${ServerAction.REST_CHARGING_STATIONS}/${id}/configuration`, body,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2950,7 +2942,6 @@ export class CentralServerService {
     // build request
     const body =
       `{
-        "chargeBoxID": "${id}",
         "args": {
           "connectorId": ${connectorId},
           "duration": ${duration},
@@ -2958,8 +2949,8 @@ export class CentralServerService {
         }
       }`;
     // Execute
-    return this.httpClient.post<GetCompositeScheduleCommandResult | GetCompositeScheduleCommandResult[]>(
-      `${this.centralRestServerServiceSecuredURL}/${ServerAction.CHARGING_STATION_GET_COMPOSITE_SCHEDULE}`, body,
+    return this.httpClient.put<GetCompositeScheduleCommandResult | GetCompositeScheduleCommandResult[]>(
+      `${this.restServerSecuredURL}/${ServerAction.REST_CHARGING_STATIONS}/${id}/compositeschedule`, body,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2972,8 +2963,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute
-    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CHARGING_STATION_LIMIT_POWER}`, {
-      chargeBoxID: charger.id,
+    return this.httpClient.put<ActionResponse>(`${this.restServerSecuredURL}/${ServerAction.REST_CHARGING_STATIONS}/${charger.id}/power/limit`, {
       chargePointID: chargePoint.chargePointID,
       connectorId,
       ampLimitValue,
@@ -3016,7 +3006,6 @@ export class CentralServerService {
     const date = new Date().toISOString();
     const body = (
       `{
-        "chargeBoxID": "${charger.id}",
         "args": {
           "location": "${locationURL}",
           "retries": 0,
@@ -3026,7 +3015,7 @@ export class CentralServerService {
       }`
     );
     // Execute
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CHARGING_STATION_UPDATE_FIRMWARE}`, body,
+    return this.httpClient.put<ActionResponse>(`${this.restServerSecuredURL}/${ServerAction.REST_CHARGING_STATIONS}/${charger.id}/firmware/update`, body,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -3037,7 +3026,7 @@ export class CentralServerService {
 
   public chargingStationChangeAvailability(id: string, available: boolean, connectorID: number = 0): Observable<ActionResponse> {
     return this.actionChargingStation(
-      ServerAction.CHARGING_STATION_CHANGE_AVAILABILITY, id, JSON.stringify({
+      `${ServerAction.REST_CHARGING_STATIONS}/${id}/availability/change`, JSON.stringify({
         connectorId: connectorID,
         type: available ? OCPPAvailabilityType.OPERATIVE : OCPPAvailabilityType.INOPERATIVE,
       })
@@ -3046,28 +3035,24 @@ export class CentralServerService {
 
   public chargingStationReset(id: string, hard: boolean = false): Observable<ActionResponse> {
     return this.actionChargingStation(
-      ServerAction.CHARGING_STATION_RESET, id, JSON.stringify({ type: hard ? OCPPResetType.HARD : OCPPResetType.SOFT }));
+      `${ServerAction.REST_CHARGING_STATIONS}/${id}/reset`, JSON.stringify({ type: hard ? OCPPResetType.HARD : OCPPResetType.SOFT }));
   }
 
   public chargingStationClearCache(id: string): Observable<ActionResponse> {
-    return this.actionChargingStation(ServerAction.CHARGING_STATION_CLEAR_CACHE, id, '');
+    return this.actionChargingStation(`${ServerAction.REST_CHARGING_STATIONS}/${id}/cache/clear`, '');
   }
 
-  public actionChargingStation(action: string, id: string, args: string): Observable<ActionResponse> {
+  public actionChargingStation(action: string, args: string): Observable<ActionResponse> {
     // Verify init
     this.checkInit();
     // Execute the REST service
     const body = (args ?
       `{
-        "chargeBoxID": "${id}",
         "args": ${args}
-      }` :
-      `{
-        "chargeBoxID": "${id}"
-      }`
+      }` : ''
     );
     // Execute
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${action}`, body,
+    return this.httpClient.put<ActionResponse>(`${this.restServerSecuredURL}/${action}`, body,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -3081,7 +3066,7 @@ export class CentralServerService {
     this.checkInit();
     // Execute the REST service
     return this.httpClient.post<ActionResponse>(
-      `${this.centralRestServerServiceSecuredURL}/${ServerAction.CHARGING_STATION_REQUEST_OCPP_PARAMETERS}`,
+      `${this.restServerSecuredURL}/${ServerAction.REST_CHARGING_STATION_REQUEST_OCPP_PARAMETERS}`,
       {
         chargeBoxID: id,
         forceUpdateOCPPParamsFromTemplate: false,
@@ -3099,7 +3084,7 @@ export class CentralServerService {
     this.checkInit();
     // Execute the REST service
     return this.httpClient.post<ActionResponse>(
-      `${this.centralRestServerServiceSecuredURL}/${ServerAction.CHARGING_STATION_REQUEST_OCPP_PARAMETERS}`,
+      `${this.restServerSecuredURL}/${ServerAction.REST_CHARGING_STATION_REQUEST_OCPP_PARAMETERS}`,
       {
         chargeBoxID: id,
         forceUpdateOCPPParamsFromTemplate: true,
@@ -3161,6 +3146,8 @@ export class CentralServerService {
       this.centralServerNotificationService.setcentralRestServerServiceURL(this.centralRestServerServiceBaseURL);
       // Auth API
       this.restServerAuthURL = this.centralRestServerServiceBaseURL + '/v1/auth';
+      // REST Secured API
+      this.restServerSecuredURL = this.centralRestServerServiceBaseURL + '/v1/api';
       // Secured API
       this.centralRestServerServiceSecuredURL = this.centralRestServerServiceBaseURL + '/client/api';
       // Util API

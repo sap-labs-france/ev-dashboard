@@ -2926,7 +2926,7 @@ export class CentralServerService {
       }
     }`;
     // Execute
-    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.REST_CHARGING_STATIONS}/${id}/configuration`, body,
+    return this.httpClient.put<ActionResponse>(`${this.restServerSecuredURL}/${ServerAction.REST_CHARGING_STATIONS}/${id}/configuration`, body,
       {
         headers: this.buildHttpHeaders(),
       })

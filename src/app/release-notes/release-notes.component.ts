@@ -34,6 +34,7 @@ export class ReleaseNotesComponent {
               `Billing - Check that Stripe settings are provided in Start Transaction`,
               `Added Lock aquisition with a timeout`,
               `Optimized Assets with Site ID like Charging Stations`,
+              `Accept more firmware versions on Ingeteam Charging Station`,
               `Angular front-end uses the new RESTful enpoint for Charging Station's actions`
             ],
           },

@@ -32,7 +32,9 @@ export class ReleaseNotesComponent {
             changes: [
               `Keba: Add support for latest firmware version`,
               `Billing - Check that Stripe settings are provided in Start Transaction`,
+              `Billing - Enrich Stripe invoice information`,
               `Added Lock aquisition with a timeout`,
+              `Add Get Charging Station endpoint schema validation in RESTful endpoint`,
               `Optimized Assets with Site ID like Charging Stations`,
               `Accept more firmware versions on Ingeteam Charging Station`,
               `Angular front-end uses the new RESTful enpoint for Charging Station's actions`

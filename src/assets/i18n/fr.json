@@ -1298,7 +1298,7 @@
     "issuer": "Propriétaire",
     "status": "Statut",
     "activated": "Activé",
-    "deactivated": "Désactivé",
+    "deactivated": "Inactif",
     "sessions": "Sessions",
     "activate_title": "Badge activation",
     "activate_confirm": "Voulez-vous vraiment activer le badge '{{tagID}}'? Lorsqu'il sera activé, ce badge pourra servir pour démarrer une session.",

@@ -2006,7 +2006,7 @@
     }
   },
   "car": {
-    "title": "Car",
+    "title": "Car Management",
     "description": "Gestion des voitures",
     "tabs": {
       "car_catalogs": "Catalogue Voitures",

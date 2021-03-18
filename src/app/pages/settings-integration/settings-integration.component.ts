@@ -39,6 +39,6 @@ export class SettingsIntegrationComponent extends AbstractTabComponent {
     this.isSacActive = this.componentService.isActive(TenantComponents.ANALYTICS);
     this.isSmartChargingActive = this.componentService.isActive(TenantComponents.SMART_CHARGING);
     this.isAssetActive = this.componentService.isActive(TenantComponents.ASSET);
-    this.isAssetActive = this.componentService.isActive(TenantComponents.CAR_CONNECTOR);
+    this.isCarConnectorActive = this.componentService.isActive(TenantComponents.CAR_CONNECTOR);
   }
 }

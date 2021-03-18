@@ -1369,7 +1369,7 @@
       "analytics": "Analysen",
       "smartCharging": "Smart-Charging",
       "asset": "Asset",
-      "car_connector": "Fahrzeug Verbindung"
+      "car_connector": "Fahrzeug-Schnittstellen"
     },
     "ocpi": {
       "gireve": {
@@ -1569,7 +1569,7 @@
     },
     "car_connector": {
       "connection": {
-        "title": "Fahrzeug Verbindungen",
+        "title": "Fahrzeug-Schnittstellen",
         "name": "Name",
         "description": "Beschreibung",
         "type": "Typ",
@@ -1577,19 +1577,19 @@
         "api_url": "API-Url",
         "client_id":"Client ID",
         "client_secret":"Client Secret",
-        "delete_title": "Fahrzeugverbindung löschen",
-        "delete_confirm": "Möchten Sie wirklich die Fahrzeugverbindung '{{carConnectorConnectionName}}' löschen?"
+        "delete_title": "Fahrzeug-Schnittstellen löschen",
+        "delete_confirm": "Möchten Sie wirklich die Fahrzeug-Schnittstelle '{{carConnectorConnectionName}}' löschen?"
       },
       "types": {
-        "mercedes": "Mercedes Connector"
+        "mercedes": "Mercedes Schnittstelle"
       },
-      "description": "E-Mobility can get real time data of your cars like the current state of charge and use this information with the smart charging algorithm to optimize charging sessions.",
-      "setting_do_not_exist": "Configuration has not been found",
-      "setting_not_found": "Car connector settings have not been found",
-      "create_success": "Car connector settings have been created successfully",
-      "create_error": "Error occurred while creating the Car connector settings, check the logs",
-      "update_success": "Car connector settings have been updated successfully",
-      "update_error": "Error occurred while updating the Car connector settings, check the logs"
+      "description": "E-Mobility ist in der Lage Fahrzeugdaten wie z.B. Batteriestand zu empfangen und diese Informationen für Smart Charging und die Optimierung von Ladevorgängen nutzen",
+      "setting_do_not_exist": "Die Konfiguration wurde nicht gefunden",
+      "setting_not_found": "Die Schnittstellen-Einstellungen konnten nicht gefunden werden.",
+      "create_success": "Die Schnittstellen-Einstellungen wurden erfolgreich erstellt.",
+      "create_error": "Während der Erstellung der Schnittstellen-Einstellungen ist ein Fehler aufgetreten.",
+      "update_success": "Die Schnittstellen-Einstellungen wurden erfolgreich aktualisiert",
+      "update_error": "Während der Aktualisierung der Schnittstellen-Einstellungen ist ein Fehler aufgetreten"
     },
     "information": "Informationen",
     "activation_contact_msg": "Um dieses Feature zu aktivieren, kontaktieren Sie bitte Ihren E-Mobility Verantwortlichen.",
@@ -2006,7 +2006,7 @@
     }
   },
   "car": {
-    "title": "Fahrzeug",
+    "title": "Fahrzeug Management",
     "description": "Fahrzeuge verwalten",
     "tabs": {
       "car_catalogs": "Fahrzeugverzeichnisse",
@@ -2014,8 +2014,8 @@
     }
   },
   "car_connector": {
-    "title": "Car Connector",
-    "description": "Use APIs to gain real time data of your cars"
+    "title": "Fahrzeug-Schnittstellen",
+    "description": "Nutzen Sie APIs um Daten von Ihren Fahrzeugen zu empfangen"
   },
   "analytics": {
     "title": "Analytics",

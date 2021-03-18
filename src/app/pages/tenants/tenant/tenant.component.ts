@@ -247,7 +247,7 @@ export class TenantComponent implements OnInit {
       this.messageService.showErrorMessage('tenants.save_error_asset');
       return;
     }
-    if (assetActive && !carActive) {
+    if (carConnectorActive && !carActive) {
       this.messageService.showErrorMessage('tenants.save_error_car_connector');
       return;
     }

@@ -440,7 +440,7 @@ export class ComponentService {
       const carConnectorsSettings = {
         identifier: TenantComponents.CAR_CONNECTOR,
       } as CarConnectorSettings;
-      // Get the Asset settings
+      // Get the Car Connector settings
       this.centralServerService.getSetting(TenantComponents.CAR_CONNECTOR).subscribe((settings) => {
         // Get the currency
         if (settings) {

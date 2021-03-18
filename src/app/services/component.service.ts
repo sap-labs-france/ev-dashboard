@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { ActionResponse } from '../types/DataResult';
-import { AnalyticsSettings, AssetConnectionType, AssetSettings, AssetSettingsType, BillingSettings, BillingSettingsType, CryptoSettings, PricingSettings, PricingSettingsType, RefundSettings, RefundSettingsType, RoamingSettings, RoamingSettingsType, SmartChargingSettings, SmartChargingSettingsType, TechnicalSettings, UserSettings, UserSettingsType } from '../types/Setting';
+import { AnalyticsSettings, AssetConnectionType, AssetSettings, AssetSettingsType, BillingSettings, BillingSettingsType, CarConnectorConnectionType, CarConnectorSetting, CarConnectorSettings, CarConnectorSettingsType, CryptoSettings, PricingSettings, PricingSettingsType, RefundSettings, RefundSettingsType, RoamingSettings, RoamingSettingsType, SmartChargingSettings, SmartChargingSettingsType, TechnicalSettings, UserSettings, UserSettingsType } from '../types/Setting';
 import TenantComponents from '../types/TenantComponents';
 import { Utils } from '../utils/Utils';
 import { CentralServerService } from './central-server.service';
@@ -192,6 +192,34 @@ export class ComponentService {
           break;
         case AssetConnectionType.GREENCOM:
           settingsToSave.sensitiveData.push(`content.asset.connections[${index}].greencomConnection.clientSecret`);
+          break;
+      }
+
+    });
+    // Delete IDS
+    delete settingsToSave.content.id;
+    delete settingsToSave.content.identifier;
+    delete settingsToSave.content.sensitiveData;
+    // Save
+    return this.centralServerService.updateSetting(settingsToSave);
+  }
+
+  public saveCarConnectorConnectionSettings(settings: CarConnectorSettings): Observable<ActionResponse> {
+    // Check the type
+    if (!settings.type) {
+      settings.type = CarConnectorSettingsType.CAR_CONNECTOR;
+    }
+    // build setting payload
+    const settingsToSave = {
+      id: settings.id,
+      identifier: TenantComponents.CAR_CONNECTOR,
+      sensitiveData: [],
+      content: Utils.cloneObject(settings) as CarConnectorSettings,
+    };
+    settingsToSave.content.carConnector.connections.forEach((settingConnection, index) => {
+      switch (settingConnection.type) {
+        case CarConnectorConnectionType.MERCEDES:
+          settingsToSave.sensitiveData.push(`content.carConnectors.connections[${index}].mercedesConnection.clientSecret`);
           break;
       }
 
@@ -400,6 +428,31 @@ export class ComponentService {
           assetSettings.asset = config.asset;
         }
         observer.next(assetSettings);
+        observer.complete();
+      }, (error) => {
+        observer.error(error);
+      });
+    });
+  }
+
+  public getCarConnectorSettings(): Observable<CarConnectorSettings> {
+    return new Observable((observer) => {
+      const carConnectorsSettings = {
+        identifier: TenantComponents.CAR_CONNECTOR,
+      } as CarConnectorSettings;
+      // Get the Asset settings
+      this.centralServerService.getSetting(TenantComponents.CAR_CONNECTOR).subscribe((settings) => {
+        // Get the currency
+        if (settings) {
+          const config = settings.content;
+          // ID
+          carConnectorsSettings.id = settings.id;
+          // Sensitive data
+          carConnectorsSettings.sensitiveData = settings.sensitiveData;
+          // Set
+          carConnectorsSettings.carConnector = config.carConnector;
+        }
+        observer.next(carConnectorsSettings);
         observer.complete();
       }, (error) => {
         observer.error(error);

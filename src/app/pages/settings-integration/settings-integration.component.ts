@@ -22,13 +22,14 @@ export class SettingsIntegrationComponent extends AbstractTabComponent {
   public isSacActive = false;
   public isSmartChargingActive = false;
   public isAssetActive = false;
+  public isCarConnectorActive = false;
 
   constructor(
     private componentService: ComponentService,
     activatedRoute: ActivatedRoute,
     windowService: WindowService,
   ) {
-    super(activatedRoute, windowService, ['roaming', 'oicp', 'refunding', 'pricing', 'billing', 'analytics', 'smartCharging', 'asset']);
+    super(activatedRoute, windowService, ['roaming', 'oicp', 'refunding', 'pricing', 'billing', 'analytics', 'smartCharging', 'asset', 'carConnector']);
     this.isOCPIActive = this.componentService.isActive(TenantComponents.OCPI);
     this.isOICPActive = this.componentService.isActive(TenantComponents.OICP);
     this.isOrganizationActive = this.componentService.isActive(TenantComponents.ORGANIZATION);
@@ -38,5 +39,6 @@ export class SettingsIntegrationComponent extends AbstractTabComponent {
     this.isSacActive = this.componentService.isActive(TenantComponents.ANALYTICS);
     this.isSmartChargingActive = this.componentService.isActive(TenantComponents.SMART_CHARGING);
     this.isAssetActive = this.componentService.isActive(TenantComponents.ASSET);
+    this.isAssetActive = this.componentService.isActive(TenantComponents.CAR_CONNECTOR);
   }
 }

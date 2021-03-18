@@ -1353,6 +1353,7 @@
     "save_error_refund": "La tarification doit être active pour utiliser le remboursement",
     "save_error_billing": "La tarification doit être active pour utiliser la facturation",
     "save_error_smart_charging": "L'organisation doit être active pour utiliser Smart Charging",
+    "save_error_car_connector": "Car Management must be active to use Car Connector",
     "smart_charging_still_active_for_site_area": "La charge intelligente est encore active pour certaines zones.<br>Désactivez la charge intelligente sur ces zones.",
     "logo_size_error": "La taille de l'image est trop importante, la limite est de {{maxPictureKb}} Ko"
   },
@@ -1367,7 +1368,8 @@
       "billing": "Facturation",
       "analytics": "Statistiques",
       "smart_charging": "Charge Intelligente",
-      "asset": "Asset"
+      "asset": "Asset",
+      "car_connector": "Car Connector"
     },
     "ocpi": {
       "gireve": {
@@ -1564,6 +1566,30 @@
       "create_error": "Une erreur est survenue pendant la creation de la configuration des ressources, vérifiez les logs",
       "update_success": "La configuration des ressources a été mise à jour avec succès",
       "update_error": "Une erreur est survenue durant la mise à jour de la configuration des ressources, vérifiez les logs"
+    },
+    "car_connector": {
+      "connection": {
+        "title": "Car connectors",
+        "name": "Name",
+        "description": "Description",
+        "type": "Type",
+        "authentication_url": "Authentication Url",
+        "api_url": "API Url",
+        "client_id":"Client ID",
+        "client_secret":"Client Secret",
+        "delete_title": "Delete Car Connector",
+        "delete_confirm": "Do you really want to delete the car connector '{{carConnectorConnectionName}}'?"
+      },
+      "types": {
+        "mercedes": "Mercedes Connector"
+      },
+      "description": "E-Mobility can get real time data of your cars like the current state of charge and use this information with the smart charging algorithm to optimize charging sessions.",
+      "setting_do_not_exist": "Configuration has not been found",
+      "setting_not_found": "Car connector settings have not been found",
+      "create_success": "Car connector settings have been created successfully",
+      "create_error": "Error occurred while creating the Car connector settings, check the logs",
+      "update_success": "Car connector settings have been updated successfully",
+      "update_error": "Error occurred while updating the Car connector settings, check the logs"
     },
     "information": "Information",
     "activation_contact_msg": "Pour activer cette fonctionnalité, veuillez contacter votre administrateur E-Mobility.",
@@ -1986,6 +2012,10 @@
       "car_catalogs": "Catalogue Voitures",
       "cars": "Gestion des Voitures"
     }
+  },
+  "car_connector": {
+    "title": "Car Connector",
+    "description": "Use APIs to gain real time data of your cars"
   },
   "analytics": {
     "title": "Analytique",

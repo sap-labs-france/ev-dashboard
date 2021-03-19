@@ -99,8 +99,8 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public isRefundConnectionValid!: boolean;
   public canSeeInvoice: boolean;
   private currentLocale!: string;
-  public canListPaymentMethods: boolean;
   public canCreatePaymentMethod: boolean;
+  public isBillingComponentActive: boolean;
 
   constructor(
     private authorizationService: AuthorizationService,
@@ -143,6 +143,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         }
       });
     }
+    this.isBillingComponentActive = this.componentService.isActive(TenantComponents.BILLING);
   }
 
   public updateRoute(event: number) {
@@ -304,7 +305,6 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     if (!this.currentUserID) {
       return;
     }
-    this.canListPaymentMethods = this.authorizationService.canListPaymentMethods();
     // TODO: Fix setSearch with userIDs as param
     this.windowService.setSearch('userID', (this.currentUserID).toString())
 

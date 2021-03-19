@@ -172,7 +172,7 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
       if (this.chargePoint && !this.manualConfiguration) {
         this.formConnectorGroup.disable();
         if (this.isAdmin) {
-        this.phaseAssignmentToGrid.enable();
+          this.phaseAssignmentToGrid.enable();
         }
       } else {
         this.formConnectorGroup.enable();

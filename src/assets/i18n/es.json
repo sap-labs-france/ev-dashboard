@@ -683,6 +683,7 @@
     "public_charger": "Publica",
     "exclude_smart_charging": "Excluir carga inteligente",
     "force_inactive": "This charging station is inactive",
+    "manual_configuration": "Manual configuration",
     "public_url": "URL pública",
     "current_ip": "Ruta IP actual",
     "select_chargers": "Seleccionar estación de carga",
@@ -765,8 +766,16 @@
         "title": "Ubicación de las estaciones de carga"
       },
       "settings": {
-        "fixedURLforOCPP": "Desde OCPP 1.6 en adelante, el servidor fija la URL",
-        "callbackURLforOCPP": "Retrollamada de la URL para mandar una soliditud HTTP a la estación de carga "
+        "fixed_url_for_ocpp": "Desde OCPP 1.6 en adelante, el servidor fija la URL",
+        "callback_url_for_ocpp": "Retrollamada de la URL para mandar una soliditud HTTP a la estación de carga "
+      },
+      "enable_manual_configuration":{
+        "title": "Enable manual configuration",
+        "confirm": "If you enable the manual configuration, the charging station will not be adjusted with the automatic configuration template anymore. Do you want to continue?"
+      },
+      "disable_manual_configuration":{
+        "title": "Disable manual configuration",
+        "confirm": "If you disable the manual configuration, the charging station will be adjusted with the automatic configuration template, rebooted and your manual changes will be lost. Do you want to continue?"
       }
     },
     "force_available_status_action": "Establecer como disponible",
@@ -936,6 +945,7 @@
     "change_config_success": "La configuración de la estación de carga '{{chargeBoxID}}' se ha guardado exitosamente",
     "change_config_error": "Cannot change the configuration of the charging station, check the logs",
     "change_config_phase_error": "No se puede asignar una estación de carga trifásica a una zona monofásica",
+    "charge_point_connectors_error": "Error occurred while saving the charging station. The charge points properties do not match its connectors",
     "change_params_success": "El parámetro '{{paramKey}}' se ha actualizado correctamente en la estación de carga '{{chargeBoxID}}'",
     "change_params_error": "Se produjo un error al intentar actualizar el parámetro de la estación de carga",
     "delete_title": "Eliminar",

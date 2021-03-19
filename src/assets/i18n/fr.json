@@ -683,6 +683,7 @@
     "public_charger": "Public",
     "exclude_smart_charging": "Exclure de la charge intelligente",
     "force_inactive": "Cette borne est inactive",
+    "manual_configuration": "Configuration Manuelle",
     "public_url": "URL Publique",
     "current_ip": "Route IP Actuelle",
     "select_chargers": "Selection Borne",
@@ -765,8 +766,16 @@
         "title": "Localisation des bornes"
       },
       "settings": {
-        "fixedURLforOCPP": "Depuis la version OCPP 1.6, l'URL est fixée par le serveur",
-        "callbackURLforOCPP": "URL de retour pour envoyer les requêtes HHTP à la borne"
+        "fixed_url_for_ocpp": "Depuis la version OCPP 1.6, l'URL est fixée par le serveur",
+        "callback_url_for_ocpp": "URL de retour pour envoyer les requêtes HHTP à la borne"
+      },
+      "enable_manual_configuration": {
+        "title": "Activer la configuration manuelle",
+        "confirm": "Si vous activez la configuration manuelle, la borne ne sera plus reajustée avec le modèle de configuration automatique. Voulez-vous continuer?"
+      },
+      "disable_manual_configuration":{
+        "title": "Désactiver la configuration manuelle",
+        "confirm": "Si vous désactivez la configuration manuelle, la borne sera réajustée avec le modèle de configuration automatique, redémarrée et vos changements manuels seront perdus. Voulez-vous continuer?"
       }
     },
     "force_available_status_action": "Rendre Disponible",
@@ -933,9 +942,10 @@
     "force_unavailable_status_success": "Le statut des connecteurs de la borne '{{chargeBoxID}}'à été changé avec succès",
     "force_unavailable_status_error": "Une erreur est survenue pendant le changement du statut des connecteurs de la borne, vérifiez les logs",
     "retrieve_config_success": "La configuration de la borne '{{chargeBoxID}}' a été téléchargée avec succès",
+    "change_config_success": "La borne '{{chargeBoxID}}' a été sauvegardée avec succès",
     "change_config_error": "impossible de changer la configuration de la borne, vérifier les logs",
     "change_config_phase_error": "Impossible d'assigner une borne triphasée sur une zone monophasée",
-    "change_config_success": "La borne '{{chargeBoxID}}' a été sauvegardée avec succès",
+    "charge_point_connectors_error": "Une erreur est survenue pendant la sauvegarde de la borne. Les propriétés du point de charge ne correspondent pas à celles des connecteurs",
     "change_params_success": "Le paramètre '{{paramKey}}' a bien été mis à jour dans la borne '{{chargeBoxID}}'",
     "change_params_error": "Le paramètre '{{paramKey}}' a été refusé par la borne '{{chargeBoxID}}'",
     "delete_title": "Supprimer",

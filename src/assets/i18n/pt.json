@@ -683,6 +683,7 @@
     "public_charger": "Publica",
     "exclude_smart_charging": "Exlucido do carregamento Rapido",
     "force_inactive": "Esta estação de carregamento está inativa",
+    "manual_configuration": "Manual configuration",
     "public_url": "URL Publico",
     "current_ip": "Rota de IP corrente",
     "select_chargers": "Selecionar estações de carga",
@@ -765,8 +766,16 @@
         "title": "Localização das estações de carga"
       },
       "settings": {
-        "fixedURLforOCPP": "A partir do OCPP 1.6, a URL é fixada pelo servidor",
-        "callbackURLforOCPP": "URL de retorno de chamada para enviar solicitação HTTP para a estação de carregamento"
+        "fixed_url_for_ocpp": "A partir do OCPP 1.6, a URL é fixada pelo servidor",
+        "callback_url_for_ocpp": "URL de retorno de chamada para enviar solicitação HTTP para a estação de carregamento"
+      },
+      "enable_manual_configuration":{
+        "title": "Enable manual configuration",
+        "confirm": "If you enable the manual configuration, the charging station will not be adjusted with the automatic configuration template anymore. Do you want to continue?"
+      },
+      "disable_manual_configuration":{
+        "title": "Disable manual configuration",
+        "confirm": "If you disable the manual configuration, the charging station will be adjusted with the automatic configuration template, rebooted and your manual changes will be lost. Do you want to continue?"
       }
     },
     "force_available_status_action": "Conjunto disponível",
@@ -936,6 +945,7 @@
     "change_config_success": "A estação de carregamento '{{chargeBoxID}}' foi guardado com sucesso",
     "change_config_error": "Cannot change the configuration of the charging station, check the logs",
     "change_config_phase_error": "Não é possível atribuir estação de carregamento de três fases a uma área de local de fase única",
+    "charge_point_connectors_error": "Error occurred while saving the charging station. The charge points properties do not match its connectors",
     "change_params_success": "O parametro '{{paramKey}}' foi atualizado com sucesso na estação de carregamento '{{chargeBoxID}}'",
     "change_params_error": "Ocorreu um erro ao tentar atualizar o parâmetro da estação de carregamento",
     "delete_title": "Eliminar",
@@ -1156,7 +1166,7 @@
     "locale_desc_spanish": "Espanhol",
     "locale_desc_german": "Alemão",
     "locale_desc_portuguese": "Português",
-    "locale_desc_portuguese": "Portuguese",
+    "locale_desc_italian": "Italiano",
     "role_unknown": "Desconhecido",
     "locale_unknown": "Desconhecido",
     "status": "Esatdos",

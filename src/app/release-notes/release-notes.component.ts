@@ -25,7 +25,7 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.4.51',
-        date: new Date('2021-03-16'),
+        date: new Date('2021-03-19'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -37,7 +37,8 @@ export class ReleaseNotesComponent {
               `Add Get Charging Station endpoint schema validation in RESTful endpoint`,
               `Optimized Assets with Site ID like Charging Stations`,
               `Accept more firmware versions on Ingeteam Charging Station`,
-              `Angular front-end uses the new RESTful enpoint for Charging Station's actions`
+              `Angular front-end uses the new RESTful enpoint for Charging Station's actions`,
+              `Do not try to resend E-mail notification with error 450`,
             ],
           },
         ],

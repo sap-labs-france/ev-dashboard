@@ -24,6 +24,93 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.51',
+        date: new Date('2021-03-16'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Keba: Add support for latest firmware version`,
+              `Billing - Check that Stripe settings are provided in Start Transaction`,
+              `Billing - Enrich Stripe invoice information`,
+              `Added Lock aquisition with a timeout`,
+              `Add Get Charging Station endpoint schema validation in RESTful endpoint`,
+              `Optimized Assets with Site ID like Charging Stations`,
+              `Accept more firmware versions on Ingeteam Charging Station`,
+              `Angular front-end uses the new RESTful enpoint for Charging Station's actions`
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.50',
+        date: new Date('2021-03-15'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Roaming: Hubject CPO implementation (beta)`,
+              `Billing: Stripe implementation (alpha)`,
+              `Enhanced the RESTful documentation API`,
+              `Added Ingeteam Charging Station in template`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.49',
+        date: new Date('2021-03-12'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Increased Charging Station's REST performances`,
+              `Updated Charging Station's action in RESTful endpoint`,
+              `Aligned all Sessions' consumptions`,
+              `Added Badge CRUD operations in RESTful endpoint`,
+              `Fixed Shelly Charging Station's amperage`,
+              `Fixed Signed Meter Values on EBEE Charging Station`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.48',
+        date: new Date('2021-03-10'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Accept more firmware versions for IES Charging Stations`,
+              `Fixed Shelly in Charging Station's template`,
+              `Added Joint Lightning Charging Station in template`,
+              `Made Company RESTful endpoints based on authorization (Security)`,
+              `Added User CRUD operations in RESTful endpoint`,
+              `Fixed Firmware download RESTful endpoint`,
+              `Fixed empty fields in User's profile are not saved in the database`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.47',
+        date: new Date('2021-03-09'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added IES Wallbox G3 MonoCombo in Charging Station's template`,
+              `Added Ingeteam in Charging Station's template`,
+              `Added getUsers and getUser in RESTful endpoint`,
+              `Remove usage of Roles in the front-end (Security)`,
+              `Linked both Site Area and Site in Asset’s Consumptions`,
+              `Firmware patches in Charging Station's template are always accepted`,
+              `Added new Unit Tests on crypto changes on sensitive data (Security)`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.45',
         date: new Date('2020-02-28'),
         componentChanges: [

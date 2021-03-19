@@ -193,7 +193,7 @@ export class SettingsOcpiComponent implements OnInit {
 
   public save(content: OcpiSetting) {
     this.ocpiSettings.ocpi = content;
-    this.ocpiSettings.type = RoamingSettingsType.GIREVE;
+    this.ocpiSettings.type = RoamingSettingsType.OCPI;
     this.spinnerService.show();
     this.componentService.saveOcpiSettings(this.ocpiSettings).subscribe((response) => {
       this.spinnerService.hide();

@@ -24,24 +24,117 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.4.45',
-        date: new Date('2020-02-28'),
+        version: '2.4.52',
+        date: new Date('2021-03-19'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Manually configure a Charging Station linked to a configuration's Template`,
+              `Keba: Add support for latest firmware version`,
+              `Billing - Check that Stripe settings are provided in Start Transaction`,
+              `Billing - Enrich Stripe invoice information`,
+              `Added Lock aquisition with a timeout`,
+            `Added Get Transaction's consumptions in RESTful endpoint`,
+              `Added Get Charging Station endpoint schema validation in RESTful endpoint`,
+              `Optimized Assets with Site ID like Charging Stations`,
+              `Accept more firmware versions on Ingeteam Charging Station`,
+              `Angular front-end uses the new RESTful enpoint for Charging Station's actions`,
+              `Do not try to resend E-mail notification with error 450`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.50',
+        date: new Date('2021-03-15'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Roaming: Hubject CPO implementation (beta)`,
+              `Billing: Stripe implementation (alpha)`,
+              `Enhanced the RESTful documentation API`,
+              `Added Ingeteam Charging Station in template`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.49',
+        date: new Date('2021-03-12'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Increased Charging Station's REST performances`,
+              `Updated Charging Station's action in RESTful endpoint`,
+              `Aligned all Sessions' consumptions`,
+              `Added Badge CRUD operations in RESTful endpoint`,
+              `Fixed Shelly Charging Station's amperage`,
+              `Fixed Signed Meter Values on EBEE Charging Station`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.48',
+        date: new Date('2021-03-10'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Accept more firmware versions for IES Charging Stations`,
+              `Fixed Shelly in Charging Station's template`,
+              `Added Joint Lightning Charging Station in template`,
+              `Made Company RESTful endpoints based on authorization (Security)`,
+              `Added User CRUD operations in RESTful endpoint`,
+              `Fixed Firmware download RESTful endpoint`,
+              `Fixed empty fields in User's profile are not saved in the database`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.47',
+        date: new Date('2021-03-09'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added IES Wallbox G3 MonoCombo in Charging Station's template`,
+              `Added Ingeteam in Charging Station's template`,
+              `Added getUsers and getUser in RESTful endpoint`,
+              `Remove usage of Roles in the front-end (Security)`,
+              `Linked both Site Area and Site in Asset’s Consumptions`,
+              `Firmware patches in Charging Station's template are always accepted`,
+              `Added new Unit Tests on crypto changes on sensitive data (Security)`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.45',
+        date: new Date('2021-03-03'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Retrieve the completed Transactions via the new RESTful endpoint`,
               `Crypto key used for encrypting sensitive data can now be changed per tenant`,
               `Admin users are now notified when new end-users register and need their account activated`,
+              `Export Badge ID and Description in Session History`,
               `Do not try to retrieve the Settings if Tenant's components are not active`,
               `Added Legrand model 059011 in Charging Station's template`,
               `Fixed Car's thumbnails not displayed`,
+              `Track backend server's performances in database`
             ],
           },
         ],
       },
       {
         version: '2.4.44',
-        date: new Date('2020-02-24'),
+        date: new Date('2021-02-24'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -60,7 +153,7 @@ export class ReleaseNotesComponent {
       },
       {
         version: '2.4.43',
-        date: new Date('2020-02-23'),
+        date: new Date('2021-02-23'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -77,7 +170,7 @@ export class ReleaseNotesComponent {
       },
       {
         version: '2.4.42',
-        date: new Date('2020-02-15'),
+        date: new Date('2021-02-15'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -93,7 +186,7 @@ export class ReleaseNotesComponent {
       },
       {
         version: '2.4.41',
-        date: new Date('2020-02-09'),
+        date: new Date('2021-02-09'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -105,7 +198,7 @@ export class ReleaseNotesComponent {
       },
       {
         version: '2.4.40',
-        date: new Date('2020-02-07'),
+        date: new Date('2021-02-07'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -120,7 +213,7 @@ export class ReleaseNotesComponent {
       },
       {
         version: '2.4.39',
-        date: new Date('2020-02-02'),
+        date: new Date('2021-02-02'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -139,7 +232,7 @@ export class ReleaseNotesComponent {
       },
       {
         version: '2.4.38',
-        date: new Date('2020-01-25'),
+        date: new Date('2021-01-25'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -159,7 +252,7 @@ export class ReleaseNotesComponent {
       },
       {
         version: '2.4.37',
-        date: new Date('2020-01-09'),
+        date: new Date('2021-01-09'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -180,7 +273,7 @@ export class ReleaseNotesComponent {
       },
       {
         version: '2.4.36',
-        date: new Date('2020-01-04'),
+        date: new Date('2021-01-04'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -440,7 +533,7 @@ export class ReleaseNotesComponent {
               `Added Portuguese translation`,
               `Export users to CSV`,
               `Handle Schneider model EV2S22P4 in Charging Station's Template`,
-              `RESTful API PoC for external consumer (Open Data, Proviridis)`,
+              `RESTful endpoint PoC for external consumer (Open Data, Proviridis)`,
             ],
           },
         ],

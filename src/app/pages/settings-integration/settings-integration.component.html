@@ -13,6 +13,15 @@
 
     <mat-tab>
       <ng-template mat-tab-label>
+        <mat-icon>cloud</mat-icon><span>{{'settings.tabs.oicp' | translate}}</span>
+      </ng-template>
+      <ng-template matTabContent>
+        <app-settings-oicp></app-settings-oicp>
+      </ng-template>
+    </mat-tab>
+
+    <mat-tab>
+      <ng-template mat-tab-label>
         <mat-icon>local_atm</mat-icon><span>{{'settings.tabs.refund' | translate}}</span>
       </ng-template>
       <ng-template matTabContent>

@@ -550,7 +550,7 @@
   },
   "statistics": {
     "title": "Statistiken",
-    "description": "Integrierte Statistiken",
+    "description": "Statistics of charging sessions",
     "charger_kw_h": "kW.h",
     "legend_select_unselect_all": "Alle Abwählen/Wählen",
     "graphic_title_consumption_y_axis": "Verbrauch (kW.h)",
@@ -1363,6 +1363,7 @@
     "save_error_billing": "Preisbildung muss für Rechnungslegung aktiv sein",
     "save_error_smart_charging": "Organisation muss für Smart-Charging aktiv sein",
     "save_error_building": "Organisation muss aktiv sein, um Assets zu nutzen zu können",
+    "save_error_car_connector": "Fahrzeug Management muss aktiv sein, um Fahrzeug Verbindungen zu nutzen",
     "smart_charging_still_active_for_site_area": "Smart-Charging ist für ausgewählte Standortbereiche noch immer aktiv.<br>Bitte deaktivieren Sie Smart-Charging für alle Standortbereiche des Mandanten.",
     "logo_size_error": "Die maximale Bildgröße wurde überschritten, das Bild muss kleiner als {{maxPictureKb}} Kb sein "
   },
@@ -1377,7 +1378,8 @@
       "billing": "Rechnungslegung",
       "analytics": "Analysen",
       "smartCharging": "Smart-Charging",
-      "building": "Gebäude"
+      "asset": "Asset",
+      "car_connector": "Fahrzeug-Schnittstellen"
     },
     "ocpi": {
       "gireve": {
@@ -1574,6 +1576,30 @@
       "create_error": "Während der Erstellung der Asset-Einstellungen ist ein Fehler aufgetreten.",
       "update_success": "Die Asset-Einstellungen wurden erfolgreich aktualisiert",
       "update_error": "Während der Aktualisierung der Asset-Einstellungen ist ein Fehler aufgetreten"
+    },
+    "car_connector": {
+      "connection": {
+        "title": "Fahrzeug-Schnittstellen",
+        "name": "Name",
+        "description": "Beschreibung",
+        "type": "Typ",
+        "authentication_url": "Authentifizierungs-Url",
+        "api_url": "API-Url",
+        "client_id":"Client ID",
+        "client_secret":"Client Secret",
+        "delete_title": "Fahrzeug-Schnittstellen löschen",
+        "delete_confirm": "Möchten Sie wirklich die Fahrzeug-Schnittstelle '{{carConnectorConnectionName}}' löschen?"
+      },
+      "types": {
+        "mercedes": "Mercedes Schnittstelle"
+      },
+      "description": "E-Mobility ist in der Lage Fahrzeugdaten wie z.B. Batteriestand zu empfangen und diese Informationen für Smart Charging und die Optimierung von Ladevorgängen nutzen",
+      "setting_do_not_exist": "Die Konfiguration wurde nicht gefunden",
+      "setting_not_found": "Die Schnittstellen-Einstellungen konnten nicht gefunden werden.",
+      "create_success": "Die Schnittstellen-Einstellungen wurden erfolgreich erstellt.",
+      "create_error": "Während der Erstellung der Schnittstellen-Einstellungen ist ein Fehler aufgetreten.",
+      "update_success": "Die Schnittstellen-Einstellungen wurden erfolgreich aktualisiert",
+      "update_error": "Während der Aktualisierung der Schnittstellen-Einstellungen ist ein Fehler aufgetreten"
     },
     "information": "Informationen",
     "activation_contact_msg": "Um dieses Feature zu aktivieren, kontaktieren Sie bitte Ihren E-Mobility Verantwortlichen.",
@@ -1990,12 +2016,16 @@
     }
   },
   "car": {
-    "title": "Fahrzeug",
+    "title": "Fahrzeug Management",
     "description": "Fahrzeuge verwalten",
     "tabs": {
       "car_catalogs": "Fahrzeugverzeichnisse",
       "cars": "Fahrzeug Management"
     }
+  },
+  "car_connector": {
+    "title": "Fahrzeug-Schnittstellen",
+    "description": "Nutzen Sie APIs um Daten von Ihren Fahrzeugen zu empfangen"
   },
   "analytics": {
     "title": "Analytics",
@@ -2014,10 +2044,10 @@
       "url": "URL"
     }
   },
-  "smartCharging": {
+  "smart_charging": {
     "title": "Smart-Charging",
     "type_placeholder": "Typ",
-    "description": "Smart-Charging-Interface",
+    "description": "Smart-Charging of electric vehicles",
     "optimizerUrl": "Optimizer URL"
   },
   "refund": {

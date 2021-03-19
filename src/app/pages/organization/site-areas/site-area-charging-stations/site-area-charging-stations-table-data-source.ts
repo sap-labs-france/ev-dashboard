@@ -26,6 +26,10 @@ export class SiteAreaChargingStationsDataSource extends TableDataSource<Charging
   private siteArea!: SiteArea;
   private addAction = new TableAddAction().getActionDef();
   private removeAction = new TableRemoveAction().getActionDef();
+  private canReadSiteArea = false;
+  private canCreateSiteArea = false;
+  private canUpdateSiteArea = false;
+  private canDeleteSiteArea = false;
 
   constructor(
     public spinnerService: SpinnerService,
@@ -37,6 +41,10 @@ export class SiteAreaChargingStationsDataSource extends TableDataSource<Charging
     private centralServerService: CentralServerService,
     private authorizationService: AuthorizationService) {
     super(spinnerService, translateService);
+    this.canReadSiteArea = this.authorizationService.canReadSiteArea();
+    this.canCreateSiteArea = this.authorizationService.canCreateSiteArea();
+    this.canUpdateSiteArea = this.authorizationService.canUpdateSiteArea();
+    this.canDeleteSiteArea = this.authorizationService.canDeleteSiteArea();
   }
 
   public loadDataImpl(): Observable<DataResult<ChargingStation>> {
@@ -66,7 +74,7 @@ export class SiteAreaChargingStationsDataSource extends TableDataSource<Charging
   }
 
   public buildTableDef(): TableDef {
-    if (this.siteArea && this.authorizationService.isAdmin() ||
+    if (this.siteArea && (this.canReadSiteArea && this.canCreateSiteArea && this.canUpdateSiteArea && this.canDeleteSiteArea) ||
       this.authorizationService.isSiteAdmin(this.siteArea.siteID)) {
       return {
         class: 'table-dialog-list',
@@ -126,7 +134,7 @@ export class SiteAreaChargingStationsDataSource extends TableDataSource<Charging
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-    if (this.siteArea && (this.authorizationService.isAdmin() ||
+    if (this.siteArea && ((this.canReadSiteArea && this.canCreateSiteArea && this.canUpdateSiteArea && this.canDeleteSiteArea) ||
       this.authorizationService.isSiteAdmin(this.siteArea.siteID))) {
       return [
         this.addAction,

@@ -124,7 +124,7 @@ export class AssetConnectionComponent implements OnInit {
     }
   }
 
-  public typeChanged(type: AssetConnectionType){
+  public typeChanged(type: AssetConnectionType) {
     if (this.formGroup.controls.greencomConnection && type !== AssetConnectionType.GREENCOM) {
       delete this.formGroup.controls.greencomConnection;
     }

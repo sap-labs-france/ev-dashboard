@@ -2,13 +2,13 @@ import static com.sap.piper.internal.Prerequisites.checkScript
 
 void call(Map params) {
 
-	echo "do acceptance stage for now"
-	sh "ls"
-	downloadArtifactsFromNexus script: this, fromStaging: true
-	sh "ls"
-	sh "ls dist"
-	sh "ls src/assets"
-	sh "ls src/assets/configs-scp"
+	echo "skip for now"
+	//sh "ls"
+	//downloadArtifactsFromNexus script: this, fromStaging: true
+	//sh "ls"
+	//sh "ls dist"
+	//sh "ls src/assets"
+	//sh "ls src/assets/configs-aws"
 	//deleteDir()
 	//sh "ls"
 	//echo "checkout dashboard source"

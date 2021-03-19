@@ -377,6 +377,8 @@ export enum ServerAction {
   BILLING_CREATE_TRANSACTION_INVOICE = 'BillingCreateTransactionInvoice',
   BILLING_SETUP_PAYMENT_METHOD = 'BillingSetupPaymentMethod',
   BILLING_NEW_INVOICE = 'BillingNewInvoice',
+  BILLING_PAYMENT_METHODS_LIST = 'BillingPaymentMethodsList',
+  BILLING_DELETE_PAYMENT_METHOD = 'BillingDeletePaymentMethod',
 
   MONGO_DB = 'MongoDB',
 

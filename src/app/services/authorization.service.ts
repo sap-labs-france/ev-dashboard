@@ -252,7 +252,7 @@ export class AuthorizationService {
   }
 
   public canListPaymentMethods(): boolean {
-    return this.canAccess(Entity.PAYMENT_METHODS, Action.LIST);
+    return this.canAccess(Entity.PAYMENT_METHODS, Action.LIST) && this.componentService.isActive(TenantComponents.BILLING);
   }
 
   public canCreatePaymentMethod(userId: string): boolean {

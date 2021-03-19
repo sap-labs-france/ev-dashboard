@@ -124,7 +124,10 @@ export class PaymentMethodComponent implements OnInit {
       const setupIntent: any = response?.internalData;
       // TODO: handle spinner .hide / .show in a better way - if we're quick we can re click save before 3d secure popup shows off
       // if 3d secure doesn't show spinner hide/show and the same we can re click on the save button
-      this.spinnerService.hide();
+      // settimeout doesn't work as expected - it never hides...
+      // setTimeout(function() {
+        this.spinnerService.hide();
+      // }, 4000);
       const result: {setupIntent?: SetupIntent; error?: StripeError} = await this.getStripeFacade().confirmCardSetup( setupIntent.client_secret, {
         payment_method: {
           card: this.card,

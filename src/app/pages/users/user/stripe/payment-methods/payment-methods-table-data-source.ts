@@ -1,15 +1,22 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { PaymentMethod } from '@stripe/stripe-js';
+import { PaymentMethod, Stripe } from '@stripe/stripe-js';
 import { Observable } from 'rxjs';
 import { AuthorizationService } from 'services/authorization.service';
 import { CentralServerService } from 'services/central-server.service';
 import { ComponentService } from 'services/component.service';
+import { DialogService } from 'services/dialog.service';
+import { MessageService } from 'services/message.service';
+import { StripeService } from 'services/stripe.service';
 import { WindowService } from 'services/window.service';
+import { AppDatePipe } from 'shared/formatters/app-date.pipe';
+import { TableDeleteAction } from 'shared/table/actions/table-delete-action';
 import { TableCreatePaymentMethodAction, TableCreatePaymentMethodActionDef } from 'shared/table/actions/users/table-create-payment-method-action';
-import { BillingButtonAction } from 'types/Billing';
+import { TableDeletePaymentMethodAction, TableDeletePaymentMethodActionDef } from 'shared/table/actions/users/table-delete-payment-method';
+import { BillingButtonAction, BillingPaymentMethod, BillingPaymentMethodResult } from 'types/Billing';
+import { Utils } from 'utils/Utils';
 
 import { SpinnerService } from '../../../../../services/spinner.service';
 import { TableAutoRefreshAction } from '../../../../../shared/table/actions/table-auto-refresh-action';
@@ -17,12 +24,16 @@ import { TableRefreshAction } from '../../../../../shared/table/actions/table-re
 import { TableDataSource } from '../../../../../shared/table/table-data-source';
 import { DataResult } from '../../../../../types/DataResult';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../../../types/Table';
+import { PaymentMethodStatusComponent } from './payment-method/payment-method-status.component';
 import { PaymentMethodDialogComponent } from './payment-method/payment-method.dialog.component';
 
 @Injectable()
 export class PaymentMethodsTableDataSource extends TableDataSource<PaymentMethod> {
   public canCreatePaymentMethod: boolean;
   public currentUserID: string;
+  public stripeFacade: Stripe;
+  private deleteAction = new TableDeletePaymentMethodAction().getActionDef();
+  private isAdmin: boolean;
   constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
@@ -31,29 +42,62 @@ export class PaymentMethodsTableDataSource extends TableDataSource<PaymentMethod
     public windowService: WindowService,
     public activatedRoute: ActivatedRoute,
     public centralServerService: CentralServerService,
+    private stripeService: StripeService,
+    private messageService: MessageService,
+    private dialogService: DialogService,
+    private router: Router,
+    private datePipe: AppDatePipe,
     private dialog: MatDialog) {
       super(spinnerService, translateService);
+      this.isAdmin = this.authorizationService.isAdmin();
       // Init
       this.initDataSource();
   }
 
+  ngOnInit(): void {
+    this.initialize();
+  }
+
+  private async initialize(): Promise<void> {
+    try {
+      this.spinnerService.show();
+      this.stripeFacade = await this.stripeService.initializeStripe();
+      if ( !this.stripeFacade ) {
+        this.messageService.showErrorMessage('technical_settings.crypto.setting_do_not_exist');
+      } else {
+        this.loadDataImpl();
+      }
+    } catch (error) {
+      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
+    } finally {
+      this.spinnerService.hide();
+    }
+  }
 //   public getDataChangeSubject(): Observable<ChangeNotification> {
 //     return this.centralServerNotificationService.getSubjectRegistrationTokens();
 //   }
 
   public loadDataImpl(): Observable<DataResult<PaymentMethod>> {
-    return new Observable(() => {
-      // Get the Tenants
-    //   this.centralServerService.getRegistrationTokens(this.buildFilterValues(),
-    //     this.getPaging(), this.getSorting()).subscribe((tokens) => {
-    //       observer.next(tokens);
-    //       observer.complete();
-    //     }, (error) => {
-    //       // Show error
-    //       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-    //       // Error
-    //       observer.error(error);
-    //     });
+    return new Observable((observer) => {
+      // User provided?
+      if (this.currentUserID) {
+        // Yes: Get data
+        this.centralServerService.getPaymentMethodsList(this.currentUserID, this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe((paymentMethod) => {
+          observer.next(paymentMethod);
+          observer.complete();
+        }, (error) => {
+          // No longer exists!
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          // Error
+          observer.error(error);
+        });
+      } else {
+        observer.next({
+          count: 0,
+          result: [],
+        });
+        observer.complete();
+      }
     });
   }
 
@@ -70,18 +114,66 @@ export class PaymentMethodsTableDataSource extends TableDataSource<PaymentMethod
     const columns: TableColumnDef[] = [
       {
         id: 'status',
-        name: 'users.status',
-        headerClass: 'col-5p text-center',
-        class: 'col-5p table-cell-angular-big-component',
-        sortable: true,
+        name: 'general.status',
+        isAngularComponent: true,
+        angularComponent: PaymentMethodStatusComponent,
+        headerClass: 'text-center col-15p',
+        class: 'text-center col-15p',
       },
       {
-        id: 'description',
-        name: 'general.description',
-        headerClass: 'd-none d-xl-table-cell col-30p',
-        class: 'd-none d-xl-table-cell col-30p',
+        id: 'default',
+        name: 'general.default',
+        headerClass: 'text-center col-10p',
+        class: 'text-center col-10p',
+        formatter: (defaultPaymentMethod: boolean, paymentMethod: BillingPaymentMethod) => {
+          return paymentMethod.isDefault ?
+            this.translateService.instant('general.yes') : this.translateService.instant('general.no');
+        },
       },
-    ];
+    ]
+      if (!this.isAdmin) {
+        columns.push(
+          {
+            id: 'id',
+            name: 'general.id',
+            headerClass: 'text-center col-10p',
+            class: 'text-center col-10p',    
+          },
+        );
+      }
+      columns.push(
+        {
+          id: 'type',
+          name: 'settings.billing.payment_methods.type',
+          headerClass: 'text-center col-10p',
+          class: 'text-center col-10p capitalize',
+          },
+        {
+          id: 'brand',
+          name: 'settings.billing.payment_methods.brand',
+          headerClass: 'text-center col-15p',
+          class: 'text-center col-15p capitalize',
+          },
+        {
+          id: 'last4',
+          name: 'settings.billing.payment_methods.ending_with',
+          headerClass: 'text-center col-10p',
+          class: 'text-center col-10p',
+          },
+        {
+          id: 'expiringOn',
+          name: 'settings.billing.payment_methods.expiring_on',
+          headerClass: 'text-center col-10p',
+          class: 'text-center col-10p',
+          },
+        {
+          id: 'createdOn',
+          name: 'general.created_on',
+          headerClass: 'text-center col-15p',
+          class: 'text-center col-15p',
+          formatter: (createdOn: Date) => this.datePipe.transform(createdOn)
+        },
+      )
     return columns;
   }
 
@@ -89,6 +181,8 @@ export class PaymentMethodsTableDataSource extends TableDataSource<PaymentMethod
     const tableActionsDef = super.buildTableActionsDef();
     if (this.activatedRoute.snapshot.url[0]?.path === 'profile') {
       this.currentUserID = this.centralServerService.getLoggedUser().id;
+    } else {
+      this.currentUserID = this.windowService.getSearch('userID');
     }
     this.canCreatePaymentMethod = this.authorizationService.canCreatePaymentMethod(this.currentUserID);
     if (this.canCreatePaymentMethod) {
@@ -98,34 +192,8 @@ export class PaymentMethodsTableDataSource extends TableDataSource<PaymentMethod
   }
 
   public buildTableDynamicRowActions(paymentMethod: PaymentMethod): TableActionDef[] {
-    // const asExpired = moment(registrationToken.expirationDate).isBefore(new Date());
-    // const isRevoked = registrationToken.revocationDate ? true : false;
     const actions: TableActionDef[] = [];
-    // const moreActions = new TableMoreAction([]);
-    // const copyUrlActions: TableActionDef[] = [
-    //   ...(!Utils.isUndefined(registrationToken.ocpp15SOAPUrl) ? [this.copySOAP15Action] : []),
-    //   ...(!Utils.isUndefined(registrationToken.ocpp16SOAPUrl) ? [this.copySOAP16Action] : []),
-    //   ...(!Utils.isUndefined(registrationToken.ocpp16JSONUrl) ? [this.copyJSON16Action] : []),
-    //   ...(!Utils.isUndefined(registrationToken.ocpp15SOAPSecureUrl) ? [this.copySOAP15SecureAction] : []),
-    //   ...(!Utils.isUndefined(registrationToken.ocpp16SOAPSecureUrl) ? [this.copySOAP16SecureAction] : []),
-    //   ...(!Utils.isUndefined(registrationToken.ocpp16JSONSecureUrl) ? [this.copyJSON16SecureAction] : [])
-    // ];
-    // if (!asExpired && !isRevoked) {
-    //   actions.push(new TableMultiCopyAction(
-    //     copyUrlActions,
-    //     'chargers.connections.copy_url_tooltip',
-    //     'chargers.connections.copy_url_tooltip').getActionDef());
-    // }
-    // if (this.canUpdateToken) {
-    //   actions.push(this.editAction);
-    //   if (!asExpired && !isRevoked) {
-    //     actions.push(this.revokeAction);
-    //   }
-    // }
-    // if (this.canDeleteToken) {
-    //   moreActions.addActionInMoreActions(this.deleteAction);
-    // }
-    // actions.push(moreActions.getActionDef());
+    actions.push(this.deleteAction);
     return actions;
   }
 
@@ -141,59 +209,20 @@ export class PaymentMethodsTableDataSource extends TableDataSource<PaymentMethod
     }
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, paymentMethod: PaymentMethod) {
-    // switch (actionDef.id) {
-    //   case RegistrationTokenButtonAction.REVOKE_TOKEN:
-    //     if (actionDef.action) {
-    //       (actionDef as TableRevokeRegistrationTokenActionDef).action(
-    //         registrationToken, this.dialogService, this.translateService, this.messageService,
-    //         this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
-    //     }
-    //     break;
-    //   case RegistrationTokenButtonAction.DELETE_TOKEN:
-    //     if (actionDef.action) {
-    //       (actionDef as TableDeleteRegistrationTokenActionDef).action(
-    //         registrationToken, this.dialogService, this.translateService, this.messageService,
-    //         this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
-    //     }
-    //     break;
-    //   case RegistrationTokenButtonAction.EDIT_TOKEN:
-    //     if (actionDef.action) {
-    //       (actionDef as TableEditRegistrationTokenActionDef).action(
-    //         paymentMethodDialogComponent, registrationToken, this.dialog, this.refreshData.bind(this))
-    //     }
-    //     break;
-    //   case RegistrationTokenButtonAction.COPY_URL:
-    //     let url: string;
-    //     switch (actionDef.name) {
-    //       case 'chargers.connections.ocpp_15_soap':
-    //         url = registrationToken.ocpp15SOAPUrl;
-    //         break;
-    //       case 'chargers.connections.ocpp_16_soap':
-    //         url = registrationToken.ocpp16SOAPUrl;
-    //         break;
-    //       case 'chargers.connections.ocpp_16_json':
-    //         url = registrationToken.ocpp16JSONUrl;
-    //         break;
-    //       case 'chargers.connections.ocpp_15_soap_secure':
-    //         url = registrationToken.ocpp15SOAPSecureUrl;
-    //         break;
-    //       case 'chargers.connections.ocpp_16_soap_secure':
-    //         url = registrationToken.ocpp16SOAPSecureUrl;
-    //         break;
-    //       case 'chargers.connections.ocpp_16_json_secure':
-    //         url = registrationToken.ocpp16JSONSecureUrl;
-    //         break;
-    //     }
-    //     Utils.copyToClipboard(url);
-    //     this.messageService.showInfoMessage('chargers.connections.url_copied');
-    //     break;
-    // }
+  public rowActionTriggered(actionDef: TableActionDef, paymentMethod: BillingPaymentMethod) {
+    switch (actionDef.id) {
+      case BillingButtonAction.DELETE_PAYMENT_METHOD:
+        if (actionDef.action) {
+          (actionDef as TableDeletePaymentMethodActionDef).action(
+            paymentMethod, this.dialogService, this.translateService, this.messageService,
+            this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
+        }
+        break;
+    }
   }
 
   public buildTableActionsRightDef(): TableActionDef[] {
     return [
-      new TableAutoRefreshAction(false).getActionDef(),
       new TableRefreshAction().getActionDef(),
     ];
   }

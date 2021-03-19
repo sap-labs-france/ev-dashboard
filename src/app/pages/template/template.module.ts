@@ -12,7 +12,6 @@ import { FormattersModule } from '../../shared/formatters/formatters.module';
 import { TableModule } from '../../shared/table/table.module';
 import { ButtonsTemplateComponent } from './buttons/buttons-template.component';
 import { ColorsTemplateComponent } from './colors/colors-template.component';
-import { StripeTemplateComponent } from './stripe-template/stripe-template.component';
 import { TemplateComponent } from './template.component';
 import { TemplateRoutes } from './template.routing';
 
@@ -34,7 +33,6 @@ import { TemplateRoutes } from './template.routing';
     TemplateComponent,
     ButtonsTemplateComponent,
     ColorsTemplateComponent,
-    StripeTemplateComponent,
   ],
   entryComponents: [
     ButtonsTemplateComponent,

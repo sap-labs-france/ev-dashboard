@@ -1443,7 +1443,22 @@
       "connection_success": "Connection to the billing system was tested successfully",
       "connection_error": "Impossible to connect to the billing system. Check your secret key.",
       "force_synchronize": "Force Billing Synchronization",
-      "create_payment_method": "Create a payment method",
+      "payment_methods":
+      {
+        "create": "Create a payment method",
+        "delete_title": "Delete payment method",
+        "delete_confirm": "Do you really want to delete the payment method ending with '{{last4}}'?",
+        "delete_success": "The payment methode ending with '{{last4}}' has been deleted successfully",
+        "delete_error": "Error occurred while deleting the payment method ending with '{{last4}}', check the logs",
+        "expired": "Expired",
+        "valid": "Valid",
+        "expire_soon": "Expire soon",
+        "expiring_on": "Expire on",
+        "ending_with": "Ending with",
+        "status": "Status",
+        "type": "Type",
+        "brand": "Brand"
+      },
       "user": {
         "synchronize_users": "Synchronize Billing Users",
         "synchronize_user": "Synchronize Billing User",

@@ -57,7 +57,6 @@ export class SettingsCarConnectorComponent implements OnInit {
       this.spinnerService.hide();
       // Keep
       this.carConnectorSettings = settings;
-      console.log(JSON.stringify(this.carConnectorSettings, null, ' '));
       // Set
       this.settingsCarConnectorConnectionTableDataSource.setContent(this.carConnectorSettings.carConnector.connections);
       // Init form

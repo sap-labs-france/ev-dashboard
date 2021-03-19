@@ -23,10 +23,7 @@ export class SettingsCarConnectorConnectionEditableTableDataSource extends Edita
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     private dialog: MatDialog,
-    private dialogService: DialogService,
-    private centralServerService: CentralServerService,
-    private router: Router,
-    private messageService: MessageService) {
+    private dialogService: DialogService) {
     super(spinnerService, translateService);
   }
 

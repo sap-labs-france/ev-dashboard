@@ -188,7 +188,6 @@ export class TenantComponent implements OnInit {
       this.translateService, this.saveTenant.bind(this), this.closeDialog.bind(this));
   }
 
-  // tslint:disable-next-line: cyclomatic-complexity
   public saveTenant(tenant: Tenant) {
     // Clear Type of inactive tenants
     let pricingActive = false;

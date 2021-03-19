@@ -775,7 +775,7 @@
       },
       "disable_manual_configuration":{
         "title": "Manuelle Konfiguration deaktivieren",
-        "confirm": "Wenn Sie die manuelle Konfiguration deaktivieren, wird die Konfiguration wieder vom automatischen Template übernommen. Nach diesem Vorgang wird die Ladestation einen Neustart ausführen. Sind Sie sicher, dass Sie fortfahren möchten?"
+        "confirm": "If you disable the manual configuration, the charging station will be adjusted with the automatic configuration template, rebooted and your manual changes will be lost. Do you want to continue?"
       }
     },
     "force_available_status_action": "Verfügbar setzen",

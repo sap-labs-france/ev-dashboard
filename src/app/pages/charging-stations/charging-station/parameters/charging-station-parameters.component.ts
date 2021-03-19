@@ -314,8 +314,8 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
     if (this.chargingStation.chargePoints.length > 0 && checked) {
       // Show yes/no dialog
       this.dialogService.createAndShowYesNoDialog(
-        this.translateService.instant('chargers.dialog.enableManualConfiguration.title'),
-        this.translateService.instant('chargers.dialog.enableManualConfiguration.confirm'),
+        this.translateService.instant('chargers.dialog.enable_manual_configuration.title'),
+        this.translateService.instant('chargers.dialog.enable_manual_configuration.confirm'),
       ).subscribe((result) => {
         if (result === ButtonType.NO) {
           this.manualConfiguration.setValue(false);
@@ -326,8 +326,8 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
       });
     } else if (!checked){
       this.dialogService.createAndShowYesNoDialog(
-        this.translateService.instant('chargers.dialog.disableManualConfiguration.title'),
-        this.translateService.instant('chargers.dialog.disableManualConfiguration.confirm'),
+        this.translateService.instant('chargers.dialog.disable_manual_configuration.title'),
+        this.translateService.instant('chargers.dialog.disable_manual_configuration.confirm'),
       ).subscribe((result) => {
        if (result === ButtonType.NO) {
           this.manualConfiguration.setValue(true);

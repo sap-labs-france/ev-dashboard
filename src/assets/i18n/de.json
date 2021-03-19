@@ -766,14 +766,14 @@
         "title": "Ladestationen Lokalisierung"
       },
       "settings": {
-        "fixedURLforOCPP": "Ab OCPP 1.6, wird die URL vom Server festgelegt",
-        "callbackURLforOCPP": "Callback URL um HTTP Anfrage zur Ladestation zu senden"
+        "fixed_url_for_ocpp": "Ab OCPP 1.6, wird die URL vom Server festgelegt",
+        "callback_url_for_ocpp": "Callback URL um HTTP Anfrage zur Ladestation zu senden"
       },
-      "enableManualConfiguration":{
+      "enable_manual_configuration":{
         "title": "Manuelle Konfiguration aktivieren",
         "confirm": "Wenn Sie die manuelle Konfiguration aktivieren, wird die Konfiguration nicht mehr vom automatischen Template übernommen. Sind Sie sicher, dass Sie fortfahren möchten?"
       },
-      "disableManualConfiguration":{
+      "disable_manual_configuration":{
         "title": "Manuelle Konfiguration deaktivieren",
         "confirm": "Wenn Sie die manuelle Konfiguration deaktivieren, wird die Konfiguration wieder vom automatischen Template übernommen. Nach diesem Vorgang wird die Ladestation einen Neustart ausführen. Sind Sie sicher, dass Sie fortfahren möchten?"
       }

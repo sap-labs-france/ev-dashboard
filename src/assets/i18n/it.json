@@ -766,14 +766,14 @@
         "title": "Localizzazione delle stazioni di ricarica"
       },
       "settings": {
-        "fixedURLforOCPP": "Da OCPP 1.6 in poi, l'URL è fissato dal server",
-        "callbackURLforOCPP": "URL callback per inviare la richiesta HTTP alla stazione di ricarica"
+        "fixed_url_for_ocpp": "Da OCPP 1.6 in poi, l'URL è fissato dal server",
+        "callback_url_for_ocpp": "URL callback per inviare la richiesta HTTP alla stazione di ricarica"
       },
-      "enableManualConfiguration":{
+      "enable_manual_configuration":{
         "title": "Enable manual configuration",
         "confirm": "If you enable the manual configuration, the charging station will not be adjusted with the automatic configuration template anymore. Do you want to continue?"
       },
-      "disableManualConfiguration":{
+      "disable_manual_configuration":{
         "title": "Disable manual configuration",
         "confirm": "If you disable the manual configuration, the charging station will be adjusted with the automatic configuration template again. Do you want to continue?"
       }

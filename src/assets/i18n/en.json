@@ -26,7 +26,7 @@
     "connectors": "Connections",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.4.51",
+    "last_update": "Version 2.4.52",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "An unexpected error occurred, check the logs",
@@ -683,6 +683,7 @@
     "public_charger": "Public",
     "exclude_smart_charging": "Exclude from Smart Charging",
     "force_inactive": "This charging station is inactive",
+    "manual_configuration": "Manual configuration",
     "public_url": "Public URL",
     "current_ip": "Current IP Route",
     "select_chargers": "Select Charging Station",
@@ -765,8 +766,16 @@
         "title": "Charging stations localisations"
       },
       "settings": {
-        "fixedURLforOCPP": "From OCPP 1.6 on, the URL is fixed by the server",
-        "callbackURLforOCPP": "Callback URL to send HTTP request to the charging station"
+        "fixed_url_for_ocpp": "From OCPP 1.6 on, the URL is fixed by the server",
+        "callback_url_for_ocpp": "Callback URL to send HTTP request to the charging station"
+      },
+      "enable_manual_configuration":{
+        "title": "Enable manual configuration",
+        "confirm": "If you enable the manual configuration, the charging station will not be adjusted with the automatic configuration template anymore. Do you want to continue?"
+      },
+      "disable_manual_configuration":{
+        "title": "Disable manual configuration",
+        "confirm": "If you disable the manual configuration, the charging station will be adjusted with the automatic configuration template, rebooted and your manual changes will be lost. Do you want to continue?"
       }
     },
     "force_available_status_action": "Set Available",
@@ -936,6 +945,7 @@
     "change_config_success": "The charging station '{{chargeBoxID}}' has been saved successfully",
     "change_config_error": "Cannot change the configuration of the charging station, check the logs",
     "change_config_phase_error": "Cannot assign three phases charging station to a single phase site area",
+    "charge_point_connectors_error": "Error occurred while saving the charging station. The charge points properties do not match its connectors",
     "change_params_success": "The parameter '{{paramKey}}' has been updated successfully in the charging station '{{chargeBoxID}}'",
     "change_params_error": "The parameter '{{paramKey}}' has been rejected by the charging station '{{chargeBoxID}}'",
     "delete_title": "Delete",

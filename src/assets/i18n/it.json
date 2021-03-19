@@ -26,7 +26,7 @@
     "connectors": "Prese",
     "notifications": "Notifiche",
     "app_name": "e-Mobility",
-    "last_update": "Versione 2.4.51",
+    "last_update": "Versione 2.4.52",
     "version": "Versione",
     "about_us": "A proposito di noi",
     "unexpected_error_backend": "Si è verificato un errore imprevisto",
@@ -683,6 +683,7 @@
     "public_charger": "Pubblica",
     "exclude_smart_charging": "Escludi dalla Carica Smart",
     "force_inactive": "Questa stazione di ricarica è inattiva",
+    "manual_configuration": "Manual configuration",
     "public_url": "URL Pubblico",
     "current_ip": "Percorso IP Corrente",
     "select_chargers": "Seleziona la Stazione di Ricarica",
@@ -765,8 +766,16 @@
         "title": "Localizzazione delle stazioni di ricarica"
       },
       "settings": {
-        "fixedURLforOCPP": "Da OCPP 1.6 in poi, l'URL è fissato dal server",
-        "callbackURLforOCPP": "URL callback per inviare la richiesta HTTP alla stazione di ricarica"
+        "fixed_url_for_ocpp": "Da OCPP 1.6 in poi, l'URL è fissato dal server",
+        "callback_url_for_ocpp": "URL callback per inviare la richiesta HTTP alla stazione di ricarica"
+      },
+      "enable_manual_configuration":{
+        "title": "Enable manual configuration",
+        "confirm": "If you enable the manual configuration, the charging station will not be adjusted with the automatic configuration template anymore. Do you want to continue?"
+      },
+      "disable_manual_configuration":{
+        "title": "Disable manual configuration",
+        "confirm": "If you disable the manual configuration, the charging station will be adjusted with the automatic configuration template, rebooted and your manual changes will be lost. Do you want to continue?"
       }
     },
     "force_available_status_action": "Imposta come Disponibile",
@@ -936,6 +945,7 @@
     "change_config_success": "La stazione di ricarica '{{chargeBoxID}}' è stata salvata correttamente",
     "change_config_error": "Impossibile modificare la configurazione della stazione di ricarica, controllare i log",
     "change_config_phase_error": "Impossibile assegnare una stazione di ricarica trifase ad un'area del sito monofase",
+    "charge_point_connectors_error": "Error occurred while saving the charging station. The charge points properties do not match its connectors",
     "change_params_success": "Il parametro '{{paramKey}}' è stato aggiornato correttamente nella stazione di ricarica '{{chargeBoxID}}'",
     "change_params_error": "Si è verificato un errore durante il tentativo di aggiornamento del parametro della stazione di ricarica",
     "delete_title": "Cancella",

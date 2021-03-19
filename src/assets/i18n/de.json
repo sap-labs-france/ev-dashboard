@@ -550,7 +550,7 @@
   },
   "statistics": {
     "title": "Statistiken",
-    "description": "Integrierte Statistiken",
+    "description": "Statistics of charging sessions",
     "charger_kw_h": "kW.h",
     "legend_select_unselect_all": "Alle Abwählen/Wählen",
     "graphic_title_consumption_y_axis": "Verbrauch (kW.h)",
@@ -2034,10 +2034,10 @@
       "url": "URL"
     }
   },
-  "smartCharging": {
+  "smart_charging": {
     "title": "Smart-Charging",
     "type_placeholder": "Typ",
-    "description": "Smart-Charging-Interface",
+    "description": "Smart-Charging of electric vehicles",
     "optimizerUrl": "Optimizer URL"
   },
   "refund": {

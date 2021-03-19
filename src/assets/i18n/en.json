@@ -550,7 +550,7 @@
   },
   "statistics": {
     "title": "Statistics",
-    "description": "Integrated Statistics",
+    "description": "Statistics of charging sessions",
     "charger_kw_h": "kW.h",
     "legend_select_unselect_all": "Unselect/Select All",
     "graphic_title_consumption_y_axis": "Consumption (kW.h)",
@@ -1577,8 +1577,8 @@
         "api_url": "API Url",
         "client_id":"Client ID",
         "client_secret":"Client Secret",
-        "delete_title": "Delete Car Connector",
-        "delete_confirm": "Do you really want to delete the car connector '{{carConnectorConnectionName}}'?"
+        "delete_title": "Delete Connector",
+        "delete_confirm": "Do you really want to delete the connector '{{carConnectorConnectionName}}'?"
       },
       "types": {
         "mercedes": "Mercedes Connector"
@@ -1886,7 +1886,7 @@
   },
   "asset": {
     "title": "Asset",
-    "description": "Manage Assets",
+    "description": "Manage assets (buildings, solar panels, batteries)",
     "tabs": {
       "assets": "Assets",
       "in_error": "In Error"
@@ -2007,7 +2007,7 @@
   },
   "car": {
     "title": "Car Management",
-    "description": "Manage Cars",
+    "description": "Manage the user's cars",
     "tabs": {
       "car_catalogs": "Car Catalogs",
       "cars": "Car Management"
@@ -2037,7 +2037,7 @@
   "smart_charging": {
     "title": "Smart Charging",
     "type_placeholder": "Type",
-    "description": "Smart Charging Interface",
+    "description": "Smart-Charging of electric vehicles",
     "optimizerUrl": "Optimizer URL"
   },
   "refund": {

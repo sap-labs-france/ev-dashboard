@@ -402,5 +402,18 @@ export enum ServerAction {
   REST_MAIL_CHECK = 'mail/check',
   REST_MAIL_RESEND = 'mail/resend',
   REST_PING = 'ping',
-  REST_TENANTS = 'tenants'
+  REST_TENANTS = 'tenants',
+
+  REST_CHARGING_STATIONS = 'chargingstations',
+  REST_CHARGING_STATION = 'chargingstation',
+  REST_CHARGING_STATIONS_IN_ERROR = 'chargingstations/status/in-error',
+  REST_CHARGING_STATION_CHECK_SMART_CHARGING_CONNECTION = 'chargingstations/smartcharging/connection/check',
+  REST_CHARGING_STATION_TRIGGER_SMART_CHARGING = 'chargingstations/smartcharging/trigger',
+  REST_CHARGING_STATIONS_EXPORT = 'chargingstations/action/export',
+  REST_CHARGING_STATIONS_OCPP_PARAMS_EXPORT = 'chargingstations/ocpp/parameters/export',
+  REST_CHARGING_STATION_DOWNLOAD_QR_CODE_PDF = 'chargingstations/qrcode/download',
+  REST_CHARGING_STATION_REQUEST_OCPP_PARAMETERS = 'chargingstations/ocpp/parameters',
+
+
+  REST_CHARGING_PROFILES = 'chargingprofiles'
 }

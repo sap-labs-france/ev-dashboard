@@ -550,7 +550,7 @@
   },
   "statistics": {
     "title": "Estadísticas",
-    "description": "Estadísticas integradas",
+    "description": "Statistics of charging sessions",
     "charger_kw_h": "kW.h",
     "legend_select_unselect_all": "Deseleccionar / Seleccionar todo",
     "graphic_title_consumption_y_axis": "Consumo (kW.h)",
@@ -1364,6 +1364,7 @@
     "save_error_billing": "Los costos deben ser activados para usar la facturación",
     "save_error_smart_charging": "La organización debe ser activada para usar la carga inteligente",
     "save_error_asset": "La organización debe ser activada para usar los activos",
+    "save_error_car_connector": "Car Management must be active to use Car Connector",
     "smart_charging_still_active_for_site_area": "La carga inteligente todavía está activada para ciertas áreas del sitio. <br> Desactive la carga inteligente para cada zona en la organización.",
     "logo_size_error": "The logo size limit exceeded, limit is below {{maxPictureKb}} Kb"
   },
@@ -1378,7 +1379,8 @@
       "billing": "Facturas",
       "analytics": "Análisis",
       "smart_charging": "Carga inteligente",
-      "asset": "Activos"
+      "asset": "Activos",
+      "car_connector": "Car Connector"
     },
     "ocpi": {
       "gireve": {
@@ -1575,6 +1577,30 @@
       "create_error": "Se produjo un error al configurar los activos",
       "update_success": "La configuración de los activos se ha actualizado correctamente",
       "update_error": "Se produjo un error al actualizar los activos"
+    },
+    "car_connector": {
+      "connection": {
+        "title": "Car connectors",
+        "name": "Name",
+        "description": "Description",
+        "type": "Type",
+        "authentication_url": "Authentication Url",
+        "api_url": "API Url",
+        "client_id":"Client ID",
+        "client_secret":"Client Secret",
+        "delete_title": "Delete Connector",
+        "delete_confirm": "Do you really want to delete the connector '{{carConnectorConnectionName}}'?"
+      },
+      "types": {
+        "mercedes": "Mercedes Connector"
+      },
+      "description": "E-Mobility can get real time data of your cars like the current state of charge and use this information with the smart charging algorithm to optimize charging sessions.",
+      "setting_do_not_exist": "Configuration has not been found",
+      "setting_not_found": "Car connector settings have not been found",
+      "create_success": "Car connector settings have been created successfully",
+      "create_error": "Error occurred while creating the Car connector settings, check the logs",
+      "update_success": "Car connector settings have been updated successfully",
+      "update_error": "Error occurred while updating the Car connector settings, check the logs"
     },
     "information": "Información",
     "activation_contact_msg": "Para habilitar esta función, comuníquese con su representante de E-Mobility.",
@@ -1871,7 +1897,7 @@
   },
   "asset": {
     "title": "Activos",
-    "description": "Gestion de activos",
+    "description": "Manage assets (buildings, solar panels, batteries)",
     "tabs": {
       "assets": "Activos",
       "in_error": "Con errores"
@@ -1991,12 +2017,16 @@
     }
   },
   "car": {
-    "title": "vehículo",
-    "description": "Gestión de vehículos",
+    "title": "Car Management",
+    "description": "Manage the user's cars",
     "tabs": {
       "car_catalogs": "Catálogo de vehículo",
       "cars": "Car Management"
     }
+  },
+  "car_connector": {
+    "title": "Car Connector",
+    "description": "Use APIs to gain real time data of your cars"
   },
   "analytics": {
     "title": " Análisis",
@@ -2018,7 +2048,7 @@
   "smart_charging": {
     "title": "Carga inteligente",
     "type_placeholder": "Tipo",
-    "description": "Interfaz de la carga inteligente",
+    "description": "Smart-Charging of electric vehicles",
     "optimizerUrl": "Optimizar URL"
   },
   "refund": {

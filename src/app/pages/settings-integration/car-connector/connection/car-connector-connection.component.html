@@ -1,0 +1,88 @@
+<div class="main-content">
+  <div class="card card-profile card-testimonial">
+    <mat-tab-group animationDuration="0ms" disableRipple="true" class="mat-tab-info">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon>bluetooth_drive</mat-icon>
+          <span>{{name.value}}</span>
+        </ng-template>
+        <div class="card-body">
+          <div class="tab-content">
+            <div class="tab-pane active" id="profile">
+              <div class="row">
+                <!-- Name -->
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <mat-form-field>
+                      <input appAutofocus matInput
+                        placeholder="{{'settings.car_connector.connection.name' | translate}}" type="text"
+                        [formControl]="name" required>
+                      <mat-error *ngIf="name.errors?.required">
+                        {{"general.mandatory_field" | translate}}
+                      </mat-error>
+                      <mat-error *ngIf="name.errors?.maxlength">
+                        <div [translate]="'general.error_max_length'" [translateParams]="{length: 100}">
+                        </div>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <!-- Description -->
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <mat-form-field>
+                      <input matInput
+                        placeholder="{{'settings.car_connector.connection.description' | translate}}"
+                        type="text" [formControl]="description" required>
+                      <mat-error *ngIf="description.errors?.required">
+                        {{"general.mandatory_field" | translate}}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <!-- Type -->
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <mat-form-field>
+                      <mat-select [formControl]="type" placeholder="{{'settings.car_connector.connection.type' | translate}}" (selectionChange)="typeChanged($event.value)" required>
+                        <mat-option *ngFor="let carConnectorConnectionType of carConnectorConnectionTypes" value="{{carConnectorConnectionType.key}}">
+                          {{ carConnectorConnectionType.value | translate }}
+                        </mat-option>
+                      </mat-select>
+                      <mat-error *ngIf="type.errors?.required">
+                        {{"general.mandatory_field" | translate}}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+              <div class="row" *ngIf="type.value === 'mercedes'">
+                <div class="col-md-12">
+                  <app-settings-mercedes-connection
+                    [formGroup]="formGroup" [mercedesConnection]="mercedesConnection">
+                  </app-settings-mercedes-connection>
+                </div>
+              </div>
+              <div class="card-footer mat-dialog-actions" align="end">
+                <button mat-raised-button color="warn" (click)="setConnectionAndClose(formGroup.value)"
+                  [disabled]="!formGroup.valid || !formGroup.dirty">
+                  {{ submitButtonTranslation | translate }}
+                </button>
+                <button mat-raised-button (click)="cancel()">
+                  {{"general.cancel" | translate}}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+      <mat-tab disabled>
+        <ng-template mat-tab-label>
+          <button mat-icon-button *ngIf="inDialog" (click)="cancel()">
+            <mat-icon>close</mat-icon>
+          </button>
+        </ng-template>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>

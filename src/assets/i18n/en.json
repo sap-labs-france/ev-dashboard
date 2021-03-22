@@ -1475,7 +1475,7 @@
         "create_error": "Error occurred while creating the payment method, check the logs",
         "delete_title": "Delete payment method",
         "delete_confirm": "Do you really want to delete the payment method ending with '{{last4}}'?",
-        "delete_success": "The payment methode ending with '{{last4}}' has been deleted successfully",
+        "delete_success": "The payment method ending with '{{last4}}' has been deleted successfully",
         "delete_error": "Error occurred while deleting the payment method, check the logs",
         "expired": "Expired",
         "valid": "Valid",

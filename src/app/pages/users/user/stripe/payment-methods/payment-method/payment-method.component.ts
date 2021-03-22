@@ -80,11 +80,6 @@ export class PaymentMethodComponent implements OnInit {
     this.card.mount(this.cardInfo.nativeElement);
   }
 
-  private openTestingCardsUrl() {
-    // TBC - This has a side effect - it will load stripe.js twice and hang forever!!!
-    window.open('https://stripe.com/docs/testing#cards', '_blank');
-  }
-
   public linkCardToAccount() {
     this.doCreatePaymentMethod();
   }
@@ -93,11 +88,11 @@ export class PaymentMethodComponent implements OnInit {
     const operationResult: any = await this.createPaymentMethod();
     if (operationResult.error) {
       // Operation failed
-      this.messageService.showErrorMessage(operationResult.error.message);
+      this.messageService.showErrorMessage('settings.billing.payment_methods.create_error');
     } else {
       this.spinnerService.hide();
       // Operation succeeded
-      this.messageService.showSuccessMessage('Successfuly added card ending with ' + operationResult.internalData.card.last4);
+      this.messageService.showSuccessMessage('settings.billing.payment_methods.create_success', { last4: operationResult.internalData.card.last4 });
       this.closeDialog();
     }
   }

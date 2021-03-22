@@ -26,6 +26,7 @@ import { UserSitesAdminCheckboxComponent } from './user-sites/user-sites-admin-c
 import { UserSitesDialogComponent } from './user-sites/user-sites-dialog.component';
 import { UserSitesOwnerRadioComponent } from './user-sites/user-sites-owner-radio.component';
 import { UserSitesTableDataSource } from './user-sites/user-sites-table-data-source';
+import { AppPaymentMethodStatusPipe, PaymentMethodStatusComponent } from './user/stripe/payment-methods/payment-method/payment-method-status.component';
 import { PaymentMethodComponent } from './user/stripe/payment-methods/payment-method/payment-method.component';
 import { PaymentMethodDialogComponent } from './user/stripe/payment-methods/payment-method/payment-method.dialog.component';
 import { PaymentMethodsComponent } from './user/stripe/payment-methods/payment-methods.component';
@@ -68,7 +69,9 @@ import { UserRoutes } from './users.routing';
     TagComponent,
     PaymentMethodComponent,
     PaymentMethodsComponent,
-    PaymentMethodDialogComponent
+    PaymentMethodDialogComponent,
+    AppPaymentMethodStatusPipe,
+    PaymentMethodStatusComponent
   ],
   entryComponents: [
     UserStatusFormatterComponent,
@@ -79,7 +82,8 @@ import { UserRoutes } from './users.routing';
     ErrorCodeDetailsComponent,
     UserSitesOwnerRadioComponent,
     TagDialogComponent,
-    TagComponent
+    TagComponent,
+    PaymentMethodStatusComponent
   ],
   exports: [
     AppUserRolePipe,

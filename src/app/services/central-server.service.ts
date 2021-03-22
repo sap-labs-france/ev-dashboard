@@ -2,6 +2,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { PaymentMethod } from '@stripe/stripe-js';
 import { StatusCodes } from 'http-status-codes';
 import { BehaviorSubject, EMPTY, Observable, TimeoutError, of, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
@@ -1578,6 +1579,40 @@ export class CentralServerService {
       {
         headers: this.buildHttpHeaders(),
       })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public getPaymentMethods(currentUserID: string, params: FilterParams,
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<PaymentMethod>> {
+      // Verify init
+    this.checkInit();
+    // Build Paging
+    this.getPaging(paging, params);
+    // Build Ordering
+    this.getSorting(ordering, params);
+  
+    // Execute the REST Service
+    return this.httpClient.get<DataResult<PaymentMethod>>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.BILLING_PAYMENT_METHODS_LIST}?userID=${currentUserID}`,
+      {
+        headers: this.buildHttpHeaders(),
+        params
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public deletePaymentMethod(paymentMethodId: number): Observable<ActionsResponse> {
+    // Verify init
+    this.checkInit();
+    const options = {
+      headers: this.buildHttpHeaders(),
+      body: { paymentMethodId },
+    };
+    // Execute the REST service
+    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.BILLING_DELETE_PAYMENT_METHOD}`, options)
       .pipe(
         catchError(this.handleHttpError),
       );

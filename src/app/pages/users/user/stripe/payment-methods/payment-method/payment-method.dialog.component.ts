@@ -5,7 +5,6 @@ import { Utils } from '../../../../../../utils/Utils';
 import { PaymentMethodComponent } from './payment-method.component';
 
 @Component({
-  // template: '<app-payment-method #appRef [currentUserID]="userID" [inDialog]="true" [dialogRef]="dialogRef"></app-payment-method>',
   template: '<app-payment-method #appRef [currentUserID]="userID" [inDialog]="true" [dialogRef]="dialogRef"></app-payment-method>',
 })
 export class PaymentMethodDialogComponent implements AfterViewInit {

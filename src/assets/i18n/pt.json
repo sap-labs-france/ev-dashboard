@@ -1468,6 +1468,22 @@
       "connection_success": "A conexão com o sistema de faturamento foi testada com sucesso",
       "connection_error": "Impossível conectar ao sistema de faturamento. Verifique sua chave secreta.",
       "force_synchronize": "Forçar sincronização de faturamento",
+      "payment_methods":
+      {
+        "create": "Create a payment method",
+        "delete_title": "Delete payment method",
+        "delete_confirm": "Do you really want to delete the payment method ending with '{{last4}}'?",
+        "delete_success": "The payment methode ending with '{{last4}}' has been deleted successfully",
+        "delete_error": "Error occurred while deleting the payment method ending with '{{last4}}', check the logs",
+        "expired": "Expired",
+        "valid": "Valid",
+        "expire_soon": "Expire soon", // Needs to be as short as "expire soon" - can be "will expire"
+        "expiring_on": "Expire on",
+        "ending_with": "Ending with",
+        "status": "Status",
+        "type": "Type",
+        "brand": "Brand"
+      },
       "user": {
         "synchronize_users": "Sincronizar utilizadores de cobrança",
         "synchronize_user": "Sincronizar utilizador de cobrança",

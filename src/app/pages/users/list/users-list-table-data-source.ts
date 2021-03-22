@@ -319,7 +319,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
         break;
       case UserButtonAction.IMPORT_USERS:
         if (actionDef.action) {
-          (actionDef as TableImportUsersActionDef).action(ImportDialogComponent, this.dialog);
+          (actionDef as TableImportUsersActionDef).action(ImportDialogComponent, this.dialog, this.translateService);
         }
         break;
       case BillingButtonAction.SYNCHRONIZE_BILLING_USERS:

@@ -149,6 +149,8 @@
     "status": "Status",
     "revoke": "Widerrufen",
     "edit": "Bearbeiten",
+    "import_instructions": "To import data, please provide .csv file containing the properties: '{{properties}}'",
+    "invalid_file_error": "The provided file is invalid",
     "menu": {
       "dashboard": "Dashboard",
       "charging_stations": "Ladestationen",
@@ -1333,7 +1335,8 @@
     "delete_tags_confirm": "Möchten Sie wirklich '{{quantity}}' Badge(s) löschen?",
     "delete_tags_success": "'{{inSuccess}}' Badges wurden erfolgreich gelöscht",
     "delete_tags_partial": "'{{inSuccess}}' Badges wurden erfolgreich gelöscht und '{{inError}}' Badges haben einen Fehler ausgelöst, überpfüfen Sie die Logs",
-    "delete_tags_error": "Beim Löschen der Badges ist ein Fehler aufgetreten, überpfüfen Sie die Logs"
+    "delete_tags_error": "Beim Löschen der Badges ist ein Fehler aufgetreten, überpfüfen Sie die Logs",
+    "import_tags": "Import Badges"
   },
   "tenants": {
     "title": "Organisation",

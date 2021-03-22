@@ -307,7 +307,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
         break;
       case UserButtonAction.IMPORT_TAGS:
         if (actionDef.action) {
-          (actionDef as TableImportTagsActionDef).action(ImportDialogComponent, this.dialog);
+          (actionDef as TableImportTagsActionDef).action(ImportDialogComponent, this.dialog, this.translateService);
         }
         break;
     }

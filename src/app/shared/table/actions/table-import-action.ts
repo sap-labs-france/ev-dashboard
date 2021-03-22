@@ -1,5 +1,6 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { ServerAction } from 'types/Server';
 
 import { ButtonAction, FilterParams } from '../../../types/GlobalType';
 import { ButtonColor, ButtonType, TableActionDef } from '../../../types/Table';
@@ -21,7 +22,7 @@ export class TableImportAction implements TableAction {
     return this.action;
   }
 
-  protected import(component: ComponentType<unknown>, dialog: MatDialog, endpoint: string) {
+  protected import(component: ComponentType<unknown>, dialog: MatDialog, endpoint: ServerAction, requiredProperties: string[], title: string) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '80vw';
@@ -29,6 +30,8 @@ export class TableImportAction implements TableAction {
     dialogConfig.panelClass = 'transparent-dialog-container';
     dialogConfig.data =  {
       'endpoint': endpoint,
+      'requiredProperties': requiredProperties,
+      'title': title
     };
 
     // Open

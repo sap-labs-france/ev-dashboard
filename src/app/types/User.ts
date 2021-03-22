@@ -149,3 +149,5 @@ export enum UserRole {
   DEMO = 'D',
   UNKNOWN = 'U',
 }
+
+export const UserRequiredImportProperties = ['email', 'firstName', 'name'];

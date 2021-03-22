@@ -149,6 +149,8 @@
     "status": "Stato",
     "revoke": "Revoca",
     "edit": "Modifica",
+    "import_instructions": "To import data, please provide .csv file containing the properties: '{{properties}}'",
+    "invalid_file_error": "The provided file is invalid",
     "menu": {
       "dashboard": "Cruscotto",
       "charging_stations": "Stazioni di Ricarica",
@@ -1333,7 +1335,9 @@
     "delete_tags_confirm": "Vuoi davvero eliminare '{{quantity}}' badge?",
     "delete_tags_success": "'{{inSuccess}}' badge sono stati eliminati correttamente",
     "delete_tags_partial": "'{{inSuccess}}' badge sono stati eliminati correttamente e '{{inError}}' badge hanno riscontrato un errore, controlla i log",
-    "delete_tags_error": "Si è verificato un errore durante l'eliminazione dei badge, controlla i log"
+    "delete_tags_error": "Si è verificato un errore durante l'eliminazione dei badge, controlla i log",
+    "import_tags": "Import Badges"
+
   },
   "tenants": {
     "title": "Organizzazione",

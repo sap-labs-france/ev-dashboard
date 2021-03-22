@@ -149,7 +149,7 @@
     "status": "Statut",
     "revoke": "Révoquer",
     "edit": "Editer",
-    "import_instructions": "Pour importer les données, veuillez fournir une fichier .csv file contenant les Propriété(s): '{{properties}}'",
+    "import_instructions": "Pour importer les données, veuillez fournir un fichier .csv file contenant les Propriété(s): '{{properties}}'",
     "invalid_file_error": "Le fichier fourni est invalide",
     "menu": {
       "dashboard": "Tableau de bord",

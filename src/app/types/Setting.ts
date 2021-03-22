@@ -24,6 +24,7 @@ export interface SettingDBContent {
     | BillingSettingsType
     | SmartChargingSettingsType
     | AssetSettingsType
+    | CarConnectorSettingsType
     | UserSettingsType;
   ocpi?: OcpiSetting;
   oicp?: OicpSetting;
@@ -35,6 +36,7 @@ export interface SettingDBContent {
   concur?: ConcurRefundSetting;
   sapSmartCharging?: SapSmartChargingSetting;
   asset?: AssetSetting;
+  carConnector?: CarConnectorSetting;
   crypto?: CryptoSetting;
   user?: UserSetting;
 }
@@ -256,6 +258,40 @@ export interface AssetUserPasswordConnectionType {
 export interface AssetSchneiderConnectionType extends AssetUserPasswordConnectionType {}
 
 export interface AssetGreencomConnectionType {
+  clientId: string;
+  clientSecret: string;
+}
+
+export enum CarConnectorSettingsType {
+  CAR_CONNECTOR = 'carConnector',
+}
+
+export interface CarConnectorSettings extends Setting {
+  identifier: TenantComponents.CAR_CONNECTOR;
+  type: CarConnectorSettingsType;
+  carConnector?: CarConnectorSetting;
+}
+
+export interface CarConnectorSetting {
+  connections: CarConnectorConnectionSetting[];
+}
+
+export interface CarConnectorConnectionSetting extends Data {
+  id: string;
+  name: string;
+  description: string;
+  type: CarConnectorConnectionType;
+  mercedesConnection?: CarConnectorMercedesConnectionType;
+}
+
+export enum CarConnectorConnectionType {
+  NONE = '',
+  MERCEDES = 'mercedes',
+}
+
+export interface CarConnectorMercedesConnectionType {
+  authenticationUrl: string;
+  apiUrl: string;
   clientId: string;
   clientSecret: string;
 }

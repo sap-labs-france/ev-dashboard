@@ -26,7 +26,7 @@
     "connectors": "Conexiones",
     "notifications": "Notificaciones",
     "app_name": "e-Mobility",
-    "last_update": "Versión 2.4.51",
+    "last_update": "Versión 2.4.53",
     "version": "Versión",
     "about_us": "Sobre nosotros",
     "unexpected_error_backend": "Ocurrió un error inesperado",
@@ -556,7 +556,7 @@
   },
   "statistics": {
     "title": "Estadísticas",
-    "description": "Estadísticas integradas",
+    "description": "Statistics of charging sessions",
     "charger_kw_h": "kW.h",
     "legend_select_unselect_all": "Deseleccionar / Seleccionar todo",
     "graphic_title_consumption_y_axis": "Consumo (kW.h)",
@@ -689,6 +689,7 @@
     "public_charger": "Publica",
     "exclude_smart_charging": "Excluir carga inteligente",
     "force_inactive": "This charging station is inactive",
+    "manual_configuration": "Manual configuration",
     "public_url": "URL pública",
     "current_ip": "Ruta IP actual",
     "select_chargers": "Seleccionar estación de carga",
@@ -771,8 +772,16 @@
         "title": "Ubicación de las estaciones de carga"
       },
       "settings": {
-        "fixedURLforOCPP": "Desde OCPP 1.6 en adelante, el servidor fija la URL",
-        "callbackURLforOCPP": "Retrollamada de la URL para mandar una soliditud HTTP a la estación de carga "
+        "fixed_url_for_ocpp": "Desde OCPP 1.6 en adelante, el servidor fija la URL",
+        "callback_url_for_ocpp": "Retrollamada de la URL para mandar una soliditud HTTP a la estación de carga "
+      },
+      "enable_manual_configuration":{
+        "title": "Enable manual configuration",
+        "confirm": "If you enable the manual configuration, the charging station will not be adjusted with the automatic configuration template anymore. Do you want to continue?"
+      },
+      "disable_manual_configuration":{
+        "title": "Disable manual configuration",
+        "confirm": "If you disable the manual configuration, the charging station will be adjusted with the automatic configuration template, rebooted and your manual changes will be lost. Do you want to continue?"
       }
     },
     "force_available_status_action": "Establecer como disponible",
@@ -942,6 +951,7 @@
     "change_config_success": "La configuración de la estación de carga '{{chargeBoxID}}' se ha guardado exitosamente",
     "change_config_error": "Cannot change the configuration of the charging station, check the logs",
     "change_config_phase_error": "No se puede asignar una estación de carga trifásica a una zona monofásica",
+    "charge_point_connectors_error": "Error occurred while saving the charging station. The charge points properties do not match its connectors",
     "change_params_success": "El parámetro '{{paramKey}}' se ha actualizado correctamente en la estación de carga '{{chargeBoxID}}'",
     "change_params_error": "Se produjo un error al intentar actualizar el parámetro de la estación de carga",
     "delete_title": "Eliminar",
@@ -1361,6 +1371,7 @@
     "save_error_billing": "Los costos deben ser activados para usar la facturación",
     "save_error_smart_charging": "La organización debe ser activada para usar la carga inteligente",
     "save_error_asset": "La organización debe ser activada para usar los activos",
+    "save_error_car_connector": "Car Management must be active to use Car Connector",
     "smart_charging_still_active_for_site_area": "La carga inteligente todavía está activada para ciertas áreas del sitio. <br> Desactive la carga inteligente para cada zona en la organización.",
     "logo_size_error": "The logo size limit exceeded, limit is below {{maxPictureKb}} Kb"
   },
@@ -1375,7 +1386,8 @@
       "billing": "Facturas",
       "analytics": "Análisis",
       "smart_charging": "Carga inteligente",
-      "asset": "Activos"
+      "asset": "Activos",
+      "car_connector": "Car Connector"
     },
     "ocpi": {
       "gireve": {
@@ -1572,6 +1584,30 @@
       "create_error": "Se produjo un error al configurar los activos",
       "update_success": "La configuración de los activos se ha actualizado correctamente",
       "update_error": "Se produjo un error al actualizar los activos"
+    },
+    "car_connector": {
+      "connection": {
+        "title": "Car connectors",
+        "name": "Name",
+        "description": "Description",
+        "type": "Type",
+        "authentication_url": "Authentication Url",
+        "api_url": "API Url",
+        "client_id":"Client ID",
+        "client_secret":"Client Secret",
+        "delete_title": "Delete Connector",
+        "delete_confirm": "Do you really want to delete the connector '{{carConnectorConnectionName}}'?"
+      },
+      "types": {
+        "mercedes": "Mercedes Connector"
+      },
+      "description": "E-Mobility can get real time data of your cars like the current state of charge and use this information with the smart charging algorithm to optimize charging sessions.",
+      "setting_do_not_exist": "Configuration has not been found",
+      "setting_not_found": "Car connector settings have not been found",
+      "create_success": "Car connector settings have been created successfully",
+      "create_error": "Error occurred while creating the Car connector settings, check the logs",
+      "update_success": "Car connector settings have been updated successfully",
+      "update_error": "Error occurred while updating the Car connector settings, check the logs"
     },
     "information": "Información",
     "activation_contact_msg": "Para habilitar esta función, comuníquese con su representante de E-Mobility.",
@@ -1868,7 +1904,7 @@
   },
   "asset": {
     "title": "Activos",
-    "description": "Gestion de activos",
+    "description": "Manage assets (buildings, solar panels, batteries)",
     "tabs": {
       "assets": "Activos",
       "in_error": "Con errores"
@@ -1988,12 +2024,16 @@
     }
   },
   "car": {
-    "title": "vehículo",
-    "description": "Gestión de vehículos",
+    "title": "Car Management",
+    "description": "Manage the user's cars",
     "tabs": {
       "car_catalogs": "Catálogo de vehículo",
       "cars": "Car Management"
     }
+  },
+  "car_connector": {
+    "title": "Car Connector",
+    "description": "Use APIs to gain real time data of your cars"
   },
   "analytics": {
     "title": " Análisis",
@@ -2015,7 +2055,7 @@
   "smart_charging": {
     "title": "Carga inteligente",
     "type_placeholder": "Tipo",
-    "description": "Interfaz de la carga inteligente",
+    "description": "Smart-Charging of electric vehicles",
     "optimizerUrl": "Optimizar URL"
   },
   "refund": {

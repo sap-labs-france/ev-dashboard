@@ -77,20 +77,26 @@
           {{'chargers.force_inactive' | translate}}
         </mat-checkbox>
       </div>
+      <div
+      class="col-md-3 text-left form-group">
+        <mat-checkbox [formControl]="manualConfiguration" (change)="manualConfigurationChanged($event.checked)">
+          {{'chargers.manual_configuration' | translate}}
+        </mat-checkbox>
+      </div>
     </div>
     <div class="row charging-station-connector-component"
       *ngIf="chargingStation?.chargePoints?.length > 0; else chargingStationWithNoChargePoints">
       <div class="col-md-12" *ngFor="let chargePoint of chargingStation.chargePoints">
         <app-charging-station-charge-point [chargingStation]="chargingStation" [chargePoint]="chargePoint"
           [formChargePointsArray]="chargePoints" [formConnectorsArray]="connectors" [isAdmin]="isAdmin"
-          (chargePointChanged)="chargePointChanged()"></app-charging-station-charge-point>
+          (chargePointChanged)="chargePointChanged()" [manualConfiguration]="manualConfiguration.value"></app-charging-station-charge-point>
       </div>
     </div>
     <ng-template #chargingStationWithNoChargePoints>
       <div class="row charging-station-connector-component">
         <div class="col-md-6" *ngFor="let connector of chargingStation?.connectors">
           <app-charging-station-connector [chargingStation]="chargingStation" [connector]="connector"
-            [formConnectorsArray]="connectors" [isAdmin]="isAdmin" (connectorChanged)="connectorChanged()">
+            [formConnectorsArray]="connectors" [isAdmin]="isAdmin" (connectorChanged)="connectorChanged()" [manualConfiguration]="manualConfiguration.value">
           </app-charging-station-connector>
         </div>
       </div>

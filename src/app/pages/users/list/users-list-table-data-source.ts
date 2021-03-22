@@ -297,6 +297,9 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       if (this.authorizationService.canListTransactions()) {
         moreActions.addActionInMoreActions(this.navigateToTransactionsAction);
       }
+      if (user.canDelete) {
+        moreActions.addActionInMoreActions(this.deleteAction);
+      }
       actions.push(moreActions.getActionDef());
     }
     return actions;

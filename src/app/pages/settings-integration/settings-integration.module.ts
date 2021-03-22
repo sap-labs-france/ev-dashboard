@@ -21,6 +21,11 @@ import { SettingsAssetConnectionEditableTableDataSource } from './asset/settings
 import { SettingsAssetComponent } from './asset/settings-asset.component';
 import { SettingsBillingComponent } from './billing/settings-billing.component';
 import { SettingsStripeComponent } from './billing/stripe/settings-stripe.component';
+import { CarConnectorConnectionComponent } from './car-connector/connection/car-connector-connection.component';
+import { CarConnectorConnectionDialogComponent } from './car-connector/connection/car-connector-connection.dialog.component';
+import { MercedesCarConnectorConnectionComponent } from './car-connector/connection/mercedes/mercedes-car-connector-connection.component';
+import { SettingsCarConnectorConnectionEditableTableDataSource } from './car-connector/settings-car-connector-connections-list-table-data-source';
+import { SettingsCarConnectorComponent } from './car-connector/settings-car-connector.component';
 import { SettingsOcpiEnpointComponent } from './ocpi/endpoints/endpoint/settings-ocpi-endpoint.component';
 import { SettingsOcpiEnpointDialogComponent } from './ocpi/endpoints/endpoint/settings-ocpi-endpoint.dialog.component';
 import { AppFormatOcpiEvsesFailurePipe, OcpiDetailFailureEvsesStatusFormatterComponent } from './ocpi/endpoints/formatters/ocpi-detail-failure-evses-status-formatter.component';
@@ -105,6 +110,10 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     AssetConnectionDialogComponent,
     SchneiderAssetConnectionComponent,
     GreencomAssetConnectionComponent,
+    SettingsCarConnectorComponent,
+    CarConnectorConnectionComponent,
+    CarConnectorConnectionDialogComponent,
+    MercedesCarConnectorConnectionComponent,
     OcpiEndpointStatusFormatterComponent,
     OicpEndpointStatusFormatterComponent,
     AppFormatOcpiStatusPipe,
@@ -159,6 +168,10 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     AssetConnectionDialogComponent,
     SchneiderAssetConnectionComponent,
     GreencomAssetConnectionComponent,
+    SettingsCarConnectorComponent,
+    CarConnectorConnectionComponent,
+    CarConnectorConnectionDialogComponent,
+    MercedesCarConnectorConnectionComponent,
     AnalyticsLinkDialogComponent,
     SettingsOcpiEnpointDialogComponent,
     SettingsOcpiEnpointComponent,
@@ -187,6 +200,7 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     SettingsOicpEndpointsDetailsTableDataSource,
     SettingsOicpEndpointsTableDataSource,
     SettingsAssetConnectionEditableTableDataSource,
+    SettingsCarConnectorConnectionEditableTableDataSource,
     AnalyticsLinksTableDataSource,
   ],
 })

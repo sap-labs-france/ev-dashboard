@@ -24,20 +24,25 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.4.51',
-        date: new Date('2021-03-16'),
+        version: '2.4.53',
+        date: new Date('2021-03-22'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Manually configure a Charging Station linked to a configuration's Template`,
+              `Added Car Connector's configuration for Daimler's backend`,
+              `Allow to delete an OCPI User (eMSP) with all its Tags`,
               `Keba: Add support for latest firmware version`,
               `Billing - Check that Stripe settings are provided in Start Transaction`,
               `Billing - Enrich Stripe invoice information`,
               `Added Lock aquisition with a timeout`,
-              `Add Get Charging Station endpoint schema validation in RESTful endpoint`,
+              `Added Get Transaction's consumptions in RESTful endpoint`,
+              `Added Get Charging Station endpoint schema validation in RESTful endpoint`,
               `Optimized Assets with Site ID like Charging Stations`,
               `Accept more firmware versions on Ingeteam Charging Station`,
-              `Angular front-end uses the new RESTful enpoint for Charging Station's actions`
+              `Angular front-end uses the new RESTful enpoint for Charging Station's actions`,
+              `Do not try to resend E-mail notification with error 450`,
             ],
           },
         ],

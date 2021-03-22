@@ -73,5 +73,14 @@
         <app-settings-asset></app-settings-asset>
       </ng-template>
     </mat-tab>
+
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon>bluetooth_drive</mat-icon><span>{{'settings.tabs.car_connector' | translate}}</span>
+      </ng-template>
+      <ng-template matTabContent>
+        <app-settings-car-connector></app-settings-car-connector>
+      </ng-template>
+    </mat-tab>
   </mat-tab-group>
 </div>

@@ -26,7 +26,7 @@
     "connectors": "Conexões",
     "notifications": "Notificações",
     "app_name": "e-Mobility",
-    "last_update": "Versão 2.4.50",
+    "last_update": "Versão 2.4.53",
     "version": "Versão",
     "about_us": "Sobre Nós",
     "unexpected_error_backend": "Ocurreu um erro inesperado",
@@ -550,7 +550,7 @@
   },
   "statistics": {
     "title": "Estatísticas",
-    "description": "Estatísticas integradas",
+    "description": "Statistics of charging sessions",
     "charger_kw_h": "kW.h",
     "legend_select_unselect_all": "Deselecionar/Selecionar tudo",
     "graphic_title_consumption_y_axis": "Consumo (kW.h)",
@@ -683,6 +683,7 @@
     "public_charger": "Publica",
     "exclude_smart_charging": "Exlucido do carregamento Rapido",
     "force_inactive": "Esta estação de carregamento está inativa",
+    "manual_configuration": "Manual configuration",
     "public_url": "URL Publico",
     "current_ip": "Rota de IP corrente",
     "select_chargers": "Selecionar estações de carga",
@@ -765,8 +766,16 @@
         "title": "Localização das estações de carga"
       },
       "settings": {
-        "fixedURLforOCPP": "A partir do OCPP 1.6, a URL é fixada pelo servidor",
-        "callbackURLforOCPP": "URL de retorno de chamada para enviar solicitação HTTP para a estação de carregamento"
+        "fixed_url_for_ocpp": "A partir do OCPP 1.6, a URL é fixada pelo servidor",
+        "callback_url_for_ocpp": "URL de retorno de chamada para enviar solicitação HTTP para a estação de carregamento"
+      },
+      "enable_manual_configuration":{
+        "title": "Enable manual configuration",
+        "confirm": "If you enable the manual configuration, the charging station will not be adjusted with the automatic configuration template anymore. Do you want to continue?"
+      },
+      "disable_manual_configuration":{
+        "title": "Disable manual configuration",
+        "confirm": "If you disable the manual configuration, the charging station will be adjusted with the automatic configuration template, rebooted and your manual changes will be lost. Do you want to continue?"
       }
     },
     "force_available_status_action": "Conjunto disponível",
@@ -936,6 +945,7 @@
     "change_config_success": "A estação de carregamento '{{chargeBoxID}}' foi guardado com sucesso",
     "change_config_error": "Cannot change the configuration of the charging station, check the logs",
     "change_config_phase_error": "Não é possível atribuir estação de carregamento de três fases a uma área de local de fase única",
+    "charge_point_connectors_error": "Error occurred while saving the charging station. The charge points properties do not match its connectors",
     "change_params_success": "O parametro '{{paramKey}}' foi atualizado com sucesso na estação de carregamento '{{chargeBoxID}}'",
     "change_params_error": "Ocorreu um erro ao tentar atualizar o parâmetro da estação de carregamento",
     "delete_title": "Eliminar",
@@ -1156,7 +1166,7 @@
     "locale_desc_spanish": "Espanhol",
     "locale_desc_german": "Alemão",
     "locale_desc_portuguese": "Português",
-    "locale_desc_portuguese": "Portuguese",
+    "locale_desc_italian": "Italiano",
     "role_unknown": "Desconhecido",
     "locale_unknown": "Desconhecido",
     "status": "Esatdos",
@@ -1297,8 +1307,8 @@
     "id": "ID",
     "issuer": "Dono da Organização",
     "status": "Estados",
-    "activated": "Ativo",
-    "deactivated": "Desativo",
+    "activated": "Active",
+    "deactivated": "Inactive",
     "sessions": "Sessões",
     "activate_title": "Ativação de Badge",
     "activate_confirm": "Tem certeza de que deseja ativar o emblema '{{tagID}}'? Uma vez ativado, este emblema poderá ser usado para iniciar as sessões.",
@@ -1353,6 +1363,7 @@
     "save_error_billing": "O preço deve estar ativo para usar na fatura",
     "save_error_smart_charging": "A organização deve estar ativa para usar o Carregamento Inteligente",
     "save_error_asset": "A organização deve estar ativa para usar o ativo",
+    "save_error_car_connector": "Car Management must be active to use Car Connector",
     "smart_charging_still_active_for_site_area": "O Carregamento inteligente Charging ainda está ativo para determinadas áreas do site. <br> Desative o Carregamento Inteligente para cada área do site no locatário.",
     "logo_size_error": "O limite de tamanho do logotipo foi excedido, o limite está abaixo de {{maxPictureKb}} Kb"
   },
@@ -1367,7 +1378,8 @@
       "billing": "Faturação",
       "analytics": "Analises",
       "smart_charging": "Carregamento Inteligente",
-      "asset": "Ativos"
+      "asset": "Ativos",
+      "car_connector": "Car Connector"
     },
     "ocpi": {
       "gireve": {
@@ -1564,6 +1576,30 @@
       "create_error": "Ocorreu um erro ao criar as configurações do ativo",
       "update_success": "As configurações do ativo foram atualizadas com sucesso",
       "update_error": "Ocorreu um erro ao atualizar as configurações do ativo"
+    },
+    "car_connector": {
+      "connection": {
+        "title": "Car connectors",
+        "name": "Name",
+        "description": "Description",
+        "type": "Type",
+        "authentication_url": "Authentication Url",
+        "api_url": "API Url",
+        "client_id":"Client ID",
+        "client_secret":"Client Secret",
+        "delete_title": "Delete Connector",
+        "delete_confirm": "Do you really want to delete the connector '{{carConnectorConnectionName}}'?"
+      },
+      "types": {
+        "mercedes": "Mercedes Connector"
+      },
+      "description": "E-Mobility can get real time data of your cars like the current state of charge and use this information with the smart charging algorithm to optimize charging sessions.",
+      "setting_do_not_exist": "Configuration has not been found",
+      "setting_not_found": "Car connector settings have not been found",
+      "create_success": "Car connector settings have been created successfully",
+      "create_error": "Error occurred while creating the Car connector settings, check the logs",
+      "update_success": "Car connector settings have been updated successfully",
+      "update_error": "Error occurred while updating the Car connector settings, check the logs"
     },
     "information": "Informação",
     "activation_contact_msg": "Para ativar esse recurso, entre em contato com seu representante E-Mobility.",
@@ -1860,7 +1896,7 @@
   },
   "asset": {
     "title": "Ativos",
-    "description": "Gerir Ativos",
+    "description": "Manage assets (buildings, solar panels, batteries)",
     "tabs": {
       "assets": "Ativos",
       "in_error": "Em erro"
@@ -1980,12 +2016,16 @@
     }
   },
   "car": {
-    "title": "Carro",
-    "description": "Gerir Carros",
+    "title": "Car Management",
+    "description": "Manage the user's cars",
     "tabs": {
       "car_catalogs": "Catálogos de carros",
       "cars": "Car Management"
     }
+  },
+  "car_connector": {
+    "title": "Car Connector",
+    "description": "Use APIs to gain real time data of your cars"
   },
   "analytics": {
     "title": "Analises",
@@ -2007,7 +2047,7 @@
   "smart_charging": {
     "title": "Carregamento Inteligente",
     "type_placeholder": "Tipo",
-    "description": "Interface de Carregamento Inteligente",
+    "description": "Smart-Charging of electric vehicles",
     "optimizerUrl": "URL do otimizador"
   },
   "refund": {

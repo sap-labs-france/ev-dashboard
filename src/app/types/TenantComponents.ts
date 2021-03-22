@@ -10,5 +10,6 @@ enum TenantComponents {
   ASSET = 'asset',
   SMART_CHARGING = 'smartCharging',
   CAR = 'car',
+  CAR_CONNECTOR = 'carConnector',
 }
 export default TenantComponents;

@@ -24,6 +24,33 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.53',
+        date: new Date('2021-03-22'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Manually configure a Charging Station linked to a configuration's Template`,
+              `Added Car Connector's configuration for Daimler's backend`,
+              `Allow to delete an OCPI User (eMSP) with all its Tags`,
+              `Keba: Add support for latest firmware version`,
+              `Billing - Check that Stripe settings are provided in Start Transaction`,
+              `Billing - Enrich Stripe invoice information`,
+              `Added Lock aquisition with a timeout`,
+              `Changed Vendor ID length to 255 chars in OCPP-J status notification schema validation`,
+              `Added SMTP error codes that should not trigger a retry`,
+              `Added Exadys Charging Station in templates`,
+              `Added Get Transaction's consumptions in RESTful endpoint`,
+              `Added Get Charging Station endpoint schema validation in RESTful endpoint`,
+              `Optimized Assets with Site ID like Charging Stations`,
+              `Accept more firmware versions on Ingeteam Charging Station`,
+              `Angular front-end uses the new RESTful enpoint for Charging Station's actions`,
+              `Do not try to resend E-mail notification with error 450`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.50',
         date: new Date('2021-03-15'),
         componentChanges: [
@@ -67,7 +94,7 @@ export class ReleaseNotesComponent {
               `Added Joint Lightning Charging Station in template`,
               `Made Company RESTful endpoints based on authorization (Security)`,
               `Added User CRUD operations in RESTful endpoint`,
-              `Fixed Firmware upload RESTful endpoint`,
+              `Fixed Firmware download RESTful endpoint`,
               `Fixed empty fields in User's profile are not saved in the database`,
             ],
           },

@@ -12,7 +12,7 @@ import { DialogService } from '../../../services/dialog.service';
 import { LocaleService } from '../../../services/locale.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
-import { ChargingStation } from '../../../types/ChargingStation';
+import { ChargePoint, ChargingStation } from '../../../types/ChargingStation';
 import { KeyValue, RestResponse } from '../../../types/GlobalType';
 import { HTTPAuthError, HTTPError } from '../../../types/HTTPError';
 import { Utils } from '../../../utils/Utils';
@@ -97,8 +97,12 @@ export class ChargingStationComponent implements OnInit {
   public saveChargingStation(chargingStation: ChargingStation) {
     // Clone
     const chargingStationToSave = Utils.cloneObject(chargingStation) as ChargingStation;
-    // Do not save charge point
-    delete chargingStationToSave.chargePoints;
+    if (!chargingStationToSave.manualConfiguration) {
+      // Do not save charge point
+      delete chargingStationToSave.chargePoints;
+    } else {
+      this.adjustChargePoints(chargingStationToSave);
+    }
     // Save
     this.spinnerService.show();
     this.centralServerService.updateChargingStationParams(chargingStationToSave).subscribe((response) => {
@@ -118,6 +122,9 @@ export class ChargingStationComponent implements OnInit {
           break;
         case HTTPError.THREE_PHASE_CHARGER_ON_SINGLE_PHASE_SITE_AREA:
           this.messageService.showErrorMessage('chargers.change_config_phase_error');
+          break;
+        case HTTPError.CHARGE_POINT_NOT_VALID:
+          this.messageService.showErrorMessage('chargers.charge_point_connectors_error');
           break;
         default:
           Utils.handleHttpError(error, this.router, this.messageService,
@@ -139,5 +146,25 @@ export class ChargingStationComponent implements OnInit {
   public close() {
     Utils.checkAndSaveAndCloseDialog(this.formGroup, this.dialogService, this.translateService,
       this.saveChargingStation.bind(this), this.closeDialog.bind(this));
+  }
+
+  private adjustChargePoints(chargingStation: ChargingStation) {
+    for (const chargePoint of chargingStation.chargePoints) {
+      chargePoint.amperage = 0;
+      chargePoint.power = 0;
+      for (const connectorID of chargePoint.connectorIDs) {
+        const connector = Utils.getConnectorFromID(chargingStation, connectorID);
+        if (!chargePoint.sharePowerToAllConnectors) {
+          chargePoint.amperage += connector.amperage;
+          chargePoint.power += connector.power;
+        } else {
+          chargePoint.amperage = connector.amperage;
+          chargePoint.power = connector.power;
+        }
+        chargePoint.numberOfConnectedPhase = connector.numberOfConnectedPhase;
+        chargePoint.currentType = connector.currentType;
+        chargePoint.voltage = connector.voltage;
+      }
+    }
   }
 }

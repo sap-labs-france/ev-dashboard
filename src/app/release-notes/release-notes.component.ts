@@ -38,7 +38,8 @@ export class ReleaseNotesComponent {
               `Billing - Enrich Stripe invoice information`,
               `Added Lock aquisition with a timeout`,
               `Changed Vendor ID length to 255 chars in OCPP-J status notification schema validation`,
-              `Added SMTP error codes that should not trigger a retry`
+              `Added SMTP error codes that should not trigger a retry`,
+              `Added Exadys Charging Station in templates`,
               `Added Get Transaction's consumptions in RESTful endpoint`,
               `Added Get Charging Station endpoint schema validation in RESTful endpoint`,
               `Optimized Assets with Site ID like Charging Stations`,

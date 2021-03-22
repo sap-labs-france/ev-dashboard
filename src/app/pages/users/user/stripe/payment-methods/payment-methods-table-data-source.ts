@@ -71,9 +71,6 @@ export class PaymentMethodsTableDataSource extends TableDataSource<PaymentMethod
       this.spinnerService.hide();
     }
   }
-//   public getDataChangeSubject(): Observable<ChangeNotification> {
-//     return this.centralServerNotificationService.getSubjectRegistrationTokens();
-//   }
 
   public loadDataImpl(): Observable<DataResult<PaymentMethod>> {
     return new Observable((observer) => {

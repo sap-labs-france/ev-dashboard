@@ -93,7 +93,7 @@ export class PaymentMethodComponent implements OnInit {
       this.spinnerService.hide();
       // Operation succeeded
       this.messageService.showSuccessMessage('settings.billing.payment_methods.create_success', { last4: operationResult.internalData.card.last4 });
-      this.closeDialog();
+      this.closeDialog(true);
     }
   }
 
@@ -159,11 +159,8 @@ export class PaymentMethodComponent implements OnInit {
     }
 
   public close() {
-    // TODO: check how we handle popup close as we don't have the usual form form
-    // Utils.checkAndSaveAndCloseDialog(this.formGroup, this.dialogService,
-    //   this.translateService, this.createPaymentMethod.bind(this), this.closeDialog.bind(this));
-    this.windowService.clearSearch();
-    this.closeDialog();
+    Utils.checkAndSaveAndCloseDialog(this.formGroup, this.dialogService,
+      this.translateService, this.createPaymentMethod.bind(this), this.closeDialog.bind(this));
   }
 
   public closeDialog(saved: boolean = false) {

@@ -1563,7 +1563,8 @@
       },
       "types": {
         "schneider": "Schneider Building Management System",
-        "greencom": "GreenCom Asset Management System"
+        "greencom": "GreenCom Asset Management System",
+        "iothink": "ioThink Asset Management System"
       },
       "connection_success": "Connection to the system was tested successfully",
       "unknown_connection_error": "Unknown connection error",

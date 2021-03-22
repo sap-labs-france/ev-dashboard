@@ -241,12 +241,14 @@ export interface AssetConnectionSetting extends Data {
   type: AssetConnectionType;
   schneiderConnection?: AssetSchneiderConnectionType;
   greencomConnection?: AssetGreencomConnectionType;
+  iothinkConnection?: AssetIothinkConnectionType;
 }
 
 export enum AssetConnectionType {
   NONE = '',
   SCHNEIDER = 'schneider',
   GREENCOM = 'greencom',
+  IOTHINK = 'iothink'
 }
 
 export interface AssetUserPasswordConnectionType {
@@ -256,6 +258,9 @@ export interface AssetUserPasswordConnectionType {
 
 // tslint:disable-next-line: no-empty-interface
 export interface AssetSchneiderConnectionType extends AssetUserPasswordConnectionType {}
+
+// tslint:disable-next-line: no-empty-interface
+export interface AssetIothinkConnectionType extends AssetUserPasswordConnectionType {}
 
 export interface AssetGreencomConnectionType {
   clientId: string;

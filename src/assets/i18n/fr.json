@@ -1563,7 +1563,8 @@
       },
       "types": {
         "schneider": "Gestion Bâtiment Schneider",
-        "greencom": "GreenCom Gestion des Ressources"
+        "greencom": "GreenCom Gestion des Ressources",
+        "iothink": "ioThink Asset Management System"
       },
       "connection_success": "Connexion vers le système vérifiée avec succès",
       "unknown_connection_error": "Erreur de connexion inconnue",

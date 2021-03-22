@@ -24,14 +24,15 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.4.52',
-        date: new Date('2021-03-19'),
+        version: '2.4.53',
+        date: new Date('2021-03-22'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `Manually configure a Charging Station linked to a configuration's Template`,
               `Added Car Connector's configuration for Daimler's backend`,
+              `Allow to delete an OCPI User (eMSP) with all its Tags`,
               `Keba: Add support for latest firmware version`,
               `Billing - Check that Stripe settings are provided in Start Transaction`,
               `Billing - Enrich Stripe invoice information`,

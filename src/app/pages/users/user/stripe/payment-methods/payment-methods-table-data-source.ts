@@ -166,6 +166,11 @@ export class PaymentMethodsTableDataSource extends TableDataSource<PaymentMethod
           formatter: (expiringOn: Date) => {
             return this.datePipe.transform(expiringOn, 'shortDate');
           },
+          // OR 
+          // formatter: (expiringOn: Date) => {
+          //   return this.datePipe.transform(expiringOn, 'MM/YYYY');
+          // },
+          // AND call the column "Expiring end" as expiration takes place last day of the month
           },
         {
           id: 'createdOn',

@@ -1594,7 +1594,7 @@ export class CentralServerService {
     this.getSorting(ordering, params);
   
     // Execute the REST Service
-    return this.httpClient.get<DataResult<PaymentMethod>>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.BILLING_PAYMENT_METHODS_LIST}?userID=${currentUserID}`,
+    return this.httpClient.get<DataResult<PaymentMethod>>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.BILLING_PAYMENT_METHODS}?userID=${currentUserID}`,
       {
         headers: this.buildHttpHeaders(),
         params

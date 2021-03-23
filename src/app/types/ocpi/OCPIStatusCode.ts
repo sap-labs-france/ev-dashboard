@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-member-accessibility */
 export class OCPIStatusCode {
   // 1*** SUCCESS
   static readonly CODE_1000_SUCCESS = new OCPIStatusCode(1000, 'Success');
@@ -15,6 +16,7 @@ export class OCPIStatusCode {
   static readonly CODE_3003_NO_MATCHING_ENDPOINTS_ERROR = new OCPIStatusCode(3003, 'No Matching Endpoints');
 
   // Private to disallow creating other instances of this type
+  // eslint-disable-next-line no-useless-constructor
   private constructor(public readonly status_code: number, public readonly status_message: string) {
   }
 }

@@ -319,7 +319,7 @@ export class Utils {
     return totalAmps;
   }
 
-  // tslint:disable-next-line: cyclomatic-complexity
+  // eslint-disable-next-line complexity
   public static getChargingStationPower(chargingStation: ChargingStation, chargePoint: ChargePoint, connectorId = 0): number {
     let totalPower = 0;
     if (chargingStation) {
@@ -485,7 +485,7 @@ export class Utils {
     return null;
   }
 
-  // tslint:disable-next-line: cyclomatic-complexity
+  // eslint-disable-next-line complexity
   public static getChargingStationAmperage(chargingStation: ChargingStation, chargePoint?: ChargePoint, connectorId = 0): number {
     let totalAmps = 0;
     if (chargingStation) {
@@ -827,7 +827,7 @@ export class Utils {
   }
 
   public static isNullOrUndefined(obj: any): boolean {
-    // tslint:disable-next-line: triple-equals
+    // eslint-disable-next-line eqeqeq
     return obj == null;
   }
 

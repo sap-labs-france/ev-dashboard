@@ -21,6 +21,9 @@ import { StatisticsExportService } from '../shared/statistics-export.service';
 })
 
 export class StatisticsInactivityComponent implements OnInit {
+  @ViewChild('inactivityBarChart', { static: true }) public ctxBarChart!: ElementRef;
+  @ViewChild('inactivityPieChart', { static: true }) public ctxPieChart!: ElementRef;
+
   public totalInactivity = 0;
   public selectedChart!: string;
   public selectedCategory!: string;
@@ -30,9 +33,6 @@ export class StatisticsInactivityComponent implements OnInit {
   public allFiltersDef: TableFilterDef[] = [];
   public chartsInitialized = false;
 
-  @ViewChild('inactivityBarChart', { static: true }) public ctxBarChart!: ElementRef;
-  @ViewChild('inactivityPieChart', { static: true }) public ctxPieChart!: ElementRef;
-
   private filterParams!: FilterParams;
   private barChart!: SimpleChart;
   private pieChart!: SimpleChart;
@@ -40,7 +40,7 @@ export class StatisticsInactivityComponent implements OnInit {
   private pieChartData!: ChartData;
   private language!: string;
 
-  constructor(
+  public constructor(
     private centralServerService: CentralServerService,
     private translateService: TranslateService,
     private localeService: LocaleService,

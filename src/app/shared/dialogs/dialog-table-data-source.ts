@@ -7,7 +7,7 @@ import { TableDataSource } from '../table/table-data-source';
 
 @Injectable()
 export abstract class DialogTableDataSource<T extends Data> extends TableDataSource<T> {
-  constructor(
+  public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService) {
     super(spinnerService, translateService);

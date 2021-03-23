@@ -34,13 +34,15 @@ export class AuthenticationRegisterComponent implements OnInit, OnDestroy {
   public acceptEula: AbstractControl;
   public hidePassword = true;
   public hideRepeatPassword = true;
+
+  public tenantLogo = Constants.TENANT_DEFAULT_LOGO;
+
   private messages: Record<string, string>;
   private subDomain: string;
 
   private siteKey: string;
-  public tenantLogo = Constants.TENANT_DEFAULT_LOGO;
 
-  constructor(
+  public constructor(
     private centralServerService: CentralServerService,
     private router: Router,
     private messageService: MessageService,
@@ -83,9 +85,7 @@ export class AuthenticationRegisterComponent implements OnInit, OnDestroy {
           Validators.compose([
             Validators.required,
           ])),
-      }, (passwordFormGroup: FormGroup) => {
-        return Utils.validateEqual(passwordFormGroup, 'password', 'repeatPassword');
-      }),
+      }, (passwordFormGroup: FormGroup) => Utils.validateEqual(passwordFormGroup, 'password', 'repeatPassword')),
       acceptEula: new FormControl('',
         Validators.compose([
           Validators.required,

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
-declare var $: any;
+declare let $: any;
 
 @Injectable()
 export class MessageService {
@@ -24,7 +24,8 @@ export class MessageService {
     </div>
   `;
 
-  constructor(
+  // eslint-disable-next-line no-useless-constructor
+  public constructor(
     private translateService: TranslateService
   ) { }
 

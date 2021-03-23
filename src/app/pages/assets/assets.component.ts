@@ -13,7 +13,7 @@ export class AssetsComponent extends AbstractTabComponent {
   public canListAssets: boolean;
   public canListAssetsInError: boolean;
 
-  constructor(
+  public constructor(
     private authorizationService: AuthorizationService,
     activatedRoute: ActivatedRoute,
     windowService: WindowService,

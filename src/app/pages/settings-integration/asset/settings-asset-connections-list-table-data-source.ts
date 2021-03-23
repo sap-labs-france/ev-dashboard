@@ -21,7 +21,7 @@ import { TableCheckAssetConnectionAction } from './table-actions/table-check-ass
 
 @Injectable()
 export class SettingsAssetConnectionEditableTableDataSource extends EditableTableDataSource<AssetConnectionSetting> {
-  constructor(
+  public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     private dialog: MatDialog,
@@ -38,9 +38,7 @@ export class SettingsAssetConnectionEditableTableDataSource extends EditableTabl
       // Check
       if (this.editableRows) {
         // Asset sort by name
-        this.editableRows.sort((a, b) => {
-          return (a.name > b.name) ? 1 : (b.name > a.name) ? -1 : 0;
-        });
+        this.editableRows.sort((a, b) => (a.name > b.name) ? 1 : (b.name > a.name) ? -1 : 0);
         observer.next({
           count: this.editableRows.length,
           result: this.editableRows,

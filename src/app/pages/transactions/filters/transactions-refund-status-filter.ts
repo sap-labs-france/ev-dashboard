@@ -3,7 +3,7 @@ import { TableFilter } from '../../../shared/table/filters/table-filter';
 import { FilterType, TableFilterDef } from '../../../types/Table';
 
 export class TransactionsRefundStatusFilter extends TableFilter {
-  constructor() {
+  public constructor() {
     super();
     const filterDef: TableFilterDef = {
       id: 'transactionStatus',

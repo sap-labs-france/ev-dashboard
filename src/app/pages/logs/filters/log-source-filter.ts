@@ -1,7 +1,7 @@
 import { ChargingStationTableFilter } from '../../../shared/table/filters/charging-station-table-filter';
 
 export class LogSourceTableFilter extends ChargingStationTableFilter {
-  constructor(siteIDs?: ReadonlyArray<string>) {
+  constructor(siteIDs?: readonly string[]) {
     super(siteIDs);
     // Get the filter
     const filter = this.getFilterDef();

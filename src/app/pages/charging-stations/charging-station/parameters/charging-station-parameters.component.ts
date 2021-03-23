@@ -324,7 +324,7 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
           this.maximumPower.enable();
         }
       });
-    } else if (!checked){
+    } else if (!checked) {
       this.dialogService.createAndShowYesNoDialog(
         this.translateService.instant('chargers.dialog.disable_manual_configuration.title'),
         this.translateService.instant('chargers.dialog.disable_manual_configuration.confirm'),

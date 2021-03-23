@@ -4,7 +4,7 @@ import { FilterType, TableFilterDef } from '../../../types/Table';
 import { TableFilter } from './table-filter';
 
 export class DateTableFilter extends TableFilter {
-  constructor() {
+  public constructor() {
     super();
     // Define filter
     const filterDef: TableFilterDef = {

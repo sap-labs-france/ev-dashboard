@@ -11,9 +11,8 @@ export class AuthLayoutComponent implements OnInit {
   public mobileMenuVisible: any = 0;
   private toggleButton: any;
   private sidebarVisible: boolean;
-  private _router!: Subscription;
 
-  constructor(private router: Router, private element: ElementRef) {
+  public constructor(private router: Router, private element: ElementRef) {
     this.sidebarVisible = false;
   }
 
@@ -21,7 +20,7 @@ export class AuthLayoutComponent implements OnInit {
     const navbar: HTMLElement = this.element.nativeElement;
 
     this.toggleButton = navbar.getElementsByClassName('navbar-toggler')[0];
-    this._router = this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => {
+    this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => {
       this.sidebarClose();
     });
   }

@@ -3,7 +3,7 @@ import { UsersDialogComponent } from '../../dialogs/users/users-dialog.component
 import { TableFilter } from './table-filter';
 
 export class UserTableFilter extends TableFilter {
-  constructor(siteIDs?: ReadonlyArray<string>) {
+  constructor(siteIDs?: readonly string[]) {
     super();
     // Define filter
     const filterDef: TableFilterDef = {

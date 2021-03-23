@@ -7,7 +7,7 @@ import { ButtonType, DialogType } from '../types/Table';
 
 @Injectable()
 export class DialogService {
-  constructor(private matDialog: MatDialog) {
+  public constructor(private matDialog: MatDialog) {
   }
 
   public closeAll() {

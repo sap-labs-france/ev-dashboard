@@ -30,7 +30,7 @@ export class AddressComponent implements OnInit, OnChanges {
   public longitude!: AbstractControl;
   public latitude!: AbstractControl;
 
-  constructor(
+  public constructor(
     private translateService: TranslateService,
     private dialog: MatDialog) {
   }

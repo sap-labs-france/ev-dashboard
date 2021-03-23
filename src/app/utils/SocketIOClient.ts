@@ -44,10 +44,18 @@ export default class SocketIOClient {
     this.socketIO.on('authenticated', (data) => {
       Utils.consoleDebugLog(data?.message);
     });
-    this.socketIO.on('connect_timeout', (timeout) => { Utils.consoleDebugLog(`SocketIO client connection timeout: ${timeout}`); });
-    this.socketIO.on('connect_error', (error) => { Utils.consoleDebugLog(`SocketIO client connect error: ${error}`); });
-    this.socketIO.on('reconnecting', (attempt) => { Utils.consoleDebugLog(`SocketIO client #${attempt} try to reconnect`); });
-    this.socketIO.on('reconnect_error', (error) => { Utils.consoleDebugLog(`SocketIO client reconnect error: ${error}`); });
+    this.socketIO.on('connect_timeout', (timeout) => {
+      Utils.consoleDebugLog(`SocketIO client connection timeout: ${timeout}`);
+    });
+    this.socketIO.on('connect_error', (error) => {
+      Utils.consoleDebugLog(`SocketIO client connect error: ${error}`);
+    });
+    this.socketIO.on('reconnecting', (attempt) => {
+      Utils.consoleDebugLog(`SocketIO client #${attempt} try to reconnect`);
+    });
+    this.socketIO.on('reconnect_error', (error) => {
+      Utils.consoleDebugLog(`SocketIO client reconnect error: ${error}`);
+    });
   }
 
   public disconnect() {

@@ -21,7 +21,7 @@ import UserConfiguration from '../types/configuration/UserConfiguration';
 export class ConfigService {
   private static config: Configuration;
 
-  constructor(private http?: HttpClient) {
+  public constructor(private http?: HttpClient) {
     this.getConfig();
   }
 

@@ -67,7 +67,7 @@ export class ChargingStationPowerSliderComponent implements OnInit, OnChanges {
   public formatSlideLabelPowerKW = (currentAmp: number): string | null => {
     const powerKW = Math.floor(Utils.convertAmpToWatt(this.chargingStation, null, 0, currentAmp) / 1000);
     return this.decimalPipe.transform(powerKW) + 'kW';
-  }
+  };
 
   public sliderChanged(value: number) {
     this.currentAmp = value;

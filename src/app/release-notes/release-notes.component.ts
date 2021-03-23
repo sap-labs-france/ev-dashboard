@@ -31,6 +31,7 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Fixed Tenant creation`,
+              `Added REST Charging station QR-Code and Get OCPP Parameters JSon schema validations`
             ],
           },
         ],

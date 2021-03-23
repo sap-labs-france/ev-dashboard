@@ -7,11 +7,10 @@ import { RadialGaugeComponent } from 'app/shared/component/gauge/radial-gauge';
   template: '<canvas #gauge></canvas>',
 })
 export class ChargingStationGaugeComponent extends RadialGaugeComponent implements OnInit, AfterViewInit, OnChanges {
-
   @Input() public activeChargers = 0;
   @Input() public maxChargers = 0;
 
-  constructor(el: ElementRef,
+  public constructor(el: ElementRef,
     zone: NgZone,
     private translateService: TranslateService) {
     super(el, zone);

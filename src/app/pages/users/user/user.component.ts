@@ -638,6 +638,17 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     return null;
   }
 
+  public closeDialog(saved: boolean = false) {
+    if (this.inDialog) {
+      this.dialogRef.close(saved);
+    }
+  }
+
+  public close() {
+    Utils.checkAndSaveAndCloseDialog(this.formGroup, this.dialogService,
+      this.translateService, this.saveUser.bind(this), this.closeDialog.bind(this));
+  }
+
   private loadRefundSettings() {
     if (this.componentService.isActive(TenantComponents.REFUND)) {
       this.componentService.getRefundSettings().subscribe((refundSettings) => {
@@ -725,16 +736,5 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'users.update_error');
       }
     });
-  }
-
-  public closeDialog(saved: boolean = false) {
-    if (this.inDialog) {
-      this.dialogRef.close(saved);
-    }
-  }
-
-  public close() {
-    Utils.checkAndSaveAndCloseDialog(this.formGroup, this.dialogService,
-      this.translateService, this.saveUser.bind(this), this.closeDialog.bind(this));
   }
 }

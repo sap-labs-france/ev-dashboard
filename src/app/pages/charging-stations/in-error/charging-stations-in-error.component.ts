@@ -9,7 +9,7 @@ import { ChargingStationsInErrorTableDataSource } from './charging-stations-in-e
 })
 export class ChargingStationsInErrorComponent {
 
-  constructor(
+  public constructor(
     public chargingStationsInErrorTableDataSource: ChargingStationsInErrorTableDataSource,
   ) {
   }

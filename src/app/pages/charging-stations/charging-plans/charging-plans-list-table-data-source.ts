@@ -35,7 +35,7 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
   private smartChargingAction = new TableChargingStationsSmartChargingAction().getActionDef();
   private navigateToSiteAreaAction = new TableNavigateToSiteAreaAction().getActionDef();
 
-  constructor(
+  public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     private messageService: MessageService,

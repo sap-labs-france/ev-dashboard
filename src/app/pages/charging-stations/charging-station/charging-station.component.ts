@@ -12,9 +12,9 @@ import { DialogService } from '../../../services/dialog.service';
 import { LocaleService } from '../../../services/locale.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
-import { ChargePoint, ChargingStation } from '../../../types/ChargingStation';
+import { ChargingStation } from '../../../types/ChargingStation';
 import { KeyValue, RestResponse } from '../../../types/GlobalType';
-import { HTTPAuthError, HTTPError } from '../../../types/HTTPError';
+import { HTTPError } from '../../../types/HTTPError';
 import { Utils } from '../../../utils/Utils';
 import { ChargingStationParametersComponent } from './parameters/charging-station-parameters.component';
 
@@ -39,7 +39,7 @@ export class ChargingStationComponent implements OnInit {
   public isOCPPParametersPaneDisabled = false;
   public activeTabIndex = 0;
 
-  constructor(
+  public constructor(
     private authorizationService: AuthorizationService,
     private spinnerService: SpinnerService,
     private centralServerService: CentralServerService,

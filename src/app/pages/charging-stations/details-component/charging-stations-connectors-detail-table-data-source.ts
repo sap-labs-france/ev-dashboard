@@ -41,7 +41,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
 
   private chargingStation!: ChargingStation;
 
-  constructor(
+  public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     private centralServerService: CentralServerService,

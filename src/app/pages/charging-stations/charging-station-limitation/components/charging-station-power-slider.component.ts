@@ -31,7 +31,7 @@ export class ChargingStationPowerSliderComponent implements OnInit, OnChanges {
   public isSmartChargingComponentActive = false;
   public ampSteps;
 
-  constructor(
+  public constructor(
     private appUnitFormatter: AppUnitPipe,
     private componentService: ComponentService,
     private decimalPipe: AppDecimalPipe) {

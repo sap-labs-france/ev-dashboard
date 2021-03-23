@@ -36,7 +36,8 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
   private createAction = new TableCreateCarAction().getActionDef();
   private editAction = new TableEditCarAction().getActionDef();
   private deleteAction = new TableDeleteCarAction().getActionDef();
-  constructor(
+
+  public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     private messageService: MessageService,

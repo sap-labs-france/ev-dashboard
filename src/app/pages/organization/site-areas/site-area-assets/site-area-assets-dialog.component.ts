@@ -12,7 +12,7 @@ import { SiteAreaAssetsDataSource } from './site-area-assets-table-data-source';
 export class SiteAreaAssetsDialogComponent {
   public dialogTitle: string;
 
-  constructor(
+  public constructor(
     public siteAreaAssetsDataSource: SiteAreaAssetsDataSource,
     private dialogRef: MatDialogRef<SiteAreaAssetsDialogComponent>,
     private translateService: TranslateService,

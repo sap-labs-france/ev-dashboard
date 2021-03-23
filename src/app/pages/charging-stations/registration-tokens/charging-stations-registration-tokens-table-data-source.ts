@@ -50,7 +50,7 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
   private canCreateToken: boolean;
   private canDeleteToken: boolean;
 
-  constructor(
+  public constructor(
       public spinnerService: SpinnerService,
       public translateService: TranslateService,
       private messageService: MessageService,
@@ -64,9 +64,9 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
       private datePipe: AppDatePipe) {
     super(spinnerService, translateService);
     this.isOrganizationComponentActive = this.componentService.isActive(TenantComponents.ORGANIZATION);
-    this.canUpdateToken = this.authorizationService.canUpdateToken(),
-    this.canCreateToken = this.authorizationService.canCreateToken(),
-    this.canDeleteToken = this.authorizationService.canDeleteToken(),
+    this.canUpdateToken = this.authorizationService.canUpdateToken();
+    this.canCreateToken = this.authorizationService.canCreateToken();
+    this.canDeleteToken = this.authorizationService.canDeleteToken();
     // Init
     this.initDataSource();
   }

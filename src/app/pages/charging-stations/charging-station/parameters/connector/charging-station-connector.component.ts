@@ -58,7 +58,7 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
   public numberOfConnectedPhase!: AbstractControl;
   public currentType!: AbstractControl;
   public phaseAssignmentToGrid!: AbstractControl;
-  constructor(
+  public constructor(
     private dialog: MatDialog,
     private centralServerService: CentralServerService,
     private spinnerService: SpinnerService,

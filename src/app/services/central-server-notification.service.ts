@@ -49,7 +49,7 @@ export class CentralServerNotificationService {
   private subjectTag = new Subject<SingleChangeNotification>();
   private socketIOClient: SocketIOClient;
 
-  public setcentralRestServerServiceURL(url: string) {
+  public setCentralRestServerServiceURL(url: string) {
     this.centralRestServerServiceURL = url;
   }
 

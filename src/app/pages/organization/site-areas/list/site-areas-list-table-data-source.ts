@@ -64,7 +64,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
   private siteAreaGenerateQrCodeConnectorAction = new TableSiteAreaGenerateQrCodeConnectorAction().getActionDef();
 
 
-  constructor(
+  public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     private messageService: MessageService,

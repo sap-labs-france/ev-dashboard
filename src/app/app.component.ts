@@ -11,7 +11,7 @@ import { CONNECTOR_TYPE_MAP } from './shared/formatters/app-connector-type.pipe'
 export class AppComponent {
   public title = 'e-Mobility';
 
-  constructor(
+  public constructor(
     private iconRegistry: MatIconRegistry,
     private sanitizer: DomSanitizer) {
       for (const connectorMap of CONNECTOR_TYPE_MAP) {

@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { StatusCodes } from 'http-status-codes';
@@ -13,21 +13,21 @@ import { Utils } from 'utils/Utils';
 @Component({
   templateUrl: './import-dialog.component.html',
 })
-export class ImportDialogComponent {
+export class ImportDialogComponent implements OnInit {
 
   public uploader: FileUploader;
   public response: string;
-  public progress: number = 0;
+  public progress = 0;
   public showProgressBar = false;
   public fileName = '';
-  private ngxCsvParser: NgxCsvParser;
-  private endpoint: ServerAction;
-  private requiredProperties: string[];
   public ImportInstructions: string;
   public isFileValid = true;
   public title: string;
+  private ngxCsvParser: NgxCsvParser;
+  private endpoint: ServerAction;
+  private requiredProperties: string[];
 
-  constructor(
+  public constructor(
     protected dialogRef: MatDialogRef<ImportDialogComponent>,
     protected translateService: TranslateService,
     private centralServerService: CentralServerService,
@@ -50,7 +50,7 @@ export class ImportDialogComponent {
   }
 
   public ngOnInit() {
-    this.ImportInstructions = this.translateService.instant('general.import_instructions', { properties: this.requiredProperties.join(', ') })
+    this.ImportInstructions = this.translateService.instant('general.import_instructions', { properties: this.requiredProperties.join(', ') });
     // File has been selected
     this.uploader.onAfterAddingFile = (fileItem: FileItem) => {
       if (this.uploader.queue.length > 1) {
@@ -59,11 +59,10 @@ export class ImportDialogComponent {
       fileItem.withCredentials = false;
       this.fileName = fileItem.file.name;
       this.isFileValid = this.ngxCsvParser.isCSVFile(fileItem._file);
-      this.ngxCsvParser.parse(fileItem._file, {}).subscribe((csvHeader: string[]) => {
-        // Check mandatory fields
-        if (!Utils.isEmptyArray(csvHeader)) {
-          const properties = Object.keys(csvHeader[0])[0].split(Constants.CSV_SEPARATOR);
-          this.isFileValid = this.requiredProperties.every(property => properties.includes(property));
+      this.ngxCsvParser.parse(fileItem._file, { header: false, delimiter: ',' }).pipe().subscribe((csvRecords: string[]) => {
+        // Check mandatory fields in header
+        if (!Utils.isEmptyArray(csvRecords)) {
+          this.isFileValid = this.requiredProperties.every(property => csvRecords[0].includes(property));
         } else {
           this.isFileValid = false;
         }

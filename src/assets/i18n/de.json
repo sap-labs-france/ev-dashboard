@@ -149,7 +149,7 @@
     "status": "Status",
     "revoke": "Widerrufen",
     "edit": "Bearbeiten",
-    "import_instructions": "To import data, please provide .csv file containing the properties: '{{properties}}'",
+    "import_instructions": "The CSV file you are going to import must use the comma as separator and contains an header with the following properties: '{{properties}}'",
     "invalid_file_error": "The provided file is invalid",
     "menu": {
       "dashboard": "Dashboard",

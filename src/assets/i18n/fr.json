@@ -149,7 +149,7 @@
     "status": "Statut",
     "revoke": "Révoquer",
     "edit": "Editer",
-    "import_instructions": "Pour importer les données, veuillez fournir un fichier .csv file contenant les Propriété(s): '{{properties}}'",
+    "import_instructions": "Le fichier CSV que vous allez importer doit utiliser une virgule comme séparateur et doit contenir un entête avec les propriétés suivantes: '{{properties}}'",
     "invalid_file_error": "Le fichier fourni est invalide",
     "menu": {
       "dashboard": "Tableau de bord",

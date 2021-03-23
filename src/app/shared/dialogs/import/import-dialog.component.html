@@ -20,7 +20,7 @@
     </button>
     <span> {{ fileName }}</span>
     <mat-error *ngIf="!isFileValid">
-      <div [translate]="'general.invalid_file_error'"></div>
+      <div class="pt-2" [translate]="'general.invalid_file_error'"></div>
     </mat-error>
     <div class="row pt-3">
       <mat-progress-bar mode="determinate" [value]="progress" [hidden]="!showProgressBar"></mat-progress-bar>

@@ -53,7 +53,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
   private deleteManyAction = new TableDeleteTagsAction().getActionDef();
 
 
-  constructor(
+  public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     private messageService: MessageService,
@@ -252,10 +252,10 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
     tableActionsDef.unshift(this.deleteManyAction);
-    tableActionsDef.unshift(new TableCreateTagAction().getActionDef());
     if (this.authorizationService.canImportTags()) {
       tableActionsDef.unshift(new TableImportTagsAction().getActionDef());
     }
+    tableActionsDef.unshift(new TableCreateTagAction().getActionDef());
     return [
       ...tableActionsDef,
     ];

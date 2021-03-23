@@ -29,8 +29,11 @@ export class AddressComponent implements OnInit, OnChanges {
   public coordinates!: FormArray;
   public longitude!: AbstractControl;
   public latitude!: AbstractControl;
-  private translateService: TranslateService;
-  private dialog: MatDialog;
+
+  // eslint-disable-next-line no-useless-constructor
+  public constructor(
+    private translateService: TranslateService,
+    private dialog: MatDialog) {}
 
   public ngOnInit() {
     // Set Address form group
@@ -179,7 +182,7 @@ export class AddressComponent implements OnInit, OnChanges {
     dialogConfig.minWidth = '70vw';
     dialogConfig.disableClose = false;
     dialogConfig.panelClass = 'transparent-dialog-container';
-    // Get latitud/longitude from form
+    // Get latitude/longitude from form
     let latitude = this.latitude.value;
     let longitude = this.longitude.value;
     // If one is not available try to get from SiteArea and then from Site

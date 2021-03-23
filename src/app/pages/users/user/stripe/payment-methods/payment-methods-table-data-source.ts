@@ -139,25 +139,25 @@ export class PaymentMethodsTableDataSource extends TableDataSource<PaymentMethod
       columns.push(
         {
           id: 'type',
-          name: 'settings.billing.payment_methods.type',
+          name: 'settings.billing.payment_methods_type',
           headerClass: 'text-center col-10p',
           class: 'text-center col-10p capitalize',
           },
         {
           id: 'brand',
-          name: 'settings.billing.payment_methods.brand',
+          name: 'settings.billing.payment_methods_brand',
           headerClass: 'text-center col-15p',
           class: 'text-center col-15p capitalize',
           },
         {
           id: 'last4',
-          name: 'settings.billing.payment_methods.ending_with',
+          name: 'settings.billing.payment_methods_ending_with',
           headerClass: 'text-center col-10p',
           class: 'text-center col-10p',
           },
         {
           id: 'expiringOn',
-          name: 'settings.billing.payment_methods.expiring_on',
+          name: 'settings.billing.payment_methods_expiring_on',
           headerClass: 'text-center col-10p',
           class: 'text-center col-10p',
           formatter: (expiringOn: Date) => {

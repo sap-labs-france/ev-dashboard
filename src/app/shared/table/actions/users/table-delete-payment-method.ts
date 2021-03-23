@@ -30,10 +30,10 @@ export class TableDeletePaymentMethodAction extends TableDeleteAction {
   private deletePaymentMethod(paymentMethod: BillingPaymentMethod, dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
       centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) {
     super.delete(
-      paymentMethod, 'settings.billing.payment_methods.delete_title',
-      translateService.instant('settings.billing.payment_methods.delete_confirm', { last4: paymentMethod.last4 }),
-      translateService.instant('settings.billing.payment_methods.delete_success', { last4: paymentMethod.last4 }),
-      'settings.billing.payment_methods.delete_error', centralServerService.deletePaymentMethod.bind(centralServerService),
+      paymentMethod, 'settings.billing.payment_methods_delete_title',
+      translateService.instant('settings.billing.payment_methods_delete_confirm', { last4: paymentMethod.last4 }),
+      translateService.instant('settings.billing.payment_methods_delete_success', { last4: paymentMethod.last4 }),
+      'settings.billing.payment_methods_delete_error', centralServerService.deletePaymentMethod.bind(centralServerService),
       dialogService, translateService, messageService, centralServerService, spinnerService, router, refresh);
   }
 }

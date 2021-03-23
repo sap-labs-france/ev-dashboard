@@ -88,11 +88,11 @@ export class PaymentMethodComponent implements OnInit {
     const operationResult: any = await this.createPaymentMethod();
     if (operationResult.error) {
       // Operation failed
-      this.messageService.showErrorMessage('settings.billing.payment_methods.create_error');
+      this.messageService.showErrorMessage('settings.billing.payment_methods_create_error');
     } else {
       this.spinnerService.hide();
       // Operation succeeded
-      this.messageService.showSuccessMessage('settings.billing.payment_methods.create_success', { last4: operationResult.internalData.card.last4 });
+      this.messageService.showSuccessMessage('settings.billing.payment_methods_create_success', { last4: operationResult.internalData.card.last4 });
       this.closeDialog(true);
     }
   }

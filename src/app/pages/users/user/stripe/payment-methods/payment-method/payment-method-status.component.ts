@@ -44,12 +44,12 @@ export class AppPaymentMethodStatusPipe implements PipeTransform {
 
   public buildStatusText(paymentMethod: BillingPaymentMethod): string {
     if (this.isExpired(paymentMethod)) {
-      return 'settings.billing.payment_methods.expired';
+      return 'settings.billing.payment_methods_expired';
     }
     if (this.expireSoon(paymentMethod)) {
-      return 'settings.billing.payment_methods.expire_soon';
+      return 'settings.billing.payment_methods_expire_soon';
     }
-    return 'settings.billing.payment_methods.valid';
+    return 'settings.billing.payment_methods_valid';
   }
 
   private isExpired(paymentMethod: BillingPaymentMethod): boolean {

@@ -259,13 +259,11 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
         multiKeyBackground: Utils.toRgba(this.instantPowerColor, 0.7),
         intersect: false,
         callbacks: {
-          labelColor: (tooltipItem: ChartTooltipItem, chart: Chart) => {
-            return {
-              borderColor: 'rgba(0,0,0,0)',
-              backgroundColor: this.data.datasets && tooltipItem.datasetIndex ?
-                this.data.datasets[tooltipItem.datasetIndex].borderColor as ChartColor : '',
-            };
-          },
+          labelColor: (tooltipItem: ChartTooltipItem, chart: Chart) => ({
+            borderColor: 'rgba(0,0,0,0)',
+            backgroundColor: this.data.datasets && tooltipItem.datasetIndex ?
+              this.data.datasets[tooltipItem.datasetIndex].borderColor as ChartColor : '',
+          }),
           label: (tooltipItem: ChartTooltipItem, data: ChartData) => {
             if (this.data.datasets && data.datasets && !Utils.isUndefined(tooltipItem.datasetIndex)) {
               const dataSet = data.datasets[tooltipItem.datasetIndex];

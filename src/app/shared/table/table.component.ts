@@ -26,7 +26,6 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() public dataSource!: TableDataSource<Data>;
   @ViewChild('searchInput') public searchInput!: ElementRef;
   public searchPlaceholder = '';
-  private ongoingRefresh = false;
   public ongoingAutoRefresh = false;
   public sort: MatSort = new MatSort();
   public maxRecords = Constants.INFINITE_RECORDS;
@@ -37,10 +36,12 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   public readonly TableEditType = TableEditType;
   public readonly ButtonAction = ButtonAction;
 
+  private ongoingRefresh = false;
+
   private autoRefreshSubscription!: Subscription;
   private alive!: boolean;
 
-  constructor(
+  public constructor(
     private configService: ConfigService,
     private translateService: TranslateService,
     public spinnerService: SpinnerService,
@@ -234,30 +235,6 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  private createAutoRefresh() {
-    if (this.configService.getCentralSystemServer().socketIOEnabled) {
-      if (!this.autoRefreshSubscription) {
-        const refreshObservable: Observable<ChangeNotification> = this.dataSource.getDataChangeSubject();
-        if (refreshObservable) {
-          this.autoRefreshSubscription = refreshObservable.pipe(
-            takeWhile(() => this.alive),
-          ).subscribe(() => {
-            if (!this.ongoingRefresh) {
-              this.refresh(true);
-            }
-          });
-        }
-      }
-    }
-  }
-
-  private destroyAutoRefresh() {
-    if (this.autoRefreshSubscription) {
-      this.autoRefreshSubscription.unsubscribe();
-    }
-    this.autoRefreshSubscription = null;
-  }
-
   public toggleAutoRefresh({ checked }) {
     if (checked) {
       this.createAutoRefresh();
@@ -353,5 +330,29 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       // Fold it
       row.isExpanded = false;
     }
+  }
+
+  private createAutoRefresh() {
+    if (this.configService.getCentralSystemServer().socketIOEnabled) {
+      if (!this.autoRefreshSubscription) {
+        const refreshObservable: Observable<ChangeNotification> = this.dataSource.getDataChangeSubject();
+        if (refreshObservable) {
+          this.autoRefreshSubscription = refreshObservable.pipe(
+            takeWhile(() => this.alive),
+          ).subscribe(() => {
+            if (!this.ongoingRefresh) {
+              this.refresh(true);
+            }
+          });
+        }
+      }
+    }
+  }
+
+  private destroyAutoRefresh() {
+    if (this.autoRefreshSubscription) {
+      this.autoRefreshSubscription.unsubscribe();
+    }
+    this.autoRefreshSubscription = null;
   }
 }

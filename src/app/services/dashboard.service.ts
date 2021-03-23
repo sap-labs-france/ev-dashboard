@@ -17,7 +17,7 @@ export class DashboardService {
   public refreshData = new BehaviorSubject<CurrentMetrics[]>([]);
   public intervalReference!: ReturnType<typeof setTimeout> | null;
 
-  constructor(private centralServerService: CentralServerService,
+  public constructor(private centralServerService: CentralServerService,
               private messageService: MessageService,
               private router: Router) {
     // First load

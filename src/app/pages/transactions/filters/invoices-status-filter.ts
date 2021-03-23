@@ -3,7 +3,7 @@ import { FilterType, TableFilterDef } from '../../../types/Table';
 import { TRANSACTION_INVOICE_STATUS } from '../model/invoices.model';
 
 export class InvoiceStatusFilter extends TableFilter {
-  constructor() {
+  public constructor() {
     super();
     // Define filter
     const filterDef: TableFilterDef = {

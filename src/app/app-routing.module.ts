@@ -12,7 +12,7 @@ import TenantComponents from './types/TenantComponents';
 const routes: Routes = [
   {
     path: 'auth', component: AuthLayoutComponent,
-    loadChildren: () => import('./authentication/authentication.module').then((m) => m.AuthenticationModule),
+    loadChildren: async () => import('./authentication/authentication.module').then((m) => m.AuthenticationModule),
   },
   {
     path: 'verify-email', redirectTo: 'auth/verify-email', pathMatch: 'full',
@@ -30,7 +30,7 @@ const routes: Routes = [
       },
       {
         path: 'charging-stations',
-        loadChildren: () => import('./pages/charging-stations/charging-stations.module').then((m) => m.ChargingStationsModule),
+        loadChildren: async () => import('./pages/charging-stations/charging-stations.module').then((m) => m.ChargingStationsModule),
         data: {
           menu: {
             title: 'charging_stations',
@@ -46,7 +46,7 @@ const routes: Routes = [
       },
       {
         path: 'transactions',
-        loadChildren: () => import('./pages/transactions/transactions.module').then((m) => m.TransactionsModule),
+        loadChildren: async () => import('./pages/transactions/transactions.module').then((m) => m.TransactionsModule),
         data: {
           menu: {
             title: 'transactions',
@@ -62,7 +62,7 @@ const routes: Routes = [
       },
       {
         path: 'tenants',
-        loadChildren: () => import('./pages/tenants/tenants.module').then((m) => m.TenantsModule),
+        loadChildren: async () => import('./pages/tenants/tenants.module').then((m) => m.TenantsModule),
         data: {
           menu: {
             title: 'tenants',
@@ -78,7 +78,7 @@ const routes: Routes = [
       },
       {
         path: 'invoices',
-        loadChildren: () => import('./pages/invoices/invoices.module').then((m) => m.InvoicesModule),
+        loadChildren: async () => import('./pages/invoices/invoices.module').then((m) => m.InvoicesModule),
         data: {
           menu: {
             title: 'invoices',
@@ -97,7 +97,7 @@ const routes: Routes = [
       },
       {
         path: 'car',
-        loadChildren: () => import('./pages/cars/cars.module').then((m) => m.CarsModule),
+        loadChildren: async () => import('./pages/cars/cars.module').then((m) => m.CarsModule),
         data: {
           menu: {
             title: 'cars',
@@ -116,7 +116,7 @@ const routes: Routes = [
       },
       {
         path: 'users',
-        loadChildren: () => import('./pages/users/users.module').then((m) => m.UsersModule),
+        loadChildren: async () => import('./pages/users/users.module').then((m) => m.UsersModule),
         data: {
           menu: {
             title: 'users',
@@ -132,7 +132,7 @@ const routes: Routes = [
       },
       {
         path: 'asset',
-        loadChildren: () => import('./pages/assets/assets.module').then((m) => m.AssetsModule),
+        loadChildren: async () => import('./pages/assets/assets.module').then((m) => m.AssetsModule),
         data: {
           menu: {
             title: 'assets',
@@ -149,7 +149,7 @@ const routes: Routes = [
       },
       {
         path: 'organization',
-        loadChildren: () => import('./pages/organization/organization.module').then((m) => m.OrganizationModule),
+        loadChildren: async () => import('./pages/organization/organization.module').then((m) => m.OrganizationModule),
         data: {
           menu: {
             title: 'organization',
@@ -168,7 +168,7 @@ const routes: Routes = [
       {
         path: 'template',
         canLoad: [DevEnvGuard],
-        loadChildren: () => import('./pages/template/template.module').then((m) => m.TemplateModule),
+        loadChildren: async () => import('./pages/template/template.module').then((m) => m.TemplateModule),
         data: {
           menu: {
             title: 'template',
@@ -187,7 +187,7 @@ const routes: Routes = [
       },
       {
         path: 'statistics',
-        loadChildren: () => import('./pages/statistics/statistics.module').then((m) => m.StatisticsModule),
+        loadChildren: async () => import('./pages/statistics/statistics.module').then((m) => m.StatisticsModule),
         data: {
           menu: {
             title: 'statistics',
@@ -204,7 +204,7 @@ const routes: Routes = [
       },
       {
         path: 'settings-integration',
-        loadChildren: () => import('./pages/settings-integration/settings-integration.module').then((m) => m.SettingsIntegrationModule),
+        loadChildren: async () => import('./pages/settings-integration/settings-integration.module').then((m) => m.SettingsIntegrationModule),
         data: {
           menu: {
             title: 'integration_settings',
@@ -220,7 +220,7 @@ const routes: Routes = [
       },
       {
         path: 'settings-technical',
-        loadChildren: () => import('./pages/settings-technical/settings-technical.module').then((m) => m.SettingsTechnicalModule),
+        loadChildren: async () => import('./pages/settings-technical/settings-technical.module').then((m) => m.SettingsTechnicalModule),
         data: {
           menu: {
             title: 'technical_settings',
@@ -236,7 +236,7 @@ const routes: Routes = [
       },
       {
         path: 'logs',
-        loadChildren: () => import('./pages/logs/logs.module').then((m) => m.LogsModule),
+        loadChildren: async () => import('./pages/logs/logs.module').then((m) => m.LogsModule),
         data: {
           menu: {
             title: 'logs',

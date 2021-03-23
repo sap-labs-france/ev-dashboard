@@ -31,14 +31,10 @@ export class ChargingStationPropertiesComponent implements OnInit {
     { key: 'ocppVersion', title: 'chargers.ocpp_version' },
     { key: 'ocppProtocol', title: 'chargers.ocpp_protocol' },
     {
-      key: 'lastReboot', title: 'chargers.last_reboot', formatter: (lastReboot: Date) => {
-        return this.datePipe.transform(lastReboot);
-      },
+      key: 'lastReboot', title: 'chargers.last_reboot', formatter: (lastReboot: Date) => this.datePipe.transform(lastReboot),
     },
     {
-      key: 'createdOn', title: 'chargers.created_on', formatter: (createdOn: Date) => {
-        return this.datePipe.transform(createdOn);
-      },
+      key: 'createdOn', title: 'chargers.created_on', formatter: (createdOn: Date) => this.datePipe.transform(createdOn),
     },
     {
       key: 'capabilities', title: 'chargers.capabilities', formatter: (capabilities: ChargingStationCapabilities) => {

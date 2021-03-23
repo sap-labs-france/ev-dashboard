@@ -5,20 +5,20 @@ import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
  * Possibility to also display a moving arrow according to a given trend.
  *
  * @export
- * @class CardKeyfigureComponent
+ * @class CardKeyFigureComponent;
  * @implements {OnChanges}
  */
 @Component({
   selector: 'app-card-keyfigure',
   templateUrl: './card-keyfigure.component.html',
 })
-export class CardKeyfigureComponent implements OnChanges {
+export class CardKeyFigureComponent implements OnChanges {
 
   /**
    * material design icon name
    *
    * @type {string}
-   * @memberof CardKeyfigureComponent
+   * @memberof CardKeyFigureComponent
    */
   @Input() public cardIcon: string;
   /**
@@ -27,7 +27,7 @@ export class CardKeyfigureComponent implements OnChanges {
    * It can be a i18n entry.
    *
    * @type {string}
-   * @memberof CardKeyfigureComponent
+   * @memberof CardKeyFigureComponent;
    */
   @Input() public cardTitle: string;
   /**
@@ -35,7 +35,7 @@ export class CardKeyfigureComponent implements OnChanges {
    * It can be an i18n entry.
    *
    * @type {string}
-   * @memberof CardKeyfigureComponent
+   * @memberof CardKeyFigureComponent;
    */
   @Input() public cardCategory: string;
   /**
@@ -43,28 +43,28 @@ export class CardKeyfigureComponent implements OnChanges {
    * It can be an i18n entry.
    *
    * @type {string}
-   * @memberof CardKeyfigureComponent
+   * @memberof CardKeyFigureComponent;
    */
   @Input() public cardFooter?: string;
   /**
    * If true an arrow representing the trend compared to current value will be moving
    *
    * @type {boolean}
-   * @memberof CardKeyfigureComponent
+   * @memberof CardKeyFigureComponent;
    */
   @Input() public withTrend: boolean;
   /**
    * trend Tooltip displayed on hover the arrow icon
    *
    * @type {string}
-   * @memberof CardKeyfigureComponent
+   * @memberof CardKeyFigureComponent;
    */
   @Input() public trendTitle?: string;
   /**
    * The trend value reference
    *
    * @type {number}
-   * @memberof CardKeyfigureComponent
+   * @memberof CardKeyFigureComponent;
    */
   @Input() public trendValue?: number;
   /**
@@ -72,8 +72,9 @@ export class CardKeyfigureComponent implements OnChanges {
    * If current vlaue is above trend value, the arrow will go up
    * otherwise it will go down
    * The angle is between -60deg to +60deg based on the ratio of current value / trend value
+   *
    * @type {number}
-   * @memberof CardKeyfigureComponent
+   * @memberof CardKeyFigureComponent;
    */
   @Input() public currentValue?: number;
 
@@ -91,7 +92,7 @@ export class CardKeyfigureComponent implements OnChanges {
   /**
    * Style applied to teh arrow to rotate according to the trend
    *
-   * @memberof CardKeyfigureComponent
+   * @memberof CardKeyFigureComponent;
    */
   public trendingRotation = `scale(0.6,0.6) rotate(${this.trendingRotationValue}deg)`;
 

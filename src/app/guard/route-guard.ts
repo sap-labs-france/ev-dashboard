@@ -19,7 +19,7 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
 
   private userRole?: string;
 
-  constructor(
+  public constructor(
     private router: Router,
     private messageService: MessageService,
     private authorizationService: AuthorizationService,

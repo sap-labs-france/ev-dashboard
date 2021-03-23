@@ -26,7 +26,7 @@ export class SettingsBillingComponent implements OnInit {
   public formGroup!: FormGroup;
   public billingSettings!: BillingSettings;
 
-  constructor(
+  public constructor(
     private centralServerService: CentralServerService,
     private componentService: ComponentService,
     private dialogService: DialogService,

@@ -17,7 +17,7 @@ import { DialogTableDataSource } from '../dialog-table-data-source';
 export class SiteAreasDialogTableDataSource extends DialogTableDataSource<SiteArea> {
   private siteIDs!: string;
 
-  constructor(
+  public constructor(
       public spinnerService: SpinnerService,
       public translateService: TranslateService,
       private messageService: MessageService,

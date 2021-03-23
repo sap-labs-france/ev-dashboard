@@ -34,7 +34,7 @@ export class SimpleChart {
   private fontFamily: string;
   private font: Font;
 
-  constructor(language: string, chartType: 'bar' | 'stackedBar' | 'pie', mainLabel: string,
+  public constructor(language: string, chartType: 'bar' | 'stackedBar' | 'pie', mainLabel: string,
               labelXAxis?: string, labelYAxis?: string,
               toolTipUnit?: string, withLegend = false, roundedChartLabels = true) {
 
@@ -160,13 +160,11 @@ export class SimpleChart {
   }
 
   public toggleHideLegend(withUpdate: boolean = true) {
-    let anyChart: any;
-
     this.withLegend = !this.withLegend;
 
     this.chartOptions['legend'].display = this.withLegend;
 
-    anyChart = this.chart; // type Chart does not know 'options'
+    const anyChart = this.chart; // type Chart does not know 'options'
     anyChart.options = this.chartOptions;
     this.chart = anyChart;
     if (withUpdate) {
@@ -249,9 +247,7 @@ export class SimpleChart {
 
     this.chartOptions['plugins'] = {};
     this.chartOptions['plugins']['datalabels'] = {
-      display: (context) => {
-        return context.dataset.data[context.dataIndex] > 0;
-      },
+      display: (context) => context.dataset.data[context.dataIndex] > 0,
     };
 
     this.chartOptions['animation'] = {
@@ -306,9 +302,7 @@ export class SimpleChart {
           },
           ticks: {
             beginAtZero: true,
-            callback: (value, index, values) => {
-              return value.toLocaleString(this.language);
-            },
+            callback: (value, index, values) => value.toLocaleString(this.language),
           },
         }],
     };
@@ -336,9 +330,7 @@ export class SimpleChart {
 
     this.chartOptions['plugins'] = {};
     this.chartOptions['plugins']['datalabels'] = {
-      display: (context) => {
-        return context.dataset.data[context.dataIndex] > 0;
-      },
+      display: (context) => context.dataset.data[context.dataIndex] > 0,
     };
 
     this.chartOptions['animation'] = {
@@ -440,9 +432,7 @@ export class SimpleChart {
     this.chartOptions['plugins']['datalabels'] = {
       color: this.fontColor,
       font: this.font,
-      display: (context) => {
-        return context.dataset.data[context.dataIndex] > minValue;
-      },
+      display: (context) => context.dataset.data[context.dataIndex] > minValue,
       formatter: (value, context) => {
         if (this.roundedChartLabels) {
           return Math.round(value).toLocaleString(this.language);

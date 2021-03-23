@@ -311,7 +311,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     }
   }
 
-  // tslint:disable-next-line: cyclomatic-complexity
+  // eslint-disable-next-line complexity
   public rowActionTriggered(actionDef: TableActionDef, siteArea: SiteArea) {
     switch (actionDef.id) {
       case SiteAreaButtonAction.EDIT_SITE_AREA:

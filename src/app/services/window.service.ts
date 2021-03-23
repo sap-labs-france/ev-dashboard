@@ -5,7 +5,7 @@ import { ConfigService } from './config.service';
 
 @Injectable()
 export class WindowService {
-  constructor(@Inject(WINDOW) private window: Window, private configService: ConfigService) {
+  public constructor(@Inject(WINDOW) private window: Window, private configService: ConfigService) {
   }
 
   public getHostname(): string {
@@ -106,7 +106,7 @@ export class WindowService {
     // Set the Query params
     if (history.pushState) {
       // Without page reload
-      // tslint:disable-next-line:max-line-length
+      // eslint-disable-next-line max-len
       const newURL = `${window.location.protocol}//${window.location.host}${window.location.pathname}${queryParams ? '?' + queryParams : ''}${window.location.hash}`;
       window.history.pushState({path: newURL}, '' , newURL);
     } else {

@@ -19,12 +19,11 @@ export class LocaleService {
   private locale!: Locale;
   private currentLocaleSubject!: BehaviorSubject<Locale>;
 
-  constructor(
+  public constructor(
     private translateService: TranslateService,
     private configService: ConfigService,
     private centralServerService: CentralServerService) {
     this.updateLocale(this.translateService.getBrowserLang());
-
     this.centralServerService.getCurrentUserSubject().subscribe((user) => {
       this.updateLanguage(user);
     });
@@ -50,9 +49,7 @@ export class LocaleService {
 
   public getLocaleByKey(localeKey: string): KeyValue {
     // Return the found key
-    const locales: KeyValue[] = this.getLocales().filter((locale) => {
-      return locale.key === localeKey;
-    });
+    const locales: KeyValue[] = this.getLocales().filter((locale) => locale.key === localeKey);
     return (!Utils.isEmptyArray(locales) ? locales[0] :
       { key: 'U', value: this.translateService.instant('users.locale_unknown', {}) });
   }

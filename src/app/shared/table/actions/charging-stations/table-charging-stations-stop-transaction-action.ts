@@ -91,7 +91,7 @@ export class TableChargingStationsStopTransactionAction implements TableAction {
                 }
               }
             }, (error) => {
-              // tslint:disable-next-line:max-line-length
+              // eslint-disable-next-line max-len
               Utils.handleHttpError(error, router, messageService,
                 centralServerService, 'transactions.notification.soft_stop.error');
             });

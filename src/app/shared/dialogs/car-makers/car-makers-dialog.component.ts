@@ -10,7 +10,7 @@ import { CarMakersTableDataSource } from './car-makers-dialog-table-data-source'
   templateUrl: '../dialog-table-data.component.html',
 })
 export class CarMakersDialogComponent extends DialogTableDataComponent<CarMaker> {
-  constructor(
+  public constructor(
     public carMakersDataSource: CarMakersTableDataSource,
     protected dialogRef: MatDialogRef<CarMakersDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data: any) {

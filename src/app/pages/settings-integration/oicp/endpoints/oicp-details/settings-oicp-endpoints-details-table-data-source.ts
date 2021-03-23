@@ -19,8 +19,8 @@ import { TableDataSource } from '../../../../../shared/table/table-data-source';
 import { DataResult } from '../../../../../types/DataResult';
 import { ButtonAction, RestResponse } from '../../../../../types/GlobalType';
 import { HTTPError } from '../../../../../types/HTTPError';
-import { ButtonType, TableActionDef, TableColumnDef, TableDef } from '../../../../../types/Table';
 import { OicpButtonAction, OicpEndpoint, OicpEndpointDetail, OicpRole } from '../../../../../types/oicp/OICPEndpoint';
+import { ButtonType, TableActionDef, TableColumnDef, TableDef } from '../../../../../types/Table';
 import { Utils } from '../../../../../utils/Utils';
 import { OicpDetailFailureEvsesStatusFormatterComponent } from '../formatters/oicp-detail-failure-evses-status-formatter.component';
 import { OicpDetailJobStatusFomatterComponent } from '../formatters/oicp-detail-job-status-formatter.component';
@@ -35,7 +35,7 @@ export class SettingsOicpEndpointsDetailsTableDataSource extends TableDataSource
   private pushEvsesAction = new TableUploadAction(OicpButtonAction.PUSH_EVSES, 'oicp.push_evses').getActionDef();
   private pushEvseStatusesAction = new TableUploadAction(OicpButtonAction.PUSH_EVSE_STAUSES, 'oicp.push_evses_statuses').getActionDef();
 
-  constructor(
+  public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     private centralServerService: CentralServerService,

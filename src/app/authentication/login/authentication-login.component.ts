@@ -17,19 +17,13 @@ import { Constants } from '../../utils/Constants';
 import { Users } from '../../utils/Users';
 import { Utils } from '../../utils/Utils';
 
-declare var $: any;
+declare let $: any;
 
 @Component({
   selector: 'app-authentication-login',
   templateUrl: './authentication-login.component.html',
 })
 export class AuthenticationLoginComponent implements OnInit, OnDestroy {
-  private toggleButton: any;
-  private sidebarVisible: boolean;
-  private messages!: Record<string, string>;
-  private subDomain: string;
-  private nativeElement: Node;
-
   public formGroup: FormGroup;
   public email: AbstractControl;
   public returnUrl!: string;
@@ -39,7 +33,13 @@ export class AuthenticationLoginComponent implements OnInit, OnDestroy {
   public hidePassword = true;
   public tenantLogo = Constants.TENANT_DEFAULT_LOGO;
 
-  constructor(
+  private toggleButton: any;
+  private sidebarVisible: boolean;
+  private messages!: Record<string, string>;
+  private subDomain: string;
+  private nativeElement: Node;
+
+  public constructor(
     private element: ElementRef,
     private centralServerService: CentralServerService,
     private route: ActivatedRoute,

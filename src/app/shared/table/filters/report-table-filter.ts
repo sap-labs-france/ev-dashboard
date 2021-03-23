@@ -4,7 +4,7 @@ import { TableFilter } from './table-filter';
 
 // Sort table by reports ID
 export class ReportTableFilter extends TableFilter {
-  constructor() {
+  public constructor() {
     super();
 
     // Define filter

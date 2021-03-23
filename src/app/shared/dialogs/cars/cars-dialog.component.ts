@@ -12,7 +12,7 @@ import { CarsDialogTableDataSource } from './cars-dialog-table-data-source';
     templateUrl: '../dialog-table-data.component.html',
 })
 export class CarsDialogComponent extends DialogTableDataComponent<Car> {
-    constructor(
+    public constructor(
         protected dialogRef: MatDialogRef<CarsDialogComponent>,
         private carsDialogTableDataSource: CarsDialogTableDataSource,
         public translateService: TranslateService,

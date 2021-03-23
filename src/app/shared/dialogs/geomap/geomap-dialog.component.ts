@@ -24,14 +24,16 @@ export class GeoMapDialogComponent {
   public dialogTitle: string;
   private map: any;
 
-  constructor(
+  public constructor(
     protected dialogRef: MatDialogRef<GeoMapDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data) {
     if (data) {
       if (data.label) {
         this.label = data.label;
       }
-      if (data.latitude && data.longitude) { this.zoom = 14; }
+      if (data.latitude && data.longitude) {
+        this.zoom = 14;
+      }
       this.mapLatitude = data.latitude ? +data.latitude : 51.476852;
       this.mapLongitude = data.longitude ? +data.longitude : -0.000500;
       this.markerLatitude = data.latitude ? +data.latitude : 51.476852;

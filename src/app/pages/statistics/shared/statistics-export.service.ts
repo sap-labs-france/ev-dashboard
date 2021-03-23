@@ -13,7 +13,8 @@ import { Utils } from '../../../utils/Utils';
 @Injectable()
 export class StatisticsExportService {
 
-  constructor(
+  // eslint-disable-next-line no-useless-constructor
+  public constructor(
     public spinnerService: SpinnerService,
     private dialogService: DialogService,
     private router: Router,

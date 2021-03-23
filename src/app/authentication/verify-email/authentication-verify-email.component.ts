@@ -27,13 +27,15 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
   public verificationToken: string | null;
   public resetToken: string | null;
   public verificationEmail: string | null;
+
+  public tenantLogo = Constants.TENANT_DEFAULT_LOGO;
+
   private messages!: Record<string, string>;
 
   private siteKey: string;
   private subDomain: string;
-  public tenantLogo = Constants.TENANT_DEFAULT_LOGO;
 
-  constructor(
+  public constructor(
     private centralServerService: CentralServerService,
     private router: Router,
     private route: ActivatedRoute,

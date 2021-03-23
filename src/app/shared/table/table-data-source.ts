@@ -256,9 +256,7 @@ export abstract class TableDataSource<T extends Data> {
     // Init
     this.resetTotalNumberOfRecords();
     // Update Filter
-    const foundFilter = this.tableFiltersDef.find((filterDef) => {
-      return filterDef.id === filter.id;
-    });
+    const foundFilter = this.tableFiltersDef.find((filterDef) => filterDef.id === filter.id);
     // Update value
     if (foundFilter) {
       foundFilter.currentValue = filter.currentValue;
@@ -315,15 +313,15 @@ export abstract class TableDataSource<T extends Data> {
     }
   }
 
-  // tslint:disable-next-line:no-empty
+  // eslint-disable-next-line no-empty,@typescript-eslint/no-empty-function
   public rowCellUpdated(cellValue: any, rowIndex: number, columnDef: TableColumnDef) {
   }
 
-  // tslint:disable-next-line:no-empty
+  // eslint-disable-next-line no-empty,@typescript-eslint/no-empty-function
   public actionTriggered(actionDef: TableActionDef) {
   }
 
-  // tslint:disable-next-line:no-empty
+  // eslint-disable-next-line no-empty,@typescript-eslint/no-empty-function
   public rowActionTriggered(actionDef: TableActionDef, rowItem: any, dropdownItem?: DropdownItem) {
   }
 
@@ -419,7 +417,7 @@ export abstract class TableDataSource<T extends Data> {
     return this.staticFilters;
   }
 
-  // tslint:disable-next-line:no-empty
+  // eslint-disable-next-line no-empty, @typescript-eslint/no-empty-function
   public onRowActionMenuOpen(action: TableActionDef, row: T) {
   }
 

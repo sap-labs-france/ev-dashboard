@@ -10,7 +10,7 @@ import { LOG_ACTIONSDialogTableDataSource } from './log-actions-dialog-table-dat
   templateUrl: '../dialog-table-data.component.html',
 })
 export class LOG_ACTIONSDialogComponent extends DialogTableDataComponent<LogAction> {
-  constructor(
+  public constructor(
     protected dialogRef: MatDialogRef<LOG_ACTIONSDialogComponent>,
     private LOG_ACTIONSDialogTableDataSource: LOG_ACTIONSDialogTableDataSource,
     @Inject(MAT_DIALOG_DATA) data: any) {

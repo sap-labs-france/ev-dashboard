@@ -29,7 +29,7 @@ export class CarConnectorConnectionComponent implements OnInit {
   ];
   public submitButtonTranslation!: any;
 
-  constructor(
+  public constructor(
     private translateService: TranslateService) {
   }
 

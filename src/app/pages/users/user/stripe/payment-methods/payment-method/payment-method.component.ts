@@ -117,7 +117,7 @@ export class PaymentMethodComponent implements OnInit {
       // if 3d secure doesn't show spinner hide/show and the same we can re click on the save button
       // settimeout doesn't work as expected - it never hides...
       // setTimeout(function() {
-        this.spinnerService.hide();
+      this.spinnerService.hide();
       // }, 4000);
       const result: {setupIntent?: SetupIntent; error?: StripeError} = await this.getStripeFacade().confirmCardSetup( setupIntent.client_secret, {
         payment_method: {
@@ -140,19 +140,17 @@ export class PaymentMethodComponent implements OnInit {
     }
     return operationResult;
   }
-
-      // -----------------------------------------------------------------------------------------------
-      // Step #2 - Really attach the payment method / not called when 3DS failed
-      // -----------------------------------------------------------------------------------------------
-
+  // -----------------------------------------------------------------------------------------------
+  // Step #2 - Really attach the payment method / not called when 3DS failed
+  // -----------------------------------------------------------------------------------------------
   private async attachPaymentMethod(operationResult: {setupIntent?: SetupIntent; error?: StripeError}) {
-      const response: BillingOperationResponse = await this.centralServerService.setupPaymentMethod({
-        setupIntentId: operationResult.setupIntent?.id,
-        paymentMethodId: operationResult.setupIntent?.payment_method,
-        userID: this.userID
-      }).toPromise();
-      return response;
-    }
+    const response: BillingOperationResponse = await this.centralServerService.setupPaymentMethod({
+      setupIntentId: operationResult.setupIntent?.id,
+      paymentMethodId: operationResult.setupIntent?.payment_method,
+      userID: this.userID
+    }).toPromise();
+    return response;
+  }
 
   public close() {
     Utils.checkAndSaveAndCloseDialog(this.formGroup, this.dialogService,

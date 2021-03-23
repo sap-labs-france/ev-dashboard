@@ -100,22 +100,18 @@ export class PaymentMethodComponent implements OnInit {
   private async createPaymentMethod(): Promise<any> {
     // c.f. STRIPE SAMPLE at: https://stripe.com/docs/billing/subscriptions/fixed-price#collect-payment
     let operationResult = null;
-
     try {
       this.spinnerService.show();
       // -----------------------------------------------------------------------------------------------
       // Step #0 - Create Setup Intent
       // -----------------------------------------------------------------------------------------------
-
       const response: BillingOperationResponse = await this.centralServerService.setupPaymentMethod({
         userID: this.userID
       }).toPromise();
-
       // -----------------------------------------------------------------------------------------------
       // Step #1 - Confirm the SetupIntent with data provided and carry out 3DS
       // c.f. https://stripe.com/docs/js/setup_intents/confirm_card_setup
       // -----------------------------------------------------------------------------------------------
-
       const setupIntent: any = response?.internalData;
       // TODO: handle spinner .hide / .show in a better way - if we're quick we can re click save before 3d secure popup shows off
       // if 3d secure doesn't show spinner hide/show and the same we can re click on the save button

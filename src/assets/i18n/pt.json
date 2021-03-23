@@ -1479,8 +1479,8 @@
         "delete_error": "Error occurred while deleting the payment method, check the logs",
         "expired": "Expired",
         "valid": "Valid",
-        "expire_soon": "Expire soon", // Needs to be as short as "expire soon" - can be "will expire"
-        "expiring_on": "Expire on",
+        "expire_soon": "Expires soon", // Needs to be as short as "expire soon" - can be "will expire"
+        "expiring_on": "Expires on",
         "ending_with": "Ending with",
         "status": "Status",
         "type": "Type",

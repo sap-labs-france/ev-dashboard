@@ -5,8 +5,10 @@ import { ConfigService } from './config.service';
 
 @Injectable()
 export class WindowService {
-  @Inject(WINDOW) private window: Window;
-  private configService: ConfigService;
+  // eslint-disable-next-line no-useless-constructor
+  public constructor(
+    @Inject(WINDOW) private window: Window,
+    private configService: ConfigService) {}
 
   public getHostname(): string {
     return this.window.location.hostname;

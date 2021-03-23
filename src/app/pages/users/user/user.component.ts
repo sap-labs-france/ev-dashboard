@@ -36,10 +36,10 @@ import { UserDialogComponent } from './user.dialog.component';
   templateUrl: 'user.component.html',
 })
 export class UserComponent extends AbstractTabComponent implements OnInit {
-  public parentErrorStateMatcher = new ParentErrorStateMatcher();
   @Input() public currentUserID!: string;
   @Input() public inDialog!: boolean;
   @Input() public dialogRef!: MatDialogRef<UserDialogComponent>;
+  public parentErrorStateMatcher = new ParentErrorStateMatcher();
   public userStatuses: KeyValue[];
   public userRoles: KeyValue[];
   public userLocales: KeyValue[];
@@ -101,7 +101,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public canSeeInvoice: boolean;
   private currentLocale!: string;
 
-  constructor(
+  public constructor(
     private authorizationService: AuthorizationService,
     private centralServerService: CentralServerService,
     private componentService: ComponentService,
@@ -232,9 +232,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
           Validators.compose([
             Users.validatePassword,
           ])),
-      }, (passwordFormGroup: FormGroup) => {
-        return Utils.validateEqual(passwordFormGroup, 'password', 'repeatPassword');
-      }),
+      }, (passwordFormGroup: FormGroup) => Utils.validateEqual(passwordFormGroup, 'password', 'repeatPassword')),
     });
     // Form
     this.id = this.formGroup.controls['id'];
@@ -306,7 +304,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       return;
     }
     this.spinnerService.show();
-    // tslint:disable-next-line: cyclomatic-complexity
+    // eslint-disable-next-line complexity
     this.centralServerService.getUser(this.currentUserID).pipe(mergeMap((user) => {
       this.formGroup.markAsPristine();
       this.user = user;

@@ -29,6 +29,25 @@ interface StatisticsFilterDef extends TableFilterDef {
   templateUrl: './statistics-filters.component.html',
 })
 export class StatisticsFiltersComponent implements OnInit {
+  @ViewChild(DaterangepickerComponent) public dateRangePickerComponent: DaterangepickerComponent;
+
+  @ViewChild(DaterangepickerDirective) public picker: DaterangepickerDirective;
+
+  @Output() public category = new EventEmitter();
+  @Output() public year = new EventEmitter();
+  @Output() public dateFrom = new EventEmitter();
+  @Output() public dateTo = new EventEmitter();
+  @Output() public dateRange = new EventEmitter();
+
+  @Input() public allYears ?= false;
+
+  @Output() public buttonOfScopeGroup = new EventEmitter();
+  @Input() public tableFiltersDef?: TableFilterDef[] = [];
+
+  @Output() public filters = new EventEmitter();
+  @Output() public update = new EventEmitter();
+  @Output() public export = new EventEmitter();
+
   public ongoingRefresh = false;
   public isAdmin!: boolean;
   public isOrganizationActive!: boolean;
@@ -38,26 +57,13 @@ export class StatisticsFiltersComponent implements OnInit {
   public sacLinksActive = false;
   public initDateRange = false;
   public dateRangeValue: any;
-  @ViewChild(DaterangepickerComponent) public dateRangePickerComponent: DaterangepickerComponent;
 
-  @ViewChild(DaterangepickerDirective) public picker: DaterangepickerDirective;
-  @Output() public category = new EventEmitter();
-  @Output() public year = new EventEmitter();
-  @Output() public dateFrom = new EventEmitter();
-  @Output() public dateTo = new EventEmitter();
-  @Output() public dateRange = new EventEmitter();
-
-  @Input() public allYears ?= false;
   public buttonsOfScopeGroup: StatisticsButtonGroup[] = [
     { name: 'month', title: 'statistics.graphic_title_month_x_axis', inactive: false },
     { name: 'total', title: 'statistics.total', inactive: false },
   ];
-  @Output() public buttonOfScopeGroup = new EventEmitter();
-  @Input() public tableFiltersDef?: TableFilterDef[] = [];
+
   public statFiltersDef: StatisticsFilterDef[] = [];
-  @Output() public filters = new EventEmitter();
-  @Output() public update = new EventEmitter();
-  @Output() public export = new EventEmitter();
 
   public selectedCategory = 'C';
   public activeButtonOfScopeGroup!: StatisticsButtonGroup;
@@ -65,7 +71,7 @@ export class StatisticsFiltersComponent implements OnInit {
   private language!: string;
 
 
-  constructor(
+  public constructor(
     private authorizationService: AuthorizationService,
     private translateService: TranslateService,
     private componentService: ComponentService,
@@ -186,9 +192,7 @@ export class StatisticsFiltersComponent implements OnInit {
 
   public filterChanged(filter: StatisticsFilterDef): void {
     // Update Filter
-    const foundFilter = this.statFiltersDef.find((filterDef) => {
-      return filterDef.id === filter.id;
-    });
+    const foundFilter = this.statFiltersDef.find((filterDef) => filterDef.id === filter.id);
     // Update value (if needed!)
     if (foundFilter) {
       foundFilter.currentValue = filter.currentValue;

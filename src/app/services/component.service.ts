@@ -11,7 +11,7 @@ import { CentralServerService } from './central-server.service';
 export class ComponentService {
   private activeComponents!: string[]|null;
 
-  constructor(
+  public constructor(
     private centralServerService: CentralServerService) {
     this.centralServerService.getCurrentUserSubject().subscribe((user) => {
       if (user && user.activeComponents) {

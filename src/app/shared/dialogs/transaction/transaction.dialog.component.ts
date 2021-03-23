@@ -13,9 +13,9 @@ export class TransactionDialogComponent {
   public chargingStationID!: string;
   public connectorID!: number;
 
-  constructor(
+  public constructor(
     public dialogRef: MatDialogRef<TransactionDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data: number|{ transactionID: number; chargingStationID: string, connectorID: number; }) {
+    @Inject(MAT_DIALOG_DATA) data: number|{ transactionID: number; chargingStationID: string; connectorID: number }) {
     if (data) {
       if (typeof data === 'object') {
         this.transactionID = data.transactionID;

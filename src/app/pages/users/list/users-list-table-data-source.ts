@@ -232,9 +232,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       {
         id: 'eulaAcceptedOn',
         name: 'users.eula_accepted_on',
-        formatter: (eulaAcceptedOn: Date, row: User) => {
-          return eulaAcceptedOn ? this.datePipe.transform(eulaAcceptedOn) + ` (${this.translateService.instant('general.version')} ${row.eulaAcceptedVersion})` : '-';
-        },
+        formatter: (eulaAcceptedOn: Date, row: User) => eulaAcceptedOn ? this.datePipe.transform(eulaAcceptedOn) + ` (${this.translateService.instant('general.version')} ${row.eulaAcceptedVersion})` : '-',
         headerClass: 'col-20em',
         class: 'col-20em',
         sortable: true,

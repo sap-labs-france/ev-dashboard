@@ -14,16 +14,16 @@ declare const $: any;
 })
 
 export class AdminLayoutComponent implements OnInit, AfterViewInit {
+  @ViewChild('sidebar') public sidebar: any;
+  @ViewChild(NavbarComponent, { static: true }) public navbar!: NavbarComponent;
+
   public url!: string;
   public location: Location;
 
-  @ViewChild('sidebar') public sidebar: any;
-  @ViewChild(NavbarComponent, { static: true }) public navbar!: NavbarComponent;
-  private _router!: Subscription;
   private lastPoppedUrl!: string | null;
   private yScrollStack: number[] = [];
 
-  constructor(private router: Router, location: Location) {
+  public constructor(private router: Router, location: Location) {
     this.location = location;
   }
 
@@ -47,7 +47,7 @@ export class AdminLayoutComponent implements OnInit, AfterViewInit {
         }
       }
     });
-    this._router = this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => {
+    this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => {
       elemMainPanel.scrollTop = 0;
       elemSidebar.scrollTop = 0;
     });
@@ -59,7 +59,7 @@ export class AdminLayoutComponent implements OnInit, AfterViewInit {
     } else {
       html.classList.add('perfect-scrollbar-off');
     }
-    this._router = this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => {
+    this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => {
       this.navbar.sidebarClose();
     });
   }

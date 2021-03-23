@@ -10,7 +10,7 @@ import { AssetsDialogTableDataSource } from './assets-dialog-table-data-source';
   templateUrl: '../dialog-table-data.component.html',
 })
 export class AssetsDialogComponent extends DialogTableDataComponent<Asset> {
-  constructor(
+  public constructor(
     private assetsDataSource: AssetsDialogTableDataSource,
     dialogRef: MatDialogRef<AssetsDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data: any) {

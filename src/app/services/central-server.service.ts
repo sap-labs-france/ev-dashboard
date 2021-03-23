@@ -53,7 +53,7 @@ export class CentralServerService {
   private currentUser!: UserToken;
   private currentUserSubject = new BehaviorSubject<UserToken>(this.currentUser);
 
-  constructor(
+  public constructor(
     private httpClient: HttpClient,
     private localStorageService: LocalStorageService,
     private centralServerNotificationService: CentralServerNotificationService,
@@ -276,9 +276,7 @@ export class CentralServerService {
         params,
       })
       .pipe(
-        switchMap((blob: Blob) => {
-          return this.processImage(blob);
-        }),
+        switchMap((blob: Blob) => this.processImage(blob)),
         catchError(this.handleHttpError),
       );
   }
@@ -334,9 +332,7 @@ export class CentralServerService {
         params,
       })
       .pipe(
-        switchMap((blob: Blob) => {
-          return this.processImage(blob);
-        }),
+        switchMap((blob: Blob) => this.processImage(blob)),
         catchError(this.handleHttpError),
       );
   }
@@ -461,9 +457,7 @@ export class CentralServerService {
         params,
       })
       .pipe(
-        switchMap((blob: Blob) => {
-          return this.processImage(blob);
-        }),
+        switchMap((blob: Blob) => this.processImage(blob)),
         catchError(this.handleHttpError),
       );
   }
@@ -520,9 +514,7 @@ export class CentralServerService {
         params,
       })
       .pipe(
-        switchMap((blob: Blob) => {
-          return this.processImage(blob);
-        }),
+        switchMap((blob: Blob) => this.processImage(blob)),
         catchError(this.handleHttpError),
       );
   }
@@ -771,7 +763,7 @@ export class CentralServerService {
       );
   }
 
-  // tslint:disable-next-line:max-line-length
+  // eslint-disable-next-line max-len
   public getChargingStationsInError(params: FilterParams,
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<ChargingStationInError>> {
     // Verify init
@@ -1002,9 +994,7 @@ export class CentralServerService {
         params,
       })
       .pipe(
-        switchMap((blob: Blob) => {
-          return this.processImage(blob);
-        }),
+        switchMap((blob: Blob) => this.processImage(blob)),
         catchError(this.handleHttpError),
       );
   }
@@ -1023,9 +1013,7 @@ export class CentralServerService {
         params,
       })
       .pipe(
-        switchMap((blob: Blob) => {
-          return this.processImage(blob);
-        }),
+        switchMap((blob: Blob) => this.processImage(blob)),
         catchError(this.handleHttpError),
       );
   }
@@ -1286,8 +1274,7 @@ export class CentralServerService {
   }
 
   public getActiveTransactions(params: FilterParams,
-    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = [])
-    : Observable<DataResult<Transaction>> {
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Transaction>> {
     // Verify init
     this.checkInit();
     // Build Paging
@@ -1305,7 +1292,7 @@ export class CentralServerService {
       );
   }
 
-  // tslint:disable-next-line:max-line-length
+  // eslint-disable-next-line max-len
   public getOcpiEndpoints(params: FilterParams,
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<OcpiEndpoint>> {
     // Verify init
@@ -1325,7 +1312,7 @@ export class CentralServerService {
       );
   }
 
-  // tslint:disable-next-line:max-line-length
+  // eslint-disable-next-line max-len
   public getOicpEndpoints(params: FilterParams,
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<OicpEndpoint>> {
     // Verify init
@@ -1845,42 +1832,12 @@ export class CentralServerService {
     return this.currentUser;
   }
 
-  private getLoggedUserToken(): string {
-    // Get the token
-    if (!this.currentUserToken) {
-      this.readAndDecodeTokenFromLocalStorage();
-    }
-    return this.currentUserToken;
-  }
-
-  private readAndDecodeTokenFromLocalStorage() {
-    // Read the token
-    this.localStorageService.getItem('token').subscribe((token: string) => {
-      this.currentUserToken = token;
-      this.currentUser = null;
-      // Decode the token
-      if (token) {
-        this.currentUser = new JwtHelperService().decodeToken(token);
-      }
-      // Notify
-      this.currentUserSubject.next(this.currentUser);
-    });
-  }
-
   public isAuthenticated(): boolean {
     return this.getLoggedUserToken() && !new JwtHelperService().isTokenExpired(this.getLoggedUserToken());
   }
 
   public getCurrentUserSubject(): BehaviorSubject<UserToken> {
     return this.currentUserSubject;
-  }
-
-  private clearLoggedUser(): void {
-    // Clear
-    this.currentUserToken = null;
-    this.currentUser = null;
-    this.localStorageService.removeItem('token');
-    this.currentUserSubject.next(this.currentUser);
   }
 
   public logout(): Observable<ActionResponse> {
@@ -3131,6 +3088,36 @@ export class CentralServerService {
       .pipe(
         catchError(this.handleHttpError),
       );
+  }
+
+  private getLoggedUserToken(): string {
+    // Get the token
+    if (!this.currentUserToken) {
+      this.readAndDecodeTokenFromLocalStorage();
+    }
+    return this.currentUserToken;
+  }
+
+  private readAndDecodeTokenFromLocalStorage() {
+    // Read the token
+    this.localStorageService.getItem('token').subscribe((token: string) => {
+      this.currentUserToken = token;
+      this.currentUser = null;
+      // Decode the token
+      if (token) {
+        this.currentUser = new JwtHelperService().decodeToken(token);
+      }
+      // Notify
+      this.currentUserSubject.next(this.currentUser);
+    });
+  }
+
+  private clearLoggedUser(): void {
+    // Clear
+    this.currentUserToken = null;
+    this.currentUser = null;
+    this.localStorageService.removeItem('token');
+    this.currentUserSubject.next(this.currentUser);
   }
 
   private checkInit(): void {

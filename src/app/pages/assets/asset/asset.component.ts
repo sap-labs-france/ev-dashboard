@@ -58,7 +58,7 @@ export class AssetComponent implements OnInit {
   public meterID!: AbstractControl;
   public asset!: Asset;
 
-  constructor(
+  public constructor(
       private authorizationService: AuthorizationService,
       private centralServerService: CentralServerService,
       private componentService: ComponentService,

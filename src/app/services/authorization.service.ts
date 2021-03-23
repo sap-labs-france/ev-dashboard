@@ -11,7 +11,7 @@ import { ComponentService } from './component.service';
 export class AuthorizationService {
   private loggedUser!: UserToken | null;
 
-  constructor(
+  public constructor(
     private centralServerService: CentralServerService,
     private componentService: ComponentService) {
 
@@ -315,7 +315,7 @@ export class AuthorizationService {
     return false;
   }
 
-  public getSitesAdmin(): ReadonlyArray<string> {
+  public getSitesAdmin(): readonly string[] {
     return !!this.loggedUser && this.loggedUser.sitesAdmin ? this.loggedUser.sitesAdmin : [];
   }
 

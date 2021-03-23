@@ -3,7 +3,7 @@ import { KeyValue } from '../../../types/GlobalType';
 import { FilterType, TableFilterDef } from '../../../types/Table';
 
 export class ErrorTypeTableFilter extends TableFilter {
-  constructor(types: KeyValue[]) {
+  public constructor(types: KeyValue[]) {
     super();
     // Define filter
     const filterDef: TableFilterDef = {

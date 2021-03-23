@@ -124,16 +124,16 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
       // Stats?
       if (data.stats) {
         // Total Consumption
-        // tslint:disable-next-line:max-line-length
+        // eslint-disable-next-line max-len
         let stats = `| ${this.translateService.instant('transactions.consumption')}: ${this.appUnitPipe.transform(data.stats.totalConsumptionWattHours, 'Wh', 'kWh', true, 1, 0, 0)}`;
         // Refund transactions
-        // tslint:disable-next-line:max-line-length
+        // eslint-disable-next-line max-len
         stats += ` | ${this.translateService.instant('transactions.refund_transactions')}: ${data.stats.countRefundTransactions} (${this.appCurrencyPipe.transform(data.stats.totalPriceRefund, data.stats.currency)})`;
         // Pending transactions
-        // tslint:disable-next-line:max-line-length
+        // eslint-disable-next-line max-len
         stats += ` | ${this.translateService.instant('transactions.pending_transactions')}: ${data.stats.countPendingTransactions} (${this.appCurrencyPipe.transform(data.stats.totalPricePending, data.stats.currency)})`;
         // Number of reimbursed reports submitted
-        // tslint:disable-next-line:max-line-length
+        // eslint-disable-next-line max-len
         stats += ` | ${this.translateService.instant('transactions.count_refunded_reports')}: ${data.stats.countRefundedReports}`;
         return stats;
       }

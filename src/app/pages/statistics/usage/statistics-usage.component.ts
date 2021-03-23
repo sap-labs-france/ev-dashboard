@@ -21,6 +21,9 @@ import { StatisticsExportService } from '../shared/statistics-export.service';
 })
 
 export class StatisticsUsageComponent implements OnInit {
+  @ViewChild('usageBarChart', { static: true }) public ctxBarChart!: ElementRef;
+  @ViewChild('usagePieChart', { static: true }) public ctxPieChart!: ElementRef;
+
   public totalUsage = 0;
   public selectedChart!: string;
   public selectedCategory!: string;
@@ -30,9 +33,6 @@ export class StatisticsUsageComponent implements OnInit {
   public allFiltersDef: TableFilterDef[] = [];
   public chartsInitialized = false;
 
-  @ViewChild('usageBarChart', { static: true }) public ctxBarChart!: ElementRef;
-  @ViewChild('usagePieChart', { static: true }) public ctxPieChart!: ElementRef;
-
   private filterParams = {};
   private barChart!: SimpleChart;
   private pieChart!: SimpleChart;
@@ -40,7 +40,7 @@ export class StatisticsUsageComponent implements OnInit {
   private pieChartData!: ChartData;
   private language!: string;
 
-  constructor(
+  public constructor(
     private centralServerService: CentralServerService,
     private translateService: TranslateService,
     private localeService: LocaleService,

@@ -21,7 +21,7 @@ import { ChargingStationOcppParametersInputFieldCellComponent } from './cell-com
 export class ChargingStationOcppParametersEditableTableDataSource extends EditableTableDataSource<OcppParameter> {
   private charger!: ChargingStation;
 
-  constructor(
+  public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     public authorizationService: AuthorizationService,
@@ -146,10 +146,6 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
     ];
   }
 
-  protected isCellDisabled(columnDef: TableColumnDef, editableRow: OcppParameter): boolean {
-    return editableRow.readonly;
-  }
-
   public createRow(): OcppParameter {
     return {
       id: '',
@@ -170,5 +166,9 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
       customOcppParameterRow,
       ...content,
     ]);
+  }
+
+  protected isCellDisabled(columnDef: TableColumnDef, editableRow: OcppParameter): boolean {
+    return editableRow.readonly;
   }
 }

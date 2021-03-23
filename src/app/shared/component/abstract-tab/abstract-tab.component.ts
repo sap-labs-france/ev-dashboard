@@ -7,7 +7,7 @@ import { WindowService } from '../../../services/window.service';
 export class AbstractTabComponent implements OnDestroy {
   public activeTabIndex = 0;
 
-  constructor(
+  protected constructor(
     protected activatedRoute: ActivatedRoute,
     protected windowService: WindowService,
     protected hashArray: string[],

@@ -3164,14 +3164,17 @@ export class CentralServerService {
   }
 
   public buildHttpHeadersFile(tenantID?: string) {
+    // Build File Header
     const headers = [
-      {value: tenantID,
-      name:'Tenant'},
-      {value: 'Bearer ' + this.getLoggedUserToken(),
-      name:'Authorization'},
+      {
+        name:'Tenant',
+        value: tenantID
+      },
+      {
+        name:'Authorization',
+        value: 'Bearer ' + this.getLoggedUserToken()
+      },
     ]
-
-    // Build Header
     return headers;
   }
 

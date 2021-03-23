@@ -14,4 +14,6 @@ export interface Tag extends Data {
   default?: boolean;
 }
 
-export const TagRequiredImportProperties = ['id'];
+export const TagRequiredImportProperties = [
+  'id'
+];

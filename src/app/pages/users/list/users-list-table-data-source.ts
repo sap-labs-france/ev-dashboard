@@ -246,7 +246,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
     if (this.authorizationService.canImportUsers()) {
-      tableActionsDef.unshift(new TableImportUsersAction().getActionDef())
+      tableActionsDef.unshift(new TableImportUsersAction().getActionDef());
     }
     if (this.authorizationService.canExportUsers()) {
       tableActionsDef.unshift(new TableExportUsersAction().getActionDef());

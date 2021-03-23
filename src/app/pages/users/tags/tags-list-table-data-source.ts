@@ -254,7 +254,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
     tableActionsDef.unshift(this.deleteManyAction);
     tableActionsDef.unshift(new TableCreateTagAction().getActionDef());
     if (this.authorizationService.canImportTags()) {
-    tableActionsDef.unshift(new TableImportTagsAction().getActionDef())
+      tableActionsDef.unshift(new TableImportTagsAction().getActionDef());
     }
     return [
       ...tableActionsDef,

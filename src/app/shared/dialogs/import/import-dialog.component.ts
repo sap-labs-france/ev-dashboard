@@ -41,18 +41,17 @@ export class ImportDialogComponent {
       }
     }
     Utils.registerCloseKeyEvents(this.dialogRef);
-
     this.uploader = new FileUploader({
       headers: this.centralServerService.buildHttpHeadersFile(),
       url: `${this.centralServerService.getCentralRestServerServiceSecuredURL()}/${this.endpoint}`
     });
-
     this.uploader.response.subscribe(res => this.response = res);
     this.ngxCsvParser = new NgxCsvParser();
   }
 
   public ngOnInit() {
     this.ImportInstructions = this.translateService.instant('general.import_instructions', { properties: this.requiredProperties.join(', ') })
+    // File has been selected
     this.uploader.onAfterAddingFile = (fileItem: FileItem) => {
       if (this.uploader.queue.length > 1) {
         this.uploader.removeFromQueue(this.uploader.queue[0]);
@@ -61,14 +60,18 @@ export class ImportDialogComponent {
       this.fileName = fileItem.file.name;
       this.isFileValid = this.ngxCsvParser.isCSVFile(fileItem._file);
       this.ngxCsvParser.parse(fileItem._file, {}).subscribe((csvHeader: string[]) => {
+        // Check mandatory fields
         if (!Utils.isEmptyArray(csvHeader)) {
           const properties = Object.keys(csvHeader[0])[0].split(Constants.CSV_SEPARATOR);
           this.isFileValid = this.requiredProperties.every(property => properties.includes(property));
+        } else {
+          this.isFileValid = false;
         }
       }, (error) => {
         this.isFileValid = false;
       });
     };
+    // File upload has finished
     this.uploader.onCompleteItem = (fileItem: FileItem, response: string, status: number, headers: ParsedResponseHeaders) => {
       if (status === StatusCodes.OK) {
         this.messageService.showSuccessMessage('general.success_import');
@@ -79,7 +82,7 @@ export class ImportDialogComponent {
     this.uploader.onErrorItem = (item: FileItem, response: string, status: number, headers: ParsedResponseHeaders) => {
       this.messageService.showErrorMessage('general.error_import');
     };
-
+    // Display the progress bar during the upload
     this.uploader.onProgressAll = (progress: any) => {
       this.progress = progress;
       this.showProgressBar = true;

@@ -11,7 +11,7 @@ import { CompaniesDialogTableDataSource } from './companies-dialog-table-data-so
   providers: [CompaniesDialogTableDataSource]
 })
 export class CompaniesDialogComponent extends DialogTableDataComponent<Company> {
-  constructor(
+  public constructor(
     public companiesDataSource: CompaniesDialogTableDataSource,
     protected dialogRef: MatDialogRef<CompaniesDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data: any) {

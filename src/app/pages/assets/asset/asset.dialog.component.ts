@@ -11,7 +11,7 @@ export class AssetDialogComponent implements AfterViewInit {
   @ViewChild('appRef') public appRef!: AssetComponent;
   public assetID!: string;
 
-  constructor(
+  public constructor(
     public dialogRef: MatDialogRef<AssetDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data: string) {
     this.assetID = data;

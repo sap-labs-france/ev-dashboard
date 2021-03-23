@@ -10,7 +10,7 @@ import { ChargingStationsDialogTableDataSource } from './charging-stations-dialo
   templateUrl: '../dialog-table-data.component.html',
 })
 export class ChargingStationsDialogComponent extends DialogTableDataComponent<ChargingStation> {
-  constructor(
+  public constructor(
     private chargingStationsDataSource: ChargingStationsDialogTableDataSource,
     dialogRef: MatDialogRef<ChargingStationsDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data: any) {

@@ -22,7 +22,7 @@ export class ChargingStationLimitationComponent implements OnInit {
   @Input() public dialogRef!: MatDialogRef<any>;
   public chargingStation: ChargingStation;
 
-  constructor(
+  public constructor(
     private spinnerService: SpinnerService,
     private centralServerService: CentralServerService,
     private centralServerNotificationService: CentralServerNotificationService,

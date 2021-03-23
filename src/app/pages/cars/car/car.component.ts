@@ -36,10 +36,9 @@ export class CarComponent implements OnInit {
   public carCatalogImage: string;
   public isBasic: boolean;
   public selectedCarCatalog: CarCatalog;
-  public carCatalogConverters: { type: CarConverterType, value: string, converter: CarConverter }[] = [];
+  public carCatalogConverters: { type: CarConverterType; value: string; converter: CarConverter }[] = [];
   public isAdmin: boolean;
   public isPool = false;
-  private car: Car;
 
   public formGroup!: FormGroup;
   public id!: AbstractControl;
@@ -59,7 +58,9 @@ export class CarComponent implements OnInit {
     { key: CarType.PRIVATE, value: 'cars.private_car' }
   ];
 
-  constructor(
+  private car: Car;
+
+  public constructor(
     public carUsersEditableTableDataSource: CarUsersEditableTableDataSource,
     public spinnerService: SpinnerService,
     private centralServerService: CentralServerService,
@@ -218,6 +219,30 @@ export class CarComponent implements OnInit {
     }
   }
 
+  public changeCarCatalog() {
+    // Create the dialog
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.panelClass = 'transparent-dialog-container';
+    dialogConfig.data = {
+      title: 'cars.assign_car_catalog',
+      validateButtonTitle: 'general.select',
+      rowMultipleSelection: false,
+    };
+    // Open
+    this.dialog.open(CarCatalogsDialogComponent, dialogConfig).afterClosed().subscribe((result) => {
+      if (result && result.length > 0 && result[0] && result[0].objectRef) {
+        const carCatalog: CarCatalog = (result[0].objectRef) as CarCatalog;
+        this.carCatalogID.setValue(result[0].key);
+        this.carCatalog.setValue(Utils.buildCarCatalogName(carCatalog));
+        this.selectedCarCatalog = carCatalog;
+        this.carCatalogImage = carCatalog.image;
+        // Build drop down
+        this.buildCarCatalogConverter();
+        this.formGroup.markAsDirty();
+      }
+    });
+  }
+
   private updateCar(car: Car) {
     // Set updated/removed users
     if (this.isAdmin) {
@@ -300,30 +325,6 @@ export class CarComponent implements OnInit {
         // No longer exists!
         default:
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'cars.create_error');
-      }
-    });
-  }
-
-  public changeCarCatalog() {
-    // Create the dialog
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.panelClass = 'transparent-dialog-container';
-    dialogConfig.data = {
-      title: 'cars.assign_car_catalog',
-      validateButtonTitle: 'general.select',
-      rowMultipleSelection: false,
-    };
-    // Open
-    this.dialog.open(CarCatalogsDialogComponent, dialogConfig).afterClosed().subscribe((result) => {
-      if (result && result.length > 0 && result[0] && result[0].objectRef) {
-        const carCatalog: CarCatalog = (result[0].objectRef) as CarCatalog;
-        this.carCatalogID.setValue(result[0].key);
-        this.carCatalog.setValue(Utils.buildCarCatalogName(carCatalog));
-        this.selectedCarCatalog = carCatalog;
-        this.carCatalogImage = carCatalog.image;
-        // Build drop down
-        this.buildCarCatalogConverter();
-        this.formGroup.markAsDirty();
       }
     });
   }

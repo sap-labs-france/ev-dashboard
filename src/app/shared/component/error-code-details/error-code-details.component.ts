@@ -17,7 +17,7 @@ import { ErrorCodeDetailsDialogComponent } from '../../dialogs/error-code-detail
 export class ErrorCodeDetailsComponent extends CellContentTemplateDirective {
   @Input() public row: any;
 
-  constructor(private dialog: MatDialog) {
+  public constructor(private dialog: MatDialog) {
     super();
   }
 

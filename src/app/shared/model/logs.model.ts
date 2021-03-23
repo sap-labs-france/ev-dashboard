@@ -9,9 +9,7 @@ export const logLevels: KeyValue[] = [
 ];
 
 export const LOG_ACTIONS: KeyValue[] = Object.values(ServerAction)
-  .map((value) => {
-    return { key: value, value };
-  })
+  .map((value) => ({ key: value, value }))
   .sort((action1, action2) => {
     if (action1.value.toLocaleLowerCase() < action2.value.toLocaleLowerCase()) {
       return -1;

@@ -19,7 +19,7 @@ import { CarConnectorConnectionDialogComponent } from './connection/car-connecto
 
 @Injectable()
 export class SettingsCarConnectorConnectionEditableTableDataSource extends EditableTableDataSource<CarConnectorConnectionSetting> {
-  constructor(
+  public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     private dialog: MatDialog,
@@ -33,9 +33,7 @@ export class SettingsCarConnectorConnectionEditableTableDataSource extends Edita
       // Check
       if (this.editableRows) {
         // Car connector sort by name
-        this.editableRows.sort((a, b) => {
-          return (a.name > b.name) ? 1 : (b.name > a.name) ? -1 : 0;
-        });
+        this.editableRows.sort((a, b) => (a.name > b.name) ? 1 : (b.name > a.name) ? -1 : 0);
         observer.next({
           count: this.editableRows.length,
           result: this.editableRows,

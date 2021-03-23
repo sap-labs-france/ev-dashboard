@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
-declare var $: any;
+declare let $: any;
 
 @Injectable()
 export class MessageService {
@@ -23,10 +23,7 @@ export class MessageService {
       <a href="{3}" target="{4}" data-notify="url"></a>
     </div>
   `;
-
-  constructor(
-    private translateService: TranslateService
-  ) { }
+  private translateService: TranslateService;
 
   public showErrorMessageConnectionLost(): void {
     // Avoid multiple same messages when connection is lost during 5 secs

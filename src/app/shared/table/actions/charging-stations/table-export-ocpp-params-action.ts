@@ -12,7 +12,7 @@ import { TableActionDef } from '../../../../types/Table';
 import { TableExportAction } from '../table-export-action';
 
 export interface TableExportOCPPParamsActionDef extends TableActionDef {
-  action: (filters: { siteArea?: SiteArea; site?: Site; }, dialogService: DialogService, translateService: TranslateService,
+  action: (filters: { siteArea?: SiteArea; site?: Site }, dialogService: DialogService, translateService: TranslateService,
     messageService: MessageService, centralServerService: CentralServerService, router: Router, spinnerService: SpinnerService) => void;
 }
 
@@ -26,7 +26,7 @@ export class TableExportOCPPParamsAction extends TableExportAction {
     };
   }
 
-  private exportOCPPParameters(filters: { siteArea?: SiteArea; site: Site; }, dialogService: DialogService, translateService: TranslateService,
+  private exportOCPPParameters(filters: { siteArea?: SiteArea; site: Site }, dialogService: DialogService, translateService: TranslateService,
     messageService: MessageService, centralServerService: CentralServerService, router: Router, spinnerService: SpinnerService) {
     super.export(filters.siteArea ?
       { SiteAreaID: filters.siteArea.id } :

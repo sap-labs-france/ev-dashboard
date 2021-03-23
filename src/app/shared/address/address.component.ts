@@ -29,11 +29,8 @@ export class AddressComponent implements OnInit, OnChanges {
   public coordinates!: FormArray;
   public longitude!: AbstractControl;
   public latitude!: AbstractControl;
-
-  constructor(
-    private translateService: TranslateService,
-    private dialog: MatDialog) {
-  }
+  private translateService: TranslateService;
+  private dialog: MatDialog;
 
   public ngOnInit() {
     // Set Address form group

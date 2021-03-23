@@ -1,7 +1,7 @@
 import { DateTableFilter } from '../../../shared/table/filters/date-table-filter';
 
 export class StartDateFilter extends DateTableFilter {
-  constructor(currentValue = null) {
+  public constructor(currentValue = null) {
     super();
     const filter = this.getFilterDef();
     filter.id = 'dateFrom';

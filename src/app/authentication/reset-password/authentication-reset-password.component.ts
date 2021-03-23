@@ -20,11 +20,12 @@ export class AuthenticationResetPasswordComponent implements OnInit, OnDestroy {
   public email: AbstractControl;
   public formGroup: FormGroup;
 
-  private siteKey: string;
-  private subDomain: string;
   public tenantLogo = Constants.TENANT_DEFAULT_LOGO;
 
-  constructor(
+  private siteKey: string;
+  private subDomain: string;
+
+  public constructor(
     private centralServerService: CentralServerService,
     private router: Router,
     private route: ActivatedRoute,

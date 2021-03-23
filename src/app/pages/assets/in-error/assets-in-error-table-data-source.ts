@@ -33,7 +33,7 @@ export class AssetsInErrorTableDataSource extends TableDataSource<AssetInError> 
   private editAction = new TableEditAssetAction().getActionDef();
   private deleteAction = new TableDeleteAssetAction().getActionDef();
 
-  constructor(
+  public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     private messageService: MessageService,

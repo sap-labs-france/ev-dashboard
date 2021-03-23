@@ -58,7 +58,7 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
   public numberOfConnectedPhase!: AbstractControl;
   public currentType!: AbstractControl;
   public phaseAssignmentToGrid!: AbstractControl;
-  constructor(
+  public constructor(
     private dialog: MatDialog,
     private centralServerService: CentralServerService,
     private spinnerService: SpinnerService,
@@ -243,9 +243,9 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
         dialogConfig.panelClass = 'transparent-dialog-container';
         // Set data
         dialogConfig.data = {
-          'qrCode': qrCode.image,
-          'connectorID': this.connector.connectorId,
-          'chargingStationID': this.chargingStation.id,
+          qrCode: qrCode.image,
+          connectorID: this.connector.connectorId,
+          chargingStationID: this.chargingStation.id,
         };
         // Disable outside click close
         dialogConfig.disableClose = true;

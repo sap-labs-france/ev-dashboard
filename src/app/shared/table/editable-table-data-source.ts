@@ -54,10 +54,8 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
   public getContent(): T[] {
     // Filter?
     if (this.editableRows && this.getSearchValue() && this.tableDef.rowFieldNameIdentifier) {
-      return this.editableRows.filter((editableRow) => {
-        return editableRow[this.tableDef.rowFieldNameIdentifier].toLowerCase().includes(
-          this.getSearchValue().toLowerCase());
-      });
+      return this.editableRows.filter((editableRow) => editableRow[this.tableDef.rowFieldNameIdentifier].toLowerCase().includes(
+          this.getSearchValue().toLowerCase()));
     }
     return this.editableRows;
   }

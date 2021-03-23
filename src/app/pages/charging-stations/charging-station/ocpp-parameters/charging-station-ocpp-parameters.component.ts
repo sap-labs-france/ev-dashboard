@@ -27,7 +27,7 @@ export class ChargingStationOcppParametersComponent implements OnInit {
   public parameters!: FormArray;
   public userLocales: KeyValue[];
 
-  constructor(
+  public constructor(
     public ocppParametersDataSource: ChargingStationOcppParametersEditableTableDataSource,
     private authorizationService: AuthorizationService,
     private centralServerService: CentralServerService,

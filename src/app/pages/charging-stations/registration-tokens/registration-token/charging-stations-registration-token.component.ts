@@ -36,7 +36,7 @@ export class ChargingStationsRegistrationTokenComponent implements OnInit {
   public id!: AbstractControl;
   public currentToken: RegistrationToken;
 
-  constructor(
+  public constructor(
     private centralServerService: CentralServerService,
     private messageService: MessageService,
     private spinnerService: SpinnerService,

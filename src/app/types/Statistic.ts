@@ -2,8 +2,8 @@ import { Address } from './Address';
 import { Company } from './Company';
 
 export interface StatisticData {
-  month: number;
   [key: string]: number;
+  month: number;
 }
 
 export interface CurrentMetrics {

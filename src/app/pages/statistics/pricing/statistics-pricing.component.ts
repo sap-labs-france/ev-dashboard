@@ -23,6 +23,9 @@ import { StatisticsExportService } from '../shared/statistics-export.service';
 })
 
 export class StatisticsPricingComponent implements OnInit {
+  @ViewChild('pricingBarChart', { static: true }) public ctxBarChart!: ElementRef;
+  @ViewChild('pricingPieChart', { static: true }) public ctxPieChart!: ElementRef;
+
   public isPricingActive = false;
 
   public selectedChart!: string;
@@ -33,9 +36,6 @@ export class StatisticsPricingComponent implements OnInit {
   public allFiltersDef: TableFilterDef[] = [];
   public chartsInitialized = false;
 
-  @ViewChild('pricingBarChart', { static: true }) public ctxBarChart!: ElementRef;
-  @ViewChild('pricingPieChart', { static: true }) public ctxPieChart!: ElementRef;
-
   private filterParams!: FilterParams;
   private barChart!: SimpleChart;
   private pieChart!: SimpleChart;
@@ -44,7 +44,7 @@ export class StatisticsPricingComponent implements OnInit {
   private totalPriceWithUnit: StatisticsBuildValueWithUnit[] = [];
   private language!: string;
 
-  constructor(
+  public constructor(
     private centralServerService: CentralServerService,
     private componentService: ComponentService,
     private translateService: TranslateService,

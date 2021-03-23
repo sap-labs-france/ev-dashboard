@@ -47,7 +47,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
   private language!: string;
   private activeLegend = [{ key: this.translateService.instant('transactions.graph.amps') + this.translateService.instant('organization.graph.power'), hidden: false }];
 
-  constructor(
+  public constructor(
     private spinnerService: SpinnerService,
     private centralServerService: CentralServerService,
     private translateService: TranslateService,

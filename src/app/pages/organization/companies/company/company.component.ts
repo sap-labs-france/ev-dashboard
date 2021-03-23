@@ -23,10 +23,11 @@ import { Utils } from '../../../../utils/Utils';
   templateUrl: 'company.component.html',
 })
 export class CompanyComponent implements OnInit {
-  public parentErrorStateMatcher = new ParentErrorStateMatcher();
   @Input() public currentCompanyID!: string;
   @Input() public inDialog!: boolean;
   @Input() public dialogRef!: MatDialogRef<any>;
+
+  public parentErrorStateMatcher = new ParentErrorStateMatcher();
 
   public canCrudCompany = false;
   public logo = Constants.NO_IMAGE;
@@ -38,7 +39,7 @@ export class CompanyComponent implements OnInit {
   public name!: AbstractControl;
   public address!: Address;
 
-  constructor(
+  public constructor(
     private authorizationService: AuthorizationService,
     private centralServerService: CentralServerService,
     private messageService: MessageService,

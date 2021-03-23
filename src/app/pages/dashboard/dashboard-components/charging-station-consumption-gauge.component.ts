@@ -11,7 +11,7 @@ export class ChargingStationConsumptionGaugeComponent extends RadialGaugeCompone
   @Input() public consumption = 0;
   @Input() public maxConsumption = 0;
 
-  constructor(el: ElementRef,
+  public constructor(el: ElementRef,
     zone: NgZone,
     private translateService: TranslateService) {
     super(el, zone);

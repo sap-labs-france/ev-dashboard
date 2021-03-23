@@ -15,14 +15,12 @@ export class CellContentTemplateContainerComponent implements OnInit, OnChanges 
   @Input() public columnDef!: TableColumnDef;
   @Input() public tableDef!: TableDef;
   @Output() public componentChanged = new EventEmitter<any>();
+  public viewContainerRef: ViewContainerRef;
+
+  private componentFactoryResolver: ComponentFactoryResolver;
 
   private cellComponent!: CellContentTemplateDirective;
   private cellComponentRef: any;
-
-  constructor(
-    private componentFactoryResolver: ComponentFactoryResolver,
-    public viewContainerRef: ViewContainerRef) {
-  }
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (this.cellComponent) {

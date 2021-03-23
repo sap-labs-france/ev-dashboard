@@ -27,7 +27,7 @@ export class ChargingStationStaticLimitationComponent {
   public isAdmin: boolean;
   public isSmartChargingComponentActive = false;
 
-  constructor(
+  public constructor(
     private authorizationService: AuthorizationService,
     private centralServerService: CentralServerService,
     private messageService: MessageService,

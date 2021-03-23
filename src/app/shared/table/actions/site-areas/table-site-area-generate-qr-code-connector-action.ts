@@ -34,7 +34,7 @@ export class TableSiteAreaGenerateQrCodeConnectorAction implements TableAction {
   private downloadQrCodePDF(siteArea: SiteArea, translateService: TranslateService, spinnerService: SpinnerService,
     messageService: MessageService, centralServerService: CentralServerService, router: Router) {
     spinnerService.show();
-    centralServerService.downloadSiteAreaQrCodes(siteArea.id).subscribe(async (result) => {
+    centralServerService.downloadSiteAreaQrCodes(siteArea.id).subscribe((result) => {
       spinnerService.hide();
       FileSaver.saveAs(result, `site-area-${siteArea.name.toLowerCase()}-qr-codes.pdf`);
     }, (error) => {

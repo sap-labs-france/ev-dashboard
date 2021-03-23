@@ -23,11 +23,7 @@ export class MessageService {
       <a href="{3}" target="{4}" data-notify="url"></a>
     </div>
   `;
-
-  // eslint-disable-next-line no-useless-constructor
-  public constructor(
-    private translateService: TranslateService
-  ) { }
+  private translateService: TranslateService;
 
   public showErrorMessageConnectionLost(): void {
     // Avoid multiple same messages when connection is lost during 5 secs

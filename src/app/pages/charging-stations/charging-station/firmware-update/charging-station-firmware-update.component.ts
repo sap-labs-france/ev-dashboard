@@ -26,7 +26,7 @@ export class ChargingStationFirmwareUpdateComponent implements OnInit {
   public url: FormControl;
   private messages: any;
 
-  constructor(
+  public constructor(
     private centralServerService: CentralServerService,
     private authorizationService: AuthorizationService,
     private localeService: LocaleService,

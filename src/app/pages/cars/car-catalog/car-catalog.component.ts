@@ -22,7 +22,7 @@ export class CarCatalogComponent implements OnInit {
   public isSuperAdmin: boolean;
   public noImage = Constants.NO_IMAGE;
 
-  constructor(
+  public constructor(
     private centralServerService: CentralServerService,
     public spinnerService: SpinnerService,
     private messageService: MessageService,

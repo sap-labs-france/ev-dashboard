@@ -5,8 +5,8 @@ import { ConfigService } from './config.service';
 
 @Injectable()
 export class WindowService {
-  public constructor(@Inject(WINDOW) private window: Window, private configService: ConfigService) {
-  }
+  @Inject(WINDOW) private window: Window;
+  private configService: ConfigService;
 
   public getHostname(): string {
     return this.window.location.hostname;

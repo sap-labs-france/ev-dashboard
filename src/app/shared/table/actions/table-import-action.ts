@@ -23,16 +23,16 @@ export class TableImportAction implements TableAction {
   }
 
   protected import(component: ComponentType<unknown>, dialog: MatDialog, endpoint: ServerAction,
-    requiredProperties: string[], title: string) {
+    requiredProperties: string[], entity: string) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
-    dialogConfig.minWidth = '80vw';
+    dialogConfig.minWidth = '60vw';
     dialogConfig.minHeight = '60vh';
     dialogConfig.panelClass = 'transparent-dialog-container';
     dialogConfig.data =  {
       endpoint,
       requiredProperties,
-      title
+      entity,
     };
     // Open
     dialog.open(component, dialogConfig);

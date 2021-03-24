@@ -1,6 +1,5 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { MatDialog } from '@angular/material/dialog';
-import { TranslateService } from '@ngx-translate/core';
 import { ServerAction } from 'types/Server';
 import { TagRequiredImportProperties } from 'types/Tag';
 
@@ -9,7 +8,7 @@ import { UserButtonAction } from '../../../../types/User';
 import { TableImportAction } from '../table-import-action';
 
 export interface TableImportTagsActionDef extends TableActionDef {
-  action: (userDialogComponent: ComponentType<unknown>, dialog: MatDialog, translateService: TranslateService) => void;
+  action: (userDialogComponent: ComponentType<unknown>, dialog: MatDialog) => void;
 }
 
 export class TableImportTagsAction extends TableImportAction {
@@ -21,7 +20,7 @@ export class TableImportTagsAction extends TableImportAction {
     };
   }
 
-  private importTags(tagDialogComponent: ComponentType<unknown>, dialog: MatDialog, translateService: TranslateService) {
-    super.import(tagDialogComponent, dialog, ServerAction.TAGS_IMPORT, TagRequiredImportProperties, translateService.instant('tags.import_tags') );
+  private importTags(tagDialogComponent: ComponentType<unknown>, dialog: MatDialog) {
+    super.import(tagDialogComponent, dialog, ServerAction.TAGS_IMPORT, TagRequiredImportProperties, 'tags' );
   }
 }

@@ -11,28 +11,37 @@
     </div>
   </div>
   <div class="card-body">
-    <button mat-flat-button color="primary" (click)="file.click()" class="mr-2">
-      {{"general.choose_file" | translate}}
-      <div class="d-none">
-        <input #file type="file" ng2FileSelect [uploader]="uploader"
-          accept=".csv" />
+    <div class="m-2">
+      <div class="row">
+        <button mat-flat-button color="primary" (click)="file.click();" class="mr-2" [disabled]="uploadInProgress">
+          {{"general.choose_file" | translate}}
+          <div class="d-none">
+            <input #file type="file" ng2FileSelect [uploader]="uploader"
+              accept=".csv" />
+          </div>
+        </button>
+        <span class="pt-2">{{ fileName }}</span>
       </div>
-    </button>
-    <span> {{ fileName }}</span>
-    <mat-error *ngIf="!isFileValid">
-      <div class="pt-2" [translate]="'general.invalid_file_error'"></div>
-    </mat-error>
-    <div class="row pt-3">
-      <mat-progress-bar mode="determinate" [value]="progress" [hidden]="!showProgressBar"></mat-progress-bar>
+      <div class="row">
+        <mat-error *ngIf="!isFileValid">
+          <div class="pt-2" [translate]="'general.invalid_file_error'"></div>
+        </mat-error>
+      </div>
+      <div class="row pt-3" [hidden]="!uploadInProgress">
+          <div class="md-12 mb-1 text-center">{{'general.upload_in_progress' | translate}}</div>
+          <mat-progress-bar mode="determinate" [value]="progress"></mat-progress-bar>
+      </div>
+      <div class="row pt-3" [hidden]="uploadInProgress">
+        {{ importInstructions }}
+      </div>
     </div>
-    <span [hidden]="showProgressBar">{{ ImportInstructions }}</span>
   </div>
   <div class="card-footer mat-dialog-actions">
     <span class="toolbar-spacer"></span>
-    <button mat-raised-button color="primary" [disabled]="!file.value || !isFileValid" (click)="upload()">
+    <button mat-raised-button color="primary" [disabled]="!file.value || !isFileValid || uploadInProgress" (click)="upload()">
       {{"general.import" | translate}}
     </button>
-    <button mat-raised-button (click)="cancel()">
+    <button mat-raised-button (click)="cancel()" [disabled]="uploadInProgress">
       {{"general.cancel" | translate}}
     </button>
   </div>

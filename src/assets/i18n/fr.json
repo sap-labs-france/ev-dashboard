@@ -15,6 +15,7 @@
     "description": "Description",
     "activate": "Activer",
     "deactivate": "Desactiver",
+    "upload_in_progress": "Téléchargement en cours, veuillez patienter...",
     "day": "j",
     "hour": "h",
     "minute": "m",
@@ -151,6 +152,7 @@
     "edit": "Editer",
     "import_instructions": "Le fichier CSV que vous allez importer doit utiliser une virgule comme séparateur et doit contenir un entête avec les propriétés suivantes: '{{properties}}'",
     "invalid_file_error": "Le fichier fourni est invalide",
+    "invalid_file_csv_header_error": "Au moins un des champs obligatoire n'a pas été fourni dans l'entête du fichier CSV, l'opération a été annulée",
     "menu": {
       "dashboard": "Tableau de bord",
       "charging_stations": "Bornes",
@@ -1144,6 +1146,10 @@
       "tags": "Badges"
     },
     "import_users": "Importer des utilisateurs",
+    "import_users_success": "'{{inSuccess}}' utilisateurs ont été enregistrés avec succès et seront importés de manière asynchrone",
+    "import_users_partial": "'{{inSuccess}}' utilisateurs ont été enregistrés avec succès et seront importés de manière asynchrone et '{{inError}}' ont échoué, vérifiez les logs",
+    "import_users_error": "'{{inError}}' utilisateurs n'ont pas pu être enregistré",
+    "import_no_users": "Aucun utilisateur n'a été enregistré",
     "number_of_sites": "Nb Sites",
     "number_of_transactions": "Nb Sessions",
     "eula_accepted_on": "CGU Acceptée Le",
@@ -1346,7 +1352,11 @@
     "delete_tags_success": "'{{inSuccess}}' badges ont été supprimés avec succès",
     "delete_tags_partial": "'{{inSuccess}}' badges ont été supprimés avec succès et '{{inError}}' badges ont rencontrés une erreur",
     "delete_tags_error": "Une erreur est survenue pendant la suppression des badges, vérifiez les logs",
-    "import_tags": "Importer des bagdes"
+    "import_tags": "Importer des bagdes",
+    "import_tags_success": "'{{inSuccess}}' badges ont été enregistrés avec succès et seront importés de manière asynchrone",
+    "import_tags_partial": "'{{inSuccess}}' badges ont été enregistrés avec succès et seront importés de manière asynchrone et '{{inError}}' ont échoué, vérifiez les logs",
+    "import_tags_error": "'{{inError}}' badges n'ont pas pu être enregistré",
+    "import_no_tags": "Aucun badge n'a été enregistré"
   },
   "tenants": {
     "title": "Organisation",

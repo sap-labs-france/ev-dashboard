@@ -58,7 +58,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
   private navigateToTransactionsAction = new TableNavigateToTransactionsAction().getActionDef();
   private currentUser: UserToken;
 
-  constructor(
+  public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     private messageService: MessageService,
@@ -320,7 +320,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
         break;
       case UserButtonAction.IMPORT_USERS:
         if (actionDef.action) {
-          (actionDef as TableImportUsersActionDef).action(ImportDialogComponent, this.dialog, this.translateService);
+          (actionDef as TableImportUsersActionDef).action(ImportDialogComponent, this.dialog);
         }
         break;
       case BillingButtonAction.SYNCHRONIZE_BILLING_USERS:

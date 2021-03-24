@@ -15,6 +15,7 @@
     "description": "Descrito",
     "activate": "Ativo",
     "deactivate": "Inativo",
+    "upload_in_progress": "Upload in progress, please wait...",
     "day": "d",
     "hour": "h",
     "minute": "m",
@@ -151,6 +152,7 @@
     "edit": "Editar",
     "import_instructions": "The CSV file you are going to import must use the comma as separator and contains an header with the following properties: '{{properties}}'",
     "invalid_file_error": "The provided file is invalid",
+    "invalid_file_csv_header_error": "At least one of the required header was not provided in the CSV file, operation has been aborted",
     "menu": {
       "dashboard": "Painel de Controlo",
       "charging_stations": "Estações de Carga",
@@ -1144,6 +1146,10 @@
       "tags": "Badge"
     },
     "import_users": "Import users",
+    "import_users_success": "'{{inSuccess}}' users have been uploaded successfully and will be processed asynchronously",
+    "import_users_partial": "'{{inSuccess}}' users have been uploaded successfully and will be processed asynchronously and '{{inError}}' failed, check the logs",
+    "import_users_error": "'{{inError}}' users failed to be uploaded",
+    "import_no_users": "No user have been uploaded",
     "number_of_sites": "Nb Sites",
     "number_of_transactions": "Nb Sessões",
     "eula_accepted_on": "EULA Aceite em",
@@ -1346,7 +1352,11 @@
     "delete_tags_success": "'{{inSuccess}}' badges have been deleted successfully",
     "delete_tags_partial": "'{{inSuccess}}' badges have been deleted successfully and '{{inError}}' badges have encountered an error, check the logs",
     "delete_tags_error": "Error occurred while deleting the badges, check the logs",
-    "import_tags": "Import Badges"
+    "import_tags": "Import Badges",
+    "import_tags_success": "'{{inSuccess}}' badges have been uploaded successfully and will be processed asynchronously",
+    "import_tags_partial": "'{{inSuccess}}' badges have been uploaded successfully and will be processed asynchronously and '{{inError}}' failed, check the logs",
+    "import_tags_error": "'{{inError}}' badges failed to be uploaded",
+    "import_no_tags": "No badge have been uploaded"
   },
   "tenants": {
     "title": "Organização",

@@ -1,6 +1,5 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { MatDialog } from '@angular/material/dialog';
-import { TranslateService } from '@ngx-translate/core';
 import { ServerAction } from 'types/Server';
 
 import { TableActionDef } from '../../../../types/Table';
@@ -8,7 +7,7 @@ import { UserButtonAction, UserRequiredImportProperties } from '../../../../type
 import { TableImportAction } from '../table-import-action';
 
 export interface TableImportUsersActionDef extends TableActionDef {
-  action: (userDialogComponent: ComponentType<unknown>, dialog: MatDialog, translateService: TranslateService) => void;
+  action: (userDialogComponent: ComponentType<unknown>, dialog: MatDialog) => void;
 }
 
 export class TableImportUsersAction extends TableImportAction {
@@ -20,6 +19,7 @@ export class TableImportUsersAction extends TableImportAction {
     };
   }
 
-  private importUsers(userDialogComponent: ComponentType<unknown>, dialog: MatDialog, translateService: TranslateService) {
-    super.import(userDialogComponent, dialog, ServerAction.USERS_IMPORT, UserRequiredImportProperties, translateService.instant('users.import_users'));
-}}
+  private importUsers(userDialogComponent: ComponentType<unknown>, dialog: MatDialog) {
+    super.import(userDialogComponent, dialog, ServerAction.USERS_IMPORT, UserRequiredImportProperties, 'users');
+  }
+}

@@ -1347,7 +1347,6 @@
     "delete_tags_partial": "'{{inSuccess}}' badge sono stati eliminati correttamente e '{{inError}}' badge hanno riscontrato un errore, controlla i log",
     "delete_tags_error": "Si è verificato un errore durante l'eliminazione dei badge, controlla i log",
     "import_tags": "Import Badges"
-
   },
   "tenants": {
     "title": "Organizzazione",

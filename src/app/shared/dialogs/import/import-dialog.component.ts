@@ -33,12 +33,10 @@ export class ImportDialogComponent implements OnInit {
     private centralServerService: CentralServerService,
     private messageService: MessageService,
     @Inject(MAT_DIALOG_DATA) data) {
-    if (data) {
-      if (data.endpoint) {
-        this.endpoint = data.endpoint;
-        this.title = data.title;
-        this.requiredProperties = data.requiredProperties;
-      }
+    if (data?.endpoint) {
+      this.endpoint = data.endpoint;
+      this.title = data.title;
+      this.requiredProperties = data.requiredProperties;
     }
     Utils.registerCloseKeyEvents(this.dialogRef);
     this.uploader = new FileUploader({

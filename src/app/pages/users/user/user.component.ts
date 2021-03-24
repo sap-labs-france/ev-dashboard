@@ -100,8 +100,8 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public isRefundConnectionValid!: boolean;
   public canSeeInvoice: boolean;
   private currentLocale!: string;
-  public canCreatePaymentMethod: boolean;
   public isBillingComponentActive: boolean;
+  public canListPaymentMethods: boolean;
 
   public constructor(
     private authorizationService: AuthorizationService,
@@ -145,6 +145,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       });
     }
     this.isBillingComponentActive = this.componentService.isActive(TenantComponents.BILLING);
+    this.canListPaymentMethods = this.authorizationService.canListPaymentMethods();
   }
 
   public updateRoute(event: number) {

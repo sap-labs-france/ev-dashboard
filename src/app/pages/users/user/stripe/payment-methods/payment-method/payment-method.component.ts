@@ -152,9 +152,11 @@ export class PaymentMethodComponent implements OnInit {
     return response;
   }
 
-  public close() {
-    Utils.checkAndSaveAndCloseDialog(this.formGroup, this.dialogService,
-      this.translateService, this.createPaymentMethod.bind(this), this.closeDialog.bind(this));
+  // TODO : do we add the "yes/no dialog" ? we don't have any form so can not work as other places...
+  public close(saved: boolean = false) {
+    if (this.inDialog) {
+      this.dialogRef.close(saved);
+    }
   }
 
   public closeDialog(saved: boolean = false) {
@@ -163,4 +165,3 @@ export class PaymentMethodComponent implements OnInit {
     }
   }
 }
-

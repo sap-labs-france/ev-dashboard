@@ -49,7 +49,7 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
 
   public isOrganizationComponentActive: boolean;
 
-  constructor(
+  public constructor(
     private authorizationService: AuthorizationService,
     private componentService: ComponentService,
     private translateService: TranslateService,
@@ -143,6 +143,7 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
     this.loadChargingStation();
   }
 
+  // eslint-disable-next-line complexity
   public loadChargingStation() {
     if (this.chargingStation) {
       // Admin?

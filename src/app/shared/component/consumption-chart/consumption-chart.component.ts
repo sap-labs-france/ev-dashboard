@@ -82,7 +82,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
     { key: this.translateService.instant('transactions.graph.battery'), hidden: false }
   ];
 
-  constructor(
+  public constructor(
     private centralServerService: CentralServerService,
     private translateService: TranslateService,
     private localeService: LocaleService,

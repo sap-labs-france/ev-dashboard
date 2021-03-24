@@ -32,7 +32,8 @@ export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> 
   public isSuperAdmin: boolean;
   private openAction = new TableViewCarCatalogAction().getActionDef();
   private tableSyncCarCatalogsAction = new TableSyncCarCatalogsAction().getActionDef();
-  constructor(
+
+  public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     private dialogService: DialogService,

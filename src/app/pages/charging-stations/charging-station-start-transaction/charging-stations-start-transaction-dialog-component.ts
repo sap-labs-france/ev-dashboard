@@ -35,7 +35,8 @@ export class ChargingStationsStartTransactionDialogComponent implements OnInit {
 
   public loggedUser: UserToken;
   public isAdmin = false;
-  constructor(
+
+  public constructor(
     private dialog: MatDialog,
     private router: Router,
     public spinnerService: SpinnerService,

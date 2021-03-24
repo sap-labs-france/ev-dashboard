@@ -31,7 +31,7 @@ export class SiteAreaChargingStationsDataSource extends TableDataSource<Charging
   private canUpdateSiteArea = false;
   private canDeleteSiteArea = false;
 
-  constructor(
+  public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     private messageService: MessageService,

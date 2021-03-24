@@ -46,7 +46,7 @@ export abstract class TableDataSource<T extends Data> {
   private searchValue = '';
   private staticFilters: Record<string, unknown>[] = [];
 
-  constructor(
+  public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     public additionalParameters?: any) {
@@ -241,8 +241,6 @@ export abstract class TableDataSource<T extends Data> {
     return [];
   }
 
-  public abstract buildTableDef(): TableDef;
-
   public setTableDef(tableDef: TableDef) {
     this.tableDef = tableDef;
   }
@@ -333,6 +331,7 @@ export abstract class TableDataSource<T extends Data> {
     let filterJson = {};
     // Parse filters
     if (this.tableFiltersDef) {
+      // eslint-disable-next-line complexity
       this.tableFiltersDef.forEach((filterDef) => {
         // Check the 'All' value
         if (filterDef.currentValue && filterDef.currentValue !== FilterType.ALL_KEY) {
@@ -421,8 +420,6 @@ export abstract class TableDataSource<T extends Data> {
   public onRowActionMenuOpen(action: TableActionDef, row: T) {
   }
 
-  public abstract buildTableColumnDefs(): TableColumnDef[];
-
   public refreshData(showSpinner = true): Observable<void> {
     // Init paging
     const currentPaging = this.getPaging();
@@ -477,8 +474,6 @@ export abstract class TableDataSource<T extends Data> {
       });
     });
   }
-
-  public abstract loadDataImpl(): Observable<DataResult<T>>;
 
   public getData(): T[] {
     return this.data;
@@ -716,4 +711,10 @@ export abstract class TableDataSource<T extends Data> {
       }
     }
   }
+
+  public abstract buildTableDef(): TableDef;
+
+  public abstract buildTableColumnDefs(): TableColumnDef[];
+
+  public abstract loadDataImpl(): Observable<DataResult<T>>;
 }

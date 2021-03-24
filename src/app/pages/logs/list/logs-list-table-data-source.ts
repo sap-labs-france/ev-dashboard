@@ -35,7 +35,7 @@ import { LogLevelFormatterComponent } from '../formatters/log-level-formatter.co
 
 @Injectable()
 export class LogsListTableDataSource extends TableDataSource<Log> {
-  constructor(
+  public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     private messageService: MessageService,

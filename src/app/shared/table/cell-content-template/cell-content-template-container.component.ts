@@ -19,10 +19,10 @@ export class CellContentTemplateContainerComponent implements OnInit, OnChanges 
   private cellComponent!: CellContentTemplateDirective;
   private cellComponentRef: any;
 
-  constructor(
+  // eslint-disable-next-line no-useless-constructor
+  public constructor(
     private componentFactoryResolver: ComponentFactoryResolver,
-    public viewContainerRef: ViewContainerRef) {
-  }
+    public viewContainerRef: ViewContainerRef) {}
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (this.cellComponent) {

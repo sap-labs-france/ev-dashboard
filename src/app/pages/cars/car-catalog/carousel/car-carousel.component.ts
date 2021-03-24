@@ -20,7 +20,7 @@ export class CarCarouselComponent implements AfterViewInit {
   public images: string[] = null;
   public noImages = false;
 
-  constructor(
+  public constructor(
     private centralServerService: CentralServerService,
     private spinnerService: SpinnerService,
     private router: Router,

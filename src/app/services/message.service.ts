@@ -27,7 +27,7 @@ export class MessageService {
   // eslint-disable-next-line no-useless-constructor
   public constructor(
     private translateService: TranslateService
-  ) { }
+  ) {}
 
   public showErrorMessageConnectionLost(): void {
     // Avoid multiple same messages when connection is lost during 5 secs

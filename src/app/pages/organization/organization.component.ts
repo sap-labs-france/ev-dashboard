@@ -14,7 +14,7 @@ export class OrganizationComponent extends AbstractTabComponent {
   public canListSites = false;
   public canListSiteAreas = false;
 
-  constructor(
+  public constructor(
     activatedRoute: ActivatedRoute,
     windowService: WindowService,
     authorizationService: AuthorizationService,

@@ -42,7 +42,7 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
   private deleteAction = new TableDeleteCompanyAction().getActionDef();
   private viewAction = new TableViewCompanyAction().getActionDef();
 
-  constructor(
+  public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     private messageService: MessageService,

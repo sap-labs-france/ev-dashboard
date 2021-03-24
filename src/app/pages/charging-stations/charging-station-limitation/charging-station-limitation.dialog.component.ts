@@ -11,7 +11,7 @@ export class ChargingStationLimitationDialogComponent {
   @ViewChild('appRef') public appRef!: ChargingStationLimitationComponent;
   public chargingStationID!: string;
 
-  constructor(
+  public constructor(
     public dialogRef: MatDialogRef<ChargingStationLimitationDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data: string) {
     this.chargingStationID = data;

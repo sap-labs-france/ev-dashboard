@@ -53,7 +53,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
   private isAdmin: boolean;
   private tableSyncRefundAction = new TableSyncRefundTransactionsAction().getActionDef();
 
-  constructor(
+  public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     private messageService: MessageService,

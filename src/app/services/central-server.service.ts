@@ -843,7 +843,7 @@ export class CentralServerService {
     const params: { [param: string]: string } = {};
     params['UserID'] = userID;
     // Execute the REST service
-    return this.httpClient.get<UserDefaultTagCar>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.USER_DEFAUlT_TAG_CAR}`,
+    return this.httpClient.get<UserDefaultTagCar>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.USER_DEFAULT_TAG_CAR}`,
       {
         headers: this.buildHttpHeaders(),
         params
@@ -2938,8 +2938,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Build default charging profile json
-    let body: string;
-    body = `{
+    const body = `{
       "chargeBoxID": "${charger.id}",
       "args": {
         "connectorId": 0,
@@ -3130,7 +3129,7 @@ export class CentralServerService {
       this.centralRestServerServiceBaseURL = this.centralSystemServerConfig.protocol + '://' +
         this.centralSystemServerConfig.host + ':' + this.centralSystemServerConfig.port;
       // Set REST base URL
-      this.centralServerNotificationService.setcentralRestServerServiceURL(this.centralRestServerServiceBaseURL);
+      this.centralServerNotificationService.setCentralRestServerServiceURL(this.centralRestServerServiceBaseURL);
       // Auth API
       this.restServerAuthURL = this.centralRestServerServiceBaseURL + '/v1/auth';
       // REST Secured API

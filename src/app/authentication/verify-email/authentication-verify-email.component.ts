@@ -3,12 +3,14 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { ReCaptchaV3Service } from 'ngx-captcha';
+import { UserStatus } from 'types/User';
 
 import { CentralServerService } from '../../services/central-server.service';
 import { ConfigService } from '../../services/config.service';
 import { MessageService } from '../../services/message.service';
 import { SpinnerService } from '../../services/spinner.service';
 import { WindowService } from '../../services/window.service';
+import { VerifyEmailResponse } from '../../types/DataResult';
 import { RestResponse } from '../../types/GlobalType';
 import { HTTPError } from '../../types/HTTPError';
 import { Constants } from '../../utils/Constants';
@@ -25,13 +27,15 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
   public verificationToken: string | null;
   public resetToken: string | null;
   public verificationEmail: string | null;
+
+  public tenantLogo = Constants.TENANT_DEFAULT_LOGO;
+
   private messages!: Record<string, string>;
 
   private siteKey: string;
   private subDomain: string;
-  public tenantLogo = Constants.TENANT_DEFAULT_LOGO;
 
-  constructor(
+  public constructor(
     private centralServerService: CentralServerService,
     private router: Router,
     private route: ActivatedRoute,
@@ -117,7 +121,7 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
     // Show
     this.spinnerService.show();
     // Verify Email
-    this.centralServerService.verifyEmail({ Email: data.email, VerificationToken: data.verificationToken }).subscribe((response) => {
+    this.centralServerService.verifyEmail({ Email: data.email, VerificationToken: data.verificationToken }).subscribe((response: VerifyEmailResponse) => {
       // Hide
       this.spinnerService.hide();
       // Success
@@ -128,8 +132,13 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
           // Go to reset password
           this.router.navigate(['auth/define-password'], { queryParams: { hash: this.resetToken } });
         } else {
-          // Show message
-          this.messageService.showSuccessMessage(this.messages['verify_email_success']);
+          if (response?.userStatus === UserStatus.INACTIVE) {
+            // Show message for inactive new account by default
+            this.messageService.showInfoMessage(this.messages['verify_email_success_inactive']);
+          } else {
+            // Show message for automatic activated account
+            this.messageService.showSuccessMessage(this.messages['verify_email_success']);
+          }
           // Go to login
           this.router.navigate(['/auth/login'], { queryParams: { email: this.email.value } });
         }

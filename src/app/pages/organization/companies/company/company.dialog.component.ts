@@ -11,7 +11,7 @@ export class CompanyDialogComponent implements AfterViewInit {
   @ViewChild('appRef') public appRef!: CompanyComponent;
   public companyID!: string;
 
-  constructor(
+  public constructor(
     public dialogRef: MatDialogRef<CompanyDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data: string) {
     this.companyID = data;

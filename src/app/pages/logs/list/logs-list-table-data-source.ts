@@ -35,7 +35,7 @@ import { LogLevelFormatterComponent } from '../formatters/log-level-formatter.co
 
 @Injectable()
 export class LogsListTableDataSource extends TableDataSource<Log> {
-  constructor(
+  public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     private messageService: MessageService,
@@ -186,6 +186,20 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
         sortable: true,
       },
       {
+        id: 'host',
+        name: 'logs.host',
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
+        sortable: true,
+      },
+      {
+        id: 'process',
+        name: 'logs.process',
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
+        sortable: true,
+      },
+      {
         id: 'action',
         name: 'logs.action',
         headerClass: 'col-15p',
@@ -204,20 +218,6 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
         name: 'logs.message',
         headerClass: 'col-50p',
         class: 'text-left col-50p',
-        sortable: true,
-      },
-      {
-        id: 'host',
-        name: 'logs.host',
-        headerClass: 'col-15p',
-        class: 'text-left col-15p',
-        sortable: true,
-      },
-      {
-        id: 'process',
-        name: 'logs.process',
-        headerClass: 'col-15p',
-        class: 'text-left col-15p',
         sortable: true,
       },
     ];

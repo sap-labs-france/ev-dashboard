@@ -6,6 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
+import { ComponentService } from '../../../services/component.service';
 import { ConfigService } from '../../../services/config.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
@@ -15,7 +16,6 @@ import { SiteAreasDialogComponent } from '../../../shared/dialogs/site-areas/sit
 import { Asset, AssetTypes } from '../../../types/Asset';
 import { KeyValue, RestResponse } from '../../../types/GlobalType';
 import { HTTPError } from '../../../types/HTTPError';
-import { AssetSettings } from '../../../types/Setting';
 import { SiteArea } from '../../../types/SiteArea';
 import TenantComponents from '../../../types/TenantComponents';
 import { Constants } from '../../../utils/Constants';
@@ -32,6 +32,7 @@ export class AssetComponent implements OnInit {
   @Input() public dialogRef!: MatDialogRef<any>;
 
   public parentErrorStateMatcher = new ParentErrorStateMatcher();
+  public isSmartChargingComponentActive = false;
   public isAdmin = false;
   public image: string = Constants.NO_IMAGE;
   public imageHasChanged = false;
@@ -46,6 +47,9 @@ export class AssetComponent implements OnInit {
   public siteArea!: AbstractControl;
   public siteAreaID!: AbstractControl;
   public assetType!: AbstractControl;
+  public excludeFromSmartCharging!: AbstractControl;
+  public fluctuationPercent!: AbstractControl;
+  public staticValueWatt!: AbstractControl;
   public coordinates!: FormArray;
   public longitude!: AbstractControl;
   public latitude!: AbstractControl;
@@ -54,9 +58,10 @@ export class AssetComponent implements OnInit {
   public meterID!: AbstractControl;
   public asset!: Asset;
 
-  constructor(
+  public constructor(
       private authorizationService: AuthorizationService,
       private centralServerService: CentralServerService,
+      private componentService: ComponentService,
       private messageService: MessageService,
       private spinnerService: SpinnerService,
       private configService: ConfigService,
@@ -64,7 +69,8 @@ export class AssetComponent implements OnInit {
       private dialog: MatDialog,
       private dialogService: DialogService,
       private translateService: TranslateService,
-      private router: Router) {
+      private router: Router
+    ) {
     this.maxSize = this.configService.getAsset().maxImageKb;
     // Check auth
     if (this.activatedRoute.snapshot.params['id'] &&
@@ -78,6 +84,7 @@ export class AssetComponent implements OnInit {
     this.loadAssetConnections();
     // Get admin flag
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
+    this.isSmartChargingComponentActive = this.componentService.isActive(TenantComponents.SMART_CHARGING);
   }
 
   public ngOnInit() {
@@ -94,6 +101,17 @@ export class AssetComponent implements OnInit {
         ])),
       siteAreaID: new FormControl(''),
       assetType: new FormControl('',
+        Validators.compose([
+          Validators.required,
+        ])
+      ),
+      excludeFromSmartCharging: new FormControl(''),
+      fluctuationPercent: new FormControl('',
+        Validators.compose([
+          Validators.max(100),
+          Validators.pattern('^[+]?[0-9]*$'),
+        ])),
+      staticValueWatt: new FormControl('',
         Validators.compose([
           Validators.required,
         ])
@@ -128,6 +146,9 @@ export class AssetComponent implements OnInit {
     this.siteArea = this.formGroup.controls['siteArea'];
     this.siteAreaID = this.formGroup.controls['siteAreaID'];
     this.assetType = this.formGroup.controls['assetType'];
+    this.excludeFromSmartCharging = this.formGroup.controls['excludeFromSmartCharging'];
+    this.fluctuationPercent = this.formGroup.controls['fluctuationPercent'];
+    this.staticValueWatt = this.formGroup.controls['staticValueWatt'];
     this.coordinates = this.formGroup.controls['coordinates'] as FormArray;
     this.longitude = this.coordinates.at(0);
     this.latitude = this.coordinates.at(1);
@@ -179,6 +200,15 @@ export class AssetComponent implements OnInit {
       }
       if (this.asset.assetType) {
         this.formGroup.controls.assetType.setValue(this.asset.assetType);
+      }
+      if (this.asset.excludeFromSmartCharging) {
+        this.formGroup.controls.excludeFromSmartCharging.setValue(this.asset.excludeFromSmartCharging);
+      }
+      if (this.asset.fluctuationPercent) {
+        this.formGroup.controls.fluctuationPercent.setValue(this.asset.fluctuationPercent);
+      }
+      if (!Utils.isUndefined(this.asset.staticValueWatt)) {
+        this.formGroup.controls.staticValueWatt.setValue(this.asset.staticValueWatt);
       }
       if (this.asset.coordinates) {
         this.longitude.setValue(this.asset.coordinates[0]);
@@ -258,7 +288,7 @@ export class AssetComponent implements OnInit {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
       if (file.size > (this.maxSize * 1024)) {
-        this.messageService.showErrorMessage('assets.logo_size_error', {maxPictureKb: this.maxSize});
+        this.messageService.showErrorMessage('assets.logo_size_error', { maxPictureKb: this.maxSize });
       } else {
         const reader = new FileReader();
         reader.onload = () => {
@@ -299,6 +329,9 @@ export class AssetComponent implements OnInit {
       validateButtonTitle: 'general.select',
       sitesAdminOnly: true,
       rowMultipleSelection: false,
+      staticFilter: {
+        Issuer: true
+      },
     };
     this.dialog.open(SiteAreasDialogComponent, dialogConfig)
       .afterClosed().subscribe((result) => {
@@ -309,7 +342,7 @@ export class AssetComponent implements OnInit {
           this.formGroup.controls.siteAreaID.setValue(siteArea.id);
           this.selectedSiteArea = siteArea;
         }
-    });
+      });
   }
 
   public assignGeoMap() {
@@ -349,16 +382,34 @@ export class AssetComponent implements OnInit {
     // Open
     this.dialog.open(GeoMapDialogComponent, dialogConfig)
       .afterClosed().subscribe((result) => {
-      if (result) {
-        if (result.latitude) {
-          this.latitude.setValue(result.latitude);
-          this.formGroup.markAsDirty();
+        if (result) {
+          if (result.latitude) {
+            this.latitude.setValue(result.latitude);
+            this.formGroup.markAsDirty();
+          }
+          if (result.longitude) {
+            this.longitude.setValue(result.longitude);
+            this.formGroup.markAsDirty();
+          }
         }
-        if (result.longitude) {
-          this.longitude.setValue(result.longitude);
-          this.formGroup.markAsDirty();
+      });
+  }
+
+  public loadAssetConnections() {
+    this.spinnerService.show();
+    this.componentService.getAssetSettings().subscribe((assetSettings) => {
+      this.spinnerService.hide();
+      if (assetSettings) {
+        const connections = [] as KeyValue[];
+        for (const connection of assetSettings.asset.connections) {
+          connections.push({ key: connection.id, value: connection.name });
         }
+        this.assetConnections = connections;
       }
+    }, (error) => {
+      this.spinnerService.hide();
+      Utils.handleHttpError(error, this.router, this.messageService,
+        this.centralServerService, 'assets.asset_settings_error');
     });
   }
 
@@ -390,25 +441,6 @@ export class AssetComponent implements OnInit {
           Utils.handleHttpError(error, this.router, this.messageService,
             this.centralServerService, 'assets.create_error');
       }
-    });
-  }
-
-  public loadAssetConnections() {
-    this.spinnerService.show();
-    this.centralServerService.getSettings(TenantComponents.ASSET).subscribe((response) => {
-      this.spinnerService.hide();
-      if (response && response.result && response.result.length > 0) {
-        const assetSetting = response.result[0] as AssetSettings;
-        const connections = [] as KeyValue[];
-        for (const connection of assetSetting.content.asset.connections) {
-          connections.push({ key: connection.id, value: connection.name});
-        }
-        this.assetConnections = connections;
-      }
-    }, (error) => {
-      this.spinnerService.hide();
-      Utils.handleHttpError(error, this.router, this.messageService,
-        this.centralServerService, 'assets.asset_settings_error');
     });
   }
 

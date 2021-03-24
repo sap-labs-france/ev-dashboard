@@ -82,7 +82,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
     { key: this.translateService.instant('transactions.graph.battery'), hidden: false }
   ];
 
-  constructor(
+  public constructor(
     private centralServerService: CentralServerService,
     private translateService: TranslateService,
     private localeService: LocaleService,
@@ -163,7 +163,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
     }
   }
 
-  // tslint:disable-next-line: cyclomatic-complexity
+  // eslint-disable-next-line complexity
   private createGraphData() {
     if (this.data.datasets && this.options.scales && this.options.scales.yAxes) {
       const datasets: ChartDataSets[] = [];
@@ -359,7 +359,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
     return this.transaction && this.transaction.values && this.transaction.values.length > 0;
   }
 
-  // tslint:disable-next-line: cyclomatic-complexity
+  // eslint-disable-next-line complexity
   private refreshDataSets() {
     if (this.data.datasets) {
       for (const key of Object.keys(this.data.datasets)) {
@@ -495,14 +495,12 @@ export class ConsumptionChartComponent implements AfterViewInit {
         multiKeyBackground: Utils.toRgba(this.instantPowerAmpsColor, 0.7),
         intersect: false,
         callbacks: {
-          labelColor: (tooltipItem: ChartTooltipItem, chart: Chart) => {
-            return {
-              borderColor: 'rgba(0,0,0,0)',
-              backgroundColor: this.data.datasets && tooltipItem.datasetIndex ?
-                this.data.datasets[tooltipItem.datasetIndex].borderColor as ChartColor : '',
-            };
-          },
-          // tslint:disable-next-line: cyclomatic-complexity
+          labelColor: (tooltipItem: ChartTooltipItem, chart: Chart) => ({
+            borderColor: 'rgba(0,0,0,0)',
+            backgroundColor: this.data.datasets && tooltipItem.datasetIndex ?
+              this.data.datasets[tooltipItem.datasetIndex].borderColor as ChartColor : '',
+          }),
+          // eslint-disable-next-line complexity
           label: (tooltipItem: ChartTooltipItem, data: ChartData) => {
             if (this.data.datasets && data.datasets && !Utils.isUndefined(tooltipItem.datasetIndex)) {
               const dataSet = data.datasets[tooltipItem.datasetIndex];

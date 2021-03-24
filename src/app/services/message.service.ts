@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
-declare var $: any;
+declare let $: any;
 
 @Injectable()
 export class MessageService {
@@ -24,9 +24,10 @@ export class MessageService {
     </div>
   `;
 
-  constructor(
-    private translateService: TranslateService) {
-  }
+  // eslint-disable-next-line no-useless-constructor
+  public constructor(
+    private translateService: TranslateService
+  ) {}
 
   public showErrorMessageConnectionLost(): void {
     // Avoid multiple same messages when connection is lost during 5 secs
@@ -57,11 +58,13 @@ export class MessageService {
   }
 
   private showMessage(type: string, message: string, title = '', params?: Record<string, unknown>, from = 'top', align = 'right', icon = 'notifications') {
-    $.notify({
+    $.notify(
+      {
         icon,
         title,
         message: this.translateService.instant(message, params),
-      }, {
+      },
+      {
         type,
         delay: 3000,
         timer: 1500,

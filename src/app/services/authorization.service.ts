@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 
-import { Action, Entity, Role } from '../types/Authorization';
+import { Action, Entity } from '../types/Authorization';
 import { SiteArea } from '../types/SiteArea';
 import TenantComponents from '../types/TenantComponents';
-import { UserToken } from '../types/User';
+import { UserRole, UserToken } from '../types/User';
 import { CentralServerService } from './central-server.service';
 import { ComponentService } from './component.service';
 
@@ -11,7 +11,7 @@ import { ComponentService } from './component.service';
 export class AuthorizationService {
   private loggedUser!: UserToken | null;
 
-  constructor(
+  public constructor(
     private centralServerService: CentralServerService,
     private componentService: ComponentService) {
 
@@ -44,12 +44,56 @@ export class AuthorizationService {
     return this.canAccess(Entity.CHARGING_STATION, Action.UPDATE);
   }
 
+  public canListChargingStations(): boolean {
+    return this.canAccess(Entity.CHARGING_STATIONS, Action.LIST);
+  }
+
+  public canListChargingStationsInError(): boolean {
+    return this.canAccess(Entity.CHARGING_STATIONS, Action.IN_ERROR);
+  }
+
+  public canListAssets(): boolean {
+    return this.canAccess(Entity.ASSETS, Action.LIST);
+  }
+
+  public canListAssetsInError(): boolean {
+    return this.canAccess(Entity.ASSETS, Action.IN_ERROR);
+  }
+
+  public canListChargingProfiles(): boolean {
+    return this.canAccess(Entity.CHARGING_PROFILES, Action.LIST);
+  }
+
+  public canReadCompany(): boolean {
+    return this.canAccess(Entity.COMPANY, Action.READ);
+  }
+
   public canUpdateCompany(): boolean {
     return this.canAccess(Entity.COMPANY, Action.UPDATE);
   }
 
+  public canCreateCompany(): boolean {
+    return this.canAccess(Entity.COMPANY, Action.CREATE);
+  }
+
+  public canDeleteCompany(): boolean {
+    return this.canAccess(Entity.COMPANY, Action.DELETE);
+  }
+
+  public canListCompanies(): boolean {
+    return this.canAccess(Entity.COMPANIES, Action.LIST);
+  }
+
   public canUpdateAsset(): boolean {
     return this.canAccess(Entity.ASSET, Action.UPDATE);
+  }
+
+  public canListSites(): boolean {
+    return this.canAccess(Entity.SITES, Action.LIST);
+  }
+
+  public canReadSite(): boolean {
+    return this.canAccess(Entity.SITE, Action.READ);
   }
 
   public canCreateSite(): boolean {
@@ -62,6 +106,26 @@ export class AuthorizationService {
 
   public canUpdateSite(): boolean {
     return this.canAccess(Entity.SITE, Action.UPDATE);
+  }
+
+  public canListSiteAreas(): boolean {
+    return this.canAccess(Entity.SITE_AREAS, Action.LIST);
+  }
+
+  public canReadSiteArea(): boolean {
+    return this.canAccess(Entity.SITE_AREA, Action.READ);
+  }
+
+  public canAssignUsersSites(): boolean {
+    return this.canAccess(Entity.USERS_SITES, Action.ASSIGN);
+  }
+
+  public canUnassignUsersSites(): boolean {
+    return this.canAccess(Entity.USERS_SITES, Action.UNASSIGN);
+  }
+
+  public canListUsersSites(): boolean {
+    return this.canAccess(Entity.USERS_SITES, Action.LIST);
   }
 
   public canCreateSiteArea(): boolean {
@@ -93,12 +157,32 @@ export class AuthorizationService {
     return this.canAccess(Entity.TRANSACTION, Action.DELETE);
   }
 
+  public canExportTransactions(): boolean {
+    return this.canAccess(Entity.TRANSACTIONS, Action.EXPORT);
+  }
+
+  public canListUsers(): boolean {
+    return this.canAccess(Entity.USERS, Action.LIST);
+  }
+
+  public canListUsersInError(): boolean {
+    return this.canAccess(Entity.USERS, Action.IN_ERROR);
+  }
+
   public canDeleteUser(): boolean {
     return this.canAccess(Entity.USER, Action.DELETE);
   }
 
   public canUpdateUser(): boolean {
     return this.canAccess(Entity.USER, Action.UPDATE);
+  }
+
+  public canCreateUser(): boolean {
+    return this.canAccess(Entity.USER, Action.CREATE);
+  }
+
+  public canExportUsers(): boolean {
+    return this.canAccess(Entity.USERS, Action.EXPORT);
   }
 
   public canSynchronizeBillingUser(): boolean {
@@ -175,8 +259,32 @@ export class AuthorizationService {
     return false;
   }
 
+  public canListTransactions(): boolean {
+    return this.canAccess(Entity.TRANSACTIONS, Action.LIST);
+  }
+
+  public canListTransactionsInError(): boolean {
+    return this.canAccess(Entity.TRANSACTIONS, Action.IN_ERROR);
+  }
+
+  public canCreateToken(): boolean {
+    return this.canAccess(Entity.TOKEN, Action.CREATE);
+  }
+
+  public canListTokens(): boolean {
+    return this.canAccess(Entity.TOKENS, Action.LIST);
+  }
+
+  public canUpdateToken(): boolean {
+    return this.canAccess(Entity.TOKEN, Action.UPDATE);
+  }
+
+  public canDeleteToken(): boolean {
+    return this.canAccess(Entity.TOKEN, Action.DELETE);
+  }
+
   public isSiteAdmin(siteID: string): boolean {
-    return !!this.loggedUser && !!this.loggedUser.sitesAdmin && this.loggedUser.sitesAdmin.includes(siteID);
+    return this.isAdmin() || (!!this.loggedUser && !!this.loggedUser.sitesAdmin && this.loggedUser.sitesAdmin.includes(siteID));
   }
 
   public isSiteOwner(siteID: string): boolean {
@@ -195,7 +303,7 @@ export class AuthorizationService {
 
   public isAdmin(): boolean {
     if (this.loggedUser) {
-      return this.loggedUser.role === Role.ADMIN;
+      return this.loggedUser.role === UserRole.ADMIN;
     }
     return false;
   }
@@ -207,27 +315,27 @@ export class AuthorizationService {
     return false;
   }
 
-  public getSitesAdmin(): ReadonlyArray<string> {
+  public getSitesAdmin(): readonly string[] {
     return !!this.loggedUser && this.loggedUser.sitesAdmin ? this.loggedUser.sitesAdmin : [];
   }
 
   public isSuperAdmin(): boolean {
     if (this.loggedUser) {
-      return this.loggedUser.role === Role.SUPER_ADMIN;
+      return this.loggedUser.role === UserRole.SUPER_ADMIN;
     }
     return false;
   }
 
   public isBasic(): boolean {
     if (this.loggedUser) {
-      return this.loggedUser.role === Role.BASIC;
+      return this.loggedUser.role === UserRole.BASIC;
     }
     return false;
   }
 
   public isDemo(): boolean {
     if (this.loggedUser) {
-      return this.loggedUser.role === Role.DEMO;
+      return this.loggedUser.role === UserRole.DEMO;
     }
     return false;
   }

@@ -10,7 +10,7 @@ import { AssetsListTableDataSource } from './assets-list-table-data-source';
 })
 export class AssetsListComponent {
 
-  constructor(
+  public constructor(
     public assetsListTableDataSource: AssetsListTableDataSource,
     ) {
   }

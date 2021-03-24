@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
+import { ConnectorTableFilter } from 'shared/table/filters/connector-table-filter';
 import { CarCatalog } from 'types/Car';
 
 import { AuthorizationService } from '../../../services/authorization.service';
@@ -71,7 +72,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
   private transactionPushOcpiCdrAction = new TablePushTransactionOcpiCdrAction().getActionDef();
   private exportTransactionOcpiCdrAction = new TableExportTransactionOcpiCdrAction().getActionDef();
 
-  constructor(
+  public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     private messageService: MessageService,
@@ -213,6 +214,13 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         formatter: (value: Date) => this.datePipe.transform(value),
       },
       {
+        id: 'stop.totalDurationSecs',
+        name: 'transactions.duration',
+        headerClass: 'col-10p',
+        class: 'text-left col-10p',
+        formatter: (totalDurationSecs: number) => this.appDurationPipe.transform(totalDurationSecs),
+      },
+      {
         id: 'chargeBoxID',
         name: 'transactions.charging_station',
         headerClass: 'col-15p',
@@ -265,13 +273,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         });
       }
     }
-    columns.push({
-        id: 'stop.totalDurationSecs',
-        name: 'transactions.duration',
-        headerClass: 'col-10p',
-        class: 'text-left col-10p',
-        formatter: (totalDurationSecs: number) => this.appDurationPipe.transform(totalDurationSecs),
-      },
+    columns.push(
       {
         id: 'stop.totalInactivitySecs',
         name: 'transactions.inactivity',
@@ -298,11 +300,11 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     );
     if (this.componentService.isActive(TenantComponents.PRICING)) {
       columns.push({
-        id: 'stop.price',
+        id: 'stop.roundedPrice',
         name: 'transactions.price',
         headerClass: 'col-10p',
         class: 'col-10p',
-        formatter: (price: number, transaction: Transaction) => this.appCurrencyPipe.transform(price, transaction.stop.priceUnit),
+        formatter: (roundedPrice: number, transaction: Transaction) => this.appCurrencyPipe.transform(roundedPrice, transaction.stop.priceUnit),
       });
     }
     if (this.componentService.isActive(TenantComponents.BILLING) &&
@@ -339,16 +341,16 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         const percentInactivity = (data.stats.totalDurationSecs > 0 ?
           (Math.floor(data.stats.totalInactivitySecs / data.stats.totalDurationSecs * 100)) : 0);
         // Total Duration
-        // tslint:disable-next-line:max-line-length
+        // eslint-disable-next-line max-len
         let stats = `${this.translateService.instant('transactions.duration')}: ${this.appDurationPipe.transform(data.stats.totalDurationSecs)} | `;
         // Inactivity
-        // tslint:disable-next-line:max-line-length
+        // eslint-disable-next-line max-len
         stats += `${this.translateService.instant('transactions.inactivity')}: ${this.appDurationPipe.transform(data.stats.totalInactivitySecs)} (${percentInactivity}%) | `;
         // Total Consumption
-        // tslint:disable-next-line:max-line-length
+        // eslint-disable-next-line max-len
         stats += `${this.translateService.instant('transactions.consumption')}: ${this.appUnitPipe.transform(data.stats.totalConsumptionWattHours, 'Wh', 'kWh', true, 1, 0, 0)}`;
         // Total Price
-        // tslint:disable-next-line:max-line-length
+        // eslint-disable-next-line max-len
         stats += ` | ${this.translateService.instant('transactions.price')}: ${this.appCurrencyPipe.transform(data.stats.totalPrice, data.stats.currency)}`;
         return stats;
       }
@@ -362,6 +364,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
       new StartDateFilter(moment().startOf('y').toDate()).getFilterDef(),
       new EndDateFilter().getFilterDef(),
       new ChargingStationTableFilter().getFilterDef(),
+      new ConnectorTableFilter().getFilterDef(),
       new TransactionsInactivityStatusFilter().getFilterDef(),
     ];
     // Show Site Area Filter If Organization component is active
@@ -462,7 +465,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         if (actionDef.action) {
           (actionDef as TableRebuildTransactionConsumptionsActionDef).action(
             transaction, this.dialogService, this.translateService, this.messageService,
-            this.centralServerService, this.router, this.spinnerService);
+            this.centralServerService, this.router, this.spinnerService, this.refreshData.bind(this));
         }
         break;
       case TransactionButtonAction.PUSH_TRANSACTION_CDR:
@@ -490,11 +493,8 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-    if (!this.authorizationService.isDemo()) {
-      return [
-        new TableExportTransactionsAction().getActionDef(),
-        ...tableActionsDef,
-      ];
+    if (this.authorizationService.canExportTransactions()) {
+      tableActionsDef.unshift(new TableExportTransactionsAction().getActionDef());
     }
     return tableActionsDef;
   }

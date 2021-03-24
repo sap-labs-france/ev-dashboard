@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, CanActivateChild, CanLoad, Route, Router, RouterStateSnapshot, UrlSegment } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { UserRole } from 'types/User';
 
 import { environment } from '../../environments/environment';
 import { AuthorizationService } from '../services/authorization.service';
 import { CentralServerService } from '../services/central-server.service';
 import { ComponentService } from '../services/component.service';
 import { MessageService } from '../services/message.service';
-import { Role } from '../types/Authorization';
 
 @Injectable()
 export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad {
@@ -19,7 +19,7 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
 
   private userRole?: string;
 
-  constructor(
+  public constructor(
     private router: Router,
     private messageService: MessageService,
     private authorizationService: AuthorizationService,
@@ -101,6 +101,9 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
         }
         return false;
       }
+      if (Array.isArray(auth)) {
+        return auth.some(authElement => this.authorizationService.canAccess(authElement.entity, authElement.action));
+      }
       return this.authorizationService.canAccess(auth.entity, auth.action);
     }
     return false;
@@ -117,12 +120,12 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
     let route = RouteGuardService.LOGIN_ROUTE;
     if (this.userRole) {
       switch (this.userRole) {
-        case Role.SUPER_ADMIN:
+        case UserRole.SUPER_ADMIN:
           route = RouteGuardService.TENANT_ROUTE;
           break;
-        case Role.ADMIN:
-        case Role.BASIC:
-        case Role.DEMO:
+        case UserRole.ADMIN:
+        case UserRole.BASIC:
+        case UserRole.DEMO:
         default:
           route = RouteGuardService.CHARGING_STATION_ROUTE;
       }

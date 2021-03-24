@@ -10,7 +10,7 @@ import { Utils } from '../../../utils/Utils';
 export class ErrorCodeDetailsDialogComponent {
   public error!: ErrorMessage;
 
-  constructor(
+  public constructor(
     protected dialogRef: MatDialogRef<ErrorCodeDetailsDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data: any) {
     this.error = data;

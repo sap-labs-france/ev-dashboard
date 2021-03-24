@@ -9,7 +9,7 @@ import { Utils } from '../../../utils/Utils';
 export class CarCatalogDialogComponent {
   public carCatalogID!: number;
 
-  constructor(
+  public constructor(
     public dialogRef: MatDialogRef<CarCatalogDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data: number) {
     this.carCatalogID = data;

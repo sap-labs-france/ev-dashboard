@@ -36,7 +36,7 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
     private dialog: MatDialog,
     private dialogService: DialogService,
     private centralServerService: CentralServerService,
-    private authorisationService: AuthorizationService) {
+    private authorizationService: AuthorizationService) {
     super(spinnerService, translateService);
     this.initDataSource();
   }
@@ -49,7 +49,6 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
         this.centralServerService.getSiteUsers(
             {...this.buildFilterValues(), SiteID: this.site.id},
             this.getPaging(), this.getSorting()).subscribe((siteUsers) => {
-          this.removeAction.disabled = (siteUsers.count === 0 || !this.hasSelectedRows());
           observer.next(siteUsers);
           observer.complete();
         }, (error) => {
@@ -66,11 +65,6 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
         observer.complete();
       }
     });
-  }
-
-  public toggleRowSelection(row: UserSite, checked: boolean) {
-    super.toggleRowSelection(row, checked);
-    this.removeAction.disabled = !this.hasSelectedRows();
   }
 
   public buildTableDef(): TableDef {
@@ -116,7 +110,7 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
       },
     ];
 
-    if (this.authorisationService.canCreateSite()) {
+    if (this.authorizationService.canCreateSite()) {
       columns.push({
         id: 'siteOwner',
         isAngularComponent: true,
@@ -135,11 +129,13 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-    return [
-      this.addAction,
-      this.removeAction,
-      ...tableActionsDef,
-    ];
+    if (this.authorizationService.canAssignUsersSites()) {
+      tableActionsDef.push(this.addAction);
+    }
+    if (this.authorizationService.canUnassignUsersSites()) {
+      tableActionsDef.push(this.removeAction);
+    }
+    return tableActionsDef;
   }
 
   public actionTriggered(actionDef: TableActionDef) {

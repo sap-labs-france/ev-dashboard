@@ -5,6 +5,7 @@
     "captcha_text_3": " y ",
     "captcha_text_4": "Términos de servicio",
     "captcha_text_5": " aplicar",
+    "not_authorized": "No tiene autorización para realizar esta acción",
     "created_on": "Creado en",
     "created_by": "Creado por",
     "changed_on": "Modificado en",
@@ -25,7 +26,7 @@
     "connectors": "Conexiones",
     "notifications": "Notificaciones",
     "app_name": "e-Mobility",
-    "last_update": "Versión 2.4.35",
+    "last_update": "Versión 2.4.54",
     "version": "Versión",
     "about_us": "Sobre nosotros",
     "unexpected_error_backend": "Ocurrió un error inesperado",
@@ -70,6 +71,7 @@
     "update": "Actualizar",
     "refresh": "Actualizar",
     "generate_qr": "Generate QR code",
+    "display_qr": "Display QR code",
     "save": "Guardar",
     "delete": "Eliminar",
     "export": "Exportar",
@@ -141,6 +143,8 @@
     "reset_filters": "Restablecer filtros",
     "browser_not_supported": "¡Este navegador no es compatible! Utilize Chrome o Firefox.",
     "status": "Estatus",
+    "revoke": "Revocar",
+    "edit": "Editar",
     "menu": {
       "dashboard": "Tablero",
       "charging_stations": "Estaciones de carga",
@@ -164,6 +168,8 @@
       "pricing": "Precio",
       "components": "Componentes",
       "settings": "Configuración",
+      "integration_settings": "Integration Settings",
+      "technical_settings": "Technical Settings",
       "assets": "Activos",
       "organization": "Organización",
       "template": "Plantillas",
@@ -310,8 +316,11 @@
     "logo": "Logo",
     "name": "Nombre",
     "asset_type": "Tipo de activos",
+    "fluctuation_percent": "Fluctuation (%)",
+    "static_value_watt": "Static Power (W)",
     "produce": "Producto energético",
     "consume": "Consumo de energía",
+    "consume_and_produce": "Consume and Produce Energy",
     "dynamic_asset": "Activo Dinámico",
     "instant_power": "Energía instantánea",
     "asset_connection": "Conexión de Activos",
@@ -335,8 +344,8 @@
     "asset_settings_error": "Se produjo un error al obtener las conexiones de los activos",
     "create_success": "El activo '{{assetName}}' se ha creado exitosamente",
     "create_error": "Se produjo un error al crear el activo",
-    "refresh_success": "La conexión del activo ha sido actualizada con éxito",
-    "refresh_error": "Se produjo un error al actualizar la conexión del activo",
+    "refresh_success": "The asset's consumption or production has been successfully retrieved",
+    "refresh_error": "Error occurred while retrieving the asset's consumption or production'",
     "logo_size_error": "Se excedió el límite de tamaño de la imágen, el límite está por debajo de '{{maxPictureKb}}' Kb",
     "select_assets": "Seleccionar activo",
     "consumption_date": "Fecha",
@@ -526,6 +535,7 @@
     "verify_email_title": "Activación de cuenta",
     "verify_email_already_active": "¡Su cuenta ya está activa!",
     "verify_email_success": "¡Su cuenta ha sido activada exitosamente!",
+    "verify_email_success_inactive": "Your account has been verified with success, an administrator will check and activate your account.",
     "verify_email_success_set_password": "Su cuenta ha sido activada, configure su contraseña para finalizar el registro",
     "verify_email_token_not_valid": "El enlace de activación de su cuenta ya no es válido",
     "verify_email_email_not_valid": "Este correo electrónico ya no existe",
@@ -540,7 +550,7 @@
   },
   "statistics": {
     "title": "Estadísticas",
-    "description": "Estadísticas integradas",
+    "description": "Statistics of charging sessions",
     "charger_kw_h": "kW.h",
     "legend_select_unselect_all": "Deseleccionar / Seleccionar todo",
     "graphic_title_consumption_y_axis": "Consumo (kW.h)",
@@ -673,6 +683,7 @@
     "public_charger": "Publica",
     "exclude_smart_charging": "Excluir carga inteligente",
     "force_inactive": "This charging station is inactive",
+    "manual_configuration": "Manual configuration",
     "public_url": "URL pública",
     "current_ip": "Ruta IP actual",
     "select_chargers": "Seleccionar estación de carga",
@@ -755,8 +766,16 @@
         "title": "Ubicación de las estaciones de carga"
       },
       "settings": {
-        "fixedURLforOCPP": "Desde OCPP 1.6 en adelante, el servidor fija la URL",
-        "callbackURLforOCPP": "Retrollamada de la URL para mandar una soliditud HTTP a la estación de carga "
+        "fixed_url_for_ocpp": "Desde OCPP 1.6 en adelante, el servidor fija la URL",
+        "callback_url_for_ocpp": "Retrollamada de la URL para mandar una soliditud HTTP a la estación de carga "
+      },
+      "enable_manual_configuration":{
+        "title": "Enable manual configuration",
+        "confirm": "If you enable the manual configuration, the charging station will not be adjusted with the automatic configuration template anymore. Do you want to continue?"
+      },
+      "disable_manual_configuration":{
+        "title": "Disable manual configuration",
+        "confirm": "If you disable the manual configuration, the charging station will be adjusted with the automatic configuration template, rebooted and your manual changes will be lost. Do you want to continue?"
       }
     },
     "force_available_status_action": "Establecer como disponible",
@@ -926,6 +945,7 @@
     "change_config_success": "La configuración de la estación de carga '{{chargeBoxID}}' se ha guardado exitosamente",
     "change_config_error": "Cannot change the configuration of the charging station, check the logs",
     "change_config_phase_error": "No se puede asignar una estación de carga trifásica a una zona monofásica",
+    "charge_point_connectors_error": "Error occurred while saving the charging station. The charge points properties do not match its connectors",
     "change_params_success": "El parámetro '{{paramKey}}' se ha actualizado correctamente en la estación de carga '{{chargeBoxID}}'",
     "change_params_error": "Se produjo un error al intentar actualizar el parámetro de la estación de carga",
     "delete_title": "Eliminar",
@@ -1001,7 +1021,8 @@
     "tabs": {
       "list": "Estaciones de carga",
       "charging_plans": "Planes de carga",
-      "in_error": "Con errores"
+      "in_error": "Con errores",
+      "connection": "Onboard New Station"
     },
     "errors": {
       "missing_settings": {
@@ -1024,6 +1045,44 @@
         "description": "La estación de carga envió un mensaje de error de uno de sus conectores",
         "action": "Verifique los detalles del error y reinicie la estación de carga"
       }
+    },
+    "connections": {
+      "registration_tokens_title": "Tokens de registro de la estación de carga",
+      "registration_token_site_area_name": "Token para la zona '{{siteAreaName}}'",
+      "registration_token_creation_title": "Crear token de registro",
+      "registration_token_creation_confirm": "¿Está seguro que desea crear un token de registro para las estaciones de carga de esta zona?",
+      "registration_token_creation_success": "El token de registro se ha creado exitosamente",
+      "registration_token_creation_error": "Se produjo un error al crear el token de registro",
+      "registration_token_site_admin_creation_error": "You must provide a site linked to this registration token",
+      "registration_token_revoke_title": "Revocar token de registro",
+      "registration_token_revoke_confirm": "¿Está seguro que desea revocar el token de registro?",
+      "registration_token_revoke_success": "El token de registro ha sido revocado exitosamente",
+      "registration_token_revoke_error": "Se produjo un error al revocar el token de registro",
+      "registration_token_update_title": "Update Registration Token",
+      "registration_token_update_confirm": "Do you really want to update the registration token ?",
+      "registration_token_update_success": "Registration token has been updated successfully",
+      "registration_token_update_error": "Error occurred while updating a registration token, check the logs",
+      "registration_token_not_found": "Registration token has not been found",
+      "registration_token_delete_title": "Eliminar token de registro",
+      "registration_token_delete_confirm": "¿Está seguro que desea eliminar el token de registro?",
+      "registration_token_delete_success": "El token de registro se ha eliminado exitosamente",
+      "registration_token_delete_error": "Se produjo un error al eliminar el token de registro",
+      "registration_token_url": "URL de registro",
+      "registration_token_valid": "Válido",
+      "registration_token_expired": "Caducado",
+      "registration_token_revoked": "Revocado",
+      "registration_token_error": "Error occurred while retrieving the token, check the logs",
+      "token_restrict_site_area": "Restringir el acceso a una zona",
+      "url": "URL de OCPP",
+      "copy_url_tooltip": "Copiar URL de OCPP",
+      "url_copied": "La URL de OCPP se ha copiado en su portapapeles",
+      "generate_connection_url": "Conectar estación de carga",
+      "ocpp_15_soap": "OCPP 1.5 SOAP",
+      "ocpp_16_json": "OCPP 1.6 JSON",
+      "ocpp_16_soap": "OCPP 1.6 SOAP",
+      "ocpp_15_soap_secure": "Secure OCPP 1.5 SOAP",
+      "ocpp_16_json_secure": "Secure OCPP 1.6 JSON",
+      "ocpp_16_soap_secure": "Secure OCPP 1.6 SOAP"
     }
   },
   "logs": {
@@ -1107,6 +1166,7 @@
     "locale_desc_spanish": "Español",
     "locale_desc_german": "Alemán",
     "locale_desc_portuguese": "Portuguese",
+    "locale_desc_italian": "Italian",
     "role_unknown": "Desconocido",
     "locale_unknown": "Desconocido",
     "status": "Estatus",
@@ -1247,8 +1307,8 @@
     "id": "ID",
     "issuer": " Propietario de la organización",
     "status": "Estatus",
-    "activated": "Activado",
-    "deactivated": "Deactivado",
+    "activated": "Active",
+    "deactivated": "Inactive",
     "sessions": "Sesiones",
     "activate_title": "Activación de insignia",
     "activate_confirm": "¿Está seguro que desea activar la insignia '{{tagID}}'? Una vez activada, esta insignia podrá utilizarse para comenzar sesiones.",
@@ -1273,7 +1333,12 @@
     "tag_id_already_used": "The badge '{{tagID}}' already exists",
     "redirect": "Navigate to Tags",
     "title": "Badge",
-    "default_tag": "Default badge"
+    "default_tag": "Default badge",
+    "delete_tags_title": "Delete Badge(s)",
+    "delete_tags_confirm": "Do you really want to delete '{{quantity}}' badge(s)?",
+    "delete_tags_success": "'{{inSuccess}}' badges have been deleted successfully",
+    "delete_tags_partial": "'{{inSuccess}}' badges have been deleted successfully and '{{inError}}' badges have encountered an error, check the logs",
+    "delete_tags_error": "Error occurred while deleting the badges, check the logs"
   },
   "tenants": {
     "title": "Organización",
@@ -1298,6 +1363,7 @@
     "save_error_billing": "Los costos deben ser activados para usar la facturación",
     "save_error_smart_charging": "La organización debe ser activada para usar la carga inteligente",
     "save_error_asset": "La organización debe ser activada para usar los activos",
+    "save_error_car_connector": "Car Management must be active to use Car Connector",
     "smart_charging_still_active_for_site_area": "La carga inteligente todavía está activada para ciertas áreas del sitio. <br> Desactive la carga inteligente para cada zona en la organización.",
     "logo_size_error": "The logo size limit exceeded, limit is below {{maxPictureKb}} Kb"
   },
@@ -1306,13 +1372,14 @@
     "settings_not_saved": "Debe guardar la configuración primero",
     "tabs": {
       "ocpi": "Roaming",
-      "charging_station": "Estación de carga",
+      "oicp": "Roaming Hubject",
       "refund": "Reembolsos",
       "pricing": "Costos",
       "billing": "Facturas",
       "analytics": "Análisis",
       "smart_charging": "Carga inteligente",
-      "asset": "Activos"
+      "asset": "Activos",
+      "car_connector": "Car Connector"
     },
     "ocpi": {
       "gireve": {
@@ -1326,33 +1393,17 @@
       "update_error": "Se produjo un error al actualizar la configuración de OCPI",
       "description": "E-Mobility proporciona un servicio certificado para conectarse a una plataforma externa de E-Roaming. <br> Esta función expone en tiempo real la infraestructura y disponibilidad de las estaciones de carga a través del protocolo estándar OCPI (Interfaz de punto de carga abierta). <br> E-Mobility está utilizando actualmente la plataforma de interoperabilidad de Gireve (IOP)."
     },
-    "charging_station": {
-      "registration_tokens_title": "Tokens de registro de la estación de carga",
-      "registration_token_site_area_name": "Token para la zona '{{siteAreaName}}'",
-      "registration_token_creation_title": "Crear token de registro",
-      "registration_token_creation_confirm": "¿Está seguro que desea crear un token de registro para las estaciones de carga de esta zona?",
-      "registration_token_creation_success": "El token de registro se ha creado exitosamente",
-      "registration_token_creation_error": "Se produjo un error al crear el token de registro",
-      "registration_token_revoke_title": "Revocar token de registro",
-      "registration_token_revoke_confirm": "¿Está seguro que desea revocar el token de registro?",
-      "registration_token_revoke_success": "El token de registro ha sido revocado exitosamente",
-      "registration_token_revoke_error": "Se produjo un error al revocar el token de registro",
-      "registration_token_delete_title": "Eliminar token de registro",
-      "registration_token_delete_confirm": "¿Está seguro que desea eliminar el token de registro?",
-      "registration_token_delete_success": "El token de registro se ha eliminado exitosamente",
-      "registration_token_delete_error": "Se produjo un error al eliminar el token de registro",
-      "registration_token_url": "URL de registro",
-      "registration_token_valid": "Válido",
-      "registration_token_expired": "Caducado",
-      "registration_token_revoked": "Revocado",
-      "token_restrict_site_area": "Restringir el acceso a una zona",
-      "url": "URL de OCPP",
-      "copy_url_tooltip": "Copiar URL de OCPP",
-      "url_copied": "La URL de OCPP se ha copiado en su portapapeles",
-      "generate_connection_url": "Conectar estación de carga",
-      "ocpp_15_soap": "OCPP 1.5 SOAP",
-      "ocpp_16_json": "OCPP 1.6 JSON",
-      "ocpp_16_soap": "OCPP 1.6 SOAP"
+    "oicp": {
+      "hubject": {
+        "title": "Hubject"
+      },
+      "setting_do_not_exist": "OICP Settings not found",
+      "setting_not_found": "OICP settings has not been found",
+      "create_success": "OICP settings have been created successfully",
+      "create_error": "Error occurred while creating the OICP settings, check the logs",
+      "update_success": "OICP settings have been updated successfully",
+      "update_error": "Error occurred while updating the OICP settings, check the logs",
+      "description": "E-Mobility provides a certified service to connect to an external E-Roaming Platform.<br>This feature exposes real-time the charging station infrastructure and availability via the OICP protocol (Open InterCharge Protocol).<br>E-Mobility is currently using the Hubject B2B Service Platform (HBS)."
     },
     "refund": {
       "description": "E-Mobility proporciona un servicio de reembolso para un sistema de gastos externo. <br> Esta característica permite al usuario llevar sus sesiones a un sistema de gastos y obtener un reembolso de la electricidad consumida. <br> E-Mobility usa actualmente SAP Concur. Más información técnica disponible en: ",
@@ -1479,7 +1530,11 @@
         "title": "SAP Smart Charging",
         "settings": "Configuración",
         "user": "Usuario",
-        "password": "Contraseña"
+        "password": "Contraseña",
+        "additional_settings":"Additional settings:",
+        "sticky_limitation": "Adjust limit according to current consumption",
+        "limit_buffer_dc": "Buffer for Limit DC (%)",
+        "limit_buffer_ac": "Buffer for Limit AC (%)"
       },
       "description": "E-Mobility puede utilizar un algoritmo de carga inteligente para optimizar la potencia distribuida en los cargadores en función de restricciones complejas.",
       "setting_do_not_exist": "La configuración no existe",
@@ -1501,11 +1556,14 @@
         "base_url": "URL",
         "user": "Usuario",
         "password": "Contraseña",
+        "client_id":"Client ID",
+        "client_secret":"Client Secret",
         "delete_title": "Eliminar la conexión del activo",
         "delete_confirm": "¿Está seguro de que desea eliminar la conexión '{{assetConnectionName}}'?"
       },
       "types": {
-        "schneider": "Gestión de edificios Schneider"
+        "schneider": "Gestión de edificios Schneider",
+        "greencom": "GreenCom Asset Management System"
       },
       "connection_success": "Connection to the system was tested successfully",
       "unknown_connection_error": "Error de conexión desconocido",
@@ -1519,6 +1577,30 @@
       "update_success": "La configuración de los activos se ha actualizado correctamente",
       "update_error": "Se produjo un error al actualizar los activos"
     },
+    "car_connector": {
+      "connection": {
+        "title": "Car connectors",
+        "name": "Name",
+        "description": "Description",
+        "type": "Type",
+        "authentication_url": "Authentication Url",
+        "api_url": "API Url",
+        "client_id":"Client ID",
+        "client_secret":"Client Secret",
+        "delete_title": "Delete Connector",
+        "delete_confirm": "Do you really want to delete the connector '{{carConnectorConnectionName}}'?"
+      },
+      "types": {
+        "mercedes": "Mercedes Connector"
+      },
+      "description": "E-Mobility can get real time data of your cars like the current state of charge and use this information with the smart charging algorithm to optimize charging sessions.",
+      "setting_do_not_exist": "Configuration has not been found",
+      "setting_not_found": "Car connector settings have not been found",
+      "create_success": "Car connector settings have been created successfully",
+      "create_error": "Error occurred while creating the Car connector settings, check the logs",
+      "update_success": "Car connector settings have been updated successfully",
+      "update_error": "Error occurred while updating the Car connector settings, check the logs"
+    },
     "information": "Información",
     "activation_contact_msg": "Para habilitar esta función, comuníquese con su representante de E-Mobility.",
     "car": {
@@ -1527,6 +1609,36 @@
       "synchronize_car_catalogs_dialog_confirm": "¿Está seguro de que desea iniciar la sincronización de vehículos eléctricos?",
       "assign_user_to_car_dialog_title": "Agregar usuario al automóvil",
       "assign_user_to_car_dialog_confirm": "Este automóvil ya existe, ¿Desea reutilizarlo?"
+    }
+  },
+  "technical_settings": {
+    "tabs": {
+      "crypto": "Crypto",
+      "users": "Users"
+    },
+    "crypto": {
+      "crypto_key": {
+        "title": "Crypto settings",
+        "subtitle": "Crypto Key",
+        "key": "Key",
+        "block_cypher": "Block Cypher",
+        "block_size": "Block Size",
+        "operation_mode": "Operation Mode"
+      },
+      "setting_do_not_exist": "Crypto Technical Settings not found",
+      "update_success": "Crypto Technical Settings have been updated successfully",
+      "update_error": "Error occurred while updating the Crypto Technical Settings, check the logs",
+      "crypto_check_error": "Crypto check has failed, check your settings",
+      "crypto_key_length_error": "Crypto key length is invalid, check your settings",
+      "crypto_algorithm_error": "Crypto algorithm is not supported, check your settings",
+      "crypto_migration_in_progress_error": "Crypto settings cannot be changed while migration is in progress"
+    },
+    "user": {
+      "title": "Account Settings",
+      "auto_activation": "Automatically activate new user account at registration time",
+      "update_success": "User settings have been updated successfully",
+      "update_error": "Error occurred while updating the user settings, check the logs",
+      "setting_do_not_exist": "User settings not found"
     }
   },
   "ocpiendpoints": {
@@ -1625,7 +1737,7 @@
     "push_tokens_error": "Se produjo un error al actualizar los tokens de usuario; Consulte los registros para obtener más detalles",
     "start_stop_job": "Activar / Desactivar el proceso",
     "background_job_activated": "Proceso de actualización automática activado correctamente",
-    "background_job_desactivated": "Proceso de actualización automática deshabilitado exitosamente",
+    "background_job_deactivated": "Proceso de actualización automática deshabilitado exitosamente",
     "background_job_no_run": "No ejecutado",
     "start_background_job_title": "Iniciar el proceso de actualización",
     "start_background_job_confirm": "¿Está seguro que desea iniciar el proceso de actualización del IOP '{{name}}'?",
@@ -1638,7 +1750,7 @@
     "failed": "Fallido"
   },
   "ocpi": {
-    "title": "Roaming",
+    "title": "Roaming OCPI",
     "type_placeholder": "Tipo",
     "roaming_platforms": "Plataforma de interoperabilidad",
     "cpo": "Identificación del operador del punto de carga",
@@ -1650,7 +1762,7 @@
     "business_details": "Detalles de la empresa",
     "logo": "Imagen",
     "sync_all": "Sincronizar todo",
-    "push_locations": "Enviar ubicaciones",
+    "push_evse_statuses": "Push Statuses",
     "push_tokens": "Enviar tokens",
     "pull_cdrs": "Descargar cdrs",
     "pull_locations": "Descargar ubicaciones",
@@ -1672,6 +1784,102 @@
       }
     }
   },
+  "oicpendpoints": {
+    "name": "Name",
+    "base_url": "URL",
+    "role": "Role",
+    "country_code": "Country Code",
+    "party_id": "Party ID",
+    "status": "Status",
+    "version": "Version",
+    "new": "New",
+    "registered": "Registered",
+    "unregistered": "Unregistered",
+    "last_patch_job_on": "Last Update Date",
+    "patch_job_last_status": "Last Push Status",
+    "patch_job_status": "Job Status",
+    "patch_job_result": "Success / Total",
+    "patch_job_checkbox": "Activate EVSE Status Update Job",
+    "status_active": "Active",
+    "status_inactive": "Inactive",
+    "test_connection": "Connection Test",
+    "create_success": "'{{name}}' has been created successfully",
+    "create_error": "Error occurred while creating the IOP, check the logs",
+    "update_success": "'{{name}}' has been updated successfully",
+    "update_error": "Error occurred while updating the IOP, check the logs",
+    "delete_confirm": "Do you really want to delete the IOP '{{name}}'?",
+    "delete_title": "Delete",
+    "delete_success": "'{{name}}' has been deleted successfully",
+    "delete_error": "Error occurred while deleting, check the logs",
+    "register_confirm": "Do you want to trigger registration process with '{{name}}'?",
+    "unregister_confirm": "Do you want to trigger unregistration process with '{{name}}'?",
+    "register_title": "Register",
+    "unregister_title": "Unregister",
+    "register_success": "'{{name}}' has been registered successfully",
+    "unregister_success": "'{{name}}' has been unregistered successfully",
+    "register_error": "Error occurred while registring, check the logs",
+    "unregister_error": "Error occurred while unregistring, check the logs",
+    "push_evse_statuses_title": "Send EVSE Statuses",
+    "push_evsess_title": "Send EVSEs",
+    "push_evse_statuses_confirm": "Do you want to send All EVSE statuses to Hubject '{{name}}'?",
+    "push_evses_confirm": "Do you want to send All EVSEs to Hubject '{{name}}'?",
+    "trigger_jobs_title": "Execute Jobs",
+    "trigger_jobs_confirm": "Do you want to trigger all jobs of Hubject '{{name}}'?",
+    "trigger_jobs_error": "Error occurred while executing jobs, check the logs",
+    "success_ping": "Ping successful",
+    "error_ping_401": "Ping failed: Unauthorized",
+    "error_ping_404": "Ping failed: Not Found",
+    "error_ping_412": "Ping failed: Invalid Response",
+    "error_ping": "Ping failure",
+    "push_evse_statuses_success": "Successfully updated '{{success}}' EVSE statuses",
+    "push_evse_statuses_partial": "'{{success}}' EVSE(s) updated - '{{error}}' EVSE(s) not updated, check the logs",
+    "push_evses_success": "Successfully updated '{{success}}' EVSEs",
+    "push_evses_partial": "'{{success}}' EVSE(s) updated - '{{error}}' EVSE(s) not updated, check the logs",
+    "push_evse_statuses_error": "Error occurred while updating EVSE statuses, check the logs",
+    "push_evses_error": "Error occurred while updating EVSEs, check the logs",
+    "start_stop_job": "Enable/Disable background job",
+    "background_job_activated": "Background job activated successfully",
+    "background_job_deactivated": "Background job disabled successfully",
+    "background_job_no_run": "Not Executed",
+    "start_background_job_title": "Start Background Job",
+    "start_background_job_confirm": "Do you want to start the background job for '{{name}}'?",
+    "stop_background_job_title": "Stop Background Job",
+    "stop_background_job_confirm": "Do you want to stop the background job for '{{name}}'?",
+    "total_charge_points": "Total Charge Points",
+    "total": "Total",
+    "succeeded": "Succeeded",
+    "failed": "Failed"
+  },
+  "oicp": {
+    "title": "Roaming Hubject (OICP)",
+    "type_placeholder": "Type",
+    "roaming_platforms": "Roaming Platforms",
+    "cpo": "Charging Point Operator Identification",
+    "emsp": "E-Mobility Service Provider Identification",
+    "description": "Open InterCharge Protocol",
+    "details": "Identification",
+    "country_code": "Country code",
+    "party_id": "Party ID",
+    "business_details": "Business Details",
+    "logo": "Image",
+    "key": "Private Key",
+    "cert": "Certificate",
+    "sync_all": "Synchronize All",
+    "push_evses": "Push EVSE Data",
+    "push_evses_statuses": "Push EVSE Status Data",
+    "businessdetails": {
+      "name": "Name of the operator",
+      "website": "Link to the operator website",
+      "logo": {
+        "url": "URL of the full scale image",
+        "thumbnail": "URL o the thumbnail image",
+        "category": "Category of the image",
+        "type": "Image type (gif, jpeg, png, svg,...)",
+        "width": "Width of the full scale image",
+        "height": "Height of the full scale image"
+      }
+    }
+  },
   "organization": {
     "title": "Organización",
     "description": "Gestión de organizaciones: empresas, sitios y zonas",
@@ -1688,7 +1896,7 @@
   },
   "asset": {
     "title": "Activos",
-    "description": "Gestion de activos",
+    "description": "Manage assets (buildings, solar panels, batteries)",
     "tabs": {
       "assets": "Activos",
       "in_error": "Con errores"
@@ -1808,12 +2016,16 @@
     }
   },
   "car": {
-    "title": "vehículo",
-    "description": "Gestión de vehículos",
+    "title": "Car Management",
+    "description": "Manage the user's cars",
     "tabs": {
       "car_catalogs": "Catálogo de vehículo",
       "cars": "Car Management"
     }
+  },
+  "car_connector": {
+    "title": "Car Connector",
+    "description": "Use APIs to gain real time data of your cars"
   },
   "analytics": {
     "title": " Análisis",
@@ -1835,7 +2047,7 @@
   "smart_charging": {
     "title": "Carga inteligente",
     "type_placeholder": "Tipo",
-    "description": "Interfaz de la carga inteligente",
+    "description": "Smart-Charging of electric vehicles",
     "optimizerUrl": "Optimizar URL"
   },
   "refund": {
@@ -2139,13 +2351,15 @@
     "charging_stations_offline": "Notificarme cuando una estación de carga esté fuera de línea",
     "preparing_session_not_started": "Notificarme cuando no se haya iniciado una sesión (solo el propietario del sitio)",
     "ocpi_patch_status_error": "Notificarme si ha fallado la transferencia de estatus de una estación de carga a la plataforma móvil (OCPI)",
-    "smtp_auth_error": "Notificarme si ha fallado la autenticación del servidor al correo electrónico",
+    "oicp_patch_status_error": "Notificarme si ha fallado la transferencia de estatus de una estación de carga a la plataforma móvil (OICP)",
+    "smtp_error": "Notify me if an error occurred with the email server",
     "billing_synchronization_failed": "Notificarme si ha fallado la sincronización con el sistema de facturación",
     "session_not_started": "Notificarme si no se inició ninguna sesión después de la identificación",
     "user_account_inactivity": "Notificarme cuando no haya iniciado sesión en la aplicación durante más de 6 meses",
-    "compute_and_apply_charging_profiles_failed": "Notify me when applying the Smart Charging-Profiles fails for a certain site area",
     "car_catalog_synchronization_failed": "Notificarme si se ha producido un error durante la sincronización de los automóviles",
+    "compute_and_apply_charging_profiles_failed": "Notify me when applying the smart charging profiles fails for a site area",
     "end_user_error_notification": "Notificarme cuando un usuario reporte algún error",
-    "billing_new_invoice": "Notify me when a new invoice is available"
+    "billing_new_invoice": "Notify me when a new invoice is available",
+    "admin_account_verification": "Notify me when new account creation needs to be verified"
   }
 }

@@ -13,7 +13,7 @@ export class CarsComponent extends AbstractTabComponent {
   public isAdmin: boolean;
   public isBasic: boolean;
 
-  constructor(
+  public constructor(
     activatedRoute: ActivatedRoute,
     windowService: WindowService,
     authorizationService: AuthorizationService

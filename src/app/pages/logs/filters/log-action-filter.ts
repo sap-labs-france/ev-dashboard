@@ -3,7 +3,7 @@ import { TableFilter } from '../../../shared/table/filters/table-filter';
 import { FilterType, TableFilterDef } from '../../../types/Table';
 
 export class LogActionTableFilter extends TableFilter {
-  constructor(actions?: ReadonlyArray<string>) {
+  public constructor(actions?: readonly string[]) {
     super();
     // Define filter
     const filterDef: TableFilterDef = {

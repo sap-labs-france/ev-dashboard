@@ -1,5 +1,29 @@
 import { ConnectorCurrentLimitSource, SiteAreaLimitSource } from './ChargingStation';
 
+export interface AbstractCurrentConsumption {
+  currentConsumptionWh?: number;
+  currentTotalConsumptionWh: number;
+  lastConsumption?: {
+    value: number;
+    timestamp: Date;
+  };
+  currentInstantWatts: number;
+  currentInstantWattsL1?: number;
+  currentInstantWattsL2?: number;
+  currentInstantWattsL3?: number;
+  currentInstantWattsDC?: number;
+  currentInstantVolts?: number;
+  currentInstantVoltsL1?: number;
+  currentInstantVoltsL2?: number;
+  currentInstantVoltsL3?: number;
+  currentInstantVoltsDC?: number;
+  currentInstantAmps?: number;
+  currentInstantAmpsL1?: number;
+  currentInstantAmpsL2?: number;
+  currentInstantAmpsL3?: number;
+  currentInstantAmpsDC?: number;
+}
+
 export interface AbstractConsumption {
   instantWatts: number;
   instantWattsL1: number;

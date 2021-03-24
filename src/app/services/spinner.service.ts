@@ -5,7 +5,7 @@ export class SpinnerService {
   public visible = false;
   private spinner: HTMLElement | null;
 
-  constructor() {
+  public constructor() {
     this.spinner = document.getElementById('spinner');
     if (this.spinner) {
       this.spinner.style['display'] = 'none';

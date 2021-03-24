@@ -10,12 +10,20 @@ import { AbstractTabComponent } from '../../shared/component/abstract-tab/abstra
 })
 export class ChargingStationsComponent extends AbstractTabComponent {
   public isAdmin: boolean;
-  constructor(
+  public canListChargingStations: boolean;
+  public canListChargingStationsInError: boolean;
+  public canListChargingProfiles: boolean;
+  public canListTokens: boolean;
+  public constructor(
     private authorizationService: AuthorizationService,
     activatedRoute: ActivatedRoute,
     windowService: WindowService,
   ) {
-    super(activatedRoute, windowService, ['all', 'chargingplans', 'inerror']);
+    super(activatedRoute, windowService, ['all', 'chargingplans', 'inerror', 'connection']);
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.hasSitesAdminRights();
+    this.canListTokens = this.authorizationService.canListTokens();
+    this.canListChargingProfiles = this.authorizationService.canListChargingProfiles();
+    this.canListChargingStations = this.authorizationService.canListChargingStations();
+    this.canListChargingStationsInError = this.authorizationService.canListChargingStationsInError();
   }
 }

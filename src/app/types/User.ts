@@ -1,11 +1,12 @@
 import { Address } from './Address';
+import { AuthorizationActions } from './Authorization';
 import { BillingUserData } from './Billing';
 import { Car } from './Car';
 import CreatedUpdatedProps from './CreatedUpdatedProps';
 import { Data } from './Table';
 import { Tag } from './Tag';
 
-export interface User extends Data, CreatedUpdatedProps {
+export interface User extends Data, CreatedUpdatedProps, AuthorizationActions {
   id: string;
   issuer: boolean;
   name: string;
@@ -52,7 +53,8 @@ export interface UserNotifications {
   sendChargingStationStatusError: boolean;
   sendChargingStationRegistered: boolean;
   sendOcpiPatchStatusError: boolean;
-  sendSmtpAuthError: boolean;
+  sendOicpPatchStatusError: boolean;
+  sendSmtpError: boolean;
   sendUserAccountInactivity: boolean;
   sendPreparingSessionNotStarted: boolean;
   sendOfflineChargingStations: boolean;
@@ -62,6 +64,7 @@ export interface UserNotifications {
   sendComputeAndApplyChargingProfilesFailed: boolean;
   sendEndUserErrorNotification: boolean;
   sendBillingNewInvoice: boolean;
+  sendAdminAccountVerificationNotification: boolean;
 }
 
 export interface UserDefaultTagCar {
@@ -114,6 +117,7 @@ export enum UserButtonAction {
   CREATE_USER = 'create_user',
   CREATE_TAG = 'create_tag',
   DELETE_TAG = 'delete_tag',
+  DELETE_TAGS = 'delete_tags',
   ACTIVATE_TAG = 'activate_tag',
   DEACTIVATE_TAG = 'deactivate_tag',
   DELETE_USER = 'delete_user',

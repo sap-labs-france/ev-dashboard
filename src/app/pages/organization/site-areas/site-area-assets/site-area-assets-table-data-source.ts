@@ -25,6 +25,10 @@ export class SiteAreaAssetsDataSource extends TableDataSource<Asset> {
   private siteArea!: SiteArea;
   private addAction = new TableAddAction().getActionDef();
   private removeAction = new TableRemoveAction().getActionDef();
+  private canReadSiteArea = false;
+  private canCreateSiteArea = false;
+  private canUpdateSiteArea = false;
+  private canDeleteSiteArea = false;
 
   constructor(
     public spinnerService: SpinnerService,
@@ -36,6 +40,10 @@ export class SiteAreaAssetsDataSource extends TableDataSource<Asset> {
     private centralServerService: CentralServerService,
     private authorizationService: AuthorizationService) {
     super(spinnerService, translateService);
+    this.canReadSiteArea = this.authorizationService.canReadSiteArea();
+    this.canCreateSiteArea = this.authorizationService.canCreateSiteArea();
+    this.canUpdateSiteArea = this.authorizationService.canUpdateSiteArea();
+    this.canDeleteSiteArea = this.authorizationService.canDeleteSiteArea();
   }
 
   public loadDataImpl(): Observable<DataResult<Asset>> {
@@ -45,7 +53,6 @@ export class SiteAreaAssetsDataSource extends TableDataSource<Asset> {
         // Yes: Get data
         this.centralServerService.getAssets(this.buildFilterValues(),
           this.getPaging(), this.getSorting()).subscribe((assets) => {
-            this.removeAction.disabled = (assets.count === 0 || !this.hasSelectedRows());
             observer.next(assets);
             observer.complete();
           }, (error) => {
@@ -64,13 +71,8 @@ export class SiteAreaAssetsDataSource extends TableDataSource<Asset> {
     });
   }
 
-  public toggleRowSelection(row: Asset, checked: boolean) {
-    super.toggleRowSelection(row, checked);
-    this.removeAction.disabled = !this.hasSelectedRows();
-  }
-
   public buildTableDef(): TableDef {
-    if (this.siteArea && this.authorizationService.isAdmin()) {
+    if (this.siteArea && (this.canReadSiteArea && this.canCreateSiteArea && this.canUpdateSiteArea && this.canDeleteSiteArea)) {
       return {
         class: 'table-dialog-list',
         rowSelection: {
@@ -120,7 +122,7 @@ export class SiteAreaAssetsDataSource extends TableDataSource<Asset> {
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-    if (this.siteArea && this.authorizationService.isAdmin()) {
+    if (this.siteArea && (this.canReadSiteArea && this.canCreateSiteArea && this.canUpdateSiteArea && this.canDeleteSiteArea)) {
       return [
         this.addAction,
         this.removeAction,

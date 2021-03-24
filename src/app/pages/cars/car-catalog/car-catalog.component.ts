@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { Constants } from 'utils/Constants';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -19,8 +20,9 @@ export class CarCatalogComponent implements OnInit {
   @Input() public dialogRef!: MatDialogRef<any>;
   public carCatalog: CarCatalog;
   public isSuperAdmin: boolean;
+  public noImage = Constants.NO_IMAGE;
 
-  constructor(
+  public constructor(
     private centralServerService: CentralServerService,
     public spinnerService: SpinnerService,
     private messageService: MessageService,

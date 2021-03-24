@@ -4,6 +4,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import localeDe from '@angular/common/locales/de';
 import localeEs from '@angular/common/locales/es';
 import localeFr from '@angular/common/locales/fr';
+import localeIt from '@angular/common/locales/it';
 import localePt from '@angular/common/locales/pt';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -45,6 +46,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ChartModule } from 'angular2-chartjs';
 import { NgxCaptchaModule } from 'ngx-captcha';
 import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
+import { UtilsService } from 'services/utils.service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -75,6 +77,7 @@ registerLocaleData(localeFr, 'fr');
 registerLocaleData(localeDe, 'de');
 registerLocaleData(localeEs, 'es');
 registerLocaleData(localePt, 'pt');
+registerLocaleData(localeIt, 'it');
 
 @NgModule({
   exports: [
@@ -189,6 +192,7 @@ export function localeFactory(
     LocalStorageService,
     MessageService,
     ConfigService,
+    UtilsService,
     TranslateService,
     WindowService,
     DashboardService,
@@ -199,7 +203,7 @@ export function localeFactory(
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  constructor(
+  public constructor(
     private centralServerService: CentralServerService,
     private translateService: TranslateService) {
 
@@ -211,10 +215,10 @@ export class AppModule {
       language = loggedUser.language;
     }
     // Supported
-    translateService.addLangs(['en', 'fr', 'es', 'de', 'pt']);
+    translateService.addLangs(['en', 'fr', 'es', 'de', 'pt', 'it']);
     // Default EN
     translateService.setDefaultLang('en');
     // Use the browser's language or default to EN
-    translateService.use(language.match(/en|fr|es|de|pt/) ? language : 'en');
+    translateService.use(language.match(/en|fr|es|de|pt|it/) ? language : 'en');
   }
 }

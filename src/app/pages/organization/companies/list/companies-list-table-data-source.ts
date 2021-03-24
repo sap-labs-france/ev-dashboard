@@ -33,12 +33,16 @@ import { CompanyDialogComponent } from '../company/company.dialog.component';
 
 @Injectable()
 export class CompaniesListTableDataSource extends TableDataSource<Company> {
-  private isAdmin = false;
+  private canReadCompany = false;
+  private canCreateCompany = false;
+  private canUpdateCompany = false;
+  private canDeleteCompany = false;
+  private canCrudCompany = false;
   private editAction = new TableEditCompanyAction().getActionDef();
   private deleteAction = new TableDeleteCompanyAction().getActionDef();
   private viewAction = new TableViewCompanyAction().getActionDef();
 
-  constructor(
+  public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     private messageService: MessageService,
@@ -51,7 +55,11 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
     private authorizationService: AuthorizationService) {
     super(spinnerService, translateService);
     // Init
-    this.isAdmin = this.authorizationService.isAdmin();
+    this.canReadCompany = this.authorizationService.canReadCompany();
+    this.canCreateCompany = this.authorizationService.canCreateCompany();
+    this.canUpdateCompany = this.authorizationService.canUpdateCompany();
+    this.canDeleteCompany = this.authorizationService.canDeleteCompany();
+    this.canCrudCompany = this.canCreateCompany && this.canReadCompany && this.canUpdateCompany && this.canDeleteCompany;
     this.setStaticFilters([{ WithLogo: true }]);
     this.initDataSource();
   }
@@ -118,7 +126,7 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
         sortable: true,
       },
     ];
-    if (this.authorizationService.isAdmin()) {
+    if (this.canCrudCompany) {
       tableColumnDef.push(
         {
           id: 'createdOn',
@@ -157,7 +165,7 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-    if (this.isAdmin) {
+    if (this.canCreateCompany) {
       return [
         new TableCreateCompanyAction().getActionDef(),
         ...tableActionsDef,
@@ -167,26 +175,26 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
   }
 
   public buildTableDynamicRowActions(company: Company): TableActionDef[] {
+    const actions = [];
     // Check if GPS is available
     const openInMaps = new TableOpenInMapsAction().getActionDef();
     openInMaps.disabled = !Utils.containsAddressGPSCoordinates(company.address);
+    const moreActions = new TableMoreAction([]);
     if (company.issuer) {
-      if (this.isAdmin) {
-        return [
-          this.editAction,
-          new TableMoreAction([
-            openInMaps,
-            this.deleteAction,
-          ]).getActionDef(),
-        ];
+      if (company.canUpdate) {
+        actions.push(this.editAction);
+      } else if (company.canRead) {
+        actions.push(this.viewAction);
       }
+      if (company.canDelete) {
+        moreActions.addActionInMoreActions(this.deleteAction);
+      }
+    } else if (company.canRead) {
+      actions.push(this.viewAction);
     }
-    return [
-      this.viewAction,
-      new TableMoreAction([
-        openInMaps,
-      ]).getActionDef(),
-    ];
+    moreActions.addActionInMoreActions(openInMaps);
+    actions.push(moreActions.getActionDef());
+    return actions;
   }
 
   public actionTriggered(actionDef: TableActionDef) {

@@ -9,7 +9,7 @@ import { CarsListTableDataSource } from './cars-list-table-data-source';
 })
 export class CarsListComponent {
 
-  constructor(
+  public constructor(
     public carsListTableDataSource: CarsListTableDataSource,
   ) {
   }

@@ -232,9 +232,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       {
         id: 'eulaAcceptedOn',
         name: 'users.eula_accepted_on',
-        formatter: (eulaAcceptedOn: Date, row: User) => {
-          return eulaAcceptedOn ? this.datePipe.transform(eulaAcceptedOn) + ` (${this.translateService.instant('general.version')} ${row.eulaAcceptedVersion})` : '-';
-        },
+        formatter: (eulaAcceptedOn: Date, row: User) => eulaAcceptedOn ? this.datePipe.transform(eulaAcceptedOn) + ` (${this.translateService.instant('general.version')} ${row.eulaAcceptedVersion})` : '-',
         headerClass: 'col-20em',
         class: 'col-20em',
         sortable: true,
@@ -245,48 +243,56 @@ export class UsersListTableDataSource extends TableDataSource<User> {
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-    tableActionsDef.unshift(new TableExportUsersAction().getActionDef());
-    tableActionsDef.unshift(new TableCreateUserAction().getActionDef());
-    if (this.componentService.isActive(TenantComponents.BILLING) &&
-      this.authorizationService.canSynchronizeBillingUsers()) {
-      tableActionsDef.splice(1, 0, this.syncBillingUsersAction);
+    if (this.authorizationService.canExportUsers()) {
+      tableActionsDef.unshift(new TableExportUsersAction().getActionDef());
     }
-    return [
-      ...tableActionsDef,
-    ];
+    if (this.componentService.isActive(TenantComponents.BILLING) &&
+        this.authorizationService.canSynchronizeBillingUsers()) {
+      tableActionsDef.unshift(this.syncBillingUsersAction);
+    }
+    if (this.authorizationService.canCreateUser()) {
+      tableActionsDef.unshift(new TableCreateUserAction().getActionDef());
+    }
+    return tableActionsDef;
   }
 
   public buildTableDynamicRowActions(user: User): TableActionDef[] {
-    let actions = [];
+    const actions: TableActionDef[] = [];
+    const moreActions = new TableMoreAction([]);
     if (user.issuer) {
-      const moreActions = new TableMoreAction([]);
-      moreActions.addActionInMoreActions(this.navigateToTagsAction);
-      moreActions.addActionInMoreActions(this.navigateToTransactionsAction);
-      if (this.componentService.isActive(TenantComponents.ORGANIZATION) &&
-        this.authorizationService.canUpdateUser() &&
-        this.authorizationService.canUpdateSite()) {
-        actions = [
-          this.editAction,
-          this.assignSitesToUser,
-        ];
-      } else {
-        actions = [
-          this.editAction,
-        ];
+      if (user.canUpdate) {
+        actions.push(this.editAction);
       }
-      if (this.componentService.isActive(TenantComponents.BILLING) &&
-        this.authorizationService.canSynchronizeBillingUser()) {
-        moreActions.addActionInMoreActions(this.forceSyncBillingUserAction);
+      if (this.componentService.isActive(TenantComponents.ORGANIZATION)) {
+        if (this.authorizationService.canListUsersSites()) {
+          actions.push(this.assignSitesToUser);
+        }
       }
-      if (this.currentUser.id !== user.id && this.authorizationService.canDeleteUser()) {
+      if (this.authorizationService.canListTokens()) {
+        moreActions.addActionInMoreActions(this.navigateToTagsAction);
+      }
+      if (this.authorizationService.canListTransactions()) {
+        moreActions.addActionInMoreActions(this.navigateToTransactionsAction);
+      }
+      if (this.componentService.isActive(TenantComponents.BILLING)) {
+        if (this.authorizationService.canSynchronizeBillingUser()) {
+          moreActions.addActionInMoreActions(this.forceSyncBillingUserAction);
+        }
+      }
+      if (user.canDelete) {
         moreActions.addActionInMoreActions(this.deleteAction);
       }
       actions.push(moreActions.getActionDef());
     } else {
-      const moreActions = new TableMoreAction([
-        this.navigateToTagsAction,
-        this.navigateToTransactionsAction
-      ]);
+      if (this.authorizationService.canListTokens()) {
+        moreActions.addActionInMoreActions(this.navigateToTagsAction);
+      }
+      if (this.authorizationService.canListTransactions()) {
+        moreActions.addActionInMoreActions(this.navigateToTransactionsAction);
+      }
+      if (user.canDelete) {
+        moreActions.addActionInMoreActions(this.deleteAction);
+      }
       actions.push(moreActions.getActionDef());
     }
     return actions;
@@ -367,11 +373,12 @@ export class UsersListTableDataSource extends TableDataSource<User> {
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {
+    const issuerFilter = new IssuerFilter().getFilterDef();
     return [
-      new IssuerFilter().getFilterDef(),
+      issuerFilter,
       new UserRoleFilter(this.centralServerService).getFilterDef(),
       new UserStatusFilter().getFilterDef(),
-      new TagTableFilter().getFilterDef(),
+      new TagTableFilter([issuerFilter]).getFilterDef(),
       new SiteTableFilter().getFilterDef(),
     ];
   }

@@ -29,6 +29,7 @@ export class TableRefundTransactionsAction implements TableAction {
     name: 'general.refund',
     tooltip: 'general.tooltips.refund',
     action: this.refund,
+    linkedToListSelection: true,
   };
 
   // Return an action
@@ -74,10 +75,6 @@ export class TableRefundTransactionsAction implements TableAction {
           }, (error: any) => {
             spinnerService.hide();
             switch (error.status) {
-              case HTTPAuthError.ERROR:
-                Utils.handleHttpError(error, router, messageService,
-                  centralServerService, 'transactions.notification.refund.not_authorized');
-                break;
               case HTTPError.REFUND_SESSION_OTHER_USER_ERROR:
                 Utils.handleHttpError(error, router, messageService,
                   centralServerService, 'transactions.notification.refund.forbidden_refund_another_user');

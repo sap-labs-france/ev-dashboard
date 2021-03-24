@@ -7,7 +7,7 @@ export class LocalStorageService {
   private requestId = 0;
   private requests = [];
 
-  constructor() {
+  public constructor() {
     // Init
     if (self !== top) {
       this.isInIFrame = true;

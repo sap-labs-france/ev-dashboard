@@ -14,7 +14,8 @@ import TenantComponents from '../../types/TenantComponents';
 export class StatisticsComponent extends AbstractTabComponent {
   public isAdmin: boolean;
   public isPricingActive = false;
-  constructor(
+
+  public constructor(
     private authorizationService: AuthorizationService,
     private componentService: ComponentService,
     activatedRoute: ActivatedRoute,

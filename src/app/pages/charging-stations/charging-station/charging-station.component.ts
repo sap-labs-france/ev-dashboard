@@ -4,6 +4,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { UtilsService } from 'services/utils.service';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -13,7 +14,7 @@ import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { ChargingStation } from '../../../types/ChargingStation';
 import { KeyValue, RestResponse } from '../../../types/GlobalType';
-import { HTTPAuthError, HTTPError } from '../../../types/HTTPError';
+import { HTTPError } from '../../../types/HTTPError';
 import { Utils } from '../../../utils/Utils';
 import { ChargingStationParametersComponent } from './parameters/charging-station-parameters.component';
 
@@ -31,13 +32,14 @@ export class ChargingStationComponent implements OnInit {
   public chargingStation: ChargingStation;
   public userLocales: KeyValue[];
   public isAdmin!: boolean;
+  public isProdLandscape!: boolean;
 
   public isPropertiesPaneDisabled = false;
   public isChargerPaneDisabled = false;
   public isOCPPParametersPaneDisabled = false;
   public activeTabIndex = 0;
 
-  constructor(
+  public constructor(
     private authorizationService: AuthorizationService,
     private spinnerService: SpinnerService,
     private centralServerService: CentralServerService,
@@ -45,6 +47,7 @@ export class ChargingStationComponent implements OnInit {
     private translateService: TranslateService,
     private localeService: LocaleService,
     private dialogService: DialogService,
+    private utilsService: UtilsService,
     private dialog: MatDialog,
     private router: Router) {
     // Get Locales
@@ -64,6 +67,7 @@ export class ChargingStationComponent implements OnInit {
       this.dialog.closeAll();
     }
     this.isAdmin = this.authorizationService.isAdmin();
+    this.isProdLandscape = this.utilsService.isProdLandscape();
   }
 
   public loadChargingStation() {
@@ -93,8 +97,12 @@ export class ChargingStationComponent implements OnInit {
   public saveChargingStation(chargingStation: ChargingStation) {
     // Clone
     const chargingStationToSave = Utils.cloneObject(chargingStation) as ChargingStation;
-    // Do not save charge point
-    delete chargingStationToSave.chargePoints;
+    if (!chargingStationToSave.manualConfiguration) {
+      // Do not save charge point
+      delete chargingStationToSave.chargePoints;
+    } else {
+      this.adjustChargePoints(chargingStationToSave);
+    }
     // Save
     this.spinnerService.show();
     this.centralServerService.updateChargingStationParams(chargingStationToSave).subscribe((response) => {
@@ -109,14 +117,14 @@ export class ChargingStationComponent implements OnInit {
     }, (error) => {
       this.spinnerService.hide();
       switch (error.status) {
-        case HTTPAuthError.ERROR:
-          this.messageService.showErrorMessage('chargers.change_config_error');
-          break;
         case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
           this.messageService.showErrorMessage('chargers.change_config_error');
           break;
         case HTTPError.THREE_PHASE_CHARGER_ON_SINGLE_PHASE_SITE_AREA:
           this.messageService.showErrorMessage('chargers.change_config_phase_error');
+          break;
+        case HTTPError.CHARGE_POINT_NOT_VALID:
+          this.messageService.showErrorMessage('chargers.charge_point_connectors_error');
           break;
         default:
           Utils.handleHttpError(error, this.router, this.messageService,
@@ -138,5 +146,25 @@ export class ChargingStationComponent implements OnInit {
   public close() {
     Utils.checkAndSaveAndCloseDialog(this.formGroup, this.dialogService, this.translateService,
       this.saveChargingStation.bind(this), this.closeDialog.bind(this));
+  }
+
+  private adjustChargePoints(chargingStation: ChargingStation) {
+    for (const chargePoint of chargingStation.chargePoints) {
+      chargePoint.amperage = 0;
+      chargePoint.power = 0;
+      for (const connectorID of chargePoint.connectorIDs) {
+        const connector = Utils.getConnectorFromID(chargingStation, connectorID);
+        if (!chargePoint.sharePowerToAllConnectors) {
+          chargePoint.amperage += connector.amperage;
+          chargePoint.power += connector.power;
+        } else {
+          chargePoint.amperage = connector.amperage;
+          chargePoint.power = connector.power;
+        }
+        chargePoint.numberOfConnectedPhase = connector.numberOfConnectedPhase;
+        chargePoint.currentType = connector.currentType;
+        chargePoint.voltage = connector.voltage;
+      }
+    }
   }
 }

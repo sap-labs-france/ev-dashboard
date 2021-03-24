@@ -5,6 +5,7 @@
     "captcha_text_3": " et l'application des ",
     "captcha_text_4": "Conditions d’Utilisation",
     "captcha_text_5": "",
+    "not_authorized": "Vous n'êtes pas autorisé a exécuter cette action",
     "created_on": "Créé le",
     "created_by": "Créé par",
     "changed_on": "Modifié le",
@@ -25,7 +26,7 @@
     "connectors": "Connexions",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.4.35",
+    "last_update": "Version 2.4.54",
     "version": "Version",
     "about_us": "A Propos",
     "unexpected_error_backend": "Une erreur inattendue s'est produite, vérifiez les logs",
@@ -70,6 +71,7 @@
     "update": "Changer",
     "refresh": "Rafraîchir",
     "generate_qr": "Générer code QR",
+    "display_qr": "Afficher QR code",
     "save": "Sauvegarder",
     "delete": "Effacer",
     "export": "Export",
@@ -141,6 +143,8 @@
     "reset_filters": "Réinitialiser les Filtres",
     "browser_not_supported": "Ce navigateur n'est pas supporté ! Veuillez utiliser Chrome ou Firefox.",
     "status": "Statut",
+    "revoke": "Révoquer",
+    "edit": "Editer",
     "menu": {
       "dashboard": "Tableau de bord",
       "charging_stations": "Bornes",
@@ -164,6 +168,8 @@
       "pricing": "Prix",
       "components": "Composants",
       "settings": "Configuration",
+      "integration_settings": "Paramètres Intégrations",
+      "technical_settings": "Paramètres Techniques",
       "assets": "Ressources",
       "organization": "Organisation",
       "cars": "Voitures",
@@ -310,8 +316,11 @@
     "logo": "Logo",
     "name": "Nom",
     "asset_type": "Type de ressource",
+    "fluctuation_percent": "Fluctuation à court terme (%)",
+    "static_value_watt": "Puissance Statique (W)",
     "produce": "Produit de l'Energie'",
     "consume": "Consomme de l'Energie",
+    "consume_and_produce": "Consomme et Produit de l'energy",
     "dynamic_asset": "Ressource Dynamique",
     "instant_power": "Puissance Instantanée",
     "asset_connection": "Connexion à la Ressource",
@@ -335,8 +344,8 @@
     "asset_settings_error": "Une erreur survenue lors de la réception des paramètres des ressources, vérifiez les logs",
     "create_success": "La ressource '{{assetName}}' a été créée avec succès",
     "create_error": "Une erreur est survenue pendant la création de la ressource, vérifiez les logs",
-    "refresh_success": "La connexion à la ressource a été renouvelée avec succès",
-    "refresh_error": "Une erreur est survenue pendant le rafraichissement de la ressource, vérifiez les logs",
+    "refresh_success": "La consommation ou production de la ressource a été récupérée avec succès",
+    "refresh_error": "Une erreur est survenue pendant le récupération de la consommation ou production de la ressource, vérifiez les logs",
     "logo_size_error": "La taille de l'image est trop importante, la limite est de '{{maxPictureKb}}' Ko",
     "select_assets": "Selection Ressource",
     "consumption_date": "Date",
@@ -430,7 +439,7 @@
     "image": "Image",
     "assigned_chargers": "Bornes",
     "assigned_chargers_to_site_area": "Bornes assignées à '{{siteAreaName}}'",
-    "assigned_assets_to_site_area": "Assets assignés à '{{siteAreaName}}'",
+    "assigned_assets_to_site_area": "Ressources assignées à '{{siteAreaName}}'",
     "name": "Nom",
     "title": "Zone",
     "titles": "Zones",
@@ -509,7 +518,7 @@
     "define_password_button": "Sauvegarder",
     "define_password_hash_not_valid": "La requête n'est plus valide, redemander un mot de passe",
     "define_password_success": "Votre mot de passe a été mis à jour avec succès",
-    "define_password_error": "Une erreur est survenue pendant la mise a jour de votre mot de passe, vérifiez les logs",
+    "define_password_error": "Une erreur est survenue pendant la mise à jour de votre mot de passe, vérifiez les logs",
     "reset_password_title": "Réinitialiser votre mot de passe",
     "reset_password_button": "Réinitialiser",
     "reset_password_confirm": "Voulez-vous vraiment réinitialiser votre mot de passe?",
@@ -526,6 +535,7 @@
     "verify_email_title": "Activation de votre Compte",
     "verify_email_already_active": "Votre compte est déjà actif !",
     "verify_email_success": "Votre compte a été activé avec succès!",
+    "verify_email_success_inactive": "Votre compte a été vérifié avec succès, un administrateur va examiner et activer votre compte.",
     "verify_email_success_set_password": "Votre compte a été activé ! Merci de définir un mot de passe pour finaliser l'enregistrement",
     "verify_email_token_not_valid": "Le lien d'activation de votre compte n'est plus valide",
     "verify_email_email_not_valid": "Cet Email n'existe plus",
@@ -540,7 +550,7 @@
   },
   "statistics": {
     "title": "Statistiques",
-    "description": "Statistiques incorporées",
+    "description": "Statistics of charging sessions",
     "charger_kw_h": "kW.h",
     "legend_select_unselect_all": "Select./Deselect. Tout",
     "graphic_title_consumption_y_axis": "Consommation (kW.h)",
@@ -673,6 +683,7 @@
     "public_charger": "Public",
     "exclude_smart_charging": "Exclure de la charge intelligente",
     "force_inactive": "Cette borne est inactive",
+    "manual_configuration": "Configuration Manuelle",
     "public_url": "URL Publique",
     "current_ip": "Route IP Actuelle",
     "select_chargers": "Selection Borne",
@@ -755,8 +766,16 @@
         "title": "Localisation des bornes"
       },
       "settings": {
-        "fixedURLforOCPP": "Depuis la version OCPP 1.6, l'URL est fixée par le serveur",
-        "callbackURLforOCPP": "URL de retour pour envoyer les requêtes HHTP à la borne"
+        "fixed_url_for_ocpp": "Depuis la version OCPP 1.6, l'URL est fixée par le serveur",
+        "callback_url_for_ocpp": "URL de retour pour envoyer les requêtes HHTP à la borne"
+      },
+      "enable_manual_configuration": {
+        "title": "Activer la configuration manuelle",
+        "confirm": "Si vous activez la configuration manuelle, la borne ne sera plus reajustée avec le modèle de configuration automatique. Voulez-vous continuer?"
+      },
+      "disable_manual_configuration":{
+        "title": "Désactiver la configuration manuelle",
+        "confirm": "Si vous désactivez la configuration manuelle, la borne sera réajustée avec le modèle de configuration automatique, redémarrée et vos changements manuels seront perdus. Voulez-vous continuer?"
       }
     },
     "force_available_status_action": "Rendre Disponible",
@@ -923,9 +942,10 @@
     "force_unavailable_status_success": "Le statut des connecteurs de la borne '{{chargeBoxID}}'à été changé avec succès",
     "force_unavailable_status_error": "Une erreur est survenue pendant le changement du statut des connecteurs de la borne, vérifiez les logs",
     "retrieve_config_success": "La configuration de la borne '{{chargeBoxID}}' a été téléchargée avec succès",
+    "change_config_success": "La borne '{{chargeBoxID}}' a été sauvegardée avec succès",
     "change_config_error": "impossible de changer la configuration de la borne, vérifier les logs",
     "change_config_phase_error": "Impossible d'assigner une borne triphasée sur une zone monophasée",
-    "change_config_success": "La borne '{{chargeBoxID}}' a été sauvegardée avec succès",
+    "charge_point_connectors_error": "Une erreur est survenue pendant la sauvegarde de la borne. Les propriétés du point de charge ne correspondent pas à celles des connecteurs",
     "change_params_success": "Le paramètre '{{paramKey}}' a bien été mis à jour dans la borne '{{chargeBoxID}}'",
     "change_params_error": "Le paramètre '{{paramKey}}' a été refusé par la borne '{{chargeBoxID}}'",
     "delete_title": "Supprimer",
@@ -939,7 +959,7 @@
     "update_firmware_confirm": "Voulez-vous vraiment mettre à jour la borne '{{chargeBoxID}}'?",
     "button_update_firmware": "Mettre à Jour",
     "update_firmware_error": "Une erreur est survenue pendant l'envoi de la commande de mise à jour du firmware, vérifiez les logs",
-    "update_firmware_success": "La demande de mise a jour du firmware de la borne '{{chargeBoxID}}' a bien été envoyée",
+    "update_firmware_success": "La demande de mise à jour du firmware de la borne '{{chargeBoxID}}' a bien été envoyée",
     "save_charger": "Sauvegarder",
     "stop_transaction_title": "Stopper",
     "stop_transaction_confirm": "Voulez-vous vraiment stopper la session de la borne '{{chargeBoxID}}'?",
@@ -1001,7 +1021,8 @@
     "tabs": {
       "list": "Bornes",
       "charging_plans": "Charging Plans",
-      "in_error": "En Erreur"
+      "in_error": "En Erreur",
+      "connection": "Connecter une nouvelle borne"
     },
     "errors": {
       "missing_settings": {
@@ -1024,6 +1045,44 @@
         "description": "La borne a renvoyé un état en erreur sur un des connecteurs",
         "action": "Vérifier le code d'erreur et éventuellement redémarrer la borne"
       }
+    },
+    "connections": {
+      "registration_tokens_title": "Jetons d'enregistrement des bornes de recharge",
+      "registration_token_site_area_name": "Jetons d'enregistrement pour la zone '{{siteAreaName}}'",
+      "registration_token_creation_title": "Créer un jeton d'enregistrement",
+      "registration_token_creation_confirm": "Voulez-vous vraiment créer un jeton d'enregistrement pour les bornes de recharge de cette zone?",
+      "registration_token_creation_success": "Le jeton d'enregistrement a été créé avec succès",
+      "registration_token_creation_error": "Une erreur est survenue pendant la création du jeton d'enregistrement, vérifiez les logs",
+      "registration_token_site_admin_creation_error": "Vous devez fournir un site rattaché à ce jeton d'enregistrement",
+      "registration_token_revoke_title": "Révoquer un jeton d'enregistrement",
+      "registration_token_revoke_confirm": "Voulez-vous vraiment révoquer le jeton d'enregistrement ?",
+      "registration_token_revoke_success": "Le jeton d'enregistrement a été révoqué avec succès",
+      "registration_token_revoke_error": "Une erreur est survenue pendant la révocation du jeton d'enregistrement, vérifiez les logs",
+      "registration_token_update_title": "Mise à jour du jeton d'enregistrement",
+      "registration_token_update_confirm": "Voulez-vous vraiment mettre à jour le jeton d'enregistrement ?",
+      "registration_token_update_success": "Le jeton d'enregistrement a été mis à jour avec succès",
+      "registration_token_update_error": "Une erreur est survenue pendant la mise à jour du jeton d'enregistrement, vérifiez les logs",
+      "registration_token_not_found": "Le jeton d'enregistrement n'a pas été trouvé",
+      "registration_token_delete_title": "Supprimer un jeton d'enregistrement",
+      "registration_token_delete_confirm": "Voulez-vous vraiment supprimer le jeton d'enregistrement ?",
+      "registration_token_delete_success": "Le jeton d'enregistrement a été supprimé avec succès",
+      "registration_token_delete_error": "Une erreur est survenue pendant la suppression du jeton d'enregistrement, vérifiez les logs",
+      "registration_token_url": "URL d'enregistrement",
+      "registration_token_valid": "Valide",
+      "registration_token_expired": "Expiré",
+      "registration_token_revoked": "Révoqué",
+      "registration_token_error": "Une erreur est survenue pendant la récupération du jeton d'enregistrement, vérifiez les logs",
+      "token_restrict_site_area": "Restreindre l'accès à une zone",
+      "url": "URL OCPP",
+      "copy_url_tooltip": "Copier l'URL OCPP",
+      "url_copied": "L'URL OCPP a été copiée dans votre presse-papiers",
+      "generate_connection_url": "Connecter une Borne",
+      "ocpp_15_soap": "OCPP 1.5 SOAP",
+      "ocpp_16_json": "OCPP 1.6 JSON",
+      "ocpp_16_soap": "OCPP 1.6 SOAP",
+      "ocpp_15_soap_secure": "OCPP 1.5 SOAP Sécurisé",
+      "ocpp_16_json_secure": "OCPP 1.6 JSON Sécurisé",
+      "ocpp_16_soap_secure": "OCPP 1.6 SOAP Sécurisé"
     }
   },
   "logs": {
@@ -1107,6 +1166,7 @@
     "locale_desc_spanish": "Espagnol",
     "locale_desc_german": "Allemand",
     "locale_desc_portuguese": "Portuguese",
+    "locale_desc_italian": "Italian",
     "role_unknown": "Inconnu",
     "locale_unknown": "Inconnu",
     "status": "Statut",
@@ -1248,7 +1308,7 @@
     "issuer": "Propriétaire",
     "status": "Statut",
     "activated": "Activé",
-    "deactivated": "Désactivé",
+    "deactivated": "Inactif",
     "sessions": "Sessions",
     "activate_title": "Badge activation",
     "activate_confirm": "Voulez-vous vraiment activer le badge '{{tagID}}'? Lorsqu'il sera activé, ce badge pourra servir pour démarrer une session.",
@@ -1273,7 +1333,12 @@
     "tag_id_already_used": "Le badge '{{tagID}}' existe déjà",
     "redirect": "Naviguer vers Badges",
     "title": "Badge",
-    "default_tag": "Badge par défaut"
+    "default_tag": "Badge par défaut",
+    "delete_tags_title": "Supprimer Session(s)",
+    "delete_tags_confirm": "Voulez-vous vraiment supprimer les badges sélectionnés ?",
+    "delete_tags_success": "'{{inSuccess}}' badges ont été supprimés avec succès",
+    "delete_tags_partial": "'{{inSuccess}}' badges ont été supprimés avec succès et '{{inError}}' badges ont rencontrés une erreur",
+    "delete_tags_error": "Une erreur est survenue pendant la suppression des badges, vérifiez les logs"
   },
   "tenants": {
     "title": "Organisation",
@@ -1298,6 +1363,7 @@
     "save_error_refund": "La tarification doit être active pour utiliser le remboursement",
     "save_error_billing": "La tarification doit être active pour utiliser la facturation",
     "save_error_smart_charging": "L'organisation doit être active pour utiliser Smart Charging",
+    "save_error_car_connector": "La gestion des véhicules doit être activée pour utiliser le connecteur des véhicules",
     "smart_charging_still_active_for_site_area": "La charge intelligente est encore active pour certaines zones.<br>Désactivez la charge intelligente sur ces zones.",
     "logo_size_error": "La taille de l'image est trop importante, la limite est de {{maxPictureKb}} Ko"
   },
@@ -1306,13 +1372,14 @@
     "settings_not_saved": "Vous devez d'abord enregistrer vos changements",
     "tabs": {
       "ocpi": "Itinérance",
-      "charging_station": "Borne",
+      "oicp": "Itinérance Hubject",
       "refund": "Remboursement",
       "pricing": "Tarification",
       "billing": "Facturation",
       "analytics": "Statistiques",
       "smart_charging": "Charge Intelligente",
-      "asset": "Asset"
+      "asset": "Ressource",
+      "car_connector": "Connecteur Véhicule"
     },
     "ocpi": {
       "gireve": {
@@ -1326,33 +1393,17 @@
       "update_error": "Une erreur est survenue pendant la mise à jour de la configuration OCPI, vérifiez les logs",
       "description": "E-Mobility fournit un service certifié permettant de se connecter à une plate-forme d'itinérance externe.<br>Cette fonctionnalité permet de visualiser en temps réel l’infrastructure et la disponibilité des bornes de recharge via le protocole standard OCPI (Open Charge Point Interface).<br>E-Mobility utilise actuellement la plate-forme d'interopérabilité Gireve (IOP)."
     },
-    "charging_station": {
-      "registration_tokens_title": "Jetons d'enregistrement des bornes de recharge",
-      "registration_token_site_area_name": "Token pour la zone '{{siteAreaName}}'",
-      "registration_token_creation_title": "Créer un jeton d'enregistrement",
-      "registration_token_creation_confirm": "Voulez-vous vraiment créer un jeton d'enregistrement pour les bornes de recharge de cette zone?",
-      "registration_token_creation_success": "Le jeton d'enregistrement a été créé avec succès",
-      "registration_token_creation_error": "Une erreur est survenue pendant la création du jeton d'enregistrement, vérifiez les logs",
-      "registration_token_revoke_title": "Révoquer un jeton d'enregistrement",
-      "registration_token_revoke_confirm": "Voulez-vous vraiment révoquer le jeton d'enregistrement ?",
-      "registration_token_revoke_success": "Le jeton d'enregistrement a été révoqué avec succès",
-      "registration_token_revoke_error": "Une erreur est survenue pendant la création du jeton d'enregistrement, vérifiez les logs",
-      "registration_token_delete_title": "Supprimer un jeton d'enregistrement",
-      "registration_token_delete_confirm": "Voulez-vous vraiment supprimer le jeton d'enregistrement ?",
-      "registration_token_delete_success": "Le jeton d'enregistrement a été supprimé avec succès",
-      "registration_token_delete_error": "Une erreur est survenue pendant la suppression du jeton d'enregistrement, vérifiez les logs",
-      "registration_token_url": "URL d'enregistrement",
-      "registration_token_valid": "Valide",
-      "registration_token_expired": "Expiré",
-      "registration_token_revoked": "Révoqué",
-      "token_restrict_site_area": "Restreindre l'accès à une zone",
-      "url": "OCPP URL",
-      "copy_url_tooltip": "Copier l'URL OCPP",
-      "url_copied": "L'URL OCPP a été copiée dans votre presse-papiers",
-      "generate_connection_url": "Connecter une Borne",
-      "ocpp_15_soap": "OCPP 1.5 SOAP",
-      "ocpp_16_json": "OCPP 1.6 JSON",
-      "ocpp_16_soap": "OCPP 1.6 SOAP"
+    "oicp": {
+      "hubject": {
+        "title": "Hubject"
+      },
+      "setting_do_not_exist": "La configuration OICP n'est pas disponible",
+      "setting_not_found": "La configuration OICP n'a pas été trouvée",
+      "create_success": "La configuration OICP a été créée avec succès",
+      "create_error": "Une erreur est survenue pendant la creation de la configuration OICP, vérifiez les logs",
+      "update_success": "La configuration OICP a été mis à jour avec succès",
+      "update_error": "Une erreur est survenue pendant la mise à jour de la configuration OICP, vérifiez les logs",
+      "description": "E-Mobility fournit un service certifié permettant de se connecter à une plate-forme d'itinérance externe.<br>Cette fonctionnalité permet de visualiser en temps réel l’infrastructure et la disponibilité des bornes de recharge via le protocole standard OICP (Open InterCharge Protocol).<br>E-Mobility utilise actuellement la plate-forme d'interopérabilité Hubject (IOP)."
     },
     "refund": {
       "description": "E-Mobility fournit un service de remboursement pour des systèmes externes.<br>Cette fonctionnalité permet à l'utilisateur de se faire rembourser des dépenses d'électricité liées à ses transactions.<br>E-Mobility utilise actuellement SAP Concur.<br>Plus d'informations techniques disponibilite sur ",
@@ -1479,7 +1530,11 @@
         "title": "SAP Smart Charging",
         "settings": "Configuration",
         "user": "Utilisateur",
-        "password": "Mot de passe"
+        "password": "Mot de passe",
+        "additional_settings":"Additional settings:",
+        "sticky_limitation": "Adjust limit according to current consumption",
+        "limit_buffer_dc": "Buffer for Limit DC (%)",
+        "limit_buffer_ac": "Buffer for Limit AC (%)"
       },
       "description": "E-Mobility peut utiliser un algorithme de charge intelligente pour optimiser la puissance distribuée aux bornes basé sur des contraintes complèxes",
       "setting_do_not_exist": "La configuration n'existe pas",
@@ -1501,11 +1556,14 @@
         "base_url": "URL",
         "user": "Utilisateur",
         "password": "Mot de passe",
+        "client_id":"Client ID",
+        "client_secret":"Client Secret",
         "delete_title": "Supprimer la connexion à la ressource",
         "delete_confirm": "Voulez-vous vraiment supprimer la connexion '{{assetConnectionName}}'?"
       },
       "types": {
-        "schneider": "Gestion Bâtiment Schneider"
+        "schneider": "Gestion Bâtiment Schneider",
+        "greencom": "GreenCom Gestion des Ressources"
       },
       "connection_success": "Connexion vers le système vérifiée avec succès",
       "unknown_connection_error": "Erreur de connexion inconnue",
@@ -1519,6 +1577,30 @@
       "update_success": "La configuration des ressources a été mise à jour avec succès",
       "update_error": "Une erreur est survenue durant la mise à jour de la configuration des ressources, vérifiez les logs"
     },
+    "car_connector": {
+      "connection": {
+        "title": "Connecteur Voitures",
+        "name": "Nom",
+        "description": "Description",
+        "type": "Type",
+        "authentication_url": "Url Authentification",
+        "api_url": "Url API",
+        "client_id":"Client ID",
+        "client_secret":"Client Secret",
+        "delete_title": "Supprimer Connecteur",
+        "delete_confirm": "Voulez-vous vraiment supprimer le connecteur '{{carConnectorConnectionName}}'?"
+      },
+      "types": {
+        "mercedes": "Connecteur Mercedes"
+      },
+      "description": "E-Mobility peut récupérer en temps réel les données de votre voiture comme le niveau de votre batterie et utiliser cette information avec la charge intelligente pour optimiser vos sessions de recharges.",
+      "setting_do_not_exist": "La configuration du connecteur n'existe pas",
+      "setting_not_found": "La configuration du connecteur n'a pas été trouvée",
+      "create_success": "La configuration du connecteur a été créée avec succès",
+      "create_error": "Une erreur est survenue pendant la création de la configuration du connecteur, vérifiez les logs",
+      "update_success": "La configuration du connecteur a été mise à jour avec succès",
+      "update_error": "Une erreur est survenue pendant la mise à jour de la configuration du connecteur, vérifiez les logs"
+    },
     "information": "Information",
     "activation_contact_msg": "Pour activer cette fonctionnalité, veuillez contacter votre administrateur E-Mobility.",
     "car": {
@@ -1527,6 +1609,36 @@
       "synchronize_car_catalogs_dialog_confirm": "Voulez-vous vraiment lancer la synchronisation des véhicules électriques ?",
       "assign_user_to_car_dialog_title": "Ajouter un utilisateur à la voiture",
       "assign_user_to_car_dialog_confirm": "Cette voiture exite déjà, voulez-vous la réutiliser ?"
+    }
+  },
+  "technical_settings": {
+    "tabs": {
+      "crypto": "Chiffrement",
+      "users": "Utilisateurs"
+    },
+    "crypto": {
+      "crypto_key": {
+        "title": "Réglage Chiffrement",
+        "subtitle": "Clé Chiffrement",
+        "key": "Clé",
+        "block_cypher": "Bloc de Chiffrement",
+        "block_size": "Taille du Bloc",
+        "operation_mode": "Mode Opératoire"
+      },
+      "setting_do_not_exist": "La configuration Crypto n'a pas été trouvée",
+      "update_success": "La configuration Crypto a été mise à jour avec succès",
+      "update_error": "Une erreur est survenue pendant la mise à jour de la configuration Crypto, vérifiez les logs",
+      "crypto_check_error": "La vérification du chiffrement a échoué, vérifiez votre configuration",
+      "crypto_key_length_error": "La longueur de la clé de chiffrement est invalide, vérifiez votre configuration",
+      "crypto_algorithm_error": "L'algorithme de chiffrement n'est pas supporté, vérifiez votre configuration",
+      "crypto_migration_in_progress_error": "La configuration du chiffrement ne peut pas être mise à jour pendant une migration en cours"
+    },
+    "user": {
+      "title": "Configuration des Comptes",
+      "auto_activation": "Activer automatiquement les comptes des nouveaux utilisateurs lors de leur enregistrement",
+      "update_success": "La configuration utilisateurs été mise à jour avec succès",
+      "update_error": "Une erreur est survenue pendant la mise à jour de la configuration des utilisateurs, vérifiez les logs",
+      "setting_do_not_exist": "La configuration des utilisateurs n'a pas été trouvée"
     }
   },
   "ocpiendpoints": {
@@ -1553,8 +1665,8 @@
     "test_connection": "Tester la connexion",
     "create_success": "L'IOP '{{name}}' a été créé avec succès",
     "create_error": "Une erreur est survenue pendant la création du IOP, vérifiez les logs",
-    "update_error": "Une erreur est survenue pendant la mise à jour du IOP, vérifiez les logs",
     "update_success": "L'IOP '{{name}}' a été mis à jour avec succès",
+    "update_error": "Une erreur est survenue pendant la mise à jour du IOP, vérifiez les logs",
     "delete_confirm": "Voulez-vous vraiment supprimer l'IOP '{{name}}' ?",
     "delete_title": "Supprimer l'IOP'",
     "delete_success": "L'IOP '{{name}}' a été supprimé avec succès",
@@ -1625,7 +1737,7 @@
     "push_tokens_error": "Une erreur est survenue lors de la mise à jour des jetons des utilisateurs, vérifiez les logs",
     "start_stop_job": "Activer/Désactiver le processus",
     "background_job_activated": "Processus de mise à jour automatique activé avec succès",
-    "background_job_desactivated": "Processus de mise à jour automatique désactivé avec succès",
+    "background_job_deactivated": "Processus de mise à jour automatique désactivé avec succès",
     "background_job_no_run": "Non executée",
     "start_background_job_title": "Démarrer le processus de mise à jour",
     "start_background_job_confirm": "Voulez-vous vraiment démarrer le processus de mise à jour pour IOP '{{name}}' ?",
@@ -1638,27 +1750,123 @@
     "failed": "Echecs"
   },
   "ocpi": {
-    "title": "Itinérance",
+    "title": "Itinérance OCPI",
     "type_placeholder": "Type",
-    "roaming_platforms": "Plate-forme d'interopérabilité",
+    "roaming_platforms": "Plate-forme d'itinérance",
     "cpo": "Identification de l'Opérateur d’Infrastructure de Recharge",
     "emsp": "Identification du Fournisseur de Services de Mobilité",
     "description": "Open Charge Point Interface",
     "details": "Identification",
     "country_code": "Code Pays",
     "party_id": "Party ID",
-    "business_details": "Business Details",
+    "business_details": "Détails Entreprise",
     "logo": "Image",
     "sync_all": "Tout synchroniser",
-    "push_locations": "Envoyer les emplacements",
-    "push_tokens": "Envoyer les jetons",
-    "pull_cdrs": "Télécharger les cdrs",
-    "pull_locations": "Télécharger les emplacements",
-    "pull_sessions": "Télécharger les sessions",
-    "pull_tokens": "Télécharger les jetons",
-    "check_locations": "Vérifier les sites",
-    "check_sessions": "Vérifier les sessions",
-    "check_cdrs": "Vérifier les cdrs",
+    "push_evse_statuses": "Envoyer les Statuts",
+    "push_tokens": "Envoyer les Badges",
+    "pull_cdrs": "Télécharger les CDRs",
+    "pull_locations": "Télécharger les Sites",
+    "pull_sessions": "Télécharger les Sessions",
+    "pull_tokens": "Télécharger les Badges",
+    "check_locations": "Vérifier les Sites",
+    "check_sessions": "Vérifier les Sessions",
+    "check_cdrs": "Vérifier les CDRs",
+    "businessdetails": {
+      "name": "Nom de l'operateur",
+      "website": "Site web de l'operateur",
+      "logo": {
+        "url": "URL de l'image originale",
+        "thumbnail": "URL de l'image miniature",
+        "category": "Categorie de l'image",
+        "type": "Type de l'image (gif, jpeg, png, svg,...)",
+        "width": "Largeur de l'image originale",
+        "height": "Hauteur de l'image originale"
+      }
+    }
+  },
+  "oicpendpoints": {
+    "name": "Nom",
+    "base_url": "URL",
+    "role": "Role",
+    "country_code": "Code Pays",
+    "party_id": "Groupe ID",
+    "status": "Statut",
+    "version": "Version",
+    "new": "Nouveau",
+    "registered": "Enregistré",
+    "unregistered": "Désenregistré",
+    "last_patch_job_on": "Dernière mise à jour",
+    "patch_job_last_status": "Statut de mise à jour",
+    "patch_job_status": "Tâche de mise à jour",
+    "patch_job_result": "Succès / Total",
+    "patch_job_checkbox": "Activer la mise à jour automatique du statut des bornes",
+    "status_active": "Active",
+    "status_inactive": "Inactive",
+    "test_connection": "Tester la connexion",
+    "create_success": "L'IOP '{{name}}' a été créé avec succès",
+    "create_error": "Une erreur est survenue pendant la création du IOP, vérifiez les logs",
+    "update_success": "L'IOP '{{name}}' a été mis à jour avec succès",
+    "update_error": "Une erreur est survenue pendant la mise à jour du IOP, vérifiez les logs",
+    "delete_confirm": "Voulez-vous vraiment supprimer l'IOP '{{name}}' ?",
+    "delete_title": "Supprimer l'IOP'",
+    "delete_success": "L'IOP '{{name}}' a été supprimé avec succès",
+    "delete_error": "Une erreur est survenue pendant la suppression du IOP, vérifiez les logs",
+    "register_confirm": "Voulez-vous vraiment lancer la procédure d'enregistrement avec l'IOP '{{name}}'?",
+    "unregister_confirm": "Voulez-vous vraiment lancer la procédure de désenregistrement avec l'IOP '{{name}}'?",
+    "register_title": "Enregistrement de l'IOP",
+    "unregister_title": "Désenregistrement de l'IOP",
+    "register_success": "L'IOP '{{name}}' a été enregistré avec succès",
+    "unregister_success": "L'IOP '{{name}}' a été désenregistré avec succès",
+    "register_error": "Une erreur est survenue pendant la procédure d'enregistrement avec l'IOP, vérifiez les logs",
+    "unregister_error": "Une erreur est survenue pendant la procédure de désenregistrement avec l'IOP, vérifiez les logs",
+    "push_evse_statuses_title": "Envoi des statuts des EVSEs",
+    "push_evsess_title": "Envoyer les Bornes",
+    "push_evse_statuses_confirm": "Voulez-vous vraiment envoyer le statut de tous les EVSEs à l'IOP '{{name}}'?",
+    "push_evses_confirm": "Voulez-vous vraiment envoyer toutes les bornes à l'IOP '{{name}}'?",
+    "trigger_jobs_title": "Execution des Processus",
+    "trigger_jobs_confirm": "Voulez-vous vraiment exécuter tous les processus de l'IOP '{{name}}'?",
+    "trigger_jobs_error": "Une erreur est survenue lors de l'exécution des jobs, vérifiez les logs",
+    "success_ping": "Serveur accessible",
+    "error_ping_401": "Serveur non accessible: Accès non autorisé",
+    "error_ping_404": "Serveur non accessible: Ressource non trouvée",
+    "error_ping_412": "Serveur non accessible: Reponse invalide",
+    "error_ping": "Serveur non accessible",
+    "push_evse_statuses_success": "Le status de '{{success}}' EVSE(s) a été mis à jour avec succès",
+    "push_evse_statuses_partial": "Le status de '{{success}}' EVSE(s) a été mis à jour avec succès - '{{error}}' EVSE(s) en erreur, vérifiez les logs",
+    "push_evses_success": "'{{success}}' EVSE(s) ont été mis à jour avec succès",
+    "push_evses_partial": "'{{success}}' EVSE(s) ont été mis à jour avec succès - '{{error}}' EVSE(s) en erreur, vérifiez les logs",
+    "push_evse_statuses_error": "Une erreur est survenue lors de la mise à jour des status des EVSE(s), vérifiez les logs",
+    "push_evses_error": "Une erreur est survenue lors de la mise à jour des EVSE(s), vérifiez les logs",
+    "start_stop_job": "Activer/Désactiver le processus",
+    "background_job_activated": "Processus de mise à jour automatique activé avec succès",
+    "background_job_deactivated": "Processus de mise à jour automatique désactivé avec succès",
+    "background_job_no_run": "Non executée",
+    "start_background_job_title": "Démarrer le processus de mise à jour",
+    "start_background_job_confirm": "Voulez-vous vraiment démarrer le processus de mise à jour pour IOP '{{name}}' ?",
+    "stop_background_job_title": "Arrêter le processus de mise à jour",
+    "stop_background_job_confirm": "Voulez-vous vraiment arrêter le processus de mise à jour pour IOP '{{name}}' ?",
+    "total_charge_points": "Points de Charge",
+    "total": "Total",
+    "succeeded": "Succès",
+    "failed": "Echecs"
+  },
+  "oicp": {
+    "title": "Itinérance OICP (Hubject)",
+    "type_placeholder": "Type",
+    "roaming_platforms": "Platforme d'itinérance",
+    "cpo": "Identification de l'Opérateur d’Infrastructure de Recharge",
+    "emsp": "Identification du Fournisseur de Services de Mobilité",
+    "description": "Open InterCharge Protocol",
+    "details": "Identification",
+    "country_code": "Country code",
+    "party_id": "Party ID",
+    "business_details": "Détails Entreprise",
+    "logo": "Image",
+    "key": "Clé Privée",
+    "cert": "Certificat",
+    "sync_all": "Tout synchroniser",
+    "push_evses": "Envoyer les Bornes",
+    "push_evses_statuses": "Envoyer les Statuts",
     "businessdetails": {
       "name": "Nom de l'operateur",
       "website": "Site web de l'operateur",
@@ -1674,7 +1882,7 @@
   },
   "organization": {
     "title": "Organisation",
-    "description": "Gestion des Organisations: Compagnies, Sites et Zones",
+    "description": "Gestion des Organisations: Entreprises, Sites et Zones",
     "tabs": {
       "companies": "Entreprises",
       "sites": "Sites",
@@ -1687,10 +1895,10 @@
     }
   },
   "asset": {
-    "title": "Asset",
-    "description": "Gestion des Assets",
+    "title": "Ressources",
+    "description": "Gestion des ressources (bâtiments, panneaux solaires, batteries)",
     "tabs": {
-      "assets": "Assets",
+      "assets": "Ressources",
       "in_error": "En Erreur"
     },
     "graph": {
@@ -1808,12 +2016,16 @@
     }
   },
   "car": {
-    "title": "Car",
-    "description": "Gestion des voitures",
+    "title": "Gestion Voiture",
+    "description": "Gérer les voitures des utilisateurs",
     "tabs": {
       "car_catalogs": "Catalogue Voitures",
       "cars": "Gestion des Voitures"
     }
+  },
+  "car_connector": {
+    "title": "Connecteur Voiture",
+    "description": "Utilisation des données en temps réel des voitures"
   },
   "analytics": {
     "title": "Analytique",
@@ -1835,7 +2047,7 @@
   "smart_charging": {
     "title": "Charge Intelligente",
     "type_placeholder": "Type",
-    "description": "Charge Intelligente",
+    "description": "Charge intelligente des voitures électriques",
     "optimizerUrl": "URL Optimisateur"
   },
   "refund": {
@@ -2139,13 +2351,15 @@
     "charging_stations_offline": "Me notifier lorsqu'une borne de recharge n'est plus connectée",
     "preparing_session_not_started": "Me notifier lorsqu'une session n'a pas été démarrée (propriétaire du site seulement)",
     "ocpi_patch_status_error": "Me notifier lorsque le transfert des statuts des bornes a échoué vers la platforme de roaming (OCPI)",
-    "smtp_auth_error": "Me notifier lorsque l'authentification du backend sur le serveur d'email a échoué",
+    "oicp_patch_status_error": "Me notifier lorsque le transfert des statuts des bornes a échoué vers la platforme de roaming (OICP)",
+    "smtp_error": "Me notifier en cas d'erreur sur le serveur d'email",
     "billing_synchronization_failed": "Me notifier lorsqu'une synchronisation avec le service de facturation a échoué",
     "session_not_started": "Me notifier lorsque j'ai badger sur une borne de recharge mais aucune session n'a démarré",
     "user_account_inactivity": "Me notifier lorsque je ne me suis pas connecté à l'application depuis plus de 6 mois",
     "car_catalog_synchronization_failed": "Me notifier lorsqu'une synchronisation de véhicule a échoué",
-    "compute_and_apply_charging_profiles_failed": "Notify me when applying the Smart Charging Profiles-fails for a certain site area",
+    "compute_and_apply_charging_profiles_failed": "Me notifier lorsque les profiles pour le smart charging échouent sur une zone",
     "end_user_error_notification": "Me notifier lorsque l'utilisateur me rapporte un problème",
-    "billing_new_invoice": "Me notifier lorsqu'une nouvelle facture est disponible"
+    "billing_new_invoice": "Me notifier lorsqu'une nouvelle facture est disponible",
+    "admin_account_verification": "Me notifier lorsque la création d'un nouveau compte doit être vérifiée"
   }
 }

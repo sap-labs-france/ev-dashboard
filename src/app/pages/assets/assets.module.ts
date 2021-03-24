@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { FormattersModule } from 'shared/formatters/formatters.module';
 
 import { MaterialModule } from '../../app.module';
 import { AddressModule } from '../../shared/address/address.module';
@@ -13,6 +14,7 @@ import { AssetComponent } from './asset/asset.component';
 import { AssetDialogComponent } from './asset/asset.dialog.component';
 import { AssetsComponent } from './assets.component';
 import { AssetsRoutes } from './assets.routing';
+import { AssetConsumptionCellComponent } from './cell-components/asset-consumption-cell.component';
 import { AssetsInErrorTableDataSource } from './in-error/assets-in-error-table-data-source';
 import { AssetsInErrorComponent } from './in-error/assets-in-error.component';
 import { AssetsListTableDataSource } from './list/assets-list-table-data-source';
@@ -24,6 +26,7 @@ import { AssetConsumptionChartComponent } from './list/consumption-chart/asset-c
   imports: [
     CommonModule,
     FormsModule,
+    FormattersModule,
     AddressModule,
     ReactiveFormsModule,
     TranslateModule,
@@ -41,13 +44,15 @@ import { AssetConsumptionChartComponent } from './list/consumption-chart/asset-c
     AssetsInErrorComponent,
     AssetConsumptionChartDetailComponent,
     AssetConsumptionChartComponent,
+    AssetConsumptionCellComponent,
   ],
   entryComponents: [
     AssetsComponent,
     AssetComponent,
     AssetDialogComponent,
     AssetsListComponent,
-    AssetsInErrorComponent
+    AssetsInErrorComponent,
+    AssetConsumptionCellComponent,
   ],
   providers: [
     AssetsListTableDataSource,

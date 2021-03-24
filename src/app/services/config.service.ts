@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import Landscape, { LandscapeType } from 'types/configuration/Landscape';
 
 import AdvancedConfiguration from '../types/configuration/AdvancedConfiguration';
 import AssetConfiguration from '../types/configuration/AssetConfiguration';
@@ -20,7 +21,7 @@ import UserConfiguration from '../types/configuration/UserConfiguration';
 export class ConfigService {
   private static config: Configuration;
 
-  constructor(private http?: HttpClient) {
+  public constructor(private http?: HttpClient) {
     this.getConfig();
   }
 
@@ -93,6 +94,16 @@ export class ConfigService {
       this.getConfig().Debug.enabled = false;
     }
     return this.getConfig().Debug;
+  }
+
+  public getLandscape(): Landscape {
+    if (this.isUndefined(this.getConfig().Landscape)) {
+      this.getConfig().Landscape = {} as Landscape;
+    }
+    if (this.isUndefined(this.getConfig().Landscape.type)) {
+      this.getConfig().Landscape.type = LandscapeType.DEVELOPMENT;
+    }
+    return this.getConfig().Landscape;
   }
 
   private isUndefined(obj: any): boolean {

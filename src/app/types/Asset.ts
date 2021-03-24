@@ -1,15 +1,17 @@
-import Consumption, { AbstractConsumption } from './Consumption';
+import Consumption, { AbstractConsumption, AbstractCurrentConsumption } from './Consumption';
 import CreatedUpdatedProps from './CreatedUpdatedProps';
 import { KeyValue } from './GlobalType';
 import { SiteArea } from './SiteArea';
 import { Data } from './Table';
 
-export interface Asset extends Data, CreatedUpdatedProps {
+export interface Asset extends Data, CreatedUpdatedProps, AbstractCurrentConsumption {
   id: string;
   name: string;
   siteAreaID: string;
   siteArea: SiteArea;
-  assetType: string;
+  assetType: AssetType;
+  staticValueWatt: number;
+  fluctuationPercent: number;
   coordinates: number[];
   image: string;
   dynamicAsset: boolean;
@@ -20,6 +22,8 @@ export interface Asset extends Data, CreatedUpdatedProps {
   createdOn: Date;
   lastChangedBy: string;
   lastChangedOn: Date;
+  connected: boolean;
+  excludeFromSmartCharging?: boolean;
 }
 
 export interface AssetConsumption {
@@ -27,9 +31,16 @@ export interface AssetConsumption {
   values: Consumption[];
 }
 
+export enum AssetType {
+  CONSUMPTION = 'CO',
+  PRODUCTION = 'PR',
+  CONSUMPTION_AND_PRODUCTION = 'CO-PR',
+}
+
 export const AssetTypes: KeyValue[] = [
-  { key: 'CO', value: 'assets.consume' },
-  { key: 'PR', value: 'assets.produce' },
+  { key: AssetType.CONSUMPTION, value: 'assets.consume' },
+  { key: AssetType.PRODUCTION, value: 'assets.produce' },
+  { key: AssetType.CONSUMPTION_AND_PRODUCTION, value: 'assets.consume_and_produce' },
 ];
 
 export enum AssetButtonAction {

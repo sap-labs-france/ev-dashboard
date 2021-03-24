@@ -1,17 +1,33 @@
+import CreatedUpdatedProps from './CreatedUpdatedProps';
 import { Data } from './Table';
 import TenantComponents from './TenantComponents';
 
-export interface Setting extends Data {
-  id: string;
-  identifier: TenantComponents;
-  sensitiveData: string[];
+export enum TechnicalSettings {
+  USER = 'user',
+  CRYPTO = 'crypto'
+}
+export interface Setting extends Data, CreatedUpdatedProps {
+  identifier: TenantComponents | TechnicalSettings;
+  sensitiveData?: string[];
   category?: 'business' | 'technical';
-  content: SettingContent;
+}
+export interface SettingDB extends CreatedUpdatedProps, Setting {
+  content: SettingDBContent;
 }
 
-export interface SettingContent {
-  type: RoamingSettingsType | AnalyticsSettingsType | RefundSettingsType | PricingSettingsType | BillingSettingsType | SmartChargingSettingsType | AssetSettingsType;
+export interface SettingDBContent {
+  type: CryptoSettingsType
+    | RoamingSettingsType
+    | AnalyticsSettingsType
+    | RefundSettingsType
+    | PricingSettingsType
+    | BillingSettingsType
+    | SmartChargingSettingsType
+    | AssetSettingsType
+    | CarConnectorSettingsType
+    | UserSettingsType;
   ocpi?: OcpiSetting;
+  oicp?: OicpSetting;
   simple?: SimplePricingSetting;
   convergentCharging?: ConvergentChargingPricingSetting;
   stripe?: StripeBillingSetting;
@@ -20,6 +36,9 @@ export interface SettingContent {
   concur?: ConcurRefundSetting;
   sapSmartCharging?: SapSmartChargingSetting;
   asset?: AssetSetting;
+  carConnector?: CarConnectorSetting;
+  crypto?: CryptoSetting;
+  user?: UserSetting;
 }
 
 export interface SettingLink extends Data {
@@ -42,8 +61,7 @@ export interface PricingSettings extends Setting {
   convergentCharging: ConvergentChargingPricingSetting;
 }
 
-export interface PricingSetting {
-}
+export interface PricingSetting {}
 
 export interface SimplePricingSetting extends PricingSetting {
   price: number;
@@ -58,13 +76,15 @@ export interface ConvergentChargingPricingSetting extends PricingSetting {
 }
 
 export enum RoamingSettingsType {
-  GIREVE = 'gireve',
+  OCPI = 'ocpi',
+  OICP = 'oicp',
 }
 
 export interface RoamingSettings extends Setting {
-  identifier: TenantComponents.OCPI;
+  identifier: TenantComponents.OCPI | TenantComponents.OICP;
   type: RoamingSettingsType;
-  ocpi: OcpiSetting;
+  ocpi?: OcpiSetting;
+  oicp?: OicpSetting;
 }
 
 export interface OcpiSetting {
@@ -79,7 +99,7 @@ export interface OcpiSetting {
       type: string;
       width: string;
       height: string;
-    }
+    };
   };
   cpo: {
     countryCode: string;
@@ -89,6 +109,31 @@ export interface OcpiSetting {
     countryCode: string;
     partyID: string;
   };
+}
+
+export interface OicpSetting {
+  currency: string;
+  businessDetails: {
+    name: string;
+    website: string;
+    logo: {
+      url: string;
+      thumbnail: string;
+      category: string;
+      type: string;
+      width: string;
+      height: string;
+    };
+  };
+  cpo: OicpIdentifier;
+  emsp: OicpIdentifier;
+}
+
+export interface OicpIdentifier {
+  countryCode: string;
+  partyID: string;
+  key?: string;
+  cert?: string;
 }
 
 export enum AnalyticsSettingsType {
@@ -121,6 +166,9 @@ export interface SapSmartChargingSetting {
   optimizerUrl: string;
   user: string;
   password: string;
+  stickyLimitation: boolean;
+  limitBufferDC: number;
+  limitBufferAC: number;
 }
 
 export enum RefundSettingsType {
@@ -191,12 +239,14 @@ export interface AssetConnectionSetting extends Data {
   description: string;
   url: string;
   type: AssetConnectionType;
-  connection?: AssetSchneiderConnectionType;
+  schneiderConnection?: AssetSchneiderConnectionType;
+  greencomConnection?: AssetGreencomConnectionType;
 }
 
 export enum AssetConnectionType {
   NONE = '',
   SCHNEIDER = 'schneider',
+  GREENCOM = 'greencom',
 }
 
 export interface AssetUserPasswordConnectionType {
@@ -204,6 +254,81 @@ export interface AssetUserPasswordConnectionType {
   password: string;
 }
 
-// tslint:disable-next-line: no-empty-interface
-export interface AssetSchneiderConnectionType extends AssetUserPasswordConnectionType {
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface AssetSchneiderConnectionType extends AssetUserPasswordConnectionType {}
+
+export interface AssetGreencomConnectionType {
+  clientId: string;
+  clientSecret: string;
+}
+
+export enum CarConnectorSettingsType {
+  CAR_CONNECTOR = 'carConnector',
+}
+
+export interface CarConnectorSettings extends Setting {
+  identifier: TenantComponents.CAR_CONNECTOR;
+  type: CarConnectorSettingsType;
+  carConnector?: CarConnectorSetting;
+}
+
+export interface CarConnectorSetting {
+  connections: CarConnectorConnectionSetting[];
+}
+
+export interface CarConnectorConnectionSetting extends Data {
+  id: string;
+  name: string;
+  description: string;
+  type: CarConnectorConnectionType;
+  mercedesConnection?: CarConnectorMercedesConnectionType;
+}
+
+export enum CarConnectorConnectionType {
+  NONE = '',
+  MERCEDES = 'mercedes',
+}
+
+export interface CarConnectorMercedesConnectionType {
+  authenticationUrl: string;
+  apiUrl: string;
+  clientId: string;
+  clientSecret: string;
+}
+
+export enum CryptoSettingsType {
+  CRYPTO = 'crypto',
+}
+
+export interface CryptoSettings extends Setting {
+  identifier: TechnicalSettings.CRYPTO;
+  type: CryptoSettingsType;
+  crypto?: CryptoSetting;
+}
+export interface CryptoKeyProperties {
+  blockCypher: string;
+  blockSize: number;
+  operationMode: string;
+}
+
+export interface CryptoSetting {
+  key: string;
+  keyProperties: CryptoKeyProperties;
+  formerKey?: string;
+  formerKeyProperties?: CryptoKeyProperties;
+  migrationToBeDone?: boolean;
+}
+
+export enum UserSettingsType {
+  USER = 'user',
+}
+
+export interface UserSettings extends Setting {
+  identifier: TechnicalSettings.USER;
+  type: UserSettingsType;
+  user?: UserSetting;
+}
+
+export interface UserSetting {
+  autoActivateAccountAfterValidation: boolean;
 }

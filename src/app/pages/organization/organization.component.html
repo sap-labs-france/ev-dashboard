@@ -1,7 +1,7 @@
 <div class="main-content">
   <mat-tab-group (selectedIndexChange)="updateRoute($event)" [selectedIndex]="activeTabIndex" animationDuration="0ms"
     disableRipple="true" class="h-100 mat-tab-info">
-    <mat-tab>
+    <mat-tab *ngIf="canListCompanies">
       <ng-template mat-tab-label>
         <i class="fa fa-lg fa-building"></i>
         &nbsp;&nbsp;{{'organization.tabs.companies' | translate}}
@@ -10,7 +10,7 @@
         <app-companies-list></app-companies-list>
       </ng-template>
     </mat-tab>
-    <mat-tab>
+    <mat-tab *ngIf="canListSites">
       <ng-template mat-tab-label>
         <mat-icon>store_mall_directory</mat-icon><span>{{'organization.tabs.sites' | translate}}</span>
       </ng-template>
@@ -18,7 +18,7 @@
         <app-sites-list></app-sites-list>
       </ng-template>
     </mat-tab>
-    <mat-tab>
+    <mat-tab *ngIf="canListSiteAreas">
       <ng-template mat-tab-label>
         <mat-icon>view_week</mat-icon><span>{{'organization.tabs.siteareas' | translate}}</span>
       </ng-template>

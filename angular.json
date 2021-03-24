@@ -34,14 +34,35 @@
               "canvg"
             ],
             "assets": [
-              { "glob": "@(LICENSE|NOTICE)", "input": "src/../", "output": "/" },
-              { "glob": "**/*", "input": "src/assets/", "output": "/assets/" },
-              { "glob": "favicon.ico", "input": "src/", "output": "/" },
-              { "glob": "Staticfile", "input": "src/nginx/", "output": "/" },
-              { "glob": "**/*", "input": "src/nginx/", "output": "/nginx/" }
+              {
+                "glob": "@(LICENSE|NOTICE)",
+                "input": "src/../",
+                "output": "/"
+              },
+              {
+                "glob": "**/*",
+                "input": "src/assets/",
+                "output": "/assets/"
+              },
+              {
+                "glob": "favicon.ico",
+                "input": "src/",
+                "output": "/"
+              },
+              {
+                "glob": "Staticfile",
+                "input": "src/nginx/",
+                "output": "/"
+              },
+              {
+                "glob": "**/*",
+                "input": "src/nginx/",
+                "output": "/nginx/"
+              }
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.css",
+              "src/assets/css/material-dashboard.css",
               "node_modules/sweetalert2/src/sweetalert2.scss",
               "src/assets/scss/material-dashboard.scss"
             ],
@@ -143,14 +164,11 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "tsconfig.app.json",
-              "tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
             ]
           }
         }

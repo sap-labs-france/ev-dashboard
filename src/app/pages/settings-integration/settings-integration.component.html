@@ -1,0 +1,86 @@
+<div class="main-content">
+  <mat-tab-group (selectedIndexChange)="updateRoute($event)" [selectedIndex]="activeTabIndex" animationDuration="0ms"
+    disableRipple="true" class="h-100 mat-tab-info">
+
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon>cloud</mat-icon><span>{{'settings.tabs.ocpi' | translate}}</span>
+      </ng-template>
+      <ng-template matTabContent>
+        <app-settings-ocpi></app-settings-ocpi>
+      </ng-template>
+    </mat-tab>
+
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon>cloud</mat-icon><span>{{'settings.tabs.oicp' | translate}}</span>
+      </ng-template>
+      <ng-template matTabContent>
+        <app-settings-oicp></app-settings-oicp>
+      </ng-template>
+    </mat-tab>
+
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon>local_atm</mat-icon><span>{{'settings.tabs.refund' | translate}}</span>
+      </ng-template>
+      <ng-template matTabContent>
+        <app-settings-refund></app-settings-refund>
+      </ng-template>
+    </mat-tab>
+
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon>money</mat-icon><span>{{'settings.tabs.pricing' | translate}}</span>
+      </ng-template>
+      <ng-template matTabContent>
+        <app-settings-pricing></app-settings-pricing>
+      </ng-template>
+    </mat-tab>
+
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon>payment</mat-icon><span>{{'settings.tabs.billing' | translate}}</span>
+      </ng-template>
+      <ng-template matTabContent>
+        <app-settings-billing></app-settings-billing>
+      </ng-template>
+    </mat-tab>
+
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon>insert_chart_outlined</mat-icon><span>{{'settings.tabs.analytics' | translate}}</span>
+      </ng-template>
+      <ng-template matTabContent>
+        <app-settings-analytics></app-settings-analytics>
+      </ng-template>
+    </mat-tab>
+
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon>power</mat-icon><span>{{'settings.tabs.smart_charging' | translate}}</span>
+      </ng-template>
+      <ng-template matTabContent>
+        <app-settings-smart-charging></app-settings-smart-charging>
+      </ng-template>
+    </mat-tab>
+
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon>account_balance</mat-icon><span>{{'settings.tabs.asset' | translate}}</span>
+      </ng-template>
+      <ng-template matTabContent>
+        <app-settings-asset></app-settings-asset>
+      </ng-template>
+    </mat-tab>
+
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon>bluetooth_drive</mat-icon><span>{{'settings.tabs.car_connector' | translate}}</span>
+      </ng-template>
+      <ng-template matTabContent>
+        <app-settings-car-connector></app-settings-car-connector>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+</div>

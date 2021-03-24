@@ -26,7 +26,7 @@ export class ChargingStationFirmwareUpdateComponent implements OnInit {
   public url: FormControl;
   private messages: any;
 
-  constructor(
+  public constructor(
     private centralServerService: CentralServerService,
     private authorizationService: AuthorizationService,
     private localeService: LocaleService,
@@ -72,9 +72,6 @@ export class ChargingStationFirmwareUpdateComponent implements OnInit {
         }, (error) => {
           this.spinnerService.hide();
           switch (error.status) {
-            case HTTPAuthError.ERROR:
-              this.messageService.showErrorMessage('chargers.update_firmware_error');
-              break;
             case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
               this.messageService.showErrorMessage(this.messages['update_firmware_error']);
               break;

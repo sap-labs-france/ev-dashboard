@@ -2,7 +2,7 @@ import { DOCUMENT } from '@angular/common';
 import { Component, Inject, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { mergeMap } from 'rxjs/operators';
 
@@ -36,10 +36,10 @@ import { UserDialogComponent } from './user.dialog.component';
   templateUrl: 'user.component.html',
 })
 export class UserComponent extends AbstractTabComponent implements OnInit {
-  public parentErrorStateMatcher = new ParentErrorStateMatcher();
   @Input() public currentUserID!: string;
   @Input() public inDialog!: boolean;
   @Input() public dialogRef!: MatDialogRef<UserDialogComponent>;
+  public parentErrorStateMatcher = new ParentErrorStateMatcher();
   public userStatuses: KeyValue[];
   public userRoles: KeyValue[];
   public userLocales: KeyValue[];
@@ -86,20 +86,22 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public sendChargingStationRegistered!: AbstractControl;
   public sendOfflineChargingStations!: AbstractControl;
   public sendOcpiPatchStatusError!: AbstractControl;
+  public sendOicpPatchStatusError!: AbstractControl;
   public sendPreparingSessionNotStarted!: AbstractControl;
-  public sendSmtpAuthError!: AbstractControl;
+  public sendSmtpError!: AbstractControl;
   public sendBillingSynchronizationFailed!: AbstractControl;
   public sendComputeAndApplyChargingProfilesFailed!: AbstractControl;
   public sendSessionNotStarted!: AbstractControl;
   public sendUserAccountInactivity!: AbstractControl;
   public sendEndUserErrorNotification!: AbstractControl;
   public sendBillingNewInvoice!: AbstractControl;
+  public sendAdminAccountVerificationNotification!: AbstractControl;
   public user!: User;
   public isRefundConnectionValid!: boolean;
   public canSeeInvoice: boolean;
   private currentLocale!: string;
 
-  constructor(
+  public constructor(
     private authorizationService: AuthorizationService,
     private centralServerService: CentralServerService,
     private componentService: ComponentService,
@@ -115,11 +117,6 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     windowService: WindowService) {
     super(activatedRoute, windowService, ['common', 'notifications', 'address', 'password', 'connections', 'miscs'], false);
     this.maxSize = this.configService.getUser().maxPictureKb;
-    // Check auth
-    if (this.activatedRoute.snapshot.params['id'] &&
-      !authorizationService.canUpdateUser()) {
-      this.router.navigate(['/']);
-    }
     // Get statuses
     this.userStatuses = USER_STATUSES;
     // Get Roles
@@ -182,11 +179,13 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         sendOfflineChargingStations: new FormControl(false),
         sendPreparingSessionNotStarted: new FormControl(false),
         sendOcpiPatchStatusError: new FormControl(false),
-        sendSmtpAuthError: new FormControl(false),
+        sendOicpPatchStatusError: new FormControl(false),
+        sendSmtpError: new FormControl(false),
         sendBillingSynchronizationFailed: new FormControl(false),
         sendComputeAndApplyChargingProfilesFailed: new FormControl(false),
         sendEndUserErrorNotification: new FormControl(false),
         sendBillingNewInvoice: new FormControl(false),
+        sendAdminAccountVerificationNotification: new FormControl(true)
       }),
       email: new FormControl('',
         Validators.compose([
@@ -233,9 +232,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
           Validators.compose([
             Users.validatePassword,
           ])),
-      }, (passwordFormGroup: FormGroup) => {
-        return Utils.validateEqual(passwordFormGroup, 'password', 'repeatPassword');
-      }),
+      }, (passwordFormGroup: FormGroup) => Utils.validateEqual(passwordFormGroup, 'password', 'repeatPassword')),
     });
     // Form
     this.id = this.formGroup.controls['id'];
@@ -267,21 +264,21 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.sendChargingStationRegistered = this.notifications.controls['sendChargingStationRegistered'];
     this.sendOfflineChargingStations = this.notifications.controls['sendOfflineChargingStations'];
     this.sendOcpiPatchStatusError = this.notifications.controls['sendOcpiPatchStatusError'];
+    this.sendOicpPatchStatusError = this.notifications.controls['sendOicpPatchStatusError'];
     this.sendPreparingSessionNotStarted = this.notifications.controls['sendPreparingSessionNotStarted'];
-    this.sendSmtpAuthError = this.notifications.controls['sendSmtpAuthError'];
+    this.sendSmtpError = this.notifications.controls['sendSmtpError'];
     this.sendBillingSynchronizationFailed = this.notifications.controls['sendBillingSynchronizationFailed'];
     this.sendSessionNotStarted = this.notifications.controls['sendSessionNotStarted'];
     this.sendUserAccountInactivity = this.notifications.controls['sendUserAccountInactivity'];
     this.sendComputeAndApplyChargingProfilesFailed = this.notifications.controls['sendComputeAndApplyChargingProfilesFailed'];
     this.sendEndUserErrorNotification = this.notifications.controls['sendEndUserErrorNotification'];
     this.sendBillingNewInvoice = this.notifications.controls['sendBillingNewInvoice'];
+    this.sendAdminAccountVerificationNotification = this.notifications.controls['sendAdminAccountVerificationNotification'];
+    if (this.activatedRoute.snapshot.url[0]?.path === 'profile') {
+      this.currentUserID = this.centralServerService.getLoggedUser().id;
+    }
     if (this.currentUserID) {
       this.loadUser();
-    } else if (this.activatedRoute && this.activatedRoute.params) {
-      this.activatedRoute.params.subscribe((params: Params) => {
-        this.currentUserID = params['id'];
-        this.loadUser();
-      });
     }
     this.loadRefundSettings();
     if (!this.inDialog) {
@@ -307,7 +304,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       return;
     }
     this.spinnerService.show();
-    // tslint:disable-next-line: cyclomatic-complexity
+    // eslint-disable-next-line complexity
     this.centralServerService.getUser(this.currentUserID).pipe(mergeMap((user) => {
       this.formGroup.markAsPristine();
       this.user = user;
@@ -408,15 +405,20 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       } else {
         this.notifications.controls.sendOcpiPatchStatusError.setValue(false);
       }
+      if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendOicpPatchStatusError')) {
+        this.notifications.controls.sendOicpPatchStatusError.setValue(user.notifications.sendOicpPatchStatusError);
+      } else {
+        this.notifications.controls.sendOicpPatchStatusError.setValue(false);
+      }
       if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendPreparingSessionNotStarted')) {
         this.notifications.controls.sendPreparingSessionNotStarted.setValue(user.notifications.sendPreparingSessionNotStarted);
       } else {
         this.notifications.controls.sendPreparingSessionNotStarted.setValue(false);
       }
-      if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendSmtpAuthError')) {
-        this.notifications.controls.sendSmtpAuthError.setValue(user.notifications.sendSmtpAuthError);
+      if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendSmtpError')) {
+        this.notifications.controls.sendSmtpError.setValue(user.notifications.sendSmtpError);
       } else {
-        this.notifications.controls.sendSmtpAuthError.setValue(false);
+        this.notifications.controls.sendSmtpError.setValue(false);
       }
       if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendBillingSynchronizationFailed')) {
         this.notifications.controls.sendBillingSynchronizationFailed.setValue(user.notifications.sendBillingSynchronizationFailed);
@@ -448,6 +450,11 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         this.notifications.controls.sendBillingNewInvoice.setValue(user.notifications.sendBillingNewInvoice);
       } else {
         this.notifications.controls.sendBillingNewInvoice.setValue(false);
+      }
+      if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendAdminAccountVerificationNotification')) {
+        this.notifications.controls.sendAdminAccountVerificationNotification.setValue(user.notifications.sendAdminAccountVerificationNotification);
+      } else {
+        this.notifications.controls.sendAdminAccountVerificationNotification.setValue(false);
       }
       if (user.address) {
         this.address = user.address;
@@ -495,8 +502,9 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         this.notifications.controls.sendChargingStationRegistered.setValue(true);
         this.notifications.controls.sendOfflineChargingStations.setValue(true);
         this.notifications.controls.sendOcpiPatchStatusError.setValue(true);
+        this.notifications.controls.sendOicpPatchStatusError.setValue(true);
         this.notifications.controls.sendPreparingSessionNotStarted.setValue(true);
-        this.notifications.controls.sendSmtpAuthError.setValue(true);
+        this.notifications.controls.sendSmtpError.setValue(true);
         this.notifications.controls.sendBillingSynchronizationFailed.setValue(true);
         this.notifications.controls.sendComputeAndApplyChargingProfilesFailed.setValue(true);
         this.notifications.controls.sendEndUserErrorNotification.setValue(true);
@@ -516,8 +524,9 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         this.notifications.controls.sendChargingStationRegistered.setValue(false);
         this.notifications.controls.sendOfflineChargingStations.setValue(false);
         this.notifications.controls.sendOcpiPatchStatusError.setValue(false);
+        this.notifications.controls.sendOicpPatchStatusError.setValue(false);
         this.notifications.controls.sendPreparingSessionNotStarted.setValue(false);
-        this.notifications.controls.sendSmtpAuthError.setValue(false);
+        this.notifications.controls.sendSmtpError.setValue(false);
         this.notifications.controls.sendBillingSynchronizationFailed.setValue(false);
         this.notifications.controls.sendComputeAndApplyChargingProfilesFailed.setValue(false);
         this.notifications.controls.sendEndUserErrorNotification.setValue(false);
@@ -537,8 +546,9 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         this.notifications.controls.sendChargingStationRegistered.setValue(false);
         this.notifications.controls.sendOfflineChargingStations.setValue(false);
         this.notifications.controls.sendOcpiPatchStatusError.setValue(false);
+        this.notifications.controls.sendOicpPatchStatusError.setValue(false);
         this.notifications.controls.sendPreparingSessionNotStarted.setValue(false);
-        this.notifications.controls.sendSmtpAuthError.setValue(false);
+        this.notifications.controls.sendSmtpError.setValue(false);
         this.notifications.controls.sendBillingSynchronizationFailed.setValue(false);
         this.notifications.controls.sendComputeAndApplyChargingProfilesFailed.setValue(false);
         this.notifications.controls.sendEndUserErrorNotification.setValue(false);
@@ -604,12 +614,12 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   }
 
   public linkRefundAccount() {
-    if (!this.refundSetting || !this.refundSetting.content || !this.refundSetting.content.concur) {
+    if (!this.refundSetting || !this.refundSetting.concur) {
       this.messageService.showErrorMessage(
         this.translateService.instant('transactions.notification.refund.tenant_concur_connection_invalid'));
     } else {
       // Concur
-      const concurSetting = this.refundSetting.content.concur;
+      const concurSetting = this.refundSetting.concur;
       const returnedUrl = `${this.windowService.getOrigin()}/users/connections`;
       const state = {
         connector: 'concur',
@@ -622,18 +632,27 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   }
 
   public getRefundUrl(): string | null {
-    if (this.refundSetting && this.refundSetting.content && this.refundSetting.content.concur) {
-      return this.refundSetting.content.concur.apiUrl;
+    if (this.refundSetting && this.refundSetting.concur) {
+      return this.refundSetting.concur.apiUrl;
     }
     return null;
   }
 
+  public closeDialog(saved: boolean = false) {
+    if (this.inDialog) {
+      this.dialogRef.close(saved);
+    }
+  }
+
+  public close() {
+    Utils.checkAndSaveAndCloseDialog(this.formGroup, this.dialogService,
+      this.translateService, this.saveUser.bind(this), this.closeDialog.bind(this));
+  }
+
   private loadRefundSettings() {
     if (this.componentService.isActive(TenantComponents.REFUND)) {
-      this.centralServerService.getSettings(TenantComponents.REFUND).subscribe((settingResult) => {
-        if (settingResult && settingResult.result && settingResult.result.length > 0) {
-          this.refundSetting = settingResult.result[0] as RefundSettings;
-        }
+      this.componentService.getRefundSettings().subscribe((refundSettings) => {
+        this.refundSetting = refundSettings;
       });
       if (this.currentUserID) {
         this.centralServerService.getIntegrationConnections(this.currentUserID).subscribe((connectionResult) => {
@@ -717,16 +736,5 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'users.update_error');
       }
     });
-  }
-
-  public closeDialog(saved: boolean = false) {
-    if (this.inDialog) {
-      this.dialogRef.close(saved);
-    }
-  }
-
-  public close() {
-    Utils.checkAndSaveAndCloseDialog(this.formGroup, this.dialogService,
-      this.translateService, this.saveUser.bind(this), this.closeDialog.bind(this));
   }
 }

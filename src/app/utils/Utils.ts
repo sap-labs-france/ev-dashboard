@@ -4,10 +4,11 @@ import { Data, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { StatusCodes } from 'http-status-codes';
 import * as moment from 'moment';
+import { ConfigService } from 'services/config.service';
+import { HTTPError } from 'types/HTTPError';
 import { Tag } from 'types/Tag';
 
 import { CentralServerService } from '../services/central-server.service';
-import { ConfigService } from '../services/config.service';
 import { DialogService } from '../services/dialog.service';
 import { MessageService } from '../services/message.service';
 import { AppUnitPipe } from '../shared/formatters/app-unit.pipe';
@@ -64,12 +65,11 @@ export class Utils {
     save: (data: Data) => void, close: () => void) {
     // listen to keystroke
     dialogRef.keydownEvents().subscribe((keydownEvents) => {
-      if (keydownEvents && keydownEvents.code === 'Escape') {
+      if (keydownEvents?.code === 'Escape') {
         close();
       }
-      if (keydownEvents && keydownEvents.code === 'Enter') {
+      if (keydownEvents?.code === 'Enter') {
         if (formGroup.valid && formGroup.dirty) {
-          // tslint:disable-next-line: no-unsafe-any
           save(formGroup.getRawValue());
         }
       }
@@ -153,7 +153,7 @@ export class Utils {
   }
 
   public static objectHasProperty(object: any, key: string): boolean {
-    return Object.prototype.hasOwnProperty.call(object, key);
+    return Object.prototype.hasOwnProperty.call(object, key) as boolean;
   }
 
   public static formatBarColor(color: string): any {
@@ -319,7 +319,7 @@ export class Utils {
     return totalAmps;
   }
 
-  // tslint:disable-next-line: cyclomatic-complexity
+  // eslint-disable-next-line complexity
   public static getChargingStationPower(chargingStation: ChargingStation, chargePoint: ChargePoint, connectorId = 0): number {
     let totalPower = 0;
     if (chargingStation) {
@@ -485,7 +485,7 @@ export class Utils {
     return null;
   }
 
-  // tslint:disable-next-line: cyclomatic-complexity
+  // eslint-disable-next-line complexity
   public static getChargingStationAmperage(chargingStation: ChargingStation, chargePoint?: ChargePoint, connectorId = 0): number {
     let totalAmps = 0;
     if (chargingStation) {
@@ -671,7 +671,7 @@ export class Utils {
     if (withVIN && car.vin) {
       carName.push(`${translateService.instant('cars.vin')} '${car.vin}'`);
     }
-    // License platee
+    // License plate
     carName.push(`${translateService.instant('cars.license_plate')} '${car.licensePlate}'`);
     // Car ID
     if (withID && car.id) {
@@ -737,20 +737,19 @@ export class Utils {
           router.navigate(['/auth/login']);
         }
         break;
-      // Unauthorized!
-      case StatusCodes.UNAUTHORIZED:
-        // Log Off (remove token)
-        centralServerService.logoutSucceeded();
-        // Not logged in so redirect to login page with the return url
-        router.navigate(['/auth/login']);
-        break;
-      // Conflict in User Session
-      case StatusCodes.FORBIDDEN:
+      case HTTPError.USER_ACCOUNT_CHANGED:
+      case HTTPError.TENANT_COMPONENT_CHANGED:
         messageService.showWarningMessageUserOrTenantUpdated();
         // Log Off (remove token)
         centralServerService.logoutSucceeded();
         // Navigate to Login
         router.navigate(['/auth/login']);
+        break;
+      // Unauthorized!
+      case StatusCodes.UNAUTHORIZED:
+      case StatusCodes.FORBIDDEN:
+        // Not Authorized
+        messageService.showErrorMessage('general.not_authorized');
         break;
       case StatusCodes.BAD_REQUEST:
         messageService.showErrorMessage('general.invalid_content');
@@ -828,7 +827,7 @@ export class Utils {
   }
 
   public static isNullOrUndefined(obj: any): boolean {
-    // tslint:disable-next-line: triple-equals
+    // eslint-disable-next-line eqeqeq
     return obj == null;
   }
 

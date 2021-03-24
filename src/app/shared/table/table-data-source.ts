@@ -46,7 +46,7 @@ export abstract class TableDataSource<T extends Data> {
   private searchValue = '';
   private staticFilters: Record<string, unknown>[] = [];
 
-  constructor(
+  public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     public additionalParameters?: any) {
@@ -187,14 +187,14 @@ export abstract class TableDataSource<T extends Data> {
     const sort = this.getSort();
     if (sort && sort.active) {
       return [
-        { field: (sort.direction === 'desc' ?  '-' : '') + sort.active },
+        { field: (sort.direction === 'desc' ? '-' : '') + sort.active },
       ];
     }
     // Find Sorted columns
     const columnDef = this.tableColumnsDef.find((column) => column.sorted);
     if (columnDef) {
       return [
-        { field: (sort.direction === 'desc' ?  '-' : '') + sort.active },
+        { field: (sort.direction === 'desc' ? '-' : '') + sort.active },
       ];
     }
     return [];
@@ -241,8 +241,6 @@ export abstract class TableDataSource<T extends Data> {
     return [];
   }
 
-  public abstract buildTableDef(): TableDef;
-
   public setTableDef(tableDef: TableDef) {
     this.tableDef = tableDef;
   }
@@ -256,9 +254,7 @@ export abstract class TableDataSource<T extends Data> {
     // Init
     this.resetTotalNumberOfRecords();
     // Update Filter
-    const foundFilter = this.tableFiltersDef.find((filterDef) => {
-      return filterDef.id === filter.id;
-    });
+    const foundFilter = this.tableFiltersDef.find((filterDef) => filterDef.id === filter.id);
     // Update value
     if (foundFilter) {
       foundFilter.currentValue = filter.currentValue;
@@ -315,15 +311,15 @@ export abstract class TableDataSource<T extends Data> {
     }
   }
 
-  // tslint:disable-next-line:no-empty
+  // eslint-disable-next-line no-empty,@typescript-eslint/no-empty-function
   public rowCellUpdated(cellValue: any, rowIndex: number, columnDef: TableColumnDef) {
   }
 
-  // tslint:disable-next-line:no-empty
+  // eslint-disable-next-line no-empty,@typescript-eslint/no-empty-function
   public actionTriggered(actionDef: TableActionDef) {
   }
 
-  // tslint:disable-next-line:no-empty
+  // eslint-disable-next-line no-empty,@typescript-eslint/no-empty-function
   public rowActionTriggered(actionDef: TableActionDef, rowItem: any, dropdownItem?: DropdownItem) {
   }
 
@@ -335,6 +331,7 @@ export abstract class TableDataSource<T extends Data> {
     let filterJson = {};
     // Parse filters
     if (this.tableFiltersDef) {
+      // eslint-disable-next-line complexity
       this.tableFiltersDef.forEach((filterDef) => {
         // Check the 'All' value
         if (filterDef.currentValue && filterDef.currentValue !== FilterType.ALL_KEY) {
@@ -342,25 +339,46 @@ export abstract class TableDataSource<T extends Data> {
           if (filterDef.type === 'date') {
             filterJson[filterDef.httpId] = filterDef.currentValue.toISOString();
             // Dialog
-          } else if (filterDef.type === FilterType.DIALOG_TABLE && !filterDef.multiple) {
-            if (filterDef.currentValue.length > 0) {
-              if (filterDef.currentValue[0].key !== FilterType.ALL_KEY) {
-                if (filterDef.currentValue.length > 1) {
-                  // Handle multiple key selection as a JSON array
-                  const jsonKeys = [];
-                  for (const value of filterDef.currentValue) {
-                    jsonKeys.push(value.key);
+          } else if (filterDef.type === FilterType.DIALOG_TABLE) {
+            if (!Utils.isEmptyArray(filterDef.dependentFilters)) {
+              filterDef.dialogComponentData = {
+                staticFilter: {}
+              };
+              for (const dependentFilter of filterDef.dependentFilters) {
+                if (!Utils.isEmptyArray(dependentFilter.currentValue)) {
+                  if (dependentFilter.multiple) {
+                    if (dependentFilter.type === FilterType.DROPDOWN &&
+                        dependentFilter.currentValue.length === dependentFilter.items.length &&
+                        dependentFilter.exhaustive) {
+                      continue;
+                    }
+                    filterDef.dialogComponentData.staticFilter[dependentFilter.httpId] = dependentFilter.currentValue.map((obj) => obj.key).join('|');
+                  } else {
+                    filterDef.dialogComponentData.staticFilter[dependentFilter.httpId] = dependentFilter.currentValue[0].key;
                   }
-                  filterJson[filterDef.httpId] = JSON.stringify(jsonKeys);
-                } else {
-                  filterJson[filterDef.httpId] = filterDef.currentValue[0].key;
                 }
               }
             }
-            // Dialog with multiple selections
-          } else if (filterDef.type === FilterType.DIALOG_TABLE && filterDef.multiple) {
-            if (filterDef.currentValue.length > 0) {
-              filterJson[filterDef.httpId] = filterDef.currentValue.map((obj) => obj.key).join('|');
+            if (!filterDef.multiple) {
+              if (filterDef.currentValue.length > 0) {
+                if (filterDef.currentValue[0].key !== FilterType.ALL_KEY) {
+                  if (filterDef.currentValue.length > 1) {
+                    // Handle multiple key selection as a JSON array
+                    const jsonKeys = [];
+                    for (const value of filterDef.currentValue) {
+                      jsonKeys.push(value.key);
+                    }
+                    filterJson[filterDef.httpId] = JSON.stringify(jsonKeys);
+                  } else {
+                    filterJson[filterDef.httpId] = filterDef.currentValue[0].key;
+                  }
+                }
+              }
+              // Dialog with multiple selections
+            } else {
+              if (filterDef.currentValue.length > 0) {
+                filterJson[filterDef.httpId] = filterDef.currentValue.map((obj) => obj.key).join('|');
+              }
             }
             // Dropdown with multiple selections
           } else if (filterDef.type === FilterType.DROPDOWN && filterDef.multiple) {
@@ -398,11 +416,9 @@ export abstract class TableDataSource<T extends Data> {
     return this.staticFilters;
   }
 
-  // tslint:disable-next-line:no-empty
+  // eslint-disable-next-line no-empty, @typescript-eslint/no-empty-function
   public onRowActionMenuOpen(action: TableActionDef, row: T) {
   }
-
-  public abstract buildTableColumnDefs(): TableColumnDef[];
 
   public refreshData(showSpinner = true): Observable<void> {
     // Init paging
@@ -458,8 +474,6 @@ export abstract class TableDataSource<T extends Data> {
       });
     });
   }
-
-  public abstract loadDataImpl(): Observable<DataResult<T>>;
 
   public getData(): T[] {
     return this.data;
@@ -697,4 +711,10 @@ export abstract class TableDataSource<T extends Data> {
       }
     }
   }
+
+  public abstract buildTableDef(): TableDef;
+
+  public abstract buildTableColumnDefs(): TableColumnDef[];
+
+  public abstract loadDataImpl(): Observable<DataResult<T>>;
 }

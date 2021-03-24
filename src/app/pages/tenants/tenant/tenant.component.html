@@ -118,17 +118,15 @@
                             <div><strong><b>{{"ocpi.title" | translate}}</b></strong></div>
                             <div>{{"ocpi.description" | translate}}</div>
                           </div>
-                          <mat-form-field *ngIf="components['controls'].ocpi['controls'].active.value" class="flex-shrink-1 mx-5">
-                            <mat-select [formControl]="components['controls'].ocpi['controls'].type"
-                                [placeholder]="'ocpi.type_placeholder' | translate"
-                                [required]="components['controls'].ocpi['controls'].active.value">
-                              <mat-option *ngFor="let ocpiType of ocpiTypes" [value]="ocpiType.key">
-                                {{ocpiType.description | translate}}
-                              </mat-option>
-                            </mat-select>
-                            <mat-error *ngIf="components['controls'].ocpi['controls'].active.errors?.required">
-                              {{"general.mandatory_field" | translate}}</mat-error>
-                          </mat-form-field>
+                        </div>
+                        <div class="d-flex align-items-center component-item">
+                          <mat-slide-toggle class="align-self-start mt-2"
+                            [formControl]="components['controls'].oicp['controls'].active">
+                          </mat-slide-toggle>
+                          <div class="d-flex flex-column mr-auto ml-3 justify-content-around align-items-start w-100">
+                            <div><strong><b>{{"oicp.title" | translate}}</b></strong></div>
+                            <div>{{"oicp.description" | translate}}</div>
+                          </div>
                         </div>
                         <div class="d-flex align-items-center component-item">
                           <mat-slide-toggle class="align-self-start mt-2"
@@ -205,6 +203,13 @@
                           <div class="d-flex flex-column mr-auto ml-3 justify-content-around align-items-start">
                             <div><strong><b>{{"car.title" | translate}}</b></strong></div>
                             <div>{{"car.description" | translate}}</div>
+                          </div>
+                        </div>
+                        <div class="d-flex align-items-center component-item">
+                          <mat-slide-toggle class="align-self-start mt-2" [formControl]="components['controls'].carConnector['controls'].active"></mat-slide-toggle>
+                          <div class="d-flex flex-column mr-auto ml-3 justify-content-around align-items-start">
+                            <div><strong><b>{{"car_connector.title" | translate}}</b></strong></div>
+                            <div>{{"car_connector.description" | translate}}</div>
                           </div>
                         </div>
                         <div class="d-flex align-items-center component-item">

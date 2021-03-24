@@ -9,7 +9,7 @@ import { CellContentTemplateDirective } from './cell-content-template.directive'
     <ng-template></ng-template>`,
 })
 
-// tslint:disable-next-line:component-class-suffix
+// eslint-disable-next-line @angular-eslint/component-class-suffix
 export class CellContentTemplateContainerComponent implements OnInit, OnChanges {
   @Input() public row!: Data;
   @Input() public columnDef!: TableColumnDef;
@@ -19,10 +19,10 @@ export class CellContentTemplateContainerComponent implements OnInit, OnChanges 
   private cellComponent!: CellContentTemplateDirective;
   private cellComponentRef: any;
 
-  constructor(
+  // eslint-disable-next-line no-useless-constructor
+  public constructor(
     private componentFactoryResolver: ComponentFactoryResolver,
-    public viewContainerRef: ViewContainerRef) {
-  }
+    public viewContainerRef: ViewContainerRef) {}
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (this.cellComponent) {

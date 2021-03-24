@@ -59,12 +59,6 @@ export class TenantComponent implements OnInit {
       description: 'settings.refund.concur.title',
     },
   ];
-  public ocpiTypes = [
-    {
-      key: RoamingSettingsType.GIREVE,
-      description: 'settings.ocpi.gireve.title',
-    },
-  ];
   public analyticsTypes = [
     {
       key: AnalyticsSettingsType.SAC,
@@ -203,6 +197,7 @@ export class TenantComponent implements OnInit {
     let organizationActive = false;
     let assetActive = false;
     let carActive = false;
+    let carConnectorActive = false;
 
     for (const component in tenant.components) {
       if (Utils.objectHasProperty(tenant.components, component)) {
@@ -230,6 +225,9 @@ export class TenantComponent implements OnInit {
         if (component === TenantComponents.CAR) {
           carActive = tenant.components[component].active;
         }
+        if (component === TenantComponents.CAR_CONNECTOR) {
+          carConnectorActive = tenant.components[component].active;
+        }
       }
     }
     if (refundActive && !pricingActive) {
@@ -246,6 +244,10 @@ export class TenantComponent implements OnInit {
     }
     if (assetActive && !organizationActive) {
       this.messageService.showErrorMessage('tenants.save_error_asset');
+      return;
+    }
+    if (carConnectorActive && !carActive) {
+      this.messageService.showErrorMessage('tenants.save_error_car_connector');
       return;
     }
     if (this.currentTenant) {

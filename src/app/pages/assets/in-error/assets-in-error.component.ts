@@ -9,7 +9,7 @@ import { AssetsInErrorTableDataSource } from './assets-in-error-table-data-sourc
 })
 export class AssetsInErrorComponent {
 
-  constructor(
+  public constructor(
     public assetsInErrorTableDataSource: AssetsInErrorTableDataSource,
   ) {
   }

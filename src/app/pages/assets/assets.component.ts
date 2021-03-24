@@ -10,13 +10,16 @@ import { AbstractTabComponent } from '../../shared/component/abstract-tab/abstra
   templateUrl: './assets.component.html',
 })
 export class AssetsComponent extends AbstractTabComponent {
-  public isAdmin: boolean;
-  constructor(
+  public canListAssets: boolean;
+  public canListAssetsInError: boolean;
+
+  public constructor(
     private authorizationService: AuthorizationService,
     activatedRoute: ActivatedRoute,
     windowService: WindowService,
   ) {
     super(activatedRoute, windowService, ['assets', 'inerror']);
-    this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.hasSitesAdminRights();
+    this.canListAssets = this.authorizationService.canListAssets();
+    this.canListAssetsInError = this.authorizationService.canListAssetsInError();
   }
 }

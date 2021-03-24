@@ -1,5 +1,6 @@
 import { Data } from './Table';
 import { Transaction } from './Transaction';
+import { UserStatus } from './User';
 
 export interface ActionResponse {
   status: string;
@@ -32,7 +33,22 @@ export interface OCPIJobStatusesResponse extends ActionResponse {
   chargeBoxIDsInSuccess: string[];
 }
 
+export interface OICPJobStatusesResponse extends ActionResponse {
+  success: number;
+  failure: number;
+  total: number;
+  logs: string[];
+  chargeBoxIDsInFailure: string[];
+  chargeBoxIDsInSuccess: string[];
+}
+
 export interface OCPIPingResponse extends ActionResponse {
+  statusCode: number;
+  statusText: string;
+  message: string;
+}
+
+export interface OICPPingResponse extends ActionResponse {
   statusCode: number;
   statusText: string;
   message: string;
@@ -97,4 +113,8 @@ export interface Ordering {
 export interface Paging {
   limit: number;
   skip: number;
+}
+
+export interface VerifyEmailResponse extends ActionResponse {
+  userStatus?: UserStatus;
 }

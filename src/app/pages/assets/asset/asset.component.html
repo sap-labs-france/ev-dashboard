@@ -3,14 +3,13 @@
     <mat-tab-group animationDuration="0ms" disableRipple="true" class="mat-tab-info mat-tabs-with-actions">
       <mat-tab>
         <ng-template mat-tab-label>
-            <mat-icon>portrait</mat-icon>
-            <span>{{name.value}}</span>
+          <mat-icon>portrait</mat-icon>
+          <span>{{name.value}}</span>
         </ng-template>
         <div class="card-body">
           <div class="row app-asset-align-center">
             <div class="col-md-12 col-xl-5">
-              <div class="rotating-card-container"
-                [ngStyle]="{ 'pointer-events': this.isAdmin ? 'all' : 'none'}">
+              <div class="rotating-card-container" [ngStyle]="{ 'pointer-events': this.isAdmin ? 'all' : 'none'}">
                 <div class="card card-rotate card-background app-asset-image-padding mt-0">
                   <div class="front front-background"
                     [ngStyle]="{'background-image': 'url(' + image + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
@@ -27,7 +26,8 @@
                         <button mat-flat-button color="primary" class="mr-2">
                           <mat-icon (click)="file.click()">mode_edit</mat-icon>
                           <div class="d-none">
-                            <input #file type="file" name="..." (change)="onImageChanged($event)" accept="image/jpg,image/jpeg,image/png,image/gif">
+                            <input #file type="file" name="..." (change)="onImageChanged($event)"
+                              accept="image/jpg,image/jpeg,image/png,image/gif">
                           </div>
                         </button>
                         <button mat-flat-button color="warn">
@@ -42,8 +42,8 @@
             <div class="col-md-12 col-xl-7">
               <div class="form-group">
                 <mat-form-field>
-                  <input appAutofocus matInput placeholder="{{'assets.name' | translate}}"
-                    class="app-asset-name-bold" type="text" [formControl]="name" required>
+                  <input appAutofocus matInput placeholder="{{'assets.name' | translate}}" class="app-asset-name-bold"
+                    type="text" [formControl]="name" required>
                   <mat-error *ngIf="name.errors?.required">
                     {{"general.mandatory_field" | translate}}
                   </mat-error>
@@ -52,7 +52,7 @@
               <div class="form-group">
                 <mat-form-field *ngIf="formGroup.enabled">
                   <input matInput type="text" readonly=true placeholder="{{'site_areas.titles' | translate}}"
-                  class="form-field-popup" (click)="assignSiteArea()" [formControl]="siteArea" required/>
+                    class="form-field-popup" (click)="assignSiteArea()" [formControl]="siteArea" required />
                   <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignSiteArea()">
                     <mat-icon>create</mat-icon>
                   </button>
@@ -60,9 +60,9 @@
                     {{"general.mandatory_field" | translate}}
                   </mat-error>
                 </mat-form-field>
-                <mat-form-field *ngIf="!formGroup.enabled" >
-                  <input matInput type="text" placeholder="{{'site_areas.titles' | translate}}"
-                    [formControl]="siteArea" required/>
+                <mat-form-field *ngIf="!formGroup.enabled">
+                  <input matInput type="text" placeholder="{{'site_areas.titles' | translate}}" [formControl]="siteArea"
+                    required />
                 </mat-form-field>
               </div>
               <div class="form-group">
@@ -72,16 +72,47 @@
                       {{assetType.value | translate}}
                     </mat-option>
                   </mat-select>
-                  <mat-error *ngIf="assetType.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+                  <mat-error *ngIf="assetType.errors?.required">{{"general.mandatory_field" | translate}}
+                  </mat-error>
                 </mat-form-field>
+              </div>
+              <div *ngIf="isSmartChargingComponentActive && asset?.siteArea?.smartCharging" class="text-left form-group">
+                <mat-checkbox [formControl]="excludeFromSmartCharging">
+                  {{'chargers.exclude_smart_charging' | translate}}
+                </mat-checkbox>
               </div>
               <div class="row">
                 <div class="col-md-6">
                   <div class="form-group">
                     <mat-form-field>
-                      <input matInput placeholder="{{'general.latitude' | translate}}" type="text" [formControl]="latitude" [readOnly]="!isAdmin">
+                      <input matInput [formControl]="staticValueWatt"
+                        placeholder="{{'assets.static_value_watt' | translate}}" required type='number'>
+                      <mat-error *ngIf="assetType.errors?.required">{{"general.mandatory_field" | translate}}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <mat-form-field>
+                      <input matInput [formControl]="fluctuationPercent"
+                        placeholder="{{'assets.fluctuation_percent' | translate}}" type='number'>
+                      <mat-error *ngIf="fluctuationPercent.errors?.pattern || fluctuationPercent.errors?.max">
+                        {{"chargers.invalid_efficiency" | translate}}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <mat-form-field>
+                      <input matInput placeholder="{{'general.latitude' | translate}}" type="text"
+                        [formControl]="latitude" [readOnly]="!isAdmin">
                       <mat-error *ngIf="latitude.errors?.pattern">{{"general.invalid_value" | translate}}</mat-error>
-                      <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignGeoMap()" [hidden]="!isAdmin">
+                      <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignGeoMap()"
+                        [hidden]="!isAdmin">
                         <mat-icon>pin_drop</mat-icon>
                       </button>
                     </mat-form-field>
@@ -90,9 +121,11 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <mat-form-field>
-                      <input matInput placeholder="{{'general.longitude' | translate}}" type="text" [formControl]="longitude" [readOnly]="!isAdmin">
+                      <input matInput placeholder="{{'general.longitude' | translate}}" type="text"
+                        [formControl]="longitude" [readOnly]="!isAdmin">
                       <mat-error *ngIf="longitude.errors?.pattern">{{"general.invalid_value" | translate}}</mat-error>
-                      <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignGeoMap()" [hidden]="!isAdmin">
+                      <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignGeoMap()"
+                        [hidden]="!isAdmin">
                         <mat-icon>pin_drop</mat-icon>
                       </button>
                     </mat-form-field>
@@ -139,8 +172,8 @@
             <div class="col-md-12">
               <div class="form-group">
                 <mat-form-field>
-                  <input matInput type="text" placeholder="{{'assets.meter_id' | translate}}"
-                    [formControl]="meterID" required/>
+                  <input matInput type="text" placeholder="{{'assets.meter_id' | translate}}" [formControl]="meterID"
+                    required />
                   <mat-error *ngIf="meterID.errors?.required">
                     {{"general.mandatory_field" | translate}}
                   </mat-error>

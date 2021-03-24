@@ -3,7 +3,7 @@ import { CompaniesDialogComponent } from '../../dialogs/companies/companies-dial
 import { TableFilter } from './table-filter';
 
 export class CompanyTableFilter extends TableFilter {
-  constructor() {
+  public constructor() {
     super();
     // Define filter
     const filterDef: TableFilterDef = {

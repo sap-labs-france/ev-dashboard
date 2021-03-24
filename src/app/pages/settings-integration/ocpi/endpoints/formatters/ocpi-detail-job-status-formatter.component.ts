@@ -13,7 +13,7 @@ import { OcpiEndpointDetail } from '../../../../../types/ocpi/OCPIEndpoint';
     </mat-chip-list>
   `,
 })
-export class OcpiDetailJobStatusFomatterComponent extends CellContentTemplateDirective {
+export class OcpiDetailJobStatusFormatterComponent extends CellContentTemplateDirective {
   @Input() public row!: OcpiEndpointDetail;
 }
 

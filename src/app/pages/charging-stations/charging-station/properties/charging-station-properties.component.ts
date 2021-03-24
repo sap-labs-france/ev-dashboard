@@ -16,7 +16,7 @@ export interface PropertyDisplay {
   selector: 'app-charging-station-properties',
   templateUrl: './charging-station-properties.component.html',
 })
-@Injectable()
+// @Injectable()
 export class ChargingStationPropertiesComponent implements OnInit {
   @Input() public chargingStation!: ChargingStation;
   public chargerFormatted: any = {};
@@ -78,8 +78,8 @@ export class ChargingStationPropertiesComponent implements OnInit {
 
   public displayedColumns: string[] = ['title', 'value'];
 
-  constructor(private datePipe: AppDatePipe) {
-  }
+  // eslint-disable-next-line no-useless-constructor
+  public constructor(private datePipe: AppDatePipe) {}
 
   public ngOnInit(): void {
     // Format

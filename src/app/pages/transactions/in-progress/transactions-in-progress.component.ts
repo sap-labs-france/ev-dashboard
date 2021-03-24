@@ -14,14 +14,13 @@ import { TransactionsInProgressTableDataSource } from './transactions-in-progres
   providers: [TransactionsInProgressTableDataSource],
 })
 export class TransactionsInProgressComponent implements OnInit {
-
-  constructor(
+  // eslint-disable-next-line no-useless-constructor
+  public constructor(
     public transactionsInProgressTableDataSource: TransactionsInProgressTableDataSource,
     private dialog: MatDialog,
     private windowService: WindowService,
     private centralServerService: CentralServerService,
-    private messageService: MessageService) {
-  }
+    private messageService: MessageService) {}
 
   public ngOnInit(): void {
     // Check if transaction ID id provided
@@ -34,7 +33,7 @@ export class TransactionsInProgressComponent implements OnInit {
         }
       }, (error) => {
         // Not Found
-        this.messageService.showErrorMessage('transactions.transaction_id_not_found', {sessionID: transactionID});
+        this.messageService.showErrorMessage('transactions.transaction_id_not_found', { sessionID: transactionID });
       });
       // Clear Search
       this.windowService.deleteSearch('TransactionID');

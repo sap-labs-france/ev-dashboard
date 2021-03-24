@@ -43,7 +43,7 @@ export class SiteComponent implements OnInit {
   public address!: Address;
   public canCreateSite = false;
 
-  constructor(
+  public constructor(
     private authorizationService: AuthorizationService,
     private centralServerService: CentralServerService,
     private messageService: MessageService,

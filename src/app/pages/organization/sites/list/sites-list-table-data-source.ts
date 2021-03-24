@@ -50,7 +50,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
   private exportOCPPParamsAction = new TableExportOCPPParamsAction().getActionDef();
   private siteGenerateQrCodeConnectorAction = new TableSiteGenerateQrCodeConnectorAction().getActionDef();
 
-  constructor(
+  public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     private messageService: MessageService,

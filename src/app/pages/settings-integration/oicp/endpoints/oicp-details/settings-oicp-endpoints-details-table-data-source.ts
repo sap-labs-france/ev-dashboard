@@ -9,7 +9,6 @@ import { MessageService } from '../../../../../services/message.service';
 import { SpinnerService } from '../../../../../services/spinner.service';
 import { AppDatePipe } from '../../../../../shared/formatters/app-date.pipe';
 import { TableAutoRefreshAction } from '../../../../../shared/table/actions/table-auto-refresh-action';
-import { TableDownloadAction } from '../../../../../shared/table/actions/table-download-action';
 import { TableMoreAction } from '../../../../../shared/table/actions/table-more-action';
 import { TableRefreshAction } from '../../../../../shared/table/actions/table-refresh-action';
 import { TableStartAction } from '../../../../../shared/table/actions/table-start-action';
@@ -18,12 +17,11 @@ import { TableUploadAction } from '../../../../../shared/table/actions/table-upl
 import { TableDataSource } from '../../../../../shared/table/table-data-source';
 import { DataResult } from '../../../../../types/DataResult';
 import { ButtonAction, RestResponse } from '../../../../../types/GlobalType';
-import { HTTPError } from '../../../../../types/HTTPError';
 import { OicpButtonAction, OicpEndpoint, OicpEndpointDetail, OicpRole } from '../../../../../types/oicp/OICPEndpoint';
 import { ButtonType, TableActionDef, TableColumnDef, TableDef } from '../../../../../types/Table';
 import { Utils } from '../../../../../utils/Utils';
 import { OicpDetailFailureEvsesStatusFormatterComponent } from '../formatters/oicp-detail-failure-evses-status-formatter.component';
-import { OicpDetailJobStatusFomatterComponent } from '../formatters/oicp-detail-job-status-formatter.component';
+import { OicpDetailJobStatusFormatterComponent } from '../formatters/oicp-detail-job-status-formatter.component';
 import { OicpDetailSuccessEvsesStatusFormatterComponent } from '../formatters/oicp-detail-success-evses-status-formatter.component';
 import { OicpDetailTotalEvsesStatusFormatterComponent } from '../formatters/oicp-detail-total-evses-status-formatter.component';
 
@@ -102,7 +100,7 @@ export class SettingsOicpEndpointsDetailsTableDataSource extends TableDataSource
         id: 'patchJobStatus',
         name: 'oicpendpoints.patch_job_status',
         isAngularComponent: true,
-        angularComponent: OicpDetailJobStatusFomatterComponent,
+        angularComponent: OicpDetailJobStatusFormatterComponent,
         headerClass: 'text-center',
         class: 'table-cell-angular-big-component',
         sortable: false,
@@ -159,14 +157,14 @@ export class SettingsOicpEndpointsDetailsTableDataSource extends TableDataSource
   }
 
   public buildTableDynamicRowActions(rowItem: OicpEndpointDetail): TableActionDef[] {
-    const _actionRowButtons = [];
+    const actionRowButtons = [];
 
     if (rowItem && rowItem.oicpendpoint) {
       // Check is background job is active for the oicp endpoint
       if (rowItem.oicpendpoint.backgroundPatchJob) {
-        _actionRowButtons.push(this.stopAction);
+        actionRowButtons.push(this.stopAction);
       } else {
-        _actionRowButtons.push(this.startAction);
+        actionRowButtons.push(this.startAction);
       }
       let syncActions: TableActionDef;
       if (rowItem.oicpendpoint.role === OicpRole.CPO) {
@@ -179,9 +177,9 @@ export class SettingsOicpEndpointsDetailsTableDataSource extends TableDataSource
 
         ]).getActionDef();
       }
-      _actionRowButtons.push(syncActions);
+      actionRowButtons.push(syncActions);
     }
-    return _actionRowButtons;
+    return actionRowButtons;
   }
 
   public rowActionTriggered(actionDef: TableActionDef, oicpEndpointDetail: OicpEndpointDetail) {

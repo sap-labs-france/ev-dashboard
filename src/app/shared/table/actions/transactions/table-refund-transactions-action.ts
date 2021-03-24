@@ -7,7 +7,7 @@ import { DialogService } from '../../../../services/dialog.service';
 import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
 import { ActionsResponse } from '../../../../types/DataResult';
-import { HTTPAuthError, HTTPError } from '../../../../types/HTTPError';
+import { HTTPError } from '../../../../types/HTTPError';
 import { RefundSettings } from '../../../../types/Setting';
 import { ButtonColor, ButtonType, TableActionDef } from '../../../../types/Table';
 import { Transaction, TransactionButtonAction } from '../../../../types/Transaction';
@@ -52,19 +52,19 @@ export class TableRefundTransactionsAction implements TableAction {
         if (response === ButtonType.YES) {
           spinnerService.show();
           centralServerService.refundTransactions(transactions.map((transaction) => transaction.id))
-            .subscribe((response: ActionsResponse) => {
-              if (response.inError) {
+            .subscribe((res: ActionsResponse) => {
+              if (res.inError) {
                 messageService.showErrorMessage(
                   translateService.instant('transactions.notification.refund.partial',
                     {
-                      inSuccess: response.inSuccess,
-                      inError: response.inError,
+                      inSuccess: res.inSuccess,
+                      inError: res.inError,
                     },
                   ));
               } else {
                 messageService.showSuccessMessage(
                   translateService.instant('transactions.notification.refund.success',
-                    { inSuccess: response.inSuccess },
+                    { inSuccess: res.inSuccess },
                   ));
               }
               spinnerService.hide();

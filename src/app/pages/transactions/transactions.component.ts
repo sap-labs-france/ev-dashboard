@@ -16,7 +16,7 @@ export class TransactionsComponent extends AbstractTabComponent {
   public canRefundTransaction: boolean;
   public canListTransactionsInError: boolean;
 
-  constructor(
+  public constructor(
       private authorizationService: AuthorizationService,
       private componentService: ComponentService,
       activatedRoute: ActivatedRoute, windowService: WindowService) {

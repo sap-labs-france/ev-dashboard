@@ -38,13 +38,13 @@ export class TableSyncBillingUsersAction extends TableSynchronizeAction {
           if (synchronizeResponse.status === RestResponse.SUCCESS) {
             if (synchronizeResponse.inSuccess) {
               messageService.showSuccessMessage(translateService.instant('settings.billing.user.synchronize_users_success',
-                {number: synchronizeResponse.inSuccess}));
+                {nb: synchronizeResponse.inSuccess}));
             } else if (!synchronizeResponse.inError) {
               messageService.showSuccessMessage(translateService.instant('settings.billing.user.synchronize_users_success_all'));
             }
             if (synchronizeResponse.inError) {
               messageService.showWarningMessage(translateService.instant('settings.billing.user.synchronize_users_failure',
-                {number: synchronizeResponse.inError}));
+                {nb: synchronizeResponse.inError}));
             }
           } else {
             Utils.handleError(JSON.stringify(synchronizeResponse), messageService, 'settings.billing.user.synchronize_users_error');
@@ -58,13 +58,13 @@ export class TableSyncBillingUsersAction extends TableSynchronizeAction {
           if (synchronizeResponse.status === RestResponse.SUCCESS) {
             if (synchronizeResponse.inSuccess) {
               messageService.showSuccessMessage(translateService.instant('settings.billing.invoice.synchronize_invoices_success',
-                {number: synchronizeResponse.inSuccess}));
+                {nb: synchronizeResponse.inSuccess}));
             } else if (!synchronizeResponse.inError) {
               messageService.showSuccessMessage(translateService.instant('settings.billing.invoice.synchronize_invoices_success_all'));
             }
             if (synchronizeResponse.inError) {
               messageService.showWarningMessage(translateService.instant('settings.billing.invoice.synchronize_invoices_failure',
-                {number: synchronizeResponse.inError}));
+                {nb: synchronizeResponse.inError}));
             }
           } else {
             Utils.handleError(JSON.stringify(synchronizeResponse), messageService, 'settings.billing.invoice.synchronize_invoices_error');

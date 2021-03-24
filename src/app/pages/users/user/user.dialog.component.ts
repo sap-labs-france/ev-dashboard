@@ -11,7 +11,7 @@ export class UserDialogComponent implements AfterViewInit {
   @ViewChild('appRef') public appRef!: UserComponent;
   public userID!: string;
 
-  constructor(
+  public constructor(
     public dialogRef: MatDialogRef<UserDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data: string) {
     this.userID = data;

@@ -41,14 +41,14 @@ export class TableDeleteManyAction implements TableAction {
     ).subscribe((response) => {
       if (response === ButtonType.YES) {
         spinnerService.show();
-        deleteManyData(datas.map((data) => data.id)).subscribe((response: ActionsResponse) => {
-          if (response.inError) {
+        deleteManyData(datas.map((data) => data.id)).subscribe((res: ActionsResponse) => {
+          if (res.inError) {
             messageService.showErrorMessage(
               translateService.instant(messagePartialError,
-                { inSuccess: response.inSuccess, inError: response.inError }));
+                { inSuccess: res.inSuccess, inError: res.inError }));
           } else {
             messageService.showSuccessMessage(
-              translateService.instant(messageSuccess, { inSuccess: response.inSuccess }));
+              translateService.instant(messageSuccess, { inSuccess: res.inSuccess }));
           }
           spinnerService.hide();
           clearSelectedRows();

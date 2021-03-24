@@ -49,8 +49,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
   private navigateToTransactionsAction = new TableNavigateToTransactionsAction().getActionDef();
   private deleteManyAction = new TableDeleteTagsAction().getActionDef();
 
-
-  constructor(
+  public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     private messageService: MessageService,

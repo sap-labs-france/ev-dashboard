@@ -12,7 +12,7 @@ export class CarConnectorConnectionDialogComponent implements AfterViewInit {
   @ViewChild('appRef') public appRef!: CarConnectorConnectionComponent;
   public currentConnection!: CarConnectorConnectionSetting;
 
-  constructor(
+  public constructor(
     public dialogRef: MatDialogRef<CarConnectorConnectionDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data: CarConnectorConnectionSetting) {
     this.currentConnection = data;

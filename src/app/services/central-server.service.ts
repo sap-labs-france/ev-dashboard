@@ -1513,7 +1513,7 @@ export class CentralServerService {
     // verify init
     this.checkInit();
     // Execute the REST Service
-    return this.httpClient.get<SettingDB>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.SETTING_BY_INDENTIFIER}?ID=${identifier}`,
+    return this.httpClient.get<SettingDB>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.SETTING_BY_IDENTIFIER}?ID=${identifier}`,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2135,7 +2135,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.OCPI_ENPOINT_CREATE}`,
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.OCPI_ENDPOINT_CREATE}`,
       ocpiEndpoint,
       {
         headers: this.buildHttpHeaders(),
@@ -2150,7 +2150,7 @@ export class CentralServerService {
     this.checkInit();
     // Execute
     return this.httpClient.post<OCPIJobStatusesResponse>(
-      `${this.centralRestServerServiceSecuredURL}/${ServerAction.OCPI_ENPOINT_SEND_EVSE_STATUSES}`, ocpiEndpoint,
+      `${this.centralRestServerServiceSecuredURL}/${ServerAction.OCPI_ENDPOINT_SEND_EVSE_STATUSES}`, ocpiEndpoint,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2164,7 +2164,7 @@ export class CentralServerService {
     this.checkInit();
     // Execute
     return this.httpClient.post<OCPIJobStatusesResponse>(
-      `${this.centralRestServerServiceSecuredURL}/${ServerAction.OCPI_ENPOINT_SEND_TOKENS}`, ocpiEndpoint,
+      `${this.centralRestServerServiceSecuredURL}/${ServerAction.OCPI_ENDPOINT_SEND_TOKENS}`, ocpiEndpoint,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2178,7 +2178,7 @@ export class CentralServerService {
     this.checkInit();
     // Execute
     return this.httpClient.post<OCPIJobStatusesResponse>(
-      `${this.centralRestServerServiceSecuredURL}/${ServerAction.OCPI_ENPOINT_PULL_LOCATIONS}`, ocpiEndpoint,
+      `${this.centralRestServerServiceSecuredURL}/${ServerAction.OCPI_ENDPOINT_PULL_LOCATIONS}`, ocpiEndpoint,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2192,7 +2192,7 @@ export class CentralServerService {
     this.checkInit();
     // Execute
     return this.httpClient.post<OCPIJobStatusesResponse>(
-      `${this.centralRestServerServiceSecuredURL}/${ServerAction.OCPI_ENPOINT_PULL_SESSIONS}`, ocpiEndpoint,
+      `${this.centralRestServerServiceSecuredURL}/${ServerAction.OCPI_ENDPOINT_PULL_SESSIONS}`, ocpiEndpoint,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2206,7 +2206,7 @@ export class CentralServerService {
     this.checkInit();
     // Execute
     return this.httpClient.post<OCPIJobStatusesResponse>(
-      `${this.centralRestServerServiceSecuredURL}/${ServerAction.OCPI_ENPOINT_PULL_TOKENS}`, ocpiEndpoint,
+      `${this.centralRestServerServiceSecuredURL}/${ServerAction.OCPI_ENDPOINT_PULL_TOKENS}`, ocpiEndpoint,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2220,7 +2220,7 @@ export class CentralServerService {
     this.checkInit();
     // Execute
     return this.httpClient.post<OCPIJobStatusesResponse>(
-      `${this.centralRestServerServiceSecuredURL}/${ServerAction.OCPI_ENPOINT_PULL_CDRS}`, ocpiEndpoint,
+      `${this.centralRestServerServiceSecuredURL}/${ServerAction.OCPI_ENDPOINT_PULL_CDRS}`, ocpiEndpoint,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2234,7 +2234,7 @@ export class CentralServerService {
     this.checkInit();
     // Execute
     return this.httpClient.post<OCPIJobStatusesResponse>(
-      `${this.centralRestServerServiceSecuredURL}/${ServerAction.OCPI_ENPOINT_CHECK_LOCATIONS}`, ocpiEndpoint,
+      `${this.centralRestServerServiceSecuredURL}/${ServerAction.OCPI_ENDPOINT_CHECK_LOCATIONS}`, ocpiEndpoint,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2248,7 +2248,7 @@ export class CentralServerService {
     this.checkInit();
     // Execute
     return this.httpClient.post<OCPIJobStatusesResponse>(
-      `${this.centralRestServerServiceSecuredURL}/${ServerAction.OCPI_ENPOINT_CHECK_CDRS}`, ocpiEndpoint,
+      `${this.centralRestServerServiceSecuredURL}/${ServerAction.OCPI_ENDPOINT_CHECK_CDRS}`, ocpiEndpoint,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2262,7 +2262,7 @@ export class CentralServerService {
     this.checkInit();
     // Execute
     return this.httpClient.post<OCPIJobStatusesResponse>(
-      `${this.centralRestServerServiceSecuredURL}/${ServerAction.OCPI_ENPOINT_CHECK_SESSIONS}`, ocpiEndpoint,
+      `${this.centralRestServerServiceSecuredURL}/${ServerAction.OCPI_ENDPOINT_CHECK_SESSIONS}`, ocpiEndpoint,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2275,7 +2275,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.OICP_ENPOINT_CREATE}`,
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.OICP_ENDPOINT_CREATE}`,
       oicpEndpoint,
       {
         headers: this.buildHttpHeaders(),
@@ -2290,7 +2290,7 @@ export class CentralServerService {
     this.checkInit();
     // Execute
     return this.httpClient.post<OICPJobStatusesResponse>(
-      `${this.centralRestServerServiceSecuredURL}/${ServerAction.OICP_ENPOINT_SEND_EVSE_STATUSES}`, oicpEndpoint,
+      `${this.centralRestServerServiceSecuredURL}/${ServerAction.OICP_ENDPOINT_SEND_EVSE_STATUSES}`, oicpEndpoint,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2304,7 +2304,7 @@ export class CentralServerService {
     this.checkInit();
     // Execute
     return this.httpClient.post<OICPJobStatusesResponse>(
-      `${this.centralRestServerServiceSecuredURL}/${ServerAction.OICP_ENPOINT_SEND_EVSES}`, oicpEndpoint,
+      `${this.centralRestServerServiceSecuredURL}/${ServerAction.OICP_ENDPOINT_SEND_EVSES}`, oicpEndpoint,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2318,7 +2318,7 @@ export class CentralServerService {
     this.checkInit();
     // Execute
     return this.httpClient.post<OICPPingResponse>(
-      `${this.centralRestServerServiceSecuredURL}/${ServerAction.OICP_ENPOINT_PING}`, oicpEndpoint,
+      `${this.centralRestServerServiceSecuredURL}/${ServerAction.OICP_ENDPOINT_PING}`, oicpEndpoint,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2390,7 +2390,7 @@ export class CentralServerService {
     this.checkInit();
     // Execute
     return this.httpClient.post<OCPIPingResponse>(
-      `${this.centralRestServerServiceSecuredURL}/${ServerAction.OCPI_ENPOINT_PING}`, ocpiEndpoint,
+      `${this.centralRestServerServiceSecuredURL}/${ServerAction.OCPI_ENDPOINT_PING}`, ocpiEndpoint,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2404,7 +2404,7 @@ export class CentralServerService {
     this.checkInit();
     // Execute
     return this.httpClient.post<OCPIGenerateLocalTokenResponse>(
-      `${this.centralRestServerServiceSecuredURL}/${ServerAction.OCPI_ENPOINT_GENERATE_LOCAL_TOKEN}`, ocpiEndpoint,
+      `${this.centralRestServerServiceSecuredURL}/${ServerAction.OCPI_ENDPOINT_GENERATE_LOCAL_TOKEN}`, ocpiEndpoint,
       {
         headers: this.buildHttpHeaders(),
       })

@@ -11,7 +11,8 @@ import { AbstractTabComponent } from '../../shared/component/abstract-tab/abstra
 })
 export class InvoicesComponent extends AbstractTabComponent {
   public isAdmin: boolean;
-  constructor(
+
+  public constructor(
     private authorizationService: AuthorizationService,
     activatedRoute: ActivatedRoute,
     windowService: WindowService,

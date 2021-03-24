@@ -9,8 +9,7 @@ import { SitesListTableDataSource } from './sites-list-table-data-source';
   providers: [SitesListTableDataSource, SiteComponent],
 })
 export class SitesListComponent {
-
-  constructor(
-    public sitesListTableDataSource: SitesListTableDataSource) {
-  }
+  // eslint-disable-next-line no-useless-constructor
+  public constructor(
+    public sitesListTableDataSource: SitesListTableDataSource) {}
 }

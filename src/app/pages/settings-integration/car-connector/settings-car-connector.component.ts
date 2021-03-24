@@ -26,7 +26,7 @@ export class SettingsCarConnectorComponent implements OnInit {
 
   public carConnectorSettings!: CarConnectorSettings;
 
-  constructor(
+  public constructor(
     private centralServerService: CentralServerService,
     private componentService: ComponentService,
     private messageService: MessageService,

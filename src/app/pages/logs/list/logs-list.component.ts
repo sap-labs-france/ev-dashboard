@@ -12,7 +12,8 @@ import { LogsListTableDataSource } from './logs-list-table-data-source';
   providers: [LogsListTableDataSource],
 })
 export class LogsListComponent {
-  constructor(
+  // eslint-disable-next-line no-useless-constructor
+  public constructor(
     public logsListTableDataSource: LogsListTableDataSource) {
   }
 }

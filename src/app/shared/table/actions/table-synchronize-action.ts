@@ -12,7 +12,7 @@ export class TableSynchronizeAction implements TableAction {
     tooltip: 'general.tooltips.synchronize',
   };
 
-  constructor(id?: ButtonAction, name?: string, tooltip?: string) {
+  public constructor(id?: ButtonAction, name?: string, tooltip?: string) {
     if (id) {
       this.action.id = id;
     }

@@ -28,7 +28,7 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
   private addAction = new TableAddAction().getActionDef();
   private removeAction = new TableRemoveAction().getActionDef();
 
-  constructor(
+  public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     private messageService: MessageService,

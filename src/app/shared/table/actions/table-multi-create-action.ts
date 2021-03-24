@@ -14,7 +14,7 @@ export class TableMultiCreateAction implements TableAction {
     dropdownActions: [],
   };
 
-  constructor(dropdownActions: TableActionDef[]) {
+  public constructor(dropdownActions: TableActionDef[]) {
     this.action.dropdownActions = dropdownActions;
   }
 

@@ -56,7 +56,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
   private navigateToTransactionsAction = new TableNavigateToTransactionsAction().getActionDef();
   private currentUser: UserToken;
 
-  constructor(
+  public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     private messageService: MessageService,

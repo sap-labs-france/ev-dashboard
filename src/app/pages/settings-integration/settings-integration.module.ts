@@ -29,7 +29,7 @@ import { SettingsCarConnectorComponent } from './car-connector/settings-car-conn
 import { SettingsOcpiEndpointComponent } from './ocpi/endpoints/endpoint/settings-ocpi-endpoint.component';
 import { SettingsOcpiEndpointDialogComponent } from './ocpi/endpoints/endpoint/settings-ocpi-endpoint.dialog.component';
 import { AppFormatOcpiEvsesFailurePipe, OcpiDetailFailureEvsesStatusFormatterComponent } from './ocpi/endpoints/formatters/ocpi-detail-failure-evses-status-formatter.component';
-import { AppFormatOcpiDetailJobStatusPipe, OcpiDetailJobStatusFomatterComponent } from './ocpi/endpoints/formatters/ocpi-detail-job-status-formatter.component';
+import { AppFormatOcpiDetailJobStatusPipe, OcpiDetailJobStatusFormatterComponent } from './ocpi/endpoints/formatters/ocpi-detail-job-status-formatter.component';
 import { OcpiDetailSuccessEvsesStatusFormatterComponent } from './ocpi/endpoints/formatters/ocpi-detail-success-evses-status-formatter.component';
 import { AppFormatOcpiEvsesTotalPipe, OcpiDetailTotalEvsesStatusFormatterComponent } from './ocpi/endpoints/formatters/ocpi-detail-total-evses-status-formatter.component';
 import { AppFormatOcpiJobResultPipe, OcpiJobResultFormatterComponent } from './ocpi/endpoints/formatters/ocpi-job-result-formatter.component';
@@ -117,7 +117,7 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     OcpiEndpointStatusFormatterComponent,
     OicpEndpointStatusFormatterComponent,
     AppFormatOcpiStatusPipe,
-    OcpiDetailJobStatusFomatterComponent,
+    OcpiDetailJobStatusFormatterComponent,
     AppFormatOcpiDetailJobStatusPipe,
     AppFormatOcpiJobResultPipe,
     OcpiPatchJobResultFormatterComponent,
@@ -176,7 +176,7 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     SettingsOcpiEndpointDialogComponent,
     SettingsOcpiEndpointComponent,
     OcpiEndpointStatusFormatterComponent,
-    OcpiDetailJobStatusFomatterComponent,
+    OcpiDetailJobStatusFormatterComponent,
     OcpiPatchJobResultFormatterComponent,
     OcpiDetailTotalEvsesStatusFormatterComponent,
     OcpiDetailSuccessEvsesStatusFormatterComponent,

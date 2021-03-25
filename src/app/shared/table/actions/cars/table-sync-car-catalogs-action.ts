@@ -1,6 +1,7 @@
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { HTTPError } from 'types/HTTPError';
 
 import { CentralServerService } from '../../../../services/central-server.service';
 import { DialogService } from '../../../../services/dialog.service';
@@ -36,30 +37,23 @@ export class TableSyncCarCatalogsAction extends TableSynchronizeAction {
         spinnerService.show();
         centralServerService.synchronizeCarsCatalog().subscribe((synchronizeResponse) => {
           spinnerService.hide();
-          if (synchronizeResponse.inError) {
-            messageService.showErrorMessage(
-              translateService.instant('cars.synchronize_car_catalogs_partial',
-                {
-                  synchronized: synchronizeResponse.inSuccess,
-                  inError: synchronizeResponse.inError,
-                },
-              ));
-          } else if (synchronizeResponse.inSuccess === 0) {
-            messageService.showSuccessMessage(
-              translateService.instant('cars.synchronize_car_catalogs_up_to_date'));
-            if (refresh) {
-              refresh().subscribe();
-            }
-          } else {
-            messageService.showSuccessMessage(
-              translateService.instant('cars.synchronize_car_catalogs_success', { synchronized: synchronizeResponse.inSuccess }));
-            if (refresh) {
-              refresh().subscribe();
-            }
+          messageService.showActionsMessage(synchronizeResponse, 'cars.synchronize_car_catalogs_success',
+            'cars.synchronize_car_catalogs_error', 'cars.synchronize_car_catalogs_partial', 'cars.synchronize_car_catalogs_up_to_date' );
+          if (refresh) {
+            refresh().subscribe();
           }
         }, (error) => {
           spinnerService.hide();
-          Utils.handleHttpError(error, router, messageService, centralServerService, 'cars.synchronize_car_catalogs_error');
+          // Check status
+          switch (error.status) {
+            // Email already exists
+            case HTTPError.CANNOT_ACQUIRE_LOCK:
+              messageService.showErrorMessage('cars.synchronize_car_catalogs_ongoing');
+              break;
+            // Unexpected error`
+            default:
+              Utils.handleHttpError(error, router, messageService, centralServerService, 'cars.synchronize_car_catalogs_unknown_error');
+          }
         });
       }
     });

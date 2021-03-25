@@ -72,6 +72,10 @@ export class PaymentMethodsTableDataSource extends TableDataSource<PaymentMethod
     }
   }
 
+  public async setCurrentUserId(currentUserID: string) {
+    this.currentUserID = currentUserID;
+  }
+  
   public loadDataImpl(): Observable<DataResult<PaymentMethod>> {
     return new Observable((observer) => {
       // User provided?
@@ -179,8 +183,6 @@ export class PaymentMethodsTableDataSource extends TableDataSource<PaymentMethod
     const tableActionsDef = super.buildTableActionsDef();
     if (this.activatedRoute.snapshot.url[0]?.path === 'profile') {
       this.currentUserID = this.centralServerService.getLoggedUser().id;
-    } else {
-      this.currentUserID = this.windowService.getSearch('userID');
     }
     this.canCreatePaymentMethod = this.authorizationService.canCreatePaymentMethod(this.currentUserID);
     if (this.canCreatePaymentMethod) {

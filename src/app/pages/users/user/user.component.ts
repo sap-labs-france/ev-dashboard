@@ -29,11 +29,13 @@ import { Constants } from '../../../utils/Constants';
 import { ParentErrorStateMatcher } from '../../../utils/ParentStateMatcher';
 import { Users } from '../../../utils/Users';
 import { Utils } from '../../../utils/Utils';
+import { PaymentMethodsTableDataSource } from './stripe/payment-methods/payment-methods-table-data-source';
 import { UserDialogComponent } from './user.dialog.component';
 
 @Component({
   selector: 'app-user',
   templateUrl: 'user.component.html',
+  providers: [PaymentMethodsTableDataSource],
 })
 export class UserComponent extends AbstractTabComponent implements OnInit {
   @Input() public currentUserID!: string;
@@ -104,6 +106,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public canListPaymentMethods: boolean;
 
   public constructor(
+    public paymentMethodsTableDataSource: PaymentMethodsTableDataSource,
     private authorizationService: AuthorizationService,
     private centralServerService: CentralServerService,
     private componentService: ComponentService,
@@ -294,10 +297,6 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     // Reset notifications ?
   }
 
-  public setCurrentUserId(currentUserID: string) {
-    this.currentUserID = currentUserID;
-  }
-
   public refresh() {
     // Load User
     this.loadUser();
@@ -307,9 +306,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     if (!this.currentUserID) {
       return;
     }
-    // TODO: Fix setSearch with userIDs as param
-    this.windowService.setSearch('userID', (this.currentUserID).toString())
-
+    this.paymentMethodsTableDataSource.setCurrentUserId(this.currentUserID);
     this.spinnerService.show();
     // eslint-disable-next-line complexity
     this.centralServerService.getUser(this.currentUserID).pipe(mergeMap((user) => {

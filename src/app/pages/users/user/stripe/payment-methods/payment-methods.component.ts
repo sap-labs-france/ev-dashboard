@@ -5,7 +5,6 @@ import { PaymentMethodsTableDataSource } from './payment-methods-table-data-sour
 @Component({
   selector: 'app-payment-methods',
   templateUrl: 'payment-methods.component.html',
-  providers: [PaymentMethodsTableDataSource],
 })
 export class PaymentMethodsComponent {
   constructor(

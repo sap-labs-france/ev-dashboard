@@ -5,10 +5,12 @@ import { StatusCodes } from 'http-status-codes';
 import { FileItem, FileUploader, ParsedResponseHeaders } from 'ng2-file-upload';
 import { NgxCsvParser } from 'ngx-csv-parser';
 import { CentralServerService } from 'services/central-server.service';
+import { DialogService } from 'services/dialog.service';
 import { MessageService } from 'services/message.service';
 import { ActionsResponse } from 'types/DataResult';
 import { HTTPError } from 'types/HTTPError';
 import { ServerAction } from 'types/Server';
+import { ButtonType } from 'types/Table';
 import { Utils } from 'utils/Utils';
 
 @Component({
@@ -30,10 +32,13 @@ export class ImportDialogComponent implements OnInit {
   private messageError: string;
   private messageSuccessAndError: string;
   private messageNoSuccessNoError: string;
+  private confirmImportTitle: string;
+  private confirmImportMessage: string;
 
   public constructor(
     protected dialogRef: MatDialogRef<ImportDialogComponent>,
     protected translateService: TranslateService,
+    private dialogService: DialogService,
     private centralServerService: CentralServerService,
     private messageService: MessageService,
     @Inject(MAT_DIALOG_DATA) data) {
@@ -45,6 +50,8 @@ export class ImportDialogComponent implements OnInit {
       this.messageSuccessAndError = `${data.entity}.import_${data.entity}_partial`;
       this.messageNoSuccessNoError = `${data.entity}.import_no_${data.entity}`;
       this.requiredProperties = data.requiredProperties;
+      this.confirmImportTitle = `${data.entity}.import_${data.entity}`;
+      this.confirmImportMessage = `${data.entity}.import_${data.entity}_message`;
     }
     Utils.registerCloseKeyEvents(this.dialogRef);
     this.uploader = new FileUploader({
@@ -107,6 +114,13 @@ export class ImportDialogComponent implements OnInit {
   }
 
   public upload(): void {
-    this.uploader.uploadAll();
+    this.dialogService.createAndShowYesNoDialog(
+      this.translateService.instant(this.confirmImportTitle),
+      this.translateService.instant(this.confirmImportMessage),
+    ).subscribe((result) => {
+      if (result === ButtonType.YES) {
+        this.uploader.uploadAll();
+      }
+    });
   }
 }

@@ -1147,6 +1147,7 @@
       "tags": "Badges"
     },
     "import_users": "Importer des utilisateurs",
+    "import_users_message": "L'import va supprimer tous les utilisateurs transférés précédemment qui n'ont pas encore été importé dans la base de données, voulez-vous continuer?",
     "import_users_success": "{{inSuccess}} utilisateurs ont été enregistrés avec succès et seront importés de manière asynchrone",
     "import_users_partial": "{{inSuccess}} utilisateurs ont été enregistrés avec succès et seront importés de manière asynchrone et {{inError}} ont échoué, vérifiez les logs",
     "import_users_error": "{{inError}} utilisateurs n'ont pas pu être enregistré",
@@ -1356,6 +1357,7 @@
     "delete_tags_unexpected_error": "Une erreur inattendue est survenue pendant la suppression des badges, vérifiez les logs",
     "delete_no_tag": "Auncun badge n'a été supprimé",
     "import_tags": "Importer des bagdes",
+    "import_tags_message": "L'import va supprimer tous les badges transférés précédemment qui n'ont pas encore été importé dans la base de données, voulez-vous continuer?",
     "import_tags_success": "{{inSuccess}} badges ont été enregistrés avec succès et seront importés de manière asynchrone",
     "import_tags_partial": "{{inSuccess}} badges ont été enregistrés avec succès et seront importés de manière asynchrone et {{inError}} ont échoué, vérifiez les logs",
     "import_tags_error": "{{inError}} badges n'ont pas pu être enregistré",

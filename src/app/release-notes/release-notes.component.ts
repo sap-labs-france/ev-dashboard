@@ -32,6 +32,7 @@ export class ReleaseNotesComponent {
             changes: [
               `Import Tags`,
               `Fixed Site Area limit in Smart Charging`,
+              `Billing: refactor of User and Invoice synchronizations`,
               `Fixed Tenant creation issue with OICP`,
               `Added REST Charging station QR-Code and Get OCPP Parameters JSon schema validations`
             ],

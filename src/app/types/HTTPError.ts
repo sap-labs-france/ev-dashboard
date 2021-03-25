@@ -3,6 +3,7 @@ import { StatusCodes } from 'http-status-codes';
 export enum HTTPError {
   GENERAL_ERROR = StatusCodes.INTERNAL_SERVER_ERROR,
   NOT_IMPLEMENTED_ERROR = StatusCodes.NOT_IMPLEMENTED,
+  MISSING_SETTINGS = 505,
   OBJECT_DOES_NOT_EXIST_ERROR = 550,
   FEATURE_NOT_SUPPORTED_ERROR = 585,
 
@@ -41,7 +42,7 @@ export enum HTTPError {
   SITE_AREA_WITH_NO_SITE_ERROR = 525,
   USER_WITH_NO_SITE_ERROR = 525,
 
-  BILLING_DELETE_ERROR = 510, // Override an already defined status code: Not extended (RFC 2774)
+  BILLING_DELETE_ERROR = 510, // FIXME: override an already defined HTTP status code: Not extended (RFC 2774)
 
   CLEAR_CHARGING_PROFILE_NOT_SUCCESSFUL = 537,
   SMART_CHARGING_STILL_ACTIVE_FOR_SITE_AREA = 538,
@@ -63,7 +64,7 @@ export enum HTTPError {
   CRYPTO_KEY_LENGTH_INVALID = 513,
   CRYPTO_CHECK_FAILED = 514,
 
-  CANNOT_ACQUIRE_LOCK = 510,
+  CANNOT_ACQUIRE_LOCK = 510, // FIXME: override an already defined HTTP status code: Not extended (RFC 2774)
   INVALID_FILE_FORMAT = 583,
   INVALID_FILE_CSV_HEADER_FORMAT = 584,
 

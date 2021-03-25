@@ -88,6 +88,9 @@ export class ImportDialogComponent implements OnInit {
           case HTTPError.INVALID_FILE_CSV_HEADER_FORMAT:
             this.messageService.showErrorMessage('general.invalid_file_csv_header_error');
             break;
+          case HTTPError.CANNOT_ACQUIRE_LOCK:
+            this.messageService.showErrorMessage('general.import_already_ongoing');
+            break;
           default:
             this.messageService.showErrorMessage('general.error_import');
             break;

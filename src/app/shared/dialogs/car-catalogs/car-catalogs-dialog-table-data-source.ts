@@ -16,7 +16,7 @@ import { DialogTableDataSource } from '../dialog-table-data-source';
 
 @Injectable()
 export class CarCatalogsDialogTableDataSource extends DialogTableDataSource<CarCatalog> {
-  constructor(
+  public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     private messageService: MessageService,

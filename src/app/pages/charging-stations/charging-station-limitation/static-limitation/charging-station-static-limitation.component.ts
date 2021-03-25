@@ -27,7 +27,7 @@ export class ChargingStationStaticLimitationComponent {
   public isAdmin: boolean;
   public isSmartChargingComponentActive = false;
 
-  constructor(
+  public constructor(
     private authorizationService: AuthorizationService,
     private centralServerService: CentralServerService,
     private messageService: MessageService,
@@ -110,7 +110,7 @@ export class ChargingStationStaticLimitationComponent {
   private applyStaticLimit(chargePoint: ChargePoint, forceUpdateChargingPlan?: boolean) {
     // Apply to chargingStation
     this.spinnerService.show();
-    // tslint:disable-next-line: max-line-length
+    // eslint-disable-next-line max-len
     this.centralServerService.chargingStationLimitPower(
         this.chargingStation, chargePoint, 0, chargePoint.ampCurrentLimit, forceUpdateChargingPlan).subscribe((response) => {
       this.spinnerService.hide();
@@ -118,7 +118,7 @@ export class ChargingStationStaticLimitationComponent {
           response.status === OCPPConfigurationStatus.REBOOT_REQUIRED) {
         // Success
         this.messageService.showSuccessMessage(
-          // tslint:disable-next-line: max-line-length
+          // eslint-disable-next-line max-len
           this.translateService.instant('chargers.smart_charging.power_limit_success', { chargeBoxID: this.chargingStation.id, forceUpdateChargingPlan }),
         );
         // Reboot Required?

@@ -24,6 +24,22 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.54',
+        date: new Date('2021-03-25'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Import Tags`,
+              `Fixed Site Area limit in Smart Charging`,
+              `Billing: refactor of User and Invoice synchronizations`,
+              `Fixed Tenant creation issue with OICP`,
+              `Added REST Charging station QR-Code and Get OCPP Parameters JSon schema validations`
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.53',
         date: new Date('2021-03-22'),
         componentChanges: [

@@ -53,7 +53,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
   private deleteAction = new TableDeleteChargingStationAction().getActionDef();
   private generateQrCodeConnectorAction = new TableChargingStationGenerateQrCodeConnectorAction().getActionDef();
 
-  constructor(
+  public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     private messageService: MessageService,
@@ -250,6 +250,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
     }
   }
 
+  // eslint-disable-next-line complexity
   public rowActionTriggered(actionDef: TableActionDef, chargingStation: ChargingStation, dropdownItem?: DropdownItem) {
     switch (actionDef.id) {
       case ChargingStationButtonAction.EDIT_CHARGING_STATION:

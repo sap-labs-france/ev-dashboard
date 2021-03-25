@@ -9,7 +9,7 @@ import { MaterialModule } from '../../app.module';
 import { ComponentModule } from '../../shared/component/component.module';
 import { FormattersModule } from '../../shared/formatters/formatters.module';
 import { CardChartComponent } from './card-chart/card-chart.component';
-import { CardKeyfigureComponent } from './card-keyfigure/card-keyfigure.component';
+import { CardKeyFigureComponent } from './card-keyfigure/card-keyfigure.component';
 import { ChargingStationConsumptionGaugeComponent } from './dashboard-components/charging-station-consumption-gauge.component';
 import { ChargingStationGaugeComponent } from './dashboard-components/charging-station-gauge.component';
 import { DashboardComponent } from './dashboard.component';
@@ -31,13 +31,13 @@ import { DashboardRoutes } from './dashboard.routing';
     ChargingStationConsumptionGaugeComponent,
     ChargingStationGaugeComponent,
     CardChartComponent,
-    CardKeyfigureComponent,
+    CardKeyFigureComponent,
   ],
   exports: [
     ChargingStationConsumptionGaugeComponent,
     ChargingStationGaugeComponent,
     CardChartComponent,
-    CardKeyfigureComponent,
+    CardKeyFigureComponent,
   ],
 })
 

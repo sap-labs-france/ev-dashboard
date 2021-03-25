@@ -49,7 +49,7 @@ export class CentralServerNotificationService {
   private subjectTag = new Subject<SingleChangeNotification>();
   private socketIOClient: SocketIOClient;
 
-  public setcentralRestServerServiceURL(url: string) {
+  public setCentralRestServerServiceURL(url: string) {
     this.centralRestServerServiceURL = url;
   }
 
@@ -205,6 +205,27 @@ export class CentralServerNotificationService {
     return this.subjectTag.asObservable();
   }
 
+  public initSocketIO(token: string) {
+    // Check
+    if (!this.socketIOClient) {
+      // Init Socket IO singleton
+      this.socketIOClient = SocketIOClient.getInstance();
+    }
+    // Connect Socket IO
+    this.socketIOClient.connectAuthenticated(this.centralRestServerServiceURL, token);
+    this.monitorChangeNotification();
+  }
+
+  public resetSocketIO() {
+    // Check
+    if (this.socketIOClient) {
+      // Close
+      this.socketIOClient.disconnect();
+    }
+    // Clear
+    this.socketIOClient = null;
+  }
+
   private monitorChangeNotification() {
     // Monitor Companies
     this.socketIOClient.socket.on(Entity.COMPANIES, (changeNotification: ChangeNotification) => {
@@ -339,26 +360,5 @@ export class CentralServerNotificationService {
     this.socketIOClient.socket.on(Entity.TAG, (changeNotification: SingleChangeNotification) => {
       this.subjectTag.next(changeNotification);
     });
-  }
-
-  public initSocketIO(token: string) {
-    // Check
-    if (!this.socketIOClient) {
-      // Init Socket IO singleton
-      this.socketIOClient = SocketIOClient.getInstance();
-    }
-    // Connect Socket IO
-    this.socketIOClient.connectAuthenticated(this.centralRestServerServiceURL, token);
-    this.monitorChangeNotification();
-  }
-
-  public resetSocketIO() {
-    // Check
-    if (this.socketIOClient) {
-      // Close
-      this.socketIOClient.disconnect();
-    }
-    // Clear
-    this.socketIOClient = null;
   }
 }

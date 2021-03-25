@@ -24,7 +24,7 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
   public taxID!: AbstractControl;
   public taxes: BillingTax[] = [];
 
-  constructor(private centralServerService: CentralServerService) {
+  public constructor(private centralServerService: CentralServerService) {
     this.centralServerService.getBillingTaxes().subscribe((taxes) => {
       this.taxes = taxes;
     });

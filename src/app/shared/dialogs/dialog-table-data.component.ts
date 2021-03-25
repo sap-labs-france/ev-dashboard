@@ -11,7 +11,7 @@ export abstract class DialogTableDataComponent<T extends Data> {
   public title: string;
   public buttonTitle: string;
 
-  constructor(
+  public constructor(
     @Inject(MAT_DIALOG_DATA) data: any,
     protected dialogRef: MatDialogRef<DialogTableDataComponent<T>>,
     public dialogTableDataSource: DialogTableDataSource<T>) {

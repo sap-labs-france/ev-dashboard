@@ -123,7 +123,7 @@ export interface OicpSetting {
       type: string;
       width: string;
       height: string;
-    }
+    };
   };
   cpo: OicpIdentifier;
   emsp: OicpIdentifier;
@@ -254,7 +254,7 @@ export interface AssetUserPasswordConnectionType {
   password: string;
 }
 
-// tslint:disable-next-line: no-empty-interface
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface AssetSchneiderConnectionType extends AssetUserPasswordConnectionType {}
 
 export interface AssetGreencomConnectionType {

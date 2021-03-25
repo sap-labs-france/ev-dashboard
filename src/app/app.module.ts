@@ -203,7 +203,7 @@ export function localeFactory(
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  constructor(
+  public constructor(
     private centralServerService: CentralServerService,
     private translateService: TranslateService) {
 

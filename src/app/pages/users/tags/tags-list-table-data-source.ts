@@ -3,13 +3,16 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { AuthorizationService } from 'services/authorization.service';
 import { SpinnerService } from 'services/spinner.service';
 import { WindowService } from 'services/window.service';
+import { ImportDialogComponent } from 'shared/dialogs/import/import-dialog.component';
 import { AppDatePipe } from 'shared/formatters/app-date.pipe';
 import { TableMoreAction } from 'shared/table/actions/table-more-action';
 import { TableOpenURLActionDef } from 'shared/table/actions/table-open-url-action';
 import { TableNavigateToTransactionsAction } from 'shared/table/actions/transactions/table-navigate-to-transactions-action';
 import { TableDeleteTagsAction, TableDeleteTagsActionDef } from 'shared/table/actions/users/table-delete-tags-action';
+import { TableImportTagsAction, TableImportTagsActionDef } from 'shared/table/actions/users/table-import-tags-action';
 import { organisations } from 'shared/table/filters/issuer-filter';
 import { StatusFilter } from 'shared/table/filters/status-filter';
 import { UserTableFilter } from 'shared/table/filters/user-table-filter';
@@ -50,7 +53,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
   private deleteManyAction = new TableDeleteTagsAction().getActionDef();
 
 
-  constructor(
+  public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     private messageService: MessageService,
@@ -60,6 +63,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
     private centralServerNotificationService: CentralServerNotificationService,
     private datePipe: AppDatePipe,
     private centralServerService: CentralServerService,
+    private authorizationService: AuthorizationService,
     private windowService: WindowService) {
     super(spinnerService, translateService);
     this.initDataSource();
@@ -248,6 +252,9 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
     tableActionsDef.unshift(this.deleteManyAction);
+    if (this.authorizationService.canImportTags()) {
+      tableActionsDef.unshift(new TableImportTagsAction().getActionDef());
+    }
     tableActionsDef.unshift(new TableCreateTagAction().getActionDef());
     return [
       ...tableActionsDef,
@@ -296,6 +303,11 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
             this.getSelectedRows(), this.dialogService, this.translateService, this.messageService,
             this.centralServerService, this.spinnerService, this.router,
             this.clearSelectedRows.bind(this), this.refreshData.bind(this));
+        }
+        break;
+      case UserButtonAction.IMPORT_TAGS:
+        if (actionDef.action) {
+          (actionDef as TableImportTagsActionDef).action(ImportDialogComponent, this.dialog);
         }
         break;
     }

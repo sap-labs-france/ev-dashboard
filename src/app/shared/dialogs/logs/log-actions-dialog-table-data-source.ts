@@ -13,7 +13,8 @@ import { DialogTableDataSource } from '../dialog-table-data-source';
 @Injectable()
 export class LOG_ACTIONSDialogTableDataSource extends DialogTableDataSource<LogAction> {
   private reversed = false;
-  constructor(
+
+  public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService) {
     super(spinnerService, translateService);

@@ -13,7 +13,7 @@ import { SiteAreaChargingStationsDataSource } from './site-area-charging-station
 export class SiteAreaChargingStationsDialogComponent {
   public dialogTitle: string;
 
-  constructor(
+  public constructor(
     public siteAreaChargersDataSource: SiteAreaChargingStationsDataSource,
     private dialogRef: MatDialogRef<SiteAreaChargingStationsDialogComponent>,
     private translateService: TranslateService,

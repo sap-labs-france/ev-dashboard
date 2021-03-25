@@ -47,7 +47,7 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
   private navigateToLogsAction = new TableNavigateToLogsAction().getActionDef();
   private isOrganizationComponentActive: boolean;
 
-  constructor(
+  public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     private messageService: MessageService,

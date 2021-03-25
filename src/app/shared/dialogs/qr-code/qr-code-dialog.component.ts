@@ -17,7 +17,8 @@ export class QrCodeDialogComponent {
   public chargingStationID: string;
   public connectorID: number;
   public dialogTitle: string;
-  constructor(
+
+  public constructor(
     protected dialogRef: MatDialogRef<QrCodeDialogComponent>,
     private translateService: TranslateService,
     private spinnerService: SpinnerService,

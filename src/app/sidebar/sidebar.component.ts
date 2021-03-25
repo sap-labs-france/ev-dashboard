@@ -34,7 +34,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   private userRefreshSubscription!: Subscription;
   private tenantRefreshSubscription!: Subscription;
 
-  constructor(
+  public constructor(
     private configService: ConfigService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -70,6 +70,50 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy() {
     this.destroyRefresh();
+  }
+
+  public isMobileMenu() {
+    return false;
+  }
+
+  public updatePS(): void {
+    if (window.matchMedia('(min-width: 960px)').matches && !this.isMac()) {
+      const elemSidebar = document.querySelector('.sidebar .sidebar-wrapper') ;
+    }
+  }
+
+  public isMac(): boolean {
+    let bool = false;
+    if (navigator.platform.toUpperCase().indexOf('MAC') >= 0 || navigator.platform.toUpperCase().indexOf('IPAD') >= 0) {
+      bool = true;
+    }
+    return bool;
+  }
+
+  public toggleSidebar() {
+    const body = document.getElementsByTagName('body')[0];
+    if (this.misc.sidebar_mini_active === true) {
+      body.classList.remove('sidebar-mini');
+      this.misc.sidebar_mini_active = false;
+    } else {
+      body.classList.add('sidebar-mini');
+      this.misc.sidebar_mini_active = true;
+    }
+  }
+
+  public logout() {
+    // Logoff
+    this.centralServerService.logout().subscribe(() => {
+      // Clear
+      this.centralServerService.logoutSucceeded();
+      // Redirect to login page with the return url
+      this.router.navigate(['/auth/login']);
+    }, (error) => {
+      // Clear
+      this.centralServerService.logoutSucceeded();
+      // Redirect to login page with the return url
+      this.router.navigate(['/auth/login']);
+    });
   }
 
   private createRefresh() {
@@ -149,49 +193,5 @@ export class SidebarComponent implements OnInit, OnDestroy {
     } else {
       this.logo = Constants.TENANT_DEFAULT_LOGO;
     }
-  }
-
-  public isMobileMenu() {
-    return false;
-  }
-
-  public updatePS(): void {
-    if (window.matchMedia('(min-width: 960px)').matches && !this.isMac()) {
-      const elemSidebar = document.querySelector('.sidebar .sidebar-wrapper') ;
-    }
-  }
-
-  public isMac(): boolean {
-    let bool = false;
-    if (navigator.platform.toUpperCase().indexOf('MAC') >= 0 || navigator.platform.toUpperCase().indexOf('IPAD') >= 0) {
-      bool = true;
-    }
-    return bool;
-  }
-
-  public toggleSidebar() {
-    const body = document.getElementsByTagName('body')[0];
-    if (this.misc.sidebar_mini_active === true) {
-      body.classList.remove('sidebar-mini');
-      this.misc.sidebar_mini_active = false;
-    } else {
-      body.classList.add('sidebar-mini');
-      this.misc.sidebar_mini_active = true;
-    }
-  }
-
-  public logout() {
-    // Logoff
-    this.centralServerService.logout().subscribe(() => {
-      // Clear
-      this.centralServerService.logoutSucceeded();
-      // Redirect to login page with the return url
-      this.router.navigate(['/auth/login']);
-    }, (error) => {
-      // Clear
-      this.centralServerService.logoutSucceeded();
-      // Redirect to login page with the return url
-      this.router.navigate(['/auth/login']);
-    });
   }
 }

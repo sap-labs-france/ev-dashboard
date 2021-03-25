@@ -31,6 +31,7 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Import Tags`,
+              `Fixed Site Area limit in Smart Charging`,
               `Fixed Tenant creation issue with OICP`,
               `Added REST Charging station QR-Code and Get OCPP Parameters JSon schema validations`
             ],

@@ -45,6 +45,7 @@ export class TableForceSyncBillingUserAction extends TableSynchronizeAction {
             // Synchronize invoices after user synchronization
             centralServerService.forceSynchronizeUserInvoicesForBilling(user.id).subscribe((synchronizeInvoicesResponse) => {
               spinnerService.hide();
+              // TODO: use messageService.showActionsMessage(...) method and remove the if statements
               if (synchronizeInvoicesResponse.inSuccess >= 0 && synchronizeInvoicesResponse.inError === 0) {
                 messageService.showSuccessMessage(
                   translateService.instant('settings.billing.user.force_synchronize_user_success',

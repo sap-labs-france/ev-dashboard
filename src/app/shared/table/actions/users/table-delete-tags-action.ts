@@ -35,9 +35,9 @@ export class TableDeleteTagsAction extends TableDeleteManyAction {
       return;
     }
     // Delete them
-    super.deleteMany(tags, 'tags.delete_tags_title',
-      'tags.delete_tags_confirm', 'tags.delete_tags_success', 'tags.delete_tags_partial',
-      'tags.delete_tags_error', centralServerService.deleteTags.bind(centralServerService),
+    super.deleteMany(tags, 'tags.delete_tags_title', 'tags.delete_tags_confirm', 'tags.delete_tags_success',
+      'tags.delete_tags_partial', 'tags.delete_tags_error', 'tags.delete_no_tag', 'tags.delete_tags_unexpected_error',
+      centralServerService.deleteTags.bind(centralServerService),
       dialogService, translateService, messageService, centralServerService, spinnerService, router,
       clearSelectedRows, refresh);
   }

@@ -92,7 +92,7 @@ export class ImportDialogComponent implements OnInit {
             this.messageService.showErrorMessage('general.import_already_ongoing');
             break;
           default:
-            this.messageService.showErrorMessage('general.error_import');
+            this.messageService.showErrorMessage('general.import_unexpected_error');
             break;
         }
       }

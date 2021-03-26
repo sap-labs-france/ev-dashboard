@@ -150,7 +150,7 @@
     "status": "Estatus",
     "revoke": "Revocar",
     "edit": "Editar",
-    "import_instructions": "The file that you are going to import must:",
+    "import_instructions": "The file that you are going to import must have the following caracteristics:",
     "import_instructions_file_type": "File type must be CSV",
     "import_instructions_header_required": "CSV Header is required",
     "import_instructions_coma_separator": "Comma separator is used ','",

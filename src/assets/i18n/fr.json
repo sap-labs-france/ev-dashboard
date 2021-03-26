@@ -150,7 +150,7 @@
     "status": "Statut",
     "revoke": "Révoquer",
     "edit": "Editer",
-    "import_instructions": "Le fichier que vous allez importer doit :",
+    "import_instructions": "Le fichier que vous allez importer doit avoir les caractéristiques suivantes :",
     "import_instructions_file_type": "Le fichier doit être de type CSV",
     "import_instructions_header_required": "L'entête du fichier CSV est obligatoire",
     "import_instructions_coma_separator": "Une virgule est utilisé comme séparateur ','",

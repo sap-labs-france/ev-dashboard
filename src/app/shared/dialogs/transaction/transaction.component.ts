@@ -25,6 +25,8 @@ import { Utils } from '../../../utils/Utils';
   templateUrl: './transaction.component.html',
 })
 export class TransactionComponent implements OnInit, OnDestroy {
+  @ViewChild('chartConsumption') public chartComponent!: ConsumptionChartComponent;
+
   @Input() public transactionID!: number;
   @Input() public connectorID!: number;
   @Input() public chargingStationID!: string;
@@ -48,11 +50,9 @@ export class TransactionComponent implements OnInit, OnDestroy {
   public canDisplayCar: boolean;
   public canUpdateCar: boolean;
 
-  @ViewChild('chartConsumption') public chartComponent!: ConsumptionChartComponent;
-
   private transactionRefreshSubscription!: Subscription;
 
-  constructor(
+  public constructor(
     private spinnerService: SpinnerService,
     private messageService: MessageService,
     private router: Router,
@@ -79,31 +79,6 @@ export class TransactionComponent implements OnInit, OnDestroy {
   public ngOnDestroy(): void {
     // Destroy transaction refresh
     this.destroyTransactionRefresh();
-  }
-
-  private createTransactionRefresh() {
-    if (this.configService.getCentralSystemServer().socketIOEnabled) {
-      this.transactionRefreshSubscription = this.centralServerNotificationService.getSubjectTransaction().pipe(debounceTime(
-        this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
-          // Update user?
-          if (singleChangeNotification && singleChangeNotification.data
-            && singleChangeNotification.data.id === this.transactionID.toString()) {
-            this.refreshTransaction();
-          }
-        });
-    }
-  }
-
-  private destroyTransactionRefresh() {
-    if (this.transactionRefreshSubscription) {
-      this.transactionRefreshSubscription.unsubscribe();
-    }
-    this.transactionRefreshSubscription = null;
-  }
-
-  private refreshTransaction() {
-    this.loadData();
-    this.chartComponent.refresh();
   }
 
   public loadData() {
@@ -191,5 +166,30 @@ export class TransactionComponent implements OnInit, OnDestroy {
       this.dialogRef.close();
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'transactions.load_transaction_error');
     });
+  }
+
+  private createTransactionRefresh() {
+    if (this.configService.getCentralSystemServer().socketIOEnabled) {
+      this.transactionRefreshSubscription = this.centralServerNotificationService.getSubjectTransaction().pipe(debounceTime(
+        this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
+          // Update user?
+          if (singleChangeNotification && singleChangeNotification.data
+            && singleChangeNotification.data.id === this.transactionID.toString()) {
+            this.refreshTransaction();
+          }
+        });
+    }
+  }
+
+  private destroyTransactionRefresh() {
+    if (this.transactionRefreshSubscription) {
+      this.transactionRefreshSubscription.unsubscribe();
+    }
+    this.transactionRefreshSubscription = null;
+  }
+
+  private refreshTransaction() {
+    this.loadData();
+    this.chartComponent.refresh();
   }
 }

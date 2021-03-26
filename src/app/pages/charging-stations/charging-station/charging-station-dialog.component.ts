@@ -11,7 +11,7 @@ export class ChargingStationDialogComponent implements AfterViewInit {
   @ViewChild('appRef') public appRef!: ChargingStationComponent;
   public chargingStationID!: string;
 
-  constructor(
+  public constructor(
     public dialogRef: MatDialogRef<ChargingStationDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data: string) {
     this.chargingStationID = data;

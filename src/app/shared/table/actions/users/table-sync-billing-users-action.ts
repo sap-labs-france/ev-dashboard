@@ -36,14 +36,17 @@ export class TableSyncBillingUsersAction extends TableSynchronizeAction {
         // Synchronize users
         centralServerService.synchronizeUsersForBilling().subscribe((synchronizeResponse) => {
           if (synchronizeResponse.status === RestResponse.SUCCESS) {
+            // TODO: use messageService.showActionsMessage(...) method and remove the if statements
             if (synchronizeResponse.inSuccess) {
               messageService.showSuccessMessage(translateService.instant('settings.billing.user.synchronize_users_success',
+                // eslint-disable-next-line id-blacklist
                 {number: synchronizeResponse.inSuccess}));
             } else if (!synchronizeResponse.inError) {
               messageService.showSuccessMessage(translateService.instant('settings.billing.user.synchronize_users_success_all'));
             }
             if (synchronizeResponse.inError) {
               messageService.showWarningMessage(translateService.instant('settings.billing.user.synchronize_users_failure',
+                // eslint-disable-next-line id-blacklist
                 {number: synchronizeResponse.inError}));
             }
           } else {
@@ -56,14 +59,17 @@ export class TableSyncBillingUsersAction extends TableSynchronizeAction {
         // Synchronize invoices
         centralServerService.synchronizeInvoicesForBilling().subscribe((synchronizeResponse) => {
           if (synchronizeResponse.status === RestResponse.SUCCESS) {
+            // TODO: use messageService.showActionsMessage(...) method and remove the if statements
             if (synchronizeResponse.inSuccess) {
               messageService.showSuccessMessage(translateService.instant('settings.billing.invoice.synchronize_invoices_success',
+                // eslint-disable-next-line id-blacklist
                 {number: synchronizeResponse.inSuccess}));
             } else if (!synchronizeResponse.inError) {
               messageService.showSuccessMessage(translateService.instant('settings.billing.invoice.synchronize_invoices_success_all'));
             }
             if (synchronizeResponse.inError) {
               messageService.showWarningMessage(translateService.instant('settings.billing.invoice.synchronize_invoices_failure',
+                // eslint-disable-next-line id-blacklist
                 {number: synchronizeResponse.inError}));
             }
           } else {

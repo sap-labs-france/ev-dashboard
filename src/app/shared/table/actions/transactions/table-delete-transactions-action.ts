@@ -46,9 +46,10 @@ export class TableDeleteTransactionsAction extends TableDeleteManyAction {
       }
     }
     // Delete them
-    super.deleteMany(transactions, 'transactions.delete_transactions_title',
-      'transactions.delete_transactions_confirm', 'transactions.delete_transactions_success', 'transactions.delete_transactions_partial',
-      'transactions.delete_transactions_error', centralServerService.deleteTransactions.bind(centralServerService),
+    super.deleteMany(transactions, 'transactions.delete_transactions_title', 'transactions.delete_transactions_confirm',
+      'transactions.delete_transactions_success', 'transactions.delete_transactions_partial',
+      'transactions.delete_transactions_error', 'transactions.delete_no_transaction', 'transactions.delete_transactions_unexpected_error',
+      centralServerService.deleteTransactions.bind(centralServerService),
       dialogService, translateService, messageService, centralServerService, spinnerService, router,
       clearSelectedRows, refresh);
   }

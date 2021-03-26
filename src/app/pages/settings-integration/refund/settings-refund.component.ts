@@ -25,7 +25,7 @@ export class SettingsRefundComponent implements OnInit {
   public formGroup!: FormGroup;
   public refundSettings!: RefundSettings;
 
-  constructor(
+  public constructor(
     private centralServerService: CentralServerService,
     private componentService: ComponentService,
     private dialogService: DialogService,

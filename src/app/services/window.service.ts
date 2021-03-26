@@ -110,7 +110,7 @@ export class WindowService {
       // Without page reload
       // eslint-disable-next-line max-len
       const newURL = `${window.location.protocol}//${window.location.host}${window.location.pathname}${queryParams ? '?' + queryParams : ''}${window.location.hash}`;
-      window.history.pushState({path: newURL}, '' , newURL);
+      window.history.pushState({ path: newURL }, '', newURL);
     } else {
       // With page reload
       this.window.location.search = queryParams ? queryParams : '';

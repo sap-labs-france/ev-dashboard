@@ -13,7 +13,7 @@ import { SiteUsersTableDataSource } from './site-users-table-data-source';
 export class SiteUsersDialogComponent {
   public dialogTitle: string;
 
-  constructor(
+  public constructor(
     public siteUsersTableDataSource: SiteUsersTableDataSource,
     private dialogRef: MatDialogRef<SiteUsersDialogComponent>,
     private translateService: TranslateService,

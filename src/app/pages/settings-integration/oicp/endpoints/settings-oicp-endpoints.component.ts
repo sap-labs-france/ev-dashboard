@@ -7,14 +7,14 @@ import { SettingsOicpEndpointsTableDataSource } from './settings-oicp-endpoints-
   selector: 'app-settings-oicp-endpoints',
   templateUrl: './settings-oicp-endpoints.component.html',
 })
-export class SettingsOicpEnpointsComponent {
+export class SettingsOicpEndpointsComponent {
   public isAdmin!: boolean;
   public formGroup!: FormGroup;
   public name!: AbstractControl;
   public countryCode!: AbstractControl;
   public partyID!: AbstractControl;
 
-  constructor(
-    public settingsOicpEndpointsTableDataSource: SettingsOicpEndpointsTableDataSource) {
-  }
+  // eslint-disable-next-line no-useless-constructor
+  public constructor(
+    public settingsOicpEndpointsTableDataSource: SettingsOicpEndpointsTableDataSource) {}
 }

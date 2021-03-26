@@ -14,14 +14,14 @@ import { TransactionsHistoryTableDataSource } from './transactions-history-table
   providers: [TransactionsHistoryTableDataSource],
 })
 export class TransactionsHistoryComponent implements OnInit {
-  constructor(
+  // eslint-disable-next-line no-useless-constructor
+  public constructor(
     public transactionsHistoryTableDataSource: TransactionsHistoryTableDataSource,
     private windowService: WindowService,
     private dialog: MatDialog,
     private centralServerService: CentralServerService,
     private messageService: MessageService,
-  ) {
-  }
+  ) {}
 
   public ngOnInit(): void {
     // Check if transaction ID id provided
@@ -33,7 +33,7 @@ export class TransactionsHistoryComponent implements OnInit {
           viewAction.action(transaction, this.dialog);
         }
       }, (error) => {
-        this.messageService.showErrorMessage('transactions.transaction_id_not_found', {sessionID: transactionID});
+        this.messageService.showErrorMessage('transactions.transaction_id_not_found', { sessionID: transactionID });
       });
       // Clear Search
       this.windowService.deleteSearch('TransactionID');

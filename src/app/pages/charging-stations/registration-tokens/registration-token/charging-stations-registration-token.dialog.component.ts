@@ -11,7 +11,7 @@ export class ChargingStationsRegistrationTokenDialogComponent implements AfterVi
   @ViewChild('appRef') public appRef!: ChargingStationsRegistrationTokenComponent;
   public tokenID!: string;
 
-  constructor(
+  public constructor(
     public dialogRef: MatDialogRef<ChargingStationsRegistrationTokenDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data: string) {
     this.tokenID = data;

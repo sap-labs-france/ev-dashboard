@@ -8,7 +8,8 @@ import { SpinnerService } from '../../services/spinner.service';
 })
 export class TemplateComponent {
   public isAdmin: boolean;
-  constructor(
+
+  public constructor(
     public spinnerService: SpinnerService,
     private authorizationService: AuthorizationService,
   ) {

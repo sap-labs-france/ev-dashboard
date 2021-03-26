@@ -132,6 +132,7 @@ export enum Action {
   REGISTER = 'Register',
   TRIGGER_JOB = 'TriggerJob',
   DOWNLOAD = 'Download',
+  IMPORT = 'Import',
 }
 
 export interface AuthorizationContext {

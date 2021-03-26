@@ -56,7 +56,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
   private isAdmin = false;
   private isSiteAdmin = false;
 
-  constructor(
+  public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     private messageService: MessageService,
@@ -276,8 +276,8 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
     const filters: TableFilterDef[] = [];
     // Show Site Area Filter If Organization component is active
     if (this.componentService.isActive(TenantComponents.ORGANIZATION)) {
-      filters.push(new IssuerFilter().getFilterDef()),
-        filters.push(new SiteTableFilter().getFilterDef());
+      filters.push(new IssuerFilter().getFilterDef());
+      filters.push(new SiteTableFilter().getFilterDef());
       filters.push(new SiteAreaTableFilter().getFilterDef());
     }
     filters.push(new ChargingStationTableFilter().getFilterDef());

@@ -173,6 +173,14 @@ export class AuthorizationService {
     return this.canAccess(Entity.USER, Action.DELETE);
   }
 
+  public canImportUsers(): boolean {
+    return this.canAccess(Entity.USERS, Action.IMPORT);
+  }
+
+  public canImportTags(): boolean {
+    return this.canAccess(Entity.TAGS, Action.IMPORT);
+  }
+
   public canUpdateUser(): boolean {
     return this.canAccess(Entity.USER, Action.UPDATE);
   }

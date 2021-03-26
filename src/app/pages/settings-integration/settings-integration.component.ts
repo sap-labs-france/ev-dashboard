@@ -24,7 +24,7 @@ export class SettingsIntegrationComponent extends AbstractTabComponent {
   public isAssetActive = false;
   public isCarConnectorActive = false;
 
-  constructor(
+  public constructor(
     private componentService: ComponentService,
     activatedRoute: ActivatedRoute,
     windowService: WindowService,

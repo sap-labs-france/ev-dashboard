@@ -25,7 +25,7 @@ export class AnalyticsLinkDialogComponent implements OnInit {
   public currentLink: SettingLink;
   public submitButtonType!: any;
 
-  constructor(
+  public constructor(
     protected dialogRef: MatDialogRef<AnalyticsLinkDialogComponent>,
     private translateService: TranslateService,
     private dialogService: DialogService,

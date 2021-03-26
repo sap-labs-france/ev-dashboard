@@ -21,7 +21,7 @@ import { Utils } from '../../../../utils/Utils';
   selector: 'app-charging-station-parameters',
   templateUrl: './charging-station-parameters.component.html',
 })
-@Injectable()
+// @Injectable()
 export class ChargingStationParametersComponent implements OnInit, OnChanges {
   @Input() public chargingStation!: ChargingStation;
   @Input() public dialogRef!: MatDialogRef<any>;

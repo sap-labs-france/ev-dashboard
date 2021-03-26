@@ -15,7 +15,7 @@ import { UserSitesTableDataSource } from './user-sites-table-data-source';
 export class UserSitesDialogComponent {
   public dialogTitle: string;
 
-  constructor(
+  public constructor(
     public userSitesTableDataSource: UserSitesTableDataSource,
     private translateService: TranslateService,
     private dialogRef: MatDialogRef<UserSitesDialogComponent>,

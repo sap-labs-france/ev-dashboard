@@ -120,6 +120,7 @@ export enum UserButtonAction {
   DELETE_TAGS = 'delete_tags',
   ACTIVATE_TAG = 'activate_tag',
   DEACTIVATE_TAG = 'deactivate_tag',
+  IMPORT_TAGS = 'import_tags',
   DELETE_USER = 'delete_user',
   SYNCHRONIZE_BILLING_USER = 'billing_synchronize_user',
   BILLING_FORCE_SYNCHRONIZE_USER = 'billing_force_synchronize_user',
@@ -127,6 +128,7 @@ export enum UserButtonAction {
   BILLING_CREATE_PAYMENT_METHOD = 'billing_create_payment_method',
   ASSIGN_SITES_TO_USER = 'assign_sites_to_user',
   EXPORT_USERS = 'export_users',
+  IMPORT_USERS = 'import_users',
   NAVIGATE_TO_TAGS = 'navigate_to_tags',
   NAVIGATE_TO_USER = 'navigate_to_user'
 }
@@ -148,3 +150,9 @@ export enum UserRole {
   DEMO = 'D',
   UNKNOWN = 'U',
 }
+
+export const UserRequiredImportProperties = [
+  'email',
+  'firstName',
+  'name'
+];

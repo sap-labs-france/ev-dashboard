@@ -73,7 +73,7 @@ export class TenantComponent implements OnInit {
   ];
   private currentTenant!: Tenant;
 
-  constructor(
+  public constructor(
     private centralServerService: CentralServerService,
     private messageService: MessageService,
     private spinnerService: SpinnerService,
@@ -188,6 +188,7 @@ export class TenantComponent implements OnInit {
       this.translateService, this.saveTenant.bind(this), this.closeDialog.bind(this));
   }
 
+  // eslint-disable-next-line complexity
   public saveTenant(tenant: Tenant) {
     // Clear Type of inactive tenants
     let pricingActive = false;
@@ -259,44 +260,6 @@ export class TenantComponent implements OnInit {
     }
   }
 
-  private createTenant(tenant: Tenant) {
-    this.spinnerService.show();
-    this.updateTenantLogo(tenant);
-    this.centralServerService.createTenant(tenant).subscribe((response) => {
-      this.spinnerService.hide();
-      if (response.status === RestResponse.SUCCESS) {
-        this.messageService.showSuccessMessage('tenants.create_success', { name: tenant.name });
-        this.dialogRef.close(true);
-      } else {
-        Utils.handleError(JSON.stringify(response), this.messageService, 'tenants.create_error');
-      }
-    }, (error) => {
-      this.spinnerService.hide();
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tenants.create_error');
-    });
-  }
-
-  private updateTenant(tenant: Tenant) {
-    this.spinnerService.show();
-    this.updateTenantLogo(tenant);
-    this.centralServerService.updateTenant(tenant).subscribe((response) => {
-      this.spinnerService.hide();
-      if (response.status === RestResponse.SUCCESS) {
-        this.messageService.showSuccessMessage('tenants.update_success', { name: tenant.name });
-        this.dialogRef.close(true);
-      } else {
-        Utils.handleError(JSON.stringify(response), this.messageService, 'tenants.update_error');
-      }
-    }, (error) => {
-      this.spinnerService.hide();
-      if (error.status === HTTPError.SMART_CHARGING_STILL_ACTIVE_FOR_SITE_AREA) {
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tenants.smart_charging_still_active_for_site_area');
-      } else {
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tenants.update_error');
-      }
-    });
-  }
-
   public onLogoChanged(event: any) {
     // load picture
     if (event.target.files && event.target.files[0]) {
@@ -335,5 +298,43 @@ export class TenantComponent implements OnInit {
       // No changes
       delete tenant.logo;
     }
+  }
+
+  private createTenant(tenant: Tenant) {
+    this.spinnerService.show();
+    this.updateTenantLogo(tenant);
+    this.centralServerService.createTenant(tenant).subscribe((response) => {
+      this.spinnerService.hide();
+      if (response.status === RestResponse.SUCCESS) {
+        this.messageService.showSuccessMessage('tenants.create_success', { name: tenant.name });
+        this.dialogRef.close(true);
+      } else {
+        Utils.handleError(JSON.stringify(response), this.messageService, 'tenants.create_error');
+      }
+    }, (error) => {
+      this.spinnerService.hide();
+      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tenants.create_error');
+    });
+  }
+
+  private updateTenant(tenant: Tenant) {
+    this.spinnerService.show();
+    this.updateTenantLogo(tenant);
+    this.centralServerService.updateTenant(tenant).subscribe((response) => {
+      this.spinnerService.hide();
+      if (response.status === RestResponse.SUCCESS) {
+        this.messageService.showSuccessMessage('tenants.update_success', { name: tenant.name });
+        this.dialogRef.close(true);
+      } else {
+        Utils.handleError(JSON.stringify(response), this.messageService, 'tenants.update_error');
+      }
+    }, (error) => {
+      this.spinnerService.hide();
+      if (error.status === HTTPError.SMART_CHARGING_STILL_ACTIVE_FOR_SITE_AREA) {
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tenants.smart_charging_still_active_for_site_area');
+      } else {
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tenants.update_error');
+      }
+    });
   }
 }

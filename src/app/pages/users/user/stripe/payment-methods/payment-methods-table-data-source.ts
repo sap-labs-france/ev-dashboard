@@ -1,15 +1,13 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { PaymentMethod, Stripe } from '@stripe/stripe-js';
 import { Observable } from 'rxjs';
 import { AuthorizationService } from 'services/authorization.service';
 import { CentralServerService } from 'services/central-server.service';
 import { ComponentService } from 'services/component.service';
 import { DialogService } from 'services/dialog.service';
 import { MessageService } from 'services/message.service';
-import { StripeService } from 'services/stripe.service';
 import { WindowService } from 'services/window.service';
 import { AppDatePipe } from 'shared/formatters/app-date.pipe';
 import { TableCreatePaymentMethodAction, TableCreatePaymentMethodActionDef } from 'shared/table/actions/users/table-create-payment-method-action';
@@ -29,7 +27,6 @@ import { PaymentMethodDialogComponent } from './payment-method/payment-method.di
 export class PaymentMethodsTableDataSource extends TableDataSource<BillingPaymentMethod> {
   public canCreatePaymentMethod: boolean;
   public currentUserID: string;
-  public stripeFacade: Stripe;
   private deleteAction = new TableDeletePaymentMethodAction().getActionDef();
   constructor(
     public spinnerService: SpinnerService,
@@ -39,39 +36,18 @@ export class PaymentMethodsTableDataSource extends TableDataSource<BillingPaymen
     public windowService: WindowService,
     public activatedRoute: ActivatedRoute,
     public centralServerService: CentralServerService,
-    private stripeService: StripeService,
     private messageService: MessageService,
     private dialogService: DialogService,
     private router: Router,
     private datePipe: AppDatePipe,
     private dialog: MatDialog) {
       super(spinnerService, translateService);
-      // Init
-      this.initDataSource();
-  }
-
-  ngOnInit(): void {
-    this.initialize();
-  }
-
-  private async initialize(): Promise<void> {
-    try {
-      this.spinnerService.show();
-      this.stripeFacade = await this.stripeService.initializeStripe();
-      if ( !this.stripeFacade ) {
-        this.messageService.showErrorMessage('technical_settings.crypto.setting_do_not_exist');
-      } else {
-        this.loadDataImpl();
-      }
-    } catch (error) {
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
-    } finally {
-      this.spinnerService.hide();
-    }
+      this.canCreatePaymentMethod = this.authorizationService.canCreatePaymentMethod();
   }
 
   public setCurrentUserId(currentUserID: string) {
     this.currentUserID = currentUserID;
+    this.initDataSource();
   }
 
   public loadDataImpl(): Observable<DataResult<BillingPaymentMethod>> {
@@ -170,7 +146,6 @@ export class PaymentMethodsTableDataSource extends TableDataSource<BillingPaymen
     if (this.activatedRoute.snapshot.url[0]?.path === 'profile') {
       this.currentUserID = this.centralServerService.getLoggedUser().id;
     }
-    this.canCreatePaymentMethod = this.authorizationService.canCreatePaymentMethod(this.currentUserID);
     if (this.canCreatePaymentMethod) {
       tableActionsDef.unshift(new TableCreatePaymentMethodAction().getActionDef());
     }

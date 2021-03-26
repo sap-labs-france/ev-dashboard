@@ -287,10 +287,9 @@ export class AuthorizationService {
     return this.canAccess(Entity.PAYMENT_METHODS, Action.LIST);
   }
 
-  public canCreatePaymentMethod(userId: string): boolean {
-    if (this.canAccess(Entity.PAYMENT_METHOD, Action.CREATE)) {
-      return !!this.loggedUser && this.loggedUser.id === userId;
-    }
+  // TODO: Should return different response if admin is on its own pm or not ?
+  public canCreatePaymentMethod(): boolean {
+    return this.canAccess(Entity.PAYMENT_METHOD, Action.CREATE);
   }
 
   // TODO: Use canRead when we have the list of payment method

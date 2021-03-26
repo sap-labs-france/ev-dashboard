@@ -540,7 +540,6 @@ export abstract class TableDataSource<T extends Data> {
     this.initTableActionsDef(force);
     this.initTableActionsRightDef(force);
     this.initTableRowActions(force);
-
     this.hasActions = (this.tableActionsDef && this.tableActionsDef.length > 0) ||
       (this.tableActionsRightDef && this.tableActionsRightDef.length > 0);
     this.hasFilters = (this.tableFiltersDef && this.tableFiltersDef.length > 0);

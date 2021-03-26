@@ -42,6 +42,7 @@ export class PaymentMethodComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+    // TODO: make sure to wait for stripe to be initialized - spinner show
     this.initialize();
     this.userID = this.dialogRef.componentInstance.userID;
   }
@@ -51,7 +52,7 @@ export class PaymentMethodComponent implements OnInit {
       this.spinnerService.show();
       const stripeFacade = await this.stripeService.initializeStripe();
       if ( !stripeFacade ) {
-        this.messageService.showErrorMessage('settings.billing.not_properly_set')
+        this.messageService.showErrorMessage('settings.billing.not_properly_set');
       } else {
         this.initializeCardElements();
       }
@@ -114,9 +115,10 @@ export class PaymentMethodComponent implements OnInit {
       const result: {setupIntent?: SetupIntent; error?: StripeError} = await this.getStripeFacade().confirmCardSetup( setupIntent.client_secret, {
         payment_method: {
           card: this.card,
-          billing_details: {
-            name: this.centralServerService.getCurrentUserSubject().value.email + new Date(),
-          },
+          // TODO: put email and address 
+          // billing_details: {
+          //   name: this.centralServerService.getCurrentUserSubject().value.email + new Date(),
+          // },
         },
       });
       this.spinnerService.show();

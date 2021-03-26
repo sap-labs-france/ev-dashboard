@@ -22,12 +22,14 @@ export class ImportDialogComponent implements OnInit {
   public progress = 0;
   public uploadInProgress = false;
   public fileName = '';
-  public importInstructions: string;
+  public importInstructionsRequiredFields: string;
+  public importInstructionsOptionalFields: string;
   public isFileValid = true;
   public title: string;
   private ngxCsvParser: NgxCsvParser;
   private endpoint: ServerAction;
   private requiredProperties: string[];
+  private optionalProperties: string[];
   private messageSuccess: string;
   private messageError: string;
   private messageSuccessAndError: string;
@@ -50,6 +52,7 @@ export class ImportDialogComponent implements OnInit {
       this.messageSuccessAndError = `${data.entity}.import_${data.entity}_partial`;
       this.messageNoSuccessNoError = `${data.entity}.import_no_${data.entity}`;
       this.requiredProperties = data.requiredProperties;
+      this.optionalProperties = data.optionalProperties ? data.optionalProperties : [];
       this.confirmImportTitle = `${data.entity}.import_${data.entity}`;
       this.confirmImportMessage = `${data.entity}.import_${data.entity}_message`;
     }
@@ -63,7 +66,8 @@ export class ImportDialogComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.importInstructions = this.translateService.instant('general.import_instructions', { properties: this.requiredProperties.join(', ') });
+    this.importInstructionsRequiredFields = this.translateService.instant('general.import_instructions_required_fields', { properties: this.requiredProperties.join(', ') });
+    this.importInstructionsOptionalFields = !Utils.isEmptyArray(this.optionalProperties) ? this.translateService.instant('general.import_instructions_optional_fields', { properties: this.optionalProperties.join(', ') }) : '';
     // File has been selected
     this.uploader.onAfterAddingFile = (fileItem: FileItem) => {
       if (this.uploader.queue.length > 1) {
@@ -86,7 +90,7 @@ export class ImportDialogComponent implements OnInit {
         const actionsResponse = JSON.parse(response) as ActionsResponse;
         this.messageService.showActionsMessage(actionsResponse,
           this.messageSuccess, this.messageError, this.messageSuccessAndError, this.messageNoSuccessNoError);
-      // Error
+        // Error
       } else {
         switch (status) {
           case HTTPError.INVALID_FILE_FORMAT:

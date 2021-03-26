@@ -17,3 +17,6 @@ export interface Tag extends Data {
 export const TagRequiredImportProperties = [
   'id'
 ];
+export const TagOptionalImportProperties = [
+  'description'
+];

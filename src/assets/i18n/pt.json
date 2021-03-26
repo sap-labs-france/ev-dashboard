@@ -1149,7 +1149,8 @@
     "tabs": {
       "list": "Utilizadores",
       "in_error": "Erro",
-      "tags": "Badge"
+      "tags": "Badge",
+      "billing": "Billing"
     },
     "import_users": "Import users",
     "import_users_message": "The import will discard all other previously uploaded users not yet imported in the database, do you want to continue?",
@@ -1487,6 +1488,7 @@
     "billing": {
       "description": "A interface de faturamento permite recursos de faturamento para fornecedores de estação de carregamento.",
       "not_found": "Configurações de faturamento não encontradas",
+      "not_properly_set": "Billing settings not properly set",
       "create_success": "As configurações de faturamento foram criadas com sucesso",
       "create_error": "Ocorreu um erro ao criar as configurações de faturamento",
       "update_success": "As configurações de faturamento foram atualizadas com sucesso",
@@ -1495,6 +1497,21 @@
       "connection_success": "A conexão com o sistema de faturamento foi testada com sucesso",
       "connection_error": "Impossível conectar ao sistema de faturamento. Verifique sua chave secreta.",
       "force_synchronize": "Forçar sincronização de faturamento",
+      "payment_methods_create_title": "Create a payment method",
+      "payment_methods_create_success": "The payment method ending with '{{last4}}' has been created successfully",
+      "payment_methods_create_error": "Error occurred while creating the payment method, check the logs",
+      "payment_methods_delete_title": "Delete payment method",
+      "payment_methods_delete_confirm": "Do you really want to delete the payment method ending with '{{last4}}'?",
+      "payment_methods_delete_success": "The payment method ending with '{{last4}}' has been deleted successfully",
+      "payment_methods_delete_error": "Error occurred while deleting the payment method, check the logs",
+      "payment_methods_expired": "Expired",
+      "payment_methods_valid": "Valid",
+      "payment_methods_expire_soon": "Expires soon",
+      "payment_methods_expiring_on": "Expires on",
+      "payment_methods_ending_with": "Ending with",
+      "payment_methods_status": "Status",
+      "payment_methods_type": "Type",
+      "payment_methods_brand": "Brand",
       "user": {
         "synchronize_users": "Sincronizar utilizadores de cobrança",
         "synchronize_user": "Sincronizar utilizador de cobrança",

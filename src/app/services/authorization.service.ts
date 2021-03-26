@@ -291,6 +291,21 @@ export class AuthorizationService {
     return this.canAccess(Entity.TOKEN, Action.DELETE);
   }
 
+  public canListPaymentMethods(): boolean {
+    return this.canAccess(Entity.PAYMENT_METHODS, Action.LIST);
+  }
+
+  // TODO: Should return different response if admin is on its own pm or not ?
+  public canCreatePaymentMethod(): boolean {
+    return this.canAccess(Entity.PAYMENT_METHOD, Action.CREATE);
+  }
+
+  // TODO: Use canRead when we have the list of payment method
+  public canReadPaymentMethod() {
+    return (this.canAccess(Entity.PAYMENT_METHOD, Action.READ));
+  }
+
+
   public isSiteAdmin(siteID: string): boolean {
     return this.isAdmin() || (!!this.loggedUser && !!this.loggedUser.sitesAdmin && this.loggedUser.sitesAdmin.includes(siteID));
   }

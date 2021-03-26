@@ -1149,7 +1149,8 @@
     "tabs": {
       "list": "Nutzer",
       "in_error": "Fehlerhaft",
-      "tags": "Badges"
+      "tags": "Badges",
+      "billing": "Billing"
     },
     "import_users": "Import users",
     "import_users_message": "The import will discard all other previously uploaded users not yet imported in the database, do you want to continue?",
@@ -1487,6 +1488,7 @@
     "billing": {
       "description": "Das Abrechnungsinterface ermöglicht Abrechnungsfunktionen für den Ladestationenbetreiber.",
       "not_found": "Keine Abrechnungseinstellungen gefunden",
+      "not_properly_set": "Billing settings not properly set",
       "create_success": "Abrechnungseinstellungen erfolgreich erstellt",
       "create_error": "Beim Erstellen der Abrechnungseinstellungen ist ein Fehler aufgetreten",
       "update_success": "Abrechnungseinstellungen erfolgreich aktualisiert",
@@ -1495,6 +1497,21 @@
       "connection_success": "Verbindung zum Abrechnungssystem wurde erfolgreich überprüft",
       "connection_error": "Es konnte keine Verbindung zum Abrechnungssystem hergestellt werden. Überprüfen Sie den Sicherheitsschlüssel.",
       "force_synchronize": "Abrechnungssynchronisierung erwzingen",
+      "payment_methods_create_title": "Create a payment method",
+      "payment_methods_create_success": "The payment method ending with '{{last4}}' has been created successfully",
+      "payment_methods_create_error": "Error occurred while creating the payment method, check the logs",
+      "payment_methods_delete_title": "Delete payment method",
+      "payment_methods_delete_confirm": "Do you really want to delete the payment method ending with '{{last4}}'?",
+      "payment_methods_delete_success": "The payment method ending with '{{last4}}' has been deleted successfully",
+      "payment_methods_delete_error": "Error occurred while deleting the payment method, check the logs",
+      "payment_methods_expired": "Expired",
+      "payment_methods_valid": "Valid",
+      "payment_methods_expire_soon": "Expires soon",
+      "payment_methods_expiring_on": "Expires on",
+      "payment_methods_ending_with": "Ending with",
+      "payment_methods_status": "Status",
+      "payment_methods_type": "Type",
+      "payment_methods_brand": "Brand",
       "user": {
         "synchronize_users": "Abrechnungssynchronisierung",
         "synchronize_user": "Abrechnungssynchronisierung",

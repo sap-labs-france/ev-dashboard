@@ -67,6 +67,7 @@ import { LocalStorageService } from './services/local-storage.service';
 import { LocaleService } from './services/locale.service';
 import { MessageService } from './services/message.service';
 import { SpinnerService } from './services/spinner.service';
+import { StripeService } from './services/stripe.service';
 import { WindowService } from './services/window.service';
 import { FooterModule } from './shared/footer/footer.module';
 import { NavbarModule } from './shared/navbar/navbar.module';
@@ -190,6 +191,7 @@ export const localeFactory = (
     TranslateService,
     WindowService,
     DashboardService,
+    StripeService,
     { provide: APP_INITIALIZER, useFactory: configFactory, deps: [ConfigService], multi: true },
     { provide: MAT_DATE_LOCALE, useFactory: localeFactory, deps: [CentralServerService, TranslateService], multi: true },
     { provide: DatetimeAdapter, useClass: MomentDatetimeAdapter },

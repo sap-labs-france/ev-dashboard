@@ -118,3 +118,7 @@ export interface Paging {
 export interface VerifyEmailResponse extends ActionResponse {
   userStatus?: UserStatus;
 }
+
+export interface BillingOperationResponse extends ActionResponse {
+  internalData: object;
+}

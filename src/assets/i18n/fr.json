@@ -516,7 +516,7 @@
     "sign_out_short": "SD",
     "sign_out": "Se Déconnecter",
     "email": "Email",
-    "invalid_email": "Entez une adresse email valide",
+    "invalid_email": "Entrez une adresse email valide",
     "forgot_password": "Mot de passe oublié?",
     "email_already_exists": "Cet Email existe déjà",
     "email_does_not_exist": "Cet Email n'existe pas",
@@ -1149,7 +1149,8 @@
     "tabs": {
       "list": "Utilisateurs",
       "in_error": "En Erreur",
-      "tags": "Badges"
+      "tags": "Badges",
+      "billing": "Facturation"
     },
     "import_users": "Importer des utilisateurs",
     "import_users_message": "L'import va supprimer tous les utilisateurs transférés précédemment qui n'ont pas encore été importé dans la base de données, voulez-vous continuer?",
@@ -1487,6 +1488,7 @@
     "billing": {
       "description": "L'interface de facturation permet aux fournisseurs de bornes de facturer leurs services.",
       "not_found": "La configuration de la facturation n'est pas disponible",
+      "not_properly_set": "La configuration de la facturation n'est pas configurée correctement",
       "create_success": "La configuration de la facturation a été créée avec succès",
       "create_error": "Une erreur est survenue pendant la creation de la configuration de la facturation, vérifiez les logs",
       "update_success": "La configuration de la facturation a été mise à jour avec succès",
@@ -1495,6 +1497,21 @@
       "connection_success": "Connexion vers le système de facturation vérifiée avec succès",
       "connection_error": "Connexion vers le système de facturation impossible. Vérifiez votre clé secrète.",
       "force_synchronize": "Forcer Synchro Facturation",
+      "payment_methods_create_title": "Créer une méthode de paiement",
+      "payment_methods_create_success": "Le moyen de paiement se terminant par '{{last4}}' a été créé avec succès",
+      "payment_methods_create_error": "Une erreur est survenue pendant la création du moyen de paiement, vérifiez les logs",
+      "payment_methods_delete_title": "Supprimer une méthode de paiement",
+      "payment_methods_delete_confirm": "Voulez-vous vraiment supprimer le moyen de paiement se terminant par '{{last4}}'?",
+      "payment_methods_delete_success": "Le moyen de paiement se terminant par '{{last4}}' a été supprimé avec succès.",
+      "payment_methods_delete_error": "Une erreur est survenue lors de la suppression du moyen de paiement, vérifiez les logs",
+      "payment_methods_expired": "Expiré",
+      "payment_methods_valid": "Valide",
+      "payment_methods_expire_soon": "Va expirer",
+      "payment_methods_expiring_on": "Expire en",
+      "payment_methods_ending_with": "Fini par",
+      "payment_methods_status": "Status",
+      "payment_methods_type": "Type",
+      "payment_methods_brand": "Marque",
       "user": {
         "synchronize_users": "Synchro Utilisateurs (Facturation)",
         "synchronize_user": "Synchro Utilisateur (Facturation)",

@@ -26,7 +26,6 @@ export class TableDeletePaymentMethodAction extends TableDeleteAction {
     };
   }
 
-  // TODO : can we add here "currentUserID" to be sure user doing the deletion is the owner of the card ?
   private deletePaymentMethod(paymentMethod: BillingPaymentMethod, dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
       centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) {
     super.delete(

@@ -26,12 +26,11 @@ import { PaymentMethodStatusComponent } from './payment-method/payment-method-st
 import { PaymentMethodDialogComponent } from './payment-method/payment-method.dialog.component';
 
 @Injectable()
-export class PaymentMethodsTableDataSource extends TableDataSource<PaymentMethod> {
+export class PaymentMethodsTableDataSource extends TableDataSource<BillingPaymentMethod> {
   public canCreatePaymentMethod: boolean;
   public currentUserID: string;
   public stripeFacade: Stripe;
   private deleteAction = new TableDeletePaymentMethodAction().getActionDef();
-  private isAdmin: boolean;
   constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
@@ -47,7 +46,6 @@ export class PaymentMethodsTableDataSource extends TableDataSource<PaymentMethod
     private datePipe: AppDatePipe,
     private dialog: MatDialog) {
       super(spinnerService, translateService);
-      this.isAdmin = this.authorizationService.isAdmin();
       // Init
       this.initDataSource();
   }
@@ -72,11 +70,11 @@ export class PaymentMethodsTableDataSource extends TableDataSource<PaymentMethod
     }
   }
 
-  public async setCurrentUserId(currentUserID: string) {
+  public setCurrentUserId(currentUserID: string) {
     this.currentUserID = currentUserID;
   }
-  
-  public loadDataImpl(): Observable<DataResult<PaymentMethod>> {
+
+  public loadDataImpl(): Observable<DataResult<BillingPaymentMethod>> {
     return new Observable((observer) => {
       // User provided?
       if (this.currentUserID) {
@@ -129,53 +127,41 @@ export class PaymentMethodsTableDataSource extends TableDataSource<PaymentMethod
             this.translateService.instant('general.yes') : this.translateService.instant('general.no');
         },
       },
-    ]
-      if (!this.isAdmin) {
-        columns.push(
-          {
-            id: 'id',
-            name: 'general.id',
-            headerClass: 'text-center col-10p',
-            class: 'text-center col-10p',    
-          },
-        );
+      {
+        id: 'type',
+        name: 'settings.billing.payment_methods_type',
+        headerClass: 'text-center col-10p',
+        class: 'text-center col-10p capitalize',
+      },
+      {
+        id: 'brand',
+        name: 'settings.billing.payment_methods_brand',
+        headerClass: 'text-center col-15p',
+        class: 'text-center col-15p capitalize',
+      },
+      {
+        id: 'last4',
+        name: 'settings.billing.payment_methods_ending_with',
+        headerClass: 'text-center col-10p',
+        class: 'text-center col-10p',
+      },
+      {
+        id: 'expiringOn',
+        name: 'settings.billing.payment_methods_expiring_on',
+        headerClass: 'text-center col-10p',
+        class: 'text-center col-10p',
+        formatter: (expiringOn: Date) => {
+          return this.datePipe.transform(expiringOn, 'MM/YYYY');
+        },
+      },
+      {
+        id: 'createdOn',
+        name: 'general.created_on',
+        headerClass: 'text-center col-15p',
+        class: 'text-center col-15p',
+        formatter: (createdOn: Date) => this.datePipe.transform(createdOn)
       }
-      columns.push(
-        {
-          id: 'type',
-          name: 'settings.billing.payment_methods_type',
-          headerClass: 'text-center col-10p',
-          class: 'text-center col-10p capitalize',
-          },
-        {
-          id: 'brand',
-          name: 'settings.billing.payment_methods_brand',
-          headerClass: 'text-center col-15p',
-          class: 'text-center col-15p capitalize',
-          },
-        {
-          id: 'last4',
-          name: 'settings.billing.payment_methods_ending_with',
-          headerClass: 'text-center col-10p',
-          class: 'text-center col-10p',
-          },
-        {
-          id: 'expiringOn',
-          name: 'settings.billing.payment_methods_expiring_on',
-          headerClass: 'text-center col-10p',
-          class: 'text-center col-10p',
-          formatter: (expiringOn: Date) => {
-            return this.datePipe.transform(expiringOn, 'MM/YYYY');
-          },
-        },
-        {
-          id: 'createdOn',
-          name: 'general.created_on',
-          headerClass: 'text-center col-15p',
-          class: 'text-center col-15p',
-          formatter: (createdOn: Date) => this.datePipe.transform(createdOn)
-        },
-      )
+    ]
     return columns;
   }
 
@@ -191,9 +177,11 @@ export class PaymentMethodsTableDataSource extends TableDataSource<PaymentMethod
     return tableActionsDef;
   }
 
-  public buildTableDynamicRowActions(paymentMethod: PaymentMethod): TableActionDef[] {
+  public buildTableDynamicRowActions(paymentMethod: BillingPaymentMethod): TableActionDef[] {
     const actions: TableActionDef[] = [];
-    actions.push(this.deleteAction);
+    if (!paymentMethod.isDefault) {
+      actions.push(this.deleteAction);
+    }
     return actions;
   }
 

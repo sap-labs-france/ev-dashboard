@@ -1,13 +1,10 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
 import { SetupIntent, StripeCardElement, StripeElements, StripeError } from '@stripe/stripe-js';
 import { ComponentService } from 'services/component.service';
-import { DialogService } from 'services/dialog.service';
 import { StripeService } from 'services/stripe.service';
-import { WindowService } from 'services/window.service';
 import { BillingOperationResponse } from 'types/DataResult';
 import TenantComponents from 'types/TenantComponents';
 
@@ -41,11 +38,7 @@ export class PaymentMethodComponent implements OnInit {
     private spinnerService: SpinnerService,
     private stripeService: StripeService,
     private router: Router,
-    private dialogService: DialogService,
-    private componentService: ComponentService,
-    private translateService: TranslateService,
-    private windowService: WindowService,
-    private dialog: MatDialog) {
+    private componentService: ComponentService) {
       this.isBillingComponentActive = this.componentService.isActive(TenantComponents.BILLING);
   }
 

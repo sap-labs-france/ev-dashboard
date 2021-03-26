@@ -20,6 +20,6 @@ export class TableImportUsersAction extends TableImportAction {
   }
 
   private importUsers(userDialogComponent: ComponentType<unknown>, dialog: MatDialog) {
-    super.import(userDialogComponent, dialog, ServerAction.USERS_IMPORT, UserRequiredImportProperties, 'users');
+    super.import(userDialogComponent, dialog, ServerAction.USERS_IMPORT, 'users', UserRequiredImportProperties);
   }
 }

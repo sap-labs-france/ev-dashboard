@@ -36,6 +36,7 @@
             "style": "camelCase"
           }
         ],
+        "@angular-eslint/use-component-view-encapsulation": "error",
         "@typescript-eslint/naming-convention": [
           "error",
           {
@@ -45,7 +46,13 @@
             ]
           }
         ],
-        "@angular-eslint/use-component-view-encapsulation": "error",
+        "@typescript-eslint/indent": [
+          "error",
+          2,
+          {
+            "SwitchCase": 1
+          }
+        ],
         "@typescript-eslint/array-type": [
           "error",
           {

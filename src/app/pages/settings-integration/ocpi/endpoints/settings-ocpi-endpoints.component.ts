@@ -7,14 +7,14 @@ import { SettingsOcpiEndpointsTableDataSource } from './settings-ocpi-endpoints-
   selector: 'app-settings-ocpi-endpoints',
   templateUrl: './settings-ocpi-endpoints.component.html',
 })
-export class SettingsOcpiEnpointsComponent {
+export class SettingsOcpiEndpointsComponent {
   public isAdmin!: boolean;
   public formGroup!: FormGroup;
   public name!: AbstractControl;
   public countryCode!: AbstractControl;
   public partyID!: AbstractControl;
 
-  constructor(
-    public settingsOcpiEnpointsTableDataSource: SettingsOcpiEndpointsTableDataSource) {
-  }
+  // eslint-disable-next-line no-useless-constructor
+  public constructor(
+    public settingsOcpiEndpointsTableDataSource: SettingsOcpiEndpointsTableDataSource) {}
 }

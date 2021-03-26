@@ -36,7 +36,7 @@ export class TagComponent implements OnInit {
 
   public isAdmin = false;
 
-  constructor(
+  public constructor(
     public spinnerService: SpinnerService,
     private authorizationService: AuthorizationService,
     private centralServerService: CentralServerService,

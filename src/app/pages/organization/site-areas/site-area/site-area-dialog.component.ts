@@ -11,7 +11,7 @@ export class SiteAreaDialogComponent implements AfterViewInit {
   @ViewChild('appRef') public appRef!: SiteAreaComponent;
   public siteAreaID!: string;
 
-  constructor(
+  public constructor(
     public dialogRef: MatDialogRef<SiteAreaDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data: string) {
     this.siteAreaID = data;

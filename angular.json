@@ -31,7 +31,8 @@
               "file-saver",
               "ngx-google-places-autocomplete",
               "chartjs-plugin-datalabels",
-              "canvg"
+              "canvg",
+              "stripe-js"
             ],
             "assets": [
               {

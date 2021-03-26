@@ -5,14 +5,14 @@ import { OicpEndpoint } from '../../../../../types/oicp/OICPEndpoint';
 import { SettingsOicpEndpointsDetailsTableDataSource } from './settings-oicp-endpoints-details-table-data-source';
 
 @Component({
-  template: '<app-table class="endpoint-details" [dataSource]="settingsOicpEnpointsDetaislTableDataSource"></app-table>',
+  template: '<app-table class="endpoint-details" [dataSource]="settingsOicpEndpointsDetaislTableDataSource"></app-table>',
   providers: [SettingsOicpEndpointsDetailsTableDataSource],
 })
 
-export class SettingsOicpEnpointsDetailsComponent extends CellContentTemplateDirective implements OnChanges, OnInit {
+export class SettingsOicpEndpointsDetailsComponent extends CellContentTemplateDirective implements OnChanges, OnInit {
   @Input() public row!: OicpEndpoint;
 
-  constructor(public settingsOicpEnpointsDetaislTableDataSource: SettingsOicpEndpointsDetailsTableDataSource) {
+  public constructor(public settingsOicpEndpointsDetaislTableDataSource: SettingsOicpEndpointsDetailsTableDataSource) {
     super();
   }
 
@@ -26,8 +26,8 @@ export class SettingsOicpEnpointsDetailsComponent extends CellContentTemplateDir
 
   private refreshData(): void {
     // Set
-    this.settingsOicpEnpointsDetaislTableDataSource.setEndpoint(this.row);
+    this.settingsOicpEndpointsDetaislTableDataSource.setEndpoint(this.row);
     // Reload data
-    this.settingsOicpEnpointsDetaislTableDataSource.refreshData(false).subscribe();
+    this.settingsOicpEndpointsDetaislTableDataSource.refreshData(false).subscribe();
   }
 }

@@ -21,7 +21,7 @@ export class SiteUsersAdminCheckboxComponent extends CellContentTemplateDirectiv
   @Input() public row!: UserSite;
   public loggedUser: UserToken;
 
-  constructor(
+  public constructor(
     private messageService: MessageService,
     private centralServerService: CentralServerService,
     private router: Router) {

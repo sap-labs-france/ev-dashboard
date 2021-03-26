@@ -37,7 +37,7 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
   private syncBillingInvoicesAction = new TableSyncBillingInvoicesAction().getActionDef();
   private downloadBillingInvoiceAction = new TableDownloadBillingInvoice().getActionDef();
 
-  constructor(
+  public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     private messageService: MessageService,

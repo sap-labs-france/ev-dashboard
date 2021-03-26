@@ -4,10 +4,9 @@ import { AppDecimalPipe } from './app-decimal-pipe';
 
 @Pipe({ name: 'appUnit' })
 export class AppUnitPipe implements PipeTransform {
-
-  constructor(
-    private decimalPipe: AppDecimalPipe) {
-  }
+  // eslint-disable-next-line no-useless-constructor
+  public constructor(
+    private decimalPipe: AppDecimalPipe) {}
 
   public transform(value: number, srcMeasure: string = '', destMeasure: string = '', withUnit: boolean = true, numberOfInteger: number = 1,
     numberOfDecimalMin: number = 2, numberOfDecimalMax: number = 2): string {

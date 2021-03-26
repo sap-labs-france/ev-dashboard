@@ -14,13 +14,13 @@ import { UsersInErrorTableDataSource } from './users-in-error-table-data-source'
   providers: [UsersInErrorTableDataSource],
 })
 export class UsersInErrorComponent implements OnInit {
-  constructor(
-      public usersInErrorDataSource: UsersInErrorTableDataSource,
-      private dialog: MatDialog,
-      private messageService: MessageService,
-      private centralServerService: CentralServerService,
-      private windowService: WindowService) {
-  }
+  // eslint-disable-next-line no-useless-constructor
+  public constructor(
+    public usersInErrorDataSource: UsersInErrorTableDataSource,
+    private dialog: MatDialog,
+    private messageService: MessageService,
+    private centralServerService: CentralServerService,
+    private windowService: WindowService) {}
 
   public ngOnInit(): void {
     // Check if User ID id provided
@@ -33,7 +33,7 @@ export class UsersInErrorComponent implements OnInit {
         }
       }, (error) => {
         // Not Found
-        this.messageService.showErrorMessage('users.user_id_not_found', {userId});
+        this.messageService.showErrorMessage('users.user_id_not_found', { userId });
       });
       // Clear Search
       this.windowService.deleteSearch('UserID');

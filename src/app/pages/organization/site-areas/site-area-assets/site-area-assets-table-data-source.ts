@@ -30,7 +30,7 @@ export class SiteAreaAssetsDataSource extends TableDataSource<Asset> {
   private canUpdateSiteArea = false;
   private canDeleteSiteArea = false;
 
-  constructor(
+  public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     private messageService: MessageService,

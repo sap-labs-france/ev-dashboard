@@ -5,7 +5,6 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { KeyValue } from '../../../../types/GlobalType';
 import { CarConnectorConnectionSetting, CarConnectorConnectionType, CarConnectorMercedesConnectionType } from '../../../../types/Setting';
-import { Constants } from '../../../../utils/Constants';
 import { CarConnectorConnectionDialogComponent } from './car-connector-connection.dialog.component';
 
 @Component({
@@ -29,9 +28,9 @@ export class CarConnectorConnectionComponent implements OnInit {
   ];
   public submitButtonTranslation!: any;
 
+  // eslint-disable-next-line no-useless-constructor
   public constructor(
-    private translateService: TranslateService) {
-  }
+    private translateService: TranslateService) {}
 
   public ngOnInit(): void {
     // Init Form

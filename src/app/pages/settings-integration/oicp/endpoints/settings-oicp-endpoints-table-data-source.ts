@@ -20,14 +20,14 @@ import { TableDataSource } from '../../../../shared/table/table-data-source';
 import ChangeNotification from '../../../../types/ChangeNotification';
 import { DataResult } from '../../../../types/DataResult';
 import { ButtonAction, RestResponse } from '../../../../types/GlobalType';
-import { ButtonType, DropdownItem, TableActionDef, TableColumnDef, TableDef } from '../../../../types/Table';
 import { OicpEndpoint } from '../../../../types/oicp/OICPEndpoint';
+import { ButtonType, DropdownItem, TableActionDef, TableColumnDef, TableDef } from '../../../../types/Table';
 import { Utils } from '../../../../utils/Utils';
-import { SettingsOicpEnpointDialogComponent } from './endpoint/settings-oicp-endpoint.dialog.component';
+import { SettingsOicpEndpointDialogComponent } from './endpoint/settings-oicp-endpoint.dialog.component';
 import { OicpPatchJobResultFormatterComponent } from './formatters/oicp-patch-job-result-formatter.component';
 import { OicpPatchJobStatusFormatterComponent } from './formatters/oicp-patch-job-status-formatter.component';
 import { OicpEndpointStatusFormatterComponent } from './formatters/oicp-status-formatter.component';
-import { SettingsOicpEnpointsDetailsComponent } from './oicp-details/settings-oicp-endpoints-details.component';
+import { SettingsOicpEndpointsDetailsComponent } from './oicp-details/settings-oicp-endpoints-details.component';
 
 @Injectable()
 export class SettingsOicpEndpointsTableDataSource extends TableDataSource<OicpEndpoint> {
@@ -36,7 +36,7 @@ export class SettingsOicpEndpointsTableDataSource extends TableDataSource<OicpEn
   private unregisterAction = new TableUnregisterAction().getActionDef();
   private deleteAction = new TableDeleteAction().getActionDef();
 
-  constructor(
+  public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     private messageService: MessageService,
@@ -81,7 +81,7 @@ export class SettingsOicpEndpointsTableDataSource extends TableDataSource<OicpEn
       },
       rowDetails: {
         enabled: true,
-        angularComponent: SettingsOicpEnpointsDetailsComponent,
+        angularComponent: SettingsOicpEndpointsDetailsComponent,
       },
     };
   }
@@ -224,7 +224,7 @@ export class SettingsOicpEndpointsTableDataSource extends TableDataSource<OicpEn
     // disable outside click close
     dialogConfig.disableClose = true;
     // Open
-    const dialogRef = this.dialog.open(SettingsOicpEnpointDialogComponent, dialogConfig);
+    const dialogRef = this.dialog.open(SettingsOicpEndpointDialogComponent, dialogConfig);
     dialogRef.afterClosed().subscribe((saved) => {
       if (saved) {
         this.refreshData().subscribe();

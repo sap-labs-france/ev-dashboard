@@ -11,7 +11,7 @@ export class TableAutoRefreshAction implements TableAction {
     tooltip: 'general.tooltips.auto_refresh',
   };
 
-  constructor(
+  public constructor(
     private defaultValue: boolean = false) {
     // Set
     this.action.currentValue = defaultValue;

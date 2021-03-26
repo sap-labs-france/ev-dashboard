@@ -10,7 +10,7 @@ export class AppCurrencyPipe implements PipeTransform {
   private currencyPipe!: CurrencyPipe;
   private currency!: string;
 
-  constructor(
+  public constructor(
     private componentService: ComponentService,
     private localeService: LocaleService) {
     // Get the locale

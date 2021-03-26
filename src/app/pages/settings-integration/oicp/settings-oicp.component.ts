@@ -60,7 +60,7 @@ export class SettingsOicpComponent implements OnInit {
     { key: 'OTHER', description: 'Other' },
   ];
 
-  constructor(
+  public constructor(
     private messageService: MessageService,
     private centralServerService: CentralServerService,
     private componentService: ComponentService,

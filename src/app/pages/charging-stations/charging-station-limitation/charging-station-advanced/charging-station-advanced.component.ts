@@ -14,7 +14,7 @@ import { Utils } from '../../../../utils/Utils';
   selector: 'app-charging-station-advanced',
   templateUrl: './charging-station-advanced.component.html',
 })
-@Injectable()
+// @Injectable()
 export class ChargingStationAdvancedComponent implements OnInit {
   @Input() public chargingStation!: ChargingStation;
 
@@ -24,7 +24,7 @@ export class ChargingStationAdvancedComponent implements OnInit {
   public scheduleResult!: GetCompositeScheduleCommandResult | GetCompositeScheduleCommandResult[];
   public durationControl!: AbstractControl;
 
-  constructor(
+  public constructor(
     private centralServerService: CentralServerService,
     private messageService: MessageService,
     private spinnerService: SpinnerService,

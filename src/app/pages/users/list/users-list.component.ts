@@ -19,7 +19,7 @@ import { UsersListTableDataSource } from './users-list-table-data-source';
 export class UsersListComponent implements OnInit {
   public isAdmin: boolean;
 
-  constructor(
+  public constructor(
     public usersListTableDataSource: UsersListTableDataSource,
     private authorizationService: AuthorizationService,
     private dialog: MatDialog,

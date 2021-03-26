@@ -7,8 +7,15 @@
     {
       "type": "chrome",
       "request": "launch",
-      "name": "Launch Chrome against localhost",
+      "name": "tenant: slf",
       "url": "http://slf.localhost:45000",
+      "webRoot": "${workspaceFolder}"
+    },
+    {
+      "type": "chrome",
+      "request": "launch",
+      "name": "tenant: utbilling",
+      "url": "http://utbilling.localhost:45000",
       "webRoot": "${workspaceFolder}"
     }
   ]

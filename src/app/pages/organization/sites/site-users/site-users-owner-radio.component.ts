@@ -23,7 +23,7 @@ export class SiteUsersOwnerRadioComponent extends CellContentTemplateDirective {
   @ViewChild('rbid') public radioButtonRef!: MatRadioButton;
   public loggedUser: UserToken;
 
-  constructor(
+  public constructor(
     private messageService: MessageService,
     private centralServerService: CentralServerService,
     private router: Router) {

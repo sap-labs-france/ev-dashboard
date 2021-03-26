@@ -14,7 +14,7 @@ export class UsersComponent extends AbstractTabComponent {
   public canListTokens: boolean;
   public canListUsersInError: boolean;
 
-  constructor(
+  public constructor(
       activatedRoute: ActivatedRoute,
       authorizationService: AuthorizationService,
       windowService: WindowService) {

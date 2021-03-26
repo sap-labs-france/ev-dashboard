@@ -12,7 +12,7 @@ export class TableCopyAction implements TableAction {
     tooltip: 'general.tooltips.copy',
   };
 
-  constructor(name?: string, tooltip?: string) {
+  public constructor(name?: string, tooltip?: string) {
     if (name) {
       this.action.name = name;
     }

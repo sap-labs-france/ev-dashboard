@@ -22,12 +22,13 @@ export class TableCreateAction implements TableAction {
     return this.action;
   }
 
-  protected create(component: ComponentType<unknown>, dialog: MatDialog, refresh?: () => Observable<void>) {
+  protected create(component: ComponentType<unknown>, dialog: MatDialog, refresh?: () => Observable<void>, dialogData?: any) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '80vw';
     dialogConfig.minHeight = '60vh';
     dialogConfig.panelClass = 'transparent-dialog-container';
+    dialogConfig.data = dialogData || null;
     // disable outside click close
     dialogConfig.disableClose = true;
     // Open

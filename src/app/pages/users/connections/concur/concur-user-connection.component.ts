@@ -15,7 +15,7 @@ import { Utils } from '../../../../utils/Utils';
 export class ConcurUserConnectionComponent extends AbstractTabComponent {
   public isAdmin!: boolean;
 
-  constructor(
+  public constructor(
     private centralServerService: CentralServerService,
     private messageService: MessageService,
     private router: Router,

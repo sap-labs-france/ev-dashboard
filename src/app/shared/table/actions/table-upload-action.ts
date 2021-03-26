@@ -1,11 +1,12 @@
 import { OicpButtonAction } from 'types/oicp/OICPEndpoint';
+
 import { ChargingStationButtonAction } from '../../../types/ChargingStation';
 import { ButtonAction } from '../../../types/GlobalType';
+import { OcpiButtonAction } from '../../../types/ocpi/OCPIEndpoint';
 import { SiteButtonAction } from '../../../types/Site';
 import { ButtonColor, TableActionDef } from '../../../types/Table';
 import { TransactionButtonAction } from '../../../types/Transaction';
 import { UserButtonAction } from '../../../types/User';
-import { OcpiButtonAction } from '../../../types/ocpi/OCPIEndpoint';
 import { TableAction } from './table-action';
 
 export class TableUploadAction implements TableAction {
@@ -18,7 +19,7 @@ export class TableUploadAction implements TableAction {
     tooltip: 'general.tooltips.upload',
   };
 
-  constructor(id?: ButtonAction | ChargingStationButtonAction | UserButtonAction | TransactionButtonAction | SiteButtonAction | OcpiButtonAction | OicpButtonAction,
+  public constructor(id?: ButtonAction | ChargingStationButtonAction | UserButtonAction | TransactionButtonAction | SiteButtonAction | OcpiButtonAction | OicpButtonAction,
     name?: string, tooltip?: string) {
     if (id) {
       this.action.id = id;

@@ -24,7 +24,7 @@ export class SettingsUserComponent implements OnInit {
   public formGroup!: FormGroup;
   public autoActivateAccountAfterValidation!: AbstractControl;
 
-  constructor(
+  public constructor(
     private messageService: MessageService,
     private centralServerService: CentralServerService,
     private spinnerService: SpinnerService,

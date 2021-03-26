@@ -1460,6 +1460,7 @@
     "billing": {
       "description": "L'interface de facturation permet aux fournisseurs de bornes de facturer leurs services.",
       "not_found": "La configuration de la facturation n'est pas disponible",
+      "not_properly_set": "La configuration de la facturation n'est pas configurée correctement",
       "create_success": "La configuration de la facturation a été créée avec succès",
       "create_error": "Une erreur est survenue pendant la creation de la configuration de la facturation, vérifiez les logs",
       "update_success": "La configuration de la facturation a été mise à jour avec succès",
@@ -1468,7 +1469,6 @@
       "connection_success": "Connexion vers le système de facturation vérifiée avec succès",
       "connection_error": "Connexion vers le système de facturation impossible. Vérifiez votre clé secrète.",
       "force_synchronize": "Forcer Synchro Facturation",
-      "stripe_not_set": "Stripe n'est pas actif pour le tenant courant",
       "payment_methods_create_title": "Créer une méthode de paiment",
       "payment_methods_create_success": "Le moyen de paiement terminant par '{{last4}}' a été créé avec succès",
       "payment_methods_create_error": "Une erreur est survenue pendant la creation du moyen de paiement, vérifiez les logs",

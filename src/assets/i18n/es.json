@@ -1460,7 +1460,7 @@
     "billing": {
       "description": "La interfaz de facturación permite a los proveedores de las terminales facturar sus servicios",
       "not_found": "La configuración de facturación no está disponible",
-      "not_properly_set": "Billing settings not properly found",
+      "not_properly_set": "Billing settings not properly set",
       "create_success": "La configuración de facturación se ha creado exitosamente",
       "create_error": "Se produjo un error al crear la configuración de facturación",
       "update_success": "La configuración de facturación se ha actualizado correctamente",

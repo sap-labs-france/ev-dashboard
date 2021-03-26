@@ -1460,7 +1460,7 @@
     "billing": {
       "description": "Das Abrechnungsinterface ermöglicht Abrechnungsfunktionen für den Ladestationenbetreiber.",
       "not_found": "Keine Abrechnungseinstellungen gefunden",
-      "not_properly_set": "Billing settings not properly found",
+      "not_properly_set": "Billing settings not properly set",
       "create_success": "Abrechnungseinstellungen erfolgreich erstellt",
       "create_error": "Beim Erstellen der Abrechnungseinstellungen ist ein Fehler aufgetreten",
       "update_success": "Abrechnungseinstellungen erfolgreich aktualisiert",

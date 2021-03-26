@@ -1460,7 +1460,7 @@
     "billing": {
       "description": "The billing interface enables billing capabilities for charging station providers.",
       "not_found": "Billing settings not found",
-      "not_properly_set": "Billing settings not properly found",
+      "not_properly_set": "Billing settings not properly set",
       "create_success": "Billing settings have been created successfully",
       "create_error": "Error occurred while creating the billing settings, check the logs",
       "update_success": "Billing settings have been updated successfully",

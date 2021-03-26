@@ -1460,7 +1460,7 @@
     "billing": {
       "description": "A interface de faturamento permite recursos de faturamento para fornecedores de estação de carregamento.",
       "not_found": "Configurações de faturamento não encontradas",
-      "not_properly_set": "Billing settings not properly found",
+      "not_properly_set": "Billing settings not properly set",
       "create_success": "As configurações de faturamento foram criadas com sucesso",
       "create_error": "Ocorreu um erro ao criar as configurações de faturamento",
       "update_success": "As configurações de faturamento foram atualizadas com sucesso",

@@ -52,7 +52,7 @@ export class ImportDialogComponent implements OnInit {
       this.messageSuccessAndError = `${data.entity}.import_${data.entity}_partial`;
       this.messageNoSuccessNoError = `${data.entity}.import_no_${data.entity}`;
       this.requiredProperties = data.requiredProperties;
-      this.optionalProperties = data.optionalProperties ? data.optionalProperties : [];
+      this.optionalProperties = data.optionalProperties ?? [];
       this.confirmImportTitle = `${data.entity}.import_${data.entity}`;
       this.confirmImportMessage = `${data.entity}.import_${data.entity}_message`;
     }
@@ -90,7 +90,7 @@ export class ImportDialogComponent implements OnInit {
         const actionsResponse = JSON.parse(response) as ActionsResponse;
         this.messageService.showActionsMessage(actionsResponse,
           this.messageSuccess, this.messageError, this.messageSuccessAndError, this.messageNoSuccessNoError);
-        // Error
+      // Error
       } else {
         switch (status) {
           case HTTPError.INVALID_FILE_FORMAT:

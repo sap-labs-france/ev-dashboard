@@ -24,6 +24,18 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.55',
+        date: new Date('2021-03-26'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Charging Station: EN+ and Exadys vendor integration`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.54',
         date: new Date('2021-03-25'),
         componentChanges: [

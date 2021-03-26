@@ -52,7 +52,7 @@ export class PaymentMethodComponent implements OnInit {
       this.spinnerService.show();
       const stripeFacade = await this.stripeService.initializeStripe();
       if ( !stripeFacade ) {
-        this.feedback = 'Stripe configuration is not set for the current tenant';
+        this.messageService.showErrorMessage('settings.billing.stripe_not_set')
       } else {
         this.initializeCardElements();
       }

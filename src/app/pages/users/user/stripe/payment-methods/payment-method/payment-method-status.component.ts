@@ -12,6 +12,7 @@ import { ChipType } from '../../../../../../types/GlobalType';
       <mat-chip [ngClass]="row | appPaymentMethodStatus:'class'" [disabled]="true">
           {{row | appPaymentMethodStatus:'text' | translate}}
       </mat-chip>
+    <mat-chip-list>
   `,
 })
 export class PaymentMethodStatusComponent extends CellContentTemplateDirective {

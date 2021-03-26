@@ -33,6 +33,7 @@ export class ReleaseNotesComponent {
               `EN+ and Exadys Charging Stations have been integrated`,
               `Car images are synchronized one by one to avoid high memory consumption`,
               `Add Create Charging Profile in the RESTful endpoint`,
+              `Migrated Sites to authorizations based`,
               `Adjusted Settings authorizations`,
               `Upgrade to Angular 11.2.7`,
             ],

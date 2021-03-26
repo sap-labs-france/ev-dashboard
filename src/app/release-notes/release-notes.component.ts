@@ -32,6 +32,7 @@ export class ReleaseNotesComponent {
             changes: [
               `EN+ and Exadys Charging Stations have been integrated`,
               `Car images are synchronized one by one to avoid high memory consumption`,
+              `Upgrade to Angular 11.2.7`,
             ],
           },
         ],

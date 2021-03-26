@@ -54,7 +54,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
   private createInvoice = new TableCreateTransactionInvoiceAction().getActionDef();
   private navigateToLogsAction = new TableNavigateToLogsAction().getActionDef();
 
-  constructor(
+  public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     private messageService: MessageService,

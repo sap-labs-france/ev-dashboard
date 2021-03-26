@@ -46,6 +46,7 @@ export abstract class TableDataSource<T extends Data> {
   private searchValue = '';
   private staticFilters: Record<string, unknown>[] = [];
 
+  // eslint-disable-next-line no-useless-constructor
   public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
@@ -300,7 +301,9 @@ export abstract class TableDataSource<T extends Data> {
             }
             break;
           case 'date':
-            filterDef.reset && filterDef.reset();
+            if (Utils.objectHasProperty(filterDef, 'reset')) {
+              filterDef.reset();
+            };
             break;
         }
         this.updateFilterLabel(filterDef);

@@ -9,8 +9,7 @@ import { CompaniesListTableDataSource } from './companies-list-table-data-source
   providers: [CompaniesListTableDataSource, CompanyComponent],
 })
 export class CompaniesListComponent {
-
-  constructor(
-    public companiesListTableDataSource: CompaniesListTableDataSource) {
-  }
+  // eslint-disable-next-line no-useless-constructor
+  public constructor(
+    public companiesListTableDataSource: CompaniesListTableDataSource) {}
 }

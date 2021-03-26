@@ -78,8 +78,8 @@ export class TableChargingStationsStopTransactionAction implements TableAction {
               });
           } else {
             // Soft Stop
-            centralServerService.softStopTransaction(transaction.id).subscribe((response: ActionResponse) => {
-              if (response.status === 'Invalid') {
+            centralServerService.softStopTransaction(transaction.id).subscribe((res: ActionResponse) => {
+              if (res.status === 'Invalid') {
                 messageService.showErrorMessage(
                   translateService.instant('transactions.notification.soft_stop.error'));
               } else {

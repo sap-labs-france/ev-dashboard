@@ -11,7 +11,7 @@ export class TenantDialogComponent implements AfterViewInit {
   @ViewChild('appRef') public appRef!: TenantComponent;
   public tenantID!: string;
 
-  constructor(
+  public constructor(
     public dialogRef: MatDialogRef<TenantDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data: string) {
     this.tenantID = data;

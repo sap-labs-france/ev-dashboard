@@ -18,10 +18,10 @@ export class ReleaseNotesComponent {
   public releaseNotes: ReleaseNotes[] = [];
 
   public constructor() {
-    this.buidlReleaseNotes();
+    this.buildReleaseNotes();
   }
 
-  public buidlReleaseNotes() {
+  public buildReleaseNotes() {
     this.releaseNotes = [
       {
         version: '2.4.55',
@@ -72,7 +72,7 @@ export class ReleaseNotesComponent {
               `Added Get Charging Station endpoint schema validation in RESTful endpoint`,
               `Optimized Assets with Site ID like Charging Stations`,
               `Accept more firmware versions on Ingeteam Charging Station`,
-              `Angular front-end uses the new RESTful enpoint for Charging Station's actions`,
+              `Angular front-end uses the new RESTful endpoint for Charging Station's actions`,
               `Do not try to resend E-mail notification with error 450`,
             ],
           },

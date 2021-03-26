@@ -6,7 +6,8 @@ export default class SocketIOClient {
   private static instance: SocketIOClient;
   private socketIO: Socket;
 
-  private constructor() { }
+  // eslint-disable-next-line no-useless-constructor
+  private constructor() {}
 
   public get socket() {
     if (this.socketIO) {

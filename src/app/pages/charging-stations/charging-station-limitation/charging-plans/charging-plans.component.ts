@@ -88,7 +88,7 @@ export class ChargingPlansComponent implements OnInit, AfterViewInit, OnChanges 
         this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
           if (this.chargingProfiles && singleChangeNotification && singleChangeNotification.data) {
             const chargingProfile = this.chargingProfiles.find(
-              (chargingProfile) => chargingProfile.id === singleChangeNotification.data.id);
+              (cp) => cp.id === singleChangeNotification.data.id);
             // Reload?
             if (chargingProfile) {
               this.refresh();

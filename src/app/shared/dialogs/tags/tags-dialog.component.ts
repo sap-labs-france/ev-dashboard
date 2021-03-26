@@ -10,7 +10,7 @@ import { TagsDialogTableDataSource } from './tags-dialog-table-data-source';
   templateUrl: '../dialog-table-data.component.html',
 })
 export class TagsDialogComponent extends DialogTableDataComponent<Tag> {
-  constructor(
+  public constructor(
     protected dialogRef: MatDialogRef<TagsDialogComponent>,
     private tagsDialogTableDataSource: TagsDialogTableDataSource,
     @Inject(MAT_DIALOG_DATA) data: any) {

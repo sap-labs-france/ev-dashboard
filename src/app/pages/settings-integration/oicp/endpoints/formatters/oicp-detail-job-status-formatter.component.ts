@@ -13,7 +13,7 @@ import { OicpEndpointDetail } from '../../../../../types/oicp/OICPEndpoint';
     </mat-chip-list>
   `,
 })
-export class OicpDetailJobStatusFomatterComponent extends CellContentTemplateDirective {
+export class OicpDetailJobStatusFormatterComponent extends CellContentTemplateDirective {
   @Input() public row!: OicpEndpointDetail;
 }
 

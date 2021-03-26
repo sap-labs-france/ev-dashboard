@@ -18,7 +18,7 @@ import { Utils } from '../../../../../utils/Utils';
   selector: 'app-ocpi-endpoint',
   templateUrl: './settings-ocpi-endpoint.component.html',
 })
-export class SettingsOcpiEnpointComponent implements OnInit {
+export class SettingsOcpiEndpointComponent implements OnInit {
   @Input() public currentEndpoint!: OcpiEndpoint;
   @Input() public inDialog!: boolean;
   @Input() public dialogRef!: MatDialogRef<any>;
@@ -34,7 +34,8 @@ export class SettingsOcpiEnpointComponent implements OnInit {
   public token!: AbstractControl;
   public isBackgroundPatchJobActive!: AbstractControl;
 
-  constructor(
+  // eslint-disable-next-line no-useless-constructor
+  public constructor(
     private centralServerService: CentralServerService,
     private messageService: MessageService,
     private spinnerService: SpinnerService,
@@ -171,12 +172,12 @@ export class SettingsOcpiEnpointComponent implements OnInit {
     });
   }
 
-  public testConnection(ocpiendpoint: OcpiEndpoint) {
+  public testConnection(ocpiEndpoint: OcpiEndpoint) {
     this.spinnerService.show();
-    this.centralServerService.pingOcpiEndpoint(ocpiendpoint).subscribe((response) => {
+    this.centralServerService.pingOcpiEndpoint(ocpiEndpoint).subscribe((response) => {
       this.spinnerService.hide();
       if (response.status === RestResponse.SUCCESS) {
-        this.messageService.showSuccessMessage('ocpiendpoints.success_ping', { name: ocpiendpoint.name });
+        this.messageService.showSuccessMessage('ocpiendpoints.success_ping', { name: ocpiEndpoint.name });
       } else {
         // switch message according status code recieved
         let messageId = 'ocpiendpoints.error_ping';

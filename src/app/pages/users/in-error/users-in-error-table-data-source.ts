@@ -43,7 +43,7 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
   private syncBillingUserAction = new TableSyncBillingUserAction().getActionDef();
   private forceSyncBillingUserAction = new TableForceSyncBillingUserAction().getActionDef();
 
-  constructor(
+  public constructor(
       public spinnerService: SpinnerService,
       public translateService: TranslateService,
       private messageService: MessageService,

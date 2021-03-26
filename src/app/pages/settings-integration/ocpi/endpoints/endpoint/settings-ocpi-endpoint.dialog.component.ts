@@ -3,17 +3,17 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import { OcpiEndpoint } from '../../../../../types/ocpi/OCPIEndpoint';
 import { Utils } from '../../../../../utils/Utils';
-import { SettingsOcpiEnpointComponent } from './settings-ocpi-endpoint.component';
+import { SettingsOcpiEndpointComponent } from './settings-ocpi-endpoint.component';
 
 @Component({
   template: '<app-ocpi-endpoint #appRef [currentEndpoint]="currentEndpoint" [inDialog]="true" [dialogRef]="dialogRef"></app-ocpi-endpoint>',
 })
-export class SettingsOcpiEnpointDialogComponent implements AfterViewInit {
-  @ViewChild('appRef') public appRef!: SettingsOcpiEnpointComponent;
+export class SettingsOcpiEndpointDialogComponent implements AfterViewInit {
+  @ViewChild('appRef') public appRef!: SettingsOcpiEndpointComponent;
   public currentEndpoint!: OcpiEndpoint;
 
-  constructor(
-    public dialogRef: MatDialogRef<SettingsOcpiEnpointDialogComponent>,
+  public constructor(
+    public dialogRef: MatDialogRef<SettingsOcpiEndpointDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data: OcpiEndpoint) {
     // Check if data is passed to the dialog
     this.currentEndpoint = data;

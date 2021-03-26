@@ -12,7 +12,7 @@ import { ChargingStationsConnectorsDetailTableDataSource } from './charging-stat
 export class ChargingStationsConnectorsDetailComponent extends CellContentTemplateDirective implements OnInit, OnChanges {
   @Input() public row!: ChargingStation;
 
-  constructor(
+  public constructor(
     @Self() public chargingStationsConnectorsDetailTableDataSource: ChargingStationsConnectorsDetailTableDataSource) {
     super();
   }

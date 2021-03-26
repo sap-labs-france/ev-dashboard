@@ -10,7 +10,7 @@ import { ReportsDialogTableDataSource } from './reports-dialog-table-data-source
   templateUrl: '../dialog-table-data.component.html',
 })
 export class ReportsDialogComponent extends DialogTableDataComponent<RefundReport> {
-  constructor(
+  public constructor(
     protected dialogRef: MatDialogRef<ReportsDialogComponent>,
     private transactionsListTableDataSource: ReportsDialogTableDataSource,
     @Inject(MAT_DIALOG_DATA) data: any) {

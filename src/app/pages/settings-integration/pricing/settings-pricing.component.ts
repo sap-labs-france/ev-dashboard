@@ -21,7 +21,7 @@ export class SettingsPricingComponent implements OnInit {
   public formGroup!: FormGroup;
   public pricingSettings!: PricingSettings;
 
-  constructor(
+  public constructor(
     private centralServerService: CentralServerService,
     private componentService: ComponentService,
     private spinnerService: SpinnerService,

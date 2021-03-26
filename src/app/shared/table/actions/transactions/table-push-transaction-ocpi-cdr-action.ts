@@ -44,9 +44,9 @@ export class TablePushTransactionOcpiCdrAction implements TableAction {
     ).subscribe((response) => {
       if (response === ButtonType.YES) {
         spinnerService.show();
-        centralServerService.pushTransactionCdr(transaction.id).subscribe((response: ActionsResponse) => {
+        centralServerService.pushTransactionCdr(transaction.id).subscribe((res: ActionsResponse) => {
           spinnerService.hide();
-          if (response.inError) {
+          if (res.inError) {
             messageService.showErrorMessage(
               translateService.instant('transactions.notification.roaming.error'));
           } else {

@@ -34,7 +34,7 @@ export class TenantsListTableDataSource extends TableDataSource<Tenant> {
   private openUrlAction = new TableOpenURLAction().getActionDef();
   private deleteAction = new TableDeleteTenantAction().getActionDef();
 
-  constructor(
+  public constructor(
       public spinnerService: SpinnerService,
       public translateService: TranslateService,
       private messageService: MessageService,

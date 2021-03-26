@@ -7,7 +7,7 @@ import { Locale, LocaleService } from '../../services/locale.service';
 export class AppDecimalPipe implements PipeTransform {
   private decimalPipe!: DecimalPipe;
 
-  constructor(
+  public constructor(
     private localeService: LocaleService) {
     this.localeService.getCurrentLocaleSubject().subscribe((locale: Locale) => {
       this.decimalPipe = new DecimalPipe(locale.currentLocaleJS);

@@ -14,7 +14,7 @@ export class TableMultiCopyAction implements TableAction {
     dropdownActions: [],
   };
 
-  constructor(dropdownActions: TableActionDef[], name?: string, tooltip?: string) {
+  public constructor(dropdownActions: TableActionDef[], name?: string, tooltip?: string) {
     if (name) {
       this.action.name = name;
     }

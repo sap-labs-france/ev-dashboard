@@ -58,6 +58,8 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
   public numberOfConnectedPhase!: AbstractControl;
   public currentType!: AbstractControl;
   public phaseAssignmentToGrid!: AbstractControl;
+
+  // eslint-disable-next-line no-useless-constructor
   public constructor(
     private dialog: MatDialog,
     private centralServerService: CentralServerService,
@@ -65,6 +67,7 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
     private router: Router,
     private messageService: MessageService) {
   }
+
   public ngOnInit() {
     // Init connectors
     this.formConnectorGroup = new FormGroup({

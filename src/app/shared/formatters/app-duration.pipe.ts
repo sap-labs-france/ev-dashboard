@@ -6,7 +6,7 @@ import { LocaleService } from '../../services/locale.service';
 export class AppDurationPipe implements PipeTransform {
   private localeService: LocaleService;
 
-  constructor(localeService: LocaleService) {
+  public constructor(localeService: LocaleService) {
     this.localeService = localeService;
   }
 

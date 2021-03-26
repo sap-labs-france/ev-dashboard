@@ -11,7 +11,7 @@ import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
 import { ChargingStation } from '../../../../types/ChargingStation';
 import { KeyValue } from '../../../../types/GlobalType';
-import { HTTPAuthError, HTTPError } from '../../../../types/HTTPError';
+import { HTTPError } from '../../../../types/HTTPError';
 import { ButtonType } from '../../../../types/Table';
 import { Utils } from '../../../../utils/Utils';
 

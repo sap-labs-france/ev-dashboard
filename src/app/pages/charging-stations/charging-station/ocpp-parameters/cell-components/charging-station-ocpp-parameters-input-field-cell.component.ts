@@ -26,13 +26,12 @@ import { TableColumnDef } from '../../../../../types/Table';
     </ng-container>
   `,
 })
-@Injectable()
+// @Injectable()
 export class ChargingStationOcppParametersInputFieldCellComponent extends CellContentTemplateDirective implements AfterViewInit {
-  @Input() public row!: OcppParameter;
   public static CUSTOM_OCPP_PARAMETER_ID = 'CustomOcppParameter';
+  @Input() public row!: OcppParameter;
   public customOcppParameterRowID = ChargingStationOcppParametersInputFieldCellComponent.CUSTOM_OCPP_PARAMETER_ID;
   public tableColumnDef: TableColumnDef;
-
 
   public ngAfterViewInit() {
     // HACK: Avoid ERROR Error: ExpressionChangedAfterItHasBeenCheckedError: Expression has changed after it was checked

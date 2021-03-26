@@ -25,8 +25,8 @@ export class ChargingStationsInstantPowerChargerProgressBarCellComponent extends
 
 @Pipe({ name: 'appChargingStationsFormatPowerCharger' })
 export class AppChargingStationsFormatPowerChargerPipe implements PipeTransform {
-  constructor(private decimalPipe: AppDecimalPipe) {
-  }
+  // eslint-disable-next-line no-useless-constructor
+  public constructor(private decimalPipe: AppDecimalPipe) {}
 
   public transform(connectors: Connector[], type: string, chargingStation: ChargingStation): string {
     let value = 0;

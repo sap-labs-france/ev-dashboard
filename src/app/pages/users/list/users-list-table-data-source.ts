@@ -3,6 +3,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { ImportDialogComponent } from 'shared/dialogs/import/import-dialog.component';
+import { TableImportUsersAction, TableImportUsersActionDef } from 'shared/table/actions/users/table-import-users-action';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
@@ -243,11 +245,14 @@ export class UsersListTableDataSource extends TableDataSource<User> {
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
+    if (this.authorizationService.canImportUsers()) {
+      tableActionsDef.unshift(new TableImportUsersAction().getActionDef());
+    }
     if (this.authorizationService.canExportUsers()) {
       tableActionsDef.unshift(new TableExportUsersAction().getActionDef());
     }
     if (this.componentService.isActive(TenantComponents.BILLING) &&
-        this.authorizationService.canSynchronizeBillingUsers()) {
+      this.authorizationService.canSynchronizeBillingUsers()) {
       tableActionsDef.unshift(this.syncBillingUsersAction);
     }
     if (this.authorizationService.canCreateUser()) {
@@ -311,6 +316,11 @@ export class UsersListTableDataSource extends TableDataSource<User> {
           (actionDef as TableExportUsersActionDef).action(this.buildFilterValues(), this.dialogService,
             this.translateService, this.messageService, this.centralServerService, this.router,
             this.spinnerService);
+        }
+        break;
+      case UserButtonAction.IMPORT_USERS:
+        if (actionDef.action) {
+          (actionDef as TableImportUsersActionDef).action(ImportDialogComponent, this.dialog);
         }
         break;
       case BillingButtonAction.SYNCHRONIZE_BILLING_USERS:

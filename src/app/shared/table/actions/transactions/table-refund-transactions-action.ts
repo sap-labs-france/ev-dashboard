@@ -53,6 +53,7 @@ export class TableRefundTransactionsAction implements TableAction {
           spinnerService.show();
           centralServerService.refundTransactions(transactions.map((transaction) => transaction.id))
             .subscribe((res: ActionsResponse) => {
+              // TODO: use messageService.showActionsMessage(...) method and remove the if statements
               if (res.inError) {
                 messageService.showErrorMessage(
                   translateService.instant('transactions.notification.refund.partial',

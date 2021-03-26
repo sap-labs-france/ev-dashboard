@@ -2,13 +2,15 @@
 export class Constants {
   public static readonly URL_PATTERN = /^(?:https?|wss?):\/\/((?:[\w-]+)(?:\.[\w-]+)*)(?:[\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?$/;
 
-  public static readonly CSV_SEPARATOR = '\t';
+  public static readonly CSV_SEPARATOR = ',';
 
   public static readonly MAX_PAGE_SIZE = Number.MAX_SAFE_INTEGER;
   public static readonly DEFAULT_PAGE_SIZE = 100;
   public static readonly INFINITE_RECORDS = -1;
 
   public static readonly MAX_LIMIT = Number.MAX_SAFE_INTEGER;
+
+  public static readonly REST_RESPONSE_SUCCESS = 'Success';
 
   /* Data Service */
   public static readonly DEFAULT_LIMIT = 100;

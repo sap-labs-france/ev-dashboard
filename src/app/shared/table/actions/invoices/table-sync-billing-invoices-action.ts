@@ -37,6 +37,7 @@ export class TableSyncBillingInvoicesAction extends TableSynchronizeAction {
       if (response === ButtonType.YES) {
         messageService.showInfoMessage('settings.billing.invoice.synchronize_invoices_started');
         centralServerService.synchronizeInvoicesForBilling().subscribe((synchronizeResponse) => {
+          // TODO: use messageService.showActionsMessage(...) method and remove the if statements
           if (synchronizeResponse.status === RestResponse.SUCCESS) {
             if (synchronizeResponse.inSuccess) {
               if (refresh) {

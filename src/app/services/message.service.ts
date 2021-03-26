@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { ActionsResponse } from 'types/DataResult';
 
 declare let $: any;
 
@@ -55,6 +56,22 @@ export class MessageService {
 
   public showErrorMessage(message: string, params?: Record<string, unknown>, title?: string): void {
     this.showMessage('danger', message, title, params);
+  }
+
+  public showActionsMessage(actionsResponse: ActionsResponse, messageSuccess: string,
+      messageError: string, messageSuccessAndError: string, messageNoSuccessNoError: string): void {
+    // Success and Error
+    if (actionsResponse.inSuccess > 0 && actionsResponse.inError > 0) {
+      this.showWarningMessage(messageSuccessAndError, { inSuccess: actionsResponse.inSuccess, inError: actionsResponse.inError });
+    // Success
+    } else if (actionsResponse.inSuccess > 0) {
+      this.showSuccessMessage(messageSuccess, { inSuccess: actionsResponse.inSuccess });
+    // Error
+    } else if (actionsResponse.inError > 0) {
+      this.showErrorMessage(messageError, { inError: actionsResponse.inError });
+    } else {
+      this.showInfoMessage(messageNoSuccessNoError);
+    }
   }
 
   private showMessage(type: string, message: string, title = '', params?: Record<string, unknown>, from = 'top', align = 'right', icon = 'notifications') {

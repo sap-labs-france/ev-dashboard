@@ -30,7 +30,8 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
-              `Charging Station: EN+ and Exadys vendor integration`,
+              `EN+ and Exadys Charging Stations have been integrated`,
+              `Car images are synchronized one by one to avoid high memory consumption`,
             ],
           },
         ],

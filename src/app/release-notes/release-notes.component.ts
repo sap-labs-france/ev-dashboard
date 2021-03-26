@@ -31,6 +31,7 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `EN+ and Exadys Charging Stations have been integrated`,
+              `Security: Generate a new encryption key per tenant and migrate sensitive data`,
               `Car images are synchronized one by one to avoid high memory consumption`,
               `Add Create Charging Profile in the RESTful endpoint`,
               `Migrated Sites to authorizations based`,

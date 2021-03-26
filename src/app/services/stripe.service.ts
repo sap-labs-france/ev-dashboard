@@ -25,7 +25,6 @@ export class StripeService {
 
   public async initializeStripe() : Promise<Stripe> {
     if ( !StripeService.stripeFacade ) {
-
       const billingSettings = await this.loadBillingConfiguration();
       if ( billingSettings?.stripe?.publicKey ) {
         loadStripe.setLoadParameters({ advancedFraudSignals: false })
@@ -53,5 +52,4 @@ export class StripeService {
       }
     }
   }
-
 }

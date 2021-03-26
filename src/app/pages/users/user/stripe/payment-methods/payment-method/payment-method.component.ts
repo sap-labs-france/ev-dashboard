@@ -25,7 +25,6 @@ export class PaymentMethodComponent implements OnInit {
   @Input() public dialogRef!: MatDialogRef<PaymentMethodDialogComponent>;
   @Input() public currentUserID!: string;
   @ViewChild('cardInfo', { static: true }) public cardInfo: ElementRef;
-  public feedback: any;
   public elements: StripeElements;
   public card: StripeCardElement;
   public formGroup!: FormGroup;

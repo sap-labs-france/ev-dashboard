@@ -17,12 +17,24 @@ interface ComponentChange {
 export class ReleaseNotesComponent {
   public releaseNotes: ReleaseNotes[] = [];
 
-  constructor() {
+  public constructor() {
     this.buidlReleaseNotes();
   }
 
   public buidlReleaseNotes() {
     this.releaseNotes = [
+      {
+        version: '2.4.55',
+        date: new Date('2021-03-26'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Charging Station: EN+ and Exadys vendor integration`,
+            ],
+          },
+        ],
+      },
       {
         version: '2.4.54',
         date: new Date('2021-03-25'),

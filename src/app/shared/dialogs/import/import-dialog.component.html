@@ -30,12 +30,17 @@
         <div class="md-12 mb-1 text-center">{{'general.upload_in_progress' | translate}}</div>
         <mat-progress-bar mode="determinate" [value]="progress"></mat-progress-bar>
       </div>
-      <div class="pt-3" [hidden]="uploadInProgress">
-        <li> {{'general.import_instructions_file_type' | translate}}</li>
-        <li> {{'general.import_instructions_header_required' | translate}}</li>
-        <li> {{'general.import_instructions_coma_separator' | translate}}</li>
-        <li> {{ importInstructionsRequiredFields }}</li>
-        <li *ngIf="importInstructionsOptionalFields"> {{ importInstructionsOptionalFields }}</li>
+      <div class="row pt-3" [hidden]="uploadInProgress">
+        {{'general.import_instructions' | translate}}
+      </div>
+      <div class="row pt-1" [hidden]="uploadInProgress">
+        <div class="pl-3">
+          <li>{{'general.import_instructions_file_type' | translate}}</li>
+          <li>{{'general.import_instructions_header_required' | translate}}</li>
+          <li>{{'general.import_instructions_coma_separator' | translate}}</li>
+          <li>{{ importInstructionsRequiredFields }}</li>
+          <li *ngIf="importInstructionsOptionalFields">{{ importInstructionsOptionalFields }}</li>
+        </div>
       </div>
     </div>
   </div>

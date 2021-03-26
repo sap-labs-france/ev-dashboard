@@ -14,8 +14,9 @@ import { MessageService } from './message.service';
 export class StripeService {
 
   private static stripeFacade: Stripe;
-  
-  constructor(
+
+  // eslint-disable-next-line no-useless-constructor
+  public constructor(
     private centralServerService: CentralServerService,
     private componentService: ComponentService,
     private messageService: MessageService,
@@ -23,11 +24,11 @@ export class StripeService {
   ) {
   }
 
-  public async initializeStripe() : Promise<Stripe> {
+  public async initializeStripe(): Promise<Stripe> {
     if ( !StripeService.stripeFacade ) {
       const billingSettings = await this.loadBillingConfiguration();
       if ( billingSettings?.stripe?.publicKey ) {
-        loadStripe.setLoadParameters({ advancedFraudSignals: false })
+        loadStripe.setLoadParameters({ advancedFraudSignals: false });
         StripeService.stripeFacade = await loadStripe(billingSettings.stripe.publicKey);
       }
     }

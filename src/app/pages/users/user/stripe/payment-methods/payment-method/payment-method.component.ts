@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/member-ordering */
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -31,7 +32,7 @@ export class PaymentMethodComponent implements OnInit {
   public isBillingComponentActive: boolean;
   public userID: string;
 
-  constructor(
+  public constructor(
     private centralServerService: CentralServerService,
     private messageService: MessageService,
     private spinnerService: SpinnerService,
@@ -74,7 +75,7 @@ export class PaymentMethodComponent implements OnInit {
   }
 
   public linkCardToAccount() {
-    this.doCreatePaymentMethod();
+    void this.doCreatePaymentMethod();
   }
 
   private async doCreatePaymentMethod() {
@@ -108,14 +109,15 @@ export class PaymentMethodComponent implements OnInit {
       const setupIntent: any = response?.internalData;
       // TODO: handle spinner .hide / .show in a better way - if we're quick we can re click save before 3d secure popup shows off
       // if 3d secure doesn't show spinner hide/show and the same we can re click on the save button
-      // settimeout doesn't work as expected - it never hides...
+      // setTimeout doesn't work as expected - it never hides...
       // setTimeout(function() {
       this.spinnerService.hide();
       // }, 4000);
-      const result: {setupIntent?: SetupIntent; error?: StripeError} = await this.getStripeFacade().confirmCardSetup( setupIntent.client_secret, {
+      // eslint-disable-next-line max-len
+      const result: { setupIntent?: SetupIntent; error?: StripeError } = await this.getStripeFacade().confirmCardSetup( setupIntent.client_secret, {
         payment_method: {
           card: this.card,
-          // TODO: put email and address 
+          // TODO: put email and address
           // billing_details: {
           //   name: this.centralServerService.getCurrentUserSubject().value.email + new Date(),
           // },

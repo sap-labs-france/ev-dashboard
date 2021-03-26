@@ -36,7 +36,7 @@ export class AppPaymentMethodStatusPipe implements PipeTransform {
     if (this.isExpired(paymentMethod)) {
       classNames += ChipType.DANGER;
     } else if (this.expireSoon(paymentMethod)) {
-      classNames += ChipType.WARNING
+      classNames += ChipType.WARNING;
     } else {
       classNames += ChipType.SUCCESS;
     }
@@ -58,6 +58,6 @@ export class AppPaymentMethodStatusPipe implements PipeTransform {
   }
 
   private expireSoon(paymentMethod: BillingPaymentMethod): boolean {
-    return paymentMethod.expiringOn && (moment(paymentMethod.expiringOn).isBefore(moment().add(2, 'months')));  
+    return paymentMethod.expiringOn && (moment(paymentMethod.expiringOn).isBefore(moment().add(2, 'months')));
   }
 }

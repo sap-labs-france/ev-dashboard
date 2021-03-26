@@ -28,7 +28,7 @@ export class PaymentMethodsTableDataSource extends TableDataSource<BillingPaymen
   public canCreatePaymentMethod: boolean;
   public currentUserID: string;
   private deleteAction = new TableDeletePaymentMethodAction().getActionDef();
-  constructor(
+  public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     public componentService: ComponentService,
@@ -55,6 +55,7 @@ export class PaymentMethodsTableDataSource extends TableDataSource<BillingPaymen
       // User provided?
       if (this.currentUserID) {
         // Yes: Get data
+        // eslint-disable-next-line max-len
         this.centralServerService.getPaymentMethods(this.currentUserID, this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe((paymentMethod) => {
           observer.next(paymentMethod);
           observer.complete();
@@ -98,10 +99,8 @@ export class PaymentMethodsTableDataSource extends TableDataSource<BillingPaymen
         name: 'general.default',
         headerClass: 'text-center col-10p',
         class: 'text-center col-10p',
-        formatter: (defaultPaymentMethod: boolean, paymentMethod: BillingPaymentMethod) => {
-          return paymentMethod.isDefault ?
-            this.translateService.instant('general.yes') : this.translateService.instant('general.no');
-        },
+        formatter: (defaultPaymentMethod: boolean, paymentMethod: BillingPaymentMethod) => paymentMethod.isDefault ?
+            this.translateService.instant('general.yes') : this.translateService.instant('general.no'),
       },
       {
         id: 'type',
@@ -126,9 +125,7 @@ export class PaymentMethodsTableDataSource extends TableDataSource<BillingPaymen
         name: 'settings.billing.payment_methods_expiring_on',
         headerClass: 'text-center col-10p',
         class: 'text-center col-10p',
-        formatter: (expiringOn: Date) => {
-          return this.datePipe.transform(expiringOn, 'MM/YYYY');
-        },
+        formatter: (expiringOn: Date) => this.datePipe.transform(expiringOn, 'MM/YYYY'),
       },
       {
         id: 'createdOn',
@@ -137,7 +134,7 @@ export class PaymentMethodsTableDataSource extends TableDataSource<BillingPaymen
         class: 'text-center col-15p',
         formatter: (createdOn: Date) => this.datePipe.transform(createdOn)
       }
-    ]
+    ];
     return columns;
   }
 

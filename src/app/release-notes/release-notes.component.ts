@@ -32,6 +32,7 @@ export class ReleaseNotesComponent {
             changes: [
               `EN+ and Exadys Charging Stations have been integrated`,
               `Security: Generate a new encryption key per tenant and migrate sensitive data`,
+              `Billing: Added Stripe payment methods (alpha)`,
               `Car images are synchronized one by one to avoid high memory consumption`,
               `Enhanced Import Tags documentation`,
               `Add Create Charging Profile in the RESTful endpoint`,

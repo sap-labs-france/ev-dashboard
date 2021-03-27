@@ -31,7 +31,7 @@ export class TableRevokeAction implements TableAction {
     messageSuccess: string, messageError: string, revokeData: (id: string | number) => Observable<ActionResponse>,
     dialogService: DialogService, messageService: MessageService,
     centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) {
-      dialogService.createAndShowYesNoDialog(
+    dialogService.createAndShowYesNoDialog(
       messageTitle,
       messageConfirm,
     ).subscribe((result) => {

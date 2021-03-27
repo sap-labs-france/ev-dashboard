@@ -28,7 +28,7 @@ export class TableForceSyncBillingUserAction extends TableSynchronizeAction {
   }
 
   private forceSynchronizeUser(user: User, dialogService: DialogService, translateService: TranslateService, spinnerService: SpinnerService,
-      messageService: MessageService, centralServerService: CentralServerService, router: Router, refresh?: () => Observable<void>) {
+    messageService: MessageService, centralServerService: CentralServerService, router: Router, refresh?: () => Observable<void>) {
     dialogService.createAndShowYesNoDialog(
       translateService.instant('settings.billing.user.force_synchronize_user_dialog_title'),
       translateService.instant('settings.billing.user.force_synchronize_user_dialog_confirm', { userFullName: Utils.buildUserFullName(user) }),
@@ -49,7 +49,7 @@ export class TableForceSyncBillingUserAction extends TableSynchronizeAction {
               if (synchronizeInvoicesResponse.inSuccess >= 0 && synchronizeInvoicesResponse.inError === 0) {
                 messageService.showSuccessMessage(
                   translateService.instant('settings.billing.user.force_synchronize_user_success',
-                  { userFullName: Utils.buildUserFullName(user) }));
+                    { userFullName: Utils.buildUserFullName(user) }));
               } else {
                 messageService.showErrorMessage(
                   translateService.instant('settings.billing.user.force_synchronize_user_failure'));

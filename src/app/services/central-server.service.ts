@@ -9,14 +9,14 @@ import { catchError, switchMap } from 'rxjs/operators';
 import { OicpEndpoint } from 'types/oicp/OICPEndpoint';
 
 import { Asset, AssetConsumption } from '../types/Asset';
-import { BillingInvoice, BillingTax } from '../types/Billing';
+import { BillingInvoice, BillingPaymentMethod, BillingTax } from '../types/Billing';
 import { Car, CarCatalog, CarMaker, ImageObject } from '../types/Car';
 import { ChargingProfile, GetCompositeScheduleCommandResult } from '../types/ChargingProfile';
 import { ChargePoint, ChargingStation, OCPPAvailabilityType, OcppParameter } from '../types/ChargingStation';
 import { Company } from '../types/Company';
 import CentralSystemServerConfiguration from '../types/configuration/CentralSystemServerConfiguration';
 import { IntegrationConnection, UserConnection } from '../types/Connection';
-import { ActionResponse, ActionsResponse, CheckAssetConnectionResponse, CheckBillingConnectionResponse, DataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OICPJobStatusesResponse, OICPPingResponse, Ordering, Paging } from '../types/DataResult';
+import { ActionResponse, ActionsResponse, BillingOperationResponse, CheckAssetConnectionResponse, CheckBillingConnectionResponse, DataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OICPJobStatusesResponse, OICPPingResponse, Ordering, Paging } from '../types/DataResult';
 import { EndUserLicenseAgreement } from '../types/Eula';
 import { FilterParams, Image, KeyValue } from '../types/GlobalType';
 import { AssetInError, ChargingStationInError, TransactionInError } from '../types/InError';
@@ -1559,6 +1559,51 @@ export class CentralServerService {
         catchError(this.handleHttpError),
       );
   }
+  public setupPaymentMethod(parameters: any): Observable<BillingOperationResponse> {
+    this.checkInit();
+    // Execute the REST service
+    return this.httpClient.post<BillingOperationResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.BILLING_SETUP_PAYMENT_METHOD}`, parameters,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public getPaymentMethods(currentUserID: string, params: FilterParams,
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<BillingPaymentMethod>> {
+    // Verify init
+    this.checkInit();
+    // Build Paging
+    this.getPaging(paging, params);
+    // Build Ordering
+    this.getSorting(ordering, params);
+
+    // Execute the REST Service
+    return this.httpClient.get<DataResult<BillingPaymentMethod>>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.BILLING_PAYMENT_METHODS}?userID=${currentUserID}`,
+      {
+        headers: this.buildHttpHeaders(),
+        params
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public deletePaymentMethod(paymentMethodId: number): Observable<ActionsResponse> {
+    // Verify init
+    this.checkInit();
+    const options = {
+      headers: this.buildHttpHeaders(),
+      body: { paymentMethodId },
+    };
+    // Execute the REST service
+    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.BILLING_DELETE_PAYMENT_METHOD}`, options)
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
 
   public forceSynchronizeUserForBilling(userID: string): Observable<ActionResponse> {
     this.checkInit();
@@ -2893,8 +2938,7 @@ export class CentralServerService {
       );
   }
 
-  public getChargingStationCompositeSchedule(id: string, connectorId: number, duration: number, unit: string):
-    Observable<GetCompositeScheduleCommandResult | GetCompositeScheduleCommandResult[]> {
+  public getChargingStationCompositeSchedule(id: string, connectorId: number, duration: number, unit: string): Observable<GetCompositeScheduleCommandResult | GetCompositeScheduleCommandResult[]> {
     // Verify init
     this.checkInit();
     // build request
@@ -2927,9 +2971,9 @@ export class CentralServerService {
       ampLimitValue,
       forceUpdateChargingPlan,
     },
-      {
-        headers: this.buildHttpHeaders(),
-      })
+    {
+      headers: this.buildHttpHeaders(),
+    })
       .pipe(
         catchError(this.handleHttpError),
       );

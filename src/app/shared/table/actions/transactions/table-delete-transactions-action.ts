@@ -27,8 +27,8 @@ export class TableDeleteTransactionsAction extends TableDeleteManyAction {
   }
 
   private deleteTransactions(transactions: Transaction[], dialogService: DialogService, translateService: TranslateService,
-      messageService: MessageService, centralServerService: CentralServerService, spinnerService: SpinnerService,
-      router: Router, clearSelectedRows: () => void, refresh?: () => Observable<void>) {
+    messageService: MessageService, centralServerService: CentralServerService, spinnerService: SpinnerService,
+    router: Router, clearSelectedRows: () => void, refresh?: () => Observable<void>) {
     // Empty?
     if (transactions.length === 0) {
       messageService.showErrorMessage(translateService.instant('general.select_at_least_one_record'));

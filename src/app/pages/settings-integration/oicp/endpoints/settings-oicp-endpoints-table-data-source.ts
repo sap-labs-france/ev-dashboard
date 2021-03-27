@@ -59,15 +59,15 @@ export class SettingsOicpEndpointsTableDataSource extends TableDataSource<OicpEn
       // Get the OICP Endpoints
       this.centralServerService.getOicpEndpoints(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((oicpEndpoints) => {
-          // Ok
-          observer.next(oicpEndpoints);
-          observer.complete();
-        }, (error) => {
-          // Show error
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-          // Error
-          observer.error(error);
-        });
+        // Ok
+        observer.next(oicpEndpoints);
+        observer.complete();
+      }, (error) => {
+        // Show error
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+        // Error
+        observer.error(error);
+      });
     });
   }
 

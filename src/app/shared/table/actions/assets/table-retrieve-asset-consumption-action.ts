@@ -28,17 +28,17 @@ export class TableRetrieveAssetConsumptionAction extends TableSynchronizeAction 
   private tableRetrieveAssetConsumptionAction(asset: Asset, spinnerService: SpinnerService,
     centralServerService: CentralServerService, messageService: MessageService,
     router: Router, refresh?: () => Observable<void>) {
-      spinnerService.show();
-      centralServerService.tableRetrieveAssetConsumptionAction(asset.id).subscribe((response) => {
-        spinnerService.hide();
-        if (response.status && response.status === RestResponse.SUCCESS) {
-          refresh().subscribe();
-          messageService.showSuccessMessage('assets.refresh_success');
-        }
-      }, (error) => {
-        spinnerService.hide();
-        Utils.handleHttpError(error, router, messageService, centralServerService,
-          'assets.refresh_error');
-      });
+    spinnerService.show();
+    centralServerService.tableRetrieveAssetConsumptionAction(asset.id).subscribe((response) => {
+      spinnerService.hide();
+      if (response.status && response.status === RestResponse.SUCCESS) {
+        refresh().subscribe();
+        messageService.showSuccessMessage('assets.refresh_success');
+      }
+    }, (error) => {
+      spinnerService.hide();
+      Utils.handleHttpError(error, router, messageService, centralServerService,
+        'assets.refresh_error');
+    });
   }
 }

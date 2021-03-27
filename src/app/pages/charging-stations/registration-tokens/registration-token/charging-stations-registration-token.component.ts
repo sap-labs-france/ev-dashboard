@@ -45,7 +45,7 @@ export class ChargingStationsRegistrationTokenComponent implements OnInit {
     private translateService: TranslateService,
     private dialog: MatDialog,
     private router: Router) {
-      this.isOrganizationComponentActive = this.componentService.isActive(TenantComponents.ORGANIZATION);
+    this.isOrganizationComponentActive = this.componentService.isActive(TenantComponents.ORGANIZATION);
   }
 
   public ngOnInit(): void {
@@ -174,12 +174,12 @@ export class ChargingStationsRegistrationTokenComponent implements OnInit {
     // Open
     this.dialog.open(SiteAreasDialogComponent, dialogConfig)
       .afterClosed().subscribe((result) => {
-      if (result && result.length > 0 && result[0].objectRef) {
-        const siteArea = (result[0].objectRef) as SiteArea;
-        this.siteArea.setValue(`${(siteArea.site ? siteArea.site.name + ' - ' : '')}${siteArea.name}`);
-        this.siteAreaID.setValue(siteArea.id);
-        this.formGroup.markAsDirty();
-      }
-    });
+        if (result && result.length > 0 && result[0].objectRef) {
+          const siteArea = (result[0].objectRef) as SiteArea;
+          this.siteArea.setValue(`${(siteArea.site ? siteArea.site.name + ' - ' : '')}${siteArea.name}`);
+          this.siteAreaID.setValue(siteArea.id);
+          this.formGroup.markAsDirty();
+        }
+      });
   }
 }

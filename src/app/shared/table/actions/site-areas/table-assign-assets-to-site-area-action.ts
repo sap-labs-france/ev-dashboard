@@ -24,7 +24,7 @@ export class TableAssignAssetsToSiteAreaAction extends TableAssignAction {
   }
 
   private assignAssetsToSiteArea(siteAreaAssetsDialogComponent: ComponentType<unknown>, siteArea: SiteArea,
-      dialog: MatDialog, refresh?: () => Observable<void>) {
+    dialog: MatDialog, refresh?: () => Observable<void>) {
     super.assign(siteAreaAssetsDialogComponent, siteArea, dialog, refresh);
   }
 }

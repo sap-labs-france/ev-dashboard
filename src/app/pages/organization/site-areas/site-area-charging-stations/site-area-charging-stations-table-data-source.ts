@@ -54,14 +54,14 @@ export class SiteAreaChargingStationsDataSource extends TableDataSource<Charging
         // Yes: Get data
         this.centralServerService.getChargingStations(this.buildFilterValues(),
           this.getPaging(), this.getSorting()).subscribe((chargingStations) => {
-            observer.next(chargingStations);
-            observer.complete();
-          }, (error) => {
-            // No longer exists!
-            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-            // Error
-            observer.error(error);
-          });
+          observer.next(chargingStations);
+          observer.complete();
+        }, (error) => {
+          // No longer exists!
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          // Error
+          observer.error(error);
+        });
       } else {
         // Ok
         observer.next({

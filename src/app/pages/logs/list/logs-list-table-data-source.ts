@@ -115,32 +115,32 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
       // Get data
       this.centralServerService.getLogs(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((logs) => {
-          // Add the users in the message
-          logs.result.map((log: Log) => {
-            let user;
-            // Set User
-            if (log.user) {
-              user = Utils.buildUserFullName(log.user);
-            }
-            // Set Action On User
-            if (log.actionOnUser) {
-              user = (user ? `${user} > ${Utils.buildUserFullName(log.actionOnUser)}` : Utils.buildUserFullName(log.actionOnUser));
-            }
-            // Set
-            if (user) {
-              log.message = `${user} > ${log.message}`;
-            }
-            return log;
-          });
-          // Ok
-          observer.next(logs);
-          observer.complete();
-        }, (error) => {
-          // No longer exists!
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-          // Error
-          observer.error(error);
+        // Add the users in the message
+        logs.result.map((log: Log) => {
+          let user;
+          // Set User
+          if (log.user) {
+            user = Utils.buildUserFullName(log.user);
+          }
+          // Set Action On User
+          if (log.actionOnUser) {
+            user = (user ? `${user} > ${Utils.buildUserFullName(log.actionOnUser)}` : Utils.buildUserFullName(log.actionOnUser));
+          }
+          // Set
+          if (user) {
+            log.message = `${user} > ${log.message}`;
+          }
+          return log;
         });
+        // Ok
+        observer.next(logs);
+        observer.complete();
+      }, (error) => {
+        // No longer exists!
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+        // Error
+        observer.error(error);
+      });
     });
   }
 

@@ -7,8 +7,8 @@ import { PaymentMethodsTableDataSource } from './payment-methods-table-data-sour
   templateUrl: 'payment-methods.component.html',
 })
 export class PaymentMethodsComponent {
-  constructor(
+  // eslint-disable-next-line no-useless-constructor
+  public constructor(
     public paymentMethodsTableDataSource: PaymentMethodsTableDataSource,
-  ) {
-  }
+  ) {}
 }

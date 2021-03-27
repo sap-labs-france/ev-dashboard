@@ -34,10 +34,15 @@ export class SimpleChart {
   private fontFamily: string;
   private font: Font;
 
-  public constructor(language: string, chartType: 'bar' | 'stackedBar' | 'pie', mainLabel: string,
-              labelXAxis?: string, labelYAxis?: string,
-              toolTipUnit?: string, withLegend = false, roundedChartLabels = true) {
-
+  public constructor(
+    language: string,
+    chartType: 'bar' | 'stackedBar' | 'pie',
+    mainLabel: string,
+    labelXAxis?: string,
+    labelYAxis?: string,
+    toolTipUnit?: string,
+    withLegend = false,
+    roundedChartLabels = true) {
     // Unregister global activation of Chart labels
     Chart.plugins.unregister(ChartDataLabels);
 
@@ -221,8 +226,7 @@ export class SimpleChart {
     return newChartData;
   }
 
-  private createBarChartOptions(stacked: boolean, mainLabel: string, labelXAxis: string, labelYAxis: string,
-                                toolTipUnit: string, withLegend: boolean, roundedChartLabels: boolean): void {
+  private createBarChartOptions(stacked: boolean, mainLabel: string, labelXAxis: string, labelYAxis: string, toolTipUnit: string, withLegend: boolean, roundedChartLabels: boolean): void {
     this.chartType = 'bar';
     this.stackedChart = stacked;
     this.labelXAxis = labelXAxis;

@@ -33,8 +33,7 @@ export class StatisticsBuildService {
     });
   }
 
-  public buildStackedChartDataForMonths(statisticsData: StatisticData[], roundingDecimals: number = 0, addUnitToLabel = false,
-      sortedBy: 'label-asc' | 'label-desc' | 'size-asc' | 'size-desc' = 'size-desc', maxNumberOfItems = 20): ChartData {
+  public buildStackedChartDataForMonths(statisticsData: StatisticData[], roundingDecimals: number = 0, addUnitToLabel = false, sortedBy: 'label-asc' | 'label-desc' | 'size-asc' | 'size-desc' = 'size-desc', maxNumberOfItems = 20): ChartData {
     const stackedChartData: ChartData = { labels: [], datasets: [] };
     let roundingFactor = 1;
     let monthString = '';
@@ -316,8 +315,7 @@ export class StatisticsBuildService {
     return count;
   }
 
-  public calculateTotalsWithUnits(statisticsData: any,
-      roundingDecimals: number = 0, ignoreEmptyUnit = true): StatisticsBuildValueWithUnit[] {
+  public calculateTotalsWithUnits(statisticsData: any, roundingDecimals: number = 0, ignoreEmptyUnit = true): StatisticsBuildValueWithUnit[] {
     let roundingFactor = 1;
     let index = 0;
     let localString: any;

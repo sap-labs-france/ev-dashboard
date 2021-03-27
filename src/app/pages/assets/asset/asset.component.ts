@@ -59,18 +59,18 @@ export class AssetComponent implements OnInit {
   public asset!: Asset;
 
   public constructor(
-      private authorizationService: AuthorizationService,
-      private centralServerService: CentralServerService,
-      private componentService: ComponentService,
-      private messageService: MessageService,
-      private spinnerService: SpinnerService,
-      private configService: ConfigService,
-      private activatedRoute: ActivatedRoute,
-      private dialog: MatDialog,
-      private dialogService: DialogService,
-      private translateService: TranslateService,
-      private router: Router
-    ) {
+    private authorizationService: AuthorizationService,
+    private centralServerService: CentralServerService,
+    private componentService: ComponentService,
+    private messageService: MessageService,
+    private spinnerService: SpinnerService,
+    private configService: ConfigService,
+    private activatedRoute: ActivatedRoute,
+    private dialog: MatDialog,
+    private dialogService: DialogService,
+    private translateService: TranslateService,
+    private router: Router
+  ) {
     this.maxSize = this.configService.getAsset().maxImageKb;
     // Check auth
     if (this.activatedRoute.snapshot.params['id'] &&

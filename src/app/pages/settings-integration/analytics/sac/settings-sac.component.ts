@@ -20,7 +20,7 @@ export class SettingsSacComponent implements OnInit, OnChanges {
   public timezoneList: any = [];
 
   public constructor(
-      public analyticsLinksTableDataSource: AnalyticsLinksTableDataSource) {
+    public analyticsLinksTableDataSource: AnalyticsLinksTableDataSource) {
     // Initialize timezone list from moment-timezone
     this.timezoneList = (moment as any).tz.names();
   }

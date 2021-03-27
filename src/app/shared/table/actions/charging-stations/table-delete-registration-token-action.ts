@@ -38,12 +38,12 @@ export class TableDeleteRegistrationTokenAction extends TableDeleteAction {
     spinnerService: SpinnerService,
     router: Router,
     refresh?: () => Observable<void>) {
-        super.delete(
-          registrationToken, 'chargers.connections.registration_token_delete_title',
-          translateService.instant('chargers.connections.registration_token_delete_confirm', { ID: registrationToken.id }),
-          translateService.instant('chargers.connections.registration_token_delete_success', { ID: registrationToken.id }),
-          'chargers.connections.registration_token_delete_error',
-          centralServerService.deleteRegistrationToken.bind(centralServerService),
-          dialogService, translateService, messageService, centralServerService, spinnerService, router, refresh);
-    }
+    super.delete(
+      registrationToken, 'chargers.connections.registration_token_delete_title',
+      translateService.instant('chargers.connections.registration_token_delete_confirm', { ID: registrationToken.id }),
+      translateService.instant('chargers.connections.registration_token_delete_success', { ID: registrationToken.id }),
+      'chargers.connections.registration_token_delete_error',
+      centralServerService.deleteRegistrationToken.bind(centralServerService),
+      dialogService, translateService, messageService, centralServerService, spinnerService, router, refresh);
+  }
 }

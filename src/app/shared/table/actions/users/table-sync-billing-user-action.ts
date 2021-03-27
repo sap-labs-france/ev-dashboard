@@ -28,7 +28,7 @@ export class TableSyncBillingUserAction extends TableSynchronizeAction {
   }
 
   private synchronizeUser(user: User, dialogService: DialogService, translateService: TranslateService, spinnerService: SpinnerService,
-      messageService: MessageService, centralServerService: CentralServerService, router: Router, refresh?: () => Observable<void>) {
+    messageService: MessageService, centralServerService: CentralServerService, router: Router, refresh?: () => Observable<void>) {
     dialogService.createAndShowYesNoDialog(
       translateService.instant('settings.billing.user.synchronize_user_dialog_title'),
       translateService.instant('settings.billing.user.synchronize_user_dialog_confirm', { userFullName: Utils.buildUserFullName(user) }),
@@ -43,7 +43,7 @@ export class TableSyncBillingUserAction extends TableSynchronizeAction {
             }
             messageService.showSuccessMessage(
               translateService.instant('settings.billing.user.force_synchronize_user_success',
-              { userFullName: Utils.buildUserFullName(user) }));
+                { userFullName: Utils.buildUserFullName(user) }));
           } else {
             Utils.handleError(JSON.stringify(synchronizeResponse), messageService,
               'settings.billing.user.force_synchronize_user_failure');

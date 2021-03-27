@@ -14,7 +14,7 @@ export interface TableRevokeRegistrationTokenActionDef extends TableActionDef {
   action: (registrationToken: RegistrationToken, dialogService: DialogService, translateService: TranslateService,
     messageService: MessageService, centralServerService: CentralServerService, spinnerService: SpinnerService,
     router: Router, refresh?: () => Observable<void>) => void;
-  }
+}
 
 export class TableRevokeRegistrationTokenAction extends TableRevokeAction {
   public getActionDef(): TableRevokeRegistrationTokenActionDef {

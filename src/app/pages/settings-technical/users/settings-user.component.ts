@@ -81,22 +81,22 @@ export class SettingsUserComponent implements OnInit {
   public loadSettings() {
     this.spinnerService.show();
     this.componentService.getUserSettings().subscribe((settings) => {
-        this.spinnerService.hide();
-        // Init values
-        this.isDisabled = true;
-        this.userSettings = settings;
-        this.autoActivateAccountAfterValidation.setValue(this.userSettings.user.autoActivateAccountAfterValidation);
-      }, (error) => {
-        this.spinnerService.hide();
-        switch (error.status) {
-          case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
-            this.messageService.showErrorMessage('technical_settings.user.setting_do_not_exist');
-            break;
-          default:
-            Utils.handleHttpError(error, this.router, this.messageService,
-              this.centralServerService, 'general.unexpected_error_backend');
-        }
-      });
+      this.spinnerService.hide();
+      // Init values
+      this.isDisabled = true;
+      this.userSettings = settings;
+      this.autoActivateAccountAfterValidation.setValue(this.userSettings.user.autoActivateAccountAfterValidation);
+    }, (error) => {
+      this.spinnerService.hide();
+      switch (error.status) {
+        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+          this.messageService.showErrorMessage('technical_settings.user.setting_do_not_exist');
+          break;
+        default:
+          Utils.handleHttpError(error, this.router, this.messageService,
+            this.centralServerService, 'general.unexpected_error_backend');
+      }
+    });
   }
 
   public refresh() {

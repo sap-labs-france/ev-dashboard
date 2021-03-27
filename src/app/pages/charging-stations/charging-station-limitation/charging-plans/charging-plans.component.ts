@@ -86,15 +86,15 @@ export class ChargingPlansComponent implements OnInit, AfterViewInit, OnChanges 
       // Update Charging Station?
       this.centralServerNotificationService.getSubjectChargingProfile().pipe(debounceTime(
         this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
-          if (this.chargingProfiles && singleChangeNotification && singleChangeNotification.data) {
-            const chargingProfile = this.chargingProfiles.find(
-              (cp) => cp.id === singleChangeNotification.data.id);
+        if (this.chargingProfiles && singleChangeNotification && singleChangeNotification.data) {
+          const chargingProfile = this.chargingProfiles.find(
+            (cp) => cp.id === singleChangeNotification.data.id);
             // Reload?
-            if (chargingProfile) {
-              this.refresh();
-            }
+          if (chargingProfile) {
+            this.refresh();
           }
-        });
+        }
+      });
     }
   }
 

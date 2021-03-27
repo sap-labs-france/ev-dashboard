@@ -28,7 +28,7 @@ export class TableSyncRefundTransactionsAction extends TableSynchronizeAction {
   }
 
   private synchronizeRefund(dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
-      centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) {
+    centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) {
     dialogService.createAndShowYesNoDialog(
       translateService.instant('settings.refund.synchronize_dialog_refund_title'),
       translateService.instant('settings.refund.synchronize_dialog_refund_confirm'),

@@ -30,11 +30,11 @@ export class TableDeleteManyAction implements TableAction {
   }
 
   protected deleteMany(datas: Data[], messageTitle: string, messageConfirm: string, messageSuccess: string, messageSuccessAndError: string,
-      messageError: string, messageNoSuccessNoError: string, messageUnexpectedError: string,
-      deleteManyData: (ids: (string|number)[]) => Observable<ActionsResponse>,
-      dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
-      centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router,
-      clearSelectedRows: () => void, refresh?: () => Observable<void>) {
+    messageError: string, messageNoSuccessNoError: string, messageUnexpectedError: string,
+    deleteManyData: (ids: (string|number)[]) => Observable<ActionsResponse>,
+    dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
+    centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router,
+    clearSelectedRows: () => void, refresh?: () => Observable<void>) {
     // Confirm
     dialogService.createAndShowYesNoDialog(
       translateService.instant(messageTitle),

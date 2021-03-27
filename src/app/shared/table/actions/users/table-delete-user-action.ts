@@ -26,7 +26,7 @@ export class TableDeleteUserAction extends TableDeleteAction {
   }
 
   private deleteUser(user: User, dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
-      centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) {
+    centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) {
     super.delete(
       user, 'users.delete_title',
       translateService.instant('users.delete_confirm', { userFullName: Utils.buildUserFullName(user) }),

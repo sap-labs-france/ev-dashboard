@@ -35,15 +35,15 @@ export class CarCatalogsDialogTableDataSource extends DialogTableDataSource<CarC
       const params = this.buildFilterValues();
       this.centralServerService.getCarCatalogs(params,
         this.getPaging(), this.getSorting()).subscribe((CarCatalogs) => {
-          // Ok
-          observer.next(CarCatalogs);
-          observer.complete();
-        }, (error) => {
-          // No longer exists!
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-          // Error
-          observer.error(error);
-        });
+        // Ok
+        observer.next(CarCatalogs);
+        observer.complete();
+      }, (error) => {
+        // No longer exists!
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+        // Error
+        observer.error(error);
+      });
     });
   }
 

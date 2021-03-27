@@ -120,5 +120,5 @@ export interface VerifyEmailResponse extends ActionResponse {
 }
 
 export interface BillingOperationResponse extends ActionResponse {
-  internalData: object;
+  internalData: Record<string, unknown>;
 }

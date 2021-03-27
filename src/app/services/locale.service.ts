@@ -158,9 +158,9 @@ export class LocaleService {
       case 'de_DE':
         return this.translateService.instant('users.locale_desc_german');
       case 'pt_PT':
-      return this.translateService.instant('users.locale_desc_portuguese');
+        return this.translateService.instant('users.locale_desc_portuguese');
       case 'it_IT':
-      return this.translateService.instant('users.locale_desc_italian');
+        return this.translateService.instant('users.locale_desc_italian');
       default:
         return '';
     }

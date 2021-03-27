@@ -112,15 +112,15 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
       // Get Site Areas
       this.centralServerService.getSiteAreas(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((siteAreas) => {
-          // Ok
-          observer.next(siteAreas);
-          observer.complete();
-        }, (error) => {
-          // Show error
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-          // Error
-          observer.error(error);
-        });
+        // Ok
+        observer.next(siteAreas);
+        observer.complete();
+      }, (error) => {
+        // Show error
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+        // Error
+        observer.error(error);
+      });
     });
   }
 
@@ -369,14 +369,14 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
             SiteAreaAssetsDialogComponent, siteArea, this.dialog, this.refreshData.bind(this));
         }
         break;
-        case ChargingStationButtonAction.GENERATE_QR_CODE:
-          if (actionDef.action) {
-            (actionDef as TableSiteAreaGenerateQrCodeConnectorsActionDef).action(
-              siteArea, this.translateService, this.spinnerService,
-              this.messageService, this.centralServerService, this.router
-            );
-          }
-          break;
+      case ChargingStationButtonAction.GENERATE_QR_CODE:
+        if (actionDef.action) {
+          (actionDef as TableSiteAreaGenerateQrCodeConnectorsActionDef).action(
+            siteArea, this.translateService, this.spinnerService,
+            this.messageService, this.centralServerService, this.router
+          );
+        }
+        break;
     }
   }
 

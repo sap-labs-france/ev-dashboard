@@ -34,7 +34,7 @@ export class TableCreateTransactionInvoiceAction implements TableAction {
   }
 
   private linkInvoice(transactionID: number, dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
-      centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) {
+    centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) {
     dialogService.createAndShowYesNoDialog(
       translateService.instant('transactions.dialog.create_invoice.title'),
       translateService.instant('transactions.dialog.create_invoice.confirm'),

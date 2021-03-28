@@ -36,9 +36,9 @@ export class ChargingStationAdvancedComponent implements OnInit {
   public ngOnInit() {
     // Set
     for (const connector of this.chargingStation.connectors) {
-      this.connectorIds.push(connector.connectorId as unknown as string);
+      this.connectorIds.push(connector.connectorId.toString());
     }
-    this.connectorIds.push(this.translateService.instant('chargers.smart_charging.connectors_all') as string);
+    this.connectorIds.push(this.translateService.instant('chargers.smart_charging.connectors_all').toString());
 
     // Init the form
     this.formGroup = new FormGroup({

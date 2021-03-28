@@ -24,6 +24,17 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.56',
+        date: new Date('2021-03-28'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Set Schneider minimum intensity to 6A in Charging Station's template`,
+            ],
+          },
+        ],
+      },      {
         version: '2.4.55',
         date: new Date('2021-03-27'),
         componentChanges: [

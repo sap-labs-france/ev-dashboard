@@ -25,7 +25,7 @@ export class TableViewChargingStationsOfSiteAreaAction extends TableViewAction {
   }
 
   private viewChargingStations(siteAreaChargingStationsDialogComponent: ComponentType<unknown>, siteArea: SiteArea,
-      dialog: MatDialog, refresh?: () => Observable<void>) {
+    dialog: MatDialog, refresh?: () => Observable<void>) {
     super.view(siteAreaChargingStationsDialogComponent, siteArea, dialog, refresh);
   }
 }

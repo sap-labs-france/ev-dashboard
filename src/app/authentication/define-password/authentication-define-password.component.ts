@@ -59,7 +59,7 @@ export class AuthenticationDefinePasswordComponent implements OnInit, OnDestroy 
             Validators.required,
           ])),
       },
-        (passwordFormGroup: FormGroup) => Utils.validateEqual(passwordFormGroup, 'password', 'repeatPassword')),
+      (passwordFormGroup: FormGroup) => Utils.validateEqual(passwordFormGroup, 'password', 'repeatPassword')),
     });
     // Form
     this.passwords = (this.formGroup.controls['passwords'] as FormGroup);

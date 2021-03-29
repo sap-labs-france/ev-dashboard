@@ -81,29 +81,29 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
       // Get data
       this.centralServerService.getChargingStationsInError(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((chargers) => {
-          this.formatErrorMessages(chargers.result);
-          // Update details status
-          chargers.result.forEach((chargingStation: ChargingStationInError) => {
-            // At first filter out the connectors that are null
-            chargingStation.connectors = chargingStation.connectors.filter((connector) => !Utils.isNullOrUndefined(connector));
-            chargingStation.connectors.forEach((connector) => {
-              connector.hasDetails = connector.currentTransactionID > 0;
-              connector.status = chargingStation.inactive ? ChargePointStatus.UNAVAILABLE : connector.status;
-              connector.currentInstantWatts = chargingStation.inactive ? 0 : connector.currentInstantWatts;
-              connector.currentStateOfCharge = chargingStation.inactive ? 0 : connector.currentStateOfCharge;
-              connector.currentTotalConsumptionWh = chargingStation.inactive ? 0 : connector.currentTotalConsumptionWh;
-              connector.currentTotalInactivitySecs = chargingStation.inactive ? 0 : connector.currentTotalInactivitySecs;
-            });
+        this.formatErrorMessages(chargers.result);
+        // Update details status
+        chargers.result.forEach((chargingStation: ChargingStationInError) => {
+          // At first filter out the connectors that are null
+          chargingStation.connectors = chargingStation.connectors.filter((connector) => !Utils.isNullOrUndefined(connector));
+          chargingStation.connectors.forEach((connector) => {
+            connector.hasDetails = connector.currentTransactionID > 0;
+            connector.status = chargingStation.inactive ? ChargePointStatus.UNAVAILABLE : connector.status;
+            connector.currentInstantWatts = chargingStation.inactive ? 0 : connector.currentInstantWatts;
+            connector.currentStateOfCharge = chargingStation.inactive ? 0 : connector.currentStateOfCharge;
+            connector.currentTotalConsumptionWh = chargingStation.inactive ? 0 : connector.currentTotalConsumptionWh;
+            connector.currentTotalInactivitySecs = chargingStation.inactive ? 0 : connector.currentTotalInactivitySecs;
           });
-          // Ok
-          observer.next(chargers);
-          observer.complete();
-        }, (error) => {
-          // No longer exists!
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-          // Error
-          observer.error(error);
         });
+        // Ok
+        observer.next(chargers);
+        observer.complete();
+      }, (error) => {
+        // No longer exists!
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+        // Error
+        observer.error(error);
+      });
     });
   }
 

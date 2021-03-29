@@ -29,9 +29,9 @@ export class TableExportAction implements TableAction {
   }
 
   protected export(filters: FilterParams, exportedFilename: string, messageTitle: string, messageConfirm: string,
-      messageError: string, exportData: (filters: FilterParams) => Observable<Blob>,
-      dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
-      centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router) {
+    messageError: string, exportData: (filters: FilterParams) => Observable<Blob>,
+    dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
+    centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router) {
     dialogService.createAndShowYesNoDialog(
       translateService.instant(messageTitle),
       translateService.instant(messageConfirm),
@@ -39,8 +39,8 @@ export class TableExportAction implements TableAction {
       if (response === ButtonType.YES) {
         spinnerService.show();
         exportData(filters).subscribe((result) => {
-            spinnerService.hide();
-            FileSaver.saveAs(result, exportedFilename);
+          spinnerService.hide();
+          FileSaver.saveAs(result, exportedFilename);
         }, (error) => {
           spinnerService.hide();
           Utils.handleHttpError(error, router, messageService,

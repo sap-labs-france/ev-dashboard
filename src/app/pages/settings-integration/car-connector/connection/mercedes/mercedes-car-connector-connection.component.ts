@@ -32,13 +32,13 @@ export class MercedesCarConnectorConnectionComponent implements OnInit {
           Validators.pattern(Constants.URL_PATTERN),
         ])),
       clientId: new FormControl('',
-      Validators.compose([
-        Validators.required,
+        Validators.compose([
+          Validators.required,
         ])),
       clientSecret: new FormControl('',
-      Validators.compose([
-        Validators.required,
-      ])),
+        Validators.compose([
+          Validators.required,
+        ])),
     });
     if (!this.formGroup.disabled) {
       this.formGroup.addControl('mercedesConnection', this.mercedesCredentials);

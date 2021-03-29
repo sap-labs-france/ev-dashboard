@@ -36,7 +36,7 @@ export class UsersListComponent implements OnInit {
     // Check we are in /users/id route and get User ID if so or don't go further if user not authorize to update
     if (this.activatedRoute.snapshot.params['id'] &&
         !this.authorizationService.canUpdateUser()) {
-        this.router.navigate(['/']);
+      this.router.navigate(['/']);
     } else if (this.activatedRoute.snapshot.params['id']) {
       this.activatedRoute.params.subscribe((params: Params) => {
         userId = params['id'];
@@ -44,8 +44,8 @@ export class UsersListComponent implements OnInit {
       this.centralServerService.getUser(userId).subscribe((user) => {
         const editAction = new TableEditUserAction().getActionDef();
         if (editAction.action) {
-            editAction.action(UserDialogComponent, user, this.dialog);
-          }
+          editAction.action(UserDialogComponent, user, this.dialog);
+        }
       }, (error) => {
         // Not Found
         this.messageService.showErrorMessage('users.user_id_not_found', {userId});

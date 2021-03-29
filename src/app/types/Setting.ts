@@ -15,17 +15,19 @@ export interface SettingDB extends CreatedUpdatedProps, Setting {
   content: SettingDBContent;
 }
 
+type SettingsType = CryptoSettingsType
+| RoamingSettingsType
+| AnalyticsSettingsType
+| RefundSettingsType
+| PricingSettingsType
+| BillingSettingsType
+| SmartChargingSettingsType
+| AssetSettingsType
+| CarConnectorSettingsType
+| UserSettingsType;
+
 export interface SettingDBContent {
-  type: CryptoSettingsType
-    | RoamingSettingsType
-    | AnalyticsSettingsType
-    | RefundSettingsType
-    | PricingSettingsType
-    | BillingSettingsType
-    | SmartChargingSettingsType
-    | AssetSettingsType
-    | CarConnectorSettingsType
-    | UserSettingsType;
+  type: SettingsType;
   ocpi?: OcpiSetting;
   oicp?: OicpSetting;
   simple?: SimplePricingSetting;

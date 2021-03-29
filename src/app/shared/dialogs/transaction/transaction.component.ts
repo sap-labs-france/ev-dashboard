@@ -172,12 +172,12 @@ export class TransactionComponent implements OnInit, OnDestroy {
     if (this.configService.getCentralSystemServer().socketIOEnabled) {
       this.transactionRefreshSubscription = this.centralServerNotificationService.getSubjectTransaction().pipe(debounceTime(
         this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
-          // Update user?
-          if (singleChangeNotification && singleChangeNotification.data
+        // Update user?
+        if (singleChangeNotification && singleChangeNotification.data
             && singleChangeNotification.data.id === this.transactionID.toString()) {
-            this.refreshTransaction();
-          }
-        });
+          this.refreshTransaction();
+        }
+      });
     }
   }
 

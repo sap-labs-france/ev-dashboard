@@ -41,8 +41,8 @@ export class PaymentMethodsTableDataSource extends TableDataSource<BillingPaymen
     private router: Router,
     private datePipe: AppDatePipe,
     private dialog: MatDialog) {
-      super(spinnerService, translateService);
-      this.canCreatePaymentMethod = this.authorizationService.canCreatePaymentMethod();
+    super(spinnerService, translateService);
+    this.canCreatePaymentMethod = this.authorizationService.canCreatePaymentMethod();
   }
 
   public setCurrentUserId(currentUserID: string) {
@@ -100,7 +100,7 @@ export class PaymentMethodsTableDataSource extends TableDataSource<BillingPaymen
         headerClass: 'text-center col-10p',
         class: 'text-center col-10p',
         formatter: (defaultPaymentMethod: boolean, paymentMethod: BillingPaymentMethod) => paymentMethod.isDefault ?
-            this.translateService.instant('general.yes') : this.translateService.instant('general.no'),
+          this.translateService.instant('general.yes') : this.translateService.instant('general.no'),
       },
       {
         id: 'type',

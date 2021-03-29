@@ -1573,13 +1573,13 @@ export class CentralServerService {
 
   public getPaymentMethods(currentUserID: string, params: FilterParams,
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<BillingPaymentMethod>> {
-      // Verify init
+    // Verify init
     this.checkInit();
     // Build Paging
     this.getPaging(paging, params);
     // Build Ordering
     this.getSorting(ordering, params);
-  
+
     // Execute the REST Service
     return this.httpClient.get<DataResult<BillingPaymentMethod>>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.BILLING_PAYMENT_METHODS}?userID=${currentUserID}`,
       {
@@ -2938,8 +2938,7 @@ export class CentralServerService {
       );
   }
 
-  public getChargingStationCompositeSchedule(id: string, connectorId: number, duration: number, unit: string):
-    Observable<GetCompositeScheduleCommandResult | GetCompositeScheduleCommandResult[]> {
+  public getChargingStationCompositeSchedule(id: string, connectorId: number, duration: number, unit: string): Observable<GetCompositeScheduleCommandResult | GetCompositeScheduleCommandResult[]> {
     // Verify init
     this.checkInit();
     // build request
@@ -2972,9 +2971,9 @@ export class CentralServerService {
       ampLimitValue,
       forceUpdateChargingPlan,
     },
-      {
-        headers: this.buildHttpHeaders(),
-      })
+    {
+      headers: this.buildHttpHeaders(),
+    })
       .pipe(
         catchError(this.handleHttpError),
       );

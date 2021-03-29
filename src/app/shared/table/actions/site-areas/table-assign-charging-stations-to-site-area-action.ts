@@ -23,7 +23,7 @@ export class TableAssignChargingStationsToSiteAreaAction extends TableAssignActi
   }
 
   private assignChargingStationsToSiteArea(siteAreaChargingStationsDialogComponent: ComponentType<unknown>, siteArea: SiteArea,
-      dialog: MatDialog, refresh?: () => Observable<void>) {
+    dialog: MatDialog, refresh?: () => Observable<void>) {
     super.assign(siteAreaChargingStationsDialogComponent, siteArea, dialog, refresh);
   }
 }

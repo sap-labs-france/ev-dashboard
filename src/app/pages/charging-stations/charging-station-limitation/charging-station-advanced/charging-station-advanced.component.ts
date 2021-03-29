@@ -36,9 +36,9 @@ export class ChargingStationAdvancedComponent implements OnInit {
   public ngOnInit() {
     // Set
     for (const connector of this.chargingStation.connectors) {
-      this.connectorIds.push(connector.connectorId as unknown as string);
+      this.connectorIds.push(connector.connectorId.toString());
     }
-    this.connectorIds.push(this.translateService.instant('chargers.smart_charging.connectors_all') as string);
+    this.connectorIds.push(this.translateService.instant('chargers.smart_charging.connectors_all').toString());
 
     // Init the form
     this.formGroup = new FormGroup({
@@ -71,15 +71,15 @@ export class ChargingStationAdvancedComponent implements OnInit {
     this.centralServerService.getChargingStationCompositeSchedule(
       this.chargingStation.id, connectorID, durationSecs,
       this.chargingStation.powerLimitUnit).subscribe((chargingSchedule) => {
-        this.scheduleResult = chargingSchedule;
-        this.spinnerService.hide();
-        this.formGroup.markAsPristine();
-      }, (error) => {
-        this.spinnerService.hide();
-        // Unexpected error`
-        Utils.handleHttpError(error, this.router, this.messageService,
-          this.centralServerService, this.translateService.instant('general.unexpected_error_backend'));
-        this.scheduleResult = error;
-      });
+      this.scheduleResult = chargingSchedule;
+      this.spinnerService.hide();
+      this.formGroup.markAsPristine();
+    }, (error) => {
+      this.spinnerService.hide();
+      // Unexpected error`
+      Utils.handleHttpError(error, this.router, this.messageService,
+        this.centralServerService, this.translateService.instant('general.unexpected_error_backend'));
+      this.scheduleResult = error;
+    });
   }
 }

@@ -59,15 +59,15 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEn
       // Get the OCPI Endpoints
       this.centralServerService.getOcpiEndpoints(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((ocpiEndpoints) => {
-          // Ok
-          observer.next(ocpiEndpoints);
-          observer.complete();
-        }, (error) => {
-          // Show error
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-          // Error
-          observer.error(error);
-        });
+        // Ok
+        observer.next(ocpiEndpoints);
+        observer.complete();
+      }, (error) => {
+        // Show error
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+        // Error
+        observer.error(error);
+      });
     });
   }
 

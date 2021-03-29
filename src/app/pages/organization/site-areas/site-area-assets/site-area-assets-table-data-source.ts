@@ -53,13 +53,13 @@ export class SiteAreaAssetsDataSource extends TableDataSource<Asset> {
         // Yes: Get data
         this.centralServerService.getAssets(this.buildFilterValues(),
           this.getPaging(), this.getSorting()).subscribe((assets) => {
-            observer.next(assets);
-            observer.complete();
-          }, (error) => {
-            Utils.handleHttpError(error, this.router, this.messageService,
-              this.centralServerService, 'general.error_backend');
-            observer.error(error);
-          });
+          observer.next(assets);
+          observer.complete();
+        }, (error) => {
+          Utils.handleHttpError(error, this.router, this.messageService,
+            this.centralServerService, 'general.error_backend');
+          observer.error(error);
+        });
       } else {
         // Ok
         observer.next({

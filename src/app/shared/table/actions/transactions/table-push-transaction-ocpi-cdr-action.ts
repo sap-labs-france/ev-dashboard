@@ -36,8 +36,8 @@ export class TablePushTransactionOcpiCdrAction implements TableAction {
   }
 
   public pushCdr(transaction: Transaction, dialogService: DialogService, translateService: TranslateService,
-      messageService: MessageService, centralServerService: CentralServerService, spinnerService: SpinnerService,
-      router: Router, refresh: () => Observable<void>) {
+    messageService: MessageService, centralServerService: CentralServerService, spinnerService: SpinnerService,
+    router: Router, refresh: () => Observable<void>) {
     dialogService.createAndShowYesNoDialog(
       translateService.instant('transactions.dialog.roaming.title'),
       translateService.instant('transactions.dialog.roaming.confirm', { sessionID: transaction.id }),

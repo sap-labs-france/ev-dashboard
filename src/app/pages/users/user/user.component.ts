@@ -101,9 +101,9 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public user!: User;
   public isRefundConnectionValid!: boolean;
   public canSeeInvoice: boolean;
-  private currentLocale!: string;
   public isBillingComponentActive: boolean;
   public canListPaymentMethods: boolean;
+  private currentLocale!: string;
 
   public constructor(
     public paymentMethodsTableDataSource: PaymentMethodsTableDataSource,

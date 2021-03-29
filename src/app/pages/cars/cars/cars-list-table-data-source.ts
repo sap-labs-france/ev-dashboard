@@ -178,7 +178,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
           headerClass: 'text-center col-10p',
           class: 'text-center col-10p',
           formatter: (defaultCar: boolean, car: Car) => car.carUsers.find((userCar) => userCar.default) ?
-              this.translateService.instant('general.yes') : this.translateService.instant('general.no'),
+            this.translateService.instant('general.yes') : this.translateService.instant('general.no'),
         },
         {
           id: 'owner',
@@ -186,7 +186,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
           headerClass: 'text-center col-10p',
           class: 'text-center col-10p',
           formatter: (carOwner: boolean, car: Car) => car.carUsers.find((userCar) => userCar.owner) ?
-              this.translateService.instant('general.yes') : this.translateService.instant('general.no')
+            this.translateService.instant('general.yes') : this.translateService.instant('general.no')
         }
       );
     }

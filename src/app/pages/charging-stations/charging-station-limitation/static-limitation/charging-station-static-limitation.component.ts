@@ -111,8 +111,7 @@ export class ChargingStationStaticLimitationComponent {
     // Apply to chargingStation
     this.spinnerService.show();
     // eslint-disable-next-line max-len
-    this.centralServerService.chargingStationLimitPower(
-        this.chargingStation, chargePoint, 0, chargePoint.ampCurrentLimit, forceUpdateChargingPlan).subscribe((response) => {
+    this.centralServerService.chargingStationLimitPower(this.chargingStation, chargePoint, 0, chargePoint.ampCurrentLimit, forceUpdateChargingPlan).subscribe((response) => {
       this.spinnerService.hide();
       if (response.status === OCPPConfigurationStatus.ACCEPTED ||
           response.status === OCPPConfigurationStatus.REBOOT_REQUIRED) {

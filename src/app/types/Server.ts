@@ -89,6 +89,7 @@ export enum ServerAction {
   PERFORMANCES = 'Performances',
 
   SCHEDULER = 'Scheduler',
+  ASYNC_TASK = 'AsyncTask',
 
   REMOTE_PUSH_NOTIFICATION = 'RemotePushNotification',
   EMAIL_NOTIFICATION = 'EmailNotification',
@@ -410,8 +411,8 @@ export enum ServerAction {
   BILLING_FORCE_SYNCHRONIZE_USER_INVOICES = 'BillingForceSynchronizeUserInvoices',
   BILLING_DOWNLOAD_INVOICE = 'BillingDownloadInvoice',
   BILLING_CREATE_TRANSACTION_INVOICE = 'BillingCreateTransactionInvoice',
-  BILLING_SETUP_PAYMENT_METHOD = 'BillingSetupPaymentMethod',
   BILLING_NEW_INVOICE = 'BillingNewInvoice',
+  BILLING_SETUP_PAYMENT_METHOD = 'BillingSetupPaymentMethod',
   BILLING_PAYMENT_METHODS = 'BillingPaymentMethods',
   BILLING_DELETE_PAYMENT_METHOD = 'BillingDeletePaymentMethod',
   BILLING_CHARGE_INVOICE = 'BillingChargeInvoice',

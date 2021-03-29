@@ -18,8 +18,8 @@ export class DashboardService {
   public intervalReference!: ReturnType<typeof setTimeout> | null;
 
   public constructor(private centralServerService: CentralServerService,
-              private messageService: MessageService,
-              private router: Router) {
+    private messageService: MessageService,
+    private router: Router) {
     // First load
     this.loadData();
     this.startLoading();

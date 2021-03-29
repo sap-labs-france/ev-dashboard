@@ -11,11 +11,11 @@ export class PaymentMethodDialogComponent implements AfterViewInit {
   @ViewChild('appRef') public appRef!: PaymentMethodComponent;
   public userID!: string;
 
-  constructor(
+  public constructor(
     public dialogRef: MatDialogRef<PaymentMethodDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data: string) {
-      this.userID = data;
-    }
+    this.userID = data;
+  }
 
   public ngAfterViewInit() {
     Utils.registerSaveCloseKeyEvents(this.dialogRef, this.appRef.formGroup,

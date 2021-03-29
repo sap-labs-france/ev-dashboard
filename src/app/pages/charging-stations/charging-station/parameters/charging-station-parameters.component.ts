@@ -330,7 +330,7 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
         this.translateService.instant('chargers.dialog.disable_manual_configuration.title'),
         this.translateService.instant('chargers.dialog.disable_manual_configuration.confirm'),
       ).subscribe((result) => {
-       if (result === ButtonType.NO) {
+        if (result === ButtonType.NO) {
           this.manualConfiguration.setValue(true);
         } else {
           this.maximumPower.disable();

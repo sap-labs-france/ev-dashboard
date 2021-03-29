@@ -11,5 +11,5 @@ export class CarCatalogsListComponent {
   // eslint-disable-next-line no-useless-constructor
   public constructor(
     public carCatalogsListTableDataSource: CarCatalogsListTableDataSource,
-    ) {}
+  ) {}
 }

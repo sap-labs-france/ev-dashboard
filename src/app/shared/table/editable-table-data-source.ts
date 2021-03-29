@@ -55,7 +55,7 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
     // Filter?
     if (this.editableRows && this.getSearchValue() && this.tableDef.rowFieldNameIdentifier) {
       return this.editableRows.filter((editableRow) => editableRow[this.tableDef.rowFieldNameIdentifier].toLowerCase().includes(
-          this.getSearchValue().toLowerCase()));
+        this.getSearchValue().toLowerCase()));
     }
     return this.editableRows;
   }
@@ -277,6 +277,6 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
 }
 
 export const uniqValidator = (formArray: FormArray, controlId: string): ValidatorFn => (control: AbstractControl): { [key: string]: any } | null => {
-    const duplicate = formArray.value.find((row: any) => row[controlId] === control.value);
-    return duplicate ? { duplicate: true } : null;
-  };
+  const duplicate = formArray.value.find((row: any) => row[controlId] === control.value);
+  return duplicate ? { duplicate: true } : null;
+};

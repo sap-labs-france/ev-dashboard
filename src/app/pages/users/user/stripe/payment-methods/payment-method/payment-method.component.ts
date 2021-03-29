@@ -39,7 +39,7 @@ export class PaymentMethodComponent implements OnInit {
     private stripeService: StripeService,
     private router: Router,
     private componentService: ComponentService) {
-      this.isBillingComponentActive = this.componentService.isActive(TenantComponents.BILLING);
+    this.isBillingComponentActive = this.componentService.isActive(TenantComponents.BILLING);
   }
 
   public ngOnInit(): void {

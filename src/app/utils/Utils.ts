@@ -320,7 +320,7 @@ export class Utils {
   }
 
   // eslint-disable-next-line complexity
-  public static getChargingStationPower(chargingStation: ChargingStation, chargePoint: ChargePoint, connectorId = 0): number {
+  public static getChargingStationPower(chargingStation: ChargingStation, chargePoint?: ChargePoint, connectorId = 0): number {
     let totalPower = 0;
     if (chargingStation) {
       // Check at charge point level

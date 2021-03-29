@@ -31,6 +31,7 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Set Schneider minimum intensity to 6A in Charging Station's template`,
+              `Fixed User with role Basic should be able to read settings`,
             ],
           },
         ],

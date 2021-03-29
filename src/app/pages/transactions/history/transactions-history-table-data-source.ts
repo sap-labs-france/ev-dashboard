@@ -72,7 +72,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
   private transactionPushOcpiCdrAction = new TablePushTransactionOcpiCdrAction().getActionDef();
   private exportTransactionOcpiCdrAction = new TableExportTransactionOcpiCdrAction().getActionDef();
 
-  constructor(
+  public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     private messageService: MessageService,
@@ -341,16 +341,16 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         const percentInactivity = (data.stats.totalDurationSecs > 0 ?
           (Math.floor(data.stats.totalInactivitySecs / data.stats.totalDurationSecs * 100)) : 0);
         // Total Duration
-        // tslint:disable-next-line:max-line-length
+        // eslint-disable-next-line max-len
         let stats = `${this.translateService.instant('transactions.duration')}: ${this.appDurationPipe.transform(data.stats.totalDurationSecs)} | `;
         // Inactivity
-        // tslint:disable-next-line:max-line-length
+        // eslint-disable-next-line max-len
         stats += `${this.translateService.instant('transactions.inactivity')}: ${this.appDurationPipe.transform(data.stats.totalInactivitySecs)} (${percentInactivity}%) | `;
         // Total Consumption
-        // tslint:disable-next-line:max-line-length
+        // eslint-disable-next-line max-len
         stats += `${this.translateService.instant('transactions.consumption')}: ${this.appUnitPipe.transform(data.stats.totalConsumptionWattHours, 'Wh', 'kWh', true, 1, 0, 0)}`;
         // Total Price
-        // tslint:disable-next-line:max-line-length
+        // eslint-disable-next-line max-len
         stats += ` | ${this.translateService.instant('transactions.price')}: ${this.appCurrencyPipe.transform(data.stats.totalPrice, data.stats.currency)}`;
         return stats;
       }

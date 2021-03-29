@@ -14,12 +14,12 @@ import { DialogTableDataSource } from '../dialog-table-data-source';
 
 @Injectable()
 export class UsersDialogTableDataSource extends DialogTableDataSource<User> {
-  constructor(
-      public spinnerService: SpinnerService,
-      public translateService: TranslateService,
-      private messageService: MessageService,
-      private router: Router,
-      private centralServerService: CentralServerService) {
+  public constructor(
+    public spinnerService: SpinnerService,
+    public translateService: TranslateService,
+    private messageService: MessageService,
+    private router: Router,
+    private centralServerService: CentralServerService) {
     super(spinnerService, translateService);
     // Init
     this.initDataSource();
@@ -30,14 +30,14 @@ export class UsersDialogTableDataSource extends DialogTableDataSource<User> {
       // Get data
       this.centralServerService.getUsers(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((users) => {
-          observer.next(users);
-          observer.complete();
-        }, (error) => {
-          // No longer exists!
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-          // Error
-          observer.error(error);
-        });
+        observer.next(users);
+        observer.complete();
+      }, (error) => {
+        // No longer exists!
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+        // Error
+        observer.error(error);
+      });
     });
   }
 

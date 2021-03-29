@@ -64,6 +64,9 @@ const FADE_OUT_CLASS = 'fade-out';
 })
 
 export class DashboardComponent implements OnInit, OnDestroy {
+  @ViewChild('statisticsChart') public statisticsChartComponent: CardChartComponent;
+
+  @ViewChild('realtimeChart') public realtimeChartComponent: CardChartComponent;
 
   /**
    * Set to true to trigger the first half of the animation before changing model data
@@ -99,13 +102,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
     { name: 'year', title: 'dashboard.statistics.button.year' },
   ];
   public chartStatisticsFooter;
-  @ViewChild('statisticsChart') public statisticsChartComponent: CardChartComponent;
+
   public buttonsRealtimeChart = [
     { name: 'consumption', title: 'dashboard.realtime.button.consumption' },
     { name: 'utilization', title: 'dashboard.realtime.button.utilization' },
   ];
   public chartRealtimeFooter;
-  @ViewChild('realtimeChart') public realtimeChartComponent: CardChartComponent;
 
   public dynamicFadeInOutClass = FADE_IN_CLASS;
 
@@ -122,7 +124,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   public realtimeInterval = REALTIME_INTERVAL;
   public statisticsInterval = STATISTICS_INTERVAL;
 
-  constructor(private translateService: TranslateService,
+  public constructor(private translateService: TranslateService,
     private spinnerService: SpinnerService,
     private dashboardService: DashboardService,
     private decimalPipe: AppDecimalPipe) {
@@ -169,7 +171,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   /**
    * End of first animation part
    *
-   * @param {AnimationEvent} event
+   * @param event
    * @memberof DashboardComponent
    */
   public slideChangeAnimationReloadEnd(event: AnimationEvent) {
@@ -188,7 +190,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   /**
    * End of second part of animation after data model changed
    *
-   * @param {AnimationEvent} event
+   * @param event
    * @memberof DashboardComponent
    */
   public slideChangeAnimationDone(event: AnimationEvent) {
@@ -236,8 +238,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   /**
    *
    * rotate the data for the next or previous site
-   * @param {*} direction: +1 for next, -1 for previous
-   * @param {*} triggerAnimation: if ture then boolean are changed in order to trigger animation
+   *
+   * @param direction: +1 for next, -1 for previous
+   * @param triggerAnimation: if ture then boolean are changed in order to trigger animation
    * @memberof DashboardComponent
    */
   public rotateSite(direction, triggerAnimation: boolean) {
@@ -359,12 +362,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
         multiKeyBackground: 'rgba(0,0,0,0)',
         intersect: false,
         callbacks: {
-          labelColor: (tooltipItem, chart) => {
-            return {
-              borderColor: 'rgba(0,0,0,0)',
-              backgroundColor: this.rgba([38, 198, 218], 1),
-            };
-          },
+          labelColor: (tooltipItem, chart) => ({
+            borderColor: 'rgba(0,0,0,0)',
+            backgroundColor: this.rgba([38, 198, 218], 1),
+          }),
           label: (tooltipItem, values) => {
             const value = values.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
             switch (tooltipItem.datasetIndex) {
@@ -457,12 +458,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
         multiKeyBackground: 'rgba(0,0,0,0)',
         intersect: false,
         callbacks: {
-          labelColor: (tooltipItem, chart) => {
-            return {
-              borderColor: 'rgba(0,0,0,0)',
-              backgroundColor: this.rgba([38, 198, 218], 1),
-            };
-          },
+          labelColor: (tooltipItem, chart) => ({
+            borderColor: 'rgba(0,0,0,0)',
+            backgroundColor: this.rgba([38, 198, 218], 1),
+          }),
           label: (tooltipItem, values) => {
             const value = values.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
             switch (tooltipItem.datasetIndex) {

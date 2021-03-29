@@ -1,0 +1,113 @@
+{
+  "root": true,
+  "ignorePatterns": [
+    "projects/**/*"
+  ],
+  "overrides": [
+    {
+      "files": [
+        "*.ts"
+      ],
+      "parserOptions": {
+        "project": [
+          "tsconfig.json"
+        ],
+        "createDefaultProgram": true
+      },
+      "extends": [
+        "plugin:@angular-eslint/ng-cli-compat",
+        "plugin:@angular-eslint/ng-cli-compat--formatting-add-on",
+        "plugin:@angular-eslint/template/process-inline-templates"
+      ],
+      "rules": {
+        "@angular-eslint/component-selector": [
+          "error",
+          {
+            "type": "element",
+            "prefix": "app",
+            "style": "kebab-case"
+          }
+        ],
+        "@angular-eslint/directive-selector": [
+          "error",
+          {
+            "type": "attribute",
+            "prefix": "app",
+            "style": "camelCase"
+          }
+        ],
+        "@angular-eslint/use-component-view-encapsulation": "error",
+        "@typescript-eslint/naming-convention": [
+          "error",
+          {
+            "selector": "enumMember",
+            "format": [
+              "UPPER_CASE"
+            ]
+          }
+        ],
+        "@typescript-eslint/indent": [
+          "error",
+          2,
+          {
+            "SwitchCase": 1
+          }
+        ],
+        "@typescript-eslint/array-type": [
+          "error",
+          {
+            "default": "array"
+          }
+        ],
+        "@typescript-eslint/await-thenable": "error",
+        "@typescript-eslint/consistent-type-definitions": "error",
+        "@typescript-eslint/dot-notation": "off",
+        "@typescript-eslint/explicit-member-accessibility": [
+          "error",
+          {
+            "accessibility": "explicit"
+          }
+        ],
+        "@typescript-eslint/no-floating-promises": "warn",
+        "@typescript-eslint/no-var-requires": "error",
+        "@typescript-eslint/promise-function-async": "error",
+        "@typescript-eslint/require-await": "error",
+        "brace-style": [
+          "error",
+          "1tbs"
+        ],
+        "complexity": "error",
+        "import/order": "error",
+        "linebreak-style": [
+          "error",
+          "unix"
+        ],
+        "max-len": [
+          "error",
+          {
+            "ignoreRegExpLiterals": true,
+            "ignoreStrings": true,
+            "ignorePattern": "(^(import|export)|(public|private))\\s.+;",
+            "code": 140
+          }
+        ],
+        "no-duplicate-case": "error",
+        "no-duplicate-imports": "error",
+        "no-irregular-whitespace": "error",
+        "no-new-func": "error",
+        "no-redeclare": "error",
+        "no-return-await": "error",
+        "no-useless-constructor": "error"
+      }
+    },
+    {
+      "files": [
+        "*.html"
+      ],
+      "extends": [
+        "plugin:@angular-eslint/template/recommended"
+      ],
+      "rules": {}
+    }
+  ]
+}

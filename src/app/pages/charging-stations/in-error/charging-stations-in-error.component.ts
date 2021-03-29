@@ -8,9 +8,8 @@ import { ChargingStationsInErrorTableDataSource } from './charging-stations-in-e
   providers: [ChargingStationsInErrorTableDataSource],
 })
 export class ChargingStationsInErrorComponent {
-
-  constructor(
+  // eslint-disable-next-line no-useless-constructor
+  public constructor(
     public chargingStationsInErrorTableDataSource: ChargingStationsInErrorTableDataSource,
-  ) {
-  }
+  ) {}
 }

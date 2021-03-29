@@ -22,12 +22,12 @@ export class AppConnectorErrorCodePipe implements PipeTransform {
     WeakSignal: 'chargers.status_error_weak_signal',
   };
 
-  constructor(private translateService: TranslateService) {
-  }
+  // eslint-disable-next-line no-useless-constructor
+  public constructor(private translateService: TranslateService) {};
 
-  public transform(errocode: string): string {
-    return (this.connectorErrorCodeMap[errocode] ?
-      this.translateService.instant(this.connectorErrorCodeMap[errocode]) :
+  public transform(errorCode: string): string {
+    return (this.connectorErrorCodeMap[errorCode] ?
+      this.translateService.instant(this.connectorErrorCodeMap[errorCode]) :
       this.translateService.instant('chargers.status_error_unknown'));
   }
 }

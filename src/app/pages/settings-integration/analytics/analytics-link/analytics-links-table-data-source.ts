@@ -28,7 +28,7 @@ export class AnalyticsLinksTableDataSource extends TableDataSource<SettingLink> 
   private openURLAction = new TableOpenURLAction().getActionDef();
   private deleteAction = new TableDeleteAction().getActionDef();
 
-  constructor(
+  public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     private appUserMultipleRolesPipe: AppUserMultipleRolesPipe,
@@ -56,14 +56,12 @@ export class AnalyticsLinksTableDataSource extends TableDataSource<SettingLink> 
     return new Observable((observer) => {
       // Check
       if (this.analyticsLinks) {
-        this.analyticsLinks.sort((a, b) => {
-          return (a.name > b.name) ? 1 : (b.name > a.name) ? -1 : 0;
-        });
+        this.analyticsLinks.sort((a, b) => (a.name > b.name) ? 1 : (b.name > a.name) ? -1 : 0);
         const links = [];
         for (let index = 0; index < this.analyticsLinks.length; index++) {
-          const _link = this.analyticsLinks[index];
-          _link.id = index.toString();
-          links.push(_link);
+          const link = this.analyticsLinks[index];
+          link.id = index.toString();
+          links.push(link);
         }
         observer.next({
           count: links.length,

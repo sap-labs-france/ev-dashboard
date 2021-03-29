@@ -11,7 +11,7 @@ export class TagDialogComponent implements AfterViewInit {
   @ViewChild('appRef') public appRef!: TagComponent;
   public tagID!: string;
 
-  constructor(
+  public constructor(
     public dialogRef: MatDialogRef<TagDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data: string) {
     this.tagID = data;

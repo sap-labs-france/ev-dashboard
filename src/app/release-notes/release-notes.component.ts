@@ -17,12 +17,59 @@ interface ComponentChange {
 export class ReleaseNotesComponent {
   public releaseNotes: ReleaseNotes[] = [];
 
-  constructor() {
-    this.buidlReleaseNotes();
+  public constructor() {
+    this.buildReleaseNotes();
   }
 
-  public buidlReleaseNotes() {
+  public buildReleaseNotes() {
     this.releaseNotes = [
+      {
+        version: '2.4.56',
+        date: new Date('2021-03-28'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Set Schneider minimum intensity to 6A in Charging Station's template`,
+            ],
+          },
+        ],
+      },      {
+        version: '2.4.55',
+        date: new Date('2021-03-27'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `EN+ and Exadys Charging Stations have been integrated`,
+              `Security: Generate a new encryption key per tenant and migrate sensitive data`,
+              `Billing: Added Stripe payment methods (alpha)`,
+              `Car images are synchronized one by one to avoid high memory consumption`,
+              `Enhanced Import Tags documentation`,
+              `Add Create Charging Profile in the RESTful endpoint`,
+              `Migrated Sites to authorizations based`,
+              `Adjusted Settings authorizations`,
+              `Upgrade to Angular 11.2.7`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.54',
+        date: new Date('2021-03-25'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Import Tags`,
+              `Fixed Site Area limit in Smart Charging`,
+              `Billing: refactor of User and Invoice synchronizations`,
+              `Fixed Tenant creation issue with OICP`,
+              `Added REST Charging station QR-Code and Get OCPP Parameters JSon schema validations`
+            ],
+          },
+        ],
+      },
       {
         version: '2.4.53',
         date: new Date('2021-03-22'),
@@ -44,7 +91,7 @@ export class ReleaseNotesComponent {
               `Added Get Charging Station endpoint schema validation in RESTful endpoint`,
               `Optimized Assets with Site ID like Charging Stations`,
               `Accept more firmware versions on Ingeteam Charging Station`,
-              `Angular front-end uses the new RESTful enpoint for Charging Station's actions`,
+              `Angular front-end uses the new RESTful endpoint for Charging Station's actions`,
               `Do not try to resend E-mail notification with error 450`,
             ],
           },

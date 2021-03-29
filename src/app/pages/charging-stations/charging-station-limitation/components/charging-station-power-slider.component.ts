@@ -11,14 +11,14 @@ import { Utils } from '../../../../utils/Utils';
   selector: 'app-charging-station-power-slider',
   templateUrl: 'charging-station-power-slider.component.html',
 })
-@Injectable()
+// @Injectable()
 export class ChargingStationPowerSliderComponent implements OnInit, OnChanges {
   @Input() public chargingStation!: ChargingStation;
   @Input() public chargePoint!: ChargePoint;
   @Input() public connector!: Connector;
   @Input() public currentAmp!: number;
   @Input() public forChargingProfile = false;
-  @Output() public silderChanged = new EventEmitter<number>();
+  @Output() public sliderChangedEmitter = new EventEmitter<number>();
 
   public minAmp;
   public maxAmp;
@@ -31,7 +31,7 @@ export class ChargingStationPowerSliderComponent implements OnInit, OnChanges {
   public isSmartChargingComponentActive = false;
   public ampSteps;
 
-  constructor(
+  public constructor(
     private appUnitFormatter: AppUnitPipe,
     private componentService: ComponentService,
     private decimalPipe: AppDecimalPipe) {
@@ -67,14 +67,14 @@ export class ChargingStationPowerSliderComponent implements OnInit, OnChanges {
   public formatSlideLabelPowerKW = (currentAmp: number): string | null => {
     const powerKW = Math.floor(Utils.convertAmpToWatt(this.chargingStation, null, 0, currentAmp) / 1000);
     return this.decimalPipe.transform(powerKW) + 'kW';
-  }
+  };
 
   public sliderChanged(value: number) {
     this.currentAmp = value;
     // Update Power
     this.displayedCurrentPowerW = Utils.convertAmpToWattString(this.chargingStation, null, 0, this.appUnitFormatter, value, 'W');
     // Notify
-    this.silderChanged.emit(value);
+    this.sliderChangedEmitter.emit(value);
   }
 
   private updateDisplayedPowerKW() {

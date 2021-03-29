@@ -1,25 +1,22 @@
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 
-import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
-import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { TableEditAction } from '../../../shared/table/actions/table-edit-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { EditableTableDataSource } from '../../../shared/table/editable-table-data-source';
 import { DataResult } from '../../../types/DataResult';
 import { ButtonAction } from '../../../types/GlobalType';
-import { CarConnectorConnectionSetting, CarConnectorConnectionType, CarConnectorSetting, CarConnectorSettings } from '../../../types/Setting';
+import { CarConnectorConnectionSetting, CarConnectorConnectionType } from '../../../types/Setting';
 import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableEditType, TableFilterDef } from '../../../types/Table';
 import { CarConnectorConnectionDialogComponent } from './connection/car-connector-connection.dialog.component';
 
 @Injectable()
 export class SettingsCarConnectorConnectionEditableTableDataSource extends EditableTableDataSource<CarConnectorConnectionSetting> {
-  constructor(
+  public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     private dialog: MatDialog,
@@ -33,9 +30,7 @@ export class SettingsCarConnectorConnectionEditableTableDataSource extends Edita
       // Check
       if (this.editableRows) {
         // Car connector sort by name
-        this.editableRows.sort((a, b) => {
-          return (a.name > b.name) ? 1 : (b.name > a.name) ? -1 : 0;
-        });
+        this.editableRows.sort((a, b) => (a.name > b.name) ? 1 : (b.name > a.name) ? -1 : 0);
         observer.next({
           count: this.editableRows.length,
           result: this.editableRows,
@@ -164,17 +159,17 @@ export class SettingsCarConnectorConnectionEditableTableDataSource extends Edita
     dialogConfig.disableClose = true;
     // Open
     const dialogRef = this.dialog.open(CarConnectorConnectionDialogComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe((carConnectorConnection: CarConnectorConnectionSetting) => {
-      if (carConnectorConnection) {
+    dialogRef.afterClosed().subscribe((carConnectorConnectionSetting: CarConnectorConnectionSetting) => {
+      if (carConnectorConnectionSetting) {
         // Find object
         const index = this.editableRows.findIndex(
-          (editableRow) => editableRow.id === carConnectorConnection.id);
+          (editableRow) => editableRow.id === carConnectorConnectionSetting.id);
         if (index >= 0) {
           // Update
-          this.editableRows.splice(index, 1, carConnectorConnection);
+          this.editableRows.splice(index, 1, carConnectorConnectionSetting);
         } else {
           // Create
-          this.editableRows.push(carConnectorConnection);
+          this.editableRows.push(carConnectorConnectionSetting);
         }
         this.refreshData(false).subscribe();
         this.formArray.markAsDirty();

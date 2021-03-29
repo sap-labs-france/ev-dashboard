@@ -20,14 +20,14 @@ import { TableDataSource } from '../../../../shared/table/table-data-source';
 import ChangeNotification from '../../../../types/ChangeNotification';
 import { DataResult } from '../../../../types/DataResult';
 import { ButtonAction, RestResponse } from '../../../../types/GlobalType';
-import { ButtonType, DropdownItem, TableActionDef, TableColumnDef, TableDef } from '../../../../types/Table';
 import { OcpiEndpoint } from '../../../../types/ocpi/OCPIEndpoint';
+import { ButtonType, DropdownItem, TableActionDef, TableColumnDef, TableDef } from '../../../../types/Table';
 import { Utils } from '../../../../utils/Utils';
-import { SettingsOcpiEnpointDialogComponent } from './endpoint/settings-ocpi-endpoint.dialog.component';
+import { SettingsOcpiEndpointDialogComponent } from './endpoint/settings-ocpi-endpoint.dialog.component';
 import { OcpiPatchJobResultFormatterComponent } from './formatters/ocpi-patch-job-result-formatter.component';
 import { OcpiPatchJobStatusFormatterComponent } from './formatters/ocpi-patch-job-status-formatter.component';
 import { OcpiEndpointStatusFormatterComponent } from './formatters/ocpi-status-formatter.component';
-import { SettingsOcpiEnpointsDetailsComponent } from './ocpi-details/settings-ocpi-endpoints-details.component';
+import { SettingsOcpiEndpointsDetailsComponent } from './ocpi-details/settings-ocpi-endpoints-details.component';
 
 @Injectable()
 export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEndpoint> {
@@ -36,7 +36,7 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEn
   private unregisterAction = new TableUnregisterAction().getActionDef();
   private deleteAction = new TableDeleteAction().getActionDef();
 
-  constructor(
+  public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     private messageService: MessageService,
@@ -59,15 +59,15 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEn
       // Get the OCPI Endpoints
       this.centralServerService.getOcpiEndpoints(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((ocpiEndpoints) => {
-          // Ok
-          observer.next(ocpiEndpoints);
-          observer.complete();
-        }, (error) => {
-          // Show error
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-          // Error
-          observer.error(error);
-        });
+        // Ok
+        observer.next(ocpiEndpoints);
+        observer.complete();
+      }, (error) => {
+        // Show error
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+        // Error
+        observer.error(error);
+      });
     });
   }
 
@@ -81,7 +81,7 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEn
       },
       rowDetails: {
         enabled: true,
-        angularComponent: SettingsOcpiEnpointsDetailsComponent,
+        angularComponent: SettingsOcpiEndpointsDetailsComponent,
       },
     };
   }
@@ -224,7 +224,7 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEn
     // disable outside click close
     dialogConfig.disableClose = true;
     // Open
-    const dialogRef = this.dialog.open(SettingsOcpiEnpointDialogComponent, dialogConfig);
+    const dialogRef = this.dialog.open(SettingsOcpiEndpointDialogComponent, dialogConfig);
     dialogRef.afterClosed().subscribe((saved) => {
       if (saved) {
         this.refreshData().subscribe();

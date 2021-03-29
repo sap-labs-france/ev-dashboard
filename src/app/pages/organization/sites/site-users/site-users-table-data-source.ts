@@ -28,7 +28,7 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
   private addAction = new TableAddAction().getActionDef();
   private removeAction = new TableRemoveAction().getActionDef();
 
-  constructor(
+  public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     private messageService: MessageService,
@@ -47,8 +47,9 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
       if (this.site) {
         // Yes: Get data
         this.centralServerService.getSiteUsers(
-            {...this.buildFilterValues(), SiteID: this.site.id},
-            this.getPaging(), this.getSorting()).subscribe((siteUsers) => {
+          {...this.buildFilterValues(), SiteID: this.site.id},
+          this.getPaging(), this.getSorting()
+        ).subscribe((siteUsers) => {
           observer.next(siteUsers);
           observer.complete();
         }, (error) => {

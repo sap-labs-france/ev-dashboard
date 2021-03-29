@@ -5,7 +5,8 @@ import { ConfigService } from './config.service';
 
 @Injectable()
 export class UtilsService {
-  constructor(private configService: ConfigService) { }
+  // eslint-disable-next-line no-useless-constructor
+  public constructor(private configService: ConfigService) {}
 
   public consoleDebugLog(msg: any, error?: any) {
     if (this.configService.getDebug().enabled) {

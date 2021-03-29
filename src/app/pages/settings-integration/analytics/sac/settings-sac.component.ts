@@ -19,9 +19,9 @@ export class SettingsSacComponent implements OnInit, OnChanges {
   public timezone!: AbstractControl;
   public timezoneList: any = [];
 
-  constructor(
-      public analyticsLinksTableDataSource: AnalyticsLinksTableDataSource) {
-    // initialize timezone list from moment-timezone
+  public constructor(
+    public analyticsLinksTableDataSource: AnalyticsLinksTableDataSource) {
+    // Initialize timezone list from moment-timezone
     this.timezoneList = (moment as any).tz.names();
   }
 

@@ -22,7 +22,7 @@ export class ChargingStationLimitationComponent implements OnInit {
   @Input() public dialogRef!: MatDialogRef<any>;
   public chargingStation: ChargingStation;
 
-  constructor(
+  public constructor(
     private spinnerService: SpinnerService,
     private centralServerService: CentralServerService,
     private centralServerNotificationService: CentralServerNotificationService,
@@ -33,21 +33,21 @@ export class ChargingStationLimitationComponent implements OnInit {
       // Update Charging Station?
       this.centralServerNotificationService.getSubjectChargingStation().pipe(debounceTime(
         this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
-          if (this.chargingStation && singleChangeNotification && singleChangeNotification.data &&
+        if (this.chargingStation && singleChangeNotification && singleChangeNotification.data &&
             singleChangeNotification.data.id === this.chargingStation.id) {
-            // Reload
-            this.loadChargingStation();
-          }
-        });
+          // Reload
+          this.loadChargingStation();
+        }
+      });
       // Update Charging Station?
       this.centralServerNotificationService.getSubjectSiteArea().pipe(debounceTime(
         this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
-          if (this.chargingStation && singleChangeNotification && singleChangeNotification.data &&
+        if (this.chargingStation && singleChangeNotification && singleChangeNotification.data &&
             singleChangeNotification.data.id === this.chargingStation.siteAreaID) {
-            // Reload
-            this.loadChargingStation();
-          }
-        });
+          // Reload
+          this.loadChargingStation();
+        }
+      });
     }
   }
 

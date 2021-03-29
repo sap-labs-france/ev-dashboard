@@ -29,9 +29,9 @@ export class TableDeleteAction implements TableAction {
   }
 
   protected delete(data: Data, messageTitle: string, messageConfirm: string, messageSuccess: string, messageError: string,
-      deleteData: (id: string|number) => Observable<ActionResponse>,
-      dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
-      centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) {
+    deleteData: (id: string|number) => Observable<ActionResponse>,
+    dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
+    centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) {
     dialogService.createAndShowYesNoDialog(
       translateService.instant(messageTitle),
       translateService.instant(messageConfirm),

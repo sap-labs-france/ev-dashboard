@@ -61,7 +61,7 @@ export class SiteAreaComponent implements OnInit {
 
   public registrationToken!: RegistrationToken;
 
-  constructor(
+  public constructor(
     private authorizationService: AuthorizationService,
     private centralServerService: CentralServerService,
     private messageService: MessageService,

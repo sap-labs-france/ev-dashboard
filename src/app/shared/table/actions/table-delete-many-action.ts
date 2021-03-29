@@ -29,11 +29,12 @@ export class TableDeleteManyAction implements TableAction {
     return this.action;
   }
 
-  protected deleteMany(datas: Data[], messageTitle: string, messageConfirm: string, messageSuccess: string, messagePartialError: string,
-      messageError: string, deleteManyData: (ids: (string|number)[]) => Observable<ActionsResponse>,
-      dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
-      centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router,
-      clearSelectedRows: () => void, refresh?: () => Observable<void>) {
+  protected deleteMany(datas: Data[], messageTitle: string, messageConfirm: string, messageSuccess: string, messageSuccessAndError: string,
+    messageError: string, messageNoSuccessNoError: string, messageUnexpectedError: string,
+    deleteManyData: (ids: (string|number)[]) => Observable<ActionsResponse>,
+    dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
+    centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router,
+    clearSelectedRows: () => void, refresh?: () => Observable<void>) {
     // Confirm
     dialogService.createAndShowYesNoDialog(
       translateService.instant(messageTitle),
@@ -41,22 +42,15 @@ export class TableDeleteManyAction implements TableAction {
     ).subscribe((response) => {
       if (response === ButtonType.YES) {
         spinnerService.show();
-        deleteManyData(datas.map((data) => data.id)).subscribe((response: ActionsResponse) => {
-          if (response.inError) {
-            messageService.showErrorMessage(
-              translateService.instant(messagePartialError,
-                { inSuccess: response.inSuccess, inError: response.inError }));
-          } else {
-            messageService.showSuccessMessage(
-              translateService.instant(messageSuccess, { inSuccess: response.inSuccess }));
-          }
+        deleteManyData(datas.map((data) => data.id)).subscribe((responseAction: ActionsResponse) => {
           spinnerService.hide();
+          messageService.showActionsMessage(responseAction, messageSuccess, messageError, messageSuccessAndError, messageNoSuccessNoError);
           clearSelectedRows();
           if (refresh) {
             refresh().subscribe();
           }
         }, (error) => {
-          Utils.handleHttpError(error, router, messageService, centralServerService, messageError);
+          Utils.handleHttpError(error, router, messageService, centralServerService, messageUnexpectedError);
         });
       }
     });

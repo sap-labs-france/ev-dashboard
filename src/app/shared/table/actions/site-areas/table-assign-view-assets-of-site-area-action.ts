@@ -23,7 +23,7 @@ export class TableViewAssignedAssetsOfSiteAreaAction extends TableAssignAction {
   }
 
   private viewAssignedAssetsOfSiteArea(siteAreaAssetsDialogComponent: ComponentType<unknown>, siteArea: SiteArea,
-      dialog: MatDialog, refresh?: () => Observable<void>) {
+    dialog: MatDialog, refresh?: () => Observable<void>) {
     super.assign(siteAreaAssetsDialogComponent, siteArea, dialog, refresh);
   }
 }

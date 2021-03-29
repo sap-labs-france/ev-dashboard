@@ -46,7 +46,8 @@ export abstract class TableDataSource<T extends Data> {
   private searchValue = '';
   private staticFilters: Record<string, unknown>[] = [];
 
-  constructor(
+  // eslint-disable-next-line no-useless-constructor
+  public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     public additionalParameters?: any) {
@@ -241,8 +242,6 @@ export abstract class TableDataSource<T extends Data> {
     return [];
   }
 
-  public abstract buildTableDef(): TableDef;
-
   public setTableDef(tableDef: TableDef) {
     this.tableDef = tableDef;
   }
@@ -256,9 +255,7 @@ export abstract class TableDataSource<T extends Data> {
     // Init
     this.resetTotalNumberOfRecords();
     // Update Filter
-    const foundFilter = this.tableFiltersDef.find((filterDef) => {
-      return filterDef.id === filter.id;
-    });
+    const foundFilter = this.tableFiltersDef.find((filterDef) => filterDef.id === filter.id);
     // Update value
     if (foundFilter) {
       foundFilter.currentValue = filter.currentValue;
@@ -304,7 +301,9 @@ export abstract class TableDataSource<T extends Data> {
             }
             break;
           case 'date':
-            filterDef.reset && filterDef.reset();
+            if (Utils.objectHasProperty(filterDef, 'reset')) {
+              filterDef.reset();
+            };
             break;
         }
         this.updateFilterLabel(filterDef);
@@ -315,15 +314,15 @@ export abstract class TableDataSource<T extends Data> {
     }
   }
 
-  // tslint:disable-next-line:no-empty
+  // eslint-disable-next-line no-empty,@typescript-eslint/no-empty-function
   public rowCellUpdated(cellValue: any, rowIndex: number, columnDef: TableColumnDef) {
   }
 
-  // tslint:disable-next-line:no-empty
+  // eslint-disable-next-line no-empty,@typescript-eslint/no-empty-function
   public actionTriggered(actionDef: TableActionDef) {
   }
 
-  // tslint:disable-next-line:no-empty
+  // eslint-disable-next-line no-empty,@typescript-eslint/no-empty-function
   public rowActionTriggered(actionDef: TableActionDef, rowItem: any, dropdownItem?: DropdownItem) {
   }
 
@@ -335,6 +334,7 @@ export abstract class TableDataSource<T extends Data> {
     let filterJson = {};
     // Parse filters
     if (this.tableFiltersDef) {
+      // eslint-disable-next-line complexity
       this.tableFiltersDef.forEach((filterDef) => {
         // Check the 'All' value
         if (filterDef.currentValue && filterDef.currentValue !== FilterType.ALL_KEY) {
@@ -419,11 +419,9 @@ export abstract class TableDataSource<T extends Data> {
     return this.staticFilters;
   }
 
-  // tslint:disable-next-line:no-empty
+  // eslint-disable-next-line no-empty, @typescript-eslint/no-empty-function
   public onRowActionMenuOpen(action: TableActionDef, row: T) {
   }
-
-  public abstract buildTableColumnDefs(): TableColumnDef[];
 
   public refreshData(showSpinner = true): Observable<void> {
     // Init paging
@@ -479,8 +477,6 @@ export abstract class TableDataSource<T extends Data> {
       });
     });
   }
-
-  public abstract loadDataImpl(): Observable<DataResult<T>>;
 
   public getData(): T[] {
     return this.data;
@@ -547,7 +543,6 @@ export abstract class TableDataSource<T extends Data> {
     this.initTableActionsDef(force);
     this.initTableActionsRightDef(force);
     this.initTableRowActions(force);
-
     this.hasActions = (this.tableActionsDef && this.tableActionsDef.length > 0) ||
       (this.tableActionsRightDef && this.tableActionsRightDef.length > 0);
     this.hasFilters = (this.tableFiltersDef && this.tableFiltersDef.length > 0);
@@ -718,4 +713,10 @@ export abstract class TableDataSource<T extends Data> {
       }
     }
   }
+
+  public abstract buildTableDef(): TableDef;
+
+  public abstract buildTableColumnDefs(): TableColumnDef[];
+
+  public abstract loadDataImpl(): Observable<DataResult<T>>;
 }

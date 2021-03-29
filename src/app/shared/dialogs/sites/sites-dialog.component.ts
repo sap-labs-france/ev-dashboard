@@ -10,7 +10,7 @@ import { SitesDialogTableDataSource } from './sites-dialog-table-data-source';
   templateUrl: '../dialog-table-data.component.html',
 })
 export class SitesDialogComponent extends DialogTableDataComponent<Site> {
-  constructor(
+  public constructor(
     public dialogDataSource: SitesDialogTableDataSource,
     protected dialogRef: MatDialogRef<SitesDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data: any) {

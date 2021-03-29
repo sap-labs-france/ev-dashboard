@@ -15,7 +15,7 @@ import { Utils } from '../../../../utils/Utils';
 export class ConcurUserConnectionComponent extends AbstractTabComponent {
   public isAdmin!: boolean;
 
-  constructor(
+  public constructor(
     private centralServerService: CentralServerService,
     private messageService: MessageService,
     private router: Router,
@@ -43,18 +43,18 @@ export class ConcurUserConnectionComponent extends AbstractTabComponent {
           },
       };
       this.centralServerService.createIntegrationConnection(payload).subscribe((response: ActionResponse) => {
-          if (response.status === RestResponse.SUCCESS) {
-            this.messageService.showSuccessMessage('settings.refund.concur.link_success');
-          } else {
-            Utils.handleError(JSON.stringify(response),
-              this.messageService, 'settings.refund.concur.link_error');
-          }
-          this.router.navigate([`/users/${state.userId}`], { fragment: 'connections' });
-        }, (error) => {
-          Utils.handleError(JSON.stringify(error),
+        if (response.status === RestResponse.SUCCESS) {
+          this.messageService.showSuccessMessage('settings.refund.concur.link_success');
+        } else {
+          Utils.handleError(JSON.stringify(response),
             this.messageService, 'settings.refund.concur.link_error');
-          this.router.navigate([`/users/${state.userId}`], { fragment: 'connections' });
-        },
+        }
+        this.router.navigate([`/users/${state.userId}`], { fragment: 'connections' });
+      }, (error) => {
+        Utils.handleError(JSON.stringify(error),
+          this.messageService, 'settings.refund.concur.link_error');
+        this.router.navigate([`/users/${state.userId}`], { fragment: 'connections' });
+      },
       );
     } else if (this.activatedRoute.snapshot.queryParams['error']) {
       Utils.handleError(this.activatedRoute.snapshot.queryParams['error'],

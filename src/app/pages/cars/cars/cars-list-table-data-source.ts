@@ -36,7 +36,8 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
   private createAction = new TableCreateCarAction().getActionDef();
   private editAction = new TableEditCarAction().getActionDef();
   private deleteAction = new TableDeleteCarAction().getActionDef();
-  constructor(
+
+  public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     private messageService: MessageService,
@@ -176,20 +177,16 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
           name: 'cars.default_car',
           headerClass: 'text-center col-10p',
           class: 'text-center col-10p',
-          formatter: (defaultCar: boolean, car: Car) => {
-            return car.carUsers.find((userCar) => userCar.default) ?
-              this.translateService.instant('general.yes') : this.translateService.instant('general.no');
-          },
+          formatter: (defaultCar: boolean, car: Car) => car.carUsers.find((userCar) => userCar.default) ?
+            this.translateService.instant('general.yes') : this.translateService.instant('general.no'),
         },
         {
           id: 'owner',
           name: 'cars.car_owner',
           headerClass: 'text-center col-10p',
           class: 'text-center col-10p',
-          formatter: (carOwner: boolean, car: Car) => {
-            return car.carUsers.find((userCar) => userCar.owner) ?
-              this.translateService.instant('general.yes') : this.translateService.instant('general.no');
-          }
+          formatter: (carOwner: boolean, car: Car) => car.carUsers.find((userCar) => userCar.owner) ?
+            this.translateService.instant('general.yes') : this.translateService.instant('general.no')
         }
       );
     }

@@ -14,7 +14,7 @@ export class ChargingStationsComponent extends AbstractTabComponent {
   public canListChargingStationsInError: boolean;
   public canListChargingProfiles: boolean;
   public canListTokens: boolean;
-  constructor(
+  public constructor(
     private authorizationService: AuthorizationService,
     activatedRoute: ActivatedRoute,
     windowService: WindowService,

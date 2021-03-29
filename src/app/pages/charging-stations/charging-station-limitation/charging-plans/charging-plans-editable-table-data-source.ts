@@ -21,7 +21,7 @@ export class ChargingPlansEditableTableDataSource extends EditableTableDataSourc
   private connectorID = 0;
   private chargerPowers!: ChargingStationPowers;
 
-  constructor(
+  public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     private datePipe: AppDatePipe,

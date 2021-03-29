@@ -23,7 +23,7 @@ export class ChargingStationsTransactionDetailComponentCellComponent extends Cel
   public displaySessionAuthorized!: boolean;
   public dialogRef!: MatDialogRef<TransactionDialogComponent>;
 
-  constructor(
+  public constructor(
     private localeService: LocaleService,
     private authorizationService: AuthorizationService,
     private dialog: MatDialog) {

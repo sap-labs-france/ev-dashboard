@@ -19,7 +19,7 @@ export class StatisticsBuildService {
   private unitLabel: string;
   private language!: string;
 
-  constructor(
+  public constructor(
     private translateService: TranslateService,
     private localeService: LocaleService) {
     this.totalLabel = this.translateService.instant('statistics.total');
@@ -33,8 +33,7 @@ export class StatisticsBuildService {
     });
   }
 
-  public buildStackedChartDataForMonths(statisticsData: StatisticData[], roundingDecimals: number = 0, addUnitToLabel = false,
-      sortedBy: 'label-asc' | 'label-desc' | 'size-asc' | 'size-desc' = 'size-desc', maxNumberOfItems = 20): ChartData {
+  public buildStackedChartDataForMonths(statisticsData: StatisticData[], roundingDecimals: number = 0, addUnitToLabel = false, sortedBy: 'label-asc' | 'label-desc' | 'size-asc' | 'size-desc' = 'size-desc', maxNumberOfItems = 20): ChartData {
     const stackedChartData: ChartData = { labels: [], datasets: [] };
     let roundingFactor = 1;
     let monthString = '';
@@ -61,7 +60,7 @@ export class StatisticsBuildService {
     }
     if (transactionValues && transactionValues.length > 0) {
       const labels: string[] = [];
-      // tslint:disable-next-line: cyclomatic-complexity
+      // eslint-disable-next-line complexity
       transactionValues.forEach((transactionValue) => {
         // for each month (sorted from 0 to 11, but attention, multiple month values are possible if multiple units!):
         let totalValuePerMonth = 0;
@@ -316,8 +315,7 @@ export class StatisticsBuildService {
     return count;
   }
 
-  public calculateTotalsWithUnits(statisticsData: any,
-      roundingDecimals: number = 0, ignoreEmptyUnit = true): StatisticsBuildValueWithUnit[] {
+  public calculateTotalsWithUnits(statisticsData: any, roundingDecimals: number = 0, ignoreEmptyUnit = true): StatisticsBuildValueWithUnit[] {
     let roundingFactor = 1;
     let index = 0;
     let localString: any;
@@ -343,7 +341,7 @@ export class StatisticsBuildService {
     }
 
     if (transactionValues && transactionValues.length > 0) {
-      transactionValues.forEach((transactionValue: { [x: string]: number | string; }) => {
+      transactionValues.forEach((transactionValue: { [x: string]: number | string }) => {
 
         totalWithUnit = { value: 0, unit: '' };
         unitFound = false;

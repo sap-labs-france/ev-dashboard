@@ -19,16 +19,17 @@ const misc: any = {
 })
 
 export class NavbarComponent implements OnInit {
+  @ViewChild('app-navbar') public button: any;
+
   public location: Location;
   public mobileMenuVisible: any = 0;
 
-  @ViewChild('app-navbar') public button: any;
   private listTitles!: any[];
   private nativeElement: Node;
   private toggleButton: any;
   private sidebarVisible: boolean;
 
-  constructor(
+  public constructor(
     location: Location,
     private centralServerService: CentralServerService,
     private element: ElementRef,
@@ -101,9 +102,7 @@ export class NavbarComponent implements OnInit {
 
   public ngOnInit() {
     if (this.activatedRoute && this.activatedRoute.routeConfig && this.activatedRoute.routeConfig.children) {
-      this.listTitles = this.activatedRoute.routeConfig.children.filter((route) => {
-        return route.data && route.data.menu && this.guard.isRouteAllowed(route);
-      }).map((route) => route.data ? route.data.menu : null);
+      this.listTitles = this.activatedRoute.routeConfig.children.filter((route) => route.data && route.data.menu && this.guard.isRouteAllowed(route)).map((route) => route.data ? route.data.menu : null);
     }
     const navbar: HTMLElement = this.element.nativeElement;
     const body = document.getElementsByTagName('body')[0];
@@ -201,15 +200,15 @@ export class NavbarComponent implements OnInit {
 
   public getTitle() {
     if (this.listTitles) {
-      const titlee: any = this.location.prepareExternalUrl(this.location.path());
+      const titleInUrl: string = this.location.prepareExternalUrl(this.location.path());
 
       for (const title of this.listTitles) {
-        if (title.type === 'link' && title.path === titlee) {
+        if (title.type === 'link' && title.path === titleInUrl) {
           return title.title;
         } else if (title.type === 'sub') {
           for (const child of title.children) {
             const subtitle = title.path + '/' + child.path;
-            if (subtitle === titlee) {
+            if (subtitle === titleInUrl) {
               return child.title;
             }
           }

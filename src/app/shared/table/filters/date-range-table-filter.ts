@@ -4,7 +4,7 @@ import { FilterType, TableFilterDef } from '../../../types/Table';
 import { TableFilter } from './table-filter';
 
 export class DateRangeTableFilter extends TableFilter {
-  constructor(language?: string) {
+  public constructor(language?: string) {
     moment.locale(language);
     super();
     // Define filter

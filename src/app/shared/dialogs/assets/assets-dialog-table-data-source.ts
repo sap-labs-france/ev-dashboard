@@ -14,7 +14,7 @@ import { DialogTableDataSource } from '../dialog-table-data-source';
 
 @Injectable()
 export class AssetsDialogTableDataSource extends DialogTableDataSource<Asset> {
-  constructor(
+  public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     private messageService: MessageService,
@@ -30,15 +30,15 @@ export class AssetsDialogTableDataSource extends DialogTableDataSource<Asset> {
       // Get data
       this.centralServerService.getAssets(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((assets) => {
-          // Ok
-          observer.next(assets);
-          observer.complete();
-        }, (error) => {
-          // No longer exists!
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-          // Error
-          observer.error(error);
-        });
+        // Ok
+        observer.next(assets);
+        observer.complete();
+      }, (error) => {
+        // No longer exists!
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+        // Error
+        observer.error(error);
+      });
     });
   }
 

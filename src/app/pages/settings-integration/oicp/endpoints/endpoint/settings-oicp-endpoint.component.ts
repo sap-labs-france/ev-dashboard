@@ -45,7 +45,8 @@ export class SettingsOicpEndpointComponent implements OnInit {
     }
   ];
 
-  constructor(
+  // eslint-disable-next-line no-useless-constructor
+  public constructor(
     private centralServerService: CentralServerService,
     private messageService: MessageService,
     private spinnerService: SpinnerService,

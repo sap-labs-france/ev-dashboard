@@ -5,14 +5,14 @@ import { OcpiEndpoint } from '../../../../../types/ocpi/OCPIEndpoint';
 import { SettingsOcpiEndpointsDetailsTableDataSource } from './settings-ocpi-endpoints-details-table-data-source';
 
 @Component({
-  template: '<app-table class="endpoint-details" [dataSource]="settingsOcpiEnpointsDetaislTableDataSource"></app-table>',
+  template: '<app-table class="endpoint-details" [dataSource]="settingsOcpiEndpointsDetaislTableDataSource"></app-table>',
   providers: [SettingsOcpiEndpointsDetailsTableDataSource],
 })
 
-export class SettingsOcpiEnpointsDetailsComponent extends CellContentTemplateDirective implements OnChanges, OnInit {
+export class SettingsOcpiEndpointsDetailsComponent extends CellContentTemplateDirective implements OnChanges, OnInit {
   @Input() public row!: OcpiEndpoint;
 
-  constructor(public settingsOcpiEnpointsDetaislTableDataSource: SettingsOcpiEndpointsDetailsTableDataSource) {
+  public constructor(public settingsOcpiEndpointsDetaislTableDataSource: SettingsOcpiEndpointsDetailsTableDataSource) {
     super();
   }
 
@@ -26,8 +26,8 @@ export class SettingsOcpiEnpointsDetailsComponent extends CellContentTemplateDir
 
   private refreshData(): void {
     // Set
-    this.settingsOcpiEnpointsDetaislTableDataSource.setEndpoint(this.row);
+    this.settingsOcpiEndpointsDetaislTableDataSource.setEndpoint(this.row);
     // Reload data
-    this.settingsOcpiEnpointsDetaislTableDataSource.refreshData(false).subscribe();
+    this.settingsOcpiEndpointsDetaislTableDataSource.refreshData(false).subscribe();
   }
 }

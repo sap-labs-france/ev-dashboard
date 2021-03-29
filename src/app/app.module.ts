@@ -67,6 +67,7 @@ import { LocalStorageService } from './services/local-storage.service';
 import { LocaleService } from './services/locale.service';
 import { MessageService } from './services/message.service';
 import { SpinnerService } from './services/spinner.service';
+import { StripeService } from './services/stripe.service';
 import { WindowService } from './services/window.service';
 import { FooterModule } from './shared/footer/footer.module';
 import { NavbarModule } from './shared/navbar/navbar.module';
@@ -121,20 +122,14 @@ export class MaterialModule {
 }
 
 // Load translations from "/assets/i18n/[lang].json" ([lang] is the lang
-export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http);
-}
+export const HttpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(http);
 
-export function getLocalStorage() {
-  return (!Utils.isUndefined(window)) ? window.localStorage : null;
-}
+export const getLocalStorage = () => (!Utils.isUndefined(window)) ? window.localStorage : null;
 
-export function configFactory(config: ConfigService) {
-  return () => config.getConfig();
-}
+export const configFactory = (config: ConfigService) => () => config.getConfig();
 
-export function localeFactory(
-  centralServerService: CentralServerService, translateService: TranslateService) {
+export const localeFactory = (
+  centralServerService: CentralServerService, translateService: TranslateService) => {
   // Default
   let language = translateService.getBrowserLang();
   // Get current user
@@ -143,7 +138,7 @@ export function localeFactory(
     language = loggedUser.language;
   }
   return language;
-}
+};
 
 @NgModule({
   imports: [
@@ -196,6 +191,7 @@ export function localeFactory(
     TranslateService,
     WindowService,
     DashboardService,
+    StripeService,
     { provide: APP_INITIALIZER, useFactory: configFactory, deps: [ConfigService], multi: true },
     { provide: MAT_DATE_LOCALE, useFactory: localeFactory, deps: [CentralServerService, TranslateService], multi: true },
     { provide: DatetimeAdapter, useClass: MomentDatetimeAdapter },
@@ -203,7 +199,7 @@ export function localeFactory(
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  constructor(
+  public constructor(
     private centralServerService: CentralServerService,
     private translateService: TranslateService) {
 

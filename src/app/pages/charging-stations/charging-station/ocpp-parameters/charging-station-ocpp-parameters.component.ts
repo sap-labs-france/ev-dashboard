@@ -1,4 +1,4 @@
-import { Component, Injectable, Input, OnInit } from '@angular/core';
+import { Component, Injectable, Input, OnChanges, OnInit } from '@angular/core';
 import { FormArray, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -19,15 +19,15 @@ import { ChargingStationOcppParametersEditableTableDataSource } from './charging
   template: '<div class="ocpp-param-component"><app-table [dataSource]="ocppParametersDataSource"></app-table></div>',
   providers: [ChargingStationOcppParametersEditableTableDataSource]
 })
-@Injectable()
-export class ChargingStationOcppParametersComponent implements OnInit {
+// @Injectable()
+export class ChargingStationOcppParametersComponent implements OnInit, OnChanges {
   @Input() public chargingStation!: ChargingStation;
   public isAdmin: boolean;
   public formGroup!: FormGroup;
   public parameters!: FormArray;
   public userLocales: KeyValue[];
 
-  constructor(
+  public constructor(
     public ocppParametersDataSource: ChargingStationOcppParametersEditableTableDataSource,
     private authorizationService: AuthorizationService,
     private centralServerService: CentralServerService,

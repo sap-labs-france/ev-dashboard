@@ -3,7 +3,7 @@ import { FilterType, TableFilterDef } from '../../../types/Table';
 import { TableFilter } from './table-filter';
 
 export class SiteAreaTableFilter extends TableFilter {
-  constructor(dependentFilters?: TableFilterDef[]) {
+  public constructor(dependentFilters?: TableFilterDef[]) {
     super();
     // Define filter
     const filterDef: TableFilterDef = {

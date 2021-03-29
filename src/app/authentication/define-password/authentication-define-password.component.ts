@@ -33,7 +33,7 @@ export class AuthenticationDefinePasswordComponent implements OnInit, OnDestroy 
 
   private siteKey: string;
 
-  constructor(
+  public constructor(
     private centralServerService: CentralServerService,
     private router: Router,
     private route: ActivatedRoute,
@@ -59,9 +59,7 @@ export class AuthenticationDefinePasswordComponent implements OnInit, OnDestroy 
             Validators.required,
           ])),
       },
-        (passwordFormGroup: FormGroup) => {
-          return Utils.validateEqual(passwordFormGroup, 'password', 'repeatPassword');
-        }),
+      (passwordFormGroup: FormGroup) => Utils.validateEqual(passwordFormGroup, 'password', 'repeatPassword')),
     });
     // Form
     this.passwords = (this.formGroup.controls['passwords'] as FormGroup);

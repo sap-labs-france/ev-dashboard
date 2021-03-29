@@ -10,7 +10,7 @@ export class AppInactivityPipe implements PipeTransform {
   private percentPipe!: PercentPipe;
   private appDurationPipe!: AppDurationPipe;
 
-  constructor(localeService: LocaleService) {
+  public constructor(localeService: LocaleService) {
     // Get the locale
     localeService.getCurrentLocaleSubject().subscribe((locale: Locale) => {
       this.locale = locale.currentLocaleJS;

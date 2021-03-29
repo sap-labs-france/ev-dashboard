@@ -11,7 +11,7 @@ import { CentralServerService } from './central-server.service';
 export class ComponentService {
   private activeComponents!: string[]|null;
 
-  constructor(
+  public constructor(
     private centralServerService: CentralServerService) {
     this.centralServerService.getCurrentUserSubject().subscribe((user) => {
       if (user && user.activeComponents) {
@@ -74,7 +74,7 @@ export class ComponentService {
   }
 
   public savePricingSettings(settings: PricingSettings): Observable<ActionResponse> {
-    // build setting payload
+    // Build setting payload
     const settingsToSave = {
       id: settings.id,
       identifier: TenantComponents.PRICING,
@@ -97,7 +97,7 @@ export class ComponentService {
     if (!settings.type) {
       settings.type = BillingSettingsType.STRIPE;
     }
-     // build setting payload
+    // Build setting payload
     const settingsToSave = {
       id: settings.id,
       identifier: TenantComponents.BILLING,
@@ -123,7 +123,7 @@ export class ComponentService {
     if (!settings.type) {
       settings.type = RefundSettingsType.CONCUR;
     }
-    // build setting payload
+    // Build setting payload
     const settingsToSave = {
       id: settings.id,
       identifier: TenantComponents.REFUND,
@@ -142,7 +142,7 @@ export class ComponentService {
   }
 
   public saveOcpiSettings(settings: RoamingSettings): Observable<ActionResponse> {
-    // build setting payload
+    // Build setting payload
     const settingsToSave = {
       id: settings.id,
       identifier: TenantComponents.OCPI,
@@ -158,7 +158,7 @@ export class ComponentService {
   }
 
   public saveOicpSettings(settings: RoamingSettings): Observable<ActionResponse> {
-    // build setting payload
+    // Build setting payload
     const settingsToSave = {
       id: settings.id,
       identifier: TenantComponents.OICP,
@@ -178,7 +178,7 @@ export class ComponentService {
     if (!settings.type) {
       settings.type = AssetSettingsType.ASSET;
     }
-    // build setting payload
+    // Build setting payload
     const settingsToSave = {
       id: settings.id,
       identifier: TenantComponents.ASSET,
@@ -212,7 +212,7 @@ export class ComponentService {
     if (!settings.type) {
       settings.type = CarConnectorSettingsType.CAR_CONNECTOR;
     }
-    // build setting payload
+    // Build setting payload
     const settingsToSave = {
       id: settings.id,
       identifier: TenantComponents.CAR_CONNECTOR,
@@ -236,7 +236,7 @@ export class ComponentService {
   }
 
   public saveSacSettings(settings: AnalyticsSettings): Observable<ActionResponse> {
-    // build setting payload
+    // Build setting payload
     const settingsToSave = {
       id: settings.id,
       identifier: TenantComponents.ANALYTICS,
@@ -252,7 +252,7 @@ export class ComponentService {
   }
 
   public saveSmartChargingSettings(settings: SmartChargingSettings): Observable<ActionResponse> {
-    // build setting payload
+    // Build setting payload
     const settingsToSave = {
       id: settings.id,
       identifier: TenantComponents.SMART_CHARGING,
@@ -490,7 +490,7 @@ export class ComponentService {
   }
 
   public saveCryptoSettings(settings: CryptoSettings): Observable<ActionResponse> {
-    // build setting payload
+    // Build setting payload
     const settingsToSave = {
       id: settings.id,
       identifier: TechnicalSettings.CRYPTO,
@@ -509,7 +509,7 @@ export class ComponentService {
       // Get the user settings
       this.centralServerService.getSetting(TechnicalSettings.USER).subscribe((settings) => {
         let userSettings: UserSettings;
-          // Get the needed settings for update
+        // Get the needed settings for update
         if (settings) {
           userSettings = {
             id: settings.id,

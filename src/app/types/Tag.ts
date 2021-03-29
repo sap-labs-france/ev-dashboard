@@ -13,3 +13,10 @@ export interface Tag extends Data {
   user?: User;
   default?: boolean;
 }
+
+export const TagRequiredImportProperties = [
+  'id'
+];
+export const TagOptionalImportProperties = [
+  'description'
+];

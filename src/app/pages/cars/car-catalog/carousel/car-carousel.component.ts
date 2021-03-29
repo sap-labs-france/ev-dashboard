@@ -20,7 +20,7 @@ export class CarCarouselComponent implements AfterViewInit {
   public images: string[] = null;
   public noImages = false;
 
-  constructor(
+  public constructor(
     private centralServerService: CentralServerService,
     private spinnerService: SpinnerService,
     private router: Router,
@@ -39,21 +39,21 @@ export class CarCarouselComponent implements AfterViewInit {
       this.spinnerService.show();
       this.centralServerService.getCarCatalogImages(this.carCatalogID, {},
         { limit: 2, skip: Constants.DEFAULT_SKIP }).subscribe((carImage) => {
-          this.spinnerService.hide();
-          if (carImage.count > 0) {
-            this.images = Array(carImage.count).fill(null);
-            // Load the two first images
-            this.images[0] = carImage.result[0].image;
-            if (carImage.count > 1) {
-              this.images[1] = carImage.result[1].image;
-            }
-          } else {
-            this.noImages = true;
+        this.spinnerService.hide();
+        if (carImage.count > 0) {
+          this.images = Array(carImage.count).fill(null);
+          // Load the two first images
+          this.images[0] = carImage.result[0].image;
+          if (carImage.count > 1) {
+            this.images[1] = carImage.result[1].image;
           }
-        }, (error) => {
-          this.spinnerService.hide();
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.car_image_error');
-        });
+        } else {
+          this.noImages = true;
+        }
+      }, (error) => {
+        this.spinnerService.hide();
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.car_image_error');
+      });
     }
   }
 

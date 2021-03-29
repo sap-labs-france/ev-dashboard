@@ -53,7 +53,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
   private deleteAction = new TableDeleteChargingStationAction().getActionDef();
   private generateQrCodeConnectorAction = new TableChargingStationGenerateQrCodeConnectorAction().getActionDef();
 
-  constructor(
+  public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     private messageService: MessageService,
@@ -83,33 +83,33 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
       // Get data
       this.centralServerService.getChargingStations(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((chargers) => {
-          // Update details status
-          chargers.result.forEach((chargingStation: ChargingStation) => {
-            // At first filter out the connectors that are null
-            chargingStation.connectors = chargingStation.connectors.filter((connector: Connector) => !Utils.isNullOrUndefined(connector));
-            chargingStation.connectors.forEach((connector) => {
-              connector.hasDetails = connector.currentTransactionID > 0;
-              let connectorIsInactive = false;
-              if (chargingStation.inactive ||
+        // Update details status
+        chargers.result.forEach((chargingStation: ChargingStation) => {
+          // At first filter out the connectors that are null
+          chargingStation.connectors = chargingStation.connectors.filter((connector: Connector) => !Utils.isNullOrUndefined(connector));
+          chargingStation.connectors.forEach((connector) => {
+            connector.hasDetails = connector.currentTransactionID > 0;
+            let connectorIsInactive = false;
+            if (chargingStation.inactive ||
                 chargingStation.firmwareUpdateStatus === FirmwareStatus.INSTALLING) {
-                connectorIsInactive = true;
-              }
-              connector.status = connectorIsInactive ? ChargePointStatus.UNAVAILABLE : connector.status;
-              connector.currentInstantWatts = connectorIsInactive ? 0 : connector.currentInstantWatts;
-              connector.currentStateOfCharge = connectorIsInactive ? 0 : connector.currentStateOfCharge;
-              connector.currentTotalConsumptionWh = connectorIsInactive ? 0 : connector.currentTotalConsumptionWh;
-              connector.currentTotalInactivitySecs = connectorIsInactive ? 0 : connector.currentTotalInactivitySecs;
-            });
+              connectorIsInactive = true;
+            }
+            connector.status = connectorIsInactive ? ChargePointStatus.UNAVAILABLE : connector.status;
+            connector.currentInstantWatts = connectorIsInactive ? 0 : connector.currentInstantWatts;
+            connector.currentStateOfCharge = connectorIsInactive ? 0 : connector.currentStateOfCharge;
+            connector.currentTotalConsumptionWh = connectorIsInactive ? 0 : connector.currentTotalConsumptionWh;
+            connector.currentTotalInactivitySecs = connectorIsInactive ? 0 : connector.currentTotalInactivitySecs;
           });
-          // Ok
-          observer.next(chargers);
-          observer.complete();
-        }, (error) => {
-          // No longer exists!
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-          // Error
-          observer.error(error);
         });
+        // Ok
+        observer.next(chargers);
+        observer.complete();
+      }, (error) => {
+        // No longer exists!
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+        // Error
+        observer.error(error);
+      });
     });
   }
 
@@ -250,6 +250,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
     }
   }
 
+  // eslint-disable-next-line complexity
   public rowActionTriggered(actionDef: TableActionDef, chargingStation: ChargingStation, dropdownItem?: DropdownItem) {
     switch (actionDef.id) {
       case ChargingStationButtonAction.EDIT_CHARGING_STATION:

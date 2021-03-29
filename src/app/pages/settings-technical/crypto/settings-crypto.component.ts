@@ -19,7 +19,8 @@ export class SettingsCryptoComponent implements OnInit {
   public formGroup!: FormGroup;
   public cryptoSettings: CryptoSettings;
 
-  constructor(
+  // eslint-disable-next-line no-useless-constructor
+  public constructor(
     private centralServerService: CentralServerService,
     private componentService: ComponentService,
     private spinnerService: SpinnerService,

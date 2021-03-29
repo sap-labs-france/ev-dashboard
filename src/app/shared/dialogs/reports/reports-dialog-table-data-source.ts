@@ -15,7 +15,7 @@ import { DialogTableDataSource } from '../dialog-table-data-source';
 
 @Injectable()
 export class ReportsDialogTableDataSource extends DialogTableDataSource<RefundReport> {
-  constructor(
+  public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     private messageService: MessageService,
@@ -34,15 +34,15 @@ export class ReportsDialogTableDataSource extends DialogTableDataSource<RefundRe
       filters['MinimalPrice'] = '0';
       this.centralServerService.getRefundReports(filters,
         this.getPaging(), this.getSorting()).subscribe((report) => {
-          // Ok
-          observer.next(report);
-          observer.complete();
-        }, (error) => {
-          // No longer exists!
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-          // Error
-          observer.error(error);
-        });
+        // Ok
+        observer.next(report);
+        observer.complete();
+      }, (error) => {
+        // No longer exists!
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+        // Error
+        observer.error(error);
+      });
     });
   }
 

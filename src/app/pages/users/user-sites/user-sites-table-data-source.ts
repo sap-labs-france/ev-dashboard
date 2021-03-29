@@ -28,15 +28,15 @@ export class UserSitesTableDataSource extends TableDataSource<SiteUser> {
   private addAction = new TableAddAction().getActionDef();
   private removeAction = new TableRemoveAction().getActionDef();
 
-  constructor(
-      public spinnerService: SpinnerService,
-      public translateService: TranslateService,
-      private messageService: MessageService,
-      private router: Router,
-      private dialog: MatDialog,
-      private dialogService: DialogService,
-      private centralServerService: CentralServerService,
-      private authorizationService: AuthorizationService) {
+  public constructor(
+    public spinnerService: SpinnerService,
+    public translateService: TranslateService,
+    private messageService: MessageService,
+    private router: Router,
+    private dialog: MatDialog,
+    private dialogService: DialogService,
+    private centralServerService: CentralServerService,
+    private authorizationService: AuthorizationService) {
     super(spinnerService, translateService);
     // Init
     this.initDataSource();

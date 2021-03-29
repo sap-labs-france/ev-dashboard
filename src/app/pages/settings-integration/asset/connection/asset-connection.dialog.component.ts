@@ -12,7 +12,7 @@ export class AssetConnectionDialogComponent implements AfterViewInit {
   @ViewChild('appRef') public appRef!: AssetConnectionComponent;
   public currentConnection!: AssetConnectionSetting;
 
-  constructor(
+  public constructor(
     public dialogRef: MatDialogRef<AssetConnectionDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data: AssetConnectionSetting) {
     this.currentConnection = data;

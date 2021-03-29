@@ -7,8 +7,9 @@ import { ButtonType, DialogType } from '../types/Table';
 
 @Injectable()
 export class DialogService {
-  constructor(private matDialog: MatDialog) {
-  }
+  // eslint-disable-next-line no-useless-constructor
+  public constructor(
+    private matDialog: MatDialog) {}
 
   public closeAll() {
     this.matDialog.closeAll();

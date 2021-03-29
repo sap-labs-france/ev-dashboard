@@ -11,9 +11,9 @@ export class CarDialogComponent implements AfterViewInit {
   @ViewChild('appRef') public appRef!: CarComponent;
   public carID!: string;
 
-  constructor(
-      public dialogRef: MatDialogRef<CarDialogComponent>,
-      @Inject(MAT_DIALOG_DATA) data: string) {
+  public constructor(
+    public dialogRef: MatDialogRef<CarDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) data: string) {
     this.carID = data;
   }
 

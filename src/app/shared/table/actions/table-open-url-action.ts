@@ -23,6 +23,6 @@ export class TableOpenURLAction implements TableAction {
   }
 
   protected openURL(url: string) {
-      window.open(url, '_blank');
+    window.open(url, '_blank');
   }
 }

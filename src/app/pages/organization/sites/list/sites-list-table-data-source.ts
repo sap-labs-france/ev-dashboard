@@ -50,7 +50,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
   private exportOCPPParamsAction = new TableExportOCPPParamsAction().getActionDef();
   private siteGenerateQrCodeConnectorAction = new TableSiteGenerateQrCodeConnectorAction().getActionDef();
 
-  constructor(
+  public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     private messageService: MessageService,
@@ -80,15 +80,15 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
       // Get Sites
       this.centralServerService.getSites(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((sites) => {
-          // Ok
-          observer.next(sites);
-          observer.complete();
-        }, (error) => {
-          // Show error
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-          // Error
-          observer.error(error);
-        });
+        // Ok
+        observer.next(sites);
+        observer.complete();
+      }, (error) => {
+        // Show error
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+        // Error
+        observer.error(error);
+      });
     });
   }
 
@@ -273,14 +273,14 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
             this.centralServerService, this.router, this.spinnerService);
         }
         break;
-        case ChargingStationButtonAction.GENERATE_QR_CODE:
-          if (actionDef.action) {
-            (actionDef as TableSiteGenerateQrCodeConnectorsActionDef).action(
-              site, this.translateService, this.spinnerService,
-              this.messageService, this.centralServerService, this.router
-            );
-          }
-          break;
+      case ChargingStationButtonAction.GENERATE_QR_CODE:
+        if (actionDef.action) {
+          (actionDef as TableSiteGenerateQrCodeConnectorsActionDef).action(
+            site, this.translateService, this.spinnerService,
+            this.messageService, this.centralServerService, this.router
+          );
+        }
+        break;
     }
   }
 

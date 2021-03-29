@@ -16,10 +16,10 @@ export class TransactionsComponent extends AbstractTabComponent {
   public canRefundTransaction: boolean;
   public canListTransactionsInError: boolean;
 
-  constructor(
-      private authorizationService: AuthorizationService,
-      private componentService: ComponentService,
-      activatedRoute: ActivatedRoute, windowService: WindowService) {
+  public constructor(
+    private authorizationService: AuthorizationService,
+    private componentService: ComponentService,
+    activatedRoute: ActivatedRoute, windowService: WindowService) {
     super(activatedRoute, windowService, ['inprogress', 'history', 'inerror', 'refund']);
     this.canListTransactions = this.authorizationService.canListTransactions();
     this.canListTransactionsInError = this.authorizationService.canListTransactionsInError();

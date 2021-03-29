@@ -39,7 +39,7 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
   private displayAction = new TableViewAssetAction().getActionDef();
   private retrieveConsumptionAction = new TableRetrieveAssetConsumptionAction().getActionDef();
 
-  constructor(
+  public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     private messageService: MessageService,

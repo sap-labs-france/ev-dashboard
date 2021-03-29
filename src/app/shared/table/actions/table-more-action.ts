@@ -14,7 +14,7 @@ export class TableMoreAction implements TableAction {
     dropdownActions: [],
   };
 
-  constructor(dropdownActions: TableActionDef[]) {
+  public constructor(dropdownActions: TableActionDef[]) {
     if (this.action.dropdownActions) {
       this.action.dropdownActions.push(...dropdownActions);
     }

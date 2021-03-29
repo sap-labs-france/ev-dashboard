@@ -26,7 +26,7 @@ export class CarUsersEditableTableDataSource extends EditableTableDataSource<Use
   private addAction: TableActionDef;
   private removeAction: TableActionDef;
 
-  constructor(
+  public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     private centralServerService: CentralServerService,
@@ -98,35 +98,35 @@ export class CarUsersEditableTableDataSource extends EditableTableDataSource<Use
         // Yes: Get data
         const paging = this.getPaging();
         this.centralServerService.getCarUsers(
-          { ...this.buildFilterValues(), CarID: this.carID },
+          { ...this.buildFilterValues(), carID: this.carID },
           paging, this.getSorting()).subscribe((usersCar) => {
-            // Initial Assignment
-            if (!this.serverCalled) {
-              // Keep original list for comparison
-              this.carUsers = Utils.cloneObject(usersCar.result) as UserCar[];
-              // Set rows manually
-              this.editableRows = usersCar.result;
-              this.serverCalled = true;
-            }
-            // Check Paging
-            if (paging.skip !== 0) {
-              // Add new paginated rows
-              this.carUsers.splice(paging.skip, paging.limit, ...Utils.cloneObject(usersCar.result) as UserCar[]);
-              this.editableRows.splice(paging.skip, paging.limit, ...usersCar.result);
-            }
-            // Create the form controls
-            this.createFormControls();
-            observer.next({
-              count: usersCar.count + this.getAddedCarUsers().length - this.getRemovedCarUsers().length,
-              result: paging.skip !== 0 ? usersCar.result : this.editableRows,
-            });
-            observer.complete();
-          }, (error) => {
-            // No longer exists!
-            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-            // Error
-            observer.error(error);
+          // Initial Assignment
+          if (!this.serverCalled) {
+            // Keep original list for comparison
+            this.carUsers = Utils.cloneObject(usersCar.result) as UserCar[];
+            // Set rows manually
+            this.editableRows = usersCar.result;
+            this.serverCalled = true;
+          }
+          // Check Paging
+          if (paging.skip !== 0) {
+            // Add new paginated rows
+            this.carUsers.splice(paging.skip, paging.limit, ...Utils.cloneObject(usersCar.result) as UserCar[]);
+            this.editableRows.splice(paging.skip, paging.limit, ...usersCar.result);
+          }
+          // Create the form controls
+          this.createFormControls();
+          observer.next({
+            count: usersCar.count + this.getAddedCarUsers().length - this.getRemovedCarUsers().length,
+            result: paging.skip !== 0 ? usersCar.result : this.editableRows,
           });
+          observer.complete();
+        }, (error) => {
+          // No longer exists!
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          // Error
+          observer.error(error);
+        });
       } else {
         // Recreate the form controls
         this.createFormControls();
@@ -137,10 +137,6 @@ export class CarUsersEditableTableDataSource extends EditableTableDataSource<Use
         observer.complete();
       }
     });
-  }
-
-  protected createRow(): UserCar {
-    return null;
   }
 
   public setCarID(carID: string) {
@@ -167,50 +163,6 @@ export class CarUsersEditableTableDataSource extends EditableTableDataSource<Use
       ...this.getAddedCarUsers(),
       ...this.getUpdatedCarUsers(),
     ];
-  }
-
-  private getAddedCarUsers(): UserCar[] {
-    // Check users in original list not in updated list
-    const addedCarUsers: UserCar[] = [];
-    // Updated users
-    for (const carUser of this.editableRows) {
-      // Original users
-      const foundUserCar = this.carUsers.find((updatedCarUser) => updatedCarUser.user.id === carUser.user.id);
-      if (!foundUserCar) {
-        addedCarUsers.push({
-          user: carUser.user,
-          carID: carUser.carID,
-          default: carUser.default,
-          owner: carUser.owner,
-        } as UserCar);
-      }
-    }
-    return addedCarUsers;
-  }
-
-  private getUpdatedCarUsers(): UserCar[] {
-    // Check users in original list not in updated list
-    const updatedCarUsers: UserCar[] = [];
-    // Original users
-    for (const carUser of this.carUsers) {
-      // Updated users
-      const foundUserCar = this.editableRows.find((updatedCarUser) => updatedCarUser.user.id === carUser.user.id);
-      if (foundUserCar) {
-        // Check if diff
-        if (foundUserCar.owner !== carUser.owner ||
-            foundUserCar.default !== carUser.default) {
-          // Yes
-          updatedCarUsers.push({
-            id: foundUserCar.id,
-            user: foundUserCar.user,
-            carID: foundUserCar.carID,
-            default: foundUserCar.default,
-            owner: foundUserCar.owner,
-          } as UserCar);
-        }
-      }
-    }
-    return updatedCarUsers;
   }
 
   public getRemovedCarUsers(): UserCar[] {
@@ -250,6 +202,10 @@ export class CarUsersEditableTableDataSource extends EditableTableDataSource<Use
         this.refreshData().subscribe();
         break;
     }
+  }
+
+  protected createRow(): UserCar {
+    return null;
   }
 
   private showAddUsersDialog() {
@@ -300,18 +256,60 @@ export class CarUsersEditableTableDataSource extends EditableTableDataSource<Use
 
   private addUsers(users: KeyValue[]) {
     if (!Utils.isEmptyArray(users)) {
-      this.getContent().push(...users.map((user) => {
-        return {
-          user: user.objectRef as User,
-          carID: this.carID,
-          default: false,
-          owner: false
-        } as UserCar;
-      }));
+      this.getContent().push(...users.map((user) => ({
+        user: user.objectRef as User,
+        carID: this.carID,
+        default: false,
+        owner: false
+      } as UserCar)));
       // Notify
       this.tableChangedSubject.next(this.editableRows);
       // Refresh
       this.refreshData().subscribe();
     }
+  }
+
+  private getAddedCarUsers(): UserCar[] {
+    // Check users in original list not in updated list
+    const addedCarUsers: UserCar[] = [];
+    // Updated users
+    for (const carUser of this.editableRows) {
+      // Original users
+      const foundUserCar = this.carUsers.find((updatedCarUser) => updatedCarUser.user.id === carUser.user.id);
+      if (!foundUserCar) {
+        addedCarUsers.push({
+          user: carUser.user,
+          carID: carUser.carID,
+          default: carUser.default,
+          owner: carUser.owner,
+        } as UserCar);
+      }
+    }
+    return addedCarUsers;
+  }
+
+  private getUpdatedCarUsers(): UserCar[] {
+    // Check users in original list not in updated list
+    const updatedCarUsers: UserCar[] = [];
+    // Original users
+    for (const carUser of this.carUsers) {
+      // Updated users
+      const foundUserCar = this.editableRows.find((updatedCarUser) => updatedCarUser.user.id === carUser.user.id);
+      if (foundUserCar) {
+        // Check if diff
+        if (foundUserCar.owner !== carUser.owner ||
+            foundUserCar.default !== carUser.default) {
+          // Yes
+          updatedCarUsers.push({
+            id: foundUserCar.id,
+            user: foundUserCar.user,
+            carID: foundUserCar.carID,
+            default: foundUserCar.default,
+            owner: foundUserCar.owner,
+          } as UserCar);
+        }
+      }
+    }
+    return updatedCarUsers;
   }
 }

@@ -21,7 +21,7 @@ import { Utils } from '../../../../utils/Utils';
   selector: 'app-charging-station-parameters',
   templateUrl: './charging-station-parameters.component.html',
 })
-@Injectable()
+// @Injectable()
 export class ChargingStationParametersComponent implements OnInit, OnChanges {
   @Input() public chargingStation!: ChargingStation;
   @Input() public dialogRef!: MatDialogRef<any>;
@@ -49,7 +49,7 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
 
   public isOrganizationComponentActive: boolean;
 
-  constructor(
+  public constructor(
     private authorizationService: AuthorizationService,
     private componentService: ComponentService,
     private translateService: TranslateService,
@@ -143,6 +143,7 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
     this.loadChargingStation();
   }
 
+  // eslint-disable-next-line complexity
   public loadChargingStation() {
     if (this.chargingStation) {
       // Admin?
@@ -324,12 +325,12 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
           this.maximumPower.enable();
         }
       });
-    } else if (!checked){
+    } else if (!checked) {
       this.dialogService.createAndShowYesNoDialog(
         this.translateService.instant('chargers.dialog.disable_manual_configuration.title'),
         this.translateService.instant('chargers.dialog.disable_manual_configuration.confirm'),
       ).subscribe((result) => {
-       if (result === ButtonType.NO) {
+        if (result === ButtonType.NO) {
           this.manualConfiguration.setValue(true);
         } else {
           this.maximumPower.disable();

@@ -1,0 +1,57 @@
+<div class="card">
+  <div class="card-header card-header-tabs card-header-primary">
+    <div class="nav-tabs-navigation">
+      <h4 class="nav-tabs-title">{{title}}</h4>
+      <ul class="nav nav-tabs" data-tabs="tabs">
+        <span class="toolbar-spacer"></span>
+        <button mat-icon-button mat-dialog-close>
+          <mat-icon>close</mat-icon>
+        </button>
+      </ul>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="m-2">
+      <div class="row">
+        <button mat-flat-button color="primary" (click)="file.click();" class="mr-2" [disabled]="uploadInProgress">
+          {{"general.choose_file" | translate}}
+          <div class="d-none">
+            <input #file type="file" ng2FileSelect [uploader]="uploader" accept=".csv" />
+          </div>
+        </button>
+        <span class="pt-2">{{ fileName }}</span>
+      </div>
+      <div class="row">
+        <mat-error *ngIf="!isFileValid">
+          <div class="pt-2" [translate]="'general.invalid_file_error'"></div>
+        </mat-error>
+      </div>
+      <div class="row pt-3" [hidden]="!uploadInProgress">
+        <div class="md-12 mb-1 text-center">{{'general.upload_in_progress' | translate}}</div>
+        <mat-progress-bar mode="determinate" [value]="progress"></mat-progress-bar>
+      </div>
+      <div class="row pt-3" [hidden]="uploadInProgress">
+        {{'general.import_instructions' | translate}}
+      </div>
+      <div class="row pt-1" [hidden]="uploadInProgress">
+        <div class="pl-3">
+          <li>{{'general.import_instructions_file_type' | translate}}</li>
+          <li>{{'general.import_instructions_header_required' | translate}}</li>
+          <li>{{'general.import_instructions_coma_separator' | translate}}</li>
+          <li>{{ importInstructionsRequiredFields }}</li>
+          <li *ngIf="importInstructionsOptionalFields">{{ importInstructionsOptionalFields }}</li>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-footer mat-dialog-actions">
+    <span class="toolbar-spacer"></span>
+    <button mat-raised-button color="primary" [disabled]="!file.value || !isFileValid || uploadInProgress"
+      (click)="upload()">
+      {{"general.import" | translate}}
+    </button>
+    <button mat-raised-button (click)="cancel()" [disabled]="uploadInProgress">
+      {{"general.cancel" | translate}}
+    </button>
+  </div>
+</div>

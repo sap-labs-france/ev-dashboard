@@ -58,19 +58,19 @@ export class AssetComponent implements OnInit {
   public meterID!: AbstractControl;
   public asset!: Asset;
 
-  constructor(
-      private authorizationService: AuthorizationService,
-      private centralServerService: CentralServerService,
-      private componentService: ComponentService,
-      private messageService: MessageService,
-      private spinnerService: SpinnerService,
-      private configService: ConfigService,
-      private activatedRoute: ActivatedRoute,
-      private dialog: MatDialog,
-      private dialogService: DialogService,
-      private translateService: TranslateService,
-      private router: Router
-    ) {
+  public constructor(
+    private authorizationService: AuthorizationService,
+    private centralServerService: CentralServerService,
+    private componentService: ComponentService,
+    private messageService: MessageService,
+    private spinnerService: SpinnerService,
+    private configService: ConfigService,
+    private activatedRoute: ActivatedRoute,
+    private dialog: MatDialog,
+    private dialogService: DialogService,
+    private translateService: TranslateService,
+    private router: Router
+  ) {
     this.maxSize = this.configService.getAsset().maxImageKb;
     // Check auth
     if (this.activatedRoute.snapshot.params['id'] &&
@@ -395,6 +395,24 @@ export class AssetComponent implements OnInit {
       });
   }
 
+  public loadAssetConnections() {
+    this.spinnerService.show();
+    this.componentService.getAssetSettings().subscribe((assetSettings) => {
+      this.spinnerService.hide();
+      if (assetSettings) {
+        const connections = [] as KeyValue[];
+        for (const connection of assetSettings.asset.connections) {
+          connections.push({ key: connection.id, value: connection.name });
+        }
+        this.assetConnections = connections;
+      }
+    }, (error) => {
+      this.spinnerService.hide();
+      Utils.handleHttpError(error, this.router, this.messageService,
+        this.centralServerService, 'assets.asset_settings_error');
+    });
+  }
+
   private createAsset(asset: Asset) {
     this.spinnerService.show();
     // Set coordinates
@@ -423,24 +441,6 @@ export class AssetComponent implements OnInit {
           Utils.handleHttpError(error, this.router, this.messageService,
             this.centralServerService, 'assets.create_error');
       }
-    });
-  }
-
-  public loadAssetConnections() {
-    this.spinnerService.show();
-    this.componentService.getAssetSettings().subscribe((assetSettings) => {
-      this.spinnerService.hide();
-      if (assetSettings) {
-        const connections = [] as KeyValue[];
-        for (const connection of assetSettings.asset.connections) {
-          connections.push({ key: connection.id, value: connection.name });
-        }
-        this.assetConnections = connections;
-      }
-    }, (error) => {
-      this.spinnerService.hide();
-      Utils.handleHttpError(error, this.router, this.messageService,
-        this.centralServerService, 'assets.asset_settings_error');
     });
   }
 

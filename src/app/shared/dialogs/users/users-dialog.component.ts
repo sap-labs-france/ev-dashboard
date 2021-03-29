@@ -11,7 +11,7 @@ import { UsersDialogTableDataSource } from './users-dialog-table-data-source';
   templateUrl: '../dialog-table-data.component.html',
 })
 export class UsersDialogComponent extends DialogTableDataComponent<User> {
-  constructor(
+  public constructor(
     protected dialogRef: MatDialogRef<UsersDialogComponent>,
     private usersListTableDataSource: UsersDialogTableDataSource,
     @Inject(MAT_DIALOG_DATA) data: any) {

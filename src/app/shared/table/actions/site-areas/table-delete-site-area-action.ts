@@ -25,7 +25,7 @@ export class TableDeleteSiteAreaAction extends TableDeleteAction {
   }
 
   private deleteSiteArea(siteArea: SiteArea, dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
-      centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) {
+    centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) {
     super.delete(
       siteArea, 'site_areas.delete_title',
       translateService.instant('site_areas.delete_confirm', { siteAreaName: siteArea.name }),

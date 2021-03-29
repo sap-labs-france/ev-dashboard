@@ -87,6 +87,8 @@ export enum Entity {
   NOTIFICATION = 'Notification',
   TAGS = 'Tags',
   TAG = 'Tag',
+  PAYMENT_METHOD = 'PaymentMethod',
+  PAYMENT_METHODS = 'PaymentMethods',
 }
 
 export enum Action {
@@ -130,6 +132,7 @@ export enum Action {
   REGISTER = 'Register',
   TRIGGER_JOB = 'TriggerJob',
   DOWNLOAD = 'Download',
+  IMPORT = 'Import',
 }
 
 export interface AuthorizationContext {

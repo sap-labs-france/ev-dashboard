@@ -10,7 +10,7 @@ import { CarCatalogsDialogTableDataSource } from './car-catalogs-dialog-table-da
   templateUrl: '../dialog-table-data.component.html',
 })
 export class CarCatalogsDialogComponent extends DialogTableDataComponent<CarCatalog> {
-  constructor(
+  public constructor(
     protected dialogRef: MatDialogRef<CarCatalogsDialogComponent>,
     private carCatalogsDialogTableDataSource: CarCatalogsDialogTableDataSource,
     @Inject(MAT_DIALOG_DATA) data: any) {

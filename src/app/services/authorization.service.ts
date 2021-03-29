@@ -11,7 +11,7 @@ import { ComponentService } from './component.service';
 export class AuthorizationService {
   private loggedUser!: UserToken | null;
 
-  constructor(
+  public constructor(
     private centralServerService: CentralServerService,
     private componentService: ComponentService) {
 
@@ -173,6 +173,14 @@ export class AuthorizationService {
     return this.canAccess(Entity.USER, Action.DELETE);
   }
 
+  public canImportUsers(): boolean {
+    return this.canAccess(Entity.USERS, Action.IMPORT);
+  }
+
+  public canImportTags(): boolean {
+    return this.canAccess(Entity.TAGS, Action.IMPORT);
+  }
+
   public canUpdateUser(): boolean {
     return this.canAccess(Entity.USER, Action.UPDATE);
   }
@@ -283,6 +291,21 @@ export class AuthorizationService {
     return this.canAccess(Entity.TOKEN, Action.DELETE);
   }
 
+  public canListPaymentMethods(): boolean {
+    return this.canAccess(Entity.PAYMENT_METHODS, Action.LIST);
+  }
+
+  // TODO: Should return different response if admin is on its own pm or not ?
+  public canCreatePaymentMethod(): boolean {
+    return this.canAccess(Entity.PAYMENT_METHOD, Action.CREATE);
+  }
+
+  // TODO: Use canRead when we have the list of payment method
+  public canReadPaymentMethod() {
+    return (this.canAccess(Entity.PAYMENT_METHOD, Action.READ));
+  }
+
+
   public isSiteAdmin(siteID: string): boolean {
     return this.isAdmin() || (!!this.loggedUser && !!this.loggedUser.sitesAdmin && this.loggedUser.sitesAdmin.includes(siteID));
   }
@@ -315,7 +338,7 @@ export class AuthorizationService {
     return false;
   }
 
-  public getSitesAdmin(): ReadonlyArray<string> {
+  public getSitesAdmin(): readonly string[] {
     return !!this.loggedUser && this.loggedUser.sitesAdmin ? this.loggedUser.sitesAdmin : [];
   }
 

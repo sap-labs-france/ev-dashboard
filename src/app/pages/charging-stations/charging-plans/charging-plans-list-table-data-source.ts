@@ -35,7 +35,7 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
   private smartChargingAction = new TableChargingStationsSmartChargingAction().getActionDef();
   private navigateToSiteAreaAction = new TableNavigateToSiteAreaAction().getActionDef();
 
-  constructor(
+  public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     private messageService: MessageService,
@@ -61,19 +61,19 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
   }
 
   public initFilters() {
-        // Charging Station
-        const chargingStationID = this.windowService.getSearch('ChargingStationID');
-        if (chargingStationID) {
-          const chargingStationTableFilter = this.tableFiltersDef.find(filter => filter.id === 'charger');
-          if (chargingStationTableFilter) {
-            chargingStationTableFilter.currentValue = [{ key: chargingStationID, value: chargingStationID }];
-            this.filterChanged(chargingStationTableFilter);
-          }
-        }
-        const transactionID = this.windowService.getSearch('TransactionID');
-        if (transactionID) {
-          this.setSearchValue(transactionID);
-        }
+    // Charging Station
+    const chargingStationID = this.windowService.getSearch('ChargingStationID');
+    if (chargingStationID) {
+      const chargingStationTableFilter = this.tableFiltersDef.find(filter => filter.id === 'charger');
+      if (chargingStationTableFilter) {
+        chargingStationTableFilter.currentValue = [{ key: chargingStationID, value: chargingStationID }];
+        this.filterChanged(chargingStationTableFilter);
+      }
+    }
+    const transactionID = this.windowService.getSearch('TransactionID');
+    if (transactionID) {
+      this.setSearchValue(transactionID);
+    }
   }
 
   public getDataChangeSubject(): Observable<ChangeNotification> {
@@ -180,9 +180,9 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
           );
         }
         break;
-        case ChargingStationButtonAction.NAVIGATE_TO_SITE_AREA:
-          this.navigateToSiteAreaAction.action('organization#site-areas?SiteAreaID=' + chargingProfile.chargingStation.siteArea.id);
-          break;
+      case ChargingStationButtonAction.NAVIGATE_TO_SITE_AREA:
+        this.navigateToSiteAreaAction.action('organization#site-areas?SiteAreaID=' + chargingProfile.chargingStation.siteArea.id);
+        break;
     }
   }
 

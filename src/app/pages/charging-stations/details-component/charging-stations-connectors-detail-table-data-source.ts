@@ -41,7 +41,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
 
   private chargingStation!: ChargingStation;
 
-  constructor(
+  public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     private centralServerService: CentralServerService,
@@ -67,11 +67,11 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
       // Return connector
       if (this.chargingStation) {
         this.chargingStation.connectors.forEach((connector) => {
-          // tslint:disable-next-line:max-line-length
+          // eslint-disable-next-line max-len
           connector.isStopAuthorized = !!connector.currentTransactionID && this.authorizationService.canStopTransaction(this.chargingStation.siteArea, connector.currentTagID);
-          // tslint:disable-next-line:max-line-length
+          // eslint-disable-next-line max-len
           connector.isStartAuthorized = !connector.currentTransactionID && this.authorizationService.canStartTransaction(this.chargingStation.siteArea);
-          // tslint:disable-next-line:max-line-length
+          // eslint-disable-next-line max-len
           connector.isTransactionDisplayAuthorized = this.authorizationService.canReadTransaction(this.chargingStation.siteArea, connector.currentTagID);
           connector.hasDetails = !!connector.currentTransactionID && connector.isTransactionDisplayAuthorized;
         });

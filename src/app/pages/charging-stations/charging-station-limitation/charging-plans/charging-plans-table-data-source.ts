@@ -22,7 +22,7 @@ export class ChargingPlansTableDataSource extends TableDataSource<Schedule> {
   public chargePoint!: ChargePoint;
   public chargingProfile!: ChargingProfile;
 
-  constructor(
+  public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     private datePipe: AppDatePipe,

@@ -5,8 +5,10 @@ import { ConfigService } from './config.service';
 
 @Injectable()
 export class WindowService {
-  constructor(@Inject(WINDOW) private window: Window, private configService: ConfigService) {
-  }
+  // eslint-disable-next-line no-useless-constructor
+  public constructor(
+    @Inject(WINDOW) private window: Window,
+    private configService: ConfigService) {}
 
   public getHostname(): string {
     return this.window.location.hostname;
@@ -106,9 +108,9 @@ export class WindowService {
     // Set the Query params
     if (history.pushState) {
       // Without page reload
-      // tslint:disable-next-line:max-line-length
+      // eslint-disable-next-line max-len
       const newURL = `${window.location.protocol}//${window.location.host}${window.location.pathname}${queryParams ? '?' + queryParams : ''}${window.location.hash}`;
-      window.history.pushState({path: newURL}, '' , newURL);
+      window.history.pushState({ path: newURL }, '', newURL);
     } else {
       // With page reload
       this.window.location.search = queryParams ? queryParams : '';

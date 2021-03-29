@@ -34,9 +34,9 @@ export class AssetConnectionComponent implements OnInit {
   ];
   public submitButtonTranslation!: any;
 
-  constructor(
-    private translateService: TranslateService) {
-  }
+  // eslint-disable-next-line no-useless-constructor
+  public constructor(
+    private translateService: TranslateService) {}
 
   public ngOnInit(): void {
     // Init Form

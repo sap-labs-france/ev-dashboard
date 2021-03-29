@@ -15,17 +15,19 @@ export interface SettingDB extends CreatedUpdatedProps, Setting {
   content: SettingDBContent;
 }
 
+type SettingsType = CryptoSettingsType
+| RoamingSettingsType
+| AnalyticsSettingsType
+| RefundSettingsType
+| PricingSettingsType
+| BillingSettingsType
+| SmartChargingSettingsType
+| AssetSettingsType
+| CarConnectorSettingsType
+| UserSettingsType;
+
 export interface SettingDBContent {
-  type: CryptoSettingsType
-    | RoamingSettingsType
-    | AnalyticsSettingsType
-    | RefundSettingsType
-    | PricingSettingsType
-    | BillingSettingsType
-    | SmartChargingSettingsType
-    | AssetSettingsType
-    | CarConnectorSettingsType
-    | UserSettingsType;
+  type: SettingsType;
   ocpi?: OcpiSetting;
   oicp?: OicpSetting;
   simple?: SimplePricingSetting;
@@ -123,7 +125,7 @@ export interface OicpSetting {
       type: string;
       width: string;
       height: string;
-    }
+    };
   };
   cpo: OicpIdentifier;
   emsp: OicpIdentifier;
@@ -256,7 +258,7 @@ export interface AssetUserPasswordConnectionType {
   password: string;
 }
 
-// tslint:disable-next-line: no-empty-interface
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface AssetSchneiderConnectionType extends AssetUserPasswordConnectionType {}
 
 // tslint:disable-next-line: no-empty-interface

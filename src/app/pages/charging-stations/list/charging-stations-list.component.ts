@@ -14,14 +14,14 @@ import { ChargingStationsListTableDataSource } from './charging-stations-list-ta
   providers: [ChargingStationsListTableDataSource],
 })
 export class ChargingStationsListComponent implements OnInit {
-
-  constructor(
+  // eslint-disable-next-line no-useless-constructor
+  public constructor(
     public chargingStationsListTableDataSource: ChargingStationsListTableDataSource,
     private windowService: WindowService,
     private dialog: MatDialog,
     private centralServerService: CentralServerService,
     private messageService: MessageService,
-  ) { }
+  ) {}
 
   public ngOnInit(): void {
     // Check if transaction ID id provided

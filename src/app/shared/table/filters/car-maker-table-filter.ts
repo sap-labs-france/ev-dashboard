@@ -3,7 +3,7 @@ import { FilterType, TableFilterDef } from '../../../types/Table';
 import { TableFilter } from './table-filter';
 
 export class CarMakerTableFilter extends TableFilter {
-  constructor(carMakers?: ReadonlyArray<string>) {
+  public constructor(carMakers?: readonly string[]) {
     super();
     // Define filter
     const filterDef: TableFilterDef = {

@@ -87,7 +87,8 @@ export class AppTransactionsFormatConnector implements PipeTransform {
         break;
       }
     }
-    return classNames;  }
+    return classNames;
+  }
 
   public buildConnectorText(transaction: Transaction): string {
     if (!transaction.status) {

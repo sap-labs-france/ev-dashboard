@@ -4,9 +4,8 @@ import { AppPercentPipe } from './app-percent-pipe';
 
 @Pipe({ name: 'appBatteryPercentage' })
 export class AppBatteryPercentagePipe implements PipeTransform {
-
-  constructor(private percentPipe: AppPercentPipe) {
-  }
+  // eslint-disable-next-line no-useless-constructor
+  public constructor(private percentPipe: AppPercentPipe) {}
 
   public transform(initialPercentage: number, finalPercentage?: number, withEvolution = true): string | null {
     if (initialPercentage || finalPercentage) {

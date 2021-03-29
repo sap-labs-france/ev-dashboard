@@ -29,17 +29,19 @@ import { Constants } from '../../../utils/Constants';
 import { ParentErrorStateMatcher } from '../../../utils/ParentStateMatcher';
 import { Users } from '../../../utils/Users';
 import { Utils } from '../../../utils/Utils';
+import { PaymentMethodsTableDataSource } from './stripe/payment-methods/payment-methods-table-data-source';
 import { UserDialogComponent } from './user.dialog.component';
 
 @Component({
   selector: 'app-user',
   templateUrl: 'user.component.html',
+  providers: [PaymentMethodsTableDataSource],
 })
 export class UserComponent extends AbstractTabComponent implements OnInit {
-  public parentErrorStateMatcher = new ParentErrorStateMatcher();
   @Input() public currentUserID!: string;
   @Input() public inDialog!: boolean;
   @Input() public dialogRef!: MatDialogRef<UserDialogComponent>;
+  public parentErrorStateMatcher = new ParentErrorStateMatcher();
   public userStatuses: KeyValue[];
   public userRoles: KeyValue[];
   public userLocales: KeyValue[];
@@ -99,9 +101,12 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public user!: User;
   public isRefundConnectionValid!: boolean;
   public canSeeInvoice: boolean;
+  public isBillingComponentActive: boolean;
+  public canListPaymentMethods: boolean;
   private currentLocale!: string;
 
-  constructor(
+  public constructor(
+    public paymentMethodsTableDataSource: PaymentMethodsTableDataSource,
     private authorizationService: AuthorizationService,
     private centralServerService: CentralServerService,
     private componentService: ComponentService,
@@ -115,7 +120,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     @Inject(DOCUMENT) private document: any,
     activatedRoute: ActivatedRoute,
     windowService: WindowService) {
-    super(activatedRoute, windowService, ['common', 'notifications', 'address', 'password', 'connections', 'miscs'], false);
+    super(activatedRoute, windowService, ['common', 'notifications', 'address', 'password', 'connections', 'miscs', 'billing'], false);
     this.maxSize = this.configService.getUser().maxPictureKb;
     // Get statuses
     this.userStatuses = USER_STATUSES;
@@ -142,6 +147,8 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         }
       });
     }
+    this.isBillingComponentActive = this.componentService.isActive(TenantComponents.BILLING);
+    this.canListPaymentMethods = this.authorizationService.canListPaymentMethods();
   }
 
   public updateRoute(event: number) {
@@ -232,9 +239,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
           Validators.compose([
             Users.validatePassword,
           ])),
-      }, (passwordFormGroup: FormGroup) => {
-        return Utils.validateEqual(passwordFormGroup, 'password', 'repeatPassword');
-      }),
+      }, (passwordFormGroup: FormGroup) => Utils.validateEqual(passwordFormGroup, 'password', 'repeatPassword')),
     });
     // Form
     this.id = this.formGroup.controls['id'];
@@ -292,10 +297,6 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     // Reset notifications ?
   }
 
-  public setCurrentUserId(currentUserID: string) {
-    this.currentUserID = currentUserID;
-  }
-
   public refresh() {
     // Load User
     this.loadUser();
@@ -305,8 +306,9 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     if (!this.currentUserID) {
       return;
     }
+    this.paymentMethodsTableDataSource.setCurrentUserId(this.currentUserID);
     this.spinnerService.show();
-    // tslint:disable-next-line: cyclomatic-complexity
+    // eslint-disable-next-line complexity
     this.centralServerService.getUser(this.currentUserID).pipe(mergeMap((user) => {
       this.formGroup.markAsPristine();
       this.user = user;
@@ -640,6 +642,18 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     return null;
   }
 
+  public closeDialog(saved: boolean = false) {
+    if (this.inDialog) {
+      this.windowService.clearSearch();
+      this.dialogRef.close(saved);
+    }
+  }
+
+  public close() {
+    Utils.checkAndSaveAndCloseDialog(this.formGroup, this.dialogService,
+      this.translateService, this.saveUser.bind(this), this.closeDialog.bind(this));
+  }
+
   private loadRefundSettings() {
     if (this.componentService.isActive(TenantComponents.REFUND)) {
       this.componentService.getRefundSettings().subscribe((refundSettings) => {
@@ -727,16 +741,5 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'users.update_error');
       }
     });
-  }
-
-  public closeDialog(saved: boolean = false) {
-    if (this.inDialog) {
-      this.dialogRef.close(saved);
-    }
-  }
-
-  public close() {
-    Utils.checkAndSaveAndCloseDialog(this.formGroup, this.dialogService,
-      this.translateService, this.saveUser.bind(this), this.closeDialog.bind(this));
   }
 }

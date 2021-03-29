@@ -21,7 +21,7 @@ export class SiteUsersAdminCheckboxComponent extends CellContentTemplateDirectiv
   @Input() public row!: UserSite;
   public loggedUser: UserToken;
 
-  constructor(
+  public constructor(
     private messageService: MessageService,
     private centralServerService: CentralServerService,
     private router: Router) {
@@ -40,26 +40,26 @@ export class SiteUsersAdminCheckboxComponent extends CellContentTemplateDirectiv
     userSite.siteAdmin = siteAdmin;
     // Update
     this.centralServerService.updateSiteUserAdmin(userSite.siteID, userSite.user.id, siteAdmin).subscribe((response) => {
-        if (response.status === RestResponse.SUCCESS) {
-          if (siteAdmin) {
-            this.messageService.showSuccessMessage('sites.update_set_site_admin_success', {userName: Utils.buildUserFullName(userSite.user)});
-          } else {
-            this.messageService.showSuccessMessage('sites.update_remove_site_admin_success', {userName: Utils.buildUserFullName(userSite.user)});
-          }
+      if (response.status === RestResponse.SUCCESS) {
+        if (siteAdmin) {
+          this.messageService.showSuccessMessage('sites.update_set_site_admin_success', {userName: Utils.buildUserFullName(userSite.user)});
         } else {
-          userSite.siteAdmin = !siteAdmin;
-          Utils.handleError(JSON.stringify(response),
-            this.messageService, 'sites.update_site_users_role_error', {
-              userName: userSite.user.name,
-            });
+          this.messageService.showSuccessMessage('sites.update_remove_site_admin_success', {userName: Utils.buildUserFullName(userSite.user)});
         }
-      }
-      ,
-      (error) => {
+      } else {
         userSite.siteAdmin = !siteAdmin;
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-          'sites.update_site_users_role_error', {userName: userSite.user.name});
-      },
+        Utils.handleError(JSON.stringify(response),
+          this.messageService, 'sites.update_site_users_role_error', {
+            userName: userSite.user.name,
+          });
+      }
+    }
+    ,
+    (error) => {
+      userSite.siteAdmin = !siteAdmin;
+      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+        'sites.update_site_users_role_error', {userName: userSite.user.name});
+    },
     );
   }
 }

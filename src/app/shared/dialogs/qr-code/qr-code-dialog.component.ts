@@ -17,7 +17,8 @@ export class QrCodeDialogComponent {
   public chargingStationID: string;
   public connectorID: number;
   public dialogTitle: string;
-  constructor(
+
+  public constructor(
     protected dialogRef: MatDialogRef<QrCodeDialogComponent>,
     private translateService: TranslateService,
     private spinnerService: SpinnerService,
@@ -41,7 +42,7 @@ export class QrCodeDialogComponent {
 
   public download() {
     this.spinnerService.show();
-    this.centralServerService.downloadChargingStationQrCodes(this.chargingStationID, this.connectorID).subscribe(async (result) => {
+    this.centralServerService.downloadChargingStationQrCodes(this.chargingStationID, this.connectorID).subscribe((result) => {
       this.spinnerService.hide();
       FileSaver.saveAs(result, `${this.chargingStationID.toLowerCase()}-${Utils.getConnectorLetterFromConnectorID(this.connectorID).toLowerCase()}-qr-codes.pdf`);
     }, (error) => {

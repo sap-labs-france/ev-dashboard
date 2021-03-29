@@ -10,7 +10,7 @@ import { SpinnerService } from '../../services/spinner.service';
 export class AuthenticationEulaComponent implements OnInit {
   public eulaText!: string;
 
-  constructor(
+  public constructor(
     private translateService: TranslateService,
     private spinnerService: SpinnerService,
     private centralServerService: CentralServerService) {

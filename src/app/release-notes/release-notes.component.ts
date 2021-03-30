@@ -24,6 +24,18 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.57',
+        date: new Date('2021-03-30'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Use lock with timeout for the Smart Charging`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.56',
         date: new Date('2021-03-29'),
         componentChanges: [
@@ -36,7 +48,8 @@ export class ReleaseNotesComponent {
             ],
           },
         ],
-      },      {
+      },
+      {
         version: '2.4.55',
         date: new Date('2021-03-27'),
         componentChanges: [

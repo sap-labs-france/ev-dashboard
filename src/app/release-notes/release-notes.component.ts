@@ -31,6 +31,7 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Use lock with timeout for the Smart Charging`,
+              `Security updates`,
             ],
           },
         ],

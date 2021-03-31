@@ -351,8 +351,8 @@ export abstract class TableDataSource<T extends Data> {
                 if (!Utils.isEmptyArray(dependentFilter.currentValue)) {
                   if (dependentFilter.multiple) {
                     if (dependentFilter.type === FilterType.DROPDOWN &&
-                        dependentFilter.currentValue.length === dependentFilter.items.length &&
-                        dependentFilter.exhaustive) {
+                      dependentFilter.currentValue.length === dependentFilter.items.length &&
+                      dependentFilter.exhaustive) {
                       continue;
                     }
                     filterDef.dialogComponentData.staticFilter[dependentFilter.httpId] = dependentFilter.currentValue.map((obj) => obj.key).join('|');
@@ -523,7 +523,7 @@ export abstract class TableDataSource<T extends Data> {
     this.setStaticFilters(staticFilters);
   }
 
-  public buildTableDynamicRowActions(row: T): TableActionDef[] {
+  public buildTableDynamicRowActions(row?: T): TableActionDef[] {
     return [];
   }
 

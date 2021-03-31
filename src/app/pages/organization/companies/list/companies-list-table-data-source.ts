@@ -41,6 +41,7 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
   private editAction = new TableEditCompanyAction().getActionDef();
   private deleteAction = new TableDeleteCompanyAction().getActionDef();
   private viewAction = new TableViewCompanyAction().getActionDef();
+  private createAction = new TableCreateCompanyAction().getActionDef();
 
   public constructor(
     public spinnerService: SpinnerService,
@@ -56,7 +57,6 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
     super(spinnerService, translateService);
     // Init
     this.canReadCompany = this.authorizationService.canReadCompany();
-    this.canCreateCompany = this.authorizationService.canCreateCompany();
     this.canUpdateCompany = this.authorizationService.canUpdateCompany();
     this.canDeleteCompany = this.authorizationService.canDeleteCompany();
     this.canCrudCompany = this.canCreateCompany && this.canReadCompany && this.canUpdateCompany && this.canDeleteCompany;
@@ -72,6 +72,9 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
     return new Observable((observer) => {
       // get companies
       this.centralServerService.getCompanies(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe((companies) => {
+        if (companies.canCreate) {
+          this.createAction.hidden = false;
+        }
         observer.next(companies);
         observer.complete();
       }, (error) => {
@@ -165,13 +168,10 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-    if (this.canCreateCompany) {
-      return [
-        new TableCreateCompanyAction().getActionDef(),
-        ...tableActionsDef,
-      ];
-    }
-    return tableActionsDef;
+    return [
+      this.createAction,
+      ...tableActionsDef,
+    ];
   }
 
   public buildTableDynamicRowActions(company: Company): TableActionDef[] {
@@ -205,6 +205,7 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
         if (actionDef.action) {
           (actionDef as TableCreateCompanyActionDef).action(CompanyDialogComponent, this.dialog, this.refreshData.bind(this));
         }
+        actionDef.hidden = true;
         break;
     }
   }

@@ -1,3 +1,4 @@
+import { Company } from './Company';
 import { Data } from './Table';
 import { Transaction } from './Transaction';
 import { UserStatus } from './User';
@@ -71,7 +72,11 @@ export interface DataResult<T extends Data> {
   count: number;
   result: T[];
 }
-
+export interface CompanyDataResult<T extends Company> {
+  count: number;
+  canCreate: boolean;
+  result: T[];
+}
 export interface CheckAssetConnectionResponse extends ActionResponse {
   connectionIsValid: boolean;
 }

@@ -49,6 +49,8 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
   private viewAction = new TableViewSiteAction().getActionDef();
   private exportOCPPParamsAction = new TableExportOCPPParamsAction().getActionDef();
   private siteGenerateQrCodeConnectorAction = new TableSiteGenerateQrCodeConnectorAction().getActionDef();
+  private createAction = new TableCreateSiteAction().getActionDef();
+
 
   public constructor(
     public spinnerService: SpinnerService,
@@ -80,6 +82,9 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
       // Get Sites
       this.centralServerService.getSites(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((sites) => {
+        if (sites.canCreate) {
+          this.createAction.hidden = false;
+        }
         // Ok
         observer.next(sites);
         observer.complete();
@@ -188,10 +193,10 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-    if (this.authorizationService.canCreateSite()) {
-      tableActionsDef.unshift(new TableCreateSiteAction().getActionDef());
-    }
-    return tableActionsDef;
+    return [
+      this.createAction,
+      ...tableActionsDef,
+    ];
   }
 
   public buildTableDynamicRowActions(site: Site): TableActionDef[] {
@@ -233,6 +238,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
         if (actionDef.action) {
           (actionDef as TableCreateSiteActionDef).action(SiteDialogComponent, this.dialog, this.refreshData.bind(this));
         }
+        actionDef.hidden = true;
     }
   }
 

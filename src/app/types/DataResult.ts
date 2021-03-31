@@ -1,4 +1,5 @@
 import { Company } from './Company';
+import { Site } from './Site';
 import { Data } from './Table';
 import { Transaction } from './Transaction';
 import { UserStatus } from './User';
@@ -73,6 +74,11 @@ export interface DataResult<T extends Data> {
   result: T[];
 }
 export interface CompanyDataResult<T extends Company> {
+  count: number;
+  canCreate: boolean;
+  result: T[];
+}
+export interface SiteDataResult<T extends Site> {
   count: number;
   canCreate: boolean;
   result: T[];

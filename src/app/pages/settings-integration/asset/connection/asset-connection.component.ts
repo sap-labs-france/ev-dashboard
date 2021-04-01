@@ -4,7 +4,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 
 import { KeyValue } from '../../../../types/GlobalType';
-import { AssetConnectionSetting, AssetConnectionType, AssetGreencomConnectionType, AssetSchneiderConnectionType } from '../../../../types/Setting';
+import { AssetConnectionSetting, AssetConnectionType, AssetGreencomConnectionType, AssetIothinkConnectionType, AssetSchneiderConnectionType } from '../../../../types/Setting';
 import { Constants } from '../../../../utils/Constants';
 import { AssetConnectionDialogComponent } from './asset-connection.dialog.component';
 
@@ -26,9 +26,11 @@ export class AssetConnectionComponent implements OnInit {
 
   public schneiderConnection!: AssetSchneiderConnectionType;
   public greencomConnection!: AssetGreencomConnectionType;
+  public iothinkConnection!: AssetIothinkConnectionType;
   public assetConnectionTypes: KeyValue[] = [
     { key: AssetConnectionType.SCHNEIDER, value: 'settings.asset.types.schneider' },
-    { key: AssetConnectionType.GREENCOM, value: 'settings.asset.types.greencom' }
+    { key: AssetConnectionType.GREENCOM, value: 'settings.asset.types.greencom' },
+    { key: AssetConnectionType.IOTHINK, value: 'settings.asset.types.iothink' }
   ];
   public submitButtonTranslation!: any;
 
@@ -98,6 +100,9 @@ export class AssetConnectionComponent implements OnInit {
       case AssetConnectionType.GREENCOM:
         this.greencomConnection = this.currentAssetConnection.greencomConnection;
         break;
+      case AssetConnectionType.IOTHINK:
+        this.iothinkConnection = this.currentAssetConnection.iothinkConnection;
+        break;
     }
   }
 
@@ -130,6 +135,9 @@ export class AssetConnectionComponent implements OnInit {
     }
     if (this.formGroup.controls.schneiderConnection && type !== AssetConnectionType.SCHNEIDER) {
       delete this.formGroup.controls.schneiderConnection;
+    }
+    if (this.formGroup.controls.iothinkConnection && type !== AssetConnectionType.IOTHINK) {
+      delete this.formGroup.controls.iothinkConnection;
     }
   }
 }

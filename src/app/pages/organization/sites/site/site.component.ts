@@ -177,9 +177,14 @@ export class SiteComponent implements OnInit {
       if (site.address) {
         this.address = site.address;
       }
-      this.formGroup.updateValueAndValidity();
-      this.formGroup.markAsPristine();
-      this.formGroup.markAllAsTouched();
+      // Cannot change roaming Site
+      if (!site.issuer) {
+        this.formGroup.disable();
+      } else {
+        this.formGroup.updateValueAndValidity();
+        this.formGroup.markAsPristine();
+        this.formGroup.markAllAsTouched();
+      }
       // Get Site image
       this.centralServerService.getSiteImage(this.currentSiteID).subscribe((siteImage) => {
         this.image = siteImage ? siteImage : Constants.NO_IMAGE;

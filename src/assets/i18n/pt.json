@@ -27,7 +27,7 @@
     "connectors": "Conexões",
     "notifications": "Notificações",
     "app_name": "e-Mobility",
-    "last_update": "Versão 2.4.56",
+    "last_update": "Versão 2.4.57",
     "version": "Versão",
     "about_us": "Sobre Nós",
     "unexpected_error_backend": "Ocurreu um erro inesperado",
@@ -1608,7 +1608,8 @@
       },
       "types": {
         "schneider": "Schneider Building Management System",
-        "greencom": "GreenCom Asset Management System"
+        "greencom": "GreenCom Asset Management System",
+        "iothink": "ioThink Asset Management System"
       },
       "connection_success": "A conexão com o sistema foi testada com sucesso",
       "unknown_connection_error": "Erro de conexão desconhecido",

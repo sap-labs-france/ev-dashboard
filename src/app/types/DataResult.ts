@@ -1,3 +1,5 @@
+import { Company } from './Company';
+import { Site } from './Site';
 import { Data } from './Table';
 import { Transaction } from './Transaction';
 import { UserStatus } from './User';
@@ -67,11 +69,16 @@ export interface CheckBillingConnectionResponse extends ActionResponse {
   connectionIsValid: boolean;
 }
 
-export interface DataResult<T extends Data> {
+export interface DataResult<T> {
   count: number;
   result: T[];
 }
-
+export interface CompanyDataResult extends DataResult<Company> {
+  canCreate: boolean;
+}
+export interface SiteDataResult extends DataResult<Site> {
+  canCreate: boolean;
+}
 export interface CheckAssetConnectionResponse extends ActionResponse {
   connectionIsValid: boolean;
 }

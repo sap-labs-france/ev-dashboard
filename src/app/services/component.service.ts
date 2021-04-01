@@ -193,6 +193,9 @@ export class ComponentService {
         case AssetConnectionType.GREENCOM:
           settingsToSave.sensitiveData.push(`content.asset.connections[${index}].greencomConnection.clientSecret`);
           break;
+        case AssetConnectionType.IOTHINK:
+          settingsToSave.sensitiveData.push(`content.asset.connections[${index}].iothinkConnection.password`);
+          break;
       }
 
     });

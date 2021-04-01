@@ -31,6 +31,7 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Integrated ioThink backend in Asset Management`,
+              `Import of Users`,
               `Use lock with timeout for the Smart Charging`,
               `Roaming Company, Site and Site Area cannot be updated`,
               `Company and Site authorizations are led by the backend`,

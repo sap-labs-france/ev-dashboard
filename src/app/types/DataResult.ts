@@ -69,19 +69,15 @@ export interface CheckBillingConnectionResponse extends ActionResponse {
   connectionIsValid: boolean;
 }
 
-export interface DataResult<T extends Data> {
+export interface DataResult<T> {
   count: number;
   result: T[];
 }
-export interface CompanyDataResult<T extends Company> {
-  count: number;
+export interface CompanyDataResult extends DataResult<Company> {
   canCreate: boolean;
-  result: T[];
 }
-export interface SiteDataResult<T extends Site> {
-  count: number;
+export interface SiteDataResult extends DataResult<Site> {
   canCreate: boolean;
-  result: T[];
 }
 export interface CheckAssetConnectionResponse extends ActionResponse {
   connectionIsValid: boolean;

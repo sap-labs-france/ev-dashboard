@@ -228,7 +228,7 @@ export class CentralServerService {
   }
 
   public getCompanies(params: FilterParams,
-    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<CompanyDataResult<Company>> {
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<CompanyDataResult> {
     // Verify init
     this.checkInit();
     // Build Paging
@@ -236,7 +236,7 @@ export class CentralServerService {
     // Build Ordering
     this.getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<CompanyDataResult<Company>>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.COMPANIES}`,
+    return this.httpClient.get<CompanyDataResult>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.COMPANIES}`,
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -377,7 +377,7 @@ export class CentralServerService {
   }
 
   public getSites(params: FilterParams,
-    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<SiteDataResult<Site>> {
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<SiteDataResult> {
     // Verify init
     this.checkInit();
     // Build Paging
@@ -385,7 +385,7 @@ export class CentralServerService {
     // Build Ordering
     this.getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<SiteDataResult<Site>>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.SITES}`,
+    return this.httpClient.get<SiteDataResult>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.SITES}`,
       {
         headers: this.buildHttpHeaders(),
         params,

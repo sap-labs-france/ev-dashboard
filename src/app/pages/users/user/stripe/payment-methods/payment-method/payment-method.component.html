@@ -1,4 +1,4 @@
-  <div class="main-content">
+<div class="main-content">
     <div class="card card-profile card-testimonial">
       <mat-tab-group animationDuration="0ms" disableRipple="true" class="mat-tab-info mat-tabs-with-actions">
         <mat-tab>
@@ -6,41 +6,89 @@
             <mat-icon>payment</mat-icon>
             <span>{{'settings.billing.payment_methods_create_title' | translate}}</span>
           </ng-template>
-          <div class="card-body">
-            <div class="tab-content">
-              <div class="tab-pane active" id="profile">
-                <div class="d-flex align-items-start flex-column mb-3">
-                  <mat-form-field class="col-md-12 col-lg-10 col-xl-8 form-group">
-                    <div id="card-info" #cardInfo>
-                      <!-- card element goes here -->
+          <form class="form row">
+            <div class="col-md-6 offset-3">
+              <div class="card card-settings connector-card">
+                <div class="card-header card-header-primary card-header-icon">
+                  <div class="card-icon">
+                    <mat-icon>payment</mat-icon>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-8 offset-2">
+                      <div class="form-group">
+                        <mat-form-field>
+                          <label>{{'settings.billing.payment_methods_card' | translate}}</label>
+                          <span id="cardNumber">
+                            <input matInput/>
+                          </span>
+                            <!-- <input matInput type="text" [formControl]="cardNumber" placeholder="Valid Card Number" name="cardNumber" maxlength="18"> -->
+                        </mat-form-field>
+                        <mat-error class="mat-card-error" *ngIf="cardNumberError">
+                          {{cardNumberError}}
+                        </mat-error>
+                      </div>
+                      </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4 offset-2">
+                      <div class="form-group">
+                        <mat-form-field>
+                          <label>{{'settings.billing.payment_methods_expiring_on' | translate}}</label>
+                          <span id="cardExp">
+                            <input matInput>
+                          </span>
+                          <!-- <input matInput type="text" [formControl]="expirationDate" placeholder="MM/YY" name="expirationDate" maxlength="5"> -->
+                        </mat-form-field>
+                        <mat-error class="mat-card-error" *ngIf="expirationDateError">
+                          {{expirationDateError}}
+                        </mat-error>
+                      </div>
                     </div>
-                    <div>
-                      <input appAutofocus matInput type="text" hidden="true">
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <mat-form-field>
+                            <label>{{'settings.billing.payment_methods_verification_code' | translate}}</label>
+                            <span id="cardCvc">
+                              <input matInput/>
+                            </span>
+                          </mat-form-field>
+                          <mat-error class="mat-card-error" *ngIf="cvcError">
+                            {{cvcError}}
+                          </mat-error>
+                      </div>
                     </div>
-                  </mat-form-field>
-                  <mat-form-field class="col-md-5 col-lg-4 col-xl-3 form-group" hidden="true">
-                    <mat-datetimepicker #picker type="datetime" openOnFocus="false" mode="portrait" timeInterval="1">
-                    </mat-datetimepicker>
-                    <mat-datetimepicker-toggle [for]="picker" matSuffix></mat-datetimepicker-toggle>
-                    <input matInput placeholder="{{'general.expired_on' | translate}}"
-                      autocomplete="false">
-                  </mat-form-field>
-                  <div class="clearfix"></div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-10 offset-1 text-justify">
+                      <div class="form-group">
+                        <div class="conditions-text">
+                          {{'settings.billing.payment_methods_conditions' | translate}}
+                        </div>
+                        <div>
+                          <mat-checkbox [formControl]="acceptConditions" (change)="handleAcceptConditions()">
+                            {{'settings.billing.payment_methods_check' | translate}}
+                          </mat-checkbox>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          </form>
+          <div class="clearfix"></div>
         </mat-tab>
       </mat-tab-group>
       <div class="tabs-actions">
-        <button mat-button (click)="linkCardToAccount()">
+        <button mat-button (click)="linkCardToAccount()" [disabled]="!hasAcceptedConditions || !isCardNumberValid || !isCvcValid || !isExpirationDateValid || isSaveClicked">
           <mat-icon>save</mat-icon>
           <span>{{'general.save' | translate}}</span>
         </button>
-        <button mat-icon-button *ngIf="inDialog" (click)="close()">
+        <button mat-icon-button *ngIf="inDialog" (click)="close()" [disabled]="isSaveClicked">
           <mat-icon>close</mat-icon>
         </button>
       </div>
     </div>
   </div>
-  

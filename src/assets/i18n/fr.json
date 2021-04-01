@@ -1512,6 +1512,13 @@
       "payment_methods_status": "Status",
       "payment_methods_type": "Type",
       "payment_methods_brand": "Marque",
+      "payment_methods_card": "Carte",
+      "payment_methods_verification_code": "Code de vérification",
+      "payment_methods_conditions": "We do not save nor process directly your bank details. For more safety, all transactions are encrypted and transferred to our partner Stripe, specialist in online payment tools. Your payment data will be securely saved for future use.",
+      "payment_methods_check": "J’accepte que mes données bancaires soient utilisées lors de futurs paiements",
+      "payment_methods_card_number_error": "Numéro de carte invalide",
+      "payment_methods_expiration_date_error": "Date d'expiration invalide",
+      "payment_methods_cvc_error": "Code de vérification invalide",
       "user": {
         "synchronize_users": "Synchro Utilisateurs (Facturation)",
         "synchronize_user": "Synchro Utilisateur (Facturation)",

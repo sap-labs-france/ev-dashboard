@@ -24,17 +24,33 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.57',
+        date: new Date('2021-03-30'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Use lock with timeout for the Smart Charging`,
+              `Security updates`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.56',
-        date: new Date('2021-03-28'),
+        date: new Date('2021-03-29'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `Set Schneider minimum intensity to 6A in Charging Station's template`,
+              `Fixed User with role Basic should be able to read settings`,
+              `Fixed Charging Profile Schema in RESTful endpoint`
             ],
           },
         ],
-      },      {
+      },
+      {
         version: '2.4.55',
         date: new Date('2021-03-27'),
         componentChanges: [

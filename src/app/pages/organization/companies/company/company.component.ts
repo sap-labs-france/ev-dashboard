@@ -111,9 +111,14 @@ export class CompanyComponent implements OnInit {
       if (company.address) {
         this.address = company.address;
       }
-      this.formGroup.updateValueAndValidity();
-      this.formGroup.markAsPristine();
-      this.formGroup.markAllAsTouched();
+      // Cannot change roaming Company
+      if (!company.issuer) {
+        this.formGroup.disable();
+      } else {
+        this.formGroup.updateValueAndValidity();
+        this.formGroup.markAsPristine();
+        this.formGroup.markAllAsTouched();
+      }
       // Get Company logo
       this.centralServerService.getCompanyLogo(this.currentCompanyID).subscribe((companyLogo) => {
         this.logo = companyLogo ? companyLogo : Constants.NO_IMAGE;

@@ -30,6 +30,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `Integrated ioThink backend in Asset Management`,
               `Use lock with timeout for the Smart Charging`,
               `Security updates`,
             ],

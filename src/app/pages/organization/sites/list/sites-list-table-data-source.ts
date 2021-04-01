@@ -236,7 +236,6 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
         if (actionDef.action) {
           (actionDef as TableCreateSiteActionDef).action(SiteDialogComponent, this.dialog, this.refreshData.bind(this));
         }
-        actionDef.visible = false;
     }
   }
 

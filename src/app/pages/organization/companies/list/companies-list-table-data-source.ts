@@ -203,7 +203,6 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
         if (actionDef.action) {
           (actionDef as TableCreateCompanyActionDef).action(CompanyDialogComponent, this.dialog, this.refreshData.bind(this));
         }
-        actionDef.visible = false;
         break;
     }
   }

@@ -72,9 +72,7 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
     return new Observable((observer) => {
       // get companies
       this.centralServerService.getCompanies(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe((companies) => {
-        if (companies.canCreate) {
-          this.createAction.hidden = false;
-        }
+        this.createAction.visible = companies.canCreate;
         observer.next(companies);
         observer.complete();
       }, (error) => {
@@ -205,7 +203,7 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
         if (actionDef.action) {
           (actionDef as TableCreateCompanyActionDef).action(CompanyDialogComponent, this.dialog, this.refreshData.bind(this));
         }
-        actionDef.hidden = true;
+        actionDef.visible = false;
         break;
     }
   }

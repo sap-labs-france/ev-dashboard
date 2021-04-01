@@ -82,9 +82,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
       // Get Sites
       this.centralServerService.getSites(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((sites) => {
-        if (sites.canCreate) {
-          this.createAction.hidden = false;
-        }
+        this.createAction.visible = sites.canCreate;
         // Ok
         observer.next(sites);
         observer.complete();
@@ -238,7 +236,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
         if (actionDef.action) {
           (actionDef as TableCreateSiteActionDef).action(SiteDialogComponent, this.dialog, this.refreshData.bind(this));
         }
-        actionDef.hidden = true;
+        actionDef.visible = false;
     }
   }
 

@@ -19,7 +19,7 @@
             </mat-form-field>
           </div>
           <div class="flex-fill" *ngIf="cannotChargeInParallel?.value || manualConfiguration">
-            <mat-checkbox [formControl]="cannotChargeInParallel">
+            <mat-checkbox [formControl]="cannotChargeInParallel" >
               {{'chargers.cant_charge_in_parallel' | translate}}
             </mat-checkbox>
           </div>

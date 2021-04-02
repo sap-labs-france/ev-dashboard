@@ -258,11 +258,9 @@ export interface AssetUserPasswordConnectionType {
   password: string;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface AssetSchneiderConnectionType extends AssetUserPasswordConnectionType {}
+export type AssetSchneiderConnectionType = AssetUserPasswordConnectionType;
 
-// tslint:disable-next-line: no-empty-interface
-export interface AssetIothinkConnectionType extends AssetUserPasswordConnectionType {}
+export type AssetIothinkConnectionType = AssetUserPasswordConnectionType;
 
 export interface AssetGreencomConnectionType {
   clientId: string;

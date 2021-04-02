@@ -1326,6 +1326,7 @@
   },
   "tags": {
     "id": "ID",
+    "not_active": "This badge is not active",
     "issuer": "Organisationseigentümer",
     "status": "Status",
     "activated": "Aktiv",

@@ -1326,7 +1326,8 @@
   },
   "tags": {
     "id": "ID",
-    "issuer": " Propietario de la organización",
+    "not_active": "This badge is not active",
+    "issuer": "Propietario de la organización",
     "status": "Estatus",
     "activated": "Active",
     "deactivated": "Inactive",

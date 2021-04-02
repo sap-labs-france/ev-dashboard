@@ -101,8 +101,8 @@ export class AssetConnectionComponent implements OnInit {
         this.greencomConnection = this.currentAssetConnection.greencomConnection;
         break;
       case AssetConnectionType.IOTHINK:
-      this.iothinkConnection = this.currentAssetConnection.iothinkConnection;
-      break;
+        this.iothinkConnection = this.currentAssetConnection.iothinkConnection;
+        break;
     }
   }
 

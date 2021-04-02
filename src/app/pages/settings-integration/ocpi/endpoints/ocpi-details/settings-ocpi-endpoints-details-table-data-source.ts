@@ -480,13 +480,9 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
       this.translateService.instant('ocpiendpoints.check_cdrs_confirm', { name: ocpiendpoint.name }),
     ).subscribe((result) => {
       if (result === ButtonType.YES) {
-        this.messageService.showInfoMessage('ocpiendpoints.trigger_ocpi_action');
         this.centralServerService.checkCdrsOcpiEndpoint(ocpiendpoint).subscribe((response) => {
-          if (response.failure === 0 && response.success >= 0) {
-            this.messageService.showSuccessMessage('ocpiendpoints.check_cdrs_success', { success: response.success });
-          } else if (response.failure > 0 && response.success > 0) {
-            this.messageService.showWarningMessage('ocpiendpoints.check_cdrs_partial',
-              { success: response.success, error: response.failure });
+          if (response.status === RestResponse.SUCCESS) {
+            this.messageService.showSuccessMessage('ocpiendpoints.check_cdrs_success');
           } else {
             Utils.handleError(JSON.stringify(response),
               this.messageService, 'ocpiendpoints.check_cdrs_error');

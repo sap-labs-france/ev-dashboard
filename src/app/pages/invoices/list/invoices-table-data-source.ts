@@ -142,7 +142,7 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
     }
     columns.push(
       {
-        id: 'nbrOfItems',
+        id: 'nbrOfSessions',
         name: 'invoices.number_of_items',
         headerClass: 'col-10p text-center',
         class: 'col-10p text-center',

@@ -21,7 +21,7 @@ export interface BillingInvoice extends Data {
   createdOn?: Date;
   invoiceID: string;
   userID?: string;
-  nbrOfItems?: number;
+  nbrOfSessions?: number;
   number: string;
   status: BillingInvoiceStatus;
   amount?: number;

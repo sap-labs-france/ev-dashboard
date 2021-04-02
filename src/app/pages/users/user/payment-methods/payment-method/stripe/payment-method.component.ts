@@ -14,7 +14,7 @@ import { CentralServerService } from '../../../../../../services/central-server.
 import { MessageService } from '../../../../../../services/message.service';
 import { SpinnerService } from '../../../../../../services/spinner.service';
 import { Utils } from '../../../../../../utils/Utils';
-import { PaymentMethodDialogComponent } from './payment-method.dialog.component';
+import { PaymentMethodDialogComponent } from '../payment-method.dialog.component';
 
 @Component({
   selector: 'app-payment-method',
@@ -27,18 +27,20 @@ export class PaymentMethodComponent implements OnInit {
   @Input() public dialogRef!: MatDialogRef<PaymentMethodDialogComponent>;
   @Input() public currentUserID!: string;
   @ViewChild('cardInfo', { static: true }) public cardInfo: ElementRef;
-  public elements: StripeElements;
-  public card: StripeCardElement;
   public formGroup!: FormGroup;
   public isBillingComponentActive: boolean;
   public userID: string;
   public acceptConditions: AbstractControl;
+  // Stripe elements
+  public elements: StripeElements;
   public cardNumber: StripeCardNumberElement;
   public expirationDate: StripeCardExpiryElement;
   public cvc: StripeCardCvcElement;
+  // Errors
   public cardNumberError: string;
   public expirationDateError: string;
   public cvcError: string;
+  // conditions to enable Save
   public hasAcceptedConditions: boolean;
   public isCardNumberValid: boolean;
   public isExpirationDateValid: boolean;
@@ -56,8 +58,8 @@ export class PaymentMethodComponent implements OnInit {
     this.isBillingComponentActive = this.componentService.isActive(TenantComponents.BILLING);
     this.hasAcceptedConditions = false;
     this.isCardNumberValid = false;
-    this.isCvcValid = false;
     this.isExpirationDateValid = false;
+    this.isCvcValid = false;
     this.isSaveClicked = false;
   }
 
@@ -136,7 +138,7 @@ export class PaymentMethodComponent implements OnInit {
       this.spinnerService.hide();
       // Operation succeeded
       this.messageService.showSuccessMessage('settings.billing.payment_methods_create_success', { last4: operationResult.internalData.card.last4 });
-      this.closeDialog(true);
+      this.close(true);
     }
   }
 
@@ -156,8 +158,7 @@ export class PaymentMethodComponent implements OnInit {
       // c.f. https://stripe.com/docs/js/setup_intents/confirm_card_setup
       // -----------------------------------------------------------------------------------------------
       const setupIntent: any = response?.internalData;
-      // TODO: handle spinner .hide / .show in a better way - if we're quick we can re click save before 3d secure popup shows off
-      // if 3d secure doesn't show spinner hide/show and the same we can re click on the save button
+      // TODO: handle spinner .hide / .show in a better way ? to be tested in prod // we cannot anymore reclick save button twice
       // setTimeout doesn't work as expected - it never hides...
       // setTimeout(function() {
       this.spinnerService.hide();
@@ -197,14 +198,7 @@ export class PaymentMethodComponent implements OnInit {
     return response;
   }
 
-  // TODO : do we add the "yes/no dialog" ? we don't have any form so can not work as other places...
   public close(saved: boolean = false) {
-    if (this.inDialog) {
-      this.dialogRef.close(saved);
-    }
-  }
-
-  public closeDialog(saved: boolean = false) {
     if (this.inDialog) {
       this.dialogRef.close(saved);
     }

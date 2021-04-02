@@ -23,7 +23,6 @@
                           <span id="cardNumber">
                             <input matInput/>
                           </span>
-                            <!-- <input matInput type="text" [formControl]="cardNumber" placeholder="Valid Card Number" name="cardNumber" maxlength="18"> -->
                         </mat-form-field>
                         <mat-error class="mat-card-error" *ngIf="cardNumberError">
                           {{cardNumberError}}
@@ -39,7 +38,6 @@
                           <span id="cardExp">
                             <input matInput>
                           </span>
-                          <!-- <input matInput type="text" [formControl]="expirationDate" placeholder="MM/YY" name="expirationDate" maxlength="5"> -->
                         </mat-form-field>
                         <mat-error class="mat-card-error" *ngIf="expirationDateError">
                           {{expirationDateError}}

@@ -1519,7 +1519,7 @@
       "payment_methods_check": "I accept that my bank details will be used for future payments",
       "payment_methods_card_number_error": "Invalid card number",
       "payment_methods_expiration_date_error": "Invalid expiration date",
-      "payment_methods_cvc_error": "Invalid erification code",
+      "payment_methods_cvc_error": "Invalid verification code",
       "user": {
         "synchronize_users": "Sincronizza Utenti Fatturazione",
         "synchronize_user": "Sincronizza Utente Fatturazione",

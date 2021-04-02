@@ -334,12 +334,10 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
   }
 
   private checkConcurConnection() {
-    if (this.authorizationService.canListSettings()) {
-      this.componentService.getRefundSettings().subscribe((refundSettings) => {
-        if (refundSettings) {
-          this.refundSetting = refundSettings;
-        }
-      });
-    }
+    this.componentService.getRefundSettings().subscribe((refundSettings) => {
+      if (refundSettings) {
+        this.refundSetting = refundSettings;
+      }
+    });
   }
 }

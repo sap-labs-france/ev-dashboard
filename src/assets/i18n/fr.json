@@ -1326,6 +1326,7 @@
   },
   "tags": {
     "id": "ID",
+    "not_active": "Ce badge n'est pas actif",
     "issuer": "Propriétaire",
     "status": "Statut",
     "activated": "Activé",

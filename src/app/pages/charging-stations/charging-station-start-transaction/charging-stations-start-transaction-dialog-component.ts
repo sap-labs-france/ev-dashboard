@@ -109,8 +109,6 @@ export class ChargingStationsStartTransactionDialogComponent implements OnInit {
       this.centralServerService.getUserDefaultTagCar(this.userID.value).subscribe((userDefaultTagCar: UserDefaultTagCar) => {
         this.spinnerService.hide();
         this.userDefaultTagCar = userDefaultTagCar;
-        console.log(userDefaultTagCar);
-        
         // Set Tag
         this.tag.setValue(userDefaultTagCar.tag ? Utils.buildTagName(userDefaultTagCar.tag) : '');
         this.tagID.setValue(userDefaultTagCar.tag?.id);

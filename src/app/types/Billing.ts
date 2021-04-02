@@ -62,7 +62,3 @@ export interface BillingPaymentMethod {
   isDefault: boolean;
 }
 
-export interface BillingPaymentMethodResult {
-  result: BillingPaymentMethod[];
-  count: number;
-}

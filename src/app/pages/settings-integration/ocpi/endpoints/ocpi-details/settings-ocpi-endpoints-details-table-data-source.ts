@@ -340,13 +340,9 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
       this.translateService.instant('ocpiendpoints.get_sessions_confirm', { name: ocpiendpoint.name }),
     ).subscribe((result) => {
       if (result === ButtonType.YES) {
-        this.messageService.showInfoMessage('ocpiendpoints.trigger_ocpi_action');
         this.centralServerService.pullSessionsOcpiEndpoint(ocpiendpoint).subscribe((response) => {
-          if (response.failure === 0 && response.success >= 0) {
-            this.messageService.showSuccessMessage('ocpiendpoints.get_sessions_success', { success: response.success });
-          } else if (response.failure > 0 && response.success > 0) {
-            this.messageService.showWarningMessage('ocpiendpoints.get_sessions_partial',
-              { success: response.success, error: response.failure });
+          if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+            this.messageService.showSuccessMessage('ocpiendpoints.get_sessions_success');
           } else {
             Utils.handleError(JSON.stringify(response),
               this.messageService, 'ocpiendpoints.get_sessions_error');

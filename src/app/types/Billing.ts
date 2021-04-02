@@ -21,12 +21,18 @@ export interface BillingInvoice extends Data {
   createdOn?: Date;
   invoiceID: string;
   userID?: string;
-  nbrOfSessions?: number;
   number: string;
   status: BillingInvoiceStatus;
   amount?: number;
   currency: string;
   downloadable: boolean;
+  sessions: BillingSessionData[];
+}
+
+export interface BillingSessionData {
+  transactionID: number;
+  description: string;
+  pricingData: any;
 }
 
 export enum BillingButtonAction {

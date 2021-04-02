@@ -2205,7 +2205,7 @@ export class CentralServerService {
       );
   }
 
-  public sendTokensOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<OCPIJobStatusesResponse> {
+  public sendTokensOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<ActionResponse> {
     // Verify init
     this.checkInit();
     // Execute

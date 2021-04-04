@@ -2865,11 +2865,11 @@ export class CentralServerService {
       );
   }
 
-  public synchronizeCarsCatalog(): Observable<ActionsResponse> {
+  public synchronizeCarsCatalog(): Observable<ActionResponse> {
     // Verify init
     this.checkInit();
     // Execute
-    return this.httpClient.put<ActionsResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.SYNCHRONIZE_CAR_CATALOGS}`, {},
+    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.SYNCHRONIZE_CAR_CATALOGS}`, {},
       {
         headers: this.buildHttpHeaders(),
       })

@@ -74,18 +74,20 @@ export class SiteAreaChargingStationsDataSource extends TableDataSource<Charging
   }
 
   public buildTableDef(): TableDef {
-    if (this.siteArea && (this.canReadSiteArea && this.canCreateSiteArea && this.canUpdateSiteArea && this.canDeleteSiteArea) ||
-      this.authorizationService.isSiteAdmin(this.siteArea.siteID)) {
-      return {
-        class: 'table-dialog-list',
-        rowSelection: {
-          enabled: true,
-          multiple: true,
-        },
-        search: {
-          enabled: true,
-        },
-      };
+    if (this.siteArea?.issuer) {
+      if ((this.canReadSiteArea && this.canCreateSiteArea && this.canUpdateSiteArea && this.canDeleteSiteArea) ||
+        this.authorizationService.isSiteAdmin(this.siteArea.siteID)) {
+        return {
+          class: 'table-dialog-list',
+          rowSelection: {
+            enabled: true,
+            multiple: true,
+          },
+          search: {
+            enabled: true,
+          },
+        };
+      }
     }
     return {
       class: 'table-dialog-list',
@@ -134,13 +136,15 @@ export class SiteAreaChargingStationsDataSource extends TableDataSource<Charging
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-    if (this.siteArea && ((this.canReadSiteArea && this.canCreateSiteArea && this.canUpdateSiteArea && this.canDeleteSiteArea) ||
-      this.authorizationService.isSiteAdmin(this.siteArea.siteID))) {
-      return [
-        this.addAction,
-        this.removeAction,
-        ...tableActionsDef,
-      ];
+    if (this.siteArea?.issuer) {
+      if (((this.canReadSiteArea && this.canCreateSiteArea && this.canUpdateSiteArea && this.canDeleteSiteArea) ||
+        this.authorizationService.isSiteAdmin(this.siteArea.siteID))) {
+        return [
+          this.addAction,
+          this.removeAction,
+          ...tableActionsDef,
+        ];
+      }
     }
     return tableActionsDef;
   }

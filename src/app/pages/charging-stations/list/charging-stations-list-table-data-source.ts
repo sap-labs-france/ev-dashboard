@@ -3,7 +3,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { ConnectorTableFilter } from 'shared/table/filters/connector-table-filter';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
@@ -213,7 +212,8 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
           headerClass: 'd-none d-xl-table-cell text-center col-10p',
           class: 'd-none d-xl-table-cell text-center col-10p',
           sortable: false,
-          formatter: (ocppVersion: string, row: ChargingStation) => `${ocppVersion} / ${row.ocppProtocol}`
+          formatter: (ocppVersion: string, row: ChargingStation) =>
+            (ocppVersion && row.ocppProtocol) ? `${ocppVersion} / ${row.ocppProtocol}` : '-'
         },
       );
     }

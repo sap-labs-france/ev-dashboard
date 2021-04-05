@@ -1,6 +1,5 @@
 import { Company } from './Company';
 import { Site } from './Site';
-import { Data } from './Table';
 import { Transaction } from './Transaction';
 import { UserStatus } from './User';
 

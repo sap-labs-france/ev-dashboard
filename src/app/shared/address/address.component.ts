@@ -208,7 +208,7 @@ export class AddressComponent implements OnInit, OnChanges {
       longitude,
       label: this.itemComponentName ? this.itemComponentName : '',
     };
-    // disable outside click close
+    // Disable outside click close
     dialogConfig.disableClose = true;
     // Open
     this.dialog.open(GeoMapDialogComponent, dialogConfig)

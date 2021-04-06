@@ -19,6 +19,8 @@ import { Utils } from '../../../utils/Utils';
 })
 export class SettingsOcpiComponent implements OnInit {
   public isActive = false;
+  public cpoIsActive: boolean;
+  public emspIsActive: boolean;
 
   public formGroup!: FormGroup;
   public logoGroup!: FormGroup;
@@ -144,6 +146,26 @@ export class SettingsOcpiComponent implements OnInit {
     }
   }
 
+  public enableDisableCPO(checked: boolean) {
+    const cpoFormGroup = this.formGroup.controls['cpo'] as FormGroup;
+    if (checked) {
+      cpoFormGroup.enable();
+    } else {
+      cpoFormGroup.disable();
+    }
+    cpoFormGroup.markAsDirty();
+  }
+
+  public enableDisableEMSP(checked: boolean) {
+    const emspFormGroup = this.formGroup.controls['emsp'] as FormGroup;
+    if (checked) {
+      emspFormGroup.enable();
+    } else {
+      emspFormGroup.disable();
+    }
+    emspFormGroup.markAsDirty();
+  }
+
   public loadConfiguration() {
     this.spinnerService.show();
     this.componentService.getOcpiSettings().subscribe((settings) => {
@@ -154,12 +176,16 @@ export class SettingsOcpiComponent implements OnInit {
       if (settings.ocpi.cpo) {
         this.cpoCountryCode.setValue(settings.ocpi.cpo.countryCode);
         this.cpoPartyID.setValue(settings.ocpi.cpo.partyID);
+        this.cpoIsActive = this.cpoCountryCode.value && this.cpoPartyID.value;
       }
+      this.enableDisableCPO(this.cpoIsActive);
       // EMSP identifier
-      if (settings.ocpi.cpo) {
+      if (settings.ocpi.emsp) {
         this.emspCountryCode.setValue(settings.ocpi.emsp.countryCode);
         this.emspPartyID.setValue(settings.ocpi.emsp.partyID);
+        this.emspIsActive = this.emspCountryCode.value &&this.emspPartyID.value;
       }
+      this.enableDisableEMSP(this.emspIsActive);
       // Currency
       this.currency.setValue(settings.ocpi.currency);
       const businessDetails = settings.ocpi.businessDetails;

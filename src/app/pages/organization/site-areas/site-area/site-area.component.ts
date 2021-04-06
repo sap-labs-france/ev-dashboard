@@ -236,10 +236,14 @@ export class SiteAreaComponent implements OnInit {
         this.address = siteArea.address;
       }
       this.refreshMaximumAmps();
-      // Force
-      this.formGroup.updateValueAndValidity();
-      this.formGroup.markAsPristine();
-      this.formGroup.markAllAsTouched();
+      // Cannot change roaming Site Area
+      if (!siteArea.issuer) {
+        this.formGroup.disable();
+      } else {
+        this.formGroup.updateValueAndValidity();
+        this.formGroup.markAsPristine();
+        this.formGroup.markAllAsTouched();
+      }
       // Get Site image
       this.centralServerService.getSiteAreaImage(this.currentSiteAreaID).subscribe((siteAreaImage) => {
         this.image = siteAreaImage ? siteAreaImage : Constants.NO_IMAGE;

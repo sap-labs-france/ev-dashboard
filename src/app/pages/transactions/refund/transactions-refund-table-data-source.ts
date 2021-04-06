@@ -73,8 +73,8 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
     super(spinnerService, translateService);
     this.refundTransactionEnabled = this.authorizationService.canRefundTransaction();
     this.isAdmin = this.authorizationService.isAdmin();
-    // Check
-    this.checkConcurConnection();
+    // Load settings
+    this.loadRefundSettings();
     // Init
     this.initDataSource();
     // Add statistics to query
@@ -333,8 +333,8 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
     return this.authorizationService.isSiteOwner(row.siteID) && (!row.refundData || row.refundData.status === 'cancelled');
   }
 
-  private checkConcurConnection() {
-    if (this.authorizationService.canListSettings()) {
+  private loadRefundSettings() {
+    if (this.authorizationService.canReadSetting()) {
       this.componentService.getRefundSettings().subscribe((refundSettings) => {
         if (refundSettings) {
           this.refundSetting = refundSettings;

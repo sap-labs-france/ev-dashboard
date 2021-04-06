@@ -9,9 +9,9 @@
 // Define colors with mat palette
 $app-primary: mat-palette($mat-blue, 700);
 $app-accent: mat-palette($mat-blue, 500);
-$app-warn: mat-palette($mat-red, 700);
+$app-danger: mat-palette($mat-red, 700);
 // Create the theme for materials
-$app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
+$app-theme: mat-light-theme($app-primary, $app-accent, $app-danger);
 // Other
 $app-success: mat-palette($mat-green, 700);
 $app-warning: mat-palette($mat-orange, 700);
@@ -27,7 +27,6 @@ $app-teal: mat-palette($mat-teal, 700);
 $app-cyan: mat-palette($mat-cyan, 700);
 $app-indigo: mat-palette($mat-indigo, 700);
 $app-pink: mat-palette($mat-pink, 700);
-$app-red: mat-palette($mat-red, 700);
 
 // Bg/Fg
 $app-foreground: map-get($app-theme, foreground);
@@ -44,9 +43,9 @@ $app-background: map-get($app-theme, background);
   // Define colors with mat palette
   $app-primary: mat-palette($mat-grey, 600);
   $app-accent: mat-palette($mat-grey, A200, A100, A400);
-  $app-warn: mat-palette($mat-red, 300);
+  $app-danger: mat-palette($mat-red, 300);
   // Create the theme for materials
-  $app-theme: mat-dark-theme($app-primary, $app-accent, $app-warn);
+  $app-theme: mat-dark-theme($app-primary, $app-accent, $app-danger);
   // Other
   $app-success: mat-palette($mat-green, 300);
   $app-warning: mat-palette($mat-orange, 300);

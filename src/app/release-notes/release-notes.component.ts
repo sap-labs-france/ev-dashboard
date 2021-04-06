@@ -24,6 +24,21 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.58',
+        date: new Date('2021-04-06'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `SAP Concur - Fixed Access token was not refreshed when connection updated date is not defined`,
+              `OCPI - Improved performances and Fixed reported bugs`,
+              `Adjusted authorizations in Company and Site pop-ups`,
+              `Billing: Added number of Transactions in Invoice list`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.57',
         date: new Date('2021-04-01'),
         componentChanges: [

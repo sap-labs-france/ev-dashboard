@@ -2,6 +2,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { HTTPError } from 'types/HTTPError';
+import { Constants } from 'utils/Constants';
 
 import { CentralServerService } from '../../../../services/central-server.service';
 import { DialogService } from '../../../../services/dialog.service';
@@ -37,8 +38,12 @@ export class TableSyncCarCatalogsAction extends TableSynchronizeAction {
         spinnerService.show();
         centralServerService.synchronizeCarsCatalog().subscribe((synchronizeResponse) => {
           spinnerService.hide();
-          messageService.showActionsMessage(synchronizeResponse, 'cars.synchronize_car_catalogs_success',
-            'cars.synchronize_car_catalogs_error', 'cars.synchronize_car_catalogs_partial', 'cars.synchronize_car_catalogs_up_to_date' );
+          if (synchronizeResponse.status === Constants.REST_RESPONSE_SUCCESS) {
+            messageService.showSuccessMessage('cars.synchronize_car_catalogs_success');
+          } else {
+            Utils.handleError(JSON.stringify(response),
+              messageService, 'cars.synchronize_car_catalogs_error');
+          }
           if (refresh) {
             refresh().subscribe();
           }
@@ -48,11 +53,11 @@ export class TableSyncCarCatalogsAction extends TableSynchronizeAction {
           switch (error.status) {
             // Email already exists
             case HTTPError.CANNOT_ACQUIRE_LOCK:
-              messageService.showErrorMessage('cars.synchronize_car_catalogs_ongoing');
+              messageService.showWarningMessage('cars.synchronize_car_catalogs_ongoing');
               break;
             // Unexpected error`
             default:
-              Utils.handleHttpError(error, router, messageService, centralServerService, 'cars.synchronize_car_catalogs_unknown_error');
+              Utils.handleHttpError(error, router, messageService, centralServerService, 'cars.synchronize_car_catalogs_error');
           }
         });
       }

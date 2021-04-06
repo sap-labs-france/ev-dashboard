@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { Constants } from 'utils/Constants';
 
 import { CentralServerService } from '../../../../../services/central-server.service';
 import { DialogService } from '../../../../../services/dialog.service';
@@ -239,13 +240,9 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
       this.translateService.instant('ocpiendpoints.push_evse_statuses_confirm', { name: ocpiendpoint.name }),
     ).subscribe((result) => {
       if (result === ButtonType.YES) {
-        this.messageService.showInfoMessage('ocpiendpoints.trigger_ocpi_action');
         this.centralServerService.sendEVSEStatusesOcpiEndpoint(ocpiendpoint).subscribe((response) => {
-          if (response.failure === 0 && response.success > 0) {
+          if (response.status === Constants.REST_RESPONSE_SUCCESS) {
             this.messageService.showSuccessMessage('ocpiendpoints.push_evse_statuses_success', { success: response.success });
-          } else if (response.failure > 0 && response.success > 0) {
-            this.messageService.showWarningMessage('ocpiendpoints.push_evse_statuses_partial',
-              { success: response.success, error: response.failure });
           } else {
             Utils.handleError(JSON.stringify(response),
               this.messageService, 'ocpiendpoints.push_evse_statuses_error');
@@ -275,13 +272,9 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
       this.translateService.instant('ocpiendpoints.push_tokens_confirm', { name: ocpiendpoint.name }),
     ).subscribe((result) => {
       if (result === ButtonType.YES) {
-        this.messageService.showInfoMessage('ocpiendpoints.trigger_ocpi_action');
         this.centralServerService.sendTokensOcpiEndpoint(ocpiendpoint).subscribe((response) => {
-          if (response.failure === 0 && response.success >= 0) {
-            this.messageService.showSuccessMessage('ocpiendpoints.push_tokens_success', { success: response.success });
-          } else if (response.failure > 0 && response.success > 0) {
-            this.messageService.showWarningMessage('ocpiendpoints.push_tokens_partial',
-              { success: response.success, error: response.failure });
+          if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+            this.messageService.showSuccessMessage('ocpiendpoints.push_tokens_success');
           } else {
             Utils.handleError(JSON.stringify(response),
               this.messageService, 'ocpiendpoints.push_tokens_error');
@@ -311,13 +304,9 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
       this.translateService.instant('ocpiendpoints.pull_locations_confirm', { name: ocpiendpoint.name }),
     ).subscribe((result) => {
       if (result === ButtonType.YES) {
-        this.messageService.showInfoMessage('ocpiendpoints.trigger_ocpi_action');
         this.centralServerService.pullLocationsOcpiEndpoint(ocpiendpoint).subscribe((response) => {
-          if (response.failure === 0 && response.success >= 0) {
-            this.messageService.showSuccessMessage('ocpiendpoints.pull_locations_success', { success: response.success });
-          } else if (response.failure > 0 && response.success > 0) {
-            this.messageService.showWarningMessage('ocpiendpoints.pull_locations_partial',
-              { success: response.success, error: response.failure });
+          if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+            this.messageService.showSuccessMessage('ocpiendpoints.pull_locations_success');
           } else {
             Utils.handleError(JSON.stringify(response),
               this.messageService, 'ocpiendpoints.pull_locations_error');
@@ -347,13 +336,9 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
       this.translateService.instant('ocpiendpoints.get_sessions_confirm', { name: ocpiendpoint.name }),
     ).subscribe((result) => {
       if (result === ButtonType.YES) {
-        this.messageService.showInfoMessage('ocpiendpoints.trigger_ocpi_action');
         this.centralServerService.pullSessionsOcpiEndpoint(ocpiendpoint).subscribe((response) => {
-          if (response.failure === 0 && response.success >= 0) {
-            this.messageService.showSuccessMessage('ocpiendpoints.get_sessions_success', { success: response.success });
-          } else if (response.failure > 0 && response.success > 0) {
-            this.messageService.showWarningMessage('ocpiendpoints.get_sessions_partial',
-              { success: response.success, error: response.failure });
+          if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+            this.messageService.showSuccessMessage('ocpiendpoints.get_sessions_success');
           } else {
             Utils.handleError(JSON.stringify(response),
               this.messageService, 'ocpiendpoints.get_sessions_error');
@@ -383,13 +368,9 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
       this.translateService.instant('ocpiendpoints.pull_tokens_confirm', { name: ocpiendpoint.name }),
     ).subscribe((result) => {
       if (result === ButtonType.YES) {
-        this.messageService.showInfoMessage('ocpiendpoints.trigger_ocpi_action');
         this.centralServerService.pullTokensOcpiEndpoint(ocpiendpoint).subscribe((response) => {
-          if (response.failure === 0 && response.success >= 0) {
+          if (response.status === RestResponse.SUCCESS) {
             this.messageService.showSuccessMessage('ocpiendpoints.pull_tokens_success', { success: response.success });
-          } else if (response.failure > 0 && response.success > 0) {
-            this.messageService.showWarningMessage('ocpiendpoints.pull_tokens_partial',
-              { success: response.success, error: response.failure });
           } else {
             Utils.handleError(JSON.stringify(response),
               this.messageService, 'ocpiendpoints.pull_tokens_error');
@@ -419,13 +400,9 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
       this.translateService.instant('ocpiendpoints.check_locations_confirm', { name: ocpiendpoint.name }),
     ).subscribe((result) => {
       if (result === ButtonType.YES) {
-        this.messageService.showInfoMessage('ocpiendpoints.trigger_ocpi_action');
         this.centralServerService.checkLocationsOcpiEndpoint(ocpiendpoint).subscribe((response) => {
-          if (response.failure === 0 && response.success >= 0) {
+          if (response.status === RestResponse.SUCCESS) {
             this.messageService.showSuccessMessage('ocpiendpoints.check_locations_success', { success: response.success });
-          } else if (response.failure > 0 && response.success > 0) {
-            this.messageService.showWarningMessage('ocpiendpoints.check_locations_partial',
-              { success: response.success, error: response.failure });
           } else {
             Utils.handleError(JSON.stringify(response),
               this.messageService, 'ocpiendpoints.check_locations_error');
@@ -455,13 +432,9 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
       this.translateService.instant('ocpiendpoints.check_sessions_confirm', { name: ocpiendpoint.name }),
     ).subscribe((result) => {
       if (result === ButtonType.YES) {
-        this.messageService.showInfoMessage('ocpiendpoints.trigger_ocpi_action');
         this.centralServerService.checkSessionsOcpiEndpoint(ocpiendpoint).subscribe((response) => {
-          if (response.failure === 0 && response.success >= 0) {
-            this.messageService.showSuccessMessage('ocpiendpoints.check_sessions_success', { success: response.success });
-          } else if (response.failure > 0 && response.success > 0) {
-            this.messageService.showWarningMessage('ocpiendpoints.check_sessions_partial',
-              { success: response.success, error: response.failure });
+          if (response.status === RestResponse.SUCCESS) {
+            this.messageService.showSuccessMessage('ocpiendpoints.check_sessions_success');
           } else {
             Utils.handleError(JSON.stringify(response),
               this.messageService, 'ocpiendpoints.check_sessions_error');
@@ -491,13 +464,9 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
       this.translateService.instant('ocpiendpoints.check_cdrs_confirm', { name: ocpiendpoint.name }),
     ).subscribe((result) => {
       if (result === ButtonType.YES) {
-        this.messageService.showInfoMessage('ocpiendpoints.trigger_ocpi_action');
         this.centralServerService.checkCdrsOcpiEndpoint(ocpiendpoint).subscribe((response) => {
-          if (response.failure === 0 && response.success >= 0) {
-            this.messageService.showSuccessMessage('ocpiendpoints.check_cdrs_success', { success: response.success });
-          } else if (response.failure > 0 && response.success > 0) {
-            this.messageService.showWarningMessage('ocpiendpoints.check_cdrs_partial',
-              { success: response.success, error: response.failure });
+          if (response.status === RestResponse.SUCCESS) {
+            this.messageService.showSuccessMessage('ocpiendpoints.check_cdrs_success');
           } else {
             Utils.handleError(JSON.stringify(response),
               this.messageService, 'ocpiendpoints.check_cdrs_error');
@@ -527,13 +496,9 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
       this.translateService.instant('ocpiendpoints.pull_cdrs_confirm', { name: ocpiendpoint.name }),
     ).subscribe((result) => {
       if (result === ButtonType.YES) {
-        this.messageService.showInfoMessage('ocpiendpoints.trigger_ocpi_action');
         this.centralServerService.pullCdrsOcpiEndpoint(ocpiendpoint).subscribe((response) => {
-          if (response.failure === 0 && response.success >= 0) {
+          if (response.status === RestResponse.SUCCESS) {
             this.messageService.showSuccessMessage('ocpiendpoints.pull_cdrs_success', { success: response.success });
-          } else if (response.failure > 0 && response.success > 0) {
-            this.messageService.showWarningMessage('ocpiendpoints.pull_cdrs_partial',
-              { success: response.success, error: response.failure });
           } else {
             Utils.handleError(JSON.stringify(response),
               this.messageService, 'ocpiendpoints.pull_cdrs_error');

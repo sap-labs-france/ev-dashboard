@@ -41,7 +41,7 @@ export class SiteComponent implements OnInit {
   public public!: AbstractControl;
 
   public address!: Address;
-  public canCreateSite = false;
+  public canUpdateSite!: boolean;
 
   public constructor(
     private authorizationService: AuthorizationService,
@@ -54,6 +54,7 @@ export class SiteComponent implements OnInit {
     private dialog: MatDialog,
     private dialogService: DialogService,
     private router: Router) {
+    this.canUpdateSite = false;
     this.maxSize = this.configService.getSite().maxPictureKb;
     // Check auth
     if (this.activatedRoute.snapshot.params['id'] &&
@@ -61,8 +62,6 @@ export class SiteComponent implements OnInit {
       // Not authorized
       this.router.navigate(['/']);
     }
-    // Set
-    this.canCreateSite = this.authorizationService.canCreateSite();
   }
 
   public ngOnInit() {
@@ -141,13 +140,6 @@ export class SiteComponent implements OnInit {
     if (!this.currentSiteID) {
       return;
     }
-    this.canCreateSite = this.authorizationService.canCreateSite() ||
-      this.authorizationService.isSiteAdmin(this.currentSiteID) ||
-      this.authorizationService.isSiteOwner(this.currentSiteID);
-    // if not admin switch in readonly mode
-    if (!this.canCreateSite) {
-      this.formGroup.disable();
-    }
     this.spinnerService.show();
     this.centralServerService.getSite(this.currentSiteID, false, true).subscribe((site) => {
       this.spinnerService.hide();
@@ -184,6 +176,15 @@ export class SiteComponent implements OnInit {
       this.centralServerService.getSiteImage(this.currentSiteID).subscribe((siteImage) => {
         this.image = siteImage ? siteImage : Constants.NO_IMAGE;
       });
+
+      this.canUpdateSite = site.canUpdate ||
+      this.authorizationService.isSiteAdmin(this.currentSiteID) ||
+      this.authorizationService.isSiteOwner(this.currentSiteID);
+
+      if (!this.canUpdateSite) {
+        this.formGroup.disable();
+      }
+
     }, (error) => {
       this.spinnerService.hide();
       switch (error.status) {

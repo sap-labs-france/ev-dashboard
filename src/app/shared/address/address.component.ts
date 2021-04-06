@@ -14,7 +14,8 @@ import { GeoMapDialogComponent } from '../dialogs/geomap/geomap-dialog.component
 })
 export class AddressComponent implements OnInit, OnChanges {
   @Input() public formGroup!: FormGroup;
-  @Input() public hideGeoLocation = false;
+  @Input() public hideGeolocation = false;
+  @Input() public onlyReadGeolocation = false;
   @Input() public address!: Address;
   @Input() public componentName!: string;
   @Input() public itemComponentName!: string;

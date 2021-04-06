@@ -108,7 +108,7 @@
   }
   &#{$component}-danger#{$selector-suffix} {
     $args-danger: map-merge($args, (
-      variation-color: $brand-warn,
+      variation-color: $brand-danger,
       variation-color-text: $mdb-text-color-light
     ));
     @include call-variations-content-mixin($args-danger);

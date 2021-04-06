@@ -59,7 +59,7 @@ pre {
 
 @include palette($app-primary, "primary");
 @include palette($app-accent, "accent");
-@include palette($app-warn, "warn");
+@include palette($app-danger, "warn");
 @include palette($app-warning, "warning");
 @include palette($app-success, "success");
 @include palette($app-yellow, "yellow");

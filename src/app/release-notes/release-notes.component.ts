@@ -33,6 +33,7 @@ export class ReleaseNotesComponent {
               `SAP Concur - Fixed Access token was not refreshed when connection updated date is not defined`,
               `OCPI - Improved performances and Fixed reported bugs`,
               `Adjusted authorizations in Company and Site pop-ups`,
+              `Billing: Added number of Transactions in Invoice list`,
             ],
           },
         ],

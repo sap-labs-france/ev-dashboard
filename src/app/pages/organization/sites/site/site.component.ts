@@ -41,7 +41,7 @@ export class SiteComponent implements OnInit {
   public public!: AbstractControl;
 
   public address!: Address;
-  public canUpdateSite!: boolean;
+  public canUpdateSite = false;
 
   public constructor(
     private authorizationService: AuthorizationService,
@@ -54,7 +54,6 @@ export class SiteComponent implements OnInit {
     private dialog: MatDialog,
     private dialogService: DialogService,
     private router: Router) {
-    this.canUpdateSite = false;
     this.maxSize = this.configService.getSite().maxPictureKb;
     // Check auth
     if (this.activatedRoute.snapshot.params['id'] &&
@@ -181,15 +180,12 @@ export class SiteComponent implements OnInit {
       this.centralServerService.getSiteImage(this.currentSiteID).subscribe((siteImage) => {
         this.image = siteImage ? siteImage : Constants.NO_IMAGE;
       });
-
       this.canUpdateSite = site.canUpdate ||
       this.authorizationService.isSiteAdmin(this.currentSiteID) ||
       this.authorizationService.isSiteOwner(this.currentSiteID);
-
       if (!this.canUpdateSite) {
         this.formGroup.disable();
       }
-
     }, (error) => {
       this.spinnerService.hide();
       switch (error.status) {

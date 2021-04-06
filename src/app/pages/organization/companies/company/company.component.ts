@@ -37,7 +37,7 @@ export class CompanyComponent implements OnInit {
   public id!: AbstractControl;
   public name!: AbstractControl;
   public address!: Address;
-  public canUpdateCompany!: boolean;
+  public canUpdateCompany = false;
 
   public constructor(
     private authorizationService: AuthorizationService,
@@ -50,7 +50,6 @@ export class CompanyComponent implements OnInit {
     private dialogService: DialogService,
     private translateService: TranslateService,
     private router: Router) {
-    this.canUpdateCompany = false;
     this.maxSize = this.configService.getCompany().maxLogoKb;
     // Check auth
     if (this.activatedRoute.snapshot.params['id'] &&

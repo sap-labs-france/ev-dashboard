@@ -38,6 +38,7 @@ export class CompanyComponent implements OnInit {
   public name!: AbstractControl;
   public address!: Address;
   public canUpdateCompany = false;
+  public canCreateCompany = false;
 
   public constructor(
     private authorizationService: AuthorizationService,
@@ -118,6 +119,7 @@ export class CompanyComponent implements OnInit {
         this.logo = companyLogo ? companyLogo : Constants.NO_IMAGE;
       });
       this.canUpdateCompany = company.canUpdate;
+      this.canCreateCompany = company.canCreate;
       if (!this.canUpdateCompany) {
         this.formGroup.disable();
       }

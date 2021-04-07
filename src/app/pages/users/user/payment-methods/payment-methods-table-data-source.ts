@@ -62,8 +62,8 @@ export class PaymentMethodsTableDataSource extends TableDataSource<BillingPaymen
       if (this.currentUserID) {
         // Yes: Get data
         // eslint-disable-next-line max-len
-        this.centralServerService.getPaymentMethods(this.currentUserID, this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe((paymentMethod) => {
-          observer.next(paymentMethod);
+        this.centralServerService.getPaymentMethods(this.currentUserID, this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe((paymentMethods) => {
+          observer.next(paymentMethods);
           observer.complete();
         }, (error) => {
           // No longer exists!

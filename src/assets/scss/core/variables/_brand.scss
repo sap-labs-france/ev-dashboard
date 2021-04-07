@@ -5,7 +5,7 @@ $brand-accent: mat-color($app-accent) !default;
 $brand-info: mat-color($app-accent) !default;
 $brand-success: mat-color($app-success) !default;
 $brand-warning: mat-color($app-warning) !default;
-$brand-warn: mat-color($app-warn) !default;
+$brand-danger: mat-color($app-danger) !default;
 $brand-disabled: mat-color($app-foreground, disabled) !default;
 $brand-text: mat-color($app-foreground, text) !default;
 $brand-hover: mat-color($app-background, hover) !default;
@@ -24,7 +24,6 @@ $brand-teal: mat-color($app-teal) !default;
 $brand-cyan: mat-color($app-cyan) !default;
 $brand-indigo: mat-color($app-indigo) !default;
 $brand-pink: mat-color($app-pink) !default;
-$brand-red: mat-color($app-red) !default;
 
 // End of Light Theme ---------------------------------
 

@@ -24,7 +24,7 @@
                             <input matInput/>
                           </span>
                         </mat-form-field>
-                        <mat-error class="mat-card-error" *ngIf="cardNumberError">
+                        <mat-error class="mat-payment-error" *ngIf="cardNumberError">
                           {{cardNumberError}}
                         </mat-error>
                       </div>
@@ -39,7 +39,7 @@
                             <input matInput>
                           </span>
                         </mat-form-field>
-                        <mat-error class="mat-card-error" *ngIf="expirationDateError">
+                        <mat-error class="mat-payment-error" *ngIf="expirationDateError">
                           {{expirationDateError}}
                         </mat-error>
                       </div>
@@ -52,7 +52,7 @@
                               <input matInput/>
                             </span>
                           </mat-form-field>
-                          <mat-error class="mat-card-error" *ngIf="cvcError">
+                          <mat-error class="mat-payment-error" *ngIf="cvcError">
                             {{cvcError}}
                           </mat-error>
                       </div>
@@ -61,7 +61,7 @@
                   <div class="row">
                     <div class="col-md-10 offset-1 text-justify">
                       <div class="form-group">
-                        <div class="conditions-text">
+                        <div class="justified-italic-text-box">
                           {{'settings.billing.payment_methods_conditions' | translate}}
                         </div>
                         <div>

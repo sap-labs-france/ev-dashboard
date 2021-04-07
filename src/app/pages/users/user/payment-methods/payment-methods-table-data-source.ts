@@ -181,7 +181,7 @@ export class PaymentMethodsTableDataSource extends TableDataSource<BillingPaymen
       case BillingButtonAction.DELETE_PAYMENT_METHOD:
         if (actionDef.action) {
           (actionDef as TableDeletePaymentMethodActionDef).action(
-            paymentMethod, this.dialogService, this.translateService, this.messageService,
+            paymentMethod, this.currentUserID, this.dialogService, this.translateService, this.messageService,
             this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
         }
         break;

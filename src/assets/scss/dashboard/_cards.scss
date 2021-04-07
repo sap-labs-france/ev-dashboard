@@ -308,20 +308,4 @@
   .card-body.table-full-width {
     padding: 0;
   }
-
-  .conditions-text {
-    @include box-shadow($bmd-shadow-4dp);
-    color: mat-color($app-grey, 800);
-    padding: 10px 15px;
-    margin-bottom: 10px;
-    background: rgba($brand-primary, 0.3);
-    font-style: italic;
-  }
-
-  .mat-card-error {
-    color: #EC1B26;
-    font-size: 0.8em;
-    margin-top: -.8em;
-    text-align: left;
-  }
 }

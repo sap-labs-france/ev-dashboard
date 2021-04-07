@@ -100,7 +100,7 @@
       </mat-tab>
     </mat-tab-group>
     <div class="tabs-actions">
-      <button mat-button *ngIf="canCreateSite || canUpdateSite" (click)="saveSite(formGroup.value)"
+      <button mat-button (click)="saveSite(formGroup.value)"
         [disabled]="!formGroup.valid || !formGroup.dirty">
         <mat-icon>save</mat-icon>
         <span>{{'general.save' | translate}}</span>

@@ -29,7 +29,7 @@ import { Constants } from '../../../utils/Constants';
 import { ParentErrorStateMatcher } from '../../../utils/ParentStateMatcher';
 import { Users } from '../../../utils/Users';
 import { Utils } from '../../../utils/Utils';
-import { PaymentMethodsTableDataSource } from './stripe/payment-methods/payment-methods-table-data-source';
+import { PaymentMethodsTableDataSource } from './payment-methods/payment-methods-table-data-source';
 import { UserDialogComponent } from './user.dialog.component';
 
 @Component({

@@ -1565,7 +1565,7 @@ export class CentralServerService {
   public setupPaymentMethod(parameters: any): Observable<BillingOperationResponse> {
     this.checkInit();
     // Build the URL
-    const urlPattern: ServerRoute = (parameters.paymentMethodID) ? ServerRoute.REST_BILLING_PAYMENT_METHOD_SETUP : ServerRoute.REST_BILLING_PAYMENT_METHOD_ATTACH;
+    const urlPattern: ServerRoute = (!parameters.paymentMethodID) ? ServerRoute.REST_BILLING_PAYMENT_METHOD_SETUP : ServerRoute.REST_BILLING_PAYMENT_METHOD_ATTACH;
     const url = this.buildRestEndpointUrl(urlPattern, {
       userID: parameters.userID,
       paymentMethodID: parameters.paymentMethodID

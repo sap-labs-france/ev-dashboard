@@ -24,6 +24,18 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.59',
+        date: new Date('2021-04-08'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Sub-domain cannot be empty in both Tenant's Create and Update operations`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.58',
         date: new Date('2021-04-06'),
         componentChanges: [

@@ -1814,7 +1814,7 @@
       "website": "Link to the operator website",
       "logo": {
         "url": "URL of the full scale image",
-        "thumbnail": "URL o the thumbnail image",
+        "thumbnail": "URL of the thumbnail image",
         "category": "Category of the image",
         "type": "Image type (gif, jpeg, png, svg,...)",
         "width": "Width of the full scale image",
@@ -1910,7 +1910,7 @@
       "website": "Link to the operator website",
       "logo": {
         "url": "URL of the full scale image",
-        "thumbnail": "URL o the thumbnail image",
+        "thumbnail": "URL of the thumbnail image",
         "category": "Category of the image",
         "type": "Image type (gif, jpeg, png, svg,...)",
         "width": "Width of the full scale image",

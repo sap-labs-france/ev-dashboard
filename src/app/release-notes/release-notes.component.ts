@@ -32,7 +32,9 @@ export class ReleaseNotesComponent {
             changes: [
               `Sub-domain cannot be empty in both Tenant's Create and Update operations`,
               `Added both EV Meter Bee and Delta 10722 Charging Station in templates`,
-              `Authorization refactoring on Company, Site and Site Area`,
+              `Billing (alpha) - Check bank details reuse + Match the payment method modal with the current Dashboard's theme`,
+              `Billing (alpha) - Fixed current user ID in delete payment method`,
+              `New authorization concept added in Company, Site and Site Area`,
             ],
           },
         ],

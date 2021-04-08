@@ -31,6 +31,7 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Sub-domain cannot be empty in both Tenant's Create and Update operations`,
+              `Authorization refactoring on Company, Site and Site Area`,
             ],
           },
         ],

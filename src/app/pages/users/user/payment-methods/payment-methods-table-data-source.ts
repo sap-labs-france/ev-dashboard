@@ -3,23 +3,24 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { AuthorizationService } from 'services/authorization.service';
-import { CentralServerService } from 'services/central-server.service';
-import { ComponentService } from 'services/component.service';
-import { DialogService } from 'services/dialog.service';
-import { MessageService } from 'services/message.service';
-import { WindowService } from 'services/window.service';
-import { AppDatePipe } from 'shared/formatters/app-date.pipe';
-import { TableCreatePaymentMethodAction, TableCreatePaymentMethodActionDef } from 'shared/table/actions/users/table-create-payment-method-action';
-import { TableDeletePaymentMethodAction, TableDeletePaymentMethodActionDef } from 'shared/table/actions/users/table-delete-payment-method';
-import { BillingButtonAction, BillingPaymentMethod } from 'types/Billing';
-import { Utils } from 'utils/Utils';
 
-import { SpinnerService } from '../../../../../services/spinner.service';
-import { TableRefreshAction } from '../../../../../shared/table/actions/table-refresh-action';
-import { TableDataSource } from '../../../../../shared/table/table-data-source';
-import { DataResult } from '../../../../../types/DataResult';
-import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../../../types/Table';
+import { AuthorizationService } from '../../../../services/authorization.service';
+import { CentralServerService } from '../../../../services/central-server.service';
+import { ComponentService } from '../../../../services/component.service';
+import { DialogService } from '../../../../services/dialog.service';
+import { MessageService } from '../../../../services/message.service';
+import { SpinnerService } from '../../../../services/spinner.service';
+import { WindowService } from '../../../../services/window.service';
+import { AppDatePipe } from '../../../../shared/formatters/app-date.pipe';
+import { TableRefreshAction } from '../../../../shared/table/actions/table-refresh-action';
+import { TableCreatePaymentMethodAction, TableCreatePaymentMethodActionDef } from '../../../../shared/table/actions/users/table-create-payment-method-action';
+import { TableDeletePaymentMethodAction, TableDeletePaymentMethodActionDef } from '../../../../shared/table/actions/users/table-delete-payment-method';
+import { TableDataSource } from '../../../../shared/table/table-data-source';
+import { BillingButtonAction, BillingPaymentMethod } from '../../../../types/Billing';
+import { DataResult } from '../../../../types/DataResult';
+import { BillingSettings } from '../../../../types/Setting';
+import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../../types/Table';
+import { Utils } from '../../../../utils/Utils';
 import { PaymentMethodStatusComponent } from './payment-method/payment-method-status.component';
 import { PaymentMethodDialogComponent } from './payment-method/payment-method.dialog.component';
 
@@ -27,6 +28,7 @@ import { PaymentMethodDialogComponent } from './payment-method/payment-method.di
 export class PaymentMethodsTableDataSource extends TableDataSource<BillingPaymentMethod> {
   public canCreatePaymentMethod: boolean;
   public currentUserID: string;
+  public billingSettings: BillingSettings;
   private deleteAction = new TableDeletePaymentMethodAction().getActionDef();
   public constructor(
     public spinnerService: SpinnerService,
@@ -43,6 +45,10 @@ export class PaymentMethodsTableDataSource extends TableDataSource<BillingPaymen
     private dialog: MatDialog) {
     super(spinnerService, translateService);
     this.canCreatePaymentMethod = this.authorizationService.canCreatePaymentMethod();
+    this.componentService.getBillingSettings().subscribe((settings) => {
+      this.spinnerService.hide();
+      this.billingSettings = settings;
+    });
   }
 
   public setCurrentUserId(currentUserID: string) {
@@ -163,7 +169,8 @@ export class PaymentMethodsTableDataSource extends TableDataSource<BillingPaymen
       case BillingButtonAction.CREATE_PAYMENT_METHOD:
         if (actionDef.id) {
           (actionDef as TableCreatePaymentMethodActionDef).action(
-            PaymentMethodDialogComponent, this.currentUserID, this.dialog, this.refreshData.bind(this));
+            // eslint-disable-next-line max-len
+            PaymentMethodDialogComponent, {userId: this.currentUserID, setting: this.billingSettings}, this.dialog, this.refreshData.bind(this));
         }
         break;
     }
@@ -174,7 +181,7 @@ export class PaymentMethodsTableDataSource extends TableDataSource<BillingPaymen
       case BillingButtonAction.DELETE_PAYMENT_METHOD:
         if (actionDef.action) {
           (actionDef as TableDeletePaymentMethodActionDef).action(
-            paymentMethod, this.dialogService, this.translateService, this.messageService,
+            paymentMethod, this.currentUserID, this.dialogService, this.translateService, this.messageService,
             this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
         }
         break;

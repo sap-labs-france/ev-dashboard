@@ -1513,6 +1513,13 @@
       "payment_methods_status": "Status",
       "payment_methods_type": "Type",
       "payment_methods_brand": "Brand",
+      "payment_methods_card": "Card",
+      "payment_methods_verification_code": "Verification code",
+      "payment_methods_conditions": "For security reasons, we do not store nor process your bank and card details directly. The collected information is sent via a secure channel to our STRIPE partner which provides the billing and payment infrastructure.",
+      "payment_methods_check": "I have read the End-user License Agreement and agree that my bank details will be used for paying future EV Charging Sessions.",
+      "payment_methods_card_number_error": "Invalid card number",
+      "payment_methods_expiration_date_error": "Invalid expiration date",
+      "payment_methods_cvc_error": "Invalid verification code",
       "user": {
         "synchronize_users": "Sincronización del usuario (Facturación)",
         "synchronize_user": "Sincronización del usuario (Facturación)",

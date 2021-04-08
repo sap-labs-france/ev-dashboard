@@ -24,6 +24,7 @@ import { Utils } from '../../../../utils/Utils';
 })
 export class CompanyComponent implements OnInit {
   @Input() public currentCompanyID!: string;
+  @Input() public canCreateCompany: boolean;
   @Input() public inDialog!: boolean;
   @Input() public dialogRef!: MatDialogRef<any>;
 
@@ -38,7 +39,6 @@ export class CompanyComponent implements OnInit {
   public name!: AbstractControl;
   public address!: Address;
   public canUpdateCompany = false;
-  public canCreateCompany = false;
 
   public constructor(
     private authorizationService: AuthorizationService,
@@ -119,7 +119,6 @@ export class CompanyComponent implements OnInit {
         this.logo = companyLogo ? companyLogo : Constants.NO_IMAGE;
       });
       this.canUpdateCompany = company.canUpdate;
-      this.canCreateCompany = company.canCreate;
       if (!this.canUpdateCompany) {
         this.formGroup.disable();
       }

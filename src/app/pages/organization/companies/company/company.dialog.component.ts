@@ -5,16 +5,21 @@ import { Utils } from '../../../../utils/Utils';
 import { CompanyComponent } from './company.component';
 
 @Component({
-  template: '<app-company #appRef [currentCompanyID]="companyID" [inDialog]="true" [dialogRef]="dialogRef"></app-company>',
+  template: '<app-company #appRef [currentCompanyID]="companyID" [canCreateCompany]="canCreateCompany" [inDialog]="true" [dialogRef]="dialogRef"></app-company>',
 })
 export class CompanyDialogComponent implements AfterViewInit {
   @ViewChild('appRef') public appRef!: CompanyComponent;
   public companyID!: string;
+  public canCreateCompany: boolean;
 
   public constructor(
     public dialogRef: MatDialogRef<CompanyDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data: string) {
-    this.companyID = data;
+    @Inject(MAT_DIALOG_DATA) public data: boolean | string, ) {
+    if(typeof data === 'boolean'){
+      this.canCreateCompany = data;
+    } else {
+      this.companyID = data;
+    }
   }
 
   public ngAfterViewInit() {

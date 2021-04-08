@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { AuthorizationActions } from 'types/Authorization';
 
 import { AuthorizationService } from '../../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
@@ -73,6 +74,7 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
       // get companies
       this.centralServerService.getCompanies(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe((companies) => {
         this.createAction.visible = companies.canCreate;
+        this.canCreateCompany = companies.canCreate;
         observer.next(companies);
         observer.complete();
       }, (error) => {
@@ -201,7 +203,10 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
       // Add
       case CompanyButtonAction.CREATE_COMPANY:
         if (actionDef.action) {
-          (actionDef as TableCreateCompanyActionDef).action(CompanyDialogComponent, this.dialog, this.refreshData.bind(this));
+          const authorizations: AuthorizationActions = {
+            canCreate: this.canCreateCompany
+          };
+          (actionDef as TableCreateCompanyActionDef).action(CompanyDialogComponent, this.dialog, authorizations, this.refreshData.bind(this));
         }
         break;
     }

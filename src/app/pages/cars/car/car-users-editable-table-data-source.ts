@@ -98,7 +98,7 @@ export class CarUsersEditableTableDataSource extends EditableTableDataSource<Use
         // Yes: Get data
         const paging = this.getPaging();
         this.centralServerService.getCarUsers(
-          { ...this.buildFilterValues(), carID: this.carID },
+          { ...this.buildFilterValues(), CarID: this.carID },
           paging, this.getSorting()).subscribe((usersCar) => {
           // Initial Assignment
           if (!this.serverCalled) {
@@ -171,7 +171,7 @@ export class CarUsersEditableTableDataSource extends EditableTableDataSource<Use
     // Original users
     for (const carUser of this.carUsers) {
       // Updated users
-      const foundUserCar = this.editableRows.find((updatedCarUser) => updatedCarUser.user.id === carUser.user.id);
+      const foundUserCar = this.editableRows.find((updatedCarUser) => updatedCarUser.user?.id === carUser.user?.id);
       if (!foundUserCar) {
         removedCarUsers.push(carUser);
       }
@@ -275,7 +275,7 @@ export class CarUsersEditableTableDataSource extends EditableTableDataSource<Use
     // Updated users
     for (const carUser of this.editableRows) {
       // Original users
-      const foundUserCar = this.carUsers.find((updatedCarUser) => updatedCarUser.user.id === carUser.user.id);
+      const foundUserCar = this.carUsers.find((updatedCarUser) => updatedCarUser.user?.id === carUser.user?.id);
       if (!foundUserCar) {
         addedCarUsers.push({
           user: carUser.user,

@@ -31,7 +31,7 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Sub-domain cannot be empty in both Tenant's Create and Update operations`,
-              `Added EV Meter Bee Charging Station in templates`,
+              `Added both EV Meter Bee and Delta 10722 Charging Station in templates`,
               `Authorization refactoring on Company, Site and Site Area`,
             ],
           },

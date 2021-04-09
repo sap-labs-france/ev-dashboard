@@ -34,11 +34,8 @@ import { CompanyDialogComponent } from '../company/company.dialog.component';
 
 @Injectable()
 export class CompaniesListTableDataSource extends TableDataSource<Company> {
-  private canReadCompany = false;
   private canCreateCompany = false;
   private canUpdateCompany = false;
-  private canDeleteCompany = false;
-  private canCrudCompany = false;
   private editAction = new TableEditCompanyAction().getActionDef();
   private deleteAction = new TableDeleteCompanyAction().getActionDef();
   private viewAction = new TableViewCompanyAction().getActionDef();
@@ -57,10 +54,7 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
     private authorizationService: AuthorizationService) {
     super(spinnerService, translateService);
     // Init
-    this.canReadCompany = this.authorizationService.canReadCompany();
     this.canUpdateCompany = this.authorizationService.canUpdateCompany();
-    this.canDeleteCompany = this.authorizationService.canDeleteCompany();
-    this.canCrudCompany = this.canCreateCompany && this.canReadCompany && this.canUpdateCompany && this.canDeleteCompany;
     this.setStaticFilters([{ WithLogo: true }]);
     this.initDataSource();
   }
@@ -129,7 +123,7 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
         sortable: true,
       },
     ];
-    if (this.canCrudCompany) {
+    if (this.canUpdateCompany) {
       tableColumnDef.push(
         {
           id: 'createdOn',

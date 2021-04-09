@@ -14,7 +14,8 @@ import { GeoMapDialogComponent } from '../dialogs/geomap/geomap-dialog.component
 })
 export class AddressComponent implements OnInit, OnChanges {
   @Input() public formGroup!: FormGroup;
-  @Input() public hideGeoLocation = false;
+  @Input() public hideGeolocation = false;
+  @Input() public onlyReadGeolocation = false;
   @Input() public address!: Address;
   @Input() public componentName!: string;
   @Input() public itemComponentName!: string;
@@ -207,7 +208,7 @@ export class AddressComponent implements OnInit, OnChanges {
       longitude,
       label: this.itemComponentName ? this.itemComponentName : '',
     };
-    // disable outside click close
+    // Disable outside click close
     dialogConfig.disableClose = true;
     // Open
     this.dialog.open(GeoMapDialogComponent, dialogConfig)

@@ -61,7 +61,7 @@
 }
 
 .chip-danger {
-  @include chip($brand-warn);
+  @include chip($brand-danger);
 }
 
 .chip-grey {

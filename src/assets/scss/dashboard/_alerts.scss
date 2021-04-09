@@ -35,8 +35,8 @@
   }
 
   &.alert-danger {
-    @include shadow-alert-color($brand-warn);
-    @include alert-icon-color($brand-warn);
+    @include shadow-alert-color($brand-danger);
+    @include alert-icon-color($brand-danger);
   }
   &.alert-warning {
     @include shadow-alert-color($brand-warning);

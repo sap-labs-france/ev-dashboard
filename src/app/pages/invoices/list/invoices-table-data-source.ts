@@ -22,7 +22,7 @@ import { EndDateFilter } from '../../../shared/table/filters/end-date-filter';
 import { StartDateFilter } from '../../../shared/table/filters/start-date-filter';
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
-import { BillingButtonAction, BillingInvoice } from '../../../types/Billing';
+import { BillingButtonAction, BillingInvoice, BillingSessionData } from '../../../types/Billing';
 import ChangeNotification from '../../../types/ChangeNotification';
 import { DataResult } from '../../../types/DataResult';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
@@ -142,8 +142,9 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
     }
     columns.push(
       {
-        id: 'nbrOfItems',
+        id: 'sessions',
         name: 'invoices.number_of_items',
+        formatter: (sessions: BillingSessionData[], invoice: BillingInvoice) => sessions?.length,
         headerClass: 'col-10p text-center',
         class: 'col-10p text-center',
         sortable: true,

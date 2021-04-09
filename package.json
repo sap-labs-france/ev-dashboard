@@ -2,7 +2,7 @@
   "name": "ev-dashboard",
   "description": "Dashboard for Electric Vehicle charging station",
   "homepage": "https://github.com/LucasBrazi06/ev-dashboard",
-  "version": "2.4.56",
+  "version": "2.4.58",
   "engines": {
     "npm": "6.x.x."
   },

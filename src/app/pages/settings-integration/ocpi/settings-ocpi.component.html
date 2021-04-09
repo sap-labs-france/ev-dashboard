@@ -54,7 +54,6 @@
             </mat-form-field>
           </div>
         </div>
-
         <p class="font-weight-bold">{{'ocpi.logo' | translate}}</p>
         <div class="row">
           <div class="col-md-6">
@@ -114,11 +113,14 @@
             </mat-form-field>
           </div>
         </div>
-
         <!-- CPO identifier COUNTRY_CODE/PARTY_ID -->
         <div class="dropdown-divider"></div>
-        <p class="font-weight-bold">{{'ocpi.cpo' | translate}}</p>
         <div class="row">
+          <div class="col-md-12 mb-2">
+            <mat-checkbox [checked]="cpoIsActive" (change)="enableDisableCPO($event.checked)">
+              {{'ocpi.cpo' | translate}}
+            </mat-checkbox>
+          </div>
           <div class="col-md-6">
             <mat-form-field>
               <input matInput type="text" [formControl]="cpoCountryCode"
@@ -148,11 +150,14 @@
             </mat-form-field>
           </div>
         </div>
-
         <!-- EMSP identifier COUNTRY_CODE/PARTY_ID -->
         <div class="dropdown-divider"></div>
-        <p class="font-weight-bold">{{'ocpi.emsp' | translate}}</p>
         <div class="row">
+          <div class="col-md-12 mb-2">
+            <mat-checkbox [checked]="emspIsActive" (change)="enableDisableEMSP($event.checked)">
+              {{'ocpi.emsp' | translate}}
+            </mat-checkbox>
+          </div>
           <div class="col-md-6">
             <mat-form-field>
               <input matInput type="text" [formControl]="emspCountryCode"

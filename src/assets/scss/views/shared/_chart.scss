@@ -40,7 +40,7 @@
 }
 
 .chart-danger {
-  @include chart-color($brand-warn);
+  @include chart-color($brand-danger);
 }
 
 .chart-grey {

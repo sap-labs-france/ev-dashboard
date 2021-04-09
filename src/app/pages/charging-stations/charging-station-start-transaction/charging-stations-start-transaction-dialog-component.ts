@@ -33,8 +33,10 @@ export class ChargingStationsStartTransactionDialogComponent implements OnInit {
   public tag!: AbstractControl;
   public tagID!: AbstractControl;
 
+  public userDefaultTagCar: UserDefaultTagCar;
+
   public loggedUser: UserToken;
-  public isAdmin = false;
+  public canListUsers = false;
 
   public constructor(
     private dialog: MatDialog,
@@ -51,7 +53,7 @@ export class ChargingStationsStartTransactionDialogComponent implements OnInit {
     this.title = data.title;
     this.chargeBoxID = data.chargeBoxID;
     this.loggedUser = centralServerService.getLoggedUser();
-    this.isAdmin = this.authorizationService.isAdmin();
+    this.canListUsers = this.authorizationService.canListUsers();
     this.isCarComponentActive = this.componentService.isActive(TenantComponents.CAR);
     Utils.registerValidateCloseKeyEvents(this.dialogRef,
       this.startTransaction.bind(this), this.cancel.bind(this));
@@ -106,6 +108,7 @@ export class ChargingStationsStartTransactionDialogComponent implements OnInit {
       this.spinnerService.show();
       this.centralServerService.getUserDefaultTagCar(this.userID.value).subscribe((userDefaultTagCar: UserDefaultTagCar) => {
         this.spinnerService.hide();
+        this.userDefaultTagCar = userDefaultTagCar;
         // Set Tag
         this.tag.setValue(userDefaultTagCar.tag ? Utils.buildTagName(userDefaultTagCar.tag) : '');
         this.tagID.setValue(userDefaultTagCar.tag?.id);

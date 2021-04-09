@@ -120,6 +120,7 @@ export interface TableActionDef {
   icon?: string;
   color?: ButtonColor;
   disabled?: boolean;
+  visible?: boolean;
   isDropdownMenu?: boolean;
   dropdownActions?: TableActionDef[];
   tooltip: string;

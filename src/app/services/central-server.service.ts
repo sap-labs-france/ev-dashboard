@@ -16,7 +16,7 @@ import { ChargePoint, ChargingStation, OCPPAvailabilityType, OcppParameter } fro
 import { Company } from '../types/Company';
 import CentralSystemServerConfiguration from '../types/configuration/CentralSystemServerConfiguration';
 import { IntegrationConnection, UserConnection } from '../types/Connection';
-import { ActionResponse, ActionsResponse, BillingOperationResponse, CheckAssetConnectionResponse, CheckBillingConnectionResponse, DataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OICPJobStatusesResponse, OICPPingResponse, Ordering, Paging } from '../types/DataResult';
+import { ActionResponse, ActionsResponse, BillingOperationResponse, CheckAssetConnectionResponse, CheckBillingConnectionResponse, CompanyDataResult, DataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OICPJobStatusesResponse, OICPPingResponse, Ordering, Paging, SiteDataResult } from '../types/DataResult';
 import { EndUserLicenseAgreement } from '../types/Eula';
 import { FilterParams, Image, KeyValue } from '../types/GlobalType';
 import { AssetInError, ChargingStationInError, TransactionInError } from '../types/InError';
@@ -228,7 +228,7 @@ export class CentralServerService {
   }
 
   public getCompanies(params: FilterParams,
-    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Company>> {
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<CompanyDataResult> {
     // Verify init
     this.checkInit();
     // Build Paging
@@ -236,7 +236,7 @@ export class CentralServerService {
     // Build Ordering
     this.getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<DataResult<Company>>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.COMPANIES}`,
+    return this.httpClient.get<CompanyDataResult>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.COMPANIES}`,
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -377,7 +377,7 @@ export class CentralServerService {
   }
 
   public getSites(params: FilterParams,
-    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Site>> {
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<SiteDataResult> {
     // Verify init
     this.checkInit();
     // Build Paging
@@ -385,7 +385,7 @@ export class CentralServerService {
     // Build Ordering
     this.getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<DataResult<Site>>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.SITES}`,
+    return this.httpClient.get<SiteDataResult>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.SITES}`,
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -2205,7 +2205,7 @@ export class CentralServerService {
       );
   }
 
-  public sendTokensOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<OCPIJobStatusesResponse> {
+  public sendTokensOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<ActionResponse> {
     // Verify init
     this.checkInit();
     // Execute
@@ -2865,11 +2865,11 @@ export class CentralServerService {
       );
   }
 
-  public synchronizeCarsCatalog(): Observable<ActionsResponse> {
+  public synchronizeCarsCatalog(): Observable<ActionResponse> {
     // Verify init
     this.checkInit();
     // Execute
-    return this.httpClient.put<ActionsResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.SYNCHRONIZE_CAR_CATALOGS}`, {},
+    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.SYNCHRONIZE_CAR_CATALOGS}`, {},
       {
         headers: this.buildHttpHeaders(),
       })
@@ -3134,15 +3134,15 @@ export class CentralServerService {
       );
   }
 
-  public buildHttpHeadersFile(tenantID?: string): {name: string; value: string}[] {
+  public buildHttpHeadersFile(tenantID?: string): { name: string; value: string }[] {
     // Build File Header
     return [
       {
-        name:'Tenant',
+        name: 'Tenant',
         value: tenantID
       },
       {
-        name:'Authorization',
+        name: 'Authorization',
         value: 'Bearer ' + this.getLoggedUserToken()
       },
     ];
@@ -3265,7 +3265,7 @@ export class CentralServerService {
   private processImage(blob: Blob): Observable<string> {
     if (blob.size > 0) {
       return new Observable(observer => {
-        const  reader = new FileReader();
+        const reader = new FileReader();
         reader.readAsDataURL(blob); // convert blob to base64
         reader.onloadend = () => {
           observer.next(reader.result?.toString()); // emit the base64 string result

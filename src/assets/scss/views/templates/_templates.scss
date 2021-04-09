@@ -59,7 +59,7 @@ pre {
 
 @include palette($app-primary, "primary");
 @include palette($app-accent, "accent");
-@include palette($app-warn, "warn");
+@include palette($app-danger, "warn");
 @include palette($app-warning, "warning");
 @include palette($app-success, "success");
 @include palette($app-yellow, "yellow");
@@ -74,7 +74,6 @@ pre {
 @include palette($app-cyan, "cyan");
 @include palette($app-indigo, "indigo");
 @include palette($app-pink, "pink");
-@include palette($app-red, "red");
 
 @each $background-prop in $background-props {
   .color-background-#{$background-prop} {

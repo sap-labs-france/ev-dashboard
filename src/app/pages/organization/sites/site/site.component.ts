@@ -41,7 +41,7 @@ export class SiteComponent implements OnInit {
   public public!: AbstractControl;
 
   public address!: Address;
-  public canCreateSite = false;
+  public canUpdateSite = false;
 
   public constructor(
     private authorizationService: AuthorizationService,
@@ -61,8 +61,6 @@ export class SiteComponent implements OnInit {
       // Not authorized
       this.router.navigate(['/']);
     }
-    // Set
-    this.canCreateSite = this.authorizationService.canCreateSite();
   }
 
   public ngOnInit() {
@@ -141,13 +139,6 @@ export class SiteComponent implements OnInit {
     if (!this.currentSiteID) {
       return;
     }
-    this.canCreateSite = this.authorizationService.canCreateSite() ||
-      this.authorizationService.isSiteAdmin(this.currentSiteID) ||
-      this.authorizationService.isSiteOwner(this.currentSiteID);
-    // if not admin switch in readonly mode
-    if (!this.canCreateSite) {
-      this.formGroup.disable();
-    }
     this.spinnerService.show();
     this.centralServerService.getSite(this.currentSiteID, false, true).subscribe((site) => {
       this.spinnerService.hide();
@@ -177,13 +168,24 @@ export class SiteComponent implements OnInit {
       if (site.address) {
         this.address = site.address;
       }
-      this.formGroup.updateValueAndValidity();
-      this.formGroup.markAsPristine();
-      this.formGroup.markAllAsTouched();
+      // Cannot change roaming Site
+      if (!site.issuer) {
+        this.formGroup.disable();
+      } else {
+        this.formGroup.updateValueAndValidity();
+        this.formGroup.markAsPristine();
+        this.formGroup.markAllAsTouched();
+      }
       // Get Site image
       this.centralServerService.getSiteImage(this.currentSiteID).subscribe((siteImage) => {
         this.image = siteImage ? siteImage : Constants.NO_IMAGE;
       });
+      this.canUpdateSite = site.canUpdate ||
+      this.authorizationService.isSiteAdmin(this.currentSiteID) ||
+      this.authorizationService.isSiteOwner(this.currentSiteID);
+      if (!this.canUpdateSite) {
+        this.formGroup.disable();
+      }
     }, (error) => {
       this.spinnerService.hide();
       switch (error.status) {

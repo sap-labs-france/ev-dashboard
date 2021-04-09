@@ -29,7 +29,6 @@ export class CompanyComponent implements OnInit {
 
   public parentErrorStateMatcher = new ParentErrorStateMatcher();
 
-  public canCrudCompany = false;
   public logo = Constants.NO_IMAGE;
   public logoHasChanged = false;
   public maxSize: number;
@@ -38,6 +37,7 @@ export class CompanyComponent implements OnInit {
   public id!: AbstractControl;
   public name!: AbstractControl;
   public address!: Address;
+  public canUpdateCompany = false;
 
   public constructor(
     private authorizationService: AuthorizationService,
@@ -57,8 +57,6 @@ export class CompanyComponent implements OnInit {
       // Not authorized
       this.router.navigate(['/']);
     }
-    this.canCrudCompany =  this.authorizationService.canReadCompany() && this.authorizationService.canCreateCompany() &&
-      this.authorizationService.canUpdateCompany() && this.authorizationService.canDeleteCompany();
   }
 
   public ngOnInit() {
@@ -73,10 +71,6 @@ export class CompanyComponent implements OnInit {
     // Form
     this.id = this.formGroup.controls['id'];
     this.name = this.formGroup.controls['name'];
-    // if cannot CRUD, switch to readonly mode
-    if (!(this.canCrudCompany)) {
-      this.formGroup.disable();
-    }
     if (this.currentCompanyID) {
       this.loadCompany();
     } else if (this.activatedRoute && this.activatedRoute.params) {
@@ -111,13 +105,22 @@ export class CompanyComponent implements OnInit {
       if (company.address) {
         this.address = company.address;
       }
-      this.formGroup.updateValueAndValidity();
-      this.formGroup.markAsPristine();
-      this.formGroup.markAllAsTouched();
+      // Cannot change roaming Company
+      if (!company.issuer) {
+        this.formGroup.disable();
+      } else {
+        this.formGroup.updateValueAndValidity();
+        this.formGroup.markAsPristine();
+        this.formGroup.markAllAsTouched();
+      }
       // Get Company logo
       this.centralServerService.getCompanyLogo(this.currentCompanyID).subscribe((companyLogo) => {
         this.logo = companyLogo ? companyLogo : Constants.NO_IMAGE;
       });
+      this.canUpdateCompany = company.canUpdate;
+      if (!this.canUpdateCompany) {
+        this.formGroup.disable();
+      }
     }, (error) => {
       this.spinnerService.hide();
       switch (error.status) {

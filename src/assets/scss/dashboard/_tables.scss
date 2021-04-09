@@ -2,7 +2,7 @@
 
 $medium-spinner: $brand-success !default;
 $inner-spinner: $brand-warning !default;
-$outer-spinner: $brand-warn !default;
+$outer-spinner: $brand-danger !default;
 
 .filter-row {
   @media screen and (max-width: $res435) {
@@ -497,7 +497,7 @@ tr.element-row:not(.expanded-row):active {
   .table-field-invalid {
     input {
       border-style: solid;
-      border-color: $brand-warn;
+      border-color: $brand-danger;
     }
   }
 
@@ -548,5 +548,5 @@ tr.element-row:not(.expanded-row):active {
 }
 
 .table-warning {
-  border-color: $brand-warn !important;
+  border-color: $brand-danger !important;
 }

@@ -16,6 +16,7 @@ export class TableCreateSiteAction extends TableCreateAction {
       ...super.getActionDef(),
       id: SiteButtonAction.CREATE_SITE,
       action: this.createSite,
+      visible: false
     };
   }
 

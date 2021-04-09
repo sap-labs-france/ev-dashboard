@@ -80,10 +80,6 @@ export class CompanyComponent implements OnInit {
     }
   }
 
-  public setCurrentCompanyId(currentCompanyId: string) {
-    this.currentCompanyID = currentCompanyId;
-  }
-
   public refresh() {
     this.loadCompany();
   }

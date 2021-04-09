@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { AssetConsumptionCellComponent } from 'pages/assets/cell-components/asset-consumption-cell.component';
 import { Observable } from 'rxjs';
 
 import { AuthorizationService } from '../../../../services/authorization.service';
@@ -18,7 +17,7 @@ import { Asset, AssetType } from '../../../../types/Asset';
 import { DataResult } from '../../../../types/DataResult';
 import { ButtonAction, RestResponse } from '../../../../types/GlobalType';
 import { SiteArea } from '../../../../types/SiteArea';
-import { ButtonType, Data, TableActionDef, TableColumnDef, TableDef } from '../../../../types/Table';
+import { ButtonType, TableActionDef, TableColumnDef, TableDef } from '../../../../types/Table';
 import { Utils } from '../../../../utils/Utils';
 
 @Injectable()
@@ -133,16 +132,7 @@ export class SiteAreaAssetsDataSource extends TableDataSource<Asset> {
               return this.translateService.instant('assets.consume_and_produce');
           }
         }
-      },
-      {
-        id: 'currentInstantWatts',
-        name: 'assets.instant_power',
-        headerClass: 'col-20p text-center',
-        class: 'col-20p text-center',
-        sortable: false,
-        isAngularComponent: true,
-        angularComponent: AssetConsumptionCellComponent,
-      },
+      }
     ];
   }
 

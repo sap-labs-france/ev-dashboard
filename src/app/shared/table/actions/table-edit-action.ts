@@ -3,7 +3,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 
 import { ButtonAction } from '../../../types/GlobalType';
-import { ButtonColor, Data, TableActionDef } from '../../../types/Table';
+import { ButtonColor, TableActionDef } from '../../../types/Table';
 import { TableAction } from './table-action';
 
 export class TableEditAction implements TableAction {
@@ -21,13 +21,20 @@ export class TableEditAction implements TableAction {
     return this.action;
   }
 
-  protected edit(component: ComponentType<unknown>, data: Data, dialog: MatDialog, refresh?: () => Observable<void>) {
+  protected edit(component: ComponentType<unknown>, data: any, dialog: MatDialog, refresh?: () => Observable<void>) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '80vw';
     dialogConfig.minHeight = '60vh';
     dialogConfig.panelClass = 'transparent-dialog-container';
-    dialogConfig.data = data.id;
+    const dataObject = {
+      id: data.id,
+      authorizations: {
+        canCreate: data.canCreate,
+        canUpdate: data.canUpdate
+      }
+    };
+    dialogConfig.data = dataObject;
     // disable outside click close
     dialogConfig.disableClose = true;
     // Open

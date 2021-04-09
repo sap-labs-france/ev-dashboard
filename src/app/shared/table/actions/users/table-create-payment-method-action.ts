@@ -22,6 +22,6 @@ export class TableCreatePaymentMethodAction extends TableCreateAction {
   }
 
   private createPaymentMethod(paymentMethodDialogComponent: ComponentType<unknown>, data: {userId: string; setting: BillingSettings}, dialog: MatDialog, refresh?: () => Observable<void>) {
-    super.create(paymentMethodDialogComponent, dialog, refresh, data);
+    super.create(paymentMethodDialogComponent, dialog, data, refresh);
   }
 }

@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { AuthorizationActions } from 'types/Authorization';
+import { DialogAuthorization } from 'types/Authorization';
 
 import { AuthorizationService } from '../../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
@@ -34,11 +34,8 @@ import { CompanyDialogComponent } from '../company/company.dialog.component';
 
 @Injectable()
 export class CompaniesListTableDataSource extends TableDataSource<Company> {
-  private canReadCompany = false;
   private canCreateCompany = false;
   private canUpdateCompany = false;
-  private canDeleteCompany = false;
-  private canCrudCompany = false;
   private editAction = new TableEditCompanyAction().getActionDef();
   private deleteAction = new TableDeleteCompanyAction().getActionDef();
   private viewAction = new TableViewCompanyAction().getActionDef();
@@ -57,10 +54,7 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
     private authorizationService: AuthorizationService) {
     super(spinnerService, translateService);
     // Init
-    this.canReadCompany = this.authorizationService.canReadCompany();
     this.canUpdateCompany = this.authorizationService.canUpdateCompany();
-    this.canDeleteCompany = this.authorizationService.canDeleteCompany();
-    this.canCrudCompany = this.canCreateCompany && this.canReadCompany && this.canUpdateCompany && this.canDeleteCompany;
     this.setStaticFilters([{ WithLogo: true }]);
     this.initDataSource();
   }
@@ -129,7 +123,7 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
         sortable: true,
       },
     ];
-    if (this.canCrudCompany) {
+    if (this.canUpdateCompany) {
       tableColumnDef.push(
         {
           id: 'createdOn',
@@ -203,10 +197,14 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
       // Add
       case CompanyButtonAction.CREATE_COMPANY:
         if (actionDef.action) {
-          const authorizations: AuthorizationActions = {
-            canCreate: this.canCreateCompany
+          const dialogAuthorization: DialogAuthorization = {
+            authorizations: {
+              canCreate: this.canCreateCompany
+            }
           };
-          (actionDef as TableCreateCompanyActionDef).action(CompanyDialogComponent, this.dialog, authorizations, this.refreshData.bind(this));
+          (actionDef as TableCreateCompanyActionDef).action(
+            CompanyDialogComponent, this.dialog, dialogAuthorization, this.refreshData.bind(this)
+          );
         }
         break;
     }

@@ -19,7 +19,8 @@ export class TableEditCompanyAction extends TableEditAction {
     };
   }
 
-  private editCompany(companyDialogComponent: ComponentType<unknown>, company: Company, dialog: MatDialog, refresh?: () => Observable<void>) {
+  private editCompany(companyDialogComponent: ComponentType<unknown>, company: Company,
+    dialog: MatDialog, refresh?: () => Observable<void>) {
     super.edit(companyDialogComponent, company, dialog, refresh);
   }
 }

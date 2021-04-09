@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { DialogAuthorization } from 'types/Authorization';
+import { DialogData } from 'types/Authorization';
 
 import { AuthorizationService } from '../../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
@@ -35,7 +35,6 @@ import { CompanyDialogComponent } from '../company/company.dialog.component';
 @Injectable()
 export class CompaniesListTableDataSource extends TableDataSource<Company> {
   private canCreateCompany = false;
-  private canUpdateCompany = false;
   private editAction = new TableEditCompanyAction().getActionDef();
   private deleteAction = new TableDeleteCompanyAction().getActionDef();
   private viewAction = new TableViewCompanyAction().getActionDef();
@@ -50,11 +49,9 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
     private dialog: MatDialog,
     private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
-    private datePipe: AppDatePipe,
-    private authorizationService: AuthorizationService) {
+    private datePipe: AppDatePipe) {
     super(spinnerService, translateService);
     // Init
-    this.canUpdateCompany = this.authorizationService.canUpdateCompany();
     this.setStaticFilters([{ WithLogo: true }]);
     this.initDataSource();
   }
@@ -122,41 +119,37 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
         class: 'col-20p',
         sortable: true,
       },
+      {
+        id: 'createdOn',
+        name: 'users.created_on',
+        formatter: (createdOn: Date) => this.datePipe.transform(createdOn),
+        headerClass: 'col-15em',
+        class: 'col-15em',
+        sortable: true,
+      },
+      {
+        id: 'createdBy',
+        name: 'users.created_by',
+        formatter: (user: User) => Utils.buildUserFullName(user),
+        headerClass: 'col-15em',
+        class: 'col-15em',
+      },
+      {
+        id: 'lastChangedOn',
+        name: 'users.changed_on',
+        formatter: (lastChangedOn: Date) => this.datePipe.transform(lastChangedOn),
+        headerClass: 'col-15em',
+        class: 'col-15em',
+        sortable: true,
+      },
+      {
+        id: 'lastChangedBy',
+        name: 'users.changed_by',
+        formatter: (user: User) => Utils.buildUserFullName(user),
+        headerClass: 'col-15em',
+        class: 'col-15em',
+      },
     ];
-    if (this.canUpdateCompany) {
-      tableColumnDef.push(
-        {
-          id: 'createdOn',
-          name: 'users.created_on',
-          formatter: (createdOn: Date) => this.datePipe.transform(createdOn),
-          headerClass: 'col-15em',
-          class: 'col-15em',
-          sortable: true,
-        },
-        {
-          id: 'createdBy',
-          name: 'users.created_by',
-          formatter: (user: User) => Utils.buildUserFullName(user),
-          headerClass: 'col-15em',
-          class: 'col-15em',
-        },
-        {
-          id: 'lastChangedOn',
-          name: 'users.changed_on',
-          formatter: (lastChangedOn: Date) => this.datePipe.transform(lastChangedOn),
-          headerClass: 'col-15em',
-          class: 'col-15em',
-          sortable: true,
-        },
-        {
-          id: 'lastChangedBy',
-          name: 'users.changed_by',
-          formatter: (user: User) => Utils.buildUserFullName(user),
-          headerClass: 'col-15em',
-          class: 'col-15em',
-        },
-      );
-    }
     return tableColumnDef;
   }
 
@@ -197,13 +190,8 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
       // Add
       case CompanyButtonAction.CREATE_COMPANY:
         if (actionDef.action) {
-          const dialogAuthorization: DialogAuthorization = {
-            authorizations: {
-              canCreate: this.canCreateCompany
-            }
-          };
-          (actionDef as TableCreateCompanyActionDef).action(
-            CompanyDialogComponent, this.dialog, dialogAuthorization, this.refreshData.bind(this)
+          (actionDef as TableCreateCompanyActionDef).action(CompanyDialogComponent, this.dialog,
+            { canCreate: this.canCreateCompany }, this.refreshData.bind(this)
           );
         }
         break;
@@ -214,12 +202,14 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
     switch (actionDef.id) {
       case CompanyButtonAction.EDIT_COMPANY:
         if (actionDef.action) {
-          (actionDef as TableEditCompanyActionDef).action(CompanyDialogComponent, company, this.dialog, this.refreshData.bind(this));
+          (actionDef as TableEditCompanyActionDef).action(CompanyDialogComponent,
+            this.dialog, { id: company.id, canUpdate: company.canUpdate }, this.refreshData.bind(this));
         }
         break;
       case CompanyButtonAction.VIEW_COMPANY:
         if (actionDef.action) {
-          (actionDef as TableViewCompanyActionDef).action(CompanyDialogComponent, company, this.dialog, this.refreshData.bind(this));
+          (actionDef as TableViewCompanyActionDef).action(CompanyDialogComponent, this.dialog,
+            { id: company.id }, this.refreshData.bind(this));
         }
         break;
       case CompanyButtonAction.DELETE_COMPANY:

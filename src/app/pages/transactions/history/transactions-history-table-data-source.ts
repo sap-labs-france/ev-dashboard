@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
+import { TransactionDialogComponent } from 'shared/dialogs/transaction/transaction.dialog.component';
 import { ConnectorTableFilter } from 'shared/table/filters/connector-table-filter';
 import { CarCatalog } from 'types/Car';
 
@@ -304,7 +305,8 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         name: 'transactions.price',
         headerClass: 'col-10p',
         class: 'col-10p',
-        formatter: (roundedPrice: number, transaction: Transaction) => this.appCurrencyPipe.transform(roundedPrice, transaction.stop.priceUnit),
+        formatter: (roundedPrice: number, transaction: Transaction) =>
+          this.appCurrencyPipe.transform(roundedPrice, transaction.stop.priceUnit),
       });
     }
     if (this.componentService.isActive(TenantComponents.BILLING) &&
@@ -440,7 +442,8 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         break;
       case TransactionButtonAction.VIEW_TRANSACTION:
         if (actionDef.action) {
-          (actionDef as TableViewTransactionActionDef).action(transaction, this.dialog, this.refreshData.bind(this));
+          (actionDef as TableViewTransactionActionDef).action(TransactionDialogComponent, this.dialog,
+            { id: transaction.id }, this.refreshData.bind(this));
         }
         break;
       case LogButtonAction.NAVIGATE_TO_LOGS:

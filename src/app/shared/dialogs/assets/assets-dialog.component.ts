@@ -1,5 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { DialogData } from 'types/Authorization';
 
 import { Asset } from '../../../types/Asset';
 import { KeyValue } from '../../../types/GlobalType';
@@ -13,7 +14,7 @@ export class AssetsDialogComponent extends DialogTableDataComponent<Asset> {
   public constructor(
     private assetsDataSource: AssetsDialogTableDataSource,
     dialogRef: MatDialogRef<AssetsDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data: any) {
+    @Inject(MAT_DIALOG_DATA) data: DialogData) {
     // Super class
     super(data, dialogRef, assetsDataSource);
     // Default title

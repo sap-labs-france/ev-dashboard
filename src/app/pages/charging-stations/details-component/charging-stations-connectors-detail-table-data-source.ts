@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { TransactionDialogComponent } from 'shared/dialogs/transaction/transaction.dialog.component';
 
 import { ChargingStationsConnectorInactivityCellComponent } from '../../../pages/charging-stations/cell-components/charging-stations-connector-inactivity-cell.component';
 import { AuthorizationService } from '../../../services/authorization.service';
@@ -247,11 +248,13 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
           return;
         }
         if (actionDef.action) {
-          (actionDef as TableViewTransactionActionDef).action({
-            transactionID: connector.currentTransactionID,
-            chargingStationID: this.chargingStation.id,
-            connectorID: connector.connectorId,
-          }, this.dialog, this.refreshData.bind(this));
+          (actionDef as TableViewTransactionActionDef).action(TransactionDialogComponent, this.dialog,
+            {
+              transactionID: connector.currentTransactionID,
+              chargingStationID: this.chargingStation.id,
+              connectorID: connector.connectorId
+            },
+            this.refreshData.bind(this));
         }
         break;
       // Unlock Charger

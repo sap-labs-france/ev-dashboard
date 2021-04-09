@@ -234,7 +234,8 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
       // Add
       case SiteButtonAction.CREATE_SITE:
         if (actionDef.action) {
-          (actionDef as TableCreateSiteActionDef).action(SiteDialogComponent, this.dialog, this.refreshData.bind(this));
+          (actionDef as TableCreateSiteActionDef).action(SiteDialogComponent, this.dialog,
+            { canCreate: this.canCreateSite }, this.refreshData.bind(this));
         }
     }
   }
@@ -243,12 +244,14 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
     switch (actionDef.id) {
       case SiteButtonAction.EDIT_SITE:
         if (actionDef.action) {
-          (actionDef as TableEditSiteActionDef).action(SiteDialogComponent, site, this.dialog, this.refreshData.bind(this));
+          (actionDef as TableEditSiteActionDef).action(SiteDialogComponent, this.dialog,
+            { id: site.id, canUpdate: site.canUpdate }, this.refreshData.bind(this));
         }
         break;
       case SiteButtonAction.VIEW_SITE:
         if (actionDef.action) {
-          (actionDef as TableViewSiteActionDef).action(SiteDialogComponent, site, this.dialog, this.refreshData.bind(this));
+          (actionDef as TableViewSiteActionDef).action(SiteDialogComponent, this.dialog,
+            { id: site.id }, this.refreshData.bind(this));
         }
         break;
       case SiteButtonAction.ASSIGN_USERS_TO_SITE:

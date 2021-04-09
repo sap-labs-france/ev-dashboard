@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, Inject, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { DialogData } from 'types/Authorization';
 
 import { Utils } from '../../../utils/Utils';
 import { TenantComponent } from './tenant.component';
@@ -13,8 +14,8 @@ export class TenantDialogComponent implements AfterViewInit {
 
   public constructor(
     public dialogRef: MatDialogRef<TenantDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data: string) {
-    this.tenantID = data;
+    @Inject(MAT_DIALOG_DATA) data: DialogData) {
+    this.tenantID = data.id as string;
   }
 
   public ngAfterViewInit() {

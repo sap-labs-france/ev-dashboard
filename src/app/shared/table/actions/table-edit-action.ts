@@ -1,6 +1,7 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
+import { DialogData } from 'types/Authorization';
 
 import { ButtonAction } from '../../../types/GlobalType';
 import { ButtonColor, TableActionDef } from '../../../types/Table';
@@ -21,20 +22,13 @@ export class TableEditAction implements TableAction {
     return this.action;
   }
 
-  protected edit(component: ComponentType<unknown>, data: any, dialog: MatDialog, refresh?: () => Observable<void>) {
+  protected edit(component: ComponentType<unknown>, dialog: MatDialog, data: DialogData, refresh?: () => Observable<void>) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '80vw';
     dialogConfig.minHeight = '60vh';
     dialogConfig.panelClass = 'transparent-dialog-container';
-    const dataObject = {
-      id: data.id,
-      authorizations: {
-        canCreate: data.canCreate,
-        canUpdate: data.canUpdate
-      }
-    };
-    dialogConfig.data = dataObject;
+    dialogConfig.data = data;
     // disable outside click close
     dialogConfig.disableClose = true;
     // Open

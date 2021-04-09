@@ -1,13 +1,14 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
+import { DialogData } from 'types/Authorization';
 
 import { TableEditAction } from '../../../../shared/table/actions/table-edit-action';
 import { TableActionDef } from '../../../../types/Table';
-import { User, UserButtonAction } from '../../../../types/User';
+import { UserButtonAction } from '../../../../types/User';
 
 export interface TableEditUserActionDef extends TableActionDef {
-  action: (userDialogComponent: ComponentType<unknown>, user: User, dialog: MatDialog, refresh?: () => Observable<void>) => void;
+  action: (userDialogComponent: ComponentType<unknown>, dialog: MatDialog, data: DialogData, refresh?: () => Observable<void>) => void;
 }
 
 export class TableEditUserAction extends TableEditAction {
@@ -19,7 +20,7 @@ export class TableEditUserAction extends TableEditAction {
     };
   }
 
-  private editUser(userDialogComponent: ComponentType<unknown>, user: User, dialog: MatDialog, refresh?: () => Observable<void>) {
-    super.edit(userDialogComponent, user, dialog, refresh);
+  private editUser(userDialogComponent: ComponentType<unknown>, dialog: MatDialog, data: DialogData, refresh?: () => Observable<void>) {
+    super.edit(userDialogComponent, dialog, data, refresh);
   }
 }

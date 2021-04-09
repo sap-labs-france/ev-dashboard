@@ -6,8 +6,8 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { StatusCodes } from 'http-status-codes';
 import { BehaviorSubject, EMPTY, Observable, TimeoutError, of, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
+import SafeUrlAssembler from 'safe-url-assembler'
 import { OicpEndpoint } from 'types/oicp/OICPEndpoint';
-import * as UrlPattern from 'url-pattern';
 
 import { Asset, AssetConsumption } from '../types/Asset';
 import { BillingInvoice, BillingPaymentMethod, BillingTax } from '../types/Billing';
@@ -3292,8 +3292,10 @@ export class CentralServerService {
     // Just a flat list of key/value pairs!
     [name: string]: string | number | null;
   }) {
-    const urlPattern = new UrlPattern(urlPatternAsString);
-    const urlPath = urlPattern.stringify(params);
-    return `${this.restServerSecuredURL}/${urlPath}`;
+    const url = SafeUrlAssembler(this.restServerSecuredURL)
+      .template('/'+urlPatternAsString)
+      .param(params);
+    return url.toString();
   }
 }
+

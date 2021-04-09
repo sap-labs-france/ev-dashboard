@@ -242,7 +242,7 @@ export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> 
       case CarButtonAction.VIEW_CAR_CATALOG:
         if (actionDef.action) {
           (actionDef as TableViewCarCatalogActionDef).action(CarCatalogDialogComponent, this.dialog,
-            { id: carCatalog.id }, this.refreshData.bind(this));
+            { id: carCatalog.id, canUpdate: false }, this.refreshData.bind(this));
         }
         break;
     }

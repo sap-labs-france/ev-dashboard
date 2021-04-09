@@ -217,7 +217,7 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
       case AssetButtonAction.VIEW_ASSET:
         if (actionDef.action) {
           (actionDef as TableViewAssetActionDef).action(AssetDialogComponent, this.dialog,
-            { id: asset.id }, this.refreshData.bind(this));
+            { id: asset.id, canUpdate: false }, this.refreshData.bind(this));
         }
         break;
       case AssetButtonAction.EDIT_ASSET:

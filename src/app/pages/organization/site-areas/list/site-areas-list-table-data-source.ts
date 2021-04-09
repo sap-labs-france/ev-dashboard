@@ -321,7 +321,9 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
       case SiteAreaButtonAction.VIEW_SITE_AREA:
         if (actionDef.action) {
           (actionDef as TableViewSiteAreaActionDef).action(
-            SiteAreaDialogComponent, this.dialog, { id: siteArea.id }, this.refreshData.bind(this));
+            SiteAreaDialogComponent, this.dialog,
+            { id: siteArea.id, canUpdate: false },
+            this.refreshData.bind(this));
         }
         break;
       case SiteAreaButtonAction.ASSIGN_CHARGING_STATIONS_TO_SITE_AREA:
@@ -366,7 +368,8 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
       case SiteAreaButtonAction.VIEW_ASSETS_OF_SITE_AREA:
         if (actionDef.action) {
           (actionDef as TableViewAssignedAssetsOfSiteAreaActionDef).action(
-            SiteAreaAssetsDialogComponent, siteArea, this.dialog, this.refreshData.bind(this));
+            SiteAreaAssetsDialogComponent, siteArea, this.dialog,
+            this.refreshData.bind(this));
         }
         break;
       case ChargingStationButtonAction.GENERATE_QR_CODE:

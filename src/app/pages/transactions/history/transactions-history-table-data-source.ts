@@ -443,7 +443,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
       case TransactionButtonAction.VIEW_TRANSACTION:
         if (actionDef.action) {
           (actionDef as TableViewTransactionActionDef).action(TransactionDialogComponent, this.dialog,
-            { id: transaction.id }, this.refreshData.bind(this));
+            { id: transaction.id, canUpdate: false }, this.refreshData.bind(this));
         }
         break;
       case LogButtonAction.NAVIGATE_TO_LOGS:

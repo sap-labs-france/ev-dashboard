@@ -207,7 +207,7 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
       case CompanyButtonAction.VIEW_COMPANY:
         if (actionDef.action) {
           (actionDef as TableViewCompanyActionDef).action(CompanyDialogComponent, this.dialog,
-            { id: company.id }, this.refreshData.bind(this));
+            { id: company.id, canUpdate: false }, this.refreshData.bind(this));
         }
         break;
       case CompanyButtonAction.DELETE_COMPANY:

@@ -24,6 +24,22 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.59',
+        date: new Date('2021-04-08'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Sub-domain cannot be empty in both Tenant's Create and Update operations`,
+              `Added EV Meter Bee, Delta 10722 and DBT QCNG Charging Stations in templates`,
+              `Billing (alpha) - Check bank details reuse + Match the payment method modal with the current Dashboard's theme`,
+              `Billing (alpha) - Fixed current user ID in delete payment method`,
+              `New authorization concept added in Company, Site and Site Area`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.58',
         date: new Date('2021-04-06'),
         componentChanges: [

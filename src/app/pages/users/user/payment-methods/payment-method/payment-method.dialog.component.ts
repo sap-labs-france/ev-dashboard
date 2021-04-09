@@ -1,20 +1,23 @@
 import { AfterViewInit, Component, Inject, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { BillingSettings } from 'types/Setting';
 
-import { Utils } from '../../../../../../utils/Utils';
-import { PaymentMethodComponent } from './payment-method.component';
+import { Utils } from '../../../../../utils/Utils';
+import { PaymentMethodComponent } from './stripe/payment-method.component';
 
 @Component({
-  template: '<app-payment-method #appRef [currentUserID]="userID" [inDialog]="true" [dialogRef]="dialogRef"></app-payment-method>',
+  template: '<app-payment-method *ngIf="billingSettings?.stripe" #appRef [billingSettings]="billingSettings" [currentUserID]="userID" [inDialog]="true" [dialogRef]="dialogRef"></app-payment-method>',
 })
 export class PaymentMethodDialogComponent implements AfterViewInit {
   @ViewChild('appRef') public appRef!: PaymentMethodComponent;
   public userID!: string;
+  public billingSettings!: BillingSettings;
 
   public constructor(
     public dialogRef: MatDialogRef<PaymentMethodDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data: string) {
-    this.userID = data;
+    @Inject(MAT_DIALOG_DATA) data: {userId: string; setting: BillingSettings}) {
+    this.userID = data.userId;
+    this.billingSettings = data.setting;
   }
 
   public ngAfterViewInit() {

@@ -1,19 +1,21 @@
+/* eslint-disable max-len */
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { PaymentMethod } from '@stripe/stripe-js';
 import { Observable } from 'rxjs';
 import { BillingButtonAction, BillingPaymentMethod } from 'types/Billing';
+import { RestResponse } from 'types/GlobalType';
 
 import { CentralServerService } from '../../../../services/central-server.service';
 import { DialogService } from '../../../../services/dialog.service';
 import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
-import { TableActionDef } from '../../../../types/Table';
+import { ButtonType, TableActionDef } from '../../../../types/Table';
 import { Utils } from '../../../../utils/Utils';
 import { TableDeleteAction } from '../table-delete-action';
 
 export interface TableDeletePaymentMethodActionDef extends TableActionDef {
-  action: (paymentMethod: BillingPaymentMethod, dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
+  action: (paymentMethod: BillingPaymentMethod, userID: string, dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
     centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) => void;
 }
 
@@ -26,13 +28,32 @@ export class TableDeletePaymentMethodAction extends TableDeleteAction {
     };
   }
 
-  private deletePaymentMethod(paymentMethod: BillingPaymentMethod, dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
+  private deletePaymentMethod(paymentMethod: BillingPaymentMethod, userID: string, dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
     centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) {
-    super.delete(
-      paymentMethod, 'settings.billing.payment_methods_delete_title',
+    dialogService.createAndShowYesNoDialog(
+      translateService.instant('settings.billing.payment_methods_delete_title'),
       translateService.instant('settings.billing.payment_methods_delete_confirm', { last4: paymentMethod.last4 }),
-      translateService.instant('settings.billing.payment_methods_delete_success', { last4: paymentMethod.last4 }),
-      'settings.billing.payment_methods_delete_error', centralServerService.deletePaymentMethod.bind(centralServerService),
-      dialogService, translateService, messageService, centralServerService, spinnerService, router, refresh);
+    ).subscribe((result) => {
+      if (result === ButtonType.YES) {
+        spinnerService.show();
+        centralServerService.deletePaymentMethod(paymentMethod.id, userID).subscribe((response) => {
+          spinnerService.hide();
+          if (response.status === RestResponse.SUCCESS) {
+            messageService.showSuccessMessage(
+              translateService.instant('settings.billing.payment_methods_delete_success', { last4: paymentMethod.last4 }));
+            if (refresh) {
+              refresh().subscribe();
+            }
+          } else {
+            Utils.handleError(JSON.stringify(response),
+              messageService, translateService.instant('settings.billing.payment_methods_delete_error'));
+          }
+        }, (error) => {
+          spinnerService.hide();
+          Utils.handleHttpError(error, router, messageService, centralServerService,
+            translateService.instant('settings.billing.payment_methods_delete_error'));
+        });
+      }
+    });
   }
 }

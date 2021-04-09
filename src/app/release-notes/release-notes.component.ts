@@ -31,6 +31,10 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Sub-domain cannot be empty in both Tenant's Create and Update operations`,
+              `Added EV Meter Bee, Delta 10722 and DBT QCNG Charging Stations in templates`,
+              `Billing (alpha) - Check bank details reuse + Match the payment method modal with the current Dashboard's theme`,
+              `Billing (alpha) - Fixed current user ID in delete payment method`,
+              `New authorization concept added in Company, Site and Site Area`,
             ],
           },
         ],

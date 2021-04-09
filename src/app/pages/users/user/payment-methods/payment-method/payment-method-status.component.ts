@@ -1,10 +1,9 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { PaymentMethod } from '@stripe/stripe-js';
 import * as moment from 'moment';
-import { BillingPaymentMethod } from 'types/Billing';
 
-import { CellContentTemplateDirective } from '../../../../../../shared/table/cell-content-template/cell-content-template.directive';
-import { ChipType } from '../../../../../../types/GlobalType';
+import { CellContentTemplateDirective } from '../../../../../shared/table/cell-content-template/cell-content-template.directive';
+import { BillingPaymentMethod } from '../../../../../types/Billing';
+import { ChipType } from '../../../../../types/GlobalType';
 
 @Component({
   template: `
@@ -16,7 +15,7 @@ import { ChipType } from '../../../../../../types/GlobalType';
   `,
 })
 export class PaymentMethodStatusComponent extends CellContentTemplateDirective {
-  @Input() public row!: PaymentMethod;
+  @Input() public row!: BillingPaymentMethod;
 }
 
 @Pipe({name: 'appPaymentMethodStatus'})

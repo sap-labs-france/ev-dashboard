@@ -1599,16 +1599,16 @@ export class CentralServerService {
     );
   }
 
-  public deletePaymentMethod(paymentMethodID: number): Observable<ActionsResponse> {
+  public deletePaymentMethod(paymentMethodID: string, userID: string): Observable<ActionsResponse> {
     // Verify init
     this.checkInit();
     const options = {
       headers: this.buildHttpHeaders(),
-      body: { paymentMethodID },
+      // body: { paymentMethodId: paymentMethodID, userID },
     };
     // Build the URL
     const url = this.buildRestEndpointUrl(ServerRoute.REST_BILLING_PAYMENT_METHOD, {
-      userID: 'unknown',
+      userID,
       paymentMethodID
     });
     // Execute the REST service

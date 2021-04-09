@@ -5,7 +5,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { DialogAuthorization } from 'types/Authorization';
 
-import { AuthorizationService } from '../../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../../services/central-server.service';
 import { DialogService } from '../../../../services/dialog.service';
@@ -35,7 +34,6 @@ import { CompanyDialogComponent } from '../company/company.dialog.component';
 @Injectable()
 export class CompaniesListTableDataSource extends TableDataSource<Company> {
   private canCreateCompany = false;
-  private canUpdateCompany = false;
   private editAction = new TableEditCompanyAction().getActionDef();
   private deleteAction = new TableDeleteCompanyAction().getActionDef();
   private viewAction = new TableViewCompanyAction().getActionDef();
@@ -50,11 +48,9 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
     private dialog: MatDialog,
     private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
-    private datePipe: AppDatePipe,
-    private authorizationService: AuthorizationService) {
+    private datePipe: AppDatePipe) {
     super(spinnerService, translateService);
     // Init
-    this.canUpdateCompany = this.authorizationService.canUpdateCompany();
     this.setStaticFilters([{ WithLogo: true }]);
     this.initDataSource();
   }
@@ -123,40 +119,38 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
         sortable: true,
       },
     ];
-    if (this.canUpdateCompany) {
-      tableColumnDef.push(
-        {
-          id: 'createdOn',
-          name: 'users.created_on',
-          formatter: (createdOn: Date) => this.datePipe.transform(createdOn),
-          headerClass: 'col-15em',
-          class: 'col-15em',
-          sortable: true,
-        },
-        {
-          id: 'createdBy',
-          name: 'users.created_by',
-          formatter: (user: User) => Utils.buildUserFullName(user),
-          headerClass: 'col-15em',
-          class: 'col-15em',
-        },
-        {
-          id: 'lastChangedOn',
-          name: 'users.changed_on',
-          formatter: (lastChangedOn: Date) => this.datePipe.transform(lastChangedOn),
-          headerClass: 'col-15em',
-          class: 'col-15em',
-          sortable: true,
-        },
-        {
-          id: 'lastChangedBy',
-          name: 'users.changed_by',
-          formatter: (user: User) => Utils.buildUserFullName(user),
-          headerClass: 'col-15em',
-          class: 'col-15em',
-        },
-      );
-    }
+    tableColumnDef.push(
+      {
+        id: 'createdOn',
+        name: 'users.created_on',
+        formatter: (createdOn: Date) => this.datePipe.transform(createdOn),
+        headerClass: 'col-15em',
+        class: 'col-15em',
+        sortable: true,
+      },
+      {
+        id: 'createdBy',
+        name: 'users.created_by',
+        formatter: (user: User) => Utils.buildUserFullName(user),
+        headerClass: 'col-15em',
+        class: 'col-15em',
+      },
+      {
+        id: 'lastChangedOn',
+        name: 'users.changed_on',
+        formatter: (lastChangedOn: Date) => this.datePipe.transform(lastChangedOn),
+        headerClass: 'col-15em',
+        class: 'col-15em',
+        sortable: true,
+      },
+      {
+        id: 'lastChangedBy',
+        name: 'users.changed_by',
+        formatter: (user: User) => Utils.buildUserFullName(user),
+        headerClass: 'col-15em',
+        class: 'col-15em',
+      },
+    );
     return tableColumnDef;
   }
 

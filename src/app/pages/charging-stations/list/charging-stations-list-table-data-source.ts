@@ -256,7 +256,8 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
       case ChargingStationButtonAction.EDIT_CHARGING_STATION:
         if (actionDef.action) {
           (actionDef as TableEditChargingStationActionDef).action(
-            ChargingStationDialogComponent, chargingStation, this.dialog, this.refreshData.bind(this));
+            ChargingStationDialogComponent, this.dialog,
+            { id: chargingStation.id, canUpdate: chargingStation.canUpdate }, this.refreshData.bind(this));
         }
         break;
       case ChargingStationButtonAction.REBOOT:
@@ -269,8 +270,9 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
       case ChargingStationButtonAction.SMART_CHARGING:
         if (actionDef.action) {
           (actionDef as TableChargingStationsSmartChargingActionDef).action(
-            ChargingStationLimitationDialogComponent, chargingStation, this.dialogService, this.translateService,
-            this.dialog, this.refreshData.bind(this)
+            ChargingStationLimitationDialogComponent, this.dialogService, this.translateService, this.dialog,
+            { id: chargingStation.id, ocppVersion: chargingStation.ocppVersion, canUpdate: chargingStation.canUpdate },
+            this.refreshData.bind(this)
           );
         }
         break;

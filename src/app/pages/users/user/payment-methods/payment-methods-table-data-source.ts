@@ -170,7 +170,9 @@ export class PaymentMethodsTableDataSource extends TableDataSource<BillingPaymen
         if (actionDef.id) {
           (actionDef as TableCreatePaymentMethodActionDef).action(
             // eslint-disable-next-line max-len
-            PaymentMethodDialogComponent, {userId: this.currentUserID, setting: this.billingSettings}, this.dialog, this.refreshData.bind(this));
+            PaymentMethodDialogComponent, this.dialog,
+            { userId: this.currentUserID, setting: this.billingSettings },
+            this.refreshData.bind(this));
         }
         break;
     }

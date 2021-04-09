@@ -157,3 +157,7 @@ export interface AuthorizationActions {
   canUpdate?: boolean;
   canDelete?: boolean;
 }
+
+export interface DialogData extends AuthorizationActions {
+  id?: string | number;
+}

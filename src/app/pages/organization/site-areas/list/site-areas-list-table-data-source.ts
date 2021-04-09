@@ -95,11 +95,8 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
   public initUrlParams() {
     const siteAreaID = this.windowService.getSearch('SiteAreaID');
     if (siteAreaID) {
-      this.centralServerService.getSiteArea(siteAreaID).subscribe((siteArea) => {
-        if (siteArea) {
-          this.editAction.action(SiteAreaDialogComponent, siteArea, this.dialog);
-        }
-      });
+      this.editAction.action(SiteAreaDialogComponent, this.dialog,
+        { id: siteAreaID });
     }
   }
 
@@ -305,7 +302,8 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     switch (actionDef.id) {
       case SiteAreaButtonAction.CREATE_SITE_AREA:
         if (actionDef.action) {
-          (actionDef as TableCreateSiteAreaActionDef).action(SiteAreaDialogComponent, this.dialog, this.refreshData.bind(this));
+          (actionDef as TableCreateSiteAreaActionDef).action(SiteAreaDialogComponent, this.dialog,
+            { canCreate: this.canCreateSiteArea }, this.refreshData.bind(this));
         }
         break;
     }
@@ -316,13 +314,16 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     switch (actionDef.id) {
       case SiteAreaButtonAction.EDIT_SITE_AREA:
         if (actionDef.action) {
-          (actionDef as TableEditSiteAreaActionDef).action(SiteAreaDialogComponent, siteArea, this.dialog, this.refreshData.bind(this));
+          (actionDef as TableEditSiteAreaActionDef).action(SiteAreaDialogComponent, this.dialog,
+            { id: siteArea.id, canUpdate: siteArea.canUpdate }, this.refreshData.bind(this));
         }
         break;
       case SiteAreaButtonAction.VIEW_SITE_AREA:
         if (actionDef.action) {
           (actionDef as TableViewSiteAreaActionDef).action(
-            SiteAreaDialogComponent, siteArea, this.dialog, this.refreshData.bind(this));
+            SiteAreaDialogComponent, this.dialog,
+            { id: siteArea.id, canUpdate: false },
+            this.refreshData.bind(this));
         }
         break;
       case SiteAreaButtonAction.ASSIGN_CHARGING_STATIONS_TO_SITE_AREA:
@@ -334,7 +335,8 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
       case SiteAreaButtonAction.VIEW_CHARGING_STATIONS_OF_SITE_AREA:
         if (actionDef.action) {
           (actionDef as TableViewChargingStationsOfSiteAreaActionDef).action(
-            SiteAreaChargingStationsDialogComponent, siteArea, this.dialog, this.refreshData.bind(this));
+            SiteAreaChargingStationsDialogComponent, this.dialog,
+            siteArea, this.refreshData.bind(this));
         }
         break;
       case SiteAreaButtonAction.DELETE_SITE_AREA:
@@ -366,7 +368,8 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
       case SiteAreaButtonAction.VIEW_ASSETS_OF_SITE_AREA:
         if (actionDef.action) {
           (actionDef as TableViewAssignedAssetsOfSiteAreaActionDef).action(
-            SiteAreaAssetsDialogComponent, siteArea, this.dialog, this.refreshData.bind(this));
+            SiteAreaAssetsDialogComponent, siteArea, this.dialog,
+            this.refreshData.bind(this));
         }
         break;
       case ChargingStationButtonAction.GENERATE_QR_CODE:

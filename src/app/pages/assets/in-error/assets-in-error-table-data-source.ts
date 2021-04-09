@@ -123,17 +123,12 @@ export class AssetsInErrorTableDataSource extends TableDataSource<AssetInError> 
     return super.buildTableActionsDef();
   }
 
-  public actionTriggered(actionDef: TableActionDef) {
-    // Action
-    switch (actionDef.id) {
-    }
-  }
-
   public rowActionTriggered(actionDef: TableActionDef, asset: AssetInError) {
     switch (actionDef.id) {
       case AssetButtonAction.EDIT_ASSET:
         if (actionDef.action) {
-          (actionDef as TableEditAssetActionDef).action(AssetDialogComponent, asset, this.dialog, this.refreshData.bind(this));
+          (actionDef as TableEditAssetActionDef).action(AssetDialogComponent, this.dialog,
+            { id: asset.id, canUpdate: asset.canUpdate }, this.refreshData.bind(this));
         }
         break;
       case AssetButtonAction.DELETE_ASSET:

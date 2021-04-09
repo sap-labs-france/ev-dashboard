@@ -1,12 +1,11 @@
 import { Address } from './Address';
-import { AuthorizationActions } from './Authorization';
 import { BillingUserData } from './Billing';
 import { Car } from './Car';
 import CreatedUpdatedProps from './CreatedUpdatedProps';
 import { Data } from './Table';
 import { Tag } from './Tag';
 
-export interface User extends Data, CreatedUpdatedProps, AuthorizationActions {
+export interface User extends Data, CreatedUpdatedProps {
   id: string;
   issuer: boolean;
   name: string;

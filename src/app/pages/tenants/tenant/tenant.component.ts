@@ -313,7 +313,13 @@ export class TenantComponent implements OnInit {
       }
     }, (error) => {
       this.spinnerService.hide();
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tenants.create_error');
+      if (error.status === HTTPError.TENANT_NAME_ALREADY_EXIST) {
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tenants.name_already_used', { name: tenant.name });
+      } else if (error.status === HTTPError.TENANT_SUBDOMAIN_ALREADY_EXIST) {
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tenants.subdomain_already_used', { subdomain: tenant.subdomain });
+      } else {
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tenants.create_error');
+      }
     });
   }
 

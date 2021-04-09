@@ -265,7 +265,7 @@ export class TenantComponent implements OnInit {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
       if (file.size > (this.maxSize * 1024)) {
-        this.messageService.showErrorMessage('tenants.logo_size_error', {maxPictureKb: this.maxSize});
+        this.messageService.showErrorMessage('tenants.logo_size_error', { maxPictureKb: this.maxSize });
       } else {
         const reader = new FileReader();
         reader.onload = () => {
@@ -313,7 +313,14 @@ export class TenantComponent implements OnInit {
       }
     }, (error) => {
       this.spinnerService.hide();
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tenants.create_error');
+      switch (error.status) {
+        case HTTPError.TENANT_ALREADY_EXIST:
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tenants.subdomain_already_used', { subdomain: tenant.subdomain });
+          break;
+        default:
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tenants.create_error');
+          break;
+      }
     });
   }
 
@@ -330,10 +337,16 @@ export class TenantComponent implements OnInit {
       }
     }, (error) => {
       this.spinnerService.hide();
-      if (error.status === HTTPError.SMART_CHARGING_STILL_ACTIVE_FOR_SITE_AREA) {
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tenants.smart_charging_still_active_for_site_area');
-      } else {
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tenants.update_error');
+      switch (error.status) {
+        case HTTPError.TENANT_ALREADY_EXIST:
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tenants.subdomain_already_used', { subdomain: tenant.subdomain });
+          break;
+        case HTTPError.SMART_CHARGING_STILL_ACTIVE_FOR_SITE_AREA:
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tenants.smart_charging_still_active_for_site_area');
+          break;
+        default:
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tenants.update_error');
+          break;
       }
     });
   }

@@ -1380,7 +1380,6 @@
     "subdomain": "Sottodominio",
     "create_success": "L'organizzazione '{{name}}' è stata creata con successo",
     "create_error": "Si è verificato un errore durante la creazione dell'organizzazione",
-    "name_already_used": "L'organizzazione '{{name}}' è già in uso",
     "subdomain_already_used": "Il sottodominio '{{subdomain}}' è già in uso",
     "update_error": "Si è verificato un errore durante l'aggiornamento dell'organizzazione",
     "error_subdomain": "Sono consentiti solo lettere minuscole e numeri",

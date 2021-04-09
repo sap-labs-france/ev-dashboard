@@ -4,7 +4,6 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 
-import { AuthorizationService } from '../../../../services/authorization.service';
 import { CentralServerService } from '../../../../services/central-server.service';
 import { ConfigService } from '../../../../services/config.service';
 import { DialogService } from '../../../../services/dialog.service';
@@ -25,6 +24,7 @@ import { Utils } from '../../../../utils/Utils';
 export class CompanyComponent implements OnInit {
   @Input() public currentCompanyID!: string;
   @Input() public canCreateCompany: boolean;
+  @Input() public canUpdateCompany: boolean;
   @Input() public inDialog!: boolean;
   @Input() public dialogRef!: MatDialogRef<any>;
 
@@ -38,10 +38,8 @@ export class CompanyComponent implements OnInit {
   public id!: AbstractControl;
   public name!: AbstractControl;
   public address!: Address;
-  public canUpdateCompany = false;
 
   public constructor(
-    private authorizationService: AuthorizationService,
     private centralServerService: CentralServerService,
     private messageService: MessageService,
     private spinnerService: SpinnerService,
@@ -54,9 +52,9 @@ export class CompanyComponent implements OnInit {
     this.maxSize = this.configService.getCompany().maxLogoKb;
     // Check auth
     if (this.activatedRoute.snapshot.params['id'] &&
-      !authorizationService.canUpdateCompany()) {
+      !this.canUpdateCompany) {
       // Not authorized
-      this.router.navigate(['/']);
+      void this.router.navigate(['/']);
     }
   }
 
@@ -118,7 +116,6 @@ export class CompanyComponent implements OnInit {
       this.centralServerService.getCompanyLogo(this.currentCompanyID).subscribe((companyLogo) => {
         this.logo = companyLogo ? companyLogo : Constants.NO_IMAGE;
       });
-      this.canUpdateCompany = company.canUpdate;
       if (!this.canUpdateCompany) {
         this.formGroup.disable();
       }

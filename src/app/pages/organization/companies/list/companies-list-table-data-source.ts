@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { AuthorizationActions } from 'types/Authorization';
+import { DialogAuthorization } from 'types/Authorization';
 
 import { AuthorizationService } from '../../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
@@ -203,10 +203,14 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
       // Add
       case CompanyButtonAction.CREATE_COMPANY:
         if (actionDef.action) {
-          const authorizations: AuthorizationActions = {
-            canCreate: this.canCreateCompany
+          const dialogAuthorization: DialogAuthorization = {
+            authorizations: {
+              canCreate: this.canCreateCompany
+            }
           };
-          (actionDef as TableCreateCompanyActionDef).action(CompanyDialogComponent, this.dialog, authorizations, this.refreshData.bind(this));
+          (actionDef as TableCreateCompanyActionDef).action(
+            CompanyDialogComponent, this.dialog, dialogAuthorization, this.refreshData.bind(this)
+          );
         }
         break;
     }

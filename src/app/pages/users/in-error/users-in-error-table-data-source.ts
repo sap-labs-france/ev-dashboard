@@ -178,12 +178,14 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
     switch (actionDef.id) {
       case UserButtonAction.EDIT_USER:
         if (actionDef.action) {
-          (actionDef as TableEditUserActionDef).action(UserDialogComponent, user, this.dialog, this.refreshData.bind(this));
+          (actionDef as TableEditUserActionDef).action(UserDialogComponent, this.dialog,
+            { id: user.id, canUpdate: user.canUpdate }, this.refreshData.bind(this));
         }
         break;
       case UserButtonAction.ASSIGN_SITES_TO_USER:
         if (actionDef.action) {
-          (actionDef as TableAssignSitesToUserActionDef).action(UserSitesDialogComponent, user, this.dialog, this.refreshData.bind(this));
+          (actionDef as TableAssignSitesToUserActionDef).action(
+            UserSitesDialogComponent, user, this.dialog, this.refreshData.bind(this));
         }
         break;
       case UserButtonAction.DELETE_USER:

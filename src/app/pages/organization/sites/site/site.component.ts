@@ -42,6 +42,7 @@ export class SiteComponent implements OnInit {
 
   public address!: Address;
   public canUpdateSite = false;
+  public canCreateSite = false;
 
   public constructor(
     private authorizationService: AuthorizationService,
@@ -183,6 +184,7 @@ export class SiteComponent implements OnInit {
       this.canUpdateSite = site.canUpdate ||
       this.authorizationService.isSiteAdmin(this.currentSiteID) ||
       this.authorizationService.isSiteOwner(this.currentSiteID);
+      this.canCreateSite = site.canCreate;
       if (!this.canUpdateSite) {
         this.formGroup.disable();
       }

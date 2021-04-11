@@ -1,12 +1,11 @@
 import { Address } from './Address';
-import { AuthorizationActions } from './Authorization';
 import { Company } from './Company';
 import CreatedUpdatedProps from './CreatedUpdatedProps';
 import { SiteArea } from './SiteArea';
 import { Data } from './Table';
 import { User } from './User';
 
-export interface Site extends Data, CreatedUpdatedProps, AuthorizationActions {
+export interface Site extends Data, CreatedUpdatedProps {
   id: string;
   name: string;
   companyID: string;

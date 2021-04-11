@@ -2,7 +2,7 @@
 
 ## Summary
 
-The Angular dashboard connects to the [EVSE Server](https://github.com/LucasBrazi06/ev-server) to display the charging stations in real time.
+The Angular dashboard connects to the [EVSE Server](https://github.com/sap-labs-france/ev-server) to display the charging stations in real time.
 
 The application features:
 
@@ -16,7 +16,6 @@ The application features:
 ## Installation
 
 * Install NodeJS: https://nodejs.org/ (install the LTS version)
-* Install Python version 2.7 (not the version 3.7!)
 * Clone this GitHub project
 * Go into the **ev-dashboard** directory and run **npm install** or **yarn install** (use sudo in Linux)
 
@@ -25,7 +24,7 @@ The application features:
 * On Windows with **chocolatey** (https://chocolatey.org/), do as an administrator:
 
 ```
-choco install -y nodejs-lts python2
+choco install -y nodejs-lts
 ```
 
 * On Mac OSX with **Homebrew** (https://brew.sh/), do:
@@ -71,6 +70,7 @@ npm start
 ```
 
 ### Production Mode
+
 First build the sources with:
 ```
 npm run build:prod
@@ -82,12 +82,14 @@ npm run start:prod
 ```
 
 ### Secured Production Mode (SSL)
+
 Build the sources as above and run it with:
 ```
 npm run start:prod:ssl
 ```
 
 ## Tests End To End
+
 To run e2e tests, you first need to have a server and UI up and running. Then start the e2e suite with:
 ```
 npm run e2e

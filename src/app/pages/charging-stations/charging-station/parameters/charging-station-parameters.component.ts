@@ -232,7 +232,7 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
       const totalPower = Utils.getChargingStationPower(currentChargingStation);
       this.maximumPower.setValue(totalPower);
       this.maximumPowerAmps.setValue(
-        Utils.convertWattToAmp(this.formGroup.getRawValue() as ChargingStation, null, 0, totalPower));
+        Utils.convertWattToAmp(currentChargingStation, null, 0, totalPower));
     }
   }
 

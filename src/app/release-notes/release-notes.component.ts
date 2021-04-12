@@ -34,6 +34,7 @@ export class ReleaseNotesComponent {
               `Forbid Start of Transaction if OCPI didn't provide a valid authorization ID`,
               `Added new RESTful endpoints for Billing`,
               `Display explicit message when error occurred during Tenant creation`,
+              `Do not try to retrieve the default Car in OCPP Start Transaction when no User has been found`,
             ],
           },
         ],

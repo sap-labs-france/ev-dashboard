@@ -211,7 +211,7 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
   }
 
   public connectorChanged() {
-    if (!this.chargingStation.chargePoints || this.chargingStation.chargePoints.length === 0 || this.manualConfiguration.value) {
+    if (!this.chargingStation.chargePoints || this.chargingStation.chargePoints.length === 0) {
       let totalPower = 0;
       for (const connectorControl of this.connectors.controls) {
         if (connectorControl.get('power').value as number > 0) {

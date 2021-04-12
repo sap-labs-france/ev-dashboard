@@ -225,7 +225,15 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
   }
 
   public chargePointChanged() {
-    // Charge Point cannot be changed: do nothing
+    if (this.manualConfiguration.value && this.formGroup.dirty) {
+      const currentChargingStation = Utils.cloneObject(this.formGroup.getRawValue()) as ChargingStation;
+      delete currentChargingStation.maximumPower;
+      Utils.adjustChargePoints(currentChargingStation);
+      const totalPower = Utils.getChargingStationPower(currentChargingStation);
+      this.maximumPower.setValue(totalPower);
+      this.maximumPowerAmps.setValue(
+        Utils.convertWattToAmp(currentChargingStation, null, 0, totalPower));
+    }
   }
 
   public maximumPowerChanged() {
@@ -320,6 +328,8 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
       ).subscribe((result) => {
         if (result === ButtonType.NO) {
           this.manualConfiguration.setValue(false);
+          // Reload initial charging station to restore e.g. maximum power, when it was changed by the adjustment methods
+          this.loadChargingStation();
         } else {
           // Make maximum power of charging station configurable, when manual config is enabled (Rules can not really be applied here)
           this.maximumPower.enable();
@@ -334,6 +344,8 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
           this.manualConfiguration.setValue(true);
         } else {
           this.maximumPower.disable();
+          // Reload initial charging station to restore e.g. maximum power, when it was changed by the adjustment methods
+          this.loadChargingStation();
         }
       });
     }

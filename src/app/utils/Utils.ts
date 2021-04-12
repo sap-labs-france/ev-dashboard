@@ -406,6 +406,26 @@ export class Utils {
     return 1;
   }
 
+  public static adjustChargePoints(chargingStation: ChargingStation) {
+    for (const chargePoint of chargingStation.chargePoints) {
+      chargePoint.amperage = 0;
+      chargePoint.power = 0;
+      for (const connectorID of chargePoint.connectorIDs) {
+        const connector = Utils.getConnectorFromID(chargingStation, connectorID);
+        if (chargePoint.cannotChargeInParallel || chargePoint.sharePowerToAllConnectors) {
+          chargePoint.amperage = connector.amperage;
+          chargePoint.power = connector.power;
+        } else {
+          chargePoint.amperage += connector.amperage;
+          chargePoint.power += connector.power;
+        }
+        chargePoint.numberOfConnectedPhase = connector.numberOfConnectedPhase;
+        chargePoint.currentType = connector.currentType;
+        chargePoint.voltage = connector.voltage;
+      }
+    }
+  }
+
   public static getChargingStationVoltage(chargingStation: ChargingStation, chargePoint?: ChargePoint, connectorId = 0): number {
     if (chargingStation) {
       // Check at charging station level

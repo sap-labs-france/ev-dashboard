@@ -26,7 +26,7 @@
       <div class="col-md-3 form-group">
         <mat-form-field>
           <input matInput placeholder="{{'chargers.maximum_energy' | translate}}" (input)="maximumPowerChanged()"
-            [formControl]="maximumPower" required [readOnly]="!isAdmin"/>
+            [formControl]="maximumPower" required [readOnly]="!isAdmin" />
           <mat-error *ngIf="maximumPower?.invalid">{{'chargers.invalid_power' | translate}}</mat-error>
         </mat-form-field>
       </div>

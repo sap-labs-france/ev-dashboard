@@ -6,6 +6,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { StatusCodes } from 'http-status-codes';
 import { BehaviorSubject, EMPTY, Observable, TimeoutError, of, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
+import SafeUrlAssembler from 'safe-url-assembler'
 import { OicpEndpoint } from 'types/oicp/OICPEndpoint';
 
 import { Asset, AssetConsumption } from '../types/Asset';
@@ -1559,16 +1560,22 @@ export class CentralServerService {
         catchError(this.handleHttpError),
       );
   }
+
+  // TODO - create a dedicated method for the ATTACH?
   public setupPaymentMethod(parameters: any): Observable<BillingOperationResponse> {
     this.checkInit();
+    // Build the URL
+    const urlPattern: ServerRoute = (!parameters.paymentMethodID) ? ServerRoute.REST_BILLING_PAYMENT_METHOD_SETUP : ServerRoute.REST_BILLING_PAYMENT_METHOD_ATTACH;
+    const url = this.buildRestEndpointUrl(urlPattern, {
+      userID: parameters.userID,
+      paymentMethodID: parameters.paymentMethodID
+    });
     // Execute the REST service
-    return this.httpClient.post<BillingOperationResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.BILLING_SETUP_PAYMENT_METHOD}`, parameters,
-      {
-        headers: this.buildHttpHeaders(),
-      })
-      .pipe(
-        catchError(this.handleHttpError),
-      );
+    return this.httpClient.post<BillingOperationResponse>(url, parameters, {
+      headers: this.buildHttpHeaders(),
+    }).pipe(
+      catchError(this.handleHttpError),
+    );
   }
 
   public getPaymentMethods(currentUserID: string, params: FilterParams,
@@ -1579,27 +1586,33 @@ export class CentralServerService {
     this.getPaging(paging, params);
     // Build Ordering
     this.getSorting(ordering, params);
-
+    // Build the URL
+    const url = this.buildRestEndpointUrl(ServerRoute.REST_BILLING_PAYMENT_METHODS, {
+      userID: currentUserID
+    });
     // Execute the REST Service
-    return this.httpClient.get<DataResult<BillingPaymentMethod>>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.BILLING_PAYMENT_METHODS}?userID=${currentUserID}`,
-      {
-        headers: this.buildHttpHeaders(),
-        params
-      })
-      .pipe(
-        catchError(this.handleHttpError),
-      );
+    return this.httpClient.get<DataResult<BillingPaymentMethod>>(url, {
+      headers: this.buildHttpHeaders(),
+      params
+    }).pipe(
+      catchError(this.handleHttpError),
+    );
   }
 
-  public deletePaymentMethod(paymentMethodId: string, userID: string): Observable<ActionsResponse> {
+  public deletePaymentMethod(paymentMethodID: string, userID: string): Observable<ActionsResponse> {
     // Verify init
     this.checkInit();
     const options = {
       headers: this.buildHttpHeaders(),
-      body: { paymentMethodId, userID },
+      // body: { paymentMethodId: paymentMethodID, userID },
     };
+    // Build the URL
+    const url = this.buildRestEndpointUrl(ServerRoute.REST_BILLING_PAYMENT_METHOD, {
+      userID,
+      paymentMethodID
+    });
     // Execute the REST service
-    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.BILLING_DELETE_PAYMENT_METHOD}`, options)
+    return this.httpClient.delete<ActionResponse>(url, options)
       .pipe(
         catchError(this.handleHttpError),
       );
@@ -3274,4 +3287,15 @@ export class CentralServerService {
     }
     return of(null);
   }
+
+  private buildRestEndpointUrl(urlPatternAsString: ServerRoute, params: {
+    // Just a flat list of key/value pairs!
+    [name: string]: string | number | null;
+  }) {
+    const url = SafeUrlAssembler(this.restServerSecuredURL)
+      .template('/'+urlPatternAsString)
+      .param(params);
+    return url.toString();
+  }
 }
+

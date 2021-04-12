@@ -136,4 +136,8 @@ export class ChargingStationChargePointComponent implements OnInit, OnChanges {
     // Should not happen: Charge Point is read-only
     this.chargePointChanged.emit();
   }
+
+  public adjustMaximumPower(){
+    this.chargePointChanged.emit();
+  }
 }

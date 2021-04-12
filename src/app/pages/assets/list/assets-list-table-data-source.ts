@@ -205,7 +205,8 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
       // Add
       case AssetButtonAction.CREATE_ASSET:
         if (actionDef.action) {
-          (actionDef as TableCreateAssetActionDef).action(AssetDialogComponent, this.dialog, this.refreshData.bind(this));
+          (actionDef as TableCreateAssetActionDef).action(AssetDialogComponent, this.dialog,
+            { canCreate: true }, this.refreshData.bind(this));
         }
         break;
     }
@@ -215,12 +216,14 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
     switch (actionDef.id) {
       case AssetButtonAction.VIEW_ASSET:
         if (actionDef.action) {
-          (actionDef as TableViewAssetActionDef).action(AssetDialogComponent, asset, this.dialog, this.refreshData.bind(this));
+          (actionDef as TableViewAssetActionDef).action(AssetDialogComponent, this.dialog,
+            { id: asset.id, canUpdate: false }, this.refreshData.bind(this));
         }
         break;
       case AssetButtonAction.EDIT_ASSET:
         if (actionDef.action) {
-          (actionDef as TableEditAssetActionDef).action(AssetDialogComponent, asset, this.dialog, this.refreshData.bind(this));
+          (actionDef as TableEditAssetActionDef).action(AssetDialogComponent, this.dialog,
+            { id: asset.id, canUpdate: asset.canUpdate }, this.refreshData.bind(this));
         }
         break;
       case AssetButtonAction.DELETE_ASSET:
@@ -231,8 +234,8 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
         break;
       case AssetButtonAction.RETRIEVE_ASSET_CONSUMPTION:
         if (actionDef.action) {
-          (actionDef as TableRetrieveAssetConsumptionActionDef).action(asset, this.spinnerService, this.centralServerService, this.messageService,
-            this.router, this.refreshData.bind(this));
+          (actionDef as TableRetrieveAssetConsumptionActionDef).action(asset, this.spinnerService, this.centralServerService,
+            this.messageService, this.router, this.refreshData.bind(this));
         }
         break;
       case ButtonAction.OPEN_IN_MAPS:

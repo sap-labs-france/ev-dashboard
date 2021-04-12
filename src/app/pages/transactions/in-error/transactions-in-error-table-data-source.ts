@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
+import { TransactionDialogComponent } from 'shared/dialogs/transaction/transaction.dialog.component';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
@@ -317,7 +318,8 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
         break;
       case TransactionButtonAction.VIEW_TRANSACTION:
         if (actionDef.action) {
-          (actionDef as TableViewTransactionActionDef).action(transaction, this.dialog, this.refreshData.bind(this));
+          (actionDef as TableViewTransactionActionDef).action(TransactionDialogComponent, this.dialog,
+            { id: transaction.id, canUpdate: false }, this.refreshData.bind(this));
         }
         break;
       case TransactionButtonAction.CREATE_TRANSACTION_INVOICE:

@@ -175,8 +175,9 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
       case ChargingStationButtonAction.SMART_CHARGING:
         if (actionDef.action) {
           (actionDef as TableChargingStationsSmartChargingActionDef).action(
-            ChargingStationLimitationDialogComponent, chargingProfile.chargingStation, this.dialogService,
-            this.translateService, this.dialog, this.refreshData.bind(this)
+            ChargingStationLimitationDialogComponent, this.dialogService, this.translateService, this.dialog,
+            { id: chargingProfile.id, canUpdate: chargingProfile.canUpdate, ocppVersion: chargingProfile.chargingStation.ocppVersion },
+            this.refreshData.bind(this)
           );
         }
         break;

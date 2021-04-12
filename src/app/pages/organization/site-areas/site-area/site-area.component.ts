@@ -56,7 +56,8 @@ export class SiteAreaComponent implements OnInit {
   ];
 
   public address!: Address;
-  public canCreateSiteArea!: boolean;
+  public canCreateSiteArea = false;
+  public canUpdateSiteArea = false;
   public isSmartChargingComponentActive = false;
 
   public registrationToken!: RegistrationToken;
@@ -81,7 +82,6 @@ export class SiteAreaComponent implements OnInit {
       this.router.navigate(['/']);
     }
     // Set
-    this.canCreateSiteArea = this.authorizationService.canCreateSiteArea();
     this.isSmartChargingComponentActive = this.componentService.isActive(TenantComponents.SMART_CHARGING);
   }
 
@@ -248,6 +248,11 @@ export class SiteAreaComponent implements OnInit {
       this.centralServerService.getSiteAreaImage(this.currentSiteAreaID).subscribe((siteAreaImage) => {
         this.image = siteAreaImage ? siteAreaImage : Constants.NO_IMAGE;
       });
+      this.canUpdateSiteArea = siteArea.canUpdate;
+      this.canCreateSiteArea = siteArea.canCreate;
+      if (!this.canUpdateSiteArea) {
+        this.formGroup.disable();
+      }
     }, (error) => {
       this.spinnerService.hide();
       switch (error.status) {

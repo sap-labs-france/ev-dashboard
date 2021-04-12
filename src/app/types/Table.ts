@@ -3,22 +3,23 @@ import { SortDirection } from '@angular/material/sort';
 import * as moment from 'moment';
 
 import { AssetButtonAction } from './Asset';
+import { AuthorizationActions } from './Authorization';
 import { BillingButtonAction } from './Billing';
 import { CarButtonAction } from './Car';
 import { ChargingStationButtonAction } from './ChargingStation';
 import { CompanyButtonAction } from './Company';
 import { ButtonAction, KeyValue } from './GlobalType';
 import { LogButtonAction } from './Log';
+import { OcpiButtonAction } from './ocpi/OCPIEndpoint';
+import { OicpButtonAction } from './oicp/OICPEndpoint';
 import { RegistrationTokenButtonAction } from './RegistrationToken';
 import { SiteButtonAction } from './Site';
 import { SiteAreaButtonAction } from './SiteArea';
 import { TenantButtonAction } from './Tenant';
 import { TransactionButtonAction } from './Transaction';
 import { UserButtonAction } from './User';
-import { OcpiButtonAction } from './ocpi/OCPIEndpoint';
-import { OicpButtonAction } from './oicp/OICPEndpoint';
 
-export interface Data {
+export interface Data extends AuthorizationActions {
   id: string | number;
   key?: string;
   isSelected?: boolean;

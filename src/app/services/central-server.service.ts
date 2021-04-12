@@ -1591,12 +1591,12 @@ export class CentralServerService {
       );
   }
 
-  public deletePaymentMethod(paymentMethodId: number): Observable<ActionsResponse> {
+  public deletePaymentMethod(paymentMethodId: string, userID: string): Observable<ActionsResponse> {
     // Verify init
     this.checkInit();
     const options = {
       headers: this.buildHttpHeaders(),
-      body: { paymentMethodId },
+      body: { paymentMethodId, userID },
     };
     // Execute the REST service
     return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.BILLING_DELETE_PAYMENT_METHOD}`, options)

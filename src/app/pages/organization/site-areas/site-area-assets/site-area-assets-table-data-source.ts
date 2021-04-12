@@ -13,11 +13,11 @@ import { AssetsDialogComponent } from '../../../../shared/dialogs/assets/assets-
 import { TableAddAction } from '../../../../shared/table/actions/table-add-action';
 import { TableRemoveAction } from '../../../../shared/table/actions/table-remove-action';
 import { TableDataSource } from '../../../../shared/table/table-data-source';
-import { Asset } from '../../../../types/Asset';
+import { Asset, AssetType } from '../../../../types/Asset';
 import { DataResult } from '../../../../types/DataResult';
 import { ButtonAction, RestResponse } from '../../../../types/GlobalType';
 import { SiteArea } from '../../../../types/SiteArea';
-import { ButtonType, Data, TableActionDef, TableColumnDef, TableDef } from '../../../../types/Table';
+import { ButtonType, TableActionDef, TableColumnDef, TableDef } from '../../../../types/Table';
 import { Utils } from '../../../../utils/Utils';
 
 @Injectable()
@@ -106,6 +106,32 @@ export class SiteAreaAssetsDataSource extends TableDataSource<Asset> {
         sorted: true,
         direction: 'asc',
         sortable: true,
+      },
+      {
+        id: 'dynamicAsset',
+        name: 'assets.dynamic_asset',
+        headerClass: 'col-20p text-center',
+        class: 'col-20p text-center',
+        sortable: true,
+        formatter: (dynamicAsset: boolean) => dynamicAsset ?
+          this.translateService.instant('general.yes') : this.translateService.instant('general.no'),
+      },
+      {
+        id: 'assetType',
+        name: 'assets.asset_type',
+        headerClass: 'col-20p text-center',
+        class: 'col-20p text-center',
+        sortable: true,
+        formatter: (assetType: AssetType) => {
+          switch (assetType) {
+            case AssetType.PRODUCTION:
+              return this.translateService.instant('assets.produce');
+            case AssetType.CONSUMPTION:
+              return this.translateService.instant('assets.consume');
+            case AssetType.CONSUMPTION_AND_PRODUCTION:
+              return this.translateService.instant('assets.consume_and_produce');
+          }
+        }
       }
     ];
   }

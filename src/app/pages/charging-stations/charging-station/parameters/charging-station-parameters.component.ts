@@ -328,6 +328,8 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
       ).subscribe((result) => {
         if (result === ButtonType.NO) {
           this.manualConfiguration.setValue(false);
+          // Reload initial charging station to restore e.g. maximum power, when it was changed by the adjustment methods
+          this.loadChargingStation();
         } else {
           // Make maximum power of charging station configurable, when manual config is enabled (Rules can not really be applied here)
           this.maximumPower.enable();

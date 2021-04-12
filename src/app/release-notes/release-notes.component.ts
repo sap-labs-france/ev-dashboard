@@ -31,6 +31,9 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Auto compute Max Power of Charging Station when manually configured`,
+              `Forbid Start of Transaction if OCPI didn't provide a valid authorization ID`,
+              `Added new RESTful endpoints for Billing`,
+              `Display explicit message when error occurred during Tenant creation`,
             ],
           },
         ],

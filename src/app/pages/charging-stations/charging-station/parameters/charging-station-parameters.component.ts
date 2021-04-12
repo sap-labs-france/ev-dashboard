@@ -234,7 +234,6 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
       this.maximumPowerAmps.setValue(
         Utils.convertWattToAmp(this.formGroup.getRawValue() as ChargingStation, null, 0, totalPower));
     }
-    console.log(this.formGroup.getRawValue());
   }
 
   public maximumPowerChanged() {

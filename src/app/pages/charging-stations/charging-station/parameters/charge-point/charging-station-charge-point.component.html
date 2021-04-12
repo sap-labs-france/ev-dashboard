@@ -19,12 +19,12 @@
             </mat-form-field>
           </div>
           <div class="flex-fill" *ngIf="cannotChargeInParallel?.value || manualConfiguration">
-            <mat-checkbox [formControl]="cannotChargeInParallel" >
+            <mat-checkbox [formControl]="cannotChargeInParallel" (change)="adjustMaximumPower()">
               {{'chargers.cant_charge_in_parallel' | translate}}
             </mat-checkbox>
           </div>
           <div class="flex-fill" *ngIf="sharePowerToAllConnectors?.value || manualConfiguration">
-            <mat-checkbox [formControl]="sharePowerToAllConnectors">
+            <mat-checkbox [formControl]="sharePowerToAllConnectors" (change)="adjustMaximumPower()">
               {{'chargers.share_power_to_all_connectors' | translate}}
             </mat-checkbox>
           </div>

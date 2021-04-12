@@ -1,14 +1,14 @@
 {
   "name": "ev-dashboard",
   "description": "Dashboard for Electric Vehicle charging station",
-  "homepage": "https://github.com/LucasBrazi06/ev-dashboard",
-  "version": "2.4.59",
+  "homepage": "https://github.com/sap-labs-france/ev-dashboard",
+  "version": "2.4.60",
   "engines": {
     "npm": "6.x.x."
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/LucasBrazi06/ev-dashboard.git"
+    "url": "https://github.com/sap-labs-france/ev-dashboard.git"
   },
   "author": "SAP E-Mobility Labs France <e-mobility@sap.com>",
   "license": "Apache-2.0",

@@ -15,7 +15,7 @@ export interface PaymentDialogData extends DialogData {
 }
 
 export interface TableCreatePaymentMethodActionDef extends TableActionDef {
-  action: (paymentMethodDialogComponent: ComponentType<unknown>, dialog: MatDialog, data: PaymentDialogData, 
+  action: (paymentMethodDialogComponent: ComponentType<unknown>, dialog: MatDialog, data: PaymentDialogData,
     refresh?: () => Observable<void>) => void;
 }
 

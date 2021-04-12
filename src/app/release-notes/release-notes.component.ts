@@ -24,7 +24,19 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.4.59',
+        version: '2.4.60',
+        date: new Date('2021-04-12'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Auto compute Max Power of Charging Station when manually configured`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.60',
         date: new Date('2021-04-08'),
         componentChanges: [
           {

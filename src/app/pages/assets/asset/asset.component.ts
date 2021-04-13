@@ -335,7 +335,7 @@ export class AssetComponent implements OnInit {
     };
     this.dialog.open(SiteAreasDialogComponent, dialogConfig)
       .afterClosed().subscribe((result) => {
-        if (result && result.length > 0 && result[0].objectRef) {
+        if (!Utils.isEmptyArray(result) && result[0].objectRef) {
           const siteArea = ((result[0].objectRef) as SiteArea);
           this.formGroup.markAsDirty();
           this.formGroup.controls.siteArea.setValue(siteArea.name);

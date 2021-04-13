@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import { CarCatalog } from '../../../types/Car';
 import { KeyValue } from '../../../types/GlobalType';
+import { Utils } from '../../../utils/Utils';
 import { DialogTableDataComponent } from '../dialog-table-data.component';
 import { CarCatalogsDialogTableDataSource } from './car-catalogs-dialog-table-data-source';
 
@@ -19,12 +20,12 @@ export class CarCatalogsDialogComponent extends DialogTableDataComponent<CarCata
     if (this.title === '') {
       this.title = 'cars.assign_car_catalog';
     }
-    this.carCatalogsDialogTableDataSource.destroyDatasource();
+    this.carCatalogsDialogTableDataSource.destroyDataSource();
   }
 
   public getSelectedItems(selectedRows: CarCatalog[]): KeyValue[] {
     const items: KeyValue[] = [];
-    if (selectedRows && selectedRows.length > 0) {
+    if (!Utils.isEmptyArray(selectedRows)) {
       selectedRows.forEach((row) => {
         items.push({
           key: row.id.toString(),

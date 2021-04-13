@@ -6,7 +6,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { StatusCodes } from 'http-status-codes';
 import { BehaviorSubject, EMPTY, Observable, TimeoutError, of, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
-import SafeUrlAssembler from 'safe-url-assembler'
+import SafeUrlAssembler from 'safe-url-assembler';
 import { OicpEndpoint } from 'types/oicp/OICPEndpoint';
 
 import { Asset, AssetConsumption } from '../types/Asset';
@@ -3236,14 +3236,14 @@ export class CentralServerService {
 
   private getSorting(ordering: Ordering[], queryParams: FilterParams) {
     // Check
-    if (ordering && ordering.length) {
+    if (!Utils.isEmptyArray(ordering)) {
       const sortFields: string[] = [];
       for (const order of ordering) {
         if (order.field) {
           sortFields.push(order.field);
         }
       }
-      if (sortFields.length > 0) {
+      if (!Utils.isEmptyArray(sortFields)) {
         queryParams['SortFields'] = sortFields;
       }
     }
@@ -3293,7 +3293,7 @@ export class CentralServerService {
     [name: string]: string | number | null;
   }) {
     const url = SafeUrlAssembler(this.restServerSecuredURL)
-      .template('/'+urlPatternAsString)
+      .template('/' + urlPatternAsString)
       .param(params);
     return url.toString();
   }

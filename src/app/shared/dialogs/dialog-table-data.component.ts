@@ -16,10 +16,10 @@ export abstract class DialogTableDataComponent<T extends Data> {
     public dialogTableDataSource: DialogTableDataSource<T>) {
     // Assign dialog table data source if provided
     this.dialogDataSource = dialogTableDataSource;
-    // Reset the provider if the filter has been reseted
+    // Reset the provider if the filter has been reset
     if (data.cleared) {
       this.dialogDataSource.setSearchValue('');
-      this.dialogDataSource.destroyDatasource();
+      this.dialogDataSource.destroyDataSource();
     }
     // assign parameters
     this.title = (data && data.title ? data.title : '');

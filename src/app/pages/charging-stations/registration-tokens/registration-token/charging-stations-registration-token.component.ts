@@ -174,7 +174,7 @@ export class ChargingStationsRegistrationTokenComponent implements OnInit {
     // Open
     this.dialog.open(SiteAreasDialogComponent, dialogConfig)
       .afterClosed().subscribe((result) => {
-        if (result && result.length > 0 && result[0].objectRef) {
+        if (!Utils.isEmptyArray(result) && result[0].objectRef) {
           const siteArea = (result[0].objectRef) as SiteArea;
           this.siteArea.setValue(`${(siteArea.site ? siteArea.site.name + ' - ' : '')}${siteArea.name}`);
           this.siteAreaID.setValue(siteArea.id);

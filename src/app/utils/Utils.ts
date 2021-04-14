@@ -14,7 +14,7 @@ import { MessageService } from '../services/message.service';
 import { AppUnitPipe } from '../shared/formatters/app-unit.pipe';
 import { Address } from '../types/Address';
 import { Car, CarCatalog, CarConverter, CarType } from '../types/Car';
-import { ChargePoint, ChargingStation, ChargingStationPowers, Connector, CurrentType, StaticLimitAmps } from '../types/ChargingStation';
+import { ChargePoint, ChargingStation, ChargingStationPowers, Connector, CurrentType, StaticLimitAmps, Voltage } from '../types/ChargingStation';
 import { KeyValue } from '../types/GlobalType';
 import { MobileType } from '../types/Mobile';
 import { ButtonType } from '../types/Table';
@@ -429,7 +429,7 @@ export class Utils {
     }
   }
 
-  public static getChargingStationVoltage(chargingStation: ChargingStation, chargePoint?: ChargePoint, connectorId = 0): number {
+  public static getChargingStationVoltage(chargingStation: ChargingStation, chargePoint?: ChargePoint, connectorId = 0): Voltage {
     if (chargingStation) {
       // Check at charging station level
       if (chargingStation.voltage) {
@@ -468,7 +468,7 @@ export class Utils {
         }
       }
     }
-    return 0;
+    return Voltage.VOLTAGE_230;
   }
 
   public static getChargingStationCurrentType(chargingStation: ChargingStation, chargePoint: ChargePoint, connectorId = 0): CurrentType {

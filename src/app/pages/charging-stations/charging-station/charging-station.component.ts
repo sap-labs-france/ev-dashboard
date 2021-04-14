@@ -101,7 +101,7 @@ export class ChargingStationComponent implements OnInit {
       // Do not save charge point
       delete chargingStationToSave.chargePoints;
     } else {
-      this.adjustChargePoints(chargingStationToSave);
+      Utils.adjustChargePoints(chargingStationToSave);
     }
     // Save
     this.spinnerService.show();
@@ -148,23 +148,4 @@ export class ChargingStationComponent implements OnInit {
       this.saveChargingStation.bind(this), this.closeDialog.bind(this));
   }
 
-  private adjustChargePoints(chargingStation: ChargingStation) {
-    for (const chargePoint of chargingStation.chargePoints) {
-      chargePoint.amperage = 0;
-      chargePoint.power = 0;
-      for (const connectorID of chargePoint.connectorIDs) {
-        const connector = Utils.getConnectorFromID(chargingStation, connectorID);
-        if (!chargePoint.sharePowerToAllConnectors) {
-          chargePoint.amperage += connector.amperage;
-          chargePoint.power += connector.power;
-        } else {
-          chargePoint.amperage = connector.amperage;
-          chargePoint.power = connector.power;
-        }
-        chargePoint.numberOfConnectedPhase = connector.numberOfConnectedPhase;
-        chargePoint.currentType = connector.currentType;
-        chargePoint.voltage = connector.voltage;
-      }
-    }
-  }
 }

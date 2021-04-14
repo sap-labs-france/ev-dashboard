@@ -395,7 +395,7 @@ export class ChargingPlansComponent implements OnInit, AfterViewInit, OnChanges 
     // Set power unit
     chargingProfile.profile.chargingSchedule.chargingRateUnit = ChargingRateUnitType.AMPERE;
     // Build schedule
-    if (this.scheduleEditableTableDataSource.data.length > 0) {
+    if (!Utils.isEmptyArray(this.scheduleEditableTableDataSource.data)) {
       // Set start date
       const startOfSchedule = new Date(this.scheduleEditableTableDataSource.data[0].startDate);
       chargingProfile.profile.chargingSchedule.startSchedule = startOfSchedule;

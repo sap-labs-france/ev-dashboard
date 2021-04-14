@@ -19,25 +19,15 @@ export class ChargingStationsListComponent implements OnInit {
     public chargingStationsListTableDataSource: ChargingStationsListTableDataSource,
     private windowService: WindowService,
     private dialog: MatDialog,
-    private centralServerService: CentralServerService,
-    private messageService: MessageService,
   ) {}
 
   public ngOnInit(): void {
     // Check if transaction ID id provided
     const chargingStationID = this.windowService.getSearch('ChargingStationID');
     if (chargingStationID) {
-      this.centralServerService.getChargingStation(chargingStationID).subscribe((chargingStation) => {
-        if (chargingStation) {
-          const editAction = new TableEditChargingStationAction().getActionDef();
-          if (editAction.action) {
-            editAction.action(ChargingStationDialogComponent, chargingStation, this.dialog);
-          }
-        }
-      }, (error) => {
-        // Not Found
-        this.messageService.showErrorMessage('chargers.charger_id_not_found', { chargerID: chargingStationID });
-      });
+      const editAction = new TableEditChargingStationAction().getActionDef();
+      editAction.action(ChargingStationDialogComponent, this.dialog,
+        { id: chargingStationID });
       // Clear Search
       this.windowService.deleteSearch('ChargingStationID');
     }

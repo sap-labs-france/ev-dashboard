@@ -42,6 +42,7 @@ export class SiteComponent implements OnInit {
 
   public address!: Address;
   public canUpdateSite = false;
+  public canCreateSite = false;
 
   public constructor(
     private authorizationService: AuthorizationService,
@@ -122,7 +123,7 @@ export class SiteComponent implements OnInit {
     };
     // Open
     this.dialog.open(CompaniesDialogComponent, dialogConfig).afterClosed().subscribe((result) => {
-      if (result && result.length > 0 && result[0] && result[0].objectRef) {
+      if (!Utils.isEmptyArray(result) && result[0].objectRef) {
         const company: Company = (result[0].objectRef) as Company;
         this.company.setValue(company.name);
         this.companyID.setValue(company.id);
@@ -183,6 +184,7 @@ export class SiteComponent implements OnInit {
       this.canUpdateSite = site.canUpdate ||
       this.authorizationService.isSiteAdmin(this.currentSiteID) ||
       this.authorizationService.isSiteOwner(this.currentSiteID);
+      this.canCreateSite = site.canCreate;
       if (!this.canUpdateSite) {
         this.formGroup.disable();
       }

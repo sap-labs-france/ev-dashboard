@@ -222,7 +222,7 @@ export abstract class TableDataSource<T extends Data> {
 
   public buildTableActionsDef(): TableActionDef[] {
     // Default
-    if (this.tableFiltersDef && this.tableFiltersDef.length > 0) {
+    if (!Utils.isEmptyArray(this.tableFiltersDef)) {
       return [
         new TableResetFiltersAction().getActionDef(),
       ];
@@ -363,7 +363,7 @@ export abstract class TableDataSource<T extends Data> {
               }
             }
             if (!filterDef.multiple) {
-              if (filterDef.currentValue.length > 0) {
+              if (!Utils.isEmptyArray(filterDef.currentValue)) {
                 if (filterDef.currentValue[0].key !== FilterType.ALL_KEY) {
                   if (filterDef.currentValue.length > 1) {
                     // Handle multiple key selection as a JSON array
@@ -377,15 +377,15 @@ export abstract class TableDataSource<T extends Data> {
                   }
                 }
               }
-              // Dialog with multiple selections
+            // Dialog with multiple selections
             } else {
-              if (filterDef.currentValue.length > 0) {
+              if (!Utils.isEmptyArray(filterDef.currentValue)) {
                 filterJson[filterDef.httpId] = filterDef.currentValue.map((obj) => obj.key).join('|');
               }
             }
-            // Dropdown with multiple selections
+          // Dropdown with multiple selections
           } else if (filterDef.type === FilterType.DROPDOWN && filterDef.multiple) {
-            if (filterDef.currentValue.length > 0 && (filterDef.currentValue.length < filterDef.items.length || !filterDef.exhaustive)) {
+            if (!Utils.isEmptyArray(filterDef.currentValue) && (filterDef.currentValue.length < filterDef.items.length || !filterDef.exhaustive)) {
               filterJson[filterDef.httpId] = filterDef.currentValue.map((obj) => obj.key).join('|');
             }
             // Others
@@ -401,7 +401,7 @@ export abstract class TableDataSource<T extends Data> {
       filterJson['Search'] = searchValue;
     }
     // Static filters
-    if (this.staticFilters && this.staticFilters.length > 0) {
+    if (!Utils.isEmptyArray(this.staticFilters)) {
       filterJson = Object.assign(filterJson, ...this.staticFilters);
     }
     return filterJson;
@@ -482,7 +482,7 @@ export abstract class TableDataSource<T extends Data> {
     return this.data;
   }
 
-  public destroyDatasource() {
+  public destroyDataSource() {
     this.clearData();
     this.resetTotalNumberOfRecords();
     this.clearPaging();
@@ -543,9 +543,8 @@ export abstract class TableDataSource<T extends Data> {
     this.initTableActionsDef(force);
     this.initTableActionsRightDef(force);
     this.initTableRowActions(force);
-    this.hasActions = (this.tableActionsDef && this.tableActionsDef.length > 0) ||
-      (this.tableActionsRightDef && this.tableActionsRightDef.length > 0);
-    this.hasFilters = (this.tableFiltersDef && this.tableFiltersDef.length > 0);
+    this.hasActions = !Utils.isEmptyArray(this.tableActionsDef) || !Utils.isEmptyArray(this.tableActionsRightDef);
+    this.hasFilters = !Utils.isEmptyArray(this.tableFiltersDef);
     this.isSearchEnabled = !!this.tableDef && !!this.tableDef.search && this.tableDef.search.enabled;
     this.isFooterEnabled = !!this.tableDef && !!this.tableDef.footer && this.tableDef.footer.enabled;
     this.hasRowActions = (!!this.tableRowActionsDef && this.tableRowActionsDef.length > 0) ||
@@ -667,7 +666,7 @@ export abstract class TableDataSource<T extends Data> {
       // Check dynamic row actions
       if (this.tableDef.hasDynamicRowAction) {
         const dynamicRowActions = this.buildTableDynamicRowActions(freshRow);
-        if (dynamicRowActions.length > 0) {
+        if (!Utils.isEmptyArray(dynamicRowActions)) {
           freshRow['dynamicRowActions'] = dynamicRowActions;
         }
       }

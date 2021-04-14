@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { TransactionDialogComponent } from 'shared/dialogs/transaction/transaction.dialog.component';
 
 import { ChargingStationsConnectorInactivityCellComponent } from '../../../pages/charging-stations/cell-components/charging-stations-connector-inactivity-cell.component';
 import { AuthorizationService } from '../../../services/authorization.service';
@@ -27,6 +28,7 @@ import { DataResult } from '../../../types/DataResult';
 import { TableActionDef, TableColumnDef, TableDef } from '../../../types/Table';
 import { TransactionButtonAction } from '../../../types/Transaction';
 import { User } from '../../../types/User';
+import { Utils } from '../../../utils/Utils';
 import { ChargingStationsConnectorCellComponent } from '../cell-components/charging-stations-connector-cell.component';
 import { ChargingStationsConnectorStatusCellComponent } from '../cell-components/charging-stations-connector-status-cell.component';
 import { ChargingStationsInstantPowerConnectorProgressBarCellComponent } from '../cell-components/charging-stations-instant-power-connector-progress-bar-cell.component';
@@ -205,7 +207,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
         actions.push(unlockConnectorAction);
       }
     }
-    if (actions.length > 0) {
+    if (!Utils.isEmptyArray(actions)) {
       return actions;
     }
     // By default no actions
@@ -247,11 +249,13 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
           return;
         }
         if (actionDef.action) {
-          (actionDef as TableViewTransactionActionDef).action({
-            transactionID: connector.currentTransactionID,
-            chargingStationID: this.chargingStation.id,
-            connectorID: connector.connectorId,
-          }, this.dialog, this.refreshData.bind(this));
+          (actionDef as TableViewTransactionActionDef).action(TransactionDialogComponent, this.dialog,
+            {
+              transactionID: connector.currentTransactionID,
+              chargingStationID: this.chargingStation.id,
+              connectorID: connector.connectorId
+            },
+            this.refreshData.bind(this));
         }
         break;
       // Unlock Charger

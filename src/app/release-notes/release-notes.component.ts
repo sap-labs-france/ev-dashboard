@@ -24,6 +24,26 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.60',
+        date: new Date('2021-04-14'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Auto compute Max Power of Charging Station when manually configured`,
+              `Forbid Start of Transaction if OCPI didn't provide a valid authorization ID`,
+              `Ensured that the connector's minimum amperage limit is always the EV Ready one (never 0A)`,
+              `Fixed certified Transaction with Eichrecht Signed Data`,
+              `Wrapped exported CSV data in double quotes (avoid to have the comma separator in the data)`,
+              `Added new RESTful endpoints for Billing`,
+              `Added the Export of Sessions authorization for Basic users`,
+              `Display explicit message when error occurred during Tenant creation`,
+              `Do not try to retrieve the default Car in OCPP Start Transaction when no User has been found`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.59',
         date: new Date('2021-04-08'),
         componentChanges: [

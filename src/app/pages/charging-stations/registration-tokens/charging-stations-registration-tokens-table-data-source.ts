@@ -230,7 +230,8 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
       case RegistrationTokenButtonAction.CREATE_TOKEN:
         if (actionDef.id) {
           (actionDef as TableCreateRegistrationTokenActionDef).action(
-            ChargingStationsRegistrationTokenDialogComponent, this.dialog, this.refreshData.bind(this));
+            ChargingStationsRegistrationTokenDialogComponent, this.dialog,
+            { canCreate: true }, this.refreshData.bind(this));
         }
         break;
     }
@@ -255,7 +256,8 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
       case RegistrationTokenButtonAction.EDIT_TOKEN:
         if (actionDef.action) {
           (actionDef as TableEditRegistrationTokenActionDef).action(
-            ChargingStationsRegistrationTokenDialogComponent, registrationToken, this.dialog, this.refreshData.bind(this));
+            ChargingStationsRegistrationTokenDialogComponent, this.dialog,
+            { id: registrationToken.id, canUpdate: registrationToken.canUpdate }, this.refreshData.bind(this));
         }
         break;
       case RegistrationTokenButtonAction.COPY_URL:

@@ -160,7 +160,7 @@ export class SiteAreaChargingStationsDataSource extends TableDataSource<Charging
       // Remove
       case ButtonAction.REMOVE:
         // Empty?
-        if (this.getSelectedRows().length === 0) {
+        if (Utils.isEmptyArray(this.getSelectedRows())) {
           this.messageService.showErrorMessage(this.translateService.instant('general.select_at_least_one_record'));
         } else {
           // Confirm
@@ -218,7 +218,7 @@ export class SiteAreaChargingStationsDataSource extends TableDataSource<Charging
 
   private addChargers(chargers: ChargingStation[]) {
     // Check
-    if (chargers && chargers.length > 0) {
+    if (!Utils.isEmptyArray(chargers)) {
       // Get the IDs
       const chargerIDs = chargers.map((charger) => charger.key);
       // Yes: Update

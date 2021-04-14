@@ -233,6 +233,10 @@ export class Utils {
       result.currentAmp = chargingStationAmperageLimit;
       result.maxAmp = Utils.getChargingStationAmperage(chargingStation, chargePoint, connectorId);
     }
+    // Default
+    if (result.currentAmp === 0) {
+      result.currentAmp = result.maxAmp;
+    }
     result.minWatt = Utils.convertAmpToWatt(chargingStation, chargePoint, connectorId, result.minAmp);
     result.maxWatt = Utils.convertAmpToWatt(chargingStation, chargePoint, connectorId, result.maxAmp);
     result.currentWatt = Utils.convertAmpToWatt(chargingStation, chargePoint, connectorId, result.currentAmp);

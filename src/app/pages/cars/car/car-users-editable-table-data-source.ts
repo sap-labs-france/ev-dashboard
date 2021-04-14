@@ -189,7 +189,7 @@ export class CarUsersEditableTableDataSource extends EditableTableDataSource<Use
       // Remove
       case ButtonAction.REMOVE:
         // Empty?
-        if (this.getSelectedRows().length === 0) {
+        if (Utils.isEmptyArray(this.getSelectedRows())) {
           this.messageService.showErrorMessage(this.translateService.instant('general.select_at_least_one_record'));
         } else {
           // Remove
@@ -216,11 +216,11 @@ export class CarUsersEditableTableDataSource extends EditableTableDataSource<Use
       filter['NotAssignedToCarID'] = this.carID;
     }
     const addedUsers = this.getAddedCarUsers();
-    if (addedUsers.length > 0) {
+    if (!Utils.isEmptyArray(addedUsers)) {
       filter['ExcludeUserIDs'] = addedUsers.map((carUser) => carUser.user.id).join('|');
     }
     const removedUsers = this.getRemovedCarUsers();
-    if (removedUsers.length > 0) {
+    if (!Utils.isEmptyArray(removedUsers)) {
       filter['IncludeCarUserIDs'] = removedUsers.map((carUser) => carUser.user.id).join('|');
     }
     // Set data

@@ -4,6 +4,7 @@ import { DialogData } from 'types/Authorization';
 
 import { Asset } from '../../../types/Asset';
 import { KeyValue } from '../../../types/GlobalType';
+import { Utils } from '../../../utils/Utils';
 import { DialogTableDataComponent } from '../dialog-table-data.component';
 import { AssetsDialogTableDataSource } from './assets-dialog-table-data-source';
 
@@ -21,12 +22,12 @@ export class AssetsDialogComponent extends DialogTableDataComponent<Asset> {
     if (this.title === '') {
       this.title = 'assets.select_assets';
     }
-    this.assetsDataSource.destroyDatasource();
+    this.assetsDataSource.destroyDataSource();
   }
 
   public getSelectedItems(selectedRows: Asset[]): KeyValue[] {
     const items = [];
-    if (selectedRows && selectedRows.length > 0) {
+    if (!Utils.isEmptyArray(selectedRows)) {
       selectedRows.forEach((row) => {
         items.push({ key: row.id, value: row.id, objectRef: row });
       });

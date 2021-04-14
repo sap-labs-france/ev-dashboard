@@ -293,7 +293,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
       if (this.isAdmin) {
         moreActions.addActionInMoreActions(this.navigateToLogsAction);
       }
-      if (moreActions.getActionsInMoreActions().length > 0) {
+      if (!Utils.isEmptyArray(moreActions.getActionsInMoreActions())) {
         rowActions.push(moreActions.getActionDef());
       }
       if (this.authorizationService.canDeleteTransaction()) {

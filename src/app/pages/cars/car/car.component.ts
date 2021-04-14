@@ -230,7 +230,7 @@ export class CarComponent implements OnInit {
     };
     // Open
     this.dialog.open(CarCatalogsDialogComponent, dialogConfig).afterClosed().subscribe((result) => {
-      if (result && result.length > 0 && result[0] && result[0].objectRef) {
+      if (!Utils.isEmptyArray(result) && result[0].objectRef) {
         const carCatalog: CarCatalog = (result[0].objectRef) as CarCatalog;
         this.carCatalogID.setValue(result[0].key);
         this.carCatalog.setValue(Utils.buildCarCatalogName(carCatalog));

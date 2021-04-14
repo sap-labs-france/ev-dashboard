@@ -664,7 +664,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
           this.integrationConnections = null;
           this.refundConnection = null;
           this.isRefundConnectionValid = false;
-          if (connectionResult && connectionResult.result && connectionResult.result.length > 0) {
+          if (connectionResult && !Utils.isEmptyArray(connectionResult.result)) {
             for (const connection of connectionResult.result) {
               if (connection.connectorId === 'concur') {
                 this.refundConnection = connection;

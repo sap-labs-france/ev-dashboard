@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import { KeyValue } from '../../../types/GlobalType';
 import { RefundReport } from '../../../types/Refund';
+import { Utils } from '../../../utils/Utils';
 import { DialogTableDataComponent } from '../dialog-table-data.component';
 import { ReportsDialogTableDataSource } from './reports-dialog-table-data-source';
 
@@ -19,12 +20,12 @@ export class ReportsDialogComponent extends DialogTableDataComponent<RefundRepor
     if (this.title === '') {
       this.title = 'transactions.select_report';
     }
-    this.transactionsListTableDataSource.destroyDatasource();
+    this.transactionsListTableDataSource.destroyDataSource();
   }
 
   public getSelectedItems(selectedRows: RefundReport[]): KeyValue[] {
     const items: KeyValue[] = [];
-    if (selectedRows && selectedRows.length > 0) {
+    if (!Utils.isEmptyArray(selectedRows)) {
       selectedRows.forEach((row) => {
         items.push({ key: row.id, value: `${row.id}`, objectRef: row });
       });

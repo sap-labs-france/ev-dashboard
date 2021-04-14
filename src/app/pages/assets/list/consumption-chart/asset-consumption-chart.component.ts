@@ -206,7 +206,7 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
   }
 
   private canDisplayGraph() {
-    return this.asset && this.asset.values && this.asset.values.length > 1;
+    return this.asset?.values?.length > 1;
   }
 
   private refreshDataSets() {
@@ -221,7 +221,7 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
       const stateOfChargeDataSet = this.getDataSet('stateOfCharge');
       const labels: number[] = [];
       // Add last point
-      if (this.asset.values.length > 0) {
+      if (!Utils.isEmptyArray(this.asset.values)) {
         this.asset.values.push({
           ...this.asset.values[this.asset.values.length - 1],
           startedAt: this.asset.values[this.asset.values.length - 1].endedAt,
@@ -239,14 +239,14 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
           if (consumption.limitWatts) {
             limitWattsDataSet.push(consumption.limitWatts);
           } else {
-            limitWattsDataSet.push(limitWattsDataSet.length > 0 ? limitWattsDataSet[limitWattsDataSet.length - 1] : 0);
+            limitWattsDataSet.push(!Utils.isEmptyArray(limitWattsDataSet) ? limitWattsDataSet[limitWattsDataSet.length - 1] : 0);
           }
         }
         if (limitAmpsDataSet) {
           if (consumption.limitAmps) {
             limitAmpsDataSet.push(consumption.limitAmps);
           } else {
-            limitAmpsDataSet.push(limitAmpsDataSet.length > 0 ? limitAmpsDataSet[limitAmpsDataSet.length - 1] : 0);
+            limitAmpsDataSet.push(!Utils.isEmptyArray(limitAmpsDataSet) ? limitAmpsDataSet[limitAmpsDataSet.length - 1] : 0);
           }
         }
         if (stateOfChargeDataSet) {
@@ -319,7 +319,7 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
             return '';
           },
           title: (item: ChartTooltipItem[], data: ChartData) => {
-            if (data.labels && data.labels.length > 0) {
+            if (!Utils.isEmptyArray(data.labels)) {
               const firstDate = new Date(data.labels[0] as number);
               if (!Utils.isUndefined(item[0].index)) {
                 const currentDate = new Date(data.labels[item[0].index] as number);

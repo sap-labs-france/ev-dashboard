@@ -23,6 +23,9 @@ import { Constants } from './Constants';
 
 export class Utils {
   public static isEmptyArray(array: any[]): boolean {
+    if (!array) {
+      return true;
+    }
     if (Array.isArray(array) && array.length > 0) {
       return false;
     }
@@ -623,7 +626,7 @@ export class Utils {
     }
     // Build first user name
     let usersName = Utils.buildUserFullName(users[0]);
-    // Add number of remaing users
+    // Add number of remaining users
     if (users.length > 1) {
       usersName += ` (+${users.length - 1})`;
     }

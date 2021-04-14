@@ -175,7 +175,7 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
         this.manualConfiguration.setValue(this.chargingStation.manualConfiguration);
       }
       // If no charge points are available, charging station is manual configurable
-      if (!this.chargingStation.chargePoints || Utils.isEmptyArray(this.chargingStation.chargePoints)) {
+      if (Utils.isEmptyArray(this.chargingStation.chargePoints)) {
         this.manualConfiguration.setValue(true);
       }
       if (this.chargingStation.maximumPower) {
@@ -211,7 +211,7 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
   }
 
   public connectorChanged() {
-    if (!this.chargingStation.chargePoints || this.chargingStation.chargePoints.length === 0) {
+    if (Utils.isEmptyArray(this.chargingStation.chargePoints)) {
       let totalPower = 0;
       for (const connectorControl of this.connectors.controls) {
         if (connectorControl.get('power').value as number > 0) {
@@ -259,7 +259,7 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
     };
     // Open
     this.dialog.open(SiteAreasDialogComponent, dialogConfig).afterClosed().subscribe((result) => {
-      if (result && result.length > 0 && result[0] && result[0].objectRef) {
+      if (!Utils.isEmptyArray(result) && result[0].objectRef) {
         this.chargingStation.siteArea = ((result[0].objectRef) as SiteArea);
         this.siteArea.setValue(this.chargingStation.siteArea.name);
         this.siteAreaID.setValue(this.chargingStation.siteArea.id);
@@ -320,7 +320,7 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
   }
 
   public manualConfigurationChanged(checked: boolean) {
-    if (this.chargingStation.chargePoints.length > 0 && checked) {
+    if (!Utils.isEmptyArray(this.chargingStation.chargePoints) && checked) {
       // Show yes/no dialog
       this.dialogService.createAndShowYesNoDialog(
         this.translateService.instant('chargers.dialog.enable_manual_configuration.title'),

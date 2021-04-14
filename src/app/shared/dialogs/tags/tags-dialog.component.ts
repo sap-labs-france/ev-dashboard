@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import { KeyValue } from '../../../types/GlobalType';
 import { Tag } from '../../../types/Tag';
+import { Utils } from '../../../utils/Utils';
 import { DialogTableDataComponent } from '../dialog-table-data.component';
 import { TagsDialogTableDataSource } from './tags-dialog-table-data-source';
 
@@ -19,12 +20,12 @@ export class TagsDialogComponent extends DialogTableDataComponent<Tag> {
     if (this.title === '') {
       this.title = 'tags.select_tags';
     }
-    this.tagsDialogTableDataSource.destroyDatasource();
+    this.tagsDialogTableDataSource.destroyDataSource();
   }
 
   public getSelectedItems(selectedRows: Tag[]): KeyValue[] {
     const items: KeyValue[] = [];
-    if (selectedRows && selectedRows.length > 0) {
+    if (!Utils.isEmptyArray(selectedRows)) {
       selectedRows.forEach((row) => {
         items.push({ key: row.id, value: row.id, objectRef: row });
       });

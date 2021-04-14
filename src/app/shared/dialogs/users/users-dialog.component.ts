@@ -20,12 +20,12 @@ export class UsersDialogComponent extends DialogTableDataComponent<User> {
     if (this.title === '') {
       this.title = 'users.select_users';
     }
-    this.usersListTableDataSource.destroyDatasource();
+    this.usersListTableDataSource.destroyDataSource();
   }
 
   public getSelectedItems(selectedRows: User[]): KeyValue[] {
     const items: KeyValue[] = [];
-    if (selectedRows && selectedRows.length > 0) {
+    if (!Utils.isEmptyArray(selectedRows)) {
       selectedRows.forEach((row) => {
         items.push({ key: row.id, value: Utils.buildUserFullName(row), objectRef: row });
       });

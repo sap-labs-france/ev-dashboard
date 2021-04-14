@@ -123,7 +123,7 @@ export class SiteComponent implements OnInit {
     };
     // Open
     this.dialog.open(CompaniesDialogComponent, dialogConfig).afterClosed().subscribe((result) => {
-      if (result && result.length > 0 && result[0] && result[0].objectRef) {
+      if (!Utils.isEmptyArray(result) && result[0].objectRef) {
         const company: Company = (result[0].objectRef) as Company;
         this.company.setValue(company.name);
         this.companyID.setValue(company.id);

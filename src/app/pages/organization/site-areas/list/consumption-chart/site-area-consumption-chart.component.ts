@@ -190,7 +190,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
   }
 
   private canDisplayGraph() {
-    return this.siteArea && this.siteArea.values && this.siteArea.values.length > 1;
+    return this.siteArea?.values?.length > 1;
   }
 
   private refreshDataSets() {
@@ -215,14 +215,14 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
           if (consumption.limitWatts) {
             limitWattsDataSet.push(consumption.limitWatts);
           } else {
-            limitWattsDataSet.push(limitWattsDataSet.length > 0 ? limitWattsDataSet[limitWattsDataSet.length - 1] : 0);
+            limitWattsDataSet.push(!Utils.isEmptyArray(limitWattsDataSet) ? limitWattsDataSet[limitWattsDataSet.length - 1] : 0);
           }
         }
         if (limitAmpsDataSet) {
           if (consumption.limitAmps) {
             limitAmpsDataSet.push(consumption.limitAmps);
           } else {
-            limitAmpsDataSet.push(limitAmpsDataSet.length > 0 ? limitAmpsDataSet[limitAmpsDataSet.length - 1] : 0);
+            limitAmpsDataSet.push(!Utils.isEmptyArray(limitAmpsDataSet) ? limitAmpsDataSet[limitAmpsDataSet.length - 1] : 0);
           }
         }
       }
@@ -286,7 +286,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
             return '';
           },
           title: (item: ChartTooltipItem[], data: ChartData) => {
-            if (data.labels && data.labels.length > 0) {
+            if (!Utils.isEmptyArray(data.labels)) {
               const firstDate = new Date(data.labels[0] as number);
               if (!Utils.isUndefined(item[0].index)) {
                 const currentDate = new Date(data.labels[item[0].index] as number);

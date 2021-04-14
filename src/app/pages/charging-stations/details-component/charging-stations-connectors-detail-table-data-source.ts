@@ -28,6 +28,7 @@ import { DataResult } from '../../../types/DataResult';
 import { TableActionDef, TableColumnDef, TableDef } from '../../../types/Table';
 import { TransactionButtonAction } from '../../../types/Transaction';
 import { User } from '../../../types/User';
+import { Utils } from '../../../utils/Utils';
 import { ChargingStationsConnectorCellComponent } from '../cell-components/charging-stations-connector-cell.component';
 import { ChargingStationsConnectorStatusCellComponent } from '../cell-components/charging-stations-connector-status-cell.component';
 import { ChargingStationsInstantPowerConnectorProgressBarCellComponent } from '../cell-components/charging-stations-instant-power-connector-progress-bar-cell.component';
@@ -206,7 +207,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
         actions.push(unlockConnectorAction);
       }
     }
-    if (actions.length > 0) {
+    if (!Utils.isEmptyArray(actions)) {
       return actions;
     }
     // By default no actions

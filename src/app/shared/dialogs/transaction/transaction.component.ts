@@ -86,7 +86,7 @@ export class TransactionComponent implements OnInit, OnDestroy {
     if (!this.transactionID) {
       this.centralServerService.getLastTransaction(this.chargingStationID, this.connectorID)
         .subscribe((dataResult) => {
-          if (dataResult.result && dataResult.result.length > 0) {
+          if (!Utils.isEmptyArray(dataResult.result)) {
             this.transactionID = Utils.convertToInteger(dataResult.result[0].id);
             this.loadConsumption(this.transactionID);
           } else {

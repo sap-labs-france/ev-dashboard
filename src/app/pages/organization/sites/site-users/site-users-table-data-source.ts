@@ -150,7 +150,7 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
       // Remove
       case ButtonAction.REMOVE:
         // Empty?
-        if (this.getSelectedRows().length === 0) {
+        if (Utils.isEmptyArray(this.getSelectedRows())) {
           this.messageService.showErrorMessage(this.translateService.instant('general.select_at_least_one_record'));
         } else {
           // Confirm
@@ -214,7 +214,7 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
 
   private addUsers(users: User[]) {
     // Check
-    if (users && users.length > 0) {
+    if (!Utils.isEmptyArray(users)) {
       // Get the IDs
       const userIDs = users.map((user) => user.key);
       // Yes: Update

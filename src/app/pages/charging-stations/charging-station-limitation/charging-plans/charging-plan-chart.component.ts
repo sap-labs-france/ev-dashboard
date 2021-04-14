@@ -133,7 +133,7 @@ export class ChargingPlanChartComponent implements OnChanges {
         } as number & ChartPoint);
       }
       // Create the last Schedule point with the last duration
-      if (chargingSlotDataSet.data && this.chargingSchedules.length > 0) {
+      if (chargingSlotDataSet.data && !Utils.isEmptyArray(this.chargingSchedules)) {
         const chargingSlot = this.chargingSchedules[this.chargingSchedules.length - 1];
         labels.push(chargingSlot.startDate.getTime() + chargingSlot.duration * 60 * 1000);
         chargingSlotDataSet.data.push({

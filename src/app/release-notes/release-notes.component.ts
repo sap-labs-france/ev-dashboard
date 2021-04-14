@@ -35,6 +35,7 @@ export class ReleaseNotesComponent {
               `Fixed certified Transaction with Eichrecht Signed Data`,
               `Wrapped exported CSV data in double quotes (avoid to have the comma separator in the data)`,
               `Added new RESTful endpoints for Billing`,
+              `Added the Export of Sessions authorization for Basic users`,
               `Display explicit message when error occurred during Tenant creation`,
               `Do not try to retrieve the default Car in OCPP Start Transaction when no User has been found`,
             ],

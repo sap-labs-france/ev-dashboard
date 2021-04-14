@@ -32,6 +32,7 @@ export class ReleaseNotesComponent {
             changes: [
               `Auto compute Max Power of Charging Station when manually configured`,
               `Forbid Start of Transaction if OCPI didn't provide a valid authorization ID`,
+              `Ensured that the connector's minimum amperage limit is always the EV Ready one (never 0A)`,
               `Fixed certified Transaction with Eichrecht Signed Data`,
               `Wrapped exported CSV data in double quotes (avoid to have the comma separator in the data)`,
               `Added new RESTful endpoints for Billing`,

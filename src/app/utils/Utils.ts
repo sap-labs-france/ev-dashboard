@@ -225,16 +225,13 @@ export class Utils {
         chargingStation, chargePoint, connectorId, result.currentAmp);
       return result;
     }
+    const chargingStationAmperageLimit = Utils.getChargingStationAmperageLimit(chargingStation, chargePoint, connectorId);
     // Use Limit Amps
     if (forChargingProfile) {
-      result.maxAmp = Utils.getChargingStationAmperageLimit(chargingStation, chargePoint, connectorId);
+      result.maxAmp = chargingStationAmperageLimit;
     } else {
-      result.currentAmp = Utils.getChargingStationAmperageLimit(chargingStation, chargePoint, connectorId);
+      result.currentAmp = chargingStationAmperageLimit;
       result.maxAmp = Utils.getChargingStationAmperage(chargingStation, chargePoint, connectorId);
-    }
-    // Default
-    if (result.currentAmp === 0) {
-      result.currentAmp = result.maxAmp;
     }
     result.minWatt = Utils.convertAmpToWatt(chargingStation, chargePoint, connectorId, result.minAmp);
     result.maxWatt = Utils.convertAmpToWatt(chargingStation, chargePoint, connectorId, result.maxAmp);
@@ -582,6 +579,11 @@ export class Utils {
           amperageLimit += connector.amperageLimit;
         }
       }
+    }
+    const amperageMax = Utils.getChargingStationAmperage(chargingStation, chargePoint, connectorId);
+    // Check and default
+    if (amperageLimit === 0 || amperageLimit > amperageMax) {
+      amperageLimit = amperageMax;
     }
     return amperageLimit;
   }

@@ -24,6 +24,18 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.61',
+        date: new Date('2021-04-15'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Add DBT-CEV and EVMeter Charging Station's vendors`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.60',
         date: new Date('2021-04-14'),
         componentChanges: [

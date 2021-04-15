@@ -32,6 +32,7 @@ export class ReleaseNotesComponent {
             changes: [
               `Add DBT-CEV and EVMeter Charging Station's vendors`,
               `Fixed Tag Import Mime type check in Windows`,
+              `Billing Stripe's settings refactoring`,
             ],
           },
         ],

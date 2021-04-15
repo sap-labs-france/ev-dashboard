@@ -107,9 +107,6 @@ export class ComponentService {
     if (settings.type === BillingSettingsType.STRIPE) {
       settingsToSave.sensitiveData = ['content.stripe.secretKey'];
     }
-    // Set some temporary defaults
-    settingsToSave.content.stripe.noCardAllowed = true;
-    settingsToSave.content.stripe.advanceBillingAllowed = false;
     // Delete IDS
     delete settingsToSave.content.id;
     delete settingsToSave.content.identifier;
@@ -282,6 +279,10 @@ export class ComponentService {
           // ID
           billingSettings.id = settings.id;
           billingSettings.sensitiveData = settings.sensitiveData;
+          // billing common properties
+          if (config.billing) {
+            billingSettings.billing = config.billing;
+          }
           // Stripe
           if (config.stripe) {
             billingSettings.type = BillingSettingsType.STRIPE;

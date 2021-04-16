@@ -31,6 +31,7 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Billing - Handle the Production Mode flag in the Settings`,
+              `Optimized Car Catalog Image loading`,
             ],
           },
         ],

@@ -22,7 +22,6 @@ export class TransactionDialogComponent {
       this.transactionID = data.transactionID;
       this.chargingStationID = data.chargingStationID;
       this.connectorID = data.connectorID;
-      this.transactionID = data.id as number;
     }
     Utils.registerCloseKeyEvents(this.dialogRef);
   }

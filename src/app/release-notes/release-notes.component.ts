@@ -32,7 +32,8 @@ export class ReleaseNotesComponent {
             changes: [
               `Billing - Handle the Production Mode flag in the Settings`,
               `Optimized Car Catalog Image loading`,
-              `Put min amperage limit to 6A intead of 13A per phase`
+              `Put min amperage limit to 6A intead of 13A per phase`,
+              `Fixed minor bugs`,
             ],
           },
         ],

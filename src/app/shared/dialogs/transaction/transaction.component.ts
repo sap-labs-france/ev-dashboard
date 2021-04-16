@@ -83,6 +83,13 @@ export class TransactionComponent implements OnInit, OnDestroy {
 
   public loadData() {
     this.spinnerService.show();
+    console.log(
+      {
+        transactionID: this.transactionID,
+        chargingStationID: this.chargingStationID,
+        connectorID: this.connectorID
+      }
+    );
     if (!this.transactionID) {
       this.centralServerService.getLastTransaction(this.chargingStationID, this.connectorID)
         .subscribe((dataResult) => {

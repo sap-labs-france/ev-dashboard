@@ -25,7 +25,7 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.4.62',
-        date: new Date('2021-04-16'),
+        date: new Date('2021-04-17'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -33,6 +33,7 @@ export class ReleaseNotesComponent {
               `Billing - Handle the Production Mode flag in the Settings`,
               `Optimized Car Catalog Image loading`,
               `Put min amperage limit to 6A intead of 13A per phase`,
+              `Fixed cannot display ongoing Session from Charging Station's connector`,
               `Fixed minor bugs`,
             ],
           },

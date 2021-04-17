@@ -24,6 +24,24 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.62',
+        date: new Date('2021-04-17'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Handle the Billing Production Mode flag in the Settings`,
+              `Added broader firmware version for Exadys Charging Station`,
+              `Put min amperage limit to 6A intead of 13A per phase`,
+              `Fixed missing transaction's extra inactivity information + Formating of medium/high inactivity`,
+              `Fixed cannot display ongoing Session from Charging Station's connector`,
+              `Optimized Car Catalog Image loading`,
+              `Fixed minor bugs`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.61',
         date: new Date('2021-04-15'),
         componentChanges: [

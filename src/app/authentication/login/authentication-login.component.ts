@@ -51,7 +51,8 @@ export class AuthenticationLoginComponent implements OnInit, OnDestroy {
     private windowService: WindowService,
     private translateService: TranslateService,
     private authorizationService: AuthorizationService) {
-
+    // Reset the spinner
+    this.spinnerService.hide();
     // Set
     this.nativeElement = element.nativeElement;
     this.sidebarVisible = false;

@@ -25,7 +25,7 @@
         <div class="card-body">
           <div class="row pt-3">
             <app-charging-station-power-slider class="col-md-12" [chargingStation]="chargingStation"
-              [chargePoint]="chargePoint" (silderChanged)="powerSliderChanged(chargePoint, $event)">
+              [chargePoint]="chargePoint" (sliderChangedEmitter)="powerSliderChanged(chargePoint, $event)">
             </app-charging-station-power-slider>
           </div>
           <div class="col-md-12 text-right">

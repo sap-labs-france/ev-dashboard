@@ -634,7 +634,7 @@ export class CentralServerService {
 
   public getLastTransaction(chargingStationID: string, connectorID: number): Observable<DataResult<Transaction>> {
     const params: { [param: string]: string } = {};
-    params['ConnectorId'] = connectorID.toString();
+    params['ConnectorID'] = connectorID.toString();
     params['Limit'] = '1';
     params['Skip'] = '0';
     params['SortFields'] = '-timestamp';

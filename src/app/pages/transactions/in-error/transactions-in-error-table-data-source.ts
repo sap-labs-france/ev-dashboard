@@ -319,7 +319,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
       case TransactionButtonAction.VIEW_TRANSACTION:
         if (actionDef.action) {
           (actionDef as TableViewTransactionActionDef).action(TransactionDialogComponent, this.dialog,
-            { id: transaction.id, canUpdate: false }, this.refreshData.bind(this));
+            { transactionID: transaction.id, canUpdate: false }, this.refreshData.bind(this));
         }
         break;
       case TransactionButtonAction.CREATE_TRANSACTION_INVOICE:

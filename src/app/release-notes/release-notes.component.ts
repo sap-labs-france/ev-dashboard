@@ -30,11 +30,12 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
-              `Billing - Handle the Production Mode flag in the Settings`,
-              `Optimized Car Catalog Image loading`,
+              `Handle the Billing Production Mode flag in the Settings`,
+              `Added broader firmware version for Exadys Charging Station`,
               `Put min amperage limit to 6A intead of 13A per phase`,
               `Fixed missing transaction's extra inactivity information + Formating of medium/high inactivity`,
               `Fixed cannot display ongoing Session from Charging Station's connector`,
+              `Optimized Car Catalog Image loading`,
               `Fixed minor bugs`,
             ],
           },

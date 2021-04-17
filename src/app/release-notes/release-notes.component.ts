@@ -33,6 +33,7 @@ export class ReleaseNotesComponent {
               `Billing - Handle the Production Mode flag in the Settings`,
               `Optimized Car Catalog Image loading`,
               `Put min amperage limit to 6A intead of 13A per phase`,
+              `Fixed missing transaction's extra inactivity information + Formating of medium/high inactivity`,
               `Fixed cannot display ongoing Session from Charging Station's connector`,
               `Fixed minor bugs`,
             ],

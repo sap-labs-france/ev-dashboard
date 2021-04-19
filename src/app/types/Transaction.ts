@@ -47,6 +47,7 @@ export interface Transaction extends Data, AbstractCurrentConsumption {
     totalConsumptionWh: number;
     stateOfCharge: number;
     totalInactivitySecs: number;
+    extraInactivitySecs?: number;
     totalDurationSecs: number;
     price: number;
     priceUnit: string;

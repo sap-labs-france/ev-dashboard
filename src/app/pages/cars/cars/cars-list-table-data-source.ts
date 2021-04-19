@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { TableMoreAction } from 'shared/table/actions/table-more-action';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
@@ -283,11 +284,19 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
     ];
   }
 
-  public buildTableRowActions(): TableActionDef[] {
-    return [
-      this.editAction,
-      this.deleteAction,
-    ];
+  public buildTableDynamicRowActions(car: Car): TableActionDef[] {
+    const actions: TableActionDef[] = [];
+    const moreActions = new TableMoreAction([]);
+    if (this.authorizationService.canUpdateCar()) {
+      actions.push(this.editAction);
+    }
+    if (this.authorizationService.canDeleteCar()) {
+      moreActions.addActionInMoreActions(this.deleteAction);
+    }
+    if (!Utils.isEmptyArray(moreActions.getActionsInMoreActions())) {
+      actions.push(moreActions.getActionDef());
+    }
+    return actions;
   }
 
   public rowActionTriggered(actionDef: TableActionDef, car: Car) {

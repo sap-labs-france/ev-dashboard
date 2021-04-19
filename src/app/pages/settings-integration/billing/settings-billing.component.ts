@@ -12,7 +12,7 @@ import { TableSyncBillingInvoicesAction } from '../../../shared/table/actions/in
 import { TableSyncBillingUsersAction } from '../../../shared/table/actions/users/table-sync-billing-users-action';
 import { RestResponse } from '../../../types/GlobalType';
 import { HTTPError } from '../../../types/HTTPError';
-import { BillingSettings, BillingSettingsType } from '../../../types/Setting';
+import { BillingSetting, BillingSettings, BillingSettingsType, StripeBillingSetting } from '../../../types/Setting';
 import TenantComponents from '../../../types/TenantComponents';
 import { Utils } from '../../../utils/Utils';
 
@@ -68,14 +68,21 @@ export class SettingsBillingComponent implements OnInit {
     });
   }
 
-  public save(content: BillingSettings) {
-    // Stripe
-    if (content.stripe) {
-      this.billingSettings.type = BillingSettingsType.STRIPE;
-      this.billingSettings.stripe = content.stripe;
-    } else {
-      return;
+  public save(newSettings: any) {
+    if (!newSettings.stripe) {
+      return ;
     }
+    const { immediateBillingAllowed, periodicBillingAllowed, taxID } = newSettings.stripe; // TODO - ?? newSettings.billing?
+    const billing: BillingSetting = {
+      immediateBillingAllowed, periodicBillingAllowed, taxID
+    };
+    const { url, publicKey, secretKey } = newSettings.stripe;
+    const stripe: StripeBillingSetting  = {
+      url, publicKey, secretKey
+    };
+    this.billingSettings.type = BillingSettingsType.STRIPE;
+    this.billingSettings.billing = billing;
+    this.billingSettings.stripe = stripe;
     // Save
     this.spinnerService.show();
     this.componentService.saveBillingSettings(this.billingSettings).subscribe((response) => {

@@ -42,9 +42,7 @@ export class TransactionComponent implements OnInit, OnDestroy {
   public carImage = Constants.NO_CAR_IMAGE;
   public isStoppedByAnotherUser = false;
   public totalConsumptionWh!: number;
-  public totalInactivitySecs!: number;
   public totalDurationSecs!: number;
-  public percentOfInactivity!: string;
   public locale!: string;
   public isCarComponentActive: boolean;
   public canDisplayCar: boolean;
@@ -116,17 +114,13 @@ export class TransactionComponent implements OnInit, OnDestroy {
         this.stateOfCharge = transaction.stateOfCharge;
         this.endStateOfCharge = transaction.stop.stateOfCharge;
         this.totalDurationSecs = transaction.stop.totalDurationSecs;
-        this.totalInactivitySecs = transaction.stop.totalInactivitySecs;
         this.isStoppedByAnotherUser = (transaction.user && transaction.user.id !== transaction.stop.user.id);
       } else {
         this.totalConsumptionWh = transaction.currentTotalConsumptionWh;
         this.stateOfCharge = transaction.stateOfCharge;
         this.endStateOfCharge = transaction.currentStateOfCharge;
         this.totalDurationSecs = transaction.currentTotalDurationSecs;
-        this.totalInactivitySecs = transaction.currentTotalInactivitySecs;
       }
-      this.percentOfInactivity =
-        ` (${this.appPercentPipe.transform(this.totalDurationSecs > 0 ? this.totalInactivitySecs / this.totalDurationSecs : 0, '1.0-0')})`;
       if (Utils.objectHasProperty(transaction, 'stateOfCharge')) {
         if (this.stateOfCharge === 100) {
           this.stateOfChargeIcon = 'battery_full';

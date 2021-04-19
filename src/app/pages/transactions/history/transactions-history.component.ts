@@ -25,7 +25,7 @@ export class TransactionsHistoryComponent implements OnInit {
     const transactionID = Utils.convertToInteger(this.windowService.getSearch('TransactionID'));
     if (transactionID) {
       const viewAction = new TableViewTransactionAction().getActionDef();
-      viewAction.action(TransactionDialogComponent, this.dialog, { id: transactionID });
+      viewAction.action(TransactionDialogComponent, this.dialog, { transactionID });
       // Clear Search
       this.windowService.deleteSearch('TransactionID');
     }

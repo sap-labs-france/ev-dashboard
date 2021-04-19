@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { TableMoreAction } from 'shared/table/actions/table-more-action';
+
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -28,7 +29,6 @@ import { User, UserCar } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';
 import { CarDialogComponent } from '../car/car.dialog.component';
 import { CarCatalogImageFormatterCellComponent } from '../cell-components/car-catalog-image-formatter-cell.component';
-
 
 @Injectable()
 export class CarsListTableDataSource extends TableDataSource<Car> {

@@ -21,7 +21,7 @@ export class SiteUsersDialogComponent {
 
     if (data) {
       this.siteUsersTableDataSource.setSite(data);
-      this.dialogTitle = this.translateService.instant('sites.assigned_users_to_site', {siteName: data.name});
+      this.dialogTitle = this.translateService.instant('sites.assigned_users_to_site', {siteName: data.titleData});
     } else {
       this.dialogTitle = this.translateService.instant('sites.users');
     }

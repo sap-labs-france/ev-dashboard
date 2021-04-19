@@ -4,7 +4,6 @@ import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dial
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 
-import { AuthorizationService } from '../../../../services/authorization.service';
 import { CentralServerService } from '../../../../services/central-server.service';
 import { ConfigService } from '../../../../services/config.service';
 import { DialogService } from '../../../../services/dialog.service';
@@ -27,6 +26,7 @@ export class SiteComponent implements OnInit {
   @Input() public currentSiteID!: string;
   @Input() public inDialog!: boolean;
   @Input() public dialogRef!: MatDialogRef<any>;
+  @Input() public canUpdateSite: boolean;
 
   public image = Constants.NO_IMAGE;
   public imageHasChanged = false;
@@ -41,11 +41,9 @@ export class SiteComponent implements OnInit {
   public public!: AbstractControl;
 
   public address!: Address;
-  public canUpdateSite = false;
   public canCreateSite = false;
 
   public constructor(
-    private authorizationService: AuthorizationService,
     private centralServerService: CentralServerService,
     private messageService: MessageService,
     private spinnerService: SpinnerService,
@@ -57,8 +55,7 @@ export class SiteComponent implements OnInit {
     private router: Router) {
     this.maxSize = this.configService.getSite().maxPictureKb;
     // Check auth
-    if (this.activatedRoute.snapshot.params['id'] &&
-      !authorizationService.canUpdateSite()) {
+    if (this.activatedRoute.snapshot.params['id']) {
       // Not authorized
       this.router.navigate(['/']);
     }
@@ -181,9 +178,7 @@ export class SiteComponent implements OnInit {
       this.centralServerService.getSiteImage(this.currentSiteID).subscribe((siteImage) => {
         this.image = siteImage ? siteImage : Constants.NO_IMAGE;
       });
-      this.canUpdateSite = site.canUpdate ||
-      this.authorizationService.isSiteAdmin(this.currentSiteID) ||
-      this.authorizationService.isSiteOwner(this.currentSiteID);
+      this.canUpdateSite = site.canUpdate;
       this.canCreateSite = site.canCreate;
       if (!this.canUpdateSite) {
         this.formGroup.disable();

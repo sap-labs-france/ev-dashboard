@@ -3,7 +3,7 @@ import { SortDirection } from '@angular/material/sort';
 import * as moment from 'moment';
 
 import { AssetButtonAction } from './Asset';
-import { AuthorizationActions } from './Authorization';
+import { AuthorizationActions, SiteAuthorizationActions } from './Authorization';
 import { BillingButtonAction } from './Billing';
 import { CarButtonAction } from './Car';
 import { ChargingStationButtonAction } from './ChargingStation';
@@ -25,6 +25,9 @@ export interface Data extends AuthorizationActions {
   isSelected?: boolean;
   isSelectable?: boolean;
   isExpanded?: boolean;
+}
+
+export interface SiteData extends Data, SiteAuthorizationActions {
 }
 
 export interface TableFilterDef {

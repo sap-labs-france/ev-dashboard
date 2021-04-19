@@ -1,21 +1,23 @@
 import { AfterViewInit, Component, Inject, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { DialogData } from 'types/Authorization';
+import { SiteDialogData } from 'types/Authorization';
 
 import { Utils } from '../../../../utils/Utils';
 import { SiteComponent } from './site.component';
 
 @Component({
-  template: '<app-site #appRef [currentSiteID]="siteID" [inDialog]="true" [dialogRef]="dialogRef"></app-site>',
+  template: '<app-site #appRef [currentSiteID]="siteID" [canUpdateSite]="canUpdateSite" [inDialog]="true" [dialogRef]="dialogRef"></app-site>',
 })
 export class SiteDialogComponent implements AfterViewInit {
   @ViewChild('appRef') public appRef!: SiteComponent;
   public siteID!: string;
+  public canUpdateSite: boolean;
 
   public constructor(
     public dialogRef: MatDialogRef<SiteDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data: DialogData) {
+    @Inject(MAT_DIALOG_DATA) data: SiteDialogData) {
     this.siteID = data.id as string;
+    this.canUpdateSite = data.canUpdate;
   }
 
   public ngAfterViewInit() {

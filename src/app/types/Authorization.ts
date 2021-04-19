@@ -158,6 +158,15 @@ export interface AuthorizationActions {
   canDelete?: boolean;
 }
 
+export interface SiteAuthorizationActions extends AuthorizationActions {
+  canAssignUsers?: boolean;
+  canUnassignUsers?: boolean;
+}
+
 export interface DialogData extends AuthorizationActions {
   id?: string | number;
+}
+
+export interface SiteDialogData extends DialogData, SiteAuthorizationActions {
+  titleData?: string;
 }

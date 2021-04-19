@@ -24,6 +24,18 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.63',
+        date: new Date('2021-04-19'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Only Assets belonging to e-Moblity can be updated or deleted`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.62',
         date: new Date('2021-04-17'),
         componentChanges: [

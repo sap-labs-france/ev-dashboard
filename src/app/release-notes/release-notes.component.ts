@@ -31,6 +31,7 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Only Assets belonging to e-Moblity can be updated or deleted`,
+              `Billing - Added Stripe feature toggle`,
             ],
           },
         ],

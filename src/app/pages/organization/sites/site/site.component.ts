@@ -23,10 +23,9 @@ import { Utils } from '../../../../utils/Utils';
   templateUrl: 'site.component.html',
 })
 export class SiteComponent implements OnInit {
-  @Input() public currentSiteID!: string;
+  @Input() public site!: Site;
   @Input() public inDialog!: boolean;
   @Input() public dialogRef!: MatDialogRef<any>;
-  @Input() public canUpdateSite: boolean;
 
   public image = Constants.NO_IMAGE;
   public imageHasChanged = false;
@@ -41,7 +40,6 @@ export class SiteComponent implements OnInit {
   public public!: AbstractControl;
 
   public address!: Address;
-  public canCreateSite = false;
 
   public constructor(
     private centralServerService: CentralServerService,
@@ -87,11 +85,11 @@ export class SiteComponent implements OnInit {
     this.companyID = this.formGroup.controls['companyID'];
     this.autoUserSiteAssignment = this.formGroup.controls['autoUserSiteAssignment'];
     this.public = this.formGroup.controls['public'];
-    if (this.currentSiteID) {
+    if (this.site.id) {
       this.loadSite();
     } else if (this.activatedRoute && this.activatedRoute.params) {
       this.activatedRoute.params.subscribe((params: Params) => {
-        this.currentSiteID = params['id'];
+        this.site.id = params['id'];
         // this.loadSite();
       });
     }
@@ -101,8 +99,8 @@ export class SiteComponent implements OnInit {
     return this.inDialog;
   }
 
-  public setCurrentSiteId(currentSiteID: string) {
-    this.currentSiteID = currentSiteID;
+  public setSite(site: Site) {
+    this.site = site;
   }
 
   public assignCompany() {
@@ -134,66 +132,51 @@ export class SiteComponent implements OnInit {
   }
 
   public loadSite() {
-    if (!this.currentSiteID) {
+    if (!this.site.id) {
       return;
     }
-    this.spinnerService.show();
-    this.centralServerService.getSite(this.currentSiteID, false, true).subscribe((site) => {
-      this.spinnerService.hide();
-      // Init form
-      if (site.id) {
-        this.formGroup.controls.id.setValue(site.id);
-      }
-      if (site.name) {
-        this.formGroup.controls.name.setValue(site.name);
-      }
-      if (site.companyID) {
-        this.formGroup.controls.companyID.setValue(site.companyID);
-      }
-      if (site.company) {
-        this.formGroup.controls.company.setValue(site.company.name);
-      }
-      if (site.autoUserSiteAssignment) {
-        this.formGroup.controls.autoUserSiteAssignment.setValue(site.autoUserSiteAssignment);
-      } else {
-        this.formGroup.controls.autoUserSiteAssignment.setValue(false);
-      }
-      if (site.public) {
-        this.formGroup.controls.public.setValue(site.public);
-      } else {
-        this.formGroup.controls.public.setValue(false);
-      }
-      if (site.address) {
-        this.address = site.address;
-      }
-      // Cannot change roaming Site
-      if (!site.issuer) {
-        this.formGroup.disable();
-      } else {
-        this.formGroup.updateValueAndValidity();
-        this.formGroup.markAsPristine();
-        this.formGroup.markAllAsTouched();
-      }
-      // Get Site image
-      this.centralServerService.getSiteImage(this.currentSiteID).subscribe((siteImage) => {
-        this.image = siteImage ? siteImage : Constants.NO_IMAGE;
-      });
-      this.canUpdateSite = site.canUpdate;
-      this.canCreateSite = site.canCreate;
-      if (!this.canUpdateSite) {
-        this.formGroup.disable();
-      }
-    }, (error) => {
-      this.spinnerService.hide();
-      switch (error.status) {
-        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
-          this.messageService.showErrorMessage('sites.site_not_found');
-          break;
-        default:
-          Utils.handleHttpError(error, this.router, this.messageService,
-            this.centralServerService, 'general.unexpected_error_backend');
-      }
+
+    // Init form
+    if (this.site.id) {
+      this.formGroup.controls.id.setValue(this.site.id);
+    }
+    if (this.site.name) {
+      this.formGroup.controls.name.setValue(this.site.name);
+    }
+    if (this.site.companyID) {
+      this.formGroup.controls.companyID.setValue(this.site.companyID);
+    }
+    if (this.site.company) {
+      this.formGroup.controls.company.setValue(this.site.company.name);
+    }
+    if (this.site.autoUserSiteAssignment) {
+      this.formGroup.controls.autoUserSiteAssignment.setValue(this.site.autoUserSiteAssignment);
+    } else {
+      this.formGroup.controls.autoUserSiteAssignment.setValue(false);
+    }
+    if (this.site.public) {
+      this.formGroup.controls.public.setValue(this.site.public);
+    } else {
+      this.formGroup.controls.public.setValue(false);
+    }
+    if (this.site.address) {
+      this.address = this.site.address;
+    }
+    // Cannot change roaming Site
+    if (!this.site.issuer) {
+      this.formGroup.disable();
+    } else {
+      this.formGroup.updateValueAndValidity();
+      this.formGroup.markAsPristine();
+      this.formGroup.markAllAsTouched();
+    }
+    // Get Site image
+    this.centralServerService.getSiteImage(this.site.id).subscribe((siteImage) => {
+      this.image = siteImage ? siteImage : Constants.NO_IMAGE;
     });
+    if (!this.site.canUpdate) {
+      this.formGroup.disable();
+    }
   }
 
   public updateSiteImage(site: Site) {
@@ -218,7 +201,7 @@ export class SiteComponent implements OnInit {
   }
 
   public saveSite(site: Site) {
-    if (this.currentSiteID) {
+    if (this.site.id) {
       this.updateSite(site);
     } else {
       this.createSite(site);
@@ -274,7 +257,7 @@ export class SiteComponent implements OnInit {
       if (response.status === RestResponse.SUCCESS) {
         this.messageService.showSuccessMessage('sites.create_success',
           { siteName: site.name });
-        this.currentSiteID = site.id;
+        this.site.id = site.id;
         this.closeDialog(true);
       } else {
         Utils.handleError(JSON.stringify(response),

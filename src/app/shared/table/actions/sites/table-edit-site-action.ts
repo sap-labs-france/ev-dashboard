@@ -1,14 +1,13 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
-import { DialogData } from 'types/Authorization';
 
-import { SiteButtonAction } from '../../../../types/Site';
+import { Site, SiteButtonAction } from '../../../../types/Site';
 import { TableActionDef } from '../../../../types/Table';
 import { TableEditAction } from '../table-edit-action';
 
 export interface TableEditSiteActionDef extends TableActionDef {
-  action: (siteDialogComponent: ComponentType<unknown>, dialog: MatDialog, data: DialogData, refresh?: () => Observable<void>) => void;
+  action: (siteDialogComponent: ComponentType<unknown>, dialog: MatDialog, site: Site, refresh?: () => Observable<void>) => void;
 }
 
 export class TableEditSiteAction extends TableEditAction {
@@ -20,7 +19,7 @@ export class TableEditSiteAction extends TableEditAction {
     };
   }
 
-  private editSite(siteDialogComponent: ComponentType<unknown>, dialog: MatDialog, data: DialogData, refresh?: () => Observable<void>) {
-    super.edit(siteDialogComponent, dialog, data, refresh);
+  private editSite(siteDialogComponent: ComponentType<unknown>, dialog: MatDialog, site: Site, refresh?: () => Observable<void>) {
+    super.edit(siteDialogComponent, dialog, site, refresh);
   }
 }

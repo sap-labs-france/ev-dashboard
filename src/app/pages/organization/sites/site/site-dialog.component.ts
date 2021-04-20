@@ -6,18 +6,16 @@ import { Utils } from '../../../../utils/Utils';
 import { SiteComponent } from './site.component';
 
 @Component({
-  template: '<app-site #appRef [currentSiteID]="siteID" [canUpdateSite]="canUpdateSite" [inDialog]="true" [dialogRef]="dialogRef"></app-site>',
+  template: '<app-site #appRef [site]="site" [inDialog]="true" [dialogRef]="dialogRef"></app-site>',
 })
 export class SiteDialogComponent implements AfterViewInit {
   @ViewChild('appRef') public appRef!: SiteComponent;
-  public siteID!: string;
-  public canUpdateSite: boolean;
+  public site!: Site;
 
   public constructor(
     public dialogRef: MatDialogRef<SiteDialogComponent>,
     @Inject(MAT_DIALOG_DATA) site: Site) {
-    this.siteID = site.id as string;
-    this.canUpdateSite = site.canUpdate;
+    this.site = site;
   }
 
   public ngAfterViewInit() {

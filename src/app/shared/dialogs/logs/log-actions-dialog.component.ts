@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import { KeyValue } from '../../../types/GlobalType';
 import { LogAction } from '../../../types/Log';
+import { Utils } from '../../../utils/Utils';
 import { DialogTableDataComponent } from '../dialog-table-data.component';
 import { LOG_ACTIONSDialogTableDataSource } from './log-actions-dialog-table-data-source';
 
@@ -19,12 +20,12 @@ export class LOG_ACTIONSDialogComponent extends DialogTableDataComponent<LogActi
     if (this.title === '') {
       this.title = 'logs.select_actions';
     }
-    this.LOG_ACTIONSDialogTableDataSource.destroyDatasource();
+    this.LOG_ACTIONSDialogTableDataSource.destroyDataSource();
   }
 
   public getSelectedItems(selectedRows: LogAction[]): KeyValue[] {
     const items: KeyValue[] = [];
-    if (selectedRows && selectedRows.length > 0) {
+    if (!Utils.isEmptyArray(selectedRows)) {
       selectedRows.forEach((row) => {
         items.push({
           key: row.id.toString(),

@@ -20,7 +20,6 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
   public publicKey!: AbstractControl;
   public immediateBillingAllowed!: AbstractControl;
   public periodicBillingAllowed!: AbstractControl;
-  public lastSynchronizedOn!: AbstractControl;
   public taxID!: AbstractControl;
   public taxes: BillingTax[] = [];
 
@@ -50,7 +49,6 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
       ),
       immediateBillingAllowed: new FormControl(''),
       periodicBillingAllowed: new FormControl(''),
-      lastSynchronizedOn: new FormControl(''),
       taxID: new FormControl('',
         Validators.compose([
           // Validators.required,
@@ -68,7 +66,6 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
     this.publicKey = this.stripe.controls['publicKey'];
     this.immediateBillingAllowed = this.stripe.controls['immediateBillingAllowed'];
     this.periodicBillingAllowed = this.stripe.controls['periodicBillingAllowed'];
-    this.lastSynchronizedOn = this.stripe.controls['lastSynchronizedOn'];
     this.taxID = this.stripe.controls['taxID'];
 
     // Set data
@@ -112,17 +109,18 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
 
   private updateFormData() {
     if (this.stripe) {
-      // Set data
-      this.url.setValue(this.billingSettings.stripe.url ? this.billingSettings.stripe.url : '');
-      this.secretKey.setValue(this.billingSettings.stripe.secretKey ? this.billingSettings.stripe.secretKey : '');
-      this.publicKey.setValue(this.billingSettings.stripe.publicKey ? this.billingSettings.stripe.publicKey : '');
-      this.immediateBillingAllowed.setValue(this.billingSettings.stripe.immediateBillingAllowed
-        ? this.billingSettings.stripe.immediateBillingAllowed : false);
-      this.periodicBillingAllowed.setValue(this.billingSettings.stripe.periodicBillingAllowed
-        ? this.billingSettings.stripe.periodicBillingAllowed : false);
-      this.lastSynchronizedOn.setValue(this.billingSettings.stripe.lastSynchronizedOn
-        ? this.billingSettings.stripe.lastSynchronizedOn : '');
-      this.taxID.setValue(this.billingSettings.stripe.taxID ? this.billingSettings.stripe.taxID : '');
+      const stripeSetting = this.billingSettings.stripe;
+      if ( stripeSetting ) {
+        this.url.setValue(stripeSetting.url);
+        this.secretKey.setValue(stripeSetting.secretKey);
+        this.publicKey.setValue(stripeSetting.publicKey);
+      }
+      const billingSetting = this.billingSettings.billing;
+      if ( billingSetting ) {
+        this.immediateBillingAllowed.setValue(!!billingSetting.immediateBillingAllowed);
+        this.periodicBillingAllowed.setValue(!!billingSetting.periodicBillingAllowed);
+        this.taxID.setValue(billingSetting.taxID);
+      }
     }
   }
 }

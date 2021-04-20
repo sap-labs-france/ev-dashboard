@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import { Company } from '../../../types/Company';
 import { KeyValue } from '../../../types/GlobalType';
+import { Utils } from '../../../utils/Utils';
 import { DialogTableDataComponent } from '../dialog-table-data.component';
 import { CompaniesDialogTableDataSource } from './companies-dialog-table-data-source';
 
@@ -21,12 +22,12 @@ export class CompaniesDialogComponent extends DialogTableDataComponent<Company> 
     if (this.title === '') {
       this.title = 'companies.select_companies';
     }
-    this.companiesDataSource.destroyDatasource();
+    this.companiesDataSource.destroyDataSource();
   }
 
   public getSelectedItems(selectedRows: Company[]): KeyValue[] {
     const items: KeyValue[] = [];
-    if (selectedRows && selectedRows.length > 0) {
+    if (!Utils.isEmptyArray(selectedRows)) {
       selectedRows.forEach((row) => {
         items.push({ key: row.id, value: row.name, objectRef: row });
       });

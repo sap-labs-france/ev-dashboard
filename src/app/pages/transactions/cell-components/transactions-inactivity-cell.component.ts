@@ -8,7 +8,7 @@ import { Transaction } from '../../../types/Transaction';
     <span>
       <ng-container>
         <span [ngClass]="(row.stop ? row.stop.inactivityStatus : row.currentInactivityStatus) | appColorByStatus">
-          {{(row.stop ? row.stop.totalInactivitySecs : row.currentTotalInactivitySecs) | appInactivity:(row.stop ? row.stop.totalDurationSecs : row.currentTotalDurationSecs)}}
+          {{row | appInactivity}}
         </span>
       </ng-container>
     </span>

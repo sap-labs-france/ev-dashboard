@@ -100,7 +100,7 @@ export class ChargingPlansEditableTableDataSource extends EditableTableDataSourc
   public refreshChargingSchedules() {
     const chargingSchedules = this.getContent();
     this.endDate = new Date(this.startDate);
-    if (chargingSchedules.length > 0) {
+    if (!Utils.isEmptyArray(chargingSchedules)) {
       chargingSchedules[0].startDate = new Date(this.startDate);
       // Recompute charging plan date
       for (let i = 0; i < chargingSchedules.length; i++) {

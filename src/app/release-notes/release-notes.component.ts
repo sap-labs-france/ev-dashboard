@@ -24,19 +24,72 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.4.60',
-        date: new Date('2021-04-12'),
+        version: '2.4.63',
+        date: new Date('2021-04-19'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
-              `Auto compute Max Power of Charging Station when manually configured`,
+              `Only Assets belonging to e-Moblity can be updated or deleted`,
+              `Billing - Added Stripe feature toggle`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.62',
+        date: new Date('2021-04-17'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Handle the Billing Production Mode flag in the Settings`,
+              `Added broader firmware version for Exadys Charging Station`,
+              `Put min amperage limit to 6A instead of 13A per phase`,
+              `Fixed missing transaction's extra inactivity information + Formatting of medium/high inactivity`,
+              `Fixed cannot display ongoing Session from Charging Station's connector`,
+              `Optimized Car Catalog Image loading`,
+              `Fixed minor bugs`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.61',
+        date: new Date('2021-04-15'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Add DBT-CEV and EVMeter Charging Station's vendors`,
+              `Fixed Tag Import Mime type check in Windows`,
+              `Billing Stripe's settings refactoring`,
             ],
           },
         ],
       },
       {
         version: '2.4.60',
+        date: new Date('2021-04-14'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Auto compute Max Power of Charging Station when manually configured`,
+              `Forbid Start of Transaction if OCPI didn't provide a valid authorization ID`,
+              `Ensured that the connector's minimum amperage limit is always the EV Ready one (never 0A)`,
+              `Fixed certified Transaction with Eichrecht Signed Data`,
+              `Wrapped exported CSV data in double quotes (avoid to have the comma separator in the data)`,
+              `Added new RESTful endpoints for Billing`,
+              `Added the Export of Sessions authorization for Basic users`,
+              `Display explicit message when error occurred during Tenant creation`,
+              `Do not try to retrieve the default Car in OCPP Start Transaction when no User has been found`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.59',
         date: new Date('2021-04-08'),
         componentChanges: [
           {
@@ -146,7 +199,7 @@ export class ReleaseNotesComponent {
               `Keba: Add support for latest firmware version`,
               `Billing - Check that Stripe settings are provided in Start Transaction`,
               `Billing - Enrich Stripe invoice information`,
-              `Added Lock aquisition with a timeout`,
+              `Added Lock acquisition with a timeout`,
               `Changed Vendor ID length to 255 chars in OCPP-J status notification schema validation`,
               `Added SMTP error codes that should not trigger a retry`,
               `Added Exadys Charging Station in templates`,

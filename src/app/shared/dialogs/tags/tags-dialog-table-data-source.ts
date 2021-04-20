@@ -57,7 +57,7 @@ export class TagsDialogTableDataSource extends DialogTableDataSource<Tag> {
       {
         id: 'id',
         name: 'tags.id',
-        class: 'text-left col-30p',
+        class: 'text-left col-20p',
         sorted: true,
         direction: 'asc',
         sortable: true,
@@ -67,6 +67,15 @@ export class TagsDialogTableDataSource extends DialogTableDataSource<Tag> {
         name: 'general.description',
         class: 'text-left',
         sortable: true,
+      },
+      {
+        id: 'default',
+        name: 'general.default',
+        headerClass: 'text-center col-5em',
+        class: 'text-center col-10em',
+        sortable: true,
+        formatter: (defaultTag) => defaultTag ? this.translateService.instant('general.yes') :
+          this.translateService.instant('general.no'),
       },
     ];
   }

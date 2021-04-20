@@ -41,10 +41,10 @@
           <mat-error *ngIf="tag.errors?.required">
             {{"general.mandatory_field" | translate}}
           </mat-error>
+          <mat-error *ngIf="tag.errors?.inactive">
+            {{"tags.not_active" | translate}}
+          </mat-error>
         </mat-form-field>
-        <mat-error *ngIf="!userDefaultTagCar?.tag?.active">
-          {{"tags.not_active" | translate}}
-        </mat-error>
     </div>
     </div>
   </div>

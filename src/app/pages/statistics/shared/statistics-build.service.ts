@@ -5,6 +5,7 @@ import * as moment from 'moment';
 
 import { LocaleService } from '../../../services/locale.service';
 import { StatisticData } from '../../../types/Statistic';
+import { Utils } from '../../../utils/Utils';
 import { ChartConstants, ChartData } from './chart-utilities';
 
 export interface StatisticsBuildValueWithUnit {
@@ -58,7 +59,7 @@ export class StatisticsBuildService {
         }
       }
     }
-    if (transactionValues && transactionValues.length > 0) {
+    if (!Utils.isEmptyArray(transactionValues)) {
       const labels: string[] = [];
       // eslint-disable-next-line complexity
       transactionValues.forEach((transactionValue) => {
@@ -236,7 +237,7 @@ export class StatisticsBuildService {
       dataSetIndex = chartData.datasets.findIndex((dataset) => dataset.stack === ChartConstants.STACKED_TOTAL);
       if (dataSetIndex < 0) {
         // no, it is a simple chart
-        if (chartData.datasets.length > 0) {
+        if (!Utils.isEmptyArray(chartData.datasets)) {
           numberArray = chartData.datasets[0].data;
           if (Array.isArray(numberArray)) {
             numberArray.forEach((numberValue) => {
@@ -281,7 +282,7 @@ export class StatisticsBuildService {
               }
             });
           }
-          if (datasets.length === 0) {
+          if (Utils.isEmptyArray(datasets)) {
             numberArray = [];
             numberArray.push(totalValue);
             datasets.push({ data: numberArray }); // no 'label, no 'stack'
@@ -301,7 +302,7 @@ export class StatisticsBuildService {
   public countNumberOfChartItems(chartData: ChartData): number {
     let count = 0;
 
-    if (chartData.datasets) {
+    if (Array.isArray(chartData.datasets)) {
       if (chartData.datasets.length === 1) {
         count = chartData.datasets[0].data.length;
       } else {
@@ -340,7 +341,7 @@ export class StatisticsBuildService {
       }
     }
 
-    if (transactionValues && transactionValues.length > 0) {
+    if (!Utils.isEmptyArray(transactionValues)) {
       transactionValues.forEach((transactionValue: { [x: string]: number | string }) => {
 
         totalWithUnit = { value: 0, unit: '' };

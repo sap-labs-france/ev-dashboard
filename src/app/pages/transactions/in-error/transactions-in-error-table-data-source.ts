@@ -293,7 +293,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
       if (this.isAdmin) {
         moreActions.addActionInMoreActions(this.navigateToLogsAction);
       }
-      if (moreActions.getActionsInMoreActions().length > 0) {
+      if (!Utils.isEmptyArray(moreActions.getActionsInMoreActions())) {
         rowActions.push(moreActions.getActionDef());
       }
       if (this.authorizationService.canDeleteTransaction()) {
@@ -319,7 +319,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
       case TransactionButtonAction.VIEW_TRANSACTION:
         if (actionDef.action) {
           (actionDef as TableViewTransactionActionDef).action(TransactionDialogComponent, this.dialog,
-            { id: transaction.id, canUpdate: false }, this.refreshData.bind(this));
+            { transactionID: transaction.id, canUpdate: false }, this.refreshData.bind(this));
         }
         break;
       case TransactionButtonAction.CREATE_TRANSACTION_INVOICE:

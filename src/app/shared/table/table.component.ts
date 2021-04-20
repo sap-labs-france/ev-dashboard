@@ -16,6 +16,7 @@ import ChangeNotification from '../../types/ChangeNotification';
 import { ButtonAction } from '../../types/GlobalType';
 import { Data, DropdownItem, FilterType, TableActionDef, TableColumnDef, TableEditType, TableFilterDef } from '../../types/Table';
 import { Constants } from '../../utils/Constants';
+import { Utils } from '../../utils/Utils';
 import { TableDataSource } from './table-data-source';
 
 @Component({
@@ -191,7 +192,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     let filterIsChanged = false;
     if ((filterDef.type === FilterType.DIALOG_TABLE ||
       filterDef.type === FilterType.DROPDOWN) && filterDef.multiple) {
-      if (filterDef.currentValue.length > 0) {
+      if (!Utils.isEmptyArray(filterDef.currentValue)) {
         filterDef.currentValue = [];
         filterIsChanged = true;
       }

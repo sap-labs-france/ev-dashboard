@@ -169,7 +169,7 @@ export class SiteAreaAssetsDataSource extends TableDataSource<Asset> {
       // Remove
       case ButtonAction.REMOVE:
         // Empty?
-        if (this.getSelectedRows().length === 0) {
+        if (Utils.isEmptyArray(this.getSelectedRows())) {
           this.messageService.showErrorMessage(this.translateService.instant('general.select_at_least_one_record'));
         } else {
           // Confirm
@@ -219,7 +219,7 @@ export class SiteAreaAssetsDataSource extends TableDataSource<Asset> {
   }
 
   private addAssets(assets: Asset[]) {
-    if (assets && assets.length > 0) {
+    if (!Utils.isEmptyArray(assets)) {
       // Get the IDs
       const assetIDs = assets.map((asset) => asset.key);
       // Add

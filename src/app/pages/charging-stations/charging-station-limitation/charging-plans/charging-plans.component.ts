@@ -180,7 +180,7 @@ export class ChargingPlansComponent implements OnInit, AfterViewInit, OnChanges 
   }
 
   public ngOnChanges() {
-    if (this.autoRefreshEnabled) {
+    if (this.autoRefreshEnabled && !this.formGroup.dirty) {
       this.refresh();
     }
   }

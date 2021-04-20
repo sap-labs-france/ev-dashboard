@@ -25,12 +25,14 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.4.63',
-        date: new Date('2021-04-19'),
+        date: new Date('2021-04-20'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `Only Assets belonging to e-Moblity can be updated or deleted`,
+              `Fixed Charging Plan is lost when the Charging Station is reloaded from the backend`,
+              `Billing - Added Stripe feature toggle`,
             ],
           },
         ],

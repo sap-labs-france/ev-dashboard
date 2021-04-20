@@ -31,6 +31,7 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Only Assets belonging to e-Moblity can be updated or deleted`,
+              `Fixed Charging Plan is lost when the Charging Station is reloaded from the backend`,
               `Billing - Added Stripe feature toggle`,
             ],
           },

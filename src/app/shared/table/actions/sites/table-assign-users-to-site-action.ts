@@ -1,15 +1,13 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
-import { SiteDialogData } from 'types/Authorization';
 
-import { SiteButtonAction } from '../../../../types/Site';
+import { Site, SiteButtonAction } from '../../../../types/Site';
 import { TableActionDef } from '../../../../types/Table';
 import { TableAssignAction } from '../table-assign-action';
 
 export interface TableAssignUsersToSiteActionDef extends TableActionDef {
-  action: (siteUsersDialogComponent: ComponentType<unknown>, dialog: MatDialog,
-    data: SiteDialogData, refresh?: () => Observable<void>) => void;
+  action: (siteUsersDialogComponent: ComponentType<unknown>, site: Site, dialog: MatDialog, refresh?: () => Observable<void>) => void;
 }
 
 export class TableAssignUsersToSiteAction extends TableAssignAction {
@@ -24,8 +22,8 @@ export class TableAssignUsersToSiteAction extends TableAssignAction {
     };
   }
 
-  private assignUsersToSite(siteUsersDialogComponent: ComponentType<unknown>, dialog: MatDialog,
-    data: SiteDialogData, refresh?: () => Observable<void>) {
-    super.assign(siteUsersDialogComponent, data, dialog, refresh);
+  private assignUsersToSite(siteUsersDialogComponent: ComponentType<unknown>, site: Site,
+    dialog: MatDialog, refresh?: () => Observable<void>) {
+    super.assign(siteUsersDialogComponent, site, dialog, refresh);
   }
 }

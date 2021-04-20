@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, Inject, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { SiteDialogData } from 'types/Authorization';
+import { Site } from 'types/Site';
 
 import { Utils } from '../../../../utils/Utils';
 import { SiteComponent } from './site.component';
@@ -15,9 +15,9 @@ export class SiteDialogComponent implements AfterViewInit {
 
   public constructor(
     public dialogRef: MatDialogRef<SiteDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data: SiteDialogData) {
-    this.siteID = data.id as string;
-    this.canUpdateSite = data.canUpdate;
+    @Inject(MAT_DIALOG_DATA) site: Site) {
+    this.siteID = site.id as string;
+    this.canUpdateSite = site.canUpdate;
   }
 
   public ngAfterViewInit() {

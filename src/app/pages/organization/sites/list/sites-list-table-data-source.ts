@@ -238,9 +238,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
         break;
       case SiteButtonAction.ASSIGN_USERS_TO_SITE:
         if (actionDef.action) {
-          (actionDef as TableAssignUsersToSiteActionDef).action(SiteUsersDialogComponent, this.dialog,
-            { id: site.id, canAssignUsers: site.canAssignUsers, canUnassignUsers: site.canUnassignUsers, titleData: site.name },
-            this.refreshData.bind(this));
+          (actionDef as TableAssignUsersToSiteActionDef).action(SiteUsersDialogComponent, site, this.dialog,this.refreshData.bind(this));
         }
         break;
       case SiteButtonAction.DELETE_SITE:

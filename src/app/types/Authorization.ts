@@ -166,7 +166,3 @@ export interface SiteAuthorizationActions extends AuthorizationActions {
 export interface DialogData extends AuthorizationActions {
   id?: string | number;
 }
-
-export interface SiteDialogData extends DialogData, SiteAuthorizationActions {
-  titleData?: string;
-}

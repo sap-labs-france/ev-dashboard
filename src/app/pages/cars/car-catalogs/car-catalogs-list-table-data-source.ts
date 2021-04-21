@@ -3,7 +3,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { DialogMode } from 'types/Authorization';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
@@ -243,7 +242,7 @@ export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> 
       case CarButtonAction.VIEW_CAR_CATALOG:
         if (actionDef.action) {
           (actionDef as TableViewCarCatalogActionDef).action(CarCatalogDialogComponent, this.dialog,
-            { dialogData: carCatalog, dialogMode: DialogMode.DISPLAY }, this.refreshData.bind(this));
+            { dialogData: carCatalog }, this.refreshData.bind(this));
         }
         break;
     }

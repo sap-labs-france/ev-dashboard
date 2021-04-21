@@ -28,7 +28,7 @@ export class Utils {
       case DialogMode.CREATE:
       case DialogMode.EDIT:
         break;
-      case DialogMode.DISPLAY:
+      case DialogMode.VIEW:
         formGroup.disable();
         break;
     }

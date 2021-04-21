@@ -3,7 +3,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { DialogMode } from 'types/Authorization';
 
 import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../../services/central-server.service';
@@ -187,8 +186,8 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
       // Add
       case CompanyButtonAction.CREATE_COMPANY:
         if (actionDef.action) {
-          (actionDef as TableCreateCompanyActionDef).action(CompanyDialogComponent, this.dialog,
-            { dialogMode: DialogMode.CREATE }, this.refreshData.bind(this)
+          (actionDef as TableCreateCompanyActionDef).action(CompanyDialogComponent,
+            this.dialog, this.refreshData.bind(this)
           );
         }
         break;
@@ -200,13 +199,13 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
       case CompanyButtonAction.EDIT_COMPANY:
         if (actionDef.action) {
           (actionDef as TableEditCompanyActionDef).action(CompanyDialogComponent,
-            this.dialog, { dialogData: company, dialogMode: DialogMode.EDIT }, this.refreshData.bind(this));
+            this.dialog, { dialogData: company }, this.refreshData.bind(this));
         }
         break;
       case CompanyButtonAction.VIEW_COMPANY:
         if (actionDef.action) {
           (actionDef as TableViewCompanyActionDef).action(CompanyDialogComponent, this.dialog,
-            { dialogData: company, dialogMode: DialogMode.DISPLAY }, this.refreshData.bind(this));
+            { dialogData: company }, this.refreshData.bind(this));
         }
         break;
       case CompanyButtonAction.DELETE_COMPANY:

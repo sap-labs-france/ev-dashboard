@@ -1,7 +1,7 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
-import { DialogParams } from 'types/Authorization';
+import { DialogMode, DialogParams } from 'types/Authorization';
 
 import { ButtonAction } from '../../../types/GlobalType';
 import { ButtonColor, TableActionDef, TableData } from '../../../types/Table';
@@ -29,7 +29,10 @@ export class TableViewAction implements TableAction {
     dialogConfig.minWidth = '80vw';
     dialogConfig.minHeight = '60vh';
     dialogConfig.panelClass = 'transparent-dialog-container';
-    dialogConfig.data = dialogParams;
+    dialogConfig.data = {
+      dialogMode: DialogMode.VIEW,
+      ...dialogParams,
+    };
     // disable outside click close
     dialogConfig.disableClose = true;
     // Open

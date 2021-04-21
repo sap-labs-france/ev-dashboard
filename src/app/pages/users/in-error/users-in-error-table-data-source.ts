@@ -180,7 +180,7 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
       case UserButtonAction.EDIT_USER:
         if (actionDef.action) {
           (actionDef as TableEditUserActionDef).action(UserDialogComponent, this.dialog,
-            { dialogData: user, dialogMode: DialogMode.EDIT }, this.refreshData.bind(this));
+            { dialogData: user }, this.refreshData.bind(this));
         }
         break;
       case UserButtonAction.ASSIGN_SITES_TO_USER:

@@ -3,7 +3,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { DialogMode } from 'types/Authorization';
 import { User } from 'types/User';
 
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
@@ -177,7 +176,7 @@ export class TenantsListTableDataSource extends TableDataSource<Tenant> {
       case TenantButtonAction.CREATE_TENANT:
         if (actionDef.action) {
           (actionDef as TableCreateTenantActionDef).action(TenantDialogComponent, this.dialog,
-            { dialogMode: DialogMode.CREATE }, this.refreshData.bind(this));
+            this.refreshData.bind(this));
         }
         break;
     }
@@ -188,7 +187,7 @@ export class TenantsListTableDataSource extends TableDataSource<Tenant> {
       case TenantButtonAction.EDIT_TENANT:
         if (actionDef.action) {
           (actionDef as TableEditTenantActionDef).action(TenantDialogComponent, this.dialog,
-            { dialogData: tenant, dialogMode: DialogMode.EDIT }, this.refreshData.bind(this));
+            { dialogData: tenant }, this.refreshData.bind(this));
         }
         break;
       case TenantButtonAction.DELETE_TENANT:

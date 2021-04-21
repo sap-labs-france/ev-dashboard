@@ -68,7 +68,8 @@ export abstract class EditableTableDataSource<T extends TableData> extends Table
     this.formArray = formArray;
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, editableRow: T, dropdownItem?: DropdownItem, postDataProcessing?: () => void, actionAlreadyProcessed: boolean = false) {
+  public rowActionTriggered(actionDef: TableActionDef, editableRow: T, dropdownItem?: DropdownItem,
+    postDataProcessing?: () => void, actionAlreadyProcessed: boolean = false) {
     const index = this.editableRows.indexOf(editableRow);
     if (!actionAlreadyProcessed) {
       switch (actionDef.id) {
@@ -276,7 +277,8 @@ export abstract class EditableTableDataSource<T extends TableData> extends Table
   protected abstract createRow(): T;
 }
 
-export const uniqValidator = (formArray: FormArray, controlId: string): ValidatorFn => (control: AbstractControl): { [key: string]: any } | null => {
+export const uniqValidator = (
+  formArray: FormArray, controlId: string): ValidatorFn => (control: AbstractControl): { [key: string]: any } | null => {
   const duplicate = formArray.value.find((row: any) => row[controlId] === control.value);
   return duplicate ? { duplicate: true } : null;
 };

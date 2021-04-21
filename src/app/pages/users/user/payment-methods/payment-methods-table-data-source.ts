@@ -173,8 +173,9 @@ export class PaymentMethodsTableDataSource extends TableDataSource<BillingPaymen
             // eslint-disable-next-line max-len
             PaymentMethodDialogComponent, this.dialog,
             {
-              dialogMode: DialogMode.CREATE,
-              dialogData: { id: null, userId: this.currentUserID, setting: this.billingSettings }
+              dialogData: {
+                id: null, userId: this.currentUserID, setting: this.billingSettings
+              }
             },
             this.refreshData.bind(this));
         }

@@ -3,7 +3,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { DialogMode } from 'types/Authorization';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
@@ -223,7 +222,7 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
         if (actionDef.action) {
           (actionDef as TableEditChargingStationActionDef).action(
             ChargingStationDialogComponent, this.dialog,
-            { dialogData: chargingStation, dialogMode: DialogMode.EDIT }, this.refreshData.bind(this));
+            { dialogData: chargingStation }, this.refreshData.bind(this));
         }
         break;
       case LogButtonAction.NAVIGATE_TO_LOGS:

@@ -29,7 +29,7 @@ export class ChargingStationsListComponent implements OnInit {
       editAction.action(ChargingStationDialogComponent, this.dialog,
         {
           dialogData: { id: chargingStationID } as ChargingStation,
-          dialogMode: DialogMode.DISPLAY
+          dialogMode: DialogMode.VIEW
         });
       // Clear Search
       this.windowService.deleteSearch('ChargingStationID');

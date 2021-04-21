@@ -63,7 +63,7 @@ export class CompanyComponent implements OnInit {
     this.id = this.formGroup.controls['id'];
     this.name = this.formGroup.controls['name'];
     // Set
-    this.readOnly = (this.dialogMode === DialogMode.DISPLAY);
+    this.readOnly = (this.dialogMode === DialogMode.VIEW);
     // Load Site
     this.loadCompany();
     // Handle Dialog mode

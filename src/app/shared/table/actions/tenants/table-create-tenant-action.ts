@@ -1,14 +1,13 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
-import { DialogParams } from 'types/Authorization';
 
 import { TableActionDef } from '../../../../types/Table';
-import { Tenant, TenantButtonAction } from '../../../../types/Tenant';
+import { TenantButtonAction } from '../../../../types/Tenant';
 import { TableCreateAction } from '../table-create-action';
 
 export interface TableCreateTenantActionDef extends TableActionDef {
-  action: (tenantDialogComponent: ComponentType<unknown>, dialog: MatDialog, dialogParams: DialogParams<Tenant>,
+  action: (tenantDialogComponent: ComponentType<unknown>, dialog: MatDialog,
     refresh?: () => Observable<void>) => void;
 }
 
@@ -21,8 +20,8 @@ export class TableCreateTenantAction extends TableCreateAction {
     };
   }
 
-  private createTenant(tenantDialogComponent: ComponentType<unknown>, dialog: MatDialog,
-    dialogParams: DialogParams<Tenant>, refresh?: () => Observable<void>) {
-    super.create(tenantDialogComponent, dialog, dialogParams, refresh);
+  private createTenant(tenantDialogComponent: ComponentType<unknown>,
+    dialog: MatDialog, refresh?: () => Observable<void>) {
+    super.create(tenantDialogComponent, dialog, null, refresh);
   }
 }

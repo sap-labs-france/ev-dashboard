@@ -5,7 +5,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { ImportDialogComponent } from 'shared/dialogs/import/import-dialog.component';
 import { TableImportUsersAction, TableImportUsersActionDef } from 'shared/table/actions/users/table-import-users-action';
-import { DialogMode } from 'types/Authorization';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
@@ -39,7 +38,7 @@ import { DataResult } from '../../../types/DataResult';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
 import TenantComponents from '../../../types/TenantComponents';
 import { TransactionButtonAction } from '../../../types/Transaction';
-import { User, UserButtonAction, UserToken } from '../../../types/User';
+import { User, UserButtonAction } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';
 import { UserRoleFilter } from '../filters/user-role-filter';
 import { UserStatusFilter } from '../filters/user-status-filter';
@@ -306,8 +305,8 @@ export class UsersListTableDataSource extends TableDataSource<User> {
     switch (actionDef.id) {
       case UserButtonAction.CREATE_USER:
         if (actionDef.action) {
-          (actionDef as TableCreateUserActionDef).action(UserDialogComponent, this.dialog,
-            { dialogMode: DialogMode.CREATE }, this.refreshData.bind(this));
+          (actionDef as TableCreateUserActionDef).action(UserDialogComponent,
+            this.dialog, this.refreshData.bind(this));
         }
         break;
       case UserButtonAction.EXPORT_USERS:
@@ -338,7 +337,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       case UserButtonAction.EDIT_USER:
         if (actionDef.action) {
           (actionDef as TableEditUserActionDef).action(UserDialogComponent, this.dialog,
-            { dialogData: user, dialogMode: DialogMode.EDIT }, this.refreshData.bind(this));
+            { dialogData: user }, this.refreshData.bind(this));
         }
         break;
       case UserButtonAction.ASSIGN_SITES_TO_USER:

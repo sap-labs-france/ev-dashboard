@@ -6,7 +6,6 @@ import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { TransactionDialogComponent } from 'shared/dialogs/transaction/transaction.dialog.component';
 import { ConnectorTableFilter } from 'shared/table/filters/connector-table-filter';
-import { DialogMode } from 'types/Authorization';
 import { CarCatalog } from 'types/Car';
 
 import { AuthorizationService } from '../../../services/authorization.service';
@@ -37,7 +36,7 @@ import { TableExportTransactionOcpiCdrAction, TableExportTransactionOcpiCdrActio
 import { TableExportTransactionsAction, TableExportTransactionsActionDef } from '../../../shared/table/actions/transactions/table-export-transactions-action';
 import { TablePushTransactionOcpiCdrAction, TablePushTransactionOcpiCdrActionDef } from '../../../shared/table/actions/transactions/table-push-transaction-ocpi-cdr-action';
 import { TableRebuildTransactionConsumptionsAction, TableRebuildTransactionConsumptionsActionDef } from '../../../shared/table/actions/transactions/table-rebuild-transaction-consumptions-action';
-import { TableViewTransactionAction, TableViewTransactionActionDef } from '../../../shared/table/actions/transactions/table-view-transaction-action';
+import { TableViewTransactionAction, TableViewTransactionActionDef, TransactionDialogData } from '../../../shared/table/actions/transactions/table-view-transaction-action';
 import { ChargingStationTableFilter } from '../../../shared/table/filters/charging-station-table-filter';
 import { EndDateFilter } from '../../../shared/table/filters/end-date-filter';
 import { IssuerFilter, organisations } from '../../../shared/table/filters/issuer-filter';
@@ -444,7 +443,8 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
       case TransactionButtonAction.VIEW_TRANSACTION:
         if (actionDef.action) {
           (actionDef as TableViewTransactionActionDef).action(TransactionDialogComponent, this.dialog,
-            { dialogData: transaction, dialogMode: DialogMode.DISPLAY }, this.refreshData.bind(this));
+            { dialogData: { transactionID: transaction.id } as TransactionDialogData },
+            this.refreshData.bind(this));
         }
         break;
       case LogButtonAction.NAVIGATE_TO_LOGS:
@@ -455,7 +455,8 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         break;
       case ChargingStationButtonAction.NAVIGATE_TO_CHARGING_PLANS:
         if (actionDef.action) {
-          (actionDef as TableOpenURLActionDef).action('charging-stations#chargingplans?ChargingStationID=' + transaction.chargeBoxID + '&TransactionID=' + transaction.id);
+          (actionDef as TableOpenURLActionDef).action('charging-stations#chargingplans?ChargingStationID=' + 
+            transaction.chargeBoxID + '&TransactionID=' + transaction.id);
         }
         break;
       case TransactionButtonAction.CREATE_TRANSACTION_INVOICE:

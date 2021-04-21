@@ -5,7 +5,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { WindowService } from 'services/window.service';
 import { TableSiteAreaGenerateQrCodeConnectorAction, TableSiteAreaGenerateQrCodeConnectorsActionDef } from 'shared/table/actions/site-areas/table-site-area-generate-qr-code-connector-action';
-import { DialogMode } from 'types/Authorization';
 
 import { AuthorizationService } from '../../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
@@ -97,8 +96,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     const siteAreaID = this.windowService.getSearch('SiteAreaID');
     if (siteAreaID) {
       this.editAction.action(SiteAreaDialogComponent, this.dialog, {
-        dialogData: { id: siteAreaID } as SiteArea,
-        dialogMode: DialogMode.EDIT
+        dialogData: { id: siteAreaID } as SiteArea
       });
     }
   }
@@ -305,8 +303,8 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     switch (actionDef.id) {
       case SiteAreaButtonAction.CREATE_SITE_AREA:
         if (actionDef.action) {
-          (actionDef as TableCreateSiteAreaActionDef).action(SiteAreaDialogComponent, this.dialog,
-            { dialogMode: DialogMode.CREATE }, this.refreshData.bind(this));
+          (actionDef as TableCreateSiteAreaActionDef).action(SiteAreaDialogComponent,
+            this.dialog, this.refreshData.bind(this));
         }
         break;
     }
@@ -318,15 +316,13 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
       case SiteAreaButtonAction.EDIT_SITE_AREA:
         if (actionDef.action) {
           (actionDef as TableEditSiteAreaActionDef).action(SiteAreaDialogComponent, this.dialog,
-            { dialogData: siteArea, dialogMode: DialogMode.EDIT }, this.refreshData.bind(this));
+            { dialogData: siteArea }, this.refreshData.bind(this));
         }
         break;
       case SiteAreaButtonAction.VIEW_SITE_AREA:
         if (actionDef.action) {
-          (actionDef as TableViewSiteAreaActionDef).action(
-            SiteAreaDialogComponent, this.dialog,
-            { dialogData: siteArea, dialogMode: DialogMode.DISPLAY },
-            this.refreshData.bind(this));
+          (actionDef as TableViewSiteAreaActionDef).action(SiteAreaDialogComponent, this.dialog,
+            { dialogData: siteArea }, this.refreshData.bind(this));
         }
         break;
       case SiteAreaButtonAction.ASSIGN_CHARGING_STATIONS_TO_SITE_AREA:
@@ -339,7 +335,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
         if (actionDef.action) {
           (actionDef as TableViewChargingStationsOfSiteAreaActionDef).action(
             SiteAreaChargingStationsDialogComponent, this.dialog,
-            { dialogData: siteArea, dialogMode: DialogMode.DISPLAY }, this.refreshData.bind(this));
+            { dialogData: siteArea }, this.refreshData.bind(this));
         }
         break;
       case SiteAreaButtonAction.DELETE_SITE_AREA:

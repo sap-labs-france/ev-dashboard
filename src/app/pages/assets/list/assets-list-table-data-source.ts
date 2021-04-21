@@ -3,7 +3,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { DialogMode } from 'types/Authorization';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
@@ -206,8 +205,8 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
       // Add
       case AssetButtonAction.CREATE_ASSET:
         if (actionDef.action) {
-          (actionDef as TableCreateAssetActionDef).action(AssetDialogComponent, this.dialog,
-            { dialogMode: DialogMode.CREATE }, this.refreshData.bind(this));
+          (actionDef as TableCreateAssetActionDef).action(AssetDialogComponent,
+            this.dialog, this.refreshData.bind(this));
         }
         break;
     }
@@ -218,13 +217,13 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
       case AssetButtonAction.VIEW_ASSET:
         if (actionDef.action) {
           (actionDef as TableViewAssetActionDef).action(AssetDialogComponent, this.dialog,
-            { dialogData: asset, dialogMode: DialogMode.DISPLAY }, this.refreshData.bind(this));
+            { dialogData: asset }, this.refreshData.bind(this));
         }
         break;
       case AssetButtonAction.EDIT_ASSET:
         if (actionDef.action) {
           (actionDef as TableEditAssetActionDef).action(AssetDialogComponent, this.dialog,
-            { dialogData: asset, dialogMode: DialogMode.EDIT }, this.refreshData.bind(this));
+            { dialogData: asset }, this.refreshData.bind(this));
         }
         break;
       case AssetButtonAction.DELETE_ASSET:

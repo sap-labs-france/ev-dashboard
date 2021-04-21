@@ -29,7 +29,7 @@ export class TransactionsInProgressComponent implements OnInit {
       const viewAction = new TableViewTransactionAction().getActionDef();
       viewAction.action(TransactionDialogComponent, this.dialog, {
         dialogData: { id: transactionID } as Transaction,
-        dialogMode: DialogMode.DISPLAY
+        dialogMode: DialogMode.VIEW
       });
       // Clear Search
       this.windowService.deleteSearch('TransactionID');

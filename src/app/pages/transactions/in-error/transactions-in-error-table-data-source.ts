@@ -5,7 +5,6 @@ import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { TransactionDialogComponent } from 'shared/dialogs/transaction/transaction.dialog.component';
-import { DialogMode } from 'types/Authorization';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
@@ -26,7 +25,7 @@ import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-
 import { TableCreateTransactionInvoiceAction, TableCreateTransactionInvoiceActionDef } from '../../../shared/table/actions/transactions/table-create-transaction-invoice-action';
 import { TableDeleteTransactionAction, TableDeleteTransactionActionDef } from '../../../shared/table/actions/transactions/table-delete-transaction-action';
 import { TableDeleteTransactionsAction, TableDeleteTransactionsActionDef } from '../../../shared/table/actions/transactions/table-delete-transactions-action';
-import { TableViewTransactionAction, TableViewTransactionActionDef } from '../../../shared/table/actions/transactions/table-view-transaction-action';
+import { TableViewTransactionAction, TableViewTransactionActionDef, TransactionDialogData } from '../../../shared/table/actions/transactions/table-view-transaction-action';
 import { ChargingStationTableFilter } from '../../../shared/table/filters/charging-station-table-filter';
 import { ConnectorTableFilter } from '../../../shared/table/filters/connector-table-filter';
 import { EndDateFilter } from '../../../shared/table/filters/end-date-filter';
@@ -320,7 +319,8 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
       case TransactionButtonAction.VIEW_TRANSACTION:
         if (actionDef.action) {
           (actionDef as TableViewTransactionActionDef).action(TransactionDialogComponent, this.dialog,
-            { dialogData: transaction, dialogMode: DialogMode.DISPLAY }, this.refreshData.bind(this));
+            { dialogData: { transactionID: transaction.id } as TransactionDialogData },
+            this.refreshData.bind(this));
         }
         break;
       case TransactionButtonAction.CREATE_TRANSACTION_INVOICE:

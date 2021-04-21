@@ -82,7 +82,7 @@ export class SiteComponent implements OnInit {
     this.autoUserSiteAssignment = this.formGroup.controls['autoUserSiteAssignment'];
     this.public = this.formGroup.controls['public'];
     // Set
-    this.readOnly = (this.dialogMode === DialogMode.DISPLAY);
+    this.readOnly = (this.dialogMode === DialogMode.VIEW);
     // Load Site
     this.loadSite();
     // Handle Dialog mode

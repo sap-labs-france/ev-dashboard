@@ -3,7 +3,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { DialogMode } from 'types/Authorization';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
@@ -179,8 +178,7 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
             ChargingStationLimitationDialogComponent, this.dialogService, this.translateService, this.dialog, {
               dialogData: {
                 id: chargingProfile.id, canUpdate: chargingProfile.canUpdate, ocppVersion: chargingProfile.chargingStation.ocppVersion
-              },
-              dialogMode: DialogMode.EDIT
+              }
             },
             this.refreshData.bind(this)
           );

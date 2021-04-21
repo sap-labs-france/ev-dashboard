@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { TableSiteGenerateQrCodeConnectorAction, TableSiteGenerateQrCodeConnectorsActionDef } from 'shared/table/actions/sites/table-site-generate-qr-code-connector-action';
-import { DialogMode } from 'types/Authorization';
 
 import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../../services/central-server.service';
@@ -215,8 +214,8 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
       // Add
       case SiteButtonAction.CREATE_SITE:
         if (actionDef.action) {
-          (actionDef as TableCreateSiteActionDef).action(SiteDialogComponent, this.dialog,
-            { dialogMode: DialogMode.CREATE }, this.refreshData.bind(this));
+          (actionDef as TableCreateSiteActionDef).action(SiteDialogComponent,
+            this.dialog, this.refreshData.bind(this));
         }
     }
   }
@@ -226,13 +225,13 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
       case SiteButtonAction.EDIT_SITE:
         if (actionDef.action) {
           (actionDef as TableEditSiteActionDef).action(SiteDialogComponent, this.dialog,
-            { dialogMode: DialogMode.EDIT, dialogData: site }, this.refreshData.bind(this));
+            { dialogData: site }, this.refreshData.bind(this));
         }
         break;
       case SiteButtonAction.VIEW_SITE:
         if (actionDef.action) {
           (actionDef as TableViewSiteActionDef).action(SiteDialogComponent, this.dialog,
-            { dialogMode: DialogMode.DISPLAY, dialogData: site }, this.refreshData.bind(this));
+            { dialogData: site }, this.refreshData.bind(this));
         }
         break;
       case SiteButtonAction.ASSIGN_USERS_TO_SITE:

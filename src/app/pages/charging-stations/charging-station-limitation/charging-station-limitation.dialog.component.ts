@@ -1,6 +1,7 @@
 import { Component, Inject, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { DialogData } from 'types/Authorization';
+import { SmartChargingDialogData } from 'shared/table/actions/charging-stations/table-charging-stations-smart-charging-action';
+import { DialogParams } from 'types/Authorization';
 
 import { Utils } from '../../../utils/Utils';
 import { ChargingStationLimitationComponent } from './charging-station-limitation.component';
@@ -14,8 +15,8 @@ export class ChargingStationLimitationDialogComponent {
 
   public constructor(
     public dialogRef: MatDialogRef<ChargingStationLimitationDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data: DialogData) {
-    this.chargingStationID = data.id as string;
+    @Inject(MAT_DIALOG_DATA) dialogParams: DialogParams<SmartChargingDialogData>) {
+    this.chargingStationID = dialogParams.dialogData?.id as string;
     Utils.registerCloseKeyEvents(this.dialogRef);
   }
 }

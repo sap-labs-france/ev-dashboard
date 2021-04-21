@@ -1,13 +1,13 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
-import { DialogParams } from 'types/Authorization';
+import { DialogData, DialogParams } from 'types/Authorization';
 
-import { TableActionDef, TableData } from '../../../../types/Table';
+import { TableActionDef } from '../../../../types/Table';
 import { TransactionButtonAction } from '../../../../types/Transaction';
 import { TableViewAction } from '../table-view-action';
 
-export interface TransactionDialogData extends TableData {
+export interface TransactionDialogData extends DialogData {
   transactionID?: number;
   chargingStationID?: string;
   connectorID?: number;

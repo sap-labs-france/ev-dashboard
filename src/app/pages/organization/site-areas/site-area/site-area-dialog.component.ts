@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, Inject, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { DialogData } from 'types/Authorization';
+import { DialogParams } from 'types/Authorization';
+import { SiteArea } from 'types/SiteArea';
 
 import { Utils } from '../../../../utils/Utils';
 import { SiteAreaComponent } from './site-area.component';
@@ -14,8 +15,8 @@ export class SiteAreaDialogComponent implements AfterViewInit {
 
   public constructor(
     public dialogRef: MatDialogRef<SiteAreaDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data: DialogData) {
-    this.siteAreaID = data.id as string;
+    @Inject(MAT_DIALOG_DATA) dialogParams: DialogParams<SiteArea>) {
+    this.siteAreaID = dialogParams.dialogData?.id;
   }
 
   public ngAfterViewInit() {

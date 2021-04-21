@@ -3,7 +3,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { DialogMode } from 'types/Authorization';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
@@ -129,7 +128,7 @@ export class AssetsInErrorTableDataSource extends TableDataSource<AssetInError> 
       case AssetButtonAction.EDIT_ASSET:
         if (actionDef.action) {
           (actionDef as TableEditAssetActionDef).action(AssetDialogComponent, this.dialog,
-            { dialogData: asset, dialogMode: DialogMode.EDIT }, this.refreshData.bind(this));
+            { dialogData: asset }, this.refreshData.bind(this));
         }
         break;
       case AssetButtonAction.DELETE_ASSET:

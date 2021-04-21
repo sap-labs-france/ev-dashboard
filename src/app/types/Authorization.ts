@@ -167,7 +167,7 @@ export interface SiteAuthorizationActions extends AuthorizationActions {
 export enum DialogMode {
   EDIT = 'E',
   CREATE = 'C',
-  DISPLAY = 'D',
+  VIEW = 'V',
 }
 
 export interface DialogData {
@@ -176,5 +176,5 @@ export interface DialogData {
 
 export interface DialogParams<T extends DialogData> {
   dialogData?: T;
-  dialogMode: DialogMode;
+  dialogMode?: DialogMode;
 }

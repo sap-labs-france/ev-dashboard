@@ -16,7 +16,6 @@ import { TableImportTagsAction, TableImportTagsActionDef } from 'shared/table/ac
 import { organisations } from 'shared/table/filters/issuer-filter';
 import { StatusFilter } from 'shared/table/filters/status-filter';
 import { UserTableFilter } from 'shared/table/filters/user-table-filter';
-import { DialogMode } from 'types/Authorization';
 import { DataResult } from 'types/DataResult';
 import { HTTPError } from 'types/HTTPError';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'types/Table';
@@ -96,10 +95,8 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
     if (tagID) {
       this.setSearchValue(tagID);
       this.editAction.action(TagDialogComponent, this.dialog,
-        {
-          dialogData: { id: tagID } as Tag,
-          dialogMode: DialogMode.EDIT
-        }, this.refreshData.bind(this));
+        { dialogData: { id: tagID } as Tag },
+        this.refreshData.bind(this));
     }
   }
 
@@ -297,8 +294,8 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
     switch (actionDef.id) {
       case UserButtonAction.CREATE_TAG:
         if (actionDef.action) {
-          (actionDef as TableCreateTagActionDef).action(TagDialogComponent, this.dialog,
-            { dialogMode: DialogMode.CREATE }, this.refreshData.bind(this));
+          (actionDef as TableCreateTagActionDef).action(TagDialogComponent,
+            this.dialog, this.refreshData.bind(this));
         }
         break;
       // Delete
@@ -341,7 +338,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
       case UserButtonAction.EDIT_TAG:
         if (actionDef.action) {
           (actionDef as TableEditTagActionDef).action(TagDialogComponent, this.dialog,
-            { dialogData: tag, dialogMode: DialogMode.EDIT }, this.refreshData.bind(this));
+            { dialogData: tag }, this.refreshData.bind(this));
         }
         break;
       case UserButtonAction.NAVIGATE_TO_USER:

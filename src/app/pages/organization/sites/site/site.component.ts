@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { DialogMode } from 'types/Authorization';
 
@@ -24,7 +24,7 @@ import { Utils } from '../../../../utils/Utils';
   templateUrl: 'site.component.html',
 })
 export class SiteComponent implements OnInit {
-  @Input() public siteID!: string;
+  @Input() public currentSiteID!: string;
   @Input() public dialogMode!: DialogMode;
   @Input() public dialogRef!: MatDialogRef<any>;
 
@@ -49,16 +49,10 @@ export class SiteComponent implements OnInit {
     private spinnerService: SpinnerService,
     private translateService: TranslateService,
     private configService: ConfigService,
-    private activatedRoute: ActivatedRoute,
     private dialog: MatDialog,
     private dialogService: DialogService,
     private router: Router) {
     this.maxSize = this.configService.getSite().maxPictureKb;
-    // Check auth
-    if (this.activatedRoute.snapshot.params['id']) {
-      // Not authorized
-      this.router.navigate(['/']);
-    }
   }
 
   public ngOnInit() {
@@ -88,7 +82,7 @@ export class SiteComponent implements OnInit {
     this.autoUserSiteAssignment = this.formGroup.controls['autoUserSiteAssignment'];
     this.public = this.formGroup.controls['public'];
     // Set
-    this.readOnly = this.dialogMode === DialogMode.READ;
+    this.readOnly = (this.dialogMode === DialogMode.DISPLAY);
     // Load Site
     this.loadSite();
     // Handle Dialog mode
@@ -96,9 +90,9 @@ export class SiteComponent implements OnInit {
   }
 
   public loadSite() {
-    if (this.siteID) {
+    if (this.currentSiteID) {
       this.spinnerService.show();
-      this.centralServerService.getSite(this.siteID, false, true).subscribe((site) => {
+      this.centralServerService.getSite(this.currentSiteID, false, true).subscribe((site) => {
         this.spinnerService.hide();
         // Init form
         if (site.id) {
@@ -126,16 +120,12 @@ export class SiteComponent implements OnInit {
         if (site.address) {
           this.address = site.address;
         }
-        // Cannot change roaming Site
-        if (!site.issuer) {
-          this.formGroup.disable();
-        } else {
-          this.formGroup.updateValueAndValidity();
-          this.formGroup.markAsPristine();
-          this.formGroup.markAllAsTouched();
-        }
+        // Update form group
+        this.formGroup.updateValueAndValidity();
+        this.formGroup.markAsPristine();
+        this.formGroup.markAllAsTouched();
         // Get Site image
-        this.centralServerService.getSiteImage(this.siteID).subscribe((siteImage) => {
+        this.centralServerService.getSiteImage(this.currentSiteID).subscribe((siteImage) => {
           this.image = siteImage ? siteImage : Constants.NO_IMAGE;
         });
       }, (error) => {
@@ -152,8 +142,8 @@ export class SiteComponent implements OnInit {
     }
   }
 
-  public isOpenInDialog(): boolean {
-    return !Utils.isNullOrUndefined(this.dialogRef);
+  public refresh() {
+    this.loadSite();
   }
 
   public assignCompany() {
@@ -180,10 +170,6 @@ export class SiteComponent implements OnInit {
     });
   }
 
-  public refresh() {
-    this.loadSite();
-  }
-
   public updateSiteImage(site: Site) {
     if (this.imageHasChanged) {
       // Set new image
@@ -206,7 +192,7 @@ export class SiteComponent implements OnInit {
   }
 
   public saveSite(site: Site) {
-    if (this.siteID) {
+    if (this.currentSiteID) {
       this.updateSite(site);
     } else {
       this.createSite(site);

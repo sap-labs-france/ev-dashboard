@@ -188,7 +188,7 @@ export class TenantsListTableDataSource extends TableDataSource<Tenant> {
       case TenantButtonAction.EDIT_TENANT:
         if (actionDef.action) {
           (actionDef as TableEditTenantActionDef).action(TenantDialogComponent, this.dialog,
-            { id: tenant.id, canUpdate: tenant.canUpdate }, this.refreshData.bind(this));
+            { dialogData: tenant, dialogMode: DialogMode.EDIT }, this.refreshData.bind(this));
         }
         break;
       case TenantButtonAction.DELETE_TENANT:

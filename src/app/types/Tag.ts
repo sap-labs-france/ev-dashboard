@@ -1,7 +1,7 @@
-import { Data } from './Table';
+import { TableData } from './Table';
 import { User } from './User';
 
-export interface Tag extends Data {
+export interface Tag extends TableData {
   id: string;
   issuer: boolean;
   active: boolean;

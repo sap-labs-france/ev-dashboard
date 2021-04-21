@@ -218,13 +218,13 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
       case AssetButtonAction.VIEW_ASSET:
         if (actionDef.action) {
           (actionDef as TableViewAssetActionDef).action(AssetDialogComponent, this.dialog,
-            { id: asset.id, canUpdate: false }, this.refreshData.bind(this));
+            { dialogData: asset, dialogMode: DialogMode.DISPLAY }, this.refreshData.bind(this));
         }
         break;
       case AssetButtonAction.EDIT_ASSET:
         if (actionDef.action) {
           (actionDef as TableEditAssetActionDef).action(AssetDialogComponent, this.dialog,
-            { id: asset.id, canUpdate: asset.canUpdate }, this.refreshData.bind(this));
+            { dialogData: asset, dialogMode: DialogMode.EDIT }, this.refreshData.bind(this));
         }
         break;
       case AssetButtonAction.DELETE_ASSET:

@@ -1,7 +1,7 @@
 import { SiteArea } from './SiteArea';
-import { Data } from './Table';
+import { TableData } from './Table';
 
-export interface RegistrationToken extends Data {
+export interface RegistrationToken extends TableData {
   id: string;
   description?: string;
   createdOn: Date;

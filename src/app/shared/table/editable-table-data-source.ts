@@ -5,13 +5,13 @@ import { Observable, Subject, of } from 'rxjs';
 import { SpinnerService } from '../../services/spinner.service';
 import { DataResult } from '../../types/DataResult';
 import { ButtonAction } from '../../types/GlobalType';
-import { Data, DropdownItem, TableActionDef, TableColumnDef, TableDef, TableEditType } from '../../types/Table';
+import { DropdownItem, TableActionDef, TableColumnDef, TableData, TableDef, TableEditType } from '../../types/Table';
 import { Utils } from '../../utils/Utils';
 import { TableAddAction } from './actions/table-add-action';
 import { TableDeleteAction } from './actions/table-delete-action';
 import { TableDataSource } from './table-data-source';
 
-export abstract class EditableTableDataSource<T extends Data> extends TableDataSource<T> {
+export abstract class EditableTableDataSource<T extends TableData> extends TableDataSource<T> {
   protected editableRows: T[] = [];
   protected tableChangedSubject: Subject<T[]> = new Subject<T[]>();
 

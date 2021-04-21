@@ -1,12 +1,12 @@
 import CreatedUpdatedProps from './CreatedUpdatedProps';
-import { Data } from './Table';
+import { TableData } from './Table';
 import TenantComponents from './TenantComponents';
 
 export enum TechnicalSettings {
   USER = 'user',
   CRYPTO = 'crypto'
 }
-export interface Setting extends Data, CreatedUpdatedProps {
+export interface Setting extends TableData, CreatedUpdatedProps {
   identifier: TenantComponents | TechnicalSettings;
   sensitiveData?: string[];
   category?: 'business' | 'technical';
@@ -44,7 +44,7 @@ export interface SettingDBContent {
   user?: UserSetting;
 }
 
-export interface SettingLink extends Data {
+export interface SettingLink extends TableData {
   id: string; // 'number' is wrong! See table-data-source.enrichData() which does not digest 'id' field of type 'number'
   name: string;
   description: string;
@@ -234,7 +234,7 @@ export interface AssetSetting {
   connections: AssetConnectionSetting[];
 }
 
-export interface AssetConnectionSetting extends Data {
+export interface AssetConnectionSetting extends TableData {
   id: string;
   name: string;
   description: string;
@@ -280,7 +280,7 @@ export interface CarConnectorSetting {
   connections: CarConnectorConnectionSetting[];
 }
 
-export interface CarConnectorConnectionSetting extends Data {
+export interface CarConnectorConnectionSetting extends TableData {
   id: string;
   name: string;
   description: string;

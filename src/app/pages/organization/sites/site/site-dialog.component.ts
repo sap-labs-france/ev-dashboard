@@ -7,17 +7,17 @@ import { Utils } from '../../../../utils/Utils';
 import { SiteComponent } from './site.component';
 
 @Component({
-  template: '<app-site #appRef [siteID]="siteID" [dialogMode]="dialogMode" [dialogRef]="dialogRef"></app-site>',
+  template: '<app-site #appRef [currentSiteID]="currentSiteID" [dialogMode]="dialogMode" [dialogRef]="dialogRef"></app-site>',
 })
 export class SiteDialogComponent implements AfterViewInit {
   @ViewChild('appRef') public appRef!: SiteComponent;
-  public siteID!: string;
+  public currentSiteID!: string;
   public dialogMode!: DialogMode;
 
   public constructor(
     public dialogRef: MatDialogRef<SiteDialogComponent>,
     @Inject(MAT_DIALOG_DATA) dialogParams: DialogParams<Site>) {
-    this.siteID = dialogParams.dialogData?.id;
+    this.currentSiteID = dialogParams.dialogData?.id;
     this.dialogMode = dialogParams.dialogMode;
   }
 

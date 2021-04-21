@@ -26,9 +26,9 @@ export class Utils {
   public static  handleDialogMode(dialogMode: DialogMode, formGroup: FormGroup) {
     switch (dialogMode) {
       case DialogMode.CREATE:
-      case DialogMode.UPDATE:
+      case DialogMode.EDIT:
         break;
-      case DialogMode.READ:
+      case DialogMode.DISPLAY:
         formGroup.disable();
         break;
     }

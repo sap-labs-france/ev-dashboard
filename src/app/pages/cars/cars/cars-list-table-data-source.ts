@@ -305,7 +305,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
       case CarButtonAction.EDIT_CAR:
         if (actionDef.action) {
           (actionDef as TableEditCarActionDef).action(CarDialogComponent, this.dialog,
-            { id: car.id, canUpdate: car.canUpdate }, this.refreshData.bind(this));
+            { dialogData: car, dialogMode: DialogMode.EDIT }, this.refreshData.bind(this));
         }
         break;
       case CarButtonAction.DELETE_CAR:

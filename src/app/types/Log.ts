@@ -1,8 +1,8 @@
 import { ServerAction } from './Server';
-import { Data } from './Table';
+import { TableData } from './Table';
 import { User } from './User';
 
-export interface Log extends Data {
+export interface Log extends TableData {
   id: string;
   level: string;
   source: string;
@@ -19,7 +19,7 @@ export interface Log extends Data {
   detailedMessages: string[];
 }
 
-export interface LogAction extends Data {
+export interface LogAction extends TableData {
   action: ServerAction;
 }
 

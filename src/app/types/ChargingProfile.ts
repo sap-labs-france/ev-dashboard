@@ -1,8 +1,8 @@
 import { ChargingRateUnitType, ChargingStation } from '../types/ChargingStation';
 import { DialogData } from './Authorization';
-import { Data } from './Table';
+import { TableData } from './Table';
 
-export interface ChargingProfile extends Data, DialogData {
+export interface ChargingProfile extends TableData, DialogData {
   id: string;
   chargingStationID: string;
   chargingStation?: ChargingStation;
@@ -11,7 +11,7 @@ export interface ChargingProfile extends Data, DialogData {
   profile: Profile;
 }
 
-export interface Profile extends Data  {
+export interface Profile extends TableData  {
   chargingProfileId: number;
   transactionId?: number;
   stackLevel: number;
@@ -67,7 +67,7 @@ export enum RecurrencyKindType {
   WEEKLY = 'Weekly',
 }
 
-export interface Schedule extends Data {
+export interface Schedule extends TableData {
   id: number;
   startDate: Date;
   endDate?: Date;

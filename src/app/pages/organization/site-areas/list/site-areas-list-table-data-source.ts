@@ -96,8 +96,10 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
   public initUrlParams() {
     const siteAreaID = this.windowService.getSearch('SiteAreaID');
     if (siteAreaID) {
-      this.editAction.action(SiteAreaDialogComponent, this.dialog,
-        { id: siteAreaID });
+      this.editAction.action(SiteAreaDialogComponent, this.dialog, {
+        dialogData: { id: siteAreaID } as SiteArea,
+        dialogMode: DialogMode.EDIT
+      });
     }
   }
 
@@ -316,14 +318,14 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
       case SiteAreaButtonAction.EDIT_SITE_AREA:
         if (actionDef.action) {
           (actionDef as TableEditSiteAreaActionDef).action(SiteAreaDialogComponent, this.dialog,
-            { id: siteArea.id, canUpdate: siteArea.canUpdate }, this.refreshData.bind(this));
+            { dialogData: siteArea, dialogMode: DialogMode.EDIT }, this.refreshData.bind(this));
         }
         break;
       case SiteAreaButtonAction.VIEW_SITE_AREA:
         if (actionDef.action) {
           (actionDef as TableViewSiteAreaActionDef).action(
             SiteAreaDialogComponent, this.dialog,
-            { id: siteArea.id, canUpdate: false },
+            { dialogData: siteArea, dialogMode: DialogMode.DISPLAY },
             this.refreshData.bind(this));
         }
         break;
@@ -337,7 +339,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
         if (actionDef.action) {
           (actionDef as TableViewChargingStationsOfSiteAreaActionDef).action(
             SiteAreaChargingStationsDialogComponent, this.dialog,
-            siteArea, this.refreshData.bind(this));
+            { dialogData: siteArea, dialogMode: DialogMode.DISPLAY }, this.refreshData.bind(this));
         }
         break;
       case SiteAreaButtonAction.DELETE_SITE_AREA:

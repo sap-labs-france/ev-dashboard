@@ -258,7 +258,7 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
         if (actionDef.action) {
           (actionDef as TableEditRegistrationTokenActionDef).action(
             ChargingStationsRegistrationTokenDialogComponent, this.dialog,
-            { id: registrationToken.id, canUpdate: registrationToken.canUpdate }, this.refreshData.bind(this));
+            { dialogData: registrationToken, dialogMode: DialogMode.EDIT }, this.refreshData.bind(this));
         }
         break;
       case RegistrationTokenButtonAction.COPY_URL:

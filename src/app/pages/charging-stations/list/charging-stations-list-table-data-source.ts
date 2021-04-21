@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { DialogMode } from 'types/Authorization';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
@@ -266,7 +267,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
         if (actionDef.action) {
           (actionDef as TableEditChargingStationActionDef).action(
             ChargingStationDialogComponent, this.dialog,
-            { id: chargingStation.id, canUpdate: chargingStation.canUpdate }, this.refreshData.bind(this));
+            { dialogData: chargingStation, dialogMode: DialogMode.EDIT }, this.refreshData.bind(this));
         }
         break;
       case ChargingStationButtonAction.REBOOT:
@@ -280,7 +281,10 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
         if (actionDef.action) {
           (actionDef as TableChargingStationsSmartChargingActionDef).action(
             ChargingStationLimitationDialogComponent, this.dialogService, this.translateService, this.dialog,
-            { id: chargingStation.id, ocppVersion: chargingStation.ocppVersion, canUpdate: chargingStation.canUpdate },
+            {
+              dialogData: { id: chargingStation.id, ocppVersion: chargingStation.ocppVersion, canUpdate: chargingStation.canUpdate },
+              dialogMode: DialogMode.EDIT
+            },
             this.refreshData.bind(this)
           );
         }

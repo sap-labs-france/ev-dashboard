@@ -1,5 +1,5 @@
 import { BillingSettings } from './Setting';
-import { Data } from './Table';
+import { TableData } from './Table';
 
 export enum BillingInvoiceStatus {
   PAID = 'paid',
@@ -7,17 +7,17 @@ export enum BillingInvoiceStatus {
   DRAFT = 'draft',
 }
 
-export interface BillingTax extends Data {
+export interface BillingTax extends TableData {
   description: string;
   displayName: string;
   percentage: number;
 }
 
-export interface BillingUserData extends Data {
+export interface BillingUserData extends TableData {
   hasSynchroError: boolean;
 }
 
-export interface BillingInvoice extends Data {
+export interface BillingInvoice extends TableData {
   id: string;
   createdOn?: Date;
   invoiceID: string;
@@ -69,7 +69,7 @@ export interface BillingPaymentMethod {
   isDefault: boolean;
 }
 
-export interface PaymentDialogData extends Data {
+export interface PaymentDialogData extends TableData {
   userId: string;
   setting: BillingSettings;
 }

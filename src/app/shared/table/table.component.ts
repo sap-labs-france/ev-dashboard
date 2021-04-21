@@ -14,7 +14,7 @@ import { SpinnerService } from '../../services/spinner.service';
 import { WindowService } from '../../services/window.service';
 import ChangeNotification from '../../types/ChangeNotification';
 import { ButtonAction } from '../../types/GlobalType';
-import { Data, DropdownItem, FilterType, TableActionDef, TableColumnDef, TableEditType, TableFilterDef } from '../../types/Table';
+import { DropdownItem, FilterType, TableActionDef, TableColumnDef, TableData, TableEditType, TableFilterDef } from '../../types/Table';
 import { Constants } from '../../utils/Constants';
 import { Utils } from '../../utils/Utils';
 import { TableDataSource } from './table-data-source';
@@ -24,7 +24,7 @@ import { TableDataSource } from './table-data-source';
   templateUrl: 'table.component.html',
 })
 export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
-  @Input() public dataSource!: TableDataSource<Data>;
+  @Input() public dataSource!: TableDataSource<TableData>;
   @ViewChild('searchInput') public searchInput!: ElementRef;
   public searchPlaceholder = '';
   public ongoingAutoRefresh = false;
@@ -281,7 +281,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     this.dataSource.rowActionTriggered(actionDef, rowItem, dropdownItem);
   }
 
-  public toggleRowSelection(row: Data, event: MatCheckboxChange) {
+  public toggleRowSelection(row: TableData, event: MatCheckboxChange) {
     this.dataSource.toggleRowSelection(row, event.checked);
   }
 
@@ -293,11 +293,11 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     this.dataSource.onRowActionMenuOpen(action, row);
   }
 
-  public trackByObjectId(index: number, item: Data): string {
+  public trackByObjectId(index: number, item: TableData): string {
     return item.id as string;
   }
 
-  public trackByObjectIndex(index: number, item: Data): string {
+  public trackByObjectIndex(index: number, item: TableData): string {
     return index.toString();
   }
 

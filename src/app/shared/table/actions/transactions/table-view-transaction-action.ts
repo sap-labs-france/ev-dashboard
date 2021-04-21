@@ -1,20 +1,20 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
-import { DialogData } from 'types/Authorization';
+import { DialogParams } from 'types/Authorization';
 
-import { TableActionDef } from '../../../../types/Table';
+import { TableActionDef, TableData } from '../../../../types/Table';
 import { TransactionButtonAction } from '../../../../types/Transaction';
 import { TableViewAction } from '../table-view-action';
 
-export interface TransactionDialogData extends DialogData {
+export interface TransactionDialogData extends TableData {
   transactionID?: number;
   chargingStationID?: string;
   connectorID?: number;
 }
 export interface TableViewTransactionActionDef extends TableActionDef {
-  action: (transactionDialogComponent: ComponentType<unknown>, dialog: MatDialog, data: TransactionDialogData,
-    refresh?: () => Observable<void>) => void;
+  action: (transactionDialogComponent: ComponentType<unknown>, dialog: MatDialog,
+    dialogParams: DialogParams<TransactionDialogData>, refresh?: () => Observable<void>) => void;
 }
 
 export class TableViewTransactionAction extends TableViewAction {
@@ -27,7 +27,7 @@ export class TableViewTransactionAction extends TableViewAction {
   }
 
   private viewTransaction(transactionDialogComponent: ComponentType<unknown>, dialog: MatDialog,
-    data: TransactionDialogData, refresh?: () => Observable<void>) {
-    super.view(transactionDialogComponent, dialog, data, refresh);
+    dialogParams: DialogParams<TransactionDialogData>, refresh?: () => Observable<void>) {
+    super.view(transactionDialogComponent, dialog, dialogParams, refresh);
   }
 }

@@ -165,16 +165,16 @@ export interface SiteAuthorizationActions extends AuthorizationActions {
 }
 
 export enum DialogMode {
-  UPDATE = 'update',
-  CREATE = 'create',
-  READ = 'read',
+  EDIT = 'E',
+  CREATE = 'C',
+  DISPLAY = 'D',
 }
 
-export interface DialogData extends AuthorizationActions {
-  id?: string | number;
+export interface DialogData {
+  id: string | number;
 }
 
 export interface DialogParams<T extends DialogData> {
-  dialogMode: DialogMode;
   dialogData?: T;
+  dialogMode: DialogMode;
 }

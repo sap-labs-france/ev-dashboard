@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { TransactionDialogComponent } from 'shared/dialogs/transaction/transaction.dialog.component';
+import { DialogMode } from 'types/Authorization';
 
 import { ChargingStationsConnectorInactivityCellComponent } from '../../../pages/charging-stations/cell-components/charging-stations-connector-inactivity-cell.component';
 import { AuthorizationService } from '../../../services/authorization.service';
@@ -21,7 +22,7 @@ import { TableChargingStationsUnlockConnectorAction, TableChargingStationsUnlock
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
 import { TableNoAction } from '../../../shared/table/actions/table-no-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
-import { TableViewTransactionAction, TableViewTransactionActionDef } from '../../../shared/table/actions/transactions/table-view-transaction-action';
+import { TableViewTransactionAction, TableViewTransactionActionDef, TransactionDialogData } from '../../../shared/table/actions/transactions/table-view-transaction-action';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { ChargePointStatus, ChargingStation, ChargingStationButtonAction, Connector } from '../../../types/ChargingStation';
 import { DataResult } from '../../../types/DataResult';
@@ -249,13 +250,15 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
           return;
         }
         if (actionDef.action) {
-          (actionDef as TableViewTransactionActionDef).action(TransactionDialogComponent, this.dialog,
-            {
+          (actionDef as TableViewTransactionActionDef).action(TransactionDialogComponent, this.dialog, {
+            dialogData: {
               transactionID: connector.currentTransactionID,
               chargingStationID: this.chargingStation.id,
               connectorID: connector.connectorId
-            },
-            this.refreshData.bind(this));
+            } as TransactionDialogData,
+            dialogMode: DialogMode.DISPLAY
+          },
+          this.refreshData.bind(this));
         }
         break;
       // Unlock Charger

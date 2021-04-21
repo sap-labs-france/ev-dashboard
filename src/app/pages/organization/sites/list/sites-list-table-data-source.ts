@@ -225,13 +225,14 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
     switch (actionDef.id) {
       case SiteButtonAction.EDIT_SITE:
         if (actionDef.action) {
-          (actionDef as TableEditSiteActionDef).action(SiteDialogComponent, this.dialog, site, this.refreshData.bind(this));
+          (actionDef as TableEditSiteActionDef).action(SiteDialogComponent, this.dialog,
+            { dialogMode: DialogMode.EDIT, dialogData: site }, this.refreshData.bind(this));
         }
         break;
       case SiteButtonAction.VIEW_SITE:
         if (actionDef.action) {
           (actionDef as TableViewSiteActionDef).action(SiteDialogComponent, this.dialog,
-            {...site, canCreate: false, canUpdate: false}, this.refreshData.bind(this));
+            { dialogMode: DialogMode.DISPLAY, dialogData: site }, this.refreshData.bind(this));
         }
         break;
       case SiteButtonAction.ASSIGN_USERS_TO_SITE:

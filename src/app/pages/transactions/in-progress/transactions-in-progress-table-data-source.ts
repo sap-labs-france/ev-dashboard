@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { TransactionDialogComponent } from 'shared/dialogs/transaction/transaction.dialog.component';
 import { ConnectorTableFilter } from 'shared/table/filters/connector-table-filter';
+import { DialogMode } from 'types/Authorization';
 import { CarCatalog } from 'types/Car';
 
 import { AuthorizationService } from '../../../services/authorization.service';
@@ -256,7 +257,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
       case TransactionButtonAction.VIEW_TRANSACTION:
         if (actionDef.action) {
           (actionDef as TableViewTransactionActionDef).action(TransactionDialogComponent, this.dialog,
-            { transactionID: transaction.id, canUpdate: false }, this.refreshData.bind(this));
+            { dialogData: transaction, dialogMode: DialogMode.DISPLAY }, this.refreshData.bind(this));
         }
         break;
       case LogButtonAction.NAVIGATE_TO_LOGS:

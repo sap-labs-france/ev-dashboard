@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { TableSiteGenerateQrCodeConnectorAction, TableSiteGenerateQrCodeConnectorsActionDef } from 'shared/table/actions/sites/table-site-generate-qr-code-connector-action';
+import { DialogMode } from 'types/Authorization';
 
 import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../../services/central-server.service';
@@ -37,7 +38,6 @@ import { SiteDialogComponent } from '../site/site-dialog.component';
 
 @Injectable()
 export class SitesListTableDataSource extends TableDataSource<Site> {
-  private canCreateSite = false;
   private editAction = new TableEditSiteAction().getActionDef();
   private assignUsersToSite = new TableAssignUsersToSiteAction().getActionDef();
   private deleteAction = new TableDeleteSiteAction().getActionDef();
@@ -72,7 +72,6 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
       this.centralServerService.getSites(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((sites) => {
         this.createAction.visible = sites.canCreate;
-        this.canCreateSite = sites.canCreate;
         // Ok
         observer.next(sites);
         observer.complete();
@@ -217,7 +216,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
       case SiteButtonAction.CREATE_SITE:
         if (actionDef.action) {
           (actionDef as TableCreateSiteActionDef).action(SiteDialogComponent, this.dialog,
-            { canCreate: this.canCreateSite, canUpdate: false }, this.refreshData.bind(this));
+            { dialogMode: DialogMode.CREATE }, this.refreshData.bind(this));
         }
     }
   }

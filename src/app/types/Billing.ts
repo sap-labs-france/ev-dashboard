@@ -1,3 +1,4 @@
+import { BillingSettings } from './Setting';
 import { Data } from './Table';
 
 export enum BillingInvoiceStatus {
@@ -68,3 +69,7 @@ export interface BillingPaymentMethod {
   isDefault: boolean;
 }
 
+export interface PaymentDialogData extends Data {
+  userId: string;
+  setting: BillingSettings;
+}

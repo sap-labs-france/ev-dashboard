@@ -1,15 +1,15 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
-import { DialogData } from 'types/Authorization';
+import { DialogParams } from 'types/Authorization';
 
-import { CarButtonAction } from '../../../../types/Car';
+import { Car, CarButtonAction } from '../../../../types/Car';
 import { TableActionDef } from '../../../../types/Table';
 import { TableCreateAction } from '../table-create-action';
 
 export interface TableCreateCarActionDef extends TableActionDef {
-  action: (carDialogComponentcarDialogComponent: ComponentType<unknown>, dialog: MatDialog, data?: DialogData,
-    refresh?: () => Observable<void>) => void;
+  action: (carDialogComponentcarDialogComponent: ComponentType<unknown>, dialog: MatDialog,
+    dialogParams: DialogParams<Car>, refresh?: () => Observable<void>) => void;
 }
 
 export class TableCreateCarAction extends TableCreateAction {
@@ -22,7 +22,7 @@ export class TableCreateCarAction extends TableCreateAction {
   }
 
   private createCar(carDialogComponent: ComponentType<unknown>, dialog: MatDialog,
-    data?: DialogData, refresh?: () => Observable<void>) {
-    super.create(carDialogComponent, dialog, data, refresh);
+    dialogParams: DialogParams<Car>, refresh?: () => Observable<void>) {
+    super.create(carDialogComponent, dialog, dialogParams, refresh);
   }
 }

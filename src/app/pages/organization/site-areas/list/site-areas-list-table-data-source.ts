@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { WindowService } from 'services/window.service';
 import { TableSiteAreaGenerateQrCodeConnectorAction, TableSiteAreaGenerateQrCodeConnectorsActionDef } from 'shared/table/actions/site-areas/table-site-area-generate-qr-code-connector-action';
+import { DialogMode } from 'types/Authorization';
 
 import { AuthorizationService } from '../../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
@@ -303,7 +304,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
       case SiteAreaButtonAction.CREATE_SITE_AREA:
         if (actionDef.action) {
           (actionDef as TableCreateSiteAreaActionDef).action(SiteAreaDialogComponent, this.dialog,
-            { canCreate: this.canCreateSiteArea }, this.refreshData.bind(this));
+            { dialogMode: DialogMode.CREATE }, this.refreshData.bind(this));
         }
         break;
     }

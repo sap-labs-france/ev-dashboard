@@ -1,14 +1,14 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
-import { DialogData } from 'types/Authorization';
+import { DialogParams } from 'types/Authorization';
 
-import { SiteButtonAction } from '../../../../types/Site';
+import { Site, SiteButtonAction } from '../../../../types/Site';
 import { TableActionDef } from '../../../../types/Table';
 import { TableCreateAction } from '../table-create-action';
 
 export interface TableCreateSiteActionDef extends TableActionDef {
-  action: (siteDialogComponent: ComponentType<unknown>, dialog: MatDialog, data?: DialogData,
+  action: (siteDialogComponent: ComponentType<unknown>, dialog: MatDialog, dialogParams: DialogParams<Site>,
     refresh?: () => Observable<void>) => void;
 }
 
@@ -23,7 +23,7 @@ export class TableCreateSiteAction extends TableCreateAction {
   }
 
   private createSite(siteDialogComponent: ComponentType<unknown>, dialog: MatDialog,
-    data?: DialogData, refresh?: () => Observable<void>) {
-    super.create(siteDialogComponent, dialog, data, refresh);
+    dialogParams: DialogParams<Site>, refresh?: () => Observable<void>) {
+    super.create(siteDialogComponent, dialog, dialogParams, refresh);
   }
 }

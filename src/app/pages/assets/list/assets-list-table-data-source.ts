@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { DialogMode } from 'types/Authorization';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
@@ -206,7 +207,7 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
       case AssetButtonAction.CREATE_ASSET:
         if (actionDef.action) {
           (actionDef as TableCreateAssetActionDef).action(AssetDialogComponent, this.dialog,
-            { canCreate: true }, this.refreshData.bind(this));
+            { dialogMode: DialogMode.CREATE }, this.refreshData.bind(this));
         }
         break;
     }

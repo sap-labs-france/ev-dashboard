@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { ImportDialogComponent } from 'shared/dialogs/import/import-dialog.component';
 import { TableImportUsersAction, TableImportUsersActionDef } from 'shared/table/actions/users/table-import-users-action';
+import { DialogMode } from 'types/Authorization';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
@@ -306,7 +307,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       case UserButtonAction.CREATE_USER:
         if (actionDef.action) {
           (actionDef as TableCreateUserActionDef).action(UserDialogComponent, this.dialog,
-            { canCreate: true }, this.refreshData.bind(this));
+            { dialogMode: DialogMode.CREATE }, this.refreshData.bind(this));
         }
         break;
       case UserButtonAction.EXPORT_USERS:

@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
+import { DialogMode } from 'types/Authorization';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
@@ -231,7 +232,7 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
         if (actionDef.id) {
           (actionDef as TableCreateRegistrationTokenActionDef).action(
             ChargingStationsRegistrationTokenDialogComponent, this.dialog,
-            { canCreate: true }, this.refreshData.bind(this));
+            { dialogMode: DialogMode.CREATE }, this.refreshData.bind(this));
         }
         break;
     }

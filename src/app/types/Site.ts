@@ -1,5 +1,5 @@
 import { Address } from './Address';
-import { AuthorizationActions, SiteAuthorizationActions } from './Authorization';
+import { SiteAuthorizationActions } from './Authorization';
 import { Company } from './Company';
 import CreatedUpdatedProps from './CreatedUpdatedProps';
 import { SiteArea } from './SiteArea';

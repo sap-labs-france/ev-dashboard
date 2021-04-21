@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { TableMoreAction } from 'shared/table/actions/table-more-action';
+import { DialogMode } from 'types/Authorization';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
@@ -260,7 +261,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
       case CarButtonAction.CREATE_CAR:
         if (actionDef.action) {
           (actionDef as TableCreateCarActionDef).action(CarDialogComponent, this.dialog,
-            { canCreate: true }, this.refreshData.bind(this));
+            { dialogMode: DialogMode.CREATE }, this.refreshData.bind(this));
         }
         break;
     }

@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { DialogMode } from 'types/Authorization';
 
 import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../../services/central-server.service';
@@ -32,7 +33,6 @@ import { CompanyDialogComponent } from '../company/company.dialog.component';
 
 @Injectable()
 export class CompaniesListTableDataSource extends TableDataSource<Company> {
-  private canCreateCompany = false;
   private editAction = new TableEditCompanyAction().getActionDef();
   private deleteAction = new TableDeleteCompanyAction().getActionDef();
   private viewAction = new TableViewCompanyAction().getActionDef();
@@ -63,7 +63,6 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
       // get companies
       this.centralServerService.getCompanies(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe((companies) => {
         this.createAction.visible = companies.canCreate;
-        this.canCreateCompany = companies.canCreate;
         observer.next(companies);
         observer.complete();
       }, (error) => {
@@ -189,7 +188,7 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
       case CompanyButtonAction.CREATE_COMPANY:
         if (actionDef.action) {
           (actionDef as TableCreateCompanyActionDef).action(CompanyDialogComponent, this.dialog,
-            { canCreate: this.canCreateCompany }, this.refreshData.bind(this)
+            { dialogMode: DialogMode.CREATE }, this.refreshData.bind(this)
           );
         }
         break;

@@ -16,6 +16,7 @@ import { TableImportTagsAction, TableImportTagsActionDef } from 'shared/table/ac
 import { organisations } from 'shared/table/filters/issuer-filter';
 import { StatusFilter } from 'shared/table/filters/status-filter';
 import { UserTableFilter } from 'shared/table/filters/user-table-filter';
+import { DialogMode } from 'types/Authorization';
 import { DataResult } from 'types/DataResult';
 import { HTTPError } from 'types/HTTPError';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'types/Table';
@@ -293,7 +294,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
       case UserButtonAction.CREATE_TAG:
         if (actionDef.action) {
           (actionDef as TableCreateTagActionDef).action(TagDialogComponent, this.dialog,
-            { canCreate: true }, this.refreshData.bind(this));
+            { dialogMode: DialogMode.CREATE }, this.refreshData.bind(this));
         }
         break;
       // Delete

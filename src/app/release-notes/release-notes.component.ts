@@ -24,6 +24,25 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.63',
+        date: new Date('2021-04-21'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Only Assets belonging to e-Moblity can be updated or deleted`,
+              `Allow delete of Badge with linked transactions but forbid its creation`,
+              `Added getChargingStationTransactions, firmwareDownload, SmartChargingTrigger, InError validation in RESTful endpoint`,
+              `Ensure that each User has only one default badge`,
+              `Fixed Charging Plan is lost when the Charging Station is reloaded from the backend`,
+              `Add Legrand model 059012 in Charging Station's template`,
+              `Use Watts unit in AC/DC in Charging Station's template`,
+              `Billing - Added Stripe feature toggle`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.62',
         date: new Date('2021-04-17'),
         componentChanges: [
@@ -32,8 +51,8 @@ export class ReleaseNotesComponent {
             changes: [
               `Handle the Billing Production Mode flag in the Settings`,
               `Added broader firmware version for Exadys Charging Station`,
-              `Put min amperage limit to 6A intead of 13A per phase`,
-              `Fixed missing transaction's extra inactivity information + Formating of medium/high inactivity`,
+              `Put min amperage limit to 6A instead of 13A per phase`,
+              `Fixed missing transaction's extra inactivity information + Formatting of medium/high inactivity`,
               `Fixed cannot display ongoing Session from Charging Station's connector`,
               `Optimized Car Catalog Image loading`,
               `Fixed minor bugs`,
@@ -186,7 +205,7 @@ export class ReleaseNotesComponent {
               `Keba: Add support for latest firmware version`,
               `Billing - Check that Stripe settings are provided in Start Transaction`,
               `Billing - Enrich Stripe invoice information`,
-              `Added Lock aquisition with a timeout`,
+              `Added Lock acquisition with a timeout`,
               `Changed Vendor ID length to 255 chars in OCPP-J status notification schema validation`,
               `Added SMTP error codes that should not trigger a retry`,
               `Added Exadys Charging Station in templates`,

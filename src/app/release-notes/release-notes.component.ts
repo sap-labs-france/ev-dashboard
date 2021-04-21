@@ -25,13 +25,17 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.4.63',
-        date: new Date('2021-04-20'),
+        date: new Date('2021-04-21'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `Only Assets belonging to e-Moblity can be updated or deleted`,
+              `Allow delete of Badge with linked transactions but forbid its creation`,
+              `Added getChargingStationTransactions, firmwareDownload, SmartChargingTrigger, InError validation in RESTful endpoint`,
               `Fixed Charging Plan is lost when the Charging Station is reloaded from the backend`,
+              `Add Legrand model 059012 in Charging Station's template`,
+              `Use Watts unit in AC/DC in Charging Station's template`,
               `Billing - Added Stripe feature toggle`,
             ],
           },

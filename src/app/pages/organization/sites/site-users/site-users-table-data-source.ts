@@ -43,8 +43,10 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
 
   public loadDataImpl(): Observable<DataResult<UserSite>> {
     return new Observable((observer) => {
-      // Site provided?
+      // Site data provided?
       if (this.site) {
+        this.addAction.visible = this.site.canAssignUsers;
+        this.removeAction.visible = this.site.canUnassignUsers;
         // Yes: Get data
         this.centralServerService.getSiteUsers(
           {...this.buildFilterValues(), SiteID: this.site.id},
@@ -130,13 +132,11 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-    if (this.authorizationService.canAssignUsersSites()) {
-      tableActionsDef.push(this.addAction);
-    }
-    if (this.authorizationService.canUnassignUsersSites()) {
-      tableActionsDef.push(this.removeAction);
-    }
-    return tableActionsDef;
+    return [
+      this.addAction,
+      this.removeAction,
+      ...tableActionsDef,
+    ];
   }
 
   public actionTriggered(actionDef: TableActionDef) {

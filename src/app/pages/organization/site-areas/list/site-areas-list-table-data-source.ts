@@ -95,8 +95,9 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
   public initUrlParams() {
     const siteAreaID = this.windowService.getSearch('SiteAreaID');
     if (siteAreaID) {
-      this.editAction.action(SiteAreaDialogComponent, this.dialog,
-        { id: siteAreaID });
+      this.editAction.action(SiteAreaDialogComponent, this.dialog, {
+        dialogData: { id: siteAreaID } as SiteArea
+      });
     }
   }
 
@@ -302,8 +303,8 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     switch (actionDef.id) {
       case SiteAreaButtonAction.CREATE_SITE_AREA:
         if (actionDef.action) {
-          (actionDef as TableCreateSiteAreaActionDef).action(SiteAreaDialogComponent, this.dialog,
-            { canCreate: this.canCreateSiteArea }, this.refreshData.bind(this));
+          (actionDef as TableCreateSiteAreaActionDef).action(SiteAreaDialogComponent,
+            this.dialog, this.refreshData.bind(this));
         }
         break;
     }
@@ -315,15 +316,13 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
       case SiteAreaButtonAction.EDIT_SITE_AREA:
         if (actionDef.action) {
           (actionDef as TableEditSiteAreaActionDef).action(SiteAreaDialogComponent, this.dialog,
-            { id: siteArea.id, canUpdate: siteArea.canUpdate }, this.refreshData.bind(this));
+            { dialogData: siteArea }, this.refreshData.bind(this));
         }
         break;
       case SiteAreaButtonAction.VIEW_SITE_AREA:
         if (actionDef.action) {
-          (actionDef as TableViewSiteAreaActionDef).action(
-            SiteAreaDialogComponent, this.dialog,
-            { id: siteArea.id, canUpdate: false },
-            this.refreshData.bind(this));
+          (actionDef as TableViewSiteAreaActionDef).action(SiteAreaDialogComponent, this.dialog,
+            { dialogData: siteArea }, this.refreshData.bind(this));
         }
         break;
       case SiteAreaButtonAction.ASSIGN_CHARGING_STATIONS_TO_SITE_AREA:
@@ -336,7 +335,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
         if (actionDef.action) {
           (actionDef as TableViewChargingStationsOfSiteAreaActionDef).action(
             SiteAreaChargingStationsDialogComponent, this.dialog,
-            siteArea, this.refreshData.bind(this));
+            { dialogData: siteArea }, this.refreshData.bind(this));
         }
         break;
       case SiteAreaButtonAction.DELETE_SITE_AREA:

@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, Inject, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { DialogData } from 'types/Authorization';
+import { DialogParams } from 'types/Authorization';
+import { ChargingStation } from 'types/ChargingStation';
 
 import { Utils } from '../../../utils/Utils';
 import { ChargingStationComponent } from './charging-station.component';
@@ -14,8 +15,8 @@ export class ChargingStationDialogComponent implements AfterViewInit {
 
   public constructor(
     public dialogRef: MatDialogRef<ChargingStationDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data: DialogData) {
-    this.chargingStationID = data.id as string;
+    @Inject(MAT_DIALOG_DATA) dialogParams: DialogParams<ChargingStation>) {
+    this.chargingStationID = dialogParams.dialogData?.id;
   }
 
   public ngAfterViewInit() {

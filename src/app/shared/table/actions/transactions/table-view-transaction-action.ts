@@ -1,7 +1,7 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
-import { DialogData } from 'types/Authorization';
+import { DialogData, DialogParams } from 'types/Authorization';
 
 import { TableActionDef } from '../../../../types/Table';
 import { TransactionButtonAction } from '../../../../types/Transaction';
@@ -13,8 +13,8 @@ export interface TransactionDialogData extends DialogData {
   connectorID?: number;
 }
 export interface TableViewTransactionActionDef extends TableActionDef {
-  action: (transactionDialogComponent: ComponentType<unknown>, dialog: MatDialog, data: TransactionDialogData,
-    refresh?: () => Observable<void>) => void;
+  action: (transactionDialogComponent: ComponentType<unknown>, dialog: MatDialog,
+    dialogParams: DialogParams<TransactionDialogData>, refresh?: () => Observable<void>) => void;
 }
 
 export class TableViewTransactionAction extends TableViewAction {
@@ -27,7 +27,7 @@ export class TableViewTransactionAction extends TableViewAction {
   }
 
   private viewTransaction(transactionDialogComponent: ComponentType<unknown>, dialog: MatDialog,
-    data: TransactionDialogData, refresh?: () => Observable<void>) {
-    super.view(transactionDialogComponent, dialog, data, refresh);
+    dialogParams: DialogParams<TransactionDialogData>, refresh?: () => Observable<void>) {
+    super.view(transactionDialogComponent, dialog, dialogParams, refresh);
   }
 }

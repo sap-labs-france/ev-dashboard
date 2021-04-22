@@ -2,20 +2,14 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
-import { DialogData } from 'types/Authorization';
-import { BillingButtonAction } from 'types/Billing';
+import { DialogParams } from 'types/Authorization';
+import { BillingButtonAction, PaymentDialogData } from 'types/Billing';
 
-import { BillingSettings } from '../../../../types/Setting';
 import { TableActionDef } from '../../../../types/Table';
 import { TableCreateAction } from '../table-create-action';
 
-export interface PaymentDialogData extends DialogData {
-  userId: string;
-  setting: BillingSettings;
-}
-
 export interface TableCreatePaymentMethodActionDef extends TableActionDef {
-  action: (paymentMethodDialogComponent: ComponentType<unknown>, dialog: MatDialog, data: PaymentDialogData,
+  action: (paymentMethodDialogComponent: ComponentType<unknown>, dialog: MatDialog, dialogParams: DialogParams<PaymentDialogData>,
     refresh?: () => Observable<void>) => void;
 }
 
@@ -29,7 +23,7 @@ export class TableCreatePaymentMethodAction extends TableCreateAction {
   }
 
   private createPaymentMethod(paymentMethodDialogComponent: ComponentType<unknown>,
-    dialog: MatDialog, data: PaymentDialogData, refresh?: () => Observable<void>) {
-    super.create(paymentMethodDialogComponent, dialog, data, refresh);
+    dialog: MatDialog, dialogParams: DialogParams<PaymentDialogData>, refresh?: () => Observable<void>) {
+    super.create(paymentMethodDialogComponent, dialog, dialogParams, refresh);
   }
 }

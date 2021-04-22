@@ -91,31 +91,31 @@ export class AddressComponent implements OnInit, OnChanges {
       return;
     }
     if (this.address.address1) {
-      this.addressFormGroup.controls.address1.setValue(this.address.address1);
+      this.addressFormGroup?.controls.address1.setValue(this.address.address1);
     }
     if (this.address.address2) {
-      this.addressFormGroup.controls.address2.setValue(this.address.address2);
+      this.addressFormGroup?.controls.address2.setValue(this.address.address2);
     }
     if (this.address.postalCode) {
-      this.addressFormGroup.controls.postalCode.setValue(this.address.postalCode);
+      this.addressFormGroup?.controls.postalCode.setValue(this.address.postalCode);
     }
     if (this.address.city) {
-      this.addressFormGroup.controls.city.setValue(this.address.city);
+      this.addressFormGroup?.controls.city.setValue(this.address.city);
     }
     if (this.address.department) {
-      this.addressFormGroup.controls.department.setValue(this.address.department);
+      this.addressFormGroup?.controls.department.setValue(this.address.department);
     }
     if (this.address.region) {
-      this.addressFormGroup.controls.region.setValue(this.address.region);
+      this.addressFormGroup?.controls.region.setValue(this.address.region);
     }
     if (this.address.country) {
-      this.addressFormGroup.controls.country.setValue(this.address.country);
+      this.addressFormGroup?.controls.country.setValue(this.address.country);
     }
     if (this.address.coordinates && this.address.coordinates.length === 2) {
-      this.coordinates.at(0).setValue(this.address.coordinates[0]);
-      this.coordinates.at(1).setValue(this.address.coordinates[1]);
-      this.longitude = this.coordinates.at(0);
-      this.latitude = this.coordinates.at(1);
+      this.coordinates?.at(0).setValue(this.address.coordinates[0]);
+      this.coordinates?.at(1).setValue(this.address.coordinates[1]);
+      this.longitude = this.coordinates?.at(0);
+      this.latitude = this.coordinates?.at(1);
     }
   }
 
@@ -207,6 +207,7 @@ export class AddressComponent implements OnInit, OnChanges {
       latitude,
       longitude,
       label: this.itemComponentName ? this.itemComponentName : '',
+      displayOnly: this.onlyReadGeolocation ?? false
     };
     // Disable outside click close
     dialogConfig.disableClose = true;

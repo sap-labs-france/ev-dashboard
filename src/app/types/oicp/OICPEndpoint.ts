@@ -1,6 +1,6 @@
-import { Data } from '../Table';
+import { TableData } from '../Table';
 
-export interface OicpEndpoint extends Data {
+export interface OicpEndpoint extends TableData {
   id: string;
   name: string;
   role: string;
@@ -17,7 +17,7 @@ export interface OicpEndpoint extends Data {
 }
 
 
-export interface OicpEndpointDetail extends Data {
+export interface OicpEndpointDetail extends TableData {
   id: string;
   oicpendpoint: OicpEndpoint;
   status: string;

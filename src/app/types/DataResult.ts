@@ -77,6 +77,8 @@ export interface CompanyDataResult extends DataResult<Company> {
 }
 export interface SiteDataResult extends DataResult<Site> {
   canCreate: boolean;
+  canAssignUsers: boolean;
+  canUnassignUsers: boolean;
 }
 export interface CheckAssetConnectionResponse extends ActionResponse {
   connectionIsValid: boolean;

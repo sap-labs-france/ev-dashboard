@@ -1,10 +1,10 @@
 import { KeyValue } from './GlobalType';
 import { SiteArea } from './SiteArea';
-import { Data } from './Table';
+import { TableData } from './Table';
 import { InactivityStatus } from './Transaction';
 import { User } from './User';
 
-export interface ChargingStation extends Data {
+export interface ChargingStation extends TableData {
   id: string;
   templateHash?: string;
   templateHashTechnical?: string;
@@ -92,7 +92,7 @@ export enum ChargingRateUnitType {
   AMPERE = 'A',
 }
 
-export interface OcppParameter extends Data {
+export interface OcppParameter extends TableData {
   key: string;
   value?: string;
   readonly: boolean;
@@ -115,7 +115,7 @@ export interface ChargePoint {
   ampCurrentLimit?: number;
 }
 
-export interface Connector extends Data {
+export interface Connector extends TableData {
   connectorId: number;
   currentInstantWatts: number;
   currentStateOfCharge?: number;

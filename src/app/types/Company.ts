@@ -1,8 +1,8 @@
 import { Address } from './Address';
 import CreatedUpdatedProps from './CreatedUpdatedProps';
-import { Data } from './Table';
+import { TableData } from './Table';
 
-export interface Company extends Data, CreatedUpdatedProps {
+export interface Company extends TableData, CreatedUpdatedProps {
   id: string;
   name: string;
   address: Address;

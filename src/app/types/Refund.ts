@@ -1,7 +1,7 @@
-import { Data } from './Table';
+import { TableData } from './Table';
 import { User } from './User';
 
-export interface RefundReport extends Data {
+export interface RefundReport extends TableData {
   id: string;
   user: User;
 }

@@ -1,14 +1,13 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
-import { DialogData } from 'types/Authorization';
 
 import { SiteAreaButtonAction } from '../../../../types/SiteArea';
 import { TableActionDef } from '../../../../types/Table';
 import { TableCreateAction } from '../table-create-action';
 
 export interface TableCreateSiteAreaActionDef extends TableActionDef {
-  action: (siteAreaDialogComponent: ComponentType<unknown>, dialog: MatDialog, data?: DialogData,
+  action: (siteAreaDialogComponent: ComponentType<unknown>, dialog: MatDialog,
     refresh?: () => Observable<void>) => void;
 }
 
@@ -21,8 +20,8 @@ export class TableCreateSiteAreaAction extends TableCreateAction {
     };
   }
 
-  private createSiteArea(siteAreaDialogComponent: ComponentType<unknown>, dialog: MatDialog,
-    data?: DialogData, refresh?: () => Observable<void>) {
-    super.create(siteAreaDialogComponent, dialog, data, refresh);
+  private createSiteArea(siteAreaDialogComponent: ComponentType<unknown>,
+    dialog: MatDialog, refresh?: () => Observable<void>) {
+    super.create(siteAreaDialogComponent, dialog, null, refresh);
   }
 }

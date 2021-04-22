@@ -11,7 +11,7 @@
             <div class="tab-pane active" id="profile">
               <div class="row app-organization">
                 <div class="col-md-5">
-                  <div class="rotating-card-container" [ngStyle]="{ 'pointer-events': site.canCreate || site.canUpdate ? 'all' : 'none'}">
+                  <div class="rotating-card-container" [ngStyle]="{ 'pointer-events': readOnly ? 'none' : 'all'}">
                     <div class="card card-rotate card-background app-site-image-padding mt-0">
                       <div class="front front-background"
                         [ngStyle]="{'background-image': 'url(' + image + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
@@ -20,7 +20,7 @@
                       </div>
                       <div class="back back-background"
                         [ngStyle]="{'background-image': 'url(' + image + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
-                        <div *ngIf="site.canCreate || site.canUpdate" class="card-body">
+                        <div *ngIf="!readOnly" class="card-body">
                           <h5 class="card-title">
                             {{'general.change_picture' | translate}}
                           </h5>
@@ -86,26 +86,26 @@
               <div class="row">
                 <div class="col-md-12">
                   <app-address [address]="address" [formGroup]="formGroup" componentName="{{'sites.site' | translate}}"
-                    [itemComponentName]="name.value"></app-address>
+                    [itemComponentName]="name.value" [onlyReadGeolocation]="readOnly"></app-address>
                 </div>
               </div>
               <div class="clearfix"></div>
             </div>
             <div class="tab-pane" id="address">
               <app-address [address]="address" [formGroup]="formGroup" componentName="{{'sites.site' | translate}}"
-                [itemComponentName]="name.value" [onlyReadGeolocation]="!site.canUpdate"></app-address>
+                [itemComponentName]="name.value" [onlyReadGeolocation]="readOnly"></app-address>
             </div>
           </div>
         </div>
       </mat-tab>
     </mat-tab-group>
     <div class="tabs-actions">
-      <button mat-button (click)="saveSite(formGroup.value)"
+      <button mat-button *ngIf="!readOnly" (click)="saveSite(formGroup.value)"
         [disabled]="!formGroup.valid || !formGroup.dirty">
         <mat-icon>save</mat-icon>
         <span>{{'general.save' | translate}}</span>
       </button>
-      <button mat-icon-button *ngIf="inDialog" (click)="close()">
+      <button mat-icon-button *ngIf="dialogRef" (click)="close()">
         <mat-icon>close</mat-icon>
       </button>
     </div>

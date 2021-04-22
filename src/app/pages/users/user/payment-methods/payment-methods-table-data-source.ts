@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { DialogMode } from 'types/Authorization';
 
 import { AuthorizationService } from '../../../../services/authorization.service';
 import { CentralServerService } from '../../../../services/central-server.service';
@@ -171,7 +172,11 @@ export class PaymentMethodsTableDataSource extends TableDataSource<BillingPaymen
           (actionDef as TableCreatePaymentMethodActionDef).action(
             // eslint-disable-next-line max-len
             PaymentMethodDialogComponent, this.dialog,
-            { userId: this.currentUserID, setting: this.billingSettings },
+            {
+              dialogData: {
+                id: null, userId: this.currentUserID, setting: this.billingSettings
+              }
+            },
             this.refreshData.bind(this));
         }
         break;

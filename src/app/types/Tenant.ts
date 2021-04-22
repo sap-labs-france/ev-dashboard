@@ -1,7 +1,7 @@
 import { Address } from './Address';
-import { Data } from './Table';
+import { TableData } from './Table';
 
-export interface Tenant extends Data {
+export interface Tenant extends TableData {
   id: string;
   name: string;
   email: string;

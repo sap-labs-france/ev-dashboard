@@ -37,7 +37,6 @@ import { SiteDialogComponent } from '../site/site-dialog.component';
 
 @Injectable()
 export class SitesListTableDataSource extends TableDataSource<Site> {
-  private canCreateSite = false;
   private editAction = new TableEditSiteAction().getActionDef();
   private assignUsersToSite = new TableAssignUsersToSiteAction().getActionDef();
   private deleteAction = new TableDeleteSiteAction().getActionDef();
@@ -72,7 +71,6 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
       this.centralServerService.getSites(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((sites) => {
         this.createAction.visible = sites.canCreate;
-        this.canCreateSite = sites.canCreate;
         // Ok
         observer.next(sites);
         observer.complete();
@@ -216,8 +214,8 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
       // Add
       case SiteButtonAction.CREATE_SITE:
         if (actionDef.action) {
-          (actionDef as TableCreateSiteActionDef).action(SiteDialogComponent, this.dialog,
-            { canCreate: this.canCreateSite, canUpdate: false }, this.refreshData.bind(this));
+          (actionDef as TableCreateSiteActionDef).action(SiteDialogComponent,
+            this.dialog, this.refreshData.bind(this));
         }
     }
   }
@@ -226,13 +224,14 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
     switch (actionDef.id) {
       case SiteButtonAction.EDIT_SITE:
         if (actionDef.action) {
-          (actionDef as TableEditSiteActionDef).action(SiteDialogComponent, this.dialog, site, this.refreshData.bind(this));
+          (actionDef as TableEditSiteActionDef).action(SiteDialogComponent, this.dialog,
+            { dialogData: site }, this.refreshData.bind(this));
         }
         break;
       case SiteButtonAction.VIEW_SITE:
         if (actionDef.action) {
           (actionDef as TableViewSiteActionDef).action(SiteDialogComponent, this.dialog,
-            {...site, canCreate: false, canUpdate: false}, this.refreshData.bind(this));
+            { dialogData: site }, this.refreshData.bind(this));
         }
         break;
       case SiteButtonAction.ASSIGN_USERS_TO_SITE:

@@ -38,7 +38,7 @@ import { DataResult } from '../../../types/DataResult';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
 import TenantComponents from '../../../types/TenantComponents';
 import { TransactionButtonAction } from '../../../types/Transaction';
-import { User, UserButtonAction, UserToken } from '../../../types/User';
+import { User, UserButtonAction } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';
 import { UserRoleFilter } from '../filters/user-role-filter';
 import { UserStatusFilter } from '../filters/user-status-filter';
@@ -305,8 +305,8 @@ export class UsersListTableDataSource extends TableDataSource<User> {
     switch (actionDef.id) {
       case UserButtonAction.CREATE_USER:
         if (actionDef.action) {
-          (actionDef as TableCreateUserActionDef).action(UserDialogComponent, this.dialog,
-            { canCreate: true }, this.refreshData.bind(this));
+          (actionDef as TableCreateUserActionDef).action(UserDialogComponent,
+            this.dialog, this.refreshData.bind(this));
         }
         break;
       case UserButtonAction.EXPORT_USERS:
@@ -337,7 +337,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       case UserButtonAction.EDIT_USER:
         if (actionDef.action) {
           (actionDef as TableEditUserActionDef).action(UserDialogComponent, this.dialog,
-            { id: user.id, canUpdate: user.canUpdate }, this.refreshData.bind(this));
+            { dialogData: user }, this.refreshData.bind(this));
         }
         break;
       case UserButtonAction.ASSIGN_SITES_TO_USER:

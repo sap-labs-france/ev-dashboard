@@ -5,10 +5,10 @@ import Consumption, { AbstractCurrentConsumption } from './Consumption';
 import { OCPICdr } from './ocpi/OCPICdr';
 import { OCPISession } from './ocpi/OCPISession';
 import { RefundStatus, RefundType } from './Refund';
-import { Data } from './Table';
+import { TableData } from './Table';
 import { User } from './User';
 
-export interface Transaction extends Data, AbstractCurrentConsumption {
+export interface Transaction extends TableData, AbstractCurrentConsumption {
   id: number;
   timestamp: Date;
   chargeBox: ChargingStation;

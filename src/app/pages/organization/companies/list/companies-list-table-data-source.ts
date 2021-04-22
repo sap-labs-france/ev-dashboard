@@ -32,7 +32,6 @@ import { CompanyDialogComponent } from '../company/company.dialog.component';
 
 @Injectable()
 export class CompaniesListTableDataSource extends TableDataSource<Company> {
-  private canCreateCompany = false;
   private editAction = new TableEditCompanyAction().getActionDef();
   private deleteAction = new TableDeleteCompanyAction().getActionDef();
   private viewAction = new TableViewCompanyAction().getActionDef();
@@ -63,7 +62,6 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
       // get companies
       this.centralServerService.getCompanies(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe((companies) => {
         this.createAction.visible = companies.canCreate;
-        this.canCreateCompany = companies.canCreate;
         observer.next(companies);
         observer.complete();
       }, (error) => {
@@ -188,8 +186,8 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
       // Add
       case CompanyButtonAction.CREATE_COMPANY:
         if (actionDef.action) {
-          (actionDef as TableCreateCompanyActionDef).action(CompanyDialogComponent, this.dialog,
-            { canCreate: this.canCreateCompany }, this.refreshData.bind(this)
+          (actionDef as TableCreateCompanyActionDef).action(CompanyDialogComponent,
+            this.dialog, this.refreshData.bind(this)
           );
         }
         break;
@@ -201,13 +199,13 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
       case CompanyButtonAction.EDIT_COMPANY:
         if (actionDef.action) {
           (actionDef as TableEditCompanyActionDef).action(CompanyDialogComponent,
-            this.dialog, { id: company.id, canUpdate: company.canUpdate }, this.refreshData.bind(this));
+            this.dialog, { dialogData: company }, this.refreshData.bind(this));
         }
         break;
       case CompanyButtonAction.VIEW_COMPANY:
         if (actionDef.action) {
           (actionDef as TableViewCompanyActionDef).action(CompanyDialogComponent, this.dialog,
-            { id: company.id, canUpdate: false }, this.refreshData.bind(this));
+            { dialogData: company }, this.refreshData.bind(this));
         }
         break;
       case CompanyButtonAction.DELETE_COMPANY:

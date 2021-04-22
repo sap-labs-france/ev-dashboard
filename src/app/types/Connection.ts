@@ -1,6 +1,6 @@
-import { Data } from './Table';
+import { TableData } from './Table';
 
-export interface IntegrationConnection extends Data {
+export interface IntegrationConnection extends TableData {
   id: string;
   connectorId: string;
   createdAt: Date;

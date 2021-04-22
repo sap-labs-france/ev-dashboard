@@ -1,15 +1,15 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
-import { DialogData } from 'types/Authorization';
+import { DialogParams } from 'types/Authorization';
 
-import { ChargingStationButtonAction } from '../../../../types/ChargingStation';
+import { ChargingStation, ChargingStationButtonAction } from '../../../../types/ChargingStation';
 import { TableActionDef } from '../../../../types/Table';
 import { TableEditAction } from '../table-edit-action';
 
 export interface TableEditChargingStationActionDef extends TableActionDef {
-  action: (chargingStationDialogComponent: ComponentType<unknown>,
-    dialog: MatDialog, data: DialogData, refresh?: () => Observable<void>) => void;
+  action: (chargingStationDialogComponent: ComponentType<unknown>, dialog: MatDialog, 
+    dialogParams: DialogParams<ChargingStation>, refresh?: () => Observable<void>) => void;
 }
 
 export class TableEditChargingStationAction extends TableEditAction {
@@ -22,7 +22,7 @@ export class TableEditChargingStationAction extends TableEditAction {
   }
 
   private editChargingStation(chargingStationDialogComponent: ComponentType<unknown>, dialog: MatDialog,
-    data: DialogData, refresh?: () => Observable<void>) {
-    super.edit(chargingStationDialogComponent, dialog, data, refresh);
+    dialogParams: DialogParams<ChargingStation>, refresh?: () => Observable<void>) {
+    super.edit(chargingStationDialogComponent, dialog, dialogParams, refresh);
   }
 }

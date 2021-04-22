@@ -1,3 +1,4 @@
+
 export interface AuthorizationDefinition {
   superAdmin: {
     grants: Grant[];
@@ -163,6 +164,17 @@ export interface SiteAuthorizationActions extends AuthorizationActions {
   canUnassignUsers?: boolean;
 }
 
-export interface DialogData extends AuthorizationActions {
-  id?: string | number;
+export enum DialogMode {
+  EDIT = 'E',
+  CREATE = 'C',
+  VIEW = 'V',
+}
+
+export interface DialogData {
+  id: string | number;
+}
+
+export interface DialogParams<T extends DialogData> {
+  dialogData?: T;
+  dialogMode?: DialogMode;
 }

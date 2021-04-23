@@ -95,7 +95,9 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
     const tagID = this.windowService.getSearch('TagID');
     if (tagID) {
       this.setSearchValue(tagID);
-      this.editAction.action(TagDialogComponent, this.dialog, { id: tagID }, this.refreshData.bind(this));
+      this.editAction.action(TagDialogComponent, this.dialog,
+        { dialogData: { id: tagID } as Tag },
+        this.refreshData.bind(this));
     }
   }
 
@@ -296,8 +298,8 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
     switch (actionDef.id) {
       case UserButtonAction.CREATE_TAG:
         if (actionDef.action) {
-          (actionDef as TableCreateTagActionDef).action(TagDialogComponent, this.dialog,
-            { canCreate: true }, this.refreshData.bind(this));
+          (actionDef as TableCreateTagActionDef).action(TagDialogComponent,
+            this.dialog, this.refreshData.bind(this));
         }
         break;
       // Delete
@@ -349,7 +351,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
       case UserButtonAction.EDIT_TAG:
         if (actionDef.action) {
           (actionDef as TableEditTagActionDef).action(TagDialogComponent, this.dialog,
-            { id: tag.id, canUpdate: tag.canUpdate }, this.refreshData.bind(this));
+            { dialogData: tag }, this.refreshData.bind(this));
         }
         break;
       case UserButtonAction.NAVIGATE_TO_USER:

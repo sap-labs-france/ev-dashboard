@@ -49,14 +49,7 @@ export class TableDeleteTagAction extends TableDeleteAction {
           }
         }, (error) => {
           spinnerService.hide();
-          switch (error.status) {
-            // Hash no longer valid
-            case HTTPError.TAG_HAS_TRANSACTIONS:
-              messageService.showErrorMessage('tags.delete_has_transaction_error');
-              break;
-            default:
-              Utils.handleHttpError(error, router, messageService, centralServerService, 'tags.delete_error');
-          }
+          Utils.handleHttpError(error, router, messageService, centralServerService, 'tags.delete_error');
         });
       }
     }

@@ -2,20 +2,21 @@ import { ComponentType } from '@angular/cdk/portal';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { DialogData } from 'types/Authorization';
+import { DialogParams } from 'types/Authorization';
 
 import { DialogService } from '../../../../services/dialog.service';
 import { ChargingStationButtonAction } from '../../../../types/ChargingStation';
-import { TableActionDef } from '../../../../types/Table';
+import { TableActionDef, TableData } from '../../../../types/Table';
 import { TableViewAction } from '../table-view-action';
 
-export interface SmartChargingDialogData extends DialogData {
+export interface SmartChargingDialogData extends TableData {
   ocppVersion: string;
 }
 
 export interface TableChargingStationsSmartChargingActionDef extends TableActionDef {
   action: (chargingStationDialogComponent: ComponentType<unknown>, dialogService: DialogService,
-    translateService: TranslateService, dialog: MatDialog, data: SmartChargingDialogData, refresh?: () => Observable<void>) => void;
+    translateService: TranslateService, dialog: MatDialog,
+    dialogParams: DialogParams<SmartChargingDialogData>, refresh?: () => Observable<void>) => void;
 }
 
 export class TableChargingStationsSmartChargingAction extends TableViewAction {
@@ -31,13 +32,14 @@ export class TableChargingStationsSmartChargingAction extends TableViewAction {
   }
 
   private viewSmartCharging(chargingStationDialogComponent: ComponentType<unknown>, dialogService: DialogService,
-    translateService: TranslateService, dialog: MatDialog, data: SmartChargingDialogData, refresh?: () => Observable<void>) {
-    if (parseFloat(data.ocppVersion) < 1.6) {
+    translateService: TranslateService, dialog: MatDialog,
+    dialogParams: DialogParams<SmartChargingDialogData>, refresh?: () => Observable<void>) {
+    if (parseFloat(dialogParams.dialogData.ocppVersion) < 1.6) {
       dialogService.createAndShowOkDialog(
         translateService.instant('chargers.action_error.smart_charging_title'),
         translateService.instant('chargers.action_error.smart_charging_charger_version'));
     } else {
-      super.view(chargingStationDialogComponent, dialog, data, refresh);
+      super.view(chargingStationDialogComponent, dialog, dialogParams, refresh);
     }
   }
 }

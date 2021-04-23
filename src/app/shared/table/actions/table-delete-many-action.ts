@@ -8,7 +8,7 @@ import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { ActionsResponse } from '../../../types/DataResult';
 import { ButtonAction } from '../../../types/GlobalType';
-import { ButtonColor, ButtonType, Data, TableActionDef } from '../../../types/Table';
+import { ButtonColor, ButtonType, TableActionDef, TableData } from '../../../types/Table';
 import { Utils } from '../../../utils/Utils';
 import { TableAction } from './table-action';
 
@@ -29,7 +29,7 @@ export class TableDeleteManyAction implements TableAction {
     return this.action;
   }
 
-  protected deleteMany(datas: Data[], messageTitle: string, messageConfirm: string, messageSuccess: string, messageSuccessAndError: string,
+  protected deleteMany(datas: TableData[], messageTitle: string, messageConfirm: string, messageSuccess: string, messageSuccessAndError: string,
     messageError: string, messageNoSuccessNoError: string, messageUnexpectedError: string,
     deleteManyData: (ids: (string|number)[]) => Observable<ActionsResponse>,
     dialogService: DialogService, translateService: TranslateService, messageService: MessageService,

@@ -1,8 +1,8 @@
 import CreatedUpdatedProps from './CreatedUpdatedProps';
-import { Data } from './Table';
+import { TableData } from './Table';
 import { User, UserCar } from './User';
 
-export interface CarCatalog extends Data {
+export interface CarCatalog extends TableData {
   id: number;
   vehicleModel: string;
   vehicleMake: string;
@@ -41,7 +41,7 @@ export interface CarCatalog extends Data {
   chargeStandardPhaseAmp?: number;
 }
 
-export interface Car extends Data, CreatedUpdatedProps {
+export interface Car extends TableData, CreatedUpdatedProps {
   id: string;
   vin: string;
   licensePlate: string;
@@ -67,7 +67,7 @@ export enum CarConverterType {
   ALTERNATIVE = 'A',
 }
 
-export interface CarUser extends Data, CreatedUpdatedProps {
+export interface CarUser extends TableData, CreatedUpdatedProps {
   id: string;
   car: Car;
   userID: string;
@@ -81,7 +81,7 @@ export enum CarType {
   POOL_CAR = 'PC',
 }
 
-export interface CarMaker extends Data {
+export interface CarMaker extends TableData {
   carMaker: string;
 }
 
@@ -89,7 +89,7 @@ export interface ChangeEvent {
   changed: boolean;
 }
 
-export interface ImageObject extends Data {
+export interface ImageObject extends TableData {
   image: string;
 }
 

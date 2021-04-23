@@ -8,12 +8,12 @@ import { SpinnerService } from '../../services/spinner.service';
 import ChangeNotification from '../../types/ChangeNotification';
 import { DataResult, Ordering, Paging } from '../../types/DataResult';
 import { FilterParams } from '../../types/GlobalType';
-import { Data, DropdownItem, FilterType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../types/Table';
+import { DropdownItem, FilterType, TableActionDef, TableColumnDef, TableData, TableDef, TableFilterDef } from '../../types/Table';
 import { Constants } from '../../utils/Constants';
 import { Utils } from '../../utils/Utils';
 import { TableResetFiltersAction } from './actions/table-reset-filters-action';
 
-export abstract class TableDataSource<T extends Data> {
+export abstract class TableDataSource<T extends TableData> {
   public tableDef!: TableDef;
   public tableColumnsDef!: TableColumnDef[];
   public tableFiltersDef!: TableFilterDef[];

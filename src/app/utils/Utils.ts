@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { StatusCodes } from 'http-status-codes';
 import * as moment from 'moment';
 import { ConfigService } from 'services/config.service';
+import { DialogMode } from 'types/Authorization';
 import { HTTPError } from 'types/HTTPError';
 import { Tag } from 'types/Tag';
 
@@ -22,6 +23,17 @@ import { User, UserCar, UserToken } from '../types/User';
 import { Constants } from './Constants';
 
 export class Utils {
+  public static  handleDialogMode(dialogMode: DialogMode, formGroup: FormGroup) {
+    switch (dialogMode) {
+      case DialogMode.CREATE:
+      case DialogMode.EDIT:
+        break;
+      case DialogMode.VIEW:
+        formGroup.disable();
+        break;
+    }
+  }
+
   public static isEmptyArray(array: any[]): boolean {
     if (!array) {
       return true;

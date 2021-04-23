@@ -1,6 +1,6 @@
 import { Component, ComponentFactoryResolver, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewContainerRef } from '@angular/core';
 
-import { Data, TableColumnDef, TableDef } from '../../../types/Table';
+import { TableColumnDef, TableData, TableDef } from '../../../types/Table';
 import { CellContentTemplateDirective } from './cell-content-template.directive';
 
 @Component({
@@ -11,7 +11,7 @@ import { CellContentTemplateDirective } from './cell-content-template.directive'
 
 // eslint-disable-next-line @angular-eslint/component-class-suffix
 export class CellContentTemplateContainerComponent implements OnInit, OnChanges {
-  @Input() public row!: Data;
+  @Input() public row!: TableData;
   @Input() public columnDef!: TableColumnDef;
   @Input() public tableDef!: TableDef;
   @Output() public componentChanged = new EventEmitter<any>();

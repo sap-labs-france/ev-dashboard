@@ -186,7 +186,13 @@ export class TagComponent implements OnInit {
       }
     }, (error) => {
       this.spinnerService.hide();
+      switch (error.status) {
+        case HTTPError.TAG_HAS_TRANSACTIONS:
+          this.messageService.showErrorMessage('tags.update_has_transaction_error');
+          break;
+        default:
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tags.update_error');
+      }
     });
   }
 
@@ -206,6 +212,9 @@ export class TagComponent implements OnInit {
       switch (error.status) {
         case HTTPError.TAG_ALREADY_EXIST_ERROR:
           this.messageService.showErrorMessage('tags.tag_id_already_used', { tagID: tag.id });
+          break;
+        case HTTPError.TAG_HAS_TRANSACTIONS:
+          this.messageService.showErrorMessage('tags.create_has_transaction_error');
           break;
         default:
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tags.create_error');

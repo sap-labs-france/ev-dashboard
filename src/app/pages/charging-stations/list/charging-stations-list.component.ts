@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { DialogMode } from 'types/Authorization';
+import { ChargingStation } from 'types/ChargingStation';
 
-import { CentralServerService } from '../../../services/central-server.service';
-import { MessageService } from '../../../services/message.service';
 import { WindowService } from '../../../services/window.service';
 import { TableEditChargingStationAction } from '../../../shared/table/actions/charging-stations/table-edit-charging-station-action';
 import { ChargingStationDialogComponent } from '../charging-station/charging-station-dialog.component';
@@ -27,7 +27,10 @@ export class ChargingStationsListComponent implements OnInit {
     if (chargingStationID) {
       const editAction = new TableEditChargingStationAction().getActionDef();
       editAction.action(ChargingStationDialogComponent, this.dialog,
-        { id: chargingStationID });
+        {
+          dialogData: { id: chargingStationID } as ChargingStation,
+          dialogMode: DialogMode.VIEW
+        });
       // Clear Search
       this.windowService.deleteSearch('ChargingStationID');
     }

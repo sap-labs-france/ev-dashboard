@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, Inject, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { PaymentDialogData } from 'shared/table/actions/users/table-create-payment-method-action';
+import { DialogParams } from 'types/Authorization';
+import { PaymentDialogData } from 'types/Billing';
 import { BillingSettings } from 'types/Setting';
 
 import { Utils } from '../../../../../utils/Utils';
@@ -16,9 +17,9 @@ export class PaymentMethodDialogComponent implements AfterViewInit {
 
   public constructor(
     public dialogRef: MatDialogRef<PaymentMethodDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data: PaymentDialogData) {
-    this.userID = data.userId;
-    this.billingSettings = data.setting;
+    @Inject(MAT_DIALOG_DATA) data: DialogParams<PaymentDialogData>) {
+    this.userID = data.dialogData.userId;
+    this.billingSettings = data.dialogData.setting;
   }
 
   public ngAfterViewInit() {

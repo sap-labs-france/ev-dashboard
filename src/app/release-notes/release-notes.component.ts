@@ -24,6 +24,18 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.64',
+        date: new Date('2021-04-23'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Made all the pop-up scrollable if content is too big`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.63',
         date: new Date('2021-04-21'),
         componentChanges: [

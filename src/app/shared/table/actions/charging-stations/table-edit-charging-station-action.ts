@@ -8,7 +8,7 @@ import { TableActionDef } from '../../../../types/Table';
 import { TableEditAction } from '../table-edit-action';
 
 export interface TableEditChargingStationActionDef extends TableActionDef {
-  action: (chargingStationDialogComponent: ComponentType<unknown>, dialog: MatDialog, 
+  action: (chargingStationDialogComponent: ComponentType<unknown>, dialog: MatDialog,
     dialogParams: DialogParams<ChargingStation>, refresh?: () => Observable<void>) => void;
 }
 

@@ -31,6 +31,7 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Made all the pop-up scrollable if content is too big`,
+              `Eichrecht: Signed Data is not correctly transmited with some systems`
             ],
           },
         ],

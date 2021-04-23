@@ -285,18 +285,18 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
   }
 
   public buildTableDynamicRowActions(car: Car): TableActionDef[] {
-    const actions: TableActionDef[] = [];
+    const rowActions: TableActionDef[] = [];
     const moreActions = new TableMoreAction([]);
     if (this.authorizationService.canUpdateCar()) {
-      actions.push(this.editAction);
+      rowActions.push(this.editAction);
     }
     if (this.authorizationService.canDeleteCar()) {
       moreActions.addActionInMoreActions(this.deleteAction);
     }
     if (!Utils.isEmptyArray(moreActions.getActionsInMoreActions())) {
-      actions.push(moreActions.getActionDef());
+      rowActions.push(moreActions.getActionDef());
     }
-    return actions;
+    return rowActions;
   }
 
   public rowActionTriggered(actionDef: TableActionDef, car: Car) {

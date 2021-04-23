@@ -31,7 +31,9 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Made all the pop-up scrollable if content is too big`,
-              `Eichrecht: Signed Data is not correctly transmited with some systems`
+              `Eichrecht: Signed Data is not correctly transmited with some systems`,
+              `Added Atess, Ecotap DC30 and Alfen Charging Stations in template`,
+              `Fixed Charging Profiles cannot be displayed`,
             ],
           },
         ],

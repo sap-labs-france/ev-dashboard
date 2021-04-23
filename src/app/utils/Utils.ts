@@ -44,6 +44,10 @@ export class Utils {
     return true;
   }
 
+  public static isEmptyString(str: string): boolean {
+    return str ? str.length === 0 : true;
+  }
+
   public static getConnectorLetterFromConnectorID(connectorID: number): string {
     return String.fromCharCode(65 + connectorID - 1);
   }

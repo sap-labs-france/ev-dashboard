@@ -1256,6 +1256,20 @@ export class CentralServerService {
       );
   }
 
+  public exportTags(params: FilterParams): Observable<Blob> {
+    // Verify init
+    this.checkInit();
+    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TAGS_EXPORT}`,
+      {
+        headers: this.buildHttpHeaders(),
+        responseType: 'blob',
+        params,
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
   public getTransactionsInError(params: FilterParams,
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<TransactionInError>> {
     // Verify init

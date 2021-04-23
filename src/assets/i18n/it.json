@@ -1299,7 +1299,10 @@
         "description": "Questo utente non è stato sincronizzato con il sistema di fatturazione.",
         "action": "Sincronizza l'utente."
       }
-    }
+    },
+    "export_tags_title": "Export Tags",
+    "export_tags_confirm": "Do you really want to export the Tags list to a csv format?",
+    "export_tags_error": "Error occurred while trying to export the Tags"
   },
   "invoices": {
     "tabs": {

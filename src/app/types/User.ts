@@ -120,6 +120,7 @@ export enum UserButtonAction {
   ACTIVATE_TAG = 'activate_tag',
   DEACTIVATE_TAG = 'deactivate_tag',
   IMPORT_TAGS = 'import_tags',
+  EXPORT_TAGS = 'export_tags',
   DELETE_USER = 'delete_user',
   SYNCHRONIZE_BILLING_USER = 'billing_synchronize_user',
   BILLING_FORCE_SYNCHRONIZE_USER = 'billing_force_synchronize_user',

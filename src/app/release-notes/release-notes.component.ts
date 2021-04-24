@@ -24,13 +24,28 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.64',
+        date: new Date('2021-04-23'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Made all the pop-up scrollable if content is too big`,
+              `Eichrecht: Signed Data is not correctly transmitted with some systems`,
+              `Added Atess, Ecotap DC30, CC612_1M4PR and Alfen Charging Stations in template`,
+              `Fixed Charging Profiles cannot be displayed`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.63',
         date: new Date('2021-04-21'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
-              `Only Assets belonging to e-Moblity can be updated or deleted`,
+              `Only Assets belonging to e-Mobility can be updated or deleted`,
               `Allow delete of Badge with linked transactions but forbid its creation`,
               `Added getChargingStationTransactions, firmwareDownload, SmartChargingTrigger, InError validation in RESTful endpoint`,
               `Ensure that each User has only one default badge`,

@@ -181,31 +181,33 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
   }
 
   public buildTableDynamicRowActions(site: Site): TableActionDef[] {
-    const actions = [];
+    const rowActions = [];
     // Check if GPS is available
     const openInMaps = new TableOpenInMapsAction().getActionDef();
     openInMaps.disabled = !Utils.containsAddressGPSCoordinates(site.address);
     const moreActions = new TableMoreAction([]);
     if (site.issuer) {
       if (site.canUpdate) {
-        actions.push(this.editAction);
+        rowActions.push(this.editAction);
         moreActions.addActionInMoreActions(this.exportOCPPParamsAction);
         moreActions.addActionInMoreActions(this.siteGenerateQrCodeConnectorAction);
       } else {
-        actions.push(this.viewAction);
+        rowActions.push(this.viewAction);
       }
       if (site.canAssignUsers || site.canUnassignUsers) {
-        actions.push(this.assignUsersToSite);
+        rowActions.push(this.assignUsersToSite);
       }
       if (site.canDelete) {
         moreActions.addActionInMoreActions(this.deleteAction);
       }
     } else {
-      actions.push(this.viewAction);
+      rowActions.push(this.viewAction);
     }
     moreActions.addActionInMoreActions(openInMaps);
-    actions.push(moreActions.getActionDef());
-    return actions;
+    if (!Utils.isEmptyArray(moreActions.getActionsInMoreActions())) {
+      rowActions.push(moreActions.getActionDef());
+    }
+    return rowActions;
   }
 
   public actionTriggered(actionDef: TableActionDef) {

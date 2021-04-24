@@ -24,7 +24,7 @@ export class SiteAreaChargingStationsDialogComponent {
     if (dialogParams.dialogData) {
       this.siteAreaChargersDataSource.setSiteArea(dialogParams.dialogData);
       this.dialogTitle = this.translateService.instant('site_areas.assigned_chargers_to_site_area',
-      { siteAreaName: dialogParams.dialogData.name });
+        { siteAreaName: dialogParams.dialogData.name });
     }
     Utils.registerCloseKeyEvents(this.dialogRef);
   }

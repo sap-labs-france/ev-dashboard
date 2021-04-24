@@ -404,14 +404,18 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
           moreActions.addActionInMoreActions(this.rebuildTransactionConsumptionsAction);
         }
         moreActions.addActionInMoreActions(this.deleteAction);
-        rowActions.push(moreActions.getActionDef());
+        if (!Utils.isEmptyArray(moreActions.getActionsInMoreActions())) {
+          rowActions.push(moreActions.getActionDef());
+        }
       }
     } else {
       if (this.isAdmin) {
         const moreActions = new TableMoreAction([]);
         moreActions.addActionInMoreActions(this.navigateToLogsAction);
         moreActions.addActionInMoreActions(this.navigateToChargingPlansAction);
-        rowActions.push(moreActions.getActionDef());
+        if (!Utils.isEmptyArray(moreActions.getActionsInMoreActions())) {
+          rowActions.push(moreActions.getActionDef());
+        }
         if (transaction.ocpi && transaction.ocpiWithCdr) {
           moreActions.addActionInMoreActions(this.exportTransactionOcpiCdrAction);
         }
@@ -455,7 +459,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         break;
       case ChargingStationButtonAction.NAVIGATE_TO_CHARGING_PLANS:
         if (actionDef.action) {
-          (actionDef as TableOpenURLActionDef).action('charging-stations#chargingplans?ChargingStationID=' + 
+          (actionDef as TableOpenURLActionDef).action('charging-stations#chargingplans?ChargingStationID=' +
             transaction.chargeBoxID + '&TransactionID=' + transaction.id);
         }
         break;

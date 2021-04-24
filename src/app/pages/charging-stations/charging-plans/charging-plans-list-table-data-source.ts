@@ -177,7 +177,9 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
           (actionDef as TableChargingStationsSmartChargingActionDef).action(
             ChargingStationLimitationDialogComponent, this.dialogService, this.translateService, this.dialog, {
               dialogData: {
-                id: chargingProfile.id, canUpdate: chargingProfile.canUpdate, ocppVersion: chargingProfile.chargingStation.ocppVersion
+                id: chargingProfile.chargingStationID,
+                canUpdate: chargingProfile.canUpdate,
+                ocppVersion: chargingProfile.chargingStation.ocppVersion
               }
             },
             this.refreshData.bind(this)

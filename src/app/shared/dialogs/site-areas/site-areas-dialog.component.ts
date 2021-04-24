@@ -19,7 +19,7 @@ export class SiteAreasDialogComponent extends DialogTableDataComponent<SiteArea>
     // Super class
     super(data, dialogRef, siteAreasDataSource);
     // Default title
-    if (this.title === '') {
+    if (Utils.isEmptyString(this.title)) {
       this.title = 'site_areas.select_site_areas';
     }
     this.siteAreasDataSource.destroyDataSource();

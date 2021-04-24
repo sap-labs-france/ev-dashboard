@@ -2,6 +2,7 @@ import { ElementRef } from '@angular/core';
 import { Chart, ChartData, ChartDataSets, ChartOptions } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Font } from 'chartjs-plugin-datalabels/types/options';
+import { Utils } from 'utils/Utils';
 
 export class ChartConstants {
   public static STACKED_ITEM = 'item';
@@ -122,18 +123,18 @@ export class SimpleChart {
     }
 
     this.fontColor = getComputedStyle(this.contextElement.nativeElement).color;
-    if (!this.fontColor || this.fontColor === '') {
+    if (!this.fontColor || Utils.isEmptyString(this.fontColor)) {
       this.fontColor = '#000';
     }
     this.inversedFontColor = this.inverseColor(this.fontColor, true);
 
     this.fontFamily = getComputedStyle(this.contextElement.nativeElement).fontFamily;
-    if (!this.fontFamily || this.fontFamily === '') {
+    if (!this.fontFamily || Utils.isEmptyString(this.fontFamily)) {
       this.fontFamily = 'Roboto, "Helvetica Neue", sans-serif';
     }
     this.font = { family: this.fontFamily };
     this.fontSize = getComputedStyle(this.contextElement.nativeElement).fontSize;
-    if (!this.fontSize || this.fontSize === ''
+    if (!this.fontSize || Utils.isEmptyString(this.fontSize)
       || !this.fontSize.endsWith('px')) {
       this.fontSize = '20px';
       this.fontSizeNumber = 20;

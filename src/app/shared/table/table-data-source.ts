@@ -270,7 +270,7 @@ export abstract class TableDataSource<T extends TableData> {
     if (filter.multiple) {
       if (Array.isArray(filter.currentValue)) {
         if (filter.currentValue.length > 0) {
-          if (filter.currentValue[0].value === '') {
+          if (Utils.isEmptyString(filter.currentValue[0].value)) {
             filter.label = '';
           } else {
             filter.label = this.translateService.instant(filter.currentValue[0].value ?

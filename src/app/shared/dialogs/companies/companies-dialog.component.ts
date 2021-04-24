@@ -19,7 +19,7 @@ export class CompaniesDialogComponent extends DialogTableDataComponent<Company> 
     // Super class
     super(data, dialogRef, companiesDataSource);
     // Default title
-    if (this.title === '') {
+    if (Utils.isEmptyString(this.title)) {
       this.title = 'companies.select_companies';
     }
     this.companiesDataSource.destroyDataSource();

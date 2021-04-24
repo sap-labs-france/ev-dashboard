@@ -17,7 +17,7 @@ export class TagsDialogComponent extends DialogTableDataComponent<Tag> {
     @Inject(MAT_DIALOG_DATA) data: any) {
     super(data, dialogRef, tagsDialogTableDataSource);
     // Default title
-    if (this.title === '') {
+    if (Utils.isEmptyString(this.title)) {
       this.title = 'tags.select_tags';
     }
     this.tagsDialogTableDataSource.destroyDataSource();

@@ -158,12 +158,14 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
   }
 
   public buildTableDynamicRowActions(user: UserInError): TableActionDef[] {
-    const actions: TableActionDef[] = [
+    const rowActions: TableActionDef[] = [
       this.editAction,
       this.assignSitesToUser,
     ];
     const moreActions = new TableMoreAction([]);
-    actions.push(moreActions.getActionDef());
+    if (!Utils.isEmptyArray(moreActions.getActionsInMoreActions())) {
+      rowActions.push(moreActions.getActionDef());
+    }
     if (this.componentService.isActive(TenantComponents.BILLING)) {
       if (user.errorCode === UserInErrorType.FAILED_BILLING_SYNCHRO) {
         moreActions.addActionInMoreActions(this.forceSyncBillingUserAction);
@@ -172,7 +174,7 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
       }
     }
     moreActions.addActionInMoreActions(this.deleteAction);
-    return actions;
+    return rowActions;
   }
 
   public rowActionTriggered(actionDef: TableActionDef, user: UserInError) {

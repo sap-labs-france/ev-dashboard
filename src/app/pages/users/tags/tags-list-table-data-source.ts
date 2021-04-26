@@ -267,10 +267,10 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
   }
 
   public buildTableDynamicRowActions(tag: Tag): TableActionDef[] {
-    const actions = [];
+    const rowActions = [];
     const moreActions = new TableMoreAction([]);
     if (tag.issuer) {
-      actions.push(this.editAction);
+      rowActions.push(this.editAction);
       if (tag.userID) {
         if (tag.active) {
           moreActions.addActionInMoreActions(this.deactivateAction);
@@ -289,8 +289,10 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
         moreActions.addActionInMoreActions(this.navigateToUserAction);
       }
     }
-    actions.push(moreActions.getActionDef());
-    return actions;
+    if (!Utils.isEmptyArray(moreActions.getActionsInMoreActions())) {
+      rowActions.push(moreActions.getActionDef());
+    }
+    return rowActions;
   }
 
   public actionTriggered(actionDef: TableActionDef) {

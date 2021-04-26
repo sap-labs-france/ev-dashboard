@@ -34,7 +34,7 @@ export class Utils {
     }
   }
 
-  public static isEmptyArray(array: any[]): boolean {
+  public static isEmptyArray(array: any): boolean {
     if (!array) {
       return true;
     }
@@ -42,6 +42,10 @@ export class Utils {
       return false;
     }
     return true;
+  }
+
+  public static isEmptyString(str: string): boolean {
+    return str ? str.length === 0 : true;
   }
 
   public static getConnectorLetterFromConnectorID(connectorID: number): string {

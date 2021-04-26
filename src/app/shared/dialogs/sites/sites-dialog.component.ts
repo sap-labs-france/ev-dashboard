@@ -18,7 +18,7 @@ export class SitesDialogComponent extends DialogTableDataComponent<Site> {
     // Super class
     super(data, dialogRef, dialogDataSource);
     // Default title
-    if (this.title === '') {
+    if (Utils.isEmptyString(this.title)) {
       this.title = 'sites.select_sites';
     }
     this.dialogDataSource.destroyDataSource();

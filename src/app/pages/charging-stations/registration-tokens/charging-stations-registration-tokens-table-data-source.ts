@@ -195,7 +195,7 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
   public buildTableDynamicRowActions(registrationToken: RegistrationToken): TableActionDef[] {
     const asExpired = moment(registrationToken.expirationDate).isBefore(new Date());
     const isRevoked = registrationToken.revocationDate ? true : false;
-    const actions: TableActionDef[] = [];
+    const rowActions: TableActionDef[] = [];
     const moreActions = new TableMoreAction([]);
     const copyUrlActions: TableActionDef[] = [
       ...(!Utils.isUndefined(registrationToken.ocpp15SOAPUrl) ? [this.copySOAP15Action] : []),
@@ -206,22 +206,24 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
       ...(!Utils.isUndefined(registrationToken.ocpp16JSONSecureUrl) ? [this.copyJSON16SecureAction] : [])
     ];
     if (!asExpired && !isRevoked) {
-      actions.push(new TableMultiCopyAction(
+      rowActions.push(new TableMultiCopyAction(
         copyUrlActions,
         'chargers.connections.copy_url_tooltip',
         'chargers.connections.copy_url_tooltip').getActionDef());
     }
     if (this.canUpdateToken) {
-      actions.push(this.editAction);
+      rowActions.push(this.editAction);
       if (!asExpired && !isRevoked) {
-        actions.push(this.revokeAction);
+        rowActions.push(this.revokeAction);
       }
     }
     if (this.canDeleteToken) {
       moreActions.addActionInMoreActions(this.deleteAction);
     }
-    actions.push(moreActions.getActionDef());
-    return actions;
+    if (!Utils.isEmptyArray(moreActions.getActionsInMoreActions())) {
+      rowActions.push(moreActions.getActionDef());
+    }
+    return rowActions;
   }
 
   public actionTriggered(actionDef: TableActionDef) {

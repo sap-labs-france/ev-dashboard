@@ -191,7 +191,7 @@ export class TagComponent implements OnInit {
           this.messageService.showErrorMessage('tags.update_has_transaction_error');
           break;
         default:
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tags.update_error');
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tags.update_error');
       }
     });
   }

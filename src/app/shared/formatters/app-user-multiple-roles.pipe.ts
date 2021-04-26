@@ -1,9 +1,10 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { Utils } from 'utils/Utils';
 
 @Pipe({ name: 'appUserMultipleRoles' })
 export class AppUserMultipleRolesPipe implements PipeTransform {
   public transform(role: string): string {
-    if (!role || role === '') {
+    if (!role || Utils.isEmptyString(role)) {
       return 'users.role_mult_all';
     }
     switch (role) {

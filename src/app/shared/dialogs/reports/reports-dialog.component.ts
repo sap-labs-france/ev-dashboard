@@ -17,7 +17,7 @@ export class ReportsDialogComponent extends DialogTableDataComponent<RefundRepor
     @Inject(MAT_DIALOG_DATA) data: any) {
     super(data, dialogRef, transactionsListTableDataSource);
     // Default title
-    if (this.title === '') {
+    if (Utils.isEmptyString(this.title)) {
       this.title = 'transactions.select_report';
     }
     this.transactionsListTableDataSource.destroyDataSource();

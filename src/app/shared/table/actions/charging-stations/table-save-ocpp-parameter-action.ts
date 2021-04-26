@@ -35,7 +35,7 @@ export class TableSaveOCPPParameterAction extends TableSaveAction {
     translateService: TranslateService, messageService: MessageService, centralServerService: CentralServerService,
     spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) {
     // Show yes/no dialog only if fields are not empty
-    if (param.key !== null && param.key !== '' && param.value !== null && param.value !== '') {
+    if (param.key !== null && !Utils.isEmptyString(param.key) && param.value !== null && !Utils.isEmptyString(param.value)) {
       dialogService.createAndShowYesNoDialog(
         translateService.instant('chargers.set_configuration_title'),
         translateService.instant('chargers.set_configuration_confirm', { chargeBoxID: charger.id, key: param.key }),

@@ -67,6 +67,13 @@ Once the key is created it must be enabled (from the Google Console) and the val
 
 	src="https://maps.googleapis.com/maps/api/js?key=<YOUR_KEY_HERE>&libraries=places&language=en"></script>
 
+### Setup the reCaptcha API key
+In order to call REST endpoints of ev-server, a reCaptcha key is required. Refers to this link https://www.google.com/recaptcha/admin/create to create one then copy the client key in config.json, in User section:
+ 
+	"User": {
+	"maxPictureKb": 150,
+	"captchaSiteKey": "<GOOGLE_RECAPTCHA_KEY_CLIENT>"
+	},
 
 ## Start the Dashboard Server
 

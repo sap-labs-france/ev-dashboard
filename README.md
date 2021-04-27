@@ -61,6 +61,13 @@ Set the REST Server URL:
   },
 ```
 
+### Create and set a Google Maps API key
+Ev-dashboard requires you to setup a Google API key: https://developers.google.com/maps/documentation/javascript/get-api-key#restrict_key.
+Once the key is created it must be enabled (from the Google Console) and the value must replace the one present in /src/index.html, in Google Maps section:
+
+	src="https://maps.googleapis.com/maps/api/js?key=<YOUR_KEY_HERE>&libraries=places&language=en"></script>
+
+
 ## Start the Dashboard Server
 
 ### Development Mode

@@ -905,7 +905,7 @@ export class Utils {
     document.body.removeChild(element);
   }
 
-  public static replaceDoubleQuotes(value: string): string{
+  public static replaceDoubleQuotes(value: any): string{
     return typeof value === 'string' ? '"' + value.replace(/^"|"$/g, '') + '"' : value;
   }
 

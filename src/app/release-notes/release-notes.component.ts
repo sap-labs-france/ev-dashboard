@@ -31,6 +31,7 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Made all the pop-up scrollable if content is too big`,
+              `Handle Web Socket connections from a Charging Station with an unique ID`,
               `Fixed Badge cannot be created if used in Transactions with no User`,
               `Eichrecht: Signed Data is not correctly transmitted with some systems`,
               `Added Atess, Ecotap DC30, CC612_1M4PR and Alfen Charging Stations in template`,

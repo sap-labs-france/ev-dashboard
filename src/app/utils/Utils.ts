@@ -906,7 +906,7 @@ export class Utils {
   }
 
   public static replaceDoubleQuotes(value: any): string{
-    return typeof value === 'string' ? '"' + value.replace(/^"|"$/g, '') + '"' : value;
+    return typeof value === 'string' ? '"' + value.replace(/^"|"$/g, '').replace(/"/g, '""') + '"' : value;
   }
 
 }

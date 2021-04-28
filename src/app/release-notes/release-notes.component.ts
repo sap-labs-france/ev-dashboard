@@ -25,12 +25,13 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.4.64',
-        date: new Date('2021-04-23'),
+        date: new Date('2021-04-28'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `Made all the pop-up scrollable if content is too big`,
+              `Fixed Badge cannot be created if used in Transactions with no User`,
               `Eichrecht: Signed Data is not correctly transmitted with some systems`,
               `Added Atess, Ecotap DC30, CC612_1M4PR and Alfen Charging Stations in template`,
               `Fixed Charging Profiles cannot be displayed`,

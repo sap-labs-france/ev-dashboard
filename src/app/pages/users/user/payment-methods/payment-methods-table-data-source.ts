@@ -1,9 +1,8 @@
-import { Injectable, Input } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { DialogMode } from 'types/Authorization';
 
 import { AuthorizationService } from '../../../../services/authorization.service';
 import { CentralServerService } from '../../../../services/central-server.service';
@@ -63,12 +62,14 @@ export class PaymentMethodsTableDataSource extends TableDataSource<BillingPaymen
       if (this.currentUserID) {
         // Yes: Get data
         // eslint-disable-next-line max-len
-        this.centralServerService.getPaymentMethods(this.currentUserID, this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe((paymentMethods) => {
+        this.centralServerService.getPaymentMethods(this.currentUserID, this.buildFilterValues(),
+          this.getPaging(), this.getSorting()).subscribe((paymentMethods) => {
           observer.next(paymentMethods);
           observer.complete();
         }, (error) => {
           // No longer exists!
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          Utils.handleHttpError(error, this.router, this.messageService,
+            this.centralServerService, 'general.error_backend');
           // Error
           observer.error(error);
         });

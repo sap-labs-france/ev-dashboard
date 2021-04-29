@@ -904,4 +904,9 @@ export class Utils {
     document.execCommand('copy');
     document.body.removeChild(element);
   }
+
+  public static replaceDoubleQuotes(value: any): string{
+    return typeof value === 'string' ? '"' + value.replace(/^"|"$/g, '').replace(/"/g, '""') + '"' : value;
+  }
+
 }

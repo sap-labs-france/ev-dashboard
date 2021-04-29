@@ -3291,7 +3291,7 @@ export class CentralServerService {
   private buildRestEndpointUrl(urlPatternAsString: ServerRoute, params: {
     // Just a flat list of key/value pairs!
     [name: string]: string | number | null;
-  }) {
+  } = {}) {
     const url = SafeUrlAssembler(this.restServerSecuredURL)
       .template('/' + urlPatternAsString)
       .param(params);

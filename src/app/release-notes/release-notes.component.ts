@@ -33,6 +33,7 @@ export class ReleaseNotesComponent {
               `Made all the pop-up scrollable if content is too big`,
               `Handle Web Socket connections from a Charging Station with an unique ID`,
               `Fixed export of transaction with rounded price`,
+              `Fixed OCPI CDR is sent multiple times on OCPP status notification`,
               `Fixed Badge cannot be created if used in Transactions with no User`,
               `Eichrecht: Signed Data is not correctly transmitted with some systems`,
               `Added Atess, Ecotap DC30, CC612_1M4PR and Alfen Charging Stations in template`,

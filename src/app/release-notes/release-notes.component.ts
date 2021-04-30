@@ -25,7 +25,7 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.4.64',
-        date: new Date('2021-04-30'),
+        date: new Date('2021-05-01'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -34,8 +34,8 @@ export class ReleaseNotesComponent {
               `Handle Web Socket connections from a Charging Station with an unique ID`,
               `Fixed export of transaction with rounded price`,
               `Fixed OCPI CDR is sent multiple times on OCPP status notification`,
-              `Add opening times in SAP Labs France Mougins Site`,
-              `Use the local CPO Transaction ID in OCPI Session and CDR ID`,
+              `Add opening hours in SAP Labs France Mougins' Site`,
+              `Use the local CPO Transaction ID in OCPI Session and CDR`,
               `Fixed Badge cannot be created if used in Transactions with no User`,
               `Eichrecht: Signed Data is not correctly transmitted with some systems`,
               `Added Atess, Ecotap DC30, CC612_1M4PR and Alfen Charging Stations in template`,

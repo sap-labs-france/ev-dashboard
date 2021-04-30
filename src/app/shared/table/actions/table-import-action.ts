@@ -2,7 +2,7 @@ import { ComponentType } from '@angular/cdk/portal';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ServerAction } from 'types/Server';
 
-import { ButtonAction } from '../../../types/GlobalType';
+import { ButtonAction, PopupSize } from '../../../types/GlobalType';
 import { ButtonColor, TableActionDef } from '../../../types/Table';
 import { TableAction } from './table-action';
 
@@ -23,11 +23,18 @@ export class TableImportAction implements TableAction {
   }
 
   protected import(component: ComponentType<unknown>, dialog: MatDialog, endpoint: ServerAction,
-    entity: string,requiredProperties: string[], optionalProperties?: string[]) {
+    entity: string,requiredProperties: string[], optionalProperties?: string[], size?: PopupSize) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
-    dialogConfig.minWidth = '60vw';
-    dialogConfig.minHeight = '60vh';
+    // Popup Width
+    dialogConfig.minWidth = size?.minWidth ? size.minWidth + 'vw' : '60vw';
+    dialogConfig.maxWidth = size?.maxWidth ? size.maxWidth + 'vw' : dialogConfig.maxWidth;
+    dialogConfig.width = size?.width ? size.width + 'vw' : dialogConfig.width;
+    // Popup Height
+    dialogConfig.minHeight = size?.minHeight ? size.minHeight + 'vh' : '60vh';
+    dialogConfig.maxHeight = size?.maxHeight ? size.maxHeight + 'vh' : dialogConfig.maxHeight;
+    dialogConfig.height = size?.height ? size.height + 'vh' : dialogConfig.height;
+    // CSS
     dialogConfig.panelClass = 'transparent-dialog-container';
     dialogConfig.data = {
       endpoint,

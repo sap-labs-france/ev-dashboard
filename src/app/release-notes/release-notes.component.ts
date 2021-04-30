@@ -34,6 +34,8 @@ export class ReleaseNotesComponent {
               `Handle Web Socket connections from a Charging Station with an unique ID`,
               `Fixed export of transaction with rounded price`,
               `Fixed OCPI CDR is sent multiple times on OCPP status notification`,
+              `Add opening times in SAP Labs France Mougins Site`,
+              `Use the local CPO Transaction ID in OCPI Session and CDR ID`,
               `Fixed Badge cannot be created if used in Transactions with no User`,
               `Eichrecht: Signed Data is not correctly transmitted with some systems`,
               `Added Atess, Ecotap DC30, CC612_1M4PR and Alfen Charging Stations in template`,

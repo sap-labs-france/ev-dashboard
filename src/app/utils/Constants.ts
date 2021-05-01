@@ -3,6 +3,7 @@ export class Constants {
   public static readonly URL_PATTERN = /^(?:https?|wss?):\/\/((?:[\w-]+)(?:\.[\w-]+)*)(?:[\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?$/;
 
   public static readonly CSV_SEPARATOR = ',';
+  public static readonly CR_LF = '\r\n';
 
   public static readonly MAX_PAGE_SIZE = Number.MAX_SAFE_INTEGER;
   public static readonly DEFAULT_PAGE_SIZE = 100;

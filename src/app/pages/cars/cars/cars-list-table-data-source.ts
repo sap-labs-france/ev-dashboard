@@ -259,8 +259,8 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
     switch (actionDef.id) {
       case CarButtonAction.CREATE_CAR:
         if (actionDef.action) {
-          (actionDef as TableCreateCarActionDef).action(CarDialogComponent, this.dialog,
-            { canCreate: true }, this.refreshData.bind(this));
+          (actionDef as TableCreateCarActionDef).action(CarDialogComponent,
+            this.dialog, this.refreshData.bind(this));
         }
         break;
     }
@@ -285,18 +285,18 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
   }
 
   public buildTableDynamicRowActions(car: Car): TableActionDef[] {
-    const actions: TableActionDef[] = [];
+    const rowActions: TableActionDef[] = [];
     const moreActions = new TableMoreAction([]);
     if (this.authorizationService.canUpdateCar()) {
-      actions.push(this.editAction);
+      rowActions.push(this.editAction);
     }
     if (this.authorizationService.canDeleteCar()) {
       moreActions.addActionInMoreActions(this.deleteAction);
     }
     if (!Utils.isEmptyArray(moreActions.getActionsInMoreActions())) {
-      actions.push(moreActions.getActionDef());
+      rowActions.push(moreActions.getActionDef());
     }
-    return actions;
+    return rowActions;
   }
 
   public rowActionTriggered(actionDef: TableActionDef, car: Car) {
@@ -304,7 +304,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
       case CarButtonAction.EDIT_CAR:
         if (actionDef.action) {
           (actionDef as TableEditCarActionDef).action(CarDialogComponent, this.dialog,
-            { id: car.id, canUpdate: car.canUpdate }, this.refreshData.bind(this));
+            { dialogData: car }, this.refreshData.bind(this));
         }
         break;
       case CarButtonAction.DELETE_CAR:

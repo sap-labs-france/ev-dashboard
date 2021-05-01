@@ -32,7 +32,6 @@ import { CompanyDialogComponent } from '../company/company.dialog.component';
 
 @Injectable()
 export class CompaniesListTableDataSource extends TableDataSource<Company> {
-  private canCreateCompany = false;
   private editAction = new TableEditCompanyAction().getActionDef();
   private deleteAction = new TableDeleteCompanyAction().getActionDef();
   private viewAction = new TableViewCompanyAction().getActionDef();
@@ -63,7 +62,6 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
       // get companies
       this.centralServerService.getCompanies(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe((companies) => {
         this.createAction.visible = companies.canCreate;
-        this.canCreateCompany = companies.canCreate;
         observer.next(companies);
         observer.complete();
       }, (error) => {
@@ -160,26 +158,28 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
   }
 
   public buildTableDynamicRowActions(company: Company): TableActionDef[] {
-    const actions = [];
+    const rowActions = [];
     // Check if GPS is available
     const openInMaps = new TableOpenInMapsAction().getActionDef();
     openInMaps.disabled = !Utils.containsAddressGPSCoordinates(company.address);
     const moreActions = new TableMoreAction([]);
     if (company.issuer) {
       if (company.canUpdate) {
-        actions.push(this.editAction);
+        rowActions.push(this.editAction);
       } else if (company.canRead) {
-        actions.push(this.viewAction);
+        rowActions.push(this.viewAction);
       }
       if (company.canDelete) {
         moreActions.addActionInMoreActions(this.deleteAction);
       }
     } else if (company.canRead) {
-      actions.push(this.viewAction);
+      rowActions.push(this.viewAction);
     }
     moreActions.addActionInMoreActions(openInMaps);
-    actions.push(moreActions.getActionDef());
-    return actions;
+    if (!Utils.isEmptyArray(moreActions.getActionsInMoreActions())) {
+      rowActions.push(moreActions.getActionDef());
+    }
+    return rowActions;
   }
 
   public actionTriggered(actionDef: TableActionDef) {
@@ -188,8 +188,8 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
       // Add
       case CompanyButtonAction.CREATE_COMPANY:
         if (actionDef.action) {
-          (actionDef as TableCreateCompanyActionDef).action(CompanyDialogComponent, this.dialog,
-            { canCreate: this.canCreateCompany }, this.refreshData.bind(this)
+          (actionDef as TableCreateCompanyActionDef).action(CompanyDialogComponent,
+            this.dialog, this.refreshData.bind(this)
           );
         }
         break;
@@ -201,13 +201,13 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
       case CompanyButtonAction.EDIT_COMPANY:
         if (actionDef.action) {
           (actionDef as TableEditCompanyActionDef).action(CompanyDialogComponent,
-            this.dialog, { id: company.id, canUpdate: company.canUpdate }, this.refreshData.bind(this));
+            this.dialog, { dialogData: company }, this.refreshData.bind(this));
         }
         break;
       case CompanyButtonAction.VIEW_COMPANY:
         if (actionDef.action) {
           (actionDef as TableViewCompanyActionDef).action(CompanyDialogComponent, this.dialog,
-            { id: company.id, canUpdate: false }, this.refreshData.bind(this));
+            { dialogData: company }, this.refreshData.bind(this));
         }
         break;
       case CompanyButtonAction.DELETE_COMPANY:

@@ -128,7 +128,7 @@ export class AssetsInErrorTableDataSource extends TableDataSource<AssetInError> 
       case AssetButtonAction.EDIT_ASSET:
         if (actionDef.action) {
           (actionDef as TableEditAssetActionDef).action(AssetDialogComponent, this.dialog,
-            { id: asset.id, canUpdate: asset.canUpdate }, this.refreshData.bind(this));
+            { dialogData: asset }, this.refreshData.bind(this));
         }
         break;
       case AssetButtonAction.DELETE_ASSET:

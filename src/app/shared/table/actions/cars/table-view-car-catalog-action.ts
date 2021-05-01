@@ -1,15 +1,15 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
-import { DialogData } from 'types/Authorization';
+import { DialogParams } from 'types/Authorization';
 
-import { CarButtonAction } from '../../../../types/Car';
+import { CarButtonAction, CarCatalog } from '../../../../types/Car';
 import { TableActionDef } from '../../../../types/Table';
 import { TableViewAction } from '../table-view-action';
 
 export interface TableViewCarCatalogActionDef extends TableActionDef {
   action: (carCatalogDialogComponent: ComponentType<unknown>, dialog: MatDialog,
-    data: DialogData, refresh?: () => Observable<void>) => void;
+    dialogParams: DialogParams<CarCatalog>, refresh?: () => Observable<void>) => void;
 }
 
 export class TableViewCarCatalogAction extends TableViewAction {
@@ -22,7 +22,7 @@ export class TableViewCarCatalogAction extends TableViewAction {
   }
 
   private viewCarCatalog(carCatalogDialogComponent: ComponentType<unknown>, dialog: MatDialog,
-    data: DialogData, refresh?: () => Observable<void>) {
-    super.view(carCatalogDialogComponent, dialog, data, refresh);
+    dialogParams: DialogParams<CarCatalog>, refresh?: () => Observable<void>) {
+    super.view(carCatalogDialogComponent, dialog, dialogParams, refresh);
   }
 }

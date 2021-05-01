@@ -61,6 +61,20 @@ Set the REST Server URL:
   },
 ```
 
+### Create and set a Google Maps API key
+Ev-dashboard requires you to setup a Google API key: https://developers.google.com/maps/documentation/javascript/get-api-key#restrict_key.
+Once the key is created it must be enabled (from the Google Console) and the value must replace the one present in /src/index.html, in Google Maps section:
+
+	src="https://maps.googleapis.com/maps/api/js?key=<YOUR_KEY_HERE>&libraries=places&language=en"></script>
+
+### Setup the reCaptcha API key
+In order to call REST endpoints of ev-server, a reCaptcha key is required. Refers to this link https://www.google.com/recaptcha/admin/create to create one then copy the client key in config.json, in User section:
+ 
+	"User": {
+	"maxPictureKb": 150,
+	"captchaSiteKey": "<GOOGLE_RECAPTCHA_KEY_CLIENT>"
+	},
+
 ## Start the Dashboard Server
 
 ### Development Mode

@@ -22,7 +22,8 @@ export class TableAssignUsersToSiteAction extends TableAssignAction {
     };
   }
 
-  private assignUsersToSite(siteUsersDialogComponent: ComponentType<unknown>, site: Site, dialog: MatDialog, refresh?: () => Observable<void>) {
+  private assignUsersToSite(siteUsersDialogComponent: ComponentType<unknown>, site: Site,
+    dialog: MatDialog, refresh?: () => Observable<void>) {
     super.assign(siteUsersDialogComponent, site, dialog, refresh);
   }
 }

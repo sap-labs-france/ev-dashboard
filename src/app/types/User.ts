@@ -2,10 +2,10 @@ import { Address } from './Address';
 import { BillingUserData } from './Billing';
 import { Car } from './Car';
 import CreatedUpdatedProps from './CreatedUpdatedProps';
-import { Data } from './Table';
+import { TableData } from './Table';
 import { Tag } from './Tag';
 
-export interface User extends Data, CreatedUpdatedProps {
+export interface User extends TableData, CreatedUpdatedProps {
   id: string;
   issuer: boolean;
   name: string;
@@ -95,7 +95,7 @@ export interface UserToken {
   activeComponents?: string[];
 }
 
-export interface UserCar extends Data, CreatedUpdatedProps {
+export interface UserCar extends TableData, CreatedUpdatedProps {
   id: string;
   user: User;
   carID: string;
@@ -103,7 +103,7 @@ export interface UserCar extends Data, CreatedUpdatedProps {
   owner?: boolean;
 }
 
-export interface UserSite extends Data {
+export interface UserSite extends TableData {
   user: User;
   siteID: string;
   siteAdmin: boolean;

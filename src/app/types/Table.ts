@@ -19,7 +19,7 @@ import { TenantButtonAction } from './Tenant';
 import { TransactionButtonAction } from './Transaction';
 import { UserButtonAction } from './User';
 
-export interface Data extends AuthorizationActions {
+export interface TableData extends AuthorizationActions {
   id: string | number;
   key?: string;
   isSelected?: boolean;

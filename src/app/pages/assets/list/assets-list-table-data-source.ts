@@ -205,8 +205,8 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
       // Add
       case AssetButtonAction.CREATE_ASSET:
         if (actionDef.action) {
-          (actionDef as TableCreateAssetActionDef).action(AssetDialogComponent, this.dialog,
-            { canCreate: true }, this.refreshData.bind(this));
+          (actionDef as TableCreateAssetActionDef).action(AssetDialogComponent,
+            this.dialog, this.refreshData.bind(this));
         }
         break;
     }
@@ -217,13 +217,13 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
       case AssetButtonAction.VIEW_ASSET:
         if (actionDef.action) {
           (actionDef as TableViewAssetActionDef).action(AssetDialogComponent, this.dialog,
-            { id: asset.id, canUpdate: false }, this.refreshData.bind(this));
+            { dialogData: asset }, this.refreshData.bind(this));
         }
         break;
       case AssetButtonAction.EDIT_ASSET:
         if (actionDef.action) {
           (actionDef as TableEditAssetActionDef).action(AssetDialogComponent, this.dialog,
-            { id: asset.id, canUpdate: asset.canUpdate }, this.refreshData.bind(this));
+            { dialogData: asset }, this.refreshData.bind(this));
         }
         break;
       case AssetButtonAction.DELETE_ASSET:

@@ -5,7 +5,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { TableSiteGenerateQrCodeConnectorAction, TableSiteGenerateQrCodeConnectorsActionDef } from 'shared/table/actions/sites/table-site-generate-qr-code-connector-action';
 
-import { AuthorizationService } from '../../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../../services/central-server.service';
 import { DialogService } from '../../../../services/dialog.service';
@@ -38,11 +37,6 @@ import { SiteDialogComponent } from '../site/site-dialog.component';
 
 @Injectable()
 export class SitesListTableDataSource extends TableDataSource<Site> {
-  private canReadSite = false;
-  private canCreateSite = false;
-  private canUpdateSite = false;
-  private canDeleteSite = false;
-  private canCrudSite = false;
   private editAction = new TableEditSiteAction().getActionDef();
   private assignUsersToSite = new TableAssignUsersToSiteAction().getActionDef();
   private deleteAction = new TableDeleteSiteAction().getActionDef();
@@ -61,14 +55,8 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
     private dialog: MatDialog,
     private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
-    private datePipe: AppDatePipe,
-    private authorizationService: AuthorizationService) {
+    private datePipe: AppDatePipe) {
     super(spinnerService, translateService);
-    this.canReadSite = this.authorizationService.canReadSite();
-    this.canCreateSite = this.authorizationService.canCreateSite();
-    this.canUpdateSite = this.authorizationService.canUpdateSite();
-    this.canDeleteSite = this.authorizationService.canDeleteSite();
-    this.canCrudSite = this.canCreateSite && this.canReadSite && this.canUpdateSite && this.canDeleteSite;
     this.setStaticFilters([{ WithCompany: true }]);
     this.initDataSource();
   }
@@ -105,7 +93,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    const tableColumnDef: TableColumnDef[] = [
+    return [
       {
         id: 'name',
         name: 'sites.name',
@@ -151,42 +139,37 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
         class: 'col-20p',
         sortable: true,
       },
+      {
+        id: 'createdOn',
+        name: 'users.created_on',
+        formatter: (createdOn: Date) => this.datePipe.transform(createdOn),
+        headerClass: 'col-15em',
+        class: 'col-15em',
+        sortable: true,
+      },
+      {
+        id: 'createdBy',
+        name: 'users.created_by',
+        formatter: (user: User) => Utils.buildUserFullName(user),
+        headerClass: 'col-15em',
+        class: 'col-15em',
+      },
+      {
+        id: 'lastChangedOn',
+        name: 'users.changed_on',
+        formatter: (lastChangedOn: Date) => this.datePipe.transform(lastChangedOn),
+        headerClass: 'col-15em',
+        class: 'col-15em',
+        sortable: true,
+      },
+      {
+        id: 'lastChangedBy',
+        name: 'users.changed_by',
+        formatter: (user: User) => Utils.buildUserFullName(user),
+        headerClass: 'col-15em',
+        class: 'col-15em',
+      },
     ];
-    if (this.canCrudSite) {
-      tableColumnDef.push(
-        {
-          id: 'createdOn',
-          name: 'users.created_on',
-          formatter: (createdOn: Date) => this.datePipe.transform(createdOn),
-          headerClass: 'col-15em',
-          class: 'col-15em',
-          sortable: true,
-        },
-        {
-          id: 'createdBy',
-          name: 'users.created_by',
-          formatter: (user: User) => Utils.buildUserFullName(user),
-          headerClass: 'col-15em',
-          class: 'col-15em',
-        },
-        {
-          id: 'lastChangedOn',
-          name: 'users.changed_on',
-          formatter: (lastChangedOn: Date) => this.datePipe.transform(lastChangedOn),
-          headerClass: 'col-15em',
-          class: 'col-15em',
-          sortable: true,
-        },
-        {
-          id: 'lastChangedBy',
-          name: 'users.changed_by',
-          formatter: (user: User) => Utils.buildUserFullName(user),
-          headerClass: 'col-15em',
-          class: 'col-15em',
-        },
-      );
-    }
-    return tableColumnDef;
   }
 
   public buildTableActionsDef(): TableActionDef[] {
@@ -198,34 +181,33 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
   }
 
   public buildTableDynamicRowActions(site: Site): TableActionDef[] {
-    const actions = [];
+    const rowActions = [];
     // Check if GPS is available
     const openInMaps = new TableOpenInMapsAction().getActionDef();
     openInMaps.disabled = !Utils.containsAddressGPSCoordinates(site.address);
     const moreActions = new TableMoreAction([]);
     if (site.issuer) {
-      if (this.canCrudSite ||
-        this.authorizationService.isSiteAdmin(site.id) ||
-        this.authorizationService.isSiteOwner(site.id)) {
-        actions.push(this.editAction);
+      if (site.canUpdate) {
+        rowActions.push(this.editAction);
         moreActions.addActionInMoreActions(this.exportOCPPParamsAction);
         moreActions.addActionInMoreActions(this.siteGenerateQrCodeConnectorAction);
       } else {
-        actions.push(this.viewAction);
+        rowActions.push(this.viewAction);
       }
-      if (this.authorizationService.canListUsersSites()) {
-        actions.push(this.assignUsersToSite);
+      if (site.canAssignUsers || site.canUnassignUsers) {
+        rowActions.push(this.assignUsersToSite);
       }
-      moreActions.addActionInMoreActions(openInMaps);
       if (site.canDelete) {
         moreActions.addActionInMoreActions(this.deleteAction);
       }
     } else {
-      actions.push(this.viewAction);
-      moreActions.addActionInMoreActions(openInMaps);
+      rowActions.push(this.viewAction);
     }
-    actions.push(moreActions.getActionDef());
-    return actions;
+    moreActions.addActionInMoreActions(openInMaps);
+    if (!Utils.isEmptyArray(moreActions.getActionsInMoreActions())) {
+      rowActions.push(moreActions.getActionDef());
+    }
+    return rowActions;
   }
 
   public actionTriggered(actionDef: TableActionDef) {
@@ -234,8 +216,8 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
       // Add
       case SiteButtonAction.CREATE_SITE:
         if (actionDef.action) {
-          (actionDef as TableCreateSiteActionDef).action(SiteDialogComponent, this.dialog,
-            { canCreate: this.canCreateSite }, this.refreshData.bind(this));
+          (actionDef as TableCreateSiteActionDef).action(SiteDialogComponent,
+            this.dialog, this.refreshData.bind(this));
         }
     }
   }
@@ -245,19 +227,18 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
       case SiteButtonAction.EDIT_SITE:
         if (actionDef.action) {
           (actionDef as TableEditSiteActionDef).action(SiteDialogComponent, this.dialog,
-            { id: site.id, canUpdate: site.canUpdate }, this.refreshData.bind(this));
+            { dialogData: site }, this.refreshData.bind(this));
         }
         break;
       case SiteButtonAction.VIEW_SITE:
         if (actionDef.action) {
           (actionDef as TableViewSiteActionDef).action(SiteDialogComponent, this.dialog,
-            { id: site.id, canUpdate: false }, this.refreshData.bind(this));
+            { dialogData: site }, this.refreshData.bind(this));
         }
         break;
       case SiteButtonAction.ASSIGN_USERS_TO_SITE:
         if (actionDef.action) {
-          (actionDef as TableAssignUsersToSiteActionDef).action(
-            SiteUsersDialogComponent, site, this.dialog, this.refreshData.bind(this));
+          (actionDef as TableAssignUsersToSiteActionDef).action(SiteUsersDialogComponent, site, this.dialog,this.refreshData.bind(this));
         }
         break;
       case SiteButtonAction.DELETE_SITE:

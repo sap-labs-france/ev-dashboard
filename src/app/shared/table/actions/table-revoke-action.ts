@@ -7,7 +7,7 @@ import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { ActionResponse } from '../../../types/DataResult';
 import { ButtonAction, RestResponse } from '../../../types/GlobalType';
-import { ButtonColor, ButtonType, Data, TableActionDef } from '../../../types/Table';
+import { ButtonColor, ButtonType, TableActionDef, TableData } from '../../../types/Table';
 import { Utils } from '../../../utils/Utils';
 import { TableAction } from './table-action';
 
@@ -27,7 +27,7 @@ export class TableRevokeAction implements TableAction {
     return this.action;
   }
 
-  protected revoke(data: Data, messageTitle: string, messageConfirm: string,
+  protected revoke(data: TableData, messageTitle: string, messageConfirm: string,
     messageSuccess: string, messageError: string, revokeData: (id: string | number) => Observable<ActionResponse>,
     dialogService: DialogService, messageService: MessageService,
     centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) {

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { DialogMode } from 'types/Authorization';
+import { User } from 'types/User';
 
 import { WindowService } from '../../../services/window.service';
 import { TableEditUserAction } from '../../../shared/table/actions/users/table-edit-user-action';
@@ -23,9 +25,10 @@ export class UsersInErrorComponent implements OnInit {
     const userID = this.windowService.getSearch('UserID');
     if (userID) {
       const editAction = new TableEditUserAction().getActionDef();
-      if (editAction.action) {
-        editAction.action(UserDialogComponent, this.dialog, { id: userID });
-      }
+      editAction.action(UserDialogComponent, this.dialog, {
+        dialogData: { id: userID } as User,
+        dialogMode: DialogMode.EDIT
+      });
       // Clear Search
       this.windowService.deleteSearch('UserID');
     }

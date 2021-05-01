@@ -2,9 +2,9 @@ import { Address } from './Address';
 import { ChargingStation, Voltage } from './ChargingStation';
 import Consumption from './Consumption';
 import { Site } from './Site';
-import { Data } from './Table';
+import { TableData } from './Table';
 
-export interface SiteArea extends Data {
+export interface SiteArea extends TableData {
   id: string;
   name: string;
   image: string;

@@ -222,7 +222,7 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
         if (actionDef.action) {
           (actionDef as TableEditChargingStationActionDef).action(
             ChargingStationDialogComponent, this.dialog,
-            { id: chargingStation.id, canUpdate: chargingStation.canUpdate }, this.refreshData.bind(this));
+            { dialogData: chargingStation }, this.refreshData.bind(this));
         }
         break;
       case LogButtonAction.NAVIGATE_TO_LOGS:

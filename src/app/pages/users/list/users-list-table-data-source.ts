@@ -38,7 +38,7 @@ import { DataResult } from '../../../types/DataResult';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
 import TenantComponents from '../../../types/TenantComponents';
 import { TransactionButtonAction } from '../../../types/Transaction';
-import { User, UserButtonAction, UserToken } from '../../../types/User';
+import { User, UserButtonAction } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';
 import { UserRoleFilter } from '../filters/user-role-filter';
 import { UserStatusFilter } from '../filters/user-status-filter';
@@ -259,15 +259,15 @@ export class UsersListTableDataSource extends TableDataSource<User> {
   }
 
   public buildTableDynamicRowActions(user: User): TableActionDef[] {
-    const actions: TableActionDef[] = [];
+    const rowActions: TableActionDef[] = [];
     const moreActions = new TableMoreAction([]);
     if (user.issuer) {
       if (user.canUpdate) {
-        actions.push(this.editAction);
+        rowActions.push(this.editAction);
       }
       if (this.componentService.isActive(TenantComponents.ORGANIZATION)) {
         if (this.authorizationService.canListUsersSites()) {
-          actions.push(this.assignSitesToUser);
+          rowActions.push(this.assignSitesToUser);
         }
       }
       if (this.authorizationService.canListTokens()) {
@@ -284,7 +284,9 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       if (user.canDelete) {
         moreActions.addActionInMoreActions(this.deleteAction);
       }
-      actions.push(moreActions.getActionDef());
+      if (!Utils.isEmptyArray(moreActions.getActionsInMoreActions())) {
+        rowActions.push(moreActions.getActionDef());
+      }
     } else {
       if (this.authorizationService.canListTokens()) {
         moreActions.addActionInMoreActions(this.navigateToTagsAction);
@@ -295,9 +297,11 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       if (user.canDelete) {
         moreActions.addActionInMoreActions(this.deleteAction);
       }
-      actions.push(moreActions.getActionDef());
+      if (!Utils.isEmptyArray(moreActions.getActionsInMoreActions())) {
+        rowActions.push(moreActions.getActionDef());
+      }
     }
-    return actions;
+    return rowActions;
   }
 
   public actionTriggered(actionDef: TableActionDef) {
@@ -305,8 +309,8 @@ export class UsersListTableDataSource extends TableDataSource<User> {
     switch (actionDef.id) {
       case UserButtonAction.CREATE_USER:
         if (actionDef.action) {
-          (actionDef as TableCreateUserActionDef).action(UserDialogComponent, this.dialog,
-            { canCreate: true }, this.refreshData.bind(this));
+          (actionDef as TableCreateUserActionDef).action(UserDialogComponent,
+            this.dialog, this.refreshData.bind(this));
         }
         break;
       case UserButtonAction.EXPORT_USERS:
@@ -337,7 +341,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       case UserButtonAction.EDIT_USER:
         if (actionDef.action) {
           (actionDef as TableEditUserActionDef).action(UserDialogComponent, this.dialog,
-            { id: user.id, canUpdate: user.canUpdate }, this.refreshData.bind(this));
+            { dialogData: user }, this.refreshData.bind(this));
         }
         break;
       case UserButtonAction.ASSIGN_SITES_TO_USER:

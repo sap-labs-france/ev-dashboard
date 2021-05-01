@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TransactionDialogComponent } from 'shared/dialogs/transaction/transaction.dialog.component';
+import { DialogMode } from 'types/Authorization';
+import { Transaction } from 'types/Transaction';
 
 import { WindowService } from '../../../services/window.service';
 import { TableViewTransactionAction } from '../../../shared/table/actions/transactions/table-view-transaction-action';
@@ -25,7 +27,10 @@ export class TransactionsInProgressComponent implements OnInit {
     const transactionID = Utils.convertToInteger(this.windowService.getSearch('TransactionID'));
     if (transactionID) {
       const viewAction = new TableViewTransactionAction().getActionDef();
-      viewAction.action(TransactionDialogComponent, this.dialog, { transactionID });
+      viewAction.action(TransactionDialogComponent, this.dialog, {
+        dialogData: { id: transactionID } as Transaction,
+        dialogMode: DialogMode.VIEW
+      });
       // Clear Search
       this.windowService.deleteSearch('TransactionID');
     }

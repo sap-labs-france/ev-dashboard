@@ -1,4 +1,4 @@
-import { Injectable, Input } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -62,12 +62,14 @@ export class PaymentMethodsTableDataSource extends TableDataSource<BillingPaymen
       if (this.currentUserID) {
         // Yes: Get data
         // eslint-disable-next-line max-len
-        this.centralServerService.getPaymentMethods(this.currentUserID, this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe((paymentMethods) => {
+        this.centralServerService.getPaymentMethods(this.currentUserID, this.buildFilterValues(),
+          this.getPaging(), this.getSorting()).subscribe((paymentMethods) => {
           observer.next(paymentMethods);
           observer.complete();
         }, (error) => {
           // No longer exists!
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          Utils.handleHttpError(error, this.router, this.messageService,
+            this.centralServerService, 'general.error_backend');
           // Error
           observer.error(error);
         });
@@ -171,7 +173,11 @@ export class PaymentMethodsTableDataSource extends TableDataSource<BillingPaymen
           (actionDef as TableCreatePaymentMethodActionDef).action(
             // eslint-disable-next-line max-len
             PaymentMethodDialogComponent, this.dialog,
-            { userId: this.currentUserID, setting: this.billingSettings },
+            {
+              dialogData: {
+                id: null, userId: this.currentUserID, setting: this.billingSettings
+              }
+            },
             this.refreshData.bind(this));
         }
         break;

@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { StatusCodes } from 'http-status-codes';
 import * as moment from 'moment';
 import { ConfigService } from 'services/config.service';
+import { DialogMode } from 'types/Authorization';
 import { HTTPError } from 'types/HTTPError';
 import { Tag } from 'types/Tag';
 
@@ -22,7 +23,18 @@ import { User, UserCar, UserToken } from '../types/User';
 import { Constants } from './Constants';
 
 export class Utils {
-  public static isEmptyArray(array: any[]): boolean {
+  public static  handleDialogMode(dialogMode: DialogMode, formGroup: FormGroup) {
+    switch (dialogMode) {
+      case DialogMode.CREATE:
+      case DialogMode.EDIT:
+        break;
+      case DialogMode.VIEW:
+        formGroup.disable();
+        break;
+    }
+  }
+
+  public static isEmptyArray(array: any): boolean {
     if (!array) {
       return true;
     }
@@ -30,6 +42,10 @@ export class Utils {
       return false;
     }
     return true;
+  }
+
+  public static isEmptyString(str: string): boolean {
+    return str ? str.length === 0 : true;
   }
 
   public static getConnectorLetterFromConnectorID(connectorID: number): string {
@@ -888,4 +904,9 @@ export class Utils {
     document.execCommand('copy');
     document.body.removeChild(element);
   }
+
+  public static replaceDoubleQuotes(value: any): string{
+    return typeof value === 'string' ? '"' + value.replace(/^"|"$/g, '').replace(/"/g, '""') + '"' : value;
+  }
+
 }

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { DialogMode } from 'types/Authorization';
+import { User } from 'types/User';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { TableEditUserAction } from '../../../shared/table/actions/users/table-edit-user-action';
@@ -35,8 +37,12 @@ export class UsersListComponent implements OnInit {
       this.activatedRoute.params.subscribe((params: Params) => {
         userID = params['id'];
       });
+      // Edit the user
       const editAction = new TableEditUserAction().getActionDef();
-      editAction.action(UserDialogComponent, this.dialog, { id: userID });
+      editAction.action(UserDialogComponent, this.dialog, {
+        dialogData: { id: userID } as User,
+        dialogMode: DialogMode.EDIT
+      });
     }
   }
 }

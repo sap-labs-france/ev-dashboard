@@ -68,7 +68,7 @@ export class TableChargingStationsStartTransactionAction implements TableAction 
       title: translateService.instant('chargers.start_transaction_details_title', {
         chargeBoxID: chargingStation.id
       }),
-      chargeBoxID: chargingStation.id
+      chargingStationID: chargingStation.id
     };
     // Show
     const dialogRef = dialog.open(chargingStationsStartTransactionDialogComponent, dialogConfig);

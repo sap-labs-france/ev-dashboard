@@ -31,6 +31,7 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Fixed user with role Demo cannot read his profile`,
+              `Fixed OCPI wrong ID passed in Start Transaction`,
             ],
           },
         ],

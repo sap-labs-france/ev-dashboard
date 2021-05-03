@@ -31,6 +31,8 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Fixed Shelly amperage`,
+              `Billing - Stripe Invoice - Add customer address`,
+              `IoThink integration response filtering according new model`,
               `Change performance logs from error to warning to avoid confusion in prod with real errors`,
             ],
           },

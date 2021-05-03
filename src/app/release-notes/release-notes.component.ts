@@ -30,7 +30,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
-              `User with role Demo cannot read his profile`,
+              `Fixed user with role Demo cannot read his profile`,
             ],
           },
         ],

@@ -24,6 +24,18 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.66',
+        date: new Date('2021-05-04'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Fixed Shelly amperage`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.65',
         date: new Date('2021-05-03'),
         componentChanges: [

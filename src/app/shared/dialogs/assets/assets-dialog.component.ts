@@ -19,7 +19,7 @@ export class AssetsDialogComponent extends DialogTableDataComponent<Asset> {
     // Super class
     super(data, dialogRef, assetsDataSource);
     // Default title
-    if (this.title === '') {
+    if (Utils.isEmptyString(this.title)) {
       this.title = 'assets.select_assets';
     }
     this.assetsDataSource.destroyDataSource();

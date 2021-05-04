@@ -17,7 +17,7 @@ export class UsersDialogComponent extends DialogTableDataComponent<User> {
     @Inject(MAT_DIALOG_DATA) data: any) {
     super(data, dialogRef, usersListTableDataSource);
     // Default title
-    if (this.title === '') {
+    if (Utils.isEmptyString(this.title)) {
       this.title = 'users.select_users';
     }
     this.usersListTableDataSource.destroyDataSource();

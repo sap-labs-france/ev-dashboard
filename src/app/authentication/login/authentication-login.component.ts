@@ -179,7 +179,7 @@ export class AuthenticationLoginComponent implements OnInit, OnDestroy {
         // Account Pending
         case HTTPError.USER_ACCOUNT_PENDING_ERROR:
           // Pending Users from the Super Tenant should not be able to request an activation email
-          if (this.subDomain !== '') {
+          if (!Utils.isEmptyString(this.subDomain)) {
             // Usual Users
             this.messageService.showWarningMessage(this.messages['account_pending']);
             // No Create and show dialog data

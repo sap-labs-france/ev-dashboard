@@ -177,8 +177,8 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
 
   public formatError(errorCode: string, info: string | undefined, vendorErrorCode: string | undefined) {
     errorCode = new AppConnectorErrorCodePipe(this.translateService).transform(errorCode);
-    info = info && info !== '' ? ` > ${info}` : '';
-    vendorErrorCode = vendorErrorCode && vendorErrorCode !== '' && vendorErrorCode !== '0' ? ` (${vendorErrorCode})` : '';
+    info = !Utils.isEmptyString(info) ? ` > ${info}` : '';
+    vendorErrorCode = !Utils.isEmptyString(vendorErrorCode) && vendorErrorCode !== '0' ? ` (${vendorErrorCode})` : '';
     return `${errorCode}${info}${vendorErrorCode}`;
   }
 

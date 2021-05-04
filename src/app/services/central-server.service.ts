@@ -2636,7 +2636,7 @@ export class CentralServerService {
       );
   }
 
-  public chargingStationStopTransaction(chargeBoxId: string, transactionId: number): Observable<ActionResponse> {
+  public chargingStationStopTransaction(chargingStationID: string, transactionId: number): Observable<ActionResponse> {
     this.checkInit();
     const body = {
       args: {
@@ -2644,7 +2644,7 @@ export class CentralServerService {
       },
     };
     return this.httpClient.put<ActionResponse>(
-      `${this.restServerSecuredURL}/${ServerRoute.REST_CHARGING_STATIONS}/${chargeBoxId}/remote/stop`, body,
+      `${this.restServerSecuredURL}/${ServerRoute.REST_CHARGING_STATIONS}/${chargingStationID}/remote/stop`, body,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2653,16 +2653,16 @@ export class CentralServerService {
       );
   }
 
-  public chargingStationsUnlockConnector(chargeBoxId: string, connectorId: number): Observable<ActionResponse> {
+  public chargingStationsUnlockConnector(chargingStationID: string, connectorId: number): Observable<ActionResponse> {
     this.checkInit();
     const body = {
-      chargeBoxID: chargeBoxId,
+      chargingStationID,
       args: {
         connectorId,
       },
     };
     return this.httpClient.put<ActionResponse>(
-      `${this.restServerSecuredURL}/${ServerRoute.REST_CHARGING_STATIONS}/${chargeBoxId}/connectors/${connectorId}/unlock`, body,
+      `${this.restServerSecuredURL}/${ServerRoute.REST_CHARGING_STATIONS}/${chargingStationID}/connectors/${connectorId}/unlock`, body,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2671,7 +2671,7 @@ export class CentralServerService {
       );
   }
 
-  public chargingStationStartTransaction(chargeBoxId: string, connectorId: number, tagID: string, carID?: string): Observable<ActionResponse> {
+  public chargingStationStartTransaction(chargingStationID: string, connectorId: number, tagID: string, carID?: string): Observable<ActionResponse> {
     this.checkInit();
     const body = {
       carID,
@@ -2681,7 +2681,7 @@ export class CentralServerService {
       },
     };
     return this.httpClient.put<ActionResponse>(
-      `${this.restServerSecuredURL}/${ServerRoute.REST_CHARGING_STATIONS}/${chargeBoxId}/remote/start`, body,
+      `${this.restServerSecuredURL}/${ServerRoute.REST_CHARGING_STATIONS}/${chargingStationID}/remote/start`, body,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2997,7 +2997,7 @@ export class CentralServerService {
     this.checkInit();
     // Build default charging profile json
     const body = `{
-      "chargeBoxID": "${charger.id}",
+      "chargingStationID": "${charger.id}",
       "args": {
         "connectorId": 0,
         "csChargingProfiles": ${JSON.stringify(chargingProfile)}
@@ -3082,7 +3082,7 @@ export class CentralServerService {
     return this.httpClient.post<ActionResponse>(
       `${this.restServerSecuredURL}/${ServerRoute.REST_CHARGING_STATIONS_REQUEST_OCPP_PARAMETERS}`,
       {
-        chargeBoxID: id,
+        chargingStationID: id,
         forceUpdateOCPPParamsFromTemplate: false,
       },
       {
@@ -3100,7 +3100,7 @@ export class CentralServerService {
     return this.httpClient.post<ActionResponse>(
       `${this.restServerSecuredURL}/${ServerRoute.REST_CHARGING_STATIONS_REQUEST_OCPP_PARAMETERS}`,
       {
-        chargeBoxID: id,
+        chargingStationID: id,
         forceUpdateOCPPParamsFromTemplate: true,
       },
       {
@@ -3291,7 +3291,7 @@ export class CentralServerService {
   private buildRestEndpointUrl(urlPatternAsString: ServerRoute, params: {
     // Just a flat list of key/value pairs!
     [name: string]: string | number | null;
-  }) {
+  } = {}) {
     const url = SafeUrlAssembler(this.restServerSecuredURL)
       .template('/' + urlPatternAsString)
       .param(params);

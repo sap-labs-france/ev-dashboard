@@ -32,6 +32,7 @@ export class ReleaseNotesComponent {
             changes: [
               `Fixed Shelly amperage`,
               `Billing - Stripe Invoice - Add customer address`,
+              `Execute the push of CDRs task only on finished transactions`,
               `IoThink integration response filtering according new model`,
               `Fixed user with role Demo can see the user in session's details pop-up`,
               `Change performance logs from error to warning to avoid confusion in prod with real errors`,

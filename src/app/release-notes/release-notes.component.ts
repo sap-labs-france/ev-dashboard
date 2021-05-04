@@ -33,6 +33,7 @@ export class ReleaseNotesComponent {
               `Fixed Shelly amperage`,
               `Billing - Stripe Invoice - Add customer address`,
               `IoThink integration response filtering according new model`,
+              `Fixed user with role Demo can see the user in session's details pop-up`,
               `Change performance logs from error to warning to avoid confusion in prod with real errors`,
             ],
           },

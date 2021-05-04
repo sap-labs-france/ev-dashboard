@@ -24,8 +24,38 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.66',
+        date: new Date('2021-05-04'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Fixed Shelly amperage`,
+              `Billing - Stripe Invoice - Add customer address`,
+              `Execute the push of CDRs task only on finished transactions`,
+              `IoThink integration response filtering according new model`,
+              `Fixed user with role Demo can see the user in session's details pop-up`,
+              `Change performance logs from error to warning to avoid confusion in prod with real errors`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.65',
+        date: new Date('2021-05-03'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Fixed user with role Demo cannot read his profile`,
+              `Fixed OCPI wrong ID passed in Start Transaction`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.64',
-        date: new Date('2021-04-30'),
+        date: new Date('2021-05-01'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -33,6 +63,9 @@ export class ReleaseNotesComponent {
               `Made all the pop-up scrollable if content is too big`,
               `Handle Web Socket connections from a Charging Station with an unique ID`,
               `Fixed export of transaction with rounded price`,
+              `Fixed OCPI CDR is sent multiple times on OCPP status notification`,
+              `Add opening hours in SAP Labs France Mougins' Site`,
+              `Use the local CPO Transaction ID in OCPI Session and CDR`,
               `Fixed Badge cannot be created if used in Transactions with no User`,
               `Eichrecht: Signed Data is not correctly transmitted with some systems`,
               `Added Atess, Ecotap DC30, CC612_1M4PR and Alfen Charging Stations in template`,

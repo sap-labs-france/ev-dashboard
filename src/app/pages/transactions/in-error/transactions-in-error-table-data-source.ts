@@ -288,7 +288,9 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     const moreActions = new TableMoreAction([]);
     if (transaction.issuer) {
       if (transaction.errorCode === TransactionInErrorType.NO_BILLING_DATA) {
-        moreActions.addActionInMoreActions(this.createInvoice);
+        // TODO - no use-case so far for an explicit 'Create Invoice' action
+        // - Authorization are not in place
+        // moreActions.addActionInMoreActions(this.createInvoice);
       }
       if (this.isAdmin) {
         moreActions.addActionInMoreActions(this.navigateToLogsAction);

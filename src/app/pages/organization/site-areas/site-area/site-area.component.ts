@@ -4,6 +4,7 @@ import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dial
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
+import { DialogMode } from 'types/Authorization';
 
 import { AuthorizationService } from '../../../../services/authorization.service';
 import { CentralServerService } from '../../../../services/central-server.service';
@@ -30,13 +31,14 @@ import { Utils } from '../../../../utils/Utils';
 })
 export class SiteAreaComponent implements OnInit {
   @Input() public currentSiteAreaID!: string;
-  @Input() public inDialog!: boolean;
+  @Input() public dialogMode!: DialogMode;
   @Input() public dialogRef!: MatDialogRef<any>;
 
   public image = Constants.NO_IMAGE;
   public imageHasChanged = false;
   public maxSize: number;
   public siteArea: SiteArea;
+  public readOnly = true;
 
   public formGroup!: FormGroup;
   public id!: AbstractControl;
@@ -139,6 +141,7 @@ export class SiteAreaComponent implements OnInit {
     this.voltage = this.formGroup.controls['voltage'];
     this.numberOfPhases = this.formGroup.controls['numberOfPhases'];
     this.maximumPowerAmps.disable();
+    this.readOnly = (this.dialogMode === DialogMode.VIEW);
     if (this.currentSiteAreaID) {
       this.loadSiteArea();
       this.loadRegistrationToken();
@@ -147,6 +150,8 @@ export class SiteAreaComponent implements OnInit {
         this.currentSiteAreaID = params['id'];
       });
     }
+    // Handle Dialog mode
+    Utils.handleDialogMode(this.dialogMode, this.formGroup);
   }
 
   public assignSite() {
@@ -358,7 +363,7 @@ export class SiteAreaComponent implements OnInit {
   }
 
   public closeDialog(saved: boolean = false) {
-    if (this.inDialog) {
+    if (this.dialogRef) {
       this.dialogRef.close(saved);
     }
   }

@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 
-import { AuthorizationService } from '../../../../services/authorization.service';
 import { CentralServerService } from '../../../../services/central-server.service';
 import { DialogService } from '../../../../services/dialog.service';
 import { MessageService } from '../../../../services/message.service';
@@ -26,10 +25,6 @@ export class SiteAreaChargingStationsDataSource extends TableDataSource<Charging
   private siteArea!: SiteArea;
   private addAction = new TableAddAction().getActionDef();
   private removeAction = new TableRemoveAction().getActionDef();
-  private canReadSiteArea = false;
-  private canCreateSiteArea = false;
-  private canUpdateSiteArea = false;
-  private canDeleteSiteArea = false;
 
   public constructor(
     public spinnerService: SpinnerService,
@@ -38,17 +33,13 @@ export class SiteAreaChargingStationsDataSource extends TableDataSource<Charging
     private router: Router,
     private dialog: MatDialog,
     private dialogService: DialogService,
-    private centralServerService: CentralServerService,
-    private authorizationService: AuthorizationService) {
+    private centralServerService: CentralServerService) {
     super(spinnerService, translateService);
-    this.canReadSiteArea = this.authorizationService.canReadSiteArea();
-    this.canCreateSiteArea = this.authorizationService.canCreateSiteArea();
-    this.canUpdateSiteArea = this.authorizationService.canUpdateSiteArea();
-    this.canDeleteSiteArea = this.authorizationService.canDeleteSiteArea();
   }
 
   public loadDataImpl(): Observable<DataResult<ChargingStation>> {
     return new Observable((observer) => {
+      this.addAction.visible = this.siteArea.canCreate;
       // siteArea provided?
       if (this.siteArea) {
         // Yes: Get data
@@ -74,29 +65,15 @@ export class SiteAreaChargingStationsDataSource extends TableDataSource<Charging
   }
 
   public buildTableDef(): TableDef {
-    if (this.siteArea?.issuer) {
-      if ((this.canReadSiteArea && this.canCreateSiteArea && this.canUpdateSiteArea && this.canDeleteSiteArea) ||
-        this.authorizationService.isSiteAdmin(this.siteArea.siteID)) {
-        return {
-          class: 'table-dialog-list',
-          rowSelection: {
-            enabled: true,
-            multiple: true,
-          },
-          search: {
-            enabled: true,
-          },
-        };
-      }
-    }
     return {
       class: 'table-dialog-list',
-      rowSelection: {
-        enabled: false,
-        multiple: false,
-      },
+      rowSelection:
+        {
+          enabled: this.siteArea?.canUnassignChargingStations,
+          multiple: this.siteArea?.canUnassignChargingStations,
+        },
       search: {
-        enabled: false,
+        enabled: true,
       },
     };
   }
@@ -136,16 +113,14 @@ export class SiteAreaChargingStationsDataSource extends TableDataSource<Charging
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-    if (this.siteArea?.issuer) {
-      if (((this.canReadSiteArea && this.canCreateSiteArea && this.canUpdateSiteArea && this.canDeleteSiteArea) ||
-        this.authorizationService.isSiteAdmin(this.siteArea.siteID))) {
-        return [
-          this.addAction,
-          this.removeAction,
-          ...tableActionsDef,
-        ];
-      }
+
+    if(this.siteArea.canAssignChargingStations) {
+      tableActionsDef.push(this.addAction);
     }
+    if(this.siteArea.canUnassignChargingStations) {
+      tableActionsDef.push(this.removeAction);
+    }
+
     return tableActionsDef;
   }
 

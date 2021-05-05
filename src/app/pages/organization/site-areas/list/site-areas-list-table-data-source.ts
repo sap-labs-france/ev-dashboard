@@ -294,7 +294,8 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
       case SiteAreaButtonAction.ASSIGN_CHARGING_STATIONS_TO_SITE_AREA:
         if (actionDef.action) {
           (actionDef as TableAssignChargingStationsToSiteAreaActionDef).action(
-            SiteAreaChargingStationsDialogComponent, siteArea, this.dialog, this.refreshData.bind(this));
+            SiteAreaChargingStationsDialogComponent, this.dialog,
+            { dialogData: siteArea }, this.refreshData.bind(this));
         }
         break;
       case SiteAreaButtonAction.VIEW_CHARGING_STATIONS_OF_SITE_AREA:
@@ -327,13 +328,13 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
       case SiteAreaButtonAction.ASSIGN_ASSETS_TO_SITE_AREA:
         if (actionDef.action) {
           (actionDef as TableAssignAssetsToSiteAreaActionDef).action(
-            SiteAreaAssetsDialogComponent, siteArea, this.dialog, this.refreshData.bind(this));
+            SiteAreaAssetsDialogComponent, { dialogData: siteArea }, this.dialog, this.refreshData.bind(this));
         }
         break;
       case SiteAreaButtonAction.VIEW_ASSETS_OF_SITE_AREA:
         if (actionDef.action) {
           (actionDef as TableViewAssignedAssetsOfSiteAreaActionDef).action(
-            SiteAreaAssetsDialogComponent, siteArea, this.dialog,
+            SiteAreaAssetsDialogComponent, { dialogData: siteArea }, this.dialog,
             this.refreshData.bind(this));
         }
         break;

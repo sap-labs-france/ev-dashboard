@@ -27,7 +27,7 @@ import { OCPPResetType } from '../types/ocpp/OCPP';
 import { RefundReport } from '../types/Refund';
 import { RegistrationToken } from '../types/RegistrationToken';
 import { ServerAction, ServerRoute } from '../types/Server';
-import { SettingDB } from '../types/Setting';
+import { BillingSettings, SettingDB } from '../types/Setting';
 import { Site, SiteUser } from '../types/Site';
 import { SiteArea, SiteAreaConsumption } from '../types/SiteArea';
 import { StatisticData } from '../types/Statistic';
@@ -1524,17 +1524,43 @@ export class CentralServerService {
       );
   }
 
+  public getBillingSettings(): Observable<BillingSettings> {
+    // verify init
+    this.checkInit();
+    // Build the URL
+    const url = this.buildRestEndpointUrl(ServerRoute.REST_BILLING_SETTING);
+    // Execute the REST Service
+    return this.httpClient.get<BillingSettings>(url, {
+      headers: this.buildHttpHeaders()
+    }).pipe(
+      catchError(this.handleHttpError),
+    );
+  }
+
+  public updateBillingSettings(billingSettings: BillingSettings): Observable<ActionResponse> {
+    // Verify init
+    this.checkInit();
+    // Build the URL
+    const url = this.buildRestEndpointUrl(ServerRoute.REST_BILLING_SETTING);
+    // Execute
+    return this.httpClient.put<ActionResponse>(url, billingSettings, {
+      headers: this.buildHttpHeaders(),
+    }).pipe(
+      catchError(this.handleHttpError),
+    );
+  }
+
   public checkBillingConnection(): Observable<CheckBillingConnectionResponse> {
     // verify init
     this.checkInit();
+    // Build the URL
+    const url = this.buildRestEndpointUrl(ServerRoute.REST_BILLING_CHECK);
     // Execute the REST Service
-    return this.httpClient.get<CheckBillingConnectionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CHECK_BILLING_CONNECTION}`,
-      {
-        headers: this.buildHttpHeaders(),
-      })
-      .pipe(
-        catchError(this.handleHttpError),
-      );
+    return this.httpClient.post<CheckBillingConnectionResponse>(url, {}, {
+      headers: this.buildHttpHeaders()
+    }).pipe(
+      catchError(this.handleHttpError),
+    );
   }
 
   public synchronizeUsersForBilling(): Observable<ActionsResponse> {

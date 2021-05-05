@@ -409,7 +409,6 @@ export enum ServerAction {
   BILLING_SYNCHRONIZE_USERS = 'BillingSynchronizeUsers',
   BILLING_SYNCHRONIZE_USER = 'BillingSynchronizeUser',
   BILLING_FORCE_SYNCHRONIZE_USER = 'BillingForceSynchronizeUser',
-  CHECK_BILLING_CONNECTION = 'CheckBillingConnection',
   BILLING_TAXES = 'BillingTaxes',
   BILLING_INVOICES = 'BillingUserInvoices',
   BILLING_USER_INVOICE = 'BillingUserInvoice',
@@ -505,4 +504,7 @@ export enum ServerRoute {
   REST_BILLING_PAYMENT_METHOD_SETUP = 'users/:userID/payment-methods/setup',
   REST_BILLING_PAYMENT_METHOD_ATTACH = 'users/:userID/payment-methods/:paymentMethodID/attach',
   REST_BILLING_PAYMENT_METHOD_DETACH = 'users/:userID/payment-methods/:paymentMethodID/detach',
+
+  REST_BILLING_SETTING = 'billing-setting', // GET and PUT
+  REST_BILLING_CHECK = 'billing/check'
 }

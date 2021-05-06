@@ -262,6 +262,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
       actions.push(this.viewChargingStationsOfSiteArea);
     }
     moreActions.addActionInMoreActions(openInMaps);
+    actions.push(moreActions.getActionDef());
     return actions;
   }
 

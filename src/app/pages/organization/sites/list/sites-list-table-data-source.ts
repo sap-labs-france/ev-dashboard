@@ -204,9 +204,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
       rowActions.push(this.viewAction);
     }
     moreActions.addActionInMoreActions(openInMaps);
-    if (!Utils.isEmptyArray(moreActions.getActionsInMoreActions())) {
-      rowActions.push(moreActions.getActionDef());
-    }
+    rowActions.push(moreActions.getActionDef());
     return rowActions;
   }
 

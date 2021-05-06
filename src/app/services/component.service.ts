@@ -193,6 +193,10 @@ export class ComponentService {
         case AssetConnectionType.IOTHINK:
           settingsToSave.sensitiveData.push(`content.asset.connections[${index}].iothinkConnection.password`);
           break;
+        case AssetConnectionType.WIT:
+          settingsToSave.sensitiveData.push(`content.asset.connections[${index}].witConnection.password`);
+          settingsToSave.sensitiveData.push(`content.asset.connections[${index}].witConnection.clientSecret`);
+          break;
       }
 
     });

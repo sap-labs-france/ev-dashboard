@@ -18,6 +18,7 @@ import { AssetConnectionDialogComponent } from './asset/connection/asset-connect
 import { GreencomAssetConnectionComponent } from './asset/connection/greencom/greencom-asset-connection.component';
 import { IothinkAssetConnectionComponent } from './asset/connection/iothink/iothink-asset-connection.component';
 import { SchneiderAssetConnectionComponent } from './asset/connection/schneider/schneider-asset-connection.component';
+import { WitAssetConnectionComponent } from './asset/connection/wit/wit-asset-connection.component';
 import { SettingsAssetConnectionEditableTableDataSource } from './asset/settings-asset-connections-list-table-data-source';
 import { SettingsAssetComponent } from './asset/settings-asset.component';
 import { SettingsBillingComponent } from './billing/settings-billing.component';
@@ -112,6 +113,7 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     SchneiderAssetConnectionComponent,
     GreencomAssetConnectionComponent,
     IothinkAssetConnectionComponent,
+    WitAssetConnectionComponent,
     SettingsCarConnectorComponent,
     CarConnectorConnectionComponent,
     CarConnectorConnectionDialogComponent,
@@ -171,6 +173,7 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     SchneiderAssetConnectionComponent,
     GreencomAssetConnectionComponent,
     IothinkAssetConnectionComponent,
+    WitAssetConnectionComponent,
     SettingsCarConnectorComponent,
     CarConnectorConnectionComponent,
     CarConnectorConnectionDialogComponent,

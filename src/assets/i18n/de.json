@@ -1611,13 +1611,15 @@
         "password": "Passwort",
         "client_id":"Client ID",
         "client_secret":"Client Secret",
+        "authentication_url":"Authentication URL",
         "delete_title": "Asset-Verbindung löschen",
         "delete_confirm": "Möchten Sie die Verbindung '{{assetConnectionName}}' wirklich löschen?"
       },
       "types": {
         "schneider": "Schneider Building Management System",
         "greencom": "GreenCom Asset Management System",
-        "iothink": "ioThink Asset Management System"
+        "iothink": "ioThink Asset Management System",
+        "wit": "WIT Asset Management System"
       },
       "connection_success": "Die Verbindung zum System wurde erfolgreich getestet.",
       "unknown_connection_error": "Unbekannter Verbindungsfehler",

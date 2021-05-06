@@ -459,7 +459,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         break;
       case ChargingStationButtonAction.NAVIGATE_TO_CHARGING_PLANS:
         if (actionDef.action) {
-          (actionDef as TableOpenURLActionDef).action('charging-stations#chargingplans?ChargingStationID=' + 
+          (actionDef as TableOpenURLActionDef).action('charging-stations#chargingplans?ChargingStationID=' +
             transaction.chargeBoxID + '&TransactionID=' + transaction.id);
         }
         break;

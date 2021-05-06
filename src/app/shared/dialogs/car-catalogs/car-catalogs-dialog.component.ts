@@ -17,7 +17,7 @@ export class CarCatalogsDialogComponent extends DialogTableDataComponent<CarCata
     @Inject(MAT_DIALOG_DATA) data: any) {
     super(data, dialogRef, carCatalogsDialogTableDataSource);
     // Default title
-    if (this.title === '') {
+    if (Utils.isEmptyString(this.title)) {
       this.title = 'cars.assign_car_catalog';
     }
     this.carCatalogsDialogTableDataSource.destroyDataSource();

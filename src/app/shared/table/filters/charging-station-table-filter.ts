@@ -8,7 +8,7 @@ export class ChargingStationTableFilter extends TableFilter {
     // Define filter
     const filterDef: TableFilterDef = {
       id: 'charger',
-      httpId: 'ChargeBoxID',
+      httpId: 'ChargingStationID',
       type: FilterType.DIALOG_TABLE,
       label: '',
       name: 'chargers.titles',

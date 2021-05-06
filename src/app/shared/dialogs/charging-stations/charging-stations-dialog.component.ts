@@ -18,7 +18,7 @@ export class ChargingStationsDialogComponent extends DialogTableDataComponent<Ch
     // Super class
     super(data, dialogRef, chargingStationsDataSource);
     // Default title
-    if (this.title === '') {
+    if (Utils.isEmptyString(this.title)) {
       this.title = 'chargers.select_chargers';
     }
     this.chargingStationsDataSource.destroyDataSource();

@@ -306,7 +306,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
       if (!Utils.isEmptyArray(moreActions.getActionsInMoreActions())) {
         rowActions.push(moreActions.getActionDef());
       }
-  }
+    }
     return rowActions;
   }
 

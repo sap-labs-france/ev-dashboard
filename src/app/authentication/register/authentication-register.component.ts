@@ -150,7 +150,7 @@ export class AuthenticationRegisterComponent implements OnInit, OnDestroy {
           // Ok?
           if (response.status && response.status === RestResponse.SUCCESS) {
             // Show success
-            if (this.subDomain === '') {
+            if (Utils.isEmptyString(this.subDomain)) {
               // Super User in Master Tenant
               this.messageService.showSuccessMessage(this.messages['register_super_user_success']);
             } else {

@@ -234,11 +234,11 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
           Validators.compose([
             Users.passwordWithNoSpace,
             Users.validatePassword,
-          ])),
+          ].concat(!Utils.isEmptyString(this.currentUserID) ? [] : [Validators.required]))),
         repeatPassword: new FormControl('',
           Validators.compose([
             Users.validatePassword,
-          ])),
+          ].concat(!Utils.isEmptyString(this.currentUserID) ? [] : [Validators.required]))),
       }, (passwordFormGroup: FormGroup) => Utils.validateEqual(passwordFormGroup, 'password', 'repeatPassword')),
     });
     // Form

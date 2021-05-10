@@ -2744,6 +2744,20 @@ export class CentralServerService {
       );
   }
 
+  public createChargingProfile(chargingProfile: ChargingProfile): Observable<ActionResponse> {
+    // Verify init
+    this.checkInit();
+    // Execute
+    return this.httpClient.post<ActionResponse>(
+      `${this.restServerSecuredURL}/${ServerRoute.REST_CHARGING_PROFILES}`, chargingProfile,
+      {
+        headers: this.buildHttpHeaders(this.windowService.getSubdomain()),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
   public deleteChargingProfile(id: string): Observable<ActionResponse> {
     // Verify init
     this.checkInit();

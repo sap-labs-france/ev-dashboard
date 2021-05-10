@@ -25,7 +25,7 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.4.66',
-        date: new Date('2021-05-04'),
+        date: new Date('2021-05-10'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -33,6 +33,11 @@ export class ReleaseNotesComponent {
               `Fixed Shelly amperage`,
               `Billing - Stripe Invoice - Add customer address`,
               `Execute the push of CDRs task only on finished transactions`,
+              `Charging Profile create or update is depending on the Charging Profile ID`,
+              `Fixed power slider in Charging Profiles`,
+              `Disable 24/7 in OCPI if opening times are provided`,
+              `Fixed ioThink current instant watts on Battery asset`,
+              `Synchronize Biling Users only sync Users (not Invoices)`,
               `IoThink integration response filtering according new model`,
               `Fixed user with role Demo can see the user in session's details pop-up`,
               `Change performance logs from error to warning to avoid confusion in prod with real errors`,

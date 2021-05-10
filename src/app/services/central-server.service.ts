@@ -17,7 +17,7 @@ import { ChargePoint, ChargingStation, OCPPAvailabilityType, OcppParameter } fro
 import { Company } from '../types/Company';
 import CentralSystemServerConfiguration from '../types/configuration/CentralSystemServerConfiguration';
 import { IntegrationConnection, UserConnection } from '../types/Connection';
-import { ActionResponse, ActionsResponse, BillingOperationResponse, CheckAssetConnectionResponse, CheckBillingConnectionResponse, CompanyDataResult, DataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OICPJobStatusesResponse, OICPPingResponse, Ordering, Paging, SiteDataResult } from '../types/DataResult';
+import { ActionResponse, ActionsResponse, BillingOperationResponse, CarDataResult, CheckAssetConnectionResponse, CheckBillingConnectionResponse, CompanyDataResult, DataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OICPJobStatusesResponse, OICPPingResponse, Ordering, Paging, SiteDataResult } from '../types/DataResult';
 import { EndUserLicenseAgreement } from '../types/Eula';
 import { FilterParams, Image, KeyValue } from '../types/GlobalType';
 import { AssetInError, ChargingStationInError, TransactionInError } from '../types/InError';
@@ -2780,7 +2780,7 @@ export class CentralServerService {
   }
 
   public getCars(params: FilterParams,
-    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Car>> {
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<CarDataResult> {
     // Verify init
     this.checkInit();
     // Build Paging
@@ -2788,7 +2788,7 @@ export class CentralServerService {
     // Build Ordering
     this.getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<DataResult<Car>>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CARS}`,
+    return this.httpClient.get<CarDataResult>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CARS}`,
       {
         headers: this.buildHttpHeaders(),
         params,

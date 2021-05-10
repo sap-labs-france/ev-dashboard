@@ -1,3 +1,4 @@
+import { Car } from './Car';
 import { Company } from './Company';
 import { Site } from './Site';
 import { Transaction } from './Transaction';
@@ -79,6 +80,9 @@ export interface SiteDataResult extends DataResult<Site> {
   canCreate: boolean;
   canAssignUsers: boolean;
   canUnassignUsers: boolean;
+}
+export interface CarDataResult extends DataResult<Car> {
+  canCreate: boolean;
 }
 export interface CheckAssetConnectionResponse extends ActionResponse {
   connectionIsValid: boolean;

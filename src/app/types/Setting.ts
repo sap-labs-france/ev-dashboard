@@ -196,7 +196,7 @@ export interface ConcurRefundSetting {
   reportName: string;
 }
 
-export interface BillingSettings extends Setting{
+export interface BillingSettings extends Setting {
   identifier: TenantComponents.BILLING;
   type: BillingSettingsType;
   billing: BillingSetting;
@@ -204,6 +204,7 @@ export interface BillingSettings extends Setting{
 }
 
 export interface BillingSetting {
+  isTransactionBillingActivated: boolean;
   immediateBillingAllowed: boolean;
   periodicBillingAllowed: boolean;
   taxID: string;

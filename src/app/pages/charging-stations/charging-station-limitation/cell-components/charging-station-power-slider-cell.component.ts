@@ -10,7 +10,7 @@ import { Utils } from '../../../../utils/Utils';
     <div class="row m-0">
       <app-charging-station-power-slider class="col-md-12"
         [chargingStation]="chargingStation" [chargePoint]="chargePoint"
-        [forChargingProfile]="true" [currentAmp]='row?.limit' (silderChanged)="sliderChanged($event)">
+        [forChargingProfile]="true" [currentAmp]='row?.limit' (sliderChangedEmitter)="sliderChanged($event)">
       </app-charging-station-power-slider>
     </div>
   `,

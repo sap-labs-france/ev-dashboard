@@ -1609,8 +1609,9 @@
         "base_url": "URL",
         "user": "Utente",
         "password": "Password",
-        "client_id":"Client ID",
-        "client_secret":"Client Secret",
+        "client_id": "Client ID",
+        "client_secret": "Client Secret",
+        "refresh_interval": "Refresh Interval (mins)",
         "delete_title": "Cancella connessione Risorsa",
         "delete_confirm": "Vuoi veramente cancellare la connessione '{{assetConnectionName}}'?"
       },

@@ -1609,9 +1609,10 @@
         "base_url": "URL",
         "user": "Nutzer",
         "password": "Passwort",
-        "client_id":"Client ID",
-        "client_secret":"Client Secret",
-        "authentication_url":"Authentication URL",
+        "client_id": "Client ID",
+        "client_secret": "Client Secret",
+        "authentication_url": "Authentication URL",
+        "refresh_interval": "Aktualisierungsintervall (min)",
         "delete_title": "Asset-Verbindung löschen",
         "delete_confirm": "Möchten Sie die Verbindung '{{assetConnectionName}}' wirklich löschen?"
       },

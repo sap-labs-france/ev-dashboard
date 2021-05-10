@@ -272,6 +272,7 @@ export interface AssetWitConnectionType extends AssetUserPasswordConnectionType 
   clientId: string;
   clientSecret: string;
   authenticationUrl: string;
+  refreshInterval: number;
 }
 
 export enum CarConnectorSettingsType {

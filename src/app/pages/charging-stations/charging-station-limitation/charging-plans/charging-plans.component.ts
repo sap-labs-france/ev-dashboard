@@ -3,7 +3,9 @@ import { AbstractControl, FormArray, FormControl, FormGroup, ValidationErrors, V
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
+import { Observable } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import { ActionResponse } from 'types/DataResult';
 
 import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../../services/central-server.service';
@@ -331,7 +333,15 @@ export class ChargingPlansComponent implements OnInit, AfterViewInit, OnChanges 
         // Build charging profile
         const chargingProfile = this.buildChargingProfile();
         this.spinnerService.show();
-        this.centralServerService.updateChargingProfile(chargingProfile).subscribe((response) => {
+        let restRequest: (chargingProfile) => Observable<ActionResponse>;
+        if (chargingProfile.id) {
+          // Charging profile already exists : update it
+          restRequest = this.centralServerService.updateChargingProfile.bind(this.centralServerService);
+        } else {
+          // Charging profile doesn't exists : create it
+          restRequest = this.centralServerService.createChargingProfile.bind(this.centralServerService);
+        }
+        restRequest(chargingProfile).subscribe((response) => {
           this.spinnerService.hide();
           if (response.status === RestResponse.SUCCESS) {
             // Push new profile in array

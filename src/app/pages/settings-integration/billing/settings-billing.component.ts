@@ -73,8 +73,10 @@ export class SettingsBillingComponent implements OnInit {
       return ;
     }
     const { immediateBillingAllowed, periodicBillingAllowed, taxID } = newSettings.stripe; // TODO - ?? newSettings.billing?
+    // TODO - isTransactionBillingActivated is not yet visible - Add means to the UI to activate it
+    const isTransactionBillingActivated = false;
     const billing: BillingSetting = {
-      immediateBillingAllowed, periodicBillingAllowed, taxID
+      isTransactionBillingActivated, immediateBillingAllowed, periodicBillingAllowed, taxID,
     };
     const { url, publicKey, secretKey } = newSettings.stripe;
     const stripe: StripeBillingSetting  = {

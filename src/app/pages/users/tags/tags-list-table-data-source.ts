@@ -12,6 +12,7 @@ import { TableMoreAction } from 'shared/table/actions/table-more-action';
 import { TableOpenURLActionDef } from 'shared/table/actions/table-open-url-action';
 import { TableNavigateToTransactionsAction } from 'shared/table/actions/transactions/table-navigate-to-transactions-action';
 import { TableDeleteTagsAction, TableDeleteTagsActionDef } from 'shared/table/actions/users/table-delete-tags-action';
+import { TableExportTagsAction, TableExportTagsActionDef } from 'shared/table/actions/users/table-export-tags-action';
 import { TableImportTagsAction, TableImportTagsActionDef } from 'shared/table/actions/users/table-import-tags-action';
 import { organisations } from 'shared/table/filters/issuer-filter';
 import { StatusFilter } from 'shared/table/filters/status-filter';
@@ -253,6 +254,9 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
     tableActionsDef.unshift(this.deleteManyAction);
+    if (this.authorizationService.canExportTags()) {
+      tableActionsDef.unshift(new TableExportTagsAction().getActionDef());
+    }
     if (this.authorizationService.canImportTags()) {
       tableActionsDef.unshift(new TableImportTagsAction().getActionDef());
     }
@@ -312,6 +316,15 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
       case UserButtonAction.IMPORT_TAGS:
         if (actionDef.action) {
           (actionDef as TableImportTagsActionDef).action(ImportDialogComponent, this.dialog);
+        }
+        break;
+      case UserButtonAction.EXPORT_TAGS:
+        if (actionDef.action) {
+          const filterValues = this.buildFilterValues();
+          filterValues['WithUser'] = 'true';
+          (actionDef as TableExportTagsActionDef).action(filterValues, this.dialogService,
+            this.translateService, this.messageService, this.centralServerService, this.router,
+            this.spinnerService);
         }
         break;
     }

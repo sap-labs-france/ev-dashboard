@@ -30,6 +30,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `New authorization framework on Site and Site Area`,
               `Add Export of Tags with Users`,
               `Execute the push of CDRs task only on finished transactions`,
               `Charging Profile create or update is depending on the Charging Profile ID`,

@@ -1776,7 +1776,7 @@
     "error_ping_412": "Ping fehlgeschlagen: Ungültige Antwort",
     "error_ping": "Ping Fehler",
     "error_generate_local_token": "Beim Generieren neuer lokaler Tokens ist ein Fehler aufgetreten",
-    "push_evse_statuses_success": "Die Anfrage wurde akzeptiert, die Status der EVESE's werden nun asychron gepusht",
+    "push_evse_statuses_success": "Die Anfrage wurde akzeptiert, die Status der EVESE's werden nun asynchron gepusht",
     "push_tokens_success": "{{success}} Token(s) erfolgreich aktualisiert",
     "push_evse_statuses_error": "Beim Aktualisieren der EVSE Status ist ein Fehler aufgetreten - überprüfen Sie die Logs für Details",
     "push_tokens_error": "Beim Aktualisieren der User Tokens ist ein Fehler aufgetreten - überprüfen Sie die Logs für Details",

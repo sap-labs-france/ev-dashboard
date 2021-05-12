@@ -240,9 +240,6 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     const moreActions = new TableMoreAction([]);
     if (siteArea.canUpdate) {
       actions.push(this.editAction);
-      // flag to be added on   the backend for increased granularity
-      moreActions.addActionInMoreActions(this.exportOCPPParamsAction);
-      moreActions.addActionInMoreActions(this.siteAreaGenerateQrCodeConnectorAction);
     } else {
       actions.push(this.viewAction);
     }
@@ -252,6 +249,12 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
       } else {
         actions.splice(2, 0, this.viewAssetsOfSiteArea);
       }
+    }
+    if (siteArea.canExportOCPPParams) {
+      moreActions.addActionInMoreActions(this.exportOCPPParamsAction);
+    }
+    if (siteArea.canGenerateQrCode) {
+      moreActions.addActionInMoreActions(this.siteAreaGenerateQrCodeConnectorAction);
     }
     if (siteArea.canDelete) {
       moreActions.addActionInMoreActions(this.deleteAction);

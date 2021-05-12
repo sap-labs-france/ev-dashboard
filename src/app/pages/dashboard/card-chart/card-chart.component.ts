@@ -43,7 +43,7 @@ export interface ChartButton {
  * @interface ChartDefinition
  */
 export interface ChartDefinition {
-  options: any[];
+  options: any;
   data: ChartData;
 }
 

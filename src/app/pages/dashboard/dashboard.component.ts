@@ -1,7 +1,6 @@
 import { AnimationEvent, animate, group, query, style, transition, trigger } from '@angular/animations';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { ChartData } from 'chart.js';
 import * as moment from 'moment';
 
 import { DashboardService } from '../../services/dashboard.service';
@@ -397,7 +396,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
     const dataDefinition = this.createRealtimeGraphData(nextRealtimeChart.dataConsumptionChart);
     event.chart = {
-      data: dataDefinition.data as ChartData,
+      data: dataDefinition.data,
       options: dataDefinition.options,
     };
   }
@@ -493,7 +492,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
     const dataDefinition = this.createStatisticsGraphData(nextRealtimeChart.dataDeliveredChart);
     event.chart = {
-      data: dataDefinition.data as ChartData,
+      data: dataDefinition.data,
       options: dataDefinition.options,
     };
   }

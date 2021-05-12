@@ -6,7 +6,6 @@ import { Observable } from 'rxjs';
 import { WindowService } from 'services/window.service';
 import { TableSiteAreaGenerateQrCodeConnectorAction, TableSiteAreaGenerateQrCodeConnectorsActionDef } from 'shared/table/actions/site-areas/table-site-area-generate-qr-code-connector-action';
 
-import { AuthorizationService } from '../../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../../services/central-server.service';
 import { ComponentService } from '../../../../services/component.service';
@@ -47,11 +46,6 @@ import { SiteAreaConsumptionChartDetailComponent } from './consumption-chart/sit
 
 @Injectable()
 export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
-  private canReadSiteArea = false;
-  private canCreateSiteArea = false;
-  private canUpdateSiteArea = false;
-  private canDeleteSiteArea = false;
-  private canCrudSiteArea = false;
   private readonly isAssetComponentActive: boolean;
   private editAction = new TableEditSiteAreaAction().getActionDef();
   private assignChargingStationsToSiteAreaAction = new TableAssignChargingStationsToSiteAreaAction().getActionDef();
@@ -62,6 +56,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
   private viewAssetsOfSiteArea = new TableViewAssignedAssetsOfSiteAreaAction().getActionDef();
   private exportOCPPParamsAction = new TableExportOCPPParamsAction().getActionDef();
   private siteAreaGenerateQrCodeConnectorAction = new TableSiteAreaGenerateQrCodeConnectorAction().getActionDef();
+  private createAction = new TableCreateSiteAreaAction().getActionDef();
 
 
   public constructor(
@@ -74,18 +69,11 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     private appUnitPipe: AppUnitPipe,
     private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
-    private authorizationService: AuthorizationService,
     private datePipe: AppDatePipe,
     private windowService: WindowService,
     private componentService: ComponentService) {
     super(spinnerService, translateService);
     // Init
-    this.canReadSiteArea = this.authorizationService.canReadSiteArea();
-    this.canCreateSiteArea = this.authorizationService.canCreateSiteArea();
-    this.canUpdateSiteArea = this.authorizationService.canUpdateSiteArea();
-    this.canDeleteSiteArea = this.authorizationService.canDeleteSiteArea();
-    this.canCrudSiteArea = this.canCreateSiteArea && this.canReadSiteArea &&
-      this.canUpdateSiteArea && this.canDeleteSiteArea;
     this.isAssetComponentActive = this.componentService.isActive(TenantComponents.ASSET);
     this.setStaticFilters([{ WithSite: true }]);
     this.initDataSource();
@@ -110,6 +98,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
       // Get Site Areas
       this.centralServerService.getSiteAreas(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((siteAreas) => {
+        this.createAction.visible = siteAreas.canCreate;
         // Ok
         observer.next(siteAreas);
         observer.complete();
@@ -160,20 +149,6 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
         headerClass: 'col-10p text-center',
         class: 'col-10p text-center',
       },
-    ];
-    if (this.componentService.isActive(TenantComponents.SMART_CHARGING)) {
-      tableColumnDef.push(
-        {
-          id: 'smartCharging',
-          name: 'site_areas.smart_charging',
-          headerClass: 'col-10p text-center',
-          class: 'col-10p text-center',
-          formatter: (smartCharging: boolean) => smartCharging ?
-            this.translateService.instant('general.yes') : this.translateService.instant('general.no'),
-        }
-      );
-    }
-    tableColumnDef.push(
       {
         id: 'accessControl',
         name: 'site_areas.access_control',
@@ -203,39 +178,47 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
         class: 'col-20p',
         sortable: true,
       },
-    );
-    if (this.canCrudSiteArea) {
+      {
+        id: 'createdOn',
+        name: 'users.created_on',
+        formatter: (createdOn: Date) => this.datePipe.transform(createdOn),
+        headerClass: 'col-15em',
+        class: 'col-15em',
+        sortable: true,
+      },
+      {
+        id: 'createdBy',
+        name: 'users.created_by',
+        formatter: (user: User) => Utils.buildUserFullName(user),
+        headerClass: 'col-15em',
+        class: 'col-15em',
+      },
+      {
+        id: 'lastChangedOn',
+        name: 'users.changed_on',
+        formatter: (lastChangedOn: Date) => this.datePipe.transform(lastChangedOn),
+        headerClass: 'col-15em',
+        class: 'col-15em',
+        sortable: true,
+      },
+      {
+        id: 'lastChangedBy',
+        name: 'users.changed_by',
+        formatter: (user: User) => Utils.buildUserFullName(user),
+        headerClass: 'col-15em',
+        class: 'col-15em',
+      },
+    ];
+    if (this.componentService.isActive(TenantComponents.SMART_CHARGING)) {
       tableColumnDef.push(
         {
-          id: 'createdOn',
-          name: 'users.created_on',
-          formatter: (createdOn: Date) => this.datePipe.transform(createdOn),
-          headerClass: 'col-15em',
-          class: 'col-15em',
-          sortable: true,
-        },
-        {
-          id: 'createdBy',
-          name: 'users.created_by',
-          formatter: (user: User) => Utils.buildUserFullName(user),
-          headerClass: 'col-15em',
-          class: 'col-15em',
-        },
-        {
-          id: 'lastChangedOn',
-          name: 'users.changed_on',
-          formatter: (lastChangedOn: Date) => this.datePipe.transform(lastChangedOn),
-          headerClass: 'col-15em',
-          class: 'col-15em',
-          sortable: true,
-        },
-        {
-          id: 'lastChangedBy',
-          name: 'users.changed_by',
-          formatter: (user: User) => Utils.buildUserFullName(user),
-          headerClass: 'col-15em',
-          class: 'col-15em',
-        },
+          id: 'smartCharging',
+          name: 'site_areas.smart_charging',
+          headerClass: 'col-10p text-center',
+          class: 'col-10p text-center',
+          formatter: (smartCharging: boolean) => smartCharging ?
+            this.translateService.instant('general.yes') : this.translateService.instant('general.no'),
+        }
       );
     }
     return tableColumnDef;
@@ -243,59 +226,43 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-    if (this.canCreateSiteArea) {
-      return [
-        new TableCreateSiteAreaAction().getActionDef(),
-        ...tableActionsDef,
-      ];
-    }
-    return tableActionsDef;
+    return [
+      this.createAction,
+      ...tableActionsDef,
+    ];
   }
 
   public buildTableDynamicRowActions(siteArea: SiteArea): TableActionDef[] {
+    const actions: TableActionDef[] = [];
     const openInMaps = new TableOpenInMapsAction().getActionDef();
     // Check if GPS is available
-    let actions: TableActionDef[];
     openInMaps.disabled = !Utils.containsAddressGPSCoordinates(siteArea.address);
-    if (siteArea.issuer) {
-      if (this.canCrudSiteArea &&
-          this.authorizationService.isSiteAdmin(siteArea.siteID)) {
-        actions = [
-          this.editAction,
-          this.canCrudSiteArea ?
-            this.assignChargingStationsToSiteAreaAction :
-            this.viewChargingStationsOfSiteArea,
-          new TableMoreAction([
-            this.exportOCPPParamsAction,
-            openInMaps,
-            this.siteAreaGenerateQrCodeConnectorAction,
-            this.deleteAction,
-          ]).getActionDef(),
-        ];
-        if (this.isAssetComponentActive) {
-          actions.splice(2, 0, this.assignAssetsToSiteAreaAction);
-        }
-      } else {
-        actions = [
-          this.viewAction,
-          this.viewChargingStationsOfSiteArea,
-          new TableMoreAction([
-            openInMaps,
-          ]).getActionDef(),
-        ];
-        if (this.isAssetComponentActive) {
-          actions.splice(2, 0, this.viewAssetsOfSiteArea);
-        }
-      }
+    const moreActions = new TableMoreAction([]);
+    if (siteArea.canUpdate) {
+      actions.push(this.editAction);
+      // flag to be added on   the backend for increased granularity
+      moreActions.addActionInMoreActions(this.exportOCPPParamsAction);
+      moreActions.addActionInMoreActions(this.siteAreaGenerateQrCodeConnectorAction);
     } else {
-      actions = [
-        this.viewAction,
-        this.viewChargingStationsOfSiteArea,
-        new TableMoreAction([
-          openInMaps,
-        ]).getActionDef(),
-      ];
+      actions.push(this.viewAction);
     }
+    if (this.isAssetComponentActive) {
+      if (siteArea.canAssignAssets || siteArea.canUnassignAssets) {
+        actions.splice(2, 0, this.assignAssetsToSiteAreaAction);
+      } else {
+        actions.splice(2, 0, this.viewAssetsOfSiteArea);
+      }
+    }
+    if (siteArea.canDelete) {
+      moreActions.addActionInMoreActions(this.deleteAction);
+    }
+    if (siteArea.canAssignChargingStations || siteArea.canUnassignChargingStations) {
+      actions.push(this.assignChargingStationsToSiteAreaAction);
+    } else {
+      actions.push(this.viewChargingStationsOfSiteArea);
+    }
+    moreActions.addActionInMoreActions(openInMaps);
+    actions.push(moreActions.getActionDef());
     return actions;
   }
 
@@ -328,7 +295,8 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
       case SiteAreaButtonAction.ASSIGN_CHARGING_STATIONS_TO_SITE_AREA:
         if (actionDef.action) {
           (actionDef as TableAssignChargingStationsToSiteAreaActionDef).action(
-            SiteAreaChargingStationsDialogComponent, siteArea, this.dialog, this.refreshData.bind(this));
+            SiteAreaChargingStationsDialogComponent, this.dialog,
+            { dialogData: siteArea }, this.refreshData.bind(this));
         }
         break;
       case SiteAreaButtonAction.VIEW_CHARGING_STATIONS_OF_SITE_AREA:
@@ -361,13 +329,13 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
       case SiteAreaButtonAction.ASSIGN_ASSETS_TO_SITE_AREA:
         if (actionDef.action) {
           (actionDef as TableAssignAssetsToSiteAreaActionDef).action(
-            SiteAreaAssetsDialogComponent, siteArea, this.dialog, this.refreshData.bind(this));
+            SiteAreaAssetsDialogComponent, { dialogData: siteArea }, this.dialog, this.refreshData.bind(this));
         }
         break;
       case SiteAreaButtonAction.VIEW_ASSETS_OF_SITE_AREA:
         if (actionDef.action) {
           (actionDef as TableViewAssignedAssetsOfSiteAreaActionDef).action(
-            SiteAreaAssetsDialogComponent, siteArea, this.dialog,
+            SiteAreaAssetsDialogComponent, { dialogData: siteArea }, this.dialog,
             this.refreshData.bind(this));
         }
         break;

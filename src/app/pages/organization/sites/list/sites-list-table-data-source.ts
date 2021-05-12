@@ -204,9 +204,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
       rowActions.push(this.viewAction);
     }
     moreActions.addActionInMoreActions(openInMaps);
-    if (!Utils.isEmptyArray(moreActions.getActionsInMoreActions())) {
-      rowActions.push(moreActions.getActionDef());
-    }
+    rowActions.push(moreActions.getActionDef());
     return rowActions;
   }
 
@@ -238,7 +236,8 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
         break;
       case SiteButtonAction.ASSIGN_USERS_TO_SITE:
         if (actionDef.action) {
-          (actionDef as TableAssignUsersToSiteActionDef).action(SiteUsersDialogComponent, site, this.dialog,this.refreshData.bind(this));
+          (actionDef as TableAssignUsersToSiteActionDef).action(SiteUsersDialogComponent, { dialogData: site },
+            this.dialog,this.refreshData.bind(this));
         }
         break;
       case SiteButtonAction.DELETE_SITE:

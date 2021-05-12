@@ -164,6 +164,13 @@ export interface SiteAuthorizationActions extends AuthorizationActions {
   canUnassignUsers?: boolean;
 }
 
+export interface SiteAreaAuthorizationActions extends AuthorizationActions {
+  canAssignChargingStations?: boolean;
+  canUnassignChargingStations?: boolean;
+  canAssignAssets?: boolean;
+  canUnassignAssets?: boolean;
+}
+
 export enum DialogMode {
   EDIT = 'E',
   CREATE = 'C',

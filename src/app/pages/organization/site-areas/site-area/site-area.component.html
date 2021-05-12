@@ -12,7 +12,7 @@
               <div class="row app-organization">
                 <div class="col-md-5 d-block mt-auto">
                   <div class="rotating-card-container"
-                    [ngStyle]="{ 'pointer-events': canCreateSiteArea || canUpdateSiteArea ? 'all' : 'none'}">
+                    [ngStyle]="{ 'pointer-events': !readOnly ? 'all' : 'none'}">
                     <div class="card card-rotate card-background app-site-area-image-padding mt-0">
                       <div class="front front-background"
                         [ngStyle]="{'background-image': 'url(' + image + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
@@ -21,7 +21,7 @@
                       </div>
                       <div class="back back-background"
                         [ngStyle]="{'background-image': 'url(' + image + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
-                        <div *ngIf="canCreateSiteArea || canUpdateSiteArea" class="card-body">
+                        <div *ngIf="!readOnly" class="card-body">
                           <h5 class="card-title">
                             {{'general.change_picture' | translate}}
                           </h5>
@@ -118,7 +118,7 @@
                       </div>
                     </div>
                   </div>
-                  <div *ngIf="(canCreateSiteArea || canUpdateSiteArea) && currentSiteAreaID && !formGroup.disabled">
+                  <div *ngIf="!readOnly && currentSiteAreaID && !formGroup.disabled">
                     <div class="d-flex justify-content-start">
                       <div *ngIf="registrationToken" class="mr-2">
                         <button mat-raised-button [matMenuTriggerFor]="ocppUrlMenu" color="primary">
@@ -172,7 +172,7 @@
               <div class="row">
                 <div class="col-md-12">
                   <app-address [address]="address" [formGroup]="formGroup"
-                    componentName="{{'site_areas.title' | translate}}" [itemComponentName]="name.value"></app-address>
+                    componentName="{{'site_areas.title' | translate}}" [itemComponentName]="name.value" [onlyReadGeolocation]="readOnly"></app-address>
                 </div>
               </div>
               <div class="clearfix"></div>
@@ -187,7 +187,7 @@
         <mat-icon>save</mat-icon>
         <span>{{'general.save' | translate}}</span>
       </button>
-      <button mat-icon-button *ngIf="inDialog" (click)="close()">
+      <button mat-icon-button *ngIf="dialogRef" (click)="close()">
         <mat-icon>close</mat-icon>
       </button>
     </div>

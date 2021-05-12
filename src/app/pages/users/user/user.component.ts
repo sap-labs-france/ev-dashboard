@@ -689,8 +689,8 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       this.spinnerService.hide();
       if (response.status === RestResponse.SUCCESS) {
         this.messageService.showSuccessMessage('users.create_success', { userFullName: user.firstName + ' ' + user.name });
-        user.id = response.id!;
-        this.currentUserID = response.id!;
+        user.id = response.id ?? '';
+        this.currentUserID = response.id ?? '';
         this.closeDialog(true);
       } else {
         Utils.handleError(JSON.stringify(response), this.messageService, 'users.create_error');

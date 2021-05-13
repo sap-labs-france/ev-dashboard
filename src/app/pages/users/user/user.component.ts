@@ -158,6 +158,9 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   }
 
   public ngOnInit() {
+    if (this.activatedRoute.snapshot.url[0]?.path === 'profile') {
+      this.currentUserID = this.centralServerService.getLoggedUser().id;
+    }
     // Init the form
     this.formGroup = new FormGroup({
       id: new FormControl(''),
@@ -281,9 +284,6 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.sendEndUserErrorNotification = this.notifications.controls['sendEndUserErrorNotification'];
     this.sendBillingNewInvoice = this.notifications.controls['sendBillingNewInvoice'];
     this.sendAdminAccountVerificationNotification = this.notifications.controls['sendAdminAccountVerificationNotification'];
-    if (this.activatedRoute.snapshot.url[0]?.path === 'profile') {
-      this.currentUserID = this.centralServerService.getLoggedUser().id;
-    }
     if (this.currentUserID) {
       this.loadUser();
     }

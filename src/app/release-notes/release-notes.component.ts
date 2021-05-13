@@ -39,7 +39,7 @@ export class ReleaseNotesComponent {
               `Fixed ioThink current instant watts in Battery asset`,
               `Fixed Shelly amperage`,
               `Fixed power slider in Charging Profiles`,
-              `Synchronize Biling Users only sync Users (not Invoices)`,
+              `Synchronize Billing Users only sync Users (not Invoices)`,
               `IoThink integration response filtering according new model`,
               `Fixed user with role Demo can see the user in session's details pop-up`,
               `Change performance logs from error to warning to avoid confusion in prod with real errors`,

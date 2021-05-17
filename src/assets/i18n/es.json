@@ -2404,6 +2404,7 @@
     "oicp_patch_status_error": "Notificarme si ha fallado la transferencia de estatus de una estación de carga a la plataforma móvil (OICP)",
     "smtp_error": "Notify me if an error occurred with the email server",
     "billing_synchronization_failed": "Notificarme si ha fallado la sincronización con el sistema de facturación",
+    "billing_periodic_operation_failed": "Notify me when a periodic billing operation has failed",
     "session_not_started": "Notificarme si no se inició ninguna sesión después de la identificación",
     "user_account_inactivity": "Notificarme cuando no haya iniciado sesión en la aplicación durante más de 6 meses",
     "car_catalog_synchronization_failed": "Notificarme si se ha producido un error durante la sincronización de los automóviles",

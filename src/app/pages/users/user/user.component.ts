@@ -92,6 +92,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public sendPreparingSessionNotStarted!: AbstractControl;
   public sendSmtpError!: AbstractControl;
   public sendBillingSynchronizationFailed!: AbstractControl;
+  public sendBillingPeriodicOperationFailed!: AbstractControl;
   public sendComputeAndApplyChargingProfilesFailed!: AbstractControl;
   public sendSessionNotStarted!: AbstractControl;
   public sendUserAccountInactivity!: AbstractControl;
@@ -192,6 +193,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         sendOicpPatchStatusError: new FormControl(false),
         sendSmtpError: new FormControl(false),
         sendBillingSynchronizationFailed: new FormControl(false),
+        sendBillingPeriodicOperationFailed: new FormControl(false),
         sendComputeAndApplyChargingProfilesFailed: new FormControl(false),
         sendEndUserErrorNotification: new FormControl(false),
         sendBillingNewInvoice: new FormControl(false),
@@ -278,6 +280,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.sendPreparingSessionNotStarted = this.notifications.controls['sendPreparingSessionNotStarted'];
     this.sendSmtpError = this.notifications.controls['sendSmtpError'];
     this.sendBillingSynchronizationFailed = this.notifications.controls['sendBillingSynchronizationFailed'];
+    this.sendBillingPeriodicOperationFailed = this.notifications.controls['sendBillingPeriodicOperationFailed'];
     this.sendSessionNotStarted = this.notifications.controls['sendSessionNotStarted'];
     this.sendUserAccountInactivity = this.notifications.controls['sendUserAccountInactivity'];
     this.sendComputeAndApplyChargingProfilesFailed = this.notifications.controls['sendComputeAndApplyChargingProfilesFailed'];
@@ -429,6 +432,11 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       } else {
         this.notifications.controls.sendBillingSynchronizationFailed.setValue(false);
       }
+      if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendBillingPeriodicOperationFailed')) {
+        this.notifications.controls.sendBillingPeriodicOperationFailed.setValue(user.notifications.sendBillingPeriodicOperationFailed);
+      } else {
+        this.notifications.controls.sendBillingPeriodicOperationFailed.setValue(false);
+      }
       if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendUserAccountInactivity')) {
         this.notifications.controls.sendUserAccountInactivity.setValue(user.notifications.sendUserAccountInactivity);
       } else {
@@ -510,6 +518,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         this.notifications.controls.sendPreparingSessionNotStarted.setValue(true);
         this.notifications.controls.sendSmtpError.setValue(true);
         this.notifications.controls.sendBillingSynchronizationFailed.setValue(true);
+        this.notifications.controls.sendBillingPeriodicOperationFailed.setValue(true);
         this.notifications.controls.sendComputeAndApplyChargingProfilesFailed.setValue(true);
         this.notifications.controls.sendEndUserErrorNotification.setValue(true);
         break;
@@ -532,6 +541,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         this.notifications.controls.sendPreparingSessionNotStarted.setValue(false);
         this.notifications.controls.sendSmtpError.setValue(false);
         this.notifications.controls.sendBillingSynchronizationFailed.setValue(false);
+        this.notifications.controls.sendBillingPeriodicOperationFailed.setValue(false);
         this.notifications.controls.sendComputeAndApplyChargingProfilesFailed.setValue(false);
         this.notifications.controls.sendEndUserErrorNotification.setValue(false);
         break;
@@ -554,6 +564,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         this.notifications.controls.sendPreparingSessionNotStarted.setValue(false);
         this.notifications.controls.sendSmtpError.setValue(false);
         this.notifications.controls.sendBillingSynchronizationFailed.setValue(false);
+        this.notifications.controls.sendBillingPeriodicOperationFailed.setValue(false);
         this.notifications.controls.sendComputeAndApplyChargingProfilesFailed.setValue(false);
         this.notifications.controls.sendEndUserErrorNotification.setValue(false);
         break;

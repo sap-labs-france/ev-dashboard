@@ -2404,6 +2404,7 @@
     "oicp_patch_status_error": "Benachrichtigen Sie mich, wenn der Transfer eines Ladestationsstatuses zur Roaming Plattform fehlgeschlagen ist (OICP)",
     "smtp_error": "Benachrichtigen Sie mich, wenn ein Fehler beim E-Mail-Server auftritt",
     "billing_synchronization_failed": "Benachrichtigen Sie mich, wenn eine Synchronisierung mit dem Abrechnungssystem fehlgeschlagen ist",
+    "billing_periodic_operation_failed": "Notify me when a periodic billing operation has failed",
     "session_not_started": "Benachrichtigen Sie mich, wenn kein Ladevorgang nach dem authentifizieren gestartet wurde",
     "user_account_inactivity": "Benachrichtigen Sie mich, wenn ich mich seit mehr als 6 Monaten nicht eingeloggt habe",
     "car_catalog_synchronization_failed": "Benachrichtigen Sie mich, wenn bei der Synchronisierung der Fahrzeuge ein Fehler auftrat",

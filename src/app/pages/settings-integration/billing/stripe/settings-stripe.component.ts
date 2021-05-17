@@ -47,8 +47,8 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
           this.validatePublicKey,
         ]),
       ),
-      immediateBillingAllowed: new FormControl(''),
-      periodicBillingAllowed: new FormControl(''),
+      immediateBillingAllowed: new FormControl(false),
+      periodicBillingAllowed: new FormControl(false),
       taxID: new FormControl('',
         Validators.compose([
           // Validators.required,

@@ -355,12 +355,12 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
         break;
       case UserButtonAction.NAVIGATE_TO_USER:
         if (actionDef.action) {
-          (actionDef as TableOpenURLActionDef).action('users#all?TagID=' + tag.id + '&Issuer=' + tag.issuer);
+          (actionDef as TableOpenURLActionDef).action(`users#all?TagID=${tag.id}&Issuer=${tag.issuer}`);
         }
         break;
       case TransactionButtonAction.NAVIGATE_TO_TRANSACTIONS:
         if (actionDef.action) {
-          (actionDef as TableOpenURLActionDef).action('transactions#history?TagID=' + tag.id + '&Issuer=' + tag.issuer);
+          (actionDef as TableOpenURLActionDef).action(`transactions#history?TagID=${tag.id}&Issuer=${tag.issuer}`);
         }
         break;
     }

@@ -22,6 +22,7 @@ export interface BillingInvoice extends TableData {
   createdOn?: Date;
   invoiceID: string;
   userID?: string;
+  // eslint-disable-next-line id-blacklist
   number: string;
   status: BillingInvoiceStatus;
   amount?: number;

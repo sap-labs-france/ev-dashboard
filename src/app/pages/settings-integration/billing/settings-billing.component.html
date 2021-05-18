@@ -24,10 +24,10 @@
       [disabled]="!formGroup.valid || formGroup.dirty">
       <mat-icon>sync</mat-icon><span>{{'settings.billing.user.synchronize_users' | translate}}</span>
     </button>
-    <button mat-raised-button color="primary" (click)="synchronizeInvoices()"
+    <!-- <button mat-raised-button color="primary" (click)="synchronizeInvoices()"
             [disabled]="!formGroup.valid || formGroup.dirty">
       <mat-icon>sync</mat-icon><span>{{'settings.billing.invoice.synchronize_invoices' | translate}}</span>
-    </button>
+    </button> -->
   </div>
   <!-- Stripe -->
   <app-settings-stripe-billing *ngIf="isActive && billingSettings?.type === 'stripe'" [billingSettings]="billingSettings" [formGroup]="formGroup"></app-settings-stripe-billing>

@@ -1,10 +1,11 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { data } from 'jquery';
 import { Observable } from 'rxjs';
-import { DialogData } from 'types/Authorization';
+import { DialogMode, DialogParams } from 'types/Authorization';
 
 import { ButtonAction, PopupSize } from '../../../types/GlobalType';
-import { ButtonColor, TableActionDef } from '../../../types/Table';
+import { ButtonColor, TableActionDef, TableData } from '../../../types/Table';
 import { TableAction } from './table-action';
 
 export class TableAssignAction implements TableAction {
@@ -22,8 +23,8 @@ export class TableAssignAction implements TableAction {
     return this.action;
   }
 
-  protected assign(component: ComponentType<unknown>, data: DialogData, dialog: MatDialog,
-    refresh?: () => Observable<void>, size?: PopupSize) {
+  protected assign(component: ComponentType<unknown>, dialog: MatDialog,
+    dialogParams: DialogParams<TableData>, refresh?: () => Observable<void>, size?: PopupSize) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     // Popup Width
@@ -36,7 +37,10 @@ export class TableAssignAction implements TableAction {
     dialogConfig.height = size?.height ? size.height + 'vh' : dialogConfig.height;
     // CSS
     dialogConfig.panelClass = 'transparent-dialog-container';
-    dialogConfig.data = data;
+    dialogConfig.data = {
+      dialogMode: DialogMode.EDIT,
+      ...dialogParams,
+    };
     // disable outside click close
     dialogConfig.disableClose = true;
     // Open

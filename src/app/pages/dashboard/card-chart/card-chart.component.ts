@@ -1,5 +1,6 @@
-import { AnimationEvent, animate, group, query, sequence, style, transition, trigger } from '@angular/animations';
-import { AfterViewChecked, AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { AnimationEvent, animate, group, query, style, transition, trigger } from '@angular/animations';
+import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { ChartData } from 'chart.js';
 
 const DEFAULT_CHART_INTERVAL = 5000;
 
@@ -32,18 +33,6 @@ export interface ChartButton {
    * @memberof ChartButton
    */
   chart?: ChartDefinition;
-}
-
-/**
- * data and labels of a chart.
- * See chartjs for further details.
- *
- * @export
- * @interface ChartData
- */
-export interface ChartData {
-  datasets: [];
-  labels: [];
 }
 
 /**
@@ -267,7 +256,7 @@ export class CardChartComponent implements OnInit, AfterViewInit, OnDestroy {
    *
    * @memberof CardChartComponent
    */
-  public secondChart = {
+  public secondChart: ChartDataLocal = {
     chartData: { options: [], data: { datasets: [], labels: [] } },
     isDisplayed: false,
   };
@@ -422,13 +411,13 @@ export class CardChartComponent implements OnInit, AfterViewInit, OnDestroy {
       this.firstChart.chartData = chartDefinition;
     } else {
       if (!this.changeFromFirstToSecond) {
-        if (manualChange) { // do not rotate screens
+        if (manualChange) { // Do not rotate screens
           this.firstChart.chartData = chartDefinition;
         } else {
           this.secondChart.chartData = chartDefinition;
         }
       } else {
-        if (manualChange) { // do not rotate screens
+        if (manualChange) { // Do not rotate screens
           this.secondChart.chartData = chartDefinition;
         } else {
           this.firstChart.chartData = chartDefinition;

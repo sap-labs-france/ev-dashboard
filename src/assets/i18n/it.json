@@ -27,7 +27,7 @@
     "connectors": "Prese",
     "notifications": "Notifiche",
     "app_name": "e-Mobility",
-    "last_update": "Versione 2.4.65",
+    "last_update": "Versione 2.4.66",
     "version": "Versione",
     "about_us": "A proposito di noi",
     "unexpected_error_backend": "Si è verificato un errore imprevisto",
@@ -1299,7 +1299,10 @@
         "description": "Questo utente non è stato sincronizzato con il sistema di fatturazione.",
         "action": "Sincronizza l'utente."
       }
-    }
+    },
+    "export_tags_title": "Export Tags",
+    "export_tags_confirm": "Do you really want to export the Tag list to a CSV format?",
+    "export_tags_error": "Error occurred while trying to export the Tags, check the logs"
   },
   "invoices": {
     "tabs": {

@@ -27,7 +27,7 @@
     "connectors": "Connections",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.4.65",
+    "last_update": "Version 2.4.66",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "An unexpected error occurred, check the logs",
@@ -1299,7 +1299,10 @@
         "description": "This user has not been synchronized with the billing system.",
         "action": "Synchronize the user."
       }
-    }
+    },
+    "export_tags_title": "Export Tags",
+    "export_tags_confirm": "Do you really want to export the Tag list to a CSV format?",
+    "export_tags_error": "Error occurred while trying to export the Tags, check the logs"
   },
   "invoices": {
     "tabs": {

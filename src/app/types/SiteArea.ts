@@ -1,10 +1,11 @@
 import { Address } from './Address';
+import { SiteAreaAuthorizationActions } from './Authorization';
 import { ChargingStation, Voltage } from './ChargingStation';
 import Consumption from './Consumption';
 import { Site } from './Site';
 import { TableData } from './Table';
 
-export interface SiteArea extends TableData {
+export interface SiteArea extends TableData, SiteAreaAuthorizationActions {
   id: string;
   name: string;
   image: string;

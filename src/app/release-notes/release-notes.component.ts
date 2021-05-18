@@ -24,6 +24,30 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.66',
+        date: new Date('2021-05-12'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `New authorization framework on Site and Site Area`,
+              `Add Export of Tags with Users`,
+              `Execute the push of CDRs task only on finished transactions`,
+              `Charging Profile create or update is depending on the Charging Profile ID`,
+              `Billing - Stripe Invoice - Add customer address`,
+              `Disable 24/7 in OCPI if opening times are provided`,
+              `Fixed ioThink current instant watts in Battery asset`,
+              `Fixed Shelly amperage`,
+              `Fixed power slider in Charging Profiles`,
+              `Synchronize Billing Users only sync Users (not Invoices)`,
+              `IoThink integration response filtering according new model`,
+              `Fixed user with role Demo can see the user in session's details pop-up`,
+              `Change performance logs from error to warning to avoid confusion in prod with real errors`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.65',
         date: new Date('2021-05-03'),
         componentChanges: [

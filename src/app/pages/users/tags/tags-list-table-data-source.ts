@@ -3,7 +3,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { AuthorizationService } from 'services/authorization.service';
 import { SpinnerService } from 'services/spinner.service';
 import { WindowService } from 'services/window.service';
 import { ImportDialogComponent } from 'shared/dialogs/import/import-dialog.component';
@@ -52,6 +51,9 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
   private navigateToUserAction = new TableNavigateToUserAction().getActionDef();
   private navigateToTransactionsAction = new TableNavigateToTransactionsAction().getActionDef();
   private deleteManyAction = new TableDeleteTagsAction().getActionDef();
+  private createAction = new TableCreateTagAction().getActionDef();
+  private importAction = new TableImportTagsAction().getActionDef();
+  private exportAction = new TableExportTagsAction().getActionDef();
 
   public constructor(
     public spinnerService: SpinnerService,
@@ -63,7 +65,6 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
     private centralServerNotificationService: CentralServerNotificationService,
     private datePipe: AppDatePipe,
     private centralServerService: CentralServerService,
-    private authorizationService: AuthorizationService,
     private windowService: WindowService) {
     super(spinnerService, translateService);
     this.initDataSource();
@@ -133,6 +134,9 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
       // Get the Tags
       this.centralServerService.getTags(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((tags) => {
+        this.createAction.visible = tags.canCreate;
+        this.importAction.visible = tags.canImport;
+        this.exportAction.visible = tags.canExport;
         // Ok
         observer.next(tags);
         observer.complete();
@@ -146,7 +150,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
   }
 
   public isSelectable(row: Tag) {
-    return row.issuer;
+    return row.canUpdate;
   }
 
   public buildTableDef(): TableDef {
@@ -253,15 +257,11 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-    tableActionsDef.unshift(this.deleteManyAction);
-    if (this.authorizationService.canExportTags()) {
-      tableActionsDef.unshift(new TableExportTagsAction().getActionDef());
-    }
-    if (this.authorizationService.canImportTags()) {
-      tableActionsDef.unshift(new TableImportTagsAction().getActionDef());
-    }
-    tableActionsDef.unshift(new TableCreateTagAction().getActionDef());
     return [
+      this.createAction,
+      this.importAction,
+      this.exportAction,
+      this.deleteManyAction,
       ...tableActionsDef,
     ];
   }
@@ -269,7 +269,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
   public buildTableDynamicRowActions(tag: Tag): TableActionDef[] {
     const rowActions = [];
     const moreActions = new TableMoreAction([]);
-    if (tag.issuer) {
+    if (tag.canUpdate) {
       rowActions.push(this.editAction);
       if (tag.userID) {
         if (tag.active) {
@@ -278,16 +278,13 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
           moreActions.addActionInMoreActions(this.activateAction);
         }
       }
-      moreActions.addActionInMoreActions(this.navigateToTransactionsAction);
-      if (tag.userID) {
-        moreActions.addActionInMoreActions(this.navigateToUserAction);
-      }
+    }
+    moreActions.addActionInMoreActions(this.navigateToTransactionsAction);
+    if (tag.userID) {
+      moreActions.addActionInMoreActions(this.navigateToUserAction);
+    }
+    if (tag.canDelete) {
       moreActions.addActionInMoreActions(this.deleteAction);
-    } else {
-      moreActions.addActionInMoreActions(this.navigateToTransactionsAction);
-      if (tag.userID) {
-        moreActions.addActionInMoreActions(this.navigateToUserAction);
-      }
     }
     if (!Utils.isEmptyArray(moreActions.getActionsInMoreActions())) {
       rowActions.push(moreActions.getActionDef());

@@ -28,9 +28,10 @@ export class InvoicesListComponent implements OnInit {
   public ngOnInit() {
     const invoiceID = this.windowService.getSearch('InvoiceID');
     if (invoiceID) {
+      const invoiceNumber = this.windowService.getSearch('InvoiceNumber');
       this.centralServerService.downloadInvoice(invoiceID).subscribe((result) => {
         this.spinnerService.show();
-        FileSaver.saveAs(result, 'invoice.pdf');
+        FileSaver.saveAs(result, 'invoice_' + (invoiceNumber ? invoiceNumber : invoiceID) + '.pdf');
         this.spinnerService.hide();
       }, () => {
         this.spinnerService.hide();

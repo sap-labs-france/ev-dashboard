@@ -31,6 +31,19 @@
             <div class="col-md-6">
               <div class="form-group">
                 <mat-form-field>
+                  <input appAutofocus matInput placeholder="{{'tags.visualID' | translate}}" class="app-car-name"
+                    type="text" [formControl]="visualID">
+                  <mat-error *ngIf="id.errors?.required">
+                    {{"general.mandatory_field" | translate}}
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <mat-form-field>
                   <input appAutofocus matInput placeholder="{{'general.description' | translate}}" class="app-car-name"
                     type="text" [formControl]="description">
                   <mat-error *ngIf="id.errors?.required">

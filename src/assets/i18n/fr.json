@@ -1299,7 +1299,10 @@
         "description": "Cet utilisateur n'a pas été synchronisé avec le système de facturation.",
         "action": "Synchroniser l'utilisateur."
       }
-    }
+    },
+    "export_tags_title": "Exporter les badges",
+    "export_tags_confirm": "Voulez-vous vraiment exporter la liste des badges au format CSV ?",
+    "export_tags_error": "Une erreur est survenue pendant l'export des badges, vérifiez les logs"
   },
   "invoices": {
     "tabs": {

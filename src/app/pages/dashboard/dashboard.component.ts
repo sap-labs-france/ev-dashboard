@@ -7,7 +7,7 @@ import { DashboardService } from '../../services/dashboard.service';
 import { SpinnerService } from '../../services/spinner.service';
 import { AppDecimalPipe } from '../../shared/formatters/app-decimal-pipe';
 import { CurrentMetrics } from '../../types/Statistic';
-import { CardChartComponent, ChartButton, ChartData } from './card-chart/card-chart.component';
+import { CardChartComponent, ChartButton } from './card-chart/card-chart.component';
 
 const SLIDE_INTERVAL = 60000;
 const REALTIME_INTERVAL = 10000;
@@ -396,7 +396,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
     const dataDefinition = this.createRealtimeGraphData(nextRealtimeChart.dataConsumptionChart);
     event.chart = {
-      data: dataDefinition.data as ChartData,
+      data: dataDefinition.data,
       options: dataDefinition.options,
     };
   }
@@ -492,7 +492,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
     const dataDefinition = this.createStatisticsGraphData(nextRealtimeChart.dataDeliveredChart);
     event.chart = {
-      data: dataDefinition.data as ChartData,
+      data: dataDefinition.data,
       options: dataDefinition.options,
     };
   }

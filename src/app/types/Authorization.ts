@@ -162,6 +162,17 @@ export interface AuthorizationActions {
 export interface SiteAuthorizationActions extends AuthorizationActions {
   canAssignUsers?: boolean;
   canUnassignUsers?: boolean;
+  canExportOCPPParams?: boolean;
+  canGenerateQrCode?: boolean;
+}
+
+export interface SiteAreaAuthorizationActions extends AuthorizationActions {
+  canAssignChargingStations?: boolean;
+  canUnassignChargingStations?: boolean;
+  canAssignAssets?: boolean;
+  canUnassignAssets?: boolean;
+  canExportOCPPParams?: boolean;
+  canGenerateQrCode?: boolean;
 }
 
 export enum DialogMode {

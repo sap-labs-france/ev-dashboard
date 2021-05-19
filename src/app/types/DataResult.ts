@@ -1,5 +1,6 @@
 import { Company } from './Company';
 import { Site } from './Site';
+import { SiteArea } from './SiteArea';
 import { Transaction } from './Transaction';
 import { UserStatus } from './User';
 
@@ -77,8 +78,9 @@ export interface CompanyDataResult extends DataResult<Company> {
 }
 export interface SiteDataResult extends DataResult<Site> {
   canCreate: boolean;
-  canAssignUsers: boolean;
-  canUnassignUsers: boolean;
+}
+export interface SiteAreaDataResult extends DataResult<SiteArea> {
+  canCreate: boolean;
 }
 export interface CheckAssetConnectionResponse extends ActionResponse {
   connectionIsValid: boolean;

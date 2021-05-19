@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
-import { DialogParams } from 'types/Authorization';
+import { DialogParams } from '../../../types/Authorization';
 
 import { User } from '../../../types/User';
 import { Users } from '../../../utils/Users';

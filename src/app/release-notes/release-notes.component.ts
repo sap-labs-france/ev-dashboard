@@ -32,6 +32,8 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `Add a visual ID field to badge`,
+              `Fix badges CSV import/export`,
               `Fix user site assignment`,
               `Server side german translation update`,
               `Fix assets consumption retrieval if empty`,

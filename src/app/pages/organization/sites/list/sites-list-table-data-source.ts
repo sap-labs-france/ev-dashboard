@@ -186,22 +186,22 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
     const openInMaps = new TableOpenInMapsAction().getActionDef();
     openInMaps.disabled = !Utils.containsAddressGPSCoordinates(site.address);
     const moreActions = new TableMoreAction([]);
-    if (site.issuer) {
-      if (site.canUpdate) {
-        rowActions.push(this.editAction);
-        moreActions.addActionInMoreActions(this.exportOCPPParamsAction);
-        moreActions.addActionInMoreActions(this.siteGenerateQrCodeConnectorAction);
-      } else {
-        rowActions.push(this.viewAction);
-      }
-      if (site.canAssignUsers || site.canUnassignUsers) {
-        rowActions.push(this.assignUsersToSite);
-      }
-      if (site.canDelete) {
-        moreActions.addActionInMoreActions(this.deleteAction);
-      }
+    if (site.canUpdate) {
+      rowActions.push(this.editAction);
     } else {
       rowActions.push(this.viewAction);
+    }
+    if (site.canAssignUsers || site.canUnassignUsers) {
+      rowActions.push(this.assignUsersToSite);
+    }
+    if (site.canExportOCPPParams) {
+      moreActions.addActionInMoreActions(this.exportOCPPParamsAction);
+    }
+    if (site.canGenerateQrCode) {
+      moreActions.addActionInMoreActions(this.siteGenerateQrCodeConnectorAction);
+    }
+    if (site.canDelete) {
+      moreActions.addActionInMoreActions(this.deleteAction);
     }
     moreActions.addActionInMoreActions(openInMaps);
     rowActions.push(moreActions.getActionDef());

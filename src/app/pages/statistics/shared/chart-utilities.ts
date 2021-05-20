@@ -1,5 +1,5 @@
 import { ElementRef } from '@angular/core';
-import { Chart, ChartData, ChartDataSets, ChartOptions } from 'chart.js';
+import { Chart, ChartData, ChartDataSets, ChartOptions, ChartType } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Font } from 'chartjs-plugin-datalabels/types/options';
 import { Utils } from 'utils/Utils';
@@ -9,11 +9,9 @@ export class ChartConstants {
   public static STACKED_TOTAL = 'total';
 }
 
-export { ChartData } from 'chart.js'; // could also use any local, but similar data definition!
-
 export class SimpleChart {
   private chart: Chart;
-  private chartType: string;
+  private chartType: ChartType;
   private stackedChart = false;
   private chartOptions: ChartOptions;
   private chartData: ChartData;
@@ -168,7 +166,7 @@ export class SimpleChart {
   public toggleHideLegend(withUpdate: boolean = true) {
     this.withLegend = !this.withLegend;
 
-    this.chartOptions['legend'].display = this.withLegend;
+    this.chartOptions.legend.display = this.withLegend;
 
     const anyChart = this.chart; // type Chart does not know 'options'
     anyChart.options = this.chartOptions;
@@ -238,29 +236,29 @@ export class SimpleChart {
 
     this.chartOptions = {};
 
-    this.chartOptions['title'] = {
+    this.chartOptions.title = {
       display: true,
       text: mainLabel,
       fontStyle: 'bold',
     };
 
-    this.chartOptions['legend'] = {
+    this.chartOptions.legend = {
       display: withLegend,
       labels: {},
       position: 'bottom',
     };
 
-    this.chartOptions['plugins'] = {};
-    this.chartOptions['plugins']['datalabels'] = {
+    this.chartOptions.plugins = {};
+    this.chartOptions.plugins.datalabels = {
       display: (context) => context.dataset.data[context.dataIndex] > 0,
     };
 
-    this.chartOptions['animation'] = {
+    this.chartOptions.animation = {
       duration: 2000,
       easing: 'easeOutBounce',
     };
 
-    this.chartOptions['tooltips'] = {
+    this.chartOptions.tooltips = {
       enabled: true,
       position: 'customBar',
       callbacks: {
@@ -286,30 +284,28 @@ export class SimpleChart {
       },
     };
 
-    this.chartOptions['scales'] = {
-      xAxes:
-        [{
-          stacked,
-          scaleLabel: {
-            display: true,
-            labelString: labelXAxis,
-            fontStyle: 'bold',
-          },
-          ticks: {},
-        }],
-      yAxes:
-        [{
-          stacked,
-          scaleLabel: {
-            display: true,
-            labelString: labelYAxis,
-            fontStyle: 'bold',
-          },
-          ticks: {
-            beginAtZero: true,
-            callback: (value, index, values) => value.toLocaleString(this.language),
-          },
-        }],
+    this.chartOptions.scales = {
+      xAxes: [{
+        stacked,
+        scaleLabel: {
+          display: true,
+          labelString: labelXAxis,
+          fontStyle: 'bold',
+        },
+        ticks: {},
+      }],
+      yAxes: [{
+        stacked,
+        scaleLabel: {
+          display: true,
+          labelString: labelYAxis,
+          fontStyle: 'bold',
+        },
+        ticks: {
+          beginAtZero: true,
+          callback: (value, index, values) => value.toLocaleString(this.language),
+        },
+      }]
     };
   }
 
@@ -321,29 +317,29 @@ export class SimpleChart {
 
     this.chartOptions = {};
 
-    this.chartOptions['title'] = {
+    this.chartOptions.title = {
       display: true,
       text: mainLabel,
       fontStyle: 'bold',
     };
 
-    this.chartOptions['legend'] = {
+    this.chartOptions.legend = {
       display: withLegend,
       labels: {},
       position: 'bottom',
     };
 
-    this.chartOptions['plugins'] = {};
-    this.chartOptions['plugins']['datalabels'] = {
+    this.chartOptions.plugins = {};
+    this.chartOptions.plugins.datalabels = {
       display: (context) => context.dataset.data[context.dataIndex] > 0,
     };
 
-    this.chartOptions['animation'] = {
+    this.chartOptions.animation = {
       duration: 2000,
       easing: 'easeOutBounce',
     };
 
-    this.chartOptions['tooltips'] = {
+    this.chartOptions.tooltips = {
       enabled: true,
       callbacks: {
         label: (tooltipItem, data) => {
@@ -434,7 +430,7 @@ export class SimpleChart {
       minValue = minValue / minDivisor;
     }
 
-    this.chartOptions['plugins']['datalabels'] = {
+    this.chartOptions.plugins.datalabels = {
       color: this.fontColor,
       font: this.font,
       display: (context) => context.dataset.data[context.dataIndex] > minValue,
@@ -601,7 +597,7 @@ export class SimpleChart {
         : '#fff';
     }
 
-    // invert color components
+    // Invert color components
     stringValue = '#';
     numberValue = 255 - r;
     if (numberValue < 16) {

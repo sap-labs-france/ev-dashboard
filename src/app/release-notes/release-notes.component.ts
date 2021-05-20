@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 
+import { version as packageJsonVersion } from '../../../package.json';
+
 interface ReleaseNotes {
   version: string;
-  extraVersion?: string;
   date: Date;
   componentChanges: ComponentChange[];
 }
@@ -25,8 +26,7 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.4.67',
-        extraVersion: 'rc1',
+        version: packageJsonVersion,
         date: new Date('2021-05-20'),
         componentChanges: [
           {

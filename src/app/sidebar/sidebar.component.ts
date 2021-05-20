@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
+import { version } from '../../../package.json';
 import { RouteGuardService } from '../guard/route-guard';
 import { AuthorizationService } from '../services/authorization.service';
 import { CentralServerNotificationService } from '../services/central-server-notification.service';
@@ -19,6 +20,7 @@ declare const $: any;
   templateUrl: 'sidebar.component.html',
 })
 export class SidebarComponent implements OnInit, OnDestroy {
+  public version: string = version;
   public mobileMenuVisible: any = 0;
   public menuItems!: any[];
   public loggedUser!: UserToken;

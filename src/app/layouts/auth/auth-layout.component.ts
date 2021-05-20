@@ -1,13 +1,15 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
+
+import { version } from '../../../../package.json';
 
 @Component({
   selector: 'app-layout',
   templateUrl: './auth-layout.component.html',
 })
 export class AuthLayoutComponent implements OnInit {
+  public version: string = version;
   public mobileMenuVisible: any = 0;
   private toggleButton: any;
   private sidebarVisible: boolean;

@@ -83,11 +83,13 @@ export interface SiteDataResult extends DataResult<Site> {
 export interface SiteAreaDataResult extends DataResult<SiteArea> {
   canCreate: boolean;
 }
+
 export interface TagDataResult extends DataResult<Tag> {
   canCreate: boolean;
   canImport: boolean;
   canExport: boolean;
 }
+
 export interface CheckAssetConnectionResponse extends ActionResponse {
   connectionIsValid: boolean;
 }

@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 
+import { version as packageJsonVersion } from '../../../package.json';
+
 interface ReleaseNotes {
   version: string;
   date: Date;
@@ -24,12 +26,30 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: packageJsonVersion,
+        date: new Date('2021-05-20'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Add a visual ID field to badge`,
+              `Fix badges CSV import/export`,
+              `Fix user site assignment`,
+              `Server side german translation update`,
+              `Fix assets consumption retrieval if empty`,
+              `Ensure the currently charging station active connection to the OCPP-J server is used to send commands`
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.66',
         date: new Date('2021-05-12'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Add backward compatibility to REST API charging station endpoints for the mobile application`,
               `New authorization framework on Site and Site Area`,
               `Add Export of Tags with Users`,
               `Execute the push of CDRs task only on finished transactions`,

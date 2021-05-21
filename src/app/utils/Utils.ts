@@ -905,8 +905,11 @@ export class Utils {
     document.body.removeChild(element);
   }
 
-  public static replaceDoubleQuotes(value: any): string{
-    return typeof value === 'string' ? '"' + value.replace(/^"|"$/g, '').replace(/"/g, '""') + '"' : value;
+  // when exporting values
+  public static escapeCsvValue(value: any): string {
+    // add double quote start and end
+    // replace double quotes inside value to double double quotes to display double quote correctly in csv editor
+    return typeof value === 'string' ? '"' + value.replace(/"/g, '""') + '"' : value;
   }
 
 }

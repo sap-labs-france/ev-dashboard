@@ -1506,6 +1506,8 @@
       "payment_methods_create_title": "Créer une méthode de paiement",
       "payment_methods_create_success": "Le moyen de paiement se terminant par '{{last4}}' a été créé avec succès",
       "payment_methods_create_error": "Une erreur est survenue pendant la création du moyen de paiement, vérifiez les logs",
+      "payment_methods_create_error_card_declined": "Votre carte a été refusée, merci de fournir un moyen de paiement valide.",
+      "payment_methods_card_declined": "Carte refusée",
       "payment_methods_delete_title": "Supprimer une méthode de paiement",
       "payment_methods_delete_confirm": "Voulez-vous vraiment supprimer le moyen de paiement se terminant par '{{last4}}'?",
       "payment_methods_delete_success": "Le moyen de paiement se terminant par '{{last4}}' a été supprimé avec succès.",

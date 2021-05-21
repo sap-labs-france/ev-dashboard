@@ -447,7 +447,7 @@
             </div>
           </div>
         </mat-tab>
-        <mat-tab *ngIf="isBillingComponentActive && canListPaymentMethods">
+        <mat-tab *ngIf="isBillingComponentActive && canListPaymentMethods && (dialogMode !== 'C')">
           <ng-template mat-tab-label>
             <mat-icon>payment</mat-icon>
             <span>{{'users.tabs.billing' | translate}}</span>

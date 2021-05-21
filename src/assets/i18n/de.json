@@ -1506,6 +1506,8 @@
       "payment_methods_create_title": "Eine neue Zahlungsmethode erstellen ",
       "payment_methods_create_success": "Die Zahlungsmethode, die mit '{{last4}}' endet, wurde erfolgreich erstellt",
       "payment_methods_create_error": "Beim Erstellen der Zahlungsmethode ist ein Fehler aufgetreten, bitte überprüfen Sie die Logs",
+      "payment_methods_create_error_card_declined": "Your card has been declined, please provide a valid payment method",
+      "payment_methods_card_declined": "Card declined",
       "payment_methods_delete_title": "Zahlungsmethode löschen",
       "payment_methods_delete_confirm": "Wollen Sie die Zahlungsmethode, die mit '{{last4}}' ended, wirklich löschen?",
       "payment_methods_delete_success": "Die Zahlungsmethode, die mit '{{last4}}' endet, wurde erfolgreich gelöscht",

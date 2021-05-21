@@ -5,6 +5,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { mergeMap } from 'rxjs/operators';
+import { DialogMode } from 'types/Authorization';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -41,6 +42,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   @Input() public currentUserID!: string;
   @Input() public inDialog!: boolean;
   @Input() public dialogRef!: MatDialogRef<UserDialogComponent>;
+  @Input() public dialogMode!: DialogMode;
   public parentErrorStateMatcher = new ParentErrorStateMatcher();
   public userStatuses: KeyValue[];
   public userRoles: KeyValue[];
@@ -196,7 +198,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         sendBillingPeriodicOperationFailed: new FormControl(false),
         sendComputeAndApplyChargingProfilesFailed: new FormControl(false),
         sendEndUserErrorNotification: new FormControl(false),
-        sendBillingNewInvoice: new FormControl(false),
+        sendBillingNewInvoice: new FormControl(true),
         sendAdminAccountVerificationNotification: new FormControl(true)
       }),
       email: new FormControl('',
@@ -521,6 +523,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         this.notifications.controls.sendBillingPeriodicOperationFailed.setValue(true);
         this.notifications.controls.sendComputeAndApplyChargingProfilesFailed.setValue(true);
         this.notifications.controls.sendEndUserErrorNotification.setValue(true);
+        this.notifications.controls.sendAdminAccountVerificationNotification.setValue(true);
         break;
       case UserRole.BASIC:
         this.formGroup.controls.notificationsActive.setValue(true);

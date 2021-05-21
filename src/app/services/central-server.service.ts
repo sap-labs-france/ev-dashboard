@@ -7,7 +7,6 @@ import { StatusCodes } from 'http-status-codes';
 import { BehaviorSubject, EMPTY, Observable, TimeoutError, of, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 import SafeUrlAssembler from 'safe-url-assembler';
-import { OicpEndpoint } from 'types/oicp/OICPEndpoint';
 
 import { Asset, AssetConsumption } from '../types/Asset';
 import { BillingInvoice, BillingPaymentMethod, BillingTax } from '../types/Billing';
@@ -24,6 +23,7 @@ import { AssetInError, ChargingStationInError, TransactionInError } from '../typ
 import { Log } from '../types/Log';
 import { OcpiEndpoint } from '../types/ocpi/OCPIEndpoint';
 import { OCPPResetType } from '../types/ocpp/OCPP';
+import { OicpEndpoint } from '../types/oicp/OICPEndpoint';
 import { RefundReport } from '../types/Refund';
 import { RegistrationToken } from '../types/RegistrationToken';
 import { ServerAction, ServerRoute } from '../types/Server';

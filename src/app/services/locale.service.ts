@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject } from 'rxjs';
-import { Utils } from 'utils/Utils';
 
 import { KeyValue } from '../types/GlobalType';
 import { UserToken } from '../types/User';
+import { Utils } from '../utils/Utils';
 import { CentralServerService } from './central-server.service';
 import { ConfigService } from './config.service';
 

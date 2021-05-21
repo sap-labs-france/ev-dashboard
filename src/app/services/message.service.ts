@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { ActionsResponse } from 'types/DataResult';
+
+import { ActionsResponse } from '../types/DataResult';
 
 declare let $: any;
 

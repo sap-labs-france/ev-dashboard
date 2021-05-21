@@ -58,6 +58,7 @@ export interface UserNotifications {
   sendPreparingSessionNotStarted: boolean;
   sendOfflineChargingStations: boolean;
   sendBillingSynchronizationFailed: boolean;
+  sendBillingPeriodicOperationFailed: boolean;
   sendSessionNotStarted: boolean;
   sendCarCatalogSynchronizationFailed: boolean;
   sendComputeAndApplyChargingProfilesFailed: boolean;

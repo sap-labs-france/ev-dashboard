@@ -2403,6 +2403,7 @@
     "oicp_patch_status_error": "Notifique-me se a transferência dos status de uma estação de carregamento falhar para a plataforma de roaming (OICP)",
     "smtp_error": "Notify me if an error occurred with the email server",
     "billing_synchronization_failed": "Notifique-me quando uma sincronização com o sistema de faturamento falhar",
+    "billing_periodic_operation_failed": "Notify me when a periodic billing operation has failed",
     "session_not_started": "Notifique-me se nenhuma sessão tiver sido iniciada após o selo",
     "user_account_inactivity": "Notifique-me quando eu não fizer login no aplicativo por mais de 6 meses",
     "car_catalog_synchronization_failed": "Notifique-me se ocorrer um erro durante os carros de sincronização",

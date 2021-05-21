@@ -2403,6 +2403,7 @@
     "oicp_patch_status_error": "Notify me if the transfer of a charging station’s statuses has failed to the roaming platform (OICP)",
     "smtp_error": "Notify me if an error occurred with the email server",
     "billing_synchronization_failed": "Notify me when a synchronization with billing system has failed",
+    "billing_periodic_operation_failed": "Notify me when a periodic billing operation has failed",
     "session_not_started": "Notify me if no session has been started after badging",
     "user_account_inactivity": "Notify me when I haven't logged in to the application for more than 6 months",
     "car_catalog_synchronization_failed": "Notify me if an error has occurred while synchronization cars, check the logs",

@@ -1611,6 +1611,7 @@
         "name": "Name",
         "description": "Description",
         "type": "Type",
+        "refreshIntervalMins": "Refresh Interval (mins)",
         "base_url": "URL",
         "user": "User",
         "password": "Password",

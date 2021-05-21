@@ -1609,6 +1609,7 @@
         "name": "Name",
         "description": "Beschreibung",
         "type": "Typ",
+        "refreshIntervalMins": "Aktualisierungs-Intervall (Minuten)",
         "base_url": "URL",
         "user": "Nutzer",
         "password": "Passwort",

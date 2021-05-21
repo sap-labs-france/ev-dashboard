@@ -69,6 +69,19 @@
                     </mat-form-field>
                   </div>
                 </div>
+                <!-- Refresh interval -->
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <mat-form-field>
+                      <input matInput
+                        placeholder="{{'settings.asset.connection.refreshIntervalMins' | translate}}"
+                        type="number" [formControl]="refreshIntervalMins" >
+                      <mat-error *ngIf="refreshIntervalMins.errors?.min">
+                        {{"general.error_min_value" | translate:{value: 1} }}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
               </div>
               <div class="row" *ngIf="type.value === 'schneider'">
                 <div class="col-md-12">

@@ -31,7 +31,7 @@ export class InvoicesListComponent implements OnInit {
       const invoiceNumber = this.windowService.getSearch('InvoiceNumber');
       this.centralServerService.downloadInvoice(invoiceID).subscribe((result) => {
         this.spinnerService.show();
-        FileSaver.saveAs(result, 'invoice_' + (invoiceNumber ? invoiceNumber : invoiceID) + '.pdf');
+        FileSaver.saveAs(result, 'invoice_' + (invoiceNumber ?? invoiceID) + '.pdf');
         this.spinnerService.hide();
       }, () => {
         this.spinnerService.hide();

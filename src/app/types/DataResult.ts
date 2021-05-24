@@ -1,6 +1,8 @@
 import { Car } from './Car';
 import { Company } from './Company';
 import { Site } from './Site';
+import { SiteArea } from './SiteArea';
+import { Tag } from './Tag';
 import { Transaction } from './Transaction';
 import { UserStatus } from './User';
 
@@ -78,12 +80,20 @@ export interface CompanyDataResult extends DataResult<Company> {
 }
 export interface SiteDataResult extends DataResult<Site> {
   canCreate: boolean;
-  canAssignUsers: boolean;
-  canUnassignUsers: boolean;
 }
 export interface CarDataResult extends DataResult<Car> {
   canCreate: boolean;
 }
+export interface SiteAreaDataResult extends DataResult<SiteArea> {
+  canCreate: boolean;
+}
+
+export interface TagDataResult extends DataResult<Tag> {
+  canCreate: boolean;
+  canImport: boolean;
+  canExport: boolean;
+}
+
 export interface CheckAssetConnectionResponse extends ActionResponse {
   connectionIsValid: boolean;
 }

@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { ChartDataSets } from 'chart.js';
+import { ChartData, ChartDataSets } from 'chart.js';
 import * as moment from 'moment';
 
 import { LocaleService } from '../../../services/locale.service';
 import { StatisticData } from '../../../types/Statistic';
 import { Utils } from '../../../utils/Utils';
-import { ChartConstants, ChartData } from './chart-utilities';
+import { ChartConstants } from './chart-utilities';
 
 export interface StatisticsBuildValueWithUnit {
   value: number;
@@ -24,7 +24,7 @@ export class StatisticsBuildService {
     private translateService: TranslateService,
     private localeService: LocaleService) {
     this.totalLabel = this.translateService.instant('statistics.total');
-    if (this.totalLabel === '') {
+    if (Utils.isEmptyString(this.totalLabel)) {
       this.totalLabel = 'Total'; // should never happen
     }
     this.monthLabel = 'month';
@@ -401,7 +401,7 @@ export class StatisticsBuildService {
     }
 
     if (ignoreEmptyUnit && totalsWithUnit.length === 2) {
-      index = totalsWithUnit.findIndex((record) => record.unit === '');
+      index = totalsWithUnit.findIndex((record) => Utils.isEmptyString(record.unit));
       if (index > -1) {
         totalOfLastUnit = totalsWithUnit[index].value;
         totalsWithUnit.splice(index, 1);

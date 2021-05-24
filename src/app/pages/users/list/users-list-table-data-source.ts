@@ -259,15 +259,15 @@ export class UsersListTableDataSource extends TableDataSource<User> {
   }
 
   public buildTableDynamicRowActions(user: User): TableActionDef[] {
-    const actions: TableActionDef[] = [];
+    const rowActions: TableActionDef[] = [];
     const moreActions = new TableMoreAction([]);
     if (user.issuer) {
       if (user.canUpdate) {
-        actions.push(this.editAction);
+        rowActions.push(this.editAction);
       }
       if (this.componentService.isActive(TenantComponents.ORGANIZATION)) {
         if (this.authorizationService.canListUsersSites()) {
-          actions.push(this.assignSitesToUser);
+          rowActions.push(this.assignSitesToUser);
         }
       }
       if (this.authorizationService.canListTokens()) {
@@ -284,7 +284,9 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       if (user.canDelete) {
         moreActions.addActionInMoreActions(this.deleteAction);
       }
-      actions.push(moreActions.getActionDef());
+      if (!Utils.isEmptyArray(moreActions.getActionsInMoreActions())) {
+        rowActions.push(moreActions.getActionDef());
+      }
     } else {
       if (this.authorizationService.canListTokens()) {
         moreActions.addActionInMoreActions(this.navigateToTagsAction);
@@ -295,9 +297,11 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       if (user.canDelete) {
         moreActions.addActionInMoreActions(this.deleteAction);
       }
-      actions.push(moreActions.getActionDef());
+      if (!Utils.isEmptyArray(moreActions.getActionsInMoreActions())) {
+        rowActions.push(moreActions.getActionDef());
+      }
     }
-    return actions;
+    return rowActions;
   }
 
   public actionTriggered(actionDef: TableActionDef) {
@@ -343,7 +347,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       case UserButtonAction.ASSIGN_SITES_TO_USER:
         if (actionDef.action) {
           (actionDef as TableAssignSitesToUserActionDef).action(
-            UserSitesDialogComponent, user, this.dialog, this.refreshData.bind(this));
+            UserSitesDialogComponent, { dialogData: user }, this.dialog, this.refreshData.bind(this));
         }
         break;
       case UserButtonAction.DELETE_USER:

@@ -181,31 +181,31 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
   }
 
   public buildTableDynamicRowActions(site: Site): TableActionDef[] {
-    const actions = [];
+    const rowActions = [];
     // Check if GPS is available
     const openInMaps = new TableOpenInMapsAction().getActionDef();
     openInMaps.disabled = !Utils.containsAddressGPSCoordinates(site.address);
     const moreActions = new TableMoreAction([]);
-    if (site.issuer) {
-      if (site.canUpdate) {
-        actions.push(this.editAction);
-        moreActions.addActionInMoreActions(this.exportOCPPParamsAction);
-        moreActions.addActionInMoreActions(this.siteGenerateQrCodeConnectorAction);
-      } else {
-        actions.push(this.viewAction);
-      }
-      if (site.canAssignUsers || site.canUnassignUsers) {
-        actions.push(this.assignUsersToSite);
-      }
-      if (site.canDelete) {
-        moreActions.addActionInMoreActions(this.deleteAction);
-      }
+    if (site.canUpdate) {
+      rowActions.push(this.editAction);
     } else {
-      actions.push(this.viewAction);
+      rowActions.push(this.viewAction);
+    }
+    if (site.canAssignUsers || site.canUnassignUsers) {
+      rowActions.push(this.assignUsersToSite);
+    }
+    if (site.canExportOCPPParams) {
+      moreActions.addActionInMoreActions(this.exportOCPPParamsAction);
+    }
+    if (site.canGenerateQrCode) {
+      moreActions.addActionInMoreActions(this.siteGenerateQrCodeConnectorAction);
+    }
+    if (site.canDelete) {
+      moreActions.addActionInMoreActions(this.deleteAction);
     }
     moreActions.addActionInMoreActions(openInMaps);
-    actions.push(moreActions.getActionDef());
-    return actions;
+    rowActions.push(moreActions.getActionDef());
+    return rowActions;
   }
 
   public actionTriggered(actionDef: TableActionDef) {
@@ -236,7 +236,8 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
         break;
       case SiteButtonAction.ASSIGN_USERS_TO_SITE:
         if (actionDef.action) {
-          (actionDef as TableAssignUsersToSiteActionDef).action(SiteUsersDialogComponent, site, this.dialog,this.refreshData.bind(this));
+          (actionDef as TableAssignUsersToSiteActionDef).action(SiteUsersDialogComponent, { dialogData: site },
+            this.dialog,this.refreshData.bind(this));
         }
         break;
       case SiteButtonAction.DELETE_SITE:

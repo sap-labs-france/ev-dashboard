@@ -17,7 +17,7 @@ export class LOG_ACTIONSDialogComponent extends DialogTableDataComponent<LogActi
     @Inject(MAT_DIALOG_DATA) data: any) {
     super(data, dialogRef, LOG_ACTIONSDialogTableDataSource);
     // Default title
-    if (this.title === '') {
+    if (Utils.isEmptyString(this.title)) {
       this.title = 'logs.select_actions';
     }
     this.LOG_ACTIONSDialogTableDataSource.destroyDataSource();

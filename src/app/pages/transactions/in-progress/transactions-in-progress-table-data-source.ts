@@ -292,20 +292,22 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
   }
 
   public buildTableDynamicRowActions(): TableActionDef[] {
-    const actions: TableActionDef[] = [
+    const rowActions: TableActionDef[] = [
       this.viewAction,
     ];
     if (!this.authorizationService.isDemo()) {
-      actions.push(this.stopAction);
+      rowActions.push(this.stopAction);
     }
     if (this.isAdmin) {
       const moreActions = new TableMoreAction([
         this.navigateToLogsAction,
         this.navigateToChargingPlansAction,
       ]);
-      actions.push(moreActions.getActionDef());
+      if (!Utils.isEmptyArray(moreActions.getActionsInMoreActions())) {
+        rowActions.push(moreActions.getActionDef());
+      }
     }
-    return actions;
+    return rowActions;
   }
 
   public buildTableActionsRightDef(): TableActionDef[] {

@@ -4,7 +4,7 @@ import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { SetupIntent, StripeCardCvcElement, StripeCardElement, StripeCardExpiryElement, StripeCardNumberElement, StripeElements, StripeError } from '@stripe/stripe-js';
+import { SetupIntent, StripeCardCvcElement, StripeCardExpiryElement, StripeCardNumberElement, StripeElements, StripeError } from '@stripe/stripe-js';
 import { ComponentService } from 'services/component.service';
 import { StripeService } from 'services/stripe.service';
 import { BillingOperationResponse } from 'types/DataResult';
@@ -132,7 +132,14 @@ export class PaymentMethodComponent implements OnInit {
     const operationResult: any = await this.createPaymentMethod();
     if (operationResult.error) {
       // Operation failed
-      this.messageService.showErrorMessage('settings.billing.payment_methods_create_error');
+      if (operationResult.error.code === 'card_declined') {
+        this.isCardNumberValid = false;
+        this.messageService.showErrorMessage('settings.billing.payment_methods_create_error_card_declined');
+        this.cardNumberError = this.translateService.instant('settings.billing.payment_methods_card_declined');
+        this.cardNumber.focus();
+      } else {
+        this.messageService.showErrorMessage('settings.billing.payment_methods_create_error');
+      }
       this.isSaveClicked = false;
     } else {
       this.spinnerService.hide();

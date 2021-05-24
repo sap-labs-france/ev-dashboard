@@ -27,7 +27,6 @@
     "connectors": "Connections",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.4.64",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "An unexpected error occurred, check the logs",
@@ -1299,7 +1298,10 @@
         "description": "This user has not been synchronized with the billing system.",
         "action": "Synchronize the user."
       }
-    }
+    },
+    "export_tags_title": "Export Tags",
+    "export_tags_confirm": "Do you really want to export the Tag list to a CSV format?",
+    "export_tags_error": "Error occurred while trying to export the Tags, check the logs"
   },
   "invoices": {
     "tabs": {
@@ -1328,6 +1330,8 @@
     "id": "ID",
     "not_active": "This badge is not active",
     "issuer": "Organization Owner",
+    "visual_id": "Visual ID",
+    "visual_id_instruction": "Please fill the ID that is displayed on the badge",
     "status": "Status",
     "activated": "Active",
     "deactivated": "Inactive",
@@ -1354,6 +1358,7 @@
     "tag_not_found": "Badge has not been found",
     "select_tags": "Select Tag",
     "tag_id_already_used": "The badge '{{tagID}}' already exists",
+    "tag_visual_id_already_used": "The visualID '{{visualID}}' already exists",
     "redirect": "Navigate to Tags",
     "title": "Badge",
     "default_tag": "Default badge",
@@ -1501,6 +1506,8 @@
       "payment_methods_create_title": "Create a payment method",
       "payment_methods_create_success": "The payment method ending with '{{last4}}' has been created successfully",
       "payment_methods_create_error": "Error occurred while creating the payment method, check the logs",
+      "payment_methods_create_error_card_declined": "Your card has been declined, please provide a valid payment method",
+      "payment_methods_card_declined": "Card declined",
       "payment_methods_delete_title": "Delete payment method",
       "payment_methods_delete_confirm": "Do you really want to delete the payment method ending with '{{last4}}'?",
       "payment_methods_delete_success": "The payment method ending with '{{last4}}' has been deleted successfully",
@@ -1606,6 +1613,7 @@
         "name": "Name",
         "description": "Description",
         "type": "Type",
+        "refreshIntervalMins": "Refresh Interval (mins)",
         "base_url": "URL",
         "user": "User",
         "password": "Password",
@@ -2401,6 +2409,7 @@
     "oicp_patch_status_error": "Notify me if the transfer of a charging station’s statuses has failed to the roaming platform (OICP)",
     "smtp_error": "Notify me if an error occurred with the email server",
     "billing_synchronization_failed": "Notify me when a synchronization with billing system has failed",
+    "billing_periodic_operation_failed": "Notify me when a periodic billing operation has failed",
     "session_not_started": "Notify me if no session has been started after badging",
     "user_account_inactivity": "Notify me when I haven't logged in to the application for more than 6 months",
     "car_catalog_synchronization_failed": "Notify me if an error has occurred while synchronization cars, check the logs",

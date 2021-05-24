@@ -97,22 +97,8 @@ export class ComponentService {
     if (!settings.type) {
       settings.type = BillingSettingsType.STRIPE;
     }
-    // Build setting payload
-    const settingsToSave = {
-      id: settings.id,
-      identifier: TenantComponents.BILLING,
-      sensitiveData: [],
-      content: Utils.cloneObject(settings),
-    };
-    if (settings.type === BillingSettingsType.STRIPE) {
-      settingsToSave.sensitiveData = ['content.stripe.secretKey'];
-    }
-    // Delete IDS
-    delete settingsToSave.content.id;
-    delete settingsToSave.content.identifier;
-    delete settingsToSave.content.sensitiveData;
     // Save
-    return this.centralServerService.updateSetting(settingsToSave);
+    return this.centralServerService.updateBillingSettings(settings);
   }
 
   public saveRefundSettings(settings: RefundSettings): Observable<ActionResponse> {
@@ -267,28 +253,11 @@ export class ComponentService {
     return this.centralServerService.updateSetting(settingsToSave);
   }
 
+
   public getBillingSettings(): Observable<BillingSettings> {
     return new Observable((observer) => {
-      const billingSettings = {
-        identifier: TenantComponents.BILLING,
-      } as BillingSettings;
       // Get the Billing settings
-      this.centralServerService.getSetting(TenantComponents.BILLING).subscribe((settings) => {
-        if (settings) {
-          const config = settings.content;
-          // ID
-          billingSettings.id = settings.id;
-          billingSettings.sensitiveData = settings.sensitiveData;
-          // billing common properties
-          if (config.billing) {
-            billingSettings.billing = config.billing;
-          }
-          // Stripe
-          if (config.stripe) {
-            billingSettings.type = BillingSettingsType.STRIPE;
-            billingSettings.stripe = config.stripe;
-          }
-        }
+      this.centralServerService.getBillingSettings().subscribe((billingSettings) => {
         observer.next(billingSettings);
         observer.complete();
       }, (error) => {

@@ -155,6 +155,7 @@ export class SettingsAssetConnectionEditableTableDataSource extends EditableTabl
       name: '',
       description: '',
       type: AssetConnectionType.NONE,
+      refreshIntervalMins: 1,
       url: ''
     };
   }

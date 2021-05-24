@@ -5,6 +5,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { mergeMap } from 'rxjs/operators';
+import { DialogMode } from 'types/Authorization';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -41,6 +42,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   @Input() public currentUserID!: string;
   @Input() public inDialog!: boolean;
   @Input() public dialogRef!: MatDialogRef<UserDialogComponent>;
+  @Input() public dialogMode!: DialogMode;
   public parentErrorStateMatcher = new ParentErrorStateMatcher();
   public userStatuses: KeyValue[];
   public userRoles: KeyValue[];
@@ -92,6 +94,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public sendPreparingSessionNotStarted!: AbstractControl;
   public sendSmtpError!: AbstractControl;
   public sendBillingSynchronizationFailed!: AbstractControl;
+  public sendBillingPeriodicOperationFailed!: AbstractControl;
   public sendComputeAndApplyChargingProfilesFailed!: AbstractControl;
   public sendSessionNotStarted!: AbstractControl;
   public sendUserAccountInactivity!: AbstractControl;
@@ -158,6 +161,9 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   }
 
   public ngOnInit() {
+    if (this.activatedRoute.snapshot.url[0]?.path === 'profile') {
+      this.currentUserID = this.centralServerService.getLoggedUser().id;
+    }
     // Init the form
     this.formGroup = new FormGroup({
       id: new FormControl(''),
@@ -189,9 +195,10 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         sendOicpPatchStatusError: new FormControl(false),
         sendSmtpError: new FormControl(false),
         sendBillingSynchronizationFailed: new FormControl(false),
+        sendBillingPeriodicOperationFailed: new FormControl(false),
         sendComputeAndApplyChargingProfilesFailed: new FormControl(false),
         sendEndUserErrorNotification: new FormControl(false),
-        sendBillingNewInvoice: new FormControl(false),
+        sendBillingNewInvoice: new FormControl(true),
         sendAdminAccountVerificationNotification: new FormControl(true)
       }),
       email: new FormControl('',
@@ -234,11 +241,11 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
           Validators.compose([
             Users.passwordWithNoSpace,
             Users.validatePassword,
-          ])),
+          ].concat(!Utils.isEmptyString(this.currentUserID) ? [] : [Validators.required]))),
         repeatPassword: new FormControl('',
           Validators.compose([
             Users.validatePassword,
-          ])),
+          ].concat(!Utils.isEmptyString(this.currentUserID) ? [] : [Validators.required]))),
       }, (passwordFormGroup: FormGroup) => Utils.validateEqual(passwordFormGroup, 'password', 'repeatPassword')),
     });
     // Form
@@ -275,15 +282,13 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.sendPreparingSessionNotStarted = this.notifications.controls['sendPreparingSessionNotStarted'];
     this.sendSmtpError = this.notifications.controls['sendSmtpError'];
     this.sendBillingSynchronizationFailed = this.notifications.controls['sendBillingSynchronizationFailed'];
+    this.sendBillingPeriodicOperationFailed = this.notifications.controls['sendBillingPeriodicOperationFailed'];
     this.sendSessionNotStarted = this.notifications.controls['sendSessionNotStarted'];
     this.sendUserAccountInactivity = this.notifications.controls['sendUserAccountInactivity'];
     this.sendComputeAndApplyChargingProfilesFailed = this.notifications.controls['sendComputeAndApplyChargingProfilesFailed'];
     this.sendEndUserErrorNotification = this.notifications.controls['sendEndUserErrorNotification'];
     this.sendBillingNewInvoice = this.notifications.controls['sendBillingNewInvoice'];
     this.sendAdminAccountVerificationNotification = this.notifications.controls['sendAdminAccountVerificationNotification'];
-    if (this.activatedRoute.snapshot.url[0]?.path === 'profile') {
-      this.currentUserID = this.centralServerService.getLoggedUser().id;
-    }
     if (this.currentUserID) {
       this.loadUser();
     }
@@ -429,6 +434,11 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       } else {
         this.notifications.controls.sendBillingSynchronizationFailed.setValue(false);
       }
+      if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendBillingPeriodicOperationFailed')) {
+        this.notifications.controls.sendBillingPeriodicOperationFailed.setValue(user.notifications.sendBillingPeriodicOperationFailed);
+      } else {
+        this.notifications.controls.sendBillingPeriodicOperationFailed.setValue(false);
+      }
       if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendUserAccountInactivity')) {
         this.notifications.controls.sendUserAccountInactivity.setValue(user.notifications.sendUserAccountInactivity);
       } else {
@@ -510,8 +520,10 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         this.notifications.controls.sendPreparingSessionNotStarted.setValue(true);
         this.notifications.controls.sendSmtpError.setValue(true);
         this.notifications.controls.sendBillingSynchronizationFailed.setValue(true);
+        this.notifications.controls.sendBillingPeriodicOperationFailed.setValue(true);
         this.notifications.controls.sendComputeAndApplyChargingProfilesFailed.setValue(true);
         this.notifications.controls.sendEndUserErrorNotification.setValue(true);
+        this.notifications.controls.sendAdminAccountVerificationNotification.setValue(true);
         break;
       case UserRole.BASIC:
         this.formGroup.controls.notificationsActive.setValue(true);
@@ -532,6 +544,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         this.notifications.controls.sendPreparingSessionNotStarted.setValue(false);
         this.notifications.controls.sendSmtpError.setValue(false);
         this.notifications.controls.sendBillingSynchronizationFailed.setValue(false);
+        this.notifications.controls.sendBillingPeriodicOperationFailed.setValue(false);
         this.notifications.controls.sendComputeAndApplyChargingProfilesFailed.setValue(false);
         this.notifications.controls.sendEndUserErrorNotification.setValue(false);
         break;
@@ -554,6 +567,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         this.notifications.controls.sendPreparingSessionNotStarted.setValue(false);
         this.notifications.controls.sendSmtpError.setValue(false);
         this.notifications.controls.sendBillingSynchronizationFailed.setValue(false);
+        this.notifications.controls.sendBillingPeriodicOperationFailed.setValue(false);
         this.notifications.controls.sendComputeAndApplyChargingProfilesFailed.setValue(false);
         this.notifications.controls.sendEndUserErrorNotification.setValue(false);
         break;
@@ -689,8 +703,8 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       this.spinnerService.hide();
       if (response.status === RestResponse.SUCCESS) {
         this.messageService.showSuccessMessage('users.create_success', { userFullName: user.firstName + ' ' + user.name });
-        user.id = response.id!;
-        this.currentUserID = response.id!;
+        user.id = response.id ?? '';
+        this.currentUserID = response.id ?? '';
         this.closeDialog(true);
       } else {
         Utils.handleError(JSON.stringify(response), this.messageService, 'users.create_error');

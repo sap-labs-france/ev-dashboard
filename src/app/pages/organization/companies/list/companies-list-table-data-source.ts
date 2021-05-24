@@ -158,26 +158,28 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
   }
 
   public buildTableDynamicRowActions(company: Company): TableActionDef[] {
-    const actions = [];
+    const rowActions = [];
     // Check if GPS is available
     const openInMaps = new TableOpenInMapsAction().getActionDef();
     openInMaps.disabled = !Utils.containsAddressGPSCoordinates(company.address);
     const moreActions = new TableMoreAction([]);
     if (company.issuer) {
       if (company.canUpdate) {
-        actions.push(this.editAction);
+        rowActions.push(this.editAction);
       } else if (company.canRead) {
-        actions.push(this.viewAction);
+        rowActions.push(this.viewAction);
       }
       if (company.canDelete) {
         moreActions.addActionInMoreActions(this.deleteAction);
       }
     } else if (company.canRead) {
-      actions.push(this.viewAction);
+      rowActions.push(this.viewAction);
     }
     moreActions.addActionInMoreActions(openInMaps);
-    actions.push(moreActions.getActionDef());
-    return actions;
+    if (!Utils.isEmptyArray(moreActions.getActionsInMoreActions())) {
+      rowActions.push(moreActions.getActionDef());
+    }
+    return rowActions;
   }
 
   public actionTriggered(actionDef: TableActionDef) {

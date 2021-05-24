@@ -27,7 +27,6 @@
     "connectors": "Connexions",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.4.64",
     "version": "Version",
     "about_us": "A Propos",
     "unexpected_error_backend": "Une erreur inattendue s'est produite, vérifiez les logs",
@@ -332,9 +331,9 @@
     "asset_type": "Type de ressource",
     "fluctuation_percent": "Fluctuation à court terme (%)",
     "static_value_watt": "Puissance Statique (W)",
-    "produce": "Produit de l'Energie'",
+    "produce": "Produit de l'Energie",
     "consume": "Consomme de l'Energie",
-    "consume_and_produce": "Consomme et Produit de l'energy",
+    "consume_and_produce": "Consomme et Produit de l'Energie",
     "dynamic_asset": "Ressource Dynamique",
     "instant_power": "Puissance Instantanée",
     "asset_connection": "Connexion à la Ressource",
@@ -1299,7 +1298,10 @@
         "description": "Cet utilisateur n'a pas été synchronisé avec le système de facturation.",
         "action": "Synchroniser l'utilisateur."
       }
-    }
+    },
+    "export_tags_title": "Exporter les badges",
+    "export_tags_confirm": "Voulez-vous vraiment exporter la liste des badges au format CSV ?",
+    "export_tags_error": "Une erreur est survenue pendant l'export des badges, vérifiez les logs"
   },
   "invoices": {
     "tabs": {
@@ -1328,6 +1330,8 @@
     "id": "ID",
     "not_active": "Ce badge n'est pas actif",
     "issuer": "Propriétaire",
+    "visual_id": "ID visuel",
+    "visual_id_instruction": "Veuillez remplir L'ID affiché sur le badge",
     "status": "Statut",
     "activated": "Activé",
     "deactivated": "Inactif",
@@ -1354,6 +1358,7 @@
     "tag_not_found": "Le badge n'a pas été trouvé",
     "select_tags": "Selection Badge",
     "tag_id_already_used": "Le badge '{{tagID}}' existe déjà",
+    "tag_visual_id_already_used": "L'ID visuel '{{visualID}}' existe déjà",
     "redirect": "Naviguer vers Badges",
     "title": "Badge",
     "default_tag": "Badge par défaut",
@@ -1501,6 +1506,8 @@
       "payment_methods_create_title": "Créer une méthode de paiement",
       "payment_methods_create_success": "Le moyen de paiement se terminant par '{{last4}}' a été créé avec succès",
       "payment_methods_create_error": "Une erreur est survenue pendant la création du moyen de paiement, vérifiez les logs",
+      "payment_methods_create_error_card_declined": "Votre carte a été refusée, merci de fournir un moyen de paiement valide.",
+      "payment_methods_card_declined": "Carte refusée",
       "payment_methods_delete_title": "Supprimer une méthode de paiement",
       "payment_methods_delete_confirm": "Voulez-vous vraiment supprimer le moyen de paiement se terminant par '{{last4}}'?",
       "payment_methods_delete_success": "Le moyen de paiement se terminant par '{{last4}}' a été supprimé avec succès.",
@@ -1606,6 +1613,7 @@
         "name": "Nom",
         "description": "Description",
         "type": "Type",
+        "refreshIntervalMins": "Refresh Interval (mins)",
         "base_url": "URL",
         "user": "Utilisateur",
         "password": "Mot de passe",
@@ -2401,6 +2409,7 @@
     "oicp_patch_status_error": "Me notifier lorsque le transfert des statuts des bornes a échoué vers la platforme de roaming (OICP)",
     "smtp_error": "Me notifier en cas d'erreur sur le serveur d'email",
     "billing_synchronization_failed": "Me notifier lorsqu'une synchronisation avec le service de facturation a échoué",
+    "billing_periodic_operation_failed": "Me notifier lorsqu'une opération de facturation périodique a échoué",
     "session_not_started": "Me notifier lorsque j'ai badger sur une borne de recharge mais aucune session n'a démarré",
     "user_account_inactivity": "Me notifier lorsque je ne me suis pas connecté à l'application depuis plus de 6 mois",
     "car_catalog_synchronization_failed": "Me notifier lorsqu'une synchronisation de véhicule a échoué",

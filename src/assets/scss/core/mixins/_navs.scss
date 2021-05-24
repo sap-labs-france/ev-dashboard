@@ -13,7 +13,6 @@
     // Disabled state lightens text and removes hover/tab effects
     &.disabled {
       color: $disabled-link-color;
-
       @include plain-hover-focus {
         color: $disabled-link-hover-color;
       }

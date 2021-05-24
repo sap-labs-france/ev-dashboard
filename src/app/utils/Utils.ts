@@ -34,7 +34,7 @@ export class Utils {
     }
   }
 
-  public static isEmptyArray(array: any[]): boolean {
+  public static isEmptyArray(array: any): boolean {
     if (!array) {
       return true;
     }
@@ -42,6 +42,10 @@ export class Utils {
       return false;
     }
     return true;
+  }
+
+  public static isEmptyString(str: string): boolean {
+    return str ? str.length === 0 : true;
   }
 
   public static getConnectorLetterFromConnectorID(connectorID: number): string {
@@ -900,4 +904,12 @@ export class Utils {
     document.execCommand('copy');
     document.body.removeChild(element);
   }
+
+  // when exporting values
+  public static escapeCsvValue(value: any): string {
+    // add double quote start and end
+    // replace double quotes inside value to double double quotes to display double quote correctly in csv editor
+    return typeof value === 'string' ? '"' + value.replace(/"/g, '""') + '"' : value;
+  }
+
 }

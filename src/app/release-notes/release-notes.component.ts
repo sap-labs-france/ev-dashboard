@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 
+import { version as packageJsonVersion } from '../../../package.json';
+
 interface ReleaseNotes {
   version: string;
   date: Date;
@@ -24,13 +26,85 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: packageJsonVersion,
+        date: new Date('2021-05-21'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Various fixes to the billing dashboard UI`,
+              `Add billing invoices detailed description support`,
+              `Add assets information refresh interval support`,
+              `Add notification support for billing payment failure`,
+              `Fix badge ID support to search filter`,
+              `Fix consumption computation from MeterValues Current.Import measurand`,
+              `Fix organizations read permission for admin role with also site admin role`,
+              `Allow site admin role to view transaction badge ID if done on their site`,
+              `Add a visual ID field to badge record`,
+              `Fix badges CSV import/export`,
+              `Fix user site assignment`,
+              `Server side german translation update`,
+              `Fix assets consumption retrieval if empty`,
+              `Ensure the currently charging station active connection to the OCPP-J server is used to send commands`
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.66',
+        date: new Date('2021-05-12'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Add backward compatibility to REST API charging station endpoints for the mobile application`,
+              `New authorization framework on Site and Site Area`,
+              `Add Export of Tags with Users`,
+              `Execute the push of CDRs task only on finished transactions`,
+              `Charging Profile create or update is depending on the Charging Profile ID`,
+              `Billing - Stripe Invoice - Add customer address`,
+              `Disable 24/7 in OCPI if opening times are provided`,
+              `Fixed ioThink current instant watts in Battery asset`,
+              `Fixed Shelly amperage`,
+              `Fixed power slider in Charging Profiles`,
+              `Synchronize Billing Users only sync Users (not Invoices)`,
+              `IoThink integration response filtering according new model`,
+              `Fixed user with role Demo can see the user in session's details pop-up`,
+              `Change performance logs from error to warning to avoid confusion in prod with real errors`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.65',
+        date: new Date('2021-05-03'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Fixed user with role Demo cannot read his profile`,
+              `Fixed OCPI wrong ID passed in Start Transaction`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.64',
-        date: new Date('2021-04-23'),
+        date: new Date('2021-05-01'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `Made all the pop-up scrollable if content is too big`,
+              `Handle Web Socket connections from a Charging Station with an unique ID`,
+              `Fixed export of transaction with rounded price`,
+              `Fixed OCPI CDR is sent multiple times on OCPP status notification`,
+              `Add opening hours in SAP Labs France Mougins' Site`,
+              `Use the local CPO Transaction ID in OCPI Session and CDR`,
+              `Fixed Badge cannot be created if used in Transactions with no User`,
+              `Eichrecht: Signed Data is not correctly transmitted with some systems`,
+              `Added Atess, Ecotap DC30, CC612_1M4PR and Alfen Charging Stations in template`,
+              `Fixed Charging Profiles cannot be displayed`,
             ],
           },
         ],
@@ -42,7 +116,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
-              `Only Assets belonging to e-Moblity can be updated or deleted`,
+              `Only Assets belonging to e-Mobility can be updated or deleted`,
               `Allow delete of Badge with linked transactions but forbid its creation`,
               `Added getChargingStationTransactions, firmwareDownload, SmartChargingTrigger, InError validation in RESTful endpoint`,
               `Ensure that each User has only one default badge`,

@@ -280,12 +280,6 @@
                   <div class="row ml-1">
                     <div class="col-sm-12">
                       <mat-checkbox [disabled]="!notificationsActive.value"
-                        [formControl]="sendSmtpAuthError">{{"notifications.smtp_auth_error" | translate}}</mat-checkbox>
-                    </div>
-                  </div>
-                  <div class="row ml-1">
-                    <div class="col-sm-12">
-                      <mat-checkbox [disabled]="!notificationsActive.value"
                         [formControl]="sendSmtpError">{{"notifications.smtp_error" | translate}}</mat-checkbox>
                     </div>
                   </div>
@@ -293,6 +287,12 @@
                     <div class="col-sm-12">
                       <mat-checkbox [disabled]="!notificationsActive.value"
                         [formControl]="sendBillingSynchronizationFailed">{{"notifications.billing_synchronization_failed" | translate}}</mat-checkbox>
+                    </div>
+                  </div>
+                  <div class="row ml-1">
+                    <div class="col-sm-12">
+                      <mat-checkbox [disabled]="!notificationsActive.value"
+                        [formControl]="sendBillingPeriodicOperationFailed">{{"notifications.billing_periodic_operation_failed" | translate}}</mat-checkbox>
                     </div>
                   </div>
                   <div class="row ml-1">
@@ -447,7 +447,7 @@
             </div>
           </div>
         </mat-tab>
-        <mat-tab *ngIf="isBillingComponentActive && canListPaymentMethods">
+        <mat-tab *ngIf="isBillingComponentActive && canListPaymentMethods && (dialogMode !== 'C')">
           <ng-template mat-tab-label>
             <mat-icon>payment</mat-icon>
             <span>{{'users.tabs.billing' | translate}}</span>

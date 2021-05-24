@@ -8,7 +8,7 @@
     {{'general.app_name' | translate}}
     <div>
       <a routerLink="/release-notes" class="app-version">
-        {{'general.last_update' | translate}}
+        {{'general.version' | translate}} {{version}}
       </a>
     </div>
   </div>
@@ -80,13 +80,4 @@
       </div>
     </li>
   </ul>
-  <!--<a *ngIf="isAdmin" routerLink="/release-notes" class="nav-link">-->
-  <!--<i class="material-icons">info</i>-->
-  <!--{{'general.last_update' | translate}}-->
-  <!--</a>-->
-
-  <!--<span *ngIf="!isAdmin" class="nav-link">-->
-  <!--<i class="material-icons">info</i>-->
-  <!--{{'general.last_update' | translate}}-->
-  <!--</span>-->
 </div>

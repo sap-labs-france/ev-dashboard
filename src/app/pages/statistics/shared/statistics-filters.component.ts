@@ -498,7 +498,7 @@ export class StatisticsFiltersComponent implements OnInit {
   private testIfFilterIsInitial(filterDef: StatisticsFilterDef): boolean {
     let filterIsInitial = true;
     if (filterDef.multiple) {
-      if (!Utils.isEmptyArray(filterDef.currentValue) || (filterDef.label && filterDef.label !== '')) {
+      if (!Utils.isEmptyArray(filterDef.currentValue) || (filterDef.label && !Utils.isEmptyString(filterDef.label))) {
         filterIsInitial = false;
       }
     } else {

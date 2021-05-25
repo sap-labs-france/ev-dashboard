@@ -43,7 +43,7 @@ export class TableExportOCPPParamsLocalAction extends TableExportAction {
             Utils.replaceSpecialCharsInCSVValueParam(parameter.value),
             charger.siteArea.name,
             charger.siteArea.site.name
-          ].map((value) => Utils.replaceDoubleQuotes(value));
+          ].map((value) => Utils.escapeCsvValue(value));
           return row;
         }).join(Constants.CR_LF);
         const csv = [headers, rows].join(Constants.CR_LF);

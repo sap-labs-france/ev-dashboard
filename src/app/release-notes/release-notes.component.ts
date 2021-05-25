@@ -27,12 +27,20 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: packageJsonVersion,
-        date: new Date('2021-05-20'),
+        date: new Date('2021-05-21'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
-              `Add a visual ID field to badge`,
+              `Various fixes to the billing dashboard UI`,
+              `Add billing invoices detailed description support`,
+              `Add assets information refresh interval support`,
+              `Add notification support for billing payment failure`,
+              `Fix badge ID support to search filter`,
+              `Fix consumption computation from MeterValues Current.Import measurand`,
+              `Fix organizations read permission for admin role with also site admin role`,
+              `Allow site admin role to view transaction badge ID if done on their site`,
+              `Add a visual ID field to badge record`,
               `Fix badges CSV import/export`,
               `Fix user site assignment`,
               `Server side german translation update`,

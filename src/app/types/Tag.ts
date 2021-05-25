@@ -3,6 +3,7 @@ import { User } from './User';
 
 export interface Tag extends TableData {
   id: string;
+  visualID?: string;
   issuer: boolean;
   active: boolean;
   userID?: string;

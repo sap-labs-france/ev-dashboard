@@ -132,7 +132,14 @@ export class PaymentMethodComponent implements OnInit {
     const operationResult: any = await this.createPaymentMethod();
     if (operationResult.error) {
       // Operation failed
-      this.messageService.showErrorMessage('settings.billing.payment_methods_create_error');
+      if (operationResult.error.code === 'card_declined') {
+        this.isCardNumberValid = false;
+        this.messageService.showErrorMessage('settings.billing.payment_methods_create_error_card_declined');
+        this.cardNumberError = this.translateService.instant('settings.billing.payment_methods_card_declined');
+        this.cardNumber.focus();
+      } else {
+        this.messageService.showErrorMessage('settings.billing.payment_methods_create_error');
+      }
       this.isSaveClicked = false;
     } else {
       this.spinnerService.hide();

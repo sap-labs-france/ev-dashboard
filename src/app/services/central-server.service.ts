@@ -7,7 +7,6 @@ import { StatusCodes } from 'http-status-codes';
 import { BehaviorSubject, EMPTY, Observable, TimeoutError, of, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 import SafeUrlAssembler from 'safe-url-assembler';
-import { OicpEndpoint } from 'types/oicp/OICPEndpoint';
 
 import { Asset, AssetConsumption } from '../types/Asset';
 import { BillingInvoice, BillingPaymentMethod, BillingTax } from '../types/Billing';
@@ -17,13 +16,14 @@ import { ChargePoint, ChargingStation, OCPPAvailabilityType, OcppParameter } fro
 import { Company } from '../types/Company';
 import CentralSystemServerConfiguration from '../types/configuration/CentralSystemServerConfiguration';
 import { IntegrationConnection, UserConnection } from '../types/Connection';
-import { ActionResponse, ActionsResponse, BillingOperationResponse, CheckAssetConnectionResponse, CheckBillingConnectionResponse, CompanyDataResult, DataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OICPJobStatusesResponse, OICPPingResponse, Ordering, Paging, SiteAreaDataResult, SiteDataResult } from '../types/DataResult';
+import { ActionResponse, ActionsResponse, BillingOperationResponse, CheckAssetConnectionResponse, CheckBillingConnectionResponse, CompanyDataResult, DataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OICPJobStatusesResponse, OICPPingResponse, Ordering, Paging, SiteAreaDataResult, SiteDataResult, TagDataResult } from '../types/DataResult';
 import { EndUserLicenseAgreement } from '../types/Eula';
 import { FilterParams, Image, KeyValue } from '../types/GlobalType';
 import { AssetInError, ChargingStationInError, TransactionInError } from '../types/InError';
 import { Log } from '../types/Log';
 import { OcpiEndpoint } from '../types/ocpi/OCPIEndpoint';
 import { OCPPResetType } from '../types/ocpp/OCPP';
+import { OicpEndpoint } from '../types/oicp/OICPEndpoint';
 import { RefundReport } from '../types/Refund';
 import { RegistrationToken } from '../types/RegistrationToken';
 import { ServerAction, ServerRoute } from '../types/Server';
@@ -856,7 +856,7 @@ export class CentralServerService {
   }
 
   public getTags(params: FilterParams,
-    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Tag>> {
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<TagDataResult> {
     // Verify init
     this.checkInit();
     // Build Paging
@@ -864,7 +864,7 @@ export class CentralServerService {
     // Build Ordering
     this.getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<DataResult<Tag>>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TAGS}`,
+    return this.httpClient.get<TagDataResult>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TAGS}`,
       {
         headers: this.buildHttpHeaders(),
         params,

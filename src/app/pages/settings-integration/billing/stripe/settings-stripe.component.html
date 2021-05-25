@@ -29,6 +29,21 @@
     <div class="row mt-1">
       <div class="col-md-6">
         <mat-form-field>
+          <input matInput type="text" [formControl]="publicKey"
+                 placeholder="{{'settings.billing.stripe.public_key' | translate}}">
+          <mat-error *ngIf="publicKey.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+          <mat-error *ngIf="publicKey.errors?.maxlength">
+            <div [translate]="'general.error_max_length'" [translateParams]="{length: 100}"></div>
+          </mat-error>
+          <mat-error *ngIf="publicKey.errors?.invalid">
+            <div [translate]="'settings.billing.stripe.invalid_public_key'"></div>
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row mt-1">
+      <div class="col-md-6">
+        <mat-form-field>
           <input matInput type="password"
                  placeholder="{{'settings.billing.stripe.secret_key' | translate}}"
                  [formControl]="secretKey" required>
@@ -38,21 +53,6 @@
           </mat-error>
           <mat-error *ngIf="secretKey.errors?.invalid">
             <div [translate]="'settings.billing.stripe.invalid_secret_key'"></div>
-          </mat-error>
-        </mat-form-field>
-      </div>
-    </div>
-    <div class="row mt-1">
-      <div class="col-md-6">
-        <mat-form-field>
-          <input matInput type="text" [formControl]="publicKey"
-                 placeholder="{{'settings.billing.stripe.public_key' | translate}}">
-          <mat-error *ngIf="publicKey.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
-          <mat-error *ngIf="publicKey.errors?.maxlength">
-            <div [translate]="'general.error_max_length'" [translateParams]="{length: 100}"></div>
-          </mat-error>
-          <mat-error *ngIf="publicKey.errors?.invalid">
-            <div [translate]="'settings.billing.stripe.invalid_public_key'"></div>
           </mat-error>
         </mat-form-field>
       </div>

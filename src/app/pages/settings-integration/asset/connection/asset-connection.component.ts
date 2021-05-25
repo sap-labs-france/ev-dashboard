@@ -23,6 +23,7 @@ export class AssetConnectionComponent implements OnInit {
   public name!: AbstractControl;
   public type!: AbstractControl;
   public url!: AbstractControl;
+  public refreshIntervalMins!: AbstractControl;
 
   public schneiderConnection!: AssetSchneiderConnectionType;
   public greencomConnection!: AssetGreencomConnectionType;
@@ -38,7 +39,7 @@ export class AssetConnectionComponent implements OnInit {
 
   // eslint-disable-next-line no-useless-constructor
   public constructor(
-    private translateService: TranslateService) {}
+    private translateService: TranslateService) { }
 
   public ngOnInit(): void {
     // Init Form
@@ -62,6 +63,10 @@ export class AssetConnectionComponent implements OnInit {
           Validators.required,
           Validators.pattern(Constants.URL_PATTERN),
         ])),
+      refreshIntervalMins: new FormControl('',
+        Validators.compose([
+          Validators.min(1),
+        ])),
     });
     // Form
     this.id = this.formGroup.controls['id'];
@@ -69,6 +74,7 @@ export class AssetConnectionComponent implements OnInit {
     this.description = this.formGroup.controls['description'];
     this.type = this.formGroup.controls['type'];
     this.url = this.formGroup.controls['url'];
+    this.refreshIntervalMins = this.formGroup.controls['refreshIntervalMins'];
     // Load current values if connection already exists
     this.loadAssetConnection();
     // Get Create/Update button translation
@@ -90,6 +96,9 @@ export class AssetConnectionComponent implements OnInit {
       }
       if (this.currentAssetConnection.url) {
         this.formGroup.controls.url.setValue(this.currentAssetConnection.url);
+      }
+      if (this.currentAssetConnection.refreshIntervalMins) {
+        this.formGroup.controls.refreshIntervalMins.setValue(this.currentAssetConnection.refreshIntervalMins);
       }
     }
   }

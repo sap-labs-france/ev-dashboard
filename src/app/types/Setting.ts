@@ -241,6 +241,7 @@ export interface AssetConnectionSetting extends TableData {
   description: string;
   url: string;
   type: AssetConnectionType;
+  refreshIntervalMins?: number;
   schneiderConnection?: AssetSchneiderConnectionType;
   greencomConnection?: AssetGreencomConnectionType;
   iothinkConnection?: AssetIothinkConnectionType;

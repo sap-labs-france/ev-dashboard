@@ -95,7 +95,6 @@ export class TagComponent implements OnInit {
     this.default.setValue(false);
     if (this.currentTagID) {
       this.id.disable();
-      this.visualID.disable();
     }
     // Set tag
     this.loadTag();
@@ -197,6 +196,9 @@ export class TagComponent implements OnInit {
       switch (error.status) {
         case HTTPError.TAG_HAS_TRANSACTIONS:
           this.messageService.showErrorMessage('tags.update_has_transaction_error');
+          break;
+        case HTTPError.TAG_VISUAL_ID_ALREADY_EXIST_ERROR:
+          this.messageService.showErrorMessage('tags.tag_visual_id_already_used', { visualID: tag.visualID });
           break;
         default:
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tags.update_error');

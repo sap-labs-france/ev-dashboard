@@ -14,7 +14,6 @@ export class WitAssetConnectionComponent implements OnInit {
 
   public witLoginForm!: FormGroup;
   public authenticationUrl!: AbstractControl;
-  public refreshInterval!: AbstractControl;
   public clientId!: AbstractControl;
   public clientSecret!: AbstractControl;
   public user!: AbstractControl;
@@ -27,10 +26,6 @@ export class WitAssetConnectionComponent implements OnInit {
         Validators.compose([
           Validators.required,
           Validators.pattern(Constants.URL_PATTERN),
-        ])),
-      refreshInterval: new FormControl('',
-        Validators.compose([
-        Validators.required,
         ])),
       clientId: new FormControl('',
         Validators.compose([
@@ -55,7 +50,6 @@ export class WitAssetConnectionComponent implements OnInit {
       this.witLoginForm.disable();
     }
     this.authenticationUrl = this.witLoginForm.controls['authenticationUrl'];
-    this.refreshInterval = this.witLoginForm.controls['refreshInterval'];
     this.clientId = this.witLoginForm.controls['clientId'];
     this.clientSecret = this.witLoginForm.controls['clientSecret'];
     this.user = this.witLoginForm.controls['user'];
@@ -68,9 +62,6 @@ export class WitAssetConnectionComponent implements OnInit {
     if (this.witConnection) {
       if (this.witConnection.authenticationUrl) {
         this.witLoginForm.controls.authenticationUrl.setValue(this.witConnection.authenticationUrl);
-      }
-      if (this.witConnection.refreshInterval) {
-        this.witLoginForm.controls.refreshInterval.setValue(this.witConnection.refreshInterval);
       }
       if (this.witConnection.clientId) {
         this.witLoginForm.controls.clientId.setValue(this.witConnection.clientId);

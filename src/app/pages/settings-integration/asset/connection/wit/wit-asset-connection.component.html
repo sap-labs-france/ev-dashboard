@@ -11,17 +11,6 @@
       </mat-form-field>
     </div>
   </div>
-    <!-- Refresh interval -->
-    <div class="col-md-6">
-      <div class="form-group">
-        <mat-form-field>
-          <input appAutofocus matInput
-            placeholder="{{'settings.asset.connection.refresh_interval' | translate}}"
-            type="number" [formControl]="refreshInterval" required>
-          <mat-error *ngIf="authenticationUrl.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
-        </mat-form-field>
-      </div>
-    </div>
 </div>
 <div class="row">
   <!-- ClientID -->

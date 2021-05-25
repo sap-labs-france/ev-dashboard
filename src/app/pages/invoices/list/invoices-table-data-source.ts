@@ -62,7 +62,7 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
   public loadDataImpl(): Observable<DataResult<BillingInvoice>> {
     return new Observable((observer) => {
       // Get the Invoices
-      this.centralServerService.getUserInvoices(this.buildFilterValues(),
+      this.centralServerService.getInvoices(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((invoices) => {
         // Ok
         observer.next(invoices);

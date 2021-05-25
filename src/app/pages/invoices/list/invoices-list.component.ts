@@ -25,6 +25,7 @@ export class InvoicesListComponent implements OnInit {
     public messageService: MessageService
   ) {}
 
+  // Download from email
   public ngOnInit() {
     const invoiceID = this.windowService.getSearch('InvoiceID');
     if (invoiceID) {

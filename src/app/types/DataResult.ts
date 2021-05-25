@@ -1,4 +1,4 @@
-import { Car } from './Car';
+import { Car, CarCatalog } from './Car';
 import { Company } from './Company';
 import { Site } from './Site';
 import { SiteArea } from './SiteArea';
@@ -75,15 +75,22 @@ export interface DataResult<T> {
   count: number;
   result: T[];
 }
+
 export interface CompanyDataResult extends DataResult<Company> {
   canCreate: boolean;
 }
+
 export interface SiteDataResult extends DataResult<Site> {
   canCreate: boolean;
 }
+
 export interface CarDataResult extends DataResult<Car> {
   canCreate: boolean;
 }
+export interface CarCatalogDataResult extends DataResult<CarCatalog> {
+  canSync: boolean;
+}
+
 export interface SiteAreaDataResult extends DataResult<SiteArea> {
   canCreate: boolean;
 }

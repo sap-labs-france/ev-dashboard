@@ -1743,9 +1743,15 @@ export class CentralServerService {
       );
   }
 
-  public downloadInvoice(id: string): Observable<Blob> {
+  public downloadInvoice(invoiceID: string): Observable<Blob> {
     this.checkInit();
-    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/${ServerAction.BILLING_DOWNLOAD_INVOICE}?ID=${id}`,
+    if (!invoiceID) {
+      return EMPTY;
+    }
+    const url = this.buildRestEndpointUrl(ServerRoute.REST_BILLING_DOWNLOAD_INVOICE, {
+      invoiceID
+    });
+    return this.httpClient.get(url,
       {
         headers: this.buildHttpHeaders(),
         responseType: 'blob',

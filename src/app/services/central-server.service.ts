@@ -1508,14 +1508,17 @@ export class CentralServerService {
       );
   }
 
-  public getUserInvoice(id: string): Observable<Blob> {
+  public getInvoice(invoiceID: string): Observable<Blob> {
     // Verify init
     this.checkInit();
-    if (!id) {
+    if (!invoiceID) {
       return EMPTY;
     }
+    const url = this.buildRestEndpointUrl(ServerRoute.REST_BILLING_INVOICE, {
+      invoiceID
+    });
     // Execute the REST service
-    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/${ServerAction.BILLING_USER_INVOICE}?ID=${id}`,
+    return this.httpClient.get(url,
       {
         headers: this.buildHttpHeaders(),
         responseType: 'blob',
@@ -1683,7 +1686,7 @@ export class CentralServerService {
       );
   }
 
-  public getUserInvoices(params: FilterParams,
+  public getInvoices(params: FilterParams,
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<BillingInvoice>> {
     // Verify init
     this.checkInit();
@@ -1691,15 +1694,15 @@ export class CentralServerService {
     this.getPaging(paging, params);
     // Build Ordering
     this.getSorting(ordering, params);
-    // Execute the REST service
-    return this.httpClient.get<DataResult<BillingInvoice>>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.BILLING_INVOICES}`,
-      {
-        headers: this.buildHttpHeaders(),
-        params,
-      })
-      .pipe(
-        catchError(this.handleHttpError),
-      );
+    // Build the URL
+    const url = this.buildRestEndpointUrl(ServerRoute.REST_BILLING_INVOICES);
+    // Execute the REST Service
+    return this.httpClient.get<DataResult<BillingInvoice>>(url, {
+      headers: this.buildHttpHeaders(),
+      params
+    }).pipe(
+      catchError(this.handleHttpError),
+    );
   }
 
   public synchronizeInvoicesForBilling(): Observable<ActionsResponse> {

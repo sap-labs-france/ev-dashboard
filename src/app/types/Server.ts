@@ -408,8 +408,8 @@ export enum ServerAction {
   BILLING_SYNCHRONIZE_USER = 'BillingSynchronizeUser',
   BILLING_FORCE_SYNCHRONIZE_USER = 'BillingForceSynchronizeUser',
   BILLING_TAXES = 'BillingTaxes',
-  BILLING_INVOICES = 'BillingUserInvoices',
-  BILLING_USER_INVOICE = 'BillingUserInvoice',
+  BILLING_INVOICES = 'BillingInvoices',
+  BILLING_INVOICE = 'BillingInvoice',
   BILLING_SYNCHRONIZE_INVOICES = 'BillingSynchronizeInvoices',
   BILLING_FORCE_SYNCHRONIZE_USER_INVOICES = 'BillingForceSynchronizeUserInvoices',
   BILLING_DOWNLOAD_INVOICE = 'BillingDownloadInvoice',
@@ -504,5 +504,13 @@ export enum ServerRoute {
   REST_BILLING_PAYMENT_METHOD_DETACH = 'users/:userID/payment-methods/:paymentMethodID/detach',
 
   REST_BILLING_SETTING = 'billing-setting', // GET and PUT
-  REST_BILLING_CHECK = 'billing/check'
+  REST_BILLING_CHECK = 'billing/check',
+
+  // BILLING URLs for CRUD operations on INVOICES
+  REST_BILLING_INVOICES = 'invoices',
+  REST_BILLING_INVOICE = 'invoices/:invoiceID',
+
+  // BILLING URLs for Non-CRUD operations on INVOICES
+  // not yet implemented
+  // REST_BILLING_DOWNLOAD_INVOICE = 'invoices/:invoiceID/download',
 }

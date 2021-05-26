@@ -31,6 +31,7 @@ export class TableDownloadBillingInvoice implements TableAction {
     return this.action;
   }
 
+  // Download from UI
   private downloadInvoice(invoiceID: string, filename: string, translateService: TranslateService, spinnerService: SpinnerService,
     messageService: MessageService, centralServerService: CentralServerService, router: Router) {
     spinnerService.show();

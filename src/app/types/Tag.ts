@@ -16,7 +16,8 @@ export interface Tag extends TableData {
 }
 
 export const TagRequiredImportProperties = [
-  'id'
+  'id',
+  'visualID'
 ];
 export const TagOptionalImportProperties = [
   'description'

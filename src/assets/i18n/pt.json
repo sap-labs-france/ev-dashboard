@@ -1620,7 +1620,6 @@
         "client_id": "Client ID",
         "client_secret": "Client Secret",
         "authentication_url": "Authentication URL",
-        "refresh_interval": "Refresh Interval (mins)",
         "delete_title": "Excluir conexão de ativo",
         "delete_confirm": "Tem certeza de que deseja excluir a conexão '{{assetConnectionName}}'?"
       },

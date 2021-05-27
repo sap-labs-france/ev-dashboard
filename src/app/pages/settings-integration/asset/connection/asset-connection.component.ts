@@ -4,7 +4,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 
 import { KeyValue } from '../../../../types/GlobalType';
-import { AssetConnectionSetting, AssetConnectionType, AssetGreencomConnectionType, AssetIothinkConnectionType, AssetSchneiderConnectionType } from '../../../../types/Setting';
+import { AssetConnectionSetting, AssetConnectionType, AssetGreencomConnectionType, AssetIothinkConnectionType, AssetSchneiderConnectionType, AssetWitConnectionType } from '../../../../types/Setting';
 import { Constants } from '../../../../utils/Constants';
 import { AssetConnectionDialogComponent } from './asset-connection.dialog.component';
 
@@ -28,10 +28,12 @@ export class AssetConnectionComponent implements OnInit {
   public schneiderConnection!: AssetSchneiderConnectionType;
   public greencomConnection!: AssetGreencomConnectionType;
   public iothinkConnection!: AssetIothinkConnectionType;
+  public witConnection!: AssetWitConnectionType;
   public assetConnectionTypes: KeyValue[] = [
     { key: AssetConnectionType.SCHNEIDER, value: 'settings.asset.types.schneider' },
     { key: AssetConnectionType.GREENCOM, value: 'settings.asset.types.greencom' },
-    { key: AssetConnectionType.IOTHINK, value: 'settings.asset.types.iothink' }
+    { key: AssetConnectionType.IOTHINK, value: 'settings.asset.types.iothink' },
+    { key: AssetConnectionType.WIT, value: 'settings.asset.types.wit' }
   ];
   public submitButtonTranslation!: any;
 
@@ -112,6 +114,9 @@ export class AssetConnectionComponent implements OnInit {
       case AssetConnectionType.IOTHINK:
         this.iothinkConnection = this.currentAssetConnection.iothinkConnection;
         break;
+      case AssetConnectionType.WIT:
+        this.witConnection = this.currentAssetConnection.witConnection;
+        break;
     }
   }
 
@@ -147,6 +152,9 @@ export class AssetConnectionComponent implements OnInit {
     }
     if (this.formGroup.controls.iothinkConnection && type !== AssetConnectionType.IOTHINK) {
       delete this.formGroup.controls.iothinkConnection;
+    }
+    if (this.formGroup.controls.witConnection && type !== AssetConnectionType.WIT) {
+      delete this.formGroup.controls.witConnection;
     }
   }
 }

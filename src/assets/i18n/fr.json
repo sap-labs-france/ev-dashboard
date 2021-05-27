@@ -1617,15 +1617,17 @@
         "base_url": "URL",
         "user": "Utilisateur",
         "password": "Mot de passe",
-        "client_id":"Client ID",
-        "client_secret":"Client Secret",
+        "client_id": "ID Client",
+        "client_secret": "Secret Client",
+        "authentication_url": "URL Authentification",
         "delete_title": "Supprimer la connexion à la ressource",
         "delete_confirm": "Voulez-vous vraiment supprimer la connexion '{{assetConnectionName}}'?"
       },
       "types": {
         "schneider": "Gestion Bâtiment Schneider",
         "greencom": "GreenCom Gestion des Ressources",
-        "iothink": "ioThink Gestion des Ressources"
+        "iothink": "ioThink Gestion des Ressources",
+        "wit": "WIT Asset Management System"
       },
       "connection_success": "Connexion vers le système vérifiée avec succès",
       "unknown_connection_error": "Erreur de connexion inconnue",

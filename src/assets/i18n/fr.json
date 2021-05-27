@@ -1617,9 +1617,9 @@
         "base_url": "URL",
         "user": "Utilisateur",
         "password": "Mot de passe",
-        "client_id": "Client ID",
-        "client_secret": "Client Secret",
-        "authentication_url": "Authentication URL",
+        "client_id": "ID Client",
+        "client_secret": "Secret Client",
+        "authentication_url": "URL Authentification",
         "delete_title": "Supprimer la connexion à la ressource",
         "delete_confirm": "Voulez-vous vraiment supprimer la connexion '{{assetConnectionName}}'?"
       },

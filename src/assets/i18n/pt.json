@@ -1493,6 +1493,7 @@
     },
     "billing": {
       "description": "A interface de faturamento permite recursos de faturamento para fornecedores de estação de carregamento.",
+      "deactivated_setting_message": "Billing of transactions is activated, you cannot change the billing information anymore",
       "not_found": "Configurações de faturamento não encontradas",
       "not_properly_set": "Billing settings not properly set",
       "create_success": "As configurações de faturamento foram criadas com sucesso",

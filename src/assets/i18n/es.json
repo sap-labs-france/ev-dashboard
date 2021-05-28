@@ -1493,6 +1493,7 @@
     },
     "billing": {
       "description": "La interfaz de facturación permite a los proveedores de las terminales facturar sus servicios",
+      "deactivated_setting_message": "Billing of transactions is activated, you cannot change the billing information anymore",
       "not_found": "La configuración de facturación no está disponible",
       "not_properly_set": "Billing settings not properly set",
       "create_success": "La configuración de facturación se ha creado exitosamente",

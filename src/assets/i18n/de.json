@@ -1493,6 +1493,7 @@
     },
     "billing": {
       "description": "Das Abrechnungsinterface ermöglicht Abrechnungsfunktionen für den Ladestationenbetreiber.",
+      "deactivated_setting_message": "Billing of transactions is activated, you cannot change the billing information anymore",
       "not_found": "Keine Abrechnungseinstellungen gefunden",
       "not_properly_set": "Die Abrechnungseinstellungen sind nicht richtig konfiguriert",
       "create_success": "Abrechnungseinstellungen erfolgreich erstellt",

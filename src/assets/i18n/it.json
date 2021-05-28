@@ -1493,6 +1493,7 @@
     },
     "billing": {
       "description": "L'interfaccia di billing consente funzionalità di fatturazione per i fornitori di stazioni di ricarica.",
+      "deactivated_setting_message": "Billing of transactions is activated, you cannot change the billing information anymore",
       "not_found": "Impostazioni di fatturazione non trovate",
       "not_properly_set": "Billing settings not properly set",
       "create_success": "Le impostazioni di fatturazione sono state create con successo",

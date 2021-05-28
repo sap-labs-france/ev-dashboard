@@ -1493,6 +1493,7 @@
     },
     "billing": {
       "description": "L'interface de facturation permet aux fournisseurs de bornes de facturer leurs services.",
+      "deactivated_setting_message": "La facturation des transactions a été activé, vous ne pouvez plus changer les informations de facturation désormais",
       "not_found": "La configuration de la facturation n'est pas disponible",
       "not_properly_set": "La configuration de la facturation n'est pas configurée correctement",
       "create_success": "La configuration de la facturation a été créée avec succès",

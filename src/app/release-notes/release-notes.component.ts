@@ -32,6 +32,11 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `WIT Asset integration`,
+              `Billing: Add country code to address`,
+              `Add RESTful endpoints for invoices`,
+              `Various fixes to the badge Visual ID support`,
+              `Convert tags authorization to new scheme`,
               `Various fixes to the billing dashboard UI`,
               `Add billing invoices detailed description support`,
               `Add assets information refresh interval support`,

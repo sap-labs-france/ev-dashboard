@@ -1623,15 +1623,17 @@
         "base_url": "URL",
         "user": "User",
         "password": "Password",
-        "client_id":"Client ID",
-        "client_secret":"Client Secret",
+        "client_id": "Client ID",
+        "client_secret": "Client Secret",
+        "authentication_url": "Authentication URL",
         "delete_title": "Delete Asset connection",
         "delete_confirm": "Do you really want to delete the connection '{{assetConnectionName}}'?"
       },
       "types": {
         "schneider": "Schneider Building Management System",
         "greencom": "GreenCom Asset Management System",
-        "iothink": "ioThink Asset Management System"
+        "iothink": "ioThink Asset Management System",
+        "wit": "WIT Asset Management System"
       },
       "connection_success": "Connection to the system was tested successfully",
       "unknown_connection_error": "Unknown connection error",

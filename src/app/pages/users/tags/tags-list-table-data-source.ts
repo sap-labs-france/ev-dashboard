@@ -186,6 +186,14 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
         sortable: true,
       },
       {
+        id: 'visualID',
+        name: 'tags.visual_id',
+        headerClass: 'text-center col-20p',
+        class: 'text-center col-20p',
+        formatter: (description: string) => description ? description : '-',
+        sortable: true,
+      },
+      {
         id: 'description',
         name: 'general.description',
         headerClass: 'text-center col-20p',

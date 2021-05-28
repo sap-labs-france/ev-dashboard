@@ -1528,6 +1528,11 @@
       "payment_methods_card_number_error": "Ungültige Kartennummer",
       "payment_methods_expiration_date_error": "Ungültiges Ablaufdatum",
       "payment_methods_cvc_error": "Ungültiger Verifizierungscode",
+      "transaction_billing_activation": "Activate Billing of Transactions",
+      "transaction_billing_activation_title": "Activate Billing of Transactions",
+      "transaction_billing_activation_confirm": "Do you really want to activate the billing of transactions? <br><br> <strong> WARNING ! </strong> Once activated, you will NOT be able to deactivate it !",
+      "transaction_billing_activation_success": "Billing of transactions has been activated",
+      "transaction_billing_activation_error": "Billing of transactions cannot be activated",
       "user": {
         "synchronize_users": "Abrechnungssynchronisierung",
         "synchronize_user": "Abrechnungssynchronisierung",

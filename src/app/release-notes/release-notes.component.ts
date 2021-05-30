@@ -27,11 +27,13 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: packageJsonVersion,
-        date: new Date('2021-05-21'),
+        date: new Date('2021-05-29'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Security: Ensure basic user without a site can't see anything`,
+              `Log OCPP-J transaction events inconsistencies`,
               `WIT Asset integration`,
               `Billing: Add country code to address`,
               `Add RESTful endpoints for invoices`,

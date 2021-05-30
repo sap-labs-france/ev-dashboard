@@ -1493,7 +1493,7 @@
     },
     "billing": {
       "description": "The billing interface enables billing capabilities for charging station providers.",
-      "deactivated_setting_message": "The billing of the charging sessions is active, the connection settings cannot be changed anymore",
+      "deactivated_setting_message": "The billing of the charging sessions is active, the connection settings cannot be changed anymore.",
       "not_found": "Billing settings not found",
       "not_properly_set": "Billing settings not properly set",
       "create_success": "Billing settings have been created successfully",

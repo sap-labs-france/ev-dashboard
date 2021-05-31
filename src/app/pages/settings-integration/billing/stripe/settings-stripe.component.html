@@ -7,7 +7,7 @@
   </div>
   <div class="card-body">
     <div class="row mt-1">
-      <div *ngIf="transactionBillingActivated" class="col-md-6 deactivated-setting-message">
+        <div *ngIf="transactionBillingActivated" class="col-md-12 deactivated-setting-message">
         <span [innerHTML]="'settings.billing.deactivated_setting_message' | translate"></span>
       </div>
       <div class="col-md-6">

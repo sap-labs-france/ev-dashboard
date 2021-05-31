@@ -1316,7 +1316,7 @@
       "unpaid": "Unbezahlt",
       "draft": "Entwurf"
     },
-    "id": "Rechnungsnummer",
+    "number": "Rechnungsnummer",
     "createdOn": "Rechnungsdatum",
     "price": "Rechnungspreis",
     "cannot_retrieve_invoices": "Liste der Rechnungen kann nicht abgerufen werden",

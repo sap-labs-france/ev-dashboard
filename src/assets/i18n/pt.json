@@ -1316,7 +1316,7 @@
       "unpaid": "Por Pagar",
       "draft": "Esboço"
     },
-    "id": "Numero de fatura",
+    "number": "Numero de fatura",
     "createdOn": "Data da fatura",
     "price": "Preço da fatura",
     "cannot_retrieve_invoices": "Não é possível recuperar a lista de faturas",

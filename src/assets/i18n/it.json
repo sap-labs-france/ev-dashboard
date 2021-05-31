@@ -1316,7 +1316,7 @@
       "unpaid": "Non pagata",
       "draft": "Bozza"
     },
-    "id": "Numero Fattura",
+    "number": "Numero Fattura",
     "createdOn": "Data Fattura",
     "price": "Prezzo Fattura",
     "cannot_retrieve_invoices": "Impossibile recuperare l'elenco delle fatture",

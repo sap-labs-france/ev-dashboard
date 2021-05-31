@@ -1316,7 +1316,7 @@
       "unpaid": "Unpaid",
       "draft": "Draft"
     },
-    "id": "Invoice Number",
+    "number": "Invoice Number",
     "createdOn": "Invoice Date",
     "price": "Invoice Price",
     "cannot_retrieve_invoices": "Cannot retrieve the list of invoices",

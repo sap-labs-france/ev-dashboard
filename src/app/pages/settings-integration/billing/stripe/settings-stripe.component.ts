@@ -126,7 +126,7 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
       const billingSetting = this.billingSettings.billing;
       this.immediateBillingAllowed.setValue(!!billingSetting.immediateBillingAllowed);
       this.periodicBillingAllowed.setValue(!!billingSetting.periodicBillingAllowed);
-      this.taxID.setValue(billingSetting.taxID);
+      this.taxID.setValue(billingSetting.taxID || '');
     }
   }
 }

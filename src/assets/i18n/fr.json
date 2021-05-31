@@ -1316,7 +1316,7 @@
       "unpaid": "Impayée",
       "draft": "Brouillon"
     },
-    "id": "Numéro de facture",
+    "number": "Numéro de facture",
     "createdOn": "Date de facture",
     "price": "Prix de la facture",
     "cannot_retrieve_invoices": "Impossible de récupérer la liste des factures",

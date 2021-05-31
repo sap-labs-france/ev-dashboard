@@ -117,7 +117,7 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
       },
       {
         id: 'number',
-        name: 'invoices.id',
+        name: 'invoices.number',
         headerClass: 'col-15p',
         class: 'col-15p',
         sortable: true,

@@ -1493,6 +1493,7 @@
     },
     "billing": {
       "description": "L'interface de facturation permet aux fournisseurs de bornes de facturer leurs services.",
+      "deactivated_setting_message": "La facturation des sesssions de recharge est active. Les paramètres de connexion ne sont plus modifiables.",
       "not_found": "La configuration de la facturation n'est pas disponible",
       "not_properly_set": "La configuration de la facturation n'est pas configurée correctement",
       "create_success": "La configuration de la facturation a été créée avec succès",
@@ -1527,6 +1528,11 @@
       "payment_methods_card_number_error": "Numéro de carte invalide",
       "payment_methods_expiration_date_error": "Date d'expiration invalide",
       "payment_methods_cvc_error": "Code de vérification invalide",
+      "transaction_billing_activation": "Activer la facturation",
+      "transaction_billing_activation_title": "Activation de la facturation",
+      "transaction_billing_activation_confirm": "Voulez-vous vraiment activer la facturation des sessions de recharge ?<br><br> <strong> Attention ! </strong> Une fois activée, vous ne serez plus en mesure de la désactiver",
+      "transaction_billing_activation_success": "La facturation des sessions de recharge a été activée avec succès",
+      "transaction_billing_activation_error": "La facturation des sessions de recharge n'a pas pu être activée",
       "user": {
         "synchronize_users": "Synchro Utilisateurs (Facturation)",
         "synchronize_user": "Synchro Utilisateur (Facturation)",

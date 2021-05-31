@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { ButtonType } from 'types/Table';
 
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
@@ -69,22 +70,10 @@ export class SettingsBillingComponent implements OnInit {
   }
 
   public save(newSettings: any) {
-    if (!newSettings.stripe) {
-      return ;
-    }
-    const { immediateBillingAllowed, periodicBillingAllowed, taxID } = newSettings.stripe; // TODO - ?? newSettings.billing?
-    // TODO - isTransactionBillingActivated is not yet visible - Add means to the UI to activate it
-    const isTransactionBillingActivated = false;
-    const billing: BillingSetting = {
-      isTransactionBillingActivated, immediateBillingAllowed, periodicBillingAllowed, taxID,
-    };
-    const { url, publicKey, secretKey } = newSettings.stripe;
-    const stripe: StripeBillingSetting  = {
-      url, publicKey, secretKey
-    };
     this.billingSettings.type = BillingSettingsType.STRIPE;
-    this.billingSettings.billing = billing;
-    this.billingSettings.stripe = stripe;
+    this.billingSettings.billing = newSettings.billing as BillingSetting;
+    this.billingSettings.billing.isTransactionBillingActivated = !!newSettings.billing.isTransactionBillingActivated;
+    this.billingSettings.stripe = newSettings.stripe as StripeBillingSetting;
     // Save
     this.spinnerService.show();
     this.componentService.saveBillingSettings(this.billingSettings).subscribe((response) => {
@@ -114,12 +103,15 @@ export class SettingsBillingComponent implements OnInit {
     this.loadConfiguration();
   }
 
-  public checkConnection() {
+  public checkConnection(activateTransactionBilling = false) {
     this.spinnerService.show();
     this.centralServerService.checkBillingConnection().subscribe((response) => {
       this.spinnerService.hide();
       if (response.connectionIsValid) {
         this.messageService.showSuccessMessage('settings.billing.connection_success');
+        if (activateTransactionBilling) {
+          this.activateTransactionBilling();
+        }
       } else {
         Utils.handleError(JSON.stringify(response),
           this.messageService, 'settings.billing.connection_error');
@@ -155,5 +147,17 @@ export class SettingsBillingComponent implements OnInit {
         this.router,
       );
     }
+  }
+
+  private activateTransactionBilling() {
+    this.dialogService.createAndShowYesNoDialog(
+      this.translateService.instant('settings.billing.transaction_billing_activation_title'),
+      this.translateService.instant('settings.billing.transaction_billing_activation_confirm'),
+    ).subscribe((response) => {
+      if (response === ButtonType.YES) {
+        this.billingSettings.billing.isTransactionBillingActivated = true;
+        this.save(this.billingSettings);
+      }
+    });
   }
 }

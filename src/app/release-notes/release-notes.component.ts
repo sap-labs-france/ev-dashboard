@@ -32,6 +32,9 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `Support asynchronous billing`,
+              `Fix the migration for visual ID tag support`,
+              `Charging station template: Add Delta model EVDE25D4DUM`,
               `Security: Ensure basic user without a site can't see anything`,
               `Log OCPP-J transaction events inconsistencies`,
               `WIT Asset integration`,

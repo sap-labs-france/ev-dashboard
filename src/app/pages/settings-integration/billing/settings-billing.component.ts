@@ -26,7 +26,6 @@ export class SettingsBillingComponent implements OnInit {
 
   public formGroup!: FormGroup;
   public billingSettings!: BillingSettings;
-  // public transactionBillingActivated: { isTransactionBillingActivated: boolean };
   public transactionBillingActivated: boolean;
 
   public constructor(

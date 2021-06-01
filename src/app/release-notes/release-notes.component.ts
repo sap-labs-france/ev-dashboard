@@ -32,6 +32,10 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `Fixed asset consumption backup calculation`,
+              `Add periodic billing support`,
+              `Add RESTful API for boot and status notifications`,
+              `Fix smart charging URI handling`,
               `Support asynchronous billing`,
               `Fix the migration for visual ID tag support`,
               `Charging station template: Add Delta model EVDE25D4DUM`,

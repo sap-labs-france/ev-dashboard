@@ -26,7 +26,8 @@ export class SettingsBillingComponent implements OnInit {
 
   public formGroup!: FormGroup;
   public billingSettings!: BillingSettings;
-  public transactionBillingActivated: { isTransactionBillingActivated: boolean };
+  // public transactionBillingActivated: { isTransactionBillingActivated: boolean };
+  public transactionBillingActivated: boolean;
 
   public constructor(
     private centralServerService: CentralServerService,
@@ -72,12 +73,13 @@ export class SettingsBillingComponent implements OnInit {
 
   public save(newSettings: any) {
     this.billingSettings.type = BillingSettingsType.STRIPE;
-    if (!Utils.isNullOrUndefined(newSettings.billing.isTransactionBillingActivated)) {
-      this.transactionBillingActivated = { isTransactionBillingActivated: newSettings.billing.isTransactionBillingActivated };
+    if (newSettings?.billing?.isTransactionBillingActivated) {
+      this.transactionBillingActivated = newSettings.billing.isTransactionBillingActivated;
     } else {
-      this.transactionBillingActivated = { isTransactionBillingActivated: this.billingSettings.billing.isTransactionBillingActivated };
+      this.transactionBillingActivated = this.billingSettings.billing.isTransactionBillingActivated;
     }
-    this.billingSettings.billing = { ...newSettings.billing, ...this.transactionBillingActivated} as BillingSetting;
+    this.billingSettings.billing = newSettings.billing as BillingSetting;
+    this.billingSettings.billing.isTransactionBillingActivated = this.transactionBillingActivated;
     this.billingSettings.stripe = newSettings.stripe as StripeBillingSetting;
     // Save
     this.spinnerService.show();

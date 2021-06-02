@@ -2,7 +2,7 @@
   "name": "ev-dashboard",
   "description": "Dashboard for Electric Vehicle charging station",
   "homepage": "https://github.com/sap-labs-france/ev-dashboard",
-  "version": "2.4.67-rc3",
+  "version": "2.4.67",
   "engines": {
     "npm": "6.x.x."
   },

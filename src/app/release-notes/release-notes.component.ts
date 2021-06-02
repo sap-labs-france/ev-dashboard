@@ -32,7 +32,8 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
-              `Fixed asset consumption backup calculation`,
+              `Fix users filter on badge`,
+              `Fix asset consumption backup calculation`,
               `Add periodic billing support`,
               `Add RESTful API for boot and status notifications`,
               `Fix smart charging URI handling`,

@@ -361,9 +361,10 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {
+    const issuerFilter = new IssuerFilter().getFilterDef();
     return [
-      new IssuerFilter().getFilterDef(),
-      new SiteTableFilter().getFilterDef(),
+      issuerFilter,
+      new SiteTableFilter(null, [issuerFilter]).getFilterDef(),
     ];
   }
 }

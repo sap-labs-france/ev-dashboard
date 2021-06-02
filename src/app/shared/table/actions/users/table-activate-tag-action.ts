@@ -40,6 +40,7 @@ export class TableActivateTagAction extends TableActivateAction {
           issuer: tag.issuer,
           description: tag.description,
           userID: tag.userID,
+          visualID: tag.visualID,
           active: true,
         } as Tag;
         centralServerService.updateTag(tagUpdated).subscribe((actionResponse) => {

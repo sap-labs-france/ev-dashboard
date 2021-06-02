@@ -40,6 +40,7 @@ export class TableDeactivateTagAction extends TableDeactivateAction {
           issuer: tag.issuer,
           description: tag.description,
           userID: tag.userID,
+          visualID: tag.visualID,
           active: false,
         } as Tag;
         centralServerService.updateTag(tagUpdated).subscribe((actionResponse) => {

@@ -398,6 +398,8 @@ export class StatisticsBuildService {
       } else {
         totalsWithUnit[index].value += totalOfLastUnit;
       }
+    } else {
+      totalsWithUnit.push({ value:0, unit: '' });
     }
 
     if (ignoreEmptyUnit && totalsWithUnit.length === 2) {

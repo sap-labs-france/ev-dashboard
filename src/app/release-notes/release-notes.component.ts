@@ -32,7 +32,8 @@ export class ReleaseNotesComponent {
             changes: [
               `Handle Transaction.End meter value outside the Stop Transaction`,
               `Do not automatically stop the ongoing Transaction when Status Notification changes from Charging to Available`,
-              `Allow to clean-up Billing Test data`
+              `Allow to clean-up Billing Test data`,
+              `Added get default Car and Tag, get Sites and assign Sites in REST User's endpoint`
             ],
           },
         ],

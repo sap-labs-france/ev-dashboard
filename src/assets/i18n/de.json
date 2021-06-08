@@ -1317,7 +1317,7 @@
       "unpaid": "Unbezahlt",
       "draft": "Entwurf"
     },
-    "id": "Rechnungsnummer",
+    "number": "Rechnungsnummer",
     "createdOn": "Rechnungsdatum",
     "price": "Rechnungspreis",
     "cannot_retrieve_invoices": "Liste der Rechnungen kann nicht abgerufen werden",
@@ -1494,6 +1494,7 @@
     },
     "billing": {
       "description": "Das Abrechnungsinterface ermöglicht Abrechnungsfunktionen für den Ladestationenbetreiber.",
+      "deactivated_setting_message": "The billing of the charging sessions is active, the connection settings cannot be changed anymore.",
       "not_found": "Keine Abrechnungseinstellungen gefunden",
       "not_properly_set": "Die Abrechnungseinstellungen sind nicht richtig konfiguriert",
       "create_success": "Abrechnungseinstellungen erfolgreich erstellt",
@@ -1528,6 +1529,11 @@
       "payment_methods_card_number_error": "Ungültige Kartennummer",
       "payment_methods_expiration_date_error": "Ungültiges Ablaufdatum",
       "payment_methods_cvc_error": "Ungültiger Verifizierungscode",
+      "transaction_billing_activation": "Billing Activation",
+      "transaction_billing_activation_title": "Billing Activation",
+      "transaction_billing_activation_confirm": "Do you really want to activate the billing of charging sessions? <br><br> <strong> WARNING ! </strong> Once activated, you will NOT be able to deactivate it !",
+      "transaction_billing_activation_success": "Billing of charging sessions has been successfully activated",
+      "transaction_billing_activation_error": "Billing of charging sessions cannot be activated",
       "user": {
         "synchronize_users": "Abrechnungssynchronisierung",
         "synchronize_user": "Abrechnungssynchronisierung",

@@ -312,11 +312,11 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     if (this.componentService.isActive(TenantComponents.BILLING) &&
         this.authorizationService.canListInvoicesBilling()) {
       columns.push({
-        id: 'billingData.invoiceID',
-        name: 'invoices.id',
+        id: 'billingData.stop.invoiceNumber',
+        name: 'invoices.number',
         headerClass: 'text-center col-10p',
         class: 'col-10p',
-        formatter: (invoiceID: string) => invoiceID ? invoiceID : '-',
+        formatter: (invoiceNumber: string) => invoiceNumber || '-',
       });
     }
     return columns;

@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 
-import { version as packageJsonVersion } from '../../../package.json';
-
 interface ReleaseNotes {
   version: string;
   date: Date;
@@ -26,12 +24,35 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
-        version: packageJsonVersion,
+        version: '2.4.68',
+        date: new Date('2021-06-07'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Handle Transaction.End meter value outside the Stop Transaction`,
+              `Do not automatically stop the ongoing Transaction when Status Notification changes from Charging to Available`,
+              `Allow to clean-up Billing Test data`,
+              `Added get default Car and Tag, get Sites and assign Sites in REST User's endpoint`
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.67',
         date: new Date('2021-05-29'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Fix users filter on badge`,
+              `Fix asset consumption backup calculation`,
+              `Add periodic billing support`,
+              `Add RESTful API for boot and status notifications`,
+              `Fix smart charging URI handling`,
+              `Support asynchronous billing`,
+              `Fix the migration for visual ID tag support`,
+              `Charging station template: Add Delta model EVDE25D4DUM`,
               `Security: Ensure basic user without a site can't see anything`,
               `Log OCPP-J transaction events inconsistencies`,
               `WIT Asset integration`,

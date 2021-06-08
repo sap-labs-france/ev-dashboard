@@ -34,6 +34,13 @@ export class Utils {
     }
   }
 
+  public static isEmptyObject(object: any): boolean {
+    if (!object) {
+      return true;
+    }
+    return Object.keys(object).length === 0;
+  }
+
   public static isEmptyArray(array: any): boolean {
     if (!array) {
       return true;

@@ -1317,7 +1317,7 @@
       "unpaid": "No pagado",
       "draft": "Borrador"
     },
-    "id": "Número de factura",
+    "number": "Número de factura",
     "createdOn": "Fecha de factura",
     "price": "Costo de factura",
     "cannot_retrieve_invoices": "No se puede recuperar la lista de facturas.",
@@ -1494,6 +1494,7 @@
     },
     "billing": {
       "description": "La interfaz de facturación permite a los proveedores de las terminales facturar sus servicios",
+      "deactivated_setting_message": "The billing of the charging sessions is active, the connection settings cannot be changed anymore.",
       "not_found": "La configuración de facturación no está disponible",
       "not_properly_set": "Billing settings not properly set",
       "create_success": "La configuración de facturación se ha creado exitosamente",
@@ -1528,6 +1529,11 @@
       "payment_methods_card_number_error": "Invalid card number",
       "payment_methods_expiration_date_error": "Invalid expiration date",
       "payment_methods_cvc_error": "Invalid verification code",
+      "transaction_billing_activation": "Billing Activation",
+      "transaction_billing_activation_title": "Billing Activation",
+      "transaction_billing_activation_confirm": "Do you really want to activate the billing of charging sessions? <br><br> <strong> WARNING ! </strong> Once activated, you will NOT be able to deactivate it !",
+      "transaction_billing_activation_success": "Billing of charging sessions has been successfully activated",
+      "transaction_billing_activation_error": "Billing of charging sessions cannot be activated",
       "user": {
         "synchronize_users": "Sincronización del usuario (Facturación)",
         "synchronize_user": "Sincronización del usuario (Facturación)",

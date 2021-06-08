@@ -215,9 +215,7 @@ export class StatisticsPricingComponent implements OnInit {
       this.centralServerService.getChargingStationPricingStatistics(this.selectedYear, this.filterParams)
         .subscribe((statisticsData) => {
 
-          if (statisticsData.length > 1) {
-            this.totalPriceWithUnit = this.statisticsBuildService.calculateTotalsWithUnits(statisticsData, 2);
-          }
+          this.totalPriceWithUnit = this.statisticsBuildService.calculateTotalsWithUnits(statisticsData, 2);
 
           if (this.totalPriceWithUnit.length > 1) {
             addUnitToLabel = true;

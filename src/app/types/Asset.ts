@@ -24,6 +24,8 @@ export interface Asset extends TableData, CreatedUpdatedProps, AbstractCurrentCo
   lastChangedOn: Date;
   connected: boolean;
   excludeFromSmartCharging?: boolean;
+  variationThresholdPercent?: number;
+  powerWattsLastSmartChargingRun?: number;
 }
 
 export interface AssetConsumption {

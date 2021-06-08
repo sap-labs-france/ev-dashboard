@@ -330,6 +330,7 @@
     "name": "Nom",
     "asset_type": "Type de ressource",
     "fluctuation_percent": "Fluctuation à court terme (%)",
+    "variation_percent": "Variation Threshold (%)",
     "static_value_watt": "Puissance Statique (W)",
     "produce": "Produit de l'Energie",
     "consume": "Consomme de l'Energie",

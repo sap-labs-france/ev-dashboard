@@ -330,6 +330,7 @@
     "name": "Name",
     "asset_type": "Asset-Typ",
     "fluctuation_percent": "Schwankungen (%)",
+    "variation_percent": "Aktionschwellenwert für Schwankungen (%)",
     "static_value_watt": "Statische Leistung (W)",
     "produce": "Produziert Energie",
     "consume": "Verbraucht Energie",

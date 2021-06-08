@@ -76,10 +76,26 @@
                   </mat-error>
                 </mat-form-field>
               </div>
-              <div *ngIf="isSmartChargingComponentActive && asset?.siteArea?.smartCharging" class="text-left form-group">
-                <mat-checkbox [formControl]="excludeFromSmartCharging">
-                  {{'chargers.exclude_smart_charging' | translate}}
-                </mat-checkbox>
+              <div class="row" *ngIf="isSmartChargingComponentActive && asset?.siteArea?.smartCharging">
+                <div class="col-md-4">
+                  <div class="text-left form-group">
+                    <mat-checkbox [formControl]="excludeFromSmartCharging">
+                      {{'chargers.exclude_smart_charging' | translate}}
+                    </mat-checkbox>
+                  </div>
+                </div>
+                <div class="col-md-8">
+                  <div class="form-group" >
+                    <mat-form-field>
+                      <input matInput [formControl]="variationThresholdPercent"
+                        placeholder="{{'assets.variation_percent' | translate}}" type='number' [disabled]="true">
+                      <mat-error
+                        *ngIf="variationThresholdPercent.errors?.pattern || variationThresholdPercent.errors?.max">
+                        {{"chargers.invalid_efficiency" | translate}}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
               </div>
               <div class="row">
                 <div class="col-md-6">

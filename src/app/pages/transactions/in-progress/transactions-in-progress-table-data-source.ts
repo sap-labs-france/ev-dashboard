@@ -275,20 +275,19 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {
-    const filters: TableFilterDef[] = [];
     const issuerFilter = new IssuerFilter().getFilterDef();
+    const filters: TableFilterDef[] = [issuerFilter];
     // Show Site Area Filter If Organization component is active
     if (this.componentService.isActive(TenantComponents.ORGANIZATION)) {
       const siteFilter = new SiteTableFilter([issuerFilter]).getFilterDef();
-      filters.push(issuerFilter);
       filters.push(siteFilter);
       filters.push(new SiteAreaTableFilter([siteFilter, issuerFilter]).getFilterDef());
     }
     filters.push(new ChargingStationTableFilter().getFilterDef());
     filters.push(new ConnectorTableFilter().getFilterDef());
     if ((this.authorizationService.isAdmin() || this.authorizationService.hasSitesAdminRights())) {
-      filters.push(new UserTableFilter(this.componentService.isActive(TenantComponents.ORGANIZATION) ? [issuerFilter] : []).getFilterDef());
-      filters.push(new TagTableFilter(this.componentService.isActive(TenantComponents.ORGANIZATION) ? [issuerFilter] : []).getFilterDef());
+      filters.push(new UserTableFilter([issuerFilter]).getFilterDef());
+      filters.push(new TagTableFilter([issuerFilter]).getFilterDef());
     }
     return filters;
   }

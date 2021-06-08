@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { UtilsService } from 'services/utils.service';
 
 interface ReleaseNotes {
   version: string;
@@ -16,15 +17,20 @@ interface ComponentChange {
 })
 export class ReleaseNotesComponent {
   public releaseNotes: ReleaseNotes[] = [];
+  public currentVersion: string;
 
-  public constructor() {
+  public constructor(
+    private utilsService: UtilsService,
+  ) {
+    // Set the version
+    this.currentVersion = this.utilsService.getCurrentVersion();
     this.buildReleaseNotes();
   }
 
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.4.68',
+        version: this.currentVersion,
         date: new Date('2021-06-07'),
         componentChanges: [
           {

@@ -2,8 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import { UtilsService } from 'services/utils.service';
 
-import { version } from '../../../package.json';
 import { RouteGuardService } from '../guard/route-guard';
 import { AuthorizationService } from '../services/authorization.service';
 import { CentralServerNotificationService } from '../services/central-server-notification.service';
@@ -20,7 +20,7 @@ declare const $: any;
   templateUrl: 'sidebar.component.html',
 })
 export class SidebarComponent implements OnInit, OnDestroy {
-  public version: string = version;
+  public version: string;
   public mobileMenuVisible: any = 0;
   public menuItems!: any[];
   public loggedUser!: UserToken;
@@ -37,6 +37,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   private tenantRefreshSubscription!: Subscription;
 
   public constructor(
+    private utilsService: UtilsService,
     private configService: ConfigService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -44,6 +45,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
     private authorizationService: AuthorizationService,
     private centralServerService: CentralServerService,
     private centralServerNotificationService: CentralServerNotificationService) {
+    // Set the version
+    this.version = this.utilsService.getCurrentVersion();
     // Get the routes
     if (this.activatedRoute && this.activatedRoute.routeConfig && this.activatedRoute.routeConfig.children) {
       this.menuItems = this.activatedRoute.routeConfig.children.filter((route) =>

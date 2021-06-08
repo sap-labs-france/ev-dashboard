@@ -1,20 +1,23 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
-
-import { version } from '../../../../package.json';
+import { UtilsService } from 'services/utils.service';
 
 @Component({
   selector: 'app-layout',
   templateUrl: './auth-layout.component.html',
 })
 export class AuthLayoutComponent implements OnInit {
-  public version: string = version;
+  public version: string;
   public mobileMenuVisible: any = 0;
   private toggleButton: any;
   private sidebarVisible: boolean;
 
-  public constructor(private router: Router, private element: ElementRef) {
+  public constructor(
+    private utilsService: UtilsService,
+    private router: Router, private element: ElementRef) {
+    // Set the version
+    this.version = this.utilsService.getCurrentVersion();
     this.sidebarVisible = false;
   }
 

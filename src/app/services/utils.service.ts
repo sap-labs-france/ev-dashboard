@@ -14,6 +14,10 @@ export class UtilsService {
     }
   }
 
+  public getCurrentVersion(): string {
+    return '2.4.68';
+  }
+
   public isDevLandscape(): boolean {
     return this.configService.getLandscape().type === LandscapeType.DEVELOPMENT;
   }

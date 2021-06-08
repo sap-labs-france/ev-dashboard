@@ -279,7 +279,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
     const issuerFilter = new IssuerFilter().getFilterDef();
     // Show Site Area Filter If Organization component is active
     if (this.componentService.isActive(TenantComponents.ORGANIZATION)) {
-      const siteFilter = new SiteTableFilter(null, [issuerFilter]).getFilterDef();
+      const siteFilter = new SiteTableFilter([issuerFilter]).getFilterDef();
       filters.push(issuerFilter);
       filters.push(siteFilter);
       filters.push(new SiteAreaTableFilter([siteFilter, issuerFilter]).getFilterDef());

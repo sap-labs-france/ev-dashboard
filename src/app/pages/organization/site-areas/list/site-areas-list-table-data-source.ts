@@ -364,7 +364,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     const issuerFilter = new IssuerFilter().getFilterDef();
     return [
       issuerFilter,
-      new SiteTableFilter(null, [issuerFilter]).getFilterDef(),
+      new SiteTableFilter([issuerFilter]).getFilterDef(),
     ];
   }
 }

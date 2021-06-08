@@ -372,7 +372,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     ];
     // Show Site Area Filter If Organization component is active
     if (this.componentService.isActive(TenantComponents.ORGANIZATION)) {
-      const siteFilter = new SiteTableFilter(null, [issuerFilter]).getFilterDef();
+      const siteFilter = new SiteTableFilter([issuerFilter]).getFilterDef();
       filters.push(siteFilter);
       filters.push(new SiteAreaTableFilter([issuerFilter, siteFilter]).getFilterDef());
     }

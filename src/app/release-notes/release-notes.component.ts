@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 
-import { version as packageJsonVersion } from '../../../package.json';
-
 interface ReleaseNotes {
   version: string;
   date: Date;
@@ -26,7 +24,22 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
-        version: packageJsonVersion,
+        version: '2.4.68',
+        date: new Date('2021-06-07'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Handle Transaction.End meter value outside the Stop Transaction`,
+              `Do not automatically stop the ongoing Transaction when Status Notification changes from Charging to Available`,
+              `Allow to clean-up Billing Test data`,
+              `Added get default Car and Tag, get Sites and assign Sites in REST User's endpoint`
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.67',
         date: new Date('2021-05-29'),
         componentChanges: [
           {

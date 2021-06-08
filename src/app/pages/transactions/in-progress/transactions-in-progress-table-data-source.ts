@@ -287,8 +287,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
     filters.push(new ChargingStationTableFilter().getFilterDef());
     filters.push(new ConnectorTableFilter().getFilterDef());
     if ((this.authorizationService.isAdmin() || this.authorizationService.hasSitesAdminRights())) {
-      filters.push(new UserTableFilter(this.authorizationService.getSitesAdmin(),
-        this.componentService.isActive(TenantComponents.ORGANIZATION) ? [issuerFilter] : []).getFilterDef());
+      filters.push(new UserTableFilter(this.componentService.isActive(TenantComponents.ORGANIZATION) ? [issuerFilter] : []).getFilterDef());
       filters.push(new TagTableFilter(this.componentService.isActive(TenantComponents.ORGANIZATION) ? [issuerFilter] : []).getFilterDef());
     }
     return filters;

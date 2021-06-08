@@ -3,7 +3,7 @@ import { UsersDialogComponent } from '../../dialogs/users/users-dialog.component
 import { TableFilter } from './table-filter';
 
 export class UserTableFilter extends TableFilter {
-  public constructor(siteIDs?: readonly string[], dependentFilters?: TableFilterDef[]) {
+  public constructor(dependentFilters?: TableFilterDef[]) {
     super();
     // Define filter
     const filterDef: TableFilterDef = {
@@ -19,14 +19,6 @@ export class UserTableFilter extends TableFilter {
       cleared: true,
       dependentFilters
     };
-
-    if (siteIDs) {
-      filterDef.dialogComponentData = {
-        staticFilter: {
-          SiteID: siteIDs.join('|'),
-        },
-      };
-    }
     // Set
     this.setFilterDef(filterDef);
   }

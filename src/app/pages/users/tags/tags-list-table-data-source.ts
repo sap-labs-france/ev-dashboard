@@ -386,7 +386,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
     return [
       issuerFilter,
       new StatusFilter().getFilterDef(),
-      new UserTableFilter(null, [issuerFilter]).getFilterDef(),
+      new UserTableFilter([issuerFilter]).getFilterDef(),
     ];
   }
 }

@@ -278,7 +278,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
       filters.push(new ChargingStationTableFilter().getFilterDef());
     }
     if (this.authorizationService.isAdmin() || this.authorizationService.hasSitesAdminRights()) {
-      filters.push(new UserTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
+      filters.push(new UserTableFilter().getFilterDef());
     }
     return filters;
   }

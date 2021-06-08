@@ -377,7 +377,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
       filters.push(new SiteAreaTableFilter([issuerFilter, siteFilter]).getFilterDef());
     }
     if (this.authorizationService.isAdmin() || this.authorizationService.hasSitesAdminRights()) {
-      filters.push(new UserTableFilter(this.authorizationService.getSitesAdmin(), [issuerFilter]).getFilterDef());
+      filters.push(new UserTableFilter([issuerFilter]).getFilterDef());
       filters.push(new TagTableFilter([issuerFilter]).getFilterDef());
     }
     return filters;

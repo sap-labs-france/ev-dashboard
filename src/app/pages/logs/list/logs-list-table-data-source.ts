@@ -269,7 +269,7 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
       tableFiltersDef.push(new UserTableFilter().getFilterDef());
       tableFiltersDef.push(new LogSourceTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
     } else {
-      tableFiltersDef.push(new UserTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
+      tableFiltersDef.push(new UserTableFilter().getFilterDef());
       tableFiltersDef.push(new LogSourceTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
     }
     return tableFiltersDef;

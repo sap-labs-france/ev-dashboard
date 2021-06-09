@@ -267,6 +267,12 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     this.refresh();
   }
 
+  public resetSearchFilter(){
+    this.searchInput.nativeElement.value = '';
+    this.dataSource.setSearchValue('');
+    this.refresh();
+  }
+
   public actionTriggered(actionDef: TableActionDef, event?: MouseEvent | MatSlideToggleChange) {
     // Slide
     if (event && event instanceof MatSlideToggleChange && actionDef.type === 'slide') {

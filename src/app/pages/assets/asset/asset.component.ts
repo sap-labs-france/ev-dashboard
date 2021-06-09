@@ -94,6 +94,7 @@ export class AssetComponent implements OnInit {
       name: new FormControl('',
         Validators.compose([
           Validators.required,
+          Validators.maxLength(255),
         ])),
       siteArea: new FormControl('',
         Validators.compose([

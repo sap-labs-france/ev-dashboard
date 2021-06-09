@@ -278,9 +278,10 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {
+    const issuerFilter = new IssuerFilter().getFilterDef();
     return [
-      new IssuerFilter().getFilterDef(),
-      new CompanyTableFilter().getFilterDef(),
+      issuerFilter,
+      new CompanyTableFilter([issuerFilter]).getFilterDef(),
     ];
   }
 }

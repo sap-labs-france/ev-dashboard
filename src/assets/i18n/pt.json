@@ -1573,7 +1573,7 @@
         "invalid_secret_key": "A chave secreta da API não é plausível",
         "billing_method": "Método de cobrança",
         "immediate_billing": "Faturamento Imediato",
-        "periodic_billing": "Faturamento periódico (ainda não implementado)",
+        "periodic_billing": "Faturamento periódico",
         "tax": "Imposto",
         "no_tax": "Sem Imposto"
       }

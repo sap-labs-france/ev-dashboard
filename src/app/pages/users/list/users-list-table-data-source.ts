@@ -393,7 +393,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       new UserRoleFilter(this.centralServerService).getFilterDef(),
       new UserStatusFilter().getFilterDef(),
       new TagTableFilter([issuerFilter]).getFilterDef(),
-      new SiteTableFilter().getFilterDef(),
+      new SiteTableFilter([issuerFilter]).getFilterDef(),
     ];
   }
 }

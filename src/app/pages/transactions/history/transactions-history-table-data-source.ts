@@ -361,8 +361,9 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {
+    const issuerFilter = new IssuerFilter().getFilterDef();
     const filters: TableFilterDef[] = [
-      new IssuerFilter().getFilterDef(),
+      issuerFilter,
       new StartDateFilter(moment().startOf('y').toDate()).getFilterDef(),
       new EndDateFilter().getFilterDef(),
       new ChargingStationTableFilter().getFilterDef(),
@@ -371,12 +372,13 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     ];
     // Show Site Area Filter If Organization component is active
     if (this.componentService.isActive(TenantComponents.ORGANIZATION)) {
-      filters.push(new SiteTableFilter().getFilterDef());
-      filters.push(new SiteAreaTableFilter().getFilterDef());
+      const siteFilter = new SiteTableFilter([issuerFilter]).getFilterDef();
+      filters.push(siteFilter);
+      filters.push(new SiteAreaTableFilter([issuerFilter, siteFilter]).getFilterDef());
     }
     if (this.authorizationService.isAdmin() || this.authorizationService.hasSitesAdminRights()) {
-      filters.push(new UserTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
-      filters.push(new TagTableFilter().getFilterDef());
+      filters.push(new UserTableFilter([issuerFilter]).getFilterDef());
+      filters.push(new TagTableFilter([issuerFilter]).getFilterDef());
     }
     return filters;
   }

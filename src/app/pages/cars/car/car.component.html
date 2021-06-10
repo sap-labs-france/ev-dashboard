@@ -106,7 +106,7 @@
         <mat-icon>save</mat-icon>
         <span>{{'general.save' | translate}}</span>
       </button>
-      <button mat-icon-button *ngIf="inDialog" (click)="close()">
+      <button mat-icon-button *ngIf="dialogRef" (click)="close()">
         <mat-icon>close</mat-icon>
       </button>
     </div>

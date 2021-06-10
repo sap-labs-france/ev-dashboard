@@ -4,6 +4,7 @@ import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dial
 import { MatSelectChange } from '@angular/material/select';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { DialogMode } from 'types/Authorization';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -31,7 +32,7 @@ import { CarUsersEditableTableDataSource } from './car-users-editable-table-data
 })
 export class CarComponent implements OnInit {
   @Input() public currentCarID!: string;
-  @Input() public inDialog!: boolean;
+  @Input() public dialogMode!: DialogMode;
   @Input() public dialogRef!: MatDialogRef<any>;
   public carCatalogImage: string;
   public isBasic: boolean;
@@ -39,6 +40,7 @@ export class CarComponent implements OnInit {
   public carCatalogConverters: { type: CarConverterType; value: string; converter: CarConverter }[] = [];
   public isAdmin: boolean;
   public isPool = false;
+  public readOnly = true;
 
   public formGroup!: FormGroup;
   public id!: AbstractControl;
@@ -122,6 +124,7 @@ export class CarComponent implements OnInit {
     this.converterType = this.formGroup.controls['converterType'];
     this.converter = this.formGroup.controls['converter'];
     this.type = this.formGroup.controls['type'];
+    this.readOnly = (this.dialogMode === DialogMode.VIEW);
     // Default
     this.converterType.disable();
     if (!this.isBasic) {
@@ -169,7 +172,7 @@ export class CarComponent implements OnInit {
         this.carCatalog.setValue(Utils.buildCarCatalogName(car.carCatalog));
         this.carCatalogImage = car.carCatalog.image;
         // Set default car
-        if (this.isBasic) {
+        if (this.readOnly) {
           // Fill in props
           const foundCarUser = car.carUsers.find((carUser) => carUser.user.id === this.centralServerService.getLoggedUser().id);
           this.isDefault.setValue(foundCarUser.default);
@@ -201,7 +204,7 @@ export class CarComponent implements OnInit {
   }
 
   public closeDialog(saved: boolean = false) {
-    if (this.inDialog) {
+    if (this.dialogRef) {
       this.dialogRef.close(saved);
     }
   }

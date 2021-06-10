@@ -33,6 +33,7 @@ export class ReleaseNotesComponent {
               `Handle Transaction.End meter value outside the Stop Transaction`,
               `Do not automatically stop the ongoing Transaction when Status Notification changes from Charging to Available`,
               `Allow to clean-up Billing Test data`,
+              `Migrated Cars to the new authorization framework`,
               `Fixed cannot import Badges without Users`,
               `Added filter dependencies (Organization, Site, Site Area...)`,
               `Added get default Car and Tag, get Sites and assign Sites in REST User's endpoint`,

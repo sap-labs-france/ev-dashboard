@@ -330,6 +330,7 @@
     "name": "Nome",
     "asset_type": "Tipo risorsa",
     "fluctuation": "Fluttuazione a breve termine (%)",
+    "variation_percent": "Variation Threshold (%)",
     "fallback_value": "Valore di fallback (W)",
     "produce": "Produce Energia",
     "consume": "Consuma Energia",

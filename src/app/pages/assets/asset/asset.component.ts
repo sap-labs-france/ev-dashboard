@@ -48,6 +48,7 @@ export class AssetComponent implements OnInit {
   public siteAreaID!: AbstractControl;
   public assetType!: AbstractControl;
   public excludeFromSmartCharging!: AbstractControl;
+  public variationThresholdPercent!: AbstractControl;
   public fluctuationPercent!: AbstractControl;
   public staticValueWatt!: AbstractControl;
   public coordinates!: FormArray;
@@ -107,6 +108,11 @@ export class AssetComponent implements OnInit {
         ])
       ),
       excludeFromSmartCharging: new FormControl(''),
+      variationThresholdPercent: new FormControl('',
+        Validators.compose([
+          Validators.max(100),
+          Validators.pattern('^[+]?[0-9]*$'),
+        ])),
       fluctuationPercent: new FormControl('',
         Validators.compose([
           Validators.max(100),
@@ -148,6 +154,7 @@ export class AssetComponent implements OnInit {
     this.siteAreaID = this.formGroup.controls['siteAreaID'];
     this.assetType = this.formGroup.controls['assetType'];
     this.excludeFromSmartCharging = this.formGroup.controls['excludeFromSmartCharging'];
+    this.variationThresholdPercent = this.formGroup.controls['variationThresholdPercent'];
     this.fluctuationPercent = this.formGroup.controls['fluctuationPercent'];
     this.staticValueWatt = this.formGroup.controls['staticValueWatt'];
     this.coordinates = this.formGroup.controls['coordinates'] as FormArray;
@@ -204,6 +211,9 @@ export class AssetComponent implements OnInit {
       }
       if (this.asset.excludeFromSmartCharging) {
         this.formGroup.controls.excludeFromSmartCharging.setValue(this.asset.excludeFromSmartCharging);
+      }
+      if (this.asset.variationThresholdPercent) {
+        this.formGroup.controls.variationThresholdPercent.setValue(this.asset.variationThresholdPercent);
       }
       if (this.asset.fluctuationPercent) {
         this.formGroup.controls.fluctuationPercent.setValue(this.asset.fluctuationPercent);

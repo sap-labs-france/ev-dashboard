@@ -330,6 +330,7 @@
     "name": "Name",
     "asset_type": "Asset-Typ",
     "fluctuation_percent": "Schwankungen (%)",
+    "variation_percent": "Aktionschwellenwert für Schwankungen (%)",
     "static_value_watt": "Statische Leistung (W)",
     "produce": "Produziert Energie",
     "consume": "Verbraucht Energie",
@@ -1573,7 +1574,7 @@
         "invalid_secret_key": "Geheimer API key ist nicht plausibel",
         "billing_method": "Abrechnungsmethode",
         "immediate_billing": "Unverzügliche Abrechnung",
-        "periodic_billing": "Periodische Abrechnung (noch nicht implementiert)",
+        "periodic_billing": "Periodische Abrechnung",
         "tax": "Steuern",
         "no_tax": "Keine Steuern"
       }

@@ -330,6 +330,7 @@
     "name": "Nome",
     "asset_type": "Tipo risorsa",
     "fluctuation": "Fluttuazione a breve termine (%)",
+    "variation_percent": "Variation Threshold (%)",
     "fallback_value": "Valore di fallback (W)",
     "produce": "Produce Energia",
     "consume": "Consuma Energia",
@@ -1573,7 +1574,7 @@
         "invalid_secret_key": "La Chiave API Segreta non è plausible",
         "billing_method": "Metodo Fatturazione",
         "immediate_billing": "Fatturazione Immediata",
-        "periodic_billing": "Fatturazione Periodica (non ancora implementata)",
+        "periodic_billing": "Fatturazione Periodica",
         "tax": "Tassa",
         "no_tax": "Nessuna tassa"
       }

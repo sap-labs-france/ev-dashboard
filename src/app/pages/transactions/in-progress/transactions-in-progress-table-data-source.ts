@@ -275,18 +275,19 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {
-    const filters: TableFilterDef[] = [];
+    const issuerFilter = new IssuerFilter().getFilterDef();
+    const filters: TableFilterDef[] = [issuerFilter];
     // Show Site Area Filter If Organization component is active
     if (this.componentService.isActive(TenantComponents.ORGANIZATION)) {
-      filters.push(new IssuerFilter().getFilterDef());
-      filters.push(new SiteTableFilter().getFilterDef());
-      filters.push(new SiteAreaTableFilter().getFilterDef());
+      const siteFilter = new SiteTableFilter([issuerFilter]).getFilterDef();
+      filters.push(siteFilter);
+      filters.push(new SiteAreaTableFilter([siteFilter, issuerFilter]).getFilterDef());
     }
     filters.push(new ChargingStationTableFilter().getFilterDef());
     filters.push(new ConnectorTableFilter().getFilterDef());
-    if (this.authorizationService.isAdmin() || this.authorizationService.hasSitesAdminRights()) {
-      filters.push(new UserTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
-      filters.push(new TagTableFilter().getFilterDef());
+    if ((this.authorizationService.isAdmin() || this.authorizationService.hasSitesAdminRights())) {
+      filters.push(new UserTableFilter([issuerFilter]).getFilterDef());
+      filters.push(new TagTableFilter([issuerFilter]).getFilterDef());
     }
     return filters;
   }

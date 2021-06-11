@@ -16,7 +16,7 @@ import { ChargePoint, ChargingStation, OCPPAvailabilityType, OcppParameter } fro
 import { Company } from '../types/Company';
 import CentralSystemServerConfiguration from '../types/configuration/CentralSystemServerConfiguration';
 import { IntegrationConnection, UserConnection } from '../types/Connection';
-import { ActionResponse, ActionsResponse, BillingOperationResponse, CheckAssetConnectionResponse, CheckBillingConnectionResponse, CompanyDataResult, DataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OICPJobStatusesResponse, OICPPingResponse, Ordering, Paging, SiteAreaDataResult, SiteDataResult, TagDataResult } from '../types/DataResult';
+import { ActionResponse, ActionsResponse, BillingOperationResult, CarCatalogDataResult, CarDataResult, CheckAssetConnectionResponse, CheckBillingConnectionResponse, CompanyDataResult, DataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OICPJobStatusesResponse, OICPPingResponse, Ordering, Paging, SiteAreaDataResult, SiteDataResult, TagDataResult } from '../types/DataResult';
 import { EndUserLicenseAgreement } from '../types/Eula';
 import { FilterParams, Image, KeyValue } from '../types/GlobalType';
 import { AssetInError, ChargingStationInError, TransactionInError } from '../types/InError';
@@ -1605,7 +1605,7 @@ export class CentralServerService {
   }
 
   // TODO - create a dedicated method for the ATTACH?
-  public setupPaymentMethod(parameters: any): Observable<BillingOperationResponse> {
+  public setupPaymentMethod(parameters: any): Observable<BillingOperationResult> {
     this.checkInit();
     // Build the URL
     const urlPattern: ServerRoute = (!parameters.paymentMethodID) ? ServerRoute.REST_BILLING_PAYMENT_METHOD_SETUP : ServerRoute.REST_BILLING_PAYMENT_METHOD_ATTACH;
@@ -1614,7 +1614,7 @@ export class CentralServerService {
       paymentMethodID: parameters.paymentMethodID
     });
     // Execute the REST service
-    return this.httpClient.post<BillingOperationResponse>(url, parameters, {
+    return this.httpClient.post<BillingOperationResult>(url, parameters, {
       headers: this.buildHttpHeaders(),
     }).pipe(
       catchError(this.handleHttpError),
@@ -1642,7 +1642,7 @@ export class CentralServerService {
     );
   }
 
-  public deletePaymentMethod(paymentMethodID: string, userID: string): Observable<ActionsResponse> {
+  public deletePaymentMethod(paymentMethodID: string, userID: string): Observable<BillingOperationResult> {
     // Verify init
     this.checkInit();
     const options = {
@@ -1655,7 +1655,7 @@ export class CentralServerService {
       paymentMethodID
     });
     // Execute the REST service
-    return this.httpClient.delete<ActionResponse>(url, options)
+    return this.httpClient.delete<BillingOperationResult>(url, options)
       .pipe(
         catchError(this.handleHttpError),
       );
@@ -2824,7 +2824,7 @@ export class CentralServerService {
   }
 
   public getCarCatalogs(params: FilterParams,
-    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<CarCatalog>> {
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<CarCatalogDataResult> {
     // Verify init
     this.checkInit();
     // Build Paging
@@ -2832,7 +2832,7 @@ export class CentralServerService {
     // Build Ordering
     this.getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<DataResult<CarCatalog>>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CAR_CATALOGS}`,
+    return this.httpClient.get<CarCatalogDataResult>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CAR_CATALOGS}`,
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -2843,7 +2843,7 @@ export class CentralServerService {
   }
 
   public getCars(params: FilterParams,
-    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Car>> {
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<CarDataResult> {
     // Verify init
     this.checkInit();
     // Build Paging
@@ -2851,7 +2851,7 @@ export class CentralServerService {
     // Build Ordering
     this.getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<DataResult<Car>>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CARS}`,
+    return this.httpClient.get<CarDataResult>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CARS}`,
       {
         headers: this.buildHttpHeaders(),
         params,

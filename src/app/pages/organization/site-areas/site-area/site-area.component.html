@@ -50,6 +50,9 @@
                       <mat-error *ngIf="name.errors?.required">
                         {{"general.mandatory_field" | translate}}
                       </mat-error>
+                      <mat-error *ngIf="name.errors?.maxlength">
+                        <div [translateParams]="{length: name.errors?.maxlength?.requiredLength}" [translate]="'general.error_max_length'"></div>
+                      </mat-error>
                     </mat-form-field>
                     <mat-form-field *ngIf="formGroup.enabled">
                       <input matInput type="text" readonly=true placeholder="{{'sites.site' | translate}}"

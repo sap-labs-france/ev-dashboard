@@ -382,10 +382,11 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {
+    const issuerFilter = new IssuerFilter().getFilterDef();
     return [
-      new IssuerFilter().getFilterDef(),
+      issuerFilter,
       new StatusFilter().getFilterDef(),
-      new UserTableFilter().getFilterDef(),
+      new UserTableFilter([issuerFilter]).getFilterDef(),
     ];
   }
 }

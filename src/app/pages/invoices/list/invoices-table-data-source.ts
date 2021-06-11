@@ -213,7 +213,7 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
       new InvoiceStatusFilter().getFilterDef(),
     ];
     if (this.authorizationService.isAdmin()) {
-      filters.push(new UserTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
+      filters.push(new UserTableFilter().getFilterDef());
     }
     return filters;
   }

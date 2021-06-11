@@ -85,7 +85,7 @@
                   </mat-form-field>
                 </div>
               </div>
-              <div *ngIf="isAdmin || isSuperAdmin" class="col-md-6">
+              <div *ngIf="isAdmin || isSuperAdmin || isSiteAdmin" class="col-md-6">
                 <div class="form-group">
                   <mat-form-field>
                     <mat-select [formControl]="status" placeholder="{{'users.status' | translate}}">
@@ -96,7 +96,7 @@
                   </mat-form-field>
                 </div>
               </div>
-              <div *ngIf="isAdmin || isSuperAdmin" class="col-md-6">
+              <div *ngIf="isAdmin || isSuperAdmin || isSiteAdmin" class="col-md-6">
                 <div class="form-group">
                   <mat-form-field>
                     <mat-select [formControl]="role" (ngModelChange)="roleChanged($event)" placeholder="{{'users.role' | translate}}">
@@ -130,7 +130,7 @@
                   </mat-form-field>
                 </div>
               </div>
-              <div *ngIf="isAdmin" class="col-md-6">
+              <div *ngIf="isAdmin || isSiteAdmin" class="col-md-6">
                 <div class="form-group">
                   <mat-form-field>
                     <input [formControl]="plateID" matInput

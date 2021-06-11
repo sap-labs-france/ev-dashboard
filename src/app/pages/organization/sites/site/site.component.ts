@@ -62,6 +62,7 @@ export class SiteComponent implements OnInit {
       name: new FormControl('',
         Validators.compose([
           Validators.required,
+          Validators.maxLength(255),
         ])),
       company: new FormControl('',
         Validators.compose([

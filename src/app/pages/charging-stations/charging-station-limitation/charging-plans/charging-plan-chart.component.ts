@@ -269,8 +269,8 @@ export class ChargingPlanChartComponent implements OnChanges {
             ticks: {
               beginAtZero: true,
               callback: (value: number) => (this.selectedUnit === ConsumptionUnit.AMPERE) ?
-                parseInt(this.decimalPipe.transform(value, '1.0-0')) + 'A' :
-                parseInt(this.decimalPipe.transform(value, '1.0-2')) + ((value < 1000) ? 'W' : 'kW'),
+                parseInt(this.decimalPipe.transform(value, '1.0-0'), 10) + 'A' :
+                parseInt(this.decimalPipe.transform(value, '1.0-2'), 10) + 'kW',
               fontColor: this.defaultColor,
             },
             gridLines: {

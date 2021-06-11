@@ -171,10 +171,12 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       name: new FormControl('',
         Validators.compose([
           Validators.required,
+          Validators.maxLength(255),
         ])),
       firstName: new FormControl('',
         Validators.compose([
           Validators.required,
+          Validators.maxLength(255),
         ])),
       notificationsActive: new FormControl(true),
       notifications: new FormGroup({

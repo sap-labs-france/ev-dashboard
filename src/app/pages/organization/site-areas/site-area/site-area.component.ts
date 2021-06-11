@@ -94,6 +94,7 @@ export class SiteAreaComponent implements OnInit {
       name: new FormControl('',
         Validators.compose([
           Validators.required,
+          Validators.maxLength(255),
         ])
       ),
       site: new FormControl('',

@@ -17,6 +17,7 @@ import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto
 import { TableMoreAction } from '../../../shared/table/actions/table-more-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-table-filter';
+import { IssuerFilter } from '../../../shared/table/filters/issuer-filter';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { AssetButtonAction } from '../../../types/Asset';
@@ -150,6 +151,7 @@ export class AssetsInErrorTableDataSource extends TableDataSource<AssetInError> 
     // Sort
     errorTypes.sort(Utils.sortArrayOfKeyValue);
     return [
+      new IssuerFilter().getFilterDef(),
       new SiteAreaTableFilter().getFilterDef(),
       new ErrorTypeTableFilter(errorTypes).getFilterDef(),
     ];

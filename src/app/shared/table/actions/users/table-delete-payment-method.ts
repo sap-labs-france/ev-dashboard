@@ -38,7 +38,7 @@ export class TableDeletePaymentMethodAction extends TableDeleteAction {
         spinnerService.show();
         centralServerService.deletePaymentMethod(paymentMethod.id, userID).subscribe((response) => {
           spinnerService.hide();
-          if (response.status === RestResponse.SUCCESS) {
+          if (response.succeeded) {
             messageService.showSuccessMessage(
               translateService.instant('settings.billing.payment_methods_delete_success', { last4: paymentMethod.last4 }));
             if (refresh) {

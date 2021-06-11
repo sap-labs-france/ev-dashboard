@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 
-import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ConfigService } from '../../../services/config.service';
@@ -29,7 +28,6 @@ import { CarCatalogImageFormatterCellComponent } from '../cell-components/car-ca
 
 @Injectable()
 export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> {
-  public isSuperAdmin: boolean;
   private openAction = new TableViewCarCatalogAction().getActionDef();
   private tableSyncCarCatalogsAction = new TableSyncCarCatalogsAction().getActionDef();
 
@@ -45,12 +43,11 @@ export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> 
     private config: ConfigService,
     private dialog: MatDialog,
     private decimalPipe: AppDecimalPipe,
-    private authorizationService: AuthorizationService,
   ) {
     super(spinnerService, translateService);
-    this.isSuperAdmin = this.authorizationService.isSuperAdmin();
     // Init
     this.initDataSource();
+    this.tableSyncCarCatalogsAction.visible = false;
   }
 
   public getDataChangeSubject(): Observable<ChangeNotification> {
@@ -66,6 +63,7 @@ export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> 
       // Get cars
       this.centralServerService.getCarCatalogs(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe((carCatalogs) => {
         observer.next(carCatalogs);
+        this.tableSyncCarCatalogsAction.visible = carCatalogs.canSync;
         observer.complete();
       }, (error) => {
         // Show error
@@ -91,13 +89,10 @@ export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> 
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-    if (this.isSuperAdmin) {
-      return [
-        this.tableSyncCarCatalogsAction,
-        ...tableActionsDef,
-      ];
-    }
-    return tableActionsDef;
+    return [
+      this.tableSyncCarCatalogsAction,
+      ...tableActionsDef,
+    ];
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {

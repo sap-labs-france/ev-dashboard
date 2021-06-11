@@ -25,7 +25,7 @@
       <mat-icon>sync</mat-icon><span>{{'settings.billing.user.synchronize_users' | translate}}</span>
     </button>
     <button mat-raised-button color="warn" (click)="checkConnection(true)"
-      [disabled]="!formGroup.valid || formGroup.dirty || !billingSettings.billing.taxID || billingSettings.billing.isTransactionBillingActivated">
+      [disabled]="!formGroup.valid || formGroup.dirty || !billingSettings?.billing?.taxID || billingSettings?.billing?.isTransactionBillingActivated">
       <mat-icon>toggle_off</mat-icon><span>{{'settings.billing.transaction_billing_activation' | translate}}</span>
     </button>
     <!-- <button mat-raised-button color="primary" (click)="synchronizeInvoices()"

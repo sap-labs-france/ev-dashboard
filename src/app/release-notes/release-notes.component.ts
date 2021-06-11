@@ -25,7 +25,7 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.4.68',
-        date: new Date('2021-06-10'),
+        date: new Date('2021-06-11'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -33,6 +33,7 @@ export class ReleaseNotesComponent {
               `Handle Transaction.End meter value outside the Stop Transaction`,
               `Do not automatically stop the ongoing Transaction when Status Notification changes from Charging to Available`,
               `Allow to clean-up Billing Test data`,
+              `Ebee, Wallbox: fixes for latest firmware version`,
               `Migrated Cars to the new authorization framework`,
               `Fixed cannot import Badges without Users`,
               `Added filter dependencies (Organization, Site, Site Area...)`,

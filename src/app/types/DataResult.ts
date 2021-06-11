@@ -148,6 +148,8 @@ export interface VerifyEmailResponse extends ActionResponse {
   userStatus?: UserStatus;
 }
 
-export interface BillingOperationResponse extends ActionResponse {
-  internalData: Record<string, unknown>;
+export interface BillingOperationResult {
+  succeeded: boolean;
+  error?: Error;
+  internalData?: unknown; // an object returned by the concrete implementation - e.g.: STRIPE
 }

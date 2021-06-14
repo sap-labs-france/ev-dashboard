@@ -24,6 +24,18 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.69',
+        date: new Date('2021-06-14'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Fixed send End of Charge notification for Legrand Charging Station`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.68',
         date: new Date('2021-06-11'),
         componentChanges: [

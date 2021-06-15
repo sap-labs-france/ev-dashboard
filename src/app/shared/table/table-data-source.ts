@@ -447,6 +447,12 @@ export abstract class TableDataSource<T extends TableData> {
       this.loadDataImpl().pipe(first()).subscribe((data) => {
         // Set nbr of records
         this.setTotalNumberOfRecords(data.count);
+        // To Remove once the POC is validated
+        if (data.projectedFields) {
+          // Display only projected fields headers
+          this.tableColumnsDef.forEach(tableColumnDef => tableColumnDef.visible = data.projectedFields.map(projectedField =>
+            projectedField = projectedField.split('.')[0]).includes(tableColumnDef.id));
+        }
         // Build stats
         this.tableFooterStats = this.buildTableFooterStats(data);
         // Ok
@@ -648,7 +654,6 @@ export abstract class TableDataSource<T extends TableData> {
     for (const freshRow of freshData) {
       // Check for complex property
       for (const tableColumnDef of this.tableColumnsDef) {
-        tableColumnDef.visible = true;
         // Keep a ref of the column def
         freshRow[tableColumnDef.id + 'TableColumnsDef'] = tableColumnDef;
         // Check for complex column id with dot

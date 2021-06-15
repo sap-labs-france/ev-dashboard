@@ -648,6 +648,7 @@ export abstract class TableDataSource<T extends TableData> {
     for (const freshRow of freshData) {
       // Check for complex property
       for (const tableColumnDef of this.tableColumnsDef) {
+        tableColumnDef.visible = true;
         // Keep a ref of the column def
         freshRow[tableColumnDef.id + 'TableColumnsDef'] = tableColumnDef;
         // Check for complex column id with dot

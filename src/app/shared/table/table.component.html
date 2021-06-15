@@ -177,7 +177,8 @@
           <!-- Text Header -->
           <th *ngFor="let tableColumnDef of dataSource.tableColumnsDef" (click)="sortChanged(tableColumnDef)"
             [class]="(tableColumnDef.headerClass ? tableColumnDef.headerClass + ' table-header' : 'table-header')"
-            [class.sortable]="tableColumnDef.sortable">
+            [class.sortable]="tableColumnDef.sortable"
+            [hidden]= "!tableColumnDef.visible">
             {{tableColumnDef.name | translate}}
             <mat-icon *ngIf="sort.active === tableColumnDef.id">
               {{!sort.direction || sort.direction === "asc" ? "arrow_drop_up" : "arrow_drop_down"}}

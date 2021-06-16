@@ -448,7 +448,7 @@ export abstract class TableDataSource<T extends TableData> {
         // Set nbr of records
         this.setTotalNumberOfRecords(data.count);
         // To Remove once the POC is validated
-        if (data.projectedFields) {
+        if (!Utils.isEmptyArray(data.projectedFields)) {
           // Display only projected fields headers
           this.tableColumnsDef.forEach(tableColumnDef => tableColumnDef.visible = data.projectedFields.map(projectedField =>
             projectedField = projectedField.split('.')[0]).includes(tableColumnDef.id));

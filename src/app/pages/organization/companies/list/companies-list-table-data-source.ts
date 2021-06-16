@@ -91,7 +91,6 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
         class: 'col-8p p-0',
         isAngularComponent: true,
         angularComponent: CompanyLogoFormatterCellComponent,
-        visible: false,
       },
       {
         id: 'name',
@@ -101,7 +100,6 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
         sorted: true,
         direction: 'asc',
         sortable: true,
-        visible: false,
       },
       {
         id: 'address.city',
@@ -109,7 +107,6 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
         headerClass: 'col-20p',
         class: 'col-20p',
         sortable: true,
-        visible: false,
       },
       {
         id: 'address.country',
@@ -117,7 +114,6 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
         headerClass: 'col-20p',
         class: 'col-20p',
         sortable: true,
-        visible: false,
       },
       {
         id: 'createdOn',
@@ -126,7 +122,6 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
         headerClass: 'col-15em',
         class: 'col-15em',
         sortable: true,
-        visible: false,
       },
       {
         id: 'createdBy',
@@ -134,7 +129,6 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
         formatter: (user: User) => Utils.buildUserFullName(user),
         headerClass: 'col-15em',
         class: 'col-15em',
-        visible: false,
       },
       {
         id: 'lastChangedOn',
@@ -143,7 +137,6 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
         headerClass: 'col-15em',
         class: 'col-15em',
         sortable: true,
-        visible: false,
       },
       {
         id: 'lastChangedBy',
@@ -151,7 +144,6 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
         formatter: (user: User) => Utils.buildUserFullName(user),
         headerClass: 'col-15em',
         class: 'col-15em',
-        visible: false,
       },
     ];
     return tableColumnDef;

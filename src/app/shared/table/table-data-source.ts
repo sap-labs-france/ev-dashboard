@@ -452,6 +452,8 @@ export abstract class TableDataSource<T extends TableData> {
           // Display only projected fields headers
           this.tableColumnsDef.forEach(tableColumnDef => tableColumnDef.visible = data.projectedFields.map(projectedField =>
             projectedField = projectedField.split('.')[0]).includes(tableColumnDef.id));
+        } else {
+          this.tableColumnsDef.forEach(tableColumnDef => tableColumnDef.visible = true);
         }
         // Build stats
         this.tableFooterStats = this.buildTableFooterStats(data);

@@ -177,7 +177,7 @@
           <!-- Text Header -->
           <th *ngFor="let tableColumnDef of dataSource.tableColumnsDef" (click)="sortChanged(tableColumnDef)"
             [class]="(tableColumnDef.headerClass ? tableColumnDef.headerClass + ' table-header' : 'table-header')"
-            [class.sortable]="tableColumnDef.sortable" [hidden]="tableColumnDef.visible === false">
+            [class.sortable]="tableColumnDef.sortable" [hidden]="!tableColumnDef.visible">
             {{tableColumnDef.name | translate}}
             <mat-icon *ngIf="sort.active === tableColumnDef.id">
               {{!sort.direction || sort.direction === "asc" ? "arrow_drop_up" : "arrow_drop_down"}}
@@ -251,10 +251,10 @@
               <!-- Angular Component Cell -->
               <ng-template [ngIf]="!tableColumnDef.isAngularComponent">
                 <td *ngIf="!dataSource.tableDef.isEditable" [class]="(tableColumnDef.class ? tableColumnDef.class : '')"
-                  [innerHtml]="row[tableColumnDef.id] | appFormatRowCell:tableColumnDef:row" [hidden]="tableColumnDef.visible === false">
+                  [innerHtml]="row[tableColumnDef.id] | appFormatRowCell:tableColumnDef:row" [hidden]="!tableColumnDef.visible">
                 </td>
                 <td *ngIf="dataSource.tableDef.isEditable"
-                [hidden]="tableColumnDef.visible === false"
+                [hidden]="!tableColumnDef.visible"
                   [class]="(tableColumnDef.class ? tableColumnDef.class + ' p-1 align-middle' : 'p-1 align-middle')"
                   [class.table-field-invalid]="row[tableColumnDef.id + 'FormControl']?.errors">
                   <input *ngIf="!tableColumnDef.editType || tableColumnDef.editType === TableEditType.INPUT"
@@ -282,7 +282,7 @@
                   </mat-error>
                 </td>
               </ng-template>
-              <td *ngIf="tableColumnDef.isAngularComponent" [hidden]="tableColumnDef.visible === false"
+              <td *ngIf="tableColumnDef.isAngularComponent" [hidden]="!tableColumnDef.visible"
                 [class]="(tableColumnDef.class ? tableColumnDef.class + ' table-cell-angular-component' : 'table-cell-angular-component')">
                 <app-cell-content-template-container [columnDef]="tableColumnDef" [row]="row"
                   (componentChanged)="rowCellUpdated($event, rowIndex, tableColumnDef)">

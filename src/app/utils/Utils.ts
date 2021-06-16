@@ -782,12 +782,6 @@ export class Utils {
       // Server connection error
       case 0:
         messageService.showErrorMessageConnectionLost();
-        if (centralServerService.configService.getCentralSystemServer().logoutOnConnectionError) {
-          // Log Off (remove token)
-          centralServerService.logoutSucceeded();
-          // Navigate to Login
-          router.navigate(['/auth/login']);
-        }
         break;
       case HTTPError.USER_ACCOUNT_CHANGED:
       case HTTPError.TENANT_COMPONENT_CHANGED:

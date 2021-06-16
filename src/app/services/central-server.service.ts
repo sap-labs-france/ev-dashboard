@@ -3210,7 +3210,7 @@ export class CentralServerService {
       );
   }
 
-  public buildHttpHeadersFile(tenantID?: string): { name: string; value: string }[] {
+  public buildHttpHeadersFile(autoActivateAtImport?: string, tenantID?: string): { name: string; value: string }[] {
     // Build File Header
     return [
       {
@@ -3220,6 +3220,10 @@ export class CentralServerService {
       {
         name: 'Authorization',
         value: 'Bearer ' + this.getLoggedUserToken()
+      },
+      {
+        name: 'autoActivateAtImport',
+        value: autoActivateAtImport
       },
     ];
   }

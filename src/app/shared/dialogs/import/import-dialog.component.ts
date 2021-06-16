@@ -36,6 +36,7 @@ export class ImportDialogComponent implements OnInit {
   private messageNoSuccessNoError: string;
   private confirmImportTitle: string;
   private confirmImportMessage: string;
+  private autoActivateImportedUsers: string;
 
   public constructor(
     protected dialogRef: MatDialogRef<ImportDialogComponent>,
@@ -55,10 +56,11 @@ export class ImportDialogComponent implements OnInit {
       this.optionalProperties = data.optionalProperties ?? [];
       this.confirmImportTitle = `${data.entity}.import_${data.entity}`;
       this.confirmImportMessage = `${data.entity}.import_${data.entity}_message`;
+      this.autoActivateImportedUsers = data.autoActivateImportedUsers;
     }
     Utils.registerCloseKeyEvents(this.dialogRef);
     this.uploader = new FileUploader({
-      headers: this.centralServerService.buildHttpHeadersFile(),
+      headers: this.centralServerService.buildHttpHeadersFile(this.autoActivateImportedUsers),
       url: `${this.centralServerService.getCentralRestServerServiceSecuredURL()}/${this.endpoint}`
     });
     this.uploader.response.subscribe(res => this.response = res);
@@ -126,5 +128,12 @@ export class ImportDialogComponent implements OnInit {
         this.uploader.uploadAll();
       }
     });
+  }
+
+  public handleAutoActivateAtImport(checked) {
+    this.autoActivateImportedUsers = checked;
+    this.uploader.options.headers[this.uploader.options.headers.findIndex(
+      option => option.name === 'autoActivateAtImport'
+    )].value = this.autoActivateImportedUsers;
   }
 }

@@ -1154,6 +1154,7 @@
     },
     "import_users": "Nutzer Importieren",
     "import_users_message": "Der Import wird alle hochgeladenen Nutzer die noch nicht importiert wurden verwerfen, möchten Sie fortfahren?",
+    "import_users_auto_activation": "Automatically activate new user account at importation time",
     "import_users_success": "{{inSuccess}} Nutzer wurden erfolgreich hochgeladen und werden nun verarbeitet",
     "import_users_partial": "{{inSuccess}} Nutzer wurden erfolgreich hochgeladen und werden nun verarbeitet und {{inError}} Nutzer sind fehlgeschlagen, bitte überprüfen Sie die Logs",
     "import_users_error": "Das Hochladen von {{inError}} Nutzern ist fehlgeschlagen",

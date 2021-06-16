@@ -1154,6 +1154,7 @@
     },
     "import_users": "Importer des utilisateurs",
     "import_users_message": "L'import va supprimer tous les utilisateurs transférés précédemment qui n'ont pas encore été importé dans la base de données, voulez-vous continuer?",
+    "import_users_auto_activation": "Activer automatiquement les nouveaux comptes utilisateurs à l'importation",
     "import_users_success": "{{inSuccess}} utilisateurs ont été enregistrés avec succès et seront importés de manière asynchrone",
     "import_users_partial": "{{inSuccess}} utilisateurs ont été enregistrés avec succès et seront importés de manière asynchrone et {{inError}} ont échoué, vérifiez les logs",
     "import_users_error": "{{inError}} utilisateurs n'ont pas pu être enregistré",

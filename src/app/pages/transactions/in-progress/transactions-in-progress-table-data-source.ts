@@ -166,13 +166,13 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         class: 'text-left col-15p',
         formatter: (value: User) => this.appUserNamePipe.transform(value),
       },
-        {
-          id: 'tagID',
-          name: 'transactions.badge_id',
-          headerClass: 'col-15p',
-          class: 'text-left col-15p',
-          formatter: (tagID: string) => tagID ? tagID : '-'
-        }
+      {
+        id: 'tagID',
+        name: 'transactions.badge_id',
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
+        formatter: (tagID: string) => tagID ? tagID : '-'
+    }
       );
     }
     if (this.componentService.isActive(TenantComponents.CAR)) {

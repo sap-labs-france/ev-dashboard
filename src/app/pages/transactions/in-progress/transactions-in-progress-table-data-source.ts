@@ -172,7 +172,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         headerClass: 'col-15p',
         class: 'text-left col-15p',
         formatter: (tagID: string) => tagID ? tagID : '-'
-    }
+      }
       );
     }
     if (this.componentService.isActive(TenantComponents.CAR)) {

@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { TransactionDialogComponent } from 'shared/dialogs/transaction/transaction.dialog.component';
+import { IssuerFilter } from 'shared/table/filters/issuer-filter';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
@@ -267,18 +268,25 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
       new EndDateFilter().getFilterDef(),
       new ErrorTypeTableFilter(errorTypes).getFilterDef(),
     ];
-    const siteFilter = new SiteTableFilter().getFilterDef();
+    const issuerFilter = new IssuerFilter().getFilterDef();
+    issuerFilter.currentValue = [{ key: true }];
+    const siteFilter = new SiteTableFilter([issuerFilter]).getFilterDef();
+    const siteAreaFilter = new SiteAreaTableFilter([siteFilter, issuerFilter]).getFilterDef();
     // Show Site Area Filter If Organization component is active
     if (this.componentService.isActive(TenantComponents.ORGANIZATION)) {
-      filters.push(new ChargingStationTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
-      filters.push(new ConnectorTableFilter().getFilterDef());
       filters.push(siteFilter);
-      filters.push(new SiteAreaTableFilter([siteFilter]).getFilterDef());
+      filters.push(siteAreaFilter);
+      filters.push(new ChargingStationTableFilter([siteAreaFilter]).getFilterDef());
+      filters.push(new ConnectorTableFilter().getFilterDef());
     } else {
-      filters.push(new ChargingStationTableFilter().getFilterDef());
+      filters.push(new ChargingStationTableFilter(
+        this.componentService.isActive(TenantComponents.ORGANIZATION) ? [siteAreaFilter] : []
+      ).getFilterDef());
     }
     if (this.authorizationService.isAdmin() || this.authorizationService.hasSitesAdminRights()) {
-      filters.push(new UserTableFilter().getFilterDef());
+      filters.push(new UserTableFilter(
+        this.componentService.isActive(TenantComponents.ORGANIZATION) ? [issuerFilter, siteFilter] : [issuerFilter]
+      ).getFilterDef());
     }
     return filters;
   }

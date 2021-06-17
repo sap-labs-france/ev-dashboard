@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
+import { IssuerFilter } from 'shared/table/filters/issuer-filter';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
@@ -213,7 +214,10 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
       new InvoiceStatusFilter().getFilterDef(),
     ];
     if (this.authorizationService.isAdmin()) {
-      filters.push(new UserTableFilter().getFilterDef());
+      // Set Issuer filter as invisible static filter
+      const issuerFilter = new IssuerFilter().getFilterDef();
+      issuerFilter.currentValue = [{ key: true }];
+      filters.push(new UserTableFilter([issuerFilter]).getFilterDef());
     }
     return filters;
   }

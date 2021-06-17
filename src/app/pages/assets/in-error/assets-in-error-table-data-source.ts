@@ -150,9 +150,10 @@ export class AssetsInErrorTableDataSource extends TableDataSource<AssetInError> 
     });
     // Sort
     errorTypes.sort(Utils.sortArrayOfKeyValue);
+    const issuerFilter = new IssuerFilter().getFilterDef();
     return [
-      new IssuerFilter().getFilterDef(),
-      new SiteAreaTableFilter().getFilterDef(),
+      issuerFilter,
+      new SiteAreaTableFilter([issuerFilter]).getFilterDef(),
       new ErrorTypeTableFilter(errorTypes).getFilterDef(),
     ];
   }

@@ -450,10 +450,15 @@ export abstract class TableDataSource<T extends TableData> {
         // To Remove once the POC is validated
         if (!Utils.isEmptyArray(data.projectedFields)) {
           // Display only projected fields headers
-          this.tableColumnsDef.forEach(tableColumnDef => tableColumnDef.visible = data.projectedFields.map(projectedField =>
-            projectedField = projectedField.split('.')[0]).includes(tableColumnDef.id));
+          data.projectedFields = data.projectedFields.map(projectedField =>
+            projectedField = projectedField.split('.')[0]);
+          for (const tableColumnDef of this.tableColumnsDef) {
+            tableColumnDef.visible = data.projectedFields.includes(tableColumnDef.id);
+          }
         } else {
-          this.tableColumnsDef.forEach(tableColumnDef => tableColumnDef.visible = true);
+          for (const tableColumnDef of this.tableColumnsDef) {
+            tableColumnDef.visible = true;
+          }
         }
         // Build stats
         this.tableFooterStats = this.buildTableFooterStats(data);

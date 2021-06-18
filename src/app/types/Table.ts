@@ -183,6 +183,7 @@ export interface TableColumnDef {
   angularComponent?: any;
   defaultValue?: any;
   additionalParameters?: any;
+  visible?: boolean;
 }
 
 export interface TableSearch {

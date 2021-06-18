@@ -3,6 +3,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { ComponentService } from 'services/component.service';
+import { SiteTableFilter } from 'shared/table/filters/site-table-filter';
+import TenantComponents from 'types/TenantComponents';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
@@ -33,6 +36,12 @@ export class AssetsInErrorTableDataSource extends TableDataSource<AssetInError> 
   private isAdmin: boolean;
   private editAction = new TableEditAssetAction().getActionDef();
   private deleteAction = new TableDeleteAssetAction().getActionDef();
+  private errorTypes = [
+    {
+      key: AssetInErrorType.MISSING_SITE_AREA,
+      value: this.translateService.instant(`assets.errors.${AssetInErrorType.MISSING_SITE_AREA}.title`),
+    }
+  ];
 
   public constructor(
     public spinnerService: SpinnerService,
@@ -40,6 +49,7 @@ export class AssetsInErrorTableDataSource extends TableDataSource<AssetInError> 
     private messageService: MessageService,
     private router: Router,
     private centralServerNotificationService: CentralServerNotificationService,
+    private componentService: ComponentService,
     private centralServerService: CentralServerService,
     private authorizationService: AuthorizationService,
     private dialog: MatDialog,
@@ -142,20 +152,18 @@ export class AssetsInErrorTableDataSource extends TableDataSource<AssetInError> 
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {
-    // Create error type
-    const errorTypes = [];
-    errorTypes.push({
-      key: AssetInErrorType.MISSING_SITE_AREA,
-      value: this.translateService.instant(`assets.errors.${AssetInErrorType.MISSING_SITE_AREA}.title`),
-    });
-    // Sort
-    errorTypes.sort(Utils.sortArrayOfKeyValue);
     const issuerFilter = new IssuerFilter().getFilterDef();
-    return [
+    const filters: TableFilterDef[] = [
       issuerFilter,
-      new SiteAreaTableFilter([issuerFilter]).getFilterDef(),
-      new ErrorTypeTableFilter(errorTypes).getFilterDef(),
     ];
+    // Show Site Area Filter If Organization component is active
+    if (this.componentService.isActive(TenantComponents.ORGANIZATION)) {
+      const siteFilter = new SiteTableFilter([issuerFilter]).getFilterDef();
+      filters.push(siteFilter);
+      filters.push(new SiteAreaTableFilter([issuerFilter, siteFilter]).getFilterDef());
+    }
+    filters.push(new ErrorTypeTableFilter(this.errorTypes).getFilterDef());
+    return filters;
   }
 
   public buildTableDynamicRowActions(asset: AssetInError): TableActionDef[] {

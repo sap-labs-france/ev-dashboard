@@ -208,6 +208,7 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {
+    const issuerFilter = new IssuerFilter().getFilterDef();
     const filters = [
       new StartDateFilter(moment().startOf('y').toDate()).getFilterDef(),
       new EndDateFilter().getFilterDef(),
@@ -215,8 +216,6 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
     ];
     if (this.authorizationService.isAdmin()) {
       // Set Issuer filter as invisible static filter
-      const issuerFilter = new IssuerFilter().getFilterDef();
-      issuerFilter.currentValue = [{ key: true }];
       filters.push(new UserTableFilter([issuerFilter]).getFilterDef());
     }
     return filters;

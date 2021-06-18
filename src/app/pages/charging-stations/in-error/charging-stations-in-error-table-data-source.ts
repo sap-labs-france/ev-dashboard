@@ -276,7 +276,6 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
     // Build filters
     if (this.isOrganizationComponentActive) {
       const issuerFilter = new IssuerFilter().getFilterDef();
-      issuerFilter.currentValue = [{ key: true }];
       const siteFilter = new SiteTableFilter([issuerFilter]).getFilterDef();
       return [
         siteFilter,

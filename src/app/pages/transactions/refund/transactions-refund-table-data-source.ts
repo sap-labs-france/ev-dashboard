@@ -5,6 +5,7 @@ import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { ConnectorTableFilter } from 'shared/table/filters/connector-table-filter';
 import { IssuerFilter } from 'shared/table/filters/issuer-filter';
+import { SiteTableFilter } from 'shared/table/filters/site-table-filter';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
@@ -249,23 +250,37 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {
+    let userFilter: TableFilterDef;
+    const issuerFilter = new IssuerFilter().getFilterDef();
     const filters: TableFilterDef[] = [
       new StartDateFilter(moment().startOf('y').toDate()).getFilterDef(),
       new EndDateFilter().getFilterDef(),
       new TransactionsRefundStatusFilter().getFilterDef(),
     ];
-    if (this.authorizationService.isAdmin() || this.authorizationService.hasSitesAdminRights()) {
-      if (this.componentService.isActive(TenantComponents.ORGANIZATION)) {
-        const issuerFilter = new IssuerFilter().getFilterDef();
-        issuerFilter.currentValue = [{ key: true }];
-        const siteAreaFilter = new SiteAreaTableFilter([issuerFilter]).getFilterDef();
-        filters.push(siteAreaFilter);
-        filters.push(new ChargingStationTableFilter([siteAreaFilter]).getFilterDef());
+    if (this.componentService.isActive(TenantComponents.ORGANIZATION)) {
+      const siteFilter = new SiteTableFilter([issuerFilter]).getFilterDef();
+      const siteAreaFilter = new SiteAreaTableFilter([issuerFilter, siteFilter]).getFilterDef();
+      filters.push(siteFilter);
+      filters.push(siteAreaFilter);
+      if (this.authorizationService.canListChargingStations()) {
+        filters.push(new ChargingStationTableFilter([issuerFilter, siteFilter, siteAreaFilter]).getFilterDef());
         filters.push(new ConnectorTableFilter().getFilterDef());
-        filters.push(new UserTableFilter([issuerFilter]).getFilterDef());
-        filters.push(new ReportTableFilter().getFilterDef());
+      }
+      if ((this.authorizationService.canListUsers())) {
+        userFilter = new UserTableFilter([issuerFilter, siteFilter]).getFilterDef();
+        filters.push(userFilter);
+      }
+    } else {
+      if (this.authorizationService.canListChargingStations()) {
+        filters.push(new ChargingStationTableFilter([issuerFilter]).getFilterDef());
+        filters.push(new ConnectorTableFilter().getFilterDef());
+      }
+      if ((this.authorizationService.canListUsers())) {
+        userFilter = new UserTableFilter([issuerFilter]).getFilterDef();
+        filters.push(userFilter);
       }
     }
+    filters.push(new ReportTableFilter().getFilterDef());
     return filters;
   }
 

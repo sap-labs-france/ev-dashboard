@@ -1315,7 +1315,10 @@
     "status": {
       "paid": "Payée",
       "unpaid": "Impayée",
-      "draft": "Brouillon"
+      "draft": "Brouillon",
+      "deleted": "Supprimée",
+      "uncollectible": "Non recouvrable",
+      "void": "Annulée"
     },
     "number": "Numéro de facture",
     "createdOn": "Date de facture",

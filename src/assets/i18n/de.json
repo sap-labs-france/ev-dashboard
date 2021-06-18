@@ -1315,7 +1315,10 @@
     "status": {
       "paid": "Bezahlt",
       "unpaid": "Unbezahlt",
-      "draft": "Entwurf"
+      "draft": "Entwurf",
+      "deleted": "Deleted",
+      "uncollectible": "Uncollectible",
+      "void": "Cancelled"
     },
     "number": "Rechnungsnummer",
     "createdOn": "Rechnungsdatum",

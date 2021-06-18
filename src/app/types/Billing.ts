@@ -5,6 +5,9 @@ export enum BillingInvoiceStatus {
   PAID = 'paid',
   OPEN = 'open',
   DRAFT = 'draft',
+  UNCOLLECTIBLE = 'uncollectible',
+  DELETED = 'deleted',
+  VOID = 'void',
 }
 
 export interface BillingTax extends TableData {

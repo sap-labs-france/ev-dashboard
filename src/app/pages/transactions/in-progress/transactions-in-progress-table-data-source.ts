@@ -275,19 +275,40 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {
+    let userFilter: TableFilterDef;
     const issuerFilter = new IssuerFilter().getFilterDef();
     const filters: TableFilterDef[] = [issuerFilter];
     // Show Site Area Filter If Organization component is active
     if (this.componentService.isActive(TenantComponents.ORGANIZATION)) {
       const siteFilter = new SiteTableFilter([issuerFilter]).getFilterDef();
+      const siteAreaFilter = new SiteAreaTableFilter([issuerFilter, siteFilter]).getFilterDef();
       filters.push(siteFilter);
-      filters.push(new SiteAreaTableFilter([siteFilter, issuerFilter]).getFilterDef());
-    }
-    filters.push(new ChargingStationTableFilter().getFilterDef());
-    filters.push(new ConnectorTableFilter().getFilterDef());
-    if ((this.authorizationService.isAdmin() || this.authorizationService.hasSitesAdminRights())) {
-      filters.push(new UserTableFilter([issuerFilter]).getFilterDef());
-      filters.push(new TagTableFilter([issuerFilter]).getFilterDef());
+      filters.push(siteAreaFilter);
+      if (this.authorizationService.canListChargingStations()) {
+        filters.push(new ChargingStationTableFilter([issuerFilter, siteFilter, siteAreaFilter]).getFilterDef());
+        filters.push(new ConnectorTableFilter().getFilterDef());
+      }
+      if ((this.authorizationService.canListUsers())) {
+        userFilter = new UserTableFilter([issuerFilter, siteFilter]).getFilterDef();
+        filters.push(userFilter);
+      }
+      if ((this.authorizationService.canListTags())) {
+        filters.push(new TagTableFilter(
+          userFilter ? [issuerFilter, siteFilter, userFilter] : [issuerFilter, siteFilter]).getFilterDef());
+      }
+    } else {
+      if (this.authorizationService.canListChargingStations()) {
+        filters.push(new ChargingStationTableFilter([issuerFilter]).getFilterDef());
+        filters.push(new ConnectorTableFilter().getFilterDef());
+      }
+      if ((this.authorizationService.canListUsers())) {
+        userFilter = new UserTableFilter([issuerFilter]).getFilterDef();
+        filters.push(userFilter);
+      }
+      if ((this.authorizationService.canListTags())) {
+        filters.push(new TagTableFilter(
+          userFilter ? [issuerFilter, userFilter] : [issuerFilter]).getFilterDef());
+      }
     }
     return filters;
   }

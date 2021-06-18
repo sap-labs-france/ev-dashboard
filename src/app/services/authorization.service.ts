@@ -60,6 +60,10 @@ export class AuthorizationService {
     return this.canAccess(Entity.ASSETS, Action.LIST);
   }
 
+  public canListLogs(): boolean {
+    return this.canAccess(Entity.LOGGINGS, Action.LIST);
+  }
+
   public canListAssetsInError(): boolean {
     return this.canAccess(Entity.ASSETS, Action.IN_ERROR);
   }
@@ -183,6 +187,10 @@ export class AuthorizationService {
 
   public canImportUsers(): boolean {
     return this.canAccess(Entity.USERS, Action.IMPORT);
+  }
+
+  public canListTags(): boolean {
+    return this.canAccess(Entity.TAGS, Action.LIST);
   }
 
   public canImportTags(): boolean {

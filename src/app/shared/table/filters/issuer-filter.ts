@@ -3,7 +3,7 @@ import { KeyValue } from '../../../types/GlobalType';
 import { FilterType, TableFilterDef } from '../../../types/Table';
 
 export class IssuerFilter extends TableFilter {
-  public constructor() {
+  public constructor(defaultValue = true) {
     super();
     // Define filter
     const filterDef: TableFilterDef = {
@@ -18,6 +18,9 @@ export class IssuerFilter extends TableFilter {
       multiple: true,
       exhaustive: true
     };
+    if (!defaultValue) {
+      filterDef.defaultValue = organisations[1];
+    }
     // Set
     this.setFilterDef(filterDef);
   }

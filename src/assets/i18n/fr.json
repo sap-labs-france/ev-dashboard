@@ -377,7 +377,7 @@
   "sites": {
     "assign_company": "Assigner une Companie",
     "auto_user_site_assignment": "Assignation automatique des nouveaux utilisateurs sur ce site",
-    "public": "This site is public",
+    "public": "Ce site est public",
     "public_site": "Public",
     "auto_assignment": "Assign. Auto Utilisateur",
     "user_list": "Utilisateurs authorizés à utiliser les bornes sur ce site",
@@ -1315,7 +1315,10 @@
     "status": {
       "paid": "Payée",
       "unpaid": "Impayée",
-      "draft": "Brouillon"
+      "draft": "Brouillon",
+      "deleted": "Supprimée",
+      "uncollectible": "Non recouvrable",
+      "void": "Annulée"
     },
     "number": "Numéro de facture",
     "createdOn": "Date de facture",

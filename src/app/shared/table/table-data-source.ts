@@ -447,6 +447,19 @@ export abstract class TableDataSource<T extends TableData> {
       this.loadDataImpl().pipe(first()).subscribe((data) => {
         // Set nbr of records
         this.setTotalNumberOfRecords(data.count);
+        // To Remove once the POC is validated
+        if (!Utils.isEmptyArray(data.projectedFields)) {
+          // Display only projected fields headers
+          data.projectedFields = data.projectedFields.map(projectedField =>
+            projectedField = projectedField.split('.')[0]);
+          for (const tableColumnDef of this.tableColumnsDef) {
+            tableColumnDef.visible = data.projectedFields.includes(tableColumnDef.id);
+          }
+        } else {
+          for (const tableColumnDef of this.tableColumnsDef) {
+            tableColumnDef.visible = true;
+          }
+        }
         // Build stats
         this.tableFooterStats = this.buildTableFooterStats(data);
         // Ok

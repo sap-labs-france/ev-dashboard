@@ -1315,7 +1315,10 @@
     "status": {
       "paid": "Pagado",
       "unpaid": "No pagado",
-      "draft": "Borrador"
+      "draft": "Borrador",
+      "deleted": "Deleted",
+      "uncollectible": "Uncollectible",
+      "void": "Cancelled"
     },
     "number": "Número de factura",
     "createdOn": "Fecha de factura",

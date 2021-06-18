@@ -1315,7 +1315,10 @@
     "status": {
       "paid": "Pagata",
       "unpaid": "Non pagata",
-      "draft": "Bozza"
+      "draft": "Bozza",
+      "deleted": "Deleted",
+      "uncollectible": "Uncollectible",
+      "void": "Cancelled"
     },
     "number": "Numero Fattura",
     "createdOn": "Data Fattura",

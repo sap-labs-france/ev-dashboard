@@ -33,6 +33,7 @@ export class ReleaseNotesComponent {
               `Check payment method is provided in Start Transaction`,
               `Added Ark charging station vendor support`,
               `Authorization on Assign Assets is driven by the backend`,
+              `Fixed OICP EVSE was not saved in DB`,
             ],
           },
         ],

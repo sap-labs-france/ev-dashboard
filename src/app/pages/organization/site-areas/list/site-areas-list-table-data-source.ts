@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { AuthorizationService } from 'services/authorization.service';
 import { WindowService } from 'services/window.service';
 import { TableSiteAreaGenerateQrCodeConnectorAction, TableSiteAreaGenerateQrCodeConnectorsActionDef } from 'shared/table/actions/site-areas/table-site-area-generate-qr-code-connector-action';
 
@@ -69,6 +70,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     private appUnitPipe: AppUnitPipe,
     private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
+    private authorizationService: AuthorizationService,
     private datePipe: AppDatePipe,
     private windowService: WindowService,
     private componentService: ComponentService) {
@@ -246,7 +248,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     if (this.isAssetComponentActive) {
       if (siteArea.canAssignAssets || siteArea.canUnassignAssets) {
         actions.push(this.assignAssetsToSiteAreaAction);
-      } else {
+      } else if (this.authorizationService.canListAssets()) {
         actions.push(this.viewAssetsOfSiteArea);
       }
     }

@@ -245,9 +245,9 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     }
     if (this.isAssetComponentActive) {
       if (siteArea.canAssignAssets || siteArea.canUnassignAssets) {
-        actions.splice(2, 0, this.assignAssetsToSiteAreaAction);
+        actions.push(this.assignAssetsToSiteAreaAction);
       } else {
-        actions.splice(2, 0, this.viewAssetsOfSiteArea);
+        actions.push(this.viewAssetsOfSiteArea);
       }
     }
     if (siteArea.canExportOCPPParams) {

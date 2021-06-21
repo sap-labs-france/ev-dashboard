@@ -449,6 +449,9 @@ export abstract class TableDataSource<T extends TableData> {
         this.setTotalNumberOfRecords(data.count);
         // Display only projected fields
         if (!Utils.isEmptyArray(data.projectedFields)) {
+          // Format createdBy/lastChangeBy properties Ids
+          data.projectedFields = data.projectedFields.map(projectedField =>
+            projectedField = projectedField.split('.')[0] === 'createdBy' || projectedField.split('.')[0] === 'lastChangedBy' ? projectedField.split('.')[0] : projectedField);
           for (const tableColumnDef of this.tableColumnsDef) {
             tableColumnDef.visible = data.projectedFields.includes(tableColumnDef.id);
           }

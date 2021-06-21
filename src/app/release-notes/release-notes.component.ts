@@ -24,6 +24,17 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.70',
+        date: new Date('2021-06-21'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Check payment method is provided in Start Transaction`,
+            ],
+          },
+        ],
+      },      {
         version: '2.4.69',
         date: new Date('2021-06-18'),
         componentChanges: [

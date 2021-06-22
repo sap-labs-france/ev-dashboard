@@ -28,7 +28,7 @@ import { TableExportUsersAction, TableExportUsersActionDef } from '../../../shar
 import { TableForceSyncBillingUserAction } from '../../../shared/table/actions/users/table-force-sync-billing-user-action';
 import { TableNavigateToTagsAction } from '../../../shared/table/actions/users/table-navigate-to-tags-action';
 import { TableSyncBillingUsersAction } from '../../../shared/table/actions/users/table-sync-billing-users-action';
-import { IssuerFilter, organisations } from '../../../shared/table/filters/issuer-filter';
+import { IssuerFilter, organizations } from '../../../shared/table/filters/issuer-filter';
 import { SiteTableFilter } from '../../../shared/table/filters/site-table-filter';
 import { TagTableFilter } from '../../../shared/table/filters/tag-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
@@ -97,7 +97,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
     if (issuer) {
       const issuerTableFilter = this.tableFiltersDef.find(filter => filter.id === 'issuer');
       if (issuerTableFilter) {
-        issuerTableFilter.currentValue = [organisations.find(organisation => organisation.key === issuer)];
+        issuerTableFilter.currentValue = [organizations.find(organisation => organisation.key === issuer)];
         this.filterChanged(issuerTableFilter);
       }
     }

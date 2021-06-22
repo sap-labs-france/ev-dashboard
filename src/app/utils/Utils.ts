@@ -18,7 +18,7 @@ import { Car, CarCatalog, CarConverter, CarType } from '../types/Car';
 import { ChargePoint, ChargingStation, ChargingStationPowers, Connector, CurrentType, StaticLimitAmps, Voltage } from '../types/ChargingStation';
 import { KeyValue } from '../types/GlobalType';
 import { MobileType } from '../types/Mobile';
-import { ButtonType } from '../types/Table';
+import { ButtonType, TableDataSourceMode } from '../types/Table';
 import { User, UserCar, UserToken } from '../types/User';
 import { Constants } from './Constants';
 
@@ -31,6 +31,18 @@ export class Utils {
       case DialogMode.VIEW:
         formGroup.disable();
         break;
+    }
+  }
+
+  public static getTableDataSourceModeFromDialogMode(dialogMode: DialogMode): TableDataSourceMode {
+    switch (dialogMode) {
+      case DialogMode.CREATE:
+      case DialogMode.EDIT:
+        return TableDataSourceMode.READ_WRITE;
+      case DialogMode.VIEW:
+        return TableDataSourceMode.READ_ONLY;
+      default:
+        return TableDataSourceMode.READ_ONLY;
     }
   }
 
@@ -782,12 +794,6 @@ export class Utils {
       // Server connection error
       case 0:
         messageService.showErrorMessageConnectionLost();
-        if (centralServerService.configService.getCentralSystemServer().logoutOnConnectionError) {
-          // Log Off (remove token)
-          centralServerService.logoutSucceeded();
-          // Navigate to Login
-          router.navigate(['/auth/login']);
-        }
         break;
       case HTTPError.USER_ACCOUNT_CHANGED:
       case HTTPError.TENANT_COMPONENT_CHANGED:

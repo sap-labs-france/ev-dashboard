@@ -39,7 +39,7 @@ import { TableRebuildTransactionConsumptionsAction, TableRebuildTransactionConsu
 import { TableViewTransactionAction, TableViewTransactionActionDef, TransactionDialogData } from '../../../shared/table/actions/transactions/table-view-transaction-action';
 import { ChargingStationTableFilter } from '../../../shared/table/filters/charging-station-table-filter';
 import { EndDateFilter } from '../../../shared/table/filters/end-date-filter';
-import { IssuerFilter, organisations } from '../../../shared/table/filters/issuer-filter';
+import { IssuerFilter, organizations } from '../../../shared/table/filters/issuer-filter';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
 import { SiteTableFilter } from '../../../shared/table/filters/site-table-filter';
 import { StartDateFilter } from '../../../shared/table/filters/start-date-filter';
@@ -132,7 +132,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     if (issuer) {
       const issuerTableFilter = this.tableFiltersDef.find(filter => filter.id === 'issuer');
       if (issuerTableFilter) {
-        issuerTableFilter.currentValue = [organisations.find(organisation => organisation.key === issuer)];
+        issuerTableFilter.currentValue = [organizations.find(organisation => organisation.key === issuer)];
         this.filterChanged(issuerTableFilter);
       }
     }
@@ -361,25 +361,47 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {
+    let userFilter: TableFilterDef;
     const issuerFilter = new IssuerFilter().getFilterDef();
     const filters: TableFilterDef[] = [
       issuerFilter,
       new StartDateFilter(moment().startOf('y').toDate()).getFilterDef(),
       new EndDateFilter().getFilterDef(),
-      new ChargingStationTableFilter().getFilterDef(),
-      new ConnectorTableFilter().getFilterDef(),
       new TransactionsInactivityStatusFilter().getFilterDef(),
     ];
     // Show Site Area Filter If Organization component is active
     if (this.componentService.isActive(TenantComponents.ORGANIZATION)) {
       const siteFilter = new SiteTableFilter([issuerFilter]).getFilterDef();
+      const siteAreaFilter = new SiteAreaTableFilter([issuerFilter, siteFilter]).getFilterDef();
       filters.push(siteFilter);
-      filters.push(new SiteAreaTableFilter([issuerFilter, siteFilter]).getFilterDef());
+      filters.push(siteAreaFilter);
+      if (this.authorizationService.canListChargingStations()) {
+        filters.push(new ChargingStationTableFilter([issuerFilter, siteFilter, siteAreaFilter]).getFilterDef());
+        filters.push(new ConnectorTableFilter().getFilterDef());
+      }
+      if ((this.authorizationService.canListUsers())) {
+        userFilter = new UserTableFilter([issuerFilter, siteFilter]).getFilterDef();
+        filters.push(userFilter);
+      }
+      if ((this.authorizationService.canListTags())) {
+        filters.push(new TagTableFilter(
+          userFilter ? [issuerFilter, siteFilter, userFilter] : [issuerFilter, siteFilter]).getFilterDef());
+      }
+    } else {
+      if (this.authorizationService.canListChargingStations()) {
+        filters.push(new ChargingStationTableFilter([issuerFilter]).getFilterDef());
+        filters.push(new ConnectorTableFilter().getFilterDef());
+      }
+      if ((this.authorizationService.canListUsers())) {
+        userFilter = new UserTableFilter([issuerFilter]).getFilterDef();
+        filters.push(userFilter);
+      }
+      if ((this.authorizationService.canListTags())) {
+        filters.push(new TagTableFilter(
+          userFilter ? [issuerFilter, userFilter] : [issuerFilter]).getFilterDef());
+      }
     }
-    if (this.authorizationService.isAdmin() || this.authorizationService.hasSitesAdminRights()) {
-      filters.push(new UserTableFilter([issuerFilter]).getFilterDef());
-      filters.push(new TagTableFilter([issuerFilter]).getFilterDef());
-    }
+    filters.push(new ConnectorTableFilter().getFilterDef());
     return filters;
   }
 

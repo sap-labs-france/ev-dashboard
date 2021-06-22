@@ -24,13 +24,35 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.4.69',
-        date: new Date('2021-06-14'),
+        version: '2.4.70',
+        date: new Date('2021-06-21'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Check payment method is provided in Start Transaction`,
+              `Added Ark charging station vendor support`,
+              `Authorization on Assign Assets is driven by the backend`,
+              `Fixed OICP EVSE was not saved in DB`,
+            ],
+          },
+        ],
+      },      {
+        version: '2.4.69',
+        date: new Date('2021-06-18'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added filter dependencies`,
+              `Stripe beta version enhancements`,
+              `Optimized database access`,
+              `Enforced Smart Charging safety + minor fixes`,
+              `Return authorized fields to the UI to adjust visible columns`,
+              `Added new Lafon, Delta and Gewiss new Charging Station's models`,
+              `Keep the Action filter selection after a search in Logs`,
               `Fixed send End of Charge notification for Legrand Charging Station`,
+              `Fixed Session detail pop-up does not show up when clicked from email`,
             ],
           },
         ],

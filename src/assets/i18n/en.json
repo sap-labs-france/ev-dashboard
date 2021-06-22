@@ -1316,7 +1316,10 @@
     "status": {
       "paid": "Paid",
       "unpaid": "Unpaid",
-      "draft": "Draft"
+      "draft": "Draft",
+      "deleted": "Deleted",
+      "uncollectible": "Uncollectible",
+      "void": "Cancelled"
     },
     "number": "Invoice Number",
     "createdOn": "Invoice Date",

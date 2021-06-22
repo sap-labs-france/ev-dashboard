@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { IssuerFilter } from 'shared/table/filters/issuer-filter';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
@@ -274,9 +275,11 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
     errorTypes.sort(Utils.sortArrayOfKeyValue);
     // Build filters
     if (this.isOrganizationComponentActive) {
+      const issuerFilter = new IssuerFilter().getFilterDef();
+      const siteFilter = new SiteTableFilter([issuerFilter]).getFilterDef();
       return [
-        new SiteTableFilter().getFilterDef(),
-        new SiteAreaTableFilter().getFilterDef(),
+        siteFilter,
+        new SiteAreaTableFilter([siteFilter, issuerFilter]).getFilterDef(),
         new ErrorTypeTableFilter(errorTypes).getFilterDef(),
       ];
     }

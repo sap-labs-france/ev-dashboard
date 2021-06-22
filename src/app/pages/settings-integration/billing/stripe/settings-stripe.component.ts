@@ -24,13 +24,11 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
   public periodicBillingAllowed!: AbstractControl;
   public taxID!: AbstractControl;
   public taxes: BillingTax[] = [];
-  public transactionBillingActivated: boolean;
 
   public constructor(private centralServerService: CentralServerService) {
     this.centralServerService.getBillingTaxes().subscribe((taxes) => {
       this.taxes = taxes;
     });
-    this.transactionBillingActivated = false;
   }
 
   public ngOnInit() {
@@ -113,7 +111,6 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
 
   private updateFormData() {
     if (this.billingSettings?.billing?.isTransactionBillingActivated) {
-      this.transactionBillingActivated = true;
       this.formGroup.get('stripe')?.disable();
     }
     if (!Utils.isEmptyObject(this.billingSettings?.stripe) && !Utils.isEmptyObject(this.formGroup.value)) {

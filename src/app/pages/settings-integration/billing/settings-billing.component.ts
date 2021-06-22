@@ -23,10 +23,10 @@ import { Utils } from '../../../utils/Utils';
 })
 export class SettingsBillingComponent implements OnInit {
   public isActive = false;
+  public liveMode = false;
 
   public formGroup!: FormGroup;
   public billingSettings!: BillingSettings;
-  public transactionBillingActivated: boolean;
 
   public constructor(
     private centralServerService: CentralServerService,
@@ -55,6 +55,7 @@ export class SettingsBillingComponent implements OnInit {
       this.spinnerService.hide();
       // Keep
       this.billingSettings = settings;
+      this.liveMode = this.isConnectedProductiveAccount(settings);
       // Init form
       this.formGroup.markAsPristine();
     }, (error) => {
@@ -72,13 +73,8 @@ export class SettingsBillingComponent implements OnInit {
 
   public save(newSettings: any) {
     this.billingSettings.type = BillingSettingsType.STRIPE;
-    if (newSettings?.billing?.isTransactionBillingActivated) {
-      this.transactionBillingActivated = newSettings.billing.isTransactionBillingActivated;
-    } else {
-      this.transactionBillingActivated = this.billingSettings.billing.isTransactionBillingActivated;
-    }
+    newSettings.billing.isTransactionBillingActivated = !!newSettings.billing.isTransactionBillingActivated;
     this.billingSettings.billing = newSettings.billing as BillingSetting;
-    this.billingSettings.billing.isTransactionBillingActivated = this.transactionBillingActivated;
     this.billingSettings.stripe = newSettings.stripe as StripeBillingSetting;
     // Save
     this.spinnerService.show();
@@ -165,5 +161,42 @@ export class SettingsBillingComponent implements OnInit {
         this.save(this.billingSettings);
       }
     });
+  }
+
+  private clearTestData() {
+    this.dialogService.createAndShowYesNoDialog(
+      this.translateService.instant('settings.billing.billing_clear_test_data_title'),
+      this.translateService.instant('settings.billing.billing_clear_test_data_confirm'),
+    ).subscribe((response) => {
+      if (response === ButtonType.YES) {
+        this.triggerTestDataCleanup();
+      }
+    });
+  }
+
+  private triggerTestDataCleanup() {
+    // Clear Test Data
+    this.spinnerService.show();
+    this.centralServerService.clearBillingTestData().subscribe((response) => {
+      this.spinnerService.hide();
+      if (response.succeeded) {
+        this.messageService.showSuccessMessage('settings.billing.billing_clear_test_data_success');
+        this.refresh();
+      } else {
+        Utils.handleError(JSON.stringify(response),
+          this.messageService, 'settings.billing.billing_clear_test_data_error');
+      }
+    }, (error) => {
+      this.spinnerService.hide();
+      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'settings.billing.billing_clear_test_data_error');
+    });
+  }
+
+  private isConnectedProductiveAccount(settings: BillingSettings): boolean {
+    // TODO - move it somewhere else to avoid checking the internal STRIPE data here
+    if ( this.billingSettings?.type === 'stripe' ) {
+      return ( this.billingSettings?.stripe?.publicKey?.startsWith('pk_live_') );
+    }
+    return false ;
   }
 }

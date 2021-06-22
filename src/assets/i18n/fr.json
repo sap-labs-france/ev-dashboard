@@ -1537,6 +1537,11 @@
       "transaction_billing_activation_confirm": "Voulez-vous vraiment activer la facturation des sessions de recharge ?<br><br> <strong> Attention ! </strong> Une fois activée, vous ne serez plus en mesure de la désactiver",
       "transaction_billing_activation_success": "La facturation des sessions de recharge a été activée avec succès",
       "transaction_billing_activation_error": "La facturation des sessions de recharge n'a pas pu être activée",
+      "billing_clear_test_data": "Supprimer les données de test",
+      "billing_clear_test_data_title": "Suppression des données de test",
+      "billing_clear_test_data_confirm": "Souhaitez-vous vraiment supprimer les données de test?",
+      "billing_clear_test_data_success": "Les données de test ont été supprimées",
+      "billing_clear_test_data_error": "L'opération a échouée. La suppression des données a été interrompue",
       "user": {
         "synchronize_users": "Synchro Utilisateurs (Facturation)",
         "synchronize_user": "Synchro Utilisateur (Facturation)",

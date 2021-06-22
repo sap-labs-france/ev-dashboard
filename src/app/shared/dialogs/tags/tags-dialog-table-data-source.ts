@@ -63,6 +63,14 @@ export class TagsDialogTableDataSource extends DialogTableDataSource<Tag> {
         sortable: true,
       },
       {
+        id: 'visualID',
+        name: 'tags.visual_id',
+        class: 'text-left col-20p',
+        sorted: true,
+        direction: 'asc',
+        sortable: true,
+      },
+      {
         id: 'description',
         name: 'general.description',
         class: 'text-left',

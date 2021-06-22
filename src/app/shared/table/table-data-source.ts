@@ -8,7 +8,7 @@ import { SpinnerService } from '../../services/spinner.service';
 import ChangeNotification from '../../types/ChangeNotification';
 import { DataResult, Ordering, Paging } from '../../types/DataResult';
 import { FilterParams } from '../../types/GlobalType';
-import { DropdownItem, FilterType, TableActionDef, TableColumnDef, TableData, TableDef, TableFilterDef } from '../../types/Table';
+import { DropdownItem, FilterType, TableActionDef, TableColumnDef, TableData, TableDataSourceMode, TableDef, TableFilterDef } from '../../types/Table';
 import { Constants } from '../../utils/Constants';
 import { Utils } from '../../utils/Utils';
 import { TableResetFiltersAction } from './actions/table-reset-filters-action';
@@ -21,6 +21,7 @@ export abstract class TableDataSource<T extends TableData> {
   public tableActionsRightDef!: TableActionDef[];
   public tableRowActionsDef!: TableActionDef[];
   public firstLoad = false;
+  public tableDataSourceMode!: TableDataSourceMode;
 
   public data: T[] = [];
   public formArray?: FormArray;
@@ -71,6 +72,14 @@ export abstract class TableDataSource<T extends TableData> {
 
   public isEditable(): boolean {
     return this.tableDef && this.tableDef.isEditable;
+  }
+
+  public getMode(): TableDataSourceMode {
+    return this.tableDataSourceMode;
+  }
+
+  public setMode(tableDataSourceMode: TableDataSourceMode) {
+    this.tableDataSourceMode = tableDataSourceMode;
   }
 
   public setMultipleRowSelection(multipleRowSelection: boolean) {

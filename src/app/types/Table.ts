@@ -27,6 +27,11 @@ export interface TableData extends AuthorizationActions {
   isExpanded?: boolean;
 }
 
+export enum TableDataSourceMode {
+  READ_WRITE = 'RW',
+  READ_ONLY = 'RO',
+}
+
 export interface TableFilterDef {
   id: string;
   httpId: string;

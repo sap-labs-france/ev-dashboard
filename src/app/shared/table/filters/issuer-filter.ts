@@ -13,20 +13,20 @@ export class IssuerFilter extends TableFilter {
       name: 'issuer.title',
       class: 'col-md-6 col-lg-2 col-xl-2',
       label: '',
-      defaultValue: organisations[0],
-      items: Object.assign([], organisations),
+      defaultValue: defaultValue ? organizations[0] : organizations[1],
+      items: Object.assign([], organizations),
       multiple: true,
       exhaustive: true
     };
     if (!defaultValue) {
-      filterDef.defaultValue = organisations[1];
+      filterDef.defaultValue = organizations[1];
     }
     // Set
     this.setFilterDef(filterDef);
   }
 }
 
-export const organisations: KeyValue[] = [
+export const organizations: KeyValue[] = [
   { key: 'true', value: 'issuer.local' },
   { key: 'false', value: 'issuer.foreign' },
 ];

@@ -20,8 +20,11 @@ export class SiteAreaAssetsDialogComponent {
     // default title
     this.dialogTitle = this.translateService.instant('assets.titles');
     if (dialogParams) {
+      this.siteAreaAssetsDataSource.setMode(
+        Utils.getTableDataSourceModeFromDialogMode(dialogParams.dialogMode));
       this.siteAreaAssetsDataSource.setSiteArea(dialogParams.dialogData);
-      this.dialogTitle = this.translateService.instant('site_areas.assigned_assets_to_site_area', { siteAreaName: dialogParams.dialogData.name });
+      this.dialogTitle = this.translateService.instant(
+        'site_areas.assigned_assets_to_site_area', { siteAreaName: dialogParams.dialogData.name });
     }
     Utils.registerCloseKeyEvents(this.dialogRef);
   }

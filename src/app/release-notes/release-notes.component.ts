@@ -36,6 +36,7 @@ export class ReleaseNotesComponent {
               `Authorization on Assign Assets is driven by the backend`,
               `Fixed OICP EVSE was not saved in DB`,
               `Fixed Eichrecht Signed Data handling in Stop Transaction`,
+              `Assert that OICP and OCPI Roaming components cannot be both active in the same tenant`,
               `Optimized DB access for Car`,
             ],
           },

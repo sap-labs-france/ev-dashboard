@@ -36,6 +36,7 @@ export class ImportDialogComponent implements OnInit {
   private messageNoSuccessNoError: string;
   private confirmImportTitle: string;
   private confirmImportMessage: string;
+  private confirmImportMessageAutoActivate: string;
   private autoActivateImportedUsers: string;
 
   public constructor(
@@ -56,6 +57,7 @@ export class ImportDialogComponent implements OnInit {
       this.optionalProperties = data.optionalProperties ?? [];
       this.confirmImportTitle = `${data.entity}.import_${data.entity}`;
       this.confirmImportMessage = `${data.entity}.import_${data.entity}_message`;
+      this.confirmImportMessageAutoActivate = `${data.entity}.import_${data.entity}_message_auto_activate`;
       this.autoActivateImportedUsers = data.autoActivateImportedUsers;
     }
     Utils.registerCloseKeyEvents(this.dialogRef);
@@ -122,7 +124,7 @@ export class ImportDialogComponent implements OnInit {
   public upload(): void {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant(this.confirmImportTitle),
-      this.translateService.instant(this.confirmImportMessage),
+      this.autoActivateImportedUsers ? this.translateService.instant(this.confirmImportMessageAutoActivate) : this.translateService.instant(this.confirmImportMessage),
     ).subscribe((result) => {
       if (result === ButtonType.YES) {
         this.uploader.uploadAll();

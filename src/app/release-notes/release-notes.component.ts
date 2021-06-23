@@ -25,7 +25,7 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.4.70',
-        date: new Date('2021-06-21'),
+        date: new Date('2021-06-23'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -34,6 +34,7 @@ export class ReleaseNotesComponent {
               `Added Ark charging station vendor support`,
               `Authorization on Assign Assets is driven by the backend`,
               `Fixed OICP EVSE was not saved in DB`,
+              `Fixed Eichrecht Signed Data handling in Stop Transaction`,
             ],
           },
         ],

@@ -336,6 +336,7 @@
     "consume": "Consumo de Energia",
     "consume_and_produce": "Consume and Produce Energy",
     "dynamic_asset": "Ativo Dinâmico",
+    "uses_push_api": "Uses Push API",
     "instant_power": "Poder Instantâneo",
     "asset_connection": "Conexão de Ativos",
     "meter_id": "Medidor ID",

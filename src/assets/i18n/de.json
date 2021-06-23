@@ -336,6 +336,7 @@
     "consume": "Verbraucht Energie",
     "consume_and_produce": "Verbraucht und erzeugt Energie",
     "dynamic_asset": "Dynamisches Asset",
+    "uses_push_api": "Nutzt die Push-API",
     "instant_power": "Aktuelle Energie",
     "asset_connection": "Asset-Verbindung",
     "meter_id": "Metrik ID",

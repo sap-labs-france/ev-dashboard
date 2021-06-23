@@ -67,12 +67,16 @@ export class SettingsBillingComponent implements OnInit {
       }
     });
   }
-
-  public save(newSettings: any) {
+  public saveNewSettings(newSettings: any) {
     this.billingSettings.type = BillingSettingsType.STRIPE;
-    newSettings.billing.isTransactionBillingActivated = !!newSettings.billing.isTransactionBillingActivated;
-    this.billingSettings.billing = newSettings.billing as BillingSetting;
+    // Override current values with the new ones
+    this.billingSettings.billing = { ...this.billingSettings.billing, ...newSettings.billing };
     this.billingSettings.stripe = newSettings.stripe as StripeBillingSetting;
+    // Save
+    this.saveBillingSettings();
+  }
+
+  public saveBillingSettings() {
     // Save
     this.spinnerService.show();
     this.componentService.saveBillingSettings(this.billingSettings).subscribe((response) => {
@@ -155,7 +159,7 @@ export class SettingsBillingComponent implements OnInit {
     ).subscribe((response) => {
       if (response === ButtonType.YES) {
         this.billingSettings.billing.isTransactionBillingActivated = true;
-        this.save(this.billingSettings);
+        this.saveBillingSettings();
       }
     });
   }

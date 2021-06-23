@@ -112,6 +112,8 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
   private updateFormData() {
     if (this.billingSettings?.billing?.isTransactionBillingActivated) {
       this.formGroup.get('stripe')?.disable();
+    } else {
+      this.formGroup.get('stripe')?.enable();
     }
     if (!Utils.isEmptyObject(this.billingSettings?.stripe) && !Utils.isEmptyObject(this.formGroup.value)) {
       const stripeSetting = this.billingSettings.stripe;

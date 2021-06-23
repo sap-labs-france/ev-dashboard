@@ -12,7 +12,7 @@
 </div>
 <form *ngIf="isActive" class="form" [formGroup]="formGroup">
   <div class="mat-toolbar-row left-actions">
-    <button mat-raised-button color="warn" (click)="save(formGroup.getRawValue())"
+    <button mat-raised-button color="warn" (click)="saveNewSettings(formGroup.getRawValue())"
       [disabled]="!formGroup.valid || !formGroup.dirty">
       <mat-icon>save</mat-icon><span>{{'general.save' | translate}}</span>
     </button>

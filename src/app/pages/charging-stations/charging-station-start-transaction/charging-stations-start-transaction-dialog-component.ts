@@ -38,7 +38,7 @@ export class ChargingStationsStartTransactionDialogComponent implements OnInit {
   public tag!: AbstractControl;
   public tagID!: AbstractControl;
 
-  public errors: string;
+  public error: string;
 
   public loggedUser: UserToken;
   public canListUsers = false;
@@ -131,9 +131,9 @@ export class ChargingStationsStartTransactionDialogComponent implements OnInit {
           this.formGroup.setErrors(userDefaultTagCar.errorCodes);
           // Set mat-error message depending on errorCode provided
           if (userDefaultTagCar.errorCodes[0] === StartTransactionErrorCode.BILLING_NO_PAYMENT_METHOD) {
-            this.errors = this.translateService.instant('transactions.error_start_no_payment_method');
+            this.error = this.translateService.instant('transactions.error_start_no_payment_method');
           } else {
-            this.errors = this.translateService.instant('transactions.error_start_general');
+            this.error = this.translateService.instant('transactions.error_start_general');
           }
         }
       }, (error) => {

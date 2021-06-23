@@ -1400,6 +1400,7 @@
     "delete_success": "Die Organisation '{{name}}' wurde erfolgreich gelöscht",
     "delete_error": "Beim Löschen der Organisation ist ein Fehler aufgetreten",
     "save_error_refund": "Preisbildung muss für die Rückerstattung aktiv sein",
+    "save_error_roaming": "You cannot activate both the OCPI and OICP roaming components",
     "save_error_billing": "Preisbildung muss für Rechnungslegung aktiv sein",
     "save_error_smart_charging": "Organisation muss für Smart-Charging aktiv sein",
     "save_error_building": "Organisation muss aktiv sein, um Assets zu nutzen zu können",

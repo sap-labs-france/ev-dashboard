@@ -23,8 +23,6 @@ import { Utils } from '../../../utils/Utils';
 })
 export class SettingsBillingComponent implements OnInit {
   public isActive = false;
-  public liveMode = false;
-
   public formGroup!: FormGroup;
   public billingSettings!: BillingSettings;
 
@@ -55,7 +53,6 @@ export class SettingsBillingComponent implements OnInit {
       this.spinnerService.hide();
       // Keep
       this.billingSettings = settings;
-      this.liveMode = this.isConnectedProductiveAccount(settings);
       // Init form
       this.formGroup.markAsPristine();
     }, (error) => {
@@ -190,13 +187,5 @@ export class SettingsBillingComponent implements OnInit {
       this.spinnerService.hide();
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'settings.billing.billing_clear_test_data_error');
     });
-  }
-
-  private isConnectedProductiveAccount(settings: BillingSettings): boolean {
-    // TODO - move it somewhere else to avoid checking the internal STRIPE data here
-    if ( this.billingSettings?.type === 'stripe' ) {
-      return ( this.billingSettings?.stripe?.publicKey?.startsWith('pk_live_') );
-    }
-    return false ;
   }
 }

@@ -2229,6 +2229,8 @@
     "create_invoice_success": "Für diesen Ladevorgang wurde erfolgreich eine Rechnung erstellt.",
     "create_invoice_error": "Während der Erstellung der Rechnung für den Ladevorgang ist ein Fehler aufgetreten",
     "redirect": "Zu den Ladevorgängen navigieren",
+    "error_start_no_payment_method": "Service unavailable, please go to your profile to provide a payment method.",
+    "error_start_general": "Service temporarily unavailable, please contact the support.",
     "filter": {
       "type": {
         "name": "Typ",

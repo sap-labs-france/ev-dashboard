@@ -2231,8 +2231,6 @@
     "create_invoice_success": "La fattura è stata creata correttamente per questa sessione",
     "create_invoice_error": "Si è verificato un errore durante la creazione di una fattura per questa sessione ",
     "redirect": "Vai alle Sessioni",
-    "error_start_no_payment_method": "Service unavailable, please go to your profile to provide a payment method.",
-    "error_start_general": "Service temporarily unavailable, please contact the support.",
     "filter": {
       "type": {
         "name": "Tipo",

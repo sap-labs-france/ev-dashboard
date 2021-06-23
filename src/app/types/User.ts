@@ -4,7 +4,6 @@ import { Car } from './Car';
 import CreatedUpdatedProps from './CreatedUpdatedProps';
 import { TableData } from './Table';
 import { Tag } from './Tag';
-import { StartTransactionErrorCode } from './Transaction';
 
 export interface User extends TableData, CreatedUpdatedProps {
   id: string;
@@ -71,7 +70,6 @@ export interface UserNotifications {
 export interface UserDefaultTagCar {
   car?: Car;
   tag?: Tag;
-  errorCodes?: StartTransactionErrorCode[];
 }
 
 export interface UserToken {

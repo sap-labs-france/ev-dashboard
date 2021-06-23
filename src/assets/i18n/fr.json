@@ -2231,8 +2231,6 @@
     "create_invoice_success": "Facture créée avec succès pour cette session",
     "create_invoice_error": "Une erreur est survenue pendant la création de la facture, vérifiez les logs",
     "redirect": "Naviguer vers Sessions",
-    "error_start_no_payment_method": "Service indisponible, veuillez accéder à votre profil pour fournir un moyen de paiement",
-    "error_start_general": "Service temporairement indisponible, veuillez contacter le support",
     "filter": {
       "type": {
         "name": "Type",

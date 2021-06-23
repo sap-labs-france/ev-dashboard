@@ -336,6 +336,7 @@
     "consume": "Consomme de l'Energie",
     "consume_and_produce": "Consomme et Produit de l'Energie",
     "dynamic_asset": "Ressource Dynamique",
+    "uses_push_api": "Utiliser API externe",
     "instant_power": "Puissance Instantanée",
     "asset_connection": "Connexion à la Ressource",
     "meter_id": "ID du Compteur",

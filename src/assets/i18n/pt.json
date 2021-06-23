@@ -1400,6 +1400,7 @@
     "delete_success": "A organização '{{name}}' foi excluída com sucesso",
     "delete_error": "Ocorreu um erro ao excluir a organização",
     "save_error_refund": "O preço deve estar ativo para usar o reembolso",
+    "save_error_roaming": "You cannot activate both the OCPI and OICP roaming components",
     "save_error_billing": "O preço deve estar ativo para usar na fatura",
     "save_error_smart_charging": "A organização deve estar ativa para usar o Carregamento Inteligente",
     "save_error_asset": "A organização deve estar ativa para usar o ativo",

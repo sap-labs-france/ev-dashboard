@@ -1400,6 +1400,7 @@
     "delete_success": "L'organizzazione '{{name}}' è stata cancellata correttamente",
     "delete_error": "Si è verificato un errore durante la cancellazione dell'organizzazione",
     "save_error_refund": "Il prezzo deve essere attivo per utilizzare il rimborso",
+    "save_error_roaming": "You cannot activate both the OCPI and OICP roaming components",
     "save_error_billing": "Il prezzo deve essere attivo per usare la fatturazione",
     "save_error_smart_charging": "L'organizzazione deve essere attiva per utilizzare Carica Smart",
     "save_error_asset": "L'Organizzazione deve essere attiva per usare Risorsa",

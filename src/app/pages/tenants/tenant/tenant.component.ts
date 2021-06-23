@@ -199,6 +199,8 @@ export class TenantComponent implements OnInit {
     let assetActive = false;
     let carActive = false;
     let carConnectorActive = false;
+    let ocpiActive = false;
+    let oicpActive = false;
 
     for (const component in tenant.components) {
       if (Utils.objectHasProperty(tenant.components, component)) {
@@ -229,7 +231,17 @@ export class TenantComponent implements OnInit {
         if (component === TenantComponents.CAR_CONNECTOR) {
           carConnectorActive = tenant.components[component].active;
         }
+        if (component === TenantComponents.OCPI) {
+          ocpiActive = tenant.components[component].active;
+        }
+        if (component === TenantComponents.OICP) {
+          oicpActive = tenant.components[component].active;
+        }
       }
+    }
+    if (oicpActive && ocpiActive) {
+      this.messageService.showErrorMessage('tenants.save_error_roaming');
+      return;
     }
     if (refundActive && !pricingActive) {
       this.messageService.showErrorMessage('tenants.save_error_refund');

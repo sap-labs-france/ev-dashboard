@@ -30,11 +30,15 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `Allow external systems to push Asset's consumption for the Smart Charging`,
               `Check payment method is provided in Start Transaction`,
               `Added Ark charging station vendor support`,
               `Authorization on Assign Assets is driven by the backend`,
               `Fixed OICP EVSE was not saved in DB`,
               `Fixed Eichrecht Signed Data handling in Stop Transaction`,
+              `Migrated the User Service to the REST public API`,
+              `Assert that OICP and OCPI Roaming components cannot be both active in the same tenant`,
+              `Optimized DB access for Car`,
             ],
           },
         ],

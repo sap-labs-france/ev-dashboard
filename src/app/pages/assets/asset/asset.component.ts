@@ -55,6 +55,7 @@ export class AssetComponent implements OnInit {
   public longitude!: AbstractControl;
   public latitude!: AbstractControl;
   public dynamicAsset!: AbstractControl;
+  public usesPushAPI!: AbstractControl;
   public connectionID!: AbstractControl;
   public meterID!: AbstractControl;
   public asset!: Asset;
@@ -142,6 +143,7 @@ export class AssetComponent implements OnInit {
           Validators.required,
         ])),
       dynamicAsset: new FormControl(false),
+      usesPushAPI: new FormControl(false),
       meterID: new FormControl('',
         Validators.compose([
           Validators.required,
@@ -161,6 +163,7 @@ export class AssetComponent implements OnInit {
     this.longitude = this.coordinates.at(0);
     this.latitude = this.coordinates.at(1);
     this.dynamicAsset = this.formGroup.controls['dynamicAsset'];
+    this.usesPushAPI = this.formGroup.controls['usesPushAPI'];
     this.connectionID = this.formGroup.controls['connectionID'];
     this.meterID = this.formGroup.controls['meterID'];
     // Disable connection form by default
@@ -227,6 +230,7 @@ export class AssetComponent implements OnInit {
       }
       if (this.asset.dynamicAsset) {
         this.formGroup.controls.dynamicAsset.setValue(this.asset.dynamicAsset);
+        this.formGroup.controls.usesPushAPI.setValue(this.asset.usesPushAPI);
         this.disableConnectionDetails();
       }
       if (this.asset.connectionID) {
@@ -256,12 +260,20 @@ export class AssetComponent implements OnInit {
   }
 
   public disableConnectionDetails() {
-    if (Utils.convertToBoolean(this.dynamicAsset.value)) {
+    if (Utils.convertToBoolean(this.dynamicAsset.value && !Utils.convertToBoolean(this.usesPushAPI.value))) {
       this.connectionID.enable();
       this.meterID.enable();
     } else {
       this.connectionID.disable();
       this.meterID.disable();
+      this.connectionID.reset();
+      this.meterID.reset();
+    }
+    if (!Utils.convertToBoolean(this.dynamicAsset.value)) {
+      this.usesPushAPI.reset();
+      this.usesPushAPI.disable();
+    } else {
+      this.usesPushAPI.enable();
     }
   }
 

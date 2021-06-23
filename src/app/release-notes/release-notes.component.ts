@@ -34,6 +34,7 @@ export class ReleaseNotesComponent {
               `Check payment method is provided in Start Transaction`,
               `Added Ark charging station vendor support`,
               `Authorization on Assign Assets is driven by the backend`,
+              `Fixed Extra Inactivity is only calculated between Finishing and Available status notification`,
               `Fixed OICP EVSE was not saved in DB`,
               `Fixed Eichrecht Signed Data handling in Stop Transaction`,
               `Migrated the User Service to the REST public API`,

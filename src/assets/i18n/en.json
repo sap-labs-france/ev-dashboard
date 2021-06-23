@@ -2229,6 +2229,8 @@
     "create_invoice_success": "Invoice has been created successfully for this session",
     "create_invoice_error": "Error occurred while creating an invoice for this session",
     "redirect": "Navigate to Sessions",
+    "error_start_no_payment_method": "Service unavailable, please go to your profile to provide a payment method.",
+    "error_start_general": "Service temporarily unavailable, please contact the support.",
     "filter": {
       "type": {
         "name": "Type",

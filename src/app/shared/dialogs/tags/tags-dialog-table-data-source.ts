@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { TagStatusFormatterComponent } from 'pages/users/formatters/tag-status-formatter.component';
 import { Observable } from 'rxjs';
+import { User } from 'types/User';
 
 import { CentralServerService } from '../../../services/central-server.service';
 import { MessageService } from '../../../services/message.service';
@@ -23,6 +24,7 @@ export class TagsDialogTableDataSource extends DialogTableDataSource<Tag> {
     private centralServerService: CentralServerService) {
     super(spinnerService, translateService);
     // Init
+    this.setStaticFilters([{ WithUser: true }]);
     this.initDataSource();
   }
 
@@ -63,10 +65,29 @@ export class TagsDialogTableDataSource extends DialogTableDataSource<Tag> {
         sortable: true,
       },
       {
+        id: 'visualID',
+        name: 'tags.visual_id',
+        class: 'text-left col-20p',
+        sortable: true,
+      },
+      {
         id: 'description',
         name: 'general.description',
         class: 'text-left',
         sortable: true,
+      },
+      {
+        id: 'user',
+        name: 'users.title',
+        headerClass: 'col-20p',
+        class: 'col-20p',
+        formatter: (user: User) => Utils.buildUserFullName(user),
+      },
+      {
+        id: 'user.email',
+        name: 'users.email',
+        headerClass: 'col-20em',
+        class: 'col-20em',
       },
       {
         id: 'default',

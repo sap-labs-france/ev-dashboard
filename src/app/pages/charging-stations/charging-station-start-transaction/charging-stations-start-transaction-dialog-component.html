@@ -1,5 +1,12 @@
 <h2 class="dialog-title" mat-dialog-title>{{title | translate}}</h2>
 <mat-dialog-content>
+  <div class="row" *ngIf="formGroup.errors">
+    <div class="col-md-12">
+      <mat-error class="mat-start-transaction-error">
+        {{errorMessage}}
+      </mat-error>
+    </div>
+  </div>
   <div class="row" *ngIf="canListUsers">
     <div class="col-md-12">
       <div class="form-group">

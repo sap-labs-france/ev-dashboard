@@ -25,15 +25,17 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.4.70',
-        date: new Date('2021-06-23'),
+        date: new Date('2021-06-25'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `Allow external systems to push Asset's consumption for the Smart Charging`,
               `Check payment method is provided in Start Transaction`,
-              `Added Ark charging station vendor support`,
+              `Empty Charging Station's connectors at Boot Notification`,
+              `Added new AixCharger, Alfen and Ebee new Charging Station's models in templates`,
               `Authorization on Assign Assets is driven by the backend`,
+              `Fixed Extra Inactivity is only calculated between Finishing and Available status notification`,
               `Fixed OICP EVSE was not saved in DB`,
               `Fixed Eichrecht Signed Data handling in Stop Transaction`,
               `Migrated the User Service to the REST public API`,
@@ -54,7 +56,7 @@ export class ReleaseNotesComponent {
               `Optimized database access`,
               `Enforced Smart Charging safety + minor fixes`,
               `Return authorized fields to the UI to adjust visible columns`,
-              `Added new Lafon, Delta and Gewiss new Charging Station's models`,
+              `Added new Lafon, Delta and Gewiss new Charging Station's models in templates`,
               `Keep the Action filter selection after a search in Logs`,
               `Fixed send End of Charge notification for Legrand Charging Station`,
               `Fixed Session detail pop-up does not show up when clicked from email`,

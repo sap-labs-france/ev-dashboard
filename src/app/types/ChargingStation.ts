@@ -125,6 +125,8 @@ export interface Connector extends TableData {
   currentTransactionID?: number;
   currentTransactionDate?: Date;
   currentTagID?: string;
+  currentUserID?: string;
+  user?: User;
   status: ChargePointStatus;
   errorCode?: string;
   info?: string;
@@ -136,8 +138,6 @@ export interface Connector extends TableData {
   amperageLimit?: number;
   statusLastChangedOn?: Date;
   numberOfConnectedPhase?: number;
-  userID?: string;
-  user?: User;
   currentType?: CurrentType;
   chargePointID?: number;
   hasDetails: boolean;

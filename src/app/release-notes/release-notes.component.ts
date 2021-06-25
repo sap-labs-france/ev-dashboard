@@ -32,6 +32,7 @@ export class ReleaseNotesComponent {
             changes: [
               `Allow external systems to push Asset's consumption for the Smart Charging`,
               `Check payment method is provided in Start Transaction`,
+              `Empty Charging Station's connectors at Boot Notification`,
               `Added new AixCharger, Alfen and Ebee new Charging Station's models in templates`,
               `Authorization on Assign Assets is driven by the backend`,
               `Fixed Extra Inactivity is only calculated between Finishing and Available status notification`,

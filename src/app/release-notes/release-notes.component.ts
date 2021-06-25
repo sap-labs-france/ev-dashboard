@@ -35,6 +35,7 @@ export class ReleaseNotesComponent {
               `Empty Charging Station's connectors at Boot Notification`,
               `Added new AixCharger, Alfen and Ebee new Charging Station's models in templates`,
               `Authorization on Assign Assets is driven by the backend`,
+              `Fixed static filters in lists were overriden by dependent toolbar filters`,
               `Fixed Extra Inactivity is only calculated between Finishing and Available status notification`,
               `Fixed OICP EVSE was not saved in DB`,
               `Fixed Eichrecht Signed Data handling in Stop Transaction`,

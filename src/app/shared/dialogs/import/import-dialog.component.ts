@@ -58,7 +58,6 @@ export class ImportDialogComponent implements OnInit {
       this.confirmImportTitle = `${data.entity}.import_${data.entity}`;
       this.confirmImportMessage = `${data.entity}.import_${data.entity}_message`;
       this.confirmImportMessageAutoActivate = `${data.entity}.import_${data.entity}_message_auto_activate`;
-      this.autoActivateImportedUsers = data.autoActivateImportedUsers;
     }
     Utils.registerCloseKeyEvents(this.dialogRef);
     this.uploader = new FileUploader({

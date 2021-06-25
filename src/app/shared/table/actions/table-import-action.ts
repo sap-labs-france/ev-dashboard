@@ -23,8 +23,7 @@ export class TableImportAction implements TableAction {
   }
 
   protected import(component: ComponentType<unknown>, dialog: MatDialog, endpoint: ServerAction,
-    entity: string,requiredProperties: string[], optionalProperties?: string[], size?: PopupSize, autoActivateImportedUsers = false) {
-    // entity: string,requiredProperties: string[], optionalProperties?: string[], size?: PopupSize) {
+    entity: string,requiredProperties: string[], optionalProperties?: string[], size?: PopupSize) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     // Popup Width
@@ -42,7 +41,6 @@ export class TableImportAction implements TableAction {
       requiredProperties,
       optionalProperties,
       entity,
-      autoActivateImportedUsers
     };
     // Open
     dialog.open(component, dialogConfig);

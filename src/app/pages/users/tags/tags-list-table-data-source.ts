@@ -13,7 +13,7 @@ import { TableNavigateToTransactionsAction } from 'shared/table/actions/transact
 import { TableDeleteTagsAction, TableDeleteTagsActionDef } from 'shared/table/actions/users/table-delete-tags-action';
 import { TableExportTagsAction, TableExportTagsActionDef } from 'shared/table/actions/users/table-export-tags-action';
 import { TableImportTagsAction, TableImportTagsActionDef } from 'shared/table/actions/users/table-import-tags-action';
-import { organisations } from 'shared/table/filters/issuer-filter';
+import { organizations } from 'shared/table/filters/issuer-filter';
 import { StatusFilter } from 'shared/table/filters/status-filter';
 import { UserTableFilter } from 'shared/table/filters/user-table-filter';
 import { DataResult } from 'types/DataResult';
@@ -67,6 +67,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
     private centralServerService: CentralServerService,
     private windowService: WindowService) {
     super(spinnerService, translateService);
+    this.setStaticFilters([{ WithUser: true }]);
     this.initDataSource();
     this.initFilters();
   }
@@ -88,7 +89,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
     if (issuer) {
       const issuerTableFilter = this.tableFiltersDef.find(filter => filter.id === 'issuer');
       if (issuerTableFilter) {
-        issuerTableFilter.currentValue = [organisations.find(organisation => organisation.key === issuer)];
+        issuerTableFilter.currentValue = [organizations.find(organisation => organisation.key === issuer)];
         this.filterChanged(issuerTableFilter);
       }
     }

@@ -31,10 +31,9 @@ export abstract class DialogTableDataComponent<T extends TableData> {
     // Set static filter
     if (data.staticFilter) {
       this.dialogDataSource.setStaticFilters([
+        ...this.dialogDataSource.getStaticFilters(),
         data.staticFilter,
       ]);
-    } else {
-      this.dialogDataSource.setStaticFilters([]);
     }
     // Multiple Selection
     if (Utils.objectHasProperty(data, 'rowMultipleSelection')) {

@@ -15,7 +15,7 @@ import { CarsDialogComponent } from '../../../shared/dialogs/cars/cars-dialog.co
 import { TagsDialogComponent } from '../../../shared/dialogs/tags/tags-dialog.component';
 import { UsersDialogComponent } from '../../../shared/dialogs/users/users-dialog.component';
 import TenantComponents from '../../../types/TenantComponents';
-import { StartTransaction } from '../../../types/Transaction';
+import { StartTransaction, StartTransactionErrorCode } from '../../../types/Transaction';
 import { User, UserDefaultTagCar, UserToken } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';
 
@@ -37,6 +37,8 @@ export class ChargingStationsStartTransactionDialogComponent implements OnInit {
   public carID!: AbstractControl;
   public tag!: AbstractControl;
   public tagID!: AbstractControl;
+
+  public errorMessage: string;
 
   public loggedUser: UserToken;
   public canListUsers = false;
@@ -121,8 +123,19 @@ export class ChargingStationsStartTransactionDialogComponent implements OnInit {
         this.carID.setValue(userDefaultTagCar.car?.id);
         // Update form
         this.formGroup.updateValueAndValidity();
-        this.formGroup.markAsPristine();
-        this.formGroup.markAllAsTouched();
+        if (Utils.isEmptyArray(userDefaultTagCar.errorCodes)) {
+          this.formGroup.markAsPristine();
+          this.formGroup.markAllAsTouched();
+        } else {
+          // Setting errors automatically disable start transaction button
+          this.formGroup.setErrors(userDefaultTagCar.errorCodes);
+          // Set mat-error message depending on errorCode provided
+          if (userDefaultTagCar.errorCodes[0] === StartTransactionErrorCode.BILLING_NO_PAYMENT_METHOD) {
+            this.errorMessage = this.translateService.instant('transactions.error_start_no_payment_method');
+          } else {
+            this.errorMessage = this.translateService.instant('transactions.error_start_general');
+          }
+        }
       }, (error) => {
         this.spinnerService.hide();
         Utils.handleHttpError(error, this.router, this.messageService,

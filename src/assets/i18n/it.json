@@ -336,6 +336,7 @@
     "consume": "Consuma Energia",
     "consume_and_produce": "Consuma e Produce Energia",
     "dynamic_asset": "Risorsa Dinamica",
+    "uses_push_api": "Uses Push API",
     "instant_power": "Potenza Istantanea",
     "asset_connection": "Connessione Risorsa",
     "meter_id": "ID Contatore",
@@ -1399,6 +1400,7 @@
     "delete_success": "L'organizzazione '{{name}}' è stata cancellata correttamente",
     "delete_error": "Si è verificato un errore durante la cancellazione dell'organizzazione",
     "save_error_refund": "Il prezzo deve essere attivo per utilizzare il rimborso",
+    "save_error_roaming": "You cannot activate both the OCPI and OICP roaming components",
     "save_error_billing": "Il prezzo deve essere attivo per usare la fatturazione",
     "save_error_smart_charging": "L'organizzazione deve essere attiva per utilizzare Carica Smart",
     "save_error_asset": "L'Organizzazione deve essere attiva per usare Risorsa",
@@ -2227,6 +2229,8 @@
     "create_invoice_success": "La fattura è stata creata correttamente per questa sessione",
     "create_invoice_error": "Si è verificato un errore durante la creazione di una fattura per questa sessione ",
     "redirect": "Vai alle Sessioni",
+    "error_start_no_payment_method": "Service unavailable, please go to your profile to provide a payment method.",
+    "error_start_general": "Service temporarily unavailable, please contact the support.",
     "filter": {
       "type": {
         "name": "Tipo",

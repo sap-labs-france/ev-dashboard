@@ -1483,7 +1483,8 @@ export class CentralServerService {
     if (!id) {
       return EMPTY;
     }
-    return this.httpClient.get<Image>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.USER_IMAGE}?ID=${id}`,
+    const url = this.buildRestEndpointUrl(ServerRoute.REST_USER_IMAGE, { id });
+    return this.httpClient.get<Image>(url,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -3357,6 +3358,11 @@ export class CentralServerService {
     // Just a flat list of key/value pairs!
     [name: string]: string | number | null;
   } = {}) {
+    console.log('🚀 ---------------------------------------------------------');
+    console.log('🚀 ~ this.restServerSecuredURL', this.restServerSecuredURL);
+    console.log('🚀 ~ urlPatternAsString', urlPatternAsString);
+    console.log('🚀 ~ params', params);
+    console.log('🚀 ---------------------------------------------------------');
     const url = SafeUrlAssembler(this.restServerSecuredURL)
       .template('/' + urlPatternAsString)
       .param(params);

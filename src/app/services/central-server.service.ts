@@ -6,7 +6,6 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { StatusCodes } from 'http-status-codes';
 import { BehaviorSubject, EMPTY, Observable, TimeoutError, of, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
-import SafeUrlAssembler from 'safe-url-assembler';
 
 import { Asset, AssetConsumption } from '../types/Asset';
 import { BillingInvoice, BillingPaymentMethod, BillingTax } from '../types/Billing';
@@ -3354,19 +3353,14 @@ export class CentralServerService {
     return of(null);
   }
 
-  private buildRestEndpointUrl(urlPatternAsString: ServerRoute, params: {
-    // Just a flat list of key/value pairs!
-    [name: string]: string | number | null;
-  } = {}) {
-    console.log('🚀 ---------------------------------------------------------');
-    console.log('🚀 ~ this.restServerSecuredURL', this.restServerSecuredURL);
-    console.log('🚀 ~ urlPatternAsString', urlPatternAsString);
-    console.log('🚀 ~ params', params);
-    console.log('🚀 ---------------------------------------------------------');
-    const url = SafeUrlAssembler(this.restServerSecuredURL)
-      .template('/' + urlPatternAsString)
-      .param(params);
-    return url.toString();
+  private buildRestEndpointUrl(urlPatternAsString: ServerRoute, params: {[name: string]: string | number | null;} = {}) {
+    let resolvedUrlPattern = urlPatternAsString as string;
+    for (const key in params) {
+      if (Object.prototype.hasOwnProperty.call(params, key)) {
+        resolvedUrlPattern = resolvedUrlPattern.replace(`:${key}`, params[key] as string);
+      }
+    }
+    return `${this.restServerSecuredURL}/${resolvedUrlPattern}`;
   }
 }
 

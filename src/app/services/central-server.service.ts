@@ -1483,8 +1483,7 @@ export class CentralServerService {
     if (!id) {
       return EMPTY;
     }
-    const url = this.buildRestEndpointUrl(ServerRoute.REST_USER_IMAGE, { id });
-    return this.httpClient.get<Image>(url,
+    return this.httpClient.get<Image>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.USER_IMAGE}?ID=${id}`,
       {
         headers: this.buildHttpHeaders(),
       })

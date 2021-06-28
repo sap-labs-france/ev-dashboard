@@ -13,8 +13,7 @@
   width: 260px;
   @include shadow-big();
   .logo-img {
-    width: 65px;
-    max-height: 65px;
+    max-height: 50px;
     margin: 8px;
   }
   .caret {

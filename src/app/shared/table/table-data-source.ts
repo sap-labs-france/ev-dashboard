@@ -364,9 +364,11 @@ export abstract class TableDataSource<T extends TableData> {
                       dependentFilter.exhaustive) {
                       continue;
                     }
-                    filterDef.dialogComponentData.staticFilter[dependentFilter.httpId] = dependentFilter.currentValue.map((obj) => obj.key).join('|');
+                    filterDef.dialogComponentData.staticFilter[dependentFilter.httpId] =
+                      dependentFilter.currentValue.map((obj) => obj.key).join('|');
                   } else {
-                    filterDef.dialogComponentData.staticFilter[dependentFilter.httpId] = dependentFilter.currentValue[0].key;
+                    filterDef.dialogComponentData.staticFilter[dependentFilter.httpId] =
+                      dependentFilter.currentValue[0].key;
                   }
                 }
               }
@@ -394,7 +396,8 @@ export abstract class TableDataSource<T extends TableData> {
             }
           // Dropdown with multiple selections
           } else if (filterDef.type === FilterType.DROPDOWN && filterDef.multiple) {
-            if (!Utils.isEmptyArray(filterDef.currentValue) && (filterDef.currentValue.length < filterDef.items.length || !filterDef.exhaustive)) {
+            if (!Utils.isEmptyArray(filterDef.currentValue) && 
+                (filterDef.currentValue.length < filterDef.items.length || !filterDef.exhaustive)) {
               filterJson[filterDef.httpId] = filterDef.currentValue.map((obj) => obj.key).join('|');
             }
             // Others

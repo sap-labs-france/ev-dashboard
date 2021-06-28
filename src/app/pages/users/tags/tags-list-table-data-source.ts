@@ -67,6 +67,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
     private centralServerService: CentralServerService,
     private windowService: WindowService) {
     super(spinnerService, translateService);
+    this.setStaticFilters([{ WithUser: true }]);
     this.initDataSource();
     this.initFilters();
   }

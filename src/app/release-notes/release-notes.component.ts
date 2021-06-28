@@ -25,7 +25,7 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.4.70',
-        date: new Date('2021-06-25'),
+        date: new Date('2021-06-26'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -33,8 +33,9 @@ export class ReleaseNotesComponent {
               `Allow external systems to push Asset's consumption for the Smart Charging`,
               `Check payment method is provided in Start Transaction`,
               `Empty Charging Station's connectors at Boot Notification`,
-              `Added new AixCharger, Alfen and Ebee new Charging Station's models in templates`,
+              `Added new AixCharger, Alfen, Schneider and Ebee new Charging Station's models in templates`,
               `Authorization on Assign Assets is driven by the backend`,
+              `Fixed static filters in lists were overriden by dependent toolbar filters`,
               `Fixed Extra Inactivity is only calculated between Finishing and Available status notification`,
               `Fixed OICP EVSE was not saved in DB`,
               `Fixed Eichrecht Signed Data handling in Stop Transaction`,

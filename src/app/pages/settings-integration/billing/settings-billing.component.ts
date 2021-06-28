@@ -25,6 +25,7 @@ export class SettingsBillingComponent implements OnInit {
   public isActive = false;
   public formGroup!: FormGroup;
   public billingSettings!: BillingSettings;
+  public isDeleteTestDataAllowed = false;
 
   public constructor(
     private centralServerService: CentralServerService,
@@ -53,6 +54,8 @@ export class SettingsBillingComponent implements OnInit {
       this.spinnerService.hide();
       // Keep
       this.billingSettings = settings;
+      // Enable the deletion of Test Data only when it makes sense
+      this.isDeleteTestDataAllowed = ( settings?.billing?.isTransactionBillingActivated && settings?.liveMode === false );
       // Init form
       this.formGroup.markAsPristine();
     }, (error) => {

@@ -31,6 +31,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `Synchronized all OCPP calls`,
               `Fixed cannot assign a Site to a User`,
               `Enhanced Billing's logs`,
               `Added new G2Mobility new Charging Station's models in templates`,

@@ -99,7 +99,7 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
         this.verifyEmail({
           email: this.verificationEmail,
           verificationToken: this.verificationToken,
-          isImported: this.isImported
+          isImported: Utils.convertToBoolean(this.isImported)
         });
       } else {
         // Enable resend verification email

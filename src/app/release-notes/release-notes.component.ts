@@ -22,9 +22,22 @@ export class ReleaseNotesComponent {
   }
 
   public buildReleaseNotes() {
+    'Fixed cannot assigned a User to a Site'
     this.releaseNotes = [
       {
-        version: '2.4.70',
+        version: '2.4.71',
+        date: new Date('2021-06-28'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Fixed cannot assign a Site to a User`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.71',
         date: new Date('2021-06-26'),
         componentChanges: [
           {
@@ -45,7 +58,8 @@ export class ReleaseNotesComponent {
             ],
           },
         ],
-      },      {
+      },
+      {
         version: '2.4.69',
         date: new Date('2021-06-18'),
         componentChanges: [

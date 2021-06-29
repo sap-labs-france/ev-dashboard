@@ -565,7 +565,7 @@
   },
   "statistics": {
     "title": "Statistiques",
-    "description": "Statistics of charging sessions",
+    "description": "Statistiques des Sessions de Charge",
     "charger_kw_h": "kW.h",
     "legend_select_unselect_all": "Select./Deselect. Tout",
     "graphic_title_consumption_y_axis": "Consommation (kW.h)",
@@ -891,7 +891,7 @@
         "stack_level": "Niveau Prio",
         "site_area": "Zone",
         "site_area_limit": "Limite Zone",
-        "redirect": "Naviguer vers Charging Plans"
+        "redirect": "Naviguer vers Plans de Charge"
       }
     },
     "more_actions": {
@@ -992,8 +992,8 @@
     "unlock_connector_button": "Déverrouiller",
     "unlock_connector_confirm": "Voulez-vous vraiment dévérouiller le connecteur '{{connectorId}}' de la borne '{{chargeBoxID}}'?",
     "unlock_connector_success": "Le connecteur '{{connectorId}}' de la borne '{{chargeBoxID}}' a été dévérouillé avec succès",
-    "unlock_connector_error": "The Charging Station has not been able to unlock the connector",
-    "unlock_connector_not_supported_error": "This Charging Station does not support the unlock of the connector",
+    "unlock_connector_error": "La borne n'a pas réussi a dévérouiller le connecteur",
+    "unlock_connector_not_supported_error": "La borne ne supporte pas le dévérouillage du connecteur",
     "connector_type_unknown": "Non défini",
     "connector_type_type2": "Type 2",
     "connector_type_type1": "Type 1",
@@ -1035,7 +1035,7 @@
     "qr_code_generation_error": "Une erreur est survenue lors de la generation des code QR",
     "tabs": {
       "list": "Bornes",
-      "charging_plans": "Charging Plans",
+      "charging_plans": "Plans de Charge",
       "in_error": "En Erreur",
       "connection": "Connecter une nouvelle borne"
     },

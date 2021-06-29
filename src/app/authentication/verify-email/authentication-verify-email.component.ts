@@ -27,7 +27,6 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
   public verificationToken: string | null;
   public resetToken: string | null;
   public verificationEmail: string | null;
-  public isImported: string | null;
 
   public tenantLogo = Constants.TENANT_DEFAULT_LOGO;
 
@@ -68,7 +67,6 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
     this.verificationToken = this.route.snapshot.queryParamMap.get('VerificationToken');
     this.resetToken = this.route.snapshot.queryParamMap.get('ResetToken');
     this.verificationEmail = this.route.snapshot.queryParamMap.get('Email');
-    this.isImported = this.route.snapshot.queryParamMap.get('isImported');
     // Handle Deep Linking
     if (Utils.isInMobileApp()) {
       // Forward to Mobile App
@@ -99,7 +97,6 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
         this.verifyEmail({
           email: this.verificationEmail,
           verificationToken: this.verificationToken,
-          isImported: Utils.convertToBoolean(this.isImported)
         });
       } else {
         // Enable resend verification email
@@ -124,7 +121,7 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
     // Show
     this.spinnerService.show();
     // Verify Email
-    this.centralServerService.verifyEmail({ Email: data.email, VerificationToken: data.verificationToken, IsImported: data.isImported }).subscribe((response: VerifyEmailResponse) => {
+    this.centralServerService.verifyEmail({ Email: data.email, VerificationToken: data.verificationToken }).subscribe((response: VerifyEmailResponse) => {
       // Hide
       this.spinnerService.hide();
       // Success

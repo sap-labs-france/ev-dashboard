@@ -1568,6 +1568,19 @@ export class CentralServerService {
     );
   }
 
+  public clearBillingTestData(): Observable<BillingOperationResult> {
+    // Verify init
+    this.checkInit();
+    // Build the URL
+    const url = this.buildRestEndpointUrl(ServerRoute.REST_BILLING_CLEAR_TEST_DATA);
+    // Execute
+    return this.httpClient.post<BillingOperationResult>(url, {}, {
+      headers: this.buildHttpHeaders(),
+    }).pipe(
+      catchError(this.handleHttpError),
+    );
+  }
+
   public checkBillingConnection(): Observable<CheckBillingConnectionResponse> {
     // verify init
     this.checkInit();

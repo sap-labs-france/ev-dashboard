@@ -202,7 +202,7 @@ export class SettingsBillingComponent implements OnInit {
   private checkConnectionContext(settings: BillingSettings): void {
     let isClearTestDataVisible = false;
     if ( this.billingSettings?.billing?.isTransactionBillingActivated ) {
-      // TODO - Get the information via a dedicated endpoint it
+      // TODO - Get the information via a dedicated endpoint!
       if ( this.billingSettings?.type === 'stripe' && this.billingSettings?.stripe?.publicKey?.startsWith('pk_test_') ) {
         isClearTestDataVisible = true;
       }

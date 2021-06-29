@@ -22,9 +22,41 @@ export class ReleaseNotesComponent {
   }
 
   public buildReleaseNotes() {
+    'Fixed cannot assigned a User to a Site'
     this.releaseNotes = [
       {
-        version: '2.4.70',
+        version: '2.4.71',
+        date: new Date('2021-06-28'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Synchronized all OCPP calls`,
+              `Fixed cannot assign a Site to a User`,
+              `Enhanced Billing's logs`,
+              `Added new G2Mobility new Charging Station's models in templates`,
+              `Refactored timestamps of optimizer request`,
+            ],
+          },
+          {
+            name: 'Mobile (1.3.42)',
+            changes: [
+              `Fixed Billing payment method is not refresh after creating one`,
+              `Added missing Invoice statuses`,
+              `Set the Site name is Site Area list`,
+              `Set the Site Area name in Charging Station list`,
+              `Added default sorting in all HTTP requests`,
+              `Avoid retrieving User for each invoice`,
+              `Do not retrieve all User's images in User list`,
+              `Reduced the number of HTTP requests (optimization)`,
+              `UI/Design Improvements`,
+              `Removed debug logs`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.71',
         date: new Date('2021-06-26'),
         componentChanges: [
           {
@@ -45,7 +77,8 @@ export class ReleaseNotesComponent {
             ],
           },
         ],
-      },      {
+      },
+      {
         version: '2.4.69',
         date: new Date('2021-06-18'),
         componentChanges: [

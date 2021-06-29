@@ -31,6 +31,8 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Migrated Tag endpoints to REST public API`,
+              `Optimized DB access in Notification management`,
+              `Added clear of Billing test data`,
             ],
           },
         ],

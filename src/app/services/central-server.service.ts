@@ -3366,11 +3366,11 @@ export class CentralServerService {
     return of(null);
   }
 
-  private buildRestEndpointUrl(urlPatternAsString: ServerRoute, params: {[name: string]: string | number | null;} = {}) {
+  private buildRestEndpointUrl(urlPatternAsString: ServerRoute, params: {[name: string]: string | number | null } = {}) {
     let resolvedUrlPattern = urlPatternAsString as string;
     for (const key in params) {
       if (Object.prototype.hasOwnProperty.call(params, key)) {
-        resolvedUrlPattern = resolvedUrlPattern.replace(`:${key}`, params[key] as string);
+        resolvedUrlPattern = resolvedUrlPattern.replace(`:${key}`, encodeURIComponent(params[key]));
       }
     }
     return `${this.restServerSecuredURL}/${resolvedUrlPattern}`;

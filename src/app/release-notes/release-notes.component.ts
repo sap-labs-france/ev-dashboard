@@ -35,6 +35,7 @@ export class ReleaseNotesComponent {
               `Added new Nexans new Charging Station's models in templates`,
               `Optimized DB access in Notification and Site management`,
               `Added clear of Billing test data`,
+              `Display on going transaction stats in footer`,
               `Construct of URLs without 'safe-url-assembler' open source`,
             ],
           },

@@ -31,6 +31,7 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Migrated Tag endpoints to REST public API`,
+              `Fixed User with role Basic cannot change his password`,
               `Optimized DB access in Notification management`,
               `Added clear of Billing test data`,
               `Construct of URLs without 'safe-url-assembler' open source`,

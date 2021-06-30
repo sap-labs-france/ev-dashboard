@@ -81,6 +81,8 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
     this.isSiteAdmin = this.authorizationService.hasSitesAdminRights();
     // Init
     this.initDataSource();
+    // Add statistics to query
+    this.setStaticFilters([{ Statistics: 'ongoing' }]);
   }
 
   public getDataChangeSubject(): Observable<ChangeNotification> {

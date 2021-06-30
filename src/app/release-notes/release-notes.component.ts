@@ -31,8 +31,12 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Migrated Tag endpoints to REST public API`,
-              `Optimized DB access in Notification management`,
+              `Fixed User with role Basic cannot change his password`,
+              `Added new Nexans new Charging Station's models in templates`,
+              `Optimized DB access in Notification and Site management`,
               `Added clear of Billing test data`,
+              `Display on going transaction stats in footer`,
+              `Construct of URLs without 'safe-url-assembler' open source`,
             ],
           },
         ],

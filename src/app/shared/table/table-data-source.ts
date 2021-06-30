@@ -8,7 +8,7 @@ import { SpinnerService } from '../../services/spinner.service';
 import ChangeNotification from '../../types/ChangeNotification';
 import { DataResult, Ordering, Paging } from '../../types/DataResult';
 import { FilterParams } from '../../types/GlobalType';
-import { DropdownItem, FilterType, TableActionDef, TableColumnDef, TableData, TableDef, TableFilterDef } from '../../types/Table';
+import { DropdownItem, FilterType, TableActionDef, TableColumnDef, TableData, TableDataSourceMode, TableDef, TableFilterDef } from '../../types/Table';
 import { Constants } from '../../utils/Constants';
 import { Utils } from '../../utils/Utils';
 import { TableResetFiltersAction } from './actions/table-reset-filters-action';
@@ -21,6 +21,7 @@ export abstract class TableDataSource<T extends TableData> {
   public tableActionsRightDef!: TableActionDef[];
   public tableRowActionsDef!: TableActionDef[];
   public firstLoad = false;
+  public tableDataSourceMode!: TableDataSourceMode;
 
   public data: T[] = [];
   public formArray?: FormArray;
@@ -71,6 +72,14 @@ export abstract class TableDataSource<T extends TableData> {
 
   public isEditable(): boolean {
     return this.tableDef && this.tableDef.isEditable;
+  }
+
+  public getMode(): TableDataSourceMode {
+    return this.tableDataSourceMode;
+  }
+
+  public setMode(tableDataSourceMode: TableDataSourceMode) {
+    this.tableDataSourceMode = tableDataSourceMode;
   }
 
   public setMultipleRowSelection(multipleRowSelection: boolean) {
@@ -355,9 +364,11 @@ export abstract class TableDataSource<T extends TableData> {
                       dependentFilter.exhaustive) {
                       continue;
                     }
-                    filterDef.dialogComponentData.staticFilter[dependentFilter.httpId] = dependentFilter.currentValue.map((obj) => obj.key).join('|');
+                    filterDef.dialogComponentData.staticFilter[dependentFilter.httpId] =
+                      dependentFilter.currentValue.map((obj) => obj.key).join('|');
                   } else {
-                    filterDef.dialogComponentData.staticFilter[dependentFilter.httpId] = dependentFilter.currentValue[0].key;
+                    filterDef.dialogComponentData.staticFilter[dependentFilter.httpId] =
+                      dependentFilter.currentValue[0].key;
                   }
                 }
               }
@@ -385,7 +396,8 @@ export abstract class TableDataSource<T extends TableData> {
             }
           // Dropdown with multiple selections
           } else if (filterDef.type === FilterType.DROPDOWN && filterDef.multiple) {
-            if (!Utils.isEmptyArray(filterDef.currentValue) && (filterDef.currentValue.length < filterDef.items.length || !filterDef.exhaustive)) {
+            if (!Utils.isEmptyArray(filterDef.currentValue) && 
+                (filterDef.currentValue.length < filterDef.items.length || !filterDef.exhaustive)) {
               filterJson[filterDef.httpId] = filterDef.currentValue.map((obj) => obj.key).join('|');
             }
             // Others
@@ -447,6 +459,25 @@ export abstract class TableDataSource<T extends TableData> {
       this.loadDataImpl().pipe(first()).subscribe((data) => {
         // Set nbr of records
         this.setTotalNumberOfRecords(data.count);
+        // Display only projected fields
+        if (!Utils.isEmptyArray(data.projectedFields)) {
+          // Format createdBy/lastChangeBy properties Ids
+          data.projectedFields = data.projectedFields.map(projectedField => {
+            if (projectedField.split('.')[0] === 'createdBy' || projectedField.split('.')[0] === 'lastChangedBy') {
+              return projectedField.split('.')[0];
+            } else {
+              return projectedField;
+            }
+          });
+          for (const tableColumnDef of this.tableColumnsDef) {
+            tableColumnDef.visible = data.projectedFields.includes(tableColumnDef.id);
+          }
+          // No projected fields, display all
+        } else {
+          for (const tableColumnDef of this.tableColumnsDef) {
+            tableColumnDef.visible = true;
+          }
+        }
         // Build stats
         this.tableFooterStats = this.buildTableFooterStats(data);
         // Ok

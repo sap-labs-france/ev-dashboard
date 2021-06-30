@@ -60,6 +60,10 @@ export class AuthorizationService {
     return this.canAccess(Entity.ASSETS, Action.LIST);
   }
 
+  public canListLogs(): boolean {
+    return this.canAccess(Entity.LOGGINGS, Action.LIST);
+  }
+
   public canListAssetsInError(): boolean {
     return this.canAccess(Entity.ASSETS, Action.IN_ERROR);
   }
@@ -185,6 +189,10 @@ export class AuthorizationService {
     return this.canAccess(Entity.USERS, Action.IMPORT);
   }
 
+  public canListTags(): boolean {
+    return this.canAccess(Entity.TAGS, Action.LIST);
+  }
+
   public canImportTags(): boolean {
     return this.canAccess(Entity.TAGS, Action.IMPORT);
   }
@@ -227,9 +235,6 @@ export class AuthorizationService {
 
   public canStopTransaction(siteArea: SiteArea, badgeID: string) {
     if (this.canAccess(Entity.CHARGING_STATION, Action.REMOTE_STOP_TRANSACTION)) {
-      if (!!this.loggedUser && !!this.loggedUser.tagIDs && this.loggedUser.tagIDs.includes(badgeID)) {
-        return true;
-      }
       if (this.componentService.isActive(TenantComponents.ORGANIZATION)) {
         return siteArea && (this.isSiteAdmin(siteArea.siteID) || this.isAdmin());
       }

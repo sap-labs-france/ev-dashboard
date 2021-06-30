@@ -336,6 +336,7 @@
     "consume": "Verbraucht Energie",
     "consume_and_produce": "Verbraucht und erzeugt Energie",
     "dynamic_asset": "Dynamisches Asset",
+    "uses_push_api": "Nutzt die Push-API",
     "instant_power": "Aktuelle Energie",
     "asset_connection": "Asset-Verbindung",
     "meter_id": "Metrik ID",
@@ -1315,7 +1316,10 @@
     "status": {
       "paid": "Bezahlt",
       "unpaid": "Unbezahlt",
-      "draft": "Entwurf"
+      "draft": "Entwurf",
+      "deleted": "Deleted",
+      "uncollectible": "Uncollectible",
+      "void": "Cancelled"
     },
     "number": "Rechnungsnummer",
     "createdOn": "Rechnungsdatum",
@@ -1396,6 +1400,7 @@
     "delete_success": "Die Organisation '{{name}}' wurde erfolgreich gelöscht",
     "delete_error": "Beim Löschen der Organisation ist ein Fehler aufgetreten",
     "save_error_refund": "Preisbildung muss für die Rückerstattung aktiv sein",
+    "save_error_roaming": "You cannot activate both the OCPI and OICP roaming components",
     "save_error_billing": "Preisbildung muss für Rechnungslegung aktiv sein",
     "save_error_smart_charging": "Organisation muss für Smart-Charging aktiv sein",
     "save_error_building": "Organisation muss aktiv sein, um Assets zu nutzen zu können",
@@ -1534,6 +1539,11 @@
       "transaction_billing_activation_confirm": "Do you really want to activate the billing of charging sessions? <br><br> <strong> WARNING ! </strong> Once activated, you will NOT be able to deactivate it !",
       "transaction_billing_activation_success": "Billing of charging sessions has been successfully activated",
       "transaction_billing_activation_error": "Billing of charging sessions cannot be activated",
+      "billing_clear_test_data": "Delete Test Data",
+      "billing_clear_test_data_title": "Test Data Deletion",
+      "billing_clear_test_data_confirm": "Do you really want to delete all billing test data?",
+      "billing_clear_test_data_success": "The test data has been deleted",
+      "billing_clear_test_data_error": "Operation failed. The test data deletion has been aborted",
       "user": {
         "synchronize_users": "Abrechnungssynchronisierung",
         "synchronize_user": "Abrechnungssynchronisierung",
@@ -2224,6 +2234,8 @@
     "create_invoice_success": "Für diesen Ladevorgang wurde erfolgreich eine Rechnung erstellt.",
     "create_invoice_error": "Während der Erstellung der Rechnung für den Ladevorgang ist ein Fehler aufgetreten",
     "redirect": "Zu den Ladevorgängen navigieren",
+    "error_start_no_payment_method": "Service unavailable, please go to your profile to provide a payment method.",
+    "error_start_general": "Service temporarily unavailable, please contact the support.",
     "filter": {
       "type": {
         "name": "Typ",

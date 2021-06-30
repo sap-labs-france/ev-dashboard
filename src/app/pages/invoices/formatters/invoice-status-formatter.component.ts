@@ -31,12 +31,17 @@ export class AppFormatInvoiceStatusPipe implements PipeTransform {
     return '';
   }
 
-  public buildInvoiceStatusClasses(status: BillingInvoiceStatus): string {
-    let classNames = 'chip-width-5em ';
-    switch (status) {
+  public buildInvoiceStatusClasses(invoiceStatus: BillingInvoiceStatus): string {
+    let classNames = 'chip-width-8em ';
+    switch (invoiceStatus) {
       case BillingInvoiceStatus.PAID:
         classNames += ChipType.SUCCESS;
         break;
+      case BillingInvoiceStatus.DELETED:
+      case BillingInvoiceStatus.VOID:
+        classNames += ChipType.WARNING;
+        break;
+      case BillingInvoiceStatus.UNCOLLECTIBLE:
       case BillingInvoiceStatus.OPEN:
         classNames += ChipType.DANGER;
         break;

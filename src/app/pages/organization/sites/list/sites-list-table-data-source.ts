@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { AuthorizationService } from 'services/authorization.service';
 import { TableSiteGenerateQrCodeConnectorAction, TableSiteGenerateQrCodeConnectorsActionDef } from 'shared/table/actions/sites/table-site-generate-qr-code-connector-action';
 
 import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
@@ -54,6 +55,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
     private router: Router,
     private dialog: MatDialog,
     private centralServerNotificationService: CentralServerNotificationService,
+    private authorizationService: AuthorizationService,
     private centralServerService: CentralServerService,
     private datePipe: AppDatePipe) {
     super(spinnerService, translateService);
@@ -279,9 +281,12 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
 
   public buildTableFiltersDef(): TableFilterDef[] {
     const issuerFilter = new IssuerFilter().getFilterDef();
-    return [
+    const filters = [
       issuerFilter,
-      new CompanyTableFilter([issuerFilter]).getFilterDef(),
     ];
+    if (this.authorizationService.canListCompanies()) {
+      filters.push(new CompanyTableFilter([issuerFilter]).getFilterDef());
+    }
+    return filters;
   }
 }

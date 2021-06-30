@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 
-import { AuthorizationService } from '../../../../services/authorization.service';
 import { CentralServerService } from '../../../../services/central-server.service';
 import { DialogService } from '../../../../services/dialog.service';
 import { MessageService } from '../../../../services/message.service';
@@ -17,7 +16,7 @@ import { Asset, AssetType } from '../../../../types/Asset';
 import { DataResult } from '../../../../types/DataResult';
 import { ButtonAction, RestResponse } from '../../../../types/GlobalType';
 import { SiteArea } from '../../../../types/SiteArea';
-import { ButtonType, TableActionDef, TableColumnDef, TableDef } from '../../../../types/Table';
+import { ButtonType, TableActionDef, TableColumnDef, TableDataSourceMode, TableDef } from '../../../../types/Table';
 import { Utils } from '../../../../utils/Utils';
 
 @Injectable()
@@ -25,10 +24,6 @@ export class SiteAreaAssetsDataSource extends TableDataSource<Asset> {
   private siteArea!: SiteArea;
   private addAction = new TableAddAction().getActionDef();
   private removeAction = new TableRemoveAction().getActionDef();
-  private canReadSiteArea = false;
-  private canCreateSiteArea = false;
-  private canUpdateSiteArea = false;
-  private canDeleteSiteArea = false;
 
   public constructor(
     public spinnerService: SpinnerService,
@@ -37,18 +32,13 @@ export class SiteAreaAssetsDataSource extends TableDataSource<Asset> {
     private router: Router,
     private dialog: MatDialog,
     private dialogService: DialogService,
-    private centralServerService: CentralServerService,
-    private authorizationService: AuthorizationService) {
+    private centralServerService: CentralServerService) {
     super(spinnerService, translateService);
-    this.canReadSiteArea = this.authorizationService.canReadSiteArea();
-    this.canCreateSiteArea = this.authorizationService.canCreateSiteArea();
-    this.canUpdateSiteArea = this.authorizationService.canUpdateSiteArea();
-    this.canDeleteSiteArea = this.authorizationService.canDeleteSiteArea();
   }
 
   public loadDataImpl(): Observable<DataResult<Asset>> {
     return new Observable((observer) => {
-      // siteArea provided?
+      // Site Area provided?
       if (this.siteArea) {
         // Yes: Get data
         this.centralServerService.getAssets(this.buildFilterValues(),
@@ -72,7 +62,7 @@ export class SiteAreaAssetsDataSource extends TableDataSource<Asset> {
   }
 
   public buildTableDef(): TableDef {
-    if (this.siteArea && (this.canReadSiteArea && this.canCreateSiteArea && this.canUpdateSiteArea && this.canDeleteSiteArea)) {
+    if (this.getMode() === TableDataSourceMode.READ_WRITE) {
       return {
         class: 'table-dialog-list',
         rowSelection: {
@@ -148,12 +138,13 @@ export class SiteAreaAssetsDataSource extends TableDataSource<Asset> {
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-    if (this.siteArea && (this.canReadSiteArea && this.canCreateSiteArea && this.canUpdateSiteArea && this.canDeleteSiteArea)) {
-      return [
-        this.addAction,
-        this.removeAction,
-        ...tableActionsDef,
-      ];
+    if (this.getMode() === TableDataSourceMode.READ_WRITE) {
+      if (this.siteArea.canAssignAssets) {
+        tableActionsDef.push(this.addAction);
+      }
+      if (this.siteArea.canUnassignAssets) {
+        tableActionsDef.push(this.removeAction);
+      }
     }
     return tableActionsDef;
   }

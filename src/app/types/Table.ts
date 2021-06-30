@@ -27,6 +27,11 @@ export interface TableData extends AuthorizationActions {
   isExpanded?: boolean;
 }
 
+export enum TableDataSourceMode {
+  READ_WRITE = 'RW',
+  READ_ONLY = 'RO',
+}
+
 export interface TableFilterDef {
   id: string;
   httpId: string;
@@ -183,6 +188,7 @@ export interface TableColumnDef {
   angularComponent?: any;
   defaultValue?: any;
   additionalParameters?: any;
+  visible?: boolean;
 }
 
 export interface TableSearch {

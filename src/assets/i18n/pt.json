@@ -336,6 +336,7 @@
     "consume": "Consumo de Energia",
     "consume_and_produce": "Consume and Produce Energy",
     "dynamic_asset": "Ativo Dinâmico",
+    "uses_push_api": "Uses Push API",
     "instant_power": "Poder Instantâneo",
     "asset_connection": "Conexão de Ativos",
     "meter_id": "Medidor ID",
@@ -1315,7 +1316,10 @@
     "status": {
       "paid": "Pago",
       "unpaid": "Por Pagar",
-      "draft": "Esboço"
+      "draft": "Esboço",
+      "deleted": "Deleted",
+      "uncollectible": "Uncollectible",
+      "void": "Cancelled"
     },
     "number": "Numero de fatura",
     "createdOn": "Data da fatura",
@@ -1396,6 +1400,7 @@
     "delete_success": "A organização '{{name}}' foi excluída com sucesso",
     "delete_error": "Ocorreu um erro ao excluir a organização",
     "save_error_refund": "O preço deve estar ativo para usar o reembolso",
+    "save_error_roaming": "You cannot activate both the OCPI and OICP roaming components",
     "save_error_billing": "O preço deve estar ativo para usar na fatura",
     "save_error_smart_charging": "A organização deve estar ativa para usar o Carregamento Inteligente",
     "save_error_asset": "A organização deve estar ativa para usar o ativo",
@@ -1534,6 +1539,11 @@
       "transaction_billing_activation_confirm": "Do you really want to activate the billing of charging sessions? <br><br> <strong> WARNING ! </strong> Once activated, you will NOT be able to deactivate it !",
       "transaction_billing_activation_success": "Billing of charging sessions has been successfully activated",
       "transaction_billing_activation_error": "Billing of charging sessions cannot be activated",
+      "billing_clear_test_data": "Delete Test Data",
+      "billing_clear_test_data_title": "Test Data Deletion",
+      "billing_clear_test_data_confirm": "Do you really want to delete all billing test data?",
+      "billing_clear_test_data_success": "The test data has been deleted",
+      "billing_clear_test_data_error": "Operation failed. The test data deletion has been aborted",
       "user": {
         "synchronize_users": "Sincronizar utilizadores de cobrança",
         "synchronize_user": "Sincronizar utilizador de cobrança",
@@ -2224,6 +2234,8 @@
     "create_invoice_success": "A fatura foi criada com sucesso para esta sessão",
     "create_invoice_error": "Ocorreu um erro ao criar uma fatura para esta sessão",
     "redirect": "Navigate to Sessions",
+    "error_start_no_payment_method": "Service unavailable, please go to your profile to provide a payment method.",
+    "error_start_general": "Service temporarily unavailable, please contact the support.",
     "filter": {
       "type": {
         "name": "Tipo",

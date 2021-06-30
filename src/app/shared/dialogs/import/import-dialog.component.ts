@@ -9,7 +9,7 @@ import { DialogService } from 'services/dialog.service';
 import { MessageService } from 'services/message.service';
 import { ActionsResponse } from 'types/DataResult';
 import { HTTPError } from 'types/HTTPError';
-import { ServerAction } from 'types/Server';
+import { ServerRoute } from 'types/Server';
 import { ButtonType } from 'types/Table';
 import { Utils } from 'utils/Utils';
 
@@ -27,7 +27,7 @@ export class ImportDialogComponent implements OnInit {
   public isFileValid = true;
   public title: string;
   private ngxCsvParser: NgxCsvParser;
-  private endpoint: ServerAction;
+  private endpoint: ServerRoute;
   private requiredProperties: string[];
   private optionalProperties: string[];
   private messageSuccess: string;
@@ -59,7 +59,7 @@ export class ImportDialogComponent implements OnInit {
     Utils.registerCloseKeyEvents(this.dialogRef);
     this.uploader = new FileUploader({
       headers: this.centralServerService.buildHttpHeadersFile(),
-      url: `${this.centralServerService.getCentralRestServerServiceSecuredURL()}/${this.endpoint}`
+      url: `${this.centralServerService.buildRestEndpointUrl(this.endpoint)}`
     });
     this.uploader.response.subscribe(res => this.response = res);
     this.ngxCsvParser = new NgxCsvParser();

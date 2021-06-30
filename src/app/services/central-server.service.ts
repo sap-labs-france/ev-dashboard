@@ -827,13 +827,11 @@ export class CentralServerService {
   public getTag(tagID: string): Observable<Tag> {
     // Verify init
     this.checkInit();
-    const params: { [param: string]: string } = {};
-    params['ID'] = tagID;
     // Execute the REST service
-    return this.httpClient.get<Tag>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TAG}`,
+    const url = this.buildRestEndpointUrl(ServerRoute.REST_TAG, { id: tagID });
+    return this.httpClient.get<Tag>(url,
       {
-        headers: this.buildHttpHeaders(),
-        params
+        headers: this.buildHttpHeaders()
       })
       .pipe(
         catchError(this.handleHttpError),
@@ -863,7 +861,7 @@ export class CentralServerService {
     // Build Ordering
     this.getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<TagDataResult>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TAGS}`,
+    return this.httpClient.get<TagDataResult>(this.buildRestEndpointUrl(ServerRoute.REST_TAGS),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -877,7 +875,8 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TAG_DELETE}?ID=${id}`,
+    const url = this.buildRestEndpointUrl(ServerRoute.REST_TAG, { id });
+    return this.httpClient.delete<ActionResponse>(url,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -894,7 +893,7 @@ export class CentralServerService {
       body: { tagsIDs },
     };
     // Execute the REST service
-    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TAGS_DELETE}`, options)
+    return this.httpClient.delete<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_TAGS), options)
       .pipe(
         catchError(this.handleHttpError),
       );
@@ -904,7 +903,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TAG_CREATE}`, tag,
+    return this.httpClient.post<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_TAGS), tag,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -917,7 +916,8 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TAG_UPDATE}`, tag,
+    const url = this.buildRestEndpointUrl(ServerRoute.REST_TAG, { id: tag.id });
+    return this.httpClient.put<ActionResponse>(url, tag,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -1258,7 +1258,7 @@ export class CentralServerService {
   public exportTags(params: FilterParams): Observable<Blob> {
     // Verify init
     this.checkInit();
-    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TAGS_EXPORT}`,
+    return this.httpClient.get(this.buildRestEndpointUrl(ServerRoute.REST_TAG_EXPORT),
       {
         headers: this.buildHttpHeaders(),
         responseType: 'blob',
@@ -3226,6 +3226,16 @@ export class CentralServerService {
     ];
   }
 
+  public buildRestEndpointUrl(urlPatternAsString: ServerRoute, params: {[name: string]: string | number | null;} = {}) {
+    let resolvedUrlPattern = urlPatternAsString as string;
+    for (const key in params) {
+      if (Object.prototype.hasOwnProperty.call(params, key)) {
+        resolvedUrlPattern = resolvedUrlPattern.replace(`:${key}`, params[key] as string);
+      }
+    }
+    return `${this.restServerSecuredURL}/${resolvedUrlPattern}`;
+  }
+
   private getLoggedUserToken(): string {
     // Get the token
     if (!this.currentUserToken) {
@@ -3351,16 +3361,6 @@ export class CentralServerService {
       });
     }
     return of(null);
-  }
-
-  private buildRestEndpointUrl(urlPatternAsString: ServerRoute, params: {[name: string]: string | number | null;} = {}) {
-    let resolvedUrlPattern = urlPatternAsString as string;
-    for (const key in params) {
-      if (Object.prototype.hasOwnProperty.call(params, key)) {
-        resolvedUrlPattern = resolvedUrlPattern.replace(`:${key}`, params[key] as string);
-      }
-    }
-    return `${this.restServerSecuredURL}/${resolvedUrlPattern}`;
   }
 }
 

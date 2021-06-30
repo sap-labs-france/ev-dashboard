@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { TransactionDialogComponent } from 'shared/dialogs/transaction/transaction.dialog.component';
 import { ConnectorTableFilter } from 'shared/table/filters/connector-table-filter';
 import { CarCatalog } from 'types/Car';
+import { Constants } from 'utils/Constants';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
@@ -38,7 +39,7 @@ import { UserTableFilter } from '../../../shared/table/filters/user-table-filter
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import ChangeNotification from '../../../types/ChangeNotification';
 import { ChargingStationButtonAction } from '../../../types/ChargingStation';
-import { DataResult } from '../../../types/DataResult';
+import { DataResult, TransactionDataResult } from '../../../types/DataResult';
 import { LogButtonAction } from '../../../types/Log';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
 import TenantComponents from '../../../types/TenantComponents';
@@ -272,6 +273,31 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         }
         break;
     }
+  }
+
+  public buildTableFooterStats(data: TransactionDataResult): string {
+    // All records has been retrieved
+    if (data.count !== Constants.INFINITE_RECORDS) {
+      // Stats?
+      if (data.stats) {
+        const percentInactivity = (data.stats.totalDurationSecs > 0 ?
+          (Math.floor(data.stats.totalInactivitySecs / data.stats.totalDurationSecs * 100)) : 0);
+        // Total Duration
+        // eslint-disable-next-line max-len
+        let stats = `${this.translateService.instant('transactions.duration')}: ${this.appDurationPipe.transform(data.stats.totalDurationSecs)} | `;
+        // Inactivity
+        // eslint-disable-next-line max-len
+        stats += `${this.translateService.instant('transactions.inactivity')}: ${this.appDurationPipe.transform(data.stats.totalInactivitySecs)} (${percentInactivity}%) | `;
+        // Total Consumption
+        // eslint-disable-next-line max-len
+        stats += `${this.translateService.instant('transactions.consumption')}: ${this.appUnitPipe.transform(data.stats.totalConsumptionWattHours, 'Wh', 'kWh', true, 1, 0, 0)}`;
+        // Total Price
+        // eslint-disable-next-line max-len
+        stats += ` | ${this.translateService.instant('transactions.price')}: ${this.appCurrencyPipe.transform(data.stats.totalPrice, data.stats.currency)}`;
+        return stats;
+      }
+    }
+    return '';
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {

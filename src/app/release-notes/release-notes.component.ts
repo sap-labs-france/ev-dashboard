@@ -32,7 +32,7 @@ export class ReleaseNotesComponent {
             changes: [
               `Migrated Tag endpoints to REST public API`,
               `Fixed User with role Basic cannot change his password`,
-              `Optimized DB access in Notification management`,
+              `Optimized DB access in Notification and Site management`,
               `Added clear of Billing test data`,
               `Construct of URLs without 'safe-url-assembler' open source`,
             ],

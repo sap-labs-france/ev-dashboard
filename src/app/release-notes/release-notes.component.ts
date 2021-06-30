@@ -33,6 +33,7 @@ export class ReleaseNotesComponent {
               `Migrated Tag endpoints to REST public API`,
               `Optimized DB access in Notification management`,
               `Added clear of Billing test data`,
+              `Construct of URLs without 'safe-url-assembler' open source`,
             ],
           },
         ],

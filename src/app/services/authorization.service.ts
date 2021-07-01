@@ -233,9 +233,9 @@ export class AuthorizationService {
     return !!this.loggedUser && !!this.loggedUser.scopes && this.loggedUser.scopes.includes(`${resource}:${action}`);
   }
 
-  public canStopTransaction(siteArea: SiteArea, userID: string) {
+  public canStopTransaction(siteArea: SiteArea, badgeID: string) {
     if (this.canAccess(Entity.CHARGING_STATION, Action.REMOTE_STOP_TRANSACTION)) {
-      if (!!this.loggedUser && this.loggedUser.id === userID) {
+      if (!!this.loggedUser && !!this.loggedUser.tagIDs && this.loggedUser.tagIDs.includes(badgeID)) {
         return true;
       }
       if (this.componentService.isActive(TenantComponents.ORGANIZATION)) {

@@ -5,7 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { TransactionDialogComponent } from 'shared/dialogs/transaction/transaction.dialog.component';
-import { TableRebuildTransactionConsumptionsAction } from 'shared/table/actions/transactions/table-rebuild-transaction-consumptions-action';
+import { TableRebuildTransactionConsumptionsAction, TableRebuildTransactionConsumptionsActionDef } from 'shared/table/actions/transactions/table-rebuild-transaction-consumptions-action';
 import { IssuerFilter } from 'shared/table/filters/issuer-filter';
 
 import { AuthorizationService } from '../../../services/authorization.service';
@@ -339,6 +339,13 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
           (actionDef as TableViewTransactionActionDef).action(TransactionDialogComponent, this.dialog,
             { dialogData: { transactionID: transaction.id } as TransactionDialogData },
             this.refreshData.bind(this));
+        }
+        break;
+      case TransactionButtonAction.REBUILD_TRANSACTION_CONSUMPTIONS:
+        if (actionDef.action) {
+          (actionDef as TableRebuildTransactionConsumptionsActionDef).action(
+            transaction, this.dialogService, this.translateService, this.messageService,
+            this.centralServerService, this.router, this.spinnerService, this.refreshData.bind(this));
         }
         break;
       case TransactionButtonAction.CREATE_TRANSACTION_INVOICE:

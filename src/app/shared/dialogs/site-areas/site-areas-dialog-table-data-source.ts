@@ -84,12 +84,10 @@ export class SiteAreasDialogTableDataSource extends DialogTableDataSource<SiteAr
         sortable: true,
       },
       {
-        id: 'site',
+        id: 'site.name',
         name: 'sites.title',
         class: 'text-left col-600px',
         direction: 'asc',
-        sortable: true,
-        formatter: (name, row: SiteArea) => `${row.site.name}`,
       },
     ];
   }

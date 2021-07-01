@@ -199,7 +199,7 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
       actions.push(openInMaps);
     }
     // Display refresh button
-    if (this.isAdmin && asset.dynamicAsset) {
+    if (this.isAdmin && asset.dynamicAsset && !asset.usesPushAPI) {
       actions.splice(1, 0, this.retrieveConsumptionAction);
     }
     return actions;

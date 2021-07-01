@@ -24,20 +24,79 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.4.70',
-        date: new Date('2021-06-21'),
+        version: '2.4.72',
+        date: new Date('2021-06-30'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
-              `Check payment method is provided in Start Transaction`,
-              `Added Ark charging station vendor support`,
-              `Authorization on Assign Assets is driven by the backend`,
-              `Fixed OICP EVSE was not saved in DB`,
+              `Migrated Tag endpoints to REST public API`,
+              `Fixed User with role Basic cannot change his password`,
+              `Added new Nexans new Charging Station's models in templates`,
+              `Optimized DB access in Notification and Site management`,
+              `Added clear of Billing test data`,
+              `Took into account Transaction timezone in Billing`,
+              `Display on going transaction stats in footer`,
+              `Construct of URLs without 'safe-url-assembler' open source`,
             ],
           },
         ],
-      },      {
+      },
+      {
+        version: '2.4.71',
+        date: new Date('2021-06-28'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Synchronized all OCPP calls`,
+              `Fixed cannot assign a Site to a User`,
+              `Enhanced Billing's logs`,
+              `Added new G2Mobility new Charging Station's models in templates`,
+              `Refactored timestamps of optimizer request`,
+            ],
+          },
+          {
+            name: 'Mobile (1.3.42)',
+            changes: [
+              `Fixed Billing payment method is not refresh after creating one`,
+              `Added missing Invoice statuses`,
+              `Set the Site name is Site Area list`,
+              `Set the Site Area name in Charging Station list`,
+              `Added default sorting in all HTTP requests`,
+              `Avoid retrieving User for each invoice`,
+              `Do not retrieve all User's images in User list`,
+              `Reduced the number of HTTP requests (optimization)`,
+              `UI/Design Improvements`,
+              `Removed debug logs`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.70',
+        date: new Date('2021-06-26'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Allow external systems to push Asset's consumption for the Smart Charging`,
+              `Check payment method is provided in Start Transaction`,
+              `Empty Charging Station's connectors at Boot Notification`,
+              `Added new AixCharger, Alfen, Schneider and Ebee new Charging Station's models in templates`,
+              `Authorization on Assign Assets is driven by the backend`,
+              `Fixed static filters in lists were overriden by dependent toolbar filters`,
+              `Fixed Extra Inactivity is only calculated between Finishing and Available status notification`,
+              `Fixed OICP EVSE was not saved in DB`,
+              `Fixed Eichrecht Signed Data handling in Stop Transaction`,
+              `Migrated the User Service to the REST public API`,
+              `Assert that OICP and OCPI Roaming components cannot be both active in the same tenant`,
+              `Optimized DB access for Car`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.69',
         date: new Date('2021-06-18'),
         componentChanges: [
@@ -49,7 +108,7 @@ export class ReleaseNotesComponent {
               `Optimized database access`,
               `Enforced Smart Charging safety + minor fixes`,
               `Return authorized fields to the UI to adjust visible columns`,
-              `Added new Lafon, Delta and Gewiss new Charging Station's models`,
+              `Added new Lafon, Delta and Gewiss new Charging Station's models in templates`,
               `Keep the Action filter selection after a search in Logs`,
               `Fixed send End of Charge notification for Legrand Charging Station`,
               `Fixed Session detail pop-up does not show up when clicked from email`,

@@ -336,6 +336,7 @@
     "consume": "Consumo de Energía",
     "consume_and_produce": "Consume and Produce Energy",
     "dynamic_asset": "Activo Dinámico",
+    "uses_push_api": "Uses Push API",
     "instant_power": "Energía instantánea",
     "asset_connection": "Conexión de Activos",
     "meter_id": "ID del Medidor",
@@ -1399,6 +1400,7 @@
     "delete_success": "La organización '{{name}}' se ha eliminado exitosamente",
     "delete_error": "Se produjo un error al eliminar la organización",
     "save_error_refund": "Los costos deben ser activados para obtener un reembolso",
+    "save_error_roaming": "You cannot activate both the OCPI and OICP roaming components",
     "save_error_billing": "Los costos deben ser activados para usar la facturación",
     "save_error_smart_charging": "La organización debe ser activada para usar la carga inteligente",
     "save_error_asset": "La organización debe ser activada para usar los activos",
@@ -1537,6 +1539,11 @@
       "transaction_billing_activation_confirm": "Do you really want to activate the billing of charging sessions? <br><br> <strong> WARNING ! </strong> Once activated, you will NOT be able to deactivate it !",
       "transaction_billing_activation_success": "Billing of charging sessions has been successfully activated",
       "transaction_billing_activation_error": "Billing of charging sessions cannot be activated",
+      "billing_clear_test_data": "Delete Test Data",
+      "billing_clear_test_data_title": "Test Data Deletion",
+      "billing_clear_test_data_confirm": "Do you really want to delete all billing test data?",
+      "billing_clear_test_data_success": "The test data has been deleted",
+      "billing_clear_test_data_error": "Operation failed. The test data deletion has been aborted",
       "user": {
         "synchronize_users": "Sincronización del usuario (Facturación)",
         "synchronize_user": "Sincronización del usuario (Facturación)",
@@ -2227,6 +2234,8 @@
     "create_invoice_success": "Invoice has been created successfully for this session",
     "create_invoice_error": "Error occured while creating an invoice for this session",
     "redirect": "Navigate to Sessions",
+    "error_start_no_payment_method": "Service unavailable, please go to your profile to provide a payment method.",
+    "error_start_general": "Service temporarily unavailable, please contact the support.",
     "filter": {
       "type": {
         "name": "Tipo",

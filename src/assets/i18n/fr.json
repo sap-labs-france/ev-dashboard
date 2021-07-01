@@ -336,6 +336,7 @@
     "consume": "Consomme de l'Energie",
     "consume_and_produce": "Consomme et Produit de l'Energie",
     "dynamic_asset": "Ressource Dynamique",
+    "uses_push_api": "Utiliser API externe",
     "instant_power": "Puissance Instantanée",
     "asset_connection": "Connexion à la Ressource",
     "meter_id": "ID du Compteur",
@@ -564,7 +565,7 @@
   },
   "statistics": {
     "title": "Statistiques",
-    "description": "Statistics of charging sessions",
+    "description": "Statistiques des Sessions de Charge",
     "charger_kw_h": "kW.h",
     "legend_select_unselect_all": "Select./Deselect. Tout",
     "graphic_title_consumption_y_axis": "Consommation (kW.h)",
@@ -890,7 +891,7 @@
         "stack_level": "Niveau Prio",
         "site_area": "Zone",
         "site_area_limit": "Limite Zone",
-        "redirect": "Naviguer vers Charging Plans"
+        "redirect": "Naviguer vers Plans de Charge"
       }
     },
     "more_actions": {
@@ -991,8 +992,8 @@
     "unlock_connector_button": "Déverrouiller",
     "unlock_connector_confirm": "Voulez-vous vraiment dévérouiller le connecteur '{{connectorId}}' de la borne '{{chargeBoxID}}'?",
     "unlock_connector_success": "Le connecteur '{{connectorId}}' de la borne '{{chargeBoxID}}' a été dévérouillé avec succès",
-    "unlock_connector_error": "The Charging Station has not been able to unlock the connector",
-    "unlock_connector_not_supported_error": "This Charging Station does not support the unlock of the connector",
+    "unlock_connector_error": "La borne n'a pas réussi a dévérouiller le connecteur",
+    "unlock_connector_not_supported_error": "La borne ne supporte pas le dévérouillage du connecteur",
     "connector_type_unknown": "Non défini",
     "connector_type_type2": "Type 2",
     "connector_type_type1": "Type 1",
@@ -1034,7 +1035,7 @@
     "qr_code_generation_error": "Une erreur est survenue lors de la generation des code QR",
     "tabs": {
       "list": "Bornes",
-      "charging_plans": "Charging Plans",
+      "charging_plans": "Plans de Charge",
       "in_error": "En Erreur",
       "connection": "Connecter une nouvelle borne"
     },
@@ -1400,6 +1401,7 @@
     "delete_error": "Une erreur est survenue pendant la suppression de l'organisation, vérifiez les logs",
     "save_error_asset": "L'Organisation doit être active pour utiliser Asset",
     "save_error_refund": "La tarification doit être active pour utiliser le remboursement",
+    "save_error_roaming": "You cannot activate both the OCPI and OICP roaming components",
     "save_error_billing": "La tarification doit être active pour utiliser la facturation",
     "save_error_smart_charging": "L'organisation doit être active pour utiliser Smart Charging",
     "save_error_car_connector": "La gestion des véhicules doit être activée pour utiliser le connecteur des véhicules",
@@ -1537,6 +1539,11 @@
       "transaction_billing_activation_confirm": "Voulez-vous vraiment activer la facturation des sessions de recharge ?<br><br> <strong> Attention ! </strong> Une fois activée, vous ne serez plus en mesure de la désactiver",
       "transaction_billing_activation_success": "La facturation des sessions de recharge a été activée avec succès",
       "transaction_billing_activation_error": "La facturation des sessions de recharge n'a pas pu être activée",
+      "billing_clear_test_data": "Supprimer les données de test",
+      "billing_clear_test_data_title": "Suppression des données de test",
+      "billing_clear_test_data_confirm": "Souhaitez-vous vraiment supprimer les données de test?",
+      "billing_clear_test_data_success": "Les données de test ont été supprimées",
+      "billing_clear_test_data_error": "L'opération a échoué. La suppression des données a été interrompue",
       "user": {
         "synchronize_users": "Synchro Utilisateurs (Facturation)",
         "synchronize_user": "Synchro Utilisateur (Facturation)",
@@ -2227,6 +2234,8 @@
     "create_invoice_success": "Facture créée avec succès pour cette session",
     "create_invoice_error": "Une erreur est survenue pendant la création de la facture, vérifiez les logs",
     "redirect": "Naviguer vers Sessions",
+    "error_start_no_payment_method": "Service indisponible, veuillez accéder à votre profil pour fournir un moyen de paiement",
+    "error_start_general": "Service temporairement indisponible, veuillez contacter le support",
     "filter": {
       "type": {
         "name": "Type",

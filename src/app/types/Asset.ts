@@ -15,6 +15,7 @@ export interface Asset extends TableData, CreatedUpdatedProps, AbstractCurrentCo
   coordinates: number[];
   image: string;
   dynamicAsset: boolean;
+  usesPushAPI: boolean;
   connectionID: string;
   meterID: string;
   consumption: AbstractConsumption;

@@ -5,6 +5,8 @@ import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { TransactionDialogComponent } from 'shared/dialogs/transaction/transaction.dialog.component';
+import { AppDurationPipe } from 'shared/formatters/app-duration.pipe';
+import { AppUnitPipe } from 'shared/formatters/app-unit.pipe';
 import { TableRebuildTransactionConsumptionsAction, TableRebuildTransactionConsumptionsActionDef } from 'shared/table/actions/transactions/table-rebuild-transaction-consumptions-action';
 import { IssuerFilter } from 'shared/table/filters/issuer-filter';
 
@@ -94,6 +96,8 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     private dialogService: DialogService,
     private router: Router,
     private dialog: MatDialog,
+    private appDurationPipe: AppDurationPipe,
+    private appUnitPipe: AppUnitPipe,
     private componentService: ComponentService,
     private authorizationService: AuthorizationService,
     private centralServerNotificationService: CentralServerNotificationService,
@@ -216,7 +220,28 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
         headerClass: 'text-center col-10p',
         class: 'text-center col-10p',
         formatter: (connectorId: number) => this.appConnectorIdPipe.transform(connectorId),
-      }
+      },
+      {
+        id: 'stop.totalDurationSecs',
+        name: 'transactions.duration',
+        headerClass: 'col-10p',
+        class: 'text-left col-10p',
+        formatter: (totalDurationSecs: number) => this.appDurationPipe.transform(totalDurationSecs),
+      },
+      {
+        id: 'stop.totalConsumptionWh',
+        name: 'transactions.consumption',
+        headerClass: 'col-10p',
+        class: 'col-10p',
+        formatter: (totalConsumptionWh: number) => this.appUnitPipe.transform(totalConsumptionWh, 'Wh', 'kWh'),
+      },
+      {
+        id: 'stateOfCharge',
+        name: 'transactions.state_of_charge',
+        headerClass: 'col-10p',
+        class: 'col-10p',
+        formatter: (stateOfCharge: number, row: Transaction) => stateOfCharge ? `${stateOfCharge}% > ${row.stop.stateOfCharge}%` : '-',
+      },
     );
     if (this.isAdmin || this.isSiteAdmin) {
       columns.push(

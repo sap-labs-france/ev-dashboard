@@ -2720,13 +2720,14 @@ export class CentralServerService {
       );
   }
 
-  public chargingStationStartTransaction(chargingStationID: string, connectorId: number, tagID: string, carID?: string): Observable<ActionResponse> {
+  public chargingStationStartTransaction(chargingStationID: string, connectorId: number, userID: string, visualTagID: string, carID?: string): Observable<ActionResponse> {
     this.checkInit();
     const body = {
       carID,
       args: {
-        tagID,
+        visualTagID,
         connectorId,
+        userID
       },
     };
     return this.httpClient.put<ActionResponse>(

@@ -70,7 +70,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
       if (this.chargingStation) {
         this.chargingStation.connectors.forEach((connector) => {
           // eslint-disable-next-line max-len
-          connector.isStopAuthorized = !!connector.currentTransactionID && this.authorizationService.canStopTransaction(this.chargingStation.siteArea, connector.currentTagID);
+          connector.isStopAuthorized = !!connector.currentTransactionID && this.authorizationService.canStopTransaction(this.chargingStation.siteArea, connector.user.id);
           // eslint-disable-next-line max-len
           connector.isStartAuthorized = !connector.currentTransactionID && this.authorizationService.canStartTransaction(this.chargingStation.siteArea);
           // eslint-disable-next-line max-len

@@ -9,6 +9,7 @@ import { AppDurationPipe } from 'shared/formatters/app-duration.pipe';
 import { AppUnitPipe } from 'shared/formatters/app-unit.pipe';
 import { TableRebuildTransactionConsumptionsAction, TableRebuildTransactionConsumptionsActionDef } from 'shared/table/actions/transactions/table-rebuild-transaction-consumptions-action';
 import { IssuerFilter } from 'shared/table/filters/issuer-filter';
+import { CarCatalog } from 'types/Car';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
@@ -260,7 +261,19 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
           formatter: (tagID: string) => tagID ? tagID : '-'
         }
       );
-    }
+      if (this.componentService.isActive(TenantComponents.CAR)) {
+        if (this.authorizationService.canListCars()) {
+          columns.push({
+            id: 'carCatalog',
+            name: 'car.title',
+            headerClass: 'text-center col-15p',
+            class: 'text-center col-15p',
+            sortable: true,
+            formatter: (carCatalog: CarCatalog) => carCatalog ? Utils.buildCarCatalogName(carCatalog) : '-',
+          });
+        }
+      }
+      }
     columns.push(
       {
         id: 'errorCodeDetails',

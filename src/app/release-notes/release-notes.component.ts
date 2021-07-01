@@ -22,8 +22,26 @@ export class ReleaseNotesComponent {
   }
 
   public buildReleaseNotes() {
-    'Fixed cannot assigned a User to a Site'
     this.releaseNotes = [
+      {
+        version: '2.4.72',
+        date: new Date('2021-06-30'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Migrated Tag endpoints to REST public API`,
+              `Fixed User with role Basic cannot change his password`,
+              `Added new Nexans new Charging Station's models in templates`,
+              `Optimized DB access in Notification and Site management`,
+              `Added clear of Billing test data`,
+              `Took into account Transaction timezone in Billing`,
+              `Display on going transaction stats in footer`,
+              `Construct of URLs without 'safe-url-assembler' open source`,
+            ],
+          },
+        ],
+      },
       {
         version: '2.4.71',
         date: new Date('2021-06-28'),
@@ -56,7 +74,7 @@ export class ReleaseNotesComponent {
         ],
       },
       {
-        version: '2.4.71',
+        version: '2.4.70',
         date: new Date('2021-06-26'),
         componentChanges: [
           {

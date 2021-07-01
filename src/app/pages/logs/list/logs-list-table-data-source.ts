@@ -255,7 +255,7 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
 
   public buildTableFiltersDef(): TableFilterDef[] {
     const tableFiltersDef = [
-      new StartDateFilter().getFilterDef(),
+      new StartDateFilter(moment().startOf('w').toDate()).getFilterDef(),
       new EndDateFilter().getFilterDef(),
       new LogLevelTableFilter().getFilterDef(),
       new LogActionTableFilter().getFilterDef(),

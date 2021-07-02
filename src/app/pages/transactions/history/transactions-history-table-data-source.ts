@@ -234,7 +234,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         headerClass: 'text-center col-10p',
         class: 'text-center col-10p',
         formatter: (connectorId: number) => this.appConnectorIdPipe.transform(connectorId),
-      }
+      },
     );
     if (this.isAdmin || this.isSiteAdmin) {
       columns.push({

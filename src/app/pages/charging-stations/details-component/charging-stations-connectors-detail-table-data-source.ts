@@ -136,7 +136,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
         name: 'chargers.connector_info_title',
         headerClass: 'col-15em',
         class: 'col-15em',
-        formatter: (info: string, row: Connector) => this.formatConnectorInfo(row),
+        formatter: (info: string, row: Connector) => Utils.buildConnectorInfo(row),
         sortable: false,
       },
       {
@@ -173,26 +173,6 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
         formatter: (user: User) => this.appUserNamePipe.transform(user),
       },
     ];
-  }
-
-  public formatConnectorInfo(connector: Connector) {
-    const info = [];
-    if (!Utils.isEmptyString(connector.errorCode)) {
-      const translatedError = new AppConnectorErrorCodePipe(this.translateService).transform(connector.errorCode);
-      if (!Utils.isEmptyString(translatedError)) {
-        info.push(translatedError);
-      }
-    }
-    if (!Utils.isEmptyString(connector.vendorErrorCode)) {
-      info.push(connector.vendorErrorCode);
-    }
-    if (!Utils.isEmptyString(connector.info)) {
-      info.push(connector.info);
-    }
-    if (Utils.isEmptyArray(info)) {
-      info.push('-');
-    }
-    return info.join(' - ');
   }
 
   public buildTableActionsRightDef(): TableActionDef[] {

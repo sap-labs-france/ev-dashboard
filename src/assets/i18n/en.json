@@ -719,7 +719,7 @@
     "connector0": "Charger",
     "connector_type": "Type",
     "connector_error_title": "Error",
-    "connector_info_title": "Error information",
+    "connector_info_title": "Information",
     "connector_vendor_error_code_title": "Vendor error",
     "connector_max_power": "Maximum Power (Watts)",
     "charger_url": "URL",

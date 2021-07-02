@@ -132,6 +132,14 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
         sortable: false,
       },
       {
+        id: 'info',
+        name: 'chargers.connector_info_title',
+        headerClass: 'col-15em',
+        class: 'col-15em',
+        formatter: (info: string, row: Connector) => this.formatConnectorInfo(row),
+        sortable: false,
+      },
+      {
         id: 'currentInstantWatts',
         name: 'chargers.consumption_title',
         headerClass: 'text-center col-20p',
@@ -164,22 +172,27 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
         class: 'text-left col-20p',
         formatter: (user: User) => this.appUserNamePipe.transform(user),
       },
-      {
-        id: 'errorCode',
-        name: 'chargers.connector_error_title',
-        headerClass: 'col-15em',
-        class: 'col-15em',
-        formatter: (errorCode: string, row: Connector) => this.formatError(errorCode, row.info, row.vendorErrorCode),
-        sortable: false,
-      },
     ];
   }
 
-  public formatError(errorCode: string, info: string | undefined, vendorErrorCode: string | undefined) {
-    errorCode = new AppConnectorErrorCodePipe(this.translateService).transform(errorCode);
-    info = !Utils.isEmptyString(info) ? ` > ${info}` : '';
-    vendorErrorCode = !Utils.isEmptyString(vendorErrorCode) && vendorErrorCode !== '0' ? ` (${vendorErrorCode})` : '';
-    return `${errorCode}${info}${vendorErrorCode}`;
+  public formatConnectorInfo(connector: Connector) {
+    const info = [];
+    if (!Utils.isEmptyString(connector.errorCode)) {
+      const translatedError = new AppConnectorErrorCodePipe(this.translateService).transform(connector.errorCode);
+      if (!Utils.isEmptyString(translatedError)) {
+        info.push(translatedError);
+      }
+    }
+    if (!Utils.isEmptyString(connector.vendorErrorCode)) {
+      info.push(connector.vendorErrorCode);
+    }
+    if (!Utils.isEmptyString(connector.info)) {
+      info.push(connector.info);
+    }
+    if (Utils.isEmptyArray(info)) {
+      info.push('-');
+    }
+    return info.join(' - ');
   }
 
   public buildTableActionsRightDef(): TableActionDef[] {

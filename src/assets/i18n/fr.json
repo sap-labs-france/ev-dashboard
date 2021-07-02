@@ -719,7 +719,7 @@
     "connector0": "Borne",
     "connector_type": "Type",
     "connector_error_title": "Erreur",
-    "connector_info_title": "Information erreur",
+    "connector_info_title": "Information",
     "connector_vendor_error_code_title": "Code erreur Fab.",
     "connector_max_power": "Puissance Maximale (Watts)",
     "charger_url": "URL",

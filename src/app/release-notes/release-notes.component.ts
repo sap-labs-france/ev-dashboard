@@ -24,6 +24,26 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.73',
+        date: new Date('2021-07-02'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Improve perfs to get Log details`,
+              `Added Connector's information in Charging Station and Session In Progress lists`,
+              `Added Stop reason in Session History list`,
+              `Saved Stop reason OCPP Stop Transaction`,
+              `Only log stack trace of exceptions`,
+              `Reduce number of updates in DB of Charging Station's Heart Beats`,
+              `Returned distance meters of Charging Stations`,
+              `Keep performance logs for 2 weeks instead of 4`,
+              `Added Car and User info in Sessions in Error`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.72',
         date: new Date('2021-06-30'),
         componentChanges: [

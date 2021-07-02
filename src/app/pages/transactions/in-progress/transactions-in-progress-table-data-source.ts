@@ -38,7 +38,7 @@ import { TagTableFilter } from '../../../shared/table/filters/tag-table-filter';
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import ChangeNotification from '../../../types/ChangeNotification';
-import { ChargingStationButtonAction } from '../../../types/ChargingStation';
+import { ChargingStationButtonAction, Connector } from '../../../types/ChargingStation';
 import { DataResult, TransactionDataResult } from '../../../types/DataResult';
 import { LogButtonAction } from '../../../types/Log';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
@@ -159,6 +159,14 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         class: 'table-cell-angular-big-component col-10p',
         isAngularComponent: true,
         angularComponent: TransactionsConnectorCellComponent,
+      },
+      {
+        id: 'info',
+        name: 'chargers.connector_info_title',
+        headerClass: 'col-15em',
+        class: 'col-15em',
+        formatter: (info: string, row: Connector) => Utils.buildConnectorInfo(row),
+        sortable: false,
       },
     );
     if (this.isAdmin || this.isSiteAdmin) {

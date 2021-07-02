@@ -14,7 +14,7 @@ export class AppDatePipe implements PipeTransform {
     });
   }
 
-  public transform(value: Date, format: string = 'medium'): string | null {
+  public transform(value: Date, format = 'short'): string | null {
     return this.datePipe.transform(value, format);
   }
 }

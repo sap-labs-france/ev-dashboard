@@ -30,6 +30,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `Do not bill Sessions < 1 kWh and < 1 min`,
               `Billing montly payment with Stripe`,
               `Improve perfs to get Log details`,
               `Added Connector's information in Charging Station and Session In Progress lists`,

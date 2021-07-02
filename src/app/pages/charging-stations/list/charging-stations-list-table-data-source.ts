@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { CompanyTableFilter } from 'shared/table/filters/company-table-filter';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
@@ -342,12 +343,13 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
   public buildTableFiltersDef(): TableFilterDef[] {
     if (this.isOrganizationComponentActive) {
       const issuerFilter = new IssuerFilter().getFilterDef();
-      const siteFilter = new SiteTableFilter([issuerFilter]).getFilterDef();
+      const companyFilter = new CompanyTableFilter([issuerFilter]).getFilterDef();
+      const siteFilter = new SiteTableFilter([issuerFilter, companyFilter]).getFilterDef();
       return [
-        // new ChargingStationTableFilter().getFilterDef(),
         issuerFilter,
+        companyFilter,
         siteFilter,
-        new SiteAreaTableFilter([siteFilter, issuerFilter]).getFilterDef(),
+        new SiteAreaTableFilter([siteFilter, issuerFilter, companyFilter]).getFilterDef(),
       ];
     }
     return [];

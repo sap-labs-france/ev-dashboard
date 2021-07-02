@@ -2164,6 +2164,7 @@
     "charging_station": "Estação de Carregamento",
     "started_at": "Iniciado em",
     "end_date": "E Finalizado",
+    "stop_reason": "Reason",
     "consumption": "Consumo",
     "transactions_button": "Sessões",
     "transaction_today": "Hoje",

@@ -2164,6 +2164,7 @@
     "charging_station": "Borne",
     "started_at": "Date Début",
     "end_date": "Date Fin",
+    "stop_reason": "Raison",
     "consumption": "Consommation",
     "transactions_button": "Sessions",
     "transaction_today": "Aujourd'hui",

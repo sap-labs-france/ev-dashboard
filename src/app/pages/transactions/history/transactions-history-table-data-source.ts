@@ -215,6 +215,21 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         formatter: (value: Date) => this.datePipe.transform(value),
       },
       {
+        id: 'stop.timestamp',
+        name: 'transactions.end_date',
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
+        sortable: true,
+        formatter: (value: Date) => this.datePipe.transform(value),
+      },
+      {
+        id: 'stop.reason',
+        name: 'transactions.stop_reason',
+        headerClass: 'col-10p',
+        class: 'text-left col-10p',
+        formatter: (reason: string) => reason ?? '-',
+      },
+      {
         id: 'stop.totalDurationSecs',
         name: 'transactions.duration',
         headerClass: 'col-10p',

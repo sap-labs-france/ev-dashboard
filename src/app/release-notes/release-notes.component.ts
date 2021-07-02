@@ -30,6 +30,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `Billing montly payment with Stripe`,
               `Improve perfs to get Log details`,
               `Added Connector's information in Charging Station and Session In Progress lists`,
               `Added Stop reason in Session History list`,

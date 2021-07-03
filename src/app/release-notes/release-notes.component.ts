@@ -32,6 +32,7 @@ export class ReleaseNotesComponent {
             changes: [
               `Do not bill Sessions < 1 kWh and < 1 min`,
               `Billing montly payment with Stripe`,
+              `Added Low Consumption (< 1 kWh) and Low Duration (< 1 min) in Sessions In Error`,
               `Improve perfs to get Log details`,
               `Added Connector's information in Charging Station and Session In Progress lists`,
               `Added Stop reason in Session History list`,

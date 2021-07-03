@@ -2359,6 +2359,11 @@
         "description": "La sessione non contiene valori del contatore.",
         "action": "Controllare le impostazioni della stazione di ricarica. Assicurarsi che il valori del contatore siano inviati dalla stazione di ricarica."
       },
+      "low_consumption": {
+        "title": "Low Consumption",
+        "description": "The session has a consumption < 1 kWh.",
+        "action": "Check the charging station settings. Ensure that meter values are sent by the charging station."
+      },
       "average_consumption_greater_than_connector_capacity": {
         "title": "Consumo Troppo Alto",
         "description": "La potenza di carica media registrata è maggiore della capacità della presa.",
@@ -2370,7 +2375,7 @@
         "action": "Controllare le impostazioni della stazione di ricarica. Assicurarsi che i valori del contatore siano inviati nell'ordine corretto."
       },
       "long_inactivity": {
-        "title": "Inattività maggiore di 24 ore",
+        "title": "High Inactivity",
         "description": "L'inattività della sessione è maggiore di 24 ore.",
         "action": "Controllare la sessione"
       },
@@ -2378,6 +2383,11 @@
         "title": "Durata Negativa",
         "description": "La durata della sessione è negativa.",
         "action": "Controllare le impostazioni della stazione di ricarica. Assicurarsi che i valori del contatore siano inviati nell'ordine corretto."
+      },
+      "low_duration": {
+        "title": "Low Duration",
+        "description": "The duration of the session is less than 1 minute.",
+        "action": "Check the charging station settings. Ensure that meter values are sent correctly."
       },
       "missing_price": {
         "title": "Prezzo mancante",

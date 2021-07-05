@@ -719,7 +719,7 @@
     "connector0": "Charger",
     "connector_type": "Type",
     "connector_error_title": "Error",
-    "connector_info_title": "Error information",
+    "connector_info_title": "Information",
     "connector_vendor_error_code_title": "Vendor error",
     "connector_max_power": "Maximum Power (Watts)",
     "charger_url": "URL",
@@ -1543,6 +1543,11 @@
       "transaction_billing_activation_confirm": "Do you really want to activate the billing of charging sessions? <br><br> <strong> WARNING ! </strong> Once activated, you will NOT be able to deactivate it !",
       "transaction_billing_activation_success": "Billing of charging sessions has been successfully activated",
       "transaction_billing_activation_error": "Billing of charging sessions cannot be activated",
+      "billing_clear_test_data": "Delete Test Data",
+      "billing_clear_test_data_title": "Test Data Deletion",
+      "billing_clear_test_data_confirm": "Do you really want to delete all billing test data?",
+      "billing_clear_test_data_success": "The test data has been deleted",
+      "billing_clear_test_data_error": "Operation failed. The test data deletion has been aborted",
       "user": {
         "synchronize_users": "Synchronize Billing Users",
         "synchronize_user": "Synchronize Billing User",
@@ -2163,6 +2168,7 @@
     "charging_station": "Charging Station",
     "started_at": "Started At",
     "end_date": "End Date",
+    "stop_reason": "Reason",
     "consumption": "Consumption",
     "transactions_button": "Sessions",
     "transaction_today": "Today",
@@ -2353,8 +2359,13 @@
     },
     "errors": {
       "no_consumption": {
-        "title": "No Consumptions",
+        "title": "No Consumption",
         "description": "The session does not contains meter values.",
+        "action": "Check the charging station settings. Ensure that meter values are sent by the charging station."
+      },
+      "low_consumption": {
+        "title": "Low Consumption",
+        "description": "The session has a consumption < 1 kWh.",
         "action": "Check the charging station settings. Ensure that meter values are sent by the charging station."
       },
       "average_consumption_greater_than_connector_capacity": {
@@ -2368,8 +2379,8 @@
         "action": "Check the charging station settings. Ensure that meter values are sent in the correct order."
       },
       "long_inactivity": {
-        "title": "Inactivity more than 24h",
-        "description": "The inactivity of the session is more than 24 hours.",
+        "title": "High Inactivity",
+        "description": "The inactivity of the session > 24 hours.",
         "action": "Check the Session"
       },
       "negative_duration": {
@@ -2377,8 +2388,13 @@
         "description": "The duration of the session is negative.",
         "action": "Check the charging station settings. Ensure that meter values are sent in the correct order."
       },
+      "low_duration": {
+        "title": "Low Duration",
+        "description": "The duration of the session < 1 minute.",
+        "action": "Check the charging station settings. Ensure that meter values are sent correctly."
+      },
       "missing_price": {
-        "title": "Missing price",
+        "title": "Missing Price",
         "description": "The session has not been priced.",
         "action": "Even though the pricing is activated in the organization, the session has not been priced. Contact your site administrator."
       },

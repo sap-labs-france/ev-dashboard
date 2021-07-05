@@ -719,7 +719,7 @@
     "connector0": "Carregador",
     "connector_type": "Tipo de Carregador",
     "connector_error_title": "Erro",
-    "connector_info_title": "Erro de informação",
+    "connector_info_title": "Informação",
     "connector_vendor_error_code_title": "Erro de Fornecedor",
     "connector_max_power": "Poder maximo (Watts)",
     "charger_url": "URL",
@@ -1543,6 +1543,11 @@
       "transaction_billing_activation_confirm": "Do you really want to activate the billing of charging sessions? <br><br> <strong> WARNING ! </strong> Once activated, you will NOT be able to deactivate it !",
       "transaction_billing_activation_success": "Billing of charging sessions has been successfully activated",
       "transaction_billing_activation_error": "Billing of charging sessions cannot be activated",
+      "billing_clear_test_data": "Delete Test Data",
+      "billing_clear_test_data_title": "Test Data Deletion",
+      "billing_clear_test_data_confirm": "Do you really want to delete all billing test data?",
+      "billing_clear_test_data_success": "The test data has been deleted",
+      "billing_clear_test_data_error": "Operation failed. The test data deletion has been aborted",
       "user": {
         "synchronize_users": "Sincronizar utilizadores de cobrança",
         "synchronize_user": "Sincronizar utilizador de cobrança",
@@ -2163,6 +2168,7 @@
     "charging_station": "Estação de Carregamento",
     "started_at": "Iniciado em",
     "end_date": "E Finalizado",
+    "stop_reason": "Reason",
     "consumption": "Consumo",
     "transactions_button": "Sessões",
     "transaction_today": "Hoje",
@@ -2357,6 +2363,11 @@
         "description": "A sessão não contém valores de medidor.",
         "action": "Verifique as configurações da estação de carregamento. Certifique-se de que os valores do medidor são enviados pela estação de carregamento."
       },
+      "low_consumption": {
+        "title": "Low Consumption",
+        "description": "The session has a consumption < 1 kWh.",
+        "action": "Check the charging station settings. Ensure that meter values are sent by the charging station."
+      },
       "average_consumption_greater_than_connector_capacity": {
         "title": "Consumo muito alto",
         "description": "A potência média de carga registrada é maior do que a capacidade do conector.",
@@ -2368,7 +2379,7 @@
         "action": "Verifique as configurações da estação de carregamento. Certifique-se de que os valores do medidor são enviados na ordem correta."
       },
       "long_inactivity": {
-        "title": "Inatividade por mais de 24h",
+        "title": "High Inactivity",
         "description": "A inatividade da sessão é superior a 24 horas.",
         "action": "Verifique a sessão"
       },
@@ -2376,6 +2387,11 @@
         "title": "Duração Negativa",
         "description": "A duração da sessão é negativa.",
         "action": "Verifique as configurações da estação de carregamento. Certifique-se de que os valores do medidor são enviados na ordem correta."
+      },
+      "low_duration": {
+        "title": "Low Duration",
+        "description": "The duration of the session is less than 1 minute.",
+        "action": "Check the charging station settings. Ensure that meter values are sent correctly."
       },
       "missing_price": {
         "title": "Ausência de Preço",

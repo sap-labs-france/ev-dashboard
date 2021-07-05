@@ -146,7 +146,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
     if (this.isOrganizationComponentActive) {
       tableColumns.push(
         {
-          id: 'siteArea.site.name',
+          id: 'site.name',
           name: 'chargers.site',
           defaultValue: 'sites.unassigned',
           class: 'd-none d-xl-table-cell col-20p',

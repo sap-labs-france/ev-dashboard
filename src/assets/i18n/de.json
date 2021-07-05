@@ -1543,6 +1543,11 @@
       "transaction_billing_activation_confirm": "Do you really want to activate the billing of charging sessions? <br><br> <strong> WARNING ! </strong> Once activated, you will NOT be able to deactivate it !",
       "transaction_billing_activation_success": "Billing of charging sessions has been successfully activated",
       "transaction_billing_activation_error": "Billing of charging sessions cannot be activated",
+      "billing_clear_test_data": "Delete Test Data",
+      "billing_clear_test_data_title": "Test Data Deletion",
+      "billing_clear_test_data_confirm": "Do you really want to delete all billing test data?",
+      "billing_clear_test_data_success": "The test data has been deleted",
+      "billing_clear_test_data_error": "Operation failed. The test data deletion has been aborted",
       "user": {
         "synchronize_users": "Abrechnungssynchronisierung",
         "synchronize_user": "Abrechnungssynchronisierung",
@@ -2163,6 +2168,7 @@
     "charging_station": "Ladestation",
     "started_at": "Gestartet am",
     "end_date": "Enddatum",
+    "stop_reason": "Reason",
     "consumption": "Verbrauch",
     "transactions_button": "Ladevorgänge",
     "transaction_today": "Heute",
@@ -2357,6 +2363,11 @@
         "description": "Der Ladevorgang beinhaltet keine metrischen Werte.",
         "action": "Überprüfen Sie die Einstellungen Ihrer Ladestation. Vergewissern Sie sich, dass die Ladestation metrische Werte sendet."
       },
+      "low_consumption": {
+        "title": "Low Consumption",
+        "description": "The session has a consumption < 1 kWh.",
+        "action": "Check the charging station settings. Ensure that meter values are sent by the charging station."
+      },
       "average_consumption_greater_than_connector_capacity": {
         "title": "Verbrauch zu hoch",
         "description": "Die durchschnittliche Ladeleistung ist höher als die Kapazität des Anschlusses.",
@@ -2368,14 +2379,19 @@
         "action": "Überprüfen Sie die Einstellungen der Ladestation. Vergewissern Sie sich, dass metrische Werte in der richtigen Reihenfolge gesendet werden."
       },
       "long_inactivity": {
-        "title": "Inaktivität über 24h",
-        "description": "Die Inaktivität Ihres Ladevorgangs ist größer als 24h.",
+        "title": "High Inactivity",
+        "description": "Die Inaktivität Ihres Ladevorgangs > 24h.",
         "action": "Überprufen des Ladevorganges"
       },
       "negative_duration": {
         "title": "Negative Dauer",
         "description": "Die Dauer Ihres Ladevorganges ist negativ.",
         "action": "Überprüfen Sie die Einstellungen der Ladestation. Vergewissern Sie sich, dass metrische Werte in der richtigen Reihenfolge gesendet werden."
+      },
+      "low_duration": {
+        "title": "Low duration",
+        "description": "The duration of the session < 1 minute.",
+        "action": "Check the charging station settings. Ensure that meter values are sent correctly."
       },
       "missing_price": {
         "title": "Fehlender Preis",

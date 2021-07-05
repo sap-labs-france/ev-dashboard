@@ -719,7 +719,7 @@
     "connector0": "Cargador",
     "connector_type": "Tipo",
     "connector_error_title": "Error",
-    "connector_info_title": "Información de error",
+    "connector_info_title": "Información",
     "connector_vendor_error_code_title": "Error del proveedor",
     "connector_max_power": "Potencia máxima (Vatios)",
     "charger_url": "URL",
@@ -1543,6 +1543,11 @@
       "transaction_billing_activation_confirm": "Do you really want to activate the billing of charging sessions? <br><br> <strong> WARNING ! </strong> Once activated, you will NOT be able to deactivate it !",
       "transaction_billing_activation_success": "Billing of charging sessions has been successfully activated",
       "transaction_billing_activation_error": "Billing of charging sessions cannot be activated",
+      "billing_clear_test_data": "Delete Test Data",
+      "billing_clear_test_data_title": "Test Data Deletion",
+      "billing_clear_test_data_confirm": "Do you really want to delete all billing test data?",
+      "billing_clear_test_data_success": "The test data has been deleted",
+      "billing_clear_test_data_error": "Operation failed. The test data deletion has been aborted",
       "user": {
         "synchronize_users": "Sincronización del usuario (Facturación)",
         "synchronize_user": "Sincronización del usuario (Facturación)",
@@ -2163,6 +2168,7 @@
     "charging_station": "Estación de carga",
     "started_at": "Fecha y hora de inicio",
     "end_date": "Fecha de fin",
+    "stop_reason": "Reason",
     "consumption": "Consumo",
     "transactions_button": "Sesiones",
     "transaction_today": "Hoy",
@@ -2357,43 +2363,53 @@
         "description": "La sesión no contiene ningún dato.",
         "action": "Verifique la configuración de la terminal. Asegúrese de que el terminal transmita los datos de carga."
       },
+      "low_consumption": {
+        "title": "Low Consumption",
+        "description": "The session has a consumption < 1 kWh.",
+        "action": "Check the charging station settings. Ensure that meter values are sent by the charging station."
+      },
       "average_consumption_greater_than_connector_capacity": {
-        "title": "Alto consumo",
+        "title": "Alto Consumo",
         "description": "La potencia de carga promedio registrada es mayor a la capacidad del conector.",
         "action": "Verifique la configuración de la estación de carga. Asegúrese de que la potencia máxima del conector esté establecida y sea válida."
       },
       "negative_inactivity": {
-        "title": "Inactividad negativa",
+        "title": "Inactividad Negativa",
         "description": "La inactividad de la sesión es negativa.",
         "action": "Verifique la configuración de la estación de carga. Asegúrese de que los valores del medidor se envíen en el orden correcto."
       },
       "long_inactivity": {
-        "title": "Inactividad por más de 24h",
-        "description": "La inactividad de la sesión ha sido de más de 24 horas.",
+        "title": "High Inactivity",
+        "description": "La inactividad de la sesión ha sido > 24 horas.",
         "action": "Verificar la sesión"
       },
       "negative_duration": {
-        "title": "Duración negativa",
+        "title": "Duración Negativa",
         "description": "La duración de la sesión es negativa",
         "action": "Verifique la configuración de la estación de carga. Asegúrese de que los valores del medidor se envíen en el orden correcto."
       },
+      "low_duration": {
+        "title": "Low Duration",
+        "description": "The duration of the session < 1 minute.",
+        "action": "Check the charging station settings. Ensure that meter values are sent correctly."
+      },
       "missing_price": {
-        "title": "Precio faltante",
+        "title": "Precio Faltante",
         "description": "La transacción no ha sido tasada.",
         "action": "A pesar de que el precio está activado en la organización, la transacción no ha sido tasada. Póngase en contacto con el administrador de su sitio."
       },
       "incorrect_starting_date": {
-        "title": "Fecha de inicio incorrecta",
+        "title": "Fecha de Inicio Incorrecta",
         "description": "El valor de la fecha de inicio es incorrecto o imposible.",
         "action": "Verifique la configuración de la estación de carga. Asegúrese de que la fecha enviada al inicio de la transacción sea correcta."
       },
       "missing_user": {
-        "title": "Sesión sin usuario",
+        "title": "Sesión sin Usuario",
         "description": "Ningún usuario está asignado a esta sesión.",
         "action": "Elimine esta sesión o desactive el control de acceso para esta zona."
       },
       "no_billing_data": {
-        "title": "Sesión sin datos de facturación.",
+        "title": "Sesión sin Datos de Facturación.",
         "description": "No hay datos de facturación para esta sesión.",
         "action": "Eliminar sesión o crear una factura."
       }

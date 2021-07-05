@@ -1,6 +1,6 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { MatDialog } from '@angular/material/dialog';
-import { ServerAction } from 'types/Server';
+import { ServerRoute } from 'types/Server';
 
 import { TableActionDef } from '../../../../types/Table';
 import { UserButtonAction, UserOptionalImportProperties, UserRequiredImportProperties } from '../../../../types/User';
@@ -20,6 +20,6 @@ export class TableImportUsersAction extends TableImportAction {
   }
 
   private importUsers(userDialogComponent: ComponentType<unknown>, dialog: MatDialog) {
-    super.import(userDialogComponent, dialog, ServerAction.USERS_IMPORT, 'users', UserRequiredImportProperties, UserOptionalImportProperties);
+    super.import(userDialogComponent, dialog, ServerRoute.REST_USERS_IMPORT, 'users', UserRequiredImportProperties, UserOptionalImportProperties);
   }
 }

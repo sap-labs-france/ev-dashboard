@@ -3247,6 +3247,16 @@ export class CentralServerService {
     ];
   }
 
+  public buildRestEndpointUrl(urlPatternAsString: ServerRoute, params: {[name: string]: string | number | null } = {}) {
+    let resolvedUrlPattern = urlPatternAsString as string;
+    for (const key in params) {
+      if (Object.prototype.hasOwnProperty.call(params, key)) {
+        resolvedUrlPattern = resolvedUrlPattern.replace(`:${key}`, encodeURIComponent(params[key]));
+      }
+    }
+    return `${this.restServerSecuredURL}/${resolvedUrlPattern}`;
+  }
+
   private getLoggedUserToken(): string {
     // Get the token
     if (!this.currentUserToken) {
@@ -3372,16 +3382,6 @@ export class CentralServerService {
       });
     }
     return of(null);
-  }
-
-  private buildRestEndpointUrl(urlPatternAsString: ServerRoute, params: {[name: string]: string | number | null } = {}) {
-    let resolvedUrlPattern = urlPatternAsString as string;
-    for (const key in params) {
-      if (Object.prototype.hasOwnProperty.call(params, key)) {
-        resolvedUrlPattern = resolvedUrlPattern.replace(`:${key}`, encodeURIComponent(params[key]));
-      }
-    }
-    return `${this.restServerSecuredURL}/${resolvedUrlPattern}`;
   }
 }
 

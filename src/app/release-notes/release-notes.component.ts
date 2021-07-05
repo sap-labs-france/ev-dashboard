@@ -24,6 +24,19 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.74',
+        date: new Date('2021-07-05'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Save Status Notification right after Boot Notification even if the status has not changed`,
+              `Added Site and Site Area in Session list`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.73',
         date: new Date('2021-07-02'),
         componentChanges: [

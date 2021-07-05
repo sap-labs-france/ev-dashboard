@@ -22,7 +22,7 @@ import { Utils } from '../../../utils/Utils';
   templateUrl: 'tag.component.html'
 })
 export class TagComponent implements OnInit {
-  @Input() public currentTagID!: string;
+  @Input() public currentTagVisualID!: string;
   @Input() public inDialog!: boolean;
   @Input() public dialogRef!: MatDialogRef<any>;
 
@@ -93,7 +93,7 @@ export class TagComponent implements OnInit {
     this.active = this.formGroup.controls['active'];
     this.default = this.formGroup.controls['default'];
     this.default.setValue(false);
-    if (this.currentTagID) {
+    if (this.currentTagVisualID) {
       this.id.disable();
     }
     // Set tag
@@ -124,9 +124,9 @@ export class TagComponent implements OnInit {
   }
 
   public loadTag() {
-    if (this.currentTagID) {
+    if (this.currentTagVisualID) {
       this.spinnerService.show();
-      this.centralServerService.getTag(this.currentTagID).subscribe((tag: Tag) => {
+      this.centralServerService.getTag(this.currentTagVisualID).subscribe((tag: Tag) => {
         this.spinnerService.hide();
         // Init form
         this.id.setValue(tag.id);
@@ -173,7 +173,7 @@ export class TagComponent implements OnInit {
   }
 
   public saveTag(tag: Tag) {
-    if (this.currentTagID) {
+    if (this.currentTagVisualID) {
       this.updateTag(tag);
     } else {
       this.createTag(tag);
@@ -258,7 +258,7 @@ export class TagComponent implements OnInit {
       }, (error) => {
         // Hide
         this.spinnerService.hide();
-        if (this.currentTagID) {
+        if (this.currentTagVisualID) {
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'users.update_error');
         } else {
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'users.create_error');

@@ -7,7 +7,7 @@ import { Utils } from '../../../utils/Utils';
 import { TagComponent } from './tag.component';
 
 @Component({
-  template: '<app-tag #appRef [currentTagID]="tagID" [inDialog]="true" [dialogRef]="dialogRef"></app-tag>',
+  template: '<app-tag #appRef [currentTagVisualID]="tagID" [inDialog]="true" [dialogRef]="dialogRef"></app-tag>',
 })
 export class TagDialogComponent implements AfterViewInit {
   @ViewChild('appRef') public appRef!: TagComponent;
@@ -16,7 +16,7 @@ export class TagDialogComponent implements AfterViewInit {
   public constructor(
     public dialogRef: MatDialogRef<TagDialogComponent>,
     @Inject(MAT_DIALOG_DATA) dialogParams: DialogParams<Tag>) {
-    this.tagID = dialogParams.dialogData?.id;
+    this.tagID = dialogParams.dialogData?.visualID;
   }
 
   public ngAfterViewInit() {

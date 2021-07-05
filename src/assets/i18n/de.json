@@ -1382,7 +1382,8 @@
     "import_tags_success": "{{inSuccess}} Badges wurden erfolgreich hochgeladen und werden nun verarbeitet",
     "import_tags_partial": "{{inSuccess}} Badges wurden erfolgreich hochgeladen und werden nun verarbeitet und {{inError}} Badges sind fehlgeschlagen, bitte überprüfen Sie die Logs",
     "import_tags_error": "Das Hochladen von {{inError}} Badges ist fehlgeschlagen",
-    "import_no_tags": "Es wurden keine Badges hochgeladen"
+    "import_no_tags": "Es wurden keine Badges hochgeladen",
+    "import_tags_auto_activation": "Automatically activate new tag at importation time"
   },
   "tenants": {
     "title": "Organisation",

@@ -1382,7 +1382,8 @@
     "import_tags_success": "{{inSuccess}} badges ont été enregistrés avec succès et seront importés de manière asynchrone",
     "import_tags_partial": "{{inSuccess}} badges ont été enregistrés avec succès et seront importés de manière asynchrone et {{inError}} ont échoué, vérifiez les logs",
     "import_tags_error": "{{inError}} badges n'ont pas pu être enregistré",
-    "import_no_tags": "Aucun badge n'a été enregistré"
+    "import_no_tags": "Aucun badge n'a été enregistré",
+    "import_tags_auto_activation": "Activer automatiquement les nouveaux badges à l'importation"
   },
   "tenants": {
     "title": "Organisation",

@@ -68,7 +68,10 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
     // Init
     this.isOrganizationComponentActive = this.componentService.isActive(TenantComponents.ORGANIZATION);
     if (this.isOrganizationComponentActive) {
-      this.setStaticFilters([{ WithSite: true }]);
+      this.setStaticFilters([{
+        WithSite: true,
+        WithSiteArea: true
+      }]);
     }
     this.initDataSource();
   }

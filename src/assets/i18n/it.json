@@ -1324,6 +1324,7 @@
     "number": "Numero Fattura",
     "createdOn": "Data Fattura",
     "price": "Prezzo Fattura",
+    "amount": "Importo",
     "cannot_retrieve_invoices": "Impossibile recuperare l'elenco delle fatture",
     "cannot_download_invoice": "Impossibile scaricare la fattura",
     "number_of_items": "Sessioni",

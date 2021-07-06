@@ -1324,6 +1324,7 @@
     "number": "Numero de fatura",
     "createdOn": "Data da fatura",
     "price": "Preço da fatura",
+    "amount": "Valor",
     "cannot_retrieve_invoices": "Não é possível recuperar a lista de faturas",
     "cannot_download_invoice": "Não é possível baixar a fatura",
     "number_of_items": "Sessões",

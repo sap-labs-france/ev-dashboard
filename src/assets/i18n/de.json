@@ -2089,7 +2089,7 @@
     }
   },
   "car": {
-    "title": "Fahrzeug Management",
+    "title": "Fahrzeug",
     "description": "Fahrzeuge verwalten",
     "tabs": {
       "car_catalogs": "Fahrzeugverzeichnisse",

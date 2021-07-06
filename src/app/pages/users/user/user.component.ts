@@ -53,6 +53,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public isSiteAdmin = false;
   public originalEmail!: string;
   public image = Constants.USER_NO_PICTURE;
+  public userImageSet = false;
   public hideRepeatPassword = true;
   public hidePassword = true;
   public maxSize: number;
@@ -483,6 +484,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     })).subscribe((userImage) => {
       if (userImage && userImage.image) {
         this.image = userImage.image.toString();
+        this.userImageSet = true;
       }
       this.spinnerService.hide();
       this.formGroup.updateValueAndValidity();
@@ -593,6 +595,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         const reader = new FileReader();
         reader.onload = () => {
           this.image = reader.result as string;
+          this.userImageSet = true;
           this.formGroup.markAsDirty();
         };
         reader.readAsDataURL(file);
@@ -602,6 +605,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
 
   public clearImage() {
     this.image = Constants.USER_NO_PICTURE;
+    this.userImageSet = false;
     this.formGroup.markAsDirty();
   }
 

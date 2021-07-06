@@ -2089,7 +2089,7 @@
     }
   },
   "car": {
-    "title": "Car Management",
+    "title": "Car",
     "description": "Manage the user's cars",
     "tabs": {
       "car_catalogs": "Catálogos de carros",

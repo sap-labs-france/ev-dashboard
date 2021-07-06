@@ -2089,7 +2089,7 @@
     }
   },
   "car": {
-    "title": "Gestion Voiture",
+    "title": "Voiture",
     "description": "Gérer les voitures des utilisateurs",
     "tabs": {
       "car_catalogs": "Catalogue Voitures",

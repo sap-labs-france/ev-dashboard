@@ -152,8 +152,8 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
       },
       {
         id: 'amount',
-        name: 'invoices.price',
-        formatter: (price: number, invoice: BillingInvoice) => this.appCurrencyPipe.transform(price / 100, invoice.currency.toUpperCase()),
+        name: 'invoices.amount',
+        formatter: (amount: number, invoice: BillingInvoice) => this.appCurrencyPipe.transform(amount / 100, invoice.currency.toUpperCase()),
         headerClass: 'col-10p',
         class: 'col-10p',
         sortable: true,

@@ -12,7 +12,6 @@ import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { ConsumptionChartDetailComponent } from '../../../shared/component/consumption-chart/consumption-chart-detail.component';
-import { AppConnectorErrorCodePipe } from '../../../shared/formatters/app-connector-error-code.pipe';
 import { AppUnitPipe } from '../../../shared/formatters/app-unit.pipe';
 import { AppUserNamePipe } from '../../../shared/formatters/app-user-name.pipe';
 import { TableChargingStationsStartTransactionAction, TableChargingStationsStartTransactionActionDef } from '../../../shared/table/actions/charging-stations/table-charging-stations-start-transaction-action';
@@ -134,8 +133,8 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
       {
         id: 'info',
         name: 'chargers.connector_info_title',
-        headerClass: 'col-15em',
-        class: 'col-15em',
+        headerClass: 'text-center col-15em',
+        class: 'text-center col-15em',
         formatter: (info: string, row: Connector) => Utils.buildConnectorInfo(row),
         sortable: false,
       },

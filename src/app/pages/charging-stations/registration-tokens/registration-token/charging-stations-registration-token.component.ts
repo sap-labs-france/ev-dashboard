@@ -176,7 +176,7 @@ export class ChargingStationsRegistrationTokenComponent implements OnInit {
       .afterClosed().subscribe((result) => {
         if (!Utils.isEmptyArray(result) && result[0].objectRef) {
           const siteArea = (result[0].objectRef) as SiteArea;
-          this.siteArea.setValue(`${(siteArea.site ? siteArea.site.name + ' - ' : '')}${siteArea.name}`);
+          this.siteArea.setValue(siteArea.name);
           this.siteAreaID.setValue(siteArea.id);
           this.formGroup.markAsDirty();
         }

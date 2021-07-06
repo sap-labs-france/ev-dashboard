@@ -77,12 +77,20 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
       value: this.translateService.instant(`transactions.errors.${TransactionInErrorType.NO_CONSUMPTION}.title`),
     },
     {
+      key: TransactionInErrorType.LOW_CONSUMPTION,
+      value: this.translateService.instant(`transactions.errors.${TransactionInErrorType.LOW_CONSUMPTION}.title`),
+    },
+    {
       key: TransactionInErrorType.OVER_CONSUMPTION,
       value: this.translateService.instant(`transactions.errors.${TransactionInErrorType.OVER_CONSUMPTION}.title`),
     },
     {
       key: TransactionInErrorType.NEGATIVE_DURATION,
       value: this.translateService.instant(`transactions.errors.${TransactionInErrorType.NEGATIVE_DURATION}.title`),
+    },
+    {
+      key: TransactionInErrorType.LOW_DURATION,
+      value: this.translateService.instant(`transactions.errors.${TransactionInErrorType.LOW_DURATION}.title`),
     },
     {
       key: TransactionInErrorType.MISSING_USER,
@@ -223,6 +231,23 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
         formatter: (connectorId: number) => this.appConnectorIdPipe.transform(connectorId),
       },
       {
+        id: 'errorCodeDetails',
+        name: 'errors.details',
+        sortable: false,
+        headerClass: 'text-center col-10p',
+        class: 'text-center col-10p p-0',
+        isAngularComponent: true,
+        angularComponent: ErrorCodeDetailsComponent,
+      },
+      {
+        id: 'errorCode',
+        name: 'errors.title',
+        headerClass: 'col-30p',
+        class: 'col-30p text-danger',
+        sortable: true,
+        formatter: (value: string, row: TransactionInError) => this.translateService.instant(`transactions.errors.${row.errorCode}.title`),
+      },
+      {
         id: 'stop.totalDurationSecs',
         name: 'transactions.duration',
         headerClass: 'col-10p',
@@ -273,26 +298,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
           });
         }
       }
-      }
-    columns.push(
-      {
-        id: 'errorCodeDetails',
-        name: 'errors.details',
-        sortable: false,
-        headerClass: 'text-center col-10p',
-        class: 'text-center col-10p p-0',
-        isAngularComponent: true,
-        angularComponent: ErrorCodeDetailsComponent,
-      },
-      {
-        id: 'errorCode',
-        name: 'errors.title',
-        headerClass: 'col-30p',
-        class: 'col-30p text-danger',
-        sortable: true,
-        formatter: (value: string, row: TransactionInError) => this.translateService.instant(`transactions.errors.${row.errorCode}.title`),
-      },
-    );
+    }
     return columns as TableColumnDef[];
   }
 

@@ -69,7 +69,10 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
     // Init
     this.isOrganizationComponentActive = this.componentService.isActive(TenantComponents.ORGANIZATION);
     if (this.isOrganizationComponentActive) {
-      this.setStaticFilters([{ WithSite: true }]);
+      this.setStaticFilters([{
+        WithSite: true,
+        WithSiteArea: true
+      }]);
     }
     this.initDataSource();
   }
@@ -147,18 +150,14 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
     if (this.isOrganizationComponentActive) {
       tableColumns.push(
         {
-          id: 'siteArea.site.name',
-          name: 'chargers.site',
-          defaultValue: 'sites.unassigned',
+          id: 'site.name',
+          name: 'sites.title',
           class: 'd-none d-xl-table-cell col-20p',
           headerClass: 'd-none d-xl-table-cell col-20p',
         },
-      );
-      tableColumns.push(
         {
           id: 'siteArea.name',
-          name: 'chargers.site_area',
-          defaultValue: 'sites.unassigned',
+          name: 'site_areas.title',
           class: 'd-none d-xl-table-cell col-20p',
           headerClass: 'd-none d-xl-table-cell col-20p',
         },

@@ -1324,6 +1324,7 @@
     "number": "Número de factura",
     "createdOn": "Fecha de factura",
     "price": "Costo de factura",
+    "amount": "Importe",
     "cannot_retrieve_invoices": "No se puede recuperar la lista de facturas.",
     "cannot_download_invoice": "No se puede descargar la factura",
     "number_of_items": "Sesiones",
@@ -2088,7 +2089,7 @@
     }
   },
   "car": {
-    "title": "Car Management",
+    "title": "Car",
     "description": "Manage the user's cars",
     "tabs": {
       "car_catalogs": "Catálogo de vehículo",
@@ -2359,43 +2360,53 @@
         "description": "La sesión no contiene ningún dato.",
         "action": "Verifique la configuración de la terminal. Asegúrese de que el terminal transmita los datos de carga."
       },
+      "low_consumption": {
+        "title": "Low Consumption",
+        "description": "The session has a consumption < 1 kWh.",
+        "action": "Check the charging station settings. Ensure that meter values are sent by the charging station."
+      },
       "average_consumption_greater_than_connector_capacity": {
-        "title": "Alto consumo",
+        "title": "Alto Consumo",
         "description": "La potencia de carga promedio registrada es mayor a la capacidad del conector.",
         "action": "Verifique la configuración de la estación de carga. Asegúrese de que la potencia máxima del conector esté establecida y sea válida."
       },
       "negative_inactivity": {
-        "title": "Inactividad negativa",
+        "title": "Inactividad Negativa",
         "description": "La inactividad de la sesión es negativa.",
         "action": "Verifique la configuración de la estación de carga. Asegúrese de que los valores del medidor se envíen en el orden correcto."
       },
       "long_inactivity": {
-        "title": "Inactividad por más de 24h",
-        "description": "La inactividad de la sesión ha sido de más de 24 horas.",
+        "title": "High Inactivity",
+        "description": "La inactividad de la sesión ha sido > 24 horas.",
         "action": "Verificar la sesión"
       },
       "negative_duration": {
-        "title": "Duración negativa",
+        "title": "Duración Negativa",
         "description": "La duración de la sesión es negativa",
         "action": "Verifique la configuración de la estación de carga. Asegúrese de que los valores del medidor se envíen en el orden correcto."
       },
+      "low_duration": {
+        "title": "Low Duration",
+        "description": "The duration of the session < 1 minute.",
+        "action": "Check the charging station settings. Ensure that meter values are sent correctly."
+      },
       "missing_price": {
-        "title": "Precio faltante",
+        "title": "Precio Faltante",
         "description": "La transacción no ha sido tasada.",
         "action": "A pesar de que el precio está activado en la organización, la transacción no ha sido tasada. Póngase en contacto con el administrador de su sitio."
       },
       "incorrect_starting_date": {
-        "title": "Fecha de inicio incorrecta",
+        "title": "Fecha de Inicio Incorrecta",
         "description": "El valor de la fecha de inicio es incorrecto o imposible.",
         "action": "Verifique la configuración de la estación de carga. Asegúrese de que la fecha enviada al inicio de la transacción sea correcta."
       },
       "missing_user": {
-        "title": "Sesión sin usuario",
+        "title": "Sesión sin Usuario",
         "description": "Ningún usuario está asignado a esta sesión.",
         "action": "Elimine esta sesión o desactive el control de acceso para esta zona."
       },
       "no_billing_data": {
-        "title": "Sesión sin datos de facturación.",
+        "title": "Sesión sin Datos de Facturación.",
         "description": "No hay datos de facturación para esta sesión.",
         "action": "Eliminar sesión o crear una factura."
       }

@@ -1326,6 +1326,7 @@
     "number": "Rechnungsnummer",
     "createdOn": "Rechnungsdatum",
     "price": "Rechnungspreis",
+    "amount": "Betrag",
     "cannot_retrieve_invoices": "Liste der Rechnungen kann nicht abgerufen werden",
     "cannot_download_invoice": "Rechnung kann nicht heruntergeladen werden",
     "number_of_items": "Ladevorgänge",

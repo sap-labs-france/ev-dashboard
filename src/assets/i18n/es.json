@@ -236,7 +236,8 @@
       "download": "Descargar",
       "test_connection": "Test Connection",
       "force_available_status": "Forzar estatus a disponible",
-      "force_unavailable_status": "Forzar estatus a no disponible"
+      "force_unavailable_status": "Forzar estatus a no disponible",
+      "display_users": "Display users"
     }
   },
   "issuer": {
@@ -431,7 +432,8 @@
     "update_site_users_owner_error": "Se produjo un error al intentar hacer al usuario '{{userName}}' propietario del sitio",
     "export_all_params_title": "Exportar parametros OCPP",
     "export_all_params_confirm": "¿Está seguro que desea exportar todos los parámetros OCPP de todas las estaciones de carga que pertenecen al sitio '{{siteName}}'?",
-    "export_all_params_error": "Se produjo un error al intentar exportar todos los parámetros OCPP"
+    "export_all_params_error": "Se produjo un error al intentar exportar todos los parámetros OCPP",
+    "display_users": "Display users"
   },
   "site_areas": {
     "assign_site": "Asignar zonas",

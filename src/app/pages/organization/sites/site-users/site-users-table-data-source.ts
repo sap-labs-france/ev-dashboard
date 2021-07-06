@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 
-import { AuthorizationService } from '../../../../services/authorization.service';
 import { CentralServerService } from '../../../../services/central-server.service';
 import { DialogService } from '../../../../services/dialog.service';
 import { MessageService } from '../../../../services/message.service';
@@ -16,7 +15,7 @@ import { TableDataSource } from '../../../../shared/table/table-data-source';
 import { DataResult } from '../../../../types/DataResult';
 import { ButtonAction, RestResponse } from '../../../../types/GlobalType';
 import { Site } from '../../../../types/Site';
-import { ButtonType, TableActionDef, TableColumnDef, TableDef } from '../../../../types/Table';
+import { ButtonType, TableActionDef, TableColumnDef, TableDataSourceMode, TableDef } from '../../../../types/Table';
 import { User, UserSite } from '../../../../types/User';
 import { Utils } from '../../../../utils/Utils';
 import { SiteUsersAdminCheckboxComponent } from './site-users-admin-checkbox.component';
@@ -35,8 +34,7 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
     private router: Router,
     private dialog: MatDialog,
     private dialogService: DialogService,
-    private centralServerService: CentralServerService,
-    private authorizationService: AuthorizationService) {
+    private centralServerService: CentralServerService) {
     super(spinnerService, translateService);
     this.initDataSource();
   }
@@ -49,7 +47,7 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
         this.removeAction.visible = this.site.canUnassignUsers;
         // Yes: Get data
         this.centralServerService.getSiteUsers(
-          {...this.buildFilterValues(), SiteID: this.site.id},
+          { ...this.buildFilterValues(), SiteID: this.site.id },
           this.getPaging(), this.getSorting()
         ).subscribe((siteUsers) => {
           observer.next(siteUsers);
@@ -71,12 +69,25 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
   }
 
   public buildTableDef(): TableDef {
+    if (this.getMode() === TableDataSourceMode.READ_WRITE) {
+      return {
+        class: 'table-dialog-list',
+        rowFieldNameIdentifier: 'user.email',
+        rowSelection: {
+          enabled: this.site?.canAssignUsers || this.site?.canUnassignUsers,
+          multiple: true,
+        },
+        search: {
+          enabled: true,
+        },
+      };
+    }
     return {
       class: 'table-dialog-list',
       rowFieldNameIdentifier: 'user.email',
       rowSelection: {
-        enabled: true,
-        multiple: true,
+        enabled: false,
+        multiple: false,
       },
       search: {
         enabled: true,
@@ -103,18 +114,17 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
         id: 'user.email',
         name: 'users.email',
         class: 'text-left col-40p',
-      },
-      {
+      }
+    ];
+    if (this.getMode() === TableDataSourceMode.READ_WRITE) {
+      columns.push({
         id: 'siteAdmin',
         isAngularComponent: true,
         angularComponent: SiteUsersAdminCheckboxComponent,
         name: 'sites.admin_role',
         class: 'col-10p',
       },
-    ];
-
-    if (this.authorizationService.canCreateSite()) {
-      columns.push({
+      {
         id: 'siteOwner',
         isAngularComponent: true,
         angularComponent: SiteUsersOwnerRadioComponent,
@@ -132,11 +142,15 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-    return [
-      this.addAction,
-      this.removeAction,
-      ...tableActionsDef,
-    ];
+    if (this.getMode() === TableDataSourceMode.READ_WRITE) {
+      if (this.site.canAssignUsers) {
+        tableActionsDef.push(this.addAction);
+      }
+      if (this.site.canUnassignUsers) {
+        tableActionsDef.push(this.removeAction);
+      }
+    }
+    return tableActionsDef;
   }
 
   public actionTriggered(actionDef: TableActionDef) {

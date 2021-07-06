@@ -1324,6 +1324,7 @@
     "number": "Número de factura",
     "createdOn": "Fecha de factura",
     "price": "Costo de factura",
+    "amount": "Importe",
     "cannot_retrieve_invoices": "No se puede recuperar la lista de facturas.",
     "cannot_download_invoice": "No se puede descargar la factura",
     "number_of_items": "Sesiones",
@@ -2088,7 +2089,7 @@
     }
   },
   "car": {
-    "title": "Car Management",
+    "title": "Car",
     "description": "Manage the user's cars",
     "tabs": {
       "car_catalogs": "Catálogo de vehículo",

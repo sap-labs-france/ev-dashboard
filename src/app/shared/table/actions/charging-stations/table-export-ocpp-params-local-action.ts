@@ -42,7 +42,7 @@ export class TableExportOCPPParamsLocalAction extends TableExportAction {
             parameter.key,
             Utils.replaceSpecialCharsInCSVValueParam(parameter.value),
             charger.siteArea.name,
-            charger.siteArea.site.name
+            charger.site.name
           ].map((value) => Utils.escapeCsvValue(value));
           return row;
         }).join(Constants.CR_LF);

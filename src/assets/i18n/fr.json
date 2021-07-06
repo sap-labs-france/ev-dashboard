@@ -1324,6 +1324,7 @@
     "number": "Numéro de facture",
     "createdOn": "Date de facture",
     "price": "Prix de la facture",
+    "amount": "Montant",
     "cannot_retrieve_invoices": "Impossible de récupérer la liste des factures",
     "cannot_download_invoice": "Impossible de télécharger la facture",
     "number_of_items": "Sessions",
@@ -2088,7 +2089,7 @@
     }
   },
   "car": {
-    "title": "Gestion Voiture",
+    "title": "Voiture",
     "description": "Gérer les voitures des utilisateurs",
     "tabs": {
       "car_catalogs": "Catalogue Voitures",

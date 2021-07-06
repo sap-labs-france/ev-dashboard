@@ -101,6 +101,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     this.isOrganizationComponentActive = this.componentService.isActive(TenantComponents.ORGANIZATION);
     if (this.isOrganizationComponentActive) {
       this.setStaticFilters([{
+        WithCompany: true,
         WithSite: true,
         WithSiteArea: true,
         Statistics: 'history',
@@ -261,18 +262,20 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     if (this.isOrganizationComponentActive) {
       tableColumns.push(
         {
-          id: 'site.name',
-          name: 'chargers.site',
-          defaultValue: 'sites.unassigned',
+          id: 'company.name',
+          name: 'companies.title',
           class: 'd-none d-xl-table-cell col-20p',
           headerClass: 'd-none d-xl-table-cell col-20p',
         },
-      );
-      tableColumns.push(
+        {
+          id: 'site.name',
+          name: 'sites.title',
+          class: 'd-none d-xl-table-cell col-20p',
+          headerClass: 'd-none d-xl-table-cell col-20p',
+        },
         {
           id: 'siteArea.name',
-          name: 'chargers.site_area',
-          defaultValue: 'sites.unassigned',
+          name: 'site_areas.title',
           class: 'd-none d-xl-table-cell col-20p',
           headerClass: 'd-none d-xl-table-cell col-20p',
         },

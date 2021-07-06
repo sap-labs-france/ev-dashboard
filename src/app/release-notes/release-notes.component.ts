@@ -31,9 +31,9 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Save Status Notification right after Boot Notification even if the status has not changed`,
-              `Optimized DB access in OCPI endpoint`,
+              `Added Company, Site and Site Area in Session list`,
               `Hide Delete button when user image is not set`,
-              `Added Site and Site Area in Session list`,
+              `Optimized DB access in OCPI endpoint`,
             ],
           },
         ],

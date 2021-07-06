@@ -150,17 +150,13 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
       tableColumns.push(
         {
           id: 'site.name',
-          name: 'chargers.site',
-          defaultValue: 'sites.unassigned',
+          name: 'sites.title',
           class: 'd-none d-xl-table-cell col-20p',
           headerClass: 'd-none d-xl-table-cell col-20p',
         },
-      );
-      tableColumns.push(
         {
           id: 'siteArea.name',
-          name: 'chargers.site_area',
-          defaultValue: 'sites.unassigned',
+          name: 'site_areas.title',
           class: 'd-none d-xl-table-cell col-20p',
           headerClass: 'd-none d-xl-table-cell col-20p',
         },

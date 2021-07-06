@@ -1324,6 +1324,7 @@
     "number": "Invoice Number",
     "createdOn": "Invoice Date",
     "price": "Invoice Price",
+    "amount": "Amount",
     "cannot_retrieve_invoices": "Cannot retrieve the list of invoices",
     "cannot_download_invoice": "Cannot download invoice",
     "number_of_items": "Sessions",

@@ -33,6 +33,8 @@ export class ReleaseNotesComponent {
               `Smart Charging: Use efficiency when excluding the Charging Stations`,
               `Force the Charging Station unavailability's status after 2 mins instead of 9 mins when not responding`,
               `Set the standard Heartbeat OCPP param first and try workarounds next if it failed`,
+              `Make Log's Action filter more specifics (REST, OCPP...)`,
+              `Added new Joint new Charging Station's model in templates`,
             ],
           },
         ],

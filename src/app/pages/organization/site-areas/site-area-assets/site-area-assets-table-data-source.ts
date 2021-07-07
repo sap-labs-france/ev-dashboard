@@ -133,7 +133,6 @@ export class SiteAreaAssetsDataSource extends TableDataSource<Asset> {
     ]);
     // Set user
     this.siteArea = siteArea;
-    this.initDataSource(true);
   }
 
   public buildTableActionsDef(): TableActionDef[] {

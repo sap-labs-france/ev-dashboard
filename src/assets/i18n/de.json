@@ -236,7 +236,8 @@
       "download": "Download",
       "test_connection": "Verbindung testen",
       "force_available_status": "Status verfügbar erzwingen",
-      "force_unavailable_status": "Status nicht verfügbar erzwingen"
+      "force_unavailable_status": "Status nicht verfügbar erzwingen",
+      "display_users": "Display users"
     }
   },
   "issuer": {
@@ -431,7 +432,8 @@
     "update_site_users_owner_error": "Beim Versuch '{{userName}}' als Standort-Eigentümer einzusetzen ist ein Fehler aufgetreten",
     "export_all_params_title": "OCPP Parameter exportieren",
     "export_all_params_confirm": "Wollen Sie wirklich alle OCPP Parameter von allen Ladestationen am Standort '{{siteName}}' exportieren ?",
-    "export_all_params_error": "Während des Exports aller OCPP Parameter ist ein Fehler aufgtreten."
+    "export_all_params_error": "Während des Exports aller OCPP Parameter ist ein Fehler aufgtreten.",
+    "display_users": "Display users"
   },
   "site_areas": {
     "assign_site": "Standort zuweisen",

@@ -14,6 +14,7 @@ import { SpinnerService } from '../../../../services/spinner.service';
 import { AppDatePipe } from '../../../../shared/formatters/app-date.pipe';
 import { TableExportOCPPParamsAction, TableExportOCPPParamsActionDef } from '../../../../shared/table/actions/charging-stations/table-export-ocpp-params-action';
 import { TableAssignUsersToSiteAction, TableAssignUsersToSiteActionDef } from '../../../../shared/table/actions/sites/table-assign-users-to-site-action';
+import { TableViewAssignedUsersOfSiteAction, TableViewAssignedUsersOfSiteActionDef } from '../../../../shared/table/actions/sites/table-assign-view-users-of-site-action';
 import { TableCreateSiteAction, TableCreateSiteActionDef } from '../../../../shared/table/actions/sites/table-create-site-action';
 import { TableDeleteSiteAction, TableDeleteSiteActionDef } from '../../../../shared/table/actions/sites/table-delete-site-action';
 import { TableEditSiteAction, TableEditSiteActionDef } from '../../../../shared/table/actions/sites/table-edit-site-action';
@@ -40,6 +41,7 @@ import { SiteDialogComponent } from '../site/site-dialog.component';
 export class SitesListTableDataSource extends TableDataSource<Site> {
   private editAction = new TableEditSiteAction().getActionDef();
   private assignUsersToSite = new TableAssignUsersToSiteAction().getActionDef();
+  private viewUsersOfSite = new TableViewAssignedUsersOfSiteAction().getActionDef();
   private deleteAction = new TableDeleteSiteAction().getActionDef();
   private viewAction = new TableViewSiteAction().getActionDef();
   private exportOCPPParamsAction = new TableExportOCPPParamsAction().getActionDef();
@@ -195,6 +197,8 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
     }
     if (site.canAssignUsers || site.canUnassignUsers) {
       rowActions.push(this.assignUsersToSite);
+    } else if (this.authorizationService.canListUsers()) {
+      rowActions.push(this.viewUsersOfSite);
     }
     if (site.canExportOCPPParams) {
       moreActions.addActionInMoreActions(this.exportOCPPParamsAction);
@@ -239,7 +243,13 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
       case SiteButtonAction.ASSIGN_USERS_TO_SITE:
         if (actionDef.action) {
           (actionDef as TableAssignUsersToSiteActionDef).action(SiteUsersDialogComponent, { dialogData: site },
-            this.dialog,this.refreshData.bind(this));
+            this.dialog, this.refreshData.bind(this));
+        }
+        break;
+      case SiteButtonAction.VIEW_USERS_OF_SITE:
+        if (actionDef.action) {
+          (actionDef as TableViewAssignedUsersOfSiteActionDef).action(SiteUsersDialogComponent, { dialogData: site },
+            this.dialog, this.refreshData.bind(this));
         }
         break;
       case SiteButtonAction.DELETE_SITE:

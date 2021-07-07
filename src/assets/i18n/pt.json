@@ -236,7 +236,8 @@
       "download": "Download",
       "test_connection": "Testar Conexão",
       "force_available_status": "Forçar estado disponível",
-      "force_unavailable_status": "Forçar estado indisponível"
+      "force_unavailable_status": "Forçar estado indisponível",
+      "display_users": "Display users"
     }
   },
   "issuer": {
@@ -431,7 +432,8 @@
     "update_site_users_owner_error": "Ocorreu um erro ao tentar atualizar as permissões do utilizador '{{userName}}' como dono do site",
     "export_all_params_title": "Exportar parametros OCPP",
     "export_all_params_confirm": "Você realmente deseja exportar todos os parâmetros OCPP de todas as estações de carregamento pertencentes ao site '{{siteName}}' ?",
-    "export_all_params_error": "Ocurreu um erro ao tentar exportar todos os parâmetros OCPP"
+    "export_all_params_error": "Ocurreu um erro ao tentar exportar todos os parâmetros OCPP",
+    "display_users": "Display users"
   },
   "site_areas": {
     "assign_site": "Atribuir Site",

@@ -35,6 +35,7 @@ export class ReleaseNotesComponent {
               `Set the standard Heartbeat OCPP param first and try workarounds next if it failed`,
               `Make Log's Action filter more specifics (REST, OCPP...)`,
               `Added new Joint new Charging Station's model in templates`,
+              `Optimized DB access in OICP endpoint (Hubject)`,
             ],
           },
         ],

@@ -24,6 +24,18 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.75',
+        date: new Date('2021-07-07'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Force the Charging Station unavailability's status after 2 mins instead of 9 mins when not responding`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.74',
         date: new Date('2021-07-06'),
         componentChanges: [

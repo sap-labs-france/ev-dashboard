@@ -236,7 +236,8 @@
       "download": "Download",
       "test_connection": "Test Connection",
       "force_available_status": "Force Status to Available",
-      "force_unavailable_status": "Force Status to Unavailable"
+      "force_unavailable_status": "Force Status to Unavailable",
+      "display_users": "Display users"
     }
   },
   "issuer": {
@@ -431,7 +432,8 @@
     "update_site_users_owner_error": "Error occurred while trying to grant the user '{{userName}}' as site owner, check the logs",
     "export_all_params_title": "Export OCPP parameters",
     "export_all_params_confirm": "Do you really want to export all the OCPP parameters of all the charging stations belonging to the site '{{siteName}}'?",
-    "export_all_params_error": "Error occurred while trying to export all the OCPP parameters, check the logs"
+    "export_all_params_error": "Error occurred while trying to export all the OCPP parameters, check the logs",
+    "display_users": "Display users"
   },
   "site_areas": {
     "assign_site": "Assign Site",

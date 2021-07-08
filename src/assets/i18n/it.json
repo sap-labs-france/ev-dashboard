@@ -236,7 +236,8 @@
       "download": "Download",
       "test_connection": "Test Connessione",
       "force_available_status": "Forza Stato a Disponibile",
-      "force_unavailable_status": "Forza Stato a Non Disponibile"
+      "force_unavailable_status": "Forza Stato a Non Disponibile",
+      "display_users": "Display users"
     }
   },
   "issuer": {
@@ -431,7 +432,8 @@
     "update_site_users_owner_error": "Si è verificato un errore durante il tentativo di concedere all'utente '{{userName}}' lo stato di proprietario del sito",
     "export_all_params_title": "Esporta parametri OCPP",
     "export_all_params_confirm": "Vuoi veramente esportare tutti i parametri OCPP di tutte le stazioni di ricarica appartenenti al sito '{{siteName}}' ?",
-    "export_all_params_error": "Si è verificato un errore durante l'esportazione di tutti i parametri OCPP"
+    "export_all_params_error": "Si è verificato un errore durante l'esportazione di tutti i parametri OCPP",
+    "display_users": "Display users"
   },
   "site_areas": {
     "assign_site": "Assegna Sito",

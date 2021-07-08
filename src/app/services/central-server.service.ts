@@ -840,14 +840,16 @@ export class CentralServerService {
       );
   }
 
-  public getUserDefaultTagCar(userID: string): Observable<UserDefaultTagCar> {
+  public getUserDefaultTagCar(userID: string, siteID: string): Observable<UserDefaultTagCar> {
     // Verify init
     this.checkInit();
-    // Execute the REST service
-    const url = this.buildRestEndpointUrl(ServerRoute.REST_USER_DEFAULT_TAG_CAR, { id: userID });
-    return this.httpClient.get<UserDefaultTagCar>(url,
+    return this.httpClient.get<UserDefaultTagCar>(this.buildRestEndpointUrl(ServerRoute.REST_USER_DEFAULT_TAG_CAR),
       {
         headers: this.buildHttpHeaders(),
+        params: {
+          UserID: userID,
+          SiteID: siteID
+        }
       })
       .pipe(
         catchError(this.handleHttpError),
@@ -3063,9 +3065,9 @@ export class CentralServerService {
       ampLimitValue,
       forceUpdateChargingPlan,
     },
-    {
-      headers: this.buildHttpHeaders(),
-    })
+      {
+        headers: this.buildHttpHeaders(),
+      })
       .pipe(
         catchError(this.handleHttpError),
       );
@@ -3367,7 +3369,7 @@ export class CentralServerService {
     return of(null);
   }
 
-  private buildRestEndpointUrl(urlPatternAsString: ServerRoute, params: {[name: string]: string | number | null } = {}) {
+  private buildRestEndpointUrl(urlPatternAsString: ServerRoute, params: { [name: string]: string | number | null } = {}) {
     let resolvedUrlPattern = urlPatternAsString as string;
     for (const key in params) {
       if (Object.prototype.hasOwnProperty.call(params, key)) {

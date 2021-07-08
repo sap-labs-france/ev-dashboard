@@ -60,7 +60,6 @@ export class ChargingStationsStartTransactionDialogComponent implements OnInit {
     this.chargeBoxID = data.chargeBoxID;
     this.siteID = data.siteID;
     this.loggedUser = centralServerService.getLoggedUser();
-    this.canListUsers = this.authorizationService.isSiteAdmin(this.siteID);
     this.isCarComponentActive = this.componentService.isActive(TenantComponents.CAR);
     Utils.registerValidateCloseKeyEvents(this.dialogRef,
       this.startTransaction.bind(this), this.cancel.bind(this));
@@ -113,8 +112,9 @@ export class ChargingStationsStartTransactionDialogComponent implements OnInit {
   public loadUserDefaultTagCar() {
     if (this.userID.value) {
       this.spinnerService.show();
-      this.centralServerService.getUserDefaultTagCar(this.userID.value).subscribe((userDefaultTagCar: UserDefaultTagCar) => {
+      this.centralServerService.getUserDefaultTagCar(this.userID.value, this.siteID).subscribe((userDefaultTagCar: UserDefaultTagCar) => {
         this.spinnerService.hide();
+        this.canListUsers = userDefaultTagCar.canListUsers;
         // Set Tag
         this.selectedTag = userDefaultTagCar.tag;
         this.tag.setValue(userDefaultTagCar.tag ? Utils.buildTagName(userDefaultTagCar.tag) : '');

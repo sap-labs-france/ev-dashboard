@@ -236,7 +236,8 @@
       "download": "Download",
       "test_connection": "Testar Conexão",
       "force_available_status": "Forçar estado disponível",
-      "force_unavailable_status": "Forçar estado indisponível"
+      "force_unavailable_status": "Forçar estado indisponível",
+      "display_users": "Display users"
     }
   },
   "issuer": {
@@ -431,7 +432,8 @@
     "update_site_users_owner_error": "Ocorreu um erro ao tentar atualizar as permissões do utilizador '{{userName}}' como dono do site",
     "export_all_params_title": "Exportar parametros OCPP",
     "export_all_params_confirm": "Você realmente deseja exportar todos os parâmetros OCPP de todas as estações de carregamento pertencentes ao site '{{siteName}}' ?",
-    "export_all_params_error": "Ocurreu um erro ao tentar exportar todos os parâmetros OCPP"
+    "export_all_params_error": "Ocurreu um erro ao tentar exportar todos os parâmetros OCPP",
+    "display_users": "Display users"
   },
   "site_areas": {
     "assign_site": "Atribuir Site",
@@ -719,7 +721,7 @@
     "connector0": "Carregador",
     "connector_type": "Tipo de Carregador",
     "connector_error_title": "Erro",
-    "connector_info_title": "Erro de informação",
+    "connector_info_title": "Informação",
     "connector_vendor_error_code_title": "Erro de Fornecedor",
     "connector_max_power": "Poder maximo (Watts)",
     "charger_url": "URL",
@@ -1324,6 +1326,7 @@
     "number": "Numero de fatura",
     "createdOn": "Data da fatura",
     "price": "Preço da fatura",
+    "amount": "Valor",
     "cannot_retrieve_invoices": "Não é possível recuperar a lista de faturas",
     "cannot_download_invoice": "Não é possível baixar a fatura",
     "number_of_items": "Sessões",
@@ -2088,7 +2091,7 @@
     }
   },
   "car": {
-    "title": "Car Management",
+    "title": "Car",
     "description": "Manage the user's cars",
     "tabs": {
       "car_catalogs": "Catálogos de carros",
@@ -2164,6 +2167,7 @@
     "charging_station": "Estação de Carregamento",
     "started_at": "Iniciado em",
     "end_date": "E Finalizado",
+    "stop_reason": "Reason",
     "consumption": "Consumo",
     "transactions_button": "Sessões",
     "transaction_today": "Hoje",
@@ -2358,6 +2362,11 @@
         "description": "A sessão não contém valores de medidor.",
         "action": "Verifique as configurações da estação de carregamento. Certifique-se de que os valores do medidor são enviados pela estação de carregamento."
       },
+      "low_consumption": {
+        "title": "Low Consumption",
+        "description": "The session has a consumption < 1 kWh.",
+        "action": "Check the charging station settings. Ensure that meter values are sent by the charging station."
+      },
       "average_consumption_greater_than_connector_capacity": {
         "title": "Consumo muito alto",
         "description": "A potência média de carga registrada é maior do que a capacidade do conector.",
@@ -2369,7 +2378,7 @@
         "action": "Verifique as configurações da estação de carregamento. Certifique-se de que os valores do medidor são enviados na ordem correta."
       },
       "long_inactivity": {
-        "title": "Inatividade por mais de 24h",
+        "title": "High Inactivity",
         "description": "A inatividade da sessão é superior a 24 horas.",
         "action": "Verifique a sessão"
       },
@@ -2377,6 +2386,11 @@
         "title": "Duração Negativa",
         "description": "A duração da sessão é negativa.",
         "action": "Verifique as configurações da estação de carregamento. Certifique-se de que os valores do medidor são enviados na ordem correta."
+      },
+      "low_duration": {
+        "title": "Low Duration",
+        "description": "The duration of the session is less than 1 minute.",
+        "action": "Check the charging station settings. Ensure that meter values are sent correctly."
       },
       "missing_price": {
         "title": "Ausência de Preço",

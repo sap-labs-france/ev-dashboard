@@ -24,6 +24,61 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.75',
+        date: new Date('2021-07-07'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Smart Charging: Use efficiency when excluding the Charging Stations`,
+              `Force the Charging Station unavailability's status after 2 mins instead of 9 mins when not responding`,
+              `Set the standard Heartbeat OCPP param first and try workarounds next if it failed`,
+              `Make Log's Action filter more specifics (REST, OCPP...)`,
+              `Added new Joint new Charging Station's model in templates`,
+              `Optimized DB access in OICP endpoint (Hubject)`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.74',
+        date: new Date('2021-07-06'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Save Status Notification right after Boot Notification even if the status has not changed`,
+              `Added Company, Site and Site Area in Session list`,
+              `Hide Delete button when user image is not set`,
+              `Optimized DB access in OCPI endpoint`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.73',
+        date: new Date('2021-07-02'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Do not bill Sessions < 1 kWh and < 1 min`,
+              `Billing montly payment with Stripe`,
+              `Added Low Consumption (< 1 kWh) and Low Duration (< 1 min) in Sessions In Error`,
+              `Improve perfs to get Log details`,
+              `Added Connector's information in Charging Station and Session In Progress lists`,
+              `Added Stop reason in Session History list`,
+              `Saved Stop reason OCPP Stop Transaction`,
+              `Only log stack trace of exceptions`,
+              `Reduce number of updates in DB of Charging Station's Heart Beats`,
+              `Returned distance meters of Charging Stations`,
+              `Keep performance logs for 2 weeks instead of 4`,
+              `Added Car and User info in Sessions in Error`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.72',
         date: new Date('2021-06-30'),
         componentChanges: [

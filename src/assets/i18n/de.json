@@ -236,7 +236,8 @@
       "download": "Download",
       "test_connection": "Verbindung testen",
       "force_available_status": "Status verfügbar erzwingen",
-      "force_unavailable_status": "Status nicht verfügbar erzwingen"
+      "force_unavailable_status": "Status nicht verfügbar erzwingen",
+      "display_users": "Display users"
     }
   },
   "issuer": {
@@ -431,7 +432,8 @@
     "update_site_users_owner_error": "Beim Versuch '{{userName}}' als Standort-Eigentümer einzusetzen ist ein Fehler aufgetreten",
     "export_all_params_title": "OCPP Parameter exportieren",
     "export_all_params_confirm": "Wollen Sie wirklich alle OCPP Parameter von allen Ladestationen am Standort '{{siteName}}' exportieren ?",
-    "export_all_params_error": "Während des Exports aller OCPP Parameter ist ein Fehler aufgtreten."
+    "export_all_params_error": "Während des Exports aller OCPP Parameter ist ein Fehler aufgtreten.",
+    "display_users": "Display users"
   },
   "site_areas": {
     "assign_site": "Standort zuweisen",
@@ -1324,6 +1326,7 @@
     "number": "Rechnungsnummer",
     "createdOn": "Rechnungsdatum",
     "price": "Rechnungspreis",
+    "amount": "Betrag",
     "cannot_retrieve_invoices": "Liste der Rechnungen kann nicht abgerufen werden",
     "cannot_download_invoice": "Rechnung kann nicht heruntergeladen werden",
     "number_of_items": "Ladevorgänge",
@@ -2088,7 +2091,7 @@
     }
   },
   "car": {
-    "title": "Fahrzeug Management",
+    "title": "Fahrzeug",
     "description": "Fahrzeuge verwalten",
     "tabs": {
       "car_catalogs": "Fahrzeugverzeichnisse",
@@ -2164,6 +2167,7 @@
     "charging_station": "Ladestation",
     "started_at": "Gestartet am",
     "end_date": "Enddatum",
+    "stop_reason": "Reason",
     "consumption": "Verbrauch",
     "transactions_button": "Ladevorgänge",
     "transaction_today": "Heute",
@@ -2358,6 +2362,11 @@
         "description": "Der Ladevorgang beinhaltet keine metrischen Werte.",
         "action": "Überprüfen Sie die Einstellungen Ihrer Ladestation. Vergewissern Sie sich, dass die Ladestation metrische Werte sendet."
       },
+      "low_consumption": {
+        "title": "Low Consumption",
+        "description": "The session has a consumption < 1 kWh.",
+        "action": "Check the charging station settings. Ensure that meter values are sent by the charging station."
+      },
       "average_consumption_greater_than_connector_capacity": {
         "title": "Verbrauch zu hoch",
         "description": "Die durchschnittliche Ladeleistung ist höher als die Kapazität des Anschlusses.",
@@ -2369,14 +2378,19 @@
         "action": "Überprüfen Sie die Einstellungen der Ladestation. Vergewissern Sie sich, dass metrische Werte in der richtigen Reihenfolge gesendet werden."
       },
       "long_inactivity": {
-        "title": "Inaktivität über 24h",
-        "description": "Die Inaktivität Ihres Ladevorgangs ist größer als 24h.",
+        "title": "High Inactivity",
+        "description": "Die Inaktivität Ihres Ladevorgangs > 24h.",
         "action": "Überprufen des Ladevorganges"
       },
       "negative_duration": {
         "title": "Negative Dauer",
         "description": "Die Dauer Ihres Ladevorganges ist negativ.",
         "action": "Überprüfen Sie die Einstellungen der Ladestation. Vergewissern Sie sich, dass metrische Werte in der richtigen Reihenfolge gesendet werden."
+      },
+      "low_duration": {
+        "title": "Low duration",
+        "description": "The duration of the session < 1 minute.",
+        "action": "Check the charging station settings. Ensure that meter values are sent correctly."
       },
       "missing_price": {
         "title": "Fehlender Preis",

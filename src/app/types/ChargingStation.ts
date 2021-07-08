@@ -1,4 +1,5 @@
 import { KeyValue } from './GlobalType';
+import { Site } from './Site';
 import { SiteArea } from './SiteArea';
 import { TableData } from './Table';
 import { InactivityStatus } from './Transaction';
@@ -42,6 +43,7 @@ export interface ChargingStation extends TableData {
   connectors: Connector[];
   currentIPAddress?: string;
   siteArea?: SiteArea;
+  site?: Site;
   capabilities?: ChargingStationCapabilities;
   ocppStandardParameters?: KeyValue[];
   ocppVendorParameters?: KeyValue[];

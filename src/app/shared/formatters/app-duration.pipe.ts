@@ -12,6 +12,9 @@ export class AppDurationPipe implements PipeTransform {
 
   public transform(durationSecs: number): string {
     let result = '';
+    if (isNaN(durationSecs)) {
+      return `-`;
+    }
     if (durationSecs < 1) {
       return `0 ${this.localeService.getI18nSecond()}`;
     }

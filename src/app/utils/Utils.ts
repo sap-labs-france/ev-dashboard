@@ -34,6 +34,23 @@ export class Utils {
     }
   }
 
+  public static buildConnectorInfo(connector: Connector): string {
+    const info = [];
+    if (!Utils.isEmptyString(connector.errorCode)) {
+      info.push(connector.errorCode);
+    }
+    if (!Utils.isEmptyString(connector.vendorErrorCode)) {
+      info.push(connector.vendorErrorCode);
+    }
+    if (!Utils.isEmptyString(connector.info)) {
+      info.push(connector.info);
+    }
+    if (Utils.isEmptyArray(info)) {
+      info.push('-');
+    }
+    return info.join(' - ');
+  }
+
   public static getTableDataSourceModeFromDialogMode(dialogMode: DialogMode): TableDataSourceMode {
     switch (dialogMode) {
       case DialogMode.CREATE:

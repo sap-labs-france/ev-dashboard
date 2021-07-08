@@ -72,6 +72,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
   private createInvoice = new TableCreateTransactionInvoiceAction().getActionDef();
   private transactionPushOcpiCdrAction = new TablePushTransactionOcpiCdrAction().getActionDef();
   private exportTransactionOcpiCdrAction = new TableExportTransactionOcpiCdrAction().getActionDef();
+  private readonly isOrganizationComponentActive: boolean;
 
   public constructor(
     public spinnerService: SpinnerService,
@@ -97,10 +98,17 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     this.isAdmin = this.authorizationService.isAdmin();
     this.isSiteAdmin = this.authorizationService.hasSitesAdminRights();
     // Init
+    this.isOrganizationComponentActive = this.componentService.isActive(TenantComponents.ORGANIZATION);
+    if (this.isOrganizationComponentActive) {
+      this.setStaticFilters([{
+        WithCompany: true,
+        WithSite: true,
+        WithSiteArea: true,
+        Statistics: 'history',
+      }]);
+    }
     this.initDataSource();
     this.initFilters();
-    // Add statistics to query
-    this.setStaticFilters([{ Statistics: 'history' }]);
   }
 
   public initFilters() {
@@ -194,16 +202,16 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    const columns: TableColumnDef[] = [];
+    const tableColumns: TableColumnDef[] = [];
     if (this.isAdmin) {
-      columns.push({
+      tableColumns.push({
         id: 'id',
         name: 'transactions.id',
         headerClass: 'col-10p',
         class: 'col-10p',
       });
     }
-    columns.push(
+    tableColumns.push(
       {
         id: 'timestamp',
         name: 'transactions.started_at',
@@ -213,6 +221,21 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         sortable: true,
         direction: 'desc',
         formatter: (value: Date) => this.datePipe.transform(value),
+      },
+      {
+        id: 'stop.timestamp',
+        name: 'transactions.end_date',
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
+        sortable: true,
+        formatter: (value: Date) => this.datePipe.transform(value),
+      },
+      {
+        id: 'stop.reason',
+        name: 'transactions.stop_reason',
+        headerClass: 'col-10p',
+        class: 'text-left col-10p',
+        formatter: (reason: string) => reason ?? '-',
       },
       {
         id: 'stop.totalDurationSecs',
@@ -234,10 +257,32 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         headerClass: 'text-center col-10p',
         class: 'text-center col-10p',
         formatter: (connectorId: number) => this.appConnectorIdPipe.transform(connectorId),
-      }
+      },
     );
+    if (this.isOrganizationComponentActive) {
+      tableColumns.push(
+        {
+          id: 'company.name',
+          name: 'companies.title',
+          class: 'd-none d-xl-table-cell col-20p',
+          headerClass: 'd-none d-xl-table-cell col-20p',
+        },
+        {
+          id: 'site.name',
+          name: 'sites.title',
+          class: 'd-none d-xl-table-cell col-20p',
+          headerClass: 'd-none d-xl-table-cell col-20p',
+        },
+        {
+          id: 'siteArea.name',
+          name: 'site_areas.title',
+          class: 'd-none d-xl-table-cell col-20p',
+          headerClass: 'd-none d-xl-table-cell col-20p',
+        },
+      );
+    }
     if (this.isAdmin || this.isSiteAdmin) {
-      columns.push({
+      tableColumns.push({
         id: 'user',
         name: 'transactions.user',
         headerClass: 'col-15p',
@@ -254,7 +299,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     }
     if (this.componentService.isActive(TenantComponents.CAR)) {
       if (this.authorizationService.canListCars()) {
-        columns.push({
+        tableColumns.push({
           id: 'carCatalog',
           name: 'car.title',
           headerClass: 'text-center col-15p',
@@ -264,7 +309,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         });
       }
       if (this.authorizationService.canUpdateCar()) {
-        columns.push({
+        tableColumns.push({
           id: 'car.licensePlate',
           name: 'cars.license_plate',
           headerClass: 'text-center col-15p',
@@ -274,7 +319,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         });
       }
     }
-    columns.push(
+    tableColumns.push(
       {
         id: 'stop.totalInactivitySecs',
         name: 'transactions.inactivity',
@@ -300,7 +345,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
       },
     );
     if (this.componentService.isActive(TenantComponents.PRICING)) {
-      columns.push({
+      tableColumns.push({
         id: 'stop.roundedPrice',
         name: 'transactions.price',
         headerClass: 'col-10p',
@@ -311,7 +356,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     }
     if (this.componentService.isActive(TenantComponents.BILLING) &&
         this.authorizationService.canListInvoicesBilling()) {
-      columns.push({
+      tableColumns.push({
         id: 'billingData.stop.invoiceNumber',
         name: 'invoices.number',
         headerClass: 'text-center col-10p',
@@ -319,7 +364,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         formatter: (invoiceNumber: string) => invoiceNumber || '-',
       });
     }
-    return columns;
+    return tableColumns;
   }
 
   public formatInactivity(totalInactivitySecs: number, row: Transaction) {

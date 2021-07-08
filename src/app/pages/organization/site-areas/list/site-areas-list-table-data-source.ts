@@ -263,7 +263,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     }
     if (siteArea.canAssignChargingStations || siteArea.canUnassignChargingStations) {
       actions.push(this.assignChargingStationsToSiteAreaAction);
-    } else {
+    } else if (this.authorizationService.canListChargingStations()) {
       actions.push(this.viewChargingStationsOfSiteArea);
     }
     moreActions.addActionInMoreActions(openInMaps);

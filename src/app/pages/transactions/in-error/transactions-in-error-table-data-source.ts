@@ -5,8 +5,11 @@ import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { TransactionDialogComponent } from 'shared/dialogs/transaction/transaction.dialog.component';
-import { TableRebuildTransactionConsumptionsAction } from 'shared/table/actions/transactions/table-rebuild-transaction-consumptions-action';
+import { AppDurationPipe } from 'shared/formatters/app-duration.pipe';
+import { AppUnitPipe } from 'shared/formatters/app-unit.pipe';
+import { TableRebuildTransactionConsumptionsAction, TableRebuildTransactionConsumptionsActionDef } from 'shared/table/actions/transactions/table-rebuild-transaction-consumptions-action';
 import { IssuerFilter } from 'shared/table/filters/issuer-filter';
+import { CarCatalog } from 'types/Car';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
@@ -74,12 +77,20 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
       value: this.translateService.instant(`transactions.errors.${TransactionInErrorType.NO_CONSUMPTION}.title`),
     },
     {
+      key: TransactionInErrorType.LOW_CONSUMPTION,
+      value: this.translateService.instant(`transactions.errors.${TransactionInErrorType.LOW_CONSUMPTION}.title`),
+    },
+    {
       key: TransactionInErrorType.OVER_CONSUMPTION,
       value: this.translateService.instant(`transactions.errors.${TransactionInErrorType.OVER_CONSUMPTION}.title`),
     },
     {
       key: TransactionInErrorType.NEGATIVE_DURATION,
       value: this.translateService.instant(`transactions.errors.${TransactionInErrorType.NEGATIVE_DURATION}.title`),
+    },
+    {
+      key: TransactionInErrorType.LOW_DURATION,
+      value: this.translateService.instant(`transactions.errors.${TransactionInErrorType.LOW_DURATION}.title`),
     },
     {
       key: TransactionInErrorType.MISSING_USER,
@@ -94,6 +105,8 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     private dialogService: DialogService,
     private router: Router,
     private dialog: MatDialog,
+    private appDurationPipe: AppDurationPipe,
+    private appUnitPipe: AppUnitPipe,
     private componentService: ComponentService,
     private authorizationService: AuthorizationService,
     private centralServerNotificationService: CentralServerNotificationService,
@@ -234,7 +247,58 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
         sortable: true,
         formatter: (value: string, row: TransactionInError) => this.translateService.instant(`transactions.errors.${row.errorCode}.title`),
       },
+      {
+        id: 'stop.totalDurationSecs',
+        name: 'transactions.duration',
+        headerClass: 'col-10p',
+        class: 'text-left col-10p',
+        formatter: (totalDurationSecs: number) => this.appDurationPipe.transform(totalDurationSecs),
+      },
+      {
+        id: 'stop.totalConsumptionWh',
+        name: 'transactions.consumption',
+        headerClass: 'col-10p',
+        class: 'col-10p',
+        formatter: (totalConsumptionWh: number) => this.appUnitPipe.transform(totalConsumptionWh, 'Wh', 'kWh'),
+      },
+      {
+        id: 'stateOfCharge',
+        name: 'transactions.state_of_charge',
+        headerClass: 'col-10p',
+        class: 'col-10p',
+        formatter: (stateOfCharge: number, row: Transaction) => stateOfCharge ? `${stateOfCharge}% > ${row.stop.stateOfCharge}%` : '-',
+      },
     );
+    if (this.isAdmin || this.isSiteAdmin) {
+      columns.push(
+        {
+          id: 'user',
+          name: 'transactions.user',
+          headerClass: 'col-15p',
+          class: 'text-left col-15p',
+          formatter: (value: User) => this.appUserNamePipe.transform(value),
+        },
+        {
+          id: 'tagID',
+          name: 'transactions.badge_id',
+          headerClass: 'col-15p',
+          class: 'text-left col-15p',
+          formatter: (tagID: string) => tagID ? tagID : '-'
+        }
+      );
+      if (this.componentService.isActive(TenantComponents.CAR)) {
+        if (this.authorizationService.canListCars()) {
+          columns.push({
+            id: 'carCatalog',
+            name: 'car.title',
+            headerClass: 'text-center col-15p',
+            class: 'text-center col-15p',
+            sortable: true,
+            formatter: (carCatalog: CarCatalog) => carCatalog ? Utils.buildCarCatalogName(carCatalog) : '-',
+          });
+        }
+      }
+    }
     return columns as TableColumnDef[];
   }
 
@@ -319,6 +383,13 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
           (actionDef as TableViewTransactionActionDef).action(TransactionDialogComponent, this.dialog,
             { dialogData: { transactionID: transaction.id } as TransactionDialogData },
             this.refreshData.bind(this));
+        }
+        break;
+      case TransactionButtonAction.REBUILD_TRANSACTION_CONSUMPTIONS:
+        if (actionDef.action) {
+          (actionDef as TableRebuildTransactionConsumptionsActionDef).action(
+            transaction, this.dialogService, this.translateService, this.messageService,
+            this.centralServerService, this.router, this.spinnerService, this.refreshData.bind(this));
         }
         break;
       case TransactionButtonAction.CREATE_TRANSACTION_INVOICE:

@@ -27,7 +27,6 @@ import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto
 import { TableMoreAction } from '../../../shared/table/actions/table-more-action';
 import { TableOpenURLActionDef } from '../../../shared/table/actions/table-open-url-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
-import { TableCreateTransactionInvoiceActionDef } from '../../../shared/table/actions/transactions/table-create-transaction-invoice-action';
 import { TableDeleteTransactionAction, TableDeleteTransactionActionDef } from '../../../shared/table/actions/transactions/table-delete-transaction-action';
 import { TableDeleteTransactionsAction, TableDeleteTransactionsActionDef } from '../../../shared/table/actions/transactions/table-delete-transactions-action';
 import { TableViewTransactionAction, TableViewTransactionActionDef, TransactionDialogData } from '../../../shared/table/actions/transactions/table-view-transaction-action';
@@ -390,13 +389,6 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
           (actionDef as TableRebuildTransactionConsumptionsActionDef).action(
             transaction, this.dialogService, this.translateService, this.messageService,
             this.centralServerService, this.router, this.spinnerService, this.refreshData.bind(this));
-        }
-        break;
-      case TransactionButtonAction.CREATE_TRANSACTION_INVOICE:
-        if (actionDef.action) {
-          (actionDef as TableCreateTransactionInvoiceActionDef).action(
-            transaction.id, this.dialogService, this.translateService, this.messageService,
-            this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
         }
         break;
       case LogButtonAction.NAVIGATE_TO_LOGS:

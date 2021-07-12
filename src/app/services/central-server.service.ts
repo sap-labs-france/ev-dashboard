@@ -1745,18 +1745,6 @@ export class CentralServerService {
       );
   }
 
-  public createTransactionInvoice(transactionID: number): Observable<ActionResponse> {
-    this.checkInit();
-    // Execute the REST service
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.BILLING_CREATE_TRANSACTION_INVOICE}`, { transactionID },
-      {
-        headers: this.buildHttpHeaders(),
-      })
-      .pipe(
-        catchError(this.handleHttpError),
-      );
-  }
-
   public downloadInvoice(invoiceID: string): Observable<Blob> {
     this.checkInit();
     if (!invoiceID) {

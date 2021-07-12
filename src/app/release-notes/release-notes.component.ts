@@ -24,6 +24,19 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.76',
+        date: new Date('2021-07-12'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Clear Firmware Status Notification after Charging Station's reboot`,
+              `Fixed User is not displayed in Charging Station's connector during a charging session`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.75',
         date: new Date('2021-07-08'),
         componentChanges: [

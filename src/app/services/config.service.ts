@@ -46,10 +46,6 @@ export class ConfigService {
     return this.getConfig()?.FrontEnd ? this.getConfig().FrontEnd : { host: 'localhost' };
   }
 
-  public getLocales(): LocalesConfiguration {
-    return this.getConfig().Locales;
-  }
-
   public getAuthorization(): AuthorizationConfiguration {
     return this.getConfig().Authorization;
   }

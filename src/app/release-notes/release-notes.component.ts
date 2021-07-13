@@ -32,6 +32,7 @@ export class ReleaseNotesComponent {
             changes: [
               `Clear Firmware Status Notification after Charging Station's reboot`,
               `Fixed User is not displayed in Charging Station's connector during a charging session`,
+              `Update the the Charging Station's heart beat whenever it connects to the backend`,
             ],
           },
         ],

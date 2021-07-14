@@ -25,7 +25,7 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.4.76',
-        date: new Date('2021-07-12'),
+        date: new Date('2021-07-14'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -33,6 +33,9 @@ export class ReleaseNotesComponent {
               `Clear Firmware Status Notification after Charging Station's reboot`,
               `Fixed User is not displayed in Charging Station's connector during a charging session`,
               `Update the the Charging Station's heart beat whenever it connects to the backend`,
+              `Adjusted the locales management`,
+              `Fixed not found locale`,
+              `Removed some Billing feature toggles`,
             ],
           },
         ],

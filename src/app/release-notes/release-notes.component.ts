@@ -33,6 +33,7 @@ export class ReleaseNotesComponent {
               `Clear Firmware Status Notification after Charging Station's reboot`,
               `Fixed User is not displayed in Charging Station's connector during a charging session`,
               `Update the the Charging Station's heart beat whenever it connects to the backend`,
+              `Cars management use the new authorization framework`,
               `Adjusted the language's locales management and fixed some not found ones`,
               `Send OCPI and OICP status Unavailable when Charging Station's Web Socket is disconnected`,
               `Enhanced the Log's search to match sentences in Message column`,

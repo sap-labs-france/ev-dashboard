@@ -31,6 +31,7 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Fixed excluded already processed Charge Points`,
+              `Do not update the Charging Station's heart beat when checked by the job`,
             ],
           },
         ],

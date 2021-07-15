@@ -638,6 +638,7 @@ export class CentralServerService {
     params['ConnectorID'] = connectorID.toString();
     params['Limit'] = '1';
     params['Skip'] = '0';
+    params['WithTag'] = 'true';
     params['SortFields'] = '-timestamp';
     this.checkInit();
     // Execute the REST service
@@ -1387,6 +1388,7 @@ export class CentralServerService {
   public getTransactionConsumption(transactionId: number, loadAllConsumptions?: boolean, ordering: Ordering[] = []): Observable<Transaction> {
     const params: { [param: string]: string } = {};
     params['TransactionId'] = transactionId.toString();
+    params['WithTag'] = 'true';
     if (loadAllConsumptions) {
       params['LoadAllConsumptions'] = loadAllConsumptions.toString();
     }

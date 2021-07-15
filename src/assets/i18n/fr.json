@@ -1335,11 +1335,11 @@
     "failed_download": "Le téléchargement de la facture a échoué."
   },
   "tags": {
-    "id": "ID",
+    "id": "No Badge",
     "not_active": "Ce badge n'est pas actif",
     "issuer": "Propriétaire",
-    "visual_id": "ID visuel",
-    "visual_id_instruction": "Veuillez remplir L'ID affiché sur le badge",
+    "visual_id": "No Badge Visuel",
+    "visual_id_instruction": "Veuillez remplir le numéro affiché sur le badge",
     "status": "Statut",
     "activated": "Activé",
     "deactivated": "Inactif",

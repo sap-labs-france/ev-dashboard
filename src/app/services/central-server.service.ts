@@ -775,8 +775,9 @@ export class CentralServerService {
     this.getPaging(paging, params);
     // Build Ordering
     this.getSorting(ordering, params);
+    params['Status'] = 'in-error';
     // Execute the REST service
-    return this.httpClient.get<DataResult<ChargingStationInError>>(`${this.restServerSecuredURL}/${ServerRoute.REST_CHARGING_STATIONS_IN_ERROR}`,
+    return this.httpClient.get<DataResult<ChargingStationInError>>(`${this.restServerSecuredURL}/${ServerRoute.REST_CHARGING_STATIONS}`,
       {
         headers: this.buildHttpHeaders(),
         params,

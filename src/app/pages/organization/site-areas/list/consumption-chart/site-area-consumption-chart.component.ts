@@ -157,8 +157,6 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
       this.createGlobalDatasetData();
       this.refreshDataSets();
       this.chart.update();
-    } else {
-
     }
   }
 
@@ -181,7 +179,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
       datasets.push({
         name: (this.selectedUnit === ConsumptionUnit.AMPERE) ? 'chargingStationInstantAmps' : 'chargingStationInstantWatts',
         type: 'line',
-        hidden: this.activeLegend[this.activeLegend.findIndex((x => x.key.includes(this.translateService.instant('organization.graph.asset_production_amps'))))].hidden,
+        hidden: this.activeLegend[this.activeLegend.findIndex((x => x.key.includes(this.translateService.instant('organization.graph.charging_station_consumption_amps'))))].hidden,
         data: [],
         yAxisID: 'power',
         lineTension: this.lineTension,
@@ -193,7 +191,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
       datasets.push({
         name: (this.selectedUnit === ConsumptionUnit.AMPERE) ? 'assetProductionInstantAmps' : 'assetProductionInstantWatts',
         type: 'line',
-        hidden: this.activeLegend[this.activeLegend.findIndex((x => x.key.includes(this.translateService.instant('organization.graph.charging_station_consumption_amps'))))].hidden,
+        hidden: this.activeLegend[this.activeLegend.findIndex((x => x.key.includes(this.translateService.instant('organization.graph.asset_production_amps'))))].hidden,
         data: [],
         yAxisID: 'power',
         lineTension: this.lineTension,
@@ -239,6 +237,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
   }
 
   private createGlobalDatasetData(){
+    console.log(this.siteArea);
     const defaultObject = {
       netConsumptionPower: 0,
       assetConsumptionPower: 0,
@@ -254,7 +253,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
     };
     const siteAreaDataDict: any = {};
     for(const consumption of this.siteArea.values.netConsumptions){
-      const key = new Date(consumption.startedAt).toISOString();
+      const key = new Date(consumption.startedAt).toTimeString();
       siteAreaDataDict[key] = { ...defaultObject };
       siteAreaDataDict[key]['netConsumptionPower'] = consumption.instantWatts;
       siteAreaDataDict[key]['netConsumptionAmps'] = consumption.instantAmps;
@@ -263,17 +262,17 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
       siteAreaDataDict[key]['startedAt'] = consumption.startedAt;
     }
     for(const production of this.siteArea.values.assetProductions){
-      const key = new Date(production.startedAt).toISOString();
+      const key = new Date(production.startedAt).toTimeString();
       siteAreaDataDict[key]['assetProductionPower'] = production.instantWatts;
       siteAreaDataDict[key]['assetProductionAmps'] = production.instantAmps;
     }
     for(const consumption of this.siteArea.values.assetConsumptions){
-      const key = new Date(consumption.startedAt).toISOString();
+      const key = new Date(consumption.startedAt).toTimeString();
       siteAreaDataDict[key]['assetConsumptionPower'] = consumption.instantWatts;
       siteAreaDataDict[key]['assetConsumptionAmps'] = consumption.instantAmps;
     }
     for(const consumption of this.siteArea.values.chargingStationConsumptions){
-      const key = new Date(consumption.startedAt).toISOString();
+      const key = new Date(consumption.startedAt).toTimeString();
       siteAreaDataDict[key]['chargingStationConsumptionPower'] = consumption.instantWatts;
       siteAreaDataDict[key]['chargingStationConsumptionAmps'] = consumption.instantAmps;
     }
@@ -282,7 +281,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
     Object.entries(siteAreaDataDict).forEach((data, index) => {
       this.siteAreaData.push(data[1]);
     });
-    //sort the dictionary by time
+    //sort the dictionary key values by time
     this.siteAreaData.sort((a, b) => a.startedAt - b.startedAt);
   }
 

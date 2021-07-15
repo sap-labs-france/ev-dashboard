@@ -70,7 +70,6 @@ export class TableChargingStationsStartTransactionAction implements TableAction 
         chargeBoxID: chargingStation.id
       }),
       chargingStationID: chargingStation.id,
-      siteID: chargingStation.siteID
     };
     // Show
     const dialogRef = dialog.open(chargingStationsStartTransactionDialogComponent, dialogConfig);

@@ -237,7 +237,6 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
   }
 
   private createGlobalDatasetData(){
-    console.log(this.siteArea);
     const defaultObject = {
       netConsumptionPower: 0,
       assetConsumptionPower: 0,

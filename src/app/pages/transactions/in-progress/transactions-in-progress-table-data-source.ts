@@ -87,6 +87,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         WithCompany: true,
         WithSite: true,
         WithSiteArea: true,
+        WithTag: true,
         Statistics: 'ongoing',
       }]);
     }
@@ -208,13 +209,19 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         formatter: (value: User) => this.appUserNamePipe.transform(value),
       },
       {
+        id: 'tagID',
+        name: 'tags.id',
+        headerClass: 'col-10p',
+        class: 'text-left col-10p',
+        formatter: (tagID: string) => tagID ? tagID : '-'
+      },
+      {
         id: 'tag.visualID',
         name: 'tags.visual_id',
         headerClass: 'col-15p',
         class: 'text-left col-15p',
         formatter: (visualID: string) => visualID ? visualID : '-'
-      }
-      );
+      });
     }
     if (this.componentService.isActive(TenantComponents.CAR)) {
       if (this.authorizationService.canListCars()) {

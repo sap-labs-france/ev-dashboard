@@ -102,6 +102,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         WithCompany: true,
         WithSite: true,
         WithSiteArea: true,
+        WithTag: true,
         Statistics: 'history',
       }]);
     }
@@ -286,6 +287,13 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         headerClass: 'col-15p',
         class: 'text-left col-15p',
         formatter: (user: User) => this.appUserNamePipe.transform(user),
+      },
+      {
+        id: 'tagID',
+        name: 'tags.id',
+        headerClass: 'col-10p',
+        class: 'text-left col-10p',
+        formatter: (tagID: string) => tagID ? tagID : '-'
       },
       {
         id: 'tag.visualID',

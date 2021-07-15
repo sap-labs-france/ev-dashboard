@@ -1389,6 +1389,7 @@ export class CentralServerService {
     const params: { [param: string]: string } = {};
     params['TransactionId'] = transactionId.toString();
     params['WithTag'] = 'true';
+    params['WithCar'] = 'true';
     if (loadAllConsumptions) {
       params['LoadAllConsumptions'] = loadAllConsumptions.toString();
     }

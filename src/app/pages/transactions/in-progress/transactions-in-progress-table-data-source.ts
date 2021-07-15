@@ -88,6 +88,9 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         WithSite: true,
         WithSiteArea: true,
         WithTag: true,
+        WithUser: true,
+        WithCar: true,
+        WithChargingStation: true,
         Statistics: 'ongoing',
       }]);
     }

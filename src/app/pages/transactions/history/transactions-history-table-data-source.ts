@@ -103,6 +103,8 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         WithSite: true,
         WithSiteArea: true,
         WithTag: true,
+        WithUser: true,
+        WithCar: true,
         Statistics: 'history',
       }]);
     }

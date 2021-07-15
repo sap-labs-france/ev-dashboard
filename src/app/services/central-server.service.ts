@@ -2728,10 +2728,10 @@ export class CentralServerService {
     this.checkInit();
     const body = {
       carID,
+      userID,
       args: {
         visualTagID,
-        connectorId,
-        userID
+        connectorId
       },
     };
     return this.httpClient.put<ActionResponse>(

@@ -141,9 +141,8 @@ export class AuthenticationRegisterComponent implements OnInit, OnDestroy {
         return;
       }
       if (this.formGroup.valid) {
-        // Show
+        this.updateUserPassword(user);
         this.spinnerService.show();
-        // Create
         this.centralServerService.registerUser(user).subscribe((response) => {
           // Hide
           this.spinnerService.hide();
@@ -184,5 +183,12 @@ export class AuthenticationRegisterComponent implements OnInit, OnDestroy {
         });
       }
     });
+  }
+
+  private updateUserPassword(user: User) {
+    if (user['passwords'] && user['passwords']['password']) {
+      user['password'] = user['passwords']['password'];
+      delete user['passwords'];
+    }
   }
 }

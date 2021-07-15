@@ -17,7 +17,7 @@ import { DataResult } from '../../../../types/DataResult';
 import { ButtonAction, RestResponse } from '../../../../types/GlobalType';
 import { HTTPError } from '../../../../types/HTTPError';
 import { SiteArea } from '../../../../types/SiteArea';
-import { ButtonType, TableActionDef, TableColumnDef, TableDef } from '../../../../types/Table';
+import { ButtonType, TableActionDef, TableColumnDef, TableDataSourceMode, TableDef } from '../../../../types/Table';
 import { Utils } from '../../../../utils/Utils';
 
 @Injectable()
@@ -65,13 +65,26 @@ export class SiteAreaChargingStationsDataSource extends TableDataSource<Charging
   }
 
   public buildTableDef(): TableDef {
+    if (this.getMode() === TableDataSourceMode.READ_WRITE) {
+      return {
+        class: 'table-dialog-list',
+        rowSelection:
+        {
+          enabled: this.siteArea?.canAssignChargingStations || this.siteArea?.canUnassignChargingStations,
+          multiple: true,
+        },
+        search: {
+          enabled: true,
+        },
+      };
+    }
     return {
       class: 'table-dialog-list',
       rowSelection:
-        {
-          enabled: this.siteArea?.canUnassignChargingStations,
-          multiple: this.siteArea?.canUnassignChargingStations,
-        },
+      {
+        enabled: false,
+        multiple: false,
+      },
       search: {
         enabled: true,
       },
@@ -108,19 +121,18 @@ export class SiteAreaChargingStationsDataSource extends TableDataSource<Charging
     ]);
     // Set user
     this.siteArea = siteArea;
-    this.initDataSource(true);
   }
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-
-    if(this.siteArea.canAssignChargingStations) {
-      tableActionsDef.push(this.addAction);
+    if (this.getMode() === TableDataSourceMode.READ_WRITE) {
+      if (this.siteArea.canAssignChargingStations) {
+        tableActionsDef.push(this.addAction);
+      }
+      if (this.siteArea.canUnassignChargingStations) {
+        tableActionsDef.push(this.removeAction);
+      }
     }
-    if(this.siteArea.canUnassignChargingStations) {
-      tableActionsDef.push(this.removeAction);
-    }
-
     return tableActionsDef;
   }
 

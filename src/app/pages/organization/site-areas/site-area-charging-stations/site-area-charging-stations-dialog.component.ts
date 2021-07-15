@@ -21,10 +21,15 @@ export class SiteAreaChargingStationsDialogComponent {
     @Inject(MAT_DIALOG_DATA) dialogParams: DialogParams<SiteArea>) {
     // default title
     this.dialogTitle = this.translateService.instant('chargers.chargers');
-    if (dialogParams.dialogData) {
-      this.siteAreaChargersDataSource.setSiteArea(dialogParams.dialogData);
-      this.dialogTitle = this.translateService.instant('site_areas.assigned_chargers_to_site_area',
-        { siteAreaName: dialogParams.dialogData.name });
+    if (dialogParams) {
+      if (dialogParams.dialogData) {
+        this.siteAreaChargersDataSource.setSiteArea(dialogParams.dialogData);
+        this.dialogTitle = this.translateService.instant('site_areas.assigned_chargers_to_site_area',
+          { siteAreaName: dialogParams.dialogData.name });
+      }
+      this.siteAreaChargersDataSource.setMode(
+        Utils.getTableDataSourceModeFromDialogMode(dialogParams.dialogMode));
+      this.siteAreaChargersDataSource.initDataSource(true);
     }
     Utils.registerCloseKeyEvents(this.dialogRef);
   }

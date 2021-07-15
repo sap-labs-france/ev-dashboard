@@ -396,7 +396,7 @@ export abstract class TableDataSource<T extends TableData> {
             }
           // Dropdown with multiple selections
           } else if (filterDef.type === FilterType.DROPDOWN && filterDef.multiple) {
-            if (!Utils.isEmptyArray(filterDef.currentValue) && 
+            if (!Utils.isEmptyArray(filterDef.currentValue) &&
                 (filterDef.currentValue.length < filterDef.items.length || !filterDef.exhaustive)) {
               filterJson[filterDef.httpId] = filterDef.currentValue.map((obj) => obj.key).join('|');
             }
@@ -566,7 +566,7 @@ export abstract class TableDataSource<T extends TableData> {
     return true;
   }
 
-  protected initDataSource(force: boolean = false): void {
+  public initDataSource(force: boolean = false): void {
     // Init data from sub-classes
     this.initTableColumnDefs(force);
     this.initTableDef(force);

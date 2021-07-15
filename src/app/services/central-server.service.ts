@@ -33,7 +33,7 @@ import { StatisticData } from '../types/Statistic';
 import { Tag } from '../types/Tag';
 import { Tenant } from '../types/Tenant';
 import { OcpiData, Transaction } from '../types/Transaction';
-import { User, UserCar, UserDefaultTagCar, UserSite, UserToken } from '../types/User';
+import { User, UserDefaultTagCar, UserSite, UserToken } from '../types/User';
 import { Constants } from '../utils/Constants';
 import { Utils } from '../utils/Utils';
 import { CentralServerNotificationService } from './central-server-notification.service';
@@ -1745,18 +1745,6 @@ export class CentralServerService {
       );
   }
 
-  public createTransactionInvoice(transactionID: number): Observable<ActionResponse> {
-    this.checkInit();
-    // Execute the REST service
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.BILLING_CREATE_TRANSACTION_INVOICE}`, { transactionID },
-      {
-        headers: this.buildHttpHeaders(),
-      })
-      .pipe(
-        catchError(this.handleHttpError),
-      );
-  }
-
   public downloadInvoice(invoiceID: string): Observable<Blob> {
     this.checkInit();
     if (!invoiceID) {
@@ -2892,25 +2880,6 @@ export class CentralServerService {
       );
   }
 
-  public getCarUsers(params: FilterParams,
-    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<UserCar>> {
-    // Verify init
-    this.checkInit();
-    // Build Paging
-    this.getPaging(paging, params);
-    // Build Ordering
-    this.getSorting(ordering, params);
-    // Execute the REST service
-    return this.httpClient.get<DataResult<UserCar>>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CAR_USERS}`,
-      {
-        headers: this.buildHttpHeaders(),
-        params,
-      })
-      .pipe(
-        catchError(this.handleHttpError),
-      );
-  }
-
   public getCarCatalog(id: number): Observable<CarCatalog> {
     // Verify init
     this.checkInit();
@@ -3366,11 +3335,11 @@ export class CentralServerService {
     return of(null);
   }
 
-  private buildRestEndpointUrl(urlPatternAsString: ServerRoute, params: {[name: string]: string | number | null;} = {}) {
+  private buildRestEndpointUrl(urlPatternAsString: ServerRoute, params: {[name: string]: string | number | null } = {}) {
     let resolvedUrlPattern = urlPatternAsString as string;
     for (const key in params) {
       if (Object.prototype.hasOwnProperty.call(params, key)) {
-        resolvedUrlPattern = resolvedUrlPattern.replace(`:${key}`, params[key] as string);
+        resolvedUrlPattern = resolvedUrlPattern.replace(`:${key}`, encodeURIComponent(params[key]));
       }
     }
     return `${this.restServerSecuredURL}/${resolvedUrlPattern}`;

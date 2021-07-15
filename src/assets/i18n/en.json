@@ -236,7 +236,8 @@
       "download": "Download",
       "test_connection": "Test Connection",
       "force_available_status": "Force Status to Available",
-      "force_unavailable_status": "Force Status to Unavailable"
+      "force_unavailable_status": "Force Status to Unavailable",
+      "display_users": "Display users"
     }
   },
   "issuer": {
@@ -431,7 +432,8 @@
     "update_site_users_owner_error": "Error occurred while trying to grant the user '{{userName}}' as site owner, check the logs",
     "export_all_params_title": "Export OCPP parameters",
     "export_all_params_confirm": "Do you really want to export all the OCPP parameters of all the charging stations belonging to the site '{{siteName}}'?",
-    "export_all_params_error": "Error occurred while trying to export all the OCPP parameters, check the logs"
+    "export_all_params_error": "Error occurred while trying to export all the OCPP parameters, check the logs",
+    "display_users": "Display users"
   },
   "site_areas": {
     "assign_site": "Assign Site",
@@ -719,7 +721,7 @@
     "connector0": "Charger",
     "connector_type": "Type",
     "connector_error_title": "Error",
-    "connector_info_title": "Error information",
+    "connector_info_title": "Information",
     "connector_vendor_error_code_title": "Vendor error",
     "connector_max_power": "Maximum Power (Watts)",
     "charger_url": "URL",
@@ -1324,6 +1326,7 @@
     "number": "Invoice Number",
     "createdOn": "Invoice Date",
     "price": "Invoice Price",
+    "amount": "Amount",
     "cannot_retrieve_invoices": "Cannot retrieve the list of invoices",
     "cannot_download_invoice": "Cannot download invoice",
     "number_of_items": "Sessions",
@@ -1991,6 +1994,8 @@
   "cars": {
     "vin": "VIN",
     "license_plate": "License Plate",
+    "user": "User",
+    "assign_user": "Assign User",
     "vehicle_model": "Model",
     "vehicle_make": "Maker",
     "vehicle_model_version": "Version",
@@ -2097,7 +2102,7 @@
     }
   },
   "car": {
-    "title": "Car Management",
+    "title": "Car",
     "description": "Manage the user's cars",
     "tabs": {
       "car_catalogs": "Car Catalogs",
@@ -2173,6 +2178,7 @@
     "charging_station": "Charging Station",
     "started_at": "Started At",
     "end_date": "End Date",
+    "stop_reason": "Reason",
     "consumption": "Consumption",
     "transactions_button": "Sessions",
     "transaction_today": "Today",
@@ -2363,8 +2369,13 @@
     },
     "errors": {
       "no_consumption": {
-        "title": "No Consumptions",
+        "title": "No Consumption",
         "description": "The session does not contains meter values.",
+        "action": "Check the charging station settings. Ensure that meter values are sent by the charging station."
+      },
+      "low_consumption": {
+        "title": "Low Consumption",
+        "description": "The session has a consumption < 1 kWh.",
         "action": "Check the charging station settings. Ensure that meter values are sent by the charging station."
       },
       "average_consumption_greater_than_connector_capacity": {
@@ -2378,8 +2389,8 @@
         "action": "Check the charging station settings. Ensure that meter values are sent in the correct order."
       },
       "long_inactivity": {
-        "title": "Inactivity more than 24h",
-        "description": "The inactivity of the session is more than 24 hours.",
+        "title": "High Inactivity",
+        "description": "The inactivity of the session > 24 hours.",
         "action": "Check the Session"
       },
       "negative_duration": {
@@ -2387,8 +2398,13 @@
         "description": "The duration of the session is negative.",
         "action": "Check the charging station settings. Ensure that meter values are sent in the correct order."
       },
+      "low_duration": {
+        "title": "Low Duration",
+        "description": "The duration of the session < 1 minute.",
+        "action": "Check the charging station settings. Ensure that meter values are sent correctly."
+      },
       "missing_price": {
-        "title": "Missing price",
+        "title": "Missing Price",
         "description": "The session has not been priced.",
         "action": "Even though the pricing is activated in the organization, the session has not been priced. Contact your site administrator."
       },

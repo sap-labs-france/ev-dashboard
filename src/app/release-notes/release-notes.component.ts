@@ -24,15 +24,106 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.77',
+        date: new Date('2021-07-15'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Fixed excluded already processed Charge Points`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.76',
+        date: new Date('2021-07-14'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Clear Firmware Status Notification after Charging Station's reboot`,
+              `Fixed User is not displayed in Charging Station's connector during a charging session`,
+              `Update the the Charging Station's heart beat whenever it connects to the backend`,
+              `Cars management use the new authorization framework`,
+              `Adjusted the language's locales management and fixed some not found ones`,
+              `Send OCPI and OICP status Unavailable when Charging Station's Web Socket is disconnected`,
+              `Enhanced the Log's search to match sentences in Message column`,
+              `Removed some Billing feature toggles`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.75',
+        date: new Date('2021-07-08'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Smart Charging: Use efficiency when excluding the Charging Stations`,
+              `Force the Charging Station unavailability's status after 2 mins instead of 9 mins when not responding`,
+              `Set the standard Heartbeat OCPP param first and try workarounds next if it failed`,
+              `Make Log's Action filter more specifics (REST, OCPP...)`,
+              `Added new Joint new Charging Station's model in templates`,
+              `Optimized DB access in OICP endpoint (Hubject)`,
+              `Prevent deletion of Users in Stripe`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.74',
+        date: new Date('2021-07-06'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Save Status Notification right after Boot Notification even if the status has not changed`,
+              `Added Company, Site and Site Area in Session list`,
+              `Hide Delete button when user image is not set`,
+              `Optimized DB access in OCPI endpoint`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.73',
+        date: new Date('2021-07-02'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Do not bill Sessions < 1 kWh and < 1 min`,
+              `Billing montly payment with Stripe`,
+              `Added Low Consumption (< 1 kWh) and Low Duration (< 1 min) in Sessions In Error`,
+              `Improve perfs to get Log details`,
+              `Added Connector's information in Charging Station and Session In Progress lists`,
+              `Added Stop reason in Session History list`,
+              `Saved Stop reason OCPP Stop Transaction`,
+              `Only log stack trace of exceptions`,
+              `Reduce number of updates in DB of Charging Station's Heart Beats`,
+              `Returned distance meters of Charging Stations`,
+              `Keep performance logs for 2 weeks instead of 4`,
+              `Added Car and User info in Sessions in Error`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.72',
-        date: new Date('2021-06-29'),
+        date: new Date('2021-06-30'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `Migrated Tag endpoints to REST public API`,
-              `Optimized DB access in Notification management`,
+              `Fixed User with role Basic cannot change his password`,
+              `Added new Nexans new Charging Station's models in templates`,
+              `Optimized DB access in Notification and Site management`,
               `Added clear of Billing test data`,
+              `Took into account Transaction timezone in Billing`,
+              `Display on going transaction stats in footer`,
               `Construct of URLs without 'safe-url-assembler' open source`,
             ],
           },

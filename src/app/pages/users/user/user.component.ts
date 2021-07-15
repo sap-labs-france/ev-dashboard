@@ -578,16 +578,6 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     }
   }
 
-  public updateUserImage(user: User) {
-    if (this.image && !this.image.endsWith(Constants.USER_NO_PICTURE)) {
-      // Set to user
-      user.image = this.image;
-    } else {
-      // No image
-      user.image = null;
-    }
-  }
-
   public saveUser(user: User) {
     if (this.currentUserID) {
       this.updateUser(user);
@@ -702,8 +692,8 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   }
 
   private createUser(user: User) {
-    // Set the image
     this.updateUserImage(user);
+    this.updateUserPassword(user);
     this.spinnerService.show();
     this.centralServerService.createUser(user).subscribe((response: ActionResponse) => {
       this.spinnerService.hide();
@@ -734,8 +724,8 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   }
 
   private updateUser(user: User) {
-    // Set the image
     this.updateUserImage(user);
+    this.updateUserPassword(user);
     this.spinnerService.show();
     this.centralServerService.updateUser(user).subscribe((response) => {
       this.spinnerService.hide();
@@ -761,5 +751,22 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'users.update_error');
       }
     });
+  }
+
+  private updateUserImage(user: User) {
+    if (this.image && !this.image.endsWith(Constants.USER_NO_PICTURE)) {
+      // Set to user
+      user.image = this.image;
+    } else {
+      // No image
+      user.image = null;
+    }
+  }
+
+  private updateUserPassword(user: User) {
+    if (user['passwords'] && user['passwords']['password']) {
+      user['password'] = user['passwords']['password'];
+      delete user['passwords'];
+    }
   }
 }

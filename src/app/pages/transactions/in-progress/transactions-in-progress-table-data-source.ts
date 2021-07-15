@@ -38,7 +38,7 @@ import { TagTableFilter } from '../../../shared/table/filters/tag-table-filter';
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import ChangeNotification from '../../../types/ChangeNotification';
-import { ChargingStationButtonAction } from '../../../types/ChargingStation';
+import { ChargingStationButtonAction, Connector } from '../../../types/ChargingStation';
 import { DataResult, TransactionDataResult } from '../../../types/DataResult';
 import { LogButtonAction } from '../../../types/Log';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
@@ -55,6 +55,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
   private stopAction = new TableChargingStationsStopTransactionAction().getActionDef();
   private navigateToLogsAction = new TableNavigateToLogsAction().getActionDef();
   private navigateToChargingPlansAction = new TableNavigateToChargingPlansAction().getActionDef();
+  private readonly isOrganizationComponentActive: boolean;
   private isAdmin = false;
   private isSiteAdmin = false;
 
@@ -79,10 +80,17 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
     // Admin
     this.isAdmin = this.authorizationService.isAdmin();
     this.isSiteAdmin = this.authorizationService.hasSitesAdminRights();
+    this.isOrganizationComponentActive = this.componentService.isActive(TenantComponents.ORGANIZATION);
     // Init
+    if (this.isOrganizationComponentActive) {
+      this.setStaticFilters([{
+        WithCompany: true,
+        WithSite: true,
+        WithSiteArea: true,
+        Statistics: 'ongoing',
+      }]);
+    }
     this.initDataSource();
-    // Add statistics to query
-    this.setStaticFilters([{ Statistics: 'ongoing' }]);
   }
 
   public getDataChangeSubject(): Observable<ChangeNotification> {
@@ -118,16 +126,16 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    const columns: TableColumnDef[] = [];
+    const tableColumns: TableColumnDef[] = [];
     if (this.isAdmin) {
-      columns.push({
+      tableColumns.push({
         id: 'id',
         name: 'transactions.id',
         headerClass: 'd-none d-xl-table-cell',
         class: 'd-none d-xl-table-cell',
       });
     }
-    columns.push(
+    tableColumns.push(
       {
         id: 'timestamp',
         name: 'transactions.started_at',
@@ -160,9 +168,39 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         isAngularComponent: true,
         angularComponent: TransactionsConnectorCellComponent,
       },
+      {
+        id: 'info',
+        name: 'chargers.connector_info_title',
+        headerClass: 'col-10em',
+        class: 'col-10em',
+        formatter: (info: string, row: Connector) => Utils.buildConnectorInfo(row),
+        sortable: false,
+      },
     );
+    if (this.isOrganizationComponentActive) {
+      tableColumns.push(
+        {
+          id: 'company.name',
+          name: 'companies.title',
+          class: 'd-none d-xl-table-cell col-20p',
+          headerClass: 'd-none d-xl-table-cell col-20p',
+        },
+        {
+          id: 'site.name',
+          name: 'sites.title',
+          class: 'd-none d-xl-table-cell col-20p',
+          headerClass: 'd-none d-xl-table-cell col-20p',
+        },
+        {
+          id: 'siteArea.name',
+          name: 'site_areas.title',
+          class: 'd-none d-xl-table-cell col-20p',
+          headerClass: 'd-none d-xl-table-cell col-20p',
+        },
+      );
+    }
     if (this.isAdmin || this.isSiteAdmin) {
-      columns.push({
+      tableColumns.push({
         id: 'user',
         name: 'transactions.user',
         headerClass: 'col-15p',
@@ -180,7 +218,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
     }
     if (this.componentService.isActive(TenantComponents.CAR)) {
       if (this.authorizationService.canListCars()) {
-        columns.push({
+        tableColumns.push({
           id: 'carCatalog',
           name: 'car.title',
           headerClass: 'text-center col-15p',
@@ -190,7 +228,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         });
       }
       if (this.authorizationService.canUpdateCar()) {
-        columns.push({
+        tableColumns.push({
           id: 'car.licensePlate',
           name: 'cars.license_plate',
           headerClass: 'text-center col-15p',
@@ -200,7 +238,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         });
       }
     }
-    columns.push(
+    tableColumns.push(
       {
         id: 'currentTotalInactivitySecs',
         name: 'transactions.inactivity',
@@ -236,7 +274,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
       },
     );
     if (this.componentService.isActive(TenantComponents.PRICING)) {
-      columns.push({
+      tableColumns.push({
         id: 'currentCumulatedPrice',
         name: 'transactions.price',
         headerClass: 'col-10p',
@@ -244,7 +282,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         formatter: (price: number, transaction: Transaction) => this.appCurrencyPipe.transform(price, transaction.priceUnit),
       });
     }
-    return columns;
+    return tableColumns;
   }
 
   public rowActionTriggered(actionDef: TableActionDef, transaction: Transaction) {

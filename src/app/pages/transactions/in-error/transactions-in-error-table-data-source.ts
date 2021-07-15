@@ -5,8 +5,11 @@ import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { TransactionDialogComponent } from 'shared/dialogs/transaction/transaction.dialog.component';
-import { TableRebuildTransactionConsumptionsAction } from 'shared/table/actions/transactions/table-rebuild-transaction-consumptions-action';
+import { AppDurationPipe } from 'shared/formatters/app-duration.pipe';
+import { AppUnitPipe } from 'shared/formatters/app-unit.pipe';
+import { TableRebuildTransactionConsumptionsAction, TableRebuildTransactionConsumptionsActionDef } from 'shared/table/actions/transactions/table-rebuild-transaction-consumptions-action';
 import { IssuerFilter } from 'shared/table/filters/issuer-filter';
+import { CarCatalog } from 'types/Car';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
@@ -24,7 +27,6 @@ import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto
 import { TableMoreAction } from '../../../shared/table/actions/table-more-action';
 import { TableOpenURLActionDef } from '../../../shared/table/actions/table-open-url-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
-import { TableCreateTransactionInvoiceActionDef } from '../../../shared/table/actions/transactions/table-create-transaction-invoice-action';
 import { TableDeleteTransactionAction, TableDeleteTransactionActionDef } from '../../../shared/table/actions/transactions/table-delete-transaction-action';
 import { TableDeleteTransactionsAction, TableDeleteTransactionsActionDef } from '../../../shared/table/actions/transactions/table-delete-transactions-action';
 import { TableViewTransactionAction, TableViewTransactionActionDef, TransactionDialogData } from '../../../shared/table/actions/transactions/table-view-transaction-action';
@@ -74,12 +76,20 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
       value: this.translateService.instant(`transactions.errors.${TransactionInErrorType.NO_CONSUMPTION}.title`),
     },
     {
+      key: TransactionInErrorType.LOW_CONSUMPTION,
+      value: this.translateService.instant(`transactions.errors.${TransactionInErrorType.LOW_CONSUMPTION}.title`),
+    },
+    {
       key: TransactionInErrorType.OVER_CONSUMPTION,
       value: this.translateService.instant(`transactions.errors.${TransactionInErrorType.OVER_CONSUMPTION}.title`),
     },
     {
       key: TransactionInErrorType.NEGATIVE_DURATION,
       value: this.translateService.instant(`transactions.errors.${TransactionInErrorType.NEGATIVE_DURATION}.title`),
+    },
+    {
+      key: TransactionInErrorType.LOW_DURATION,
+      value: this.translateService.instant(`transactions.errors.${TransactionInErrorType.LOW_DURATION}.title`),
     },
     {
       key: TransactionInErrorType.MISSING_USER,
@@ -94,6 +104,8 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     private dialogService: DialogService,
     private router: Router,
     private dialog: MatDialog,
+    private appDurationPipe: AppDurationPipe,
+    private appUnitPipe: AppUnitPipe,
     private componentService: ComponentService,
     private authorizationService: AuthorizationService,
     private centralServerNotificationService: CentralServerNotificationService,
@@ -216,7 +228,45 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
         headerClass: 'text-center col-10p',
         class: 'text-center col-10p',
         formatter: (connectorId: number) => this.appConnectorIdPipe.transform(connectorId),
-      }
+      },
+      {
+        id: 'errorCodeDetails',
+        name: 'errors.details',
+        sortable: false,
+        headerClass: 'text-center col-10p',
+        class: 'text-center col-10p p-0',
+        isAngularComponent: true,
+        angularComponent: ErrorCodeDetailsComponent,
+      },
+      {
+        id: 'errorCode',
+        name: 'errors.title',
+        headerClass: 'col-30p',
+        class: 'col-30p text-danger',
+        sortable: true,
+        formatter: (value: string, row: TransactionInError) => this.translateService.instant(`transactions.errors.${row.errorCode}.title`),
+      },
+      {
+        id: 'stop.totalDurationSecs',
+        name: 'transactions.duration',
+        headerClass: 'col-10p',
+        class: 'text-left col-10p',
+        formatter: (totalDurationSecs: number) => this.appDurationPipe.transform(totalDurationSecs),
+      },
+      {
+        id: 'stop.totalConsumptionWh',
+        name: 'transactions.consumption',
+        headerClass: 'col-10p',
+        class: 'col-10p',
+        formatter: (totalConsumptionWh: number) => this.appUnitPipe.transform(totalConsumptionWh, 'Wh', 'kWh'),
+      },
+      {
+        id: 'stateOfCharge',
+        name: 'transactions.state_of_charge',
+        headerClass: 'col-10p',
+        class: 'col-10p',
+        formatter: (stateOfCharge: number, row: Transaction) => stateOfCharge ? `${stateOfCharge}% > ${row.stop.stateOfCharge}%` : '-',
+      },
     );
     if (this.isAdmin || this.isSiteAdmin) {
       columns.push(
@@ -235,26 +285,19 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
           formatter: (tagID: string) => tagID ? tagID : '-'
         }
       );
+      if (this.componentService.isActive(TenantComponents.CAR)) {
+        if (this.authorizationService.canListCars()) {
+          columns.push({
+            id: 'carCatalog',
+            name: 'car.title',
+            headerClass: 'text-center col-15p',
+            class: 'text-center col-15p',
+            sortable: true,
+            formatter: (carCatalog: CarCatalog) => carCatalog ? Utils.buildCarCatalogName(carCatalog) : '-',
+          });
+        }
+      }
     }
-    columns.push(
-      {
-        id: 'errorCodeDetails',
-        name: 'errors.details',
-        sortable: false,
-        headerClass: 'text-center col-10p',
-        class: 'text-center col-10p p-0',
-        isAngularComponent: true,
-        angularComponent: ErrorCodeDetailsComponent,
-      },
-      {
-        id: 'errorCode',
-        name: 'errors.title',
-        headerClass: 'col-30p',
-        class: 'col-30p text-danger',
-        sortable: true,
-        formatter: (value: string, row: TransactionInError) => this.translateService.instant(`transactions.errors.${row.errorCode}.title`),
-      },
-    );
     return columns as TableColumnDef[];
   }
 
@@ -341,11 +384,11 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
             this.refreshData.bind(this));
         }
         break;
-      case TransactionButtonAction.CREATE_TRANSACTION_INVOICE:
+      case TransactionButtonAction.REBUILD_TRANSACTION_CONSUMPTIONS:
         if (actionDef.action) {
-          (actionDef as TableCreateTransactionInvoiceActionDef).action(
-            transaction.id, this.dialogService, this.translateService, this.messageService,
-            this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
+          (actionDef as TableRebuildTransactionConsumptionsActionDef).action(
+            transaction, this.dialogService, this.translateService, this.messageService,
+            this.centralServerService, this.router, this.spinnerService, this.refreshData.bind(this));
         }
         break;
       case LogButtonAction.NAVIGATE_TO_LOGS:

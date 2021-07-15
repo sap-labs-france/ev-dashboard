@@ -12,7 +12,6 @@ import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { ConsumptionChartDetailComponent } from '../../../shared/component/consumption-chart/consumption-chart-detail.component';
-import { AppConnectorErrorCodePipe } from '../../../shared/formatters/app-connector-error-code.pipe';
 import { AppUnitPipe } from '../../../shared/formatters/app-unit.pipe';
 import { AppUserNamePipe } from '../../../shared/formatters/app-user-name.pipe';
 import { TableChargingStationsStartTransactionAction, TableChargingStationsStartTransactionActionDef } from '../../../shared/table/actions/charging-stations/table-charging-stations-start-transaction-action';
@@ -132,6 +131,14 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
         sortable: false,
       },
       {
+        id: 'info',
+        name: 'chargers.connector_info_title',
+        headerClass: 'text-center col-15em',
+        class: 'text-center col-15em',
+        formatter: (info: string, row: Connector) => Utils.buildConnectorInfo(row),
+        sortable: false,
+      },
+      {
         id: 'currentInstantWatts',
         name: 'chargers.consumption_title',
         headerClass: 'text-center col-20p',
@@ -164,22 +171,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
         class: 'text-left col-20p',
         formatter: (user: User) => this.appUserNamePipe.transform(user),
       },
-      {
-        id: 'errorCode',
-        name: 'chargers.connector_error_title',
-        headerClass: 'col-15em',
-        class: 'col-15em',
-        formatter: (errorCode: string, row: Connector) => this.formatError(errorCode, row.info, row.vendorErrorCode),
-        sortable: false,
-      },
     ];
-  }
-
-  public formatError(errorCode: string, info: string | undefined, vendorErrorCode: string | undefined) {
-    errorCode = new AppConnectorErrorCodePipe(this.translateService).transform(errorCode);
-    info = !Utils.isEmptyString(info) ? ` > ${info}` : '';
-    vendorErrorCode = !Utils.isEmptyString(vendorErrorCode) && vendorErrorCode !== '0' ? ` (${vendorErrorCode})` : '';
-    return `${errorCode}${info}${vendorErrorCode}`;
   }
 
   public buildTableActionsRightDef(): TableActionDef[] {

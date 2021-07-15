@@ -33,7 +33,7 @@ import { StatisticData } from '../types/Statistic';
 import { Tag } from '../types/Tag';
 import { Tenant } from '../types/Tenant';
 import { OcpiData, Transaction } from '../types/Transaction';
-import { User, UserCar, UserDefaultTagCar, UserSite, UserToken } from '../types/User';
+import { User, UserDefaultTagCar, UserSite, UserToken } from '../types/User';
 import { Constants } from '../utils/Constants';
 import { Utils } from '../utils/Utils';
 import { CentralServerNotificationService } from './central-server-notification.service';
@@ -1747,18 +1747,6 @@ export class CentralServerService {
       );
   }
 
-  public createTransactionInvoice(transactionID: number): Observable<ActionResponse> {
-    this.checkInit();
-    // Execute the REST service
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.BILLING_CREATE_TRANSACTION_INVOICE}`, { transactionID },
-      {
-        headers: this.buildHttpHeaders(),
-      })
-      .pipe(
-        catchError(this.handleHttpError),
-      );
-  }
-
   public downloadInvoice(invoiceID: string): Observable<Blob> {
     this.checkInit();
     if (!invoiceID) {
@@ -2889,25 +2877,6 @@ export class CentralServerService {
       {
         headers: this.buildHttpHeaders(),
         params
-      })
-      .pipe(
-        catchError(this.handleHttpError),
-      );
-  }
-
-  public getCarUsers(params: FilterParams,
-    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<UserCar>> {
-    // Verify init
-    this.checkInit();
-    // Build Paging
-    this.getPaging(paging, params);
-    // Build Ordering
-    this.getSorting(ordering, params);
-    // Execute the REST service
-    return this.httpClient.get<DataResult<UserCar>>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CAR_USERS}`,
-      {
-        headers: this.buildHttpHeaders(),
-        params,
       })
       .pipe(
         catchError(this.handleHttpError),

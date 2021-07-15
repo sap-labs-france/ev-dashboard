@@ -25,7 +25,6 @@ import { Utils } from '../../../utils/Utils';
 export class ChargingStationsStartTransactionDialogComponent implements OnInit {
   public title = '';
   public chargeBoxID = '';
-  public siteID = '';
   public isCarComponentActive: boolean;
   public selectedUser!: User;
   public selectedTag!: Tag;
@@ -58,8 +57,8 @@ export class ChargingStationsStartTransactionDialogComponent implements OnInit {
     // Set
     this.title = data.title;
     this.chargeBoxID = data.chargeBoxID;
-    this.siteID = data.siteID;
-    this.loggedUser = centralServerService.getLoggedUser();
+    this.loggedUser = this.centralServerService.getLoggedUser();
+    this.canListUsers = this.authorizationService.canListUsers();
     this.isCarComponentActive = this.componentService.isActive(TenantComponents.CAR);
     Utils.registerValidateCloseKeyEvents(this.dialogRef,
       this.startTransaction.bind(this), this.cancel.bind(this));
@@ -112,9 +111,8 @@ export class ChargingStationsStartTransactionDialogComponent implements OnInit {
   public loadUserDefaultTagCar() {
     if (this.userID.value) {
       this.spinnerService.show();
-      this.centralServerService.getUserDefaultTagCar(this.userID.value, this.siteID).subscribe((userDefaultTagCar: UserDefaultTagCar) => {
+      this.centralServerService.getUserDefaultTagCar(this.userID.value).subscribe((userDefaultTagCar: UserDefaultTagCar) => {
         this.spinnerService.hide();
-        this.canListUsers = userDefaultTagCar.canListUsers;
         // Set Tag
         this.selectedTag = userDefaultTagCar.tag;
         this.tag.setValue(userDefaultTagCar.tag ? Utils.buildTagName(userDefaultTagCar.tag) : '');
@@ -154,7 +152,6 @@ export class ChargingStationsStartTransactionDialogComponent implements OnInit {
       rowMultipleSelection: false,
       staticFilter: {
         Issuer: true,
-        SiteID: this.siteID
       },
     };
     // Show

@@ -215,13 +215,15 @@ export class ChargingStationsStartTransactionDialogComponent implements OnInit {
   }
 
   public startTransaction() {
-    const startTransaction: StartTransaction = {
-      userID: this.userID.value,
-      userFullName: this.user.value,
-      carID: this.carID.value,
-      visualTagID: this.visualTagID.value
-    };
-    this.dialogRef.close(startTransaction);
+    if (this.formGroup.valid) {
+      const startTransaction: StartTransaction = {
+        userID: this.userID.value,
+        userFullName: this.user.value,
+        carID: this.carID.value,
+        visualTagID: this.visualTagID.value
+      };
+      this.dialogRef.close(startTransaction);
+    }
   }
 
   public cancel() {

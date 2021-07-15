@@ -24,8 +24,21 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.77',
+        date: new Date('2021-07-15'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Fixed excluded already processed Charge Points`,
+              `Do not update the Charging Station's heart beat when checked by the job`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.76',
-        date: new Date('2021-07-12'),
+        date: new Date('2021-07-14'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -33,6 +46,11 @@ export class ReleaseNotesComponent {
               `Clear Firmware Status Notification after Charging Station's reboot`,
               `Fixed User is not displayed in Charging Station's connector during a charging session`,
               `Update the the Charging Station's heart beat whenever it connects to the backend`,
+              `Cars management use the new authorization framework`,
+              `Adjusted the language's locales management and fixed some not found ones`,
+              `Send OCPI and OICP status Unavailable when Charging Station's Web Socket is disconnected`,
+              `Enhanced the Log's search to match sentences in Message column`,
+              `Removed some Billing feature toggles`,
             ],
           },
         ],

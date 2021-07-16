@@ -1335,10 +1335,10 @@
     "failed_download": "Download della fattura non riuscito"
   },
   "tags": {
-    "id": "ID",
+    "id": "Tag ID",
     "not_active": "This badge is not active",
     "issuer": "Proprietario Organizzazione",
-    "visual_id": "Visual ID",
+    "visual_id": "Visual Tag ID",
     "visual_id_instruction": "Please fill the ID that is displayed on the badge",
     "status": "Stato",
     "activated": "Active",

@@ -692,9 +692,9 @@ export class Utils {
       return '-';
     }
     if (tag.description) {
-      tagName = `${tag.description} ('${tag.id}')`;
+      tagName = `${tag.description} (${tag.visualID})`;
     } else {
-      tagName = `${tag.id}`;
+      tagName = tag.visualID;
     }
     return tagName;
   }
@@ -731,7 +731,7 @@ export class Utils {
       carName.push(`${translateService.instant('cars.vin')} '${car.vin}'`);
     }
     // License plate
-    carName.push(`${translateService.instant('cars.license_plate')} '${car.licensePlate}'`);
+    carName.push(`(${car.licensePlate})`);
     // Car ID
     if (withID && car.id) {
       carName.push(`(${car.id})`);

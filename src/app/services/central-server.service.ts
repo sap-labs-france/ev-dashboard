@@ -638,6 +638,7 @@ export class CentralServerService {
     params['ConnectorID'] = connectorID.toString();
     params['Limit'] = '1';
     params['Skip'] = '0';
+    params['WithTag'] = 'true';
     params['SortFields'] = '-timestamp';
     this.checkInit();
     // Execute the REST service
@@ -829,6 +830,7 @@ export class CentralServerService {
     this.checkInit();
     const params: { [param: string]: string } = {};
     params['ID'] = tagID;
+    params['WithUser'] = 'true';
     // Execute the REST service
     return this.httpClient.get<Tag>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TAG}`,
       {
@@ -843,11 +845,12 @@ export class CentralServerService {
   public getUserDefaultTagCar(userID: string): Observable<UserDefaultTagCar> {
     // Verify init
     this.checkInit();
-    // Execute the REST service
-    const url = this.buildRestEndpointUrl(ServerRoute.REST_USER_DEFAULT_TAG_CAR, { id: userID });
-    return this.httpClient.get<UserDefaultTagCar>(url,
+    return this.httpClient.get<UserDefaultTagCar>(this.buildRestEndpointUrl(ServerRoute.REST_USER_DEFAULT_TAG_CAR),
       {
         headers: this.buildHttpHeaders(),
+        params: {
+          UserID: userID
+        }
       })
       .pipe(
         catchError(this.handleHttpError),
@@ -1386,6 +1389,9 @@ export class CentralServerService {
   public getTransactionConsumption(transactionId: number, loadAllConsumptions?: boolean, ordering: Ordering[] = []): Observable<Transaction> {
     const params: { [param: string]: string } = {};
     params['TransactionId'] = transactionId.toString();
+    params['WithUser'] = 'true';
+    params['WithTag'] = 'true';
+    params['WithCar'] = 'true';
     if (loadAllConsumptions) {
       params['LoadAllConsumptions'] = loadAllConsumptions.toString();
     }
@@ -2723,13 +2729,14 @@ export class CentralServerService {
       );
   }
 
-  public chargingStationStartTransaction(chargingStationID: string, connectorId: number, tagID: string, carID?: string): Observable<ActionResponse> {
+  public chargingStationStartTransaction(chargingStationID: string, connectorId: number, userID: string, visualTagID: string, carID?: string): Observable<ActionResponse> {
     this.checkInit();
     const body = {
       carID,
+      userID,
       args: {
-        tagID,
-        connectorId,
+        visualTagID,
+        connectorId
       },
     };
     return this.httpClient.put<ActionResponse>(
@@ -3031,9 +3038,9 @@ export class CentralServerService {
       ampLimitValue,
       forceUpdateChargingPlan,
     },
-    {
-      headers: this.buildHttpHeaders(),
-    })
+      {
+        headers: this.buildHttpHeaders(),
+      })
       .pipe(
         catchError(this.handleHttpError),
       );
@@ -3335,7 +3342,7 @@ export class CentralServerService {
     return of(null);
   }
 
-  private buildRestEndpointUrl(urlPatternAsString: ServerRoute, params: {[name: string]: string | number | null } = {}) {
+  private buildRestEndpointUrl(urlPatternAsString: ServerRoute, params: { [name: string]: string | number | null } = {}) {
     let resolvedUrlPattern = urlPatternAsString as string;
     for (const key in params) {
       if (Object.prototype.hasOwnProperty.call(params, key)) {

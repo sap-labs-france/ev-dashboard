@@ -30,6 +30,8 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `Introduced the Badge visual ID in the Transaction's lists and pop-ups`,
+              `Start a Transaction with the Badge visual ID`,
               `Fixed excluded already processed Charge Points`,
               `Fixed get lastest Assets' consumptions`,
               `Do not update the Charging Station's heart beat when checked by the job`,

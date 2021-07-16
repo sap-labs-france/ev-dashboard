@@ -32,6 +32,7 @@ export class ReleaseNotesComponent {
             changes: [
               `Fixed excluded already processed Charge Points`,
               `Fixed get lastest Assets' consumptions`,
+              `Do not update the Charging Station's heart beat when checked by the job`,
             ],
           },
         ],

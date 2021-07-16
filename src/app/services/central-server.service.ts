@@ -1388,6 +1388,7 @@ export class CentralServerService {
   public getTransactionConsumption(transactionId: number, loadAllConsumptions?: boolean, ordering: Ordering[] = []): Observable<Transaction> {
     const params: { [param: string]: string } = {};
     params['TransactionId'] = transactionId.toString();
+    params['WithUser'] = 'true';
     params['WithTag'] = 'true';
     params['WithCar'] = 'true';
     if (loadAllConsumptions) {

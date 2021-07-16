@@ -55,10 +55,10 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
   private backgroundColor!: string;
   private language!: string;
   private activeLegend = [
-    { key: this.translateService.instant('organization.graph.asset_consumption_amps') + this.translateService.instant('organization.graph.asset_consumption_power'), hidden: false },
-    { key: this.translateService.instant('organization.graph.asset_production_amps') + this.translateService.instant('organization.graph.asset_production_power'), hidden: false },
-    { key: this.translateService.instant('organization.graph.charging_station_consumption_amps') + this.translateService.instant('organization.graph.charging_station_consumption_power'), hidden: false },
-    { key: this.translateService.instant('organization.graph.net_consumption_amps') + this.translateService.instant('organization.graph.net_consumption_power'), hidden: false }
+    { key: this.translateService.instant('organization.graph.asset_consumption_amps') + this.translateService.instant('organization.graph.asset_consumption_watts'), hidden: false },
+    { key: this.translateService.instant('organization.graph.asset_production_amps') + this.translateService.instant('organization.graph.asset_production_watts'), hidden: false },
+    { key: this.translateService.instant('organization.graph.charging_station_consumption_amps') + this.translateService.instant('organization.graph.charging_station_consumption_watts'), hidden: false },
+    { key: this.translateService.instant('organization.graph.net_consumption_amps') + this.translateService.instant('organization.graph.net_consumption_watts'), hidden: false }
   ];
 
   public constructor(
@@ -173,7 +173,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
         lineTension: this.lineTension,
         ...Utils.formatLineColor(this.assetConsumptionsInstantPowerColor),
         label: this.translateService.instant((this.selectedUnit === ConsumptionUnit.AMPERE) ?
-          'organization.graph.asset_consumption_amps' : 'organization.graph.asset_consumption_power'),
+          'organization.graph.asset_consumption_amps' : 'organization.graph.asset_consumption_watts'),
       });
       // Charging Stations Consumption Instant Amps/Power
       datasets.push({
@@ -185,7 +185,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
         lineTension: this.lineTension,
         ...Utils.formatLineColor(this.chargingStationsConsumptionsInstantPowerColor),
         label: this.translateService.instant((this.selectedUnit === ConsumptionUnit.AMPERE) ?
-          'organization.graph.charging_station_consumption_amps' : 'organization.graph.charging_station_consumption_power'),
+          'organization.graph.charging_station_consumption_amps' : 'organization.graph.charging_station_consumption_watts'),
       });
       // Asset Production Instant Amps/Power
       datasets.push({
@@ -197,7 +197,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
         lineTension: this.lineTension,
         ...Utils.formatLineColor(this.assetProductionsInstantPowerColor),
         label: this.translateService.instant((this.selectedUnit === ConsumptionUnit.AMPERE) ?
-          'organization.graph.asset_production_amps' : 'organization.graph.asset_production_power'),
+          'organization.graph.asset_production_amps' : 'organization.graph.asset_production_watts'),
       });
       // Net Instant Amps/Power
       datasets.push({
@@ -209,7 +209,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
         lineTension: this.lineTension,
         ...Utils.formatLineColor(this.netInstantPowerColor),
         label: this.translateService.instant((this.selectedUnit === ConsumptionUnit.AMPERE) ?
-          'organization.graph.net_consumption_amps' : 'organization.graph.net_consumption_power'),
+          'organization.graph.net_consumption_amps' : 'organization.graph.net_consumption_watts'),
       });
       // Limit Amps/Power
       datasets.push({
@@ -221,7 +221,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
         lineTension: this.lineTension,
         ...Utils.formatLineColor(this.limitColor),
         label: this.translateService.instant((this.selectedUnit === ConsumptionUnit.AMPERE) ?
-          'organization.graph.limit_amps' : 'organization.graph.limit_power'),
+          'organization.graph.limit_amps' : 'organization.graph.limit_watts'),
       });
       this.options.scales.yAxes = [{
         id: 'power',
@@ -390,21 +390,21 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
                 const value = dataSet.data[tooltipItem.index] as number;
                 switch (this.data.datasets[tooltipItem.datasetIndex]['name']) {
                   case 'assetConsumptionInstantWatts':
-                    return this.translateService.instant('organization.graph.asset_consumption_power') + ': ' + this.decimalPipe.transform(value / 1000, '2.0-0') + 'kW';
+                    return this.translateService.instant('organization.graph.asset_consumption_watts') + ': ' + this.decimalPipe.transform(value / 1000, '2.0-0') + 'kW';
                   case 'assetProductionInstantWatts':
-                    return this.translateService.instant('organization.graph.asset_production_power') + ': ' + this.decimalPipe.transform(value / 1000, '2.0-0') + 'kW';
+                    return this.translateService.instant('organization.graph.asset_production_watts') + ': ' + this.decimalPipe.transform(value / 1000, '2.0-0') + 'kW';
                   case 'chargingStationInstantWatts':
-                    return this.translateService.instant('organization.graph.charging_station_consumption_power') + ': ' + this.decimalPipe.transform(value / 1000, '2.0-0') + 'kW';
+                    return this.translateService.instant('organization.graph.charging_station_consumption_watts') + ': ' + this.decimalPipe.transform(value / 1000, '2.0-0') + 'kW';
                   case 'netInstantWatts':
-                    return this.translateService.instant('organization.graph.net_consumption_power') + ': ' + this.decimalPipe.transform(value / 1000, '2.0-0') + 'kW';
+                    return this.translateService.instant('organization.graph.net_consumption_watts') + ': ' + this.decimalPipe.transform(value / 1000, '2.0-0') + 'kW';
                   case 'limitWatts':
-                    return this.translateService.instant('organization.graph.limit_power') + ': ' + this.decimalPipe.transform(value / 1000, '2.0-0') + 'kW';
+                    return this.translateService.instant('organization.graph.limit_watts') + ': ' + this.decimalPipe.transform(value / 1000, '2.0-0') + 'kW';
                   case 'assetConsumptionInstantAmps':
                     return this.translateService.instant('organization.graph.asset_consumption_amps') + ': ' + this.decimalPipe.transform(value, '2.0-0') + 'A';
                   case 'assetProductionInstantAmps':
                     return this.translateService.instant('organization.graph.asset_production_amps') + ': ' + this.decimalPipe.transform(value, '2.0-0') + 'A';
                   case 'chargingStationInstantAmps':
-                    return this.translateService.instant('organization.graph.charging_station_consumption_power') + ': ' + this.decimalPipe.transform(value, '2.0-0') + 'A';
+                    return this.translateService.instant('organization.graph.charging_station_consumption_amps') + ': ' + this.decimalPipe.transform(value, '2.0-0') + 'A';
                   case 'netInstantAmps':
                     return this.translateService.instant('organization.graph.net_consumption_amps') + ': ' + this.decimalPipe.transform(value, '2.0-0') + 'A';
                   case 'limitAmps':

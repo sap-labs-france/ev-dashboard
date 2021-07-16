@@ -25,12 +25,13 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.4.77',
-        date: new Date('2021-07-15'),
+        date: new Date('2021-07-16'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `Fixed excluded already processed Charge Points`,
+              `Fixed get lastest Assets' consumptions`,
             ],
           },
         ],

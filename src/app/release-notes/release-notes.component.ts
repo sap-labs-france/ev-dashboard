@@ -36,6 +36,7 @@ export class ReleaseNotesComponent {
               `Fixed get lastest Assets' consumptions`,
               `Do not update the Charging Station's heart beat when checked by the job`,
               `Check OCPI Transactions on only finished Transactions`,
+              `Web Socket simplification`,
             ],
           },
         ],

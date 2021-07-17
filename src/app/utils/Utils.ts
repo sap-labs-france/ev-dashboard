@@ -798,10 +798,15 @@ export class Utils {
         // Navigate to Login
         router.navigate(['/auth/login']);
         break;
-      // Unauthorized!
+      // Unauthorized: Token expired
       case StatusCodes.UNAUTHORIZED:
+        // Log Off (remove token)
+        centralServerService.logoutSucceeded();
+        // Navigate to Login
+        router.navigate(['/auth/login']);
+        break;
+      // Forbidden
       case StatusCodes.FORBIDDEN:
-        // Not Authorized
         messageService.showErrorMessage('general.not_authorized');
         break;
       case StatusCodes.BAD_REQUEST:

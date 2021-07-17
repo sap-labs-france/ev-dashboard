@@ -25,7 +25,7 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.4.77',
-        date: new Date('2021-07-16'),
+        date: new Date('2021-07-17'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -35,6 +35,7 @@ export class ReleaseNotesComponent {
               `Fixed excluded already processed Charge Points`,
               `Fixed get lastest Assets' consumptions`,
               `Do not update the Charging Station's heart beat when checked by the job`,
+              `Check OCPI Transactions on only finished Transactions`,
             ],
           },
         ],

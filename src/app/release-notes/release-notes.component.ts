@@ -25,13 +25,19 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.4.77',
-        date: new Date('2021-07-15'),
+        date: new Date('2021-07-18'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Introduced the Badge visual ID in the Transaction's lists and pop-ups`,
+              `Start a Transaction with the Badge visual ID`,
               `Fixed excluded already processed Charge Points`,
+              `Fixed get lastest Assets' consumptions`,
               `Do not update the Charging Station's heart beat when checked by the job`,
+              `Check OCPI Transactions on only finished Transactions`,
+              `Free the Connector's runtime data of already stopped Transaction`,
+              `Web Socket simplification`,
             ],
           },
         ],

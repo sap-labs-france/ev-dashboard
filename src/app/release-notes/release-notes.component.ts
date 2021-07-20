@@ -31,6 +31,7 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Do not try to process OCPI sessions in progress`,
+              `Always check OCPI Sessions and CDRs once in the Job`,
               `End of Charge notification is sent only once`,
               `Increase database performances in clustered environment`,
             ],

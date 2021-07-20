@@ -24,6 +24,20 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.78',
+        date: new Date('2021-07-20'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Do not try to process OCPI sessions in progress`,
+              `End of Charge notification is sent only once`,
+              `Increase database performances in clustered environment`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.77',
         date: new Date('2021-07-18'),
         componentChanges: [

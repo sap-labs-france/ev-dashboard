@@ -1335,10 +1335,10 @@
     "failed_download": "Download der Rechnung fehlgeschlagen."
   },
   "tags": {
-    "id": "ID",
+    "id": "Tag ID",
     "not_active": "Dieser Badge ist nicht aktiv",
     "issuer": "Organisationseigentümer",
-    "visual_id": "Visual ID",
+    "visual_id": "Visual Tag ID",
     "visual_id_instruction": "Please fill the ID that is displayed on the badge",
     "status": "Status",
     "activated": "Aktiv",

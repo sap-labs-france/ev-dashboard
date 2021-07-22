@@ -26,7 +26,7 @@
     "nbr_of_records": "Registros",
     "connectors": "Conexiones",
     "notifications": "Notificaciones",
-    "app_name": "e-Mobility",
+    "app_name": "Open e-Mobility",
     "version": "Versión",
     "about_us": "Sobre nosotros",
     "unexpected_error_backend": "Ocurrió un error inesperado",
@@ -236,7 +236,8 @@
       "download": "Descargar",
       "test_connection": "Test Connection",
       "force_available_status": "Forzar estatus a disponible",
-      "force_unavailable_status": "Forzar estatus a no disponible"
+      "force_unavailable_status": "Forzar estatus a no disponible",
+      "display_users": "Display users"
     }
   },
   "issuer": {
@@ -431,7 +432,8 @@
     "update_site_users_owner_error": "Se produjo un error al intentar hacer al usuario '{{userName}}' propietario del sitio",
     "export_all_params_title": "Exportar parametros OCPP",
     "export_all_params_confirm": "¿Está seguro que desea exportar todos los parámetros OCPP de todas las estaciones de carga que pertenecen al sitio '{{siteName}}'?",
-    "export_all_params_error": "Se produjo un error al intentar exportar todos los parámetros OCPP"
+    "export_all_params_error": "Se produjo un error al intentar exportar todos los parámetros OCPP",
+    "display_users": "Display users"
   },
   "site_areas": {
     "assign_site": "Asignar zonas",
@@ -503,7 +505,7 @@
     "eula": "acuerdo de licencia de usuario final",
     "must_accept_eula": "Debe aceptar el acuerdo de licencia de usuario final",
     "no_space_in_password": "No se permite espacio al principio ni al final",
-    "title": "Iniciar sesión en e-Mobility",
+    "title": "Iniciar sesión en Open e-Mobility",
     "register": "Registrarse",
     "signup_link": "¿Nuevo Usuario? ¡Registrarse!",
     "signin_link": "¿Ya tiene una cuenta? ¡Inicie sesión!",
@@ -1326,6 +1328,7 @@
     "number": "Número de factura",
     "createdOn": "Fecha de factura",
     "price": "Costo de factura",
+    "amount": "Importe",
     "cannot_retrieve_invoices": "No se puede recuperar la lista de facturas.",
     "cannot_download_invoice": "No se puede descargar la factura",
     "number_of_items": "Sesiones",
@@ -1334,10 +1337,10 @@
     "failed_download": "Invoice download failed."
   },
   "tags": {
-    "id": "ID",
+    "id": "Tag ID",
     "not_active": "This badge is not active",
     "issuer": "Propietario de la organización",
-    "visual_id": "Visual ID",
+    "visual_id": "Visual Tag ID",
     "visual_id_instruction": "Please fill the ID that is displayed on the badge",
     "status": "Estatus",
     "activated": "Active",
@@ -1986,6 +1989,8 @@
   "cars": {
     "vin": "VIN",
     "license_plate": "Placa",
+    "user": "User",
+    "assign_user": "Assign User",
     "vehicle_model": "Modelo",
     "vehicle_make": "Fabricante",
     "vehicle_model_version": "Versión",
@@ -2092,7 +2097,7 @@
     }
   },
   "car": {
-    "title": "Car Management",
+    "title": "Car",
     "description": "Manage the user's cars",
     "tabs": {
       "car_catalogs": "Catálogo de vehículo",

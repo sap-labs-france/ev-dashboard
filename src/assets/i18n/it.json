@@ -26,7 +26,7 @@
     "nbr_of_records": "Record",
     "connectors": "Prese",
     "notifications": "Notifiche",
-    "app_name": "e-Mobility",
+    "app_name": "Open e-Mobility",
     "version": "Versione",
     "about_us": "A proposito di noi",
     "unexpected_error_backend": "Si è verificato un errore imprevisto",
@@ -236,7 +236,8 @@
       "download": "Download",
       "test_connection": "Test Connessione",
       "force_available_status": "Forza Stato a Disponibile",
-      "force_unavailable_status": "Forza Stato a Non Disponibile"
+      "force_unavailable_status": "Forza Stato a Non Disponibile",
+      "display_users": "Display users"
     }
   },
   "issuer": {
@@ -431,7 +432,8 @@
     "update_site_users_owner_error": "Si è verificato un errore durante il tentativo di concedere all'utente '{{userName}}' lo stato di proprietario del sito",
     "export_all_params_title": "Esporta parametri OCPP",
     "export_all_params_confirm": "Vuoi veramente esportare tutti i parametri OCPP di tutte le stazioni di ricarica appartenenti al sito '{{siteName}}' ?",
-    "export_all_params_error": "Si è verificato un errore durante l'esportazione di tutti i parametri OCPP"
+    "export_all_params_error": "Si è verificato un errore durante l'esportazione di tutti i parametri OCPP",
+    "display_users": "Display users"
   },
   "site_areas": {
     "assign_site": "Assegna Sito",
@@ -503,7 +505,7 @@
     "eula": "Accordo di Licenza con l'Utente Finale",
     "must_accept_eula": "Devi accettare l'Accordo di Licenza con l'Utente Finale",
     "no_space_in_password": "Nessuno spazio è consentito all'inizo e alla fine",
-    "title": "Accedi a e-Mobility",
+    "title": "Accedi a Open e-Mobility",
     "register": "Registrati",
     "signup_link": "Nuovo utente? Registrati!",
     "signin_link": "Hai già un account? Accedi!",
@@ -1326,6 +1328,7 @@
     "number": "Numero Fattura",
     "createdOn": "Data Fattura",
     "price": "Prezzo Fattura",
+    "amount": "Importo",
     "cannot_retrieve_invoices": "Impossibile recuperare l'elenco delle fatture",
     "cannot_download_invoice": "Impossibile scaricare la fattura",
     "number_of_items": "Sessioni",
@@ -1334,10 +1337,10 @@
     "failed_download": "Download della fattura non riuscito"
   },
   "tags": {
-    "id": "ID",
+    "id": "Tag ID",
     "not_active": "This badge is not active",
     "issuer": "Proprietario Organizzazione",
-    "visual_id": "Visual ID",
+    "visual_id": "Visual Tag ID",
     "visual_id_instruction": "Please fill the ID that is displayed on the badge",
     "status": "Stato",
     "activated": "Active",
@@ -1986,6 +1989,8 @@
   "cars": {
     "vin": "VIN",
     "license_plate": "Targa",
+    "user": "User",
+    "assign_user": "Assign User",
     "vehicle_model": "Modello",
     "vehicle_make": "Costruttore",
     "vehicle_model_version": "Versione",
@@ -2092,7 +2097,7 @@
     }
   },
   "car": {
-    "title": "Car Management",
+    "title": "Car",
     "description": "Manage the user's cars",
     "tabs": {
       "car_catalogs": "Catalogo Veicoli",

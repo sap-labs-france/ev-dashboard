@@ -30,7 +30,6 @@ import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto
 import { TableMoreAction } from '../../../shared/table/actions/table-more-action';
 import { TableOpenURLActionDef } from '../../../shared/table/actions/table-open-url-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
-import { TableCreateTransactionInvoiceAction, TableCreateTransactionInvoiceActionDef } from '../../../shared/table/actions/transactions/table-create-transaction-invoice-action';
 import { TableDeleteTransactionAction, TableDeleteTransactionActionDef } from '../../../shared/table/actions/transactions/table-delete-transaction-action';
 import { TableExportTransactionOcpiCdrAction, TableExportTransactionOcpiCdrActionDef } from '../../../shared/table/actions/transactions/table-export-transaction-ocpi-cdr';
 import { TableExportTransactionsAction, TableExportTransactionsActionDef } from '../../../shared/table/actions/transactions/table-export-transactions-action';
@@ -69,7 +68,6 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
   private navigateToLogsAction = new TableNavigateToLogsAction().getActionDef();
   private navigateToChargingPlansAction = new TableNavigateToChargingPlansAction().getActionDef();
   private rebuildTransactionConsumptionsAction = new TableRebuildTransactionConsumptionsAction().getActionDef();
-  private createInvoice = new TableCreateTransactionInvoiceAction().getActionDef();
   private transactionPushOcpiCdrAction = new TablePushTransactionOcpiCdrAction().getActionDef();
   private exportTransactionOcpiCdrAction = new TableExportTransactionOcpiCdrAction().getActionDef();
   private readonly isOrganizationComponentActive: boolean;
@@ -101,8 +99,12 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     this.isOrganizationComponentActive = this.componentService.isActive(TenantComponents.ORGANIZATION);
     if (this.isOrganizationComponentActive) {
       this.setStaticFilters([{
+        WithCompany: true,
         WithSite: true,
         WithSiteArea: true,
+        WithTag: true,
+        WithUser: true,
+        WithCar: true,
         Statistics: 'history',
       }]);
     }
@@ -261,18 +263,20 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     if (this.isOrganizationComponentActive) {
       tableColumns.push(
         {
-          id: 'site.name',
-          name: 'chargers.site',
-          defaultValue: 'sites.unassigned',
+          id: 'company.name',
+          name: 'companies.title',
           class: 'd-none d-xl-table-cell col-20p',
           headerClass: 'd-none d-xl-table-cell col-20p',
         },
-      );
-      tableColumns.push(
+        {
+          id: 'site.name',
+          name: 'sites.title',
+          class: 'd-none d-xl-table-cell col-20p',
+          headerClass: 'd-none d-xl-table-cell col-20p',
+        },
         {
           id: 'siteArea.name',
-          name: 'chargers.site_area',
-          defaultValue: 'sites.unassigned',
+          name: 'site_areas.title',
           class: 'd-none d-xl-table-cell col-20p',
           headerClass: 'd-none d-xl-table-cell col-20p',
         },
@@ -288,10 +292,17 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
       },
       {
         id: 'tagID',
-        name: 'transactions.badge_id',
+        name: 'tags.id',
+        headerClass: 'col-10p',
+        class: 'text-left col-10p',
+        formatter: (tagID: string) => tagID ? tagID : '-'
+      },
+      {
+        id: 'tag.visualID',
+        name: 'tags.visual_id',
         headerClass: 'col-15p',
         class: 'text-left col-15p',
-        formatter: (tagID: string) => tagID ? tagID : '-'
+        formatter: (visualID: string) => visualID ? visualID : '-'
       });
     }
     if (this.componentService.isActive(TenantComponents.CAR)) {
@@ -454,10 +465,6 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         const moreActions = new TableMoreAction([]);
         moreActions.addActionInMoreActions(this.navigateToLogsAction);
         moreActions.addActionInMoreActions(this.navigateToChargingPlansAction);
-        if (this.componentService.isActive(TenantComponents.BILLING) &&
-          !transaction.billingData) {
-          moreActions.addActionInMoreActions(this.createInvoice);
-        }
         if (transaction.ocpi) {
           if (!transaction.ocpiWithCdr) {
             moreActions.addActionInMoreActions(this.transactionPushOcpiCdrAction);
@@ -527,13 +534,6 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         if (actionDef.action) {
           (actionDef as TableOpenURLActionDef).action('charging-stations#chargingplans?ChargingStationID=' +
             transaction.chargeBoxID + '&TransactionID=' + transaction.id);
-        }
-        break;
-      case TransactionButtonAction.CREATE_TRANSACTION_INVOICE:
-        if (actionDef.action) {
-          (actionDef as TableCreateTransactionInvoiceActionDef).action(
-            transaction.id, this.dialogService, this.translateService, this.messageService,
-            this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
         }
         break;
       case TransactionButtonAction.REBUILD_TRANSACTION_CONSUMPTIONS:

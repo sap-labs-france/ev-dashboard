@@ -8,6 +8,7 @@ import { ConfigService } from 'services/config.service';
 import { DialogMode } from 'types/Authorization';
 import { HTTPError } from 'types/HTTPError';
 import { Tag } from 'types/Tag';
+import { User, UserToken } from 'types/User';
 
 import { CentralServerService } from '../services/central-server.service';
 import { DialogService } from '../services/dialog.service';
@@ -19,7 +20,6 @@ import { ChargePoint, ChargingStation, ChargingStationPowers, Connector, Current
 import { KeyValue } from '../types/GlobalType';
 import { MobileType } from '../types/Mobile';
 import { ButtonType, TableDataSourceMode } from '../types/Table';
-import { User, UserCar, UserToken } from '../types/User';
 import { Constants } from './Constants';
 
 export class Utils {
@@ -656,28 +656,6 @@ export class Utils {
     return 'N/A';
   }
 
-  public static buildCarUsersFullName(carUsers: UserCar[]) {
-    let usersName: string;
-    if (Utils.isEmptyArray(carUsers)) {
-      return '-';
-    }
-    // Find the owner
-    const userCarOwner = carUsers.find((userCar) => userCar.owner);
-    if (userCarOwner) {
-      // Build user name
-      usersName = Utils.buildUserFullName(userCarOwner.user);
-    }
-    // Build with first user name
-    if (!usersName) {
-      usersName = Utils.buildUserFullName(carUsers[0].user);
-    }
-    // Add number of remaining users
-    if (carUsers.length > 1) {
-      usersName += ` (+${carUsers.length - 1})`;
-    }
-    return usersName;
-  }
-
   public static buildUsersFullName(users: User[]) {
     if (Utils.isEmptyArray(users)) {
       return '-';
@@ -714,9 +692,9 @@ export class Utils {
       return '-';
     }
     if (tag.description) {
-      tagName = `${tag.description} ('${tag.id}')`;
+      tagName = `${tag.description} (${tag.visualID})`;
     } else {
-      tagName = `${tag.id}`;
+      tagName = tag.visualID;
     }
     return tagName;
   }
@@ -753,7 +731,7 @@ export class Utils {
       carName.push(`${translateService.instant('cars.vin')} '${car.vin}'`);
     }
     // License plate
-    carName.push(`${translateService.instant('cars.license_plate')} '${car.licensePlate}'`);
+    carName.push(`(${car.licensePlate})`);
     // Car ID
     if (withID && car.id) {
       carName.push(`(${car.id})`);
@@ -820,10 +798,15 @@ export class Utils {
         // Navigate to Login
         router.navigate(['/auth/login']);
         break;
-      // Unauthorized!
+      // Unauthorized: Token expired
       case StatusCodes.UNAUTHORIZED:
+        // Log Off (remove token)
+        centralServerService.logoutSucceeded();
+        // Navigate to Login
+        router.navigate(['/auth/login']);
+        break;
+      // Forbidden
       case StatusCodes.FORBIDDEN:
-        // Not Authorized
         messageService.showErrorMessage('general.not_authorized');
         break;
       case StatusCodes.BAD_REQUEST:

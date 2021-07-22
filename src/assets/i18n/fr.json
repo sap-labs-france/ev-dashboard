@@ -26,7 +26,7 @@
     "nbr_of_records": "Enregistrements",
     "connectors": "Connexions",
     "notifications": "Notifications",
-    "app_name": "e-Mobility",
+    "app_name": "Open e-Mobility",
     "version": "Version",
     "about_us": "A Propos",
     "unexpected_error_backend": "Une erreur inattendue s'est produite, vérifiez les logs",
@@ -236,7 +236,8 @@
       "download": "Télécharger",
       "test_connection": "Tester la connexion",
       "force_available_status": "Forcer le Statut en Disponible",
-      "force_unavailable_status": "Forcer le Statut en Indisponible"
+      "force_unavailable_status": "Forcer le Statut en Indisponible",
+      "display_users": "Afficher les utilisateurs"
     }
   },
   "issuer": {
@@ -431,7 +432,8 @@
     "update_site_users_owner_error": "Une erreur est survenue pendant l'attribution de '{{userName}}' en tant que propriétaire du site, vérifiez les logs",
     "export_all_params_title": "Exporter les paramètres OCPP",
     "export_all_params_confirm": "Voulez-vous vraiment exporter tous les paramètres OCPP de toutes les bornes appartenant au site '{{siteName}}' ?",
-    "export_all_params_error": "Une erreur est survenue pendant l'exportation des paramètres OCPP, vérifiez les logs"
+    "export_all_params_error": "Une erreur est survenue pendant l'exportation des paramètres OCPP, vérifiez les logs",
+    "display_users": "Afficher les utilisateurs"
   },
   "site_areas": {
     "assign_site": "Assigner un Site",
@@ -503,7 +505,7 @@
     "eula": "Conditions Générales d'Utilisation",
     "must_accept_eula": "Vous devez accepter les Conditions Générales d'Utilisation",
     "no_space_in_password": "Espace interdit au debut et à la fin",
-    "title": "Connectez-vous sur e-Mobility",
+    "title": "Connectez-vous sur Open e-Mobility",
     "register": "Enregistrez-vous sur e-Mobility",
     "signup_link": "Nouvel utilisateur? Créez un compte!",
     "signin_link": "Vous avez déjà un compte? Connectez vous!",
@@ -1326,6 +1328,7 @@
     "number": "Numéro de facture",
     "createdOn": "Date de facture",
     "price": "Prix de la facture",
+    "amount": "Montant",
     "cannot_retrieve_invoices": "Impossible de récupérer la liste des factures",
     "cannot_download_invoice": "Impossible de télécharger la facture",
     "number_of_items": "Sessions",
@@ -1334,11 +1337,11 @@
     "failed_download": "Le téléchargement de la facture a échoué."
   },
   "tags": {
-    "id": "ID",
+    "id": "No Badge",
     "not_active": "Ce badge n'est pas actif",
     "issuer": "Propriétaire",
-    "visual_id": "ID visuel",
-    "visual_id_instruction": "Veuillez remplir L'ID affiché sur le badge",
+    "visual_id": "No Badge Visuel",
+    "visual_id_instruction": "Veuillez remplir le numéro affiché sur le badge",
     "status": "Statut",
     "activated": "Activé",
     "deactivated": "Inactif",
@@ -1986,6 +1989,8 @@
   "cars": {
     "vin": "VIN",
     "license_plate": "Immatriculation",
+    "user": "Utilisateur",
+    "assign_user": "Assigner un Utilisateur",
     "vehicle_model": "Modèle",
     "vehicle_make": "Constructeur",
     "vehicle_model_version": "Version",
@@ -2092,7 +2097,7 @@
     }
   },
   "car": {
-    "title": "Gestion Voiture",
+    "title": "Voiture",
     "description": "Gérer les voitures des utilisateurs",
     "tabs": {
       "car_catalogs": "Catalogue Voitures",

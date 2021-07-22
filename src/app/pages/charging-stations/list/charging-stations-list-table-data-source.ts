@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { CompanyTableFilter } from 'shared/table/filters/company-table-filter';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
@@ -68,7 +69,10 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
     // Init
     this.isOrganizationComponentActive = this.componentService.isActive(TenantComponents.ORGANIZATION);
     if (this.isOrganizationComponentActive) {
-      this.setStaticFilters([{ WithSite: true }]);
+      this.setStaticFilters([{
+        WithSite: true,
+        WithSiteArea: true
+      }]);
     }
     this.initDataSource();
   }
@@ -147,17 +151,13 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
       tableColumns.push(
         {
           id: 'site.name',
-          name: 'chargers.site',
-          defaultValue: 'sites.unassigned',
+          name: 'sites.title',
           class: 'd-none d-xl-table-cell col-20p',
           headerClass: 'd-none d-xl-table-cell col-20p',
         },
-      );
-      tableColumns.push(
         {
           id: 'siteArea.name',
-          name: 'chargers.site_area',
-          defaultValue: 'sites.unassigned',
+          name: 'site_areas.title',
           class: 'd-none d-xl-table-cell col-20p',
           headerClass: 'd-none d-xl-table-cell col-20p',
         },
@@ -342,12 +342,13 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
   public buildTableFiltersDef(): TableFilterDef[] {
     if (this.isOrganizationComponentActive) {
       const issuerFilter = new IssuerFilter().getFilterDef();
-      const siteFilter = new SiteTableFilter([issuerFilter]).getFilterDef();
+      const companyFilter = new CompanyTableFilter([issuerFilter]).getFilterDef();
+      const siteFilter = new SiteTableFilter([issuerFilter, companyFilter]).getFilterDef();
       return [
-        // new ChargingStationTableFilter().getFilterDef(),
         issuerFilter,
+        companyFilter,
         siteFilter,
-        new SiteAreaTableFilter([siteFilter, issuerFilter]).getFilterDef(),
+        new SiteAreaTableFilter([siteFilter, issuerFilter, companyFilter]).getFilterDef(),
       ];
     }
     return [];

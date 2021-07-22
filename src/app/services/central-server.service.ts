@@ -33,7 +33,7 @@ import { StatisticData } from '../types/Statistic';
 import { Tag } from '../types/Tag';
 import { Tenant } from '../types/Tenant';
 import { OcpiData, Transaction } from '../types/Transaction';
-import { User, UserCar, UserDefaultTagCar, UserSite, UserToken } from '../types/User';
+import { User, UserDefaultTagCar, UserSite, UserToken } from '../types/User';
 import { Constants } from '../utils/Constants';
 import { Utils } from '../utils/Utils';
 import { CentralServerNotificationService } from './central-server-notification.service';
@@ -638,6 +638,7 @@ export class CentralServerService {
     params['ConnectorID'] = connectorID.toString();
     params['Limit'] = '1';
     params['Skip'] = '0';
+    params['WithTag'] = 'true';
     params['SortFields'] = '-timestamp';
     this.checkInit();
     // Execute the REST service
@@ -829,6 +830,7 @@ export class CentralServerService {
     this.checkInit();
     const params: { [param: string]: string } = {};
     params['ID'] = tagID;
+    params['WithUser'] = 'true';
     // Execute the REST service
     return this.httpClient.get<Tag>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TAG}`,
       {
@@ -843,11 +845,12 @@ export class CentralServerService {
   public getUserDefaultTagCar(userID: string): Observable<UserDefaultTagCar> {
     // Verify init
     this.checkInit();
-    // Execute the REST service
-    const url = this.buildRestEndpointUrl(ServerRoute.REST_USER_DEFAULT_TAG_CAR, { id: userID });
-    return this.httpClient.get<UserDefaultTagCar>(url,
+    return this.httpClient.get<UserDefaultTagCar>(this.buildRestEndpointUrl(ServerRoute.REST_USER_DEFAULT_TAG_CAR),
       {
         headers: this.buildHttpHeaders(),
+        params: {
+          UserID: userID
+        }
       })
       .pipe(
         catchError(this.handleHttpError),
@@ -1386,6 +1389,9 @@ export class CentralServerService {
   public getTransactionConsumption(transactionId: number, loadAllConsumptions?: boolean, ordering: Ordering[] = []): Observable<Transaction> {
     const params: { [param: string]: string } = {};
     params['TransactionId'] = transactionId.toString();
+    params['WithUser'] = 'true';
+    params['WithTag'] = 'true';
+    params['WithCar'] = 'true';
     if (loadAllConsumptions) {
       params['LoadAllConsumptions'] = loadAllConsumptions.toString();
     }
@@ -1737,18 +1743,6 @@ export class CentralServerService {
     // Execute the REST service
     return this.httpClient.post<ActionsResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.BILLING_FORCE_SYNCHRONIZE_USER_INVOICES}`,
       { userID },
-      {
-        headers: this.buildHttpHeaders(),
-      })
-      .pipe(
-        catchError(this.handleHttpError),
-      );
-  }
-
-  public createTransactionInvoice(transactionID: number): Observable<ActionResponse> {
-    this.checkInit();
-    // Execute the REST service
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.BILLING_CREATE_TRANSACTION_INVOICE}`, { transactionID },
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2735,13 +2729,14 @@ export class CentralServerService {
       );
   }
 
-  public chargingStationStartTransaction(chargingStationID: string, connectorId: number, tagID: string, carID?: string): Observable<ActionResponse> {
+  public chargingStationStartTransaction(chargingStationID: string, connectorId: number, userID: string, visualTagID: string, carID?: string): Observable<ActionResponse> {
     this.checkInit();
     const body = {
       carID,
+      userID,
       args: {
-        tagID,
-        connectorId,
+        visualTagID,
+        connectorId
       },
     };
     return this.httpClient.put<ActionResponse>(
@@ -2886,25 +2881,6 @@ export class CentralServerService {
       {
         headers: this.buildHttpHeaders(),
         params
-      })
-      .pipe(
-        catchError(this.handleHttpError),
-      );
-  }
-
-  public getCarUsers(params: FilterParams,
-    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<UserCar>> {
-    // Verify init
-    this.checkInit();
-    // Build Paging
-    this.getPaging(paging, params);
-    // Build Ordering
-    this.getSorting(ordering, params);
-    // Execute the REST service
-    return this.httpClient.get<DataResult<UserCar>>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CAR_USERS}`,
-      {
-        headers: this.buildHttpHeaders(),
-        params,
       })
       .pipe(
         catchError(this.handleHttpError),
@@ -3064,10 +3040,9 @@ export class CentralServerService {
     },
     {
       headers: this.buildHttpHeaders(),
-    })
-      .pipe(
-        catchError(this.handleHttpError),
-      );
+    }).pipe(
+      catchError(this.handleHttpError),
+    );
   }
 
   public chargingStationSetChargingProfile(charger: ChargingStation, connectorId: number, chargingProfile: any): Observable<ActionResponse> {

@@ -24,14 +24,87 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.78',
+        date: new Date('2021-07-20'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Do not try to process OCPI sessions in progress`,
+              `Always check OCPI Sessions and CDRs once in the Job`,
+              `End of Charge notification is sent only once`,
+              `Increase database performances in clustered environment`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.77',
+        date: new Date('2021-07-18'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Introduced the Badge visual ID in the Transaction's lists and pop-ups`,
+              `Start a Transaction with the Badge visual ID`,
+              `Fixed excluded already processed Charge Points`,
+              `Fixed get lastest Assets' consumptions`,
+              `Do not update the Charging Station's heart beat when checked by the job`,
+              `Check OCPI Transactions on only finished Transactions`,
+              `Free the Connector's runtime data of already stopped Transaction`,
+              `Web Socket simplification`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.76',
+        date: new Date('2021-07-14'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Clear Firmware Status Notification after Charging Station's reboot`,
+              `Fixed User is not displayed in Charging Station's connector during a charging session`,
+              `Update the the Charging Station's heart beat whenever it connects to the backend`,
+              `Cars management use the new authorization framework`,
+              `Adjusted the language's locales management and fixed some not found ones`,
+              `Send OCPI and OICP status Unavailable when Charging Station's Web Socket is disconnected`,
+              `Enhanced the Log's search to match sentences in Message column`,
+              `Removed some Billing feature toggles`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.75',
+        date: new Date('2021-07-08'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Smart Charging: Use efficiency when excluding the Charging Stations`,
+              `Force the Charging Station unavailability's status after 2 mins instead of 9 mins when not responding`,
+              `Set the standard Heartbeat OCPP param first and try workarounds next if it failed`,
+              `Make Log's Action filter more specifics (REST, OCPP...)`,
+              `Added new Joint new Charging Station's model in templates`,
+              `Optimized DB access in OICP endpoint (Hubject)`,
+              `Prevent deletion of Users in Stripe`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.74',
-        date: new Date('2021-07-05'),
+        date: new Date('2021-07-06'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `Save Status Notification right after Boot Notification even if the status has not changed`,
-              `Added Site and Site Area in Session list`,
+              `Added Company, Site and Site Area in Session list`,
+              `Hide Delete button when user image is not set`,
+              `Optimized DB access in OCPI endpoint`,
             ],
           },
         ],

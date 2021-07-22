@@ -26,7 +26,7 @@
     "nbr_of_records": "Einträge",
     "connectors": "Verknüpfungen",
     "notifications": "Benachrichtungen",
-    "app_name": "e-Mobility",
+    "app_name": "Open e-Mobility",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "Ein unerwarteter Fehler ist aufgetreten",
@@ -236,7 +236,8 @@
       "download": "Download",
       "test_connection": "Verbindung testen",
       "force_available_status": "Status verfügbar erzwingen",
-      "force_unavailable_status": "Status nicht verfügbar erzwingen"
+      "force_unavailable_status": "Status nicht verfügbar erzwingen",
+      "display_users": "Display users"
     }
   },
   "issuer": {
@@ -431,7 +432,8 @@
     "update_site_users_owner_error": "Beim Versuch '{{userName}}' als Standort-Eigentümer einzusetzen ist ein Fehler aufgetreten",
     "export_all_params_title": "OCPP Parameter exportieren",
     "export_all_params_confirm": "Wollen Sie wirklich alle OCPP Parameter von allen Ladestationen am Standort '{{siteName}}' exportieren ?",
-    "export_all_params_error": "Während des Exports aller OCPP Parameter ist ein Fehler aufgtreten."
+    "export_all_params_error": "Während des Exports aller OCPP Parameter ist ein Fehler aufgtreten.",
+    "display_users": "Display users"
   },
   "site_areas": {
     "assign_site": "Standort zuweisen",
@@ -503,7 +505,7 @@
     "eula": "Endnutzer Lizenzvereinbarung",
     "must_accept_eula": "Sie müssen die Endnutzer Lizenzvereinbarung akzeptieren",
     "no_space_in_password": "Am Anfang und am Ende ist kein Leerzeichen erlaubt",
-    "title": "Anmelden bei e-Mobility",
+    "title": "Anmelden bei Open e-Mobility",
     "register": "Registrieren",
     "signup_link": "Neuer Nutzer? Registrieren!",
     "signin_link": "Haben Sie bereits einen Account? Melden Sie sich an!",
@@ -1326,6 +1328,7 @@
     "number": "Rechnungsnummer",
     "createdOn": "Rechnungsdatum",
     "price": "Rechnungspreis",
+    "amount": "Betrag",
     "cannot_retrieve_invoices": "Liste der Rechnungen kann nicht abgerufen werden",
     "cannot_download_invoice": "Rechnung kann nicht heruntergeladen werden",
     "number_of_items": "Ladevorgänge",
@@ -1334,10 +1337,10 @@
     "failed_download": "Download der Rechnung fehlgeschlagen."
   },
   "tags": {
-    "id": "ID",
+    "id": "Tag ID",
     "not_active": "Dieser Badge ist nicht aktiv",
     "issuer": "Organisationseigentümer",
-    "visual_id": "Visual ID",
+    "visual_id": "Visual Tag ID",
     "visual_id_instruction": "Please fill the ID that is displayed on the badge",
     "status": "Status",
     "activated": "Aktiv",
@@ -1986,6 +1989,8 @@
   "cars": {
     "vin": "VIN",
     "license_plate": "Kennzeichen",
+    "user": "User",
+    "assign_user": "Assign User",
     "vehicle_model": "Modell",
     "vehicle_make": "Hersteller",
     "vehicle_model_version": "Version",
@@ -2092,7 +2097,7 @@
     }
   },
   "car": {
-    "title": "Fahrzeug Management",
+    "title": "Fahrzeug",
     "description": "Fahrzeuge verwalten",
     "tabs": {
       "car_catalogs": "Fahrzeugverzeichnisse",

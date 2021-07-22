@@ -235,6 +235,8 @@ export enum ServerAction {
   WS_JSON_CONNECTION_OPENED = 'WSJsonConnectionOpened',
   WS_JSON_CONNECTION_CLOSED = 'WSJsonConnectionClosed',
   WS_JSON_CONNECTION_ERROR = 'WSJsonConnectionError',
+  WS_JSON_CONNECTION_PINGED = 'WSJsonConnectionPinged',
+  WS_JSON_CONNECTION_PONGED = 'WSJsonConnectionPonged',
 
   WS_REST_CONNECTION_OPENED = 'WSRestServerConnectionOpened',
   WS_REST_CONNECTION_CLOSED = 'WSRestServerConnectionClosed',
@@ -485,7 +487,17 @@ export enum ServerRoute {
 
   REST_TRANSACTIONS = 'transactions',
   REST_TRANSACTION = 'transactions/:id',
-  REST_TRANSACTIONS_CONSUMPTION = 'transactions/:id/consumptions',
+  REST_TRANSACTIONS_EXPORT = 'transactions/action/export',
+  REST_TRANSACTION_CDR = 'transactions/:id/ocpi/cdr',
+  REST_TRANSACTION_CDR_EXPORT = 'transactions/:id/ocpi/cdr/action/export',
+  REST_TRANSACTION_CONSUMPTION = 'transactions/:id/consumptions',
+  REST_TRANSACTION_CONSUMPTIONS_REBUILD = 'transactions/:id/consumptions/rebuild',
+  REST_TRANSACTION_SOFT_STOP = 'transactions/:id/stop/soft',
+  REST_TRANSACTIONS_REFUND = 'transactions/action/refund',
+  REST_TRANSACTIONS_REFUND_EXPORT = 'transactions/action/refund/export',
+  REST_TRANSACTIONS_ASSIGN_USER = 'transactions/action/assign',
+  REST_TRANSACTIONS_SYNCHRONIZE_REFUNDED = 'transactions/action/refund/synchronize',
+  REST_TRANSACTIONS_REFUND_REPORTS = 'transactions/action/refund/reports',
 
   REST_USERS = 'users',
   REST_USER = 'users/:id',

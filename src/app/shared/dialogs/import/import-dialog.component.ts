@@ -64,7 +64,7 @@ export class ImportDialogComponent implements OnInit {
     }
     Utils.registerCloseKeyEvents(this.dialogRef);
     this.uploader = new FileUploader({
-      headers: this.centralServerService.buildHttpHeadersFile(this.autoActivateImportedUsers, this.autoActivateImportedTags),
+      headers: this.centralServerService.buildImportTagsUsersHttpHeaders(this.autoActivateImportedUsers, this.autoActivateImportedTags),
       url: `${this.centralServerService.buildRestEndpointUrl(this.endpoint)}`
     });
     this.uploader.response.subscribe(res => this.response = res);

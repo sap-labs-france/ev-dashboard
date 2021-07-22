@@ -3200,13 +3200,10 @@ export class CentralServerService {
       );
   }
 
-  public buildHttpHeadersFile(autoActivateUserAtImport?: string, autoActivateTagAtImport?: string, tenantID?: string): { name: string; value: string }[] {
+  public buildImportTagsUsersHttpHeaders(
+      autoActivateUserAtImport?: string, autoActivateTagAtImport?: string): { name: string; value: string }[] {
     // Build File Header
     return [
-      {
-        name: 'Tenant',
-        value: tenantID
-      },
       {
         name: 'Authorization',
         value: 'Bearer ' + this.getLoggedUserToken()

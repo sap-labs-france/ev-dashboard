@@ -24,6 +24,19 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.79',
+        date: new Date('2021-07-24'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Fixed Site Admin cannot see Statistics of his Users`,
+              `Fixed missing IDs in RESTful file documentation`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.78',
         date: new Date('2021-07-20'),
         componentChanges: [

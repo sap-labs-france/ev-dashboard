@@ -33,6 +33,7 @@ export class ReleaseNotesComponent {
               `Fixed Site Admin cannot see Statistics of his Users`,
               `Fixed missing IDs in RESTful file documentation`,
               `Lacroix / Linky Asset integration`,
+              `Check Charging Station Registration Token at Web Socket connection and refuse it if not valid`,
               `Set OCPI Opening Hours and Tariff ID for SLF Caen`,
             ],
           },

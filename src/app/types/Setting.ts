@@ -246,6 +246,7 @@ export interface AssetConnectionSetting extends TableData {
   greencomConnection?: AssetGreencomConnectionType;
   iothinkConnection?: AssetIothinkConnectionType;
   witConnection?: AssetWitConnectionType;
+  lacroixConnection?: AssetLacroixConnectionType;
 }
 
 export enum AssetConnectionType {
@@ -254,6 +255,7 @@ export enum AssetConnectionType {
   GREENCOM = 'greencom',
   IOTHINK = 'iothink',
   WIT = 'wit',
+  LACROIX = 'lacroix',
 }
 
 export interface AssetUserPasswordConnectionType {
@@ -264,6 +266,8 @@ export interface AssetUserPasswordConnectionType {
 export type AssetSchneiderConnectionType = AssetUserPasswordConnectionType;
 
 export type AssetIothinkConnectionType = AssetUserPasswordConnectionType;
+
+export type AssetLacroixConnectionType = AssetUserPasswordConnectionType;
 
 export interface AssetGreencomConnectionType {
   clientId: string;

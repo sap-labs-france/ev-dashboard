@@ -183,6 +183,9 @@ export class ComponentService {
           settingsToSave.sensitiveData.push(`content.asset.connections[${index}].witConnection.password`);
           settingsToSave.sensitiveData.push(`content.asset.connections[${index}].witConnection.clientSecret`);
           break;
+        case AssetConnectionType.LACROIX:
+          settingsToSave.sensitiveData.push(`content.asset.connections[${index}].lacroixConnection.password`);
+          break;
       }
 
     });

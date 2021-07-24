@@ -33,6 +33,7 @@ export class ReleaseNotesComponent {
               `Fixed Site Admin cannot see Statistics of his Users`,
               `Fixed missing IDs in RESTful file documentation`,
               `Lacroix / Linky Asset integration`,
+              `Set OCPI opening hours at SLF Caen`,
             ],
           },
         ],

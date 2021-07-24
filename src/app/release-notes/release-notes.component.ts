@@ -32,6 +32,7 @@ export class ReleaseNotesComponent {
             changes: [
               `Fixed Site Admin cannot see Statistics of his Users`,
               `Fixed missing IDs in RESTful file documentation`,
+              `Lacroix / Linky Asset integration`,
             ],
           },
         ],

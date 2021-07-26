@@ -21,7 +21,7 @@ export class OcpiDetailFailureEvsesStatusFormatterComponent extends CellContentT
 export class AppFormatOcpiEvsesFailurePipe implements PipeTransform {
   public transform(failureNbr: number, type: string): string {
     if (type === 'class') {
-      let classNames = 'chip-width-4em ';
+      let classNames = 'chip-width-5em ';
       if (failureNbr > 0) {
         classNames += ChipType.DANGER;
       } else {

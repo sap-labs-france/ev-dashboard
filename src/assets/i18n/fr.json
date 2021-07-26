@@ -1651,7 +1651,8 @@
         "schneider": "Gestion Bâtiment Schneider",
         "greencom": "GreenCom Gestion des Ressources",
         "iothink": "ioThink Gestion des Ressources",
-        "wit": "WIT Asset Management System"
+        "wit": "WIT Asset Management System",
+        "lacroix": "LACROIX Asset Management System"
       },
       "connection_success": "Connexion vers le système vérifiée avec succès",
       "unknown_connection_error": "Erreur de connexion inconnue",

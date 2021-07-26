@@ -111,6 +111,13 @@
                   </app-settings-wit-connection>
                 </div>
               </div>
+              <div class="row" *ngIf="type.value === 'lacroix'">
+                <div class="col-md-12">
+                  <app-settings-lacroix-connection
+                    [formGroup]="formGroup" [lacroixConnection]="lacroixConnection">
+                  </app-settings-lacroix-connection>
+                </div>
+              </div>
               <div class="card-footer mat-dialog-actions" align="end">
                 <button mat-raised-button color="warn" (click)="setConnectionAndClose(formGroup.value)"
                   [disabled]="!formGroup.valid || !formGroup.dirty">

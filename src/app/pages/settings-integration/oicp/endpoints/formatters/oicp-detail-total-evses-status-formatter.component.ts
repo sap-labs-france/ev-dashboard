@@ -21,7 +21,7 @@ export class OicpDetailTotalEvsesStatusFormatterComponent extends CellContentTem
 export class AppFormatOicpEvsesTotalPipe implements PipeTransform {
   public transform(totalNbr: number, type: string): string {
     if (type === 'class') {
-      let classNames = 'chip-width-4em ';
+      let classNames = 'chip-width-5em ';
       if (totalNbr > 0) {
         classNames += ChipType.INFO;
       } else {

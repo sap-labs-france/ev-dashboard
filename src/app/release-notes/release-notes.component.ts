@@ -24,6 +24,28 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.79',
+        date: new Date('2021-07-26'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Fixed Site Admin cannot see Statistics of his Users`,
+              `Fixed missing IDs in RESTful file documentation`,
+              `Lacroix / Linky Asset integration`,
+              `Check Charging Station Registration Token at Web Socket connection and refuse it if not valid`,
+              `Set OCPI Opening Hours and Tariff ID for SLF Caen`,
+              `Set the OCPP heartbeat to 60 secs in OCPP 1.6-J`,
+              `Stop OCPI Transaction if receiving OCPP Meter Values with unknown Transaction ID`,
+              `Do not create a Transaction before checking Roaming Authorization`,
+              `Request OCPI Authorization Token also in OCPP Start Transaction in addition to OCPP Authorize`,
+              `Restrain OCPI Remote Authorization Token validity from 10 mins to 2 mins`
+
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.78',
         date: new Date('2021-07-20'),
         componentChanges: [

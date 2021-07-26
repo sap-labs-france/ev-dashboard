@@ -26,7 +26,7 @@
     "nbr_of_records": "Registros",
     "connectors": "Conexiones",
     "notifications": "Notificaciones",
-    "app_name": "e-Mobility",
+    "app_name": "Open e-Mobility",
     "version": "Versión",
     "about_us": "Sobre nosotros",
     "unexpected_error_backend": "Ocurrió un error inesperado",
@@ -505,7 +505,7 @@
     "eula": "acuerdo de licencia de usuario final",
     "must_accept_eula": "Debe aceptar el acuerdo de licencia de usuario final",
     "no_space_in_password": "No se permite espacio al principio ni al final",
-    "title": "Iniciar sesión en e-Mobility",
+    "title": "Iniciar sesión en Open e-Mobility",
     "register": "Registrarse",
     "signup_link": "¿Nuevo Usuario? ¡Registrarse!",
     "signin_link": "¿Ya tiene una cuenta? ¡Inicie sesión!",
@@ -1647,7 +1647,8 @@
         "schneider": "Gestión de edificios Schneider",
         "greencom": "GreenCom Asset Management System",
         "iothink": "ioThink Asset Management System",
-        "wit": "WIT Asset Management System"
+        "wit": "WIT Asset Management System",
+        "lacroix": "LACROIX Asset Management System"
       },
       "connection_success": "Connection to the system was tested successfully",
       "unknown_connection_error": "Error de conexión desconocido",

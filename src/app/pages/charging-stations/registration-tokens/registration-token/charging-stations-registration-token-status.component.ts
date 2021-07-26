@@ -31,7 +31,7 @@ export class AppRegistrationTokenStatusPipe implements PipeTransform {
   }
 
   public buildStatusClasses(registrationToken: RegistrationToken): string {
-    let classNames = 'chip-width-5em ';
+    let classNames = 'chip-width-8em ';
     if (this.isExpired(registrationToken)) {
       classNames += ChipType.DANGER;
     } else if (this.isRevoked(registrationToken)) {

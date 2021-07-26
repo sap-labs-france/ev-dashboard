@@ -4,7 +4,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 
 import { KeyValue } from '../../../../types/GlobalType';
-import { AssetConnectionSetting, AssetConnectionType, AssetGreencomConnectionType, AssetIothinkConnectionType, AssetSchneiderConnectionType, AssetWitConnectionType } from '../../../../types/Setting';
+import { AssetConnectionSetting, AssetConnectionType, AssetGreencomConnectionType, AssetIothinkConnectionType, AssetLacroixConnectionType, AssetSchneiderConnectionType, AssetWitConnectionType } from '../../../../types/Setting';
 import { Constants } from '../../../../utils/Constants';
 import { AssetConnectionDialogComponent } from './asset-connection.dialog.component';
 
@@ -29,11 +29,13 @@ export class AssetConnectionComponent implements OnInit {
   public greencomConnection!: AssetGreencomConnectionType;
   public iothinkConnection!: AssetIothinkConnectionType;
   public witConnection!: AssetWitConnectionType;
+  public lacroixConnection!: AssetLacroixConnectionType;
   public assetConnectionTypes: KeyValue[] = [
     { key: AssetConnectionType.SCHNEIDER, value: 'settings.asset.types.schneider' },
     { key: AssetConnectionType.GREENCOM, value: 'settings.asset.types.greencom' },
     { key: AssetConnectionType.IOTHINK, value: 'settings.asset.types.iothink' },
-    { key: AssetConnectionType.WIT, value: 'settings.asset.types.wit' }
+    { key: AssetConnectionType.WIT, value: 'settings.asset.types.wit' },
+    { key: AssetConnectionType.LACROIX, value: 'settings.asset.types.lacroix' }
   ];
   public submitButtonTranslation!: any;
 
@@ -117,6 +119,9 @@ export class AssetConnectionComponent implements OnInit {
       case AssetConnectionType.WIT:
         this.witConnection = this.currentAssetConnection.witConnection;
         break;
+      case AssetConnectionType.LACROIX:
+        this.lacroixConnection = this.currentAssetConnection.lacroixConnection;
+        break;
     }
   }
 
@@ -155,6 +160,9 @@ export class AssetConnectionComponent implements OnInit {
     }
     if (this.formGroup.controls.witConnection && type !== AssetConnectionType.WIT) {
       delete this.formGroup.controls.witConnection;
+    }
+    if (this.formGroup.controls.lacroixConnection && type !== AssetConnectionType.LACROIX) {
+      delete this.formGroup.controls.lacroixConnection;
     }
   }
 }

@@ -6,7 +6,7 @@ import { OicpEndpointDetail } from '../../../../../types/oicp/OICPEndpoint';
 @Component({
   template: `
     <mat-chip-list [selectable]="false">
-      <mat-chip ngClass="chip-width-4em chip-success" [disabled]="true">
+      <mat-chip ngClass="chip-width-5em chip-success" [disabled]="true">
         {{row.successNbr}}
       </mat-chip>
     </mat-chip-list>

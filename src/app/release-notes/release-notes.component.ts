@@ -25,7 +25,7 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.4.79',
-        date: new Date('2021-07-24'),
+        date: new Date('2021-07-26'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -35,6 +35,7 @@ export class ReleaseNotesComponent {
               `Lacroix / Linky Asset integration`,
               `Check Charging Station Registration Token at Web Socket connection and refuse it if not valid`,
               `Set OCPI Opening Hours and Tariff ID for SLF Caen`,
+              `Set the OCPP heartbeat to 60 secs in OCPP 1.6-J`,
             ],
           },
         ],

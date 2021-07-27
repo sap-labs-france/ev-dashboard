@@ -21,16 +21,24 @@ export interface SiteArea extends TableData, SiteAreaAuthorizationActions {
   chargingStations: ChargingStation[];
 }
 
-export interface SiteAreaValues {
-  assetConsumptions: Consumption[];
-  assetProductions: Consumption[];
-  chargingStationConsumptions: Consumption[];
-  netConsumptions: Consumption[];
+export enum SiteAreaValueTypes {
+  ASSET_CONSUMPTIONS = 'AssetConsumptions',
+  ASSET_CONSUMPTION_WATTS = 'AssetConsumptionWatts',
+  ASSET_CONSUMPTION_AMPS = 'AssetConsumptionAmps',
+  ASSET_PRODUCTIONS = 'AssetProductions',
+  ASSET_PRODUCTION_WATTS = 'AssetProductionWatts',
+  ASSET_PRODUCTION_AMPS = 'AssetProductionAmps',
+  CHARGING_STATION_CONSUMPTIONS = 'ChargingStationConsumptions',
+  CHARGING_STATION_CONSUMPTION_WATTS = 'ChargingStationConsumptionWatts',
+  CHARGING_STATION_CONSUMPTION_AMPS = 'ChargingStationConsumptionAmps',
+  NET_CONSUMPTIONS = 'NetConsumptions',
+  NET_CONSUMPTION_WATTS = 'NetConsumptionWatts',
+  NET_CONSUMPTION_AMPS = 'NetConsumptionAmps',
 }
 
 export interface SiteAreaConsumption {
   siteAreaId: string;
-  values: SiteAreaValues;
+  values: Consumption[];
 }
 
 export enum SiteAreaButtonAction {

@@ -163,8 +163,8 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
       // Asset Consumption Instant Amps/Power
       datasets.push({
         name: (this.selectedUnit === ConsumptionUnit.AMPERE) ?
-          SiteAreaValueTypes.ASSET_CONSUMPTION_WATTS :
-          SiteAreaValueTypes.ASSET_CONSUMPTION_AMPS,
+          SiteAreaValueTypes.ASSET_CONSUMPTION_AMPS :
+          SiteAreaValueTypes.ASSET_CONSUMPTION_WATTS,
         type: 'line',
         hidden: this.activeLegend[this.activeLegend.findIndex((x => x.key.includes(this.translateService.instant('organization.graph.asset_consumption_amps'))))].hidden,
         data: [],
@@ -177,8 +177,8 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
       // Charging Stations Consumption Instant Amps/Power
       datasets.push({
         name: (this.selectedUnit === ConsumptionUnit.AMPERE) ?
-          SiteAreaValueTypes.CHARGING_STATION_CONSUMPTION_WATTS :
-          SiteAreaValueTypes.CHARGING_STATION_CONSUMPTION_AMPS,
+          SiteAreaValueTypes.CHARGING_STATION_CONSUMPTION_AMPS :
+          SiteAreaValueTypes.CHARGING_STATION_CONSUMPTION_WATTS,
         type: 'line',
         hidden: this.activeLegend[this.activeLegend.findIndex((x => x.key.includes(this.translateService.instant('organization.graph.charging_station_consumption_amps'))))].hidden,
         data: [],
@@ -191,8 +191,8 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
       // Asset Production Instant Amps/Power
       datasets.push({
         name: (this.selectedUnit === ConsumptionUnit.AMPERE) ?
-          SiteAreaValueTypes.ASSET_PRODUCTION_WATTS :
-          SiteAreaValueTypes.ASSET_PRODUCTION_AMPS,
+          SiteAreaValueTypes.ASSET_PRODUCTION_AMPS :
+          SiteAreaValueTypes.ASSET_PRODUCTION_WATTS,
         type: 'line',
         hidden: this.activeLegend[this.activeLegend.findIndex((x => x.key.includes(this.translateService.instant('organization.graph.asset_production_amps'))))].hidden,
         data: [],
@@ -205,8 +205,8 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
       // Net Instant Amps/Power
       datasets.push({
         name: (this.selectedUnit === ConsumptionUnit.AMPERE) ?
-          SiteAreaValueTypes.NET_CONSUMPTION_WATTS :
-          SiteAreaValueTypes.NET_CONSUMPTION_AMPS,
+          SiteAreaValueTypes.NET_CONSUMPTION_AMPS :
+          SiteAreaValueTypes.NET_CONSUMPTION_WATTS,
         type: 'line',
         hidden: this.activeLegend[this.activeLegend.findIndex((x => x.key.includes(this.translateService.instant('organization.graph.net_consumption_amps'))))].hidden,
         data: [],

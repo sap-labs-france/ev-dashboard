@@ -20,5 +20,9 @@ export const TagRequiredImportProperties = [
   'visualID'
 ];
 export const TagOptionalImportProperties = [
-  'description'
+  'description',
+  'email',
+  'firstName',
+  'name',
+  'siteIDs'
 ];

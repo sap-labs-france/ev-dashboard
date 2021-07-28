@@ -724,7 +724,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
                   new Date(this.refundConnection.validUntil).getTime() > new Date().getTime();
               }
             }
-            this.integrationConnections = this.integrationConnections.concat(connectionResult.result);
+            this.integrationConnections = connectionResult.result;
           }
         });
       }

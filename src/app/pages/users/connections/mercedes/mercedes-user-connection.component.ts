@@ -14,7 +14,6 @@ import { Utils } from '../../../../utils/Utils';
   templateUrl: 'mercedes-user-connection.component.html',
 })
 export class MercedesUserConnectionComponent extends AbstractTabComponent {
-  public isAdmin!: boolean;
 
   public constructor(
     private centralServerService: CentralServerService,

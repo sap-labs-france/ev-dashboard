@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { IntegrationConnectionType } from 'types/Connection';
 
 import { CentralServerService } from '../../../../services/central-server.service';
 import { MessageService } from '../../../../services/message.service';
@@ -25,7 +26,7 @@ export class MercedesUserConnectionComponent extends AbstractTabComponent {
 
     if (this.activatedRoute.snapshot.queryParams['state']) {
       const state = JSON.parse(this.activatedRoute.snapshot.queryParams['state']);
-      if (state.connector === 'mercedes') {
+      if (state.connector === IntegrationConnectionType.MERCEDES) {
         this.createMercedesConnection(state);
       }
     }
@@ -35,7 +36,7 @@ export class MercedesUserConnectionComponent extends AbstractTabComponent {
     if (this.activatedRoute.snapshot.queryParams['code']) {
       const payload = {
         userId: state.userId,
-        connectorId: 'mercedes',
+        connectorId: IntegrationConnectionType.MERCEDES,
         data:
           {
             code: this.activatedRoute.snapshot.queryParams['code'],

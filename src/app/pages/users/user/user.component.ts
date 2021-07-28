@@ -19,7 +19,7 @@ import { WindowService } from '../../../services/window.service';
 import { AbstractTabComponent } from '../../../shared/component/abstract-tab/abstract-tab.component';
 import { USER_STATUSES, UserRoles } from '../../../shared/model/users.model';
 import { Address } from '../../../types/Address';
-import { IntegrationConnection } from '../../../types/Connection';
+import { IntegrationConnection, IntegrationConnectionType } from '../../../types/Connection';
 import { ActionResponse } from '../../../types/DataResult';
 import { KeyValue, RestResponse } from '../../../types/GlobalType';
 import { HTTPError } from '../../../types/HTTPError';
@@ -640,7 +640,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       const concurSetting = this.refundSetting.concur;
       const returnedUrl = `${this.windowService.getOrigin()}/users/connections`;
       const state = {
-        connector: 'concur',
+        connector: IntegrationConnectionType.CONCUR,
         appId: this.refundSetting.id,
         userId: this.currentUserID,
       };
@@ -683,7 +683,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       const mercedesSetting = this.mercedesConnectionSetting.mercedesConnection;
       const returnedUrl = `${this.windowService.getOrigin()}/users/mercedes-connections`;
       const state = {
-        connector: 'mercedes',
+        connector: IntegrationConnectionType.MERCEDES,
         appId: this.mercedesConnectionSetting.id,
         userId: this.currentUserID,
       };
@@ -716,7 +716,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
           this.isRefundConnectionValid = false;
           if (connectionResult && !Utils.isEmptyArray(connectionResult.result)) {
             for (const connection of connectionResult.result) {
-              if (connection.connectorId === 'concur') {
+              if (connection.connectorId === IntegrationConnectionType.CONCUR) {
                 this.refundConnection = connection;
                 this.isRefundConnectionValid =
                   this.refundConnection &&
@@ -743,7 +743,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
           this.isMercedesUserConnectionValid = false;
           if (connectionResult && !Utils.isEmptyArray(connectionResult.result)) {
             for (const connection of connectionResult.result) {
-              if (connection.connectorId === 'mercedes') {
+              if (connection.connectorId === IntegrationConnectionType.MERCEDES) {
                 this.mercedesUserConnection = connection;
                 this.isMercedesUserConnectionValid =
                   this.mercedesUserConnection &&

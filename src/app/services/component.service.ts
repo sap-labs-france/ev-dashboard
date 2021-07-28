@@ -212,7 +212,7 @@ export class ComponentService {
     settingsToSave.content.carConnector.connections.forEach((settingConnection, index) => {
       switch (settingConnection.type) {
         case CarConnectorConnectionType.MERCEDES:
-          settingsToSave.sensitiveData.push(`content.carConnectors.connections[${index}].mercedesConnection.clientSecret`);
+          settingsToSave.sensitiveData.push(`content.carConnector.connections[${index}].mercedesConnection.clientSecret`);
           break;
       }
 

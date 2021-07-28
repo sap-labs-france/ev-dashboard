@@ -1678,6 +1678,12 @@
       "types": {
         "mercedes": "Mercedes Schnittstelle"
       },
+      "mercedes": {
+        "link_success": "Ihr Account wurde erfolgreich mit Mercedes verbunden",
+        "link_error": "Beim Verbinden mit Mercedes ist ein Fehler aufgetreten",
+        "revoke_success": "Ihre Verbindung mit Mercedes wurde erfolgreich widerrufen",
+        "revoke_error": "Beim Widerrufen Ihrer Verbindung zu Mercedes ist ein Fehler aufgetreten"
+      },
       "description": "E-Mobility ist in der Lage Fahrzeugdaten wie z.B. Batteriestand zu empfangen und diese Informationen für Smart Charging und die Optimierung von Ladevorgängen nutzen",
       "setting_do_not_exist": "Die Konfiguration wurde nicht gefunden",
       "setting_not_found": "Die Schnittstellen-Einstellungen konnten nicht gefunden werden.",

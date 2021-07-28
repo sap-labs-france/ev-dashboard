@@ -1678,6 +1678,12 @@
       "types": {
         "mercedes": "Connecteur Mercedes"
       },
+      "mercedes": {
+        "link_success": "Your account has been successfully linked with Mercedes",
+        "link_error": "Error occurred while linking your account with Mercedes, check the logs",
+        "revoke_success": "Your connection with Mercedes has been successfully revoked",
+        "revoke_error": "Error occurred while revoking your connection with Mercedes, check the logs"
+      },
       "description": "E-Mobility peut récupérer en temps réel les données de votre voiture comme le niveau de votre batterie et utiliser cette information avec la charge intelligente pour optimiser vos sessions de recharges.",
       "setting_do_not_exist": "La configuration du connecteur n'existe pas",
       "setting_not_found": "La configuration du connecteur n'a pas été trouvée",

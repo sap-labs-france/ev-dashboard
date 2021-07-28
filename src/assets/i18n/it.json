@@ -800,6 +800,7 @@
     "reboot_action": "Riavvio",
     "soft_reset_action": "Soft Reset",
     "clear_cache_action": "Puisci cache",
+    "trigger_data_transfer_action": "Trigger Data Transfer",
     "smart_charging_action": "Limitazione di Carica",
     "more_actions_action": "Più",
     "assign_sitearea_action": "Assegna",

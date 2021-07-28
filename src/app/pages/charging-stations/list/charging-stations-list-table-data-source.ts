@@ -19,6 +19,7 @@ import { TableChargingStationsForceUnavailableStatusAction, TableChargingStation
 import { TableChargingStationsRebootAction, TableChargingStationsRebootActionDef } from '../../../shared/table/actions/charging-stations/table-charging-stations-reboot-action';
 import { TableChargingStationsResetAction, TableChargingStationsResetActionDef } from '../../../shared/table/actions/charging-stations/table-charging-stations-reset-action';
 import { TableChargingStationsSmartChargingAction, TableChargingStationsSmartChargingActionDef } from '../../../shared/table/actions/charging-stations/table-charging-stations-smart-charging-action';
+import { TableChargingStationsTriggerDataTransferAction, TableChargingStationsTriggerDataTransferActionDef } from '../../../shared/table/actions/charging-stations/table-charging-stations-trigger-data-transfer-action';
 import { TableDeleteChargingStationAction, TableDeleteChargingStationActionDef } from '../../../shared/table/actions/charging-stations/table-delete-charging-station-action';
 import { TableEditChargingStationAction, TableEditChargingStationActionDef } from '../../../shared/table/actions/charging-stations/table-edit-charging-station-action';
 import { TableExportChargingStationsAction, TableExportChargingStationsActionDef } from '../../../shared/table/actions/charging-stations/table-export-charging-stations-action';
@@ -382,6 +383,8 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
         forceAvailableStatusAction.disabled = chargingStation.inactive;
         const forceUnavailableStatusAction = new TableChargingStationsForceUnavailableStatusAction().getActionDef();
         forceUnavailableStatusAction.disabled = chargingStation.inactive;
+        const triggerDataTransferAction = new TableChargingStationsTriggerDataTransferAction().getActionDef();
+        triggerDataTransferAction.disabled = chargingStation.inactive;
         return [
           this.editAction,
           this.smartChargingAction,
@@ -390,6 +393,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
             clearCacheAction,
             resetAction,
             isUnavailable ? forceAvailableStatusAction : forceUnavailableStatusAction,
+            triggerDataTransferAction,
             this.generateQrCodeConnectorAction,
             openInMaps,
             this.deleteAction,

@@ -211,6 +211,7 @@ export enum ChargingStationButtonAction {
   REBOOT = 'reboot',
   SOFT_RESET = 'soft_reset',
   CLEAR_CACHE = 'clear_cache',
+  TRIGGER_DATA_TRANSFER = 'trigger_data_transfer',
   SMART_CHARGING = 'smart_charging',
   START_TRANSACTION = 'start_transaction',
   STOP_TRANSACTION = 'stop_transaction',

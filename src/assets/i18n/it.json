@@ -1157,6 +1157,8 @@
     },
     "import_users": "Import users",
     "import_users_message": "The import will discard all other previously uploaded users not yet imported in the database, do you want to continue?",
+    "import_users_message_auto_activate": "The import will discard all other previously uploaded users not yet imported in the database and users will be automatically activated, do you want to continue?",
+    "import_users_auto_activation": "Automatically activate new users",
     "import_users_success": "{{inSuccess}} users have been uploaded successfully and will be processed asynchronously",
     "import_users_partial": "{{inSuccess}} users have been uploaded successfully and will be processed asynchronously and {{inError}} failed, check the logs",
     "import_users_error": "{{inError}} users failed to be uploaded",
@@ -1379,10 +1381,12 @@
     "delete_no_tag": "No badge has been deleted",
     "import_tags": "Import Badges",
     "import_tags_message": "The import will discard all other previously uploaded badges not yet imported in the database, do you want to continue?",
+    "import_tags_message_auto_activate": "The import will discard all other previously uploaded badges not yet imported in the database, do you want to continue?",
     "import_tags_success": "{{inSuccess}} badges have been uploaded successfully and will be processed asynchronously",
     "import_tags_partial": "{{inSuccess}} badges have been uploaded successfully and will be processed asynchronously and {{inError}} failed, check the logs",
     "import_tags_error": "{{inError}} badges failed to be uploaded",
-    "import_no_tags": "No badge have been uploaded"
+    "import_no_tags": "No badge have been uploaded",
+    "import_tags_auto_activation": "Automatically activate new tags"
   },
   "tenants": {
     "title": "Organizzazione",
@@ -1726,7 +1730,7 @@
     },
     "user": {
       "title": "Account Settings",
-      "auto_activation": "Automatically activate new user account at registration time",
+      "auto_activation": "Automatically activate new user at registration time",
       "update_success": "User settings have been updated successfully",
       "update_error": "Error occurred while updating the user settings, check the logs",
       "setting_do_not_exist": "User settings not found"

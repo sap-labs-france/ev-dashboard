@@ -501,7 +501,6 @@ export enum ServerRoute {
   REST_TAG = 'tags/:id',
   REST_TAGS_IMPORT = 'tags/action/import',
   REST_TAGS_EXPORT = 'tags/action/export',
-
   REST_ASSET_CONSUMPTION = 'assets/:assetID/consumption',
 
   REST_PING = 'ping',

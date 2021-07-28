@@ -129,6 +129,15 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
   public buildTableColumnDefs(): TableColumnDef[] {
     const tableColumnDef: TableColumnDef[] = [
       {
+        id: 'id',
+        name: 'general.id',
+        sortable: true,
+        headerClass: 'col-30p',
+        class: 'col-30p',
+        sorted: true,
+        direction: 'asc',
+      },
+      {
         id: 'name',
         name: 'site_areas.name',
         headerClass: 'col-20p',

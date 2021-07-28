@@ -951,6 +951,8 @@
     "clear_cache_confirm": "Do you really want to clear the cache of the charging station '{{chargeBoxID}}'?",
     "clear_cache_success": "The cache of the charging station '{{chargeBoxID}}' has been cleared successfully",
     "clear_cache_error": "Error occurred while clearing the cache of the charging station, check the logs",
+    "trigger_data_transfer_success": "Triggering data transfer of charging station '{{chargeBoxID}}' performed successfully",
+    "trigger_data_transfer_error": "Error occurred while triggering data transfer",
     "force_available_status_title": "Force Status to Available",
     "force_available_status_confirm": "Do you really want to change the status of all the connectors of the charging station '{{chargeBoxID}}' to Available?",
     "force_available_status_success": "The status of the connectors of the charging station '{{chargeBoxID}}' has been changed successfully",

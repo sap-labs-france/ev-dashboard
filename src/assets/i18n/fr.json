@@ -951,6 +951,8 @@
     "clear_cache_confirm": "Voulez-vous vraiment effacer le cache de la borne '{{chargeBoxID}}'?",
     "clear_cache_success": "Le cache de la borne '{{chargeBoxID}}' a été effacé avec succès",
     "clear_cache_error": "Une erreur est survenue pendant l'effacement du cache de la borne, vérifiez les logs",
+    "trigger_data_transfer_success": "Déclenchement du transfert de données de la borne '{{chargeBoxID}}' effectué avec succès",
+    "trigger_data_transfer_error": "Une erreur est survenue pendant le déclenchement du transfert de données",
     "force_available_status_title": "Forcer le Statut Disponible",
     "force_available_status_confirm": "Voulez-vous vraiment changer le statut de tous les connecteurs de la borne '{{chargeBoxID}}' en Disponible?",
     "force_available_status_success": "Le statut des connecteurs de la borne '{{chargeBoxID}}'à été changé avec succès",

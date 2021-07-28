@@ -36,32 +36,24 @@ export class TableChargingStationsTriggerDataTransferAction implements TableActi
   private triggerDataTransfer(chargingStation: ChargingStation, dialogService: DialogService, translateService: TranslateService,
     messageService: MessageService, centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router,
     refresh?: () => Observable<void>) {
-    // Show yes/no dialog
-    dialogService.createAndShowYesNoDialog(
-      translateService.instant('chargers.clear_cache_title'),
-      translateService.instant('chargers.clear_cache_confirm', { chargeBoxID: chargingStation.id }),
-    ).subscribe((result) => {
-      if (result === ButtonType.YES) {
-        spinnerService.show();
-        // Trigger data transfer
-        /*centralServerService.chargingStationClearCache(chargingStation.id).subscribe((response: ActionResponse) => {
-          spinnerService.hide();
-          if (response.status === OCPPGeneralResponse.ACCEPTED) {
-            messageService.showSuccessMessage(
-              translateService.instant('chargers.clear_cache_success', { chargeBoxID: chargingStation.id }));
-            if (refresh) {
-              refresh().subscribe();
-            }
-          } else {
-            Utils.handleError(JSON.stringify(response),
-              messageService, 'chargers.clear_cache_error');
-          }
-        }, (error: any) => {
-          spinnerService.hide();
-          Utils.handleHttpError(error, router, messageService,
-            centralServerService, 'chargers.clear_cache_error');
-        });*/
+    spinnerService.show();
+    // Trigger data transfer
+    centralServerService.chargingStationTriggerDataTransfer(chargingStation.id).subscribe((response: ActionResponse) => {
+      spinnerService.hide();
+      if (response.status === OCPPGeneralResponse.ACCEPTED) {
+        messageService.showSuccessMessage(
+          translateService.instant('chargers.trigger_data_transfer_success', { chargeBoxID: chargingStation.id }));
+        if (refresh) {
+          refresh().subscribe();
+        }
+      } else {
+        Utils.handleError(JSON.stringify(response),
+          messageService, 'chargers.trigger_data_transfer_error');
       }
+    }, (error: any) => {
+      spinnerService.hide();
+      Utils.handleHttpError(error, router, messageService,
+        centralServerService, 'chargers.trigger_data_transfer_error');
     });
   }
 }

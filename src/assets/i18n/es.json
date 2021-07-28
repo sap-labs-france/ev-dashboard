@@ -951,6 +951,8 @@
     "clear_cache_confirm": "¿Está seguro que desea borrar el caché de la estación de carga '{{chargeBoxID}}'?",
     "clear_cache_success": "El caché de la estación de carga '{{chargeBoxID}}' se ha borrado exitosamente",
     "clear_cache_error": "Se produjo un error al borrar el caché de la estación de carga",
+    "trigger_data_transfer_success": "Triggering data transfer of charging station '{{chargeBoxID}}' performed successfully",
+    "trigger_data_transfer_error": "Error occurred while triggering data transfer",
     "force_available_status_title": "Forzar estatus a disponible",
     "force_available_status_confirm": "¿Está seguro que desea cambiar el estatus de todos los conectores de la estación de carga '{{chargeBoxID}}' a disponible?",
     "force_available_status_success": "El estatus de los conectores de la estación de carga '{{chargeBoxID}}' se ha cambiado exitosamente",

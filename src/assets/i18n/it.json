@@ -951,6 +951,8 @@
     "clear_cache_confirm": "Vuoi veramente pulire la cache della stazione di ricarica '{{chargeBoxID}}'?",
     "clear_cache_success": "La cache della stazione di ricarica '{{chargeBoxID}}' è stata pulita correttamente",
     "clear_cache_error": "Si è verificato un errore durante la pulizia della cache della stazione di ricarica",
+    "trigger_data_transfer_success": "Triggering data transfer of charging station '{{chargeBoxID}}' performed successfully",
+    "trigger_data_transfer_error": "Error occurred while triggering data transfer",
     "force_available_status_title": "Forza Stato su Disponibile",
     "force_available_status_confirm": "Vuoi veramente modificare lo stato di tutte le prese della stazione di ricarica '{{chargeBoxID}}' su Disponibile?",
     "force_available_status_success": "Lo stato delle prese della stazione di ricarica '{{chargeBoxID}}' è stato modificato con successo",

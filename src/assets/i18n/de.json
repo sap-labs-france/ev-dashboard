@@ -951,6 +951,8 @@
     "clear_cache_confirm": "Wollen Sie den Cache der Ladestation '{{chargeBoxID}}' wirklich löschen?",
     "clear_cache_success": "Der Cache der Ladestation '{{chargeBoxID}}' wurde erfolgreich gelöscht",
     "clear_cache_error": "Beim Löschen des Caches der Ladestation ist ein Fehler aufgetreten",
+    "trigger_data_transfer_success": "Triggering data transfer of charging station '{{chargeBoxID}}' performed successfully",
+    "trigger_data_transfer_error": "Error occurred while triggering data transfer",
     "force_available_status_title": "Status Verfügbar erzwingen",
     "force_available_status_confirm": "Wollen Sie wirklich den Status aller Anschlüsse der Ladestation '{{chargeBoxID}}' auf verfügbar ändern?",
     "force_available_status_success": "Der Status der Anschlüsse von Ladestation '{{chargeBoxID}}' wurde erfolgreich geändert",

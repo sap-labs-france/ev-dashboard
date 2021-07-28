@@ -3109,6 +3109,10 @@ export class CentralServerService {
     return this.actionChargingStation(`${ServerRoute.REST_CHARGING_STATIONS}/${id}/cache/clear`, '');
   }
 
+  public chargingStationTriggerDataTransfer(id: string): Observable<ActionResponse> {
+    return this.actionChargingStation(`${ServerRoute.REST_CHARGING_STATIONS}/${id}/dataTransfer`, '');
+  }
+
   public actionChargingStation(action: string, args: string): Observable<ActionResponse> {
     // Verify init
     this.checkInit();

@@ -951,6 +951,8 @@
     "clear_cache_confirm": "Você realmente deseja limpar o cache da estação de carregamento'{{chargeBoxID}}'?",
     "clear_cache_success": "A cache da estação de carregamento '{{chargeBoxID}}' foi apagado com sucesso",
     "clear_cache_error": "Ocorreu um erro ao limpar o cache da estação de carregamento",
+    "trigger_data_transfer_success": "Triggering data transfer of charging station '{{chargeBoxID}}' performed successfully",
+    "trigger_data_transfer_error": "Error occurred while triggering data transfer",
     "force_available_status_title": "Forçar status para disponível",
     "force_available_status_confirm": "Você realmente deseja alterar o status de todos os conectores da estação de carregamento '{{chargeBoxID}}' para disponívele?",
     "force_available_status_success": "O status dos conectores da estação de carregamento '{{chargeBoxID}}' foi mudado com sucesso",

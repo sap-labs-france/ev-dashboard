@@ -32,8 +32,8 @@ export class ReleaseNotesComponent {
             changes: [
               `Import Tags and Users with Sites + Auto activate Tags and Users' account`,
               `Add Transaction endpoints to RESTfull public API`,
-              `Optimizaed Database performances on Charging Stations, Transactions, Users, Stats and Site Areas`,
-              `Display Web Socket protocol not provided in cumtomer's tenant`,
+              `Optimized Database performances on Charging Stations, Transactions, Users, Stats and Site Areas`,
+              `Display Web Socket protocol not provided in customer's Tenant`,
             ],
           },
         ],

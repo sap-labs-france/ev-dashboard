@@ -563,7 +563,8 @@
     "verify_email_resend_error": "Ocorreu um erro ao enviar o link de ativação da sua conta",
     "verify_email_proceed_with_activation": "A Sua conta ainda está inativa! Quer reenviar o e-mail de ativação?",
     "verify_email_proceed_with_activation_button": "Continuar",
-    "invalid_captcha_token": "Token de captcha inválido"
+    "invalid_captcha_token": "Token de captcha inválido",
+    "mercedes_data_usage": "SAP Labs France is accessing car data from Mercedes-Benz for the purpose of providing this service to you. Therefore SAP Labs France is processing the following data: EV battery level and range. We will use the mentioned data only for the purpose of providing our charging service to you. Anyhow processing of your data depends on your consent in the following steps. For any further information please note our End-user Agreement Usage of the e-Mobility Software."
   },
   "statistics": {
     "title": "Estatísticas",

@@ -24,6 +24,21 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.80',
+        date: new Date('2021-07-28'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Import Tags and Users with Sites + Auto activate Tags and Users' account`,
+              `Add Transaction endpoints to RESTfull public API`,
+              `Optimizaed Database performances on Charging Stations and Transactions`,
+              `Display Web Socket protocol not provided in cumtomer's tenant`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.79',
         date: new Date('2021-07-26'),
         componentChanges: [
@@ -40,7 +55,6 @@ export class ReleaseNotesComponent {
               `Do not create a Transaction before checking Roaming Authorization`,
               `Request OCPI Authorization Token also in OCPP Start Transaction in addition to OCPP Authorize`,
               `Restrain OCPI Remote Authorization Token validity from 10 mins to 2 mins`
-
             ],
           },
         ],

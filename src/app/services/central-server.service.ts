@@ -3038,12 +3038,11 @@ export class CentralServerService {
       ampLimitValue,
       forceUpdateChargingPlan,
     },
-      {
-        headers: this.buildHttpHeaders(),
-      })
-      .pipe(
-        catchError(this.handleHttpError),
-      );
+    {
+      headers: this.buildHttpHeaders(),
+    }).pipe(
+      catchError(this.handleHttpError),
+    );
   }
 
   public chargingStationSetChargingProfile(charger: ChargingStation, connectorId: number, chargingProfile: any): Observable<ActionResponse> {
@@ -3201,18 +3200,33 @@ export class CentralServerService {
       );
   }
 
-  public buildHttpHeadersFile(tenantID?: string): { name: string; value: string }[] {
+  public buildImportTagsUsersHttpHeaders(
+      autoActivateUserAtImport?: string, autoActivateTagAtImport?: string): { name: string; value: string }[] {
     // Build File Header
     return [
-      {
-        name: 'Tenant',
-        value: tenantID
-      },
       {
         name: 'Authorization',
         value: 'Bearer ' + this.getLoggedUserToken()
       },
+      {
+        name: 'autoActivateUserAtImport',
+        value: autoActivateUserAtImport
+      },
+      {
+        name: 'autoActivateTagAtImport',
+        value: autoActivateTagAtImport
+      },
     ];
+  }
+
+  public buildRestEndpointUrl(urlPatternAsString: ServerRoute, params: {[name: string]: string | number | null } = {}) {
+    let resolvedUrlPattern = urlPatternAsString as string;
+    for (const key in params) {
+      if (Object.prototype.hasOwnProperty.call(params, key)) {
+        resolvedUrlPattern = resolvedUrlPattern.replace(`:${key}`, encodeURIComponent(params[key]));
+      }
+    }
+    return `${this.restServerSecuredURL}/${resolvedUrlPattern}`;
   }
 
   private getLoggedUserToken(): string {
@@ -3340,16 +3354,6 @@ export class CentralServerService {
       });
     }
     return of(null);
-  }
-
-  private buildRestEndpointUrl(urlPatternAsString: ServerRoute, params: { [name: string]: string | number | null } = {}) {
-    let resolvedUrlPattern = urlPatternAsString as string;
-    for (const key in params) {
-      if (Object.prototype.hasOwnProperty.call(params, key)) {
-        resolvedUrlPattern = resolvedUrlPattern.replace(`:${key}`, encodeURIComponent(params[key]));
-      }
-    }
-    return `${this.restServerSecuredURL}/${resolvedUrlPattern}`;
   }
 }
 

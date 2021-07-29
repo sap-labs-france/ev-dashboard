@@ -316,6 +316,13 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
             this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
         }
         break;
+      case ChargingStationButtonAction.TRIGGER_DATA_TRANSFER:
+        if (actionDef.action) {
+          (actionDef as TableChargingStationsTriggerDataTransferActionDef).action(
+            chargingStation, this.dialogService, this.translateService, this.messageService,
+            this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
+        }
+        break;
       case ChargingStationButtonAction.FORCE_AVAILABLE_STATUS:
         if (actionDef.action) {
           (actionDef as TableChargingStationsForceAvailableStatusActionDef).action(

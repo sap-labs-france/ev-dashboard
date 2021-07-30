@@ -24,6 +24,18 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.81',
+        date: new Date('2021-07-30'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Implemented Mercedez access for getting Car's battery level during the charging session for the Smart Charging`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.80',
         date: new Date('2021-07-29'),
         componentChanges: [

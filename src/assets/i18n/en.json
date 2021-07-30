@@ -564,7 +564,7 @@
     "verify_email_proceed_with_activation": "Your account is still inactive! Do you want to resend the activation email?",
     "verify_email_proceed_with_activation_button": "Proceed",
     "invalid_captcha_token": "Invalid captcha token",
-    "mercedes_data_usage": "SAP Labs France is accessing car data from Mercedes-Benz for the purpose of providing this service to you. Therefore SAP Labs France is processing the following data: EV battery level and range. We will use the mentioned data only for the purpose of providing our charging service to you. Anyhow processing of your data depends on your consent in the following steps. For any further information please note our End-user Agreement Usage of the e-Mobility Software."
+    "mercedes_data_usage": "SAP Labs France is accessing your car’s data via Mercedes-Benz for the purpose of providing you a high quality of service during the charging session of your vehicle. SAP Labs France is processing the following data: EV battery level and range of your car. For allowing the processing of your data, you’ll have to give the explicit consent in the following steps. For any further information please note our End-user Agreement Usage of the e-Mobility Software."
   },
   "statistics": {
     "title": "Statistics",

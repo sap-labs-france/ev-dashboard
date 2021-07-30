@@ -24,16 +24,29 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.81',
+        date: new Date('2021-07-30'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Implemented Mercedez access for getting Car's battery level during the charging session for the Smart Charging`,
+              `Added new ARK Charging Station's model in templates`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.80',
-        date: new Date('2021-07-28'),
+        date: new Date('2021-07-29'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `Import Tags and Users with Sites + Auto activate Tags and Users' account`,
               `Add Transaction endpoints to RESTfull public API`,
-              `Optimizaed Database performances on Charging Stations and Transactions`,
-              `Display Web Socket protocol not provided in cumtomer's tenant`,
+              `Optimized Database performances on Charging Stations, Transactions, Users, Stats and Site Areas`,
+              `Display Web Socket protocol not provided in customer's Tenant`,
             ],
           },
         ],
@@ -123,7 +136,7 @@ export class ReleaseNotesComponent {
               `Force the Charging Station unavailability's status after 2 mins instead of 9 mins when not responding`,
               `Set the standard Heartbeat OCPP param first and try workarounds next if it failed`,
               `Make Log's Action filter more specifics (REST, OCPP...)`,
-              `Added new Joint new Charging Station's model in templates`,
+              `Added new Joint Charging Station's model in templates`,
               `Optimized DB access in OICP endpoint (Hubject)`,
               `Prevent deletion of Users in Stripe`,
             ],

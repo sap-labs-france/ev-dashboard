@@ -563,7 +563,8 @@
     "verify_email_resend_error": "Beim Versenden Ihres Aktivierungslinks ist ein Fehler aufgetreten",
     "verify_email_proceed_with_activation": "Ihr Account ist noch immer inaktiv! Wollen Sie das Versenden der Aktivierungs-Email wiederholen?",
     "verify_email_proceed_with_activation_button": "Weiter",
-    "invalid_captcha_token": "Ungültiger Captcha Token"
+    "invalid_captcha_token": "Ungültiger Captcha Token",
+    "mercedes_data_usage": "SAP Labs France is accessing your car’s data via Mercedes-Benz for the purpose of providing you a high quality of service during the charging session of your vehicle. SAP Labs France is processing the following data: EV battery level and range of your car. For allowing the processing of your data, you’ll have to give the explicit consent in the following steps. For any further information please note our End-user Agreement Usage of the e-Mobility Software."
   },
   "statistics": {
     "title": "Statistiken",
@@ -1681,6 +1682,12 @@
       },
       "types": {
         "mercedes": "Mercedes Schnittstelle"
+      },
+      "mercedes": {
+        "link_success": "Ihr Account wurde erfolgreich mit Mercedes verbunden",
+        "link_error": "Beim Verbinden mit Mercedes ist ein Fehler aufgetreten",
+        "revoke_success": "Ihre Verbindung mit Mercedes wurde erfolgreich widerrufen",
+        "revoke_error": "Beim Widerrufen Ihrer Verbindung zu Mercedes ist ein Fehler aufgetreten"
       },
       "description": "E-Mobility ist in der Lage Fahrzeugdaten wie z.B. Batteriestand zu empfangen und diese Informationen für Smart Charging und die Optimierung von Ladevorgängen nutzen",
       "setting_do_not_exist": "Die Konfiguration wurde nicht gefunden",

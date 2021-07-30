@@ -3,6 +3,7 @@ import { Routes } from '@angular/router';
 import { AuthenticationDefinePasswordComponent } from './define-password/authentication-define-password.component';
 import { AuthenticationEulaComponent } from './eula/authentication-eula.component';
 import { AuthenticationLoginComponent } from './login/authentication-login.component';
+import { AuthenticationMercedesDataUsageComponent } from './mercedes-data-usage/authentication-mercedes-data-usage.component';
 import { AuthenticationRegisterComponent } from './register/authentication-register.component';
 import { AuthenticationResetPasswordComponent } from './reset-password/authentication-reset-password.component';
 import { AuthenticationVerifyEmailComponent } from './verify-email/authentication-verify-email.component';
@@ -23,7 +24,12 @@ export const AuthenticationRoutes: Routes = [
   }, {
     path: 'eula',
     component: AuthenticationEulaComponent,
-  }, {
+  },
+  {
+    path: 'mercedes-data-usage',
+    component: AuthenticationMercedesDataUsageComponent,
+  },
+  {
     path: 'verify-email',
     component: AuthenticationVerifyEmailComponent,
   }, {

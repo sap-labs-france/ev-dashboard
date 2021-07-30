@@ -563,7 +563,8 @@
     "verify_email_resend_error": "Si è verificato un errore durante l'invio del link di attivazione dell'account",
     "verify_email_proceed_with_activation": "Il tuo account è ancora inattivo! Vuoi inviare nuovamente l'email di attivazione?",
     "verify_email_proceed_with_activation_button": "Procedi",
-    "invalid_captcha_token": "Token captcha non valido"
+    "invalid_captcha_token": "Token captcha non valido",
+    "mercedes_data_usage": "SAP Labs France is accessing your car’s data via Mercedes-Benz for the purpose of providing you a high quality of service during the charging session of your vehicle. SAP Labs France is processing the following data: EV battery level and range of your car. For allowing the processing of your data, you’ll have to give the explicit consent in the following steps. For any further information please note our End-user Agreement Usage of the e-Mobility Software."
   },
   "statistics": {
     "title": "Statistiche",
@@ -1681,6 +1682,12 @@
       },
       "types": {
         "mercedes": "Mercedes Connector"
+      },
+      "mercedes": {
+        "link_success": "Your account has been successfully linked with Mercedes",
+        "link_error": "Error occurred while linking your account with Mercedes, check the logs",
+        "revoke_success": "Your connection with Mercedes has been successfully revoked",
+        "revoke_error": "Error occurred while revoking your connection with Mercedes, check the logs"
       },
       "description": "E-Mobility can get real time data of your cars like the current state of charge and use this information with the smart charging algorithm to optimize charging sessions.",
       "setting_do_not_exist": "Configuration has not been found",

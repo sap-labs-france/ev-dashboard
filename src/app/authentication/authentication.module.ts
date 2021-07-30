@@ -11,6 +11,7 @@ import { AuthenticationRoutes } from './authentication.routing';
 import { AuthenticationDefinePasswordComponent } from './define-password/authentication-define-password.component';
 import { AuthenticationEulaComponent } from './eula/authentication-eula.component';
 import { AuthenticationLoginComponent } from './login/authentication-login.component';
+import { AuthenticationMercedesDataUsageComponent } from './mercedes-data-usage/authentication-mercedes-data-usage.component';
 import { AuthenticationRegisterComponent } from './register/authentication-register.component';
 import { AuthenticationResetPasswordComponent } from './reset-password/authentication-reset-password.component';
 import { AuthenticationVerifyEmailComponent } from './verify-email/authentication-verify-email.component';
@@ -29,6 +30,7 @@ import { AuthenticationVerifyEmailComponent } from './verify-email/authenticatio
   declarations: [
     AuthenticationLoginComponent,
     AuthenticationEulaComponent,
+    AuthenticationMercedesDataUsageComponent,
     AuthenticationRegisterComponent,
     AuthenticationResetPasswordComponent,
     AuthenticationDefinePasswordComponent,

@@ -31,6 +31,7 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Implemented Mercedez access for getting Car's battery level during the charging session for the Smart Charging`,
+              `Added new ARK Charging Station's model in templates`,
             ],
           },
         ],
@@ -135,7 +136,7 @@ export class ReleaseNotesComponent {
               `Force the Charging Station unavailability's status after 2 mins instead of 9 mins when not responding`,
               `Set the standard Heartbeat OCPP param first and try workarounds next if it failed`,
               `Make Log's Action filter more specifics (REST, OCPP...)`,
-              `Added new Joint new Charging Station's model in templates`,
+              `Added new Joint Charging Station's model in templates`,
               `Optimized DB access in OICP endpoint (Hubject)`,
               `Prevent deletion of Users in Stripe`,
             ],

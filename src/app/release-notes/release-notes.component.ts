@@ -32,6 +32,7 @@ export class ReleaseNotesComponent {
             changes: [
               `Implemented Mercedez access for getting Car's battery level during the charging session for the Smart Charging`,
               `Added new ARK Charging Station's model in templates`,
+              `Clean up Charging Station's connector when Available Status Notification is sent with no Stop Transaction`,
             ],
           },
         ],

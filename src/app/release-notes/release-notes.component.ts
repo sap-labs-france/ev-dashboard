@@ -25,15 +25,15 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.4.80',
-        date: new Date('2021-07-28'),
+        date: new Date('2021-07-29'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `Import Tags and Users with Sites + Auto activate Tags and Users' account`,
               `Add Transaction endpoints to RESTfull public API`,
-              `Optimizaed Database performances on Charging Stations and Transactions`,
-              `Display Web Socket protocol not provided in cumtomer's tenant`,
+              `Optimized Database performances on Charging Stations, Transactions, Users, Stats and Site Areas`,
+              `Display Web Socket protocol not provided in customer's Tenant`,
             ],
           },
         ],

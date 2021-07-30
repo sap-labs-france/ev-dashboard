@@ -563,7 +563,8 @@
     "verify_email_resend_error": "Une erreur est survenue pendant l'envoi du lien d'activation de votre compte, vérifiez les logs",
     "verify_email_proceed_with_activation": "Votre compte n'est pas encore actif ! Voulez-vous renvoyer l'email d'activation ?",
     "verify_email_proceed_with_activation_button": "Procéder",
-    "invalid_captcha_token": "Jeton captcha invalide"
+    "invalid_captcha_token": "Jeton captcha invalide",
+    "mercedes_data_usage": "SAP Labs France accède aux données de votre véhicule via Mercedes-Benz dans le but de vous fournir un service de qualité pendant la charge de votre véhicule. SAP Labs France utilise les données suivantes : niveau de la batterie et l'autonomie de votre véhicule pendant la charge. Pour permettre l'accès a ces données, vous devez fournir votre consentement explicite dans les prochaines étapes. Pour toute autre information, veuillez consulter nos conditions d'utilisations."
   },
   "statistics": {
     "title": "Statistiques",
@@ -1681,6 +1682,12 @@
       },
       "types": {
         "mercedes": "Connecteur Mercedes"
+      },
+      "mercedes": {
+        "link_success": "Your account has been successfully linked with Mercedes",
+        "link_error": "Error occurred while linking your account with Mercedes, check the logs",
+        "revoke_success": "Your connection with Mercedes has been successfully revoked",
+        "revoke_error": "Error occurred while revoking your connection with Mercedes, check the logs"
       },
       "description": "E-Mobility peut récupérer en temps réel les données de votre voiture comme le niveau de votre batterie et utiliser cette information avec la charge intelligente pour optimiser vos sessions de recharges.",
       "setting_do_not_exist": "La configuration du connecteur n'existe pas",

@@ -17,11 +17,11 @@ import { Utils } from '../../../../../../utils/Utils';
 import { PaymentMethodDialogComponent } from '../payment-method.dialog.component';
 
 @Component({
-  selector: 'app-payment-method',
-  templateUrl: './payment-method.component.html',
+  selector: 'app-stripe-payment-method',
+  templateUrl: './stripe-payment-method.component.html',
 })
 
-export class PaymentMethodComponent implements OnInit {
+export class StripePaymentMethodComponent implements OnInit {
 
   @Input() public inDialog!: boolean;
   @Input() public dialogRef!: MatDialogRef<PaymentMethodDialogComponent>;

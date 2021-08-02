@@ -29,7 +29,7 @@ import { UserSitesOwnerRadioComponent } from './user-sites/user-sites-owner-radi
 import { UserSitesTableDataSource } from './user-sites/user-sites-table-data-source';
 import { AppPaymentMethodStatusPipe, PaymentMethodStatusComponent } from './user/payment-methods/payment-method/payment-method-status.component';
 import { PaymentMethodDialogComponent } from './user/payment-methods/payment-method/payment-method.dialog.component';
-import { PaymentMethodComponent } from './user/payment-methods/payment-method/stripe/payment-method.component';
+import { StripePaymentMethodComponent } from './user/payment-methods/payment-method/stripe/stripe-payment-method.component';
 import { PaymentMethodsComponent } from './user/payment-methods/payment-methods.component';
 import { UserComponent } from './user/user.component';
 import { UserDialogComponent } from './user/user.dialog.component';
@@ -69,7 +69,7 @@ import { UserRoutes } from './users.routing';
     UserSitesOwnerRadioComponent,
     TagDialogComponent,
     TagComponent,
-    PaymentMethodComponent,
+    StripePaymentMethodComponent,
     PaymentMethodsComponent,
     PaymentMethodDialogComponent,
     AppPaymentMethodStatusPipe,

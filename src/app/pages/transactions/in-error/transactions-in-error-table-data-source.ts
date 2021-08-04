@@ -339,7 +339,9 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
   }
 
   public buildTableDynamicRowActions(transaction: TransactionInError): TableActionDef[] {
-    const rowActions: TableActionDef[] = [this.viewAction];
+    const rowActions: TableActionDef[] = [
+      this.viewAction
+    ];
     const moreActions = new TableMoreAction([]);
     if (transaction.issuer) {
       if (transaction.errorCode === TransactionInErrorType.NO_BILLING_DATA) {

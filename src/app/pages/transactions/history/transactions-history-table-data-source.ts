@@ -459,7 +459,9 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
   }
 
   public buildTableDynamicRowActions(transaction: Transaction): TableActionDef[] {
-    const rowActions: TableActionDef[] = [this.viewAction];
+    const rowActions: TableActionDef[] = [
+      this.viewAction
+    ];
     if (transaction.issuer) {
       if (this.isAdmin) {
         const moreActions = new TableMoreAction([]);

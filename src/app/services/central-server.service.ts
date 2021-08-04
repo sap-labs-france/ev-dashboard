@@ -3110,7 +3110,7 @@ export class CentralServerService {
   }
 
   public chargingStationTriggerDataTransfer(id: string): Observable<ActionResponse> {
-    return this.actionChargingStation(`${ServerRoute.REST_CHARGING_STATIONS}/${id}/dataTransfer`, '');
+    return this.actionChargingStation(`${ServerRoute.REST_CHARGING_STATIONS}/${id}/data/transfer`, '');
   }
 
   public actionChargingStation(action: string, args: string): Observable<ActionResponse> {

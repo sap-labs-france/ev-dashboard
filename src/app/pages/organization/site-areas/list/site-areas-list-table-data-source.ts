@@ -244,21 +244,21 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
   }
 
   public buildTableDynamicRowActions(siteArea: SiteArea): TableActionDef[] {
-    const actions: TableActionDef[] = [];
+    const rowActions: TableActionDef[] = [];
     const openInMaps = new TableOpenInMapsAction().getActionDef();
     // Check if GPS is available
     openInMaps.disabled = !Utils.containsAddressGPSCoordinates(siteArea.address);
     const moreActions = new TableMoreAction([]);
     if (siteArea.canUpdate) {
-      actions.push(this.editAction);
+      rowActions.push(this.editAction);
     } else {
-      actions.push(this.viewAction);
+      rowActions.push(this.viewAction);
     }
     if (this.isAssetComponentActive) {
       if (siteArea.canAssignAssets || siteArea.canUnassignAssets) {
-        actions.push(this.assignAssetsToSiteAreaAction);
+        rowActions.push(this.assignAssetsToSiteAreaAction);
       } else if (this.authorizationService.canListAssets()) {
-        actions.push(this.viewAssetsOfSiteArea);
+        rowActions.push(this.viewAssetsOfSiteArea);
       }
     }
     if (siteArea.canExportOCPPParams) {
@@ -271,13 +271,13 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
       moreActions.addActionInMoreActions(this.deleteAction);
     }
     if (siteArea.canAssignChargingStations || siteArea.canUnassignChargingStations) {
-      actions.push(this.assignChargingStationsToSiteAreaAction);
+      rowActions.push(this.assignChargingStationsToSiteAreaAction);
     } else if (this.authorizationService.canListChargingStations()) {
-      actions.push(this.viewChargingStationsOfSiteArea);
+      rowActions.push(this.viewChargingStationsOfSiteArea);
     }
     moreActions.addActionInMoreActions(openInMaps);
-    actions.push(moreActions.getActionDef());
-    return actions;
+    rowActions.push(moreActions.getActionDef());
+    return rowActions;
   }
 
   public actionTriggered(actionDef: TableActionDef) {

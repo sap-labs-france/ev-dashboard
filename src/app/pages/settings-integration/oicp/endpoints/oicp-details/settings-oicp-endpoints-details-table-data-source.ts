@@ -157,14 +157,13 @@ export class SettingsOicpEndpointsDetailsTableDataSource extends TableDataSource
   }
 
   public buildTableDynamicRowActions(rowItem: OicpEndpointDetail): TableActionDef[] {
-    const actionRowButtons = [];
-
+    const rowActions: TableActionDef[] = [];
     if (rowItem && rowItem.oicpendpoint) {
       // Check is background job is active for the oicp endpoint
       if (rowItem.oicpendpoint.backgroundPatchJob) {
-        actionRowButtons.push(this.stopAction);
+        rowActions.push(this.stopAction);
       } else {
-        actionRowButtons.push(this.startAction);
+        rowActions.push(this.startAction);
       }
       let syncActions: TableActionDef;
       if (rowItem.oicpendpoint.role === OicpRole.CPO) {
@@ -177,9 +176,9 @@ export class SettingsOicpEndpointsDetailsTableDataSource extends TableDataSource
 
         ]).getActionDef();
       }
-      actionRowButtons.push(syncActions);
+      rowActions.push(syncActions);
     }
-    return actionRowButtons;
+    return rowActions;
   }
 
   public rowActionTriggered(actionDef: TableActionDef, oicpEndpointDetail: OicpEndpointDetail) {

@@ -102,6 +102,9 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         WithCompany: true,
         WithSite: true,
         WithSiteArea: true,
+        WithTag: true,
+        WithUser: true,
+        WithCar: true,
         Statistics: 'history',
       }]);
     }
@@ -289,10 +292,17 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
       },
       {
         id: 'tagID',
-        name: 'transactions.badge_id',
+        name: 'tags.id',
+        headerClass: 'col-10p',
+        class: 'text-left col-10p',
+        formatter: (tagID: string) => tagID ? tagID : '-'
+      },
+      {
+        id: 'tag.visualID',
+        name: 'tags.visual_id',
         headerClass: 'col-15p',
         class: 'text-left col-15p',
-        formatter: (tagID: string) => tagID ? tagID : '-'
+        formatter: (visualID: string) => visualID ? visualID : '-'
       });
     }
     if (this.componentService.isActive(TenantComponents.CAR)) {
@@ -449,7 +459,9 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
   }
 
   public buildTableDynamicRowActions(transaction: Transaction): TableActionDef[] {
-    const rowActions: TableActionDef[] = [this.viewAction];
+    const rowActions: TableActionDef[] = [
+      this.viewAction
+    ];
     if (transaction.issuer) {
       if (this.isAdmin) {
         const moreActions = new TableMoreAction([]);

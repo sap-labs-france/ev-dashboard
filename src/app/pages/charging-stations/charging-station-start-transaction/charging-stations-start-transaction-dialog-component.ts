@@ -36,7 +36,7 @@ export class ChargingStationsStartTransactionDialogComponent implements OnInit {
   public car!: AbstractControl;
   public carID!: AbstractControl;
   public tag!: AbstractControl;
-  public tagID!: AbstractControl;
+  public visualTagID!: AbstractControl;
 
   public errorMessage: string;
 
@@ -57,7 +57,7 @@ export class ChargingStationsStartTransactionDialogComponent implements OnInit {
     // Set
     this.title = data.title;
     this.chargeBoxID = data.chargeBoxID;
-    this.loggedUser = centralServerService.getLoggedUser();
+    this.loggedUser = this.centralServerService.getLoggedUser();
     this.canListUsers = this.authorizationService.canListUsers();
     this.isCarComponentActive = this.componentService.isActive(TenantComponents.CAR);
     Utils.registerValidateCloseKeyEvents(this.dialogRef,
@@ -86,7 +86,7 @@ export class ChargingStationsStartTransactionDialogComponent implements OnInit {
           Validators.required,
           this.tagActiveValidator.bind(this),
         ])),
-      tagID: new FormControl('',
+      visualTagID: new FormControl('',
         Validators.compose([
           Validators.required,
         ]))
@@ -97,7 +97,7 @@ export class ChargingStationsStartTransactionDialogComponent implements OnInit {
     this.car = this.formGroup.controls['car'];
     this.carID = this.formGroup.controls['carID'];
     this.tag = this.formGroup.controls['tag'];
-    this.tagID = this.formGroup.controls['tagID'];
+    this.visualTagID = this.formGroup.controls['visualTagID'];
     this.user.setValue(Utils.buildUserFullName(this.loggedUser));
     this.userID.setValue(this.loggedUser.id);
     this.loadUserDefaultTagCar();
@@ -116,7 +116,7 @@ export class ChargingStationsStartTransactionDialogComponent implements OnInit {
         // Set Tag
         this.selectedTag = userDefaultTagCar.tag;
         this.tag.setValue(userDefaultTagCar.tag ? Utils.buildTagName(userDefaultTagCar.tag) : '');
-        this.tagID.setValue(userDefaultTagCar.tag?.id);
+        this.visualTagID.setValue(userDefaultTagCar.tag?.visualID);
         // Set Car
         this.selectedCar = userDefaultTagCar.car;
         this.car.setValue(userDefaultTagCar.car ? Utils.buildCarName(userDefaultTagCar.car, this.translateService, false) : '');
@@ -151,7 +151,7 @@ export class ChargingStationsStartTransactionDialogComponent implements OnInit {
     dialogConfig.data = {
       rowMultipleSelection: false,
       staticFilter: {
-        Issuer: true
+        Issuer: true,
       },
     };
     // Show
@@ -162,7 +162,7 @@ export class ChargingStationsStartTransactionDialogComponent implements OnInit {
       this.user.setValue(Utils.buildUserFullName(result[0].objectRef));
       this.userID.setValue(result[0].key);
       this.tag.setValue('');
-      this.tagID.setValue('');
+      this.visualTagID.setValue('');
       this.car.setValue('');
       this.carID.setValue('');
       this.loadUserDefaultTagCar();
@@ -187,7 +187,7 @@ export class ChargingStationsStartTransactionDialogComponent implements OnInit {
       if (result) {
         this.selectedTag = result[0].objectRef;
         this.tag.setValue(Utils.buildTagName(result[0].objectRef));
-        this.tagID.setValue(result[0].key);
+        this.visualTagID.setValue(result[0].key);
       }
     });
   }
@@ -215,12 +215,15 @@ export class ChargingStationsStartTransactionDialogComponent implements OnInit {
   }
 
   public startTransaction() {
-    const startTransaction: StartTransaction = {
-      userFullName: this.user.value,
-      carID: this.carID.value,
-      tagID: this.tagID.value
-    };
-    this.dialogRef.close(startTransaction);
+    if (this.formGroup.valid) {
+      const startTransaction: StartTransaction = {
+        userID: this.userID.value,
+        userFullName: this.user.value,
+        carID: this.carID.value,
+        visualTagID: this.visualTagID.value
+      };
+      this.dialogRef.close(startTransaction);
+    }
   }
 
   public cancel() {

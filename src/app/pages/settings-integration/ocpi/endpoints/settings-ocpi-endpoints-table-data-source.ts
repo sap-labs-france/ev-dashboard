@@ -20,7 +20,7 @@ import { TableDataSource } from '../../../../shared/table/table-data-source';
 import ChangeNotification from '../../../../types/ChangeNotification';
 import { DataResult } from '../../../../types/DataResult';
 import { ButtonAction, RestResponse } from '../../../../types/GlobalType';
-import { OcpiEndpoint } from '../../../../types/ocpi/OCPIEndpoint';
+import { OcpiEndpoint, OcpiEndpointStatus } from '../../../../types/ocpi/OCPIEndpoint';
 import { ButtonType, DropdownItem, TableActionDef, TableColumnDef, TableDef } from '../../../../types/Table';
 import { Utils } from '../../../../utils/Utils';
 import { SettingsOcpiEndpointDialogComponent } from './endpoint/settings-ocpi-endpoint.dialog.component';
@@ -32,9 +32,9 @@ import { SettingsOcpiEndpointsDetailsComponent } from './ocpi-details/settings-o
 @Injectable()
 export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEndpoint> {
   private editAction = new TableEditAction().getActionDef();
+  private deleteAction = new TableDeleteAction().getActionDef();
   private registerAction = new TableRegisterAction().getActionDef();
   private unregisterAction = new TableUnregisterAction().getActionDef();
-  private deleteAction = new TableDeleteAction().getActionDef();
 
   public constructor(
     public spinnerService: SpinnerService,
@@ -79,6 +79,7 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEn
       design: {
         flat: true,
       },
+      hasDynamicRowAction: true,
       rowDetails: {
         enabled: true,
         angularComponent: SettingsOcpiEndpointsDetailsComponent,
@@ -170,13 +171,17 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEn
     ];
   }
 
-  public buildTableRowActions(): TableActionDef[] {
-    return [
+  public buildTableDynamicRowActions(ocpiEndpoint: OcpiEndpoint): TableActionDef[] {
+    const rowActions: TableActionDef[] = [
       this.editAction,
-      this.registerAction,
-      this.unregisterAction,
-      this.deleteAction,
     ];
+    if (ocpiEndpoint.status === OcpiEndpointStatus.REGISTERED) {
+      rowActions.push(this.unregisterAction);
+    } else {
+      rowActions.push(this.registerAction);
+    }
+    rowActions.push(this.deleteAction);
+    return rowActions;
   }
 
   public actionTriggered(actionDef: TableActionDef) {

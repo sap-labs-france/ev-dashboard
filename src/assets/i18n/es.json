@@ -26,7 +26,7 @@
     "nbr_of_records": "Registros",
     "connectors": "Conexiones",
     "notifications": "Notificaciones",
-    "app_name": "e-Mobility",
+    "app_name": "Open e-Mobility",
     "version": "Versión",
     "about_us": "Sobre nosotros",
     "unexpected_error_backend": "Ocurrió un error inesperado",
@@ -505,7 +505,7 @@
     "eula": "acuerdo de licencia de usuario final",
     "must_accept_eula": "Debe aceptar el acuerdo de licencia de usuario final",
     "no_space_in_password": "No se permite espacio al principio ni al final",
-    "title": "Iniciar sesión en e-Mobility",
+    "title": "Iniciar sesión en Open e-Mobility",
     "register": "Registrarse",
     "signup_link": "¿Nuevo Usuario? ¡Registrarse!",
     "signin_link": "¿Ya tiene una cuenta? ¡Inicie sesión!",
@@ -563,7 +563,8 @@
     "verify_email_resend_error": "Se produjo un error al reenviar el enlace de activación de su cuenta",
     "verify_email_proceed_with_activation": "Su cuenta aún no ha sido activada! ¿Desea solicitar nuevamente un enlace de activación?",
     "verify_email_proceed_with_activation_button": "Proceder",
-    "invalid_captcha_token": "Token de captcha inválido"
+    "invalid_captcha_token": "Token de captcha inválido",
+    "mercedes_data_usage": "SAP Labs France is accessing your car’s data via Mercedes-Benz for the purpose of providing you a high quality of service during the charging session of your vehicle. SAP Labs France is processing the following data: EV battery level and range of your car. For allowing the processing of your data, you’ll have to give the explicit consent in the following steps. For any further information please note our End-user Agreement Usage of the e-Mobility Software."
   },
   "statistics": {
     "title": "Estadísticas",
@@ -1157,6 +1158,8 @@
     },
     "import_users": "Import users",
     "import_users_message": "The import will discard all other previously uploaded users not yet imported in the database, do you want to continue?",
+    "import_users_message_auto_activate": "The import will discard all other previously uploaded users not yet imported in the database and users will be automatically activated, do you want to continue?",
+    "import_users_auto_activation": "Automatically activate new users",
     "import_users_success": "{{inSuccess}} users have been uploaded successfully and will be processed asynchronously",
     "import_users_partial": "{{inSuccess}} users have been uploaded successfully and will be processed asynchronously and {{inError}} failed, check the logs",
     "import_users_error": "{{inError}} users failed to be uploaded",
@@ -1335,10 +1338,10 @@
     "failed_download": "Invoice download failed."
   },
   "tags": {
-    "id": "ID",
+    "id": "Tag ID",
     "not_active": "This badge is not active",
     "issuer": "Propietario de la organización",
-    "visual_id": "Visual ID",
+    "visual_id": "Visual Tag ID",
     "visual_id_instruction": "Please fill the ID that is displayed on the badge",
     "status": "Estatus",
     "activated": "Active",
@@ -1379,10 +1382,12 @@
     "delete_no_tag": "No badge has been deleted",
     "import_tags": "Import Badges",
     "import_tags_message": "The import will discard all other previously uploaded badges not yet imported in the database, do you want to continue?",
+    "import_tags_message_auto_activate": "The import will discard all other previously uploaded badges not yet imported in the database, do you want to continue?",
     "import_tags_success": "{{inSuccess}} badges have been uploaded successfully and will be processed asynchronously",
     "import_tags_partial": "{{inSuccess}} badges have been uploaded successfully and will be processed asynchronously and {{inError}} failed, check the logs",
     "import_tags_error": "{{inError}} badges failed to be uploaded",
-    "import_no_tags": "No badge have been uploaded"
+    "import_no_tags": "No badge have been uploaded",
+    "import_tags_auto_activation": "Automatically activate new tags"
   },
   "tenants": {
     "title": "Organización",
@@ -1647,7 +1652,8 @@
         "schneider": "Gestión de edificios Schneider",
         "greencom": "GreenCom Asset Management System",
         "iothink": "ioThink Asset Management System",
-        "wit": "WIT Asset Management System"
+        "wit": "WIT Asset Management System",
+        "lacroix": "LACROIX Asset Management System"
       },
       "connection_success": "Connection to the system was tested successfully",
       "unknown_connection_error": "Error de conexión desconocido",
@@ -1676,6 +1682,12 @@
       },
       "types": {
         "mercedes": "Mercedes Connector"
+      },
+      "mercedes": {
+        "link_success": "Your account has been successfully linked with Mercedes",
+        "link_error": "Error occurred while linking your account with Mercedes, check the logs",
+        "revoke_success": "Your connection with Mercedes has been successfully revoked",
+        "revoke_error": "Error occurred while revoking your connection with Mercedes, check the logs"
       },
       "description": "E-Mobility can get real time data of your cars like the current state of charge and use this information with the smart charging algorithm to optimize charging sessions.",
       "setting_do_not_exist": "Configuration has not been found",
@@ -1719,7 +1731,7 @@
     },
     "user": {
       "title": "Account Settings",
-      "auto_activation": "Automatically activate new user account at registration time",
+      "auto_activation": "Automatically activate new user at registration time",
       "update_success": "User settings have been updated successfully",
       "update_error": "Error occurred while updating the user settings, check the logs",
       "setting_do_not_exist": "User settings not found"

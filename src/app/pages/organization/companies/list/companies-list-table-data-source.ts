@@ -93,6 +93,15 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
         angularComponent: CompanyLogoFormatterCellComponent,
       },
       {
+        id: 'id',
+        name: 'general.id',
+        sortable: true,
+        headerClass: 'col-30p',
+        class: 'col-30p',
+        sorted: true,
+        direction: 'asc',
+      },
+      {
         id: 'name',
         name: 'companies.name',
         headerClass: 'col-50p',

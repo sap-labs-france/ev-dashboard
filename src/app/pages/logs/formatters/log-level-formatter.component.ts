@@ -31,7 +31,7 @@ export class AppFormatLogLevelPipe implements PipeTransform {
   }
 
   public buildLogLevelClasses(logLevel: string): string {
-    let classNames = 'chip-width-5em ';
+    let classNames = 'chip-width-8em ';
     switch (logLevel) {
       case 'E':
         classNames += ChipType.DANGER;

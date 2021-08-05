@@ -24,13 +24,110 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.4.77',
-        date: new Date('2021-07-15'),
+        version: '2.4.83',
+        date: new Date('2021-08-04'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Fixed OCPI Register Endpoint not getting the IOP information`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.82',
+        date: new Date('2021-08-02'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Billing invoicing is now checked daily`,
+              `Enhancement of Logs`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.81',
+        date: new Date('2021-07-30'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Implemented Mercedez access for getting Car's battery level during the charging session for the Smart Charging`,
+              `Added new ARK Charging Station's model in templates`,
+              `Clean up Charging Station's connector when Available Status Notification is sent with no Stop Transaction`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.80',
+        date: new Date('2021-07-29'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Import Tags and Users with Sites + Auto activate Tags and Users' account`,
+              `Add Transaction endpoints to RESTfull public API`,
+              `Optimized Database performances on Charging Stations, Transactions, Users, Stats and Site Areas`,
+              `Display Web Socket protocol not provided in customer's Tenant`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.79',
+        date: new Date('2021-07-26'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Fixed Site Admin cannot see Statistics of his Users`,
+              `Fixed missing IDs in RESTful file documentation`,
+              `Lacroix / Linky Asset integration`,
+              `Check Charging Station Registration Token at Web Socket connection and refuse it if not valid`,
+              `Set OCPI Opening Hours and Tariff ID for SLF Caen`,
+              `Set the OCPP heartbeat to 60 secs in OCPP 1.6-J`,
+              `Stop OCPI Transaction if receiving OCPP Meter Values with unknown Transaction ID`,
+              `Do not create a Transaction before checking Roaming Authorization`,
+              `Request OCPI Authorization Token also in OCPP Start Transaction in addition to OCPP Authorize`,
+              `Restrain OCPI Remote Authorization Token validity from 10 mins to 2 mins`
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.78',
+        date: new Date('2021-07-20'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Do not try to process OCPI sessions in progress`,
+              `Always check OCPI Sessions and CDRs once in the Job`,
+              `End of Charge notification is sent only once`,
+              `Increase database performances in clustered environment`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.77',
+        date: new Date('2021-07-18'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Introduced the Badge visual ID in the Transaction's lists and pop-ups`,
+              `Start a Transaction with the Badge visual ID`,
               `Fixed excluded already processed Charge Points`,
+              `Fixed get lastest Assets' consumptions`,
+              `Do not update the Charging Station's heart beat when checked by the job`,
+              `Check OCPI Transactions on only finished Transactions`,
+              `Free the Connector's runtime data of already stopped Transaction`,
+              `Web Socket simplification`,
             ],
           },
         ],
@@ -65,7 +162,7 @@ export class ReleaseNotesComponent {
               `Force the Charging Station unavailability's status after 2 mins instead of 9 mins when not responding`,
               `Set the standard Heartbeat OCPP param first and try workarounds next if it failed`,
               `Make Log's Action filter more specifics (REST, OCPP...)`,
-              `Added new Joint new Charging Station's model in templates`,
+              `Added new Joint Charging Station's model in templates`,
               `Optimized DB access in OICP endpoint (Hubject)`,
               `Prevent deletion of Users in Stripe`,
             ],

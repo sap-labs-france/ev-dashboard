@@ -12,6 +12,7 @@ import { CommonDirectivesModule } from '../../shared/directives/directives.modul
 import { FormattersModule } from '../../shared/formatters/formatters.module';
 import { TableModule } from '../../shared/table/table.module';
 import { ConcurUserConnectionComponent } from './connections/concur/concur-user-connection.component';
+import { MercedesUserConnectionComponent } from './connections/mercedes/mercedes-user-connection.component';
 import { AppFormatTagStatusPipe, TagStatusFormatterComponent } from './formatters/tag-status-formatter.component';
 import { AppUserRolePipe } from './formatters/user-role.pipe';
 import { AppFormatUserStatusPipe, UserStatusFormatterComponent } from './formatters/user-status-formatter.component';
@@ -28,7 +29,7 @@ import { UserSitesOwnerRadioComponent } from './user-sites/user-sites-owner-radi
 import { UserSitesTableDataSource } from './user-sites/user-sites-table-data-source';
 import { AppPaymentMethodStatusPipe, PaymentMethodStatusComponent } from './user/payment-methods/payment-method/payment-method-status.component';
 import { PaymentMethodDialogComponent } from './user/payment-methods/payment-method/payment-method.dialog.component';
-import { PaymentMethodComponent } from './user/payment-methods/payment-method/stripe/payment-method.component';
+import { StripePaymentMethodComponent } from './user/payment-methods/payment-method/stripe/stripe-payment-method.component';
 import { PaymentMethodsComponent } from './user/payment-methods/payment-methods.component';
 import { UserComponent } from './user/user.component';
 import { UserDialogComponent } from './user/user.dialog.component';
@@ -62,12 +63,13 @@ import { UserRoutes } from './users.routing';
     UserSitesDialogComponent,
     UserSitesAdminCheckboxComponent,
     ConcurUserConnectionComponent,
+    MercedesUserConnectionComponent,
     AppUserRolePipe,
     AppUserStatusPipe,
     UserSitesOwnerRadioComponent,
     TagDialogComponent,
     TagComponent,
-    PaymentMethodComponent,
+    StripePaymentMethodComponent,
     PaymentMethodsComponent,
     PaymentMethodDialogComponent,
     AppPaymentMethodStatusPipe,

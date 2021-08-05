@@ -182,25 +182,25 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
   }
 
   public buildTableDynamicRowActions(connector: Connector): TableActionDef[] {
-    const actions = [];
+    const rowActions = [];
     if (connector) {
       if (connector.isTransactionDisplayAuthorized) {
-        actions.push(this.viewTransactionAction);
+        rowActions.push(this.viewTransactionAction);
       }
       if (connector.isStopAuthorized) {
-        actions.push(this.stopTransactionAction);
+        rowActions.push(this.stopTransactionAction);
       }
       if (connector.isStartAuthorized && !this.chargingStation.inactive) {
-        actions.push(this.startTransactionAction);
+        rowActions.push(this.startTransactionAction);
       }
       if (this.authorizationService.canUnlockConnector(this.chargingStation.siteArea)) {
         const unlockConnectorAction = new TableChargingStationsUnlockConnectorAction().getActionDef();
         unlockConnectorAction.disabled = connector.status === ChargePointStatus.AVAILABLE || this.chargingStation.inactive;
-        actions.push(unlockConnectorAction);
+        rowActions.push(unlockConnectorAction);
       }
     }
-    if (!Utils.isEmptyArray(actions)) {
-      return actions;
+    if (!Utils.isEmptyArray(rowActions)) {
+      return rowActions;
     }
     // By default no actions
     return [

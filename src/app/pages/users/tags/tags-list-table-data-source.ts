@@ -222,11 +222,11 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
           this.translateService.instant('general.no'),
       },
       {
-        id: 'user',
+        id: 'user.name',
         name: 'users.title',
         headerClass: 'col-20p',
         class: 'col-20p',
-        formatter: (user: User) => Utils.buildUserFullName(user),
+        formatter: (name: string, tag: Tag) => Utils.buildUserFullName(tag.user),
       },
       {
         id: 'user.email',
@@ -276,7 +276,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
   }
 
   public buildTableDynamicRowActions(tag: Tag): TableActionDef[] {
-    const rowActions = [];
+    const rowActions: TableActionDef[] = [];
     const moreActions = new TableMoreAction([]);
     if (tag.canUpdate) {
       rowActions.push(this.editAction);

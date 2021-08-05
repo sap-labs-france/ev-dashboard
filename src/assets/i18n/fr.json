@@ -26,7 +26,7 @@
     "nbr_of_records": "Enregistrements",
     "connectors": "Connexions",
     "notifications": "Notifications",
-    "app_name": "e-Mobility",
+    "app_name": "Open e-Mobility",
     "version": "Version",
     "about_us": "A Propos",
     "unexpected_error_backend": "Une erreur inattendue s'est produite, vérifiez les logs",
@@ -505,7 +505,7 @@
     "eula": "Conditions Générales d'Utilisation",
     "must_accept_eula": "Vous devez accepter les Conditions Générales d'Utilisation",
     "no_space_in_password": "Espace interdit au debut et à la fin",
-    "title": "Connectez-vous sur e-Mobility",
+    "title": "Connectez-vous sur Open e-Mobility",
     "register": "Enregistrez-vous sur e-Mobility",
     "signup_link": "Nouvel utilisateur? Créez un compte!",
     "signin_link": "Vous avez déjà un compte? Connectez vous!",
@@ -563,7 +563,8 @@
     "verify_email_resend_error": "Une erreur est survenue pendant l'envoi du lien d'activation de votre compte, vérifiez les logs",
     "verify_email_proceed_with_activation": "Votre compte n'est pas encore actif ! Voulez-vous renvoyer l'email d'activation ?",
     "verify_email_proceed_with_activation_button": "Procéder",
-    "invalid_captcha_token": "Jeton captcha invalide"
+    "invalid_captcha_token": "Jeton captcha invalide",
+    "mercedes_data_usage": "SAP Labs France accède aux données de votre véhicule via Mercedes-Benz dans le but de vous fournir un service de qualité pendant la charge de votre véhicule. SAP Labs France utilise les données suivantes : niveau de la batterie et l'autonomie de votre véhicule pendant la charge. Pour permettre l'accès a ces données, vous devez fournir votre consentement explicite dans les prochaines étapes. Pour toute autre information, veuillez consulter nos conditions d'utilisations."
   },
   "statistics": {
     "title": "Statistiques",
@@ -1157,6 +1158,8 @@
     },
     "import_users": "Importer des utilisateurs",
     "import_users_message": "L'import va supprimer tous les utilisateurs transférés précédemment qui n'ont pas encore été importé dans la base de données, voulez-vous continuer?",
+    "import_users_message_auto_activate": "L'import va supprimer tous les utilisateurs transférés précédemment qui n'ont pas encore été importé dans la base de données et les utilisateurs seront automatiquement activés, voulez-vous continuer?",
+    "import_users_auto_activation": "Activer automatiquement les nouveaux utilisateurs",
     "import_users_success": "{{inSuccess}} utilisateurs ont été enregistrés avec succès et seront importés de manière asynchrone",
     "import_users_partial": "{{inSuccess}} utilisateurs ont été enregistrés avec succès et seront importés de manière asynchrone et {{inError}} ont échoué, vérifiez les logs",
     "import_users_error": "{{inError}} utilisateurs n'ont pas pu être enregistré",
@@ -1335,11 +1338,11 @@
     "failed_download": "Le téléchargement de la facture a échoué."
   },
   "tags": {
-    "id": "ID",
+    "id": "No Badge",
     "not_active": "Ce badge n'est pas actif",
     "issuer": "Propriétaire",
-    "visual_id": "ID visuel",
-    "visual_id_instruction": "Veuillez remplir L'ID affiché sur le badge",
+    "visual_id": "No Badge Visuel",
+    "visual_id_instruction": "Veuillez remplir le numéro affiché sur le badge",
     "status": "Statut",
     "activated": "Activé",
     "deactivated": "Inactif",
@@ -1379,10 +1382,12 @@
     "delete_no_tag": "Auncun badge n'a été supprimé",
     "import_tags": "Importer des bagdes",
     "import_tags_message": "L'import va supprimer tous les badges transférés précédemment qui n'ont pas encore été importé dans la base de données, voulez-vous continuer?",
+    "import_tags_message_auto_activate": "L'import va supprimer tous les badges transférés précédemment qui n'ont pas encore été importé dans la base de données et les utilisateurs seront automatiquement activés, voulez-vous continuer?",
     "import_tags_success": "{{inSuccess}} badges ont été enregistrés avec succès et seront importés de manière asynchrone",
     "import_tags_partial": "{{inSuccess}} badges ont été enregistrés avec succès et seront importés de manière asynchrone et {{inError}} ont échoué, vérifiez les logs",
     "import_tags_error": "{{inError}} badges n'ont pas pu être enregistré",
-    "import_no_tags": "Aucun badge n'a été enregistré"
+    "import_no_tags": "Aucun badge n'a été enregistré",
+    "import_tags_auto_activation": "Activer automatiquement les nouveaux badges"
   },
   "tenants": {
     "title": "Organisation",
@@ -1647,7 +1652,8 @@
         "schneider": "Gestion Bâtiment Schneider",
         "greencom": "GreenCom Gestion des Ressources",
         "iothink": "ioThink Gestion des Ressources",
-        "wit": "WIT Asset Management System"
+        "wit": "WIT Asset Management System",
+        "lacroix": "LACROIX Asset Management System"
       },
       "connection_success": "Connexion vers le système vérifiée avec succès",
       "unknown_connection_error": "Erreur de connexion inconnue",
@@ -1676,6 +1682,12 @@
       },
       "types": {
         "mercedes": "Connecteur Mercedes"
+      },
+      "mercedes": {
+        "link_success": "Your account has been successfully linked with Mercedes",
+        "link_error": "Error occurred while linking your account with Mercedes, check the logs",
+        "revoke_success": "Your connection with Mercedes has been successfully revoked",
+        "revoke_error": "Error occurred while revoking your connection with Mercedes, check the logs"
       },
       "description": "E-Mobility peut récupérer en temps réel les données de votre voiture comme le niveau de votre batterie et utiliser cette information avec la charge intelligente pour optimiser vos sessions de recharges.",
       "setting_do_not_exist": "La configuration du connecteur n'existe pas",

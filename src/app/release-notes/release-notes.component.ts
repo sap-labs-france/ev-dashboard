@@ -24,6 +24,18 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.84',
+        date: new Date('2021-08-05'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Check Billing payment method in OCPP Authorize`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.83',
         date: new Date('2021-08-04'),
         componentChanges: [

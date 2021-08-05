@@ -31,7 +31,7 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Check Billing payment method in OCPP Authorize`,
-              `Added new CongCongTech Charging Station's model in templates`,
+              `Added new CongCongTech, Alpitronic, Alfen Single Proline and Efacec QC45 Charging Station's model in templates`,
             ],
           },
         ],

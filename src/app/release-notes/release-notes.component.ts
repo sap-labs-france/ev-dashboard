@@ -32,6 +32,7 @@ export class ReleaseNotesComponent {
             changes: [
               `Check Billing payment method in OCPP Authorize`,
               `Do not create automatically the Badge when not known`,
+              `Clean-up current Transaction when OCPP Start Transaction fails on the same Connector`,
               `Added new CongCongTech, Alpitronic, Alfen Single Proline and Efacec QC45 Charging Station's model in templates`,
             ],
           },

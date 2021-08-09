@@ -24,6 +24,21 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.84',
+        date: new Date('2021-08-06'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Check Billing payment method in OCPP Authorize`,
+              `Do not create automatically the Badge when not known`,
+              `Clean-up current Transaction when OCPP Start Transaction fails on the same Connector`,
+              `Added new CongCongTech, Alpitronic, Alfen Single Proline and Efacec QC45 Charging Station's model in templates`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.83',
         date: new Date('2021-08-04'),
         componentChanges: [

@@ -53,10 +53,10 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
   private backgroundColor!: string;
   private language!: string;
   private activeLegend = [
-    { key: this.translateService.instant('organization.graph.asset_consumption_amps') + this.translateService.instant('organization.graph.asset_consumption_watts'), hidden: false },
-    { key: this.translateService.instant('organization.graph.asset_production_amps') + this.translateService.instant('organization.graph.asset_production_watts'), hidden: false },
-    { key: this.translateService.instant('organization.graph.charging_station_consumption_amps') + this.translateService.instant('organization.graph.charging_station_consumption_watts'), hidden: false },
-    { key: this.translateService.instant('organization.graph.net_consumption_amps') + this.translateService.instant('organization.graph.net_consumption_watts'), hidden: false }
+    {
+      key: this.translateService.instant('organization.graph.net_consumption_amps') + this.translateService.instant('organization.graph.net_consumption_watts'),
+      hidden: false
+    }
   ];
 
   public constructor(
@@ -85,6 +85,15 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
     this.activeLegend.push(
       {
         key: this.translateService.instant('organization.graph.limit_amps') + this.translateService.instant('organization.graph.limit_watts'),
+        hidden: this.canCrudSiteArea ? false : true
+      },{
+        key: this.translateService.instant('organization.graph.asset_consumption_amps') + this.translateService.instant('organization.graph.asset_consumption_watts'),
+        hidden: this.canCrudSiteArea ? false : true
+      },{
+        key: this.translateService.instant('organization.graph.asset_production_amps') + this.translateService.instant('organization.graph.asset_production_watts'),
+        hidden: this.canCrudSiteArea ? false : true
+      },{
+        key: this.translateService.instant('organization.graph.charging_station_consumption_amps') + this.translateService.instant('organization.graph.charging_station_consumption_watts'),
         hidden: this.canCrudSiteArea ? false : true
       },
     );

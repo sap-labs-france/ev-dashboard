@@ -31,7 +31,8 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Show asset's consumption/production in the Site Area charts`,
-              `Added new Charging Station's model in templates`,
+              `EVlink Smart Wallbox - new serial number added to the templates`,
+              `Wall Box Chargers - new firmware added to the templates`
             ],
           },
         ],

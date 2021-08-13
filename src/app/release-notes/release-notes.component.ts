@@ -32,7 +32,8 @@ export class ReleaseNotesComponent {
             changes: [
               `Show asset's consumption/production in the Site Area charts`,
               `EVlink Smart Wallbox - new serial number added to the templates`,
-              `Wall Box Chargers - new firmware added to the templates`
+              `Wall Box Chargers - new firmware added to the templates`,
+              `Fixed: Domestic connector for OCPI`
             ],
           },
         ],

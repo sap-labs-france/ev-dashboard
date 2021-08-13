@@ -24,6 +24,19 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.85',
+        date: new Date('2021-08-13'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Show asset's consumption/production in the Site Area charts`,
+              `Added new Charging Station's model in templates`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.84',
         date: new Date('2021-08-06'),
         componentChanges: [

@@ -1,36 +1,37 @@
-/* eslint-disable @typescript-eslint/member-ordering */
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { SetupIntent, StripeCardCvcElement, StripeCardExpiryElement, StripeCardNumberElement, StripeElements, StripeError } from '@stripe/stripe-js';
-import { ComponentService } from 'services/component.service';
+import { PaymentIntent, PaymentMethod, SetupIntent, StripeCardCvcElement, StripeCardExpiryElement, StripeCardNumberElement, StripeElements, StripeError } from '@stripe/stripe-js';
+import { CentralServerService } from 'services/central-server.service';
+import { MessageService } from 'services/message.service';
+import { SpinnerService } from 'services/spinner.service';
 import { StripeService } from 'services/stripe.service';
+import { AppCurrencyPipe } from 'shared/formatters/app-currency.pipe';
+// import { TablePayInvoiceAction } from 'shared/table/actions/invoices/table-pay-invoice-action';
+import { BillingInvoiceStatus } from 'types/Billing';
 import { BillingOperationResult } from 'types/DataResult';
-import TenantComponents from 'types/TenantComponents';
+import { BillingSettings } from 'types/Setting';
+import { Utils } from 'utils/Utils';
 
-import { CentralServerService } from '../../../../../../services/central-server.service';
-import { MessageService } from '../../../../../../services/message.service';
-import { SpinnerService } from '../../../../../../services/spinner.service';
-import { Utils } from '../../../../../../utils/Utils';
-import { PaymentMethodDialogComponent } from '../payment-method.dialog.component';
+import { InvoiceComponent } from '../invoice.component';
+
+// import { InvoicePaymentDialogComponent } from './invoice-payment.dialog.component';
 
 @Component({
-  selector: 'app-stripe-payment-method',
-  templateUrl: './stripe-payment-method.component.html',
+  selector: 'app-invoice-payment',
+  templateUrl: 'invoice-payment.component.html',
 })
-
-export class StripePaymentMethodComponent implements OnInit {
-
-  @Input() public inDialog!: boolean;
-  @Input() public dialogRef!: MatDialogRef<PaymentMethodDialogComponent>;
+export class InvoicePaymentComponent implements OnInit{
+  @Input() public dialogRef!: MatDialogRef<any>;
+  @Input() public currentInvoiceID!: string;
   @Input() public currentUserID!: string;
-  @ViewChild('cardInfo', { static: true }) public cardInfo: ElementRef;
-  public formGroup!: FormGroup;
-  public isBillingComponentActive: boolean;
-  public userID: string;
-  public acceptConditions: AbstractControl;
+  @Input() public formGroup!: FormGroup;
+  @Input() public inDialog!: boolean;
+  @Input() public amountWithCurrency!: string;
+
+  public userID!: AbstractControl;
   // Stripe elements
   public elements: StripeElements;
   public cardNumber: StripeCardNumberElement;
@@ -40,37 +41,62 @@ export class StripePaymentMethodComponent implements OnInit {
   public cardNumberError: string;
   public expirationDateError: string;
   public cvcError: string;
-  // conditions to enable Save
+
+  public invoiceComponent: InvoiceComponent;
   public hasAcceptedConditions: boolean;
   public isCardNumberValid: boolean;
   public isExpirationDateValid: boolean;
   public isCvcValid: boolean;
   public isSaveClicked: boolean;
-
+  public invoiceStatus: BillingInvoiceStatus;
+  public isPaid: boolean;
+  public billingSettings: BillingSettings;
   public constructor(
-    private centralServerService: CentralServerService,
+    public spinnerService: SpinnerService,
     private messageService: MessageService,
-    private spinnerService: SpinnerService,
-    private stripeService: StripeService,
+    private translateService: TranslateService,
     private router: Router,
-    private componentService: ComponentService,
-    public translateService: TranslateService) {
-    this.isBillingComponentActive = this.componentService.isActive(TenantComponents.BILLING);
-    this.hasAcceptedConditions = false;
+    private appCurrencyPipe: AppCurrencyPipe,
+    private stripeService: StripeService,
+    private centralServerService: CentralServerService,
+    private dialog: MatDialog
+  ) {
     this.isCardNumberValid = false;
     this.isExpirationDateValid = false;
     this.isCvcValid = false;
     this.isSaveClicked = false;
   }
 
-  public ngOnInit(): void {
-    // TODO: make sure to wait for stripe to be initialized - spinner show
-    this.initialize();
-    this.userID = this.dialogRef.componentInstance.userID;
-    this.formGroup = new FormGroup({
-      acceptConditions: new FormControl()
-    });
-    this.acceptConditions = this.formGroup.controls['acceptConditions'];
+  public ngOnInit(){
+    this.loadCardForm();
+  }
+
+  public setCurrentUserId(currentUserID: string) {
+    this.currentUserID = currentUserID;
+  }
+
+  public setCurrentInvoiceId(currentInvoiceID: string) {
+    this.currentInvoiceID = currentInvoiceID;
+  }
+
+  public setCurrentAmount(amount: string) {
+    this.amountWithCurrency = amount;
+  }
+
+  public async callInvoicePaymentBack() {
+    await this.doCreatePaymentMethod();
+  }
+
+  public closeDialog(saved: boolean = false) {
+    this.dialogRef.close(saved);
+  }
+
+  public loadCardForm() {
+    void this.initialize();
+  }
+
+  public close(saved: boolean = false) {
+    this.closeDialog(saved);
   }
 
   private async initialize(): Promise<void> {
@@ -87,10 +113,6 @@ export class StripePaymentMethodComponent implements OnInit {
     } finally {
       this.spinnerService.hide();
     }
-  }
-
-  public handleAcceptConditions() {
-    this.hasAcceptedConditions = !this.hasAcceptedConditions;
   }
 
   private getStripeFacade() {
@@ -123,9 +145,91 @@ export class StripePaymentMethodComponent implements OnInit {
     });
   }
 
-  public linkCardToAccount() {
-    this.isSaveClicked = true;
-    void this.doCreatePaymentMethod();
+  private async createPaymentMethod(): Promise<any> {
+    // c.f. STRIPE SAMPLE at: https://stripe.com/docs/billing/subscriptions/fixed-price#collect-payment
+    let operationResult = null;
+    try {
+      this.spinnerService.show();
+      // -----------------------------------------------------------------------------------------------
+      // Step #0 - Create Setup Intent
+      // -----------------------------------------------------------------------------------------------
+
+      //Below to test new payment intents
+      // const response: BillingOperationResult = await this.centralServerService.setupPaymentIntent({
+      //   userID: this.currentUserID,
+      //   invoiceID: this.currentInvoiceID
+      // }).toPromise();
+
+
+      // Below to use the same process as payment method
+      const response: BillingOperationResult = await this.centralServerService.setupPaymentMethod({
+        userID: this.currentUserID,
+      }).toPromise();
+
+      // -----------------------------------------------------------------------------------------------
+      // Step #1 - Confirm the SetupIntent with data provided and carry out 3DS
+      // c.f. https://stripe.com/docs/js/setup_intents/confirm_card_setup
+      // -----------------------------------------------------------------------------------------------
+
+      const setupIntent: any = response?.internalData;
+
+      // TODO: handle spinner .hide / .show in a better way ? to be tested in prod // we cannot anymore reclick save button twice
+      // setTimeout doesn't work as expected - it never hides...
+      // setTimeout(function() {
+      this.spinnerService.hide();
+      // // }, 4000);
+      // eslint-disable-next-line max-len
+      const confirmResult: { setupIntent?: SetupIntent; error?: StripeError } = await this.getStripeFacade().confirmCardSetup( setupIntent.client_secret, {
+        payment_method: {
+          card: this.cardNumber
+          // TODO: put email and address
+          // billing_details: {
+          //   name: this.centralServerService.getCurrentUserSubject().value.email + new Date(),
+          // },
+        },
+      });
+      this.spinnerService.show();
+      if (confirmResult.error) {
+        operationResult = response;
+      } else {
+        const attachResult = await this.attachPaymentMethod(confirmResult);
+        if (attachResult.error) {
+          operationResult = response;
+        } else {
+          const paymentMethod: any = attachResult.internalData;
+          operationResult = await this.finalizeInvoicePayment(paymentMethod.id);
+        }
+      }
+    } catch (error) {
+      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
+    } finally {
+      this.spinnerService.hide();
+    }
+    return operationResult;
+  }
+  // -----------------------------------------------------------------------------------------------
+  // Step #2 - Really attach the payment method / not called when 3DS failed
+  // -----------------------------------------------------------------------------------------------
+  private async attachPaymentMethod(result: {setupIntent?: SetupIntent; error?: StripeError}) {
+    const response: BillingOperationResult = await this.centralServerService.setupPaymentMethod({
+      // setupIntentId: result.setupIntent?.id,
+      paymentMethodID: result.setupIntent?.payment_method,
+      userID: this.currentUserID,
+      oneTimePayment: true
+    }).toPromise();
+    return response;
+  }
+
+  // -----------------------------------------------------------------------------------------------
+  // Step #3 - Pay invoice once creating/attaching payment method succeeded
+  // -----------------------------------------------------------------------------------------------
+  private async finalizeInvoicePayment(paymentMethodID: string) {
+    const response: BillingOperationResult = await this.centralServerService.processInvoicePayment({
+      userID: this.currentUserID,
+      invoiceID: this.currentInvoiceID,
+      paymentMethodID
+    }).toPromise();
+    return response;
   }
 
   private async doCreatePaymentMethod() {
@@ -146,69 +250,6 @@ export class StripePaymentMethodComponent implements OnInit {
       // Operation succeeded
       this.messageService.showSuccessMessage('settings.billing.payment_methods_create_success', { last4: operationResult.internalData.card.last4 });
       this.close(true);
-    }
-  }
-
-  private async createPaymentMethod(): Promise<any> {
-    // c.f. STRIPE SAMPLE at: https://stripe.com/docs/billing/subscriptions/fixed-price#collect-payment
-    let operationResult = null;
-    try {
-      this.spinnerService.show();
-      // -----------------------------------------------------------------------------------------------
-      // Step #0 - Create Setup Intent
-      // -----------------------------------------------------------------------------------------------
-      const response: BillingOperationResult = await this.centralServerService.setupPaymentMethod({
-        userID: this.userID
-      }).toPromise();
-      // -----------------------------------------------------------------------------------------------
-      // Step #1 - Confirm the SetupIntent with data provided and carry out 3DS
-      // c.f. https://stripe.com/docs/js/setup_intents/confirm_card_setup
-      // -----------------------------------------------------------------------------------------------
-      const setupIntent: any = response?.internalData;
-      // TODO: handle spinner .hide / .show in a better way ? to be tested in prod // we cannot anymore reclick save button twice
-      // setTimeout doesn't work as expected - it never hides...
-      // setTimeout(function() {
-      this.spinnerService.hide();
-      // }, 4000);
-      // eslint-disable-next-line max-len
-      const result: { setupIntent?: SetupIntent; error?: StripeError } = await this.getStripeFacade().confirmCardSetup( setupIntent.client_secret, {
-        payment_method: {
-          card: this.cardNumber
-          // TODO: put email and address
-          // billing_details: {
-          //   name: this.centralServerService.getCurrentUserSubject().value.email + new Date(),
-          // },
-        },
-      });
-      this.spinnerService.show();
-      if (result.error) {
-        operationResult = result;
-      } else {
-        operationResult = this.attachPaymentMethod(result);
-      }
-    } catch (error) {
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
-    } finally {
-      this.spinnerService.hide();
-    }
-    return operationResult;
-  }
-  // -----------------------------------------------------------------------------------------------
-  // Step #2 - Really attach the payment method / not called when 3DS failed
-  // -----------------------------------------------------------------------------------------------
-  private async attachPaymentMethod(operationResult: {setupIntent?: SetupIntent; error?: StripeError}) {
-    // TODO: verify if setupIntentId usefull ??
-    const response: BillingOperationResult = await this.centralServerService.setupPaymentMethod({
-      setupIntentId: operationResult.setupIntent?.id,
-      paymentMethodID: operationResult.setupIntent?.payment_method,
-      userID: this.userID
-    }).toPromise();
-    return response;
-  }
-
-  public close(saved: boolean = false) {
-    if (this.inDialog) {
-      this.dialogRef.close(saved);
     }
   }
 }

@@ -1335,7 +1335,9 @@
     "number_of_items": "Sessioni",
     "pay": "Paga",
     "user": "Utente",
-    "failed_download": "Download della fattura non riuscito"
+    "failed_download": "Download della fattura non riuscito",
+    "invoice": "Invoice",
+    "pay_with_card": "Pay with card"
   },
   "tags": {
     "id": "Tag ID",

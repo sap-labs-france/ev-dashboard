@@ -1335,8 +1335,9 @@
     "number_of_items": "Ladevorgänge",
     "pay": "Bezahlen",
     "user": "Nutzer",
-    "failed_download": "Download der Rechnung fehlgeschlagen."
-  },
+    "failed_download": "Download der Rechnung fehlgeschlagen.",
+    "invoice": "Invoice",
+    "pay_with_card": "Pay with card"  },
   "tags": {
     "id": "Tag ID",
     "not_active": "Dieser Badge ist nicht aktiv",

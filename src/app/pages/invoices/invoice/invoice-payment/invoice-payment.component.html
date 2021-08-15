@@ -1,15 +1,31 @@
-<div class="main-content">
+  <div class="main-content">
     <div class="card card-profile card-testimonial">
       <mat-tab-group animationDuration="0ms" disableRipple="true" class="mat-tab-info mat-tabs-with-actions">
         <mat-tab>
           <ng-template mat-tab-label>
             <mat-icon>payment</mat-icon>
-            <span>{{'settings.billing.payment_methods_create_title' | translate}}</span>
+            <span>{{'invoices.pay' | translate}} {{amountWithCurrency}}</span>
           </ng-template>
           <form class="form row">
+            <div class="col-md-4 offset-4">
+              <div class="card card-settings connector-card">
+                <div class="card-body invoice-payment-dialog-body">
+                  <div class="row">
+                    <div class="col-md-8 offset-2 pay-invoice-title">
+                      <p *ngIf=amountWithCurrency>{{amountWithCurrency}}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
             <div class="col-md-10 offset-1">
               <div class="card card-settings connector-card">
                 <div class="card-body">
+                  <div class="row">
+                    <div class="offset-1 pay-with-card-title">
+                      {{'invoices.pay_with_card' | translate}}
+                    </div>
+                  </div>
                   <div class="row">
                     <div class="col-md-8 offset-2">
                       <div class="form-group">
@@ -59,11 +75,6 @@
                         <div class="justified-italic-text-box">
                           {{'settings.billing.payment_methods_conditions' | translate}}
                         </div>
-                        <div>
-                          <mat-checkbox [formControl]="acceptConditions" (change)="handleAcceptConditions()">
-                            {{'settings.billing.payment_methods_check' | translate}}
-                          </mat-checkbox>
-                        </div>
                       </div>
                     </div>
                   </div>
@@ -75,11 +86,10 @@
         </mat-tab>
       </mat-tab-group>
       <div class="tabs-actions">
-        <button mat-button (click)="linkCardToAccount()" [disabled]="!hasAcceptedConditions || !isCardNumberValid || !isCvcValid || !isExpirationDateValid || isSaveClicked">
-          <mat-icon>save</mat-icon>
-          <span>{{'general.save' | translate}}</span>
+        <button mat-button *ngIf="!isPaid" (click)="callInvoicePaymentBack()" [disabled]="!isCardNumberValid || !isCvcValid || !isExpirationDateValid || isPayClicked">
+          <span>{{'invoices.pay' | translate}} {{amount}}</span>
         </button>
-        <button mat-icon-button *ngIf="inDialog" (click)="close()" [disabled]="isSaveClicked">
+            <button mat-icon-button *ngIf="inDialog" (click)="close()" [disabled]="isPayClicked">
           <mat-icon>close</mat-icon>
         </button>
       </div>

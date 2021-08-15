@@ -38,6 +38,9 @@ export class InvoicesListComponent implements OnInit {
         this.spinnerService.hide();
         this.messageService.showErrorMessage('invoices.failed_download');
       });
+    } else {
+      // OTDO: verify if still usefull ??
+      this.invoicesListTableDataSource.setCurrentUserId(this.centralServerService.getLoggedUser().id);
     }
   }
 }

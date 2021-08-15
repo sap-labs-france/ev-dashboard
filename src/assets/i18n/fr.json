@@ -1335,7 +1335,9 @@
     "number_of_items": "Sessions",
     "pay": "Payer",
     "user": "Utilisateur",
-    "failed_download": "Le téléchargement de la facture a échoué."
+    "failed_download": "Le téléchargement de la facture a échoué.",
+    "invoice": "Invoice",
+    "pay_with_card": "Payer par carte"
   },
   "tags": {
     "id": "No Badge",

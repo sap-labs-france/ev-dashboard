@@ -74,6 +74,7 @@ export enum ButtonAction {
   NO_ACTION = 'block',
   OPEN = 'open',
   OPEN_URL = 'open_url',
+  PAY = 'pay',
   REGISTER = 'register',
   REMOVE = 'remove',
   RESET_FILTERS = 'reset_filters',

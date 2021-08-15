@@ -25,7 +25,7 @@ export class TableDeleteCompanyAction extends TableDeleteAction {
   }
 
   private deleteCompany(company: Company, dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
-      centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) {
+    centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) {
     super.delete(
       company, 'companies.delete_title',
       translateService.instant('companies.delete_confirm', { companyName: company.name }),

@@ -1,12 +1,12 @@
 import { Address } from './Address';
-import { AuthorizationActions } from './Authorization';
 import { BillingUserData } from './Billing';
 import { Car } from './Car';
 import CreatedUpdatedProps from './CreatedUpdatedProps';
-import { Data } from './Table';
+import { TableData } from './Table';
 import { Tag } from './Tag';
+import { StartTransactionErrorCode } from './Transaction';
 
-export interface User extends Data, CreatedUpdatedProps, AuthorizationActions {
+export interface User extends TableData, CreatedUpdatedProps {
   id: string;
   issuer: boolean;
   name: string;
@@ -59,6 +59,7 @@ export interface UserNotifications {
   sendPreparingSessionNotStarted: boolean;
   sendOfflineChargingStations: boolean;
   sendBillingSynchronizationFailed: boolean;
+  sendBillingPeriodicOperationFailed: boolean;
   sendSessionNotStarted: boolean;
   sendCarCatalogSynchronizationFailed: boolean;
   sendComputeAndApplyChargingProfilesFailed: boolean;
@@ -70,6 +71,7 @@ export interface UserNotifications {
 export interface UserDefaultTagCar {
   car?: Car;
   tag?: Tag;
+  errorCodes?: StartTransactionErrorCode[];
 }
 
 export interface UserToken {
@@ -96,15 +98,7 @@ export interface UserToken {
   activeComponents?: string[];
 }
 
-export interface UserCar extends Data, CreatedUpdatedProps {
-  id: string;
-  user: User;
-  carID: string;
-  default?: boolean;
-  owner?: boolean;
-}
-
-export interface UserSite extends Data {
+export interface UserSite extends TableData {
   user: User;
   siteID: string;
   siteAdmin: boolean;
@@ -120,12 +114,16 @@ export enum UserButtonAction {
   DELETE_TAGS = 'delete_tags',
   ACTIVATE_TAG = 'activate_tag',
   DEACTIVATE_TAG = 'deactivate_tag',
+  IMPORT_TAGS = 'import_tags',
+  EXPORT_TAGS = 'export_tags',
   DELETE_USER = 'delete_user',
   SYNCHRONIZE_BILLING_USER = 'billing_synchronize_user',
   BILLING_FORCE_SYNCHRONIZE_USER = 'billing_force_synchronize_user',
   SYNCHRONIZE_BILLING_USERS = 'billing_synchronize_users',
+  BILLING_CREATE_PAYMENT_METHOD = 'billing_create_payment_method',
   ASSIGN_SITES_TO_USER = 'assign_sites_to_user',
   EXPORT_USERS = 'export_users',
+  IMPORT_USERS = 'import_users',
   NAVIGATE_TO_TAGS = 'navigate_to_tags',
   NAVIGATE_TO_USER = 'navigate_to_user'
 }
@@ -147,3 +145,13 @@ export enum UserRole {
   DEMO = 'D',
   UNKNOWN = 'U',
 }
+
+export const UserRequiredImportProperties = [
+  'email',
+  'firstName',
+  'name'
+];
+
+export const UserOptionalImportProperties = [
+  'siteIDs'
+];

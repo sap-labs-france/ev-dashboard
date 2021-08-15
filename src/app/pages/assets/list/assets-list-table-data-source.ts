@@ -3,6 +3,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { ComponentService } from 'services/component.service';
+import { SiteAreaTableFilter } from 'shared/table/filters/site-area-table-filter';
+import { SiteTableFilter } from 'shared/table/filters/site-table-filter';
+import TenantComponents from 'types/TenantComponents';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
@@ -19,6 +23,7 @@ import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto
 import { TableMoreAction } from '../../../shared/table/actions/table-more-action';
 import { TableOpenInMapsAction } from '../../../shared/table/actions/table-open-in-maps-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
+import { IssuerFilter } from '../../../shared/table/filters/issuer-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { Asset, AssetButtonAction, AssetType } from '../../../types/Asset';
 import ChangeNotification from '../../../types/ChangeNotification';
@@ -43,6 +48,7 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     private messageService: MessageService,
+    private componentService: ComponentService,
     private dialogService: DialogService,
     private router: Router,
     private dialog: MatDialog,
@@ -178,25 +184,25 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
   }
 
   public buildTableDynamicRowActions(asset: Asset): TableActionDef[] {
-    const actions = [];
+    const rowActions: TableActionDef[] = [];
     const openInMaps = new TableOpenInMapsAction().getActionDef();
     // Check if GPS is available
     openInMaps.disabled = !Utils.containsGPSCoordinates(asset.coordinates);
-    if (this.isAdmin) {
-      actions.push(this.editAction);
-      actions.push(new TableMoreAction([
+    if (this.isAdmin && asset.issuer) {
+      rowActions.push(this.editAction);
+      rowActions.push(new TableMoreAction([
         openInMaps,
         this.deleteAction,
       ]).getActionDef());
     } else {
-      actions.push(this.displayAction);
-      actions.push(openInMaps);
+      rowActions.push(this.displayAction);
+      rowActions.push(openInMaps);
     }
     // Display refresh button
-    if (this.isAdmin && asset.dynamicAsset) {
-      actions.splice(1, 0, this.retrieveConsumptionAction);
+    if (this.isAdmin && asset.dynamicAsset && !asset.usesPushAPI) {
+      rowActions.splice(1, 0, this.retrieveConsumptionAction);
     }
-    return actions;
+    return rowActions;
   }
 
   public actionTriggered(actionDef: TableActionDef) {
@@ -205,7 +211,8 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
       // Add
       case AssetButtonAction.CREATE_ASSET:
         if (actionDef.action) {
-          (actionDef as TableCreateAssetActionDef).action(AssetDialogComponent, this.dialog, this.refreshData.bind(this));
+          (actionDef as TableCreateAssetActionDef).action(AssetDialogComponent,
+            this.dialog, this.refreshData.bind(this));
         }
         break;
     }
@@ -215,12 +222,14 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
     switch (actionDef.id) {
       case AssetButtonAction.VIEW_ASSET:
         if (actionDef.action) {
-          (actionDef as TableViewAssetActionDef).action(AssetDialogComponent, asset, this.dialog, this.refreshData.bind(this));
+          (actionDef as TableViewAssetActionDef).action(AssetDialogComponent, this.dialog,
+            { dialogData: asset }, this.refreshData.bind(this));
         }
         break;
       case AssetButtonAction.EDIT_ASSET:
         if (actionDef.action) {
-          (actionDef as TableEditAssetActionDef).action(AssetDialogComponent, asset, this.dialog, this.refreshData.bind(this));
+          (actionDef as TableEditAssetActionDef).action(AssetDialogComponent, this.dialog,
+            { dialogData: asset }, this.refreshData.bind(this));
         }
         break;
       case AssetButtonAction.DELETE_ASSET:
@@ -231,8 +240,8 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
         break;
       case AssetButtonAction.RETRIEVE_ASSET_CONSUMPTION:
         if (actionDef.action) {
-          (actionDef as TableRetrieveAssetConsumptionActionDef).action(asset, this.spinnerService, this.centralServerService, this.messageService,
-            this.router, this.refreshData.bind(this));
+          (actionDef as TableRetrieveAssetConsumptionActionDef).action(asset, this.spinnerService, this.centralServerService,
+            this.messageService, this.router, this.refreshData.bind(this));
         }
         break;
       case ButtonAction.OPEN_IN_MAPS:
@@ -251,6 +260,16 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {
-    return [];
+    const issuerFilter = new IssuerFilter().getFilterDef();
+    const filters: TableFilterDef[] = [
+      issuerFilter,
+    ];
+    // Show Site Area Filter If Organization component is active
+    if (this.componentService.isActive(TenantComponents.ORGANIZATION)) {
+      const siteFilter = new SiteTableFilter([issuerFilter]).getFilterDef();
+      filters.push(siteFilter);
+      filters.push(new SiteAreaTableFilter([issuerFilter, siteFilter]).getFilterDef());
+    }
+    return filters;
   }
 }

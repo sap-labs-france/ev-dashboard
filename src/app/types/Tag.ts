@@ -1,8 +1,9 @@
-import { Data } from './Table';
+import { TableData } from './Table';
 import { User } from './User';
 
-export interface Tag extends Data {
+export interface Tag extends TableData {
   id: string;
+  visualID: string;
   issuer: boolean;
   active: boolean;
   userID?: string;
@@ -13,3 +14,15 @@ export interface Tag extends Data {
   user?: User;
   default?: boolean;
 }
+
+export const TagRequiredImportProperties = [
+  'id',
+  'visualID'
+];
+export const TagOptionalImportProperties = [
+  'description',
+  'email',
+  'firstName',
+  'name',
+  'siteIDs'
+];

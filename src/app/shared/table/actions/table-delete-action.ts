@@ -8,7 +8,7 @@ import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { ActionResponse } from '../../../types/DataResult';
 import { ButtonAction, RestResponse } from '../../../types/GlobalType';
-import { ButtonColor, ButtonType, Data, TableActionDef } from '../../../types/Table';
+import { ButtonColor, ButtonType, TableActionDef, TableData } from '../../../types/Table';
 import { Utils } from '../../../utils/Utils';
 import { TableAction } from './table-action';
 
@@ -28,10 +28,10 @@ export class TableDeleteAction implements TableAction {
     return this.action;
   }
 
-  protected delete(data: Data, messageTitle: string, messageConfirm: string, messageSuccess: string, messageError: string,
-      deleteData: (id: string|number) => Observable<ActionResponse>,
-      dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
-      centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) {
+  protected delete(data: TableData, messageTitle: string, messageConfirm: string, messageSuccess: string, messageError: string,
+    deleteData: (id: string|number) => Observable<ActionResponse>,
+    dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
+    centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) {
     dialogService.createAndShowYesNoDialog(
       translateService.instant(messageTitle),
       translateService.instant(messageConfirm),

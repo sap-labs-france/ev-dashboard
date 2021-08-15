@@ -3,6 +3,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { ComponentService } from 'services/component.service';
+import { SiteTableFilter } from 'shared/table/filters/site-table-filter';
+import TenantComponents from 'types/TenantComponents';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
@@ -17,6 +20,7 @@ import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto
 import { TableMoreAction } from '../../../shared/table/actions/table-more-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-table-filter';
+import { IssuerFilter } from '../../../shared/table/filters/issuer-filter';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { AssetButtonAction } from '../../../types/Asset';
@@ -32,6 +36,12 @@ export class AssetsInErrorTableDataSource extends TableDataSource<AssetInError> 
   private isAdmin: boolean;
   private editAction = new TableEditAssetAction().getActionDef();
   private deleteAction = new TableDeleteAssetAction().getActionDef();
+  private errorTypes = [
+    {
+      key: AssetInErrorType.MISSING_SITE_AREA,
+      value: this.translateService.instant(`assets.errors.${AssetInErrorType.MISSING_SITE_AREA}.title`),
+    }
+  ];
 
   public constructor(
     public spinnerService: SpinnerService,
@@ -39,6 +49,7 @@ export class AssetsInErrorTableDataSource extends TableDataSource<AssetInError> 
     private messageService: MessageService,
     private router: Router,
     private centralServerNotificationService: CentralServerNotificationService,
+    private componentService: ComponentService,
     private centralServerService: CentralServerService,
     private authorizationService: AuthorizationService,
     private dialog: MatDialog,
@@ -123,17 +134,12 @@ export class AssetsInErrorTableDataSource extends TableDataSource<AssetInError> 
     return super.buildTableActionsDef();
   }
 
-  public actionTriggered(actionDef: TableActionDef) {
-    // Action
-    switch (actionDef.id) {
-    }
-  }
-
   public rowActionTriggered(actionDef: TableActionDef, asset: AssetInError) {
     switch (actionDef.id) {
       case AssetButtonAction.EDIT_ASSET:
         if (actionDef.action) {
-          (actionDef as TableEditAssetActionDef).action(AssetDialogComponent, asset, this.dialog, this.refreshData.bind(this));
+          (actionDef as TableEditAssetActionDef).action(AssetDialogComponent, this.dialog,
+            { dialogData: asset }, this.refreshData.bind(this));
         }
         break;
       case AssetButtonAction.DELETE_ASSET:
@@ -146,18 +152,18 @@ export class AssetsInErrorTableDataSource extends TableDataSource<AssetInError> 
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {
-    // Create error type
-    const errorTypes = [];
-    errorTypes.push({
-      key: AssetInErrorType.MISSING_SITE_AREA,
-      value: this.translateService.instant(`assets.errors.${AssetInErrorType.MISSING_SITE_AREA}.title`),
-    });
-    // Sort
-    errorTypes.sort(Utils.sortArrayOfKeyValue);
-    return [
-      new SiteAreaTableFilter().getFilterDef(),
-      new ErrorTypeTableFilter(errorTypes).getFilterDef(),
+    const issuerFilter = new IssuerFilter().getFilterDef();
+    const filters: TableFilterDef[] = [
+      issuerFilter,
     ];
+    // Show Site Area Filter If Organization component is active
+    if (this.componentService.isActive(TenantComponents.ORGANIZATION)) {
+      const siteFilter = new SiteTableFilter([issuerFilter]).getFilterDef();
+      filters.push(siteFilter);
+      filters.push(new SiteAreaTableFilter([issuerFilter, siteFilter]).getFilterDef());
+    }
+    filters.push(new ErrorTypeTableFilter(this.errorTypes).getFilterDef());
+    return filters;
   }
 
   public buildTableDynamicRowActions(asset: AssetInError): TableActionDef[] {

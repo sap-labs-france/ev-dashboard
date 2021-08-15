@@ -5,9 +5,11 @@
     </div>
     <h3 class="card-title">{{'settings.billing.stripe.title' | translate}}</h3>
   </div>
-
   <div class="card-body">
     <div class="row mt-1">
+        <div *ngIf="transactionBillingActivated" class="col-md-12 deactivated-setting-message">
+        <span [innerHTML]="'settings.billing.deactivated_setting_message' | translate"></span>
+      </div>
       <div class="col-md-6">
         <mat-form-field>
           <input appAutofocus matInput type="text" [formControl]="url"
@@ -29,6 +31,21 @@
     <div class="row mt-1">
       <div class="col-md-6">
         <mat-form-field>
+          <input matInput type="text" [formControl]="publicKey"
+                 placeholder="{{'settings.billing.stripe.public_key' | translate}}">
+          <mat-error *ngIf="publicKey.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+          <mat-error *ngIf="publicKey.errors?.maxlength">
+            <div [translate]="'general.error_max_length'" [translateParams]="{length: 100}"></div>
+          </mat-error>
+          <mat-error *ngIf="publicKey.errors?.invalid">
+            <div [translate]="'settings.billing.stripe.invalid_public_key'"></div>
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row mt-1">
+      <div class="col-md-6">
+        <mat-form-field>
           <input matInput type="password"
                  placeholder="{{'settings.billing.stripe.secret_key' | translate}}"
                  [formControl]="secretKey" required>
@@ -38,21 +55,6 @@
           </mat-error>
           <mat-error *ngIf="secretKey.errors?.invalid">
             <div [translate]="'settings.billing.stripe.invalid_secret_key'"></div>
-          </mat-error>
-        </mat-form-field>
-      </div>
-    </div>
-    <div class="row mt-1">
-      <div class="col-md-6">
-        <mat-form-field>
-          <input matInput type="text" [formControl]="publicKey"
-                 placeholder="{{'settings.billing.stripe.public_key' | translate}}">
-          <mat-error *ngIf="publicKey.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
-          <mat-error *ngIf="publicKey.errors?.maxlength">
-            <div [translate]="'general.error_max_length'" [translateParams]="{length: 100}"></div>
-          </mat-error>
-          <mat-error *ngIf="publicKey.errors?.invalid">
-            <div [translate]="'settings.billing.stripe.invalid_public_key'"></div>
           </mat-error>
         </mat-form-field>
       </div>

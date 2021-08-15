@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 
-import { AuthorizationService } from '../../../../services/authorization.service';
 import { CentralServerService } from '../../../../services/central-server.service';
 import { DialogService } from '../../../../services/dialog.service';
 import { MessageService } from '../../../../services/message.service';
@@ -18,7 +17,7 @@ import { DataResult } from '../../../../types/DataResult';
 import { ButtonAction, RestResponse } from '../../../../types/GlobalType';
 import { HTTPError } from '../../../../types/HTTPError';
 import { SiteArea } from '../../../../types/SiteArea';
-import { ButtonType, TableActionDef, TableColumnDef, TableDef } from '../../../../types/Table';
+import { ButtonType, TableActionDef, TableColumnDef, TableDataSourceMode, TableDef } from '../../../../types/Table';
 import { Utils } from '../../../../utils/Utils';
 
 @Injectable()
@@ -26,10 +25,6 @@ export class SiteAreaChargingStationsDataSource extends TableDataSource<Charging
   private siteArea!: SiteArea;
   private addAction = new TableAddAction().getActionDef();
   private removeAction = new TableRemoveAction().getActionDef();
-  private canReadSiteArea = false;
-  private canCreateSiteArea = false;
-  private canUpdateSiteArea = false;
-  private canDeleteSiteArea = false;
 
   public constructor(
     public spinnerService: SpinnerService,
@@ -38,30 +33,26 @@ export class SiteAreaChargingStationsDataSource extends TableDataSource<Charging
     private router: Router,
     private dialog: MatDialog,
     private dialogService: DialogService,
-    private centralServerService: CentralServerService,
-    private authorizationService: AuthorizationService) {
+    private centralServerService: CentralServerService) {
     super(spinnerService, translateService);
-    this.canReadSiteArea = this.authorizationService.canReadSiteArea();
-    this.canCreateSiteArea = this.authorizationService.canCreateSiteArea();
-    this.canUpdateSiteArea = this.authorizationService.canUpdateSiteArea();
-    this.canDeleteSiteArea = this.authorizationService.canDeleteSiteArea();
   }
 
   public loadDataImpl(): Observable<DataResult<ChargingStation>> {
     return new Observable((observer) => {
+      this.addAction.visible = this.siteArea.canCreate;
       // siteArea provided?
       if (this.siteArea) {
         // Yes: Get data
         this.centralServerService.getChargingStations(this.buildFilterValues(),
           this.getPaging(), this.getSorting()).subscribe((chargingStations) => {
-            observer.next(chargingStations);
-            observer.complete();
-          }, (error) => {
-            // No longer exists!
-            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-            // Error
-            observer.error(error);
-          });
+          observer.next(chargingStations);
+          observer.complete();
+        }, (error) => {
+          // No longer exists!
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          // Error
+          observer.error(error);
+        });
       } else {
         // Ok
         observer.next({
@@ -74,12 +65,12 @@ export class SiteAreaChargingStationsDataSource extends TableDataSource<Charging
   }
 
   public buildTableDef(): TableDef {
-    if (this.siteArea && (this.canReadSiteArea && this.canCreateSiteArea && this.canUpdateSiteArea && this.canDeleteSiteArea) ||
-      this.authorizationService.isSiteAdmin(this.siteArea.siteID)) {
+    if (this.getMode() === TableDataSourceMode.READ_WRITE) {
       return {
         class: 'table-dialog-list',
-        rowSelection: {
-          enabled: true,
+        rowSelection:
+        {
+          enabled: this.siteArea?.canAssignChargingStations || this.siteArea?.canUnassignChargingStations,
           multiple: true,
         },
         search: {
@@ -89,12 +80,13 @@ export class SiteAreaChargingStationsDataSource extends TableDataSource<Charging
     }
     return {
       class: 'table-dialog-list',
-      rowSelection: {
+      rowSelection:
+      {
         enabled: false,
         multiple: false,
       },
       search: {
-        enabled: false,
+        enabled: true,
       },
     };
   }
@@ -129,18 +121,17 @@ export class SiteAreaChargingStationsDataSource extends TableDataSource<Charging
     ]);
     // Set user
     this.siteArea = siteArea;
-    this.initDataSource(true);
   }
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-    if (this.siteArea && ((this.canReadSiteArea && this.canCreateSiteArea && this.canUpdateSiteArea && this.canDeleteSiteArea) ||
-      this.authorizationService.isSiteAdmin(this.siteArea.siteID))) {
-      return [
-        this.addAction,
-        this.removeAction,
-        ...tableActionsDef,
-      ];
+    if (this.getMode() === TableDataSourceMode.READ_WRITE) {
+      if (this.siteArea.canAssignChargingStations) {
+        tableActionsDef.push(this.addAction);
+      }
+      if (this.siteArea.canUnassignChargingStations) {
+        tableActionsDef.push(this.removeAction);
+      }
     }
     return tableActionsDef;
   }
@@ -156,7 +147,7 @@ export class SiteAreaChargingStationsDataSource extends TableDataSource<Charging
       // Remove
       case ButtonAction.REMOVE:
         // Empty?
-        if (this.getSelectedRows().length === 0) {
+        if (Utils.isEmptyArray(this.getSelectedRows())) {
           this.messageService.showErrorMessage(this.translateService.instant('general.select_at_least_one_record'));
         } else {
           // Confirm
@@ -214,7 +205,7 @@ export class SiteAreaChargingStationsDataSource extends TableDataSource<Charging
 
   private addChargers(chargers: ChargingStation[]) {
     // Check
-    if (chargers && chargers.length > 0) {
+    if (!Utils.isEmptyArray(chargers)) {
       // Get the IDs
       const chargerIDs = chargers.map((charger) => charger.key);
       // Yes: Update

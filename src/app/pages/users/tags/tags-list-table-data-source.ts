@@ -5,12 +5,15 @@ import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { SpinnerService } from 'services/spinner.service';
 import { WindowService } from 'services/window.service';
+import { ImportDialogComponent } from 'shared/dialogs/import/import-dialog.component';
 import { AppDatePipe } from 'shared/formatters/app-date.pipe';
 import { TableMoreAction } from 'shared/table/actions/table-more-action';
 import { TableOpenURLActionDef } from 'shared/table/actions/table-open-url-action';
 import { TableNavigateToTransactionsAction } from 'shared/table/actions/transactions/table-navigate-to-transactions-action';
 import { TableDeleteTagsAction, TableDeleteTagsActionDef } from 'shared/table/actions/users/table-delete-tags-action';
-import { organisations } from 'shared/table/filters/issuer-filter';
+import { TableExportTagsAction, TableExportTagsActionDef } from 'shared/table/actions/users/table-export-tags-action';
+import { TableImportTagsAction, TableImportTagsActionDef } from 'shared/table/actions/users/table-import-tags-action';
+import { organizations } from 'shared/table/filters/issuer-filter';
 import { StatusFilter } from 'shared/table/filters/status-filter';
 import { UserTableFilter } from 'shared/table/filters/user-table-filter';
 import { DataResult } from 'types/DataResult';
@@ -48,9 +51,11 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
   private navigateToUserAction = new TableNavigateToUserAction().getActionDef();
   private navigateToTransactionsAction = new TableNavigateToTransactionsAction().getActionDef();
   private deleteManyAction = new TableDeleteTagsAction().getActionDef();
+  private createAction = new TableCreateTagAction().getActionDef();
+  private importAction = new TableImportTagsAction().getActionDef();
+  private exportAction = new TableExportTagsAction().getActionDef();
 
-
-  constructor(
+  public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     private messageService: MessageService,
@@ -62,6 +67,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
     private centralServerService: CentralServerService,
     private windowService: WindowService) {
     super(spinnerService, translateService);
+    this.setStaticFilters([{ WithUser: true }]);
     this.initDataSource();
     this.initFilters();
   }
@@ -83,7 +89,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
     if (issuer) {
       const issuerTableFilter = this.tableFiltersDef.find(filter => filter.id === 'issuer');
       if (issuerTableFilter) {
-        issuerTableFilter.currentValue = [organisations.find(organisation => organisation.key === issuer)];
+        issuerTableFilter.currentValue = [organizations.find(organisation => organisation.key === issuer)];
         this.filterChanged(issuerTableFilter);
       }
     }
@@ -91,7 +97,9 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
     const tagID = this.windowService.getSearch('TagID');
     if (tagID) {
       this.setSearchValue(tagID);
-      this.editAction.action(TagDialogComponent, { id: tagID } as Tag, this.dialog, this.refreshData.bind(this));
+      this.editAction.action(TagDialogComponent, this.dialog,
+        { dialogData: { id: tagID } as Tag },
+        this.refreshData.bind(this));
     }
   }
 
@@ -127,20 +135,23 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
       // Get the Tags
       this.centralServerService.getTags(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((tags) => {
-          // Ok
-          observer.next(tags);
-          observer.complete();
-        }, (error) => {
-          // Show error
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-          // Error
-          observer.error(error);
-        });
+        this.createAction.visible = tags.canCreate;
+        this.importAction.visible = tags.canImport;
+        this.exportAction.visible = tags.canExport;
+        // Ok
+        observer.next(tags);
+        observer.complete();
+      }, (error) => {
+        // Show error
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+        // Error
+        observer.error(error);
+      });
     });
   }
 
   public isSelectable(row: Tag) {
-    return row.issuer;
+    return row.canUpdate;
   }
 
   public buildTableDef(): TableDef {
@@ -176,6 +187,14 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
         sortable: true,
       },
       {
+        id: 'visualID',
+        name: 'tags.visual_id',
+        headerClass: 'text-center col-20p',
+        class: 'text-center col-20p',
+        formatter: (description: string) => description ? description : '-',
+        sortable: true,
+      },
+      {
         id: 'description',
         name: 'general.description',
         headerClass: 'text-center col-20p',
@@ -203,11 +222,11 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
           this.translateService.instant('general.no'),
       },
       {
-        id: 'user',
+        id: 'user.name',
         name: 'users.title',
         headerClass: 'col-20p',
         class: 'col-20p',
-        formatter: (user: User) => Utils.buildUserFullName(user),
+        formatter: (name: string, tag: Tag) => Utils.buildUserFullName(tag.user),
       },
       {
         id: 'user.email',
@@ -247,18 +266,20 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-    tableActionsDef.unshift(this.deleteManyAction);
-    tableActionsDef.unshift(new TableCreateTagAction().getActionDef());
     return [
+      this.createAction,
+      this.importAction,
+      this.exportAction,
+      this.deleteManyAction,
       ...tableActionsDef,
     ];
   }
 
   public buildTableDynamicRowActions(tag: Tag): TableActionDef[] {
-    const actions = [];
+    const rowActions: TableActionDef[] = [];
     const moreActions = new TableMoreAction([]);
-    if (tag.issuer) {
-      actions.push(this.editAction);
+    if (tag.canUpdate) {
+      rowActions.push(this.editAction);
       if (tag.userID) {
         if (tag.active) {
           moreActions.addActionInMoreActions(this.deactivateAction);
@@ -266,19 +287,18 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
           moreActions.addActionInMoreActions(this.activateAction);
         }
       }
-      moreActions.addActionInMoreActions(this.navigateToTransactionsAction);
-      if (tag.userID) {
-        moreActions.addActionInMoreActions(this.navigateToUserAction);
-      }
-      moreActions.addActionInMoreActions(this.deleteAction);
-    } else {
-      moreActions.addActionInMoreActions(this.navigateToTransactionsAction);
-      if (tag.userID) {
-        moreActions.addActionInMoreActions(this.navigateToUserAction);
-      }
     }
-    actions.push(moreActions.getActionDef());
-    return actions;
+    moreActions.addActionInMoreActions(this.navigateToTransactionsAction);
+    if (tag.userID) {
+      moreActions.addActionInMoreActions(this.navigateToUserAction);
+    }
+    if (tag.canDelete) {
+      moreActions.addActionInMoreActions(this.deleteAction);
+    }
+    if (!Utils.isEmptyArray(moreActions.getActionsInMoreActions())) {
+      rowActions.push(moreActions.getActionDef());
+    }
+    return rowActions;
   }
 
   public actionTriggered(actionDef: TableActionDef) {
@@ -286,7 +306,8 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
     switch (actionDef.id) {
       case UserButtonAction.CREATE_TAG:
         if (actionDef.action) {
-          (actionDef as TableCreateTagActionDef).action(TagDialogComponent, this.dialog, this.refreshData.bind(this));
+          (actionDef as TableCreateTagActionDef).action(TagDialogComponent,
+            this.dialog, this.refreshData.bind(this));
         }
         break;
       // Delete
@@ -296,6 +317,20 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
             this.getSelectedRows(), this.dialogService, this.translateService, this.messageService,
             this.centralServerService, this.spinnerService, this.router,
             this.clearSelectedRows.bind(this), this.refreshData.bind(this));
+        }
+        break;
+      case UserButtonAction.IMPORT_TAGS:
+        if (actionDef.action) {
+          (actionDef as TableImportTagsActionDef).action(ImportDialogComponent, this.dialog);
+        }
+        break;
+      case UserButtonAction.EXPORT_TAGS:
+        if (actionDef.action) {
+          const filterValues = this.buildFilterValues();
+          filterValues['WithUser'] = 'true';
+          (actionDef as TableExportTagsActionDef).action(filterValues, this.dialogService,
+            this.translateService, this.messageService, this.centralServerService, this.router,
+            this.spinnerService);
         }
         break;
     }
@@ -323,17 +358,18 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
         break;
       case UserButtonAction.EDIT_TAG:
         if (actionDef.action) {
-          (actionDef as TableEditTagActionDef).action(TagDialogComponent, tag, this.dialog, this.refreshData.bind(this));
+          (actionDef as TableEditTagActionDef).action(TagDialogComponent, this.dialog,
+            { dialogData: tag }, this.refreshData.bind(this));
         }
         break;
       case UserButtonAction.NAVIGATE_TO_USER:
         if (actionDef.action) {
-          (actionDef as TableOpenURLActionDef).action('users#all?TagID=' + tag.id + '&Issuer=' + tag.issuer);
+          (actionDef as TableOpenURLActionDef).action(`users#all?TagID=${tag.id}&Issuer=${tag.issuer}`);
         }
         break;
       case TransactionButtonAction.NAVIGATE_TO_TRANSACTIONS:
         if (actionDef.action) {
-          (actionDef as TableOpenURLActionDef).action('transactions#history?TagID=' + tag.id + '&Issuer=' + tag.issuer);
+          (actionDef as TableOpenURLActionDef).action(`transactions#history?TagID=${tag.id}&Issuer=${tag.issuer}`);
         }
         break;
     }
@@ -347,10 +383,11 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {
+    const issuerFilter = new IssuerFilter().getFilterDef();
     return [
-      new IssuerFilter().getFilterDef(),
+      issuerFilter,
       new StatusFilter().getFilterDef(),
-      new UserTableFilter().getFilterDef(),
+      new UserTableFilter([issuerFilter]).getFilterDef(),
     ];
   }
 }

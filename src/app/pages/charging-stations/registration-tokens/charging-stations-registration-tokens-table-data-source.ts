@@ -51,17 +51,17 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
   private canDeleteToken: boolean;
 
   public constructor(
-      public spinnerService: SpinnerService,
-      public translateService: TranslateService,
-      private messageService: MessageService,
-      private dialogService: DialogService,
-      private router: Router,
-      private dialog: MatDialog,
-      private componentService: ComponentService,
-      private centralServerNotificationService: CentralServerNotificationService,
-      private centralServerService: CentralServerService,
-      private authorizationService: AuthorizationService,
-      private datePipe: AppDatePipe) {
+    public spinnerService: SpinnerService,
+    public translateService: TranslateService,
+    private messageService: MessageService,
+    private dialogService: DialogService,
+    private router: Router,
+    private dialog: MatDialog,
+    private componentService: ComponentService,
+    private centralServerNotificationService: CentralServerNotificationService,
+    private centralServerService: CentralServerService,
+    private authorizationService: AuthorizationService,
+    private datePipe: AppDatePipe) {
     super(spinnerService, translateService);
     this.isOrganizationComponentActive = this.componentService.isActive(TenantComponents.ORGANIZATION);
     this.canUpdateToken = this.authorizationService.canUpdateToken();
@@ -80,14 +80,14 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
       // Get the Tenants
       this.centralServerService.getRegistrationTokens(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((tokens) => {
-          observer.next(tokens);
-          observer.complete();
-        }, (error) => {
-          // Show error
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-          // Error
-          observer.error(error);
-        });
+        observer.next(tokens);
+        observer.complete();
+      }, (error) => {
+        // Show error
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+        // Error
+        observer.error(error);
+      });
     });
   }
 
@@ -195,7 +195,7 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
   public buildTableDynamicRowActions(registrationToken: RegistrationToken): TableActionDef[] {
     const asExpired = moment(registrationToken.expirationDate).isBefore(new Date());
     const isRevoked = registrationToken.revocationDate ? true : false;
-    const actions: TableActionDef[] = [];
+    const rowActions: TableActionDef[] = [];
     const moreActions = new TableMoreAction([]);
     const copyUrlActions: TableActionDef[] = [
       ...(!Utils.isUndefined(registrationToken.ocpp15SOAPUrl) ? [this.copySOAP15Action] : []),
@@ -206,22 +206,24 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
       ...(!Utils.isUndefined(registrationToken.ocpp16JSONSecureUrl) ? [this.copyJSON16SecureAction] : [])
     ];
     if (!asExpired && !isRevoked) {
-      actions.push(new TableMultiCopyAction(
+      rowActions.push(new TableMultiCopyAction(
         copyUrlActions,
         'chargers.connections.copy_url_tooltip',
         'chargers.connections.copy_url_tooltip').getActionDef());
     }
     if (this.canUpdateToken) {
-      actions.push(this.editAction);
+      rowActions.push(this.editAction);
       if (!asExpired && !isRevoked) {
-        actions.push(this.revokeAction);
+        rowActions.push(this.revokeAction);
       }
     }
     if (this.canDeleteToken) {
       moreActions.addActionInMoreActions(this.deleteAction);
     }
-    actions.push(moreActions.getActionDef());
-    return actions;
+    if (!Utils.isEmptyArray(moreActions.getActionsInMoreActions())) {
+      rowActions.push(moreActions.getActionDef());
+    }
+    return rowActions;
   }
 
   public actionTriggered(actionDef: TableActionDef) {
@@ -229,8 +231,8 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
     switch (actionDef.id) {
       case RegistrationTokenButtonAction.CREATE_TOKEN:
         if (actionDef.id) {
-          (actionDef as TableCreateRegistrationTokenActionDef).action(
-            ChargingStationsRegistrationTokenDialogComponent, this.dialog, this.refreshData.bind(this));
+          (actionDef as TableCreateRegistrationTokenActionDef).action(ChargingStationsRegistrationTokenDialogComponent,
+            this.dialog, this.refreshData.bind(this));
         }
         break;
     }
@@ -255,7 +257,8 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
       case RegistrationTokenButtonAction.EDIT_TOKEN:
         if (actionDef.action) {
           (actionDef as TableEditRegistrationTokenActionDef).action(
-            ChargingStationsRegistrationTokenDialogComponent, registrationToken, this.dialog, this.refreshData.bind(this));
+            ChargingStationsRegistrationTokenDialogComponent, this.dialog,
+            { dialogData: registrationToken }, this.refreshData.bind(this));
         }
         break;
       case RegistrationTokenButtonAction.COPY_URL:

@@ -11,7 +11,7 @@
             <div class="col-md-4">
               <div class="form-group">
                 <mat-form-field>
-                  <input matInput placeholder="{{'tags.id' | translate}}" class="app-tag-name" type="text"
+                  <input appAutofocus matInput placeholder="{{'tags.id' | translate}}" class="app-tag-name" type="text"
                     [formControl]="id" (input)="toUpperCase(id)">
                   <mat-error *ngIf="id.errors?.required">
                     {{"general.mandatory_field" | translate}}
@@ -29,9 +29,22 @@
           </div>
           <div class="row">
             <div class="col-md-6">
+              <div class="form-group" appTooltip title="{{'tags.visual_id_instruction' | translate}}">
+                <mat-form-field>
+                  <input  matInput placeholder="{{'tags.visual_id' | translate}}" class="app-car-name"
+                    type="text" [formControl]="visualID">
+                  <mat-error *ngIf="id.errors?.required">
+                    {{"general.mandatory_field" | translate}}
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
               <div class="form-group">
                 <mat-form-field>
-                  <input appAutofocus matInput placeholder="{{'general.description' | translate}}" class="app-car-name"
+                  <input matInput placeholder="{{'general.description' | translate}}" class="app-car-name"
                     type="text" [formControl]="description">
                   <mat-error *ngIf="id.errors?.required">
                     {{"general.mandatory_field" | translate}}

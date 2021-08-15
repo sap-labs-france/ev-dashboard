@@ -7,7 +7,8 @@ import { RegistrationTokenButtonAction } from '../../../../types/RegistrationTok
 import { TableActionDef } from '../../../../types/Table';
 
 export interface TableCreateRegistrationTokenActionDef extends TableActionDef {
-  action: (registrationTokenDialogComponent: ComponentType<unknown>, dialog: MatDialog, refresh?: () => Observable<void>) => void;
+  action: (registrationTokenDialogComponent: ComponentType<unknown>, dialog: MatDialog,
+    refresh?: () => Observable<void>) => void;
 }
 
 export class TableCreateRegistrationTokenAction extends TableCreateAction {
@@ -19,7 +20,8 @@ export class TableCreateRegistrationTokenAction extends TableCreateAction {
     };
   }
 
-  private createRegistrationToken(registrationTokenDialogComponent: ComponentType<unknown>, dialog: MatDialog, refresh?: () => Observable<void>) {
-    super.create(registrationTokenDialogComponent, dialog, refresh);
+  private createRegistrationToken(registrationTokenDialogComponent: ComponentType<unknown>,
+    dialog: MatDialog, refresh?: () => Observable<void>) {
+    super.create(registrationTokenDialogComponent, dialog, null, refresh);
   }
 }

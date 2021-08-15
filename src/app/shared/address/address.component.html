@@ -49,30 +49,30 @@
       </mat-form-field>
     </div>
   </div>
-  <div class="col-md-3" *ngIf="!hideGeoLocation">
-    <div class="form-group">
+  <div class="col-md-3" *ngIf="!hideGeolocation">
+    <div class="form-group" >
       <mat-form-field>
-        <input matInput placeholder="{{'general.latitude' | translate}}" type="text" [formControl]="latitude">
+        <input matInput placeholder="{{'general.latitude' | translate}}" type="text" [formControl]="latitude" >
         <mat-error>{{"general.invalid_value" | translate}}</mat-error>
-        <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignGeoMap()">
+        <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignGeoMap()" [disabled]='onlyReadGeolocation'>
           <mat-icon>pin_drop</mat-icon>
         </button>
       </mat-form-field>
     </div>
   </div>
-  <div class="col-md-3" *ngIf="!hideGeoLocation">
-    <div class="form-group">
+  <div class="col-md-3" *ngIf="!hideGeolocation">
+    <div class="form-group" >
       <mat-form-field>
         <input matInput placeholder="{{'general.longitude' | translate}}" type="text" [formControl]="longitude">
         <mat-error>{{"general.invalid_value" | translate}}</mat-error>
-        <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignGeoMap()">
+        <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignGeoMap()" [disabled]='onlyReadGeolocation'>
           <mat-icon>pin_drop</mat-icon>
         </button>
       </mat-form-field>
     </div>
   </div>
-  <div class="col-md-1" class="align-self-baseline" *ngIf="!hideGeoLocation">
-    <button mat-raised-button color="primary" (click)="showPlace()" [disabled]="!coordinates.valid || !latitude.value || !longitude.value">
+  <div class="col-md-1" class="align-self-baseline" *ngIf="!hideGeolocation">
+    <button mat-raised-button color="primary" (click)="showPlace()" [disabled]="!onlyReadGeolocation && (!coordinates.valid || !latitude.value || !longitude.value)">
       <mat-icon>location_on</mat-icon><span>{{'general.show_place' | translate}}</span>
     </button>
   </div>

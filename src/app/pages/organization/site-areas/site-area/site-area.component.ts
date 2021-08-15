@@ -4,6 +4,7 @@ import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dial
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
+import { DialogMode } from 'types/Authorization';
 
 import { AuthorizationService } from '../../../../services/authorization.service';
 import { CentralServerService } from '../../../../services/central-server.service';
@@ -30,13 +31,14 @@ import { Utils } from '../../../../utils/Utils';
 })
 export class SiteAreaComponent implements OnInit {
   @Input() public currentSiteAreaID!: string;
-  @Input() public inDialog!: boolean;
+  @Input() public dialogMode!: DialogMode;
   @Input() public dialogRef!: MatDialogRef<any>;
 
   public image = Constants.NO_IMAGE;
   public imageHasChanged = false;
   public maxSize: number;
   public siteArea: SiteArea;
+  public readOnly = true;
 
   public formGroup!: FormGroup;
   public id!: AbstractControl;
@@ -56,12 +58,13 @@ export class SiteAreaComponent implements OnInit {
   ];
 
   public address!: Address;
-  public canCreateSiteArea!: boolean;
+  public canCreateSiteArea = false;
+  public canUpdateSiteArea = false;
   public isSmartChargingComponentActive = false;
 
   public registrationToken!: RegistrationToken;
 
-  constructor(
+  public constructor(
     private authorizationService: AuthorizationService,
     private centralServerService: CentralServerService,
     private messageService: MessageService,
@@ -81,7 +84,6 @@ export class SiteAreaComponent implements OnInit {
       this.router.navigate(['/']);
     }
     // Set
-    this.canCreateSiteArea = this.authorizationService.canCreateSiteArea();
     this.isSmartChargingComponentActive = this.componentService.isActive(TenantComponents.SMART_CHARGING);
   }
 
@@ -92,6 +94,7 @@ export class SiteAreaComponent implements OnInit {
       name: new FormControl('',
         Validators.compose([
           Validators.required,
+          Validators.maxLength(255),
         ])
       ),
       site: new FormControl('',
@@ -139,6 +142,7 @@ export class SiteAreaComponent implements OnInit {
     this.voltage = this.formGroup.controls['voltage'];
     this.numberOfPhases = this.formGroup.controls['numberOfPhases'];
     this.maximumPowerAmps.disable();
+    this.readOnly = (this.dialogMode === DialogMode.VIEW);
     if (this.currentSiteAreaID) {
       this.loadSiteArea();
       this.loadRegistrationToken();
@@ -147,6 +151,8 @@ export class SiteAreaComponent implements OnInit {
         this.currentSiteAreaID = params['id'];
       });
     }
+    // Handle Dialog mode
+    Utils.handleDialogMode(this.dialogMode, this.formGroup);
   }
 
   public assignSite() {
@@ -164,7 +170,7 @@ export class SiteAreaComponent implements OnInit {
     };
     // Open
     this.dialog.open(SitesDialogComponent, dialogConfig).afterClosed().subscribe((result) => {
-      if (result && result.length > 0 && result[0] && result[0].objectRef) {
+      if (!Utils.isEmptyArray(result) && result[0].objectRef) {
         const site: Site = (result[0].objectRef) as Site;
         this.site.setValue(site.name);
         this.siteID.setValue(site.id);
@@ -236,14 +242,23 @@ export class SiteAreaComponent implements OnInit {
         this.address = siteArea.address;
       }
       this.refreshMaximumAmps();
-      // Force
-      this.formGroup.updateValueAndValidity();
-      this.formGroup.markAsPristine();
-      this.formGroup.markAllAsTouched();
+      // Cannot change roaming Site Area
+      if (!siteArea.issuer) {
+        this.formGroup.disable();
+      } else {
+        this.formGroup.updateValueAndValidity();
+        this.formGroup.markAsPristine();
+        this.formGroup.markAllAsTouched();
+      }
       // Get Site image
       this.centralServerService.getSiteAreaImage(this.currentSiteAreaID).subscribe((siteAreaImage) => {
         this.image = siteAreaImage ? siteAreaImage : Constants.NO_IMAGE;
       });
+      this.canUpdateSiteArea = siteArea.canUpdate;
+      this.canCreateSiteArea = siteArea.canCreate;
+      if (!this.canUpdateSiteArea) {
+        this.formGroup.disable();
+      }
     }, (error) => {
       this.spinnerService.hide();
       switch (error.status) {
@@ -349,7 +364,7 @@ export class SiteAreaComponent implements OnInit {
   }
 
   public closeDialog(saved: boolean = false) {
-    if (this.inDialog) {
+    if (this.dialogRef) {
       this.dialogRef.close(saved);
     }
   }

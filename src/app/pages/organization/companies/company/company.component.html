@@ -9,7 +9,7 @@
         <div class="card-body">
           <div class="row app-organization">
             <div class="col-md-2">
-              <div class="rotating-card-container" [ngStyle]="{ 'pointer-events': canCrudCompany ? 'all' : 'none'}">
+              <div class="rotating-card-container" [ngStyle]="{ 'pointer-events': readOnly ? 'none' : 'all'}">
                 <div class="card card-rotate card-background app-company-image mt-0">
                   <div class="front front-background"
                     [ngStyle]="{'background-image': 'url(' + logo + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
@@ -18,7 +18,7 @@
                   </div>
                   <div class="back back-background"
                     [ngStyle]="{'background-image': 'url(' + logo + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
-                    <div *ngIf="canCrudCompany" class="card-body">
+                    <div *ngIf="!readOnly" class="card-body">
                       <div class="footer justify-content-center">
                         <button mat-flat-button color="primary" class="mr-2">
                           <mat-icon (click)="file.click()">mode_edit</mat-icon>
@@ -50,8 +50,8 @@
           </div>
           <div class="row">
             <div class="col-md-12">
-              <app-address [address]="address" [formGroup]="formGroup"
-                componentName="{{'companies.company' | translate}}" [itemComponentName]="name.value"></app-address>
+              <app-address [address]="address" [formGroup]="formGroup" componentName="{{'companies.company' | translate}}"
+                [itemComponentName]="name.value" [onlyReadGeolocation]="readOnly"></app-address>
             </div>
           </div>
           <div class="clearfix"></div>
@@ -59,12 +59,12 @@
       </mat-tab>
     </mat-tab-group>
     <div class="tabs-actions">
-      <button mat-button *ngIf="canCrudCompany" (click)="saveCompany(formGroup.value)"
+      <button mat-button *ngIf="!readOnly" (click)="saveCompany(formGroup.value)"
         [disabled]="!formGroup.valid || !formGroup.dirty">
         <mat-icon>save</mat-icon>
         <span>{{'general.save' | translate}}</span>
       </button>
-      <button mat-icon-button *ngIf="inDialog" (click)="close()">
+      <button mat-icon-button *ngIf="dialogRef" (click)="close()">
         <mat-icon>close</mat-icon>
       </button>
     </div>

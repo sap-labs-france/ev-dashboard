@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { ChartDataSets } from 'chart.js';
+import { ChartData, ChartDataSets } from 'chart.js';
 import * as moment from 'moment';
 
 import { LocaleService } from '../../../services/locale.service';
 import { StatisticData } from '../../../types/Statistic';
-import { ChartConstants, ChartData } from './chart-utilities';
+import { Utils } from '../../../utils/Utils';
+import { ChartConstants } from './chart-utilities';
 
 export interface StatisticsBuildValueWithUnit {
   value: number;
@@ -23,7 +24,7 @@ export class StatisticsBuildService {
     private translateService: TranslateService,
     private localeService: LocaleService) {
     this.totalLabel = this.translateService.instant('statistics.total');
-    if (this.totalLabel === '') {
+    if (Utils.isEmptyString(this.totalLabel)) {
       this.totalLabel = 'Total'; // should never happen
     }
     this.monthLabel = 'month';
@@ -33,8 +34,7 @@ export class StatisticsBuildService {
     });
   }
 
-  public buildStackedChartDataForMonths(statisticsData: StatisticData[], roundingDecimals: number = 0, addUnitToLabel = false,
-      sortedBy: 'label-asc' | 'label-desc' | 'size-asc' | 'size-desc' = 'size-desc', maxNumberOfItems = 20): ChartData {
+  public buildStackedChartDataForMonths(statisticsData: StatisticData[], roundingDecimals: number = 0, addUnitToLabel = false, sortedBy: 'label-asc' | 'label-desc' | 'size-asc' | 'size-desc' = 'size-desc', maxNumberOfItems = 20): ChartData {
     const stackedChartData: ChartData = { labels: [], datasets: [] };
     let roundingFactor = 1;
     let monthString = '';
@@ -59,7 +59,7 @@ export class StatisticsBuildService {
         }
       }
     }
-    if (transactionValues && transactionValues.length > 0) {
+    if (!Utils.isEmptyArray(transactionValues)) {
       const labels: string[] = [];
       // eslint-disable-next-line complexity
       transactionValues.forEach((transactionValue) => {
@@ -237,7 +237,7 @@ export class StatisticsBuildService {
       dataSetIndex = chartData.datasets.findIndex((dataset) => dataset.stack === ChartConstants.STACKED_TOTAL);
       if (dataSetIndex < 0) {
         // no, it is a simple chart
-        if (chartData.datasets.length > 0) {
+        if (!Utils.isEmptyArray(chartData.datasets)) {
           numberArray = chartData.datasets[0].data;
           if (Array.isArray(numberArray)) {
             numberArray.forEach((numberValue) => {
@@ -282,7 +282,7 @@ export class StatisticsBuildService {
               }
             });
           }
-          if (datasets.length === 0) {
+          if (Utils.isEmptyArray(datasets)) {
             numberArray = [];
             numberArray.push(totalValue);
             datasets.push({ data: numberArray }); // no 'label, no 'stack'
@@ -302,7 +302,7 @@ export class StatisticsBuildService {
   public countNumberOfChartItems(chartData: ChartData): number {
     let count = 0;
 
-    if (chartData.datasets) {
+    if (Array.isArray(chartData.datasets)) {
       if (chartData.datasets.length === 1) {
         count = chartData.datasets[0].data.length;
       } else {
@@ -316,8 +316,7 @@ export class StatisticsBuildService {
     return count;
   }
 
-  public calculateTotalsWithUnits(statisticsData: any,
-      roundingDecimals: number = 0, ignoreEmptyUnit = true): StatisticsBuildValueWithUnit[] {
+  public calculateTotalsWithUnits(statisticsData: any, roundingDecimals: number = 0, ignoreEmptyUnit = true): StatisticsBuildValueWithUnit[] {
     let roundingFactor = 1;
     let index = 0;
     let localString: any;
@@ -342,7 +341,7 @@ export class StatisticsBuildService {
       }
     }
 
-    if (transactionValues && transactionValues.length > 0) {
+    if (!Utils.isEmptyArray(transactionValues)) {
       transactionValues.forEach((transactionValue: { [x: string]: number | string }) => {
 
         totalWithUnit = { value: 0, unit: '' };
@@ -399,10 +398,12 @@ export class StatisticsBuildService {
       } else {
         totalsWithUnit[index].value += totalOfLastUnit;
       }
+    } else {
+      totalsWithUnit.push({ value:0, unit: '' });
     }
 
     if (ignoreEmptyUnit && totalsWithUnit.length === 2) {
-      index = totalsWithUnit.findIndex((record) => record.unit === '');
+      index = totalsWithUnit.findIndex((record) => Utils.isEmptyString(record.unit));
       if (index > -1) {
         totalOfLastUnit = totalsWithUnit[index].value;
         totalsWithUnit.splice(index, 1);

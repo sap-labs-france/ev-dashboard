@@ -3,7 +3,7 @@ import { ButtonAction } from '../../../../../types/GlobalType';
 import { ButtonColor, TableActionDef } from '../../../../../types/Table';
 import { SettingsOCPIStartJobAction } from './settings-ocpi-start-job-action';
 
-export class SettingsOcpiEnpointsMoreAction implements TableAction {
+export class SettingsOcpiEndpointsMoreAction implements TableAction {
   private action: TableActionDef = {
     id: ButtonAction.MORE,
     type: 'button',

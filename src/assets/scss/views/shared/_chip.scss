@@ -6,7 +6,7 @@
   background-color: transparent !important;
   font-size: 0.9rem;
   font-weight: bold;
-  width: 80%;
+  width: 92%;
   justify-content: center;
 }
 .mat-standard-chip {
@@ -61,7 +61,7 @@
 }
 
 .chip-danger {
-  @include chip($brand-warn);
+  @include chip($brand-danger);
 }
 
 .chip-grey {

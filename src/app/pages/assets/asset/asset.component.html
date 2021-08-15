@@ -47,6 +47,9 @@
                   <mat-error *ngIf="name.errors?.required">
                     {{"general.mandatory_field" | translate}}
                   </mat-error>
+                  <mat-error *ngIf="name.errors?.maxlength">
+                    <div [translateParams]="{length: name.errors?.maxlength?.requiredLength}" [translate]="'general.error_max_length'"></div>
+                  </mat-error>
                 </mat-form-field>
               </div>
               <div class="form-group">
@@ -76,13 +79,15 @@
                   </mat-error>
                 </mat-form-field>
               </div>
-              <div *ngIf="isSmartChargingComponentActive && asset?.siteArea?.smartCharging" class="text-left form-group">
-                <mat-checkbox [formControl]="excludeFromSmartCharging">
-                  {{'chargers.exclude_smart_charging' | translate}}
-                </mat-checkbox>
+              <div *ngIf="isSmartChargingComponentActive">
+                <div class="text-left form-group">
+                  <mat-checkbox [formControl]="excludeFromSmartCharging">
+                    {{'chargers.exclude_smart_charging' | translate}}
+                  </mat-checkbox>
+                </div>
               </div>
               <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-4">
                   <div class="form-group">
                     <mat-form-field>
                       <input matInput [formControl]="staticValueWatt"
@@ -92,12 +97,24 @@
                     </mat-form-field>
                   </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
                   <div class="form-group">
                     <mat-form-field>
                       <input matInput [formControl]="fluctuationPercent"
                         placeholder="{{'assets.fluctuation_percent' | translate}}" type='number'>
                       <mat-error *ngIf="fluctuationPercent.errors?.pattern || fluctuationPercent.errors?.max">
+                        {{"chargers.invalid_efficiency" | translate}}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <mat-form-field>
+                      <input matInput [formControl]="variationThresholdPercent"
+                        placeholder="{{'assets.variation_percent' | translate}}" type='number'>
+                      <mat-error
+                        *ngIf="variationThresholdPercent.errors?.pattern || variationThresholdPercent.errors?.max">
                         {{"chargers.invalid_efficiency" | translate}}
                       </mat-error>
                     </mat-form-field>
@@ -144,10 +161,17 @@
         </ng-template>
         <div class="card-body text-left">
           <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-3">
               <div class="form-group">
                 <mat-checkbox [formControl]="dynamicAsset" (change)="disableConnectionDetails()">
                   {{'assets.dynamic_asset' | translate}}
+                </mat-checkbox>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <mat-checkbox [formControl]="usesPushAPI" (change)="disableConnectionDetails()">
+                  {{'assets.uses_push_api' | translate}}
                 </mat-checkbox>
               </div>
             </div>

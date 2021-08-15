@@ -59,7 +59,7 @@ export class AuthenticationDefinePasswordComponent implements OnInit, OnDestroy 
             Validators.required,
           ])),
       },
-        (passwordFormGroup: FormGroup) => Utils.validateEqual(passwordFormGroup, 'password', 'repeatPassword')),
+      (passwordFormGroup: FormGroup) => Utils.validateEqual(passwordFormGroup, 'password', 'repeatPassword')),
     });
     // Form
     this.passwords = (this.formGroup.controls['passwords'] as FormGroup);
@@ -101,8 +101,8 @@ export class AuthenticationDefinePasswordComponent implements OnInit, OnDestroy 
         return;
       }
       data['hash'] = this.resetPasswordHash;
+      this.updatePassword(data);
       this.spinnerService.show();
-      // Reset
       this.centralServerService.resetUserPassword(data).subscribe((response) => {
         this.spinnerService.hide();
         if (response.status && response.status === RestResponse.SUCCESS) {
@@ -127,5 +127,12 @@ export class AuthenticationDefinePasswordComponent implements OnInit, OnDestroy 
         }
       });
     });
+  }
+
+  private updatePassword(data: any) {
+    if (data['passwords'] && data['passwords']['password']) {
+      data['password'] = data['passwords']['password'];
+      delete data['passwords'];
+    }
   }
 }

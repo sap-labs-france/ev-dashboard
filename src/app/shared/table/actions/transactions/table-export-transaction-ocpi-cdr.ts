@@ -28,24 +28,24 @@ export class TableExportTransactionOcpiCdrAction extends TableExportAction {
   }
 
   private exportTransactionOcpiCdr(transactionID: number, dialogService: DialogService, translateService: TranslateService,
-      messageService: MessageService, centralServerService: CentralServerService, router: Router,
-      spinnerService: SpinnerService) {
-      dialogService.createAndShowYesNoDialog(
-        translateService.instant('transactions.export_ocpi_cdr_title'),
-        translateService.instant('transactions.export_ocpi_cdr_confirm', { transactionID }),
-      ).subscribe((response) => {
-        if (response === ButtonType.YES) {
-          spinnerService.show();
-          centralServerService.exportTransactionOcpiCdr(transactionID).subscribe((result) => {
-              spinnerService.hide();
-              const ocpiData = new Blob([JSON.stringify(result, null, '\t')]);
-              FileSaver.saveAs(ocpiData, `exported-cdr-session-${transactionID}.json`);
-          }, (error) => {
-            spinnerService.hide();
-            Utils.handleHttpError(error, router, messageService,
-              centralServerService, translateService.instant('transactions.export_ocpi_cdr_error', { transactionID }));
-          });
-        }
-      });
+    messageService: MessageService, centralServerService: CentralServerService, router: Router,
+    spinnerService: SpinnerService) {
+    dialogService.createAndShowYesNoDialog(
+      translateService.instant('transactions.export_ocpi_cdr_title'),
+      translateService.instant('transactions.export_ocpi_cdr_confirm', { transactionID }),
+    ).subscribe((response) => {
+      if (response === ButtonType.YES) {
+        spinnerService.show();
+        centralServerService.exportTransactionOcpiCdr(transactionID).subscribe((result) => {
+          spinnerService.hide();
+          const ocpiData = new Blob([JSON.stringify(result, null, '\t')]);
+          FileSaver.saveAs(ocpiData, `exported-cdr-session-${transactionID}.json`);
+        }, (error) => {
+          spinnerService.hide();
+          Utils.handleHttpError(error, router, messageService,
+            centralServerService, translateService.instant('transactions.export_ocpi_cdr_error', { transactionID }));
+        });
+      }
+    });
   }
 }

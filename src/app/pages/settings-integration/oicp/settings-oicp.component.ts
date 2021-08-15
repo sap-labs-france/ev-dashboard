@@ -60,7 +60,7 @@ export class SettingsOicpComponent implements OnInit {
     { key: 'OTHER', description: 'Other' },
   ];
 
-  constructor(
+  public constructor(
     private messageService: MessageService,
     private centralServerService: CentralServerService,
     private componentService: ComponentService,
@@ -108,10 +108,10 @@ export class SettingsOicpComponent implements OnInit {
               Validators.minLength(2),
             ])),
           cert: new FormControl('',
-              Validators.compose([
-                Validators.required,
-                Validators.minLength(3),
-             ])),
+            Validators.compose([
+              Validators.required,
+              Validators.minLength(3),
+            ])),
         }),
         emsp: new FormGroup({
           countryCode: new FormControl('',

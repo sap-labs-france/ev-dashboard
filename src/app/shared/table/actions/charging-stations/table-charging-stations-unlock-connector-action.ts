@@ -8,8 +8,8 @@ import { SpinnerService } from 'services/spinner.service';
 import { TableAction } from 'shared/table/actions/table-action';
 import { ChargingStation, ChargingStationButtonAction, Connector } from 'types/ChargingStation';
 import { ActionResponse } from 'types/DataResult';
-import { ButtonColor, ButtonType, TableActionDef } from 'types/Table';
 import { OCPPUnlockStatus } from 'types/ocpp/OCPP';
+import { ButtonColor, ButtonType, TableActionDef } from 'types/Table';
 import { Utils } from 'utils/Utils';
 
 export interface TableChargingStationsUnlockConnectorActionDef extends TableActionDef {
@@ -49,27 +49,27 @@ export class TableChargingStationsUnlockConnectorAction implements TableAction {
         spinnerService.show();
         centralServerService.chargingStationsUnlockConnector(
           chargingStation.id, connector.connectorId).subscribe((unlockConnectorResponse: ActionResponse) => {
-            spinnerService.hide();
-            if (unlockConnectorResponse.status === OCPPUnlockStatus.UNLOCKED) {
-              messageService.showSuccessMessage(
-                translateService.instant('chargers.unlock_connector_success', {
-                  chargeBoxID: chargingStation.id,
-                  connectorId: Utils.getConnectorLetterFromConnectorID(connector.connectorId),
-                }));
-              if (refresh) {
-                refresh().subscribe();
-              }
-            } else if (unlockConnectorResponse.status === OCPPUnlockStatus.NOT_SUPPORTED) {
-              Utils.handleError(JSON.stringify(response),
-                messageService, translateService.instant('chargers.unlock_connector_not_supported_error'));
-            } else {
-              Utils.handleError(JSON.stringify(response),
-                messageService, translateService.instant('chargers.unlock_connector_error'));
+          spinnerService.hide();
+          if (unlockConnectorResponse.status === OCPPUnlockStatus.UNLOCKED) {
+            messageService.showSuccessMessage(
+              translateService.instant('chargers.unlock_connector_success', {
+                chargeBoxID: chargingStation.id,
+                connectorId: Utils.getConnectorLetterFromConnectorID(connector.connectorId),
+              }));
+            if (refresh) {
+              refresh().subscribe();
             }
-          }, (error) => {
-            spinnerService.hide();
-            Utils.handleHttpError(error, router, messageService, centralServerService, 'chargers.unlock_connector_error');
-          });
+          } else if (unlockConnectorResponse.status === OCPPUnlockStatus.NOT_SUPPORTED) {
+            Utils.handleError(JSON.stringify(response),
+              messageService, translateService.instant('chargers.unlock_connector_not_supported_error'));
+          } else {
+            Utils.handleError(JSON.stringify(response),
+              messageService, translateService.instant('chargers.unlock_connector_error'));
+          }
+        }, (error) => {
+          spinnerService.hide();
+          Utils.handleHttpError(error, router, messageService, centralServerService, 'chargers.unlock_connector_error');
+        });
       }
     });
   }

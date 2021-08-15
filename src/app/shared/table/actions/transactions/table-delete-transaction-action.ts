@@ -27,7 +27,7 @@ export class TableDeleteTransactionAction extends TableDeleteAction {
   }
 
   private deleteTransaction(transaction: Transaction, dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
-      centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) {
+    centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) {
     if (transaction.refundData &&
         (transaction.refundData.status === RefundStatus.SUBMITTED ||
          transaction.refundData.status === RefundStatus.APPROVED)) {

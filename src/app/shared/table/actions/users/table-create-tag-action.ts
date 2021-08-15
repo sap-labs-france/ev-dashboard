@@ -7,7 +7,8 @@ import { TableActionDef } from '../../../../types/Table';
 import { UserButtonAction } from '../../../../types/User';
 
 export interface TableCreateTagActionDef extends TableActionDef {
-  action: (tagDialogComponent: ComponentType<unknown>, dialog: MatDialog, refresh?: () => Observable<void>) => void;
+  action: (tagDialogComponent: ComponentType<unknown>, dialog: MatDialog,
+    refresh?: () => Observable<void>) => void;
 }
 
 export class TableCreateTagAction extends TableCreateAction {
@@ -19,7 +20,8 @@ export class TableCreateTagAction extends TableCreateAction {
     };
   }
 
-  private createTag(tagDialogComponent: ComponentType<unknown>, dialog: MatDialog, refresh?: () => Observable<void>) {
-    super.create(tagDialogComponent, dialog, refresh);
+  private createTag(tagDialogComponent: ComponentType<unknown>,
+    dialog: MatDialog, refresh?: () => Observable<void>) {
+    super.create(tagDialogComponent, dialog, null, refresh);
   }
 }

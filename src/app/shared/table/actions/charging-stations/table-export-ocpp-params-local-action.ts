@@ -27,10 +27,26 @@ export class TableExportOCPPParamsLocalAction extends TableExportAction {
       translateService.instant('chargers.dialog.exportConfig.confirm'),
     ).subscribe((response) => {
       if (response === ButtonType.YES) {
-        let csv = `Charging Station${Constants.CSV_SEPARATOR}Parameter Name${Constants.CSV_SEPARATOR}Parameter Value${Constants.CSV_SEPARATOR}Site Area${Constants.CSV_SEPARATOR}Site\r\n`;
-        for (const parameter of params) {
-          csv += `${charger.id}${Constants.CSV_SEPARATOR}${parameter.key}${Constants.CSV_SEPARATOR}"${Utils.replaceSpecialCharsInCSVValueParam(parameter.value)}"${Constants.CSV_SEPARATOR}${charger.siteArea.name}${Constants.CSV_SEPARATOR}${charger.siteArea.site.name}\r\n`;
-        }
+        // Header
+        const headers = [
+          'chargingStation',
+          'name',
+          'value',
+          'siteArea',
+          'site'
+        ].join(Constants.CSV_SEPARATOR);
+        // Content
+        const rows = params.map((parameter) => {
+          const row = [
+            charger.id,
+            parameter.key,
+            Utils.replaceSpecialCharsInCSVValueParam(parameter.value),
+            charger.siteArea.name,
+            charger.site.name
+          ].map((value) => Utils.escapeCsvValue(value));
+          return row;
+        }).join(Constants.CR_LF);
+        const csv = [headers, rows].join(Constants.CR_LF);
         const blob = new Blob([csv]);
         saveAs(blob, `exported-${charger.id.toLowerCase()}-ocpp-parameters.csv`);
       }

@@ -155,6 +155,7 @@ export class SettingsAssetConnectionEditableTableDataSource extends EditableTabl
       name: '',
       description: '',
       type: AssetConnectionType.NONE,
+      refreshIntervalMins: 1,
       url: ''
     };
   }
@@ -175,17 +176,17 @@ export class SettingsAssetConnectionEditableTableDataSource extends EditableTabl
     dialogConfig.disableClose = true;
     // Open
     const dialogRef = this.dialog.open(AssetConnectionDialogComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe((assetConnection: AssetConnectionSetting) => {
-      if (assetConnection) {
+    dialogRef.afterClosed().subscribe((assetConnectionSetting: AssetConnectionSetting) => {
+      if (assetConnectionSetting) {
         // Find object
         const index = this.editableRows.findIndex(
-          (editableRow) => editableRow.id === assetConnection.id);
+          (editableRow) => editableRow.id === assetConnectionSetting.id);
         if (index >= 0) {
           // Update
-          this.editableRows.splice(index, 1, assetConnection);
+          this.editableRows.splice(index, 1, assetConnectionSetting);
         } else {
           // Create
-          this.editableRows.push(assetConnection);
+          this.editableRows.push(assetConnectionSetting);
         }
         this.refreshData(false).subscribe();
         this.formArray.markAsDirty();

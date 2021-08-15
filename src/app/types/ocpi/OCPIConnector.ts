@@ -1,9 +1,13 @@
+import { Voltage } from 'types/ChargingStation';
+
+type OCPIVoltage = Voltage;
+
 export interface OCPIConnector {
   id: string;
   standard: OCPIConnectorType;
   format: OCPIConnectorFormat;
   power_type: OCPIPowerType;
-  voltage: number;
+  voltage: OCPIVoltage;
   amperage: number;
   tariff_id?: string;
   last_updated: Date;

@@ -1,10 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { DialogMode } from 'types/Authorization';
 
-import { AuthorizationService } from '../../../../services/authorization.service';
 import { CentralServerService } from '../../../../services/central-server.service';
 import { ConfigService } from '../../../../services/config.service';
 import { DialogService } from '../../../../services/dialog.service';
@@ -25,12 +25,13 @@ import { Utils } from '../../../../utils/Utils';
 })
 export class SiteComponent implements OnInit {
   @Input() public currentSiteID!: string;
-  @Input() public inDialog!: boolean;
+  @Input() public dialogMode!: DialogMode;
   @Input() public dialogRef!: MatDialogRef<any>;
 
   public image = Constants.NO_IMAGE;
   public imageHasChanged = false;
   public maxSize: number;
+  public readOnly = true;
 
   public formGroup!: FormGroup;
   public id!: AbstractControl;
@@ -41,28 +42,17 @@ export class SiteComponent implements OnInit {
   public public!: AbstractControl;
 
   public address!: Address;
-  public canCreateSite = false;
 
-  constructor(
-    private authorizationService: AuthorizationService,
+  public constructor(
     private centralServerService: CentralServerService,
     private messageService: MessageService,
     private spinnerService: SpinnerService,
     private translateService: TranslateService,
     private configService: ConfigService,
-    private activatedRoute: ActivatedRoute,
     private dialog: MatDialog,
     private dialogService: DialogService,
     private router: Router) {
     this.maxSize = this.configService.getSite().maxPictureKb;
-    // Check auth
-    if (this.activatedRoute.snapshot.params['id'] &&
-      !authorizationService.canUpdateSite()) {
-      // Not authorized
-      this.router.navigate(['/']);
-    }
-    // Set
-    this.canCreateSite = this.authorizationService.canCreateSite();
   }
 
   public ngOnInit() {
@@ -72,6 +62,7 @@ export class SiteComponent implements OnInit {
       name: new FormControl('',
         Validators.compose([
           Validators.required,
+          Validators.maxLength(255),
         ])),
       company: new FormControl('',
         Validators.compose([
@@ -91,22 +82,69 @@ export class SiteComponent implements OnInit {
     this.companyID = this.formGroup.controls['companyID'];
     this.autoUserSiteAssignment = this.formGroup.controls['autoUserSiteAssignment'];
     this.public = this.formGroup.controls['public'];
+    // Set
+    this.readOnly = (this.dialogMode === DialogMode.VIEW);
+    // Load Site
+    this.loadSite();
+    // Handle Dialog mode
+    Utils.handleDialogMode(this.dialogMode, this.formGroup);
+  }
+
+  public loadSite() {
     if (this.currentSiteID) {
-      this.loadSite();
-    } else if (this.activatedRoute && this.activatedRoute.params) {
-      this.activatedRoute.params.subscribe((params: Params) => {
-        this.currentSiteID = params['id'];
-        // this.loadSite();
+      this.spinnerService.show();
+      this.centralServerService.getSite(this.currentSiteID, false, true).subscribe((site) => {
+        this.spinnerService.hide();
+        // Init form
+        if (site.id) {
+          this.formGroup.controls.id.setValue(site.id);
+        }
+        if (site.name) {
+          this.formGroup.controls.name.setValue(site.name);
+        }
+        if (site.companyID) {
+          this.formGroup.controls.companyID.setValue(site.companyID);
+        }
+        if (site.company) {
+          this.formGroup.controls.company.setValue(site.company.name);
+        }
+        if (site.autoUserSiteAssignment) {
+          this.formGroup.controls.autoUserSiteAssignment.setValue(site.autoUserSiteAssignment);
+        } else {
+          this.formGroup.controls.autoUserSiteAssignment.setValue(false);
+        }
+        if (site.public) {
+          this.formGroup.controls.public.setValue(site.public);
+        } else {
+          this.formGroup.controls.public.setValue(false);
+        }
+        if (site.address) {
+          this.address = site.address;
+        }
+        // Update form group
+        this.formGroup.updateValueAndValidity();
+        this.formGroup.markAsPristine();
+        this.formGroup.markAllAsTouched();
+        // Get Site image
+        this.centralServerService.getSiteImage(this.currentSiteID).subscribe((siteImage) => {
+          this.image = siteImage ? siteImage : Constants.NO_IMAGE;
+        });
+      }, (error) => {
+        this.spinnerService.hide();
+        switch (error.status) {
+          case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+            this.messageService.showErrorMessage('sites.site_not_found');
+            break;
+          default:
+            Utils.handleHttpError(error, this.router, this.messageService,
+              this.centralServerService, 'general.unexpected_error_backend');
+        }
       });
     }
   }
 
-  public isOpenInDialog(): boolean {
-    return this.inDialog;
-  }
-
-  public setCurrentSiteId(currentSiteID: string) {
-    this.currentSiteID = currentSiteID;
+  public refresh() {
+    this.loadSite();
   }
 
   public assignCompany() {
@@ -124,75 +162,11 @@ export class SiteComponent implements OnInit {
     };
     // Open
     this.dialog.open(CompaniesDialogComponent, dialogConfig).afterClosed().subscribe((result) => {
-      if (result && result.length > 0 && result[0] && result[0].objectRef) {
+      if (!Utils.isEmptyArray(result) && result[0].objectRef) {
         const company: Company = (result[0].objectRef) as Company;
         this.company.setValue(company.name);
         this.companyID.setValue(company.id);
         this.formGroup.markAsDirty();
-      }
-    });
-  }
-
-  public refresh() {
-    this.loadSite();
-  }
-
-  public loadSite() {
-    if (!this.currentSiteID) {
-      return;
-    }
-    this.canCreateSite = this.authorizationService.canCreateSite() ||
-      this.authorizationService.isSiteAdmin(this.currentSiteID) ||
-      this.authorizationService.isSiteOwner(this.currentSiteID);
-    // if not admin switch in readonly mode
-    if (!this.canCreateSite) {
-      this.formGroup.disable();
-    }
-    this.spinnerService.show();
-    this.centralServerService.getSite(this.currentSiteID, false, true).subscribe((site) => {
-      this.spinnerService.hide();
-      // Init form
-      if (site.id) {
-        this.formGroup.controls.id.setValue(site.id);
-      }
-      if (site.name) {
-        this.formGroup.controls.name.setValue(site.name);
-      }
-      if (site.companyID) {
-        this.formGroup.controls.companyID.setValue(site.companyID);
-      }
-      if (site.company) {
-        this.formGroup.controls.company.setValue(site.company.name);
-      }
-      if (site.autoUserSiteAssignment) {
-        this.formGroup.controls.autoUserSiteAssignment.setValue(site.autoUserSiteAssignment);
-      } else {
-        this.formGroup.controls.autoUserSiteAssignment.setValue(false);
-      }
-      if (site.public) {
-        this.formGroup.controls.public.setValue(site.public);
-      } else {
-        this.formGroup.controls.public.setValue(false);
-      }
-      if (site.address) {
-        this.address = site.address;
-      }
-      this.formGroup.updateValueAndValidity();
-      this.formGroup.markAsPristine();
-      this.formGroup.markAllAsTouched();
-      // Get Site image
-      this.centralServerService.getSiteImage(this.currentSiteID).subscribe((siteImage) => {
-        this.image = siteImage ? siteImage : Constants.NO_IMAGE;
-      });
-    }, (error) => {
-      this.spinnerService.hide();
-      switch (error.status) {
-        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
-          this.messageService.showErrorMessage('sites.site_not_found');
-          break;
-        default:
-          Utils.handleHttpError(error, this.router, this.messageService,
-            this.centralServerService, 'general.unexpected_error_backend');
       }
     });
   }
@@ -253,7 +227,7 @@ export class SiteComponent implements OnInit {
   }
 
   public closeDialog(saved: boolean = false) {
-    if (this.inDialog) {
+    if (this.dialogRef) {
       this.dialogRef.close(saved);
     }
   }
@@ -275,7 +249,6 @@ export class SiteComponent implements OnInit {
       if (response.status === RestResponse.SUCCESS) {
         this.messageService.showSuccessMessage('sites.create_success',
           { siteName: site.name });
-        this.currentSiteID = site.id;
         this.closeDialog(true);
       } else {
         Utils.handleError(JSON.stringify(response),

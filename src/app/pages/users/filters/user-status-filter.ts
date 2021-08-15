@@ -3,7 +3,7 @@ import { TableFilter } from '../../../shared/table/filters/table-filter';
 import { FilterType, TableFilterDef } from '../../../types/Table';
 
 export class UserStatusFilter extends TableFilter {
-  constructor() {
+  public constructor() {
     super();
     // Define filter
     const filterDef: TableFilterDef = {

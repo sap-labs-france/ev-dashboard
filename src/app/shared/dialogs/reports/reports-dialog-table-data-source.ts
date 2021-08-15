@@ -34,15 +34,15 @@ export class ReportsDialogTableDataSource extends DialogTableDataSource<RefundRe
       filters['MinimalPrice'] = '0';
       this.centralServerService.getRefundReports(filters,
         this.getPaging(), this.getSorting()).subscribe((report) => {
-          // Ok
-          observer.next(report);
-          observer.complete();
-        }, (error) => {
-          // No longer exists!
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-          // Error
-          observer.error(error);
-        });
+        // Ok
+        observer.next(report);
+        observer.complete();
+      }, (error) => {
+        // No longer exists!
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+        // Error
+        observer.error(error);
+      });
     });
   }
 

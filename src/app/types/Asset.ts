@@ -2,9 +2,9 @@ import Consumption, { AbstractConsumption, AbstractCurrentConsumption } from './
 import CreatedUpdatedProps from './CreatedUpdatedProps';
 import { KeyValue } from './GlobalType';
 import { SiteArea } from './SiteArea';
-import { Data } from './Table';
+import { TableData } from './Table';
 
-export interface Asset extends Data, CreatedUpdatedProps, AbstractCurrentConsumption {
+export interface Asset extends TableData, CreatedUpdatedProps, AbstractCurrentConsumption {
   id: string;
   name: string;
   siteAreaID: string;
@@ -15,6 +15,7 @@ export interface Asset extends Data, CreatedUpdatedProps, AbstractCurrentConsump
   coordinates: number[];
   image: string;
   dynamicAsset: boolean;
+  usesPushAPI: boolean;
   connectionID: string;
   meterID: string;
   consumption: AbstractConsumption;
@@ -24,6 +25,9 @@ export interface Asset extends Data, CreatedUpdatedProps, AbstractCurrentConsump
   lastChangedOn: Date;
   connected: boolean;
   excludeFromSmartCharging?: boolean;
+  variationThresholdPercent?: number;
+  powerWattsLastSmartChargingRun?: number;
+  issuer: boolean;
 }
 
 export interface AssetConsumption {

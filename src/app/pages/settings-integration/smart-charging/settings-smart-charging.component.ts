@@ -21,7 +21,7 @@ export class SettingsSmartChargingComponent implements OnInit {
   public formGroup!: FormGroup;
   public smartChargingSettings!: SmartChargingSettings;
 
-  constructor(
+  public constructor(
     private centralServerService: CentralServerService,
     private componentService: ComponentService,
     private spinnerService: SpinnerService,

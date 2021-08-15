@@ -1,5 +1,7 @@
 import { AfterViewInit, Component, Inject, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { DialogParams } from 'types/Authorization';
+import { Tag } from 'types/Tag';
 
 import { Utils } from '../../../utils/Utils';
 import { TagComponent } from './tag.component';
@@ -11,10 +13,10 @@ export class TagDialogComponent implements AfterViewInit {
   @ViewChild('appRef') public appRef!: TagComponent;
   public tagID!: string;
 
-  constructor(
+  public constructor(
     public dialogRef: MatDialogRef<TagDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data: string) {
-    this.tagID = data;
+    @Inject(MAT_DIALOG_DATA) dialogParams: DialogParams<Tag>) {
+    this.tagID = dialogParams.dialogData?.id;
   }
 
   public ngAfterViewInit() {

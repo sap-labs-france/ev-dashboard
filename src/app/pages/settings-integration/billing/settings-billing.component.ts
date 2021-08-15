@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { ButtonType } from 'types/Table';
 
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
@@ -12,7 +13,7 @@ import { TableSyncBillingInvoicesAction } from '../../../shared/table/actions/in
 import { TableSyncBillingUsersAction } from '../../../shared/table/actions/users/table-sync-billing-users-action';
 import { RestResponse } from '../../../types/GlobalType';
 import { HTTPError } from '../../../types/HTTPError';
-import { BillingSettings, BillingSettingsType } from '../../../types/Setting';
+import { BillingSetting, BillingSettings, BillingSettingsType, StripeBillingSetting } from '../../../types/Setting';
 import TenantComponents from '../../../types/TenantComponents';
 import { Utils } from '../../../utils/Utils';
 
@@ -25,6 +26,8 @@ export class SettingsBillingComponent implements OnInit {
 
   public formGroup!: FormGroup;
   public billingSettings!: BillingSettings;
+  public transactionBillingActivated: boolean;
+  public isClearTestDataVisible = false;
 
   public constructor(
     private centralServerService: CentralServerService,
@@ -53,6 +56,8 @@ export class SettingsBillingComponent implements OnInit {
       this.spinnerService.hide();
       // Keep
       this.billingSettings = settings;
+      // Enable additional actions based on the account nature
+      this.checkConnectionContext(settings);
       // Init form
       this.formGroup.markAsPristine();
     }, (error) => {
@@ -68,14 +73,16 @@ export class SettingsBillingComponent implements OnInit {
     });
   }
 
-  public save(content: BillingSettings) {
-    // Stripe
-    if (content.stripe) {
-      this.billingSettings.type = BillingSettingsType.STRIPE;
-      this.billingSettings.stripe = content.stripe;
+  public save(newSettings: any) {
+    this.billingSettings.type = BillingSettingsType.STRIPE;
+    if (newSettings?.billing?.isTransactionBillingActivated) {
+      this.transactionBillingActivated = newSettings.billing.isTransactionBillingActivated;
     } else {
-      return;
+      this.transactionBillingActivated = this.billingSettings.billing.isTransactionBillingActivated;
     }
+    this.billingSettings.billing = newSettings.billing as BillingSetting;
+    this.billingSettings.billing.isTransactionBillingActivated = this.transactionBillingActivated;
+    this.billingSettings.stripe = newSettings.stripe as StripeBillingSetting;
     // Save
     this.spinnerService.show();
     this.componentService.saveBillingSettings(this.billingSettings).subscribe((response) => {
@@ -105,12 +112,15 @@ export class SettingsBillingComponent implements OnInit {
     this.loadConfiguration();
   }
 
-  public checkConnection() {
+  public checkConnection(activateTransactionBilling = false) {
     this.spinnerService.show();
     this.centralServerService.checkBillingConnection().subscribe((response) => {
       this.spinnerService.hide();
       if (response.connectionIsValid) {
         this.messageService.showSuccessMessage('settings.billing.connection_success');
+        if (activateTransactionBilling) {
+          this.activateTransactionBilling();
+        }
       } else {
         Utils.handleError(JSON.stringify(response),
           this.messageService, 'settings.billing.connection_error');
@@ -146,5 +156,58 @@ export class SettingsBillingComponent implements OnInit {
         this.router,
       );
     }
+  }
+
+  private activateTransactionBilling() {
+    this.dialogService.createAndShowYesNoDialog(
+      this.translateService.instant('settings.billing.transaction_billing_activation_title'),
+      this.translateService.instant('settings.billing.transaction_billing_activation_confirm'),
+    ).subscribe((response) => {
+      if (response === ButtonType.YES) {
+        this.billingSettings.billing.isTransactionBillingActivated = true;
+        this.save(this.billingSettings);
+      }
+    });
+  }
+
+  private clearTestData() {
+    this.dialogService.createAndShowYesNoDialog(
+      this.translateService.instant('settings.billing.billing_clear_test_data_title'),
+      this.translateService.instant('settings.billing.billing_clear_test_data_confirm'),
+    ).subscribe((response) => {
+      if (response === ButtonType.YES) {
+        this.triggerTestDataCleanup();
+      }
+    });
+  }
+
+  private triggerTestDataCleanup() {
+    // Clear Test Data
+    this.spinnerService.show();
+    this.centralServerService.clearBillingTestData().subscribe((response) => {
+      this.spinnerService.hide();
+      if (response.succeeded) {
+        this.messageService.showSuccessMessage('settings.billing.billing_clear_test_data_success');
+        this.refresh();
+      } else {
+        Utils.handleError(JSON.stringify(response),
+          this.messageService, 'settings.billing.billing_clear_test_data_error');
+      }
+    }, (error) => {
+      this.spinnerService.hide();
+      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'settings.billing.billing_clear_test_data_error');
+    });
+  }
+
+  private checkConnectionContext(settings: BillingSettings): void {
+    let isClearTestDataVisible = false;
+    if ( this.billingSettings?.billing?.isTransactionBillingActivated ) {
+      // TODO - Get the information via a dedicated endpoint!
+      if ( this.billingSettings?.type === 'stripe' && this.billingSettings?.stripe?.publicKey?.startsWith('pk_test_') ) {
+        isClearTestDataVisible = true;
+      }
+    }
+    // Show the "Clear Test Data" button
+    this.isClearTestDataVisible = isClearTestDataVisible;
   }
 }

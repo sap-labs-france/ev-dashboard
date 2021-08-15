@@ -25,7 +25,7 @@ export class ChargingStationsHeartbeatCellComponent extends CellContentTemplateD
   @Input() public row!: ChargingStation;
   public locale!: string;
 
-  constructor(
+  public constructor(
     private localeService: LocaleService) {
     super();
     this.localeService.getCurrentLocaleSubject().subscribe((locale) => {

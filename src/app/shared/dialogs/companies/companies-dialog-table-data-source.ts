@@ -30,15 +30,15 @@ export class CompaniesDialogTableDataSource extends DialogTableDataSource<Compan
       // Get data
       this.centralServerService.getCompanies(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((companies) => {
-          // Ok
-          observer.next(companies);
-          observer.complete();
-        }, (error) => {
-          // No longer exists!
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-          // Error
-          observer.error(error);
-        });
+        // Ok
+        observer.next(companies);
+        observer.complete();
+      }, (error) => {
+        // No longer exists!
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+        // Error
+        observer.error(error);
+      });
     });
   }
 

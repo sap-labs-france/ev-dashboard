@@ -1,9 +1,10 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
+import { DialogMode, DialogParams } from 'types/Authorization';
 
-import { ButtonAction } from '../../../types/GlobalType';
-import { ButtonColor, TableActionDef } from '../../../types/Table';
+import { ButtonAction, PopupSize } from '../../../types/GlobalType';
+import { ButtonColor, TableActionDef, TableData } from '../../../types/Table';
 import { TableAction } from './table-action';
 
 export class TableCreateAction implements TableAction {
@@ -22,12 +23,24 @@ export class TableCreateAction implements TableAction {
     return this.action;
   }
 
-  protected create(component: ComponentType<unknown>, dialog: MatDialog, refresh?: () => Observable<void>) {
+  protected create(component: ComponentType<unknown>, dialog: MatDialog,
+    dialogParams: DialogParams<TableData> = {}, refresh?: () => Observable<void>, size?: PopupSize) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
-    dialogConfig.minWidth = '80vw';
-    dialogConfig.minHeight = '60vh';
+    // Popup Width
+    dialogConfig.minWidth = size?.minWidth ? size.minWidth + 'vw' : '80vw';
+    dialogConfig.maxWidth = size?.maxWidth ? size.maxWidth + 'vw' : dialogConfig.maxWidth;
+    dialogConfig.width = size?.width ? size.width + 'vw' : dialogConfig.width;
+    // Popup Height
+    dialogConfig.minHeight = size?.minHeight ? size.minHeight + 'vh' : '60vh';
+    dialogConfig.maxHeight = size?.maxHeight ? size.maxHeight + 'vh' : dialogConfig.maxHeight;
+    dialogConfig.height = size?.height ? size.height + 'vh' : dialogConfig.height;
+    // CSS
     dialogConfig.panelClass = 'transparent-dialog-container';
+    dialogConfig.data = {
+      dialogMode: DialogMode.CREATE,
+      ...dialogParams
+    };
     // disable outside click close
     dialogConfig.disableClose = true;
     // Open

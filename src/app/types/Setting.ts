@@ -1,12 +1,12 @@
 import CreatedUpdatedProps from './CreatedUpdatedProps';
-import { Data } from './Table';
+import { TableData } from './Table';
 import TenantComponents from './TenantComponents';
 
 export enum TechnicalSettings {
   USER = 'user',
   CRYPTO = 'crypto'
 }
-export interface Setting extends Data, CreatedUpdatedProps {
+export interface Setting extends TableData, CreatedUpdatedProps {
   identifier: TenantComponents | TechnicalSettings;
   sensitiveData?: string[];
   category?: 'business' | 'technical';
@@ -15,21 +15,24 @@ export interface SettingDB extends CreatedUpdatedProps, Setting {
   content: SettingDBContent;
 }
 
+type SettingsType = CryptoSettingsType
+| RoamingSettingsType
+| AnalyticsSettingsType
+| RefundSettingsType
+| PricingSettingsType
+| BillingSettingsType
+| SmartChargingSettingsType
+| AssetSettingsType
+| CarConnectorSettingsType
+| UserSettingsType;
+
 export interface SettingDBContent {
-  type: CryptoSettingsType
-    | RoamingSettingsType
-    | AnalyticsSettingsType
-    | RefundSettingsType
-    | PricingSettingsType
-    | BillingSettingsType
-    | SmartChargingSettingsType
-    | AssetSettingsType
-    | CarConnectorSettingsType
-    | UserSettingsType;
+  type: SettingsType;
   ocpi?: OcpiSetting;
   oicp?: OicpSetting;
   simple?: SimplePricingSetting;
   convergentCharging?: ConvergentChargingPricingSetting;
+  billing?: BillingSetting;
   stripe?: StripeBillingSetting;
   sac?: SacAnalyticsSetting;
   links?: SettingLink[];
@@ -41,7 +44,7 @@ export interface SettingDBContent {
   user?: UserSetting;
 }
 
-export interface SettingLink extends Data {
+export interface SettingLink extends TableData {
   id: string; // 'number' is wrong! See table-data-source.enrichData() which does not digest 'id' field of type 'number'
   name: string;
   description: string;
@@ -193,30 +196,29 @@ export interface ConcurRefundSetting {
   reportName: string;
 }
 
-export enum BillingSettingsType {
-  STRIPE = 'stripe',
-}
-
 export interface BillingSettings extends Setting {
   identifier: TenantComponents.BILLING;
   type: BillingSettingsType;
-  stripe: StripeBillingSetting;
+  billing: BillingSetting;
+  stripe?: StripeBillingSetting;
 }
 
 export interface BillingSetting {
-  lastSynchronizedOn?: Date;
+  isTransactionBillingActivated: boolean;
+  immediateBillingAllowed: boolean;
+  periodicBillingAllowed: boolean;
+  taxID: string;
+  usersLastSynchronizedOn?: Date;
 }
 
-export interface StripeBillingSetting extends BillingSetting {
+export interface StripeBillingSetting {
   url: string;
   secretKey: string;
   publicKey: string;
-  noCardAllowed: boolean;
-  immediateBillingAllowed: boolean;
-  periodicBillingAllowed: boolean;
-  advanceBillingAllowed: boolean;
-  currency: string;
-  taxID: string;
+}
+
+export enum BillingSettingsType {
+  STRIPE = 'stripe',
 }
 
 export enum AssetSettingsType {
@@ -233,20 +235,27 @@ export interface AssetSetting {
   connections: AssetConnectionSetting[];
 }
 
-export interface AssetConnectionSetting extends Data {
+export interface AssetConnectionSetting extends TableData {
   id: string;
   name: string;
   description: string;
   url: string;
   type: AssetConnectionType;
+  refreshIntervalMins?: number;
   schneiderConnection?: AssetSchneiderConnectionType;
   greencomConnection?: AssetGreencomConnectionType;
+  iothinkConnection?: AssetIothinkConnectionType;
+  witConnection?: AssetWitConnectionType;
+  lacroixConnection?: AssetLacroixConnectionType;
 }
 
 export enum AssetConnectionType {
   NONE = '',
   SCHNEIDER = 'schneider',
   GREENCOM = 'greencom',
+  IOTHINK = 'iothink',
+  WIT = 'wit',
+  LACROIX = 'lacroix',
 }
 
 export interface AssetUserPasswordConnectionType {
@@ -254,12 +263,21 @@ export interface AssetUserPasswordConnectionType {
   password: string;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface AssetSchneiderConnectionType extends AssetUserPasswordConnectionType {}
+export type AssetSchneiderConnectionType = AssetUserPasswordConnectionType;
+
+export type AssetIothinkConnectionType = AssetUserPasswordConnectionType;
+
+export type AssetLacroixConnectionType = AssetUserPasswordConnectionType;
 
 export interface AssetGreencomConnectionType {
   clientId: string;
   clientSecret: string;
+}
+
+export interface AssetWitConnectionType extends AssetUserPasswordConnectionType  {
+  clientId: string;
+  clientSecret: string;
+  authenticationUrl: string;
 }
 
 export enum CarConnectorSettingsType {
@@ -276,7 +294,7 @@ export interface CarConnectorSetting {
   connections: CarConnectorConnectionSetting[];
 }
 
-export interface CarConnectorConnectionSetting extends Data {
+export interface CarConnectorConnectionSetting extends TableData {
   id: string;
   name: string;
   description: string;

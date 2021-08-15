@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { IssuerFilter } from 'shared/table/filters/issuer-filter';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
@@ -81,29 +82,29 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
       // Get data
       this.centralServerService.getChargingStationsInError(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((chargers) => {
-          this.formatErrorMessages(chargers.result);
-          // Update details status
-          chargers.result.forEach((chargingStation: ChargingStationInError) => {
-            // At first filter out the connectors that are null
-            chargingStation.connectors = chargingStation.connectors.filter((connector) => !Utils.isNullOrUndefined(connector));
-            chargingStation.connectors.forEach((connector) => {
-              connector.hasDetails = connector.currentTransactionID > 0;
-              connector.status = chargingStation.inactive ? ChargePointStatus.UNAVAILABLE : connector.status;
-              connector.currentInstantWatts = chargingStation.inactive ? 0 : connector.currentInstantWatts;
-              connector.currentStateOfCharge = chargingStation.inactive ? 0 : connector.currentStateOfCharge;
-              connector.currentTotalConsumptionWh = chargingStation.inactive ? 0 : connector.currentTotalConsumptionWh;
-              connector.currentTotalInactivitySecs = chargingStation.inactive ? 0 : connector.currentTotalInactivitySecs;
-            });
+        this.formatErrorMessages(chargers.result);
+        // Update details status
+        chargers.result.forEach((chargingStation: ChargingStationInError) => {
+          // At first filter out the connectors that are null
+          chargingStation.connectors = chargingStation.connectors.filter((connector) => !Utils.isNullOrUndefined(connector));
+          chargingStation.connectors.forEach((connector) => {
+            connector.hasDetails = connector.currentTransactionID > 0;
+            connector.status = chargingStation.inactive ? ChargePointStatus.UNAVAILABLE : connector.status;
+            connector.currentInstantWatts = chargingStation.inactive ? 0 : connector.currentInstantWatts;
+            connector.currentStateOfCharge = chargingStation.inactive ? 0 : connector.currentStateOfCharge;
+            connector.currentTotalConsumptionWh = chargingStation.inactive ? 0 : connector.currentTotalConsumptionWh;
+            connector.currentTotalInactivitySecs = chargingStation.inactive ? 0 : connector.currentTotalInactivitySecs;
           });
-          // Ok
-          observer.next(chargers);
-          observer.complete();
-        }, (error) => {
-          // No longer exists!
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-          // Error
-          observer.error(error);
         });
+        // Ok
+        observer.next(chargers);
+        observer.complete();
+      }, (error) => {
+        // No longer exists!
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+        // Error
+        observer.error(error);
+      });
     });
   }
 
@@ -221,7 +222,8 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
       case ChargingStationButtonAction.EDIT_CHARGING_STATION:
         if (actionDef.action) {
           (actionDef as TableEditChargingStationActionDef).action(
-            ChargingStationDialogComponent, chargingStation, this.dialog, this.refreshData.bind(this));
+            ChargingStationDialogComponent, this.dialog,
+            { dialogData: chargingStation }, this.refreshData.bind(this));
         }
         break;
       case LogButtonAction.NAVIGATE_TO_LOGS:
@@ -273,9 +275,11 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
     errorTypes.sort(Utils.sortArrayOfKeyValue);
     // Build filters
     if (this.isOrganizationComponentActive) {
+      const issuerFilter = new IssuerFilter().getFilterDef();
+      const siteFilter = new SiteTableFilter([issuerFilter]).getFilterDef();
       return [
-        new SiteTableFilter().getFilterDef(),
-        new SiteAreaTableFilter().getFilterDef(),
+        siteFilter,
+        new SiteAreaTableFilter([siteFilter, issuerFilter]).getFilterDef(),
         new ErrorTypeTableFilter(errorTypes).getFilterDef(),
       ];
     }

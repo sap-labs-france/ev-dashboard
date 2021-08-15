@@ -356,7 +356,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
   }
 
   private canDisplayGraph() {
-    return this.transaction && this.transaction.values && this.transaction.values.length > 0;
+    return this.transaction?.values?.length > 0;
   }
 
   // eslint-disable-next-line complexity
@@ -387,7 +387,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
       const limitAmpsDataSet = this.getDataSet('limitAmps');
       const labels: number[] = [];
       // Add last point
-      if (this.transaction.values.length > 0) {
+      if (!Utils.isEmptyArray(this.transaction.values)) {
         this.transaction.values.push({
           ...this.transaction.values[this.transaction.values.length - 1],
           startedAt: this.transaction.values[this.transaction.values.length - 1].endedAt,
@@ -557,7 +557,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
             return '';
           },
           title: (item: ChartTooltipItem[], data: ChartData) => {
-            if (data.labels && data.labels.length > 0) {
+            if (!Utils.isEmptyArray(data.labels)) {
               const firstDate = new Date(data.labels[0] as number);
               if (!Utils.isUndefined(item[0].index)) {
                 const currentDate = new Date(data.labels[item[0].index] as number);

@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { DialogMode } from 'types/Authorization';
 
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -43,18 +44,18 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
   private syncBillingUserAction = new TableSyncBillingUserAction().getActionDef();
   private forceSyncBillingUserAction = new TableForceSyncBillingUserAction().getActionDef();
 
-  constructor(
-      public spinnerService: SpinnerService,
-      public translateService: TranslateService,
-      private messageService: MessageService,
-      private dialogService: DialogService,
-      private router: Router,
-      private dialog: MatDialog,
-      private centralServerNotificationService: CentralServerNotificationService,
-      private centralServerService: CentralServerService,
-      private componentService: ComponentService,
-      private userRolePipe: AppUserRolePipe,
-      private datePipe: AppDatePipe) {
+  public constructor(
+    public spinnerService: SpinnerService,
+    public translateService: TranslateService,
+    private messageService: MessageService,
+    private dialogService: DialogService,
+    private router: Router,
+    private dialog: MatDialog,
+    private centralServerNotificationService: CentralServerNotificationService,
+    private centralServerService: CentralServerService,
+    private componentService: ComponentService,
+    private userRolePipe: AppUserRolePipe,
+    private datePipe: AppDatePipe) {
     super(spinnerService, translateService);
     // Init
     this.initDataSource();
@@ -69,10 +70,10 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
       // Get the Tenants
       this.centralServerService.getUsersInError(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((users) => {
-          this.formatErrorMessages(users.result);
-          // Ok
-          observer.next(users);
-          observer.complete();
+        this.formatErrorMessages(users.result);
+        // Ok
+        observer.next(users);
+        observer.complete();
       }, (error) => {
         // Show error
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
@@ -95,60 +96,60 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
     const loggedUserRole = this.centralServerService.getLoggedUser().role;
     const columns = [];
     columns.push(
-    {
-      id: 'status',
-      name: 'users.status',
-      isAngularComponent: true,
-      angularComponent: UserStatusFormatterComponent,
-      headerClass: 'col-10p text-center',
-      class: 'col-10p table-cell-angular-big-component',
-      sortable: true,
-    },
-    {
-      id: 'role',
-      name: 'users.role',
-      formatter: (role: string) => this.translateService.instant(this.userRolePipe.transform(role, loggedUserRole)),
-      headerClass: 'col-10p text-center',
-      class: 'text-left col-10p text-center',
-      sortable: true,
-    },
-    {
-      id: 'name',
-      name: 'users.name',
-      headerClass: 'col-15p',
-      class: 'text-left col-15p',
-      sortable: true,
-    },
-    {
-      id: 'firstName',
-      name: 'users.first_name',
-      headerClass: 'col-15p',
-      class: 'text-left col-15p',
-      sortable: true,
-    },
-    {
-      id: 'email',
-      name: 'users.email',
-      headerClass: 'col-15p',
-      class: 'text-left col-15p',
-      sortable: true,
-    },
-    {
-      id: 'errorCodeDetails',
-      name: 'errors.details',
-      sortable: false,
-      headerClass: 'text-center',
-      class: 'action-cell text-center',
-      isAngularComponent: true,
-      angularComponent: ErrorCodeDetailsComponent,
-    },
-    {
-      id: 'errorCode',
-      name: 'errors.title',
-      class: 'col-30p text-danger',
-      sortable: true,
-      formatter: (value: string, row: UserInError) => this.translateService.instant(`users.errors.${row.errorCode}.title`),
-    });
+      {
+        id: 'status',
+        name: 'users.status',
+        isAngularComponent: true,
+        angularComponent: UserStatusFormatterComponent,
+        headerClass: 'col-10p text-center',
+        class: 'col-10p table-cell-angular-big-component',
+        sortable: true,
+      },
+      {
+        id: 'role',
+        name: 'users.role',
+        formatter: (role: string) => this.translateService.instant(this.userRolePipe.transform(role, loggedUserRole)),
+        headerClass: 'col-10p text-center',
+        class: 'text-left col-10p text-center',
+        sortable: true,
+      },
+      {
+        id: 'name',
+        name: 'users.name',
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
+        sortable: true,
+      },
+      {
+        id: 'firstName',
+        name: 'users.first_name',
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
+        sortable: true,
+      },
+      {
+        id: 'email',
+        name: 'users.email',
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
+        sortable: true,
+      },
+      {
+        id: 'errorCodeDetails',
+        name: 'errors.details',
+        sortable: false,
+        headerClass: 'text-center',
+        class: 'action-cell text-center',
+        isAngularComponent: true,
+        angularComponent: ErrorCodeDetailsComponent,
+      },
+      {
+        id: 'errorCode',
+        name: 'errors.title',
+        class: 'col-30p text-danger',
+        sortable: true,
+        formatter: (value: string, row: UserInError) => this.translateService.instant(`users.errors.${row.errorCode}.title`),
+      });
     return columns as TableColumnDef[];
   }
 
@@ -157,12 +158,14 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
   }
 
   public buildTableDynamicRowActions(user: UserInError): TableActionDef[] {
-    const actions: TableActionDef[] = [
+    const rowActions: TableActionDef[] = [
       this.editAction,
       this.assignSitesToUser,
     ];
     const moreActions = new TableMoreAction([]);
-    actions.push(moreActions.getActionDef());
+    if (!Utils.isEmptyArray(moreActions.getActionsInMoreActions())) {
+      rowActions.push(moreActions.getActionDef());
+    }
     if (this.componentService.isActive(TenantComponents.BILLING)) {
       if (user.errorCode === UserInErrorType.FAILED_BILLING_SYNCHRO) {
         moreActions.addActionInMoreActions(this.forceSyncBillingUserAction);
@@ -171,19 +174,21 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
       }
     }
     moreActions.addActionInMoreActions(this.deleteAction);
-    return actions;
+    return rowActions;
   }
 
   public rowActionTriggered(actionDef: TableActionDef, user: UserInError) {
     switch (actionDef.id) {
       case UserButtonAction.EDIT_USER:
         if (actionDef.action) {
-          (actionDef as TableEditUserActionDef).action(UserDialogComponent, user, this.dialog, this.refreshData.bind(this));
+          (actionDef as TableEditUserActionDef).action(UserDialogComponent, this.dialog,
+            { dialogData: user }, this.refreshData.bind(this));
         }
         break;
       case UserButtonAction.ASSIGN_SITES_TO_USER:
         if (actionDef.action) {
-          (actionDef as TableAssignSitesToUserActionDef).action(UserSitesDialogComponent, user, this.dialog, this.refreshData.bind(this));
+          (actionDef as TableAssignSitesToUserActionDef).action(
+            UserSitesDialogComponent, { dialogData: user }, this.dialog, this.refreshData.bind(this));
         }
         break;
       case UserButtonAction.DELETE_USER:

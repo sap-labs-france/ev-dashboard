@@ -1,5 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { TransactionDialogData } from 'shared/table/actions/transactions/table-view-transaction-action';
+import { DialogParams } from 'types/Authorization';
 
 import { Utils } from '../../../utils/Utils';
 
@@ -15,16 +17,11 @@ export class TransactionDialogComponent {
 
   public constructor(
     public dialogRef: MatDialogRef<TransactionDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data: number|{ transactionID: number; chargingStationID: string; connectorID: number }) {
-    if (data) {
-      if (typeof data === 'object') {
-        this.transactionID = data.transactionID;
-        this.chargingStationID = data.chargingStationID;
-        this.connectorID = data.connectorID;
-      } else {
-        this.transactionID = data;
-      }
-    }
+    @Inject(MAT_DIALOG_DATA) dialogParams: DialogParams<TransactionDialogData>
+  ) {
+    this.transactionID = dialogParams.dialogData?.transactionID;
+    this.chargingStationID = dialogParams.dialogData?.chargingStationID;
+    this.connectorID = dialogParams.dialogData?.connectorID;
     Utils.registerCloseKeyEvents(this.dialogRef);
   }
 }

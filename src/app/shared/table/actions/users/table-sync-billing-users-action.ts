@@ -36,38 +36,21 @@ export class TableSyncBillingUsersAction extends TableSynchronizeAction {
         // Synchronize users
         centralServerService.synchronizeUsersForBilling().subscribe((synchronizeResponse) => {
           if (synchronizeResponse.status === RestResponse.SUCCESS) {
+            // TODO: use messageService.showActionsMessage(...) method and remove the if statements
             if (synchronizeResponse.inSuccess) {
               messageService.showSuccessMessage(translateService.instant('settings.billing.user.synchronize_users_success',
+                // eslint-disable-next-line id-blacklist
                 {number: synchronizeResponse.inSuccess}));
             } else if (!synchronizeResponse.inError) {
               messageService.showSuccessMessage(translateService.instant('settings.billing.user.synchronize_users_success_all'));
             }
             if (synchronizeResponse.inError) {
               messageService.showWarningMessage(translateService.instant('settings.billing.user.synchronize_users_failure',
+                // eslint-disable-next-line id-blacklist
                 {number: synchronizeResponse.inError}));
             }
           } else {
             Utils.handleError(JSON.stringify(synchronizeResponse), messageService, 'settings.billing.user.synchronize_users_error');
-          }
-        }, (error) => {
-          Utils.handleHttpError(error, router, messageService, centralServerService,
-            'settings.billing.user.synchronize_users_error');
-        });
-        // Synchronize invoices
-        centralServerService.synchronizeInvoicesForBilling().subscribe((synchronizeResponse) => {
-          if (synchronizeResponse.status === RestResponse.SUCCESS) {
-            if (synchronizeResponse.inSuccess) {
-              messageService.showSuccessMessage(translateService.instant('settings.billing.invoice.synchronize_invoices_success',
-                {number: synchronizeResponse.inSuccess}));
-            } else if (!synchronizeResponse.inError) {
-              messageService.showSuccessMessage(translateService.instant('settings.billing.invoice.synchronize_invoices_success_all'));
-            }
-            if (synchronizeResponse.inError) {
-              messageService.showWarningMessage(translateService.instant('settings.billing.invoice.synchronize_invoices_failure',
-                {number: synchronizeResponse.inError}));
-            }
-          } else {
-            Utils.handleError(JSON.stringify(synchronizeResponse), messageService, 'settings.billing.invoice.synchronize_invoices_error');
           }
         }, (error) => {
           Utils.handleHttpError(error, router, messageService, centralServerService,

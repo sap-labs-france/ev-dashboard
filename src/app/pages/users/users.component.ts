@@ -11,16 +11,14 @@ import { AbstractTabComponent } from '../../shared/component/abstract-tab/abstra
 })
 export class UsersComponent extends AbstractTabComponent {
   public canListUsers: boolean;
-  public canListTokens: boolean;
   public canListUsersInError: boolean;
 
-  constructor(
-      activatedRoute: ActivatedRoute,
-      authorizationService: AuthorizationService,
-      windowService: WindowService) {
-      super(activatedRoute, windowService, ['all', 'tag', 'inerror']);
-      this.canListUsers = authorizationService.canListUsers();
-      this.canListTokens = authorizationService.canListTokens();
-      this.canListUsersInError = authorizationService.canListUsersInError();
+  public constructor(
+    activatedRoute: ActivatedRoute,
+    authorizationService: AuthorizationService,
+    windowService: WindowService) {
+    super(activatedRoute, windowService, ['all', 'tag', 'inerror']);
+    this.canListUsers = authorizationService.canListUsers();
+    this.canListUsersInError = authorizationService.canListUsersInError();
   }
 }

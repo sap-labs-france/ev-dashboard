@@ -4,13 +4,13 @@ import { TranslateService } from '@ngx-translate/core';
 @Pipe({ name: 'appConnectorErrorCode' })
 export class AppConnectorErrorCodePipe implements PipeTransform {
   private connectorErrorCodeMap: any = {
+    // NoError: 'chargers.status_error_none',
     ConnectorLockFailure: 'chargers.status_error_connector_lock_failure',
     EVCommunicationError: 'chargers.status_error_ev_communication_error',
     GroundFailure: 'chargers.status_error_ground_failure',
     HighTemperature: 'chargers.status_error_high_temperature',
     InternalError: 'chargers.status_error_internal_error',
     LocalListConflict: 'chargers.status_error_local_list_conflict',
-    NoError: 'chargers.status_error_none',
     OtherError: 'chargers.status_error_other_error',
     OverCurrentFailure: 'chargers.status_error_over_current_failure',
     PowerMeterFailure: 'chargers.status_error_power_meter_failure',
@@ -22,12 +22,11 @@ export class AppConnectorErrorCodePipe implements PipeTransform {
     WeakSignal: 'chargers.status_error_weak_signal',
   };
 
-  constructor(private translateService: TranslateService) {
-  }
+  // eslint-disable-next-line no-useless-constructor
+  public constructor(private translateService: TranslateService) {};
 
-  public transform(errocode: string): string {
-    return (this.connectorErrorCodeMap[errocode] ?
-      this.translateService.instant(this.connectorErrorCodeMap[errocode]) :
-      this.translateService.instant('chargers.status_error_unknown'));
+  public transform(errorCode: string): string {
+    return this.connectorErrorCodeMap[errorCode] ?
+      this.translateService.instant(this.connectorErrorCodeMap[errorCode]) : '';
   }
 }

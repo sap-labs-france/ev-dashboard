@@ -1,13 +1,15 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
+import { DialogParams } from 'types/Authorization';
 
 import { Asset, AssetButtonAction } from '../../../../types/Asset';
 import { TableActionDef } from '../../../../types/Table';
 import { TableViewAction } from '../table-view-action';
 
 export interface TableViewAssetActionDef extends TableActionDef {
-  action: (assetDialogComponent: ComponentType<unknown>, asset: Asset, dialog: MatDialog, refresh?: () => Observable<void>) => void;
+  action: (assetDialogComponent: ComponentType<unknown>, dialog: MatDialog,
+    dialogParams: DialogParams<Asset>, refresh?: () => Observable<void>) => void;
 }
 
 export class TableViewAssetAction extends TableViewAction {
@@ -19,7 +21,8 @@ export class TableViewAssetAction extends TableViewAction {
     };
   }
 
-  private viewAsset(assetDialogComponent: ComponentType<unknown>, asset: Asset, dialog: MatDialog, refresh?: () => Observable<void>) {
-    super.view(assetDialogComponent, asset.id, dialog, refresh);
+  private viewAsset(assetDialogComponent: ComponentType<unknown>, dialog: MatDialog,
+    dialogParams: DialogParams<Asset>, refresh?: () => Observable<void>) {
+    super.view(assetDialogComponent, dialog, dialogParams, refresh);
   }
 }

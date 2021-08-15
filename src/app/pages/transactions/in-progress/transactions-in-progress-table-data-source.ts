@@ -3,8 +3,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { TransactionDialogComponent } from 'shared/dialogs/transaction/transaction.dialog.component';
 import { ConnectorTableFilter } from 'shared/table/filters/connector-table-filter';
 import { CarCatalog } from 'types/Car';
+import { Constants } from 'utils/Constants';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
@@ -27,7 +29,7 @@ import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto
 import { TableMoreAction } from '../../../shared/table/actions/table-more-action';
 import { TableOpenURLActionDef } from '../../../shared/table/actions/table-open-url-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
-import { TableViewTransactionAction, TableViewTransactionActionDef } from '../../../shared/table/actions/transactions/table-view-transaction-action';
+import { TableViewTransactionAction, TableViewTransactionActionDef, TransactionDialogData } from '../../../shared/table/actions/transactions/table-view-transaction-action';
 import { ChargingStationTableFilter } from '../../../shared/table/filters/charging-station-table-filter';
 import { IssuerFilter } from '../../../shared/table/filters/issuer-filter';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
@@ -36,8 +38,8 @@ import { TagTableFilter } from '../../../shared/table/filters/tag-table-filter';
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import ChangeNotification from '../../../types/ChangeNotification';
-import { ChargingStationButtonAction } from '../../../types/ChargingStation';
-import { DataResult } from '../../../types/DataResult';
+import { ChargingStationButtonAction, Connector } from '../../../types/ChargingStation';
+import { DataResult, TransactionDataResult } from '../../../types/DataResult';
 import { LogButtonAction } from '../../../types/Log';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
 import TenantComponents from '../../../types/TenantComponents';
@@ -53,10 +55,11 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
   private stopAction = new TableChargingStationsStopTransactionAction().getActionDef();
   private navigateToLogsAction = new TableNavigateToLogsAction().getActionDef();
   private navigateToChargingPlansAction = new TableNavigateToChargingPlansAction().getActionDef();
+  private readonly isOrganizationComponentActive: boolean;
   private isAdmin = false;
   private isSiteAdmin = false;
 
-  constructor(
+  public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     private messageService: MessageService,
@@ -77,7 +80,20 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
     // Admin
     this.isAdmin = this.authorizationService.isAdmin();
     this.isSiteAdmin = this.authorizationService.hasSitesAdminRights();
+    this.isOrganizationComponentActive = this.componentService.isActive(TenantComponents.ORGANIZATION);
     // Init
+    if (this.isOrganizationComponentActive) {
+      this.setStaticFilters([{
+        WithCompany: true,
+        WithSite: true,
+        WithSiteArea: true,
+        WithTag: true,
+        WithUser: true,
+        WithCar: true,
+        WithChargingStation: true,
+        Statistics: 'ongoing',
+      }]);
+    }
     this.initDataSource();
   }
 
@@ -114,16 +130,16 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    const columns: TableColumnDef[] = [];
+    const tableColumns: TableColumnDef[] = [];
     if (this.isAdmin) {
-      columns.push({
+      tableColumns.push({
         id: 'id',
         name: 'transactions.id',
         headerClass: 'd-none d-xl-table-cell',
         class: 'd-none d-xl-table-cell',
       });
     }
-    columns.push(
+    tableColumns.push(
       {
         id: 'timestamp',
         name: 'transactions.started_at',
@@ -156,27 +172,63 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         isAngularComponent: true,
         angularComponent: TransactionsConnectorCellComponent,
       },
+      {
+        id: 'info',
+        name: 'chargers.connector_info_title',
+        headerClass: 'col-10em',
+        class: 'col-10em',
+        formatter: (info: string, row: Connector) => Utils.buildConnectorInfo(row),
+        sortable: false,
+      },
     );
+    if (this.isOrganizationComponentActive) {
+      tableColumns.push(
+        {
+          id: 'company.name',
+          name: 'companies.title',
+          class: 'd-none d-xl-table-cell col-20p',
+          headerClass: 'd-none d-xl-table-cell col-20p',
+        },
+        {
+          id: 'site.name',
+          name: 'sites.title',
+          class: 'd-none d-xl-table-cell col-20p',
+          headerClass: 'd-none d-xl-table-cell col-20p',
+        },
+        {
+          id: 'siteArea.name',
+          name: 'site_areas.title',
+          class: 'd-none d-xl-table-cell col-20p',
+          headerClass: 'd-none d-xl-table-cell col-20p',
+        },
+      );
+    }
     if (this.isAdmin || this.isSiteAdmin) {
-      columns.push({
+      tableColumns.push({
         id: 'user',
         name: 'transactions.user',
         headerClass: 'col-15p',
         class: 'text-left col-15p',
         formatter: (value: User) => this.appUserNamePipe.transform(value),
       },
-        {
-          id: 'tagID',
-          name: 'transactions.badge_id',
-          headerClass: 'col-15p',
-          class: 'text-left col-15p',
-          formatter: (tagID: string) => tagID ? tagID : '-'
-        }
-      );
+      {
+        id: 'tagID',
+        name: 'tags.id',
+        headerClass: 'col-10p',
+        class: 'text-left col-10p',
+        formatter: (tagID: string) => tagID ? tagID : '-'
+      },
+      {
+        id: 'tag.visualID',
+        name: 'tags.visual_id',
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
+        formatter: (visualID: string) => visualID ? visualID : '-'
+      });
     }
     if (this.componentService.isActive(TenantComponents.CAR)) {
       if (this.authorizationService.canListCars()) {
-        columns.push({
+        tableColumns.push({
           id: 'carCatalog',
           name: 'car.title',
           headerClass: 'text-center col-15p',
@@ -186,7 +238,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         });
       }
       if (this.authorizationService.canUpdateCar()) {
-        columns.push({
+        tableColumns.push({
           id: 'car.licensePlate',
           name: 'cars.license_plate',
           headerClass: 'text-center col-15p',
@@ -196,7 +248,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         });
       }
     }
-    columns.push(
+    tableColumns.push(
       {
         id: 'currentTotalInactivitySecs',
         name: 'transactions.inactivity',
@@ -232,7 +284,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
       },
     );
     if (this.componentService.isActive(TenantComponents.PRICING)) {
-      columns.push({
+      tableColumns.push({
         id: 'currentCumulatedPrice',
         name: 'transactions.price',
         headerClass: 'col-10p',
@@ -240,7 +292,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         formatter: (price: number, transaction: Transaction) => this.appCurrencyPipe.transform(price, transaction.priceUnit),
       });
     }
-    return columns;
+    return tableColumns;
   }
 
   public rowActionTriggered(actionDef: TableActionDef, transaction: Transaction) {
@@ -254,7 +306,8 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         break;
       case TransactionButtonAction.VIEW_TRANSACTION:
         if (actionDef.action) {
-          (actionDef as TableViewTransactionActionDef).action(transaction, this.dialog, this.refreshData.bind(this));
+          (actionDef as TableViewTransactionActionDef).action(TransactionDialogComponent, this.dialog,
+            { dialogData: { transactionID: transaction.id } as TransactionDialogData }, this.refreshData.bind(this));
         }
         break;
       case LogButtonAction.NAVIGATE_TO_LOGS:
@@ -272,38 +325,87 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
     }
   }
 
+  public buildTableFooterStats(data: TransactionDataResult): string {
+    // All records has been retrieved
+    if (data.count !== Constants.INFINITE_RECORDS) {
+      // Stats?
+      if (data.stats) {
+        const percentInactivity = (data.stats.totalDurationSecs > 0 ?
+          (Math.floor(data.stats.totalInactivitySecs / data.stats.totalDurationSecs * 100)) : 0);
+        // Total Duration
+        // eslint-disable-next-line max-len
+        let stats = `${this.translateService.instant('transactions.duration')}: ${this.appDurationPipe.transform(data.stats.totalDurationSecs)} | `;
+        // Inactivity
+        // eslint-disable-next-line max-len
+        stats += `${this.translateService.instant('transactions.inactivity')}: ${this.appDurationPipe.transform(data.stats.totalInactivitySecs)} (${percentInactivity}%) | `;
+        // Total Consumption
+        // eslint-disable-next-line max-len
+        stats += `${this.translateService.instant('transactions.consumption')}: ${this.appUnitPipe.transform(data.stats.totalConsumptionWattHours, 'Wh', 'kWh', true, 1, 0, 0)}`;
+        // Total Price
+        // eslint-disable-next-line max-len
+        stats += ` | ${this.translateService.instant('transactions.price')}: ${this.appCurrencyPipe.transform(data.stats.totalPrice, data.stats.currency)}`;
+        return stats;
+      }
+    }
+    return '';
+  }
+
   public buildTableFiltersDef(): TableFilterDef[] {
-    const filters: TableFilterDef[] = [];
+    let userFilter: TableFilterDef;
+    const issuerFilter = new IssuerFilter().getFilterDef();
+    const filters: TableFilterDef[] = [issuerFilter];
     // Show Site Area Filter If Organization component is active
     if (this.componentService.isActive(TenantComponents.ORGANIZATION)) {
-      filters.push(new IssuerFilter().getFilterDef()),
-        filters.push(new SiteTableFilter().getFilterDef());
-      filters.push(new SiteAreaTableFilter().getFilterDef());
-    }
-    filters.push(new ChargingStationTableFilter().getFilterDef());
-    filters.push(new ConnectorTableFilter().getFilterDef());
-    if (this.authorizationService.isAdmin() || this.authorizationService.hasSitesAdminRights()) {
-      filters.push(new UserTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
-      filters.push(new TagTableFilter().getFilterDef());
+      const siteFilter = new SiteTableFilter([issuerFilter]).getFilterDef();
+      const siteAreaFilter = new SiteAreaTableFilter([issuerFilter, siteFilter]).getFilterDef();
+      filters.push(siteFilter);
+      filters.push(siteAreaFilter);
+      if (this.authorizationService.canListChargingStations()) {
+        filters.push(new ChargingStationTableFilter([issuerFilter, siteFilter, siteAreaFilter]).getFilterDef());
+        filters.push(new ConnectorTableFilter().getFilterDef());
+      }
+      if ((this.authorizationService.canListUsers())) {
+        userFilter = new UserTableFilter([issuerFilter, siteFilter]).getFilterDef();
+        filters.push(userFilter);
+      }
+      if ((this.authorizationService.canListTags())) {
+        filters.push(new TagTableFilter(
+          userFilter ? [issuerFilter, siteFilter, userFilter] : [issuerFilter, siteFilter]).getFilterDef());
+      }
+    } else {
+      if (this.authorizationService.canListChargingStations()) {
+        filters.push(new ChargingStationTableFilter([issuerFilter]).getFilterDef());
+        filters.push(new ConnectorTableFilter().getFilterDef());
+      }
+      if ((this.authorizationService.canListUsers())) {
+        userFilter = new UserTableFilter([issuerFilter]).getFilterDef();
+        filters.push(userFilter);
+      }
+      if ((this.authorizationService.canListTags())) {
+        filters.push(new TagTableFilter(
+          userFilter ? [issuerFilter, userFilter] : [issuerFilter]).getFilterDef());
+      }
     }
     return filters;
   }
 
   public buildTableDynamicRowActions(): TableActionDef[] {
-    const actions: TableActionDef[] = [
+    const rowActions: TableActionDef[] = [
       this.viewAction,
     ];
     if (!this.authorizationService.isDemo()) {
-      actions.push(this.stopAction);
+      rowActions.push(this.stopAction);
     }
     if (this.isAdmin) {
       const moreActions = new TableMoreAction([
         this.navigateToLogsAction,
         this.navigateToChargingPlansAction,
       ]);
-      actions.push(moreActions.getActionDef());
+      if (!Utils.isEmptyArray(moreActions.getActionsInMoreActions())) {
+        rowActions.push(moreActions.getActionDef());
+      }
     }
-    return actions;
+    return rowActions;
   }
 
   public buildTableActionsRightDef(): TableActionDef[] {

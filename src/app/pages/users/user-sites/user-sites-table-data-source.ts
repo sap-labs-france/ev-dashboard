@@ -28,15 +28,15 @@ export class UserSitesTableDataSource extends TableDataSource<SiteUser> {
   private addAction = new TableAddAction().getActionDef();
   private removeAction = new TableRemoveAction().getActionDef();
 
-  constructor(
-      public spinnerService: SpinnerService,
-      public translateService: TranslateService,
-      private messageService: MessageService,
-      private router: Router,
-      private dialog: MatDialog,
-      private dialogService: DialogService,
-      private centralServerService: CentralServerService,
-      private authorizationService: AuthorizationService) {
+  public constructor(
+    public spinnerService: SpinnerService,
+    public translateService: TranslateService,
+    private messageService: MessageService,
+    private router: Router,
+    private dialog: MatDialog,
+    private dialogService: DialogService,
+    private centralServerService: CentralServerService,
+    private authorizationService: AuthorizationService) {
     super(spinnerService, translateService);
     // Init
     this.initDataSource();
@@ -156,7 +156,7 @@ export class UserSitesTableDataSource extends TableDataSource<SiteUser> {
       // Remove
       case ButtonAction.REMOVE:
         // Empty?
-        if (this.getSelectedRows().length === 0) {
+        if (Utils.isEmptyArray(this.getSelectedRows())) {
           this.messageService.showErrorMessage(this.translateService.instant('general.select_at_least_one_record'));
         } else {
           // Confirm
@@ -214,7 +214,7 @@ export class UserSitesTableDataSource extends TableDataSource<SiteUser> {
 
   private addSites(sites: Site[]) {
     // Check
-    if (sites && sites.length > 0) {
+    if (!Utils.isEmptyArray(sites)) {
       // Get the IDs
       const siteIDs = sites.map((site) => site.key);
       // Yes: Update

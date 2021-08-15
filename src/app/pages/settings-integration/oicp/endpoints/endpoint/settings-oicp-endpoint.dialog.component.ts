@@ -8,12 +8,12 @@ import { SettingsOicpEndpointComponent } from './settings-oicp-endpoint.componen
 @Component({
   template: '<app-oicp-endpoint #appRef [currentEndpoint]="currentEndpoint" [inDialog]="true" [dialogRef]="dialogRef"></app-oicp-endpoint>',
 })
-export class SettingsOicpEnpointDialogComponent implements AfterViewInit {
+export class SettingsOicpEndpointDialogComponent implements AfterViewInit {
   @ViewChild('appRef') public appRef!: SettingsOicpEndpointComponent;
   public currentEndpoint!: OicpEndpoint;
 
-  constructor(
-    public dialogRef: MatDialogRef<SettingsOicpEnpointDialogComponent>,
+  public constructor(
+    public dialogRef: MatDialogRef<SettingsOicpEndpointDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data: OicpEndpoint) {
     // Check if data is passed to the dialog
     this.currentEndpoint = data;

@@ -1,3 +1,4 @@
+
 export interface AuthorizationDefinition {
   superAdmin: {
     grants: Grant[];
@@ -64,6 +65,8 @@ export enum Entity {
   SETTINGS = 'Settings',
   TOKENS = 'Tokens',
   TOKEN = 'Token',
+  ASYNC_TASK = 'AsyncTask',
+  ASYNC_TASKS = 'AsyncTasks',
   OCPI_ENDPOINT = 'OcpiEndpoint',
   OCPI_ENDPOINTS = 'OcpiEndpoints',
   OICP_ENDPOINT = 'OicpEndpoint',
@@ -87,6 +90,8 @@ export enum Entity {
   NOTIFICATION = 'Notification',
   TAGS = 'Tags',
   TAG = 'Tag',
+  PAYMENT_METHOD = 'PaymentMethod',
+  PAYMENT_METHODS = 'PaymentMethods',
 }
 
 export enum Action {
@@ -123,6 +128,10 @@ export enum Action {
   REFUND_TRANSACTION = 'RefundTransaction',
   SYNCHRONIZE_BILLING_USERS = 'SynchronizeBillingUsers',
   SYNCHRONIZE_BILLING_USER = 'SynchronizeBillingUser',
+  BILLING_SETUP_PAYMENT_METHOD = 'BillingSetupPaymentMethod',
+  BILLING_PAYMENT_METHODS = 'BillingPaymentMethods',
+  BILLING_DELETE_PAYMENT_METHOD = 'BillingDeletePaymentMethod',
+  BILLING_CHARGE_INVOICE = 'BillingChargeInvoice',
   CHECK_CONNECTION = 'CheckConnection',
   RETRIEVE_CONSUMPTION = 'RetrieveConsumption',
   PING = 'Ping',
@@ -130,6 +139,15 @@ export enum Action {
   REGISTER = 'Register',
   TRIGGER_JOB = 'TriggerJob',
   DOWNLOAD = 'Download',
+  IMPORT = 'Import',
+  ASSIGN_USERS_TO_SITE = 'AssignUsersToSite',
+  UNASSIGN_USERS_TO_SITE = 'UnassignUsersToSite',
+  ASSIGN_ASSETS_TO_SITE_AREA = 'AssignAssetsToSiteArea',
+  UNASSIGN_ASSETS_TO_SITE_AREA = 'UnassignAssetsToSiteArea',
+  ASSIGN_CHARGING_STATIONS_TO_SITE_AREA = 'AssignChargingStationsToSiteArea',
+  UNASSIGN_CHARGING_STATIONS_TO_SITE_AREA = 'UnassignChargingStationsToSiteArea',
+  EXPORT_OCPP_PARAMS = 'ExportOCPPParams',
+  GENERATE_QR = 'GenerateQrCode',
 }
 
 export interface AuthorizationContext {
@@ -153,4 +171,35 @@ export interface AuthorizationActions {
   canCreate?: boolean;
   canUpdate?: boolean;
   canDelete?: boolean;
+}
+
+export interface SiteAuthorizationActions extends AuthorizationActions {
+  canAssignUsers?: boolean;
+  canUnassignUsers?: boolean;
+  canExportOCPPParams?: boolean;
+  canGenerateQrCode?: boolean;
+}
+
+export interface SiteAreaAuthorizationActions extends AuthorizationActions {
+  canAssignChargingStations?: boolean;
+  canUnassignChargingStations?: boolean;
+  canAssignAssets?: boolean;
+  canUnassignAssets?: boolean;
+  canExportOCPPParams?: boolean;
+  canGenerateQrCode?: boolean;
+}
+
+export enum DialogMode {
+  EDIT = 'E',
+  CREATE = 'C',
+  VIEW = 'V',
+}
+
+export interface DialogData {
+  id: string | number;
+}
+
+export interface DialogParams<T extends DialogData> {
+  dialogData?: T;
+  dialogMode?: DialogMode;
 }

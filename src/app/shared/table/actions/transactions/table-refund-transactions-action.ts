@@ -7,7 +7,7 @@ import { DialogService } from '../../../../services/dialog.service';
 import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
 import { ActionsResponse } from '../../../../types/DataResult';
-import { HTTPAuthError, HTTPError } from '../../../../types/HTTPError';
+import { HTTPError } from '../../../../types/HTTPError';
 import { RefundSettings } from '../../../../types/Setting';
 import { ButtonColor, ButtonType, TableActionDef } from '../../../../types/Table';
 import { Transaction, TransactionButtonAction } from '../../../../types/Transaction';
@@ -38,8 +38,8 @@ export class TableRefundTransactionsAction implements TableAction {
   }
 
   private refund(refundSetting: RefundSettings, transactions: Transaction[], dialogService: DialogService, translateService: TranslateService,
-      messageService: MessageService, centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router,
-      clearSelectedRows: () => void, refresh?: () => Observable<void>) {
+    messageService: MessageService, centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router,
+    clearSelectedRows: () => void, refresh?: () => Observable<void>) {
     if (!refundSetting) {
       messageService.showErrorMessage(translateService.instant('transactions.notification.refund.concur_connection_invalid'));
     } else if (transactions.length === 0) {
@@ -52,19 +52,20 @@ export class TableRefundTransactionsAction implements TableAction {
         if (response === ButtonType.YES) {
           spinnerService.show();
           centralServerService.refundTransactions(transactions.map((transaction) => transaction.id))
-            .subscribe((response: ActionsResponse) => {
-              if (response.inError) {
+            .subscribe((res: ActionsResponse) => {
+              // TODO: use messageService.showActionsMessage(...) method and remove the if statements
+              if (res.inError) {
                 messageService.showErrorMessage(
                   translateService.instant('transactions.notification.refund.partial',
                     {
-                      inSuccess: response.inSuccess,
-                      inError: response.inError,
+                      inSuccess: res.inSuccess,
+                      inError: res.inError,
                     },
                   ));
               } else {
                 messageService.showSuccessMessage(
                   translateService.instant('transactions.notification.refund.success',
-                    { inSuccess: response.inSuccess },
+                    { inSuccess: res.inSuccess },
                   ));
               }
               spinnerService.hide();
@@ -72,23 +73,23 @@ export class TableRefundTransactionsAction implements TableAction {
               if (refresh) {
                 refresh().subscribe();
               }
-          }, (error: any) => {
-            spinnerService.hide();
-            switch (error.status) {
-              case HTTPError.REFUND_SESSION_OTHER_USER_ERROR:
-                Utils.handleHttpError(error, router, messageService,
-                  centralServerService, 'transactions.notification.refund.forbidden_refund_another_user');
-                break;
-              case HTTPError.REFUND_CONNECTION_ERROR:
-                Utils.handleHttpError(error, router, messageService,
-                  centralServerService, 'settings.refund.connection_error');
-                break;
-              default:
-                Utils.handleHttpError(error, router, messageService,
-                  centralServerService, 'transactions.notification.refund.error');
-                break;
-            }
-          });
+            }, (error: any) => {
+              spinnerService.hide();
+              switch (error.status) {
+                case HTTPError.REFUND_SESSION_OTHER_USER_ERROR:
+                  Utils.handleHttpError(error, router, messageService,
+                    centralServerService, 'transactions.notification.refund.forbidden_refund_another_user');
+                  break;
+                case HTTPError.REFUND_CONNECTION_ERROR:
+                  Utils.handleHttpError(error, router, messageService,
+                    centralServerService, 'settings.refund.connection_error');
+                  break;
+                default:
+                  Utils.handleHttpError(error, router, messageService,
+                    centralServerService, 'transactions.notification.refund.error');
+                  break;
+              }
+            });
         }
       });
     }

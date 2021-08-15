@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { ConnectorTableFilter } from 'shared/table/filters/connector-table-filter';
+import { CompanyTableFilter } from 'shared/table/filters/company-table-filter';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
@@ -69,7 +69,10 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
     // Init
     this.isOrganizationComponentActive = this.componentService.isActive(TenantComponents.ORGANIZATION);
     if (this.isOrganizationComponentActive) {
-      this.setStaticFilters([{ WithSite: true }]);
+      this.setStaticFilters([{
+        WithSite: true,
+        WithSiteArea: true
+      }]);
     }
     this.initDataSource();
   }
@@ -83,33 +86,33 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
       // Get data
       this.centralServerService.getChargingStations(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((chargers) => {
-          // Update details status
-          chargers.result.forEach((chargingStation: ChargingStation) => {
-            // At first filter out the connectors that are null
-            chargingStation.connectors = chargingStation.connectors.filter((connector: Connector) => !Utils.isNullOrUndefined(connector));
-            chargingStation.connectors.forEach((connector) => {
-              connector.hasDetails = connector.currentTransactionID > 0;
-              let connectorIsInactive = false;
-              if (chargingStation.inactive ||
+        // Update details status
+        chargers.result.forEach((chargingStation: ChargingStation) => {
+          // At first filter out the connectors that are null
+          chargingStation.connectors = chargingStation.connectors.filter((connector: Connector) => !Utils.isNullOrUndefined(connector));
+          chargingStation.connectors.forEach((connector) => {
+            connector.hasDetails = connector.currentTransactionID > 0;
+            let connectorIsInactive = false;
+            if (chargingStation.inactive ||
                 chargingStation.firmwareUpdateStatus === FirmwareStatus.INSTALLING) {
-                connectorIsInactive = true;
-              }
-              connector.status = connectorIsInactive ? ChargePointStatus.UNAVAILABLE : connector.status;
-              connector.currentInstantWatts = connectorIsInactive ? 0 : connector.currentInstantWatts;
-              connector.currentStateOfCharge = connectorIsInactive ? 0 : connector.currentStateOfCharge;
-              connector.currentTotalConsumptionWh = connectorIsInactive ? 0 : connector.currentTotalConsumptionWh;
-              connector.currentTotalInactivitySecs = connectorIsInactive ? 0 : connector.currentTotalInactivitySecs;
-            });
+              connectorIsInactive = true;
+            }
+            connector.status = connectorIsInactive ? ChargePointStatus.UNAVAILABLE : connector.status;
+            connector.currentInstantWatts = connectorIsInactive ? 0 : connector.currentInstantWatts;
+            connector.currentStateOfCharge = connectorIsInactive ? 0 : connector.currentStateOfCharge;
+            connector.currentTotalConsumptionWh = connectorIsInactive ? 0 : connector.currentTotalConsumptionWh;
+            connector.currentTotalInactivitySecs = connectorIsInactive ? 0 : connector.currentTotalInactivitySecs;
           });
-          // Ok
-          observer.next(chargers);
-          observer.complete();
-        }, (error) => {
-          // No longer exists!
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-          // Error
-          observer.error(error);
         });
+        // Ok
+        observer.next(chargers);
+        observer.complete();
+      }, (error) => {
+        // No longer exists!
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+        // Error
+        observer.error(error);
+      });
     });
   }
 
@@ -147,9 +150,14 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
     if (this.isOrganizationComponentActive) {
       tableColumns.push(
         {
-          id: 'siteArea.site.name',
-          name: 'sites.site',
-          defaultValue: 'sites.unassigned',
+          id: 'site.name',
+          name: 'sites.title',
+          class: 'd-none d-xl-table-cell col-20p',
+          headerClass: 'd-none d-xl-table-cell col-20p',
+        },
+        {
+          id: 'siteArea.name',
+          name: 'site_areas.title',
           class: 'd-none d-xl-table-cell col-20p',
           headerClass: 'd-none d-xl-table-cell col-20p',
         },
@@ -213,7 +221,8 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
           headerClass: 'd-none d-xl-table-cell text-center col-10p',
           class: 'd-none d-xl-table-cell text-center col-10p',
           sortable: false,
-          formatter: (ocppVersion: string, row: ChargingStation) => `${ocppVersion} / ${row.ocppProtocol}`
+          formatter: (ocppVersion: string, row: ChargingStation) =>
+            (ocppVersion && row.ocppProtocol) ? `${ocppVersion} / ${row.ocppProtocol}` : '-'
         },
       );
     }
@@ -256,7 +265,8 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
       case ChargingStationButtonAction.EDIT_CHARGING_STATION:
         if (actionDef.action) {
           (actionDef as TableEditChargingStationActionDef).action(
-            ChargingStationDialogComponent, chargingStation, this.dialog, this.refreshData.bind(this));
+            ChargingStationDialogComponent, this.dialog,
+            { dialogData: chargingStation }, this.refreshData.bind(this));
         }
         break;
       case ChargingStationButtonAction.REBOOT:
@@ -269,8 +279,13 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
       case ChargingStationButtonAction.SMART_CHARGING:
         if (actionDef.action) {
           (actionDef as TableChargingStationsSmartChargingActionDef).action(
-            ChargingStationLimitationDialogComponent, chargingStation, this.dialogService, this.translateService,
-            this.dialog, this.refreshData.bind(this)
+            ChargingStationLimitationDialogComponent, this.dialogService, this.translateService, this.dialog,
+            {
+              dialogData: {
+                id: chargingStation.id, ocppVersion: chargingStation.ocppVersion, canUpdate: chargingStation.canUpdate
+              },
+            },
+            this.refreshData.bind(this)
           );
         }
         break;
@@ -326,12 +341,14 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
 
   public buildTableFiltersDef(): TableFilterDef[] {
     if (this.isOrganizationComponentActive) {
-      const siteFilter = new SiteTableFilter().getFilterDef();
+      const issuerFilter = new IssuerFilter().getFilterDef();
+      const companyFilter = new CompanyTableFilter([issuerFilter]).getFilterDef();
+      const siteFilter = new SiteTableFilter([issuerFilter, companyFilter]).getFilterDef();
       return [
-        // new ChargingStationTableFilter().getFilterDef(),
-        new IssuerFilter().getFilterDef(),
+        issuerFilter,
+        companyFilter,
         siteFilter,
-        new SiteAreaTableFilter([siteFilter]).getFilterDef(),
+        new SiteAreaTableFilter([siteFilter, issuerFilter, companyFilter]).getFilterDef(),
       ];
     }
     return [];

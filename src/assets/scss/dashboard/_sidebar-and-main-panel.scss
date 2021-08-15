@@ -13,8 +13,14 @@
   width: 260px;
   @include shadow-big();
   .logo-img {
-    width: 65px;
-    max-height: 65px;
+    @extend .animation-transition-general;
+    max-height: 50px;
+    margin: 8px;
+  }
+  .small-logo-img {
+    @extend .animation-transition-general;
+    max-height: 25px;
+    max-width: 50px;
     margin: 8px;
   }
   .caret {

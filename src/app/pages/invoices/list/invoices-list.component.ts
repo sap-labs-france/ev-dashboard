@@ -15,23 +15,24 @@ import { InvoicesTableDataSource } from './invoices-table-data-source';
   providers: [InvoicesTableDataSource, InvoicesComponent],
 })
 export class InvoicesListComponent implements OnInit {
-
-  constructor(
+  // eslint-disable-next-line no-useless-constructor
+  public constructor(
     public invoicesListTableDataSource: InvoicesTableDataSource,
     public activatedRoute: ActivatedRoute,
     public centralServerService: CentralServerService,
     public spinnerService: SpinnerService,
     public windowService: WindowService,
     public messageService: MessageService
-  ) {
-  }
+  ) {}
 
+  // Download from email
   public ngOnInit() {
     const invoiceID = this.windowService.getSearch('InvoiceID');
     if (invoiceID) {
+      const invoiceNumber = this.windowService.getSearch('InvoiceNumber');
       this.centralServerService.downloadInvoice(invoiceID).subscribe((result) => {
         this.spinnerService.show();
-        FileSaver.saveAs(result, 'invoice.pdf');
+        FileSaver.saveAs(result, 'invoice_' + (invoiceNumber ?? invoiceID) + '.pdf');
         this.spinnerService.hide();
       }, () => {
         this.spinnerService.hide();

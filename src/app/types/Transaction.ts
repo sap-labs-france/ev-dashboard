@@ -2,13 +2,13 @@ import { BillingTransactionData } from './Billing';
 import { Car, CarCatalog } from './Car';
 import { ChargingStation } from './ChargingStation';
 import Consumption, { AbstractCurrentConsumption } from './Consumption';
-import { RefundStatus, RefundType } from './Refund';
-import { Data } from './Table';
-import { User } from './User';
 import { OCPICdr } from './ocpi/OCPICdr';
 import { OCPISession } from './ocpi/OCPISession';
+import { RefundStatus, RefundType } from './Refund';
+import { TableData } from './Table';
+import { User } from './User';
 
-export interface Transaction extends Data, AbstractCurrentConsumption {
+export interface Transaction extends TableData, AbstractCurrentConsumption {
   id: number;
   timestamp: Date;
   chargeBox: ChargingStation;
@@ -47,6 +47,7 @@ export interface Transaction extends Data, AbstractCurrentConsumption {
     totalConsumptionWh: number;
     stateOfCharge: number;
     totalInactivitySecs: number;
+    extraInactivitySecs?: number;
     totalDurationSecs: number;
     price: number;
     priceUnit: string;
@@ -68,8 +69,9 @@ export interface OcpiData {
 }
 
 export interface StartTransaction {
+  userID: string;
   userFullName: string;
-  tagID: string;
+  visualTagID?: string;
   carID?: string;
 }
 
@@ -99,4 +101,13 @@ export enum TransactionButtonAction {
 export enum ConsumptionUnit {
   AMPERE = 'A',
   KILOWATT = 'kW',
+}
+
+export enum StartTransactionErrorCode {
+  BILLING_NO_PAYMENT_METHOD = 'no_payment_method', // start transaction is not possible - user has no payment method
+  BILLING_NO_TAX = 'billing_no_tax', // start transaction is not possible - the tax ID is not set or inconsistent
+  BILLING_NO_SETTINGS = 'billing_no_settings', // start transaction not possible - billing settings are not set (or partially set)
+  BILLING_INCONSISTENT_SETTINGS = 'billing_inconsistent_settings', // start transaction not possible - billing settings are inconsistent
+  // EULA not accepted : should never be possible with remote start from the app - to be checked if needed in frontend
+  EULA_NOT_ACCEPTED = 'eula_not_accepted', // start transaction not possible - user has never accepted the eula (use case : user import + user has never log into the app)
 }

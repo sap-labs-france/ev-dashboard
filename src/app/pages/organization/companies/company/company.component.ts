@@ -1,10 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { DialogMode } from 'types/Authorization';
 
-import { AuthorizationService } from '../../../../services/authorization.service';
 import { CentralServerService } from '../../../../services/central-server.service';
 import { ConfigService } from '../../../../services/config.service';
 import { DialogService } from '../../../../services/dialog.service';
@@ -24,15 +24,15 @@ import { Utils } from '../../../../utils/Utils';
 })
 export class CompanyComponent implements OnInit {
   @Input() public currentCompanyID!: string;
-  @Input() public inDialog!: boolean;
+  @Input() public dialogMode!: DialogMode;
   @Input() public dialogRef!: MatDialogRef<any>;
 
   public parentErrorStateMatcher = new ParentErrorStateMatcher();
 
-  public canCrudCompany = false;
   public logo = Constants.NO_IMAGE;
   public logoHasChanged = false;
   public maxSize: number;
+  public readOnly = true;
 
   public formGroup!: FormGroup;
   public id!: AbstractControl;
@@ -40,25 +40,14 @@ export class CompanyComponent implements OnInit {
   public address!: Address;
 
   public constructor(
-    private authorizationService: AuthorizationService,
     private centralServerService: CentralServerService,
     private messageService: MessageService,
     private spinnerService: SpinnerService,
     private configService: ConfigService,
-    private activatedRoute: ActivatedRoute,
-    private dialog: MatDialog,
     private dialogService: DialogService,
     private translateService: TranslateService,
     private router: Router) {
     this.maxSize = this.configService.getCompany().maxLogoKb;
-    // Check auth
-    if (this.activatedRoute.snapshot.params['id'] &&
-      !authorizationService.canUpdateCompany()) {
-      // Not authorized
-      this.router.navigate(['/']);
-    }
-    this.canCrudCompany =  this.authorizationService.canReadCompany() && this.authorizationService.canCreateCompany() &&
-      this.authorizationService.canUpdateCompany() && this.authorizationService.canDeleteCompany();
   }
 
   public ngOnInit() {
@@ -73,62 +62,52 @@ export class CompanyComponent implements OnInit {
     // Form
     this.id = this.formGroup.controls['id'];
     this.name = this.formGroup.controls['name'];
-    // if cannot CRUD, switch to readonly mode
-    if (!(this.canCrudCompany)) {
-      this.formGroup.disable();
-    }
-    if (this.currentCompanyID) {
-      this.loadCompany();
-    } else if (this.activatedRoute && this.activatedRoute.params) {
-      this.activatedRoute.params.subscribe((params: Params) => {
-        this.currentCompanyID = params['id'];
-        this.loadCompany();
-      });
-    }
+    // Set
+    this.readOnly = (this.dialogMode === DialogMode.VIEW);
+    // Load Site
+    this.loadCompany();
+    // Handle Dialog mode
+    Utils.handleDialogMode(this.dialogMode, this.formGroup);
   }
 
-  public setCurrentCompanyId(currentCompanyId: string) {
-    this.currentCompanyID = currentCompanyId;
+  public loadCompany() {
+    if (this.currentCompanyID) {
+      this.spinnerService.show();
+      this.centralServerService.getCompany(this.currentCompanyID).subscribe((company: Company) => {
+        this.spinnerService.hide();
+        if (company.id) {
+          this.formGroup.controls.id.setValue(company.id);
+        }
+        if (company.name) {
+          this.formGroup.controls.name.setValue(company.name);
+        }
+        if (company.address) {
+          this.address = company.address;
+        }
+        // Update form group
+        this.formGroup.updateValueAndValidity();
+        this.formGroup.markAsPristine();
+        this.formGroup.markAllAsTouched();
+        // Get Company logo
+        this.centralServerService.getCompanyLogo(this.currentCompanyID).subscribe((companyLogo) => {
+          this.logo = companyLogo ? companyLogo : Constants.NO_IMAGE;
+        });
+      }, (error) => {
+        this.spinnerService.hide();
+        switch (error.status) {
+          case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+            this.messageService.showErrorMessage('companies.company_not_found');
+            break;
+          default:
+            Utils.handleHttpError(error, this.router, this.messageService,
+              this.centralServerService, 'general.unexpected_error_backend');
+        }
+      });
+    }
   }
 
   public refresh() {
     this.loadCompany();
-  }
-
-  public loadCompany() {
-    if (!this.currentCompanyID) {
-      return;
-    }
-    this.spinnerService.show();
-    this.centralServerService.getCompany(this.currentCompanyID).subscribe((company: Company) => {
-      this.spinnerService.hide();
-      if (company.id) {
-        this.formGroup.controls.id.setValue(company.id);
-      }
-      if (company.name) {
-        this.formGroup.controls.name.setValue(company.name);
-      }
-      if (company.address) {
-        this.address = company.address;
-      }
-      this.formGroup.updateValueAndValidity();
-      this.formGroup.markAsPristine();
-      this.formGroup.markAllAsTouched();
-      // Get Company logo
-      this.centralServerService.getCompanyLogo(this.currentCompanyID).subscribe((companyLogo) => {
-        this.logo = companyLogo ? companyLogo : Constants.NO_IMAGE;
-      });
-    }, (error) => {
-      this.spinnerService.hide();
-      switch (error.status) {
-        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
-          this.messageService.showErrorMessage('companies.company_not_found');
-          break;
-        default:
-          Utils.handleHttpError(error, this.router, this.messageService,
-            this.centralServerService, 'general.unexpected_error_backend');
-      }
-    });
   }
 
   public updateCompanyLogo(company: Company) {
@@ -187,7 +166,7 @@ export class CompanyComponent implements OnInit {
   }
 
   public closeDialog(saved: boolean = false) {
-    if (this.inDialog) {
+    if (this.dialogRef) {
       this.dialogRef.close(saved);
     }
   }

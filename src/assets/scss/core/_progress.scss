@@ -19,7 +19,7 @@
       background: $brand-warning;
     }
     &.progress-bar-danger {
-      background: $brand-warn;
+      background: $brand-danger;
     }
   }
 
@@ -36,6 +36,6 @@
     background: rgba($brand-warning, .2);
   }
   &.progress-line-danger {
-    background: rgba($brand-warn, .2);
+    background: rgba($brand-danger, .2);
   }
 }

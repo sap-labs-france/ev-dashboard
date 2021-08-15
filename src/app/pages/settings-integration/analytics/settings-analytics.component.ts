@@ -22,7 +22,7 @@ export class SettingsAnalyticsComponent implements OnInit {
   public analyticsSettings!: AnalyticsSettings;
   public formGroup: FormGroup;
 
-  constructor(
+  public constructor(
     private centralServerService: CentralServerService,
     private componentService: ComponentService,
     private spinnerService: SpinnerService,

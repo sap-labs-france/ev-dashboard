@@ -1,13 +1,15 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
+import { DialogParams } from 'types/Authorization';
 
 import { SiteArea, SiteAreaButtonAction } from '../../../../types/SiteArea';
 import { TableActionDef } from '../../../../types/Table';
 import { TableViewAction } from '../table-view-action';
 
 export interface TableViewSiteAreaActionDef extends TableActionDef {
-  action: (siteAreaDialogComponent: ComponentType<unknown>, siteArea: SiteArea, dialog: MatDialog, refresh?: () => Observable<void>) => void;
+  action: (siteAreaDialogComponent: ComponentType<unknown>, dialog: MatDialog,
+    dialogParams: DialogParams<SiteArea>, refresh?: () => Observable<void>) => void;
 }
 
 export class TableViewSiteAreaAction extends TableViewAction {
@@ -19,7 +21,8 @@ export class TableViewSiteAreaAction extends TableViewAction {
     };
   }
 
-  private viewSiteArea(siteAreaDialogComponent: ComponentType<unknown>, siteArea: SiteArea, dialog: MatDialog, refresh?: () => Observable<void>) {
-    super.view(siteAreaDialogComponent, siteArea.id, dialog, refresh);
+  private viewSiteArea(siteAreaDialogComponent: ComponentType<unknown>, dialog: MatDialog,
+    dialogParams: DialogParams<SiteArea>, refresh?: () => Observable<void>) {
+    super.view(siteAreaDialogComponent, dialog, dialogParams, refresh);
   }
 }

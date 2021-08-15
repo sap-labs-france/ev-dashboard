@@ -61,19 +61,19 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
   }
 
   public initFilters() {
-        // Charging Station
-        const chargingStationID = this.windowService.getSearch('ChargingStationID');
-        if (chargingStationID) {
-          const chargingStationTableFilter = this.tableFiltersDef.find(filter => filter.id === 'charger');
-          if (chargingStationTableFilter) {
-            chargingStationTableFilter.currentValue = [{ key: chargingStationID, value: chargingStationID }];
-            this.filterChanged(chargingStationTableFilter);
-          }
-        }
-        const transactionID = this.windowService.getSearch('TransactionID');
-        if (transactionID) {
-          this.setSearchValue(transactionID);
-        }
+    // Charging Station
+    const chargingStationID = this.windowService.getSearch('ChargingStationID');
+    if (chargingStationID) {
+      const chargingStationTableFilter = this.tableFiltersDef.find(filter => filter.id === 'charger');
+      if (chargingStationTableFilter) {
+        chargingStationTableFilter.currentValue = [{ key: chargingStationID, value: chargingStationID }];
+        this.filterChanged(chargingStationTableFilter);
+      }
+    }
+    const transactionID = this.windowService.getSearch('TransactionID');
+    if (transactionID) {
+      this.setSearchValue(transactionID);
+    }
   }
 
   public getDataChangeSubject(): Observable<ChangeNotification> {
@@ -175,14 +175,20 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
       case ChargingStationButtonAction.SMART_CHARGING:
         if (actionDef.action) {
           (actionDef as TableChargingStationsSmartChargingActionDef).action(
-            ChargingStationLimitationDialogComponent, chargingProfile.chargingStation, this.dialogService,
-            this.translateService, this.dialog, this.refreshData.bind(this)
+            ChargingStationLimitationDialogComponent, this.dialogService, this.translateService, this.dialog, {
+              dialogData: {
+                id: chargingProfile.chargingStationID,
+                canUpdate: chargingProfile.canUpdate,
+                ocppVersion: chargingProfile.chargingStation.ocppVersion
+              }
+            },
+            this.refreshData.bind(this)
           );
         }
         break;
-        case ChargingStationButtonAction.NAVIGATE_TO_SITE_AREA:
-          this.navigateToSiteAreaAction.action('organization#site-areas?SiteAreaID=' + chargingProfile.chargingStation.siteArea.id);
-          break;
+      case ChargingStationButtonAction.NAVIGATE_TO_SITE_AREA:
+        this.navigateToSiteAreaAction.action('organization#site-areas?SiteAreaID=' + chargingProfile.chargingStation.siteArea.id);
+        break;
     }
   }
 

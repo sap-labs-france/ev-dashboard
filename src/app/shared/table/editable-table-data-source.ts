@@ -5,19 +5,19 @@ import { Observable, Subject, of } from 'rxjs';
 import { SpinnerService } from '../../services/spinner.service';
 import { DataResult } from '../../types/DataResult';
 import { ButtonAction } from '../../types/GlobalType';
-import { Data, DropdownItem, TableActionDef, TableColumnDef, TableDef, TableEditType } from '../../types/Table';
+import { DropdownItem, TableActionDef, TableColumnDef, TableData, TableDef, TableEditType } from '../../types/Table';
 import { Utils } from '../../utils/Utils';
 import { TableAddAction } from './actions/table-add-action';
 import { TableDeleteAction } from './actions/table-delete-action';
 import { TableDataSource } from './table-data-source';
 
-export abstract class EditableTableDataSource<T extends Data> extends TableDataSource<T> {
+export abstract class EditableTableDataSource<T extends TableData> extends TableDataSource<T> {
   protected editableRows: T[] = [];
   protected tableChangedSubject: Subject<T[]> = new Subject<T[]>();
 
   protected deleteAction = new TableDeleteAction().getActionDef();
 
-  constructor(
+  public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     public additionalParameters?: any) {
@@ -55,7 +55,7 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
     // Filter?
     if (this.editableRows && this.getSearchValue() && this.tableDef.rowFieldNameIdentifier) {
       return this.editableRows.filter((editableRow) => editableRow[this.tableDef.rowFieldNameIdentifier].toLowerCase().includes(
-          this.getSearchValue().toLowerCase()));
+        this.getSearchValue().toLowerCase()));
     }
     return this.editableRows;
   }
@@ -68,7 +68,8 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
     this.formArray = formArray;
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, editableRow: T, dropdownItem?: DropdownItem, postDataProcessing?: () => void, actionAlreadyProcessed: boolean = false) {
+  public rowActionTriggered(actionDef: TableActionDef, editableRow: T, dropdownItem?: DropdownItem,
+    postDataProcessing?: () => void, actionAlreadyProcessed: boolean = false) {
     const index = this.editableRows.indexOf(editableRow);
     if (!actionAlreadyProcessed) {
       switch (actionDef.id) {
@@ -137,24 +138,6 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
     this.tableChangedSubject.next(this.editableRows);
   }
 
-  private getTableFormRowAction(row: T): TableActionDef {
-    // Check on static button row (should not happen)
-    for (const tableRowActionDef of this.tableRowActionsDef) {
-      if (tableRowActionDef.formRowAction) {
-        return tableRowActionDef;
-      }
-    }
-    // Check on dynamic button row
-    const dynamicRowActions = row['dynamicRowActions'] as TableActionDef[];
-    if (!Utils.isEmptyArray(dynamicRowActions)) {
-      for (const tableRowActionDef of dynamicRowActions) {
-        if (tableRowActionDef.formRowAction) {
-          return tableRowActionDef;
-        }
-      }
-    }
-  }
-
   public loadDataImpl(): Observable<DataResult<T>> {
     // Use the method to take into account the filtering
     const contentRows = this.getContent();
@@ -185,10 +168,62 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
     }
   }
 
-  protected abstract createRow(): T;
-
   protected isCellDisabled(columnDef: TableColumnDef, editableRow: T): boolean {
     return false;
+  }
+
+  protected createFormGroup(editableRow: T): FormGroup {
+    const controls = {};
+    for (const tableColumnDef of this.tableColumnsDef) {
+      let value;
+      switch (tableColumnDef.editType) {
+        case TableEditType.DISPLAY_ONLY:
+          if (!tableColumnDef.isAngularComponent) {
+            continue;
+          }
+          value = editableRow[tableColumnDef.id] ? editableRow[tableColumnDef.id] : '';
+          break;
+        case TableEditType.CHECK_BOX:
+        case TableEditType.RADIO_BUTTON:
+          value = editableRow[tableColumnDef.id] ? editableRow[tableColumnDef.id] : false;
+          break;
+        case TableEditType.INPUT:
+        default:
+          value = editableRow[tableColumnDef.id] ? editableRow[tableColumnDef.id] : '';
+      }
+      if (this.formArray && tableColumnDef.unique) {
+        if (!tableColumnDef.validators) {
+          tableColumnDef.validators = [];
+        }
+        tableColumnDef.validators.push(uniqValidator(this.formArray, tableColumnDef.id));
+      }
+      const formControl = new FormControl(value, tableColumnDef.validators);
+      if (tableColumnDef.canBeDisabled && this.isCellDisabled(tableColumnDef, editableRow)) {
+        formControl.disable({ onlySelf: true });
+      }
+      controls[tableColumnDef.id] = formControl;
+    }
+    // Keep the ref
+    editableRow['formGroup'] = new FormGroup(controls);
+    return editableRow['formGroup'] as FormGroup;
+  }
+
+  private getTableFormRowAction(row: T): TableActionDef {
+    // Check on static button row (should not happen)
+    for (const tableRowActionDef of this.tableRowActionsDef) {
+      if (tableRowActionDef.formRowAction) {
+        return tableRowActionDef;
+      }
+    }
+    // Check on dynamic button row
+    const dynamicRowActions = row['dynamicRowActions'] as TableActionDef[];
+    if (!Utils.isEmptyArray(dynamicRowActions)) {
+      for (const tableRowActionDef of dynamicRowActions) {
+        if (tableRowActionDef.formRowAction) {
+          return tableRowActionDef;
+        }
+      }
+    }
   }
 
   private addFormControlsToRow(rowIndex: number) {
@@ -239,46 +274,11 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
     }
   }
 
-  protected createFormGroup(editableRow: T): FormGroup {
-    const controls = {};
-    for (const tableColumnDef of this.tableColumnsDef) {
-      let value;
-      switch (tableColumnDef.editType) {
-        case TableEditType.DISPLAY_ONLY:
-          if (!tableColumnDef.isAngularComponent) {
-            continue;
-          }
-          value = editableRow[tableColumnDef.id] ? editableRow[tableColumnDef.id] : '';
-          break;
-        case TableEditType.CHECK_BOX:
-        case TableEditType.RADIO_BUTTON:
-          value = editableRow[tableColumnDef.id] ? editableRow[tableColumnDef.id] : false;
-          break;
-        case TableEditType.INPUT:
-        default:
-          value = editableRow[tableColumnDef.id] ? editableRow[tableColumnDef.id] : '';
-      }
-      if (this.formArray && tableColumnDef.unique) {
-        if (!tableColumnDef.validators) {
-          tableColumnDef.validators = [];
-        }
-        tableColumnDef.validators.push(uniqValidator(this.formArray, tableColumnDef.id));
-      }
-      const formControl = new FormControl(value, tableColumnDef.validators);
-      if (tableColumnDef.canBeDisabled && this.isCellDisabled(tableColumnDef, editableRow)) {
-        formControl.disable({ onlySelf: true });
-      }
-      controls[tableColumnDef.id] = formControl;
-    }
-    // Keep the ref
-    editableRow['formGroup'] = new FormGroup(controls);
-    return editableRow['formGroup'] as FormGroup;
-  }
+  protected abstract createRow(): T;
 }
 
-export function uniqValidator(formArray: FormArray, controlId: string): ValidatorFn {
-  return (control: AbstractControl): { [key: string]: any } | null => {
-    const duplicate = formArray.value.find((row: any) => row[controlId] === control.value);
-    return duplicate ? { duplicate: true } : null;
-  };
-}
+export const uniqValidator = (
+  formArray: FormArray, controlId: string): ValidatorFn => (control: AbstractControl): { [key: string]: any } | null => {
+  const duplicate = formArray.value.find((row: any) => row[controlId] === control.value);
+  return duplicate ? { duplicate: true } : null;
+};

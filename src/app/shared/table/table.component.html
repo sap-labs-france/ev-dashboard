@@ -7,7 +7,7 @@
         <!-- Create Left Actions -->
         <ng-container *ngFor="let actionDef of dataSource.tableActionsDef; let i=index">
           <!-- Action Button -->
-          <button mat-raised-button *ngIf="actionDef.type === 'button' && actionDef.id !== 'reset_filters'"
+          <button mat-raised-button *ngIf="actionDef.type === 'button' && actionDef.id !== 'reset_filters'" [hidden]="actionDef.visible === false"
             (click)="actionTriggered(actionDef)" [color]="(actionDef.color ? actionDef.color : '')"
     [disabled]="actionDef.disabled || (dataSource.tableDef.rowSelection && actionDef.linkedToListSelection && dataSource.selectedRows === 0)" [title]="(actionDef.name ? '' : actionDef.tooltip | translate)">
             <mat-icon *ngIf="actionDef.icon">{{actionDef.icon}}</mat-icon>
@@ -110,7 +110,7 @@
             <input (click)="showDialogTableFilter(filterDef)" [placeholder]="filterDef.name | translate"
               [value]="(filterDef.currentValue ? filterDef.currentValue[0].value : filterDef.defaultValue) | translate"
               class="form-field-popup" matInput readonly=true type="text" />
-            <button mat-icon-button matSuffix (click)="resetDialogTableFilter(filterDef)" aria-label="Add">
+            <button mat-icon-button matSuffix (click)="resetDialogTableFilter(filterDef)" aria-label="Clear">
               <mat-icon>clear</mat-icon>
             </button>
           </mat-form-field>
@@ -118,7 +118,7 @@
           <mat-form-field *ngIf="filterDef.type === FilterType.DIALOG_TABLE && filterDef.multiple">
             <input (click)="showDialogTableFilter(filterDef)" [placeholder]="filterDef.name | translate"
               [value]="filterDef.label" class="form-field-popup" matInput readonly=true type="text" />
-            <button mat-icon-button matSuffix (click)="resetDialogTableFilter(filterDef)" aria-label="Add">
+            <button mat-icon-button matSuffix (click)="resetDialogTableFilter(filterDef)" aria-label="Clear">
               <mat-icon>clear</mat-icon>
             </button>
           </mat-form-field>
@@ -140,6 +140,9 @@
         <div *ngIf="dataSource.isSearchEnabled" class="col search-form">
           <mat-form-field>
             <input appAutofocus autocomplete="off" #searchInput [placeholder]="searchPlaceholder | translate" matInput>
+            <button mat-icon-button matSuffix (click)="resetSearchFilter()" aria-label="Clear">
+              <mat-icon>clear</mat-icon>
+            </button>
           </mat-form-field>
         </div>
       </div>
@@ -168,13 +171,13 @@
             <!-- Empty -->
           </th>
           <!-- Actions Header -->
-          <th *ngIf="dataSource.hasRowActions" class="table-header text-center">
+          <th *ngIf="dataSource.hasRowActions" class="col-10p table-header text-center">
             {{'general.actions' | translate}}
           </th>
           <!-- Text Header -->
           <th *ngFor="let tableColumnDef of dataSource.tableColumnsDef" (click)="sortChanged(tableColumnDef)"
             [class]="(tableColumnDef.headerClass ? tableColumnDef.headerClass + ' table-header' : 'table-header')"
-            [class.sortable]="tableColumnDef.sortable">
+            [class.sortable]="tableColumnDef.sortable" [hidden]="!tableColumnDef.visible">
             {{tableColumnDef.name | translate}}
             <mat-icon *ngIf="sort.active === tableColumnDef.id">
               {{!sort.direction || sort.direction === "asc" ? "arrow_drop_up" : "arrow_drop_down"}}
@@ -248,9 +251,10 @@
               <!-- Angular Component Cell -->
               <ng-template [ngIf]="!tableColumnDef.isAngularComponent">
                 <td *ngIf="!dataSource.tableDef.isEditable" [class]="(tableColumnDef.class ? tableColumnDef.class : '')"
-                  [innerHtml]="row[tableColumnDef.id] | appFormatRowCell:tableColumnDef:row">
+                  [innerHtml]="row[tableColumnDef.id] | appFormatRowCell:tableColumnDef:row" [hidden]="!tableColumnDef.visible">
                 </td>
                 <td *ngIf="dataSource.tableDef.isEditable"
+                [hidden]="!tableColumnDef.visible"
                   [class]="(tableColumnDef.class ? tableColumnDef.class + ' p-1 align-middle' : 'p-1 align-middle')"
                   [class.table-field-invalid]="row[tableColumnDef.id + 'FormControl']?.errors">
                   <input *ngIf="!tableColumnDef.editType || tableColumnDef.editType === TableEditType.INPUT"
@@ -278,7 +282,7 @@
                   </mat-error>
                 </td>
               </ng-template>
-              <td *ngIf="tableColumnDef.isAngularComponent"
+              <td *ngIf="tableColumnDef.isAngularComponent" [hidden]="!tableColumnDef.visible"
                 [class]="(tableColumnDef.class ? tableColumnDef.class + ' table-cell-angular-component' : 'table-cell-angular-component')">
                 <app-cell-content-template-container [columnDef]="tableColumnDef" [row]="row"
                   (componentChanged)="rowCellUpdated($event, rowIndex, tableColumnDef)">

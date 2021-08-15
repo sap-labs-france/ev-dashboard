@@ -2,7 +2,7 @@
 
 ## Summary
 
-The Angular dashboard connects to the [EVSE Server](https://github.com/LucasBrazi06/ev-server) to display the charging stations in real time.
+The Angular dashboard connects to the [EVSE Server](https://github.com/sap-labs-france/ev-server) to display the charging stations in real time.
 
 The application features:
 
@@ -16,7 +16,6 @@ The application features:
 ## Installation
 
 * Install NodeJS: https://nodejs.org/ (install the LTS version)
-* Install Python version 2.7 (not the version 3.7!)
 * Clone this GitHub project
 * Go into the **ev-dashboard** directory and run **npm install** or **yarn install** (use sudo in Linux)
 
@@ -24,13 +23,13 @@ The application features:
 
 * On Windows with **chocolatey** (https://chocolatey.org/), do as an administrator:
 
-```
-choco install -y nodejs-lts python2
+```powershell
+choco install -y nodejs-lts
 ```
 
 * On Mac OSX with **Homebrew** (https://brew.sh/), do:
 
-```
+```shell
 brew install node
 ```
 
@@ -54,7 +53,7 @@ The dashboard is served by a web server, downloaded into the browser and will ca
 
 Set the REST Server URL:
 
-```
+```json
   "CentralSystemServer": {
     "protocol": "http",
     "host": "localhost",
@@ -62,34 +61,53 @@ Set the REST Server URL:
   },
 ```
 
+### Create and set a Google Maps API key
+Ev-dashboard requires you to setup a Google API key: https://developers.google.com/maps/documentation/javascript/get-api-key#restrict_key.
+Once the key is created it must be enabled (from the Google Console) and the value must replace the one present in /src/index.html, in Google Maps section:
+
+	src="https://maps.googleapis.com/maps/api/js?key=<YOUR_KEY_HERE>&libraries=places&language=en"></script>
+
+### Setup the reCaptcha API key
+In order to call REST endpoints of ev-server, a reCaptcha key is required. Refers to this link https://www.google.com/recaptcha/admin/create to create one then copy the client key in config.json, in User section:
+
+```json 
+	"User": {
+	  "maxPictureKb": 150,
+	  "captchaSiteKey": "<GOOGLE_RECAPTCHA_KEY_CLIENT>"
+	},
+```
+
 ## Start the Dashboard Server
 
 ### Development Mode
 
-```
+```shell
 npm start
 ```
 
 ### Production Mode
+
 First build the sources with:
-```
+```shell
 npm run build:prod
 ```
 
 Next, start the server with:
-```
+```shell
 npm run start:prod
 ```
 
 ### Secured Production Mode (SSL)
+
 Build the sources as above and run it with:
-```
+```shell
 npm run start:prod:ssl
 ```
 
 ## Tests End To End
+
 To run e2e tests, you first need to have a server and UI up and running. Then start the e2e suite with:
-```
+```shell
 npm run e2e
 ```
 

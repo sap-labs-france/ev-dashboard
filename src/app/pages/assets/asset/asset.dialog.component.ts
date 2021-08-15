@@ -1,5 +1,7 @@
 import { AfterViewInit, Component, Inject, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Asset } from 'types/Asset';
+import { DialogParams } from 'types/Authorization';
 
 import { Utils } from '../../../utils/Utils';
 import { AssetComponent } from './asset.component';
@@ -13,8 +15,8 @@ export class AssetDialogComponent implements AfterViewInit {
 
   public constructor(
     public dialogRef: MatDialogRef<AssetDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data: string) {
-    this.assetID = data;
+    @Inject(MAT_DIALOG_DATA) dialogParams: DialogParams<Asset>) {
+    this.assetID = dialogParams.dialogData?.id as string;
   }
 
   public ngAfterViewInit() {

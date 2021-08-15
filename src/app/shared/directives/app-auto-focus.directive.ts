@@ -4,9 +4,8 @@ import { Directive, ElementRef, OnInit } from '@angular/core';
   selector: '[appAutofocus]',
 })
 export class AppAutofocusDirective implements OnInit {
-
-  constructor(private elementRef: ElementRef) {
-  }
+  // eslint-disable-next-line no-useless-constructor
+  public constructor(private elementRef: ElementRef) {}
 
   public ngOnInit() {
     setTimeout(() => {

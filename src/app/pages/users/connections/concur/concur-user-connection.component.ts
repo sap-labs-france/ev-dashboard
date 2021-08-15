@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { IntegrationConnectionType } from 'types/Connection';
 
 import { CentralServerService } from '../../../../services/central-server.service';
 import { MessageService } from '../../../../services/message.service';
@@ -15,7 +16,7 @@ import { Utils } from '../../../../utils/Utils';
 export class ConcurUserConnectionComponent extends AbstractTabComponent {
   public isAdmin!: boolean;
 
-  constructor(
+  public constructor(
     private centralServerService: CentralServerService,
     private messageService: MessageService,
     private router: Router,
@@ -25,7 +26,7 @@ export class ConcurUserConnectionComponent extends AbstractTabComponent {
 
     if (this.activatedRoute.snapshot.queryParams['state']) {
       const state = JSON.parse(this.activatedRoute.snapshot.queryParams['state']);
-      if (state.connector === 'concur') {
+      if (state.connector === IntegrationConnectionType.CONCUR) {
         this.createConcurConnection(state);
       }
     }
@@ -35,7 +36,7 @@ export class ConcurUserConnectionComponent extends AbstractTabComponent {
     if (this.activatedRoute.snapshot.queryParams['code']) {
       const payload = {
         userId: state.userId,
-        connectorId: 'concur',
+        connectorId: IntegrationConnectionType.CONCUR,
         data:
           {
             code: this.activatedRoute.snapshot.queryParams['code'],
@@ -43,18 +44,18 @@ export class ConcurUserConnectionComponent extends AbstractTabComponent {
           },
       };
       this.centralServerService.createIntegrationConnection(payload).subscribe((response: ActionResponse) => {
-          if (response.status === RestResponse.SUCCESS) {
-            this.messageService.showSuccessMessage('settings.refund.concur.link_success');
-          } else {
-            Utils.handleError(JSON.stringify(response),
-              this.messageService, 'settings.refund.concur.link_error');
-          }
-          this.router.navigate([`/users/${state.userId}`], { fragment: 'connections' });
-        }, (error) => {
-          Utils.handleError(JSON.stringify(error),
+        if (response.status === RestResponse.SUCCESS) {
+          this.messageService.showSuccessMessage('settings.refund.concur.link_success');
+        } else {
+          Utils.handleError(JSON.stringify(response),
             this.messageService, 'settings.refund.concur.link_error');
-          this.router.navigate([`/users/${state.userId}`], { fragment: 'connections' });
-        },
+        }
+        this.router.navigate([`/users/${state.userId}`], { fragment: 'connections' });
+      }, (error) => {
+        Utils.handleError(JSON.stringify(error),
+          this.messageService, 'settings.refund.concur.link_error');
+        this.router.navigate([`/users/${state.userId}`], { fragment: 'connections' });
+      },
       );
     } else if (this.activatedRoute.snapshot.queryParams['error']) {
       Utils.handleError(this.activatedRoute.snapshot.queryParams['error'],

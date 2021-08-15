@@ -33,10 +33,11 @@ export class TagComponent implements OnInit {
   public userID!: AbstractControl;
   public active!: AbstractControl;
   public default!: AbstractControl;
+  public visualID!: AbstractControl;
 
   public isAdmin = false;
 
-  constructor(
+  public constructor(
     public spinnerService: SpinnerService,
     private authorizationService: AuthorizationService,
     private centralServerService: CentralServerService,
@@ -70,6 +71,10 @@ export class TagComponent implements OnInit {
         Validators.compose([
           Validators.required,
         ])),
+      visualID: new FormControl('',
+        Validators.compose([
+          Validators.required,
+        ])),
       active: new FormControl('',
         Validators.compose([
           Validators.required,
@@ -82,6 +87,7 @@ export class TagComponent implements OnInit {
     // Form
     this.id = this.formGroup.controls['id'];
     this.description = this.formGroup.controls['description'];
+    this.visualID = this.formGroup.controls['visualID'];
     this.user = this.formGroup.controls['user'];
     this.userID = this.formGroup.controls['userID'];
     this.active = this.formGroup.controls['active'];
@@ -125,6 +131,7 @@ export class TagComponent implements OnInit {
         // Init form
         this.id.setValue(tag.id);
         this.description.setValue(tag.description);
+        this.visualID.setValue(tag.visualID);
         this.active.setValue(tag.active);
         if (tag.user) {
           this.userID.setValue(tag.user.id);
@@ -186,7 +193,16 @@ export class TagComponent implements OnInit {
       }
     }, (error) => {
       this.spinnerService.hide();
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tags.update_error');
+      switch (error.status) {
+        case HTTPError.TAG_HAS_TRANSACTIONS:
+          this.messageService.showErrorMessage('tags.update_has_transaction_error');
+          break;
+        case HTTPError.TAG_VISUAL_ID_ALREADY_EXIST_ERROR:
+          this.messageService.showErrorMessage('tags.tag_visual_id_already_used', { visualID: tag.visualID });
+          break;
+        default:
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tags.update_error');
+      }
     });
   }
 
@@ -206,6 +222,12 @@ export class TagComponent implements OnInit {
       switch (error.status) {
         case HTTPError.TAG_ALREADY_EXIST_ERROR:
           this.messageService.showErrorMessage('tags.tag_id_already_used', { tagID: tag.id });
+          break;
+        case HTTPError.TAG_VISUAL_ID_ALREADY_EXIST_ERROR:
+          this.messageService.showErrorMessage('tags.tag_visual_id_already_used', { visualID: tag.visualID });
+          break;
+        case HTTPError.TAG_HAS_TRANSACTIONS:
+          this.messageService.showErrorMessage('tags.create_has_transaction_error');
           break;
         default:
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tags.create_error');

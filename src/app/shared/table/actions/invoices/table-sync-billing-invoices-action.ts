@@ -37,18 +37,21 @@ export class TableSyncBillingInvoicesAction extends TableSynchronizeAction {
       if (response === ButtonType.YES) {
         messageService.showInfoMessage('settings.billing.invoice.synchronize_invoices_started');
         centralServerService.synchronizeInvoicesForBilling().subscribe((synchronizeResponse) => {
+          // TODO: use messageService.showActionsMessage(...) method and remove the if statements
           if (synchronizeResponse.status === RestResponse.SUCCESS) {
             if (synchronizeResponse.inSuccess) {
               if (refresh) {
                 refresh().subscribe();
               }
               messageService.showSuccessMessage(translateService.instant('settings.billing.invoice.synchronize_invoices_success',
+                // eslint-disable-next-line id-blacklist
                 { number: synchronizeResponse.inSuccess }));
             } else if (!synchronizeResponse.inError) {
               messageService.showSuccessMessage(translateService.instant('settings.billing.invoice.synchronize_invoices_success_all'));
             }
             if (synchronizeResponse.inError) {
               messageService.showWarningMessage(translateService.instant('settings.billing.invoice.synchronize_invoices_failure',
+                // eslint-disable-next-line id-blacklist
                 { number: synchronizeResponse.inError }));
             }
           } else {

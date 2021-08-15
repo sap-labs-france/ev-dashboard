@@ -34,17 +34,17 @@ export class TenantsListTableDataSource extends TableDataSource<Tenant> {
   private openUrlAction = new TableOpenURLAction().getActionDef();
   private deleteAction = new TableDeleteTenantAction().getActionDef();
 
-  constructor(
-      public spinnerService: SpinnerService,
-      public translateService: TranslateService,
-      private messageService: MessageService,
-      private dialogService: DialogService,
-      private windowService: WindowService,
-      private router: Router,
-      private dialog: MatDialog,
-      private centralServerNotificationService: CentralServerNotificationService,
-      private centralServerService: CentralServerService,
-      private datePipe: AppDatePipe) {
+  public constructor(
+    public spinnerService: SpinnerService,
+    public translateService: TranslateService,
+    private messageService: MessageService,
+    private dialogService: DialogService,
+    private windowService: WindowService,
+    private router: Router,
+    private dialog: MatDialog,
+    private centralServerNotificationService: CentralServerNotificationService,
+    private centralServerService: CentralServerService,
+    private datePipe: AppDatePipe) {
     super(spinnerService, translateService);
     // Init
     this.setStaticFilters([{ WithLogo: true }]);
@@ -59,7 +59,7 @@ export class TenantsListTableDataSource extends TableDataSource<Tenant> {
     return new Observable((observer) => {
       // Get the Tenants
       this.centralServerService.getTenants(this.buildFilterValues(),
-          this.getPaging(), this.getSorting()).subscribe((tenants) => {
+        this.getPaging(), this.getSorting()).subscribe((tenants) => {
         // Ok
         observer.next(tenants);
         observer.complete();
@@ -175,7 +175,8 @@ export class TenantsListTableDataSource extends TableDataSource<Tenant> {
       // Add
       case TenantButtonAction.CREATE_TENANT:
         if (actionDef.action) {
-          (actionDef as TableCreateTenantActionDef).action(TenantDialogComponent, this.dialog, this.refreshData.bind(this));
+          (actionDef as TableCreateTenantActionDef).action(TenantDialogComponent, this.dialog,
+            this.refreshData.bind(this));
         }
         break;
     }
@@ -185,7 +186,8 @@ export class TenantsListTableDataSource extends TableDataSource<Tenant> {
     switch (actionDef.id) {
       case TenantButtonAction.EDIT_TENANT:
         if (actionDef.action) {
-          (actionDef as TableEditTenantActionDef).action(TenantDialogComponent, tenant, this.dialog, this.refreshData.bind(this));
+          (actionDef as TableEditTenantActionDef).action(TenantDialogComponent, this.dialog,
+            { dialogData: tenant }, this.refreshData.bind(this));
         }
         break;
       case TenantButtonAction.DELETE_TENANT:

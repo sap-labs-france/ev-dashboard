@@ -8,8 +8,8 @@ import { ChargingStationsRegistrationTokensTableDataSource } from './charging-st
   providers: [ChargingStationsRegistrationTokensTableDataSource],
 })
 export class ChargingStationsRegistrationTokensComponent {
-  constructor(
+  // eslint-disable-next-line no-useless-constructor
+  public constructor(
     public registrationTokenDataSource: ChargingStationsRegistrationTokensTableDataSource,
-  ) {
-  }
+  ) {}
 }

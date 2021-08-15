@@ -26,8 +26,8 @@ export class TableExportTransactionsAction extends TableExportAction {
   }
 
   private exportTransactions(filters: FilterParams, dialogService: DialogService, translateService: TranslateService,
-      messageService: MessageService, centralServerService: CentralServerService, router: Router,
-      spinnerService: SpinnerService) {
+    messageService: MessageService, centralServerService: CentralServerService, router: Router,
+    spinnerService: SpinnerService) {
     super.export(filters, 'exported-transactions.csv',
       'transactions.dialog.export.title', 'transactions.dialog.export.confirm',
       'transactions.dialog.export.error',

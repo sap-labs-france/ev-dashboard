@@ -1,12 +1,12 @@
 import { Address } from './Address';
-import { AuthorizationActions } from './Authorization';
+import { SiteAuthorizationActions } from './Authorization';
 import { Company } from './Company';
 import CreatedUpdatedProps from './CreatedUpdatedProps';
 import { SiteArea } from './SiteArea';
-import { Data } from './Table';
+import { TableData } from './Table';
 import { User } from './User';
 
-export interface Site extends Data, CreatedUpdatedProps, AuthorizationActions {
+export interface Site extends TableData, CreatedUpdatedProps, SiteAuthorizationActions {
   id: string;
   name: string;
   companyID: string;
@@ -25,7 +25,7 @@ export interface Site extends Data, CreatedUpdatedProps, AuthorizationActions {
   public?: boolean;
 }
 
-export interface SiteUser extends Data {
+export interface SiteUser extends TableData {
   site: Site;
   userID: string;
   siteAdmin: boolean;
@@ -37,5 +37,7 @@ export enum SiteButtonAction {
   EDIT_SITE = 'edit_site',
   CREATE_SITE = 'create_site',
   DELETE_SITE = 'delete_site',
-  ASSIGN_USERS_TO_SITE = 'assign_users_to_site'
+  ASSIGN_USERS_TO_SITE = 'assign_users_to_site',
+  VIEW_USERS_OF_SITE = 'view_users_of_site',
+
 }

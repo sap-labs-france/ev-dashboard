@@ -28,7 +28,7 @@ export class TableActivateTagAction extends TableActivateAction {
   }
 
   private activateTag(tag: Tag, dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
-      centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) {
+    centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) {
     dialogService.createAndShowYesNoDialog(
       translateService.instant('tags.activate_title'),
       translateService.instant('tags.activate_confirm', { tagID: tag.id }),
@@ -40,6 +40,7 @@ export class TableActivateTagAction extends TableActivateAction {
           issuer: tag.issuer,
           description: tag.description,
           userID: tag.userID,
+          visualID: tag.visualID,
           active: true,
         } as Tag;
         centralServerService.updateTag(tagUpdated).subscribe((actionResponse) => {

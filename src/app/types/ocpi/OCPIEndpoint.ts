@@ -1,6 +1,6 @@
-import { Data } from '../Table';
+import { TableData } from '../Table';
 
-export interface OcpiEndpoint extends Data {
+export interface OcpiEndpoint extends TableData {
   id: string;
   name: string;
   role: string;
@@ -8,7 +8,7 @@ export interface OcpiEndpoint extends Data {
   countryCode: string;
   partyId: string;
   version?: string;
-  status?: string;
+  status?: OcpiEndpointStatus;
   localToken: string;
   token: string;
   backgroundPatchJob: boolean;
@@ -16,7 +16,7 @@ export interface OcpiEndpoint extends Data {
   lastPatchJobResult?: any;
 }
 
-export interface OcpiEndpointDetail extends Data {
+export interface OcpiEndpointDetail extends TableData {
   id: string;
   ocpiendpoint: OcpiEndpoint;
   status: string;

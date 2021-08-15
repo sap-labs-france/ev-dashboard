@@ -1,13 +1,15 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
+import { DialogParams } from 'types/Authorization';
 
 import { Car, CarButtonAction } from '../../../../types/Car';
 import { TableActionDef } from '../../../../types/Table';
 import { TableEditAction } from '../table-edit-action';
 
 export interface TableEditCarActionDef extends TableActionDef {
-  action: (carDialogComponent: ComponentType<unknown>, car: Car, dialog: MatDialog, refresh?: () => Observable<void>) => void;
+  action: (carDialogComponent: ComponentType<unknown>, dialog: MatDialog,
+    dialogParams: DialogParams<Car>, refresh?: () => Observable<void>) => void;
 }
 
 export class TableEditCarAction extends TableEditAction {
@@ -19,7 +21,8 @@ export class TableEditCarAction extends TableEditAction {
     };
   }
 
-  private editCar(carDialogComponent: ComponentType<unknown>, car: Car, dialog: MatDialog, refresh?: () => Observable<void>) {
-    super.edit(carDialogComponent, car, dialog, refresh);
+  private editCar(carDialogComponent: ComponentType<unknown>, dialog: MatDialog,
+    dialogParams: DialogParams<Car>, refresh?: () => Observable<void>) {
+    super.edit(carDialogComponent, dialog, dialogParams, refresh);
   }
 }

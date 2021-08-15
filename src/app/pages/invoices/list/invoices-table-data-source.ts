@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
+import { IssuerFilter } from 'shared/table/filters/issuer-filter';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
@@ -22,7 +23,7 @@ import { EndDateFilter } from '../../../shared/table/filters/end-date-filter';
 import { StartDateFilter } from '../../../shared/table/filters/start-date-filter';
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
-import { BillingButtonAction, BillingInvoice } from '../../../types/Billing';
+import { BillingButtonAction, BillingInvoice, BillingSessionData } from '../../../types/Billing';
 import ChangeNotification from '../../../types/ChangeNotification';
 import { DataResult } from '../../../types/DataResult';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
@@ -37,7 +38,7 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
   private syncBillingInvoicesAction = new TableSyncBillingInvoicesAction().getActionDef();
   private downloadBillingInvoiceAction = new TableDownloadBillingInvoice().getActionDef();
 
-  constructor(
+  public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     private messageService: MessageService,
@@ -62,17 +63,17 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
   public loadDataImpl(): Observable<DataResult<BillingInvoice>> {
     return new Observable((observer) => {
       // Get the Invoices
-      this.centralServerService.getUserInvoices(this.buildFilterValues(),
+      this.centralServerService.getInvoices(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((invoices) => {
-          // Ok
-          observer.next(invoices);
-          observer.complete();
-        }, (error) => {
-          // Show error
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'invoices.cannot_retrieve_invoices');
-          // Error
-          observer.error(error);
-        });
+        // Ok
+        observer.next(invoices);
+        observer.complete();
+      }, (error) => {
+        // Show error
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'invoices.cannot_retrieve_invoices');
+        // Error
+        observer.error(error);
+      });
     });
   }
 
@@ -117,7 +118,7 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
       },
       {
         id: 'number',
-        name: 'invoices.id',
+        name: 'invoices.number',
         headerClass: 'col-15p',
         class: 'col-15p',
         sortable: true,
@@ -142,16 +143,17 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
     }
     columns.push(
       {
-        id: 'nbrOfItems',
+        id: 'sessions',
         name: 'invoices.number_of_items',
+        formatter: (sessions: BillingSessionData[], invoice: BillingInvoice) => sessions?.length,
         headerClass: 'col-10p text-center',
         class: 'col-10p text-center',
         sortable: true,
       },
       {
         id: 'amount',
-        name: 'invoices.price',
-        formatter: (price: number, invoice: BillingInvoice) => this.appCurrencyPipe.transform(price / 100, invoice.currency.toUpperCase()),
+        name: 'invoices.amount',
+        formatter: (amount: number, invoice: BillingInvoice) => this.appCurrencyPipe.transform(amount / 100, invoice.currency.toUpperCase()),
         headerClass: 'col-10p',
         class: 'col-10p',
         sortable: true,
@@ -206,13 +208,15 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {
+    const issuerFilter = new IssuerFilter().getFilterDef();
     const filters = [
       new StartDateFilter(moment().startOf('y').toDate()).getFilterDef(),
       new EndDateFilter().getFilterDef(),
       new InvoiceStatusFilter().getFilterDef(),
     ];
     if (this.authorizationService.isAdmin()) {
-      filters.push(new UserTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
+      // Set Issuer filter as invisible static filter
+      filters.push(new UserTableFilter([issuerFilter]).getFilterDef());
     }
     return filters;
   }

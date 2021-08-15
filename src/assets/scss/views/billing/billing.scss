@@ -1,0 +1,21 @@
+.justified-italic-text-box {
+  @include box-shadow($bmd-shadow-4dp);
+  color: mat-color($app-grey, 800);
+  padding: 10px 15px;
+  margin-bottom: 10px;
+  background: rgba($brand-primary, 0.3);
+  font-style: italic;
+}
+
+.mat-payment-error {
+  color: $brand-danger;
+  font-size: 0.8em;
+  margin-top: -.8em;
+  text-align: left;
+}
+
+.deactivated-setting-message {
+  color: $brand-danger;
+  font-size: 1.2em;
+  margin-bottom: 1em;
+}

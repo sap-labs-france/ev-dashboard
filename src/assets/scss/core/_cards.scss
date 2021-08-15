@@ -34,6 +34,7 @@
     &:last-child {
       margin-bottom: 0;
     }
+    text-align: left;
   }
 
   // Cards have a default elevation of 2dp.
@@ -196,7 +197,7 @@
   &.bg-danger,
   &.card-rotate.bg-danger .front,
   &.card-rotate.bg-danger .back {
-    background: $brand-warn;
+    background: $brand-danger;
   }
 
   .card-header-rose .card-icon,

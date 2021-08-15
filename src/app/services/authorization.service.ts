@@ -40,6 +40,10 @@ export class AuthorizationService {
     return this.canAccess(Entity.CAR, Action.UPDATE);
   }
 
+  public canDeleteCar(): boolean {
+    return this.canAccess(Entity.CAR, Action.DELETE);
+  }
+
   public canUpdateChargingStation(): boolean {
     return this.canAccess(Entity.CHARGING_STATION, Action.UPDATE);
   }
@@ -54,6 +58,10 @@ export class AuthorizationService {
 
   public canListAssets(): boolean {
     return this.canAccess(Entity.ASSETS, Action.LIST);
+  }
+
+  public canListLogs(): boolean {
+    return this.canAccess(Entity.LOGGINGS, Action.LIST);
   }
 
   public canListAssetsInError(): boolean {
@@ -144,6 +152,10 @@ export class AuthorizationService {
     return this.canAccess(Entity.SETTINGS, Action.LIST);
   }
 
+  public canReadSetting(): boolean {
+    return this.canAccess(Entity.SETTING, Action.READ);
+  }
+
   public canDownloadInvoice(userId: string): boolean {
     if (this.canAccess(Entity.INVOICE, Action.DOWNLOAD)) {
       if (this.isAdmin() || (!!this.loggedUser && this.loggedUser.id === userId)) {
@@ -171,6 +183,22 @@ export class AuthorizationService {
 
   public canDeleteUser(): boolean {
     return this.canAccess(Entity.USER, Action.DELETE);
+  }
+
+  public canImportUsers(): boolean {
+    return this.canAccess(Entity.USERS, Action.IMPORT);
+  }
+
+  public canListTags(): boolean {
+    return this.canAccess(Entity.TAGS, Action.LIST);
+  }
+
+  public canImportTags(): boolean {
+    return this.canAccess(Entity.TAGS, Action.IMPORT);
+  }
+
+  public canExportTags(): boolean {
+    return this.canAccess(Entity.TAGS, Action.EXPORT);
   }
 
   public canUpdateUser(): boolean {
@@ -282,6 +310,21 @@ export class AuthorizationService {
   public canDeleteToken(): boolean {
     return this.canAccess(Entity.TOKEN, Action.DELETE);
   }
+
+  public canListPaymentMethods(): boolean {
+    return this.canAccess(Entity.PAYMENT_METHODS, Action.LIST);
+  }
+
+  // TODO: Should return different response if admin is on its own pm or not ?
+  public canCreatePaymentMethod(): boolean {
+    return this.canAccess(Entity.PAYMENT_METHOD, Action.CREATE);
+  }
+
+  // TODO: Use canRead when we have the list of payment method
+  public canReadPaymentMethod() {
+    return (this.canAccess(Entity.PAYMENT_METHOD, Action.READ));
+  }
+
 
   public isSiteAdmin(siteID: string): boolean {
     return this.isAdmin() || (!!this.loggedUser && !!this.loggedUser.sitesAdmin && this.loggedUser.sitesAdmin.includes(siteID));

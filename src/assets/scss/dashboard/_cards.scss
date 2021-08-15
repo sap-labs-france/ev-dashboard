@@ -17,8 +17,9 @@
   }
 
   .card-body {
-    // padding: 10px 15px;
     position: relative;
+    overflow: auto;
+    max-height: 80vh;
     & .mat-toolbar {
       padding-left: 0px !important;
       padding-right: 0px !important;
@@ -42,6 +43,7 @@
 
   .big-card-logo {
     height: 125px;
+    max-width: 90%;
     margin: 5px;
   }
 

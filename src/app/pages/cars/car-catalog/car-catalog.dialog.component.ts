@@ -1,5 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { DialogParams } from 'types/Authorization';
+import { CarCatalog } from 'types/Car';
 
 import { Utils } from '../../../utils/Utils';
 
@@ -11,8 +13,8 @@ export class CarCatalogDialogComponent {
 
   public constructor(
     public dialogRef: MatDialogRef<CarCatalogDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data: number) {
-    this.carCatalogID = data;
+    @Inject(MAT_DIALOG_DATA) dialogParams: DialogParams<CarCatalog>) {
+    this.carCatalogID = dialogParams.dialogData?.id;
     Utils.registerCloseKeyEvents(this.dialogRef);
   }
 }

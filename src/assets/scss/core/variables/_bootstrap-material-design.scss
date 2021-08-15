@@ -1,5 +1,5 @@
 $bmd-label-color-focus: $brand-primary !default;
-$bmd-invalid-underline: $brand-warn !default;
+$bmd-invalid-underline: $brand-danger !default;
 $bmd-readonly-underline: $input-border-color !default;
 
 //---
@@ -129,7 +129,7 @@ $tooltip-font-size: 0.75rem !default;
 
 // Background colors
 $bg-primary: $brand-primary;
-$bg-danger: $brand-warn;
+$bg-danger: $brand-danger;
 $bg-warning: $brand-warning;
 $bg-info: $brand-info;
 $bg-rose: $brand-info;

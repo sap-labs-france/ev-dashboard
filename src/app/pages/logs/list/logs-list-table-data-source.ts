@@ -115,32 +115,32 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
       // Get data
       this.centralServerService.getLogs(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((logs) => {
-          // Add the users in the message
-          logs.result.map((log: Log) => {
-            let user;
-            // Set User
-            if (log.user) {
-              user = Utils.buildUserFullName(log.user);
-            }
-            // Set Action On User
-            if (log.actionOnUser) {
-              user = (user ? `${user} > ${Utils.buildUserFullName(log.actionOnUser)}` : Utils.buildUserFullName(log.actionOnUser));
-            }
-            // Set
-            if (user) {
-              log.message = `${user} > ${log.message}`;
-            }
-            return log;
-          });
-          // Ok
-          observer.next(logs);
-          observer.complete();
-        }, (error) => {
-          // No longer exists!
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-          // Error
-          observer.error(error);
+        // Add the users in the message
+        logs.result.map((log: Log) => {
+          let user;
+          // Set User
+          if (log.user) {
+            user = Utils.buildUserFullName(log.user);
+          }
+          // Set Action On User
+          if (log.actionOnUser) {
+            user = (user ? `${user} > ${Utils.buildUserFullName(log.actionOnUser)}` : Utils.buildUserFullName(log.actionOnUser));
+          }
+          // Set
+          if (user) {
+            log.message = `${user} > ${log.message}`;
+          }
+          return log;
         });
+        // Ok
+        observer.next(logs);
+        observer.complete();
+      }, (error) => {
+        // No longer exists!
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+        // Error
+        observer.error(error);
+      });
     });
   }
 
@@ -177,7 +177,7 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
       {
         id: 'timestamp',
         type: 'date',
-        formatter: (createdOn: Date) => this.datePipe.transform(createdOn),
+        formatter: (createdOn: Date) => this.datePipe.transform(createdOn, 'medium'),
         name: 'logs.date',
         headerClass: 'col-15p',
         class: 'text-left col-15p',
@@ -255,7 +255,7 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
 
   public buildTableFiltersDef(): TableFilterDef[] {
     const tableFiltersDef = [
-      new StartDateFilter().getFilterDef(),
+      new StartDateFilter(moment().startOf('d').toDate()).getFilterDef(),
       new EndDateFilter().getFilterDef(),
       new LogLevelTableFilter().getFilterDef(),
       new LogActionTableFilter().getFilterDef(),
@@ -267,10 +267,10 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
     }
     if (this.authorizationService.isAdmin()) {
       tableFiltersDef.push(new UserTableFilter().getFilterDef());
-      tableFiltersDef.push(new LogSourceTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
+      tableFiltersDef.push(new LogSourceTableFilter().getFilterDef());
     } else {
-      tableFiltersDef.push(new UserTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
-      tableFiltersDef.push(new LogSourceTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
+      tableFiltersDef.push(new UserTableFilter().getFilterDef());
+      tableFiltersDef.push(new LogSourceTableFilter().getFilterDef());
     }
     return tableFiltersDef;
   }

@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 
-import { AuthorizationService } from '../../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../../services/central-server.service';
 import { DialogService } from '../../../../services/dialog.service';
@@ -33,14 +32,10 @@ import { CompanyDialogComponent } from '../company/company.dialog.component';
 
 @Injectable()
 export class CompaniesListTableDataSource extends TableDataSource<Company> {
-  private canReadCompany = false;
-  private canCreateCompany = false;
-  private canUpdateCompany = false;
-  private canDeleteCompany = false;
-  private canCrudCompany = false;
   private editAction = new TableEditCompanyAction().getActionDef();
   private deleteAction = new TableDeleteCompanyAction().getActionDef();
   private viewAction = new TableViewCompanyAction().getActionDef();
+  private createAction = new TableCreateCompanyAction().getActionDef();
 
   public constructor(
     public spinnerService: SpinnerService,
@@ -51,15 +46,9 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
     private dialog: MatDialog,
     private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
-    private datePipe: AppDatePipe,
-    private authorizationService: AuthorizationService) {
+    private datePipe: AppDatePipe) {
     super(spinnerService, translateService);
     // Init
-    this.canReadCompany = this.authorizationService.canReadCompany();
-    this.canCreateCompany = this.authorizationService.canCreateCompany();
-    this.canUpdateCompany = this.authorizationService.canUpdateCompany();
-    this.canDeleteCompany = this.authorizationService.canDeleteCompany();
-    this.canCrudCompany = this.canCreateCompany && this.canReadCompany && this.canUpdateCompany && this.canDeleteCompany;
     this.setStaticFilters([{ WithLogo: true }]);
     this.initDataSource();
   }
@@ -72,6 +61,7 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
     return new Observable((observer) => {
       // get companies
       this.centralServerService.getCompanies(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe((companies) => {
+        this.createAction.visible = companies.canCreate;
         observer.next(companies);
         observer.complete();
       }, (error) => {
@@ -103,6 +93,15 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
         angularComponent: CompanyLogoFormatterCellComponent,
       },
       {
+        id: 'id',
+        name: 'general.id',
+        sortable: true,
+        headerClass: 'col-30p',
+        class: 'col-30p',
+        sorted: true,
+        direction: 'asc',
+      },
+      {
         id: 'name',
         name: 'companies.name',
         headerClass: 'col-50p',
@@ -125,76 +124,71 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
         class: 'col-20p',
         sortable: true,
       },
+      {
+        id: 'createdOn',
+        name: 'users.created_on',
+        formatter: (createdOn: Date) => this.datePipe.transform(createdOn),
+        headerClass: 'col-15em',
+        class: 'col-15em',
+        sortable: true,
+      },
+      {
+        id: 'createdBy',
+        name: 'users.created_by',
+        formatter: (user: User) => Utils.buildUserFullName(user),
+        headerClass: 'col-15em',
+        class: 'col-15em',
+      },
+      {
+        id: 'lastChangedOn',
+        name: 'users.changed_on',
+        formatter: (lastChangedOn: Date) => this.datePipe.transform(lastChangedOn),
+        headerClass: 'col-15em',
+        class: 'col-15em',
+        sortable: true,
+      },
+      {
+        id: 'lastChangedBy',
+        name: 'users.changed_by',
+        formatter: (user: User) => Utils.buildUserFullName(user),
+        headerClass: 'col-15em',
+        class: 'col-15em',
+      },
     ];
-    if (this.canCrudCompany) {
-      tableColumnDef.push(
-        {
-          id: 'createdOn',
-          name: 'users.created_on',
-          formatter: (createdOn: Date) => this.datePipe.transform(createdOn),
-          headerClass: 'col-15em',
-          class: 'col-15em',
-          sortable: true,
-        },
-        {
-          id: 'createdBy',
-          name: 'users.created_by',
-          formatter: (user: User) => Utils.buildUserFullName(user),
-          headerClass: 'col-15em',
-          class: 'col-15em',
-        },
-        {
-          id: 'lastChangedOn',
-          name: 'users.changed_on',
-          formatter: (lastChangedOn: Date) => this.datePipe.transform(lastChangedOn),
-          headerClass: 'col-15em',
-          class: 'col-15em',
-          sortable: true,
-        },
-        {
-          id: 'lastChangedBy',
-          name: 'users.changed_by',
-          formatter: (user: User) => Utils.buildUserFullName(user),
-          headerClass: 'col-15em',
-          class: 'col-15em',
-        },
-      );
-    }
     return tableColumnDef;
   }
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-    if (this.canCreateCompany) {
-      return [
-        new TableCreateCompanyAction().getActionDef(),
-        ...tableActionsDef,
-      ];
-    }
-    return tableActionsDef;
+    return [
+      this.createAction,
+      ...tableActionsDef,
+    ];
   }
 
   public buildTableDynamicRowActions(company: Company): TableActionDef[] {
-    const actions = [];
+    const rowActions = [];
     // Check if GPS is available
     const openInMaps = new TableOpenInMapsAction().getActionDef();
     openInMaps.disabled = !Utils.containsAddressGPSCoordinates(company.address);
     const moreActions = new TableMoreAction([]);
     if (company.issuer) {
       if (company.canUpdate) {
-        actions.push(this.editAction);
+        rowActions.push(this.editAction);
       } else if (company.canRead) {
-        actions.push(this.viewAction);
+        rowActions.push(this.viewAction);
       }
       if (company.canDelete) {
         moreActions.addActionInMoreActions(this.deleteAction);
       }
     } else if (company.canRead) {
-      actions.push(this.viewAction);
+      rowActions.push(this.viewAction);
     }
     moreActions.addActionInMoreActions(openInMaps);
-    actions.push(moreActions.getActionDef());
-    return actions;
+    if (!Utils.isEmptyArray(moreActions.getActionsInMoreActions())) {
+      rowActions.push(moreActions.getActionDef());
+    }
+    return rowActions;
   }
 
   public actionTriggered(actionDef: TableActionDef) {
@@ -203,7 +197,9 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
       // Add
       case CompanyButtonAction.CREATE_COMPANY:
         if (actionDef.action) {
-          (actionDef as TableCreateCompanyActionDef).action(CompanyDialogComponent, this.dialog, this.refreshData.bind(this));
+          (actionDef as TableCreateCompanyActionDef).action(CompanyDialogComponent,
+            this.dialog, this.refreshData.bind(this)
+          );
         }
         break;
     }
@@ -213,12 +209,14 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
     switch (actionDef.id) {
       case CompanyButtonAction.EDIT_COMPANY:
         if (actionDef.action) {
-          (actionDef as TableEditCompanyActionDef).action(CompanyDialogComponent, company, this.dialog, this.refreshData.bind(this));
+          (actionDef as TableEditCompanyActionDef).action(CompanyDialogComponent,
+            this.dialog, { dialogData: company }, this.refreshData.bind(this));
         }
         break;
       case CompanyButtonAction.VIEW_COMPANY:
         if (actionDef.action) {
-          (actionDef as TableViewCompanyActionDef).action(CompanyDialogComponent, company, this.dialog, this.refreshData.bind(this));
+          (actionDef as TableViewCompanyActionDef).action(CompanyDialogComponent, this.dialog,
+            { dialogData: company }, this.refreshData.bind(this));
         }
         break;
       case CompanyButtonAction.DELETE_COMPANY:

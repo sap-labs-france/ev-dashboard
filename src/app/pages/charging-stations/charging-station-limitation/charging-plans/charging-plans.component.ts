@@ -3,7 +3,9 @@ import { AbstractControl, FormArray, FormControl, FormGroup, ValidationErrors, V
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
+import { Observable } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import { ActionResponse } from 'types/DataResult';
 
 import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../../services/central-server.service';
@@ -86,15 +88,15 @@ export class ChargingPlansComponent implements OnInit, AfterViewInit, OnChanges 
       // Update Charging Station?
       this.centralServerNotificationService.getSubjectChargingProfile().pipe(debounceTime(
         this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
-          if (this.chargingProfiles && singleChangeNotification && singleChangeNotification.data) {
-            const chargingProfile = this.chargingProfiles.find(
-              (chargingProfile) => chargingProfile.id === singleChangeNotification.data.id);
+        if (this.chargingProfiles && singleChangeNotification && singleChangeNotification.data) {
+          const chargingProfile = this.chargingProfiles.find(
+            (cp) => cp.id === singleChangeNotification.data.id);
             // Reload?
-            if (chargingProfile) {
-              this.refresh();
-            }
+          if (chargingProfile) {
+            this.refresh();
           }
-        });
+        }
+      });
     }
   }
 
@@ -180,7 +182,7 @@ export class ChargingPlansComponent implements OnInit, AfterViewInit, OnChanges 
   }
 
   public ngOnChanges() {
-    if (this.autoRefreshEnabled) {
+    if (this.autoRefreshEnabled && !this.formGroup.dirty) {
       this.refresh();
     }
   }
@@ -331,7 +333,15 @@ export class ChargingPlansComponent implements OnInit, AfterViewInit, OnChanges 
         // Build charging profile
         const chargingProfile = this.buildChargingProfile();
         this.spinnerService.show();
-        this.centralServerService.updateChargingProfile(chargingProfile).subscribe((response) => {
+        let restRequest: (chargingProfile) => Observable<ActionResponse>;
+        if (chargingProfile.id) {
+          // Charging profile already exists : update it
+          restRequest = this.centralServerService.updateChargingProfile.bind(this.centralServerService);
+        } else {
+          // Charging profile doesn't exists : create it
+          restRequest = this.centralServerService.createChargingProfile.bind(this.centralServerService);
+        }
+        restRequest(chargingProfile).subscribe((response) => {
           this.spinnerService.hide();
           if (response.status === RestResponse.SUCCESS) {
             // Push new profile in array
@@ -395,7 +405,7 @@ export class ChargingPlansComponent implements OnInit, AfterViewInit, OnChanges 
     // Set power unit
     chargingProfile.profile.chargingSchedule.chargingRateUnit = ChargingRateUnitType.AMPERE;
     // Build schedule
-    if (this.scheduleEditableTableDataSource.data.length > 0) {
+    if (!Utils.isEmptyArray(this.scheduleEditableTableDataSource.data)) {
       // Set start date
       const startOfSchedule = new Date(this.scheduleEditableTableDataSource.data[0].startDate);
       chargingProfile.profile.chargingSchedule.startSchedule = startOfSchedule;

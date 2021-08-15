@@ -16,8 +16,8 @@ export class AssetConsumptionChartDetailComponent extends CellContentTemplateDir
   public assetType!: AssetType;
 
   public ngOnInit(): void {
-      this.assetID = this.row.id as string;
-      this.assetType = this.row.assetType;
+    this.assetID = this.row.id as string;
+    this.assetType = this.row.assetType;
   }
 
   public ngOnChanges(changes: SimpleChanges): void {

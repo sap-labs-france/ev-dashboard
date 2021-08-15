@@ -1,6 +1,13 @@
 <h2 class="dialog-title" mat-dialog-title>{{title | translate}}</h2>
 <mat-dialog-content>
-  <div class="row" *ngIf="isAdmin">
+  <div class="row" *ngIf="formGroup.errors">
+    <div class="col-md-12">
+      <mat-error class="mat-start-transaction-error">
+        {{errorMessage}}
+      </mat-error>
+    </div>
+  </div>
+  <div class="row" *ngIf="canListUsers">
     <div class="col-md-12">
       <div class="form-group">
         <mat-form-field>
@@ -30,7 +37,7 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-12">
       <div class="form-group">
         <mat-form-field>
           <input matInput type="text" readonly=true placeholder="{{'tags.title' | translate}}" class="form-field-popup"
@@ -41,8 +48,11 @@
           <mat-error *ngIf="tag.errors?.required">
             {{"general.mandatory_field" | translate}}
           </mat-error>
+          <mat-error *ngIf="tag.errors?.inactive">
+            {{"tags.not_active" | translate}}
+          </mat-error>
         </mat-form-field>
-      </div>
+    </div>
     </div>
   </div>
   <div class="clearfix"></div>

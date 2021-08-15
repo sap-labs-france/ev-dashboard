@@ -16,12 +16,16 @@ export class SiteAreaAssetsDialogComponent {
     public siteAreaAssetsDataSource: SiteAreaAssetsDataSource,
     private dialogRef: MatDialogRef<SiteAreaAssetsDialogComponent>,
     private translateService: TranslateService,
-    @Inject(MAT_DIALOG_DATA) data) {
+    @Inject(MAT_DIALOG_DATA) dialogParams) {
     // default title
     this.dialogTitle = this.translateService.instant('assets.titles');
-    if (data) {
-      this.siteAreaAssetsDataSource.setSiteArea(data);
-      this.dialogTitle = this.translateService.instant('site_areas.assigned_assets_to_site_area', { siteAreaName: data.name });
+    if (dialogParams) {
+      this.siteAreaAssetsDataSource.setMode(
+        Utils.getTableDataSourceModeFromDialogMode(dialogParams.dialogMode));
+      this.siteAreaAssetsDataSource.setSiteArea(dialogParams.dialogData);
+      this.dialogTitle = this.translateService.instant(
+        'site_areas.assigned_assets_to_site_area', { siteAreaName: dialogParams.dialogData.name });
+      this.siteAreaAssetsDataSource.initDataSource(true);
     }
     Utils.registerCloseKeyEvents(this.dialogRef);
   }

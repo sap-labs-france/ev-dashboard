@@ -1,13 +1,15 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
+import { DialogMode, DialogParams } from 'types/Authorization';
 
 import { SiteArea, SiteAreaButtonAction } from '../../../../types/SiteArea';
 import { TableActionDef } from '../../../../types/Table';
 import { TableAssignAction } from '../table-assign-action';
 
 export interface TableAssignChargingStationsToSiteAreaActionDef extends TableActionDef {
-  action: (siteAreaChargingStationsDialogComponent: ComponentType<unknown>, siteArea: SiteArea, dialog: MatDialog, refresh?: () => Observable<void>) => void;
+  action: (siteAreaChargingStationsDialogComponent: ComponentType<unknown>, dialog: MatDialog,
+    dialogParams: DialogParams<SiteArea>, refresh?: () => Observable<void>) => void;
 }
 
 export class TableAssignChargingStationsToSiteAreaAction extends TableAssignAction {
@@ -22,8 +24,8 @@ export class TableAssignChargingStationsToSiteAreaAction extends TableAssignActi
     };
   }
 
-  private assignChargingStationsToSiteArea(siteAreaChargingStationsDialogComponent: ComponentType<unknown>, siteArea: SiteArea,
-      dialog: MatDialog, refresh?: () => Observable<void>) {
-    super.assign(siteAreaChargingStationsDialogComponent, siteArea, dialog, refresh);
+  private assignChargingStationsToSiteArea(siteAreaChargingStationsDialogComponent: ComponentType<unknown>, dialog: MatDialog,
+    dialogParams: DialogParams<SiteArea>, refresh?: () => Observable<void>) {
+    super.assign(siteAreaChargingStationsDialogComponent, dialog, dialogParams, DialogMode.EDIT, refresh);
   }
 }

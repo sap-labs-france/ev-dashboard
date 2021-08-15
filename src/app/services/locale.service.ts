@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject } from 'rxjs';
-import { Utils } from 'utils/Utils';
+import { Constants } from 'utils/Constants';
 
 import { KeyValue } from '../types/GlobalType';
 import { UserToken } from '../types/User';
+import { Utils } from '../utils/Utils';
 import { CentralServerService } from './central-server.service';
 import { ConfigService } from './config.service';
 
@@ -34,17 +35,10 @@ export class LocaleService {
   }
 
   public getLocales(): KeyValue[] {
-    const locales: KeyValue[] = [];
-    // en, fr...
-    const configLocales = this.configService.getLocales();
-    // Return
-    configLocales.fullSupported.forEach((localeFull: string) => {
-      locales.push({
-        key: localeFull,
-        value: this.getLocaleDescription(localeFull),
-      });
-    });
-    return locales;
+    return Constants.SUPPORTED_LOCALES.map( aLocale => ({
+      key: aLocale,
+      value: this.getLocaleDescription(aLocale)
+    }));
   }
 
   public getLocaleByKey(localeKey: string): KeyValue {
@@ -116,13 +110,13 @@ export class LocaleService {
       case 'fr':
         return 'fr_FR';
       case 'es':
-        return 'es_MX';
+        return 'es_ES';
       case 'de':
         return 'de_DE';
       case 'pt':
-        return 'pt-PT';
+        return 'pt_PT';
       case 'it':
-        return 'it-IT';
+        return 'it_IT';
       case 'en':
       default:
         return 'en_US';
@@ -134,7 +128,7 @@ export class LocaleService {
       case 'fr':
         return 'fr-FR';
       case 'es':
-        return 'es-MX';
+        return 'es-ES';
       case 'de':
         return 'de-DE';
       case 'pt':
@@ -153,16 +147,16 @@ export class LocaleService {
         return this.translateService.instant('users.locale_desc_english');
       case 'fr_FR':
         return this.translateService.instant('users.locale_desc_french');
-      case 'es_MX':
+      case 'es_ES':
         return this.translateService.instant('users.locale_desc_spanish');
       case 'de_DE':
         return this.translateService.instant('users.locale_desc_german');
       case 'pt_PT':
-      return this.translateService.instant('users.locale_desc_portuguese');
+        return this.translateService.instant('users.locale_desc_portuguese');
       case 'it_IT':
-      return this.translateService.instant('users.locale_desc_italian');
+        return this.translateService.instant('users.locale_desc_italian');
       default:
-        return '';
+        return this.translateService.instant('users.locale_invalid');
     }
   }
 }

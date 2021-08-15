@@ -43,11 +43,12 @@ export class TableChargingStationsStopTransactionAction implements TableAction {
     // Get the charging station
     centralServerService.getChargingStation(transaction.chargeBoxID).subscribe((chargingStation) => {
       const connector = Utils.getConnectorFromID(chargingStation, transaction.connectorId);
-      const isStopAuthorized = !!connector?.currentTransactionID && authorizationService.canStopTransaction(chargingStation.siteArea, connector.currentTagID);
+      const isStopAuthorized = authorizationService.canStopTransaction(chargingStation.siteArea, connector.currentTagID);
       if (!isStopAuthorized) {
         dialogService.createAndShowOkDialog(
           translateService.instant('chargers.action_error.transaction_stop_title'),
           translateService.instant('chargers.action_error.transaction_stop_not_authorized'));
+        return;
       }
       // Check authorization
       dialogService.createAndShowYesNoDialog(
@@ -78,8 +79,8 @@ export class TableChargingStationsStopTransactionAction implements TableAction {
               });
           } else {
             // Soft Stop
-            centralServerService.softStopTransaction(transaction.id).subscribe((response: ActionResponse) => {
-              if (response.status === 'Invalid') {
+            centralServerService.softStopTransaction(transaction.id).subscribe((res: ActionResponse) => {
+              if (res.status === 'Invalid') {
                 messageService.showErrorMessage(
                   translateService.instant('transactions.notification.soft_stop.error'));
               } else {

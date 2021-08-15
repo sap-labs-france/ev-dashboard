@@ -141,16 +141,15 @@ export class AuthenticationRegisterComponent implements OnInit, OnDestroy {
         return;
       }
       if (this.formGroup.valid) {
-        // Show
+        this.updateUserPassword(user);
         this.spinnerService.show();
-        // Create
         this.centralServerService.registerUser(user).subscribe((response) => {
           // Hide
           this.spinnerService.hide();
           // Ok?
           if (response.status && response.status === RestResponse.SUCCESS) {
             // Show success
-            if (this.subDomain === '') {
+            if (Utils.isEmptyString(this.subDomain)) {
               // Super User in Master Tenant
               this.messageService.showSuccessMessage(this.messages['register_super_user_success']);
             } else {
@@ -184,5 +183,12 @@ export class AuthenticationRegisterComponent implements OnInit, OnDestroy {
         });
       }
     });
+  }
+
+  private updateUserPassword(user: User) {
+    if (user['passwords'] && user['passwords']['password']) {
+      user['password'] = user['passwords']['password'];
+      delete user['passwords'];
+    }
   }
 }

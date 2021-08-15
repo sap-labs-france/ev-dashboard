@@ -30,7 +30,7 @@
                                 [maxLength]="maxSize" name="..." (change)="imageChanged($event)" accept="image/jpg,image/jpeg,image/png,image/gif">
                             </div>
                           </button>
-                          <button mat-flat-button color="warn">
+                          <button mat-flat-button color="warn" *ngIf="userImageSet">
                             <mat-icon (click)="clearImage()">delete</mat-icon>
                           </button>
                         </div>
@@ -47,6 +47,9 @@
                     <mat-error *ngIf="name.errors?.required">
                       {{"general.mandatory_field" | translate}}
                     </mat-error>
+                    <mat-error *ngIf="name.errors?.maxlength">
+                      <div [translateParams]="{length: name.errors?.maxlength?.requiredLength}" [translate]="'general.error_max_length'"></div>
+                    </mat-error>
                   </mat-form-field>
                 </div>
                 <div class="form-group">
@@ -54,7 +57,10 @@
                     <input [formControl]="firstName" matInput
                       placeholder="{{'users.first_name' | translate}}" required type="text">
                     <mat-error *ngIf="firstName.errors?.required">
-                      {{"general.mandatory_field" | translate}}
+                      {{ "general.mandatory_field" | translate }}
+                    </mat-error>
+                    <mat-error *ngIf="name.errors?.maxlength">
+                      <div [translateParams]="{length: name.errors?.maxlength?.requiredLength}" [translate]="'general.error_max_length'"></div>
                     </mat-error>
                   </mat-form-field>
                 </div>
@@ -280,12 +286,6 @@
                   <div class="row ml-1">
                     <div class="col-sm-12">
                       <mat-checkbox [disabled]="!notificationsActive.value"
-                        [formControl]="sendSmtpAuthError">{{"notifications.smtp_auth_error" | translate}}</mat-checkbox>
-                    </div>
-                  </div>
-                  <div class="row ml-1">
-                    <div class="col-sm-12">
-                      <mat-checkbox [disabled]="!notificationsActive.value"
                         [formControl]="sendSmtpError">{{"notifications.smtp_error" | translate}}</mat-checkbox>
                     </div>
                   </div>
@@ -293,6 +293,12 @@
                     <div class="col-sm-12">
                       <mat-checkbox [disabled]="!notificationsActive.value"
                         [formControl]="sendBillingSynchronizationFailed">{{"notifications.billing_synchronization_failed" | translate}}</mat-checkbox>
+                    </div>
+                  </div>
+                  <div class="row ml-1">
+                    <div class="col-sm-12">
+                      <mat-checkbox [disabled]="!notificationsActive.value"
+                        [formControl]="sendBillingPeriodicOperationFailed">{{"notifications.billing_periodic_operation_failed" | translate}}</mat-checkbox>
                     </div>
                   </div>
                   <div class="row ml-1">
@@ -324,7 +330,7 @@
             <span>{{'general.address' | translate}}</span>
           </ng-template>
           <div class="card-body tab-dialog-min-content">
-            <app-address [address]="address" [formGroup]="formGroup" [hideGeoLocation]="true"></app-address>
+            <app-address [address]="address" [formGroup]="formGroup" [hideGeolocation]="true"></app-address>
           </div>
         </mat-tab>
         <mat-tab>
@@ -412,7 +418,39 @@
                   </div>
                 </div>
               </div>
-              <div *ngIf="!refundSetting" class="mx-auto my-3">
+              <div *ngIf="mercedesConnectionSetting" class="col-md-6 col-xl-4">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="d-flex flex-row align-items-center">
+                      <img src="/assets/img/integrations/mercedes-logo.png"
+                        class="card-logo img-thumbnail mr-3"/>
+                      <h2 class="card-title">{{'settings.car_connector.types.mercedes' | translate}}</h2>
+                    </div>
+                  </div>
+                  <div class="card-footer">
+                    <div *ngIf="isMercedesUserConnectionValid"
+                         class="d-flex flex-row align-items-center justify-content-between">
+                      <div class="d-flex flex-column align-items-start">
+                        <span>{{'users.connectors.created_on' | translate}} {{ mercedesUserConnection.createdAt | appDate}}</span>
+                        <span>{{'users.connectors.expired_on' | translate}} {{ mercedesUserConnection.validUntil | appDate}}</span>
+                      </div>
+                      <button mat-raised-button color="warn" (click)="revokeMercedesAccount()">
+                        <mat-icon>delete</mat-icon>
+                        <span>{{'users.connectors.revoke' | translate}}</span>
+                      </button>
+                    </div>
+                    <div *ngIf="!isMercedesUserConnectionValid"
+                        class="d-flex flex-row align-items-center justify-content-between">
+                      <span>{{'users.connectors.not_connected' | translate}} </span>
+                      <button mat-raised-button color="primary" (click)="linkMercedesAccount()">
+                        <mat-icon>launch</mat-icon>
+                        <span>{{'users.connectors.connect' | translate}}</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="!refundSetting && !mercedesConnectionSetting" class="mx-auto my-3">
                 <p class="table-no-record-found">{{'general.no_connector_available' | translate}}</p>
               </div>
             </div>
@@ -446,6 +484,13 @@
               </div>
             </div>
           </div>
+        </mat-tab>
+        <mat-tab *ngIf="isBillingComponentActive && canListPaymentMethods && (dialogMode !== 'C')">
+          <ng-template mat-tab-label>
+            <mat-icon>payment</mat-icon>
+            <span>{{'users.tabs.billing' | translate}}</span>
+          </ng-template>
+          <app-payment-methods [currentUserID]=currentUserID></app-payment-methods>
         </mat-tab>
       </mat-tab-group>
       <div [class]="inDialog ? 'tabs-actions' : 'tabs-actions-embedded'">

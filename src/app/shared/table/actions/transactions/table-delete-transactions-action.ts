@@ -27,8 +27,8 @@ export class TableDeleteTransactionsAction extends TableDeleteManyAction {
   }
 
   private deleteTransactions(transactions: Transaction[], dialogService: DialogService, translateService: TranslateService,
-      messageService: MessageService, centralServerService: CentralServerService, spinnerService: SpinnerService,
-      router: Router, clearSelectedRows: () => void, refresh?: () => Observable<void>) {
+    messageService: MessageService, centralServerService: CentralServerService, spinnerService: SpinnerService,
+    router: Router, clearSelectedRows: () => void, refresh?: () => Observable<void>) {
     // Empty?
     if (transactions.length === 0) {
       messageService.showErrorMessage(translateService.instant('general.select_at_least_one_record'));
@@ -46,9 +46,10 @@ export class TableDeleteTransactionsAction extends TableDeleteManyAction {
       }
     }
     // Delete them
-    super.deleteMany(transactions, 'transactions.delete_transactions_title',
-      'transactions.delete_transactions_confirm', 'transactions.delete_transactions_success', 'transactions.delete_transactions_partial',
-      'transactions.delete_transactions_error', centralServerService.deleteTransactions.bind(centralServerService),
+    super.deleteMany(transactions, 'transactions.delete_transactions_title', 'transactions.delete_transactions_confirm',
+      'transactions.delete_transactions_success', 'transactions.delete_transactions_partial',
+      'transactions.delete_transactions_error', 'transactions.delete_no_transaction', 'transactions.delete_transactions_unexpected_error',
+      centralServerService.deleteTransactions.bind(centralServerService),
       dialogService, translateService, messageService, centralServerService, spinnerService, router,
       clearSelectedRows, refresh);
   }

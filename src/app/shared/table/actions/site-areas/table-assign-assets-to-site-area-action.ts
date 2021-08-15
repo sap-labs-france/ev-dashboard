@@ -1,13 +1,14 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
+import { DialogMode, DialogParams } from 'types/Authorization';
 
 import { SiteArea, SiteAreaButtonAction } from '../../../../types/SiteArea';
 import { TableActionDef } from '../../../../types/Table';
 import { TableAssignAction } from '../table-assign-action';
 
 export interface TableAssignAssetsToSiteAreaActionDef extends TableActionDef {
-  action: (siteAreaAssetsDialogComponent: ComponentType<unknown>, siteArea: SiteArea, dialog: MatDialog,
+  action: (siteAreaAssetsDialogComponent: ComponentType<unknown>, siteArea: DialogParams<SiteArea>, dialog: MatDialog,
     refresh?: () => Observable<void>) => void;
 }
 
@@ -23,8 +24,8 @@ export class TableAssignAssetsToSiteAreaAction extends TableAssignAction {
     };
   }
 
-  private assignAssetsToSiteArea(siteAreaAssetsDialogComponent: ComponentType<unknown>, siteArea: SiteArea,
-      dialog: MatDialog, refresh?: () => Observable<void>) {
-    super.assign(siteAreaAssetsDialogComponent, siteArea, dialog, refresh);
+  private assignAssetsToSiteArea(siteAreaAssetsDialogComponent: ComponentType<unknown>, siteArea: DialogParams<SiteArea>,
+    dialog: MatDialog, refresh?: () => Observable<void>) {
+    super.assign(siteAreaAssetsDialogComponent, dialog, siteArea, DialogMode.EDIT, refresh);
   }
 }

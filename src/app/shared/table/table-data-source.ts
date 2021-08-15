@@ -8,12 +8,12 @@ import { SpinnerService } from '../../services/spinner.service';
 import ChangeNotification from '../../types/ChangeNotification';
 import { DataResult, Ordering, Paging } from '../../types/DataResult';
 import { FilterParams } from '../../types/GlobalType';
-import { Data, DropdownItem, FilterType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../types/Table';
+import { DropdownItem, FilterType, TableActionDef, TableColumnDef, TableData, TableDataSourceMode, TableDef, TableFilterDef } from '../../types/Table';
 import { Constants } from '../../utils/Constants';
 import { Utils } from '../../utils/Utils';
 import { TableResetFiltersAction } from './actions/table-reset-filters-action';
 
-export abstract class TableDataSource<T extends Data> {
+export abstract class TableDataSource<T extends TableData> {
   public tableDef!: TableDef;
   public tableColumnsDef!: TableColumnDef[];
   public tableFiltersDef!: TableFilterDef[];
@@ -21,6 +21,7 @@ export abstract class TableDataSource<T extends Data> {
   public tableActionsRightDef!: TableActionDef[];
   public tableRowActionsDef!: TableActionDef[];
   public firstLoad = false;
+  public tableDataSourceMode!: TableDataSourceMode;
 
   public data: T[] = [];
   public formArray?: FormArray;
@@ -46,6 +47,7 @@ export abstract class TableDataSource<T extends Data> {
   private searchValue = '';
   private staticFilters: Record<string, unknown>[] = [];
 
+  // eslint-disable-next-line no-useless-constructor
   public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
@@ -70,6 +72,14 @@ export abstract class TableDataSource<T extends Data> {
 
   public isEditable(): boolean {
     return this.tableDef && this.tableDef.isEditable;
+  }
+
+  public getMode(): TableDataSourceMode {
+    return this.tableDataSourceMode;
+  }
+
+  public setMode(tableDataSourceMode: TableDataSourceMode) {
+    this.tableDataSourceMode = tableDataSourceMode;
   }
 
   public setMultipleRowSelection(multipleRowSelection: boolean) {
@@ -221,7 +231,7 @@ export abstract class TableDataSource<T extends Data> {
 
   public buildTableActionsDef(): TableActionDef[] {
     // Default
-    if (this.tableFiltersDef && this.tableFiltersDef.length > 0) {
+    if (!Utils.isEmptyArray(this.tableFiltersDef)) {
       return [
         new TableResetFiltersAction().getActionDef(),
       ];
@@ -269,7 +279,7 @@ export abstract class TableDataSource<T extends Data> {
     if (filter.multiple) {
       if (Array.isArray(filter.currentValue)) {
         if (filter.currentValue.length > 0) {
-          if (filter.currentValue[0].value === '') {
+          if (Utils.isEmptyString(filter.currentValue[0].value)) {
             filter.label = '';
           } else {
             filter.label = this.translateService.instant(filter.currentValue[0].value ?
@@ -300,7 +310,9 @@ export abstract class TableDataSource<T extends Data> {
             }
             break;
           case 'date':
-            filterDef.reset && filterDef.reset();
+            if (Utils.objectHasProperty(filterDef, 'reset')) {
+              filterDef.reset();
+            };
             break;
         }
         this.updateFilterLabel(filterDef);
@@ -348,19 +360,21 @@ export abstract class TableDataSource<T extends Data> {
                 if (!Utils.isEmptyArray(dependentFilter.currentValue)) {
                   if (dependentFilter.multiple) {
                     if (dependentFilter.type === FilterType.DROPDOWN &&
-                        dependentFilter.currentValue.length === dependentFilter.items.length &&
-                        dependentFilter.exhaustive) {
+                      dependentFilter.currentValue.length === dependentFilter.items.length &&
+                      dependentFilter.exhaustive) {
                       continue;
                     }
-                    filterDef.dialogComponentData.staticFilter[dependentFilter.httpId] = dependentFilter.currentValue.map((obj) => obj.key).join('|');
+                    filterDef.dialogComponentData.staticFilter[dependentFilter.httpId] =
+                      dependentFilter.currentValue.map((obj) => obj.key).join('|');
                   } else {
-                    filterDef.dialogComponentData.staticFilter[dependentFilter.httpId] = dependentFilter.currentValue[0].key;
+                    filterDef.dialogComponentData.staticFilter[dependentFilter.httpId] =
+                      dependentFilter.currentValue[0].key;
                   }
                 }
               }
             }
             if (!filterDef.multiple) {
-              if (filterDef.currentValue.length > 0) {
+              if (!Utils.isEmptyArray(filterDef.currentValue)) {
                 if (filterDef.currentValue[0].key !== FilterType.ALL_KEY) {
                   if (filterDef.currentValue.length > 1) {
                     // Handle multiple key selection as a JSON array
@@ -374,15 +388,16 @@ export abstract class TableDataSource<T extends Data> {
                   }
                 }
               }
-              // Dialog with multiple selections
+            // Dialog with multiple selections
             } else {
-              if (filterDef.currentValue.length > 0) {
+              if (!Utils.isEmptyArray(filterDef.currentValue)) {
                 filterJson[filterDef.httpId] = filterDef.currentValue.map((obj) => obj.key).join('|');
               }
             }
-            // Dropdown with multiple selections
+          // Dropdown with multiple selections
           } else if (filterDef.type === FilterType.DROPDOWN && filterDef.multiple) {
-            if (filterDef.currentValue.length > 0 && (filterDef.currentValue.length < filterDef.items.length || !filterDef.exhaustive)) {
+            if (!Utils.isEmptyArray(filterDef.currentValue) &&
+                (filterDef.currentValue.length < filterDef.items.length || !filterDef.exhaustive)) {
               filterJson[filterDef.httpId] = filterDef.currentValue.map((obj) => obj.key).join('|');
             }
             // Others
@@ -398,7 +413,7 @@ export abstract class TableDataSource<T extends Data> {
       filterJson['Search'] = searchValue;
     }
     // Static filters
-    if (this.staticFilters && this.staticFilters.length > 0) {
+    if (!Utils.isEmptyArray(this.staticFilters)) {
       filterJson = Object.assign(filterJson, ...this.staticFilters);
     }
     return filterJson;
@@ -444,6 +459,25 @@ export abstract class TableDataSource<T extends Data> {
       this.loadDataImpl().pipe(first()).subscribe((data) => {
         // Set nbr of records
         this.setTotalNumberOfRecords(data.count);
+        // Display only projected fields
+        if (!Utils.isEmptyArray(data.projectedFields)) {
+          // Format createdBy/lastChangeBy properties Ids
+          data.projectedFields = data.projectedFields.map(projectedField => {
+            if (projectedField.split('.')[0] === 'createdBy' || projectedField.split('.')[0] === 'lastChangedBy') {
+              return projectedField.split('.')[0];
+            } else {
+              return projectedField;
+            }
+          });
+          for (const tableColumnDef of this.tableColumnsDef) {
+            tableColumnDef.visible = data.projectedFields.includes(tableColumnDef.id);
+          }
+          // No projected fields, display all
+        } else {
+          for (const tableColumnDef of this.tableColumnsDef) {
+            tableColumnDef.visible = true;
+          }
+        }
         // Build stats
         this.tableFooterStats = this.buildTableFooterStats(data);
         // Ok
@@ -479,7 +513,7 @@ export abstract class TableDataSource<T extends Data> {
     return this.data;
   }
 
-  public destroyDatasource() {
+  public destroyDataSource() {
     this.clearData();
     this.resetTotalNumberOfRecords();
     this.clearPaging();
@@ -520,7 +554,7 @@ export abstract class TableDataSource<T extends Data> {
     this.setStaticFilters(staticFilters);
   }
 
-  public buildTableDynamicRowActions(row: T): TableActionDef[] {
+  public buildTableDynamicRowActions(row?: T): TableActionDef[] {
     return [];
   }
 
@@ -532,7 +566,7 @@ export abstract class TableDataSource<T extends Data> {
     return true;
   }
 
-  protected initDataSource(force: boolean = false): void {
+  public initDataSource(force: boolean = false): void {
     // Init data from sub-classes
     this.initTableColumnDefs(force);
     this.initTableDef(force);
@@ -540,10 +574,8 @@ export abstract class TableDataSource<T extends Data> {
     this.initTableActionsDef(force);
     this.initTableActionsRightDef(force);
     this.initTableRowActions(force);
-
-    this.hasActions = (this.tableActionsDef && this.tableActionsDef.length > 0) ||
-      (this.tableActionsRightDef && this.tableActionsRightDef.length > 0);
-    this.hasFilters = (this.tableFiltersDef && this.tableFiltersDef.length > 0);
+    this.hasActions = !Utils.isEmptyArray(this.tableActionsDef) || !Utils.isEmptyArray(this.tableActionsRightDef);
+    this.hasFilters = !Utils.isEmptyArray(this.tableFiltersDef);
     this.isSearchEnabled = !!this.tableDef && !!this.tableDef.search && this.tableDef.search.enabled;
     this.isFooterEnabled = !!this.tableDef && !!this.tableDef.footer && this.tableDef.footer.enabled;
     this.hasRowActions = (!!this.tableRowActionsDef && this.tableRowActionsDef.length > 0) ||
@@ -665,7 +697,7 @@ export abstract class TableDataSource<T extends Data> {
       // Check dynamic row actions
       if (this.tableDef.hasDynamicRowAction) {
         const dynamicRowActions = this.buildTableDynamicRowActions(freshRow);
-        if (dynamicRowActions.length > 0) {
+        if (!Utils.isEmptyArray(dynamicRowActions)) {
           freshRow['dynamicRowActions'] = dynamicRowActions;
         }
       }

@@ -74,7 +74,7 @@ export class ComponentService {
   }
 
   public savePricingSettings(settings: PricingSettings): Observable<ActionResponse> {
-    // build setting payload
+    // Build setting payload
     const settingsToSave = {
       id: settings.id,
       identifier: TenantComponents.PRICING,
@@ -97,25 +97,8 @@ export class ComponentService {
     if (!settings.type) {
       settings.type = BillingSettingsType.STRIPE;
     }
-     // build setting payload
-    const settingsToSave = {
-      id: settings.id,
-      identifier: TenantComponents.BILLING,
-      sensitiveData: [],
-      content: Utils.cloneObject(settings),
-    };
-    if (settings.type === BillingSettingsType.STRIPE) {
-      settingsToSave.sensitiveData = ['content.stripe.secretKey'];
-    }
-    // Set some temporary defaults
-    settingsToSave.content.stripe.noCardAllowed = true;
-    settingsToSave.content.stripe.advanceBillingAllowed = false;
-    // Delete IDS
-    delete settingsToSave.content.id;
-    delete settingsToSave.content.identifier;
-    delete settingsToSave.content.sensitiveData;
     // Save
-    return this.centralServerService.updateSetting(settingsToSave);
+    return this.centralServerService.updateBillingSettings(settings);
   }
 
   public saveRefundSettings(settings: RefundSettings): Observable<ActionResponse> {
@@ -123,7 +106,7 @@ export class ComponentService {
     if (!settings.type) {
       settings.type = RefundSettingsType.CONCUR;
     }
-    // build setting payload
+    // Build setting payload
     const settingsToSave = {
       id: settings.id,
       identifier: TenantComponents.REFUND,
@@ -142,7 +125,7 @@ export class ComponentService {
   }
 
   public saveOcpiSettings(settings: RoamingSettings): Observable<ActionResponse> {
-    // build setting payload
+    // Build setting payload
     const settingsToSave = {
       id: settings.id,
       identifier: TenantComponents.OCPI,
@@ -158,7 +141,7 @@ export class ComponentService {
   }
 
   public saveOicpSettings(settings: RoamingSettings): Observable<ActionResponse> {
-    // build setting payload
+    // Build setting payload
     const settingsToSave = {
       id: settings.id,
       identifier: TenantComponents.OICP,
@@ -178,7 +161,7 @@ export class ComponentService {
     if (!settings.type) {
       settings.type = AssetSettingsType.ASSET;
     }
-    // build setting payload
+    // Build setting payload
     const settingsToSave = {
       id: settings.id,
       identifier: TenantComponents.ASSET,
@@ -192,6 +175,16 @@ export class ComponentService {
           break;
         case AssetConnectionType.GREENCOM:
           settingsToSave.sensitiveData.push(`content.asset.connections[${index}].greencomConnection.clientSecret`);
+          break;
+        case AssetConnectionType.IOTHINK:
+          settingsToSave.sensitiveData.push(`content.asset.connections[${index}].iothinkConnection.password`);
+          break;
+        case AssetConnectionType.WIT:
+          settingsToSave.sensitiveData.push(`content.asset.connections[${index}].witConnection.password`);
+          settingsToSave.sensitiveData.push(`content.asset.connections[${index}].witConnection.clientSecret`);
+          break;
+        case AssetConnectionType.LACROIX:
+          settingsToSave.sensitiveData.push(`content.asset.connections[${index}].lacroixConnection.password`);
           break;
       }
 
@@ -209,7 +202,7 @@ export class ComponentService {
     if (!settings.type) {
       settings.type = CarConnectorSettingsType.CAR_CONNECTOR;
     }
-    // build setting payload
+    // Build setting payload
     const settingsToSave = {
       id: settings.id,
       identifier: TenantComponents.CAR_CONNECTOR,
@@ -219,7 +212,7 @@ export class ComponentService {
     settingsToSave.content.carConnector.connections.forEach((settingConnection, index) => {
       switch (settingConnection.type) {
         case CarConnectorConnectionType.MERCEDES:
-          settingsToSave.sensitiveData.push(`content.carConnectors.connections[${index}].mercedesConnection.clientSecret`);
+          settingsToSave.sensitiveData.push(`content.carConnector.connections[${index}].mercedesConnection.clientSecret`);
           break;
       }
 
@@ -233,7 +226,7 @@ export class ComponentService {
   }
 
   public saveSacSettings(settings: AnalyticsSettings): Observable<ActionResponse> {
-    // build setting payload
+    // Build setting payload
     const settingsToSave = {
       id: settings.id,
       identifier: TenantComponents.ANALYTICS,
@@ -249,7 +242,7 @@ export class ComponentService {
   }
 
   public saveSmartChargingSettings(settings: SmartChargingSettings): Observable<ActionResponse> {
-    // build setting payload
+    // Build setting payload
     const settingsToSave = {
       id: settings.id,
       identifier: TenantComponents.SMART_CHARGING,
@@ -267,24 +260,11 @@ export class ComponentService {
     return this.centralServerService.updateSetting(settingsToSave);
   }
 
+
   public getBillingSettings(): Observable<BillingSettings> {
     return new Observable((observer) => {
-      const billingSettings = {
-        identifier: TenantComponents.BILLING,
-      } as BillingSettings;
       // Get the Billing settings
-      this.centralServerService.getSetting(TenantComponents.BILLING).subscribe((settings) => {
-        if (settings) {
-          const config = settings.content;
-          // ID
-          billingSettings.id = settings.id;
-          billingSettings.sensitiveData = settings.sensitiveData;
-          // Stripe
-          if (config.stripe) {
-            billingSettings.type = BillingSettingsType.STRIPE;
-            billingSettings.stripe = config.stripe;
-          }
-        }
+      this.centralServerService.getBillingSettings().subscribe((billingSettings) => {
         observer.next(billingSettings);
         observer.complete();
       }, (error) => {
@@ -487,7 +467,7 @@ export class ComponentService {
   }
 
   public saveCryptoSettings(settings: CryptoSettings): Observable<ActionResponse> {
-    // build setting payload
+    // Build setting payload
     const settingsToSave = {
       id: settings.id,
       identifier: TechnicalSettings.CRYPTO,
@@ -506,7 +486,7 @@ export class ComponentService {
       // Get the user settings
       this.centralServerService.getSetting(TechnicalSettings.USER).subscribe((settings) => {
         let userSettings: UserSettings;
-          // Get the needed settings for update
+        // Get the needed settings for update
         if (settings) {
           userSettings = {
             id: settings.id,

@@ -28,36 +28,25 @@ export class TableForceSyncBillingUserAction extends TableSynchronizeAction {
   }
 
   private forceSynchronizeUser(user: User, dialogService: DialogService, translateService: TranslateService, spinnerService: SpinnerService,
-      messageService: MessageService, centralServerService: CentralServerService, router: Router, refresh?: () => Observable<void>) {
+    messageService: MessageService, centralServerService: CentralServerService, router: Router, refresh?: () => Observable<void>) {
     dialogService.createAndShowYesNoDialog(
-      translateService.instant('settings.billing.user.force_synchronize_user_dialog_title'),
-      translateService.instant('settings.billing.user.force_synchronize_user_dialog_confirm', { userFullName: Utils.buildUserFullName(user) }),
+      translateService.instant('settings.billing.user.synchronize_user_dialog_title'),
+      translateService.instant('settings.billing.user.synchronize_user_dialog_confirm', { userFullName: Utils.buildUserFullName(user) }),
     ).subscribe((response) => {
       if (response === ButtonType.YES) {
         spinnerService.show();
-        // Synchronize user
-        centralServerService.forceSynchronizeUserForBilling(user.id).subscribe((synchronizeUserResponse) => {
-          if (synchronizeUserResponse.status !== RestResponse.SUCCESS) {
-            spinnerService.hide();
-            messageService.showErrorMessage(
-              translateService.instant('settings.billing.user.force_synchronize_user_failure'));
+        centralServerService.forceSynchronizeUserForBilling(user.id).subscribe((synchronizeResponse) => {
+          spinnerService.hide();
+          if (synchronizeResponse.status === RestResponse.SUCCESS) {
+            if (refresh) {
+              refresh().subscribe();
+            }
+            messageService.showSuccessMessage(
+              translateService.instant('settings.billing.user.force_synchronize_user_success',
+                { userFullName: Utils.buildUserFullName(user) }));
           } else {
-            // Synchronize invoices after user synchronization
-            centralServerService.forceSynchronizeUserInvoicesForBilling(user.id).subscribe((synchronizeInvoicesResponse) => {
-              spinnerService.hide();
-              if (synchronizeInvoicesResponse.inSuccess >= 0 && synchronizeInvoicesResponse.inError === 0) {
-                messageService.showSuccessMessage(
-                  translateService.instant('settings.billing.user.force_synchronize_user_success',
-                  { userFullName: Utils.buildUserFullName(user) }));
-              } else {
-                messageService.showErrorMessage(
-                  translateService.instant('settings.billing.user.force_synchronize_user_failure'));
-              }
-            }, (error) => {
-              spinnerService.hide();
-              Utils.handleHttpError(error, router, messageService, centralServerService,
-                'settings.billing.invoice.synchronize_invoices_error');
-            });
+            Utils.handleError(JSON.stringify(synchronizeResponse), messageService,
+              'settings.billing.user.force_synchronize_user_failure');
           }
         }, (error) => {
           spinnerService.hide();

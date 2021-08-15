@@ -24,6 +24,21 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.85',
+        date: new Date('2021-08-13'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Show asset's consumption/production in the Site Area charts`,
+              `EVlink Smart Wallbox - new serial number added to the templates`,
+              `Wall Box Chargers - new firmware added to the templates`,
+              `Fixed: Domestic connector for OCPI`
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.84',
         date: new Date('2021-08-06'),
         componentChanges: [

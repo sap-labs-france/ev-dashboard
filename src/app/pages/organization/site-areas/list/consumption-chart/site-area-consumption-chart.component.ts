@@ -11,7 +11,7 @@ import { SpinnerService } from '../../../../../services/spinner.service';
 import { AppDatePipe } from '../../../../../shared/formatters/app-date.pipe';
 import { AppDecimalPipe } from '../../../../../shared/formatters/app-decimal-pipe';
 import { AppDurationPipe } from '../../../../../shared/formatters/app-duration.pipe';
-import { SiteAreaConsumption } from '../../../../../types/SiteArea';
+import { SiteAreaConsumption, SiteAreaValueTypes } from '../../../../../types/SiteArea';
 import { ConsumptionUnit } from '../../../../../types/Transaction';
 import { Utils } from '../../../../../utils/Utils';
 
@@ -25,6 +25,9 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
   @Input() public siteArea!: SiteAreaConsumption;
 
   @ViewChild('primary', { static: true }) public primaryElement!: ElementRef;
+  @ViewChild('secondary', { static: true }) public secondaryElement!: ElementRef;
+  @ViewChild('warning', { static: true }) public warningElement!: ElementRef;
+  @ViewChild('success', { static: true }) public successElement!: ElementRef;
   @ViewChild('danger', { static: true }) public dangerElement!: ElementRef;
   @ViewChild('chart', { static: true }) public chartElement!: ElementRef;
 
@@ -41,11 +44,20 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
   };
   private options!: ChartOptions;
   private chart!: Chart;
-  private instantPowerColor!: string;
+  private assetConsumptionsInstantPowerColor!: string;
+  private assetProductionsInstantPowerColor!: string;
+  private chargingStationsConsumptionsInstantPowerColor!: string;
+  private netInstantPowerColor!: string;
   private limitColor!: string;
   private defaultColor!: string;
+  private backgroundColor!: string;
   private language!: string;
-  private activeLegend = [{ key: this.translateService.instant('transactions.graph.amps') + this.translateService.instant('organization.graph.power'), hidden: false }];
+  private activeLegend = [
+    {
+      key: this.translateService.instant('organization.graph.net_consumption_amps') + this.translateService.instant('organization.graph.net_consumption_watts'),
+      hidden: false
+    }
+  ];
 
   public constructor(
     private spinnerService: SpinnerService,
@@ -72,16 +84,29 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
     this.dateControl.setValue(this.startDate);
     this.activeLegend.push(
       {
-        key: this.translateService.instant('transactions.graph.limit_amps') + this.translateService.instant('organization.graph.limit_watts'),
+        key: this.translateService.instant('organization.graph.limit_amps') + this.translateService.instant('organization.graph.limit_watts'),
+        hidden: this.canCrudSiteArea ? false : true
+      },{
+        key: this.translateService.instant('organization.graph.asset_consumption_amps') + this.translateService.instant('organization.graph.asset_consumption_watts'),
+        hidden: this.canCrudSiteArea ? false : true
+      },{
+        key: this.translateService.instant('organization.graph.asset_production_amps') + this.translateService.instant('organization.graph.asset_production_watts'),
+        hidden: this.canCrudSiteArea ? false : true
+      },{
+        key: this.translateService.instant('organization.graph.charging_station_consumption_amps') + this.translateService.instant('organization.graph.charging_station_consumption_watts'),
         hidden: this.canCrudSiteArea ? false : true
       },
     );
   }
 
   public ngAfterViewInit() {
-    this.instantPowerColor = this.getStyleColor(this.primaryElement.nativeElement);
+    this.netInstantPowerColor = this.getStyleColor(this.primaryElement.nativeElement);
+    this.assetProductionsInstantPowerColor = this.getStyleColor(this.successElement.nativeElement);
+    this.chargingStationsConsumptionsInstantPowerColor = this.getStyleColor(this.secondaryElement.nativeElement);
+    this.assetConsumptionsInstantPowerColor = this.getStyleColor(this.warningElement.nativeElement);
     this.limitColor = this.getStyleColor(this.dangerElement.nativeElement);
     this.defaultColor = this.getStyleColor(this.chartElement.nativeElement);
+    this.backgroundColor = Utils.toRgba('#FFFFFF', 1);
     if (this.canDisplayGraph()) {
       this.prepareOrUpdateGraph();
     } else {
@@ -93,9 +118,9 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
     this.spinnerService.show();
     // Change Date for testing e.g.:
     this.centralServerService.getSiteAreaConsumption(this.siteAreaId, this.startDate, this.endDate)
-      .subscribe((siteAreaConsumption) => {
+      .subscribe((siteAreaData) => {
         this.spinnerService.hide();
-        this.siteArea = siteAreaConsumption;
+        this.siteArea = siteAreaData;
         this.prepareOrUpdateGraph();
       }, (error) => {
         this.spinnerService.hide();
@@ -144,29 +169,73 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
   private createGraphData() {
     if (this.data.datasets && this.options?.scales?.yAxes) {
       const datasets: ChartDataSets[] = [];
-      // Instant Amps/Power
+      // Asset Consumption Instant Amps/Power
       datasets.push({
-        name: (this.selectedUnit === ConsumptionUnit.AMPERE) ? 'instantAmps' : 'instantWatts',
+        name: (this.selectedUnit === ConsumptionUnit.AMPERE) ?
+          SiteAreaValueTypes.ASSET_CONSUMPTION_AMPS :
+          SiteAreaValueTypes.ASSET_CONSUMPTION_WATTS,
         type: 'line',
-        hidden: this.activeLegend[this.activeLegend.findIndex((x => x.key.includes(this.translateService.instant('transactions.graph.amps'))))].hidden,
+        hidden: this.activeLegend[this.activeLegend.findIndex((x => x.key.includes(this.translateService.instant('organization.graph.asset_consumption_amps'))))].hidden,
         data: [],
         yAxisID: 'power',
         lineTension: this.lineTension,
-        ...Utils.formatLineColor(this.instantPowerColor),
+        ...Utils.formatLineColor(this.assetConsumptionsInstantPowerColor),
         label: this.translateService.instant((this.selectedUnit === ConsumptionUnit.AMPERE) ?
-          'transactions.graph.amps' : 'organization.graph.power'),
+          'organization.graph.asset_consumption_amps' : 'organization.graph.asset_consumption_watts'),
+      });
+      // Charging Stations Consumption Instant Amps/Power
+      datasets.push({
+        name: (this.selectedUnit === ConsumptionUnit.AMPERE) ?
+          SiteAreaValueTypes.CHARGING_STATION_CONSUMPTION_AMPS :
+          SiteAreaValueTypes.CHARGING_STATION_CONSUMPTION_WATTS,
+        type: 'line',
+        hidden: this.activeLegend[this.activeLegend.findIndex((x => x.key.includes(this.translateService.instant('organization.graph.charging_station_consumption_amps'))))].hidden,
+        data: [],
+        yAxisID: 'power',
+        lineTension: this.lineTension,
+        ...Utils.formatLineColor(this.chargingStationsConsumptionsInstantPowerColor),
+        label: this.translateService.instant((this.selectedUnit === ConsumptionUnit.AMPERE) ?
+          'organization.graph.charging_station_consumption_amps' : 'organization.graph.charging_station_consumption_watts'),
+      });
+      // Asset Production Instant Amps/Power
+      datasets.push({
+        name: (this.selectedUnit === ConsumptionUnit.AMPERE) ?
+          SiteAreaValueTypes.ASSET_PRODUCTION_AMPS :
+          SiteAreaValueTypes.ASSET_PRODUCTION_WATTS,
+        type: 'line',
+        hidden: this.activeLegend[this.activeLegend.findIndex((x => x.key.includes(this.translateService.instant('organization.graph.asset_production_amps'))))].hidden,
+        data: [],
+        yAxisID: 'power',
+        lineTension: this.lineTension,
+        ...Utils.formatLineColor(this.assetProductionsInstantPowerColor),
+        label: this.translateService.instant((this.selectedUnit === ConsumptionUnit.AMPERE) ?
+          'organization.graph.asset_production_amps' : 'organization.graph.asset_production_watts'),
+      });
+      // Net Instant Amps/Power
+      datasets.push({
+        name: (this.selectedUnit === ConsumptionUnit.AMPERE) ?
+          SiteAreaValueTypes.NET_CONSUMPTION_AMPS :
+          SiteAreaValueTypes.NET_CONSUMPTION_WATTS,
+        type: 'line',
+        hidden: this.activeLegend[this.activeLegend.findIndex((x => x.key.includes(this.translateService.instant('organization.graph.net_consumption_amps'))))].hidden,
+        data: [],
+        yAxisID: 'power',
+        lineTension: this.lineTension,
+        ...Utils.formatLineColor(this.netInstantPowerColor),
+        label: this.translateService.instant((this.selectedUnit === ConsumptionUnit.AMPERE) ?
+          'organization.graph.net_consumption_amps' : 'organization.graph.net_consumption_watts'),
       });
       // Limit Amps/Power
       datasets.push({
         name: (this.selectedUnit === ConsumptionUnit.AMPERE) ? 'limitAmps' : 'limitWatts',
         type: 'line',
-        hidden: this.activeLegend[this.activeLegend.findIndex((x => x.key.includes(this.translateService.instant('transactions.graph.limit_amps'))))].hidden,
+        hidden: this.activeLegend[this.activeLegend.findIndex((x => x.key.includes(this.translateService.instant('organization.graph.limit_amps'))))].hidden,
         data: [],
         yAxisID: 'power',
         lineTension: this.lineTension,
         ...Utils.formatLineColor(this.limitColor),
         label: this.translateService.instant((this.selectedUnit === ConsumptionUnit.AMPERE) ?
-          'transactions.graph.limit_amps' : 'organization.graph.limit_watts'),
+          'organization.graph.limit_amps' : 'organization.graph.limit_watts'),
       });
       this.options.scales.yAxes = [{
         id: 'power',
@@ -190,7 +259,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
   }
 
   private canDisplayGraph() {
-    return this.siteArea?.values?.length > 1;
+    return this.siteArea?.values?.length > 0;
   }
 
   private refreshDataSets() {
@@ -198,32 +267,49 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
       for (const key of Object.keys(this.data.datasets)) {
         this.data.datasets[key].data = [];
       }
-      const instantPowerDataSet = this.getDataSet('instantWatts');
-      const instantAmpsDataSet = this.getDataSet('instantAmps');
+      const labels: number[] = [];
+      const assetConsumptionsInstantPowerDataSet = this.getDataSet(SiteAreaValueTypes.ASSET_CONSUMPTION_WATTS);
+      const assetConsumptionsInstantAmpsDataSet = this.getDataSet(SiteAreaValueTypes.ASSET_CONSUMPTION_AMPS);
+      const assetProductionsInstantPowerDataSet = this.getDataSet(SiteAreaValueTypes.ASSET_PRODUCTION_WATTS);
+      const assetProductionsInstantAmpsDataSet = this.getDataSet(SiteAreaValueTypes.ASSET_PRODUCTION_AMPS);
+      const chargingStationsInstantPowerDataSet = this.getDataSet(SiteAreaValueTypes.CHARGING_STATION_CONSUMPTION_WATTS);
+      const chargingStationsInstantAmpsDataSet = this.getDataSet(SiteAreaValueTypes.CHARGING_STATION_CONSUMPTION_AMPS);
+      const netConsumptionsInstantPowerDataSet = this.getDataSet(SiteAreaValueTypes.NET_CONSUMPTION_WATTS);
+      const netConsumptionsInstantAmpsDataSet = this.getDataSet(SiteAreaValueTypes.NET_CONSUMPTION_AMPS);
       const limitWattsDataSet = this.getDataSet('limitWatts');
       const limitAmpsDataSet = this.getDataSet('limitAmps');
-      const labels: number[] = [];
       for (const consumption of this.siteArea.values) {
-        labels.push(new Date(consumption.startedAt).getTime());
-        if (instantPowerDataSet) {
-          instantPowerDataSet.push(consumption.instantWatts);
+        const dateTime = new Date(consumption.startedAt);
+        labels.push(dateTime.getTime());
+        if (assetConsumptionsInstantPowerDataSet) {
+          assetConsumptionsInstantPowerDataSet.push(consumption[SiteAreaValueTypes.ASSET_CONSUMPTION_WATTS]);
         }
-        if (instantAmpsDataSet) {
-          instantAmpsDataSet.push(consumption.instantAmps);
+        if (assetConsumptionsInstantAmpsDataSet) {
+          assetConsumptionsInstantAmpsDataSet.push(consumption[SiteAreaValueTypes.ASSET_CONSUMPTION_AMPS]);
+        }
+        if (assetProductionsInstantPowerDataSet) {
+          assetProductionsInstantPowerDataSet.push(consumption[SiteAreaValueTypes.ASSET_PRODUCTION_WATTS]);
+        }
+        if (assetProductionsInstantAmpsDataSet) {
+          assetProductionsInstantAmpsDataSet.push(consumption[SiteAreaValueTypes.ASSET_PRODUCTION_AMPS]);
+        }
+        if (chargingStationsInstantPowerDataSet) {
+          chargingStationsInstantPowerDataSet.push(consumption[SiteAreaValueTypes.CHARGING_STATION_CONSUMPTION_WATTS]);
+        }
+        if (chargingStationsInstantAmpsDataSet) {
+          chargingStationsInstantAmpsDataSet.push(consumption[SiteAreaValueTypes.CHARGING_STATION_CONSUMPTION_AMPS]);
+        }
+        if (netConsumptionsInstantPowerDataSet) {
+          netConsumptionsInstantPowerDataSet.push(consumption[SiteAreaValueTypes.NET_CONSUMPTION_WATTS]);
+        }
+        if (netConsumptionsInstantAmpsDataSet) {
+          netConsumptionsInstantAmpsDataSet.push(consumption[SiteAreaValueTypes.NET_CONSUMPTION_AMPS]);
         }
         if (limitWattsDataSet) {
-          if (consumption.limitWatts) {
-            limitWattsDataSet.push(consumption.limitWatts);
-          } else {
-            limitWattsDataSet.push(!Utils.isEmptyArray(limitWattsDataSet) ? limitWattsDataSet[limitWattsDataSet.length - 1] : 0);
-          }
+          limitWattsDataSet.push(consumption.limitWatts);
         }
         if (limitAmpsDataSet) {
-          if (consumption.limitAmps) {
-            limitAmpsDataSet.push(consumption.limitAmps);
-          } else {
-            limitAmpsDataSet.push(!Utils.isEmptyArray(limitAmpsDataSet) ? limitAmpsDataSet[limitAmpsDataSet.length - 1] : 0);
-          }
+          limitAmpsDataSet.push(consumption.limitAmps);
         }
       }
       this.data.labels = labels;
@@ -256,12 +342,11 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
         bodySpacing: 5,
         mode: 'index',
         position: 'nearest',
-        multiKeyBackground: Utils.toRgba(this.instantPowerColor, 0.7),
         intersect: false,
         callbacks: {
           labelColor: (tooltipItem: ChartTooltipItem, chart: Chart) => ({
             borderColor: 'rgba(0,0,0,0)',
-            backgroundColor: this.data.datasets && tooltipItem.datasetIndex ?
+            backgroundColor: this.data.datasets && tooltipItem.datasetIndex >= 0 ?
               this.data.datasets[tooltipItem.datasetIndex].borderColor as ChartColor : '',
           }),
           label: (tooltipItem: ChartTooltipItem, data: ChartData) => {
@@ -270,14 +355,26 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
               if (dataSet && dataSet.data && !Utils.isUndefined(tooltipItem.index)) {
                 const value = dataSet.data[tooltipItem.index] as number;
                 switch (this.data.datasets[tooltipItem.datasetIndex]['name']) {
-                  case 'instantWatts':
-                    return ' ' + this.decimalPipe.transform(value / 1000, '2.0-0') + 'kW';
-                  case 'instantAmps':
-                    return ' ' + this.decimalPipe.transform(value, '2.0-0') + 'A';
+                  case SiteAreaValueTypes.ASSET_CONSUMPTION_WATTS:
+                    return this.translateService.instant('organization.graph.asset_consumption_watts') + ': ' + this.decimalPipe.transform(value / 1000, '2.0-0') + 'kW';
+                  case SiteAreaValueTypes.ASSET_PRODUCTION_WATTS:
+                    return this.translateService.instant('organization.graph.asset_production_watts') + ': ' + this.decimalPipe.transform(value / 1000, '2.0-0') + 'kW';
+                  case SiteAreaValueTypes.CHARGING_STATION_CONSUMPTION_WATTS:
+                    return this.translateService.instant('organization.graph.charging_station_consumption_watts') + ': ' + this.decimalPipe.transform(value / 1000, '2.0-0') + 'kW';
+                  case SiteAreaValueTypes.NET_CONSUMPTION_WATTS:
+                    return this.translateService.instant('organization.graph.net_consumption_watts') + ': ' + this.decimalPipe.transform(value / 1000, '2.0-0') + 'kW';
                   case 'limitWatts':
-                    return ' ' + this.decimalPipe.transform(value / 1000, '2.0-0') + 'kW';
+                    return this.translateService.instant('organization.graph.limit_watts') + ': ' + this.decimalPipe.transform(value / 1000, '2.0-0') + 'kW';
+                  case SiteAreaValueTypes.ASSET_CONSUMPTION_AMPS:
+                    return this.translateService.instant('organization.graph.asset_consumption_amps') + ': ' + this.decimalPipe.transform(value, '2.0-0') + 'A';
+                  case SiteAreaValueTypes.ASSET_PRODUCTION_AMPS:
+                    return this.translateService.instant('organization.graph.asset_production_amps') + ': ' + this.decimalPipe.transform(value, '2.0-0') + 'A';
+                  case SiteAreaValueTypes.CHARGING_STATION_CONSUMPTION_AMPS:
+                    return this.translateService.instant('organization.graph.charging_station_consumption_amps') + ': ' + this.decimalPipe.transform(value, '2.0-0') + 'A';
+                  case SiteAreaValueTypes.NET_CONSUMPTION_AMPS:
+                    return this.translateService.instant('organization.graph.net_consumption_amps') + ': ' + this.decimalPipe.transform(value, '2.0-0') + 'A';
                   case 'limitAmps':
-                    return ' ' + this.decimalPipe.transform(value, '2.0-0') + 'A';
+                    return this.translateService.instant('organization.graph.limit_amps') + ': ' + this.decimalPipe.transform(value, '2.0-0') + 'A';
                   default:
                     return value + '';
                 }

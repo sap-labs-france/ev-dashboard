@@ -145,6 +145,7 @@ export class InvoiceComponent implements OnInit {
   //     })
   // }
 
+  // TODO: make close / closeDialog work
   public onClose() {
     this.closeDialog(true);
   }

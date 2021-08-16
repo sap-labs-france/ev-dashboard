@@ -1585,15 +1585,15 @@
       "stripe": {
         "description": "E-Mobility permite enviar facturas a los usuarios de estaciones de carga con Stripe",
         "title": "Stripe",
-        "url": "URL de terminal de banda",
-        "public_key": "Clave de API pública",
-        "invalid_public_key": "La clave API pública no es plausible",
-        "secret_key": "Clave secreta API",
-        "invalid_secret_key": "La clave secreta de la API no es plausible",
+        "url": "URL de su cueanta en Stripe",
+        "public_key": "Clave publicable",
+        "invalid_public_key": "La clave publicable no es plausible",
+        "secret_key": "Clave secreta",
+        "invalid_secret_key": "La clave secreta no es plausible",
         "billing_method": "Método de facturación",
-        "current_billing": "Facturación inmediata",
+        "immediate_billing": "Facturación inmediata",
         "periodic_billing": "Facturación periódica",
-        "impuesto": "impuesto",
+        "tax": "Impuesto",
         "no_tax": "Sin impuestos"
       }
     },

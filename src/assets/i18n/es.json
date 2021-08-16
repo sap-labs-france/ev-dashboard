@@ -1446,12 +1446,12 @@
       "hubject": {
         "title": "Hubject"
       },
-      "setting_do_not_exist": "OICP Settings not found",
-      "setting_not_found": "OICP settings has not been found",
-      "create_success": "OICP settings have been created successfully",
-      "create_error": "Error occurred while creating the OICP settings, check the logs",
-      "update_success": "OICP settings have been updated successfully",
-      "update_error": "Error occurred while updating the OICP settings, check the logs",
+      "setting_do_not_exist": "Configuración de OICP no encontrada",
+      "setting_not_found": "No se ha encontrado la configuración del OICP",
+      "create_success": "La configuración del OICP se ha creado exitosamente",
+      "create_error": "Se produjo un error al configurar el OICP",
+      "update_success": "La configuración del OICP se ha actualizado correctamente",
+      "update_error": "Se produjo un error al actualizar la configuración de OICP",
       "description": "E-Mobility provides a certified service to connect to an external E-Roaming Platform.<br>This feature exposes real-time the charging station infrastructure and availability via the OICP protocol (Open InterCharge Protocol).<br>E-Mobility is currently using the Hubject B2B Service Platform (HBS)."
     },
     "refund": {

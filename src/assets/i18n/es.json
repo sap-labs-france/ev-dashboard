@@ -785,7 +785,7 @@
       },
       "settings": {
         "fixed_url_for_ocpp": "Desde OCPP 1.6 en adelante, el servidor fija la URL",
-        "callback_url_for_ocpp": "Retrollamada de la URL para mandar una soliditud HTTP a la estación de carga "
+        "callback_url_for_ocpp": "Retrollamada de la URL para mandar una peticion HTTP a la estación de carga "
       },
       "enable_manual_configuration":{
         "title": "Permitir configuración manual",

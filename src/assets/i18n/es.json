@@ -1319,12 +1319,12 @@
       "pay": "Pagar "
     },
     "status": {
-      "paid": "Pagado",
-      "unpaid": "No pagado",
+      "paid": "Pagada",
+      "unpaid": "No pagada",
       "draft": "Borrador",
-      "deleted": "Deleted",
+      "deleted": "Eliminada",
       "uncollectible": "Irrecuperable",
-      "void": "Cancelado"
+      "void": "Cancelada"
     },
     "number": "Número de la factura",
     "createdOn": "Fecha de la factura",

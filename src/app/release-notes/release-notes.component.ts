@@ -24,6 +24,19 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.86',
+        date: new Date('2021-08-17'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Improvement of the translation to Spanish`,
+              `Implicit log filtering for Site Administrators`
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.85',
         date: new Date('2021-08-13'),
         componentChanges: [

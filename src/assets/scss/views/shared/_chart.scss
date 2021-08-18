@@ -124,4 +124,11 @@
   text-align: center !important;
   font-size: 1rem;
   margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 35vh;
+  @media (max-width: 1280px) {
+    height: 20em;
+  }
 }

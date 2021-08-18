@@ -184,25 +184,25 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
   }
 
   public buildTableDynamicRowActions(asset: Asset): TableActionDef[] {
-    const actions = [];
+    const rowActions: TableActionDef[] = [];
     const openInMaps = new TableOpenInMapsAction().getActionDef();
     // Check if GPS is available
     openInMaps.disabled = !Utils.containsGPSCoordinates(asset.coordinates);
     if (this.isAdmin && asset.issuer) {
-      actions.push(this.editAction);
-      actions.push(new TableMoreAction([
+      rowActions.push(this.editAction);
+      rowActions.push(new TableMoreAction([
         openInMaps,
         this.deleteAction,
       ]).getActionDef());
     } else {
-      actions.push(this.displayAction);
-      actions.push(openInMaps);
+      rowActions.push(this.displayAction);
+      rowActions.push(openInMaps);
     }
     // Display refresh button
     if (this.isAdmin && asset.dynamicAsset && !asset.usesPushAPI) {
-      actions.splice(1, 0, this.retrieveConsumptionAction);
+      rowActions.splice(1, 0, this.retrieveConsumptionAction);
     }
-    return actions;
+    return rowActions;
   }
 
   public actionTriggered(actionDef: TableActionDef) {

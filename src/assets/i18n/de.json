@@ -563,7 +563,8 @@
     "verify_email_resend_error": "Beim Versenden Ihres Aktivierungslinks ist ein Fehler aufgetreten",
     "verify_email_proceed_with_activation": "Ihr Account ist noch immer inaktiv! Wollen Sie das Versenden der Aktivierungs-Email wiederholen?",
     "verify_email_proceed_with_activation_button": "Weiter",
-    "invalid_captcha_token": "Ungültiger Captcha Token"
+    "invalid_captcha_token": "Ungültiger Captcha Token",
+    "mercedes_data_usage": "SAP Labs France is accessing your car’s data via Mercedes-Benz for the purpose of providing you a high quality of service during the charging session of your vehicle. SAP Labs France is processing the following data: EV battery level and range of your car. For allowing the processing of your data, you’ll have to give the explicit consent in the following steps. For any further information please note our End-user Agreement Usage of the e-Mobility Software."
   },
   "statistics": {
     "title": "Statistiken",
@@ -1157,6 +1158,8 @@
     },
     "import_users": "Nutzer Importieren",
     "import_users_message": "Der Import wird alle hochgeladenen Nutzer die noch nicht importiert wurden verwerfen, möchten Sie fortfahren?",
+    "import_users_message_auto_activate": "The import will discard all other previously uploaded users not yet imported in the database and users will be automatically activated, do you want to continue?",
+    "import_users_auto_activation": "Automatically activate new users",
     "import_users_success": "{{inSuccess}} Nutzer wurden erfolgreich hochgeladen und werden nun verarbeitet",
     "import_users_partial": "{{inSuccess}} Nutzer wurden erfolgreich hochgeladen und werden nun verarbeitet und {{inError}} Nutzer sind fehlgeschlagen, bitte überprüfen Sie die Logs",
     "import_users_error": "Das Hochladen von {{inError}} Nutzern ist fehlgeschlagen",
@@ -1379,10 +1382,12 @@
     "delete_no_tag": "Es wurden keine Badges gelöscht",
     "import_tags": "Badges Importieren",
     "import_tags_message": "Der Import wird alle hochgeladenen Badges die noch nicht importiert wurden verwerfen, möchten Sie fortfahren?",
+    "import_tags_message_auto_activate": "The import will discard all other previously uploaded badges not yet imported in the database, do you want to continue?",
     "import_tags_success": "{{inSuccess}} Badges wurden erfolgreich hochgeladen und werden nun verarbeitet",
     "import_tags_partial": "{{inSuccess}} Badges wurden erfolgreich hochgeladen und werden nun verarbeitet und {{inError}} Badges sind fehlgeschlagen, bitte überprüfen Sie die Logs",
     "import_tags_error": "Das Hochladen von {{inError}} Badges ist fehlgeschlagen",
-    "import_no_tags": "Es wurden keine Badges hochgeladen"
+    "import_no_tags": "Es wurden keine Badges hochgeladen",
+    "import_tags_auto_activation": "Automatically activate new tags"
   },
   "tenants": {
     "title": "Organisation",
@@ -1647,7 +1652,8 @@
         "schneider": "Schneider Building Management System",
         "greencom": "GreenCom Asset Management System",
         "iothink": "ioThink Asset Management System",
-        "wit": "WIT Asset Management System"
+        "wit": "WIT Asset Management System",
+        "lacroix": "LACROIX Asset Management System"
       },
       "connection_success": "Die Verbindung zum System wurde erfolgreich getestet.",
       "unknown_connection_error": "Unbekannter Verbindungsfehler",
@@ -1676,6 +1682,12 @@
       },
       "types": {
         "mercedes": "Mercedes Schnittstelle"
+      },
+      "mercedes": {
+        "link_success": "Ihr Account wurde erfolgreich mit Mercedes verbunden",
+        "link_error": "Beim Verbinden mit Mercedes ist ein Fehler aufgetreten",
+        "revoke_success": "Ihre Verbindung mit Mercedes wurde erfolgreich widerrufen",
+        "revoke_error": "Beim Widerrufen Ihrer Verbindung zu Mercedes ist ein Fehler aufgetreten"
       },
       "description": "E-Mobility ist in der Lage Fahrzeugdaten wie z.B. Batteriestand zu empfangen und diese Informationen für Smart Charging und die Optimierung von Ladevorgängen nutzen",
       "setting_do_not_exist": "Die Konfiguration wurde nicht gefunden",
@@ -1966,7 +1978,16 @@
     "graph": {
       "power": "Aktuelle Leistung (kW)",
       "no_consumption": "Keine Verbrauchsdaten verfügbar",
-      "limit_watts": "Limit (kW)"
+      "asset_consumption_watts": "Asset Consumption (kW)",
+      "asset_production_watts": "Asset Production (kW)",
+      "charging_station_consumption_watts": "Charging Stations Consumption (kW)",
+      "net_consumption_watts": "Net Consumption (kW)",
+      "limit_watts": "Limit (kW)",
+      "asset_consumption_amps": "Asset Consumption (A)",
+      "asset_production_amps": "Asset Production (A)",
+      "charging_station_consumption_amps": "Charging Stations Consumption (A)",
+      "net_consumption_amps": "Net Consumption (A)",
+      "limit_amps": "Limit (A)"
     }
   },
   "asset": {

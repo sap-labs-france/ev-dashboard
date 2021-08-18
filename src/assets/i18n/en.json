@@ -563,7 +563,8 @@
     "verify_email_resend_error": "Error occurred while sending your account's activation link, check the logs",
     "verify_email_proceed_with_activation": "Your account is still inactive! Do you want to resend the activation email?",
     "verify_email_proceed_with_activation_button": "Proceed",
-    "invalid_captcha_token": "Invalid captcha token"
+    "invalid_captcha_token": "Invalid captcha token",
+    "mercedes_data_usage": "SAP Labs France is accessing your car’s data via Mercedes-Benz for the purpose of providing you a high quality of service during the charging session of your vehicle. SAP Labs France is processing the following data: EV battery level and range of your car. For allowing the processing of your data, you’ll have to give the explicit consent in the following steps. For any further information please note our End-user Agreement Usage of the e-Mobility Software."
   },
   "statistics": {
     "title": "Statistics",
@@ -1157,6 +1158,8 @@
     },
     "import_users": "Import users",
     "import_users_message": "The import will discard all other previously uploaded users not yet imported in the database, do you want to continue?",
+    "import_users_message_auto_activate": "The import will discard all other previously uploaded users not yet imported in the database and users will be automatically activated, do you want to continue?",
+    "import_users_auto_activation": "Automatically activate new users",
     "import_users_success": "{{inSuccess}} users have been uploaded successfully and will be processed asynchronously",
     "import_users_partial": "{{inSuccess}} users have been uploaded successfully and will be processed asynchronously and {{inError}} failed, check the logs",
     "import_users_error": "{{inError}} users failed to be uploaded",
@@ -1379,10 +1382,12 @@
     "delete_no_tag": "No badge has been deleted",
     "import_tags": "Import Badges",
     "import_tags_message": "The import will discard all other previously uploaded badges not yet imported in the database, do you want to continue?",
+    "import_tags_message_auto_activate": "The import will discard all other previously uploaded badges not yet imported in the database, do you want to continue?",
     "import_tags_success": "{{inSuccess}} badges have been uploaded successfully and will be processed asynchronously",
     "import_tags_partial": "{{inSuccess}} badges have been uploaded successfully and will be processed asynchronously and {{inError}} failed, check the logs",
     "import_tags_error": "{{inError}} badges failed to be uploaded",
-    "import_no_tags": "No badge have been uploaded"
+    "import_no_tags": "No badge have been uploaded",
+    "import_tags_auto_activation": "Automatically activate new tags"
   },
   "tenants": {
     "title": "Organization",
@@ -1647,7 +1652,8 @@
         "schneider": "Schneider Building Management System",
         "greencom": "GreenCom Asset Management System",
         "iothink": "ioThink Asset Management System",
-        "wit": "WIT Asset Management System"
+        "wit": "WIT Asset Management System",
+        "lacroix": "LACROIX Asset Management System"
       },
       "connection_success": "Connection to the system was tested successfully",
       "unknown_connection_error": "Unknown connection error",
@@ -1676,6 +1682,12 @@
       },
       "types": {
         "mercedes": "Mercedes Connector"
+      },
+      "mercedes": {
+        "link_success": "Your account has been successfully linked with Mercedes",
+        "link_error": "Error occurred while linking your account with Mercedes, check the logs",
+        "revoke_success": "Your connection with Mercedes has been successfully revoked",
+        "revoke_error": "Error occurred while revoking your connection with Mercedes, check the logs"
       },
       "description": "E-Mobility can get real time data of your cars like the current state of charge and use this information with the smart charging algorithm to optimize charging sessions.",
       "setting_do_not_exist": "Configuration has not been found",
@@ -1719,7 +1731,7 @@
     },
     "user": {
       "title": "Account Settings",
-      "auto_activation": "Automatically activate new user account at registration time",
+      "auto_activation": "Automatically activate new user at registration time",
       "update_success": "User settings have been updated successfully",
       "update_error": "Error occurred while updating the user settings, check the logs",
       "setting_do_not_exist": "User settings not found"
@@ -1966,7 +1978,16 @@
     "graph": {
       "power": "Instant Power (kW)",
       "no_consumption": "No consumption data available",
-      "limit_watts": "Limit (kW)"
+      "asset_consumption_watts": "Asset Consumption (kW)",
+      "asset_production_watts": "Asset Production (kW)",
+      "charging_station_consumption_watts": "Charging Stations Consumption (kW)",
+      "net_consumption_watts": "Net Consumption (kW)",
+      "limit_watts": "Limit (kW)",
+      "asset_consumption_amps": "Asset Consumption (A)",
+      "asset_production_amps": "Asset Production (A)",
+      "charging_station_consumption_amps": "Charging Stations Consumption (A)",
+      "net_consumption_amps": "Net Consumption (A)",
+      "limit_amps": "Limit (A)"
     }
   },
   "asset": {

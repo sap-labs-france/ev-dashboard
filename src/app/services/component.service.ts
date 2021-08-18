@@ -183,6 +183,9 @@ export class ComponentService {
           settingsToSave.sensitiveData.push(`content.asset.connections[${index}].witConnection.password`);
           settingsToSave.sensitiveData.push(`content.asset.connections[${index}].witConnection.clientSecret`);
           break;
+        case AssetConnectionType.LACROIX:
+          settingsToSave.sensitiveData.push(`content.asset.connections[${index}].lacroixConnection.password`);
+          break;
       }
 
     });
@@ -209,7 +212,7 @@ export class ComponentService {
     settingsToSave.content.carConnector.connections.forEach((settingConnection, index) => {
       switch (settingConnection.type) {
         case CarConnectorConnectionType.MERCEDES:
-          settingsToSave.sensitiveData.push(`content.carConnectors.connections[${index}].mercedesConnection.clientSecret`);
+          settingsToSave.sensitiveData.push(`content.carConnector.connections[${index}].mercedesConnection.clientSecret`);
           break;
       }
 

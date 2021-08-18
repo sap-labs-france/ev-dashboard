@@ -36,7 +36,7 @@ export class Utils {
 
   public static buildConnectorInfo(connector: Connector): string {
     const info = [];
-    if (!Utils.isEmptyString(connector.errorCode)) {
+    if (!Utils.isEmptyString(connector.errorCode) && connector.errorCode !== 'NoError') {
       info.push(connector.errorCode);
     }
     if (!Utils.isEmptyString(connector.vendorErrorCode)) {

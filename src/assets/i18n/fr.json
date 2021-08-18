@@ -1502,7 +1502,7 @@
         "password": "Mot de passe"
       },
       "simple": {
-        "title": "Calculs Basique",
+        "title": "Tarification",
         "price": "Prix (au kW.h)",
         "currency": "Devise"
       }

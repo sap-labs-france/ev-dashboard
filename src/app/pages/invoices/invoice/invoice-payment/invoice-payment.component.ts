@@ -146,59 +146,37 @@ export class InvoicePaymentComponent implements OnInit{
   }
 
   private async createPaymentMethod(): Promise<any> {
-    // c.f. STRIPE SAMPLE at: https://stripe.com/docs/billing/subscriptions/fixed-price#collect-payment
     let operationResult = null;
     try {
       this.spinnerService.show();
       // -----------------------------------------------------------------------------------------------
-      // Step #0 - Create Setup Intent
+      // Step #0 - Create a Payment Intent
       // -----------------------------------------------------------------------------------------------
-
-      //Below to test new payment intents
-      // const response: BillingOperationResult = await this.centralServerService.setupPaymentIntent({
-      //   userID: this.currentUserID,
-      //   invoiceID: this.currentInvoiceID
-      // }).toPromise();
-
-
-      // Below to use the same process as payment method
-      const response: BillingOperationResult = await this.centralServerService.setupPaymentMethod({
+      const response: BillingOperationResult = await this.centralServerService.createPaymentIntent({
         userID: this.currentUserID,
+        invoiceID: this.currentInvoiceID
       }).toPromise();
-
       // -----------------------------------------------------------------------------------------------
-      // Step #1 - Confirm the SetupIntent with data provided and carry out 3DS
-      // c.f. https://stripe.com/docs/js/setup_intents/confirm_card_setup
+      // Step #1 - Confirm the PaymentIntent with data provided and carry out 3DS
       // -----------------------------------------------------------------------------------------------
-
-      const setupIntent: any = response?.internalData;
-
-      // TODO: handle spinner .hide / .show in a better way ? to be tested in prod // we cannot anymore reclick save button twice
-      // setTimeout doesn't work as expected - it never hides...
-      // setTimeout(function() {
+      const paymentIntent: any = response?.internalData;
       this.spinnerService.hide();
-      // // }, 4000);
       // eslint-disable-next-line max-len
-      const confirmResult: { setupIntent?: SetupIntent; error?: StripeError } = await this.getStripeFacade().confirmCardSetup( setupIntent.client_secret, {
+      const confirmResult: { paymentIntent?: PaymentIntent; error?: StripeError } = await this.getStripeFacade().confirmCardPayment( paymentIntent.client_secret, {
         payment_method: {
           card: this.cardNumber
-          // TODO: put email and address
-          // billing_details: {
-          //   name: this.centralServerService.getCurrentUserSubject().value.email + new Date(),
-          // },
         },
+        setup_future_usage: 'off_session' // TODO - we should get rid of it!
       });
       this.spinnerService.show();
       if (confirmResult.error) {
         operationResult = response;
       } else {
-        const attachResult = await this.attachPaymentMethod(confirmResult);
-        if (attachResult.error) {
-          operationResult = response;
-        } else {
-          const paymentMethod: any = attachResult.internalData;
-          operationResult = await this.finalizeInvoicePayment(paymentMethod.id);
-        }
+        // ---------------------------------------------------------------
+        // Step #2 - Used the confirmed payment intent to pay the invoice
+        // ---------------------------------------------------------------
+        const paymentMethodId: string = confirmResult.paymentIntent.payment_method;
+        operationResult = await this.finalizeInvoicePayment(paymentMethodId);
       }
     } catch (error) {
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
@@ -207,24 +185,9 @@ export class InvoicePaymentComponent implements OnInit{
     }
     return operationResult;
   }
-  // -----------------------------------------------------------------------------------------------
-  // Step #2 - Really attach the payment method / not called when 3DS failed
-  // -----------------------------------------------------------------------------------------------
-  private async attachPaymentMethod(result: {setupIntent?: SetupIntent; error?: StripeError}) {
-    const response: BillingOperationResult = await this.centralServerService.setupPaymentMethod({
-      // setupIntentId: result.setupIntent?.id,
-      paymentMethodID: result.setupIntent?.payment_method,
-      userID: this.currentUserID,
-      oneTimePayment: true
-    }).toPromise();
-    return response;
-  }
 
-  // -----------------------------------------------------------------------------------------------
-  // Step #3 - Pay invoice once creating/attaching payment method succeeded
-  // -----------------------------------------------------------------------------------------------
   private async finalizeInvoicePayment(paymentMethodID: string) {
-    const response: BillingOperationResult = await this.centralServerService.processInvoicePayment({
+    const response: BillingOperationResult = await this.centralServerService.attemptInvoicePayment({
       userID: this.currentUserID,
       invoiceID: this.currentInvoiceID,
       paymentMethodID

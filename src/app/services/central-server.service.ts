@@ -1705,34 +1705,26 @@ export class CentralServerService {
       );
   }
 
-  // public setupPaymentIntent(parameters: any): Observable<BillingOperationResult> {
-  //   this.checkInit();
-  //   // Build the URL
-  //   const url = this.buildRestEndpointUrl(ServerRoute.REST_BILLING_INVOICE_PAYMENT, {
-  //     userID: parameters.userID,
-  //     invoiceID: parameters.invoiceID,
-  //     paymentMethodID: parameters.paymentMethodID
-  //   });
-  //   // if (parameters.oneTimePayment) {
-  //   //   url = `${url}?pay=${parameters.oneTimePayment}`;
-  //   // }
-  //   // Execute the REST service
-  //   return this.httpClient.post<BillingOperationResult>(url, parameters, {
-  //     headers: this.buildHttpHeaders(),
-  //   }).pipe(
-  //     catchError(this.handleHttpError),
-  //   );
-  // }
-
-  public processInvoicePayment(parameters: any): Observable<any> {
+  public createPaymentIntent(parameters: any): Observable<BillingOperationResult> {
     this.checkInit();
-    // Build the URL
+    const url = this.buildRestEndpointUrl(ServerRoute.REST_BILLING_INVOICE_PAYMENT, {
+      userID: parameters.userID,
+      invoiceID: parameters.invoiceID
+    });
+    return this.httpClient.post<BillingOperationResult>(url, parameters, {
+      headers: this.buildHttpHeaders(),
+    }).pipe(
+      catchError(this.handleHttpError),
+    );
+  }
+
+  public attemptInvoicePayment(parameters: any): Observable<any> {
+    this.checkInit();
     const url = this.buildRestEndpointUrl(ServerRoute.REST_BILLING_INVOICE_PAYMENT, {
       userID: parameters.userID,
       invoiceID: parameters.invoiceID,
-      paymentMethodID: parameters.paymentMethodID
+      paymentMethodID: parameters.paymentMethodID // This is mandatory on the second call
     });
-    // Execute the REST service
     return this.httpClient.post<BillingOperationResult>(url, parameters, {
       headers: this.buildHttpHeaders(),
     }).pipe(

@@ -165,7 +165,7 @@ export class StripePaymentMethodComponent implements OnInit {
       // c.f. https://stripe.com/docs/js/setup_intents/confirm_card_setup
       // -----------------------------------------------------------------------------------------------
       const setupIntent: any = response?.internalData;
-      // TODO: handle spinner .hide / .show in a better way ? to be tested in prod // we cannot anymore reclick save button twice
+      // TODO: handle spinner .hide / .show in a better way ? to be tested in prod // we cannot anymore click save button twice
       // setTimeout doesn't work as expected - it never hides...
       // setTimeout(function() {
       this.spinnerService.hide();
@@ -174,16 +174,15 @@ export class StripePaymentMethodComponent implements OnInit {
       const result: { setupIntent?: SetupIntent; error?: StripeError } = await this.getStripeFacade().confirmCardSetup( setupIntent.client_secret, {
         payment_method: {
           card: this.cardNumber
-          // TODO: put email and address
-          // billing_details: {
-          //   name: this.centralServerService.getCurrentUserSubject().value.email + new Date(),
-          // },
         },
       });
       this.spinnerService.show();
       if (result.error) {
         operationResult = result;
       } else {
+        // -----------------------------------------------------------------------------------------------
+        // Step #2 - Really attach the payment method / not called when 3DS failed
+        // -----------------------------------------------------------------------------------------------
         operationResult = this.attachPaymentMethod(result);
       }
     } catch (error) {
@@ -193,11 +192,8 @@ export class StripePaymentMethodComponent implements OnInit {
     }
     return operationResult;
   }
-  // -----------------------------------------------------------------------------------------------
-  // Step #2 - Really attach the payment method / not called when 3DS failed
-  // -----------------------------------------------------------------------------------------------
+
   private async attachPaymentMethod(operationResult: {setupIntent?: SetupIntent; error?: StripeError}) {
-    // TODO: verify if setupIntentId usefull ??
     const response: BillingOperationResult = await this.centralServerService.setupPaymentMethod({
       setupIntentId: operationResult.setupIntent?.id,
       paymentMethodID: operationResult.setupIntent?.payment_method,

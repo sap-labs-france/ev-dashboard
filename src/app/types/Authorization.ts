@@ -129,8 +129,6 @@ export enum Action {
   SYNCHRONIZE_BILLING_USERS = 'SynchronizeBillingUsers',
   SYNCHRONIZE_BILLING_USER = 'SynchronizeBillingUser',
   BILLING_SETUP_PAYMENT_METHOD = 'BillingSetupPaymentMethod',
-  // TODO: to be verified depending on what we decide to use
-  BILLING_SETUP_PAYMENT_INTENT = 'BillingSetupPaymentIntent',
   BILLING_INVOICE_PAYMENT = 'BillingInvoicePayment',
   PAY_BILLING_INVOICE = 'PayBillingInvoice',
   BILLING_PAYMENT_METHODS = 'BillingPaymentMethods',

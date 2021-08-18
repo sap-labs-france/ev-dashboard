@@ -381,7 +381,7 @@
     "auto_user_site_assignment": "Asignación automática de nuevos usuarios a este sitio.",
     "public": "Este sitio es público",
     "public_site": "Público",
-    "auto_assignment": "Asignación automática de usiario",
+    "auto_assignment": "Asignación automática de usuario",
     "user_list": "Usuarios autorizados para usar las estaciones de carga en este sitio",
     "user_list_source_title": "Disponible",
     "user_list_target_title": "Asignado",
@@ -1319,12 +1319,12 @@
       "pay": "Pagar "
     },
     "status": {
-      "paid": "Pagado",
-      "unpaid": "No pagado",
+      "paid": "Pagada",
+      "unpaid": "No pagada",
       "draft": "Borrador",
-      "deleted": "Deleted",
+      "deleted": "Eliminada",
       "uncollectible": "Irrecuperable",
-      "void": "Cancelado"
+      "void": "Cancelada"
     },
     "number": "Número de la factura",
     "createdOn": "Fecha de la factura",

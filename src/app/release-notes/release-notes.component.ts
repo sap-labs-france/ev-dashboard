@@ -30,6 +30,7 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Remove prefix from tariff and use 'Default' as default tariff`,
+              `Added new DBT Charging Station's model in templates`,
             ],
           },
         ],

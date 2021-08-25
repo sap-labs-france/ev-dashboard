@@ -20,9 +20,35 @@ export class ReleaseNotesComponent {
   public constructor() {
     this.buildReleaseNotes();
   }
-
   public buildReleaseNotes() {
     this.releaseNotes = [
+      {
+        version: '2.4.87',
+        date: new Date('2021-08-25'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added OCPI Trigger Data Transfer in RESTful API`,
+              `Remove prefix from OCPI tariff and use 'Default' as default tariff`,
+              `Added new DBT Charging Station's model in templates`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.86',
+        date: new Date('2021-08-17'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Improvement of the translation to Spanish`,
+              `Implicit log filtering for Site Administrators`
+            ],
+          },
+        ],
+      },
       {
         version: '2.4.85',
         date: new Date('2021-08-13'),

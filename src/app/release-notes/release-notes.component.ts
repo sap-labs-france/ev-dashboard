@@ -29,7 +29,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
-              `Added OCPI Trigger Data Transfer in RESTful API`,
+              `Added OCPP Trigger Data Transfer in RESTful API`,
               `Remove prefix from OCPI tariff and use 'Default' as default tariff`,
               `Added new DBT Charging Station's model in templates`,
             ],

@@ -20,9 +20,20 @@ export class ReleaseNotesComponent {
   public constructor() {
     this.buildReleaseNotes();
   }
-
   public buildReleaseNotes() {
     this.releaseNotes = [
+      {
+        version: '2.4.87',
+        date: new Date('2021-08-25'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Remove prefix from tariff and use 'Default' as default tariff`,
+            ],
+          },
+        ],
+      },
       {
         version: '2.4.86',
         date: new Date('2021-08-17'),

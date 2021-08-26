@@ -29,6 +29,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `Enhanced consumption charts with different series`,
               `Renamed 'ids' to 'IDs' in JSON Schemas`,
             ],
           },

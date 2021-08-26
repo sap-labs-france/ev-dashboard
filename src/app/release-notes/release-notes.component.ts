@@ -31,6 +31,8 @@ export class ReleaseNotesComponent {
             changes: [
               `Enhanced consumption charts with different series`,
               `Renamed 'ids' to 'IDs' in JSON Schemas`,
+              `Transaction and Logging endpoints RESTful migration`,
+              `Logging database optimizations`,
             ],
           },
         ],

@@ -1168,7 +1168,7 @@ export class CentralServerService {
 
   public exportLogs(params: FilterParams): Observable<Blob> {
     this.checkInit();
-    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/${ServerAction.LOGGINGS_EXPORT}`,
+    return this.httpClient.get(this.buildRestEndpointUrl(ServerRoute.REST_LOGGINGS_EXPORT),
       {
         headers: this.buildHttpHeaders(),
         responseType: 'blob',
@@ -1455,7 +1455,7 @@ export class CentralServerService {
     // Build Ordering
     this.getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<DataResult<Log>>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.LOGGINGS}`,
+    return this.httpClient.get<DataResult<Log>>(this.buildRestEndpointUrl(ServerRoute.REST_LOGGINGS),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -1472,7 +1472,7 @@ export class CentralServerService {
       return EMPTY;
     }
     // Call
-    return this.httpClient.get<Log>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.LOGGING}?ID=${id}`,
+    return this.httpClient.get<Log>(this.buildRestEndpointUrl(ServerRoute.REST_LOGGING, { id }),
       {
         headers: this.buildHttpHeaders(),
       })
@@ -3201,7 +3201,7 @@ export class CentralServerService {
   }
 
   public buildImportTagsUsersHttpHeaders(
-      autoActivateUserAtImport?: string, autoActivateTagAtImport?: string): { name: string; value: string }[] {
+    autoActivateUserAtImport?: string, autoActivateTagAtImport?: string): { name: string; value: string }[] {
     // Build File Header
     return [
       {

@@ -487,6 +487,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
       },
       responsive: true,
       maintainAspectRatio: false,
+      spanGaps: true,
       // aspectRatio: this.ratio,
       tooltips: {
         bodySpacing: 5,

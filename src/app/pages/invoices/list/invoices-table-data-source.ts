@@ -148,7 +148,7 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
         formatter: (sessions: BillingSessionData[], invoice: BillingInvoice) => sessions?.length,
         headerClass: 'col-10p text-center',
         class: 'col-10p text-center',
-        sortable: true,
+        sortable: false,
       },
       {
         id: 'amount',

@@ -58,7 +58,8 @@
     "angular11-update": "ng update @angular/core@11 @angular/cli@11",
     "material11-update": "ng update @angular/material@11",
     "webpack-analyze": "webpack-bundle-analyzer dist/stats.json",
-    "import-sort": "npx import-sort-cli --write '{src,test}/**/*.ts{,x}'"
+    "import-sort": "npx import-sort-cli --write '{src,test}/**/*.ts{,x}'",
+    "check:i18n": "cross-env TS_NODE_FILES=true ts-node-dev --trace-warnings --files test/I18nChecker.ts"
   },
   "dependencies": {
     "@agm/core": "^1.1.0",
@@ -162,6 +163,8 @@
     "rimraf": "^3.0.2",
     "rosie": "^2.1.0",
     "ts-node": "~8.10.2",
+    "ts-node-dev": "^1.1.8",
+    "deep-object-diff": "^1.1.0",
     "typescript": "~4.0.7",
     "webpack": "^4.46.0",
     "webpack-bundle-analyzer": "^4.4.1"

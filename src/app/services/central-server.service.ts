@@ -3166,9 +3166,11 @@ export class CentralServerService {
 
   public getIntegrationConnections(userId: string): Observable<DataResult<IntegrationConnection>> {
     this.checkInit();
-    return this.httpClient.get<DataResult<IntegrationConnection>>(
-      `${this.centralRestServerServiceSecuredURL}/${ServerAction.INTEGRATION_CONNECTIONS}?UserID=${userId}`,
+    return this.httpClient.get<DataResult<IntegrationConnection>>(this.buildRestEndpointUrl(ServerRoute.REST_CONNECTIONS),
       {
+        params: {
+          UserID: userId
+        },
         headers: this.buildHttpHeaders(),
       })
       .pipe(
@@ -3178,8 +3180,7 @@ export class CentralServerService {
 
   public createIntegrationConnection(connection: UserConnection) {
     this.checkInit();
-    return this.httpClient.post<ActionResponse>(
-      `${this.centralRestServerServiceSecuredURL}/${ServerAction.INTEGRATION_CONNECTION_CREATE}`, connection,
+    return this.httpClient.post<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_CONNECTIONS), connection,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -3190,8 +3191,7 @@ export class CentralServerService {
 
   public deleteIntegrationConnection(id: string): Observable<ActionResponse> {
     this.checkInit();
-    return this.httpClient.delete<ActionResponse>(
-      `${this.centralRestServerServiceSecuredURL}/${ServerAction.INTEGRATION_CONNECTION_DELETE}?ID=${id}`,
+    return this.httpClient.delete<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_CONNECTION, { id }),
       {
         headers: this.buildHttpHeaders(),
       })

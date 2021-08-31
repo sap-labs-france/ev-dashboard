@@ -59,7 +59,7 @@
     "material11-update": "ng update @angular/material@11",
     "webpack-analyze": "webpack-bundle-analyzer dist/stats.json",
     "import-sort": "npx import-sort-cli --write '{src,test}/**/*.ts{,x}'",
-    "check:i18n": "cross-env TS_NODE_FILES=true ts-node-dev --trace-warnings --files test/I18nChecker.ts"
+    "check:i18n": "cross-env TS_NODE_FILES=true ts-node-dev --project tsconfig-i18n.json --files test/I18nChecker.ts"
   },
   "dependencies": {
     "@agm/core": "^1.1.0",

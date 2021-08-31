@@ -1030,9 +1030,8 @@ export class CentralServerService {
     this.getPaging(paging, params);
     // Build Ordering
     this.getSorting(ordering, params);
-    params['Status'] = 'completed';
     // Execute the REST service
-    return this.httpClient.get<DataResult<Transaction>>(this.buildRestEndpointUrl(ServerRoute.REST_TRANSACTIONS),
+    return this.httpClient.get<DataResult<Transaction>>(this.buildRestEndpointUrl(ServerRoute.REST_TRANSACTIONS_COMPLETED),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -1051,9 +1050,8 @@ export class CentralServerService {
     this.getPaging(paging, params);
     // Build Ordering
     this.getSorting(ordering, params);
-    params['Status'] = 'to-refund';
     // Execute the REST service
-    return this.httpClient.get<DataResult<Transaction>>(this.buildRestEndpointUrl(ServerRoute.REST_TRANSACTIONS),
+    return this.httpClient.get<DataResult<Transaction>>(this.buildRestEndpointUrl(ServerRoute.REST_TRANSACTIONS_REFUND),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -1121,11 +1119,10 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<number>(this.buildRestEndpointUrl(ServerRoute.REST_TRANSACTIONS),
+    return this.httpClient.get<number>(this.buildRestEndpointUrl(ServerRoute.REST_TRANSACTIONS_UNASSIGNED_COUNT),
       {
         headers: this.buildHttpHeaders(),
         params: {
-          Status: 'not-assigned-to-user',
           TagID: tagID
         },
       })
@@ -1281,9 +1278,8 @@ export class CentralServerService {
     this.getPaging(paging, params);
     // Build Ordering
     this.getSorting(ordering, params);
-    params['Status'] = 'in-error';
     // Execute the REST service
-    return this.httpClient.get<DataResult<TransactionInError>>(this.buildRestEndpointUrl(ServerRoute.REST_TRANSACTIONS),
+    return this.httpClient.get<DataResult<TransactionInError>>(this.buildRestEndpointUrl(ServerRoute.REST_TRANSACTIONS_IN_ERROR),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -1301,9 +1297,8 @@ export class CentralServerService {
     this.getPaging(paging, params);
     // Build Ordering
     this.getSorting(ordering, params);
-    params['Status'] = 'active';
     // Execute the REST service
-    return this.httpClient.get<DataResult<Transaction>>(this.buildRestEndpointUrl(ServerRoute.REST_TRANSACTIONS),
+    return this.httpClient.get<DataResult<Transaction>>(this.buildRestEndpointUrl(ServerRoute.REST_TRANSACTIONS_ACTIVE),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -1400,7 +1395,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<Transaction>(this.buildRestEndpointUrl(ServerRoute.REST_TRANSACTION_CONSUMPTION, { id: transactionId }),
+    return this.httpClient.get<Transaction>(this.buildRestEndpointUrl(ServerRoute.REST_TRANSACTION_CONSUMPTIONS, { id: transactionId }),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -2650,7 +2645,7 @@ export class CentralServerService {
   public refundTransactions(ids: number[]): Observable<ActionsResponse> {
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.post<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_TRANSACTIONS_REFUND), { transactionIds: ids },
+    return this.httpClient.post<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_TRANSACTIONS_REFUND_ACTION), { transactionIds: ids },
       {
         headers: this.buildHttpHeaders(),
       })

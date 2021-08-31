@@ -24,11 +24,12 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.4.88',
-        date: new Date('2021-08-25'),
+        date: new Date('2021-08-30'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Added Mercedes connector to get the SoC on AC Charging Stations`,
               `Enhanced consumption charts with different series`,
               `Renamed 'ids' to 'IDs' in JSON Schemas`,
               `Transaction and Logging endpoints RESTful migration`,

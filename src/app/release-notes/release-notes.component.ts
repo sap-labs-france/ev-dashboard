@@ -34,7 +34,7 @@ export class ReleaseNotesComponent {
               `Added Site ID in Logs for Site Admin role`,
               `Made 'email' and 'name' not mandatory when updating an User`,
               `Transaction and Log endpoints RESTful have been migrated`,
-              `Logging database optimizations`,
+              `Limit the number of Logs to 10 millions max`,
               `Fixed lost of OCPI configuration`,
               `Finalized DBT Charging Station's model in templates`,
             ],

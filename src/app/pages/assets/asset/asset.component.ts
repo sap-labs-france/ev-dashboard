@@ -108,7 +108,7 @@ export class AssetComponent implements OnInit {
           Validators.required,
         ])
       ),
-      excludeFromSmartCharging: new FormControl(''),
+      excludeFromSmartCharging: new FormControl(false),
       variationThresholdPercent: new FormControl('',
         Validators.compose([
           Validators.max(100),
@@ -443,7 +443,7 @@ export class AssetComponent implements OnInit {
     // Set the image
     this.updateAssetImage(asset);
     // Create
-    this.centralServerService.createAsset(asset).subscribe((response) => {
+    this.centralServerService.createAsset(Utils.removeUnsetAttributes(asset)).subscribe((response) => {
       this.spinnerService.hide();
       if (response.status === RestResponse.SUCCESS) {
         this.messageService.showSuccessMessage('assets.create_success',
@@ -474,7 +474,7 @@ export class AssetComponent implements OnInit {
     // Set the image
     this.updateAssetImage(asset);
     // Update
-    this.centralServerService.updateAsset(asset).subscribe((response) => {
+    this.centralServerService.updateAsset(Utils.removeUnsetAttributes(asset)).subscribe((response) => {
       this.spinnerService.hide();
       if (response.status === RestResponse.SUCCESS) {
         this.messageService.showSuccessMessage('assets.update_success', { assetName: asset.name });

@@ -419,6 +419,7 @@
     "update_success": "The site '{{siteName}}' has been updated successfully",
     "update_error": "Error occurred while updating the site, check the logs",
     "update_users_error": "Error occurred while assigning an user to the site, check the logs",
+    "update_public_cs_error": "Please set all charging stations under site {{siteName}} to private.",
     "create_success": "The site '{{siteName}}' has been created successfully",
     "create_error": "Error occurred while creating the site, check the logs",
     "image_size_error": "The image size limit exceeded, limit is below '{{maxPictureKb}}' Kb",

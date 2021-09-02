@@ -288,6 +288,9 @@ export class SiteComponent implements OnInit {
         case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
           this.messageService.showErrorMessage('sites.site_not_found');
           break;
+        case HTTPError.SITE_WITH_PUBLIC_CHARGER_ERROR:
+          this.messageService.showErrorMessage('sites.update_public_cs_error', { siteName: site.name });
+          break;
         default:
           Utils.handleHttpError(error, this.router, this.messageService,
             this.centralServerService, 'sites.update_error');

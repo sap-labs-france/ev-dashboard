@@ -416,6 +416,7 @@
       "update_success":"Parkoviště '{{siteName}}' bylo úspěšně aktualizováno",
       "update_error":"Došlo k chybě při aktualizaci parkoviště, zkontrolujte protokoly",
       "update_users_error":"Došlo k chybě při přiřazení uživatele k parkovišti, zkontrolujte protokoly",
+      "update_public_cs_error": "Please set all charging stations under site {{siteName}} to private.",
       "create_success":"Parkoviště '{{siteName}}' bylo úspěšně vytvořeno",
       "create_error":"Došlo k chybě při vytvoření parkoviště, zkontrolujte protokoly",
       "image_size_error":"Překročen limit velikosti obrázku, limit je menší než '{{maxPictureKb}}' Kb",

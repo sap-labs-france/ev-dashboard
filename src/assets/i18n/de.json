@@ -419,6 +419,7 @@
     "update_success": "Der Standort '{{siteName}}' wurde erfolgreich aktualisiert",
     "update_error": "Beim Aktualisieren des Standortes ist ein Fehler aufgetreten",
     "update_users_error": "Beim Zuordnen eines Nutzers zu diesem Standort ist ein Fehler aufgetreten",
+    "update_public_cs_error": "Please set all charging stations under site {{siteName}} to private.",
     "create_success": "Der Standort '{{siteName}}' wurde erfolgreich erstellt",
     "create_error": "Beim Erstellen des Standortes ist ein Fehler aufgetreten",
     "image_size_error": "Die maximale Bildgröße wurde überschritten, die maximale Bildgröße ist '{{maxPictureKb}}' Kb",

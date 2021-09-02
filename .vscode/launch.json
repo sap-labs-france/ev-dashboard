@@ -7,8 +7,8 @@
     {
       "type": "chrome",
       "request": "launch",
-      "name": "tenant: escobar",
-      "url": "http://escobar.localhost:45000",
+      "name": "tenant: slf",
+      "url": "http://slf.localhost:45000",
       "webRoot": "${workspaceFolder}"
     },
     {

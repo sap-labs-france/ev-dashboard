@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { TenantComponents } from 'types/Tenant';
 
 import { BrowserNotSupportedComponent } from './browser-not-supported/browser-not-supported.component';
 import { DevEnvGuard } from './guard/development.guard';
@@ -7,7 +8,6 @@ import { AdminLayoutComponent } from './layouts/admin/admin-layout.component';
 import { AuthLayoutComponent } from './layouts/auth/auth-layout.component';
 import { ReleaseNotesComponent } from './release-notes/release-notes.component';
 import { Action, Entity } from './types/Authorization';
-import TenantComponents from './types/TenantComponents';
 
 const routes: Routes = [
   {

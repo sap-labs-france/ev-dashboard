@@ -35,6 +35,7 @@ export class ReleaseNotesComponent {
               `Made 'email' and 'name' not mandatory when updating an User`,
               `Transaction and Log endpoints RESTful have been migrated`,
               `Logging database optimizations`,
+              `Fixed lost of OCPI configuration`,
               `Finalized DBT Charging Station's model in templates`,
             ],
           },

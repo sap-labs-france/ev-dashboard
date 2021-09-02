@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { ComponentService } from 'services/component.service';
 import { SiteAreaTableFilter } from 'shared/table/filters/site-area-table-filter';
 import { SiteTableFilter } from 'shared/table/filters/site-table-filter';
-import TenantComponents from 'types/TenantComponents';
+import { TenantComponents } from 'types/Tenant';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';

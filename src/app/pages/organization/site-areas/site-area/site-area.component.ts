@@ -21,7 +21,7 @@ import { RegistrationToken } from '../../../../types/RegistrationToken';
 import { Site } from '../../../../types/Site';
 import { SiteArea } from '../../../../types/SiteArea';
 import { ButtonType } from '../../../../types/Table';
-import TenantComponents from '../../../../types/TenantComponents';
+import { TenantComponents } from '../../../../types/Tenant';
 import { Constants } from '../../../../utils/Constants';
 import { Utils } from '../../../../utils/Utils';
 

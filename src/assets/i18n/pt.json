@@ -419,6 +419,7 @@
     "update_success": "O site '{{siteName}}' atualizado com sucesso",
     "update_error": "Ocurreu um error durante a atualização do site",
     "update_users_error": "Ocurreu um erro enquanto se tentava adicionar um utilizador ao site",
+    "update_public_cs_error": "Please set all charging stations under site {{siteName}} to private",
     "create_success": "O site '{{siteName}}' foi criado com sucesso",
     "create_error": "Ocurreu um erro na criação do site",
     "image_size_error": "O limite de tamanho da imagem foi excedido, o limite está abaixo {{maxPictureKb}} Kb",

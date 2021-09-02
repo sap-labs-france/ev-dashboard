@@ -31,8 +31,8 @@ export class ReleaseNotesComponent {
             changes: [
               `Added Mercedes connector to get the SoC on AC Charging Stations`,
               `Enhanced consumption charts with different series`,
+              `Added Site ID in Logs for Site Admin role`,
               `Made 'email' and 'name' not mandatory when updating an User`,
-              `Renamed 'ids' to 'IDs' in JSON Schemas`,
               `Transaction and Log endpoints RESTful have been migrated`,
               `Logging database optimizations`,
               `Finalized DBT Charging Station's model in templates`,

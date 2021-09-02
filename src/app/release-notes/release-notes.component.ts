@@ -24,16 +24,18 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.4.88',
-        date: new Date('2021-08-30'),
+        date: new Date('2021-09-02'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `Added Mercedes connector to get the SoC on AC Charging Stations`,
               `Enhanced consumption charts with different series`,
+              `Made 'email' and 'name' not mandatory when updating an User`,
               `Renamed 'ids' to 'IDs' in JSON Schemas`,
-              `Transaction and Logging endpoints RESTful migration`,
+              `Transaction and Log endpoints RESTful have been migrated`,
               `Logging database optimizations`,
+              `Finalized DBT Charging Station's model in templates`,
             ],
           },
         ],

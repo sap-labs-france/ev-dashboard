@@ -20,20 +20,134 @@ export class ReleaseNotesComponent {
   public constructor() {
     this.buildReleaseNotes();
   }
-
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.88',
+        date: new Date('2021-09-02'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added Mercedes connector to get the SoC on AC Charging Stations`,
+              `Enhanced consumption charts with different series`,
+              `Added Site ID in Logs for Site Admin role`,
+              `Made 'email' and 'name' not mandatory when updating an User`,
+              `Transaction and Log endpoints RESTful have been migrated`,
+              `Limit the number of Logs to 10 millions max`,
+              `Fixed lost of OCPI configuration`,
+              `Finalized DBT Charging Station's model in templates`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.87',
+        date: new Date('2021-08-25'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added OCPP Trigger Data Transfer in RESTful API`,
+              `Remove prefix from OCPI tariff and use 'Default' as default tariff`,
+              `Added new DBT Charging Station's model in templates`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.86',
+        date: new Date('2021-08-17'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Improvement of the translation to Spanish`,
+              `Implicit log filtering for Site Administrators`
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.85',
+        date: new Date('2021-08-13'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Show asset's consumption/production in the Site Area charts`,
+              `EVlink Smart Wallbox - new serial number added to the templates`,
+              `Wall Box Chargers - new firmware added to the templates`,
+              `Fixed: Domestic connector for OCPI`
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.84',
+        date: new Date('2021-08-06'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Check Billing payment method in OCPP Authorize`,
+              `Do not create automatically the Badge when not known`,
+              `Clean-up current Transaction when OCPP Start Transaction fails on the same Connector`,
+              `Added new CongCongTech, Alpitronic, Alfen Single Proline and Efacec QC45 Charging Station's model in templates`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.83',
+        date: new Date('2021-08-04'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Fixed OCPI Register Endpoint not getting the IOP information`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.82',
+        date: new Date('2021-08-02'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Billing invoicing is now checked daily`,
+              `Enhancement of Logs`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.81',
+        date: new Date('2021-07-30'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Implemented Mercedez access for getting Car's battery level during the charging session for the Smart Charging`,
+              `Added new ARK Charging Station's model in templates`,
+              `Clean up Charging Station's connector when Available Status Notification is sent with no Stop Transaction`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.80',
-        date: new Date('2021-07-28'),
+        date: new Date('2021-07-29'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `Import Tags and Users with Sites + Auto activate Tags and Users' account`,
               `Add Transaction endpoints to RESTfull public API`,
-              `Optimizaed Database performances on Charging Stations and Transactions`,
-              `Display Web Socket protocol not provided in cumtomer's tenant`,
+              `Optimized Database performances on Charging Stations, Transactions, Users, Stats and Site Areas`,
+              `Display Web Socket protocol not provided in customer's Tenant`,
             ],
           },
         ],
@@ -123,7 +237,7 @@ export class ReleaseNotesComponent {
               `Force the Charging Station unavailability's status after 2 mins instead of 9 mins when not responding`,
               `Set the standard Heartbeat OCPP param first and try workarounds next if it failed`,
               `Make Log's Action filter more specifics (REST, OCPP...)`,
-              `Added new Joint new Charging Station's model in templates`,
+              `Added new Joint Charging Station's model in templates`,
               `Optimized DB access in OICP endpoint (Hubject)`,
               `Prevent deletion of Users in Stripe`,
             ],

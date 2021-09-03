@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 
 import { ActionResponse } from '../types/DataResult';
 import { AnalyticsSettings, AssetConnectionType, AssetSettings, AssetSettingsType, BillingSettings, BillingSettingsType, CarConnectorConnectionType, CarConnectorSetting, CarConnectorSettings, CarConnectorSettingsType, CryptoSettings, PricingSettings, PricingSettingsType, RefundSettings, RefundSettingsType, RoamingSettings, RoamingSettingsType, SmartChargingSettings, SmartChargingSettingsType, TechnicalSettings, UserSettings, UserSettingsType } from '../types/Setting';
-import TenantComponents from '../types/TenantComponents';
+import { TenantComponents } from '../types/Tenant';
 import { Utils } from '../utils/Utils';
 import { CentralServerService } from './central-server.service';
 
@@ -212,7 +212,7 @@ export class ComponentService {
     settingsToSave.content.carConnector.connections.forEach((settingConnection, index) => {
       switch (settingConnection.type) {
         case CarConnectorConnectionType.MERCEDES:
-          settingsToSave.sensitiveData.push(`content.carConnectors.connections[${index}].mercedesConnection.clientSecret`);
+          settingsToSave.sensitiveData.push(`content.carConnector.connections[${index}].mercedesConnection.clientSecret`);
           break;
       }
 

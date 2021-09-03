@@ -19,12 +19,12 @@ import { WindowService } from '../../../services/window.service';
 import { AbstractTabComponent } from '../../../shared/component/abstract-tab/abstract-tab.component';
 import { USER_STATUSES, UserRoles } from '../../../shared/model/users.model';
 import { Address } from '../../../types/Address';
-import { IntegrationConnection } from '../../../types/Connection';
+import { IntegrationConnection, IntegrationConnectionType } from '../../../types/Connection';
 import { ActionResponse } from '../../../types/DataResult';
 import { KeyValue, RestResponse } from '../../../types/GlobalType';
 import { HTTPError } from '../../../types/HTTPError';
-import { PricingSettingsType, RefundSettings } from '../../../types/Setting';
-import TenantComponents from '../../../types/TenantComponents';
+import { CarConnectorConnectionSetting, CarConnectorConnectionType, PricingSettingsType, RefundSettings } from '../../../types/Setting';
+import { TenantComponents } from '../../../types/Tenant';
 import { User, UserRole, UserStatus } from '../../../types/User';
 import { Constants } from '../../../utils/Constants';
 import { ParentErrorStateMatcher } from '../../../utils/ParentStateMatcher';
@@ -73,8 +73,10 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public locale!: AbstractControl;
   public address!: Address;
   public refundSetting!: RefundSettings;
+  public mercedesConnectionSetting!: CarConnectorConnectionSetting;
   public integrationConnections!: IntegrationConnection[];
   public refundConnection!: IntegrationConnection;
+  public mercedesUserConnection!: IntegrationConnection;
   public passwords!: FormGroup;
   public password!: AbstractControl;
   public repeatPassword!: AbstractControl;
@@ -104,6 +106,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public sendAdminAccountVerificationNotification!: AbstractControl;
   public user!: User;
   public isRefundConnectionValid!: boolean;
+  public isMercedesUserConnectionValid!: boolean;
   public canSeeInvoice: boolean;
   public isBillingComponentActive: boolean;
   public canListPaymentMethods: boolean;
@@ -296,6 +299,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       this.loadUser();
     }
     this.loadRefundSettings();
+    this.loadMercedesConnectionSettings();
     if (!this.inDialog) {
       super.enableRoutingSynchronization();
     }
@@ -636,7 +640,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       const concurSetting = this.refundSetting.concur;
       const returnedUrl = `${this.windowService.getOrigin()}/users/connections`;
       const state = {
-        connector: 'concur',
+        connector: IntegrationConnectionType.CONCUR,
         appId: this.refundSetting.id,
         userId: this.currentUserID,
       };
@@ -650,6 +654,42 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       return this.refundSetting.concur.apiUrl;
     }
     return null;
+  }
+
+  public revokeMercedesAccount() {
+    this.centralServerService.deleteIntegrationConnection(this.mercedesUserConnection.id).subscribe(
+      (response: ActionResponse) => {
+        if (response.status === RestResponse.SUCCESS) {
+          this.messageService.showSuccessMessage('settings.car_connector.mercedes.revoke_success');
+        } else {
+          Utils.handleError(JSON.stringify(response),
+            this.messageService, 'settings.car_connector.mercedes.revoke_error');
+        }
+        this.loadMercedesConnectionSettings();
+      }, (error) => {
+        Utils.handleError(JSON.stringify(error),
+          this.messageService, 'settings.car_connector.mercedes.revoke_error');
+        this.loadMercedesConnectionSettings();
+      }
+    );
+  }
+
+  public linkMercedesAccount() {
+    if (!this.mercedesConnectionSetting || !this.mercedesConnectionSetting.mercedesConnection) {
+      this.messageService.showErrorMessage(
+        this.translateService.instant('settings.car_connector.mercedes.link_error'));
+    } else {
+      // Mercedes
+      const mercedesSetting = this.mercedesConnectionSetting.mercedesConnection;
+      const returnedUrl = `${this.windowService.getOrigin()}/users/mercedes-connections`;
+      const state = {
+        connector: IntegrationConnectionType.MERCEDES,
+        appId: this.mercedesConnectionSetting.id,
+        userId: this.currentUserID,
+      };
+      this.document.location.href =
+        `${mercedesSetting.authenticationUrl}/as/authorization.oauth2?client_id=${mercedesSetting.clientId}&response_type=code&scope=mb:vehicle:mbdata:evstatus offline_access&redirect_uri=${returnedUrl}&state=${JSON.stringify(state)}`;
+    }
   }
 
   public closeDialog(saved: boolean = false) {
@@ -676,7 +716,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
           this.isRefundConnectionValid = false;
           if (connectionResult && !Utils.isEmptyArray(connectionResult.result)) {
             for (const connection of connectionResult.result) {
-              if (connection.connectorId === 'concur') {
+              if (connection.connectorId === IntegrationConnectionType.CONCUR) {
                 this.refundConnection = connection;
                 this.isRefundConnectionValid =
                   this.refundConnection &&
@@ -685,6 +725,32 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
               }
             }
             this.integrationConnections = connectionResult.result;
+          }
+        });
+      }
+    }
+  }
+
+  private loadMercedesConnectionSettings() {
+    if (this.componentService.isActive(TenantComponents.CAR_CONNECTOR)) {
+      this.componentService.getCarConnectorSettings().subscribe((carConnectorSettings) => {
+        this.mercedesConnectionSetting = carConnectorSettings.carConnector.connections.find((connection) =>
+          connection.type === CarConnectorConnectionType.MERCEDES);
+      });
+      if (this.currentUserID) {
+        this.centralServerService.getIntegrationConnections(this.currentUserID).subscribe((connectionResult) => {
+          this.mercedesUserConnection = null;
+          this.isMercedesUserConnectionValid = false;
+          if (connectionResult && !Utils.isEmptyArray(connectionResult.result)) {
+            for (const connection of connectionResult.result) {
+              if (connection.connectorId === IntegrationConnectionType.MERCEDES) {
+                this.mercedesUserConnection = connection;
+                this.isMercedesUserConnectionValid =
+                  this.mercedesUserConnection &&
+                  this.mercedesUserConnection.validUntil &&
+                  new Date(this.mercedesUserConnection.validUntil).getTime() > new Date().getTime();
+              }
+            }
           }
         });
       }

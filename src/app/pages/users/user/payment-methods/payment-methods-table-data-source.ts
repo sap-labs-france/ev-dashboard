@@ -158,11 +158,11 @@ export class PaymentMethodsTableDataSource extends TableDataSource<BillingPaymen
   }
 
   public buildTableDynamicRowActions(paymentMethod: BillingPaymentMethod): TableActionDef[] {
-    const actions: TableActionDef[] = [];
+    const rowActions: TableActionDef[] = [];
     if (!paymentMethod.isDefault) {
-      actions.push(this.deleteAction);
+      rowActions.push(this.deleteAction);
     }
-    return actions;
+    return rowActions;
   }
 
   public actionTriggered(actionDef: TableActionDef) {

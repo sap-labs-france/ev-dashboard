@@ -5,13 +5,13 @@ import { PaymentDialogData } from 'types/Billing';
 import { BillingSettings } from 'types/Setting';
 
 import { Utils } from '../../../../../utils/Utils';
-import { PaymentMethodComponent } from './stripe/payment-method.component';
+import { StripePaymentMethodComponent } from './stripe/stripe-payment-method.component';
 
 @Component({
-  template: '<app-payment-method *ngIf="billingSettings?.stripe" #appRef [billingSettings]="billingSettings" [currentUserID]="userID" [inDialog]="true" [dialogRef]="dialogRef"></app-payment-method>',
+  template: '<app-stripe-payment-method *ngIf="billingSettings?.stripe" #appRef [billingSettings]="billingSettings" [currentUserID]="userID" [inDialog]="true" [dialogRef]="dialogRef"></app-stripe-payment-method>',
 })
 export class PaymentMethodDialogComponent implements AfterViewInit {
-  @ViewChild('appRef') public appRef!: PaymentMethodComponent;
+  @ViewChild('appRef') public appRef!: StripePaymentMethodComponent;
   public userID!: string;
   public billingSettings!: BillingSettings;
 

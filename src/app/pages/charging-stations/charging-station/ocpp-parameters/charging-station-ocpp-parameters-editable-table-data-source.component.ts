@@ -59,11 +59,11 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
   }
 
   public buildTableDynamicRowActions(ocppParameter: OcppParameter): TableActionDef[] {
-    const actions = [];
+    const rowActions = [];
     if (!ocppParameter.readonly) {
-      actions.push(new TableSaveOCPPParameterAction().getActionDef());
+      rowActions.push(new TableSaveOCPPParameterAction().getActionDef());
     }
-    return actions;
+    return rowActions;
   }
 
   public actionTriggered(actionDef: TableActionDef) {

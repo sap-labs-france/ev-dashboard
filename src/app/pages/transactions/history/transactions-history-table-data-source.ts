@@ -51,7 +51,7 @@ import { DataResult, TransactionDataResult } from '../../../types/DataResult';
 import { HTTPError } from '../../../types/HTTPError';
 import { LogButtonAction } from '../../../types/Log';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
-import TenantComponents from '../../../types/TenantComponents';
+import { TenantComponents } from '../../../types/Tenant';
 import { Transaction, TransactionButtonAction } from '../../../types/Transaction';
 import { User } from '../../../types/User';
 import { Constants } from '../../../utils/Constants';
@@ -459,7 +459,9 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
   }
 
   public buildTableDynamicRowActions(transaction: Transaction): TableActionDef[] {
-    const rowActions: TableActionDef[] = [this.viewAction];
+    const rowActions: TableActionDef[] = [
+      this.viewAction
+    ];
     if (transaction.issuer) {
       if (this.isAdmin) {
         const moreActions = new TableMoreAction([]);

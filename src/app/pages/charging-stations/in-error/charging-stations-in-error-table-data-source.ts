@@ -32,7 +32,7 @@ import { DataResult } from '../../../types/DataResult';
 import { ChargingStationInError, ChargingStationInErrorType, ErrorMessage } from '../../../types/InError';
 import { LogButtonAction } from '../../../types/Log';
 import { DropdownItem, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
-import TenantComponents from '../../../types/TenantComponents';
+import { TenantComponents } from '../../../types/Tenant';
 import { Utils } from '../../../utils/Utils';
 import { ChargingStationsConnectorsCellComponent } from '../cell-components/charging-stations-connectors-cell.component';
 import { ChargingStationsHeartbeatCellComponent } from '../cell-components/charging-stations-heartbeat-cell.component';

@@ -167,14 +167,13 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
   }
 
   public buildTableDynamicRowActions(rowItem: OcpiEndpointDetail): TableActionDef[] {
-    const actionRowButtons = [];
-
+    const rowActions: TableActionDef[] = [];
     if (rowItem && rowItem.ocpiendpoint) {
       // Check is background job is active for the ocpi endpoint
       if (rowItem.ocpiendpoint.backgroundPatchJob) {
-        actionRowButtons.push(this.stopAction);
+        rowActions.push(this.stopAction);
       } else {
-        actionRowButtons.push(this.startAction);
+        rowActions.push(this.startAction);
       }
       let syncActions: TableActionDef;
       if (rowItem.ocpiendpoint.role === OcpiRole.CPO) {
@@ -191,9 +190,9 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
           this.getCdrsAction,
           this.pushTokensAction]).getActionDef();
       }
-      actionRowButtons.push(syncActions);
+      rowActions.push(syncActions);
     }
-    return actionRowButtons;
+    return rowActions;
   }
 
   public rowActionTriggered(actionDef: TableActionDef, ocpiEndpointDetail: OcpiEndpointDetail) {

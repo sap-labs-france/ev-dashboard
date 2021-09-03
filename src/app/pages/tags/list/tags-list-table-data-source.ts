@@ -293,7 +293,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
   }
 
   public buildTableDynamicRowActions(tag: Tag): TableActionDef[] {
-    const rowActions = [];
+    const rowActions: TableActionDef[] = [];
     const moreActions = new TableMoreAction([]);
     if (tag.canUpdate) {
       rowActions.push(this.editAction);

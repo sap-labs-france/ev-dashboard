@@ -5,7 +5,7 @@ import { AuthorizationService } from '../../services/authorization.service';
 import { ComponentService } from '../../services/component.service';
 import { WindowService } from '../../services/window.service';
 import { AbstractTabComponent } from '../../shared/component/abstract-tab/abstract-tab.component';
-import TenantComponents from '../../types/TenantComponents';
+import { TenantComponents } from '../../types/Tenant';
 
 @Component({
   selector: 'app-transactions',

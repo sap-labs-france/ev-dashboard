@@ -44,7 +44,7 @@ import { ActionResponse, DataResult } from '../../../types/DataResult';
 import { ErrorMessage, TransactionInError, TransactionInErrorType } from '../../../types/InError';
 import { LogButtonAction } from '../../../types/Log';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
-import TenantComponents from '../../../types/TenantComponents';
+import { TenantComponents } from '../../../types/Tenant';
 import { Transaction, TransactionButtonAction } from '../../../types/Transaction';
 import { User } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';
@@ -339,7 +339,9 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
   }
 
   public buildTableDynamicRowActions(transaction: TransactionInError): TableActionDef[] {
-    const rowActions: TableActionDef[] = [this.viewAction];
+    const rowActions: TableActionDef[] = [
+      this.viewAction
+    ];
     const moreActions = new TableMoreAction([]);
     if (transaction.issuer) {
       if (transaction.errorCode === TransactionInErrorType.NO_BILLING_DATA) {

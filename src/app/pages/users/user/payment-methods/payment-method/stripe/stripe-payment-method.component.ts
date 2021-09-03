@@ -8,7 +8,7 @@ import { SetupIntent, StripeCardCvcElement, StripeCardExpiryElement, StripeCardN
 import { ComponentService } from 'services/component.service';
 import { StripeService } from 'services/stripe.service';
 import { BillingOperationResult } from 'types/DataResult';
-import TenantComponents from 'types/TenantComponents';
+import { TenantComponents } from 'types/Tenant';
 
 import { CentralServerService } from '../../../../../../services/central-server.service';
 import { MessageService } from '../../../../../../services/message.service';
@@ -17,11 +17,11 @@ import { Utils } from '../../../../../../utils/Utils';
 import { PaymentMethodDialogComponent } from '../payment-method.dialog.component';
 
 @Component({
-  selector: 'app-payment-method',
-  templateUrl: './payment-method.component.html',
+  selector: 'app-stripe-payment-method',
+  templateUrl: './stripe-payment-method.component.html',
 })
 
-export class PaymentMethodComponent implements OnInit {
+export class StripePaymentMethodComponent implements OnInit {
 
   @Input() public inDialog!: boolean;
   @Input() public dialogRef!: MatDialogRef<PaymentMethodDialogComponent>;

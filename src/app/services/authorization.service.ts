@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Action, Entity } from '../types/Authorization';
 import { SiteArea } from '../types/SiteArea';
-import TenantComponents from '../types/TenantComponents';
+import { TenantComponents } from '../types/Tenant';
 import { UserRole, UserToken } from '../types/User';
 import { CentralServerService } from './central-server.service';
 import { ComponentService } from './component.service';

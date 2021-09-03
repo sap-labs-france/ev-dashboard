@@ -6,12 +6,9 @@ import { CentralServerService } from '../../../../services/central-server.servic
 import { DialogService } from '../../../../services/dialog.service';
 import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
-import { TableDeleteAction } from '../../../../shared/table/actions/table-delete-action';
 import { RestResponse } from '../../../../types/GlobalType';
-import { HTTPError } from '../../../../types/HTTPError';
 import { ButtonColor, ButtonType, TableActionDef } from '../../../../types/Table';
 import { Tag, TagButtonAction } from '../../../../types/Tag';
-import { UserButtonAction } from '../../../../types/User';
 import { Utils } from '../../../../utils/Utils';
 import { TableAction } from '../table-action';
 

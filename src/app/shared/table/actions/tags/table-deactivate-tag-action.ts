@@ -9,7 +9,6 @@ import { SpinnerService } from '../../../../services/spinner.service';
 import { RestResponse } from '../../../../types/GlobalType';
 import { ButtonType, TableActionDef } from '../../../../types/Table';
 import { Tag, TagButtonAction } from '../../../../types/Tag';
-import { UserButtonAction } from '../../../../types/User';
 import { Utils } from '../../../../utils/Utils';
 import { TableDeactivateAction } from '../table-deactivate-action';
 

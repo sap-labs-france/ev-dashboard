@@ -6,13 +6,11 @@ import { CentralServerService } from '../../../../services/central-server.servic
 import { DialogService } from '../../../../services/dialog.service';
 import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
-import { TableDeleteAction } from '../../../../shared/table/actions/table-delete-action';
 import { RestResponse } from '../../../../types/GlobalType';
-import { HTTPError } from '../../../../types/HTTPError';
 import { ButtonType, TableActionDef } from '../../../../types/Table';
-import { Tag } from '../../../../types/Tag';
-import { UserButtonAction } from '../../../../types/User';
+import { Tag, TagButtonAction } from '../../../../types/Tag';
 import { Utils } from '../../../../utils/Utils';
+import { TableDeleteAction } from '../table-delete-action';
 
 export interface TableDeleteTagActionDef extends TableActionDef {
   action: (tag: Tag, dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
@@ -23,7 +21,7 @@ export class TableDeleteTagAction extends TableDeleteAction {
   public getActionDef(): TableDeleteTagActionDef {
     return {
       ...super.getActionDef(),
-      id: UserButtonAction.DELETE_TAG,
+      id: TagButtonAction.DELETE_TAG,
       action: this.deleteTag,
     };
   }

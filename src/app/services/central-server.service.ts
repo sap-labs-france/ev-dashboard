@@ -842,6 +842,23 @@ export class CentralServerService {
       );
   }
 
+  public getTagByVisualID(tagVisualID: string): Observable<Tag> {
+    // Verify init
+    this.checkInit();
+    const params: { [param: string]: string } = {};
+    params['VisualID'] = tagVisualID;
+    params['WithUser'] = 'true';
+    // Execute the REST service
+    return this.httpClient.get<Tag>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TAG_BY_VISUAL_ID}`,
+      {
+        headers: this.buildHttpHeaders(),
+        params
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
   public getUserDefaultTagCar(userID: string): Observable<UserDefaultTagCar> {
     // Verify init
     this.checkInit();
@@ -903,6 +920,34 @@ export class CentralServerService {
       );
   }
 
+  public unassignTags(visualTagsIDs: string[]): Observable<ActionsResponse> {
+    // Verify init
+    this.checkInit();
+    const options = {
+      headers: this.buildHttpHeaders(),
+      body: { visualTagsIDs },
+    };
+    // Execute the REST service
+    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TAGS_UNASSIGN}`, { visualTagsIDs }, {
+      headers: this.buildHttpHeaders()
+    })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public unassignTag(visualTagID: string): Observable<ActionsResponse> {
+    // Verify init
+    this.checkInit();
+    // Execute the REST service
+    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TAG_UNASSIGN}`, { visualTagID }, {
+      headers: this.buildHttpHeaders()
+    })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
   public createTag(tag: Tag): Observable<ActionResponse> {
     // Verify init
     this.checkInit();
@@ -921,6 +966,32 @@ export class CentralServerService {
     this.checkInit();
     // Execute the REST service
     return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TAG_UPDATE}`, tag,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public assignTag(tag: Partial<Tag>): Observable<ActionResponse> {
+    // Verify init
+    this.checkInit();
+    // Execute the REST service
+    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TAG_ASSIGN}`, tag,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public updateTagByVisualID(tag: Partial<Tag>): Observable<ActionResponse> {
+    // Verify init
+    this.checkInit();
+    // Execute the REST service
+    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TAG_UPDATE_BY_VISUAL_ID}`, tag,
       {
         headers: this.buildHttpHeaders(),
       })

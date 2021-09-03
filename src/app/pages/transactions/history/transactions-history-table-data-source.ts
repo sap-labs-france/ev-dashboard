@@ -126,12 +126,12 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
       this.loadUserFilterLabel(userID);
     }
     // Tag
-    const tagID = this.windowService.getSearch('TagID');
-    if (tagID) {
+    const visualTagID = this.windowService.getSearch('VisualTagID');
+    if (visualTagID) {
       const tagTableFilter = this.tableFiltersDef.find(filter => filter.id === 'tag');
       if (tagTableFilter) {
         tagTableFilter.currentValue.push({
-          key: tagID, value: tagID,
+          key: visualTagID, value: visualTagID,
         });
         this.filterChanged(tagTableFilter);
       }

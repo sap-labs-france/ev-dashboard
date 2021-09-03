@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { TagStatusFormatterComponent } from 'pages/users/formatters/tag-status-formatter.component';
+import { TagStatusFormatterComponent } from 'pages/tags/formatters/tag-status-formatter.component';
 import { Observable } from 'rxjs';
 import { User } from 'types/User';
 

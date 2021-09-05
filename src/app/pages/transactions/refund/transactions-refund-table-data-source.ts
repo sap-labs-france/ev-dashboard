@@ -41,7 +41,7 @@ import ChangeNotification from '../../../types/ChangeNotification';
 import { DataResult, TransactionRefundDataResult } from '../../../types/DataResult';
 import { RefundSettings } from '../../../types/Setting';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
-import TenantComponents from '../../../types/TenantComponents';
+import { TenantComponents } from '../../../types/Tenant';
 import { Transaction, TransactionButtonAction } from '../../../types/Transaction';
 import { User } from '../../../types/User';
 import { Constants } from '../../../utils/Constants';

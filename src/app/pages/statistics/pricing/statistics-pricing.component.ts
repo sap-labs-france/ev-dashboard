@@ -13,7 +13,7 @@ import { SiteTableFilter } from '../../../shared/table/filters/site-table-filter
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { FilterParams } from '../../../types/GlobalType';
 import { TableFilterDef } from '../../../types/Table';
-import TenantComponents from '../../../types/TenantComponents';
+import { TenantComponents } from '../../../types/Tenant';
 import { SimpleChart } from '../shared/chart-utilities';
 import { StatisticsBuildService, StatisticsBuildValueWithUnit } from '../shared/statistics-build.service';
 import { StatisticsExportService } from '../shared/statistics-export.service';

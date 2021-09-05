@@ -12,7 +12,7 @@ import { TableSyncRefundTransactionsAction } from '../../../shared/table/actions
 import { RestResponse } from '../../../types/GlobalType';
 import { HTTPError } from '../../../types/HTTPError';
 import { RefundSettings, RefundSettingsType } from '../../../types/Setting';
-import TenantComponents from '../../../types/TenantComponents';
+import { TenantComponents } from '../../../types/Tenant';
 import { Utils } from '../../../utils/Utils';
 
 @Component({

@@ -23,13 +23,32 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.88',
+        date: new Date('2021-09-05'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added Mercedes connector to get the SoC on AC Charging Stations`,
+              `Enhanced consumption charts with different series`,
+              `Added Site ID in Logs for Site Admin role`,
+              `Made 'email' and 'name' not mandatory when updating an User`,
+              `Transaction and Log endpoints RESTful have been migrated`,
+              `Limit the number of Logs to 10 millions max`,
+              `Fixed lost of OCPI configuration`,
+              `Finalized DBT Charging Station's model in templates`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.87',
         date: new Date('2021-08-25'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
-              `Added OCPI Trigger Data Transfer in RESTful API`,
+              `Added OCPP Trigger Data Transfer in RESTful API`,
               `Remove prefix from OCPI tariff and use 'Default' as default tariff`,
               `Added new DBT Charging Station's model in templates`,
             ],

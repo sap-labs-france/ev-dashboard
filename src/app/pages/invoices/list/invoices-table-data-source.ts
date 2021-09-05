@@ -27,7 +27,7 @@ import { BillingButtonAction, BillingInvoice, BillingSessionData } from '../../.
 import ChangeNotification from '../../../types/ChangeNotification';
 import { DataResult } from '../../../types/DataResult';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
-import TenantComponents from '../../../types/TenantComponents';
+import { TenantComponents } from '../../../types/Tenant';
 import { User } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';
 import { InvoiceStatusFilter } from '../filters/invoices-status-filter';
@@ -148,7 +148,7 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
         formatter: (sessions: BillingSessionData[], invoice: BillingInvoice) => sessions?.length,
         headerClass: 'col-10p text-center',
         class: 'col-10p text-center',
-        sortable: true,
+        sortable: false,
       },
       {
         id: 'amount',

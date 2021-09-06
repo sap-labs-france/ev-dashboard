@@ -61,11 +61,9 @@ export class TagComponent implements OnInit {
         ])),
       user: new FormControl('',
         Validators.compose([
-          Validators.required,
         ])),
       userID: new FormControl('',
         Validators.compose([
-          Validators.required,
         ])),
       description: new FormControl('',
         Validators.compose([
@@ -178,6 +176,12 @@ export class TagComponent implements OnInit {
     } else {
       this.createTag(tag);
     }
+  }
+
+  public resetUser() {
+    this.userID.reset();
+    this.user.reset();
+    this.formGroup.markAsDirty();
   }
 
   private updateTag(tag: Tag) {

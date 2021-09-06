@@ -23,8 +23,21 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.89',
+        date: new Date('2021-09-06'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Smart Charging - Enable Charging Stations without static limitation support`,
+              `Added OCPP Get Diagnostics command in public REST endpoint`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.88',
-        date: new Date('2021-09-02'),
+        date: new Date('2021-09-05'),
         componentChanges: [
           {
             name: 'Dashboard',

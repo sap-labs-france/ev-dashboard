@@ -698,7 +698,7 @@
     "cant_charge_in_parallel": "Não podem ser feitos carregamentos em paralelo",
     "share_power_to_all_connectors": "Partilhar o Poder com todos os conectores",
     "exclude_from_power_limitation": "Não se pode limitar o poder",
-    "update_public_cs_error": "Please set the site of the chargingStation to public",
+    "update_public_cs_error": "Please set the Site of the Charging Station to public",
     "public": "Esta estação de carregamento é publica",
     "public_charger": "Publica",
     "exclude_smart_charging": "Exlucido do carregamento Rapido",

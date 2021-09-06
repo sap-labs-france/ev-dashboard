@@ -693,7 +693,7 @@
       "cant_charge_in_parallel":"Nelze nabíjet souběžně",
       "share_power_to_all_connectors":"Sdílet výkon se všemi konektory ",
       "exclude_from_power_limitation":"Nelze omezit výkon",
-      "update_public_cs_error": "Please set the site of the chargingStation to public",
+      "update_public_cs_error": "Please set the Site of the Charging Station to public",
       "public":"Tato nabíjecí stanice je veřejná",
       "public_charger":"Veřejné",
       "exclude_smart_charging":"Vyloučit z Smart nabíjení ",

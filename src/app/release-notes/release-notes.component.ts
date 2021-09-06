@@ -23,6 +23,18 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.89',
+        date: new Date('2021-09-06'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              ``,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.88',
         date: new Date('2021-09-05'),
         componentChanges: [

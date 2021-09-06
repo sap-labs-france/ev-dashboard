@@ -31,6 +31,7 @@ export class ReleaseNotesComponent {
             changes: [
               `Smart Charging - Enable Charging Stations without static limitation support`,
               `Added OCPP Get Diagnostics command in public REST endpoint`,
+              `Return new fields in User's default Tag and Car REST API`,
             ],
           },
         ],

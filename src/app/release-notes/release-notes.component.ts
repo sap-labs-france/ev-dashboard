@@ -29,7 +29,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
-              ``,
+              `Smart Charging - Enable Charging Stations without static limitation support`,
             ],
           },
         ],

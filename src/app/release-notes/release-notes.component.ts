@@ -30,6 +30,7 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Smart Charging - Enable Charging Stations without static limitation support`,
+              `Added OCPP Get Diagnostics command in public REST endpoint`,
             ],
           },
         ],

@@ -1254,7 +1254,6 @@
     "changed_by_other_user": "L'utente '{{userFullName}}' è stato modificato da un altro utente e sarà ricaricato",
     "update_error": "Si è verificato un errore durante l'aggiornamento dell'utente",
     "user_do_not_exist": "L'utente non esiste",
-    "user_tag_id_already_used": "Uno dei badge è già assegnato ad un altro utente",
     "title": "Utente",
     "picture_size_error": "Il limite di dimensione dell'immagine è stato superato, il limite è inferiore a {{maxPictureKb}} Kb",
     "create_success": "L'utente {{userFullName}} è stato creato correttamente",

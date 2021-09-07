@@ -1337,7 +1337,9 @@
     "user": "User",
     "failed_download": "Invoice download failed.",
     "invoice": "Invoice",
-    "pay_with_card": "Pay with card"
+    "pay_with_card": "Pay with card",
+    "invoice_payment_success": "Invoice has been paid successfully",
+    "invoice_payment_error": "Invoice payment has failed, please try again with another payment method"
   },
   "tags": {
     "id": "Tag ID",
@@ -1544,6 +1546,7 @@
       "payment_methods_card_number_error": "Invalid card number",
       "payment_methods_expiration_date_error": "Invalid expiration date",
       "payment_methods_cvc_error": "Invalid verification code",
+      "payment_one_shot_succeeded": "Payment has been successful",
       "transaction_billing_activation": "Billing Activation",
       "transaction_billing_activation_title": "Activate Billing of Transactions",
       "transaction_billing_activation_confirm": "Do you really want to activate the billing of charging sessions? <br><br> <strong> WARNING ! </strong> Once activated, you will NOT be able to deactivate it !",

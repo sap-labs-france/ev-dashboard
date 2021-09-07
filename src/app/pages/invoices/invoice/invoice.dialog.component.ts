@@ -9,7 +9,7 @@ import { InvoiceComponent } from './invoice.component';
 @Component({
   template: '<app-invoice #appRef [currentInvoiceID]="invoiceID" [currentUserID]="userID" [inDialog]="true" [dialogRef]="dialogRef"></app-invoice>',
 })
-export class InvoiceDialogComponent implements AfterViewInit {
+export class InvoiceDialogComponent implements AfterViewInit{
   @ViewChild('appRef') public appRef!: InvoiceComponent;
   public invoiceID!: string;
   public inDialog!: boolean;
@@ -24,9 +24,6 @@ export class InvoiceDialogComponent implements AfterViewInit {
 
   public ngAfterViewInit() {
     // Register key event
-    Utils.registerSaveCloseKeyEvents(this.dialogRef, this.appRef.formGroup,
-      // this.appRef.payInvoice.bind(this.appRef),
-      this.appRef.closeDialog.bind(this.appRef),
-      this.appRef.closeDialog.bind(this.appRef));
+    Utils.registerCloseKeyEvents(this.dialogRef);
   }
 }

@@ -8,39 +8,25 @@
         </ng-template>
         <div class="card-body invoice-dialog-body">
           <div class="row">
-            <!-- <div class="col-md-4 offset-2"> -->
               <button mat-raised-button color="primary" (click)="downloadInvoice()">
                 <mat-icon>cloud_download</mat-icon>
                 <span>{{'general.download' | translate}}</span>
               </button>
-              <button *ngIf="!isPaid" mat-raised-button color="primary" (click)="openInvoiceDialog()">
+              <button *ngIf="!isPaid" mat-raised-button color="primary" (click)="openInvoicePaymentDialog()">
                 <mat-icon>payment</mat-icon>
                 <span>{{'invoices.pay' | translate}} {{amount}}</span>
               </button>
-            <!-- </div> -->
           </div>
           <hr>
           <div class="pdf-container">
-            <!-- <pdf-viewer [src]="pdfSrc" [original-size]="false" [render-text]="true" [show-all]="true" [zoom-scale]="'page-width'" style="display: flex;"></pdf-viewer> -->
             <pdf-viewer [src]="pdfSrc" [show-all]="true" [autoresize]="true"></pdf-viewer>
           </div>
           <div class="clearfix"></div>
         </div>
       </mat-tab>
-      <!-- <mat-tab *ngIf="!isPaid">
-        <ng-template mat-tab-label>
-          <mat-icon>payment</mat-icon>
-          <span (click)="loadCardForm()">{{'invoices.pay' | translate}}</span>
-        </ng-template>
-        <div class="card-body invoice-dialog-body">
-          <div>
-            <app-invoice-payment [currentUserID]=currentUserID [currentInvoiceID]=currentInvoiceID></app-invoice-payment>
-          </div>
-        </div>
-      </mat-tab> -->
     </mat-tab-group>
     <div class="tabs-actions">
-      <button mat-icon-button *ngIf="inDialog" (click)="close()" [disabled]="isSaveClicked">
+      <button mat-icon-button *ngIf="inDialog" (click)="close()">
         <mat-icon>close</mat-icon>
       </button>
     </div>

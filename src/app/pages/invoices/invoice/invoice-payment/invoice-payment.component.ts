@@ -1,9 +1,9 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
+import { Component, Input, OnInit } from '@angular/core';
+import { AbstractControl } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { PaymentIntent, PaymentMethod, SetupIntent, StripeCardCvcElement, StripeCardExpiryElement, StripeCardNumberElement, StripeElements, StripeError } from '@stripe/stripe-js';
+import { PaymentIntent, StripeCardCvcElement, StripeCardExpiryElement, StripeCardNumberElement, StripeElements, StripeError } from '@stripe/stripe-js';
 import { CentralServerService } from 'services/central-server.service';
 import { MessageService } from 'services/message.service';
 import { SpinnerService } from 'services/spinner.service';
@@ -27,7 +27,6 @@ export class InvoicePaymentComponent implements OnInit{
   @Input() public dialogRef!: MatDialogRef<any>;
   @Input() public currentInvoiceID!: string;
   @Input() public currentUserID!: string;
-  @Input() public formGroup!: FormGroup;
   @Input() public inDialog!: boolean;
   @Input() public amountWithCurrency!: string;
 
@@ -43,11 +42,10 @@ export class InvoicePaymentComponent implements OnInit{
   public cvcError: string;
 
   public invoiceComponent: InvoiceComponent;
-  public hasAcceptedConditions: boolean;
   public isCardNumberValid: boolean;
   public isExpirationDateValid: boolean;
   public isCvcValid: boolean;
-  public isSaveClicked: boolean;
+  public isPayClicked: boolean;
   public invoiceStatus: BillingInvoiceStatus;
   public isPaid: boolean;
   public billingSettings: BillingSettings;
@@ -56,15 +54,13 @@ export class InvoicePaymentComponent implements OnInit{
     private messageService: MessageService,
     private translateService: TranslateService,
     private router: Router,
-    private appCurrencyPipe: AppCurrencyPipe,
     private stripeService: StripeService,
-    private centralServerService: CentralServerService,
-    private dialog: MatDialog
+    private centralServerService: CentralServerService
   ) {
     this.isCardNumberValid = false;
     this.isExpirationDateValid = false;
     this.isCvcValid = false;
-    this.isSaveClicked = false;
+    this.isPayClicked = false;
   }
 
   public ngOnInit(){
@@ -83,7 +79,8 @@ export class InvoicePaymentComponent implements OnInit{
     this.amountWithCurrency = amount;
   }
 
-  public async callInvoicePaymentBack() {
+  public async pay() {
+    this.isPayClicked = true;
     await this.doCreatePaymentMethod();
   }
 
@@ -173,10 +170,13 @@ export class InvoicePaymentComponent implements OnInit{
         operationResult = response;
       } else {
         // ---------------------------------------------------------------
-        // Step #2 - Used the confirmed payment intent to pay the invoice
+        // Step #2 - Use the confirmed payment intent to pay the invoice
         // ---------------------------------------------------------------
         const paymentMethodId: string = confirmResult.paymentIntent.payment_method;
         operationResult = await this.finalizeInvoicePayment(paymentMethodId);
+        if (operationResult.succeeded) {
+          this.isPaid = true;
+        }
       }
     } catch (error) {
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
@@ -205,13 +205,13 @@ export class InvoicePaymentComponent implements OnInit{
         this.cardNumberError = this.translateService.instant('settings.billing.payment_methods_card_declined');
         this.cardNumber.focus();
       } else {
-        this.messageService.showErrorMessage('settings.billing.payment_methods_create_error');
+        this.messageService.showErrorMessage('invoices.invoice_payment_error');
       }
-      this.isSaveClicked = false;
+      this.isPayClicked = false;
     } else {
       this.spinnerService.hide();
       // Operation succeeded
-      this.messageService.showSuccessMessage('settings.billing.payment_methods_create_success', { last4: operationResult.internalData.card.last4 });
+      this.messageService.showSuccessMessage('invoices.invoice_payment_success');
       this.close(true);
     }
   }

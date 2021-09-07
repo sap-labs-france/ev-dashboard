@@ -26,8 +26,15 @@ export class InvoicePaymentDialogComponent implements AfterViewInit {
 
   public ngAfterViewInit() {
     // Register key event
-    Utils.registerSaveCloseKeyEvents(this.dialogRef, this.appRef.formGroup,
-      this.appRef.callInvoicePaymentBack.bind(this.appRef),
-      this.appRef.closeDialog.bind(this.appRef));
+    this.dialogRef.keydownEvents().subscribe(async (keydownEvents) => {
+      if (keydownEvents?.code === 'Escape') {
+        this.appRef.close();
+      }
+      if (keydownEvents?.code === 'Enter') {
+        if (this.appRef.isCardNumberValid && this.appRef.isExpirationDateValid && this.appRef.isCvcValid && !this.appRef.isPayClicked) {
+          await this.appRef.pay();
+        }
+      }
+    });
   }
 }

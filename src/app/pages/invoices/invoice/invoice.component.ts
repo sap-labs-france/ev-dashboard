@@ -61,7 +61,6 @@ export class InvoiceComponent implements OnInit {
   public isCardNumberValid: boolean;
   public isExpirationDateValid: boolean;
   public isCvcValid: boolean;
-  public isPayClicked: boolean;
   public amount: string;
   public invoiceStatus: BillingInvoiceStatus;
   public isPaid: boolean;
@@ -75,7 +74,6 @@ export class InvoiceComponent implements OnInit {
     private centralServerService: CentralServerService,
     private componentService: ComponentService,
     private appCurrencyPipe: AppCurrencyPipe,
-    private stripeService: StripeService,
     private messageService: MessageService,
     private translateService: TranslateService,
     private router: Router,
@@ -86,13 +84,20 @@ export class InvoiceComponent implements OnInit {
     this.isCardNumberValid = false;
     this.isExpirationDateValid = false;
     this.isCvcValid = false;
-    this.isPayClicked = false;
-    // this.amount = '23';
-    // this.to = this.translateService.instant('invoices.to');
   }
 
   public ngOnInit() {
     this.spinnerService.show();
+    this.loadInvoice();
+    this.centralServerService.getInvoicePdf(this.currentInvoiceID).subscribe((invoice) => {
+      this.pdfSrc = {
+        data : new Uint8Array(invoice),
+      };
+      this.spinnerService.hide();
+    });
+  }
+
+  public loadInvoice() {
     this.centralServerService.getInvoice(this.currentInvoiceID).subscribe((invoice) => {
       this.isPaid = invoice.status === BillingInvoiceStatus.PAID;
       this.invoiceNumber = invoice.number;
@@ -100,12 +105,6 @@ export class InvoiceComponent implements OnInit {
         this.amount = this.appCurrencyPipe.transform(invoice.amount / 100, invoice.currency.toUpperCase());
         this.invoicePaymentComponent.setCurrentAmount(this.amount);
       }
-    });
-    this.centralServerService.getInvoicePdf(this.currentInvoiceID).subscribe((invoice) => {
-      this.pdfSrc = {
-        data : new Uint8Array(invoice),
-      };
-      this.spinnerService.hide();
     });
   }
 
@@ -121,69 +120,13 @@ export class InvoiceComponent implements OnInit {
     });
   }
 
-  // public pageRendered() {
-  //   this.pdfComponent.pdfViewer.currentScaleValue = 'page-fit';
-  // }
-
-  // ngOnInit() {
-  //   if (this.type == 'pdf') {
-  //     this.pdfLink = `${environment.celoApiEndpoint}/api/Consents/${this.id}`
-  //   } else if (this.type == 'document') {
-  //     this.pdfLink = `${environment.celoApiEndpoint}/api/PatientFiles/${this.id}`
-  //   }
-  //   this.loadPdf()
-  // }
-
-  // private loadPdf() {
-  //   this.isLoading = true
-  //   this.http.get<ArrayBuffer>(this.pdfLink, {responseType: 'arraybuffer' as 'json'})
-  //     .do(()=>this.isLoading=false)
-  //     .subscribe((ab) => {
-  //       this.pdfSource = {
-  //         data: new Uint8Array(ab)
-  //       }
-  //     })
-  // }
-
-  // TODO: make close / closeDialog work
-  public onClose() {
-    this.closeDialog(true);
-  }
-
-  public closeDialog(saved: boolean = false) {
+  public close() {
     if (this.inDialog) {
-      this.dialogRef.close(saved);
+      this.dialogRef.close(true);
     }
   }
 
-  // // Create the dialog
-  // const dialogConfig = new MatDialogConfig();
-  // // Popup Width
-  // dialogConfig.minWidth = size?.minWidth ? size.minWidth + 'vw' : '80vw';
-  // dialogConfig.maxWidth = size?.maxWidth ? size.maxWidth + 'vw' : dialogConfig.maxWidth;
-  // dialogConfig.width = size?.width ? size.width + 'vw' : dialogConfig.width;
-  // // Popup Height
-  // dialogConfig.minHeight = size?.minHeight ? size.minHeight + 'vh' : '60vh';
-  // dialogConfig.maxHeight = size?.maxHeight ? size.maxHeight + 'vh' : dialogConfig.maxHeight;
-  // dialogConfig.height = size?.height ? size.height + 'vh' : dialogConfig.height;
-  // // CSS
-  // dialogConfig.panelClass = 'transparent-dialog-container';
-  // dialogConfig.data = {
-  //   ...dialogParams,
-  // };
-  // // disable outside click close
-  // dialogConfig.disableClose = true;
-  // // Open
-  // const dialogRef = dialog.open(component, dialogConfig);
-  // dialogRef.afterClosed().subscribe(() => {
-  //   if (refresh) {
-  //     refresh().subscribe();
-  //   }
-  // });
-
-
-  public openInvoiceDialog() {
-    this.isPayClicked = true;
+  public openInvoicePaymentDialog() {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = ScreenSize.S + 'vw';
@@ -205,33 +148,7 @@ export class InvoiceComponent implements OnInit {
     // Open
     const dialogRef = this.dialog.open(InvoicePaymentDialogComponent, dialogConfig);
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('TOTO');
+      this.loadInvoice();
     });
-  }
-
-  // public payInvoice() {
-  //   // new TablePayInvoiceAction().getActionDef().action()
-  //   void this.doCreatePaymentMethod();
-  // }
-
-  private async doCreatePaymentMethod() {
-    // const operationResult: any = await this.createPaymentMethod();
-    // if (operationResult.error) {
-    //   // Operation failed
-    //   if (operationResult.error.code === 'card_declined') {
-    //     this.isCardNumberValid = false;
-    //     this.messageService.showErrorMessage('settings.billing.payment_methods_create_error_card_declined');
-    //     this.cardNumberError = this.translateService.instant('settings.billing.payment_methods_card_declined');
-    //     this.cardNumber.focus();
-    //   } else {
-    //     this.messageService.showErrorMessage('settings.billing.payment_methods_create_error');
-    //   }
-    //   this.isSaveClicked = false;
-    // } else {
-    //   this.spinnerService.hide();
-    //   // Operation succeeded
-    //   this.messageService.showSuccessMessage('settings.billing.payment_methods_create_success', { last4: operationResult.internalData.card.last4 });
-    //   // this.close(true);
-    // }
   }
 }

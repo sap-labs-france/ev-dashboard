@@ -86,7 +86,7 @@
         </mat-tab>
       </mat-tab-group>
       <div class="tabs-actions">
-        <button mat-button *ngIf="!isPaid" (click)="callInvoicePaymentBack()" [disabled]="!isCardNumberValid || !isCvcValid || !isExpirationDateValid || isPayClicked">
+        <button mat-button *ngIf="!isPaid" (click)="pay()" [disabled]="!isCardNumberValid || !isCvcValid || !isExpirationDateValid || isPayClicked">
           <span>{{'invoices.pay' | translate}} {{amount}}</span>
         </button>
             <button mat-icon-button *ngIf="inDialog" (click)="close()" [disabled]="isPayClicked">

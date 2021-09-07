@@ -30,6 +30,7 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Added OCPP Get Composite Schedule command in public REST endpoint`,
+              `Ensure Site and Charging Station are public when checking the public flag`,
             ],
           },
         ],

@@ -126,6 +126,9 @@ export class ChargingStationComponent implements OnInit {
         case HTTPError.CHARGE_POINT_NOT_VALID:
           this.messageService.showErrorMessage('chargers.charge_point_connectors_error');
           break;
+        case HTTPError.FEATURE_NOT_SUPPORTED_ERROR:
+          this.messageService.showErrorMessage('chargers.update_public_cs_error');
+          break;
         default:
           Utils.handleHttpError(error, this.router, this.messageService,
             this.centralServerService, 'chargers.change_config_error');

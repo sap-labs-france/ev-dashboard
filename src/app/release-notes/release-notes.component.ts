@@ -23,8 +23,34 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.90',
+        date: new Date('2021-09-07'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added OCPP Get Composite Schedule command in public REST endpoint`,
+            ],
+          },
+        ],
+      },
+     {
+        version: '2.4.89',
+        date: new Date('2021-09-06'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Smart Charging - Enable Charging Stations without static limitation support`,
+              `Added OCPP Get Diagnostics command in public REST endpoint`,
+              `Return new fields in User's default Tag and Car REST API`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.88',
-        date: new Date('2021-09-02'),
+        date: new Date('2021-09-05'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -34,7 +60,8 @@ export class ReleaseNotesComponent {
               `Added Site ID in Logs for Site Admin role`,
               `Made 'email' and 'name' not mandatory when updating an User`,
               `Transaction and Log endpoints RESTful have been migrated`,
-              `Logging database optimizations`,
+              `Limit the number of Logs to 10 millions max`,
+              `Fixed lost of OCPI configuration`,
               `Finalized DBT Charging Station's model in templates`,
             ],
           },

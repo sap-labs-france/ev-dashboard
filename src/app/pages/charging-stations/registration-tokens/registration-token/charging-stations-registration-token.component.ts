@@ -15,7 +15,7 @@ import { RestResponse } from '../../../../types/GlobalType';
 import { HTTPError } from '../../../../types/HTTPError';
 import { RegistrationToken } from '../../../../types/RegistrationToken';
 import { SiteArea } from '../../../../types/SiteArea';
-import TenantComponents from '../../../../types/TenantComponents';
+import { TenantComponents } from '../../../../types/Tenant';
 import { Utils } from '../../../../utils/Utils';
 import { ChargingStationsRegistrationTokenDialogComponent } from './charging-stations-registration-token.dialog.component';
 

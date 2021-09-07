@@ -1,6 +1,6 @@
 import CreatedUpdatedProps from './CreatedUpdatedProps';
 import { TableData } from './Table';
-import TenantComponents from './TenantComponents';
+import { TenantComponents } from './Tenant';
 
 export enum TechnicalSettings {
   USER = 'user',

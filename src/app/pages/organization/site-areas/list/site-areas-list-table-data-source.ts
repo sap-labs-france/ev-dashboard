@@ -37,7 +37,7 @@ import { DataResult } from '../../../../types/DataResult';
 import { ButtonAction } from '../../../../types/GlobalType';
 import { SiteArea, SiteAreaButtonAction } from '../../../../types/SiteArea';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../../types/Table';
-import TenantComponents from '../../../../types/TenantComponents';
+import { TenantComponents } from '../../../../types/Tenant';
 import { User } from '../../../../types/User';
 import { Utils } from '../../../../utils/Utils';
 import { SiteAreaAssetsDialogComponent } from '../site-area-assets/site-area-assets-dialog.component';

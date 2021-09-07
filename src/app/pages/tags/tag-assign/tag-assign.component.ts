@@ -31,8 +31,8 @@ export class TagAssignComponent implements OnInit {
   public active!: AbstractControl;
   public default!: AbstractControl;
   public visualID!: AbstractControl;
+  public canListUsers: boolean;
 
-  public isAdmin = false;
 
   public constructor(
     public spinnerService: SpinnerService,
@@ -43,7 +43,7 @@ export class TagAssignComponent implements OnInit {
     private dialogService: DialogService,
     private router: Router,
     private dialog: MatDialog) {
-    this.isAdmin = this.authorizationService.isAdmin();
+    this.canListUsers = this.authorizationService.canListUsers();
   }
 
   public ngOnInit() {
@@ -83,10 +83,12 @@ export class TagAssignComponent implements OnInit {
     this.active = this.formGroup.controls['active'];
     this.default = this.formGroup.controls['default'];
     this.default.setValue(false);
-    this.user.setValue(Utils.buildUserFullName(this.centralServerService.getLoggedUser()));
-    this.userID.setValue(this.centralServerService.getLoggedUser().id);
-    this.user.disable();
-    this.userID.disable();
+    if (!this.canListUsers) {
+      this.user.setValue(Utils.buildUserFullName(this.centralServerService.getLoggedUser()));
+      this.userID.setValue(this.centralServerService.getLoggedUser().id);
+      this.user.disable();
+      this.userID.disable();
+    }
     // Set tag
     this.loadTag();
   }

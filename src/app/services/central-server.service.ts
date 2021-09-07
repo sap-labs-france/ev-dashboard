@@ -920,15 +920,11 @@ export class CentralServerService {
       );
   }
 
-  public unassignTags(visualTagsIDs: string[]): Observable<ActionsResponse> {
+  public unassignTags(visualIDs: string[]): Observable<ActionsResponse> {
     // Verify init
     this.checkInit();
-    const options = {
-      headers: this.buildHttpHeaders(),
-      body: { visualTagsIDs },
-    };
     // Execute the REST service
-    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TAGS_UNASSIGN}`, { visualTagsIDs }, {
+    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TAGS_UNASSIGN}`, { visualIDs }, {
       headers: this.buildHttpHeaders()
     })
       .pipe(
@@ -936,11 +932,11 @@ export class CentralServerService {
       );
   }
 
-  public unassignTag(visualTagID: string): Observable<ActionsResponse> {
+  public unassignTag(visualID: string): Observable<ActionsResponse> {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TAG_UNASSIGN}`, { visualTagID }, {
+    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TAG_UNASSIGN}`, { visualID }, {
       headers: this.buildHttpHeaders()
     })
       .pipe(

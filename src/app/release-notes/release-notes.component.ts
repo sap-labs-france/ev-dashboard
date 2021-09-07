@@ -23,6 +23,18 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.90',
+        date: new Date('2021-09-07'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added OCPP Get Composite Schedule command in public REST endpoint`,
+            ],
+          },
+        ],
+      },
+     {
         version: '2.4.89',
         date: new Date('2021-09-06'),
         componentChanges: [

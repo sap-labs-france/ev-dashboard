@@ -34,7 +34,7 @@ export class ReleaseNotesComponent {
           },
         ],
       },
-     {
+      {
         version: '2.4.89',
         date: new Date('2021-09-06'),
         componentChanges: [

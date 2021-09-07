@@ -23,6 +23,19 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.90',
+        date: new Date('2021-09-07'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added OCPP Get Composite Schedule command in public REST endpoint`,
+              `Ensure Site and Charging Station are public when checking the public flag`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.89',
         date: new Date('2021-09-06'),
         componentChanges: [
@@ -31,6 +44,7 @@ export class ReleaseNotesComponent {
             changes: [
               `Smart Charging - Enable Charging Stations without static limitation support`,
               `Added OCPP Get Diagnostics command in public REST endpoint`,
+              `Return new fields in User's default Tag and Car REST API`,
             ],
           },
         ],

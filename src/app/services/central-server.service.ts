@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { StatusCodes } from 'http-status-codes';
+import { param } from 'jquery';
 import { BehaviorSubject, EMPTY, Observable, TimeoutError, of, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 
@@ -1259,7 +1260,7 @@ export class CentralServerService {
   public exportTags(params: FilterParams): Observable<Blob> {
     // Verify init
     this.checkInit();
-    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TAGS_EXPORT}`,
+    return this.httpClient.get(this.buildRestEndpointUrl(ServerRoute.REST_TAGS_EXPORT),
       {
         headers: this.buildHttpHeaders(),
         responseType: 'blob',
@@ -1512,7 +1513,7 @@ export class CentralServerService {
       );
   }
 
-  public getInvoice(invoiceID: string): Observable<Blob> {
+  public getInvoice(invoiceID: string): Observable<BillingInvoice> {
     // Verify init
     this.checkInit();
     if (!invoiceID) {
@@ -1522,10 +1523,30 @@ export class CentralServerService {
       invoiceID
     });
     // Execute the REST service
+    return this.httpClient.get<BillingInvoice>(url,
+      {
+        headers: this.buildHttpHeaders(),
+        // responseType: 'blob',
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public getInvoicePdf(invoiceID: string): Observable<any> {
+    // Verify init
+    this.checkInit();
+    if (!invoiceID) {
+      return EMPTY;
+    }
+    const url = this.buildRestEndpointUrl(ServerRoute.REST_BILLING_DOWNLOAD_INVOICE, {
+      invoiceID
+    });
+    // Execute the REST service
     return this.httpClient.get(url,
       {
         headers: this.buildHttpHeaders(),
-        responseType: 'blob',
+        responseType: 'arraybuffer' as 'json'
       })
       .pipe(
         catchError(this.handleHttpError),
@@ -1626,10 +1647,13 @@ export class CentralServerService {
     this.checkInit();
     // Build the URL
     const urlPattern: ServerRoute = (!parameters.paymentMethodID) ? ServerRoute.REST_BILLING_PAYMENT_METHOD_SETUP : ServerRoute.REST_BILLING_PAYMENT_METHOD_ATTACH;
-    const url = this.buildRestEndpointUrl(urlPattern, {
+    let url = this.buildRestEndpointUrl(urlPattern, {
       userID: parameters.userID,
       paymentMethodID: parameters.paymentMethodID
     });
+    if (parameters.oneTimePayment) {
+      url = `${url}?pay=${parameters.oneTimePayment}`;
+    }
     // Execute the REST service
     return this.httpClient.post<BillingOperationResult>(url, parameters, {
       headers: this.buildHttpHeaders(),
@@ -1676,6 +1700,33 @@ export class CentralServerService {
       .pipe(
         catchError(this.handleHttpError),
       );
+  }
+
+  public createPaymentIntent(parameters: any): Observable<BillingOperationResult> {
+    this.checkInit();
+    const url = this.buildRestEndpointUrl(ServerRoute.REST_BILLING_INVOICE_PAYMENT, {
+      userID: parameters.userID,
+      invoiceID: parameters.invoiceID
+    });
+    return this.httpClient.post<BillingOperationResult>(url, parameters, {
+      headers: this.buildHttpHeaders(),
+    }).pipe(
+      catchError(this.handleHttpError),
+    );
+  }
+
+  public attemptInvoicePayment(parameters: any): Observable<any> {
+    this.checkInit();
+    const url = this.buildRestEndpointUrl(ServerRoute.REST_BILLING_INVOICE_PAYMENT, {
+      userID: parameters.userID,
+      invoiceID: parameters.invoiceID,
+      paymentMethodID: parameters.paymentMethodID // This is mandatory on the second call
+    });
+    return this.httpClient.post<BillingOperationResult>(url, parameters, {
+      headers: this.buildHttpHeaders(),
+    }).pipe(
+      catchError(this.handleHttpError),
+    );
   }
 
   public forceSynchronizeUserForBilling(userID: string): Observable<ActionResponse> {

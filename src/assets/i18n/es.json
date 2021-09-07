@@ -1337,7 +1337,9 @@
     "number_of_items": "Sesiones",
     "pay": "Pagar",
     "user": "Usuario",
-    "failed_download": "Fallo de la descaga de la factura"
+    "failed_download": "Fallo de la descaga de la factura",
+    "invoice": "Factura",
+    "pay_with_card": "Pay with card"
   },
   "tags": {
     "id": "Insignia ID",

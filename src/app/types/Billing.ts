@@ -1,5 +1,6 @@
 import { BillingSettings } from './Setting';
 import { TableData } from './Table';
+import { User } from './User';
 
 export enum BillingInvoiceStatus {
   PAID = 'paid',
@@ -24,6 +25,8 @@ export interface BillingInvoice extends TableData {
   id: string;
   createdOn?: Date;
   invoiceID: string;
+  user: User;
+  currentUserID: string;
   userID?: string;
   // eslint-disable-next-line id-blacklist
   number: string;
@@ -32,6 +35,9 @@ export interface BillingInvoice extends TableData {
   currency: string;
   downloadable: boolean;
   sessions: BillingSessionData[];
+  // TODO : necessary the download url ??
+  downloadUrl: string;
+  amountWithCurrency?: string;
 }
 
 export interface BillingSessionData {
@@ -47,6 +53,7 @@ export enum BillingButtonAction {
   DOWNLOAD_INVOICE = 'download_invoice',
   CREATE_PAYMENT_METHOD = 'create_payment_method',
   DELETE_PAYMENT_METHOD = 'delete_payment_method',
+  VIEW_INVOICE = 'view_invoice'
 }
 
 export interface BillingTransactionData {
@@ -76,4 +83,6 @@ export interface BillingPaymentMethod {
 export interface PaymentDialogData extends TableData {
   userId: string;
   setting: BillingSettings;
+  currentInvoiceID?: string;
+  currentUserID?: string;
 }

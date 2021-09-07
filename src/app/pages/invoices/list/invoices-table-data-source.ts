@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
+// import { InvoicesDialogComponent } from 'shared/dialogs/invoice/invoice.dialog.component';
+import { TransactionDialogComponent } from 'shared/dialogs/transaction/transaction.dialog.component';
 import { IssuerFilter } from 'shared/table/filters/issuer-filter';
 
 import { AuthorizationService } from '../../../services/authorization.service';
@@ -17,6 +20,7 @@ import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
 import { AppUserNamePipe } from '../../../shared/formatters/app-user-name.pipe';
 import { TableDownloadBillingInvoice } from '../../../shared/table/actions/invoices/table-download-billing-invoice-action';
 import { TableSyncBillingInvoicesAction } from '../../../shared/table/actions/invoices/table-sync-billing-invoices-action';
+import { BillingInvoiceDialogData, TableViewBillingInvoiceAction, TableViewBillingInvoiceActionDef } from '../../../shared/table/actions/invoices/table-view-billing-invoice-action';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { EndDateFilter } from '../../../shared/table/filters/end-date-filter';
@@ -32,11 +36,14 @@ import { User } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';
 import { InvoiceStatusFilter } from '../filters/invoices-status-filter';
 import { InvoiceStatusFormatterComponent } from '../formatters/invoice-status-formatter.component';
+import { InvoiceDialogComponent } from '../invoice/invoice.dialog.component';
 
 @Injectable()
 export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
+  public currentUserID: string;
   private syncBillingInvoicesAction = new TableSyncBillingInvoicesAction().getActionDef();
   private downloadBillingInvoiceAction = new TableDownloadBillingInvoice().getActionDef();
+  private viewAction = new TableViewBillingInvoiceAction().getActionDef();
 
   public constructor(
     public spinnerService: SpinnerService,
@@ -44,6 +51,7 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
     private messageService: MessageService,
     private dialogService: DialogService,
     private router: Router,
+    private dialog: MatDialog,
     private appUserNamePipe: AppUserNamePipe,
     private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
@@ -58,6 +66,11 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
 
   public getDataChangeSubject(): Observable<ChangeNotification> {
     return this.centralServerNotificationService.getSubjectInvoices();
+  }
+
+  public setCurrentUserId(currentUserID: string) {
+    this.currentUserID = currentUserID;
+    this.initDataSource();
   }
 
   public loadDataImpl(): Observable<DataResult<BillingInvoice>> {
@@ -91,6 +104,7 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
     if (invoice.downloadable && this.authorizationService.canDownloadInvoice(invoice.userID)) {
       rowActions.push(this.downloadBillingInvoiceAction);
     }
+    rowActions.push(this.viewAction);
     return rowActions;
   }
 
@@ -195,6 +209,14 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
             billingInvoice.id, 'invoice_' + billingInvoice.number, this.translateService, this.spinnerService,
             this.messageService, this.centralServerService, this.router
           );
+        }
+        break;
+      case BillingButtonAction.VIEW_INVOICE:
+        if (actionDef.action) {
+          (actionDef as TableViewBillingInvoiceActionDef).action(InvoiceDialogComponent, this.dialog, {
+            dialogData: { id: billingInvoice.id, currentUserID: this.currentUserID } as BillingInvoiceDialogData
+          },
+          this.refreshData.bind(this));
         }
         break;
     }

@@ -109,29 +109,29 @@ export class AssetComponent implements OnInit {
         ])
       ),
       excludeFromSmartCharging: new FormControl(false),
-      variationThresholdPercent: new FormControl('',
+      variationThresholdPercent: new FormControl(null,
         Validators.compose([
           Validators.max(100),
           Validators.pattern('^[+]?[0-9]*$'),
         ])),
-      fluctuationPercent: new FormControl('',
+      fluctuationPercent: new FormControl(null,
         Validators.compose([
           Validators.max(100),
           Validators.pattern('^[+]?[0-9]*$'),
         ])),
-      staticValueWatt: new FormControl('',
+      staticValueWatt: new FormControl(null,
         Validators.compose([
           Validators.required,
         ])
       ),
       coordinates: new FormArray([
-        new FormControl('',
+        new FormControl(null,
           Validators.compose([
             Validators.max(180),
             Validators.min(-180),
             Validators.pattern(Constants.REGEX_VALIDATION_LONGITUDE),
           ])),
-        new FormControl('',
+        new FormControl(null,
           Validators.compose([
             Validators.max(90),
             Validators.min(-90),
@@ -443,7 +443,7 @@ export class AssetComponent implements OnInit {
     // Set the image
     this.updateAssetImage(asset);
     // Create
-    this.centralServerService.createAsset(Utils.removeUnsetAttributes(asset)).subscribe((response) => {
+    this.centralServerService.createAsset(asset).subscribe((response) => {
       this.spinnerService.hide();
       if (response.status === RestResponse.SUCCESS) {
         this.messageService.showSuccessMessage('assets.create_success',
@@ -474,7 +474,7 @@ export class AssetComponent implements OnInit {
     // Set the image
     this.updateAssetImage(asset);
     // Update
-    this.centralServerService.updateAsset(Utils.removeUnsetAttributes(asset)).subscribe((response) => {
+    this.centralServerService.updateAsset(asset).subscribe((response) => {
       this.spinnerService.hide();
       if (response.status === RestResponse.SUCCESS) {
         this.messageService.showSuccessMessage('assets.update_success', { assetName: asset.name });

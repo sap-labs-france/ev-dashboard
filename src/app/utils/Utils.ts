@@ -924,14 +924,4 @@ export class Utils {
     // replace double quotes inside value to double double quotes to display double quote correctly in csv editor
     return typeof value === 'string' ? '"' + value.replace(/"/g, '""') + '"' : value;
   }
-
-  public static removeUnsetAttributes(data: any) {
-    // Remove every undefined, null or empty strings attributes from an object to avoid triggering backend validation with wrong values
-    for (const key of Object.keys(data)) {
-      if (Utils.isNullOrUndefined(data[key]) || data[key] === '') {
-        delete data[key];
-      }
-    }
-    return data;
-  }
 }

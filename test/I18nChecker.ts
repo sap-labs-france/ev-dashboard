@@ -27,7 +27,7 @@ class I18nChecker {
             console.log(deleted);
           }
           if (Object.keys(added).length === 0 && Object.keys(deleted).length === 0) {
-            console.log('No issue found for: ' + file);
+            I18nChecker.compareContent(parsedContentEN, parsedContentOtherLanguage, file);
           }
         } catch (err) {
           console.log('File not found or with wrong format: ' + file);
@@ -37,6 +37,22 @@ class I18nChecker {
     } catch (err) {
       console.log('English file not found.');
       throw err;
+    }
+  }
+
+  private static compareContent(originalLanguage: JSON, comparedLanguage: JSON, file: string): void {
+    let noIssue = true;
+    for (const keyName of Object.keys(originalLanguage)) {
+      if (typeof originalLanguage[keyName] !== 'string') {
+        continue;
+      }
+      if (originalLanguage[keyName].trim() === comparedLanguage[keyName].trim()) {
+        console.log('Content `' + keyName + '` probably not yet translated into ' + file + ' (current value is: `' + originalLanguage[keyName] + '`)');
+        noIssue = false;
+      }
+    }
+    if (noIssue) {
+      console.log('No issue found for: ' + file);
     }
   }
 }

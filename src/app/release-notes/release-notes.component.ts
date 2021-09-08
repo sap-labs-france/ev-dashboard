@@ -32,6 +32,7 @@ export class ReleaseNotesComponent {
               `Added OCPP Get Composite Schedule command in public REST endpoint`,
               `Ensure Site and Charging Station are public when checking the public flag`,
               `Enhanced Charging Station logging when the response cannot be parsed (malformed)`,
+              `Added new Setec Charging Station's vendor in templates`,
             ],
           },
         ],

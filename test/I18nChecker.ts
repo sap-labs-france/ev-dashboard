@@ -60,9 +60,7 @@ class I18nChecker {
           noIssue = noIssue && I18nChecker.compareValueContent(keyName, originalLanguage[keyName], comparedLanguage[keyName], file);
           break;
         case 'object':
-          const subOrigin = Object.assign({}, originalLanguage[keyName]);
-          const subTarget = Object.assign({}, comparedLanguage[keyName]);
-          noIssue = I18nChecker.compareContent(subOrigin, subTarget, file) && noIssue;
+          noIssue = I18nChecker.compareContent(Object.assign({}, originalLanguage[keyName]), Object.assign({}, comparedLanguage[keyName]), file) && noIssue;
           break;
         default:
           console.error(keyName + ' is not a supported type!');

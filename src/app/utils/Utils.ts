@@ -924,5 +924,4 @@ export class Utils {
     // replace double quotes inside value to double double quotes to display double quote correctly in csv editor
     return typeof value === 'string' ? '"' + value.replace(/"/g, '""') + '"' : value;
   }
-
 }

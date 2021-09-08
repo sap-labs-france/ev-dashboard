@@ -1624,7 +1624,7 @@
         "title": "SAP Analytics",
         "settings": "Configuración"
       },
-      "descripción": "E-Mobility expone sus datos a herramientas de análisis externas. <br> Esta funcionalidad expone todos los datos de  las sesiónes en tiempo real a través de un conector a herramientas de análisis de datos externos. <br> E- Mobility actualmente usa SAP Analytics Cloud a través de un conector OData. <br> SAP Analytics Cloud usa de manera inteligente los datos de carga para simplificar la toma de decisiones operativas. <br> Más información técnica disponible en ",
+      "description": "E-Mobility expone sus datos a herramientas de análisis externas. <br> Esta funcionalidad expone todos los datos de  las sesiónes en tiempo real a través de un conector a herramientas de análisis de datos externos. <br> E- Mobility actualmente usa SAP Analytics Cloud a través de un conector OData. <br> SAP Analytics Cloud usa de manera inteligente los datos de carga para simplificar la toma de decisiones operativas. <br> Más información técnica disponible en ",
       "setting_not_found": "No se encontró la configuración de SAP Analytics",
       "create_success": "La configuración de SAP Analytics se creó exitosamente",
       "create_error": "Se produjo un error al crear la configuración para SAP Analytics",
@@ -1929,7 +1929,7 @@
     "register_error": "Error occurred while registring, check the logs",
     "unregister_error": "Error occurred while unregistring, check the logs",
     "push_evse_statuses_title": "Send EVSE Statuses",
-    "push_evsess_title": "Send EVSEs",
+    "push_evses_title": "Send EVSEs",
     "push_evse_statuses_confirm": "Do you want to send All EVSE statuses to Hubject '{{name}}'?",
     "push_evses_confirm": "Do you want to send All EVSEs to Hubject '{{name}}'?",
     "trigger_jobs_title": "Execute Jobs",

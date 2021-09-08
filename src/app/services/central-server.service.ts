@@ -1898,7 +1898,7 @@ export class CentralServerService {
     return this.httpClient.get<EndUserLicenseAgreement>(`${this.restServerAuthURL}/${ServerRoute.REST_END_USER_LICENSE_AGREEMENT}`,
       {
         headers: this.buildHttpHeaders(this.windowService.getSubdomain()),
-        params: { language }
+        params: { Language: language }
       })
       .pipe(
         catchError(this.handleHttpError),

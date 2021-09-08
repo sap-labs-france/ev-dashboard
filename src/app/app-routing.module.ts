@@ -137,7 +137,7 @@ const routes: Routes = [
           menu: {
             title: 'tags',
             type: 'link',
-            icon: 'people',
+            icon: 'badge',
             path: '/tags',
           },
           auth: {

@@ -2675,7 +2675,7 @@ export class CentralServerService {
 
   public softStopTransaction(id: number): Observable<ActionResponse> {
     this.checkInit();
-    return this.httpClient.put<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_TRANSACTION_SOFT_STOP, { id }),
+    return this.httpClient.put<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_TRANSACTION_SOFT_STOP, { id }), {},
       {
         headers: this.buildHttpHeaders(),
       })

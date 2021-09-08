@@ -1,6 +1,5 @@
 import { promises as fs } from 'fs';
 
-import { I18NHtmlParser } from '@angular/compiler';
 import { addedDiff, deletedDiff } from 'deep-object-diff';
 
 import { Constants } from '../src/app/utils/Constants';

@@ -24,7 +24,7 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.4.90',
-        date: new Date('2021-09-07'),
+        date: new Date('2021-09-09'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -33,6 +33,7 @@ export class ReleaseNotesComponent {
               `Ensure Site and Charging Station are public when checking the public flag`,
               `Enhanced Charging Station logging when the response cannot be parsed (malformed)`,
               `Added new Setec Charging Station's vendor in templates`,
+              `Migrated Car endpoints to REST public API`,
             ],
           },
         ],

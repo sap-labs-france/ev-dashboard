@@ -408,7 +408,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
         break;
       case TransactionButtonAction.NAVIGATE_TO_TRANSACTIONS:
         if (actionDef.action) {
-          (actionDef as TableOpenURLActionDef).action(`transactions#history?VisualTagID=${tag.visualID}&Issuer=${tag.issuer}`);
+          (actionDef as TableOpenURLActionDef).action(`transactions#history?VisualID=${tag.visualID}&Issuer=${tag.issuer}`);
         }
         break;
       case TagButtonAction.EDIT_TAG_BY_VISUAL_ID:

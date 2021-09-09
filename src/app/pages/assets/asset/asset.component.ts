@@ -108,30 +108,30 @@ export class AssetComponent implements OnInit {
           Validators.required,
         ])
       ),
-      excludeFromSmartCharging: new FormControl(''),
-      variationThresholdPercent: new FormControl('',
+      excludeFromSmartCharging: new FormControl(false),
+      variationThresholdPercent: new FormControl(null,
         Validators.compose([
           Validators.max(100),
           Validators.pattern('^[+]?[0-9]*$'),
         ])),
-      fluctuationPercent: new FormControl('',
+      fluctuationPercent: new FormControl(null,
         Validators.compose([
           Validators.max(100),
           Validators.pattern('^[+]?[0-9]*$'),
         ])),
-      staticValueWatt: new FormControl('',
+      staticValueWatt: new FormControl(null,
         Validators.compose([
           Validators.required,
         ])
       ),
       coordinates: new FormArray([
-        new FormControl('',
+        new FormControl(null,
           Validators.compose([
             Validators.max(180),
             Validators.min(-180),
             Validators.pattern(Constants.REGEX_VALIDATION_LONGITUDE),
           ])),
-        new FormControl('',
+        new FormControl(null,
           Validators.compose([
             Validators.max(90),
             Validators.min(-90),

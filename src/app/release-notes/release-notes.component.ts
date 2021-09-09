@@ -23,6 +23,23 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.90',
+        date: new Date('2021-09-09'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added OCPP Get Composite Schedule command in public REST endpoint`,
+              `Ensure Site and Charging Station are public when checking the public flag`,
+              `Enhanced Charging Station logging when the response cannot be parsed (malformed)`,
+              `Added new Setec Charging Station's vendor in templates`,
+              `Migrated Car endpoints to REST public API`,
+              `Fixed logo size in notification emails`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.89',
         date: new Date('2021-09-06'),
         componentChanges: [

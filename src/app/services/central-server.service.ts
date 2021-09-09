@@ -293,7 +293,7 @@ export class CentralServerService {
     // Build Ordering
     this.getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<DataResult<Asset>>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.ASSETS}`,
+    return this.httpClient.get<DataResult<Asset>>(this.buildRestEndpointUrl(ServerRoute.REST_ASSETS),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -305,13 +305,12 @@ export class CentralServerService {
 
   public getAsset(assetId: string, withImage: boolean = false, withSiteArea: boolean = false): Observable<Asset> {
     const params: { [param: string]: string } = {};
-    params['ID'] = assetId;
     params['WithImage'] = withImage.toString();
     params['WithSiteArea'] = withSiteArea.toString();
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<Asset>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.ASSET}`,
+    return this.httpClient.get<Asset>(this.buildRestEndpointUrl(ServerRoute.REST_ASSET, { id: assetId }),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -323,12 +322,10 @@ export class CentralServerService {
 
   public getAssetImage(assetID: string): Observable<string> {
     const params: { [param: string]: string } = {};
-    params['ID'] = assetID;
-    params['TenantID'] = this.currentUser?.tenantID;
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<Blob>(`${this.centralRestServerServiceUtilURL}/${ServerAction.ASSET_IMAGE}`,
+    return this.httpClient.get<Blob>(this.buildRestEndpointUrl(ServerRoute.REST_ASSET_IMAGE, { id: assetID }),
       {
         headers: this.buildHttpHeaders(),
         responseType: 'blob' as 'json',
@@ -349,7 +346,7 @@ export class CentralServerService {
     // Build Ordering
     this.getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<DataResult<AssetInError>>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.ASSETS_IN_ERROR}`,
+    return this.httpClient.get<DataResult<AssetInError>>(this.buildRestEndpointUrl(ServerRoute.REST_ASSETS_IN_ERROR),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -1368,13 +1365,12 @@ export class CentralServerService {
 
   public getAssetConsumption(assetID: string, startDate: Date, endDate: Date): Observable<AssetConsumption> {
     const params: { [param: string]: string } = {};
-    params['AssetID'] = assetID;
     params['StartDate'] = startDate.toISOString();
     params['EndDate'] = endDate.toISOString();
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<AssetConsumption>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.ASSET_CONSUMPTION}`,
+    return this.httpClient.get<AssetConsumption>(this.buildRestEndpointUrl(ServerRoute.REST_ASSET_CONSUMPTIONS, { id: assetID }),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -1902,7 +1898,7 @@ export class CentralServerService {
     return this.httpClient.get<EndUserLicenseAgreement>(`${this.restServerAuthURL}/${ServerRoute.REST_END_USER_LICENSE_AGREEMENT}`,
       {
         headers: this.buildHttpHeaders(this.windowService.getSubdomain()),
-        params: { language }
+        params: { Language: language }
       })
       .pipe(
         catchError(this.handleHttpError),
@@ -2074,7 +2070,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.ASSET_CREATE}`, asset,
+    return this.httpClient.post<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_ASSETS), asset,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2083,11 +2079,11 @@ export class CentralServerService {
       );
   }
 
-  public updateAsset(asset: any): Observable<ActionResponse> {
+  public updateAsset(asset: Asset): Observable<ActionResponse> {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.ASSET_UPDATE}`, asset,
+    return this.httpClient.put<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_ASSET, { id: asset.id }), asset,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2100,7 +2096,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.ASSET_DELETE}?ID=${id}`,
+    return this.httpClient.delete<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_ASSET, { id }),
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2115,7 +2111,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute REST service
-    return this.httpClient.get<CheckAssetConnectionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CHECK_ASSET_CONNECTION}`,
+    return this.httpClient.get<CheckAssetConnectionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_ASSET_CHECK_CONNECTION, { id: assetConnectionId }),
       {
         headers: this.buildHttpHeaders(),
         params
@@ -2127,11 +2123,10 @@ export class CentralServerService {
 
   public tableRetrieveAssetConsumptionAction(assetId: string): Observable<ActionResponse> {
     const params: { [param: string]: string } = {};
-    params['ID'] = assetId;
     // Verify init
     this.checkInit();
     // Execute REST service
-    return this.httpClient.get<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.RETRIEVE_ASSET_CONSUMPTION}`,
+    return this.httpClient.get<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_ASSET_RETRIEVE_CONSUMPTION, { id: assetId }),
       {
         headers: this.buildHttpHeaders(),
         params
@@ -2680,7 +2675,7 @@ export class CentralServerService {
 
   public softStopTransaction(id: number): Observable<ActionResponse> {
     this.checkInit();
-    return this.httpClient.put<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_TRANSACTION_SOFT_STOP, { id }),
+    return this.httpClient.put<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_TRANSACTION_SOFT_STOP, { id }), {},
       {
         headers: this.buildHttpHeaders(),
       })

@@ -30,7 +30,7 @@ export class TableDeleteTagAction extends TableDeleteAction {
     centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) {
     dialogService.createAndShowYesNoDialog(
       translateService.instant('tags.delete_title'),
-      translateService.instant('tags.delete_confirm', { tagID: tag.id }),
+      translateService.instant('tags.delete_confirm', { id: tag.id }),
     ).subscribe((result) => {
       if (result === ButtonType.YES) {
         spinnerService.show();
@@ -38,7 +38,7 @@ export class TableDeleteTagAction extends TableDeleteAction {
           spinnerService.hide();
           if (response.status === RestResponse.SUCCESS) {
             messageService.showSuccessMessage(
-              translateService.instant('tags.delete_success', { tagID: tag.id }));
+              translateService.instant('tags.delete_success', { id: tag.id }));
             if (refresh) {
               refresh().subscribe();
             }

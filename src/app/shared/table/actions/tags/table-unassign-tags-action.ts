@@ -26,8 +26,8 @@ export class TableUnassignTagsAction implements TableAction {
       type: 'button',
       icon: 'delete',
       color: ButtonColor.WARN,
-      name: 'general.unassign',
-      tooltip: 'general.tooltips.unassign',
+      name: 'general.delete',
+      tooltip: 'general.tooltips.delete',
       linkedToListSelection: true
     };
   }
@@ -43,20 +43,20 @@ export class TableUnassignTagsAction implements TableAction {
     // Unassign them
     // Confirm
     dialogService.createAndShowYesNoDialog(
-      translateService.instant('tags.unassign_tags_title'),
-      translateService.instant('tags.unassign_tags_confirm', { quantity: tags.length }),
+      translateService.instant('tags.delete_tags_title'),
+      translateService.instant('tags.delete_tags_confirm', { quantity: tags.length }),
     ).subscribe((response) => {
       if (response === ButtonType.YES) {
         spinnerService.show();
         centralServerService.unassignTags(tags.map((tag) => tag.visualID)).subscribe((responseAction: ActionsResponse) => {
           spinnerService.hide();
-          messageService.showActionsMessage(responseAction, 'tags.unassign_tags_success', 'tags.unassign_tags_partial', 'tags.unassign_tags_error', 'tags.unassign_no_tag');
+          messageService.showActionsMessage(responseAction, 'tags.delete_tags_success', 'tags.delete_tags_partial', 'tags.delete_tags_error', 'tags.delete_no_tag');
           clearSelectedRows();
           if (refresh) {
             refresh().subscribe();
           }
         }, (error) => {
-          Utils.handleHttpError(error, router, messageService, centralServerService, 'tags.unassign_tags_unexpected_error');
+          Utils.handleHttpError(error, router, messageService, centralServerService, 'tags.delete_tags_unexpected_error');
         });
       }
     });

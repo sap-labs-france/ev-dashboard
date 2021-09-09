@@ -21,8 +21,8 @@ export class TableAssignTagAction extends TableCreateAction {
       type: 'button',
       icon: 'add',
       color: ButtonColor.PRIMARY,
-      name: 'general.assign',
-      tooltip: 'general.tooltips.assign',
+      name: 'general.register',
+      tooltip: 'general.tooltips.register',
       action: this.assign
     };
   }

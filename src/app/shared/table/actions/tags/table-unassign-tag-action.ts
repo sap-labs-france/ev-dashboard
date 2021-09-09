@@ -23,18 +23,18 @@ export class TableUnassignTagAction implements TableAction {
       id: TagButtonAction.UNASSIGN_TAG,
       action: this.unassignTag,
       type: 'button',
-      icon: 'link_off',
-      color: ButtonColor.PRIMARY,
-      name: 'general.unassign',
-      tooltip: 'general.tooltips.unassign',
+      icon: 'delete',
+      color: ButtonColor.WARN,
+      name: 'general.delete',
+      tooltip: 'general.tooltips.delete',
     };
   }
 
   private unassignTag(tag: Tag, dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
     centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) {
     dialogService.createAndShowYesNoDialog(
-      translateService.instant('tags.unassign_title'),
-      translateService.instant('tags.unassign_confirm', { visualID: tag.visualID }),
+      translateService.instant('tags.delete_title'),
+      translateService.instant('tags.delete_confirm', { id: tag.visualID }),
     ).subscribe((result) => {
       if (result === ButtonType.YES) {
         spinnerService.show();
@@ -42,16 +42,16 @@ export class TableUnassignTagAction implements TableAction {
           spinnerService.hide();
           if (response.status === RestResponse.SUCCESS) {
             messageService.showSuccessMessage(
-              translateService.instant('tags.unassign_success', { visualID: tag.visualID }));
+              translateService.instant('tags.delete_success', { id: tag.visualID }));
             if (refresh) {
               refresh().subscribe();
             }
           } else {
-            Utils.handleError(JSON.stringify(response), messageService, 'tags.unassign_error');
+            Utils.handleError(JSON.stringify(response), messageService, 'tags.delete_error');
           }
         }, (error) => {
           spinnerService.hide();
-          Utils.handleHttpError(error, router, messageService, centralServerService, 'tags.unassign_error');
+          Utils.handleHttpError(error, router, messageService, centralServerService, 'tags.delete_error');
         });
       }
     }

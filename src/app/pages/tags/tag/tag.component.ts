@@ -91,6 +91,7 @@ export class TagComponent implements OnInit {
     this.active = this.formGroup.controls['active'];
     this.default = this.formGroup.controls['default'];
     this.default.setValue(false);
+    this.default.disable();
     if (this.currentTagID) {
       this.id.disable();
     }
@@ -117,6 +118,7 @@ export class TagComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       this.user.setValue(Utils.buildUserFullName(result[0].objectRef));
       this.userID.setValue(result[0].key);
+      this.default.enable();
       this.formGroup.markAsDirty();
     });
   }
@@ -134,8 +136,9 @@ export class TagComponent implements OnInit {
         if (tag.user) {
           this.userID.setValue(tag.user.id);
           this.user.setValue(Utils.buildUserFullName(tag.user));
+          this.default.enable();
+          this.default.setValue(tag.default);
         }
-        this.default.setValue(tag.default);
         this.id.disable();
         this.formGroup.updateValueAndValidity();
         this.formGroup.markAsPristine();
@@ -181,6 +184,8 @@ export class TagComponent implements OnInit {
   public resetUser() {
     this.userID.reset();
     this.user.reset();
+    this.default.setValue(false);
+    this.default.disable();
     this.formGroup.markAsDirty();
   }
 

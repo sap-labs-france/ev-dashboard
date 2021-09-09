@@ -88,6 +88,7 @@ export class TagAssignComponent implements OnInit {
       this.userID.setValue(this.centralServerService.getLoggedUser().id);
       this.user.disable();
       this.userID.disable();
+      this.active.setValue(true);
     }
     // Set tag
     this.loadTag();
@@ -183,10 +184,10 @@ export class TagAssignComponent implements OnInit {
     this.centralServerService.assignTag(tag).subscribe((response: ActionResponse) => {
       this.spinnerService.hide();
       if (response.status === RestResponse.SUCCESS) {
-        this.messageService.showSuccessMessage('tags.assign_success', { visualID: tag.visualID });
+        this.messageService.showSuccessMessage('tags.register_success', { visualID: tag.visualID });
         this.closeDialog(true);
       } else {
-        Utils.handleError(JSON.stringify(response), this.messageService, 'tags.assign_error');
+        Utils.handleError(JSON.stringify(response), this.messageService, 'tags.register_error');
       }
     }, (error) => {
       this.spinnerService.hide();
@@ -196,6 +197,9 @@ export class TagAssignComponent implements OnInit {
           break;
         case HTTPError.TAG_VISUAL_ID_DOES_NOT_MATCH_TAG_ERROR:
           this.messageService.showErrorMessage('tags.tag_visual_id_does_not_match_tag', { visualID: tag.visualID });
+          break;
+        case HTTPError.TAG_INACTIVE:
+          this.messageService.showErrorMessage('tags.tag_inactive', { visualID: tag.visualID });
           break;
         default:
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tags.assign_error');

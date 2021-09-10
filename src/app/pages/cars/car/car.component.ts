@@ -1,5 +1,3 @@
-import { isBuffer } from 'util';
-
 import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
@@ -90,9 +88,7 @@ export class CarComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.carConnectorName = new FormControl('',
-      Validators.compose([
-      ]));
+    this.carConnectorName = new FormControl('');
     // Init the form
     this.formGroup = new FormGroup({
       id: new FormControl(''),
@@ -429,7 +425,6 @@ export class CarComponent implements OnInit {
 
   private loadCarConnectors(){
     this.componentService.getCarConnectorSettings().subscribe((settings) => {
-      this.spinnerService.hide();
       // Keep
       this.carConnectorConnections = settings.carConnector.connections;
       const carConnectorID = this.carConnectorConnections.find((carConnectorConnection) =>
@@ -437,14 +432,12 @@ export class CarComponent implements OnInit {
       // Set
       if(!Utils.isNullOrUndefined(carConnectorID)){
         this.carConnectorID.setValue(carConnectorID);
+        this.carConnectorMeterID.setValue(this.car.carConnectorData?.carConnectorMeterID);
       } else {
         this.carConnectorMeterID.disable();
       }
-      this.carConnectorMeterID.setValue(this.car.carConnectorData?.carConnectorMeterID);
-      // Init form
       this.formGroup.markAsPristine();
     }, (error) => {
-      this.spinnerService.hide();
       switch (error.status) {
         case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
           this.messageService.showErrorMessage('settings.car_connector.setting_not_found');

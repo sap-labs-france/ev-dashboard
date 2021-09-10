@@ -132,15 +132,18 @@ export class CarComponent implements OnInit {
         Validators.compose([
           Validators.required,
         ])),
-      carConnectorData: new FormGroup({
-        carConnectorID: new FormControl('',
-          Validators.compose([
-          ])),
-        carConnectorMeterID: new FormControl('',
-          Validators.compose([
-          ])),
-      })
     });
+    if(this.isCarConnectorComponentActive){
+      this.formGroup.addControl(
+        'carConnectorData', new FormGroup({
+          carConnectorID: new FormControl('',
+            Validators.compose([
+            ])),
+          carConnectorMeterID: new FormControl('',
+            Validators.compose([
+            ])),
+        }));
+    }
     // Form
     this.id = this.formGroup.controls['id'];
     this.vin = this.formGroup.controls['vin'];
@@ -223,6 +226,21 @@ export class CarComponent implements OnInit {
     this.formGroup.markAsDirty();
   }
 
+  public clearCarConnectorMeterID() {
+    this.car.carConnectorData.carConnectorMeterID = null;
+    this.carConnectorMeterID.setValue(null);
+    this.formGroup.markAsDirty();
+  }
+
+  public clearCarConnectorID() {
+    this.car.carConnectorData.carConnectorID = null;
+    this.carConnectorID.setValue(null);
+    this.car.carConnectorData.carConnectorMeterID = null;
+    this.carConnectorMeterID.setValue(null);
+    this.carConnectorMeterID.disable();
+    this.formGroup.markAsDirty();
+  }
+
   public assignUser() {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
@@ -289,31 +307,16 @@ export class CarComponent implements OnInit {
 
   public carConnectorChanged(event: MatSelectChange) {
     this.carConnectorID.setValue(event.value);
+    if(this.carConnectorID){
+      this.carConnectorMeterID.enable();
+    } else {
+      this.carConnectorMeterID.disable();
+    }
   }
 
   public onTabChanged(event: MatTabChangeEvent) {
     if(event.index === 1 && Utils.isNullOrUndefined(this.carConnectorConnections)) {
-      this.componentService.getCarConnectorSettings().subscribe((settings) => {
-        this.spinnerService.hide();
-        // Keep
-        this.carConnectorConnections = settings.carConnector.connections;
-        // Set
-        this.carConnectorID.setValue(this.carConnectorConnections.find((carConnectorConnection) =>
-          carConnectorConnection.id ===  this.car.carConnectorData?.carConnectorID)?.id);
-        this.carConnectorMeterID.setValue(this.car.carConnectorData?.carConnectorMeterID);
-        // Init form
-        this.formGroup.markAsPristine();
-      }, (error) => {
-        this.spinnerService.hide();
-        switch (error.status) {
-          case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
-            this.messageService.showErrorMessage('settings.car_connector.setting_not_found');
-            break;
-          default:
-            Utils.handleHttpError(error, this.router, this.messageService,
-              this.centralServerService, 'general.unexpected_error_backend');
-        }
-      });
+      this.loadCarConnectors();
     }
   }
 
@@ -422,5 +425,34 @@ export class CarComponent implements OnInit {
       this.converterType.setValue('');
     }
     this.converterType.enable();
+  }
+
+  private loadCarConnectors(){
+    this.componentService.getCarConnectorSettings().subscribe((settings) => {
+      this.spinnerService.hide();
+      // Keep
+      this.carConnectorConnections = settings.carConnector.connections;
+      const carConnectorID = this.carConnectorConnections.find((carConnectorConnection) =>
+        carConnectorConnection.id ===  this.car.carConnectorData?.carConnectorID)?.id;
+      // Set
+      if(!Utils.isNullOrUndefined(carConnectorID)){
+        this.carConnectorID.setValue(carConnectorID);
+      } else {
+        this.carConnectorMeterID.disable();
+      }
+      this.carConnectorMeterID.setValue(this.car.carConnectorData?.carConnectorMeterID);
+      // Init form
+      this.formGroup.markAsPristine();
+    }, (error) => {
+      this.spinnerService.hide();
+      switch (error.status) {
+        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+          this.messageService.showErrorMessage('settings.car_connector.setting_not_found');
+          break;
+        default:
+          Utils.handleHttpError(error, this.router, this.messageService,
+            this.centralServerService, 'general.unexpected_error_backend');
+      }
+    });
   }
 }

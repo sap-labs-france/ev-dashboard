@@ -46,19 +46,6 @@
               </div>
             </div>
           </div>
-          <div class="row" *ngIf="canListUsers">
-            <div class="col-md-4">
-              <div class="form-group">
-                <mat-form-field>
-                  <mat-select [formControl]="active" placeholder="{{'tags.status' | translate}}" required>
-                    <mat-option [value]="true">{{'tags.activated' | translate}}</mat-option>
-                    <mat-option [value]="false">{{'tags.deactivated' | translate}}</mat-option>
-                  </mat-select>
-                  <mat-error *ngIf="active.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
-                </mat-form-field>
-              </div>
-            </div>
-          </div>
           <div class="row">
             <div class="col-md-4">
               <div class="form-group">

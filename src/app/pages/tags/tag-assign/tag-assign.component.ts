@@ -28,7 +28,6 @@ export class TagAssignComponent implements OnInit {
   public description!: AbstractControl;
   public user!: AbstractControl;
   public userID!: AbstractControl;
-  public active!: AbstractControl;
   public default!: AbstractControl;
   public visualID!: AbstractControl;
   public canListUsers: boolean;
@@ -65,10 +64,6 @@ export class TagAssignComponent implements OnInit {
         Validators.compose([
           Validators.required,
         ])),
-      active: new FormControl('',
-        Validators.compose([
-          Validators.required,
-        ])),
       default: new FormControl('',
         Validators.compose([
           Validators.required,
@@ -80,7 +75,6 @@ export class TagAssignComponent implements OnInit {
     this.visualID = this.formGroup.controls['visualID'];
     this.user = this.formGroup.controls['user'];
     this.userID = this.formGroup.controls['userID'];
-    this.active = this.formGroup.controls['active'];
     this.default = this.formGroup.controls['default'];
     this.default.setValue(false);
     if (!this.canListUsers) {
@@ -88,7 +82,6 @@ export class TagAssignComponent implements OnInit {
       this.userID.setValue(this.centralServerService.getLoggedUser().id);
       this.user.disable();
       this.userID.disable();
-      this.active.setValue(true);
     }
     // Set tag
     this.loadTag();
@@ -111,7 +104,6 @@ export class TagAssignComponent implements OnInit {
         }
         this.description.setValue(tag.description);
         this.visualID.setValue(tag.visualID);
-        this.active.setValue(tag.active);
         this.default.setValue(tag.default);
         this.formGroup.updateValueAndValidity();
         this.formGroup.markAsPristine();

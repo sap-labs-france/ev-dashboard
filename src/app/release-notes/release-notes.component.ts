@@ -34,6 +34,7 @@ export class ReleaseNotesComponent {
               `Enhanced Charging Station logging when the response cannot be parsed (malformed)`,
               `Added new Setec Charging Station's vendor in templates`,
               `Migrated Car endpoints to REST public API`,
+              `Fixed logo size in notification emails`,
             ],
           },
         ],

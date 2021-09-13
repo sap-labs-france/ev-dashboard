@@ -238,7 +238,7 @@ export class CentralServerService {
     // Build Ordering
     this.getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<CompanyDataResult>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.COMPANIES}`,
+    return this.httpClient.get<CompanyDataResult>(this.buildRestEndpointUrl(ServerRoute.REST_COMPANIES),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -427,7 +427,7 @@ export class CentralServerService {
     const params: { [param: string]: string } = {};
     params['ID'] = siteID;
     params['WithImage'] = withImage.toString();
-    params['WithCompany'] = withImage.toString();
+    params['WithCompany'] = withCompany.toString();
     // Verify init
     this.checkInit();
     // Execute the REST service
@@ -2654,7 +2654,7 @@ export class CentralServerService {
   public pushTransactionCdr(id: number): Observable<ActionsResponse> {
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.post<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_TRANSACTION_CDR, { id }),
+    return this.httpClient.post<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_TRANSACTION_CDR, { id }), {},
       {
         headers: this.buildHttpHeaders(),
       })

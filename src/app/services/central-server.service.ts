@@ -733,6 +733,9 @@ export class CentralServerService {
   }
 
   public getChargingStation(id: string): Observable<ChargingStation> {
+    const params: { [param: string]: string } = {};
+    params['WithSite'] = 'true';
+    params['WithSiteArea'] = 'true';
     // Verify init
     this.checkInit();
     if (!id) {
@@ -742,6 +745,7 @@ export class CentralServerService {
     return this.httpClient.get<ChargingStation>(`${this.restServerSecuredURL}/${ServerRoute.REST_CHARGING_STATIONS}/${id}`,
       {
         headers: this.buildHttpHeaders(),
+        params
       })
       .pipe(
         catchError(this.handleHttpError),

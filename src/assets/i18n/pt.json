@@ -2101,6 +2101,8 @@
     "delete_confirm": "Tem certeza de que deseja excluir o carro '{{carName}}'?",
     "users": "Utilizador",
     "select_car": "Select Car",
+    "car_connector_name": "Connection Name",
+    "car_connector_meter_id": "Connection Meter ID",
     "unit": {
       "meters": "m",
       "seconde": "sec(s)",

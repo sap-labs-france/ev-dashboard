@@ -2101,6 +2101,8 @@
     "delete_confirm": "Voulez-vous vraiment supprimer le véhicule '{{carName}}'?",
     "users": "Utilisateurs",
     "select_car": "Selection Véhicule",
+    "car_connector_name": "Connection Name",
+    "car_connector_meter_id": "Connection Meter ID",
     "unit": {
       "meters": "m",
       "seconde": "sec(s)",

@@ -52,6 +52,7 @@ export interface Car extends TableData, CreatedUpdatedProps {
   default?: boolean;
   type?: CarType;
   converter?: CarConverter;
+  carConnectorData?: CarConnectorData;
 }
 
 export interface CarConverter {
@@ -92,4 +93,9 @@ export enum CarButtonAction {
   CREATE_CAR = 'create_car',
   EDIT_CAR = 'edit_car',
   DELETE_CAR = 'delete_car'
+}
+
+export interface CarConnectorData {
+  carConnectorID: string;
+  carConnectorMeterID: string;
 }

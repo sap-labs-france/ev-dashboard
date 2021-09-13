@@ -22,7 +22,7 @@ import { RestResponse } from '../../../../types/GlobalType';
 import { HTTPError } from '../../../../types/HTTPError';
 import { ServerAction } from '../../../../types/Server';
 import { ButtonType } from '../../../../types/Table';
-import TenantComponents from '../../../../types/TenantComponents';
+import { TenantComponents } from '../../../../types/Tenant';
 import { Utils } from '../../../../utils/Utils';
 import { ChargingPlansEditableTableDataSource } from './charging-plans-editable-table-data-source';
 import { ChargingPlansTableDataSource } from './charging-plans-table-data-source';

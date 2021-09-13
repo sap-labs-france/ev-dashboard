@@ -2855,7 +2855,7 @@ export class CentralServerService {
     // Build Ordering
     this.getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<CarDataResult>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CARS}`,
+    return this.httpClient.get<CarDataResult>(this.buildRestEndpointUrl(ServerRoute.REST_CARS),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -2869,9 +2869,8 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     const params: { [param: string]: string } = {};
-    params['ID'] = carID;
     // Execute the REST service
-    return this.httpClient.get<Car>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CAR}`,
+    return this.httpClient.get<Car>(this.buildRestEndpointUrl(ServerRoute.REST_CAR, { id: carID }),
       {
         headers: this.buildHttpHeaders(),
         params
@@ -2885,7 +2884,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<CarCatalog>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CAR_CATALOG}?ID=${id}`,
+    return this.httpClient.get<CarCatalog>(this.buildRestEndpointUrl(ServerRoute.REST_CAR_CATALOG, { id }),
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2901,8 +2900,7 @@ export class CentralServerService {
     // Build Paging
     this.getPaging(paging, params);
     // Execute the REST service
-    return this.httpClient.get<DataResult<ImageObject>>(
-      `${this.centralRestServerServiceSecuredURL}/${ServerAction.CAR_CATALOG_IMAGES}?ID=${id}`,
+    return this.httpClient.get<DataResult<ImageObject>>(this.buildRestEndpointUrl(ServerRoute.REST_CAR_CATALOG_IMAGES, { id }),
       {
         headers: this.buildHttpHeaders(),
         params
@@ -2916,7 +2914,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<DataResult<CarMaker>>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CAR_MAKERS}`,
+    return this.httpClient.get<DataResult<CarMaker>>(this.buildRestEndpointUrl(ServerRoute.REST_CAR_MAKERS),
       {
         headers: this.buildHttpHeaders(),
         params
@@ -2930,7 +2928,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute
-    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.SYNCHRONIZE_CAR_CATALOGS}`, {},
+    return this.httpClient.put<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_CAR_CATALOG_SYNCHRONIZE), {},
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2943,7 +2941,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CAR_CREATE}`, { ...car, forced },
+    return this.httpClient.post<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_CARS), { ...car, forced },
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2956,7 +2954,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute
-    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CAR_UPDATE}`, car,
+    return this.httpClient.put<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_CAR, { id: car.id }), car,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2968,7 +2966,7 @@ export class CentralServerService {
   public deleteCar(id: number): Observable<ActionResponse> {
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/CarDelete?ID=${id}`,
+    return this.httpClient.delete<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_CAR, { id }),
       {
         headers: this.buildHttpHeaders(),
       })

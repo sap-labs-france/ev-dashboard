@@ -30,6 +30,8 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Fixed Export of OCPP parameters`,
+              `Migrated Company endpoints to REST public API`,
+              `Added Car connector in User's profile`,
             ],
           },
         ],

@@ -2,10 +2,14 @@ import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { MatSelectChange } from '@angular/material/select';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { ComponentService } from 'services/component.service';
 import { UsersDialogComponent } from 'shared/dialogs/users/users-dialog.component';
 import { DialogMode } from 'types/Authorization';
+import { CarConnectorConnectionSetting } from 'types/Setting';
+import { TenantComponents } from 'types/Tenant';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -36,6 +40,7 @@ export class CarComponent implements OnInit {
   public carCatalogConverters: { type: CarConverterType; value: string; converter: CarConverter }[] = [];
   public isAdmin: boolean;
   public canListUsers: boolean;
+  public isCarConnectorComponentActive: boolean;
   public isPool = false;
   public readOnly = true;
 
@@ -57,6 +62,10 @@ export class CarComponent implements OnInit {
     { key: CarType.COMPANY, value: 'cars.company_car' },
     { key: CarType.PRIVATE, value: 'cars.private_car' }
   ];
+  public carConnectorName!: AbstractControl;
+  public carConnectorID!: AbstractControl;
+  public carConnectorMeterID!: AbstractControl;
+  public carConnectorConnections!: CarConnectorConnectionSetting[];
 
   private car: Car;
 
@@ -68,15 +77,18 @@ export class CarComponent implements OnInit {
     private dialogService: DialogService,
     private router: Router,
     private dialog: MatDialog,
-    private authorizationService: AuthorizationService) {
+    private authorizationService: AuthorizationService,
+    private componentService: ComponentService ) {
     this.isAdmin = this.authorizationService.isAdmin();
     this.canListUsers = this.authorizationService.canListUsers();
     if (this.isAdmin) {
       this.carTypes.push({ key: CarType.POOL_CAR, value: 'cars.pool_car' });
     }
+    this.isCarConnectorComponentActive = this.componentService.isActive(TenantComponents.CAR_CONNECTOR);
   }
 
   public ngOnInit() {
+    this.carConnectorName = new FormControl('');
     // Init the form
     this.formGroup = new FormGroup({
       id: new FormControl(''),
@@ -117,6 +129,17 @@ export class CarComponent implements OnInit {
           Validators.required,
         ])),
     });
+    if(this.isCarConnectorComponentActive){
+      this.formGroup.addControl(
+        'carConnectorData', new FormGroup({
+          carConnectorID: new FormControl('',
+            Validators.compose([
+            ])),
+          carConnectorMeterID: new FormControl('',
+            Validators.compose([
+            ])),
+        }));
+    }
     // Form
     this.id = this.formGroup.controls['id'];
     this.vin = this.formGroup.controls['vin'];
@@ -130,6 +153,8 @@ export class CarComponent implements OnInit {
     this.converter = this.formGroup.controls['converter'];
     this.type = this.formGroup.controls['type'];
     this.readOnly = (this.dialogMode === DialogMode.VIEW);
+    this.carConnectorID = this.formGroup.get('carConnectorData.carConnectorID');
+    this.carConnectorMeterID = this.formGroup.get('carConnectorData.carConnectorMeterID');
     // Default
     this.converterType.disable();
     // Register events
@@ -197,6 +222,21 @@ export class CarComponent implements OnInit {
     this.formGroup.markAsDirty();
   }
 
+  public clearCarConnectorMeterID() {
+    this.car.carConnectorData.carConnectorMeterID = null;
+    this.carConnectorMeterID.setValue(null);
+    this.formGroup.markAsDirty();
+  }
+
+  public clearCarConnectorID() {
+    this.car.carConnectorData.carConnectorID = null;
+    this.carConnectorID.setValue(null);
+    this.car.carConnectorData.carConnectorMeterID = null;
+    this.carConnectorMeterID.setValue(null);
+    this.carConnectorMeterID.disable();
+    this.formGroup.markAsDirty();
+  }
+
   public assignUser() {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
@@ -259,6 +299,21 @@ export class CarComponent implements OnInit {
         this.formGroup.markAsDirty();
       }
     });
+  }
+
+  public carConnectorChanged(event: MatSelectChange) {
+    this.carConnectorID.setValue(event.value);
+    if(this.carConnectorID){
+      this.carConnectorMeterID.enable();
+    } else {
+      this.carConnectorMeterID.disable();
+    }
+  }
+
+  public onTabChanged(event: MatTabChangeEvent) {
+    if(event.index === 1 && Utils.isNullOrUndefined(this.carConnectorConnections)) {
+      this.loadCarConnectors();
+    }
   }
 
   private updateCar(car: Car) {
@@ -366,5 +421,31 @@ export class CarComponent implements OnInit {
       this.converterType.setValue('');
     }
     this.converterType.enable();
+  }
+
+  private loadCarConnectors(){
+    this.componentService.getCarConnectorSettings().subscribe((settings) => {
+      // Keep
+      this.carConnectorConnections = settings.carConnector.connections;
+      const carConnectorID = this.carConnectorConnections.find((carConnectorConnection) =>
+        carConnectorConnection.id ===  this.car.carConnectorData?.carConnectorID)?.id;
+      // Set
+      if(!Utils.isNullOrUndefined(carConnectorID)){
+        this.carConnectorID.setValue(carConnectorID);
+        this.carConnectorMeterID.setValue(this.car.carConnectorData?.carConnectorMeterID);
+      } else {
+        this.carConnectorMeterID.disable();
+      }
+      this.formGroup.markAsPristine();
+    }, (error) => {
+      switch (error.status) {
+        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+          this.messageService.showErrorMessage('settings.car_connector.setting_not_found');
+          break;
+        default:
+          Utils.handleHttpError(error, this.router, this.messageService,
+            this.centralServerService, 'general.unexpected_error_backend');
+      }
+    });
   }
 }

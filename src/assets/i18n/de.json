@@ -1683,7 +1683,8 @@
         "delete_confirm": "Möchten Sie wirklich die Fahrzeug-Schnittstelle '{{carConnectorConnectionName}}' löschen?"
       },
       "types": {
-        "mercedes": "Mercedes Schnittstelle"
+        "mercedes": "Mercedes Schnittstelle",
+        "tronity": "Tronity Schnittstelle"
       },
       "mercedes": {
         "link_success": "Ihr Account wurde erfolgreich mit Mercedes verbunden",

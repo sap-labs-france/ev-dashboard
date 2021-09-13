@@ -1657,7 +1657,8 @@
             "delete_confirm":"Chcete opravdu vymazat konektor '{{carConnectorConnectionName}}'?"
          },
          "types":{
-            "mercedes":"Konektor Mercedes"
+            "mercedes":"Konektor Mercedes",
+            "tronity": "Konektor Tronity"
          },
          "description":"E-mobility může získat údaje z vašich elektromobilů, např. aktuální stav nabíjení, v reálném čase  a použít tyto informace při optimalizaci nabíjecích relací pomocí algoritmu Smart nabíjení.",
          "setting_do_not_exist":"Konfigurace nebyla nalezena",

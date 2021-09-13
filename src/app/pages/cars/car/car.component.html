@@ -4,6 +4,7 @@
       animationDuration="0ms"
       disableRipple="true"
       class="mat-tab-info mat-tabs-with-actions"
+      (selectedTabChange)="onTabChanged($event);"
     >
       <mat-tab>
         <ng-template mat-tab-label>
@@ -147,6 +148,42 @@
                   </mat-radio-group>
                 </div>
               </div>
+            </div>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+      </mat-tab>
+      <mat-tab *ngIf="isCarConnectorComponentActive" >
+        <ng-template mat-tab-label>
+          <mat-icon>bluetooth_drive</mat-icon>
+          <span>{{"car_connector.title"|translate}}</span>
+        </ng-template>
+        <div class="card-body">
+          <div class="col-md-5">
+            <div class="form-group">
+              <mat-form-field>
+                <mat-label for="carConnectorName">{{ "cars.car_connector_name" | translate }} </mat-label>
+                <mat-select id="carConnectorName" [formControl]="carConnectorID"
+                  (selectionChange)="carConnectorChanged($event)">
+                  <mat-option *ngFor="let carConnectorConnection of carConnectorConnections"
+                    [value]="carConnectorConnection.id">
+                    {{carConnectorConnection.name}}
+                  </mat-option>
+                </mat-select>
+                <button *ngIf="carConnectorID.value" mat-icon-button matSuffix (click)="clearCarConnectorID(); $event.stopPropagation()" aria-label="Clear">
+                  <mat-icon>clear</mat-icon>
+                </button>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="form-group">
+              <mat-form-field>
+                <input matInput type="text" placeholder="{{'cars.car_connector_meter_id'|translate}}" [formControl]="carConnectorMeterID"/>
+                <button *ngIf="carConnectorMeterID.value" mat-icon-button matSuffix (click)="clearCarConnectorMeterID()" aria-label="Clear">
+                  <mat-icon>clear</mat-icon>
+                </button>
+              </mat-form-field>
             </div>
           </div>
           <div class="clearfix"></div>

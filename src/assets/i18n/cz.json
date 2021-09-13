@@ -1207,6 +1207,7 @@
       "name":"Příjmení",
       "first_name":"Křestní jméno",
       "plate_id":"Registrační značka",
+      "technical": "Technical User",
       "tags":"Karty/čipy",
       "tag_ids_help":"Zadat seznam ID karet/čipů oddělených čárkou",
       "inumber":"Firemní číslo",

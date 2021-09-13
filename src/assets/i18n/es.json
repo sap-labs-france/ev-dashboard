@@ -1214,6 +1214,7 @@
     "name": "Apellido(s)",
     "first_name": "Nombre",
     "plate_id": "Placa",
+    "technical": "Technical User",
     "tags": "Insignia",
     "tag_ids_help": "Ingrese una lista de insignias con ID separados por una coma",
     "inumber": "Número corporativo",

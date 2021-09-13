@@ -1214,6 +1214,7 @@
     "name": "Name",
     "first_name": "Vorname",
     "plate_id": "Kennzeichen",
+    "technical": "Technical User",
     "tags": "Badges",
     "tag_ids_help": "Geben Sie eine durch Kommas getrennte Liste von Badge-IDs ein.",
     "inumber": "Nutzer-ID (Corporate-ID)",

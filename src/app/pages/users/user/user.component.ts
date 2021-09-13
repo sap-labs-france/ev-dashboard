@@ -110,6 +110,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public canSeeInvoice: boolean;
   public isBillingComponentActive: boolean;
   public canListPaymentMethods: boolean;
+  public technical: AbstractControl;
   private currentLocale!: string;
 
   public constructor(
@@ -253,6 +254,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
             Users.validatePassword,
           ].concat(!Utils.isEmptyString(this.currentUserID) ? [] : [Validators.required]))),
       }, (passwordFormGroup: FormGroup) => Utils.validateEqual(passwordFormGroup, 'password', 'repeatPassword')),
+      technical: new FormControl(false)
     });
     // Form
     this.id = this.formGroup.controls['id'];
@@ -303,6 +305,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     if (!this.inDialog) {
       super.enableRoutingSynchronization();
     }
+    this.technical = this.formGroup.controls['technical'];
   }
 
   public toggleNotificationsActive() {
@@ -479,6 +482,9 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       }
       if (user.address) {
         this.address = user.address;
+      }
+      if (user.technical) {
+        this.formGroup.controls.technical.setValue(user.technical);
       }
       // Reset password
       this.passwords.controls.password.setValue('');

@@ -23,6 +23,20 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.91',
+        date: new Date('2021-09-10'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Fixed Export of OCPP parameters`,
+              `Migrated Company endpoints to REST public API`,
+              `Added Car connector in User's profile`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.90',
         date: new Date('2021-09-09'),
         componentChanges: [

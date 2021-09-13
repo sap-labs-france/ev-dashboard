@@ -976,7 +976,7 @@
     "ocpp_parameters_title": "OCPP Parameters",
     "firmware_update_title": "Firmware Update",
     "update_firmware_title": "Update Firmware",
-    "update_firmware_confirm": "Do you really want to update the firmware for the charging station '{{chargeBoxID}}'?",
+    "update_firmware_confirm": "Do you really want to update the firmware of the charging station '{{chargeBoxID}}'?",
     "button_update_firmware": "Update",
     "update_firmware_error": "Error occurred while trying to send the update firmware command to the charging station, check the logs",
     "update_firmware_success": "The request to update the firmware of the charging station '{{chargeBoxID}}' has been successfully sent",
@@ -2102,6 +2102,8 @@
     "delete_confirm": "Do you really want to delete the car '{{carName}}'?",
     "users": "Users",
     "select_car": "Select Car",
+    "car_connector_name": "Connection Name",
+    "car_connector_meter_id": "Connection Meter ID",
     "unit": {
       "meters": "m",
       "seconde": "sec(s)",

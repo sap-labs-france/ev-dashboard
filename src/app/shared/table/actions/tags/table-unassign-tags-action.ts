@@ -28,7 +28,8 @@ export class TableUnassignTagsAction implements TableAction {
       color: ButtonColor.WARN,
       name: 'general.delete',
       tooltip: 'general.tooltips.delete',
-      linkedToListSelection: true
+      linkedToListSelection: true,
+      visible: false
     };
   }
 

@@ -22,6 +22,7 @@ export class TableDeleteTagsAction extends TableDeleteManyAction {
       ...super.getActionDef(),
       id: TagButtonAction.DELETE_TAGS,
       action: this.deleteTags,
+      visible: false
     };
   }
 

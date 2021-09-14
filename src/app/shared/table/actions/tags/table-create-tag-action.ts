@@ -19,6 +19,7 @@ export class TableCreateTagAction extends TableCreateAction {
       ...super.getActionDef(),
       id: TagButtonAction.CREATE_TAG,
       action: this.createTag,
+      visible: false
     };
   }
 

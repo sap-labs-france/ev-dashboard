@@ -16,6 +16,7 @@ export class TableImportTagsAction extends TableImportAction {
       ...super.getActionDef(),
       id: TagButtonAction.IMPORT_TAGS,
       action: this.importTags,
+      visible: false
     };
   }
 

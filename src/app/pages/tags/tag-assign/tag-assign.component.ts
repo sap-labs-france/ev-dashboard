@@ -77,12 +77,10 @@ export class TagAssignComponent implements OnInit {
     this.userID = this.formGroup.controls['userID'];
     this.default = this.formGroup.controls['default'];
     this.default.setValue(false);
-    if (!this.canListUsers) {
-      this.user.setValue(Utils.buildUserFullName(this.centralServerService.getLoggedUser()));
-      this.userID.setValue(this.centralServerService.getLoggedUser().id);
-      this.user.disable();
-      this.userID.disable();
-    }
+    this.user.setValue(Utils.buildUserFullName(this.centralServerService.getLoggedUser()));
+    this.userID.setValue(this.centralServerService.getLoggedUser().id);
+    this.user.disable();
+    this.userID.disable();
     // Set tag
     this.loadTag();
   }
@@ -90,7 +88,6 @@ export class TagAssignComponent implements OnInit {
   public onClose() {
     this.closeDialog();
   }
-
 
   public loadTag() {
     if (this.currentTagVisualID) {
@@ -187,14 +184,14 @@ export class TagAssignComponent implements OnInit {
         case HTTPError.TAG_HAS_TRANSACTIONS:
           this.messageService.showErrorMessage('tags.create_has_transaction_error');
           break;
-        case HTTPError.TAG_VISUAL_ID_DOES_NOT_MATCH_TAG_ERROR:
+        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
           this.messageService.showErrorMessage('tags.tag_visual_id_does_not_match_tag', { visualID: tag.visualID });
           break;
         case HTTPError.TAG_INACTIVE:
           this.messageService.showErrorMessage('tags.tag_inactive', { visualID: tag.visualID });
           break;
         default:
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tags.assign_error');
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tags.register_error');
       }
     });
   }

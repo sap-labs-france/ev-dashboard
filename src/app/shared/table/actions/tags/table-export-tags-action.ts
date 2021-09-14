@@ -22,6 +22,7 @@ export class TableExportTagsAction extends TableExportAction {
       ...super.getActionDef(),
       id: TagButtonAction.EXPORT_TAGS,
       action: this.exportTags,
+      visible: false
     };
   }
 

@@ -96,6 +96,7 @@ export interface UserToken {
   sitesAdmin?: string[];
   sitesOwner?: string[];
   activeComponents?: string[];
+  rolesACL?: string[];
 }
 
 export interface UserSite extends TableData {

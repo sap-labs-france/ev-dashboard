@@ -483,8 +483,12 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       if (user.address) {
         this.address = user.address;
       }
-      if (user.technical) {
-        this.formGroup.controls.technical.setValue(user.technical);
+      if (user.projectedFields.includes('technical')) {
+        if (user.technical) {
+          this.formGroup.controls.technical.setValue(user.technical);
+        }
+      } else {
+        this.formGroup.controls.technical.disable();
       }
       // Reset password
       this.passwords.controls.password.setValue('');

@@ -24,12 +24,13 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.4.91',
-        date: new Date('2021-09-10'),
+        date: new Date('2021-09-17'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `Fixed Export of OCPP parameters`,
+              `Fixed Remote Start Transaction command in OCPI`,
               `Migrated Company endpoints to REST public API`,
               `Added Car connector in User's profile`,
             ],

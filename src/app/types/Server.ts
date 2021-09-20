@@ -211,18 +211,6 @@ export enum ServerAction {
 
   SOCKET_IO = 'SocketIO',
 
-  // To Remove in mid-september
-  BOOT_NOTIFICATION = 'BootNotification',
-  AUTHORIZE = 'Authorize',
-  HEARTBEAT = 'Heartbeat',
-  DIAGNOSTICS_STATUS_NOTIFICATION = 'DiagnosticsStatusNotification',
-  FIRMWARE_STATUS_NOTIFICATION = 'FirmwareStatusNotification',
-  STATUS_NOTIFICATION = 'StatusNotification',
-  START_TRANSACTION = 'StartTransaction',
-  STOP_TRANSACTION = 'StopTransaction',
-  METER_VALUES = 'MeterValues',
-  DATA_TRANSFER = 'DataTransfer',
-
   OCPP_BOOT_NOTIFICATION = 'OcppBootNotification',
   OCPP_AUTHORIZE = 'OcppAuthorize',
   OCPP_HEARTBEAT = 'OcppHeartbeat',
@@ -540,15 +528,28 @@ export enum ServerRoute {
   REST_ASSETS = 'assets',
   REST_ASSET = 'assets/:id',
   REST_ASSETS_IN_ERROR = 'assets/status/in-error',
-  REST_ASSET_CHECK_CONNECTION = 'assets/:id/connector/connection/check',
+  REST_ASSET_CHECK_CONNECTION = 'assets/connectors/:id/connection/check',
   REST_ASSET_RETRIEVE_CONSUMPTION = 'assets/:id/connector/consumption/retrieve-last',
   REST_ASSET_CONSUMPTIONS = 'assets/:id/consumptions',
   REST_ASSET_IMAGE = 'assets/:id/image',
+
+  REST_CARS = 'cars',
+  REST_CAR = 'cars/:id',
+  REST_CAR_CATALOGS = 'car-catalogs',
+  REST_CAR_CATALOG = 'car-catalogs/:id',
+  REST_CAR_CATALOG_IMAGES = 'car-catalogs/:id/images',
+  REST_CAR_CATALOG_IMAGE = 'car-catalogs/:id/image',
+  REST_CAR_CATALOG_SYNCHRONIZE = 'car-catalogs/action/synchronize',
+  REST_CAR_MAKERS = 'car-makers',
 
   REST_PING = 'ping',
 
   REST_TENANTS = 'tenants',
   REST_TENANT = 'tenants/:id',
+
+  REST_COMPANIES = 'companies',
+  REST_COMPANY = 'companies/:id',
+  REST_COMPANY_LOGO = 'companies/:id/logo',
 
   REST_CONNECTIONS = 'connections',
   REST_CONNECTION = 'connections/:id',
@@ -556,6 +557,9 @@ export enum ServerRoute {
   REST_LOGGINGS = 'loggings',
   REST_LOGGING = 'loggings/:id',
   REST_LOGGINGS_EXPORT = 'loggings/action/export',
+
+  REST_NOTIFICATIONS = 'notifications',
+  REST_NOTIFICATIONS_END_USER_REPORT_ERROR = 'notifications/action/end-user/report-error',
 
   // BILLING URLs for CRUD operations on PAYMENT METHODS
   REST_BILLING_PAYMENT_METHODS = 'users/:userID/payment-methods',

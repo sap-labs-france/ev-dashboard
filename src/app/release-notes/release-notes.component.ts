@@ -35,6 +35,7 @@ export class ReleaseNotesComponent {
               `Migrated Company and OCPI endpoints to REST public API`,
               `Split OCPP Reset and Clear Cache commands in REST public API`,
               `Added Car connector in User's profile`,
+              `Billing should not throw an error when no User is provided`,
             ],
           },
         ],

@@ -36,6 +36,7 @@ export class ReleaseNotesComponent {
               `Split OCPP Reset and Clear Cache commands in REST public API`,
               `Added Car connector in User's profile`,
               `Billing should not throw an error when no User is provided`,
+              `Fixed documentation CSV upload`
             ],
           },
         ],

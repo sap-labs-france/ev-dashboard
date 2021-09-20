@@ -24,14 +24,16 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.4.91',
-        date: new Date('2021-09-17'),
+        date: new Date('2021-09-20'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Added Zeta Charging Station's vendor in templates`,
               `Fixed Export of OCPP parameters`,
               `Fixed Remote Start Transaction command in OCPI`,
               `Migrated Company endpoints to REST public API`,
+              `Split OCPP Reset and Clear Cache commands in REST public API`,
               `Added Car connector in User's profile`,
             ],
           },
@@ -47,7 +49,7 @@ export class ReleaseNotesComponent {
               `Added OCPP Get Composite Schedule command in public REST endpoint`,
               `Ensure Site and Charging Station are public when checking the public flag`,
               `Enhanced Charging Station logging when the response cannot be parsed (malformed)`,
-              `Added new Setec Charging Station's vendor in templates`,
+              `Added Setec Charging Station's vendor in templates`,
               `Migrated Car endpoints to REST public API`,
               `Fixed logo size in notification emails`,
             ],

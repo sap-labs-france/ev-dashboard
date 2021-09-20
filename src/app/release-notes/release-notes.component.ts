@@ -32,7 +32,7 @@ export class ReleaseNotesComponent {
               `Added Zeta Charging Station's vendor in templates`,
               `Fixed Export of OCPP parameters`,
               `Fixed Remote Start Transaction command in OCPI`,
-              `Migrated Company endpoints to REST public API`,
+              `Migrated Company and OCPI endpoints to REST public API`,
               `Split OCPP Reset and Clear Cache commands in REST public API`,
               `Added Car connector in User's profile`,
             ],

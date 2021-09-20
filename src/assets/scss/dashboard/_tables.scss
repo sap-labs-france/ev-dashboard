@@ -34,6 +34,20 @@ $outer-spinner: $brand-danger !default;
   }
 }
 
+.filterLength {
+  position: relative;
+  display: block;
+  padding-right: 15%;
+}
+
+.filterLength::after {
+  content: attr(filterLength);
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: block;
+}
+
 .search-form {
   min-width: 20%;
 }

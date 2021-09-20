@@ -116,8 +116,14 @@
           </mat-form-field>
           <!-- Dialog Table Filter with multiple selections-->
           <mat-form-field *ngIf="filterDef.type === FilterType.DIALOG_TABLE && filterDef.multiple">
-            <input (click)="showDialogTableFilter(filterDef)" [placeholder]="filterDef.name | translate"
-              [value]="filterDef.label" class="form-field-popup" matInput readonly=true type="text" />
+            <div *ngIf="filterDef.currentValue && filterDef.currentValue.length > 1;else singleValue"
+              attr.filterLength="(+{{filterDef.currentValue.length -1}})" class="filterLength">
+              <input (click)="showDialogTableFilter(filterDef)" [placeholder]="filterDef.name | translate"
+                [value]="filterDef.currentValue[0] && filterDef.currentValue[0].value ? filterDef.currentValue[0].value : ''" class="form-field-popup" matInput readonly=true type="text" />
+            </div>
+            <ng-template #singleValue> <input (click)="showDialogTableFilter(filterDef)"
+                [placeholder]="filterDef.name | translate" [value]="filterDef.currentValue[0] && filterDef.currentValue[0].value ? filterDef.currentValue[0].value : ''" class="form-field-popup" matInput
+                readonly=true type="text" /></ng-template>
             <button mat-icon-button matSuffix (click)="resetDialogTableFilter(filterDef)" aria-label="Clear">
               <mat-icon>clear</mat-icon>
             </button>

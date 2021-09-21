@@ -23,6 +23,18 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.92',
+        date: new Date('2021-09-21'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Fixed Charging Station's template is not applied when the connectors already exist`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.91',
         date: new Date('2021-09-20'),
         componentChanges: [
@@ -35,6 +47,8 @@ export class ReleaseNotesComponent {
               `Migrated Company and OCPI endpoints to REST public API`,
               `Split OCPP Reset and Clear Cache commands in REST public API`,
               `Added Car connector in User's profile`,
+              `Billing should not throw an error when no User is provided`,
+              `Fixed documentation CSV upload`
             ],
           },
         ],

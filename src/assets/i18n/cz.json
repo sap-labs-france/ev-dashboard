@@ -2064,6 +2064,8 @@
       "delete_confirm":"Chcete opravdu vymazat elektromobil '{{carName}}'?",
       "users":"Uživatelé",
       "select_car":"Vybrat elektromobil",
+      "car_connector_name": "Connection Name",
+      "car_connector_meter_id": "Connection Meter ID",
       "unit":{
          "meters":"m",
          "seconde":"s",

@@ -238,7 +238,7 @@ export class CentralServerService {
     // Build Ordering
     this.getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<CompanyDataResult>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.COMPANIES}`,
+    return this.httpClient.get<CompanyDataResult>(this.buildRestEndpointUrl(ServerRoute.REST_COMPANIES),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -250,12 +250,11 @@ export class CentralServerService {
 
   public getCompany(companyId: string, withLogo: boolean = false): Observable<Company> {
     const params: { [param: string]: string } = {};
-    params['ID'] = companyId;
     params['WithLogo'] = withLogo.toString();
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<Company>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.COMPANY}`,
+    return this.httpClient.get<Company>(this.buildRestEndpointUrl(ServerRoute.REST_COMPANY, { id: companyId }),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -267,12 +266,11 @@ export class CentralServerService {
 
   public getCompanyLogo(companyID: string): Observable<string> {
     const params: { [param: string]: string } = {};
-    params['ID'] = companyID;
     params['TenantID'] = this.currentUser?.tenantID;
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<Blob>(`${this.centralRestServerServiceUtilURL}/${ServerAction.COMPANY_LOGO}`,
+    return this.httpClient.get<Blob>(this.buildRestEndpointUrl(ServerRoute.REST_COMPANY_LOGO, { id: companyID }),
       {
         headers: this.buildHttpHeaders(),
         responseType: 'blob' as 'json',
@@ -429,7 +427,7 @@ export class CentralServerService {
     const params: { [param: string]: string } = {};
     params['ID'] = siteID;
     params['WithImage'] = withImage.toString();
-    params['WithCompany'] = withImage.toString();
+    params['WithCompany'] = withCompany.toString();
     // Verify init
     this.checkInit();
     // Execute the REST service
@@ -733,6 +731,9 @@ export class CentralServerService {
   }
 
   public getChargingStation(id: string): Observable<ChargingStation> {
+    const params: { [param: string]: string } = {};
+    params['WithSite'] = 'true';
+    params['WithSiteArea'] = 'true';
     // Verify init
     this.checkInit();
     if (!id) {
@@ -742,6 +743,7 @@ export class CentralServerService {
     return this.httpClient.get<ChargingStation>(`${this.restServerSecuredURL}/${ServerRoute.REST_CHARGING_STATIONS}/${id}`,
       {
         headers: this.buildHttpHeaders(),
+        params
       })
       .pipe(
         catchError(this.handleHttpError),
@@ -2098,7 +2100,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.COMPANY_CREATE}`, company,
+    return this.httpClient.post<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_COMPANIES), company,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2107,11 +2109,11 @@ export class CentralServerService {
       );
   }
 
-  public updateCompany(company: any): Observable<ActionResponse> {
+  public updateCompany(company: Company): Observable<ActionResponse> {
     // Verify init
     this.checkInit();
     // Execute
-    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.COMPANY_UPDATE}`, company,
+    return this.httpClient.put<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_COMPANY, { id: company.id }), company,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2124,7 +2126,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.COMPANY_DELETE}?ID=${id}`,
+    return this.httpClient.delete<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_COMPANY, { id }),
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2719,7 +2721,7 @@ export class CentralServerService {
   public pushTransactionCdr(id: number): Observable<ActionsResponse> {
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.post<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_TRANSACTION_CDR, { id }),
+    return this.httpClient.post<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_TRANSACTION_CDR, { id }), {},
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2918,7 +2920,7 @@ export class CentralServerService {
     // Build Ordering
     this.getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<CarDataResult>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CARS}`,
+    return this.httpClient.get<CarDataResult>(this.buildRestEndpointUrl(ServerRoute.REST_CARS),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -2932,9 +2934,8 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     const params: { [param: string]: string } = {};
-    params['ID'] = carID;
     // Execute the REST service
-    return this.httpClient.get<Car>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CAR}`,
+    return this.httpClient.get<Car>(this.buildRestEndpointUrl(ServerRoute.REST_CAR, { id: carID }),
       {
         headers: this.buildHttpHeaders(),
         params
@@ -2948,7 +2949,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<CarCatalog>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CAR_CATALOG}?ID=${id}`,
+    return this.httpClient.get<CarCatalog>(this.buildRestEndpointUrl(ServerRoute.REST_CAR_CATALOG, { id }),
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2964,8 +2965,7 @@ export class CentralServerService {
     // Build Paging
     this.getPaging(paging, params);
     // Execute the REST service
-    return this.httpClient.get<DataResult<ImageObject>>(
-      `${this.centralRestServerServiceSecuredURL}/${ServerAction.CAR_CATALOG_IMAGES}?ID=${id}`,
+    return this.httpClient.get<DataResult<ImageObject>>(this.buildRestEndpointUrl(ServerRoute.REST_CAR_CATALOG_IMAGES, { id }),
       {
         headers: this.buildHttpHeaders(),
         params
@@ -2979,7 +2979,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<DataResult<CarMaker>>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CAR_MAKERS}`,
+    return this.httpClient.get<DataResult<CarMaker>>(this.buildRestEndpointUrl(ServerRoute.REST_CAR_MAKERS),
       {
         headers: this.buildHttpHeaders(),
         params
@@ -2993,7 +2993,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute
-    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.SYNCHRONIZE_CAR_CATALOGS}`, {},
+    return this.httpClient.put<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_CAR_CATALOG_SYNCHRONIZE), {},
       {
         headers: this.buildHttpHeaders(),
       })
@@ -3006,7 +3006,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CAR_CREATE}`, { ...car, forced },
+    return this.httpClient.post<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_CARS), { ...car, forced },
       {
         headers: this.buildHttpHeaders(),
       })
@@ -3019,7 +3019,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute
-    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CAR_UPDATE}`, car,
+    return this.httpClient.put<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_CAR, { id: car.id }), car,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -3031,7 +3031,7 @@ export class CentralServerService {
   public deleteCar(id: number): Observable<ActionResponse> {
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/CarDelete?ID=${id}`,
+    return this.httpClient.delete<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_CAR, { id }),
       {
         headers: this.buildHttpHeaders(),
       })

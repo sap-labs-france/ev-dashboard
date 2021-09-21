@@ -120,7 +120,7 @@
     "search_user": "Utilisateur",
     "search_site": "Site",
     "all": "<Tous>",
-    "max_logs": "Lignes Max",
+    "max_lines": "Lignes Max",
     "auto_refresh": "Rafraîchissement Auto",
     "sort_date_desc": "Tri Date Décr.",
     "search_placeholder": "Rechercher...",
@@ -210,7 +210,7 @@
       "display_chargers": "Afficher les bornes",
       "edit_assets": "Éditer les ressources",
       "display_assets": "Afficher les ressources",
-      "edit_location": "Assigner au site",
+      "assign_site": "Assigner au site",
       "edit_users": "Editer un utilisateur",
       "edit_siteArea": "Editer les site areas",
       "display_siteAreas": "Afficher les site areas",
@@ -419,6 +419,7 @@
     "update_success": "Le site '{{siteName}}' a été mis à jour avec succès",
     "update_error": "Une erreur est survenue pendant la mise à jour du site, vérifiez les logs",
     "update_users_error": "Une erreur est survenue pendant l'ajout d'un utilisateur au site, vérifiez les logs",
+    "update_public_site_error": "LE site '{{siteName}}' ne peut pas être privé et avoir des bornes publiques",
     "create_success": "Le site '{{siteName}}' a été créé avec succès",
     "create_error": "Une erreur est survenue pendant la création du site, vérifiez les logs",
     "image_size_error": "La taille de l'image est trop importante, la limite est de '{{maxPictureKb}}' Ko",
@@ -697,6 +698,7 @@
     "cant_charge_in_parallel": "Ne peut pas charger en parallèle",
     "share_power_to_all_connectors": "Partage la puissance avec les connecteurs",
     "exclude_from_power_limitation": "Impossible de limiter la puissance",
+    "update_public_cs_error": "La borne ne peut pas être publique sur un site privé",
     "public": "Cette borne est publique",
     "public_charger": "Public",
     "exclude_smart_charging": "Exclure de la charge intelligente",
@@ -1500,7 +1502,7 @@
         "password": "Mot de passe"
       },
       "simple": {
-        "title": "Calculs Basique",
+        "title": "Tarification",
         "price": "Prix (au kW.h)",
         "currency": "Devise"
       }
@@ -1907,7 +1909,7 @@
     "register_error": "Une erreur est survenue pendant la procédure d'enregistrement avec l'IOP, vérifiez les logs",
     "unregister_error": "Une erreur est survenue pendant la procédure de désenregistrement avec l'IOP, vérifiez les logs",
     "push_evse_statuses_title": "Envoi des statuts des EVSEs",
-    "push_evsess_title": "Envoyer les Bornes",
+    "push_evses_title": "Envoyer les Bornes",
     "push_evse_statuses_confirm": "Voulez-vous vraiment envoyer le statut de tous les EVSEs à l'IOP '{{name}}'?",
     "push_evses_confirm": "Voulez-vous vraiment envoyer toutes les bornes à l'IOP '{{name}}'?",
     "trigger_jobs_title": "Execution des Processus",
@@ -2099,6 +2101,8 @@
     "delete_confirm": "Voulez-vous vraiment supprimer le véhicule '{{carName}}'?",
     "users": "Utilisateurs",
     "select_car": "Selection Véhicule",
+    "car_connector_name": "Connection Name",
+    "car_connector_meter_id": "Connection Meter ID",
     "unit": {
       "meters": "m",
       "seconde": "sec(s)",

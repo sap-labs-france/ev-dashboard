@@ -9,7 +9,7 @@ import { SpinnerService } from '../../../services/spinner.service';
 import { RestResponse } from '../../../types/GlobalType';
 import { HTTPError } from '../../../types/HTTPError';
 import { CarConnectorSettings } from '../../../types/Setting';
-import TenantComponents from '../../../types/TenantComponents';
+import { TenantComponents } from '../../../types/Tenant';
 import { Utils } from '../../../utils/Utils';
 import { SettingsCarConnectorConnectionEditableTableDataSource } from './settings-car-connector-connections-list-table-data-source';
 

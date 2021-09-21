@@ -24,7 +24,7 @@ import { ActionResponse } from '../../../types/DataResult';
 import { KeyValue, RestResponse } from '../../../types/GlobalType';
 import { HTTPError } from '../../../types/HTTPError';
 import { CarConnectorConnectionSetting, CarConnectorConnectionType, PricingSettingsType, RefundSettings } from '../../../types/Setting';
-import TenantComponents from '../../../types/TenantComponents';
+import { TenantComponents } from '../../../types/Tenant';
 import { User, UserRole, UserStatus } from '../../../types/User';
 import { Constants } from '../../../utils/Constants';
 import { ParentErrorStateMatcher } from '../../../utils/ParentStateMatcher';

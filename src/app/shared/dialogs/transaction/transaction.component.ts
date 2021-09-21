@@ -15,7 +15,7 @@ import { SpinnerService } from '../../../services/spinner.service';
 import { ConsumptionChartComponent } from '../../../shared/component/consumption-chart/consumption-chart.component';
 import { AppPercentPipe } from '../../../shared/formatters/app-percent-pipe';
 import { Image } from '../../../types/GlobalType';
-import TenantComponents from '../../../types/TenantComponents';
+import { TenantComponents } from '../../../types/Tenant';
 import { Transaction } from '../../../types/Transaction';
 import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';

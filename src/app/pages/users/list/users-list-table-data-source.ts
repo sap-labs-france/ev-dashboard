@@ -36,7 +36,7 @@ import { BillingButtonAction } from '../../../types/Billing';
 import ChangeNotification from '../../../types/ChangeNotification';
 import { DataResult } from '../../../types/DataResult';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
-import TenantComponents from '../../../types/TenantComponents';
+import { TenantComponents } from '../../../types/Tenant';
 import { TransactionButtonAction } from '../../../types/Transaction';
 import { User, UserButtonAction } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';

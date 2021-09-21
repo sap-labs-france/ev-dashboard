@@ -20,9 +20,104 @@ export class ReleaseNotesComponent {
   public constructor() {
     this.buildReleaseNotes();
   }
-
   public buildReleaseNotes() {
     this.releaseNotes = [
+      {
+        version: '2.4.91',
+        date: new Date('2021-09-20'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added Zeta Charging Station's vendor in templates`,
+              `Fixed Export of OCPP parameters`,
+              `Fixed Remote Start Transaction command in OCPI`,
+              `Migrated Company and OCPI endpoints to REST public API`,
+              `Split OCPP Reset and Clear Cache commands in REST public API`,
+              `Added Car connector in User's profile`,
+              `Billing should not throw an error when no User is provided`,
+              `Fixed documentation CSV upload`
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.90',
+        date: new Date('2021-09-09'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added OCPP Get Composite Schedule command in public REST endpoint`,
+              `Ensure Site and Charging Station are public when checking the public flag`,
+              `Enhanced Charging Station logging when the response cannot be parsed (malformed)`,
+              `Added Setec Charging Station's vendor in templates`,
+              `Migrated Car endpoints to REST public API`,
+              `Fixed logo size in notification emails`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.89',
+        date: new Date('2021-09-06'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Smart Charging - Enable Charging Stations without static limitation support`,
+              `Added OCPP Get Diagnostics command in public REST endpoint`,
+              `Return new fields in User's default Tag and Car REST API`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.88',
+        date: new Date('2021-09-05'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added Mercedes connector to get the SoC on AC Charging Stations`,
+              `Enhanced consumption charts with different series`,
+              `Added Site ID in Logs for Site Admin role`,
+              `Made 'email' and 'name' not mandatory when updating an User`,
+              `Transaction and Log endpoints RESTful have been migrated`,
+              `Limit the number of Logs to 10 millions max`,
+              `Fixed lost of OCPI configuration`,
+              `Finalized DBT Charging Station's model in templates`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.87',
+        date: new Date('2021-08-25'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added OCPP Trigger Data Transfer in RESTful API`,
+              `Remove prefix from OCPI tariff and use 'Default' as default tariff`,
+              `Added new DBT Charging Station's model in templates`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.86',
+        date: new Date('2021-08-17'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Improvement of the translation to Spanish`,
+              `Implicit log filtering for Site Administrators`
+            ],
+          },
+        ],
+      },
       {
         version: '2.4.85',
         date: new Date('2021-08-13'),

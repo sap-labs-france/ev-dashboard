@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 
 import { RouteGuardService } from '../../guard/route-guard';
 import { Action, Entity } from '../../types/Authorization';
-import TenantComponents from '../../types/TenantComponents';
+import { TenantComponents } from '../../types/Tenant';
 import { AssetsComponent } from './assets.component';
 
 export const AssetsRoutes: Routes = [

@@ -28,7 +28,7 @@ import { DataResult } from '../../../types/DataResult';
 import { RegistrationToken, RegistrationTokenButtonAction } from '../../../types/RegistrationToken';
 import { SiteArea } from '../../../types/SiteArea';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
-import TenantComponents from '../../../types/TenantComponents';
+import { TenantComponents } from '../../../types/Tenant';
 import { User } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';
 import { ChargingStationsRegistrationTokenStatusComponent } from './registration-token/charging-stations-registration-token-status.component';

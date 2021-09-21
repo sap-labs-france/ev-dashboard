@@ -23,19 +23,6 @@
       </div>
     </div>
   </div>
-  <div *ngIf="isCarComponentActive" class="row">
-    <div class="col-md-12">
-      <div class="form-group">
-        <mat-form-field>
-          <input matInput type="text" readonly=true placeholder="{{'car.title' | translate}}" class="form-field-popup"
-            (click)="assignCar()" [formControl]="car" />
-          <button *ngIf="car.enabled && car.value" mat-icon-button matSuffix (click)="resetCar()" aria-label="Add">
-            <mat-icon>clear</mat-icon>
-          </button>
-        </mat-form-field>
-      </div>
-    </div>
-  </div>
   <div class="row">
     <div class="col-md-12">
       <div class="form-group">
@@ -52,7 +39,20 @@
             {{"tags.not_active" | translate}}
           </mat-error>
         </mat-form-field>
+      </div>
     </div>
+  </div>
+  <div *ngIf="isCarComponentActive" class="row">
+    <div class="col-md-12">
+      <div class="form-group">
+        <mat-form-field>
+          <input matInput type="text" readonly=true placeholder="{{'car.title' | translate}}" class="form-field-popup"
+            (click)="assignCar()" [formControl]="car" />
+          <button *ngIf="car.enabled && car.value" mat-icon-button matSuffix (click)="resetCar()" aria-label="Add">
+            <mat-icon>clear</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
     </div>
   </div>
   <div class="clearfix"></div>

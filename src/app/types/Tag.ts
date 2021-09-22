@@ -1,7 +1,8 @@
+import { TagAuthorizationActions } from './Authorization';
 import { TableData } from './Table';
 import { User } from './User';
 
-export interface Tag extends TableData {
+export interface Tag extends TableData, TagAuthorizationActions {
   id: string;
   visualID: string;
   issuer: boolean;

@@ -171,6 +171,9 @@ export interface AuthorizationActions {
   canCreate?: boolean;
   canUpdate?: boolean;
   canDelete?: boolean;
+}
+
+export interface TagAuthorizationActions extends AuthorizationActions {
   canUnassign?: boolean;
   canUpdateByVisualID?: boolean;
 }

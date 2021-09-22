@@ -30,7 +30,7 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Fixed Charging Station's template is not applied when the connectors already exist`,
-              `Split OCPP Change Availability command in REST public API`,
+              `Split OCPP Change Availability and Change Configuration commands in REST public API`,
             ],
           },
         ],

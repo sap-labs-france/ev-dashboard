@@ -23,12 +23,16 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.4.92',
-        date: new Date('2021-09-21'),
+        version: '2.5.0',
+        date: new Date('2021-09-23'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Implemented Tronity Car connector`,
+              `Basic User can register or delete his own Badges`,
+              `Badges has been moved in a dedicated menu`,
+              `Admin can create a Badge not assigned to a User`,
               `Fixed Charging Station's template is not applied when the connectors already exist`,
               `Split OCPP Change Availability and Change Configuration commands in REST public API`,
               `Added Technical User for querying the REST API (B2B)`,

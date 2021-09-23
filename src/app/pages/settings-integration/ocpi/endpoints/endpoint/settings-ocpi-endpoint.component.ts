@@ -198,6 +198,7 @@ export class SettingsOcpiEndpointComponent implements OnInit {
           this.messageService, messageId);
       }
     }, (error) => {
+      this.spinnerService.hide();
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
         'ocpiendpoints.error_ping');
     });

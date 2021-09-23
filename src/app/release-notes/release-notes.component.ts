@@ -36,6 +36,7 @@ export class ReleaseNotesComponent {
               `Fixed Charging Station's template is not applied when the connectors already exist`,
               `Split OCPP Change Availability, Data Transfer, Unlock Connector and Change Configuration commands in REST public API`,
               `Added Technical User for querying the REST API (B2B)`,
+              `Fixed Retrieve Configuration button in Charging Station's OCPP Parameters`,
               `Fixed exception handling when sending an OCPP command to a disconnected Charging Station`,
             ],
           },

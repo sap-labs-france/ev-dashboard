@@ -188,7 +188,7 @@
          "template":"Šablony",
          "cars":"Elektromobily",
          "invoices":"Faktury",
-         "tags": "Tags"
+         "tags": "Badges"
       },
       "tooltips":{
          "push_cdr":"Doručit podrobné záznamy o nabíjení CDR",

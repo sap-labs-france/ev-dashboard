@@ -2,11 +2,10 @@ import { ComponentType } from '@angular/cdk/portal';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { DialogParams } from 'types/Authorization';
-import { Tag } from 'types/Tag';
+import { Tag, TagButtonAction } from 'types/Tag';
 
-import { TableEditAction } from '../../../../shared/table/actions/table-edit-action';
 import { TableActionDef } from '../../../../types/Table';
-import { UserButtonAction } from '../../../../types/User';
+import { TableEditAction } from '../table-edit-action';
 
 export interface TableEditTagActionDef extends TableActionDef {
   action: (tagDialogComponent: ComponentType<unknown>, dialog: MatDialog,
@@ -17,7 +16,7 @@ export class TableEditTagAction extends TableEditAction {
   public getActionDef(): TableEditTagActionDef {
     return {
       ...super.getActionDef(),
-      id: UserButtonAction.EDIT_TAG,
+      id: TagButtonAction.EDIT_TAG,
       action: this.editTag,
     };
   }

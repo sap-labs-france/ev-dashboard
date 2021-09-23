@@ -187,7 +187,8 @@
       "organization": "Organisation",
       "template": "Vorlagen",
       "cars": "Fahrzeuge",
-      "invoices": "Rechnungen"
+      "invoices": "Rechnungen",
+      "tags": "Badges"
     },
     "tooltips": {
       "push_cdr": "CDR senden",
@@ -1366,13 +1367,18 @@
     "update_has_transaction_error": "Dieser Badge ist mit Ladevorgängen verknüpft und kann nicht neu zugeordnet werden",
     "create_success": "Der Badge '{{tagID}}' wurde erfolgreich erstellt",
     "create_error": "Beim Erstellen des Badges ist ein Fehler aufgetreten",
+    "register_success": "The badge '{{visualID}}' has been registered successfully",
+    "register_error": "Error occurred while registering the badge",
     "update_success": "Der Badge '{{tagID}}' wurde erfolgreich aktualisiert",
+    "update_by_visual_id_success": "The badge '{{visualID}}' has been updated successfully",
     "update_error": "Beim Aktualisieren des Badges ist ein Fehler aufgetreten",
     "tag_error": "Beim Abrufen des Badges ist ein Fehler aufgetreten",
     "tag_not_found": "Badge wurde nicht gefunden",
     "select_tags": "Badge auswählen",
     "tag_id_already_used": "Der Badge '{{tagID}}' existiert bereits",
     "tag_visual_id_already_used": "The visualID '{{visualID}}' already exists",
+    "tag_visual_id_does_not_match_tag": "The visualID '{{visualID}}' does not match any badge",
+    "tag_inactive": "The badge '{{visualID}}' is inactive and cannot be assigned",
     "redirect": "Zu den Badges navigieren",
     "title": "Badge",
     "default_tag": "Standard-Badge",

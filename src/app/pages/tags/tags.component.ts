@@ -6,19 +6,17 @@ import { WindowService } from '../../services/window.service';
 import { AbstractTabComponent } from '../../shared/component/abstract-tab/abstract-tab.component';
 
 @Component({
-  selector: 'app-users',
-  templateUrl: './users.component.html',
+  selector: 'app-tags',
+  templateUrl: './tags.component.html',
 })
-export class UsersComponent extends AbstractTabComponent {
-  public canListUsers: boolean;
-  public canListUsersInError: boolean;
+export class TagsComponent extends AbstractTabComponent {
+  public canListTags: boolean;
 
   public constructor(
     activatedRoute: ActivatedRoute,
     authorizationService: AuthorizationService,
     windowService: WindowService) {
-    super(activatedRoute, windowService, ['all', 'inerror']);
-    this.canListUsers = authorizationService.canListUsers();
-    this.canListUsersInError = authorizationService.canListUsersInError();
+    super(activatedRoute, windowService, ['all']);
+    this.canListTags = authorizationService.canListTags();
   }
 }

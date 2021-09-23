@@ -174,6 +174,11 @@ export interface AuthorizationActions {
   projectedFields?: string[];
 }
 
+export interface TagAuthorizationActions extends AuthorizationActions {
+  canUnassign?: boolean;
+  canUpdateByVisualID?: boolean;
+}
+
 export interface SiteAuthorizationActions extends AuthorizationActions {
   canAssignUsers?: boolean;
   canUnassignUsers?: boolean;
@@ -198,6 +203,7 @@ export enum DialogMode {
 
 export interface DialogData {
   id: string | number;
+  projectedFields?: string[];
 }
 
 export interface DialogParams<T extends DialogData> {

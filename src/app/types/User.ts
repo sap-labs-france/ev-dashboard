@@ -40,6 +40,7 @@ export interface User extends TableData, CreatedUpdatedProps {
   eulaAcceptedVersion: number;
   eulaAcceptedOn: Date;
   billingData: BillingUserData;
+  technical: boolean;
 }
 
 export interface UserNotifications {

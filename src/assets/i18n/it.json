@@ -1215,6 +1215,7 @@
     "name": "Nome",
     "first_name": "Nome",
     "plate_id": "Targa",
+    "technical": "Technical User",
     "tags": "Badge",
     "tag_ids_help": "Immettere una lista di ID Badge separati da una virgola",
     "inumber": "Numero Aziendale",

@@ -1215,6 +1215,7 @@
     "name": "Nom",
     "first_name": "Prénom",
     "plate_id": "Plaque",
+    "technical": "Utilisateur technique",
     "tags": "Badges",
     "tag_ids_help": "Entrer une liste de badges séparés par une virgule",
     "inumber": "Identifiant Entreprise",

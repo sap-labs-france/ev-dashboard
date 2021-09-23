@@ -23,6 +23,21 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.92',
+        date: new Date('2021-09-21'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Fixed Charging Station's template is not applied when the connectors already exist`,
+              `Split OCPP Change Availability and Change Configuration commands in REST public API`,
+              `Added Technical User for querying the REST API (B2B)`,
+              `Fixed exception handling when sending an OCPP command to a disconnected Charging Station`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.91',
         date: new Date('2021-09-20'),
         componentChanges: [

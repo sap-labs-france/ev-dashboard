@@ -1689,7 +1689,8 @@
         "delete_confirm": "Do you really want to delete the connector '{{carConnectorConnectionName}}'?"
       },
       "types": {
-        "mercedes": "Mercedes Connector"
+        "mercedes": "Mercedes Connector",
+        "tronity": "Tronity Connector"
       },
       "mercedes": {
         "link_success": "Your account has been successfully linked with Mercedes",

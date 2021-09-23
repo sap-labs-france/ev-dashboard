@@ -300,15 +300,23 @@ export interface CarConnectorConnectionSetting extends TableData {
   description: string;
   type: CarConnectorConnectionType;
   mercedesConnection?: CarConnectorMercedesConnectionType;
+  tronityConnection?: CarConnectorTronityConnectionType;
 }
 
 export enum CarConnectorConnectionType {
   NONE = '',
   MERCEDES = 'mercedes',
+  TRONITY = 'tronity',
 }
 
 export interface CarConnectorMercedesConnectionType {
   authenticationUrl: string;
+  apiUrl: string;
+  clientId: string;
+  clientSecret: string;
+}
+
+export interface CarConnectorTronityConnectionType {
   apiUrl: string;
   clientId: string;
   clientSecret: string;

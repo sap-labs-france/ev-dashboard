@@ -24,8 +24,8 @@ export class TableRequestOCPPParamsAction implements TableAction {
     type: 'button',
     icon: 'vertical_align_bottom',
     color: ButtonColor.PRIMARY,
-    name: 'chargers.button_get_configuration',
-    tooltip: 'chargers.button_get_configuration',
+    name: 'chargers.button_retrieve_configuration',
+    tooltip: 'chargers.button_retrieve_configuration',
     action: this.requestOCPPParameters,
   };
   public getActionDef(): TableRequestOCPPParamsActionDef {
@@ -36,8 +36,8 @@ export class TableRequestOCPPParamsAction implements TableAction {
     messageService: MessageService, centralServerService: CentralServerService, router: Router, spinnerService: SpinnerService,
     refresh?: () => Observable<void>) {
     dialogService.createAndShowYesNoDialog(
-      translateService.instant('chargers.get_configuration_title'),
-      translateService.instant('chargers.get_configuration_confirm', { chargeBoxID: chargingStation.id })
+      translateService.instant('chargers.retrieve_configuration_title'),
+      translateService.instant('chargers.retrieve_configuration_confirm', { chargeBoxID: chargingStation.id })
     ).subscribe((result) => {
       if (result === ButtonType.YES) {
         spinnerService.show();

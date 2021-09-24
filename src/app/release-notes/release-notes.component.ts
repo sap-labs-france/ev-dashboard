@@ -24,7 +24,7 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.5.0',
-        date: new Date('2021-09-23'),
+        date: new Date('2021-09-24'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -38,6 +38,7 @@ export class ReleaseNotesComponent {
               `Added Technical User for querying the REST API (B2B)`,
               `Fixed Retrieve Configuration button in Charging Station's OCPP Parameters`,
               `Fixed exception handling when sending an OCPP command to a disconnected Charging Station`,
+              `Display 'Installed' firmware update status in Charging Station list`,
             ],
           },
         ],

@@ -34,6 +34,7 @@ export class ReleaseNotesComponent {
               `Badges has been moved in a dedicated menu`,
               `Admin can create a Badge not assigned to a User`,
               `Fixed Charging Station's template is not applied when the connectors already exist`,
+              `Added OCPP Reserve Now command`,
               `Split OCPP Change Availability, Data Transfer, Unlock Connector and Change Configuration commands in REST public API`,
               `Added Technical User for querying the REST API (B2B)`,
               `Fixed Retrieve Configuration button in Charging Station's OCPP Parameters`,

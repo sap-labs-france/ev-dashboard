@@ -39,6 +39,7 @@ export class ReleaseNotesComponent {
               `Fixed Retrieve Configuration button in Charging Station's OCPP Parameters`,
               `Fixed exception handling when sending an OCPP command to a disconnected Charging Station`,
               `Display 'Installed' firmware update status in Charging Station list`,
+              `Fixed side menu cannot be scrolled on small screen`,
             ],
           },
         ],

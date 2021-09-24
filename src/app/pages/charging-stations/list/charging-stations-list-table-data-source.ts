@@ -85,16 +85,15 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
     return new Observable((observer) => {
       // Get data
       this.centralServerService.getChargingStations(this.buildFilterValues(),
-        this.getPaging(), this.getSorting()).subscribe((chargers) => {
+        this.getPaging(), this.getSorting()).subscribe((chargingStations) => {
         // Update details status
-        chargers.result.forEach((chargingStation: ChargingStation) => {
+        for (const chargingStation of chargingStations.result) {
           // At first filter out the connectors that are null
           chargingStation.connectors = chargingStation.connectors.filter((connector: Connector) => !Utils.isNullOrUndefined(connector));
-          chargingStation.connectors.forEach((connector) => {
+          for (const connector of chargingStation.connectors) {
             connector.hasDetails = connector.currentTransactionID > 0;
             let connectorIsInactive = false;
-            if (chargingStation.inactive ||
-                chargingStation.firmwareUpdateStatus === FirmwareStatus.INSTALLING) {
+            if (chargingStation.inactive || chargingStation.firmwareUpdateStatus === FirmwareStatus.INSTALLING) {
               connectorIsInactive = true;
             }
             connector.status = connectorIsInactive ? ChargePointStatus.UNAVAILABLE : connector.status;
@@ -102,10 +101,10 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
             connector.currentStateOfCharge = connectorIsInactive ? 0 : connector.currentStateOfCharge;
             connector.currentTotalConsumptionWh = connectorIsInactive ? 0 : connector.currentTotalConsumptionWh;
             connector.currentTotalInactivitySecs = connectorIsInactive ? 0 : connector.currentTotalInactivitySecs;
-          });
-        });
+          };
+        };
         // Ok
-        observer.next(chargers);
+        observer.next(chargingStations);
         observer.complete();
       }, (error) => {
         // No longer exists!

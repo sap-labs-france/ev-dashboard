@@ -23,6 +23,29 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.5.0',
+        date: new Date('2021-09-24'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Implemented Tronity Car connector`,
+              `Basic User can register or delete his own Badges`,
+              `Badges has been moved in a dedicated menu`,
+              `Admin can create a Badge not assigned to a User`,
+              `Fixed Charging Station's template is not applied when the connectors already exist`,
+              `Added OCPP Reserve Now command`,
+              `Split OCPP Change Availability, Data Transfer, Unlock Connector and Change/Get Configuration commands in REST public API`,
+              `Added Technical User for querying the REST API (B2B)`,
+              `Fixed Retrieve Configuration button in Charging Station's OCPP Parameters`,
+              `Fixed exception handling when sending an OCPP command to a disconnected Charging Station`,
+              `Display 'Installed' firmware update status in Charging Station list`,
+              `Fixed side menu cannot be scrolled on small screen`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.91',
         date: new Date('2021-09-20'),
         componentChanges: [

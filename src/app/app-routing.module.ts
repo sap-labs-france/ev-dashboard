@@ -131,6 +131,22 @@ const routes: Routes = [
         },
       },
       {
+        path: 'tags',
+        loadChildren: async () => import('./pages/tags/tags.module').then((m) => m.TagsModule),
+        data: {
+          menu: {
+            title: 'tags',
+            type: 'link',
+            icon: 'badge',
+            path: '/tags',
+          },
+          auth: {
+            entity: Entity.TAGS,
+            action: Action.LIST,
+          },
+        },
+      },
+      {
         path: 'asset',
         loadChildren: async () => import('./pages/assets/assets.module').then((m) => m.AssetsModule),
         data: {

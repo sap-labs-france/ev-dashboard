@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { ImportDialogComponent } from 'shared/dialogs/import/import-dialog.component';
 import { TableImportUsersAction, TableImportUsersActionDef } from 'shared/table/actions/users/table-import-users-action';
+import { TagButtonAction } from 'types/Tag';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
@@ -19,6 +20,7 @@ import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto
 import { TableMoreAction } from '../../../shared/table/actions/table-more-action';
 import { TableOpenURLActionDef } from '../../../shared/table/actions/table-open-url-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
+import { TableNavigateToTagsAction } from '../../../shared/table/actions/tags/table-navigate-to-tags-action';
 import { TableNavigateToTransactionsAction } from '../../../shared/table/actions/transactions/table-navigate-to-transactions-action';
 import { TableAssignSitesToUserAction, TableAssignSitesToUserActionDef } from '../../../shared/table/actions/users/table-assign-sites-to-user-action';
 import { TableCreateUserAction, TableCreateUserActionDef } from '../../../shared/table/actions/users/table-create-user-action';
@@ -26,7 +28,6 @@ import { TableDeleteUserAction, TableDeleteUserActionDef } from '../../../shared
 import { TableEditUserAction, TableEditUserActionDef } from '../../../shared/table/actions/users/table-edit-user-action';
 import { TableExportUsersAction, TableExportUsersActionDef } from '../../../shared/table/actions/users/table-export-users-action';
 import { TableForceSyncBillingUserAction } from '../../../shared/table/actions/users/table-force-sync-billing-user-action';
-import { TableNavigateToTagsAction } from '../../../shared/table/actions/users/table-navigate-to-tags-action';
 import { TableSyncBillingUsersAction } from '../../../shared/table/actions/users/table-sync-billing-users-action';
 import { IssuerFilter, organizations } from '../../../shared/table/filters/issuer-filter';
 import { SiteTableFilter } from '../../../shared/table/filters/site-table-filter';
@@ -366,7 +367,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
           );
         }
         break;
-      case UserButtonAction.NAVIGATE_TO_TAGS:
+      case TagButtonAction.NAVIGATE_TO_TAGS:
         if (actionDef.action) {
           (actionDef as TableOpenURLActionDef).action('users#tag?UserID=' + user.id + '&Issuer=' + user.issuer);
         }

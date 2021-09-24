@@ -1,8 +1,7 @@
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { Tag } from 'types/Tag';
-import { UserButtonAction } from 'types/User';
+import { Tag, TagButtonAction } from 'types/Tag';
 
 import { CentralServerService } from '../../../../services/central-server.service';
 import { DialogService } from '../../../../services/dialog.service';
@@ -21,8 +20,9 @@ export class TableDeleteTagsAction extends TableDeleteManyAction {
   public getActionDef(): TableDeleteTagsActionDef {
     return {
       ...super.getActionDef(),
-      id: UserButtonAction.DELETE_TAGS,
+      id: TagButtonAction.DELETE_TAGS,
       action: this.deleteTags,
+      visible: false
     };
   }
 

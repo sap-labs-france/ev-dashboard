@@ -13,7 +13,7 @@ export class TagTableFilter extends TableFilter {
       defaultValue: '',
       label: '',
       name: 'users.tags',
-      class: 'col-md-6 col-lg-4 col-xl-2',
+      class: 'col-sm-6 col-lg-3 col-md-2',
       dialogComponent: TagsDialogComponent,
       multiple: true,
       cleared: true,

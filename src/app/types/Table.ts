@@ -15,6 +15,7 @@ import { OicpButtonAction } from './oicp/OICPEndpoint';
 import { RegistrationTokenButtonAction } from './RegistrationToken';
 import { SiteButtonAction } from './Site';
 import { SiteAreaButtonAction } from './SiteArea';
+import { TagButtonAction } from './Tag';
 import { TenantButtonAction } from './Tenant';
 import { TransactionButtonAction } from './Transaction';
 import { UserButtonAction } from './User';
@@ -25,6 +26,7 @@ export interface TableData extends AuthorizationActions {
   isSelected?: boolean;
   isSelectable?: boolean;
   isExpanded?: boolean;
+  projectedFields?: string[];
 }
 
 export enum TableDataSourceMode {
@@ -119,7 +121,7 @@ export enum DialogType {
 export interface TableActionDef {
   id: ButtonAction | CompanyButtonAction | TenantButtonAction | SiteAreaButtonAction | ChargingStationButtonAction |
   UserButtonAction | TransactionButtonAction | SiteButtonAction | OcpiButtonAction | OicpButtonAction | AssetButtonAction |
-  BillingButtonAction | CarButtonAction | LogButtonAction | RegistrationTokenButtonAction;
+  BillingButtonAction | CarButtonAction | LogButtonAction | RegistrationTokenButtonAction | TagButtonAction;
   type: ActionType;
   currentValue?: any;
   name: string;

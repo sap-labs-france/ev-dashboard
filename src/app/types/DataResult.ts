@@ -100,6 +100,9 @@ export interface TagDataResult extends DataResult<Tag> {
   canCreate: boolean;
   canImport: boolean;
   canExport: boolean;
+  canDelete: boolean;
+  canUnassign: boolean;
+  canAssign: boolean;
 }
 
 export interface CheckAssetConnectionResponse extends ActionResponse {

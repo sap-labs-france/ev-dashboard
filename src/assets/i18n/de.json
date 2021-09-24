@@ -187,7 +187,8 @@
       "organization": "Organisation",
       "template": "Vorlagen",
       "cars": "Fahrzeuge",
-      "invoices": "Rechnungen"
+      "invoices": "Rechnungen",
+      "tags": "Badges"
     },
     "tooltips": {
       "push_cdr": "CDR senden",
@@ -935,8 +936,8 @@
     "reboot_confirm": "Wollen Sie die Ladestation '{{chargeBoxID}}' wirklich neu starten?",
     "reboot_success": "Die Ladestation '{{chargeBoxID}}' wurde erfolgreich neu gestartet",
     "reboot_error": "Beim Neustart der Ladestation ist ein Fehler aufgetreten",
-    "get_configuration_title": "Konfiguration anfordern",
-    "get_configuration_confirm": "Wollen Sie wirklich die Konfiguration von Ladestation '{{chargeBoxID}}' anfordern?",
+    "retrieve_configuration_title": "Konfiguration anfordern",
+    "retrieve_configuration_confirm": "Wollen Sie wirklich die Konfiguration von Ladestation '{{chargeBoxID}}' anfordern?",
     "reboot_required_title": "Neustart erforderlich",
     "reboot_required_confirm": "Wollen Sie die Ladestation '{{chargeBoxID}}' neu starten?",
     "ocpp_params_list_error": "Keine OCPP-Parameter zum Anzeigen verfügbar",
@@ -1025,7 +1026,7 @@
     "unsaved_confirmed": "Wollen Sie die Änderungen speichern?",
     "changes_cancelled": "Änderungen wurden gelöscht",
     "unsaved_changes": "Sie haben ungespeicherte Änderungen. Speichern oder löschen Sie diese.",
-    "button_get_configuration": "Konfigurationen anfordern",
+    "button_retrieve_configuration": "Konfigurationen anfordern",
     "button_force_ocpp_params_update_from_template": "OCPP Parameter Update erzwingen",
     "created_on": "Erstellungsdatum",
     "start_transaction_details_title": "Ladevorgang an Ladestation '{{chargeBoxID}}' starten",
@@ -1214,6 +1215,7 @@
     "name": "Name",
     "first_name": "Vorname",
     "plate_id": "Kennzeichen",
+    "technical": "Technical User",
     "tags": "Badges",
     "tag_ids_help": "Geben Sie eine durch Kommas getrennte Liste von Badge-IDs ein.",
     "inumber": "Nutzer-ID (Corporate-ID)",
@@ -1365,13 +1367,18 @@
     "update_has_transaction_error": "Dieser Badge ist mit Ladevorgängen verknüpft und kann nicht neu zugeordnet werden",
     "create_success": "Der Badge '{{tagID}}' wurde erfolgreich erstellt",
     "create_error": "Beim Erstellen des Badges ist ein Fehler aufgetreten",
+    "register_success": "The badge '{{visualID}}' has been registered successfully",
+    "register_error": "Error occurred while registering the badge",
     "update_success": "Der Badge '{{tagID}}' wurde erfolgreich aktualisiert",
+    "update_by_visual_id_success": "The badge '{{visualID}}' has been updated successfully",
     "update_error": "Beim Aktualisieren des Badges ist ein Fehler aufgetreten",
     "tag_error": "Beim Abrufen des Badges ist ein Fehler aufgetreten",
     "tag_not_found": "Badge wurde nicht gefunden",
     "select_tags": "Badge auswählen",
     "tag_id_already_used": "Der Badge '{{tagID}}' existiert bereits",
     "tag_visual_id_already_used": "The visualID '{{visualID}}' already exists",
+    "tag_visual_id_does_not_match_tag": "The visualID '{{visualID}}' does not match any badge",
+    "tag_inactive": "The badge '{{visualID}}' is inactive and cannot be assigned",
     "redirect": "Zu den Badges navigieren",
     "title": "Badge",
     "default_tag": "Standard-Badge",
@@ -1683,7 +1690,8 @@
         "delete_confirm": "Möchten Sie wirklich die Fahrzeug-Schnittstelle '{{carConnectorConnectionName}}' löschen?"
       },
       "types": {
-        "mercedes": "Mercedes Schnittstelle"
+        "mercedes": "Mercedes Schnittstelle",
+        "tronity": "Tronity Schnittstelle"
       },
       "mercedes": {
         "link_success": "Ihr Account wurde erfolgreich mit Mercedes verbunden",

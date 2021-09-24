@@ -4,7 +4,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 
 import { KeyValue } from '../../../../types/GlobalType';
-import { CarConnectorConnectionSetting, CarConnectorConnectionType, CarConnectorMercedesConnectionType } from '../../../../types/Setting';
+import { CarConnectorConnectionSetting, CarConnectorConnectionType, CarConnectorMercedesConnectionType, CarConnectorTronityConnectionType } from '../../../../types/Setting';
 import { CarConnectorConnectionDialogComponent } from './car-connector-connection.dialog.component';
 
 @Component({
@@ -23,8 +23,10 @@ export class CarConnectorConnectionComponent implements OnInit {
   public type!: AbstractControl;
 
   public mercedesConnection!: CarConnectorMercedesConnectionType;
+  public tronityConnection!: CarConnectorTronityConnectionType;
   public carConnectorConnectionTypes: KeyValue[] = [
-    { key: CarConnectorConnectionType.MERCEDES, value: 'settings.car_connector.types.mercedes' }
+    { key: CarConnectorConnectionType.MERCEDES, value: 'settings.car_connector.types.mercedes' },
+    { key: CarConnectorConnectionType.TRONITY, value: 'settings.car_connector.types.tronity' }
   ];
   public submitButtonTranslation!: any;
 
@@ -82,6 +84,9 @@ export class CarConnectorConnectionComponent implements OnInit {
       case CarConnectorConnectionType.MERCEDES:
         this.mercedesConnection = this.currentCarConnectorConnection.mercedesConnection;
         break;
+      case CarConnectorConnectionType.TRONITY:
+        this.tronityConnection = this.currentCarConnectorConnection.tronityConnection;
+        break;
     }
   }
 
@@ -111,6 +116,9 @@ export class CarConnectorConnectionComponent implements OnInit {
   public typeChanged(type: CarConnectorConnectionType) {
     if (this.formGroup.controls.mercedesConnection && type !== CarConnectorConnectionType.MERCEDES) {
       delete this.formGroup.controls.mercedesConnection;
+    }
+    if (this.formGroup.controls.tronityConnection && type !== CarConnectorConnectionType.TRONITY) {
+      delete this.formGroup.controls.tronityConnection;
     }
   }
 }

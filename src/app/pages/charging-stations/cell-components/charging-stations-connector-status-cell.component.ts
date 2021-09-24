@@ -1,13 +1,8 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
+import { ChipType } from 'types/GlobalType';
 
 import { CellContentTemplateDirective } from '../../../shared/table/cell-content-template/cell-content-template.directive';
 import { ChargePointStatus, Connector } from '../../../types/ChargingStation';
-
-const TYPE_INFO = 'chip-info';
-const TYPE_SUCCESS = 'chip-success';
-const TYPE_DANGER = 'chip-danger';
-const TYPE_WARNING = 'chip-warning';
-const TYPE_GREY = 'chip-grey';
 
 @Component({
   template: `
@@ -38,44 +33,44 @@ export class AppChargingStationsFormatConnectorStatusPipe implements PipeTransfo
     let classNames = 'chip-width-10em ';
     switch (status) {
       case ChargePointStatus.AVAILABLE: {
-        classNames += TYPE_SUCCESS;
+        classNames += ChipType.SUCCESS;
         break;
       }
       case ChargePointStatus.PREPARING: {
-        classNames += TYPE_WARNING;
+        classNames += ChipType.WARNING;
         break;
       }
       case ChargePointStatus.SUSPENDED_EVSE: {
-        classNames += TYPE_INFO;
+        classNames += ChipType.INFO;
         break;
       }
       case ChargePointStatus.SUSPENDED_EV: {
-        classNames += TYPE_INFO;
+        classNames += ChipType.INFO;
         break;
       }
       case ChargePointStatus.FINISHING: {
-        classNames += TYPE_WARNING;
+        classNames += ChipType.WARNING;
         break;
       }
       case ChargePointStatus.RESERVED: {
-        classNames += TYPE_INFO;
+        classNames += ChipType.INFO;
         break;
       }
       case ChargePointStatus.CHARGING:
       case ChargePointStatus.OCCUPIED: {
-        classNames += TYPE_INFO;
+        classNames += ChipType.INFO;
         break;
       }
       case ChargePointStatus.UNAVAILABLE: {
-        classNames += TYPE_GREY;
+        classNames += ChipType.GREY;
         break;
       }
       case ChargePointStatus.FAULTED: {
-        classNames += TYPE_DANGER;
+        classNames += ChipType.DANGER;
         break;
       }
       default: {
-        classNames += TYPE_GREY;
+        classNames += ChipType.GREY;
         break;
       }
     }

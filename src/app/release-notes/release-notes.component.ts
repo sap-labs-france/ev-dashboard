@@ -23,6 +23,18 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.5.1',
+        date: new Date('2021-09-25'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added Schema validation in Charging Station templates`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.5.0',
         date: new Date('2021-09-24'),
         componentChanges: [

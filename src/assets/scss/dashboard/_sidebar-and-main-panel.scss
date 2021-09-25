@@ -102,9 +102,11 @@
       height: 60px;
     }
   }
-  .nav {
+  .nav-content {
     height: calc(95vh - 200px);
     overflow: auto;
+  }
+  .nav {
     margin-top: 15px;
     display: block;
     .caret {

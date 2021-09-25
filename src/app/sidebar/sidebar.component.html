@@ -1,4 +1,4 @@
-<div class="logo">
+<nav></nav><div class="logo">
   <div class="simple-text logo-mini">
     <a mat-button (click)="toggleSidebar()" href="javascript:void(0)">
       <i class="material-icons">menu</i>
@@ -52,7 +52,7 @@
       </div>
     </div>
   </div>
-  <ul class="nav">
+  <ul class="nav nav-content">
     <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" *ngFor="let menuItem of menuItems"
       class="nav-item">
       <!--If is a single link-->

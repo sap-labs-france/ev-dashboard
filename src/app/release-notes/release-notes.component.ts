@@ -24,12 +24,13 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.5.1',
-        date: new Date('2021-09-25'),
+        date: new Date('2021-09-27'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `Added Schema validation in Charging Station templates`,
+              `Fixed navigation to Tags in table row action`
             ],
           },
         ],

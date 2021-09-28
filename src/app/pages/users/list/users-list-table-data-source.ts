@@ -43,6 +43,7 @@ import { User, UserButtonAction } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';
 import { UserRoleFilter } from '../filters/user-role-filter';
 import { UserStatusFilter } from '../filters/user-status-filter';
+import { UserTechnicalFilter } from '../filters/user-technical-filter';
 import { AppUserRolePipe } from '../formatters/user-role.pipe';
 import { UserStatusFormatterComponent } from '../formatters/user-status-formatter.component';
 import { UserSitesDialogComponent } from '../user-sites/user-sites-dialog.component';
@@ -395,6 +396,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       new UserStatusFilter().getFilterDef(),
       new TagTableFilter([issuerFilter]).getFilterDef(),
       new SiteTableFilter([issuerFilter]).getFilterDef(),
+      new UserTechnicalFilter().getFilterDef(),
     ];
   }
 }

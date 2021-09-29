@@ -155,6 +155,8 @@ export class LocaleService {
         return this.translateService.instant('users.locale_desc_portuguese');
       case 'it_IT':
         return this.translateService.instant('users.locale_desc_italian');
+      case 'cz_CZ':
+        return this.translateService.instant('users.locale_desc_czech');
       default:
         return this.translateService.instant('users.locale_invalid');
     }

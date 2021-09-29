@@ -31,6 +31,9 @@ export class ReleaseNotesComponent {
             changes: [
               `Added Schema validation in Charging Station templates`,
               `Improved performances of Authorizations and Schemas validation (caching)`,
+              `Added Kempower T500 Charging Station's vendor in templates`,
+              `Added OCPP Reserve Now command`,
+              `Added Czech language`,
               `Fixed navigation to Tags in table row action`,
               `Fixed OCPI Remote Authorization is rejected in OCPP Authorize request`,
             ],
@@ -49,7 +52,6 @@ export class ReleaseNotesComponent {
               `Badges has been moved in a dedicated menu`,
               `Admin can create a Badge not assigned to a User`,
               `Fixed Charging Station's template is not applied when the connectors already exist`,
-              `Added OCPP Reserve Now command`,
               `Split OCPP Change Availability, Data Transfer, Unlock Connector and Change/Get Configuration commands in REST public API`,
               `Added Technical User for querying the REST API (B2B)`,
               `Fixed Retrieve Configuration button in Charging Station's OCPP Parameters`,

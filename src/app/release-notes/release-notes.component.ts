@@ -24,13 +24,15 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.5.1',
-        date: new Date('2021-09-27'),
+        date: new Date('2021-09-29'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `Added Schema validation in Charging Station templates`,
-              `Fixed navigation to Tags in table row action`
+              `Improved performances of Authorizations and Schema validation (caching)`,
+              `Fixed navigation to Tags in table row action`,
+              `Fixed OCPI Remote Authorization is rejected in OCPP Authorize request`,
             ],
           },
         ],

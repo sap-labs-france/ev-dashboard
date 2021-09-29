@@ -209,6 +209,8 @@ export enum ServerAction {
 
   STARTUP = 'Startup',
 
+  BOOTSTRAP_STARTUP = 'BootstrapStartup',
+
   SOCKET_IO = 'SocketIO',
 
   OCPP_BOOT_NOTIFICATION = 'OcppBootNotification',

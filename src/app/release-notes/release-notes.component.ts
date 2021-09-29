@@ -30,7 +30,7 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Added Schema validation in Charging Station templates`,
-              `Improved performances of Authorizations and Schema validation (caching)`,
+              `Improved performances of Authorizations and Schemas validation (caching)`,
               `Fixed navigation to Tags in table row action`,
               `Fixed OCPI Remote Authorization is rejected in OCPP Authorize request`,
             ],

@@ -167,6 +167,6 @@
     "deep-object-diff": "^1.1.0",
     "typescript": "~4.1.6",
     "webpack": "^4.46.0",
-    "webpack-bundle-analyzer": "^4.4.1"
+    "webpack-bundle-analyzer": "^4.4.2"
   }
 }

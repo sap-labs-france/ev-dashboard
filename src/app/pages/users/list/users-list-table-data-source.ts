@@ -242,8 +242,8 @@ export class UsersListTableDataSource extends TableDataSource<User> {
         id: 'technical',
         name: 'users.technical',
         formatter: (technical: boolean, row: User) => technical ? this.translateService.instant('general.yes') : this.translateService.instant('general.no'),
-        headerClass: 'col-20em',
-        class: 'col-20em',
+        headerClass: 'col-10em',
+        class: 'col-10em',
         sortable: true,
       },
     );

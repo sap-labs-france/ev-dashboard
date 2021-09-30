@@ -23,6 +23,18 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.5.2',
+        date: new Date('2021-09-30'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Fixed cannot retrieve the next 50 Tenants in list`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.5.1',
         date: new Date('2021-09-29'),
         componentChanges: [

@@ -91,7 +91,6 @@ export enum FilterType {
   DIALOG_TABLE = 'dialog-table',
   DATE = 'date',
   DATE_RANGE = 'date-range',
-  SWITCH = 'switch',
 }
 
 export enum ButtonType {

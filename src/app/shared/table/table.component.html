@@ -114,13 +114,6 @@
               <mat-icon>clear</mat-icon>
             </button>
           </mat-form-field>
-          <!-- Switch Table Filter -->
-          <ng-container *ngIf="filterDef.type === FilterType.SWITCH">
-            <mat-slide-toggle (change)="filterChanged(filterDef, $event)" appTooltip [checked]="filterDef.currentValue"
-                [title]="(filterDef.name ? '' : filterDef.tooltip | translate)" class="auto-refresh-slider">
-                {{filterDef.name| translate}}
-              </mat-slide-toggle>
-          </ng-container>
           <!-- Dialog Table Filter with multiple selections-->
           <mat-form-field *ngIf="filterDef.type === FilterType.DIALOG_TABLE && filterDef.multiple">
             <input (click)="showDialogTableFilter(filterDef)" [placeholder]="filterDef.name | translate"

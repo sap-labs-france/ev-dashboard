@@ -2582,7 +2582,7 @@ export class CentralServerService {
     this.checkInit();
     // Execute
     return this.httpClient.put<OCPIGenerateLocalTokenResponse>(
-      this.buildRestEndpointUrl(ServerRoute.REST_OCPI_ENDPOINT_GENERATE_LOCAL_TOKEN, { id: ocpiEndpoint.id }),
+      this.buildRestEndpointUrl(ServerRoute.REST_OCPI_ENDPOINT_GENERATE_LOCAL_TOKEN),
       { name: ocpiEndpoint.name },
       {
         headers: this.buildHttpHeaders(),

@@ -30,6 +30,7 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Fixed cannot retrieve the next 50 Tenants in list`,
+              `Fixed OCPI local token cannot be generated`,
             ],
           },
         ],

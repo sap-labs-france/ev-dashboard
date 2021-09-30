@@ -238,6 +238,14 @@ export class UsersListTableDataSource extends TableDataSource<User> {
         class: 'col-20em',
         sortable: true,
       },
+      {
+        id: 'technical',
+        name: 'users.technical',
+        formatter: (technical: boolean, row: User) => technical ? this.translateService.instant('general.yes') : this.translateService.instant('general.no'),
+        headerClass: 'col-20em',
+        class: 'col-20em',
+        sortable: true,
+      },
     );
     return columns as TableColumnDef[];
   }

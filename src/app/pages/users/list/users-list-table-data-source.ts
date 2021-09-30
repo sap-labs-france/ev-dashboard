@@ -370,7 +370,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
         break;
       case TagButtonAction.NAVIGATE_TO_TAGS:
         if (actionDef.action) {
-          (actionDef as TableOpenURLActionDef).action('users#tag?UserID=' + user.id + '&Issuer=' + user.issuer);
+          (actionDef as TableOpenURLActionDef).action('tags#all?UserID=' + user.id + '&Issuer=' + user.issuer);
         }
         break;
       case TransactionButtonAction.NAVIGATE_TO_TRANSACTIONS:

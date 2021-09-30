@@ -1197,6 +1197,7 @@
     "locale_desc_german": "Tedesco",
     "locale_desc_portuguese": "Portuguese",
     "locale_desc_italian": "Italiano",
+    "locale_desc_czech":"Czech",
     "role_unknown": "Sconosciuto",
     "locale_unknown": "Sconosciuta",
     "status": "Stato",

@@ -1,5 +1,4 @@
 import { FormArray } from '@angular/forms';
-import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { MatSort } from '@angular/material/sort';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, of } from 'rxjs';
@@ -256,7 +255,7 @@ export abstract class TableDataSource<T extends TableData> {
     this.tableDef = tableDef;
   }
 
-  public filterChanged(filter: TableFilterDef, event?: MouseEvent | MatSlideToggleChange) {
+  public filterChanged(filter: TableFilterDef) {
     // Reset to default paging
     this.setPaging({
       skip: 0,
@@ -268,12 +267,6 @@ export abstract class TableDataSource<T extends TableData> {
     const foundFilter = this.tableFiltersDef.find((filterDef) => filterDef.id === filter.id);
     // Update value
     if (foundFilter) {
-      debugger;
-            // Slide
-            if (event && event instanceof MatSlideToggleChange && foundFilter.type === FilterType.SWITCH) {
-              // Slide is one way binding: update the value manually
-              filter.currentValue = event.checked;
-            }
       foundFilter.currentValue = filter.currentValue;
     }
     if (filter.multiple) {
@@ -350,18 +343,11 @@ export abstract class TableDataSource<T extends TableData> {
     let filterJson = {};
     // Parse filters
     if (this.tableFiltersDef) {
-      debugger;
-
       // eslint-disable-next-line complexity
       this.tableFiltersDef.forEach((filterDef) => {
-
         // Check the 'All' value
         if (filterDef.currentValue && filterDef.currentValue !== FilterType.ALL_KEY) {
-
-          if (filterDef.type === FilterType.SWITCH) {
-            // Switch
-            filterJson[filterDef.httpId] = filterDef.currentValue;
-          } else if (filterDef.type === 'date') {
+          if (filterDef.type === 'date') {
             // Date
             filterJson[filterDef.httpId] = filterDef.currentValue.toISOString();
           } else if (filterDef.type === FilterType.DIALOG_TABLE) {

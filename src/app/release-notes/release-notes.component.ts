@@ -23,6 +23,21 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.5.2',
+        date: new Date('2021-10-01'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added Czech locale for formatting decimals`,
+              `Fixed OCPI CDR not sent right after the OCPP Status Notification 'Available'`,
+              `Fixed cannot retrieve the next page of Tenants in the list`,
+              `Fixed OCPI local token cannot be generated`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.5.1',
         date: new Date('2021-09-29'),
         componentChanges: [

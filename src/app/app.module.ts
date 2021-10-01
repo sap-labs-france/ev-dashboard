@@ -79,6 +79,7 @@ registerLocaleData(localeDe, 'de');
 registerLocaleData(localeEs, 'es');
 registerLocaleData(localePt, 'pt');
 registerLocaleData(localeIt, 'it');
+registerLocaleData(localeIt, 'cz');
 
 @NgModule({
   exports: [

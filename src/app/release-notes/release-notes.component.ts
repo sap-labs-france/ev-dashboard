@@ -29,9 +29,10 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
-              `Fixed cannot retrieve the next 50 Tenants in list`,
-              `Fixed OCPI local token cannot be generated`,
+              `Added Czech locale for formatting decimals`,
               `Fixed OCPI CDR not sent right after the OCPP Status Notification 'Available'`,
+              `Fixed cannot retrieve the next page of Tenants in the list`,
+              `Fixed OCPI local token cannot be generated`,
             ],
           },
         ],

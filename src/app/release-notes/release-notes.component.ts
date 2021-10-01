@@ -24,13 +24,14 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.5.2',
-        date: new Date('2021-09-30'),
+        date: new Date('2021-10-01'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `Fixed cannot retrieve the next 50 Tenants in list`,
               `Fixed OCPI local token cannot be generated`,
+              `Fixed OCPI CDR not sent right after the OCPP Status Notification 'Available'`,
             ],
           },
         ],

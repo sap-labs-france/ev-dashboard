@@ -109,7 +109,7 @@
     "socket.io-client": "^4.2.0",
     "sweetalert2": "^10.16.7",
     "tslib": "^2.3.1",
-    "zone.js": "~0.10.3"
+    "zone.js": "~0.11.4"
   },
   "optionalDependencies": {
     "bufferutil": "^4.0.3",

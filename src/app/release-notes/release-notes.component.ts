@@ -31,6 +31,7 @@ export class ReleaseNotesComponent {
             changes: [
               `Site Admin can create users that are assigned to his sites`,
               `Added Czech locale for formatting decimals`,
+              `Fixed Asset push REST API`,
               `Fixed OCPI CDR not sent right after the OCPP Status Notification 'Available'`,
               `Fixed cannot retrieve the next page of Tenants in the list`,
               `Fixed OCPI local token cannot be generated`,

@@ -112,7 +112,7 @@
     "zone.js": "~0.10.3"
   },
   "optionalDependencies": {
-    "bufferutil": "^4.0.3",
+    "bufferutil": "^4.0.4",
     "utf-8-validate": "^5.0.6"
   },
   "devDependencies": {
@@ -137,7 +137,7 @@
     "codeceptjs": "^3.0.7",
     "cross-env": "^7.0.3",
     "eslint": "^7.26.0",
-    "eslint-plugin-import": "2.22.1",
+    "eslint-plugin-import": "2.24.2",
     "eslint-plugin-jsdoc": "^36.1.0",
     "eslint-plugin-prefer-arrow": "^1.2.3",
     "faker": "^5.5.3",

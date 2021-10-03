@@ -7,7 +7,6 @@ import { Observable } from 'rxjs';
 import { TransactionDialogComponent } from 'shared/dialogs/transaction/transaction.dialog.component';
 import { AppDurationPipe } from 'shared/formatters/app-duration.pipe';
 import { AppUnitPipe } from 'shared/formatters/app-unit.pipe';
-import { TableRebuildTransactionConsumptionsAction, TableRebuildTransactionConsumptionsActionDef } from 'shared/table/actions/transactions/table-rebuild-transaction-consumptions-action';
 import { IssuerFilter } from 'shared/table/filters/issuer-filter';
 import { CarCatalog } from 'types/Car';
 
@@ -57,7 +56,6 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
   private deleteAction = new TableDeleteTransactionAction().getActionDef();
   private deleteManyAction = new TableDeleteTransactionsAction().getActionDef();
   private navigateToLogsAction = new TableNavigateToLogsAction().getActionDef();
-  private rebuildTransactionConsumptionsAction = new TableRebuildTransactionConsumptionsAction().getActionDef();
   private errorTypes = [
     {
       key: TransactionInErrorType.INVALID_START_DATE,
@@ -349,10 +347,6 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
         // - Authorization are not in place
         // moreActions.addActionInMoreActions(this.createInvoice);
       }
-      // Enable only for one user for the time being
-      if (this.centralServerService.getLoggedUser().email === 'serge.fabiano@sap.com') {
-        moreActions.addActionInMoreActions(this.rebuildTransactionConsumptionsAction);
-      }
       if (this.authorizationService.canListLogs()) {
         moreActions.addActionInMoreActions(this.navigateToLogsAction);
       }
@@ -384,13 +378,6 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
           (actionDef as TableViewTransactionActionDef).action(TransactionDialogComponent, this.dialog,
             { dialogData: { transactionID: transaction.id } as TransactionDialogData },
             this.refreshData.bind(this));
-        }
-        break;
-      case TransactionButtonAction.REBUILD_TRANSACTION_CONSUMPTIONS:
-        if (actionDef.action) {
-          (actionDef as TableRebuildTransactionConsumptionsActionDef).action(
-            transaction, this.dialogService, this.translateService, this.messageService,
-            this.centralServerService, this.router, this.spinnerService, this.refreshData.bind(this));
         }
         break;
       case LogButtonAction.NAVIGATE_TO_LOGS:

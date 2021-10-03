@@ -109,7 +109,7 @@
     "socket.io-client": "^4.2.0",
     "sweetalert2": "^10.16.7",
     "tslib": "^2.3.1",
-    "zone.js": "~0.10.3"
+    "zone.js": "~0.11.4"
   },
   "optionalDependencies": {
     "bufferutil": "^4.0.3",
@@ -124,7 +124,7 @@
     "@angular-eslint/template-parser": "^4.3.0",
     "@angular/cli": "~11.2.14",
     "@angular/compiler-cli": "~11.2.13",
-    "@types/bootstrap": "^5.0.13",
+    "@types/bootstrap": "^5.1.6",
     "@types/chart.js": "^2.9.34",
     "@types/file-saver": "^2.0.2",
     "@types/jasmine": "^3.9.1",
@@ -132,7 +132,7 @@
     "@types/mocha": "^9.0.0",
     "@types/moment-duration-format": "^2.2.3",
     "@types/node": "^14.14.44",
-    "@typescript-eslint/eslint-plugin": "^4.23.0",
+    "@typescript-eslint/eslint-plugin": "^4.32.0",
     "@typescript-eslint/parser": "^4.23.0",
     "codeceptjs": "^3.0.7",
     "cross-env": "^7.0.3",
@@ -154,7 +154,7 @@
     "karma-coverage-istanbul-reporter": "^3.0.3",
     "karma-jasmine": "~4.0.1",
     "karma-jasmine-html-reporter": "^1.6.0",
-    "mocha": "^8.4.0",
+    "mocha": "^9.1.2",
     "mochawesome": "^6.3.0",
     "moment-locales-webpack-plugin": "^1.2.0",
     "moment-timezone-data-webpack-plugin": "^1.5.0",

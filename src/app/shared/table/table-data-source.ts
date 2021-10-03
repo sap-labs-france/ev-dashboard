@@ -347,11 +347,11 @@ export abstract class TableDataSource<T extends TableData> {
       this.tableFiltersDef.forEach((filterDef) => {
         // Check the 'All' value
         if (filterDef.currentValue && filterDef.currentValue !== FilterType.ALL_KEY) {
-          // Date
           if (filterDef.type === 'date') {
+            // Date
             filterJson[filterDef.httpId] = filterDef.currentValue.toISOString();
-            // Dialog
           } else if (filterDef.type === FilterType.DIALOG_TABLE) {
+            // Dialog
             if (!Utils.isEmptyArray(filterDef.dependentFilters)) {
               filterDef.dialogComponentData = {
                 staticFilter: {}

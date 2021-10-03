@@ -16,15 +16,14 @@ export class UserTechnicalFilter extends TableFilter {
       class: 'col-md-6 col-lg-3 col-xl-2',
       label: 'users.technical',
       cleared: true,
-      currentValue: true,
+      currentValue: defaultValue,
       items: Object.assign([], technicalValues),
-      defaultValue: defaultValue ? technicalValues[1] : technicalValues[0],
     };
     this.setFilterDef(filterDef);
   }
 }
 
 export const technicalValues: KeyValue[] = [
-  { key: 'false', value: 'general.no' },
-  { key: 'true', value: 'general.yes' },
+  { key: 'true', value: 'users.technical_user' },
+  { key: 'false', value: 'users.non_technical_user' },
 ];

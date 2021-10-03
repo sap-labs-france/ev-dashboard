@@ -1174,6 +1174,8 @@
     "profile": "Perfil",
     "edit_profile": "Editar perfil",
     "user_number": "Usuario(s)",
+    "technical_user": "Technical User",
+    "non_technical_user": "Non Technical User",
     "role": "Rol",
     "roles": "Roles",
     "role_admin": "Admin",

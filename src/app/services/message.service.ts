@@ -75,11 +75,13 @@ export class MessageService {
   }
 
   private showMessage(type: string, message: string, title = '', params?: Record<string, unknown>, from = 'top', align = 'right', icon = 'notifications') {
+    let translatedMessage = this.translateService.instant(message, params);
+    translatedMessage = $('<div/>').text(translatedMessage).html();
     $.notify(
       {
         icon,
         title,
-        message: this.translateService.instant(message, params),
+        message: translatedMessage,
       },
       {
         type,

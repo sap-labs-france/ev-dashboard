@@ -251,7 +251,8 @@
               <!-- Angular Component Cell -->
               <ng-template [ngIf]="!tableColumnDef.isAngularComponent">
                 <td *ngIf="!dataSource.tableDef.isEditable" [class]="(tableColumnDef.class ? tableColumnDef.class : '')"
-                  [innerHtml]="row[tableColumnDef.id] | appFormatRowCell:tableColumnDef:row" [hidden]="!tableColumnDef.visible">
+                  [hidden]="!tableColumnDef.visible">
+                  {{row[tableColumnDef.id] | appFormatRowCell:tableColumnDef:row}}
                 </td>
                 <td *ngIf="dataSource.tableDef.isEditable"
                 [hidden]="!tableColumnDef.visible"
@@ -270,8 +271,8 @@
                     [checked]="row[tableColumnDef.id]" (change)="$event.source.checked  = !$event.source.checked;"
                     (click)="rowCellUpdated(!row[tableColumnDef.id], rowIndex, tableColumnDef)">
                   </mat-radio-button>
-                  <span *ngIf="tableColumnDef.editType === 'displayonly'" class="text-center"
-                    [innerHtml]="row[tableColumnDef.id] | appFormatRowCell:tableColumnDef:row">
+                  <span *ngIf="tableColumnDef.editType === 'displayonly'" class="text-center">
+                    {{row[tableColumnDef.id] | appFormatRowCell:tableColumnDef:row}}
                   </span>
                   <mat-error *ngIf="row[tableColumnDef.id + 'FormControl']?.errors as errors">
                     <ng-template ngFor let-error [ngForOf]="tableColumnDef.errors">
@@ -296,9 +297,8 @@
             <ng-container *ngIf="!dataSource.tableDef.rowDetails.angularComponent">
               <td class="col-3em details-column-row"></td>
               <td [attr.colspan]="numberOfColumns-1">
-                <div
-                  [innerHtml]="(dataSource.tableDef.rowDetails ? row[dataSource.tableDef.rowDetails.detailsField] : '')"
-                  class="row-detail">
+                <div class="row-detail">
+                  {{(dataSource.tableDef.rowDetails ? row[dataSource.tableDef.rowDetails.detailsField] : '')}}
                 </div>
               </td>
             </ng-container>
@@ -349,7 +349,8 @@
         {{'general.selected_records' | translate}}: {{dataSource.selectedRows}}&nbsp;
       </span>
       <!-- Stats -->
-      <span [innerHTML]="dataSource.tableFooterStats">
+      <span>
+        {{dataSource.tableFooterStats}}
       </span>
     </div>
     <!-- Right side -->

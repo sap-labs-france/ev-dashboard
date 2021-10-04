@@ -3171,7 +3171,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.put<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_CHARGING_STATIONS_RETRIEVE_CONFIGURATION, { id }),
+    return this.httpClient.put<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_CHARGING_STATIONS_REQUEST_OCPP_PARAMETERS, { id }),
       {
         chargingStationID: id,
         forceUpdateOCPPParamsFromTemplate: false,

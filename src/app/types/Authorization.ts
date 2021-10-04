@@ -171,7 +171,7 @@ export interface AuthorizationActions {
   canCreate?: boolean;
   canUpdate?: boolean;
   canDelete?: boolean;
-  projectedFields?: string[];
+  projectFields?: string[];
 }
 
 export interface TagAuthorizationActions extends AuthorizationActions {
@@ -203,7 +203,7 @@ export enum DialogMode {
 
 export interface DialogData {
   id: string | number;
-  projectedFields?: string[];
+  projectFields?: string[];
 }
 
 export interface DialogParams<T extends DialogData> {

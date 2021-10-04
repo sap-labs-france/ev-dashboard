@@ -64,7 +64,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
   private assignAction = new TableAssignTagAction().getActionDef();
   private importAction = new TableImportTagsAction().getActionDef();
   private exportAction = new TableExportTagsAction().getActionDef();
-  private projectedFields: string[];
+  private projectFields: string[];
   public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
@@ -109,7 +109,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
     if (tagID) {
       this.setSearchValue(tagID);
       this.editAction.action(TagDialogComponent, this.dialog,
-        { dialogData: { id: tagID, projectedFields: this.projectedFields } as Tag },
+        { dialogData: { id: tagID, projectFields: this.projectFields } as Tag },
         this.refreshData.bind(this));
     }
   }
@@ -152,7 +152,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
         this.exportAction.visible = tags.canExport;
         this.deleteManyAction.visible = tags.canDelete;
         this.unassignManyAction.visible = tags.canUnassign;
-        this.projectedFields = tags.projectFields;
+        this.projectFields = tags.projectFields;
         // Ok
         observer.next(tags);
         observer.complete();

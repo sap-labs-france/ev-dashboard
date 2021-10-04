@@ -26,7 +26,7 @@ export interface TableData extends AuthorizationActions {
   isSelected?: boolean;
   isSelectable?: boolean;
   isExpanded?: boolean;
-  projectedFields?: string[];
+  projectFields?: string[];
 }
 
 export enum TableDataSourceMode {

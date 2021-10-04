@@ -297,9 +297,9 @@
             <ng-container *ngIf="!dataSource.tableDef.rowDetails.angularComponent">
               <td class="col-3em details-column-row"></td>
               <td [attr.colspan]="numberOfColumns-1">
-                <div class="row-detail">
-                  {{(dataSource.tableDef.rowDetails ? row[dataSource.tableDef.rowDetails.detailsField] : '')}}
-                </div>
+                <div [innerHtml]="(dataSource.tableDef.rowDetails ? row[dataSource.tableDef.rowDetails.detailsField] : '')"
+                class="row-detail">
+              </div>
               </td>
             </ng-container>
             <!-- Angular Component Details -->

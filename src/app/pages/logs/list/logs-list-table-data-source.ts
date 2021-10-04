@@ -147,7 +147,7 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
   public getRowDetails(row: Log): Observable<string> {
     // Read the log details
     return this.centralServerService.getLog(row.id).pipe(
-      map((log) => log.detailedMessages.toString()));
+      map((log) => Formatters.formatTextToHTML(log.detailedMessages)));
   }
 
   public buildTableDef(): TableDef {

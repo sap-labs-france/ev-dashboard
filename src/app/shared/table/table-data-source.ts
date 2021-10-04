@@ -460,9 +460,9 @@ export abstract class TableDataSource<T extends TableData> {
         // Set nbr of records
         this.setTotalNumberOfRecords(data.count);
         // Display only projected fields
-        if (!Utils.isEmptyArray(data.projectedFields)) {
+        if (!Utils.isEmptyArray(data.projectFields)) {
           // Format createdBy/lastChangeBy properties Ids
-          data.projectedFields = data.projectedFields.map(projectedField => {
+          data.projectFields = data.projectFields.map(projectedField => {
             if (projectedField.split('.')[0] === 'createdBy' || projectedField.split('.')[0] === 'lastChangedBy') {
               return projectedField.split('.')[0];
             } else {
@@ -470,7 +470,7 @@ export abstract class TableDataSource<T extends TableData> {
             }
           });
           for (const tableColumnDef of this.tableColumnsDef) {
-            tableColumnDef.visible = data.projectedFields.includes(tableColumnDef.id);
+            tableColumnDef.visible = data.projectFields.includes(tableColumnDef.id);
           }
           // No projected fields, display all
         } else {

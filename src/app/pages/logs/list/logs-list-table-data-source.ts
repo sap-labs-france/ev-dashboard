@@ -28,7 +28,6 @@ import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../
 import { Formatters } from '../../../utils/Formatters';
 import { Utils } from '../../../utils/Utils';
 import { LogActionTableFilter } from '../filters/log-action-filter';
-import { LogHostTableFilter } from '../filters/log-host-filter';
 import { LogLevelTableFilter } from '../filters/log-level-filter';
 import { LogSourceTableFilter } from '../filters/log-source-filter';
 import { LogLevelFormatterComponent } from '../formatters/log-level-formatter.component';
@@ -259,7 +258,6 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
       new EndDateFilter().getFilterDef(),
       new LogLevelTableFilter().getFilterDef(),
       new LogActionTableFilter().getFilterDef(),
-      new LogHostTableFilter().getFilterDef(),
     ];
     if (this.authorizationService.isSuperAdmin()) {
       tableFiltersDef.push(new UserTableFilter().getFilterDef());

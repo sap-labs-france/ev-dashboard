@@ -3171,17 +3171,15 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.put<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_CHARGING_STATIONS_REQUEST_OCPP_PARAMETERS, { id }),
-      {
-        chargingStationID: id,
-        forceUpdateOCPPParamsFromTemplate: false,
-      },
-      {
-        headers: this.buildHttpHeaders(),
-      })
-      .pipe(
-        catchError(this.handleHttpError),
-      );
+    return this.httpClient.post<ActionResponse>(`${this.restServerSecuredURL}/${ServerRoute.REST_CHARGING_STATIONS_REQUEST_OCPP_PARAMETERS}`, {
+      chargingStationID: id,
+      forceUpdateOCPPParamsFromTemplate: false,
+    },
+    {
+      headers: this.buildHttpHeaders(),
+    }).pipe(
+      catchError(this.handleHttpError),
+    );
   }
 
   public updateChargingStationOCPPParamWithTemplate(id: string) {

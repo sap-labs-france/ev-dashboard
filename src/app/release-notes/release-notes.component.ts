@@ -31,6 +31,8 @@ export class ReleaseNotesComponent {
             changes: [
               `Enhanced hidding sensitive data in Logs`,
               `Sanitize data in export CSV`,
+              `Added metadata to Authorization's fields`,
+              `Fixed authorization inheritance in dynamic filtering`
             ],
           },
         ],

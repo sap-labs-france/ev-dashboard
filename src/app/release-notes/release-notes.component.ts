@@ -23,6 +23,18 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.5.3',
+        date: new Date('2021-10-04'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Enhanced hidding sensitive data in Logs`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.5.2',
         date: new Date('2021-10-03'),
         componentChanges: [

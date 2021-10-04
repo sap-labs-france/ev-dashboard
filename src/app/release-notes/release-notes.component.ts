@@ -30,6 +30,7 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Enhanced hidding sensitive data in Logs`,
+              `Sanitize data in export CSV`,
             ],
           },
         ],

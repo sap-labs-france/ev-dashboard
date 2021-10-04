@@ -23,6 +23,19 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.5.4',
+        date: new Date('2021-10-05'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Fixed Technical filter in User's list`,
+              `Fixed Retrieve OCPP Parameters in Charging Station's details`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.5.3',
         date: new Date('2021-10-04'),
         componentChanges: [

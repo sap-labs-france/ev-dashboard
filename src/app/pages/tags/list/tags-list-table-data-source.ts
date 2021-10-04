@@ -152,7 +152,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
         this.exportAction.visible = tags.canExport;
         this.deleteManyAction.visible = tags.canDelete;
         this.unassignManyAction.visible = tags.canUnassign;
-        this.projectedFields = tags.projectedFields;
+        this.projectedFields = tags.projectFields;
         // Ok
         observer.next(tags);
         observer.complete();

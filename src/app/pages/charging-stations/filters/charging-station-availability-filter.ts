@@ -20,9 +20,9 @@ export class AvailabilityTableFilter extends TableFilter {
     // Define filter
     const filterDef: TableFilterDef = {
       id: 'status',
-      httpId: 'Status',
+      httpId: 'ConnectorStatus',
       type: FilterType.DROPDOWN,
-      name: 'users.status',
+      name: 'chargers.connector_status',
       class: 'col-md-6 col-lg-4 col-xl-2',
       label: '',
       currentValue: [],

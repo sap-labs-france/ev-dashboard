@@ -31,6 +31,7 @@ export class ReleaseNotesComponent {
             changes: [
               `Fixed Technical filter in User's list`,
               `Fixed Retrieve OCPP Parameters in Charging Station's details`,
+              `Send OCPI Cdr only when there is charging periods and consumption`,
             ],
           },
         ],

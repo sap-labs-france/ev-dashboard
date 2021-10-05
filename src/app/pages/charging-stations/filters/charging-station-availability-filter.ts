@@ -1,5 +1,3 @@
-import { Utils } from 'utils/Utils';
-
 import { TableFilter } from '../../../shared/table/filters/table-filter';
 import { ChargePointStatus } from '../../../types/ChargingStation';
 import { KeyValue } from '../../../types/GlobalType';

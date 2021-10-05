@@ -676,7 +676,7 @@
     "total_consumption_title": "Consommation",
     "firmware_version": "Version Firmware",
     "firmware_status": "Statut Firware",
-    "connector_status": "Status",
+    "connector_status": "Statut",
     "ocpp_version": "Version OCPP",
     "ocpp_protocol": "Protocole OCPP",
     "ocpp_version_title": "OCPP",

@@ -7,20 +7,16 @@ import { FilterType, TableFilterDef } from '../../../types/Table';
 
 export class AvailabilityTableFilter extends TableFilter {
   public constructor() {
-    super();
-    // Get List of translated values:
-    const statuses = Object.keys(ChargePointStatus);
-    const translatedStatuses: KeyValue[]= [];
-    statuses.forEach((key) => {
-      if (key !== ChargePointStatus.OCCUPIED.toUpperCase()) { //How to get the key not the value ?
-        translatedStatuses.push({
-          key,
-          value: 'chargers.status_' + ChargePointStatus[key].toLowerCase()
-        });
-      }
-    });
-    // translatedStatuses.sort(Utils.sortArrayOfKeyValue); // Cannot sort because values are not yet translated
 
+    super();
+    // Get List of translated values
+    const translatedStatuses: KeyValue[] = [];
+    for (const value of Object.values(ChargePointStatus)) {
+      translatedStatuses.push({
+        key: value,
+        value: 'chargers.status_' + value.toLowerCase()
+      });
+    }
     // Define filter
     const filterDef: TableFilterDef = {
       id: 'status',

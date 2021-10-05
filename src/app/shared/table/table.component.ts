@@ -70,6 +70,17 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
           (this.dataSource.tableDef.rowSelection && this.dataSource.tableDef.rowSelection.enabled ? 1 : 0) +
           (this.dataSource.hasRowActions ? 1 : 0);
       }
+      if(!Utils.isEmptyArray(this.dataSource.tableFiltersDef)) {
+        // Translate & sort values for dropdown
+        this.dataSource.tableFiltersDef.forEach((filterDef) => {
+          if (filterDef.type === FilterType.DROPDOWN) {
+            filterDef.items.forEach((obj) => {
+              obj.value = this.translateService.instant(obj.value);
+            });
+            filterDef.items.sort(Utils.sortArrayOfKeyValue);
+          }
+        });
+      }
     }
   }
 

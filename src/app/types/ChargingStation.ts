@@ -232,7 +232,7 @@ export enum ChargingStationButtonAction {
 
 export enum ChargePointStatus {
   AVAILABLE = 'Available',
-  OCCUPIED = 'Occupied', // OBSOLETE
+  OCCUPIED = 'Occupied',
   CHARGING = 'Charging',
   FAULTED = 'Faulted',
   RESERVED = 'Reserved',

@@ -44,6 +44,7 @@ import { ChargingStationsInstantPowerChargerProgressBarCellComponent } from '../
 import { ChargingStationLimitationDialogComponent } from '../charging-station-limitation/charging-station-limitation.dialog.component';
 import { ChargingStationDialogComponent } from '../charging-station/charging-station-dialog.component';
 import { ChargingStationsConnectorsDetailComponent } from '../details-component/charging-stations-connectors-detail-component.component';
+import { AvailabilityTableFilter } from '../filters/charging-station-availability-filter';
 
 @Injectable()
 export class ChargingStationsListTableDataSource extends TableDataSource<ChargingStation> {
@@ -343,10 +344,12 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
       const issuerFilter = new IssuerFilter().getFilterDef();
       const companyFilter = new CompanyTableFilter([issuerFilter]).getFilterDef();
       const siteFilter = new SiteTableFilter([issuerFilter, companyFilter]).getFilterDef();
+      const availabilityFilter = new AvailabilityTableFilter().getFilterDef();
       return [
         issuerFilter,
         companyFilter,
         siteFilter,
+        availabilityFilter,
         new SiteAreaTableFilter([siteFilter, issuerFilter, companyFilter]).getFilterDef(),
       ];
     }

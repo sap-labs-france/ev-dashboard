@@ -1168,6 +1168,7 @@
     "import_users_error": "La carga de {{inError}} usuarios ha fallado",
     "import_no_users": "Nigùn usuario ha sido cargado",
     "billable": "User is billable",
+    "non_billable": "User is not billable",
     "number_of_sites": "No. de sitios",
     "number_of_transactions": "No. de sesiones",
     "eula_accepted_on": "EULA Aceptada en",

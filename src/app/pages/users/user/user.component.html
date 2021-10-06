@@ -147,9 +147,14 @@
                   </mat-form-field>
                 </div>
               </div>
-              <div *ngIf="technical.enabled" class="col-md-12 text-left">
+              <div *ngIf="technical.enabled" class="col-md-6 text-left">
                 <div class="form-group">
                   <mat-checkbox [formControl]="technical" [checked]="technical">{{"users.technical" | translate}}</mat-checkbox>
+                </div>
+              </div>
+              <div *ngIf="billable.enabled" class="col-md-6 text-left">
+                <div class="form-group">
+                  <mat-checkbox [formControl]="billable" [checked]="billable">{{"users.billable" | translate}}</mat-checkbox>
                 </div>
               </div>
             </div>

@@ -1167,6 +1167,7 @@
     "import_users_partial": "{{inSuccess}} users have been uploaded successfully and will be processed asynchronously and {{inError}} failed, check the logs",
     "import_users_error": "{{inError}} users failed to be uploaded",
     "import_no_users": "No user have been uploaded",
+    "billable": "User is billable",
     "number_of_sites": "Nb Sites",
     "number_of_transactions": "Nb Sessions",
     "eula_accepted_on": "EULA Accepted On",

@@ -400,14 +400,17 @@ export class UsersListTableDataSource extends TableDataSource<User> {
 
   public buildTableFiltersDef(): TableFilterDef[] {
     const issuerFilter = new IssuerFilter().getFilterDef();
-    return [
+    const filters = [
       issuerFilter,
       new UserRoleFilter(this.centralServerService).getFilterDef(),
       new UserStatusFilter().getFilterDef(),
       new TagTableFilter([issuerFilter]).getFilterDef(),
       new SiteTableFilter([issuerFilter]).getFilterDef(),
       new UserTechnicalFilter().getFilterDef(),
-      new UserBillableFilter().getFilterDef(),
     ];
+    if (this.componentService.isActive(TenantComponents.BILLING)) {
+      filters.push(new UserBillableFilter().getFilterDef());
+    }
+    return filters;
   }
 }

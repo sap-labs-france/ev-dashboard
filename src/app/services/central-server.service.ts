@@ -1163,40 +1163,6 @@ export class CentralServerService {
       );
   }
 
-  public assignTransactionsToUser(userID: string, tagID: string): Observable<ActionResponse> {
-    // Verify init
-    this.checkInit();
-    // Execute the REST service
-    return this.httpClient.put<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_TRANSACTIONS_ASSIGN_USER),
-      null,
-      {
-        headers: this.buildHttpHeaders(),
-        params: {
-          UserID: userID,
-          TagID: tagID,
-        },
-      })
-      .pipe(
-        catchError(this.handleHttpError),
-      );
-  }
-
-  public getUnassignedTransactionsCount(tagID: string): Observable<number> {
-    // Verify init
-    this.checkInit();
-    // Execute the REST service
-    return this.httpClient.get<number>(this.buildRestEndpointUrl(ServerRoute.REST_TRANSACTIONS_UNASSIGNED_COUNT),
-      {
-        headers: this.buildHttpHeaders(),
-        params: {
-          TagID: tagID
-        },
-      })
-      .pipe(
-        catchError(this.handleHttpError),
-      );
-  }
-
   public getTransaction(id: number): Observable<Transaction> {
     // Verify init
     this.checkInit();

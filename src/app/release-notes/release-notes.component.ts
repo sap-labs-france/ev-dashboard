@@ -24,7 +24,7 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.5.4',
-        date: new Date('2021-10-05'),
+        date: new Date('2021-10-06'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -33,6 +33,7 @@ export class ReleaseNotesComponent {
               `Fixed Retrieve OCPP Parameters in Charging Station's details`,
               `Send OCPI Cdr only when there is charging periods and consumption`,
               `Made the Visual ID unique in imported Badges`,
+              `Fixed infinite loop when User is not authorized to list the charging stations`,
             ],
           },
         ],

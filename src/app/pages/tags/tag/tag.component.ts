@@ -23,6 +23,7 @@ import { Utils } from '../../../utils/Utils';
 })
 export class TagComponent implements OnInit {
   @Input() public currentTagID!: string;
+  @Input() public metadata!: Record<string, unknown>;
   @Input() public inDialog!: boolean;
   @Input() public dialogRef!: MatDialogRef<any>;
 
@@ -95,6 +96,10 @@ export class TagComponent implements OnInit {
     if (this.currentTagID) {
       this.id.disable();
     }
+    if (this.metadata?.userID && this.metadata.userID['mandatory']) {
+      this.user.setValidators(Validators.required);
+      this.userID.setValidators(Validators.required);
+    }
     // Set tag
     this.loadTag();
   }
@@ -138,6 +143,10 @@ export class TagComponent implements OnInit {
           this.user.setValue(Utils.buildUserFullName(tag.user));
           this.default.enable();
           this.default.setValue(tag.default);
+        }
+        if (tag.metadata?.userID && tag.metadata.userID['mandatory']) {
+          this.user.setValidators(Validators.required);
+          this.userID.setValidators(Validators.required);
         }
         this.id.disable();
         this.formGroup.updateValueAndValidity();

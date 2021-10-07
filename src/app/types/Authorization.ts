@@ -172,6 +172,7 @@ export interface AuthorizationActions {
   canUpdate?: boolean;
   canDelete?: boolean;
   projectFields?: string[];
+  metadata?: Record<string, unknown>;
 }
 
 export interface TagAuthorizationActions extends AuthorizationActions {
@@ -204,6 +205,7 @@ export enum DialogMode {
 export interface DialogData {
   id: string | number;
   projectFields?: string[];
+  metadata?: Record<string, unknown>;
 }
 
 export interface DialogParams<T extends DialogData> {

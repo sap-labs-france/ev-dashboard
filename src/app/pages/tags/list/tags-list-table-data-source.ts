@@ -65,6 +65,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
   private importAction = new TableImportTagsAction().getActionDef();
   private exportAction = new TableExportTagsAction().getActionDef();
   private projectFields: string[];
+  private metadata?: Record<string, unknown>;
   public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
@@ -153,6 +154,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
         this.deleteManyAction.visible = tags.canDelete;
         this.unassignManyAction.visible = tags.canUnassign;
         this.projectFields = tags.projectFields;
+        this.metadata = tags.metadata;
         // Ok
         observer.next(tags);
         observer.complete();
@@ -330,7 +332,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
       case TagButtonAction.CREATE_TAG:
         if (actionDef.action) {
           (actionDef as TableCreateTagActionDef).action(TagDialogComponent,
-            this.dialog, this.refreshData.bind(this));
+            this.dialog, { dialogData: { metadata: this.metadata } as Tag }, this.refreshData.bind(this));
         }
         break;
       // Assign

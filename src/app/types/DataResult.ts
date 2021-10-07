@@ -75,6 +75,7 @@ export interface DataResult<T> {
   count: number;
   result: T[];
   projectFields?: string[];
+  metadata?: Record<string, unknown>;
 }
 
 export interface CompanyDataResult extends DataResult<Company> {

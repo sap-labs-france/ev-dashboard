@@ -349,8 +349,8 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
         } else {
           this.maximumPower.disable();
           // Check initial charging station
-          if(!this.chargingStation.manualConfiguration) {
-            if(Utils.isEmptyArray(this.chargingStation.chargePoints)){
+          if (!this.chargingStation.manualConfiguration) {
+            if (Utils.isEmptyArray(this.chargingStation.chargePoints)) {
               this.dialogService.createAndShowOkDialog(
                 this.translateService.instant('chargers.dialog.manual_configuration_error.title'),
                 this.translateService.instant('chargers.dialog.manual_configuration_error.confirm'),

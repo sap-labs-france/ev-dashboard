@@ -171,7 +171,6 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
         // Only save this property, when charging station supports charging profiles
         this.formGroup.addControl('excludeFromSmartCharging', this.excludeFromSmartCharging);
         this.excludeFromSmartCharging.setValue(this.chargingStation.excludeFromSmartCharging);
-        console.log(this.formGroup);
       }
       if (this.forceInactive) {
         this.forceInactive.setValue(this.chargingStation.forceInactive);

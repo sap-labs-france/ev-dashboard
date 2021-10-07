@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, CanActivateChild, CanLoad, Route, Router, RouterStateSnapshot, UrlSegment } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { Action, Entity } from 'types/Authorization';
 import { UserRole } from 'types/User';
 
 import { environment } from '../../environments/environment';
@@ -15,6 +16,13 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
   public static readonly LOGIN_ROUTE = '/auth/login';
   public static readonly TENANT_ROUTE = '/tenants';
   public static readonly CHARGING_STATION_ROUTE = '/charging-stations';
+  public static readonly USER_ROUTE = '/users';
+  public static readonly TAG_ROUTE = '/tags';
+  public static readonly TRANSACTION_ROUTE = '/transactions';
+  public static readonly ORGANIZATION_ROUTE = '/organizations';
+  public static readonly ASSET_ROUTE = '/assets';
+  public static readonly CAR_ROUTE = '/cars';
+  public static readonly LOGGING_ROUTE = '/logs';
   public static readonly BROWSER_NOT_SUPPORTED_ROUTE = '/browser-not-supported';
 
   private userRole?: string;
@@ -39,7 +47,6 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
   public async canActivate(activatedRoute: ActivatedRouteSnapshot, routerState: RouterStateSnapshot): Promise<boolean> {
     const isIE = /msie\s|trident\//i.test(window.navigator.userAgent);
     const isActiveInSuperTenant: boolean = activatedRoute && activatedRoute.data ? activatedRoute.data['activeInSuperTenant'] : false;
-
     if (isIE) {
       await this.redirectToBrowserNotSupportRoute();
       return false;
@@ -127,7 +134,7 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
         case UserRole.BASIC:
         case UserRole.DEMO:
         default:
-          route = RouteGuardService.CHARGING_STATION_ROUTE;
+          route = this.getFirstAuthorizedRoute();
       }
     }
     return this.router.navigate([route]);
@@ -135,5 +142,27 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
 
   public async redirectToBrowserNotSupportRoute(): Promise<boolean> {
     return this.router.navigate([RouteGuardService.BROWSER_NOT_SUPPORTED_ROUTE]);
+  }
+
+  private getFirstAuthorizedRoute(): string {
+    const entityRoutes: {entity: Entity; route: string;}[] = [
+      { entity: Entity.CHARGING_STATIONS, route: RouteGuardService.CHARGING_STATION_ROUTE },
+      { entity: Entity.TRANSACTIONS, route: RouteGuardService.TRANSACTION_ROUTE },
+      { entity: Entity.USERS, route: RouteGuardService.USER_ROUTE },
+      { entity: Entity.TAGS, route: RouteGuardService.TAG_ROUTE },
+      { entity: Entity.COMPANIES, route: RouteGuardService.ORGANIZATION_ROUTE },
+      { entity: Entity.SITES, route: RouteGuardService.ORGANIZATION_ROUTE },
+      { entity: Entity.SITE_AREAS, route: RouteGuardService.ORGANIZATION_ROUTE },
+      { entity: Entity.ASSETS, route: RouteGuardService.ASSET_ROUTE },
+      { entity: Entity.CARS, route: RouteGuardService.CHARGING_STATION_ROUTE },
+      { entity: Entity.CAR_CATALOGS, route: RouteGuardService.CHARGING_STATION_ROUTE },
+      { entity: Entity.LOGGINGS, route: RouteGuardService.LOGGING_ROUTE },
+    ];
+    for (const entityRoute of entityRoutes) {
+      if (this.authorizationService.canAccess(entityRoute.entity, Action.LIST)) {
+        return entityRoute.route;
+      }
+    }
+    return RouteGuardService.LOGIN_ROUTE;
   }
 }

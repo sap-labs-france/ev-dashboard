@@ -797,6 +797,10 @@
       "disable_manual_configuration":{
         "title": "Manuelle Konfiguration deaktivieren",
         "confirm": "Wenn Sie die manuelle Konfiguration deaktivieren, wird die Konfiguration vom automatischen Template übernommen. Die Ladestation wird neu gestartet und die manuelle Konfiguration geht verloren. Sind Sie sicher, dass Sie fortfahren möchten?"
+      },
+      "manual_configuration_error":{
+        "title": "Manuelle Konfiguration/Template Fehler",
+        "confirm": "Die Ladestation ist bereits ohne manuelle Konfiguration gespeichert. Bitte stellen Sie sicher dass die Ladestation korrekt startet und das entsprechende Template angewendet werden kann"
       }
     },
     "force_available_status_action": "Verfügbar setzen",

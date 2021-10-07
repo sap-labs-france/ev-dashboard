@@ -797,6 +797,10 @@
       "disable_manual_configuration":{
         "title": "Disable manual configuration",
         "confirm": "If you disable the manual configuration, the charging station will be adjusted with the automatic configuration template, rebooted and your manual changes will be lost. Do you want to continue?"
+      },
+      "manual_configuration_error":{
+        "title": "Manual Configuration/Template error",
+        "confirm": "Manual Configuration has been already disabled for this station. Please make sure it boots correctly and that the template can be applied"
       }
     },
     "force_available_status_action": "Set Available",

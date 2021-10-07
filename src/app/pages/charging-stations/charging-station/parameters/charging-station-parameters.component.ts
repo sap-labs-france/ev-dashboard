@@ -75,7 +75,6 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
     );
     this.formGroup.addControl('public', new FormControl(false));
     this.formGroup.addControl('issuer', new FormControl(false));
-    this.formGroup.addControl('excludeFromSmartCharging', new FormControl(false));
     this.formGroup.addControl('forceInactive', new FormControl(false));
     this.formGroup.addControl('manualConfiguration', new FormControl(false));
     this.formGroup.addControl('maximumPower', new FormControl(0,
@@ -123,7 +122,7 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
     this.chargingStationURL = this.formGroup.controls['chargingStationURL'];
     this.public = this.formGroup.controls['public'];
     this.issuer = this.formGroup.controls['issuer'];
-    this.excludeFromSmartCharging = this.formGroup.controls['excludeFromSmartCharging'];
+    this.excludeFromSmartCharging = new FormControl(false);
     this.forceInactive = this.formGroup.controls['forceInactive'];
     this.manualConfiguration = this.formGroup.controls['manualConfiguration'];
     this.maximumPower = this.formGroup.controls['maximumPower'];
@@ -165,8 +164,14 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
       if (this.chargingStation.issuer) {
         this.issuer.setValue(this.chargingStation.issuer);
       }
-      if (this.excludeFromSmartCharging) {
+      if (!this.chargingStation.capabilities?.supportChargingProfiles) {
+        this.excludeFromSmartCharging.setValue(true);
+        this.excludeFromSmartCharging.disable();
+      } else if (this.excludeFromSmartCharging) {
+        // Only save this property, when charging station supports charging profiles
+        this.formGroup.addControl('excludeFromSmartCharging', this.excludeFromSmartCharging);
         this.excludeFromSmartCharging.setValue(this.chargingStation.excludeFromSmartCharging);
+        console.log(this.formGroup);
       }
       if (this.forceInactive) {
         this.forceInactive.setValue(this.chargingStation.forceInactive);
@@ -346,8 +351,15 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
           this.maximumPower.disable();
           // Check initial charging station
           if(!this.chargingStation.manualConfiguration) {
-          // Reload initial charging station to restore e.g. maximum power, when it was changed by the adjustment methods
-            this.loadChargingStation();
+            if(Utils.isEmptyArray(this.chargingStation.chargePoints)){
+              this.dialogService.createAndShowOkDialog(
+                this.translateService.instant('chargers.dialog.manual_configuration_error.title'),
+                this.translateService.instant('chargers.dialog.manual_configuration_error.confirm'),
+              );
+            } else {
+              // Reload initial charging station to restore e.g. maximum power, when it was changed by the adjustment methods
+              this.loadChargingStation();
+            }
           }
         }
       });

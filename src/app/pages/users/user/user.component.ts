@@ -493,7 +493,8 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       } else {
         this.formGroup.controls.technical.disable();
       }
-      if (user.projectFields.includes('billable')) {
+      if (user.projectFields.includes('billable') &&
+        this.componentService.isActive(TenantComponents.BILLING)) {
         if (user.billable) {
           this.formGroup.controls.billable.setValue(user.billable);
         }

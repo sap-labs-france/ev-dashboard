@@ -23,6 +23,95 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.5.4',
+        date: new Date('2021-10-06'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Fixed Technical filter in User's list`,
+              `Fixed Retrieve OCPP Parameters in Charging Station's details`,
+              `Send OCPI Cdr only when there is charging periods and consumption`,
+              `Made the Visual ID unique in imported Badges`,
+              `Fixed infinite loop when User is not authorized to list the charging stations`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.5.3',
+        date: new Date('2021-10-04'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Enhanced hidding sensitive data in Logs`,
+              `Sanitize data in export CSV`,
+              `Added metadata to Authorization's fields`,
+              `Fixed authorization inheritance in dynamic filtering`
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.5.2',
+        date: new Date('2021-10-03'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Site Admin can create users that are assigned to his sites`,
+              `Added Technical User filter in list`,
+              `Added Czech locale for formatting decimals`,
+              `Fixed Asset push REST API`,
+              `Fixed OCPI CDR not sent right after the OCPP Status Notification 'Available'`,
+              `Fixed cannot retrieve the next page of Tenants in the list`,
+              `Fixed OCPI local token cannot be generated`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.5.1',
+        date: new Date('2021-09-29'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added Schema validation in Charging Station templates`,
+              `Improved performances of Authorizations and Schemas validation (caching)`,
+              `Added Kempower T500 Charging Station's vendor in templates`,
+              `Added OCPP Reserve Now command`,
+              `Added Czech language`,
+              `Fixed navigation to Tags in table row action`,
+              `Fixed OCPI Remote Authorization is rejected in OCPP Authorize request`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.5.0',
+        date: new Date('2021-09-24'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Implemented Tronity Car connector`,
+              `Basic User can register or delete his own Badges`,
+              `Badges has been moved in a dedicated menu`,
+              `Admin can create a Badge not assigned to a User`,
+              `Fixed Charging Station's template is not applied when the connectors already exist`,
+              `Split OCPP Change Availability, Data Transfer, Unlock Connector and Change/Get Configuration commands in REST public API`,
+              `Added Technical User for querying the REST API (B2B)`,
+              `Fixed Retrieve Configuration button in Charging Station's OCPP Parameters`,
+              `Fixed exception handling when sending an OCPP command to a disconnected Charging Station`,
+              `Display 'Installed' firmware update status in Charging Station list`,
+              `Fixed side menu cannot be scrolled on small screen`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.91',
         date: new Date('2021-09-20'),
         componentChanges: [

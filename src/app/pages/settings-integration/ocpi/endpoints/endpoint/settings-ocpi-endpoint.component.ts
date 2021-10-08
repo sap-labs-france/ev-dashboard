@@ -167,6 +167,7 @@ export class SettingsOcpiEndpointComponent implements OnInit {
           this.messageService, 'ocpiendpoints.error_generate_local_token');
       }
     }, (error) => {
+      this.spinnerService.hide();
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
         'ocpiendpoints.error_generate_local_token');
     });
@@ -198,6 +199,7 @@ export class SettingsOcpiEndpointComponent implements OnInit {
           this.messageService, messageId);
       }
     }, (error) => {
+      this.spinnerService.hide();
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
         'ocpiendpoints.error_ping');
     });

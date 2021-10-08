@@ -214,8 +214,10 @@ export class ComponentService {
         case CarConnectorConnectionType.MERCEDES:
           settingsToSave.sensitiveData.push(`content.carConnector.connections[${index}].mercedesConnection.clientSecret`);
           break;
+        case CarConnectorConnectionType.TRONITY:
+          settingsToSave.sensitiveData.push(`content.carConnector.connections[${index}].tronityConnection.clientSecret`);
+          break;
       }
-
     });
     // Delete IDS
     delete settingsToSave.content.id;

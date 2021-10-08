@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { ImportDialogComponent } from 'shared/dialogs/import/import-dialog.component';
 import { TableImportUsersAction, TableImportUsersActionDef } from 'shared/table/actions/users/table-import-users-action';
+import { TagButtonAction } from 'types/Tag';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
@@ -19,6 +20,7 @@ import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto
 import { TableMoreAction } from '../../../shared/table/actions/table-more-action';
 import { TableOpenURLActionDef } from '../../../shared/table/actions/table-open-url-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
+import { TableNavigateToTagsAction } from '../../../shared/table/actions/tags/table-navigate-to-tags-action';
 import { TableNavigateToTransactionsAction } from '../../../shared/table/actions/transactions/table-navigate-to-transactions-action';
 import { TableAssignSitesToUserAction, TableAssignSitesToUserActionDef } from '../../../shared/table/actions/users/table-assign-sites-to-user-action';
 import { TableCreateUserAction, TableCreateUserActionDef } from '../../../shared/table/actions/users/table-create-user-action';
@@ -26,7 +28,6 @@ import { TableDeleteUserAction, TableDeleteUserActionDef } from '../../../shared
 import { TableEditUserAction, TableEditUserActionDef } from '../../../shared/table/actions/users/table-edit-user-action';
 import { TableExportUsersAction, TableExportUsersActionDef } from '../../../shared/table/actions/users/table-export-users-action';
 import { TableForceSyncBillingUserAction } from '../../../shared/table/actions/users/table-force-sync-billing-user-action';
-import { TableNavigateToTagsAction } from '../../../shared/table/actions/users/table-navigate-to-tags-action';
 import { TableSyncBillingUsersAction } from '../../../shared/table/actions/users/table-sync-billing-users-action';
 import { IssuerFilter, organizations } from '../../../shared/table/filters/issuer-filter';
 import { SiteTableFilter } from '../../../shared/table/filters/site-table-filter';
@@ -42,6 +43,7 @@ import { User, UserButtonAction } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';
 import { UserRoleFilter } from '../filters/user-role-filter';
 import { UserStatusFilter } from '../filters/user-status-filter';
+import { UserTechnicalFilter } from '../filters/user-technical-filter';
 import { AppUserRolePipe } from '../formatters/user-role.pipe';
 import { UserStatusFormatterComponent } from '../formatters/user-status-formatter.component';
 import { UserSitesDialogComponent } from '../user-sites/user-sites-dialog.component';
@@ -149,10 +151,10 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       {
         id: 'role',
         name: 'users.role',
-        formatter: (role: string) => role ? this.translateService.instant(this.appUserRolePipe.transform(role, loggedUserRole)) : '-',
         headerClass: 'col-10em',
         class: 'text-left col-10em',
         sortable: true,
+        formatter: (role: string) => role ? this.translateService.instant(this.appUserRolePipe.transform(role, loggedUserRole)) : '-',
       },
       {
         id: 'name',
@@ -191,9 +193,9 @@ export class UsersListTableDataSource extends TableDataSource<User> {
           id: 'billingData.lastChangedOn',
           name: 'billing.updated_on',
           headerClass: 'col-15p',
-          formatter: (lastChangedOn: Date) => this.datePipe.transform(lastChangedOn),
           class: 'col-15p',
           sortable: true,
+          formatter: (lastChangedOn: Date) => this.datePipe.transform(lastChangedOn),
         },
       );
     }
@@ -201,40 +203,49 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       {
         id: 'createdOn',
         name: 'users.created_on',
-        formatter: (createdOn: Date) => this.datePipe.transform(createdOn),
         headerClass: 'col-15em',
         class: 'col-15em',
         sortable: true,
+        formatter: (createdOn: Date) => this.datePipe.transform(createdOn),
       },
       {
         id: 'createdBy',
         name: 'users.created_by',
-        formatter: (user: User) => Utils.buildUserFullName(user),
         headerClass: 'col-15em',
         class: 'col-15em',
+        formatter: (user: User) => Utils.buildUserFullName(user),
       },
       {
         id: 'lastChangedOn',
         name: 'users.changed_on',
-        formatter: (lastChangedOn: Date) => this.datePipe.transform(lastChangedOn),
         headerClass: 'col-15em',
         class: 'col-15em',
         sortable: true,
+        formatter: (lastChangedOn: Date) => this.datePipe.transform(lastChangedOn),
       },
       {
         id: 'lastChangedBy',
         name: 'users.changed_by',
-        formatter: (user: User) => Utils.buildUserFullName(user),
         headerClass: 'col-15em',
         class: 'col-15em',
+        formatter: (user: User) => Utils.buildUserFullName(user),
       },
       {
         id: 'eulaAcceptedOn',
         name: 'users.eula_accepted_on',
-        formatter: (eulaAcceptedOn: Date, row: User) => eulaAcceptedOn ? this.datePipe.transform(eulaAcceptedOn) + ` (${this.translateService.instant('general.version')} ${row.eulaAcceptedVersion})` : '-',
         headerClass: 'col-20em',
         class: 'col-20em',
         sortable: true,
+        formatter: (eulaAcceptedOn: Date, row: User) => eulaAcceptedOn ? this.datePipe.transform(eulaAcceptedOn) + ` (${this.translateService.instant('general.version')} ${row.eulaAcceptedVersion})` : '-',
+      },
+      {
+        id: 'technical',
+        name: 'users.technical',
+        headerClass: 'col-10em text-center',
+        class: 'col-10em text-center',
+        sortable: true,
+        formatter: (technical: boolean) => technical ?
+          this.translateService.instant('general.yes') : this.translateService.instant('general.no'),
       },
     );
     return columns as TableColumnDef[];
@@ -366,9 +377,9 @@ export class UsersListTableDataSource extends TableDataSource<User> {
           );
         }
         break;
-      case UserButtonAction.NAVIGATE_TO_TAGS:
+      case TagButtonAction.NAVIGATE_TO_TAGS:
         if (actionDef.action) {
-          (actionDef as TableOpenURLActionDef).action('users#tag?UserID=' + user.id + '&Issuer=' + user.issuer);
+          (actionDef as TableOpenURLActionDef).action('tags#all?UserID=' + user.id + '&Issuer=' + user.issuer);
         }
         break;
       case TransactionButtonAction.NAVIGATE_TO_TRANSACTIONS:
@@ -394,6 +405,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       new UserStatusFilter().getFilterDef(),
       new TagTableFilter([issuerFilter]).getFilterDef(),
       new SiteTableFilter([issuerFilter]).getFilterDef(),
+      new UserTechnicalFilter().getFilterDef(),
     ];
   }
 }

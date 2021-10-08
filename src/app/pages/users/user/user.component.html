@@ -152,7 +152,7 @@
                   <mat-checkbox [formControl]="technical" [checked]="technical">{{"users.technical" | translate}}</mat-checkbox>
                 </div>
               </div>
-              <div *ngIf="billable.enabled" class="col-md-6 text-left">
+              <div *ngIf="isBillingComponentActive && billable.enabled" class="col-md-6 text-left">
                 <div class="form-group">
                   <mat-checkbox [formControl]="billable" [checked]="billable">{{"users.billable" | translate}}</mat-checkbox>
                 </div>

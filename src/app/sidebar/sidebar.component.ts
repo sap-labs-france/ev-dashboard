@@ -190,10 +190,12 @@ export class SidebarComponent implements OnInit, OnDestroy {
     // Get Tenant logo
     if (this.loggedUser.tenantID !== 'default') {
       this.centralServerService.getTenantLogo(this.loggedUser.tenantID).subscribe((tenantLogo) => {
-        this.logo = tenantLogo ? tenantLogo : Constants.TENANT_DEFAULT_LOGO;
+        //this.logo = tenantLogo ? tenantLogo : Constants.TENANT_DEFAULT_LOGO;
+        this.logo = tenantLogo ? tenantLogo : '/assets/img/logo-low.png';
       });
     } else {
-      this.logo = Constants.TENANT_DEFAULT_LOGO;
+      //this.logo = Constants.TENANT_DEFAULT_LOGO;
+      this.logo = '/assets/img/logo-low.png';
     }
   }
 }

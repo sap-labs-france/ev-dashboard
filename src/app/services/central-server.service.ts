@@ -1961,7 +1961,8 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Set the tenant
-    user['tenant'] = this.windowService.getSubdomain();
+    //user['tenant'] = this.windowService.getSubdomain();
+    user['tenant'] = 'slf';
     // Execute
     return this.httpClient.post<LoginResponse>(`${this.restServerAuthURL}/${ServerRoute.REST_SIGNIN}`, user,
       {

@@ -35,7 +35,7 @@ export class ReleaseNotesComponent {
               `Made the Visual ID unique in imported Badges`,
               `Fixed infinite loop when User is not authorized to list the charging stations`,
               `Added schema validation for Authorizations`,
-              `Enforced schema for Charging Station Template`,
+              `Enforced schema validation in Charging Station Template`,
             ],
           },
         ],

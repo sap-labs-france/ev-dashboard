@@ -23,6 +23,25 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.5.4',
+        date: new Date('2021-10-10'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Fixed Technical filter in User's list`,
+              `Fixed Retrieve OCPP Parameters in Charging Station's details`,
+              `Send OCPI Cdr only when there is charging periods and consumption`,
+              `Made the Visual ID unique in imported Badges`,
+              `Fixed infinite loop when User is not authorized to list the charging stations`,
+              `Added schema validation for Authorizations`,
+              `Enforced schema validation in Charging Station Template`,
+              `Enhanced performances and stability of the REST server`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.5.3',
         date: new Date('2021-10-04'),
         componentChanges: [

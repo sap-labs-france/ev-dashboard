@@ -33,6 +33,7 @@
       "select_at_least_one_record":"V seznamu musíte vybrat alespoň jeden záznam",
       "mandatory_field":"Požadované pole",
       "no_record_found":"Nebyly nalezeny žádné záznamy",
+      "only_number_field": "Only numbers are allowed",
       "no_image_found":"Nebyly nalezeny žádné obrázky",
       "no_connector_available":"Spojení není k dispozici",
       "error_max_length":"Maximální délka je '{{length}}'",
@@ -237,7 +238,9 @@
          "download":"Stáhnout",
          "test_connection":"Test připojení",
          "force_available_status":"Nuceně nastavit stav Je k dispozici ",
-         "force_unavailable_status":"Nuceně nastavit stav Není k dispozici"
+         "force_unavailable_status":"Nuceně nastavit stav Není k dispozici",
+         "display_users": "Display users",
+         "pricing": "Pricing"
       }
    },
    "issuer":{

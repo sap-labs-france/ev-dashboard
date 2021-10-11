@@ -1,0 +1,33 @@
+.pricing-dimension {
+  min-height: 4em;
+  padding: 1em 0 1em 1em;
+  text-align: left;
+}
+
+.pricing-header {
+  font-size: 1.5em;
+}
+
+.pricing-div {
+  margin: auto;
+}
+
+.stepSize {
+  display: contents;
+}
+
+.pricing-card-body {
+  height: 80vh;
+}
+
+.dimension-toggle {
+  text-align: left;
+}
+
+.pricing-set {
+  color: $state-success-bg;
+}
+
+.pricing-not-set {
+  color: $state-danger-bg;
+}

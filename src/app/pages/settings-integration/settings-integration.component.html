@@ -37,6 +37,15 @@
         <app-settings-pricing></app-settings-pricing>
       </ng-template>
     </mat-tab>
+    
+    <mat-tab *ngIf="isTestTenant">
+      <ng-template mat-tab-label>
+        <mat-icon>money</mat-icon><span>{{'settings.tabs.pricings' | translate}}</span>
+      </ng-template>
+      <ng-template matTabContent>
+        <app-settings-pricings></app-settings-pricings>
+      </ng-template>
+    </mat-tab>
 
     <mat-tab>
       <ng-template mat-tab-label>

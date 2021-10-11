@@ -61,8 +61,11 @@ import { SettingsOicpEndpointsTableDataSource } from './oicp/endpoints/settings-
 import { SettingsOicpEndpointsComponent } from './oicp/endpoints/settings-oicp-endpoints.component';
 import { SettingsOicpComponent } from './oicp/settings-oicp.component';
 import { SettingsConvergentChargingComponent } from './pricing/convergent-charging/settings-convergent-charging.component';
-import { SettingsPricingComponent } from './pricing/settings-pricing.component';
 import { SettingsSimplePricingComponent } from './pricing/simple/settings-simple-pricing.component';
+import { SettingsPricingComponent } from './pricings/pricing/settings-pricing.component';
+import { SettingsPricingDialogComponent } from './pricings/pricing/settings-pricing.dialog.component';
+import { SettingsPricingsTableDataSource } from './pricings/settings-pricing-table-data-source';
+import { SettingsPricingsComponent } from './pricings/settings-pricings.component';
 import { SettingsConcurComponent } from './refund/concur/settings-concur.component';
 import { SettingsRefundComponent } from './refund/settings-refund.component';
 import { SettingsIntegrationComponent } from './settings-integration.component';
@@ -153,6 +156,9 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     OicpPatchJobStatusFormatterComponent,
     AppFormatOicpPatchJobStatusPipe,
     SettingsOicpEndpointsDetailsComponent,
+    SettingsPricingsComponent,
+    SettingsPricingComponent,
+    SettingsPricingDialogComponent,
   ],
   entryComponents: [
     SettingsIntegrationComponent,
@@ -204,7 +210,10 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     OicpDetailSuccessEvsesStatusFormatterComponent,
     OicpDetailFailureEvsesStatusFormatterComponent,
     OicpPatchJobStatusFormatterComponent,
-    SettingsOicpEndpointsDetailsComponent
+    SettingsOicpEndpointsDetailsComponent,
+    SettingsPricingsComponent,
+    SettingsPricingComponent,
+    SettingsPricingDialogComponent,
   ],
   providers: [
     SettingsOcpiEndpointsDetailsTableDataSource,
@@ -214,6 +223,7 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     SettingsAssetConnectionEditableTableDataSource,
     SettingsCarConnectorConnectionEditableTableDataSource,
     AnalyticsLinksTableDataSource,
+    SettingsPricingsTableDataSource,
   ],
 })
 

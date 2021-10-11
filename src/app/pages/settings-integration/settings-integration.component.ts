@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { CentralServerService } from 'services/central-server.service';
 
 import { ComponentService } from '../../services/component.service';
 import { WindowService } from '../../services/window.service';
@@ -23,13 +24,15 @@ export class SettingsIntegrationComponent extends AbstractTabComponent {
   public isSmartChargingActive = false;
   public isAssetActive = false;
   public isCarConnectorActive = false;
+  public isTestTenant = false;
 
   public constructor(
     private componentService: ComponentService,
+    private centralServerService: CentralServerService,
     activatedRoute: ActivatedRoute,
     windowService: WindowService,
   ) {
-    super(activatedRoute, windowService, ['roaming', 'oicp', 'refunding', 'pricing', 'billing', 'analytics', 'smartCharging', 'asset', 'carConnector']);
+    super(activatedRoute, windowService, ['roaming', 'oicp', 'refunding', 'pricing', 'pricings', 'billing', 'analytics', 'smartCharging', 'asset', 'carConnector']);
     this.isOCPIActive = this.componentService.isActive(TenantComponents.OCPI);
     this.isOICPActive = this.componentService.isActive(TenantComponents.OICP);
     this.isOrganizationActive = this.componentService.isActive(TenantComponents.ORGANIZATION);
@@ -40,5 +43,8 @@ export class SettingsIntegrationComponent extends AbstractTabComponent {
     this.isSmartChargingActive = this.componentService.isActive(TenantComponents.SMART_CHARGING);
     this.isAssetActive = this.componentService.isActive(TenantComponents.ASSET);
     this.isCarConnectorActive = this.componentService.isActive(TenantComponents.CAR_CONNECTOR);
+    // TODO: to be deleted - needed for testing in prod use case
+    const loggedUser = this.centralServerService.getLoggedUser();
+    this.isTestTenant = loggedUser?.tenantSubdomain === 'utbilling';
   }
 }

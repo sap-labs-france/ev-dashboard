@@ -452,7 +452,6 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
           userFilter ? [issuerFilter, userFilter] : [issuerFilter]).getFilterDef());
       }
     }
-    filters.push(new ConnectorTableFilter().getFilterDef());
     return filters;
   }
 

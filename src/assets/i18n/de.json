@@ -1168,7 +1168,7 @@
     "import_users_error": "Das Hochladen von {{inError}} Nutzern ist fehlgeschlagen",
     "import_no_users": "Es wurden keine Nutzer hochgeladen",
     "billable": "User is billable",
-    "non_billable": "User is not billable",
+    "freeAccess": "User is not billable",
     "number_of_sites": "Anz. Standorte",
     "number_of_transactions": "Anz. Ladevorgänge",
     "eula_accepted_on": "EULA akzeptiert am",

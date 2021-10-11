@@ -41,7 +41,7 @@ export interface User extends TableData, CreatedUpdatedProps {
   eulaAcceptedOn: Date;
   billingData: BillingUserData;
   technical: boolean;
-  billable: boolean;
+  freeAccess: boolean;
 }
 
 export interface UserNotifications {

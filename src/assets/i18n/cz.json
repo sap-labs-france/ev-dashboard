@@ -1161,7 +1161,7 @@
       "import_users_error":"{{inError}} uživatele se nepodařilo nahrát",
       "import_no_users":"Nebyl nahrán žádný uživatel",
       "billable": "User is billable",
-      "non_billable": "User is not billable",
+      "freeAccess": "User is not billable",
       "number_of_sites":"Počet parkovišť",
       "number_of_transactions":"Počet relací",
       "eula_accepted_on":"EULA přijata dne",

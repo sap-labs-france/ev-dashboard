@@ -147,9 +147,9 @@
                   </mat-form-field>
                 </div>
               </div>
-              <div *ngIf="isBillingComponentActive && billable.enabled" class="col-md-12 text-left">
+              <div *ngIf="isBillingComponentActive && freeAccess.enabled" class="col-md-12 text-left">
                 <div class="form-group">
-                  <mat-checkbox [formControl]="billable" [checked]="billable">{{"users.billable" | translate}}</mat-checkbox>
+                  <mat-checkbox [formControl]="freeAccess" [checked]="freeAccess">{{"users.freeAccess" | translate}}</mat-checkbox>
                 </div>
               </div>
               <div *ngIf="technical.enabled" class="col-md-12 text-left">

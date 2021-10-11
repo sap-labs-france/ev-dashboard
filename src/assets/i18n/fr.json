@@ -1168,7 +1168,7 @@
     "import_users_error": "{{inError}} utilisateurs n'ont pas pu être enregistré",
     "import_no_users": "Aucun utilisateur n'a été enregistré",
     "billable": "L'utilisateur est facturable",
-    "non_billable": "L'utilisateur n'est pas facturable",
+    "freeAccess": "L'utilisateur n'est pas facturable",
     "number_of_sites": "Nb Sites",
     "number_of_transactions": "Nb Sessions",
     "eula_accepted_on": "CGU Acceptée Le",

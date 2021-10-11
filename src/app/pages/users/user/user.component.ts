@@ -111,7 +111,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public isBillingComponentActive: boolean;
   public canListPaymentMethods: boolean;
   public technical: AbstractControl;
-  public billable: AbstractControl;
+  public freeAccess: AbstractControl;
   private currentLocale!: string;
 
   public constructor(
@@ -256,7 +256,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
           ].concat(!Utils.isEmptyString(this.currentUserID) ? [] : [Validators.required]))),
       }, (passwordFormGroup: FormGroup) => Utils.validateEqual(passwordFormGroup, 'password', 'repeatPassword')),
       technical: new FormControl(false),
-      billable: new FormControl(false),
+      freeAccess: new FormControl(false),
     });
     // Form
     this.id = this.formGroup.controls['id'];
@@ -308,7 +308,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       super.enableRoutingSynchronization();
     }
     this.technical = this.formGroup.controls['technical'];
-    this.billable = this.formGroup.controls['billable'];
+    this.freeAccess = this.formGroup.controls['freeAccess'];
   }
 
   public toggleNotificationsActive() {
@@ -493,12 +493,12 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       } else {
         this.formGroup.controls.technical.disable();
       }
-      if (user.projectFields.includes('billable') && this.isBillingComponentActive) {
-        if (user.billable) {
-          this.formGroup.controls.billable.setValue(user.billable);
+      if (user.projectFields.includes('freeAccess') && this.isBillingComponentActive) {
+        if (user.freeAccess) {
+          this.formGroup.controls.freeAccess.setValue(user.freeAccess);
         }
       } else {
-        this.formGroup.controls.billable.disable();
+        this.formGroup.controls.freeAccess.disable();
       }
       // Reset password
       this.passwords.controls.password.setValue('');

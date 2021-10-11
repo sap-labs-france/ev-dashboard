@@ -2,28 +2,28 @@ import { TableFilter } from '../../../shared/table/filters/table-filter';
 import { KeyValue } from '../../../types/GlobalType';
 import { FilterType, TableFilterDef } from '../../../types/Table';
 
-export class UserBillableFilter extends TableFilter {
+export class UserFreeAccessFilter extends TableFilter {
   public constructor(defaultValue = false) {
     super();
     // Define filter
     const filterDef: TableFilterDef = {
-      id: 'billable',
-      httpId: 'Billable',
+      id: 'freeAccess',
+      httpId: 'FreeAccess',
       type: FilterType.DROPDOWN,
       multiple: true,
       exhaustive: true,
-      name: 'users.billable',
+      name: 'users.freeAccess',
       class: 'col-md-6 col-lg-3 col-xl-2',
-      label: 'users.billable',
+      label: 'users.freeAccess',
       cleared: true,
       currentValue: defaultValue,
-      items: Object.assign([], billableValues),
+      items: Object.assign([], freeAccessValues),
     };
     this.setFilterDef(filterDef);
   }
 }
 
-export const billableValues: KeyValue[] = [
-  { key: 'true', value: 'users.billable' },
-  { key: 'false', value: 'users.non_billable' },
+export const freeAccessValues: KeyValue[] = [
+  { key: 'true', value: 'users.freeAccess' },
+  { key: 'false', value: 'users.billable' },
 ];

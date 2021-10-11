@@ -74,7 +74,7 @@ export interface CheckBillingConnectionResponse extends ActionResponse {
 export interface DataResult<T> {
   count: number;
   result: T[];
-  projectedFields?: string[];
+  projectFields?: string[];
 }
 
 export interface CompanyDataResult extends DataResult<Company> {

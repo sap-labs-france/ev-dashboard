@@ -34,7 +34,6 @@ import { TableDeleteTransactionAction, TableDeleteTransactionActionDef } from '.
 import { TableExportTransactionOcpiCdrAction, TableExportTransactionOcpiCdrActionDef } from '../../../shared/table/actions/transactions/table-export-transaction-ocpi-cdr';
 import { TableExportTransactionsAction, TableExportTransactionsActionDef } from '../../../shared/table/actions/transactions/table-export-transactions-action';
 import { TablePushTransactionOcpiCdrAction, TablePushTransactionOcpiCdrActionDef } from '../../../shared/table/actions/transactions/table-push-transaction-ocpi-cdr-action';
-import { TableRebuildTransactionConsumptionsAction, TableRebuildTransactionConsumptionsActionDef } from '../../../shared/table/actions/transactions/table-rebuild-transaction-consumptions-action';
 import { TableViewTransactionAction, TableViewTransactionActionDef, TransactionDialogData } from '../../../shared/table/actions/transactions/table-view-transaction-action';
 import { ChargingStationTableFilter } from '../../../shared/table/filters/charging-station-table-filter';
 import { EndDateFilter } from '../../../shared/table/filters/end-date-filter';
@@ -67,7 +66,6 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
   private deleteAction = new TableDeleteTransactionAction().getActionDef();
   private navigateToLogsAction = new TableNavigateToLogsAction().getActionDef();
   private navigateToChargingPlansAction = new TableNavigateToChargingPlansAction().getActionDef();
-  private rebuildTransactionConsumptionsAction = new TableRebuildTransactionConsumptionsAction().getActionDef();
   private transactionPushOcpiCdrAction = new TablePushTransactionOcpiCdrAction().getActionDef();
   private exportTransactionOcpiCdrAction = new TableExportTransactionOcpiCdrAction().getActionDef();
   private readonly isOrganizationComponentActive: boolean;
@@ -454,7 +452,6 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
           userFilter ? [issuerFilter, userFilter] : [issuerFilter]).getFilterDef());
       }
     }
-    filters.push(new ConnectorTableFilter().getFilterDef());
     return filters;
   }
 
@@ -473,10 +470,6 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
           } else {
             moreActions.addActionInMoreActions(this.exportTransactionOcpiCdrAction);
           }
-        }
-        // Enable only for one user for the time being
-        if (this.centralServerService.getLoggedUser().email === 'serge.fabiano@sap.com') {
-          moreActions.addActionInMoreActions(this.rebuildTransactionConsumptionsAction);
         }
         moreActions.addActionInMoreActions(this.deleteAction);
         if (!Utils.isEmptyArray(moreActions.getActionsInMoreActions())) {
@@ -536,13 +529,6 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         if (actionDef.action) {
           (actionDef as TableOpenURLActionDef).action('charging-stations#chargingplans?ChargingStationID=' +
             transaction.chargeBoxID + '&TransactionID=' + transaction.id);
-        }
-        break;
-      case TransactionButtonAction.REBUILD_TRANSACTION_CONSUMPTIONS:
-        if (actionDef.action) {
-          (actionDef as TableRebuildTransactionConsumptionsActionDef).action(
-            transaction, this.dialogService, this.translateService, this.messageService,
-            this.centralServerService, this.router, this.spinnerService, this.refreshData.bind(this));
         }
         break;
       case TransactionButtonAction.PUSH_TRANSACTION_CDR:

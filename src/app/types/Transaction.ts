@@ -94,7 +94,6 @@ export enum TransactionButtonAction {
   REFUND_SYNCHRONIZE = 'refund_synchronize',
   PUSH_TRANSACTION_CDR = 'push_transaction_cdr',
   CREATE_TRANSACTION_INVOICE = 'create_transaction_invoice',
-  REBUILD_TRANSACTION_CONSUMPTIONS = 'rebuild_transaction_consumptions',
   NAVIGATE_TO_TRANSACTIONS = 'navigate_to_transactions'
 }
 

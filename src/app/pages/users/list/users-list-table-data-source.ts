@@ -43,6 +43,7 @@ import { User, UserButtonAction } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';
 import { UserRoleFilter } from '../filters/user-role-filter';
 import { UserStatusFilter } from '../filters/user-status-filter';
+import { UserTechnicalFilter } from '../filters/user-technical-filter';
 import { AppUserRolePipe } from '../formatters/user-role.pipe';
 import { UserStatusFormatterComponent } from '../formatters/user-status-formatter.component';
 import { UserSitesDialogComponent } from '../user-sites/user-sites-dialog.component';
@@ -150,10 +151,10 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       {
         id: 'role',
         name: 'users.role',
-        formatter: (role: string) => role ? this.translateService.instant(this.appUserRolePipe.transform(role, loggedUserRole)) : '-',
         headerClass: 'col-10em',
         class: 'text-left col-10em',
         sortable: true,
+        formatter: (role: string) => role ? this.translateService.instant(this.appUserRolePipe.transform(role, loggedUserRole)) : '-',
       },
       {
         id: 'name',
@@ -192,9 +193,9 @@ export class UsersListTableDataSource extends TableDataSource<User> {
           id: 'billingData.lastChangedOn',
           name: 'billing.updated_on',
           headerClass: 'col-15p',
-          formatter: (lastChangedOn: Date) => this.datePipe.transform(lastChangedOn),
           class: 'col-15p',
           sortable: true,
+          formatter: (lastChangedOn: Date) => this.datePipe.transform(lastChangedOn),
         },
       );
     }
@@ -202,40 +203,49 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       {
         id: 'createdOn',
         name: 'users.created_on',
-        formatter: (createdOn: Date) => this.datePipe.transform(createdOn),
         headerClass: 'col-15em',
         class: 'col-15em',
         sortable: true,
+        formatter: (createdOn: Date) => this.datePipe.transform(createdOn),
       },
       {
         id: 'createdBy',
         name: 'users.created_by',
-        formatter: (user: User) => Utils.buildUserFullName(user),
         headerClass: 'col-15em',
         class: 'col-15em',
+        formatter: (user: User) => Utils.buildUserFullName(user),
       },
       {
         id: 'lastChangedOn',
         name: 'users.changed_on',
-        formatter: (lastChangedOn: Date) => this.datePipe.transform(lastChangedOn),
         headerClass: 'col-15em',
         class: 'col-15em',
         sortable: true,
+        formatter: (lastChangedOn: Date) => this.datePipe.transform(lastChangedOn),
       },
       {
         id: 'lastChangedBy',
         name: 'users.changed_by',
-        formatter: (user: User) => Utils.buildUserFullName(user),
         headerClass: 'col-15em',
         class: 'col-15em',
+        formatter: (user: User) => Utils.buildUserFullName(user),
       },
       {
         id: 'eulaAcceptedOn',
         name: 'users.eula_accepted_on',
-        formatter: (eulaAcceptedOn: Date, row: User) => eulaAcceptedOn ? this.datePipe.transform(eulaAcceptedOn) + ` (${this.translateService.instant('general.version')} ${row.eulaAcceptedVersion})` : '-',
         headerClass: 'col-20em',
         class: 'col-20em',
         sortable: true,
+        formatter: (eulaAcceptedOn: Date, row: User) => eulaAcceptedOn ? this.datePipe.transform(eulaAcceptedOn) + ` (${this.translateService.instant('general.version')} ${row.eulaAcceptedVersion})` : '-',
+      },
+      {
+        id: 'technical',
+        name: 'users.technical',
+        headerClass: 'col-10em text-center',
+        class: 'col-10em text-center',
+        sortable: true,
+        formatter: (technical: boolean) => technical ?
+          this.translateService.instant('general.yes') : this.translateService.instant('general.no'),
       },
     );
     return columns as TableColumnDef[];
@@ -395,6 +405,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       new UserStatusFilter().getFilterDef(),
       new TagTableFilter([issuerFilter]).getFilterDef(),
       new SiteTableFilter([issuerFilter]).getFilterDef(),
+      new UserTechnicalFilter().getFilterDef(),
     ];
   }
 }

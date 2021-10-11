@@ -1,4 +1,6 @@
 export enum ServerAction {
+  UNKNOWN_ACTION = 'Unknown',
+
   LOGIN = 'RestLogin',
   LOGOUT = 'RestLogout',
   PASSWORD_RESET = 'RestReset',
@@ -34,6 +36,8 @@ export enum ServerAction {
   CHARGING_STATION_UPDATE_PARAMS = 'RestChargingStationUpdateParams',
   CHARGING_STATION_LIMIT_POWER = 'RestChargingStationLimitPower',
   CHARGING_STATION_DELETE = 'RestChargingStationDelete',
+  CHARGING_STATION_RESERVE_NOW = 'RestChargingStationReserveNow',
+  CHARGING_STATION_CANCEL_RESERVATION = 'RestChargingStationCancelReservation',
 
   CHECK_SMART_CHARGING_CONNECTION = 'RestCheckSmartChargingConnection',
   TRIGGER_SMART_CHARGING = 'RestTriggerSmartCharging',
@@ -446,7 +450,9 @@ export enum ServerAction {
 
   HTTP_REQUEST = 'HttpRequest',
   HTTP_RESPONSE = 'HttpResponse',
-  HTTP_ERROR = 'HttpError'
+  HTTP_ERROR = 'HttpError',
+
+  EXPORT_TO_CSV = 'ExportToCSV'
 }
 
 // RESTful API
@@ -475,6 +481,8 @@ export enum ServerRoute {
   REST_CHARGING_STATIONS_GET_DIAGNOSTICS = 'charging-stations/:id/diagnostics',
   REST_CHARGING_STATIONS_FIRMWARE_UPDATE = 'charging-stations/:id/firmware/update',
   REST_CHARGING_STATIONS_CHANGE_AVAILABILITY = 'charging-stations/:id/availability/change',
+  REST_CHARGING_STATIONS_RESERVE_NOW = 'charging-stations/:id/reserve/now',
+  REST_CHARGING_STATIONS_CANCEL_RESERVATION = 'charging-stations/:id/cancel/reservation',
 
   REST_CHARGING_STATIONS_DOWNLOAD_FIRMWARE = 'charging-stations/firmware/download',
   REST_CHARGING_STATIONS_QRCODE_GENERATE = 'charging-stations/:id/connectors/:connectorId/qrcode/generate',
@@ -508,7 +516,6 @@ export enum ServerRoute {
   REST_TRANSACTION_CDR = 'transactions/:id/ocpi/cdr',
   REST_TRANSACTION_CDR_EXPORT = 'transactions/:id/ocpi/cdr/export',
   REST_TRANSACTION_CONSUMPTIONS = 'transactions/:id/consumptions',
-  REST_TRANSACTION_CONSUMPTIONS_REBUILD = 'transactions/:id/consumptions/rebuild',
   REST_TRANSACTION_SOFT_STOP = 'transactions/:id/soft-stop',
   REST_TRANSACTIONS_REFUND_ACTION = 'transactions/action/refund',
   REST_TRANSACTIONS_REFUND = 'transactions/status/refund',
@@ -568,6 +575,7 @@ export enum ServerRoute {
   REST_NOTIFICATIONS = 'notifications',
   REST_NOTIFICATIONS_END_USER_REPORT_ERROR = 'notifications/action/end-user/report-error',
 
+
   REST_OCPI_ENDPOINT_PING = 'ocpi/endpoints/:id/ping',
   REST_OCPI_ENDPOINT_CHECK_CDRS = 'ocpi/endpoints/:id/cdrs/check',
   REST_OCPI_ENDPOINT_CHECK_LOCATIONS = 'ocpi/endpoints/:id/locations/check',
@@ -578,7 +586,7 @@ export enum ServerRoute {
   REST_OCPI_ENDPOINT_PULL_TOKENS = 'ocpi/endpoints/:id/tokens/pull',
   REST_OCPI_ENDPOINT_SEND_EVSE_STATUSES = 'ocpi/endpoints/:id/evses/statuses/send',
   REST_OCPI_ENDPOINT_SEND_TOKENS = 'ocpi/endpoints/:id/tokens/send',
-  REST_OCPI_ENDPOINT_GENERATE_LOCAL_TOKEN = 'ocpi/endpoints/:id/tokens/generate',
+  REST_OCPI_ENDPOINT_GENERATE_LOCAL_TOKEN = 'ocpi/endpoints/tokens/generate',
   REST_OCPI_ENDPOINTS = 'ocpi/endpoints',
   REST_OCPI_ENDPOINT = 'ocpi/endpoints/:id',
   REST_OCPI_ENDPOINT_REGISTER = 'ocpi/endpoints/:id/register',

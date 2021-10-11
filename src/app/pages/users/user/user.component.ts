@@ -483,7 +483,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       if (user.address) {
         this.address = user.address;
       }
-      if (user.projectedFields.includes('technical')) {
+      if (user.projectFields.includes('technical')) {
         if (user.technical) {
           this.formGroup.controls.technical.setValue(user.technical);
         }

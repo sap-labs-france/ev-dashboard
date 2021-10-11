@@ -1213,23 +1213,6 @@ export class CentralServerService {
       );
   }
 
-  public rebuildTransactionConsumption(id: number): Observable<ActionResponse> {
-    // Verify init
-    this.checkInit();
-    if (!id) {
-      return EMPTY;
-    }
-    // Execute the REST service
-    return this.httpClient.get<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_TRANSACTION_CONSUMPTIONS_REBUILD, { id }),
-      {
-        headers: this.buildHttpHeaders(),
-        params: { ID: id.toString() },
-      })
-      .pipe(
-        catchError(this.handleHttpError),
-      );
-  }
-
   public exportLogs(params: FilterParams): Observable<Blob> {
     this.checkInit();
     return this.httpClient.get(this.buildRestEndpointUrl(ServerRoute.REST_LOGGINGS_EXPORT),
@@ -2582,7 +2565,7 @@ export class CentralServerService {
     this.checkInit();
     // Execute
     return this.httpClient.put<OCPIGenerateLocalTokenResponse>(
-      this.buildRestEndpointUrl(ServerRoute.REST_OCPI_ENDPOINT_GENERATE_LOCAL_TOKEN, { id: ocpiEndpoint.id }),
+      this.buildRestEndpointUrl(ServerRoute.REST_OCPI_ENDPOINT_GENERATE_LOCAL_TOKEN),
       { name: ocpiEndpoint.name },
       {
         headers: this.buildHttpHeaders(),
@@ -3188,17 +3171,15 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.put<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_CHARGING_STATIONS_RETRIEVE_CONFIGURATION, { id }),
-      {
-        chargingStationID: id,
-        forceUpdateOCPPParamsFromTemplate: false,
-      },
-      {
-        headers: this.buildHttpHeaders(),
-      })
-      .pipe(
-        catchError(this.handleHttpError),
-      );
+    return this.httpClient.post<ActionResponse>(`${this.restServerSecuredURL}/${ServerRoute.REST_CHARGING_STATIONS_REQUEST_OCPP_PARAMETERS}`, {
+      chargingStationID: id,
+      forceUpdateOCPPParamsFromTemplate: false,
+    },
+    {
+      headers: this.buildHttpHeaders(),
+    }).pipe(
+      catchError(this.handleHttpError),
+    );
   }
 
   public updateChargingStationOCPPParamWithTemplate(id: string) {

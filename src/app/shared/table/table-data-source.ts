@@ -370,6 +370,8 @@ export abstract class TableDataSource<T extends TableData> {
                     filterDef.dialogComponentData.staticFilter[dependentFilter.httpId] =
                       dependentFilter.currentValue[0].key;
                   }
+                } else {
+                  delete filterDef.dialogComponentData.staticFilter[dependentFilter.httpId];
                 }
               }
             }

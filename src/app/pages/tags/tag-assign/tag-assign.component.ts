@@ -156,9 +156,6 @@ export class TagAssignComponent implements OnInit {
     }, (error) => {
       this.spinnerService.hide();
       switch (error.status) {
-        case HTTPError.TAG_HAS_TRANSACTIONS:
-          this.messageService.showErrorMessage('tags.update_has_transaction_error');
-          break;
         case HTTPError.TAG_VISUAL_ID_ALREADY_EXIST_ERROR:
           this.messageService.showErrorMessage('tags.tag_visual_id_already_used', { visualID: tag.visualID });
           break;
@@ -181,9 +178,6 @@ export class TagAssignComponent implements OnInit {
     }, (error) => {
       this.spinnerService.hide();
       switch (error.status) {
-        case HTTPError.TAG_HAS_TRANSACTIONS:
-          this.messageService.showErrorMessage('tags.create_has_transaction_error');
-          break;
         case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
           this.messageService.showErrorMessage('tags.tag_visual_id_does_not_match_tag', { visualID: tag.visualID });
           break;

@@ -797,6 +797,10 @@
       "disable_manual_configuration":{
         "title": "Désactiver la configuration manuelle",
         "confirm": "Si vous désactivez la configuration manuelle, la borne sera réajustée avec le modèle de configuration automatique, redémarrée et vos changements manuels seront perdus. Voulez-vous continuer?"
+      },
+      "manual_configuration_error":{
+        "title": "Manual Configuration/Template error",
+        "confirm": "Manual Configuration has been already disabled for this station. Please make sure it boots correctly and that the template can be applied"
       }
     },
     "force_available_status_action": "Rendre Disponible",

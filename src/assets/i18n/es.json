@@ -797,6 +797,10 @@
       "disable_manual_configuration":{
         "title": "Desactivar configuración manual",
         "confirm": "Si usted desactiva la configuración manual, la estación de carga se ajustará a la configuración automática y sus cambios se prederán. ¿Desea continuar?"
+      },
+      "manual_configuration_error":{
+        "title": "Manual Configuration/Template error",
+        "confirm": "Manual Configuration has been already disabled for this station. Please make sure it boots correctly and that the template can be applied"
       }
     },
     "force_available_status_action": "Establecer como disponible",

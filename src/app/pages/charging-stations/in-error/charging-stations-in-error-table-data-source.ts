@@ -239,9 +239,7 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
       action.dropdownActions.forEach((dropdownAction) => {
         if (dropdownAction.id === ChargingStationButtonAction.SMART_CHARGING) {
           // Check charging station version
-          dropdownAction.disabled = row.ocppVersion === OCPPVersion.VERSION_12 ||
-            row.ocppVersion === OCPPVersion.VERSION_15 ||
-            row.inactive;
+          dropdownAction.disabled = row.ocppVersion === OCPPVersion.VERSION_15 || row.inactive;
         } else {
           // Check active status of CS
           dropdownAction.disabled = row.inactive;

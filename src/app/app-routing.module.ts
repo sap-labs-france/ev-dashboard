@@ -96,19 +96,19 @@ const routes: Routes = [
         },
       },
       {
-        path: 'car',
+        path: 'cars',
         loadChildren: async () => import('./pages/cars/cars.module').then((m) => m.CarsModule),
         data: {
           menu: {
             title: 'cars',
             type: 'link',
             icon: 'directions_car',
-            path: '/car',
+            path: '/cars',
           },
-          auth: {
-            entity: Entity.CAR_CATALOGS,
-            action: Action.LIST,
-          },
+          auth: [
+            { entity: Entity.CAR_CATALOGS, action: Action.LIST },
+            { entity: Entity.CARS, action: Action.LIST },
+          ],
           activeInSuperTenant: true,
           displayInSuperTenant: true,
           component: TenantComponents.CAR,
@@ -147,14 +147,14 @@ const routes: Routes = [
         },
       },
       {
-        path: 'asset',
+        path: 'assets',
         loadChildren: async () => import('./pages/assets/assets.module').then((m) => m.AssetsModule),
         data: {
           menu: {
             title: 'assets',
             type: 'link',
             icon: 'account_balance',
-            path: '/asset',
+            path: '/assets',
           },
           auth: {
             entity: Entity.ASSETS,

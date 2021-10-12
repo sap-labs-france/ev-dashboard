@@ -7,8 +7,8 @@ import { Transaction } from '../../../types/Transaction';
 @Component({
   template: `
     <!-- Connector ID -->
-    <div class="d-flex justify-content-center">
-      <div class="row mx-0 px-0 align-items-center">
+    <div class="d-flex text-center">
+      <div class="mx-0 px-0 align-items-center">
         <div appTooltip data-offset="0px, 8px"
             [title]="row | appTransactionsFormatConnector:'text' | translate"
             class="charger-connector-container">

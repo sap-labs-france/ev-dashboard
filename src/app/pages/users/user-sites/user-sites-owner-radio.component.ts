@@ -12,7 +12,7 @@ import { Utils } from '../../../utils/Utils';
 
 @Component({
   template: `
-      <div class="d-flex justify-content-center">
+      <div class="d-flex text-center">
           <mat-checkbox class="mx-auto"
                             [checked]="(row.siteOwner ? row.siteOwner : false)"
                             (change)="changeSiteOwner($event)"></mat-checkbox>

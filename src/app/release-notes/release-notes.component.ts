@@ -29,6 +29,8 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `Badges can always be reassigned even if already used before`,
+              `Check OCPI only when access control is active at Site Area level`,
               `Enhanced performance logs for tracing traffic per organization`,
             ],
           },

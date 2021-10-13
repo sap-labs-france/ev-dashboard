@@ -195,17 +195,13 @@ export class TagComponent implements OnInit {
       this.spinnerService.hide();
       if (response.status === RestResponse.SUCCESS) {
         this.messageService.showSuccessMessage('tags.update_success', { tagID: tag.id });
-        // Reassign transactions to user?
-        this.checkUnassignedTransactions(tag.userID, tag.id);
+        this.closeDialog(true);
       } else {
         Utils.handleError(JSON.stringify(response), this.messageService, 'tags.update_error');
       }
     }, (error) => {
       this.spinnerService.hide();
       switch (error.status) {
-        case HTTPError.TAG_HAS_TRANSACTIONS:
-          this.messageService.showErrorMessage('tags.update_has_transaction_error');
-          break;
         case HTTPError.TAG_VISUAL_ID_ALREADY_EXIST_ERROR:
           this.messageService.showErrorMessage('tags.tag_visual_id_already_used', { visualID: tag.visualID });
           break;
@@ -221,8 +217,7 @@ export class TagComponent implements OnInit {
       this.spinnerService.hide();
       if (response.status === RestResponse.SUCCESS) {
         this.messageService.showSuccessMessage('tags.create_success', { tagID: tag.id });
-        // Reassign transactions to user?
-        this.checkUnassignedTransactions(tag.userID, tag.id);
+        this.closeDialog(true);
       } else {
         Utils.handleError(JSON.stringify(response), this.messageService, 'tags.create_error');
       }
@@ -235,63 +230,9 @@ export class TagComponent implements OnInit {
         case HTTPError.TAG_VISUAL_ID_ALREADY_EXIST_ERROR:
           this.messageService.showErrorMessage('tags.tag_visual_id_already_used', { visualID: tag.visualID });
           break;
-        case HTTPError.TAG_HAS_TRANSACTIONS:
-          this.messageService.showErrorMessage('tags.create_has_transaction_error');
-          break;
         default:
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tags.create_error');
       }
-    });
-  }
-
-  private checkUnassignedTransactions(userID: string, tagID: string) {
-    // Admin?
-    if (this.isAdmin && userID && tagID) {
-      // Check if there are unassigned transactions
-      this.centralServerService.getUnassignedTransactionsCount(tagID).subscribe((count) => {
-        if (count && count > 0) {
-          this.dialogService.createAndShowYesNoDialog(
-            this.translateService.instant('users.assign_transactions_title'),
-            this.translateService.instant('users.assign_transactions_confirm', { count }),
-          ).subscribe((result) => {
-            if (result === ButtonType.YES) {
-              // Assign transactions to User
-              this.assignTransactionsToUser(userID, tagID);
-            } else {
-              this.closeDialog(true);
-            }
-          });
-        } else {
-          this.closeDialog(true);
-        }
-      }, (error) => {
-        // Hide
-        this.spinnerService.hide();
-        if (this.currentTagID) {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'users.update_error');
-        } else {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'users.create_error');
-        }
-      });
-    } else {
-      this.closeDialog(true);
-    }
-  }
-
-  private assignTransactionsToUser(userID: string, tagID: string) {
-    // Assign Transactions to User
-    this.spinnerService.show();
-    this.centralServerService.assignTransactionsToUser(userID, tagID).subscribe((response) => {
-      this.spinnerService.hide();
-      if (response.status === RestResponse.SUCCESS) {
-        this.messageService.showSuccessMessage('users.assign_transactions_success', { userFullName: this.user.value });
-      } else {
-        Utils.handleError(JSON.stringify(response), this.messageService, 'users.assign_transactions_error');
-      }
-      this.closeDialog(true);
-    }, (error) => {
-      this.spinnerService.hide();
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'users.assign_transactions_error');
     });
   }
 }

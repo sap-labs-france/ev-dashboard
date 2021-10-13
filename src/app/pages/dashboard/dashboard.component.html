@@ -2,7 +2,7 @@
   [@SlideChangeDone]="afterChange" (@SlideChangeDone.done)="slideChangeAnimationDone($event)">
   <div class="row position-sticky fixed-top mx-0 px-0">
     <div class="topbar pr-1 w-100 " data-background-color="blue" data-color="white">
-      <div class="d-flex w-100 justify-content-center align-items-center slide-card-up ">
+      <div class="d-flex w-100 text-center align-items-center slide-card-up ">
         <span class="mx-0 p-0" *ngIf="currentMetrics && currentMetrics.name !== 'ALL'">{{currentMetrics.name}}</span>
         <span class="mx-0 p-0"
           *ngIf="currentMetrics && currentMetrics.name === 'ALL'">{{'dashboard.all_site' | translate}}</span>
@@ -27,7 +27,7 @@
       <div class="row">
         <div class="col-md-12">
           <div class="w-100">
-            <div class="d-flex flex-column w-100 justify-content-center">
+            <div class="d-flex flex-column w-100 text-center">
               <!-- First for with 2 gauges and central card for site -->
               <div *ngIf="currentMetrics"
                 class="d-flex d-flex-row align-items-stretch w-100 justify-content-around mb-3">
@@ -41,7 +41,7 @@
                       <h3 class="card-title">{{'dashboard.occupied_charging_points_gauge_title' | translate }}</h3>
                     </div>
                     <div class="card-nooverflow">
-                      <div class="d-flex pb-0 justify-content-center align-items-center card-body gauge-card-body"
+                      <div class="d-flex pb-0 text-center align-items-center card-body gauge-card-body"
                         [class.fade-out]="beforeChange" [class.fade-in]="!beforeChange">
                         <app-charging-station-gauge [activeChargers]="currentMetrics.occupiedChargingPoint"
                           [maxChargers]="currentMetrics.maximumNumberOfChargingPoint"></app-charging-station-gauge>
@@ -82,7 +82,7 @@
                       <h3 class="card-title">{{'dashboard.consumption_title' | translate }}</h3>
                     </div>
                     <div class="card-nooverflow">
-                      <div class="d-flex pb-0 justify-content-center align-items-center card-body gauge-card-body"
+                      <div class="d-flex pb-0 text-center align-items-center card-body gauge-card-body"
                         [class.fade-out]="beforeChange" [class.fade-in]="!beforeChange">
                         <app-charging-station-consumption-gauge #consumptionGauge
                           [consumption]="currentMetrics.currentInstantWatts"

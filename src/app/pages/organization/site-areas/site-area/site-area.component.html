@@ -25,8 +25,8 @@
                           <h5 class="card-title">
                             {{'general.change_picture' | translate}}
                           </h5>
-                          <div class="footer justify-content-center">
-                            <button mat-flat-button color="primary" class="mr-2">
+                          <div class="footer text-center">
+                            <button mat-flat-button color="primary" class="me-2">
                               <mat-icon (click)="file.click()">mode_edit</mat-icon>
                               <div class="d-none">
                                 <input #file type="file" name="..." (change)="onImageChanged($event)"
@@ -123,7 +123,7 @@
                   </div>
                   <div *ngIf="!readOnly && currentSiteAreaID && !formGroup.disabled">
                     <div class="d-flex justify-content-start">
-                      <div *ngIf="registrationToken" class="mr-2">
+                      <div *ngIf="registrationToken" class="me-2">
                         <button mat-raised-button [matMenuTriggerFor]="ocppUrlMenu" color="primary">
                           <mat-icon>file_copy</mat-icon>
                           <span>{{'chargers.connections.copy_url_tooltip' | translate}}</span>

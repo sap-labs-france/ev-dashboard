@@ -797,6 +797,10 @@
       "disable_manual_configuration":{
         "title": "Manuelle Konfiguration deaktivieren",
         "confirm": "Wenn Sie die manuelle Konfiguration deaktivieren, wird die Konfiguration vom automatischen Template übernommen. Die Ladestation wird neu gestartet und die manuelle Konfiguration geht verloren. Sind Sie sicher, dass Sie fortfahren möchten?"
+      },
+      "manual_configuration_error":{
+        "title": "Manuelle Konfiguration/Template Fehler",
+        "confirm": "Die Ladestation ist bereits ohne manuelle Konfiguration gespeichert. Bitte stellen Sie sicher dass die Ladestation korrekt startet und das entsprechende Template angewendet werden kann"
       }
     },
     "force_available_status_action": "Verfügbar setzen",
@@ -1270,10 +1274,6 @@
     "update_set_site_owner_success": "Der Nutzer ist nun Eigentümer des Standortes '{{siteName}}'",
     "update_remove_site_owner_success": "Der Nutzer ist nun nicht mehr Eigentümer des Standortes '{{siteName}}'",
     "update_site_owner_role_error": "Beim Versuch die Berechtigungen zu aktualisieren ist am Standort '{{siteName}}' ein Fehler aufgetreten",
-    "assign_transactions_title": "Ladevorgangs Zuordnung",
-    "assign_transactions_confirm": "'{{count}}' unzugeordnete Ladevorgänge gefunden. Wollen Sie diese diesem Nutzer zuordnen?",
-    "assign_transactions_success": "Alle unzugeordneten Ladevorgänge wurden dem Nutzer '{{userFullName}}' zugeordnet",
-    "assign_transactions_error": "Beim Zuordnen der unzugeordnenten Ladevorgänge zu '{{userFullName}}' ist ein Fehler aufgetreten",
     "redirect": "Zum Nutzer navigieren",
     "connectors": {
       "connect": "Verbinden",
@@ -1368,8 +1368,6 @@
     "delete_title": "Badge löschen",
     "delete_success": "Der Badge '{{id}}' wurde erfolgreich gelöscht",
     "delete_error": "Beim Löschen des Badges ist ein Fehler aufgetreten",
-    "create_has_transaction_error": "Dieser Badge ist mit Ladevorgängen verknüpft und kann daher nicht erstellt werden",
-    "update_has_transaction_error": "Dieser Badge ist mit Ladevorgängen verknüpft und kann nicht neu zugeordnet werden",
     "create_success": "Der Badge '{{tagID}}' wurde erfolgreich erstellt",
     "create_error": "Beim Erstellen des Badges ist ein Fehler aufgetreten",
     "register_success": "Der Badge '{{visualID}}' wurde erfolgreich registriert",

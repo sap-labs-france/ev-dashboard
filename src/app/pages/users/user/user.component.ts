@@ -145,8 +145,11 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.isSuperAdmin = this.authorizationService.isSuperAdmin();
     this.isBasic = this.authorizationService.isBasic();
     this.isSiteAdmin = this.authorizationService.hasSitesAdminRights();
-    if (!this.isAdmin) {
+    if (this.isBasic || this.isSiteAdmin) {
       this.setHashArray(['common', 'address', 'password', 'connections', 'miscs']);
+    }
+    if (this.isSuperAdmin) {
+      this.setHashArray(['common', 'notifications', 'address', 'password', 'miscs']);
     }
     this.canSeeInvoice = false;
     if (this.componentService.isActive(TenantComponents.PRICING)) {

@@ -7,7 +7,7 @@ import { CellContentTemplateDirective } from '../../../shared/table/cell-content
   template: `
     <span>
       <ng-container>
-        <span class="ml-1">
+        <span class="ms-1">
           {{row.currentInstantWatts || row.currentInstantWatts === 0 ? ((row.assetType === assetTypeProduction ? row.currentInstantWatts * -1 : row.currentInstantWatts) | appUnit:'W':'kW') : '-'}}
         </span>
       </ng-container>

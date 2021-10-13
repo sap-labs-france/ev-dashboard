@@ -797,6 +797,10 @@
       "disable_manual_configuration":{
         "title": "Desactivar configuración manual",
         "confirm": "Si usted desactiva la configuración manual, la estación de carga se ajustará a la configuración automática y sus cambios se prederán. ¿Desea continuar?"
+      },
+      "manual_configuration_error":{
+        "title": "Manual Configuration/Template error",
+        "confirm": "Manual Configuration has been already disabled for this station. Please make sure it boots correctly and that the template can be applied"
       }
     },
     "force_available_status_action": "Establecer como disponible",
@@ -1268,10 +1272,6 @@
     "update_set_site_owner_success": "El usuario ahora es propietario del sitio '{{siteName}}'",
     "update_remove_site_owner_success": "El usuario ya no es propietario del sitio '{{siteName}}'",
     "update_site_owner_role_error": "Se produjo un error al actualizar al usuario en el sitio '{{siteName}}'",
-    "assign_transactions_title": "Asignación de sesiones",
-    "assign_transactions_confirm": "Se han encontrado '{{count}}' sesiones huérfanas. ¿Desea asignarlas a este usuario?",
-    "assign_transactions_success": "Todas las sesiones huérfanas se han asignado al usuario '{{userFullName}}'",
-    "assign_transactions_error": "Se produjo un error al asignar las sesiones huérfanas al usuario  '{{userFullName}}'",
     "redirect": "Navigar al usuario",
     "connectors": {
       "connect": "Conectar",
@@ -1366,8 +1366,6 @@
     "delete_title": "Delete Tag",
     "delete_success": "The tag '{{id}}' has been deleted successfully",
     "delete_error": "Error occurred while deleting the tag",
-    "create_has_transaction_error": "This badge is linked to sessions and cannot be created",
-    "update_has_transaction_error": "This badge is linked to sessions and cannot be reassigned",
     "create_success": "The badge '{{tagID}}' has been created successfully",
     "create_error": "Error occurred while creating the badge",
     "register_success": "The badge '{{visualID}}' has been registered successfully",

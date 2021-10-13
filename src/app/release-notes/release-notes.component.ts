@@ -35,6 +35,7 @@ export class ReleaseNotesComponent {
               `Removed OCPI logo when empty and non standard properties`,
               `Enhanced performance logs for tracing traffic per organization`,
               `Adding Setec as Charging Station Vendor`,
+              `Added Charging Station's Model in list`,
             ],
           },
         ],

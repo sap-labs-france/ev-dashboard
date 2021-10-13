@@ -33,6 +33,7 @@ export class ReleaseNotesComponent {
               `Improved Charging Station's manual config and exclude from smart charging parameters`,
               `Check OCPI only when access control is active at Site Area level`,
               `Enhanced performance logs for tracing traffic per organization`,
+              `Adding Setec as Charging Station Vendor`,
             ],
           },
         ],

@@ -72,14 +72,14 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       if(!Utils.isEmptyArray(this.dataSource.tableFiltersDef)) {
         // Translate & sort values for dropdown
-        this.dataSource.tableFiltersDef.forEach((filterDef) => {
+        for (const filterDef of this.dataSource.tableFiltersDef) {
           if (filterDef.type === FilterType.DROPDOWN) {
-            filterDef.items.forEach((obj) => {
+            for (const obj of filterDef.items) {
               obj.value = this.translateService.instant(obj.value);
-            });
+            }
             filterDef.items.sort(Utils.sortArrayOfKeyValue);
           }
-        });
+        }
       }
     }
   }

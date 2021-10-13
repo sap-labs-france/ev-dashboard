@@ -7,7 +7,7 @@ import { Connector } from '../../../types/ChargingStation';
   template: `
     <span>
       <ng-container>
-        <span class="ml-1" [ngClass]="row.currentInactivityStatus | appColorByStatus">
+        <span class="ms-1" [ngClass]="row.currentInactivityStatus | appColorByStatus">
           {{{ currentTotalInactivitySecs: row.currentTotalInactivitySecs } | appInactivity}}
         </span>
       </ng-container>

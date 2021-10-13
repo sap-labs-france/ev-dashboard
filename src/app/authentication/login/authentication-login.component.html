@@ -1,7 +1,7 @@
 <div class="wrapper wrapper-full-page">
   <div class="page-header login-page header-filter" filter-color="black">
     <div class="container">
-      <div class="col-lg-6 ml-auto mr-auto">
+      <div class="col-lg-6 ms-auto me-auto">
         <form class="form" [formGroup]="formGroup" (ngSubmit)="login(formGroup.value)">
           <div class="card card-login card-hidden">
             <div class="card-header card-header-primary text-center h-25">
@@ -16,31 +16,31 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text">
                       <mat-icon>email</mat-icon>
+                      <mat-form-field class="ms-2">
+                        <input appAutofocus id="email-field" matInput type="text" placeholder="{{'authentication.email' | translate}}"
+                          autocomplete="username" [formControl]="email" required>
+                        <mat-error *ngIf="email.errors?.email">{{"authentication.invalid_email" | translate}}</mat-error>
+                        <mat-error *ngIf="email.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+                      </mat-form-field>
                     </span>
-                    <mat-form-field>
-                      <input appAutofocus id="email-field" matInput type="text" placeholder="{{'authentication.email' | translate}}"
-                        autocomplete="username" [formControl]="email" required>
-                      <mat-error *ngIf="email.errors?.email">{{"authentication.invalid_email" | translate}}</mat-error>
-                      <mat-error *ngIf="email.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
-                    </mat-form-field>
                   </div>
                   <div class="input-group-prepend">
                     <span class="input-group-text">
                       <mat-icon>lock_outline</mat-icon>
+                      <mat-form-field class="ms-2">
+                        <input id="password-field" matInput type="password"
+                          placeholder="{{'authentication.password' | translate}}" autocomplete="current-password"
+                          [type]="hidePassword ? 'password' : 'text'" [formControl]="password" required>
+                        <mat-icon matSuffix class="icon-clickable" (click)="hidePassword = !hidePassword">
+                          {{hidePassword ? 'visibility' : 'visibility_off'}}</mat-icon>
+                        <mat-error *ngIf="password.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+                        <mat-error *ngIf="password.errors?.noSpace">{{"authentication.no_space_in_password" | translate}}
+                        </mat-error>
+                      </mat-form-field>
                     </span>
-                    <mat-form-field>
-                      <input id="password-field" matInput type="password"
-                        placeholder="{{'authentication.password' | translate}}" autocomplete="current-password"
-                        [type]="hidePassword ? 'password' : 'text'" [formControl]="password" required>
-                      <mat-icon matSuffix class="icon-clickable" (click)="hidePassword = !hidePassword">
-                        {{hidePassword ? 'visibility' : 'visibility_off'}}</mat-icon>
-                      <mat-error *ngIf="password.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
-                      <mat-error *ngIf="password.errors?.noSpace">{{"authentication.no_space_in_password" | translate}}
-                      </mat-error>
-                    </mat-form-field>
                   </div>
                 </div>
-                <div class="input-group-prepend justify-content-center mt-3 ml-2">
+                <div class="input-group-prepend text-center mt-3 ms-2">
                   <mat-checkbox [formControl]="acceptEula" required>
                     <span id="eula-checkbox" class="adapt-font-size">{{'authentication.accept' | translate}} </span>
                     <a class="auth-link" href="/auth/eula" target="_blank">

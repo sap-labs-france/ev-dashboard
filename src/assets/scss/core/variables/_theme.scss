@@ -2,6 +2,8 @@
 @import '~@angular/material/theming';
 @import '~@mat-datetimepicker/core/datetimepicker/datetimepicker-theme.scss';
 
+$min-contrast-ratio: 2.5;
+
 // Material Theming
 @include mat-core();
 

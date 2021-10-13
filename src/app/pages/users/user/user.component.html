@@ -22,7 +22,7 @@
                     <div class="back back-background"
                          [ngStyle]="{'background-image': 'url(' + image + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
                       <div class="card-body">
-                        <div class="justify-content-center">
+                        <div class="text-center">
                           <button mat-flat-button color="primary">
                             <mat-icon (click)="file.click()">mode_edit</mat-icon>
                             <div class="d-none">
@@ -169,7 +169,7 @@
                 </div>
               </div>
             </div>
-            <div class="ml-4">
+            <div class="ms-4">
               <div class="row">
                 <div class="col-sm-12">
                   <div class="form-group mb-0">
@@ -194,7 +194,7 @@
                 </div>
               </div>
             </div>
-            <div class="ml-4">
+            <div class="ms-4">
               <div class="row">
                 <div class="col-sm-12">
                   <mat-checkbox [disabled]="!notificationsActive.value"
@@ -251,74 +251,74 @@
               </div>
               <div *ngIf="role && role.value === 'A'" class="row">
                 <div class="col-sm-12 m-1 ml-n1">{{"notifications.admin_only" | translate}}</div>
-                <div class="ml-3">
-                  <div class="row ml-1">
+                <div class="ms-3">
+                  <div class="row ms-1">
                     <div class="col-sm-12">
                       <mat-checkbox [disabled]="!notificationsActive.value"
                         [formControl]="sendUnknownUserBadged">{{"notifications.unknown_user_badged" | translate}}</mat-checkbox>
                     </div>
                   </div>
-                  <div class="row ml-1">
+                  <div class="row ms-1">
                     <div class="col-sm-12">
                       <mat-checkbox [disabled]="!notificationsActive.value"
                         [formControl]="sendChargingStationStatusError">{{"notifications.charging_station_status_error" | translate}}</mat-checkbox>
                     </div>
                   </div>
-                  <div class="row ml-1">
+                  <div class="row ms-1">
                     <div class="col-sm-12">
                       <mat-checkbox [disabled]="!notificationsActive.value"
                         [formControl]="sendChargingStationRegistered">{{"notifications.charging_station_registered" | translate}}</mat-checkbox>
                     </div>
                   </div>
-                  <div class="row ml-1">
+                  <div class="row ms-1">
                     <div class="col-sm-12">
                       <mat-checkbox [disabled]="!notificationsActive.value"
                         [formControl]="sendOfflineChargingStations">{{"notifications.charging_stations_offline" | translate}}</mat-checkbox>
                     </div>
                   </div>
-                  <div class="row ml-1">
+                  <div class="row ms-1">
                     <div class="col-sm-12">
                       <mat-checkbox [disabled]="!notificationsActive.value"
                         [formControl]="sendOcpiPatchStatusError">{{"notifications.ocpi_patch_status_error" | translate}}</mat-checkbox>
                     </div>
                   </div>
-                  <div class="row ml-1">
+                  <div class="row ms-1">
                     <div class="col-sm-12">
                       <mat-checkbox [disabled]="!notificationsActive.value"
                         [formControl]="sendOicpPatchStatusError">{{"notifications.oicp_patch_status_error" | translate}}</mat-checkbox>
                     </div>
                   </div>
-                  <div class="row ml-1">
+                  <div class="row ms-1">
                     <div class="col-sm-12">
                       <mat-checkbox [disabled]="!notificationsActive.value"
                         [formControl]="sendSmtpError">{{"notifications.smtp_error" | translate}}</mat-checkbox>
                     </div>
                   </div>
-                  <div class="row ml-1">
+                  <div class="row ms-1">
                     <div class="col-sm-12">
                       <mat-checkbox [disabled]="!notificationsActive.value"
                         [formControl]="sendBillingSynchronizationFailed">{{"notifications.billing_synchronization_failed" | translate}}</mat-checkbox>
                     </div>
                   </div>
-                  <div class="row ml-1">
+                  <div class="row ms-1">
                     <div class="col-sm-12">
                       <mat-checkbox [disabled]="!notificationsActive.value"
                         [formControl]="sendBillingPeriodicOperationFailed">{{"notifications.billing_periodic_operation_failed" | translate}}</mat-checkbox>
                     </div>
                   </div>
-                  <div class="row ml-1">
+                  <div class="row ms-1">
                     <div class="col-sm-12">
                       <mat-checkbox [disabled]="!notificationsActive.value"
                         [formControl]="sendComputeAndApplyChargingProfilesFailed">{{"notifications.compute_and_apply_charging_profiles_failed" | translate}}</mat-checkbox>
                     </div>
                   </div>
-                  <div class="row ml-1">
+                  <div class="row ms-1">
                     <div class="col-sm-12">
                       <mat-checkbox [disabled]="!notificationsActive.value"
                         [formControl]="sendEndUserErrorNotification">{{"notifications.end_user_error_notification" | translate}}</mat-checkbox>
                     </div>
                   </div>
-                  <div class="row ml-1">
+                  <div class="row ms-1">
                     <div class="col-sm-12">
                       <mat-checkbox [disabled]="!notificationsActive.value"
                         [formControl]="sendAdminAccountVerificationNotification">{{"notifications.admin_account_verification" | translate}}</mat-checkbox>
@@ -395,7 +395,7 @@
                     <a [attr.href]="getRefundUrl()" target="_blank">
                       <div class="d-flex flex-row align-items-center">
                         <img src="/assets/img/integrations/concur-logo.png"
-                          class="card-logo img-thumbnail mr-3"/>
+                          class="card-logo img-thumbnail me-3"/>
                         <h2 class="card-title">Concur</h2>
                       </div>
                     </a>
@@ -428,7 +428,7 @@
                   <div class="card-body">
                     <div class="d-flex flex-row align-items-center">
                       <img src="/assets/img/integrations/mercedes-logo.png"
-                        class="card-logo img-thumbnail mr-3"/>
+                        class="card-logo img-thumbnail me-3"/>
                       <h2 class="card-title">{{'settings.car_connector.types.mercedes' | translate}}</h2>
                     </div>
                   </div>

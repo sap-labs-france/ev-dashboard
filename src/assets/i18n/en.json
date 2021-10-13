@@ -799,6 +799,10 @@
       "disable_manual_configuration":{
         "title": "Disable manual configuration",
         "confirm": "If you disable the manual configuration, the charging station will be adjusted with the automatic configuration template, rebooted and your manual changes will be lost. Do you want to continue?"
+      },
+      "manual_configuration_error":{
+        "title": "Manual Configuration/Template error",
+        "confirm": "Manual Configuration has been already disabled for this station. Please make sure it boots correctly and that the template can be applied"
       }
     },
     "force_available_status_action": "Set Available",
@@ -1270,10 +1274,6 @@
     "update_set_site_owner_success": "The user is now owner of the site '{{siteName}}'",
     "update_remove_site_owner_success": "The user is no more owner of the site '{{siteName}}'",
     "update_site_owner_role_error": "Error occurred while trying to update the user right to the site '{{siteName}}', check the logs",
-    "assign_transactions_title": "Sessions Assignment",
-    "assign_transactions_confirm": "'{{count}}' orphan sessions have been found. Do you want to assign them to this user?",
-    "assign_transactions_success": "All orphan sessions have been assigned to the user '{{userFullName}}'",
-    "assign_transactions_error": "Error occurred while assigning the orphan sessions to the user '{{userFullName}}', check the logs",
     "redirect": "Navigate to User",
     "connectors": {
       "connect": "Connect",
@@ -1368,8 +1368,6 @@
     "delete_title": "Delete badge",
     "delete_success": "The badge '{{id}}' has been deleted successfully",
     "delete_error": "Error occurred while deleting the badge",
-    "create_has_transaction_error": "This badge is linked to sessions and cannot be created",
-    "update_has_transaction_error": "This badge is linked to sessions and cannot be reassigned",
     "create_success": "The badge '{{tagID}}' has been created successfully",
     "create_error": "Error occurred while creating the badge",
     "register_success": "The badge '{{visualID}}' has been registered successfully",

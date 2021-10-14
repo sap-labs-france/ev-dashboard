@@ -101,11 +101,11 @@ export class SettingsPricingDefinitionComponent implements OnInit {
           Validators.maxLength(100),
         ])),
       staticRestrictions: new FormGroup({
-        validFrom: new FormControl('',
+        validFrom: new FormControl(null,
           Validators.compose([
             Validators.required,
           ])),
-        validTo: new FormControl('',
+        validTo: new FormControl(null,
           Validators.compose([
             // Validators.required,
           ])),
@@ -206,8 +206,8 @@ export class SettingsPricingDefinitionComponent implements OnInit {
       this.id.setValue(this.currentPricingDefinition.id);
       this.name.setValue(this.currentPricingDefinition.name);
       this.description.setValue(this.currentPricingDefinition.description);
-      this.validFrom.setValue(this.currentPricingDefinition.staticRestrictions?.validFrom || '');
-      this.validTo.setValue(this.currentPricingDefinition.staticRestrictions?.validTo || '');
+      this.validFrom.setValue(this.currentPricingDefinition.staticRestrictions?.validFrom || null);
+      this.validTo.setValue(this.currentPricingDefinition.staticRestrictions?.validTo || null);
       this.minDate = this.currentPricingDefinition.staticRestrictions?.validFrom || null;
       this.connectorType.setValue(this.currentPricingDefinition.staticRestrictions?.connectorType);
       this.connectorPowerValue.setValue(this.currentPricingDefinition.staticRestrictions?.connectorPowerkW);

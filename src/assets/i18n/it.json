@@ -1852,6 +1852,7 @@
     "roaming_platforms": "Piattaforma Interoperabilità",
     "cpo": "Identificazione Operatore Punto Ricarica",
     "emsp": "Identificazione Service Provider E-Mobility",
+    "tariffID": "Tariff ID",
     "description": "Open Charge Point Interface",
     "details": "Identificazione",
     "country_code": "Codice paese",

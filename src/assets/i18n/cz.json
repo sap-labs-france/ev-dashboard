@@ -1819,6 +1819,7 @@
       "roaming_platforms":"Platforma interoperability",
       "cpo":"Identifikace provozovatele nabíjecího místa",
       "emsp":"Identifikace poskytovatele služby e-mobility",
+      "tariffID": "Tariff ID",
       "description":"Otevřít rozhraní nabíjecího místa",
       "details":"Identifikace",
       "country_code":"Kód země",

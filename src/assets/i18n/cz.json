@@ -795,7 +795,11 @@
          "disable_manual_configuration":{
             "title":"Zakázat ruční nastavení konfigurace",
             "confirm":"Když zakážete ruční nastavení konfigurace, nabíjecí stanice bude upravena šablonou automatické konfigurace, restartována a ručně nastavené změny budou ztraceny. Chcete pokračovat?"
-         }
+         },
+         "manual_configuration_error":{
+          "title": "Manual Configuration/Template error",
+          "confirm": "Manual Configuration has been already disabled for this station. Please make sure it boots correctly and that the template can be applied"
+        }
       },
       "force_available_status_action":"Nastavit Je k dispozici",
       "force_unavailable_status_action":"Nastavit Není k dispozici",
@@ -1262,10 +1266,6 @@
       "update_set_site_owner_success":"Uživatel je teď vlastníkem parkoviště '{{siteName}}'",
       "update_remove_site_owner_success":"Uživatel již není vlastníkem parkoviště '{{siteName}}'",
       "update_site_owner_role_error":"Došlo k chybě při pokusu aktualizovat práva uživatele k parkovišti '{{siteName}}', zkontrolujte protokoly",
-      "assign_transactions_title":"Přiřazení relací",
-      "assign_transactions_confirm":"Bylo nalezeno '{{count}}' osamocených relací. Chcete je přiřadit tomuto uživateli?",
-      "assign_transactions_success":"Všechny osamocené relace byly přiřazeny uživateli '{{userFullName}}'?",
-      "assign_transactions_error":"Došlo k chybě při přiřazování osamocených relaci uživateli '{{userFullName}}', zkontrolujte protokoly",
       "redirect":"Navigovat k uživateli",
       "connectors":{
          "connect":"Připojit",
@@ -1356,8 +1356,6 @@
       "delete_title":"Vymazat kartu/čip",
       "delete_success":"Karta/čip '{{id}}' byla úspěšně vymazána.",
       "delete_error":"Došlo k chybě při vymazání karty/čipu",
-      "create_has_transaction_error":"Tato karta/čip je propojena s relacemi a nelze ji vytvořit",
-      "update_has_transaction_error":"Tato karta/čip je propojena s relacemi a nelze ji přiřadit někomu jinému",
       "create_success":"Karta/čip '{{tagID}}' byla úspěšně vytvořena",
       "create_error":"Došlo k chybě při vytvoření karty/čipu",
       "register_success": "The badge '{{visualID}}' has been registered successfully",

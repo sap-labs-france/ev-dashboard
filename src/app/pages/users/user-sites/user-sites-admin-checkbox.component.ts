@@ -12,7 +12,7 @@ import { Utils } from '../../../utils/Utils';
 
 @Component({
   template: `
-      <div class="d-flex justify-content-center">
+      <div class="d-flex text-center">
           <mat-checkbox class="mx-auto"
                         [disabled]="loggedUser.id === row.userID || (user && user.role !== 'B')"
                         [checked]="(row.siteAdmin ? row.siteAdmin : false) || (user && user.role === 'A')"

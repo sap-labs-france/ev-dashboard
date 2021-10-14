@@ -24,7 +24,6 @@ export class SettingsIntegrationComponent extends AbstractTabComponent {
   public isSmartChargingActive = false;
   public isAssetActive = false;
   public isCarConnectorActive = false;
-  public isTestTenant = false;
 
   public constructor(
     private componentService: ComponentService,
@@ -43,8 +42,5 @@ export class SettingsIntegrationComponent extends AbstractTabComponent {
     this.isSmartChargingActive = this.componentService.isActive(TenantComponents.SMART_CHARGING);
     this.isAssetActive = this.componentService.isActive(TenantComponents.ASSET);
     this.isCarConnectorActive = this.componentService.isActive(TenantComponents.CAR_CONNECTOR);
-    // TODO: to be deleted - needed for testing in prod use case
-    const loggedUser = this.centralServerService.getLoggedUser();
-    this.isTestTenant = loggedUser?.tenantSubdomain === 'utbilling';
   }
 }

@@ -5,25 +5,25 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 
-import { CentralServerService } from '../../../../services/central-server.service';
-import { DialogService } from '../../../../services/dialog.service';
-import { MessageService } from '../../../../services/message.service';
-import { SpinnerService } from '../../../../services/spinner.service';
-import { CONNECTOR_TYPE_MAP } from '../../../../shared/formatters/app-connector-type.pipe';
-import { RestResponse } from '../../../../types/GlobalType';
-import { HTTPError } from '../../../../types/HTTPError';
-import PricingDefinition, { PricingDimensions } from '../../../../types/Pricing';
-import { Utils } from '../../../../utils/Utils';
-import { SettingsPricingDialogComponent } from './settings-pricing.dialog.component';
+import { CentralServerService } from '../../../../../services/central-server.service';
+import { DialogService } from '../../../../../services/dialog.service';
+import { MessageService } from '../../../../../services/message.service';
+import { SpinnerService } from '../../../../../services/spinner.service';
+import { CONNECTOR_TYPE_MAP } from '../../../../../shared/formatters/app-connector-type.pipe';
+import { RestResponse } from '../../../../../types/GlobalType';
+import { HTTPError } from '../../../../../types/HTTPError';
+import PricingDefinition, { PricingDimensions } from '../../../../../types/Pricing';
+import { Utils } from '../../../../../utils/Utils';
+import { SettingsPricingDefinitionDialogComponent } from './settings-pricing-definition.dialog.component';
 
 @Component({
-  selector: 'app-pricing',
-  templateUrl: './settings-pricing.component.html',
+  selector: 'app-pricing-definition',
+  templateUrl: './settings-pricing-definition.component.html',
 })
 
-export class SettingsPricingComponent implements OnInit {
+export class SettingsPricingDefinitionComponent implements OnInit {
   @Input() public inDialog!: boolean;
-  @Input() public dialogRef!: MatDialogRef<SettingsPricingDialogComponent>;
+  @Input() public dialogRef!: MatDialogRef<SettingsPricingDefinitionDialogComponent>;
   @Input() public currentPricingDefinitionID!: string;
   public formGroup!: FormGroup;
   public currentPricingDefinition: PricingDefinition;

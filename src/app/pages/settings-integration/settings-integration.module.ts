@@ -61,11 +61,12 @@ import { SettingsOicpEndpointsTableDataSource } from './oicp/endpoints/settings-
 import { SettingsOicpEndpointsComponent } from './oicp/endpoints/settings-oicp-endpoints.component';
 import { SettingsOicpComponent } from './oicp/settings-oicp.component';
 import { SettingsConvergentChargingComponent } from './pricing/convergent-charging/settings-convergent-charging.component';
+import { SettingsPricingDefinitionComponent } from './pricing/pricing-definitions/pricing-definition/settings-pricing-definition.component';
+import { SettingsPricingDefinitionDialogComponent } from './pricing/pricing-definitions/pricing-definition/settings-pricing-definition.dialog.component';
+import { SettingsPricingDefinitionsTableDataSource } from './pricing/pricing-definitions/settings-pricing-definition-table-data-source';
+import { SettingsPricingDefinitionsComponent } from './pricing/pricing-definitions/settings-pricing-definitions.component';
+import { SettingsPricingComponent } from './pricing/settings-pricing.component';
 import { SettingsSimplePricingComponent } from './pricing/simple/settings-simple-pricing.component';
-import { SettingsPricingComponent } from './pricings/pricing/settings-pricing.component';
-import { SettingsPricingDialogComponent } from './pricings/pricing/settings-pricing.dialog.component';
-import { SettingsPricingsTableDataSource } from './pricings/settings-pricing-table-data-source';
-import { SettingsPricingsComponent } from './pricings/settings-pricings.component';
 import { SettingsConcurComponent } from './refund/concur/settings-concur.component';
 import { SettingsRefundComponent } from './refund/settings-refund.component';
 import { SettingsIntegrationComponent } from './settings-integration.component';
@@ -92,7 +93,7 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     SettingsOicpComponent,
     SettingsRefundComponent,
     SettingsConcurComponent,
-    SettingsPricingComponent,
+    SettingsPricingDefinitionComponent,
     SettingsSimplePricingComponent,
     SettingsConvergentChargingComponent,
     SettingsBillingComponent,
@@ -156,9 +157,10 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     OicpPatchJobStatusFormatterComponent,
     AppFormatOicpPatchJobStatusPipe,
     SettingsOicpEndpointsDetailsComponent,
-    SettingsPricingsComponent,
     SettingsPricingComponent,
-    SettingsPricingDialogComponent,
+    SettingsPricingDefinitionsComponent,
+    SettingsPricingDefinitionComponent,
+    SettingsPricingDefinitionDialogComponent,
   ],
   entryComponents: [
     SettingsIntegrationComponent,
@@ -168,7 +170,7 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     SettingsOicpEndpointsComponent,
     SettingsRefundComponent,
     SettingsConcurComponent,
-    SettingsPricingComponent,
+    SettingsPricingDefinitionComponent,
     SettingsConvergentChargingComponent,
     SettingsBillingComponent,
     SettingsStripeComponent,
@@ -211,9 +213,9 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     OicpDetailFailureEvsesStatusFormatterComponent,
     OicpPatchJobStatusFormatterComponent,
     SettingsOicpEndpointsDetailsComponent,
-    SettingsPricingsComponent,
-    SettingsPricingComponent,
-    SettingsPricingDialogComponent,
+    SettingsPricingDefinitionsComponent,
+    SettingsPricingDefinitionComponent,
+    SettingsPricingDefinitionDialogComponent,
   ],
   providers: [
     SettingsOcpiEndpointsDetailsTableDataSource,
@@ -223,7 +225,7 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     SettingsAssetConnectionEditableTableDataSource,
     SettingsCarConnectorConnectionEditableTableDataSource,
     AnalyticsLinksTableDataSource,
-    SettingsPricingsTableDataSource,
+    SettingsPricingDefinitionsTableDataSource,
   ],
 })
 

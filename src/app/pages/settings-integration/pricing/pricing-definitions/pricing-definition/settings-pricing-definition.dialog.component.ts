@@ -2,21 +2,21 @@ import { AfterViewInit, Component, Inject, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { DialogParams } from 'types/Authorization';
 
-import { PricingDefinitionDialogData } from '../../../../types/Pricing';
-import { Utils } from '../../../../utils/Utils';
-import { SettingsPricingComponent } from './settings-pricing.component';
+import { PricingDefinitionDialogData } from '../../../../../types/Pricing';
+import { Utils } from '../../../../../utils/Utils';
+import { SettingsPricingDefinitionComponent } from './settings-pricing-definition.component';
 
 @Component({
-  template: '<app-pricing #appRef [currentPricingDefinitionID]="currentPricingDefinitionID" [inDialog]="true" [dialogRef]="dialogRef"></app-pricing>',
+  template: '<app-pricing-definition #appRef [currentPricingDefinitionID]="currentPricingDefinitionID" [inDialog]="true" [dialogRef]="dialogRef"></app-pricing-definition>',
 })
 
-export class SettingsPricingDialogComponent implements AfterViewInit {
+export class SettingsPricingDefinitionDialogComponent implements AfterViewInit {
 
-  @ViewChild('appRef') public appRef!: SettingsPricingComponent;
+  @ViewChild('appRef') public appRef!: SettingsPricingDefinitionComponent;
   public currentPricingDefinitionID!: string;
 
   public constructor(
-    public dialogRef: MatDialogRef<SettingsPricingComponent>,
+    public dialogRef: MatDialogRef<SettingsPricingDefinitionComponent>,
     @Inject(MAT_DIALOG_DATA) dialogParams: DialogParams<PricingDefinitionDialogData>) {
     this.currentPricingDefinitionID = dialogParams.dialogData.id;
   }

@@ -20,6 +20,7 @@ export class SettingsPricingComponent implements OnInit {
   public isActive = false;
   public formGroup!: FormGroup;
   public pricingSettings!: PricingSettings;
+  public isTestTenant = false;
 
   public constructor(
     private centralServerService: CentralServerService,
@@ -29,6 +30,9 @@ export class SettingsPricingComponent implements OnInit {
     private router: Router,
   ) {
     this.isActive = this.componentService.isActive(TenantComponents.PRICING);
+    // TODO: to be deleted - needed for testing in prod use case
+    const loggedUser = this.centralServerService.getLoggedUser();
+    this.isTestTenant = loggedUser?.tenantSubdomain === 'slf';
   }
 
   public ngOnInit(): void {

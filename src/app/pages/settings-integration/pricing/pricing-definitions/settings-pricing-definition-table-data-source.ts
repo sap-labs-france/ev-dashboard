@@ -10,21 +10,20 @@ import { TableCreatePricingDefinitionAction, TableCreatePricingDefinitionActionD
 import { TableDeletePricingDefinitionAction, TableDeletePricingDefinitionActionDef } from 'shared/table/actions/users/table-delete-pricing-definition';
 import PricingDefinition, { PricingButton } from 'types/Pricing';
 
-import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
-import { CentralServerService } from '../../../services/central-server.service';
-import { MessageService } from '../../../services/message.service';
-import { SpinnerService } from '../../../services/spinner.service';
-import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
-import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
-import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
-import { TableDataSource } from '../../../shared/table/table-data-source';
-import { DataResult } from '../../../types/DataResult';
-import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
-import { Utils } from '../../../utils/Utils';
-import { SettingsPricingDialogComponent } from './pricing/settings-pricing.dialog.component';
+import { CentralServerService } from '../../../../services/central-server.service';
+import { MessageService } from '../../../../services/message.service';
+import { SpinnerService } from '../../../../services/spinner.service';
+import { AppDatePipe } from '../../../../shared/formatters/app-date.pipe';
+import { TableAutoRefreshAction } from '../../../../shared/table/actions/table-auto-refresh-action';
+import { TableRefreshAction } from '../../../../shared/table/actions/table-refresh-action';
+import { TableDataSource } from '../../../../shared/table/table-data-source';
+import { DataResult } from '../../../../types/DataResult';
+import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../../types/Table';
+import { Utils } from '../../../../utils/Utils';
+import { SettingsPricingDefinitionDialogComponent } from './pricing-definition/settings-pricing-definition.dialog.component';
 
 @Injectable()
-export class SettingsPricingsTableDataSource extends TableDataSource<PricingDefinition> {
+export class SettingsPricingDefinitionsTableDataSource extends TableDataSource<PricingDefinition> {
   private editAction = new TableEditPricingDefinitionAction().getActionDef();
   private deleteAction = new TableDeletePricingDefinitionAction().getActionDef();
   private canCreatePricingDefinition: boolean;
@@ -175,7 +174,7 @@ export class SettingsPricingsTableDataSource extends TableDataSource<PricingDefi
     switch (actionDef.id) {
       case PricingButton.CREATE_PRICING_DEFINITION:
         if (actionDef.id) {
-          (actionDef as TableCreatePricingDefinitionActionDef).action(SettingsPricingDialogComponent,
+          (actionDef as TableCreatePricingDefinitionActionDef).action(SettingsPricingDefinitionDialogComponent,
             this.dialog,
             {
               dialogData: {
@@ -192,7 +191,7 @@ export class SettingsPricingsTableDataSource extends TableDataSource<PricingDefi
       case PricingButton.EDIT_PRICING_DEFINITION:
         if (actionDef.action) {
           (actionDef as TableEditPricingDefinitionActionDef).action(
-            SettingsPricingDialogComponent, this.dialog,
+            SettingsPricingDefinitionDialogComponent, this.dialog,
             { dialogData: pricingDefinition }, this.refreshData.bind(this));
         }
         break;

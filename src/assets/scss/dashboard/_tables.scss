@@ -372,9 +372,13 @@ tr.element-row:not(.expanded-row):active {
     z-index: 100;
   }
 
-  > thead > tr:first-child > th {
+  > tbody > tr:first-child > th {
     border-top: none;
     cursor: default;
+  }
+
+  > :not(:first-child) {
+    border-top: 0;
   }
 
   > thead tr th:first-child {

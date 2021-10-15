@@ -54,6 +54,8 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
   private refundSetting!: RefundSettings;
   private isAdmin: boolean;
   private tableSyncRefundAction = new TableSyncRefundTransactionsAction().getActionDef();
+  private readonly isOrganizationComponentActive: boolean;
+
 
   public constructor(
     public spinnerService: SpinnerService,
@@ -78,9 +80,19 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
     // Load settings
     this.loadRefundSettings();
     // Init
+    this.isOrganizationComponentActive = this.componentService.isActive(TenantComponents.ORGANIZATION);
+    if (this.isOrganizationComponentActive) {
+      this.setStaticFilters([{
+        WithCompany: true,
+        WithSite: true,
+        WithSiteArea: true,
+        WithTag: true,
+        WithUser: true,
+        WithCar: true,
+        Statistics: 'refund',
+      }]);
+    }
     this.initDataSource();
-    // Add statistics to query
-    this.setStaticFilters([{ Statistics: 'refund' }]);
   }
 
   public getDataChangeSubject(): Observable<ChangeNotification> {
@@ -215,7 +227,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
       },
     );
     if (this.componentService.isActive(TenantComponents.CAR) &&
-        this.authorizationService.canListCars()) {
+      this.authorizationService.canListCars()) {
       columns.push({
         id: 'carCatalog',
         name: 'car.title',

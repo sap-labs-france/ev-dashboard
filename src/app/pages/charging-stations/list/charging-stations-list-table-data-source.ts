@@ -199,6 +199,20 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
     if (this.authorizationService.isAdmin()) {
       tableColumns.push(
         {
+          id: 'chargePointVendor',
+          name: 'chargers.vendor',
+          headerClass: 'd-none d-lg-table-cell col-20p',
+          class: 'd-none d-lg-table-cell col-20p',
+          sortable: true,
+        },
+        {
+          id: 'chargePointModel',
+          name: 'chargers.model',
+          headerClass: 'd-none d-lg-table-cell col-20p',
+          class: 'd-none d-lg-table-cell col-20p',
+          sortable: true,
+        },
+        {
           id: 'firmwareVersion',
           name: 'chargers.firmware_version',
           headerClass: 'text-center col-20p',
@@ -206,13 +220,6 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
           sortable: false,
           isAngularComponent: true,
           angularComponent: ChargingStationsFirmwareStatusCellComponent,
-        },
-        {
-          id: 'chargePointVendor',
-          name: 'chargers.vendor',
-          headerClass: 'd-none d-lg-table-cell col-20p',
-          class: 'd-none d-lg-table-cell col-20p',
-          sortable: true,
         },
         {
           id: 'ocppVersion',

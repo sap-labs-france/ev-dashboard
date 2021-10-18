@@ -1172,7 +1172,7 @@
     "import_users_error": "Das Hochladen von {{inError}} Nutzern ist fehlgeschlagen",
     "import_no_users": "Es wurden keine Nutzer hochgeladen",
     "user_without_freeAccess": "User is billable",
-    "user_with_freeAccess": "User is not billable",
+    "user_with_freeAccess": "User has free access to every charging stations",
     "number_of_sites": "Anz. Standorte",
     "number_of_transactions": "Anz. Ladevorgänge",
     "eula_accepted_on": "EULA akzeptiert am",

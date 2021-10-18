@@ -1172,7 +1172,7 @@
     "import_users_error": "{{inError}} users failed to be uploaded",
     "import_no_users": "No user have been uploaded",
     "user_without_freeAccess": "User is billable",
-    "user_with_freeAccess": "User is not billable",
+    "user_with_freeAccess": "User has free access to every charging stations",
     "number_of_sites": "Num. Siti",
     "number_of_transactions": "Num. Sessioni",
     "eula_accepted_on": "EULA Accettato Il",

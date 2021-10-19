@@ -71,7 +71,7 @@
                     </mat-form-field>
                   </div>
                   <div class="form-group">
-                    <mat-form-field *ngIf="true">
+                    <mat-form-field *ngIf="OCPIActive">
                       <input matInput type="text" placeholder="{{'ocpi.tariffID' | translate}}"
                         [formControl]="tariffID" />
                       <mat-error *ngIf="tariffID?.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>

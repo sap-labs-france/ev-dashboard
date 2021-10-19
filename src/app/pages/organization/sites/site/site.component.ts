@@ -3,6 +3,7 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { ComponentService } from 'services/component.service';
 import { DialogMode } from 'types/Authorization';
 
 import { CentralServerService } from '../../../../services/central-server.service';
@@ -16,6 +17,7 @@ import { Company } from '../../../../types/Company';
 import { RestResponse } from '../../../../types/GlobalType';
 import { HTTPError } from '../../../../types/HTTPError';
 import { Site } from '../../../../types/Site';
+import { TenantComponents } from '../../../../types/Tenant';
 import { Constants } from '../../../../utils/Constants';
 import { Utils } from '../../../../utils/Utils';
 
@@ -32,6 +34,7 @@ export class SiteComponent implements OnInit {
   public imageHasChanged = false;
   public maxSize: number;
   public readOnly = true;
+  public OCPIActive: boolean;
 
   public formGroup!: FormGroup;
   public id!: AbstractControl;
@@ -46,6 +49,7 @@ export class SiteComponent implements OnInit {
 
   public constructor(
     private centralServerService: CentralServerService,
+    private componentService: ComponentService,
     private messageService: MessageService,
     private spinnerService: SpinnerService,
     private translateService: TranslateService,
@@ -54,6 +58,7 @@ export class SiteComponent implements OnInit {
     private dialogService: DialogService,
     private router: Router) {
     this.maxSize = this.configService.getSite().maxPictureKb;
+    this.OCPIActive = this.componentService.isActive(TenantComponents.OCPI);
   }
 
   public ngOnInit() {

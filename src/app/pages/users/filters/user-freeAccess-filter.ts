@@ -12,9 +12,9 @@ export class UserFreeAccessFilter extends TableFilter {
       type: FilterType.DROPDOWN,
       multiple: true,
       exhaustive: true,
-      name: 'users.user_without_freeAccess',
+      name: 'users.accessMode',
       class: 'col-md-6 col-lg-3 col-xl-2',
-      label: 'users.user_without_freeAccess',
+      label: 'users.accessMode',
       cleared: true,
       currentValue: defaultValue,
       items: Object.assign([], freeAccessValues),
@@ -24,6 +24,6 @@ export class UserFreeAccessFilter extends TableFilter {
 }
 
 export const freeAccessValues: KeyValue[] = [
-  { key: 'true', value: 'users.user_filter_free' },
+  { key: 'true', value: 'users.user_with_freeAccess' },
   { key: 'false', value: 'users.user_without_freeAccess' },
 ];

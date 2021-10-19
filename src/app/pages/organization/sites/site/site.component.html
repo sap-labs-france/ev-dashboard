@@ -71,6 +71,16 @@
                     </mat-form-field>
                   </div>
                   <div class="form-group">
+                    <mat-form-field *ngIf="true">
+                      <input matInput type="text" placeholder="{{'ocpi.tariffID' | translate}}"
+                        [formControl]="tariffID" />
+                      <mat-error *ngIf="tariffID?.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+                      <mat-error *ngIf="tariffID?.errors?.maxlength">
+                        <div [translate]="'general.error_max_length'" [translateParams]="{length: 50}"></div>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="form-group">
                     <div class="text-left">
                       <mat-checkbox [formControl]="autoUserSiteAssignment">
                         {{'sites.auto_user_site_assignment' | translate}}

@@ -12,6 +12,7 @@ export interface Site extends TableData, CreatedUpdatedProps, SiteAuthorizationA
   companyID: string;
   company: Company;
   issuer: boolean;
+  tariffID?: string;
   autoUserSiteAssignment: boolean;
   siteAreas: SiteArea[];
   address: Address;

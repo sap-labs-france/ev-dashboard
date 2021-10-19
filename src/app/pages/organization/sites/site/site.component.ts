@@ -38,6 +38,7 @@ export class SiteComponent implements OnInit {
   public name!: AbstractControl;
   public company!: AbstractControl;
   public companyID!: AbstractControl;
+  public tariffID: AbstractControl;
   public autoUserSiteAssignment!: AbstractControl;
   public public!: AbstractControl;
 
@@ -74,12 +75,17 @@ export class SiteComponent implements OnInit {
         ])),
       autoUserSiteAssignment: new FormControl(false),
       public: new FormControl(false),
+      tariffID: new FormControl('',
+        Validators.compose([
+          Validators.maxLength(50),
+        ])),
     });
     // Form
     this.id = this.formGroup.controls['id'];
     this.name = this.formGroup.controls['name'];
     this.company = this.formGroup.controls['company'];
     this.companyID = this.formGroup.controls['companyID'];
+    this.tariffID = this.formGroup.controls['tariffID'];
     this.autoUserSiteAssignment = this.formGroup.controls['autoUserSiteAssignment'];
     this.public = this.formGroup.controls['public'];
     // Set
@@ -107,6 +113,9 @@ export class SiteComponent implements OnInit {
         }
         if (site.company) {
           this.formGroup.controls.company.setValue(site.company.name);
+        }
+        if (site.tariffID) {
+          this.formGroup.controls.tariffID.setValue(site.tariffID);
         }
         if (site.autoUserSiteAssignment) {
           this.formGroup.controls.autoUserSiteAssignment.setValue(site.autoUserSiteAssignment);

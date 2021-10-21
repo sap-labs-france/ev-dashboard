@@ -28,7 +28,14 @@ export interface AuthorizationDefinitionCondition {
 export interface AuthorizationDefinitionConditionArgs {
   filters?: string[];
   asserts?: string[];
-  metadata?: Record<string, unknown>;
+  metadata?: Record<string, AuthorizationDefinitionConditionFieldMetadata>;
+}
+export interface AuthorizationDefinitionConditionFieldMetadata {
+  visible: boolean;
+  enabled: string;
+  mandatory: boolean;
+  values: string[]|boolean[]|number[],
+  defaultValue: string|boolean|number,
 }
 
 export interface AuthorizationFilter {
@@ -171,7 +178,7 @@ export interface AuthorizationActions {
   canUpdate?: boolean;
   canDelete?: boolean;
   projectFields?: string[];
-  metadata?: Record<string, unknown>;
+  metadata?: Record<string, AuthorizationDefinitionConditionFieldMetadata>;
 }
 
 export interface TagAuthorizationActions extends AuthorizationActions {
@@ -204,7 +211,7 @@ export enum DialogMode {
 export interface DialogData {
   id: string | number;
   projectFields?: string[];
-  metadata?: Record<string, unknown>;
+  metadata?: Record<string, AuthorizationDefinitionConditionFieldMetadata>;
 }
 
 export interface DialogParams<T extends DialogData> {

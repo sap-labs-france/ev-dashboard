@@ -3,6 +3,7 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { AuthorizationDefinitionConditionFieldMetadata } from 'types/Authorization';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -22,7 +23,7 @@ import { Utils } from '../../../utils/Utils';
 })
 export class TagComponent implements OnInit {
   @Input() public currentTagID!: string;
-  @Input() public metadata!: Record<string, unknown>;
+  @Input() public metadata!: Record<string, AuthorizationDefinitionConditionFieldMetadata>;
   @Input() public inDialog!: boolean;
   @Input() public dialogRef!: MatDialogRef<any>;
 
@@ -95,7 +96,7 @@ export class TagComponent implements OnInit {
     if (this.currentTagID) {
       this.id.disable();
     }
-    if (this.metadata?.userID && this.metadata.userID['mandatory']) {
+    if (this.metadata?.userID?.mandatory) {
       this.user.setValidators(Validators.required);
       this.userID.setValidators(Validators.required);
     }
@@ -143,7 +144,7 @@ export class TagComponent implements OnInit {
           this.default.enable();
           this.default.setValue(tag.default);
         }
-        if (tag.metadata?.userID && tag.metadata.userID['mandatory']) {
+        if (this.metadata?.userID?.mandatory) {
           this.user.setValidators(Validators.required);
           this.userID.setValidators(Validators.required);
         }

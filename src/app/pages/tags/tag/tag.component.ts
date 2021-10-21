@@ -13,7 +13,6 @@ import { UsersDialogComponent } from '../../../shared/dialogs/users/users-dialog
 import { ActionResponse } from '../../../types/DataResult';
 import { RestResponse } from '../../../types/GlobalType';
 import { HTTPError } from '../../../types/HTTPError';
-import { ButtonType } from '../../../types/Table';
 import { Tag } from '../../../types/Tag';
 import { Utils } from '../../../utils/Utils';
 

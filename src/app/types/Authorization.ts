@@ -30,6 +30,7 @@ export interface AuthorizationDefinitionConditionArgs {
   asserts?: string[];
   metadata?: Record<string, AuthorizationDefinitionFieldMetadata>;
 }
+
 export interface AuthorizationDefinitionFieldMetadata {
   visible: boolean;
   enabled: string;

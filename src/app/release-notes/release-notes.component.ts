@@ -23,6 +23,20 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.5.6',
+        date: new Date('2021-10-21'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Removed server side refresh of lists (SocketIO)`,
+              `Removed listening of unused database collections`,
+              `Security: Prevent XSS injections`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.5.5',
         date: new Date('2021-10-20'),
         componentChanges: [

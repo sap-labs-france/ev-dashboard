@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, Inject, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { AuthorizationDefinitionConditionFieldMetadata, DialogParams } from 'types/Authorization';
+import { AuthorizationDefinitionFieldMetadata, DialogParams } from 'types/Authorization';
 import { Tag } from 'types/Tag';
 
 import { Utils } from '../../../utils/Utils';
@@ -12,7 +12,7 @@ import { TagComponent } from './tag.component';
 export class TagDialogComponent implements AfterViewInit {
   @ViewChild('appRef') public appRef!: TagComponent;
   public tagID!: string;
-  public metadata?: Record<string, AuthorizationDefinitionConditionFieldMetadata>;
+  public metadata?: Record<string, AuthorizationDefinitionFieldMetadata>;
 
 
   public constructor(

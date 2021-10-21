@@ -28,9 +28,9 @@ export interface AuthorizationDefinitionCondition {
 export interface AuthorizationDefinitionConditionArgs {
   filters?: string[];
   asserts?: string[];
-  metadata?: Record<string, AuthorizationDefinitionConditionFieldMetadata>;
+  metadata?: Record<string, AuthorizationDefinitionFieldMetadata>;
 }
-export interface AuthorizationDefinitionConditionFieldMetadata {
+export interface AuthorizationDefinitionFieldMetadata {
   visible: boolean;
   enabled: string;
   mandatory: boolean;
@@ -178,7 +178,7 @@ export interface AuthorizationActions {
   canUpdate?: boolean;
   canDelete?: boolean;
   projectFields?: string[];
-  metadata?: Record<string, AuthorizationDefinitionConditionFieldMetadata>;
+  metadata?: Record<string, AuthorizationDefinitionFieldMetadata>;
 }
 
 export interface TagAuthorizationActions extends AuthorizationActions {
@@ -211,7 +211,7 @@ export enum DialogMode {
 export interface DialogData {
   id: string | number;
   projectFields?: string[];
-  metadata?: Record<string, AuthorizationDefinitionConditionFieldMetadata>;
+  metadata?: Record<string, AuthorizationDefinitionFieldMetadata>;
 }
 
 export interface DialogParams<T extends DialogData> {

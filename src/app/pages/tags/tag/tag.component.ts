@@ -3,7 +3,7 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { AuthorizationDefinitionConditionFieldMetadata } from 'types/Authorization';
+import { AuthorizationDefinitionFieldMetadata } from 'types/Authorization';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -23,7 +23,7 @@ import { Utils } from '../../../utils/Utils';
 })
 export class TagComponent implements OnInit {
   @Input() public currentTagID!: string;
-  @Input() public metadata!: Record<string, AuthorizationDefinitionConditionFieldMetadata>;
+  @Input() public metadata!: Record<string, AuthorizationDefinitionFieldMetadata>;
   @Input() public inDialog!: boolean;
   @Input() public dialogRef!: MatDialogRef<any>;
 

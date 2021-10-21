@@ -1,4 +1,4 @@
-import { AuthorizationDefinitionConditionFieldMetadata as AuthorizationDefinitionFieldMetadata } from './Authorization';
+import { AuthorizationDefinitionFieldMetadata } from './Authorization';
 import { Car, CarCatalog } from './Car';
 import { Company } from './Company';
 import { Site } from './Site';

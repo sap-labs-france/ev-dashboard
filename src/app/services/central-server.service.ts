@@ -36,7 +36,6 @@ import { OcpiData, Transaction } from '../types/Transaction';
 import { User, UserDefaultTagCar, UserSite, UserToken } from '../types/User';
 import { Constants } from '../utils/Constants';
 import { Utils } from '../utils/Utils';
-import { CentralServerNotificationService } from './central-server-notification.service';
 import { ConfigService } from './config.service';
 import { LocalStorageService } from './local-storage.service';
 import { WindowService } from './window.service';
@@ -57,7 +56,6 @@ export class CentralServerService {
   public constructor(
     private httpClient: HttpClient,
     private localStorageService: LocalStorageService,
-    private centralServerNotificationService: CentralServerNotificationService,
     private windowService: WindowService,
     private dialog: MatDialog,
     public configService: ConfigService) {
@@ -1167,6 +1165,10 @@ export class CentralServerService {
   }
 
   public getTransaction(id: number): Observable<Transaction> {
+    const params: { [param: string]: string } = {};
+    params['WithUser'] = 'true';
+    params['WithTag'] = 'true';
+    params['WithCar'] = 'true';
     // Verify init
     this.checkInit();
     if (!id) {
@@ -1175,7 +1177,8 @@ export class CentralServerService {
     // Execute the REST service
     return this.httpClient.get<Transaction>(this.buildRestEndpointUrl(ServerRoute.REST_TRANSACTION, { id }),
       {
-        headers: this.buildHttpHeaders()
+        headers: this.buildHttpHeaders(),
+        params,
       })
       .pipe(
         catchError(this.handleHttpError),
@@ -1403,9 +1406,6 @@ export class CentralServerService {
 
   public getTransactionConsumption(transactionId: number, loadAllConsumptions?: boolean, ordering: Ordering[] = []): Observable<Transaction> {
     const params: { [param: string]: string } = {};
-    params['WithUser'] = 'true';
-    params['WithTag'] = 'true';
-    params['WithCar'] = 'true';
     if (loadAllConsumptions) {
       params['LoadAllConsumptions'] = loadAllConsumptions.toString();
     }
@@ -1948,10 +1948,6 @@ export class CentralServerService {
     this.localStorageService.setItem('token', token);
     // Notify
     this.currentUserSubject.next(this.currentUser);
-    // Init Socket IO at user login
-    if (this.configService.getCentralSystemServer().socketIOEnabled) {
-      this.centralServerNotificationService.initSocketIO(token);
-    }
   }
 
   public getLoggedUser(): UserToken {
@@ -1986,9 +1982,6 @@ export class CentralServerService {
   public logoutSucceeded(): void {
     this.dialog.closeAll();
     this.clearLoggedUser();
-    if (this.configService.getCentralSystemServer().socketIOEnabled) {
-      this.centralServerNotificationService.resetSocketIO();
-    }
   }
 
   public resetUserPassword(data: any): Observable<ActionResponse> {
@@ -3273,8 +3266,6 @@ export class CentralServerService {
       // Build Central Service URL
       this.centralRestServerServiceBaseURL = this.centralSystemServerConfig.protocol + '://' +
         this.centralSystemServerConfig.host + ':' + this.centralSystemServerConfig.port;
-      // Set REST base URL
-      this.centralServerNotificationService.setCentralRestServerServiceURL(this.centralRestServerServiceBaseURL);
       // Auth API
       this.restServerAuthURL = this.centralRestServerServiceBaseURL + '/v1/auth';
       // REST Secured API
@@ -3283,10 +3274,6 @@ export class CentralServerService {
       this.centralRestServerServiceSecuredURL = this.centralRestServerServiceBaseURL + '/client/api';
       // Util API
       this.centralRestServerServiceUtilURL = this.centralRestServerServiceBaseURL + '/client/util';
-      // Init Socket IO if user already logged
-      if (this.configService.getCentralSystemServer().socketIOEnabled && this.isAuthenticated()) {
-        this.centralServerNotificationService.initSocketIO(this.getLoggedUserToken());
-      }
       // Done
       this.initialized = true;
     }

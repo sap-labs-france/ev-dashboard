@@ -12,12 +12,12 @@ import { Utils } from '../../../utils/Utils';
 
 @Component({
   template: `
-      <div class="d-flex text-center">
-          <mat-checkbox class="mx-auto"
-                        [disabled]="loggedUser.id === row.userID || (user && user.role !== 'B')"
-                        [checked]="(row.siteAdmin ? row.siteAdmin : false) || (user && user.role === 'A')"
-                        (change)="changeSiteAdmin($event)"></mat-checkbox>
-      </div>`,
+    <div class="d-flex justify-content-center">
+      <mat-checkbox class="mx-auto" [disabled]="loggedUser.id === row.userID || (user && user.role !== 'B')"
+        [checked]="(row.siteAdmin ? row.siteAdmin : false) || (user && user.role === 'A')"
+        (change)="changeSiteAdmin($event)">
+      </mat-checkbox>
+    </div>`
 })
 export class UserSitesAdminCheckboxComponent extends CellContentTemplateDirective implements OnInit {
   @Input() public row!: SiteUser;

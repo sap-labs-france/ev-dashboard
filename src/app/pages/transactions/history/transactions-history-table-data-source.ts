@@ -9,7 +9,6 @@ import { ConnectorTableFilter } from 'shared/table/filters/connector-table-filte
 import { CarCatalog } from 'types/Car';
 
 import { AuthorizationService } from '../../../services/authorization.service';
-import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
@@ -44,7 +43,6 @@ import { StartDateFilter } from '../../../shared/table/filters/start-date-filter
 import { TagTableFilter } from '../../../shared/table/filters/tag-table-filter';
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
-import ChangeNotification from '../../../types/ChangeNotification';
 import { ChargingStationButtonAction, Connector } from '../../../types/ChargingStation';
 import { DataResult, TransactionDataResult } from '../../../types/DataResult';
 import { HTTPError } from '../../../types/HTTPError';
@@ -77,7 +75,6 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     private dialogService: DialogService,
     private router: Router,
     private dialog: MatDialog,
-    private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
     private authorizationService: AuthorizationService,
     private componentService: ComponentService,
@@ -165,10 +162,6 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
             this.centralServerService, 'general.unexpected_error_backend');
       }
     });
-  }
-
-  public getDataChangeSubject(): Observable<ChangeNotification> {
-    return this.centralServerNotificationService.getSubjectTransactions();
   }
 
   public loadDataImpl(): Observable<DataResult<Transaction>> {
@@ -452,7 +445,6 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
           userFilter ? [issuerFilter, userFilter] : [issuerFilter]).getFilterDef());
       }
     }
-    filters.push(new ConnectorTableFilter().getFilterDef());
     return filters;
   }
 

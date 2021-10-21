@@ -23,6 +23,72 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.5.6',
+        date: new Date('2021-10-21'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Removed server side refresh of lists (SocketIO)`,
+              `Removed listening of unused database collections`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.5.5',
+        date: new Date('2021-10-20'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Fixed Performance correlation ID is send along the OCPP request`,
+              `Badges can always be reassigned even if already used before`,
+              `Improved Charging Station's manual config and exclude from smart charging parameters`,
+              `Check OCPI only when access control is active at Site Area level`,
+              `Removed OCPI logo when empty and non standard properties`,
+              `Enhanced performance logs for tracing traffic per organization`,
+              `Adding Setec as Charging Station Vendor`,
+              `Added Charging Station's Model in list`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.5.4',
+        date: new Date('2021-10-10'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Fixed Technical filter in User's list`,
+              `Fixed Retrieve OCPP Parameters in Charging Station's details`,
+              `Send OCPI Cdr only when there is charging periods and consumption`,
+              `Made the Visual ID unique in imported Badges`,
+              `Fixed infinite loop when User is not authorized to list the charging stations`,
+              `Added schema validation for Authorizations`,
+              `Enforced schema validation in Charging Station Template`,
+              `Enhanced performances and stability of the REST server`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.5.3',
+        date: new Date('2021-10-04'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Enhanced hidding sensitive data in Logs`,
+              `Sanitize data in export CSV`,
+              `Added metadata to Authorization's fields`,
+              `Fixed authorization inheritance in dynamic filtering`
+            ],
+          },
+        ],
+      },
+      {
         version: '2.5.2',
         date: new Date('2021-10-03'),
         componentChanges: [

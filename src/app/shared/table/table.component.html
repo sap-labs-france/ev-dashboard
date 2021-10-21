@@ -85,7 +85,7 @@
       </div>
       <!-- Filters Row -->
       <div *ngIf="(dataSource.hasFilters || dataSource.isSearchEnabled)"
-        class="d-flex flex-row mr-auto flex-wrap mat-toolbar-row filter-row">
+        class="d-flex flex-row me-auto flex-wrap mat-toolbar-row filter-row">
         <!-- Create Filters -->
         <div *ngFor="let filterDef of dataSource.tableFiltersDef; let i=index"
           [class]="(filterDef.class ? filterDef.class : '')">

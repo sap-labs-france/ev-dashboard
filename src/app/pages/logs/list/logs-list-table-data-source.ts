@@ -6,7 +6,6 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { AuthorizationService } from '../../../services/authorization.service';
-import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
@@ -21,14 +20,12 @@ import { EndDateFilter } from '../../../shared/table/filters/end-date-filter';
 import { StartDateFilter } from '../../../shared/table/filters/start-date-filter';
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
-import ChangeNotification from '../../../types/ChangeNotification';
 import { DataResult } from '../../../types/DataResult';
 import { Log, LogButtonAction } from '../../../types/Log';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
 import { Formatters } from '../../../utils/Formatters';
 import { Utils } from '../../../utils/Utils';
 import { LogActionTableFilter } from '../filters/log-action-filter';
-import { LogHostTableFilter } from '../filters/log-host-filter';
 import { LogLevelTableFilter } from '../filters/log-level-filter';
 import { LogSourceTableFilter } from '../filters/log-source-filter';
 import { LogLevelFormatterComponent } from '../formatters/log-level-formatter.component';
@@ -42,7 +39,6 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
     private dialogService: DialogService,
     private authorizationService: AuthorizationService,
     private router: Router,
-    private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
     private datePipe: AppDatePipe,
     private windowService: WindowService) {
@@ -104,10 +100,6 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
         }
       }
     }
-  }
-
-  public getDataChangeSubject(): Observable<ChangeNotification> {
-    return this.centralServerNotificationService.getSubjectLoggings();
   }
 
   public loadDataImpl(): Observable<DataResult<Log>> {
@@ -259,7 +251,6 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
       new EndDateFilter().getFilterDef(),
       new LogLevelTableFilter().getFilterDef(),
       new LogActionTableFilter().getFilterDef(),
-      new LogHostTableFilter().getFilterDef(),
     ];
     if (this.authorizationService.isSuperAdmin()) {
       tableFiltersDef.push(new UserTableFilter().getFilterDef());

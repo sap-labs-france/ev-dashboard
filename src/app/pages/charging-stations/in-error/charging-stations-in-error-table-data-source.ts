@@ -6,7 +6,6 @@ import { Observable } from 'rxjs';
 import { IssuerFilter } from 'shared/table/filters/issuer-filter';
 
 import { AuthorizationService } from '../../../services/authorization.service';
-import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
@@ -26,7 +25,6 @@ import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-t
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
 import { SiteTableFilter } from '../../../shared/table/filters/site-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
-import ChangeNotification from '../../../types/ChangeNotification';
 import { ChargePointStatus, ChargingStationButtonAction, Connector, OCPPVersion } from '../../../types/ChargingStation';
 import { DataResult } from '../../../types/DataResult';
 import { ChargingStationInError, ChargingStationInErrorType, ErrorMessage } from '../../../types/InError';
@@ -53,7 +51,6 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
     public translateService: TranslateService,
     private messageService: MessageService,
     private router: Router,
-    private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
     private authorizationService: AuthorizationService,
     private componentService: ComponentService,
@@ -71,10 +68,6 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
         ]);
     }
     this.initDataSource();
-  }
-
-  public getDataChangeSubject(): Observable<ChangeNotification> {
-    return this.centralServerNotificationService.getSubjectChargingStations();
   }
 
   public loadDataImpl(): Observable<DataResult<ChargingStationInError>> {
@@ -239,9 +232,7 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
       action.dropdownActions.forEach((dropdownAction) => {
         if (dropdownAction.id === ChargingStationButtonAction.SMART_CHARGING) {
           // Check charging station version
-          dropdownAction.disabled = row.ocppVersion === OCPPVersion.VERSION_12 ||
-            row.ocppVersion === OCPPVersion.VERSION_15 ||
-            row.inactive;
+          dropdownAction.disabled = row.ocppVersion === OCPPVersion.VERSION_15 || row.inactive;
         } else {
           // Check active status of CS
           dropdownAction.disabled = row.inactive;

@@ -8,7 +8,7 @@ import { ChargePointStatus, Connector } from '../../../types/ChargingStation';
   template: `
     <!-- Connector ID -->
     <div class="d-flex justify-content-center">
-      <div class="row mx-0 px-0 align-items-center detail-connector">
+      <div class="d-flex mx-0 px-0 align-items-center detail-connector">
         <div appTooltip data-offset="0px, 8px"
             [title]="row | appChargingStationsFormatConnector:'text' | translate"
             class="charger-connector-container">

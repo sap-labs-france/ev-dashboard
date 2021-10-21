@@ -28,7 +28,6 @@ import { Tag, TagButtonAction } from 'types/Tag';
 import { TransactionButtonAction } from 'types/Transaction';
 import { User, UserButtonAction } from 'types/User';
 
-import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
@@ -42,7 +41,6 @@ import { TableEditTagAction, TableEditTagActionDef } from '../../../shared/table
 import { TableNavigateToUserAction } from '../../../shared/table/actions/users/table-navigate-to-user-action';
 import { IssuerFilter } from '../../../shared/table/filters/issuer-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
-import ChangeNotification from '../../../types/ChangeNotification';
 import { Utils } from '../../../utils/Utils';
 import { TagStatusFormatterComponent } from '../formatters/tag-status-formatter.component';
 import { TagAssignDialogComponent } from '../tag-assign/tag-assign.dialog.component';
@@ -64,7 +62,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
   private assignAction = new TableAssignTagAction().getActionDef();
   private importAction = new TableImportTagsAction().getActionDef();
   private exportAction = new TableExportTagsAction().getActionDef();
-  private projectedFields: string[];
+  private projectFields: string[];
   public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
@@ -73,7 +71,6 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
     private authorizationService: AuthorizationService,
     private router: Router,
     private dialog: MatDialog,
-    private centralServerNotificationService: CentralServerNotificationService,
     private datePipe: AppDatePipe,
     private centralServerService: CentralServerService,
     private windowService: WindowService) {
@@ -109,7 +106,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
     if (tagID) {
       this.setSearchValue(tagID);
       this.editAction.action(TagDialogComponent, this.dialog,
-        { dialogData: { id: tagID, projectedFields: this.projectedFields } as Tag },
+        { dialogData: { id: tagID, projectFields: this.projectFields } as Tag },
         this.refreshData.bind(this));
     }
   }
@@ -137,10 +134,6 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
   }
 
 
-  public getDataChangeSubject(): Observable<ChangeNotification> {
-    return this.centralServerNotificationService.getSubjectTags();
-  }
-
   public loadDataImpl(): Observable<DataResult<Tag>> {
     return new Observable((observer) => {
       // Get the Tags
@@ -152,7 +145,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
         this.exportAction.visible = tags.canExport;
         this.deleteManyAction.visible = tags.canDelete;
         this.unassignManyAction.visible = tags.canUnassign;
-        this.projectedFields = tags.projectedFields;
+        this.projectFields = tags.projectFields;
         // Ok
         observer.next(tags);
         observer.complete();

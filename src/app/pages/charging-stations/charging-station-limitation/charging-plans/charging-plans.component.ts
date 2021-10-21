@@ -1,16 +1,13 @@
-import { AfterViewInit, Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
 import { ActionResponse } from 'types/DataResult';
 
-import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../../services/central-server.service';
 import { ComponentService } from '../../../../services/component.service';
-import { ConfigService } from '../../../../services/config.service';
 import { DialogService } from '../../../../services/dialog.service';
 import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
@@ -44,7 +41,7 @@ interface ProfileType {
     ChargingPlansTableDataSource,
   ],
 })
-export class ChargingPlansComponent implements OnInit, AfterViewInit, OnChanges {
+export class ChargingPlansComponent {
   @Input() public chargingStation!: ChargingStation;
 
   public profileTypeMap: ProfileType[] = [
@@ -67,13 +64,10 @@ export class ChargingPlansComponent implements OnInit, AfterViewInit, OnChanges 
   public currentChargingProfile: ChargingProfile;
   public currentChargingSchedules: Schedule[] = [];
   public isSmartChargingComponentActive = false;
-  public autoRefreshEnabled = true;
 
   public constructor(
     public scheduleTableDataSource: ChargingPlansTableDataSource,
     public scheduleEditableTableDataSource: ChargingPlansEditableTableDataSource,
-    private centralServerNotificationService: CentralServerNotificationService,
-    private configService: ConfigService,
     private translateService: TranslateService,
     private router: Router,
     private datePipe: AppDatePipe,
@@ -84,20 +78,6 @@ export class ChargingPlansComponent implements OnInit, AfterViewInit, OnChanges 
     private spinnerService: SpinnerService,
   ) {
     this.isSmartChargingComponentActive = this.componentService.isActive(TenantComponents.SMART_CHARGING);
-    if (this.autoRefreshEnabled && this.configService.getCentralSystemServer().socketIOEnabled) {
-      // Update Charging Station?
-      this.centralServerNotificationService.getSubjectChargingProfile().pipe(debounceTime(
-        this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
-        if (this.chargingProfiles && singleChangeNotification && singleChangeNotification.data) {
-          const chargingProfile = this.chargingProfiles.find(
-            (cp) => cp.id === singleChangeNotification.data.id);
-            // Reload?
-          if (chargingProfile) {
-            this.refresh();
-          }
-        }
-      });
-    }
   }
 
   public navigateToLog() {
@@ -179,16 +159,6 @@ export class ChargingPlansComponent implements OnInit, AfterViewInit, OnChanges 
 
   public ngAfterViewInit() {
     this.refresh();
-  }
-
-  public ngOnChanges() {
-    if (this.autoRefreshEnabled && !this.formGroup.dirty) {
-      this.refresh();
-    }
-  }
-
-  public toggleAutoRefresh(value: boolean) {
-    this.autoRefreshEnabled = value;
   }
 
   public validateDateMustBeInTheFuture(control: AbstractControl): ValidationErrors | null {

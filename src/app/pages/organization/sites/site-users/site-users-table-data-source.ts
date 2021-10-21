@@ -122,6 +122,7 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
         isAngularComponent: true,
         angularComponent: SiteUsersAdminCheckboxComponent,
         name: 'sites.admin_role',
+        headerClass: 'text-center',
         class: 'col-10p',
       },
       {
@@ -129,6 +130,7 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
         isAngularComponent: true,
         angularComponent: SiteUsersOwnerRadioComponent,
         name: 'sites.owner_role',
+        headerClass: 'text-center',
         class: 'col-10p',
       });
     }

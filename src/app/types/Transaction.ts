@@ -27,7 +27,7 @@ export interface Transaction extends TableData, AbstractCurrentConsumption {
   tagID: string;
   carID?: string;
   car?: Car;
-  carCatalogID?: string;
+  carCatalogID?: number;
   carCatalog?: CarCatalog;
   status: string;
   price: number;

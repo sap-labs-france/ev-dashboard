@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 
-import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../../services/central-server.service';
 import { DialogService } from '../../../../services/dialog.service';
 import { MessageService } from '../../../../services/message.service';
@@ -17,7 +16,6 @@ import { TableRefreshAction } from '../../../../shared/table/actions/table-refre
 import { TableRegisterAction } from '../../../../shared/table/actions/table-register-action';
 import { TableUnregisterAction } from '../../../../shared/table/actions/table-unregister-action';
 import { TableDataSource } from '../../../../shared/table/table-data-source';
-import ChangeNotification from '../../../../types/ChangeNotification';
 import { DataResult } from '../../../../types/DataResult';
 import { ButtonAction, RestResponse } from '../../../../types/GlobalType';
 import { OicpEndpoint } from '../../../../types/oicp/OICPEndpoint';
@@ -43,15 +41,10 @@ export class SettingsOicpEndpointsTableDataSource extends TableDataSource<OicpEn
     private dialogService: DialogService,
     private router: Router,
     private dialog: MatDialog,
-    private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService) {
     super(spinnerService, translateService);
     // Init
     this.initDataSource();
-  }
-
-  public getDataChangeSubject(): Observable<ChangeNotification> {
-    return this.centralServerNotificationService.getSubjectOicpEndpoints();
   }
 
   public loadDataImpl(): Observable<DataResult<OicpEndpoint>> {

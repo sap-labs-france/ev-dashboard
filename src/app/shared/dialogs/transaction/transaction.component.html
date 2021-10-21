@@ -28,7 +28,7 @@
             <div *ngIf="transaction.stop" class="d-flex flex-column mb-3 align-items-center " appTooltip
               data-toogle="tooltip" title="{{'transactions.dialog.session.tooltips.amount' | translate}}">
               <mat-icon>money</mat-icon>
-              <div class="first-text">{{transaction.stop.priceUnit ? (transaction.stop.roundedPrice | appCurrency:transaction.stop.priceUnit) : '--'}}</div>
+              <div class="first-text">{{transaction.stop.priceUnit ? (transaction.stop.roundedPrice | appCurrency:transaction.stop.priceUnit) : '-'}}</div>
             </div>
             <div *ngIf="!transaction.stop" class="d-flex flex-column mb-3 align-items-center" appTooltip
               data-toogle="tooltip" title="{{'transactions.dialog.session.tooltips.current_consumption' | translate}}">
@@ -75,7 +75,8 @@
         </div>
         <!-- chart -->
         <app-transaction-chart #chartConsumption [transaction]="transaction" [transactionId]="transaction.id"
-          class="w-100" ratio="4"></app-transaction-chart>
+          class="w-100" ratio="4">
+        </app-transaction-chart>
       </div>
     </div>
   </div>

@@ -125,7 +125,7 @@
     "@types/bootstrap": "^5.1.6",
     "@types/chart.js": "^2.9.34",
     "@types/file-saver": "^2.0.3",
-    "@types/jasmine": "^3.9.1",
+    "@types/jasmine": "^3.10.0",
     "@types/jquery": "^3.5.7",
     "@types/mocha": "^9.0.0",
     "@types/moment-duration-format": "^2.2.3",

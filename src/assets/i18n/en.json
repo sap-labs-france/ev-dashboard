@@ -462,6 +462,7 @@
     "name": "Name",
     "title": "Site Area",
     "titles": "Site Areas",
+    "site_area_parent": "Site Area Parent",
     "site_invalid": "Site Area invalid",
     "site_area_do_not_exist": "Site Area does not exist",
     "max_limit_kw": "Limite Max",

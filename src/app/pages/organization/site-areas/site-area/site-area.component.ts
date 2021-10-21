@@ -4,6 +4,7 @@ import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dial
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
+import { SiteAreasDialogComponent } from 'shared/dialogs/site-areas/site-areas-dialog.component';
 import { DialogMode } from 'types/Authorization';
 
 import { AuthorizationService } from '../../../../services/authorization.service';
@@ -45,6 +46,8 @@ export class SiteAreaComponent implements OnInit {
   public name!: AbstractControl;
   public site!: AbstractControl;
   public siteID!: AbstractControl;
+  public siteAreaParent!: AbstractControl;
+  public siteAreaParentID!: AbstractControl;
   public maximumPower!: AbstractControl;
   public maximumPowerAmps!: AbstractControl;
   public voltage!: AbstractControl;
@@ -107,6 +110,8 @@ export class SiteAreaComponent implements OnInit {
           Validators.required,
         ])
       ),
+      siteAreaParent: new FormControl(''),
+      siteAreaParentID: new FormControl(''),
       maximumPower: new FormControl(0,
         Validators.compose([
           Validators.pattern(/^[+-]?([0-9]*[.])?[0-9]+$/),
@@ -135,6 +140,8 @@ export class SiteAreaComponent implements OnInit {
     this.name = this.formGroup.controls['name'];
     this.site = this.formGroup.controls['site'];
     this.siteID = this.formGroup.controls['siteID'];
+    this.siteAreaParent = this.formGroup.controls['siteAreaParent'];
+    this.siteAreaParentID = this.formGroup.controls['siteAreaParentID'];
     this.maximumPower = this.formGroup.controls['maximumPower'];
     this.maximumPowerAmps = this.formGroup.controls['maximumPowerAmps'];
     this.smartCharging = this.formGroup.controls['smartCharging'];
@@ -179,6 +186,35 @@ export class SiteAreaComponent implements OnInit {
     });
   }
 
+  public assignSiteAreaParent() {
+    // Create the dialog
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.panelClass = 'transparent-dialog-container';
+    dialogConfig.data = {
+      title: 'select sub site area',
+      validateButtonTitle: 'general.select',
+      sitesAdminOnly: true,
+      rowMultipleSelection: false,
+      currentSiteAreaID: this.currentSiteAreaID,
+      staticFilter: {
+        Issuer: true
+      }
+    };
+    // Open
+    this.dialog.open(SiteAreasDialogComponent, dialogConfig).afterClosed().subscribe((result) => {
+      if (!Utils.isEmptyArray(result) && result[0].objectRef) {
+        const siteAreaParent: SiteArea = (result[0].objectRef) as SiteArea;
+        if (siteAreaParent.id !== this.siteArea.id) {
+          this.siteAreaParent.setValue(siteAreaParent.name);
+          this.siteAreaParentID.setValue(siteAreaParent.id);
+          this.formGroup.markAsDirty();
+        } else {
+          this.dialogService.createAndShowOkDialog('Error', 'Cannot be its own parent');
+        }
+      }
+    });
+  }
+
   public setCurrentSiteAreaId(currentSiteAreaId: string) {
     this.currentSiteAreaID = currentSiteAreaId;
   }
@@ -197,7 +233,7 @@ export class SiteAreaComponent implements OnInit {
     }
     // Show spinner
     this.spinnerService.show();
-    this.centralServerService.getSiteArea(this.currentSiteAreaID, true).subscribe((siteArea) => {
+    this.centralServerService.getSiteArea(this.currentSiteAreaID, true, true).subscribe((siteArea) => {
       this.spinnerService.hide();
       this.siteArea = siteArea;
       this.canCreateSiteArea = this.canCreateSiteArea ||
@@ -218,6 +254,12 @@ export class SiteAreaComponent implements OnInit {
       }
       if (siteArea.site) {
         this.site.setValue(siteArea.site.name);
+      }
+      if (siteArea.siteAreaParentID) {
+        this.formGroup.controls.siteAreaParentID.setValue(siteArea.siteAreaParentID);
+      }
+      if (siteArea.siteAreaParent) {
+        this.formGroup.controls.siteAreaParent.setValue(siteArea.siteAreaParent.name);
       }
       if (siteArea.maximumPower) {
         this.formGroup.controls.maximumPower.setValue(siteArea.maximumPower);

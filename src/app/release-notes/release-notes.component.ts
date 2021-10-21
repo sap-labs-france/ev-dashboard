@@ -31,6 +31,7 @@ export class ReleaseNotesComponent {
             changes: [
               `Removed server side refresh of lists (SocketIO)`,
               `Removed listening of unused database collections`,
+              `Security: Prevent XSS injections`,
             ],
           },
         ],

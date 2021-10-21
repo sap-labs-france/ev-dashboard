@@ -23,6 +23,25 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.5.5',
+        date: new Date('2021-10-20'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Fixed Performance correlation ID is send along the OCPP request`,
+              `Badges can always be reassigned even if already used before`,
+              `Improved Charging Station's manual config and exclude from smart charging parameters`,
+              `Check OCPI only when access control is active at Site Area level`,
+              `Removed OCPI logo when empty and non standard properties`,
+              `Enhanced performance logs for tracing traffic per organization`,
+              `Adding Setec as Charging Station Vendor`,
+              `Added Charging Station's Model in list`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.5.4',
         date: new Date('2021-10-10'),
         componentChanges: [

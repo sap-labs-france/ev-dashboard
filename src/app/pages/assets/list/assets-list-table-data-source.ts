@@ -9,7 +9,6 @@ import { SiteTableFilter } from 'shared/table/filters/site-table-filter';
 import { TenantComponents } from 'types/Tenant';
 
 import { AuthorizationService } from '../../../services/authorization.service';
-import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
@@ -26,7 +25,6 @@ import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-
 import { IssuerFilter } from '../../../shared/table/filters/issuer-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { Asset, AssetButtonAction, AssetType } from '../../../types/Asset';
-import ChangeNotification from '../../../types/ChangeNotification';
 import { DataResult } from '../../../types/DataResult';
 import { ButtonAction } from '../../../types/GlobalType';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
@@ -52,7 +50,6 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
     private dialogService: DialogService,
     private router: Router,
     private dialog: MatDialog,
-    private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
     private authorizationService: AuthorizationService,
   ) {
@@ -61,10 +58,6 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
     this.isAdmin = this.authorizationService.isAdmin();
     this.setStaticFilters([{ WithLogo: true, WithSiteArea: true }]);
     this.initDataSource();
-  }
-
-  public getDataChangeSubject(): Observable<ChangeNotification> {
-    return this.centralServerNotificationService.getSubjectAssets();
   }
 
   public loadDataImpl(): Observable<DataResult<Asset>> {

@@ -7,7 +7,6 @@ import { AuthorizationService } from 'services/authorization.service';
 import { WindowService } from 'services/window.service';
 import { TableSiteAreaGenerateQrCodeConnectorAction, TableSiteAreaGenerateQrCodeConnectorsActionDef } from 'shared/table/actions/site-areas/table-site-area-generate-qr-code-connector-action';
 
-import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../../services/central-server.service';
 import { ComponentService } from '../../../../services/component.service';
 import { DialogService } from '../../../../services/dialog.service';
@@ -31,7 +30,6 @@ import { TableRefreshAction } from '../../../../shared/table/actions/table-refre
 import { IssuerFilter } from '../../../../shared/table/filters/issuer-filter';
 import { SiteTableFilter } from '../../../../shared/table/filters/site-table-filter';
 import { TableDataSource } from '../../../../shared/table/table-data-source';
-import ChangeNotification from '../../../../types/ChangeNotification';
 import { ChargingStationButtonAction } from '../../../../types/ChargingStation';
 import { DataResult } from '../../../../types/DataResult';
 import { ButtonAction } from '../../../../types/GlobalType';
@@ -68,7 +66,6 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     private router: Router,
     private dialog: MatDialog,
     private appUnitPipe: AppUnitPipe,
-    private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
     private authorizationService: AuthorizationService,
     private datePipe: AppDatePipe,
@@ -89,10 +86,6 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
         dialogData: { id: siteAreaID } as SiteArea
       });
     }
-  }
-
-  public getDataChangeSubject(): Observable<ChangeNotification> {
-    return this.centralServerNotificationService.getSubjectSiteAreas();
   }
 
   public loadDataImpl(): Observable<DataResult<SiteArea>> {

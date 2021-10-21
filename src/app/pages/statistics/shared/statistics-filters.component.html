@@ -35,7 +35,7 @@
     <div class="right-actions d-flex align-items-center justify-content-md-end align-self-md-start">
 
       <!-- Button group for scope (months, etc.) -->
-      <div class="btn-group mat-button-group mr-2">
+      <div class="btn-group mat-button-group me-2">
         <button mat-raised-button *ngFor="let button of buttonsOfScopeGroup"
           (click)="buttonOfScopeGroupChanged(button.name)" [color]="'primary'" appTooltip
           [class.selected-button]="activeButtonOfScopeGroup && (activeButtonOfScopeGroup.name === button.name)"
@@ -59,7 +59,7 @@
 
 
   <!-- filters -->
-  <div class="d-flex flex-row mr-auto flex-wrap mat-toolbar-row filter-row">
+  <div class="d-flex flex-row me-auto flex-wrap mat-toolbar-row filter-row">
     <!-- Category of statistics -->
     <div *ngIf="isAdmin" class="col-sm-4 col-md-3 col-lg-2 col-xl-2">
       <mat-form-field>

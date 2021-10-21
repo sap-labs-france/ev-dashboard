@@ -6,7 +6,6 @@ import { Observable } from 'rxjs';
 import { TableMoreAction } from 'shared/table/actions/table-more-action';
 
 import { AuthorizationService } from '../../../services/authorization.service';
-import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
@@ -22,7 +21,6 @@ import { CarMakerTableFilter } from '../../../shared/table/filters/car-maker-tab
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { Car, CarButtonAction, CarConverter, CarType } from '../../../types/Car';
-import ChangeNotification from '../../../types/ChangeNotification';
 import { DataResult } from '../../../types/DataResult';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
 import { User } from '../../../types/User';
@@ -42,7 +40,6 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
     public translateService: TranslateService,
     private messageService: MessageService,
     private router: Router,
-    private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
     private dialog: MatDialog,
     private datePipe: AppDatePipe,
@@ -57,10 +54,6 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
     }]);
     // Init
     this.initDataSource();
-  }
-
-  public getDataChangeSubject(): Observable<ChangeNotification> {
-    return this.centralServerNotificationService.getSubjectCars();
   }
 
   public getPageSize(): number {

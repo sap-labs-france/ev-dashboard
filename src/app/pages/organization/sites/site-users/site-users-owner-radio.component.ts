@@ -11,12 +11,11 @@ import { Utils } from '../../../../utils/Utils';
 
 @Component({
   template: `
-      <div class="d-flex justify-content-center">
-          <mat-radio-button #rbid class="mx-auto"
-                            [checked]="(row.siteOwner ? true : false)"
-                            (change) = "changeRadioButton($event)"
-                            (click) = "changeSiteOwner()"></mat-radio-button>
-      </div>`,
+    <div class="d-flex justify-content-center">
+      <mat-radio-button #rbid class="mx-auto" [checked]="(row.siteOwner ? true : false)"
+        (change) = "changeRadioButton($event)" (click) = "changeSiteOwner()">
+      </mat-radio-button>
+    </div>`
 })
 export class SiteUsersOwnerRadioComponent extends CellContentTemplateDirective {
   @Input() public row!: UserSite;

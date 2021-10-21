@@ -5,7 +5,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 
 import { AuthorizationService } from '../../../services/authorization.service';
-import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
@@ -20,7 +19,6 @@ import { TableMoreAction } from '../../../shared/table/actions/table-more-action
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { ChargingStationTableFilter } from '../../../shared/table/filters/charging-station-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
-import ChangeNotification from '../../../types/ChangeNotification';
 import { ChargingProfile } from '../../../types/ChargingProfile';
 import { ChargingStationButtonAction } from '../../../types/ChargingStation';
 import { DataResult } from '../../../types/DataResult';
@@ -41,7 +39,6 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
     private messageService: MessageService,
     private router: Router,
     private appUnitPipe: AppUnitPipe,
-    private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
     private authorizationService: AuthorizationService,
     private componentService: ComponentService,
@@ -74,10 +71,6 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
     if (transactionID) {
       this.setSearchValue(transactionID);
     }
-  }
-
-  public getDataChangeSubject(): Observable<ChangeNotification> {
-    return this.centralServerNotificationService.getSubjectChargingProfiles();
   }
 
   public loadDataImpl(): Observable<DataResult<ChargingProfile>> {

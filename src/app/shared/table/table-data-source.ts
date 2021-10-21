@@ -5,7 +5,6 @@ import { Observable, of } from 'rxjs';
 import { first } from 'rxjs/operators';
 
 import { SpinnerService } from '../../services/spinner.service';
-import ChangeNotification from '../../types/ChangeNotification';
 import { DataResult, Ordering, Paging } from '../../types/DataResult';
 import { FilterParams } from '../../types/GlobalType';
 import { DropdownItem, FilterType, TableActionDef, TableColumnDef, TableData, TableDataSourceMode, TableDef, TableFilterDef } from '../../types/Table';
@@ -335,10 +334,6 @@ export abstract class TableDataSource<T extends TableData> {
   public rowActionTriggered(actionDef: TableActionDef, rowItem: any, dropdownItem?: DropdownItem) {
   }
 
-  public getDataChangeSubject(): Observable<ChangeNotification> | null {
-    return null;
-  }
-
   public buildFilterValues(withSearch: boolean = true): FilterParams {
     let filterJson = {};
     // Parse filters
@@ -370,6 +365,8 @@ export abstract class TableDataSource<T extends TableData> {
                     filterDef.dialogComponentData.staticFilter[dependentFilter.httpId] =
                       dependentFilter.currentValue[0].key;
                   }
+                } else {
+                  delete filterDef.dialogComponentData.staticFilter[dependentFilter.httpId];
                 }
               }
             }

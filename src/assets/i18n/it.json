@@ -797,6 +797,10 @@
       "disable_manual_configuration":{
         "title": "Disable manual configuration",
         "confirm": "If you disable the manual configuration, the charging station will be adjusted with the automatic configuration template, rebooted and your manual changes will be lost. Do you want to continue?"
+      },
+      "manual_configuration_error":{
+        "title": "Manual Configuration/Template error",
+        "confirm": "Manual Configuration has been already disabled for this station. Please make sure it boots correctly and that the template can be applied"
       }
     },
     "force_available_status_action": "Imposta come Disponibile",
@@ -1268,10 +1272,6 @@
     "update_set_site_owner_success": "L'utente è ora proprietario del sito '{{siteName}}",
     "update_remove_site_owner_success": "L'utente non è più proprietario del sito '{{siteName}}'",
     "update_site_owner_role_error": "Si è verificato un errore durante il tentativo di aggiornamento dei diritti utente del sito '{{siteName}}'",
-    "assign_transactions_title": "Assegnazione Sessioni",
-    "assign_transactions_confirm": "Sono state trovate {{count}} sessioni orfane. Vuoi assegnarle a questo utente?",
-    "assign_transactions_success": "Tutte le sessioni orfane sono state assegnate all'utente '{{userFullName}}'",
-    "assign_transactions_error": "Si è verificato un errore durante l'assegnazione delle sessioni orfane all'utente '{{userFullName}}'",
     "connectors": {
       "connect": "Connetti",
       "revoke": "Revoca",
@@ -1365,8 +1365,6 @@
     "delete_title": "Elimina badge",
     "delete_success": "Il badge '{{id}}' è stato eliminato con successo",
     "delete_error": "Si è verificato un errore durante l'eliminazione del badge",
-    "update_has_transaction_error": "This badge is linked to sessions and cannot be reassigned",
-    "create_has_transaction_error": "This badge is linked to sessions and cannot be created",
     "create_success": "Il badge '{{tagID}}' è stato creato con successo",
     "create_error": "Si è verificato un errore durante la creazione del badge",
     "register_success": "The badge '{{visualID}}' has been registered successfully",

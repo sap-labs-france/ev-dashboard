@@ -23,6 +23,23 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.5.6',
+        date: new Date('2021-10-21'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `User is mandatory when creating an RFID Card for Site Admins`,
+              `Get Car Images with URL instead of Base64 in Car list`,
+              `Added new firmware version for Kempower Charging Station and added Siemens model CPC-20/90/120 in template`,
+              `Removed server side refresh of lists (SocketIO)`,
+              `Removed listening of unused database collections`,
+              `Security: Prevent XSS injections`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.5.5',
         date: new Date('2021-10-20'),
         componentChanges: [

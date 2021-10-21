@@ -5,7 +5,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { User } from 'types/User';
 
-import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
@@ -19,7 +18,6 @@ import { TableCreateTenantAction, TableCreateTenantActionDef } from '../../../sh
 import { TableDeleteTenantAction, TableDeleteTenantActionDef } from '../../../shared/table/actions/tenants/table-delete-tenant-action';
 import { TableEditTenantAction, TableEditTenantActionDef } from '../../../shared/table/actions/tenants/table-edit-tenant-action';
 import { TableDataSource } from '../../../shared/table/table-data-source';
-import ChangeNotification from '../../../types/ChangeNotification';
 import { DataResult } from '../../../types/DataResult';
 import { ButtonAction } from '../../../types/GlobalType';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
@@ -42,17 +40,12 @@ export class TenantsListTableDataSource extends TableDataSource<Tenant> {
     private windowService: WindowService,
     private router: Router,
     private dialog: MatDialog,
-    private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
     private datePipe: AppDatePipe) {
     super(spinnerService, translateService);
     // Init
     this.setStaticFilters([{ WithLogo: true }]);
     this.initDataSource();
-  }
-
-  public getDataChangeSubject(): Observable<ChangeNotification> {
-    return this.centralServerNotificationService.getSubjectTenants();
   }
 
   public loadDataImpl(): Observable<DataResult<Tenant>> {

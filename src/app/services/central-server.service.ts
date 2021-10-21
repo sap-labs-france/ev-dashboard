@@ -1705,19 +1705,6 @@ export class CentralServerService {
       );
   }
 
-  public createPaymentIntent(parameters: any): Observable<BillingOperationResult> {
-    this.checkInit();
-    const url = this.buildRestEndpointUrl(ServerRoute.REST_BILLING_INVOICE_PAYMENT, {
-      userID: parameters.userID,
-      invoiceID: parameters.invoiceID
-    });
-    return this.httpClient.post<BillingOperationResult>(url, parameters, {
-      headers: this.buildHttpHeaders(),
-    }).pipe(
-      catchError(this.handleHttpError),
-    );
-  }
-
   public attemptInvoicePayment(parameters: any): Observable<any> {
     this.checkInit();
     const url = this.buildRestEndpointUrl(ServerRoute.REST_BILLING_INVOICE_PAYMENT, {

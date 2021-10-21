@@ -1,23 +1,19 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { PaymentIntent, StripeCardCvcElement, StripeCardExpiryElement, StripeCardNumberElement, StripeElements, StripeError } from '@stripe/stripe-js';
+import { SetupIntent, StripeCardCvcElement, StripeCardExpiryElement, StripeCardNumberElement, StripeElements, StripeError } from '@stripe/stripe-js';
 import { CentralServerService } from 'services/central-server.service';
 import { MessageService } from 'services/message.service';
 import { SpinnerService } from 'services/spinner.service';
 import { StripeService } from 'services/stripe.service';
-import { AppCurrencyPipe } from 'shared/formatters/app-currency.pipe';
-// import { TablePayInvoiceAction } from 'shared/table/actions/invoices/table-pay-invoice-action';
 import { BillingInvoiceStatus } from 'types/Billing';
 import { BillingOperationResult } from 'types/DataResult';
 import { BillingSettings } from 'types/Setting';
 import { Utils } from 'utils/Utils';
 
 import { InvoiceComponent } from '../invoice.component';
-
-// import { InvoicePaymentDialogComponent } from './invoice-payment.dialog.component';
 
 @Component({
   selector: 'app-invoice-payment',
@@ -81,7 +77,7 @@ export class InvoicePaymentComponent implements OnInit{
 
   public async pay() {
     this.isPayClicked = true;
-    await this.doCreatePaymentMethod();
+    await this.doPay();
   }
 
   public closeDialog(saved: boolean = false) {
@@ -122,7 +118,6 @@ export class InvoicePaymentComponent implements OnInit{
     this.cardNumber = this.elements.create('cardNumber');
     this.cardNumber.mount('#cardNumber');
     this.cardNumber.on('change', event => {
-      // this.cardNumberError = event.error?.message || '';
       this.cardNumberError = event.error ? this.translateService.instant('settings.billing.payment_methods_card_number_error') : '';
       this.isCardNumberValid = !event.error && event.complete;
     });
@@ -142,38 +137,37 @@ export class InvoicePaymentComponent implements OnInit{
     });
   }
 
-  private async createPaymentMethod(): Promise<any> {
+  private async payWithNewPaymentMethod(): Promise<BillingOperationResult> {
+    // c.f. STRIPE SAMPLE at: https://stripe.com/docs/billing/subscriptions/fixed-price#collect-payment
     let operationResult = null;
     try {
       this.spinnerService.show();
       // -----------------------------------------------------------------------------------------------
-      // Step #0 - Create a Payment Intent
+      // Step #0 - Create Setup Intent
       // -----------------------------------------------------------------------------------------------
-      const response: BillingOperationResult = await this.centralServerService.createPaymentIntent({
-        userID: this.currentUserID,
-        invoiceID: this.currentInvoiceID
+      const response: BillingOperationResult = await this.centralServerService.setupPaymentMethod({
+        userID: this.currentUserID
       }).toPromise();
       // -----------------------------------------------------------------------------------------------
-      // Step #1 - Confirm the PaymentIntent with data provided and carry out 3DS
+      // Step #1 - Confirm the SetupIntent with data provided and carry out 3DS
+      // c.f. https://stripe.com/docs/js/setup_intents/confirm_card_setup
       // -----------------------------------------------------------------------------------------------
-      const paymentIntent: any = response?.internalData;
+      const setupIntent: any = response?.internalData;
       this.spinnerService.hide();
       // eslint-disable-next-line max-len
-      const confirmResult: { paymentIntent?: PaymentIntent; error?: StripeError } = await this.getStripeFacade().confirmCardPayment( paymentIntent.client_secret, {
+      const result: { setupIntent?: SetupIntent; error?: StripeError } = await this.getStripeFacade().confirmCardSetup( setupIntent.client_secret, {
         payment_method: {
           card: this.cardNumber
         },
-        setup_future_usage: 'off_session' // TODO - we should get rid of it!
       });
       this.spinnerService.show();
-      if (confirmResult.error) {
-        operationResult = response;
+      if (result.error) {
+        operationResult = result;
       } else {
-        // ---------------------------------------------------------------
-        // Step #2 - Use the confirmed payment intent to pay the invoice
-        // ---------------------------------------------------------------
-        const paymentMethodId: string = confirmResult.paymentIntent.payment_method;
-        operationResult = await this.finalizeInvoicePayment(paymentMethodId);
+        // -----------------------------------------------------------------------------------------------
+        // Step #2 - Really attach the payment method / not called when 3DS failed
+        // -----------------------------------------------------------------------------------------------
+        operationResult = await this.finalizeInvoicePayment(result);
         if (operationResult.succeeded) {
           this.isPaid = true;
         }
@@ -186,20 +180,30 @@ export class InvoicePaymentComponent implements OnInit{
     return operationResult;
   }
 
-  private async finalizeInvoicePayment(paymentMethodID: string) {
+  private async finalizeInvoicePayment(operationResult: {setupIntent?: SetupIntent; error?: StripeError}): Promise<BillingOperationResult> {
+    // We now know the payment method id
+    const paymentMethodID = operationResult.setupIntent?.payment_method;
+    // Let's attach the new payment method to the user/customer
+    await this.centralServerService.setupPaymentMethod({
+      userID: this.currentUserID,
+      setupIntentId: operationResult.setupIntent?.id,
+      paymentMethodID,
+      keepDefaultUnchanged: true
+    }).toPromise();
+    // Let's try to pay with it
     const response: BillingOperationResult = await this.centralServerService.attemptInvoicePayment({
       userID: this.currentUserID,
       invoiceID: this.currentInvoiceID,
-      paymentMethodID
+      paymentMethodID,
     }).toPromise();
     return response;
   }
 
-  private async doCreatePaymentMethod() {
-    const operationResult: any = await this.createPaymentMethod();
+  private async doPay() {
+    const operationResult: any = await this.payWithNewPaymentMethod();
     if (operationResult.error) {
       // Operation failed
-      if (operationResult.error.code === 'card_declined') {
+      if (operationResult.error?.code === 'card_declined') {
         this.isCardNumberValid = false;
         this.messageService.showErrorMessage('settings.billing.payment_methods_create_error_card_declined');
         this.cardNumberError = this.translateService.instant('settings.billing.payment_methods_card_declined');

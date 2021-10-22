@@ -244,11 +244,9 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public refresh(autoRefresh = false) {
+    // Start refresh
     if (!this.ongoingRefresh) {
-      this.ongoingRefresh = true;
-      this.ongoingAutoRefresh = autoRefresh;
-      // Refresh Data
-      this.dataSource.refreshData(!this.ongoingAutoRefresh).subscribe(() => {
+      const refreshDone = () => {
         this.ongoingRefresh = false;
         if (autoRefresh) {
           this.ongoingAutoRefresh = false;
@@ -256,6 +254,14 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
         // Recreate the timeout
         this.destroyAutoRefresh();
         this.createAutoRefresh();
+      };
+      // Refresh Data
+      this.ongoingRefresh = true;
+      this.ongoingAutoRefresh = autoRefresh;
+      this.dataSource.refreshData(!this.ongoingAutoRefresh).subscribe(() => {
+        refreshDone();
+      }, (error) => {
+        refreshDone();
       });
     }
   }
@@ -308,10 +314,16 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public loadData() {
-    this.loading = true;
-    this.dataSource.loadData().subscribe(() => {
+    const loadingDone = () => {
       this.loading = false;
       this.createAutoRefresh();
+    };
+    // Start initial loading
+    this.loading = true;
+    this.dataSource.loadData().subscribe(() => {
+      loadingDone();
+    }, (error) => {
+      loadingDone();
     });
   }
 

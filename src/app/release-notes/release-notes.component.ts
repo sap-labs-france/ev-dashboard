@@ -23,6 +23,39 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.5.7',
+        date: new Date('2021-10-22'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Reject OCPP requests if the Charging Station has been manually made inactive`,
+              `Enforced Charging Station's registration check on revoked tokens`,
+              `Fixed cannot see User in Charging Station's connector when charging`,
+              `Fixed performance issue when retrieving the last Transaction's consumption`,
+              `Fixed Refresh error handling`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.5.7',
+        date: new Date('2021-10-21'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `User is mandatory when creating an RFID Card for Site Admins`,
+              `Get Car Images with URL instead of Base64 in Car list`,
+              `Added new firmware version for Kempower Charging Station and added Siemens model CPC-20/90/120 in template`,
+              `Removed server side refresh of lists (SocketIO)`,
+              `Removed listening of unused database collections`,
+              `Security: Prevent XSS injections`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.5.6',
         date: new Date('2021-10-21'),
         componentChanges: [

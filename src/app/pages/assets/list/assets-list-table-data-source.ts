@@ -99,6 +99,14 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
   public buildTableColumnDefs(): TableColumnDef[] {
     const tableColumnDef: TableColumnDef[] = [
       {
+        id: 'id',
+        name: 'general.id',
+        sortable: true,
+        headerClass: 'col-30p',
+        class: 'col-30p',
+        direction: 'asc',
+      },
+      {
         id: 'name',
         name: 'assets.name',
         headerClass: 'col-20p',

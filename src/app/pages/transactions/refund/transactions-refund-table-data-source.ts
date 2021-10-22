@@ -8,7 +8,6 @@ import { IssuerFilter } from 'shared/table/filters/issuer-filter';
 import { SiteTableFilter } from 'shared/table/filters/site-table-filter';
 
 import { AuthorizationService } from '../../../services/authorization.service';
-import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
@@ -37,7 +36,6 @@ import { StartDateFilter } from '../../../shared/table/filters/start-date-filter
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { CarCatalog } from '../../../types/Car';
-import ChangeNotification from '../../../types/ChangeNotification';
 import { DataResult, TransactionRefundDataResult } from '../../../types/DataResult';
 import { RefundSettings } from '../../../types/Setting';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
@@ -61,7 +59,6 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
     private messageService: MessageService,
     private dialogService: DialogService,
     private router: Router,
-    private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
     private componentService: ComponentService,
     private authorizationService: AuthorizationService,
@@ -81,10 +78,6 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
     this.initDataSource();
     // Add statistics to query
     this.setStaticFilters([{ Statistics: 'refund' }]);
-  }
-
-  public getDataChangeSubject(): Observable<ChangeNotification> {
-    return this.centralServerNotificationService.getSubjectTransactions();
   }
 
   public loadDataImpl(): Observable<DataResult<Transaction>> {

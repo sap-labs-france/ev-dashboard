@@ -1,11 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { debounceTime } from 'rxjs/operators';
 
-import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
-import { ConfigService } from '../../../services/config.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { ChargingStation } from '../../../types/ChargingStation';
@@ -25,34 +22,11 @@ export class ChargingStationLimitationComponent implements OnInit {
   public constructor(
     private spinnerService: SpinnerService,
     private centralServerService: CentralServerService,
-    private centralServerNotificationService: CentralServerNotificationService,
-    private configService: ConfigService,
     private messageService: MessageService,
     private router: Router) {
-    if (this.configService.getCentralSystemServer().socketIOEnabled) {
-      // Update Charging Station?
-      this.centralServerNotificationService.getSubjectChargingStation().pipe(debounceTime(
-        this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
-        if (this.chargingStation && singleChangeNotification && singleChangeNotification.data &&
-            singleChangeNotification.data.id === this.chargingStation.id) {
-          // Reload
-          this.loadChargingStation();
-        }
-      });
-      // Update Charging Station?
-      this.centralServerNotificationService.getSubjectSiteArea().pipe(debounceTime(
-        this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
-        if (this.chargingStation && singleChangeNotification && singleChangeNotification.data &&
-            singleChangeNotification.data.id === this.chargingStation.siteAreaID) {
-          // Reload
-          this.loadChargingStation();
-        }
-      });
-    }
   }
 
   public ngOnInit() {
-    // Load
     this.loadChargingStation();
   }
 

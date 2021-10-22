@@ -1,3 +1,4 @@
+import { AuthorizationDefinitionFieldMetadata } from './Authorization';
 import { Car, CarCatalog } from './Car';
 import { Company } from './Company';
 import { Site } from './Site';
@@ -75,6 +76,7 @@ export interface DataResult<T> {
   count: number;
   result: T[];
   projectFields?: string[];
+  metadata?: Record<string, AuthorizationDefinitionFieldMetadata>;
 }
 
 export interface CompanyDataResult extends DataResult<Company> {

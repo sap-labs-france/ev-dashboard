@@ -2,7 +2,7 @@
   "name": "ev-dashboard",
   "description": "Dashboard for Electric Vehicle charging station",
   "homepage": "https://github.com/sap-labs-france/ev-dashboard",
-  "version": "2.5.5",
+  "version": "2.5.6",
   "engines": {
     "npm": "6.x.x."
   },
@@ -81,7 +81,7 @@
     "@ng-bootstrap/ng-bootstrap": "^9.1.3",
     "@ngx-translate/core": "^13.0.0",
     "@ngx-translate/http-loader": "^6.0.0",
-    "@stripe/stripe-js": "^1.18.0",
+    "@stripe/stripe-js": "^1.20.3",
     "angular-moment-picker": "^0.10.2",
     "angular2-chartjs": "^0.5.1",
     "bootstrap": "^5.1.3",
@@ -106,13 +106,12 @@
     "ngx-moment": "^5.0.0",
     "popper.js": "^1.16.1",
     "rxjs": "^6.6.7",
-    "socket.io-client": "^4.2.0",
     "tslib": "^2.3.1",
     "zone.js": "~0.11.4"
   },
   "optionalDependencies": {
     "bufferutil": "^4.0.4",
-    "utf-8-validate": "^5.0.6"
+    "utf-8-validate": "^5.0.7"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.1102.12",
@@ -126,27 +125,27 @@
     "@types/bootstrap": "^5.1.6",
     "@types/chart.js": "^2.9.34",
     "@types/file-saver": "^2.0.3",
-    "@types/jasmine": "^3.9.1",
+    "@types/jasmine": "^3.10.0",
     "@types/jquery": "^3.5.7",
     "@types/mocha": "^9.0.0",
     "@types/moment-duration-format": "^2.2.3",
-    "@types/node": "^16.11.0",
+    "@types/node": "^16.11.2",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
     "codeceptjs": "^3.1.3",
     "cross-env": "^7.0.3",
     "eslint": "^7.32.0",
     "eslint-plugin-import": "2.25.2",
-    "eslint-plugin-jsdoc": "^36.1.0",
+    "eslint-plugin-jsdoc": "^36.1.1",
     "eslint-plugin-prefer-arrow": "^1.2.3",
     "faker": "^5.5.3",
     "husky": "^7.0.2",
     "import-sort-parser-typescript": "^6.0.0",
     "import-sort-style-module": "^6.0.0",
     "jasmine": "~3.10.0",
-    "jasmine-core": "~3.9.0",
+    "jasmine-core": "~3.10.0",
     "jasmine-spec-reporter": "~7.0.0",
-    "karma": "~6.3.4",
+    "karma": "~6.3.5",
     "karma-chrome-launcher": "~3.1.0",
     "karma-cli": "^2.0.0",
     "karma-coverage": "~2.0.3",
@@ -161,11 +160,11 @@
     "puppeteer": "^10.4.0",
     "rimraf": "^3.0.2",
     "rosie": "^2.1.0",
-    "ts-node": "~10.3.0",
+    "ts-node": "~10.3.1",
     "ts-node-dev": "^1.1.8",
     "deep-object-diff": "^1.1.0",
     "typescript": "~4.1.6",
     "webpack": "^4.46.0",
-    "webpack-bundle-analyzer": "^4.4.2"
+    "webpack-bundle-analyzer": "^4.5.0"
   }
 }

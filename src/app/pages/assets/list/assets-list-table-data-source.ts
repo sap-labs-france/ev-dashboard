@@ -56,7 +56,9 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
     super(spinnerService, translateService);
     // Init
     this.isAdmin = this.authorizationService.isAdmin();
-    this.setStaticFilters([{ WithLogo: true, WithSiteArea: true }]);
+    this.setStaticFilters([{
+      WithSiteArea: true
+    }]);
     this.initDataSource();
   }
 

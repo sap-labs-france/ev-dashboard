@@ -39,7 +39,7 @@ import { TenantComponents } from '../../../types/Tenant';
 import { TransactionButtonAction } from '../../../types/Transaction';
 import { User, UserButtonAction } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';
-import { UserFreeAccessFilter } from '../filters/user-freeAccess-filter';
+import { UserFreeAccessFilter } from '../filters/user-free-access-filter';
 import { UserRoleFilter } from '../filters/user-role-filter';
 import { UserStatusFilter } from '../filters/user-status-filter';
 import { UserTechnicalFilter } from '../filters/user-technical-filter';

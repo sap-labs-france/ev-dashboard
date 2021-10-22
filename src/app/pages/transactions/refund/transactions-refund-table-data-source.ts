@@ -80,10 +80,6 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
     this.isOrganizationComponentActive = this.componentService.isActive(TenantComponents.ORGANIZATION);
     if (this.isOrganizationComponentActive) {
       this.setStaticFilters([{
-        WithCompany: true,
-        WithSite: true,
-        WithSiteArea: true,
-        WithTag: true,
         WithUser: true,
         WithCar: true,
         Statistics: 'refund',

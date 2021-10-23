@@ -130,7 +130,7 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
           // Show message
           this.messageService.showSuccessMessage(this.messages['verify_email_success_set_password']);
           // Go to reset password
-          this.router.navigate(['auth/define-password'], { queryParams: { hash: this.resetToken } });
+          void this.router.navigate(['auth/define-password'], { queryParams: { hash: this.resetToken } });
         } else {
           if (response?.userStatus === UserStatus.INACTIVE) {
             // Show message for inactive new account by default
@@ -140,7 +140,7 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
             this.messageService.showSuccessMessage(this.messages['verify_email_success']);
           }
           // Go to login
-          this.router.navigate(['/auth/login'], { queryParams: { email: this.email.value } });
+          void this.router.navigate(['/auth/login'], { queryParams: { email: this.email.value } });
         }
         // Unexpected Error
       } else {
@@ -175,7 +175,7 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
           break;
       }
       // Go to login
-      this.router.navigate(['/auth/login'], { queryParams: { email: this.email.value } });
+      void this.router.navigate(['/auth/login'], { queryParams: { email: this.email.value } });
     });
   }
 
@@ -194,7 +194,7 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
         if (response.status && response.status === RestResponse.SUCCESS) {
           this.messageService.showSuccessMessage(this.messages['verify_email_resend_success']);
           // Go back to login
-          this.router.navigate(['/auth/login'], { queryParams: { email: this.email.value } });
+          void this.router.navigate(['/auth/login'], { queryParams: { email: this.email.value } });
         } else {
           Utils.handleError(JSON.stringify(response),
             this.messageService, this.messages['verify_email_resend_error']);
@@ -204,7 +204,7 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
         switch (error.status) {
           case HTTPError.USER_ACCOUNT_ALREADY_ACTIVE_ERROR:
             this.messageService.showInfoMessage(this.messages['verify_email_already_active']);
-            this.router.navigate(['/auth/login'], { queryParams: { email: this.email.value } });
+            void this.router.navigate(['/auth/login'], { queryParams: { email: this.email.value } });
             break;
           case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
             this.messageService.showErrorMessage(this.messages['verify_email_email_not_valid']);

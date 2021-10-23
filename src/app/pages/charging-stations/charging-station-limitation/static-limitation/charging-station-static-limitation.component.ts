@@ -40,7 +40,7 @@ export class ChargingStationStaticLimitationComponent {
     // Check Auth
     if (!authorizationService.canUpdateChargingStation()) {
       // Not authorized
-      this.router.navigate(['/']);
+      void this.router.navigate(['/']);
     }
     // Get Locales
     this.userLocales = this.localeService.getLocales();

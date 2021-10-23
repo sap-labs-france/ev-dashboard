@@ -86,12 +86,12 @@ export class AuthenticationResetPasswordComponent implements OnInit, OnDestroy {
         // Hide
         this.spinnerService.hide();
         this.messageService.showSuccessMessage('authentication.reset_password_success');
-        this.router.navigate(['/auth/login']);
+        void this.router.navigate(['/auth/login']);
       }, (error) => {
         // Hide
         this.spinnerService.hide();
         this.messageService.showSuccessMessage('authentication.reset_password_success');
-        this.router.navigate(['/auth/login']);
+        void this.router.navigate(['/auth/login']);
       });
     });
   }

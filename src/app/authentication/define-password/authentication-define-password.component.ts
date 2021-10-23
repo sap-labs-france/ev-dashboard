@@ -109,7 +109,7 @@ export class AuthenticationDefinePasswordComponent implements OnInit, OnDestroy 
           // Show message
           this.messageService.showSuccessMessage('authentication.define_password_success');
           // Go back to login
-          this.router.navigate(['/auth/login']);
+          void this.router.navigate(['/auth/login']);
         } else {
           Utils.handleError(JSON.stringify(response),
             this.messageService, 'authentication.define_password_error');

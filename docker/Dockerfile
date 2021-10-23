@@ -27,5 +27,6 @@ COPY --from=builder /usr/builder/dist ./
 
 COPY docker/autoconfig.sh /autoconfig.sh
 RUN chmod +x /autoconfig.sh
+RUN /autoconfig.sh
 
-CMD /autoconfig.sh && nginx -g 'daemon off;'
+CMD nginx -g 'daemon off;'

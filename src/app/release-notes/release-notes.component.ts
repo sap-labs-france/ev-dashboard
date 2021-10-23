@@ -24,13 +24,16 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.5.7',
-        date: new Date('2021-10-22'),
+        date: new Date('2021-10-23'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `Reject OCPP requests if the Charging Station has been manually made inactive`,
               `Enforced Charging Station's registration check on revoked tokens`,
+              `Send notification once every 10 mins for Charging Station in error`,
+              `Ignore OCPP Status Notification with same values`,
+              `Log when a notification is not sent to the user`,
               `Fixed cannot see User in Charging Station's connector when charging`,
               `Fixed performance issue when retrieving the last Transaction's consumption`,
               `Fixed Refresh error handling`,

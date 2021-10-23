@@ -52,7 +52,6 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
   private refundSetting!: RefundSettings;
   private isAdmin: boolean;
   private tableSyncRefundAction = new TableSyncRefundTransactionsAction().getActionDef();
-  private readonly isOrganizationComponentActive: boolean;
 
 
   public constructor(
@@ -77,14 +76,11 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
     // Load settings
     this.loadRefundSettings();
     // Init
-    this.isOrganizationComponentActive = this.componentService.isActive(TenantComponents.ORGANIZATION);
-    if (this.isOrganizationComponentActive) {
-      this.setStaticFilters([{
-        WithUser: true,
-        WithCar: true,
-        Statistics: 'refund',
-      }]);
-    }
+    this.setStaticFilters([{
+      WithUser: true,
+      WithCar: true,
+      Statistics: 'refund',
+    }]);
     this.initDataSource();
   }
 

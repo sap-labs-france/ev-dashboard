@@ -29,6 +29,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `User can now have free access to Charging Stations (not billable)`,
               `Reject OCPP requests if the Charging Station has been manually made inactive`,
               `Enforced Charging Station's registration check on revoked tokens`,
               `Send notification once every 10 mins for Charging Station in error`,

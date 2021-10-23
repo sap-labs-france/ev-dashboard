@@ -53,6 +53,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
   private isAdmin: boolean;
   private tableSyncRefundAction = new TableSyncRefundTransactionsAction().getActionDef();
 
+
   public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
@@ -75,13 +76,12 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
     // Load settings
     this.loadRefundSettings();
     // Init
-    this.initDataSource();
-    // Add statistics to query
     this.setStaticFilters([{
-      Statistics: 'refund',
-      WithCar: true,
       WithUser: true,
+      WithCar: true,
+      Statistics: 'refund',
     }]);
+    this.initDataSource();
   }
 
   public loadDataImpl(): Observable<DataResult<Transaction>> {
@@ -212,7 +212,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
       },
     );
     if (this.componentService.isActive(TenantComponents.CAR) &&
-        this.authorizationService.canListCars()) {
+      this.authorizationService.canListCars()) {
       columns.push({
         id: 'carCatalog',
         name: 'car.title',

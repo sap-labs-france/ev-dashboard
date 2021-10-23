@@ -35,6 +35,7 @@ export class ReleaseNotesComponent {
               `Send notification once every 10 mins for Charging Station in error`,
               `Ignore OCPP Status Notification with same values`,
               `Log when a notification is not sent to the user`,
+              `Improved logging for Site Admins`,
               `Fixed User and Car not seen in Session Refund list`,
               `Fixed cannot see User in Charging Station's connector when charging`,
               `Fixed performance issue when retrieving the last Transaction's consumption`,

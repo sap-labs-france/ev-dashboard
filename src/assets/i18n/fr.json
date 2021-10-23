@@ -1172,7 +1172,7 @@
     "import_users_error": "{{inError}} utilisateurs n'ont pas pu être enregistré",
     "import_no_users": "Aucun utilisateur n'a été enregistré",
     "access_mode": "Mode d'accès",
-    "allow_free_access": "L’utilisateur a accès gratuitement à toutes les bornes",
+    "allow_free_access": "Accès gratuit à toutes les bornes",
     "user_without_freeAccess": "Accès payant",
     "user_with_freeAccess": "Accès gratuit",
     "number_of_sites": "Nb Sites",

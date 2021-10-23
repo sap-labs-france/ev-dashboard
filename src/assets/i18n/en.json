@@ -1172,7 +1172,7 @@
     "import_users_error": "{{inError}} users failed to be uploaded",
     "import_no_users": "No user have been uploaded",
     "access_mode": "Access Mode",
-    "allow_free_access": "User has free access to all charging stations",
+    "allow_free_access": "Free access to all charging stations",
     "user_without_freeAccess": "Paying access",
     "user_with_freeAccess": "Free access",
     "number_of_sites": "Nb Sites",

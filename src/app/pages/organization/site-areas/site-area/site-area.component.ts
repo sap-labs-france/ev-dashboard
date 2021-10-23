@@ -81,7 +81,7 @@ export class SiteAreaComponent implements OnInit {
     if (this.activatedRoute.snapshot.params['id'] &&
       !authorizationService.canUpdateSiteArea()) {
       // Not authorized
-      this.router.navigate(['/']);
+      void this.router.navigate(['/']);
     }
     // Set
     this.isSmartChargingComponentActive = this.componentService.isActive(TenantComponents.SMART_CHARGING);

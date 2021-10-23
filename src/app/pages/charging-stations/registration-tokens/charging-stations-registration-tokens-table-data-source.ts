@@ -105,6 +105,13 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
         sortable: true,
       },
       {
+        id: 'id',
+        name: 'general.id',
+        sortable: true,
+        headerClass: 'col-30p',
+        class: 'col-30p',
+      },
+      {
         id: 'description',
         name: 'general.description',
         headerClass: 'd-none d-xl-table-cell col-30p',

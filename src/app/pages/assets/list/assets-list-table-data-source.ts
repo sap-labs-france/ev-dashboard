@@ -56,7 +56,9 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
     super(spinnerService, translateService);
     // Init
     this.isAdmin = this.authorizationService.isAdmin();
-    this.setStaticFilters([{ WithLogo: true, WithSiteArea: true }]);
+    this.setStaticFilters([{
+      WithSiteArea: true
+    }]);
     this.initDataSource();
   }
 
@@ -98,6 +100,14 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
 
   public buildTableColumnDefs(): TableColumnDef[] {
     const tableColumnDef: TableColumnDef[] = [
+      {
+        id: 'id',
+        name: 'general.id',
+        sortable: true,
+        headerClass: 'col-30p',
+        class: 'col-30p',
+        direction: 'asc',
+      },
       {
         id: 'name',
         name: 'assets.name',

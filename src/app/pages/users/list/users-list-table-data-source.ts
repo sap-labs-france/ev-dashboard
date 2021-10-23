@@ -39,6 +39,7 @@ import { TenantComponents } from '../../../types/Tenant';
 import { TransactionButtonAction } from '../../../types/Transaction';
 import { User, UserButtonAction } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';
+import { UserFreeAccessFilter } from '../filters/user-free-access-filter';
 import { UserRoleFilter } from '../filters/user-role-filter';
 import { UserStatusFilter } from '../filters/user-status-filter';
 import { UserTechnicalFilter } from '../filters/user-technical-filter';
@@ -392,7 +393,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
 
   public buildTableFiltersDef(): TableFilterDef[] {
     const issuerFilter = new IssuerFilter().getFilterDef();
-    return [
+    const filters = [
       issuerFilter,
       new UserRoleFilter(this.centralServerService).getFilterDef(),
       new UserStatusFilter().getFilterDef(),
@@ -400,5 +401,9 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       new SiteTableFilter([issuerFilter]).getFilterDef(),
       new UserTechnicalFilter().getFilterDef(),
     ];
+    if (this.componentService.isActive(TenantComponents.BILLING)) {
+      filters.push(new UserFreeAccessFilter().getFilterDef());
+    }
+    return filters;
   }
 }

@@ -5,7 +5,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { mergeMap } from 'rxjs/operators';
-import { DialogMode } from 'types/Authorization';
+import { AuthorizationDefinitionFieldMetadata, DialogMode } from 'types/Authorization';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -40,6 +40,7 @@ import { UserDialogComponent } from './user.dialog.component';
 })
 export class UserComponent extends AbstractTabComponent implements OnInit {
   @Input() public currentUserID!: string;
+  @Input() public metadata!: Record<string, AuthorizationDefinitionFieldMetadata>;
   @Input() public inDialog!: boolean;
   @Input() public dialogRef!: MatDialogRef<UserDialogComponent>;
   @Input() public dialogMode!: DialogMode;
@@ -304,6 +305,9 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.sendAdminAccountVerificationNotification = this.notifications.controls['sendAdminAccountVerificationNotification'];
     if (this.currentUserID) {
       this.loadUser();
+    }
+    if (this.metadata?.status?.mandatory) {
+      this.status.setValidators(Validators.required);
     }
     this.loadRefundSettings();
     this.loadMercedesConnectionSettings();

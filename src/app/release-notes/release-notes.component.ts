@@ -31,7 +31,8 @@ export class ReleaseNotesComponent {
             changes: [
               `Enforce security checks in OCPP requests`,
               `Made all notification non blocking`,
-              `Added dedicated Charging Station column in Logs`,
+              `Added dedicated Charging Station's column in Logs`,
+              `Added new Source filter in Logs (Rest, Json...)`,
             ],
           },
         ],

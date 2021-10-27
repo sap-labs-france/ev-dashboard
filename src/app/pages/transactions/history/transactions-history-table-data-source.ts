@@ -407,7 +407,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
   public buildTableFiltersDef(): TableFilterDef[] {
     let userFilter: TableFilterDef;
     const issuerFilter = new IssuerFilter().getFilterDef();
-    const filters: TableFilterDef[] = [
+    const tableFiltersDef: TableFilterDef[] = [
       issuerFilter,
       new StartDateFilter(moment().startOf('y').toDate()).getFilterDef(),
       new EndDateFilter().getFilterDef(),
@@ -417,35 +417,35 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     if (this.componentService.isActive(TenantComponents.ORGANIZATION)) {
       const siteFilter = new SiteTableFilter([issuerFilter]).getFilterDef();
       const siteAreaFilter = new SiteAreaTableFilter([issuerFilter, siteFilter]).getFilterDef();
-      filters.push(siteFilter);
-      filters.push(siteAreaFilter);
+      tableFiltersDef.push(siteFilter);
+      tableFiltersDef.push(siteAreaFilter);
       if (this.authorizationService.canListChargingStations()) {
-        filters.push(new ChargingStationTableFilter([issuerFilter, siteFilter, siteAreaFilter]).getFilterDef());
-        filters.push(new ConnectorTableFilter().getFilterDef());
+        tableFiltersDef.push(new ChargingStationTableFilter([issuerFilter, siteFilter, siteAreaFilter]).getFilterDef());
+        tableFiltersDef.push(new ConnectorTableFilter().getFilterDef());
       }
       if ((this.authorizationService.canListUsers())) {
         userFilter = new UserTableFilter([issuerFilter, siteFilter]).getFilterDef();
-        filters.push(userFilter);
+        tableFiltersDef.push(userFilter);
       }
       if ((this.authorizationService.canListTags())) {
-        filters.push(new TagTableFilter(
+        tableFiltersDef.push(new TagTableFilter(
           userFilter ? [issuerFilter, siteFilter, userFilter] : [issuerFilter, siteFilter]).getFilterDef());
       }
     } else {
       if (this.authorizationService.canListChargingStations()) {
-        filters.push(new ChargingStationTableFilter([issuerFilter]).getFilterDef());
-        filters.push(new ConnectorTableFilter().getFilterDef());
+        tableFiltersDef.push(new ChargingStationTableFilter([issuerFilter]).getFilterDef());
+        tableFiltersDef.push(new ConnectorTableFilter().getFilterDef());
       }
       if ((this.authorizationService.canListUsers())) {
         userFilter = new UserTableFilter([issuerFilter]).getFilterDef();
-        filters.push(userFilter);
+        tableFiltersDef.push(userFilter);
       }
       if ((this.authorizationService.canListTags())) {
-        filters.push(new TagTableFilter(
+        tableFiltersDef.push(new TagTableFilter(
           userFilter ? [issuerFilter, userFilter] : [issuerFilter]).getFilterDef());
       }
     }
-    return filters;
+    return tableFiltersDef;
   }
 
   public buildTableDynamicRowActions(transaction: Transaction): TableActionDef[] {

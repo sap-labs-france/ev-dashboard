@@ -4,6 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { ChargingStationTableFilter } from 'shared/table/filters/charging-station-table-filter';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -169,31 +170,17 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
       {
         id: 'timestamp',
         type: 'date',
-        formatter: (createdOn: Date) => this.datePipe.transform(createdOn, 'medium'),
         name: 'logs.date',
         headerClass: 'col-15p',
         class: 'text-left col-15p',
         sorted: true,
         direction: 'desc',
         sortable: true,
+        formatter: (createdOn: Date) => this.datePipe.transform(createdOn, 'medium'),
       },
       {
         id: 'host',
         name: 'logs.host',
-        headerClass: 'col-15p',
-        class: 'text-left col-15p',
-        sortable: true,
-      },
-      {
-        id: 'process',
-        name: 'logs.process',
-        headerClass: 'col-15p',
-        class: 'text-left col-15p',
-        sortable: true,
-      },
-      {
-        id: 'action',
-        name: 'logs.action',
         headerClass: 'col-15p',
         class: 'text-left col-15p',
         sortable: true,
@@ -206,11 +193,19 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
         sortable: true,
       },
       {
+        id: 'action',
+        name: 'logs.action',
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
+        sortable: true,
+      },
+      {
         id: 'chargingStationID',
         name: 'chargers.title',
         headerClass: 'col-15p',
         sortable: true,
-        class: 'text-left col-15p',
+        class: 'text-center col-15p',
+        formatter: (chargingStationID: string) => chargingStationID ?? '-',
       },
       {
         id: 'message',
@@ -253,23 +248,14 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {
-    const tableFiltersDef = [
+    return [
       new StartDateFilter(moment().startOf('d').toDate()).getFilterDef(),
       new EndDateFilter().getFilterDef(),
       new LogLevelTableFilter().getFilterDef(),
+      new LogSourceTableFilter().getFilterDef(),
       new LogActionTableFilter().getFilterDef(),
+      new ChargingStationTableFilter().getFilterDef(),
+      new UserTableFilter().getFilterDef(),
     ];
-    if (this.authorizationService.isSuperAdmin()) {
-      tableFiltersDef.push(new UserTableFilter().getFilterDef());
-      return tableFiltersDef;
-    }
-    if (this.authorizationService.isAdmin()) {
-      tableFiltersDef.push(new UserTableFilter().getFilterDef());
-      tableFiltersDef.push(new LogSourceTableFilter().getFilterDef());
-    } else {
-      tableFiltersDef.push(new UserTableFilter().getFilterDef());
-      tableFiltersDef.push(new LogSourceTableFilter().getFilterDef());
-    }
-    return tableFiltersDef;
   }
 }

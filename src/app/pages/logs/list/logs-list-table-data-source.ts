@@ -206,6 +206,13 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
         sortable: true,
       },
       {
+        id: 'chargingStationID',
+        name: 'chargers.title',
+        headerClass: 'col-15p',
+        sortable: true,
+        class: 'text-left col-15p',
+      },
+      {
         id: 'message',
         name: 'logs.message',
         headerClass: 'col-50p',

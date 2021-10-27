@@ -30,6 +30,8 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Enforce security checks in OCPP requests`,
+              `Made all notification non blocking`,
+              `Added dedicated Charging Station column in Logs`,
             ],
           },
         ],

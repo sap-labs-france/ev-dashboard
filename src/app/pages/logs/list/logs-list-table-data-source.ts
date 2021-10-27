@@ -5,6 +5,7 @@ import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ChargingStationTableFilter } from 'shared/table/filters/charging-station-table-filter';
+import { SiteTableFilter } from 'shared/table/filters/site-table-filter';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -248,14 +249,27 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {
-    return [
-      new StartDateFilter(moment().startOf('d').toDate()).getFilterDef(),
-      new EndDateFilter().getFilterDef(),
-      new LogLevelTableFilter().getFilterDef(),
-      new LogSourceTableFilter().getFilterDef(),
-      new LogActionTableFilter().getFilterDef(),
-      new ChargingStationTableFilter().getFilterDef(),
-      new UserTableFilter().getFilterDef(),
-    ];
+    if (this.authorizationService.isSuperAdmin()) {
+      return [
+        new StartDateFilter(moment().startOf('d').toDate()).getFilterDef(),
+        new EndDateFilter().getFilterDef(),
+        new LogLevelTableFilter().getFilterDef(),
+        new LogSourceTableFilter().getFilterDef(),
+        new LogActionTableFilter().getFilterDef(),
+        new UserTableFilter().getFilterDef(),
+      ];
+    } else {
+      const siteFilter = new SiteTableFilter().getFilterDef();
+      return [
+        new StartDateFilter(moment().startOf('d').toDate()).getFilterDef(),
+        new EndDateFilter().getFilterDef(),
+        new LogLevelTableFilter().getFilterDef(),
+        new LogSourceTableFilter().getFilterDef(),
+        new LogActionTableFilter().getFilterDef(),
+        siteFilter,
+        new ChargingStationTableFilter([siteFilter]).getFilterDef(),
+        new UserTableFilter().getFilterDef(),
+      ];
+    }
   }
 }

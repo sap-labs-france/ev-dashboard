@@ -7,7 +7,7 @@
         <!-- Create Left Actions -->
         <ng-container *ngFor="let actionDef of dataSource.tableActionsDef; let i=index">
           <!-- Action Button -->
-          <button mat-raised-button *ngIf="actionDef.type === 'button' && actionDef.id !== 'reset_filters'" [hidden]="actionDef.visible === false"
+          <button mat-raised-button *ngIf="actionDef.type === 'button' && actionDef.id !== 'reset_filters'" [hidden]="!actionDef.visible"
             (click)="actionTriggered(actionDef)" [color]="(actionDef.color ? actionDef.color : '')"
     [disabled]="actionDef.disabled || (dataSource.tableDef.rowSelection && actionDef.linkedToListSelection && dataSource.selectedRows === 0)" [title]="(actionDef.name ? '' : actionDef.tooltip | translate)">
             <mat-icon *ngIf="actionDef.icon">{{actionDef.icon}}</mat-icon>

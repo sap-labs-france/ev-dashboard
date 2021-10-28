@@ -6,7 +6,6 @@ import { Observable } from 'rxjs';
 import { IssuerFilter } from 'shared/table/filters/issuer-filter';
 
 import { AuthorizationService } from '../../../services/authorization.service';
-import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
@@ -24,7 +23,6 @@ import { StartDateFilter } from '../../../shared/table/filters/start-date-filter
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { BillingButtonAction, BillingInvoice, BillingSessionData } from '../../../types/Billing';
-import ChangeNotification from '../../../types/ChangeNotification';
 import { DataResult } from '../../../types/DataResult';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
 import { TenantComponents } from '../../../types/Tenant';
@@ -45,7 +43,6 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
     private dialogService: DialogService,
     private router: Router,
     private appUserNamePipe: AppUserNamePipe,
-    private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
     private authorizationService: AuthorizationService,
     private datePipe: AppDatePipe,
@@ -54,10 +51,6 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
     super(spinnerService, translateService);
     // Init
     this.initDataSource();
-  }
-
-  public getDataChangeSubject(): Observable<ChangeNotification> {
-    return this.centralServerNotificationService.getSubjectInvoices();
   }
 
   public loadDataImpl(): Observable<DataResult<BillingInvoice>> {

@@ -58,11 +58,9 @@ import { AuthLayoutComponent } from './layouts/auth/auth-layout.component';
 import { WINDOW_PROVIDERS } from './providers/window.provider';
 import { ReleaseNotesComponent } from './release-notes/release-notes.component';
 import { AuthorizationService } from './services/authorization.service';
-import { CentralServerNotificationService } from './services/central-server-notification.service';
 import { CentralServerService } from './services/central-server.service';
 import { ComponentService } from './services/component.service';
 import { ConfigService } from './services/config.service';
-import { DashboardService } from './services/dashboard.service';
 import { LocalStorageService } from './services/local-storage.service';
 import { LocaleService } from './services/locale.service';
 import { MessageService } from './services/message.service';
@@ -178,7 +176,6 @@ export const localeFactory = (
   providers: [
     WINDOW_PROVIDERS,
     CentralServerService,
-    CentralServerNotificationService,
     AuthorizationService,
     ComponentService,
     DevEnvGuard,
@@ -191,7 +188,6 @@ export const localeFactory = (
     UtilsService,
     TranslateService,
     WindowService,
-    DashboardService,
     StripeService,
     { provide: APP_INITIALIZER, useFactory: configFactory, deps: [ConfigService], multi: true },
     { provide: MAT_DATE_LOCALE, useFactory: localeFactory, deps: [CentralServerService, TranslateService], multi: true },

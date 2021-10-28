@@ -11,7 +11,6 @@ import { Configuration } from '../types/configuration/Configuration';
 import Debug from '../types/configuration/Debug';
 import FrontEndConfiguration from '../types/configuration/FrontEndConfiguration';
 import Landscape, { LandscapeType } from '../types/configuration/Landscape';
-import LocalesConfiguration from '../types/configuration/LocalesConfiguration';
 import SiteAreaConfiguration from '../types/configuration/SiteAreaConfiguration';
 import SiteConfiguration from '../types/configuration/SiteConfiguration';
 import TenantConfiguration from '../types/configuration/TenantConfiguration';
@@ -33,9 +32,6 @@ export class ConfigService {
   }
 
   public getCentralSystemServer(): CentralSystemServerConfiguration {
-    if (this.isUndefined(this.getConfig().CentralSystemServer.socketIOEnabled)) {
-      this.getConfig().CentralSystemServer.socketIOEnabled = true;
-    }
     if (this.isUndefined(this.getConfig().CentralSystemServer.logoutOnConnectionError)) {
       this.getConfig().CentralSystemServer.logoutOnConnectionError = true;
     }

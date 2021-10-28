@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 
-import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../../services/central-server.service';
 import { DialogService } from '../../../../services/dialog.service';
 import { MessageService } from '../../../../services/message.service';
@@ -20,7 +19,6 @@ import { TableOpenInMapsAction } from '../../../../shared/table/actions/table-op
 import { TableRefreshAction } from '../../../../shared/table/actions/table-refresh-action';
 import { IssuerFilter } from '../../../../shared/table/filters/issuer-filter';
 import { TableDataSource } from '../../../../shared/table/table-data-source';
-import ChangeNotification from '../../../../types/ChangeNotification';
 import { Company, CompanyButtonAction } from '../../../../types/Company';
 import { DataResult } from '../../../../types/DataResult';
 import { ButtonAction } from '../../../../types/GlobalType';
@@ -44,17 +42,12 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
     private dialogService: DialogService,
     private router: Router,
     private dialog: MatDialog,
-    private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
     private datePipe: AppDatePipe) {
     super(spinnerService, translateService);
     // Init
     this.setStaticFilters([{ WithLogo: true }]);
     this.initDataSource();
-  }
-
-  public getDataChangeSubject(): Observable<ChangeNotification> {
-    return this.centralServerNotificationService.getSubjectCompanies();
   }
 
   public loadDataImpl(): Observable<DataResult<Company>> {

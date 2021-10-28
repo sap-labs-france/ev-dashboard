@@ -67,7 +67,6 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
   private transactionPushOcpiCdrAction = new TablePushTransactionOcpiCdrAction().getActionDef();
   private exportTransactionOcpiCdrAction = new TableExportTransactionOcpiCdrAction().getActionDef();
   private readonly isOrganizationComponentActive: boolean;
-  private canExport = new TableExportTransactionsAction().getActionDef();
 
   public constructor(
     public spinnerService: SpinnerService,
@@ -169,7 +168,6 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     return new Observable((observer) => {
       this.centralServerService.getTransactions(this.buildFilterValues(), this.getPaging(), this.getSorting())
         .subscribe((transactions) => {
-          this.canExport.visible = this.authorizationService.canExportTransactions();
           // Ok
           observer.next(transactions);
           observer.complete();
@@ -409,7 +407,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
   public buildTableFiltersDef(): TableFilterDef[] {
     let userFilter: TableFilterDef;
     const issuerFilter = new IssuerFilter().getFilterDef();
-    const tableFiltersDef: TableFilterDef[] = [
+    const filters: TableFilterDef[] = [
       issuerFilter,
       new StartDateFilter(moment().startOf('y').toDate()).getFilterDef(),
       new EndDateFilter().getFilterDef(),
@@ -419,35 +417,35 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     if (this.componentService.isActive(TenantComponents.ORGANIZATION)) {
       const siteFilter = new SiteTableFilter([issuerFilter]).getFilterDef();
       const siteAreaFilter = new SiteAreaTableFilter([issuerFilter, siteFilter]).getFilterDef();
-      tableFiltersDef.push(siteFilter);
-      tableFiltersDef.push(siteAreaFilter);
+      filters.push(siteFilter);
+      filters.push(siteAreaFilter);
       if (this.authorizationService.canListChargingStations()) {
-        tableFiltersDef.push(new ChargingStationTableFilter([issuerFilter, siteFilter, siteAreaFilter]).getFilterDef());
-        tableFiltersDef.push(new ConnectorTableFilter().getFilterDef());
+        filters.push(new ChargingStationTableFilter([issuerFilter, siteFilter, siteAreaFilter]).getFilterDef());
+        filters.push(new ConnectorTableFilter().getFilterDef());
       }
       if ((this.authorizationService.canListUsers())) {
         userFilter = new UserTableFilter([issuerFilter, siteFilter]).getFilterDef();
-        tableFiltersDef.push(userFilter);
+        filters.push(userFilter);
       }
       if ((this.authorizationService.canListTags())) {
-        tableFiltersDef.push(new TagTableFilter(
+        filters.push(new TagTableFilter(
           userFilter ? [issuerFilter, siteFilter, userFilter] : [issuerFilter, siteFilter]).getFilterDef());
       }
     } else {
       if (this.authorizationService.canListChargingStations()) {
-        tableFiltersDef.push(new ChargingStationTableFilter([issuerFilter]).getFilterDef());
-        tableFiltersDef.push(new ConnectorTableFilter().getFilterDef());
+        filters.push(new ChargingStationTableFilter([issuerFilter]).getFilterDef());
+        filters.push(new ConnectorTableFilter().getFilterDef());
       }
       if ((this.authorizationService.canListUsers())) {
         userFilter = new UserTableFilter([issuerFilter]).getFilterDef();
-        tableFiltersDef.push(userFilter);
+        filters.push(userFilter);
       }
       if ((this.authorizationService.canListTags())) {
-        tableFiltersDef.push(new TagTableFilter(
+        filters.push(new TagTableFilter(
           userFilter ? [issuerFilter, userFilter] : [issuerFilter]).getFilterDef());
       }
     }
-    return tableFiltersDef;
+    return filters;
   }
 
   public buildTableDynamicRowActions(transaction: Transaction): TableActionDef[] {
@@ -552,7 +550,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
     if (this.authorizationService.canExportTransactions()) {
-      tableActionsDef.unshift(this.canExport);
+      tableActionsDef.unshift(new TableExportTransactionsAction().getActionDef());
     }
     return tableActionsDef;
   }

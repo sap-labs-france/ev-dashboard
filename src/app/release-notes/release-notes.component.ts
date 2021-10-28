@@ -35,6 +35,7 @@ export class ReleaseNotesComponent {
               `Added Import, Export, Sync Billing authorizations in Users' list`,
               `Added dedicated Charging Station's column in Logs`,
               `Added new Source and Site filters in Logs`,
+              `Ensure Async Task manager to always resume after a long processing task`,
               `Migrated Log endpoint to the new Authorization framework`,
             ],
           },

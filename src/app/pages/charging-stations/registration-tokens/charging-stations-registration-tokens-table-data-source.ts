@@ -6,7 +6,6 @@ import * as moment from 'moment';
 import { Observable } from 'rxjs';
 
 import { AuthorizationService } from '../../../services/authorization.service';
-import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
@@ -23,7 +22,6 @@ import { TableMoreAction } from '../../../shared/table/actions/table-more-action
 import { TableMultiCopyAction } from '../../../shared/table/actions/table-multi-copy-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { TableDataSource } from '../../../shared/table/table-data-source';
-import ChangeNotification from '../../../types/ChangeNotification';
 import { DataResult } from '../../../types/DataResult';
 import { RegistrationToken, RegistrationTokenButtonAction } from '../../../types/RegistrationToken';
 import { SiteArea } from '../../../types/SiteArea';
@@ -58,7 +56,6 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
     private router: Router,
     private dialog: MatDialog,
     private componentService: ComponentService,
-    private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
     private authorizationService: AuthorizationService,
     private datePipe: AppDatePipe) {
@@ -69,10 +66,6 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
     this.canDeleteToken = this.authorizationService.canDeleteToken();
     // Init
     this.initDataSource();
-  }
-
-  public getDataChangeSubject(): Observable<ChangeNotification> {
-    return this.centralServerNotificationService.getSubjectRegistrationTokens();
   }
 
   public loadDataImpl(): Observable<DataResult<RegistrationToken>> {
@@ -110,6 +103,13 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
         headerClass: 'col-5p text-center',
         class: 'col-5p table-cell-angular-big-component',
         sortable: true,
+      },
+      {
+        id: 'id',
+        name: 'general.id',
+        sortable: true,
+        headerClass: 'col-30p',
+        class: 'col-30p',
       },
       {
         id: 'description',

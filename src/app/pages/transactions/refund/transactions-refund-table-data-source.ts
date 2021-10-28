@@ -8,7 +8,6 @@ import { IssuerFilter } from 'shared/table/filters/issuer-filter';
 import { SiteTableFilter } from 'shared/table/filters/site-table-filter';
 
 import { AuthorizationService } from '../../../services/authorization.service';
-import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
@@ -37,7 +36,6 @@ import { StartDateFilter } from '../../../shared/table/filters/start-date-filter
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { CarCatalog } from '../../../types/Car';
-import ChangeNotification from '../../../types/ChangeNotification';
 import { DataResult, TransactionRefundDataResult } from '../../../types/DataResult';
 import { RefundSettings } from '../../../types/Setting';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
@@ -55,13 +53,13 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
   private isAdmin: boolean;
   private tableSyncRefundAction = new TableSyncRefundTransactionsAction().getActionDef();
 
+
   public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     private messageService: MessageService,
     private dialogService: DialogService,
     private router: Router,
-    private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
     private componentService: ComponentService,
     private authorizationService: AuthorizationService,
@@ -78,13 +76,12 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
     // Load settings
     this.loadRefundSettings();
     // Init
+    this.setStaticFilters([{
+      WithUser: true,
+      WithCar: true,
+      Statistics: 'refund',
+    }]);
     this.initDataSource();
-    // Add statistics to query
-    this.setStaticFilters([{ Statistics: 'refund' }]);
-  }
-
-  public getDataChangeSubject(): Observable<ChangeNotification> {
-    return this.centralServerNotificationService.getSubjectTransactions();
   }
 
   public loadDataImpl(): Observable<DataResult<Transaction>> {
@@ -153,12 +150,6 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
         class: 'd-none d-xl-table-cell',
       },
       {
-        id: 'user',
-        name: 'transactions.user',
-        class: 'text-left',
-        formatter: (user: User) => this.appUserNamePipe.transform(user),
-      },
-      {
         id: 'refundData.reportId',
         name: 'transactions.reportId',
         sortable: true,
@@ -184,6 +175,26 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
         formatter: (value) => this.datePipe.transform(value),
       },
       {
+        id: 'chargeBoxID',
+        name: 'transactions.charging_station',
+        headerClass: 'col-15p',
+        sortable: true,
+        class: 'text-left col-15p',
+      },
+      {
+        id: 'connectorId',
+        name: 'chargers.connector',
+        headerClass: 'text-center col-10p',
+        class: 'text-center col-10p',
+        formatter: (connectorId: number) => this.appConnectorIdPipe.transform(connectorId),
+      },
+      {
+        id: 'user',
+        name: 'transactions.user',
+        class: 'text-left',
+        formatter: (user: User) => this.appUserNamePipe.transform(user),
+      },
+      {
         id: 'stop.totalDurationSecs',
         name: 'transactions.duration',
         class: 'text-left',
@@ -199,23 +210,9 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
         name: 'transactions.price',
         formatter: (price, row) => this.appCurrencyPipe.transform(price, row.stop.priceUnit),
       },
-      {
-        id: 'chargeBoxID',
-        name: 'transactions.charging_station',
-        headerClass: 'col-15p',
-        sortable: true,
-        class: 'text-left col-15p',
-      },
-      {
-        id: 'connectorId',
-        name: 'chargers.connector',
-        headerClass: 'text-center col-10p',
-        class: 'text-center col-10p',
-        formatter: (connectorId: number) => this.appConnectorIdPipe.transform(connectorId),
-      },
     );
     if (this.componentService.isActive(TenantComponents.CAR) &&
-        this.authorizationService.canListCars()) {
+      this.authorizationService.canListCars()) {
       columns.push({
         id: 'carCatalog',
         name: 'car.title',

@@ -8,7 +8,6 @@ import { TableImportUsersAction, TableImportUsersActionDef } from 'shared/table/
 import { TagButtonAction } from 'types/Tag';
 
 import { AuthorizationService } from '../../../services/authorization.service';
-import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
@@ -34,13 +33,13 @@ import { SiteTableFilter } from '../../../shared/table/filters/site-table-filter
 import { TagTableFilter } from '../../../shared/table/filters/tag-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { BillingButtonAction } from '../../../types/Billing';
-import ChangeNotification from '../../../types/ChangeNotification';
 import { DataResult } from '../../../types/DataResult';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
 import { TenantComponents } from '../../../types/Tenant';
 import { TransactionButtonAction } from '../../../types/Transaction';
 import { User, UserButtonAction } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';
+import { UserFreeAccessFilter } from '../filters/user-free-access-filter';
 import { UserRoleFilter } from '../filters/user-role-filter';
 import { UserStatusFilter } from '../filters/user-status-filter';
 import { UserTechnicalFilter } from '../filters/user-technical-filter';
@@ -66,7 +65,6 @@ export class UsersListTableDataSource extends TableDataSource<User> {
     private dialogService: DialogService,
     private router: Router,
     private dialog: MatDialog,
-    private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
     private authorizationService: AuthorizationService,
     private componentService: ComponentService,
@@ -103,10 +101,6 @@ export class UsersListTableDataSource extends TableDataSource<User> {
         this.filterChanged(issuerTableFilter);
       }
     }
-  }
-
-  public getDataChangeSubject(): Observable<ChangeNotification> {
-    return this.centralServerNotificationService.getSubjectUsers();
   }
 
   public loadDataImpl(): Observable<DataResult<User>> {
@@ -399,7 +393,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
 
   public buildTableFiltersDef(): TableFilterDef[] {
     const issuerFilter = new IssuerFilter().getFilterDef();
-    return [
+    const filters = [
       issuerFilter,
       new UserRoleFilter(this.centralServerService).getFilterDef(),
       new UserStatusFilter().getFilterDef(),
@@ -407,5 +401,9 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       new SiteTableFilter([issuerFilter]).getFilterDef(),
       new UserTechnicalFilter().getFilterDef(),
     ];
+    if (this.componentService.isActive(TenantComponents.BILLING)) {
+      filters.push(new UserFreeAccessFilter().getFilterDef());
+    }
+    return filters;
   }
 }

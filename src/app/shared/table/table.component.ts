@@ -5,14 +5,13 @@ import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { MatSort } from '@angular/material/sort';
 import { MatDatetimepickerInputEvent } from '@mat-datetimepicker/core';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable, Subscription, fromEvent } from 'rxjs';
+import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, takeWhile } from 'rxjs/operators';
 
 import { ConfigService } from '../../services/config.service';
 import { LocaleService } from '../../services/locale.service';
 import { SpinnerService } from '../../services/spinner.service';
 import { WindowService } from '../../services/window.service';
-import ChangeNotification from '../../types/ChangeNotification';
 import { ButtonAction } from '../../types/GlobalType';
 import { DropdownItem, FilterType, TableActionDef, TableColumnDef, TableData, TableEditType, TableFilterDef } from '../../types/Table';
 import { Constants } from '../../utils/Constants';
@@ -39,8 +38,10 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private ongoingRefresh = false;
 
-  private autoRefreshSubscription!: Subscription;
+  private autoRefreshTimeout;
+  private refreshIntervalSecs: number;
   private alive!: boolean;
+  private tableActionAutoRefresh: TableActionDef;
 
   public constructor(
     private configService: ConfigService,
@@ -51,6 +52,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     private dialog: MatDialog) {
     // Set placeholder
     this.searchPlaceholder = this.translateService.instant('general.search');
+    this.refreshIntervalSecs = this.configService.getCentralSystemServer().pollIntervalSecs;
   }
 
   public ngOnInit() {
@@ -92,16 +94,12 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
           this.refresh();
         });
       }
-      if (this.dataSource.tableActionsRightDef) {
-        // Init Auto-Refresh
-        for (const tableActionRightDef of this.dataSource.tableActionsRightDef) {
-          if (tableActionRightDef.id === ButtonAction.AUTO_REFRESH) {
-            // Active by default?
-            if (tableActionRightDef.currentValue) {
-              this.createAutoRefresh();
-            }
-            break;
-          }
+      // Search for Auto-Refresh
+      for (const tableActionRightDef of this.dataSource.tableActionsRightDef) {
+        if (tableActionRightDef.id === ButtonAction.AUTO_REFRESH) {
+          // Keep it
+          this.tableActionAutoRefresh = tableActionRightDef;
+          break;
         }
       }
       // Initial Load
@@ -237,6 +235,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public toggleAutoRefresh({ checked }) {
+    this.tableActionAutoRefresh.currentValue = checked;
     if (checked) {
       this.createAutoRefresh();
     } else {
@@ -245,17 +244,24 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public refresh(autoRefresh = false) {
+    // Start refresh
     if (!this.ongoingRefresh) {
-      this.ongoingRefresh = true;
-      if (autoRefresh) {
-        this.ongoingAutoRefresh = true;
-      }
-      // Refresh Data
-      this.dataSource.refreshData(!this.ongoingAutoRefresh).subscribe(() => {
+      const refreshDone = () => {
         this.ongoingRefresh = false;
         if (autoRefresh) {
           this.ongoingAutoRefresh = false;
         }
+        // Recreate the timeout
+        this.destroyAutoRefresh();
+        this.createAutoRefresh();
+      };
+      // Refresh Data
+      this.ongoingRefresh = true;
+      this.ongoingAutoRefresh = autoRefresh;
+      this.dataSource.refreshData(!this.ongoingAutoRefresh).subscribe(() => {
+        refreshDone();
+      }, (error) => {
+        refreshDone();
       });
     }
   }
@@ -308,9 +314,16 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public loadData() {
+    const loadingDone = () => {
+      this.loading = false;
+      this.createAutoRefresh();
+    };
+    // Start initial loading
     this.loading = true;
     this.dataSource.loadData().subscribe(() => {
-      this.loading = false;
+      loadingDone();
+    }, (error) => {
+      loadingDone();
     });
   }
 
@@ -340,26 +353,20 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private createAutoRefresh() {
-    if (this.configService.getCentralSystemServer().socketIOEnabled) {
-      if (!this.autoRefreshSubscription) {
-        const refreshObservable: Observable<ChangeNotification> = this.dataSource.getDataChangeSubject();
-        if (refreshObservable) {
-          this.autoRefreshSubscription = refreshObservable.pipe(
-            takeWhile(() => this.alive),
-          ).subscribe(() => {
-            if (!this.ongoingRefresh) {
-              this.refresh(true);
-            }
-          });
+    if (!this.autoRefreshTimeout && this.refreshIntervalSecs && this.tableActionAutoRefresh?.currentValue) {
+      // Create the timer
+      this.autoRefreshTimeout = setTimeout(() => {
+        if (this.alive && !this.loading && !this.ongoingRefresh) {
+          this.refresh(true);
         }
-      }
+      }, this.refreshIntervalSecs * 1000);
     }
   }
 
   private destroyAutoRefresh() {
-    if (this.autoRefreshSubscription) {
-      this.autoRefreshSubscription.unsubscribe();
+    if (this.autoRefreshTimeout) {
+      clearTimeout(this.autoRefreshTimeout);
+      this.autoRefreshTimeout = null;
     }
-    this.autoRefreshSubscription = null;
   }
 }

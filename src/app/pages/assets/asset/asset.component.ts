@@ -78,7 +78,7 @@ export class AssetComponent implements OnInit {
     if (this.activatedRoute.snapshot.params['id'] &&
       !authorizationService.canUpdateAsset()) {
       // Not authorized
-      this.router.navigate(['/']);
+      void this.router.navigate(['/']);
     }
     // Get asset types
     this.assetTypes = AssetTypes;

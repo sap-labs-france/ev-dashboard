@@ -39,7 +39,7 @@ export class ChargingStationOcppParametersComponent implements OnInit, OnChanges
     // Check auth
     if (!authorizationService.canUpdateChargingStation()) {
       // Not authorized
-      this.router.navigate(['/']);
+      void this.router.navigate(['/']);
     }
     // Get Locales
     this.userLocales = this.localeService.getLocales();

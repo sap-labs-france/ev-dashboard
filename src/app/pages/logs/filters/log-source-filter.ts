@@ -1,24 +1,11 @@
-import { sources } from '../../../shared/model/logs.model';
-import { TableFilter } from '../../../shared/table/filters/table-filter';
-import { FilterType, TableFilterDef } from '../../../types/Table';
+import { ChargingStationTableFilter } from '../../../shared/table/filters/charging-station-table-filter';
 
-export class LogSourceTableFilter extends TableFilter {
+export class LogSourceTableFilter extends ChargingStationTableFilter {
   public constructor() {
     super();
-    // Define filter
-    const filterDef: TableFilterDef = {
-      id: 'source',
-      httpId: 'Source',
-      type: FilterType.DROPDOWN,
-      name: 'logs.source',
-      class: 'col-sm-4 col-md-3 col-lg-2 col-xl-1',
-      label: '',
-      currentValue: [],
-      items: Object.assign([], sources),
-      multiple: true,
-      exhaustive: true
-    };
-    // Set
-    this.setFilterDef(filterDef);
+    // Get the filter
+    const filter = this.getFilterDef();
+    // Change Http ID
+    filter.httpId = 'Source';
   }
 }

@@ -137,7 +137,6 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
       this.centralServerService.getTransactionsInError(this.buildFilterValues(), this.getPaging(), this.getSorting())
         .subscribe((transactions) => {
           this.formatErrorMessages(transactions.result);
-          this.deleteManyAction.visible = this.authorizationService.isAdmin();
           observer.next(transactions);
           observer.complete();
         }, (error) => {

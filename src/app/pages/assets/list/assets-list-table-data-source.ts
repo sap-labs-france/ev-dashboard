@@ -37,7 +37,6 @@ import { AssetConsumptionChartDetailComponent } from './consumption-chart/asset-
 @Injectable()
 export class AssetsListTableDataSource extends TableDataSource<Asset> {
   private isAdmin = false;
-  private canCreate = new TableCreateAssetAction().getActionDef();
   private editAction = new TableEditAssetAction().getActionDef();
   private deleteAction = new TableDeleteAssetAction().getActionDef();
   private displayAction = new TableViewAssetAction().getActionDef();
@@ -73,7 +72,6 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
             asset.image = Constants.NO_IMAGE;
           }
         }
-        this.canCreate.visible = this.isAdmin;
         // Ok
         observer.next(assets);
         observer.complete();
@@ -181,7 +179,7 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
     const tableActionsDef = super.buildTableActionsDef();
     if (this.isAdmin) {
       return [
-        this.canCreate,
+        new TableCreateAssetAction().getActionDef(),
         ...tableActionsDef,
       ];
     }

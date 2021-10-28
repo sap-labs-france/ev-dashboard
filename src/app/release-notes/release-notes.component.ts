@@ -31,6 +31,8 @@ export class ReleaseNotesComponent {
             changes: [
               `Enforce security checks in OCPP requests`,
               `Made all notification non blocking`,
+              `Avoid Scheduled tasks overlapping`,
+              `Added Import, Export, Sync Billing authorizations in Users' list`,
               `Added dedicated Charging Station's column in Logs`,
               `Added new Source and Site filters in Logs`,
               `Migrated Log endpoint to the new Authorization framework`,

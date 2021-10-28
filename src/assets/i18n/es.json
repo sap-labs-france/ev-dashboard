@@ -435,7 +435,8 @@
     "export_all_params_title": "Exportar parametros OCPP",
     "export_all_params_confirm": "¿Está seguro que desea exportar todos los parámetros OCPP de todas las estaciones de carga que pertenecen al sitio '{{siteName}}'?",
     "export_all_params_error": "Se produjo un error al intentar exportar todos los parámetros OCPP",
-    "display_users": "Mostrar usuarios"
+    "display_users": "Mostrar usuarios",
+    "private_limitation": "Some features are not available when the site is private"
   },
   "site_areas": {
     "assign_site": "Asignar zonas",

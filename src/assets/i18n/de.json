@@ -435,7 +435,8 @@
     "export_all_params_title": "OCPP Parameter exportieren",
     "export_all_params_confirm": "Wollen Sie wirklich alle OCPP Parameter von allen Ladestationen am Standort '{{siteName}}' exportieren ?",
     "export_all_params_error": "Während des Exports aller OCPP Parameter ist ein Fehler aufgtreten.",
-    "display_users": "Nutzer anzeigen"
+    "display_users": "Nutzer anzeigen",
+    "private_limitation": "Some features are not available when the site is private"
   },
   "site_areas": {
     "assign_site": "Standort zuweisen",

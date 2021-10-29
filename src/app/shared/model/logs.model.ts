@@ -9,13 +9,13 @@ export const logLevels: KeyValue[] = [
 ];
 
 export const sources: KeyValue[] = [
-  { key: 'RestServer', value: 'Rest Server' },
-  { key: 'SoapServer', value: 'Soap Server' },
-  { key: 'JsonServer', value: 'Json Server' },
-  { key: 'OcpiServer', value: 'Ocpi Server' },
-  { key: 'OicpServer', value: 'Oicp Server' },
-  { key: 'ODataServer', value: 'OData Server' },
-  { key: 'BatchServer', value: 'Batch Server' },
+  { key: 'Rest', value: 'Rest Server' },
+  { key: 'Soap', value: 'Soap Server' },
+  { key: 'Json', value: 'Json Server' },
+  { key: 'Ocpi', value: 'Ocpi Server' },
+  { key: 'Oicp', value: 'Oicp Server' },
+  { key: 'OData', value: 'OData Server' },
+  { key: 'Batch', value: 'Batch Server' },
 ];
 
 

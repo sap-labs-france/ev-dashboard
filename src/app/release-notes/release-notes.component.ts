@@ -24,15 +24,18 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.5.8',
-        date: new Date('2021-10-27'),
+        date: new Date('2021-10-28'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `Enforce security checks in OCPP requests`,
               `Made all notification non blocking`,
+              `Avoid scheduled tasks execution overlapping`,
+              `Added Import, Export, Sync Billing authorizations in Users' list`,
               `Added dedicated Charging Station's column in Logs`,
               `Added new Source and Site filters in Logs`,
+              `Ensure Async Task manager to always resume after a long processing task`,
               `Migrated Log endpoint to the new Authorization framework`,
             ],
           },

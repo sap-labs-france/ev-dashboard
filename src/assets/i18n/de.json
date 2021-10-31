@@ -2482,7 +2482,6 @@
     "preparing_session_not_started": "Benachrichtigen Sie mich, wenn ein Ladevorgang nicht gestartet wurde (nur Standortbesitzer)",
     "ocpi_patch_status_error": "Benachrichtigen Sie mich, wenn der Transfer eines Ladestationsstatuses zur Roaming Plattform fehlgeschlagen ist (OCPI)",
     "oicp_patch_status_error": "Benachrichtigen Sie mich, wenn der Transfer eines Ladestationsstatuses zur Roaming Plattform fehlgeschlagen ist (OICP)",
-    "smtp_error": "Benachrichtigen Sie mich, wenn ein Fehler beim E-Mail-Server auftritt",
     "billing_synchronization_failed": "Benachrichtigen Sie mich, wenn eine Synchronisierung mit dem Abrechnungssystem fehlgeschlagen ist",
     "billing_periodic_operation_failed": "Benachrichtigen Sie mich, wenn ein periodischer Abrechnungsvorgang fehlgeschlagen ist",
     "session_not_started": "Benachrichtigen Sie mich, wenn kein Ladevorgang nach dem authentifizieren gestartet wurde",

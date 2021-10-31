@@ -2481,7 +2481,6 @@
     "preparing_session_not_started": "Avvisami quando una sessione non è stata avviata (solo proprietario del sito)",
     "ocpi_patch_status_error": "Avvisami se il trasferimento degli stati di una stazione di ricarica alla piattaforma di roaming (OCPI) fallisce",
     "oicp_patch_status_error": "Notify me if the transfer of a charging station’s statuses has failed to the roaming platform (OICP)",
-    "smtp_error": "Notify me if an error occurred with the email server",
     "billing_synchronization_failed": "Avvisami quando una sincronizzazione con un sistema di fatturazione non è riuscita",
     "billing_periodic_operation_failed": "Notify me when a periodic billing operation has failed",
     "session_not_started": "Avvisami se nessuna sessione è stata avviata dopo l'inserimento di un badge",

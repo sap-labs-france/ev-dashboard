@@ -296,12 +296,6 @@
                   <div class="row ms-1">
                     <div class="col-sm-12">
                       <mat-checkbox [disabled]="!notificationsActive.value"
-                        [formControl]="sendSmtpError">{{"notifications.smtp_error" | translate}}</mat-checkbox>
-                    </div>
-                  </div>
-                  <div class="row ms-1">
-                    <div class="col-sm-12">
-                      <mat-checkbox [disabled]="!notificationsActive.value"
                         [formControl]="sendBillingSynchronizationFailed">{{"notifications.billing_synchronization_failed" | translate}}</mat-checkbox>
                     </div>
                   </div>

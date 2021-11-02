@@ -424,7 +424,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
 
   public buildTableActionsRightDef(): TableActionDef[] {
     return [
-      new TableAutoRefreshAction(true).getActionDef(),
+      new TableAutoRefreshAction().getActionDef(),
       new TableRefreshAction().getActionDef(),
     ];
   }

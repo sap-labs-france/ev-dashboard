@@ -2482,7 +2482,6 @@
     "preparing_session_not_started": "Me notifier lorsqu'une session n'a pas été démarrée (propriétaire du site seulement)",
     "ocpi_patch_status_error": "Me notifier lorsque le transfert des statuts des bornes a échoué vers la platforme de roaming (OCPI)",
     "oicp_patch_status_error": "Me notifier lorsque le transfert des statuts des bornes a échoué vers la platforme de roaming (OICP)",
-    "smtp_error": "Me notifier en cas d'erreur sur le serveur d'email",
     "billing_synchronization_failed": "Me notifier lorsqu'une synchronisation avec le service de facturation a échoué",
     "billing_periodic_operation_failed": "Me notifier lorsqu'une opération de facturation périodique a échoué",
     "session_not_started": "Me notifier lorsque j'ai badger sur une borne de recharge mais aucune session n'a démarré",

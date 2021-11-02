@@ -39,6 +39,8 @@ export class SiteAreaComponent implements OnInit {
   public maxSize: number;
   public siteArea: SiteArea;
   public readOnly = true;
+  public OCPIActive: boolean;
+  public sitePublicActive: boolean;
 
   public formGroup!: FormGroup;
   public id!: AbstractControl;
@@ -51,6 +53,7 @@ export class SiteAreaComponent implements OnInit {
   public accessControl!: AbstractControl;
   public smartCharging!: AbstractControl;
   public numberOfPhases!: AbstractControl;
+  public tariffID: AbstractControl;
 
   public phaseMap = [
     { key: 1, description: 'site_areas.single_phased' },
@@ -85,6 +88,7 @@ export class SiteAreaComponent implements OnInit {
     }
     // Set
     this.isSmartChargingComponentActive = this.componentService.isActive(TenantComponents.SMART_CHARGING);
+    this.OCPIActive = this.componentService.isActive(TenantComponents.OCPI);
   }
 
   public ngOnInit() {
@@ -129,6 +133,10 @@ export class SiteAreaComponent implements OnInit {
           Validators.required,
         ])
       ),
+      tariffID: new FormControl('',
+        Validators.compose([
+          Validators.maxLength(50),
+        ])),
     });
     // Form
     this.id = this.formGroup.controls['id'];
@@ -151,6 +159,7 @@ export class SiteAreaComponent implements OnInit {
         this.currentSiteAreaID = params['id'];
       });
     }
+    this.tariffID = this.formGroup.controls['tariffID'];
     // Handle Dialog mode
     Utils.handleDialogMode(this.dialogMode, this.formGroup);
   }
@@ -218,6 +227,10 @@ export class SiteAreaComponent implements OnInit {
       }
       if (siteArea.site) {
         this.site.setValue(siteArea.site.name);
+      }
+      if (siteArea.site.public) {
+        this.sitePublicActive = siteArea.site.public;
+        this.formGroup.controls.tariffID.setValue(siteArea.tariffID);
       }
       if (siteArea.maximumPower) {
         this.formGroup.controls.maximumPower.setValue(siteArea.maximumPower);

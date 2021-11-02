@@ -2426,7 +2426,6 @@
       "preparing_session_not_started":"Upozornit mě na nezahájenou relaci (pouze vlastník parkoviště)",
       "ocpi_patch_status_error":"Upozornit mě na nezdařený převod stavů nabíjecí stanice  na roamingovou platformu (OCPI)",
       "oicp_patch_status_error":"Upozornit mě na nezdařený převod stavů nabíjecí stanice  na roamingovou platformu (OICP)",
-      "smtp_error":"Upozornit mě, když dojde k chybě e-mailového serveru",
       "billing_synchronization_failed":"Upozornit mě na nezdařenou synchronizaci s účetním systémem",
       "billing_periodic_operation_failed":"Upozornit mě na nezdařenou periodickou fakturační operaci",
       "session_not_started":"Upozornit mě, když po prokázání čipovou kartou nezačne žádná relace ",

@@ -2483,7 +2483,6 @@
     "preparing_session_not_started": "Notificarme cuando no se haya iniciado una sesión (solo el propietario del sitio)",
     "ocpi_patch_status_error": "Notificarme si ha fallado la transferencia de estatus de una estación de carga a la plataforma móvil (OCPI)",
     "oicp_patch_status_error": "Notificarme si ha fallado la transferencia de estatus de una estación de carga a la plataforma móvil (OICP)",
-    "smtp_error": "Notify me if an error occurred with the email server",
     "billing_synchronization_failed": "Notificarme si ha fallado la sincronización con el sistema de facturación",
     "billing_periodic_operation_failed": "Notificarme si ha fallado una operación periódica de facturación",
     "session_not_started": "Notificarme si no se inició ninguna sesión después de la identificación",

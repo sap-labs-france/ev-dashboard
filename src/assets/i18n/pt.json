@@ -2483,7 +2483,6 @@
     "preparing_session_not_started": "Notifique-me quando uma sessão não tiver sido iniciada (apenas proprietário do site)",
     "ocpi_patch_status_error": "Notifique-me se a transferência dos status de uma estação de carregamento falhar para a plataforma de roaming (OCPI)",
     "oicp_patch_status_error": "Notifique-me se a transferência dos status de uma estação de carregamento falhar para a plataforma de roaming (OICP)",
-    "smtp_error": "Notify me if an error occurred with the email server",
     "billing_synchronization_failed": "Notifique-me quando uma sincronização com o sistema de faturamento falhar",
     "billing_periodic_operation_failed": "Notify me when a periodic billing operation has failed",
     "session_not_started": "Notifique-me se nenhuma sessão tiver sido iniciada após o selo",

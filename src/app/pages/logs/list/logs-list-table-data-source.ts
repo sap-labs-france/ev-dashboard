@@ -4,6 +4,8 @@ import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { ChargingStationTableFilter } from 'shared/table/filters/charging-station-table-filter';
+import { SiteTableFilter } from 'shared/table/filters/site-table-filter';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -169,13 +171,13 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
       {
         id: 'timestamp',
         type: 'date',
-        formatter: (createdOn: Date) => this.datePipe.transform(createdOn, 'medium'),
         name: 'logs.date',
         headerClass: 'col-15p',
         class: 'text-left col-15p',
         sorted: true,
         direction: 'desc',
         sortable: true,
+        formatter: (createdOn: Date) => this.datePipe.transform(createdOn, 'medium'),
       },
       {
         id: 'host',
@@ -185,8 +187,8 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
         sortable: true,
       },
       {
-        id: 'process',
-        name: 'logs.process',
+        id: 'source',
+        name: 'logs.source',
         headerClass: 'col-15p',
         class: 'text-left col-15p',
         sortable: true,
@@ -199,11 +201,12 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
         sortable: true,
       },
       {
-        id: 'source',
-        name: 'logs.source',
+        id: 'chargingStationID',
+        name: 'chargers.title',
         headerClass: 'col-15p',
-        class: 'text-left col-15p',
         sortable: true,
+        class: 'text-center col-15p',
+        formatter: (chargingStationID: string) => chargingStationID ?? '-',
       },
       {
         id: 'message',
@@ -246,23 +249,27 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {
-    const tableFiltersDef = [
-      new StartDateFilter(moment().startOf('d').toDate()).getFilterDef(),
-      new EndDateFilter().getFilterDef(),
-      new LogLevelTableFilter().getFilterDef(),
-      new LogActionTableFilter().getFilterDef(),
-    ];
     if (this.authorizationService.isSuperAdmin()) {
-      tableFiltersDef.push(new UserTableFilter().getFilterDef());
-      return tableFiltersDef;
-    }
-    if (this.authorizationService.isAdmin()) {
-      tableFiltersDef.push(new UserTableFilter().getFilterDef());
-      tableFiltersDef.push(new LogSourceTableFilter().getFilterDef());
+      return [
+        new StartDateFilter(moment().startOf('d').toDate()).getFilterDef(),
+        new EndDateFilter().getFilterDef(),
+        new LogLevelTableFilter().getFilterDef(),
+        new LogSourceTableFilter().getFilterDef(),
+        new LogActionTableFilter().getFilterDef(),
+        new UserTableFilter().getFilterDef(),
+      ];
     } else {
-      tableFiltersDef.push(new UserTableFilter().getFilterDef());
-      tableFiltersDef.push(new LogSourceTableFilter().getFilterDef());
+      const siteFilter = new SiteTableFilter().getFilterDef();
+      return [
+        new StartDateFilter(moment().startOf('d').toDate()).getFilterDef(),
+        new EndDateFilter().getFilterDef(),
+        new LogLevelTableFilter().getFilterDef(),
+        new LogSourceTableFilter().getFilterDef(),
+        new LogActionTableFilter().getFilterDef(),
+        siteFilter,
+        new ChargingStationTableFilter([siteFilter]).getFilterDef(),
+        new UserTableFilter().getFilterDef(),
+      ];
     }
-    return tableFiltersDef;
   }
 }

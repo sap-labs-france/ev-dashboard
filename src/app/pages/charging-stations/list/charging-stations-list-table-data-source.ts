@@ -50,6 +50,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
   private smartChargingAction = new TableChargingStationsSmartChargingAction().getActionDef();
   private deleteAction = new TableDeleteChargingStationAction().getActionDef();
   private generateQrCodeConnectorAction = new TableChargingStationGenerateQrCodeConnectorAction().getActionDef();
+  private canExport = new TableExportChargingStationsAction().getActionDef();
 
   public constructor(
     public spinnerService: SpinnerService,
@@ -97,6 +98,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
             connector.currentTotalInactivitySecs = connectorIsInactive ? 0 : connector.currentTotalInactivitySecs;
           };
         };
+        this.canExport.visible = this.authorizationService.isAdmin();
         // Ok
         observer.next(chargingStations);
         observer.complete();
@@ -240,7 +242,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
     const tableActionsDef = super.buildTableActionsDef();
     if (this.authorizationService.isAdmin()) {
       return [
-        new TableExportChargingStationsAction().getActionDef(),
+        this.canExport,
         ...tableActionsDef,
       ];
     }

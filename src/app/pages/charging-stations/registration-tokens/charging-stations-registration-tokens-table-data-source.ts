@@ -44,6 +44,7 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
   private copySOAP15SecureAction = new TableCopyAction('chargers.connections.ocpp_15_soap_secure').getActionDef();
   private copySOAP16SecureAction = new TableCopyAction('chargers.connections.ocpp_16_soap_secure').getActionDef();
   private copyJSON16SecureAction = new TableCopyAction('chargers.connections.ocpp_16_json_secure').getActionDef();
+  private canCreate = new TableCreateRegistrationTokenAction().getActionDef();
   private canUpdateToken: boolean;
   private canCreateToken: boolean;
   private canDeleteToken: boolean;
@@ -73,6 +74,7 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
       // Get the Tenants
       this.centralServerService.getRegistrationTokens(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((tokens) => {
+        this.canCreate.visible = this.canCreateToken;
         observer.next(tokens);
         observer.complete();
       }, (error) => {
@@ -187,7 +189,7 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
     if (this.canCreateToken) {
-      tableActionsDef.unshift(new TableCreateRegistrationTokenAction().getActionDef());
+      tableActionsDef.unshift(this.canCreate);
     }
     return tableActionsDef;
   }

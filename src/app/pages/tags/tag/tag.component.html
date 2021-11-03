@@ -12,7 +12,7 @@
               <div class="form-group">
                 <mat-form-field>
                   <input appAutofocus matInput placeholder="{{'tags.id' | translate}}" class="app-tag-name" type="text"
-                    [formControl]="id">
+                    [formControl]="id" (input)="toUpperCase(id)">
                   <mat-error *ngIf="id.errors?.required">
                     {{"general.mandatory_field" | translate}}
                   </mat-error>

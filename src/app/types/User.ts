@@ -56,7 +56,6 @@ export interface UserNotifications {
   sendChargingStationRegistered: boolean;
   sendOcpiPatchStatusError: boolean;
   sendOicpPatchStatusError: boolean;
-  sendSmtpError: boolean;
   sendUserAccountInactivity: boolean;
   sendPreparingSessionNotStarted: boolean;
   sendOfflineChargingStations: boolean;

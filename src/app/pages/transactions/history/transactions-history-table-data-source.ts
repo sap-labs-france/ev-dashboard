@@ -67,6 +67,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
   private transactionPushOcpiCdrAction = new TablePushTransactionOcpiCdrAction().getActionDef();
   private exportTransactionOcpiCdrAction = new TableExportTransactionOcpiCdrAction().getActionDef();
   private readonly isOrganizationComponentActive: boolean;
+  private canExport = new TableExportTransactionsAction().getActionDef();
 
   public constructor(
     public spinnerService: SpinnerService,
@@ -168,6 +169,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     return new Observable((observer) => {
       this.centralServerService.getTransactions(this.buildFilterValues(), this.getPaging(), this.getSorting())
         .subscribe((transactions) => {
+          this.canExport.visible = this.authorizationService.canExportTransactions();
           // Ok
           observer.next(transactions);
           observer.complete();
@@ -550,7 +552,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
     if (this.authorizationService.canExportTransactions()) {
-      tableActionsDef.unshift(new TableExportTransactionsAction().getActionDef());
+      tableActionsDef.unshift(this.canExport);
     }
     return tableActionsDef;
   }

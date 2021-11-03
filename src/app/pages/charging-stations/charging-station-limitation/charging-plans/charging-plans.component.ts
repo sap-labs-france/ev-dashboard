@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -41,7 +41,7 @@ interface ProfileType {
     ChargingPlansTableDataSource,
   ],
 })
-export class ChargingPlansComponent {
+export class ChargingPlansComponent implements OnInit, AfterViewInit {
   @Input() public chargingStation!: ChargingStation;
 
   public profileTypeMap: ProfileType[] = [

@@ -38,6 +38,8 @@ export class SiteAreaAssetsDataSource extends TableDataSource<Asset> {
 
   public loadDataImpl(): Observable<DataResult<Asset>> {
     return new Observable((observer) => {
+      this.addAction.visible = this.siteArea.canAssignAssets;
+      this.removeAction.visible = this.siteArea.canUnassignAssets;
       // Site Area provided?
       if (this.siteArea) {
         // Yes: Get data

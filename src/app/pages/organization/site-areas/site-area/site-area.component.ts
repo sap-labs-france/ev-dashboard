@@ -429,6 +429,14 @@ export class SiteAreaComponent implements OnInit {
     }
   }
 
+  public clearParent() {
+    this.siteArea.siteAreaParentID = null;
+    this.siteArea.siteAreaParent = null;
+    this.siteAreaParentID.setValue(null);
+    this.siteAreaParent.setValue(null);
+    this.formGroup.markAsDirty();
+  }
+
   private loadRegistrationToken() {
     if (!this.currentSiteAreaID) {
       return;

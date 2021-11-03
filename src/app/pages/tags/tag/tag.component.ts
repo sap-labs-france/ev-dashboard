@@ -173,10 +173,6 @@ export class TagComponent implements OnInit {
     }
   }
 
-  public toUpperCase(control: AbstractControl) {
-    control.setValue(control.value.toUpperCase());
-  }
-
   public close() {
     Utils.checkAndSaveAndCloseDialog(this.formGroup, this.dialogService,
       this.translateService, this.saveTag.bind(this), this.closeDialog.bind(this));

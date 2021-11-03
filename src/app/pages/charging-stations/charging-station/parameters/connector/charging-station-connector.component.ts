@@ -58,6 +58,7 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
   public numberOfConnectedPhase!: AbstractControl;
   public currentType!: AbstractControl;
   public phaseAssignmentToGrid!: AbstractControl;
+  public tariffID: AbstractControl;
 
   // eslint-disable-next-line no-useless-constructor
   public constructor(
@@ -118,6 +119,11 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
         ])
       ),
       currentType: new FormControl(CurrentType.AC),
+      tariffID: new FormControl('',
+        Validators.compose([
+          Validators.maxLength(50)
+        ])
+      )
     });
     // Add to form array
     this.formConnectorsArray.push(this.formConnectorGroup);
@@ -130,6 +136,7 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
     this.currentType = this.formConnectorGroup.controls['currentType'];
     this.numberOfConnectedPhase = this.formConnectorGroup.controls['numberOfConnectedPhase'];
     this.phaseAssignmentToGrid = this.formConnectorGroup.controls['phaseAssignmentToGrid'];
+    this.tariffID = this.formConnectorGroup.controls['tariffID'];
     this.loadConnector();
     this.phaseAssignmentToGrid.enable();
     if (!this.isAdmin) {

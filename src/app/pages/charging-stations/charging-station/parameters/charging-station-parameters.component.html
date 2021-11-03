@@ -84,6 +84,19 @@
         </mat-checkbox>
       </div>
     </div>
+    <div class="row" *ngIf="OCPIActive && (public.value || chargingStation.site && !chargingStation.site.public)">
+      <Label *ngIf="!chargingStation.site.public">
+        {{"sites.private_limitation" | translate}}
+      </Label>
+      <mat-form-field *ngIf="public.value">
+        <input matInput type="text" placeholder="{{'ocpi.tariffID' | translate}}"
+          [formControl]="tariffID" />
+        <mat-error *ngIf="tariffID?.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+        <mat-error *ngIf="tariffID?.errors?.maxlength">
+          <div [translate]="'general.error_max_length'" [translateParams]="{length: 50}"></div>
+        </mat-error>
+      </mat-form-field>
+    </div>
     <div class="row charging-station-connector-component"
       *ngIf="chargingStation?.chargePoints?.length > 0; else chargingStationWithNoChargePoints">
       <div class="col-md-12" *ngFor="let chargePoint of chargingStation.chargePoints">

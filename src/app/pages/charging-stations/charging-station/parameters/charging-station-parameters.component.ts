@@ -30,6 +30,7 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
   public userLocales: KeyValue[];
   public isAdmin!: boolean;
   public isSmartChargingComponentActive = false;
+  public OCPIActive: boolean;
 
   public chargingStationURL!: AbstractControl;
   public public!: AbstractControl;
@@ -46,6 +47,7 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
   public siteAreaID!: AbstractControl;
   public connectors!: FormArray;
   public chargePoints!: FormArray;
+  public tariffID: AbstractControl;
 
   public isOrganizationComponentActive: boolean;
 
@@ -61,6 +63,7 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
     this.userLocales = this.localeService.getLocales();
     this.isOrganizationComponentActive = this.componentService.isActive(TenantComponents.ORGANIZATION);
     this.isSmartChargingComponentActive = this.componentService.isActive(TenantComponents.SMART_CHARGING);
+    this.OCPIActive = this.componentService.isActive(TenantComponents.OCPI);
     this.isAdmin = this.authorizationService.isAdmin();
   }
 
@@ -118,6 +121,11 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
         ])),
     ])
     );
+    this.formGroup.addControl('tariffID', new FormControl('',
+      Validators.compose([
+        Validators.maxLength(50)
+      ])
+    ));
     // Form
     this.chargingStationURL = this.formGroup.controls['chargingStationURL'];
     this.public = this.formGroup.controls['public'];
@@ -132,6 +140,7 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
     this.coordinates = this.formGroup.controls['coordinates'] as FormArray;
     this.connectors = this.formGroup.controls['connectors'] as FormArray;
     this.chargePoints = this.formGroup.controls['chargePoints'] as FormArray;
+    this.tariffID = this.formGroup.controls['tariffID'];
     this.longitude = this.coordinates.at(0);
     this.latitude = this.coordinates.at(1);
     this.formGroup.updateValueAndValidity();
@@ -160,6 +169,11 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
       }
       if (this.chargingStation.public) {
         this.public.setValue(this.chargingStation.public);
+        if (this.OCPIActive && this.chargingStation.tariffID) {
+          this.tariffID.setValue(this.chargingStation.tariffID);
+        }
+      } else if (!this.chargingStation.site.public) {
+        this.public.disable();
       }
       if (this.chargingStation.issuer) {
         this.issuer.setValue(this.chargingStation.issuer);
@@ -265,8 +279,15 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
     this.dialog.open(SiteAreasDialogComponent, dialogConfig).afterClosed().subscribe((result) => {
       if (!Utils.isEmptyArray(result) && result[0].objectRef) {
         this.chargingStation.siteArea = ((result[0].objectRef) as SiteArea);
+        this.chargingStation.site = this.chargingStation.siteArea.site;
         this.siteArea.setValue(this.chargingStation.siteArea.name);
         this.siteAreaID.setValue(this.chargingStation.siteArea.id);
+        if (!this.chargingStation.site.public) {
+          this.public.setValue(false);
+          this.public.disable();
+        } else {
+          this.public.enable();
+        }
         this.formGroup.markAsDirty();
       }
     });

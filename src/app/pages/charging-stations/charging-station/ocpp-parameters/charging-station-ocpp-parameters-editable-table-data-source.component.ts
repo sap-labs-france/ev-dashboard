@@ -46,10 +46,18 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
   }
 
   public buildTableActionsDef(): TableActionDef[] {
+    // Create
+    const updateOCPPParamsAction = new TableUpdateOCPPParamsAction().getActionDef();
+    const requestOCPPParamsAction = new TableRequestOCPPParamsAction().getActionDef();
+    const exportOCPPParamsLocalAction = new TableExportOCPPParamsLocalAction().getActionDef();
+    // Activate the buttoms
+    updateOCPPParamsAction.visible = true;
+    requestOCPPParamsAction.visible = true;
+    exportOCPPParamsLocalAction.visible = true;
     return [
-      new TableUpdateOCPPParamsAction().getActionDef(),
-      new TableRequestOCPPParamsAction().getActionDef(),
-      new TableExportOCPPParamsLocalAction().getActionDef()
+      updateOCPPParamsAction,
+      requestOCPPParamsAction,
+      exportOCPPParamsLocalAction
     ];
   }
 

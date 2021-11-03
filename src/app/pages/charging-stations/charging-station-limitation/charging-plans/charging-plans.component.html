@@ -90,8 +90,7 @@
         </app-charging-station-smart-charging-limit-planner-chart>
       </div>
     </div>
-    <div
-      *ngIf="chargingStation.inactive || chargingProfiles.length > 1 || (isSmartChargingComponentActive && chargingStation.siteArea?.smartCharging && !chargingStation.excludeFromSmartCharging); else smartChargingDisabled">
+    <div *ngIf="chargingStation.inactive || chargingProfiles.length > 1 || (isSmartChargingComponentActive && chargingStation.siteArea?.smartCharging && !chargingStation.excludeFromSmartCharging); else smartChargingDisabled">
       <app-table [dataSource]="scheduleTableDataSource"></app-table>
     </div>
     <ng-template #smartChargingDisabled>

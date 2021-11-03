@@ -209,7 +209,10 @@ export class SiteAreaComponent implements OnInit {
           this.siteAreaParentID.setValue(siteAreaParent.id);
           this.formGroup.markAsDirty();
         } else {
-          this.dialogService.createAndShowOkDialog('Error', 'Cannot be its own parent');
+          this.dialogService.createAndShowOkDialog(
+            this.translateService.instant('site_areas.site_area_parent_error_title'),
+            this.translateService.instant('site_areas.site_area_parent_error_body')
+          );
         }
       }
     });
@@ -514,6 +517,9 @@ export class SiteAreaComponent implements OnInit {
         case HTTPError.THREE_PHASE_CHARGER_ON_SINGLE_PHASE_SITE_AREA:
           this.messageService.showErrorMessage('site_areas.update_phase_error');
           break;
+        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+          this.messageService.showErrorMessage('site_areas.site_areas_do_not_exist');
+          break;
         case HTTPError.CLEAR_CHARGING_PROFILE_NOT_SUCCESSFUL:
           this.dialogService.createAndShowOkDialog(
             this.translateService.instant('chargers.smart_charging.clearing_charging_profiles_not_successful_title'),
@@ -521,8 +527,11 @@ export class SiteAreaComponent implements OnInit {
               { siteAreaName: siteArea.name }));
           this.closeDialog(true);
           break;
-        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
-          this.messageService.showErrorMessage('site_areas.site_areas_do_not_exist');
+        case HTTPError.SUB_SITE_AREA_ERROR:
+          this.dialogService.createAndShowOkDialog(
+            this.translateService.instant('site_areas.site_area_parent_error_title'),
+            this.translateService.instant('site_areas.site_area_parent_error_body',
+              { siteAreaName: siteArea.name }));
           break;
         default:
           Utils.handleHttpError(error, this.router, this.messageService,

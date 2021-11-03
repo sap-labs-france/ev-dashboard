@@ -24,7 +24,7 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.5.8',
-        date: new Date('2021-10-28'),
+        date: new Date('2021-11-02'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -35,8 +35,9 @@ export class ReleaseNotesComponent {
               `Added Import, Export, Sync Billing authorizations in Users' list`,
               `Added dedicated Charging Station's column in Logs`,
               `Added new Source and Site filters in Logs`,
-              `Ensure Async Task manager to always resume after a long processing task`,
+              `Ensure Async Task manager to always resume after a long processing tasks`,
               `Migrated Log endpoint to the new Authorization framework`,
+              `Randomized lock waiting time when the same lock is requested several times`,
             ],
           },
         ],

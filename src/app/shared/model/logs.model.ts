@@ -8,6 +8,17 @@ export const logLevels: KeyValue[] = [
   { key: 'D', value: 'logs.debug' },
 ];
 
+export const sources: KeyValue[] = [
+  { key: 'Rest', value: 'Rest Server' },
+  { key: 'Soap', value: 'Soap Server' },
+  { key: 'Json', value: 'Json Server' },
+  { key: 'Ocpi', value: 'Ocpi Server' },
+  { key: 'Oicp', value: 'Oicp Server' },
+  { key: 'OData', value: 'OData Server' },
+  { key: 'Batch', value: 'Batch Server' },
+];
+
+
 export const LOG_ACTIONS: KeyValue[] = Object.values(ServerAction)
   .map((value) => ({ key: value, value }))
   .sort((action1, action2) => {
@@ -52,3 +63,4 @@ export const LOG_HOSTS: KeyValue[] = [
   }
   return 0;
 });
+

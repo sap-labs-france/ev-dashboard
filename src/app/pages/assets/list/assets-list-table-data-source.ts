@@ -37,6 +37,7 @@ import { AssetConsumptionChartDetailComponent } from './consumption-chart/asset-
 @Injectable()
 export class AssetsListTableDataSource extends TableDataSource<Asset> {
   private isAdmin = false;
+  private canCreate = new TableCreateAssetAction().getActionDef();
   private editAction = new TableEditAssetAction().getActionDef();
   private deleteAction = new TableDeleteAssetAction().getActionDef();
   private displayAction = new TableViewAssetAction().getActionDef();
@@ -56,7 +57,9 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
     super(spinnerService, translateService);
     // Init
     this.isAdmin = this.authorizationService.isAdmin();
-    this.setStaticFilters([{ WithLogo: true, WithSiteArea: true }]);
+    this.setStaticFilters([{
+      WithSiteArea: true
+    }]);
     this.initDataSource();
   }
 
@@ -70,6 +73,7 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
             asset.image = Constants.NO_IMAGE;
           }
         }
+        this.canCreate.visible = this.isAdmin;
         // Ok
         observer.next(assets);
         observer.complete();
@@ -98,6 +102,14 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
 
   public buildTableColumnDefs(): TableColumnDef[] {
     const tableColumnDef: TableColumnDef[] = [
+      {
+        id: 'id',
+        name: 'general.id',
+        sortable: true,
+        headerClass: 'col-30p',
+        class: 'col-30p',
+        direction: 'asc',
+      },
       {
         id: 'name',
         name: 'assets.name',
@@ -169,7 +181,7 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
     const tableActionsDef = super.buildTableActionsDef();
     if (this.isAdmin) {
       return [
-        new TableCreateAssetAction().getActionDef(),
+        this.canCreate,
         ...tableActionsDef,
       ];
     }

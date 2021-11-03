@@ -39,7 +39,7 @@ export class ChargingStationFirmwareUpdateComponent implements OnInit {
     // Check auth
     if (!authorizationService.canUpdateChargingStation()) {
       // Not authorized
-      this.router.navigate(['/']);
+      void this.router.navigate(['/']);
     }
     // Get translated messages
     this.translateService.get('chargers', {}).subscribe((messages) => {

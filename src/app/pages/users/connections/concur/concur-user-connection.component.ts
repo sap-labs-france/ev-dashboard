@@ -50,17 +50,17 @@ export class ConcurUserConnectionComponent extends AbstractTabComponent {
           Utils.handleError(JSON.stringify(response),
             this.messageService, 'settings.refund.concur.link_error');
         }
-        this.router.navigate([`/users/${state.userId}`], { fragment: 'connections' });
+        void this.router.navigate([`/users/${state.userId}`], { fragment: 'connections' });
       }, (error) => {
         Utils.handleError(JSON.stringify(error),
           this.messageService, 'settings.refund.concur.link_error');
-        this.router.navigate([`/users/${state.userId}`], { fragment: 'connections' });
+        void this.router.navigate([`/users/${state.userId}`], { fragment: 'connections' });
       },
       );
     } else if (this.activatedRoute.snapshot.queryParams['error']) {
       Utils.handleError(this.activatedRoute.snapshot.queryParams['error'],
         this.messageService, 'settings.refund.concur.link_error');
-      this.router.navigate([`/users/${state.userId}`], { fragment: 'connections' });
+      void this.router.navigate([`/users/${state.userId}`], { fragment: 'connections' });
     }
   }
 }

@@ -95,7 +95,6 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public sendOcpiPatchStatusError!: AbstractControl;
   public sendOicpPatchStatusError!: AbstractControl;
   public sendPreparingSessionNotStarted!: AbstractControl;
-  public sendSmtpError!: AbstractControl;
   public sendBillingSynchronizationFailed!: AbstractControl;
   public sendBillingPeriodicOperationFailed!: AbstractControl;
   public sendComputeAndApplyChargingProfilesFailed!: AbstractControl;
@@ -111,6 +110,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public isBillingComponentActive: boolean;
   public canListPaymentMethods: boolean;
   public technical: AbstractControl;
+  public freeAccess: AbstractControl;
   private currentLocale!: string;
 
   public constructor(
@@ -203,7 +203,6 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         sendPreparingSessionNotStarted: new FormControl(false),
         sendOcpiPatchStatusError: new FormControl(false),
         sendOicpPatchStatusError: new FormControl(false),
-        sendSmtpError: new FormControl(false),
         sendBillingSynchronizationFailed: new FormControl(false),
         sendBillingPeriodicOperationFailed: new FormControl(false),
         sendComputeAndApplyChargingProfilesFailed: new FormControl(false),
@@ -257,7 +256,8 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
             Users.validatePassword,
           ].concat(!Utils.isEmptyString(this.currentUserID) ? [] : [Validators.required]))),
       }, (passwordFormGroup: FormGroup) => Utils.validateEqual(passwordFormGroup, 'password', 'repeatPassword')),
-      technical: new FormControl(false)
+      technical: new FormControl(false),
+      freeAccess: new FormControl(false),
     });
     // Form
     this.id = this.formGroup.controls['id'];
@@ -291,7 +291,6 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.sendOcpiPatchStatusError = this.notifications.controls['sendOcpiPatchStatusError'];
     this.sendOicpPatchStatusError = this.notifications.controls['sendOicpPatchStatusError'];
     this.sendPreparingSessionNotStarted = this.notifications.controls['sendPreparingSessionNotStarted'];
-    this.sendSmtpError = this.notifications.controls['sendSmtpError'];
     this.sendBillingSynchronizationFailed = this.notifications.controls['sendBillingSynchronizationFailed'];
     this.sendBillingPeriodicOperationFailed = this.notifications.controls['sendBillingPeriodicOperationFailed'];
     this.sendSessionNotStarted = this.notifications.controls['sendSessionNotStarted'];
@@ -309,6 +308,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       super.enableRoutingSynchronization();
     }
     this.technical = this.formGroup.controls['technical'];
+    this.freeAccess = this.formGroup.controls['freeAccess'];
   }
 
   public toggleNotificationsActive() {
@@ -437,11 +437,6 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       } else {
         this.notifications.controls.sendPreparingSessionNotStarted.setValue(false);
       }
-      if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendSmtpError')) {
-        this.notifications.controls.sendSmtpError.setValue(user.notifications.sendSmtpError);
-      } else {
-        this.notifications.controls.sendSmtpError.setValue(false);
-      }
       if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendBillingSynchronizationFailed')) {
         this.notifications.controls.sendBillingSynchronizationFailed.setValue(user.notifications.sendBillingSynchronizationFailed);
       } else {
@@ -493,6 +488,13 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       } else {
         this.formGroup.controls.technical.disable();
       }
+      if (user.projectFields.includes('freeAccess') && this.isBillingComponentActive) {
+        if (user.freeAccess) {
+          this.formGroup.controls.freeAccess.setValue(user.freeAccess);
+        }
+      } else {
+        this.formGroup.controls.freeAccess.disable();
+      }
       // Reset password
       this.passwords.controls.password.setValue('');
       this.passwords.controls.repeatPassword.setValue('');
@@ -539,7 +541,6 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         this.notifications.controls.sendOcpiPatchStatusError.setValue(true);
         this.notifications.controls.sendOicpPatchStatusError.setValue(true);
         this.notifications.controls.sendPreparingSessionNotStarted.setValue(true);
-        this.notifications.controls.sendSmtpError.setValue(true);
         this.notifications.controls.sendBillingSynchronizationFailed.setValue(true);
         this.notifications.controls.sendBillingPeriodicOperationFailed.setValue(true);
         this.notifications.controls.sendComputeAndApplyChargingProfilesFailed.setValue(true);
@@ -563,7 +564,6 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         this.notifications.controls.sendOcpiPatchStatusError.setValue(false);
         this.notifications.controls.sendOicpPatchStatusError.setValue(false);
         this.notifications.controls.sendPreparingSessionNotStarted.setValue(false);
-        this.notifications.controls.sendSmtpError.setValue(false);
         this.notifications.controls.sendBillingSynchronizationFailed.setValue(false);
         this.notifications.controls.sendBillingPeriodicOperationFailed.setValue(false);
         this.notifications.controls.sendComputeAndApplyChargingProfilesFailed.setValue(false);
@@ -586,7 +586,6 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         this.notifications.controls.sendOcpiPatchStatusError.setValue(false);
         this.notifications.controls.sendOicpPatchStatusError.setValue(false);
         this.notifications.controls.sendPreparingSessionNotStarted.setValue(false);
-        this.notifications.controls.sendSmtpError.setValue(false);
         this.notifications.controls.sendBillingSynchronizationFailed.setValue(false);
         this.notifications.controls.sendBillingPeriodicOperationFailed.setValue(false);
         this.notifications.controls.sendComputeAndApplyChargingProfilesFailed.setValue(false);

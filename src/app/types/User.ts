@@ -41,6 +41,7 @@ export interface User extends TableData, CreatedUpdatedProps {
   eulaAcceptedOn: Date;
   billingData: BillingUserData;
   technical: boolean;
+  freeAccess: boolean;
 }
 
 export interface UserNotifications {
@@ -55,7 +56,6 @@ export interface UserNotifications {
   sendChargingStationRegistered: boolean;
   sendOcpiPatchStatusError: boolean;
   sendOicpPatchStatusError: boolean;
-  sendSmtpError: boolean;
   sendUserAccountInactivity: boolean;
   sendPreparingSessionNotStarted: boolean;
   sendOfflineChargingStations: boolean;

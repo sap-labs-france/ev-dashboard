@@ -39,6 +39,7 @@ import { TenantComponents } from '../../../types/Tenant';
 import { TransactionButtonAction } from '../../../types/Transaction';
 import { User, UserButtonAction } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';
+import { UserFreeAccessFilter } from '../filters/user-free-access-filter';
 import { UserRoleFilter } from '../filters/user-role-filter';
 import { UserStatusFilter } from '../filters/user-status-filter';
 import { UserTechnicalFilter } from '../filters/user-technical-filter';
@@ -52,10 +53,13 @@ export class UsersListTableDataSource extends TableDataSource<User> {
   private editAction = new TableEditUserAction().getActionDef();
   private assignSitesToUser = new TableAssignSitesToUserAction().getActionDef();
   private deleteAction = new TableDeleteUserAction().getActionDef();
-  private syncBillingUsersAction = new TableSyncBillingUsersAction().getActionDef();
-  private forceSyncBillingUserAction = new TableForceSyncBillingUserAction().getActionDef();
+  private synchronizeBillingUserAction = new TableForceSyncBillingUserAction().getActionDef();
   private navigateToTagsAction = new TableNavigateToTagsAction().getActionDef();
   private navigateToTransactionsAction = new TableNavigateToTransactionsAction().getActionDef();
+  private exportAction = new TableExportUsersAction().getActionDef();
+  private importAction = new TableImportUsersAction().getActionDef();
+  private createAction = new TableCreateUserAction().getActionDef();
+  private synchronizeBillingUsersAction = new TableSyncBillingUsersAction().getActionDef();
 
   public constructor(
     public spinnerService: SpinnerService,
@@ -107,6 +111,10 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       // Get the Tenants
       this.centralServerService.getUsers(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((users) => {
+        this.createAction.visible = users.canCreate;
+        this.importAction.visible = users.canImport;
+        this.exportAction.visible = users.canExport;
+        this.synchronizeBillingUsersAction.visible = users.canSynchronizeBilling;
         // Ok
         observer.next(users);
         observer.complete();
@@ -246,20 +254,13 @@ export class UsersListTableDataSource extends TableDataSource<User> {
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-    if (this.authorizationService.canExportUsers()) {
-      tableActionsDef.unshift(new TableExportUsersAction().getActionDef());
-    }
-    if (this.authorizationService.canImportUsers()) {
-      tableActionsDef.unshift(new TableImportUsersAction().getActionDef());
-    }
-    if (this.componentService.isActive(TenantComponents.BILLING) &&
-      this.authorizationService.canSynchronizeBillingUsers()) {
-      tableActionsDef.unshift(this.syncBillingUsersAction);
-    }
-    if (this.authorizationService.canCreateUser()) {
-      tableActionsDef.unshift(new TableCreateUserAction().getActionDef());
-    }
-    return tableActionsDef;
+    return [
+      this.createAction,
+      this.importAction,
+      this.exportAction,
+      this.synchronizeBillingUsersAction,
+      ...tableActionsDef,
+    ];
   }
 
   public buildTableDynamicRowActions(user: User): TableActionDef[] {
@@ -282,7 +283,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       }
       if (this.componentService.isActive(TenantComponents.BILLING)) {
         if (this.authorizationService.canSynchronizeBillingUser()) {
-          moreActions.addActionInMoreActions(this.forceSyncBillingUserAction);
+          moreActions.addActionInMoreActions(this.synchronizeBillingUserAction);
         }
       }
       if (user.canDelete) {
@@ -330,8 +331,8 @@ export class UsersListTableDataSource extends TableDataSource<User> {
         }
         break;
       case BillingButtonAction.SYNCHRONIZE_BILLING_USERS:
-        if (this.syncBillingUsersAction.action) {
-          this.syncBillingUsersAction.action(
+        if (this.synchronizeBillingUsersAction.action) {
+          this.synchronizeBillingUsersAction.action(
             this.dialogService, this.translateService, this.messageService,
             this.centralServerService, this.router,
           );
@@ -362,8 +363,8 @@ export class UsersListTableDataSource extends TableDataSource<User> {
         }
         break;
       case UserButtonAction.BILLING_FORCE_SYNCHRONIZE_USER:
-        if (this.forceSyncBillingUserAction.action) {
-          this.forceSyncBillingUserAction.action(
+        if (this.synchronizeBillingUserAction.action) {
+          this.synchronizeBillingUserAction.action(
             user, this.dialogService, this.translateService, this.spinnerService,
             this.messageService, this.centralServerService, this.router,
             this.refreshData.bind(this)
@@ -392,7 +393,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
 
   public buildTableFiltersDef(): TableFilterDef[] {
     const issuerFilter = new IssuerFilter().getFilterDef();
-    return [
+    const filters = [
       issuerFilter,
       new UserRoleFilter(this.centralServerService).getFilterDef(),
       new UserStatusFilter().getFilterDef(),
@@ -400,5 +401,9 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       new SiteTableFilter([issuerFilter]).getFilterDef(),
       new UserTechnicalFilter().getFilterDef(),
     ];
+    if (this.componentService.isActive(TenantComponents.BILLING)) {
+      filters.push(new UserFreeAccessFilter().getFilterDef());
+    }
+    return filters;
   }
 }

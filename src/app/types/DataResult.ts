@@ -1,10 +1,12 @@
+import { AuthorizationDefinitionFieldMetadata } from './Authorization';
 import { Car, CarCatalog } from './Car';
 import { Company } from './Company';
+import { Log } from './Log';
 import { Site } from './Site';
 import { SiteArea } from './SiteArea';
 import { Tag } from './Tag';
 import { Transaction } from './Transaction';
-import { UserStatus } from './User';
+import { User, UserStatus } from './User';
 
 export interface ActionResponse {
   status: string;
@@ -75,6 +77,7 @@ export interface DataResult<T> {
   count: number;
   result: T[];
   projectFields?: string[];
+  metadata?: Record<string, AuthorizationDefinitionFieldMetadata>;
 }
 
 export interface CompanyDataResult extends DataResult<Company> {
@@ -85,11 +88,21 @@ export interface SiteDataResult extends DataResult<Site> {
   canCreate: boolean;
 }
 
+export type LogDataResult = DataResult<Log>;
+
 export interface CarDataResult extends DataResult<Car> {
   canCreate: boolean;
 }
+
 export interface CarCatalogDataResult extends DataResult<CarCatalog> {
   canSync: boolean;
+}
+
+export interface UserDataResult extends DataResult<User> {
+  canCreate: boolean;
+  canExport: boolean;
+  canImport: boolean;
+  canSynchronizeBilling: boolean;
 }
 
 export interface SiteAreaDataResult extends DataResult<SiteArea> {

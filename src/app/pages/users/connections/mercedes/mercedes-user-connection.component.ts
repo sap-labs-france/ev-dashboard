@@ -49,17 +49,17 @@ export class MercedesUserConnectionComponent extends AbstractTabComponent {
           Utils.handleError(JSON.stringify(response),
             this.messageService, 'settings.car_connector.mercedes.link_error');
         }
-        this.router.navigate(['/users/profile'], { fragment: 'connections' });
+        void this.router.navigate(['/users/profile'], { fragment: 'connections' });
       }, (error) => {
         Utils.handleError(JSON.stringify(error),
           this.messageService, 'settings.car_connector.mercedes.link_error');
-        this.router.navigate(['/users/profile'], { fragment: 'connections' });
+        void this.router.navigate(['/users/profile'], { fragment: 'connections' });
       },
       );
     } else if (this.activatedRoute.snapshot.queryParams['error']) {
       Utils.handleError(this.activatedRoute.snapshot.queryParams['error'],
         this.messageService, 'settings.car_connector.mercedes.link_error');
-      this.router.navigate(['/users/profile'], { fragment: 'connections' });
+      void this.router.navigate(['/users/profile'], { fragment: 'connections' });
     }
   }
 }

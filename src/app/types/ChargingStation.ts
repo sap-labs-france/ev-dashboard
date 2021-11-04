@@ -147,6 +147,7 @@ export interface Connector extends TableData {
   isStartAuthorized: boolean;
   isTransactionDisplayAuthorized: boolean;
   phaseAssignmentToGrid: PhaseAssignmentToGrid;
+  tariffID?: string;
 }
 
 export interface PhaseAssignmentToGrid {

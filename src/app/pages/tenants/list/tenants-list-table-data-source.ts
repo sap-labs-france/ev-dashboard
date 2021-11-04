@@ -31,6 +31,7 @@ export class TenantsListTableDataSource extends TableDataSource<Tenant> {
   private editAction = new TableEditTenantAction().getActionDef();
   private openUrlAction = new TableOpenURLAction().getActionDef();
   private deleteAction = new TableDeleteTenantAction().getActionDef();
+  private createAction = new TableCreateTenantAction().getActionDef();
 
   public constructor(
     public spinnerService: SpinnerService,
@@ -53,6 +54,7 @@ export class TenantsListTableDataSource extends TableDataSource<Tenant> {
       // Get the Tenants
       this.centralServerService.getTenants(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((tenants) => {
+        this.createAction.visible = true;
         // Ok
         observer.next(tenants);
         observer.complete();
@@ -149,7 +151,7 @@ export class TenantsListTableDataSource extends TableDataSource<Tenant> {
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
     return [
-      new TableCreateTenantAction().getActionDef(),
+      this.createAction,
       ...tableActionsDef,
     ];
   }

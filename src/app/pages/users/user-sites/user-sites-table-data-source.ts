@@ -44,6 +44,8 @@ export class UserSitesTableDataSource extends TableDataSource<SiteUser> {
 
   public loadDataImpl(): Observable<DataResult<SiteUser>> {
     return new Observable((observer) => {
+      this.addAction.visible = this.authorizationService.canAssignUsersSites();
+      this.removeAction.visible = this.authorizationService.canUnassignUsersSites();
       // User provided?
       if (this.user) {
         // Yes: Get data

@@ -104,7 +104,7 @@
             </button>
           </div>
           <div class="col-md-6 text-right">
-            <mat-form-field *ngIf="true">
+            <mat-form-field *ngIf="public">
               <input matInput type="text" placeholder="{{'ocpi.tariffID' | translate}}"
                 [formControl]="tariffID" />
               <mat-error *ngIf="tariffID?.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>

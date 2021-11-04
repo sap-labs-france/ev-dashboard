@@ -22,6 +22,7 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
   @Input() public formConnectorsArray: FormArray;
   @Input() public isAdmin!: boolean;
   @Input() public manualConfiguration!: boolean;
+  @Input() public public!: boolean;
   @Output() public connectorChanged = new EventEmitter<any>();
 
   public connectorTypeMap = CONNECTOR_TYPE_MAP;
@@ -190,6 +191,9 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
         this.amperage.disable();
         this.refreshPower();
         this.refreshNumberOfPhases();
+      }
+      if (this.public) {
+        this.tariffID.enable();
       }
       // Force refresh the form
       this.formConnectorGroup.updateValueAndValidity();

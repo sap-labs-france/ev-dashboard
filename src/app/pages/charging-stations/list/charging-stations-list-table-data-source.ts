@@ -6,7 +6,6 @@ import { Observable } from 'rxjs';
 import { CompanyTableFilter } from 'shared/table/filters/company-table-filter';
 
 import { AuthorizationService } from '../../../services/authorization.service';
-import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
@@ -30,7 +29,6 @@ import { IssuerFilter } from '../../../shared/table/filters/issuer-filter';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
 import { SiteTableFilter } from '../../../shared/table/filters/site-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
-import ChangeNotification from '../../../types/ChangeNotification';
 import { ChargePointStatus, ChargingStation, ChargingStationButtonAction, Connector, FirmwareStatus } from '../../../types/ChargingStation';
 import { DataResult } from '../../../types/DataResult';
 import { ButtonAction } from '../../../types/GlobalType';
@@ -52,13 +50,13 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
   private smartChargingAction = new TableChargingStationsSmartChargingAction().getActionDef();
   private deleteAction = new TableDeleteChargingStationAction().getActionDef();
   private generateQrCodeConnectorAction = new TableChargingStationGenerateQrCodeConnectorAction().getActionDef();
+  private canExport = new TableExportChargingStationsAction().getActionDef();
 
   public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     private messageService: MessageService,
     private router: Router,
-    private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
     private authorizationService: AuthorizationService,
     private componentService: ComponentService,
@@ -71,14 +69,11 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
     if (this.isOrganizationComponentActive) {
       this.setStaticFilters([{
         WithSite: true,
-        WithSiteArea: true
+        WithSiteArea: true,
+        WithUser: true,
       }]);
     }
     this.initDataSource();
-  }
-
-  public getDataChangeSubject(): Observable<ChangeNotification> {
-    return this.centralServerNotificationService.getSubjectChargingStations();
   }
 
   public loadDataImpl(): Observable<DataResult<ChargingStation>> {
@@ -103,6 +98,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
             connector.currentTotalInactivitySecs = connectorIsInactive ? 0 : connector.currentTotalInactivitySecs;
           };
         };
+        this.canExport.visible = this.authorizationService.isAdmin();
         // Ok
         observer.next(chargingStations);
         observer.complete();
@@ -246,7 +242,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
     const tableActionsDef = super.buildTableActionsDef();
     if (this.authorizationService.isAdmin()) {
       return [
-        new TableExportChargingStationsAction().getActionDef(),
+        this.canExport,
         ...tableActionsDef,
       ];
     }

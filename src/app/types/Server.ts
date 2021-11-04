@@ -214,8 +214,6 @@ export enum ServerAction {
 
   BOOTSTRAP_STARTUP = 'BootstrapStartup',
 
-  SOCKET_IO = 'SocketIO',
-
   OCPP_BOOT_NOTIFICATION = 'OcppBootNotification',
   OCPP_AUTHORIZE = 'OcppAuthorize',
   OCPP_HEARTBEAT = 'OcppHeartbeat',
@@ -269,7 +267,6 @@ export enum ServerAction {
   TRANSACTION_STARTED = 'TransactionStarted',
   VERIFICATION_EMAIL = 'VerificationEmail',
   VERIFICATION_EMAIL_USER_IMPORT = 'VerificationEmailUserImport',
-  EMAIL_SERVER_ERROR = 'EmailServerError',
   PATCH_EVSE_STATUS_ERROR = 'PatchEVSEStatusError',
   PATCH_EVSE_ERROR = 'PatchEVSEError',
   USER_ACCOUNT_INACTIVITY = 'UserAccountInactivity',

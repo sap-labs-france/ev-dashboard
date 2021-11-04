@@ -147,6 +147,11 @@
                   </mat-form-field>
                 </div>
               </div>
+              <div *ngIf="isBillingComponentActive && freeAccess.enabled" class="col-md-12 text-left">
+                <div class="form-group">
+                  <mat-checkbox [formControl]="freeAccess" [checked]="freeAccess">{{"users.allow_free_access" | translate}}</mat-checkbox>
+                </div>
+              </div>
               <div *ngIf="technical.enabled" class="col-md-12 text-left">
                 <div class="form-group">
                   <mat-checkbox [formControl]="technical" [checked]="technical">{{"users.technical" | translate}}</mat-checkbox>
@@ -286,12 +291,6 @@
                     <div class="col-sm-12">
                       <mat-checkbox [disabled]="!notificationsActive.value"
                         [formControl]="sendOicpPatchStatusError">{{"notifications.oicp_patch_status_error" | translate}}</mat-checkbox>
-                    </div>
-                  </div>
-                  <div class="row ms-1">
-                    <div class="col-sm-12">
-                      <mat-checkbox [disabled]="!notificationsActive.value"
-                        [formControl]="sendSmtpError">{{"notifications.smtp_error" | translate}}</mat-checkbox>
                     </div>
                   </div>
                   <div class="row ms-1">

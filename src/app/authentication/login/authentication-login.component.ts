@@ -156,7 +156,7 @@ export class AuthenticationLoginComponent implements OnInit, OnDestroy {
       this.spinnerService.hide();
       this.centralServerService.loginSucceeded(result.token);
       // login successful so redirect to return url
-      this.router.navigateByUrl(this.returnUrl as string);
+      void this.router.navigateByUrl(this.returnUrl as string);
     }, (error) => {
       this.spinnerService.hide();
       switch (error.status) {
@@ -188,7 +188,7 @@ export class AuthenticationLoginComponent implements OnInit, OnDestroy {
               this.translateService.instant('authentication.verify_email_resend_confirm'),
             ).subscribe((response) => {
               if (response === ButtonType.YES) {
-                this.router.navigate(['/auth/verify-email'], { queryParams: { Email: user['email'] } });
+                void this.router.navigate(['/auth/verify-email'], { queryParams: { Email: user['email'] } });
               }
             });
           } else {

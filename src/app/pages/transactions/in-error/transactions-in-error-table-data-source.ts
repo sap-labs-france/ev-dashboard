@@ -11,7 +11,6 @@ import { IssuerFilter } from 'shared/table/filters/issuer-filter';
 import { CarCatalog } from 'types/Car';
 
 import { AuthorizationService } from '../../../services/authorization.service';
-import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
@@ -38,7 +37,6 @@ import { SiteTableFilter } from '../../../shared/table/filters/site-table-filter
 import { StartDateFilter } from '../../../shared/table/filters/start-date-filter';
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
-import ChangeNotification from '../../../types/ChangeNotification';
 import { ActionResponse, DataResult } from '../../../types/DataResult';
 import { ErrorMessage, TransactionInError, TransactionInErrorType } from '../../../types/InError';
 import { LogButtonAction } from '../../../types/Log';
@@ -106,7 +104,6 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     private appUnitPipe: AppUnitPipe,
     private componentService: ComponentService,
     private authorizationService: AuthorizationService,
-    private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
     private datePipe: AppDatePipe,
     private appConnectorIdPipe: AppConnectorIdPipe,
@@ -135,15 +132,12 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     this.initDataSource();
   }
 
-  public getDataChangeSubject(): Observable<ChangeNotification> {
-    return this.centralServerNotificationService.getSubjectTransactions();
-  }
-
   public loadDataImpl(): Observable<DataResult<Transaction>> {
     return new Observable((observer) => {
       this.centralServerService.getTransactionsInError(this.buildFilterValues(), this.getPaging(), this.getSorting())
         .subscribe((transactions) => {
           this.formatErrorMessages(transactions.result);
+          this.deleteManyAction.visible = this.authorizationService.isAdmin();
           observer.next(transactions);
           observer.complete();
         }, (error) => {

@@ -1,15 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
 
 import { version } from '../../../package.json';
 import { RouteGuardService } from '../guard/route-guard';
 import { AuthorizationService } from '../services/authorization.service';
-import { CentralServerNotificationService } from '../services/central-server-notification.service';
 import { CentralServerService } from '../services/central-server.service';
-import { ConfigService } from '../services/config.service';
-import { Action } from '../types/Authorization';
 import { UserToken } from '../types/User';
 import { Constants } from '../utils/Constants';
 
@@ -19,7 +14,7 @@ declare const $: any;
   selector: 'app-sidebar-cmp',
   templateUrl: 'sidebar.component.html',
 })
-export class SidebarComponent implements OnInit, OnDestroy {
+export class SidebarComponent {
   public version: string = version;
   public mobileMenuVisible: any = 0;
   public menuItems!: any[];
@@ -33,17 +28,13 @@ export class SidebarComponent implements OnInit, OnDestroy {
     active_collapse: true,
     disabled_collapse_init: 0,
   };
-  private userRefreshSubscription!: Subscription;
-  private tenantRefreshSubscription!: Subscription;
 
   public constructor(
-    private configService: ConfigService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private guard: RouteGuardService,
     private authorizationService: AuthorizationService,
-    private centralServerService: CentralServerService,
-    private centralServerNotificationService: CentralServerNotificationService) {
+    private centralServerService: CentralServerService) {
     // Get the routes
     if (this.activatedRoute && this.activatedRoute.routeConfig && this.activatedRoute.routeConfig.children) {
       this.menuItems = this.activatedRoute.routeConfig.children.filter((route) =>
@@ -63,15 +54,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.refreshUser();
     // Read tenant
     this.refreshTenant();
-  }
-
-  public ngOnInit() {
-    // Listen to changes
-    this.createRefresh();
-  }
-
-  public ngOnDestroy() {
-    this.destroyRefresh();
   }
 
   public isMobileMenu() {
@@ -109,61 +91,13 @@ export class SidebarComponent implements OnInit, OnDestroy {
       // Clear
       this.centralServerService.logoutSucceeded();
       // Redirect to login page with the return url
-      this.router.navigate(['/auth/login']);
+      void this.router.navigate(['/auth/login']);
     }, (error) => {
       // Clear
       this.centralServerService.logoutSucceeded();
       // Redirect to login page with the return url
-      this.router.navigate(['/auth/login']);
+      void this.router.navigate(['/auth/login']);
     });
-  }
-
-  private createRefresh() {
-    if (this.configService.getCentralSystemServer().socketIOEnabled) {
-      // Subscribe to user's change
-      this.userRefreshSubscription = this.centralServerNotificationService.getSubjectUser().pipe(debounceTime(
-        this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
-        // Update user?
-        if (singleChangeNotification && singleChangeNotification.data && singleChangeNotification.data.id === this.loggedUser.id) {
-          // Deleted?
-          if (singleChangeNotification.action === Action.DELETE) {
-            // Log off user
-            this.logout();
-          } else {
-            // Same user: Update it
-            this.refreshUser();
-          }
-        }
-      });
-      // Subscribe to tenant's change
-      this.tenantRefreshSubscription = this.centralServerNotificationService.getSubjectTenant().pipe(debounceTime(
-        this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
-        // Update user?
-        if (singleChangeNotification && singleChangeNotification.data && singleChangeNotification.data.id === this.loggedUser.tenantID) {
-          // Deleted?
-          if (singleChangeNotification.action === Action.DELETE) {
-            // Log off user
-            this.logout();
-          } else {
-            // Same tenant: Update it
-            this.refreshTenant();
-          }
-        }
-      });
-    }
-  }
-
-  private destroyRefresh() {
-    if (this.userRefreshSubscription) {
-      // Unsubscribe to user's change
-      this.userRefreshSubscription.unsubscribe();
-    }
-    this.userRefreshSubscription = null;
-    if (this.tenantRefreshSubscription) {
-      // Unsubscribe to user's change
-      this.tenantRefreshSubscription.unsubscribe();
-    }
-    this.tenantRefreshSubscription = null;
   }
 
   private refreshUser() {

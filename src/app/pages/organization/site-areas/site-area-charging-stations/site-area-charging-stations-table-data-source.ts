@@ -39,7 +39,8 @@ export class SiteAreaChargingStationsDataSource extends TableDataSource<Charging
 
   public loadDataImpl(): Observable<DataResult<ChargingStation>> {
     return new Observable((observer) => {
-      this.addAction.visible = this.siteArea.canCreate;
+      this.addAction.visible = this.siteArea.canAssignChargingStations;
+      this.removeAction.visible = this.siteArea.canUnassignChargingStations;
       // siteArea provided?
       if (this.siteArea) {
         // Yes: Get data

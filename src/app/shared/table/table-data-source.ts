@@ -5,7 +5,6 @@ import { Observable, of } from 'rxjs';
 import { first } from 'rxjs/operators';
 
 import { SpinnerService } from '../../services/spinner.service';
-import ChangeNotification from '../../types/ChangeNotification';
 import { DataResult, Ordering, Paging } from '../../types/DataResult';
 import { FilterParams } from '../../types/GlobalType';
 import { DropdownItem, FilterType, TableActionDef, TableColumnDef, TableData, TableDataSourceMode, TableDef, TableFilterDef } from '../../types/Table';
@@ -333,10 +332,6 @@ export abstract class TableDataSource<T extends TableData> {
 
   // eslint-disable-next-line no-empty,@typescript-eslint/no-empty-function
   public rowActionTriggered(actionDef: TableActionDef, rowItem: any, dropdownItem?: DropdownItem) {
-  }
-
-  public getDataChangeSubject(): Observable<ChangeNotification> | null {
-    return null;
   }
 
   public buildFilterValues(withSearch: boolean = true): FilterParams {

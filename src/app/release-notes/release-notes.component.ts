@@ -31,6 +31,7 @@ export class ReleaseNotesComponent {
             changes: [
               `Fixed Soft Stop of an opened Transaction (OCPP Stop Transaction not received)`,
               `Removed the global lock of the Async Task Manager, only kept at Task level`,
+              `Limit the Async Task processsing duration to 15 mins before trying to process it again`,
               `Return a clean error message when Billing settings are not set`,
               `Fixed Add payment method not displayed in User's profile`,
             ],

@@ -35,6 +35,7 @@ export class ReleaseNotesComponent {
               `Return a clean error message when Billing settings are not set`,
               `Fixed Add payment method not displayed in User's profile`,
               `Fixed Refund buttons not displayed in Refunding Transaction list`,
+              `Added back Export button in Log list`,
               `Check that the Token ID is well formed`,
             ],
           },

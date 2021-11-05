@@ -34,6 +34,7 @@ export class ReleaseNotesComponent {
               `Limit the Async Task processsing duration to 15 mins before trying to process it again`,
               `Return a clean error message when Billing settings are not set`,
               `Fixed Add payment method not displayed in User's profile`,
+              `Fixed Refund buttons not displayed in Refunding Transaction list`,
               `Check that the Token ID is well formed`,
             ],
           },

@@ -23,6 +23,18 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.5.9',
+        date: new Date('2021-11-05'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Fixed Soft Stop of an opened Transaction (OCPP Stop Transaction not received)`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.5.8',
         date: new Date('2021-11-03'),
         componentChanges: [

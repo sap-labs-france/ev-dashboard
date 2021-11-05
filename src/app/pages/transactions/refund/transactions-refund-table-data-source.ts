@@ -25,7 +25,7 @@ import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto
 import { TableOpenURLActionDef } from '../../../shared/table/actions/table-open-url-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { TableExportTransactionsAction, TableExportTransactionsActionDef } from '../../../shared/table/actions/transactions/table-export-transactions-action';
-import { TableOpenURLConcurAction } from '../../../shared/table/actions/transactions/table-open-url-concur-action';
+import { TableOpenURLRefundAction } from '../../../shared/table/actions/transactions/table-open-url-concur-action';
 import { TableRefundTransactionsAction, TableRefundTransactionsActionDef } from '../../../shared/table/actions/transactions/table-refund-transactions-action';
 import { TableSyncRefundTransactionsAction, TableSyncRefundTransactionsActionDef } from '../../../shared/table/actions/transactions/table-sync-refund-transactions-action';
 import { ChargingStationTableFilter } from '../../../shared/table/filters/charging-station-table-filter';
@@ -51,8 +51,10 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
   private refundTransactionEnabled = false;
   private refundSetting!: RefundSettings;
   private isAdmin: boolean;
-  private tableSyncRefundAction = new TableSyncRefundTransactionsAction().getActionDef();
-
+  private syncRefundAction = new TableSyncRefundTransactionsAction().getActionDef();
+  private exportTransactionsAction = new TableExportTransactionsAction().getActionDef();
+  private refundTransactionsAction = new TableRefundTransactionsAction().getActionDef();
+  private openURLRefundAction = new TableOpenURLRefundAction().getActionDef();
 
   public constructor(
     public spinnerService: SpinnerService,
@@ -90,6 +92,10 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
       filters['MinimalPrice'] = '0';
       this.centralServerService.getTransactionsToRefund(filters, this.getPaging(), this.getSorting())
         .subscribe((transactions) => {
+          this.syncRefundAction.visible = true;
+          this.exportTransactionsAction.visible = true;
+          this.refundTransactionsAction.visible = this.refundTransactionEnabled;
+          this.openURLRefundAction.visible = this.refundTransactionEnabled;
           // Ok
           observer.next(transactions);
           observer.complete();
@@ -283,16 +289,16 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
 
   public buildTableActionsDef(): TableActionDef[] {
     let tableActionsDef = super.buildTableActionsDef();
-    tableActionsDef.unshift(new TableExportTransactionsAction().getActionDef());
+    tableActionsDef.unshift(this.exportTransactionsAction);
     if (this.refundTransactionEnabled) {
       tableActionsDef = [
         ...tableActionsDef,
-        new TableRefundTransactionsAction().getActionDef(),
-        new TableOpenURLConcurAction().getActionDef(),
+        this.exportTransactionsAction,
+        this.openURLRefundAction,
       ];
       if (this.isAdmin) {
         tableActionsDef.push(
-          this.tableSyncRefundAction,
+          this.syncRefundAction,
         );
       }
     }
@@ -318,7 +324,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
           );
         }
         break;
-      case TransactionButtonAction.OPEN_CONCUR_URL:
+      case TransactionButtonAction.OPEN_REFUND_URL:
         if (!this.refundSetting) {
           this.messageService.showErrorMessage(
             this.translateService.instant('transactions.notification.refund.concur_connection_invalid'));

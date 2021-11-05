@@ -30,7 +30,9 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Fixed Soft Stop of an opened Transaction (OCPP Stop Transaction not received)`,
-              `Removed the global lock of the Async Task Manager, only kept at Task level`
+              `Removed the global lock of the Async Task Manager, only kept at Task level`,
+              `Return a clean error message when Billing settings are not set`,
+              `Fixed Add payment method not displayed in User's profile`,
             ],
           },
         ],

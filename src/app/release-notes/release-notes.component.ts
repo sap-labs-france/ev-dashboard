@@ -23,6 +23,25 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.5.9',
+        date: new Date('2021-11-05'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Fixed Soft Stop of an opened Transaction (OCPP Stop Transaction not received)`,
+              `Removed the global lock of the Async Task Manager, only kept at Task level`,
+              `Limit the Async Task processing duration to 15 mins before trying to process it again`,
+              `Return a clean error message when Billing settings are not set`,
+              `Fixed Add payment method not displayed in User's profile`,
+              `Fixed Refund buttons not displayed in Refunding Transaction list`,
+              `Added back Export button in Log list`,
+              `Check that the Token ID is well formed`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.5.8',
         date: new Date('2021-11-03'),
         componentChanges: [

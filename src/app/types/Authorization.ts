@@ -35,8 +35,8 @@ export interface AuthorizationDefinitionFieldMetadata {
   visible: boolean;
   enabled: string;
   mandatory: boolean;
-  values: string[]|boolean[]|number[],
-  defaultValue: string|boolean|number,
+  values: string[]|boolean[]|number[];
+  defaultValue: string|boolean|number;
 }
 
 export interface AuthorizationFilter {

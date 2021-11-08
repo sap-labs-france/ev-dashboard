@@ -34,6 +34,8 @@ import { LogLevelFormatterComponent } from '../formatters/log-level-formatter.co
 
 @Injectable()
 export class LogsListTableDataSource extends TableDataSource<Log> {
+  private exportAction = new TableExportLogsAction().getActionDef();
+
   public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
@@ -109,6 +111,7 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
       // Get data
       this.centralServerService.getLogs(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((logs) => {
+        this.exportAction.visible = logs.canExport;
         // Add the users in the message
         logs.result.map((log: Log) => {
           let user;
@@ -220,13 +223,10 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-    if (!this.authorizationService.isDemo()) {
-      return [
-        new TableExportLogsAction().getActionDef(),
-        ...tableActionsDef,
-      ];
-    }
-    return tableActionsDef;
+    return [
+      this.exportAction,
+      ...tableActionsDef,
+    ];
   }
 
   public actionTriggered(actionDef: TableActionDef) {

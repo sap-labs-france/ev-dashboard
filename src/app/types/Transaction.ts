@@ -89,7 +89,7 @@ export enum TransactionButtonAction {
   DELETE_TRANSACTIONS = 'delete_transactions',
   EXPORT_TRANSACTIONS = 'export_transactions',
   EXPORT_TRANSACTION_OCPI_CDR = 'export_transaction_ocpi_cdr',
-  OPEN_CONCUR_URL = 'open_concur_url',
+  OPEN_REFUND_URL = 'open_refund_url',
   REFUND_TRANSACTIONS = 'refund_transactions',
   REFUND_SYNCHRONIZE = 'refund_synchronize',
   PUSH_TRANSACTION_CDR = 'push_transaction_cdr',

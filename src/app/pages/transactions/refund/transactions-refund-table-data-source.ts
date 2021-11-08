@@ -288,16 +288,15 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
   }
 
   public buildTableActionsDef(): TableActionDef[] {
-    let tableActionsDef = super.buildTableActionsDef();
+    const tableActionsDef = super.buildTableActionsDef();
     tableActionsDef.unshift(this.exportTransactionsAction);
     if (this.refundTransactionEnabled) {
-      tableActionsDef = [
-        ...tableActionsDef,
-        this.exportTransactionsAction,
+      tableActionsDef.unshift(
+        this.refundTransactionsAction,
         this.openURLRefundAction,
-      ];
+      );
       if (this.isAdmin) {
-        tableActionsDef.push(
+        tableActionsDef.unshift(
           this.syncRefundAction,
         );
       }

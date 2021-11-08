@@ -279,14 +279,13 @@ export class ChargingPlansComponent implements OnInit, AfterViewInit {
           }
         }, (error: any) => {
           this.spinnerService.hide();
-          if (error.status === HTTPError.CLEAR_CHARGING_PROFILE_NOT_SUCCESSFUL) {
-            Utils.handleHttpError(
-              error, this.router, this.messageService, this.centralServerService,
-              this.translateService.instant('chargers.smart_charging.clear_profile_not_accepted',
-                { chargeBoxID: this.chargingStation.id }));
-          } else {
-            Utils.handleHttpError(
-              error, this.router, this.messageService, this.centralServerService, 'chargers.smart_charging.clear_profile_error');
+          switch (error.status) {
+            case HTTPError.CLEAR_CHARGING_PROFILE_NOT_SUCCESSFUL:
+              this.messageService.showErrorMessage('chargers.smart_charging.clear_profile_not_accepted');
+              break;
+            default:
+              Utils.handleHttpError(error, this.router, this.messageService,
+                this.centralServerService, 'chargers.smart_charging.clear_profile_error');
           }
         });
       }
@@ -330,15 +329,13 @@ export class ChargingPlansComponent implements OnInit, AfterViewInit {
           }
         }, (error) => {
           this.spinnerService.hide();
-          if (error.status === HTTPError.SET_CHARGING_PROFILE_ERROR) {
-            Utils.handleHttpError(
-              error, this.router, this.messageService, this.centralServerService,
-              this.translateService.instant('chargers.smart_charging.power_limit_plan_not_accepted',
-                { chargeBoxID: this.chargingStation.id }));
-          } else {
-            Utils.handleHttpError(
-              error, this.router, this.messageService, this.centralServerService,
-              this.translateService.instant('chargers.smart_charging.power_limit_plan_error'));
+          switch (error.status) {
+            case HTTPError.SET_CHARGING_PROFILE_ERROR:
+              this.messageService.showErrorMessage('chargers.smart_charging.power_limit_plan_not_accepted');
+              break;
+            default:
+              Utils.handleHttpError(error, this.router, this.messageService,
+                this.centralServerService, 'chargers.smart_charging.power_limit_plan_error');
           }
         });
       }

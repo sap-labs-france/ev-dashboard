@@ -204,7 +204,7 @@ export class SiteAreaComponent implements OnInit {
     this.dialog.open(SiteAreasDialogComponent, dialogConfig).afterClosed().subscribe((result) => {
       if (!Utils.isEmptyArray(result) && result[0].objectRef) {
         const siteAreaParent: SiteArea = (result[0].objectRef) as SiteArea;
-        if (siteAreaParent.id !== this.siteArea.id) {
+        if (!this.siteArea || siteAreaParent.id !== this.siteArea.id) {
           this.siteAreaParent.setValue(siteAreaParent.name);
           this.siteAreaParentID.setValue(siteAreaParent.id);
           this.formGroup.markAsDirty();

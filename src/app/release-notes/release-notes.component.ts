@@ -29,7 +29,14 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
-              `deployment of the new high performance Web Socket engine`,
+              `Deployment of the new high performance Web Socket server (best on the market)`,
+              `Enforced synchonicity of the incoming OCPP requests per Charging Station in the Web Socket server (WS Server)`,
+              `Queued all incoming OCPP requests until the WS connection is fully checked`,
+              `Removed database locking per Charging Station (done in the WS Server)`,
+              `Prevent new duplicate Web Socket connections in the WS Server`,
+              `Enhanced Logs to better track Web Socket connections`,
+              `Removed links to the non secure WS connection in the UI (the WS service will stay up until all chargers have been migrated to WSS)`,
+              `Migrated to the latest NodeJs LTS (V16) + use a new Node container in production`,
             ],
           },
         ],

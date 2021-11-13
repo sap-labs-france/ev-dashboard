@@ -23,6 +23,18 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.5.10',
+        date: new Date('2021-11-13'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `deployment of the new high performance Web Socket engine`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.5.9',
         date: new Date('2021-11-05'),
         componentChanges: [

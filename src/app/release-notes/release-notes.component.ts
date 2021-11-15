@@ -29,9 +29,11 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `User is mandatory when creating a new RFID Card for Site Admin`,
+              `Site Admin cannot change 'Automatic user assignment to this site' property`,
+              `Enabled WS Compression in WS Server`,
               `Reuse the Asset's token between two calls every minute`,
               `Migrated OICP (Hubject) endpoints to RESTful API`,
-              `User is mandatory when creating a new RFID Card for Site Admin`,
               `Return OCPI status Inoperative when connector is Unavailable`,
             ],
           },

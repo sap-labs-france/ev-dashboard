@@ -4,7 +4,6 @@ import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dial
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
-import { SiteAreasDialogComponent } from 'shared/dialogs/site-areas/site-areas-dialog.component';
 import { DialogMode } from 'types/Authorization';
 
 import { AuthorizationService } from '../../../../services/authorization.service';
@@ -14,6 +13,7 @@ import { ConfigService } from '../../../../services/config.service';
 import { DialogService } from '../../../../services/dialog.service';
 import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
+import { SiteAreasDialogComponent } from '../../../../shared/dialogs/site-areas/site-areas-dialog.component';
 import { SitesDialogComponent } from '../../../../shared/dialogs/sites/sites-dialog.component';
 import { Address } from '../../../../types/Address';
 import { RestResponse } from '../../../../types/GlobalType';
@@ -527,7 +527,7 @@ export class SiteAreaComponent implements OnInit {
               { siteAreaName: siteArea.name }));
           this.closeDialog(true);
           break;
-        case HTTPError.SUB_SITE_AREA_ERROR:
+        case HTTPError.SITE_AREA_PARENT_ERROR:
           this.dialogService.createAndShowOkDialog(
             this.translateService.instant('site_areas.site_area_parent_error_title'),
             this.translateService.instant('site_areas.site_area_parent_error_body',

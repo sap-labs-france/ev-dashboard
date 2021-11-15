@@ -67,7 +67,7 @@
                     <mat-form-field *ngIf="formGroup.enabled">
                       <input matInput type="text" readonly=true placeholder="{{'site_areas.site_area_parent' | translate}}"
                         class="form-field-popup" (click)="assignSiteAreaParent()" [formControl]="siteAreaParent" />
-                      <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignSiteAreaParent()">
+                      <button mat-button matSuffix mat-icon-button (click)="assignSiteAreaParent()">
                         <mat-icon>create</mat-icon>
                       </button>
                       <button *ngIf="siteAreaParentID.value" mat-icon-button matSuffix (click)="clearParent()">

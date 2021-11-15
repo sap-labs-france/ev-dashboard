@@ -464,7 +464,7 @@
     "titles": "Zonas",
     "site_area_parent": "Site Area Parent",
     "site_area_parent_error_title": "Sub Site Area Error",
-    "site_area_parent_error_body": "An error occurred while updating the site area chain. Please make sure that there are no circular structures and that all sub site areas and its parents have the same site and smart charging enablement.",
+    "site_area_parent_error_body": "An error occurred while updating the site area chain. Please make sure that there are no circular structures and that all sub site areas and its parents have the same site, number of phases, voltage and smart charging enablement.",
     "site_invalid": "Zona inválida",
     "site_area_do_not_exist": "Esta zona ya no existe",
     "max_limit_kw": " Límite máximo",

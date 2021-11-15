@@ -2,7 +2,7 @@
   "name": "ev-dashboard",
   "description": "Dashboard for Electric Vehicle charging station",
   "homepage": "https://github.com/sap-labs-france/ev-dashboard",
-  "version": "2.5.10",
+  "version": "2.5.11",
   "engines": {
     "npm": "8.x.x."
   },
@@ -134,7 +134,7 @@
     "@typescript-eslint/parser": "^4.33.0",
     "codeceptjs": "^3.1.3",
     "cross-env": "^7.0.3",
-    "eslint": "^7.32.0",
+    "eslint": "^8.2.0",
     "eslint-plugin-import": "2.25.2",
     "eslint-plugin-jsdoc": "^37.0.3",
     "eslint-plugin-prefer-arrow": "^1.2.3",
@@ -153,7 +153,7 @@
     "karma-jasmine": "~4.0.1",
     "karma-jasmine-html-reporter": "^1.7.0",
     "mocha": "^9.1.3",
-    "mochawesome": "^6.3.1",
+    "mochawesome": "^7.0.1",
     "moment-locales-webpack-plugin": "^1.2.0",
     "moment-timezone-data-webpack-plugin": "^1.5.0",
     "npm-check": "^5.9.2",
@@ -164,7 +164,7 @@
     "ts-node-dev": "^1.1.8",
     "deep-object-diff": "^1.1.0",
     "typescript": "~4.1.6",
-    "webpack": "^4.46.0",
+    "webpack": "^5.64.0",
     "webpack-bundle-analyzer": "^4.5.0"
   }
 }

@@ -149,6 +149,9 @@ export class TagComponent implements OnInit {
           this.userID.setValidators(Validators.required);
         }
         this.id.disable();
+        this.formGroup.updateValueAndValidity();
+        this.formGroup.markAsPristine();
+        this.formGroup.markAllAsTouched();
       }, (error) => {
         this.spinnerService.hide();
         switch (error.status) {

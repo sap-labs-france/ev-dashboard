@@ -32,6 +32,7 @@ export class ReleaseNotesComponent {
               `Reuse the Asset's token between two calls every minute`,
               `Migrated OICP (Hubject) endpoints to RESTful API`,
               `User is mandatory when creating a new RFID Card for Site Admin`,
+              `Return OCPI status Inoperative when connector is Unavailable`,
             ],
           },
         ],

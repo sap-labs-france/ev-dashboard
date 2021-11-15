@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { ImportDialogComponent } from 'shared/dialogs/import/import-dialog.component';
 import { TableImportUsersAction, TableImportUsersActionDef } from 'shared/table/actions/users/table-import-users-action';
+import { AuthorizationDefinitionFieldMetadata } from 'types/Authorization';
 import { TagButtonAction } from 'types/Tag';
 
 import { AuthorizationService } from '../../../services/authorization.service';
@@ -56,6 +57,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
   private synchronizeBillingUserAction = new TableForceSyncBillingUserAction().getActionDef();
   private navigateToTagsAction = new TableNavigateToTagsAction().getActionDef();
   private navigateToTransactionsAction = new TableNavigateToTransactionsAction().getActionDef();
+  private metadata?: Record<string, AuthorizationDefinitionFieldMetadata>;
   private exportAction = new TableExportUsersAction().getActionDef();
   private importAction = new TableImportUsersAction().getActionDef();
   private createAction = new TableCreateUserAction().getActionDef();
@@ -111,6 +113,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       // Get the Tenants
       this.centralServerService.getUsers(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((users) => {
+        this.metadata = users.metadata;
         this.createAction.visible = users.canCreate;
         this.importAction.visible = users.canImport;
         this.exportAction.visible = users.canExport;
@@ -315,7 +318,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       case UserButtonAction.CREATE_USER:
         if (actionDef.action) {
           (actionDef as TableCreateUserActionDef).action(UserDialogComponent,
-            this.dialog, this.refreshData.bind(this));
+            this.dialog,{ dialogData: { metadata: this.metadata } as User }, this.refreshData.bind(this));
         }
         break;
       case UserButtonAction.EXPORT_USERS:
@@ -345,6 +348,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
     switch (actionDef.id) {
       case UserButtonAction.EDIT_USER:
         if (actionDef.action) {
+          user.metadata= this.metadata;
           (actionDef as TableEditUserActionDef).action(UserDialogComponent, this.dialog,
             { dialogData: user }, this.refreshData.bind(this));
         }

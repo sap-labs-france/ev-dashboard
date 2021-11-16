@@ -169,11 +169,11 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
       }
       if (this.chargingStation.public) {
         this.public.setValue(this.chargingStation.public);
-        if (this.OCPIActive && this.chargingStation.tariffID) {
-          this.tariffID.setValue(this.chargingStation.tariffID);
-        }
       } else if (!this.chargingStation.site.public) {
         this.public.disable();
+      }
+      if (this.OCPIActive && this.chargingStation.tariffID) {
+        this.tariffID.setValue(this.chargingStation.tariffID);
       }
       if (this.chargingStation.issuer) {
         this.issuer.setValue(this.chargingStation.issuer);

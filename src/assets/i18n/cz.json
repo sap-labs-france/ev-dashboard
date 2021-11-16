@@ -431,7 +431,9 @@
       "update_site_users_owner_error":"Došlo k chybě při pokusu poskytnout uživateli '{{userName}}‘ oprávnění vlastníka parkoviště, zkontrolujte protokoly",
       "export_all_params_title":"Exportovat parametry OCPP",
       "export_all_params_confirm":"Chcete opravdu exportovat všechny parametry OCPP všech nabíjecích stanic patřících ke parkovišti '{{siteName}}'?",
-      "export_all_params_error":"Došlo k chybě při pokusu exportovat všechny parametry OCPP, zkontrolujte protokoly"
+      "export_all_params_error":"Došlo k chybě při pokusu exportovat všechny parametry OCPP, zkontrolujte protokoly",
+      "private_limitation": "Some features are not available when the site is private"
+
    },
    "site_areas":{
       "assign_site":"Přiřadit parkoviště",

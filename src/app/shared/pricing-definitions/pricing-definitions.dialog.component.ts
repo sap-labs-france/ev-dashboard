@@ -1,6 +1,5 @@
-import { AfterViewInit, Component, Inject, ViewChild } from '@angular/core';
+import { Component, Inject, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Utils } from 'utils/Utils';
 
 import { DialogParams } from '../../types/Authorization';
 import { PricingDefinitionDialogData } from '../../types/Pricing';

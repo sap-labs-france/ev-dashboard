@@ -3200,8 +3200,6 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    // TODO: handle entityType depending where we are
-    pricingDefinition['entityType'] = PricingEntity.TENANT;
     const url = this.buildRestEndpointUrl(ServerRoute.REST_PRICING_DEFINITIONS);
     return this.httpClient.post<ActionResponse>(url, pricingDefinition,
       {

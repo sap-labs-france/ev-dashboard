@@ -2,13 +2,13 @@
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { RestResponse } from 'types/GlobalType';
-import PricingDefinition, { PricingButton } from 'types/Pricing';
 
 import { CentralServerService } from '../../../../services/central-server.service';
 import { DialogService } from '../../../../services/dialog.service';
 import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
+import { RestResponse } from '../../../../types/GlobalType';
+import PricingDefinition, { PricingButton } from '../../../../types/Pricing';
 import { ButtonType, TableActionDef } from '../../../../types/Table';
 import { Utils } from '../../../../utils/Utils';
 import { TableDeleteAction } from '../table-delete-action';

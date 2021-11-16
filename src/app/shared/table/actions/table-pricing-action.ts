@@ -1,8 +1,8 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
-import { DialogData, DialogMode, DialogParams } from 'types/Authorization';
 
+import { DialogData, DialogMode, DialogParams } from '../../../types/Authorization';
 import { ButtonAction, PopupSize } from '../../../types/GlobalType';
 import { ButtonColor, TableActionDef } from '../../../types/Table';
 import { TableAction } from './table-action';

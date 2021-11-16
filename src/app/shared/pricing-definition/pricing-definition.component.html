@@ -44,7 +44,7 @@
                         </mat-datetimepicker>
                         <mat-datetimepicker-toggle [for]="pickerDateStart" matSuffix></mat-datetimepicker-toggle>
                         <input matInput [formControl]="validFrom" placeholder="{{'settings.pricing.valid_from' | translate}}"
-                        [matDatetimepicker]="pickerDateStart" (dateChange)="setMinDate($event)" required>
+                        [matDatetimepicker]="pickerDateStart" (dateChange)="setMinDate($event)">
                         <mat-error *ngIf="validFrom?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
                       </mat-form-field>
                     </div>

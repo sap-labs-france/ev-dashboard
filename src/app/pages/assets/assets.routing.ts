@@ -10,7 +10,7 @@ export const AssetsRoutes: Routes = [
     path: '', component: AssetsComponent, canActivate: [RouteGuardService], data: {
       component: TenantComponents.ASSET,
       auth: {
-        entity: Entity.ASSETS,
+        entity: Entity.ASSET,
         action: Action.LIST,
       },
     },

@@ -25,11 +25,11 @@ export class AuthorizationService {
   }
 
   public canListInvoicesBilling(): boolean {
-    return this.canAccess(Entity.INVOICES, Action.LIST);
+    return this.canAccess(Entity.INVOICE, Action.LIST);
   }
 
   public canListCars(): boolean {
-    return this.canAccess(Entity.CARS, Action.LIST);
+    return this.canAccess(Entity.CAR, Action.LIST);
   }
 
   public canReadCar(): boolean {
@@ -49,27 +49,27 @@ export class AuthorizationService {
   }
 
   public canListChargingStations(): boolean {
-    return this.canAccess(Entity.CHARGING_STATIONS, Action.LIST);
+    return this.canAccess(Entity.CHARGING_STATION, Action.LIST);
   }
 
   public canListChargingStationsInError(): boolean {
-    return this.canAccess(Entity.CHARGING_STATIONS, Action.IN_ERROR);
+    return this.canAccess(Entity.CHARGING_STATION, Action.IN_ERROR);
   }
 
   public canListAssets(): boolean {
-    return this.canAccess(Entity.ASSETS, Action.LIST);
+    return this.canAccess(Entity.ASSET, Action.LIST);
   }
 
   public canListLogs(): boolean {
-    return this.canAccess(Entity.LOGGINGS, Action.LIST);
+    return this.canAccess(Entity.LOGGING, Action.LIST);
   }
 
   public canListAssetsInError(): boolean {
-    return this.canAccess(Entity.ASSETS, Action.IN_ERROR);
+    return this.canAccess(Entity.ASSET, Action.IN_ERROR);
   }
 
   public canListChargingProfiles(): boolean {
-    return this.canAccess(Entity.CHARGING_PROFILES, Action.LIST);
+    return this.canAccess(Entity.CHARGING_PROFILE, Action.LIST);
   }
 
   public canReadCompany(): boolean {
@@ -89,7 +89,7 @@ export class AuthorizationService {
   }
 
   public canListCompanies(): boolean {
-    return this.canAccess(Entity.COMPANIES, Action.LIST);
+    return this.canAccess(Entity.COMPANY, Action.LIST);
   }
 
   public canUpdateAsset(): boolean {
@@ -97,7 +97,7 @@ export class AuthorizationService {
   }
 
   public canListSites(): boolean {
-    return this.canAccess(Entity.SITES, Action.LIST);
+    return this.canAccess(Entity.SITE, Action.LIST);
   }
 
   public canReadSite(): boolean {
@@ -117,7 +117,7 @@ export class AuthorizationService {
   }
 
   public canListSiteAreas(): boolean {
-    return this.canAccess(Entity.SITE_AREAS, Action.LIST);
+    return this.canAccess(Entity.SITE_AREA, Action.LIST);
   }
 
   public canReadSiteArea(): boolean {
@@ -149,7 +149,7 @@ export class AuthorizationService {
   }
 
   public canListSettings(): boolean {
-    return this.canAccess(Entity.SETTINGS, Action.LIST);
+    return this.canAccess(Entity.SETTING, Action.LIST);
   }
 
   public canReadSetting(): boolean {
@@ -170,15 +170,15 @@ export class AuthorizationService {
   }
 
   public canExportTransactions(): boolean {
-    return this.canAccess(Entity.TRANSACTIONS, Action.EXPORT);
+    return this.canAccess(Entity.TRANSACTION, Action.EXPORT);
   }
 
   public canListUsers(): boolean {
-    return this.canAccess(Entity.USERS, Action.LIST);
+    return this.canAccess(Entity.USER, Action.LIST);
   }
 
   public canListUsersInError(): boolean {
-    return this.canAccess(Entity.USERS, Action.IN_ERROR);
+    return this.canAccess(Entity.USER, Action.IN_ERROR);
   }
 
   public canDeleteUser(): boolean {
@@ -186,19 +186,19 @@ export class AuthorizationService {
   }
 
   public canImportUsers(): boolean {
-    return this.canAccess(Entity.USERS, Action.IMPORT);
+    return this.canAccess(Entity.USER, Action.IMPORT);
   }
 
   public canListTags(): boolean {
-    return this.canAccess(Entity.TAGS, Action.LIST);
+    return this.canAccess(Entity.TAG, Action.LIST);
   }
 
   public canImportTags(): boolean {
-    return this.canAccess(Entity.TAGS, Action.IMPORT);
+    return this.canAccess(Entity.TAG, Action.IMPORT);
   }
 
   public canExportTags(): boolean {
-    return this.canAccess(Entity.TAGS, Action.EXPORT);
+    return this.canAccess(Entity.TAG, Action.EXPORT);
   }
 
   public canUpdateUser(): boolean {
@@ -210,7 +210,7 @@ export class AuthorizationService {
   }
 
   public canExportUsers(): boolean {
-    return this.canAccess(Entity.USERS, Action.EXPORT);
+    return this.canAccess(Entity.USER, Action.EXPORT);
   }
 
   public canSynchronizeBillingUser(): boolean {
@@ -222,11 +222,11 @@ export class AuthorizationService {
   }
 
   public canSynchronizeBillingUsers(): boolean {
-    return this.canAccess(Entity.USERS, Action.SYNCHRONIZE_BILLING_USERS);
+    return this.canAccess(Entity.USER, Action.SYNCHRONIZE_BILLING_USERS);
   }
 
   public canSynchronizeInvoices(): boolean {
-    return this.canAccess(Entity.INVOICES, Action.SYNCHRONIZE);
+    return this.canAccess(Entity.INVOICE, Action.SYNCHRONIZE);
   }
 
   public canAccess(resource: string, action: string): boolean {
@@ -288,11 +288,11 @@ export class AuthorizationService {
   }
 
   public canListTransactions(): boolean {
-    return this.canAccess(Entity.TRANSACTIONS, Action.LIST);
+    return this.canAccess(Entity.TRANSACTION, Action.LIST);
   }
 
   public canListTransactionsInError(): boolean {
-    return this.canAccess(Entity.TRANSACTIONS, Action.IN_ERROR);
+    return this.canAccess(Entity.TRANSACTION, Action.IN_ERROR);
   }
 
   public canCreateToken(): boolean {
@@ -300,7 +300,7 @@ export class AuthorizationService {
   }
 
   public canListTokens(): boolean {
-    return this.canAccess(Entity.TOKENS, Action.LIST);
+    return this.canAccess(Entity.TOKEN, Action.LIST);
   }
 
   public canUpdateToken(): boolean {
@@ -312,7 +312,7 @@ export class AuthorizationService {
   }
 
   public canListPaymentMethods(): boolean {
-    return this.canAccess(Entity.PAYMENT_METHODS, Action.LIST);
+    return this.canAccess(Entity.PAYMENT_METHOD, Action.LIST);
   }
 
   // TODO: Should return different response if admin is on its own pm or not ?

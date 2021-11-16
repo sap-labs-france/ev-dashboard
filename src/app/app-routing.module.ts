@@ -39,7 +39,7 @@ const routes: Routes = [
             path: '/charging-stations',
           },
           auth: {
-            entity: Entity.CHARGING_STATIONS,
+            entity: Entity.CHARGING_STATION,
             action: Action.LIST,
           },
         },
@@ -55,7 +55,7 @@ const routes: Routes = [
             path: '/transactions',
           },
           auth: {
-            entity: Entity.TRANSACTIONS,
+            entity: Entity.TRANSACTION,
             action: Action.LIST,
           },
         },
@@ -71,7 +71,7 @@ const routes: Routes = [
             path: '/tenants',
           },
           auth: {
-            entity: Entity.TENANTS,
+            entity: Entity.TENANT,
             action: Action.LIST,
           },
         },
@@ -87,7 +87,7 @@ const routes: Routes = [
             path: '/invoices',
           },
           auth: {
-            entity: Entity.INVOICES,
+            entity: Entity.INVOICE,
             action: Action.LIST,
           },
           activeInSuperTenant: false,
@@ -106,8 +106,8 @@ const routes: Routes = [
             path: '/cars',
           },
           auth: [
-            { entity: Entity.CAR_CATALOGS, action: Action.LIST },
-            { entity: Entity.CARS, action: Action.LIST },
+            { entity: Entity.CAR_CATALOG, action: Action.LIST },
+            { entity: Entity.CAR, action: Action.LIST },
           ],
           activeInSuperTenant: true,
           displayInSuperTenant: true,
@@ -125,7 +125,7 @@ const routes: Routes = [
             path: '/users',
           },
           auth: {
-            entity: Entity.USERS,
+            entity: Entity.USER,
             action: Action.LIST,
           },
         },
@@ -141,7 +141,7 @@ const routes: Routes = [
             path: '/tags',
           },
           auth: {
-            entity: Entity.TAGS,
+            entity: Entity.TAG,
             action: Action.LIST,
           },
         },
@@ -157,7 +157,7 @@ const routes: Routes = [
             path: '/assets',
           },
           auth: {
-            entity: Entity.ASSETS,
+            entity: Entity.ASSET,
             action: Action.LIST,
           },
           component: TenantComponents.ASSET,
@@ -174,9 +174,9 @@ const routes: Routes = [
             path: '/organization',
           },
           auth: [
-            { entity: Entity.COMPANIES, action: Action.LIST },
-            { entity: Entity.SITES, action: Action.LIST },
-            { entity: Entity.SITE_AREAS, action: Action.LIST },
+            { entity: Entity.COMPANY, action: Action.LIST },
+            { entity: Entity.SITE, action: Action.LIST },
+            { entity: Entity.SITE_AREA, action: Action.LIST },
           ],
           component: TenantComponents.ORGANIZATION,
         },
@@ -193,7 +193,7 @@ const routes: Routes = [
             path: '/template',
           },
           auth: {
-            entity: Entity.LOGGINGS,
+            entity: Entity.LOGGING,
             action: Action.LIST,
           },
           options: {
@@ -212,7 +212,7 @@ const routes: Routes = [
             path: '/statistics',
           },
           auth: {
-            entity: Entity.TRANSACTIONS,
+            entity: Entity.TRANSACTION,
             action: Action.LIST,
           },
           component: TenantComponents.STATISTICS,
@@ -261,7 +261,7 @@ const routes: Routes = [
             path: '/logs',
           },
           auth: {
-            entity: Entity.LOGGINGS,
+            entity: Entity.LOGGING,
             action: Action.LIST,
           },
         },

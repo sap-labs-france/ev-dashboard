@@ -317,7 +317,7 @@
       </tbody>
     </table>
     <!-- More Records -->
-    <div *ngIf="!loading && dataSource.data.length > 0 && dataSource.totalNumberOfRecords !== dataSource.data.length"
+    <div *ngIf="!loading && dataSource.data.length > 0 && dataSource.totalNumberOfRecords > 0 && dataSource.totalNumberOfRecords > dataSource.data.length"
       (click)="displayMoreRecords()" class="more-records">
       <mat-icon>keyboard_arrow_down</mat-icon>
       {{'general.more_records' | translate}}

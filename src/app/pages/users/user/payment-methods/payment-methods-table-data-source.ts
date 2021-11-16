@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { HTTPError } from 'types/HTTPError';
 
 import { AuthorizationService } from '../../../../services/authorization.service';
 import { CentralServerService } from '../../../../services/central-server.service';
@@ -31,6 +32,7 @@ export class PaymentMethodsTableDataSource extends TableDataSource<BillingPaymen
   public billingSettings: BillingSettings;
   private deleteAction = new TableDeletePaymentMethodAction().getActionDef();
   private createAction = new TableCreatePaymentMethodAction().getActionDef();
+
   public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
@@ -69,9 +71,13 @@ export class PaymentMethodsTableDataSource extends TableDataSource<BillingPaymen
           observer.next(paymentMethods);
           observer.complete();
         }, (error) => {
-          // No longer exists!
-          Utils.handleHttpError(error, this.router, this.messageService,
-            this.centralServerService, 'general.error_backend');
+          switch (error.status) {
+            case HTTPError.MISSING_SETTINGS:
+              this.messageService.showErrorMessage('settings.billing.not_properly_set');
+              break;
+            default:
+              Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          }
           // Error
           observer.error(error);
         });

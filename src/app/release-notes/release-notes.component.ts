@@ -30,6 +30,7 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Introduction of the new Pricing engine (backend only)`,
+              `Added OCPI Tariff ID in Tenant's settings`,
             ],
           },
         ],

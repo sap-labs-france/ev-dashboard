@@ -23,15 +23,29 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.5.12',
+        date: new Date('2021-11-16'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Introduction of the new Pricing engine (backend only)`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.5.11',
         date: new Date('2021-11-15'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `User is mandatory when creating a new RFID Card for Site Admin`,
+              `Site Admin cannot change 'Automatic user assignment to this site' property`,
+              `Enabled WS Compression in WS Server`,
               `Reuse the Asset's token between two calls every minute`,
               `Migrated OICP (Hubject) endpoints to RESTful API`,
-              `User is mandatory when creating a new RFID Card for Site Admin`,
               `Return OCPI status Inoperative when connector is Unavailable`,
             ],
           },

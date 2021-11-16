@@ -6,7 +6,7 @@
           <mat-icon>portrait</mat-icon>
           <span>{{name.value}}</span>
         </ng-template>
-        <div class="card-body">
+        <div class="card-body tab-dialog-min-content">
           <div class="tab-content">
             <div class="tab-pane active" id="profile">
               <div class="row app-organization">
@@ -97,6 +97,33 @@
             <div class="tab-pane" id="address">
               <app-address [address]="address" [formGroup]="formGroup" componentName="{{'sites.site' | translate}}"
                 [itemComponentName]="name.value" [onlyReadGeolocation]="readOnly"></app-address>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+      <mat-tab *ngIf="OCPIActive">
+        <ng-template mat-tab-label>
+          <mat-icon>cloud</mat-icon>
+          <span>{{'settings.tabs.ocpi' | translate}}</span>
+        </ng-template>
+        <div class="form-group">
+          <div class="card-body tab-dialog-min-content">
+            <div class="tab-content">
+              <div class="tab-pane active" id="profile">
+                <div class="row app-organization">
+                  <Label *ngIf="!public.value">
+                    {{"sites.private_limitation" | translate}}
+                  </Label>
+                  <mat-form-field *ngIf="public.value">
+                    <input matInput type="text" placeholder="{{'ocpi.tariffID' | translate}}"
+                      [formControl]="tariffID" />
+                    <mat-error *ngIf="tariffID?.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+                    <mat-error *ngIf="tariffID?.errors?.maxlength">
+                      <div [translate]="'general.error_max_length'" [translateParams]="{length: 50}"></div>
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
             </div>
           </div>
         </div>

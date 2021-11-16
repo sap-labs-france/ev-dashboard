@@ -24,13 +24,13 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.5.12',
-        date: new Date('2021-11-16'),
+        date: new Date('2021-11-17'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `Introduction of the new Pricing engine (backend only)`,
-              `Added OCPI Tariff ID in Tenant's settings`,
+              `Added OCPI Tariff ID in Tenant's settings and Site`,
             ],
           },
         ],

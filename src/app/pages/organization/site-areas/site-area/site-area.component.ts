@@ -231,6 +231,8 @@ export class SiteAreaComponent implements OnInit {
       }
       if (siteArea.site.public) {
         this.sitePublicActive = siteArea.site.public;
+      }
+      if (siteArea.tariffID) {
         this.formGroup.controls.tariffID.setValue(siteArea.tariffID);
       }
       if (siteArea.maximumPower) {

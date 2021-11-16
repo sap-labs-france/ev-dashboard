@@ -210,7 +210,7 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
         if (actionDef.action) {
           (actionDef as TableEditPricingDefinitionActionDef).action(
             PricingDefinitionDialogComponent, this.dialog,
-            { dialogData: pricingDefinition }, this.refreshData.bind(this));
+            { dialogData: { ...pricingDefinition, context: this.context } }, this.refreshData.bind(this));
         }
         break;
       case PricingButton.DELETE_PRICING_DEFINITION:

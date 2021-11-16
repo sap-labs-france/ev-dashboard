@@ -147,13 +147,32 @@
                   <!-- value -->
                   <div class="col-md-2">
                     <mat-form-field *ngIf="energyEnabled.value">
-                      <mat-label >{{'settings.pricing.eurwh' | translate}}</mat-label>
+                      <mat-label >{{'settings.pricing.eurkwh' | translate}}</mat-label>
                       <input matInput type="text" placeholder="{{'settings.pricing.value' | translate}}"
                       [formControl]="energyValue" required/>
                       <mat-error *ngIf="energyValue?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
                       <mat-error *ngIf="energyValue?.errors?.pattern">{{'general.only_number_field' | translate}}</mat-error>
                     </mat-form-field>
                   </div>
+                  <!-- energy stepsizes -->
+                  <span class="stepSize" *ngIf="energyEnabled.value">
+                    <!-- checkbox -->
+                    <div class="col-md-2 offset-1 pricing-dimension">
+                      <mat-checkbox (change)="toggle($event)" id="energyStep" [formControl]="energyStepEnabled" [checked]="energyStepEnabled.value">
+                        {{'settings.pricing.step_size' | translate}}
+                      </mat-checkbox>
+                    </div>
+                    <!-- value -->
+                    <div class="col-md-2">
+                      <mat-form-field *ngIf="energyStepEnabled.value">
+                        <mat-label >{{'settings.pricing.w' | translate}}</mat-label>
+                        <input matInput type="text" placeholder="{{'settings.pricing.value' | translate}}"
+                        [formControl]="energyStepValue" required/>
+                        <mat-error *ngIf="energyStepValue?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
+                        <mat-error *ngIf="energyStepValue?.errors?.pattern">{{'general.only_number_field' | translate}}</mat-error>
+                      </mat-form-field>
+                    </div>
+                  </span>
                 </div>
                 <!-- chargingTime dimension -->
                 <div class="row">

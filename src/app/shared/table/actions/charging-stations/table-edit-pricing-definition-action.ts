@@ -3,14 +3,14 @@ import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { DialogParams } from 'types/Authorization';
 import { ScreenSize } from 'types/GlobalType';
-import PricingDefinition, { PricingButton } from 'types/Pricing';
+import { PricingButton, PricingDefinitionDialogData } from 'types/Pricing';
 
 import { TableActionDef } from '../../../../types/Table';
 import { TableEditAction } from '../table-edit-action';
 
 export interface TableEditPricingDefinitionActionDef extends TableActionDef {
   action: (PricingDefinitionDialogComponent: ComponentType<unknown>, dialog: MatDialog,
-    dialogParams: DialogParams<PricingDefinition>, refresh?: () => Observable<void>) => void;
+    dialogParams: DialogParams<PricingDefinitionDialogData>, refresh?: () => Observable<void>) => void;
 }
 
 export class TableEditPricingDefinitionAction extends TableEditAction {
@@ -23,7 +23,7 @@ export class TableEditPricingDefinitionAction extends TableEditAction {
   }
 
   private editPricingDefinition(pricingDefinitionDialogComponent: ComponentType<unknown>, dialog: MatDialog,
-    dialogParams: DialogParams<PricingDefinition>, refresh?: () => Observable<void>) {
+    dialogParams: DialogParams<PricingDefinitionDialogData>, refresh?: () => Observable<void>) {
     super.edit(pricingDefinitionDialogComponent, dialog, dialogParams, refresh, {
       minWidth: ScreenSize.L,
       maxWidth: ScreenSize.XL,

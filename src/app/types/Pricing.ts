@@ -131,6 +131,7 @@ export interface PricingDefinitionDialogData extends TableData {
     entityID: string;
     entityType: string;
   };
+  pricingDefinition?: PricingDefinition;
 }
 
 export enum PricingButton {

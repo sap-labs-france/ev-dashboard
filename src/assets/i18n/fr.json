@@ -1558,9 +1558,10 @@
       "step_size": "Paliers",
       "seconds": "Secondes",
       "eursess": "eur/session",
-      "eurwh": "eur/Wh",
+      "eurkwh": "eur/kWh",
       "eurh": "eur/heure",
-      "kw": "kW"
+      "kw": "kW",
+      "w": "W"
     },
     "billing": {
       "description": "L'interface de facturation permet aux fournisseurs de bornes de facturer leurs services.",

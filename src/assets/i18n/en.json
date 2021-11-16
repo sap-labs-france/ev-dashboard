@@ -1558,9 +1558,10 @@
       "step_size": "Step Size",
       "seconds": "Seconds",
       "eursess": "eur/session",
-      "eurwh": "eur/Wh",
+      "eurkwh": "eur/kWh",
       "eurh": "eur/hour",
-      "kw": "kW"
+      "kw": "kW",
+      "w": "W"
     },
     "billing": {
       "description": "The billing interface enables billing capabilities for charging station providers.",

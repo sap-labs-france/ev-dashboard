@@ -62,6 +62,10 @@ export class PricingDefinitionComponent implements OnInit {
   public energyEnabled: AbstractControl;
   public energyValue: AbstractControl;
   public energyUnit: AbstractControl;
+  public energyStepEnabled: AbstractControl;
+  public energyStepValue: AbstractControl;
+  public energyStepUnit: AbstractControl;
+
   // Charging time
   public chargingTime: FormGroup;
   public chargingTimeEnabled: AbstractControl;
@@ -132,6 +136,8 @@ export class PricingDefinitionComponent implements OnInit {
         energy: new FormGroup({
           active: new FormControl(false),
           price: new FormControl(null, Validators.pattern('[0-9]*[,.]?[0-9]{1,2}')),
+          stepSize: new FormControl(null),
+          stepSizeEnabled: new FormControl(false)
         }),
         chargingTime: new FormGroup({
           active: new FormControl(false),
@@ -170,6 +176,9 @@ export class PricingDefinitionComponent implements OnInit {
     this.energyEnabled = this.energy.controls['active'];
     this.energyValue = this.energy.controls['price'];
     this.energyUnit = this.energy.controls['unit'];
+    this.energyStepEnabled = this.energy.controls['stepSizeEnabled'];
+    this.energyStepValue = this.energy.controls['stepSize'];
+    this.energyStepUnit = this.energy.controls['stepSizeUnit'];
     this.chargingTime = this.dimensions.controls['chargingTime'] as FormGroup;
     this.chargingTimeEnabled = this.chargingTime.controls['active'];
     this.chargingTimeValue = this.chargingTime.controls['price'];
@@ -346,6 +355,9 @@ export class PricingDefinitionComponent implements OnInit {
     }
     if (!this.chargingTimeEnabled.value || !this.chargingTimeStepEnabled.value) {
       delete pricingDefinition.dimensions.chargingTime.stepSize;
+    }
+    if (!this.energyEnabled.value || !this.energyStepEnabled.value) {
+      delete pricingDefinition.dimensions.energy.stepSize;
     }
     for (const dimensionKey in pricingDefinition.dimensions) {
       if (!pricingDefinition.dimensions[dimensionKey].active) {

@@ -194,6 +194,8 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
       }
       if (this.public) {
         this.tariffID.enable();
+      }
+      if (this.connector.tariffID) {
         this.tariffID.setValue(this.connector.tariffID);
       }
       // Force refresh the form

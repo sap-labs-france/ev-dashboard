@@ -4,7 +4,7 @@ parameter-store:
 phases:
   install:
     runtime-versions:
-      nodejs: 12
+      nodejs: 16
     commands:
       - mkdir -p ~/.ssh
       - if [ -z ${build_ssh_key} ]; then echo "missing build_ssh_key store parameter, exiting"; exit 1; fi
@@ -22,7 +22,7 @@ phases:
       - git branch --set-upstream-to origin/${branch_name}
       - git reset --hard origin/${branch_name}
       - git submodule update --init --recursive
-      - npm install
+      - npm install --force
   build:
     commands:
       - npm run build:prod

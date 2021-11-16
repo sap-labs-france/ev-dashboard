@@ -121,6 +121,9 @@ export class SiteComponent implements OnInit {
         if (site.address) {
           this.address = site.address;
         }
+        if (!site.metadata?.autoUserSiteAssignment.enabled) {
+          this.formGroup.controls.autoUserSiteAssignment.disable();
+        }
         // Update form group
         this.formGroup.updateValueAndValidity();
         this.formGroup.markAsPristine();

@@ -23,6 +23,18 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.5.12',
+        date: new Date('2021-11-16'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Introduction of the new Pricing engine (backend only)`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.5.11',
         date: new Date('2021-11-15'),
         componentChanges: [

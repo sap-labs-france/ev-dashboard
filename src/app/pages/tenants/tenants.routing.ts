@@ -8,7 +8,7 @@ export const TenantsRoutes: Routes = [
   {
     path: '', component: TenantsListComponent, canActivate: [RouteGuardService], data: {
       auth: {
-        entity: Entity.TENANTS,
+        entity: Entity.TENANT,
         action: Action.LIST,
       },
     },

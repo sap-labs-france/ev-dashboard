@@ -6,7 +6,6 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { StatusCodes } from 'http-status-codes';
 import { BehaviorSubject, EMPTY, Observable, TimeoutError, of, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
-import PricingDefinition, { PricingEntity } from 'types/Pricing';
 
 import { Asset, AssetConsumption } from '../types/Asset';
 import { BillingInvoice, BillingPaymentMethod, BillingTax } from '../types/Billing';
@@ -24,6 +23,7 @@ import { Log } from '../types/Log';
 import { OcpiEndpoint } from '../types/ocpi/OCPIEndpoint';
 import { OCPPResetType } from '../types/ocpp/OCPP';
 import { OicpEndpoint } from '../types/oicp/OICPEndpoint';
+import PricingDefinition, { PricingEntity } from '../types/Pricing';
 import { RefundReport } from '../types/Refund';
 import { RegistrationToken } from '../types/RegistrationToken';
 import { ServerAction, ServerRoute } from '../types/Server';
@@ -3212,17 +3212,19 @@ export class CentralServerService {
       );
   }
 
-  public getPricingDefinition(id: string): Observable<PricingDefinition> {
+  public getPricingDefinition(params: FilterParams): Observable<PricingDefinition> {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    if (!id) {
+    if (!params.id) {
       return EMPTY;
     }
+    const id = params.id as string;
     const url = this.buildRestEndpointUrl(ServerRoute.REST_PRICING_DEFINITION, { id });
     return this.httpClient.get<PricingDefinition>(url,
       {
         headers: this.buildHttpHeaders(),
+        params
       })
       .pipe(
         catchError(this.handleHttpError),
@@ -3230,7 +3232,8 @@ export class CentralServerService {
   }
 
   public getPricingDefinitions(params: FilterParams,
-    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<PricingDefinition>> {
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = [],
+    context?: { entityID: string; entityType: string }): Observable<DataResult<PricingDefinition>> {
     // Verify init
     this.checkInit();
     // Build Paging
@@ -3242,7 +3245,10 @@ export class CentralServerService {
     return this.httpClient.get<DataResult<PricingDefinition>>(url,
       {
         headers: this.buildHttpHeaders(),
-        params,
+        params: {
+          ...params,
+          ...context
+        }
       })
       .pipe(
         catchError(this.handleHttpError),

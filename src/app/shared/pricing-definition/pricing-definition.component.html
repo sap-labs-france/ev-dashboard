@@ -147,7 +147,7 @@
                   <!-- value -->
                   <div class="col-md-2">
                     <mat-form-field *ngIf="energyEnabled.value">
-                      <mat-label >{{'settings.pricing.eurkwh' | translate}}</mat-label>
+                      <mat-label >{{'settings.pricing.eurwh' | translate}}</mat-label>
                       <input matInput type="text" placeholder="{{'settings.pricing.value' | translate}}"
                       [formControl]="energyValue" required/>
                       <mat-error *ngIf="energyValue?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>

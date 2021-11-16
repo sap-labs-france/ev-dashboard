@@ -5,34 +5,38 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 
-import { CentralServerService } from '../../../../../services/central-server.service';
-import { DialogService } from '../../../../../services/dialog.service';
-import { MessageService } from '../../../../../services/message.service';
-import { SpinnerService } from '../../../../../services/spinner.service';
-import { CONNECTOR_TYPE_MAP } from '../../../../../shared/formatters/app-connector-type.pipe';
-import { RestResponse } from '../../../../../types/GlobalType';
-import { HTTPError } from '../../../../../types/HTTPError';
-import PricingDefinition, { PricingDimensions } from '../../../../../types/Pricing';
-import { Utils } from '../../../../../utils/Utils';
-import { SettingsPricingDefinitionDialogComponent } from './settings-pricing-definition.dialog.component';
+import { CentralServerService } from '../../services/central-server.service';
+import { DialogService } from '../../services/dialog.service';
+import { MessageService } from '../../services/message.service';
+import { SpinnerService } from '../../services/spinner.service';
+import { RestResponse } from '../../types/GlobalType';
+import { HTTPError } from '../../types/HTTPError';
+import PricingDefinition, { PricingDimensions } from '../../types/Pricing';
+import { Utils } from '../../utils/Utils';
+import { CONNECTOR_TYPE_MAP } from '../formatters/app-connector-type.pipe';
+import { PricingDefinitionDialogComponent } from '../pricing-definition/pricing-definition.dialog.component';
 
 @Component({
   selector: 'app-pricing-definition',
-  templateUrl: './settings-pricing-definition.component.html',
+  templateUrl: './pricing-definition.component.html',
 })
 
-export class SettingsPricingDefinitionComponent implements OnInit {
+export class PricingDefinitionComponent implements OnInit {
   @Input() public inDialog!: boolean;
-  @Input() public dialogRef!: MatDialogRef<SettingsPricingDefinitionDialogComponent>;
+  @Input() public dialogRef!: MatDialogRef<PricingDefinitionDialogComponent>;
   @Input() public currentPricingDefinitionID!: string;
+  @Input() public currentEntityID!: string;
+  @Input() public currentEntityType!: string;
+
   public formGroup!: FormGroup;
   public currentPricingDefinition: PricingDefinition;
-  public context = 'TENANT';
+  public context: string;
   // Controls general
   public id: AbstractControl;
   public name: AbstractControl;
   public description: AbstractControl;
   public entityType: AbstractControl;
+  public entityID: AbstractControl;
   // Connector
   public connectorTypeMap = CONNECTOR_TYPE_MAP;
   public connectorPowerValue: AbstractControl;
@@ -87,12 +91,11 @@ export class SettingsPricingDefinitionComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+    this.context = this.currentEntityType === 'Tenant' ? this.centralServerService.getLoggedUser().tenantName : this.currentEntityID;
     this.formGroup = new FormGroup({
       id: new FormControl(),
-      // context: new FormGroup({
-      // TODO: implement entityID + entityType
-      entityID: new FormControl(),
-      entityType: new FormControl(),
+      entityID: new FormControl(this.currentEntityID),
+      entityType: new FormControl(this.currentEntityType),
       // TODO: add restrictions fields
       restrictions: new FormGroup({}),
       name: new FormControl('',
@@ -103,7 +106,7 @@ export class SettingsPricingDefinitionComponent implements OnInit {
       staticRestrictions: new FormGroup({
         validFrom: new FormControl(null,
           Validators.compose([
-            Validators.required,
+            // Validators.required,
           ])),
         validTo: new FormControl(null,
           Validators.compose([
@@ -148,6 +151,7 @@ export class SettingsPricingDefinitionComponent implements OnInit {
     this.name = this.formGroup.controls['name'];
     this.description = this.formGroup.controls['description'];
     this.entityType = this.formGroup.controls['entityType'];
+    this.entityID = this.formGroup.controls['entityID'];
     // Static restrictions
     this.staticRestrictions = this.formGroup.controls['staticRestrictions'] as FormGroup;
     this.connectorPowerEnabled = this.staticRestrictions.controls['connectorPowerEnabled'];
@@ -199,11 +203,17 @@ export class SettingsPricingDefinitionComponent implements OnInit {
       return;
     }
     this.spinnerService.show();
-    this.centralServerService.getPricingDefinition(this.currentPricingDefinitionID).subscribe((currentPricingDefinition) => {
+    this.centralServerService.getPricingDefinition(
+      {
+        id: this.currentPricingDefinitionID,
+      }
+    ).subscribe((currentPricingDefinition) => {
       this.spinnerService.hide();
       this.currentPricingDefinition = currentPricingDefinition;
       // Init form
       this.id.setValue(this.currentPricingDefinition.id);
+      this.entityID.setValue(this.currentEntityID);
+      this.entityType.setValue(this.currentEntityType);
       this.name.setValue(this.currentPricingDefinition.name);
       this.description.setValue(this.currentPricingDefinition.description);
       this.validFrom.setValue(this.currentPricingDefinition.staticRestrictions?.validFrom || null);
@@ -238,24 +248,6 @@ export class SettingsPricingDefinitionComponent implements OnInit {
     Utils.checkAndSaveAndCloseDialog(this.formGroup, this.dialogService,
       this.translateService, this.save.bind(this), this.closeDialog.bind(this));
   }
-
-  // public onlyNumber(event) {
-  //   // Only ASCII character in that range allowed
-  //   const ASCIICode = (event.which) ? event.which : event.keyCode;
-  //   if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57)) {
-  //     return false;
-  //   }
-  //   return true;
-  // }
-
-  // public onlyFloatingNumber(event) {
-  //   // Only ASCII character in that range allowed
-  //   const ASCIICode = (event.which) ? event.which : event.keyCode;
-  //   if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57)) {
-  //     return false;
-  //   }
-  //   return true;
-  // }
 
   public save(pricingDefinition: PricingDefinition) {
     this.consistencyCheck(pricingDefinition);

@@ -127,10 +127,15 @@ export interface PricedDimensionData {
 
 export interface PricingDefinitionDialogData extends TableData {
   id: string;
+  context: {
+    entityID: string;
+    entityType: string;
+  };
 }
 
 export enum PricingButton {
   CREATE_PRICING_DEFINITION = 'create_pricing_definition',
-  EDIT_PRICING_DEFINITION =   'edit_pricing_definition',
-  DELETE_PRICING_DEFINITION =   'delete_pricing_definition'
+  EDIT_PRICING_DEFINITION = 'edit_pricing_definition',
+  DELETE_PRICING_DEFINITION = 'delete_pricing_definition',
+  VIEW_PRICING_LIST = 'view_pricing_list',
 }

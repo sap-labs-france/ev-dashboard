@@ -8,6 +8,8 @@ import { MaterialModule } from '../../app.module';
 import { DialogsModule } from '../../shared/dialogs/dialogs.module';
 import { CommonDirectivesModule } from '../../shared/directives/directives.module';
 import { FormattersModule } from '../../shared/formatters/formatters.module';
+import { PricingDefinitionModule } from '../../shared/pricing-definition/pricing-definition.module';
+import { PricingDefinitionsModule } from '../../shared/pricing-definitions/pricing-definitions.module';
 import { TableModule } from '../../shared/table/table.module';
 import { AnalyticsLinkDialogComponent } from './analytics/analytics-link/analytics-link-dialog.component';
 import { AnalyticsLinksTableDataSource } from './analytics/analytics-link/analytics-links-table-data-source';
@@ -61,10 +63,6 @@ import { SettingsOicpEndpointsTableDataSource } from './oicp/endpoints/settings-
 import { SettingsOicpEndpointsComponent } from './oicp/endpoints/settings-oicp-endpoints.component';
 import { SettingsOicpComponent } from './oicp/settings-oicp.component';
 import { SettingsConvergentChargingComponent } from './pricing/convergent-charging/settings-convergent-charging.component';
-import { SettingsPricingDefinitionComponent } from './pricing/pricing-definitions/pricing-definition/settings-pricing-definition.component';
-import { SettingsPricingDefinitionDialogComponent } from './pricing/pricing-definitions/pricing-definition/settings-pricing-definition.dialog.component';
-import { SettingsPricingDefinitionsTableDataSource } from './pricing/pricing-definitions/settings-pricing-definition-table-data-source';
-import { SettingsPricingDefinitionsComponent } from './pricing/pricing-definitions/settings-pricing-definitions.component';
 import { SettingsPricingComponent } from './pricing/settings-pricing.component';
 import { SettingsSimplePricingComponent } from './pricing/simple/settings-simple-pricing.component';
 import { SettingsConcurComponent } from './refund/concur/settings-concur.component';
@@ -86,6 +84,8 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     DialogsModule,
     CommonDirectivesModule,
     FormattersModule,
+    PricingDefinitionModule,
+    PricingDefinitionsModule,
   ],
   declarations: [
     SettingsIntegrationComponent,
@@ -93,7 +93,6 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     SettingsOicpComponent,
     SettingsRefundComponent,
     SettingsConcurComponent,
-    SettingsPricingDefinitionComponent,
     SettingsSimplePricingComponent,
     SettingsConvergentChargingComponent,
     SettingsBillingComponent,
@@ -158,9 +157,6 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     AppFormatOicpPatchJobStatusPipe,
     SettingsOicpEndpointsDetailsComponent,
     SettingsPricingComponent,
-    SettingsPricingDefinitionsComponent,
-    SettingsPricingDefinitionComponent,
-    SettingsPricingDefinitionDialogComponent,
   ],
   entryComponents: [
     SettingsIntegrationComponent,
@@ -170,7 +166,6 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     SettingsOicpEndpointsComponent,
     SettingsRefundComponent,
     SettingsConcurComponent,
-    SettingsPricingDefinitionComponent,
     SettingsConvergentChargingComponent,
     SettingsBillingComponent,
     SettingsStripeComponent,
@@ -213,9 +208,6 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     OicpDetailFailureEvsesStatusFormatterComponent,
     OicpPatchJobStatusFormatterComponent,
     SettingsOicpEndpointsDetailsComponent,
-    SettingsPricingDefinitionsComponent,
-    SettingsPricingDefinitionComponent,
-    SettingsPricingDefinitionDialogComponent,
   ],
   providers: [
     SettingsOcpiEndpointsDetailsTableDataSource,
@@ -225,7 +217,6 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     SettingsAssetConnectionEditableTableDataSource,
     SettingsCarConnectorConnectionEditableTableDataSource,
     AnalyticsLinksTableDataSource,
-    SettingsPricingDefinitionsTableDataSource,
   ],
 })
 

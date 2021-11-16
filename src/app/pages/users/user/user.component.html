@@ -494,7 +494,9 @@
             <mat-icon>payment</mat-icon>
             <span>{{'users.tabs.billing' | translate}}</span>
           </ng-template>
-          <app-payment-methods [currentUserID]=currentUserID></app-payment-methods>
+          <div class="card-body tab-dialog-min-content">
+            <app-payment-methods [currentUserID]=currentUserID></app-payment-methods>
+          </div>
         </mat-tab>
       </mat-tab-group>
       <div [class]="inDialog ? 'tabs-actions' : 'tabs-actions-embedded'">

@@ -1558,7 +1558,7 @@
       "step_size": "Step Size",
       "seconds": "Seconds",
       "eursess": "eur/session",
-      "eurkwh": "eur/kWh",
+      "eurwh": "eur/Wh",
       "eurh": "eur/hour",
       "kw": "kW"
     },
@@ -1609,6 +1609,7 @@
       "billing_clear_test_data_confirm": "Wollen Sie wirklich alle Testdaten für die Rechnungslegung löschen?",
       "billing_clear_test_data_success": "Die Testdaten wurden gelöscht",
       "billing_clear_test_data_error": "Operation fehlgeschlagen. Löschen der Testdaten wurde abgebrochen",
+      "payment_methods": "Payment methods",
       "user": {
         "synchronize_users": "Abrechnungssynchronisierung",
         "synchronize_user": "Abrechnungssynchronisierung",

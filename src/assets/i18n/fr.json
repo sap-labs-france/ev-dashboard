@@ -1558,7 +1558,7 @@
       "step_size": "Paliers",
       "seconds": "Secondes",
       "eursess": "eur/session",
-      "eurkwh": "eur/kWh",
+      "eurwh": "eur/Wh",
       "eurh": "eur/heure",
       "kw": "kW"
     },
@@ -1609,6 +1609,7 @@
       "billing_clear_test_data_confirm": "Souhaitez-vous vraiment supprimer les données de test?",
       "billing_clear_test_data_success": "Les données de test ont été supprimées",
       "billing_clear_test_data_error": "L'opération a échoué. La suppression des données a été interrompue",
+      "payment_methods": "Moyens de paiement",
       "user": {
         "synchronize_users": "Synchro Utilisateurs (Facturation)",
         "synchronize_user": "Synchro Utilisateur (Facturation)",

@@ -8,6 +8,11 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 
 import { MaterialModule } from '../../app.module';
 import { DialogService } from '../../services/dialog.service';
+import { PricingDefinitionDialogComponent } from '../../shared/pricing-definition/pricing-definition.dialog.component';
+import { PricingDefinitionModule } from '../../shared/pricing-definition/pricing-definition.module';
+import { PricingDefinitionsTableDataSource } from '../../shared/pricing-definitions/pricing-definitions-table-data-source';
+import { PricingDefinitionsDialogComponent } from '../../shared/pricing-definitions/pricing-definitions.dialog.component';
+import { PricingDefinitionsModule } from '../../shared/pricing-definitions/pricing-definitions.module';
 import { ComponentModule } from '../component/component.module';
 import { ConsumptionChartComponent } from '../component/consumption-chart/consumption-chart.component';
 import { ErrorCodeDetailsComponent } from '../component/error-code-details/error-code-details.component';
@@ -57,7 +62,9 @@ import { UsersDialogComponent } from './users/users-dialog.component';
     FormattersModule,
     AgmCoreModule,
     GooglePlaceModule,
-    FileUploadModule
+    FileUploadModule,
+    PricingDefinitionsModule,
+    PricingDefinitionModule
   ],
   declarations: [
     CarMakersDialogComponent,
@@ -79,7 +86,9 @@ import { UsersDialogComponent } from './users/users-dialog.component';
     ErrorCodeDetailsComponent,
     ReportsDialogComponent,
     CarCatalogsDialogComponent,
-    LOG_ACTIONSDialogComponent
+    LOG_ACTIONSDialogComponent,
+    PricingDefinitionsDialogComponent,
+    PricingDefinitionDialogComponent,
   ],
   entryComponents: [
     CarMakersDialogComponent,
@@ -102,7 +111,9 @@ import { UsersDialogComponent } from './users/users-dialog.component';
     ErrorCodeDetailsComponent,
     ReportsDialogComponent,
     CarCatalogsDialogComponent,
-    LOG_ACTIONSDialogComponent
+    LOG_ACTIONSDialogComponent,
+    PricingDefinitionsDialogComponent,
+    PricingDefinitionDialogComponent,
   ],
   exports: [
     CarMakersDialogComponent,
@@ -124,7 +135,9 @@ import { UsersDialogComponent } from './users/users-dialog.component';
     ErrorCodeDetailsComponent,
     ReportsDialogComponent,
     CarCatalogsDialogComponent,
-    LOG_ACTIONSDialogComponent
+    LOG_ACTIONSDialogComponent,
+    PricingDefinitionsDialogComponent,
+    PricingDefinitionDialogComponent,
   ],
   providers: [
     AppConnectorIdPipe,
@@ -137,14 +150,11 @@ import { UsersDialogComponent } from './users/users-dialog.component';
     UsersDialogTableDataSource,
     TagsDialogTableDataSource,
     CarsDialogTableDataSource,
-    ChargingStationsDialogTableDataSource,
-    SitesDialogTableDataSource,
-    SiteAreasDialogTableDataSource,
-    CompaniesDialogTableDataSource,
     ReportsDialogTableDataSource,
     CarMakersTableDataSource,
     CarCatalogsDialogTableDataSource,
-    LOG_ACTIONSDialogTableDataSource
+    LOG_ACTIONSDialogTableDataSource,
+    PricingDefinitionsTableDataSource
   ],
 })
 export class DialogsModule {

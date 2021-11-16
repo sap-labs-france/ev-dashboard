@@ -1558,7 +1558,7 @@
       "step_size": "Step Size",
       "seconds": "Seconds",
       "eursess": "eur/session",
-      "eurkwh": "eur/kWh",
+      "eurwh": "eur/Wh",
       "eurh": "eur/hour",
       "kw": "kW"
     },
@@ -1609,6 +1609,7 @@
       "billing_clear_test_data_confirm": "Do you really want to delete all billing test data?",
       "billing_clear_test_data_success": "The test data has been deleted",
       "billing_clear_test_data_error": "Operation failed. The test data deletion has been aborted",
+      "payment_methods": "Payment methods",
       "user": {
         "synchronize_users": "Synchronize Billing Users",
         "synchronize_user": "Synchronize Billing User",

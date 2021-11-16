@@ -30,6 +30,7 @@ export class PaymentMethodsTableDataSource extends TableDataSource<BillingPaymen
   public currentUserID: string;
   public billingSettings: BillingSettings;
   private deleteAction = new TableDeletePaymentMethodAction().getActionDef();
+  private createAction = new TableCreatePaymentMethodAction().getActionDef();
   public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
@@ -64,6 +65,7 @@ export class PaymentMethodsTableDataSource extends TableDataSource<BillingPaymen
         // eslint-disable-next-line max-len
         this.centralServerService.getPaymentMethods(this.currentUserID, this.buildFilterValues(),
           this.getPaging(), this.getSorting()).subscribe((paymentMethods) => {
+          this.createAction.visible = this.canCreatePaymentMethod;
           observer.next(paymentMethods);
           observer.complete();
         }, (error) => {
@@ -152,7 +154,7 @@ export class PaymentMethodsTableDataSource extends TableDataSource<BillingPaymen
       this.currentUserID = this.centralServerService.getLoggedUser().id;
     }
     if (this.canCreatePaymentMethod) {
-      tableActionsDef.unshift(new TableCreatePaymentMethodAction().getActionDef());
+      tableActionsDef.unshift(this.createAction);
     }
     return tableActionsDef;
   }

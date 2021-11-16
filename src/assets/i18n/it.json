@@ -1278,6 +1278,7 @@
     "update_set_site_owner_success": "L'utente è ora proprietario del sito '{{siteName}}",
     "update_remove_site_owner_success": "L'utente non è più proprietario del sito '{{siteName}}'",
     "update_site_owner_role_error": "Si è verificato un errore durante il tentativo di aggiornamento dei diritti utente del sito '{{siteName}}'",
+    "redirect": "Navigate to User",
     "connectors": {
       "connect": "Connetti",
       "revoke": "Revoca",
@@ -1557,7 +1558,7 @@
       "step_size": "Step Size",
       "seconds": "Seconds",
       "eursess": "eur/session",
-      "eurkwh": "eur/kWh",
+      "eurwh": "eur/Wh",
       "eurh": "eur/hour",
       "kw": "kW"
     },
@@ -1608,6 +1609,7 @@
       "billing_clear_test_data_confirm": "Do you really want to delete all billing test data?",
       "billing_clear_test_data_success": "The test data has been deleted",
       "billing_clear_test_data_error": "Operation failed. The test data deletion has been aborted",
+      "payment_methods": "Payment methods",
       "user": {
         "synchronize_users": "Sincronizza Utenti Fatturazione",
         "synchronize_user": "Sincronizza Utente Fatturazione",

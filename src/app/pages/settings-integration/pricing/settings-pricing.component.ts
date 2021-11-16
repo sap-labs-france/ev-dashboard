@@ -31,8 +31,7 @@ export class SettingsPricingComponent implements OnInit {
   ) {
     this.isActive = this.componentService.isActive(TenantComponents.PRICING);
     // TODO: to be deleted - needed for testing in prod use case
-    const loggedUser = this.centralServerService.getLoggedUser();
-    this.isTestTenant = loggedUser?.tenantSubdomain === 'slf';
+    this.isTestTenant = this.centralServerService.getLoggedUser().tenantSubdomain === 'slf';
   }
 
   public ngOnInit(): void {

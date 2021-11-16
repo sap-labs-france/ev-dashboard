@@ -3,30 +3,36 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { AuthorizationService } from 'services/authorization.service';
-import { DialogService } from 'services/dialog.service';
-import { TableEditPricingDefinitionAction, TableEditPricingDefinitionActionDef } from 'shared/table/actions/charging-stations/table-edit-pricing-definition-action';
-import { TableCreatePricingDefinitionAction, TableCreatePricingDefinitionActionDef } from 'shared/table/actions/users/table-create-pricing-definition-action';
-import { TableDeletePricingDefinitionAction, TableDeletePricingDefinitionActionDef } from 'shared/table/actions/users/table-delete-pricing-definition';
-import PricingDefinition, { PricingButton } from 'types/Pricing';
 
-import { CentralServerService } from '../../../../services/central-server.service';
-import { MessageService } from '../../../../services/message.service';
-import { SpinnerService } from '../../../../services/spinner.service';
-import { AppDatePipe } from '../../../../shared/formatters/app-date.pipe';
-import { TableAutoRefreshAction } from '../../../../shared/table/actions/table-auto-refresh-action';
-import { TableRefreshAction } from '../../../../shared/table/actions/table-refresh-action';
-import { TableDataSource } from '../../../../shared/table/table-data-source';
-import { DataResult } from '../../../../types/DataResult';
-import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../../types/Table';
-import { Utils } from '../../../../utils/Utils';
-import { SettingsPricingDefinitionDialogComponent } from './pricing-definition/settings-pricing-definition.dialog.component';
+import { AuthorizationService } from '../../services/authorization.service';
+import { CentralServerService } from '../../services/central-server.service';
+import { DialogService } from '../../services/dialog.service';
+import { MessageService } from '../../services/message.service';
+import { SpinnerService } from '../../services/spinner.service';
+import { DialogTableDataSource } from '../../shared/dialogs/dialog-table-data-source';
+import { DataResult } from '../../types/DataResult';
+import PricingDefinition, { PricingButton } from '../../types/Pricing';
+import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../types/Table';
+import { Utils } from '../../utils/Utils';
+import { AppDatePipe } from '../formatters/app-date.pipe';
+import { PricingDefinitionDialogComponent } from '../pricing-definition/pricing-definition.dialog.component';
+import { TableEditPricingDefinitionAction, TableEditPricingDefinitionActionDef } from '../table/actions/charging-stations/table-edit-pricing-definition-action';
+import { TableAutoRefreshAction } from '../table/actions/table-auto-refresh-action';
+import { TableRefreshAction } from '../table/actions/table-refresh-action';
+import { TableCreatePricingDefinitionAction, TableCreatePricingDefinitionActionDef } from '../table/actions/users/table-create-pricing-definition-action';
+import { TableDeletePricingDefinitionAction, TableDeletePricingDefinitionActionDef } from '../table/actions/users/table-delete-pricing-definition';
 
 @Injectable()
-export class SettingsPricingDefinitionsTableDataSource extends TableDataSource<PricingDefinition> {
+export class PricingDefinitionsTableDataSource extends DialogTableDataSource<PricingDefinition> {
+  private createAction = new TableCreatePricingDefinitionAction().getActionDef();
   private editAction = new TableEditPricingDefinitionAction().getActionDef();
   private deleteAction = new TableDeletePricingDefinitionAction().getActionDef();
+  private context = {
+    entityID: '',
+    entityType: ''
+  };
   private canCreatePricingDefinition: boolean;
+
   public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
@@ -43,6 +49,16 @@ export class SettingsPricingDefinitionsTableDataSource extends TableDataSource<P
     this.initDataSource();
   }
 
+  public setContext(entityID: string, entityType: string) {
+    this.context.entityID = entityID;
+    this.context.entityType = entityType;
+  }
+
+  public isContentSet() {
+    const toto = !!(this.context.entityID || this.context.entityType);
+    return toto;
+  }
+
   // TODO : J'ai pas compris ce que c'est ??
   // public getDataChangeSubject(): Observable<ChangeNotification> {
   //   return this.centralServerNotificationService.getSubjectPricings();
@@ -52,7 +68,8 @@ export class SettingsPricingDefinitionsTableDataSource extends TableDataSource<P
     return new Observable((observer) => {
       // Get the PricingDefinitions
       this.centralServerService.getPricingDefinitions(this.buildFilterValues(),
-        this.getPaging(), this.getSorting()).subscribe((pricingDefinition) => {
+        this.getPaging(), this.getSorting(), this.context).subscribe((pricingDefinition) => {
+        this.createAction.visible = this.canCreatePricingDefinition;
         observer.next(pricingDefinition);
         observer.complete();
       }, (error) => {
@@ -153,7 +170,7 @@ export class SettingsPricingDefinitionsTableDataSource extends TableDataSource<P
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
     if (this.canCreatePricingDefinition) {
-      tableActionsDef.unshift(new TableCreatePricingDefinitionAction().getActionDef());
+      tableActionsDef.unshift(this.createAction);
     }
     return tableActionsDef;
   }
@@ -174,11 +191,12 @@ export class SettingsPricingDefinitionsTableDataSource extends TableDataSource<P
     switch (actionDef.id) {
       case PricingButton.CREATE_PRICING_DEFINITION:
         if (actionDef.id) {
-          (actionDef as TableCreatePricingDefinitionActionDef).action(SettingsPricingDefinitionDialogComponent,
+          (actionDef as TableCreatePricingDefinitionActionDef).action(PricingDefinitionDialogComponent,
             this.dialog,
             {
               dialogData: {
-                id: null
+                id: null,
+                context: this.context
               }
             }, this.refreshData.bind(this));
         }
@@ -191,7 +209,7 @@ export class SettingsPricingDefinitionsTableDataSource extends TableDataSource<P
       case PricingButton.EDIT_PRICING_DEFINITION:
         if (actionDef.action) {
           (actionDef as TableEditPricingDefinitionActionDef).action(
-            SettingsPricingDefinitionDialogComponent, this.dialog,
+            PricingDefinitionDialogComponent, this.dialog,
             { dialogData: pricingDefinition }, this.refreshData.bind(this));
         }
         break;

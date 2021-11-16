@@ -8,7 +8,7 @@ export const TransactionsRoutes: Routes = [
   {
     path: '', component: TransactionsComponent, canActivate: [RouteGuardService], data: {
       auth: {
-        entity: Entity.TRANSACTIONS,
+        entity: Entity.TRANSACTION,
         action: Action.LIST,
       },
     },

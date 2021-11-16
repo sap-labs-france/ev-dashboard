@@ -17,7 +17,7 @@ export const ChargingStationsRoutes: Routes = [
   {
     path: '', component: ChargingStationsComponent, canActivate: [RouteGuardService], data: {
       auth: {
-        entity: Entity.CHARGING_STATIONS,
+        entity: Entity.CHARGING_STATION,
         action: Action.LIST,
       },
     },

@@ -10,7 +10,7 @@ export const StatisticsRoutes: Routes = [
     path: '', component: StatisticsComponent, canActivate: [RouteGuardService], data: {
       component: TenantComponents.STATISTICS,
       auth: {
-        entity: Entity.TRANSACTIONS,
+        entity: Entity.TRANSACTION,
         action: Action.LIST,
       },
     },

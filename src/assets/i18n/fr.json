@@ -1858,6 +1858,7 @@
     "roaming_platforms": "Plate-forme d'itinérance",
     "cpo": "Identification de l'Opérateur d’Infrastructure de Recharge",
     "emsp": "Identification du Fournisseur de Services de Mobilité",
+    "tariffID": "Identification du tarif",
     "description": "Open Charge Point Interface",
     "details": "Identification",
     "country_code": "Code Pays",

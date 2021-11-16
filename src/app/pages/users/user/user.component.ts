@@ -5,7 +5,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { mergeMap } from 'rxjs/operators';
-import { DialogMode } from 'types/Authorization';
+import { AuthorizationDefinitionFieldMetadata, DialogMode } from 'types/Authorization';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -40,6 +40,7 @@ import { UserDialogComponent } from './user.dialog.component';
 })
 export class UserComponent extends AbstractTabComponent implements OnInit {
   @Input() public currentUserID!: string;
+  @Input() public metadata!: Record<string, AuthorizationDefinitionFieldMetadata>;
   @Input() public inDialog!: boolean;
   @Input() public dialogRef!: MatDialogRef<UserDialogComponent>;
   @Input() public dialogMode!: DialogMode;
@@ -299,16 +300,18 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.sendEndUserErrorNotification = this.notifications.controls['sendEndUserErrorNotification'];
     this.sendBillingNewInvoice = this.notifications.controls['sendBillingNewInvoice'];
     this.sendAdminAccountVerificationNotification = this.notifications.controls['sendAdminAccountVerificationNotification'];
-    if (this.currentUserID) {
-      this.loadUser();
+    this.technical = this.formGroup.controls['technical'];
+    this.freeAccess = this.formGroup.controls['freeAccess'];
+    if (this.metadata?.status?.mandatory) {
+      this.status.setValidators(Validators.required);
     }
+    // Load
+    this.loadUser();
     this.loadRefundSettings();
     this.loadMercedesConnectionSettings();
     if (!this.inDialog) {
       super.enableRoutingSynchronization();
     }
-    this.technical = this.formGroup.controls['technical'];
-    this.freeAccess = this.formGroup.controls['freeAccess'];
   }
 
   public toggleNotificationsActive() {
@@ -316,210 +319,208 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   }
 
   public refresh() {
-    // Load User
     this.loadUser();
   }
 
   public loadUser() {
-    if (!this.currentUserID) {
-      return;
+    if (this.currentUserID) {
+      this.paymentMethodsTableDataSource.setCurrentUserId(this.currentUserID);
+      this.spinnerService.show();
+      // eslint-disable-next-line complexity
+      this.centralServerService.getUser(this.currentUserID).pipe(mergeMap((user) => {
+        this.formGroup.markAsPristine();
+        this.user = user;
+        // Init form
+        if (user.id) {
+          this.formGroup.controls.id.setValue(user.id);
+        }
+        this.formGroup.controls.issuer.setValue(user.issuer);
+        if (user.name) {
+          this.formGroup.controls.name.setValue(user.name.toUpperCase());
+        }
+        if (user.firstName) {
+          this.formGroup.controls.firstName.setValue(user.firstName);
+        }
+        if (user.email) {
+          this.formGroup.controls.email.setValue(user.email);
+          this.originalEmail = user.email;
+        }
+        if (user.phone) {
+          this.formGroup.controls.phone.setValue(user.phone);
+        }
+        if (user.mobile) {
+          this.formGroup.controls.mobile.setValue(user.mobile);
+        }
+        if (user.iNumber) {
+          this.formGroup.controls.iNumber.setValue(user.iNumber);
+        }
+        if (user.costCenter) {
+          this.formGroup.controls.costCenter.setValue(user.costCenter);
+        }
+        if (user.status) {
+          this.formGroup.controls.status.setValue(user.status);
+        }
+        if (user.role) {
+          this.formGroup.controls.role.setValue(user.role);
+        }
+        if (user.locale) {
+          this.formGroup.controls.locale.setValue(user.locale);
+        }
+        if (user.plateID) {
+          this.formGroup.controls.plateID.setValue(user.plateID);
+        }
+        if (Utils.objectHasProperty(user, 'notificationsActive')) {
+          this.formGroup.controls.notificationsActive.setValue(user.notificationsActive);
+        }
+        if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendSessionStarted')) {
+          this.notifications.controls.sendSessionStarted.setValue(user.notifications.sendSessionStarted);
+        } else {
+          this.notifications.controls.sendSessionStarted.setValue(false);
+        }
+        if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendOptimalChargeReached')) {
+          this.notifications.controls.sendOptimalChargeReached.setValue(user.notifications.sendOptimalChargeReached);
+        } else {
+          this.notifications.controls.sendOptimalChargeReached.setValue(false);
+        }
+        if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendCarCatalogSynchronizationFailed')) {
+          this.notifications.controls.sendCarCatalogSynchronizationFailed.setValue(user.notifications.sendCarCatalogSynchronizationFailed);
+        } else {
+          this.notifications.controls.sendCarCatalogSynchronizationFailed.setValue(false);
+        }
+        if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendEndOfCharge')) {
+          this.notifications.controls.sendEndOfCharge.setValue(user.notifications.sendEndOfCharge);
+        } else {
+          this.notifications.controls.sendEndOfCharge.setValue(false);
+        }
+        if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendEndOfSession')) {
+          this.notifications.controls.sendEndOfSession.setValue(user.notifications.sendEndOfSession);
+        } else {
+          this.notifications.controls.sendEndOfSession.setValue(false);
+        }
+        if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendUserAccountStatusChanged')) {
+          this.notifications.controls.sendUserAccountStatusChanged.setValue(user.notifications.sendUserAccountStatusChanged);
+        } else {
+          this.notifications.controls.sendUserAccountStatusChanged.setValue(false);
+        }
+        if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendUnknownUserBadged')) {
+          this.notifications.controls.sendUnknownUserBadged.setValue(user.notifications.sendUnknownUserBadged);
+        } else {
+          this.notifications.controls.sendUnknownUserBadged.setValue(false);
+        }
+        if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendChargingStationStatusError')) {
+          this.notifications.controls.sendChargingStationStatusError.setValue(user.notifications.sendChargingStationStatusError);
+        } else {
+          this.notifications.controls.sendChargingStationStatusError.setValue(false);
+        }
+        if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendChargingStationRegistered')) {
+          this.notifications.controls.sendChargingStationRegistered.setValue(user.notifications.sendChargingStationRegistered);
+        } else {
+          this.notifications.controls.sendChargingStationRegistered.setValue(false);
+        }
+        if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendOfflineChargingStations')) {
+          this.notifications.controls.sendOfflineChargingStations.setValue(user.notifications.sendOfflineChargingStations);
+        } else {
+          this.notifications.controls.sendOfflineChargingStations.setValue(false);
+        }
+        if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendOcpiPatchStatusError')) {
+          this.notifications.controls.sendOcpiPatchStatusError.setValue(user.notifications.sendOcpiPatchStatusError);
+        } else {
+          this.notifications.controls.sendOcpiPatchStatusError.setValue(false);
+        }
+        if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendOicpPatchStatusError')) {
+          this.notifications.controls.sendOicpPatchStatusError.setValue(user.notifications.sendOicpPatchStatusError);
+        } else {
+          this.notifications.controls.sendOicpPatchStatusError.setValue(false);
+        }
+        if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendPreparingSessionNotStarted')) {
+          this.notifications.controls.sendPreparingSessionNotStarted.setValue(user.notifications.sendPreparingSessionNotStarted);
+        } else {
+          this.notifications.controls.sendPreparingSessionNotStarted.setValue(false);
+        }
+        if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendBillingSynchronizationFailed')) {
+          this.notifications.controls.sendBillingSynchronizationFailed.setValue(user.notifications.sendBillingSynchronizationFailed);
+        } else {
+          this.notifications.controls.sendBillingSynchronizationFailed.setValue(false);
+        }
+        if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendBillingPeriodicOperationFailed')) {
+          this.notifications.controls.sendBillingPeriodicOperationFailed.setValue(user.notifications.sendBillingPeriodicOperationFailed);
+        } else {
+          this.notifications.controls.sendBillingPeriodicOperationFailed.setValue(false);
+        }
+        if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendUserAccountInactivity')) {
+          this.notifications.controls.sendUserAccountInactivity.setValue(user.notifications.sendUserAccountInactivity);
+        } else {
+          this.notifications.controls.sendUserAccountInactivity.setValue(false);
+        }
+        if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendSessionNotStarted')) {
+          this.notifications.controls.sendSessionNotStarted.setValue(user.notifications.sendSessionNotStarted);
+        } else {
+          this.notifications.controls.sendSessionNotStarted.setValue(false);
+        }
+        if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendComputeAndApplyChargingProfilesFailed')) {
+          this.notifications.controls.sendComputeAndApplyChargingProfilesFailed.setValue(
+            user.notifications.sendComputeAndApplyChargingProfilesFailed);
+        } else {
+          this.notifications.controls.sendComputeAndApplyChargingProfilesFailed.setValue(false);
+        }
+        if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendEndUserErrorNotification')) {
+          this.notifications.controls.sendEndUserErrorNotification.setValue(user.notifications.sendEndUserErrorNotification);
+        } else {
+          this.notifications.controls.sendEndUserErrorNotification.setValue(false);
+        }
+        if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendBillingNewInvoice')) {
+          this.notifications.controls.sendBillingNewInvoice.setValue(user.notifications.sendBillingNewInvoice);
+        } else {
+          this.notifications.controls.sendBillingNewInvoice.setValue(false);
+        }
+        if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendAdminAccountVerificationNotification')) {
+          this.notifications.controls.sendAdminAccountVerificationNotification.setValue(user.notifications.sendAdminAccountVerificationNotification);
+        } else {
+          this.notifications.controls.sendAdminAccountVerificationNotification.setValue(false);
+        }
+        if (user.address) {
+          this.address = user.address;
+        }
+        if (user.projectFields.includes('technical')) {
+          if (user.technical) {
+            this.formGroup.controls.technical.setValue(user.technical);
+          }
+        } else {
+          this.formGroup.controls.technical.disable();
+        }
+        if (user.projectFields.includes('freeAccess') && this.isBillingComponentActive) {
+          if (user.freeAccess) {
+            this.formGroup.controls.freeAccess.setValue(user.freeAccess);
+          }
+        } else {
+          this.formGroup.controls.freeAccess.disable();
+        }
+        // Reset password
+        this.passwords.controls.password.setValue('');
+        this.passwords.controls.repeatPassword.setValue('');
+        // Yes, get image
+        return this.centralServerService.getUserImage(this.currentUserID);
+      })).subscribe((userImage) => {
+        if (userImage && userImage.image) {
+          this.image = userImage.image.toString();
+          this.userImageSet = true;
+        }
+        this.spinnerService.hide();
+        this.formGroup.updateValueAndValidity();
+        this.formGroup.markAsPristine();
+        this.formGroup.markAllAsTouched();
+      }, (error) => {
+        this.spinnerService.hide();
+        switch (error.status) {
+          case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+            this.messageService.showErrorMessage('users.user_do_not_exist');
+            break;
+          default:
+            Utils.handleHttpError(error, this.router, this.messageService,
+              this.centralServerService, 'general.unexpected_error_backend');
+        }
+      });
     }
-    this.paymentMethodsTableDataSource.setCurrentUserId(this.currentUserID);
-    this.spinnerService.show();
-    // eslint-disable-next-line complexity
-    this.centralServerService.getUser(this.currentUserID).pipe(mergeMap((user) => {
-      this.formGroup.markAsPristine();
-      this.user = user;
-      // Init form
-      if (user.id) {
-        this.formGroup.controls.id.setValue(user.id);
-      }
-      this.formGroup.controls.issuer.setValue(user.issuer);
-      if (user.name) {
-        this.formGroup.controls.name.setValue(user.name.toUpperCase());
-      }
-      if (user.firstName) {
-        this.formGroup.controls.firstName.setValue(user.firstName);
-      }
-      if (user.email) {
-        this.formGroup.controls.email.setValue(user.email);
-        this.originalEmail = user.email;
-      }
-      if (user.phone) {
-        this.formGroup.controls.phone.setValue(user.phone);
-      }
-      if (user.mobile) {
-        this.formGroup.controls.mobile.setValue(user.mobile);
-      }
-      if (user.iNumber) {
-        this.formGroup.controls.iNumber.setValue(user.iNumber);
-      }
-      if (user.costCenter) {
-        this.formGroup.controls.costCenter.setValue(user.costCenter);
-      }
-      if (user.status) {
-        this.formGroup.controls.status.setValue(user.status);
-      }
-      if (user.role) {
-        this.formGroup.controls.role.setValue(user.role);
-      }
-      if (user.locale) {
-        this.formGroup.controls.locale.setValue(user.locale);
-      }
-      if (user.plateID) {
-        this.formGroup.controls.plateID.setValue(user.plateID);
-      }
-      if (Utils.objectHasProperty(user, 'notificationsActive')) {
-        this.formGroup.controls.notificationsActive.setValue(user.notificationsActive);
-      }
-      if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendSessionStarted')) {
-        this.notifications.controls.sendSessionStarted.setValue(user.notifications.sendSessionStarted);
-      } else {
-        this.notifications.controls.sendSessionStarted.setValue(false);
-      }
-      if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendOptimalChargeReached')) {
-        this.notifications.controls.sendOptimalChargeReached.setValue(user.notifications.sendOptimalChargeReached);
-      } else {
-        this.notifications.controls.sendOptimalChargeReached.setValue(false);
-      }
-      if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendCarCatalogSynchronizationFailed')) {
-        this.notifications.controls.sendCarCatalogSynchronizationFailed.setValue(user.notifications.sendCarCatalogSynchronizationFailed);
-      } else {
-        this.notifications.controls.sendCarCatalogSynchronizationFailed.setValue(false);
-      }
-      if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendEndOfCharge')) {
-        this.notifications.controls.sendEndOfCharge.setValue(user.notifications.sendEndOfCharge);
-      } else {
-        this.notifications.controls.sendEndOfCharge.setValue(false);
-      }
-      if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendEndOfSession')) {
-        this.notifications.controls.sendEndOfSession.setValue(user.notifications.sendEndOfSession);
-      } else {
-        this.notifications.controls.sendEndOfSession.setValue(false);
-      }
-      if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendUserAccountStatusChanged')) {
-        this.notifications.controls.sendUserAccountStatusChanged.setValue(user.notifications.sendUserAccountStatusChanged);
-      } else {
-        this.notifications.controls.sendUserAccountStatusChanged.setValue(false);
-      }
-      if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendUnknownUserBadged')) {
-        this.notifications.controls.sendUnknownUserBadged.setValue(user.notifications.sendUnknownUserBadged);
-      } else {
-        this.notifications.controls.sendUnknownUserBadged.setValue(false);
-      }
-      if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendChargingStationStatusError')) {
-        this.notifications.controls.sendChargingStationStatusError.setValue(user.notifications.sendChargingStationStatusError);
-      } else {
-        this.notifications.controls.sendChargingStationStatusError.setValue(false);
-      }
-      if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendChargingStationRegistered')) {
-        this.notifications.controls.sendChargingStationRegistered.setValue(user.notifications.sendChargingStationRegistered);
-      } else {
-        this.notifications.controls.sendChargingStationRegistered.setValue(false);
-      }
-      if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendOfflineChargingStations')) {
-        this.notifications.controls.sendOfflineChargingStations.setValue(user.notifications.sendOfflineChargingStations);
-      } else {
-        this.notifications.controls.sendOfflineChargingStations.setValue(false);
-      }
-      if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendOcpiPatchStatusError')) {
-        this.notifications.controls.sendOcpiPatchStatusError.setValue(user.notifications.sendOcpiPatchStatusError);
-      } else {
-        this.notifications.controls.sendOcpiPatchStatusError.setValue(false);
-      }
-      if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendOicpPatchStatusError')) {
-        this.notifications.controls.sendOicpPatchStatusError.setValue(user.notifications.sendOicpPatchStatusError);
-      } else {
-        this.notifications.controls.sendOicpPatchStatusError.setValue(false);
-      }
-      if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendPreparingSessionNotStarted')) {
-        this.notifications.controls.sendPreparingSessionNotStarted.setValue(user.notifications.sendPreparingSessionNotStarted);
-      } else {
-        this.notifications.controls.sendPreparingSessionNotStarted.setValue(false);
-      }
-      if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendBillingSynchronizationFailed')) {
-        this.notifications.controls.sendBillingSynchronizationFailed.setValue(user.notifications.sendBillingSynchronizationFailed);
-      } else {
-        this.notifications.controls.sendBillingSynchronizationFailed.setValue(false);
-      }
-      if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendBillingPeriodicOperationFailed')) {
-        this.notifications.controls.sendBillingPeriodicOperationFailed.setValue(user.notifications.sendBillingPeriodicOperationFailed);
-      } else {
-        this.notifications.controls.sendBillingPeriodicOperationFailed.setValue(false);
-      }
-      if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendUserAccountInactivity')) {
-        this.notifications.controls.sendUserAccountInactivity.setValue(user.notifications.sendUserAccountInactivity);
-      } else {
-        this.notifications.controls.sendUserAccountInactivity.setValue(false);
-      }
-      if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendSessionNotStarted')) {
-        this.notifications.controls.sendSessionNotStarted.setValue(user.notifications.sendSessionNotStarted);
-      } else {
-        this.notifications.controls.sendSessionNotStarted.setValue(false);
-      }
-      if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendComputeAndApplyChargingProfilesFailed')) {
-        this.notifications.controls.sendComputeAndApplyChargingProfilesFailed.setValue(
-          user.notifications.sendComputeAndApplyChargingProfilesFailed);
-      } else {
-        this.notifications.controls.sendComputeAndApplyChargingProfilesFailed.setValue(false);
-      }
-      if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendEndUserErrorNotification')) {
-        this.notifications.controls.sendEndUserErrorNotification.setValue(user.notifications.sendEndUserErrorNotification);
-      } else {
-        this.notifications.controls.sendEndUserErrorNotification.setValue(false);
-      }
-      if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendBillingNewInvoice')) {
-        this.notifications.controls.sendBillingNewInvoice.setValue(user.notifications.sendBillingNewInvoice);
-      } else {
-        this.notifications.controls.sendBillingNewInvoice.setValue(false);
-      }
-      if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendAdminAccountVerificationNotification')) {
-        this.notifications.controls.sendAdminAccountVerificationNotification.setValue(user.notifications.sendAdminAccountVerificationNotification);
-      } else {
-        this.notifications.controls.sendAdminAccountVerificationNotification.setValue(false);
-      }
-      if (user.address) {
-        this.address = user.address;
-      }
-      if (user.projectFields.includes('technical')) {
-        if (user.technical) {
-          this.formGroup.controls.technical.setValue(user.technical);
-        }
-      } else {
-        this.formGroup.controls.technical.disable();
-      }
-      if (user.projectFields.includes('freeAccess') && this.isBillingComponentActive) {
-        if (user.freeAccess) {
-          this.formGroup.controls.freeAccess.setValue(user.freeAccess);
-        }
-      } else {
-        this.formGroup.controls.freeAccess.disable();
-      }
-      // Reset password
-      this.passwords.controls.password.setValue('');
-      this.passwords.controls.repeatPassword.setValue('');
-      // Yes, get image
-      return this.centralServerService.getUserImage(this.currentUserID);
-    })).subscribe((userImage) => {
-      if (userImage && userImage.image) {
-        this.image = userImage.image.toString();
-        this.userImageSet = true;
-      }
-      this.spinnerService.hide();
-      this.formGroup.updateValueAndValidity();
-      this.formGroup.markAsPristine();
-      this.formGroup.markAllAsTouched();
-    }, (error) => {
-      this.spinnerService.hide();
-      switch (error.status) {
-        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
-          this.messageService.showErrorMessage('users.user_do_not_exist');
-          break;
-        default:
-          Utils.handleHttpError(error, this.router, this.messageService,
-            this.centralServerService, 'general.unexpected_error_backend');
-      }
-    });
   }
 
   public roleChanged(role: UserRoles) {

@@ -1857,6 +1857,7 @@
     "roaming_platforms": "Interoperabilitäts-Plattform",
     "cpo": "Ladepunkt Operator Identifikation",
     "emsp": "E-Mobility Service Provider Identifikation",
+    "tariffID": "Tariff ID",
     "description": "Open Charge Point Interface",
     "details": "Identifikation",
     "country_code": "Ländercode",

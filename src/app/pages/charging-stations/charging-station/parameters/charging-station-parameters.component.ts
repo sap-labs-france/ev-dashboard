@@ -171,6 +171,8 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
         this.public.setValue(this.chargingStation.public);
       } else if (!this.chargingStation.site.public) {
         this.public.disable();
+      } else {
+        this.tariffID.disable();
       }
       if (this.OCPIActive && this.chargingStation.tariffID) {
         this.tariffID.setValue(this.chargingStation.tariffID);
@@ -259,6 +261,14 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
       this.maximumPowerAmps.setValue(
         Utils.convertWattToAmp(this.formGroup.getRawValue() as ChargingStation,
           null, 0, this.maximumPower.value as number));
+    }
+  }
+
+  public changePublic() {
+    if (this.public.value) {
+      this.tariffID.enable();
+    } else {
+      this.tariffID.disable();
     }
   }
 

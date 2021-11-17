@@ -62,7 +62,7 @@
         </mat-form-field>
       </div>
       <div class="col-md-3 text-left form-group">
-        <mat-checkbox [formControl]="public">
+        <mat-checkbox [formControl]="public" (change)="changePublic()">
           {{'chargers.public' | translate}}
         </mat-checkbox>
       </div>
@@ -84,11 +84,11 @@
         </mat-checkbox>
       </div>
     </div>
-    <div class="row" *ngIf="OCPIActive && (public.value || chargingStation.site && !chargingStation.site.public)">
+    <div class="row" *ngIf="OCPIActive">
       <Label *ngIf="!chargingStation.site.public">
         {{"sites.private_limitation" | translate}}
       </Label>
-      <mat-form-field *ngIf="public.value">
+      <mat-form-field>
         <input matInput type="text" placeholder="{{'ocpi.tariffID' | translate}}"
           [formControl]="tariffID" />
         <mat-error *ngIf="tariffID?.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>

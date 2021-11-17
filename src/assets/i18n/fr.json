@@ -26,6 +26,7 @@
     "nbr_of_records": "Enregistrements",
     "connectors": "Connexions",
     "notifications": "Notifications",
+    "general": "Général",
     "app_name": "Open e-Mobility",
     "version": "Version",
     "about_us": "A Propos",
@@ -1165,6 +1166,7 @@
       "tags": "Badges",
       "billing": "Facturation"
     },
+    "security": "Sécurité",
     "import_users": "Importer des utilisateurs",
     "import_users_message": "L'import va supprimer tous les utilisateurs transférés précédemment qui n'ont pas encore été importé dans la base de données, voulez-vous continuer?",
     "import_users_message_auto_activate": "L'import va supprimer tous les utilisateurs transférés précédemment qui n'ont pas encore été importé dans la base de données et les utilisateurs seront automatiquement activés, voulez-vous continuer?",

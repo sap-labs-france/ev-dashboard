@@ -26,6 +26,7 @@
     "nbr_of_records": "Record",
     "connectors": "Prese",
     "notifications": "Notifiche",
+    "general": "Main",
     "app_name": "Open e-Mobility",
     "version": "Versione",
     "about_us": "A proposito di noi",
@@ -1165,6 +1166,7 @@
       "tags": "Badges",
       "billing": "Billing"
     },
+    "security": "Security",
     "import_users": "Import users",
     "import_users_message": "The import will discard all other previously uploaded users not yet imported in the database, do you want to continue?",
     "import_users_message_auto_activate": "The import will discard all other previously uploaded users not yet imported in the database and users will be automatically activated, do you want to continue?",

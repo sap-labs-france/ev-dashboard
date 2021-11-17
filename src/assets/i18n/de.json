@@ -26,6 +26,7 @@
     "nbr_of_records": "Einträge",
     "connectors": "Verknüpfungen",
     "notifications": "Benachrichtungen",
+    "general": "Main",
     "app_name": "Open e-Mobility",
     "version": "Version",
     "about_us": "About Us",
@@ -1165,6 +1166,7 @@
       "tags": "Badges",
       "billing": "Abrechnung"
     },
+    "security": "Security",
     "import_users": "Nutzer Importieren",
     "import_users_message": "Der Import wird alle hochgeladenen Nutzer die noch nicht importiert wurden verwerfen, möchten Sie fortfahren?",
     "import_users_message_auto_activate": "Der Import verwirft alle anderen zuvor hochgeladenen Nutzer, die noch nicht in die Datenbank importiert wurden. Die Nutzer werden automatisch aktiviert. Wollen Sie fortfahren?",

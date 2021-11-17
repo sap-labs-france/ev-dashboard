@@ -31,6 +31,7 @@ export class ReleaseNotesComponent {
             changes: [
               `Introduction of the new Pricing engine (backend only)`,
               `Added OCPI Tariff ID in Tenant's settings and Site`,
+              `Technical users are now only allowed to perform B2B requests`,
             ],
           },
         ],

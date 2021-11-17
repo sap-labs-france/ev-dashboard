@@ -188,6 +188,14 @@ export class SiteComponent implements OnInit {
     });
   }
 
+  public changePublic() {
+    if (this.public.value) {
+      this.tariffID.enable();
+    } else {
+      this.tariffID.disable();
+    }
+  }
+
   public updateSiteImage(site: Site) {
     if (this.imageHasChanged) {
       // Set new image

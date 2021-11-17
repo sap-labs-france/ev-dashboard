@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
 import { ReCaptchaV3Service } from 'ngx-captcha';
+import { Constants } from 'utils/Constants';
 
 import { CentralServerService } from '../../services/central-server.service';
 import { ConfigService } from '../../services/config.service';
@@ -30,8 +30,10 @@ export class AuthenticationDefinePasswordComponent implements OnInit, OnDestroy 
   public hidePassword = true;
   public hideRepeatPassword = true;
   public mobileVendor!: string;
+  public tenantLogo = Constants.TENANT_DEFAULT_LOGO;
 
   private siteKey: string;
+  private subDomain: string;
 
   public constructor(
     private centralServerService: CentralServerService,
@@ -41,10 +43,11 @@ export class AuthenticationDefinePasswordComponent implements OnInit, OnDestroy 
     private messageService: MessageService,
     private reCaptchaV3Service: ReCaptchaV3Service,
     private windowService: WindowService,
-    private configService: ConfigService,
-    private translateService: TranslateService) {
+    private configService: ConfigService) {
     // Get the Site Key
     this.siteKey = this.configService.getUser().captchaSiteKey;
+    // Keep the sub-domain
+    this.subDomain = this.windowService.getSubdomain();
     // Init Form
     this.formGroup = new FormGroup({
       passwords: new FormGroup({
@@ -84,6 +87,12 @@ export class AuthenticationDefinePasswordComponent implements OnInit, OnDestroy 
     const body = document.getElementsByTagName('body')[0];
     body.classList.add('lock-page');
     body.classList.add('off-canvas-sidebar');
+    // Retrieve tenant's logo
+    this.centralServerService.getTenantLogoBySubdomain(this.subDomain).subscribe((tenantLogo: string) => {
+      if (tenantLogo) {
+        this.tenantLogo = tenantLogo;
+      }
+    });
   }
 
   public ngOnDestroy() {

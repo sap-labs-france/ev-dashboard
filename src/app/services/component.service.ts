@@ -512,6 +512,10 @@ export class ComponentService {
       identifier: settings.identifier,
       content: Utils.cloneObject(settings)
     };
+    // Delete IDS
+    delete settingsToSave.content.id;
+    delete settingsToSave.content.identifier;
+    delete settingsToSave.content.sensitiveData;
     return this.centralServerService.updateSetting(settingsToSave);
   }
 }

@@ -146,17 +146,17 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
 
   private getFirstAuthorizedRoute(): string {
     const entityRoutes: {entity: Entity; route: string;}[] = [
-      { entity: Entity.CHARGING_STATIONS, route: RouteGuardService.CHARGING_STATION_ROUTE },
-      { entity: Entity.TRANSACTIONS, route: RouteGuardService.TRANSACTION_ROUTE },
-      { entity: Entity.USERS, route: RouteGuardService.USER_ROUTE },
-      { entity: Entity.TAGS, route: RouteGuardService.TAG_ROUTE },
-      { entity: Entity.COMPANIES, route: RouteGuardService.ORGANIZATION_ROUTE },
-      { entity: Entity.SITES, route: RouteGuardService.ORGANIZATION_ROUTE },
-      { entity: Entity.SITE_AREAS, route: RouteGuardService.ORGANIZATION_ROUTE },
-      { entity: Entity.ASSETS, route: RouteGuardService.ASSET_ROUTE },
-      { entity: Entity.CARS, route: RouteGuardService.CHARGING_STATION_ROUTE },
-      { entity: Entity.CAR_CATALOGS, route: RouteGuardService.CHARGING_STATION_ROUTE },
-      { entity: Entity.LOGGINGS, route: RouteGuardService.LOGGING_ROUTE },
+      { entity: Entity.CHARGING_STATION, route: RouteGuardService.CHARGING_STATION_ROUTE },
+      { entity: Entity.TRANSACTION, route: RouteGuardService.TRANSACTION_ROUTE },
+      { entity: Entity.USER, route: RouteGuardService.USER_ROUTE },
+      { entity: Entity.TAG, route: RouteGuardService.TAG_ROUTE },
+      { entity: Entity.COMPANY, route: RouteGuardService.ORGANIZATION_ROUTE },
+      { entity: Entity.SITE, route: RouteGuardService.ORGANIZATION_ROUTE },
+      { entity: Entity.SITE_AREA, route: RouteGuardService.ORGANIZATION_ROUTE },
+      { entity: Entity.ASSET, route: RouteGuardService.ASSET_ROUTE },
+      { entity: Entity.CAR, route: RouteGuardService.CHARGING_STATION_ROUTE },
+      { entity: Entity.CAR_CATALOG, route: RouteGuardService.CHARGING_STATION_ROUTE },
+      { entity: Entity.LOGGING, route: RouteGuardService.LOGGING_ROUTE },
     ];
     for (const entityRoute of entityRoutes) {
       if (this.authorizationService.canAccess(entityRoute.entity, Action.LIST)) {

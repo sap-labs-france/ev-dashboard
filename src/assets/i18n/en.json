@@ -435,7 +435,8 @@
     "export_all_params_title": "Export OCPP parameters",
     "export_all_params_confirm": "Do you really want to export all the OCPP parameters of all the charging stations belonging to the site '{{siteName}}'?",
     "export_all_params_error": "Error occurred while trying to export all the OCPP parameters, check the logs",
-    "display_users": "Display users"
+    "display_users": "Display users",
+    "private_limitation": "Some features are not available when the site is private"
   },
   "site_areas": {
     "assign_site": "Assign Site",
@@ -1857,6 +1858,7 @@
     "roaming_platforms": "Inter Operability Platform",
     "cpo": "Charging Point Operator Identification",
     "emsp": "E-Mobility Service Provider Identification",
+    "tariffID": "Tariff ID",
     "description": "Open Charge Point Interface",
     "details": "Identification",
     "country_code": "Country code",

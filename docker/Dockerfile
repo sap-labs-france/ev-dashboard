@@ -1,4 +1,4 @@
-FROM node:lts-alpine as builder
+FROM node:16-alpine as builder
 
 ARG build
 
@@ -7,7 +7,7 @@ WORKDIR /usr/builder
 COPY package.json package-lock.json ./
 
 RUN npm set progress=false && npm config set depth 0 && npm cache clean --force
-RUN HUSKY_SKIP_INSTALL=1 npm install
+RUN HUSKY_SKIP_INSTALL=1 npm install --force
 
 COPY NOTICE LICENSE ./
 COPY src ./src

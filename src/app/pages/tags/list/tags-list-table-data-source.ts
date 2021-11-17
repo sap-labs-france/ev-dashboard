@@ -21,6 +21,7 @@ import { TableNavigateToTransactionsAction } from 'shared/table/actions/transact
 import { organizations } from 'shared/table/filters/issuer-filter';
 import { StatusFilter } from 'shared/table/filters/status-filter';
 import { UserTableFilter } from 'shared/table/filters/user-table-filter';
+import { AuthorizationDefinitionFieldMetadata } from 'types/Authorization';
 import { DataResult } from 'types/DataResult';
 import { HTTPError } from 'types/HTTPError';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'types/Table';
@@ -63,7 +64,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
   private importAction = new TableImportTagsAction().getActionDef();
   private exportAction = new TableExportTagsAction().getActionDef();
   private projectFields: string[];
-  private metadata?: Record<string, unknown>;
+  private metadata?: Record<string, AuthorizationDefinitionFieldMetadata>;
   public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,

@@ -528,6 +528,7 @@
     "email_does_not_exist": "Email existiert nicht",
     "cannot_check_email_in_backend": "Email konnte im Backend nicht überprüft werden",
     "wrong_email_or_password": "Falsche Email oder Passwort",
+    "technical_user_cannot_login_to_ui": "Technical user and cannot login using the application",
     "account_suspended": "Ihr Account wurde ausgesetzt",
     "account_pending": "Ihr Account ist nicht aktiv! Überprüfen Sie Ihre Emails",
     "super_user_account_pending": "Ihr Account ist nicht aktiv",

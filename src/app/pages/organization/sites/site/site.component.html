@@ -79,7 +79,7 @@
                   </div>
                   <div class="form-group">
                     <div class="text-left">
-                      <mat-checkbox [formControl]="public" (change)="changePublic()">
+                      <mat-checkbox [formControl]="public">
                         {{'sites.public' | translate}}
                       </mat-checkbox>
                     </div>
@@ -106,27 +106,7 @@
           <mat-icon>cloud</mat-icon>
           <span>{{'settings.tabs.ocpi' | translate}}</span>
         </ng-template>
-        <div class="form-group">
-          <div class="card-body tab-dialog-min-content">
-            <div class="tab-content">
-              <div class="tab-pane active" id="ocpi">
-                <div class="row app-organization">
-                  <label *ngIf="!public.value">
-                    {{"sites.private_limitation" | translate}}
-                  </label>
-                  <mat-form-field>
-                    <input matInput type="text" placeholder="{{'ocpi.tariffID' | translate}}"
-                      [formControl]="tariffID" />
-                    <mat-error *ngIf="tariffID?.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
-                    <mat-error *ngIf="tariffID?.errors?.maxlength">
-                      <div [translate]="'general.error_max_length'" [translateParams]="{length: 50}"></div>
-                    </mat-error>
-                  </mat-form-field>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <app-site-ocpi [site]="site" [public]="public.value"></app-site-ocpi>
       </mat-tab>
     </mat-tab-group>
     <div class="tabs-actions">

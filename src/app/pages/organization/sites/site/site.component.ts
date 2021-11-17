@@ -34,7 +34,7 @@ export class SiteComponent implements OnInit {
   public imageHasChanged = false;
   public maxSize: number;
   public readOnly = true;
-  public OCPIActive: boolean;
+  public ocpiActive: boolean;
 
   public formGroup!: FormGroup;
   public id!: AbstractControl;
@@ -58,7 +58,7 @@ export class SiteComponent implements OnInit {
     private dialogService: DialogService,
     private router: Router) {
     this.maxSize = this.configService.getSite().maxPictureKb;
-    this.OCPIActive = this.componentService.isActive(TenantComponents.OCPI);
+    this.ocpiActive = this.componentService.isActive(TenantComponents.OCPI);
   }
 
   public ngOnInit() {
@@ -186,6 +186,14 @@ export class SiteComponent implements OnInit {
         this.formGroup.markAsDirty();
       }
     });
+  }
+
+  public changePublic() {
+    if (this.public.value) {
+      this.tariffID.enable();
+    } else {
+      this.tariffID.disable();
+    }
   }
 
   public updateSiteImage(site: Site) {

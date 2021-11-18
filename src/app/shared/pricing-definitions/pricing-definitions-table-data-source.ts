@@ -10,6 +10,7 @@ import { DialogService } from '../../services/dialog.service';
 import { MessageService } from '../../services/message.service';
 import { SpinnerService } from '../../services/spinner.service';
 import { DialogTableDataSource } from '../../shared/dialogs/dialog-table-data-source';
+import { AppPricingDimensionsUnit } from '../../shared/formatters/app-pricing-dimensions-unit';
 import { DataResult } from '../../types/DataResult';
 import PricingDefinition, { PricingButton } from '../../types/Pricing';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../types/Table';
@@ -42,7 +43,8 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
     private dialog: MatDialog,
     private centralServerService: CentralServerService,
     private authorizationService: AuthorizationService,
-    private datePipe: AppDatePipe) {
+    private datePipe: AppDatePipe,
+    private appPricingDimensionsUnit: AppPricingDimensionsUnit) {
     super(spinnerService, translateService);
     this.canCreatePricingDefinition = this.authorizationService.canCreatePricingDefinition();
     // Init
@@ -54,9 +56,8 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
     this.context.entityType = entityType;
   }
 
-  public isContentSet() {
-    const toto = !!(this.context.entityID || this.context.entityType);
-    return toto;
+  public isContextSet() {
+    return !!(this.context.entityID || this.context.entityType);
   }
 
   // TODO : J'ai pas compris ce que c'est ??
@@ -122,7 +123,7 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
           if (price === undefined) {
             return '-';
           }
-          return `${price}`;
+          return this.appPricingDimensionsUnit.transform('flat_fee_formatted_price', price);
         },
         headerClass: 'col-15p',
         class: 'col-15p',
@@ -134,7 +135,7 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
           if (price === undefined) {
             return '-';
           }
-          return `${price}`;
+          return this.appPricingDimensionsUnit.transform('energy_formatted_price', price);
         },
         headerClass: 'col-15p',
         class: 'col-15p',
@@ -146,7 +147,7 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
           if (price === undefined) {
             return '-';
           }
-          return `${price}`;
+          return this.appPricingDimensionsUnit.transform('charging_time_formatted_price', price);
         },
         headerClass: 'col-15p',
         class: 'col-15p',
@@ -158,7 +159,7 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
           if (price === undefined) {
             return '-';
           }
-          return `${price}`;
+          return this.appPricingDimensionsUnit.transform('parking_time_formatted_price', price);
         },
         headerClass: 'col-15p',
         class: 'col-15p',

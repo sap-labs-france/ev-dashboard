@@ -1440,7 +1440,6 @@
       "oicp": "Roaming Hubject",
       "refund": "Rückerstattung",
       "pricing": "Preisbildung",
-      "pricings": "Pricings",
       "billing": "Rechnungslegung",
       "analytics": "Analysen",
       "smartCharging": "Smart-Charging",
@@ -1517,9 +1516,8 @@
         "user": "Nutzer",
         "password": "Passwort"
       },
-      "simple": {
-        "title": "Einfache Preisbildung",
-        "price": "Preis (pro kW.h)",
+      "settings": {
+        "title": "Pricing Settings",
         "currency": "Währung"
       },
       "end_date_error": "Please provide a date after start date and time.",
@@ -1556,12 +1554,18 @@
       "pricing_dimensions_title": "Pricing Dimensions",
       "pricing_definition_title": "Pricing Definition",
       "step_size": "Step Size",
-      "seconds": "Seconds",
-      "eursess": "eur/session",
-      "eurkwh": "eur/kWh",
-      "eurh": "eur/hour",
-      "kw": "kW",
-      "w": "W"
+      "connector_power_unit": "kW",
+      "flat_fee_unit": "{{currency}}/session",
+      "energy_unit": "{{currency}}/kWh",
+      "charging_time_unit": "{{currency}}/hour",
+      "parking_time_unit": "{{currency}}/hour",
+      "flat_fee_formatted_price": "{{price}}/session",
+      "energy_formatted_price": "{{price}}/kWh",
+      "charging_time_formatted_price": "{{price}}/hour",
+      "parking_time_formatted_price": "{{price}}/hour",
+      "energy_step_unit": "Wh",
+      "charging_time_step_unit": "Seconds",
+      "parking_time_step_unit": "Seconds"
     },
     "billing": {
       "description": "Das Abrechnungsinterface ermöglicht Abrechnungsfunktionen für den Ladestationenbetreiber.",

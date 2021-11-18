@@ -3,22 +3,11 @@
     <div class="card-icon">
       <mat-icon>business</mat-icon>
     </div>
-    <h3 class="card-title">{{'settings.pricing.simple.title' | translate}}</h3>
+    <h3 class="card-title">{{'settings.pricing.settings.title' | translate}}</h3>
   </div>
 
   <div class="card-body">
     <div class="row mt-1">
-      <div class="col-md-6">
-        <mat-form-field>
-          <input appAutofocus matInput type="number" [formControl]="price"
-            placeholder="{{'settings.pricing.simple.price' | translate}}" required>
-          <mat-error *ngIf="price.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
-          <mat-error *ngIf="price.errors?.pattern">{{"general.error_not_a_number" | translate}}</mat-error>
-          <mat-error *ngIf="price.errors?.maxlength">
-            <div [translate]="'general.error_max_length'" [translateParams]="{length: 10}"></div>
-          </mat-error>
-        </mat-form-field>
-      </div>
       <div class="col-md-6">
         <mat-form-field>
           <mat-label for="inputPriceUnit">{{'pricing.price_unit_label' | translate}} *</mat-label>

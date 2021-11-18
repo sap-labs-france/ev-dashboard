@@ -29,7 +29,7 @@ export class PricingDefinitionsComponent {
   ) {
     this.isActive = this.componentService.isActive(TenantComponents.PRICING);
 
-    if (!this.pricingsTableDataSource.isContentSet()) {
+    if (!this.pricingsTableDataSource.isContextSet()) {
       this.currentEntityID = this.centralServerService.getLoggedUser().tenantID;
       this.currentEntityType = 'Tenant';
       this.pricingsTableDataSource.setContext(this.currentEntityID, this.currentEntityType);

@@ -96,7 +96,7 @@
                   <!-- connector value -->
                   <div class="col-md-2">
                     <mat-form-field *ngIf="connectorPowerEnabled.value">
-                      <mat-label >{{'settings.pricing.kw' | translate}}</mat-label>
+                      <mat-label>{{'settings.pricing.connector_power_unit' | translate}}</mat-label>
                       <input matInput type="text" placeholder="{{'settings.pricing.value' | translate}}"
                       [formControl]="connectorPowerValue" required/>
                       <mat-error *ngIf="connectorPowerValue?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
@@ -128,7 +128,7 @@
                   <!-- value -->
                   <div class="col-md-2">
                     <mat-form-field *ngIf="flatFeeEnabled.value">
-                      <mat-label >{{'settings.pricing.eursess' | translate}}</mat-label>
+                      <mat-label>{{'flat_fee_unit' | appPricingDimensionsUnit}}</mat-label>
                       <input matInput type="text" placeholder="{{'settings.pricing.value' | translate}}"
                       [formControl]="flatFeeValue" required/>
                       <mat-error *ngIf="flatFeeValue?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
@@ -147,7 +147,7 @@
                   <!-- value -->
                   <div class="col-md-2">
                     <mat-form-field *ngIf="energyEnabled.value">
-                      <mat-label >{{'settings.pricing.eurkwh' | translate}}</mat-label>
+                      <mat-label>{{'energy_unit' | appPricingDimensionsUnit}}</mat-label>
                       <input matInput type="text" placeholder="{{'settings.pricing.value' | translate}}"
                       [formControl]="energyValue" required/>
                       <mat-error *ngIf="energyValue?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
@@ -165,7 +165,7 @@
                     <!-- value -->
                     <div class="col-md-2">
                       <mat-form-field *ngIf="energyStepEnabled.value">
-                        <mat-label >{{'settings.pricing.w' | translate}}</mat-label>
+                        <mat-label>{{'energy_step_unit' | appPricingDimensionsUnit }}</mat-label>
                         <input matInput type="text" placeholder="{{'settings.pricing.value' | translate}}"
                         [formControl]="energyStepValue" required/>
                         <mat-error *ngIf="energyStepValue?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
@@ -185,7 +185,7 @@
                   <!-- value -->
                   <div class="col-md-2">
                     <mat-form-field *ngIf="chargingTimeEnabled.value">
-                      <mat-label >{{'settings.pricing.eurh' | translate}}</mat-label>
+                      <mat-label>{{'charging_time_unit' | appPricingDimensionsUnit }}</mat-label>
                       <input matInput type="text" placeholder="{{'settings.pricing.value' | translate}}" id="chargingTime"
                       [formControl]="chargingTimeValue" (change)=handleInputChange($event) required/>
                       <mat-error *ngIf="chargingTimeValue?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
@@ -203,7 +203,7 @@
                     <!-- value -->
                     <div class="col-md-2">
                       <mat-form-field *ngIf="chargingTimeStepEnabled.value">
-                        <mat-label >{{'settings.pricing.seconds' | translate}}</mat-label>
+                        <mat-label>{{'charging_time_step_unit' | appPricingDimensionsUnit }}</mat-label>
                         <input matInput type="text" placeholder="{{'settings.pricing.value' | translate}}"
                         [formControl]="chargingTimeStepValue" required/>
                         <mat-error *ngIf="chargingTimeStepValue?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
@@ -223,7 +223,7 @@
                   <!-- value -->
                   <div class="col-md-2">
                     <mat-form-field *ngIf="parkingTimeEnabled.value">
-                      <mat-label >{{'settings.pricing.eurh' | translate}}</mat-label>
+                      <mat-label>{{'parking_time_unit' | appPricingDimensionsUnit }}</mat-label>
                       <input matInput type="text" placeholder="{{'settings.pricing.value' | translate}}" id="parkingTime"
                       [formControl]="parkingTimeValue" (change)=handleInputChange($event) required/>
                       <mat-error *ngIf="parkingTimeValue?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
@@ -241,7 +241,7 @@
                     <!-- value -->
                     <div class="col-md-2">
                       <mat-form-field *ngIf="parkingTimeStepEnabled.value">
-                        <mat-label >{{'settings.pricing.seconds' | translate}}</mat-label>
+                        <mat-label>{{'parking_time_step_unit' | appPricingDimensionsUnit }}</mat-label>
                         <input matInput type="text" placeholder="{{'settings.pricing.value' | translate}}"
                         [formControl]="parkingTimeStepValue" required/>
                         <mat-error *ngIf="parkingTimeStepValue?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>

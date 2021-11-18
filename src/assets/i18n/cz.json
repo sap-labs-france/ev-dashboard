@@ -334,11 +334,13 @@
       "name":"Název",
       "asset_type":"Typ prostředku",
       "fluctuation_percent":"Fluktuace (%)",
+      "variation_percent": "Variation Threshold (%)",
       "static_value_watt":"Statický výkon (W)",
       "produce":"Produkovat energii",
       "consume":"Spotřebovat energii",
       "consume_and_produce":"Spotřebovat a produkovat energii",
       "dynamic_asset":"Dynamický prostředek",
+      "uses_push_api": "Uses Push API",
       "instant_power":"Okamžitý výkon",
       "asset_connection":"Spojení s prostředkem",
       "meter_id":"ID měřiče",
@@ -434,7 +436,8 @@
       "update_site_users_owner_error":"Došlo k chybě při pokusu poskytnout uživateli '{{userName}}‘ oprávnění vlastníka parkoviště, zkontrolujte protokoly",
       "export_all_params_title":"Exportovat parametry OCPP",
       "export_all_params_confirm":"Chcete opravdu exportovat všechny parametry OCPP všech nabíjecích stanic patřících ke parkovišti '{{siteName}}'?",
-      "export_all_params_error":"Došlo k chybě při pokusu exportovat všechny parametry OCPP, zkontrolujte protokoly"
+      "export_all_params_error":"Došlo k chybě při pokusu exportovat všechny parametry OCPP, zkontrolujte protokoly",
+      "display_users": "Display users"
    },
    "site_areas":{
       "assign_site":"Přiřadit parkoviště",
@@ -564,7 +567,8 @@
       "verify_email_resend_error":"Došlo k chybě při odesílání  aktivačního odkazu vašeho účtu, zkontrolujte protokoly",
       "verify_email_proceed_with_activation":"Váš účet stále není neaktivní! Chcete znovu poslat aktivační e-mail?",
       "verify_email_proceed_with_activation_button":"Pokračovat",
-      "invalid_captcha_token":"Neplatný token captcha "
+      "invalid_captcha_token":"Neplatný token captcha ",
+      "mercedes_data_usage": "SAP Labs France is accessing your car’s data via Mercedes-Benz for the purpose of providing you a high quality of service during the charging session of your vehicle. SAP Labs France is processing the following data: EV battery level and range of your car. For allowing the processing of your data, you’ll have to give the explicit consent in the following steps. For any further information please note our End-user Agreement Usage of the e-Mobility Software."
    },
    "statistics":{
       "title":"Statistika",
@@ -1163,6 +1167,8 @@
       },
       "import_users":"Importovat uživatele",
       "import_users_message":"Import odstraní všechny ostatní dříve nahrané uživatele, kteří ještě nebyli importování do databáze, chcete pokračovat?",
+      "import_users_message_auto_activate": "The import will discard all other previously uploaded users not yet imported in the database and users will be automatically activated, do you want to continue?",
+      "import_users_auto_activation": "Automatically activate new users",
       "import_users_success":"{{inSuccess}} uživatelé byli úspěšně nahráni a budou zpracováni asynchronně",
       "import_users_partial":"{{inSuccess}} uživatelé byli úspěšně nahráni a budou zpracováni asynchronně a {{inError}} uživatele se nepodařilo nahrát, zkontrolujte protokoly",
       "import_users_error":"{{inError}} uživatele se nepodařilo nahrát",
@@ -1178,6 +1184,8 @@
       "profile":"Profil",
       "edit_profile":"Upravit profil",
       "user_number":"Uživatelé",
+      "technical_user": "Technical User",
+      "non_technical_user": "Non Technical User",
       "role":"Role",
       "roles":"Role",
       "role_admin":"Správce",
@@ -1326,11 +1334,15 @@
       "status":{
          "paid":"Placeno",
          "unpaid":"Neplaceno",
-         "draft":"Koncept"
+         "draft":"Koncept",
+         "deleted": "Deleted",
+         "uncollectible": "Uncollectible",
+         "void": "Cancelled"
       },
-      "id":"Číslo faktury",
+      "number": "Invoice Number",
       "createdOn":"Datum faktury",
       "price":"Cena na faktuře",
+      "amount": "Amount",
       "cannot_retrieve_invoices":"Nelze vyhledat seznam faktur",
       "cannot_download_invoice":"Nelze stáhnout fakturu",
       "number_of_items":"Relace",
@@ -1339,7 +1351,7 @@
       "failed_download":"Stahování faktury se nezdařilo"
    },
    "tags":{
-      "id":"ID",
+      "id": "RFID Card ID",
       "not_active":"Tato karta/čip není aktivní.",
       "issuer":"Vlastník organizace",
       "visual_id":"Vizuální ID",
@@ -1386,10 +1398,12 @@
       "delete_no_tag":"Žádné karty/čipy nebyly vymazány",
       "import_tags":"Importovat karty/čipy",
       "import_tags_message":"Import odstraní všechny ostatní dříve nahrané karty/čipy, které ještě nebyly importovány do databáze, chcete pokračovat?",
+      "import_tags_message_auto_activate": "The import will discard all other previously uploaded RFID cards not yet imported in the database, do you want to continue?",
       "import_tags_success":"{{inSuccess}} karty/čipy byly úspěšně nahrány a budou zpracovány asynchronně",
       "import_tags_partial":"{{inSuccess}} karty/čipy  byly úspěšně nahrány a budou zpracovány asynchronně a {{inError}} karty//čipy se nepodařilo nahrát, zkontrolujte protokoly",
       "import_tags_error":"{{inError}} karty/čipy se nepodařilo nahrát",
-      "import_no_tags":"Nebyla nahrána žádná karta/čip"
+      "import_no_tags":"Nebyla nahrána žádná karta/čip",
+      "import_tags_auto_activation": "Automatically activate new tags"
    },
    "tenants":{
       "title":"Organizace",
@@ -1410,6 +1424,7 @@
       "delete_success":"Organizace '{{name}}' byla úspěšně vymazána",
       "delete_error":"Došlo k chybě při vymazání organizace, zkontrolujte protokoly",
       "save_error_refund":"Chcete-li použít refundaci, musí být cena aktivní",
+      "save_error_roaming": "You cannot activate both the OCPI and OICP roaming components",
       "save_error_billing":"Chcete-li použít fakturaci, musí být cena aktivní",
       "save_error_smart_charging":"Chcete-li použít Smart nabíjení, musí být organizace aktivní",
       "save_error_asset":"Chcete-li použít prostředek, musí být organizace aktivní",
@@ -1486,6 +1501,7 @@
          }
       },
       "pricing":{
+         "title": "Pricing",
          "description":"Cenové rozhraní umožňuje poskytovatelům nabíjecích stanic stanovit cenu.",
          "not_found":"Nastavení  ceny nenalezeno",
          "create_success":"Nastavení  ceny bylo úspěšně vytvořeno",
@@ -1500,14 +1516,60 @@
             "user":"Uživatel",
             "password":"Heslo"
          },
-         "simple":{
-            "title":"Jednoduché stanovení ceny",
-            "price":"Cena (za kWh)",
+         "settings": {
+            "title": "Pricing Settings",
             "currency":"Měna"
-         }
+         },
+         "end_date_error": "Please provide a date after start date and time.",
+         "valid_from": "Valid From",
+         "valid_to": "Valid To",
+         "valid_from_to": "Valid From ... To",
+         "flat_fee": "Flat Fee",
+         "energy": "Energy",
+         "charging_time": "Charging Time",
+         "parking_time": "Parking Time",
+         "create_title": "Create Pricing Definition",
+         "pricing_definition_description": "Description",
+         "pricing_definition_name": "Pricing Definition Name",
+         "pricing_definition_creation_title": "Create Pricing Definition",
+         "pricing_definition_creation_confirm": "Do you really want to create a pricing definition?",
+         "pricing_definition_creation_success": "Pricing definition has been created successfully",
+         "pricing_definition_creation_error": "Error occurred while creating a pricing definition, check the logs",
+         "pricing_definition_site_admin_creation_error": "You must provide a site linked to this pricing definition",
+         "pricing_definition_update_title": "Update Pricing definition",
+         "pricing_definition_update_confirm": "Do you really want to update the pricing definition?",
+         "pricing_definition_update_success": "Pricing definition has been updated successfully",
+         "pricing_definition_update_error": "Error occurred while updating a pricing definition, check the logs",
+         "pricing_definition_not_found": "Pricing definition has not been found",
+         "pricing_definition_delete_title": "Delete Pricing Definition",
+         "pricing_definition_delete_confirm": "Do you really want to delete the pricing definition?",
+         "pricing_definition_delete_success": "Pricing definition has been deleted successfully",
+         "pricing_definition_delete_error": "Error occurred while deleting a pricing definition, check the logs",
+         "pricing_definition_error": "Error occurred while retrieving the pricing definition, check the logs",
+         "connector_type": "Connector Type",
+         "connector_power": "Connector Power",
+         "value": "Value",
+         "unit": "Unit",
+         "charging_station": "Charging Station",
+         "pricing_dimensions_title": "Pricing Dimensions",
+         "pricing_definition_title": "Pricing Definition",
+         "step_size": "Step Size",
+         "connector_power_unit": "kW",
+         "flat_fee_unit": "{{currency}}/session",
+         "energy_unit": "{{currency}}/kWh",
+         "charging_time_unit": "{{currency}}/hour",
+         "parking_time_unit": "{{currency}}/hour",
+         "flat_fee_formatted_price": "{{price}}/session",
+         "energy_formatted_price": "{{price}}/kWh",
+         "charging_time_formatted_price": "{{price}}/hour",
+         "parking_time_formatted_price": "{{price}}/hour",
+         "energy_step_unit": "Wh",
+         "charging_time_step_unit": "Seconds",
+         "parking_time_step_unit": "Seconds"
       },
       "billing":{
          "description":"Fakturační rozhraní umožňuje poskytovatelům nabíjecích stanic nastavit fakturaci.",
+         "deactivated_setting_message": "The billing of the charging sessions is active, the connection settings cannot be changed anymore.",
          "not_found":"Nastavení fakturace nenalezeno",
          "not_properly_set":"Nastavení fakturace nebylo řádně nastaveno",
          "create_success":"Nastavení fakturace bylo úspěšně vytvořeno",
@@ -1542,6 +1604,17 @@
          "payment_methods_card_number_error":"Neplatné číslo karty",
          "payment_methods_expiration_date_error":"Neplatné datum vypršení platnosti",
          "payment_methods_cvc_error":"Neplatný ověřovací kód",
+         "transaction_billing_activation": "Billing Activation",
+         "transaction_billing_activation_title": "Activate Billing of Transactions",
+         "transaction_billing_activation_confirm": "Do you really want to activate the billing of charging sessions? <br><br> <strong> WARNING ! </strong> Once activated, you will NOT be able to deactivate it !",
+         "transaction_billing_activation_success": "Billing of charging sessions has been successfully activated",
+         "transaction_billing_activation_error": "Billing of charging sessions cannot be activated",
+         "billing_clear_test_data": "Delete Test Data",
+         "billing_clear_test_data_title": "Test Data Deletion",
+         "billing_clear_test_data_confirm": "Do you really want to delete all billing test data?",
+         "billing_clear_test_data_success": "The test data has been deleted",
+         "billing_clear_test_data_error": "Operation failed. The test data deletion has been aborted",
+         "payment_methods": "Payment methods",
          "user":{
             "synchronize_users":"Synchronizovat uživatele fakturace",
             "synchronize_user":"Synchronizovat uživatele fakturace",
@@ -1642,7 +1715,8 @@
             "schneider":"Systém správy budov Schneider",
             "greencom":"Systém správy prostředků GreenCom",
             "iothink":"Systém správy prostředků ioThink",
-            "wit":"Systém správy prostředků WIT"
+            "wit":"Systém správy prostředků WIT",
+            "lacroix": "LACROIX Asset Management System"
          },
          "connection_success":"Spojení se  systémem bylo úspěšně otestováno",
          "unknown_connection_error":"Neznámá chyba připojení",
@@ -1673,6 +1747,12 @@
             "mercedes":"Konektor Mercedes",
             "tronity": "Konektor Tronity"
          },
+         "mercedes": {
+            "link_success": "Your account has been successfully linked with Mercedes",
+            "link_error": "Error occurred while linking your account with Mercedes, check the logs",
+            "revoke_success": "Your connection with Mercedes has been successfully revoked",
+            "revoke_error": "Error occurred while revoking your connection with Mercedes, check the logs"
+          },    
          "description":"E-mobility může získat údaje z vašich elektromobilů, např. aktuální stav nabíjení, v reálném čase  a použít tyto informace při optimalizaci nabíjecích relací pomocí algoritmu Smart nabíjení.",
          "setting_do_not_exist":"Konfigurace nebyla nalezena",
          "setting_not_found":"Nastavení konektoru elektromobilu nebylo nenalezeno",
@@ -1962,7 +2042,16 @@
       "graph":{
          "power":"Okamžitý výkon kW)",
          "no_consumption":"Údaje o spotřebě nejsou dostupné",
-         "limit_watts":"Limit (kW)"
+         "asset_consumption_watts": "Asset Consumption (kW)",
+         "asset_production_watts": "Asset Production (kW)",
+         "charging_station_consumption_watts": "Charging Stations Consumption (kW)",
+         "net_consumption_watts": "Net Consumption (kW)",
+         "limit_watts":"Limit (kW)",
+         "asset_consumption_amps": "Asset Consumption (A)",
+         "asset_production_amps": "Asset Production (A)",
+         "charging_station_consumption_amps": "Charging Stations Consumption (A)",
+         "net_consumption_amps": "Net Consumption (A)",
+         "limit_amps": "Limit (A)"   
       }
    },
    "asset":{
@@ -1981,6 +2070,8 @@
    "cars":{
       "vin":"VIN",
       "license_plate":"Registrační značka ",
+      "user": "User",
+      "assign_user": "Assign User",  
       "vehicle_model":"Model",
       "vehicle_make":"Výrobce",
       "vehicle_model_version":"Verze",
@@ -2165,6 +2256,7 @@
       "charging_station":"Nabíjecí stanice",
       "started_at":"Zahájeno v",
       "end_date":"Datum ukončení",
+      "stop_reason": "Reason",
       "consumption":"Spotřeba",
       "transactions_button":"Relace",
       "transaction_today":"Dnes",
@@ -2235,6 +2327,8 @@
       "create_invoice_success":"Faktura byla úspěšně vytvořena pro tuto relaci",
       "create_invoice_error":"Došlo k chybě při vytvoření faktury pro tuto relaci",
       "redirect":"Navigovat k relacím",
+      "error_start_no_payment_method": "Service unavailable, please go to your profile to provide a payment method.",
+      "error_start_general": "Service temporarily unavailable, please contact the support.",
       "filter":{
          "type":{
             "name":"Typ",
@@ -2357,6 +2451,11 @@
             "description":"Tato relace neobsahuje naměřené hodnoty.",
             "action":"Zkontrolujte nastavení nabíjecí stanice. Zajistěte, aby nabíjecí stanice odeslala naměřené hodnoty"
          },
+         "low_consumption": {
+            "title": "Low Consumption",
+            "description": "The session has a consumption < 1 kWh.",
+            "action": "Check the charging station settings. Ensure that meter values are sent by the charging station."
+          },    
          "average_consumption_greater_than_connector_capacity":{
             "title":"Spotřeba je příliš vysoká",
             "description":"Průměrný registrovaný nabíjecí výkon je větší než kapacita konektoru.",
@@ -2377,6 +2476,11 @@
             "description":"Doba trvání relace je záporná.",
             "action":"Zkontrolujte nastavení nabíjecí stanice. Zajistěte, aby byly naměřené hodnoty odesílány ve správném pořadí."
          },
+         "low_duration": {
+            "title": "Low Duration",
+            "description": "The duration of the session < 1 minute.",
+            "action": "Check the charging station settings. Ensure that meter values are sent correctly."
+          },
          "missing_price":{
             "title":"Cena chybí",
             "description":"Relace nebyla oceněna.",

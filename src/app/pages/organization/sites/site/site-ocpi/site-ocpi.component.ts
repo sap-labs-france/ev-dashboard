@@ -1,8 +1,6 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit } from '@angular/core';
-import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { CentralServerService } from 'services/central-server.service';
-import { MessageService } from 'services/message.service';
+import { Component, Input, OnInit } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { WindowService } from 'services/window.service';
 import { AbstractTabComponent } from 'shared/component/abstract-tab/abstract-tab.component';
 import { Site } from 'types/Site';
@@ -19,9 +17,7 @@ export class SiteOcpiComponent extends AbstractTabComponent implements OnInit {
   public public = false;
 
   // eslint-disable-next-line no-useless-constructor
-  public constructor(private centralServerService: CentralServerService,
-    private messageService: MessageService,
-    private router: Router,
+  public constructor(
     activatedRoute: ActivatedRoute,
     windowService: WindowService) {
     super(activatedRoute, windowService, [], false);

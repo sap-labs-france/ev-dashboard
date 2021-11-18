@@ -1,15 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { WindowService } from 'services/window.service';
-import { AbstractTabComponent } from 'shared/component/abstract-tab/abstract-tab.component';
 import { Site } from 'types/Site';
 
 @Component({
   selector: 'app-site-ocpi',
   templateUrl: 'site-ocpi.component.html',
 })
-export class SiteOcpiComponent extends AbstractTabComponent implements OnInit {
+export class SiteOcpiComponent implements OnInit {
   @Input() public site!: Site;
   @Input() public formGroup!: FormGroup;
 
@@ -17,10 +14,7 @@ export class SiteOcpiComponent extends AbstractTabComponent implements OnInit {
   public public = false;
 
   // eslint-disable-next-line no-useless-constructor
-  public constructor(
-    activatedRoute: ActivatedRoute,
-    windowService: WindowService) {
-    super(activatedRoute, windowService, [], false);
+  public constructor() {
   }
 
   public ngOnInit() {

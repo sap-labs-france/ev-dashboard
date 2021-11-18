@@ -1,15 +1,8 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
-import { AuthorizationService } from 'services/authorization.service';
 import { CentralServerService } from 'services/central-server.service';
-import { ComponentService } from 'services/component.service';
-import { ConfigService } from 'services/config.service';
-import { LocaleService } from 'services/locale.service';
 import { MessageService } from 'services/message.service';
-import { SpinnerService } from 'services/spinner.service';
 import { CompaniesDialogComponent } from 'shared/dialogs/companies/companies-dialog.component';
 import { Address } from 'types/Address';
 import { Company } from 'types/Company';
@@ -45,15 +38,8 @@ export class SiteMainComponent implements OnInit, OnChanges {
   // eslint-disable-next-line no-useless-constructor
   public constructor(
     private centralServerService: CentralServerService,
-    private authorizationService: AuthorizationService,
     private dialog: MatDialog,
-    private messageService: MessageService,
-    private spinnerService: SpinnerService,
-    private router: Router,
-    private componentService: ComponentService,
-    private configService: ConfigService,
-    private translateService: TranslateService,
-    private localeService: LocaleService) {
+    private messageService: MessageService) {
   }
 
   public ngOnInit(): void {

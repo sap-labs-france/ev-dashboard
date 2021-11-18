@@ -1,9 +1,9 @@
-<form *ngIf="site" class="form row">
+<form class="form row">
   <div class="card-body tab-dialog-min-content">
     <div class="tab-content">
       <div class="tab-pane active" id="ocpi">
         <div class="row app-organization">
-          <label *ngIf="!site.public">
+          <label *ngIf="!public">
             {{"sites.private_limitation" | translate}}
           </label>
           <mat-form-field>

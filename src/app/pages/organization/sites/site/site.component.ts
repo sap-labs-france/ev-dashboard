@@ -27,7 +27,6 @@ import { SiteOcpiComponent } from './site-ocpi/site-ocpi.component';
 })
 export class SiteComponent extends AbstractTabComponent implements OnInit {
   @Input() public currentSiteID!: string;
-  @Input() public inDialog!: boolean;
   @Input() public dialogMode!: DialogMode;
   @Input() public dialogRef!: MatDialogRef<any>;
 
@@ -60,15 +59,6 @@ export class SiteComponent extends AbstractTabComponent implements OnInit {
     this.formGroup = new FormGroup({});
     // Load
     this.loadSite();
-    if (!this.inDialog) {
-      super.enableRoutingSynchronization();
-    }
-  }
-
-  public updateRoute(event: number) {
-    if (!this.inDialog) {
-      super.updateRoute(event);
-    }
   }
 
   public loadSite() {

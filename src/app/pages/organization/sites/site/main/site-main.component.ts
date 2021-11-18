@@ -26,6 +26,7 @@ export class SiteMainComponent implements OnInit, OnChanges {
   @Input() public formGroup: FormGroup;
   @Input() public currentSiteID!: string;
   @Input() public site!: Site;
+  @Input() public readOnly: boolean;
   @Output() public publicChanged = new EventEmitter<boolean>();
 
   public image = Constants.NO_IMAGE;

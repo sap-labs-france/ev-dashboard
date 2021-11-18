@@ -24,7 +24,7 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.5.12',
-        date: new Date('2021-11-17'),
+        date: new Date('2021-11-18'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -33,6 +33,7 @@ export class ReleaseNotesComponent {
               `Added OCPI Tariff ID in Tenant's settings and Site`,
               `Technical users are now only allowed to perform B2B requests`,
               `Fixed Tenant's logo is not loaded when entering a new password`,
+              `Added Autralian locale`,
             ],
           },
         ],

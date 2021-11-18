@@ -4,9 +4,9 @@
       <mat-tab>
         <ng-template mat-tab-label>
           <mat-icon>portrait</mat-icon>
-          <span>{{site?.name}}</span>
+          <span>{{'general.general' | translate}}</span>
         </ng-template>
-        <app-site-main #siteMainComponent [formGroup]="formGroup" [currentSiteID]='currentSiteID' [site]="site" (publicChanged)="publicChanged($event)"></app-site-main>
+        <app-site-main #siteMainComponent [formGroup]="formGroup" [currentSiteID]="currentSiteID" [site]="site" (publicChanged)="publicChanged($event)"></app-site-main>
       </mat-tab>
       <mat-tab *ngIf="ocpiActive">
         <ng-template mat-tab-label>

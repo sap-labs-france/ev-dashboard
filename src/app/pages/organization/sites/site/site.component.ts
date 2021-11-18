@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthorizationService } from 'services/authorization.service';
@@ -10,7 +10,6 @@ import { AbstractTabComponent } from 'shared/component/abstract-tab/abstract-tab
 import { DialogMode } from 'types/Authorization';
 
 import { CentralServerService } from '../../../../services/central-server.service';
-import { ConfigService } from '../../../../services/config.service';
 import { DialogService } from '../../../../services/dialog.service';
 import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';

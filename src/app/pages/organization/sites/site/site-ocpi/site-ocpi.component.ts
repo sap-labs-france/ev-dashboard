@@ -16,7 +16,7 @@ export class SiteOcpiComponent extends AbstractTabComponent implements OnInit {
   @Input() public formGroup!: FormGroup;
 
   public tariffID: AbstractControl;
-  public public: boolean;
+  public public = false;
 
   // eslint-disable-next-line no-useless-constructor
   public constructor(private centralServerService: CentralServerService,
@@ -36,6 +36,7 @@ export class SiteOcpiComponent extends AbstractTabComponent implements OnInit {
 
     // Form
     this.tariffID = this.formGroup.controls['tariffID'];
+    this.tariffID.disable();
   }
 
   public loadSite(site: Site) {

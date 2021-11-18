@@ -3,7 +3,7 @@
     <div class="tab-content">
       <div class="tab-pane active" id="ocpi">
         <div class="row app-organization">
-          <label *ngIf="!public">
+          <label *ngIf="!site.public">
             {{"sites.private_limitation" | translate}}
           </label>
           <mat-form-field>

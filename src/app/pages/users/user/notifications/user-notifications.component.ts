@@ -182,7 +182,6 @@ export class UserNotificationsComponent implements OnInit, OnChanges {
   }
 
   public roleChanged(role: UserRole) {
-    console.log('role', role, typeof role, typeof this.formGroup.controls.notificationsActive.value);
     this.currentRole = role;
     switch (role) {
       case UserRole.DEMO:

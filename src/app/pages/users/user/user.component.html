@@ -62,27 +62,8 @@
             <span>{{'users.miscs' | translate}}</span>
           </ng-template>
           <div class="card-body tab-dialog-min-content">
-            <div class="row">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <mat-form-field>
-                    <input [formControl]="iNumber" matInput
-                      placeholder="{{'users.inumber' | translate}}" type="text">
-                  </mat-form-field>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <mat-form-field>
-                    <input [formControl]="costCenter" matInput
-                      placeholder="{{'users.cost_center' | translate}}" type="text">
-                    <mat-error *ngIf="costCenter.errors?.pattern">
-                      {{"general.invalid_value" | translate}}
-                    </mat-error>
-                  </mat-form-field>
-                </div>
-              </div>
-            </div>
+            <app-user-miscs [formGroup]="formGroup" [user]='user'>
+            </app-user-miscs>
           </div>
         </mat-tab>
         <mat-tab *ngIf="isBillingComponentActive && canListPaymentMethods && (dialogMode !== 'C')">
@@ -90,7 +71,12 @@
             <mat-icon>payment</mat-icon>
             <span>{{'users.tabs.billing' | translate}}</span>
           </ng-template>
-          <app-payment-methods [currentUserID]=currentUserID></app-payment-methods>
+          <ng-template matTabContent>
+            <div class="card-body tab-dialog-min-content">
+              <app-payment-methods [currentUserID]=currentUserID>
+              </app-payment-methods>
+            </div>
+          </ng-template>
         </mat-tab>
       </mat-tab-group>
       <div [class]="inDialog ? 'tabs-actions' : 'tabs-actions-embedded'">

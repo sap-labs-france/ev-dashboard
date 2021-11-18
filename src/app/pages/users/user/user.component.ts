@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -50,18 +50,13 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public isBillingComponentActive: boolean;
 
   public user!: User;
+  public address!: Address;
 
   public formGroup!: FormGroup;
-
-  public iNumber!: AbstractControl;
-  public costCenter!: AbstractControl;
-
-  public address!: Address;
 
   public canListPaymentMethods: boolean;
 
   public constructor(
-    public paymentMethodsTableDataSource: PaymentMethodsTableDataSource,
     private authorizationService: AuthorizationService,
     private centralServerService: CentralServerService,
     private componentService: ComponentService,
@@ -78,11 +73,12 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.isSuperAdmin = this.authorizationService.isSuperAdmin();
     this.isBasic = this.authorizationService.isBasic();
     this.isSiteAdmin = this.authorizationService.hasSitesAdminRights();
+    // Set Tab IDs
     if (this.isBasic || this.isSiteAdmin) {
-      this.setHashArray(['common', 'address', 'password', 'connections', 'miscs']);
+      this.setHashArray(['common', 'address', 'password', 'connections', 'miscs', 'billing']);
     }
     if (this.isSuperAdmin) {
-      this.setHashArray(['common', 'notifications', 'address', 'password', 'miscs']);
+      this.setHashArray(['common', 'notifications', 'address', 'password', 'miscs', 'billing']);
     }
     this.isBillingComponentActive = this.componentService.isActive(TenantComponents.BILLING);
     this.canListPaymentMethods = this.authorizationService.canListPaymentMethods();
@@ -99,16 +95,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       this.currentUserID = this.centralServerService.getLoggedUser().id;
     }
     // Init the form
-    this.formGroup = new FormGroup({
-      iNumber: new FormControl(''),
-      costCenter: new FormControl('',
-        Validators.compose([
-          Validators.pattern('^[0-9]*$'),
-        ])),
-    });
-    // Form
-    this.iNumber = this.formGroup.controls['iNumber'];
-    this.costCenter = this.formGroup.controls['costCenter'];
+    this.formGroup = new FormGroup({});
     // Load
     this.loadUser();
     if (!this.inDialog) {
@@ -122,19 +109,11 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
 
   public loadUser() {
     if (this.currentUserID) {
-      this.paymentMethodsTableDataSource.setCurrentUserId(this.currentUserID);
       this.spinnerService.show();
       // eslint-disable-next-line complexity
       this.centralServerService.getUser(this.currentUserID).subscribe((user) => {
         this.formGroup.markAsPristine();
         this.user = user;
-        if (user.iNumber) {
-          this.formGroup.controls.iNumber.setValue(user.iNumber);
-        }
-        if (user.costCenter) {
-          this.formGroup.controls.costCenter.setValue(user.costCenter);
-        }
-
         if (user.address) {
           this.address = user.address;
         }

@@ -27,6 +27,7 @@ import { UserMercedesCarConnectorComponent } from './user/connectors/car/mercede
 import { UserConcurRefundConnectorComponent } from './user/connectors/refund/concur/user-concur-refund-connector.component';
 import { UserConnectorsComponent } from './user/connectors/user-connectors.component';
 import { UserMainComponent } from './user/main/user-main.component';
+import { UserMiscsComponent } from './user/miscs/user-miscs.component';
 import { UserNotificationsComponent } from './user/notifications/user-notifications.component';
 import { AppPaymentMethodStatusPipe, PaymentMethodStatusComponent } from './user/payment-methods/payment-method/payment-method-status.component';
 import { PaymentMethodDialogComponent } from './user/payment-methods/payment-method/payment-method.dialog.component';
@@ -64,6 +65,7 @@ import { UserRoutes } from './users.routing';
     UserConnectorsComponent,
     UserMercedesCarConnectorComponent,
     UserConcurRefundConnectorComponent,
+    UserMiscsComponent,
     UserDialogComponent,
     UserSitesDialogComponent,
     UserSitesAdminCheckboxComponent,
@@ -81,12 +83,6 @@ import { UserRoutes } from './users.routing';
   entryComponents: [
     UserStatusFormatterComponent,
     UserDialogComponent,
-    UserMainComponent,
-    UserNotificationsComponent,
-    UserSecurityComponent,
-    UserConnectorsComponent,
-    UserMercedesCarConnectorComponent,
-    UserConcurRefundConnectorComponent,
     UserSitesDialogComponent,
     UserSitesAdminCheckboxComponent,
     ErrorCodeDetailsComponent,

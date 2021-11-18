@@ -1230,7 +1230,7 @@
     "name": "Nome",
     "first_name": "Primeiro Nome",
     "plate_id": "Plate",
-    "technical": "Technical User",
+    "technical": "API User (used for backend communications only)",
     "tags": "Badges",
     "tag_ids_help": "Insira uma lista de IDs de badge separados por uma vírgula",
     "inumber": "Número Corporativo",

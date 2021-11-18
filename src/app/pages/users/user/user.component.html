@@ -8,7 +8,7 @@
             <mat-icon>portrait</mat-icon>
             <span>{{'general.general' | translate}}</span>
           </ng-template>
-          <div class="card-body tab-dialog-min-content">
+          <div class="card-body">
             <app-user-main #userMainComponent [formGroup]="formGroup" [user]='user' [currentUserID]='currentUserID'
               [metadata]='metadata' (roleChanged)="roleChanged($event)">
             </app-user-main>
@@ -19,7 +19,7 @@
             <mat-icon>email</mat-icon>
             <span>{{'general.notifications' | translate}}</span>
           </ng-template>
-          <div class="card-body tab-dialog-min-content text-left">
+          <div class="card-body text-left">
             <app-user-notifications #userNotificationsComponent [formGroup]="formGroup" [user]='user'>
             </app-user-notifications>
           </div>
@@ -29,7 +29,7 @@
             <mat-icon>location_on</mat-icon>
             <span>{{'general.address' | translate}}</span>
           </ng-template>
-          <div class="card-body tab-dialog-min-content">
+          <div class="card-body">
             <app-address [address]="address" [formGroup]="formGroup" [hideGeolocation]="true">
             </app-address>
           </div>
@@ -39,7 +39,7 @@
             <mat-icon>lock</mat-icon>
             <span>{{'users.security' | translate}}</span>
           </ng-template>
-          <div class="card-body tab-dialog-min-content">
+          <div class="card-body">
             <app-user-security #userSecurityComponent [formGroup]="formGroup" [user]='user' [currentUserID]='currentUserID'>
             </app-user-security>
           </div>
@@ -50,7 +50,7 @@
             <span>{{'general.connectors' | translate}}</span>
           </ng-template>
           <ng-template matTabContent>
-            <div class="card-body tab-dialog-min-content">
+            <div class="card-body">
               <app-user-connectors [currentUserID]='currentUserID'>
               </app-user-connectors>
             </div>
@@ -61,7 +61,7 @@
             <mat-icon>more_horiz</mat-icon>
             <span>{{'users.miscs' | translate}}</span>
           </ng-template>
-          <div class="card-body tab-dialog-min-content">
+          <div class="card-body">
             <app-user-miscs [formGroup]="formGroup" [user]='user'>
             </app-user-miscs>
           </div>
@@ -72,7 +72,7 @@
             <span>{{'users.tabs.billing' | translate}}</span>
           </ng-template>
           <ng-template matTabContent>
-            <div class="card-body tab-dialog-min-content">
+            <div class="card-body">
               <app-payment-methods [currentUserID]=currentUserID>
               </app-payment-methods>
             </div>

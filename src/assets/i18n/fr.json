@@ -1230,7 +1230,7 @@
     "name": "Nom",
     "first_name": "Prénom",
     "plate_id": "Plaque",
-    "technical": "Utilisateur technique",
+    "technical": "Utilisateur API (utilisé seulement pour les communications entre les serveurs)",
     "tags": "Badges",
     "tag_ids_help": "Entrer une liste de badges séparés par une virgule",
     "inumber": "Identifiant Entreprise",

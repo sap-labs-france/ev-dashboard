@@ -1518,6 +1518,7 @@
       },
       "settings": {
         "title": "Pricing Settings",
+        "price": "Preço",
         "currency": "Moeda"
       },
       "end_date_error": "Please provide a date after start date and time.",

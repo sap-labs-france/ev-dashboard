@@ -12,11 +12,19 @@ export class SettingsSimplePricingComponent implements OnInit, OnChanges {
   @Input() public pricingSettings!: PricingSettings;
 
   public simplePricing!: FormGroup;
+  public price!: AbstractControl;
   public currency!: AbstractControl;
 
   public ngOnInit(): void {
     // Simple pricing
     this.simplePricing = new FormGroup({
+      price: new FormControl('',
+        Validators.compose([
+          Validators.required,
+          Validators.pattern(/^-?((\d+(\.\d+)?))$/),
+          Validators.maxLength(10),
+        ]),
+      ),
       currency: new FormControl('',
         Validators.compose([
           Validators.required,
@@ -26,6 +34,8 @@ export class SettingsSimplePricingComponent implements OnInit, OnChanges {
     });
     // Add
     this.formGroup.addControl('simple', this.simplePricing);
+    // Keep
+    this.price = this.simplePricing.controls['price'];
     this.currency = this.simplePricing.controls['currency'];
     // Set
     this.updateFormData();
@@ -38,6 +48,7 @@ export class SettingsSimplePricingComponent implements OnInit, OnChanges {
   public updateFormData() {
     // Set data
     if (this.simplePricing) {
+      this.price.setValue(this.pricingSettings.simple.price);
       this.currency.setValue(this.pricingSettings.simple.currency);
     }
   }

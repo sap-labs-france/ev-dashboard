@@ -1518,6 +1518,7 @@
       },
       "settings": {
         "title": "Paramètres de tarification",
+        "price": "Prix (au kW.h)",
         "currency": "Devise"
       },
       "end_date_error": "Choisissez une date après la date et l'heure de départ",

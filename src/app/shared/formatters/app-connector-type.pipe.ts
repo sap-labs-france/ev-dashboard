@@ -3,6 +3,12 @@ import { Pipe, PipeTransform } from '@angular/core';
 export const CONNECTOR_TYPE_MAP =
   [
     {
+      key: 'A',
+      description: 'chargers.connector_type_all',
+      svgIconName: 'A',
+      svgIconFile: 'assets/img/connectors/all_connectors.svg',
+    },
+    {
       key: 'T2',
       description: 'chargers.connector_type_type2',
       svgIconName: 'T2',

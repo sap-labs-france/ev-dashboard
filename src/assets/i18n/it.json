@@ -1007,6 +1007,7 @@
     "unlock_connector_error": "La stazione di ricarica non è stata in grado di sbloccare la presa",
     "unlock_connector_not_supported_error": "Questa Stazione di Ricarica non supporta lo sblocco della presa",
     "connector_type_unknown": "Non impostato",
+    "connector_type_all": "All connectors",
     "connector_type_type2": "Tipo 2",
     "connector_type_type1": "Tipo 1",
     "connector_type_type1ccs": "Tipo 1 - Combo CCS",

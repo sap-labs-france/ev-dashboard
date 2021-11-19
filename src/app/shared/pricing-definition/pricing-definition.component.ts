@@ -9,6 +9,7 @@ import { CentralServerService } from '../../services/central-server.service';
 import { DialogService } from '../../services/dialog.service';
 import { MessageService } from '../../services/message.service';
 import { SpinnerService } from '../../services/spinner.service';
+import { Entity } from '../../types/Authorization';
 import { RestResponse } from '../../types/GlobalType';
 import { HTTPError } from '../../types/HTTPError';
 import PricingDefinition, { PricingDimensions } from '../../types/Pricing';
@@ -95,7 +96,8 @@ export class PricingDefinitionComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.context = this.currentEntityType === 'Tenant' ? this.centralServerService.getLoggedUser().tenantName : this.currentEntityID;
+    // TODO : show current entity name instead of id - for others than charging station c'est pas relevant
+    this.context = this.currentEntityType === Entity.TENANT ? this.centralServerService.getLoggedUser().tenantName : this.currentEntityID;
     this.formGroup = new FormGroup({
       id: new FormControl(),
       entityID: new FormControl(this.currentEntityID),
@@ -118,7 +120,7 @@ export class PricingDefinitionComponent implements OnInit {
           ])),
         connectorPowerEnabled: new FormControl(false),
         connectorPowerkW: new FormControl(null, Validators.pattern('[0-9]*[,.]?[0-9]{1,2}')),
-        connectorType: new FormControl('U',
+        connectorType: new FormControl('A',
           Validators.compose([
             Validators.required,
           ])
@@ -194,7 +196,6 @@ export class PricingDefinitionComponent implements OnInit {
     this.parkingTimeStepValue = this.parkingTime.controls['stepSize'];
     this.parkingTimeStepUnit = this.parkingTime.controls['stepSizeUnit'];
     this.initialize();
-    console.log(this.formGroup);
   }
 
   public initialize() {
@@ -228,7 +229,7 @@ export class PricingDefinitionComponent implements OnInit {
       this.validFrom.setValue(this.currentPricingDefinition.staticRestrictions?.validFrom || null);
       this.validTo.setValue(this.currentPricingDefinition.staticRestrictions?.validTo || null);
       this.minDate = this.currentPricingDefinition.staticRestrictions?.validFrom || null;
-      this.connectorType.setValue(this.currentPricingDefinition.staticRestrictions?.connectorType);
+      this.connectorType.setValue((this.currentPricingDefinition.staticRestrictions?.connectorType) || 'A');
       this.connectorPowerValue.setValue(this.currentPricingDefinition.staticRestrictions?.connectorPowerkW);
       this.connectorPowerEnabled.setValue(!!this.connectorPowerValue.value);
       this.dimensionsMap = currentPricingDefinition.dimensions;
@@ -363,6 +364,9 @@ export class PricingDefinitionComponent implements OnInit {
       if (!pricingDefinition.dimensions[dimensionKey].active) {
         delete pricingDefinition.dimensions[dimensionKey].price;
       }
+    }
+    if (this.connectorType.value === 'A') {
+      pricingDefinition.staticRestrictions.connectorType = null;
     }
   }
 }

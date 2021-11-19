@@ -1007,6 +1007,7 @@
     "unlock_connector_error": "La estación de carga no puede desbloquear el conector",
     "unlock_connector_not_supported_error": "Esta estación de carga no permite desbloquear el conector",
     "connector_type_unknown": "Sin establecer",
+    "connector_type_all": "All connectors",
     "connector_type_type2": "Tipo 2",
     "connector_type_type1": "Tipo 1",
     "connector_type_type1ccs": "Tipo 1 - Combo CCS",

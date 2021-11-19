@@ -1007,6 +1007,7 @@
     "unlock_connector_error": "La borne n'a pas réussi a dévérouiller le connecteur",
     "unlock_connector_not_supported_error": "La borne ne supporte pas le dévérouillage du connecteur",
     "connector_type_unknown": "Non défini",
+    "connector_type_all": "Tous les connecteurs",
     "connector_type_type2": "Type 2",
     "connector_type_type1": "Type 1",
     "connector_type_type1ccs": "Type 1 - Combo CCS",

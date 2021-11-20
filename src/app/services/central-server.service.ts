@@ -1976,7 +1976,7 @@ export class CentralServerService {
       );
   }
 
-  public logoutSucceeded(): void {
+  public clearLoginInformation(): void {
     this.dialog.closeAll();
     this.clearLoggedUser();
   }

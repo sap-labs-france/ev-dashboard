@@ -70,8 +70,7 @@ export class SiteMainComponent implements OnInit, OnChanges {
     this.public = this.formGroup.controls['public'];
   }
 
-  public loadSite(site: Site) {
-    this.site = site;
+  public loadSite() {
     // Init form
     if (this.site?.id) {
       this.formGroup.controls.id.setValue(this.site.id);
@@ -110,6 +109,7 @@ export class SiteMainComponent implements OnInit, OnChanges {
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
+    this.loadSite();
   }
 
   public assignCompany() {

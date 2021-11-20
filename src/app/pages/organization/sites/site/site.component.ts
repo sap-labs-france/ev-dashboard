@@ -71,9 +71,6 @@ export class SiteComponent extends AbstractTabComponent implements OnInit {
         this.formGroup.updateValueAndValidity();
         this.formGroup.markAsPristine();
         this.formGroup.markAllAsTouched();
-        // Push to components: (CHECK WITH SERGE, HE DOES NOT DO THAT :P)
-        this.siteMainComponent.loadSite(this.site);
-        this.siteOcpiComponent.loadSite(this.site);
       }, (error) => {
         this.spinnerService.hide();
         switch (error.status) {

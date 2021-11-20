@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Site } from 'types/Site';
 
@@ -6,7 +6,7 @@ import { Site } from 'types/Site';
   selector: 'app-site-ocpi',
   templateUrl: 'site-ocpi.component.html',
 })
-export class SiteOcpiComponent implements OnInit {
+export class SiteOcpiComponent implements OnInit, OnChanges {
   @Input() public site!: Site;
   @Input() public formGroup!: FormGroup;
 
@@ -29,12 +29,17 @@ export class SiteOcpiComponent implements OnInit {
     this.tariffID.disable();
   }
 
-  public loadSite(site: Site) {
-    this.site = site;
-    this.public = site.public;
-    this.adaptTariffState();
-    if (this.site?.tariffID) {
-      this.tariffID.setValue(this.site.tariffID);
+  public ngOnChanges() {
+    this.loadSite();
+  }
+
+  public loadSite() {
+    if (this.site) {
+      this.public = this.site.public;
+      this.adaptTariffState();
+      if (this.site?.tariffID) {
+        this.tariffID.setValue(this.site.tariffID);
+      }
     }
   }
 

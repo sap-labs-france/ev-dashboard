@@ -3210,20 +3210,17 @@ export class CentralServerService {
       );
   }
 
-  public getPricingDefinition(pricingDefinitionID: string): Observable<PricingDefinition> {
+  public getPricingDefinition(id: string): Observable<PricingDefinition> {
     // Verify init
     this.checkInit();
-    const params: { [param: string]: string } = {};
-    params['ID'] = pricingDefinitionID;
     // Execute the REST service
-    if (!pricingDefinitionID) {
+    if (!id) {
       return EMPTY;
     }
-    const url = this.buildRestEndpointUrl(ServerRoute.REST_PRICING_DEFINITION, { id: pricingDefinitionID });
+    const url = this.buildRestEndpointUrl(ServerRoute.REST_PRICING_DEFINITION, { id });
     return this.httpClient.get<PricingDefinition>(url,
       {
-        headers: this.buildHttpHeaders(),
-        params
+        headers: this.buildHttpHeaders()
       })
       .pipe(
         catchError(this.handleHttpError),

@@ -1533,7 +1533,6 @@
          "create_title": "Create Pricing Definition",
          "pricing_definition_description": "Description",
          "pricing_definition_name": "Pricing Definition Name",
-         "pricing_definition_creation_title": "Create Pricing Definition",
          "pricing_definition_creation_confirm": "Do you really want to create a pricing definition?",
          "pricing_definition_creation_success": "Pricing definition has been created successfully",
          "pricing_definition_creation_error": "Error occurred while creating a pricing definition, check the logs",

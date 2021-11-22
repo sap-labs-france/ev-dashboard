@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 import { DialogParams } from '../../../types/Authorization';
 import { ScreenSize } from '../../../types/GlobalType';
-import { PricingButton, PricingDefinitionDialogData } from '../../../types/Pricing';
+import { PricingButtonAction, PricingDefinitionDialogData } from '../../../types/Pricing';
 import { TableActionDef } from '../../../types/Table';
 import { TableViewPricingListAction } from './table-pricing-action';
 
@@ -16,7 +16,7 @@ export class TableViewPricingsAction extends TableViewPricingListAction {
   public getActionDef(): TableViewPricingsActionDef {
     return {
       ...super.getActionDef(),
-      id: PricingButton.VIEW_PRICING_LIST,
+      id: PricingButtonAction.VIEW_PRICING_DEFINITIONS,
       action: this.viewPricings,
     };
   }

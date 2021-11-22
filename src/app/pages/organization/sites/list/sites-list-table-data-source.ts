@@ -7,7 +7,7 @@ import { AuthorizationService } from 'services/authorization.service';
 import { PricingDefinitionsDialogComponent } from 'shared/pricing-definitions/pricing-definitions.dialog.component';
 import { TableSiteGenerateQrCodeConnectorAction, TableSiteGenerateQrCodeConnectorsActionDef } from 'shared/table/actions/sites/table-site-generate-qr-code-connector-action';
 import { TableViewPricingsAction, TableViewPricingsActionDef } from 'shared/table/actions/table-view-pricings-action';
-import { PricingButton, PricingEntity } from 'types/Pricing';
+import { PricingButtonAction, PricingEntity } from 'types/Pricing';
 
 import { CentralServerService } from '../../../../services/central-server.service';
 import { DialogService } from '../../../../services/dialog.service';
@@ -285,7 +285,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
           );
         }
         break;
-      case PricingButton.VIEW_PRICING_LIST:
+      case PricingButtonAction.VIEW_PRICING_DEFINITIONS:
         if (actionDef.action) {
           (actionDef as TableViewPricingsActionDef).action(PricingDefinitionsDialogComponent, this.dialog, {
             dialogData: {

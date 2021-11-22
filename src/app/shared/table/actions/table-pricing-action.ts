@@ -9,7 +9,7 @@ import { TableAction } from './table-action';
 
 export class TableViewPricingListAction implements TableAction {
   private action: TableActionDef = {
-    id: ButtonAction.VIEW_PRICING_LIST,
+    id: ButtonAction.VIEW_PRICING_DEFINITIONS,
     type: 'button',
     icon: 'money',
     color: ButtonColor.PRIMARY,

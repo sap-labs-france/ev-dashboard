@@ -11,7 +11,7 @@ import { PricingDefinitionsComponent } from './pricing-definitions.component';
   template: '<app-pricing-definitions #appRef [currentPricingDefinitionID]="currentPricingDefinitionID" [currentEntityID]="currentEntityID" [currentEntityType]="currentEntityType" [inDialog]="true" [dialogRef]="dialogRef"></app-pricing-definitions>',
 })
 
-export class PricingDefinitionsDialogComponent implements AfterViewInit{
+export class PricingDefinitionsDialogComponent implements AfterViewInit {
 
   @ViewChild('appRef') public appRef!: PricingDefinitionsComponent;
   public currentPricingDefinitionID!: string;

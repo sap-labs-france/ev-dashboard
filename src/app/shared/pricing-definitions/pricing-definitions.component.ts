@@ -4,6 +4,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 
 import { CentralServerService } from '../../services/central-server.service';
 import { ComponentService } from '../../services/component.service';
+import { PricingEntity } from '../../types/Pricing';
 import { TenantComponents } from '../../types/Tenant';
 import { PricingDefinitionsTableDataSource } from './pricing-definitions-table-data-source';
 import { PricingDefinitionsDialogComponent } from './pricing-definitions.dialog.component';
@@ -31,7 +32,7 @@ export class PricingDefinitionsComponent {
 
     if (!this.pricingsTableDataSource.isContextSet()) {
       this.currentEntityID = this.centralServerService.getLoggedUser().tenantID;
-      this.currentEntityType = 'Tenant';
+      this.currentEntityType = PricingEntity.TENANT;
       this.pricingsTableDataSource.setContext(this.currentEntityID, this.currentEntityType);
     }
   }

@@ -74,7 +74,6 @@ export enum Entity {
   NOTIFICATION = 'Notification',
   TAG = 'Tag',
   PAYMENT_METHOD = 'PaymentMethod',
-  PAYMENT_METHODS = 'PaymentMethods',
   PRICING_DEFINITION = 'PricingDefinition',
 }
 

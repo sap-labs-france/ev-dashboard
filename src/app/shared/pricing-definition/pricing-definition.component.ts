@@ -213,11 +213,7 @@ export class PricingDefinitionComponent implements OnInit {
       return;
     }
     this.spinnerService.show();
-    this.centralServerService.getPricingDefinition(
-      {
-        id: this.currentPricingDefinitionID,
-      }
-    ).subscribe((currentPricingDefinition) => {
+    this.centralServerService.getPricingDefinition(this.currentPricingDefinitionID).subscribe((currentPricingDefinition) => {
       this.spinnerService.hide();
       this.currentPricingDefinition = currentPricingDefinition;
       // Init form

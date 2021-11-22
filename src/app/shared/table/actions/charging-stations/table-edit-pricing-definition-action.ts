@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { DialogParams } from 'types/Authorization';
 import { ScreenSize } from 'types/GlobalType';
-import { PricingButton, PricingDefinitionDialogData } from 'types/Pricing';
+import { PricingButtonAction, PricingDefinitionDialogData } from 'types/Pricing';
 
 import { TableActionDef } from '../../../../types/Table';
 import { TableEditAction } from '../table-edit-action';
@@ -17,7 +17,7 @@ export class TableEditPricingDefinitionAction extends TableEditAction {
   public getActionDef(): TableEditPricingDefinitionActionDef {
     return {
       ...super.getActionDef(),
-      id: PricingButton.EDIT_PRICING_DEFINITION,
+      id: PricingButtonAction.EDIT_PRICING_DEFINITION,
       action: this.editPricingDefinition,
     };
   }

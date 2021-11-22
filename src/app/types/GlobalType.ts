@@ -88,7 +88,7 @@ export enum ButtonAction {
   DOWNLOAD = 'download',
   TEST_CONNECTION = 'test_connection',
   IMPORT = 'import',
-  VIEW_PRICING_LIST = 'pricing_list'
+  VIEW_PRICING_DEFINITIONS = 'pricing_definitions'
 }
 
 export enum ChipType {

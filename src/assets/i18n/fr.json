@@ -1533,7 +1533,6 @@
       "create_title": "Créer tarification",
       "pricing_definition_description": "Description",
       "pricing_definition_name": "Nom de la tarification",
-      "pricing_definition_creation_title": "Créer une tarification",
       "pricing_definition_creation_confirm": "Voulez-vous vraiment créer une tarification ?",
       "pricing_definition_creation_success": "La tarification a été créée avec succès.",
       "pricing_definition_creation_error": "Une erreur est survenue pendant la création de la tarification, vérifier les logs.",

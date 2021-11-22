@@ -34,7 +34,7 @@ import { TableDataSource } from '../../../shared/table/table-data-source';
 import { ChargePointStatus, ChargingStation, ChargingStationButtonAction, Connector, FirmwareStatus } from '../../../types/ChargingStation';
 import { DataResult } from '../../../types/DataResult';
 import { ButtonAction } from '../../../types/GlobalType';
-import { PricingButton, PricingEntity } from '../../../types/Pricing';
+import { PricingButtonAction, PricingEntity } from '../../../types/Pricing';
 import { DropdownItem, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
 import { TenantComponents } from '../../../types/Tenant';
 import { Utils } from '../../../utils/Utils';
@@ -342,7 +342,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
             this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
         }
         break;
-      case PricingButton.VIEW_PRICING_LIST:
+      case PricingButtonAction.VIEW_PRICING_DEFINITIONS:
         if (actionDef.action) {
           (actionDef as TableViewPricingsActionDef).action(PricingDefinitionsDialogComponent, this.dialog, {
             dialogData: {

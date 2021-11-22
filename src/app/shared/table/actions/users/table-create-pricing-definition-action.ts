@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 
 import { DialogParams } from '../../../../types/Authorization';
 import { ScreenSize } from '../../../../types/GlobalType';
-import { PricingButton, PricingDefinitionDialogData } from '../../../../types/Pricing';
+import { PricingButtonAction, PricingDefinitionDialogData } from '../../../../types/Pricing';
 import { TableActionDef } from '../../../../types/Table';
 import { TableCreateAction } from '../table-create-action';
 
@@ -18,7 +18,7 @@ export class TableCreatePricingDefinitionAction extends TableCreateAction {
   public getActionDef(): TableCreatePricingDefinitionActionDef {
     return {
       ...super.getActionDef(),
-      id: PricingButton.CREATE_PRICING_DEFINITION,
+      id: PricingButtonAction.CREATE_PRICING_DEFINITION,
       action: this.createPricing,
     };
   }

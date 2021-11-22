@@ -134,9 +134,9 @@ export interface PricingDefinitionDialogData extends TableData {
   pricingDefinition?: PricingDefinition;
 }
 
-export enum PricingButton {
+export enum PricingButtonAction {
   CREATE_PRICING_DEFINITION = 'create_pricing_definition',
   EDIT_PRICING_DEFINITION = 'edit_pricing_definition',
   DELETE_PRICING_DEFINITION = 'delete_pricing_definition',
-  VIEW_PRICING_LIST = 'view_pricing_list',
+  VIEW_PRICING_DEFINITIONS = 'view_pricing_definition',
 }

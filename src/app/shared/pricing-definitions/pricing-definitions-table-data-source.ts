@@ -12,7 +12,7 @@ import { SpinnerService } from '../../services/spinner.service';
 import { DialogTableDataSource } from '../../shared/dialogs/dialog-table-data-source';
 import { AppPricingDimensionsUnit } from '../../shared/formatters/app-pricing-dimensions-unit';
 import { DataResult } from '../../types/DataResult';
-import PricingDefinition, { PricingButton } from '../../types/Pricing';
+import PricingDefinition, { PricingButtonAction } from '../../types/Pricing';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../types/Table';
 import { Utils } from '../../utils/Utils';
 import { AppDatePipe } from '../formatters/app-date.pipe';
@@ -57,7 +57,7 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
   }
 
   public isContextSet() {
-    return !!(this.context.entityID || this.context.entityType);
+    return !!(this.context.entityType);
   }
 
   // TODO : J'ai pas compris ce que c'est ??
@@ -190,7 +190,7 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
   public actionTriggered(actionDef: TableActionDef) {
     // Action
     switch (actionDef.id) {
-      case PricingButton.CREATE_PRICING_DEFINITION:
+      case PricingButtonAction.CREATE_PRICING_DEFINITION:
         if (actionDef.id) {
           (actionDef as TableCreatePricingDefinitionActionDef).action(PricingDefinitionDialogComponent,
             this.dialog,
@@ -207,14 +207,14 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
 
   public rowActionTriggered(actionDef: TableActionDef, pricingDefinition: PricingDefinition) {
     switch (actionDef.id) {
-      case PricingButton.EDIT_PRICING_DEFINITION:
+      case PricingButtonAction.EDIT_PRICING_DEFINITION:
         if (actionDef.action) {
           (actionDef as TableEditPricingDefinitionActionDef).action(
             PricingDefinitionDialogComponent, this.dialog,
             { dialogData: { ...pricingDefinition, context: this.context } }, this.refreshData.bind(this));
         }
         break;
-      case PricingButton.DELETE_PRICING_DEFINITION:
+      case PricingButtonAction.DELETE_PRICING_DEFINITION:
         if (actionDef.action) {
           (actionDef as TableDeletePricingDefinitionActionDef).action(
             pricingDefinition, this.dialogService, this.translateService, this.messageService,

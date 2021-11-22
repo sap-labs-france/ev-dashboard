@@ -8,7 +8,7 @@ import { DialogService } from '../../../../services/dialog.service';
 import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
 import { RestResponse } from '../../../../types/GlobalType';
-import PricingDefinition, { PricingButton } from '../../../../types/Pricing';
+import PricingDefinition, { PricingButtonAction } from '../../../../types/Pricing';
 import { ButtonType, TableActionDef } from '../../../../types/Table';
 import { Utils } from '../../../../utils/Utils';
 import { TableDeleteAction } from '../table-delete-action';
@@ -22,7 +22,7 @@ export class TableDeletePricingDefinitionAction extends TableDeleteAction {
   public getActionDef(): TableDeletePricingDefinitionActionDef {
     return {
       ...super.getActionDef(),
-      id: PricingButton.DELETE_PRICING_DEFINITION,
+      id: PricingButtonAction.DELETE_PRICING_DEFINITION,
       action: this.deletePricingDefinition,
     };
   }

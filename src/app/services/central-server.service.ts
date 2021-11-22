@@ -3214,7 +3214,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    if (!params.id) {
+    if (!pricingDefintionId) {
       return EMPTY;
     }
     const id = params.id as string;

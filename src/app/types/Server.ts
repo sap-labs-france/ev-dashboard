@@ -435,6 +435,13 @@ export enum ServerAction {
   BILLING_WEB_HOOK = 'BillingWebHook',
   BILLING_TEST_DATA_CLEANUP = 'BillingTestDataCleanup',
 
+  PRICING = 'Pricing',
+  PRICING_DEFINITION = 'PricingDefinition',
+  PRICING_DEFINITIONS = 'PricingDefinitions',
+  PRICING_DEFINITION_CREATE = 'PricingDefinitionCreate',
+  PRICING_DEFINITION_UPDATE = 'PricingDefinitionUpdate',
+  PRICING_DEFINITION_DELETE = 'PricingDefinitionDelete',
+
   MONGO_DB = 'MongoDB',
 
   CHECK_AND_APPLY_SMART_CHARGING = 'CheckAndApplySmartCharging',
@@ -593,6 +600,8 @@ export enum ServerRoute {
   REST_OICP_ENDPOINT_REGISTER = 'oicp/endpoints/:id/register',
   REST_OICP_ENDPOINT_UNREGISTER = 'oicp/endpoints/:id/unregister',
 
+  REST_SETTINGS = 'settings',
+  REST_SETTING = 'settings/:id',
 
   // BILLING URLs for CRUD operations on PAYMENT METHODS
   REST_BILLING_PAYMENT_METHODS = 'users/:userID/payment-methods',
@@ -613,6 +622,10 @@ export enum ServerRoute {
 
   // BILLING URLs for Non-CRUD operations on INVOICES
   REST_BILLING_DOWNLOAD_INVOICE = 'invoices/:invoiceID/download',
+
+  // PRICING URLs for CRUD operations
+  REST_PRICING_DEFINITIONS = 'pricing-definitions',
+  REST_PRICING_DEFINITION = 'pricing-definitions/:id'
 }
 
 export enum ServerProtocol {
@@ -637,4 +650,3 @@ export enum WSServerProtocol {
   OCPP16 = 'ocpp1.6',
   REST = 'rest'
 }
-

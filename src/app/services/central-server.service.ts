@@ -1261,6 +1261,7 @@ export class CentralServerService {
   }
 
   public exportAllChargingStationsOCPPParams(params: FilterParams): Observable<Blob> {
+    this.getPaging(Constants.DEFAULT_PAGING, params);
     // Verify init
     this.checkInit();
     return this.httpClient.get(`${this.restServerSecuredURL}/${ServerRoute.REST_CHARGING_STATIONS_EXPORT_OCPP_PARAMETERS}`,

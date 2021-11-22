@@ -24,7 +24,6 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
   @Input() public manualConfiguration!: boolean;
   @Output() public connectorChanged = new EventEmitter<any>();
 
-  // public connectorTypeMap = { lemien ...CONNECTOR_TYPE_MAP};
   public connectorTypeMap = CONNECTOR_TYPE_MAP;
   public connectedPhaseMap = [
     { key: 1, description: 'chargers.single_phase' },

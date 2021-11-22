@@ -1,7 +1,10 @@
 import { AgmCoreModule } from '@agm/core';
 import { registerLocaleData } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import localeCs from '@angular/common/locales/cs'; // ACHTUNG - cz does not exists ==> cs-CZ
 import localeDe from '@angular/common/locales/de';
+import localeEn from '@angular/common/locales/en';
+import localeEnAU from '@angular/common/locales/en-AU';
 import localeEs from '@angular/common/locales/es';
 import localeFr from '@angular/common/locales/fr';
 import localeIt from '@angular/common/locales/it';
@@ -72,13 +75,14 @@ import { NavbarModule } from './shared/navbar/navbar.module';
 import { SidebarModule } from './sidebar/sidebar.module';
 import { Utils } from './utils/Utils';
 
-registerLocaleData(localeFr, 'fr');
-registerLocaleData(localeDe, 'de');
-registerLocaleData(localeEs, 'es');
-registerLocaleData(localePt, 'pt');
-registerLocaleData(localeIt, 'it');
-registerLocaleData(localeIt, 'cz');
-
+registerLocaleData(localeEn);
+registerLocaleData(localeFr);
+registerLocaleData(localeDe);
+registerLocaleData(localeEs);
+registerLocaleData(localePt);
+registerLocaleData(localeIt);
+registerLocaleData(localeCs);
+registerLocaleData(localeEnAU);
 @NgModule({
   exports: [
     MatAutocompleteModule,

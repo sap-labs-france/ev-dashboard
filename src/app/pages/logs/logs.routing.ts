@@ -8,7 +8,7 @@ export const LogsRoutes: Routes = [
   {
     path: '', component: LogsListComponent, canActivate: [RouteGuardService], data: {
       auth: {
-        entity: Entity.LOGGINGS,
+        entity: Entity.LOGGING,
         action: Action.LIST,
       },
     },

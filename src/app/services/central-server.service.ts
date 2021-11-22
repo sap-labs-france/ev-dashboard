@@ -3210,7 +3210,7 @@ export class CentralServerService {
       );
   }
 
-  public getPricingDefinition(params: FilterParams): Observable<PricingDefinition> {
+  public getPricingDefinition(pricingDefinitionId: string): Observable<PricingDefinition> {
     // Verify init
     this.checkInit();
     // Execute the REST service

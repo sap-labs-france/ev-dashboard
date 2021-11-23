@@ -11,6 +11,7 @@ import { MessageService } from '../../services/message.service';
 import { SpinnerService } from '../../services/spinner.service';
 import { CONNECTOR_TYPE_SELECTION_MAP } from '../../shared/formatters/app-connector-type-selection.pipe';
 import { Entity } from '../../types/Authorization';
+import { ActionResponse } from '../../types/DataResult';
 import { RestResponse } from '../../types/GlobalType';
 import { HTTPError } from '../../types/HTTPError';
 import PricingDefinition, { PricingDimensions } from '../../types/Pricing';
@@ -283,7 +284,7 @@ export class PricingDefinitionComponent implements OnInit {
 
   public createPricingDefinition(pricingDefinition: PricingDefinition) {
     this.spinnerService.show();
-    this.centralServerService.createPricingDefinition(pricingDefinition).subscribe((response) => {
+    this.centralServerService.createPricingDefinition(pricingDefinition).subscribe((response: ActionResponse) => {
       this.spinnerService.hide();
       if (response.status === RestResponse.SUCCESS) {
         this.messageService.showSuccessMessage('settings.pricing.pricing_definition_creation_success');
@@ -301,7 +302,7 @@ export class PricingDefinitionComponent implements OnInit {
 
   public updatePricingDefinition(pricingDefinition: PricingDefinition) {
     this.spinnerService.show();
-    this.centralServerService.updatePricingDefinition(pricingDefinition).subscribe((response) => {
+    this.centralServerService.updatePricingDefinition(pricingDefinition).subscribe((response: ActionResponse) => {
       this.spinnerService.hide();
       if (response.status === RestResponse.SUCCESS) {
         this.messageService.showSuccessMessage('settings.pricing.pricing_definition_update_success');

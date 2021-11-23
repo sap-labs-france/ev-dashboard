@@ -1,14 +1,11 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { CentralServerService } from 'services/central-server.service';
 import { ConfigService } from 'services/config.service';
 import { MessageService } from 'services/message.service';
-import { SpinnerService } from 'services/spinner.service';
 import { USER_STATUSES, UserRoles } from 'shared/model/users.model';
 import { AuthorizationDefinitionFieldMetadata } from 'types/Authorization';
 import { KeyValue } from 'types/GlobalType';
-import { HTTPError } from 'types/HTTPError';
 import { User, UserRole, UserStatus } from 'types/User';
 import { Constants } from 'utils/Constants';
 import { Users } from 'utils/Users';
@@ -17,7 +14,6 @@ import { AuthorizationService } from '../../../../services/authorization.service
 import { ComponentService } from '../../../../services/component.service';
 import { LocaleService } from '../../../../services/locale.service';
 import { TenantComponents } from '../../../../types/Tenant';
-import { Utils } from '../../../../utils/Utils';
 
 @Component({
   selector: 'app-user-main',
@@ -64,8 +60,6 @@ export class UserMainComponent implements OnInit, OnChanges {
     private centralServerService: CentralServerService,
     private authorizationService: AuthorizationService,
     private messageService: MessageService,
-    private spinnerService: SpinnerService,
-    private router: Router,
     private componentService: ComponentService,
     private configService: ConfigService,
     private localeService: LocaleService) {
@@ -169,7 +163,6 @@ export class UserMainComponent implements OnInit, OnChanges {
 
   public loadUser() {
     if (this.user) {
-      // Init form
       if (this.user.id) {
         this.formGroup.controls.id.setValue(this.user.id);
       }
@@ -219,23 +212,9 @@ export class UserMainComponent implements OnInit, OnChanges {
       // Load Image
       if (!this.userImageSet) {
         this.centralServerService.getUserImage(this.currentUserID).subscribe((userImage) => {
+          this.userImageSet = true;
           if (userImage && userImage.image) {
             this.image = userImage.image.toString();
-            this.userImageSet = true;
-          }
-          this.spinnerService.hide();
-          this.formGroup.updateValueAndValidity();
-          this.formGroup.markAsPristine();
-          this.formGroup.markAllAsTouched();
-        }, (error) => {
-          this.spinnerService.hide();
-          switch (error.status) {
-            case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
-              this.messageService.showErrorMessage('users.user_do_not_exist');
-              break;
-            default:
-              Utils.handleHttpError(error, this.router, this.messageService,
-                this.centralServerService, 'general.unexpected_error_backend');
           }
         });
       }
@@ -246,7 +225,21 @@ export class UserMainComponent implements OnInit, OnChanges {
     this.roleChanged.emit(role);
   }
 
-  public imageChanged(event: any) {
+  public updateUserImage(user: User) {
+    if (this.image !== Constants.USER_NO_PICTURE) {
+      user.image = this.image;
+    } else {
+      user.image = null;
+    }
+  }
+
+  public clearImage() {
+    this.image = Constants.USER_NO_PICTURE;
+    this.userImageSet = false;
+    this.formGroup.markAsDirty();
+  }
+
+  public onImageChanged(event: any) {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
       if (file.size > (this.imageMaxSize * 1024)) {
@@ -260,22 +253,6 @@ export class UserMainComponent implements OnInit, OnChanges {
         };
         reader.readAsDataURL(file);
       }
-    }
-  }
-
-  public clearImage() {
-    this.image = Constants.USER_NO_PICTURE;
-    this.userImageSet = false;
-    this.formGroup.markAsDirty();
-  }
-
-  public updateUserImage(user: User) {
-    if (this.image && !this.image.endsWith(Constants.USER_NO_PICTURE)) {
-      // Set to user
-      user.image = this.image;
-    } else {
-      // No image
-      user.image = null;
     }
   }
 }

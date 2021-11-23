@@ -18,7 +18,7 @@
                     <mat-icon (click)="file.click()">mode_edit</mat-icon>
                     <div class="d-none">
                       <input #file type="file" accept=".jpg, .jpeg, .png, .gif"
-                        [maxLength]="imageMaxSize" name="..." (change)="imageChanged($event)" accept="image/jpg,image/jpeg,image/png,image/gif">
+                        [maxLength]="imageMaxSize" name="..." (change)="onImageChanged($event)" accept="image/jpg,image/jpeg,image/png,image/gif">
                     </div>
                   </button>
                   <button mat-flat-button color="warn" *ngIf="userImageSet">

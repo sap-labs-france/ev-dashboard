@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { CentralServerService } from 'services/central-server.service';
@@ -21,8 +21,8 @@ export class SiteMainComponent implements OnInit, OnChanges {
   @Input() public readOnly: boolean;
   @Output() public publicChanged = new EventEmitter<boolean>();
 
+  public siteImageSet = false;
   public image = Constants.NO_IMAGE;
-  public imageHasChanged = false;
   public maxSize: number;
 
   public id!: AbstractControl;
@@ -68,8 +68,12 @@ export class SiteMainComponent implements OnInit, OnChanges {
     this.public = this.formGroup.controls['public'];
   }
 
+  public ngOnChanges() {
+    this.loadSite();
+  }
+
   public loadSite() {
-    if (this.site?.id) {
+    if (this.site) {
       this.formGroup.controls.id.setValue(this.site.id);
       if (this.site.name) {
         this.formGroup.controls.name.setValue(this.site.name);
@@ -97,14 +101,15 @@ export class SiteMainComponent implements OnInit, OnChanges {
         this.formGroup.controls.autoUserSiteAssignment.disable();
       }
       // Get Site image
-      this.centralServerService.getSiteImage(this.currentSiteID).subscribe((siteImage) => {
-        this.image = siteImage ? siteImage : Constants.NO_IMAGE;
-      });
+      if (!this.siteImageSet) {
+        this.centralServerService.getSiteImage(this.currentSiteID).subscribe((siteImage) => {
+          this.siteImageSet = true;
+          if (siteImage) {
+            this.image = siteImage ? siteImage : Constants.NO_IMAGE;
+          }
+        });
+      }
     }
-  }
-
-  public ngOnChanges(changes: SimpleChanges): void {
-    this.loadSite();
   }
 
   public assignCompany() {
@@ -131,28 +136,6 @@ export class SiteMainComponent implements OnInit, OnChanges {
     });
   }
 
-  public clearImage() {
-    // Clear
-    this.image = Constants.NO_IMAGE;
-    this.imageHasChanged = true;
-    // Set form dirty
-    this.formGroup.markAsDirty();
-  }
-
-  public updateSiteImage(site: Site) {
-    if (this.imageHasChanged) {
-      // Set new image
-      if (this.image !== Constants.NO_IMAGE) {
-        site.image = this.image;
-      } else {
-        site.image = null;
-      }
-    } else {
-      // No changes
-      delete site.image;
-    }
-  }
-
   public updateSiteCoordinates(site: Site) {
     if (site.address && site.address.coordinates &&
       !(site.address.coordinates[0] || site.address.coordinates[1])) {
@@ -160,8 +143,25 @@ export class SiteMainComponent implements OnInit, OnChanges {
     }
   }
 
+  public changePublic(): void {
+    this.publicChanged.emit(this.public.value);
+  }
+
+  public updateSiteImage(site: Site) {
+    if (this.image !== Constants.USER_NO_PICTURE) {
+      site.image = this.image;
+    } else {
+      site.image = null;
+    }
+  }
+
+  public clearImage() {
+    this.image = Constants.NO_IMAGE;
+    this.siteImageSet = false;
+    this.formGroup.markAsDirty();
+  }
+
   public onImageChanged(event: any) {
-    // load picture
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
       if (file.size > (this.maxSize * 1024)) {
@@ -170,15 +170,11 @@ export class SiteMainComponent implements OnInit, OnChanges {
         const reader = new FileReader();
         reader.onload = () => {
           this.image = reader.result as string;
-          this.imageHasChanged = true;
+          this.siteImageSet = true;
           this.formGroup.markAsDirty();
         };
         reader.readAsDataURL(file);
       }
     }
-  }
-
-  public changePublic(): void {
-    this.publicChanged.emit(this.public.value);
   }
 }

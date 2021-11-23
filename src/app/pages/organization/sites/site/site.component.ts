@@ -3,7 +3,6 @@ import { FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { AuthorizationService } from 'services/authorization.service';
 import { ComponentService } from 'services/component.service';
 import { WindowService } from 'services/window.service';
 import { AbstractTabComponent } from 'shared/component/abstract-tab/abstract-tab.component';
@@ -40,7 +39,6 @@ export class SiteComponent extends AbstractTabComponent implements OnInit {
   public site!: Site;
 
   public constructor(
-    private authorizationService: AuthorizationService,
     private centralServerService: CentralServerService,
     private componentService: ComponentService,
     private messageService: MessageService,
@@ -143,9 +141,7 @@ export class SiteComponent extends AbstractTabComponent implements OnInit {
 
   private updateSite(site: Site) {
     this.spinnerService.show();
-    // Set the image
     this.siteMainComponent.updateSiteImage(site);
-    // Set coordinates
     this.siteMainComponent.updateSiteCoordinates(site);
     // Update
     this.centralServerService.updateSite(site).subscribe((response) => {

@@ -434,7 +434,6 @@
     "export_all_params_confirm": "Chcete opravdu exportovat všechny parametry OCPP všech nabíjecích stanic patřících ke parkovišti '{{siteName}}'?",
     "export_all_params_error": "Došlo k chybě při pokusu exportovat všechny parametry OCPP, zkontrolujte protokoly",
     "private_limitation": "Some features are not available when the site is private"
-
   },
   "site_areas": {
     "assign_site": "Přiřadit parkoviště",
@@ -798,8 +797,8 @@
         "confirm": "Když zakážete ruční nastavení konfigurace, nabíjecí stanice bude upravena šablonou automatické konfigurace, restartována a ručně nastavené změny budou ztraceny. Chcete pokračovat?"
       },
       "manual_configuration_error": {
-       "title": "Manual Configuration/Template error",
-       "confirm": "Manual Configuration has been already disabled for this station. Please make sure it boots correctly and that the template can be applied"
+        "title": "Manual Configuration/Template error",
+        "confirm": "Manual Configuration has been already disabled for this station. Please make sure it boots correctly and that the template can be applied"
       }
     },
     "force_available_status_action": "Nastavit Je k dispozici",

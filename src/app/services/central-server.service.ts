@@ -3243,7 +3243,8 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
         params: {
           ...params,
-          ...context
+          EntityID: context.entityID,
+          EntityType: context.entityType
         }
       })
       .pipe(

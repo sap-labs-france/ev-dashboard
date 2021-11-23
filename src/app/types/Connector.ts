@@ -1,6 +1,12 @@
 export const CONNECTOR_ALL_TYPES_MAP =
 [
   {
+    key: 'A',
+    description: 'chargers.connector_type_all',
+    svgIconName: 'A',
+    svgIconFile: 'assets/img/connectors/all_connectors.svg',
+  },
+  {
     key: 'T2',
     description: 'chargers.connector_type_type2',
     svgIconName: 'T2',
@@ -41,11 +47,5 @@ export const CONNECTOR_ALL_TYPES_MAP =
     description: 'chargers.connector_type_unknown',
     svgIconName: 'U',
     svgIconFile: 'assets/img/connectors/no-connector.svg',
-  },
-  {
-    key: 'A',
-    description: 'chargers.connector_type_all',
-    svgIconName: 'A',
-    svgIconFile: 'assets/img/connectors/all_connectors.svg',
   },
 ];

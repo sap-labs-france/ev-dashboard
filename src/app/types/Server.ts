@@ -602,6 +602,8 @@ export enum ServerRoute {
   REST_OICP_ENDPOINT_REGISTER = 'oicp/endpoints/:id/register',
   REST_OICP_ENDPOINT_UNREGISTER = 'oicp/endpoints/:id/unregister',
 
+  REST_SETTINGS = 'settings',
+  REST_SETTING = 'settings/:id',
 
   // BILLING URLs for CRUD operations on PAYMENT METHODS
   REST_BILLING_PAYMENT_METHODS = 'users/:userID/payment-methods',
@@ -622,6 +624,10 @@ export enum ServerRoute {
 
   // BILLING URLs for Non-CRUD operations on INVOICES
   REST_BILLING_DOWNLOAD_INVOICE = 'invoices/:invoiceID/download',
+
+  // PRICING URLs for CRUD operations
+  REST_PRICING_DEFINITIONS = 'pricing-definitions',
+  REST_PRICING_DEFINITION = 'pricing-definitions/:id'
 }
 
 export enum ServerProtocol {
@@ -646,4 +652,3 @@ export enum WSServerProtocol {
   OCPP16 = 'ocpp1.6',
   REST = 'rest'
 }
-

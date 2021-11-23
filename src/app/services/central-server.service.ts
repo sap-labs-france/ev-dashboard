@@ -1551,9 +1551,12 @@ export class CentralServerService {
     // verify init
     this.checkInit();
     // Execute the REST Service
-    return this.httpClient.get<SettingDB>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.SETTING_BY_IDENTIFIER}?ID=${identifier}`,
+    return this.httpClient.get<SettingDB>(this.buildRestEndpointUrl(ServerRoute.REST_SETTINGS),
       {
         headers: this.buildHttpHeaders(),
+        params: {
+          Identifier: identifier
+        }
       })
       .pipe(
         catchError(this.handleHttpError),
@@ -2239,11 +2242,11 @@ export class CentralServerService {
       );
   }
 
-  public updateSetting(setting: any): Observable<ActionResponse> {
+  public updateSetting(setting: SettingDB): Observable<ActionResponse> {
     // Verify init
     this.checkInit();
     // Execute
-    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.SETTING_UPDATE}`, setting,
+    return this.httpClient.put<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_SETTING, { id: setting.id }), setting,
       {
         headers: this.buildHttpHeaders(),
       })

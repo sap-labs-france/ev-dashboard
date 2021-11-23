@@ -22,14 +22,12 @@ import { User, UserRole } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';
 import { UserMainComponent } from './main/user-main.component';
 import { UserNotificationsComponent } from './notifications/user-notifications.component';
-import { PaymentMethodsTableDataSource } from './payment-methods/payment-methods-table-data-source';
 import { UserSecurityComponent } from './security/user-security.component';
 import { UserDialogComponent } from './user.dialog.component';
 
 @Component({
   selector: 'app-user',
-  templateUrl: 'user.component.html',
-  providers: [PaymentMethodsTableDataSource],
+  templateUrl: 'user.component.html'
 })
 export class UserComponent extends AbstractTabComponent implements OnInit {
   @Input() public currentUserID!: string;
@@ -98,13 +96,10 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.formGroup = new FormGroup({});
     // Load
     this.loadUser();
+    // Call parent Tab manager
     if (!this.inDialog) {
       super.enableRoutingSynchronization();
     }
-  }
-
-  public refresh() {
-    this.loadUser();
   }
 
   public loadUser() {
@@ -112,13 +107,31 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       this.spinnerService.show();
       // eslint-disable-next-line complexity
       this.centralServerService.getUser(this.currentUserID).subscribe((user) => {
-        this.formGroup.markAsPristine();
+        this.spinnerService.hide();
         this.user = user;
+        // Update form group
+        this.formGroup.updateValueAndValidity();
+        this.formGroup.markAsPristine();
+        this.formGroup.markAllAsTouched();
         if (user.address) {
           this.address = user.address;
         }
+      }, (error) => {
+        this.spinnerService.hide();
+        switch (error.status) {
+          case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+            this.messageService.showErrorMessage('users.user_do_not_exist');
+            break;
+          default:
+            Utils.handleHttpError(error, this.router, this.messageService,
+              this.centralServerService, 'general.unexpected_error_backend');
+        }
       });
     }
+  }
+
+  public refresh() {
+    this.loadUser();
   }
 
   public saveUser(user: User) {

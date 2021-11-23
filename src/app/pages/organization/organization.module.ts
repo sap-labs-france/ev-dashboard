@@ -32,11 +32,14 @@ import { SiteUsersAdminCheckboxComponent } from './sites/site-users/site-users-a
 import { SiteUsersDialogComponent } from './sites/site-users/site-users-dialog.component';
 import { SiteUsersOwnerRadioComponent } from './sites/site-users/site-users-owner-radio.component';
 import { SiteUsersTableDataSource } from './sites/site-users/site-users-table-data-source';
+import { SiteMainComponent } from './sites/site/main/site-main.component';
 import { SiteDialogComponent } from './sites/site/site-dialog.component';
+import { SiteOcpiComponent } from './sites/site/site-ocpi/site-ocpi.component';
 import { SiteComponent } from './sites/site/site.component';
 
 @NgModule({
   imports: [
+    AddressModule,
     CommonModule,
     FormsModule,
     AddressModule,
@@ -63,6 +66,8 @@ import { SiteComponent } from './sites/site/site.component';
     SiteUsersDialogComponent,
     SiteAreaChargingStationsDialogComponent,
     SiteAreaAssetsDialogComponent,
+    SiteMainComponent,
+    SiteOcpiComponent,
     SiteUsersAdminCheckboxComponent,
     SiteUsersOwnerRadioComponent,
     SiteAreaConsumptionChartComponent,

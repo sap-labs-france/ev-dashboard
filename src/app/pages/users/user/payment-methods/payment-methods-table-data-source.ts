@@ -52,11 +52,11 @@ export class PaymentMethodsTableDataSource extends TableDataSource<BillingPaymen
       this.spinnerService.hide();
       this.billingSettings = settings;
     });
+    this.initDataSource();
   }
 
-  public setCurrentUserId(currentUserID: string) {
+  public setCurrentUserID(currentUserID: string) {
     this.currentUserID = currentUserID;
-    this.initDataSource();
   }
 
   public loadDataImpl(): Observable<DataResult<BillingPaymentMethod>> {
@@ -64,7 +64,6 @@ export class PaymentMethodsTableDataSource extends TableDataSource<BillingPaymen
       // User provided?
       if (this.currentUserID) {
         // Yes: Get data
-        // eslint-disable-next-line max-len
         this.centralServerService.getPaymentMethods(this.currentUserID, this.buildFilterValues(),
           this.getPaging(), this.getSorting()).subscribe((paymentMethods) => {
           this.createAction.visible = this.canCreatePaymentMethod;

@@ -10,8 +10,9 @@ export class SiteOcpiComponent implements OnInit, OnChanges {
   @Input() public site!: Site;
   @Input() public formGroup!: FormGroup;
 
-  public tariffID: AbstractControl;
   public public = false;
+
+  public tariffID: AbstractControl;
 
   // eslint-disable-next-line no-useless-constructor
   public constructor() {
@@ -36,8 +37,8 @@ export class SiteOcpiComponent implements OnInit, OnChanges {
   public loadSite() {
     if (this.site) {
       this.public = this.site.public;
-      this.adaptTariffState();
-      if (this.site?.tariffID) {
+      this.enableDisableTariffID();
+      if (this.site.tariffID) {
         this.tariffID.setValue(this.site.tariffID);
       }
     }
@@ -45,10 +46,10 @@ export class SiteOcpiComponent implements OnInit, OnChanges {
 
   public publicChanged(publicValue: boolean) {
     this.public = publicValue;
-    this.adaptTariffState();
+    this.enableDisableTariffID();
   }
 
-  private adaptTariffState() {
+  private enableDisableTariffID() {
     if (this.public) {
       this.tariffID.enable();
     } else {

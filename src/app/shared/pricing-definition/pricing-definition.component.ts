@@ -9,12 +9,12 @@ import { CentralServerService } from '../../services/central-server.service';
 import { DialogService } from '../../services/dialog.service';
 import { MessageService } from '../../services/message.service';
 import { SpinnerService } from '../../services/spinner.service';
+import { CONNECTOR_TYPE_SELECTION_MAP } from '../../shared/formatters/app-connector-type-selection.pipe';
 import { Entity } from '../../types/Authorization';
 import { RestResponse } from '../../types/GlobalType';
 import { HTTPError } from '../../types/HTTPError';
 import PricingDefinition, { PricingDimensions } from '../../types/Pricing';
 import { Utils } from '../../utils/Utils';
-import { CONNECTOR_TYPE_MAP } from '../formatters/app-connector-type.pipe';
 import { PricingDefinitionDialogComponent } from '../pricing-definition/pricing-definition.dialog.component';
 
 @Component({
@@ -39,7 +39,7 @@ export class PricingDefinitionComponent implements OnInit {
   public entityType: AbstractControl;
   public entityID: AbstractControl;
   // Connector
-  public connectorTypeMap = CONNECTOR_TYPE_MAP;
+  public connectorTypeMap = CONNECTOR_TYPE_SELECTION_MAP;
   public connectorPowerValue: AbstractControl;
   public connectorPowerUnit: AbstractControl;
   // Static Restrictions
@@ -120,7 +120,7 @@ export class PricingDefinitionComponent implements OnInit {
           ])),
         connectorPowerEnabled: new FormControl(false),
         connectorPowerkW: new FormControl(null, Validators.pattern('[0-9]*[,.]?[0-9]{1,2}')),
-        connectorType: new FormControl('A',
+        connectorType: new FormControl('',
           Validators.compose([
             Validators.required,
           ])

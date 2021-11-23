@@ -60,11 +60,6 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
     return !!(this.context.entityType);
   }
 
-  // TODO : J'ai pas compris ce que c'est ??
-  // public getDataChangeSubject(): Observable<ChangeNotification> {
-  //   return this.centralServerNotificationService.getSubjectPricings();
-  // }
-
   public loadDataImpl(): Observable<DataResult<PricingDefinition>> {
     return new Observable((observer) => {
       // Get the PricingDefinitions

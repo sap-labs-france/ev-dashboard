@@ -14,7 +14,6 @@ import { Utils } from 'utils/Utils';
   selector: 'app-site-main',
   templateUrl: './site-main.component.html',
 })
-// @Injectable()
 export class SiteMainComponent implements OnInit, OnChanges {
   @Input() public formGroup: FormGroup;
   @Input() public currentSiteID!: string;
@@ -60,7 +59,6 @@ export class SiteMainComponent implements OnInit, OnChanges {
       ])));
     this.formGroup.addControl('autoUserSiteAssignment', new FormControl(false));
     this.formGroup.addControl('public', new FormControl(false));
-
     // Form
     this.id = this.formGroup.controls['id'];
     this.name = this.formGroup.controls['name'];
@@ -71,41 +69,38 @@ export class SiteMainComponent implements OnInit, OnChanges {
   }
 
   public loadSite() {
-    // Init form
     if (this.site?.id) {
       this.formGroup.controls.id.setValue(this.site.id);
-    } else {
-      return;
+      if (this.site.name) {
+        this.formGroup.controls.name.setValue(this.site.name);
+      }
+      if (this.site.companyID) {
+        this.formGroup.controls.companyID.setValue(this.site.companyID);
+      }
+      if (this.site.company) {
+        this.formGroup.controls.company.setValue(this.site.company.name);
+      }
+      if (this.site.autoUserSiteAssignment) {
+        this.formGroup.controls.autoUserSiteAssignment.setValue(this.site.autoUserSiteAssignment);
+      } else {
+        this.formGroup.controls.autoUserSiteAssignment.setValue(false);
+      }
+      if (this.site.public) {
+        this.formGroup.controls.public.setValue(this.site.public);
+      } else {
+        this.formGroup.controls.public.setValue(false);
+      }
+      if (this.site.address) {
+        this.address = this.site.address;
+      }
+      if (this.site.metadata?.autoUserSiteAssignment && !this.site.metadata?.autoUserSiteAssignment.enabled) {
+        this.formGroup.controls.autoUserSiteAssignment.disable();
+      }
+      // Get Site image
+      this.centralServerService.getSiteImage(this.currentSiteID).subscribe((siteImage) => {
+        this.image = siteImage ? siteImage : Constants.NO_IMAGE;
+      });
     }
-    if (this.site.name) {
-      this.formGroup.controls.name.setValue(this.site.name);
-    }
-    if (this.site.companyID) {
-      this.formGroup.controls.companyID.setValue(this.site.companyID);
-    }
-    if (this.site.company) {
-      this.formGroup.controls.company.setValue(this.site.company.name);
-    }
-    if (this.site.autoUserSiteAssignment) {
-      this.formGroup.controls.autoUserSiteAssignment.setValue(this.site.autoUserSiteAssignment);
-    } else {
-      this.formGroup.controls.autoUserSiteAssignment.setValue(false);
-    }
-    if (this.site.public) {
-      this.formGroup.controls.public.setValue(this.site.public);
-    } else {
-      this.formGroup.controls.public.setValue(false);
-    }
-    if (this.site.address) {
-      this.address = this.site.address;
-    }
-    if (this.site.metadata?.autoUserSiteAssignment && !this.site.metadata?.autoUserSiteAssignment.enabled) {
-      this.formGroup.controls.autoUserSiteAssignment.disable();
-    }
-    // Get Site image
-    this.centralServerService.getSiteImage(this.currentSiteID).subscribe((siteImage) => {
-      this.image = siteImage ? siteImage : Constants.NO_IMAGE;
-    });
   }
 
   public ngOnChanges(changes: SimpleChanges): void {

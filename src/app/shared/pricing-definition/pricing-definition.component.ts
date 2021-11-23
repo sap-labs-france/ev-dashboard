@@ -294,7 +294,6 @@ export class PricingDefinitionComponent implements OnInit {
       }
     }, (error) => {
       this.spinnerService.hide();
-      this.formGroup.markAsPristine();
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'settings.pricing.pricing_definition_creation_error');
     });
   }
@@ -312,7 +311,6 @@ export class PricingDefinitionComponent implements OnInit {
       }
     }, (error) => {
       this.spinnerService.hide();
-      this.formGroup.markAsPristine();
       switch (error.status) {
         case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
           this.messageService.showErrorMessage('settings.pricing.pricing_definition_not_found');

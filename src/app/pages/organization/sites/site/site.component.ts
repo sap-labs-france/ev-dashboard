@@ -3,6 +3,7 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { ComponentService } from 'services/component.service';
 import { DialogMode } from 'types/Authorization';
 
 import { CentralServerService } from '../../../../services/central-server.service';
@@ -16,6 +17,7 @@ import { Company } from '../../../../types/Company';
 import { RestResponse } from '../../../../types/GlobalType';
 import { HTTPError } from '../../../../types/HTTPError';
 import { Site } from '../../../../types/Site';
+import { TenantComponents } from '../../../../types/Tenant';
 import { Constants } from '../../../../utils/Constants';
 import { Utils } from '../../../../utils/Utils';
 
@@ -32,12 +34,14 @@ export class SiteComponent implements OnInit {
   public imageHasChanged = false;
   public maxSize: number;
   public readOnly = true;
+  public OCPIActive: boolean;
 
   public formGroup!: FormGroup;
   public id!: AbstractControl;
   public name!: AbstractControl;
   public company!: AbstractControl;
   public companyID!: AbstractControl;
+  public tariffID: AbstractControl;
   public autoUserSiteAssignment!: AbstractControl;
   public public!: AbstractControl;
 
@@ -45,6 +49,7 @@ export class SiteComponent implements OnInit {
 
   public constructor(
     private centralServerService: CentralServerService,
+    private componentService: ComponentService,
     private messageService: MessageService,
     private spinnerService: SpinnerService,
     private translateService: TranslateService,
@@ -53,6 +58,7 @@ export class SiteComponent implements OnInit {
     private dialogService: DialogService,
     private router: Router) {
     this.maxSize = this.configService.getSite().maxPictureKb;
+    this.OCPIActive = this.componentService.isActive(TenantComponents.OCPI);
   }
 
   public ngOnInit() {
@@ -74,12 +80,17 @@ export class SiteComponent implements OnInit {
         ])),
       autoUserSiteAssignment: new FormControl(false),
       public: new FormControl(false),
+      tariffID: new FormControl('',
+        Validators.compose([
+          Validators.maxLength(50),
+        ])),
     });
     // Form
     this.id = this.formGroup.controls['id'];
     this.name = this.formGroup.controls['name'];
     this.company = this.formGroup.controls['company'];
     this.companyID = this.formGroup.controls['companyID'];
+    this.tariffID = this.formGroup.controls['tariffID'];
     this.autoUserSiteAssignment = this.formGroup.controls['autoUserSiteAssignment'];
     this.public = this.formGroup.controls['public'];
     // Set
@@ -108,6 +119,9 @@ export class SiteComponent implements OnInit {
         if (site.company) {
           this.formGroup.controls.company.setValue(site.company.name);
         }
+        if (site.tariffID) {
+          this.formGroup.controls.tariffID.setValue(site.tariffID);
+        }
         if (site.autoUserSiteAssignment) {
           this.formGroup.controls.autoUserSiteAssignment.setValue(site.autoUserSiteAssignment);
         } else {
@@ -121,7 +135,7 @@ export class SiteComponent implements OnInit {
         if (site.address) {
           this.address = site.address;
         }
-        if (!site.metadata?.autoUserSiteAssignment.enabled) {
+        if (site.metadata?.autoUserSiteAssignment && !site.metadata?.autoUserSiteAssignment.enabled) {
           this.formGroup.controls.autoUserSiteAssignment.disable();
         }
         // Update form group

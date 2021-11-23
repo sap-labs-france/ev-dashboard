@@ -33,7 +33,7 @@ export interface AuthorizationDefinitionConditionArgs {
 
 export interface AuthorizationDefinitionFieldMetadata {
   visible: boolean;
-  enabled: string;
+  enabled: boolean;
   mandatory: boolean;
   values: string[]|boolean[]|number[];
   defaultValue: string|boolean|number;

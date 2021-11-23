@@ -24,15 +24,17 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.5.12',
-        date: new Date('2021-11-18'),
+        date: new Date('2021-11-23'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
-              `Introduction of the new Pricing engine (backend only)`,
+              `New Pricing engine (backend only)`,
               `Added OCPI Tariff ID in Tenant's settings and Site`,
-              `Technical users are now only allowed to perform B2B requests`,
+              `Technical users are only allowed to perform B2B requests`,
               `Fixed Tenant's logo is not loaded when entering a new password`,
+              `Migrated Registration Token and Setting endpoints to RESTful API`,
+              `Forced OCPP RFID Cards to uppercase`,
               `Added Autralian locale`,
             ],
           },

@@ -120,7 +120,7 @@ export class PricingDefinitionComponent implements OnInit {
           ])),
         connectorPowerEnabled: new FormControl(false),
         connectorPowerkW: new FormControl(null, Validators.pattern('[0-9]*[,.]?[0-9]{1,2}')),
-        connectorType: new FormControl('',
+        connectorType: new FormControl('A',
           Validators.compose([
             Validators.required,
           ])

@@ -6,14 +6,18 @@
           <mat-icon>portrait</mat-icon>
           <span>{{'general.general' | translate}}</span>
         </ng-template>
-        <app-site-main #siteMainComponent [formGroup]="formGroup" [currentSiteID]="currentSiteID" [site]="site" [readOnly]="readOnly" (publicChanged)="publicChanged($event)"></app-site-main>
+        <div class="card-body">
+          <app-site-main #siteMainComponent [formGroup]="formGroup" [currentSiteID]="currentSiteID" [site]="site" [readOnly]="readOnly" (publicChanged)="publicChanged($event)"></app-site-main>
+        </div>
       </mat-tab>
       <mat-tab *ngIf="ocpiActive">
         <ng-template mat-tab-label>
           <mat-icon>cloud</mat-icon>
           <span>{{'settings.tabs.ocpi' | translate}}</span>
         </ng-template>
-        <app-site-ocpi #siteOcpiComponent [formGroup]="formGroup" [site]="site"></app-site-ocpi>
+        <div class="card-body">
+          <app-site-ocpi #siteOcpiComponent [formGroup]="formGroup" [site]="site"></app-site-ocpi>
+        </div>
       </mat-tab>
     </mat-tab-group>
     <div class="tabs-actions">

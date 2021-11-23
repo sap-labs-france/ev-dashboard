@@ -4,7 +4,6 @@ import { RouteGuardService } from '../../guard/route-guard';
 import { Action, Entity } from '../../types/Authorization';
 import { TenantComponents } from '../../types/Tenant';
 import { OrganizationComponent } from './organization.component';
-import { SiteOcpiComponent } from './sites/site/site-ocpi/site-ocpi.component';
 
 export const OrganizationRoutes: Routes = [
   {
@@ -16,12 +15,5 @@ export const OrganizationRoutes: Routes = [
         { entity: Entity.SITE_AREA, action: Action.LIST },
       ],
     },
-  }, {
-    path: 'site-ocpi', component: SiteOcpiComponent, canActivate: [RouteGuardService], data: {
-      auth: {
-        entity: Entity.SITE,
-        action: Action.UPDATE,
-      },
-    }
   },
 ];

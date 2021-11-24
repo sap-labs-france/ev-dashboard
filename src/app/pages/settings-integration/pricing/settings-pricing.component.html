@@ -23,5 +23,5 @@
   <!-- Convergent Charging Pricing -->
   <app-settings-convergent-charging *ngIf="isActive && pricingSettings?.type === 'convergentCharging'" [pricingSettings]="pricingSettings" [formGroup]="formGroup"></app-settings-convergent-charging>
   <!-- Pricing Definitions -->
-  <app-pricing-definitions *ngIf="isActive && pricingSettings?.type === 'simple' && isTestTenant" [inDialog]="false" [currentPricingDefinitionID]="currentPricingDefinitionID" [currentEntityID]="currentEntityID" [currentEntityType]="currentEntityType"></app-pricing-definitions>
+  <app-pricing-definitions *ngIf="isActive && pricingSettings?.type === 'simple'" [inDialog]="false" [currentPricingDefinitionID]="currentPricingDefinitionID" [currentEntityID]="currentEntityID" [currentEntityType]="currentEntityType"></app-pricing-definitions>
 </form>

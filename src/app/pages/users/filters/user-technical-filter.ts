@@ -12,7 +12,7 @@ export class UserTechnicalFilter extends TableFilter {
       type: FilterType.DROPDOWN,
       multiple: true,
       exhaustive: true,
-      name: 'users.technical',
+      name: 'users.technical_user',
       class: 'col-md-6 col-lg-3 col-xl-2',
       label: 'users.technical',
       cleared: true,

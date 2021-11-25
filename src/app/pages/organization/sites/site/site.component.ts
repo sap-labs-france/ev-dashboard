@@ -33,6 +33,7 @@ export class SiteComponent extends AbstractTabComponent implements OnInit {
   @ViewChild('siteOcpiComponent') public siteOcpiComponent!: SiteOcpiComponent;
 
   public ocpiActive: boolean;
+  public ocpiHasVisibleFields: boolean;
 
   public formGroup!: FormGroup;
   public readOnly = true;
@@ -50,6 +51,7 @@ export class SiteComponent extends AbstractTabComponent implements OnInit {
     protected windowService: WindowService) {
     super(activatedRoute, windowService, ['common', 'site-ocpi'], false);
     this.ocpiActive = this.componentService.isActive(TenantComponents.OCPI);
+    this.ocpiHasVisibleFields = true;
   }
 
   public ngOnInit() {
@@ -66,6 +68,8 @@ export class SiteComponent extends AbstractTabComponent implements OnInit {
       this.centralServerService.getSite(this.currentSiteID, false, true).subscribe((site) => {
         this.spinnerService.hide();
         this.site = site;
+        // Check if OCPI has to be displayed
+        this.ocpiHasVisibleFields = site.projectFields.includes('tariffID');
         // Update form group
         this.formGroup.updateValueAndValidity();
         this.formGroup.markAsPristine();

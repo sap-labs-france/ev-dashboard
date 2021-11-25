@@ -10,7 +10,7 @@
           <app-site-main #siteMainComponent [formGroup]="formGroup" [currentSiteID]="currentSiteID" [site]="site" [readOnly]="readOnly" (publicChanged)="publicChanged($event)"></app-site-main>
         </div>
       </mat-tab>
-      <mat-tab *ngIf="ocpiActive">
+      <mat-tab *ngIf="ocpiActive && ocpiHasVisibleFields">
         <ng-template mat-tab-label>
           <mat-icon>cloud</mat-icon>
           <span>{{'settings.tabs.ocpi' | translate}}</span>

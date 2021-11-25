@@ -35,7 +35,7 @@ export class SiteComponent extends AbstractTabComponent implements OnInit {
   public ocpiActive: boolean;
 
   public formGroup!: FormGroup;
-  public readOnly: boolean;
+  public readOnly = true;
   public site!: Site;
 
   public constructor(
@@ -53,6 +53,7 @@ export class SiteComponent extends AbstractTabComponent implements OnInit {
   }
 
   public ngOnInit() {
+    this.readOnly = this.dialogMode === DialogMode.VIEW;
     // Init the form
     this.formGroup = new FormGroup({});
     // Load

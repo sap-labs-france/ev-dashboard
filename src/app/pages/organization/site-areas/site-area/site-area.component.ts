@@ -527,13 +527,13 @@ export class SiteAreaComponent implements OnInit {
               { siteAreaName: siteArea.name }));
           this.closeDialog(true);
           break;
-        case HTTPError.PARENT_SITE_AREA_INCONSISTENCY_ERROR:
+        case HTTPError.SITE_AREA_HIERARCHY_INCONSISTENCY_ERROR:
           this.dialogService.createAndShowOkDialog(
             this.translateService.instant('site_areas.site_area_hierarchy_error_title'),
             this.translateService.instant('site_areas.site_area_hierarchy_inconsistency_error_body',
               { siteAreaName: siteArea.name }));
           break;
-        case HTTPError.PARENT_SITE_AREA_CIRCULAR_STRUCTURE_ERROR:
+        case HTTPError.SITE_AREA_HIERARCHY_CIRCULAR_STRUCTURE_ERROR:
           this.dialogService.createAndShowOkDialog(
             this.translateService.instant('site_areas.site_area_hierarchy_error_title'),
             this.translateService.instant('site_areas.site_area_hierarchy_circular_structure_error_body',

@@ -191,7 +191,7 @@ export class SiteAreaComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.panelClass = 'transparent-dialog-container';
     dialogConfig.data = {
-      title: 'select sub site area',
+      title: 'site_areas.select_parent_site_area',
       validateButtonTitle: 'general.select',
       sitesAdminOnly: true,
       rowMultipleSelection: false,
@@ -210,8 +210,8 @@ export class SiteAreaComponent implements OnInit {
           this.formGroup.markAsDirty();
         } else {
           this.dialogService.createAndShowOkDialog(
-            this.translateService.instant('site_areas.parent_site_area_error_title'),
-            this.translateService.instant('site_areas.parent_site_area_error_body')
+            this.translateService.instant('site_areas.site_area_hierarchy_area_error_title'),
+            this.translateService.instant('site_areas.site_area_hierarchy_circular_structure_error_body')
           );
         }
       }
@@ -527,10 +527,16 @@ export class SiteAreaComponent implements OnInit {
               { siteAreaName: siteArea.name }));
           this.closeDialog(true);
           break;
-        case HTTPError.SITE_AREA_PARENT_ERROR:
+        case HTTPError.PARENT_SITE_AREA_INCONSISTENCY_ERROR:
           this.dialogService.createAndShowOkDialog(
-            this.translateService.instant('site_areas.parent_site_area_error_title'),
-            this.translateService.instant('site_areas.parent_site_area_error_body',
+            this.translateService.instant('site_areas.site_area_hierarchy_error_title'),
+            this.translateService.instant('site_areas.site_area_hierarchy_inconsistency_error_body',
+              { siteAreaName: siteArea.name }));
+          break;
+        case HTTPError.PARENT_SITE_AREA_CIRCULAR_STRUCTURE_ERROR:
+          this.dialogService.createAndShowOkDialog(
+            this.translateService.instant('site_areas.site_area_hierarchy_error_title'),
+            this.translateService.instant('site_areas.site_area_hierarchy_circular_structure_error_body',
               { siteAreaName: siteArea.name }));
           break;
         default:

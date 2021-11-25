@@ -7,6 +7,7 @@ import { MaterialModule } from '../../app.module';
 import { FormattersModule } from '../../shared/formatters/formatters.module';
 import { TableModule } from '../table/table.module';
 import { PricingDefinitionComponent } from './pricing-definition/pricing-definition.component';
+import { PricingDefinitionDialogComponent } from './pricing-definition/pricing-definition.dialog.component';
 import { PricingDefinitionsComponent } from './pricing-definitions.component';
 
 @NgModule({
@@ -21,10 +22,15 @@ import { PricingDefinitionsComponent } from './pricing-definitions.component';
   declarations: [
     PricingDefinitionComponent,
     PricingDefinitionsComponent,
+    PricingDefinitionDialogComponent,
+  ],
+  entryComponents: [
+    PricingDefinitionDialogComponent,
   ],
   exports: [
     PricingDefinitionComponent,
     PricingDefinitionsComponent,
+    PricingDefinitionDialogComponent,
   ],
 })
 export class PricingDefinitionsModule {

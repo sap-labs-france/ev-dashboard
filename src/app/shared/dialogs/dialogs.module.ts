@@ -16,7 +16,6 @@ import { ConsumptionChartComponent } from '../component/consumption-chart/consum
 import { ErrorCodeDetailsComponent } from '../component/error-code-details/error-code-details.component';
 import { AppConnectorIdPipe } from '../formatters/app-connector-id.pipe';
 import { FormattersModule } from '../formatters/formatters.module';
-import { PricingDefinitionDialogComponent } from '../pricing-definitions/pricing-definition/pricing-definition.dialog.component';
 import { TableModule } from '../table/table.module';
 import { AssetsDialogTableDataSource } from './assets/assets-dialog-table-data-source';
 import { AssetsDialogComponent } from './assets/assets-dialog.component';
@@ -86,7 +85,6 @@ import { UsersDialogComponent } from './users/users-dialog.component';
     CarCatalogsDialogComponent,
     LOG_ACTIONSDialogComponent,
     PricingDefinitionsDialogComponent,
-    PricingDefinitionDialogComponent,
   ],
   entryComponents: [
     CarMakersDialogComponent,
@@ -111,7 +109,6 @@ import { UsersDialogComponent } from './users/users-dialog.component';
     CarCatalogsDialogComponent,
     LOG_ACTIONSDialogComponent,
     PricingDefinitionsDialogComponent,
-    PricingDefinitionDialogComponent,
   ],
   exports: [
     CarMakersDialogComponent,
@@ -135,7 +132,6 @@ import { UsersDialogComponent } from './users/users-dialog.component';
     CarCatalogsDialogComponent,
     LOG_ACTIONSDialogComponent,
     PricingDefinitionsDialogComponent,
-    PricingDefinitionDialogComponent,
   ],
   providers: [
     AppConnectorIdPipe,

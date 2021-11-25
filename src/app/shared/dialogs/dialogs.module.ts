@@ -8,8 +8,6 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 
 import { MaterialModule } from '../../app.module';
 import { DialogService } from '../../services/dialog.service';
-import { PricingDefinitionDialogComponent } from '../../shared/pricing-definition/pricing-definition.dialog.component';
-import { PricingDefinitionModule } from '../../shared/pricing-definition/pricing-definition.module';
 import { PricingDefinitionsTableDataSource } from '../../shared/pricing-definitions/pricing-definitions-table-data-source';
 import { PricingDefinitionsDialogComponent } from '../../shared/pricing-definitions/pricing-definitions.dialog.component';
 import { PricingDefinitionsModule } from '../../shared/pricing-definitions/pricing-definitions.module';
@@ -18,6 +16,7 @@ import { ConsumptionChartComponent } from '../component/consumption-chart/consum
 import { ErrorCodeDetailsComponent } from '../component/error-code-details/error-code-details.component';
 import { AppConnectorIdPipe } from '../formatters/app-connector-id.pipe';
 import { FormattersModule } from '../formatters/formatters.module';
+import { PricingDefinitionDialogComponent } from '../pricing-definitions/pricing-definition/pricing-definition.dialog.component';
 import { TableModule } from '../table/table.module';
 import { AssetsDialogTableDataSource } from './assets/assets-dialog-table-data-source';
 import { AssetsDialogComponent } from './assets/assets-dialog.component';
@@ -64,7 +63,6 @@ import { UsersDialogComponent } from './users/users-dialog.component';
     GooglePlaceModule,
     FileUploadModule,
     PricingDefinitionsModule,
-    PricingDefinitionModule
   ],
   declarations: [
     CarMakersDialogComponent,

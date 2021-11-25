@@ -16,12 +16,12 @@ import PricingDefinition, { PricingButtonAction } from '../../types/Pricing';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../types/Table';
 import { Utils } from '../../utils/Utils';
 import { AppDatePipe } from '../formatters/app-date.pipe';
-import { PricingDefinitionDialogComponent } from '../pricing-definition/pricing-definition.dialog.component';
 import { TableEditPricingDefinitionAction, TableEditPricingDefinitionActionDef } from '../table/actions/charging-stations/table-edit-pricing-definition-action';
 import { TableAutoRefreshAction } from '../table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from '../table/actions/table-refresh-action';
 import { TableCreatePricingDefinitionAction, TableCreatePricingDefinitionActionDef } from '../table/actions/users/table-create-pricing-definition-action';
 import { TableDeletePricingDefinitionAction, TableDeletePricingDefinitionActionDef } from '../table/actions/users/table-delete-pricing-definition';
+import { PricingDefinitionDialogComponent } from './pricing-definition/pricing-definition.dialog.component';
 
 @Injectable()
 export class PricingDefinitionsTableDataSource extends DialogTableDataSource<PricingDefinition> {

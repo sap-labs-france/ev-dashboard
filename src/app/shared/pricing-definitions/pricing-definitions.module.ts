@@ -5,8 +5,8 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { MaterialModule } from '../../app.module';
 import { FormattersModule } from '../../shared/formatters/formatters.module';
-import { PricingDefinitionModule } from '../pricing-definition/pricing-definition.module';
 import { TableModule } from '../table/table.module';
+import { PricingDefinitionComponent } from './pricing-definition/pricing-definition.component';
 import { PricingDefinitionsComponent } from './pricing-definitions.component';
 
 @NgModule({
@@ -17,12 +17,13 @@ import { PricingDefinitionsComponent } from './pricing-definitions.component';
     MaterialModule,
     FormattersModule,
     TableModule,
-    PricingDefinitionModule
   ],
   declarations: [
+    PricingDefinitionComponent,
     PricingDefinitionsComponent,
   ],
   exports: [
+    PricingDefinitionComponent,
     PricingDefinitionsComponent,
   ],
 })

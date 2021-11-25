@@ -5,18 +5,18 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 
-import { CentralServerService } from '../../services/central-server.service';
-import { DialogService } from '../../services/dialog.service';
-import { MessageService } from '../../services/message.service';
-import { SpinnerService } from '../../services/spinner.service';
-import { CONNECTOR_TYPE_SELECTION_MAP } from '../../shared/formatters/app-connector-type-selection.pipe';
-import { Entity } from '../../types/Authorization';
-import { ActionResponse } from '../../types/DataResult';
-import { RestResponse } from '../../types/GlobalType';
-import { HTTPError } from '../../types/HTTPError';
-import PricingDefinition, { PricingDimensions } from '../../types/Pricing';
-import { Utils } from '../../utils/Utils';
-import { PricingDefinitionDialogComponent } from '../pricing-definition/pricing-definition.dialog.component';
+import { CentralServerService } from '../../../services/central-server.service';
+import { DialogService } from '../../../services/dialog.service';
+import { MessageService } from '../../../services/message.service';
+import { SpinnerService } from '../../../services/spinner.service';
+import { Entity } from '../../../types/Authorization';
+import { ActionResponse } from '../../../types/DataResult';
+import { RestResponse } from '../../../types/GlobalType';
+import { HTTPError } from '../../../types/HTTPError';
+import PricingDefinition, { PricingDimensions } from '../../../types/Pricing';
+import { Utils } from '../../../utils/Utils';
+import { CONNECTOR_TYPE_SELECTION_MAP } from '../../formatters/app-connector-type-selection.pipe';
+import { PricingDefinitionDialogComponent } from './pricing-definition.dialog.component';
 
 @Component({
   selector: 'app-pricing-definition',

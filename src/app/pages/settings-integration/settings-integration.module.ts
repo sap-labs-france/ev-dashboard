@@ -8,7 +8,6 @@ import { MaterialModule } from '../../app.module';
 import { DialogsModule } from '../../shared/dialogs/dialogs.module';
 import { CommonDirectivesModule } from '../../shared/directives/directives.module';
 import { FormattersModule } from '../../shared/formatters/formatters.module';
-import { PricingDefinitionModule } from '../../shared/pricing-definition/pricing-definition.module';
 import { PricingDefinitionsModule } from '../../shared/pricing-definitions/pricing-definitions.module';
 import { TableModule } from '../../shared/table/table.module';
 import { AnalyticsLinkDialogComponent } from './analytics/analytics-link/analytics-link-dialog.component';
@@ -84,7 +83,6 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     DialogsModule,
     CommonDirectivesModule,
     FormattersModule,
-    PricingDefinitionModule,
     PricingDefinitionsModule,
   ],
   declarations: [

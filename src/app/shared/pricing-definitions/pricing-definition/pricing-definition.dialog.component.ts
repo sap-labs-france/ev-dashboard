@@ -1,17 +1,15 @@
-import { AfterContentInit, AfterViewInit, Component, Inject, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Inject, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Utils } from 'utils/Utils';
 
-import { DialogParams } from '../../types/Authorization';
-import { PricingDefinitionDialogData } from '../../types/Pricing';
+import { DialogParams } from '../../../types/Authorization';
+import { PricingDefinitionDialogData } from '../../../types/Pricing';
 import { PricingDefinitionComponent } from './pricing-definition.component';
 
 @Component({
   template: '<app-pricing-definition #appRef [currentPricingDefinitionID]="currentPricingDefinitionID" [currentEntityID]="currentEntityID" [currentEntityType]="currentEntityType" [inDialog]="true" [dialogRef]="dialogRef"></app-pricing-definition>',
 })
-
 export class PricingDefinitionDialogComponent implements AfterViewInit {
-
   @ViewChild('appRef') public appRef!: PricingDefinitionComponent;
   public currentPricingDefinitionID!: string;
   public currentEntityID!: string;

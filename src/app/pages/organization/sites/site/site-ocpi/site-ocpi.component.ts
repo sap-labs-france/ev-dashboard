@@ -9,6 +9,7 @@ import { Site } from 'types/Site';
 export class SiteOcpiComponent implements OnInit, OnChanges {
   @Input() public site!: Site;
   @Input() public formGroup!: FormGroup;
+  @Input() public readOnly: boolean;
 
   public public = false;
 
@@ -27,7 +28,9 @@ export class SiteOcpiComponent implements OnInit, OnChanges {
 
     // Form
     this.tariffID = this.formGroup.controls['tariffID'];
-    this.tariffID.disable();
+    if (this.readOnly) {
+      this.formGroup.disable();
+    }
   }
 
   public ngOnChanges() {
@@ -50,10 +53,12 @@ export class SiteOcpiComponent implements OnInit, OnChanges {
   }
 
   private enableDisableTariffID() {
-    if (this.public) {
-      this.tariffID.enable();
-    } else {
-      this.tariffID.disable();
+    if (!this.readOnly) {
+      if (this.public) {
+        this.tariffID.enable();
+      } else {
+        this.tariffID.disable();
+      }
     }
   }
 }

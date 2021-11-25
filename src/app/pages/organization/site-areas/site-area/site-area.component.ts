@@ -46,8 +46,8 @@ export class SiteAreaComponent implements OnInit {
   public name!: AbstractControl;
   public site!: AbstractControl;
   public siteID!: AbstractControl;
-  public siteAreaParent!: AbstractControl;
-  public siteAreaParentID!: AbstractControl;
+  public parentSiteArea!: AbstractControl;
+  public parentSiteAreaID!: AbstractControl;
   public maximumPower!: AbstractControl;
   public maximumPowerAmps!: AbstractControl;
   public voltage!: AbstractControl;
@@ -110,8 +110,8 @@ export class SiteAreaComponent implements OnInit {
           Validators.required,
         ])
       ),
-      siteAreaParent: new FormControl(''),
-      siteAreaParentID: new FormControl(''),
+      parentSiteArea: new FormControl(''),
+      parentSiteAreaID: new FormControl(''),
       maximumPower: new FormControl(0,
         Validators.compose([
           Validators.pattern(/^[+-]?([0-9]*[.])?[0-9]+$/),
@@ -140,8 +140,8 @@ export class SiteAreaComponent implements OnInit {
     this.name = this.formGroup.controls['name'];
     this.site = this.formGroup.controls['site'];
     this.siteID = this.formGroup.controls['siteID'];
-    this.siteAreaParent = this.formGroup.controls['siteAreaParent'];
-    this.siteAreaParentID = this.formGroup.controls['siteAreaParentID'];
+    this.parentSiteArea = this.formGroup.controls['parentSiteArea'];
+    this.parentSiteAreaID = this.formGroup.controls['parentSiteAreaID'];
     this.maximumPower = this.formGroup.controls['maximumPower'];
     this.maximumPowerAmps = this.formGroup.controls['maximumPowerAmps'];
     this.smartCharging = this.formGroup.controls['smartCharging'];
@@ -186,7 +186,7 @@ export class SiteAreaComponent implements OnInit {
     });
   }
 
-  public assignSiteAreaParent() {
+  public assignParentSiteArea() {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     dialogConfig.panelClass = 'transparent-dialog-container';
@@ -203,15 +203,15 @@ export class SiteAreaComponent implements OnInit {
     // Open
     this.dialog.open(SiteAreasDialogComponent, dialogConfig).afterClosed().subscribe((result) => {
       if (!Utils.isEmptyArray(result) && result[0].objectRef) {
-        const siteAreaParent: SiteArea = (result[0].objectRef) as SiteArea;
-        if (!this.siteArea || siteAreaParent.id !== this.siteArea.id) {
-          this.siteAreaParent.setValue(siteAreaParent.name);
-          this.siteAreaParentID.setValue(siteAreaParent.id);
+        const parentSiteArea: SiteArea = (result[0].objectRef) as SiteArea;
+        if (!this.siteArea || parentSiteArea.id !== this.siteArea.id) {
+          this.parentSiteArea.setValue(parentSiteArea.name);
+          this.parentSiteAreaID.setValue(parentSiteArea.id);
           this.formGroup.markAsDirty();
         } else {
           this.dialogService.createAndShowOkDialog(
-            this.translateService.instant('site_areas.site_area_parent_error_title'),
-            this.translateService.instant('site_areas.site_area_parent_error_body')
+            this.translateService.instant('site_areas.parent_site_area_error_title'),
+            this.translateService.instant('site_areas.parent_site_area_error_body')
           );
         }
       }
@@ -258,11 +258,11 @@ export class SiteAreaComponent implements OnInit {
       if (siteArea.site) {
         this.site.setValue(siteArea.site.name);
       }
-      if (siteArea.siteAreaParentID) {
-        this.formGroup.controls.siteAreaParentID.setValue(siteArea.siteAreaParentID);
+      if (siteArea.parentSiteAreaID) {
+        this.formGroup.controls.parentSiteAreaID.setValue(siteArea.parentSiteAreaID);
       }
-      if (siteArea.siteAreaParent) {
-        this.formGroup.controls.siteAreaParent.setValue(siteArea.siteAreaParent.name);
+      if (siteArea.parentSiteArea) {
+        this.formGroup.controls.parentSiteArea.setValue(siteArea.parentSiteArea.name);
       }
       if (siteArea.maximumPower) {
         this.formGroup.controls.maximumPower.setValue(siteArea.maximumPower);
@@ -433,10 +433,10 @@ export class SiteAreaComponent implements OnInit {
   }
 
   public clearParent() {
-    this.siteArea.siteAreaParentID = null;
-    this.siteArea.siteAreaParent = null;
-    this.siteAreaParentID.setValue(null);
-    this.siteAreaParent.setValue(null);
+    this.siteArea.parentSiteAreaID = null;
+    this.siteArea.parentSiteArea = null;
+    this.parentSiteAreaID.setValue(null);
+    this.parentSiteArea.setValue(null);
     this.formGroup.markAsDirty();
   }
 
@@ -529,8 +529,8 @@ export class SiteAreaComponent implements OnInit {
           break;
         case HTTPError.SITE_AREA_PARENT_ERROR:
           this.dialogService.createAndShowOkDialog(
-            this.translateService.instant('site_areas.site_area_parent_error_title'),
-            this.translateService.instant('site_areas.site_area_parent_error_body',
+            this.translateService.instant('site_areas.parent_site_area_error_title'),
+            this.translateService.instant('site_areas.parent_site_area_error_body',
               { siteAreaName: siteArea.name }));
           break;
         default:

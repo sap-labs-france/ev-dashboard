@@ -74,7 +74,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     super(spinnerService, translateService);
     // Init
     this.isAssetComponentActive = this.componentService.isActive(TenantComponents.ASSET);
-    this.setStaticFilters([{ WithSite: true }, { WithSiteAreaParent: true },]);
+    this.setStaticFilters([{ WithSite: true }, { WithParentSiteArea: true },]);
     this.initDataSource();
     this.initUrlParams();
   }
@@ -162,8 +162,8 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
           this.translateService.instant('general.yes') : this.translateService.instant('general.no'),
       },
       {
-        id: 'siteAreaParent.name',
-        name: 'site_areas.site_area_parent',
+        id: 'parentSiteArea.name',
+        name: 'site_areas.parent_site_area',
         headerClass: 'col-20p',
         class: 'col-20p',
       },

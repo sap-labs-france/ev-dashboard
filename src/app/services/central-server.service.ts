@@ -477,14 +477,14 @@ export class CentralServerService {
       );
   }
 
-  public getSiteArea(siteAreaID: string, withSite?: boolean, withSiteAreaParent?: boolean): Observable<SiteArea> {
+  public getSiteArea(siteAreaID: string, withSite?: boolean, withParentSiteArea?: boolean): Observable<SiteArea> {
     const params: { [param: string]: string } = {};
     params['ID'] = siteAreaID;
     if (withSite) {
       params['WithSite'] = withSite.toString();
     }
-    if (withSiteAreaParent) {
-      params['WithSiteAreaParent'] = withSiteAreaParent.toString();
+    if (withParentSiteArea) {
+      params['WithParentSiteArea'] = withParentSiteArea.toString();
     }
     // Verify init
     this.checkInit();

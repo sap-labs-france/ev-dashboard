@@ -17,8 +17,8 @@ export interface SiteArea extends TableData, SiteAreaAuthorizationActions {
   smartCharging: boolean;
   siteID: string;
   site: Site;
-  siteAreaParent?: SiteArea;
-  siteAreaParentID?: string;
+  parentSiteArea?: SiteArea;
+  parentSiteAreaID?: string;
   issuer: boolean;
   chargingStations: ChargingStation[];
 }

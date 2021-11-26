@@ -67,7 +67,6 @@ export class PricingDefinitionComponent implements OnInit {
   public energyStepEnabled: AbstractControl;
   public energyStepValue: AbstractControl;
   public energyStepUnit: AbstractControl;
-
   // Charging time
   public chargingTime: FormGroup;
   public chargingTimeEnabled: AbstractControl;
@@ -111,14 +110,8 @@ export class PricingDefinitionComponent implements OnInit {
           Validators.maxLength(100),
         ])),
       staticRestrictions: new FormGroup({
-        validFrom: new FormControl(null,
-          Validators.compose([
-            // Validators.required,
-          ])),
-        validTo: new FormControl(null,
-          Validators.compose([
-            // Validators.required,
-          ])),
+        validFrom: new FormControl(null),
+        validTo: new FormControl(null),
         connectorPowerEnabled: new FormControl(false),
         connectorPowerkW: new FormControl(null, Validators.pattern('[0-9]*[,.]?[0-9]{1,2}')),
         connectorType: new FormControl('A',
@@ -196,56 +189,49 @@ export class PricingDefinitionComponent implements OnInit {
     this.parkingTimeStepEnabled = this.parkingTime.controls['stepSizeEnabled'];
     this.parkingTimeStepValue = this.parkingTime.controls['stepSize'];
     this.parkingTimeStepUnit = this.parkingTime.controls['stepSizeUnit'];
-    this.initialize();
-  }
-
-  public initialize() {
-    if (this.currentPricingDefinitionID) {
-      // Force refresh the form
-      this.formGroup.updateValueAndValidity();
-      this.formGroup.markAsPristine();
-      this.formGroup.markAllAsTouched();
-      this.loadPricing();
-    }
+    this.loadPricing();
   }
 
   public loadPricing() {
-    if (!this.currentPricingDefinitionID) {
-      return;
+    if (this.currentPricingDefinitionID) {
+      this.spinnerService.show();
+      this.centralServerService.getPricingDefinition(this.currentPricingDefinitionID).subscribe((currentPricingDefinition) => {
+        this.spinnerService.hide();
+        this.currentPricingDefinition = currentPricingDefinition;
+        // Init form
+        this.id.setValue(this.currentPricingDefinition.id);
+        this.entityID.setValue(this.currentEntityID);
+        this.entityType.setValue(this.currentEntityType);
+        this.name.setValue(this.currentPricingDefinition.name);
+        this.description.setValue(this.currentPricingDefinition.description);
+        this.validFrom.setValue(this.currentPricingDefinition.staticRestrictions?.validFrom || null);
+        this.validTo.setValue(this.currentPricingDefinition.staticRestrictions?.validTo || null);
+        this.minDate = this.currentPricingDefinition.staticRestrictions?.validFrom || null;
+        this.connectorType.setValue((this.currentPricingDefinition.staticRestrictions?.connectorType) || 'A');
+        this.connectorPowerValue.setValue(this.currentPricingDefinition.staticRestrictions?.connectorPowerkW);
+        this.connectorPowerEnabled.setValue(!!this.connectorPowerValue.value);
+        this.dimensionsMap = currentPricingDefinition.dimensions;
+        this.dimensionsKeys = Object.keys(this.dimensionsMap);
+        this.initializeDimensions();
+        // Force refresh the form
+        this.formGroup.updateValueAndValidity();
+        this.formGroup.markAsPristine();
+        this.formGroup.markAllAsTouched();
+      }, (error) => {
+        this.spinnerService.hide();
+        switch (error.status) {
+          case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+            this.messageService.showErrorMessage('settings.pricing.pricing_definition_not_found');
+            break;
+          default:
+            Utils.handleHttpError(error, this.router, this.messageService,
+              this.centralServerService, 'settings.pricing.pricing_definition_error');
+        }
+      });
     }
-    this.spinnerService.show();
-    this.centralServerService.getPricingDefinition(this.currentPricingDefinitionID).subscribe((currentPricingDefinition) => {
-      this.spinnerService.hide();
-      this.currentPricingDefinition = currentPricingDefinition;
-      // Init form
-      this.id.setValue(this.currentPricingDefinition.id);
-      this.entityID.setValue(this.currentEntityID);
-      this.entityType.setValue(this.currentEntityType);
-      this.name.setValue(this.currentPricingDefinition.name);
-      this.description.setValue(this.currentPricingDefinition.description);
-      this.validFrom.setValue(this.currentPricingDefinition.staticRestrictions?.validFrom || null);
-      this.validTo.setValue(this.currentPricingDefinition.staticRestrictions?.validTo || null);
-      this.minDate = this.currentPricingDefinition.staticRestrictions?.validFrom || null;
-      this.connectorType.setValue((this.currentPricingDefinition.staticRestrictions?.connectorType) || 'A');
-      this.connectorPowerValue.setValue(this.currentPricingDefinition.staticRestrictions?.connectorPowerkW);
-      this.connectorPowerEnabled.setValue(!!this.connectorPowerValue.value);
-      this.dimensionsMap = currentPricingDefinition.dimensions;
-      this.dimensionsKeys = Object.keys(this.dimensionsMap);
-      this.initializeDimensions();
-    }, (error) => {
-      this.spinnerService.hide();
-      switch (error.status) {
-        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
-          this.messageService.showErrorMessage('settings.pricing.pricing_definition_not_found');
-          break;
-        default:
-          Utils.handleHttpError(error, this.router, this.messageService,
-            this.centralServerService, 'settings.pricing.pricing_definition_error');
-      }
-    });
   }
 
-  public closeDialog(saved: boolean = false) {
+  public closeDialog(saved = false) {
     if (this.inDialog) {
       this.dialogRef.close(saved);
     }
@@ -259,15 +245,13 @@ export class PricingDefinitionComponent implements OnInit {
   public save(pricingDefinition: PricingDefinition) {
     this.consistencyCheck(pricingDefinition);
     if (this.currentPricingDefinitionID) {
-      // update existing Pricing Definition
       this.updatePricingDefinition(pricingDefinition);
     } else {
-      // create new Pricing Definition
       this.createPricingDefinition(pricingDefinition);
     }
   }
 
-  public toggle(event){
+  public toggle(event) {
     this[`${event.source.id}Enabled`].setValue(event.checked);
     if (event.checked) {
       this[`${event.source.id}Value`].setValidators(Validators.compose([

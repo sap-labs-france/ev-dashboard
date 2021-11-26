@@ -1010,7 +1010,7 @@
     "unlock_connector_error": "The Charging Station has not been able to unlock the connector",
     "unlock_connector_not_supported_error": "This Charging Station does not support the unlock of the connector",
     "connector_type_unknown": "Not set",
-    "connector_type_all": "All connectors",
+    "connector_type_all": "All Connectors",
     "connector_type_type2": "Type 2",
     "connector_type_type1": "Type 1",
     "connector_type_type1ccs": "Type 1 - Combo CCS",

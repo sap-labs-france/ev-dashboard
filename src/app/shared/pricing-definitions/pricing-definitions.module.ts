@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
+import { CommonDirectivesModule } from 'shared/directives/directives.module';
 
 import { MaterialModule } from '../../app.module';
 import { FormattersModule } from '../../shared/formatters/formatters.module';
@@ -19,14 +20,13 @@ import { PricingDefinitionsDialogComponent } from './pricing-definitions.dialog.
     FormattersModule,
     TableModule,
     ReactiveFormsModule,
+    CommonDirectivesModule,
   ],
   declarations: [
     PricingDefinitionsComponent,
     PricingDefinitionsDialogComponent,
     PricingDefinitionComponent,
     PricingDefinitionDialogComponent,
-  ],
-  entryComponents: [
   ],
   exports: [
     PricingDefinitionsComponent,

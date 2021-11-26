@@ -20,8 +20,8 @@ export class AppPricingDimensionsUnit implements PipeTransform {
   public transform(i18nKey: string, price?: number): any {
     if (price) {
       const formattedPrice = this.appCurrencyPipe.transform(price, this.currency);
-      return this.translateService.instant(`settings.pricing.${i18nKey}`, {price: formattedPrice});
+      return this.translateService.instant(`settings.pricing.${i18nKey}`, { price: formattedPrice });
     }
-    return this.translateService.instant(`settings.pricing.${i18nKey}`, {currency: this.currency});
+    return this.translateService.instant(`settings.pricing.${i18nKey}`, { currency: this.currency });
   }
 }

@@ -15,7 +15,7 @@
                   <div class="col-md-12">
                     <div class="form-group">
                       <mat-form-field>
-                        <input matInput type="text" placeholder="{{'settings.pricing.pricing_definition_name' | translate}}"
+                        <input matInput appAutofocus type="text" placeholder="{{'settings.pricing.pricing_definition_name' | translate}}"
                         [formControl]="name" required/>
                         <mat-error *ngIf="name?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
                         <mat-error *ngIf="name?.errors?.maxlength">

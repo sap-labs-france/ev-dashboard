@@ -6,7 +6,6 @@ export const CONNECTOR_TYPE_SELECTION_MAP = [...CONNECTOR_ALL_TYPES_MAP.values()
 
 @Pipe({ name: 'appConnectorTypeSelection' })
 export class AppConnectorTypeSelectionPipe implements PipeTransform {
-
   public transform(type: string, target: string = 'icon'): any {
     // Return the found key
     const foundConnectorType = CONNECTOR_TYPE_SELECTION_MAP.find(

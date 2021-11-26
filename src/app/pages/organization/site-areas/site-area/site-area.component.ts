@@ -210,7 +210,7 @@ export class SiteAreaComponent implements OnInit {
           this.formGroup.markAsDirty();
         } else {
           this.dialogService.createAndShowOkDialog(
-            this.translateService.instant('site_areas.site_area_hierarchy_area_error_title'),
+            this.translateService.instant('site_areas.site_area_hierarchy_error_title'),
             this.translateService.instant('site_areas.site_area_hierarchy_circular_structure_error_body')
           );
         }

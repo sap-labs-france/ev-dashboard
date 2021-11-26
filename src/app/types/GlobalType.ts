@@ -87,7 +87,8 @@ export enum ButtonAction {
   INLINE_SAVE = 'inline_save',
   DOWNLOAD = 'download',
   TEST_CONNECTION = 'test_connection',
-  IMPORT = 'import'
+  IMPORT = 'import',
+  VIEW_PRICING_DEFINITIONS = 'pricing_definitions'
 }
 
 export enum ChipType {
@@ -129,3 +130,5 @@ export interface PopupSize {
   maxHeight: ScreenSize;
   height: ScreenSize;
 }
+
+

@@ -160,7 +160,17 @@ export interface AuthorizationActions {
 
 export interface TagAuthorizationActions extends AuthorizationActions {
   canUnassign?: boolean;
+  canAssign?: boolean;
   canUpdateByVisualID?: boolean;
+}
+
+export interface SiteAreaAuthorizationActions extends AuthorizationActions {
+  canAssignAssets?: boolean;
+  canUnassignAssets?: boolean;
+  canAssignChargingStations?: boolean;
+  canUnassignChargingStations?: boolean;
+  canExportOCPPParams?: boolean;
+  canGenerateQrCode?: boolean;
 }
 
 export interface SiteAuthorizationActions extends AuthorizationActions {
@@ -170,14 +180,6 @@ export interface SiteAuthorizationActions extends AuthorizationActions {
   canGenerateQrCode?: boolean;
 }
 
-export interface SiteAreaAuthorizationActions extends AuthorizationActions {
-  canAssignChargingStations?: boolean;
-  canUnassignChargingStations?: boolean;
-  canAssignAssets?: boolean;
-  canUnassignAssets?: boolean;
-  canExportOCPPParams?: boolean;
-  canGenerateQrCode?: boolean;
-}
 
 export enum DialogMode {
   EDIT = 'E',

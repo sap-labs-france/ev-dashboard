@@ -8,9 +8,6 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 
 import { MaterialModule } from '../../app.module';
 import { DialogService } from '../../services/dialog.service';
-import { PricingDefinitionsTableDataSource } from '../../shared/pricing-definitions/pricing-definitions-table-data-source';
-import { PricingDefinitionsDialogComponent } from '../../shared/pricing-definitions/pricing-definitions.dialog.component';
-import { PricingDefinitionsModule } from '../../shared/pricing-definitions/pricing-definitions.module';
 import { ComponentModule } from '../component/component.module';
 import { ConsumptionChartComponent } from '../component/consumption-chart/consumption-chart.component';
 import { ErrorCodeDetailsComponent } from '../component/error-code-details/error-code-details.component';
@@ -61,7 +58,6 @@ import { UsersDialogComponent } from './users/users-dialog.component';
     AgmCoreModule,
     GooglePlaceModule,
     FileUploadModule,
-    PricingDefinitionsModule,
   ],
   declarations: [
     CarMakersDialogComponent,
@@ -84,7 +80,6 @@ import { UsersDialogComponent } from './users/users-dialog.component';
     ReportsDialogComponent,
     CarCatalogsDialogComponent,
     LOG_ACTIONSDialogComponent,
-    PricingDefinitionsDialogComponent,
   ],
   entryComponents: [
     CarMakersDialogComponent,
@@ -108,7 +103,6 @@ import { UsersDialogComponent } from './users/users-dialog.component';
     ReportsDialogComponent,
     CarCatalogsDialogComponent,
     LOG_ACTIONSDialogComponent,
-    PricingDefinitionsDialogComponent,
   ],
   exports: [
     CarMakersDialogComponent,
@@ -131,7 +125,6 @@ import { UsersDialogComponent } from './users/users-dialog.component';
     ReportsDialogComponent,
     CarCatalogsDialogComponent,
     LOG_ACTIONSDialogComponent,
-    PricingDefinitionsDialogComponent,
   ],
   providers: [
     AppConnectorIdPipe,
@@ -148,7 +141,6 @@ import { UsersDialogComponent } from './users/users-dialog.component';
     CarMakersTableDataSource,
     CarCatalogsDialogTableDataSource,
     LOG_ACTIONSDialogTableDataSource,
-    PricingDefinitionsTableDataSource
   ],
 })
 export class DialogsModule {

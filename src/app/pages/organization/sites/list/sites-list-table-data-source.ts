@@ -205,6 +205,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
     } else if (this.authorizationService.canListUsers()) {
       rowActions.push(this.viewUsersOfSite);
     }
+    rowActions.push(this.viewPricingsAction);
     if (site.canExportOCPPParams) {
       moreActions.addActionInMoreActions(this.exportOCPPParamsAction);
     }
@@ -215,7 +216,6 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
       moreActions.addActionInMoreActions(this.deleteAction);
     }
     moreActions.addActionInMoreActions(openInMaps);
-    moreActions.addActionInMoreActions(this.viewPricingsAction);
     rowActions.push(moreActions.getActionDef());
     return rowActions;
   }

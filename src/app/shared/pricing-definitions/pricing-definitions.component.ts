@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 
@@ -12,8 +12,9 @@ import { PricingDefinitionsDialogComponent } from './pricing-definitions.dialog.
 @Component({
   selector: 'app-pricing-definitions',
   templateUrl: 'pricing-definitions.component.html',
+  providers: [PricingDefinitionsTableDataSource],
 })
-export class PricingDefinitionsComponent {
+export class PricingDefinitionsComponent implements OnInit {
   @Input() public inDialog!: boolean;
   @Input() public dialogRef!: MatDialogRef<PricingDefinitionsDialogComponent>;
   @Input() public currentPricingDefinitionID!: string;
@@ -26,10 +27,14 @@ export class PricingDefinitionsComponent {
   public constructor(
     private componentService: ComponentService,
     private centralServerService: CentralServerService,
-    public pricingsTableDataSource: PricingDefinitionsTableDataSource,
-  ) {
+    public pricingsTableDataSource: PricingDefinitionsTableDataSource) {
     this.isActive = this.componentService.isActive(TenantComponents.PRICING);
+  }
 
+  public ngOnInit() {
+    // Set provided Entity ID/Type
+    this.pricingsTableDataSource.setContext(this.currentEntityID, this.currentEntityType);
+    // Default to Tenant
     if (!this.pricingsTableDataSource.isContextSet()) {
       this.currentEntityID = this.centralServerService.getLoggedUser().tenantID;
       this.currentEntityType = PricingEntity.TENANT;

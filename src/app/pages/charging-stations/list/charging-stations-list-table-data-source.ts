@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { PricingDefinitionsDialogComponent } from 'shared/pricing-definitions/pricing-definitions.dialog.component';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -10,7 +11,6 @@ import { ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
-import { PricingDefinitionsDialogComponent } from '../../../shared/pricing-definitions/pricing-definitions.dialog.component';
 import { TableChargingStationGenerateQrCodeConnectorAction, TableChargingStationGenerateQrCodeConnectorActionDef } from '../../../shared/table/actions/charging-stations/table-charging-station-generate-qr-code-connector-action';
 import { TableChargingStationsClearCacheAction, TableChargingStationsClearCacheActionDef } from '../../../shared/table/actions/charging-stations/table-charging-stations-clear-cache-action';
 import { TableChargingStationsForceAvailableStatusAction, TableChargingStationsForceAvailableStatusActionDef } from '../../../shared/table/actions/charging-stations/table-charging-stations-force-available-status-action';
@@ -404,15 +404,15 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
         return [
           this.editAction,
           this.smartChargingAction,
-          rebootAction,
+          this.viewPricingsAction,
           new TableMoreAction([
+            rebootAction,
             clearCacheAction,
             resetAction,
             isUnavailable ? forceAvailableStatusAction : forceUnavailableStatusAction,
             this.generateQrCodeConnectorAction,
             openInMaps,
             this.deleteAction,
-            this.viewPricingsAction,
           ]).getActionDef()
           ,
         ];

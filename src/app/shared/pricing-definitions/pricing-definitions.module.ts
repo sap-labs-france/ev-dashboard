@@ -9,28 +9,27 @@ import { TableModule } from '../table/table.module';
 import { PricingDefinitionComponent } from './pricing-definition/pricing-definition.component';
 import { PricingDefinitionDialogComponent } from './pricing-definition/pricing-definition.dialog.component';
 import { PricingDefinitionsComponent } from './pricing-definitions.component';
+import { PricingDefinitionsDialogComponent } from './pricing-definitions.dialog.component';
 
 @NgModule({
   imports: [
     CommonModule,
-    ReactiveFormsModule,
-    TranslateModule,
     MaterialModule,
+    TranslateModule,
     FormattersModule,
     TableModule,
+    ReactiveFormsModule,
   ],
   declarations: [
-    PricingDefinitionComponent,
     PricingDefinitionsComponent,
+    PricingDefinitionsDialogComponent,
+    PricingDefinitionComponent,
     PricingDefinitionDialogComponent,
   ],
   entryComponents: [
-    PricingDefinitionDialogComponent,
   ],
   exports: [
-    PricingDefinitionComponent,
     PricingDefinitionsComponent,
-    PricingDefinitionDialogComponent,
   ],
 })
 export class PricingDefinitionsModule {

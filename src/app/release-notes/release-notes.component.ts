@@ -29,12 +29,13 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
-              `New Pricing engine`,
+              `New Built-in Pricing engine`,
               `Added OCPI Tariff ID in Tenant's settings and Site`,
               `Technical users are only allowed to perform B2B requests`,
               `Fixed Tenant's logo is not loaded when entering a new password`,
               `Migrated Registration Token and Setting endpoints to RESTful API`,
               `Forced RFID Cards to uppercase in OCPP requests`,
+              `Added missing Data Transfer in OCPP command white list`,
               `Added Autralian locale`,
             ],
           },

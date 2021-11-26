@@ -1842,7 +1842,7 @@ export class CentralServerService {
     // Build Ordering
     this.getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<DataResult<RegistrationToken>>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.REGISTRATION_TOKENS}`,
+    return this.httpClient.get<DataResult<RegistrationToken>>(this.buildRestEndpointUrl(ServerRoute.REST_REGISTRATION_TOKENS),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -1856,9 +1856,8 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     const params: { [param: string]: string } = {};
-    params['ID'] = registrationTokenID;
     // Execute the REST service
-    return this.httpClient.get<RegistrationToken>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.REGISTRATION_TOKEN}`,
+    return this.httpClient.get<RegistrationToken>(this.buildRestEndpointUrl(ServerRoute.REST_REGISTRATION_TOKEN, { id: registrationTokenID }),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -1870,7 +1869,7 @@ export class CentralServerService {
 
   public createRegistrationToken(registrationToken: Partial<RegistrationToken> = {}): Observable<RegistrationToken> {
     this.checkInit();
-    return this.httpClient.post<RegistrationToken>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.REGISTRATION_TOKEN_CREATE}`, registrationToken,
+    return this.httpClient.post<RegistrationToken>(this.buildRestEndpointUrl(ServerRoute.REST_REGISTRATION_TOKENS), registrationToken,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -1883,7 +1882,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.REGISTRATION_TOKEN_UPDATE}`, registrationToken,
+    return this.httpClient.put<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_REGISTRATION_TOKEN, { id: registrationToken.id }), registrationToken,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -1894,7 +1893,7 @@ export class CentralServerService {
 
   public deleteRegistrationToken(id: string): Observable<ActionResponse> {
     this.checkInit();
-    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.REGISTRATION_TOKEN_DELETE}?ID=${id}`,
+    return this.httpClient.delete<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_REGISTRATION_TOKEN, { id }),
       {
         headers: this.buildHttpHeaders(),
       })
@@ -1905,7 +1904,7 @@ export class CentralServerService {
 
   public revokeRegistrationToken(id: string): Observable<ActionResponse> {
     this.checkInit();
-    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.REGISTRATION_TOKEN_REVOKE}?ID=${id}`,
+    return this.httpClient.put<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_REGISTRATION_TOKEN_REVOKE, { id }), {},
       {
         headers: this.buildHttpHeaders(),
       })

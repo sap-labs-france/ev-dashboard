@@ -207,7 +207,7 @@ export class SettingsOicpEndpointsDetailsTableDataSource extends TableDataSource
         // Ping
         this.centralServerService.sendEVSEStatusesOicpEndpoint(oicpendpoint).subscribe((response) => {
           if (response.failure === 0) {
-            this.messageService.showSuccessMessage('oicpendpoints.push_evse_statuses_success', { success: response.success });
+            this.messageService.showInfoMessage('oicpendpoints.push_evse_statuses_success', { success: response.success });
           } else if (response.failure > 0 && response.success > 0) {
             this.messageService.showWarningMessage('oicpendpoints.push_evse_statuses_partial',
               { success: response.success, error: response.failure });

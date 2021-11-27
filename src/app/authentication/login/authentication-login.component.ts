@@ -176,6 +176,10 @@ export class AuthenticationLoginComponent implements OnInit, OnDestroy {
         case HTTPError.USER_ACCOUNT_BLOCKED_ERROR:
           this.messageService.showErrorMessage(this.messages['account_suspended']);
           break;
+        // Technical User
+        case HTTPError.TECHNICAL_USER_CANNOT_LOG_TO_UI_ERROR:
+          this.messageService.showErrorMessage(this.messages['technical_user_cannot_login_to_ui']);
+          break;
         // Account Pending
         case HTTPError.USER_ACCOUNT_PENDING_ERROR:
           // Pending Users from the Super Tenant should not be able to request an activation email

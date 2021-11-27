@@ -128,7 +128,9 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
     if (this.userRole) {
       switch (this.userRole) {
         case UserRole.SUPER_ADMIN:
-          route = RouteGuardService.TENANT_ROUTE;
+          if (this.authorizationService.canAccess(Entity.TENANT, Action.LIST)) {
+            route = RouteGuardService.TENANT_ROUTE;
+          }
           break;
         case UserRole.ADMIN:
         case UserRole.BASIC:
@@ -136,6 +138,10 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
         default:
           route = this.getFirstAuthorizedRoute();
       }
+    }
+    // Remove token
+    if (route === RouteGuardService.LOGIN_ROUTE) {
+      this.centralServerService.clearLoginInformation();
     }
     return this.router.navigate([route]);
   }
@@ -145,7 +151,7 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
   }
 
   private getFirstAuthorizedRoute(): string {
-    const entityRoutes: {entity: Entity; route: string;}[] = [
+    const entityRoutes: { entity: Entity; route: string; } [] = [
       { entity: Entity.CHARGING_STATION, route: RouteGuardService.CHARGING_STATION_ROUTE },
       { entity: Entity.TRANSACTION, route: RouteGuardService.TRANSACTION_ROUTE },
       { entity: Entity.USER, route: RouteGuardService.USER_ROUTE },
@@ -163,6 +169,7 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
         return entityRoute.route;
       }
     }
+    // Default Login page
     return RouteGuardService.LOGIN_ROUTE;
   }
 }

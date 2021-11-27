@@ -123,7 +123,7 @@ export class Utils {
       if (keydownEvents?.code === 'Escape') {
         close();
       }
-      if (keydownEvents?.code === 'Enter') {
+      if (keydownEvents?.key === 'Enter') {
         if (formGroup.valid && formGroup.dirty) {
           save(formGroup.getRawValue());
         }
@@ -794,14 +794,14 @@ export class Utils {
       case HTTPError.TENANT_COMPONENT_CHANGED:
         messageService.showWarningMessageUserOrTenantUpdated();
         // Log Off (remove token)
-        centralServerService.logoutSucceeded();
+        centralServerService.clearLoginInformation();
         // Navigate to Login
         router.navigate(['/auth/login']);
         break;
       // Unauthorized: Token expired
       case StatusCodes.UNAUTHORIZED:
         // Log Off (remove token)
-        centralServerService.logoutSucceeded();
+        centralServerService.clearLoginInformation();
         // Navigate to Login
         router.navigate(['/auth/login']);
         break;

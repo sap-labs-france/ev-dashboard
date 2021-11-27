@@ -33,7 +33,7 @@ export interface AuthorizationDefinitionConditionArgs {
 
 export interface AuthorizationDefinitionFieldMetadata {
   visible: boolean;
-  enabled: string;
+  enabled: boolean;
   mandatory: boolean;
   values: string[]|boolean[]|number[];
   defaultValue: string|boolean|number;
@@ -57,7 +57,6 @@ export enum Entity {
   USERS_SITES = 'UsersSites',
   LOGGING = 'Logging',
   PRICING = 'Pricing',
-  PRICING_DEFINITION = 'PricingDefinition',
   BILLING = 'Billing',
   SETTING = 'Setting',
   TOKEN = 'Token',
@@ -75,6 +74,7 @@ export enum Entity {
   NOTIFICATION = 'Notification',
   TAG = 'Tag',
   PAYMENT_METHOD = 'PaymentMethod',
+  PRICING_DEFINITION = 'PricingDefinition',
 }
 
 export enum Action {
@@ -160,7 +160,17 @@ export interface AuthorizationActions {
 
 export interface TagAuthorizationActions extends AuthorizationActions {
   canUnassign?: boolean;
+  canAssign?: boolean;
   canUpdateByVisualID?: boolean;
+}
+
+export interface SiteAreaAuthorizationActions extends AuthorizationActions {
+  canAssignAssets?: boolean;
+  canUnassignAssets?: boolean;
+  canAssignChargingStations?: boolean;
+  canUnassignChargingStations?: boolean;
+  canExportOCPPParams?: boolean;
+  canGenerateQrCode?: boolean;
 }
 
 export interface SiteAuthorizationActions extends AuthorizationActions {
@@ -170,14 +180,6 @@ export interface SiteAuthorizationActions extends AuthorizationActions {
   canGenerateQrCode?: boolean;
 }
 
-export interface SiteAreaAuthorizationActions extends AuthorizationActions {
-  canAssignChargingStations?: boolean;
-  canUnassignChargingStations?: boolean;
-  canAssignAssets?: boolean;
-  canUnassignAssets?: boolean;
-  canExportOCPPParams?: boolean;
-  canGenerateQrCode?: boolean;
-}
 
 export enum DialogMode {
   EDIT = 'E',

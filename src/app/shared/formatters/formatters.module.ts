@@ -7,6 +7,7 @@ import { AppCarCatalogNamePipe } from './app-car-catalog-name.pipe';
 import { AppColorByStatusPipe } from './app-color-by-status.pipe';
 import { AppConnectorErrorCodePipe } from './app-connector-error-code.pipe';
 import { AppConnectorIdPipe } from './app-connector-id.pipe';
+import { AppConnectorTypeSelectionPipe } from './app-connector-type-selection.pipe';
 import { AppConnectorTypePipe } from './app-connector-type.pipe';
 import { AppCurrencyPipe } from './app-currency.pipe';
 import { AppDatePipe } from './app-date.pipe';
@@ -15,6 +16,7 @@ import { AppDurationPipe } from './app-duration.pipe';
 import { AppFormatRowCellPipe } from './app-format-row-cell.pipe';
 import { AppInactivityPipe } from './app-inactivity.pipe';
 import { AppPercentPipe } from './app-percent-pipe';
+import { AppPricingDimensionsUnit } from './app-pricing-dimensions-unit';
 import { AppTaxName } from './app-tax-name.pipe';
 import { AppUnitPipe } from './app-unit.pipe';
 import { AppUserMultipleRolesPipe } from './app-user-multiple-roles.pipe';
@@ -31,6 +33,7 @@ import { AppUserNamePipe } from './app-user-name.pipe';
     AppDurationPipe,
     AppConnectorIdPipe,
     AppConnectorTypePipe,
+    AppConnectorTypeSelectionPipe,
     AppConnectorErrorCodePipe,
     AppBatteryPercentagePipe,
     AppInactivityPipe,
@@ -41,6 +44,7 @@ import { AppUserNamePipe } from './app-user-name.pipe';
     AppUserMultipleRolesPipe,
     AppPercentPipe,
     AppTaxName,
+    AppPricingDimensionsUnit
   ],
   exports: [
     AppArrayToStringPipe,
@@ -52,6 +56,7 @@ import { AppUserNamePipe } from './app-user-name.pipe';
     AppConnectorIdPipe,
     AppFormatRowCellPipe,
     AppConnectorTypePipe,
+    AppConnectorTypeSelectionPipe,
     AppConnectorErrorCodePipe,
     AppBatteryPercentagePipe,
     AppInactivityPipe,
@@ -61,6 +66,7 @@ import { AppUserNamePipe } from './app-user-name.pipe';
     AppUserMultipleRolesPipe,
     AppPercentPipe,
     AppTaxName,
+    AppPricingDimensionsUnit
   ],
   providers: [
     LocaleService,
@@ -72,6 +78,7 @@ import { AppUserNamePipe } from './app-user-name.pipe';
     AppDurationPipe,
     AppConnectorIdPipe,
     AppConnectorTypePipe,
+    AppConnectorTypeSelectionPipe,
     AppConnectorErrorCodePipe,
     AppBatteryPercentagePipe,
     AppUnitPipe,
@@ -81,6 +88,7 @@ import { AppUserNamePipe } from './app-user-name.pipe';
     AppPercentPipe,
     AppColorByStatusPipe,
     AppTaxName,
+    AppPricingDimensionsUnit
   ],
 })
 export class FormattersModule {

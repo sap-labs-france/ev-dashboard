@@ -24,7 +24,7 @@ export interface User extends TableData, CreatedUpdatedProps {
   costCenter: boolean;
   status: string;
   image: string | null;
-  role: string;
+  role: UserRole;
   locale: string;
   language: string;
   numberOfSites: number;

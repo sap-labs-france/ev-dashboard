@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { PricingDefinitionsModule } from 'shared/pricing-definitions/pricing-definitions.module';
 
 import { MaterialModule } from '../../app.module';
 import { DialogsModule } from '../../shared/dialogs/dialogs.module';
@@ -82,6 +83,7 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     DialogsModule,
     CommonDirectivesModule,
     FormattersModule,
+    PricingDefinitionsModule,
   ],
   declarations: [
     SettingsIntegrationComponent,
@@ -89,7 +91,6 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     SettingsOicpComponent,
     SettingsRefundComponent,
     SettingsConcurComponent,
-    SettingsPricingComponent,
     SettingsSimplePricingComponent,
     SettingsConvergentChargingComponent,
     SettingsBillingComponent,
@@ -153,6 +154,7 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     OicpPatchJobStatusFormatterComponent,
     AppFormatOicpPatchJobStatusPipe,
     SettingsOicpEndpointsDetailsComponent,
+    SettingsPricingComponent,
   ],
   entryComponents: [
     SettingsIntegrationComponent,
@@ -162,7 +164,6 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     SettingsOicpEndpointsComponent,
     SettingsRefundComponent,
     SettingsConcurComponent,
-    SettingsPricingComponent,
     SettingsConvergentChargingComponent,
     SettingsBillingComponent,
     SettingsStripeComponent,
@@ -204,7 +205,7 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     OicpDetailSuccessEvsesStatusFormatterComponent,
     OicpDetailFailureEvsesStatusFormatterComponent,
     OicpPatchJobStatusFormatterComponent,
-    SettingsOicpEndpointsDetailsComponent
+    SettingsOicpEndpointsDetailsComponent,
   ],
   providers: [
     SettingsOcpiEndpointsDetailsTableDataSource,

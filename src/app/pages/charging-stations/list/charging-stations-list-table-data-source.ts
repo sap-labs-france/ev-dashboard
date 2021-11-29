@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { CompanyTableFilter } from 'shared/table/filters/company-table-filter';
+import { PricingDefinitionsDialogComponent } from 'shared/pricing-definitions/pricing-definitions.dialog.component';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -25,6 +25,8 @@ import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto
 import { TableMoreAction } from '../../../shared/table/actions/table-more-action';
 import { TableOpenInMapsAction } from '../../../shared/table/actions/table-open-in-maps-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
+import { TableViewPricingsAction, TableViewPricingsActionDef } from '../../../shared/table/actions/table-view-pricings-action';
+import { CompanyTableFilter } from '../../../shared/table/filters/company-table-filter';
 import { IssuerFilter } from '../../../shared/table/filters/issuer-filter';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
 import { SiteTableFilter } from '../../../shared/table/filters/site-table-filter';
@@ -32,6 +34,7 @@ import { TableDataSource } from '../../../shared/table/table-data-source';
 import { ChargePointStatus, ChargingStation, ChargingStationButtonAction, Connector, FirmwareStatus } from '../../../types/ChargingStation';
 import { DataResult } from '../../../types/DataResult';
 import { ButtonAction } from '../../../types/GlobalType';
+import { PricingButtonAction, PricingEntity } from '../../../types/Pricing';
 import { DropdownItem, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
 import { TenantComponents } from '../../../types/Tenant';
 import { Utils } from '../../../utils/Utils';
@@ -51,6 +54,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
   private deleteAction = new TableDeleteChargingStationAction().getActionDef();
   private generateQrCodeConnectorAction = new TableChargingStationGenerateQrCodeConnectorAction().getActionDef();
   private canExport = new TableExportChargingStationsAction().getActionDef();
+  private viewPricingsAction = new TableViewPricingsAction().getActionDef();
 
   public constructor(
     public spinnerService: SpinnerService,
@@ -338,6 +342,19 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
             this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
         }
         break;
+      case PricingButtonAction.VIEW_PRICING_DEFINITIONS:
+        if (actionDef.action) {
+          (actionDef as TableViewPricingsActionDef).action(PricingDefinitionsDialogComponent, this.dialog, {
+            dialogData: {
+              id: null,
+              context: {
+                entityID: chargingStation.id,
+                entityType: PricingEntity.CHARGING_STATION
+              }
+            },
+          }, this.refreshData.bind(this));
+        }
+        break;
     }
   }
 
@@ -387,8 +404,9 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
         return [
           this.editAction,
           this.smartChargingAction,
-          rebootAction,
+          this.viewPricingsAction,
           new TableMoreAction([
+            rebootAction,
             clearCacheAction,
             resetAction,
             isUnavailable ? forceAvailableStatusAction : forceUnavailableStatusAction,

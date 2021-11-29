@@ -1,10 +1,8 @@
 /* eslint-disable max-len */
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { PaymentMethod } from '@stripe/stripe-js';
 import { Observable } from 'rxjs';
 import { BillingButtonAction, BillingPaymentMethod } from 'types/Billing';
-import { RestResponse } from 'types/GlobalType';
 
 import { CentralServerService } from '../../../../services/central-server.service';
 import { DialogService } from '../../../../services/dialog.service';

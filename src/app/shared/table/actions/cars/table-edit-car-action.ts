@@ -30,7 +30,7 @@ export class TableEditCarAction extends TableEditAction {
       width: ScreenSize.XXL,
       minHeight: ScreenSize.S,
       maxHeight: ScreenSize.XXXL,
-      height: ScreenSize.M
+      height: ScreenSize.ML
     });
   }
 }

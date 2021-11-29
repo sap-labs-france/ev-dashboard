@@ -7,7 +7,7 @@
           <mat-icon>ev_station</mat-icon>
           <span>{{chargingStation?.id}}</span>
         </ng-template>
-        <div class="card-body">
+        <div class="card-body charger-param">
           <app-charging-station-parameters [formGroup]="formGroup" [chargingStation]='chargingStation' [dialogRef]="dialogRef">
           </app-charging-station-parameters>
         </div>

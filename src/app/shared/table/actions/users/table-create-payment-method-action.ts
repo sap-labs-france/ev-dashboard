@@ -2,10 +2,10 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
-import { DialogParams } from 'types/Authorization';
-import { BillingButtonAction, PaymentDialogData } from 'types/Billing';
-import { ScreenSize } from 'types/GlobalType';
 
+import { DialogParams } from '../../../../types/Authorization';
+import { BillingButtonAction, PaymentDialogData } from '../../../../types/Billing';
+import { ScreenSize } from '../../../../types/GlobalType';
 import { TableActionDef } from '../../../../types/Table';
 import { TableCreateAction } from '../table-create-action';
 
@@ -26,12 +26,12 @@ export class TableCreatePaymentMethodAction extends TableCreateAction {
   private createPaymentMethod(paymentMethodDialogComponent: ComponentType<unknown>,
     dialog: MatDialog, dialogParams: DialogParams<PaymentDialogData>, refresh?: () => Observable<void>) {
     super.create(paymentMethodDialogComponent, dialog, dialogParams, refresh, {
-      minWidth: ScreenSize.M,
-      maxWidth: ScreenSize.M,
+      minWidth: ScreenSize.S,
+      maxWidth: ScreenSize.XXL,
       width: ScreenSize.M,
-      minHeight: ScreenSize.XL,
-      maxHeight: ScreenSize.XL,
-      height: ScreenSize.XL
+      minHeight: ScreenSize.S,
+      maxHeight: ScreenSize.XXXL,
+      height: ScreenSize.M
     });
   }
 }

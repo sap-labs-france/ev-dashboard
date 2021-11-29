@@ -1,10 +1,11 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
-import { DialogParams } from 'types/Authorization';
-import { Tag, TagButtonAction } from 'types/Tag';
 
+import { DialogParams } from '../../../../types/Authorization';
+import { ScreenSize } from '../../../../types/GlobalType';
 import { TableActionDef } from '../../../../types/Table';
+import { Tag, TagButtonAction } from '../../../../types/Tag';
 import { TableCreateAction } from '../table-create-action';
 
 export interface TableCreateTagActionDef extends TableActionDef {
@@ -25,6 +26,13 @@ export class TableCreateTagAction extends TableCreateAction {
 
   private createTag(tagDialogComponent: ComponentType<unknown>,
     dialog: MatDialog, dialogParams?: DialogParams<Tag>, refresh?: () => Observable<void>) {
-    super.create(tagDialogComponent, dialog, dialogParams, refresh);
+    super.create(tagDialogComponent, dialog, dialogParams, refresh, {
+      minWidth: ScreenSize.S,
+      maxWidth: ScreenSize.XXL,
+      width: ScreenSize.M,
+      minHeight: ScreenSize.S,
+      maxHeight: ScreenSize.XXXL,
+      height: ScreenSize.M
+    });
   }
 }

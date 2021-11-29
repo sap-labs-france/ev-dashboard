@@ -48,6 +48,7 @@ export class CentralServerService {
   private centralRestServerServiceUtilURL!: string;
   private restServerAuthURL!: string;
   private restServerSecuredURL!: string;
+  private restServerServiceUtilURL!: string;
   private centralSystemServerConfig: CentralSystemServerConfiguration;
   private initialized = false;
   private currentUserToken!: string;
@@ -269,7 +270,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<Blob>(this.buildRestEndpointUrl(ServerRoute.REST_COMPANY_LOGO, { id: companyID }),
+    return this.httpClient.get<Blob>(this.buildUtilRestEndpointUrl(ServerRoute.REST_COMPANY_LOGO, { id: companyID }),
       {
         headers: this.buildHttpHeaders(),
         responseType: 'blob' as 'json',
@@ -319,10 +320,11 @@ export class CentralServerService {
 
   public getAssetImage(assetID: string): Observable<string> {
     const params: { [param: string]: string } = {};
+    params['TenantID'] = this.currentUser?.tenantID;
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<Blob>(this.buildRestEndpointUrl(ServerRoute.REST_ASSET_IMAGE, { id: assetID }),
+    return this.httpClient.get<Blob>(this.buildUtilRestEndpointUrl(ServerRoute.REST_ASSET_IMAGE, { id: assetID }),
       {
         headers: this.buildHttpHeaders(),
         responseType: 'blob' as 'json',
@@ -502,7 +504,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<Blob>(this.buildRestEndpointUrl(ServerRoute.REST_SITE_AREA_IMAGE, { id: siteAreaID }),
+    return this.httpClient.get<Blob>(this.buildUtilRestEndpointUrl(ServerRoute.REST_SITE_AREA_IMAGE, { id: siteAreaID }),
       {
         headers: this.buildHttpHeaders(),
         responseType: 'blob' as 'json',
@@ -3297,14 +3299,18 @@ export class CentralServerService {
     ];
   }
 
-  public buildRestEndpointUrl(urlPatternAsString: ServerRoute, params: {[name: string]: string | number | null } = {}) {
+  public buildRestEndpointUrl(urlPatternAsString: ServerRoute, params: { [name: string]: string | number | null } = {}, urlPrefix = this.restServerSecuredURL): string {
     let resolvedUrlPattern = urlPatternAsString as string;
     for (const key in params) {
       if (Object.prototype.hasOwnProperty.call(params, key)) {
         resolvedUrlPattern = resolvedUrlPattern.replace(`:${key}`, encodeURIComponent(params[key]));
       }
     }
-    return `${this.restServerSecuredURL}/${resolvedUrlPattern}`;
+    return `${urlPrefix}/${resolvedUrlPattern}`;
+  }
+
+  public buildUtilRestEndpointUrl(urlPatternAsString: ServerRoute, params: { [name: string]: string | number | null } = {}): string {
+    return this.buildRestEndpointUrl(urlPatternAsString, params, this.restServerServiceUtilURL);
   }
 
   private getLoggedUserToken(): string {
@@ -3350,6 +3356,8 @@ export class CentralServerService {
       this.restServerAuthURL = this.centralRestServerServiceBaseURL + '/v1/auth';
       // REST Secured API
       this.restServerSecuredURL = this.centralRestServerServiceBaseURL + '/v1/api';
+      // REST Util API
+      this.restServerServiceUtilURL = this.centralRestServerServiceBaseURL + '/v1/util';
       // Secured API
       this.centralRestServerServiceSecuredURL = this.centralRestServerServiceBaseURL + '/client/api';
       // Util API

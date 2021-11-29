@@ -23,6 +23,7 @@ import { Log } from '../types/Log';
 import { OcpiEndpoint } from '../types/ocpi/OCPIEndpoint';
 import { OCPPResetType } from '../types/ocpp/OCPP';
 import { OicpEndpoint } from '../types/oicp/OICPEndpoint';
+import PricingDefinition, { PricingEntity } from '../types/Pricing';
 import { RefundReport } from '../types/Refund';
 import { RegistrationToken } from '../types/RegistrationToken';
 import { ServerAction, ServerRoute } from '../types/Server';
@@ -79,8 +80,8 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.REMOVE_CHARGING_STATIONS_FROM_SITE_AREA}`,
-      { siteAreaID, chargingStationIDs: chargerIDs },
+    return this.httpClient.put<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_SITE_AREA_REMOVE_CHARGING_STATIONS, { id: siteAreaID }),
+      { chargingStationIDs: chargerIDs },
       {
         headers: this.buildHttpHeaders(),
       })
@@ -107,8 +108,8 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.ADD_CHARGING_STATIONS_TO_SITE_AREA}`,
-      { siteAreaID, chargingStationIDs: chargerIDs },
+    return this.httpClient.put<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_SITE_AREA_ASSIGN_CHARGING_STATIONS, { id: siteAreaID }),
+      { chargingStationIDs: chargerIDs },
       {
         headers: this.buildHttpHeaders(),
       })
@@ -121,8 +122,8 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.ADD_ASSET_TO_SITE_AREA}`,
-      { siteAreaID, assetIDs },
+    return this.httpClient.put<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_SITE_AREA_ASSIGN_ASSETS, { id: siteAreaID }),
+      { assetIDs },
       {
         headers: this.buildHttpHeaders(),
       })
@@ -135,8 +136,8 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.REMOVE_ASSET_TO_SITE_AREA}`,
-      { siteAreaID, assetIDs },
+    return this.httpClient.put<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_SITE_AREA_REMOVE_ASSETS, { id: siteAreaID }),
+      { assetIDs },
       {
         headers: this.buildHttpHeaders(),
       })
@@ -467,7 +468,7 @@ export class CentralServerService {
     // Build Ordering
     this.getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<SiteAreaDataResult>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.SITE_AREAS}`,
+    return this.httpClient.get<SiteAreaDataResult>(this.buildRestEndpointUrl(ServerRoute.REST_SITE_AREAS),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -479,7 +480,6 @@ export class CentralServerService {
 
   public getSiteArea(siteAreaID: string, withSite?: boolean, withParentSiteArea?: boolean): Observable<SiteArea> {
     const params: { [param: string]: string } = {};
-    params['ID'] = siteAreaID;
     if (withSite) {
       params['WithSite'] = withSite.toString();
     }
@@ -489,7 +489,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<SiteArea>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.SITE_AREA}`,
+    return this.httpClient.get<SiteArea>(this.buildRestEndpointUrl(ServerRoute.REST_SITE_AREA, { id: siteAreaID }),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -501,12 +501,11 @@ export class CentralServerService {
 
   public getSiteAreaImage(siteAreaID: string): Observable<string> {
     const params: { [param: string]: string } = {};
-    params['ID'] = siteAreaID;
     params['TenantID'] = this.currentUser?.tenantID;
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<Blob>(`${this.centralRestServerServiceUtilURL}/${ServerAction.SITE_AREA_IMAGE}`,
+    return this.httpClient.get<Blob>(this.buildRestEndpointUrl(ServerRoute.REST_SITE_AREA_IMAGE, { id: siteAreaID }),
       {
         headers: this.buildHttpHeaders(),
         responseType: 'blob' as 'json',
@@ -1372,13 +1371,12 @@ export class CentralServerService {
 
   public getSiteAreaConsumption(siteAreaID: string, startDate: Date, endDate: Date): Observable<SiteAreaConsumption> {
     const params: { [param: string]: string } = {};
-    params['SiteAreaID'] = siteAreaID;
     params['StartDate'] = startDate.toISOString();
     params['EndDate'] = endDate.toISOString();
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<SiteAreaConsumption>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.SITE_AREA_CONSUMPTION}`,
+    return this.httpClient.get<SiteAreaConsumption>(this.buildRestEndpointUrl(ServerRoute.REST_SITE_AREA_CONSUMPTION, { id: siteAreaID }),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -1844,7 +1842,7 @@ export class CentralServerService {
     // Build Ordering
     this.getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<DataResult<RegistrationToken>>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.REGISTRATION_TOKENS}`,
+    return this.httpClient.get<DataResult<RegistrationToken>>(this.buildRestEndpointUrl(ServerRoute.REST_REGISTRATION_TOKENS),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -1858,9 +1856,8 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     const params: { [param: string]: string } = {};
-    params['ID'] = registrationTokenID;
     // Execute the REST service
-    return this.httpClient.get<RegistrationToken>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.REGISTRATION_TOKEN}`,
+    return this.httpClient.get<RegistrationToken>(this.buildRestEndpointUrl(ServerRoute.REST_REGISTRATION_TOKEN, { id: registrationTokenID }),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -1872,7 +1869,7 @@ export class CentralServerService {
 
   public createRegistrationToken(registrationToken: Partial<RegistrationToken> = {}): Observable<RegistrationToken> {
     this.checkInit();
-    return this.httpClient.post<RegistrationToken>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.REGISTRATION_TOKEN_CREATE}`, registrationToken,
+    return this.httpClient.post<RegistrationToken>(this.buildRestEndpointUrl(ServerRoute.REST_REGISTRATION_TOKENS), registrationToken,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -1885,7 +1882,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.REGISTRATION_TOKEN_UPDATE}`, registrationToken,
+    return this.httpClient.put<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_REGISTRATION_TOKEN, { id: registrationToken.id }), registrationToken,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -1896,7 +1893,7 @@ export class CentralServerService {
 
   public deleteRegistrationToken(id: string): Observable<ActionResponse> {
     this.checkInit();
-    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.REGISTRATION_TOKEN_DELETE}?ID=${id}`,
+    return this.httpClient.delete<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_REGISTRATION_TOKEN, { id }),
       {
         headers: this.buildHttpHeaders(),
       })
@@ -1907,7 +1904,7 @@ export class CentralServerService {
 
   public revokeRegistrationToken(id: string): Observable<ActionResponse> {
     this.checkInit();
-    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.REGISTRATION_TOKEN_REVOKE}?ID=${id}`,
+    return this.httpClient.put<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_REGISTRATION_TOKEN_REVOKE, { id }), {},
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2197,7 +2194,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.SITE_AREA_CREATE}`, siteArea,
+    return this.httpClient.post<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_SITE_AREAS), siteArea,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2210,7 +2207,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute
-    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.SITE_AREA_UPDATE}`, siteArea,
+    return this.httpClient.put<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_SITE_AREA, { id: siteArea.id }), siteArea,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2223,7 +2220,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.SITE_AREA_DELETE}?ID=${id}`,
+    return this.httpClient.delete<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_SITE_AREA, { id }),
       {
         headers: this.buildHttpHeaders(),
       })
@@ -3195,6 +3192,90 @@ export class CentralServerService {
       {
         headers: this.buildHttpHeaders(),
       })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public createPricingDefinition(pricingDefinition: PricingDefinition): Observable<ActionResponse> {
+    // Verify init
+    this.checkInit();
+    // Execute the REST service
+    const url = this.buildRestEndpointUrl(ServerRoute.REST_PRICING_DEFINITIONS);
+    return this.httpClient.post<ActionResponse>(url, pricingDefinition,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public getPricingDefinition(id: string): Observable<PricingDefinition> {
+    // Verify init
+    this.checkInit();
+    // Execute the REST service
+    if (!id) {
+      return EMPTY;
+    }
+    const url = this.buildRestEndpointUrl(ServerRoute.REST_PRICING_DEFINITION, { id });
+    return this.httpClient.get<PricingDefinition>(url,
+      {
+        headers: this.buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public getPricingDefinitions(params: FilterParams,
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = [],
+    context?: { entityID: string; entityType: string }): Observable<DataResult<PricingDefinition>> {
+    // Verify init
+    this.checkInit();
+    // Build Paging
+    this.getPaging(paging, params);
+    // Build Ordering
+    this.getSorting(ordering, params);
+    const url = this.buildRestEndpointUrl(ServerRoute.REST_PRICING_DEFINITIONS);
+    // Execute the REST service
+    return this.httpClient.get<DataResult<PricingDefinition>>(url,
+      {
+        headers: this.buildHttpHeaders(),
+        params: {
+          ...params,
+          EntityID: context.entityID,
+          EntityType: context.entityType
+        }
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public updatePricingDefinition(pricingDefinition: PricingDefinition): Observable<ActionResponse> {
+    // Verify init
+    this.checkInit();
+    // Execute the REST service
+    const url = this.buildRestEndpointUrl(ServerRoute.REST_PRICING_DEFINITION, { id: pricingDefinition.id });
+    return this.httpClient.put<ActionResponse>(url, pricingDefinition,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public deletePricingDefinition(id: string) {
+    // Verify init
+    this.checkInit();
+    const params = {
+      headers: this.buildHttpHeaders(),
+    };
+    const url = this.buildRestEndpointUrl(ServerRoute.REST_PRICING_DEFINITION, { id });
+    // Execute the REST service
+    return this.httpClient.delete<ActionResponse>(url, params)
       .pipe(
         catchError(this.handleHttpError),
       );

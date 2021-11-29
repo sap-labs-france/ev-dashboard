@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { CentralServerService } from 'services/central-server.service';
 
 import { ComponentService } from '../../services/component.service';
 import { WindowService } from '../../services/window.service';

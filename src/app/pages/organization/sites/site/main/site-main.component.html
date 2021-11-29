@@ -57,8 +57,7 @@
             </mat-error>
           </mat-form-field>
           <mat-form-field *ngIf="!formGroup.enabled">
-            <input matInput type="text" placeholder="{{'companies.company' | translate}}"
-              [formControl]="company" required />
+            <input matInput type="text" placeholder="{{'companies.company' | translate}}" [formControl]="company" required />
           </mat-form-field>
         </div>
         <div class="form-group">

@@ -78,7 +78,7 @@ export class TagComponent implements OnInit {
         Validators.compose([
           Validators.required,
         ])),
-      default: new FormControl('',
+      default: new FormControl(false,
         Validators.compose([
           Validators.required,
         ])),
@@ -91,7 +91,6 @@ export class TagComponent implements OnInit {
     this.userID = this.formGroup.controls['userID'];
     this.active = this.formGroup.controls['active'];
     this.default = this.formGroup.controls['default'];
-    this.default.setValue(false);
     this.default.disable();
     if (this.currentTagID) {
       this.id.disable();

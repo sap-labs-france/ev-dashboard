@@ -123,7 +123,7 @@ export class Utils {
       if (keydownEvents?.code === 'Escape') {
         close();
       }
-      if (keydownEvents?.code === 'Enter') {
+      if (keydownEvents?.key === 'Enter') {
         if (formGroup.valid && formGroup.dirty) {
           save(formGroup.getRawValue());
         }

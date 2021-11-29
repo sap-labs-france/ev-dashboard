@@ -34,6 +34,7 @@
     "select_at_least_one_record": "Devi selezionare almeno un record nella lista",
     "mandatory_field": "Campo obbligatorio",
     "no_record_found": "Nessun record trovato",
+    "only_number_field": "Only numbers are allowed",
     "no_image_found": "Nessuna immagine è stata trovata",
     "no_connector_available": "Nessuna connessione disponibile",
     "error_max_length": "La lunghezza massima è {{length}}",
@@ -239,7 +240,8 @@
       "test_connection": "Test Connessione",
       "force_available_status": "Forza Stato a Disponibile",
       "force_unavailable_status": "Forza Stato a Non Disponibile",
-      "display_users": "Display users"
+      "display_users": "Display users",
+      "pricing": "Pricing"
     }
   },
   "issuer": {
@@ -1013,6 +1015,7 @@
     "unlock_connector_error": "La stazione di ricarica non è stata in grado di sbloccare la presa",
     "unlock_connector_not_supported_error": "Questa Stazione di Ricarica non supporta lo sblocco della presa",
     "connector_type_unknown": "Non impostato",
+    "connector_type_all": "All connectors",
     "connector_type_type2": "Tipo 2",
     "connector_type_type1": "Tipo 1",
     "connector_type_type1ccs": "Tipo 1 - Combo CCS",
@@ -1286,6 +1289,7 @@
     "update_set_site_owner_success": "L'utente è ora proprietario del sito '{{siteName}}",
     "update_remove_site_owner_success": "L'utente non è più proprietario del sito '{{siteName}}'",
     "update_site_owner_role_error": "Si è verificato un errore durante il tentativo di aggiornamento dei diritti utente del sito '{{siteName}}'",
+    "redirect": "Navigate to User",
     "connectors": {
       "connect": "Connetti",
       "revoke": "Revoca",
@@ -1508,6 +1512,7 @@
       }
     },
     "pricing": {
+      "title": "Pricing",
       "description": "L'interfaccia di pricing consente funzionalità di determinazione del prezzo per i fornitori di stazioni di ricarica.",
       "not_found": "Impostazioni di pricing non trovate",
       "create_success": "Le impostazioni di pricing sono state create con successo",
@@ -1522,11 +1527,56 @@
         "user": "Utente",
         "password": "Password"
       },
-      "simple": {
-        "title": "Pricing semplificato",
+      "settings": {
+        "title": "Pricing Settings",
         "price": "Prezzo",
         "currency": "Valuta"
-      }
+      },
+      "end_date_error": "Please provide a date after start date and time.",
+      "valid_from": "Valid From",
+      "valid_to": "Valid To",
+      "valid_from_to": "Valid From ... To",
+      "flat_fee": "Flat Fee",
+      "energy": "Energy",
+      "charging_time": "Charging Time",
+      "parking_time": "Parking Time",
+      "create_title": "Create Pricing Definition",
+      "pricing_definition_description": "Description",
+      "pricing_definition_name": "Pricing Definition Name",
+      "pricing_definition_creation_confirm": "Do you really want to create a pricing definition?",
+      "pricing_definition_creation_success": "Pricing definition has been created successfully",
+      "pricing_definition_creation_error": "Error occurred while creating a pricing definition, check the logs",
+      "pricing_definition_site_admin_creation_error": "You must provide a site linked to this pricing definition",
+      "pricing_definition_update_title": "Update Pricing definition",
+      "pricing_definition_update_confirm": "Do you really want to update the pricing definition?",
+      "pricing_definition_update_success": "Pricing definition has been updated successfully",
+      "pricing_definition_update_error": "Error occurred while updating a pricing definition, check the logs",
+      "pricing_definition_not_found": "Pricing definition has not been found",
+      "pricing_definition_delete_title": "Delete Pricing Definition",
+      "pricing_definition_delete_confirm": "Do you really want to delete the pricing definition?",
+      "pricing_definition_delete_success": "Pricing definition has been deleted successfully",
+      "pricing_definition_delete_error": "Error occurred while deleting a pricing definition, check the logs",
+      "pricing_definition_error": "Error occurred while retrieving the pricing definition, check the logs",
+      "connector_type": "Connector Type",
+      "connector_power": "Connector Power",
+      "value": "Value",
+      "unit": "Unit",
+      "charging_station": "Charging Station",
+      "pricing_dimensions_title": "Pricing Dimensions",
+      "pricing_definition_title": "Pricing Definition",
+      "step_size": "Step Size",
+      "connector_power_unit": "kW",
+      "flat_fee_unit": "{{currency}}/session",
+      "energy_unit": "{{currency}}/kWh",
+      "charging_time_unit": "{{currency}}/hour",
+      "parking_time_unit": "{{currency}}/hour",
+      "flat_fee_formatted_price": "{{price}}/session",
+      "energy_formatted_price": "{{price}}/kWh",
+      "charging_time_formatted_price": "{{price}}/hour",
+      "parking_time_formatted_price": "{{price}}/hour",
+      "energy_step_unit": "Wh",
+      "charging_time_step_unit": "Seconds",
+      "parking_time_step_unit": "Seconds"
     },
     "billing": {
       "description": "L'interfaccia di billing consente funzionalità di fatturazione per i fornitori di stazioni di ricarica.",
@@ -1575,6 +1625,7 @@
       "billing_clear_test_data_confirm": "Do you really want to delete all billing test data?",
       "billing_clear_test_data_success": "The test data has been deleted",
       "billing_clear_test_data_error": "Operation failed. The test data deletion has been aborted",
+      "payment_methods": "Payment methods",
       "user": {
         "synchronize_users": "Sincronizza Utenti Fatturazione",
         "synchronize_user": "Sincronizza Utente Fatturazione",

@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { PricingDefinitionsModule } from 'shared/pricing-definitions/pricing-definitions.module';
 
 import { MaterialModule } from '../../app.module';
 import { AddressModule } from '../../shared/address/address.module';
@@ -50,6 +51,7 @@ import { SiteComponent } from './sites/site/site.component';
     DialogsModule,
     RouterModule.forChild(OrganizationRoutes),
     ComponentModule,
+    PricingDefinitionsModule,
   ],
   declarations: [
     OrganizationComponent,

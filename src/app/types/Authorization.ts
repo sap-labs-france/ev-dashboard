@@ -57,7 +57,6 @@ export enum Entity {
   USERS_SITES = 'UsersSites',
   LOGGING = 'Logging',
   PRICING = 'Pricing',
-  PRICING_DEFINITION = 'PricingDefinition',
   BILLING = 'Billing',
   SETTING = 'Setting',
   TOKEN = 'Token',
@@ -75,6 +74,7 @@ export enum Entity {
   NOTIFICATION = 'Notification',
   TAG = 'Tag',
   PAYMENT_METHOD = 'PaymentMethod',
+  PRICING_DEFINITION = 'PricingDefinition',
 }
 
 export enum Action {

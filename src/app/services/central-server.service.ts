@@ -1020,7 +1020,7 @@ export class CentralServerService {
     // Build Ordering
     this.getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<DataResult<Tenant>>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TENANTS}`,
+    return this.httpClient.get<DataResult<Tenant>>(this.buildRestEndpointUrl(ServerRoute.REST_TENANTS),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -1037,10 +1037,9 @@ export class CentralServerService {
       return EMPTY;
     }
     // Execute the REST service
-    return this.httpClient.get<Tenant>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TENANT}`,
+    return this.httpClient.get<Tenant>(this.buildRestEndpointUrl(ServerRoute.REST_TENANT, { id }),
       {
         headers: this.buildHttpHeaders(),
-        params: { ID: id },
       })
       .pipe(
         catchError(this.handleHttpError),
@@ -1049,12 +1048,11 @@ export class CentralServerService {
 
   public getTenantLogo(tenantID: string): Observable<string> {
     const params: { [param: string]: string } = {};
-    params['ID'] = tenantID;
     // Verify init
     this.checkInit();
     // Execute the REST service
     return this.httpClient.get<Blob>(
-      `${this.centralRestServerServiceUtilURL}/${ServerAction.TENANT_LOGO}`,
+      this.buildRestEndpointUrl(ServerRoute.REST_TENANT_LOGO, { id: tenantID }),
       {
         headers: this.buildHttpHeaders(),
         responseType: 'blob' as 'json',
@@ -1073,7 +1071,7 @@ export class CentralServerService {
     this.checkInit();
     // Execute the REST service
     return this.httpClient.get<Blob>(
-      `${this.centralRestServerServiceUtilURL}/${ServerAction.TENANT_LOGO}`,
+      this.buildRestEndpointUrl(ServerRoute.REST_TENANT_LOGO),
       {
         headers: this.buildHttpHeaders(),
         responseType: 'blob' as 'json',
@@ -1422,7 +1420,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TENANT_CREATE}`, tenant,
+    return this.httpClient.post<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_TENANTS), tenant,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -1435,7 +1433,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TENANT_UPDATE}`, tenant,
+    return this.httpClient.put<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_TENANT, { id: tenant.id }), tenant,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -1447,7 +1445,7 @@ export class CentralServerService {
   public deleteTenant(id: string): Observable<ActionResponse> {
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TENANT_DELETE}?ID=${id}`,
+    return this.httpClient.delete<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_TENANT, { id }),
       {
         headers: this.buildHttpHeaders(),
       })

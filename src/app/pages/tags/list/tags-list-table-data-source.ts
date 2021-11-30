@@ -147,7 +147,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
         this.deleteManyAction.visible = tags.canDelete;
         this.unassignManyAction.visible = tags.canUnassign;
         this.projectFields = tags.projectFields;
-        this.userFilter.visible = tags.canListUsers;
+        this.userFilter.visible = Utils.convertToBoolean(tags.canListUsers);
         this.metadata = tags.metadata;
         // Ok
         observer.next(tags);

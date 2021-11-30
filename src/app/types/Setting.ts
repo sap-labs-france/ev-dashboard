@@ -112,6 +112,7 @@ export interface OcpiSetting {
     countryCode: string;
     partyID: string;
   };
+  tariffID?: string;
 }
 
 export interface OicpSetting {

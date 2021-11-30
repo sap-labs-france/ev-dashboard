@@ -89,12 +89,12 @@ export class SidebarComponent {
     // Logoff
     this.centralServerService.logout().subscribe(() => {
       // Clear
-      this.centralServerService.logoutSucceeded();
+      this.centralServerService.clearLoginInformation();
       // Redirect to login page with the return url
       void this.router.navigate(['/auth/login']);
     }, (error) => {
       // Clear
-      this.centralServerService.logoutSucceeded();
+      this.centralServerService.clearLoginInformation();
       // Redirect to login page with the return url
       void this.router.navigate(['/auth/login']);
     });

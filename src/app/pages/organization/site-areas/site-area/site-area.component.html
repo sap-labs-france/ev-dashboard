@@ -65,8 +65,7 @@
                       </mat-error>
                     </mat-form-field>
                     <mat-form-field *ngIf="!formGroup.enabled">
-                      <input matInput type="text" placeholder="{{'sites.site' | translate}}" [formControl]="site"
-                        required />
+                      <input matInput type="text" placeholder="{{'sites.site' | translate}}" [formControl]="site" required />
                     </mat-form-field>
                     <div class="text-left">
                       <mat-checkbox [formControl]="accessControl">
@@ -174,8 +173,8 @@
               </div>
               <div class="row">
                 <div class="col-md-12">
-                  <app-address [address]="address" [formGroup]="formGroup"
-                    componentName="{{'site_areas.title' | translate}}" [itemComponentName]="name.value" [onlyReadGeolocation]="readOnly"></app-address>
+                  <app-address [address]="address" [formGroup]="formGroup" componentName="{{'site_areas.title' | translate}}"
+                    [itemComponentName]="name.value" [onlyReadGeolocation]="readOnly"></app-address>
                 </div>
               </div>
               <div class="clearfix"></div>

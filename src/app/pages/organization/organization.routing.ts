@@ -10,9 +10,9 @@ export const OrganizationRoutes: Routes = [
     path: '', component: OrganizationComponent, canActivate: [RouteGuardService], data: {
       component: TenantComponents.ORGANIZATION,
       auth: [
-        { entity: Entity.COMPANIES, action: Action.LIST },
-        { entity: Entity.SITES, action: Action.LIST },
-        { entity: Entity.SITE_AREAS, action: Action.LIST },
+        { entity: Entity.COMPANY, action: Action.LIST },
+        { entity: Entity.SITE, action: Action.LIST },
+        { entity: Entity.SITE_AREA, action: Action.LIST },
       ],
     },
   },

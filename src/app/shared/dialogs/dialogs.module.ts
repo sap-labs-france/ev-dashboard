@@ -57,7 +57,7 @@ import { UsersDialogComponent } from './users/users-dialog.component';
     FormattersModule,
     AgmCoreModule,
     GooglePlaceModule,
-    FileUploadModule
+    FileUploadModule,
   ],
   declarations: [
     CarMakersDialogComponent,
@@ -79,7 +79,7 @@ import { UsersDialogComponent } from './users/users-dialog.component';
     ErrorCodeDetailsComponent,
     ReportsDialogComponent,
     CarCatalogsDialogComponent,
-    LOG_ACTIONSDialogComponent
+    LOG_ACTIONSDialogComponent,
   ],
   entryComponents: [
     CarMakersDialogComponent,
@@ -102,7 +102,7 @@ import { UsersDialogComponent } from './users/users-dialog.component';
     ErrorCodeDetailsComponent,
     ReportsDialogComponent,
     CarCatalogsDialogComponent,
-    LOG_ACTIONSDialogComponent
+    LOG_ACTIONSDialogComponent,
   ],
   exports: [
     CarMakersDialogComponent,
@@ -124,7 +124,7 @@ import { UsersDialogComponent } from './users/users-dialog.component';
     ErrorCodeDetailsComponent,
     ReportsDialogComponent,
     CarCatalogsDialogComponent,
-    LOG_ACTIONSDialogComponent
+    LOG_ACTIONSDialogComponent,
   ],
   providers: [
     AppConnectorIdPipe,
@@ -137,14 +137,10 @@ import { UsersDialogComponent } from './users/users-dialog.component';
     UsersDialogTableDataSource,
     TagsDialogTableDataSource,
     CarsDialogTableDataSource,
-    ChargingStationsDialogTableDataSource,
-    SitesDialogTableDataSource,
-    SiteAreasDialogTableDataSource,
-    CompaniesDialogTableDataSource,
     ReportsDialogTableDataSource,
     CarMakersTableDataSource,
     CarCatalogsDialogTableDataSource,
-    LOG_ACTIONSDialogTableDataSource
+    LOG_ACTIONSDialogTableDataSource,
   ],
 })
 export class DialogsModule {

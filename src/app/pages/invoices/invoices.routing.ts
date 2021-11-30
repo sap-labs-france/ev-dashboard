@@ -10,7 +10,7 @@ export const InvoicesRoutes: Routes = [
     path: '', component: InvoicesComponent, canActivate: [RouteGuardService], data: {
       component: TenantComponents.BILLING,
       auth: {
-        entity: Entity.INVOICES,
+        entity: Entity.INVOICE,
         action: Action.LIST,
       },
     },

@@ -33,6 +33,7 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEn
   private deleteAction = new TableDeleteAction().getActionDef();
   private registerAction = new TableRegisterAction().getActionDef();
   private unregisterAction = new TableUnregisterAction().getActionDef();
+  private createAction = new TableCreateAction().getActionDef();
 
   public constructor(
     public spinnerService: SpinnerService,
@@ -52,7 +53,7 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEn
       // Get the OCPI Endpoints
       this.centralServerService.getOcpiEndpoints(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((ocpiEndpoints) => {
-        // Ok
+        this.createAction.visible = true;
         observer.next(ocpiEndpoints);
         observer.complete();
       }, (error) => {
@@ -159,7 +160,7 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEn
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
     return [
-      new TableCreateAction().getActionDef(),
+      this.createAction,
       ...tableActionsDef,
     ];
   }

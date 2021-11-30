@@ -23,15 +23,38 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.5.12',
+        date: new Date('2021-11-26'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `New Built-in Pricing engine`,
+              `Added OCPI Tariff ID in Tenant's Settings and Site`,
+              `Technical users are only allowed to perform B2B requests`,
+              `Migrated Registration Token, Organization and Setting endpoints to RESTful API`,
+              `Simplified authorizations on lists`,
+              `Fixed Tenant's logo is not loaded when entering a new password`,
+              `Forced RFID Cards to uppercase in OCPP requests`,
+              `Added missing Data Transfer in OCPP command whitelist`,
+              `Added Autralian locale`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.5.11',
         date: new Date('2021-11-15'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `User is mandatory when creating a new RFID Card for Site Admin`,
+              `Site Admin cannot change 'Automatic user assignment to this site' property`,
+              `Enabled WS Compression in WS Server`,
               `Reuse the Asset's token between two calls every minute`,
               `Migrated OICP (Hubject) endpoints to RESTful API`,
-              `User is mandatory when creating a new RFID Card for Site Admin`,
+              `Return OCPI status Inoperative when connector is Unavailable`,
             ],
           },
         ],

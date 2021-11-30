@@ -1,9 +1,8 @@
 import { CurrencyPipe } from '@angular/common';
 import { Pipe, PipeTransform } from '@angular/core';
 
-import { ComponentService } from '../../services/component.service';
+import { CentralServerService } from '../../services/central-server.service';
 import { LocaleService } from '../../services/locale.service';
-import { PricingSettingsType } from '../../types/Setting';
 
 @Pipe({ name: 'appCurrency' })
 export class AppCurrencyPipe implements PipeTransform {
@@ -11,19 +10,14 @@ export class AppCurrencyPipe implements PipeTransform {
   private currency!: string;
 
   public constructor(
-    private componentService: ComponentService,
+    private centralServerService: CentralServerService,
     private localeService: LocaleService) {
     // Get the locale
     this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
       this.currencyPipe = new CurrencyPipe(locale.currentLocaleJS);
     });
     // Get the Pricing settings
-    this.componentService.getPricingSettings().subscribe((settings) => {
-      // Get the currency
-      if (settings && settings.type === PricingSettingsType.SIMPLE) {
-        this.currency = settings.simple.currency;
-      }
-    });
+    this.currency = this.centralServerService.getLoggedUser().currency;
   }
 
   public transform(price: number, currency?: string, display: string = 'symbol'): string | null {

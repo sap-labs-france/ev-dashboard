@@ -32,14 +32,8 @@ export class PricingDefinitionsComponent implements OnInit {
   }
 
   public ngOnInit() {
-    // Set provided Entity ID/Type
+    // Set context with provided entity, will set to tenant by default
     this.pricingsTableDataSource.setContext(this.currentEntityID, this.currentEntityType);
-    // Default to Tenant
-    if (!this.pricingsTableDataSource.isContextSet()) {
-      this.currentEntityID = this.centralServerService.getLoggedUser().tenantID;
-      this.currentEntityType = PricingEntity.TENANT;
-      this.pricingsTableDataSource.setContext(this.currentEntityID, this.currentEntityType);
-    }
   }
 
   public close() {

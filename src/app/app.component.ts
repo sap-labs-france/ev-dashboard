@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 
-import { CONNECTOR_ALL_TYPES_MAP } from './types/Connector';
+import { CONNECTOR_ALL_TYPES_MAP } from './shared/model/charging-stations.model';
 
 @Component({
   selector: 'app-root',

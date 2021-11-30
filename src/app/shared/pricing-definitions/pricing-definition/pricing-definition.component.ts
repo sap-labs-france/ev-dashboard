@@ -14,6 +14,7 @@ import { ActionResponse } from '../../../types/DataResult';
 import { RestResponse } from '../../../types/GlobalType';
 import { HTTPError } from '../../../types/HTTPError';
 import PricingDefinition, { PricingDimensions } from '../../../types/Pricing';
+import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 import { CONNECTOR_TYPE_SELECTION_MAP } from '../../formatters/app-connector-type-selection.pipe';
 import { PricingDefinitionDialogComponent } from './pricing-definition.dialog.component';
@@ -102,7 +103,6 @@ export class PricingDefinitionComponent implements OnInit {
       id: new FormControl(),
       entityID: new FormControl(this.currentEntityID),
       entityType: new FormControl(this.currentEntityType),
-      // TODO: add restrictions fields
       restrictions: new FormGroup({}),
       name: new FormControl('',
         Validators.compose([
@@ -344,7 +344,7 @@ export class PricingDefinitionComponent implements OnInit {
         delete pricingDefinition.dimensions[dimensionKey].price;
       }
     }
-    if (this.connectorType.value === 'A') {
+    if (this.connectorType.value === Constants.SELECT_ALL) {
       pricingDefinition.staticRestrictions.connectorType = null;
     }
   }

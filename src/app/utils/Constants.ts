@@ -35,4 +35,6 @@ export class Constants {
   public static readonly SUPPORTED_LANGUAGES = Object.freeze(['en', 'fr', 'es', 'de', 'pt', 'it', 'cz']);
   public static readonly DEFAULT_LOCALE = 'en_US';
   public static readonly DEFAULT_LANGUAGE = 'en';
+
+  public static readonly SELECT_ALL = 'A';
 }

@@ -10,9 +10,9 @@ import { DialogService } from '../../services/dialog.service';
 import { MessageService } from '../../services/message.service';
 import { SpinnerService } from '../../services/spinner.service';
 import { DialogTableDataSource } from '../../shared/dialogs/dialog-table-data-source';
-import { AppPricingDimensionsUnit } from '../../shared/formatters/app-pricing-dimensions-unit';
+import { AppPricingDimensionsPrice } from '../../shared/formatters/app-pricing-dimensions-price';
 import { DataResult } from '../../types/DataResult';
-import PricingDefinition, { PricingButtonAction } from '../../types/Pricing';
+import PricingDefinition, { PricingButtonAction, PricingEntity } from '../../types/Pricing';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../types/Table';
 import { Utils } from '../../utils/Utils';
 import { AppDatePipe } from '../formatters/app-date.pipe';
@@ -44,7 +44,7 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
     private centralServerService: CentralServerService,
     private authorizationService: AuthorizationService,
     private datePipe: AppDatePipe,
-    private appPricingDimensionsUnit: AppPricingDimensionsUnit) {
+    private appPricingDimensionsPrice: AppPricingDimensionsPrice) {
     super(spinnerService, translateService);
     this.canCreatePricingDefinition = this.authorizationService.canCreatePricingDefinition();
     // Init
@@ -52,8 +52,13 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
   }
 
   public setContext(entityID: string, entityType: string) {
-    this.context.entityID = entityID;
-    this.context.entityType = entityType;
+    if (!entityType) {
+      this.context.entityID = this.centralServerService.getLoggedUser().tenantID;
+      this.context.entityType = PricingEntity.TENANT;
+    } else {
+      this.context.entityID = entityID;
+      this.context.entityType = entityType;
+    }
   }
 
   public isContextSet() {
@@ -114,48 +119,28 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
       {
         id: 'dimensions.flatFee.price',
         name: 'settings.pricing.flat_fee',
-        formatter: (price: number) => {
-          if (price === undefined) {
-            return '-';
-          }
-          return this.appPricingDimensionsUnit.transform('flat_fee_formatted_price', price);
-        },
+        formatter: (price: number) => this.appPricingDimensionsPrice.transform('flat_fee_formatted_price', price),
         headerClass: 'col-15p',
         class: 'col-15p',
       },
       {
         id: 'dimensions.energy.price',
         name: 'settings.pricing.energy',
-        formatter: (price: number) => {
-          if (price === undefined) {
-            return '-';
-          }
-          return this.appPricingDimensionsUnit.transform('energy_formatted_price', price);
-        },
+        formatter: (price: number) => this.appPricingDimensionsPrice.transform('energy_formatted_price', price),
         headerClass: 'col-15p',
         class: 'col-15p',
       },
       {
         id: 'dimensions.chargingTime.price',
         name: 'settings.pricing.charging_time',
-        formatter: (price: number) => {
-          if (price === undefined) {
-            return '-';
-          }
-          return this.appPricingDimensionsUnit.transform('charging_time_formatted_price', price);
-        },
+        formatter: (price: number) => this.appPricingDimensionsPrice.transform('charging_time_formatted_price', price),
         headerClass: 'col-15p',
         class: 'col-15p',
       },
       {
         id: 'dimensions.parkingTime.price',
         name: 'settings.pricing.parking_time',
-        formatter: (price: number) => {
-          if (price === undefined) {
-            return '-';
-          }
-          return this.appPricingDimensionsUnit.transform('parking_time_formatted_price', price);
-        },
+        formatter: (price: number) => this.appPricingDimensionsPrice.transform('parking_time_formatted_price', price),
         headerClass: 'col-15p',
         class: 'col-15p',
       },
@@ -189,12 +174,7 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
         if (actionDef.id) {
           (actionDef as TableCreatePricingDefinitionActionDef).action(PricingDefinitionDialogComponent,
             this.dialog,
-            {
-              dialogData: {
-                id: null,
-                context: this.context
-              }
-            }, this.refreshData.bind(this));
+            { dialogData: { id: null, context: this.context } }, this.refreshData.bind(this));
         }
         break;
     }

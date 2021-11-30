@@ -185,6 +185,7 @@ export interface AuthorizationActions {
 export interface TagAuthorizationActions extends AuthorizationActions {
   canUnassign?: boolean;
   canUpdateByVisualID?: boolean;
+  canListUsers?: boolean;
 }
 
 export interface SiteAuthorizationActions extends AuthorizationActions {

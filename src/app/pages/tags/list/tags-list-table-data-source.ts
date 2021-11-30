@@ -3,7 +3,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { AuthorizationService } from 'services/authorization.service';
 import { SpinnerService } from 'services/spinner.service';
 import { WindowService } from 'services/window.service';
 import { ImportDialogComponent } from 'shared/dialogs/import/import-dialog.component';
@@ -21,6 +20,7 @@ import { TableNavigateToTransactionsAction } from 'shared/table/actions/transact
 import { organizations } from 'shared/table/filters/issuer-filter';
 import { StatusFilter } from 'shared/table/filters/status-filter';
 import { UserTableFilter } from 'shared/table/filters/user-table-filter';
+import { AuthorizationDefinitionFieldMetadata } from 'types/Authorization';
 import { DataResult } from 'types/DataResult';
 import { HTTPError } from 'types/HTTPError';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'types/Table';
@@ -63,13 +63,13 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
   private importAction = new TableImportTagsAction().getActionDef();
   private exportAction = new TableExportTagsAction().getActionDef();
   private projectFields: string[];
-  private metadata?: Record<string, unknown>;
+  private userFilter: TableFilterDef;
+  private metadata?: Record<string, AuthorizationDefinitionFieldMetadata>;
   public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     private messageService: MessageService,
     private dialogService: DialogService,
-    private authorizationService: AuthorizationService,
     private router: Router,
     private dialog: MatDialog,
     private datePipe: AppDatePipe,
@@ -147,6 +147,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
         this.deleteManyAction.visible = tags.canDelete;
         this.unassignManyAction.visible = tags.canUnassign;
         this.projectFields = tags.projectFields;
+        this.userFilter.visible = tags.canListUsers;
         this.metadata = tags.metadata;
         // Ok
         observer.next(tags);
@@ -307,7 +308,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
       rowActions.push(this.unassignAction);
     }
     moreActions.addActionInMoreActions(this.navigateToTransactionsAction);
-    if (tag.userID && this.authorizationService.canListUsers()) {
+    if (tag.userID && tag.canListUsers) {
       moreActions.addActionInMoreActions(this.navigateToUserAction);
     }
     if (tag.canDelete) {
@@ -431,13 +432,14 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
 
   public buildTableFiltersDef(): TableFilterDef[] {
     const issuerFilter = new IssuerFilter().getFilterDef();
+    const statusFilter = new StatusFilter().getFilterDef();
+    this.userFilter = new UserTableFilter([issuerFilter]).getFilterDef();
+    this.userFilter.visible = false;
     const filters: TableFilterDef[] = [
       issuerFilter,
-      new StatusFilter().getFilterDef()
+      statusFilter,
+      this.userFilter
     ];
-    if (this.authorizationService.canListUsers()) {
-      filters.push(new UserTableFilter([issuerFilter]).getFilterDef());
-    }
     return filters;
   }
 }

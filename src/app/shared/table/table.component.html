@@ -89,7 +89,8 @@
       <div *ngIf="(dataSource.hasFilters || dataSource.isSearchEnabled)"
         class="d-flex flex-row me-auto flex-wrap mat-toolbar-row filter-row">
         <!-- Create Filters -->
-        <div *ngFor="let filterDef of dataSource.tableFiltersDef; let i=index"
+        <ng-template ngFor let-filterDef [ngForOf]="dataSource.tableFiltersDef">
+        <div *ngIf="filterDef.visible !== false"
           [class]="(filterDef.class ? filterDef.class : '')">
           <!-- Dropdown Filter -->
           <mat-form-field *ngIf="filterDef.type === FilterType.DROPDOWN && !filterDef.multiple">
@@ -138,6 +139,7 @@
             <input [placeholder]="filterDef.name | translate" matInput>
           </mat-form-field>
         </div>
+      </ng-template>
         <!-- Search -->
         <div *ngIf="dataSource.isSearchEnabled" class="col search-form">
           <mat-form-field>

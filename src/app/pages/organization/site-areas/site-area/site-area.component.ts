@@ -111,7 +111,7 @@ export class SiteAreaComponent implements OnInit {
         ])
       ),
       parentSiteArea: new FormControl(''),
-      parentSiteAreaID: new FormControl(''),
+      parentSiteAreaID: new FormControl(null),
       maximumPower: new FormControl(0,
         Validators.compose([
           Validators.pattern(/^[+-]?([0-9]*[.])?[0-9]+$/),

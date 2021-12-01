@@ -3351,8 +3351,6 @@ export class CentralServerService {
       if (this.centralSystemServerConfig.port) {
         this.centralRestServerServiceBaseURL += `:${this.centralSystemServerConfig.port}`;
       }
-      console.log(this.centralSystemServerConfig);
-      console.log(this.centralRestServerServiceBaseURL);
       // Auth API
       this.restServerAuthURL = `${this.centralRestServerServiceBaseURL}/v1/auth`;
       // REST Secured API

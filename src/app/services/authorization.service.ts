@@ -325,6 +325,13 @@ export class AuthorizationService {
     return (this.canAccess(Entity.PAYMENT_METHOD, Action.READ));
   }
 
+  public canCreatePricingDefinition() {
+    return (this.canAccess(Entity.PRICING_DEFINITION, Action.CREATE));
+  }
+
+  public canDeletePricingDefinition() {
+    return (this.canAccess(Entity.PRICING_DEFINITION, Action.DELETE));
+  }
 
   public isSiteAdmin(siteID: string): boolean {
     return this.isAdmin() || (!!this.loggedUser && !!this.loggedUser.sitesAdmin && this.loggedUser.sitesAdmin.includes(siteID));

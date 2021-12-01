@@ -2,10 +2,10 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
-import { DialogParams } from 'types/Authorization';
-import { BillingButtonAction, PaymentDialogData } from 'types/Billing';
-import { ScreenSize } from 'types/GlobalType';
 
+import { DialogParams } from '../../../../types/Authorization';
+import { BillingButtonAction, PaymentDialogData } from '../../../../types/Billing';
+import { ScreenSize } from '../../../../types/GlobalType';
 import { TableActionDef } from '../../../../types/Table';
 import { TableCreateAction } from '../table-create-action';
 

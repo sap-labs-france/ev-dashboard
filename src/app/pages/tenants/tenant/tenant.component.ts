@@ -44,7 +44,7 @@ export class TenantComponent implements OnInit {
       description: 'settings.pricing.convergentcharging.title',
     }, {
       key: PricingSettingsType.SIMPLE,
-      description: 'settings.pricing.simple.title',
+      description: 'settings.pricing.title',
     },
   ];
   public billingTypes = [

@@ -4,7 +4,10 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { AuthorizationService } from 'services/authorization.service';
+import { PricingDefinitionsDialogComponent } from 'shared/pricing-definitions/pricing-definitions.dialog.component';
 import { TableSiteGenerateQrCodeConnectorAction, TableSiteGenerateQrCodeConnectorsActionDef } from 'shared/table/actions/sites/table-site-generate-qr-code-connector-action';
+import { TableViewPricingsAction, TableViewPricingsActionDef } from 'shared/table/actions/table-view-pricings-action';
+import { PricingButtonAction, PricingEntity } from 'types/Pricing';
 
 import { CentralServerService } from '../../../../services/central-server.service';
 import { DialogService } from '../../../../services/dialog.service';
@@ -45,7 +48,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
   private exportOCPPParamsAction = new TableExportOCPPParamsAction().getActionDef();
   private siteGenerateQrCodeConnectorAction = new TableSiteGenerateQrCodeConnectorAction().getActionDef();
   private createAction = new TableCreateSiteAction().getActionDef();
-
+  private viewPricingsAction = new TableViewPricingsAction().getActionDef();
 
   public constructor(
     public spinnerService: SpinnerService,
@@ -202,6 +205,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
     } else if (this.authorizationService.canListUsers()) {
       rowActions.push(this.viewUsersOfSite);
     }
+    rowActions.push(this.viewPricingsAction);
     if (site.canExportOCPPParams) {
       moreActions.addActionInMoreActions(this.exportOCPPParamsAction);
     }
@@ -279,6 +283,19 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
             site, this.translateService, this.spinnerService,
             this.messageService, this.centralServerService, this.router
           );
+        }
+        break;
+      case PricingButtonAction.VIEW_PRICING_DEFINITIONS:
+        if (actionDef.action) {
+          (actionDef as TableViewPricingsActionDef).action(PricingDefinitionsDialogComponent, this.dialog, {
+            dialogData: {
+              id: null,
+              context: {
+                entityID: site.id,
+                entityType: PricingEntity.SITE
+              }
+            },
+          }, this.refreshData.bind(this));
         }
         break;
     }

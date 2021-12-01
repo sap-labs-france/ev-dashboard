@@ -151,8 +151,8 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.REMOVE_USERS_FROM_SITE}`,
-      { siteID, userIDs },
+    return this.httpClient.put<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_SITE_REMOVE_USERS, { id: siteID }),
+      { userIDs },
       {
         headers: this.buildHttpHeaders(),
       })
@@ -165,8 +165,8 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.ADD_USERS_TO_SITE}`,
-      { siteID, userIDs },
+    return this.httpClient.put<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_SITE_ADD_USERS, { id: siteID }),
+      { userIDs },
       {
         headers: this.buildHttpHeaders(),
       })
@@ -177,8 +177,8 @@ export class CentralServerService {
 
   public updateSiteUserAdmin(siteID: string, userID: string, siteAdmin: boolean): Observable<ActionResponse> {
     this.checkInit();
-    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.SITE_USER_ADMIN}`,
-      { siteID, userID, siteAdmin },
+    return this.httpClient.put<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_SITE_ADMIN, { id: siteID }),
+      { userID, siteAdmin },
       {
         headers: this.buildHttpHeaders(),
       })
@@ -189,8 +189,8 @@ export class CentralServerService {
 
   public updateSiteOwner(siteID: string, userID: string, siteOwner: boolean): Observable<ActionResponse> {
     this.checkInit();
-    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.SITE_OWNER}`,
-      { siteID, userID, siteOwner },
+    return this.httpClient.put<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_SITE_OWNER, { id: siteID }),
+      { userID, siteOwner },
       {
         headers: this.buildHttpHeaders(),
       })
@@ -383,7 +383,7 @@ export class CentralServerService {
     // Build Ordering
     this.getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<SiteDataResult>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.SITES}`,
+    return this.httpClient.get<SiteDataResult>(this.buildRestEndpointUrl(ServerRoute.REST_SITES),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -426,13 +426,12 @@ export class CentralServerService {
 
   public getSite(siteID: string, withImage: boolean = false, withCompany: boolean = false): Observable<Site> {
     const params: { [param: string]: string } = {};
-    params['ID'] = siteID;
     params['WithImage'] = withImage.toString();
     params['WithCompany'] = withCompany.toString();
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<Site>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.SITE}`,
+    return this.httpClient.get<Site>(this.buildRestEndpointUrl(ServerRoute.REST_SITE, { id: siteID }),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -444,12 +443,11 @@ export class CentralServerService {
 
   public getSiteImage(siteID: string): Observable<string> {
     const params: { [param: string]: string } = {};
-    params['ID'] = siteID;
     params['TenantID'] = this.currentUser?.tenantID;
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<Blob>(`${this.centralRestServerServiceUtilURL}/${ServerAction.SITE_IMAGE}`,
+    return this.httpClient.get<Blob>(this.buildRestEndpointUrl(ServerRoute.REST_SITE_IMAGE, { id: siteID }),
       {
         headers: this.buildHttpHeaders(),
         responseType: 'blob' as 'json',
@@ -794,7 +792,7 @@ export class CentralServerService {
     // Build Ordering
     this.getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<DataResult<UserSite>>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.SITE_USERS}`,
+    return this.httpClient.get<DataResult<UserSite>>(this.buildRestEndpointUrl(ServerRoute.REST_SITE_USERS, { id: params.SiteID as string }),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -2154,7 +2152,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.SITE_CREATE}`, site,
+    return this.httpClient.post<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_SITES), site,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2167,7 +2165,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute
-    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.SITE_UPDATE}`, site,
+    return this.httpClient.put<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_SITE, { id: site.id }), site,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2180,7 +2178,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.SITE_DELETE}?ID=${id}`,
+    return this.httpClient.delete<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_SITE, { id }),
       {
         headers: this.buildHttpHeaders(),
       })

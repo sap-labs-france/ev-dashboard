@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
+import { WINDOW } from 'providers/window.provider';
+import { Utils } from 'utils/Utils';
 
 import AdvancedConfiguration from '../types/configuration/AdvancedConfiguration';
 import AssetConfiguration from '../types/configuration/AssetConfiguration';
@@ -9,7 +11,6 @@ import CentralSystemServerConfiguration from '../types/configuration/CentralSyst
 import CompanyConfiguration from '../types/configuration/CompanyConfiguration';
 import { Configuration } from '../types/configuration/Configuration';
 import Debug from '../types/configuration/Debug';
-import FrontEndConfiguration from '../types/configuration/FrontEndConfiguration';
 import Landscape, { LandscapeType } from '../types/configuration/Landscape';
 import SiteAreaConfiguration from '../types/configuration/SiteAreaConfiguration';
 import SiteConfiguration from '../types/configuration/SiteConfiguration';
@@ -20,7 +21,9 @@ import UserConfiguration from '../types/configuration/UserConfiguration';
 export class ConfigService {
   private static config: Configuration;
 
-  public constructor(private http?: HttpClient) {
+  public constructor(
+    private http: HttpClient,
+    @Inject(WINDOW) private window: Window) {
     this.getConfig();
   }
 
@@ -32,14 +35,17 @@ export class ConfigService {
   }
 
   public getCentralSystemServer(): CentralSystemServerConfiguration {
-    if (this.isUndefined(this.getConfig().CentralSystemServer.logoutOnConnectionError)) {
-      this.getConfig().CentralSystemServer.logoutOnConnectionError = true;
+    const centralSystemServer = this.getConfig().CentralSystemServer;
+    if (!centralSystemServer.protocol) {
+      centralSystemServer.protocol = this.window.location.protocol;
     }
-    return this.getConfig().CentralSystemServer;
-  }
-
-  public getFrontEnd(): FrontEndConfiguration {
-    return this.getConfig()?.FrontEnd ? this.getConfig().FrontEnd : { host: 'localhost' };
+    if (!centralSystemServer.host) {
+      centralSystemServer.host = this.window.location.hostname;
+    }
+    if (!centralSystemServer.port) {
+      centralSystemServer.port = Utils.convertToInteger(this.window.location.port);
+    }
+    return centralSystemServer ;
   }
 
   public getAuthorization(): AuthorizationConfiguration {

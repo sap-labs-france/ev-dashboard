@@ -37,7 +37,7 @@ export class ConfigService {
   public getCentralSystemServer(): CentralSystemServerConfiguration {
     const centralSystemServer = this.getConfig().CentralSystemServer;
     if (!centralSystemServer.protocol) {
-      centralSystemServer.protocol = this.window.location.protocol;
+      centralSystemServer.protocol = this.window.location.protocol.slice(0, -1);
     }
     if (!centralSystemServer.host) {
       centralSystemServer.host = this.window.location.hostname;

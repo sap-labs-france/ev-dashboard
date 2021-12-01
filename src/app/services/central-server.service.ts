@@ -3347,18 +3347,22 @@ export class CentralServerService {
       // Get the server config
       this.centralSystemServerConfig = this.configService.getCentralSystemServer();
       // Build Central Service URL
-      this.centralRestServerServiceBaseURL = this.centralSystemServerConfig.protocol + '://' +
-        this.centralSystemServerConfig.host + ':' + this.centralSystemServerConfig.port;
+      this.centralRestServerServiceBaseURL = `${this.centralSystemServerConfig.protocol}://${this.centralSystemServerConfig.host}`;
+      if (this.centralSystemServerConfig.port) {
+        this.centralRestServerServiceBaseURL += `:${this.centralSystemServerConfig.port}`;
+      }
+      console.log(this.centralSystemServerConfig);
+      console.log(this.centralRestServerServiceBaseURL);
       // Auth API
-      this.restServerAuthURL = this.centralRestServerServiceBaseURL + '/v1/auth';
+      this.restServerAuthURL = `${this.centralRestServerServiceBaseURL}/v1/auth`;
       // REST Secured API
-      this.restServerSecuredURL = this.centralRestServerServiceBaseURL + '/v1/api';
+      this.restServerSecuredURL = `${this.centralRestServerServiceBaseURL}/v1/api`;
       // REST Util API
-      this.restServerServiceUtilURL = this.centralRestServerServiceBaseURL + '/v1/util';
+      this.restServerServiceUtilURL = `${this.centralRestServerServiceBaseURL}/v1/util`;
       // Secured API
-      this.centralRestServerServiceSecuredURL = this.centralRestServerServiceBaseURL + '/client/api';
+      this.centralRestServerServiceSecuredURL = `${this.centralRestServerServiceBaseURL}/client/api`;
       // Util API
-      this.centralRestServerServiceUtilURL = this.centralRestServerServiceBaseURL + '/client/util';
+      this.centralRestServerServiceUtilURL = `${this.centralRestServerServiceBaseURL}/client/util`;
       // Done
       this.initialized = true;
     }

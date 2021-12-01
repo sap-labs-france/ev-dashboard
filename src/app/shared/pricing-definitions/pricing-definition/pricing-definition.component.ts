@@ -30,6 +30,8 @@ export class PricingDefinitionComponent implements OnInit {
   @Input() public currentPricingDefinitionID!: string;
   @Input() public currentEntityID!: string;
   @Input() public currentEntityType!: string;
+  @Input() public currentEntityName: string;
+  @Input() public currentSiteID: string;
 
   public formGroup!: FormGroup;
   public currentPricingDefinition: PricingDefinition;
@@ -98,7 +100,7 @@ export class PricingDefinitionComponent implements OnInit {
 
   public ngOnInit(): void {
     // TODO : show current entity name instead of id - for others than charging station c'est pas relevant
-    this.context = this.currentEntityType === Entity.TENANT ? this.centralServerService.getLoggedUser().tenantName : this.currentEntityID;
+    this.context = this.currentEntityType === Entity.TENANT ? this.centralServerService.getLoggedUser().tenantName : this.currentEntityName;
     this.formGroup = new FormGroup({
       id: new FormControl(),
       entityID: new FormControl(this.currentEntityID),
@@ -107,7 +109,6 @@ export class PricingDefinitionComponent implements OnInit {
       name: new FormControl('',
         Validators.compose([
           Validators.required,
-          Validators.maxLength(100),
         ])),
       staticRestrictions: new FormGroup({
         validFrom: new FormControl(null),
@@ -122,7 +123,6 @@ export class PricingDefinitionComponent implements OnInit {
       }),
       description: new FormControl('', Validators.compose([
         Validators.required,
-        Validators.maxLength(100),
       ])),
       dimensions: new FormGroup({
         flatFee: new FormGroup({
@@ -216,6 +216,7 @@ export class PricingDefinitionComponent implements OnInit {
         // Force refresh the form
         this.formGroup.updateValueAndValidity();
         this.formGroup.markAsPristine();
+        // le markallastouched fout la marde et rend les champs number invalids ??????
         this.formGroup.markAllAsTouched();
       }, (error) => {
         this.spinnerService.hide();
@@ -244,6 +245,10 @@ export class PricingDefinitionComponent implements OnInit {
 
   public save(pricingDefinition: PricingDefinition) {
     this.consistencyCheck(pricingDefinition);
+    pricingDefinition = {
+      siteID: this.currentSiteID,
+      ...pricingDefinition
+    };
     if (this.currentPricingDefinitionID) {
       this.updatePricingDefinition(pricingDefinition);
     } else {

@@ -42,6 +42,7 @@ export default interface PricingDefinition extends CreatedUpdatedProps, Authoriz
   staticRestrictions?: PricingStaticRestriction;
   restrictions?: PricingRestriction;
   dimensions: PricingDimensions;
+  siteID?: string;
 }
 
 export interface PricingDimensions {
@@ -130,6 +131,8 @@ export interface PricingDefinitionDialogData extends TableData {
   context: {
     entityID: string;
     entityType: string;
+    siteID: string;
+    entityName: string;
   };
   pricingDefinition?: PricingDefinition;
 }

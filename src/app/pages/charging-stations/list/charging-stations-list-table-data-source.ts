@@ -349,7 +349,9 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
               id: null,
               context: {
                 entityID: chargingStation.id,
-                entityType: PricingEntity.CHARGING_STATION
+                entityType: PricingEntity.CHARGING_STATION,
+                siteID: chargingStation.siteID,
+                entityName: chargingStation.id
               }
             },
           }, this.refreshData.bind(this));

@@ -3229,7 +3229,7 @@ export class CentralServerService {
 
   public getPricingDefinitions(params: FilterParams,
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = [],
-    context?: { entityID: string; entityType: string }): Observable<DataResult<PricingDefinition>> {
+    context?: { entityID: string; entityType: string}): Observable<DataResult<PricingDefinition>> {
     // Verify init
     this.checkInit();
     // Build Paging
@@ -3244,7 +3244,8 @@ export class CentralServerService {
         params: {
           ...params,
           EntityID: context.entityID,
-          EntityType: context.entityType
+          EntityType: context.entityType,
+          // SiteID: context.siteID
         }
       })
       .pipe(

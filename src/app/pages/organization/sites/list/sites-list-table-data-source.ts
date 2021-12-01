@@ -292,7 +292,9 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
               id: null,
               context: {
                 entityID: site.id,
-                entityType: PricingEntity.SITE
+                entityType: PricingEntity.SITE,
+                siteID: site.id,
+                entityName: site.name
               }
             },
           }, this.refreshData.bind(this));

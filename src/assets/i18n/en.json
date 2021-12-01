@@ -33,7 +33,6 @@
     "unexpected_error_backend": "An unexpected error occurred, check the logs",
     "select_at_least_one_record": "You must select at least one record in the list",
     "mandatory_field": "Required field",
-    "only_number_field": "Only numbers are allowed",
     "no_record_found": "No records have been found",
     "no_image_found": "No images have been found",
     "no_connector_available": "No connection available",

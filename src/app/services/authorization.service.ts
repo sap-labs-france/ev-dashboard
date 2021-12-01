@@ -329,6 +329,14 @@ export class AuthorizationService {
     return (this.canAccess(Entity.PRICING_DEFINITION, Action.CREATE));
   }
 
+  public canListPricingDefinition(): boolean {
+    return this.canAccess(Entity.PRICING_DEFINITION, Action.LIST);
+  }
+
+  public canUpdatePricingDefinition(): boolean {
+    return this.canAccess(Entity.PRICING_DEFINITION, Action.UPDATE);
+  }
+
   public canDeletePricingDefinition() {
     return (this.canAccess(Entity.PRICING_DEFINITION, Action.DELETE));
   }

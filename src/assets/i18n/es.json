@@ -34,7 +34,6 @@
     "select_at_least_one_record": "Debe seleccionar al menos un registro en la lista",
     "mandatory_field": "Campo obligatorio",
     "no_record_found": "Ningún registro ha sido encontrado",
-    "only_number_field": "Only numbers are allowed",
     "no_image_found": "No se han encontrado imágenes",
     "no_connector_available": "Ninguna conexión disponible",
     "error_max_length": "La longitud máxima es '{{length}}'",

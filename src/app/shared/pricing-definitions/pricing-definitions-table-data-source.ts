@@ -30,7 +30,9 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
   private deleteAction = new TableDeletePricingDefinitionAction().getActionDef();
   private context = {
     entityID: '',
-    entityType: ''
+    entityType: '',
+    siteID: '',
+    entityName: ''
   };
   private canCreatePricingDefinition: boolean;
 
@@ -51,7 +53,7 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
     this.initDataSource();
   }
 
-  public setContext(entityID: string, entityType: string) {
+  public setContext(entityID: string, entityType: string, entityName: string = null, siteID: string = null) {
     if (!entityType) {
       this.context.entityID = this.centralServerService.getLoggedUser().tenantID;
       this.context.entityType = PricingEntity.TENANT;
@@ -59,6 +61,8 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
       this.context.entityID = entityID;
       this.context.entityType = entityType;
     }
+    this.context.entityName = entityName;
+    this.context.siteID = siteID;
   }
 
   public isContextSet() {

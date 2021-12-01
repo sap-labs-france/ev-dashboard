@@ -28,6 +28,7 @@ export class Constants {
   /* RegEx validation rule */
   public static readonly REGEX_VALIDATION_LATITUDE = /^-?([1-8]?[1-9]|[1-9]0)\.{0,1}[0-9]*$/;
   public static readonly REGEX_VALIDATION_LONGITUDE = /^-?([1]?[0-7][0-9]|[1]?[0-8][0]|[1-9]?[0-9])\.{0,1}[0-9]*$/;
+  public static readonly REGEX_VALIDATION_NUMBER = /^([0-9]*[.])?[0-9]+$/;
 
   /* Language and Locales */
   /* Make sure to maintain app.module.ts ==> e.g.: registerLocaleData(localeEnAU); */

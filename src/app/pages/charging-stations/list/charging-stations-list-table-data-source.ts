@@ -350,7 +350,6 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
               context: {
                 entityID: chargingStation.id,
                 entityType: PricingEntity.CHARGING_STATION,
-                siteID: chargingStation.siteID,
                 entityName: chargingStation.id
               }
             },

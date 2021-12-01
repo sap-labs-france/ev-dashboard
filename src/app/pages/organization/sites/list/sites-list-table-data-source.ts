@@ -293,7 +293,6 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
               context: {
                 entityID: site.id,
                 entityType: PricingEntity.SITE,
-                siteID: site.id,
                 entityName: site.name
               }
             },

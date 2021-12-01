@@ -19,7 +19,6 @@ export class PricingDefinitionsComponent implements OnInit {
   @Input() public currentEntityID!: string;
   @Input() public currentEntityType!: string;
   @Input() public currentEntityName!: string;
-  @Input() public currentSiteID!: string;
 
   public isActive = false;
   public formGroup: FormGroup;
@@ -32,7 +31,7 @@ export class PricingDefinitionsComponent implements OnInit {
 
   public ngOnInit() {
     // Set context with provided entity, will set to tenant by default
-    this.pricingsTableDataSource.setContext(this.currentEntityID, this.currentEntityType, this.currentEntityName, this.currentSiteID);
+    this.pricingsTableDataSource.setContext(this.currentEntityID, this.currentEntityType, this.currentEntityName);
   }
 
   public close() {

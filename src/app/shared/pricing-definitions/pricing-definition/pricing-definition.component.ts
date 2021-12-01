@@ -31,7 +31,6 @@ export class PricingDefinitionComponent implements OnInit {
   @Input() public currentEntityID!: string;
   @Input() public currentEntityType!: string;
   @Input() public currentEntityName: string;
-  @Input() public currentSiteID: string;
 
   public formGroup!: FormGroup;
   public currentPricingDefinition: PricingDefinition;
@@ -245,10 +244,6 @@ export class PricingDefinitionComponent implements OnInit {
 
   public save(pricingDefinition: PricingDefinition) {
     this.consistencyCheck(pricingDefinition);
-    pricingDefinition = {
-      siteID: this.currentSiteID,
-      ...pricingDefinition
-    };
     if (this.currentPricingDefinitionID) {
       this.updatePricingDefinition(pricingDefinition);
     } else {

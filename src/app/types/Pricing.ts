@@ -131,7 +131,6 @@ export interface PricingDefinitionDialogData extends TableData {
   context: {
     entityID: string;
     entityType: string;
-    siteID: string;
     entityName: string;
   };
   pricingDefinition?: PricingDefinition;

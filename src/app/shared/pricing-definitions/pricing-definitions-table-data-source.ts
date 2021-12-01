@@ -31,7 +31,6 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
   private context = {
     entityID: '',
     entityType: '',
-    siteID: '',
     entityName: ''
   };
   private canCreatePricingDefinition: boolean;
@@ -44,16 +43,14 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
     private router: Router,
     private dialog: MatDialog,
     private centralServerService: CentralServerService,
-    private authorizationService: AuthorizationService,
     private datePipe: AppDatePipe,
     private appPricingDimensionsPrice: AppPricingDimensionsPrice) {
     super(spinnerService, translateService);
-    this.canCreatePricingDefinition = this.authorizationService.canCreatePricingDefinition();
     // Init
     this.initDataSource();
   }
 
-  public setContext(entityID: string, entityType: string, entityName: string = null, siteID: string = null) {
+  public setContext(entityID: string, entityType: string, entityName: string = null) {
     if (!entityType) {
       this.context.entityID = this.centralServerService.getLoggedUser().tenantID;
       this.context.entityType = PricingEntity.TENANT;
@@ -62,7 +59,6 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
       this.context.entityType = entityType;
     }
     this.context.entityName = entityName;
-    this.context.siteID = siteID;
   }
 
   public isContextSet() {
@@ -74,7 +70,7 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
       // Get the PricingDefinitions
       this.centralServerService.getPricingDefinitions(this.buildFilterValues(),
         this.getPaging(), this.getSorting(), this.context).subscribe((pricingDefinition) => {
-        this.createAction.visible = this.canCreatePricingDefinition;
+        this.createAction.visible = pricingDefinition.canCreate;
         observer.next(pricingDefinition);
         observer.complete();
       }, (error) => {
@@ -154,10 +150,10 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-    if (this.canCreatePricingDefinition) {
-      tableActionsDef.unshift(this.createAction);
-    }
-    return tableActionsDef;
+    return [
+      this.createAction,
+      ...tableActionsDef,
+    ];
   }
 
   public buildTableDynamicRowActions(pricingDefinition: PricingDefinition): TableActionDef[] {

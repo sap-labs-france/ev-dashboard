@@ -113,7 +113,7 @@ export class PricingDefinitionComponent implements OnInit {
         validFrom: new FormControl(null),
         validTo: new FormControl(null),
         connectorPowerEnabled: new FormControl(false),
-        connectorPowerkW: new FormControl(null, Validators.pattern('[0-9]*[,.]?[0-9]{1,2}')),
+        connectorPowerkW: new FormControl(null, Validators.pattern(/^-?((\d+(\.\d+)?))$/)),
         connectorType: new FormControl('A',
           Validators.compose([
             Validators.required,
@@ -126,23 +126,23 @@ export class PricingDefinitionComponent implements OnInit {
       dimensions: new FormGroup({
         flatFee: new FormGroup({
           active: new FormControl(false),
-          price: new FormControl(null, Validators.pattern('[0-9]*[,.]?[0-9]{1,2}')),
+          price: new FormControl(null, Validators.pattern(/^-?((\d+(\.\d+)?))$/)),
         }),
         energy: new FormGroup({
           active: new FormControl(false),
-          price: new FormControl(null, Validators.pattern('[0-9]*[,.]?[0-9]{1,2}')),
+          price: new FormControl(null, Validators.pattern(/^-?((\d+(\.\d+)?))$/)),
           stepSize: new FormControl(null),
           stepSizeEnabled: new FormControl(false)
         }),
         chargingTime: new FormGroup({
           active: new FormControl(false),
-          price: new FormControl(null, Validators.pattern('[0-9]*[,.]?[0-9]{1,2}')),
+          price: new FormControl(null, Validators.pattern(/^-?((\d+(\.\d+)?))$/)),
           stepSize: new FormControl(null),
           stepSizeEnabled: new FormControl(false)
         }),
         parkingTime: new FormGroup({
           active: new FormControl(false),
-          price: new FormControl(null, Validators.pattern('[0-9]*[,.]?[0-9]{1,2}')),
+          price: new FormControl(null, Validators.pattern(/^-?((\d+(\.\d+)?))$/)),
           stepSize: new FormControl(null),
           stepSizeEnabled: new FormControl(false)
         }),
@@ -256,7 +256,7 @@ export class PricingDefinitionComponent implements OnInit {
     if (event.checked) {
       this[`${event.source.id}Value`].setValidators(Validators.compose([
         Validators.required,
-        Validators.pattern('[0-9]*[,.]?[0-9]{1,2}')
+        Validators.pattern(/^-?((\d+(\.\d+)?))$/)
       ]));
     } else {
       this[`${event.source.id}Value`].clearValidators();

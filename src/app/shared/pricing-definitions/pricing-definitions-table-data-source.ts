@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 
-import { AuthorizationService } from '../../services/authorization.service';
 import { CentralServerService } from '../../services/central-server.service';
 import { DialogService } from '../../services/dialog.service';
 import { MessageService } from '../../services/message.service';
@@ -33,7 +32,6 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
     entityType: '',
     entityName: ''
   };
-  private canCreatePricingDefinition: boolean;
 
   public constructor(
     public spinnerService: SpinnerService,

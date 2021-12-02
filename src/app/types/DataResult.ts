@@ -119,6 +119,7 @@ export interface TagDataResult extends DataResult<Tag> {
   canDelete: boolean;
   canUnassign: boolean;
   canAssign: boolean;
+  canListUsers: boolean;
 }
 
 export interface PricingDefinitionDataResult extends DataResult<PricingDefinition> {

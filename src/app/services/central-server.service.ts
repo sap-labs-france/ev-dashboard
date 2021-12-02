@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -23,7 +22,7 @@ import { Log } from '../types/Log';
 import { OcpiEndpoint } from '../types/ocpi/OCPIEndpoint';
 import { OCPPResetType } from '../types/ocpp/OCPP';
 import { OicpEndpoint } from '../types/oicp/OICPEndpoint';
-import PricingDefinition, { PricingEntity } from '../types/Pricing';
+import PricingDefinition from '../types/Pricing';
 import { RefundReport } from '../types/Refund';
 import { RegistrationToken } from '../types/RegistrationToken';
 import { ServerAction, ServerRoute } from '../types/Server';
@@ -447,7 +446,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<Blob>(this.buildRestEndpointUrl(ServerRoute.REST_SITE_IMAGE, { id: siteID }),
+    return this.httpClient.get<Blob>(this.buildUtilRestEndpointUrl(ServerRoute.REST_SITE_IMAGE, { id: siteID }),
       {
         headers: this.buildHttpHeaders(),
         responseType: 'blob' as 'json',
@@ -3348,18 +3347,20 @@ export class CentralServerService {
       // Get the server config
       this.centralSystemServerConfig = this.configService.getCentralSystemServer();
       // Build Central Service URL
-      this.centralRestServerServiceBaseURL = this.centralSystemServerConfig.protocol + '://' +
-        this.centralSystemServerConfig.host + ':' + this.centralSystemServerConfig.port;
+      this.centralRestServerServiceBaseURL = `${this.centralSystemServerConfig.protocol}://${this.centralSystemServerConfig.host}`;
+      if (this.centralSystemServerConfig.port) {
+        this.centralRestServerServiceBaseURL += `:${this.centralSystemServerConfig.port}`;
+      }
       // Auth API
-      this.restServerAuthURL = this.centralRestServerServiceBaseURL + '/v1/auth';
+      this.restServerAuthURL = `${this.centralRestServerServiceBaseURL}/v1/auth`;
       // REST Secured API
-      this.restServerSecuredURL = this.centralRestServerServiceBaseURL + '/v1/api';
+      this.restServerSecuredURL = `${this.centralRestServerServiceBaseURL}/v1/api`;
       // REST Util API
-      this.restServerServiceUtilURL = this.centralRestServerServiceBaseURL + '/v1/util';
+      this.restServerServiceUtilURL = `${this.centralRestServerServiceBaseURL}/v1/util`;
       // Secured API
-      this.centralRestServerServiceSecuredURL = this.centralRestServerServiceBaseURL + '/client/api';
+      this.centralRestServerServiceSecuredURL = `${this.centralRestServerServiceBaseURL}/client/api`;
       // Util API
-      this.centralRestServerServiceUtilURL = this.centralRestServerServiceBaseURL + '/client/util';
+      this.centralRestServerServiceUtilURL = `${this.centralRestServerServiceBaseURL}/client/util`;
       // Done
       this.initialized = true;
     }

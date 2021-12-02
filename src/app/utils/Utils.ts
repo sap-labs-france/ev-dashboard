@@ -4,7 +4,6 @@ import { Data, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { StatusCodes } from 'http-status-codes';
 import * as moment from 'moment';
-import { ConfigService } from 'services/config.service';
 import { DialogMode } from 'types/Authorization';
 import { HTTPError } from 'types/HTTPError';
 import { Tag } from 'types/Tag';
@@ -240,7 +239,7 @@ export class Utils {
   }
 
   public static handleError(error: any, messageService: MessageService, errorMessage: string = '', params?: Record<string, unknown>): void {
-    Utils.consoleDebugLog(`Error: ${errorMessage}`, error);
+    console.log(`Error: ${errorMessage}`, error);
     messageService.showErrorMessage(errorMessage, params);
   }
 
@@ -824,7 +823,7 @@ export class Utils {
         break;
       // Backend issue
       default:
-        Utils.consoleDebugLog(`HTTP Error: ${errorMessage}: ${error.message} (${error.status})`, error);
+        console.log(`HTTP Error: ${errorMessage}: ${error.message} (${error.status})`, error);
         messageService.showErrorMessage(errorMessage, params);
         break;
     }
@@ -895,13 +894,6 @@ export class Utils {
 
   public static isUndefined(obj: any): boolean {
     return typeof obj === 'undefined';
-  }
-
-  public static consoleDebugLog(msg: any, error?: any) {
-    const configService: ConfigService = new ConfigService();
-    if (configService.getDebug().enabled) {
-      console.log(`${(new Date()).toISOString()} :: ${msg}${error ? ' :: Error details:' : ''}`, error ? error : '');
-    }
   }
 
   public static copyToClipboard(content: any) {

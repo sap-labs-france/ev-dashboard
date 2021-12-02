@@ -5,9 +5,6 @@
     "port": 443,
 		"pollIntervalSecs": 10
   },
-  "FrontEnd": {
-    "host": "localhost"
-  },
   "Authorization": {
     "debug": false
   },

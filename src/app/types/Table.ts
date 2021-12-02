@@ -53,6 +53,7 @@ export interface TableFilterDef {
   cleared?: boolean;
   dateRangeTableFilterDef?: DateRangeTableFilterDef;
   dependentFilters?: TableFilterDef[];
+  visible?: boolean;
 }
 
 export interface DateRangeTableFilterDef {

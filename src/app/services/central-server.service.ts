@@ -446,7 +446,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<Blob>(this.buildRestEndpointUrl(ServerRoute.REST_SITE_IMAGE, { id: siteID }),
+    return this.httpClient.get<Blob>(this.buildUtilRestEndpointUrl(ServerRoute.REST_SITE_IMAGE, { id: siteID }),
       {
         headers: this.buildHttpHeaders(),
         responseType: 'blob' as 'json',

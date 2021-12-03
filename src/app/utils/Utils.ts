@@ -22,7 +22,11 @@ import { ButtonType, TableDataSourceMode } from '../types/Table';
 import { Constants } from './Constants';
 
 export class Utils {
-  public static  handleDialogMode(dialogMode: DialogMode, formGroup: FormGroup) {
+  public static displayYesNo(translateService: TranslateService, value: boolean) {
+    return value ? translateService.instant('general.yes') : translateService.instant('general.no');
+  }
+
+  public static handleDialogMode(dialogMode: DialogMode, formGroup: FormGroup) {
     switch (dialogMode) {
       case DialogMode.CREATE:
       case DialogMode.EDIT:

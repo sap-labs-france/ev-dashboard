@@ -158,8 +158,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
         name: 'site_areas.access_control',
         headerClass: 'col-10p text-center',
         class: 'col-10p text-center',
-        formatter: (accessControl: boolean) => accessControl ?
-          this.translateService.instant('general.yes') : this.translateService.instant('general.no'),
+        formatter: (accessControl: boolean) => Utils.displayYesNo(this.translateService, accessControl),
       },
       {
         id: 'site.name',
@@ -220,8 +219,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
           name: 'site_areas.smart_charging',
           headerClass: 'col-10p text-center',
           class: 'col-10p text-center',
-          formatter: (smartCharging: boolean) => smartCharging ?
-            this.translateService.instant('general.yes') : this.translateService.instant('general.no'),
+          formatter: (smartCharging: boolean) => Utils.displayYesNo(this.translateService, smartCharging),
         }
       );
     }

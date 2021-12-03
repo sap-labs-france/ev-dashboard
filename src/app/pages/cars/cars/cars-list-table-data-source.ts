@@ -160,7 +160,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
         name: 'cars.default_car',
         headerClass: 'text-center col-10p',
         class: 'text-center col-10p',
-        formatter: (defaultCar: boolean) => defaultCar ? this.translateService.instant('general.yes') : this.translateService.instant('general.no'),
+        formatter: (defaultCar: boolean) => Utils.displayYesNo(this.translateService, defaultCar),
       }
     );
     tableColumnDef.push(

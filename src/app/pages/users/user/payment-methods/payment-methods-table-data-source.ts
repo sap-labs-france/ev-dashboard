@@ -114,8 +114,7 @@ export class PaymentMethodsTableDataSource extends TableDataSource<BillingPaymen
         name: 'general.default',
         headerClass: 'text-center col-10p',
         class: 'text-center col-10p',
-        formatter: (defaultPaymentMethod: boolean, paymentMethod: BillingPaymentMethod) => paymentMethod.isDefault ?
-          this.translateService.instant('general.yes') : this.translateService.instant('general.no'),
+        formatter: (defaultPaymentMethod: boolean, paymentMethod: BillingPaymentMethod) => Utils.displayYesNo(this.translateService, paymentMethod.isDefault),
       },
       {
         id: 'type',

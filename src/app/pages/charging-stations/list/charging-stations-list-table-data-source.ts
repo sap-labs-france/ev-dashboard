@@ -192,8 +192,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
         name: 'chargers.public_charger',
         headerClass: 'text-center col-5em',
         class: 'text-center col-5em',
-        formatter: (publicChargingStation: boolean) => publicChargingStation ?
-          this.translateService.instant('general.yes') : this.translateService.instant('general.no')
+        formatter: (publicChargingStation: boolean) => Utils.displayYesNo(this.translateService, publicChargingStation)
       },
     );
     if (this.authorizationService.isAdmin()) {

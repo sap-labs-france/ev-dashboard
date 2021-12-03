@@ -1051,7 +1051,7 @@ export class CentralServerService {
     this.checkInit();
     // Execute the REST service
     return this.httpClient.get<Blob>(
-      this.buildRestEndpointUrl(ServerRoute.REST_TENANT_LOGO, { id: tenantID }),
+      this.buildUtilRestEndpointUrl(ServerRoute.REST_TENANT_LOGO, { id: tenantID }),
       {
         headers: this.buildHttpHeaders(),
         responseType: 'blob' as 'json',

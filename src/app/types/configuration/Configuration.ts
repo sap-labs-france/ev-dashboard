@@ -5,7 +5,6 @@ import CarConfiguration from './CarConfiguration';
 import CentralSystemServerConfiguration from './CentralSystemServerConfiguration';
 import CompanyConfiguration from './CompanyConfiguration';
 import Debug from './Debug';
-import FrontEndConfiguration from './FrontEndConfiguration';
 import Landscape from './Landscape';
 import LocalesConfiguration from './LocalesConfiguration';
 import SiteAreaConfiguration from './SiteAreaConfiguration';
@@ -19,7 +18,6 @@ export interface Configuration {
   CentralSystemServer: CentralSystemServerConfiguration;
   Company: CompanyConfiguration;
   Asset: AssetConfiguration;
-  FrontEnd: FrontEndConfiguration;
   Locales: LocalesConfiguration;
   SiteArea: SiteAreaConfiguration;
   Site: SiteConfiguration;

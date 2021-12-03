@@ -1326,7 +1326,7 @@
     },
     "export_tags_title": "Export RFID cards",
     "export_tags_confirm": "Do you really want to export the RFID card list to a CSV format?",
-    "export_tags_error": "Error occurred while trying to export the Tags, check the logs"
+    "export_tags_error": "Error occurred while trying to export the RFID Cards, check the logs"
   },
   "invoices": {
     "tabs": {
@@ -1391,7 +1391,7 @@
     "tag_visual_id_already_used": "The visualID '{{visualID}}' already exists",
     "tag_visual_id_does_not_match_tag": "The visualID '{{visualID}}' does not match any RFID card",
     "tag_inactive": "The RFID card '{{visualID}}' is inactive and cannot be assigned",
-    "redirect": "Navigate to Tags",
+    "redirect": "Navigate to RFID Cards",
     "title": "RFID card",
     "default_tag": "Default RFID card",
     "delete_tags_title": "Delete RFID card(s)",

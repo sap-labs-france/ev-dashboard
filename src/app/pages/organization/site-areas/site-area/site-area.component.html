@@ -67,17 +67,17 @@
                     <mat-form-field *ngIf="!formGroup.enabled">
                       <input matInput type="text" placeholder="{{'sites.site' | translate}}" [formControl]="site" required />
                     </mat-form-field>
-                    <div *ngIf="siteArea?.issuer" class="text-left">
+                    <div *ngIf="issuer?.value" class="text-left">
                       <mat-checkbox [formControl]="accessControl">
                         {{'site_areas.enable_access_control' | translate}}
                       </mat-checkbox>
                     </div>
-                    <div *ngIf="siteArea?.issuer && isSmartChargingComponentActive" class="text-left">
+                    <div *ngIf="issuer?.value && isSmartChargingComponentActive" class="text-left">
                       <mat-checkbox [formControl]="smartCharging">
                         {{'site_areas.enable_smart_charging' | translate}}
                       </mat-checkbox>
                     </div>
-                    <div *ngIf="siteArea?.issuer" class="row">
+                    <div *ngIf="issuer?.value" class="row">
                       <div class="col-md-6">
                         <mat-form-field>
                           <mat-select placeholder="{{'chargers.voltage' | translate}}" [formControl]="voltage"

@@ -177,6 +177,7 @@ export interface SiteAreaAuthorizationActions extends AuthorizationActions {
 export interface SiteAuthorizationActions extends AuthorizationActions {
   canAssignUsers?: boolean;
   canUnassignUsers?: boolean;
+  canReadUsers?: boolean;
   canExportOCPPParams?: boolean;
   canGenerateQrCode?: boolean;
 }

@@ -117,15 +117,16 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
         name: 'sites.public_site',
         headerClass: 'text-center col-10em',
         class: 'text-center col-10em',
-        formatter: (publicSite: boolean) => publicSite ? this.translateService.instant('general.yes') : this.translateService.instant('general.no')
+        formatter: (publicSite: boolean, site: Site) =>
+          site.issuer ? Utils.displayYesNo(this.translateService, publicSite) : '-'
       },
       {
         id: 'autoUserSiteAssignment',
         name: 'sites.auto_assignment',
         headerClass: 'col-15p text-center',
         class: 'col-15p text-center',
-        formatter: (autoUserSiteAssignment: boolean) => autoUserSiteAssignment ?
-          this.translateService.instant('general.yes') : this.translateService.instant('general.no'),
+        formatter: (autoUserAssignment: boolean, site: Site) =>
+          site.issuer ? Utils.displayYesNo(this.translateService, autoUserAssignment) : '-',
       },
       {
         id: 'company.name',
@@ -202,7 +203,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
     }
     if (site.canAssignUsers || site.canUnassignUsers) {
       rowActions.push(this.assignUsersToSite);
-    } else if (this.authorizationService.canListUsers()) {
+    } else if (site.canReadUsers) {
       rowActions.push(this.viewUsersOfSite);
     }
     rowActions.push(this.viewPricingsAction);

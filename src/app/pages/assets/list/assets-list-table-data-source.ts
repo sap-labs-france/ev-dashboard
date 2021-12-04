@@ -132,8 +132,7 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
         headerClass: 'col-20p text-center',
         class: 'col-20p text-center',
         sortable: true,
-        formatter: (dynamicAsset: boolean) => dynamicAsset ?
-          this.translateService.instant('general.yes') : this.translateService.instant('general.no'),
+        formatter: (dynamicAsset: boolean) => Utils.displayYesNo(this.translateService, dynamicAsset),
       },
       {
         id: 'assetType',

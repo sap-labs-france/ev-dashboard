@@ -95,8 +95,7 @@ export class TagsDialogTableDataSource extends DialogTableDataSource<Tag> {
         headerClass: 'text-center col-5em',
         class: 'text-center col-10em',
         sortable: true,
-        formatter: (defaultTag) => defaultTag ? this.translateService.instant('general.yes') :
-          this.translateService.instant('general.no'),
+        formatter: (defaultTag) => Utils.displayYesNo(this.translateService, defaultTag),
       },
     ];
   }

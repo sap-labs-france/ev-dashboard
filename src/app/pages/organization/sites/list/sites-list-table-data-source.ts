@@ -203,7 +203,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
     }
     if (site.canAssignUsers || site.canUnassignUsers) {
       rowActions.push(this.assignUsersToSite);
-    } else if (this.authorizationService.canListUsers()) {
+    } else if (site.canReadUsers) {
       rowActions.push(this.viewUsersOfSite);
     }
     rowActions.push(this.viewPricingsAction);

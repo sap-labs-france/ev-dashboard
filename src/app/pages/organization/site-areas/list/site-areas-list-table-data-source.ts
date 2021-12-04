@@ -145,20 +145,21 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
         headerClass: 'col-10p text-center',
         class: 'col-10p text-center',
         sortable: true,
-        formatter: (maximumPower: number) => this.appUnitPipe.transform(maximumPower, 'W', 'kW', true, 0, 0, 0),
+        formatter: (maximumPower: number, siteArea: SiteArea) => siteArea.issuer ? this.appUnitPipe.transform(maximumPower, 'W', 'kW', true, 0, 0, 0) : '-',
       },
       {
         id: 'numberOfPhases',
         name: 'site_areas.number_of_phases',
         headerClass: 'col-10p text-center',
         class: 'col-10p text-center',
+        formatter: (numberOfPhases: number, siteArea: SiteArea) => siteArea.issuer ? numberOfPhases.toString() : '-',
       },
       {
         id: 'accessControl',
         name: 'site_areas.access_control',
         headerClass: 'col-10p text-center',
         class: 'col-10p text-center',
-        formatter: (accessControl: boolean) => Utils.displayYesNo(this.translateService, accessControl),
+        formatter: (accessControl: boolean, siteArea: SiteArea) => siteArea.issuer ? Utils.displayYesNo(this.translateService, accessControl) : '-',
       },
       {
         id: 'site.name',

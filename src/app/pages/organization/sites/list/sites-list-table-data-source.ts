@@ -125,7 +125,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
         name: 'sites.auto_assignment',
         headerClass: 'col-15p text-center',
         class: 'col-15p text-center',
-        formatter: (autoUserAssignment: boolean, site: Site) => 
+        formatter: (autoUserAssignment: boolean, site: Site) =>
           site.issuer ? Utils.displayYesNo(this.translateService, autoUserAssignment) : '-',
       },
       {

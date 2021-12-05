@@ -39,6 +39,7 @@ export class ReleaseNotesComponent {
               `Added missing Data Transfer in OCPP command whitelist`,
               `Adjusted roaming handling in Company, Site and Site Area (OCPI)`,
               `Soft Stop of a Transaction is allowed when there is a different ongoing Transaction`,
+              `Fixed Site Admin cannot Soft Stop his own Transaction`,
               `Added Autralian locale`,
             ],
           },

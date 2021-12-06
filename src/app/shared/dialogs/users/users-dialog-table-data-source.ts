@@ -27,15 +27,12 @@ export class UsersDialogTableDataSource extends DialogTableDataSource<User> {
 
   public loadDataImpl(): Observable<DataResult<User>> {
     return new Observable((observer) => {
-      // Get data
       this.centralServerService.getUsers(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((users) => {
         observer.next(users);
         observer.complete();
       }, (error) => {
-        // No longer exists!
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        // Error
         observer.error(error);
       });
     });

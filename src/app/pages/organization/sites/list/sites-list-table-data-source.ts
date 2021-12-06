@@ -76,13 +76,10 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
       this.centralServerService.getSites(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((sites) => {
         this.createAction.visible = sites.canCreate;
-        // Ok
         observer.next(sites);
         observer.complete();
       }, (error) => {
-        // Show error
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        // Error
         observer.error(error);
       });
     });

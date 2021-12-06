@@ -94,13 +94,10 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
       this.centralServerService.getSiteAreas(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((siteAreas) => {
         this.createAction.visible = siteAreas.canCreate;
-        // Ok
         observer.next(siteAreas);
         observer.complete();
       }, (error) => {
-        // Show error
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        // Error
         observer.error(error);
       });
     });

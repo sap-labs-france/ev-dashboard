@@ -162,19 +162,15 @@ export class ChargingPlansComponent implements OnInit, AfterViewInit {
   }
 
   public validateDateMustBeInTheFuture(control: AbstractControl): ValidationErrors | null {
-    // Check
     if (!control.value || (Utils.isValidDate(control.value) && moment(control.value).isAfter(new Date()))) {
-      // Ok
       return null;
     }
     return { dateNotInFuture: true };
   }
 
   public validateEndDateLimitInRecurringPlan(control: AbstractControl): ValidationErrors | null {
-    // Check
     if (!control.value || !this.startDateControl || (Utils.isValidDate(control.value) &&
       moment(control.value).isBefore(moment(this.startDateControl.value).add('1', 'd').add('1', 'm')))) {
-      // Ok
       return null;
     }
     return { endDateOutOfRecurringLimit: true };

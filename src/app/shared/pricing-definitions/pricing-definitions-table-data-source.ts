@@ -72,9 +72,7 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
         observer.next(pricingDefinition);
         observer.complete();
       }, (error) => {
-        // Show error
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        // Error
         observer.error(error);
       });
     });

@@ -149,13 +149,10 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
         this.projectFields = tags.projectFields;
         this.userFilter.visible = Utils.convertToBoolean(tags.canListUsers);
         this.metadata = tags.metadata;
-        // Ok
         observer.next(tags);
         observer.complete();
       }, (error) => {
-        // Show error
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        // Error
         observer.error(error);
       });
     });

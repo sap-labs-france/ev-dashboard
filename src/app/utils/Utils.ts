@@ -270,7 +270,6 @@ export class Utils {
       currentAmp: 0,
       currentWatt: 0,
     };
-    // Check
     if (!chargingStation ||
       !chargingStation.connectors ||
       Utils.isEmptyArray(chargingStation.connectors)) {
@@ -850,7 +849,6 @@ export class Utils {
   }
 
   public static convertToDate(value: any): Date {
-    // Check
     if (!value) {
       return value;
     }
@@ -866,7 +864,6 @@ export class Utils {
     if (!value) {
       return 0;
     }
-    // Check
     if (typeof value === 'string') {
       // Create Object
       changedValue = parseInt(value, 10);
@@ -879,7 +876,6 @@ export class Utils {
     if (!value) {
       return 0;
     }
-    // Check
     if (typeof value === 'string') {
       // Create Object
       changedValue = parseFloat(value);

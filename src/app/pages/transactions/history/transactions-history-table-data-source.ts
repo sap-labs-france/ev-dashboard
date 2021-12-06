@@ -170,12 +170,10 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
       this.centralServerService.getTransactions(this.buildFilterValues(), this.getPaging(), this.getSorting())
         .subscribe((transactions) => {
           this.canExport.visible = this.authorizationService.canExportTransactions();
-          // Ok
           observer.next(transactions);
           observer.complete();
         }, (error) => {
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-          // Error
           observer.error(error);
         });
     },

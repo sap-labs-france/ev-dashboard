@@ -55,13 +55,10 @@ export class TenantsListTableDataSource extends TableDataSource<Tenant> {
       this.centralServerService.getTenants(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((tenants) => {
         this.createAction.visible = true;
-        // Ok
         observer.next(tenants);
         observer.complete();
       }, (error) => {
-        // Show error
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        // Error
         observer.error(error);
       });
     });

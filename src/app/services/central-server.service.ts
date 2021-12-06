@@ -1942,7 +1942,6 @@ export class CentralServerService {
     this.currentUserToken = token;
     this.currentUser = new JwtHelperService().decodeToken(token);
     this.localStorageService.setItem('token', token);
-    // Notify
     this.currentUserSubject.next(this.currentUser);
   }
 
@@ -3326,7 +3325,6 @@ export class CentralServerService {
       if (token) {
         this.currentUser = new JwtHelperService().decodeToken(token);
       }
-      // Notify
       this.currentUserSubject.next(this.currentUser);
     });
   }
@@ -3381,7 +3379,6 @@ export class CentralServerService {
   }
 
   private getSorting(ordering: Ordering[], queryParams: FilterParams) {
-    // Check
     if (!Utils.isEmptyArray(ordering)) {
       const sortFields: string[] = [];
       for (const order of ordering) {

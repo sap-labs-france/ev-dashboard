@@ -30,16 +30,12 @@ export class TagsDialogTableDataSource extends DialogTableDataSource<Tag> {
 
   public loadDataImpl(): Observable<DataResult<Tag>> {
     return new Observable((observer) => {
-      // Get data
       this.centralServerService.getTags(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((tags) => {
-        // Ok
         observer.next(tags);
         observer.complete();
       }, (error) => {
-        // No longer exists!
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        // Error
         observer.error(error);
       });
     });

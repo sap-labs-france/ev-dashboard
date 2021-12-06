@@ -73,7 +73,6 @@ export class ChargingStationPowerSliderComponent implements OnInit, OnChanges {
     this.currentAmp = value;
     // Update Power
     this.displayedCurrentPowerW = Utils.convertAmpToWattString(this.chargingStation, null, 0, this.appUnitFormatter, value, 'W');
-    // Notify
     this.sliderChangedEmitter.emit(value);
   }
 

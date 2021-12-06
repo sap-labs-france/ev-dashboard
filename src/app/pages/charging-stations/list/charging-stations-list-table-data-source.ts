@@ -84,7 +84,6 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
 
   public loadDataImpl(): Observable<DataResult<ChargingStation>> {
     return new Observable((observer) => {
-      // Get data
       this.centralServerService.getChargingStations(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((chargingStations) => {
         // Update details status
@@ -105,13 +104,10 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
           };
         };
         this.canExport.visible = this.authorizationService.isAdmin();
-        // Ok
         observer.next(chargingStations);
         observer.complete();
       }, (error) => {
-        // No longer exists!
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        // Error
         observer.error(error);
       });
     });

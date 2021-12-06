@@ -118,13 +118,10 @@ export class UsersListTableDataSource extends TableDataSource<User> {
         this.importAction.visible = users.canImport;
         this.exportAction.visible = users.canExport;
         this.synchronizeBillingUsersAction.visible = users.canSynchronizeBilling;
-        // Ok
         observer.next(users);
         observer.complete();
       }, (error) => {
-        // Show error
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        // Error
         observer.error(error);
       });
     });

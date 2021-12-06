@@ -93,7 +93,6 @@ export abstract class EditableTableDataSource<T extends TableData> extends Table
       if (postDataProcessing) {
         postDataProcessing();
       }
-      // Notify
       this.tableChangedSubject.next(this.editableRows);
     }
   }

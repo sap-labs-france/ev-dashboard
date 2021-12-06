@@ -49,13 +49,10 @@ export class SiteAreaChargingStationsDataSource extends TableDataSource<Charging
           observer.next(chargingStations);
           observer.complete();
         }, (error) => {
-          // No longer exists!
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-          // Error
           observer.error(error);
         });
       } else {
-        // Ok
         observer.next({
           count: 0,
           result: [],
@@ -156,7 +153,6 @@ export class SiteAreaChargingStationsDataSource extends TableDataSource<Charging
             this.translateService.instant('site_areas.remove_chargers_title'),
             this.translateService.instant('site_areas.remove_chargers_confirm'),
           ).subscribe((response) => {
-            // Check
             if (response === ButtonType.YES) {
               // Remove
               this.removeChargers(this.getSelectedRows().map((row) => row.id));
@@ -188,7 +184,6 @@ export class SiteAreaChargingStationsDataSource extends TableDataSource<Charging
     this.centralServerService.removeChargersFromSiteArea(this.siteArea.id, chargerIDs).subscribe((response) => {
       // Ok?
       if (response.status === RestResponse.SUCCESS) {
-        // Ok
         this.messageService.showSuccessMessage(this.translateService.instant('site_areas.remove_chargers_success'));
         // Refresh
         this.refreshData().subscribe();
@@ -199,13 +194,11 @@ export class SiteAreaChargingStationsDataSource extends TableDataSource<Charging
           this.messageService, this.translateService.instant('site_areas.remove_chargers_error'));
       }
     }, (error) => {
-      // No longer exists!
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'site_areas.remove_chargers_error');
     });
   }
 
   private addChargers(chargers: ChargingStation[]) {
-    // Check
     if (!Utils.isEmptyArray(chargers)) {
       // Get the IDs
       const chargerIDs = chargers.map((charger) => charger.key);
@@ -213,7 +206,6 @@ export class SiteAreaChargingStationsDataSource extends TableDataSource<Charging
       this.centralServerService.addChargersToSiteArea(this.siteArea.id, chargerIDs).subscribe((response) => {
         // Ok?
         if (response.status === RestResponse.SUCCESS) {
-          // Ok
           this.messageService.showSuccessMessage(this.translateService.instant('site_areas.update_chargers_success'));
           // Refresh
           this.refreshData().subscribe();
@@ -229,7 +221,6 @@ export class SiteAreaChargingStationsDataSource extends TableDataSource<Charging
             this.messageService.showErrorMessage('chargers.change_config_phase_error');
             break;
           default:
-            // No longer exists!
             Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'site_areas.update_error');
         }
       });

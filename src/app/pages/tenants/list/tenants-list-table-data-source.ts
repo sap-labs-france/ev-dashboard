@@ -5,7 +5,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { User } from 'types/User';
 
-import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
@@ -19,7 +18,6 @@ import { TableCreateTenantAction, TableCreateTenantActionDef } from '../../../sh
 import { TableDeleteTenantAction, TableDeleteTenantActionDef } from '../../../shared/table/actions/tenants/table-delete-tenant-action';
 import { TableEditTenantAction, TableEditTenantActionDef } from '../../../shared/table/actions/tenants/table-edit-tenant-action';
 import { TableDataSource } from '../../../shared/table/table-data-source';
-import ChangeNotification from '../../../types/ChangeNotification';
 import { DataResult } from '../../../types/DataResult';
 import { ButtonAction } from '../../../types/GlobalType';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
@@ -33,6 +31,7 @@ export class TenantsListTableDataSource extends TableDataSource<Tenant> {
   private editAction = new TableEditTenantAction().getActionDef();
   private openUrlAction = new TableOpenURLAction().getActionDef();
   private deleteAction = new TableDeleteTenantAction().getActionDef();
+  private createAction = new TableCreateTenantAction().getActionDef();
 
   public constructor(
     public spinnerService: SpinnerService,
@@ -42,7 +41,6 @@ export class TenantsListTableDataSource extends TableDataSource<Tenant> {
     private windowService: WindowService,
     private router: Router,
     private dialog: MatDialog,
-    private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
     private datePipe: AppDatePipe) {
     super(spinnerService, translateService);
@@ -51,15 +49,12 @@ export class TenantsListTableDataSource extends TableDataSource<Tenant> {
     this.initDataSource();
   }
 
-  public getDataChangeSubject(): Observable<ChangeNotification> {
-    return this.centralServerNotificationService.getSubjectTenants();
-  }
-
   public loadDataImpl(): Observable<DataResult<Tenant>> {
     return new Observable((observer) => {
       // Get the Tenants
       this.centralServerService.getTenants(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((tenants) => {
+        this.createAction.visible = true;
         // Ok
         observer.next(tenants);
         observer.complete();
@@ -156,7 +151,7 @@ export class TenantsListTableDataSource extends TableDataSource<Tenant> {
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
     return [
-      new TableCreateTenantAction().getActionDef(),
+      this.createAction,
       ...tableActionsDef,
     ];
   }

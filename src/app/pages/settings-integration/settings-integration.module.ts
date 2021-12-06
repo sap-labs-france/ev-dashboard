@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { PricingDefinitionsModule } from 'shared/pricing-definitions/pricing-definitions.module';
 
 import { MaterialModule } from '../../app.module';
 import { DialogsModule } from '../../shared/dialogs/dialogs.module';
@@ -27,6 +28,7 @@ import { SettingsStripeComponent } from './billing/stripe/settings-stripe.compon
 import { CarConnectorConnectionComponent } from './car-connector/connection/car-connector-connection.component';
 import { CarConnectorConnectionDialogComponent } from './car-connector/connection/car-connector-connection.dialog.component';
 import { MercedesCarConnectorConnectionComponent } from './car-connector/connection/mercedes/mercedes-car-connector-connection.component';
+import { TronityCarConnectorConnectionComponent } from './car-connector/connection/tronity/tronity-car-connector-connection.component';
 import { SettingsCarConnectorConnectionEditableTableDataSource } from './car-connector/settings-car-connector-connections-list-table-data-source';
 import { SettingsCarConnectorComponent } from './car-connector/settings-car-connector.component';
 import { SettingsOcpiEndpointComponent } from './ocpi/endpoints/endpoint/settings-ocpi-endpoint.component';
@@ -81,6 +83,7 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     DialogsModule,
     CommonDirectivesModule,
     FormattersModule,
+    PricingDefinitionsModule,
   ],
   declarations: [
     SettingsIntegrationComponent,
@@ -88,7 +91,6 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     SettingsOicpComponent,
     SettingsRefundComponent,
     SettingsConcurComponent,
-    SettingsPricingComponent,
     SettingsSimplePricingComponent,
     SettingsConvergentChargingComponent,
     SettingsBillingComponent,
@@ -120,6 +122,7 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     CarConnectorConnectionComponent,
     CarConnectorConnectionDialogComponent,
     MercedesCarConnectorConnectionComponent,
+    TronityCarConnectorConnectionComponent,
     OcpiEndpointStatusFormatterComponent,
     OicpEndpointStatusFormatterComponent,
     AppFormatOcpiStatusPipe,
@@ -151,6 +154,7 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     OicpPatchJobStatusFormatterComponent,
     AppFormatOicpPatchJobStatusPipe,
     SettingsOicpEndpointsDetailsComponent,
+    SettingsPricingComponent,
   ],
   entryComponents: [
     SettingsIntegrationComponent,
@@ -160,7 +164,6 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     SettingsOicpEndpointsComponent,
     SettingsRefundComponent,
     SettingsConcurComponent,
-    SettingsPricingComponent,
     SettingsConvergentChargingComponent,
     SettingsBillingComponent,
     SettingsStripeComponent,
@@ -181,6 +184,7 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     CarConnectorConnectionComponent,
     CarConnectorConnectionDialogComponent,
     MercedesCarConnectorConnectionComponent,
+    TronityCarConnectorConnectionComponent,
     AnalyticsLinkDialogComponent,
     SettingsOcpiEndpointDialogComponent,
     SettingsOcpiEndpointComponent,
@@ -201,7 +205,7 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     OicpDetailSuccessEvsesStatusFormatterComponent,
     OicpDetailFailureEvsesStatusFormatterComponent,
     OicpPatchJobStatusFormatterComponent,
-    SettingsOicpEndpointsDetailsComponent
+    SettingsOicpEndpointsDetailsComponent,
   ],
   providers: [
     SettingsOcpiEndpointsDetailsTableDataSource,

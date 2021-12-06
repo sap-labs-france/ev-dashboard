@@ -119,13 +119,12 @@ export class ConsumptionChartComponent implements AfterViewInit {
   }
 
   public refresh() {
-    this.centralServerService.getTransactionConsumption(this.transactionId, this.loadAllConsumptions)
-      .subscribe((transaction) => {
-        this.transaction = transaction;
-        this.prepareOrUpdateGraph();
-      }, (error) => {
-        delete this.transaction;
-      });
+    this.centralServerService.getTransactionConsumption(this.transactionId, this.loadAllConsumptions).subscribe((transaction) => {
+      this.transaction = transaction;
+      this.prepareOrUpdateGraph();
+    }, (error) => {
+      delete this.transaction;
+    });
   }
 
   public loadAllConsumptionsChanged(matCheckboxChange: MatCheckboxChange) {
@@ -487,6 +486,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
       },
       responsive: true,
       maintainAspectRatio: false,
+      spanGaps: true,
       // aspectRatio: this.ratio,
       tooltips: {
         bodySpacing: 5,

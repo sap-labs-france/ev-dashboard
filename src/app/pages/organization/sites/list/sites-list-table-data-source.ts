@@ -4,9 +4,11 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { AuthorizationService } from 'services/authorization.service';
+import { PricingDefinitionsDialogComponent } from 'shared/pricing-definitions/pricing-definitions.dialog.component';
 import { TableSiteGenerateQrCodeConnectorAction, TableSiteGenerateQrCodeConnectorsActionDef } from 'shared/table/actions/sites/table-site-generate-qr-code-connector-action';
+import { TableViewPricingsAction, TableViewPricingsActionDef } from 'shared/table/actions/table-view-pricings-action';
+import { PricingButtonAction, PricingEntity } from 'types/Pricing';
 
-import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../../services/central-server.service';
 import { DialogService } from '../../../../services/dialog.service';
 import { MessageService } from '../../../../services/message.service';
@@ -26,7 +28,6 @@ import { TableRefreshAction } from '../../../../shared/table/actions/table-refre
 import { CompanyTableFilter } from '../../../../shared/table/filters/company-table-filter';
 import { IssuerFilter } from '../../../../shared/table/filters/issuer-filter';
 import { TableDataSource } from '../../../../shared/table/table-data-source';
-import ChangeNotification from '../../../../types/ChangeNotification';
 import { ChargingStationButtonAction } from '../../../../types/ChargingStation';
 import { DataResult } from '../../../../types/DataResult';
 import { ButtonAction } from '../../../../types/GlobalType';
@@ -47,7 +48,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
   private exportOCPPParamsAction = new TableExportOCPPParamsAction().getActionDef();
   private siteGenerateQrCodeConnectorAction = new TableSiteGenerateQrCodeConnectorAction().getActionDef();
   private createAction = new TableCreateSiteAction().getActionDef();
-
+  private viewPricingsAction = new TableViewPricingsAction().getActionDef();
 
   public constructor(
     public spinnerService: SpinnerService,
@@ -56,17 +57,12 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
     private dialogService: DialogService,
     private router: Router,
     private dialog: MatDialog,
-    private centralServerNotificationService: CentralServerNotificationService,
     private authorizationService: AuthorizationService,
     private centralServerService: CentralServerService,
     private datePipe: AppDatePipe) {
     super(spinnerService, translateService);
     this.setStaticFilters([{ WithCompany: true }]);
     this.initDataSource();
-  }
-
-  public getDataChangeSubject(): Observable<ChangeNotification> {
-    return this.centralServerNotificationService.getSubjectSites();
   }
 
   public loadDataImpl(): Observable<DataResult<Site>> {
@@ -121,15 +117,16 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
         name: 'sites.public_site',
         headerClass: 'text-center col-10em',
         class: 'text-center col-10em',
-        formatter: (publicSite: boolean) => publicSite ? this.translateService.instant('general.yes') : this.translateService.instant('general.no')
+        formatter: (publicSite: boolean, site: Site) =>
+          site.issuer ? Utils.displayYesNo(this.translateService, publicSite) : '-'
       },
       {
         id: 'autoUserSiteAssignment',
         name: 'sites.auto_assignment',
         headerClass: 'col-15p text-center',
         class: 'col-15p text-center',
-        formatter: (autoUserSiteAssignment: boolean) => autoUserSiteAssignment ?
-          this.translateService.instant('general.yes') : this.translateService.instant('general.no'),
+        formatter: (autoUserAssignment: boolean, site: Site) =>
+          site.issuer ? Utils.displayYesNo(this.translateService, autoUserAssignment) : '-',
       },
       {
         id: 'company.name',
@@ -206,19 +203,20 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
     }
     if (site.canAssignUsers || site.canUnassignUsers) {
       rowActions.push(this.assignUsersToSite);
-    } else if (this.authorizationService.canListUsers()) {
+    } else if (site.canReadUsers) {
       rowActions.push(this.viewUsersOfSite);
     }
+    rowActions.push(this.viewPricingsAction);
     if (site.canExportOCPPParams) {
       moreActions.addActionInMoreActions(this.exportOCPPParamsAction);
     }
     if (site.canGenerateQrCode) {
       moreActions.addActionInMoreActions(this.siteGenerateQrCodeConnectorAction);
     }
+    moreActions.addActionInMoreActions(openInMaps);
     if (site.canDelete) {
       moreActions.addActionInMoreActions(this.deleteAction);
     }
-    moreActions.addActionInMoreActions(openInMaps);
     rowActions.push(moreActions.getActionDef());
     return rowActions;
   }
@@ -286,6 +284,19 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
             site, this.translateService, this.spinnerService,
             this.messageService, this.centralServerService, this.router
           );
+        }
+        break;
+      case PricingButtonAction.VIEW_PRICING_DEFINITIONS:
+        if (actionDef.action) {
+          (actionDef as TableViewPricingsActionDef).action(PricingDefinitionsDialogComponent, this.dialog, {
+            dialogData: {
+              id: null,
+              context: {
+                entityID: site.id,
+                entityType: PricingEntity.SITE
+              }
+            },
+          }, this.refreshData.bind(this));
         }
         break;
     }

@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 
 import { ActionResponse } from '../types/DataResult';
 import { AnalyticsSettings, AssetConnectionType, AssetSettings, AssetSettingsType, BillingSettings, BillingSettingsType, CarConnectorConnectionType, CarConnectorSetting, CarConnectorSettings, CarConnectorSettingsType, CryptoSettings, PricingSettings, PricingSettingsType, RefundSettings, RefundSettingsType, RoamingSettings, RoamingSettingsType, SmartChargingSettings, SmartChargingSettingsType, TechnicalSettings, UserSettings, UserSettingsType } from '../types/Setting';
-import TenantComponents from '../types/TenantComponents';
+import { TenantComponents } from '../types/Tenant';
 import { Utils } from '../utils/Utils';
 import { CentralServerService } from './central-server.service';
 
@@ -214,8 +214,10 @@ export class ComponentService {
         case CarConnectorConnectionType.MERCEDES:
           settingsToSave.sensitiveData.push(`content.carConnector.connections[${index}].mercedesConnection.clientSecret`);
           break;
+        case CarConnectorConnectionType.TRONITY:
+          settingsToSave.sensitiveData.push(`content.carConnector.connections[${index}].tronityConnection.clientSecret`);
+          break;
       }
-
     });
     // Delete IDS
     delete settingsToSave.content.id;
@@ -510,6 +512,10 @@ export class ComponentService {
       identifier: settings.identifier,
       content: Utils.cloneObject(settings)
     };
+    // Delete IDS
+    delete settingsToSave.content.id;
+    delete settingsToSave.content.identifier;
+    delete settingsToSave.content.sensitiveData;
     return this.centralServerService.updateSetting(settingsToSave);
   }
 }

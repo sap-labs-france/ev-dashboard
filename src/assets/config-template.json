@@ -3,10 +3,7 @@
     "protocol": "https",
     "host": "localhost",
     "port": 443,
-    "socketIOEnabled": true
-  },
-  "FrontEnd": {
-    "host": "localhost"
+		"pollIntervalSecs": 10
   },
   "Authorization": {
     "debug": false

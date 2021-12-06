@@ -10736,7 +10736,7 @@ footer .btn {
 .card-profile,
 .card-testimonial {
   margin-top: 30px;
-  text-align: center;
+  text-align: left;
 }
 .card-profile .btn-just-icon.btn-raised,
 .card-testimonial .btn-just-icon.btn-raised {

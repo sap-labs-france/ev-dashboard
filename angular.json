@@ -1,5 +1,8 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "cli": {
+    "analytics": false
+  },
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
@@ -63,7 +66,6 @@
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.css",
               "src/assets/css/material-dashboard.css",
-              "node_modules/sweetalert2/src/sweetalert2.scss",
               "src/assets/scss/material-dashboard.scss"
             ],
             "scripts": [
@@ -154,7 +156,6 @@
             "styles": [
               "node_modules/perfect-scrollbar/css/perfect-scrollbar.css",
               "src/assets/css/material-dashboard.css",
-              "node_modules/sweetalert2/src/sweetalert2.scss",
               "src/assets/scss/material-dashboard.scss"
             ],
             "assets": [

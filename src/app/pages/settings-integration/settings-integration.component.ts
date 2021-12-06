@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { CentralServerService } from 'services/central-server.service';
 
 import { ComponentService } from '../../services/component.service';
 import { WindowService } from '../../services/window.service';
 import { AbstractTabComponent } from '../../shared/component/abstract-tab/abstract-tab.component';
-import TenantComponents from '../../types/TenantComponents';
+import { TenantComponents } from '../../types/Tenant';
 
 declare const $: any;
 

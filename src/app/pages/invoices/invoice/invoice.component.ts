@@ -12,7 +12,7 @@ import { StripeService } from 'services/stripe.service';
 import { AppCurrencyPipe } from 'shared/formatters/app-currency.pipe';
 import { BillingInvoiceStatus } from 'types/Billing';
 import { ScreenSize } from 'types/GlobalType';
-import TenantComponents from 'types/TenantComponents';
+import { TenantComponents } from 'types/Tenant';
 import { Utils } from 'utils/Utils';
 
 import { AuthorizationService } from '../../../services/authorization.service';

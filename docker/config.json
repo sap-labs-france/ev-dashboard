@@ -3,10 +3,7 @@
     "protocol": "http",
     "host": "localhost",
     "port": 81,
-    "socketIOEnabled": true
-  },
-  "FrontEnd": {
-    "host": "localhost"
+		"pollIntervalSecs": 10
   },
   "Authorization": {
     "debug": false

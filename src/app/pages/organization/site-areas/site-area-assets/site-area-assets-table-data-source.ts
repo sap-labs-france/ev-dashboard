@@ -38,6 +38,8 @@ export class SiteAreaAssetsDataSource extends TableDataSource<Asset> {
 
   public loadDataImpl(): Observable<DataResult<Asset>> {
     return new Observable((observer) => {
+      this.addAction.visible = this.siteArea.canAssignAssets;
+      this.removeAction.visible = this.siteArea.canUnassignAssets;
       // Site Area provided?
       if (this.siteArea) {
         // Yes: Get data
@@ -103,8 +105,7 @@ export class SiteAreaAssetsDataSource extends TableDataSource<Asset> {
         headerClass: 'col-20p text-center',
         class: 'col-20p text-center',
         sortable: true,
-        formatter: (dynamicAsset: boolean) => dynamicAsset ?
-          this.translateService.instant('general.yes') : this.translateService.instant('general.no'),
+        formatter: (dynamicAsset: boolean) => Utils.displayYesNo(this.translateService, dynamicAsset),
       },
       {
         id: 'assetType',

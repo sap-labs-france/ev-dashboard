@@ -1,10 +1,12 @@
+import { AuthorizationDefinitionFieldMetadata } from './Authorization';
 import { Car, CarCatalog } from './Car';
 import { Company } from './Company';
+import { Log } from './Log';
 import { Site } from './Site';
 import { SiteArea } from './SiteArea';
 import { Tag } from './Tag';
 import { Transaction } from './Transaction';
-import { UserStatus } from './User';
+import { User, UserStatus } from './User';
 
 export interface ActionResponse {
   status: string;
@@ -74,7 +76,8 @@ export interface CheckBillingConnectionResponse extends ActionResponse {
 export interface DataResult<T> {
   count: number;
   result: T[];
-  projectedFields?: string[];
+  projectFields?: string[];
+  metadata?: Record<string, AuthorizationDefinitionFieldMetadata>;
 }
 
 export interface CompanyDataResult extends DataResult<Company> {
@@ -85,11 +88,23 @@ export interface SiteDataResult extends DataResult<Site> {
   canCreate: boolean;
 }
 
+export interface LogDataResult extends DataResult<Log> {
+  canExport: boolean;
+}
+
 export interface CarDataResult extends DataResult<Car> {
   canCreate: boolean;
 }
+
 export interface CarCatalogDataResult extends DataResult<CarCatalog> {
   canSync: boolean;
+}
+
+export interface UserDataResult extends DataResult<User> {
+  canCreate: boolean;
+  canExport: boolean;
+  canImport: boolean;
+  canSynchronizeBilling: boolean;
 }
 
 export interface SiteAreaDataResult extends DataResult<SiteArea> {
@@ -100,6 +115,10 @@ export interface TagDataResult extends DataResult<Tag> {
   canCreate: boolean;
   canImport: boolean;
   canExport: boolean;
+  canDelete: boolean;
+  canUnassign: boolean;
+  canAssign: boolean;
+  canListUsers: boolean;
 }
 
 export interface CheckAssetConnectionResponse extends ActionResponse {

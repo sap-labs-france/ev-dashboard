@@ -39,7 +39,7 @@ export class TableSyncCarCatalogsAction extends TableSynchronizeAction {
         centralServerService.synchronizeCarsCatalog().subscribe((synchronizeResponse) => {
           spinnerService.hide();
           if (synchronizeResponse.status === Constants.REST_RESPONSE_SUCCESS) {
-            messageService.showSuccessMessage('cars.synchronize_car_catalogs_success');
+            messageService.showInfoMessage('cars.synchronize_car_catalogs_success');
           } else {
             Utils.handleError(JSON.stringify(response),
               messageService, 'cars.synchronize_car_catalogs_error');

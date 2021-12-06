@@ -8,7 +8,7 @@ import { SetupIntent, StripeCardCvcElement, StripeCardExpiryElement, StripeCardN
 import { ComponentService } from 'services/component.service';
 import { StripeService } from 'services/stripe.service';
 import { BillingOperationResult } from 'types/DataResult';
-import TenantComponents from 'types/TenantComponents';
+import { TenantComponents } from 'types/Tenant';
 
 import { CentralServerService } from '../../../../../../services/central-server.service';
 import { MessageService } from '../../../../../../services/message.service';

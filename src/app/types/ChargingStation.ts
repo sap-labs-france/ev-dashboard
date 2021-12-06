@@ -25,7 +25,6 @@ export interface ChargingStation extends TableData {
   endpoint: string;
   ocppVersion: OCPPVersion;
   ocppProtocol: OCPPProtocol;
-  cfApplicationIDAndInstanceIndex: string;
   lastSeen: Date;
   deleted: boolean;
   inactive: boolean;
@@ -57,7 +56,6 @@ export enum OCPPProtocol {
 }
 
 export enum OCPPVersion {
-  VERSION_12 = '1.2',
   VERSION_15 = '1.5',
   VERSION_16 = '1.6',
   VERSION_20 = '2.0',

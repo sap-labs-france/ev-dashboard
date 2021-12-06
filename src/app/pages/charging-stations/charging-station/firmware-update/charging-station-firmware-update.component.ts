@@ -39,7 +39,7 @@ export class ChargingStationFirmwareUpdateComponent implements OnInit {
     // Check auth
     if (!authorizationService.canUpdateChargingStation()) {
       // Not authorized
-      this.router.navigate(['/']);
+      void this.router.navigate(['/']);
     }
     // Get translated messages
     this.translateService.get('chargers', {}).subscribe((messages) => {
@@ -61,7 +61,7 @@ export class ChargingStationFirmwareUpdateComponent implements OnInit {
   public updateFirmware() {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('chargers.update_firmware_title'),
-      this.translateService.instant('chargers.update_firmware_confirm', { chargeBoxID: this.url.value }),
+      this.translateService.instant('chargers.update_firmware_confirm', { chargeBoxID: this.charger.id }),
     ).subscribe((result) => {
       if (result === ButtonType.YES) {
         this.spinnerService.show();

@@ -14,7 +14,7 @@ import { SpinnerService } from '../../../services/spinner.service';
 import { CarsDialogComponent } from '../../../shared/dialogs/cars/cars-dialog.component';
 import { TagsDialogComponent } from '../../../shared/dialogs/tags/tags-dialog.component';
 import { UsersDialogComponent } from '../../../shared/dialogs/users/users-dialog.component';
-import TenantComponents from '../../../types/TenantComponents';
+import { TenantComponents } from '../../../types/Tenant';
 import { StartTransaction, StartTransactionErrorCode } from '../../../types/Transaction';
 import { User, UserDefaultTagCar, UserToken } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';

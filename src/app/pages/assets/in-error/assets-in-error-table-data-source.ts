@@ -5,10 +5,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { ComponentService } from 'services/component.service';
 import { SiteTableFilter } from 'shared/table/filters/site-table-filter';
-import TenantComponents from 'types/TenantComponents';
+import { TenantComponents } from 'types/Tenant';
 
 import { AuthorizationService } from '../../../services/authorization.service';
-import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
@@ -24,7 +23,6 @@ import { IssuerFilter } from '../../../shared/table/filters/issuer-filter';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { AssetButtonAction } from '../../../types/Asset';
-import ChangeNotification from '../../../types/ChangeNotification';
 import { DataResult } from '../../../types/DataResult';
 import { AssetInError, AssetInErrorType, ErrorMessage } from '../../../types/InError';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
@@ -48,7 +46,6 @@ export class AssetsInErrorTableDataSource extends TableDataSource<AssetInError> 
     public translateService: TranslateService,
     private messageService: MessageService,
     private router: Router,
-    private centralServerNotificationService: CentralServerNotificationService,
     private componentService: ComponentService,
     private centralServerService: CentralServerService,
     private authorizationService: AuthorizationService,
@@ -59,10 +56,6 @@ export class AssetsInErrorTableDataSource extends TableDataSource<AssetInError> 
     this.isAdmin = this.authorizationService.isAdmin();
     this.setStaticFilters([{WithSiteArea: true}]);
     this.initDataSource();
-  }
-
-  public getDataChangeSubject(): Observable<ChangeNotification> {
-    return this.centralServerNotificationService.getSubjectAssets();
   }
 
   public loadDataImpl(): Observable<DataResult<AssetInError>> {

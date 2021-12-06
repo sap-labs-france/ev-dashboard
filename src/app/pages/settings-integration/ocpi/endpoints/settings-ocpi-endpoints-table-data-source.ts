@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 
-import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../../services/central-server.service';
 import { DialogService } from '../../../../services/dialog.service';
 import { MessageService } from '../../../../services/message.service';
@@ -17,7 +16,6 @@ import { TableRefreshAction } from '../../../../shared/table/actions/table-refre
 import { TableRegisterAction } from '../../../../shared/table/actions/table-register-action';
 import { TableUnregisterAction } from '../../../../shared/table/actions/table-unregister-action';
 import { TableDataSource } from '../../../../shared/table/table-data-source';
-import ChangeNotification from '../../../../types/ChangeNotification';
 import { DataResult } from '../../../../types/DataResult';
 import { ButtonAction, RestResponse } from '../../../../types/GlobalType';
 import { OcpiEndpoint, OcpiEndpointStatus } from '../../../../types/ocpi/OCPIEndpoint';
@@ -35,6 +33,7 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEn
   private deleteAction = new TableDeleteAction().getActionDef();
   private registerAction = new TableRegisterAction().getActionDef();
   private unregisterAction = new TableUnregisterAction().getActionDef();
+  private createAction = new TableCreateAction().getActionDef();
 
   public constructor(
     public spinnerService: SpinnerService,
@@ -43,15 +42,10 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEn
     private dialogService: DialogService,
     private router: Router,
     private dialog: MatDialog,
-    private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService) {
     super(spinnerService, translateService);
     // Init
     this.initDataSource();
-  }
-
-  public getDataChangeSubject(): Observable<ChangeNotification> {
-    return this.centralServerNotificationService.getSubjectOcpiEndpoints();
   }
 
   public loadDataImpl(): Observable<DataResult<OcpiEndpoint>> {
@@ -59,7 +53,7 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEn
       // Get the OCPI Endpoints
       this.centralServerService.getOcpiEndpoints(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((ocpiEndpoints) => {
-        // Ok
+        this.createAction.visible = true;
         observer.next(ocpiEndpoints);
         observer.complete();
       }, (error) => {
@@ -166,7 +160,7 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEn
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
     return [
-      new TableCreateAction().getActionDef(),
+      this.createAction,
       ...tableActionsDef,
     ];
   }

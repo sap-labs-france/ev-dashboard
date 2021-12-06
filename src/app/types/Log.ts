@@ -5,7 +5,6 @@ import { User } from './User';
 export interface Log extends TableData {
   id: string;
   level: string;
-  source: string;
   host?: string;
   process?: string;
   module: string;

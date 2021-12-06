@@ -12,11 +12,11 @@ import { Utils } from '../../../utils/Utils';
 
 @Component({
   template: `
-      <div class="d-flex justify-content-center">
-          <mat-checkbox class="mx-auto"
-                            [checked]="(row.siteOwner ? row.siteOwner : false)"
-                            (change)="changeSiteOwner($event)"></mat-checkbox>
-      </div>`,
+    <div class="d-flex justify-content-center">
+      <mat-checkbox class="mx-auto" [checked]="(row.siteOwner ? row.siteOwner : false)"
+        (change)="changeSiteOwner($event)">
+      </mat-checkbox>
+    </div>`
 })
 export class UserSitesOwnerRadioComponent extends CellContentTemplateDirective {
   @Input() public row!: SiteUser;

@@ -9,7 +9,6 @@ import { ConnectorTableFilter } from 'shared/table/filters/connector-table-filte
 import { CarCatalog } from 'types/Car';
 
 import { AuthorizationService } from '../../../services/authorization.service';
-import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
@@ -34,7 +33,6 @@ import { TableDeleteTransactionAction, TableDeleteTransactionActionDef } from '.
 import { TableExportTransactionOcpiCdrAction, TableExportTransactionOcpiCdrActionDef } from '../../../shared/table/actions/transactions/table-export-transaction-ocpi-cdr';
 import { TableExportTransactionsAction, TableExportTransactionsActionDef } from '../../../shared/table/actions/transactions/table-export-transactions-action';
 import { TablePushTransactionOcpiCdrAction, TablePushTransactionOcpiCdrActionDef } from '../../../shared/table/actions/transactions/table-push-transaction-ocpi-cdr-action';
-import { TableRebuildTransactionConsumptionsAction, TableRebuildTransactionConsumptionsActionDef } from '../../../shared/table/actions/transactions/table-rebuild-transaction-consumptions-action';
 import { TableViewTransactionAction, TableViewTransactionActionDef, TransactionDialogData } from '../../../shared/table/actions/transactions/table-view-transaction-action';
 import { ChargingStationTableFilter } from '../../../shared/table/filters/charging-station-table-filter';
 import { EndDateFilter } from '../../../shared/table/filters/end-date-filter';
@@ -45,13 +43,12 @@ import { StartDateFilter } from '../../../shared/table/filters/start-date-filter
 import { TagTableFilter } from '../../../shared/table/filters/tag-table-filter';
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
-import ChangeNotification from '../../../types/ChangeNotification';
 import { ChargingStationButtonAction, Connector } from '../../../types/ChargingStation';
 import { DataResult, TransactionDataResult } from '../../../types/DataResult';
 import { HTTPError } from '../../../types/HTTPError';
 import { LogButtonAction } from '../../../types/Log';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
-import TenantComponents from '../../../types/TenantComponents';
+import { TenantComponents } from '../../../types/Tenant';
 import { Transaction, TransactionButtonAction } from '../../../types/Transaction';
 import { User } from '../../../types/User';
 import { Constants } from '../../../utils/Constants';
@@ -67,10 +64,10 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
   private deleteAction = new TableDeleteTransactionAction().getActionDef();
   private navigateToLogsAction = new TableNavigateToLogsAction().getActionDef();
   private navigateToChargingPlansAction = new TableNavigateToChargingPlansAction().getActionDef();
-  private rebuildTransactionConsumptionsAction = new TableRebuildTransactionConsumptionsAction().getActionDef();
   private transactionPushOcpiCdrAction = new TablePushTransactionOcpiCdrAction().getActionDef();
   private exportTransactionOcpiCdrAction = new TableExportTransactionOcpiCdrAction().getActionDef();
   private readonly isOrganizationComponentActive: boolean;
+  private canExport = new TableExportTransactionsAction().getActionDef();
 
   public constructor(
     public spinnerService: SpinnerService,
@@ -79,7 +76,6 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     private dialogService: DialogService,
     private router: Router,
     private dialog: MatDialog,
-    private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
     private authorizationService: AuthorizationService,
     private componentService: ComponentService,
@@ -126,12 +122,12 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
       this.loadUserFilterLabel(userID);
     }
     // Tag
-    const tagID = this.windowService.getSearch('TagID');
-    if (tagID) {
+    const visualID = this.windowService.getSearch('VisualID');
+    if (visualID) {
       const tagTableFilter = this.tableFiltersDef.find(filter => filter.id === 'tag');
       if (tagTableFilter) {
         tagTableFilter.currentValue.push({
-          key: tagID, value: tagID,
+          key: visualID, value: visualID,
         });
         this.filterChanged(tagTableFilter);
       }
@@ -169,14 +165,11 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     });
   }
 
-  public getDataChangeSubject(): Observable<ChangeNotification> {
-    return this.centralServerNotificationService.getSubjectTransactions();
-  }
-
   public loadDataImpl(): Observable<DataResult<Transaction>> {
     return new Observable((observer) => {
       this.centralServerService.getTransactions(this.buildFilterValues(), this.getPaging(), this.getSorting())
         .subscribe((transactions) => {
+          this.canExport.visible = this.authorizationService.canExportTransactions();
           // Ok
           observer.next(transactions);
           observer.complete();
@@ -416,7 +409,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
   public buildTableFiltersDef(): TableFilterDef[] {
     let userFilter: TableFilterDef;
     const issuerFilter = new IssuerFilter().getFilterDef();
-    const filters: TableFilterDef[] = [
+    const tableFiltersDef: TableFilterDef[] = [
       issuerFilter,
       new StartDateFilter(moment().startOf('y').toDate()).getFilterDef(),
       new EndDateFilter().getFilterDef(),
@@ -426,36 +419,35 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     if (this.componentService.isActive(TenantComponents.ORGANIZATION)) {
       const siteFilter = new SiteTableFilter([issuerFilter]).getFilterDef();
       const siteAreaFilter = new SiteAreaTableFilter([issuerFilter, siteFilter]).getFilterDef();
-      filters.push(siteFilter);
-      filters.push(siteAreaFilter);
+      tableFiltersDef.push(siteFilter);
+      tableFiltersDef.push(siteAreaFilter);
       if (this.authorizationService.canListChargingStations()) {
-        filters.push(new ChargingStationTableFilter([issuerFilter, siteFilter, siteAreaFilter]).getFilterDef());
-        filters.push(new ConnectorTableFilter().getFilterDef());
+        tableFiltersDef.push(new ChargingStationTableFilter([issuerFilter, siteFilter, siteAreaFilter]).getFilterDef());
+        tableFiltersDef.push(new ConnectorTableFilter().getFilterDef());
       }
       if ((this.authorizationService.canListUsers())) {
         userFilter = new UserTableFilter([issuerFilter, siteFilter]).getFilterDef();
-        filters.push(userFilter);
+        tableFiltersDef.push(userFilter);
       }
       if ((this.authorizationService.canListTags())) {
-        filters.push(new TagTableFilter(
+        tableFiltersDef.push(new TagTableFilter(
           userFilter ? [issuerFilter, siteFilter, userFilter] : [issuerFilter, siteFilter]).getFilterDef());
       }
     } else {
       if (this.authorizationService.canListChargingStations()) {
-        filters.push(new ChargingStationTableFilter([issuerFilter]).getFilterDef());
-        filters.push(new ConnectorTableFilter().getFilterDef());
+        tableFiltersDef.push(new ChargingStationTableFilter([issuerFilter]).getFilterDef());
+        tableFiltersDef.push(new ConnectorTableFilter().getFilterDef());
       }
       if ((this.authorizationService.canListUsers())) {
         userFilter = new UserTableFilter([issuerFilter]).getFilterDef();
-        filters.push(userFilter);
+        tableFiltersDef.push(userFilter);
       }
       if ((this.authorizationService.canListTags())) {
-        filters.push(new TagTableFilter(
+        tableFiltersDef.push(new TagTableFilter(
           userFilter ? [issuerFilter, userFilter] : [issuerFilter]).getFilterDef());
       }
     }
-    filters.push(new ConnectorTableFilter().getFilterDef());
-    return filters;
+    return tableFiltersDef;
   }
 
   public buildTableDynamicRowActions(transaction: Transaction): TableActionDef[] {
@@ -473,10 +465,6 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
           } else {
             moreActions.addActionInMoreActions(this.exportTransactionOcpiCdrAction);
           }
-        }
-        // Enable only for one user for the time being
-        if (this.centralServerService.getLoggedUser().email === 'serge.fabiano@sap.com') {
-          moreActions.addActionInMoreActions(this.rebuildTransactionConsumptionsAction);
         }
         moreActions.addActionInMoreActions(this.deleteAction);
         if (!Utils.isEmptyArray(moreActions.getActionsInMoreActions())) {
@@ -538,13 +526,6 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
             transaction.chargeBoxID + '&TransactionID=' + transaction.id);
         }
         break;
-      case TransactionButtonAction.REBUILD_TRANSACTION_CONSUMPTIONS:
-        if (actionDef.action) {
-          (actionDef as TableRebuildTransactionConsumptionsActionDef).action(
-            transaction, this.dialogService, this.translateService, this.messageService,
-            this.centralServerService, this.router, this.spinnerService, this.refreshData.bind(this));
-        }
-        break;
       case TransactionButtonAction.PUSH_TRANSACTION_CDR:
         if (actionDef.action) {
           (actionDef as TablePushTransactionOcpiCdrActionDef).action(
@@ -571,7 +552,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
     if (this.authorizationService.canExportTransactions()) {
-      tableActionsDef.unshift(new TableExportTransactionsAction().getActionDef());
+      tableActionsDef.unshift(this.canExport);
     }
     return tableActionsDef;
   }

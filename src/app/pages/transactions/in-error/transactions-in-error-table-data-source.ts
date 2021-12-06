@@ -7,12 +7,10 @@ import { Observable } from 'rxjs';
 import { TransactionDialogComponent } from 'shared/dialogs/transaction/transaction.dialog.component';
 import { AppDurationPipe } from 'shared/formatters/app-duration.pipe';
 import { AppUnitPipe } from 'shared/formatters/app-unit.pipe';
-import { TableRebuildTransactionConsumptionsAction, TableRebuildTransactionConsumptionsActionDef } from 'shared/table/actions/transactions/table-rebuild-transaction-consumptions-action';
 import { IssuerFilter } from 'shared/table/filters/issuer-filter';
 import { CarCatalog } from 'types/Car';
 
 import { AuthorizationService } from '../../../services/authorization.service';
-import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
@@ -39,12 +37,11 @@ import { SiteTableFilter } from '../../../shared/table/filters/site-table-filter
 import { StartDateFilter } from '../../../shared/table/filters/start-date-filter';
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
-import ChangeNotification from '../../../types/ChangeNotification';
 import { ActionResponse, DataResult } from '../../../types/DataResult';
 import { ErrorMessage, TransactionInError, TransactionInErrorType } from '../../../types/InError';
 import { LogButtonAction } from '../../../types/Log';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
-import TenantComponents from '../../../types/TenantComponents';
+import { TenantComponents } from '../../../types/Tenant';
 import { Transaction, TransactionButtonAction } from '../../../types/Transaction';
 import { User } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';
@@ -57,7 +54,6 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
   private deleteAction = new TableDeleteTransactionAction().getActionDef();
   private deleteManyAction = new TableDeleteTransactionsAction().getActionDef();
   private navigateToLogsAction = new TableNavigateToLogsAction().getActionDef();
-  private rebuildTransactionConsumptionsAction = new TableRebuildTransactionConsumptionsAction().getActionDef();
   private errorTypes = [
     {
       key: TransactionInErrorType.INVALID_START_DATE,
@@ -108,7 +104,6 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     private appUnitPipe: AppUnitPipe,
     private componentService: ComponentService,
     private authorizationService: AuthorizationService,
-    private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
     private datePipe: AppDatePipe,
     private appConnectorIdPipe: AppConnectorIdPipe,
@@ -137,15 +132,12 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     this.initDataSource();
   }
 
-  public getDataChangeSubject(): Observable<ChangeNotification> {
-    return this.centralServerNotificationService.getSubjectTransactions();
-  }
-
   public loadDataImpl(): Observable<DataResult<Transaction>> {
     return new Observable((observer) => {
       this.centralServerService.getTransactionsInError(this.buildFilterValues(), this.getPaging(), this.getSorting())
         .subscribe((transactions) => {
           this.formatErrorMessages(transactions.result);
+          this.deleteManyAction.visible = this.authorizationService.isAdmin();
           observer.next(transactions);
           observer.complete();
         }, (error) => {
@@ -349,10 +341,6 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
         // - Authorization are not in place
         // moreActions.addActionInMoreActions(this.createInvoice);
       }
-      // Enable only for one user for the time being
-      if (this.centralServerService.getLoggedUser().email === 'serge.fabiano@sap.com') {
-        moreActions.addActionInMoreActions(this.rebuildTransactionConsumptionsAction);
-      }
       if (this.authorizationService.canListLogs()) {
         moreActions.addActionInMoreActions(this.navigateToLogsAction);
       }
@@ -384,13 +372,6 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
           (actionDef as TableViewTransactionActionDef).action(TransactionDialogComponent, this.dialog,
             { dialogData: { transactionID: transaction.id } as TransactionDialogData },
             this.refreshData.bind(this));
-        }
-        break;
-      case TransactionButtonAction.REBUILD_TRANSACTION_CONSUMPTIONS:
-        if (actionDef.action) {
-          (actionDef as TableRebuildTransactionConsumptionsActionDef).action(
-            transaction, this.dialogService, this.translateService, this.messageService,
-            this.centralServerService, this.router, this.spinnerService, this.refreshData.bind(this));
         }
         break;
       case LogButtonAction.NAVIGATE_TO_LOGS:

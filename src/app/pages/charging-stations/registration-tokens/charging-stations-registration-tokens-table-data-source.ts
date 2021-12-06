@@ -6,7 +6,6 @@ import * as moment from 'moment';
 import { Observable } from 'rxjs';
 
 import { AuthorizationService } from '../../../services/authorization.service';
-import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
@@ -23,12 +22,11 @@ import { TableMoreAction } from '../../../shared/table/actions/table-more-action
 import { TableMultiCopyAction } from '../../../shared/table/actions/table-multi-copy-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { TableDataSource } from '../../../shared/table/table-data-source';
-import ChangeNotification from '../../../types/ChangeNotification';
 import { DataResult } from '../../../types/DataResult';
 import { RegistrationToken, RegistrationTokenButtonAction } from '../../../types/RegistrationToken';
 import { SiteArea } from '../../../types/SiteArea';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
-import TenantComponents from '../../../types/TenantComponents';
+import { TenantComponents } from '../../../types/Tenant';
 import { User } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';
 import { ChargingStationsRegistrationTokenStatusComponent } from './registration-token/charging-stations-registration-token-status.component';
@@ -46,6 +44,7 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
   private copySOAP15SecureAction = new TableCopyAction('chargers.connections.ocpp_15_soap_secure').getActionDef();
   private copySOAP16SecureAction = new TableCopyAction('chargers.connections.ocpp_16_soap_secure').getActionDef();
   private copyJSON16SecureAction = new TableCopyAction('chargers.connections.ocpp_16_json_secure').getActionDef();
+  private canCreate = new TableCreateRegistrationTokenAction().getActionDef();
   private canUpdateToken: boolean;
   private canCreateToken: boolean;
   private canDeleteToken: boolean;
@@ -58,7 +57,6 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
     private router: Router,
     private dialog: MatDialog,
     private componentService: ComponentService,
-    private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
     private authorizationService: AuthorizationService,
     private datePipe: AppDatePipe) {
@@ -71,15 +69,12 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
     this.initDataSource();
   }
 
-  public getDataChangeSubject(): Observable<ChangeNotification> {
-    return this.centralServerNotificationService.getSubjectRegistrationTokens();
-  }
-
   public loadDataImpl(): Observable<DataResult<RegistrationToken>> {
     return new Observable((observer) => {
       // Get the Tenants
       this.centralServerService.getRegistrationTokens(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((tokens) => {
+        this.canCreate.visible = this.canCreateToken;
         observer.next(tokens);
         observer.complete();
       }, (error) => {
@@ -110,6 +105,13 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
         headerClass: 'col-5p text-center',
         class: 'col-5p table-cell-angular-big-component',
         sortable: true,
+      },
+      {
+        id: 'id',
+        name: 'general.id',
+        sortable: true,
+        headerClass: 'col-30p',
+        class: 'col-30p',
       },
       {
         id: 'description',
@@ -187,7 +189,7 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
     if (this.canCreateToken) {
-      tableActionsDef.unshift(new TableCreateRegistrationTokenAction().getActionDef());
+      tableActionsDef.unshift(this.canCreate);
     }
     return tableActionsDef;
   }

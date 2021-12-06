@@ -13,7 +13,7 @@ import { TableChargingStationsRebootAction } from '../../../../shared/table/acti
 import { ChargePoint, ChargingStation, OCPPConfigurationStatus } from '../../../../types/ChargingStation';
 import { KeyValue } from '../../../../types/GlobalType';
 import { ButtonType } from '../../../../types/Table';
-import TenantComponents from '../../../../types/TenantComponents';
+import { TenantComponents } from '../../../../types/Tenant';
 import { Utils } from '../../../../utils/Utils';
 
 @Component({
@@ -40,7 +40,7 @@ export class ChargingStationStaticLimitationComponent {
     // Check Auth
     if (!authorizationService.canUpdateChargingStation()) {
       // Not authorized
-      this.router.navigate(['/']);
+      void this.router.navigate(['/']);
     }
     // Get Locales
     this.userLocales = this.localeService.getLocales();

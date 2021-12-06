@@ -88,7 +88,7 @@
             "ignoreRegExpLiterals": true,
             "ignoreStrings": true,
             "ignorePattern": "(^(import|export)|(public|private))\\s.+;",
-            "code": 140
+            "code": 180
           }
         ],
         "no-duplicate-case": "error",

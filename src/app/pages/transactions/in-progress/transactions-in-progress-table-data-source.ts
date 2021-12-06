@@ -9,7 +9,6 @@ import { CarCatalog } from 'types/Car';
 import { Constants } from 'utils/Constants';
 
 import { AuthorizationService } from '../../../services/authorization.service';
-import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
@@ -37,12 +36,11 @@ import { SiteTableFilter } from '../../../shared/table/filters/site-table-filter
 import { TagTableFilter } from '../../../shared/table/filters/tag-table-filter';
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
-import ChangeNotification from '../../../types/ChangeNotification';
 import { ChargingStationButtonAction, Connector } from '../../../types/ChargingStation';
 import { DataResult, TransactionDataResult } from '../../../types/DataResult';
 import { LogButtonAction } from '../../../types/Log';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
-import TenantComponents from '../../../types/TenantComponents';
+import { TenantComponents } from '../../../types/Tenant';
 import { Transaction, TransactionButtonAction } from '../../../types/Transaction';
 import { User } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';
@@ -67,7 +65,6 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
     private router: Router,
     private dialog: MatDialog,
     private appCurrencyPipe: AppCurrencyPipe,
-    private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
     private componentService: ComponentService,
     private authorizationService: AuthorizationService,
@@ -95,10 +92,6 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
       }]);
     }
     this.initDataSource();
-  }
-
-  public getDataChangeSubject(): Observable<ChangeNotification> {
-    return this.centralServerNotificationService.getSubjectTransactions();
   }
 
   public loadDataImpl(): Observable<DataResult<Transaction>> {

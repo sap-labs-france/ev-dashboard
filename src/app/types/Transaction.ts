@@ -27,7 +27,7 @@ export interface Transaction extends TableData, AbstractCurrentConsumption {
   tagID: string;
   carID?: string;
   car?: Car;
-  carCatalogID?: string;
+  carCatalogID?: number;
   carCatalog?: CarCatalog;
   status: string;
   price: number;
@@ -89,12 +89,11 @@ export enum TransactionButtonAction {
   DELETE_TRANSACTIONS = 'delete_transactions',
   EXPORT_TRANSACTIONS = 'export_transactions',
   EXPORT_TRANSACTION_OCPI_CDR = 'export_transaction_ocpi_cdr',
-  OPEN_CONCUR_URL = 'open_concur_url',
+  OPEN_REFUND_URL = 'open_refund_url',
   REFUND_TRANSACTIONS = 'refund_transactions',
   REFUND_SYNCHRONIZE = 'refund_synchronize',
   PUSH_TRANSACTION_CDR = 'push_transaction_cdr',
   CREATE_TRANSACTION_INVOICE = 'create_transaction_invoice',
-  REBUILD_TRANSACTION_CONSUMPTIONS = 'rebuild_transaction_consumptions',
   NAVIGATE_TO_TRANSACTIONS = 'navigate_to_transactions'
 }
 

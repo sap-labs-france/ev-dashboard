@@ -7,6 +7,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ChartModule } from 'angular2-chartjs';
 import { MomentModule } from 'ngx-moment';
 import { TransactionDialogComponent } from 'shared/dialogs/transaction/transaction.dialog.component';
+import { PricingDefinitionsModule } from 'shared/pricing-definitions/pricing-definitions.module';
 
 import { MaterialModule } from '../../app.module';
 import { ComponentModule } from '../../shared/component/component.module';
@@ -73,6 +74,7 @@ import { ChargingStationsRegistrationTokenDialogComponent } from './registration
     ComponentModule,
     ChartModule,
     MomentModule,
+    PricingDefinitionsModule,
   ],
   entryComponents: [
     ChargingStationLimitationComponent,

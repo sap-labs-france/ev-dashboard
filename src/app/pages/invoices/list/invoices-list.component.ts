@@ -39,7 +39,7 @@ export class InvoicesListComponent implements OnInit {
         this.messageService.showErrorMessage('invoices.failed_download');
       });
     } else {
-      // OTDO: verify if still usefull ??
+      // TODO: verify if still useful
       this.invoicesListTableDataSource.setCurrentUserId(this.centralServerService.getLoggedUser().id);
     }
   }

@@ -1047,11 +1047,12 @@ export class CentralServerService {
 
   public getTenantLogo(tenantID: string): Observable<string> {
     const params: { [param: string]: string } = {};
+    params['ID'] = tenantID;
     // Verify init
     this.checkInit();
     // Execute the REST service
     return this.httpClient.get<Blob>(
-      this.buildUtilRestEndpointUrl(ServerRoute.REST_TENANT_LOGO, { id: tenantID }),
+      this.buildUtilRestEndpointUrl(ServerRoute.REST_TENANT_LOGO),
       {
         headers: this.buildHttpHeaders(),
         responseType: 'blob' as 'json',

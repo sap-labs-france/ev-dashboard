@@ -49,6 +49,7 @@ import { ChargingStationsConnectorsDetailComponent } from '../details-component/
 @Injectable()
 export class ChargingStationsListTableDataSource extends TableDataSource<ChargingStation> {
   private readonly isOrganizationComponentActive: boolean;
+  private readonly isPricingComponentActive: boolean;
   private editAction = new TableEditChargingStationAction().getActionDef();
   private smartChargingAction = new TableChargingStationsSmartChargingAction().getActionDef();
   private deleteAction = new TableDeleteChargingStationAction().getActionDef();
@@ -70,6 +71,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
     super(spinnerService, translateService);
     // Init
     this.isOrganizationComponentActive = this.componentService.isActive(TenantComponents.ORGANIZATION);
+    this.isPricingComponentActive = this.componentService.isActive(TenantComponents.PRICING);
     if (this.isOrganizationComponentActive) {
       this.setStaticFilters([{
         WithSite: true,
@@ -401,21 +403,23 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
         forceAvailableStatusAction.disabled = chargingStation.inactive;
         const forceUnavailableStatusAction = new TableChargingStationsForceUnavailableStatusAction().getActionDef();
         forceUnavailableStatusAction.disabled = chargingStation.inactive;
-        return [
+        const tableActionDef: TableActionDef[] = [
           this.editAction,
-          this.smartChargingAction,
-          this.maintainPricingDefinitionsAction,
-          new TableMoreAction([
-            rebootAction,
-            clearCacheAction,
-            resetAction,
-            isUnavailable ? forceAvailableStatusAction : forceUnavailableStatusAction,
-            this.generateQrCodeConnectorAction,
-            openInMaps,
-            this.deleteAction,
-          ]).getActionDef()
-          ,
+          this.smartChargingAction
         ];
+        if (this.isPricingComponentActive) {
+          tableActionDef.push(this.maintainPricingDefinitionsAction);
+        }
+        tableActionDef.push(new TableMoreAction([
+          rebootAction,
+          clearCacheAction,
+          resetAction,
+          isUnavailable ? forceAvailableStatusAction : forceUnavailableStatusAction,
+          this.generateQrCodeConnectorAction,
+          openInMaps,
+          this.deleteAction,
+        ]).getActionDef());
+        return tableActionDef;
       }
     }
     return [openInMaps];

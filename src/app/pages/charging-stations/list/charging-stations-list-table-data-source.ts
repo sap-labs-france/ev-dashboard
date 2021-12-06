@@ -25,7 +25,7 @@ import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto
 import { TableMoreAction } from '../../../shared/table/actions/table-more-action';
 import { TableOpenInMapsAction } from '../../../shared/table/actions/table-open-in-maps-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
-import { TableViewPricingsAction, TableViewPricingsActionDef } from '../../../shared/table/actions/table-view-pricings-action';
+import { TableViewPricingDefinitionsAction, TableViewPricingDefinitionsActionDef } from '../../../shared/table/actions/table-view-pricing-definitions-action';
 import { CompanyTableFilter } from '../../../shared/table/filters/company-table-filter';
 import { IssuerFilter } from '../../../shared/table/filters/issuer-filter';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
@@ -54,7 +54,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
   private deleteAction = new TableDeleteChargingStationAction().getActionDef();
   private generateQrCodeConnectorAction = new TableChargingStationGenerateQrCodeConnectorAction().getActionDef();
   private canExport = new TableExportChargingStationsAction().getActionDef();
-  private viewPricingsAction = new TableViewPricingsAction().getActionDef();
+  private maintainPricingDefinitionsAction = new TableViewPricingDefinitionsAction().getActionDef();
 
   public constructor(
     public spinnerService: SpinnerService,
@@ -343,7 +343,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
         break;
       case PricingButtonAction.VIEW_PRICING_DEFINITIONS:
         if (actionDef.action) {
-          (actionDef as TableViewPricingsActionDef).action(PricingDefinitionsDialogComponent, this.dialog, {
+          (actionDef as TableViewPricingDefinitionsActionDef).action(PricingDefinitionsDialogComponent, this.dialog, {
             dialogData: {
               id: null,
               context: {
@@ -404,7 +404,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
         return [
           this.editAction,
           this.smartChargingAction,
-          this.viewPricingsAction,
+          this.maintainPricingDefinitionsAction,
           new TableMoreAction([
             rebootAction,
             clearCacheAction,

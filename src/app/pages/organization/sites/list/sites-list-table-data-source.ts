@@ -4,10 +4,12 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { AuthorizationService } from 'services/authorization.service';
+import { ComponentService } from 'services/component.service';
 import { PricingDefinitionsDialogComponent } from 'shared/pricing-definitions/pricing-definitions.dialog.component';
 import { TableSiteGenerateQrCodeConnectorAction, TableSiteGenerateQrCodeConnectorsActionDef } from 'shared/table/actions/sites/table-site-generate-qr-code-connector-action';
-import { TableViewPricingsAction, TableViewPricingsActionDef } from 'shared/table/actions/table-view-pricings-action';
+import { TableViewPricingDefinitionsAction, TableViewPricingDefinitionsActionDef } from 'shared/table/actions/table-view-pricing-definitions-action';
 import { PricingButtonAction, PricingEntity } from 'types/Pricing';
+import { TenantComponents } from 'types/Tenant';
 
 import { CentralServerService } from '../../../../services/central-server.service';
 import { DialogService } from '../../../../services/dialog.service';
@@ -40,6 +42,7 @@ import { SiteDialogComponent } from '../site/site-dialog.component';
 
 @Injectable()
 export class SitesListTableDataSource extends TableDataSource<Site> {
+  private readonly isPricingComponentActive: boolean;
   private editAction = new TableEditSiteAction().getActionDef();
   private assignUsersToSite = new TableAssignUsersToSiteAction().getActionDef();
   private viewUsersOfSite = new TableViewAssignedUsersOfSiteAction().getActionDef();
@@ -48,7 +51,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
   private exportOCPPParamsAction = new TableExportOCPPParamsAction().getActionDef();
   private siteGenerateQrCodeConnectorAction = new TableSiteGenerateQrCodeConnectorAction().getActionDef();
   private createAction = new TableCreateSiteAction().getActionDef();
-  private viewPricingsAction = new TableViewPricingsAction().getActionDef();
+  private maintainPricingDefinitionsAction = new TableViewPricingDefinitionsAction().getActionDef();
 
   public constructor(
     public spinnerService: SpinnerService,
@@ -59,8 +62,10 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
     private dialog: MatDialog,
     private authorizationService: AuthorizationService,
     private centralServerService: CentralServerService,
-    private datePipe: AppDatePipe) {
+    private datePipe: AppDatePipe,
+    private componentService: ComponentService) {
     super(spinnerService, translateService);
+    this.isPricingComponentActive = this.componentService.isActive(TenantComponents.PRICING);
     this.setStaticFilters([{ WithCompany: true }]);
     this.initDataSource();
   }
@@ -206,7 +211,9 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
     } else if (site.canReadUsers) {
       rowActions.push(this.viewUsersOfSite);
     }
-    rowActions.push(this.viewPricingsAction);
+    if (this.isPricingComponentActive && site.canMaintainPricingDefinitions) {
+      rowActions.push(this.maintainPricingDefinitionsAction);
+    }
     if (site.canExportOCPPParams) {
       moreActions.addActionInMoreActions(this.exportOCPPParamsAction);
     }
@@ -288,7 +295,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
         break;
       case PricingButtonAction.VIEW_PRICING_DEFINITIONS:
         if (actionDef.action) {
-          (actionDef as TableViewPricingsActionDef).action(PricingDefinitionsDialogComponent, this.dialog, {
+          (actionDef as TableViewPricingDefinitionsActionDef).action(PricingDefinitionsDialogComponent, this.dialog, {
             dialogData: {
               id: null,
               context: {

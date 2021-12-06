@@ -182,6 +182,7 @@ export interface SiteAuthorizationActions extends AuthorizationActions {
   canReadUsers?: boolean;
   canExportOCPPParams?: boolean;
   canGenerateQrCode?: boolean;
+  canMaintainPricingDefinitions?: boolean;
 }
 
 

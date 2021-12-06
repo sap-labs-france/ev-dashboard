@@ -4,15 +4,14 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 
-import { AuthorizationService } from '../../services/authorization.service';
 import { CentralServerService } from '../../services/central-server.service';
 import { DialogService } from '../../services/dialog.service';
 import { MessageService } from '../../services/message.service';
 import { SpinnerService } from '../../services/spinner.service';
 import { DialogTableDataSource } from '../../shared/dialogs/dialog-table-data-source';
-import { AppPricingDimensionsUnit } from '../../shared/formatters/app-pricing-dimensions-unit';
+import { AppPricingDimensionsPrice } from '../../shared/formatters/app-pricing-dimensions-price';
 import { DataResult } from '../../types/DataResult';
-import PricingDefinition, { PricingButtonAction } from '../../types/Pricing';
+import PricingDefinition, { PricingButtonAction, PricingEntity } from '../../types/Pricing';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../types/Table';
 import { Utils } from '../../utils/Utils';
 import { AppDatePipe } from '../formatters/app-date.pipe';
@@ -30,9 +29,9 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
   private deleteAction = new TableDeletePricingDefinitionAction().getActionDef();
   private context = {
     entityID: '',
-    entityType: ''
+    entityType: '',
+    entityName: ''
   };
-  private canCreatePricingDefinition: boolean;
 
   public constructor(
     public spinnerService: SpinnerService,
@@ -42,18 +41,22 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
     private router: Router,
     private dialog: MatDialog,
     private centralServerService: CentralServerService,
-    private authorizationService: AuthorizationService,
     private datePipe: AppDatePipe,
-    private appPricingDimensionsUnit: AppPricingDimensionsUnit) {
+    private appPricingDimensionsPrice: AppPricingDimensionsPrice) {
     super(spinnerService, translateService);
-    this.canCreatePricingDefinition = this.authorizationService.canCreatePricingDefinition();
     // Init
     this.initDataSource();
   }
 
-  public setContext(entityID: string, entityType: string) {
-    this.context.entityID = entityID;
-    this.context.entityType = entityType;
+  public setContext(entityID: string, entityType: string, entityName: string = null) {
+    if (!entityType) {
+      this.context.entityID = this.centralServerService.getLoggedUser().tenantID;
+      this.context.entityType = PricingEntity.TENANT;
+    } else {
+      this.context.entityID = entityID;
+      this.context.entityType = entityType;
+    }
+    this.context.entityName = entityName;
   }
 
   public isContextSet() {
@@ -65,7 +68,7 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
       // Get the PricingDefinitions
       this.centralServerService.getPricingDefinitions(this.buildFilterValues(),
         this.getPaging(), this.getSorting(), this.context).subscribe((pricingDefinition) => {
-        this.createAction.visible = this.canCreatePricingDefinition;
+        this.createAction.visible = pricingDefinition.canCreate;
         observer.next(pricingDefinition);
         observer.complete();
       }, (error) => {
@@ -114,48 +117,28 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
       {
         id: 'dimensions.flatFee.price',
         name: 'settings.pricing.flat_fee',
-        formatter: (price: number) => {
-          if (price === undefined) {
-            return '-';
-          }
-          return this.appPricingDimensionsUnit.transform('flat_fee_formatted_price', price);
-        },
+        formatter: (price: number) => this.appPricingDimensionsPrice.transform('flat_fee_formatted_price', price),
         headerClass: 'col-15p',
         class: 'col-15p',
       },
       {
         id: 'dimensions.energy.price',
         name: 'settings.pricing.energy',
-        formatter: (price: number) => {
-          if (price === undefined) {
-            return '-';
-          }
-          return this.appPricingDimensionsUnit.transform('energy_formatted_price', price);
-        },
+        formatter: (price: number) => this.appPricingDimensionsPrice.transform('energy_formatted_price', price),
         headerClass: 'col-15p',
         class: 'col-15p',
       },
       {
         id: 'dimensions.chargingTime.price',
         name: 'settings.pricing.charging_time',
-        formatter: (price: number) => {
-          if (price === undefined) {
-            return '-';
-          }
-          return this.appPricingDimensionsUnit.transform('charging_time_formatted_price', price);
-        },
+        formatter: (price: number) => this.appPricingDimensionsPrice.transform('charging_time_formatted_price', price),
         headerClass: 'col-15p',
         class: 'col-15p',
       },
       {
         id: 'dimensions.parkingTime.price',
         name: 'settings.pricing.parking_time',
-        formatter: (price: number) => {
-          if (price === undefined) {
-            return '-';
-          }
-          return this.appPricingDimensionsUnit.transform('parking_time_formatted_price', price);
-        },
+        formatter: (price: number) => this.appPricingDimensionsPrice.transform('parking_time_formatted_price', price),
         headerClass: 'col-15p',
         class: 'col-15p',
       },
@@ -165,10 +148,10 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-    if (this.canCreatePricingDefinition) {
-      tableActionsDef.unshift(this.createAction);
-    }
-    return tableActionsDef;
+    return [
+      this.createAction,
+      ...tableActionsDef,
+    ];
   }
 
   public buildTableDynamicRowActions(pricingDefinition: PricingDefinition): TableActionDef[] {
@@ -189,12 +172,7 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
         if (actionDef.id) {
           (actionDef as TableCreatePricingDefinitionActionDef).action(PricingDefinitionDialogComponent,
             this.dialog,
-            {
-              dialogData: {
-                id: null,
-                context: this.context
-              }
-            }, this.refreshData.bind(this));
+            { dialogData: { id: null, context: this.context } }, this.refreshData.bind(this));
         }
         break;
     }

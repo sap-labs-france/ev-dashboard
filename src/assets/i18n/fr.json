@@ -34,7 +34,6 @@
     "select_at_least_one_record": "Vous devez sélectionner au moins une ligne dans la liste",
     "mandatory_field": "Champs obligatoire",
     "no_record_found": "Aucun enregistrement n'a été trouvé",
-    "only_number_field": "Seulement les chiffres sont acceptés",
     "no_image_found": "Aucune image n'a été trouvée",
     "no_connector_available": "Aucune connexion disponible",
     "error_max_length": "Longueur maximale: '{{length}}'",

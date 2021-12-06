@@ -14,7 +14,7 @@ import { ChargePoint, ChargingStation, OCPPAvailabilityType, OcppParameter } fro
 import { Company } from '../types/Company';
 import CentralSystemServerConfiguration from '../types/configuration/CentralSystemServerConfiguration';
 import { IntegrationConnection, UserConnection } from '../types/Connection';
-import { ActionResponse, ActionsResponse, BillingOperationResult, CarCatalogDataResult, CarDataResult, CheckAssetConnectionResponse, CheckBillingConnectionResponse, CompanyDataResult, DataResult, LogDataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OICPJobStatusesResponse, OICPPingResponse, Ordering, Paging, SiteAreaDataResult, SiteDataResult, TagDataResult, UserDataResult } from '../types/DataResult';
+import { ActionResponse, ActionsResponse, BillingOperationResult, CarCatalogDataResult, CarDataResult, CheckAssetConnectionResponse, CheckBillingConnectionResponse, CompanyDataResult, DataResult, LogDataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OICPJobStatusesResponse, OICPPingResponse, Ordering, Paging, PricingDefinitionDataResult, SiteAreaDataResult, SiteDataResult, TagDataResult, UserDataResult } from '../types/DataResult';
 import { EndUserLicenseAgreement } from '../types/Eula';
 import { FilterParams, Image, KeyValue } from '../types/GlobalType';
 import { AssetInError, ChargingStationInError, TransactionInError } from '../types/InError';
@@ -3225,7 +3225,7 @@ export class CentralServerService {
 
   public getPricingDefinitions(params: FilterParams,
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = [],
-    context?: { entityID: string; entityType: string }): Observable<DataResult<PricingDefinition>> {
+    context?: { entityID: string; entityType: string}): Observable<PricingDefinitionDataResult> {
     // Verify init
     this.checkInit();
     // Build Paging
@@ -3234,13 +3234,13 @@ export class CentralServerService {
     this.getSorting(ordering, params);
     const url = this.buildRestEndpointUrl(ServerRoute.REST_PRICING_DEFINITIONS);
     // Execute the REST service
-    return this.httpClient.get<DataResult<PricingDefinition>>(url,
+    return this.httpClient.get<PricingDefinitionDataResult>(url,
       {
         headers: this.buildHttpHeaders(),
         params: {
           ...params,
           EntityID: context.entityID,
-          EntityType: context.entityType
+          EntityType: context.entityType,
         }
       })
       .pipe(

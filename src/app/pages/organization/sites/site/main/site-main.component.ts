@@ -25,6 +25,7 @@ export class SiteMainComponent implements OnInit, OnChanges {
   public image = Constants.NO_IMAGE;
   public maxSize: number;
 
+  public issuer!: AbstractControl;
   public id!: AbstractControl;
   public name!: AbstractControl;
   public company!: AbstractControl;
@@ -43,6 +44,7 @@ export class SiteMainComponent implements OnInit, OnChanges {
 
   public ngOnInit(): void {
     // Init the form
+    this.formGroup.addControl('issuer', new FormControl(true));
     this.formGroup.addControl('id', new FormControl(''));
     this.formGroup.addControl('name', new FormControl('',
       Validators.compose([
@@ -60,6 +62,7 @@ export class SiteMainComponent implements OnInit, OnChanges {
     this.formGroup.addControl('autoUserSiteAssignment', new FormControl(false));
     this.formGroup.addControl('public', new FormControl(false));
     // Form
+    this.issuer = this.formGroup.controls['issuer'];
     this.id = this.formGroup.controls['id'];
     this.name = this.formGroup.controls['name'];
     this.company = this.formGroup.controls['company'];
@@ -78,6 +81,9 @@ export class SiteMainComponent implements OnInit, OnChanges {
   public loadSite() {
     if (this.site) {
       this.formGroup.controls.id.setValue(this.site.id);
+      if (Utils.objectHasProperty(this.site, 'issuer')) {
+        this.formGroup.controls.issuer.setValue(this.site.issuer);
+      }
       if (this.site.name) {
         this.formGroup.controls.name.setValue(this.site.name);
       }

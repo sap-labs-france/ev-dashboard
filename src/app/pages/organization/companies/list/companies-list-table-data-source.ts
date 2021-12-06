@@ -165,19 +165,15 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
     const openInMaps = new TableOpenInMapsAction().getActionDef();
     openInMaps.disabled = !Utils.containsAddressGPSCoordinates(company.address);
     const moreActions = new TableMoreAction([]);
-    if (company.issuer) {
-      if (company.canUpdate) {
-        rowActions.push(this.editAction);
-      } else if (company.canRead) {
-        rowActions.push(this.viewAction);
-      }
-      if (company.canDelete) {
-        moreActions.addActionInMoreActions(this.deleteAction);
-      }
+    if (company.canUpdate) {
+      rowActions.push(this.editAction);
     } else if (company.canRead) {
       rowActions.push(this.viewAction);
     }
     moreActions.addActionInMoreActions(openInMaps);
+    if (company.canDelete) {
+      moreActions.addActionInMoreActions(this.deleteAction);
+    }
     if (!Utils.isEmptyArray(moreActions.getActionsInMoreActions())) {
       rowActions.push(moreActions.getActionDef());
     }

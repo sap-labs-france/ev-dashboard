@@ -213,10 +213,10 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
     if (site.canGenerateQrCode) {
       moreActions.addActionInMoreActions(this.siteGenerateQrCodeConnectorAction);
     }
+    moreActions.addActionInMoreActions(openInMaps);
     if (site.canDelete) {
       moreActions.addActionInMoreActions(this.deleteAction);
     }
-    moreActions.addActionInMoreActions(openInMaps);
     rowActions.push(moreActions.getActionDef());
     return rowActions;
   }

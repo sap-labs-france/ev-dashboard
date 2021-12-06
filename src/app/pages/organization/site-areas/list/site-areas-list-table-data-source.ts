@@ -113,6 +113,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
       },
       rowDetails: {
         enabled: true,
+        showDetailsField: 'issuer',
         angularComponent: SiteAreaConsumptionChartDetailComponent,
       },
       hasDynamicRowAction: true,
@@ -249,7 +250,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     if (this.isAssetComponentActive) {
       if (siteArea.canAssignAssets || siteArea.canUnassignAssets) {
         rowActions.push(this.assignAssetsToSiteAreaAction);
-      } else if (this.authorizationService.canListAssets()) {
+      } else if (siteArea.canReadAssets) {
         rowActions.push(this.viewAssetsOfSiteArea);
       }
     }
@@ -259,15 +260,15 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     if (siteArea.canGenerateQrCode) {
       moreActions.addActionInMoreActions(this.siteAreaGenerateQrCodeConnectorAction);
     }
-    if (siteArea.canDelete) {
-      moreActions.addActionInMoreActions(this.deleteAction);
-    }
     if (siteArea.canAssignChargingStations || siteArea.canUnassignChargingStations) {
       rowActions.push(this.assignChargingStationsToSiteAreaAction);
-    } else if (this.authorizationService.canListChargingStations()) {
+    } else if (siteArea.canReadChargingStations) {
       rowActions.push(this.viewChargingStationsOfSiteArea);
     }
     moreActions.addActionInMoreActions(openInMaps);
+    if (siteArea.canDelete) {
+      moreActions.addActionInMoreActions(this.deleteAction);
+    }
     rowActions.push(moreActions.getActionDef());
     return rowActions;
   }

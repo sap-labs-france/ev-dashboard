@@ -24,7 +24,7 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.5.12',
-        date: new Date('2021-11-26'),
+        date: new Date('2021-12-05'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -37,6 +37,9 @@ export class ReleaseNotesComponent {
               `Fixed Tenant's logo is not loaded when entering a new password`,
               `Forced RFID Cards to uppercase in OCPP requests`,
               `Added missing Data Transfer in OCPP command whitelist`,
+              `Adjusted roaming handling in Company, Site and Site Area (OCPI)`,
+              `Soft Stop of a Transaction is allowed when there is a different ongoing Transaction`,
+              `Fixed Site Admin cannot Soft Stop his own Transaction`,
               `Added Autralian locale`,
             ],
           },

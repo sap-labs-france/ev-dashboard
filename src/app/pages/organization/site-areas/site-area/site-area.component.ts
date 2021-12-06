@@ -41,6 +41,7 @@ export class SiteAreaComponent implements OnInit {
   public readOnly = true;
 
   public formGroup!: FormGroup;
+  public issuer!: AbstractControl;
   public id!: AbstractControl;
   public name!: AbstractControl;
   public site!: AbstractControl;
@@ -90,6 +91,7 @@ export class SiteAreaComponent implements OnInit {
   public ngOnInit() {
     // Init the form
     this.formGroup = new FormGroup({
+      issuer: new FormControl(true),
       id: new FormControl(''),
       name: new FormControl('',
         Validators.compose([
@@ -131,6 +133,7 @@ export class SiteAreaComponent implements OnInit {
       ),
     });
     // Form
+    this.issuer = this.formGroup.controls['issuer'];
     this.id = this.formGroup.controls['id'];
     this.name = this.formGroup.controls['name'];
     this.site = this.formGroup.controls['site'];
@@ -165,7 +168,8 @@ export class SiteAreaComponent implements OnInit {
       sitesAdminOnly: true,
       rowMultipleSelection: false,
       staticFilter: {
-        Issuer: true
+        Issuer: true,
+        SiteAdmin: true,
       }
     };
     // Open
@@ -207,6 +211,9 @@ export class SiteAreaComponent implements OnInit {
         this.formGroup.disable();
       }
       // Init form
+      if (Utils.objectHasProperty(siteArea, 'issuer')) {
+        this.formGroup.controls.issuer.setValue(siteArea.issuer);
+      }
       if (siteArea.id) {
         this.formGroup.controls.id.setValue(siteArea.id);
       }
@@ -242,14 +249,10 @@ export class SiteAreaComponent implements OnInit {
         this.address = siteArea.address;
       }
       this.refreshMaximumAmps();
-      // Cannot change roaming Site Area
-      if (!siteArea.issuer) {
-        this.formGroup.disable();
-      } else {
-        this.formGroup.updateValueAndValidity();
-        this.formGroup.markAsPristine();
-        this.formGroup.markAllAsTouched();
-      }
+      // Update form group
+      this.formGroup.updateValueAndValidity();
+      this.formGroup.markAsPristine();
+      this.formGroup.markAllAsTouched();
       // Get Site image
       this.centralServerService.getSiteAreaImage(this.currentSiteAreaID).subscribe((siteAreaImage) => {
         this.image = siteAreaImage ? siteAreaImage : Constants.NO_IMAGE;

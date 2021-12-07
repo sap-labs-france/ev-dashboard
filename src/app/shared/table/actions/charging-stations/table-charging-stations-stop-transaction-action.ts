@@ -56,7 +56,7 @@ export class TableChargingStationsStopTransactionAction implements TableAction {
         translateService.instant('chargers.stop_transaction_confirm', { chargeBoxID: chargingStation.id }),
       ).subscribe((response) => {
         if (response === ButtonType.YES) {
-          if (!chargingStation.inactive && connector.currentTransactionID > 0 && connector.status !== ChargePointStatus.AVAILABLE) {
+          if (!chargingStation.inactive && connector.currentTransactionID === transaction.id && connector.status !== ChargePointStatus.AVAILABLE) {
             // Remote Stop
             spinnerService.show();
             centralServerService.chargingStationStopTransaction(chargingStation.id, connector.currentTransactionID)

@@ -94,13 +94,10 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
       this.centralServerService.getSiteAreas(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((siteAreas) => {
         this.createAction.visible = siteAreas.canCreate;
-        // Ok
         observer.next(siteAreas);
         observer.complete();
       }, (error) => {
-        // Show error
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        // Error
         observer.error(error);
       });
     });
@@ -113,6 +110,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
       },
       rowDetails: {
         enabled: true,
+        showDetailsField: 'issuer',
         angularComponent: SiteAreaConsumptionChartDetailComponent,
       },
       hasDynamicRowAction: true,
@@ -145,21 +143,21 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
         headerClass: 'col-10p text-center',
         class: 'col-10p text-center',
         sortable: true,
-        formatter: (maximumPower: number) => this.appUnitPipe.transform(maximumPower, 'W', 'kW', true, 0, 0, 0),
+        formatter: (maximumPower: number, siteArea: SiteArea) => siteArea.issuer ? this.appUnitPipe.transform(maximumPower, 'W', 'kW', true, 0, 0, 0) : '-',
       },
       {
         id: 'numberOfPhases',
         name: 'site_areas.number_of_phases',
         headerClass: 'col-10p text-center',
         class: 'col-10p text-center',
+        formatter: (numberOfPhases: number, siteArea: SiteArea) => siteArea.issuer ? numberOfPhases.toString() : '-',
       },
       {
         id: 'accessControl',
         name: 'site_areas.access_control',
         headerClass: 'col-10p text-center',
         class: 'col-10p text-center',
-        formatter: (accessControl: boolean) => accessControl ?
-          this.translateService.instant('general.yes') : this.translateService.instant('general.no'),
+        formatter: (accessControl: boolean, siteArea: SiteArea) => siteArea.issuer ? Utils.displayYesNo(this.translateService, accessControl) : '-',
       },
       {
         id: 'site.name',
@@ -220,8 +218,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
           name: 'site_areas.smart_charging',
           headerClass: 'col-10p text-center',
           class: 'col-10p text-center',
-          formatter: (smartCharging: boolean) => smartCharging ?
-            this.translateService.instant('general.yes') : this.translateService.instant('general.no'),
+          formatter: (smartCharging: boolean) => Utils.displayYesNo(this.translateService, smartCharging),
         }
       );
     }
@@ -250,7 +247,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     if (this.isAssetComponentActive) {
       if (siteArea.canAssignAssets || siteArea.canUnassignAssets) {
         rowActions.push(this.assignAssetsToSiteAreaAction);
-      } else if (this.authorizationService.canListAssets()) {
+      } else if (siteArea.canReadAssets) {
         rowActions.push(this.viewAssetsOfSiteArea);
       }
     }
@@ -260,15 +257,15 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     if (siteArea.canGenerateQrCode) {
       moreActions.addActionInMoreActions(this.siteAreaGenerateQrCodeConnectorAction);
     }
-    if (siteArea.canDelete) {
-      moreActions.addActionInMoreActions(this.deleteAction);
-    }
     if (siteArea.canAssignChargingStations || siteArea.canUnassignChargingStations) {
       rowActions.push(this.assignChargingStationsToSiteAreaAction);
-    } else if (this.authorizationService.canListChargingStations()) {
+    } else if (siteArea.canReadChargingStations) {
       rowActions.push(this.viewChargingStationsOfSiteArea);
     }
     moreActions.addActionInMoreActions(openInMaps);
+    if (siteArea.canDelete) {
+      moreActions.addActionInMoreActions(this.deleteAction);
+    }
     rowActions.push(moreActions.getActionDef());
     return rowActions;
   }

@@ -75,15 +75,12 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
 
   public loadDataImpl(): Observable<DataResult<ChargingProfile>> {
     return new Observable((observer) => {
-      // Get data
       this.centralServerService.getChargingProfiles(this.buildFilterValues(), this.getPaging(), this.getSorting())
         .subscribe((chargingProfiles) => {
           observer.next(chargingProfiles);
           observer.complete();
         }, (error) => {
-          // No longer exists!
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-          // Error
           observer.error(error);
         });
     });

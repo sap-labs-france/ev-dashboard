@@ -3,7 +3,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { AuthorizationService } from 'services/authorization.service';
 import { SpinnerService } from 'services/spinner.service';
 import { WindowService } from 'services/window.service';
 import { ImportDialogComponent } from 'shared/dialogs/import/import-dialog.component';
@@ -64,13 +63,13 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
   private importAction = new TableImportTagsAction().getActionDef();
   private exportAction = new TableExportTagsAction().getActionDef();
   private projectFields: string[];
+  private userFilter: TableFilterDef;
   private metadata?: Record<string, AuthorizationDefinitionFieldMetadata>;
   public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     private messageService: MessageService,
     private dialogService: DialogService,
-    private authorizationService: AuthorizationService,
     private router: Router,
     private dialog: MatDialog,
     private datePipe: AppDatePipe,
@@ -148,14 +147,12 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
         this.deleteManyAction.visible = tags.canDelete;
         this.unassignManyAction.visible = tags.canUnassign;
         this.projectFields = tags.projectFields;
+        this.userFilter.visible = Utils.convertToBoolean(tags.canListUsers);
         this.metadata = tags.metadata;
-        // Ok
         observer.next(tags);
         observer.complete();
       }, (error) => {
-        // Show error
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        // Error
         observer.error(error);
       });
     });
@@ -229,8 +226,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
         headerClass: 'text-center col-5em',
         class: 'text-center col-10em',
         sortable: true,
-        formatter: (defaultTag) => defaultTag ? this.translateService.instant('general.yes') :
-          this.translateService.instant('general.no'),
+        formatter: (defaultTag) => Utils.displayYesNo(this.translateService, defaultTag),
       },
       {
         id: 'user.name',
@@ -308,7 +304,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
       rowActions.push(this.unassignAction);
     }
     moreActions.addActionInMoreActions(this.navigateToTransactionsAction);
-    if (tag.userID && this.authorizationService.canListUsers()) {
+    if (tag.userID && tag.canListUsers) {
       moreActions.addActionInMoreActions(this.navigateToUserAction);
     }
     if (tag.canDelete) {
@@ -432,13 +428,14 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
 
   public buildTableFiltersDef(): TableFilterDef[] {
     const issuerFilter = new IssuerFilter().getFilterDef();
+    const statusFilter = new StatusFilter().getFilterDef();
+    this.userFilter = new UserTableFilter([issuerFilter]).getFilterDef();
+    this.userFilter.visible = false;
     const filters: TableFilterDef[] = [
       issuerFilter,
-      new StatusFilter().getFilterDef()
+      statusFilter,
+      this.userFilter
     ];
-    if (this.authorizationService.canListUsers()) {
-      filters.push(new UserTableFilter([issuerFilter]).getFilterDef());
-    }
     return filters;
   }
 }

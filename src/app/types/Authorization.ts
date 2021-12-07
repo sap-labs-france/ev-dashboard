@@ -162,13 +162,16 @@ export interface TagAuthorizationActions extends AuthorizationActions {
   canUnassign?: boolean;
   canAssign?: boolean;
   canUpdateByVisualID?: boolean;
+  canListUsers?: boolean;
 }
 
 export interface SiteAreaAuthorizationActions extends AuthorizationActions {
   canAssignAssets?: boolean;
   canUnassignAssets?: boolean;
+  canReadAssets?: boolean;
   canAssignChargingStations?: boolean;
   canUnassignChargingStations?: boolean;
+  canReadChargingStations?: boolean;
   canExportOCPPParams?: boolean;
   canGenerateQrCode?: boolean;
 }
@@ -176,8 +179,10 @@ export interface SiteAreaAuthorizationActions extends AuthorizationActions {
 export interface SiteAuthorizationActions extends AuthorizationActions {
   canAssignUsers?: boolean;
   canUnassignUsers?: boolean;
+  canReadUsers?: boolean;
   canExportOCPPParams?: boolean;
   canGenerateQrCode?: boolean;
+  canMaintainPricingDefinitions?: boolean;
 }
 
 

@@ -81,18 +81,14 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
   }
 
   public validatePublicKey(control: AbstractControl) {
-    // Check
     if (!control.value || /(^pk_test_)/.test(control.value) || /(^pk_live_)/.test(control.value)) {
-      // Ok
       return null;
     }
     return { invalid: true };
   }
 
   public validateSecretKey(control: AbstractControl) {
-    // Check
     if (!control.value || /(^sk_test_)/.test(control.value) || /(^sk_live_)/.test(control.value)) {
-      // Ok
       return null;
     }
     return { invalid: true };

@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -15,7 +14,7 @@ import { ChargePoint, ChargingStation, OCPPAvailabilityType, OcppParameter } fro
 import { Company } from '../types/Company';
 import CentralSystemServerConfiguration from '../types/configuration/CentralSystemServerConfiguration';
 import { IntegrationConnection, UserConnection } from '../types/Connection';
-import { ActionResponse, ActionsResponse, BillingOperationResult, CarCatalogDataResult, CarDataResult, CheckAssetConnectionResponse, CheckBillingConnectionResponse, CompanyDataResult, DataResult, LogDataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OICPJobStatusesResponse, OICPPingResponse, Ordering, Paging, SiteAreaDataResult, SiteDataResult, TagDataResult, UserDataResult } from '../types/DataResult';
+import { ActionResponse, ActionsResponse, BillingOperationResult, CarCatalogDataResult, CarDataResult, CheckAssetConnectionResponse, CheckBillingConnectionResponse, CompanyDataResult, DataResult, LogDataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OICPJobStatusesResponse, OICPPingResponse, Ordering, Paging, PricingDefinitionDataResult, SiteAreaDataResult, SiteDataResult, TagDataResult, UserDataResult } from '../types/DataResult';
 import { EndUserLicenseAgreement } from '../types/Eula';
 import { FilterParams, Image, KeyValue } from '../types/GlobalType';
 import { AssetInError, ChargingStationInError, TransactionInError } from '../types/InError';
@@ -23,7 +22,7 @@ import { Log } from '../types/Log';
 import { OcpiEndpoint } from '../types/ocpi/OCPIEndpoint';
 import { OCPPResetType } from '../types/ocpp/OCPP';
 import { OicpEndpoint } from '../types/oicp/OICPEndpoint';
-import PricingDefinition, { PricingEntity } from '../types/Pricing';
+import PricingDefinition from '../types/Pricing';
 import { RefundReport } from '../types/Refund';
 import { RegistrationToken } from '../types/RegistrationToken';
 import { ServerAction, ServerRoute } from '../types/Server';
@@ -48,6 +47,7 @@ export class CentralServerService {
   private centralRestServerServiceUtilURL!: string;
   private restServerAuthURL!: string;
   private restServerSecuredURL!: string;
+  private restServerServiceUtilURL!: string;
   private centralSystemServerConfig: CentralSystemServerConfiguration;
   private initialized = false;
   private currentUserToken!: string;
@@ -150,8 +150,8 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.REMOVE_USERS_FROM_SITE}`,
-      { siteID, userIDs },
+    return this.httpClient.put<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_SITE_REMOVE_USERS, { id: siteID }),
+      { userIDs },
       {
         headers: this.buildHttpHeaders(),
       })
@@ -164,8 +164,8 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.ADD_USERS_TO_SITE}`,
-      { siteID, userIDs },
+    return this.httpClient.put<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_SITE_ADD_USERS, { id: siteID }),
+      { userIDs },
       {
         headers: this.buildHttpHeaders(),
       })
@@ -176,8 +176,8 @@ export class CentralServerService {
 
   public updateSiteUserAdmin(siteID: string, userID: string, siteAdmin: boolean): Observable<ActionResponse> {
     this.checkInit();
-    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.SITE_USER_ADMIN}`,
-      { siteID, userID, siteAdmin },
+    return this.httpClient.put<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_SITE_ADMIN, { id: siteID }),
+      { userID, siteAdmin },
       {
         headers: this.buildHttpHeaders(),
       })
@@ -188,8 +188,8 @@ export class CentralServerService {
 
   public updateSiteOwner(siteID: string, userID: string, siteOwner: boolean): Observable<ActionResponse> {
     this.checkInit();
-    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.SITE_OWNER}`,
-      { siteID, userID, siteOwner },
+    return this.httpClient.put<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_SITE_OWNER, { id: siteID }),
+      { userID, siteOwner },
       {
         headers: this.buildHttpHeaders(),
       })
@@ -269,7 +269,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<Blob>(this.buildRestEndpointUrl(ServerRoute.REST_COMPANY_LOGO, { id: companyID }),
+    return this.httpClient.get<Blob>(this.buildUtilRestEndpointUrl(ServerRoute.REST_COMPANY_LOGO, { id: companyID }),
       {
         headers: this.buildHttpHeaders(),
         responseType: 'blob' as 'json',
@@ -319,10 +319,11 @@ export class CentralServerService {
 
   public getAssetImage(assetID: string): Observable<string> {
     const params: { [param: string]: string } = {};
+    params['TenantID'] = this.currentUser?.tenantID;
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<Blob>(this.buildRestEndpointUrl(ServerRoute.REST_ASSET_IMAGE, { id: assetID }),
+    return this.httpClient.get<Blob>(this.buildUtilRestEndpointUrl(ServerRoute.REST_ASSET_IMAGE, { id: assetID }),
       {
         headers: this.buildHttpHeaders(),
         responseType: 'blob' as 'json',
@@ -381,7 +382,7 @@ export class CentralServerService {
     // Build Ordering
     this.getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<SiteDataResult>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.SITES}`,
+    return this.httpClient.get<SiteDataResult>(this.buildRestEndpointUrl(ServerRoute.REST_SITES),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -424,13 +425,12 @@ export class CentralServerService {
 
   public getSite(siteID: string, withImage: boolean = false, withCompany: boolean = false): Observable<Site> {
     const params: { [param: string]: string } = {};
-    params['ID'] = siteID;
     params['WithImage'] = withImage.toString();
     params['WithCompany'] = withCompany.toString();
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<Site>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.SITE}`,
+    return this.httpClient.get<Site>(this.buildRestEndpointUrl(ServerRoute.REST_SITE, { id: siteID }),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -442,12 +442,11 @@ export class CentralServerService {
 
   public getSiteImage(siteID: string): Observable<string> {
     const params: { [param: string]: string } = {};
-    params['ID'] = siteID;
     params['TenantID'] = this.currentUser?.tenantID;
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<Blob>(`${this.centralRestServerServiceUtilURL}/${ServerAction.SITE_IMAGE}`,
+    return this.httpClient.get<Blob>(this.buildUtilRestEndpointUrl(ServerRoute.REST_SITE_IMAGE, { id: siteID }),
       {
         headers: this.buildHttpHeaders(),
         responseType: 'blob' as 'json',
@@ -502,7 +501,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<Blob>(this.buildRestEndpointUrl(ServerRoute.REST_SITE_AREA_IMAGE, { id: siteAreaID }),
+    return this.httpClient.get<Blob>(this.buildUtilRestEndpointUrl(ServerRoute.REST_SITE_AREA_IMAGE, { id: siteAreaID }),
       {
         headers: this.buildHttpHeaders(),
         responseType: 'blob' as 'json',
@@ -792,7 +791,7 @@ export class CentralServerService {
     // Build Ordering
     this.getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<DataResult<UserSite>>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.SITE_USERS}`,
+    return this.httpClient.get<DataResult<UserSite>>(this.buildRestEndpointUrl(ServerRoute.REST_SITE_USERS, { id: params.SiteID as string }),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -1020,7 +1019,7 @@ export class CentralServerService {
     // Build Ordering
     this.getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<DataResult<Tenant>>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TENANTS}`,
+    return this.httpClient.get<DataResult<Tenant>>(this.buildRestEndpointUrl(ServerRoute.REST_TENANTS),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -1037,10 +1036,9 @@ export class CentralServerService {
       return EMPTY;
     }
     // Execute the REST service
-    return this.httpClient.get<Tenant>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TENANT}`,
+    return this.httpClient.get<Tenant>(this.buildRestEndpointUrl(ServerRoute.REST_TENANT, { id }),
       {
         headers: this.buildHttpHeaders(),
-        params: { ID: id },
       })
       .pipe(
         catchError(this.handleHttpError),
@@ -1054,7 +1052,7 @@ export class CentralServerService {
     this.checkInit();
     // Execute the REST service
     return this.httpClient.get<Blob>(
-      `${this.centralRestServerServiceUtilURL}/${ServerAction.TENANT_LOGO}`,
+      this.buildUtilRestEndpointUrl(ServerRoute.REST_TENANT_LOGO),
       {
         headers: this.buildHttpHeaders(),
         responseType: 'blob' as 'json',
@@ -1073,7 +1071,7 @@ export class CentralServerService {
     this.checkInit();
     // Execute the REST service
     return this.httpClient.get<Blob>(
-      `${this.centralRestServerServiceUtilURL}/${ServerAction.TENANT_LOGO}`,
+      this.buildUtilRestEndpointUrl(ServerRoute.REST_TENANT_LOGO),
       {
         headers: this.buildHttpHeaders(),
         responseType: 'blob' as 'json',
@@ -1422,7 +1420,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TENANT_CREATE}`, tenant,
+    return this.httpClient.post<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_TENANTS), tenant,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -1435,7 +1433,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TENANT_UPDATE}`, tenant,
+    return this.httpClient.put<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_TENANT, { id: tenant.id }), tenant,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -1447,7 +1445,7 @@ export class CentralServerService {
   public deleteTenant(id: string): Observable<ActionResponse> {
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TENANT_DELETE}?ID=${id}`,
+    return this.httpClient.delete<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_TENANT, { id }),
       {
         headers: this.buildHttpHeaders(),
       })
@@ -1944,7 +1942,6 @@ export class CentralServerService {
     this.currentUserToken = token;
     this.currentUser = new JwtHelperService().decodeToken(token);
     this.localStorageService.setItem('token', token);
-    // Notify
     this.currentUserSubject.next(this.currentUser);
   }
 
@@ -2152,7 +2149,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.SITE_CREATE}`, site,
+    return this.httpClient.post<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_SITES), site,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2165,7 +2162,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute
-    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.SITE_UPDATE}`, site,
+    return this.httpClient.put<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_SITE, { id: site.id }), site,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2178,7 +2175,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.SITE_DELETE}?ID=${id}`,
+    return this.httpClient.delete<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_SITE, { id }),
       {
         headers: this.buildHttpHeaders(),
       })
@@ -3227,7 +3224,7 @@ export class CentralServerService {
 
   public getPricingDefinitions(params: FilterParams,
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = [],
-    context?: { entityID: string; entityType: string }): Observable<DataResult<PricingDefinition>> {
+    context?: { entityID: string; entityType: string}): Observable<PricingDefinitionDataResult> {
     // Verify init
     this.checkInit();
     // Build Paging
@@ -3236,13 +3233,13 @@ export class CentralServerService {
     this.getSorting(ordering, params);
     const url = this.buildRestEndpointUrl(ServerRoute.REST_PRICING_DEFINITIONS);
     // Execute the REST service
-    return this.httpClient.get<DataResult<PricingDefinition>>(url,
+    return this.httpClient.get<PricingDefinitionDataResult>(url,
       {
         headers: this.buildHttpHeaders(),
         params: {
           ...params,
           EntityID: context.entityID,
-          EntityType: context.entityType
+          EntityType: context.entityType,
         }
       })
       .pipe(
@@ -3297,14 +3294,18 @@ export class CentralServerService {
     ];
   }
 
-  public buildRestEndpointUrl(urlPatternAsString: ServerRoute, params: {[name: string]: string | number | null } = {}) {
+  public buildRestEndpointUrl(urlPatternAsString: ServerRoute, params: { [name: string]: string | number | null } = {}, urlPrefix = this.restServerSecuredURL): string {
     let resolvedUrlPattern = urlPatternAsString as string;
     for (const key in params) {
       if (Object.prototype.hasOwnProperty.call(params, key)) {
         resolvedUrlPattern = resolvedUrlPattern.replace(`:${key}`, encodeURIComponent(params[key]));
       }
     }
-    return `${this.restServerSecuredURL}/${resolvedUrlPattern}`;
+    return `${urlPrefix}/${resolvedUrlPattern}`;
+  }
+
+  public buildUtilRestEndpointUrl(urlPatternAsString: ServerRoute, params: { [name: string]: string | number | null } = {}): string {
+    return this.buildRestEndpointUrl(urlPatternAsString, params, this.restServerServiceUtilURL);
   }
 
   private getLoggedUserToken(): string {
@@ -3324,7 +3325,6 @@ export class CentralServerService {
       if (token) {
         this.currentUser = new JwtHelperService().decodeToken(token);
       }
-      // Notify
       this.currentUserSubject.next(this.currentUser);
     });
   }
@@ -3344,16 +3344,20 @@ export class CentralServerService {
       // Get the server config
       this.centralSystemServerConfig = this.configService.getCentralSystemServer();
       // Build Central Service URL
-      this.centralRestServerServiceBaseURL = this.centralSystemServerConfig.protocol + '://' +
-        this.centralSystemServerConfig.host + ':' + this.centralSystemServerConfig.port;
+      this.centralRestServerServiceBaseURL = `${this.centralSystemServerConfig.protocol}://${this.centralSystemServerConfig.host}`;
+      if (this.centralSystemServerConfig.port) {
+        this.centralRestServerServiceBaseURL += `:${this.centralSystemServerConfig.port}`;
+      }
       // Auth API
-      this.restServerAuthURL = this.centralRestServerServiceBaseURL + '/v1/auth';
+      this.restServerAuthURL = `${this.centralRestServerServiceBaseURL}/v1/auth`;
       // REST Secured API
-      this.restServerSecuredURL = this.centralRestServerServiceBaseURL + '/v1/api';
+      this.restServerSecuredURL = `${this.centralRestServerServiceBaseURL}/v1/api`;
+      // REST Util API
+      this.restServerServiceUtilURL = `${this.centralRestServerServiceBaseURL}/v1/util`;
       // Secured API
-      this.centralRestServerServiceSecuredURL = this.centralRestServerServiceBaseURL + '/client/api';
+      this.centralRestServerServiceSecuredURL = `${this.centralRestServerServiceBaseURL}/client/api`;
       // Util API
-      this.centralRestServerServiceUtilURL = this.centralRestServerServiceBaseURL + '/client/util';
+      this.centralRestServerServiceUtilURL = `${this.centralRestServerServiceBaseURL}/client/util`;
       // Done
       this.initialized = true;
     }
@@ -3375,7 +3379,6 @@ export class CentralServerService {
   }
 
   private getSorting(ordering: Ordering[], queryParams: FilterParams) {
-    // Check
     if (!Utils.isEmptyArray(ordering)) {
       const sortFields: string[] = [];
       for (const order of ordering) {

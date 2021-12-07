@@ -1,8 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-import { CONNECTOR_ALL_TYPES_MAP } from '../../types/Connector';
+import { CONNECTOR_ALL_TYPES_MAP } from '../../shared/model/charging-stations.model';
+import { Constants } from '../../utils/Constants';
 
-export const CONNECTOR_TYPE_MAP = [...CONNECTOR_ALL_TYPES_MAP.values()].filter((type: any) => type.key !== 'A');;
+export const CONNECTOR_TYPE_MAP = [...CONNECTOR_ALL_TYPES_MAP.values()].filter((type: any) => type.key !== Constants.SELECT_ALL);;
 
 @Pipe({ name: 'appConnectorType' })
 export class AppConnectorTypePipe implements PipeTransform {

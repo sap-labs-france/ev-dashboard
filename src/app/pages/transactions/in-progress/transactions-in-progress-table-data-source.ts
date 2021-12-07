@@ -98,12 +98,10 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
     return new Observable((observer) => {
       this.centralServerService.getActiveTransactions(this.buildFilterValues(), this.getPaging(), this.getSorting())
         .subscribe((transactions) => {
-          // Ok
           observer.next(transactions);
           observer.complete();
         }, (error) => {
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-          // Error
           observer.error(error);
         });
     });

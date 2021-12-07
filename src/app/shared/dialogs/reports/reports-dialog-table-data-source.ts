@@ -29,18 +29,14 @@ export class ReportsDialogTableDataSource extends DialogTableDataSource<RefundRe
 
   public loadDataImpl(): Observable<DataResult<RefundReport>> {
     return new Observable((observer) => {
-      // Get data
       const filters = this.buildFilterValues();
       filters['MinimalPrice'] = '0';
       this.centralServerService.getRefundReports(filters,
         this.getPaging(), this.getSorting()).subscribe((report) => {
-        // Ok
         observer.next(report);
         observer.complete();
       }, (error) => {
-        // No longer exists!
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        // Error
         observer.error(error);
       });
     });

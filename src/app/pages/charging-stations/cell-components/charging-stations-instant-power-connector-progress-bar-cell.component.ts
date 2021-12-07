@@ -30,7 +30,6 @@ export class AppChargingStationsFormatPowerConnectorPipe implements PipeTransfor
 
   public transform(connector: Connector, type: string): string {
     let value = 0;
-    // Check
     switch (type) {
       // Compute Instance Power
       case 'instantPowerKWPercent':

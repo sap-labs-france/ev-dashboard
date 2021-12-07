@@ -113,7 +113,7 @@ export class PricingDefinitionComponent implements OnInit {
         validFrom: new FormControl(null),
         validTo: new FormControl(null),
         connectorPowerEnabled: new FormControl(false),
-        connectorPowerkW: new FormControl(null, Validators.pattern(/^-?((\d+(\.\d+)?))$/)),
+        connectorPowerkW: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)),
         connectorType: new FormControl('A',
           Validators.compose([
             Validators.required,
@@ -126,23 +126,23 @@ export class PricingDefinitionComponent implements OnInit {
       dimensions: new FormGroup({
         flatFee: new FormGroup({
           active: new FormControl(false),
-          price: new FormControl(null, Validators.pattern(/^-?((\d+(\.\d+)?))$/)),
+          price: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)),
         }),
         energy: new FormGroup({
           active: new FormControl(false),
-          price: new FormControl(null, Validators.pattern(/^-?((\d+(\.\d+)?))$/)),
+          price: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)),
           stepSize: new FormControl(null),
           stepSizeEnabled: new FormControl(false)
         }),
         chargingTime: new FormGroup({
           active: new FormControl(false),
-          price: new FormControl(null, Validators.pattern(/^-?((\d+(\.\d+)?))$/)),
+          price: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)),
           stepSize: new FormControl(null),
           stepSizeEnabled: new FormControl(false)
         }),
         parkingTime: new FormGroup({
           active: new FormControl(false),
-          price: new FormControl(null, Validators.pattern(/^-?((\d+(\.\d+)?))$/)),
+          price: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)),
           stepSize: new FormControl(null),
           stepSizeEnabled: new FormControl(false)
         }),
@@ -256,7 +256,7 @@ export class PricingDefinitionComponent implements OnInit {
     if (event.checked) {
       this[`${event.source.id}Value`].setValidators(Validators.compose([
         Validators.required,
-        Validators.pattern(/^-?((\d+(\.\d+)?))$/)
+        Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)
       ]));
     } else {
       this[`${event.source.id}Value`].clearValidators();

@@ -35,6 +35,7 @@ export class CompanyComponent implements OnInit {
   public readOnly = true;
 
   public formGroup!: FormGroup;
+  public issuer!: AbstractControl;
   public id!: AbstractControl;
   public name!: AbstractControl;
   public address!: Address;
@@ -53,6 +54,7 @@ export class CompanyComponent implements OnInit {
   public ngOnInit() {
     // Init the form
     this.formGroup = new FormGroup({
+      issuer: new FormControl(true),
       id: new FormControl(''),
       name: new FormControl('',
         Validators.compose([
@@ -60,6 +62,7 @@ export class CompanyComponent implements OnInit {
         ])),
     });
     // Form
+    this.issuer = this.formGroup.controls['issuer'];
     this.id = this.formGroup.controls['id'];
     this.name = this.formGroup.controls['name'];
     // Set
@@ -75,6 +78,9 @@ export class CompanyComponent implements OnInit {
       this.spinnerService.show();
       this.centralServerService.getCompany(this.currentCompanyID).subscribe((company: Company) => {
         this.spinnerService.hide();
+        if (Utils.objectHasProperty(company, 'issuer')) {
+          this.formGroup.controls.issuer.setValue(company.issuer);
+        }
         if (company.id) {
           this.formGroup.controls.id.setValue(company.id);
         }

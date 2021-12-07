@@ -96,7 +96,6 @@ export class ImportDialogComponent implements OnInit {
         const actionsResponse = JSON.parse(response) as ActionsResponse;
         this.messageService.showActionsMessage(actionsResponse,
           this.messageSuccess, this.messageError, this.messageSuccessAndError, this.messageNoSuccessNoError);
-      // Error
       } else {
         switch (status) {
           case HTTPError.INVALID_FILE_FORMAT:

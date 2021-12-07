@@ -149,6 +149,17 @@
               </mat-error>
             </mat-form-field>
           </div>
+          <div class="col-md-6">
+            <mat-form-field>
+              <mat-label for="tariffID">{{'ocpi.tariffID' | translate}}</mat-label>
+              <input matInput type="text" [formControl]="tariffID"
+                placeholder="{{'ocpi.tariffID' | translate}}">
+              <mat-error *ngIf="tariffID?.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+              <mat-error *ngIf="tariffID?.errors?.maxlength">
+                <div [translate]="'general.error_max_length'" [translateParams]="{length: 50}"></div>
+              </mat-error>
+            </mat-form-field>
+          </div>
         </div>
         <!-- EMSP identifier COUNTRY_CODE/PARTY_ID -->
         <div class="dropdown-divider"></div>
@@ -197,6 +208,7 @@
                 <mat-option value="EUR" selected>Euro</mat-option>
                 <mat-option value="HKD">Hong Kong Dollar</mat-option>
                 <mat-option value="HUF">Hungarian Forint </mat-option>
+                <mat-option value="INR">Indian Rupee</mat-option>
                 <mat-option value="ILS">Israeli New Sheqel</mat-option>
                 <mat-option value="JPY">Japanese Yen</mat-option>
                 <mat-option value="MYR">Malaysian Ringgit</mat-option>

@@ -4,7 +4,6 @@ import { Data, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { StatusCodes } from 'http-status-codes';
 import * as moment from 'moment';
-import { ConfigService } from 'services/config.service';
 import { DialogMode } from 'types/Authorization';
 import { HTTPError } from 'types/HTTPError';
 import { Tag } from 'types/Tag';
@@ -23,7 +22,11 @@ import { ButtonType, TableDataSourceMode } from '../types/Table';
 import { Constants } from './Constants';
 
 export class Utils {
-  public static  handleDialogMode(dialogMode: DialogMode, formGroup: FormGroup) {
+  public static displayYesNo(translateService: TranslateService, value: boolean) {
+    return value ? translateService.instant('general.yes') : translateService.instant('general.no');
+  }
+
+  public static handleDialogMode(dialogMode: DialogMode, formGroup: FormGroup) {
     switch (dialogMode) {
       case DialogMode.CREATE:
       case DialogMode.EDIT:
@@ -123,7 +126,7 @@ export class Utils {
       if (keydownEvents?.code === 'Escape') {
         close();
       }
-      if (keydownEvents?.code === 'Enter') {
+      if (keydownEvents?.key === 'Enter') {
         if (formGroup.valid && formGroup.dirty) {
           save(formGroup.getRawValue());
         }
@@ -240,7 +243,7 @@ export class Utils {
   }
 
   public static handleError(error: any, messageService: MessageService, errorMessage: string = '', params?: Record<string, unknown>): void {
-    Utils.consoleDebugLog(`Error: ${errorMessage}`, error);
+    console.log(`Error: ${errorMessage}`, error);
     messageService.showErrorMessage(errorMessage, params);
   }
 
@@ -267,7 +270,6 @@ export class Utils {
       currentAmp: 0,
       currentWatt: 0,
     };
-    // Check
     if (!chargingStation ||
       !chargingStation.connectors ||
       Utils.isEmptyArray(chargingStation.connectors)) {
@@ -794,14 +796,14 @@ export class Utils {
       case HTTPError.TENANT_COMPONENT_CHANGED:
         messageService.showWarningMessageUserOrTenantUpdated();
         // Log Off (remove token)
-        centralServerService.logoutSucceeded();
+        centralServerService.clearLoginInformation();
         // Navigate to Login
         router.navigate(['/auth/login']);
         break;
       // Unauthorized: Token expired
       case StatusCodes.UNAUTHORIZED:
         // Log Off (remove token)
-        centralServerService.logoutSucceeded();
+        centralServerService.clearLoginInformation();
         // Navigate to Login
         router.navigate(['/auth/login']);
         break;
@@ -824,7 +826,7 @@ export class Utils {
         break;
       // Backend issue
       default:
-        Utils.consoleDebugLog(`HTTP Error: ${errorMessage}: ${error.message} (${error.status})`, error);
+        console.log(`HTTP Error: ${errorMessage}: ${error.message} (${error.status})`, error);
         messageService.showErrorMessage(errorMessage, params);
         break;
     }
@@ -847,7 +849,6 @@ export class Utils {
   }
 
   public static convertToDate(value: any): Date {
-    // Check
     if (!value) {
       return value;
     }
@@ -863,7 +864,6 @@ export class Utils {
     if (!value) {
       return 0;
     }
-    // Check
     if (typeof value === 'string') {
       // Create Object
       changedValue = parseInt(value, 10);
@@ -876,7 +876,6 @@ export class Utils {
     if (!value) {
       return 0;
     }
-    // Check
     if (typeof value === 'string') {
       // Create Object
       changedValue = parseFloat(value);
@@ -895,13 +894,6 @@ export class Utils {
 
   public static isUndefined(obj: any): boolean {
     return typeof obj === 'undefined';
-  }
-
-  public static consoleDebugLog(msg: any, error?: any) {
-    const configService: ConfigService = new ConfigService();
-    if (configService.getDebug().enabled) {
-      console.log(`${(new Date()).toISOString()} :: ${msg}${error ? ' :: Error details:' : ''}`, error ? error : '');
-    }
   }
 
   public static copyToClipboard(content: any) {

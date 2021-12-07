@@ -34,7 +34,6 @@ export class ChargingStationPowerSliderCellComponent extends CellContentTemplate
     // Update the row
     this.row.limit = value;
     this.row.limitInkW = Math.floor(Utils.convertAmpToWatt(this.chargingStation, null, 0, value) / 1000);
-    // Notify
     this.componentChanged.emit(value);
   }
 }

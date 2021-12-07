@@ -13,13 +13,14 @@
 </div>
 <form *ngIf="isActive" class="form" [formGroup]="formGroup">
   <div class="mat-toolbar-row mat-toolbar-settings">
-      <button mat-raised-button color="warn" (click)="save(formGroup.value)"
-        [disabled]="!formGroup.valid || !formGroup.dirty">
-        <mat-icon>save</mat-icon><span>{{'general.save' | translate}}</span>
-      </button>
+    <button mat-raised-button color="warn" (click)="save(formGroup.value)"
+      [disabled]="!formGroup.valid || !formGroup.dirty">
+      <mat-icon>save</mat-icon><span>{{'general.save' | translate}}</span>
+    </button>
   </div>
-  <!-- Simple Pricing -->
+  <!-- Pricing Settings -->
   <app-settings-simple-pricing *ngIf="isActive && pricingSettings?.type === 'simple'" [pricingSettings]="pricingSettings" [formGroup]="formGroup"></app-settings-simple-pricing>
+  <app-pricing-definitions *ngIf="isActive && pricingSettings?.type === 'simple'" [inDialog]="false" [currentPricingDefinitionID]="currentPricingDefinitionID" [currentEntityID]="currentEntityID" [currentEntityType]="currentEntityType" [currentEntityName]="currentEntityName"></app-pricing-definitions>
   <!-- Convergent Charging Pricing -->
   <app-settings-convergent-charging *ngIf="isActive && pricingSettings?.type === 'convergentCharging'" [pricingSettings]="pricingSettings" [formGroup]="formGroup"></app-settings-convergent-charging>
 </form>

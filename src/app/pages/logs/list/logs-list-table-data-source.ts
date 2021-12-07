@@ -108,7 +108,6 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
 
   public loadDataImpl(): Observable<DataResult<Log>> {
     return new Observable((observer) => {
-      // Get data
       this.centralServerService.getLogs(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((logs) => {
         this.exportAction.visible = logs.canExport;
@@ -129,13 +128,10 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
           }
           return log;
         });
-        // Ok
         observer.next(logs);
         observer.complete();
       }, (error) => {
-        // No longer exists!
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        // Error
         observer.error(error);
       });
     });

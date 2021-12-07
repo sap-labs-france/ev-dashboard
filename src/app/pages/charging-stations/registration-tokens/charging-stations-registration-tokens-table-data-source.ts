@@ -78,9 +78,7 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
         observer.next(tokens);
         observer.complete();
       }, (error) => {
-        // Show error
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        // Error
         observer.error(error);
       });
     });

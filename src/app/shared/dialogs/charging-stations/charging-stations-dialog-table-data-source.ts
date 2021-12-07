@@ -27,16 +27,12 @@ export class ChargingStationsDialogTableDataSource extends DialogTableDataSource
 
   public loadDataImpl(): Observable<DataResult<ChargingStation>> {
     return new Observable((observer) => {
-      // Get data
       this.centralServerService.getChargingStations(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((chargers) => {
-        // Ok
         observer.next(chargers);
         observer.complete();
       }, (error) => {
-        // No longer exists!
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        // Error
         observer.error(error);
       });
     });

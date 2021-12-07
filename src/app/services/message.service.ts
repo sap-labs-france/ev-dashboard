@@ -66,7 +66,6 @@ export class MessageService {
     // Success
     } else if (actionsResponse.inSuccess > 0) {
       this.showSuccessMessage(messageSuccess, { inSuccess: actionsResponse.inSuccess });
-    // Error
     } else if (actionsResponse.inError > 0) {
       this.showErrorMessage(messageError, { inError: actionsResponse.inError });
     } else {

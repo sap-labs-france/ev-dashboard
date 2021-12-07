@@ -47,7 +47,6 @@ export class AnalyticsLinksTableDataSource extends TableDataSource<SettingLink> 
 
   public loadDataImpl(): Observable<DataResult<SettingLink>> {
     return new Observable((observer) => {
-      // Check
       if (this.analyticsLinks) {
         this.analyticsLinks.sort((a, b) => (a.name > b.name) ? 1 : (b.name > a.name) ? -1 : 0);
         const links = [];

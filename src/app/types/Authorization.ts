@@ -33,7 +33,7 @@ export interface AuthorizationDefinitionConditionArgs {
 
 export interface AuthorizationDefinitionFieldMetadata {
   visible: boolean;
-  enabled: string;
+  enabled: boolean;
   mandatory: boolean;
   values: string[]|boolean[]|number[];
   defaultValue: string|boolean|number;
@@ -47,58 +47,34 @@ export interface AuthorizationFilter {
 
 export enum Entity {
   SITE = 'Site',
-  SITES = 'Sites',
   SITE_AREA = 'SiteArea',
-  SITE_AREAS = 'SiteAreas',
   COMPANY = 'Company',
-  COMPANIES = 'Companies',
   CHARGING_STATION = 'ChargingStation',
-  CHARGING_STATIONS = 'ChargingStations',
   TENANT = 'Tenant',
-  TENANTS = 'Tenants',
   TRANSACTION = 'Transaction',
-  TRANSACTIONS = 'Transactions',
-  TRANSACTION_METER_VALUES = 'MeterValues',
-  TRANSACTION_STOP = 'Stop',
   REPORT = 'Report',
   USER = 'User',
-  USERS = 'Users',
   USERS_SITES = 'UsersSites',
-  LOGGINGS = 'Loggings',
   LOGGING = 'Logging',
   PRICING = 'Pricing',
   BILLING = 'Billing',
   SETTING = 'Setting',
-  SETTINGS = 'Settings',
-  TOKENS = 'Tokens',
   TOKEN = 'Token',
   ASYNC_TASK = 'AsyncTask',
-  ASYNC_TASKS = 'AsyncTasks',
   OCPI_ENDPOINT = 'OcpiEndpoint',
-  OCPI_ENDPOINTS = 'OcpiEndpoints',
   OICP_ENDPOINT = 'OicpEndpoint',
-  OICP_ENDPOINTS = 'OicpEndpoints',
   CONNECTION = 'Connection',
-  CONNECTIONS = 'Connections',
   ASSET = 'Asset',
-  ASSETS = 'Assets',
   CAR_CATALOG = 'CarCatalog',
-  CAR_CATALOGS = 'CarCatalogs',
   CAR = 'Car',
-  CARS = 'Cars',
-  USERS_CARS = 'UsersCars',
   INVOICE = 'Invoice',
-  INVOICES = 'Invoices',
-  TAXES = 'Taxes',
+  TAX = 'Tax',
   REGISTRATION_TOKEN = 'RegistrationToken',
-  REGISTRATION_TOKENS = 'RegistrationTokens',
   CHARGING_PROFILE = 'ChargingProfile',
-  CHARGING_PROFILES = 'ChargingProfiles',
   NOTIFICATION = 'Notification',
-  TAGS = 'Tags',
   TAG = 'Tag',
   PAYMENT_METHOD = 'PaymentMethod',
-  PAYMENT_METHODS = 'PaymentMethods',
+  PRICING_DEFINITION = 'PricingDefinition',
 }
 
 export enum Action {
@@ -184,24 +160,31 @@ export interface AuthorizationActions {
 
 export interface TagAuthorizationActions extends AuthorizationActions {
   canUnassign?: boolean;
+  canAssign?: boolean;
   canUpdateByVisualID?: boolean;
+  canListUsers?: boolean;
+}
+
+export interface SiteAreaAuthorizationActions extends AuthorizationActions {
+  canAssignAssets?: boolean;
+  canUnassignAssets?: boolean;
+  canReadAssets?: boolean;
+  canAssignChargingStations?: boolean;
+  canUnassignChargingStations?: boolean;
+  canReadChargingStations?: boolean;
+  canExportOCPPParams?: boolean;
+  canGenerateQrCode?: boolean;
 }
 
 export interface SiteAuthorizationActions extends AuthorizationActions {
   canAssignUsers?: boolean;
   canUnassignUsers?: boolean;
+  canReadUsers?: boolean;
   canExportOCPPParams?: boolean;
   canGenerateQrCode?: boolean;
+  canMaintainPricingDefinitions?: boolean;
 }
 
-export interface SiteAreaAuthorizationActions extends AuthorizationActions {
-  canAssignChargingStations?: boolean;
-  canUnassignChargingStations?: boolean;
-  canAssignAssets?: boolean;
-  canUnassignAssets?: boolean;
-  canExportOCPPParams?: boolean;
-  canGenerateQrCode?: boolean;
-}
 
 export enum DialogMode {
   EDIT = 'E',

@@ -16,7 +16,7 @@ export const TagRoutes: Routes = [
   {
     path: '', component: TagsComponent, canActivate: [RouteGuardService], data: {
       auth: {
-        entity: Entity.TAGS,
+        entity: Entity.TAG,
         action: Action.LIST,
       },
     },

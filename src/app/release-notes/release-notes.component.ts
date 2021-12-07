@@ -23,6 +23,29 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.5.12',
+        date: new Date('2021-12-05'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `New Built-in Pricing engine`,
+              `Added OCPI Tariff ID in Tenant's Settings and Site`,
+              `Technical users are only allowed to perform B2B requests`,
+              `Migrated Registration Token, Organization and Setting endpoints to RESTful API`,
+              `Simplified authorizations on lists`,
+              `Fixed Tenant's logo is not loaded when entering a new password`,
+              `Forced RFID Cards to uppercase in OCPP requests`,
+              `Added missing Data Transfer in OCPP command whitelist`,
+              `Adjusted roaming handling in Company, Site and Site Area (OCPI)`,
+              `Soft Stop of a Transaction is allowed when there is a different ongoing Transaction`,
+              `Fixed Site Admin cannot Soft Stop his own Transaction`,
+              `Added Autralian locale`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.5.11',
         date: new Date('2021-11-15'),
         componentChanges: [

@@ -8,12 +8,12 @@ export class TagTableFilter extends TableFilter {
     // Define filter
     const filterDef: TableFilterDef = {
       id: 'tag',
-      httpId: 'TagID',
+      httpId: 'VisualTagID',
       type: FilterType.DIALOG_TABLE,
       defaultValue: '',
       label: '',
       name: 'users.tags',
-      class: 'col-md-6 col-lg-4 col-xl-2',
+      class: 'col-sm-6 col-lg-3 col-md-2',
       dialogComponent: TagsDialogComponent,
       multiple: true,
       cleared: true,

@@ -1,11 +1,8 @@
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
 
 import { AuthorizationService } from '../../../services/authorization.service';
-import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
 import { ConfigService } from '../../../services/config.service';
@@ -13,9 +10,8 @@ import { LocaleService } from '../../../services/locale.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { ConsumptionChartComponent } from '../../../shared/component/consumption-chart/consumption-chart.component';
-import { AppPercentPipe } from '../../../shared/formatters/app-percent-pipe';
 import { Image } from '../../../types/GlobalType';
-import TenantComponents from '../../../types/TenantComponents';
+import { TenantComponents } from '../../../types/Tenant';
 import { Transaction } from '../../../types/Transaction';
 import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
@@ -38,7 +34,6 @@ export class TransactionComponent implements OnInit, OnDestroy {
   public stateOfCharge!: number;
   public endStateOfCharge!: number;
   public loggedUserImage = Constants.USER_NO_PICTURE;
-  public stopUserImage = Constants.USER_NO_PICTURE;
   public carImage = Constants.NO_CAR_IMAGE;
   public isStoppedByAnotherUser = false;
   public totalConsumptionWh!: number;
@@ -48,16 +43,14 @@ export class TransactionComponent implements OnInit, OnDestroy {
   public canDisplayCar: boolean;
   public canUpdateCar: boolean;
 
-  private transactionRefreshSubscription!: Subscription;
+  private refreshInterval;
 
   public constructor(
     private spinnerService: SpinnerService,
     private messageService: MessageService,
     private router: Router,
-    private appPercentPipe: AppPercentPipe,
     private centralServerService: CentralServerService,
     private authorizationService: AuthorizationService,
-    private centralServerNotificationService: CentralServerNotificationService,
     private componentService: ComponentService,
     private configService: ConfigService,
     private localeService: LocaleService) {
@@ -80,27 +73,30 @@ export class TransactionComponent implements OnInit, OnDestroy {
   }
 
   public loadData() {
-    this.spinnerService.show();
     if (!this.transactionID) {
-      this.centralServerService.getLastTransaction(this.chargingStationID, this.connectorID)
-        .subscribe((dataResult) => {
-          if (!Utils.isEmptyArray(dataResult.result)) {
-            this.transactionID = Utils.convertToInteger(dataResult.result[0].id);
-            this.loadConsumption(this.transactionID);
-          } else {
-            this.spinnerService.hide();
-            this.messageService.showInfoMessage('chargers.no_transaction_found', { chargerID: this.chargingStationID });
-            this.dialogRef.close();
-          }
-        });
+      this.spinnerService.show();
+      this.centralServerService.getLastTransaction(this.chargingStationID, this.connectorID).subscribe((dataResult) => {
+        this.spinnerService.hide();
+        if (!Utils.isEmptyArray(dataResult.result)) {
+          this.transactionID = Utils.convertToInteger(dataResult.result[0].id);
+          this.loadConsumption();
+        } else {
+          this.spinnerService.hide();
+          this.messageService.showInfoMessage('chargers.no_transaction_found', { chargerID: this.chargingStationID });
+          this.dialogRef.close();
+        }
+      }, (error) => {
+        this.spinnerService.hide();
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'transactions.load_transaction_error');
+      });
     } else {
-      this.loadConsumption(this.transactionID);
+      this.loadConsumption();
     }
   }
 
-  public loadConsumption(transactionID: number) {
+  public loadConsumption() {
     this.spinnerService.show();
-    this.centralServerService.getTransactionConsumption(this.transactionID).subscribe((transaction: Transaction) => {
+    this.centralServerService.getTransaction(this.transactionID).subscribe((transaction: Transaction) => {
       this.spinnerService.hide();
       this.transaction = transaction;
       // Transaction in progress?
@@ -138,20 +134,20 @@ export class TransactionComponent implements OnInit, OnDestroy {
           this.stateOfChargeIcon = 'battery_charging_20';
         }
       }
-      if (transaction.user) {
+      // Load User's image
+      if ((this.loggedUserImage === Constants.USER_NO_PICTURE) && transaction.user) {
         this.centralServerService.getUserImage(transaction.user.id).subscribe((userImage: Image) => {
           if (userImage && userImage.image) {
             this.loggedUserImage = userImage.image.toString();
           }
         });
       }
-      if (transaction?.carCatalog?.image) {
-        this.carImage = transaction.carCatalog.image;
-      }
-      if (transaction.stop && transaction.stop.user) {
-        this.centralServerService.getUserImage(transaction.stop.user.id).subscribe((userImage: Image) => {
-          if (userImage && userImage.image) {
-            this.stopUserImage = userImage.image.toString();
+      // Load Car's image
+      if ((this.carImage === Constants.NO_CAR_IMAGE) && transaction?.carCatalogID) {
+        this.centralServerService.getCarCatalogImages(transaction.carCatalogID, {},
+          { limit: 1, skip: Constants.DEFAULT_SKIP }).subscribe((carImage) => {
+          if (carImage.count > 0) {
+            this.carImage = carImage.result[0].image;
           }
         });
       }
@@ -163,23 +159,20 @@ export class TransactionComponent implements OnInit, OnDestroy {
   }
 
   private createTransactionRefresh() {
-    if (this.configService.getCentralSystemServer().socketIOEnabled) {
-      this.transactionRefreshSubscription = this.centralServerNotificationService.getSubjectTransaction().pipe(debounceTime(
-        this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
-        // Update user?
-        if (singleChangeNotification && singleChangeNotification.data
-            && singleChangeNotification.data.id === this.transactionID.toString()) {
-          this.refreshTransaction();
-        }
-      });
+    const pollIntervalSecs = this.configService.getCentralSystemServer().pollIntervalSecs;
+    if (!this.refreshInterval && pollIntervalSecs > 0) {
+      // create the timer
+      this.refreshInterval = setInterval(() => {
+        this.refreshTransaction();
+      }, pollIntervalSecs * 1000);
     }
   }
 
   private destroyTransactionRefresh() {
-    if (this.transactionRefreshSubscription) {
-      this.transactionRefreshSubscription.unsubscribe();
+    if (this.refreshInterval) {
+      clearInterval(this.refreshInterval);
+      this.refreshInterval = null;
     }
-    this.transactionRefreshSubscription = null;
   }
 
   private refreshTransaction() {

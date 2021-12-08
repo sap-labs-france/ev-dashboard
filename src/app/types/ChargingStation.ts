@@ -1,4 +1,5 @@
 import { KeyValue } from './GlobalType';
+import { Site } from './Site';
 import { SiteArea } from './SiteArea';
 import { TableData } from './Table';
 import { InactivityStatus } from './Transaction';
@@ -24,7 +25,6 @@ export interface ChargingStation extends TableData {
   endpoint: string;
   ocppVersion: OCPPVersion;
   ocppProtocol: OCPPProtocol;
-  cfApplicationIDAndInstanceIndex: string;
   lastSeen: Date;
   deleted: boolean;
   inactive: boolean;
@@ -42,10 +42,12 @@ export interface ChargingStation extends TableData {
   connectors: Connector[];
   currentIPAddress?: string;
   siteArea?: SiteArea;
+  site?: Site;
   capabilities?: ChargingStationCapabilities;
   ocppStandardParameters?: KeyValue[];
   ocppVendorParameters?: KeyValue[];
   distanceMeters?: number;
+  siteID?: string;
 }
 
 export enum OCPPProtocol {
@@ -54,7 +56,6 @@ export enum OCPPProtocol {
 }
 
 export enum OCPPVersion {
-  VERSION_12 = '1.2',
   VERSION_15 = '1.5',
   VERSION_16 = '1.6',
   VERSION_20 = '2.0',

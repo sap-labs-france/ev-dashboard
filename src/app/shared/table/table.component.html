@@ -7,9 +7,11 @@
         <!-- Create Left Actions -->
         <ng-container *ngFor="let actionDef of dataSource.tableActionsDef; let i=index">
           <!-- Action Button -->
-          <button mat-raised-button *ngIf="actionDef.type === 'button' && actionDef.id !== 'reset_filters'" [hidden]="actionDef.visible === false"
+          <button mat-raised-button *ngIf="actionDef.type === 'button' && actionDef.id !== 'reset_filters'"
+            [hidden]="actionDef.visible === false || actionDef.visible === undefined || actionDef.visible === null"
             (click)="actionTriggered(actionDef)" [color]="(actionDef.color ? actionDef.color : '')"
-    [disabled]="actionDef.disabled || (dataSource.tableDef.rowSelection && actionDef.linkedToListSelection && dataSource.selectedRows === 0)" [title]="(actionDef.name ? '' : actionDef.tooltip | translate)">
+            [disabled]="actionDef.disabled || (dataSource.tableDef.rowSelection && actionDef.linkedToListSelection && dataSource.selectedRows === 0)"
+            [title]="(actionDef.name ? '' : actionDef.tooltip | translate)">
             <mat-icon *ngIf="actionDef.icon">{{actionDef.icon}}</mat-icon>
             <span>{{actionDef.name | translate}}</span>
           </button>
@@ -85,57 +87,59 @@
       </div>
       <!-- Filters Row -->
       <div *ngIf="(dataSource.hasFilters || dataSource.isSearchEnabled)"
-        class="d-flex flex-row mr-auto flex-wrap mat-toolbar-row filter-row">
+        class="d-flex flex-row me-auto flex-wrap mat-toolbar-row filter-row">
         <!-- Create Filters -->
-        <div *ngFor="let filterDef of dataSource.tableFiltersDef; let i=index"
-          [class]="(filterDef.class ? filterDef.class : '')">
-          <!-- Dropdown Filter -->
-          <mat-form-field *ngIf="filterDef.type === FilterType.DROPDOWN && !filterDef.multiple">
-            <mat-select (selectionChange)="filterChanged(filterDef)" [(value)]="filterDef.currentValue"
-              [placeholder]="filterDef.name | translate">
-              <mat-option *ngFor="let item of filterDef.items" [value]="item.key">{{item.value | translate}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-          <!-- Dropdown Filter with multiple selections-->
-          <mat-form-field *ngIf="filterDef.type === FilterType.DROPDOWN && filterDef.multiple">
-            <mat-select (selectionChange)="filterChanged(filterDef)" [(value)]="filterDef.currentValue"
-              [placeholder]="filterDef.name | translate" multiple disableRipple>
-              <mat-select-trigger>{{filterDef.label}}</mat-select-trigger>
-              <mat-option *ngFor="let item of filterDef.items" [value]="item">{{item.value | translate}}</mat-option>
-            </mat-select>
-          </mat-form-field>
-          <!-- Dialog Table Filter -->
-          <mat-form-field *ngIf="filterDef.type === FilterType.DIALOG_TABLE && !filterDef.multiple">
-            <input (click)="showDialogTableFilter(filterDef)" [placeholder]="filterDef.name | translate"
-              [value]="(filterDef.currentValue ? filterDef.currentValue[0].value : filterDef.defaultValue) | translate"
-              class="form-field-popup" matInput readonly=true type="text" />
-            <button mat-icon-button matSuffix (click)="resetDialogTableFilter(filterDef)" aria-label="Clear">
-              <mat-icon>clear</mat-icon>
-            </button>
-          </mat-form-field>
-          <!-- Dialog Table Filter with multiple selections-->
-          <mat-form-field *ngIf="filterDef.type === FilterType.DIALOG_TABLE && filterDef.multiple">
-            <input (click)="showDialogTableFilter(filterDef)" [placeholder]="filterDef.name | translate"
-              [value]="filterDef.label" class="form-field-popup" matInput readonly=true type="text" />
-            <button mat-icon-button matSuffix (click)="resetDialogTableFilter(filterDef)" aria-label="Clear">
-              <mat-icon>clear</mat-icon>
-            </button>
-          </mat-form-field>
-          <!-- Date Filter -->
-          <mat-form-field *ngIf="filterDef.type === FilterType.DATE">
-            <mat-datetimepicker #picker type="datetime" openOnFocus="false" mode="portrait" timeInterval="1">
-            </mat-datetimepicker>
-            <mat-datetimepicker-toggle [for]="picker" matSuffix></mat-datetimepicker-toggle>
-            <input [id]="filterDef.id" matInput [placeholder]="filterDef.name | translate"
-              (dateChange)="dateFilterChanged(filterDef, $event)" [matDatetimepicker]="picker"
-              [value]="filterDef.currentValue" autocomplete="false">
-          </mat-form-field>
-          <!-- All key filter -->
-          <mat-form-field *ngIf="filterDef.type === FilterType.ALL_KEY">
-            <input [placeholder]="filterDef.name | translate" matInput>
-          </mat-form-field>
-        </div>
+        <ng-template ngFor let-filterDef [ngForOf]="dataSource.tableFiltersDef">
+          <div *ngIf="filterDef.visible !== false"
+            [class]="(filterDef.class ? filterDef.class : '')">
+            <!-- Dropdown Filter -->
+            <mat-form-field *ngIf="filterDef.type === FilterType.DROPDOWN && !filterDef.multiple">
+              <mat-select (selectionChange)="filterChanged(filterDef)" [(value)]="filterDef.currentValue"
+                [placeholder]="filterDef.name | translate">
+                <mat-option *ngFor="let item of filterDef.items" [value]="item.key">{{item.value | translate}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <!-- Dropdown Filter with multiple selections-->
+            <mat-form-field *ngIf="filterDef.type === FilterType.DROPDOWN && filterDef.multiple">
+              <mat-select (selectionChange)="filterChanged(filterDef)" [(value)]="filterDef.currentValue"
+                [placeholder]="filterDef.name | translate" multiple disableRipple>
+                <mat-select-trigger>{{filterDef.label}}</mat-select-trigger>
+                <mat-option *ngFor="let item of filterDef.items" [value]="item">{{item.value | translate}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <!-- Dialog Table Filter -->
+            <mat-form-field *ngIf="filterDef.type === FilterType.DIALOG_TABLE && !filterDef.multiple">
+              <input (click)="showDialogTableFilter(filterDef)" [placeholder]="filterDef.name | translate"
+                [value]="(filterDef.currentValue ? filterDef.currentValue[0].value : filterDef.defaultValue) | translate"
+                class="form-field-popup" matInput readonly=true type="text" />
+              <button mat-icon-button matSuffix (click)="resetDialogTableFilter(filterDef)" aria-label="Clear">
+                <mat-icon>clear</mat-icon>
+              </button>
+            </mat-form-field>
+            <!-- Dialog Table Filter with multiple selections-->
+            <mat-form-field *ngIf="filterDef.type === FilterType.DIALOG_TABLE && filterDef.multiple">
+              <input (click)="showDialogTableFilter(filterDef)" [placeholder]="filterDef.name | translate"
+                [value]="filterDef.label" class="form-field-popup" matInput readonly=true type="text" />
+              <button mat-icon-button matSuffix (click)="resetDialogTableFilter(filterDef)" aria-label="Clear">
+                <mat-icon>clear</mat-icon>
+              </button>
+            </mat-form-field>
+            <!-- Date Filter -->
+            <mat-form-field *ngIf="filterDef.type === FilterType.DATE">
+              <mat-datetimepicker #picker type="datetime" openOnFocus="false" mode="portrait" timeInterval="1">
+              </mat-datetimepicker>
+              <mat-datetimepicker-toggle [for]="picker" matSuffix></mat-datetimepicker-toggle>
+              <input [id]="filterDef.id" matInput [placeholder]="filterDef.name | translate"
+                (dateChange)="dateFilterChanged(filterDef, $event)" [matDatetimepicker]="picker"
+                [value]="filterDef.currentValue" autocomplete="false">
+            </mat-form-field>
+            <!-- All key filter -->
+            <mat-form-field *ngIf="filterDef.type === FilterType.ALL_KEY">
+              <input [placeholder]="filterDef.name | translate" matInput>
+            </mat-form-field>
+          </div>
+        </ng-template>
         <!-- Search -->
         <div *ngIf="dataSource.isSearchEnabled" class="col search-form">
           <mat-form-field>
@@ -251,7 +255,8 @@
               <!-- Angular Component Cell -->
               <ng-template [ngIf]="!tableColumnDef.isAngularComponent">
                 <td *ngIf="!dataSource.tableDef.isEditable" [class]="(tableColumnDef.class ? tableColumnDef.class : '')"
-                  [innerHtml]="row[tableColumnDef.id] | appFormatRowCell:tableColumnDef:row" [hidden]="!tableColumnDef.visible">
+                  [hidden]="!tableColumnDef.visible">
+                  {{row[tableColumnDef.id] | appFormatRowCell:tableColumnDef:row}}
                 </td>
                 <td *ngIf="dataSource.tableDef.isEditable"
                 [hidden]="!tableColumnDef.visible"
@@ -270,8 +275,8 @@
                     [checked]="row[tableColumnDef.id]" (change)="$event.source.checked  = !$event.source.checked;"
                     (click)="rowCellUpdated(!row[tableColumnDef.id], rowIndex, tableColumnDef)">
                   </mat-radio-button>
-                  <span *ngIf="tableColumnDef.editType === 'displayonly'" class="text-center"
-                    [innerHtml]="row[tableColumnDef.id] | appFormatRowCell:tableColumnDef:row">
+                  <span *ngIf="tableColumnDef.editType === 'displayonly'" class="text-center">
+                    {{row[tableColumnDef.id] | appFormatRowCell:tableColumnDef:row}}
                   </span>
                   <mat-error *ngIf="row[tableColumnDef.id + 'FormControl']?.errors as errors">
                     <ng-template ngFor let-error [ngForOf]="tableColumnDef.errors">
@@ -314,7 +319,7 @@
       </tbody>
     </table>
     <!-- More Records -->
-    <div *ngIf="!loading && dataSource.data.length > 0 && dataSource.totalNumberOfRecords !== dataSource.data.length"
+    <div *ngIf="!loading && dataSource.data.length > 0 && dataSource.totalNumberOfRecords > 0 && dataSource.totalNumberOfRecords > dataSource.data.length"
       (click)="displayMoreRecords()" class="more-records">
       <mat-icon>keyboard_arrow_down</mat-icon>
       {{'general.more_records' | translate}}
@@ -349,8 +354,7 @@
         {{'general.selected_records' | translate}}: {{dataSource.selectedRows}}&nbsp;
       </span>
       <!-- Stats -->
-      <span [innerHTML]="dataSource.tableFooterStats">
-      </span>
+      <span [innerHTML]="dataSource.tableFooterStats"></span>
     </div>
     <!-- Right side -->
     <div class="right-bottom-table">

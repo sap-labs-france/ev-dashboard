@@ -13,7 +13,14 @@
   width: 260px;
   @include shadow-big();
   .logo-img {
+    @extend .animation-transition-general;
     max-height: 50px;
+    margin: 8px;
+  }
+  .small-logo-img {
+    @extend .animation-transition-general;
+    max-height: 25px;
+    max-width: 50px;
     margin: 8px;
   }
   .caret {
@@ -29,8 +36,6 @@
   }
   .sidebar-wrapper {
     position: relative;
-    height: calc(100vh - 75px);
-    overflow: auto;
     width: 260px;
     z-index: 4;
     padding-bottom: 30px;
@@ -96,6 +101,10 @@
       width: 60px;
       height: 60px;
     }
+  }
+  .nav-content {
+    height: calc(95vh - 200px);
+    overflow: auto;
   }
   .nav {
     margin-top: 15px;

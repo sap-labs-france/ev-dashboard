@@ -6,10 +6,9 @@ import { Observable } from 'rxjs';
 import { ComponentService } from 'services/component.service';
 import { SiteAreaTableFilter } from 'shared/table/filters/site-area-table-filter';
 import { SiteTableFilter } from 'shared/table/filters/site-table-filter';
-import TenantComponents from 'types/TenantComponents';
+import { TenantComponents } from 'types/Tenant';
 
 import { AuthorizationService } from '../../../services/authorization.service';
-import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
@@ -26,7 +25,6 @@ import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-
 import { IssuerFilter } from '../../../shared/table/filters/issuer-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { Asset, AssetButtonAction, AssetType } from '../../../types/Asset';
-import ChangeNotification from '../../../types/ChangeNotification';
 import { DataResult } from '../../../types/DataResult';
 import { ButtonAction } from '../../../types/GlobalType';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
@@ -39,6 +37,7 @@ import { AssetConsumptionChartDetailComponent } from './consumption-chart/asset-
 @Injectable()
 export class AssetsListTableDataSource extends TableDataSource<Asset> {
   private isAdmin = false;
+  private canCreate = new TableCreateAssetAction().getActionDef();
   private editAction = new TableEditAssetAction().getActionDef();
   private deleteAction = new TableDeleteAssetAction().getActionDef();
   private displayAction = new TableViewAssetAction().getActionDef();
@@ -52,19 +51,16 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
     private dialogService: DialogService,
     private router: Router,
     private dialog: MatDialog,
-    private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
     private authorizationService: AuthorizationService,
   ) {
     super(spinnerService, translateService);
     // Init
     this.isAdmin = this.authorizationService.isAdmin();
-    this.setStaticFilters([{ WithLogo: true, WithSiteArea: true }]);
+    this.setStaticFilters([{
+      WithSiteArea: true
+    }]);
     this.initDataSource();
-  }
-
-  public getDataChangeSubject(): Observable<ChangeNotification> {
-    return this.centralServerNotificationService.getSubjectAssets();
   }
 
   public loadDataImpl(): Observable<DataResult<Asset>> {
@@ -77,13 +73,11 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
             asset.image = Constants.NO_IMAGE;
           }
         }
-        // Ok
+        this.canCreate.visible = this.isAdmin;
         observer.next(assets);
         observer.complete();
       }, (error) => {
-        // Show error
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        // Error
         observer.error(error);
       });
     });
@@ -106,6 +100,14 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
   public buildTableColumnDefs(): TableColumnDef[] {
     const tableColumnDef: TableColumnDef[] = [
       {
+        id: 'id',
+        name: 'general.id',
+        sortable: true,
+        headerClass: 'col-30p',
+        class: 'col-30p',
+        direction: 'asc',
+      },
+      {
         id: 'name',
         name: 'assets.name',
         headerClass: 'col-20p',
@@ -127,8 +129,7 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
         headerClass: 'col-20p text-center',
         class: 'col-20p text-center',
         sortable: true,
-        formatter: (dynamicAsset: boolean) => dynamicAsset ?
-          this.translateService.instant('general.yes') : this.translateService.instant('general.no'),
+        formatter: (dynamicAsset: boolean) => Utils.displayYesNo(this.translateService, dynamicAsset),
       },
       {
         id: 'assetType',
@@ -176,7 +177,7 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
     const tableActionsDef = super.buildTableActionsDef();
     if (this.isAdmin) {
       return [
-        new TableCreateAssetAction().getActionDef(),
+        this.canCreate,
         ...tableActionsDef,
       ];
     }
@@ -184,25 +185,25 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
   }
 
   public buildTableDynamicRowActions(asset: Asset): TableActionDef[] {
-    const actions = [];
+    const rowActions: TableActionDef[] = [];
     const openInMaps = new TableOpenInMapsAction().getActionDef();
     // Check if GPS is available
     openInMaps.disabled = !Utils.containsGPSCoordinates(asset.coordinates);
     if (this.isAdmin && asset.issuer) {
-      actions.push(this.editAction);
-      actions.push(new TableMoreAction([
+      rowActions.push(this.editAction);
+      rowActions.push(new TableMoreAction([
         openInMaps,
         this.deleteAction,
       ]).getActionDef());
     } else {
-      actions.push(this.displayAction);
-      actions.push(openInMaps);
+      rowActions.push(this.displayAction);
+      rowActions.push(openInMaps);
     }
     // Display refresh button
     if (this.isAdmin && asset.dynamicAsset && !asset.usesPushAPI) {
-      actions.splice(1, 0, this.retrieveConsumptionAction);
+      rowActions.splice(1, 0, this.retrieveConsumptionAction);
     }
-    return actions;
+    return rowActions;
   }
 
   public actionTriggered(actionDef: TableActionDef) {

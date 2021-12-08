@@ -20,9 +20,623 @@ export class ReleaseNotesComponent {
   public constructor() {
     this.buildReleaseNotes();
   }
-
   public buildReleaseNotes() {
     this.releaseNotes = [
+      {
+        version: '2.5.12',
+        date: new Date('2021-12-07'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `New Built-in Pricing engine`,
+              `Added OCPI Tariff ID in Tenant's Settings and Site`,
+              `Technical users are only allowed to perform B2B requests`,
+              `Migrated Registration Token, Organization and Setting endpoints to RESTful API`,
+              `Simplified authorizations on lists`,
+              `Fixed Tenant's logo is not loaded when entering a new password`,
+              `Forced RFID Cards to uppercase in OCPP requests`,
+              `Added missing Data Transfer in OCPP command whitelist`,
+              `Adjusted roaming handling in Company, Site and Site Area (OCPI)`,
+              `Soft Stop of a Transaction is allowed when there is a different ongoing Transaction`,
+              `Fixed Site Admin cannot Soft Stop his own Transaction`,
+              `Added Autralian locale`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.5.11',
+        date: new Date('2021-11-15'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `User is mandatory when creating a new RFID Card for Site Admin`,
+              `Site Admin cannot change 'Automatic user assignment to this site' property`,
+              `Enabled WS Compression in WS Server`,
+              `Reuse the Asset's token between two calls every minute`,
+              `Migrated OICP (Hubject) endpoints to RESTful API`,
+              `Return OCPI status Inoperative when connector is Unavailable`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.5.10',
+        date: new Date('2021-11-13'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Deployment of the new high performance Web Socket server (best on the market)`,
+              `Enforced synchonicity of the incoming OCPP requests per Charging Station in the Web Socket server (WS Server)`,
+              `Queued all incoming OCPP requests until the WS connection is fully checked`,
+              `Removed database locking per Charging Station (done in the WS Server now)`,
+              `Prevent new duplicate Web Socket connections in the WS Server`,
+              `Enhanced Logs to better track Web Socket connections`,
+              `Check and clean-up WS connections every 30 mins (ping)`,
+              `Removed links to the non secure WS connection in the UI (the WS service will stay up until all chargers have been migrated to WSS)`,
+              `Migrated to the latest NodeJs LTS (V16) + use a new Node container in production`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.5.9',
+        date: new Date('2021-11-05'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Fixed Soft Stop of an opened Transaction (OCPP Stop Transaction not received)`,
+              `Removed the global lock of the Async Task Manager, only kept at Task level`,
+              `Limit the Async Task processing duration to 15 mins before trying to process it again`,
+              `Return a clean error message when Billing settings are not set`,
+              `Fixed Add payment method not displayed in User's profile`,
+              `Fixed Refund buttons not displayed in Refunding Transaction list`,
+              `Added back Export button in Log list`,
+              `Check that the Token ID is well formed`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.5.8',
+        date: new Date('2021-11-03'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Enforce security checks in OCPP requests`,
+              `Made all notification non blocking`,
+              `Avoid scheduled tasks execution overlapping`,
+              `Added Import, Export, Sync Billing authorizations in Users' list`,
+              `Added dedicated Charging Station's column in Logs`,
+              `Added new Source and Site filters in Logs`,
+              `Ensure Async Task manager to always resume after a long processing tasks`,
+              `Migrated Log endpoint to the new Authorization framework`,
+              `Randomized lock waiting time when the same lock is requested several times`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.5.7',
+        date: new Date('2021-10-23'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `User can now have free access to Charging Stations (not billable)`,
+              `Reject OCPP requests if the Charging Station has been manually made inactive`,
+              `Enforced Charging Station's registration check on revoked tokens`,
+              `Send notification once every 10 mins for Charging Station in error`,
+              `Ignore OCPP Status Notification with same values`,
+              `Log when a notification is not sent to the user`,
+              `Improved logging for Site Admins`,
+              `Fixed User and Car not seen in Session Refund list`,
+              `Fixed cannot see User in Charging Station's connector when charging`,
+              `Fixed performance issue when retrieving the last Transaction's consumption`,
+              `Fixed Refresh error handling`,
+              `User is mandatory when creating an RFID Card for Site Admins`,
+              `Get Car Images with URL instead of Base64 in Car list`,
+              `Added new firmware version for Kempower Charging Station and added Siemens model CPC-20/90/120 in template`,
+              `Removed server side refresh of lists (SocketIO)`,
+              `Removed listening of unused database collections`,
+              `Security: Prevent XSS injections`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.5.6',
+        date: new Date('2021-10-21'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `User is mandatory when creating an RFID Card for Site Admins`,
+              `Get Car Images with URL instead of Base64 in Car list`,
+              `Added new firmware version for Kempower Charging Station and added Siemens model CPC-20/90/120 in template`,
+              `Removed server side refresh of lists (SocketIO)`,
+              `Removed listening of unused database collections`,
+              `Security: Prevent XSS injections`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.5.5',
+        date: new Date('2021-10-20'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Fixed Performance correlation ID is send along the OCPP request`,
+              `RFID Cards can always be reassigned even if already used before`,
+              `Improved Charging Station's manual config and exclude from smart charging parameters`,
+              `Check OCPI only when access control is active at Site Area level`,
+              `Removed OCPI logo when empty and non standard properties`,
+              `Enhanced performance logs for tracing traffic per organization`,
+              `Adding Setec as Charging Station Vendor`,
+              `Added Charging Station's Model in list`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.5.4',
+        date: new Date('2021-10-10'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Fixed Technical filter in User's list`,
+              `Fixed Retrieve OCPP Parameters in Charging Station's details`,
+              `Send OCPI Cdr only when there is charging periods and consumption`,
+              `Made the Visual ID unique in imported RFID Cards`,
+              `Fixed infinite loop when User is not authorized to list the charging stations`,
+              `Added schema validation for Authorizations`,
+              `Enforced schema validation in Charging Station Template`,
+              `Enhanced performances and stability of the REST server`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.5.3',
+        date: new Date('2021-10-04'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Enhanced hidding sensitive data in Logs`,
+              `Sanitize data in export CSV`,
+              `Added metadata to Authorization's fields`,
+              `Fixed authorization inheritance in dynamic filtering`
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.5.2',
+        date: new Date('2021-10-03'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Site Admin can create users that are assigned to his sites`,
+              `Added Technical User filter in list`,
+              `Added Czech locale for formatting decimals`,
+              `Fixed Asset push REST API`,
+              `Fixed OCPI CDR not sent right after the OCPP Status Notification 'Available'`,
+              `Fixed cannot retrieve the next page of Tenants in the list`,
+              `Fixed OCPI local token cannot be generated`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.5.1',
+        date: new Date('2021-09-29'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added Schema validation in Charging Station templates`,
+              `Improved performances of Authorizations and Schemas validation (caching)`,
+              `Added Kempower T500 Charging Station's vendor in templates`,
+              `Added OCPP Reserve Now command`,
+              `Added Czech language`,
+              `Fixed navigation to Tags in table row action`,
+              `Fixed OCPI Remote Authorization is rejected in OCPP Authorize request`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.5.0',
+        date: new Date('2021-09-24'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Implemented Tronity Car connector`,
+              `Basic User can register or delete his own RFID Cards`,
+              `RFID Cards has been moved in a dedicated menu`,
+              `Admin can create an RFID Card not assigned to a User`,
+              `Fixed Charging Station's template is not applied when the connectors already exist`,
+              `Split OCPP Change Availability, Data Transfer, Unlock Connector and Change/Get Configuration commands in REST public API`,
+              `Added Technical User for querying the REST API (B2B)`,
+              `Fixed Retrieve Configuration button in Charging Station's OCPP Parameters`,
+              `Fixed exception handling when sending an OCPP command to a disconnected Charging Station`,
+              `Display 'Installed' firmware update status in Charging Station list`,
+              `Fixed side menu cannot be scrolled on small screen`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.91',
+        date: new Date('2021-09-20'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added Zeta Charging Station's vendor in templates`,
+              `Fixed Export of OCPP parameters`,
+              `Fixed Remote Start Transaction command in OCPI`,
+              `Migrated Company and OCPI endpoints to REST public API`,
+              `Split OCPP Reset and Clear Cache commands in REST public API`,
+              `Added Car connector in User's profile`,
+              `Billing should not throw an error when no User is provided`,
+              `Fixed documentation CSV upload`
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.90',
+        date: new Date('2021-09-09'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added OCPP Get Composite Schedule command in public REST endpoint`,
+              `Ensure Site and Charging Station are public when checking the public flag`,
+              `Enhanced Charging Station logging when the response cannot be parsed (malformed)`,
+              `Added Setec Charging Station's vendor in templates`,
+              `Migrated Car endpoints to REST public API`,
+              `Fixed logo size in notification emails`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.89',
+        date: new Date('2021-09-06'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Smart Charging - Enable Charging Stations without static limitation support`,
+              `Added OCPP Get Diagnostics command in public REST endpoint`,
+              `Return new fields in User's default Tag and Car REST API`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.88',
+        date: new Date('2021-09-05'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added Mercedes connector to get the SoC on AC Charging Stations`,
+              `Enhanced consumption charts with different series`,
+              `Added Site ID in Logs for Site Admin role`,
+              `Made 'email' and 'name' not mandatory when updating an User`,
+              `Transaction and Log endpoints RESTful have been migrated`,
+              `Limit the number of Logs to 10 millions max`,
+              `Fixed lost of OCPI configuration`,
+              `Finalized DBT Charging Station's model in templates`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.87',
+        date: new Date('2021-08-25'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added OCPP Trigger Data Transfer in RESTful API`,
+              `Remove prefix from OCPI tariff and use 'Default' as default tariff`,
+              `Added new DBT Charging Station's model in templates`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.86',
+        date: new Date('2021-08-17'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Improvement of the translation to Spanish`,
+              `Implicit log filtering for Site Administrators`
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.85',
+        date: new Date('2021-08-13'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Show asset's consumption/production in the Site Area charts`,
+              `EVlink Smart Wallbox - new serial number added to the templates`,
+              `Wall Box Chargers - new firmware added to the templates`,
+              `Fixed: Domestic connector for OCPI`
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.84',
+        date: new Date('2021-08-06'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Check Billing payment method in OCPP Authorize`,
+              `Do not create automatically the RFID Card when not known`,
+              `Clean-up current Transaction when OCPP Start Transaction fails on the same Connector`,
+              `Added new CongCongTech, Alpitronic, Alfen Single Proline and Efacec QC45 Charging Station's model in templates`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.83',
+        date: new Date('2021-08-04'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Fixed OCPI Register Endpoint not getting the IOP information`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.82',
+        date: new Date('2021-08-02'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Billing invoicing is now checked daily`,
+              `Enhancement of Logs`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.81',
+        date: new Date('2021-07-30'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Implemented Mercedez access for getting Car's battery level during the charging session for the Smart Charging`,
+              `Added new ARK Charging Station's model in templates`,
+              `Clean up Charging Station's connector when Available Status Notification is sent with no Stop Transaction`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.80',
+        date: new Date('2021-07-29'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Import Tags and Users with Sites + Auto activate Tags and Users' account`,
+              `Add Transaction endpoints to RESTfull public API`,
+              `Optimized Database performances on Charging Stations, Transactions, Users, Stats and Site Areas`,
+              `Display Web Socket protocol not provided in customer's Tenant`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.79',
+        date: new Date('2021-07-26'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Fixed Site Admin cannot see Statistics of his Users`,
+              `Fixed missing IDs in RESTful file documentation`,
+              `Lacroix / Linky Asset integration`,
+              `Check Charging Station Registration Token at Web Socket connection and refuse it if not valid`,
+              `Set OCPI Opening Hours and Tariff ID for SLF Caen`,
+              `Set the OCPP heartbeat to 60 secs in OCPP 1.6-J`,
+              `Stop OCPI Transaction if receiving OCPP Meter Values with unknown Transaction ID`,
+              `Do not create a Transaction before checking Roaming Authorization`,
+              `Request OCPI Authorization Token also in OCPP Start Transaction in addition to OCPP Authorize`,
+              `Restrain OCPI Remote Authorization Token validity from 10 mins to 2 mins`
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.78',
+        date: new Date('2021-07-20'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Do not try to process OCPI sessions in progress`,
+              `Always check OCPI Sessions and CDRs once in the Job`,
+              `End of Charge notification is sent only once`,
+              `Increase database performances in clustered environment`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.77',
+        date: new Date('2021-07-18'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Introduced the RFID Card visual ID in the Transaction's lists and pop-ups`,
+              `Start a Transaction with the RFID Card visual ID`,
+              `Fixed excluded already processed Charge Points`,
+              `Fixed get lastest Assets' consumptions`,
+              `Do not update the Charging Station's heart beat when checked by the job`,
+              `Check OCPI Transactions on only finished Transactions`,
+              `Free the Connector's runtime data of already stopped Transaction`,
+              `Web Socket simplification`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.76',
+        date: new Date('2021-07-14'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Clear Firmware Status Notification after Charging Station's reboot`,
+              `Fixed User is not displayed in Charging Station's connector during a charging session`,
+              `Update the the Charging Station's heart beat whenever it connects to the backend`,
+              `Cars management use the new authorization framework`,
+              `Adjusted the language's locales management and fixed some not found ones`,
+              `Send OCPI and OICP status Unavailable when Charging Station's Web Socket is disconnected`,
+              `Enhanced the Log's search to match sentences in Message column`,
+              `Removed some Billing feature toggles`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.75',
+        date: new Date('2021-07-08'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Smart Charging: Use efficiency when excluding the Charging Stations`,
+              `Force the Charging Station unavailability's status after 2 mins instead of 9 mins when not responding`,
+              `Set the standard Heartbeat OCPP param first and try workarounds next if it failed`,
+              `Make Log's Action filter more specifics (REST, OCPP...)`,
+              `Added new Joint Charging Station's model in templates`,
+              `Optimized DB access in OICP endpoint (Hubject)`,
+              `Prevent deletion of Users in Stripe`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.74',
+        date: new Date('2021-07-06'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Save Status Notification right after Boot Notification even if the status has not changed`,
+              `Added Company, Site and Site Area in Session list`,
+              `Hide Delete button when user image is not set`,
+              `Optimized DB access in OCPI endpoint`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.73',
+        date: new Date('2021-07-02'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Do not bill Sessions < 1 kWh and < 1 min`,
+              `Billing montly payment with Stripe`,
+              `Added Low Consumption (< 1 kWh) and Low Duration (< 1 min) in Sessions In Error`,
+              `Improve perfs to get Log details`,
+              `Added Connector's information in Charging Station and Session In Progress lists`,
+              `Added Stop reason in Session History list`,
+              `Saved Stop reason OCPP Stop Transaction`,
+              `Only log stack trace of exceptions`,
+              `Reduce number of updates in DB of Charging Station's Heart Beats`,
+              `Returned distance meters of Charging Stations`,
+              `Keep performance logs for 2 weeks instead of 4`,
+              `Added Car and User info in Sessions in Error`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.72',
+        date: new Date('2021-06-30'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Migrated Tag endpoints to REST public API`,
+              `Fixed User with role Basic cannot change his password`,
+              `Added new Nexans new Charging Station's models in templates`,
+              `Optimized DB access in Notification and Site management`,
+              `Added clear of Billing test data`,
+              `Took into account Transaction timezone in Billing`,
+              `Display on going transaction stats in footer`,
+              `Construct of URLs without 'safe-url-assembler' open source`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.71',
+        date: new Date('2021-06-28'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Synchronized all OCPP calls`,
+              `Fixed cannot assign a Site to a User`,
+              `Enhanced Billing's logs`,
+              `Added new G2Mobility new Charging Station's models in templates`,
+              `Refactored timestamps of optimizer request`,
+            ],
+          },
+          {
+            name: 'Mobile (1.3.42)',
+            changes: [
+              `Fixed Billing payment method is not refresh after creating one`,
+              `Added missing Invoice statuses`,
+              `Set the Site name is Site Area list`,
+              `Set the Site Area name in Charging Station list`,
+              `Added default sorting in all HTTP requests`,
+              `Avoid retrieving User for each invoice`,
+              `Do not retrieve all User's images in User list`,
+              `Reduced the number of HTTP requests (optimization)`,
+              `UI/Design Improvements`,
+              `Removed debug logs`,
+            ],
+          },
+        ],
+      },
       {
         version: '2.4.70',
         date: new Date('2021-06-26'),
@@ -45,7 +659,8 @@ export class ReleaseNotesComponent {
             ],
           },
         ],
-      },      {
+      },
+      {
         version: '2.4.69',
         date: new Date('2021-06-18'),
         componentChanges: [
@@ -77,7 +692,7 @@ export class ReleaseNotesComponent {
               `Allow to clean-up Billing Test data`,
               `Ebee, Wallbox: fixes for latest firmware version`,
               `Migrated Cars to the new authorization framework`,
-              `Fixed cannot import Badges without Users`,
+              `Fixed cannot import RFID Cards without Users`,
               `Added filter dependencies (Organization, Site, Site Area...)`,
               `Added get default Car and Tag, get Sites and assign Sites in REST User's endpoint`,
             ],
@@ -91,7 +706,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
-              `Fix users filter on badge`,
+              `Fix users filter on RFID Card`,
               `Fix asset consumption backup calculation`,
               `Add periodic billing support`,
               `Add RESTful API for boot and status notifications`,
@@ -104,18 +719,18 @@ export class ReleaseNotesComponent {
               `WIT Asset integration`,
               `Billing: Add country code to address`,
               `Add RESTful endpoints for invoices`,
-              `Various fixes to the badge Visual ID support`,
+              `Various fixes to the RFID Card Visual ID support`,
               `Convert tags authorization to new scheme`,
               `Various fixes to the billing dashboard UI`,
               `Add billing invoices detailed description support`,
               `Add assets information refresh interval support`,
               `Add notification support for billing payment failure`,
-              `Fix badge ID support to search filter`,
+              `Fix RFID Card ID support to search filter`,
               `Fix consumption computation from MeterValues Current.Import measurand`,
               `Fix organizations read permission for admin role with also site admin role`,
-              `Allow site admin role to view transaction badge ID if done on their site`,
-              `Add a visual ID field to badge record`,
-              `Fix badges CSV import/export`,
+              `Allow site admin role to view transaction RFID Card ID if done on their site`,
+              `Add a visual ID field to RFID Card record`,
+              `Fix RFID Cards CSV import/export`,
               `Fix user site assignment`,
               `Server side german translation update`,
               `Fix assets consumption retrieval if empty`,
@@ -175,7 +790,7 @@ export class ReleaseNotesComponent {
               `Fixed OCPI CDR is sent multiple times on OCPP status notification`,
               `Add opening hours in SAP Labs France Mougins' Site`,
               `Use the local CPO Transaction ID in OCPI Session and CDR`,
-              `Fixed Badge cannot be created if used in Transactions with no User`,
+              `Fixed RFID Card cannot be created if used in Transactions with no User`,
               `Eichrecht: Signed Data is not correctly transmitted with some systems`,
               `Added Atess, Ecotap DC30, CC612_1M4PR and Alfen Charging Stations in template`,
               `Fixed Charging Profiles cannot be displayed`,
@@ -191,9 +806,9 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Only Assets belonging to e-Mobility can be updated or deleted`,
-              `Allow delete of Badge with linked transactions but forbid its creation`,
+              `Allow delete of RFID Card with linked transactions but forbid its creation`,
               `Added getChargingStationTransactions, firmwareDownload, SmartChargingTrigger, InError validation in RESTful endpoint`,
-              `Ensure that each User has only one default badge`,
+              `Ensure that each User has only one default RFID Card`,
               `Fixed Charging Plan is lost when the Charging Station is reloaded from the backend`,
               `Add Legrand model 059012 in Charging Station's template`,
               `Use Watts unit in AC/DC in Charging Station's template`,
@@ -404,7 +1019,7 @@ export class ReleaseNotesComponent {
               `Increased Charging Station's REST performances`,
               `Updated Charging Station's action in RESTful endpoint`,
               `Aligned all Sessions' consumptions`,
-              `Added Badge CRUD operations in RESTful endpoint`,
+              `Added RFID Card CRUD operations in RESTful endpoint`,
               `Fixed Shelly Charging Station's amperage`,
               `Fixed Signed Meter Values on EBEE Charging Station`,
             ],
@@ -457,7 +1072,7 @@ export class ReleaseNotesComponent {
               `Retrieve the completed Transactions via the new RESTful endpoint`,
               `Crypto key used for encrypting sensitive data can now be changed per tenant`,
               `Admin users are now notified when new end-users register and need their account activated`,
-              `Export Badge ID and Description in Session History`,
+              `Export RFID Card ID and Description in Session History`,
               `Do not try to retrieve the Settings if Tenant's components are not active`,
               `Added Legrand model 059011 in Charging Station's template`,
               `Fixed Car's thumbnails not displayed`,
@@ -613,7 +1228,7 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Handle Scheduled status in OCPP Change Availability command`,
-              `Fixed Roaming badges are not checked when Site Area access control is not active`,
+              `Fixed Roaming RFID Cards are not checked when Site Area access control is not active`,
             ],
           },
         ],
@@ -658,7 +1273,7 @@ export class ReleaseNotesComponent {
             changes: [
               `Implemented sticky Smart Charging that adjusts limitation to real Car's consumption`,
               `Fixed Smart Charging rounding amperage per phase in Car`,
-              `Do not authorize roaming Badges on a private Charging Station`,
+              `Do not authorize roaming RFID Cards on a private Charging Station`,
               `Add Charging Station vendor integration for Shelly wallboxes`,
               `Added QA flag in Charging Station's templates for testing purpose`,
               `Added Tenant Logo in auth pages and in side bar`,
@@ -682,7 +1297,7 @@ export class ReleaseNotesComponent {
               `Fixed CSS in Car Catalog popup for mid-size screens`,
               `Enhanced performances of the Carousel control used to display all the Car's images`,
               `Hide car features in front if Car component is not active`,
-              `Added new Delta OCPP parameter in templates to correctly read Badge ID with shorter length like New Motion`,
+              `Added new Delta OCPP parameter in templates to correctly read RFID Card ID with shorter length like New Motion`,
               `Setup backup notification email server in AWS in addition to the one in SCP`,
               `Fixed translation issues`,
             ],
@@ -696,7 +1311,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
-              `Start a Transaction with a given Car and Badge ID`,
+              `Start a Transaction with a given Car and RFID Card ID`,
               `Fixed refresh of power when nbr phase is changed`,
               `Fixed Instant Power progress bar with wrong Max Power in Charging Station's list`,
               `Added debug logs for Charging Stations connection issues`,
@@ -718,7 +1333,7 @@ export class ReleaseNotesComponent {
               `Do not exclude Charging Station permanently when Smart Charging fails to push the Charging Plans to it`,
               `Moved Site column after the Charging Station's name in Charging Station's list`,
               `Add Keba P30 model in Charging Station's template`,
-              `Increased performances for listing 800k Badges`,
+              `Increased performances for listing 800k RFID Cards`,
             ],
           },
         ],
@@ -802,9 +1417,9 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Fixed OCPI CDR was not sent to Gireve at the end of the Session`,
-              `Optimized Remote Start Transaction of eMSPs with several thousand Badges`,
+              `Optimized Remote Start Transaction of eMSPs with several thousand RFID Cards`,
               `OCPI Pull Tokens second optimization pass`,
-              `Increased to 2 the number of jobs pulling the Badges from the Gireve`,
+              `Increased to 2 the number of jobs pulling the RFID Cards from the Gireve`,
               `Added locks to all OCPI eMSP and CPO's actions`,
               `Fixed and optimized OCPI Pull Tokens`,
               `Enhanced OCPI logs`,
@@ -822,11 +1437,11 @@ export class ReleaseNotesComponent {
             changes: [
               `Hide table list actions for OCPI entities`,
               `Push all the OCPI locations once a day`,
-              `Retrieve all the OCPI badges once a day`,
+              `Retrieve all the OCPI RFID Cards once a day`,
               `Notify the user when a new invoice is available`,
               `Fixed billing invoice deletion during invoice synchronization`,
               `Added Car Maker filter in Car Management`,
-              `Jump from User to Badge list should take into account the organization filter`,
+              `Jump from User to RFID Card list should take into account the organization filter`,
               `Format OCPI Country codes`,
               `Aligned REST sorting with standard`,
               `Optimized MongoDB free text search in Logs`,
@@ -856,7 +1471,7 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Implemented the Car Management in the Smart Charging`,
-              `Delete/Assignment of a Badge with anonymous Sessions should be allowed`,
+              `Delete/Assignment of an RFID Card with anonymous Sessions should be allowed`,
               `Display Users in Car Management list`,
               `Added Navigate from Transaction History to To Charging Plans`,
               `Increased error margin from 5% to 10% in Session In Error over consumption`,
@@ -880,10 +1495,10 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Persist custom OCPP Parameters in the database for Delta Charging Station`,
-              `Added default Badge property`,
+              `Added default RFID Card property`,
               `Added Site filter in User list`,
               `Static Power limitation must not be provided by the Charging Station Template`,
-              `Fixed ABB badge reader configuration`,
+              `Fixed ABB RFID Card reader configuration`,
               `Added Schneider model EV2S7P04 in Charging Station's Template`,
               `Minor bug fixes`
             ],
@@ -898,18 +1513,18 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Fixed cannot update new registered Users`,
-              `Send notification to Admins when an unknown Badge is used on a Charging Station`,
+              `Send notification to Admins when an unknown RFID Card is used on a Charging Station`,
               `Enable the Basic users to activate/deactivate his Notifications`,
               `Allow high volume of data in export functions`,
-              `Migration tasks for aligning the local Badges with local Users + default description`,
-              `For Badge ID to be in upper case when created manually`,
-              `Auto refresh Badge management list`,
+              `Migration tasks for aligning the local RFID Cards with local Users + default description`,
+              `For RFID Card ID to be in upper case when created manually`,
+              `Auto refresh RFID Card management list`,
               `Build Smart Charging safe Car + Override with Meter Values`,
               `Enable vehicle identifier in OCPP for the Ebee Charging Station`,
               `Handle Meter Values with L1_N, L2_N and L3_N phases`,
               `Add Voltage Meter Value on Legrand Charging Station`,
-              `Enable authentication with badge on Schneider Charging Station`,
-              `Display a relevant error message when trying to create a Badge that already exists`,
+              `Enable authentication with RFID Card on Schneider Charging Station`,
+              `Display a relevant error message when trying to create an RFID Card that already exists`,
             ],
           },
         ],
@@ -921,10 +1536,10 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
-              `New Badge Management framework`,
+              `New RFID Card Management framework`,
               `Enable Charging Profile support on ABB`,
-              `Assign a User to a Badge in one step`,
-              `Added a drop down list to activate/deactivate a badge`,
+              `Assign a User to an RFID Card in one step`,
+              `Added a drop down list to activate/deactivate an RFID Card`,
               `Can only assign a Company or a Site issued by the current organization`,
               `When Charging Stations are excluded from the Smart Charging they can be tuned manually`,
               `Fixed retrieving the current connector power limit for the recursive daily Charging Plans and for the ones with one schedule period`,
@@ -946,7 +1561,7 @@ export class ReleaseNotesComponent {
               `Added ATESS vendor for Smart Charging support`,
               `Fixed number of phase in Smart Charging when no consumption`,
               `Added Logo and Address in Tenant management`,
-              `Added Badge ID in Sessions' lists`,
+              `Added RFID Card ID in Sessions' lists`,
               `Always try to get the User during Start Transaction when ACL is not active on Site Area`,
               `Ignore OCPP Status Notification on Connector ID '0'`,
               `Get OCPI public Locations with no Charging Station`,
@@ -1001,7 +1616,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
-              `Handle multiple OCPI Authorizations with the same Badge ID`,
+              `Handle multiple OCPI Authorizations with the same RFID Card ID`,
               `Convert the total parking time in hours in the OCPI CDR`,
               `Put back the price in the OCPI CDR even if the pricing is not active`,
             ],
@@ -1077,7 +1692,7 @@ export class ReleaseNotesComponent {
               `Create invoice on Sessions without Billing data`,
               `Store and Download invoices (pdf) from e-Mobility`,
               `Prevent billed sessions from being deleted`,
-              `Enhanced Badge unit tests`,
+              `Enhanced RFID Card unit tests`,
             ],
           },
         ],
@@ -1124,7 +1739,7 @@ export class ReleaseNotesComponent {
               `Fixed rounded Amps/Watts numbers in Charging Plans`,
               `Charging Station's total power not updated when not belonging to the templates`,
               `Fixed display power with wrong unit in consumption chart`,
-              `Fixed badge is no longer mandatory in user's profile`,
+              `Fixed RFID Card is no longer mandatory in user's profile`,
               `Removed Charging Station from the Gireve when changing it to private`,
               `Added a free OCPP key/value input fields in OCPP Parameters`,
               `Notify Admin Users when Charging Stations are overheating`,
@@ -1148,7 +1763,7 @@ export class ReleaseNotesComponent {
               `Auto-detect single phase Car in SAP Smart Charging using new Meter Values per phase`,
               `Implemented EV-Ready minimal amperage of 13A per phase in Static Limitation and SAP Smart Charging`,
               `Excluded Suspended EV from the SAP Smart Charging`,
-              `Fixed Badges got deactivated after saving User's profile`,
+              `Fixed RFID Cards got deactivated after saving User's profile`,
               `Fixed typos in French translation`,
               `Admin and Basic users can create Cars`,
               `Added Amps/Power of L1, L2 and L3 phases in session's charts`,
@@ -1176,7 +1791,7 @@ export class ReleaseNotesComponent {
               `Added new firmware versions in Charging Station's Templates`,
               `First Session tab is now Session In Progress`,
               `Fixed translation errors`,
-              `Fixed User got notified with Session Not Started when he stopped his Session with his badge`,
+              `Fixed User got notified with Session Not Started when he stopped his Session with his RFID Card`,
               `Handle Power Meter Values per phase on Ebee Charging Station`,
               `Add latest stable Ebee firmware version in templates`,
               `Removed timezone in templates for Schneider Charging Station`,
@@ -1197,7 +1812,7 @@ export class ReleaseNotesComponent {
               `Provided Spanish an German translations`,
               `Fixed cannot save Site Area with single phase`,
               `Fixed User name is not hidden for role Demo in Charging Station's connector details`,
-              `Fixed cannot delete unused User's badge in User's profile`,
+              `Fixed cannot delete unused User's RFID Card in User's profile`,
               `Fixed amperage per connector is not displayed for Legrand Charging Stations`,
               `Fixed save of Charging Station parameters does not work when not belonging to a template`,
               `Sort Users In Error list by Created By column in descending order by default`,
@@ -1494,8 +2109,8 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
-              `Remote Start Transaction is now using the first active badge of the User`,
-              `Fixed notification is sent when user has badged and session is not started after 10 mins`,
+              `Remote Start Transaction is now using the first active RFID Card of the User`,
+              `Fixed notification is sent when user has RFID Cardd and session is not started after 10 mins`,
               `Add the maximum limit when creating a Charging Plan`,
               `Limit the max amp in charging plan to the max static limitation`,
               `Set the Temporary Charging Plan start date to 10 mins in the future`,
@@ -1620,7 +2235,7 @@ export class ReleaseNotesComponent {
               `Change the color of the inactivity according its importance`,
               `Added Report ID filter in Refunded Session list`,
               `Enhance OCPI settings to handle different identifiers for CPO and EMSP roles`,
-              `Refactor the User's Badges for eMSP implementation`,
+              `Refactor the User's RFID Cards for eMSP implementation`,
             ],
           },
         ],
@@ -1686,7 +2301,7 @@ export class ReleaseNotesComponent {
               `Admin Users can enable/disable Notifications`,
               `Fix stop authorization for Basic User`,
               `Admins cannot delete a Session that has already been refunded`,
-              `User's Badge ID is not regenerated when not existing in profile`,
+              `User's RFID Card ID is not regenerated when not existing in profile`,
               `Hide column when the browser is resized`,
               `Both OCPI and Notification entities has been migrated to TypeScript`,
             ],
@@ -1850,7 +2465,7 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Improved security of Charging Stations registration with a token generated by an Admin or a Site Admin user`,
-              `Fixed save of User's profile with multiple same Badge IDs`,
+              `Fixed save of User's profile with multiple same RFID Card IDs`,
               `Email validation in User's profile should be the same as in the backend`,
               `Fixed Basic User cannot change his picture in his profile`,
               `Fixed filter named Type not working in Session Refund view`,
@@ -1873,7 +2488,7 @@ export class ReleaseNotesComponent {
             name: 'Front-end',
             changes: [
               `Add the number of Sessions in Statistics`,
-              `Cannot assign a Badge ID which is already used by another user`,
+              `Cannot assign an RFID Card ID which is already used by another user`,
               `Force mandatory fields to be highlighted in Charging Station Settings`,
               `Added Sessions with a wrong inactivity in Faulty Sessions`,
               `Added multi-selection in all drop-down filters`,
@@ -2020,7 +2635,7 @@ export class ReleaseNotesComponent {
             changes: [
               `Removed from Log's source the instance ID`,
               `Take into consideration the price to optimize the Session charging curve`,
-              `Fixed auto disconnect user when he/she has more than 2 badges in his/her profile`,
+              `Fixed auto disconnect user when he/she has more than 2 RFID Cards in his/her profile`,
             ],
           },
         ],

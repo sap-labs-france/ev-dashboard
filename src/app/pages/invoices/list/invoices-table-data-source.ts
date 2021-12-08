@@ -6,7 +6,6 @@ import { Observable } from 'rxjs';
 import { IssuerFilter } from 'shared/table/filters/issuer-filter';
 
 import { AuthorizationService } from '../../../services/authorization.service';
-import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
@@ -24,10 +23,9 @@ import { StartDateFilter } from '../../../shared/table/filters/start-date-filter
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { BillingButtonAction, BillingInvoice, BillingSessionData } from '../../../types/Billing';
-import ChangeNotification from '../../../types/ChangeNotification';
 import { DataResult } from '../../../types/DataResult';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
-import TenantComponents from '../../../types/TenantComponents';
+import { TenantComponents } from '../../../types/Tenant';
 import { User } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';
 import { InvoiceStatusFilter } from '../filters/invoices-status-filter';
@@ -45,7 +43,6 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
     private dialogService: DialogService,
     private router: Router,
     private appUserNamePipe: AppUserNamePipe,
-    private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
     private authorizationService: AuthorizationService,
     private datePipe: AppDatePipe,
@@ -56,22 +53,16 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
     this.initDataSource();
   }
 
-  public getDataChangeSubject(): Observable<ChangeNotification> {
-    return this.centralServerNotificationService.getSubjectInvoices();
-  }
-
   public loadDataImpl(): Observable<DataResult<BillingInvoice>> {
     return new Observable((observer) => {
       // Get the Invoices
       this.centralServerService.getInvoices(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((invoices) => {
-        // Ok
+        this.syncBillingInvoicesAction.visible = this.authorizationService.canSynchronizeInvoices();
         observer.next(invoices);
         observer.complete();
       }, (error) => {
-        // Show error
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'invoices.cannot_retrieve_invoices');
-        // Error
         observer.error(error);
       });
     });
@@ -148,12 +139,12 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
         formatter: (sessions: BillingSessionData[], invoice: BillingInvoice) => sessions?.length,
         headerClass: 'col-10p text-center',
         class: 'col-10p text-center',
-        sortable: true,
+        sortable: false,
       },
       {
         id: 'amount',
-        name: 'invoices.price',
-        formatter: (price: number, invoice: BillingInvoice) => this.appCurrencyPipe.transform(price / 100, invoice.currency.toUpperCase()),
+        name: 'invoices.amount',
+        formatter: (amount: number, invoice: BillingInvoice) => this.appCurrencyPipe.transform(amount / 100, invoice.currency.toUpperCase()),
         headerClass: 'col-10p',
         class: 'col-10p',
         sortable: true,
@@ -165,7 +156,7 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
     if (this.componentService.isActive(TenantComponents.BILLING) &&
-      this.authorizationService.canSynchronizeInvoices()) {
+        this.authorizationService.canSynchronizeInvoices()) {
       tableActionsDef.unshift(this.syncBillingInvoicesAction);
     }
     return [

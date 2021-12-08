@@ -24,7 +24,7 @@ export interface User extends TableData, CreatedUpdatedProps {
   costCenter: boolean;
   status: string;
   image: string | null;
-  role: string;
+  role: UserRole;
   locale: string;
   language: string;
   numberOfSites: number;
@@ -40,6 +40,8 @@ export interface User extends TableData, CreatedUpdatedProps {
   eulaAcceptedVersion: number;
   eulaAcceptedOn: Date;
   billingData: BillingUserData;
+  technical: boolean;
+  freeAccess: boolean;
 }
 
 export interface UserNotifications {
@@ -54,7 +56,6 @@ export interface UserNotifications {
   sendChargingStationRegistered: boolean;
   sendOcpiPatchStatusError: boolean;
   sendOicpPatchStatusError: boolean;
-  sendSmtpError: boolean;
   sendUserAccountInactivity: boolean;
   sendPreparingSessionNotStarted: boolean;
   sendOfflineChargingStations: boolean;
@@ -98,14 +99,6 @@ export interface UserToken {
   activeComponents?: string[];
 }
 
-export interface UserCar extends TableData, CreatedUpdatedProps {
-  id: string;
-  user: User;
-  carID: string;
-  default?: boolean;
-  owner?: boolean;
-}
-
 export interface UserSite extends TableData {
   user: User;
   siteID: string;
@@ -115,15 +108,7 @@ export interface UserSite extends TableData {
 
 export enum UserButtonAction {
   EDIT_USER = 'edit_user',
-  EDIT_TAG = 'edit_tag',
   CREATE_USER = 'create_user',
-  CREATE_TAG = 'create_tag',
-  DELETE_TAG = 'delete_tag',
-  DELETE_TAGS = 'delete_tags',
-  ACTIVATE_TAG = 'activate_tag',
-  DEACTIVATE_TAG = 'deactivate_tag',
-  IMPORT_TAGS = 'import_tags',
-  EXPORT_TAGS = 'export_tags',
   DELETE_USER = 'delete_user',
   SYNCHRONIZE_BILLING_USER = 'billing_synchronize_user',
   BILLING_FORCE_SYNCHRONIZE_USER = 'billing_force_synchronize_user',
@@ -132,7 +117,6 @@ export enum UserButtonAction {
   ASSIGN_SITES_TO_USER = 'assign_sites_to_user',
   EXPORT_USERS = 'export_users',
   IMPORT_USERS = 'import_users',
-  NAVIGATE_TO_TAGS = 'navigate_to_tags',
   NAVIGATE_TO_USER = 'navigate_to_user'
 }
 
@@ -158,4 +142,8 @@ export const UserRequiredImportProperties = [
   'email',
   'firstName',
   'name'
+];
+
+export const UserOptionalImportProperties = [
+  'siteIDs'
 ];

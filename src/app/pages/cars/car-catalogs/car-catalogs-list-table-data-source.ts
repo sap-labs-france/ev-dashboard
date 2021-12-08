@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 
-import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ConfigService } from '../../../services/config.service';
 import { DialogService } from '../../../services/dialog.service';
@@ -19,7 +18,6 @@ import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-
 import { CarMakerTableFilter } from '../../../shared/table/filters/car-maker-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { CarButtonAction, CarCatalog } from '../../../types/Car';
-import ChangeNotification from '../../../types/ChangeNotification';
 import { DataResult } from '../../../types/DataResult';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
 import { Utils } from '../../../utils/Utils';
@@ -38,7 +36,6 @@ export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> 
     private messageService: MessageService,
     private appUnitPipe: AppUnitPipe,
     private router: Router,
-    private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
     private config: ConfigService,
     private dialog: MatDialog,
@@ -48,10 +45,6 @@ export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> 
     // Init
     this.initDataSource();
     this.tableSyncCarCatalogsAction.visible = false;
-  }
-
-  public getDataChangeSubject(): Observable<ChangeNotification> {
-    return this.centralServerNotificationService.getSubjectCarCatalogs();
   }
 
   public getPageSize(): number {
@@ -66,9 +59,7 @@ export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> 
         this.tableSyncCarCatalogsAction.visible = carCatalogs.canSync;
         observer.complete();
       }, (error) => {
-        // Show error
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.car_catalogs_error');
-        // Error
         observer.error(error);
       });
     });
@@ -257,8 +248,11 @@ export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> 
     }
   }
 
-  public buildTableRowActions(): TableActionDef[] {
-    return [this.openAction];
+  public buildTableDynamicRowActions(carCatalog: CarCatalog): TableActionDef[] {
+    if (carCatalog.canRead) {
+      return [this.openAction];
+    }
+    return [];
   }
 
   public buildTableActionsRightDef(): TableActionDef[] {

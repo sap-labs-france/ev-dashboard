@@ -14,8 +14,8 @@ import { TableDataSource } from './table-data-source';
 export abstract class EditableTableDataSource<T extends TableData> extends TableDataSource<T> {
   protected editableRows: T[] = [];
   protected tableChangedSubject: Subject<T[]> = new Subject<T[]>();
-
-  protected deleteAction = new TableDeleteAction().getActionDef();
+  private addAction = new TableAddAction().getActionDef();
+  private deleteAction = new TableDeleteAction().getActionDef();
 
   public constructor(
     public spinnerService: SpinnerService,
@@ -34,7 +34,7 @@ export abstract class EditableTableDataSource<T extends TableData> extends Table
 
   public buildTableActionsDef(): TableActionDef[] {
     return [
-      new TableAddAction().getActionDef(),
+      this.addAction
     ];
   }
 
@@ -93,7 +93,6 @@ export abstract class EditableTableDataSource<T extends TableData> extends Table
       if (postDataProcessing) {
         postDataProcessing();
       }
-      // Notify
       this.tableChangedSubject.next(this.editableRows);
     }
   }
@@ -139,6 +138,8 @@ export abstract class EditableTableDataSource<T extends TableData> extends Table
   }
 
   public loadDataImpl(): Observable<DataResult<T>> {
+    // Enable by default
+    this.addAction.visible = true;
     // Use the method to take into account the filtering
     const contentRows = this.getContent();
     if (contentRows) {

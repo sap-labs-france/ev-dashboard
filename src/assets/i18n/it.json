@@ -26,7 +26,8 @@
     "nbr_of_records": "Record",
     "connectors": "Prese",
     "notifications": "Notifiche",
-    "app_name": "e-Mobility",
+    "general": "Main",
+    "app_name": "Open e-Mobility",
     "version": "Versione",
     "about_us": "A proposito di noi",
     "unexpected_error_backend": "Si è verificato un errore imprevisto",
@@ -87,7 +88,7 @@
     "unlock": "Sblocca",
     "refund": "Rimborso",
     "open": "Apri",
-    "open_in_concur": "Vai alle tue Spese",
+    "open_refunding_system": "Vai alle tue Spese",
     "connect": "Connetti",
     "register": "Registra",
     "unregister": "Annulla Registrazione",
@@ -187,7 +188,8 @@
       "organization": "Organizzazione",
       "template": "Template",
       "cars": "Veicoli",
-      "invoices": "Fatture"
+      "invoices": "Fatture",
+      "tags": "Badges"
     },
     "tooltips": {
       "push_cdr": "Spingi CDR",
@@ -236,7 +238,9 @@
       "download": "Download",
       "test_connection": "Test Connessione",
       "force_available_status": "Forza Stato a Disponibile",
-      "force_unavailable_status": "Forza Stato a Non Disponibile"
+      "force_unavailable_status": "Forza Stato a Non Disponibile",
+      "display_users": "Display users",
+      "pricing": "Pricing"
     }
   },
   "issuer": {
@@ -418,6 +422,7 @@
     "update_success": "Il sito '{{siteName}}' è stato aggiornato correttamente",
     "update_error": "Si è verificato un errore durante l'aggiornamento del sito",
     "update_users_error": "Si è verificato un errore durante l'assegnazione di un utente al sito",
+    "update_public_site_error": "Site '{{siteName}}' cannot be made private and having public charging stations",
     "create_success": "Il sito '{{siteName}}' è stato creato correttamente",
     "create_error": "Si è verificato un errore durante la creazione del sito",
     "image_size_error": "Il limite di dimensione dell'immagine è stato superato, il limite è inferiore a {{maxPictureKb}} Kb",
@@ -431,7 +436,9 @@
     "update_site_users_owner_error": "Si è verificato un errore durante il tentativo di concedere all'utente '{{userName}}' lo stato di proprietario del sito",
     "export_all_params_title": "Esporta parametri OCPP",
     "export_all_params_confirm": "Vuoi veramente esportare tutti i parametri OCPP di tutte le stazioni di ricarica appartenenti al sito '{{siteName}}' ?",
-    "export_all_params_error": "Si è verificato un errore durante l'esportazione di tutti i parametri OCPP"
+    "export_all_params_error": "Si è verificato un errore durante l'esportazione di tutti i parametri OCPP",
+    "display_users": "Display users",
+    "private_limitation": "Some features are not available when the site is private"
   },
   "site_areas": {
     "assign_site": "Assegna Sito",
@@ -503,7 +510,7 @@
     "eula": "Accordo di Licenza con l'Utente Finale",
     "must_accept_eula": "Devi accettare l'Accordo di Licenza con l'Utente Finale",
     "no_space_in_password": "Nessuno spazio è consentito all'inizo e alla fine",
-    "title": "Accedi a e-Mobility",
+    "title": "Accedi a Open e-Mobility",
     "register": "Registrati",
     "signup_link": "Nuovo utente? Registrati!",
     "signin_link": "Hai già un account? Accedi!",
@@ -523,6 +530,7 @@
     "email_does_not_exist": "L'email non esiste",
     "cannot_check_email_in_backend": "Non posso verificare questa email nel backend",
     "wrong_email_or_password": "Email o password sbagliata",
+    "technical_user_cannot_login_to_ui": "Technical user and cannot login using the application",
     "account_suspended": "Il tuo account è sospeso",
     "account_pending": "Il tuo account è in sospeso, controlla la tua email",
     "super_user_account_pending": "Il tuo account è in sospeso, controlla la tua email",
@@ -561,7 +569,8 @@
     "verify_email_resend_error": "Si è verificato un errore durante l'invio del link di attivazione dell'account",
     "verify_email_proceed_with_activation": "Il tuo account è ancora inattivo! Vuoi inviare nuovamente l'email di attivazione?",
     "verify_email_proceed_with_activation_button": "Procedi",
-    "invalid_captcha_token": "Token captcha non valido"
+    "invalid_captcha_token": "Token captcha non valido",
+    "mercedes_data_usage": "SAP Labs France is accessing your car’s data via Mercedes-Benz for the purpose of providing you a high quality of service during the charging session of your vehicle. SAP Labs France is processing the following data: EV battery level and range of your car. For allowing the processing of your data, you’ll have to give the explicit consent in the following steps. For any further information please note our End-user Agreement Usage of the e-Mobility Software."
   },
   "statistics": {
     "title": "Statistiche",
@@ -694,6 +703,7 @@
     "cant_charge_in_parallel": "Impossibile caricare in parallelo",
     "share_power_to_all_connectors": "Condividi la potenza con tutte le prese",
     "exclude_from_power_limitation": "Impossibile limitare la potenza",
+    "update_public_cs_error": "Charging Station cannot be made public on a private site",
     "public": "La stazione di ricarica è pubblica",
     "public_charger": "Pubblica",
     "exclude_smart_charging": "Escludi dalla Carica Smart",
@@ -719,7 +729,7 @@
     "connector0": "Caricatore",
     "connector_type": "Tipo",
     "connector_error_title": "Errore",
-    "connector_info_title": "Informazione di errore",
+    "connector_info_title": "Informazione",
     "connector_vendor_error_code_title": "Errore fornitore",
     "connector_max_power": "Potenza Massima (Watt)",
     "charger_url": "URL",
@@ -791,6 +801,10 @@
       "disable_manual_configuration":{
         "title": "Disable manual configuration",
         "confirm": "If you disable the manual configuration, the charging station will be adjusted with the automatic configuration template, rebooted and your manual changes will be lost. Do you want to continue?"
+      },
+      "manual_configuration_error":{
+        "title": "Manual Configuration/Template error",
+        "confirm": "Manual Configuration has been already disabled for this station. Please make sure it boots correctly and that the template can be applied"
       }
     },
     "force_available_status_action": "Imposta come Disponibile",
@@ -930,8 +944,8 @@
     "reboot_confirm": "Vuoi veramente riavviare la stazione di ricarica '{{chargeBoxID}}'?",
     "reboot_success": "La stazione di ricarica '{{chargeBoxID}}' è stata riavviata correttamente",
     "reboot_error": "Si è verificato un errore durante il riavvio della stazione di ricarica",
-    "get_configuration_title": "Ottieni Configurazione",
-    "get_configuration_confirm": "Vuoi veramente recuperare la configurazione dalla stazione di ricarica '{{chargeBoxID}}'?",
+    "retrieve_configuration_title": "Ottieni Configurazione",
+    "retrieve_configuration_confirm": "Vuoi veramente recuperare la configurazione dalla stazione di ricarica '{{chargeBoxID}}'?",
     "reboot_required_title": "Riavvio Richiesto",
     "reboot_required_confirm": "Vuoi veramente riavviare la stazione di ricarica '{{chargeBoxID}}'?",
     "ocpp_params_list_error": "Nessun parametro OCPP da visualizzare",
@@ -995,6 +1009,7 @@
     "unlock_connector_error": "La stazione di ricarica non è stata in grado di sbloccare la presa",
     "unlock_connector_not_supported_error": "Questa Stazione di Ricarica non supporta lo sblocco della presa",
     "connector_type_unknown": "Non impostato",
+    "connector_type_all": "All connectors",
     "connector_type_type2": "Tipo 2",
     "connector_type_type1": "Tipo 1",
     "connector_type_type1ccs": "Tipo 1 - Combo CCS",
@@ -1020,7 +1035,7 @@
     "unsaved_confirmed": "Vuoi veramente salvare le modifiche?",
     "changes_cancelled": "Le modifiche sono state cancellate",
     "unsaved_changes": "Hai delle modifiche non salvate. Salvale o cancellale.",
-    "button_get_configuration": "Ottieni Configurazione",
+    "button_retrieve_configuration": "Ottieni Configurazione",
     "button_force_ocpp_params_update_from_template": "Forza Aggiornamento Parametro OCPP",
     "created_on": "Data creazione",
     "start_transaction_details_title": "Avvia la sessione sulla stazione di ricarica '{{chargeBoxID}}'",
@@ -1153,12 +1168,19 @@
       "tags": "Badges",
       "billing": "Billing"
     },
+    "security": "Security",
     "import_users": "Import users",
     "import_users_message": "The import will discard all other previously uploaded users not yet imported in the database, do you want to continue?",
+    "import_users_message_auto_activate": "The import will discard all other previously uploaded users not yet imported in the database and users will be automatically activated, do you want to continue?",
+    "import_users_auto_activation": "Automatically activate new users",
     "import_users_success": "{{inSuccess}} users have been uploaded successfully and will be processed asynchronously",
     "import_users_partial": "{{inSuccess}} users have been uploaded successfully and will be processed asynchronously and {{inError}} failed, check the logs",
     "import_users_error": "{{inError}} users failed to be uploaded",
     "import_no_users": "No user have been uploaded",
+    "access_mode": "Access Mode",
+    "allow_free_access": "Free access to all charging stations",
+    "user_without_freeAccess": "Paying access",
+    "user_with_freeAccess": "Free access",
     "number_of_sites": "Num. Siti",
     "number_of_transactions": "Num. Sessioni",
     "eula_accepted_on": "EULA Accettato Il",
@@ -1166,6 +1188,8 @@
     "profile": "Profilo",
     "edit_profile": "Modifica Profilo",
     "user_number": "Utente(i)",
+    "technical_user": "Technical User",
+    "non_technical_user": "Non Technical User",
     "role": "Ruolo",
     "roles": "Ruoli",
     "role_admin": "Amministratore",
@@ -1183,12 +1207,14 @@
     "invalid_plate_id": "Sono permesse solo maiuscole, numeri e '-'",
     "locale": "Lingua",
     "locale_invalid": "Lingua non valida",
-    "locale_desc_english": "Inglese",
-    "locale_desc_french": "Francese",
-    "locale_desc_spanish": "Spagnolo",
-    "locale_desc_german": "Tedesco",
-    "locale_desc_portuguese": "Portuguese",
-    "locale_desc_italian": "Italiano",
+    "locale_desc_en_US": "Inglese",
+    "locale_desc_fr_FR": "Francese",
+    "locale_desc_es_ES": "Spagnolo",
+    "locale_desc_de_DE": "Tedesco",
+    "locale_desc_pt_PT": "Portuguese",
+    "locale_desc_it_IT": "Italiano",
+    "locale_desc_cs_CZ":"Czech",
+    "locale_desc_en_AU": "Australian",
     "role_unknown": "Sconosciuto",
     "locale_unknown": "Sconosciuta",
     "status": "Stato",
@@ -1207,6 +1233,7 @@
     "name": "Nome",
     "first_name": "Nome",
     "plate_id": "Targa",
+    "technical": "API User (used for backend communications only)",
     "tags": "Badge",
     "tag_ids_help": "Immettere una lista di ID Badge separati da una virgola",
     "inumber": "Numero Aziendale",
@@ -1244,7 +1271,6 @@
     "changed_by_other_user": "L'utente '{{userFullName}}' è stato modificato da un altro utente e sarà ricaricato",
     "update_error": "Si è verificato un errore durante l'aggiornamento dell'utente",
     "user_do_not_exist": "L'utente non esiste",
-    "user_tag_id_already_used": "Uno dei badge è già assegnato ad un altro utente",
     "title": "Utente",
     "picture_size_error": "Il limite di dimensione dell'immagine è stato superato, il limite è inferiore a {{maxPictureKb}} Kb",
     "create_success": "L'utente {{userFullName}} è stato creato correttamente",
@@ -1257,10 +1283,7 @@
     "update_set_site_owner_success": "L'utente è ora proprietario del sito '{{siteName}}",
     "update_remove_site_owner_success": "L'utente non è più proprietario del sito '{{siteName}}'",
     "update_site_owner_role_error": "Si è verificato un errore durante il tentativo di aggiornamento dei diritti utente del sito '{{siteName}}'",
-    "assign_transactions_title": "Assegnazione Sessioni",
-    "assign_transactions_confirm": "Sono state trovate {{count}} sessioni orfane. Vuoi assegnarle a questo utente?",
-    "assign_transactions_success": "Tutte le sessioni orfane sono state assegnate all'utente '{{userFullName}}'",
-    "assign_transactions_error": "Si è verificato un errore durante l'assegnazione delle sessioni orfane all'utente '{{userFullName}}'",
+    "redirect": "Navigate to User",
     "connectors": {
       "connect": "Connetti",
       "revoke": "Revoca",
@@ -1324,6 +1347,7 @@
     "number": "Numero Fattura",
     "createdOn": "Data Fattura",
     "price": "Prezzo Fattura",
+    "amount": "Importo",
     "cannot_retrieve_invoices": "Impossibile recuperare l'elenco delle fatture",
     "cannot_download_invoice": "Impossibile scaricare la fattura",
     "number_of_items": "Sessioni",
@@ -1332,10 +1356,10 @@
     "failed_download": "Download della fattura non riuscito"
   },
   "tags": {
-    "id": "ID",
+    "id": "Tag ID",
     "not_active": "This badge is not active",
     "issuer": "Proprietario Organizzazione",
-    "visual_id": "Visual ID",
+    "visual_id": "Visual Tag ID",
     "visual_id_instruction": "Please fill the ID that is displayed on the badge",
     "status": "Stato",
     "activated": "Active",
@@ -1349,21 +1373,24 @@
     "deactivate_error": "Si è verificato un errore durante la disattivazione del badge",
     "activate_success": "Il badge '{{tagID}}' è stato attivato con successo",
     "activate_error": "Si è verificato un errore durante l'attivazione del badge",
-    "delete_confirm": "Vuoi davvero eliminare il badge '{{tagID}}'?",
+    "delete_confirm": "Vuoi davvero eliminare il badge '{{id}}'?",
     "delete_title": "Elimina badge",
-    "delete_success": "Il badge '{{tagID}}' è stato eliminato con successo",
+    "delete_success": "Il badge '{{id}}' è stato eliminato con successo",
     "delete_error": "Si è verificato un errore durante l'eliminazione del badge",
-    "update_has_transaction_error": "This badge is linked to sessions and cannot be reassigned",
-    "create_has_transaction_error": "This badge is linked to sessions and cannot be created",
     "create_success": "Il badge '{{tagID}}' è stato creato con successo",
     "create_error": "Si è verificato un errore durante la creazione del badge",
+    "register_success": "The badge '{{visualID}}' has been registered successfully",
+    "register_error": "Error occurred while registering the badge",
     "update_success": "Il badge '{{tagID}}' è stato aggiornato con successo",
+    "update_by_visual_id_success": "The badge '{{visualID}}' has been updated successfully",
     "update_error": "Si è verificato un errore durante l'aggiornamento del badge",
     "tag_error": "Si è verificato un errore durante il recupero del badge",
     "tag_not_found": "Il badge non è stato trovato",
     "select_tags": "Seleziona Tag",
     "tag_id_already_used": "Il badge '{{tagID}}' esiste già",
     "tag_visual_id_already_used": "The visualID '{{visualID}}' already exists",
+    "tag_visual_id_does_not_match_tag": "The visualID '{{visualID}}' does not match any badge",
+    "tag_inactive": "The badge '{{visualID}}' is inactive and cannot be assigned",
     "redirect": "Vai ai Tag",
     "title": "Badge",
     "default_tag": "Badge di Default",
@@ -1376,10 +1403,12 @@
     "delete_no_tag": "No badge has been deleted",
     "import_tags": "Import Badges",
     "import_tags_message": "The import will discard all other previously uploaded badges not yet imported in the database, do you want to continue?",
+    "import_tags_message_auto_activate": "The import will discard all other previously uploaded badges not yet imported in the database, do you want to continue?",
     "import_tags_success": "{{inSuccess}} badges have been uploaded successfully and will be processed asynchronously",
     "import_tags_partial": "{{inSuccess}} badges have been uploaded successfully and will be processed asynchronously and {{inError}} failed, check the logs",
     "import_tags_error": "{{inError}} badges failed to be uploaded",
-    "import_no_tags": "No badge have been uploaded"
+    "import_no_tags": "No badge have been uploaded",
+    "import_tags_auto_activation": "Automatically activate new tags"
   },
   "tenants": {
     "title": "Organizzazione",
@@ -1477,6 +1506,7 @@
       }
     },
     "pricing": {
+      "title": "Pricing",
       "description": "L'interfaccia di pricing consente funzionalità di determinazione del prezzo per i fornitori di stazioni di ricarica.",
       "not_found": "Impostazioni di pricing non trovate",
       "create_success": "Le impostazioni di pricing sono state create con successo",
@@ -1491,11 +1521,56 @@
         "user": "Utente",
         "password": "Password"
       },
-      "simple": {
-        "title": "Pricing semplificato",
+      "settings": {
+        "title": "Pricing Settings",
         "price": "Prezzo",
         "currency": "Valuta"
-      }
+      },
+      "end_date_error": "Please provide a date after start date and time.",
+      "valid_from": "Valid From",
+      "valid_to": "Valid To",
+      "valid_from_to": "Valid From ... To",
+      "flat_fee": "Flat Fee",
+      "energy": "Energy",
+      "charging_time": "Charging Time",
+      "parking_time": "Parking Time",
+      "create_title": "Create Pricing Definition",
+      "pricing_definition_description": "Description",
+      "pricing_definition_name": "Pricing Definition Name",
+      "pricing_definition_creation_confirm": "Do you really want to create a pricing definition?",
+      "pricing_definition_creation_success": "Pricing definition has been created successfully",
+      "pricing_definition_creation_error": "Error occurred while creating a pricing definition, check the logs",
+      "pricing_definition_site_admin_creation_error": "You must provide a site linked to this pricing definition",
+      "pricing_definition_update_title": "Update Pricing definition",
+      "pricing_definition_update_confirm": "Do you really want to update the pricing definition?",
+      "pricing_definition_update_success": "Pricing definition has been updated successfully",
+      "pricing_definition_update_error": "Error occurred while updating a pricing definition, check the logs",
+      "pricing_definition_not_found": "Pricing definition has not been found",
+      "pricing_definition_delete_title": "Delete Pricing Definition",
+      "pricing_definition_delete_confirm": "Do you really want to delete the pricing definition?",
+      "pricing_definition_delete_success": "Pricing definition has been deleted successfully",
+      "pricing_definition_delete_error": "Error occurred while deleting a pricing definition, check the logs",
+      "pricing_definition_error": "Error occurred while retrieving the pricing definition, check the logs",
+      "connector_type": "Connector Type",
+      "connector_power": "Connector Power",
+      "value": "Value",
+      "unit": "Unit",
+      "charging_station": "Charging Station",
+      "pricing_dimensions_title": "Pricing Dimensions",
+      "pricing_definition_title": "Pricing Definition",
+      "step_size": "Step Size",
+      "connector_power_unit": "kW",
+      "flat_fee_unit": "{{currency}}/session",
+      "energy_unit": "{{currency}}/kWh",
+      "charging_time_unit": "{{currency}}/hour",
+      "parking_time_unit": "{{currency}}/hour",
+      "flat_fee_formatted_price": "{{price}}/session",
+      "energy_formatted_price": "{{price}}/kWh",
+      "charging_time_formatted_price": "{{price}}/hour",
+      "parking_time_formatted_price": "{{price}}/hour",
+      "energy_step_unit": "Wh",
+      "charging_time_step_unit": "Seconds",
+      "parking_time_step_unit": "Seconds"
     },
     "billing": {
       "description": "L'interfaccia di billing consente funzionalità di fatturazione per i fornitori di stazioni di ricarica.",
@@ -1539,6 +1614,12 @@
       "transaction_billing_activation_confirm": "Do you really want to activate the billing of charging sessions? <br><br> <strong> WARNING ! </strong> Once activated, you will NOT be able to deactivate it !",
       "transaction_billing_activation_success": "Billing of charging sessions has been successfully activated",
       "transaction_billing_activation_error": "Billing of charging sessions cannot be activated",
+      "billing_clear_test_data": "Delete Test Data",
+      "billing_clear_test_data_title": "Test Data Deletion",
+      "billing_clear_test_data_confirm": "Do you really want to delete all billing test data?",
+      "billing_clear_test_data_success": "The test data has been deleted",
+      "billing_clear_test_data_error": "Operation failed. The test data deletion has been aborted",
+      "payment_methods": "Payment methods",
       "user": {
         "synchronize_users": "Sincronizza Utenti Fatturazione",
         "synchronize_user": "Sincronizza Utente Fatturazione",
@@ -1639,7 +1720,8 @@
         "schneider": "Sistema Gestione Edifici Schneider",
         "greencom": "GreenCom Asset Management System",
         "iothink": "ioThink Asset Management System",
-        "wit": "WIT Asset Management System"
+        "wit": "WIT Asset Management System",
+        "lacroix": "LACROIX Asset Management System"
       },
       "connection_success": "La connessione al sistema è stata testata con successo",
       "unknown_connection_error": "Errore di connessione sconosciuto",
@@ -1667,7 +1749,14 @@
         "delete_confirm": "Do you really want to delete the connector '{{carConnectorConnectionName}}'?"
       },
       "types": {
-        "mercedes": "Mercedes Connector"
+        "mercedes": "Mercedes Connector",
+        "tronity": "Tronity Connector"
+      },
+      "mercedes": {
+        "link_success": "Your account has been successfully linked with Mercedes",
+        "link_error": "Error occurred while linking your account with Mercedes, check the logs",
+        "revoke_success": "Your connection with Mercedes has been successfully revoked",
+        "revoke_error": "Error occurred while revoking your connection with Mercedes, check the logs"
       },
       "description": "E-Mobility can get real time data of your cars like the current state of charge and use this information with the smart charging algorithm to optimize charging sessions.",
       "setting_do_not_exist": "Configuration has not been found",
@@ -1711,7 +1800,7 @@
     },
     "user": {
       "title": "Account Settings",
-      "auto_activation": "Automatically activate new user account at registration time",
+      "auto_activation": "Automatically activate new user at registration time",
       "update_success": "User settings have been updated successfully",
       "update_error": "Error occurred while updating the user settings, check the logs",
       "setting_do_not_exist": "User settings not found"
@@ -1822,6 +1911,7 @@
     "roaming_platforms": "Piattaforma Interoperabilità",
     "cpo": "Identificazione Operatore Punto Ricarica",
     "emsp": "Identificazione Service Provider E-Mobility",
+    "tariffID": "Tariff ID",
     "description": "Open Charge Point Interface",
     "details": "Identificazione",
     "country_code": "Codice paese",
@@ -1958,7 +2048,16 @@
     "graph": {
       "power": "Potenza Istantanea (kW)",
       "no_consumption": "Nessun dato di consumo disponibile",
-      "limit_watts": "Limite (kW)"
+      "asset_consumption_watts": "Asset Consumption (kW)",
+      "asset_production_watts": "Asset Production (kW)",
+      "charging_station_consumption_watts": "Charging Stations Consumption (kW)",
+      "net_consumption_watts": "Net Consumption (kW)",
+      "limit_watts": "Limite (kW)",
+      "asset_consumption_amps": "Asset Consumption (A)",
+      "asset_production_amps": "Asset Production (A)",
+      "charging_station_consumption_amps": "Charging Stations Consumption (A)",
+      "net_consumption_amps": "Net Consumption (A)",
+      "limit_amps": "Limite (A)"
     }
   },
   "asset": {
@@ -1977,6 +2076,8 @@
   "cars": {
     "vin": "VIN",
     "license_plate": "Targa",
+    "user": "User",
+    "assign_user": "Assign User",
     "vehicle_model": "Modello",
     "vehicle_make": "Costruttore",
     "vehicle_model_version": "Versione",
@@ -2068,6 +2169,8 @@
     "delete_confirm": "Vuoi veramente cancellare il veicolo '{{carName}}'?",
     "users": "Utenti",
     "select_car": "Seleziona Auto",
+    "car_connector_name": "Connection Name",
+    "car_connector_meter_id": "Connection Meter ID",
     "unit": {
       "meters": "m",
       "seconde": "sec",
@@ -2083,7 +2186,7 @@
     }
   },
   "car": {
-    "title": "Car Management",
+    "title": "Car",
     "description": "Manage the user's cars",
     "tabs": {
       "car_catalogs": "Catalogo Veicoli",
@@ -2159,6 +2262,7 @@
     "charging_station": "Stazione di Ricarica",
     "started_at": "Iniziato a",
     "end_date": "Data di Fine",
+    "stop_reason": "Reason",
     "consumption": "Consumo",
     "transactions_button": "Sessioni",
     "transaction_today": "Oggi",
@@ -2353,6 +2457,11 @@
         "description": "La sessione non contiene valori del contatore.",
         "action": "Controllare le impostazioni della stazione di ricarica. Assicurarsi che il valori del contatore siano inviati dalla stazione di ricarica."
       },
+      "low_consumption": {
+        "title": "Low Consumption",
+        "description": "The session has a consumption < 1 kWh.",
+        "action": "Check the charging station settings. Ensure that meter values are sent by the charging station."
+      },
       "average_consumption_greater_than_connector_capacity": {
         "title": "Consumo Troppo Alto",
         "description": "La potenza di carica media registrata è maggiore della capacità della presa.",
@@ -2364,7 +2473,7 @@
         "action": "Controllare le impostazioni della stazione di ricarica. Assicurarsi che i valori del contatore siano inviati nell'ordine corretto."
       },
       "long_inactivity": {
-        "title": "Inattività maggiore di 24 ore",
+        "title": "High Inactivity",
         "description": "L'inattività della sessione è maggiore di 24 ore.",
         "action": "Controllare la sessione"
       },
@@ -2372,6 +2481,11 @@
         "title": "Durata Negativa",
         "description": "La durata della sessione è negativa.",
         "action": "Controllare le impostazioni della stazione di ricarica. Assicurarsi che i valori del contatore siano inviati nell'ordine corretto."
+      },
+      "low_duration": {
+        "title": "Low Duration",
+        "description": "The duration of the session is less than 1 minute.",
+        "action": "Check the charging station settings. Ensure that meter values are sent correctly."
       },
       "missing_price": {
         "title": "Prezzo mancante",
@@ -2423,7 +2537,6 @@
     "preparing_session_not_started": "Avvisami quando una sessione non è stata avviata (solo proprietario del sito)",
     "ocpi_patch_status_error": "Avvisami se il trasferimento degli stati di una stazione di ricarica alla piattaforma di roaming (OCPI) fallisce",
     "oicp_patch_status_error": "Notify me if the transfer of a charging station’s statuses has failed to the roaming platform (OICP)",
-    "smtp_error": "Notify me if an error occurred with the email server",
     "billing_synchronization_failed": "Avvisami quando una sincronizzazione con un sistema di fatturazione non è riuscita",
     "billing_periodic_operation_failed": "Notify me when a periodic billing operation has failed",
     "session_not_started": "Avvisami se nessuna sessione è stata avviata dopo l'inserimento di un badge",

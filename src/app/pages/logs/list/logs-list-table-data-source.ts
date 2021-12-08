@@ -4,9 +4,10 @@ import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { ChargingStationTableFilter } from 'shared/table/filters/charging-station-table-filter';
+import { SiteTableFilter } from 'shared/table/filters/site-table-filter';
 
 import { AuthorizationService } from '../../../services/authorization.service';
-import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
@@ -21,20 +22,20 @@ import { EndDateFilter } from '../../../shared/table/filters/end-date-filter';
 import { StartDateFilter } from '../../../shared/table/filters/start-date-filter';
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
-import ChangeNotification from '../../../types/ChangeNotification';
 import { DataResult } from '../../../types/DataResult';
 import { Log, LogButtonAction } from '../../../types/Log';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
 import { Formatters } from '../../../utils/Formatters';
 import { Utils } from '../../../utils/Utils';
 import { LogActionTableFilter } from '../filters/log-action-filter';
-import { LogHostTableFilter } from '../filters/log-host-filter';
 import { LogLevelTableFilter } from '../filters/log-level-filter';
 import { LogSourceTableFilter } from '../filters/log-source-filter';
 import { LogLevelFormatterComponent } from '../formatters/log-level-formatter.component';
 
 @Injectable()
 export class LogsListTableDataSource extends TableDataSource<Log> {
+  private exportAction = new TableExportLogsAction().getActionDef();
+
   public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
@@ -42,7 +43,6 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
     private dialogService: DialogService,
     private authorizationService: AuthorizationService,
     private router: Router,
-    private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
     private datePipe: AppDatePipe,
     private windowService: WindowService) {
@@ -106,15 +106,11 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
     }
   }
 
-  public getDataChangeSubject(): Observable<ChangeNotification> {
-    return this.centralServerNotificationService.getSubjectLoggings();
-  }
-
   public loadDataImpl(): Observable<DataResult<Log>> {
     return new Observable((observer) => {
-      // Get data
       this.centralServerService.getLogs(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((logs) => {
+        this.exportAction.visible = logs.canExport;
         // Add the users in the message
         logs.result.map((log: Log) => {
           let user;
@@ -132,13 +128,10 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
           }
           return log;
         });
-        // Ok
         observer.next(logs);
         observer.complete();
       }, (error) => {
-        // No longer exists!
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        // Error
         observer.error(error);
       });
     });
@@ -177,13 +170,13 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
       {
         id: 'timestamp',
         type: 'date',
-        formatter: (createdOn: Date) => this.datePipe.transform(createdOn),
         name: 'logs.date',
         headerClass: 'col-15p',
         class: 'text-left col-15p',
         sorted: true,
         direction: 'desc',
         sortable: true,
+        formatter: (createdOn: Date) => this.datePipe.transform(createdOn, 'medium'),
       },
       {
         id: 'host',
@@ -193,8 +186,8 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
         sortable: true,
       },
       {
-        id: 'process',
-        name: 'logs.process',
+        id: 'source',
+        name: 'logs.source',
         headerClass: 'col-15p',
         class: 'text-left col-15p',
         sortable: true,
@@ -207,11 +200,12 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
         sortable: true,
       },
       {
-        id: 'source',
-        name: 'logs.source',
+        id: 'chargingStationID',
+        name: 'chargers.title',
         headerClass: 'col-15p',
-        class: 'text-left col-15p',
         sortable: true,
+        class: 'text-center col-15p',
+        formatter: (chargingStationID: string) => chargingStationID ?? '-',
       },
       {
         id: 'message',
@@ -225,13 +219,10 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-    if (!this.authorizationService.isDemo()) {
-      return [
-        new TableExportLogsAction().getActionDef(),
-        ...tableActionsDef,
-      ];
-    }
-    return tableActionsDef;
+    return [
+      this.exportAction,
+      ...tableActionsDef,
+    ];
   }
 
   public actionTriggered(actionDef: TableActionDef) {
@@ -254,24 +245,27 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {
-    const tableFiltersDef = [
-      new StartDateFilter().getFilterDef(),
-      new EndDateFilter().getFilterDef(),
-      new LogLevelTableFilter().getFilterDef(),
-      new LogActionTableFilter().getFilterDef(),
-      new LogHostTableFilter().getFilterDef(),
-    ];
     if (this.authorizationService.isSuperAdmin()) {
-      tableFiltersDef.push(new UserTableFilter().getFilterDef());
-      return tableFiltersDef;
-    }
-    if (this.authorizationService.isAdmin()) {
-      tableFiltersDef.push(new UserTableFilter().getFilterDef());
-      tableFiltersDef.push(new LogSourceTableFilter().getFilterDef());
+      return [
+        new StartDateFilter(moment().startOf('d').toDate()).getFilterDef(),
+        new EndDateFilter().getFilterDef(),
+        new LogLevelTableFilter().getFilterDef(),
+        new LogSourceTableFilter().getFilterDef(),
+        new LogActionTableFilter().getFilterDef(),
+        new UserTableFilter().getFilterDef(),
+      ];
     } else {
-      tableFiltersDef.push(new UserTableFilter().getFilterDef());
-      tableFiltersDef.push(new LogSourceTableFilter().getFilterDef());
+      const siteFilter = new SiteTableFilter().getFilterDef();
+      return [
+        new StartDateFilter(moment().startOf('d').toDate()).getFilterDef(),
+        new EndDateFilter().getFilterDef(),
+        new LogLevelTableFilter().getFilterDef(),
+        new LogSourceTableFilter().getFilterDef(),
+        new LogActionTableFilter().getFilterDef(),
+        siteFilter,
+        new ChargingStationTableFilter([siteFilter]).getFilterDef(),
+        new UserTableFilter().getFilterDef(),
+      ];
     }
-    return tableFiltersDef;
   }
 }

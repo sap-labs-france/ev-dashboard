@@ -14,7 +14,7 @@ import { TableSyncBillingUsersAction } from '../../../shared/table/actions/users
 import { RestResponse } from '../../../types/GlobalType';
 import { HTTPError } from '../../../types/HTTPError';
 import { BillingSetting, BillingSettings, BillingSettingsType, StripeBillingSetting } from '../../../types/Setting';
-import TenantComponents from '../../../types/TenantComponents';
+import { TenantComponents } from '../../../types/Tenant';
 import { Utils } from '../../../utils/Utils';
 
 @Component({
@@ -27,6 +27,7 @@ export class SettingsBillingComponent implements OnInit {
   public formGroup!: FormGroup;
   public billingSettings!: BillingSettings;
   public transactionBillingActivated: boolean;
+  public isClearTestDataVisible = false;
 
   public constructor(
     private centralServerService: CentralServerService,
@@ -55,6 +56,8 @@ export class SettingsBillingComponent implements OnInit {
       this.spinnerService.hide();
       // Keep
       this.billingSettings = settings;
+      // Enable additional actions based on the account nature
+      this.checkConnectionContext(settings);
       // Init form
       this.formGroup.markAsPristine();
     }, (error) => {
@@ -165,5 +168,46 @@ export class SettingsBillingComponent implements OnInit {
         this.save(this.billingSettings);
       }
     });
+  }
+
+  private clearTestData() {
+    this.dialogService.createAndShowYesNoDialog(
+      this.translateService.instant('settings.billing.billing_clear_test_data_title'),
+      this.translateService.instant('settings.billing.billing_clear_test_data_confirm'),
+    ).subscribe((response) => {
+      if (response === ButtonType.YES) {
+        this.triggerTestDataCleanup();
+      }
+    });
+  }
+
+  private triggerTestDataCleanup() {
+    // Clear Test Data
+    this.spinnerService.show();
+    this.centralServerService.clearBillingTestData().subscribe((response) => {
+      this.spinnerService.hide();
+      if (response.succeeded) {
+        this.messageService.showSuccessMessage('settings.billing.billing_clear_test_data_success');
+        this.refresh();
+      } else {
+        Utils.handleError(JSON.stringify(response),
+          this.messageService, 'settings.billing.billing_clear_test_data_error');
+      }
+    }, (error) => {
+      this.spinnerService.hide();
+      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'settings.billing.billing_clear_test_data_error');
+    });
+  }
+
+  private checkConnectionContext(settings: BillingSettings): void {
+    let isClearTestDataVisible = false;
+    if ( this.billingSettings?.billing?.isTransactionBillingActivated ) {
+      // TODO - Get the information via a dedicated endpoint!
+      if ( this.billingSettings?.type === 'stripe' && this.billingSettings?.stripe?.publicKey?.startsWith('pk_test_') ) {
+        isClearTestDataVisible = true;
+      }
+    }
+    // Show the "Clear Test Data" button
+    this.isClearTestDataVisible = isClearTestDataVisible;
   }
 }

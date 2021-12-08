@@ -13,13 +13,23 @@
   <div class="card-body">
     <div class="m-2">
       <div class="row">
-        <button mat-flat-button color="primary" (click)="file.click();" class="mr-2" [disabled]="uploadInProgress">
+        <button mat-flat-button color="primary" (click)="file.click();" class="me-2 col-md-2" [disabled]="uploadInProgress">
           {{"general.choose_file" | translate}}
           <div class="d-none">
             <input #file type="file" ng2FileSelect [uploader]="uploader" accept=".csv" />
           </div>
         </button>
-        <span class="pt-2">{{ fileName }}</span>
+        <span class="pt-2 col-md-9">{{ fileName }}</span>
+      </div>
+      <div class="row pt-3">
+        <mat-checkbox (change)="handleAutoActivateUserAtImport($event.checked)" checked>
+          {{ "users.import_users_auto_activation" | translate }}
+        </mat-checkbox>
+      </div>
+      <div *ngIf="entity === 'tags'" class="row pt-3">
+        <mat-checkbox (change)="handleAutoActivateTagAtImport($event.checked)" checked>
+          {{ "tags.import_tags_auto_activation" | translate }}
+        </mat-checkbox>
       </div>
       <div class="row">
         <mat-error *ngIf="!isFileValid">

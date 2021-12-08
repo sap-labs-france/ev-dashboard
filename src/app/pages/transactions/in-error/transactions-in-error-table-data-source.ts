@@ -5,11 +5,12 @@ import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { TransactionDialogComponent } from 'shared/dialogs/transaction/transaction.dialog.component';
-import { TableRebuildTransactionConsumptionsAction } from 'shared/table/actions/transactions/table-rebuild-transaction-consumptions-action';
+import { AppDurationPipe } from 'shared/formatters/app-duration.pipe';
+import { AppUnitPipe } from 'shared/formatters/app-unit.pipe';
 import { IssuerFilter } from 'shared/table/filters/issuer-filter';
+import { CarCatalog } from 'types/Car';
 
 import { AuthorizationService } from '../../../services/authorization.service';
-import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
@@ -24,7 +25,6 @@ import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto
 import { TableMoreAction } from '../../../shared/table/actions/table-more-action';
 import { TableOpenURLActionDef } from '../../../shared/table/actions/table-open-url-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
-import { TableCreateTransactionInvoiceActionDef } from '../../../shared/table/actions/transactions/table-create-transaction-invoice-action';
 import { TableDeleteTransactionAction, TableDeleteTransactionActionDef } from '../../../shared/table/actions/transactions/table-delete-transaction-action';
 import { TableDeleteTransactionsAction, TableDeleteTransactionsActionDef } from '../../../shared/table/actions/transactions/table-delete-transactions-action';
 import { TableViewTransactionAction, TableViewTransactionActionDef, TransactionDialogData } from '../../../shared/table/actions/transactions/table-view-transaction-action';
@@ -37,12 +37,11 @@ import { SiteTableFilter } from '../../../shared/table/filters/site-table-filter
 import { StartDateFilter } from '../../../shared/table/filters/start-date-filter';
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
-import ChangeNotification from '../../../types/ChangeNotification';
 import { ActionResponse, DataResult } from '../../../types/DataResult';
 import { ErrorMessage, TransactionInError, TransactionInErrorType } from '../../../types/InError';
 import { LogButtonAction } from '../../../types/Log';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
-import TenantComponents from '../../../types/TenantComponents';
+import { TenantComponents } from '../../../types/Tenant';
 import { Transaction, TransactionButtonAction } from '../../../types/Transaction';
 import { User } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';
@@ -55,7 +54,6 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
   private deleteAction = new TableDeleteTransactionAction().getActionDef();
   private deleteManyAction = new TableDeleteTransactionsAction().getActionDef();
   private navigateToLogsAction = new TableNavigateToLogsAction().getActionDef();
-  private rebuildTransactionConsumptionsAction = new TableRebuildTransactionConsumptionsAction().getActionDef();
   private errorTypes = [
     {
       key: TransactionInErrorType.INVALID_START_DATE,
@@ -74,12 +72,20 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
       value: this.translateService.instant(`transactions.errors.${TransactionInErrorType.NO_CONSUMPTION}.title`),
     },
     {
+      key: TransactionInErrorType.LOW_CONSUMPTION,
+      value: this.translateService.instant(`transactions.errors.${TransactionInErrorType.LOW_CONSUMPTION}.title`),
+    },
+    {
       key: TransactionInErrorType.OVER_CONSUMPTION,
       value: this.translateService.instant(`transactions.errors.${TransactionInErrorType.OVER_CONSUMPTION}.title`),
     },
     {
       key: TransactionInErrorType.NEGATIVE_DURATION,
       value: this.translateService.instant(`transactions.errors.${TransactionInErrorType.NEGATIVE_DURATION}.title`),
+    },
+    {
+      key: TransactionInErrorType.LOW_DURATION,
+      value: this.translateService.instant(`transactions.errors.${TransactionInErrorType.LOW_DURATION}.title`),
     },
     {
       key: TransactionInErrorType.MISSING_USER,
@@ -94,9 +100,10 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     private dialogService: DialogService,
     private router: Router,
     private dialog: MatDialog,
+    private appDurationPipe: AppDurationPipe,
+    private appUnitPipe: AppUnitPipe,
     private componentService: ComponentService,
     private authorizationService: AuthorizationService,
-    private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
     private datePipe: AppDatePipe,
     private appConnectorIdPipe: AppConnectorIdPipe,
@@ -125,20 +132,16 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     this.initDataSource();
   }
 
-  public getDataChangeSubject(): Observable<ChangeNotification> {
-    return this.centralServerNotificationService.getSubjectTransactions();
-  }
-
   public loadDataImpl(): Observable<DataResult<Transaction>> {
     return new Observable((observer) => {
       this.centralServerService.getTransactionsInError(this.buildFilterValues(), this.getPaging(), this.getSorting())
         .subscribe((transactions) => {
           this.formatErrorMessages(transactions.result);
+          this.deleteManyAction.visible = this.authorizationService.isAdmin();
           observer.next(transactions);
           observer.complete();
         }, (error) => {
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-          // Error
           observer.error(error);
         });
     });
@@ -216,7 +219,45 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
         headerClass: 'text-center col-10p',
         class: 'text-center col-10p',
         formatter: (connectorId: number) => this.appConnectorIdPipe.transform(connectorId),
-      }
+      },
+      {
+        id: 'errorCodeDetails',
+        name: 'errors.details',
+        sortable: false,
+        headerClass: 'text-center col-10p',
+        class: 'text-center col-10p p-0',
+        isAngularComponent: true,
+        angularComponent: ErrorCodeDetailsComponent,
+      },
+      {
+        id: 'errorCode',
+        name: 'errors.title',
+        headerClass: 'col-30p',
+        class: 'col-30p text-danger',
+        sortable: true,
+        formatter: (value: string, row: TransactionInError) => this.translateService.instant(`transactions.errors.${row.errorCode}.title`),
+      },
+      {
+        id: 'stop.totalDurationSecs',
+        name: 'transactions.duration',
+        headerClass: 'col-10p',
+        class: 'text-left col-10p',
+        formatter: (totalDurationSecs: number) => this.appDurationPipe.transform(totalDurationSecs),
+      },
+      {
+        id: 'stop.totalConsumptionWh',
+        name: 'transactions.consumption',
+        headerClass: 'col-10p',
+        class: 'col-10p',
+        formatter: (totalConsumptionWh: number) => this.appUnitPipe.transform(totalConsumptionWh, 'Wh', 'kWh'),
+      },
+      {
+        id: 'stateOfCharge',
+        name: 'transactions.state_of_charge',
+        headerClass: 'col-10p',
+        class: 'col-10p',
+        formatter: (stateOfCharge: number, row: Transaction) => stateOfCharge ? `${stateOfCharge}% > ${row.stop.stateOfCharge}%` : '-',
+      },
     );
     if (this.isAdmin || this.isSiteAdmin) {
       columns.push(
@@ -235,26 +276,19 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
           formatter: (tagID: string) => tagID ? tagID : '-'
         }
       );
+      if (this.componentService.isActive(TenantComponents.CAR)) {
+        if (this.authorizationService.canListCars()) {
+          columns.push({
+            id: 'carCatalog',
+            name: 'car.title',
+            headerClass: 'text-center col-15p',
+            class: 'text-center col-15p',
+            sortable: true,
+            formatter: (carCatalog: CarCatalog) => carCatalog ? Utils.buildCarCatalogName(carCatalog) : '-',
+          });
+        }
+      }
     }
-    columns.push(
-      {
-        id: 'errorCodeDetails',
-        name: 'errors.details',
-        sortable: false,
-        headerClass: 'text-center col-10p',
-        class: 'text-center col-10p p-0',
-        isAngularComponent: true,
-        angularComponent: ErrorCodeDetailsComponent,
-      },
-      {
-        id: 'errorCode',
-        name: 'errors.title',
-        headerClass: 'col-30p',
-        class: 'col-30p text-danger',
-        sortable: true,
-        formatter: (value: string, row: TransactionInError) => this.translateService.instant(`transactions.errors.${row.errorCode}.title`),
-      },
-    );
     return columns as TableColumnDef[];
   }
 
@@ -296,17 +330,15 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
   }
 
   public buildTableDynamicRowActions(transaction: TransactionInError): TableActionDef[] {
-    const rowActions: TableActionDef[] = [this.viewAction];
+    const rowActions: TableActionDef[] = [
+      this.viewAction
+    ];
     const moreActions = new TableMoreAction([]);
     if (transaction.issuer) {
       if (transaction.errorCode === TransactionInErrorType.NO_BILLING_DATA) {
         // TODO - no use-case so far for an explicit 'Create Invoice' action
         // - Authorization are not in place
         // moreActions.addActionInMoreActions(this.createInvoice);
-      }
-      // Enable only for one user for the time being
-      if (this.centralServerService.getLoggedUser().email === 'serge.fabiano@sap.com') {
-        moreActions.addActionInMoreActions(this.rebuildTransactionConsumptionsAction);
       }
       if (this.authorizationService.canListLogs()) {
         moreActions.addActionInMoreActions(this.navigateToLogsAction);
@@ -339,13 +371,6 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
           (actionDef as TableViewTransactionActionDef).action(TransactionDialogComponent, this.dialog,
             { dialogData: { transactionID: transaction.id } as TransactionDialogData },
             this.refreshData.bind(this));
-        }
-        break;
-      case TransactionButtonAction.CREATE_TRANSACTION_INVOICE:
-        if (actionDef.action) {
-          (actionDef as TableCreateTransactionInvoiceActionDef).action(
-            transaction.id, this.dialogService, this.translateService, this.messageService,
-            this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
         }
         break;
       case LogButtonAction.NAVIGATE_TO_LOGS:

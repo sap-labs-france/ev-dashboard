@@ -1,6 +1,6 @@
 import CreatedUpdatedProps from './CreatedUpdatedProps';
 import { TableData } from './Table';
-import TenantComponents from './TenantComponents';
+import { TenantComponents } from './Tenant';
 
 export enum TechnicalSettings {
   USER = 'user',
@@ -112,6 +112,7 @@ export interface OcpiSetting {
     countryCode: string;
     partyID: string;
   };
+  tariffID?: string;
 }
 
 export interface OicpSetting {
@@ -246,6 +247,7 @@ export interface AssetConnectionSetting extends TableData {
   greencomConnection?: AssetGreencomConnectionType;
   iothinkConnection?: AssetIothinkConnectionType;
   witConnection?: AssetWitConnectionType;
+  lacroixConnection?: AssetLacroixConnectionType;
 }
 
 export enum AssetConnectionType {
@@ -254,6 +256,7 @@ export enum AssetConnectionType {
   GREENCOM = 'greencom',
   IOTHINK = 'iothink',
   WIT = 'wit',
+  LACROIX = 'lacroix',
 }
 
 export interface AssetUserPasswordConnectionType {
@@ -264,6 +267,8 @@ export interface AssetUserPasswordConnectionType {
 export type AssetSchneiderConnectionType = AssetUserPasswordConnectionType;
 
 export type AssetIothinkConnectionType = AssetUserPasswordConnectionType;
+
+export type AssetLacroixConnectionType = AssetUserPasswordConnectionType;
 
 export interface AssetGreencomConnectionType {
   clientId: string;
@@ -296,15 +301,23 @@ export interface CarConnectorConnectionSetting extends TableData {
   description: string;
   type: CarConnectorConnectionType;
   mercedesConnection?: CarConnectorMercedesConnectionType;
+  tronityConnection?: CarConnectorTronityConnectionType;
 }
 
 export enum CarConnectorConnectionType {
   NONE = '',
   MERCEDES = 'mercedes',
+  TRONITY = 'tronity',
 }
 
 export interface CarConnectorMercedesConnectionType {
   authenticationUrl: string;
+  apiUrl: string;
+  clientId: string;
+  clientSecret: string;
+}
+
+export interface CarConnectorTronityConnectionType {
   apiUrl: string;
   clientId: string;
   clientSecret: string;

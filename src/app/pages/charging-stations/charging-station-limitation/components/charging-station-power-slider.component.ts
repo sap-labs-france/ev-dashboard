@@ -4,7 +4,7 @@ import { ComponentService } from '../../../../services/component.service';
 import { AppDecimalPipe } from '../../../../shared/formatters/app-decimal-pipe';
 import { AppUnitPipe } from '../../../../shared/formatters/app-unit.pipe';
 import { ChargePoint, ChargingStation, Connector } from '../../../../types/ChargingStation';
-import TenantComponents from '../../../../types/TenantComponents';
+import { TenantComponents } from '../../../../types/Tenant';
 import { Utils } from '../../../../utils/Utils';
 
 @Component({
@@ -73,7 +73,6 @@ export class ChargingStationPowerSliderComponent implements OnInit, OnChanges {
     this.currentAmp = value;
     // Update Power
     this.displayedCurrentPowerW = Utils.convertAmpToWattString(this.chargingStation, null, 0, this.appUnitFormatter, value, 'W');
-    // Notify
     this.sliderChangedEmitter.emit(value);
   }
 

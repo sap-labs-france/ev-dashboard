@@ -1,5 +1,5 @@
-<div class="row mt-2 ml-2 mr-2">
-  <div class="d-flex align-items-center mr-auto">
+<div class="row mt-2 ms-2 me-2">
+  <div class="d-flex align-items-center me-auto">
     <mat-form-field>
       <mat-datetimepicker #picker type="date" openOnFocus="false" mode="portrait" timeInterval="1">
       </mat-datetimepicker>
@@ -21,7 +21,10 @@
 <div [hidden]="siteArea?.values?.length === 0">
   <div class="chart-container mt-2">
     <div #primary class='chart-primary'></div>
+    <div #secondary class='chart-secondary'></div>
     <div #danger class='chart-danger'></div>
+    <div #success class='chart-success'></div>
+    <div #warning class='chart-warning'></div>
     <canvas #chart></canvas>
   </div>
 </div>

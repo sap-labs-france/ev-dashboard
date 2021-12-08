@@ -2,13 +2,11 @@ import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 
-import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
 import { SpinnerService } from '../../../../services/spinner.service';
 import { AppDatePipe } from '../../../../shared/formatters/app-date.pipe';
 import { AppDecimalPipe } from '../../../../shared/formatters/app-decimal-pipe';
 import { AppUnitPipe } from '../../../../shared/formatters/app-unit.pipe';
 import { TableDataSource } from '../../../../shared/table/table-data-source';
-import ChangeNotification from '../../../../types/ChangeNotification';
 import { ChargingProfile, Schedule } from '../../../../types/ChargingProfile';
 import { ChargePoint, ChargingStation } from '../../../../types/ChargingStation';
 import { DataResult } from '../../../../types/DataResult';
@@ -28,14 +26,9 @@ export class ChargingPlansTableDataSource extends TableDataSource<Schedule> {
     private datePipe: AppDatePipe,
     private decimalPipe: AppDecimalPipe,
     private unitPipe: AppUnitPipe,
-    private centralServerNotificationService: CentralServerNotificationService,
   ) {
     super(spinnerService, translateService);
     this.initDataSource();
-  }
-
-  public getDataChangeSubject(): Observable<ChangeNotification> {
-    return this.centralServerNotificationService.getSubjectChargingProfiles();
   }
 
   public buildTableDef(): TableDef {
@@ -96,7 +89,6 @@ export class ChargingPlansTableDataSource extends TableDataSource<Schedule> {
         schedules.count = 0;
         schedules.result = [];
       }
-      // Ok
       observer.next(schedules);
       observer.complete();
     });

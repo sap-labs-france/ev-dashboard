@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ServerRoute } from 'types/Server';
 
 import { TableActionDef } from '../../../../types/Table';
-import { UserButtonAction, UserRequiredImportProperties } from '../../../../types/User';
+import { UserButtonAction, UserOptionalImportProperties, UserRequiredImportProperties } from '../../../../types/User';
 import { TableImportAction } from '../table-import-action';
 
 export interface TableImportUsersActionDef extends TableActionDef {
@@ -20,6 +20,6 @@ export class TableImportUsersAction extends TableImportAction {
   }
 
   private importUsers(userDialogComponent: ComponentType<unknown>, dialog: MatDialog) {
-    super.import(userDialogComponent, dialog, ServerRoute.REST_USERS_IMPORT, 'users', UserRequiredImportProperties);
+    super.import(userDialogComponent, dialog, ServerRoute.REST_USERS_IMPORT, 'users', UserRequiredImportProperties, UserOptionalImportProperties);
   }
 }

@@ -8,7 +8,7 @@ export interface OcpiEndpoint extends TableData {
   countryCode: string;
   partyId: string;
   version?: string;
-  status?: string;
+  status?: OcpiEndpointStatus;
   localToken: string;
   token: string;
   backgroundPatchJob: boolean;

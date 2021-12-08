@@ -17,7 +17,7 @@ import { DataResult } from '../../../../types/DataResult';
 import { ButtonAction, RestResponse } from '../../../../types/GlobalType';
 import { HTTPError } from '../../../../types/HTTPError';
 import { SiteArea } from '../../../../types/SiteArea';
-import { ButtonType, TableActionDef, TableColumnDef, TableDef } from '../../../../types/Table';
+import { ButtonType, TableActionDef, TableColumnDef, TableDataSourceMode, TableDef } from '../../../../types/Table';
 import { Utils } from '../../../../utils/Utils';
 
 @Injectable()
@@ -39,7 +39,8 @@ export class SiteAreaChargingStationsDataSource extends TableDataSource<Charging
 
   public loadDataImpl(): Observable<DataResult<ChargingStation>> {
     return new Observable((observer) => {
-      this.addAction.visible = this.siteArea.canCreate;
+      this.addAction.visible = this.siteArea.canAssignChargingStations;
+      this.removeAction.visible = this.siteArea.canUnassignChargingStations;
       // siteArea provided?
       if (this.siteArea) {
         // Yes: Get data
@@ -48,13 +49,10 @@ export class SiteAreaChargingStationsDataSource extends TableDataSource<Charging
           observer.next(chargingStations);
           observer.complete();
         }, (error) => {
-          // No longer exists!
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-          // Error
           observer.error(error);
         });
       } else {
-        // Ok
         observer.next({
           count: 0,
           result: [],
@@ -65,13 +63,26 @@ export class SiteAreaChargingStationsDataSource extends TableDataSource<Charging
   }
 
   public buildTableDef(): TableDef {
+    if (this.getMode() === TableDataSourceMode.READ_WRITE) {
+      return {
+        class: 'table-dialog-list',
+        rowSelection:
+        {
+          enabled: this.siteArea?.canAssignChargingStations || this.siteArea?.canUnassignChargingStations,
+          multiple: true,
+        },
+        search: {
+          enabled: true,
+        },
+      };
+    }
     return {
       class: 'table-dialog-list',
       rowSelection:
-        {
-          enabled: this.siteArea?.canUnassignChargingStations,
-          multiple: this.siteArea?.canUnassignChargingStations,
-        },
+      {
+        enabled: false,
+        multiple: false,
+      },
       search: {
         enabled: true,
       },
@@ -108,19 +119,18 @@ export class SiteAreaChargingStationsDataSource extends TableDataSource<Charging
     ]);
     // Set user
     this.siteArea = siteArea;
-    this.initDataSource(true);
   }
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-
-    if(this.siteArea.canAssignChargingStations) {
-      tableActionsDef.push(this.addAction);
+    if (this.getMode() === TableDataSourceMode.READ_WRITE) {
+      if (this.siteArea.canAssignChargingStations) {
+        tableActionsDef.push(this.addAction);
+      }
+      if (this.siteArea.canUnassignChargingStations) {
+        tableActionsDef.push(this.removeAction);
+      }
     }
-    if(this.siteArea.canUnassignChargingStations) {
-      tableActionsDef.push(this.removeAction);
-    }
-
     return tableActionsDef;
   }
 
@@ -143,7 +153,6 @@ export class SiteAreaChargingStationsDataSource extends TableDataSource<Charging
             this.translateService.instant('site_areas.remove_chargers_title'),
             this.translateService.instant('site_areas.remove_chargers_confirm'),
           ).subscribe((response) => {
-            // Check
             if (response === ButtonType.YES) {
               // Remove
               this.removeChargers(this.getSelectedRows().map((row) => row.id));
@@ -175,7 +184,6 @@ export class SiteAreaChargingStationsDataSource extends TableDataSource<Charging
     this.centralServerService.removeChargersFromSiteArea(this.siteArea.id, chargerIDs).subscribe((response) => {
       // Ok?
       if (response.status === RestResponse.SUCCESS) {
-        // Ok
         this.messageService.showSuccessMessage(this.translateService.instant('site_areas.remove_chargers_success'));
         // Refresh
         this.refreshData().subscribe();
@@ -186,13 +194,11 @@ export class SiteAreaChargingStationsDataSource extends TableDataSource<Charging
           this.messageService, this.translateService.instant('site_areas.remove_chargers_error'));
       }
     }, (error) => {
-      // No longer exists!
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'site_areas.remove_chargers_error');
     });
   }
 
   private addChargers(chargers: ChargingStation[]) {
-    // Check
     if (!Utils.isEmptyArray(chargers)) {
       // Get the IDs
       const chargerIDs = chargers.map((charger) => charger.key);
@@ -200,7 +206,6 @@ export class SiteAreaChargingStationsDataSource extends TableDataSource<Charging
       this.centralServerService.addChargersToSiteArea(this.siteArea.id, chargerIDs).subscribe((response) => {
         // Ok?
         if (response.status === RestResponse.SUCCESS) {
-          // Ok
           this.messageService.showSuccessMessage(this.translateService.instant('site_areas.update_chargers_success'));
           // Refresh
           this.refreshData().subscribe();
@@ -216,7 +221,6 @@ export class SiteAreaChargingStationsDataSource extends TableDataSource<Charging
             this.messageService.showErrorMessage('chargers.change_config_phase_error');
             break;
           default:
-            // No longer exists!
             Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'site_areas.update_error');
         }
       });

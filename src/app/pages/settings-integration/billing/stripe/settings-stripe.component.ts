@@ -81,18 +81,14 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
   }
 
   public validatePublicKey(control: AbstractControl) {
-    // Check
     if (!control.value || /(^pk_test_)/.test(control.value) || /(^pk_live_)/.test(control.value)) {
-      // Ok
       return null;
     }
     return { invalid: true };
   }
 
   public validateSecretKey(control: AbstractControl) {
-    // Check
     if (!control.value || /(^sk_test_)/.test(control.value) || /(^sk_live_)/.test(control.value)) {
-      // Ok
       return null;
     }
     return { invalid: true };
@@ -112,9 +108,11 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
   }
 
   private updateFormData() {
-    if (this.billingSettings?.billing?.isTransactionBillingActivated) {
-      this.transactionBillingActivated = true;
+    this.transactionBillingActivated = this.billingSettings?.billing?.isTransactionBillingActivated
+    if (this.transactionBillingActivated) {
       this.formGroup.get('stripe')?.disable();
+    } else {
+      this.formGroup.get('stripe')?.enable();
     }
     if (!Utils.isEmptyObject(this.billingSettings?.stripe) && !Utils.isEmptyObject(this.formGroup.value)) {
       const stripeSetting = this.billingSettings.stripe;

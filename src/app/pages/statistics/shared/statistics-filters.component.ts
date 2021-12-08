@@ -12,7 +12,7 @@ import { LocaleService } from '../../../services/locale.service';
 import { FilterParams } from '../../../types/GlobalType';
 import { SettingLink } from '../../../types/Setting';
 import { FilterType, TableFilterDef } from '../../../types/Table';
-import TenantComponents from '../../../types/TenantComponents';
+import { TenantComponents } from '../../../types/Tenant';
 import { Utils } from '../../../utils/Utils';
 
 export interface StatisticsButtonGroup {

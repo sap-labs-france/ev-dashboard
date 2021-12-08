@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject } from 'rxjs';
+import { Constants } from 'utils/Constants';
 
 import { KeyValue } from '../types/GlobalType';
 import { UserToken } from '../types/User';
@@ -23,9 +24,9 @@ export class LocaleService {
     private translateService: TranslateService,
     private configService: ConfigService,
     private centralServerService: CentralServerService) {
-    this.updateLocale(this.translateService.getBrowserLang());
+    this.considerBrowserLocale();
     this.centralServerService.getCurrentUserSubject().subscribe((user) => {
-      this.updateLanguage(user);
+      this.considerUserLocale(user);
     });
   }
 
@@ -34,17 +35,10 @@ export class LocaleService {
   }
 
   public getLocales(): KeyValue[] {
-    const locales: KeyValue[] = [];
-    // en, fr...
-    const configLocales = this.configService.getLocales();
-    // Return
-    configLocales.fullSupported.forEach((localeFull: string) => {
-      locales.push({
-        key: localeFull,
-        value: this.getLocaleDescription(localeFull),
-      });
-    });
-    return locales;
+    return Constants.SUPPORTED_LOCALES.map( aLocale => ({
+      key: aLocale,
+      value: this.getLocaleDescription(aLocale)
+    }));
   }
 
   public getLocaleByKey(localeKey: string): KeyValue {
@@ -70,25 +64,23 @@ export class LocaleService {
     return this.translateService.instant('general.second');
   }
 
-  private updateLanguage(loggedUser: UserToken) {
-    let language: string;
-    if (loggedUser && loggedUser.language) {
-      language = loggedUser.language;
+  private considerUserLocale(loggedUser: UserToken) {
+    if (loggedUser && loggedUser.locale) {
+      this.updateLocale(loggedUser.locale);
     } else {
-      language = this.translateService.getBrowserLang();
+      this.considerBrowserLocale();
     }
-    this.updateLocale(language);
   }
 
-  private updateLocale(language: string) {
-    if (!this.locale || this.locale.language !== language) {
-      language = this.getSupportedLanguage(language);
-      this.translateService.use(language);
-      this.locale = {
-        language,
-        currentLocale: this.getCurrentLocale(language),
-        currentLocaleJS: this.getCurrentLocaleJS(language),
-      };
+  private considerBrowserLocale() {
+    const locale = this.convertToLocale(this.translateService.getBrowserCultureLang());
+    this.updateLocale(locale);
+  }
+
+  private updateLocale(locale: string) {
+    if (!this.locale || this.locale.currentLocale !== locale) {
+      this.locale = this.getSupportedLocale(locale);
+      this.translateService.use(this.locale.language);
       if (!this.currentLocaleSubject) {
         this.currentLocaleSubject = new BehaviorSubject<Locale>(this.locale);
       } else {
@@ -97,72 +89,40 @@ export class LocaleService {
     }
   }
 
-  private getSupportedLanguage(language: string): string {
-    switch (language) {
-      case 'fr':
-      case 'en':
-      case 'es':
-      case 'de':
-      case 'pt':
-      case 'it':
-        return language;
-      default:
-        return 'en';
+  private getSupportedLocale(locale: string) {
+    if (!Constants.SUPPORTED_LOCALES.includes(locale)) {
+      locale = Constants.DEFAULT_LOCALE;
+    };
+    let language = this.extractLanguage(locale);
+    if (!Constants.SUPPORTED_LANGUAGES.includes(language)) {
+      language = Constants.DEFAULT_LANGUAGE;
+    }
+    const currentLocale = locale;
+    return {
+      language,
+      currentLocale,
+      currentLocaleJS: this.convertToBrowserLocale(locale)
+    };
+  }
+
+  private getLocaleDescription(locale: string): string {
+    if (Constants.SUPPORTED_LOCALES.includes(locale)) {
+      return this.translateService.instant(`users.locale_desc_${locale}`);
+    } else {
+      return this.translateService.instant('users.locale_invalid');
     }
   }
 
-  private getCurrentLocale(language: string): string {
-    switch (language) {
-      case 'fr':
-        return 'fr_FR';
-      case 'es':
-        return 'es_MX';
-      case 'de':
-        return 'de_DE';
-      case 'pt':
-        return 'pt-PT';
-      case 'it':
-        return 'it-IT';
-      case 'en':
-      default:
-        return 'en_US';
-    }
+  private extractLanguage(locale: string) {
+    return locale.substring(0, locale.indexOf('_'));
   }
 
-  private getCurrentLocaleJS(language: string): string {
-    switch (language) {
-      case 'fr':
-        return 'fr-FR';
-      case 'es':
-        return 'es-MX';
-      case 'de':
-        return 'de-DE';
-      case 'pt':
-        return 'pt-PT';
-      case 'it':
-        return 'it-IT';
-      case 'en':
-      default:
-        return 'en-US';
-    }
+  private convertToLocale(browserLocale: string) {
+    return browserLocale.replace('-', '_');
   }
 
-  private getLocaleDescription(localeFull: string): string {
-    switch (localeFull) {
-      case 'en_US':
-        return this.translateService.instant('users.locale_desc_english');
-      case 'fr_FR':
-        return this.translateService.instant('users.locale_desc_french');
-      case 'es_MX':
-        return this.translateService.instant('users.locale_desc_spanish');
-      case 'de_DE':
-        return this.translateService.instant('users.locale_desc_german');
-      case 'pt_PT':
-        return this.translateService.instant('users.locale_desc_portuguese');
-      case 'it_IT':
-        return this.translateService.instant('users.locale_desc_italian');
-      default:
-        return '';
-    }
+  private convertToBrowserLocale(locale: string) {
+    return locale.replace('_', '-');
   }
+
 }

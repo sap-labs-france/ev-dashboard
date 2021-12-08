@@ -1,4 +1,5 @@
 import { TranslateService } from '@ngx-translate/core';
+import { saveAs } from 'file-saver';
 
 import { DialogService } from '../../../../services/dialog.service';
 import { ChargingStation, ChargingStationButtonAction, OcppParameter } from '../../../../types/ChargingStation';
@@ -42,7 +43,7 @@ export class TableExportOCPPParamsLocalAction extends TableExportAction {
             parameter.key,
             Utils.replaceSpecialCharsInCSVValueParam(parameter.value),
             charger.siteArea.name,
-            charger.siteArea.site.name
+            charger.site.name
           ].map((value) => Utils.escapeCsvValue(value));
           return row;
         }).join(Constants.CR_LF);

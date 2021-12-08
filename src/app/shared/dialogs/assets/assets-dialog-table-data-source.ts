@@ -27,16 +27,12 @@ export class AssetsDialogTableDataSource extends DialogTableDataSource<Asset> {
 
   public loadDataImpl(): Observable<DataResult<Asset>> {
     return new Observable((observer) => {
-      // Get data
       this.centralServerService.getAssets(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((assets) => {
-        // Ok
         observer.next(assets);
         observer.complete();
       }, (error) => {
-        // No longer exists!
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        // Error
         observer.error(error);
       });
     });

@@ -3,7 +3,6 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 
-import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
 import { DialogService } from '../../../../services/dialog.service';
 import { SpinnerService } from '../../../../services/spinner.service';
 import { AppUserMultipleRolesPipe } from '../../../../shared/formatters/app-user-multiple-roles.pipe';
@@ -13,7 +12,6 @@ import { TableEditAction } from '../../../../shared/table/actions/table-edit-act
 import { TableOpenURLAction } from '../../../../shared/table/actions/table-open-url-action';
 import { TableRefreshAction } from '../../../../shared/table/actions/table-refresh-action';
 import { TableDataSource } from '../../../../shared/table/table-data-source';
-import ChangeNotification from '../../../../types/ChangeNotification';
 import { DataResult } from '../../../../types/DataResult';
 import { ButtonAction } from '../../../../types/GlobalType';
 import { SettingLink } from '../../../../types/Setting';
@@ -33,15 +31,10 @@ export class AnalyticsLinksTableDataSource extends TableDataSource<SettingLink> 
     public translateService: TranslateService,
     private appUserMultipleRolesPipe: AppUserMultipleRolesPipe,
     private dialogService: DialogService,
-    private dialog: MatDialog,
-    private centralServerNotificationService: CentralServerNotificationService) {
+    private dialog: MatDialog) {
     super(spinnerService, translateService);
     // Init
     this.initDataSource();
-  }
-
-  public getDataChangeSubject(): Observable<ChangeNotification> {
-    return this.centralServerNotificationService.getSubjectAnalyticsLinks();
   }
 
   public setLinks(analyticsLinks: SettingLink[]) {
@@ -54,7 +47,6 @@ export class AnalyticsLinksTableDataSource extends TableDataSource<SettingLink> 
 
   public loadDataImpl(): Observable<DataResult<SettingLink>> {
     return new Observable((observer) => {
-      // Check
       if (this.analyticsLinks) {
         this.analyticsLinks.sort((a, b) => (a.name > b.name) ? 1 : (b.name > a.name) ? -1 : 0);
         const links = [];

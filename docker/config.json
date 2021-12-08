@@ -3,10 +3,7 @@
     "protocol": "http",
     "host": "localhost",
     "port": 81,
-    "socketIOEnabled": true
-  },
-  "FrontEnd": {
-    "host": "localhost"
+		"pollIntervalSecs": 10
   },
   "Authorization": {
     "debug": false
@@ -39,25 +36,7 @@
   "Vehicle": {
     "maxPictureKb": 250
   },
-  "Locales": {
-    "default": "en",
-    "supported": [
-      "en",
-      "fr",
-      "es",
-      "de",
-      "pt",
-      "it"
-    ],
-    "fullSupported": [
-      "en_US",
-      "fr_FR",
-      "es_MX",
-      "de_DE",
-      "pt_PT",
-      "it_IT"
-    ]
-  },
+  
   "Advanced": {
     "debounceTimeNotifMillis": 50,
     "debounceTimeSearchMillis": 500

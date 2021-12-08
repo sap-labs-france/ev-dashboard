@@ -12,6 +12,7 @@ export interface Site extends TableData, CreatedUpdatedProps, SiteAuthorizationA
   companyID: string;
   company: Company;
   issuer: boolean;
+  tariffID?: string;
   autoUserSiteAssignment: boolean;
   siteAreas: SiteArea[];
   address: Address;
@@ -37,5 +38,7 @@ export enum SiteButtonAction {
   EDIT_SITE = 'edit_site',
   CREATE_SITE = 'create_site',
   DELETE_SITE = 'delete_site',
-  ASSIGN_USERS_TO_SITE = 'assign_users_to_site'
+  ASSIGN_USERS_TO_SITE = 'assign_users_to_site',
+  VIEW_USERS_OF_SITE = 'view_users_of_site',
+
 }

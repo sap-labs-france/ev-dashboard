@@ -1,7 +1,10 @@
 import { AgmCoreModule } from '@agm/core';
 import { registerLocaleData } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import localeCs from '@angular/common/locales/cs'; // ACHTUNG - cz does not exists ==> cs-CZ
 import localeDe from '@angular/common/locales/de';
+import localeEn from '@angular/common/locales/en';
+import localeEnAU from '@angular/common/locales/en-AU';
 import localeEs from '@angular/common/locales/es';
 import localeFr from '@angular/common/locales/fr';
 import localeIt from '@angular/common/locales/it';
@@ -58,11 +61,9 @@ import { AuthLayoutComponent } from './layouts/auth/auth-layout.component';
 import { WINDOW_PROVIDERS } from './providers/window.provider';
 import { ReleaseNotesComponent } from './release-notes/release-notes.component';
 import { AuthorizationService } from './services/authorization.service';
-import { CentralServerNotificationService } from './services/central-server-notification.service';
 import { CentralServerService } from './services/central-server.service';
 import { ComponentService } from './services/component.service';
 import { ConfigService } from './services/config.service';
-import { DashboardService } from './services/dashboard.service';
 import { LocalStorageService } from './services/local-storage.service';
 import { LocaleService } from './services/locale.service';
 import { MessageService } from './services/message.service';
@@ -74,12 +75,14 @@ import { NavbarModule } from './shared/navbar/navbar.module';
 import { SidebarModule } from './sidebar/sidebar.module';
 import { Utils } from './utils/Utils';
 
-registerLocaleData(localeFr, 'fr');
-registerLocaleData(localeDe, 'de');
-registerLocaleData(localeEs, 'es');
-registerLocaleData(localePt, 'pt');
-registerLocaleData(localeIt, 'it');
-
+registerLocaleData(localeEn);
+registerLocaleData(localeFr);
+registerLocaleData(localeDe);
+registerLocaleData(localeEs);
+registerLocaleData(localePt);
+registerLocaleData(localeIt);
+registerLocaleData(localeCs);
+registerLocaleData(localeEnAU);
 @NgModule({
   exports: [
     MatAutocompleteModule,
@@ -177,7 +180,6 @@ export const localeFactory = (
   providers: [
     WINDOW_PROVIDERS,
     CentralServerService,
-    CentralServerNotificationService,
     AuthorizationService,
     ComponentService,
     DevEnvGuard,
@@ -190,7 +192,6 @@ export const localeFactory = (
     UtilsService,
     TranslateService,
     WindowService,
-    DashboardService,
     StripeService,
     { provide: APP_INITIALIZER, useFactory: configFactory, deps: [ConfigService], multi: true },
     { provide: MAT_DATE_LOCALE, useFactory: localeFactory, deps: [CentralServerService, TranslateService], multi: true },

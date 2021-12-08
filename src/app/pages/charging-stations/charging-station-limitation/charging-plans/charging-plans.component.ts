@@ -1,16 +1,13 @@
-import { AfterViewInit, Component, Input, OnChanges, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
 import { ActionResponse } from 'types/DataResult';
 
-import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../../services/central-server.service';
 import { ComponentService } from '../../../../services/component.service';
-import { ConfigService } from '../../../../services/config.service';
 import { DialogService } from '../../../../services/dialog.service';
 import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
@@ -22,7 +19,7 @@ import { RestResponse } from '../../../../types/GlobalType';
 import { HTTPError } from '../../../../types/HTTPError';
 import { ServerAction } from '../../../../types/Server';
 import { ButtonType } from '../../../../types/Table';
-import TenantComponents from '../../../../types/TenantComponents';
+import { TenantComponents } from '../../../../types/Tenant';
 import { Utils } from '../../../../utils/Utils';
 import { ChargingPlansEditableTableDataSource } from './charging-plans-editable-table-data-source';
 import { ChargingPlansTableDataSource } from './charging-plans-table-data-source';
@@ -44,7 +41,7 @@ interface ProfileType {
     ChargingPlansTableDataSource,
   ],
 })
-export class ChargingPlansComponent implements OnInit, AfterViewInit, OnChanges {
+export class ChargingPlansComponent implements OnInit, AfterViewInit {
   @Input() public chargingStation!: ChargingStation;
 
   public profileTypeMap: ProfileType[] = [
@@ -67,13 +64,10 @@ export class ChargingPlansComponent implements OnInit, AfterViewInit, OnChanges 
   public currentChargingProfile: ChargingProfile;
   public currentChargingSchedules: Schedule[] = [];
   public isSmartChargingComponentActive = false;
-  public autoRefreshEnabled = true;
 
   public constructor(
     public scheduleTableDataSource: ChargingPlansTableDataSource,
     public scheduleEditableTableDataSource: ChargingPlansEditableTableDataSource,
-    private centralServerNotificationService: CentralServerNotificationService,
-    private configService: ConfigService,
     private translateService: TranslateService,
     private router: Router,
     private datePipe: AppDatePipe,
@@ -84,20 +78,6 @@ export class ChargingPlansComponent implements OnInit, AfterViewInit, OnChanges 
     private spinnerService: SpinnerService,
   ) {
     this.isSmartChargingComponentActive = this.componentService.isActive(TenantComponents.SMART_CHARGING);
-    if (this.autoRefreshEnabled && this.configService.getCentralSystemServer().socketIOEnabled) {
-      // Update Charging Station?
-      this.centralServerNotificationService.getSubjectChargingProfile().pipe(debounceTime(
-        this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
-        if (this.chargingProfiles && singleChangeNotification && singleChangeNotification.data) {
-          const chargingProfile = this.chargingProfiles.find(
-            (cp) => cp.id === singleChangeNotification.data.id);
-            // Reload?
-          if (chargingProfile) {
-            this.refresh();
-          }
-        }
-      });
-    }
   }
 
   public navigateToLog() {
@@ -181,30 +161,16 @@ export class ChargingPlansComponent implements OnInit, AfterViewInit, OnChanges 
     this.refresh();
   }
 
-  public ngOnChanges() {
-    if (this.autoRefreshEnabled && !this.formGroup.dirty) {
-      this.refresh();
-    }
-  }
-
-  public toggleAutoRefresh(value: boolean) {
-    this.autoRefreshEnabled = value;
-  }
-
   public validateDateMustBeInTheFuture(control: AbstractControl): ValidationErrors | null {
-    // Check
     if (!control.value || (Utils.isValidDate(control.value) && moment(control.value).isAfter(new Date()))) {
-      // Ok
       return null;
     }
     return { dateNotInFuture: true };
   }
 
   public validateEndDateLimitInRecurringPlan(control: AbstractControl): ValidationErrors | null {
-    // Check
     if (!control.value || !this.startDateControl || (Utils.isValidDate(control.value) &&
       moment(control.value).isBefore(moment(this.startDateControl.value).add('1', 'd').add('1', 'm')))) {
-      // Ok
       return null;
     }
     return { endDateOutOfRecurringLimit: true };
@@ -309,14 +275,13 @@ export class ChargingPlansComponent implements OnInit, AfterViewInit, OnChanges 
           }
         }, (error: any) => {
           this.spinnerService.hide();
-          if (error.status === HTTPError.CLEAR_CHARGING_PROFILE_NOT_SUCCESSFUL) {
-            Utils.handleHttpError(
-              error, this.router, this.messageService, this.centralServerService,
-              this.translateService.instant('chargers.smart_charging.clear_profile_not_accepted',
-                { chargeBoxID: this.chargingStation.id }));
-          } else {
-            Utils.handleHttpError(
-              error, this.router, this.messageService, this.centralServerService, 'chargers.smart_charging.clear_profile_error');
+          switch (error.status) {
+            case HTTPError.CLEAR_CHARGING_PROFILE_NOT_SUCCESSFUL:
+              this.messageService.showErrorMessage('chargers.smart_charging.clear_profile_not_accepted');
+              break;
+            default:
+              Utils.handleHttpError(error, this.router, this.messageService,
+                this.centralServerService, 'chargers.smart_charging.clear_profile_error');
           }
         });
       }
@@ -360,15 +325,13 @@ export class ChargingPlansComponent implements OnInit, AfterViewInit, OnChanges 
           }
         }, (error) => {
           this.spinnerService.hide();
-          if (error.status === HTTPError.SET_CHARGING_PROFILE_ERROR) {
-            Utils.handleHttpError(
-              error, this.router, this.messageService, this.centralServerService,
-              this.translateService.instant('chargers.smart_charging.power_limit_plan_not_accepted',
-                { chargeBoxID: this.chargingStation.id }));
-          } else {
-            Utils.handleHttpError(
-              error, this.router, this.messageService, this.centralServerService,
-              this.translateService.instant('chargers.smart_charging.power_limit_plan_error'));
+          switch (error.status) {
+            case HTTPError.SET_CHARGING_PROFILE_ERROR:
+              this.messageService.showErrorMessage('chargers.smart_charging.power_limit_plan_not_accepted');
+              break;
+            default:
+              Utils.handleHttpError(error, this.router, this.messageService,
+                this.centralServerService, 'chargers.smart_charging.power_limit_plan_error');
           }
         });
       }

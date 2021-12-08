@@ -48,13 +48,10 @@ export class SiteAreasDialogTableDataSource extends DialogTableDataSource<SiteAr
 
       this.centralServerService.getSiteAreas(filterValues,
         this.getPaging(), this.getSorting()).subscribe((siteAreas) => {
-        // Ok
         observer.next(siteAreas);
         observer.complete();
       }, (error) => {
-        // No longer exists!
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        // Error
         observer.error(error);
       });
     });
@@ -84,12 +81,10 @@ export class SiteAreasDialogTableDataSource extends DialogTableDataSource<SiteAr
         sortable: true,
       },
       {
-        id: 'site',
+        id: 'site.name',
         name: 'sites.title',
         class: 'text-left col-600px',
         direction: 'asc',
-        sortable: true,
-        formatter: (name, row: SiteArea) => `${row.site.name}`,
       },
     ];
   }

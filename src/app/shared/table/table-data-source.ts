@@ -5,7 +5,6 @@ import { Observable, of } from 'rxjs';
 import { first } from 'rxjs/operators';
 
 import { SpinnerService } from '../../services/spinner.service';
-import ChangeNotification from '../../types/ChangeNotification';
 import { DataResult, Ordering, Paging } from '../../types/DataResult';
 import { FilterParams } from '../../types/GlobalType';
 import { DropdownItem, FilterType, TableActionDef, TableColumnDef, TableData, TableDataSourceMode, TableDef, TableFilterDef } from '../../types/Table';
@@ -335,10 +334,6 @@ export abstract class TableDataSource<T extends TableData> {
   public rowActionTriggered(actionDef: TableActionDef, rowItem: any, dropdownItem?: DropdownItem) {
   }
 
-  public getDataChangeSubject(): Observable<ChangeNotification> | null {
-    return null;
-  }
-
   public buildFilterValues(withSearch: boolean = true): FilterParams {
     let filterJson = {};
     // Parse filters
@@ -347,11 +342,11 @@ export abstract class TableDataSource<T extends TableData> {
       this.tableFiltersDef.forEach((filterDef) => {
         // Check the 'All' value
         if (filterDef.currentValue && filterDef.currentValue !== FilterType.ALL_KEY) {
-          // Date
           if (filterDef.type === 'date') {
+            // Date
             filterJson[filterDef.httpId] = filterDef.currentValue.toISOString();
-            // Dialog
           } else if (filterDef.type === FilterType.DIALOG_TABLE) {
+            // Dialog
             if (!Utils.isEmptyArray(filterDef.dependentFilters)) {
               filterDef.dialogComponentData = {
                 staticFilter: {}
@@ -370,6 +365,8 @@ export abstract class TableDataSource<T extends TableData> {
                     filterDef.dialogComponentData.staticFilter[dependentFilter.httpId] =
                       dependentFilter.currentValue[0].key;
                   }
+                } else {
+                  delete filterDef.dialogComponentData.staticFilter[dependentFilter.httpId];
                 }
               }
             }
@@ -396,7 +393,7 @@ export abstract class TableDataSource<T extends TableData> {
             }
           // Dropdown with multiple selections
           } else if (filterDef.type === FilterType.DROPDOWN && filterDef.multiple) {
-            if (!Utils.isEmptyArray(filterDef.currentValue) && 
+            if (!Utils.isEmptyArray(filterDef.currentValue) &&
                 (filterDef.currentValue.length < filterDef.items.length || !filterDef.exhaustive)) {
               filterJson[filterDef.httpId] = filterDef.currentValue.map((obj) => obj.key).join('|');
             }
@@ -460,9 +457,9 @@ export abstract class TableDataSource<T extends TableData> {
         // Set nbr of records
         this.setTotalNumberOfRecords(data.count);
         // Display only projected fields
-        if (!Utils.isEmptyArray(data.projectedFields)) {
+        if (!Utils.isEmptyArray(data.projectFields)) {
           // Format createdBy/lastChangeBy properties Ids
-          data.projectedFields = data.projectedFields.map(projectedField => {
+          data.projectFields = data.projectFields.map(projectedField => {
             if (projectedField.split('.')[0] === 'createdBy' || projectedField.split('.')[0] === 'lastChangedBy') {
               return projectedField.split('.')[0];
             } else {
@@ -470,7 +467,7 @@ export abstract class TableDataSource<T extends TableData> {
             }
           });
           for (const tableColumnDef of this.tableColumnsDef) {
-            tableColumnDef.visible = data.projectedFields.includes(tableColumnDef.id);
+            tableColumnDef.visible = data.projectFields.includes(tableColumnDef.id);
           }
           // No projected fields, display all
         } else {
@@ -480,7 +477,6 @@ export abstract class TableDataSource<T extends TableData> {
         }
         // Build stats
         this.tableFooterStats = this.buildTableFooterStats(data);
-        // Ok
         this.setData(data.result);
         // Loading on going?
         if (!this.loadingNumberOfRecords) {
@@ -490,17 +486,13 @@ export abstract class TableDataSource<T extends TableData> {
             this.requestNumberOfRecords();
           }
         }
-        // Hide Spinner
         if (showSpinner) {
           this.spinnerService.hide();
         }
-        // Ok
         this.firstLoad = true;
-        // Notify
         observer.next();
         observer.complete();
       }, (error) => {
-        // Hide Spinner
         if (showSpinner) {
           this.spinnerService.hide();
         }
@@ -566,7 +558,7 @@ export abstract class TableDataSource<T extends TableData> {
     return true;
   }
 
-  protected initDataSource(force: boolean = false): void {
+  public initDataSource(force: boolean = false): void {
     // Init data from sub-classes
     this.initTableColumnDefs(force);
     this.initTableDef(force);

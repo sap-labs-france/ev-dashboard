@@ -35,7 +35,6 @@ export class SettingsAssetConnectionEditableTableDataSource extends EditableTabl
   public loadDataImpl(): Observable<DataResult<AssetConnectionSetting>> {
     // Not really editable datasource
     return new Observable((observer) => {
-      // Check
       if (this.editableRows) {
         // Asset sort by name
         this.editableRows.sort((a, b) => (a.name > b.name) ? 1 : (b.name > a.name) ? -1 : 0);

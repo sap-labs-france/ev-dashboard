@@ -1,6 +1,6 @@
 import CreatedUpdatedProps from './CreatedUpdatedProps';
 import { TableData } from './Table';
-import { User, UserCar } from './User';
+import { User } from './User';
 
 export interface CarCatalog extends TableData {
   id: number;
@@ -47,11 +47,12 @@ export interface Car extends TableData, CreatedUpdatedProps {
   licensePlate: string;
   carCatalogID: number;
   carCatalog?: CarCatalog;
-  userIDs?: string;
-  users?: User[];
-  carUsers?: UserCar[];
+  userID?: string;
+  user?: User;
+  default?: boolean;
   type?: CarType;
   converter?: CarConverter;
+  carConnectorData?: CarConnectorData;
 }
 
 export interface CarConverter {
@@ -65,14 +66,6 @@ export enum CarConverterType {
   STANDARD = 'S',
   OPTION = 'O',
   ALTERNATIVE = 'A',
-}
-
-export interface CarUser extends TableData, CreatedUpdatedProps {
-  id: string;
-  car: Car;
-  userID: string;
-  default?: boolean;
-  owner?: boolean;
 }
 
 export enum CarType {
@@ -100,4 +93,9 @@ export enum CarButtonAction {
   CREATE_CAR = 'create_car',
   EDIT_CAR = 'edit_car',
   DELETE_CAR = 'delete_car'
+}
+
+export interface CarConnectorData {
+  carConnectorID: string;
+  carConnectorMeterID: string;
 }

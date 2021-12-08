@@ -4,10 +4,10 @@ import { Data, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { StatusCodes } from 'http-status-codes';
 import * as moment from 'moment';
-import { ConfigService } from 'services/config.service';
 import { DialogMode } from 'types/Authorization';
 import { HTTPError } from 'types/HTTPError';
 import { Tag } from 'types/Tag';
+import { User, UserToken } from 'types/User';
 
 import { CentralServerService } from '../services/central-server.service';
 import { DialogService } from '../services/dialog.service';
@@ -19,11 +19,14 @@ import { ChargePoint, ChargingStation, ChargingStationPowers, Connector, Current
 import { KeyValue } from '../types/GlobalType';
 import { MobileType } from '../types/Mobile';
 import { ButtonType, TableDataSourceMode } from '../types/Table';
-import { User, UserCar, UserToken } from '../types/User';
 import { Constants } from './Constants';
 
 export class Utils {
-  public static  handleDialogMode(dialogMode: DialogMode, formGroup: FormGroup) {
+  public static displayYesNo(translateService: TranslateService, value: boolean) {
+    return value ? translateService.instant('general.yes') : translateService.instant('general.no');
+  }
+
+  public static handleDialogMode(dialogMode: DialogMode, formGroup: FormGroup) {
     switch (dialogMode) {
       case DialogMode.CREATE:
       case DialogMode.EDIT:
@@ -32,6 +35,23 @@ export class Utils {
         formGroup.disable();
         break;
     }
+  }
+
+  public static buildConnectorInfo(connector: Connector): string {
+    const info = [];
+    if (!Utils.isEmptyString(connector.errorCode) && connector.errorCode !== 'NoError') {
+      info.push(connector.errorCode);
+    }
+    if (!Utils.isEmptyString(connector.vendorErrorCode)) {
+      info.push(connector.vendorErrorCode);
+    }
+    if (!Utils.isEmptyString(connector.info)) {
+      info.push(connector.info);
+    }
+    if (Utils.isEmptyArray(info)) {
+      info.push('-');
+    }
+    return info.join(' - ');
   }
 
   public static getTableDataSourceModeFromDialogMode(dialogMode: DialogMode): TableDataSourceMode {
@@ -106,7 +126,7 @@ export class Utils {
       if (keydownEvents?.code === 'Escape') {
         close();
       }
-      if (keydownEvents?.code === 'Enter') {
+      if (keydownEvents?.key === 'Enter') {
         if (formGroup.valid && formGroup.dirty) {
           save(formGroup.getRawValue());
         }
@@ -223,7 +243,7 @@ export class Utils {
   }
 
   public static handleError(error: any, messageService: MessageService, errorMessage: string = '', params?: Record<string, unknown>): void {
-    Utils.consoleDebugLog(`Error: ${errorMessage}`, error);
+    console.log(`Error: ${errorMessage}`, error);
     messageService.showErrorMessage(errorMessage, params);
   }
 
@@ -250,7 +270,6 @@ export class Utils {
       currentAmp: 0,
       currentWatt: 0,
     };
-    // Check
     if (!chargingStation ||
       !chargingStation.connectors ||
       Utils.isEmptyArray(chargingStation.connectors)) {
@@ -639,28 +658,6 @@ export class Utils {
     return 'N/A';
   }
 
-  public static buildCarUsersFullName(carUsers: UserCar[]) {
-    let usersName: string;
-    if (Utils.isEmptyArray(carUsers)) {
-      return '-';
-    }
-    // Find the owner
-    const userCarOwner = carUsers.find((userCar) => userCar.owner);
-    if (userCarOwner) {
-      // Build user name
-      usersName = Utils.buildUserFullName(userCarOwner.user);
-    }
-    // Build with first user name
-    if (!usersName) {
-      usersName = Utils.buildUserFullName(carUsers[0].user);
-    }
-    // Add number of remaining users
-    if (carUsers.length > 1) {
-      usersName += ` (+${carUsers.length - 1})`;
-    }
-    return usersName;
-  }
-
   public static buildUsersFullName(users: User[]) {
     if (Utils.isEmptyArray(users)) {
       return '-';
@@ -697,9 +694,9 @@ export class Utils {
       return '-';
     }
     if (tag.description) {
-      tagName = `${tag.description} ('${tag.id}')`;
+      tagName = `${tag.description} (${tag.visualID})`;
     } else {
-      tagName = `${tag.id}`;
+      tagName = tag.visualID;
     }
     return tagName;
   }
@@ -736,7 +733,7 @@ export class Utils {
       carName.push(`${translateService.instant('cars.vin')} '${car.vin}'`);
     }
     // License plate
-    carName.push(`${translateService.instant('cars.license_plate')} '${car.licensePlate}'`);
+    carName.push(`(${car.licensePlate})`);
     // Car ID
     if (withID && car.id) {
       carName.push(`(${car.id})`);
@@ -799,14 +796,19 @@ export class Utils {
       case HTTPError.TENANT_COMPONENT_CHANGED:
         messageService.showWarningMessageUserOrTenantUpdated();
         // Log Off (remove token)
-        centralServerService.logoutSucceeded();
+        centralServerService.clearLoginInformation();
         // Navigate to Login
         router.navigate(['/auth/login']);
         break;
-      // Unauthorized!
+      // Unauthorized: Token expired
       case StatusCodes.UNAUTHORIZED:
+        // Log Off (remove token)
+        centralServerService.clearLoginInformation();
+        // Navigate to Login
+        router.navigate(['/auth/login']);
+        break;
+      // Forbidden
       case StatusCodes.FORBIDDEN:
-        // Not Authorized
         messageService.showErrorMessage('general.not_authorized');
         break;
       case StatusCodes.BAD_REQUEST:
@@ -824,7 +826,7 @@ export class Utils {
         break;
       // Backend issue
       default:
-        Utils.consoleDebugLog(`HTTP Error: ${errorMessage}: ${error.message} (${error.status})`, error);
+        console.log(`HTTP Error: ${errorMessage}: ${error.message} (${error.status})`, error);
         messageService.showErrorMessage(errorMessage, params);
         break;
     }
@@ -847,7 +849,6 @@ export class Utils {
   }
 
   public static convertToDate(value: any): Date {
-    // Check
     if (!value) {
       return value;
     }
@@ -863,7 +864,6 @@ export class Utils {
     if (!value) {
       return 0;
     }
-    // Check
     if (typeof value === 'string') {
       // Create Object
       changedValue = parseInt(value, 10);
@@ -876,7 +876,6 @@ export class Utils {
     if (!value) {
       return 0;
     }
-    // Check
     if (typeof value === 'string') {
       // Create Object
       changedValue = parseFloat(value);
@@ -895,13 +894,6 @@ export class Utils {
 
   public static isUndefined(obj: any): boolean {
     return typeof obj === 'undefined';
-  }
-
-  public static consoleDebugLog(msg: any, error?: any) {
-    const configService: ConfigService = new ConfigService();
-    if (configService.getDebug().enabled) {
-      console.log(`${(new Date()).toISOString()} :: ${msg}${error ? ' :: Error details:' : ''}`, error ? error : '');
-    }
   }
 
   public static copyToClipboard(content: any) {
@@ -924,5 +916,4 @@ export class Utils {
     // replace double quotes inside value to double double quotes to display double quote correctly in csv editor
     return typeof value === 'string' ? '"' + value.replace(/"/g, '""') + '"' : value;
   }
-
 }

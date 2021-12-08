@@ -12,9 +12,11 @@ import { ButtonAction, KeyValue } from './GlobalType';
 import { LogButtonAction } from './Log';
 import { OcpiButtonAction } from './ocpi/OCPIEndpoint';
 import { OicpButtonAction } from './oicp/OICPEndpoint';
+import { PricingButtonAction } from './Pricing';
 import { RegistrationTokenButtonAction } from './RegistrationToken';
 import { SiteButtonAction } from './Site';
 import { SiteAreaButtonAction } from './SiteArea';
+import { TagButtonAction } from './Tag';
 import { TenantButtonAction } from './Tenant';
 import { TransactionButtonAction } from './Transaction';
 import { UserButtonAction } from './User';
@@ -25,6 +27,7 @@ export interface TableData extends AuthorizationActions {
   isSelected?: boolean;
   isSelectable?: boolean;
   isExpanded?: boolean;
+  projectFields?: string[];
 }
 
 export enum TableDataSourceMode {
@@ -50,6 +53,7 @@ export interface TableFilterDef {
   cleared?: boolean;
   dateRangeTableFilterDef?: DateRangeTableFilterDef;
   dependentFilters?: TableFilterDef[];
+  visible?: boolean;
 }
 
 export interface DateRangeTableFilterDef {
@@ -119,7 +123,7 @@ export enum DialogType {
 export interface TableActionDef {
   id: ButtonAction | CompanyButtonAction | TenantButtonAction | SiteAreaButtonAction | ChargingStationButtonAction |
   UserButtonAction | TransactionButtonAction | SiteButtonAction | OcpiButtonAction | OicpButtonAction | AssetButtonAction |
-  BillingButtonAction | CarButtonAction | LogButtonAction | RegistrationTokenButtonAction;
+  BillingButtonAction | CarButtonAction | LogButtonAction | RegistrationTokenButtonAction | TagButtonAction | PricingButtonAction;
   type: ActionType;
   currentValue?: any;
   name: string;

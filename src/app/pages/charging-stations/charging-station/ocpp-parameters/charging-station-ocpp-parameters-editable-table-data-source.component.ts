@@ -46,10 +46,18 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
   }
 
   public buildTableActionsDef(): TableActionDef[] {
+    // Create
+    const updateOCPPParamsAction = new TableUpdateOCPPParamsAction().getActionDef();
+    const requestOCPPParamsAction = new TableRequestOCPPParamsAction().getActionDef();
+    const exportOCPPParamsLocalAction = new TableExportOCPPParamsLocalAction().getActionDef();
+    // Activate the buttoms
+    updateOCPPParamsAction.visible = true;
+    requestOCPPParamsAction.visible = true;
+    exportOCPPParamsLocalAction.visible = true;
     return [
-      new TableUpdateOCPPParamsAction().getActionDef(),
-      new TableRequestOCPPParamsAction().getActionDef(),
-      new TableExportOCPPParamsLocalAction().getActionDef()
+      updateOCPPParamsAction,
+      requestOCPPParamsAction,
+      exportOCPPParamsLocalAction
     ];
   }
 
@@ -59,11 +67,11 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
   }
 
   public buildTableDynamicRowActions(ocppParameter: OcppParameter): TableActionDef[] {
-    const actions = [];
+    const rowActions = [];
     if (!ocppParameter.readonly) {
-      actions.push(new TableSaveOCPPParameterAction().getActionDef());
+      rowActions.push(new TableSaveOCPPParameterAction().getActionDef());
     }
-    return actions;
+    return rowActions;
   }
 
   public actionTriggered(actionDef: TableActionDef) {

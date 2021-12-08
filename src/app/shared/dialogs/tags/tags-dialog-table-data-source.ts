@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { TagStatusFormatterComponent } from 'pages/users/formatters/tag-status-formatter.component';
+import { TagStatusFormatterComponent } from 'pages/tags/formatters/tag-status-formatter.component';
 import { Observable } from 'rxjs';
 import { User } from 'types/User';
 
@@ -30,16 +30,12 @@ export class TagsDialogTableDataSource extends DialogTableDataSource<Tag> {
 
   public loadDataImpl(): Observable<DataResult<Tag>> {
     return new Observable((observer) => {
-      // Get data
       this.centralServerService.getTags(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((tags) => {
-        // Ok
         observer.next(tags);
         observer.complete();
       }, (error) => {
-        // No longer exists!
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        // Error
         observer.error(error);
       });
     });
@@ -95,8 +91,7 @@ export class TagsDialogTableDataSource extends DialogTableDataSource<Tag> {
         headerClass: 'text-center col-5em',
         class: 'text-center col-10em',
         sortable: true,
-        formatter: (defaultTag) => defaultTag ? this.translateService.instant('general.yes') :
-          this.translateService.instant('general.no'),
+        formatter: (defaultTag) => Utils.displayYesNo(this.translateService, defaultTag),
       },
     ];
   }

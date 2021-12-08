@@ -1,4 +1,4 @@
-import { Component, Injectable, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
@@ -13,7 +13,7 @@ import { ChargingStation, OCPPProtocol } from '../../../../types/ChargingStation
 import { KeyValue } from '../../../../types/GlobalType';
 import { SiteArea } from '../../../../types/SiteArea';
 import { ButtonType } from '../../../../types/Table';
-import TenantComponents from '../../../../types/TenantComponents';
+import { TenantComponents } from '../../../../types/Tenant';
 import { Constants } from '../../../../utils/Constants';
 import { Utils } from '../../../../utils/Utils';
 
@@ -75,7 +75,6 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
     );
     this.formGroup.addControl('public', new FormControl(false));
     this.formGroup.addControl('issuer', new FormControl(false));
-    this.formGroup.addControl('excludeFromSmartCharging', new FormControl(false));
     this.formGroup.addControl('forceInactive', new FormControl(false));
     this.formGroup.addControl('manualConfiguration', new FormControl(false));
     this.formGroup.addControl('maximumPower', new FormControl(0,
@@ -123,7 +122,7 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
     this.chargingStationURL = this.formGroup.controls['chargingStationURL'];
     this.public = this.formGroup.controls['public'];
     this.issuer = this.formGroup.controls['issuer'];
-    this.excludeFromSmartCharging = this.formGroup.controls['excludeFromSmartCharging'];
+    this.excludeFromSmartCharging = new FormControl(false);
     this.forceInactive = this.formGroup.controls['forceInactive'];
     this.manualConfiguration = this.formGroup.controls['manualConfiguration'];
     this.maximumPower = this.formGroup.controls['maximumPower'];
@@ -165,7 +164,12 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
       if (this.chargingStation.issuer) {
         this.issuer.setValue(this.chargingStation.issuer);
       }
-      if (this.excludeFromSmartCharging) {
+      if (!this.chargingStation.capabilities?.supportChargingProfiles) {
+        this.excludeFromSmartCharging.setValue(true);
+        this.excludeFromSmartCharging.disable();
+      } else if (this.excludeFromSmartCharging) {
+        // Only save this property, when charging station supports charging profiles
+        this.formGroup.addControl('excludeFromSmartCharging', this.excludeFromSmartCharging);
         this.excludeFromSmartCharging.setValue(this.chargingStation.excludeFromSmartCharging);
       }
       if (this.forceInactive) {
@@ -345,9 +349,16 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
         } else {
           this.maximumPower.disable();
           // Check initial charging station
-          if(!this.chargingStation.manualConfiguration) {
-          // Reload initial charging station to restore e.g. maximum power, when it was changed by the adjustment methods
-            this.loadChargingStation();
+          if (!this.chargingStation.manualConfiguration) {
+            if (Utils.isEmptyArray(this.chargingStation.chargePoints)) {
+              this.dialogService.createAndShowOkDialog(
+                this.translateService.instant('chargers.dialog.manual_configuration_error.title'),
+                this.translateService.instant('chargers.dialog.manual_configuration_error.confirm'),
+              );
+            } else {
+              // Reload initial charging station to restore e.g. maximum power, when it was changed by the adjustment methods
+              this.loadChargingStation();
+            }
           }
         }
       });

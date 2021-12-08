@@ -6,9 +6,9 @@ import { Observable } from 'rxjs';
 import { TransactionDialogComponent } from 'shared/dialogs/transaction/transaction.dialog.component';
 import { ConnectorTableFilter } from 'shared/table/filters/connector-table-filter';
 import { CarCatalog } from 'types/Car';
+import { Constants } from 'utils/Constants';
 
 import { AuthorizationService } from '../../../services/authorization.service';
-import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
@@ -36,12 +36,11 @@ import { SiteTableFilter } from '../../../shared/table/filters/site-table-filter
 import { TagTableFilter } from '../../../shared/table/filters/tag-table-filter';
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
-import ChangeNotification from '../../../types/ChangeNotification';
-import { ChargingStationButtonAction } from '../../../types/ChargingStation';
-import { DataResult } from '../../../types/DataResult';
+import { ChargingStationButtonAction, Connector } from '../../../types/ChargingStation';
+import { DataResult, TransactionDataResult } from '../../../types/DataResult';
 import { LogButtonAction } from '../../../types/Log';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
-import TenantComponents from '../../../types/TenantComponents';
+import { TenantComponents } from '../../../types/Tenant';
 import { Transaction, TransactionButtonAction } from '../../../types/Transaction';
 import { User } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';
@@ -54,6 +53,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
   private stopAction = new TableChargingStationsStopTransactionAction().getActionDef();
   private navigateToLogsAction = new TableNavigateToLogsAction().getActionDef();
   private navigateToChargingPlansAction = new TableNavigateToChargingPlansAction().getActionDef();
+  private readonly isOrganizationComponentActive: boolean;
   private isAdmin = false;
   private isSiteAdmin = false;
 
@@ -65,7 +65,6 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
     private router: Router,
     private dialog: MatDialog,
     private appCurrencyPipe: AppCurrencyPipe,
-    private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
     private componentService: ComponentService,
     private authorizationService: AuthorizationService,
@@ -78,24 +77,31 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
     // Admin
     this.isAdmin = this.authorizationService.isAdmin();
     this.isSiteAdmin = this.authorizationService.hasSitesAdminRights();
+    this.isOrganizationComponentActive = this.componentService.isActive(TenantComponents.ORGANIZATION);
     // Init
+    if (this.isOrganizationComponentActive) {
+      this.setStaticFilters([{
+        WithCompany: true,
+        WithSite: true,
+        WithSiteArea: true,
+        WithTag: true,
+        WithUser: true,
+        WithCar: true,
+        WithChargingStation: true,
+        Statistics: 'ongoing',
+      }]);
+    }
     this.initDataSource();
-  }
-
-  public getDataChangeSubject(): Observable<ChangeNotification> {
-    return this.centralServerNotificationService.getSubjectTransactions();
   }
 
   public loadDataImpl(): Observable<DataResult<Transaction>> {
     return new Observable((observer) => {
       this.centralServerService.getActiveTransactions(this.buildFilterValues(), this.getPaging(), this.getSorting())
         .subscribe((transactions) => {
-          // Ok
           observer.next(transactions);
           observer.complete();
         }, (error) => {
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-          // Error
           observer.error(error);
         });
     });
@@ -115,16 +121,16 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    const columns: TableColumnDef[] = [];
+    const tableColumns: TableColumnDef[] = [];
     if (this.isAdmin) {
-      columns.push({
+      tableColumns.push({
         id: 'id',
         name: 'transactions.id',
         headerClass: 'd-none d-xl-table-cell',
         class: 'd-none d-xl-table-cell',
       });
     }
-    columns.push(
+    tableColumns.push(
       {
         id: 'timestamp',
         name: 'transactions.started_at',
@@ -157,9 +163,39 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         isAngularComponent: true,
         angularComponent: TransactionsConnectorCellComponent,
       },
+      {
+        id: 'info',
+        name: 'chargers.connector_info_title',
+        headerClass: 'col-10em',
+        class: 'col-10em',
+        formatter: (info: string, row: Connector) => Utils.buildConnectorInfo(row),
+        sortable: false,
+      },
     );
+    if (this.isOrganizationComponentActive) {
+      tableColumns.push(
+        {
+          id: 'company.name',
+          name: 'companies.title',
+          class: 'd-none d-xl-table-cell col-20p',
+          headerClass: 'd-none d-xl-table-cell col-20p',
+        },
+        {
+          id: 'site.name',
+          name: 'sites.title',
+          class: 'd-none d-xl-table-cell col-20p',
+          headerClass: 'd-none d-xl-table-cell col-20p',
+        },
+        {
+          id: 'siteArea.name',
+          name: 'site_areas.title',
+          class: 'd-none d-xl-table-cell col-20p',
+          headerClass: 'd-none d-xl-table-cell col-20p',
+        },
+      );
+    }
     if (this.isAdmin || this.isSiteAdmin) {
-      columns.push({
+      tableColumns.push({
         id: 'user',
         name: 'transactions.user',
         headerClass: 'col-15p',
@@ -168,16 +204,22 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
       },
       {
         id: 'tagID',
-        name: 'transactions.badge_id',
+        name: 'tags.id',
+        headerClass: 'col-10p',
+        class: 'text-left col-10p',
+        formatter: (tagID: string) => tagID ? tagID : '-'
+      },
+      {
+        id: 'tag.visualID',
+        name: 'tags.visual_id',
         headerClass: 'col-15p',
         class: 'text-left col-15p',
-        formatter: (tagID: string) => tagID ? tagID : '-'
-      }
-      );
+        formatter: (visualID: string) => visualID ? visualID : '-'
+      });
     }
     if (this.componentService.isActive(TenantComponents.CAR)) {
       if (this.authorizationService.canListCars()) {
-        columns.push({
+        tableColumns.push({
           id: 'carCatalog',
           name: 'car.title',
           headerClass: 'text-center col-15p',
@@ -187,7 +229,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         });
       }
       if (this.authorizationService.canUpdateCar()) {
-        columns.push({
+        tableColumns.push({
           id: 'car.licensePlate',
           name: 'cars.license_plate',
           headerClass: 'text-center col-15p',
@@ -197,7 +239,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         });
       }
     }
-    columns.push(
+    tableColumns.push(
       {
         id: 'currentTotalInactivitySecs',
         name: 'transactions.inactivity',
@@ -233,7 +275,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
       },
     );
     if (this.componentService.isActive(TenantComponents.PRICING)) {
-      columns.push({
+      tableColumns.push({
         id: 'currentCumulatedPrice',
         name: 'transactions.price',
         headerClass: 'col-10p',
@@ -241,7 +283,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         formatter: (price: number, transaction: Transaction) => this.appCurrencyPipe.transform(price, transaction.priceUnit),
       });
     }
-    return columns;
+    return tableColumns;
   }
 
   public rowActionTriggered(actionDef: TableActionDef, transaction: Transaction) {
@@ -272,6 +314,31 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         }
         break;
     }
+  }
+
+  public buildTableFooterStats(data: TransactionDataResult): string {
+    // All records has been retrieved
+    if (data.count !== Constants.INFINITE_RECORDS) {
+      // Stats?
+      if (data.stats) {
+        const percentInactivity = (data.stats.totalDurationSecs > 0 ?
+          (Math.floor(data.stats.totalInactivitySecs / data.stats.totalDurationSecs * 100)) : 0);
+        // Total Duration
+        // eslint-disable-next-line max-len
+        let stats = `${this.translateService.instant('transactions.duration')}: ${this.appDurationPipe.transform(data.stats.totalDurationSecs)} | `;
+        // Inactivity
+        // eslint-disable-next-line max-len
+        stats += `${this.translateService.instant('transactions.inactivity')}: ${this.appDurationPipe.transform(data.stats.totalInactivitySecs)} (${percentInactivity}%) | `;
+        // Total Consumption
+        // eslint-disable-next-line max-len
+        stats += `${this.translateService.instant('transactions.consumption')}: ${this.appUnitPipe.transform(data.stats.totalConsumptionWattHours, 'Wh', 'kWh', true, 1, 0, 0)}`;
+        // Total Price
+        // eslint-disable-next-line max-len
+        stats += ` | ${this.translateService.instant('transactions.price')}: ${this.appCurrencyPipe.transform(data.stats.totalPrice, data.stats.currency)}`;
+        return stats;
+      }
+    }
+    return '';
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {

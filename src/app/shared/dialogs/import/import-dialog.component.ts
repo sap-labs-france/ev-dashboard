@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { StatusCodes } from 'http-status-codes';
@@ -26,6 +26,7 @@ export class ImportDialogComponent implements OnInit {
   public importInstructionsOptionalFields: string;
   public isFileValid = true;
   public title: string;
+  public entity: string;
   private ngxCsvParser: NgxCsvParser;
   private endpoint: ServerRoute;
   private requiredProperties: string[];
@@ -36,6 +37,9 @@ export class ImportDialogComponent implements OnInit {
   private messageNoSuccessNoError: string;
   private confirmImportTitle: string;
   private confirmImportMessage: string;
+  private confirmImportMessageAutoActivate: string;
+  private autoActivateImportedUsers: string;
+  private autoActivateImportedTags: string;
 
   public constructor(
     protected dialogRef: MatDialogRef<ImportDialogComponent>,
@@ -46,6 +50,7 @@ export class ImportDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) data) {
     if (data?.endpoint) {
       this.endpoint = data.endpoint;
+      this.entity = data.entity;
       this.title = translateService.instant(`${data.entity}.import_${data.entity}`);
       this.messageSuccess = `${data.entity}.import_${data.entity}_success`;
       this.messageError = `${data.entity}.import_${data.entity}_error`;
@@ -55,10 +60,11 @@ export class ImportDialogComponent implements OnInit {
       this.optionalProperties = data.optionalProperties ?? [];
       this.confirmImportTitle = `${data.entity}.import_${data.entity}`;
       this.confirmImportMessage = `${data.entity}.import_${data.entity}_message`;
+      this.confirmImportMessageAutoActivate = `${data.entity}.import_${data.entity}_message_auto_activate`;
     }
     Utils.registerCloseKeyEvents(this.dialogRef);
     this.uploader = new FileUploader({
-      headers: this.centralServerService.buildHttpHeadersFile(),
+      headers: this.centralServerService.buildImportTagsUsersHttpHeaders(this.autoActivateImportedUsers, this.autoActivateImportedTags),
       url: `${this.centralServerService.buildRestEndpointUrl(this.endpoint)}`
     });
     this.uploader.response.subscribe(res => this.response = res);
@@ -90,7 +96,6 @@ export class ImportDialogComponent implements OnInit {
         const actionsResponse = JSON.parse(response) as ActionsResponse;
         this.messageService.showActionsMessage(actionsResponse,
           this.messageSuccess, this.messageError, this.messageSuccessAndError, this.messageNoSuccessNoError);
-      // Error
       } else {
         switch (status) {
           case HTTPError.INVALID_FILE_FORMAT:
@@ -120,11 +125,25 @@ export class ImportDialogComponent implements OnInit {
   public upload(): void {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant(this.confirmImportTitle),
-      this.translateService.instant(this.confirmImportMessage),
+      this.autoActivateImportedUsers ? this.translateService.instant(this.confirmImportMessageAutoActivate) : this.translateService.instant(this.confirmImportMessage),
     ).subscribe((result) => {
       if (result === ButtonType.YES) {
         this.uploader.uploadAll();
       }
     });
+  }
+
+  public handleAutoActivateUserAtImport(checked) {
+    this.autoActivateImportedUsers = checked;
+    this.uploader.options.headers[this.uploader.options.headers.findIndex(
+      option => option.name === 'autoActivateUserAtImport'
+    )].value = this.autoActivateImportedUsers;
+  }
+
+  public handleAutoActivateTagAtImport(checked) {
+    this.autoActivateImportedTags = checked;
+    this.uploader.options.headers[this.uploader.options.headers.findIndex(
+      option => option.name === 'autoActivateTagAtImport'
+    )].value = this.autoActivateImportedTags;
   }
 }

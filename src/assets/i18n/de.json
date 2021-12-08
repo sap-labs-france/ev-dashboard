@@ -1,4 +1,4 @@
-﻿{
+{
   "general": {
     "captcha_text_1": "Diese Seite wird durch reCAPTCHA und Google geschützt",
     "captcha_text_2": "Datenschutzbestimmungen",
@@ -26,7 +26,8 @@
     "nbr_of_records": "Einträge",
     "connectors": "Verknüpfungen",
     "notifications": "Benachrichtungen",
-    "app_name": "e-Mobility",
+    "general": "Main",
+    "app_name": "Open e-Mobility",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "Ein unerwarteter Fehler ist aufgetreten",
@@ -87,7 +88,7 @@
     "unlock": "Entsperren",
     "refund": "Erstattung",
     "open": "Öffnen",
-    "open_in_concur": "Gehe zu Reisekosten",
+    "open_refunding_system": "Gehe zu Reisekosten",
     "connect": "Verbinden",
     "register": "Registrieren",
     "unregister": "Abmelden",
@@ -187,7 +188,8 @@
       "organization": "Organisation",
       "template": "Vorlagen",
       "cars": "Fahrzeuge",
-      "invoices": "Rechnungen"
+      "invoices": "Rechnungen",
+      "tags": "Badges"
     },
     "tooltips": {
       "push_cdr": "CDR senden",
@@ -236,7 +238,9 @@
       "download": "Download",
       "test_connection": "Verbindung testen",
       "force_available_status": "Status verfügbar erzwingen",
-      "force_unavailable_status": "Status nicht verfügbar erzwingen"
+      "force_unavailable_status": "Status nicht verfügbar erzwingen",
+      "display_users": "Nutzer anzeigen",
+      "pricing": "Pricing"
     }
   },
   "issuer": {
@@ -418,6 +422,7 @@
     "update_success": "Der Standort '{{siteName}}' wurde erfolgreich aktualisiert",
     "update_error": "Beim Aktualisieren des Standortes ist ein Fehler aufgetreten",
     "update_users_error": "Beim Zuordnen eines Nutzers zu diesem Standort ist ein Fehler aufgetreten",
+    "update_public_site_error": "Am Standort '{{siteName}}' befinden sich öffentliche Ladestationen. Er kann daher nicht privat sein",
     "create_success": "Der Standort '{{siteName}}' wurde erfolgreich erstellt",
     "create_error": "Beim Erstellen des Standortes ist ein Fehler aufgetreten",
     "image_size_error": "Die maximale Bildgröße wurde überschritten, die maximale Bildgröße ist '{{maxPictureKb}}' Kb",
@@ -431,7 +436,9 @@
     "update_site_users_owner_error": "Beim Versuch '{{userName}}' als Standort-Eigentümer einzusetzen ist ein Fehler aufgetreten",
     "export_all_params_title": "OCPP Parameter exportieren",
     "export_all_params_confirm": "Wollen Sie wirklich alle OCPP Parameter von allen Ladestationen am Standort '{{siteName}}' exportieren ?",
-    "export_all_params_error": "Während des Exports aller OCPP Parameter ist ein Fehler aufgtreten."
+    "export_all_params_error": "Während des Exports aller OCPP Parameter ist ein Fehler aufgtreten.",
+    "display_users": "Nutzer anzeigen",
+    "private_limitation": "Some features are not available when the site is private"
   },
   "site_areas": {
     "assign_site": "Standort zuweisen",
@@ -503,7 +510,7 @@
     "eula": "Endnutzer Lizenzvereinbarung",
     "must_accept_eula": "Sie müssen die Endnutzer Lizenzvereinbarung akzeptieren",
     "no_space_in_password": "Am Anfang und am Ende ist kein Leerzeichen erlaubt",
-    "title": "Anmelden bei e-Mobility",
+    "title": "Anmelden bei Open e-Mobility",
     "register": "Registrieren",
     "signup_link": "Neuer Nutzer? Registrieren!",
     "signin_link": "Haben Sie bereits einen Account? Melden Sie sich an!",
@@ -523,6 +530,7 @@
     "email_does_not_exist": "Email existiert nicht",
     "cannot_check_email_in_backend": "Email konnte im Backend nicht überprüft werden",
     "wrong_email_or_password": "Falsche Email oder Passwort",
+    "technical_user_cannot_login_to_ui": "Technical user and cannot login using the application",
     "account_suspended": "Ihr Account wurde ausgesetzt",
     "account_pending": "Ihr Account ist nicht aktiv! Überprüfen Sie Ihre Emails",
     "super_user_account_pending": "Ihr Account ist nicht aktiv",
@@ -561,7 +569,8 @@
     "verify_email_resend_error": "Beim Versenden Ihres Aktivierungslinks ist ein Fehler aufgetreten",
     "verify_email_proceed_with_activation": "Ihr Account ist noch immer inaktiv! Wollen Sie das Versenden der Aktivierungs-Email wiederholen?",
     "verify_email_proceed_with_activation_button": "Weiter",
-    "invalid_captcha_token": "Ungültiger Captcha Token"
+    "invalid_captcha_token": "Ungültiger Captcha Token",
+    "mercedes_data_usage": "SAP Labs France is accessing your car’s data via Mercedes-Benz for the purpose of providing you a high quality of service during the charging session of your vehicle. SAP Labs France is processing the following data: EV battery level and range of your car. For allowing the processing of your data, you’ll have to give the explicit consent in the following steps. For any further information please note our End-user Agreement Usage of the e-Mobility Software."
   },
   "statistics": {
     "title": "Statistiken",
@@ -694,6 +703,7 @@
     "cant_charge_in_parallel": "Paralleles Laden nicht möglich",
     "share_power_to_all_connectors": "Kapazität wird zwischen allen Anschlüssen geteilt",
     "exclude_from_power_limitation": "Kapazität kann nicht limitiert werden",
+    "update_public_cs_error": "Die Ladestation kann nicht für die Öffentlichkeit freigegeben werden, wenn der Standort nicht öffentlich ist",
     "public": "Diese Ladestation ist öffentlich",
     "public_charger": "Öffentlich",
     "exclude_smart_charging": "Vom Smart-Charging ausschließen",
@@ -791,6 +801,10 @@
       "disable_manual_configuration":{
         "title": "Manuelle Konfiguration deaktivieren",
         "confirm": "Wenn Sie die manuelle Konfiguration deaktivieren, wird die Konfiguration vom automatischen Template übernommen. Die Ladestation wird neu gestartet und die manuelle Konfiguration geht verloren. Sind Sie sicher, dass Sie fortfahren möchten?"
+      },
+      "manual_configuration_error":{
+        "title": "Manuelle Konfiguration/Template Fehler",
+        "confirm": "Die Ladestation ist bereits ohne manuelle Konfiguration gespeichert. Bitte stellen Sie sicher dass die Ladestation korrekt startet und das entsprechende Template angewendet werden kann"
       }
     },
     "force_available_status_action": "Verfügbar setzen",
@@ -930,8 +944,8 @@
     "reboot_confirm": "Wollen Sie die Ladestation '{{chargeBoxID}}' wirklich neu starten?",
     "reboot_success": "Die Ladestation '{{chargeBoxID}}' wurde erfolgreich neu gestartet",
     "reboot_error": "Beim Neustart der Ladestation ist ein Fehler aufgetreten",
-    "get_configuration_title": "Konfiguration anfordern",
-    "get_configuration_confirm": "Wollen Sie wirklich die Konfiguration von Ladestation '{{chargeBoxID}}' anfordern?",
+    "retrieve_configuration_title": "Konfiguration anfordern",
+    "retrieve_configuration_confirm": "Wollen Sie wirklich die Konfiguration von Ladestation '{{chargeBoxID}}' anfordern?",
     "reboot_required_title": "Neustart erforderlich",
     "reboot_required_confirm": "Wollen Sie die Ladestation '{{chargeBoxID}}' neu starten?",
     "ocpp_params_list_error": "Keine OCPP-Parameter zum Anzeigen verfügbar",
@@ -995,6 +1009,7 @@
     "unlock_connector_error": "Die Ladestation konnte den Anschluss nicht entsperren",
     "unlock_connector_not_supported_error": "Die Entsperrfunktion für den Anschluss wird von dieser Ladestation nicht unterstütz",
     "connector_type_unknown": "Nicht festgelegt",
+    "connector_type_all": "All connectors",
     "connector_type_type2": "Type 2",
     "connector_type_type1": "Type 1",
     "connector_type_type1ccs": "Type 1 - Combo CCS",
@@ -1020,7 +1035,7 @@
     "unsaved_confirmed": "Wollen Sie die Änderungen speichern?",
     "changes_cancelled": "Änderungen wurden gelöscht",
     "unsaved_changes": "Sie haben ungespeicherte Änderungen. Speichern oder löschen Sie diese.",
-    "button_get_configuration": "Konfigurationen anfordern",
+    "button_retrieve_configuration": "Konfigurationen anfordern",
     "button_force_ocpp_params_update_from_template": "OCPP Parameter Update erzwingen",
     "created_on": "Erstellungsdatum",
     "start_transaction_details_title": "Ladevorgang an Ladestation '{{chargeBoxID}}' starten",
@@ -1153,12 +1168,19 @@
       "tags": "Badges",
       "billing": "Abrechnung"
     },
+    "security": "Security",
     "import_users": "Nutzer Importieren",
     "import_users_message": "Der Import wird alle hochgeladenen Nutzer die noch nicht importiert wurden verwerfen, möchten Sie fortfahren?",
+    "import_users_message_auto_activate": "Der Import verwirft alle anderen zuvor hochgeladenen Nutzer, die noch nicht in die Datenbank importiert wurden. Die Nutzer werden automatisch aktiviert. Wollen Sie fortfahren?",
+    "import_users_auto_activation": "Automatische Aktivierung neu registrierter Nutzer",
     "import_users_success": "{{inSuccess}} Nutzer wurden erfolgreich hochgeladen und werden nun verarbeitet",
     "import_users_partial": "{{inSuccess}} Nutzer wurden erfolgreich hochgeladen und werden nun verarbeitet und {{inError}} Nutzer sind fehlgeschlagen, bitte überprüfen Sie die Logs",
     "import_users_error": "Das Hochladen von {{inError}} Nutzern ist fehlgeschlagen",
     "import_no_users": "Es wurden keine Nutzer hochgeladen",
+    "access_mode": "Access Mode",
+    "allow_free_access": "Free access to all charging stations",
+    "user_without_freeAccess": "Paying access",
+    "user_with_freeAccess": "Free access",
     "number_of_sites": "Anz. Standorte",
     "number_of_transactions": "Anz. Ladevorgänge",
     "eula_accepted_on": "EULA akzeptiert am",
@@ -1166,6 +1188,8 @@
     "profile": "Profil",
     "edit_profile": "Profil bearbeiten",
     "user_number": "Nutzer",
+    "technical_user": "Technical User",
+    "non_technical_user": "Non Technical User",
     "role": "Rolle",
     "roles": "Rollen",
     "role_admin": "Administrator",
@@ -1183,12 +1207,14 @@
     "invalid_plate_id": "Nur Buchstaben, Zahlen und '-' sind zugelassen",
     "locale": "Sprache",
     "locale_invalid": "Ungültige Örtlichkeit",
-    "locale_desc_english": "Englisch",
-    "locale_desc_french": "Französisch",
-    "locale_desc_spanish": "Spanisch",
-    "locale_desc_german": "Deutsch",
-    "locale_desc_portuguese": "Portugiesisch",
-    "locale_desc_italian": "Italienisch",
+    "locale_desc_en_US": "Englisch",
+    "locale_desc_fr_FR": "Französisch",
+    "locale_desc_es_ES": "Spanisch",
+    "locale_desc_de_DE": "Deutsch",
+    "locale_desc_pt_PT": "Portugiesisch",
+    "locale_desc_it_IT": "Italienisch",
+    "locale_desc_cs_CZ":"Czech",
+    "locale_desc_en_AU": "Australian",
     "role_unknown": "Unbekannt",
     "locale_unknown": "Unbekannt",
     "status": "Status",
@@ -1207,6 +1233,7 @@
     "name": "Name",
     "first_name": "Vorname",
     "plate_id": "Kennzeichen",
+    "technical": "API User (used for backend communications only)",
     "tags": "Badges",
     "tag_ids_help": "Geben Sie eine durch Kommas getrennte Liste von Badge-IDs ein.",
     "inumber": "Nutzer-ID (Corporate-ID)",
@@ -1256,10 +1283,6 @@
     "update_set_site_owner_success": "Der Nutzer ist nun Eigentümer des Standortes '{{siteName}}'",
     "update_remove_site_owner_success": "Der Nutzer ist nun nicht mehr Eigentümer des Standortes '{{siteName}}'",
     "update_site_owner_role_error": "Beim Versuch die Berechtigungen zu aktualisieren ist am Standort '{{siteName}}' ein Fehler aufgetreten",
-    "assign_transactions_title": "Ladevorgangs Zuordnung",
-    "assign_transactions_confirm": "'{{count}}' unzugeordnete Ladevorgänge gefunden. Wollen Sie diese diesem Nutzer zuordnen?",
-    "assign_transactions_success": "Alle unzugeordneten Ladevorgänge wurden dem Nutzer '{{userFullName}}' zugeordnet",
-    "assign_transactions_error": "Beim Zuordnen der unzugeordnenten Ladevorgänge zu '{{userFullName}}' ist ein Fehler aufgetreten",
     "redirect": "Zum Nutzer navigieren",
     "connectors": {
       "connect": "Verbinden",
@@ -1301,9 +1324,9 @@
         "action": "Nutzer synchronisieren."
       }
     },
-    "export_tags_title": "Export Tags",
-    "export_tags_confirm": "Do you really want to export the Tag list to a CSV format?",
-    "export_tags_error": "Error occurred while trying to export the Tags, check the logs"
+    "export_tags_title": "Badges exportieren",
+    "export_tags_confirm": "Möchten Sie die Badges wirklich als CSV exportieren",
+    "export_tags_error": "Beim Exportieren der Badges ist ein Fehler aufgetreten. Bitte überprüfen Sie die Logs."
   },
   "invoices": {
     "tabs": {
@@ -1317,13 +1340,14 @@
       "paid": "Bezahlt",
       "unpaid": "Unbezahlt",
       "draft": "Entwurf",
-      "deleted": "Deleted",
-      "uncollectible": "Uncollectible",
-      "void": "Cancelled"
+      "deleted": "Gelöscht",
+      "uncollectible": "Nicht abbuchbar",
+      "void": "Abgebrochen"
     },
     "number": "Rechnungsnummer",
     "createdOn": "Rechnungsdatum",
     "price": "Rechnungspreis",
+    "amount": "Betrag",
     "cannot_retrieve_invoices": "Liste der Rechnungen kann nicht abgerufen werden",
     "cannot_download_invoice": "Rechnung kann nicht heruntergeladen werden",
     "number_of_items": "Ladevorgänge",
@@ -1332,11 +1356,11 @@
     "failed_download": "Download der Rechnung fehlgeschlagen."
   },
   "tags": {
-    "id": "ID",
+    "id": "Badge ID",
     "not_active": "Dieser Badge ist nicht aktiv",
     "issuer": "Organisationseigentümer",
-    "visual_id": "Visual ID",
-    "visual_id_instruction": "Please fill the ID that is displayed on the badge",
+    "visual_id": "Visuelle Badge ID",
+    "visual_id_instruction": "Bitte geben Sie die ID ein, die auf dem Badge sichtbar ist.",
     "status": "Status",
     "activated": "Aktiv",
     "deactivated": "Inaktiv",
@@ -1353,17 +1377,20 @@
     "delete_title": "Badge löschen",
     "delete_success": "Der Badge '{{id}}' wurde erfolgreich gelöscht",
     "delete_error": "Beim Löschen des Badges ist ein Fehler aufgetreten",
-    "create_has_transaction_error": "Dieser Badge ist mit Ladevorgängen verknüpft und kann daher nicht erstellt werden",
-    "update_has_transaction_error": "Dieser Badge ist mit Ladevorgängen verknüpft und kann nicht neu zugeordnet werden",
     "create_success": "Der Badge '{{tagID}}' wurde erfolgreich erstellt",
     "create_error": "Beim Erstellen des Badges ist ein Fehler aufgetreten",
+    "register_success": "Der Badge '{{visualID}}' wurde erfolgreich registriert",
+    "register_error": "Bei der Registrierung des Badges ist ein Fehler aufgetreten",
     "update_success": "Der Badge '{{tagID}}' wurde erfolgreich aktualisiert",
+    "update_by_visual_id_success": "Der Badge '{{visualID}}' wurde erfolgreich aktualisiert",
     "update_error": "Beim Aktualisieren des Badges ist ein Fehler aufgetreten",
     "tag_error": "Beim Abrufen des Badges ist ein Fehler aufgetreten",
     "tag_not_found": "Badge wurde nicht gefunden",
     "select_tags": "Badge auswählen",
     "tag_id_already_used": "Der Badge '{{tagID}}' existiert bereits",
-    "tag_visual_id_already_used": "The visualID '{{visualID}}' already exists",
+    "tag_visual_id_already_used": "Die visuelle ID '{{visualID}}' existiert bereits",
+    "tag_visual_id_does_not_match_tag": "Die visuelle ID '{{visualID}}' passt zu keinem Badge",
+    "tag_inactive": "Der Badge '{{visualID}}' ist inaktiv und kann nicht zugeordnet werden",
     "redirect": "Zu den Badges navigieren",
     "title": "Badge",
     "default_tag": "Standard-Badge",
@@ -1376,10 +1403,12 @@
     "delete_no_tag": "Es wurden keine Badges gelöscht",
     "import_tags": "Badges Importieren",
     "import_tags_message": "Der Import wird alle hochgeladenen Badges die noch nicht importiert wurden verwerfen, möchten Sie fortfahren?",
+    "import_tags_message_auto_activate": "Der Import verwirft alle anderen zuvor hochgeladenen Badges, die noch nicht in die Datenbank importiert wurden. Möchten Sie fortfahren?",
     "import_tags_success": "{{inSuccess}} Badges wurden erfolgreich hochgeladen und werden nun verarbeitet",
     "import_tags_partial": "{{inSuccess}} Badges wurden erfolgreich hochgeladen und werden nun verarbeitet und {{inError}} Badges sind fehlgeschlagen, bitte überprüfen Sie die Logs",
     "import_tags_error": "Das Hochladen von {{inError}} Badges ist fehlgeschlagen",
-    "import_no_tags": "Es wurden keine Badges hochgeladen"
+    "import_no_tags": "Es wurden keine Badges hochgeladen",
+    "import_tags_auto_activation": "Neue Badges automatisch aktivieren"
   },
   "tenants": {
     "title": "Organisation",
@@ -1400,7 +1429,7 @@
     "delete_success": "Die Organisation '{{name}}' wurde erfolgreich gelöscht",
     "delete_error": "Beim Löschen der Organisation ist ein Fehler aufgetreten",
     "save_error_refund": "Preisbildung muss für die Rückerstattung aktiv sein",
-    "save_error_roaming": "You cannot activate both the OCPI and OICP roaming components",
+    "save_error_roaming": "Sie können nicht gleichzeitig die OCPI- und die OICP-Roaming-Komponente aktivieren.",
     "save_error_billing": "Preisbildung muss für Rechnungslegung aktiv sein",
     "save_error_smart_charging": "Organisation muss für Smart-Charging aktiv sein",
     "save_error_building": "Organisation muss aktiv sein, um Assets zu nutzen zu können",
@@ -1477,6 +1506,7 @@
       }
     },
     "pricing": {
+      "title": "Pricing",
       "description": "Das Preisbildungs-Interface ermöglicht Preisbildungsmöglichkeiten für den Ladestationbetreiber.",
       "not_found": "Preisbildungseinstellungen nicht gefunden",
       "create_success": "Preisbildungseinstellungen wurden erfolgreich erstellt",
@@ -1491,15 +1521,60 @@
         "user": "Nutzer",
         "password": "Passwort"
       },
-      "simple": {
-        "title": "Einfache Preisbildung",
+      "settings": {
+        "title": "Pricing Settings",
         "price": "Preis (pro kW.h)",
         "currency": "Währung"
-      }
+      },
+      "end_date_error": "Please provide a date after start date and time.",
+      "valid_from": "Valid From",
+      "valid_to": "Valid To",
+      "valid_from_to": "Valid From ... To",
+      "flat_fee": "Flat Fee",
+      "energy": "Energy",
+      "charging_time": "Charging Time",
+      "parking_time": "Parking Time",
+      "create_title": "Create Pricing Definition",
+      "pricing_definition_description": "Description",
+      "pricing_definition_name": "Pricing Definition Name",
+      "pricing_definition_creation_confirm": "Do you really want to create a pricing definition?",
+      "pricing_definition_creation_success": "Pricing definition has been created successfully",
+      "pricing_definition_creation_error": "Error occurred while creating a pricing definition, check the logs",
+      "pricing_definition_site_admin_creation_error": "You must provide a site linked to this pricing definition",
+      "pricing_definition_update_title": "Update Pricing definition",
+      "pricing_definition_update_confirm": "Do you really want to update the pricing definition?",
+      "pricing_definition_update_success": "Pricing definition has been updated successfully",
+      "pricing_definition_update_error": "Error occurred while updating a pricing definition, check the logs",
+      "pricing_definition_not_found": "Pricing definition has not been found",
+      "pricing_definition_delete_title": "Delete Pricing Definition",
+      "pricing_definition_delete_confirm": "Do you really want to delete the pricing definition?",
+      "pricing_definition_delete_success": "Pricing definition has been deleted successfully",
+      "pricing_definition_delete_error": "Error occurred while deleting a pricing definition, check the logs",
+      "pricing_definition_error": "Error occurred while retrieving the pricing definition, check the logs",
+      "connector_type": "Connector Type",
+      "connector_power": "Connector Power",
+      "value": "Value",
+      "unit": "Unit",
+      "charging_station": "Charging Station",
+      "pricing_dimensions_title": "Pricing Dimensions",
+      "pricing_definition_title": "Pricing Definition",
+      "step_size": "Step Size",
+      "connector_power_unit": "kW",
+      "flat_fee_unit": "{{currency}}/session",
+      "energy_unit": "{{currency}}/kWh",
+      "charging_time_unit": "{{currency}}/hour",
+      "parking_time_unit": "{{currency}}/hour",
+      "flat_fee_formatted_price": "{{price}}/session",
+      "energy_formatted_price": "{{price}}/kWh",
+      "charging_time_formatted_price": "{{price}}/hour",
+      "parking_time_formatted_price": "{{price}}/hour",
+      "energy_step_unit": "Wh",
+      "charging_time_step_unit": "Seconds",
+      "parking_time_step_unit": "Seconds"
     },
     "billing": {
       "description": "Das Abrechnungsinterface ermöglicht Abrechnungsfunktionen für den Ladestationenbetreiber.",
-      "deactivated_setting_message": "The billing of the charging sessions is active, the connection settings cannot be changed anymore.",
+      "deactivated_setting_message": "Die Abrechnung der Ladevorgänge ist aktiv, die Verbindungseinstellungen können nicht mehr geändert werden.",
       "not_found": "Keine Abrechnungseinstellungen gefunden",
       "not_properly_set": "Die Abrechnungseinstellungen sind nicht richtig konfiguriert",
       "create_success": "Abrechnungseinstellungen erfolgreich erstellt",
@@ -1513,8 +1588,8 @@
       "payment_methods_create_title": "Eine neue Zahlungsmethode erstellen ",
       "payment_methods_create_success": "Die Zahlungsmethode, die mit '{{last4}}' endet, wurde erfolgreich erstellt",
       "payment_methods_create_error": "Beim Erstellen der Zahlungsmethode ist ein Fehler aufgetreten, bitte überprüfen Sie die Logs",
-      "payment_methods_create_error_card_declined": "Your card has been declined, please provide a valid payment method",
-      "payment_methods_card_declined": "Card declined",
+      "payment_methods_create_error_card_declined": "Ihre Karte wurde abgelehnt, bitte geben Sie eine gültige Zahlungsmethode an",
+      "payment_methods_card_declined": "Karte abgelehnt",
       "payment_methods_delete_title": "Zahlungsmethode löschen",
       "payment_methods_delete_confirm": "Wollen Sie die Zahlungsmethode, die mit '{{last4}}' ended, wirklich löschen?",
       "payment_methods_delete_success": "Die Zahlungsmethode, die mit '{{last4}}' endet, wurde erfolgreich gelöscht",
@@ -1534,11 +1609,17 @@
       "payment_methods_card_number_error": "Ungültige Kartennummer",
       "payment_methods_expiration_date_error": "Ungültiges Ablaufdatum",
       "payment_methods_cvc_error": "Ungültiger Verifizierungscode",
-      "transaction_billing_activation": "Billing Activation",
-      "transaction_billing_activation_title": "Billing Activation",
-      "transaction_billing_activation_confirm": "Do you really want to activate the billing of charging sessions? <br><br> <strong> WARNING ! </strong> Once activated, you will NOT be able to deactivate it !",
-      "transaction_billing_activation_success": "Billing of charging sessions has been successfully activated",
-      "transaction_billing_activation_error": "Billing of charging sessions cannot be activated",
+      "transaction_billing_activation": "Rechnungslegung aktivieren",
+      "transaction_billing_activation_title": "Rechnungslegung aktivieren",
+      "transaction_billing_activation_confirm": "Möchten Sie die Abrechnung von Ladevorgängen wirklich aktivieren? <br><br> <strong> WARNUNG ! </strong> Einmal aktiviert, können Sie NICHT mehr deaktiviert werden!",
+      "transaction_billing_activation_success": "Die Abrechnung von Ladevorgängen wurde erfolgreich aktiviert",
+      "transaction_billing_activation_error": "Die Abrechnung von Ladevorgängen kann nicht aktiviert werden",
+      "billing_clear_test_data": "Testdaten löschen",
+      "billing_clear_test_data_title": "Testdaten löchen",
+      "billing_clear_test_data_confirm": "Wollen Sie wirklich alle Testdaten für die Rechnungslegung löschen?",
+      "billing_clear_test_data_success": "Die Testdaten wurden gelöscht",
+      "billing_clear_test_data_error": "Operation fehlgeschlagen. Löschen der Testdaten wurde abgebrochen",
+      "payment_methods": "Payment methods",
       "user": {
         "synchronize_users": "Abrechnungssynchronisierung",
         "synchronize_user": "Abrechnungssynchronisierung",
@@ -1639,7 +1720,8 @@
         "schneider": "Schneider Building Management System",
         "greencom": "GreenCom Asset Management System",
         "iothink": "ioThink Asset Management System",
-        "wit": "WIT Asset Management System"
+        "wit": "WIT Asset Management System",
+        "lacroix": "LACROIX Asset Management System"
       },
       "connection_success": "Die Verbindung zum System wurde erfolgreich getestet.",
       "unknown_connection_error": "Unbekannter Verbindungsfehler",
@@ -1667,7 +1749,14 @@
         "delete_confirm": "Möchten Sie wirklich die Fahrzeug-Schnittstelle '{{carConnectorConnectionName}}' löschen?"
       },
       "types": {
-        "mercedes": "Mercedes Schnittstelle"
+        "mercedes": "Mercedes Schnittstelle",
+        "tronity": "Tronity Schnittstelle"
+      },
+      "mercedes": {
+        "link_success": "Ihr Account wurde erfolgreich mit Mercedes verbunden",
+        "link_error": "Beim Verbinden mit Mercedes ist ein Fehler aufgetreten",
+        "revoke_success": "Ihre Verbindung mit Mercedes wurde erfolgreich widerrufen",
+        "revoke_error": "Beim Widerrufen Ihrer Verbindung zu Mercedes ist ein Fehler aufgetreten"
       },
       "description": "E-Mobility ist in der Lage Fahrzeugdaten wie z.B. Batteriestand zu empfangen und diese Informationen für Smart Charging und die Optimierung von Ladevorgängen nutzen",
       "setting_do_not_exist": "Die Konfiguration wurde nicht gefunden",
@@ -1762,7 +1851,7 @@
     "trigger_jobs_title": "Jobs ausführen",
     "trigger_jobs_confirm": "Wollen Sie die Ausführung aller IOP '{{name}}' Jobs auslösen?",
     "trigger_ocpi_action": "Die Aktion wurde erfolgreich gesendet und braucht eventuell etwas Verarbeitungszeit",
-    "ocpi_action_in_progress": "You cannot start twice the same action, there is already one running in the background",
+    "ocpi_action_in_progress": "Die Aktion kann nur einmal gestartet werden, sie läuft bereits im Hintergrund",
     "pull_locations_title": "Standorte abrufen",
     "pull_locations_confirm": "Wollen Sie alle Standorte von IOP '{{name}}' abrufen?",
     "pull_locations_success": "Die Anfrage wurde akzeptiert, die Standorte werden nun asynchron abgerufen",
@@ -1822,6 +1911,7 @@
     "roaming_platforms": "Interoperabilitäts-Plattform",
     "cpo": "Ladepunkt Operator Identifikation",
     "emsp": "E-Mobility Service Provider Identifikation",
+    "tariffID": "Tariff ID",
     "description": "Open Charge Point Interface",
     "details": "Identifikation",
     "country_code": "Ländercode",
@@ -1958,7 +2048,16 @@
     "graph": {
       "power": "Aktuelle Leistung (kW)",
       "no_consumption": "Keine Verbrauchsdaten verfügbar",
-      "limit_watts": "Limit (kW)"
+      "asset_consumption_watts": "Asset Verbrauch (kW)",
+      "asset_production_watts": "Asset Produktion (kW)",
+      "charging_station_consumption_watts": "Ladestationen-Verbrauch (kW)",
+      "net_consumption_watts": "Net Verbrauch (kW)",
+      "limit_watts": "Limit (kW)",
+      "asset_consumption_amps": "Asset Verbrauch (A)",
+      "asset_production_amps": "Asset Produktion (A)",
+      "charging_station_consumption_amps": "Ladestationen-Verbrauch (A)",
+      "net_consumption_amps": "Net Verbrauch (A)",
+      "limit_amps": "Limit (A)"
     }
   },
   "asset": {
@@ -1977,6 +2076,8 @@
   "cars": {
     "vin": "VIN",
     "license_plate": "Kennzeichen",
+    "user": "Nutzer",
+    "assign_user": "Nutzer zuordnen",
     "vehicle_model": "Modell",
     "vehicle_make": "Hersteller",
     "vehicle_model_version": "Version",
@@ -2068,6 +2169,8 @@
     "delete_confirm": "Möchten Sie das Fahrzeug  '{{carName}}' wirklich löschen?",
     "users": "Nutzer",
     "select_car": "Fahrzeug auswählen",
+    "car_connector_name": "Name der Verbindung",
+    "car_connector_meter_id": "Fahrzeug ID für die Verbindung",
     "unit": {
       "meters": "m",
       "seconde": "sek",
@@ -2083,7 +2186,7 @@
     }
   },
   "car": {
-    "title": "Fahrzeug Management",
+    "title": "Fahrzeug",
     "description": "Fahrzeuge verwalten",
     "tabs": {
       "car_catalogs": "Fahrzeugverzeichnisse",
@@ -2159,6 +2262,7 @@
     "charging_station": "Ladestation",
     "started_at": "Gestartet am",
     "end_date": "Enddatum",
+    "stop_reason": "Grund",
     "consumption": "Verbrauch",
     "transactions_button": "Ladevorgänge",
     "transaction_today": "Heute",
@@ -2229,8 +2333,8 @@
     "create_invoice_success": "Für diesen Ladevorgang wurde erfolgreich eine Rechnung erstellt.",
     "create_invoice_error": "Während der Erstellung der Rechnung für den Ladevorgang ist ein Fehler aufgetreten",
     "redirect": "Zu den Ladevorgängen navigieren",
-    "error_start_no_payment_method": "Service unavailable, please go to your profile to provide a payment method.",
-    "error_start_general": "Service temporarily unavailable, please contact the support.",
+    "error_start_no_payment_method": "Service nicht verfügbar, bitte geben Sie eine Zahlungsmethode in Ihrem Profil an",
+    "error_start_general": "Der Dienst ist vorübergehend nicht verfügbar, bitte kontaktieren Sie den Support",
     "filter": {
       "type": {
         "name": "Typ",
@@ -2353,6 +2457,11 @@
         "description": "Der Ladevorgang beinhaltet keine metrischen Werte.",
         "action": "Überprüfen Sie die Einstellungen Ihrer Ladestation. Vergewissern Sie sich, dass die Ladestation metrische Werte sendet."
       },
+      "low_consumption": {
+        "title": "Geringer Verbrauch",
+        "description": "Der Ladevorgang hat einen Verbrauch < 1 kWh",
+        "action": "Überprüfen Sie die Einstellungen der Ladestation. Stellen Sie sicher, dass die Ladestation die Zählerwerte sendet"
+      },
       "average_consumption_greater_than_connector_capacity": {
         "title": "Verbrauch zu hoch",
         "description": "Die durchschnittliche Ladeleistung ist höher als die Kapazität des Anschlusses.",
@@ -2364,14 +2473,19 @@
         "action": "Überprüfen Sie die Einstellungen der Ladestation. Vergewissern Sie sich, dass metrische Werte in der richtigen Reihenfolge gesendet werden."
       },
       "long_inactivity": {
-        "title": "Inaktivität über 24h",
-        "description": "Die Inaktivität Ihres Ladevorgangs ist größer als 24h.",
+        "title": "Hohe Inaktivität",
+        "description": "Die Inaktivität Ihres Ladevorgangs > 24h.",
         "action": "Überprufen des Ladevorganges"
       },
       "negative_duration": {
         "title": "Negative Dauer",
         "description": "Die Dauer Ihres Ladevorganges ist negativ.",
         "action": "Überprüfen Sie die Einstellungen der Ladestation. Vergewissern Sie sich, dass metrische Werte in der richtigen Reihenfolge gesendet werden."
+      },
+      "low_duration": {
+        "title": "Geringe Dauer",
+        "description": "Die Dauer der Session ist < 1 minute",
+        "action": "Überprüfen Sie die Einstellungen der Ladestation. Stellen Sie sicher, dass die Zählerwerte korrekt gesendet werden"
       },
       "missing_price": {
         "title": "Fehlender Preis",
@@ -2423,9 +2537,8 @@
     "preparing_session_not_started": "Benachrichtigen Sie mich, wenn ein Ladevorgang nicht gestartet wurde (nur Standortbesitzer)",
     "ocpi_patch_status_error": "Benachrichtigen Sie mich, wenn der Transfer eines Ladestationsstatuses zur Roaming Plattform fehlgeschlagen ist (OCPI)",
     "oicp_patch_status_error": "Benachrichtigen Sie mich, wenn der Transfer eines Ladestationsstatuses zur Roaming Plattform fehlgeschlagen ist (OICP)",
-    "smtp_error": "Benachrichtigen Sie mich, wenn ein Fehler beim E-Mail-Server auftritt",
     "billing_synchronization_failed": "Benachrichtigen Sie mich, wenn eine Synchronisierung mit dem Abrechnungssystem fehlgeschlagen ist",
-    "billing_periodic_operation_failed": "Notify me when a periodic billing operation has failed",
+    "billing_periodic_operation_failed": "Benachrichtigen Sie mich, wenn ein periodischer Abrechnungsvorgang fehlgeschlagen ist",
     "session_not_started": "Benachrichtigen Sie mich, wenn kein Ladevorgang nach dem authentifizieren gestartet wurde",
     "user_account_inactivity": "Benachrichtigen Sie mich, wenn ich mich seit mehr als 6 Monaten nicht eingeloggt habe",
     "car_catalog_synchronization_failed": "Benachrichtigen Sie mich, wenn bei der Synchronisierung der Fahrzeuge ein Fehler auftrat",

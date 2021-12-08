@@ -1,14 +1,13 @@
 import { Inject, Injectable } from '@angular/core';
+import { parse } from 'tldts';
 
 import { WINDOW } from '../providers/window.provider';
-import { ConfigService } from './config.service';
 
 @Injectable()
 export class WindowService {
   // eslint-disable-next-line no-useless-constructor
   public constructor(
-    @Inject(WINDOW) private window: Window,
-    private configService: ConfigService) {}
+    @Inject(WINDOW) private window: Window) {}
 
   public getHostname(): string {
     return this.window.location.hostname;
@@ -36,8 +35,8 @@ export class WindowService {
   }
 
   public getSubdomain(): string {
-    const subdomain = this.getHostname().split(this.configService.getFrontEnd().host)[0];
-    return subdomain.split('.')[0];
+    const urlParsed = parse(this.window.location.host);
+    return urlParsed.publicSuffix === 'localhost' ? urlParsed.domainWithoutSuffix : urlParsed.subdomain;
   }
 
   public getLocalStorage(): Storage {

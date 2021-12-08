@@ -8,7 +8,6 @@ import { IssuerFilter } from 'shared/table/filters/issuer-filter';
 import { SiteTableFilter } from 'shared/table/filters/site-table-filter';
 
 import { AuthorizationService } from '../../../services/authorization.service';
-import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
@@ -26,7 +25,7 @@ import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto
 import { TableOpenURLActionDef } from '../../../shared/table/actions/table-open-url-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { TableExportTransactionsAction, TableExportTransactionsActionDef } from '../../../shared/table/actions/transactions/table-export-transactions-action';
-import { TableOpenURLConcurAction } from '../../../shared/table/actions/transactions/table-open-url-concur-action';
+import { TableOpenURLRefundAction } from '../../../shared/table/actions/transactions/table-open-url-concur-action';
 import { TableRefundTransactionsAction, TableRefundTransactionsActionDef } from '../../../shared/table/actions/transactions/table-refund-transactions-action';
 import { TableSyncRefundTransactionsAction, TableSyncRefundTransactionsActionDef } from '../../../shared/table/actions/transactions/table-sync-refund-transactions-action';
 import { ChargingStationTableFilter } from '../../../shared/table/filters/charging-station-table-filter';
@@ -37,11 +36,10 @@ import { StartDateFilter } from '../../../shared/table/filters/start-date-filter
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { CarCatalog } from '../../../types/Car';
-import ChangeNotification from '../../../types/ChangeNotification';
 import { DataResult, TransactionRefundDataResult } from '../../../types/DataResult';
 import { RefundSettings } from '../../../types/Setting';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
-import TenantComponents from '../../../types/TenantComponents';
+import { TenantComponents } from '../../../types/Tenant';
 import { Transaction, TransactionButtonAction } from '../../../types/Transaction';
 import { User } from '../../../types/User';
 import { Constants } from '../../../utils/Constants';
@@ -53,7 +51,10 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
   private refundTransactionEnabled = false;
   private refundSetting!: RefundSettings;
   private isAdmin: boolean;
-  private tableSyncRefundAction = new TableSyncRefundTransactionsAction().getActionDef();
+  private syncRefundAction = new TableSyncRefundTransactionsAction().getActionDef();
+  private exportTransactionsAction = new TableExportTransactionsAction().getActionDef();
+  private refundTransactionsAction = new TableRefundTransactionsAction().getActionDef();
+  private openURLRefundAction = new TableOpenURLRefundAction().getActionDef();
 
   public constructor(
     public spinnerService: SpinnerService,
@@ -61,7 +62,6 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
     private messageService: MessageService,
     private dialogService: DialogService,
     private router: Router,
-    private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
     private componentService: ComponentService,
     private authorizationService: AuthorizationService,
@@ -78,13 +78,12 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
     // Load settings
     this.loadRefundSettings();
     // Init
+    this.setStaticFilters([{
+      WithUser: true,
+      WithCar: true,
+      Statistics: 'refund',
+    }]);
     this.initDataSource();
-    // Add statistics to query
-    this.setStaticFilters([{ Statistics: 'refund' }]);
-  }
-
-  public getDataChangeSubject(): Observable<ChangeNotification> {
-    return this.centralServerNotificationService.getSubjectTransactions();
   }
 
   public loadDataImpl(): Observable<DataResult<Transaction>> {
@@ -93,12 +92,14 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
       filters['MinimalPrice'] = '0';
       this.centralServerService.getTransactionsToRefund(filters, this.getPaging(), this.getSorting())
         .subscribe((transactions) => {
-          // Ok
+          this.syncRefundAction.visible = true;
+          this.exportTransactionsAction.visible = true;
+          this.refundTransactionsAction.visible = this.refundTransactionEnabled;
+          this.openURLRefundAction.visible = this.refundTransactionEnabled;
           observer.next(transactions);
           observer.complete();
         }, (error) => {
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-          // Error
           observer.error(error);
         });
     });
@@ -153,12 +154,6 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
         class: 'd-none d-xl-table-cell',
       },
       {
-        id: 'user',
-        name: 'transactions.user',
-        class: 'text-left',
-        formatter: (user: User) => this.appUserNamePipe.transform(user),
-      },
-      {
         id: 'refundData.reportId',
         name: 'transactions.reportId',
         sortable: true,
@@ -184,6 +179,26 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
         formatter: (value) => this.datePipe.transform(value),
       },
       {
+        id: 'chargeBoxID',
+        name: 'transactions.charging_station',
+        headerClass: 'col-15p',
+        sortable: true,
+        class: 'text-left col-15p',
+      },
+      {
+        id: 'connectorId',
+        name: 'chargers.connector',
+        headerClass: 'text-center col-10p',
+        class: 'text-center col-10p',
+        formatter: (connectorId: number) => this.appConnectorIdPipe.transform(connectorId),
+      },
+      {
+        id: 'user',
+        name: 'transactions.user',
+        class: 'text-left',
+        formatter: (user: User) => this.appUserNamePipe.transform(user),
+      },
+      {
         id: 'stop.totalDurationSecs',
         name: 'transactions.duration',
         class: 'text-left',
@@ -199,23 +214,9 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
         name: 'transactions.price',
         formatter: (price, row) => this.appCurrencyPipe.transform(price, row.stop.priceUnit),
       },
-      {
-        id: 'chargeBoxID',
-        name: 'transactions.charging_station',
-        headerClass: 'col-15p',
-        sortable: true,
-        class: 'text-left col-15p',
-      },
-      {
-        id: 'connectorId',
-        name: 'chargers.connector',
-        headerClass: 'text-center col-10p',
-        class: 'text-center col-10p',
-        formatter: (connectorId: number) => this.appConnectorIdPipe.transform(connectorId),
-      },
     );
     if (this.componentService.isActive(TenantComponents.CAR) &&
-        this.authorizationService.canListCars()) {
+      this.authorizationService.canListCars()) {
       columns.push({
         id: 'carCatalog',
         name: 'car.title',
@@ -285,17 +286,16 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
   }
 
   public buildTableActionsDef(): TableActionDef[] {
-    let tableActionsDef = super.buildTableActionsDef();
-    tableActionsDef.unshift(new TableExportTransactionsAction().getActionDef());
+    const tableActionsDef = super.buildTableActionsDef();
+    tableActionsDef.unshift(this.exportTransactionsAction);
     if (this.refundTransactionEnabled) {
-      tableActionsDef = [
-        ...tableActionsDef,
-        new TableRefundTransactionsAction().getActionDef(),
-        new TableOpenURLConcurAction().getActionDef(),
-      ];
+      tableActionsDef.unshift(
+        this.refundTransactionsAction,
+        this.openURLRefundAction,
+      );
       if (this.isAdmin) {
-        tableActionsDef.push(
-          this.tableSyncRefundAction,
+        tableActionsDef.unshift(
+          this.syncRefundAction,
         );
       }
     }
@@ -321,7 +321,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
           );
         }
         break;
-      case TransactionButtonAction.OPEN_CONCUR_URL:
+      case TransactionButtonAction.OPEN_REFUND_URL:
         if (!this.refundSetting) {
           this.messageService.showErrorMessage(
             this.translateService.instant('transactions.notification.refund.concur_connection_invalid'));

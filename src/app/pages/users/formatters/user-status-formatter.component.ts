@@ -32,7 +32,7 @@ export class AppFormatUserStatusPipe implements PipeTransform {
   }
 
   public buildUserStatusClasses(status: string): string {
-    let classNames = 'chip-width-5em ';
+    let classNames = 'chip-width-8em ';
     switch (status) {
       case UserStatus.ACTIVE:
         classNames += ChipType.SUCCESS;

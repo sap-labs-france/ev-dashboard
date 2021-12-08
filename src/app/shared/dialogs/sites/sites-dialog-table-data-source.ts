@@ -27,16 +27,12 @@ export class SitesDialogTableDataSource extends DialogTableDataSource<Site> {
 
   public loadDataImpl(): Observable<DataResult<Site>> {
     return new Observable((observer) => {
-      // Get data
       this.centralServerService.getSites(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((sites) => {
-        // Ok
         observer.next(sites);
         observer.complete();
       }, (error) => {
-        // No longer exists!
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        // Error
         observer.error(error);
       });
     });

@@ -6,7 +6,6 @@ import { Observable } from 'rxjs';
 import { TableMoreAction } from 'shared/table/actions/table-more-action';
 
 import { AuthorizationService } from '../../../services/authorization.service';
-import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
@@ -22,10 +21,9 @@ import { CarMakerTableFilter } from '../../../shared/table/filters/car-maker-tab
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { Car, CarButtonAction, CarConverter, CarType } from '../../../types/Car';
-import ChangeNotification from '../../../types/ChangeNotification';
 import { DataResult } from '../../../types/DataResult';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
-import { User, UserCar } from '../../../types/User';
+import { User } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';
 import { CarDialogComponent } from '../car/car.dialog.component';
 import { CarCatalogImageFormatterCellComponent } from '../cell-components/car-catalog-image-formatter-cell.component';
@@ -42,7 +40,6 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
     public translateService: TranslateService,
     private messageService: MessageService,
     private router: Router,
-    private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
     private dialog: MatDialog,
     private datePipe: AppDatePipe,
@@ -52,13 +49,11 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
   ) {
     super(spinnerService, translateService);
     // With users (shouldn't be that many users per car)
-    this.setStaticFilters([{ WithUsers: true }]);
+    this.setStaticFilters([{
+      WithUser: true
+    }]);
     // Init
     this.initDataSource();
-  }
-
-  public getDataChangeSubject(): Observable<ChangeNotification> {
-    return this.centralServerNotificationService.getSubjectCars();
   }
 
   public getPageSize(): number {
@@ -73,9 +68,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
         observer.next(cars);
         observer.complete();
       }, (error) => {
-        // Show error
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.cars_error');
-        // Error
         observer.error(error);
       });
     });
@@ -140,11 +133,11 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
         formatter: (vehicleModelVersion: string) => vehicleModelVersion ? vehicleModelVersion : '-',
       },
       {
-        id: 'carUsers',
+        id: 'user',
         name: 'cars.users',
         headerClass: 'col-20p',
         class: 'col-20p',
-        formatter: (carUsers: UserCar[]) => Utils.buildCarUsersFullName(carUsers),
+        formatter: (user: User) => Utils.buildUserFullName(user),
       },
       {
         id: 'licensePlate',
@@ -165,19 +158,9 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
         name: 'cars.default_car',
         headerClass: 'text-center col-10p',
         class: 'text-center col-10p',
-        formatter: (defaultCar: boolean, car: Car) => car.carUsers.find((userCar) => userCar.default) ?
-          this.translateService.instant('general.yes') : this.translateService.instant('general.no'),
-      },
-      {
-        id: 'owner',
-        name: 'cars.car_owner',
-        headerClass: 'text-center col-10p',
-        class: 'text-center col-10p',
-        formatter: (carOwner: boolean, car: Car) => car.carUsers.find((userCar) => userCar.owner) ?
-          this.translateService.instant('general.yes') : this.translateService.instant('general.no')
+        formatter: (defaultCar: boolean) => Utils.displayYesNo(this.translateService, defaultCar),
       }
     );
-
     tableColumnDef.push(
       {
         id: 'converter',
@@ -250,14 +233,12 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {
-    if (this.authorizationService.isAdmin()) {
-      return [
-        new UserTableFilter().getFilterDef(),
-        new CarMakerTableFilter().getFilterDef(),
-
-      ];
+    const tableFilterDef: TableFilterDef[] = [];
+    if (this.authorizationService.canListUsers()) {
+      tableFilterDef.push(new UserTableFilter().getFilterDef());
     }
-    return [];
+    tableFilterDef.push(new CarMakerTableFilter().getFilterDef());
+    return tableFilterDef;
   }
 
   public buildTableActionsRightDef(): TableActionDef[] {

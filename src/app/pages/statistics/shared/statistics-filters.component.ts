@@ -49,7 +49,6 @@ export class StatisticsFiltersComponent implements OnInit {
 
   public ongoingRefresh = false;
   public isAdmin!: boolean;
-  public isOrganizationActive!: boolean;
   public selectedYear!: number;
   public transactionYears!: number[];
   public sacLinks!: SettingLink[];
@@ -78,6 +77,7 @@ export class StatisticsFiltersComponent implements OnInit {
       this.language = locale.language;
       moment.locale(this.language);
     });
+    this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
     const issuerFilter = new IssuerFilter().getFilterDef();
     const dateRangeFilter = new DateRangeTableFilter(this.language).getFilterDef();
     this.tableFiltersDef.push(dateRangeFilter);
@@ -89,6 +89,13 @@ export class StatisticsFiltersComponent implements OnInit {
     this.tableFiltersDef.push(chargingStationFilter);
     const userFilter = new UserTableFilter([issuerFilter, siteFilter]).getFilterDef();
     this.tableFiltersDef.push(userFilter);
+    if (!this.componentService.isActive(TenantComponents.ORGANIZATION)) {
+      siteFilter.visible = false;
+      siteAreaFilter.visible = false;
+    }
+    if (this.isAdmin) {
+      userFilter.visible = true;
+    }
   }
 
   public openDateRange() {
@@ -96,16 +103,17 @@ export class StatisticsFiltersComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
-    this.isOrganizationActive = this.componentService.isActive(TenantComponents.ORGANIZATION);
     this.category.emit(this.selectedCategory);
     this.selectedYear = new Date().getFullYear();
     this.year.emit(this.selectedYear);
     // Get the years from the existing transactions
     this.centralServerService.getTransactionYears().subscribe((transactionYears) => {
       this.transactionYears = transactionYears;
+      if (!this.transactionYears) {
+        this.transactionYears = [];
+      }
       // To be safe always add the current year:
-      if (this.transactionYears.indexOf(this.selectedYear) < 0) {
+      if (this.transactionYears?.indexOf(this.selectedYear) < 0) {
         this.transactionYears.push(this.selectedYear);
       }
       if (this.allYears) {
@@ -113,45 +121,26 @@ export class StatisticsFiltersComponent implements OnInit {
       }
     });
     // Get SAC links
-    this.componentService.getSacSettings().subscribe((sacSettings) => {
-      if (this.isAdmin) {
-        this.sacLinks = sacSettings.links;
-      } else {
-        this.sacLinks = [];
-        for (const sacLink of sacSettings.links) {
-          if (sacLink.role === 'D') {
-            this.sacLinks.push(sacLink);
+    if (this.componentService.isActive(TenantComponents.ANALYTICS)) {
+      this.componentService.getSacSettings().subscribe((sacSettings) => {
+        if (this.isAdmin) {
+          this.sacLinks = sacSettings.links;
+        } else {
+          this.sacLinks = [];
+          for (const sacLink of sacSettings.links) {
+            if (sacLink.role === 'D') {
+              this.sacLinks.push(sacLink);
+            }
           }
         }
-      }
-      if (!Utils.isEmptyArray(this.sacLinks)) {
-        this.sacLinksActive = true;
-      } else {
-        this.sacLinksActive = false;
-      }
-    });
-    this.setActiveButtonOfScopeGroup();
-    // Provided filters
-    if (this.tableFiltersDef) {
-      for (const tableFilterDef of this.tableFiltersDef) {
-        tableFilterDef.multiple = true;
-        switch (tableFilterDef.id) {
-          case 'sites':
-          case 'siteAreas':
-            if (this.isOrganizationActive) {
-              tableFilterDef.visible = true;
-            }
-            break;
-          case 'user':
-            if (this.isAdmin) {
-              tableFilterDef.visible = true;
-            }
-            break;
-          default:
-            tableFilterDef.visible = true;
+        if (!Utils.isEmptyArray(this.sacLinks)) {
+          this.sacLinksActive = true;
+        } else {
+          this.sacLinksActive = false;
         }
-      }
+      });
     }
+    this.setActiveButtonOfScopeGroup();
     this.setDateFilterYear();
     this.setDateRangeFilterYear(true);
     this.filterParams = this.buildFilterValues();

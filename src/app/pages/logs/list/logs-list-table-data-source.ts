@@ -4,8 +4,10 @@ import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { ComponentService } from 'services/component.service';
 import { ChargingStationTableFilter } from 'shared/table/filters/charging-station-table-filter';
 import { SiteTableFilter } from 'shared/table/filters/site-table-filter';
+import { TenantComponents } from 'types/Tenant';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -42,6 +44,7 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
     private messageService: MessageService,
     private dialogService: DialogService,
     private authorizationService: AuthorizationService,
+    private componentService: ComponentService,
     private router: Router,
     private centralServerService: CentralServerService,
     private datePipe: AppDatePipe,
@@ -256,6 +259,9 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
       ];
     } else {
       const siteFilter = new SiteTableFilter().getFilterDef();
+      if (!this.componentService.isActive(TenantComponents.ORGANIZATION)) {
+        siteFilter.visible = false;
+      }
       return [
         new StartDateFilter(moment().startOf('d').toDate()).getFilterDef(),
         new EndDateFilter().getFilterDef(),

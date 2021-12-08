@@ -829,7 +829,8 @@ export class CentralServerService {
     const url = this.buildRestEndpointUrl(ServerRoute.REST_TAG, { id: tagID });
     return this.httpClient.get<Tag>(url,
       {
-        headers: this.buildHttpHeaders()
+        headers: this.buildHttpHeaders(),
+        params
       })
       .pipe(
         catchError(this.handleHttpError),
@@ -843,7 +844,7 @@ export class CentralServerService {
     params['VisualID'] = tagVisualID;
     params['WithUser'] = 'true';
     // Execute the REST service
-    return this.httpClient.get<Tag>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TAG_BY_VISUAL_ID}`,
+    return this.httpClient.get<Tag>(this.buildRestEndpointUrl(ServerRoute.REST_TAGS),
       {
         headers: this.buildHttpHeaders(),
         params
@@ -887,11 +888,11 @@ export class CentralServerService {
       );
   }
 
-  public deleteTag(visualID: string): Observable<ActionResponse> {
+  public deleteTag(id: string): Observable<ActionResponse> {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    const url = this.buildRestEndpointUrl(ServerRoute.REST_TAG, { id: visualID });
+    const url = this.buildRestEndpointUrl(ServerRoute.REST_TAG, { id });
     return this.httpClient.delete<ActionResponse>(url,
       {
         headers: this.buildHttpHeaders(),
@@ -983,7 +984,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TAG_UPDATE_BY_VISUAL_ID}`, tag,
+    return this.httpClient.put<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_TAGS), tag,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -1276,7 +1277,7 @@ export class CentralServerService {
   public exportTags(params: FilterParams): Observable<Blob> {
     // Verify init
     this.checkInit();
-    return this.httpClient.get(this.buildRestEndpointUrl(ServerRoute.REST_TAG_EXPORT),
+    return this.httpClient.get(this.buildRestEndpointUrl(ServerRoute.REST_TAGS_EXPORT),
       {
         headers: this.buildHttpHeaders(),
         responseType: 'blob',

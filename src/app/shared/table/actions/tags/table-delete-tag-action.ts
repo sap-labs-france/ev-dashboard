@@ -34,7 +34,7 @@ export class TableDeleteTagAction extends TableDeleteAction {
     ).subscribe((result) => {
       if (result === ButtonType.YES) {
         spinnerService.show();
-        centralServerService.deleteTag(tag.visualID).subscribe((response) => {
+        centralServerService.deleteTag(tag.id).subscribe((response) => {
           spinnerService.hide();
           if (response.status === RestResponse.SUCCESS) {
             messageService.showSuccessMessage(

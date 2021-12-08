@@ -920,7 +920,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TAGS_UNASSIGN}`, { visualIDs }, {
+    return this.httpClient.put<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_TAGS_UNASSIGN), { visualIDs }, {
       headers: this.buildHttpHeaders()
     })
       .pipe(
@@ -932,7 +932,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TAG_UNASSIGN}`, { visualID }, {
+    return this.httpClient.put<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_TAG_UNASSIGN, { id: visualID }), {}, {
       headers: this.buildHttpHeaders()
     })
       .pipe(
@@ -971,7 +971,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TAG_ASSIGN}`, tag,
+    return this.httpClient.put<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_TAG_ASSIGN, { id: tag.visualID }), tag,
       {
         headers: this.buildHttpHeaders(),
       })

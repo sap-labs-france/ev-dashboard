@@ -8,20 +8,20 @@ import { PricingButtonAction, PricingDefinitionDialogData } from '../../../types
 import { TableActionDef } from '../../../types/Table';
 import { TableViewPricingListAction } from './table-pricing-action';
 
-export interface TableViewPricingsActionDef extends TableActionDef {
+export interface TableViewPricingDefinitionsActionDef extends TableActionDef {
   action: (pricingDialogComponent: ComponentType<unknown>, dialog: MatDialog,
     dialogParams: DialogParams<PricingDefinitionDialogData>, refresh?: () => Observable<void>) => void;
 }
-export class TableViewPricingsAction extends TableViewPricingListAction {
-  public getActionDef(): TableViewPricingsActionDef {
+export class TableViewPricingDefinitionsAction extends TableViewPricingListAction {
+  public getActionDef(): TableViewPricingDefinitionsActionDef {
     return {
       ...super.getActionDef(),
       id: PricingButtonAction.VIEW_PRICING_DEFINITIONS,
-      action: this.viewPricings,
+      action: this.viewPricingDefinitions,
     };
   }
 
-  private viewPricings(pricingDialogComponent: ComponentType<unknown>, dialog: MatDialog,
+  private viewPricingDefinitions(pricingDialogComponent: ComponentType<unknown>, dialog: MatDialog,
     dialogParams: DialogParams<PricingDefinitionDialogData>, refresh?: () => Observable<void>) {
     super.view(pricingDialogComponent, dialog, dialogParams, refresh, {
       minWidth: ScreenSize.L,

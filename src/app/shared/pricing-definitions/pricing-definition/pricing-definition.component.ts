@@ -14,6 +14,7 @@ import { ActionResponse } from '../../../types/DataResult';
 import { RestResponse } from '../../../types/GlobalType';
 import { HTTPError } from '../../../types/HTTPError';
 import PricingDefinition, { PricingDimensions } from '../../../types/Pricing';
+import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 import { CONNECTOR_TYPE_SELECTION_MAP } from '../../formatters/app-connector-type-selection.pipe';
 import { PricingDefinitionDialogComponent } from './pricing-definition.dialog.component';
@@ -29,6 +30,7 @@ export class PricingDefinitionComponent implements OnInit {
   @Input() public currentPricingDefinitionID!: string;
   @Input() public currentEntityID!: string;
   @Input() public currentEntityType!: string;
+  @Input() public currentEntityName: string;
 
   public formGroup!: FormGroup;
   public currentPricingDefinition: PricingDefinition;
@@ -97,23 +99,21 @@ export class PricingDefinitionComponent implements OnInit {
 
   public ngOnInit(): void {
     // TODO : show current entity name instead of id - for others than charging station c'est pas relevant
-    this.context = this.currentEntityType === Entity.TENANT ? this.centralServerService.getLoggedUser().tenantName : this.currentEntityID;
+    this.context = this.currentEntityType === Entity.TENANT ? this.centralServerService.getLoggedUser().tenantName : this.currentEntityName;
     this.formGroup = new FormGroup({
       id: new FormControl(),
       entityID: new FormControl(this.currentEntityID),
       entityType: new FormControl(this.currentEntityType),
-      // TODO: add restrictions fields
       restrictions: new FormGroup({}),
       name: new FormControl('',
         Validators.compose([
           Validators.required,
-          Validators.maxLength(100),
         ])),
       staticRestrictions: new FormGroup({
         validFrom: new FormControl(null),
         validTo: new FormControl(null),
         connectorPowerEnabled: new FormControl(false),
-        connectorPowerkW: new FormControl(null, Validators.pattern('[0-9]*[,.]?[0-9]{1,2}')),
+        connectorPowerkW: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)),
         connectorType: new FormControl('A',
           Validators.compose([
             Validators.required,
@@ -122,28 +122,27 @@ export class PricingDefinitionComponent implements OnInit {
       }),
       description: new FormControl('', Validators.compose([
         Validators.required,
-        Validators.maxLength(100),
       ])),
       dimensions: new FormGroup({
         flatFee: new FormGroup({
           active: new FormControl(false),
-          price: new FormControl(null, Validators.pattern('[0-9]*[,.]?[0-9]{1,2}')),
+          price: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)),
         }),
         energy: new FormGroup({
           active: new FormControl(false),
-          price: new FormControl(null, Validators.pattern('[0-9]*[,.]?[0-9]{1,2}')),
+          price: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)),
           stepSize: new FormControl(null),
           stepSizeEnabled: new FormControl(false)
         }),
         chargingTime: new FormGroup({
           active: new FormControl(false),
-          price: new FormControl(null, Validators.pattern('[0-9]*[,.]?[0-9]{1,2}')),
+          price: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)),
           stepSize: new FormControl(null),
           stepSizeEnabled: new FormControl(false)
         }),
         parkingTime: new FormGroup({
           active: new FormControl(false),
-          price: new FormControl(null, Validators.pattern('[0-9]*[,.]?[0-9]{1,2}')),
+          price: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)),
           stepSize: new FormControl(null),
           stepSizeEnabled: new FormControl(false)
         }),
@@ -216,6 +215,7 @@ export class PricingDefinitionComponent implements OnInit {
         // Force refresh the form
         this.formGroup.updateValueAndValidity();
         this.formGroup.markAsPristine();
+        // le markallastouched fout la marde et rend les champs number invalids ??????
         this.formGroup.markAllAsTouched();
       }, (error) => {
         this.spinnerService.hide();
@@ -256,7 +256,7 @@ export class PricingDefinitionComponent implements OnInit {
     if (event.checked) {
       this[`${event.source.id}Value`].setValidators(Validators.compose([
         Validators.required,
-        Validators.pattern('[0-9]*[,.]?[0-9]{1,2}')
+        Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)
       ]));
     } else {
       this[`${event.source.id}Value`].clearValidators();
@@ -344,7 +344,7 @@ export class PricingDefinitionComponent implements OnInit {
         delete pricingDefinition.dimensions[dimensionKey].price;
       }
     }
-    if (this.connectorType.value === 'A') {
+    if (this.connectorType.value === Constants.SELECT_ALL) {
       pricingDefinition.staticRestrictions.connectorType = null;
     }
   }

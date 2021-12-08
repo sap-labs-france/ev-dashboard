@@ -477,7 +477,6 @@ export abstract class TableDataSource<T extends TableData> {
         }
         // Build stats
         this.tableFooterStats = this.buildTableFooterStats(data);
-        // Ok
         this.setData(data.result);
         // Loading on going?
         if (!this.loadingNumberOfRecords) {
@@ -487,17 +486,13 @@ export abstract class TableDataSource<T extends TableData> {
             this.requestNumberOfRecords();
           }
         }
-        // Hide Spinner
         if (showSpinner) {
           this.spinnerService.hide();
         }
-        // Ok
         this.firstLoad = true;
-        // Notify
         observer.next();
         observer.complete();
       }, (error) => {
-        // Hide Spinner
         if (showSpinner) {
           this.spinnerService.hide();
         }

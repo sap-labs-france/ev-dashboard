@@ -60,17 +60,13 @@ export class AssetsInErrorTableDataSource extends TableDataSource<AssetInError> 
 
   public loadDataImpl(): Observable<DataResult<AssetInError>> {
     return new Observable((observer) => {
-      // Get data
       this.centralServerService.getAssetsInError(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((assets) => {
         this.formatErrorMessages(assets.result);
-        // Ok
         observer.next(assets);
         observer.complete();
       }, (error) => {
-        // No longer exists!
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        // Error
         observer.error(error);
       });
     });

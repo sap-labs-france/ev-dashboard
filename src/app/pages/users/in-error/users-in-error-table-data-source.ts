@@ -61,13 +61,10 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
       this.centralServerService.getUsersInError(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((users) => {
         this.formatErrorMessages(users.result);
-        // Ok
         observer.next(users);
         observer.complete();
       }, (error) => {
-        // Show error
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        // Error
         observer.error(error);
       });
     });

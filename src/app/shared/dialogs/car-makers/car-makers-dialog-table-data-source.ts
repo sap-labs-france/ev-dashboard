@@ -27,15 +27,11 @@ export class CarMakersTableDataSource extends DialogTableDataSource<CarMaker> {
 
   public loadDataImpl(): Observable<DataResult<CarMaker>> {
     return new Observable((observer) => {
-      // Get data
       this.centralServerService.getCarMakers(this.buildFilterValues()).subscribe((carMakers) => {
-        // Ok
         observer.next(carMakers);
         observer.complete();
       }, (error) => {
-        // No longer exists!
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        // Error
         observer.error(error);
       });
     });

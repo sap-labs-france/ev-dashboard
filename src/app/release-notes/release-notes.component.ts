@@ -23,6 +23,18 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.5.13',
+        date: new Date('2021-12-08'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added dependencies between filters in Statistics`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.5.12',
         date: new Date('2021-12-07'),
         componentChanges: [

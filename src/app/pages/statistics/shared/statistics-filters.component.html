@@ -87,7 +87,7 @@
     </div>
 
     <!-- dynamically defined filters, like for Site ID -->
-    <div *ngFor="let filterDef of statFiltersDef; let i=index" [hidden]="filterDef.hidden"
+    <div *ngFor="let filterDef of tableFiltersDef; let i=index" [hidden]="filterDef.hidden"
       [class]="(filterDef.class ? filterDef.class : '')">
       <!-- Dropdown Filter -->
       <mat-form-field *ngIf="filterDef.type === 'dropdown' && !filterDef.multiple">
@@ -110,7 +110,7 @@
         <input (click)="showDialogTableFilter(filterDef)" [placeholder]="filterDef.name | translate"
           [value]="(filterDef.currentValue ? filterDef.currentValue[0].value : filterDef.defaultValue) | translate"
           class="form-field-popup" matInput readonly=true type="text" />
-        <button mat-icon-button matSuffix (click)="resetDialogTableFilter(filterDef)" aria-label="Add">
+        <button mat-icon-button matSuffix (click)="resetDialogTableFilter(filterDef)" aria-label="Clear">
           <mat-icon>clear</mat-icon>
         </button>
       </mat-form-field>
@@ -118,7 +118,7 @@
       <mat-form-field *ngIf="filterDef.type === 'dialog-table' && filterDef.multiple">
         <input (click)="showDialogTableFilter(filterDef)" [placeholder]="filterDef.name | translate"
           [value]="filterDef.label" class="form-field-popup" matInput readonly=true type="text" />
-        <button mat-icon-button matSuffix (click)="resetDialogTableFilter(filterDef)" aria-label="Add">
+        <button mat-icon-button matSuffix (click)="resetDialogTableFilter(filterDef)" aria-label="Clear">
           <mat-icon>clear</mat-icon>
         </button>
       </mat-form-field>
@@ -130,7 +130,6 @@
         <input matInput [placeholder]="filterDef.name | translate" (dateChange)="dateFilterChanged(filterDef, $event)"
           [matDatetimepicker]="picker" [value]="filterDef.currentValue" autocomplete="false">
       </mat-form-field>
-
       <mat-form-field *ngIf="filterDef.type === 'date-range'">
         <input matInput ngxDaterangepickerMd [timePicker]="filterDef.dateRangeTableFilterDef.timePicker"
           [timePickerSeconds]="filterDef.dateRangeTableFilterDef.timePickerSeconds"

@@ -1,22 +1,17 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { ChartData } from 'chart.js';
-
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
 import { LocaleService } from '../../../services/locale.service';
 import { SpinnerService } from '../../../services/spinner.service';
-import { ChargingStationTableFilter } from '../../../shared/table/filters/charging-station-table-filter';
-import { DateRangeTableFilter } from '../../../shared/table/filters/date-range-table-filter';
-import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
-import { SiteTableFilter } from '../../../shared/table/filters/site-table-filter';
-import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { FilterParams } from '../../../types/GlobalType';
 import { TableFilterDef } from '../../../types/Table';
 import { TenantComponents } from '../../../types/Tenant';
 import { SimpleChart } from '../shared/chart-utilities';
 import { StatisticsBuildService, StatisticsBuildValueWithUnit } from '../shared/statistics-build.service';
 import { StatisticsExportService } from '../shared/statistics-export.service';
+
 
 @Component({
   selector: 'app-statistics-pricing',
@@ -34,7 +29,6 @@ export class StatisticsPricingComponent implements OnInit {
   public selectedDateRange!: any;
   public selectedYear!: number;
   public allYears = true;
-  public allFiltersDef: TableFilterDef[] = [];
   public chartsInitialized = false;
 
   private filterParams!: FilterParams;
@@ -60,22 +54,6 @@ export class StatisticsPricingComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    let filterDef: TableFilterDef;
-    filterDef = new DateRangeTableFilter(this.language).getFilterDef();
-    this.allFiltersDef.push(filterDef);
-
-    filterDef = new SiteTableFilter().getFilterDef();
-    this.allFiltersDef.push(filterDef);
-
-    filterDef = new SiteAreaTableFilter().getFilterDef();
-    this.allFiltersDef.push(filterDef);
-
-    filterDef = new ChargingStationTableFilter().getFilterDef();
-    this.allFiltersDef.push(filterDef);
-
-    filterDef = new UserTableFilter().getFilterDef();
-    this.allFiltersDef.push(filterDef);
-
     if (this.isPricingActive) {
       this.initCharts();
     }
@@ -111,14 +89,11 @@ export class StatisticsPricingComponent implements OnInit {
 
   public getChartLabel(): string {
     let mainLabel: string;
-
     if (!this.selectedChart || !this.selectedCategory) {
       // selection not yet defined:
       return ' ';
     }
-
     let totalPriceString = '';
-
     this.totalPriceWithUnit.forEach((object) => {
       if (totalPriceString) {
         totalPriceString += ' + ';
@@ -169,15 +144,12 @@ export class StatisticsPricingComponent implements OnInit {
     const labelXAxis: string = this.translateService.instant('statistics.graphic_title_month_x_axis');
     const labelYAxis: string = this.translateService.instant('statistics.graphic_title_pricing_y_axis',
       { currency: toolTipUnit });
-
     this.barChart = new SimpleChart(this.language, 'stackedBar',
       this.getChartLabel(), labelXAxis, labelYAxis, toolTipUnit, true);
     this.barChart.initChart(this.ctxBarChart);
-
     this.pieChart = new SimpleChart(this.language, 'pie',
       this.getChartLabel(), undefined, undefined, toolTipUnit, true);
     this.pieChart.initChart(this.ctxPieChart);
-
     this.chartsInitialized = true;
   }
 
@@ -190,7 +162,6 @@ export class StatisticsPricingComponent implements OnInit {
         this.pieChartData = this.pieChart.cloneChartData(this.pieChartData, true);
         this.pieChart.updateChart(this.pieChartData, this.getChartLabel());
       }
-
       if (this.isPricingActive) {
         this.buildCharts();
       }
@@ -210,13 +181,10 @@ export class StatisticsPricingComponent implements OnInit {
     let newToolTipUnit: string;
     let newLabelYAxis: string;
     let addUnitToLabel = false;
-
     if (this.selectedCategory === 'C') {
       this.centralServerService.getChargingStationPricingStatistics(this.selectedYear, this.filterParams)
         .subscribe((statisticsData) => {
-
           this.totalPriceWithUnit = this.statisticsBuildService.calculateTotalsWithUnits(statisticsData, 2);
-
           if (this.totalPriceWithUnit.length > 1) {
             addUnitToLabel = true;
             newToolTipUnit = this.translateService.instant('statistics.multiple_currencies');
@@ -224,23 +192,18 @@ export class StatisticsPricingComponent implements OnInit {
             newToolTipUnit = this.totalPriceWithUnit[0].unit;
           }
           newLabelYAxis = this.translateService.instant('statistics.graphic_title_pricing_y_axis', { currency: newToolTipUnit });
-
           this.barChartData = this.statisticsBuildService.buildStackedChartDataForMonths(statisticsData, 2, addUnitToLabel);
           this.pieChartData = this.statisticsBuildService.calculateTotalChartDataFromStackedChartData(this.barChartData);
-
           this.barChart.updateChart(this.barChartData, this.getChartLabel(), newToolTipUnit, newLabelYAxis);
           this.pieChart.updateChart(this.pieChartData, this.getChartLabel(), newToolTipUnit);
-
           this.spinnerService.hide();
         });
     } else {
       this.centralServerService.getUserPricingStatistics(this.selectedYear, this.filterParams)
         .subscribe((statisticsData) => {
-
           if (statisticsData.length > 1) {
             this.totalPriceWithUnit = this.statisticsBuildService.calculateTotalsWithUnits(statisticsData, 2);
           }
-
           if (this.totalPriceWithUnit.length > 1) {
             addUnitToLabel = true;
             newToolTipUnit = this.translateService.instant('statistics.multiple_currencies');
@@ -248,13 +211,10 @@ export class StatisticsPricingComponent implements OnInit {
             newToolTipUnit = this.totalPriceWithUnit[0].unit;
           }
           newLabelYAxis = this.translateService.instant('statistics.graphic_title_pricing_y_axis', { currency: newToolTipUnit });
-
           this.barChartData = this.statisticsBuildService.buildStackedChartDataForMonths(statisticsData, 2, addUnitToLabel);
           this.pieChartData = this.statisticsBuildService.calculateTotalChartDataFromStackedChartData(this.barChartData);
-
           this.barChart.updateChart(this.barChartData, this.getChartLabel(), newToolTipUnit, newLabelYAxis);
           this.pieChart.updateChart(this.pieChartData, this.getChartLabel(), newToolTipUnit);
-
           this.spinnerService.hide();
         });
     }

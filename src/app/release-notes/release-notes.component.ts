@@ -32,6 +32,7 @@ export class ReleaseNotesComponent {
               `Added dependencies between filters in Statistics`,
               `Migrated Statistics endpoints to RESTful API`,
               `Allow the User to start a transaction without a Car`,
+              `Site Owner can read Users in Session lists`,
             ],
           },
         ],

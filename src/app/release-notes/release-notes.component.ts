@@ -24,12 +24,14 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.5.13',
-        date: new Date('2021-12-08'),
+        date: new Date('2021-12-09'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `Added dependencies between filters in Statistics`,
+              `Migrated Statistics endpoints to RESTful API`,
+              `Allow the User to start a transaction without a Car`,
             ],
           },
         ],

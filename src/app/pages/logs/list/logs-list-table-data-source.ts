@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ComponentService } from 'services/component.service';
 import { ChargingStationTableFilter } from 'shared/table/filters/charging-station-table-filter';
+import { IssuerFilter } from 'shared/table/filters/issuer-filter';
 import { SiteTableFilter } from 'shared/table/filters/site-table-filter';
 import { TenantComponents } from 'types/Tenant';
 
@@ -248,6 +249,7 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {
+    const issuerFilter = new IssuerFilter().getFilterDef();
     if (this.authorizationService.isSuperAdmin()) {
       return [
         new StartDateFilter(moment().startOf('d').toDate()).getFilterDef(),
@@ -255,10 +257,10 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
         new LogLevelTableFilter().getFilterDef(),
         new LogSourceTableFilter().getFilterDef(),
         new LogActionTableFilter().getFilterDef(),
-        new UserTableFilter().getFilterDef(),
+        new UserTableFilter([issuerFilter]).getFilterDef(),
       ];
     } else {
-      const siteFilter = new SiteTableFilter().getFilterDef();
+      const siteFilter = new SiteTableFilter([issuerFilter]).getFilterDef();
       if (!this.componentService.isActive(TenantComponents.ORGANIZATION)) {
         siteFilter.visible = false;
       }
@@ -269,8 +271,8 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
         new LogSourceTableFilter().getFilterDef(),
         new LogActionTableFilter().getFilterDef(),
         siteFilter,
-        new ChargingStationTableFilter([siteFilter]).getFilterDef(),
-        new UserTableFilter().getFilterDef(),
+        new ChargingStationTableFilter([issuerFilter, siteFilter]).getFilterDef(),
+        new UserTableFilter([issuerFilter]).getFilterDef(),
       ];
     }
   }

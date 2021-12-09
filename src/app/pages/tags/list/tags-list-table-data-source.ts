@@ -147,7 +147,6 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
         this.exportAction.visible = tags.canExport;
         this.deleteManyAction.visible = tags.canDelete;
         this.unassignManyAction.visible = tags.canUnassign;
-        this.unassignManyAction.visible = tags.canUnassign;
         this.projectFields = tags.projectFields;
         this.userFilter.visible = Utils.convertToBoolean(tags.canListUsers);
         this.issuerFilter.visible = Utils.convertToBoolean(tags.canListSources);

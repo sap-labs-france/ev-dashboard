@@ -521,7 +521,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<number[]>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TRANSACTION_YEARS}`,
+    return this.httpClient.get<number[]>(this.buildRestEndpointUrl(ServerRoute.REST_TRANSACTION_YEARS),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -537,7 +537,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<StatisticData[]>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CHARGING_STATION_CONSUMPTION_STATISTICS}`,
+    return this.httpClient.get<StatisticData[]>(this.buildRestEndpointUrl(ServerRoute.REST_CHARGING_STATION_CONSUMPTION_STATISTICS),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -553,7 +553,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<StatisticData[]>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.USER_CONSUMPTION_STATISTICS}`,
+    return this.httpClient.get<StatisticData[]>(this.buildRestEndpointUrl(ServerRoute.REST_USER_CONSUMPTION_STATISTICS),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -569,7 +569,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<StatisticData[]>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CHARGING_STATION_USAGE_STATISTICS}`,
+    return this.httpClient.get<StatisticData[]>(this.buildRestEndpointUrl(ServerRoute.REST_CHARGING_STATION_USAGE_STATISTICS),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -585,7 +585,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<StatisticData[]>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.USER_USAGE_STATISTICS}`,
+    return this.httpClient.get<StatisticData[]>(this.buildRestEndpointUrl(ServerRoute.REST_USER_USAGE_STATISTICS),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -601,7 +601,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<StatisticData[]>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CHARGING_STATION_INACTIVITY_STATISTICS}`,
+    return this.httpClient.get<StatisticData[]>(this.buildRestEndpointUrl(ServerRoute.REST_CHARGING_STATION_INACTIVITY_STATISTICS),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -617,7 +617,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<StatisticData[]>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.USER_INACTIVITY_STATISTICS}`,
+    return this.httpClient.get<StatisticData[]>(this.buildRestEndpointUrl(ServerRoute.REST_USER_INACTIVITY_STATISTICS),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -652,7 +652,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<StatisticData[]>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CHARGING_STATION_TRANSACTIONS_STATISTICS}`,
+    return this.httpClient.get<StatisticData[]>(this.buildRestEndpointUrl(ServerRoute.REST_CHARGING_STATION_TRANSACTIONS_STATISTICS),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -668,7 +668,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<StatisticData[]>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.USER_TRANSACTIONS_STATISTICS}`,
+    return this.httpClient.get<StatisticData[]>(this.buildRestEndpointUrl(ServerRoute.REST_USER_TRANSACTIONS_STATISTICS),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -684,7 +684,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<StatisticData[]>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CHARGING_STATION_PRICING_STATISTICS}`,
+    return this.httpClient.get<StatisticData[]>(this.buildRestEndpointUrl(ServerRoute.REST_CHARGING_STATION_PRICING_STATISTICS),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -700,7 +700,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<StatisticData[]>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.USER_PRICING_STATISTICS}`,
+    return this.httpClient.get<StatisticData[]>(this.buildRestEndpointUrl(ServerRoute.REST_USER_PRICING_STATISTICS),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -1236,7 +1236,7 @@ export class CentralServerService {
 
   public exportStatistics(params: FilterParams): Observable<Blob> {
     this.checkInit();
-    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/${ServerAction.STATISTICS_EXPORT}`,
+    return this.httpClient.get(this.buildRestEndpointUrl(ServerRoute.REST_STATISTICS_EXPORT),
       {
         headers: this.buildHttpHeaders(),
         responseType: 'blob',

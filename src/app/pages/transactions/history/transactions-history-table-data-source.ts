@@ -59,7 +59,6 @@ import { TransactionsInactivityStatusFilter } from '../filters/transactions-inac
 @Injectable()
 export class TransactionsHistoryTableDataSource extends TableDataSource<Transaction> {
   private isAdmin = false;
-  private isSiteAdmin = false;
   private viewAction = new TableViewTransactionAction().getActionDef();
   private deleteAction = new TableDeleteTransactionAction().getActionDef();
   private navigateToLogsAction = new TableNavigateToLogsAction().getActionDef();
@@ -90,7 +89,6 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     super(spinnerService, translateService);
     // Admin
     this.isAdmin = this.authorizationService.isAdmin();
-    this.isSiteAdmin = this.authorizationService.hasSitesAdminRights();
     // Init
     this.isOrganizationComponentActive = this.componentService.isActive(TenantComponents.ORGANIZATION);
     if (this.isOrganizationComponentActive) {
@@ -273,7 +271,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         },
       );
     }
-    if (this.isAdmin || this.isSiteAdmin) {
+    if (this.authorizationService.canListUsers()) {
       tableColumns.push({
         id: 'user',
         name: 'transactions.user',

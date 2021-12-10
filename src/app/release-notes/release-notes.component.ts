@@ -23,6 +23,21 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.5.13',
+        date: new Date('2021-12-09'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added dependencies between filters in Statistics`,
+              `Migrated Statistics endpoints to RESTful API`,
+              `Allow the User to start a transaction without a Car`,
+              `Site Owner can read Users in Session lists`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.5.12',
         date: new Date('2021-12-07'),
         componentChanges: [

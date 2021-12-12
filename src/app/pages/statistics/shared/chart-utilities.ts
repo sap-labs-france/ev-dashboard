@@ -44,7 +44,6 @@ export class SimpleChart {
     roundedChartLabels = true) {
     // Unregister global activation of Chart labels
     Chart.plugins.unregister(ChartDataLabels);
-
     Chart.Tooltip.positioners.customBar = (elements, eventPosition) => {
       // Put the tooltip at the center of the selected bar (or bar section), and not at the top:
       // @param elements {Chart.Element[]} the tooltip elements
@@ -53,7 +52,6 @@ export class SimpleChart {
       let yOffset = 0;
       let sum = 0;
       const dataSets = elements[0]._chart.data.datasets;
-
       if (Array.isArray(dataSets)) {
         if (dataSets.length === 1) {
           yOffset = (elements[0]._chart.scales['y-axis-0'].bottom - elements[0]._model.y) / 2;
@@ -64,7 +62,6 @@ export class SimpleChart {
               sum += dataSets[i].data[elements[0]._index];
             }
           }
-
           if (sum === 0) {
             yOffset = (elements[0]._chart.scales['y-axis-0'].bottom - elements[0]._model.y) / 2;
           } else {
@@ -96,7 +93,6 @@ export class SimpleChart {
 
   public initChart(context: ElementRef): void {
     this.contextElement = context;
-
     this.chart = new Chart(this.contextElement.nativeElement.getContext('2d'), {
       type: this.chartType,
       plugins: [ChartDataLabels],
@@ -119,13 +115,11 @@ export class SimpleChart {
           this.toolTipUnit, this.withLegend, this.roundedChartLabels);
       }
     }
-
     this.fontColor = getComputedStyle(this.contextElement.nativeElement).color;
     if (!this.fontColor || Utils.isEmptyString(this.fontColor)) {
       this.fontColor = '#000';
     }
     this.inversedFontColor = this.inverseColor(this.fontColor, true);
-
     this.fontFamily = getComputedStyle(this.contextElement.nativeElement).fontFamily;
     if (!this.fontFamily || Utils.isEmptyString(this.fontFamily)) {
       this.fontFamily = 'Roboto, "Helvetica Neue", sans-serif';
@@ -139,7 +133,6 @@ export class SimpleChart {
     } else {
       this.fontSizeNumber = parseInt(this.fontSize, 10);
     }
-
     if (chartData) {
       this.updateChartOptions(chartData, mainLabel);
       this.updateChartData(chartData);
@@ -165,9 +158,7 @@ export class SimpleChart {
 
   public toggleHideLegend(withUpdate: boolean = true) {
     this.withLegend = !this.withLegend;
-
     this.chartOptions.legend.display = this.withLegend;
-
     const anyChart = this.chart; // type Chart does not know 'options'
     anyChart.options = this.chartOptions;
     this.chart = anyChart;
@@ -178,7 +169,6 @@ export class SimpleChart {
 
   public toggleHideItems() {
     this.itemsHidden = !this.itemsHidden;
-
     if (this.stackedChart) {
       this.chartData.datasets.forEach((dataset) => {
         if (dataset.stack !== ChartConstants.STACKED_TOTAL) {
@@ -191,7 +181,6 @@ export class SimpleChart {
         object.hidden = this.itemsHidden;
       });
     }
-
     this.chart.update();
   }
 
@@ -225,7 +214,8 @@ export class SimpleChart {
     return newChartData;
   }
 
-  private createBarChartOptions(stacked: boolean, mainLabel: string, labelXAxis: string, labelYAxis: string, toolTipUnit: string, withLegend: boolean, roundedChartLabels: boolean): void {
+  private createBarChartOptions(stacked: boolean, mainLabel: string, labelXAxis: string, labelYAxis: string,
+    toolTipUnit: string, withLegend: boolean, roundedChartLabels: boolean): void {
     this.chartType = 'bar';
     this.stackedChart = stacked;
     this.labelXAxis = labelXAxis;
@@ -233,31 +223,25 @@ export class SimpleChart {
     this.toolTipUnit = toolTipUnit;
     this.withLegend = withLegend;
     this.roundedChartLabels = roundedChartLabels;
-
     this.chartOptions = {};
-
     this.chartOptions.title = {
       display: true,
       text: mainLabel,
       fontStyle: 'bold',
     };
-
     this.chartOptions.legend = {
       display: withLegend,
       labels: {},
       position: 'bottom',
     };
-
     this.chartOptions.plugins = {};
     this.chartOptions.plugins.datalabels = {
       display: (context) => context.dataset.data[context.dataIndex] > 0,
     };
-
     this.chartOptions.animation = {
       duration: 2000,
       easing: 'easeOutBounce',
     };
-
     this.chartOptions.tooltips = {
       enabled: true,
       position: 'customBar',
@@ -283,7 +267,6 @@ export class SimpleChart {
         },
       },
     };
-
     this.chartOptions.scales = {
       xAxes: [{
         stacked,
@@ -314,31 +297,25 @@ export class SimpleChart {
     this.toolTipUnit = toolTipUnit;
     this.withLegend = withLegend;
     this.roundedChartLabels = roundedChartLabels;
-
     this.chartOptions = {};
-
     this.chartOptions.title = {
       display: true,
       text: mainLabel,
       fontStyle: 'bold',
     };
-
     this.chartOptions.legend = {
       display: withLegend,
       labels: {},
       position: 'bottom',
     };
-
     this.chartOptions.plugins = {};
     this.chartOptions.plugins.datalabels = {
       display: (context) => context.dataset.data[context.dataIndex] > 0,
     };
-
     this.chartOptions.animation = {
       duration: 2000,
       easing: 'easeOutBounce',
     };
-
     this.chartOptions.tooltips = {
       enabled: true,
       callbacks: {
@@ -365,20 +342,16 @@ export class SimpleChart {
   private updateChartOptions(chartData: ChartData, mainLabel: string, labelYAxis?: string, toolTipUnit?: string): void {
     let minValue = 0;
     let minDivisor: any;
-
     if (mainLabel) {
       this.chartOptions.title.text = mainLabel;
     }
-
     this.chartOptions.title.fontColor = this.fontColor;
     this.chartOptions.title.fontFamily = this.fontFamily;
     this.chartOptions.title.fontSize = this.fontSizeNumber;
-
     if (this.withLegend) {
       this.chartOptions.legend.labels.fontColor = this.fontColor;
       this.chartOptions.legend.labels.fontFamily = this.fontFamily;
     }
-
     if (this.chartType === 'pie') {
       minDivisor = this.constMinDivisorPie;
     } else {
@@ -396,7 +369,6 @@ export class SimpleChart {
         yAxis.ticks.fontFamily = this.fontFamily;
       });
     }
-
     this.chartOptions.tooltips.backgroundColor = this.fontColor;
     this.chartOptions.tooltips.bodyFontFamily = this.fontFamily;
     this.chartOptions.tooltips.footerFontFamily = this.fontFamily;
@@ -404,7 +376,6 @@ export class SimpleChart {
     this.chartOptions.tooltips.bodyFontColor = this.inversedFontColor;
     this.chartOptions.tooltips.footerFontColor = this.inversedFontColor;
     this.chartOptions.tooltips.titleFontColor = this.inversedFontColor;
-
     if (this.stackedChart) {
       chartData.datasets.forEach((dataset) => {
         if (Array.isArray(dataset.data) === true &&
@@ -429,7 +400,6 @@ export class SimpleChart {
       });
       minValue = minValue / minDivisor;
     }
-
     this.chartOptions.plugins.datalabels = {
       color: this.fontColor,
       font: this.font,
@@ -446,17 +416,13 @@ export class SimpleChart {
 
   private updateChartData(chartData: ChartData) {
     let countData = 0;
-
     this.chartData = chartData;
-
     if (!this.chartData.labels) {
       this.chartData.labels = [];
     }
-
     if (!this.chartData.datasets) {
       this.chartData.datasets = [];
     }
-
     if (this.stackedChart) {
       chartData.datasets.forEach((dataset) => {
         if (dataset.stack === ChartConstants.STACKED_TOTAL) {
@@ -478,7 +444,6 @@ export class SimpleChart {
         for (let i = 0; i < dataset.data.length; i++) {
           dataset.backgroundColor.push(this.getColorCode(i));
         }
-
         dataset.borderWidth = 0;
       });
     }
@@ -507,7 +472,6 @@ export class SimpleChart {
       [255, 222, 173, 0.5],
       [218, 112, 214, 0.8],
     ];
-
     const div20 = counter % 20;
     return `rgba(${colors[div20][0]}, ${colors[div20][1]}, ${colors[div20][2]}, ${colors[div20][3]})`;
   }
@@ -516,26 +480,21 @@ export class SimpleChart {
     let hex: string;
     let rgba: string[];
     let rgb: string[];
-
     let sep: string;
     let stringValue: string;
     let numberValue: number;
-
     let r: number;
     let g: number;
     let b: number;
     let a: number;
-
     // determine color format:
     if (color.startsWith('#')) {
       // color in hex format:
       hex = color.slice(1);
-
       // convert 3-digit hex to 6-digits.
       if (hex.length === 3) {
         hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
       }
-
       r = parseInt(hex.slice(0, 2), 16);
       g = parseInt(hex.slice(2, 4), 16);
       b = parseInt(hex.slice(4, 6), 16);
@@ -543,14 +502,11 @@ export class SimpleChart {
       if (color.indexOf('rgba') === 0) {
         // color in rgba format:
         sep = color.indexOf(',') > -1 ? ',' : ' ';
-
         rgba = color.substr(5).split(')')[0].split(sep);
-
         // Strip the slash if using space-separated syntax
         if (rgba.indexOf('/') > -1) {
           rgba.splice(3, 1);
         }
-
         for (let i = 0; i < rgba.length; i++) {
           stringValue = rgba[i];
           if (stringValue.indexOf('%') > -1) {
@@ -563,7 +519,6 @@ export class SimpleChart {
             }
           }
         }
-
         r = parseInt(rgba[0], 10);
         g = parseInt(rgba[1], 10);
         b = parseInt(rgba[2], 10);
@@ -572,16 +527,13 @@ export class SimpleChart {
         if (color.indexOf('rgb') === 0) {
           // color in rgb format:
           sep = color.indexOf(',') > -1 ? ',' : ' ';
-
           rgb = color.substr(4).split(')')[0].split(sep);
-
           for (let i = 0; i < rgb.length; i++) {
             stringValue = rgb[i];
             if (stringValue.indexOf('%') > -1) {
               rgb[i] = Math.round(parseInt(stringValue.substr(0, stringValue.length - 1), 10) / 100 * 255).toString(10);
             }
           }
-
           r = parseInt(rgb[0], 10);
           g = parseInt(rgb[1], 10);
           b = parseInt(rgb[2], 10);
@@ -590,13 +542,11 @@ export class SimpleChart {
         }
       }
     }
-
     if (blackWhite) {
       return (r * 0.299 + g * 0.587 + b * 0.114) > 186
         ? '#000'
         : '#fff';
     }
-
     // Invert color components
     stringValue = '#';
     numberValue = 255 - r;

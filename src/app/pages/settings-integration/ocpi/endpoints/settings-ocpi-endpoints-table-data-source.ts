@@ -205,7 +205,7 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEn
 
   public buildTableActionsRightDef(): TableActionDef[] {
     return [
-      new TableAutoRefreshAction(true).getActionDef(),
+      new TableAutoRefreshAction().getActionDef(),
       new TableRefreshAction().getActionDef(),
     ];
   }

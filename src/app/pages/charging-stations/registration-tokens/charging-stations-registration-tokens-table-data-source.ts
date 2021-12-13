@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
+import { IssuerFilter } from 'shared/table/filters/issuer-filter';
+import { SiteAreaTableFilter } from 'shared/table/filters/site-area-table-filter';
 import { AuthorizationDefinitionFieldMetadata } from 'types/Authorization';
 
 import { CentralServerService } from '../../../services/central-server.service';
@@ -24,7 +26,6 @@ import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { DataResult } from '../../../types/DataResult';
 import { RegistrationToken, RegistrationTokenButtonAction } from '../../../types/RegistrationToken';
-import { SiteArea } from '../../../types/SiteArea';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
 import { TenantComponents } from '../../../types/Tenant';
 import { User } from '../../../types/User';
@@ -272,6 +273,10 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {
+    const issuerFilter = new IssuerFilter().getFilterDef();
+    if (this.componentService.isActive(TenantComponents.ORGANIZATION)) {
+      return [new SiteAreaTableFilter([issuerFilter]).getFilterDef()];
+    }
     return [];
   }
 }

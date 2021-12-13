@@ -59,7 +59,6 @@ export enum Entity {
   PRICING = 'Pricing',
   BILLING = 'Billing',
   SETTING = 'Setting',
-  TOKEN = 'Token',
   ASYNC_TASK = 'AsyncTask',
   OCPI_ENDPOINT = 'OcpiEndpoint',
   OICP_ENDPOINT = 'OicpEndpoint',
@@ -82,6 +81,7 @@ export enum Action {
   CREATE = 'Create',
   UPDATE = 'Update',
   REPLACE = 'Replace',
+  REVOKE = 'Revoke',
   DELETE = 'Delete',
   LOGOUT = 'Logout',
   LOGIN = 'Login',
@@ -123,12 +123,13 @@ export enum Action {
   TRIGGER_JOB = 'TriggerJob',
   DOWNLOAD = 'Download',
   IMPORT = 'Import',
-  ASSIGN_USERS_TO_SITE = 'AssignUsersToSite',
-  UNASSIGN_USERS_TO_SITE = 'UnassignUsersToSite',
-  ASSIGN_ASSETS_TO_SITE_AREA = 'AssignAssetsToSiteArea',
-  UNASSIGN_ASSETS_TO_SITE_AREA = 'UnassignAssetsToSiteArea',
-  ASSIGN_CHARGING_STATIONS_TO_SITE_AREA = 'AssignChargingStationsToSiteArea',
-  UNASSIGN_CHARGING_STATIONS_TO_SITE_AREA = 'UnassignChargingStationsToSiteArea',
+  ASSIGN_USERS_TO_SITE = 'AssignUsers',
+  UNASSIGN_USERS_TO_SITE = 'UnassignUsers',
+  ASSIGN_ASSETS_TO_SITE_AREA = 'AssignAssets',
+  UNASSIGN_ASSETS_TO_SITE_AREA = 'UnassignAssets',
+  READ_ASSETS_FROM_SITE_AREA = 'ReadAssets',
+  ASSIGN_CHARGING_STATIONS_TO_SITE_AREA = 'AssignChargingStations',
+  UNASSIGN_CHARGING_STATIONS_TO_SITE_AREA = 'UnassignChargingStations',
   EXPORT_OCPP_PARAMS = 'ExportOCPPParams',
   GENERATE_QR = 'GenerateQrCode',
 }
@@ -183,6 +184,10 @@ export interface SiteAuthorizationActions extends AuthorizationActions {
   canExportOCPPParams?: boolean;
   canGenerateQrCode?: boolean;
   canMaintainPricingDefinitions?: boolean;
+}
+
+export interface RegistrationTokenAuthorizationActions extends AuthorizationActions {
+  canRevoke?: boolean;
 }
 
 

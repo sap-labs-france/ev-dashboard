@@ -23,8 +23,21 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.5.14',
+        date: new Date('2021-12-13'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added Search in Charging Station's Registration Tokens`,
+              `Fixed few Sessions not priced during the migration to the new Pricing`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.5.13',
-        date: new Date('2021-12-09'),
+        date: new Date('2021-12-12'),
         componentChanges: [
           {
             name: 'Dashboard',

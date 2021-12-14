@@ -51,6 +51,7 @@ export class TableDeleteManyAction implements TableAction {
           }
         }, (error) => {
           Utils.handleHttpError(error, router, messageService, centralServerService, messageUnexpectedError);
+          spinnerService.hide();
         });
       }
     });

@@ -87,7 +87,7 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
   public buildTableDef(): TableDef {
     return {
       search: {
-        enabled: false,
+        enabled: true,
       },
       hasDynamicRowAction: true,
     };

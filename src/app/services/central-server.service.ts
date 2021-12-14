@@ -827,10 +827,10 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     const params: { [param: string]: string } = {};
-    params['ID'] = tagID;
     params['WithUser'] = 'true';
     // Execute the REST service
-    return this.httpClient.get<Tag>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TAG}`,
+    const url = this.buildRestEndpointUrl(ServerRoute.REST_TAG, { id: tagID });
+    return this.httpClient.get<Tag>(url,
       {
         headers: this.buildHttpHeaders(),
         params
@@ -847,7 +847,7 @@ export class CentralServerService {
     params['VisualID'] = tagVisualID;
     params['WithUser'] = 'true';
     // Execute the REST service
-    return this.httpClient.get<Tag>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TAG_BY_VISUAL_ID}`,
+    return this.httpClient.get<Tag>(this.buildRestEndpointUrl(ServerRoute.REST_TAGS),
       {
         headers: this.buildHttpHeaders(),
         params
@@ -881,7 +881,7 @@ export class CentralServerService {
     // Build Ordering
     this.getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<TagDataResult>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TAGS}`,
+    return this.httpClient.get<TagDataResult>(this.buildRestEndpointUrl(ServerRoute.REST_TAGS),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -895,7 +895,8 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TAG_DELETE}?ID=${id}`,
+    const url = this.buildRestEndpointUrl(ServerRoute.REST_TAG, { id });
+    return this.httpClient.delete<ActionResponse>(url,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -912,7 +913,7 @@ export class CentralServerService {
       body: { tagsIDs },
     };
     // Execute the REST service
-    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TAGS_DELETE}`, options)
+    return this.httpClient.delete<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_TAGS), options)
       .pipe(
         catchError(this.handleHttpError),
       );
@@ -922,7 +923,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TAGS_UNASSIGN}`, { visualIDs }, {
+    return this.httpClient.put<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_TAGS_UNASSIGN), { visualIDs }, {
       headers: this.buildHttpHeaders()
     })
       .pipe(
@@ -934,7 +935,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TAG_UNASSIGN}`, { visualID }, {
+    return this.httpClient.put<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_TAG_UNASSIGN, { id: visualID }), {}, {
       headers: this.buildHttpHeaders()
     })
       .pipe(
@@ -946,7 +947,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TAG_CREATE}`, tag,
+    return this.httpClient.post<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_TAGS), tag,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -959,7 +960,8 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TAG_UPDATE}`, tag,
+    const url = this.buildRestEndpointUrl(ServerRoute.REST_TAG, { id: tag.visualID });
+    return this.httpClient.put<ActionResponse>(url, tag,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -972,7 +974,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TAG_ASSIGN}`, tag,
+    return this.httpClient.put<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_TAG_ASSIGN, { id: tag.visualID }), tag,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -985,7 +987,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TAG_UPDATE_BY_VISUAL_ID}`, tag,
+    return this.httpClient.put<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_TAGS), tag,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -1278,7 +1280,7 @@ export class CentralServerService {
   public exportTags(params: FilterParams): Observable<Blob> {
     // Verify init
     this.checkInit();
-    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TAGS_EXPORT}`,
+    return this.httpClient.get(this.buildRestEndpointUrl(ServerRoute.REST_TAGS_EXPORT),
       {
         headers: this.buildHttpHeaders(),
         responseType: 'blob',

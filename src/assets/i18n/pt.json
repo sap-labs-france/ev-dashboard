@@ -2250,7 +2250,7 @@
     "duration": "Duração",
     "inactivity": "Inatividade",
     "user": "Utilizador",
-    "badge_id": "Badge ID",
+    "badge_id": "RFID",
     "connector": "Connector",
     "total_consumption": "Consumo",
     "current_consumption": "Power",

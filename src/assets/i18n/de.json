@@ -1356,10 +1356,10 @@
     "failed_download": "Download der Rechnung fehlgeschlagen."
   },
   "tags": {
-    "id": "Badge ID",
+    "id": "RFID",
     "not_active": "Dieser Badge ist nicht aktiv",
     "issuer": "Organisationseigentümer",
-    "visual_id": "Visuelle Badge ID",
+    "visual_id": "Visuelle RFID",
     "visual_id_instruction": "Bitte geben Sie die ID ein, die auf dem Badge sichtbar ist.",
     "status": "Status",
     "activated": "Aktiv",

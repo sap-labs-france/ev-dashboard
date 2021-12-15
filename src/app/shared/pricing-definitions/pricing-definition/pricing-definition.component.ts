@@ -4,7 +4,6 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
-import { NgxMaterialTimepickerComponent } from 'ngx-material-timepicker';
 
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
@@ -33,7 +32,6 @@ export class PricingDefinitionComponent implements OnInit {
   @Input() public currentEntityID!: string;
   @Input() public currentEntityType!: string;
   @Input() public currentEntityName: string;
-  public pickerTimeStart: NgxMaterialTimepickerComponent;
 
   public formGroup!: FormGroup;
   public currentPricingDefinition: PricingDefinition;

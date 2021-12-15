@@ -47,7 +47,6 @@ export class StatisticsBuildService {
     const totalDataArray: number[] = [];
     const transactionValues = statisticsData;
     const datasets: ChartDataSets[] = [];
-
     if (roundingDecimals !== 0) {
       if (roundingDecimals > 0) {
         for (let i = 0; i < roundingDecimals; i++) {
@@ -231,7 +230,6 @@ export class StatisticsBuildService {
     let totalValue = 0;
     let dataSetIndex = 0;
     let numberArray = [];
-
     if (chartData.datasets) {
       // is the chart a stacked chart (with totals)?
       dataSetIndex = chartData.datasets.findIndex((dataset) => dataset.stack === ChartConstants.STACKED_TOTAL);
@@ -266,7 +264,6 @@ export class StatisticsBuildService {
     const totalChartData: ChartData = { labels: [], datasets: [] };
     let totalValue = 0;
     let numberArray = [];
-
     if (stackedChartData.datasets &&  totalChartData.labels) {
       stackedChartData.datasets.forEach((dataset) => {
         if (dataset.stack !== ChartConstants.STACKED_TOTAL) {
@@ -301,7 +298,6 @@ export class StatisticsBuildService {
 
   public countNumberOfChartItems(chartData: ChartData): number {
     let count = 0;
-
     if (Array.isArray(chartData.datasets)) {
       if (chartData.datasets.length === 1) {
         count = chartData.datasets[0].data.length;
@@ -326,9 +322,7 @@ export class StatisticsBuildService {
     let totalOfLastUnit = 0;
     let totalWithUnit: StatisticsBuildValueWithUnit;
     const totalsWithUnit: StatisticsBuildValueWithUnit[] = [];
-
     const transactionValues = statisticsData;
-
     if (roundingDecimals !== 0) {
       if (roundingDecimals > 0) {
         for (let i = 0; i < roundingDecimals; i++) {
@@ -340,7 +334,6 @@ export class StatisticsBuildService {
         }
       }
     }
-
     if (!Utils.isEmptyArray(transactionValues)) {
       transactionValues.forEach((transactionValue: { [x: string]: number | string }) => {
 
@@ -401,7 +394,6 @@ export class StatisticsBuildService {
     } else {
       totalsWithUnit.push({ value:0, unit: '' });
     }
-
     if (ignoreEmptyUnit && totalsWithUnit.length === 2) {
       index = totalsWithUnit.findIndex((record) => Utils.isEmptyString(record.unit));
       if (index > -1) {

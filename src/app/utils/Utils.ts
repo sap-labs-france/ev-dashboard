@@ -18,10 +18,36 @@ import { Car, CarCatalog, CarConverter, CarType } from '../types/Car';
 import { ChargePoint, ChargingStation, ChargingStationPowers, Connector, CurrentType, StaticLimitAmps, Voltage } from '../types/ChargingStation';
 import { KeyValue } from '../types/GlobalType';
 import { MobileType } from '../types/Mobile';
-import { ButtonType, TableDataSourceMode } from '../types/Table';
+import { ButtonType, FilterType, TableDataSourceMode, TableFilterDef } from '../types/Table';
 import { Constants } from './Constants';
 
 export class Utils {
+  public static buildDependentFilters(filterDef: TableFilterDef) {
+    if (!Utils.isEmptyArray(filterDef.dependentFilters)) {
+      filterDef.dialogComponentData = {
+        staticFilter: {}
+      };
+      for (const dependentFilter of filterDef.dependentFilters) {
+        if (!Utils.isEmptyArray(dependentFilter.currentValue)) {
+          if (dependentFilter.multiple) {
+            if (dependentFilter.type === FilterType.DROPDOWN &&
+              dependentFilter.currentValue.length === dependentFilter.items.length &&
+              dependentFilter.exhaustive) {
+              continue;
+            }
+            filterDef.dialogComponentData.staticFilter[dependentFilter.httpId] =
+              dependentFilter.currentValue.map((obj) => obj.key).join('|');
+          } else {
+            filterDef.dialogComponentData.staticFilter[dependentFilter.httpId] =
+              dependentFilter.currentValue[0].key;
+          }
+        } else {
+          delete filterDef.dialogComponentData.staticFilter[dependentFilter.httpId];
+        }
+      }
+    }
+  }
+
   public static displayYesNo(translateService: TranslateService, value: boolean) {
     return value ? translateService.instant('general.yes') : translateService.instant('general.no');
   }

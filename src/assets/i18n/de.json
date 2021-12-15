@@ -1238,7 +1238,8 @@
     "name": "Name",
     "first_name": "Vorname",
     "plate_id": "Kennzeichen",
-    "technical": "API User (used for backend communications only)",
+    "technical_title": "API User",
+    "technical": "API User (used for backend to backend communications only)",
     "tags": "Badges",
     "tag_ids_help": "Geben Sie eine durch Kommas getrennte Liste von Badge-IDs ein.",
     "inumber": "Nutzer-ID (Corporate-ID)",
@@ -1361,10 +1362,10 @@
     "failed_download": "Download der Rechnung fehlgeschlagen."
   },
   "tags": {
-    "id": "Badge ID",
+    "id": "RFID",
     "not_active": "Dieser Badge ist nicht aktiv",
     "issuer": "Organisationseigentümer",
-    "visual_id": "Visuelle Badge ID",
+    "visual_id": "Visuelle RFID",
     "visual_id_instruction": "Bitte geben Sie die ID ein, die auf dem Badge sichtbar ist.",
     "status": "Status",
     "activated": "Aktiv",

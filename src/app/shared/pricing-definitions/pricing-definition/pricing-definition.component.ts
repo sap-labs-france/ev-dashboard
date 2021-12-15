@@ -4,7 +4,6 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
-import { DaterangepickerComponent, DaterangepickerDirective } from 'ngx-daterangepicker-material';
 import { NgxMaterialTimepickerComponent } from 'ngx-material-timepicker';
 
 import { CentralServerService } from '../../../services/central-server.service';

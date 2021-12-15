@@ -33,6 +33,8 @@ export abstract class EditableTableDataSource<T extends TableData> extends Table
   }
 
   public buildTableActionsDef(): TableActionDef[] {
+    // Always enable by default
+    this.addAction.visible = true;
     return [
       this.addAction
     ];
@@ -138,8 +140,6 @@ export abstract class EditableTableDataSource<T extends TableData> extends Table
   }
 
   public loadDataImpl(): Observable<DataResult<T>> {
-    // Enable by default
-    this.addAction.visible = true;
     // Use the method to take into account the filtering
     const contentRows = this.getContent();
     if (contentRows) {

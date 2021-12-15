@@ -241,7 +241,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       },
       {
         id: 'technical',
-        name: 'users.technical',
+        name: 'users.technical_title',
         headerClass: 'col-10em text-center',
         class: 'col-10em text-center',
         sortable: true,

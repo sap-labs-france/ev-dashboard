@@ -77,6 +77,7 @@ export interface PricingRestriction {
   maxEnergyKWh?: number; // Maximum used energy in kWh, for example 50, valid until this amount of energy is used
   minDurationSecs?: number; // Minimum duration in seconds, valid for a duration from x seconds
   maxDurationSecs?: number; // Maximum duration in seconds, valid for a duration up to x seconds
+  days?: string[]; // Temporary list of days to be used and converted before writing in daysOfWeek
 }
 
 export enum DayOfWeek {

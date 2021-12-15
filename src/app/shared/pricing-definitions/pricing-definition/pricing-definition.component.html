@@ -343,7 +343,7 @@
                   </div>
                   <!-- value days -->
                   <div class="col-md-2">
-                    <mat-button-toggle-group *ngIf="daysOfWeekEnabled.value" [value]="daysOfWeekValue" [formControl]="daysOfWeekValue" name="daysOfWeekToggle" aria-label="Days of week" multiple>
+                    <mat-button-toggle-group *ngIf="daysOfWeekEnabled.value" [value]="daysValue" [formControl]="daysValue" name="daysOfWeekToggle" aria-label="Days of week" multiple>
                       <mat-button-toggle *ngFor="let day of daysMap" value={{day.key}} class="days-of-week-button">
                         <span>{{day.short | translate}}</span>
                       </mat-button-toggle>

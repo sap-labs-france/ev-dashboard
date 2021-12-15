@@ -14,7 +14,7 @@ import { Entity } from '../../../types/Authorization';
 import { ActionResponse } from '../../../types/DataResult';
 import { RestResponse } from '../../../types/GlobalType';
 import { HTTPError } from '../../../types/HTTPError';
-import PricingDefinition, { PricingDimensions, PricingRestriction } from '../../../types/Pricing';
+import PricingDefinition, { DayOfWeek, PricingDimensions, PricingRestriction } from '../../../types/Pricing';
 import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 import { CONNECTOR_TYPE_SELECTION_MAP } from '../../formatters/app-connector-type-selection.pipe';
@@ -107,7 +107,7 @@ export class PricingDefinitionComponent implements OnInit {
   public maxEnergyKWhValue: AbstractControl;
   // Days of week
   public daysOfWeekEnabled: AbstractControl;
-  public daysOfWeekValue: AbstractControl;
+  public daysValue: AbstractControl;
   public daysMap = DAYS_OF_WEEK_MAP;
   // Start/end date time
   public timeFromEnabled: AbstractControl;
@@ -155,7 +155,7 @@ export class PricingDefinitionComponent implements OnInit {
         timeToEnabled: new FormControl(false),
         timeTo: new FormControl(null),
         daysOfWeekEnabled: new FormControl(false),
-        daysOfWeek: new FormControl(null),
+        days: new FormControl(null),
       }),
       name: new FormControl('',
         Validators.compose([
@@ -250,7 +250,7 @@ export class PricingDefinitionComponent implements OnInit {
     this.maxEnergyKWhEnabled = this.restrictions.controls['maxEnergyKWhEnabled'];
     this.maxEnergyKWhValue = this.restrictions.controls['maxEnergyKWh'];
     this.daysOfWeekEnabled = this.restrictions.controls['daysOfWeekEnabled'];
-    this.daysOfWeekValue = this.restrictions.controls['daysOfWeek'];
+    this.daysValue = this.restrictions.controls['days'];
     this.timeFromEnabled = this.restrictions.controls['timeFromEnabled'];
     this.timeToEnabled = this.restrictions.controls['timeToEnabled'];
     this.timeFromValue = this.restrictions.controls['timeFrom'];
@@ -282,7 +282,7 @@ export class PricingDefinitionComponent implements OnInit {
         this.restrictionsMap = currentPricingDefinition.restrictions;
         this.restrictionsKeys = Object.keys(this.restrictionsMap);
         this.daysOfWeekEnabled.setValue(!!this.currentPricingDefinition.restrictions.daysOfWeek);
-        this.daysOfWeekValue.setValue(this.currentPricingDefinition.restrictions.daysOfWeek);
+        this.daysValue.setValue(this.currentPricingDefinition.restrictions.daysOfWeek.map((day) => DayOfWeek[day]));
         this.minTime = this.currentPricingDefinition.restrictions.timeTo || null;
         this.timeFromEnabled.setValue(!!this.currentPricingDefinition.restrictions.timeFrom);
         this.timeFromValue.setValue(this.currentPricingDefinition.restrictions.timeFrom);
@@ -463,6 +463,9 @@ export class PricingDefinitionComponent implements OnInit {
       if (!pricingDefinition.dimensions[dimensionKey].active) {
         delete pricingDefinition.dimensions[dimensionKey].price;
       }
+    }
+    if (this.daysOfWeekEnabled.value) {
+      pricingDefinition.restrictions.daysOfWeek = pricingDefinition.restrictions.days.map((day) => DayOfWeek[day]);
     }
     if (!this.timeFromEnabled) {
       delete pricingDefinition.restrictions.timeFrom;

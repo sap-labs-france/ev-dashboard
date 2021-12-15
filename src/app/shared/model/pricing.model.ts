@@ -1,37 +1,37 @@
 export const DAYS_OF_WEEK_MAP =
 [
   {
-    key: 1,
+    key: 'MONDAY',
     description: 'general.monday',
     short: 'general.monday_short',
   },
   {
-    key: 2,
+    key: 'TUESDAY',
     description: 'general.tuesday',
     short: 'general.tuesday_short',
   },
   {
-    key: 3,
+    key: 'WEDNESDAY',
     description: 'general.wednesday',
     short: 'general.wednesday_short',
   },
   {
-    key: 4,
+    key: 'THURSDAY',
     description: 'general.thursday',
     short: 'general.thursday_short',
   },
   {
-    key: 5,
+    key: 'FRIDAY',
     description: 'general.friday',
     short: 'general.friday_short',
   },
   {
-    key: 6,
+    key: 'SATURDAY',
     description: 'general.saturday',
     short: 'general.saturday_short',
   },
   {
-    key: 7,
+    key: 'SUNDAY',
     description: 'general.sunday',
     short: 'general.sunday_short',
   },

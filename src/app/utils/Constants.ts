@@ -33,7 +33,7 @@ export class Constants {
   /* Language and Locales */
   /* Make sure to maintain app.module.ts ==> e.g.: registerLocaleData(localeEnAU); */
   public static readonly SUPPORTED_LOCALES = Object.freeze(['en_US', 'fr_FR', 'es_ES', 'de_DE', 'pt_PT', 'it_IT', 'cs_CZ', 'en_AU']);
-  public static readonly SUPPORTED_LANGUAGES = Object.freeze(['en', 'fr', 'es', 'de', 'pt', 'it', 'cz']);
+  public static readonly SUPPORTED_LANGUAGES = Object.freeze(['en', 'fr', 'es', 'de', 'pt', 'it', 'cs']);
   public static readonly DEFAULT_LOCALE = 'en_US';
   public static readonly DEFAULT_LANGUAGE = 'en';
 

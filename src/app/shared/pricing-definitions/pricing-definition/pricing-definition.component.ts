@@ -1,9 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
+import { DaterangepickerComponent, DaterangepickerDirective } from 'ngx-daterangepicker-material';
+import { NgxMaterialTimepickerComponent } from 'ngx-material-timepicker';
 
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
@@ -13,10 +15,11 @@ import { Entity } from '../../../types/Authorization';
 import { ActionResponse } from '../../../types/DataResult';
 import { RestResponse } from '../../../types/GlobalType';
 import { HTTPError } from '../../../types/HTTPError';
-import PricingDefinition, { PricingDimensions } from '../../../types/Pricing';
+import PricingDefinition, { PricingDimensions, PricingRestriction } from '../../../types/Pricing';
 import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 import { CONNECTOR_TYPE_SELECTION_MAP } from '../../formatters/app-connector-type-selection.pipe';
+import { DAYS_OF_WEEK_MAP } from '../../model/pricing.model';
 import { PricingDefinitionDialogComponent } from './pricing-definition.dialog.component';
 
 @Component({
@@ -31,10 +34,12 @@ export class PricingDefinitionComponent implements OnInit {
   @Input() public currentEntityID!: string;
   @Input() public currentEntityType!: string;
   @Input() public currentEntityName: string;
+  public pickerTimeStart: NgxMaterialTimepickerComponent;
 
   public formGroup!: FormGroup;
   public currentPricingDefinition: PricingDefinition;
   public context: string;
+  public userLocale: any;
   // Controls general
   public id: AbstractControl;
   public name: AbstractControl;
@@ -51,6 +56,7 @@ export class PricingDefinitionComponent implements OnInit {
   public validFrom: AbstractControl;
   public validTo: AbstractControl;
   public minDate: Date;
+  public minTime: string;
   public connectorPowerEnabled!: AbstractControl;
   // Dimensions
   public dimensions!: FormGroup;
@@ -86,6 +92,29 @@ export class PricingDefinitionComponent implements OnInit {
   public parkingTimeStepEnabled: AbstractControl;
   public parkingTimeStepValue: AbstractControl;
   public parkingTimeStepUnit: AbstractControl;
+  // Restrictions
+  public restrictions!: FormGroup;
+  public restrictionsMap: PricingRestriction;
+  public restrictionsKeys: string[];
+  // Duration
+  public minDurationSecsEnabled: AbstractControl;
+  public minDurationSecsValue: AbstractControl;
+  public maxDurationSecsEnabled: AbstractControl;
+  public maxDurationSecsValue: AbstractControl;
+  // Energy KWh
+  public minEnergyKWhEnabled: AbstractControl;
+  public minEnergyKWhValue: AbstractControl;
+  public maxEnergyKWhEnabled: AbstractControl;
+  public maxEnergyKWhValue: AbstractControl;
+  // Days of week
+  public daysOfWeekEnabled: AbstractControl;
+  public daysOfWeekValue: AbstractControl;
+  public daysMap = DAYS_OF_WEEK_MAP;
+  // Start/end date time
+  public timeFromEnabled: AbstractControl;
+  public timeToEnabled: AbstractControl;
+  public timeFromValue: AbstractControl;
+  public timeToValue: AbstractControl;
 
   // eslint-disable-next-line no-useless-constructor
   public constructor(
@@ -98,13 +127,37 @@ export class PricingDefinitionComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+    this.userLocale = this.centralServerService.getLoggedUser().locale;
     // TODO : show current entity name instead of id - for others than charging station c'est pas relevant
     this.context = this.currentEntityType === Entity.TENANT ? this.centralServerService.getLoggedUser().tenantName : this.currentEntityName;
     this.formGroup = new FormGroup({
       id: new FormControl(),
       entityID: new FormControl(this.currentEntityID),
       entityType: new FormControl(this.currentEntityType),
-      restrictions: new FormGroup({}),
+      restrictions: new FormGroup({
+        minDurationSecsEnabled: new FormControl(false),
+        minDurationSecs: new FormControl(null, Validators.compose([
+          Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)
+        ])),
+        maxDurationSecsEnabled: new FormControl(false),
+        maxDurationSecs: new FormControl(null, Validators.compose([
+          Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)
+        ])),
+        minEnergyKWhEnabled: new FormControl(false),
+        minEnergyKWh: new FormControl(null, Validators.compose([
+          Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)
+        ])),
+        maxEnergyKWhEnabled: new FormControl(false),
+        maxEnergyKWh: new FormControl(null, Validators.compose([
+          Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)
+        ])),
+        timeFromEnabled: new FormControl(false),
+        timeFrom: new FormControl(null),
+        timeToEnabled: new FormControl(false),
+        timeTo: new FormControl(null),
+        daysOfWeekEnabled: new FormControl(false),
+        daysOfWeek: new FormControl(null),
+      }),
       name: new FormControl('',
         Validators.compose([
           Validators.required,
@@ -113,7 +166,7 @@ export class PricingDefinitionComponent implements OnInit {
         validFrom: new FormControl(null),
         validTo: new FormControl(null),
         connectorPowerEnabled: new FormControl(false),
-        connectorPowerkW: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)),
+        connectorPowerkW: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_FLOAT)),
         connectorType: new FormControl('A',
           Validators.compose([
             Validators.required,
@@ -126,23 +179,23 @@ export class PricingDefinitionComponent implements OnInit {
       dimensions: new FormGroup({
         flatFee: new FormGroup({
           active: new FormControl(false),
-          price: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)),
+          price: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_FLOAT)),
         }),
         energy: new FormGroup({
           active: new FormControl(false),
-          price: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)),
+          price: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_FLOAT)),
           stepSize: new FormControl(null),
           stepSizeEnabled: new FormControl(false)
         }),
         chargingTime: new FormGroup({
           active: new FormControl(false),
-          price: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)),
+          price: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_FLOAT)),
           stepSize: new FormControl(null),
           stepSizeEnabled: new FormControl(false)
         }),
         parkingTime: new FormGroup({
           active: new FormControl(false),
-          price: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)),
+          price: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_FLOAT)),
           stepSize: new FormControl(null),
           stepSizeEnabled: new FormControl(false)
         }),
@@ -188,6 +241,21 @@ export class PricingDefinitionComponent implements OnInit {
     this.parkingTimeStepEnabled = this.parkingTime.controls['stepSizeEnabled'];
     this.parkingTimeStepValue = this.parkingTime.controls['stepSize'];
     this.parkingTimeStepUnit = this.parkingTime.controls['stepSizeUnit'];
+    this.restrictions = this.formGroup.controls['restrictions'] as FormGroup;
+    this.minDurationSecsEnabled = this.restrictions.controls['minDurationSecsEnabled'];
+    this.minDurationSecsValue = this.restrictions.controls['minDurationSecs'];
+    this.maxDurationSecsEnabled = this.restrictions.controls['maxDurationSecsEnabled'];
+    this.maxDurationSecsValue = this.restrictions.controls['maxDurationSecs'];
+    this.minEnergyKWhEnabled = this.restrictions.controls['minEnergyKWhEnabled'];
+    this.minEnergyKWhValue = this.restrictions.controls['minEnergyKWh'];
+    this.maxEnergyKWhEnabled = this.restrictions.controls['maxEnergyKWhEnabled'];
+    this.maxEnergyKWhValue = this.restrictions.controls['maxEnergyKWh'];
+    this.daysOfWeekEnabled = this.restrictions.controls['daysOfWeekEnabled'];
+    this.daysOfWeekValue = this.restrictions.controls['daysOfWeek'];
+    this.timeFromEnabled = this.restrictions.controls['timeFromEnabled'];
+    this.timeToEnabled = this.restrictions.controls['timeToEnabled'];
+    this.timeFromValue = this.restrictions.controls['timeFrom'];
+    this.timeToValue = this.restrictions.controls['timeTo'];
     this.loadPricing();
   }
 
@@ -212,10 +280,26 @@ export class PricingDefinitionComponent implements OnInit {
         this.dimensionsMap = currentPricingDefinition.dimensions;
         this.dimensionsKeys = Object.keys(this.dimensionsMap);
         this.initializeDimensions();
+        this.restrictionsMap = currentPricingDefinition.restrictions;
+        this.restrictionsKeys = Object.keys(this.restrictionsMap);
+        this.daysOfWeekEnabled.setValue(!!this.currentPricingDefinition.restrictions.daysOfWeek);
+        this.daysOfWeekValue.setValue(this.currentPricingDefinition.restrictions.daysOfWeek);
+        this.minTime = this.currentPricingDefinition.restrictions.timeTo || null;
+        this.timeFromEnabled.setValue(!!this.currentPricingDefinition.restrictions.timeFrom);
+        this.timeFromValue.setValue(this.currentPricingDefinition.restrictions.timeFrom);
+        this.timeToValue.setValue(this.currentPricingDefinition.restrictions.timeTo);
+        this.minDurationSecsEnabled.setValue(!!this.currentPricingDefinition.restrictions.minDurationSecs);
+        this.minDurationSecsValue.setValue(this.currentPricingDefinition.restrictions.minDurationSecs);
+        this.maxDurationSecsEnabled.setValue(!!this.currentPricingDefinition.restrictions.maxDurationSecs);
+        this.maxDurationSecsValue.setValue(this.currentPricingDefinition.restrictions.maxDurationSecs);
+        this.minEnergyKWhEnabled.setValue(!!this.currentPricingDefinition.restrictions.minEnergyKWh);
+        this.minEnergyKWhValue.setValue(this.currentPricingDefinition.restrictions.minEnergyKWh);
+        this.maxEnergyKWhEnabled.setValue(!!this.currentPricingDefinition.restrictions.maxEnergyKWh);
+        this.maxEnergyKWhValue.setValue(this.currentPricingDefinition.restrictions.maxEnergyKWh);
+        // this.initializeRestrictions();
         // Force refresh the form
         this.formGroup.updateValueAndValidity();
         this.formGroup.markAsPristine();
-        // le markallastouched fout la marde et rend les champs number invalids ??????
         this.formGroup.markAllAsTouched();
       }, (error) => {
         this.spinnerService.hide();
@@ -254,13 +338,34 @@ export class PricingDefinitionComponent implements OnInit {
   public toggle(event) {
     this[`${event.source.id}Enabled`].setValue(event.checked);
     if (event.checked) {
-      this[`${event.source.id}Value`].setValidators(Validators.compose([
-        Validators.required,
-        Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)
-      ]));
+      if (event.source.id === 'timeFrom') {
+        this.timeFromValue.setValidators(Validators.compose([
+          Validators.required,
+          // Validators.pattern('^[0-9]{2}:[0-9]{2} (AM|PM)$')
+        ]));
+        this.timeToValue.setValidators(Validators.compose([
+          Validators.required,
+          // Validators.pattern('^[0-9]{2}:[0-9]{2} (AM|PM)$')
+        ]));
+      } else {
+        this[`${event.source.id}Value`].setValidators(Validators.compose([
+          Validators.required,
+          Validators.pattern(Constants.REGEX_VALIDATION_FLOAT)
+        ]));
+      }
     } else {
-      this[`${event.source.id}Value`].clearValidators();
-      this[`${event.source.id}Value`].updateValueAndValidity();
+      if (event.source.id === 'timeFrom') {
+        this.timeFromValue.reset();
+        this.timeToValue.reset();
+        this.timeFromValue.clearValidators();
+        this.timeFromValue.updateValueAndValidity();
+        this.timeToValue.clearValidators();
+        this.timeToValue.updateValueAndValidity();
+      } else {
+        this[`${event.source.id}Value`].reset();
+        this[`${event.source.id}Value`].clearValidators();
+        this[`${event.source.id}Value`].updateValueAndValidity();
+      }
     }
     this.formGroup.markAsDirty();
     this.formGroup.updateValueAndValidity();
@@ -315,6 +420,10 @@ export class PricingDefinitionComponent implements OnInit {
     this.minDate = moment(event.value).toDate();
   }
 
+  public setMinTime(event) {
+    this.minTime = event.currentTarget.value;
+  }
+
   private initializeDimensions() {
     for (const dimensionKey of this.dimensionsKeys) {
       this[`${dimensionKey}Enabled`].setValue(this.dimensionsMap[dimensionKey].active);
@@ -325,6 +434,18 @@ export class PricingDefinitionComponent implements OnInit {
       }
     }
   }
+
+  // private initializeRestrictions() {
+  //   for (const restrictionKey of this.restrictionsKeys) {
+  //     this[`${restrictionKey}Enabled`].setValue(!!this.restrictionsMap[restrictionKey]);
+  //     // this[`${restrictionKey}Value`].setValue(this.restrictionsMap[restrictionKey]);
+  //     this[`${restrictionKey}Value`].setValue(this.restrictionsMap[restrictionKey]);
+  //     // if (!!this.restrictionsMap[restrictionKey].stepSize) {
+  //     //   this[`${restrictionKey}StepEnabled`].setValue(true);
+  //     //   this[`${restrictionKey}StepValue`].setValue(this.restrictionsMap[restrictionKey].stepSize);
+  //     // }
+  //   }
+  // }
 
   private consistencyCheck(pricingDefinition: PricingDefinition) {
     if (!this.connectorPowerEnabled.value) {
@@ -342,6 +463,15 @@ export class PricingDefinitionComponent implements OnInit {
     for (const dimensionKey in pricingDefinition.dimensions) {
       if (!pricingDefinition.dimensions[dimensionKey].active) {
         delete pricingDefinition.dimensions[dimensionKey].price;
+      }
+    }
+    if (!this.timeFromEnabled) {
+      delete pricingDefinition.restrictions.timeFrom;
+      delete pricingDefinition.restrictions.timeTo;
+    }
+    for (const restrictionKey in pricingDefinition.restrictions) {
+      if (!pricingDefinition.restrictions[`${restrictionKey}`]) {
+        delete pricingDefinition.restrictions[restrictionKey];
       }
     }
     if (this.connectorType.value === Constants.SELECT_ALL) {

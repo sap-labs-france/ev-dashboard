@@ -40,7 +40,7 @@
                   <div class="col-md-3">
                     <div class="form-group">
                       <mat-form-field>
-                        <mat-datetimepicker #pickerDateStart type="datetime" openOnFocus="false" mode="portrait" timeInterval="1">
+                        <mat-datetimepicker #pickerDateStart type="date" openOnFocus="false" mode="portrait" timeInterval="1">
                         </mat-datetimepicker>
                         <mat-datetimepicker-toggle [for]="pickerDateStart" matSuffix></mat-datetimepicker-toggle>
                         <input matInput [formControl]="validFrom" placeholder="{{'settings.pricing.valid_from' | translate}}"
@@ -53,7 +53,7 @@
                   <div class="col-md-3">
                     <div class="form-group">
                       <mat-form-field>
-                        <mat-datetimepicker #pickerDateEnd type="datetime" openOnFocus="false" mode="portrait" timeInterval="1">
+                        <mat-datetimepicker #pickerDateEnd type="date" openOnFocus="false" mode="portrait" timeInterval="1">
                         </mat-datetimepicker>
                         <mat-datetimepicker-toggle [for]="pickerDateEnd" matSuffix></mat-datetimepicker-toggle>
                         <input matInput [formControl]="validTo" [min]="minDate" placeholder="{{'settings.pricing.valid_to' | translate}}"
@@ -136,7 +136,7 @@
                     </mat-form-field>
                   </div>
                 </div>
-                <!-- Energy -->
+                <!-- energy dimension -->
                 <div class="row">
                   <!-- toggle -->
                   <div class="col-md-2 pricing-dimension">
@@ -249,6 +249,106 @@
                       </mat-form-field>
                     </div>
                   </span>
+                </div>
+              </div>
+            </div>
+            <!-- Restrictions title -->
+            <div class="row">
+              <div class="col-md-5 text-left">
+                <span class="pricing-header">
+                  {{'settings.pricing.restrictions_title' | translate}}
+                </span>
+              </div>
+            </div>
+            <!-- form Restrictions -->
+            <div class="card">
+              <div class="card-body">
+                <!-- Duration -->
+                <div class="row">
+                  <!-- toggle min duration -->
+                  <div class="col-md-2 pricing-dimension">
+                    <mat-slide-toggle (change)="toggle($event)" id="minDurationSecs" [checked]="minDurationSecsEnabled.value">
+                      {{'settings.pricing.restriction_min_duration' | translate}}
+                    </mat-slide-toggle>
+                  </div>
+                  <!-- value min duration -->
+                  <div class="col-md-2">
+                    <mat-form-field *ngIf="minDurationSecsEnabled.value">
+                      <mat-label>{{'settings.pricing.restriction_min_duration_unit' | translate}}</mat-label>
+                      <input matInput type="text" placeholder="{{'settings.pricing.restriction_min_duration_unit' | translate}}"
+                      [formControl]="minDurationSecsValue" required/>
+                      <mat-error *ngIf="minDurationSecsValue?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
+                      <mat-error *ngIf="minDurationSecsValue?.errors?.pattern">{{'general.error_number_pattern' | translate}}</mat-error>
+                    </mat-form-field>
+                  </div>
+                  <!-- toggle max duration -->
+                  <div class="col-md-2 offset-1 pricing-dimension">
+                    <mat-slide-toggle (change)="toggle($event)" id="maxDurationSecs" [checked]="maxDurationSecsEnabled.value">
+                      {{'settings.pricing.restriction_max_duration' | translate}}
+                    </mat-slide-toggle>
+                  </div>
+                  <!-- value max duration -->
+                  <div class="col-md-2">
+                    <mat-form-field *ngIf="maxDurationSecsEnabled.value">
+                      <mat-label>{{'settings.pricing.restriction_max_duration_unit' | translate}}</mat-label>
+                      <input matInput type="text" placeholder="{{'settings.pricing.restriction_max_duration_unit' | translate}}"
+                      [formControl]="maxDurationSecsValue" required/>
+                      <mat-error *ngIf="maxDurationSecsValue?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
+                      <mat-error *ngIf="maxDurationSecsValue?.errors?.pattern">{{'general.error_number_pattern' | translate}}</mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <!-- Energy -->
+                <div class="row">
+                  <!-- toggle min energy -->
+                  <div class="col-md-2 pricing-dimension">
+                    <mat-slide-toggle (change)="toggle($event)" id="minEnergyKWh" [checked]="minEnergyKWhEnabled.value">
+                      {{'settings.pricing.restriction_min_energy' | translate}}
+                    </mat-slide-toggle>
+                  </div>
+                  <!-- value min energy -->
+                  <div class="col-md-2">
+                    <mat-form-field *ngIf="minEnergyKWhEnabled.value">
+                      <mat-label>{{'settings.pricing.restriction_min_energy_unit' | translate}}</mat-label>
+                      <input matInput type="text" placeholder="{{'settings.pricing.restriction_min_energy_unit' | translate}}"
+                      [formControl]="minEnergyKWhValue" required/>
+                      <mat-error *ngIf="minEnergyKWhValue?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
+                      <mat-error *ngIf="minEnergyKWhValue?.errors?.pattern">{{'general.error_number_pattern' | translate}}</mat-error>
+                    </mat-form-field>
+                  </div>
+                  <!-- toggle max energy -->
+                  <div class="col-md-2 offset-1 pricing-dimension">
+                    <mat-slide-toggle (change)="toggle($event)" id="maxEnergyKWh" [checked]="maxEnergyKWhEnabled.value">
+                      {{'settings.pricing.restriction_max_energy' | translate}}
+                    </mat-slide-toggle>
+                  </div>
+                  <!-- value max energy -->
+                  <div class="col-md-2">
+                    <mat-form-field *ngIf="maxEnergyKWhEnabled.value">
+                      <mat-label>{{'settings.pricing.restriction_max_energy_unit' | translate}}</mat-label>
+                      <input matInput type="text" placeholder="{{'settings.pricing.restriction_max_energy_unit' | translate}}"
+                      [formControl]="maxEnergyKWhValue" required/>
+                      <mat-error *ngIf="maxEnergyKWhValue?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
+                      <mat-error *ngIf="maxEnergyKWhValue?.errors?.pattern">{{'general.error_number_pattern' | translate}}</mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <!-- days of week -->
+                <div class="row">
+                  <!-- toggle days -->
+                  <div class="col-md-2 pricing-dimension">
+                    <mat-slide-toggle (change)="toggle($event)" id="daysOfWeek" [checked]="daysOfWeekEnabled.value">
+                      {{'settings.pricing.restriction_days_of_week' | translate}}
+                    </mat-slide-toggle>
+                  </div>
+                  <!-- value days -->
+                  <div class="col-md-2">
+                    <mat-button-toggle-group *ngIf="daysOfWeekEnabled.value" [value]="daysOfWeekValue" [formControl]="daysOfWeekValue" name="daysOfWeekToggle" aria-label="Days of week" multiple>
+                      <mat-button-toggle *ngFor="let day of daysMap" value={{day.key}} class="days-of-week-button">
+                        <span>{{day.short | translate}}</span>
+                      </mat-button-toggle>
+                    </mat-button-toggle-group>
+                  </div>
                 </div>
               </div>
             </div>

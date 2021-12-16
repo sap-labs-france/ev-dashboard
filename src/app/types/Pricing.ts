@@ -67,17 +67,23 @@ export interface PricingStaticRestriction {
 }
 
 export interface PricingRestriction {
-  // TODO - first Pricing implementation - some options are not yet supported
-  // startDate?: string; // Start date, for example: 2015-12-24, valid from this day
-  // endDate?: string; // End date, for example: 2015-12-27, valid until this day (excluding this day)
+  daysOfWeek?: DayOfWeek[]; // Which day(s) of the week this tariff is valid
   timeFrom?: string; // Start time of day, for example 13:30, valid from this time of the day. Must be in 24h format with leading zeros. Hour/Minute se
   timeTo?: string; // End time of day, for example 19:45, valid until this time of the day. Same syntax as start_time
-  daysOfWeek?: number[]; // Which day(s) of the week this tariff is valid
   minEnergyKWh?: number; // Minimum used energy in kWh, for example 20, valid from this amount of energy is used
   maxEnergyKWh?: number; // Maximum used energy in kWh, for example 50, valid until this amount of energy is used
   minDurationSecs?: number; // Minimum duration in seconds, valid for a duration from x seconds
   maxDurationSecs?: number; // Maximum duration in seconds, valid for a duration up to x seconds
-  days?: string[]; // Temporary list of days to be used and converted before writing in daysOfWeek
+}
+
+export enum DayOfWeek {
+  MONDAY = 1,
+  TUESDAY = 2,
+  WEDNESDAY = 3,
+  THURSDAY = 4,
+  FRIDAY = 5,
+  SATURDAY = 6,
+  SUNDAY = 7
 }
 
 // Interface exposed by the pricing integration layer

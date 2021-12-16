@@ -1,9 +1,10 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
+import { AppDayPipe } from 'shared/formatters/app-day.pipe';
 
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
@@ -13,11 +14,10 @@ import { Entity } from '../../../types/Authorization';
 import { ActionResponse } from '../../../types/DataResult';
 import { RestResponse } from '../../../types/GlobalType';
 import { HTTPError } from '../../../types/HTTPError';
-import PricingDefinition, { DayOfWeek, PricingDimensions, PricingRestriction } from '../../../types/Pricing';
+import PricingDefinition, { PricingDimensions, PricingRestriction } from '../../../types/Pricing';
 import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 import { CONNECTOR_TYPE_SELECTION_MAP } from '../../formatters/app-connector-type-selection.pipe';
-import { DAYS_OF_WEEK_MAP } from '../../model/pricing.model';
 import { PricingDefinitionDialogComponent } from './pricing-definition.dialog.component';
 
 @Component({
@@ -106,7 +106,7 @@ export class PricingDefinitionComponent implements OnInit {
   // Days of week
   public daysOfWeekEnabled: AbstractControl;
   public daysValue: AbstractControl;
-  public daysMap = DAYS_OF_WEEK_MAP;
+  public daysMapNumber = [1, 2, 3, 4, 5, 6, 7];
   // Start/end date time
   public timeFromEnabled: AbstractControl;
   public timeToEnabled: AbstractControl;
@@ -120,10 +120,12 @@ export class PricingDefinitionComponent implements OnInit {
     private spinnerService: SpinnerService,
     private dialogService: DialogService,
     private router: Router,
-    public translateService: TranslateService) {
+    public translateService: TranslateService,
+    public dayPipe: AppDayPipe) {
   }
 
   public ngOnInit(): void {
+    moment.locale(this.centralServerService.getLoggedUser().locale);
     this.userLocale = this.centralServerService.getLoggedUser().locale;
     // TODO : show current entity name instead of id - for others than charging station c'est pas relevant
     this.context = this.currentEntityType === Entity.TENANT ? this.centralServerService.getLoggedUser().tenantName : this.currentEntityName;
@@ -280,7 +282,8 @@ export class PricingDefinitionComponent implements OnInit {
         this.restrictionsMap = currentPricingDefinition.restrictions;
         this.restrictionsKeys = Object.keys(this.restrictionsMap);
         this.daysOfWeekEnabled.setValue(!!this.currentPricingDefinition.restrictions.daysOfWeek);
-        this.daysValue.setValue(this.currentPricingDefinition.restrictions.daysOfWeek.map((day) => DayOfWeek[day]));
+        // daysValue control is waiting for stringed number
+        this.daysValue.setValue(this.currentPricingDefinition.restrictions.daysOfWeek.map((day) => day.toString()));
         this.minTime = this.currentPricingDefinition.restrictions.timeTo || null;
         this.timeFromEnabled.setValue(!!this.currentPricingDefinition.restrictions.timeFrom);
         this.timeFromValue.setValue(this.currentPricingDefinition.restrictions.timeFrom);
@@ -293,7 +296,6 @@ export class PricingDefinitionComponent implements OnInit {
         this.minEnergyKWhValue.setValue(this.currentPricingDefinition.restrictions.minEnergyKWh);
         this.maxEnergyKWhEnabled.setValue(!!this.currentPricingDefinition.restrictions.maxEnergyKWh);
         this.maxEnergyKWhValue.setValue(this.currentPricingDefinition.restrictions.maxEnergyKWh);
-        // this.initializeRestrictions();
         // Force refresh the form
         this.formGroup.updateValueAndValidity();
         this.formGroup.markAsPristine();
@@ -432,18 +434,6 @@ export class PricingDefinitionComponent implements OnInit {
     }
   }
 
-  // private initializeRestrictions() {
-  //   for (const restrictionKey of this.restrictionsKeys) {
-  //     this[`${restrictionKey}Enabled`].setValue(!!this.restrictionsMap[restrictionKey]);
-  //     // this[`${restrictionKey}Value`].setValue(this.restrictionsMap[restrictionKey]);
-  //     this[`${restrictionKey}Value`].setValue(this.restrictionsMap[restrictionKey]);
-  //     // if (!!this.restrictionsMap[restrictionKey].stepSize) {
-  //     //   this[`${restrictionKey}StepEnabled`].setValue(true);
-  //     //   this[`${restrictionKey}StepValue`].setValue(this.restrictionsMap[restrictionKey].stepSize);
-  //     // }
-  //   }
-  // }
-
   private consistencyCheck(pricingDefinition: PricingDefinition) {
     if (!this.connectorPowerEnabled.value) {
       delete pricingDefinition.staticRestrictions.connectorPowerkW;
@@ -463,7 +453,7 @@ export class PricingDefinitionComponent implements OnInit {
       }
     }
     if (this.daysOfWeekEnabled.value) {
-      pricingDefinition.restrictions.daysOfWeek = pricingDefinition.restrictions.days.map((day) => DayOfWeek[day]);
+      pricingDefinition.restrictions.daysOfWeek = pricingDefinition.restrictions.days.map((day) => Number(day));
     }
     if (!this.timeFromEnabled) {
       delete pricingDefinition.restrictions.timeFrom;

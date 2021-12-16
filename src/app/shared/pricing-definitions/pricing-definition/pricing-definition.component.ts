@@ -36,7 +36,6 @@ export class PricingDefinitionComponent implements OnInit {
   public formGroup!: FormGroup;
   public currentPricingDefinition: PricingDefinition;
   public context: string;
-  public userLocale: any;
   // Controls general
   public id: AbstractControl;
   public name: AbstractControl;
@@ -125,9 +124,8 @@ export class PricingDefinitionComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+    // Need to set locale manually depending on loggedUser locale
     moment.locale(this.centralServerService.getLoggedUser().locale);
-    this.userLocale = this.centralServerService.getLoggedUser().locale;
-    // TODO : show current entity name instead of id - for others than charging station c'est pas relevant
     this.context = this.currentEntityType === Entity.TENANT ? this.centralServerService.getLoggedUser().tenantName : this.currentEntityName;
     this.formGroup = new FormGroup({
       id: new FormControl(),

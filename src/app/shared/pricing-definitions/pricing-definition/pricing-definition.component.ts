@@ -36,6 +36,7 @@ export class PricingDefinitionComponent implements OnInit {
   public formGroup!: FormGroup;
   public currentPricingDefinition: PricingDefinition;
   public context: string;
+  public timeFormat: string;
   // Controls general
   public id: AbstractControl;
   public name: AbstractControl;
@@ -121,11 +122,10 @@ export class PricingDefinitionComponent implements OnInit {
     private router: Router,
     public translateService: TranslateService,
     public dayPipe: AppDayPipe) {
+    this.setTimeFormat();
   }
 
   public ngOnInit(): void {
-    // Need to set locale manually depending on loggedUser locale for days abbreviation displaying
-    moment.locale(this.centralServerService.getLoggedUser().locale);
     this.context = this.currentEntityType === Entity.TENANT ? this.centralServerService.getLoggedUser().tenantName : this.currentEntityName;
     this.formGroup = new FormGroup({
       id: new FormControl(),
@@ -422,6 +422,15 @@ export class PricingDefinitionComponent implements OnInit {
 
   public setMinTime(event) {
     this.minTime = event.currentTarget.value;
+  }
+
+  private setTimeFormat() {
+    // if there is AM/PM in longDateFormat means it's 12hours time format
+    if (moment.localeData().longDateFormat('LT').toLowerCase().indexOf('a') > -1) {
+      this.timeFormat = '12';
+    } else {
+      this.timeFormat = '24';
+    }
   }
 
   private initializeDimensions() {

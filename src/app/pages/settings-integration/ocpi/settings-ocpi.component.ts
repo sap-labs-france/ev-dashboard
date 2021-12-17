@@ -124,9 +124,9 @@ export class SettingsOcpiComponent implements OnInit {
             Validators.maxLength(3),
           ]),
         ),
-        tariffID: new FormControl('',
+        tariffID: new FormControl(null,
           Validators.compose([
-            Validators.maxLength(50),
+            Validators.maxLength(36),
           ]),
         )
       });

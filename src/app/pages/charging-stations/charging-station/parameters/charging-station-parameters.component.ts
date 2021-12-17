@@ -121,9 +121,9 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
         ])),
     ])
     );
-    this.formGroup.addControl('tariffID', new FormControl('',
+    this.formGroup.addControl('tariffID', new FormControl(null,
       Validators.compose([
-        Validators.maxLength(50)
+        Validators.maxLength(36)
       ])
     ));
     // Form

@@ -120,9 +120,9 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
         ])
       ),
       currentType: new FormControl(CurrentType.AC),
-      tariffID: new FormControl('',
+      tariffID: new FormControl(null,
         Validators.compose([
-          Validators.maxLength(50)
+          Validators.maxLength(36)
         ])
       )
     });

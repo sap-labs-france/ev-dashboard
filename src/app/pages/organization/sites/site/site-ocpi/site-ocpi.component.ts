@@ -21,7 +21,7 @@ export class SiteOcpiComponent implements OnInit, OnChanges {
 
   public ngOnInit() {
     // Init the form
-    this.formGroup.addControl('tariffID', new FormControl('',
+    this.formGroup.addControl('tariffID', new FormControl(null,
       Validators.compose([
         Validators.maxLength(50),
       ])));

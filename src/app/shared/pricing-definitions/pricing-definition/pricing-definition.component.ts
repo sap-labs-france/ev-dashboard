@@ -124,7 +124,7 @@ export class PricingDefinitionComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    // Need to set locale manually depending on loggedUser locale
+    // Need to set locale manually depending on loggedUser locale for days abbreviation displaying
     moment.locale(this.centralServerService.getLoggedUser().locale);
     this.context = this.currentEntityType === Entity.TENANT ? this.centralServerService.getLoggedUser().tenantName : this.currentEntityName;
     this.formGroup = new FormGroup({
@@ -334,33 +334,37 @@ export class PricingDefinitionComponent implements OnInit {
   public toggle(event) {
     this[`${event.source.id}Enabled`].setValue(event.checked);
     if (event.checked) {
-      if (event.source.id === 'timeFrom') {
-        this.timeFromValue.setValidators(Validators.compose([
-          Validators.required,
-          // Validators.pattern('^[0-9]{2}:[0-9]{2} (AM|PM)$')
-        ]));
-        this.timeToValue.setValidators(Validators.compose([
-          Validators.required,
-          // Validators.pattern('^[0-9]{2}:[0-9]{2} (AM|PM)$')
-        ]));
-      } else {
-        this[`${event.source.id}Value`].setValidators(Validators.compose([
-          Validators.required,
-          Validators.pattern(Constants.REGEX_VALIDATION_FLOAT)
-        ]));
+      switch (event.source.id) {
+        case 'timeFrom':
+          this.timeFromValue.setValidators(Validators.compose([
+            Validators.required,
+            // Validators.pattern('^[0-9]{2}:[0-9]{2} (AM|PM)$')
+          ]));
+          this.timeToValue.setValidators(Validators.compose([
+            Validators.required,
+            // Validators.pattern('^[0-9]{2}:[0-9]{2} (AM|PM)$')
+          ]));
+          break;
+        case 'daysOfWeek':
+          this.selectedDays.setValidators(Validators.required);
+          break;
+        default:
+          this[`${event.source.id}Value`].setValidators(Validators.compose([
+            Validators.required,
+            Validators.pattern(Constants.REGEX_VALIDATION_FLOAT)
+          ]));
       }
     } else {
-      if (event.source.id === 'timeFrom') {
-        this.timeFromValue.reset();
-        this.timeToValue.reset();
-        this.timeFromValue.clearValidators();
-        this.timeFromValue.updateValueAndValidity();
-        this.timeToValue.clearValidators();
-        this.timeToValue.updateValueAndValidity();
-      } else {
-        this[`${event.source.id}Value`].reset();
-        this[`${event.source.id}Value`].clearValidators();
-        this[`${event.source.id}Value`].updateValueAndValidity();
+      switch (event.source.id) {
+        case 'timeFrom':
+          this.clearAndResetControl(this.timeFromValue);
+          this.clearAndResetControl(this.timeToValue);
+          break;
+        case 'daysOfWeek':
+          this.clearAndResetControl(this.selectedDays);
+          break;
+        default:
+          this.clearAndResetControl(this[`${event.source.id}Value`]);
       }
     }
     this.formGroup.markAsDirty();
@@ -429,6 +433,12 @@ export class PricingDefinitionComponent implements OnInit {
         this[`${dimensionKey}StepValue`].setValue(this.dimensionsMap[dimensionKey].stepSize);
       }
     }
+  }
+
+  private clearAndResetControl(control: AbstractControl) {
+    control.reset();
+    control.clearValidators();
+    control.updateValueAndValidity();
   }
 
   private consistencyCheck(pricingDefinition: PricingDefinition) {

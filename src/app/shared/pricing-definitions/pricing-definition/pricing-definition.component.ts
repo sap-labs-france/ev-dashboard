@@ -104,8 +104,8 @@ export class PricingDefinitionComponent implements OnInit {
   public maxEnergyKWhValue: AbstractControl;
   // Days of week
   public daysOfWeekEnabled: AbstractControl;
-  public daysValue: AbstractControl;
-  public daysMapNumber = [1, 2, 3, 4, 5, 6, 7];
+  public selectedDays: AbstractControl;
+  public daysOfTheWeek = [1, 2, 3, 4, 5, 6, 7];
   // Start/end date time
   public timeFromEnabled: AbstractControl;
   public timeToEnabled: AbstractControl;
@@ -153,7 +153,7 @@ export class PricingDefinitionComponent implements OnInit {
         timeToEnabled: new FormControl(false),
         timeTo: new FormControl(null),
         daysOfWeekEnabled: new FormControl(false),
-        days: new FormControl(null),
+        selectedDays: new FormControl(null),
       }),
       name: new FormControl('',
         Validators.compose([
@@ -248,7 +248,7 @@ export class PricingDefinitionComponent implements OnInit {
     this.maxEnergyKWhEnabled = this.restrictions.controls['maxEnergyKWhEnabled'];
     this.maxEnergyKWhValue = this.restrictions.controls['maxEnergyKWh'];
     this.daysOfWeekEnabled = this.restrictions.controls['daysOfWeekEnabled'];
-    this.daysValue = this.restrictions.controls['days'];
+    this.selectedDays = this.restrictions.controls['selectedDays'];
     this.timeFromEnabled = this.restrictions.controls['timeFromEnabled'];
     this.timeToEnabled = this.restrictions.controls['timeToEnabled'];
     this.timeFromValue = this.restrictions.controls['timeFrom'];
@@ -280,8 +280,7 @@ export class PricingDefinitionComponent implements OnInit {
         this.restrictionsMap = currentPricingDefinition.restrictions;
         this.restrictionsKeys = Object.keys(this.restrictionsMap);
         this.daysOfWeekEnabled.setValue(!!this.currentPricingDefinition.restrictions.daysOfWeek);
-        // daysValue control is waiting for stringed number
-        this.daysValue.setValue(this.currentPricingDefinition.restrictions.daysOfWeek.map((day) => day.toString()));
+        this.selectedDays.setValue(this.currentPricingDefinition.restrictions.daysOfWeek.map((day) => day.toString()));
         this.minTime = this.currentPricingDefinition.restrictions.timeTo || null;
         this.timeFromEnabled.setValue(!!this.currentPricingDefinition.restrictions.timeFrom);
         this.timeFromValue.setValue(this.currentPricingDefinition.restrictions.timeFrom);
@@ -451,7 +450,7 @@ export class PricingDefinitionComponent implements OnInit {
       }
     }
     if (this.daysOfWeekEnabled.value) {
-      pricingDefinition.restrictions.daysOfWeek = pricingDefinition.restrictions.days.map((day) => Number(day));
+      pricingDefinition.restrictions.daysOfWeek = this.selectedDays.value;
     }
     if (!this.timeFromEnabled) {
       delete pricingDefinition.restrictions.timeFrom;

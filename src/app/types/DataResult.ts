@@ -2,6 +2,7 @@ import { AuthorizationDefinitionFieldMetadata } from './Authorization';
 import { Car, CarCatalog } from './Car';
 import { Company } from './Company';
 import { Log } from './Log';
+import PricingDefinition from './Pricing';
 import { Site } from './Site';
 import { SiteArea } from './SiteArea';
 import { Tag } from './Tag';
@@ -118,6 +119,12 @@ export interface TagDataResult extends DataResult<Tag> {
   canDelete: boolean;
   canUnassign: boolean;
   canAssign: boolean;
+  canListUsers: boolean;
+  canListSources: boolean;
+}
+
+export interface PricingDefinitionDataResult extends DataResult<PricingDefinition> {
+  canCreate: boolean;
 }
 
 export interface CheckAssetConnectionResponse extends ActionResponse {

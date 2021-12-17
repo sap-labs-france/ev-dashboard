@@ -23,10 +23,17 @@ import { UserSitesAdminCheckboxComponent } from './user-sites/user-sites-admin-c
 import { UserSitesDialogComponent } from './user-sites/user-sites-dialog.component';
 import { UserSitesOwnerRadioComponent } from './user-sites/user-sites-owner-radio.component';
 import { UserSitesTableDataSource } from './user-sites/user-sites-table-data-source';
+import { UserMercedesCarConnectorComponent } from './user/connectors/car/mercedes/user-mercedes-car-connector.component';
+import { UserConcurRefundConnectorComponent } from './user/connectors/refund/concur/user-concur-refund-connector.component';
+import { UserConnectorsComponent } from './user/connectors/user-connectors.component';
+import { UserMainComponent } from './user/main/user-main.component';
+import { UserMiscsComponent } from './user/miscs/user-miscs.component';
+import { UserNotificationsComponent } from './user/notifications/user-notifications.component';
 import { AppPaymentMethodStatusPipe, PaymentMethodStatusComponent } from './user/payment-methods/payment-method/payment-method-status.component';
 import { PaymentMethodDialogComponent } from './user/payment-methods/payment-method/payment-method.dialog.component';
 import { StripePaymentMethodComponent } from './user/payment-methods/payment-method/stripe/stripe-payment-method.component';
 import { PaymentMethodsComponent } from './user/payment-methods/payment-methods.component';
+import { UserSecurityComponent } from './user/security/user-security.component';
 import { UserComponent } from './user/user.component';
 import { UserDialogComponent } from './user/user.dialog.component';
 import { UsersComponent } from './users.component';
@@ -52,6 +59,13 @@ import { UserRoutes } from './users.routing';
     UsersInErrorComponent,
     UsersComponent,
     UserComponent,
+    UserMainComponent,
+    UserNotificationsComponent,
+    UserSecurityComponent,
+    UserConnectorsComponent,
+    UserMercedesCarConnectorComponent,
+    UserConcurRefundConnectorComponent,
+    UserMiscsComponent,
     UserDialogComponent,
     UserSitesDialogComponent,
     UserSitesAdminCheckboxComponent,

@@ -23,14 +23,56 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.5.12',
-        date: new Date('2021-11-17'),
+        version: '2.5.14',
+        date: new Date('2021-12-15'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
-              `Introduction of the new Pricing engine (backend only)`,
-              `Added OCPI Tariff ID in Tenant's settings and Site`,
+              `Added traces on the Web Socket server`,
+              `Made locking on Web Sockets more permissive`,
+              `Added Search in Charging Station's Registration Tokens`,
+              `Fixed few Sessions not priced during the migration to the new Pricing`,
+              `Fixed user cannot create Asset Connections in Settings`,
+              `Fixed Czech language`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.5.13',
+        date: new Date('2021-12-12'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added dependencies between filters in Statistics`,
+              `Migrated Statistics endpoints to RESTful API`,
+              `Allow the User to start a transaction without a Car`,
+              `Site Owner can read Users in Session lists`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.5.12',
+        date: new Date('2021-12-07'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `New Built-in Pricing engine`,
+              `Added OCPI Tariff ID in Tenant's Settings and Site`,
+              `Technical users are only allowed to perform B2B requests`,
+              `Migrated Registration Token, Organization and Setting endpoints to RESTful API`,
+              `Simplified authorizations on lists`,
+              `Fixed Tenant's logo is not loaded when entering a new password`,
+              `Forced RFID Cards to uppercase in OCPP requests`,
+              `Added missing Data Transfer in OCPP command whitelist`,
+              `Adjusted roaming handling in Company, Site and Site Area (OCPI)`,
+              `Soft Stop of a Transaction is allowed when there is a different ongoing Transaction`,
+              `Fixed Site Admin cannot Soft Stop his own Transaction`,
+              `Added Autralian locale`,
             ],
           },
         ],

@@ -55,7 +55,6 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
   private navigateToChargingPlansAction = new TableNavigateToChargingPlansAction().getActionDef();
   private readonly isOrganizationComponentActive: boolean;
   private isAdmin = false;
-  private isSiteAdmin = false;
 
   public constructor(
     public spinnerService: SpinnerService,
@@ -76,7 +75,6 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
     super(spinnerService, translateService);
     // Admin
     this.isAdmin = this.authorizationService.isAdmin();
-    this.isSiteAdmin = this.authorizationService.hasSitesAdminRights();
     this.isOrganizationComponentActive = this.componentService.isActive(TenantComponents.ORGANIZATION);
     // Init
     if (this.isOrganizationComponentActive) {
@@ -98,12 +96,10 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
     return new Observable((observer) => {
       this.centralServerService.getActiveTransactions(this.buildFilterValues(), this.getPaging(), this.getSorting())
         .subscribe((transactions) => {
-          // Ok
           observer.next(transactions);
           observer.complete();
         }, (error) => {
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-          // Error
           observer.error(error);
         });
     });
@@ -196,7 +192,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         },
       );
     }
-    if (this.isAdmin || this.isSiteAdmin) {
+    if (this.authorizationService.canListUsers()) {
       tableColumns.push({
         id: 'user',
         name: 'transactions.user',

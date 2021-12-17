@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 
-import { CONNECTOR_TYPE_MAP } from './shared/formatters/app-connector-type.pipe';
+import { CONNECTOR_ALL_TYPES_MAP } from './shared/model/charging-stations.model';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +14,7 @@ export class AppComponent {
   public constructor(
     private iconRegistry: MatIconRegistry,
     private sanitizer: DomSanitizer) {
-    for (const connectorMap of CONNECTOR_TYPE_MAP) {
+    for (const connectorMap of CONNECTOR_ALL_TYPES_MAP) {
       if (connectorMap.svgIconName) {
         iconRegistry.addSvgIcon(
           connectorMap.svgIconName,

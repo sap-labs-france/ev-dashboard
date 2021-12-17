@@ -1,6 +1,7 @@
 import { ValidatorFn } from '@angular/forms';
 import { SortDirection } from '@angular/material/sort';
 import * as moment from 'moment';
+import { TableFilter } from 'shared/table/filters/table-filter';
 
 import { AssetButtonAction } from './Asset';
 import { AuthorizationActions } from './Authorization';
@@ -12,6 +13,7 @@ import { ButtonAction, KeyValue } from './GlobalType';
 import { LogButtonAction } from './Log';
 import { OcpiButtonAction } from './ocpi/OCPIEndpoint';
 import { OicpButtonAction } from './oicp/OICPEndpoint';
+import { PricingButtonAction } from './Pricing';
 import { RegistrationTokenButtonAction } from './RegistrationToken';
 import { SiteButtonAction } from './Site';
 import { SiteAreaButtonAction } from './SiteArea';
@@ -52,6 +54,7 @@ export interface TableFilterDef {
   cleared?: boolean;
   dateRangeTableFilterDef?: DateRangeTableFilterDef;
   dependentFilters?: TableFilterDef[];
+  visible?: boolean;
 }
 
 export interface DateRangeTableFilterDef {
@@ -121,7 +124,7 @@ export enum DialogType {
 export interface TableActionDef {
   id: ButtonAction | CompanyButtonAction | TenantButtonAction | SiteAreaButtonAction | ChargingStationButtonAction |
   UserButtonAction | TransactionButtonAction | SiteButtonAction | OcpiButtonAction | OicpButtonAction | AssetButtonAction |
-  BillingButtonAction | CarButtonAction | LogButtonAction | RegistrationTokenButtonAction | TagButtonAction;
+  BillingButtonAction | CarButtonAction | LogButtonAction | RegistrationTokenButtonAction | TagButtonAction | PricingButtonAction;
   type: ActionType;
   currentValue?: any;
   name: string;

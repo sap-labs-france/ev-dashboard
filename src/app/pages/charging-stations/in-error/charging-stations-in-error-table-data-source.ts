@@ -72,7 +72,6 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
 
   public loadDataImpl(): Observable<DataResult<ChargingStationInError>> {
     return new Observable((observer) => {
-      // Get data
       this.centralServerService.getChargingStationsInError(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((chargers) => {
         this.formatErrorMessages(chargers.result);
@@ -89,13 +88,10 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
             connector.currentTotalInactivitySecs = chargingStation.inactive ? 0 : connector.currentTotalInactivitySecs;
           });
         });
-        // Ok
         observer.next(chargers);
         observer.complete();
       }, (error) => {
-        // No longer exists!
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        // Error
         observer.error(error);
       });
     });

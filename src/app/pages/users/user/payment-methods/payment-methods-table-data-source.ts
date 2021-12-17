@@ -52,11 +52,11 @@ export class PaymentMethodsTableDataSource extends TableDataSource<BillingPaymen
       this.spinnerService.hide();
       this.billingSettings = settings;
     });
+    this.initDataSource();
   }
 
-  public setCurrentUserId(currentUserID: string) {
+  public setCurrentUserID(currentUserID: string) {
     this.currentUserID = currentUserID;
-    this.initDataSource();
   }
 
   public loadDataImpl(): Observable<DataResult<BillingPaymentMethod>> {
@@ -64,7 +64,6 @@ export class PaymentMethodsTableDataSource extends TableDataSource<BillingPaymen
       // User provided?
       if (this.currentUserID) {
         // Yes: Get data
-        // eslint-disable-next-line max-len
         this.centralServerService.getPaymentMethods(this.currentUserID, this.buildFilterValues(),
           this.getPaging(), this.getSorting()).subscribe((paymentMethods) => {
           this.createAction.visible = this.canCreatePaymentMethod;
@@ -78,7 +77,6 @@ export class PaymentMethodsTableDataSource extends TableDataSource<BillingPaymen
             default:
               Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
           }
-          // Error
           observer.error(error);
         });
       } else {
@@ -115,8 +113,7 @@ export class PaymentMethodsTableDataSource extends TableDataSource<BillingPaymen
         name: 'general.default',
         headerClass: 'text-center col-10p',
         class: 'text-center col-10p',
-        formatter: (defaultPaymentMethod: boolean, paymentMethod: BillingPaymentMethod) => paymentMethod.isDefault ?
-          this.translateService.instant('general.yes') : this.translateService.instant('general.no'),
+        formatter: (defaultPaymentMethod: boolean, paymentMethod: BillingPaymentMethod) => Utils.displayYesNo(this.translateService, paymentMethod.isDefault),
       },
       {
         id: 'type',

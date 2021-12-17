@@ -27,7 +27,6 @@ export class SettingsCarConnectorConnectionEditableTableDataSource extends Edita
   public loadDataImpl(): Observable<DataResult<CarConnectorConnectionSetting>> {
     // Not really editable datasource
     return new Observable((observer) => {
-      // Check
       if (this.editableRows) {
         // Car connector sort by name
         this.editableRows.sort((a, b) => (a.name > b.name) ? 1 : (b.name > a.name) ? -1 : 0);

@@ -89,7 +89,6 @@ export class ChargingPlansTableDataSource extends TableDataSource<Schedule> {
         schedules.count = 0;
         schedules.result = [];
       }
-      // Ok
       observer.next(schedules);
       observer.complete();
     });

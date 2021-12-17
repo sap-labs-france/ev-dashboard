@@ -34,7 +34,6 @@ export class TableDeleteTransactionsAction extends TableDeleteManyAction {
       messageService.showErrorMessage(translateService.instant('general.select_at_least_one_record'));
       return;
     }
-    // Check
     for (const transaction of transactions) {
       if (transaction.refundData &&
          (transaction.refundData.status === RefundStatus.SUBMITTED ||

@@ -302,10 +302,8 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
   }
 
   private amperagePhaseValidator(amperageControl: AbstractControl): ValidationErrors | null {
-    // Check
     if (!amperageControl.value ||
       (((amperageControl.value as number) % (this.numberOfConnectedPhase.value as number)) === 0)) {
-      // Ok
       return null;
     }
     return { amperagePhases: true };

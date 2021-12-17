@@ -34,7 +34,7 @@ export class ReleaseNotesComponent {
               `Added Search in Charging Station's Registration Tokens`,
               `Fixed few Sessions not priced during the migration to the new Pricing`,
               `Fixed user cannot create Asset Connections in Settings`,
-              `Limited the OCPP traffic by changing the Heartbeat from 60s to 120 secs (replaced by the WS ping)`,
+              `Limited the OCPP Heartbeat traffic (replaced by the WS ping)`,
               `Enhanced OCPP performances with async notifications`,
               `Fixed Czech language`,
             ],

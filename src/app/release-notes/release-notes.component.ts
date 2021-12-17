@@ -29,6 +29,8 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `Added traces on the Web Socket server`,
+              `Made locking on Web Sockets more permissive`,
               `Added Search in Charging Station's Registration Tokens`,
               `Fixed few Sessions not priced during the migration to the new Pricing`,
               `Fixed user cannot create Asset Connections in Settings`,

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import * as moment from 'moment';
 import { BehaviorSubject } from 'rxjs';
 import { Constants } from 'utils/Constants';
 
@@ -81,12 +82,20 @@ export class LocaleService {
     if (!this.locale || this.locale.currentLocale !== locale) {
       this.locale = this.getSupportedLocale(locale);
       this.translateService.use(this.locale.language);
+      this.updateMomentLocale();
       if (!this.currentLocaleSubject) {
         this.currentLocaleSubject = new BehaviorSubject<Locale>(this.locale);
       } else {
         this.currentLocaleSubject.next(this.locale);
       }
     }
+  }
+
+  private updateMomentLocale() {
+    // Make sure to update the moment locale as well (impacts all controls such as the datepicker)
+    moment.locale(this.locale.currentLocaleJS.toLowerCase());
+    console.log('Moment Locale as been set to: ' + moment.locale());
+    console.log('List of loaded locales: ' + moment.locales());
   }
 
   private getSupportedLocale(locale: string) {

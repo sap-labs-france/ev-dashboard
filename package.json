@@ -103,7 +103,7 @@
     "ngx-csv-parser": "0.0.7",
     "ngx-daterangepicker-material": "^5.0.1",
     "ngx-google-places-autocomplete": "^2.0.5",
-    "ngx-moment": "^5.0.0",
+    "ngx-moment": "^6.0.0",
     "popper.js": "^1.16.1",
     "rxjs": "^6.6.7",
     "tldts": "^5.7.57",

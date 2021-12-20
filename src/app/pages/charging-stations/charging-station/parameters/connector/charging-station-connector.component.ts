@@ -145,7 +145,6 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
       this.voltage.disable();
       this.amperagePerPhase.disable();
       this.numberOfConnectedPhase.disable();
-      this.phaseAssignmentToGrid.disable();
     }
   }
 
@@ -192,6 +191,7 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
         this.refreshPower();
         this.refreshNumberOfPhases();
       }
+      this.tariffID.enable();
       if (this.connector.tariffID) {
         this.tariffID.setValue(this.connector.tariffID);
       }

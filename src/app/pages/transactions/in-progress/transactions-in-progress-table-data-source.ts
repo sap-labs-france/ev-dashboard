@@ -140,14 +140,6 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         formatter: (value: Date) => this.datePipe.transform(value),
       },
       {
-        id: 'currentTotalDurationSecs',
-        name: 'transactions.duration',
-        headerClass: 'col-10p',
-        class: 'text-left col-10p',
-        formatter: (currentTotalDurationSecs: number, row: Transaction) =>
-          this.appDurationPipe.transform((new Date().getTime() - new Date(row.timestamp).getTime()) / 1000),
-      },
-      {
         id: 'chargeBoxID',
         name: 'transactions.charging_station',
         headerClass: 'col-15p',
@@ -169,7 +161,57 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         formatter: (info: string, row: Connector) => Utils.buildConnectorInfo(row),
         sortable: false,
       },
+      {
+        id: 'currentTotalDurationSecs',
+        name: 'transactions.duration',
+        headerClass: 'col-10p',
+        class: 'text-left col-10p',
+        formatter: (currentTotalDurationSecs: number, row: Transaction) =>
+          this.appDurationPipe.transform((new Date().getTime() - new Date(row.timestamp).getTime()) / 1000),
+      },
+      {
+        id: 'currentTotalInactivitySecs',
+        name: 'transactions.inactivity',
+        headerClass: 'col-10p',
+        class: 'col-10p',
+        sortable: false,
+        isAngularComponent: true,
+        angularComponent: TransactionsInactivityCellComponent,
+      },
+      {
+        id: 'currentInstantWatts',
+        name: 'transactions.current_consumption',
+        headerClass: 'col-10p',
+        class: 'col-10p',
+        formatter: (currentInstantWatts: number) => this.appUnitPipe.transform(currentInstantWatts, 'W', 'kW'),
+      },
+      {
+        id: 'currentTotalConsumptionWh',
+        name: 'transactions.total_consumption',
+        formatter: (currentTotalConsumptionWh: number) => this.appUnitPipe.transform(currentTotalConsumptionWh, 'Wh', 'kWh'),
+      },
+      {
+        id: 'currentStateOfCharge',
+        name: 'transactions.state_of_charge',
+        headerClass: 'col-10p',
+        class: 'col-10p',
+        formatter: (currentStateOfCharge: number, row: Transaction) => {
+          if (!currentStateOfCharge) {
+            return '';
+          }
+          return this.appBatteryPercentagePipe.transform(row.stateOfCharge, currentStateOfCharge);
+        },
+      },
     );
+    if (this.componentService.isActive(TenantComponents.PRICING)) {
+      tableColumns.push({
+        id: 'currentCumulatedPrice',
+        name: 'transactions.price',
+        headerClass: 'col-10p',
+        class: 'col-10p',
+        formatter: (price: number, transaction: Transaction) => this.appCurrencyPipe.transform(price, transaction.priceUnit),
+      });
+    }
     if (this.isOrganizationComponentActive) {
       tableColumns.push(
         {
@@ -236,50 +278,6 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
           formatter: (licensePlate: string) => licensePlate ? licensePlate : '-'
         });
       }
-    }
-    tableColumns.push(
-      {
-        id: 'currentTotalInactivitySecs',
-        name: 'transactions.inactivity',
-        headerClass: 'col-10p',
-        class: 'col-10p',
-        sortable: false,
-        isAngularComponent: true,
-        angularComponent: TransactionsInactivityCellComponent,
-      },
-      {
-        id: 'currentInstantWatts',
-        name: 'transactions.current_consumption',
-        headerClass: 'col-10p',
-        class: 'col-10p',
-        formatter: (currentInstantWatts: number) => this.appUnitPipe.transform(currentInstantWatts, 'W', 'kW'),
-      },
-      {
-        id: 'currentTotalConsumptionWh',
-        name: 'transactions.total_consumption',
-        formatter: (currentTotalConsumptionWh: number) => this.appUnitPipe.transform(currentTotalConsumptionWh, 'Wh', 'kWh'),
-      },
-      {
-        id: 'currentStateOfCharge',
-        name: 'transactions.state_of_charge',
-        headerClass: 'col-10p',
-        class: 'col-10p',
-        formatter: (currentStateOfCharge: number, row: Transaction) => {
-          if (!currentStateOfCharge) {
-            return '';
-          }
-          return this.appBatteryPercentagePipe.transform(row.stateOfCharge, currentStateOfCharge);
-        },
-      },
-    );
-    if (this.componentService.isActive(TenantComponents.PRICING)) {
-      tableColumns.push({
-        id: 'currentCumulatedPrice',
-        name: 'transactions.price',
-        headerClass: 'col-10p',
-        class: 'col-10p',
-        formatter: (price: number, transaction: Transaction) => this.appCurrencyPipe.transform(price, transaction.priceUnit),
-      });
     }
     return tableColumns;
   }

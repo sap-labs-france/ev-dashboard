@@ -261,4 +261,8 @@ export class SettingsOcpiComponent implements OnInit {
   public toUpperCase(control: AbstractControl) {
     control.setValue(control.value.toUpperCase());
   }
+
+  public emptyStringToNull(control: AbstractControl) {
+    Utils.convertEmptyStringToNull(control);
+  }
 }

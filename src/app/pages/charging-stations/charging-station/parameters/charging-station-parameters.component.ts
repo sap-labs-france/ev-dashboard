@@ -385,4 +385,8 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
       });
     }
   }
+
+  public emptyStringToNull(control: AbstractControl) {
+    Utils.convertEmptyStringToNull(control);
+  }
 }

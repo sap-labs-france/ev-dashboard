@@ -152,7 +152,7 @@
           <div class="col-md-6">
             <mat-form-field>
               <mat-label for="tariffID">{{'ocpi.tariffID' | translate}}</mat-label>
-              <input matInput type="text" [formControl]="tariffID"
+              <input matInput type="text" [formControl]="tariffID" (input)="emptyStringToNull(tariffID)"
                 placeholder="{{'ocpi.tariffID' | translate}}">
               <mat-error *ngIf="tariffID?.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
               <mat-error *ngIf="tariffID?.errors?.maxlength">

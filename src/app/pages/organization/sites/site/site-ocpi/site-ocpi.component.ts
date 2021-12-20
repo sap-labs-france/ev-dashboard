@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Site } from 'types/Site';
+import { Utils } from 'utils/Utils';
 
 @Component({
   selector: 'app-site-ocpi',
@@ -50,6 +51,10 @@ export class SiteOcpiComponent implements OnInit, OnChanges {
   public publicChanged(publicValue: boolean) {
     this.public = publicValue;
     this.enableDisableTariffID();
+  }
+
+  public emptyStringToNull(control: AbstractControl) {
+    Utils.convertEmptyStringToNull(control);
   }
 
   private enableDisableTariffID() {

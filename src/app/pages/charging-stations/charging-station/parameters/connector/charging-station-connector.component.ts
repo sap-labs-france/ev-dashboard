@@ -284,6 +284,10 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
     this.refreshPower();
   }
 
+  public emptyStringToNull(control: AbstractControl) {
+    Utils.convertEmptyStringToNull(control);
+  }
+
   public numberOfConnectedPhaseChanged() {
     this.refreshTotalAmperage();
     this.refreshPower();

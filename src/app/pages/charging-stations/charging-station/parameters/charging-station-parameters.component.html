@@ -83,10 +83,11 @@
         </mat-checkbox>
       </div>
     </div>
-    <div class="row" *ngIf="OCPIActive && chargingStation.site.public && public.value">
+    <div class="row" *ngIf="OCPIActive && public.value">
       <div class="col-md-3 text-left form-group">
         <mat-form-field>
-          <input matInput type="text" placeholder="{{'ocpi.tariffID' | translate}}" [formControl]="tariffID" />
+          <input matInput type="text" placeholder="{{'ocpi.tariffID' | translate}}" [formControl]="tariffID"
+          (input)="emptyStringToNull(tariffID)" />
           <mat-error *ngIf="tariffID?.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
           <mat-error *ngIf="tariffID?.errors?.maxlength">
             <div [translate]="'general.error_max_length'" [translateParams]="{length: 36}"></div>
@@ -99,7 +100,7 @@
       <div class="col-md-12" *ngFor="let chargePoint of chargingStation.chargePoints">
         <app-charging-station-charge-point [chargingStation]="chargingStation" [chargePoint]="chargePoint"
           [formChargePointsArray]="chargePoints" [formConnectorsArray]="connectors" [isAdmin]="isAdmin"
-          [ocpiEnabled]="OCPIActive && public.value && chargingStation.site.public "
+          [ocpiEnabled]="OCPIActive && public.value"
           (chargePointChanged)="chargePointChanged()" [manualConfiguration]="manualConfiguration.value">
         </app-charging-station-charge-point>
       </div>
@@ -108,7 +109,7 @@
       <div class="row charging-station-connector-component">
         <div class="col-md-6" *ngFor="let connector of chargingStation?.connectors">
           <app-charging-station-connector [chargingStation]="chargingStation" [connector]="connector"
-            [ocpiEnabled]="OCPIActive && public.value && chargingStation.site.public" [formConnectorsArray]="connectors"
+            [ocpiEnabled]="OCPIActive && public.value" [formConnectorsArray]="connectors"
             [isAdmin]="isAdmin" (connectorChanged)="connectorChanged()"
             [manualConfiguration]="manualConfiguration.value">
           </app-charging-station-connector>

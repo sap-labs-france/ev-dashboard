@@ -22,7 +22,7 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
   @Input() public formConnectorsArray: FormArray;
   @Input() public isAdmin!: boolean;
   @Input() public manualConfiguration!: boolean;
-  @Input() public public!: boolean;
+  @Input() public ocpiEnabled!: boolean;
   @Output() public connectorChanged = new EventEmitter<any>();
 
   public connectorTypeMap = CONNECTOR_TYPE_MAP;
@@ -191,11 +191,6 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
         this.amperage.disable();
         this.refreshPower();
         this.refreshNumberOfPhases();
-      }
-      if (this.public) {
-        this.tariffID.enable();
-      } else {
-        this.tariffID.disable();
       }
       if (this.connector.tariffID) {
         this.tariffID.setValue(this.connector.tariffID);

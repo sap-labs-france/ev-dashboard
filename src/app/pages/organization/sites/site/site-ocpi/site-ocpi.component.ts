@@ -23,7 +23,7 @@ export class SiteOcpiComponent implements OnInit, OnChanges {
     // Init the form
     this.formGroup.addControl('tariffID', new FormControl(null,
       Validators.compose([
-        Validators.maxLength(50),
+        Validators.maxLength(36),
       ])));
 
     // Form

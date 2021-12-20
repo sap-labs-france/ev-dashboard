@@ -264,14 +264,6 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
     }
   }
 
-  public changePublic() {
-    if (this.public.value) {
-      this.tariffID.enable();
-    } else {
-      this.tariffID.disable();
-    }
-  }
-
   public assignSiteArea() {
     if (!this.chargingStation.issuer) {
       return;

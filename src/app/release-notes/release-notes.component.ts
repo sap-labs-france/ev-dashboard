@@ -24,7 +24,7 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.5.14',
-        date: new Date('2021-12-17'),
+        date: new Date('2021-12-20'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -36,6 +36,7 @@ export class ReleaseNotesComponent {
               `Fixed user cannot create Asset Connections in Settings`,
               `Limited the OCPP Heartbeat traffic (replaced by the WS ping)`,
               `Enhanced OCPP performances with async notifications`,
+              `Fixed Charging Station OCPP parameters not refreshed after change`,
               `Fixed Czech language`,
             ],
           },

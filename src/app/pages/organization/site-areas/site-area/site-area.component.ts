@@ -89,7 +89,7 @@ export class SiteAreaComponent implements OnInit {
     }
     // Set
     this.isSmartChargingComponentActive = this.componentService.isActive(TenantComponents.SMART_CHARGING);
-    this.OCPIActive = this.componentService.isActive(TenantComponents.OCPI);
+    this.ocpiActive = this.componentService.isActive(TenantComponents.OCPI);
   }
 
   public ngOnInit() {

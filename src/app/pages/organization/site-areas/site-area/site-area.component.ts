@@ -137,7 +137,7 @@ export class SiteAreaComponent implements OnInit {
       ),
       tariffID: new FormControl('',
         Validators.compose([
-          Validators.maxLength(50),
+          Validators.maxLength(36),
         ])),
     });
     // Form
@@ -404,6 +404,10 @@ export class SiteAreaComponent implements OnInit {
     } else {
       this.maximumPowerAmps.setValue(0);
     }
+  }
+
+  public emptyStringToNull(control: AbstractControl) {
+    Utils.convertEmptyStringToNull(control);
   }
 
   private loadRegistrationToken() {

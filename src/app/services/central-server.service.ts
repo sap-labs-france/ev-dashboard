@@ -2732,6 +2732,7 @@ export class CentralServerService {
     const body = {
       carID,
       userID,
+      remoteStart: true,
       args: {
         visualTagID,
         connectorId

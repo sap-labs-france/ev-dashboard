@@ -167,7 +167,7 @@
           </div>
         </div>
       </mat-tab>
-      <mat-tab *ngIf="OCPIActive && sitePublicActive">
+      <mat-tab *ngIf="!readOnly && ocpiActive && sitePublicActive">
         <ng-template mat-tab-label>
           <mat-icon>cloud</mat-icon>
           <span>{{'settings.tabs.ocpi' | translate}}</span>

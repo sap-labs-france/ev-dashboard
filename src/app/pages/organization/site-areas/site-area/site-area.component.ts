@@ -39,7 +39,7 @@ export class SiteAreaComponent implements OnInit {
   public maxSize: number;
   public siteArea: SiteArea;
   public readOnly = true;
-  public OCPIActive: boolean;
+  public ocpiActive: boolean;
   public sitePublicActive: boolean;
 
   public formGroup!: FormGroup;
@@ -187,7 +187,7 @@ export class SiteAreaComponent implements OnInit {
         const site: Site = (result[0].objectRef) as Site;
         this.site.setValue(site.name);
         this.siteID.setValue(site.id);
-        this.sitePublicActive =site.public;
+        this.sitePublicActive = site.public;
         this.formGroup.markAsDirty();
       }
     });

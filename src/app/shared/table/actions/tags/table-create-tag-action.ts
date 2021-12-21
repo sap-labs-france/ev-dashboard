@@ -9,8 +9,7 @@ import { TableCreateAction } from '../table-create-action';
 
 export interface TableCreateTagActionDef extends TableActionDef {
   action: (tagDialogComponent: ComponentType<unknown>, dialog: MatDialog,
-    dialogParams?: DialogParams<Tag>,
-    refresh?: () => Observable<void>) => void;
+    dialogParams?: DialogParams<Tag>, refresh?: () => Observable<void>) => void;
 }
 
 export class TableCreateTagAction extends TableCreateAction {

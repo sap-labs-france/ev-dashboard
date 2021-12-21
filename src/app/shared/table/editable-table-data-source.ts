@@ -1,6 +1,7 @@
+import { EventEmitter } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup, ValidatorFn } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable, Subject, of } from 'rxjs';
+import { Observable, Subject, from, of } from 'rxjs';
 
 import { SpinnerService } from '../../services/spinner.service';
 import { DataResult } from '../../types/DataResult';
@@ -14,6 +15,7 @@ import { TableDataSource } from './table-data-source';
 export abstract class EditableTableDataSource<T extends TableData> extends TableDataSource<T> {
   protected editableRows: T[] = [];
   protected tableChangedSubject: Subject<T[]> = new Subject<T[]>();
+  protected refreshEvent = new EventEmitter<void>();
   private addAction = new TableAddAction().getActionDef();
   private deleteAction = new TableDeleteAction().getActionDef();
 
@@ -33,6 +35,8 @@ export abstract class EditableTableDataSource<T extends TableData> extends Table
   }
 
   public buildTableActionsDef(): TableActionDef[] {
+    // Always enable by default
+    this.addAction.visible = true;
     return [
       this.addAction
     ];
@@ -66,6 +70,13 @@ export abstract class EditableTableDataSource<T extends TableData> extends Table
 
   public setFormArray(formArray: FormArray) {
     this.formArray = formArray;
+  }
+
+  public refreshEditableData(): Observable<unknown> {
+    return from(new Promise((resolve: (value?: unknown) => void) => {
+      this.refreshEvent.emit();
+      resolve();
+    }));
   }
 
   public rowActionTriggered(actionDef: TableActionDef, editableRow: T, dropdownItem?: DropdownItem,
@@ -138,8 +149,6 @@ export abstract class EditableTableDataSource<T extends TableData> extends Table
   }
 
   public loadDataImpl(): Observable<DataResult<T>> {
-    // Enable by default
-    this.addAction.visible = true;
     // Use the method to take into account the filtering
     const contentRows = this.getContent();
     if (contentRows) {
@@ -148,6 +157,10 @@ export abstract class EditableTableDataSource<T extends TableData> extends Table
       return of({ count: contentRows.length, result: contentRows });
     }
     return of({ count: 0, result: [] });
+  }
+
+  public getRefreshEvent(): Observable<void> {
+    return this.refreshEvent.asObservable();
   }
 
   public buildTableRowActions(): TableActionDef[] {
@@ -196,7 +209,7 @@ export abstract class EditableTableDataSource<T extends TableData> extends Table
         if (!tableColumnDef.validators) {
           tableColumnDef.validators = [];
         }
-        tableColumnDef.validators.push(uniqValidator(this.formArray, tableColumnDef.id));
+        tableColumnDef.validators.push(this.uniqValidator(this.formArray, tableColumnDef.id));
       }
       const formControl = new FormControl(value, tableColumnDef.validators);
       if (tableColumnDef.canBeDisabled && this.isCellDisabled(tableColumnDef, editableRow)) {
@@ -275,11 +288,12 @@ export abstract class EditableTableDataSource<T extends TableData> extends Table
     }
   }
 
+  private uniqValidator(formArray: FormArray, controlId: string): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      const duplicate = formArray.value.find((row: any) => row[controlId] === control.value);
+      return duplicate ? { duplicate: true } : null;
+    };
+  }
+
   protected abstract createRow(): T;
 }
-
-export const uniqValidator = (
-  formArray: FormArray, controlId: string): ValidatorFn => (control: AbstractControl): { [key: string]: any } | null => {
-  const duplicate = formArray.value.find((row: any) => row[controlId] === control.value);
-  return duplicate ? { duplicate: true } : null;
-};

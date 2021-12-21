@@ -4,8 +4,10 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
+import { IssuerFilter } from 'shared/table/filters/issuer-filter';
+import { SiteAreaTableFilter } from 'shared/table/filters/site-area-table-filter';
+import { AuthorizationDefinitionFieldMetadata } from 'types/Authorization';
 
-import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
@@ -24,7 +26,6 @@ import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { DataResult } from '../../../types/DataResult';
 import { RegistrationToken, RegistrationTokenButtonAction } from '../../../types/RegistrationToken';
-import { SiteArea } from '../../../types/SiteArea';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
 import { TenantComponents } from '../../../types/Tenant';
 import { User } from '../../../types/User';
@@ -34,20 +35,14 @@ import { ChargingStationsRegistrationTokenDialogComponent } from './registration
 
 @Injectable()
 export class ChargingStationsRegistrationTokensTableDataSource extends TableDataSource<RegistrationToken> {
-  private readonly isOrganizationComponentActive: boolean;
+  private createAction = new TableCreateRegistrationTokenAction().getActionDef();
   private deleteAction = new TableDeleteRegistrationTokenAction().getActionDef();
   private editAction = new TableEditRegistrationTokenAction().getActionDef();
   private revokeAction = new TableRevokeRegistrationTokenAction().getActionDef();
-  private copySOAP15Action = new TableCopyAction('chargers.connections.ocpp_15_soap').getActionDef();
-  private copySOAP16Action = new TableCopyAction('chargers.connections.ocpp_16_soap').getActionDef();
-  private copyJSON16Action = new TableCopyAction('chargers.connections.ocpp_16_json').getActionDef();
   private copySOAP15SecureAction = new TableCopyAction('chargers.connections.ocpp_15_soap_secure').getActionDef();
   private copySOAP16SecureAction = new TableCopyAction('chargers.connections.ocpp_16_soap_secure').getActionDef();
   private copyJSON16SecureAction = new TableCopyAction('chargers.connections.ocpp_16_json_secure').getActionDef();
-  private canCreate = new TableCreateRegistrationTokenAction().getActionDef();
-  private canUpdateToken: boolean;
-  private canCreateToken: boolean;
-  private canDeleteToken: boolean;
+  private metadata?: Record<string, AuthorizationDefinitionFieldMetadata>;
 
   public constructor(
     public spinnerService: SpinnerService,
@@ -58,13 +53,8 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
     private dialog: MatDialog,
     private componentService: ComponentService,
     private centralServerService: CentralServerService,
-    private authorizationService: AuthorizationService,
     private datePipe: AppDatePipe) {
     super(spinnerService, translateService);
-    this.isOrganizationComponentActive = this.componentService.isActive(TenantComponents.ORGANIZATION);
-    this.canUpdateToken = this.authorizationService.canUpdateToken();
-    this.canCreateToken = this.authorizationService.canCreateToken();
-    this.canDeleteToken = this.authorizationService.canDeleteToken();
     // Init
     this.initDataSource();
   }
@@ -73,9 +63,10 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
     return new Observable((observer) => {
       // Get the Tenants
       this.centralServerService.getRegistrationTokens(this.buildFilterValues(),
-        this.getPaging(), this.getSorting()).subscribe((tokens) => {
-        this.canCreate.visible = this.canCreateToken;
-        observer.next(tokens);
+        this.getPaging(), this.getSorting()).subscribe((registrationTokens) => {
+        this.createAction.visible = registrationTokens.canCreate;
+        this.metadata = registrationTokens.metadata;
+        observer.next(registrationTokens);
         observer.complete();
       }, (error) => {
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
@@ -87,7 +78,7 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
   public buildTableDef(): TableDef {
     return {
       search: {
-        enabled: false,
+        enabled: true,
       },
       hasDynamicRowAction: true,
     };
@@ -136,12 +127,11 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
         sortable: true,
       },
     ];
-    if (this.isOrganizationComponentActive) {
+    if (this.componentService.isActive(TenantComponents.ORGANIZATION)) {
       columns.push(
         {
-          id: 'siteArea',
+          id: 'siteArea.name',
           name: 'site_areas.title',
-          formatter: (siteArea: SiteArea) => siteArea ? siteArea.name : '',
           headerClass: 'col-15p',
           class: 'col-15p',
           sortable: true,
@@ -186,9 +176,7 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-    if (this.canCreateToken) {
-      tableActionsDef.unshift(this.canCreate);
-    }
+    tableActionsDef.unshift(this.createAction);
     return tableActionsDef;
   }
 
@@ -198,9 +186,6 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
     const rowActions: TableActionDef[] = [];
     const moreActions = new TableMoreAction([]);
     const copyUrlActions: TableActionDef[] = [
-      ...(!Utils.isUndefined(registrationToken.ocpp15SOAPUrl) ? [this.copySOAP15Action] : []),
-      ...(!Utils.isUndefined(registrationToken.ocpp16SOAPUrl) ? [this.copySOAP16Action] : []),
-      ...(!Utils.isUndefined(registrationToken.ocpp16JSONUrl) ? [this.copyJSON16Action] : []),
       ...(!Utils.isUndefined(registrationToken.ocpp15SOAPSecureUrl) ? [this.copySOAP15SecureAction] : []),
       ...(!Utils.isUndefined(registrationToken.ocpp16SOAPSecureUrl) ? [this.copySOAP16SecureAction] : []),
       ...(!Utils.isUndefined(registrationToken.ocpp16JSONSecureUrl) ? [this.copyJSON16SecureAction] : [])
@@ -211,13 +196,13 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
         'chargers.connections.copy_url_tooltip',
         'chargers.connections.copy_url_tooltip').getActionDef());
     }
-    if (this.canUpdateToken) {
+    if (registrationToken.canUpdate) {
       rowActions.push(this.editAction);
-      if (!asExpired && !isRevoked) {
-        rowActions.push(this.revokeAction);
-      }
     }
-    if (this.canDeleteToken) {
+    if (registrationToken.canRevoke && !asExpired && !isRevoked) {
+      rowActions.push(this.revokeAction);
+    }
+    if (registrationToken.canDelete) {
       moreActions.addActionInMoreActions(this.deleteAction);
     }
     if (!Utils.isEmptyArray(moreActions.getActionsInMoreActions())) {
@@ -232,7 +217,7 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
       case RegistrationTokenButtonAction.CREATE_TOKEN:
         if (actionDef.id) {
           (actionDef as TableCreateRegistrationTokenActionDef).action(ChargingStationsRegistrationTokenDialogComponent,
-            this.dialog, this.refreshData.bind(this));
+            this.dialog, { dialogData: { metadata: this.metadata } as RegistrationToken }, this.refreshData.bind(this));
         }
         break;
     }
@@ -264,15 +249,6 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
       case RegistrationTokenButtonAction.COPY_URL:
         let url: string;
         switch (actionDef.name) {
-          case 'chargers.connections.ocpp_15_soap':
-            url = registrationToken.ocpp15SOAPUrl;
-            break;
-          case 'chargers.connections.ocpp_16_soap':
-            url = registrationToken.ocpp16SOAPUrl;
-            break;
-          case 'chargers.connections.ocpp_16_json':
-            url = registrationToken.ocpp16JSONUrl;
-            break;
           case 'chargers.connections.ocpp_15_soap_secure':
             url = registrationToken.ocpp15SOAPSecureUrl;
             break;
@@ -297,6 +273,10 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {
+    const issuerFilter = new IssuerFilter().getFilterDef();
+    if (this.componentService.isActive(TenantComponents.ORGANIZATION)) {
+      return [new SiteAreaTableFilter([issuerFilter]).getFilterDef()];
+    }
     return [];
   }
 }

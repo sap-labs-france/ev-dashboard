@@ -3,6 +3,7 @@ import { Car, CarCatalog } from './Car';
 import { Company } from './Company';
 import { Log } from './Log';
 import PricingDefinition from './Pricing';
+import { RegistrationToken } from './RegistrationToken';
 import { Site } from './Site';
 import { SiteArea } from './SiteArea';
 import { Tag } from './Tag';
@@ -81,6 +82,10 @@ export interface DataResult<T> {
   metadata?: Record<string, AuthorizationDefinitionFieldMetadata>;
 }
 
+export interface RegistrationTokenDataResult extends DataResult<RegistrationToken> {
+  canCreate: boolean;
+}
+
 export interface CompanyDataResult extends DataResult<Company> {
   canCreate: boolean;
 }
@@ -120,6 +125,7 @@ export interface TagDataResult extends DataResult<Tag> {
   canUnassign: boolean;
   canAssign: boolean;
   canListUsers: boolean;
+  canListSources: boolean;
 }
 
 export interface PricingDefinitionDataResult extends DataResult<PricingDefinition> {

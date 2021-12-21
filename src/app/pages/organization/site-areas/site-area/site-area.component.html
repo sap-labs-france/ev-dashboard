@@ -129,21 +129,6 @@
                         </button>
                         <mat-menu #ocppUrlMenu="matMenu" yPosition="below" [overlapTrigger]="false"
                           class="dropdown-button">
-                          <button *ngIf="registrationToken.ocpp15SOAPUrl" mat-menu-item
-                            (click)="copyUrl(registrationToken.ocpp15SOAPUrl)">
-                            <mat-icon color="primary">file_copy</mat-icon>
-                            <span>{{'chargers.connections.ocpp_15_soap' | translate}}</span>
-                          </button>
-                          <button *ngIf="registrationToken.ocpp16SOAPUrl" mat-menu-item
-                            (click)="copyUrl(registrationToken.ocpp16SOAPUrl)">
-                            <mat-icon color="primary">file_copy</mat-icon>
-                            <span>{{'chargers.connections.ocpp_16_soap' | translate}}</span>
-                          </button>
-                          <button *ngIf="registrationToken.ocpp16JSONUrl" mat-menu-item
-                            (click)="copyUrl(registrationToken.ocpp16JSONUrl)">
-                            <mat-icon color="primary">file_copy</mat-icon>
-                            <span>{{'chargers.connections.ocpp_16_json' | translate}}</span>
-                          </button>
                           <button *ngIf="registrationToken.ocpp15SOAPSecureUrl" mat-menu-item
                             (click)="copyUrl(registrationToken.ocpp15SOAPSecureUrl)">
                             <mat-icon color="primary">file_copy</mat-icon>

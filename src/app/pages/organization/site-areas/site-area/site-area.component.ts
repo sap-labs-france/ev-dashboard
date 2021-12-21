@@ -135,7 +135,7 @@ export class SiteAreaComponent implements OnInit {
           Validators.required,
         ])
       ),
-      tariffID: new FormControl('',
+      tariffID: new FormControl(null,
         Validators.compose([
           Validators.maxLength(36),
         ])),

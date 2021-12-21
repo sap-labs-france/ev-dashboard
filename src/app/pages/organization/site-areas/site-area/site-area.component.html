@@ -6,7 +6,7 @@
           <mat-icon>portrait</mat-icon>
           <span>{{name.value}}</span>
         </ng-template>
-        <div class="card-body tab-dialog-min-content">
+        <div class="card-body">
           <div class="tab-content">
             <div class="tab-pane active" id="profile">
               <div class="row app-organization">
@@ -167,26 +167,22 @@
           </div>
         </div>
       </mat-tab>
-      <mat-tab *ngIf="!readOnly && ocpiActive && sitePublicActive">
+      <mat-tab *ngIf="ocpiActive && sitePublicActive">
         <ng-template mat-tab-label>
           <mat-icon>cloud</mat-icon>
           <span>{{'settings.tabs.ocpi' | translate}}</span>
         </ng-template>
-        <div class="form-group">
-          <div class="card-body tab-dialog-min-content">
-            <div class="tab-content">
-              <div class="tab-pane active" id="profile">
-                <div class="row app-organization">
-                  <mat-form-field>
-                    <input matInput type="text" placeholder="{{'ocpi.tariffID' | translate}}"
-                      [formControl]="tariffID" (input)="emptyStringToNull(tariffID)"/>
-                    <mat-error *ngIf="tariffID?.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
-                    <mat-error *ngIf="tariffID?.errors?.maxlength">
-                      <div [translate]="'general.error_max_length'" [translateParams]="{length: 36}"></div>
-                    </mat-error>
-                  </mat-form-field>
-                </div>
-              </div>
+        <div class="card-body tab-dialog-min-content">
+          <div class="row app-organization">
+            <div class="col-md-6">
+              <mat-form-field>
+                <input matInput type="text" placeholder="{{'ocpi.tariffID' | translate}}"
+                  [formControl]="tariffID" (input)="emptyStringToNull(tariffID)"/>
+                <mat-error *ngIf="tariffID?.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+                <mat-error *ngIf="tariffID?.errors?.maxlength">
+                  <div [translate]="'general.error_max_length'" [translateParams]="{length: 36}"></div>
+                </mat-error>
+              </mat-form-field>
             </div>
           </div>
         </div>

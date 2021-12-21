@@ -1,7 +1,8 @@
+import { RegistrationTokenAuthorizationActions } from './Authorization';
 import { SiteArea } from './SiteArea';
 import { TableData } from './Table';
 
-export interface RegistrationToken extends TableData {
+export interface RegistrationToken extends TableData, RegistrationTokenAuthorizationActions {
   id: string;
   description?: string;
   createdOn: Date;
@@ -9,9 +10,6 @@ export interface RegistrationToken extends TableData {
   revocationDate?: Date;
   siteAreaID: string;
   siteArea?: SiteArea;
-  ocpp15SOAPUrl?: string;
-  ocpp16SOAPUrl?: string;
-  ocpp16JSONUrl?: string;
   ocpp15SOAPSecureUrl?: string;
   ocpp16SOAPSecureUrl?: string;
   ocpp16JSONSecureUrl?: string;

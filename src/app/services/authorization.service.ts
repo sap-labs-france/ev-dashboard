@@ -296,19 +296,19 @@ export class AuthorizationService {
   }
 
   public canCreateToken(): boolean {
-    return this.canAccess(Entity.TOKEN, Action.CREATE);
+    return this.canAccess(Entity.REGISTRATION_TOKEN, Action.CREATE);
   }
 
   public canListTokens(): boolean {
-    return this.canAccess(Entity.TOKEN, Action.LIST);
+    return this.canAccess(Entity.REGISTRATION_TOKEN, Action.LIST);
   }
 
   public canUpdateToken(): boolean {
-    return this.canAccess(Entity.TOKEN, Action.UPDATE);
+    return this.canAccess(Entity.REGISTRATION_TOKEN, Action.UPDATE);
   }
 
   public canDeleteToken(): boolean {
-    return this.canAccess(Entity.TOKEN, Action.DELETE);
+    return this.canAccess(Entity.REGISTRATION_TOKEN, Action.DELETE);
   }
 
   public canListPaymentMethods(): boolean {

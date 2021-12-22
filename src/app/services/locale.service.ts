@@ -88,8 +88,7 @@ export class LocaleService {
     if (!this.locale || this.locale.currentLocale !== normalizedLocale) {
       this.locale = this.getSupportedLocale(normalizedLocale);
       this.translateService.use(this.locale.language);
-      // Make sure to inform moment that the locale as been changed
-      // This impacts all controls such as the datetimepicker)
+      // Make sure to inform moment that the locale has been changed
       Utils.changeMomentLocaleGlobally(this.locale.currentLocale);
       if (!this.currentLocaleSubject) {
         this.currentLocaleSubject = new BehaviorSubject<Locale>(this.locale);

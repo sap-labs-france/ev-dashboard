@@ -1,6 +1,9 @@
+import 'moment/locale/en-au';
+
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
+import { MomentModule } from 'ngx-moment';
 import { BehaviorSubject } from 'rxjs';
 import { Constants } from 'utils/Constants';
 
@@ -18,6 +21,7 @@ export interface Locale {
 
 @Injectable()
 export class LocaleService {
+  private static considerBrowserLocaleAlreadyDone: boolean;
   private locale!: Locale;
   private currentLocaleSubject!: BehaviorSubject<Locale>;
 
@@ -74,14 +78,19 @@ export class LocaleService {
   }
 
   private considerBrowserLocale() {
-    const locale = this.convertToLocale(this.translateService.getBrowserCultureLang());
-    this.updateLocale(locale);
+    if ( !LocaleService.considerBrowserLocaleAlreadyDone ) {
+      LocaleService.considerBrowserLocaleAlreadyDone = true;
+      const locale = this.convertToLocale(this.translateService.getBrowserCultureLang());
+      this.updateLocale(locale);
+    }
   }
 
   private updateLocale(locale: string) {
-    if (!this.locale || this.locale.currentLocale !== locale) {
-      this.locale = this.getSupportedLocale(locale);
+    const normalizedLocale = this.normalizeLocaleString(locale);
+    if (!this.locale || this.locale.currentLocale !== normalizedLocale) {
+      this.locale = this.getSupportedLocale(normalizedLocale);
       this.translateService.use(this.locale.language);
+      // Make sure to update the moment locale as well (impacts all controls such as the datepicker)
       this.updateMomentLocale();
       if (!this.currentLocaleSubject) {
         this.currentLocaleSubject = new BehaviorSubject<Locale>(this.locale);
@@ -92,16 +101,30 @@ export class LocaleService {
   }
 
   private updateMomentLocale() {
-    // Make sure to update the moment locale as well (impacts all controls such as the datepicker)
-    moment.locale(this.locale.currentLocaleJS.toLowerCase());
-    console.log('Moment Locale as been set to: ' + moment.locale());
-    console.log('List of loaded locales: ' + moment.locales());
+    let momentLocale = this.locale.currentLocaleJS.toLowerCase(); // Converts 'fr-FR' to 'fr-fr'
+    const fragments = momentLocale.split('-');
+    if ( fragments.length===2 && fragments[0]===fragments[1] ) {
+      momentLocale = fragments[0];  // Converts 'fr-fr' to 'fr'
+    }
+    if ( moment.locale()!== momentLocale ) {
+      console.log('Attempt to set moment locale to: ' + momentLocale);
+      moment.locale(momentLocale);
+      console.log('Moment Locale as been set to: ' + moment.locale());
+      console.log('List of loaded locales: ' + moment.locales());
+      console.log('Current format -  Date: ' + moment().format('LL') + '- time: ' + moment().format('LT'));
+      console.log('--------------------------');
+    }
   }
 
-  private getSupportedLocale(locale: string) {
-    if (!Constants.SUPPORTED_LOCALES.includes(locale)) {
-      locale = Constants.DEFAULT_LOCALE;
-    };
+  private normalizeLocaleString(locale: string): string {
+    if (Constants.SUPPORTED_LOCALES.includes(locale)) {
+      return locale;
+    }
+    return Constants.DEFAULT_LOCALE; // en_US
+  }
+
+  private getSupportedLocale(locale: string): Locale {
+    locale = this.normalizeLocaleString(locale);
     let language = this.extractLanguage(locale);
     if (!Constants.SUPPORTED_LANGUAGES.includes(language)) {
       language = Constants.DEFAULT_LANGUAGE;

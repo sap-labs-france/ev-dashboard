@@ -2,8 +2,6 @@ import 'moment/locale/en-au';
 
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import * as moment from 'moment';
-import { MomentModule } from 'ngx-moment';
 import { BehaviorSubject } from 'rxjs';
 import { Constants } from 'utils/Constants';
 

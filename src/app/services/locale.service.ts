@@ -80,61 +80,25 @@ export class LocaleService {
   private considerBrowserLocale() {
     if ( !LocaleService.considerBrowserLocaleAlreadyDone ) {
       LocaleService.considerBrowserLocaleAlreadyDone = true;
-      const locale = this.convertToLocale(this.translateService.getBrowserCultureLang());
+      const locale = Utils.convertToLocale(this.translateService.getBrowserCultureLang());
       this.updateLocale(locale);
     }
   }
 
   private updateLocale(locale: string) {
-    const normalizedLocale = this.normalizeLocaleString(locale);
+    const normalizedLocale = Utils.normalizeLocaleString(locale);
     if (!this.locale || this.locale.currentLocale !== normalizedLocale) {
       this.locale = this.getSupportedLocale(normalizedLocale);
       this.translateService.use(this.locale.language);
-      // Make sure to update the moment locale as well (impacts all controls such as the datepicker)
-      this.updateMomentLocale();
+      // Make sure to inform moment that the locale as been changed
+      // This impacts all controls such as the datetimepicker)
+      Utils.changeMomentLocaleGlobally(this.locale.currentLocale);
       if (!this.currentLocaleSubject) {
         this.currentLocaleSubject = new BehaviorSubject<Locale>(this.locale);
       } else {
         this.currentLocaleSubject.next(this.locale);
       }
     }
-  }
-
-  private updateMomentLocale() {
-    let momentLocale = this.locale.currentLocaleJS.toLowerCase(); // Converts 'fr-FR' to 'fr-fr'
-    const fragments = momentLocale.split('-');
-    if ( fragments.length===2 && fragments[0]===fragments[1] ) {
-      momentLocale = fragments[0];  // Converts 'fr-fr' to 'fr'
-    }
-    if ( moment.locale()!== momentLocale ) {
-      console.log('Attempt to set moment locale to: ' + momentLocale);
-      moment.locale(momentLocale);
-      console.log('Moment Locale as been set to: ' + moment.locale());
-      console.log('List of loaded locales: ' + moment.locales());
-      console.log('Current format -  Date: ' + moment().format('LL') + '- time: ' + moment().format('LT'));
-      console.log('--------------------------');
-    }
-  }
-
-  private normalizeLocaleString(locale: string): string {
-    if (Constants.SUPPORTED_LOCALES.includes(locale)) {
-      return locale;
-    }
-    return Constants.DEFAULT_LOCALE; // en_US
-  }
-
-  private getSupportedLocale(locale: string): Locale {
-    locale = this.normalizeLocaleString(locale);
-    let language = this.extractLanguage(locale);
-    if (!Constants.SUPPORTED_LANGUAGES.includes(language)) {
-      language = Constants.DEFAULT_LANGUAGE;
-    }
-    const currentLocale = locale;
-    return {
-      language,
-      currentLocale,
-      currentLocaleJS: this.convertToBrowserLocale(locale)
-    };
   }
 
   private getLocaleDescription(locale: string): string {
@@ -145,16 +109,17 @@ export class LocaleService {
     }
   }
 
-  private extractLanguage(locale: string) {
-    return locale.substring(0, locale.indexOf('_'));
+  private getSupportedLocale(locale: string): Locale {
+    locale = Utils.normalizeLocaleString(locale);
+    let language = Utils.extractLanguage(locale);
+    if (!Constants.SUPPORTED_LANGUAGES.includes(language)) {
+      language = Constants.DEFAULT_LANGUAGE;
+    }
+    const currentLocale = locale;
+    return {
+      language,
+      currentLocale,
+      currentLocaleJS: Utils.convertToBrowserLocale(locale)
+    };
   }
-
-  private convertToLocale(browserLocale: string) {
-    return browserLocale.replace('-', '_');
-  }
-
-  private convertToBrowserLocale(locale: string) {
-    return locale.replace('_', '-');
-  }
-
 }

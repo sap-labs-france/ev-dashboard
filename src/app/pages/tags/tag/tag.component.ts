@@ -99,7 +99,6 @@ export class TagComponent implements OnInit {
       this.user.setValidators(Validators.required);
       this.userID.setValidators(Validators.required);
     }
-    // Set tag
     this.loadTag();
   }
 

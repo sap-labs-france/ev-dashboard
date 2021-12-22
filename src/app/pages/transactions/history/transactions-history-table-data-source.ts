@@ -228,13 +228,6 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         formatter: (reason: string) => reason ?? '-',
       },
       {
-        id: 'stop.totalDurationSecs',
-        name: 'transactions.duration',
-        headerClass: 'col-10p',
-        class: 'text-left col-10p',
-        formatter: (totalDurationSecs: number) => this.appDurationPipe.transform(totalDurationSecs),
-      },
-      {
         id: 'chargeBoxID',
         name: 'transactions.charging_station',
         headerClass: 'col-15p',
@@ -248,7 +241,47 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         class: 'text-center col-10p',
         formatter: (connectorId: number) => this.appConnectorIdPipe.transform(connectorId),
       },
+      {
+        id: 'stop.totalDurationSecs',
+        name: 'transactions.duration',
+        headerClass: 'col-10p',
+        class: 'text-left col-10p',
+        formatter: (totalDurationSecs: number) => this.appDurationPipe.transform(totalDurationSecs),
+      },
+      {
+        id: 'stop.totalInactivitySecs',
+        name: 'transactions.inactivity',
+        headerClass: 'col-10p',
+        class: 'col-10p',
+        sortable: false,
+        isAngularComponent: true,
+        angularComponent: TransactionsInactivityCellComponent,
+      },
+      {
+        id: 'stop.totalConsumptionWh',
+        name: 'transactions.consumption',
+        headerClass: 'col-10p',
+        class: 'col-10p',
+        formatter: (totalConsumptionWh: number) => this.appUnitPipe.transform(totalConsumptionWh, 'Wh', 'kWh'),
+      },
+      {
+        id: 'stateOfCharge',
+        name: 'transactions.state_of_charge',
+        headerClass: 'col-10p',
+        class: 'col-10p',
+        formatter: (stateOfCharge: number, row: Transaction) => stateOfCharge ? `${stateOfCharge}% > ${row.stop.stateOfCharge}%` : '-',
+      }
     );
+    if (this.componentService.isActive(TenantComponents.PRICING)) {
+      tableColumns.push({
+        id: 'stop.roundedPrice',
+        name: 'transactions.price',
+        headerClass: 'col-10p',
+        class: 'col-10p',
+        formatter: (roundedPrice: number, transaction: Transaction) =>
+          this.appCurrencyPipe.transform(roundedPrice, transaction.stop.priceUnit),
+      });
+    }
     if (this.isOrganizationComponentActive) {
       tableColumns.push(
         {
@@ -315,41 +348,6 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
           formatter: (licensePlate: string) => licensePlate ? licensePlate : '-'
         });
       }
-    }
-    tableColumns.push(
-      {
-        id: 'stop.totalInactivitySecs',
-        name: 'transactions.inactivity',
-        headerClass: 'col-10p',
-        class: 'col-10p',
-        sortable: false,
-        isAngularComponent: true,
-        angularComponent: TransactionsInactivityCellComponent,
-      },
-      {
-        id: 'stop.totalConsumptionWh',
-        name: 'transactions.consumption',
-        headerClass: 'col-10p',
-        class: 'col-10p',
-        formatter: (totalConsumptionWh: number) => this.appUnitPipe.transform(totalConsumptionWh, 'Wh', 'kWh'),
-      },
-      {
-        id: 'stateOfCharge',
-        name: 'transactions.state_of_charge',
-        headerClass: 'col-10p',
-        class: 'col-10p',
-        formatter: (stateOfCharge: number, row: Transaction) => stateOfCharge ? `${stateOfCharge}% > ${row.stop.stateOfCharge}%` : '-',
-      },
-    );
-    if (this.componentService.isActive(TenantComponents.PRICING)) {
-      tableColumns.push({
-        id: 'stop.roundedPrice',
-        name: 'transactions.price',
-        headerClass: 'col-10p',
-        class: 'col-10p',
-        formatter: (roundedPrice: number, transaction: Transaction) =>
-          this.appCurrencyPipe.transform(roundedPrice, transaction.stop.priceUnit),
-      });
     }
     if (this.componentService.isActive(TenantComponents.BILLING) &&
         this.authorizationService.canListInvoicesBilling()) {

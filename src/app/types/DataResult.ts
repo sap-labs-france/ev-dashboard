@@ -3,6 +3,7 @@ import { Car, CarCatalog } from './Car';
 import { Company } from './Company';
 import { Log } from './Log';
 import PricingDefinition from './Pricing';
+import { RegistrationToken } from './RegistrationToken';
 import { Site } from './Site';
 import { SiteArea } from './SiteArea';
 import { Tag } from './Tag';
@@ -79,6 +80,10 @@ export interface DataResult<T> {
   result: T[];
   projectFields?: string[];
   metadata?: Record<string, AuthorizationDefinitionFieldMetadata>;
+}
+
+export interface RegistrationTokenDataResult extends DataResult<RegistrationToken> {
+  canCreate: boolean;
 }
 
 export interface CompanyDataResult extends DataResult<Company> {

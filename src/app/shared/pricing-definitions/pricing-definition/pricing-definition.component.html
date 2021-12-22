@@ -333,6 +333,31 @@
                     </mat-form-field>
                   </div>
                 </div>
+                <!-- time range -->
+                <div class="row">
+                  <div class="col-md-2 pricing-dimension">
+                  <mat-slide-toggle (change)="toggle($event)" id="timeFrom" [checked]="timeFromEnabled.value">
+                    {{'settings.pricing.restriction_time_range' | translate}}
+                  </mat-slide-toggle>
+                  </div>
+                  <!-- start time -->
+                  <div class="col-md-2">
+                    <mat-form-field *ngIf="timeFromEnabled.value">
+                      <mat-label>{{'settings.pricing.restriction_start_time' | translate}}</mat-label>
+                      <input matInput type="time" id="timeFromValue" name="timeFromValue" [formControl]="timeFromValue" (change)="setMinTime($event)" required/>
+                    </mat-form-field>
+                    <mat-error *ngIf="timeFromValue?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
+                  </div>
+                  <!-- end time -->
+                  <div class="col-md-2">
+                    <mat-form-field *ngIf="timeFromEnabled.value">
+                      <mat-label>{{'settings.pricing.restriction_end_time' | translate}}</mat-label>
+                      <input matInput type="time" id="timeToValue" name="timeToValue" [formControl]="timeToValue" required/>
+                    </mat-form-field>
+                    <mat-error *ngIf="timeToValue?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
+                    <mat-error *ngIf='timeToValue?.errors?.incorrectEndTime'>{{'settings.pricing.pricing_definition_end_time_error' | translate}}</mat-error>
+                  </div>
+                </div>
                 <!-- days of week -->
                 <div class="row">
                   <!-- toggle days -->

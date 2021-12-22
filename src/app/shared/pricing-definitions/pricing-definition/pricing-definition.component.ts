@@ -323,11 +323,12 @@ export class PricingDefinitionComponent implements OnInit {
   }
 
   public save(pricingDefinition: PricingDefinition) {
-    this.consistencyCheck(pricingDefinition);
-    if (this.currentPricingDefinitionID) {
-      this.updatePricingDefinition(pricingDefinition);
-    } else {
-      this.createPricingDefinition(pricingDefinition);
+    if (this.consistencyCheck(pricingDefinition)) {
+      if (this.currentPricingDefinitionID) {
+        this.updatePricingDefinition(pricingDefinition);
+      } else {
+        this.createPricingDefinition(pricingDefinition);
+      }
     }
   }
 
@@ -451,37 +452,48 @@ export class PricingDefinitionComponent implements OnInit {
   }
 
   private consistencyCheck(pricingDefinition: PricingDefinition) {
-    if (!this.connectorPowerEnabled.value) {
-      delete pricingDefinition.staticRestrictions.connectorPowerkW;
-    }
-    if (!this.parkingTimeEnabled.value || !this.parkingTimeStepEnabled.value) {
-      delete pricingDefinition.dimensions.parkingTime.stepSize;
-    }
-    if (!this.chargingTimeEnabled.value || !this.chargingTimeStepEnabled.value) {
-      delete pricingDefinition.dimensions.chargingTime.stepSize;
-    }
-    if (!this.energyEnabled.value || !this.energyStepEnabled.value) {
-      delete pricingDefinition.dimensions.energy.stepSize;
-    }
-    for (const dimensionKey in pricingDefinition.dimensions) {
-      if (!pricingDefinition.dimensions[dimensionKey].active) {
-        delete pricingDefinition.dimensions[dimensionKey].price;
+    if (this.timeFromEnabled.value) {
+      if (this.timeToValue.value < this.timeFromValue.value) {
+        this.messageService.showErrorMessage('settings.pricing.pricing_definition_end_time_error');
+        this.timeToValue.setErrors({incorrectEndTime: true});
+        this.timeToValue.markAsPristine();
+        return false;
+      } else {
+        this.timeToErrorMessage = '';
+        if (!this.connectorPowerEnabled.value) {
+          delete pricingDefinition.staticRestrictions.connectorPowerkW;
+        }
+        if (!this.parkingTimeEnabled.value || !this.parkingTimeStepEnabled.value) {
+          delete pricingDefinition.dimensions.parkingTime.stepSize;
+        }
+        if (!this.chargingTimeEnabled.value || !this.chargingTimeStepEnabled.value) {
+          delete pricingDefinition.dimensions.chargingTime.stepSize;
+        }
+        if (!this.energyEnabled.value || !this.energyStepEnabled.value) {
+          delete pricingDefinition.dimensions.energy.stepSize;
+        }
+        for (const dimensionKey in pricingDefinition.dimensions) {
+          if (!pricingDefinition.dimensions[dimensionKey].active) {
+            delete pricingDefinition.dimensions[dimensionKey].price;
+          }
+        }
+        if (this.daysOfWeekEnabled.value) {
+          pricingDefinition.restrictions.daysOfWeek = this.selectedDays.value;
+        }
+        if (!this.timeFromEnabled) {
+          delete pricingDefinition.restrictions.timeFrom;
+          delete pricingDefinition.restrictions.timeTo;
+        }
+        for (const restrictionKey in pricingDefinition.restrictions) {
+          if (!pricingDefinition.restrictions[`${restrictionKey}`]) {
+            delete pricingDefinition.restrictions[restrictionKey];
+          }
+        }
+        if (this.connectorType.value === Constants.SELECT_ALL) {
+          pricingDefinition.staticRestrictions.connectorType = null;
+        }
+        return true;
       }
-    }
-    if (this.daysOfWeekEnabled.value) {
-      pricingDefinition.restrictions.daysOfWeek = this.selectedDays.value;
-    }
-    if (!this.timeFromEnabled) {
-      delete pricingDefinition.restrictions.timeFrom;
-      delete pricingDefinition.restrictions.timeTo;
-    }
-    for (const restrictionKey in pricingDefinition.restrictions) {
-      if (!pricingDefinition.restrictions[`${restrictionKey}`]) {
-        delete pricingDefinition.restrictions[restrictionKey];
-      }
-    }
-    if (this.connectorType.value === Constants.SELECT_ALL) {
-      pricingDefinition.staticRestrictions.connectorType = null;
     }
   }
 }

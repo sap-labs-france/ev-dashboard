@@ -1552,6 +1552,7 @@
       "pricing_definition_delete_success": "La tarification a été supprimée avec succès.",
       "pricing_definition_delete_error": "Une erreur est survenue pendant la suppression de la tarification, vérifier les logs.",
       "pricing_definition_error": "Une erreur est survenue pendant la récupération de la tarification, vérifier les logs.",
+      "pricing_definition_end_time_error": "L'heure de fin doit être après l'heure de début.",
       "connector_type": "Type",
       "connector_power": "Puissance du connecteur",
       "value": "Valeur",

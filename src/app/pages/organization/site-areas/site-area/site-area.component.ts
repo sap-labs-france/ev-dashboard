@@ -489,7 +489,7 @@ export class SiteAreaComponent implements OnInit {
       this.spinnerService.hide();
       switch (error.status) {
         case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
-          this.messageService.showErrorMessage('site_areas.site_area_do_not_exist');
+          this.messageService.showErrorMessage('site_areas.site_area_does_not_exist');
           break;
         default:
           Utils.handleHttpError(error, this.router, this.messageService,
@@ -521,7 +521,7 @@ export class SiteAreaComponent implements OnInit {
           this.messageService.showErrorMessage('site_areas.update_phase_error');
           break;
         case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
-          this.messageService.showErrorMessage('site_areas.site_areas_do_not_exist');
+          this.messageService.showErrorMessage('site_areas.site_area_does_not_exist');
           break;
         case HTTPError.CLEAR_CHARGING_PROFILE_NOT_SUCCESSFUL:
           this.dialogService.createAndShowOkDialog(

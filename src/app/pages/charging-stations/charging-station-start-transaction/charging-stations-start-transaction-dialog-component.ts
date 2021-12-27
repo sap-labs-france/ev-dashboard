@@ -233,7 +233,6 @@ export class ChargingStationsStartTransactionDialogComponent implements OnInit {
   private tagActiveValidator(tagControl: AbstractControl): ValidationErrors | null {
     // Check the object
     if (!this.selectedTag || this.selectedTag.active) {
-      // Ok
       return null;
     }
     return { inactive: true };

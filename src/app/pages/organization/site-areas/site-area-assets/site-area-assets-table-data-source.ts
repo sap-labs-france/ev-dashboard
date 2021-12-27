@@ -53,7 +53,6 @@ export class SiteAreaAssetsDataSource extends TableDataSource<Asset> {
           observer.error(error);
         });
       } else {
-        // Ok
         observer.next({
           count: 0,
           result: [],
@@ -224,7 +223,6 @@ export class SiteAreaAssetsDataSource extends TableDataSource<Asset> {
             this.messageService, this.translateService.instant('site_areas.update_error'));
         }
       }, (error) => {
-        // No longer exists!
         Utils.handleHttpError(error, this.router, this.messageService,
           this.centralServerService, 'site_areas.update_error');
       });

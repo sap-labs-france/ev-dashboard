@@ -57,9 +57,7 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEn
         observer.next(ocpiEndpoints);
         observer.complete();
       }, (error) => {
-        // Show error
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        // Error
         observer.error(error);
       });
     });
@@ -207,7 +205,7 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEn
 
   public buildTableActionsRightDef(): TableActionDef[] {
     return [
-      new TableAutoRefreshAction(true).getActionDef(),
+      new TableAutoRefreshAction().getActionDef(),
       new TableRefreshAction().getActionDef(),
     ];
   }

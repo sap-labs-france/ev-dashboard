@@ -23,8 +23,43 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.5.14',
+        date: new Date('2021-12-20'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added traces on the Web Socket server`,
+              `Made locking on Web Sockets more permissive`,
+              `Added Search in Charging Station's Registration Tokens`,
+              `Fixed few Sessions not priced during the migration to the new Pricing`,
+              `Fixed user cannot create Asset Connections in Settings`,
+              `Limited the OCPP Heartbeat traffic (replaced by the WS ping)`,
+              `Enhanced OCPP performances with async notifications`,
+              `Fixed Charging Station OCPP parameters not refreshed after change`,
+              `Fixed Czech language`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.5.13',
+        date: new Date('2021-12-12'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added dependencies between filters in Statistics`,
+              `Migrated Statistics endpoints to RESTful API`,
+              `Allow the User to start a transaction without a Car`,
+              `Site Owner can read Users in Session lists`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.5.12',
-        date: new Date('2021-12-05'),
+        date: new Date('2021-12-07'),
         componentChanges: [
           {
             name: 'Dashboard',

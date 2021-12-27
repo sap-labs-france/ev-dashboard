@@ -68,9 +68,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
         observer.next(cars);
         observer.complete();
       }, (error) => {
-        // Show error
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.cars_error');
-        // Error
         observer.error(error);
       });
     });

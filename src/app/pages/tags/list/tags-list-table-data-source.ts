@@ -64,6 +64,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
   private exportAction = new TableExportTagsAction().getActionDef();
   private projectFields: string[];
   private userFilter: TableFilterDef;
+  private issuerFilter: TableFilterDef;
   private metadata?: Record<string, AuthorizationDefinitionFieldMetadata>;
   public constructor(
     public spinnerService: SpinnerService,
@@ -148,14 +149,12 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
         this.unassignManyAction.visible = tags.canUnassign;
         this.projectFields = tags.projectFields;
         this.userFilter.visible = Utils.convertToBoolean(tags.canListUsers);
+        this.issuerFilter.visible = Utils.convertToBoolean(tags.canListSources);
         this.metadata = tags.metadata;
-        // Ok
         observer.next(tags);
         observer.complete();
       }, (error) => {
-        // Show error
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        // Error
         observer.error(error);
       });
     });
@@ -430,12 +429,12 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {
-    const issuerFilter = new IssuerFilter().getFilterDef();
+    this.issuerFilter = new IssuerFilter().getFilterDef();
     const statusFilter = new StatusFilter().getFilterDef();
-    this.userFilter = new UserTableFilter([issuerFilter]).getFilterDef();
+    this.userFilter = new UserTableFilter([this.issuerFilter]).getFilterDef();
     this.userFilter.visible = false;
     const filters: TableFilterDef[] = [
-      issuerFilter,
+      this.issuerFilter,
       statusFilter,
       this.userFilter
     ];

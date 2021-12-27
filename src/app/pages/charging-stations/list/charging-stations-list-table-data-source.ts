@@ -25,7 +25,7 @@ import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto
 import { TableMoreAction } from '../../../shared/table/actions/table-more-action';
 import { TableOpenInMapsAction } from '../../../shared/table/actions/table-open-in-maps-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
-import { TableViewPricingsAction, TableViewPricingsActionDef } from '../../../shared/table/actions/table-view-pricings-action';
+import { TableViewPricingDefinitionsAction, TableViewPricingDefinitionsActionDef } from '../../../shared/table/actions/table-view-pricing-definitions-action';
 import { CompanyTableFilter } from '../../../shared/table/filters/company-table-filter';
 import { IssuerFilter } from '../../../shared/table/filters/issuer-filter';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
@@ -49,12 +49,13 @@ import { ChargingStationsConnectorsDetailComponent } from '../details-component/
 @Injectable()
 export class ChargingStationsListTableDataSource extends TableDataSource<ChargingStation> {
   private readonly isOrganizationComponentActive: boolean;
+  private readonly isPricingComponentActive: boolean;
   private editAction = new TableEditChargingStationAction().getActionDef();
   private smartChargingAction = new TableChargingStationsSmartChargingAction().getActionDef();
   private deleteAction = new TableDeleteChargingStationAction().getActionDef();
   private generateQrCodeConnectorAction = new TableChargingStationGenerateQrCodeConnectorAction().getActionDef();
   private canExport = new TableExportChargingStationsAction().getActionDef();
-  private viewPricingsAction = new TableViewPricingsAction().getActionDef();
+  private maintainPricingDefinitionsAction = new TableViewPricingDefinitionsAction().getActionDef();
 
   public constructor(
     public spinnerService: SpinnerService,
@@ -70,6 +71,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
     super(spinnerService, translateService);
     // Init
     this.isOrganizationComponentActive = this.componentService.isActive(TenantComponents.ORGANIZATION);
+    this.isPricingComponentActive = this.componentService.isActive(TenantComponents.PRICING);
     if (this.isOrganizationComponentActive) {
       this.setStaticFilters([{
         WithSite: true,
@@ -82,7 +84,6 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
 
   public loadDataImpl(): Observable<DataResult<ChargingStation>> {
     return new Observable((observer) => {
-      // Get data
       this.centralServerService.getChargingStations(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((chargingStations) => {
         // Update details status
@@ -103,13 +104,10 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
           };
         };
         this.canExport.visible = this.authorizationService.isAdmin();
-        // Ok
         observer.next(chargingStations);
         observer.complete();
       }, (error) => {
-        // No longer exists!
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        // Error
         observer.error(error);
       });
     });
@@ -343,12 +341,13 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
         break;
       case PricingButtonAction.VIEW_PRICING_DEFINITIONS:
         if (actionDef.action) {
-          (actionDef as TableViewPricingsActionDef).action(PricingDefinitionsDialogComponent, this.dialog, {
+          (actionDef as TableViewPricingDefinitionsActionDef).action(PricingDefinitionsDialogComponent, this.dialog, {
             dialogData: {
               id: null,
               context: {
                 entityID: chargingStation.id,
-                entityType: PricingEntity.CHARGING_STATION
+                entityType: PricingEntity.CHARGING_STATION,
+                entityName: chargingStation.id
               }
             },
           }, this.refreshData.bind(this));
@@ -400,21 +399,23 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
         forceAvailableStatusAction.disabled = chargingStation.inactive;
         const forceUnavailableStatusAction = new TableChargingStationsForceUnavailableStatusAction().getActionDef();
         forceUnavailableStatusAction.disabled = chargingStation.inactive;
-        return [
+        const tableActionDef: TableActionDef[] = [
           this.editAction,
-          this.smartChargingAction,
-          this.viewPricingsAction,
-          new TableMoreAction([
-            rebootAction,
-            clearCacheAction,
-            resetAction,
-            isUnavailable ? forceAvailableStatusAction : forceUnavailableStatusAction,
-            this.generateQrCodeConnectorAction,
-            openInMaps,
-            this.deleteAction,
-          ]).getActionDef()
-          ,
+          this.smartChargingAction
         ];
+        if (this.isPricingComponentActive) {
+          tableActionDef.push(this.maintainPricingDefinitionsAction);
+        }
+        tableActionDef.push(new TableMoreAction([
+          rebootAction,
+          clearCacheAction,
+          resetAction,
+          isUnavailable ? forceAvailableStatusAction : forceUnavailableStatusAction,
+          this.generateQrCodeConnectorAction,
+          openInMaps,
+          this.deleteAction,
+        ]).getActionDef());
+        return tableActionDef;
       }
     }
     return [openInMaps];

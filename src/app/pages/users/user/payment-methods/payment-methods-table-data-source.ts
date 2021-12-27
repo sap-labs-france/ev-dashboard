@@ -77,7 +77,6 @@ export class PaymentMethodsTableDataSource extends TableDataSource<BillingPaymen
             default:
               Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
           }
-          // Error
           observer.error(error);
         });
       } else {

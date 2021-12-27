@@ -59,9 +59,7 @@ export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> 
         this.tableSyncCarCatalogsAction.visible = carCatalogs.canSync;
         observer.complete();
       }, (error) => {
-        // Show error
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.car_catalogs_error');
-        // Error
         observer.error(error);
       });
     });

@@ -100,7 +100,7 @@
                       <input matInput type="text" placeholder="{{'settings.pricing.value' | translate}}"
                       [formControl]="connectorPowerValue" required/>
                       <mat-error *ngIf="connectorPowerValue?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
-                      <mat-error *ngIf="connectorPowerValue?.errors?.pattern">{{'general.only_number_field' | translate}}</mat-error>
+                      <mat-error *ngIf="connectorPowerValue?.errors?.pattern">{{'general.error_number_pattern' | translate}}</mat-error>
                     </mat-form-field>
                   </div>
                 </div>
@@ -132,7 +132,7 @@
                       <input matInput type="text" placeholder="{{'settings.pricing.value' | translate}}"
                       [formControl]="flatFeeValue" required/>
                       <mat-error *ngIf="flatFeeValue?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
-                      <mat-error *ngIf="flatFeeValue?.errors?.pattern">{{'general.only_number_field' | translate}}</mat-error>
+                      <mat-error *ngIf="flatFeeValue?.errors?.pattern">{{'general.error_number_pattern' | translate}}</mat-error>
                     </mat-form-field>
                   </div>
                 </div>
@@ -151,7 +151,7 @@
                       <input matInput type="text" placeholder="{{'settings.pricing.value' | translate}}"
                       [formControl]="energyValue" required/>
                       <mat-error *ngIf="energyValue?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
-                      <mat-error *ngIf="energyValue?.errors?.pattern">{{'general.only_number_field' | translate}}</mat-error>
+                      <mat-error *ngIf="energyValue?.errors?.pattern">{{'general.error_number_pattern' | translate}}</mat-error>
                     </mat-form-field>
                   </div>
                   <!-- energy stepsizes -->
@@ -169,7 +169,7 @@
                         <input matInput type="text" placeholder="{{'settings.pricing.value' | translate}}"
                         [formControl]="energyStepValue" required/>
                         <mat-error *ngIf="energyStepValue?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
-                        <mat-error *ngIf="energyStepValue?.errors?.pattern">{{'general.only_number_field' | translate}}</mat-error>
+                        <mat-error *ngIf="energyStepValue?.errors?.pattern">{{'general.error_number_pattern' | translate}}</mat-error>
                       </mat-form-field>
                     </div>
                   </span>
@@ -189,7 +189,7 @@
                       <input matInput type="text" placeholder="{{'settings.pricing.value' | translate}}" id="chargingTime"
                       [formControl]="chargingTimeValue" (change)=handleInputChange($event) required/>
                       <mat-error *ngIf="chargingTimeValue?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
-                      <mat-error *ngIf="chargingTimeValue?.errors?.pattern">{{'general.only_number_field' | translate}}</mat-error>
+                      <mat-error *ngIf="chargingTimeValue?.errors?.pattern">{{'general.error_number_pattern' | translate}}</mat-error>
                     </mat-form-field>
                   </div>
                   <!-- chargingTime stepsizes -->
@@ -207,7 +207,7 @@
                         <input matInput type="text" placeholder="{{'settings.pricing.value' | translate}}"
                         [formControl]="chargingTimeStepValue" required/>
                         <mat-error *ngIf="chargingTimeStepValue?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
-                        <mat-error *ngIf="chargingTimeStepValue?.errors?.pattern">{{'general.only_number_field' | translate}}</mat-error>
+                        <mat-error *ngIf="chargingTimeStepValue?.errors?.pattern">{{'general.error_number_pattern' | translate}}</mat-error>
                       </mat-form-field>
                     </div>
                   </span>
@@ -227,7 +227,7 @@
                       <input matInput type="text" placeholder="{{'settings.pricing.value' | translate}}" id="parkingTime"
                       [formControl]="parkingTimeValue" (change)=handleInputChange($event) required/>
                       <mat-error *ngIf="parkingTimeValue?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
-                      <mat-error *ngIf="parkingTimeValue?.errors?.pattern">{{'general.only_number_field' | translate}}</mat-error>
+                      <mat-error *ngIf="parkingTimeValue?.errors?.pattern">{{'general.error_number_pattern' | translate}}</mat-error>
                     </mat-form-field>
                   </div>
                   <!-- parkingTime stepsizes -->
@@ -245,7 +245,7 @@
                         <input matInput type="text" placeholder="{{'settings.pricing.value' | translate}}"
                         [formControl]="parkingTimeStepValue" required/>
                         <mat-error *ngIf="parkingTimeStepValue?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
-                        <mat-error *ngIf="parkingTimeStepValue?.errors?.pattern">{{'general.only_number_field' | translate}}</mat-error>
+                        <mat-error *ngIf="parkingTimeStepValue?.errors?.pattern">{{'general.error_number_pattern' | translate}}</mat-error>
                       </mat-form-field>
                     </div>
                   </span>

@@ -14,7 +14,6 @@ export class TagDialogComponent implements AfterViewInit {
   public tagID!: string;
   public metadata?: Record<string, AuthorizationDefinitionFieldMetadata>;
 
-
   public constructor(
     public dialogRef: MatDialogRef<TagDialogComponent>,
     @Inject(MAT_DIALOG_DATA) dialogParams: DialogParams<Tag>) {

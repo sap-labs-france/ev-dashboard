@@ -385,15 +385,8 @@ export class ConsumptionChartComponent implements AfterViewInit {
       const limitWattsDataSet = this.getDataSet('limitWatts');
       const limitAmpsDataSet = this.getDataSet('limitAmps');
       const labels: number[] = [];
-      // Add last point
-      if (!Utils.isEmptyArray(this.transaction.values)) {
-        this.transaction.values.push({
-          ...this.transaction.values[this.transaction.values.length - 1],
-          startedAt: this.transaction.values[this.transaction.values.length - 1].endedAt,
-        });
-      }
       for (const consumption of this.transaction.values) {
-        labels.push(new Date(consumption.startedAt).getTime());
+        labels.push(new Date(consumption.endedAt).getTime());
         if (instantPowerDataSet) {
           if (consumption.instantWattsDC > 0) {
             instantPowerDataSet.push(consumption.instantWattsDC);

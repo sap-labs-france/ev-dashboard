@@ -459,7 +459,6 @@ export class PricingDefinitionComponent implements OnInit {
         this.timeToValue.markAsPristine();
         return false;
       } else {
-        this.timeToErrorMessage = '';
         if (!this.connectorPowerEnabled.value) {
           delete pricingDefinition.staticRestrictions.connectorPowerkW;
         }

@@ -323,7 +323,7 @@ export class PricingDefinitionComponent implements OnInit {
   }
 
   public save(pricingDefinition: PricingDefinition) {
-    if (this.consistencyCheck(pricingDefinition)) {
+    if (this.checkPricingDefinition(pricingDefinition)) {
       if (this.currentPricingDefinitionID) {
         this.updatePricingDefinition(pricingDefinition);
       } else {
@@ -451,7 +451,7 @@ export class PricingDefinitionComponent implements OnInit {
     control.updateValueAndValidity();
   }
 
-  private consistencyCheck(pricingDefinition: PricingDefinition) {
+  private checkPricingDefinition(pricingDefinition: PricingDefinition) {
     if (this.timeFromEnabled.value) {
       if (this.timeToValue.value === this.timeFromValue.value) {
         this.messageService.showErrorMessage('settings.pricing.pricing_definition_time_error');

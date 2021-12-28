@@ -173,13 +173,11 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-     return [
-       this.canCreate,
-       ...tableActionsDef,
-     ];
+    return [
+      this.canCreate,
+      ...tableActionsDef,
+    ];
   }
-   
-  
 
   public buildTableDynamicRowActions(asset: Asset): TableActionDef[] {
     const rowActions: TableActionDef[] = [];

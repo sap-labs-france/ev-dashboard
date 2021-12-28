@@ -170,8 +170,8 @@ export class AssetComponent implements OnInit {
         this.loadAsset();
       });
     }
-     // Handle Dialog mode
-     Utils.handleDialogMode(this.dialogMode, this.formGroup);
+    // Handle Dialog mode
+    Utils.handleDialogMode(this.dialogMode, this.formGroup);
   }
 
   public setCurrentAssetId(currentAssetId: string) {

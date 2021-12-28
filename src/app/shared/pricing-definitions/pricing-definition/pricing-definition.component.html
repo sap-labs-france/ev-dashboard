@@ -347,6 +347,7 @@
                       <input matInput type="time" id="timeFromValue" name="timeFromValue" [formControl]="timeFromValue" (change)="setMinTime($event)" required/>
                     </mat-form-field>
                     <mat-error *ngIf="timeFromValue?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
+                    <mat-error *ngIf='timeToValue?.errors?.incorrectEndTime'>{{'settings.pricing.pricing_definition_time_error' | translate}}</mat-error>
                   </div>
                   <!-- end time -->
                   <div class="col-md-2">
@@ -355,7 +356,7 @@
                       <input matInput type="time" id="timeToValue" name="timeToValue" [formControl]="timeToValue" required/>
                     </mat-form-field>
                     <mat-error *ngIf="timeToValue?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
-                    <mat-error *ngIf='timeToValue?.errors?.incorrectEndTime'>{{'settings.pricing.pricing_definition_end_time_error' | translate}}</mat-error>
+                    <mat-error *ngIf='timeToValue?.errors?.incorrectEndTime'>{{'settings.pricing.pricing_definition_time_error' | translate}}</mat-error>
                   </div>
                 </div>
                 <!-- days of week -->

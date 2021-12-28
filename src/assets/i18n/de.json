@@ -1552,7 +1552,7 @@
       "pricing_definition_delete_success": "Pricing definition has been deleted successfully",
       "pricing_definition_delete_error": "Error occurred while deleting a pricing definition, check the logs",
       "pricing_definition_error": "Error occurred while retrieving the pricing definition, check the logs",
-      "pricing_definition_end_time_error": "End time must be after start time.",
+      "pricing_definition_time_error": "Please select different start and end time",
       "connector_type": "Connector Type",
       "connector_power": "Connector Power",
       "value": "Value",

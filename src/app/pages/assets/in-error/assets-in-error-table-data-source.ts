@@ -31,7 +31,6 @@ import { AssetDialogComponent } from '../asset/asset.dialog.component';
 
 @Injectable()
 export class AssetsInErrorTableDataSource extends TableDataSource<AssetInError> {
-  private isAdmin: boolean;
   private editAction = new TableEditAssetAction().getActionDef();
   private deleteAction = new TableDeleteAssetAction().getActionDef();
   private errorTypes = [
@@ -48,12 +47,10 @@ export class AssetsInErrorTableDataSource extends TableDataSource<AssetInError> 
     private router: Router,
     private componentService: ComponentService,
     private centralServerService: CentralServerService,
-    private authorizationService: AuthorizationService,
     private dialog: MatDialog,
     private dialogService: DialogService) {
     super(spinnerService, translateService);
     // Init
-    this.isAdmin = this.authorizationService.isAdmin();
     this.setStaticFilters([{WithSiteArea: true}]);
     this.initDataSource();
   }
@@ -156,7 +153,7 @@ export class AssetsInErrorTableDataSource extends TableDataSource<AssetInError> 
   }
 
   public buildTableDynamicRowActions(asset: AssetInError): TableActionDef[] {
-    if (this.isAdmin && asset.errorCode) {
+    if (asset.canUpdate && asset.errorCode) {
       switch (asset.errorCode) {
         case AssetInErrorType.MISSING_SITE_AREA:
           return [

@@ -33,7 +33,7 @@ export class AssetComponent implements OnInit {
 
   public parentErrorStateMatcher = new ParentErrorStateMatcher();
   public isSmartChargingComponentActive = false;
-  public isAdmin = false;
+  public assetFormEnabled = false;
   public image: string = Constants.NO_IMAGE;
   public imageHasChanged = false;
   public maxSize: number;
@@ -74,18 +74,10 @@ export class AssetComponent implements OnInit {
     private router: Router
   ) {
     this.maxSize = this.configService.getAsset().maxImageKb;
-    // Check auth
-    if (this.activatedRoute.snapshot.params['id'] &&
-      !authorizationService.canUpdateAsset()) {
-      // Not authorized
-      void this.router.navigate(['/']);
-    }
     // Get asset types
     this.assetTypes = AssetTypes;
     // Get asset connections list
     this.loadAssetConnections();
-    // Get admin flag
-    this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
     this.isSmartChargingComponentActive = this.componentService.isActive(TenantComponents.SMART_CHARGING);
   }
 
@@ -168,10 +160,8 @@ export class AssetComponent implements OnInit {
     this.meterID = this.formGroup.controls['meterID'];
     // Disable connection form by default
     this.disableConnectionDetails();
-    // if not admin switch in readonly mode
-    if (!this.isAdmin) {
-      this.formGroup.disable();
-    }
+    // Read only form by default
+    this.formGroup.disable();
     if (this.currentAssetID) {
       this.loadAsset();
     } else if (this.activatedRoute && this.activatedRoute.params) {
@@ -191,13 +181,21 @@ export class AssetComponent implements OnInit {
   }
 
   public loadAsset() {
+    // ID not provided we are in creation mode
     if (!this.currentAssetID) {
+      if (this.authorizationService.canCreateAsset()) {
+        this.enableForm();
+      }
       return;
     }
     this.spinnerService.show();
     this.centralServerService.getAsset(this.currentAssetID, false, true).subscribe((asset) => {
       this.spinnerService.hide();
       this.asset = asset;
+      // Check asset auths and enable form
+      if (this.asset.canUpdate) {
+        this.enableForm();
+      }
       if (this.asset.id) {
         this.formGroup.controls.id.setValue(this.asset.id);
       }
@@ -494,5 +492,10 @@ export class AssetComponent implements OnInit {
             this.centralServerService, 'assets.update_error');
       }
     });
+  }
+
+  private enableForm(): void {
+    this.assetFormEnabled = true;
+    this.formGroup.enable();
   }
 }

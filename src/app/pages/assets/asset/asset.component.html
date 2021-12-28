@@ -9,7 +9,7 @@
         <div class="card-body">
           <div class="row app-asset-align-center">
             <div class="col-md-12 col-xl-5">
-              <div class="rotating-card-container" [ngStyle]="{ 'pointer-events': this.isAdmin ? 'all' : 'none'}">
+              <div class="rotating-card-container" [ngStyle]="{ 'pointer-events': assetFormEnabled ? 'all' : 'none'}">
                 <div class="card card-rotate card-background app-asset-image-padding mt-0">
                   <div class="front front-background"
                     [ngStyle]="{'background-image': 'url(' + image + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
@@ -18,7 +18,7 @@
                   </div>
                   <div class="back back-background"
                     [ngStyle]="{'background-image': 'url(' + image + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
-                    <div *ngIf="this.isAdmin" class="card-body">
+                    <div *ngIf="assetFormEnabled" class="card-body">
                       <h5 class="card-title">
                         {{'general.change_picture' | translate}}
                       </h5>
@@ -126,10 +126,10 @@
                   <div class="form-group">
                     <mat-form-field>
                       <input matInput placeholder="{{'general.latitude' | translate}}" type="text"
-                        [formControl]="latitude" [readOnly]="!isAdmin">
+                        [formControl]="latitude" [readOnly]="!assetFormEnabled">
                       <mat-error *ngIf="latitude.errors?.pattern">{{"general.invalid_value" | translate}}</mat-error>
                       <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignGeoMap()"
-                        [hidden]="!isAdmin">
+                        [hidden]="!assetFormEnabled">
                         <mat-icon>pin_drop</mat-icon>
                       </button>
                     </mat-form-field>
@@ -139,10 +139,10 @@
                   <div class="form-group">
                     <mat-form-field>
                       <input matInput placeholder="{{'general.longitude' | translate}}" type="text"
-                        [formControl]="longitude" [readOnly]="!isAdmin">
+                        [formControl]="longitude" [readOnly]="!assetFormEnabled">
                       <mat-error *ngIf="longitude.errors?.pattern">{{"general.invalid_value" | translate}}</mat-error>
                       <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignGeoMap()"
-                        [hidden]="!isAdmin">
+                        [hidden]="!assetFormEnabled">
                         <mat-icon>pin_drop</mat-icon>
                       </button>
                     </mat-form-field>
@@ -154,7 +154,7 @@
           <div class="clearfix"></div>
         </div>
       </mat-tab>
-      <mat-tab *ngIf="isAdmin">
+      <mat-tab *ngIf="assetFormEnabled">
         <ng-template mat-tab-label>
           <mat-icon>link</mat-icon>
           <span>{{'assets.dialog_tabs.connection' | translate}}</span>
@@ -210,7 +210,7 @@
       </mat-tab>
     </mat-tab-group>
     <div class="tabs-actions">
-      <button mat-button *ngIf="this.isAdmin" (click)="saveAsset(formGroup.value)"
+      <button mat-button *ngIf="assetFormEnabled" (click)="saveAsset(formGroup.value)"
         [disabled]="!formGroup.valid || !formGroup.dirty">
         <mat-icon>save</mat-icon>
         <span>{{'general.save' | translate}}</span>

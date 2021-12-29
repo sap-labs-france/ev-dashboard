@@ -1,6 +1,7 @@
 import { ValidatorFn } from '@angular/forms';
 import { SortDirection } from '@angular/material/sort';
 import * as moment from 'moment';
+import { TableFilter } from 'shared/table/filters/table-filter';
 
 import { AssetButtonAction } from './Asset';
 import { AuthorizationActions } from './Authorization';
@@ -53,6 +54,7 @@ export interface TableFilterDef {
   cleared?: boolean;
   dateRangeTableFilterDef?: DateRangeTableFilterDef;
   dependentFilters?: TableFilterDef[];
+  visible?: boolean;
 }
 
 export interface DateRangeTableFilterDef {

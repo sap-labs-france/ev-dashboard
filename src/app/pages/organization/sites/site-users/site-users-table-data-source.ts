@@ -53,9 +53,7 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
           observer.next(siteUsers);
           observer.complete();
         }, (error) => {
-          // No longer exists!
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-          // Error
           observer.error(error);
         });
       } else {
@@ -174,7 +172,6 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
             this.translateService.instant('sites.remove_users_title'),
             this.translateService.instant('sites.remove_users_confirm'),
           ).subscribe((response) => {
-            // Check
             if (response === ButtonType.YES) {
               // Remove
               this.removeUsers(this.getSelectedRows().map((row) => row.user.id));
@@ -212,7 +209,6 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
     this.centralServerService.removeUsersFromSite(this.site.id, userIDs).subscribe((response) => {
       // Ok?
       if (response.status === RestResponse.SUCCESS) {
-        // Ok
         this.messageService.showSuccessMessage(this.translateService.instant('sites.remove_users_success'));
         // Refresh
         this.refreshData().subscribe();
@@ -223,13 +219,11 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
           this.messageService, this.translateService.instant('sites.remove_users_error'));
       }
     }, (error) => {
-      // No longer exists!
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'sites.remove_users_error');
     });
   }
 
   private addUsers(users: User[]) {
-    // Check
     if (!Utils.isEmptyArray(users)) {
       // Get the IDs
       const userIDs = users.map((user) => user.key);
@@ -237,7 +231,6 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
       this.centralServerService.addUsersToSite(this.site.id, userIDs).subscribe((response) => {
         // Ok?
         if (response.status === RestResponse.SUCCESS) {
-          // Ok
           this.messageService.showSuccessMessage(this.translateService.instant('sites.update_users_success'));
           // Refresh
           this.refreshData().subscribe();
@@ -248,7 +241,6 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
             this.messageService, this.translateService.instant('sites.update_users_error'));
         }
       }, (error) => {
-        // No longer exists!
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'sites.update_users_error');
       });
     }

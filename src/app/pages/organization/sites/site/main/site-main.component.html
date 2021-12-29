@@ -60,14 +60,14 @@
             <input matInput type="text" placeholder="{{'companies.company' | translate}}" [formControl]="company" required />
           </mat-form-field>
         </div>
-        <div class="form-group">
+        <div *ngIf="issuer?.value" class="form-group">
           <div class="text-left">
             <mat-checkbox [formControl]="autoUserSiteAssignment">
               {{'sites.auto_user_site_assignment' | translate}}
             </mat-checkbox>
           </div>
         </div>
-        <div class="form-group">
+        <div *ngIf="issuer?.value" class="form-group">
           <div class="text-left">
             <mat-checkbox [formControl]="public" (change)="changePublic()">
               {{'sites.public' | translate}}

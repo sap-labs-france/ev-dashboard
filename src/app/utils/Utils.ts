@@ -4,7 +4,6 @@ import { Data, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { StatusCodes } from 'http-status-codes';
 import * as moment from 'moment';
-import { ConfigService } from 'services/config.service';
 import { DialogMode } from 'types/Authorization';
 import { HTTPError } from 'types/HTTPError';
 import { Tag } from 'types/Tag';
@@ -19,11 +18,41 @@ import { Car, CarCatalog, CarConverter, CarType } from '../types/Car';
 import { ChargePoint, ChargingStation, ChargingStationPowers, Connector, CurrentType, StaticLimitAmps, Voltage } from '../types/ChargingStation';
 import { KeyValue } from '../types/GlobalType';
 import { MobileType } from '../types/Mobile';
-import { ButtonType, TableDataSourceMode } from '../types/Table';
+import { ButtonType, FilterType, TableDataSourceMode, TableFilterDef } from '../types/Table';
 import { Constants } from './Constants';
 
 export class Utils {
-  public static  handleDialogMode(dialogMode: DialogMode, formGroup: FormGroup) {
+  public static buildDependentFilters(filterDef: TableFilterDef) {
+    if (!Utils.isEmptyArray(filterDef.dependentFilters)) {
+      filterDef.dialogComponentData = {
+        staticFilter: {}
+      };
+      for (const dependentFilter of filterDef.dependentFilters) {
+        if (!Utils.isEmptyArray(dependentFilter.currentValue)) {
+          if (dependentFilter.multiple) {
+            if (dependentFilter.type === FilterType.DROPDOWN &&
+              dependentFilter.currentValue.length === dependentFilter.items.length &&
+              dependentFilter.exhaustive) {
+              continue;
+            }
+            filterDef.dialogComponentData.staticFilter[dependentFilter.httpId] =
+              dependentFilter.currentValue.map((obj) => obj.key).join('|');
+          } else {
+            filterDef.dialogComponentData.staticFilter[dependentFilter.httpId] =
+              dependentFilter.currentValue[0].key;
+          }
+        } else {
+          delete filterDef.dialogComponentData.staticFilter[dependentFilter.httpId];
+        }
+      }
+    }
+  }
+
+  public static displayYesNo(translateService: TranslateService, value: boolean) {
+    return value ? translateService.instant('general.yes') : translateService.instant('general.no');
+  }
+
+  public static handleDialogMode(dialogMode: DialogMode, formGroup: FormGroup) {
     switch (dialogMode) {
       case DialogMode.CREATE:
       case DialogMode.EDIT:
@@ -240,7 +269,7 @@ export class Utils {
   }
 
   public static handleError(error: any, messageService: MessageService, errorMessage: string = '', params?: Record<string, unknown>): void {
-    Utils.consoleDebugLog(`Error: ${errorMessage}`, error);
+    console.log(`Error: ${errorMessage}`, error);
     messageService.showErrorMessage(errorMessage, params);
   }
 
@@ -267,7 +296,6 @@ export class Utils {
       currentAmp: 0,
       currentWatt: 0,
     };
-    // Check
     if (!chargingStation ||
       !chargingStation.connectors ||
       Utils.isEmptyArray(chargingStation.connectors)) {
@@ -824,7 +852,7 @@ export class Utils {
         break;
       // Backend issue
       default:
-        Utils.consoleDebugLog(`HTTP Error: ${errorMessage}: ${error.message} (${error.status})`, error);
+        console.log(`HTTP Error: ${errorMessage}: ${error.message} (${error.status})`, error);
         messageService.showErrorMessage(errorMessage, params);
         break;
     }
@@ -847,7 +875,6 @@ export class Utils {
   }
 
   public static convertToDate(value: any): Date {
-    // Check
     if (!value) {
       return value;
     }
@@ -863,7 +890,6 @@ export class Utils {
     if (!value) {
       return 0;
     }
-    // Check
     if (typeof value === 'string') {
       // Create Object
       changedValue = parseInt(value, 10);
@@ -876,7 +902,6 @@ export class Utils {
     if (!value) {
       return 0;
     }
-    // Check
     if (typeof value === 'string') {
       // Create Object
       changedValue = parseFloat(value);
@@ -895,13 +920,6 @@ export class Utils {
 
   public static isUndefined(obj: any): boolean {
     return typeof obj === 'undefined';
-  }
-
-  public static consoleDebugLog(msg: any, error?: any) {
-    const configService: ConfigService = new ConfigService();
-    if (configService.getDebug().enabled) {
-      console.log(`${(new Date()).toISOString()} :: ${msg}${error ? ' :: Error details:' : ''}`, error ? error : '');
-    }
   }
 
   public static copyToClipboard(content: any) {

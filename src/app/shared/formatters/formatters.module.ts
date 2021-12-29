@@ -16,6 +16,7 @@ import { AppDurationPipe } from './app-duration.pipe';
 import { AppFormatRowCellPipe } from './app-format-row-cell.pipe';
 import { AppInactivityPipe } from './app-inactivity.pipe';
 import { AppPercentPipe } from './app-percent-pipe';
+import { AppPricingDimensionsPrice } from './app-pricing-dimensions-price';
 import { AppPricingDimensionsUnit } from './app-pricing-dimensions-unit';
 import { AppTaxName } from './app-tax-name.pipe';
 import { AppUnitPipe } from './app-unit.pipe';
@@ -44,7 +45,8 @@ import { AppUserNamePipe } from './app-user-name.pipe';
     AppUserMultipleRolesPipe,
     AppPercentPipe,
     AppTaxName,
-    AppPricingDimensionsUnit
+    AppPricingDimensionsUnit,
+    AppPricingDimensionsPrice,
   ],
   exports: [
     AppArrayToStringPipe,
@@ -66,7 +68,8 @@ import { AppUserNamePipe } from './app-user-name.pipe';
     AppUserMultipleRolesPipe,
     AppPercentPipe,
     AppTaxName,
-    AppPricingDimensionsUnit
+    AppPricingDimensionsUnit,
+    AppPricingDimensionsPrice,
   ],
   providers: [
     LocaleService,
@@ -88,7 +91,8 @@ import { AppUserNamePipe } from './app-user-name.pipe';
     AppPercentPipe,
     AppColorByStatusPipe,
     AppTaxName,
-    AppPricingDimensionsUnit
+    AppPricingDimensionsUnit,
+    AppPricingDimensionsPrice,
   ],
 })
 export class FormattersModule {

@@ -118,13 +118,10 @@ export class UsersListTableDataSource extends TableDataSource<User> {
         this.importAction.visible = users.canImport;
         this.exportAction.visible = users.canExport;
         this.synchronizeBillingUsersAction.visible = users.canSynchronizeBilling;
-        // Ok
         observer.next(users);
         observer.complete();
       }, (error) => {
-        // Show error
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        // Error
         observer.error(error);
       });
     });
@@ -244,12 +241,11 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       },
       {
         id: 'technical',
-        name: 'users.technical',
+        name: 'users.technical_title',
         headerClass: 'col-10em text-center',
         class: 'col-10em text-center',
         sortable: true,
-        formatter: (technical: boolean) => technical ?
-          this.translateService.instant('general.yes') : this.translateService.instant('general.no'),
+        formatter: (technicalUser: boolean) => Utils.displayYesNo(this.translateService, technicalUser),
       },
     );
     return columns as TableColumnDef[];
@@ -397,16 +393,20 @@ export class UsersListTableDataSource extends TableDataSource<User> {
 
   public buildTableFiltersDef(): TableFilterDef[] {
     const issuerFilter = new IssuerFilter().getFilterDef();
+    const siteFilter = new SiteTableFilter([issuerFilter]).getFilterDef();
     const filters = [
       issuerFilter,
       new UserRoleFilter(this.centralServerService).getFilterDef(),
       new UserStatusFilter().getFilterDef(),
       new TagTableFilter([issuerFilter]).getFilterDef(),
-      new SiteTableFilter([issuerFilter]).getFilterDef(),
+      siteFilter,
       new UserTechnicalFilter().getFilterDef(),
     ];
     if (this.componentService.isActive(TenantComponents.BILLING)) {
       filters.push(new UserFreeAccessFilter().getFilterDef());
+    }
+    if (!this.componentService.isActive(TenantComponents.ORGANIZATION)) {
+      siteFilter.visible = false;
     }
     return filters;
   }

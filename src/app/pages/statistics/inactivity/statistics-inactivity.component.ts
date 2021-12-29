@@ -1,20 +1,15 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { ChartData } from 'chart.js';
-
 import { CentralServerService } from '../../../services/central-server.service';
 import { LocaleService } from '../../../services/locale.service';
 import { SpinnerService } from '../../../services/spinner.service';
-import { ChargingStationTableFilter } from '../../../shared/table/filters/charging-station-table-filter';
-import { DateRangeTableFilter } from '../../../shared/table/filters/date-range-table-filter';
-import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
-import { SiteTableFilter } from '../../../shared/table/filters/site-table-filter';
-import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { FilterParams } from '../../../types/GlobalType';
 import { TableFilterDef } from '../../../types/Table';
 import { SimpleChart } from '../shared/chart-utilities';
 import { StatisticsBuildService } from '../shared/statistics-build.service';
 import { StatisticsExportService } from '../shared/statistics-export.service';
+
 
 @Component({
   selector: 'app-statistics-inactivity',
@@ -31,7 +26,6 @@ export class StatisticsInactivityComponent implements OnInit {
   public selectedDateRange!: any;
   public selectedYear!: number;
   public allYears = true;
-  public allFiltersDef: TableFilterDef[] = [];
   public chartsInitialized = false;
 
   private filterParams!: FilterParams;
@@ -54,23 +48,6 @@ export class StatisticsInactivityComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    let filterDef: TableFilterDef;
-
-    filterDef = new DateRangeTableFilter(this.language).getFilterDef();
-    this.allFiltersDef.push(filterDef);
-
-    filterDef = new SiteTableFilter().getFilterDef();
-    this.allFiltersDef.push(filterDef);
-
-    filterDef = new SiteAreaTableFilter().getFilterDef();
-    this.allFiltersDef.push(filterDef);
-
-    filterDef = new ChargingStationTableFilter().getFilterDef();
-    this.allFiltersDef.push(filterDef);
-
-    filterDef = new UserTableFilter().getFilterDef();
-    this.allFiltersDef.push(filterDef);
-
     this.initCharts();
   }
 
@@ -104,12 +81,10 @@ export class StatisticsInactivityComponent implements OnInit {
 
   public getChartLabel(): string {
     let mainLabel: string;
-
     if (!this.selectedChart || !this.selectedCategory) {
       // selection not yet defined:
       return ' ';
     }
-
     if (this.selectedChart === 'month') {
       if (this.selectedCategory === 'C') {
         mainLabel = this.translateService.instant('statistics.inactivity_per_cs_month_title',
@@ -143,7 +118,6 @@ export class StatisticsInactivityComponent implements OnInit {
         }
       }
     }
-
     return mainLabel;
   }
 
@@ -151,15 +125,12 @@ export class StatisticsInactivityComponent implements OnInit {
     const labelXAxis: string = this.translateService.instant('statistics.graphic_title_month_x_axis');
     const labelYAxis: string = this.translateService.instant('statistics.graphic_title_inactivity_y_axis');
     const toolTipUnit: string = this.translateService.instant('statistics.hours');
-
     this.barChart = new SimpleChart(this.language, 'stackedBar',
       this.getChartLabel(), labelXAxis, labelYAxis, toolTipUnit, true);
     this.barChart.initChart(this.ctxBarChart);
-
     this.pieChart = new SimpleChart(this.language, 'pie',
       this.getChartLabel(), undefined, undefined, toolTipUnit, true);
     this.pieChart.initChart(this.ctxPieChart);
-
     this.chartsInitialized = true;
   }
 
@@ -172,7 +143,6 @@ export class StatisticsInactivityComponent implements OnInit {
         this.pieChartData = this.pieChart.cloneChartData(this.pieChartData, true);
         this.pieChart.updateChart(this.pieChartData, this.getChartLabel());
       }
-
       this.buildCharts();
     } else {
       if (this.selectedChart === 'month') {
@@ -187,37 +157,30 @@ export class StatisticsInactivityComponent implements OnInit {
 
   public buildCharts(): void {
     this.spinnerService.show();
-
     if (this.selectedCategory === 'C') {
       this.centralServerService.getChargingStationInactivityStatistics(this.selectedYear, this.filterParams)
         .subscribe((statisticsData) => {
-
           this.barChartData = this.statisticsBuildService.buildStackedChartDataForMonths(statisticsData, 2);
           this.pieChartData = this.statisticsBuildService.calculateTotalChartDataFromStackedChartData(this.barChartData);
           this.totalInactivity = this.statisticsBuildService.calculateTotalValueFromChartData(this.barChartData);
-
           if (this.selectedChart === 'month') {
             this.barChart.updateChart(this.barChartData, this.getChartLabel());
           } else {
             this.pieChart.updateChart(this.pieChartData, this.getChartLabel());
           }
-
           this.spinnerService.hide();
         });
     } else {
       this.centralServerService.getUserInactivityStatistics(this.selectedYear, this.filterParams)
         .subscribe((statisticsData) => {
-
           this.barChartData = this.statisticsBuildService.buildStackedChartDataForMonths(statisticsData, 2);
           this.pieChartData = this.statisticsBuildService.calculateTotalChartDataFromStackedChartData(this.barChartData);
           this.totalInactivity = this.statisticsBuildService.calculateTotalValueFromChartData(this.barChartData);
-
           if (this.selectedChart === 'month') {
             this.barChart.updateChart(this.barChartData, this.getChartLabel());
           } else {
             this.pieChart.updateChart(this.pieChartData, this.getChartLabel());
           }
-
           this.spinnerService.hide();
         });
     }

@@ -142,7 +142,6 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
           observer.complete();
         }, (error) => {
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-          // Error
           observer.error(error);
         });
     });

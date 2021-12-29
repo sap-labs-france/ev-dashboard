@@ -4,6 +4,7 @@ import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dial
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
+import { AuthorizationDefinitionFieldMetadata } from 'types/Authorization';
 
 import { CentralServerService } from '../../../../services/central-server.service';
 import { ComponentService } from '../../../../services/component.service';
@@ -27,6 +28,8 @@ export class ChargingStationsRegistrationTokenComponent implements OnInit {
   @Input() public currentTokenID!: string;
   @Input() public inDialog!: boolean;
   @Input() public dialogRef!: MatDialogRef<ChargingStationsRegistrationTokenDialogComponent>;
+  @Input() public metadata!: Record<string, AuthorizationDefinitionFieldMetadata>;
+
   public readonly isOrganizationComponentActive: boolean;
   public formGroup!: FormGroup;
   public siteArea!: AbstractControl;
@@ -52,7 +55,9 @@ export class ChargingStationsRegistrationTokenComponent implements OnInit {
     this.formGroup = new FormGroup({
       id: new FormControl(),
       siteArea: new FormControl(),
-      siteAreaID: new FormControl(),
+      siteAreaID: new FormControl('',
+        Validators.compose([
+        ])),
       description: new FormControl('', Validators.compose([
         Validators.required,
         Validators.maxLength(100),
@@ -67,10 +72,14 @@ export class ChargingStationsRegistrationTokenComponent implements OnInit {
     this.description = this.formGroup.controls['description'];
     this.expirationDate = this.formGroup.controls['expirationDate'];
     this.id = this.formGroup.controls['id'];
-    this.loadToken();
+    if (this.metadata?.siteAreaID?.mandatory) {
+      this.siteArea.setValidators(Validators.required);
+      this.siteAreaID.setValidators(Validators.required);
+    }
+    this.loadRegistrationToken();
   }
 
-  public loadToken() {
+  public loadRegistrationToken() {
     if (this.currentTokenID) {
       this.spinnerService.show();
       this.centralServerService.getRegistrationToken(this.currentTokenID).subscribe((registrationToken) => {
@@ -106,6 +115,12 @@ export class ChargingStationsRegistrationTokenComponent implements OnInit {
   public close() {
     Utils.checkAndSaveAndCloseDialog(this.formGroup, this.dialogService,
       this.translateService, this.saveToken.bind(this), this.closeDialog.bind(this));
+  }
+
+  public resetSiteArea() {
+    this.siteAreaID.reset();
+    this.siteArea.reset();
+    this.formGroup.markAsDirty();
   }
 
   public saveToken(token: RegistrationToken) {

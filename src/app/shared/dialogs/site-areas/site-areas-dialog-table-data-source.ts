@@ -48,13 +48,10 @@ export class SiteAreasDialogTableDataSource extends DialogTableDataSource<SiteAr
 
       this.centralServerService.getSiteAreas(filterValues,
         this.getPaging(), this.getSorting()).subscribe((siteAreas) => {
-        // Ok
         observer.next(siteAreas);
         observer.complete();
       }, (error) => {
-        // No longer exists!
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        // Error
         observer.error(error);
       });
     });

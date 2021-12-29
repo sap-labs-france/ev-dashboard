@@ -183,7 +183,6 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
           this.messageService.showErrorMessage('users.user_do_not_exist');
           break;
-        // No longer exists!
         default:
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'users.create_error');
       }
@@ -213,7 +212,6 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
           this.messageService.showErrorMessage('users.user_do_not_exist');
           break;
-        // No longer exists!
         default:
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'users.update_error');
       }

@@ -334,42 +334,19 @@ export abstract class TableDataSource<T extends TableData> {
   public rowActionTriggered(actionDef: TableActionDef, rowItem: any, dropdownItem?: DropdownItem) {
   }
 
+  // eslint-disable-next-line complexity
   public buildFilterValues(withSearch: boolean = true): FilterParams {
     let filterJson = {};
     // Parse filters
     if (this.tableFiltersDef) {
-      // eslint-disable-next-line complexity
-      this.tableFiltersDef.forEach((filterDef) => {
+      for (const filterDef of this.tableFiltersDef) {
         // Check the 'All' value
         if (filterDef.currentValue && filterDef.currentValue !== FilterType.ALL_KEY) {
           if (filterDef.type === 'date') {
             // Date
             filterJson[filterDef.httpId] = filterDef.currentValue.toISOString();
           } else if (filterDef.type === FilterType.DIALOG_TABLE) {
-            // Dialog
-            if (!Utils.isEmptyArray(filterDef.dependentFilters)) {
-              filterDef.dialogComponentData = {
-                staticFilter: {}
-              };
-              for (const dependentFilter of filterDef.dependentFilters) {
-                if (!Utils.isEmptyArray(dependentFilter.currentValue)) {
-                  if (dependentFilter.multiple) {
-                    if (dependentFilter.type === FilterType.DROPDOWN &&
-                      dependentFilter.currentValue.length === dependentFilter.items.length &&
-                      dependentFilter.exhaustive) {
-                      continue;
-                    }
-                    filterDef.dialogComponentData.staticFilter[dependentFilter.httpId] =
-                      dependentFilter.currentValue.map((obj) => obj.key).join('|');
-                  } else {
-                    filterDef.dialogComponentData.staticFilter[dependentFilter.httpId] =
-                      dependentFilter.currentValue[0].key;
-                  }
-                } else {
-                  delete filterDef.dialogComponentData.staticFilter[dependentFilter.httpId];
-                }
-              }
-            }
+            // Mono selection
             if (!filterDef.multiple) {
               if (!Utils.isEmptyArray(filterDef.currentValue)) {
                 if (filterDef.currentValue[0].key !== FilterType.ALL_KEY) {
@@ -385,7 +362,7 @@ export abstract class TableDataSource<T extends TableData> {
                   }
                 }
               }
-            // Dialog with multiple selections
+            // Multiple selections
             } else {
               if (!Utils.isEmptyArray(filterDef.currentValue)) {
                 filterJson[filterDef.httpId] = filterDef.currentValue.map((obj) => obj.key).join('|');
@@ -402,7 +379,7 @@ export abstract class TableDataSource<T extends TableData> {
             filterJson[filterDef.httpId] = filterDef.currentValue;
           }
         }
-      });
+      }
     }
     // With Search?
     const searchValue = this.getSearchValue();
@@ -477,7 +454,6 @@ export abstract class TableDataSource<T extends TableData> {
         }
         // Build stats
         this.tableFooterStats = this.buildTableFooterStats(data);
-        // Ok
         this.setData(data.result);
         // Loading on going?
         if (!this.loadingNumberOfRecords) {
@@ -487,17 +463,13 @@ export abstract class TableDataSource<T extends TableData> {
             this.requestNumberOfRecords();
           }
         }
-        // Hide Spinner
         if (showSpinner) {
           this.spinnerService.hide();
         }
-        // Ok
         this.firstLoad = true;
-        // Notify
         observer.next();
         observer.complete();
       }, (error) => {
-        // Hide Spinner
         if (showSpinner) {
           this.spinnerService.hide();
         }

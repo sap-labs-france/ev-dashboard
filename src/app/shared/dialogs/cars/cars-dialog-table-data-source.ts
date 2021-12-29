@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-
 import { CarCatalogImageFormatterCellComponent } from '../../../pages/cars/cell-components/car-catalog-image-formatter-cell.component';
 import { CentralServerService } from '../../../services/central-server.service';
 import { MessageService } from '../../../services/message.service';
@@ -10,9 +9,9 @@ import { SpinnerService } from '../../../services/spinner.service';
 import { Car } from '../../../types/Car';
 import { DataResult } from '../../../types/DataResult';
 import { TableColumnDef } from '../../../types/Table';
-import { Tag } from '../../../types/Tag';
 import { Utils } from '../../../utils/Utils';
 import { DialogTableDataSource } from '../dialog-table-data-source';
+
 
 @Injectable()
 export class CarsDialogTableDataSource extends DialogTableDataSource<Car> {
@@ -29,16 +28,12 @@ export class CarsDialogTableDataSource extends DialogTableDataSource<Car> {
 
   public loadDataImpl(): Observable<DataResult<Car>> {
     return new Observable((observer) => {
-      // Get data
       this.centralServerService.getCars(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((cars) => {
-        // Ok
         observer.next(cars);
         observer.complete();
       }, (error) => {
-        // No longer exists!
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        // Error
         observer.error(error);
       });
     });

@@ -1507,7 +1507,7 @@
       }
     },
     "pricing": {
-      "title": "Pricing",
+      "title": "Tarification",
       "description": "L'interface de tarification permet aux fournisseurs de bornes de valoriser leurs services.",
       "not_found": "La configuration de la tarification n'est pas disponible",
       "create_success": "La configuration de la tarification a été créée avec succès",

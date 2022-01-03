@@ -9,7 +9,7 @@
           </ng-template>
           <div class="card-body">
             <!-- General form -->
-            <div class="card">
+            <div class="card card-profile">
               <div class="card-body">
                 <div class="row">
                   <div class="col-md-12">
@@ -44,7 +44,7 @@
                         </mat-datetimepicker>
                         <mat-datetimepicker-toggle [for]="pickerDateStart" matSuffix></mat-datetimepicker-toggle>
                         <input matInput [formControl]="validFrom" placeholder="{{'settings.pricing.valid_from' | translate}}"
-                        [matDatetimepicker]="pickerDateStart" (dateChange)="setMinDate($event)">
+                        [matDatetimepicker]="pickerDateStart">
                         <mat-error *ngIf="validFrom?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
                       </mat-form-field>
                     </div>
@@ -106,17 +106,17 @@
                 </div>
               </div>
             </div>
-            <!-- Dimensions title -->
-            <div class="row">
-              <div class="col-md-5 text-left">
-                <span class="pricing-header">
-                  {{'settings.pricing.pricing_dimensions_title' | translate}}
-                </span>
-              </div>
-            </div>
             <!-- form Dimensions -->
             <div class="card">
               <div class="card-body">
+                <!-- Dimensions title -->
+                <div class="row pricing-header">
+                  <div class="col-md-5 text-left">
+                    <span>
+                      {{'settings.pricing.pricing_dimensions_title' | translate}}
+                    </span>
+                  </div>
+                </div>
                 <!-- flatFee dimension -->
                 <div class="row">
                   <!-- toggle -->
@@ -252,17 +252,17 @@
                 </div>
               </div>
             </div>
-            <!-- Restrictions title -->
-            <div class="row">
-              <div class="col-md-5 text-left">
-                <span class="pricing-header">
-                  {{'settings.pricing.restrictions_title' | translate}}
-                </span>
-              </div>
-            </div>
             <!-- form Restrictions -->
             <div class="card">
               <div class="card-body">
+                <!-- Restrictions title -->
+                <div class="row pricing-header">
+                  <div class="col-md-5 text-left">
+                    <span>
+                      {{'settings.pricing.restrictions_title' | translate}}
+                    </span>
+                  </div>
+                </div>
                 <!-- Duration -->
                 <div class="row">
                   <!-- toggle min duration -->
@@ -336,9 +336,9 @@
                 <!-- time range -->
                 <div class="row">
                   <div class="col-md-2 pricing-dimension">
-                  <mat-slide-toggle (change)="toggle($event)" id="timeFrom" [checked]="timeFromEnabled.value">
-                    {{'settings.pricing.restriction_time_range' | translate}}
-                  </mat-slide-toggle>
+                    <mat-slide-toggle (change)="toggle($event)" id="timeFrom" [checked]="timeFromEnabled.value">
+                      {{'settings.pricing.restriction_time_range' | translate}}
+                    </mat-slide-toggle>
                   </div>
                   <!-- start time -->
                   <div class="col-md-2">

@@ -1,10 +1,11 @@
-const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
-const MomentTimezoneDataPlugin = require('moment-timezone-data-webpack-plugin');
+MomentLocalesPlugin = require('moment-locales-webpack-plugin');
+MomentTimezoneDataPlugin = require('moment-timezone-data-webpack-plugin');
 
 module.exports = {
   plugins: [
     new MomentLocalesPlugin({
-      localesToKeep: ['en', 'fr', 'es', 'de', 'pt', 'it']
+      // This seems to have no impact!
+      localesToKeep: ['en', 'en-us', 'en-gb', 'en-au', 'fr', 'es', 'de', 'pt', 'it', 'cs']
     }),
     new MomentTimezoneDataPlugin({
       startYear: new Date().getFullYear() - 2,

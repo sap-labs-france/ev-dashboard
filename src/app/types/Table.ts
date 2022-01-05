@@ -94,6 +94,7 @@ export enum FilterType {
   DIALOG_TABLE = 'dialog-table',
   DATE = 'date',
   DATE_RANGE = 'date-range',
+  MENU_DROPDOWN = 'menu-dropdown'
 }
 
 export enum ButtonType {

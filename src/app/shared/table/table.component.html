@@ -92,6 +92,19 @@
         <ng-template ngFor let-filterDef [ngForOf]="dataSource.tableFiltersDef">
           <div *ngIf="filterDef.visible !== false"
             [class]="(filterDef.class ? filterDef.class : '')">
+            <!-- Button based Dropdown filter -->
+            <div *ngIf="filterDef.type === FilterType.MENU_DROPDOWN">
+              <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>{{ filterDef.label ? filterDef.label : 'more_vert' }}</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <div *ngFor="let item of filterDef.items">
+                  <button (click)="filterChanged(filterDef, item.key)" mat-menu-item>
+                    <span>{{ item.value | translate }}</span>
+                  </button>
+                </div>
+              </mat-menu>
+            </div>
             <!-- Dropdown Filter -->
             <mat-form-field *ngIf="filterDef.type === FilterType.DROPDOWN && !filterDef.multiple">
               <mat-select (selectionChange)="filterChanged(filterDef)" [(value)]="filterDef.currentValue"

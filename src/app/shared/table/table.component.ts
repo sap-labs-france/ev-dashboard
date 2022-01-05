@@ -5,6 +5,7 @@ import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { MatSort } from '@angular/material/sort';
 import { MatDatetimepickerInputEvent } from '@mat-datetimepicker/core';
 import { TranslateService } from '@ngx-translate/core';
+import * as moment from 'moment';
 import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, takeWhile } from 'rxjs/operators';
 
@@ -12,7 +13,7 @@ import { ConfigService } from '../../services/config.service';
 import { LocaleService } from '../../services/locale.service';
 import { SpinnerService } from '../../services/spinner.service';
 import { WindowService } from '../../services/window.service';
-import { ButtonAction } from '../../types/GlobalType';
+import { ButtonAction, KeyValue } from '../../types/GlobalType';
 import { DropdownItem, FilterType, TableActionDef, TableColumnDef, TableData, TableEditType, TableFilterDef } from '../../types/Table';
 import { Constants } from '../../utils/Constants';
 import { Utils } from '../../utils/Utils';
@@ -128,8 +129,30 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  public filterChanged(filterDef: TableFilterDef) {
-    this.dataSource.filterChanged(filterDef);
+  public filterChanged(filterDef: TableFilterDef, key?: string) {
+    if(filterDef.id === 'date_menu_dropdown') {
+      const dateMenuOptions: {key: string; startValue: moment.Moment; endValue: moment.Moment}[] = [
+        { key: 'search_one_minute', startValue: moment().subtract(1, 'minute'), endValue: moment() },
+        { key: 'search_10_minutes', startValue: moment().subtract(10, 'minutes'), endValue: moment() },
+        { key: 'search_30_minutes', startValue: moment().subtract(30, 'minutes'), endValue: moment() },
+        { key: 'search_one_hour', startValue: moment().subtract(1, 'hour'), endValue: moment()  },
+        { key: 'search_today', startValue: moment().startOf('day'), endValue: moment()  },
+        { key: 'search_yesterday', startValue: moment().subtract(1, 'day').startOf('day'), endValue: moment().subtract(1, 'day').endOf('day') },
+        { key: 'search_this_week', startValue: moment().startOf('week'), endValue: moment()  },
+        { key: 'search_last_week', startValue: moment().subtract(1, 'week').startOf('week'), endValue: moment().subtract(1, 'week').endOf('week')  },
+        { key: 'search_this_month', startValue: moment().startOf('month'), endValue: moment()  },
+        { key: 'search_last_month', startValue: moment().subtract(1, 'month').startOf('month'), endValue: moment().subtract(1, 'month').endOf('month')  },
+      ];
+      const startFilter = this.dataSource.tableFiltersDef.find((filterDef2) => filterDef2.id === 'dateFrom');
+      const endFilter = this.dataSource.tableFiltersDef.find((filterDef2) => filterDef2.id === 'dateUntil');
+      const dateValues = dateMenuOptions.find((option) => option.key === key);
+      startFilter.currentValue = dateValues.startValue;
+      endFilter.currentValue = dateValues.endValue;
+      this.dataSource.filterChanged(startFilter);
+      this.dataSource.filterChanged(endFilter);
+    } else {
+      this.dataSource.filterChanged(filterDef);
+    }
     // this.updateUrlWithFilters(filterDef);
     this.refresh();
   }

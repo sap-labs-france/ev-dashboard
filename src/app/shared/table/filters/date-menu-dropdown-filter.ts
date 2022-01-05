@@ -13,7 +13,7 @@ export class DateMenuDropdownFilter extends TableFilter {
       type: FilterType.MENU_DROPDOWN,
       name: 'dateMenuDropdown',
       class: '',
-      label: 'event',
+      label: 'timer',
       items: Object.assign([], dateMenuOptions),
       multiple: false,
       exhaustive: true

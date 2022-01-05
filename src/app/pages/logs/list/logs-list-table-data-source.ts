@@ -253,9 +253,9 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
     const issuerFilter = new IssuerFilter().getFilterDef();
     if (this.authorizationService.isSuperAdmin()) {
       return [
-        new DateMenuDropdownFilter().getFilterDef(),
         new StartDateFilter(moment().startOf('d').toDate()).getFilterDef(),
         new EndDateFilter().getFilterDef(),
+        new DateMenuDropdownFilter().getFilterDef(),
         new LogLevelTableFilter().getFilterDef(),
         new LogSourceTableFilter().getFilterDef(),
         new LogActionTableFilter().getFilterDef(),
@@ -267,9 +267,9 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
         siteFilter.visible = false;
       }
       return [
-        new DateMenuDropdownFilter().getFilterDef(),
         new StartDateFilter(moment().startOf('d').toDate()).getFilterDef(),
         new EndDateFilter().getFilterDef(),
+        new DateMenuDropdownFilter().getFilterDef(),
         new LogLevelTableFilter().getFilterDef(),
         new LogSourceTableFilter().getFilterDef(),
         new LogActionTableFilter().getFilterDef(),

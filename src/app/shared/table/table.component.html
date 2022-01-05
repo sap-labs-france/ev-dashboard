@@ -94,8 +94,10 @@
             [class]="(filterDef.class ? filterDef.class : '')">
             <!-- Button based Dropdown filter -->
             <div *ngIf="filterDef.type === FilterType.MENU_DROPDOWN">
-              <button mat-icon-button [matMenuTriggerFor]="menu">
-                <mat-icon>{{ filterDef.label ? filterDef.label : 'more_vert' }}</mat-icon>
+              <button mat-stroked-button [matMenuTriggerFor]="menu">
+                <button mat-icon-button [disableRipple]='true'>
+                  <mat-icon>{{ filterDef.label ? filterDef.label : 'more_vert' }}</mat-icon>
+                </button>
               </button>
               <mat-menu #menu="matMenu">
                 <div *ngFor="let item of filterDef.items">

@@ -75,7 +75,6 @@ export class StatisticsFiltersComponent implements OnInit {
     private dialog: MatDialog) {
     this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
       this.language = locale.language;
-      moment.locale(this.language);
     });
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
     const issuerFilter = new IssuerFilter().getFilterDef();

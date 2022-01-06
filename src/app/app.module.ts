@@ -131,16 +131,15 @@ export const getLocalStorage = () => (!Utils.isUndefined(window)) ? window.local
 
 export const configFactory = (config: ConfigService) => () => config.getConfig();
 
-export const localeFactory = (
-  centralServerService: CentralServerService, translateService: TranslateService) => {
-  // Default
-  let language = translateService.getBrowserLang();
-  // Get current user
+export const localeFactory = (centralServerService: CentralServerService, translateService: TranslateService) => {
   const loggedUser = centralServerService.getLoggedUser();
-  if (loggedUser && loggedUser.language) {
-    language = loggedUser.language;
+  if (loggedUser && loggedUser.locale) {
+    // Locale of the current user (if any)
+    return Utils.convertToMomentLocale(loggedUser.locale);
   }
-  return language;
+  // Locale of the browser
+  const browserLocale = translateService.getBrowserCultureLang();
+  return Utils.convertToMomentLocale(browserLocale);
 };
 
 @NgModule({
@@ -212,10 +211,10 @@ export class AppModule {
       language = loggedUser.language;
     }
     // Supported
-    translateService.addLangs(['en', 'fr', 'es', 'de', 'pt', 'it']);
+    translateService.addLangs(['en', 'fr', 'es', 'de', 'pt', 'it', 'cs']); // TODO - this seems to have no impact
     // Default EN
     translateService.setDefaultLang('en');
     // Use the browser's language or default to EN
-    translateService.use(language.match(/en|fr|es|de|pt|it/) ? language : 'en');
+    translateService.use(language.match(/en|fr|es|de|pt|it|cs/) ? language : 'en');
   }
 }

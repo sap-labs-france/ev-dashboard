@@ -11,6 +11,7 @@ import { Utils } from '../../../../../utils/Utils';
 export class SiteAreaOcpiComponent implements OnInit, OnChanges {
   @Input() public siteArea!: SiteArea;
   @Input() public formGroup!: FormGroup;
+  @Input() public readOnly: boolean;
 
   public tariffID: AbstractControl;
 
@@ -26,6 +27,9 @@ export class SiteAreaOcpiComponent implements OnInit, OnChanges {
       ])));
     // Form
     this.tariffID = this.formGroup.controls['tariffID'];
+    if (this.readOnly) {
+      this.formGroup.disable();
+    }
     this.loadSiteArea();
   }
 

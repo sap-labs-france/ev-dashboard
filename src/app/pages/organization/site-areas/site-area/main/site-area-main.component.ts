@@ -47,7 +47,6 @@ export class SiteAreaMainComponent implements OnInit,OnChanges {
   public accessControl!: AbstractControl;
   public smartCharging!: AbstractControl;
   public numberOfPhases!: AbstractControl;
-  public tariffID: AbstractControl;
 
   public phaseMap = [
     { key: 1, description: 'site_areas.single_phased' },
@@ -73,7 +72,6 @@ export class SiteAreaMainComponent implements OnInit,OnChanges {
     private componentService: ComponentService) {
     this.maxSize = this.configService.getSiteArea().maxPictureKb;
     this.isSmartChargingComponentActive = this.componentService.isActive(TenantComponents.SMART_CHARGING);
-
   }
 
   public ngOnInit() {
@@ -218,10 +216,6 @@ export class SiteAreaMainComponent implements OnInit,OnChanges {
     this.maximumPowerChanged();
   }
 
-  public refresh() {
-    this.loadSiteArea();
-  }
-
   public updateSiteAreaImage(siteArea: SiteArea) {
     if (this.imageHasChanged) {
       // Set new image
@@ -242,7 +236,6 @@ export class SiteAreaMainComponent implements OnInit,OnChanges {
       delete siteArea.address.coordinates;
     }
   }
-
 
   public generateRegistrationToken() {
     if (this.currentSiteAreaID) {

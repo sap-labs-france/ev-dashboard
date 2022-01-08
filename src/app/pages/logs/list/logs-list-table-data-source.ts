@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ComponentService } from 'services/component.service';
 import { ChargingStationTableFilter } from 'shared/table/filters/charging-station-table-filter';
+import { DateRangeTableFilter } from 'shared/table/filters/date-range-table-filter';
 import { IssuerFilter } from 'shared/table/filters/issuer-filter';
 import { SiteTableFilter } from 'shared/table/filters/site-table-filter';
 import { TenantComponents } from 'types/Tenant';
@@ -252,8 +253,7 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
     const issuerFilter = new IssuerFilter().getFilterDef();
     if (this.authorizationService.isSuperAdmin()) {
       return [
-        new StartDateFilter(moment().startOf('d').toDate()).getFilterDef(),
-        new EndDateFilter().getFilterDef(),
+        new DateRangeTableFilter({showSeconds: true, language: 'en'}).getFilterDef(),
         new LogLevelTableFilter().getFilterDef(),
         new LogSourceTableFilter().getFilterDef(),
         new LogActionTableFilter().getFilterDef(),
@@ -265,8 +265,7 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
         siteFilter.visible = false;
       }
       return [
-        new StartDateFilter(moment().startOf('d').toDate()).getFilterDef(),
-        new EndDateFilter().getFilterDef(),
+        new DateRangeTableFilter({showSeconds: true, language: 'en'}).getFilterDef(),
         new LogLevelTableFilter().getFilterDef(),
         new LogSourceTableFilter().getFilterDef(),
         new LogActionTableFilter().getFilterDef(),

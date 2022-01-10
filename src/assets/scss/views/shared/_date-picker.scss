@@ -1,40 +1,78 @@
-.md-drppicker {
+.mat-form-field-infix .md-drppicker.drops-down-auto.ltr.shown.double {
     margin-top: 9px !important;
+    background-color: $brand-background;
+    color:$brand-text;
+
+    &.show-ranges {
+      position: fixed;
+    }
+
+    & div.buttons_input button.btn {
+      background-color: mat-color($app-primary);
+      color: $brand-background;
+    }
+
+    th {
+        color: $brand-text;
+    }
+
+    td {
+
+      &.available:hover {
+        background-color:lighten(mat-color($mat-grey, 600), 45%);
+        color:$brand-text
+      }
+
+      &.off {
+
+        &, &.start-date, &.end-date {
+          background-color: $brand-background;
+          border-color: $brand-background;
+          color: lighten(mat-color($mat-grey, 600), 10%);
+        }
+
+        &.in-range {
+          background-color: lighten(mat-color($mat-grey, 600), 40%);
+          border-color: mat-color($app-grey,600);
+          color: $brand-text;
+        }
+
+      }
+
+      &.active {
+        transition: background 300ms ease-out, border 300ms ease-out;
+
+        &, &:hover {
+          background-color: mat-color($app-primary);
+          color: $brand-background;
+        }
+      }
+
+    }
+
+    & div.ranges ul li {
+
+      &:hover {
+        border-radius: 4px;
+        background-color:lighten(mat-color($mat-grey, 600), 45%);
+        color: $brand-background;
+      }
+
+      & button {
+        border-radius: 4px;
+        color: $brand-text;
+
+        &.active {
+          background-color: mat-color($app-primary);
+          color: $brand-background;
+        }
+      }
+
+    }
+
 }
+
 .ngx-daterangepicker-action.date-range-picker-icon {
  font-size: 1.125em;
  margin-left: 1px;
 }
-
-.md-drppicker {
-    background-color: $brand-background;
-    color:$brand-text }
-    .md-drppicker td.available:hover,
-    .md-drppicker th.available:hover {
-      background-color:lighten(mat-color($mat-grey, 600), 45%);
-      color:$brand-text
-    }
-    .md-drppicker td.off, .md-drppicker td.off.in-range, .md-drppicker td.off.start-date, .md-drppicker td.off.end-date {
-      background-color: $brand-background;
-      border-color: $brand-background;
-      color: lighten(mat-color($mat-grey, 600), 10%); }
-    .md-drppicker td.in-range {
-      background-color: lighten(mat-color($mat-grey, 600), 40%);
-      border-color: mat-color($app-grey,600);
-      color: $brand-text; }
-    .md-drppicker td.active {
-      transition: background 300ms ease-out, border 300ms ease-out;
-      background: lighten(mat-color($mat-grey, 600), 50%); }
-      .md-drppicker td.active, .md-drppicker td.active:hover {
-        background-color: mat-color($app-primary);
-        color: $brand-background; }
-    .md-drppicker .ranges ul li button {
-      border-radius: 4px;
-      color: $brand-text; }
-      .md-drppicker .ranges ul li button.active {
-        background-color: mat-color($app-primary);
-        color: $brand-background; }
-    .md-drppicker .ranges ul li:hover {
-      border-radius: 4px;
-      background-color:lighten(mat-color($mat-grey, 600), 45%);
-      color: $brand-background; }

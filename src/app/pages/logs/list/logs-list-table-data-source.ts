@@ -22,8 +22,6 @@ import { logLevels } from '../../../shared/model/logs.model';
 import { TableExportLogsAction, TableExportLogsActionDef } from '../../../shared/table/actions/logs/table-export-logs-action';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
-import { EndDateFilter } from '../../../shared/table/filters/end-date-filter';
-import { StartDateFilter } from '../../../shared/table/filters/start-date-filter';
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { DataResult } from '../../../types/DataResult';

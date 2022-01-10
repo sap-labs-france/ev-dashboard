@@ -1,4 +1,0 @@
-/* CSS to fix the daterange dropdown picker issue */
-.md-drppicker.drops-down-auto.ltr.shown.double.show-ranges {
-  position: fixed;
-}

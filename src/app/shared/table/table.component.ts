@@ -5,7 +5,6 @@ import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { MatSort } from '@angular/material/sort';
 import { MatDatetimepickerInputEvent } from '@mat-datetimepicker/core';
 import { TranslateService } from '@ngx-translate/core';
-import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
 import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, takeWhile } from 'rxjs/operators';
 
@@ -26,7 +25,6 @@ import { TableDataSource } from './table-data-source';
 export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() public dataSource!: TableDataSource<TableData>;
   @ViewChild('searchInput') public searchInput!: ElementRef;
-  @ViewChild(DaterangepickerDirective) public picker: DaterangepickerDirective;
   public searchPlaceholder = '';
   public ongoingAutoRefresh = false;
   public sort: MatSort = new MatSort();
@@ -136,9 +134,9 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     this.refresh();
   }
 
-  public dateRangeChanged(filterDef: TableFilterDef, event: any){
+  public dateRangeChanged(filterDef: TableFilterDef, event: any) {
     const currentValue = filterDef.currentValue;
-    if(currentValue?.startDate !== event.startDate || currentValue?.endDate !== event.endDate){
+    if (currentValue?.startDate !== event.startDate || currentValue?.endDate !== event.endDate) {
       filterDef.currentValue = {
         startDate: event?.startDate.toDate(),
         endDate: event?.endDate.toDate()
@@ -155,9 +153,6 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     return dateRanges;
   }
 
-  public openDateRange() {
-    this.picker.open();
-  }
 
   public updateUrlWithFilters(filter: TableFilterDef) {
     // Update URL with filter value

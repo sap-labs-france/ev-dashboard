@@ -66,8 +66,7 @@
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.css",
               "src/assets/css/material-dashboard.css",
-              "src/assets/scss/material-dashboard.scss",
-              "src/assets/css/dateTimeRangePickerDropdown.css"
+              "src/assets/scss/material-dashboard.scss"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.slim.min.js",

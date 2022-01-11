@@ -7,14 +7,15 @@ import { TableFilter } from './table-filter';
 export class DateRangeTableFilter extends TableFilter {
   public constructor(options: {
     showSeconds?: boolean; start?: null; end?: null; language?: string;
+    id?: string; httpId?: string;
   }) {
     super();
     // Define filter
     const startDate = Utils.isNullOrUndefined(options.start) ? moment().startOf('day').toDate() : moment(options.start).toDate();
     const endDate = Utils.isNullOrUndefined(options.end) ? moment().toDate() : moment(options.end).toDate();
     const filterDef: TableFilterDef = {
-      id: 'dateRange',
-      httpId: 'DateRange',
+      id: options.id ? options.id : 'dateRange',
+      httpId: options.httpId ? options.httpId : 'DateRange',
       type: FilterType.DATE_RANGE,
       name: 'general.search_date',
       class: 'col-sm-6 col-md-4 col-lg-3',

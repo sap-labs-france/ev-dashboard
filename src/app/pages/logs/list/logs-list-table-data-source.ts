@@ -5,6 +5,7 @@ import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ComponentService } from 'services/component.service';
+import { LocaleService } from 'services/locale.service';
 import { ChargingStationTableFilter } from 'shared/table/filters/charging-station-table-filter';
 import { DateRangeTableFilter } from 'shared/table/filters/date-range-table-filter';
 import { IssuerFilter } from 'shared/table/filters/issuer-filter';
@@ -37,6 +38,7 @@ import { LogLevelFormatterComponent } from '../formatters/log-level-formatter.co
 @Injectable()
 export class LogsListTableDataSource extends TableDataSource<Log> {
   private exportAction = new TableExportLogsAction().getActionDef();
+  private language: string;
 
   public constructor(
     public spinnerService: SpinnerService,
@@ -48,11 +50,15 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
     private router: Router,
     private centralServerService: CentralServerService,
     private datePipe: AppDatePipe,
-    private windowService: WindowService) {
+    private windowService: WindowService,
+    private localeService: LocaleService) {
     super(spinnerService, translateService);
     // Init
-    this.initDataSource();
-    this.initFilters();
+    this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
+      this.language = locale.language;
+      this.initDataSource();
+      this.initFilters();
+    });
   }
 
   public initFilters() {
@@ -251,7 +257,7 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
     const issuerFilter = new IssuerFilter().getFilterDef();
     if (this.authorizationService.isSuperAdmin()) {
       return [
-        new DateRangeTableFilter({showSeconds: true, language: 'en'}).getFilterDef(),
+        new DateRangeTableFilter({showSeconds: true, language: this.language}).getFilterDef(),
         new LogLevelTableFilter().getFilterDef(),
         new LogSourceTableFilter().getFilterDef(),
         new LogActionTableFilter().getFilterDef(),
@@ -263,7 +269,7 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
         siteFilter.visible = false;
       }
       return [
-        new DateRangeTableFilter({showSeconds: true, language: 'en'}).getFilterDef(),
+        new DateRangeTableFilter({showSeconds: true, language: this.language}).getFilterDef(),
         new LogLevelTableFilter().getFilterDef(),
         new LogSourceTableFilter().getFilterDef(),
         new LogActionTableFilter().getFilterDef(),

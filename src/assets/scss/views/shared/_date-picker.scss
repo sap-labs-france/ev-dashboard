@@ -1,10 +1,11 @@
 .mat-form-field-infix .md-drppicker.drops-down-auto.ltr.shown.double {
     margin-top: 9px !important;
     background-color: $brand-background;
+    width: 530px;
     color:$brand-text;
 
     &.show-ranges {
-      position: fixed;
+      width: 630px;
     }
 
     & div.buttons_input button.btn {

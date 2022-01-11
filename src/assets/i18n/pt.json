@@ -365,6 +365,7 @@
     "create_error": "O error ocurreu enquanto criava o ativo",
     "refresh_success": "The asset's consumption or production has been successfully retrieved",
     "refresh_error": "Error occurred while retrieving the asset's consumption or production'",
+    "consumption_error": "Error occured while retrieving consumption",
     "logo_size_error": "O limite de tamanho da imagem foi excedido, o limite está abaixo de {{maxPictureKb}} Kb",
     "select_assets": "Selecionar Ativo",
     "consumption_date": "Data",

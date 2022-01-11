@@ -365,6 +365,7 @@
     "create_error": "Error occurred while creating the asset, check the logs",
     "refresh_success": "The asset's consumption or production has been successfully retrieved",
     "refresh_error": "Error occurred while retrieving the asset's consumption or production'",
+    "consumption_error": "Error occured while retrieving consumption",
     "logo_size_error": "The image size limit exceeded, limit is below '{{maxPictureKb}}' Kb",
     "select_assets": "Select Asset",
     "consumption_date": "Date",

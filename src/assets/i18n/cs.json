@@ -365,6 +365,7 @@
     "create_error": "Došlo k chybě při vytvoření prostředku, zkontrolujte protokoly",
     "refresh_success": "Spotřeba nebo produkce prostředku byla úspěšně vyhledána",
     "refresh_error": "Došlo k chybě při vyhledání spotřeby nebo produkce prostředku",
+    "consumption_error": "Error occured while retrieving consumption",
     "logo_size_error": "Překročen limit velikosti obrázku, limit je menší než '{{maxPictureKb}}' Kb",
     "select_assets": "Vybrat prostředek",
     "consumption_date": "Datum",

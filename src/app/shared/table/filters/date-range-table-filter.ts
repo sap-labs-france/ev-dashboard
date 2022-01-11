@@ -5,7 +5,6 @@ import { TableFilter } from './table-filter';
 
 export class DateRangeTableFilter extends TableFilter {
   public constructor(language?: string) {
-    moment.locale(language);
     super();
     // Define filter
     const filterDef: TableFilterDef = {

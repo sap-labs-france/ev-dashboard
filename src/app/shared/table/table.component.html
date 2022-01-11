@@ -135,7 +135,7 @@
                 [value]="filterDef.currentValue" autocomplete="false">
             </mat-form-field>
             <!-- Date Range Filter -->
-            <mat-form-field *ngIf="filterDef.type === FilterType.DATE_RANGE" [id]="filterDef.id" #ngxDatePickerElement>
+            <mat-form-field *ngIf="filterDef.type === FilterType.DATE_RANGE" #ngxDatePickerElement>
               <input matInput ngxDaterangepickerMd
                 [timePicker]="filterDef.dateRangeTableFilterDef.timePicker"
                 [timePickerSeconds]="filterDef.dateRangeTableFilterDef.timePickerSeconds"

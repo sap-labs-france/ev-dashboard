@@ -159,9 +159,9 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public openDateRanges(parent: MatFormField) {
     const parentHTMLElement = (parent.getConnectedOverlayOrigin().nativeElement as HTMLElement);
-    for(const picker of this.datePickers){
+    for (const picker of this.datePickers) {
       // Close any other open pickers
-      if(parentHTMLElement.contains(picker.picker.pickerContainer.nativeElement as HTMLElement)){
+      if (parentHTMLElement.contains(picker.picker.pickerContainer.nativeElement as HTMLElement)) {
         picker.toggle();
       } else {
         picker.hide();

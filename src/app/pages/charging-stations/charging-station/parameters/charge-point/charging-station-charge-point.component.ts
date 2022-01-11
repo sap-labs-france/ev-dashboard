@@ -137,8 +137,8 @@ export class ChargingStationChargePointComponent implements OnInit, OnChanges {
     this.chargePointChanged.emit();
   }
 
-  public findConnector(connectorID: number): Connector {
-    return this.chargingStation.connectors?.find(connector => connector.connectorId === connectorID);
+  public findConnector(connectorId: number): Connector {
+    return this.chargingStation.connectors?.find(connector => connector.connectorId === connectorId);
   }
 
   public adjustMaximumPower() {

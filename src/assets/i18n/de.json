@@ -365,7 +365,7 @@
     "create_error": "Beim Erstellen des Assets ist ein Fehler aufgetreten",
     "refresh_success": "Die Verbrauchs-/Produktionsdaten des Assets wurden erfolgreich aktualisiert",
     "refresh_error": "Beim Abrufen der Verbrauchs-/Produktionsdaten des Assets ist ein Fehler aufgetreten",
-    "consumption_error": "Error occured while retrieving consumption",
+    "consumption_error": "Error occured while retrieving the consumption",
     "logo_size_error": "Die maximale Bildgröße wurde überschritten, die maximale Bildgröße ist '{{maxPictureKb}}' Kb",
     "select_assets": "Asset auswählen",
     "consumption_date": "Datum",

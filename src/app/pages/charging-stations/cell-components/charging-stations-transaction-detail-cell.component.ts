@@ -3,7 +3,7 @@ import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dial
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { LocaleService } from '../../../services/locale.service';
-import { TransactionDialogComponent } from '../../../shared/dialogs/transaction/transaction.dialog.component';
+import { TransactionDialogComponent } from '../../../shared/dialogs/transaction/transaction-dialog.component';
 import { CellContentTemplateDirective } from '../../../shared/table/cell-content-template/cell-content-template.directive';
 
 @Component({

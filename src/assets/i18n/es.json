@@ -365,7 +365,7 @@
     "create_error": "Se produjo un error al crear el activo",
     "refresh_success": "El consumo o producción del activo acido recuperado exitosamente",
     "refresh_error": "Error ocurrido mientras se recuperaba el consumo o producción del activo, verificar el registro",
-    "consumption_error": "Error occured while retrieving consumption",
+    "consumption_error": "Error occured while retrieving the consumption",
     "logo_size_error": "Se excedió el límite de tamaño de la imágen, el límite está por debajo de '{{maxPictureKb}}' Kb",
     "select_assets": "Seleccionar activo",
     "consumption_date": "Fecha",

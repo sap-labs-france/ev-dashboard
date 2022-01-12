@@ -23,7 +23,7 @@ import { Utils } from '../../../utils/Utils';
 import { UserMainComponent } from './main/user-main.component';
 import { UserNotificationsComponent } from './notifications/user-notifications.component';
 import { UserSecurityComponent } from './security/user-security.component';
-import { UserDialogComponent } from './user.dialog.component';
+import { UserDialogComponent } from './user-dialog.component';
 
 @Component({
   selector: 'app-user',

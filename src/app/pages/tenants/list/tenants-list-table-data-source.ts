@@ -24,7 +24,7 @@ import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../
 import { Tenant, TenantButtonAction } from '../../../types/Tenant';
 import { Utils } from '../../../utils/Utils';
 import { TenantLogoFormatterCellComponent } from '../cell-components/tenant-logo-formatter-cell.component';
-import { TenantDialogComponent } from '../tenant/tenant.dialog.component';
+import { TenantDialogComponent } from '../tenant/tenant-dialog.component';
 
 @Injectable()
 export class TenantsListTableDataSource extends TableDataSource<Tenant> {

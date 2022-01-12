@@ -30,7 +30,7 @@ import { ButtonAction } from '../../../types/GlobalType';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
 import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
-import { AssetDialogComponent } from '../asset/asset.dialog.component';
+import { AssetDialogComponent } from '../asset/asset-dialog.component';
 import { AssetConsumptionCellComponent } from '../cell-components/asset-consumption-cell.component';
 import { AssetConsumptionChartDetailComponent } from './consumption-chart/asset-consumption-chart-detail.component';
 

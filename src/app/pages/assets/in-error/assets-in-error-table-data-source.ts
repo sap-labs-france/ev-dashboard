@@ -27,7 +27,7 @@ import { DataResult } from '../../../types/DataResult';
 import { AssetInError, AssetInErrorType, ErrorMessage } from '../../../types/InError';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
 import { Utils } from '../../../utils/Utils';
-import { AssetDialogComponent } from '../asset/asset.dialog.component';
+import { AssetDialogComponent } from '../asset/asset-dialog.component';
 
 @Injectable()
 export class AssetsInErrorTableDataSource extends TableDataSource<AssetInError> {

@@ -201,7 +201,6 @@ export class TenantComponent implements OnInit {
     let carConnectorActive = false;
     let ocpiActive = false;
     let oicpActive = false;
-
     for (const component in tenant.components) {
       if (Utils.objectHasProperty(tenant.components, component)) {
         if (!tenant.components[component].active) {

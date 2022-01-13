@@ -149,14 +149,6 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  public createQuickAccessDateRanges(rangeObjects: {key: string; label: string; startValue: Date; endValue: Date}[]){
-    const dateRanges: any = {};
-    for (const range of rangeObjects) {
-      dateRanges[this.translateService.instant(range.label)] = [range.startValue, range.endValue];
-    }
-    return dateRanges;
-  }
-
   public openDateRanges(parent: MatFormField) {
     const parentHTMLElement = (parent.getConnectedOverlayOrigin().nativeElement as HTMLElement);
     for (const picker of this.datePickers) {

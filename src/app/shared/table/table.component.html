@@ -142,7 +142,7 @@
                 [timePicker24Hour]="filterDef.dateRangeTableFilterDef.timePicker24Hour"
                 [locale]="filterDef.dateRangeTableFilterDef.locale"
                 [ngModel]="filterDef.currentValue"
-                [ranges]="createQuickAccessDateRanges(filterDef.items)"
+                [ranges]="filterDef.items[0]"
                 [alwaysShowCalendars]="true"
                 (ngModelChange)="dateRangeChanged(filterDef, $event)"/>
               <mat-icon matSuffix class="ngx-daterangepicker-action date-range-picker-icon mt-1" (click)="openDateRanges(ngxDatePickerElement)">

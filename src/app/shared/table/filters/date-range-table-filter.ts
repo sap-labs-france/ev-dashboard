@@ -6,12 +6,11 @@ import { TableFilter } from './table-filter';
 
 export class DateRangeTableFilter extends TableFilter {
   public constructor(options: {
-    language: string; applyText: string; showSeconds?: boolean; start?: null; end?: null;
+    language: string; applyLabel: string; showSeconds?: boolean; start?: null; end?: null;
     id?: string; startDateTimeHttpId?: string; endDateTimeHttpId?: string;
   }) {
     super();
     // Define filter
-    moment.locale(options.language);
     const startDate = Utils.isNullOrUndefined(options.start) ? moment().startOf('day').toDate() : moment(options.start).toDate();
     const endDate = Utils.isNullOrUndefined(options.end) ? moment().toDate() : moment(options.end).toDate();
     const filterDef: TableFilterDef = {
@@ -28,7 +27,7 @@ export class DateRangeTableFilter extends TableFilter {
         endDateTimeHttpId: options.endDateTimeHttpId ? options.endDateTimeHttpId : 'EndDateTime',
         locale: {
           displayFormat: moment.localeData().longDateFormat('lll'),
-          applyLabel: options.applyText,
+          applyLabel: options.applyLabel,
           daysOfWeek: moment.weekdaysMin(),
           monthNames: moment.monthsShort(),
           firstDay: moment.localeData().firstDayOfWeek()

@@ -27,7 +27,7 @@ export class DateRangeTableFilter extends TableFilter {
         startDateTimeHttpId: options.startDateTimeHttpId ? options.startDateTimeHttpId : 'StartDateTime',
         endDateTimeHttpId: options.endDateTimeHttpId ? options.endDateTimeHttpId : 'EndDateTime',
         locale: {
-          displayFormat: 'MMM DD, YYYY HH:mm',
+          displayFormat: moment.localeData().longDateFormat('lll'),
           applyLabel: options.applyText,
           daysOfWeek: moment.weekdaysMin(),
           monthNames: moment.monthsShort(),

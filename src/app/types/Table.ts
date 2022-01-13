@@ -1,7 +1,6 @@
 import { ValidatorFn } from '@angular/forms';
 import { SortDirection } from '@angular/material/sort';
 import * as moment from 'moment';
-import { TableFilter } from 'shared/table/filters/table-filter';
 
 import { AssetButtonAction } from './Asset';
 import { AuthorizationActions } from './Authorization';
@@ -67,12 +66,15 @@ export interface DateRangeTableFilterDef {
   startDate?: moment.Moment;
   endDate?: moment.Moment;
   locale?: Locale;
+  startDateTimeHttpId?: string;
+  endDateTimeHttpId?: string;
 }
 
 export interface Locale {
-  daysOfWeek: string[];
-  monthNames: string[];
-  firstDay: number;
+  daysOfWeek?: string[];
+  monthNames?: string[];
+  firstDay?: number;
+  displayFormat?: string;
 }
 export interface DropdownItem {
   id: string;

@@ -6,8 +6,8 @@ import { TableFilter } from './table-filter';
 
 export class DateRangeTableFilter extends TableFilter {
   public constructor(options: {
-    showSeconds?: boolean; start?: null; end?: null; language?: string;
-    id?: string; httpId?: string;
+    showSeconds?: boolean; start?: null; end?: null; language: string;
+    id?: string; startDateTimeHttpId?: string; endDateTimeHttpId?: string;
   }) {
     super();
     // Define filter
@@ -15,13 +15,19 @@ export class DateRangeTableFilter extends TableFilter {
     const endDate = Utils.isNullOrUndefined(options.end) ? moment().toDate() : moment(options.end).toDate();
     const filterDef: TableFilterDef = {
       id: options.id ? options.id : 'dateRange',
-      httpId: options.httpId ? options.httpId : 'DateRange',
+      httpId: '', //Not used as startDateTimeHttpId and endDateTimeHttpId are used instead
       type: FilterType.DATE_RANGE,
       name: 'general.search_date',
       class: 'col-sm-6 col-md-4 col-lg-3',
       dateRangeTableFilterDef: {
         timePicker: true,
+        timePicker24Hour: true,
         timePickerSeconds: Utils.isNullOrUndefined(options.showSeconds) ? false : options.showSeconds,
+        startDateTimeHttpId: options.startDateTimeHttpId ? options.startDateTimeHttpId : 'StartDateTime',
+        endDateTimeHttpId: options.endDateTimeHttpId ? options.endDateTimeHttpId : 'EndDateTime',
+        locale: {
+          displayFormat: 'MMM DD, YYYY HH:mm'
+        }
       },
       currentValue: {
         startDate,
@@ -32,10 +38,9 @@ export class DateRangeTableFilter extends TableFilter {
     };
     // Set
     this.setFilterDef(filterDef);
-    if (options.language) {
-      filterDef.dateRangeTableFilterDef.timePicker24Hour = !(new Date().toLocaleString(options.language).match(/am|pm/i));
-    } else {
-      filterDef.dateRangeTableFilterDef.timePicker24Hour = true;
+    if (new Date().toLocaleString(options.language).match(/am|pm/i)) {
+      filterDef.dateRangeTableFilterDef.timePicker24Hour = false;
+      filterDef.dateRangeTableFilterDef.locale.displayFormat = 'MMM DD, YYYY hh:mm A';
     }
   }
 }

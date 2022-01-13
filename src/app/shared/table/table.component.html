@@ -146,7 +146,8 @@
                 [alwaysShowCalendars]="true"
                 (ngModelChange)="dateRangeChanged(filterDef, $event)"/>
               <mat-icon matSuffix class="ngx-daterangepicker-action date-range-picker-icon mt-1" (click)="openDateRanges(ngxDatePickerElement)">
-                date_range</mat-icon>
+                date_range
+              </mat-icon>
             </mat-form-field>
             <!-- All key filter -->
             <mat-form-field *ngIf="filterDef.type === FilterType.ALL_KEY">

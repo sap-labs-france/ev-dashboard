@@ -3,6 +3,7 @@ import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { DialogMode } from 'types/Authorization';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -28,12 +29,12 @@ import { Utils } from '../../../utils/Utils';
 })
 export class AssetComponent implements OnInit {
   @Input() public currentAssetID!: string;
-  @Input() public inDialog!: boolean;
+  @Input() public dialogMode!: DialogMode;
   @Input() public dialogRef!: MatDialogRef<any>;
 
   public parentErrorStateMatcher = new ParentErrorStateMatcher();
   public isSmartChargingComponentActive = false;
-  public isAdmin = false;
+  public readOnly = true;
   public image: string = Constants.NO_IMAGE;
   public imageHasChanged = false;
   public maxSize: number;
@@ -74,18 +75,10 @@ export class AssetComponent implements OnInit {
     private router: Router
   ) {
     this.maxSize = this.configService.getAsset().maxImageKb;
-    // Check auth
-    if (this.activatedRoute.snapshot.params['id'] &&
-      !authorizationService.canUpdateAsset()) {
-      // Not authorized
-      void this.router.navigate(['/']);
-    }
     // Get asset types
     this.assetTypes = AssetTypes;
     // Get asset connections list
     this.loadAssetConnections();
-    // Get admin flag
-    this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
     this.isSmartChargingComponentActive = this.componentService.isActive(TenantComponents.SMART_CHARGING);
   }
 
@@ -168,10 +161,7 @@ export class AssetComponent implements OnInit {
     this.meterID = this.formGroup.controls['meterID'];
     // Disable connection form by default
     this.disableConnectionDetails();
-    // if not admin switch in readonly mode
-    if (!this.isAdmin) {
-      this.formGroup.disable();
-    }
+    this.readOnly = (this.dialogMode === DialogMode.VIEW);
     if (this.currentAssetID) {
       this.loadAsset();
     } else if (this.activatedRoute && this.activatedRoute.params) {
@@ -180,6 +170,8 @@ export class AssetComponent implements OnInit {
         this.loadAsset();
       });
     }
+    // Handle Dialog mode
+    Utils.handleDialogMode(this.dialogMode, this.formGroup);
   }
 
   public setCurrentAssetId(currentAssetId: string) {
@@ -191,6 +183,7 @@ export class AssetComponent implements OnInit {
   }
 
   public loadAsset() {
+    // ID not provided we are in creation mode
     if (!this.currentAssetID) {
       return;
     }
@@ -333,7 +326,7 @@ export class AssetComponent implements OnInit {
   }
 
   public closeDialog(saved: boolean = false) {
-    if (this.inDialog) {
+    if (this.dialogRef) {
       this.dialogRef.close(saved);
     }
   }

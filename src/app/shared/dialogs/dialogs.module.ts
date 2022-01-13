@@ -41,8 +41,8 @@ import { SitesDialogTableDataSource } from './sites/sites-dialog-table-data-sour
 import { SitesDialogComponent } from './sites/sites-dialog.component';
 import { TagsDialogTableDataSource } from './tags/tags-dialog-table-data-source';
 import { TagsDialogComponent } from './tags/tags-dialog.component';
+import { TransactionDialogComponent } from './transaction/transaction-dialog.component';
 import { TransactionComponent } from './transaction/transaction.component';
-import { TransactionDialogComponent } from './transaction/transaction.dialog.component';
 import { UsersDialogTableDataSource } from './users/users-dialog-table-data-source';
 import { UsersDialogComponent } from './users/users-dialog.component';
 

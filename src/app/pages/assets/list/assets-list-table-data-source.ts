@@ -25,18 +25,17 @@ import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-
 import { IssuerFilter } from '../../../shared/table/filters/issuer-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { Asset, AssetButtonAction, AssetType } from '../../../types/Asset';
-import { DataResult } from '../../../types/DataResult';
+import { AssetDataResult } from '../../../types/DataResult';
 import { ButtonAction } from '../../../types/GlobalType';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
 import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
-import { AssetDialogComponent } from '../asset/asset.dialog.component';
+import { AssetDialogComponent } from '../asset/asset-dialog.component';
 import { AssetConsumptionCellComponent } from '../cell-components/asset-consumption-cell.component';
 import { AssetConsumptionChartDetailComponent } from './consumption-chart/asset-consumption-chart-detail.component';
 
 @Injectable()
 export class AssetsListTableDataSource extends TableDataSource<Asset> {
-  private isAdmin = false;
   private canCreate = new TableCreateAssetAction().getActionDef();
   private editAction = new TableEditAssetAction().getActionDef();
   private deleteAction = new TableDeleteAssetAction().getActionDef();
@@ -56,14 +55,13 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
   ) {
     super(spinnerService, translateService);
     // Init
-    this.isAdmin = this.authorizationService.isAdmin();
     this.setStaticFilters([{
       WithSiteArea: true
     }]);
     this.initDataSource();
   }
 
-  public loadDataImpl(): Observable<DataResult<Asset>> {
+  public loadDataImpl(): Observable<AssetDataResult> {
     return new Observable((observer) => {
       // get assets
       this.centralServerService.getAssets(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe((assets) => {
@@ -73,7 +71,7 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
             asset.image = Constants.NO_IMAGE;
           }
         }
-        this.canCreate.visible = this.isAdmin;
+        this.canCreate.visible = assets.canCreate;
         observer.next(assets);
         observer.complete();
       }, (error) => {
@@ -90,7 +88,7 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
       },
       rowDetails: {
         enabled: true,
-        showDetailsField: 'dynamicAsset',
+        showDetailsField: 'canReadConsumption',
         angularComponent: AssetConsumptionChartDetailComponent,
       },
       hasDynamicRowAction: true,
@@ -175,32 +173,39 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-    if (this.isAdmin) {
-      return [
-        this.canCreate,
-        ...tableActionsDef,
-      ];
-    }
-    return tableActionsDef;
+    return [
+      this.canCreate,
+      ...tableActionsDef,
+    ];
   }
 
   public buildTableDynamicRowActions(asset: Asset): TableActionDef[] {
     const rowActions: TableActionDef[] = [];
     const openInMaps = new TableOpenInMapsAction().getActionDef();
+    const moreActions = new TableMoreAction([]);
     // Check if GPS is available
     openInMaps.disabled = !Utils.containsGPSCoordinates(asset.coordinates);
-    if (this.isAdmin && asset.issuer) {
+    // Edit button
+    if(asset.canUpdate) {
       rowActions.push(this.editAction);
-      rowActions.push(new TableMoreAction([
-        openInMaps,
-        this.deleteAction,
-      ]).getActionDef());
-    } else {
+    }
+    // Show button
+    if(!asset.canUpdate && asset.canRead) {
       rowActions.push(this.displayAction);
+    }
+    // More action
+    if(asset.canDelete) {
+      moreActions.addActionInMoreActions(this.deleteAction);
+    }
+    if (!Utils.isEmptyArray(moreActions.getActionsInMoreActions())) {
+      moreActions.addActionInMoreActions(openInMaps);
+      rowActions.push(moreActions.getActionDef());
+    } else {
+      // More action is empty we put actions directly in row
       rowActions.push(openInMaps);
     }
     // Display refresh button
-    if (this.isAdmin && asset.dynamicAsset && !asset.usesPushAPI) {
+    if (asset.canRetrieveConsumption) {
       rowActions.splice(1, 0, this.retrieveConsumptionAction);
     }
     return rowActions;

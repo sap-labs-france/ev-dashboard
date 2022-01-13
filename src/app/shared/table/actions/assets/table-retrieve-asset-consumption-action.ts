@@ -1,5 +1,6 @@
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { HTTPError } from 'types/HTTPError';
 
 import { CentralServerService } from '../../../../services/central-server.service';
 import { MessageService } from '../../../../services/message.service';
@@ -37,8 +38,16 @@ export class TableRetrieveAssetConsumptionAction extends TableSynchronizeAction 
       }
     }, (error) => {
       spinnerService.hide();
-      Utils.handleHttpError(error, router, messageService, centralServerService,
-        'assets.refresh_error');
+      switch (error.status) {
+        case HTTPError.CANNOT_RETRIEVE_CONSUMPTION:
+          Utils.handleHttpError(error, router, messageService,
+            centralServerService, 'assets.consumption_error');
+          break;
+        default:
+          Utils.handleHttpError(error, router, messageService, centralServerService,
+            'assets.refresh_error');
+          break;
+      }
     });
   }
 }

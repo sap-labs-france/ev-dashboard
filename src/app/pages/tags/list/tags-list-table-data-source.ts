@@ -43,8 +43,8 @@ import { IssuerFilter } from '../../../shared/table/filters/issuer-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { Utils } from '../../../utils/Utils';
 import { TagStatusFormatterComponent } from '../formatters/tag-status-formatter.component';
-import { TagAssignDialogComponent } from '../tag-assign/tag-assign.dialog.component';
-import { TagDialogComponent } from '../tag/tag.dialog.component';
+import { TagAssignDialogComponent } from '../tag-assign/tag-assign-dialog.component';
+import { TagDialogComponent } from '../tag/tag-dialog.component';
 
 @Injectable()
 export class TagsListTableDataSource extends TableDataSource<Tag> {

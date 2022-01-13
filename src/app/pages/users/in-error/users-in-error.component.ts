@@ -5,7 +5,7 @@ import { User } from 'types/User';
 
 import { WindowService } from '../../../services/window.service';
 import { TableEditUserAction } from '../../../shared/table/actions/users/table-edit-user-action';
-import { UserDialogComponent } from '../user/user.dialog.component';
+import { UserDialogComponent } from '../user/user-dialog.component';
 import { UsersInErrorTableDataSource } from './users-in-error-table-data-source';
 
 @Component({

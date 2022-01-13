@@ -6,8 +6,8 @@ import { User } from 'types/User';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { TableEditUserAction } from '../../../shared/table/actions/users/table-edit-user-action';
+import { UserDialogComponent } from '../user/user-dialog.component';
 import { UserComponent } from '../user/user.component';
-import { UserDialogComponent } from '../user/user.dialog.component';
 import { UsersListTableDataSource } from './users-list-table-data-source';
 
 @Component({

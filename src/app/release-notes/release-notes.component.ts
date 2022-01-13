@@ -23,6 +23,20 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.5.15',
+        date: new Date('2022-01-12'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Migrated Registration Token and Billing endpoints to RESTful API`,
+              `Migrated Asset endpoint to the new authorization framework`,
+              `Fixed Site Admin cannot create Cars for other Users`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.5.14',
         date: new Date('2021-12-20'),
         componentChanges: [

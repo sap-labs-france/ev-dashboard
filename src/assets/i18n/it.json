@@ -365,6 +365,7 @@
     "create_error": "Si è verificato un errore durante la creazione della risorsa",
     "refresh_success": "The asset's consumption or production has been successfully retrieved",
     "refresh_error": "Error occurred while retrieving the asset's consumption or production'",
+    "consumption_error": "Error occured while retrieving the consumption",
     "logo_size_error": "Il limite di dimensione dell'immagine è stato superato, il limite è inferiore a {{maxPictureKb}} Kb",
     "select_assets": "Seleziona Risorsa",
     "consumption_date": "Data",

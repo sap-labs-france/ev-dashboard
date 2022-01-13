@@ -123,6 +123,7 @@ export enum Action {
   CHECK_CONNECTION = 'CheckConnection',
   CLEAR_BILLING_TEST_DATA = 'ClearBillingTestData',
   RETRIEVE_CONSUMPTION = 'RetrieveConsumption',
+  READ_CONSUMPTION = 'ReadConsumption',
   CREATE_CONSUMPTION = 'CreateConsumption',
   PING = 'Ping',
   GENERATE_LOCAL_TOKEN = 'GenerateLocalToken',
@@ -215,4 +216,10 @@ export interface DialogData {
 export interface DialogParams<T extends DialogData> {
   dialogData?: T;
   dialogMode?: DialogMode;
+}
+
+export interface AssetAuthorizationActions extends AuthorizationActions {
+  canRetrieveConsumption?:boolean;
+  canReadConsumption?:boolean;
+  canCheckConnection?:boolean;
 }

@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
-import { TransactionDialogComponent } from 'shared/dialogs/transaction/transaction.dialog.component';
+import { TransactionDialogComponent } from 'shared/dialogs/transaction/transaction-dialog.component';
 import { AppDurationPipe } from 'shared/formatters/app-duration.pipe';
 import { AppUnitPipe } from 'shared/formatters/app-unit.pipe';
 import { IssuerFilter } from 'shared/table/filters/issuer-filter';

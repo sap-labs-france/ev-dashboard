@@ -365,6 +365,7 @@
     "create_error": "Une erreur est survenue pendant la création de la ressource, vérifiez les logs",
     "refresh_success": "La consommation ou production de la ressource a été récupérée avec succès",
     "refresh_error": "Une erreur est survenue pendant le récupération de la consommation ou production de la ressource, vérifiez les logs",
+    "consumption_error": "Une erreur est survenue pendant le récupération de la consommation",
     "logo_size_error": "La taille de l'image est trop importante, la limite est de '{{maxPictureKb}}' Ko",
     "select_assets": "Selection Ressource",
     "consumption_date": "Date",

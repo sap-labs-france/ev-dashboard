@@ -47,7 +47,7 @@ import { UserTechnicalFilter } from '../filters/user-technical-filter';
 import { AppUserRolePipe } from '../formatters/user-role.pipe';
 import { UserStatusFormatterComponent } from '../formatters/user-status-formatter.component';
 import { UserSitesDialogComponent } from '../user-sites/user-sites-dialog.component';
-import { UserDialogComponent } from '../user/user.dialog.component';
+import { UserDialogComponent } from '../user/user-dialog.component';
 
 @Injectable()
 export class UsersListTableDataSource extends TableDataSource<User> {

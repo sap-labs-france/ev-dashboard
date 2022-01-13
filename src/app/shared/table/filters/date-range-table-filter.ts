@@ -1,4 +1,3 @@
-import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { Utils } from 'utils/Utils';
 
@@ -7,11 +6,12 @@ import { TableFilter } from './table-filter';
 
 export class DateRangeTableFilter extends TableFilter {
   public constructor(options: {
-    language: string; translateService: TranslateService; showSeconds?: boolean; start?: null; end?: null;
+    language: string; applyText: string; showSeconds?: boolean; start?: null; end?: null;
     id?: string; startDateTimeHttpId?: string; endDateTimeHttpId?: string;
   }) {
     super();
     // Define filter
+    moment.locale(options.language);
     const startDate = Utils.isNullOrUndefined(options.start) ? moment().startOf('day').toDate() : moment(options.start).toDate();
     const endDate = Utils.isNullOrUndefined(options.end) ? moment().toDate() : moment(options.end).toDate();
     const filterDef: TableFilterDef = {
@@ -28,7 +28,10 @@ export class DateRangeTableFilter extends TableFilter {
         endDateTimeHttpId: options.endDateTimeHttpId ? options.endDateTimeHttpId : 'EndDateTime',
         locale: {
           displayFormat: 'MMM DD, YYYY HH:mm',
-          applyLabel: options.translateService.instant('general.apply')
+          applyLabel: options.applyText,
+          daysOfWeek: moment.weekdaysMin(),
+          monthNames: moment.monthsShort(),
+          firstDay: moment.localeData().firstDayOfWeek()
         }
       },
       currentValue: {

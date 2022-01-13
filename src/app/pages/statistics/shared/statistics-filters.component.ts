@@ -78,7 +78,7 @@ export class StatisticsFiltersComponent implements OnInit {
     });
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
     const issuerFilter = new IssuerFilter().getFilterDef();
-    const dateRangeFilter = new DateRangeTableFilter({language: this.language, translateService: this.translateService}).getFilterDef();
+    const dateRangeFilter = new DateRangeTableFilter({language: this.language, applyText: this.translateService.instant('general.apply')}).getFilterDef();
     this.tableFiltersDef.push(dateRangeFilter);
     const siteFilter = new SiteTableFilter([issuerFilter]).getFilterDef();
     this.tableFiltersDef.push(siteFilter);

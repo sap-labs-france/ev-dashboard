@@ -41,6 +41,9 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
   private deleteAction = new TableDeleteAssetAction().getActionDef();
   private displayAction = new TableViewAssetAction().getActionDef();
   private retrieveConsumptionAction = new TableRetrieveAssetConsumptionAction().getActionDef();
+  private issuerFilter: TableFilterDef;
+  private siteFilter: TableFilterDef;
+  private siteAreaFilter: TableFilterDef;
 
   public constructor(
     public spinnerService: SpinnerService,
@@ -71,7 +74,11 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
             asset.image = Constants.NO_IMAGE;
           }
         }
-        this.canCreate.visible = assets.canCreate;
+        // Asset auth
+        this.canCreate.visible = Utils.convertToBoolean(assets.canCreate);
+        // Specific filter authorizations not part of Asset
+        this.siteFilter.visible = Utils.convertToBoolean(assets.canListSites);
+        this.siteAreaFilter.visible = Utils.convertToBoolean(assets.canListSiteAreas);
         observer.next(assets);
         observer.complete();
       }, (error) => {
@@ -193,6 +200,10 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
     if(!asset.canUpdate && asset.canRead) {
       rowActions.push(this.displayAction);
     }
+    // Display refresh button
+    if (asset.canRetrieveConsumption) {
+      rowActions.push(this.retrieveConsumptionAction);
+    }
     // More action
     if(asset.canDelete) {
       moreActions.addActionInMoreActions(this.deleteAction);
@@ -203,10 +214,6 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
     } else {
       // More action is empty we put actions directly in row
       rowActions.push(openInMaps);
-    }
-    // Display refresh button
-    if (asset.canRetrieveConsumption) {
-      rowActions.splice(1, 0, this.retrieveConsumptionAction);
     }
     return rowActions;
   }
@@ -266,16 +273,18 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {
-    const issuerFilter = new IssuerFilter().getFilterDef();
+    this.issuerFilter = new IssuerFilter().getFilterDef();
+    this.siteFilter = new SiteTableFilter([this.issuerFilter]).getFilterDef();
+    this.siteAreaFilter = new SiteAreaTableFilter([this.issuerFilter, this.siteFilter]).getFilterDef();
+    // Filter visibility will be defined by auth
+    this.siteFilter.visible = false;
+    this.siteAreaFilter.visible = false;
+    // Create filters
     const filters: TableFilterDef[] = [
-      issuerFilter,
+      this.issuerFilter,
+      this.siteFilter,
+      this.siteAreaFilter
     ];
-    // Show Site Area Filter If Organization component is active
-    if (this.componentService.isActive(TenantComponents.ORGANIZATION)) {
-      const siteFilter = new SiteTableFilter([issuerFilter]).getFilterDef();
-      filters.push(siteFilter);
-      filters.push(new SiteAreaTableFilter([issuerFilter, siteFilter]).getFilterDef());
-    }
     return filters;
   }
 }

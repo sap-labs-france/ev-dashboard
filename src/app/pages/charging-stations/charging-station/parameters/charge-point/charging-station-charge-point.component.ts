@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { ChargePoint, ChargingStation, Connector, CurrentType, Voltage } from '../../../../../types/ChargingStation';
+import { ChargePoint, ChargingStation, CurrentType, Voltage } from '../../../../../types/ChargingStation';
 
 @Component({
   selector: 'app-charging-station-charge-point',
@@ -135,10 +135,6 @@ export class ChargingStationChargePointComponent implements OnInit, OnChanges {
   public connectorChanged() {
     // Should not happen: Charge Point is read-only
     this.chargePointChanged.emit();
-  }
-
-  public findConnector(connectorId: number): Connector {
-    return this.chargingStation.connectors?.find(connector => connector.connectorId === connectorId);
   }
 
   public adjustMaximumPower() {

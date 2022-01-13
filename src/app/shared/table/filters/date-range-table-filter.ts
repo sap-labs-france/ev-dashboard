@@ -45,7 +45,6 @@ export class DateRangeTableFilter extends TableFilter {
     this.setFilterDef(filterDef);
     if (new Date().toLocaleString(options.language).match(/am|pm/i)) {
       filterDef.dateRangeTableFilterDef.timePicker24Hour = false;
-      filterDef.dateRangeTableFilterDef.locale.displayFormat = 'MMM DD, YYYY hh:mm A';
     }
   }
 }

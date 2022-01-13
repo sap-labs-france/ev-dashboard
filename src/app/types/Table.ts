@@ -75,6 +75,7 @@ export interface Locale {
   monthNames?: string[];
   firstDay?: number;
   displayFormat?: string;
+  applyLabel?: string;
 }
 export interface DropdownItem {
   id: string;

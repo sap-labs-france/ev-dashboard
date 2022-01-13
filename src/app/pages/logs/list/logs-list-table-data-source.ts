@@ -257,7 +257,7 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
     const issuerFilter = new IssuerFilter().getFilterDef();
     if (this.authorizationService.isSuperAdmin()) {
       return [
-        new DateRangeTableFilter({showSeconds: true, language: this.language}).getFilterDef(),
+        new DateRangeTableFilter({showSeconds: true, language: this.language, translateService: this.translateService}).getFilterDef(),
         new LogLevelTableFilter().getFilterDef(),
         new LogSourceTableFilter().getFilterDef(),
         new LogActionTableFilter().getFilterDef(),
@@ -269,7 +269,7 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
         siteFilter.visible = false;
       }
       return [
-        new DateRangeTableFilter({showSeconds: true, language: this.language}).getFilterDef(),
+        new DateRangeTableFilter({showSeconds: true, language: this.language, translateService: this.translateService}).getFilterDef(),
         new LogLevelTableFilter().getFilterDef(),
         new LogSourceTableFilter().getFilterDef(),
         new LogActionTableFilter().getFilterDef(),

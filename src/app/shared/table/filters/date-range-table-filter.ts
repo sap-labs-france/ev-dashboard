@@ -1,3 +1,4 @@
+import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { Utils } from 'utils/Utils';
 
@@ -6,7 +7,7 @@ import { TableFilter } from './table-filter';
 
 export class DateRangeTableFilter extends TableFilter {
   public constructor(options: {
-    showSeconds?: boolean; start?: null; end?: null; language: string;
+    language: string; translateService: TranslateService; showSeconds?: boolean; start?: null; end?: null;
     id?: string; startDateTimeHttpId?: string; endDateTimeHttpId?: string;
   }) {
     super();
@@ -26,7 +27,8 @@ export class DateRangeTableFilter extends TableFilter {
         startDateTimeHttpId: options.startDateTimeHttpId ? options.startDateTimeHttpId : 'StartDateTime',
         endDateTimeHttpId: options.endDateTimeHttpId ? options.endDateTimeHttpId : 'EndDateTime',
         locale: {
-          displayFormat: 'MMM DD, YYYY HH:mm'
+          displayFormat: 'MMM DD, YYYY HH:mm',
+          applyLabel: options.translateService.instant('general.apply')
         }
       },
       currentValue: {

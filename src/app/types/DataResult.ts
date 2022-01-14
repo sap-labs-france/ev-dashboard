@@ -1,3 +1,4 @@
+import { Asset } from './Asset';
 import { AuthorizationDefinitionFieldMetadata } from './Authorization';
 import { Car, CarCatalog } from './Car';
 import { Company } from './Company';
@@ -134,6 +135,12 @@ export interface PricingDefinitionDataResult extends DataResult<PricingDefinitio
 
 export interface CheckAssetConnectionResponse extends ActionResponse {
   connectionIsValid: boolean;
+}
+
+export interface AssetDataResult extends DataResult<Asset> {
+  canCreate: boolean;
+  canListSites: boolean;
+  canListSiteAreas: boolean;
 }
 
 export interface TransactionDataResult {

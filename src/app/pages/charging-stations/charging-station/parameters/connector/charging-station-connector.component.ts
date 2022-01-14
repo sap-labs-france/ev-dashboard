@@ -3,12 +3,14 @@ import { AbstractControl, FormArray, FormControl, FormGroup, ValidationErrors, V
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { CentralServerService } from 'services/central-server.service';
+import { ComponentService } from 'services/component.service';
 import { MessageService } from 'services/message.service';
 import { SpinnerService } from 'services/spinner.service';
 import { QrCodeDialogComponent } from 'shared/dialogs/qr-code/qr-code-dialog.component';
 import { CONNECTOR_TYPE_MAP } from 'shared/formatters/app-connector-type.pipe';
 import { ChargePoint, ChargingStation, Connector, CurrentType, OCPPPhase, Voltage } from 'types/ChargingStation';
 import { Image } from 'types/GlobalType';
+import { TenantComponents } from 'types/Tenant';
 import { Utils } from 'utils/Utils';
 
 @Component({
@@ -24,6 +26,7 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
   @Input() public manualConfiguration!: boolean;
   @Output() public connectorChanged = new EventEmitter<any>();
 
+  public ocpiActive: boolean;
   public connectorTypeMap = CONNECTOR_TYPE_MAP;
   public connectedPhaseMap = [
     { key: 1, description: 'chargers.single_phase' },
@@ -58,14 +61,16 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
   public numberOfConnectedPhase!: AbstractControl;
   public currentType!: AbstractControl;
   public phaseAssignmentToGrid!: AbstractControl;
+  public tariffID: AbstractControl;
 
-  // eslint-disable-next-line no-useless-constructor
   public constructor(
     private dialog: MatDialog,
+    private componentService: ComponentService,
     private centralServerService: CentralServerService,
     private spinnerService: SpinnerService,
     private router: Router,
     private messageService: MessageService) {
+    this.ocpiActive = this.componentService.isActive(TenantComponents.OCPI);
   }
 
   public ngOnInit() {
@@ -118,6 +123,11 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
         ])
       ),
       currentType: new FormControl(CurrentType.AC),
+      tariffID: new FormControl(null,
+        Validators.compose([
+          Validators.maxLength(36)
+        ])
+      )
     });
     // Add to form array
     this.formConnectorsArray.push(this.formConnectorGroup);
@@ -130,6 +140,7 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
     this.currentType = this.formConnectorGroup.controls['currentType'];
     this.numberOfConnectedPhase = this.formConnectorGroup.controls['numberOfConnectedPhase'];
     this.phaseAssignmentToGrid = this.formConnectorGroup.controls['phaseAssignmentToGrid'];
+    this.tariffID = this.formConnectorGroup.controls['tariffID'];
     this.loadConnector();
     this.phaseAssignmentToGrid.enable();
     if (!this.isAdmin) {
@@ -137,7 +148,6 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
       this.voltage.disable();
       this.amperagePerPhase.disable();
       this.numberOfConnectedPhase.disable();
-      this.phaseAssignmentToGrid.disable();
     }
   }
 
@@ -183,6 +193,10 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
         this.amperage.disable();
         this.refreshPower();
         this.refreshNumberOfPhases();
+      }
+      this.tariffID.enable();
+      if (this.connector.tariffID) {
+        this.tariffID.setValue(this.connector.tariffID);
       }
       // Force refresh the form
       this.formConnectorGroup.updateValueAndValidity();
@@ -271,6 +285,10 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
 
   public voltageChanged() {
     this.refreshPower();
+  }
+
+  public emptyStringToNull(control: AbstractControl) {
+    Utils.convertEmptyStringToNull(control);
   }
 
   public numberOfConnectedPhaseChanged() {

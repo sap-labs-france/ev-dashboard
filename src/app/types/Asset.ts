@@ -1,10 +1,11 @@
+import { AssetAuthorizationActions } from './Authorization';
 import Consumption, { AbstractConsumption, AbstractCurrentConsumption } from './Consumption';
 import CreatedUpdatedProps from './CreatedUpdatedProps';
 import { KeyValue } from './GlobalType';
 import { SiteArea } from './SiteArea';
 import { TableData } from './Table';
 
-export interface Asset extends TableData, CreatedUpdatedProps, AbstractCurrentConsumption {
+export interface Asset extends TableData, CreatedUpdatedProps, AbstractCurrentConsumption, AssetAuthorizationActions {
   id: string;
   name: string;
   siteAreaID: string;

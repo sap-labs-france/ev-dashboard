@@ -26,7 +26,7 @@ import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../
 import { User } from '../../../../types/User';
 import { Utils } from '../../../../utils/Utils';
 import { CompanyLogoFormatterCellComponent } from '../cell-components/company-logo-formatter-cell.component';
-import { CompanyDialogComponent } from '../company/company.dialog.component';
+import { CompanyDialogComponent } from '../company/company-dialog.component';
 
 @Injectable()
 export class CompaniesListTableDataSource extends TableDataSource<Company> {

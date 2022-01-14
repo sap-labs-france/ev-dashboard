@@ -61,6 +61,20 @@
           </button>
         </mat-form-field>
       </div>
+    </div>
+    <div class="row" *ngIf="ocpiActive && public.value">
+      <div class="col-md-3 text-left form-group">
+        <mat-form-field>
+          <input matInput type="text" placeholder="{{'ocpi.tariffID' | translate}}" [formControl]="tariffID"
+          (input)="emptyStringToNull(tariffID)" />
+          <mat-error *ngIf="tariffID?.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+          <mat-error *ngIf="tariffID?.errors?.maxlength">
+            <div [translate]="'general.error_max_length'" [translateParams]="{length: 36}"></div>
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
       <div class="col-md-3 text-left form-group">
         <mat-checkbox [formControl]="public">
           {{'chargers.public' | translate}}
@@ -81,18 +95,6 @@
         <mat-checkbox [formControl]="manualConfiguration" (change)="manualConfigurationChanged($event.checked)">
           {{'chargers.manual_configuration' | translate}}
         </mat-checkbox>
-      </div>
-    </div>
-    <div class="row" *ngIf="ocpiActive && public.value">
-      <div class="col-md-3 text-left form-group">
-        <mat-form-field>
-          <input matInput type="text" placeholder="{{'ocpi.tariffID' | translate}}" [formControl]="tariffID"
-          (input)="emptyStringToNull(tariffID)" />
-          <mat-error *ngIf="tariffID?.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
-          <mat-error *ngIf="tariffID?.errors?.maxlength">
-            <div [translate]="'general.error_max_length'" [translateParams]="{length: 36}"></div>
-          </mat-error>
-        </mat-form-field>
       </div>
     </div>
     <div class="row charging-station-connector-component"

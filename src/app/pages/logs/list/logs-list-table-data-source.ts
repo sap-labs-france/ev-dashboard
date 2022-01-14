@@ -5,7 +5,6 @@ import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ComponentService } from 'services/component.service';
-import { LocaleService } from 'services/locale.service';
 import { ChargingStationTableFilter } from 'shared/table/filters/charging-station-table-filter';
 import { DateRangeTableFilter } from 'shared/table/filters/date-range-table-filter';
 import { IssuerFilter } from 'shared/table/filters/issuer-filter';
@@ -49,8 +48,7 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
     private router: Router,
     private centralServerService: CentralServerService,
     private datePipe: AppDatePipe,
-    private windowService: WindowService,
-    private localeService: LocaleService) {
+    private windowService: WindowService) {
     super(spinnerService, translateService);
     // Init
     this.initDataSource();

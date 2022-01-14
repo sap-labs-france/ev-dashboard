@@ -348,8 +348,8 @@ export abstract class TableDataSource<T extends TableData> {
             filterJson[filterDef.httpId] = filterDef.currentValue.toISOString();
           } else if (filterDef.type === FilterType.DATE_RANGE) {
             // Date range
-            filterJson['StartDateTime'] = filterDef.currentValue.startDate.toISOString();
-            filterJson['EndDateTime'] = filterDef.currentValue.endDate.toISOString();
+            filterJson[filterDef.dateRangeTableFilterDef?.startDateTimeHttpId] = filterDef.currentValue.startDate.toISOString();
+            filterJson[filterDef.dateRangeTableFilterDef?.endDateTimeHttpId] = filterDef.currentValue.endDate.toISOString();
           } else if (filterDef.type === FilterType.DIALOG_TABLE) {
             // Mono selection
             if (!filterDef.multiple) {

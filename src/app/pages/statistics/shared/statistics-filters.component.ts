@@ -349,9 +349,16 @@ export class StatisticsFiltersComponent implements OnInit {
             }
             // Others
           } else if (filterDef.type === FilterType.DATE_RANGE) {
-            filterJson[filterDef.dateRangeTableFilterDef?.startDateTimeHttpId] = filterDef.currentValue.startDate.toISOString();
-            filterJson[filterDef.dateRangeTableFilterDef?.endDateTimeHttpId] = filterDef.currentValue.endDate.toISOString();
-          // Others
+            if (!filterDef.currentValue.startDate) {
+              filterJson[filterDef.dateRangeTableFilterDef?.startDateTimeHttpId] = moment().startOf('y').toISOString();
+            } else {
+              filterJson[filterDef.dateRangeTableFilterDef?.startDateTimeHttpId] = filterDef.currentValue.startDate.toISOString();
+            }
+            if (!filterDef.currentValue.endDate) {
+              filterJson[filterDef.dateRangeTableFilterDef?.endDateTimeHttpId] = moment().endOf('d').toISOString();
+            } else {
+              filterJson[filterDef.dateRangeTableFilterDef?.endDateTimeHttpId] = filterDef.currentValue.endDate.toISOString();
+            }          // Others
           } else {
             // Set it
             filterJson[filterDef.httpId] = filterDef.currentValue;

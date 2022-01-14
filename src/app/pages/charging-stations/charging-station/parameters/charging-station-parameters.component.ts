@@ -29,8 +29,8 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
 
   public userLocales: KeyValue[];
   public isAdmin!: boolean;
+  public ocpiActive: boolean;
   public isSmartChargingComponentActive = false;
-  public OCPIActive: boolean;
 
   public chargingStationURL!: AbstractControl;
   public public!: AbstractControl;
@@ -63,7 +63,7 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
     this.userLocales = this.localeService.getLocales();
     this.isOrganizationComponentActive = this.componentService.isActive(TenantComponents.ORGANIZATION);
     this.isSmartChargingComponentActive = this.componentService.isActive(TenantComponents.SMART_CHARGING);
-    this.OCPIActive = this.componentService.isActive(TenantComponents.OCPI);
+    this.ocpiActive = this.componentService.isActive(TenantComponents.OCPI);
     this.isAdmin = this.authorizationService.isAdmin();
   }
 
@@ -172,7 +172,7 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
       } else if (this.chargingStation.public) {
         this.public.setValue(this.chargingStation.public);
       }
-      if (this.OCPIActive && this.chargingStation.tariffID) {
+      if (this.ocpiActive && this.chargingStation.tariffID) {
         this.tariffID.setValue(this.chargingStation.tariffID);
       }
       if (this.chargingStation.issuer) {

@@ -14,7 +14,6 @@ export class ChargingStationChargePointComponent implements OnInit, OnChanges {
   @Input() public formConnectorsArray: FormArray;
   @Input() public isAdmin!: boolean;
   @Input() public manualConfiguration!: boolean;
-  @Input() public ocpiEnabled!: boolean;
   @Output() public chargePointChanged = new EventEmitter<any>();
 
   public connectedPhaseMap = [

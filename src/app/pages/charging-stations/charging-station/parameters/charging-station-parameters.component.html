@@ -83,7 +83,7 @@
         </mat-checkbox>
       </div>
     </div>
-    <div class="row" *ngIf="OCPIActive && public.value">
+    <div class="row" *ngIf="ocpiActive && public.value">
       <div class="col-md-3 text-left form-group">
         <mat-form-field>
           <input matInput type="text" placeholder="{{'ocpi.tariffID' | translate}}" [formControl]="tariffID"
@@ -100,7 +100,6 @@
       <div class="col-md-12" *ngFor="let chargePoint of chargingStation.chargePoints">
         <app-charging-station-charge-point [chargingStation]="chargingStation" [chargePoint]="chargePoint"
           [formChargePointsArray]="chargePoints" [formConnectorsArray]="connectors" [isAdmin]="isAdmin"
-          [ocpiEnabled]="OCPIActive && public.value"
           (chargePointChanged)="chargePointChanged()" [manualConfiguration]="manualConfiguration.value">
         </app-charging-station-charge-point>
       </div>
@@ -109,8 +108,7 @@
       <div class="row charging-station-connector-component">
         <div class="col-md-6" *ngFor="let connector of chargingStation?.connectors">
           <app-charging-station-connector [chargingStation]="chargingStation" [connector]="connector"
-            [ocpiEnabled]="OCPIActive && public.value" [formConnectorsArray]="connectors"
-            [isAdmin]="isAdmin" (connectorChanged)="connectorChanged()"
+            [formConnectorsArray]="connectors" [isAdmin]="isAdmin" (connectorChanged)="connectorChanged()"
             [manualConfiguration]="manualConfiguration.value">
           </app-charging-station-connector>
         </div>

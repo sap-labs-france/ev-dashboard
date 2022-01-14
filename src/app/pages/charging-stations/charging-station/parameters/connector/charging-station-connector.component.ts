@@ -3,12 +3,14 @@ import { AbstractControl, FormArray, FormControl, FormGroup, ValidationErrors, V
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { CentralServerService } from 'services/central-server.service';
+import { ComponentService } from 'services/component.service';
 import { MessageService } from 'services/message.service';
 import { SpinnerService } from 'services/spinner.service';
 import { QrCodeDialogComponent } from 'shared/dialogs/qr-code/qr-code-dialog.component';
 import { CONNECTOR_TYPE_MAP } from 'shared/formatters/app-connector-type.pipe';
 import { ChargePoint, ChargingStation, Connector, CurrentType, OCPPPhase, Voltage } from 'types/ChargingStation';
 import { Image } from 'types/GlobalType';
+import { TenantComponents } from 'types/Tenant';
 import { Utils } from 'utils/Utils';
 
 @Component({
@@ -22,9 +24,9 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
   @Input() public formConnectorsArray: FormArray;
   @Input() public isAdmin!: boolean;
   @Input() public manualConfiguration!: boolean;
-  @Input() public ocpiEnabled!: boolean;
   @Output() public connectorChanged = new EventEmitter<any>();
 
+  public ocpiActive: boolean;
   public connectorTypeMap = CONNECTOR_TYPE_MAP;
   public connectedPhaseMap = [
     { key: 1, description: 'chargers.single_phase' },
@@ -61,13 +63,14 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
   public phaseAssignmentToGrid!: AbstractControl;
   public tariffID: AbstractControl;
 
-  // eslint-disable-next-line no-useless-constructor
   public constructor(
     private dialog: MatDialog,
+    private componentService: ComponentService,
     private centralServerService: CentralServerService,
     private spinnerService: SpinnerService,
     private router: Router,
     private messageService: MessageService) {
+    this.ocpiActive = this.componentService.isActive(TenantComponents.OCPI);
   }
 
   public ngOnInit() {

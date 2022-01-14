@@ -48,6 +48,7 @@ export interface ChargingStation extends TableData {
   ocppVendorParameters?: KeyValue[];
   distanceMeters?: number;
   siteID?: string;
+  tariffID?: string;
 }
 
 export enum OCPPProtocol {
@@ -146,6 +147,7 @@ export interface Connector extends TableData {
   isStartAuthorized: boolean;
   isTransactionDisplayAuthorized: boolean;
   phaseAssignmentToGrid: PhaseAssignmentToGrid;
+  tariffID?: string;
 }
 
 export interface PhaseAssignmentToGrid {

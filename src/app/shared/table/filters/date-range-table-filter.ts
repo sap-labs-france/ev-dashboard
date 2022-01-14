@@ -7,13 +7,13 @@ import { TableFilter } from './table-filter';
 
 export class DateRangeTableFilter extends TableFilter {
   public constructor(options: {
-    language: string; translateService: TranslateService; showSeconds?: boolean; start?: null; end?: null;
+    translateService: TranslateService; showSeconds?: boolean; start?: moment.Moment; end?: moment.Moment;
     id?: string; startDateTimeHttpId?: string; endDateTimeHttpId?: string;
   }) {
     super();
     // Define filter
-    const startDate = Utils.isNullOrUndefined(options.start) ? moment().startOf('day').toDate() : moment(options.start).toDate();
-    const endDate = Utils.isNullOrUndefined(options.end) ? moment().toDate() : moment(options.end).toDate();
+    const startDate = Utils.isNullOrUndefined(options.start) ? moment().startOf('y').toDate() : options.start.toDate();
+    const endDate = Utils.isNullOrUndefined(options.end) ? moment().toDate() : options.end.toDate();
     const filterDef: TableFilterDef = {
       id: options.id ? options.id : 'dateRange',
       httpId: '', //Not used as startDateTimeHttpId and endDateTimeHttpId are used instead
@@ -43,7 +43,7 @@ export class DateRangeTableFilter extends TableFilter {
     };
     // Set
     this.setFilterDef(filterDef);
-    if (new Date().toLocaleString(options.language).match(/am|pm/i)) {
+    if (moment.localeData().longDateFormat('lll').match(/A/i)) {
       filterDef.dateRangeTableFilterDef.timePicker24Hour = false;
     }
   }

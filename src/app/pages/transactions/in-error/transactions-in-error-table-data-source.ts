@@ -4,9 +4,11 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
+import { LocaleService } from 'services/locale.service';
 import { TransactionDialogComponent } from 'shared/dialogs/transaction/transaction.dialog.component';
 import { AppDurationPipe } from 'shared/formatters/app-duration.pipe';
 import { AppUnitPipe } from 'shared/formatters/app-unit.pipe';
+import { DateRangeTableFilter } from 'shared/table/filters/date-range-table-filter';
 import { IssuerFilter } from 'shared/table/filters/issuer-filter';
 import { CarCatalog } from 'types/Car';
 
@@ -30,11 +32,9 @@ import { TableDeleteTransactionsAction, TableDeleteTransactionsActionDef } from 
 import { TableViewTransactionAction, TableViewTransactionActionDef, TransactionDialogData } from '../../../shared/table/actions/transactions/table-view-transaction-action';
 import { ChargingStationTableFilter } from '../../../shared/table/filters/charging-station-table-filter';
 import { ConnectorTableFilter } from '../../../shared/table/filters/connector-table-filter';
-import { EndDateFilter } from '../../../shared/table/filters/end-date-filter';
 import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-table-filter';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
 import { SiteTableFilter } from '../../../shared/table/filters/site-table-filter';
-import { StartDateFilter } from '../../../shared/table/filters/start-date-filter';
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { ActionResponse, DataResult } from '../../../types/DataResult';
@@ -107,7 +107,8 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     private centralServerService: CentralServerService,
     private datePipe: AppDatePipe,
     private appConnectorIdPipe: AppConnectorIdPipe,
-    private appUserNamePipe: AppUserNamePipe) {
+    private appUserNamePipe: AppUserNamePipe,
+    private localeService: LocaleService) {
     super(spinnerService, translateService);
     // Admin
     this.isAdmin = this.authorizationService.isAdmin();
@@ -299,8 +300,9 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
   public buildTableFiltersDef(): TableFilterDef[] {
     // Build filters
     const filters: TableFilterDef[] = [
-      new StartDateFilter(moment().startOf('y').toDate()).getFilterDef(),
-      new EndDateFilter().getFilterDef(),
+      new DateRangeTableFilter({
+        translateService: this.translateService
+      }).getFilterDef(),
       new ErrorTypeTableFilter(this.errorTypes).getFilterDef(),
     ];
     const issuerFilter = new IssuerFilter().getFilterDef();

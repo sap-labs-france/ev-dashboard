@@ -64,7 +64,6 @@ export class StatisticsFiltersComponent implements OnInit {
   public tableFiltersDef?: TableFilterDef[] = [];
 
   private filterParams = {};
-  private language!: string;
 
   public constructor(
     private authorizationService: AuthorizationService,
@@ -73,12 +72,11 @@ export class StatisticsFiltersComponent implements OnInit {
     private centralServerService: CentralServerService,
     private localeService: LocaleService,
     private dialog: MatDialog) {
-    this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
-      this.language = locale.language;
-    });
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
     const issuerFilter = new IssuerFilter().getFilterDef();
-    const dateRangeFilter = new DateRangeTableFilter({language: this.language, translateService: this.translateService}).getFilterDef();
+    const dateRangeFilter = new DateRangeTableFilter({
+      translateService: this.translateService
+    }).getFilterDef();
     this.tableFiltersDef.push(dateRangeFilter);
     const siteFilter = new SiteTableFilter([issuerFilter]).getFilterDef();
     this.tableFiltersDef.push(siteFilter);
@@ -351,16 +349,8 @@ export class StatisticsFiltersComponent implements OnInit {
             }
             // Others
           } else if (filterDef.type === FilterType.DATE_RANGE) {
-            if (!filterDef.currentValue.startDate) {
-              filterJson['StartDateTime'] = moment().startOf('y').toISOString();
-            } else {
-              filterJson['StartDateTime'] = filterDef.currentValue.startDate.toISOString();
-            }
-            if (!filterDef.currentValue.endDate) {
-              filterJson['EndDateTime'] = moment().endOf('d').toISOString();
-            } else {
-              filterJson['EndDateTime'] = filterDef.currentValue.endDate.toISOString();
-            }
+            filterJson[filterDef.dateRangeTableFilterDef?.startDateTimeHttpId] = filterDef.currentValue.startDate.toISOString();
+            filterJson[filterDef.dateRangeTableFilterDef?.endDateTimeHttpId] = filterDef.currentValue.endDate.toISOString();
           // Others
           } else {
             // Set it
@@ -452,11 +442,6 @@ export class StatisticsFiltersComponent implements OnInit {
       if (filterDef.type === FilterType.DATE_RANGE) {
         if (init) {
           this.initDateRange = true;
-          filterDef.dateRangeTableFilterDef.locale = {
-            daysOfWeek: moment.weekdaysMin(),
-            monthNames: moment.monthsShort(),
-            firstDay: moment.localeData().firstDayOfWeek()
-          };
         }
         if (this.selectedYear === 0) {
           filterDef.currentValue = {

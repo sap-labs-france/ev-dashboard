@@ -38,7 +38,6 @@ import { LogLevelFormatterComponent } from '../formatters/log-level-formatter.co
 @Injectable()
 export class LogsListTableDataSource extends TableDataSource<Log> {
   private exportAction = new TableExportLogsAction().getActionDef();
-  private language: string;
 
   public constructor(
     public spinnerService: SpinnerService,
@@ -54,11 +53,8 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
     private localeService: LocaleService) {
     super(spinnerService, translateService);
     // Init
-    this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
-      this.language = locale.language;
-      this.initDataSource();
-      this.initFilters();
-    });
+    this.initDataSource();
+    this.initFilters();
   }
 
   public initFilters() {
@@ -257,7 +253,11 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
     const issuerFilter = new IssuerFilter().getFilterDef();
     if (this.authorizationService.isSuperAdmin()) {
       return [
-        new DateRangeTableFilter({showSeconds: true, language: this.language, translateService: this.translateService}).getFilterDef(),
+        new DateRangeTableFilter({
+          translateService: this.translateService,
+          showSeconds: true,
+          start: moment().startOf('day')
+        }).getFilterDef(),
         new LogLevelTableFilter().getFilterDef(),
         new LogSourceTableFilter().getFilterDef(),
         new LogActionTableFilter().getFilterDef(),
@@ -269,7 +269,11 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
         siteFilter.visible = false;
       }
       return [
-        new DateRangeTableFilter({showSeconds: true, language: this.language, translateService: this.translateService}).getFilterDef(),
+        new DateRangeTableFilter({
+          translateService: this.translateService,
+          showSeconds: true,
+          start: moment().startOf('day')
+        }).getFilterDef(),
         new LogLevelTableFilter().getFilterDef(),
         new LogSourceTableFilter().getFilterDef(),
         new LogActionTableFilter().getFilterDef(),

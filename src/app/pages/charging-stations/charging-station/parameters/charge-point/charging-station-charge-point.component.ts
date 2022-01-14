@@ -137,7 +137,7 @@ export class ChargingStationChargePointComponent implements OnInit, OnChanges {
     this.chargePointChanged.emit();
   }
 
-  public adjustMaximumPower(){
+  public adjustMaximumPower() {
     this.chargePointChanged.emit();
   }
 }

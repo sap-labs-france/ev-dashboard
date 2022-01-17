@@ -248,6 +248,9 @@ export class PricingDefinitionComponent implements OnInit {
     this.timeRangeEnabled = this.restrictions.controls['timeRangeEnabled'];
     this.timeFromValue = this.restrictions.controls['timeFrom'];
     this.timeToValue = this.restrictions.controls['timeTo'];
+    this.validFrom.valueChanges.subscribe(() => {
+      this.minDate = this.validFrom.value;
+    });
     this.timeFromValue.valueChanges.subscribe(() => {
       if(this.timeToValue.value && this.timeFromValue.value === this.timeToValue.value){
         this.timeFromValue.setErrors({timeRangeError: true});
@@ -449,8 +452,15 @@ export class PricingDefinitionComponent implements OnInit {
       staticRestrictions: {},
       restrictions: {}
     };
+    if (this.validFrom) {
+      pricingDefinition.staticRestrictions.validFrom = this.validFrom.value;
+    }
+    if (this.validTo) {
+      pricingDefinition.staticRestrictions.validTo = this.validTo.value;
+    }
+    pricingDefinition.staticRestrictions.connectorType = this.connectorType.value === Constants.SELECT_ALL ? null : this.connectorType.value;
     if (this.connectorPowerEnabled.value) {
-      pricingDefinition.staticRestrictions = this.connectorPowerValue.value;
+      pricingDefinition.staticRestrictions.connectorPowerkW = this.connectorPowerValue.value;
     }
     for (const dimensionKey of this.dimensionsKeys) {
       if (this[`${dimensionKey}Enabled`].value) {
@@ -480,9 +490,6 @@ export class PricingDefinitionComponent implements OnInit {
     }
     if (this.maxDurationSecsEnabled.value) {
       pricingDefinition.restrictions.maxDurationSecs = this.maxDurationSecsValue.value;
-    }
-    if (this.connectorType.value === Constants.SELECT_ALL) {
-      pricingDefinition.staticRestrictions.connectorType = null;
     }
     return pricingDefinition;
   }

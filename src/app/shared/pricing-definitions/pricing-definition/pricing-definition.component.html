@@ -344,7 +344,7 @@
                   <div class="col-md-2">
                     <mat-form-field *ngIf="timeRangeEnabled.value">
                       <mat-label>{{'settings.pricing.restriction_start_time' | translate}}</mat-label>
-                      <input matInput type="time" id="timeFromValue" name="timeFromValue" [formControl]="timeFromValue" (change)="setMinTime($event)" required/>
+                      <input matInput type="time" id="timeFromValue" name="timeFromValue" [formControl]="timeFromValue" required/>
                     </mat-form-field>
                     <mat-error *ngIf="timeFromValue?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
                     <mat-error *ngIf='timeToValue?.errors?.timeRangeError'>{{'settings.pricing.pricing_definition_time_range_error' | translate}}</mat-error>
@@ -353,7 +353,7 @@
                   <div class="col-md-2">
                     <mat-form-field *ngIf="timeRangeEnabled.value">
                       <mat-label>{{'settings.pricing.restriction_end_time' | translate}}</mat-label>
-                      <input matInput type="time" id="timeToValue" name="timeToValue" [formControl]="timeToValue" required/>
+                      <input matInput type="time" id="timeToValue" name="timeToValue" [formControl]="timeToValue" [min]="minDate" required/>
                     </mat-form-field>
                     <mat-error *ngIf="timeToValue?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
                     <mat-error *ngIf='timeToValue?.errors?.timeRangeError'>{{'settings.pricing.pricing_definition_time_range_error' | translate}}</mat-error>

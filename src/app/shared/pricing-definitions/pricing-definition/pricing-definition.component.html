@@ -187,7 +187,7 @@
                     <mat-form-field *ngIf="chargingTimeEnabled.value">
                       <mat-label>{{'charging_time_unit' | appPricingDimensionsUnit }}</mat-label>
                       <input matInput type="text" placeholder="{{'settings.pricing.value' | translate}}" id="chargingTime"
-                      [formControl]="chargingTimeValue" (change)=handleInputChange($event) required/>
+                      [formControl]="chargingTimeValue" required/>
                       <mat-error *ngIf="chargingTimeValue?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
                       <mat-error *ngIf="chargingTimeValue?.errors?.pattern">{{'general.error_number_pattern' | translate}}</mat-error>
                     </mat-form-field>
@@ -225,7 +225,7 @@
                     <mat-form-field *ngIf="parkingTimeEnabled.value">
                       <mat-label>{{'parking_time_unit' | appPricingDimensionsUnit }}</mat-label>
                       <input matInput type="text" placeholder="{{'settings.pricing.value' | translate}}" id="parkingTime"
-                      [formControl]="parkingTimeValue" (change)=handleInputChange($event) required/>
+                      [formControl]="parkingTimeValue" required/>
                       <mat-error *ngIf="parkingTimeValue?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
                       <mat-error *ngIf="parkingTimeValue?.errors?.pattern">{{'general.error_number_pattern' | translate}}</mat-error>
                     </mat-form-field>

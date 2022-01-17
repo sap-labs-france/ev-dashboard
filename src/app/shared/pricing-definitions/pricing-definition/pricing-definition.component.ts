@@ -14,7 +14,7 @@ import { Entity } from '../../../types/Authorization';
 import { ActionResponse } from '../../../types/DataResult';
 import { RestResponse } from '../../../types/GlobalType';
 import { HTTPError } from '../../../types/HTTPError';
-import PricingDefinition, { PricingDimensions, PricingRestriction } from '../../../types/Pricing';
+import PricingDefinition, { DimensionType, PricingDimension, PricingDimensions, PricingEntity, PricingRestriction, PricingStaticRestriction } from '../../../types/Pricing';
 import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 import { CONNECTOR_TYPE_SELECTION_MAP } from '../../formatters/app-connector-type-selection.pipe';
@@ -91,7 +91,6 @@ export class PricingDefinitionComponent implements OnInit {
   // Restrictions
   public restrictions!: FormGroup;
   public restrictionsMap: PricingRestriction;
-  public restrictionsKeys: string[];
   // Duration
   public minDurationSecsEnabled: AbstractControl;
   public minDurationSecsValue: AbstractControl;
@@ -288,7 +287,6 @@ export class PricingDefinitionComponent implements OnInit {
         this.dimensionsKeys = Object.keys(this.dimensionsMap);
         this.initializeDimensions();
         this.restrictionsMap = currentPricingDefinition.restrictions;
-        this.restrictionsKeys = Object.keys(this.restrictionsMap);
         this.daysOfWeekEnabled.setValue(!!this.currentPricingDefinition.restrictions?.daysOfWeek);
         this.selectedDays.setValue(this.currentPricingDefinition.restrictions?.daysOfWeek?.map((day) => day.toString()) || null);
         this.timeRangeEnabled.setValue(!!this.currentPricingDefinition.restrictions?.timeFrom);
@@ -442,55 +440,80 @@ export class PricingDefinitionComponent implements OnInit {
   }
 
   private convertFormToPricingDefinition() {
-    const pricingDefinition: PricingDefinition = {
-      id : this.id.value,
-      entityID: this.entityID.value,
-      entityType :this.entityType.value,
-      name : this.name.value,
-      description : this.description.value,
-      dimensions : {},
-      staticRestrictions: {},
-      restrictions: {}
+    // Main properties
+    const id: string = this.id.value;
+    const entityID: string = this.entityID.value;
+    const entityType: PricingEntity = this.entityType.value;
+    const name: string = this.name.value;
+    const description: string = this.description.value;
+    // Priced Dimensions
+    const dimensions: PricingDimensions = {
+      flatFee: this.buildPricingDimension(DimensionType.FLAT_FEE),
+      energy: this.buildPricingDimension(DimensionType.ENERGY),
+      chargingTime: this.buildPricingDimension(DimensionType.CHARGING_TIME),
+      parkingTime: this.buildPricingDimension(DimensionType.PARKING_TIME),
     };
-    if (this.validFrom) {
-      pricingDefinition.staticRestrictions.validFrom = this.validFrom.value;
-    }
-    if (this.validTo) {
-      pricingDefinition.staticRestrictions.validTo = this.validTo.value;
-    }
-    pricingDefinition.staticRestrictions.connectorType = this.connectorType.value === Constants.SELECT_ALL ? null : this.connectorType.value;
-    if (this.connectorPowerEnabled.value) {
-      pricingDefinition.staticRestrictions.connectorPowerkW = this.connectorPowerValue.value;
-    }
-    for (const dimensionKey of this.dimensionsKeys) {
-      if (this[`${dimensionKey}Enabled`].value) {
-        pricingDefinition.dimensions[dimensionKey] = {};
-        pricingDefinition.dimensions[dimensionKey].active = true;
-        pricingDefinition.dimensions[dimensionKey].price = this[`${dimensionKey}Value`].value;
-        if (this[`${dimensionKey}StepEnabled`]?.value) {
-          pricingDefinition.dimensions[dimensionKey].stepSize = this[`${dimensionKey}StepValue`].value;
-        }
-      }
-    }
-    if (this.daysOfWeekEnabled.value) {
-      pricingDefinition.restrictions.daysOfWeek = this.selectedDays.value;
-    }
-    if (this.timeRangeEnabled.value) {
-      pricingDefinition.restrictions.timeFrom = this.timeFromValue.value;
-      pricingDefinition.restrictions.timeTo = this.timeToValue.value;
-    }
-    if (this.minEnergyKWhEnabled.value) {
-      pricingDefinition.restrictions.minEnergyKWh = this.minEnergyKWhValue.value;
-    }
-    if (this.maxEnergyKWhEnabled.value) {
-      pricingDefinition.restrictions.maxEnergyKWh = this.maxEnergyKWhValue.value;
-    }
-    if (this.minDurationSecsEnabled.value) {
-      pricingDefinition.restrictions.minDurationSecs = this.minDurationSecsValue.value;
-    }
-    if (this.maxDurationSecsEnabled.value) {
-      pricingDefinition.restrictions.maxDurationSecs = this.maxDurationSecsValue.value;
-    }
+    // Static restrictions
+    let staticRestrictions: PricingStaticRestriction = {
+      validFrom: this.validFrom.value || null,
+      validTo: this.validTo.value || null,
+      connectorType: (this.connectorType.value !== Constants.SELECT_ALL) ? this.connectorType.value: null,
+      connectorPowerkW: (this.connectorPowerEnabled.value)? this.connectorPowerValue.value: null
+    };
+    // Dynamic restrictions
+    let restrictions: PricingRestriction = {
+      daysOfWeek: (this.daysOfWeekEnabled.value)? this.selectedDays.value: null,
+      timeFrom: (this.timeRangeEnabled.value)? this.timeFromValue.value: null,
+      timeTo: (this.timeRangeEnabled.value)? this.timeToValue.value: null,
+      minEnergyKWh: (this.minEnergyKWhEnabled.value)? this.minEnergyKWhValue.value: null,
+      maxEnergyKWh: (this.maxEnergyKWhEnabled.value)? this.maxEnergyKWhValue.value: null,
+      minDurationSecs: (this.minDurationSecsEnabled.value)? this.minDurationSecsValue.value: null,
+      maxDurationSecs: (this.maxDurationSecsEnabled.value)? this.maxDurationSecsValue.value: null,
+    };
+    // Clear empty data for best performances server-side
+    staticRestrictions = this.shrinkPricingProperties(staticRestrictions);
+    restrictions = this.shrinkPricingProperties(restrictions);
+    // Build the pricing definition
+    const pricingDefinition: PricingDefinition = {
+      id,
+      entityID,
+      entityType,
+      name,
+      description,
+      dimensions,
+      staticRestrictions,
+      restrictions
+    };
     return pricingDefinition;
   }
+
+  private buildPricingDimension(dimensionType: DimensionType): PricingDimension {
+    const price: number = this[`${dimensionType}Value`].value;
+    if (price) {
+      const dimension: PricingDimension = {
+        active: true,
+        price
+      };
+      const withStep: boolean = this[`${dimensionType}StepEnabled`]?.value;
+      if (withStep) {
+        dimension.stepSize = this[`${dimensionType}StepValue`]?.value;
+      }
+      return dimension;
+    }
+    // Well ... this is strange but the backend does not accept null as dimension so far!
+    return undefined;
+  }
+
+  private shrinkPricingProperties(properties: any): any  {
+    for ( const propertyName in properties ) {
+      if ( !properties[propertyName] ) {
+        delete properties[propertyName];
+      }
+    }
+    if ( Utils.isEmptyObject(properties)) {
+      return null;
+    }
+    return properties;
+  }
+
 }

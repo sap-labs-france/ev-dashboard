@@ -81,6 +81,7 @@ export class ImportDialogComponent implements OnInit {
       }
       fileItem.withCredentials = false;
       this.fileName = fileItem.file.name;
+      // eslint-disable-next-line no-underscore-dangle
       this.isFileValid = this.ngxCsvParser.isCSVFile(fileItem._file);
     };
     // Display the progress bar during the upload

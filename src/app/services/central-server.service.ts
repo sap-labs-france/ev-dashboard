@@ -3001,7 +3001,8 @@ export class CentralServerService {
       );
   }
 
-  public getChargingStationCompositeSchedule(id: string, connectorId: number, duration: number, unit: string): Observable<GetCompositeScheduleCommandResult | GetCompositeScheduleCommandResult[]> {
+  public getChargingStationCompositeSchedule(id: string, connectorId: number, duration: number, unit: string):
+  Observable<GetCompositeScheduleCommandResult | GetCompositeScheduleCommandResult[]> {
     // Verify init
     this.checkInit();
     // build request
@@ -3024,7 +3025,10 @@ export class CentralServerService {
       );
   }
 
-  public chargingStationLimitPower(charger: ChargingStation, chargePoint: ChargePoint, connectorId?: number, ampLimitValue: number = 0, forceUpdateChargingPlan: boolean = false): Observable<ActionResponse> {
+  public chargingStationLimitPower(
+    charger: ChargingStation, chargePoint: ChargePoint,
+    connectorId?: number, ampLimitValue: number = 0,
+    forceUpdateChargingPlan: boolean = false): Observable<ActionResponse> {
     // Verify init
     this.checkInit();
     // Execute

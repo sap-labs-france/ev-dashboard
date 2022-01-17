@@ -598,7 +598,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
             display: 'auto',
             ticks: {
               beginAtZero: true,
-              callback: (value: number) => parseInt(this.decimalPipe.transform(value, '1.0-0')) + ((value < 1000) ? 'W' : 'kW'),
+              callback: (value: number) => parseInt(this.decimalPipe.transform(value, '1.0-0'), 10) + ((value < 1000) ? 'W' : 'kW'),
               fontColor: this.defaultColor,
               min: 0,
             },
@@ -617,7 +617,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
               color: 'rgba(0,0,0,0.2)',
             },
             ticks: {
-              callback: (value: number) => parseInt(this.decimalPipe.transform(value, '1.0-0')) + 'A',
+              callback: (value: number) => parseInt(this.decimalPipe.transform(value, '1.0-0'), 10) + 'A',
               min: 0,
               fontColor: this.defaultColor,
             },
@@ -632,7 +632,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
               color: 'rgba(0,0,0,0.2)',
             },
             ticks: {
-              callback: (value: number) => parseInt(this.decimalPipe.transform(value, '1.0-0')) + 'V',
+              callback: (value: number) => parseInt(this.decimalPipe.transform(value, '1.0-0'), 10) + 'V',
               min: 0,
               fontColor: this.defaultColor,
             },

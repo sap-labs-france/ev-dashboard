@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { MatSlideToggle, MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
@@ -107,8 +108,7 @@ export class PricingDefinitionComponent implements OnInit {
   public selectedDays: AbstractControl;
   public daysOfTheWeek = [1, 2, 3, 4, 5, 6, 7];
   // Start/end date time
-  public timeFromEnabled: AbstractControl;
-  public timeToEnabled: AbstractControl;
+  public timeRangeEnabled: AbstractControl;
   public timeFromValue: AbstractControl;
   public timeToValue: AbstractControl;
 
@@ -146,9 +146,8 @@ export class PricingDefinitionComponent implements OnInit {
         maxEnergyKWh: new FormControl(null, Validators.compose([
           Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)
         ])),
-        timeFromEnabled: new FormControl(false),
+        timeRangeEnabled: new FormControl(false),
         timeFrom: new FormControl(null),
-        timeToEnabled: new FormControl(false),
         timeTo: new FormControl(null),
         daysOfWeekEnabled: new FormControl(false),
         selectedDays: new FormControl(null),
@@ -247,10 +246,21 @@ export class PricingDefinitionComponent implements OnInit {
     this.maxEnergyKWhValue = this.restrictions.controls['maxEnergyKWh'];
     this.daysOfWeekEnabled = this.restrictions.controls['daysOfWeekEnabled'];
     this.selectedDays = this.restrictions.controls['selectedDays'];
-    this.timeFromEnabled = this.restrictions.controls['timeFromEnabled'];
-    this.timeToEnabled = this.restrictions.controls['timeToEnabled'];
+    this.timeRangeEnabled = this.restrictions.controls['timeRangeEnabled'];
     this.timeFromValue = this.restrictions.controls['timeFrom'];
     this.timeToValue = this.restrictions.controls['timeTo'];
+    this.timeFromValue.valueChanges.subscribe(() => {
+      if(this.timeToValue.value && this.timeFromValue.value === this.timeToValue.value){
+        this.timeFromValue.setErrors({timeRangeError: true});
+        this.formGroup.markAsPristine();
+      }
+    });
+    this.timeToValue.valueChanges.subscribe(() => {
+      if(this.timeFromValue.value && this.timeFromValue.value === this.timeToValue.value){
+        this.timeToValue.setErrors({timeRangeError: true});
+        this.formGroup.markAsPristine();
+      }
+    });
     this.loadPricing();
   }
 
@@ -279,7 +289,7 @@ export class PricingDefinitionComponent implements OnInit {
         this.restrictionsKeys = Object.keys(this.restrictionsMap);
         this.daysOfWeekEnabled.setValue(!!this.currentPricingDefinition.restrictions?.daysOfWeek);
         this.selectedDays.setValue(this.currentPricingDefinition.restrictions?.daysOfWeek?.map((day) => day.toString()) || null);
-        this.timeFromEnabled.setValue(!!this.currentPricingDefinition.restrictions?.timeFrom);
+        this.timeRangeEnabled.setValue(!!this.currentPricingDefinition.restrictions?.timeFrom);
         this.timeFromValue.setValue(this.currentPricingDefinition.restrictions?.timeFrom);
         this.minTime = this.currentPricingDefinition.restrictions?.timeTo;
         this.timeToValue.setValue(this.currentPricingDefinition.restrictions?.timeTo);
@@ -330,41 +340,39 @@ export class PricingDefinitionComponent implements OnInit {
     }
   }
 
-  public toggle(event) {
+  public toggleDaysOfWeek(event: MatSlideToggleChange) {
+    this.daysOfWeekEnabled.setValue(event.checked);
+    if(event.checked) {
+      this.selectedDays.setValidators(Validators.required);
+    } else {
+      this.clearAndResetControl(this.selectedDays);
+    }
+    this.formGroup.markAsDirty();
+    this.formGroup.updateValueAndValidity();
+  }
+
+  public toggleTimeRange(event: MatSlideToggleChange) {
+    this.timeRangeEnabled.setValue(event.checked);
+    if (event.checked) {
+      this.timeFromValue.setValidators(Validators.required);
+      this.timeToValue.setValidators(Validators.required);
+    } else {
+      this.clearAndResetControl(this.timeFromValue);
+      this.clearAndResetControl(this.timeToValue);
+    }
+    this.formGroup.markAsDirty();
+    this.formGroup.updateValueAndValidity();
+  }
+
+  public toggle(event: {checked: boolean; source: MatSlideToggle}) {
     this[`${event.source.id}Enabled`].setValue(event.checked);
     if (event.checked) {
-      switch (event.source.id) {
-        case 'timeFrom':
-          this.timeFromValue.setValidators(Validators.compose([
-            Validators.required,
-            // Validators.pattern('^[0-9]{2}:[0-9]{2} (AM|PM)$')
-          ]));
-          this.timeToValue.setValidators(Validators.compose([
-            Validators.required,
-            // Validators.pattern('^[0-9]{2}:[0-9]{2} (AM|PM)$')
-          ]));
-          break;
-        case 'daysOfWeek':
-          this.selectedDays.setValidators(Validators.required);
-          break;
-        default:
-          this[`${event.source.id}Value`].setValidators(Validators.compose([
-            Validators.required,
-            Validators.pattern(Constants.REGEX_VALIDATION_FLOAT)
-          ]));
-      }
+      this[`${event.source.id}Value`].setValidators(Validators.compose([
+        Validators.required,
+        Validators.pattern(Constants.REGEX_VALIDATION_FLOAT)
+      ]));
     } else {
-      switch (event.source.id) {
-        case 'timeFrom':
-          this.clearAndResetControl(this.timeFromValue);
-          this.clearAndResetControl(this.timeToValue);
-          break;
-        case 'daysOfWeek':
-          this.clearAndResetControl(this.selectedDays);
-          break;
-        default:
-          this.clearAndResetControl(this[`${event.source.id}Value`]);
-      }
+      this.clearAndResetControl(this[`${event.source.id}Value`]);
     }
     this.formGroup.markAsDirty();
     this.formGroup.updateValueAndValidity();
@@ -433,10 +441,10 @@ export class PricingDefinitionComponent implements OnInit {
   }
 
   private checkPricingDefinition(pricingDefinition: PricingDefinition) {
-    if (this.timeFromEnabled.value) {
+    if (this.timeRangeEnabled.value) {
       if (this.timeToValue.value === this.timeFromValue.value) {
-        this.messageService.showErrorMessage('settings.pricing.pricing_definition_time_error');
-        this.timeToValue.setErrors({incorrectEndTime: true});
+        this.messageService.showErrorMessage('settings.pricing.pricing_definition_time_range_error');
+        this.timeToValue.setErrors({timeRangeError: true});
         this.timeToValue.markAsPristine();
         return false;
       }
@@ -461,12 +469,12 @@ export class PricingDefinitionComponent implements OnInit {
     if (this.daysOfWeekEnabled.value) {
       pricingDefinition.restrictions.daysOfWeek = this.selectedDays.value;
     }
-    if (!this.timeFromEnabled) {
+    if (!this.timeRangeEnabled) {
       delete pricingDefinition.restrictions.timeFrom;
       delete pricingDefinition.restrictions.timeTo;
     }
     for (const restrictionKey in pricingDefinition.restrictions) {
-      if (!pricingDefinition.restrictions[`${restrictionKey}`]) {
+      if (!pricingDefinition.restrictions[restrictionKey]) {
         delete pricingDefinition.restrictions[restrictionKey];
       }
     }

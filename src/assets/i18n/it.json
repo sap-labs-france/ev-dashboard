@@ -1552,7 +1552,7 @@
       "pricing_definition_delete_success": "Pricing definition has been deleted successfully",
       "pricing_definition_delete_error": "Error occurred while deleting a pricing definition, check the logs",
       "pricing_definition_error": "Error occurred while retrieving the pricing definition, check the logs",
-      "pricing_definition_time_error": "Please select different start and end time",
+      "pricing_definition_time_range_error": "Please select different start and end time",
       "connector_type": "Connector Type",
       "connector_power": "Connector Power",
       "value": "Value",
@@ -1583,8 +1583,8 @@
       "restriction_min_duration": "Min duration",
       "restriction_min_duration_unit": "Seconds",
       "restriction_time_range": "Time range",
-      "restriction_start_time": "Start time",
-      "restriction_end_time": "End time",
+      "restriction_start_time": "Start time included",
+      "restriction_end_time": "End time excluded",
       "restriction_days_of_week": "Days of week"
     },
     "billing": {

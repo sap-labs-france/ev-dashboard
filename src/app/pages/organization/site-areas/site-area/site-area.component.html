@@ -89,9 +89,10 @@
                       </div>
                       <div class="col-md-6">
                         <mat-form-field>
-                          <mat-label for="numberOfPhases">{{'site_areas.number_of_phases' | translate}} *
+                          <mat-label for="numberOfPhases">{{'site_areas.number_of_phases' | translate}} 
                           </mat-label>
-                          <mat-select id="numberOfPhases" [formControl]="numberOfPhases">
+                          <mat-select id="numberOfPhases" [formControl]="numberOfPhases"
+                            (selectionChange)="numberOfPhasesChanged()" required>
                             <mat-option *ngFor="let phase of phaseMap" [value]="phase.key">
                               {{phase.description | translate}}
                             </mat-option>

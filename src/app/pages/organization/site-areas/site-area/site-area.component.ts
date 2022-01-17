@@ -191,6 +191,10 @@ export class SiteAreaComponent implements OnInit {
     this.maximumPowerChanged();
   }
 
+  public numberOfPhasesChanged() {
+    this.maximumPowerChanged();
+  }
+
   public refresh() {
     this.loadSiteArea();
   }
@@ -382,9 +386,9 @@ export class SiteAreaComponent implements OnInit {
   }
 
   public maximumPowerChanged() {
-    if (!this.maximumPower.errors && this.voltage.value) {
+    if (!this.maximumPower.errors && this.voltage.value && this.numberOfPhases.value ) {
       this.maximumPowerAmps.setValue(
-        Math.floor((this.maximumPower.value as number) / (this.voltage.value as number)));
+        Math.floor((this.maximumPower.value as number) / (this.voltage.value as number) / (this.numberOfPhases.value as number)));
     } else {
       this.maximumPowerAmps.setValue(0);
     }

@@ -12,8 +12,8 @@ import { TableModule } from '../../shared/table/table.module';
 import { TenantLogoFormatterCellComponent } from './cell-components/tenant-logo-formatter-cell.component';
 import { TenantsListTableDataSource } from './list/tenants-list-table-data-source';
 import { TenantsListComponent } from './list/tenants-list.component';
+import { TenantDialogComponent } from './tenant/tenant-dialog.component';
 import { TenantComponent } from './tenant/tenant.component';
-import { TenantDialogComponent } from './tenant/tenant.dialog.component';
 import { TenantsRoutes } from './tenants.routing';
 
 @NgModule({

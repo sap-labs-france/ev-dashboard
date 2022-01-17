@@ -25,7 +25,7 @@ import { DataResult } from '../../../types/DataResult';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
 import { User } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';
-import { CarDialogComponent } from '../car/car.dialog.component';
+import { CarDialogComponent } from '../car/car-dialog.component';
 import { CarCatalogImageFormatterCellComponent } from '../cell-components/car-catalog-image-formatter-cell.component';
 
 @Injectable()

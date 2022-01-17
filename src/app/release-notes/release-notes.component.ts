@@ -23,6 +23,23 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.5.15',
+        date: new Date('2022-01-16'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added OCPI Tariff ID in Charging Station and its Connectors`,
+              `Migrated Registration Token and Billing endpoints to RESTful API`,
+              `Migrated Asset endpoint to the new authorization framework`,
+              `Fixed Site Admin cannot create Cars for other Users`,
+              `Fixed cannot edit Charging Station with Connector IDs starting at 11`,
+              `Lowered, track and added in conf reCaptcha score`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.5.14',
         date: new Date('2021-12-20'),
         componentChanges: [

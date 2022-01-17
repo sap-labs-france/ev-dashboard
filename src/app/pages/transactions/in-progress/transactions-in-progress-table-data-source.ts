@@ -144,6 +144,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         name: 'transactions.charging_station',
         headerClass: 'col-15p',
         class: 'text-left col-15p',
+        sortable: true,
       },
       {
         id: 'connectorId',

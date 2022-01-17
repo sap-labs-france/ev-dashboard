@@ -329,13 +329,12 @@ export class PricingDefinitionComponent implements OnInit {
       this.translateService, this.save.bind(this), this.closeDialog.bind(this));
   }
 
-  public save(pricingDefinition: PricingDefinition) {
-    if (this.checkPricingDefinition(pricingDefinition)) {
-      if (this.currentPricingDefinitionID) {
-        this.updatePricingDefinition(pricingDefinition);
-      } else {
-        this.createPricingDefinition(pricingDefinition);
-      }
+  public save() {
+    const pricingDefinitionToSave = this.convertFormToPricingDefinition();
+    if (this.currentPricingDefinitionID) {
+      this.updatePricingDefinition(pricingDefinitionToSave);
+    } else {
+      this.createPricingDefinition(pricingDefinitionToSave);
     }
   }
 
@@ -439,47 +438,52 @@ export class PricingDefinitionComponent implements OnInit {
     control.updateValueAndValidity();
   }
 
-  private checkPricingDefinition(pricingDefinition: PricingDefinition) {
-    if (this.timeRangeEnabled.value) {
-      if (this.timeToValue.value === this.timeFromValue.value) {
-        this.messageService.showErrorMessage('settings.pricing.pricing_definition_time_range_error');
-        this.timeToValue.setErrors({timeRangeError: true});
-        this.timeToValue.markAsPristine();
-        return false;
-      }
+  private convertFormToPricingDefinition() {
+    const pricingDefinition: PricingDefinition = {
+      id : this.id.value,
+      entityID: this.entityID.value,
+      entityType :this.entityType.value,
+      name : this.name.value,
+      description : this.description.value,
+      dimensions : {},
+      staticRestrictions: {},
+      restrictions: {}
+    };
+    if (this.connectorPowerEnabled.value) {
+      pricingDefinition.staticRestrictions = this.connectorPowerValue.value;
     }
-    if (!this.connectorPowerEnabled.value) {
-      delete pricingDefinition.staticRestrictions.connectorPowerkW;
-    }
-    if (!this.parkingTimeEnabled.value || !this.parkingTimeStepEnabled.value) {
-      delete pricingDefinition.dimensions.parkingTime.stepSize;
-    }
-    if (!this.chargingTimeEnabled.value || !this.chargingTimeStepEnabled.value) {
-      delete pricingDefinition.dimensions.chargingTime.stepSize;
-    }
-    if (!this.energyEnabled.value || !this.energyStepEnabled.value) {
-      delete pricingDefinition.dimensions.energy.stepSize;
-    }
-    for (const dimensionKey in pricingDefinition.dimensions) {
-      if (!pricingDefinition.dimensions[dimensionKey].active) {
-        delete pricingDefinition.dimensions[dimensionKey].price;
+    for (const dimensionKey of this.dimensionsKeys) {
+      if (this[`${dimensionKey}Enabled`].value) {
+        pricingDefinition.dimensions[dimensionKey] = {};
+        pricingDefinition.dimensions[dimensionKey].active = true;
+        pricingDefinition.dimensions[dimensionKey].price = this[`${dimensionKey}Value`].value;
+        if (this[`${dimensionKey}StepEnabled`]?.value) {
+          pricingDefinition.dimensions[dimensionKey].stepSize = this[`${dimensionKey}StepValue`].value;
+        }
       }
     }
     if (this.daysOfWeekEnabled.value) {
       pricingDefinition.restrictions.daysOfWeek = this.selectedDays.value;
     }
-    if (!this.timeRangeEnabled) {
-      delete pricingDefinition.restrictions.timeFrom;
-      delete pricingDefinition.restrictions.timeTo;
+    if (this.timeRangeEnabled.value) {
+      pricingDefinition.restrictions.timeFrom = this.timeFromValue.value;
+      pricingDefinition.restrictions.timeTo = this.timeToValue.value;
     }
-    for (const restrictionKey in pricingDefinition.restrictions) {
-      if (!pricingDefinition.restrictions[restrictionKey]) {
-        delete pricingDefinition.restrictions[restrictionKey];
-      }
+    if (this.minEnergyKWhEnabled.value) {
+      pricingDefinition.restrictions.minEnergyKWh = this.minEnergyKWhValue.value;
+    }
+    if (this.maxEnergyKWhEnabled.value) {
+      pricingDefinition.restrictions.maxEnergyKWh = this.maxEnergyKWhValue.value;
+    }
+    if (this.minDurationSecsEnabled.value) {
+      pricingDefinition.restrictions.minDurationSecs = this.minDurationSecsValue.value;
+    }
+    if (this.maxDurationSecsEnabled.value) {
+      pricingDefinition.restrictions.maxDurationSecs = this.maxDurationSecsValue.value;
     }
     if (this.connectorType.value === Constants.SELECT_ALL) {
       pricingDefinition.staticRestrictions.connectorType = null;
     }
-    return true;
+    return pricingDefinition;
   }
 }

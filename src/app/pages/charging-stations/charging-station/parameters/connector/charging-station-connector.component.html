@@ -97,8 +97,18 @@
               </mat-error>
             </mat-form-field>
           </div>
+          <div class="col-md-6 text-right" *ngIf="ocpiActive">
+            <mat-form-field>
+              <input matInput type="text" placeholder="{{'ocpi.tariffID' | translate}}" (input)="emptyStringToNull(tariffID)"
+                [formControl]="tariffID" />
+              <mat-error *ngIf="tariffID?.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+              <mat-error *ngIf="tariffID?.errors?.maxlength">
+                <div [translate]="'general.error_max_length'" [translateParams]="{length: 36}"></div>
+              </mat-error>
+            </mat-form-field>
+          </div>
           <div class="col-md-12 text-right">
-            <button mat-raised-button color="primary" class="" (click)="generateQRCode()">
+            <button mat-raised-button color="primary" (click)="generateQRCode()">
               <mat-icon>qr_code</mat-icon>
               <span>{{'general.display_qr' | translate}}</span>
             </button>

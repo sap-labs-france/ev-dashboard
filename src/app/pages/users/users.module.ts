@@ -34,8 +34,8 @@ import { PaymentMethodDialogComponent } from './user/payment-methods/payment-met
 import { StripePaymentMethodComponent } from './user/payment-methods/payment-method/stripe/stripe-payment-method.component';
 import { PaymentMethodsComponent } from './user/payment-methods/payment-methods.component';
 import { UserSecurityComponent } from './user/security/user-security.component';
+import { UserDialogComponent } from './user/user-dialog.component';
 import { UserComponent } from './user/user.component';
-import { UserDialogComponent } from './user/user.dialog.component';
 import { UsersComponent } from './users.component';
 import { UserRoutes } from './users.routing';
 

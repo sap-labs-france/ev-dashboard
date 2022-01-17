@@ -4,13 +4,12 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { MatSlideToggle, MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import * as moment from 'moment';
-import { AppDayPipe } from 'shared/formatters/app-day.pipe';
 
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
+import { AppDayPipe } from '../../../shared/formatters/app-day.pipe';
 import { Entity } from '../../../types/Authorization';
 import { ActionResponse } from '../../../types/DataResult';
 import { RestResponse } from '../../../types/GlobalType';

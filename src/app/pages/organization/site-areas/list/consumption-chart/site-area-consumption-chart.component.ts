@@ -240,9 +240,12 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
       this.options.scales.yAxes = [{
         id: 'power',
         ticks: {
-          callback: (value: number) => (this.selectedUnit === ConsumptionUnit.AMPERE) ? value : value / 1000,
-          min: 0,
+          callback: (value: number) => (this.selectedUnit === ConsumptionUnit.AMPERE) ? value + ' A' : (value / 1000) + ' kW',
         },
+        scaleLabel: {
+          display: true,
+          labelString: 'Consumption by Site Area'
+        }
       }];
       // Assign
       this.data.labels = [];
@@ -429,7 +432,6 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
             type: 'linear',
             position: 'left',
             ticks: {
-              beginAtZero: true,
               callback: (value: number) => parseInt(this.decimalPipe.transform(value, '1.0-0')),
               fontColor: this.defaultColor,
             },

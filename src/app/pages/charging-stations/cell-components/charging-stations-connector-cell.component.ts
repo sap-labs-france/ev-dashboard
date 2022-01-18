@@ -19,7 +19,10 @@ import { ChargePointStatus, Connector } from '../../../types/ChargingStation';
         <!-- Connector Type -->
         <div class="d-inline-block" appTooltip data-offset="-15px, 8px" [title]="row.type | appConnectorType:'text' | translate">
           <div *ngIf="row.type && row.type !== null"
-              class="charger-connector-container charger-connector-container-image d-flex align-items-center justify-content-center charger-connector-container-image-small charger-connector-type-background">
+            class="charger-connector-container
+                  charger-connector-container-image
+                  d-flex align-items-center justify-content-center
+                  charger-connector-container-image-small charger-connector-type-background">
             <mat-icon [svgIcon]="row.type | appConnectorType:'icon'" class="d-flex"></mat-icon>
           </div>
         </div>

@@ -430,7 +430,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
             position: 'left',
             ticks: {
               beginAtZero: true,
-              callback: (value: number) => parseInt(this.decimalPipe.transform(value, '1.0-0')),
+              callback: (value: number) => parseInt(this.decimalPipe.transform(value, '1.0-0'), 10),
               fontColor: this.defaultColor,
             },
             gridLines: {

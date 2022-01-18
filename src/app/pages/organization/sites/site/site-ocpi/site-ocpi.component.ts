@@ -16,10 +16,6 @@ export class SiteOcpiComponent implements OnInit, OnChanges {
 
   public tariffID: AbstractControl;
 
-  // eslint-disable-next-line no-useless-constructor
-  public constructor() {
-  }
-
   public ngOnInit() {
     // Init the form
     this.formGroup.addControl('tariffID', new FormControl(null,
@@ -32,6 +28,7 @@ export class SiteOcpiComponent implements OnInit, OnChanges {
     if (this.readOnly) {
       this.formGroup.disable();
     }
+    this.enableDisableTariffID();
   }
 
   public ngOnChanges() {
@@ -53,7 +50,7 @@ export class SiteOcpiComponent implements OnInit, OnChanges {
     this.enableDisableTariffID();
   }
 
-  public emptyStringToNull(control: AbstractControl) {
+  public tariffIDChanged(control: AbstractControl) {
     Utils.convertEmptyStringToNull(control);
   }
 

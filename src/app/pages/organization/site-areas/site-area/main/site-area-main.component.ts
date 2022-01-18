@@ -1,25 +1,24 @@
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-
-import { Address } from '../../../../../types/Address';
-import { ButtonType } from '../../../../../types/Table';
 import { CentralServerService } from '../../../../../services/central-server.service';
 import { ComponentService } from '../../../../../services/component.service';
 import { ConfigService } from '../../../../../services/config.service';
-import { Constants } from '../../../../../utils/Constants';
 import { DialogService } from '../../../../../services/dialog.service';
 import { MessageService } from '../../../../../services/message.service';
+import { SpinnerService } from '../../../../../services/spinner.service';
+import { SitesDialogComponent } from '../../../../../shared/dialogs/sites/sites-dialog.component';
+import { Address } from '../../../../../types/Address';
 import { RegistrationToken } from '../../../../../types/RegistrationToken';
-import { Router } from '@angular/router';
 import { Site } from '../../../../../types/Site';
 import { SiteArea } from '../../../../../types/SiteArea';
-import { SitesDialogComponent } from '../../../../../shared/dialogs/sites/sites-dialog.component';
-import { SpinnerService } from '../../../../../services/spinner.service';
+import { ButtonType } from '../../../../../types/Table';
 import { TenantComponents } from '../../../../../types/Tenant';
-import { TranslateService } from '@ngx-translate/core';
+import { Constants } from '../../../../../utils/Constants';
 import { Utils } from '../../../../../utils/Utils';
 
 @Component({
@@ -31,7 +30,7 @@ export class SiteAreaMainComponent implements OnInit,OnChanges {
   @Input() public currentSiteAreaID!: string;
   @Input() public siteArea!: SiteArea;
   @Input() public readOnly: boolean;
-  @Output() public publicChanged = new EventEmitter<boolean>();
+  @Output() public siteChanged = new EventEmitter<Site>();
 
   public image = Constants.NO_IMAGE;
   public siteAreaImageSet = false;
@@ -210,7 +209,7 @@ export class SiteAreaMainComponent implements OnInit,OnChanges {
         const site: Site = (result[0].objectRef) as Site;
         this.site.setValue(site.name);
         this.siteID.setValue(site.id);
-        this.publicChanged.emit(site.public);
+        this.siteChanged.emit(site);
         this.formGroup.markAsDirty();
       }
     });

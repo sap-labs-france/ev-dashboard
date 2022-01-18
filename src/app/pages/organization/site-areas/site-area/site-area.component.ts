@@ -6,8 +6,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { WindowService } from 'services/window.service';
 import { AbstractTabComponent } from 'shared/component/abstract-tab/abstract-tab.component';
 import { DialogMode } from 'types/Authorization';
+import { Site } from 'types/Site';
 
-import { AuthorizationService } from '../../../../services/authorization.service';
 import { CentralServerService } from '../../../../services/central-server.service';
 import { ComponentService } from '../../../../services/component.service';
 import { DialogService } from '../../../../services/dialog.service';
@@ -34,17 +34,13 @@ export class SiteAreaComponent extends AbstractTabComponent  implements OnInit {
   @ViewChild('siteAreaOcpiComponent') public siteAreaOcpiComponent!: SiteAreaOcpiComponent;
 
   public ocpiActive: boolean;
-  public sitePublicActive: boolean;
+  public ocpiHasVisibleFields: boolean;
 
   public formGroup!: FormGroup;
   public readOnly = true;
   public siteArea: SiteArea;
 
-  public canCreateSiteArea = false;
-  public canUpdateSiteArea = false;
-
   public constructor(
-    private authorizationService: AuthorizationService,
     private centralServerService: CentralServerService,
     private messageService: MessageService,
     private spinnerService: SpinnerService,
@@ -55,12 +51,6 @@ export class SiteAreaComponent extends AbstractTabComponent  implements OnInit {
     protected windowService: WindowService,
     protected activatedRoute: ActivatedRoute,) {
     super(activatedRoute, windowService, ['common', 'site-area-ocpi'], false);
-    // Check auth
-    if (this.activatedRoute.snapshot.params['id'] &&
-      !authorizationService.canUpdateSiteArea()) {
-      // Not authorized
-      void this.router.navigate(['/']);
-    }
     this.ocpiActive = this.componentService.isActive(TenantComponents.OCPI);
   }
 
@@ -80,43 +70,30 @@ export class SiteAreaComponent extends AbstractTabComponent  implements OnInit {
   }
 
   public loadSiteArea() {
-    if (!this.currentSiteAreaID) {
-      return;
+    if (this.currentSiteAreaID) {
+      // Show spinner
+      this.spinnerService.show();
+      this.centralServerService.getSiteArea(this.currentSiteAreaID, true).subscribe((siteArea) => {
+        this.spinnerService.hide();
+        this.siteArea = siteArea;
+        // Check if OCPI has to be displayed
+        this.ocpiHasVisibleFields = siteArea.projectFields.includes('tariffID');
+        // Update form group
+        this.formGroup.updateValueAndValidity();
+        this.formGroup.markAsPristine();
+        this.formGroup.markAllAsTouched();
+      }, (error) => {
+        this.spinnerService.hide();
+        switch (error.status) {
+          case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+            this.messageService.showErrorMessage('site_areas.site_invalid');
+            break;
+          default:
+            Utils.handleHttpError(error, this.router, this.messageService,
+              this.centralServerService, 'general.unexpected_error_backend');
+        }
+      });
     }
-    // Show spinner
-    this.spinnerService.show();
-    this.centralServerService.getSiteArea(this.currentSiteAreaID, true).subscribe((siteArea) => {
-      this.spinnerService.hide();
-      this.siteArea = siteArea;
-      if (siteArea.site.public) {
-        this.sitePublicActive = siteArea.site.public;
-      }
-      this.canCreateSiteArea = this.canCreateSiteArea ||
-        this.authorizationService.isSiteAdmin(siteArea.siteID);
-      // if not admin switch in readonly mode
-      if (!this.canCreateSiteArea) {
-        this.formGroup.disable();
-      }
-      // Update form group
-      this.formGroup.updateValueAndValidity();
-      this.formGroup.markAsPristine();
-      this.formGroup.markAllAsTouched();
-      this.canUpdateSiteArea = siteArea.canUpdate;
-      this.canCreateSiteArea = siteArea.canCreate;
-      if (!this.canUpdateSiteArea) {
-        this.formGroup.disable();
-      }
-    }, (error) => {
-      this.spinnerService.hide();
-      switch (error.status) {
-        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
-          this.messageService.showErrorMessage('site_areas.site_invalid');
-          break;
-        default:
-          Utils.handleHttpError(error, this.router, this.messageService,
-            this.centralServerService, 'general.unexpected_error_backend');
-      }
-    });
   }
 
   public refresh() {
@@ -131,10 +108,6 @@ export class SiteAreaComponent extends AbstractTabComponent  implements OnInit {
     }
   }
 
-  public publicChanged(publicValue: boolean) {
-    this.sitePublicActive = publicValue;
-  }
-
   public closeDialog(saved: boolean = false) {
     if (this.dialogRef) {
       this.dialogRef.close(saved);
@@ -144,6 +117,10 @@ export class SiteAreaComponent extends AbstractTabComponent  implements OnInit {
   public close() {
     Utils.checkAndSaveAndCloseDialog(this.formGroup, this.dialogService,
       this.translateService, this.saveSiteArea.bind(this), this.closeDialog.bind(this));
+  }
+
+  public siteChanged(site: Site) {
+    this.siteAreaOcpiComponent?.siteChanged(site);
   }
 
   private createSiteArea(siteArea: SiteArea) {

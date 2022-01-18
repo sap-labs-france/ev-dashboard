@@ -7,10 +7,10 @@
           <span>{{'general.general' | translate}}</span>
         </ng-template>
         <div class="card-body">
-          <app-site-area-main #siteAreaMainComponent [formGroup]="formGroup" [currentSiteAreaID]="currentSiteAreaID" [siteArea]="siteArea" [readOnly]="readOnly" (publicChanged)="publicChanged($event)"></app-site-area-main>
+          <app-site-area-main #siteAreaMainComponent [formGroup]="formGroup" [currentSiteAreaID]="currentSiteAreaID" [siteArea]="siteArea" [readOnly]="readOnly" (siteChanged)="siteChanged($event)"></app-site-area-main>
         </div>
       </mat-tab>
-      <mat-tab *ngIf="ocpiActive && sitePublicActive">
+      <mat-tab *ngIf="ocpiActive">
         <ng-template mat-tab-label>
           <mat-icon>cloud</mat-icon>
           <span>{{'settings.tabs.ocpi' | translate}}</span>

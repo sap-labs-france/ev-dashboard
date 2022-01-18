@@ -1,5 +1,6 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Site } from 'types/Site';
 
 import { SiteArea } from '../../../../../types/SiteArea';
 import { Utils } from '../../../../../utils/Utils';
@@ -13,11 +14,9 @@ export class SiteAreaOcpiComponent implements OnInit, OnChanges {
   @Input() public formGroup!: FormGroup;
   @Input() public readOnly: boolean;
 
-  public tariffID: AbstractControl;
+  public public = false;
 
-  // eslint-disable-next-line no-useless-constructor
-  public constructor() {
-  }
+  public tariffID: AbstractControl;
 
   public ngOnInit() {
     // Init the form
@@ -30,7 +29,7 @@ export class SiteAreaOcpiComponent implements OnInit, OnChanges {
     if (this.readOnly) {
       this.formGroup.disable();
     }
-    this.loadSiteArea();
+    this.enableDisableTariffID();
   }
 
   public ngOnChanges() {
@@ -39,13 +38,30 @@ export class SiteAreaOcpiComponent implements OnInit, OnChanges {
 
   public loadSiteArea() {
     if (this.siteArea) {
+      this.public = this.siteArea.site?.public;
+      this.enableDisableTariffID();
       if (this.siteArea.tariffID) {
         this.tariffID.setValue(this.siteArea.tariffID);
       }
     }
   }
 
-  public emptyStringToNull(control: AbstractControl) {
+  public siteChanged(site: Site) {
+    this.public = site?.public;
+    this.enableDisableTariffID();
+  }
+
+  public tariffIDChanged(control: AbstractControl) {
     Utils.convertEmptyStringToNull(control);
+  }
+
+  private enableDisableTariffID() {
+    if (!this.readOnly) {
+      if (this.public) {
+        this.tariffID.enable();
+      } else {
+        this.tariffID.disable();
+      }
+    }
   }
 }

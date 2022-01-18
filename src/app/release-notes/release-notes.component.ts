@@ -29,7 +29,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
-              `Added OCPI Tariff ID in Charging Station and its Connectors`,
+              `Added Roaming Tariff ID in Tenant' settings, Site, Site Area, Charging Station and Connector`,
               `Migrated Registration Token and Billing endpoints to RESTful API`,
               `Migrated Asset endpoint to the new authorization framework`,
               `Fixed Site Admin cannot create Cars for other Users`,

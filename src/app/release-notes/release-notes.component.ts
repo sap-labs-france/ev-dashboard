@@ -34,6 +34,7 @@ export class ReleaseNotesComponent {
               `Migrated Asset endpoint to the new authorization framework`,
               `Fixed Site Admin cannot create Cars for other Users`,
               `Fixed cannot edit Charging Station with Connector IDs starting at 11`,
+              `Switched Date From/To controls to Data Range`,
               `Lowered, track and added in conf reCaptcha score`,
             ],
           },

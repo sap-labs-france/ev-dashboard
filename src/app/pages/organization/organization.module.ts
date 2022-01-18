@@ -25,7 +25,9 @@ import { SiteAreaAssetsDialogComponent } from './site-areas/site-area-assets/sit
 import { SiteAreaAssetsDataSource } from './site-areas/site-area-assets/site-area-assets-table-data-source';
 import { SiteAreaChargingStationsDialogComponent } from './site-areas/site-area-charging-stations/site-area-charging-stations-dialog.component';
 import { SiteAreaChargingStationsDataSource } from './site-areas/site-area-charging-stations/site-area-charging-stations-table-data-source';
+import { SiteAreaMainComponent } from './site-areas/site-area/main/site-area-main.component';
 import { SiteAreaDialogComponent } from './site-areas/site-area/site-area-dialog.component';
+import { SiteAreaOcpiComponent } from './site-areas/site-area/site-area-ocpi/site-area-ocpi.component';
 import { SiteAreaComponent } from './site-areas/site-area/site-area.component';
 import { SitesListTableDataSource } from './sites/list/sites-list-table-data-source';
 import { SitesListComponent } from './sites/list/sites-list.component';
@@ -70,6 +72,8 @@ import { SiteComponent } from './sites/site/site.component';
     SiteAreaAssetsDialogComponent,
     SiteMainComponent,
     SiteOcpiComponent,
+    SiteAreaMainComponent,
+    SiteAreaOcpiComponent,
     SiteUsersAdminCheckboxComponent,
     SiteUsersOwnerRadioComponent,
     SiteAreaConsumptionChartComponent,

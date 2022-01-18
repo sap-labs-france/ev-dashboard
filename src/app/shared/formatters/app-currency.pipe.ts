@@ -7,8 +7,7 @@ import { LocaleService } from '../../services/locale.service';
 @Pipe({ name: 'appCurrency' })
 export class AppCurrencyPipe implements PipeTransform {
   private currencyPipe!: CurrencyPipe;
-  private currency!: string;
-
+  private currencyCode!: string; // The [ISO 4217] currency code
   public constructor(
     private centralServerService: CentralServerService,
     private localeService: LocaleService) {
@@ -16,15 +15,18 @@ export class AppCurrencyPipe implements PipeTransform {
     this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
       this.currencyPipe = new CurrencyPipe(locale.currentLocaleJS);
     });
-    // Get the Pricing settings
-    this.currency = this.centralServerService.getLoggedUser().currency;
+    // Get the currency code
+    // The currency code is part of the user token and comes from the Pricing Settings!
+    this.centralServerService.getCurrentUserSubject().subscribe((user) => {
+      // user is null when logging out
+      this.currencyCode = user?.currency;
+    });
   }
 
-  public transform(price: number, currency?: string, display: string = 'symbol'): string | null {
-    // Take from the conf
-    if (!currency) {
-      currency = this.currency;
+  public transform(price: number, currencyCode?: string, display: string = 'symbol'): string | null {
+    if (!currencyCode) {
+      currencyCode = this.currencyCode;
     }
-    return this.currencyPipe.transform(price, currency, display);
+    return this.currencyPipe.transform(price, currencyCode, display);
   }
 }

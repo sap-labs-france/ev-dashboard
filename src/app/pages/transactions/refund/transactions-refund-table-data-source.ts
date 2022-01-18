@@ -4,6 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { ConnectorTableFilter } from 'shared/table/filters/connector-table-filter';
+import { DateRangeTableFilter } from 'shared/table/filters/date-range-table-filter';
 import { IssuerFilter } from 'shared/table/filters/issuer-filter';
 import { SiteTableFilter } from 'shared/table/filters/site-table-filter';
 
@@ -29,10 +30,8 @@ import { TableOpenURLRefundAction } from '../../../shared/table/actions/transact
 import { TableRefundTransactionsAction, TableRefundTransactionsActionDef } from '../../../shared/table/actions/transactions/table-refund-transactions-action';
 import { TableSyncRefundTransactionsAction, TableSyncRefundTransactionsActionDef } from '../../../shared/table/actions/transactions/table-sync-refund-transactions-action';
 import { ChargingStationTableFilter } from '../../../shared/table/filters/charging-station-table-filter';
-import { EndDateFilter } from '../../../shared/table/filters/end-date-filter';
 import { ReportTableFilter } from '../../../shared/table/filters/report-table-filter';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
-import { StartDateFilter } from '../../../shared/table/filters/start-date-filter';
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { CarCatalog } from '../../../types/Car';
@@ -254,8 +253,9 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
     let userFilter: TableFilterDef;
     const issuerFilter = new IssuerFilter().getFilterDef();
     const filters: TableFilterDef[] = [
-      new StartDateFilter(moment().startOf('y').toDate()).getFilterDef(),
-      new EndDateFilter().getFilterDef(),
+      new DateRangeTableFilter({
+        translateService: this.translateService
+      }).getFilterDef(),
       new TransactionsRefundStatusFilter().getFilterDef(),
     ];
     if (this.componentService.isActive(TenantComponents.ORGANIZATION)) {

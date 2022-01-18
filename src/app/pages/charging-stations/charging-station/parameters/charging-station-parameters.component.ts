@@ -274,6 +274,9 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
       validateButtonTitle: 'general.select',
       sitesAdminOnly: true,
       rowMultipleSelection: false,
+      staticFilter: {
+        Issuer: true
+      },
     };
     // Open
     this.dialog.open(SiteAreasDialogComponent, dialogConfig).afterClosed().subscribe((result) => {

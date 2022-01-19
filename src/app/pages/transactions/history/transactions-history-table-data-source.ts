@@ -21,7 +21,7 @@ import { AppConnectorIdPipe } from '../../../shared/formatters/app-connector-id.
 import { AppCurrencyPipe } from '../../../shared/formatters/app-currency.pipe';
 import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
 import { AppDurationPipe } from '../../../shared/formatters/app-duration.pipe';
-import { AppPercentPipe } from '../../../shared/formatters/app-percent-pipe';
+import { AppPercentPipe } from '../../../shared/formatters/app-percent.pipe';
 import { AppUnitPipe } from '../../../shared/formatters/app-unit.pipe';
 import { AppUserNamePipe } from '../../../shared/formatters/app-user-name.pipe';
 import { TableNavigateToChargingPlansAction } from '../../../shared/table/actions/charging-stations/table-navigate-to-charging-plans-action';

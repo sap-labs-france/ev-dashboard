@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Injectable, Input, OnChanges, OnInit, Output } from '@angular/core';
 
 import { ComponentService } from '../../../../services/component.service';
-import { AppDecimalPipe } from '../../../../shared/formatters/app-decimal-pipe';
+import { AppDecimalPipe } from '../../../../shared/formatters/app-decimal.pipe';
 import { AppUnitPipe } from '../../../../shared/formatters/app-unit.pipe';
 import { ChargePoint, ChargingStation, Connector } from '../../../../types/ChargingStation';
 import { TenantComponents } from '../../../../types/Tenant';

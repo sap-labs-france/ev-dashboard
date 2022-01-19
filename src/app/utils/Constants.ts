@@ -38,5 +38,8 @@ export class Constants {
   public static readonly DEFAULT_LOCALE = 'en_US';
   public static readonly DEFAULT_LANGUAGE = 'en';
 
+  /* Default Currency */
+  public static readonly DEFAULT_CURRENCY_CODE = 'EUR';
+
   public static readonly SELECT_ALL = 'A';
 }

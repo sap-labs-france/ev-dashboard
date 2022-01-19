@@ -6,8 +6,8 @@ import { LocaleService } from '../../services/locale.service';
 
 @Pipe({ name: 'appCurrency' })
 export class AppCurrencyPipe implements PipeTransform {
-  private currencyPipe!: CurrencyPipe;
-  private currencyCode!: string; // The [ISO 4217] currency code
+  private currencyPipe: CurrencyPipe;
+  private currencyCode: string; // The [ISO 4217] currency code
   public constructor(
     private centralServerService: CentralServerService,
     private localeService: LocaleService) {

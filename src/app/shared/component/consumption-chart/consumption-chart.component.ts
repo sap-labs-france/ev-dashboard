@@ -12,7 +12,7 @@ import { AppDurationPipe } from '../../../shared/formatters/app-duration.pipe';
 import { ConsumptionUnit, Transaction } from '../../../types/Transaction';
 import { Utils } from '../../../utils/Utils';
 import { AppDatePipe } from '../../formatters/app-date.pipe';
-import { AppDecimalPipe } from '../../formatters/app-decimal-pipe';
+import { AppDecimalPipe } from '../../formatters/app-decimal.pipe';
 
 @Component({
   selector: 'app-transaction-chart',

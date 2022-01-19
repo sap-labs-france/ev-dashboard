@@ -6,7 +6,7 @@ export class PricingHelpers {
     if ( Utils.isNullOrUndefined(value) ) {
       return value; // do not change the actual value
     }
-    return Math.trunc( value / 60);
+    return value / 60;
   }
 
   public static  toSeconds( value: number ): number {

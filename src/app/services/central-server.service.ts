@@ -1957,7 +1957,7 @@ export class CentralServerService {
 
   public getCurrencyCode(): string {
     // The [ISO 4217] currency code
-    return this.getLoggedUser()?.currency;
+    return this.getLoggedUser()?.currency || Constants.DEFAULT_CURRENCY_CODE;
   }
 
   public isAuthenticated(): boolean {

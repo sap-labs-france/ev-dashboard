@@ -6,6 +6,7 @@ import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { TransactionDialogComponent } from 'shared/dialogs/transaction/transaction-dialog.component';
 import { ConnectorTableFilter } from 'shared/table/filters/connector-table-filter';
+import { DateRangeTableFilter } from 'shared/table/filters/date-range-table-filter';
 import { CarCatalog } from 'types/Car';
 
 import { AuthorizationService } from '../../../services/authorization.service';
@@ -35,11 +36,9 @@ import { TableExportTransactionsAction, TableExportTransactionsActionDef } from 
 import { TablePushTransactionOcpiCdrAction, TablePushTransactionOcpiCdrActionDef } from '../../../shared/table/actions/transactions/table-push-transaction-ocpi-cdr-action';
 import { TableViewTransactionAction, TableViewTransactionActionDef, TransactionDialogData } from '../../../shared/table/actions/transactions/table-view-transaction-action';
 import { ChargingStationTableFilter } from '../../../shared/table/filters/charging-station-table-filter';
-import { EndDateFilter } from '../../../shared/table/filters/end-date-filter';
 import { IssuerFilter, organizations } from '../../../shared/table/filters/issuer-filter';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
 import { SiteTableFilter } from '../../../shared/table/filters/site-table-filter';
-import { StartDateFilter } from '../../../shared/table/filters/start-date-filter';
 import { TagTableFilter } from '../../../shared/table/filters/tag-table-filter';
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
@@ -405,8 +404,9 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     const issuerFilter = new IssuerFilter().getFilterDef();
     const tableFiltersDef: TableFilterDef[] = [
       issuerFilter,
-      new StartDateFilter(moment().startOf('y').toDate()).getFilterDef(),
-      new EndDateFilter().getFilterDef(),
+      new DateRangeTableFilter({
+        translateService: this.translateService
+      }).getFilterDef(),
       new TransactionsInactivityStatusFilter().getFilterDef(),
     ];
     // Show Site Area Filter If Organization component is active

@@ -56,8 +56,6 @@ export class PricingDefinitionComponent implements OnInit {
   public connectorPowerEnabled!: AbstractControl;
   // Dimensions
   public dimensions!: FormGroup;
-  public dimensionsMap: PricingDimensions;
-  public dimensionsKeys: string[];
   // Flat fee
   public flatFee: FormGroup;
   public flatFeeEnabled: AbstractControl;
@@ -90,7 +88,6 @@ export class PricingDefinitionComponent implements OnInit {
   public parkingTimeStepUnit: AbstractControl;
   // Restrictions
   public restrictions!: FormGroup;
-  public restrictionsMap: PricingRestriction;
   // Duration
   public minDurationSecsEnabled: AbstractControl;
   public minDurationSecsValue: AbstractControl;
@@ -277,16 +274,16 @@ export class PricingDefinitionComponent implements OnInit {
         this.entityType.setValue(this.currentEntityType);
         this.name.setValue(this.currentPricingDefinition.name);
         this.description.setValue(this.currentPricingDefinition.description);
+        // Static Restrictions
         this.validFrom.setValue(this.currentPricingDefinition.staticRestrictions?.validFrom);
         this.validTo.setValue(this.currentPricingDefinition.staticRestrictions?.validTo);
         this.minDate = this.currentPricingDefinition.staticRestrictions?.validFrom;
         this.connectorType.setValue((this.currentPricingDefinition.staticRestrictions?.connectorType) || 'A');
         this.connectorPowerValue.setValue(this.currentPricingDefinition.staticRestrictions?.connectorPowerkW);
         this.connectorPowerEnabled.setValue(!!this.connectorPowerValue.value);
-        this.dimensionsMap = currentPricingDefinition.dimensions;
-        this.dimensionsKeys = Object.keys(this.dimensionsMap);
-        this.initializeDimensions();
-        this.restrictionsMap = currentPricingDefinition.restrictions;
+        // Dimensions
+        this.initializeDimensions(this.currentPricingDefinition);
+        // Restrictions
         this.daysOfWeekEnabled.setValue(!!this.currentPricingDefinition.restrictions?.daysOfWeek);
         this.selectedDays.setValue(this.currentPricingDefinition.restrictions?.daysOfWeek?.map((day) => day.toString()) || null);
         this.timeRangeEnabled.setValue(!!this.currentPricingDefinition.restrictions?.timeFrom);
@@ -422,14 +419,20 @@ export class PricingDefinitionComponent implements OnInit {
     this.loadPricing();
   }
 
-  private initializeDimensions() {
-    for (const dimensionKey of this.dimensionsKeys) {
-      this[`${dimensionKey}Enabled`].setValue(this.dimensionsMap[dimensionKey].active);
-      this[`${dimensionKey}Value`].setValue(this.dimensionsMap[dimensionKey].price);
-      if (!!this.dimensionsMap[dimensionKey].stepSize) {
-        this[`${dimensionKey}StepEnabled`].setValue(true);
-        this[`${dimensionKey}StepValue`].setValue(this.dimensionsMap[dimensionKey].stepSize);
-      }
+  private initializeDimensions(pricingDefinition: PricingDefinition): void {
+    this.initializeDimension(pricingDefinition, DimensionType.FLAT_FEE);
+    this.initializeDimension(pricingDefinition, DimensionType.ENERGY);
+    this.initializeDimension(pricingDefinition, DimensionType.CHARGING_TIME);
+    this.initializeDimension(pricingDefinition, DimensionType.PARKING_TIME);
+  }
+
+  private initializeDimension(pricingDefinition: PricingDefinition, dimensionType: DimensionType): void {
+    const dimension: PricingDimension = pricingDefinition.dimensions?.[dimensionType];
+    this[`${dimensionType}Enabled`].setValue(!!dimension?.active);
+    this[`${dimensionType}Value`].setValue(dimension?.price);
+    if (!!dimension?.stepSize) {
+      this[`${dimensionType}StepEnabled`].setValue(true);
+      this[`${dimensionType}StepValue`].setValue(dimension?.stepSize);
     }
   }
 

@@ -6,6 +6,7 @@ import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { MatSort } from '@angular/material/sort';
 import { MatDatetimepickerInputEvent } from '@mat-datetimepicker/core';
 import { TranslateService } from '@ngx-translate/core';
+import * as moment from 'moment';
 import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
 import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, takeWhile } from 'rxjs/operators';
@@ -147,6 +148,14 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       };
       this.filterChanged(filterDef);
     }
+  }
+
+  public dateRangeChangedDirectly(filterDef: TableFilterDef, event: any) {
+    const splitRangeValue = event.target.value.split(' - ');
+    this.dateRangeChanged(filterDef, {
+      startDate: moment(splitRangeValue[0], filterDef.dateRangeTableFilterDef.locale.displayFormat),
+      endDate: moment(splitRangeValue[1], filterDef.dateRangeTableFilterDef.locale.displayFormat)
+    });
   }
 
   public openDateRanges(parent: MatFormField) {

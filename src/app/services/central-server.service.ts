@@ -1955,6 +1955,11 @@ export class CentralServerService {
     return this.currentUser;
   }
 
+  public getCurrencyCode(): string {
+    // The [ISO 4217] currency code
+    return this.getLoggedUser()?.currency;
+  }
+
   public isAuthenticated(): boolean {
     return this.getLoggedUserToken() && !new JwtHelperService().isTokenExpired(this.getLoggedUserToken());
   }

@@ -24,7 +24,7 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.5.15',
-        date: new Date('2022-01-18'),
+        date: new Date('2022-01-19'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -32,10 +32,13 @@ export class ReleaseNotesComponent {
               `Added Roaming Tariff ID in Tenant' settings, Site, Site Area, Charging Station and Connector`,
               `Migrated Registration Token and Billing endpoints to RESTful API`,
               `Migrated Asset endpoint to the new authorization framework`,
-              `Fixed Site Admin cannot create Cars for other Users`,
-              `Fixed cannot edit Charging Station with Connector IDs starting at 11`,
               `Switched Date From/To controls to Data Range`,
               `Lowered, track and added in conf reCaptcha score`,
+              `Enhanced health-check to throw an error in case of low server performance`,
+              `Fixed Site Admin cannot create Cars for other Users`,
+              `Fixed cannot edit Charging Station with Connector IDs starting at 11`,
+              `Fixed cannot export OCPI CDRs with Swagger`,
+              `Fixed emails of eMSP in lower case in OCPI`
             ],
           },
         ],

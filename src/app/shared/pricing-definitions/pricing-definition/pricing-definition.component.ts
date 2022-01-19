@@ -4,6 +4,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { MatSlideToggle, MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { PricingHelpers } from 'utils/PricingHelpers';
 
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
@@ -92,10 +93,10 @@ export class PricingDefinitionComponent implements OnInit {
   public restrictions!: FormGroup;
   public restrictionsMap: PricingRestriction;
   // Duration
-  public minDurationSecsEnabled: AbstractControl;
-  public minDurationSecsValue: AbstractControl;
-  public maxDurationSecsEnabled: AbstractControl;
-  public maxDurationSecsValue: AbstractControl;
+  public minDurationEnabled: AbstractControl;
+  public minDuration: AbstractControl;
+  public maxDurationEnabled: AbstractControl;
+  public maxDuration: AbstractControl;
   // Energy KWh
   public minEnergyKWhEnabled: AbstractControl;
   public minEnergyKWhValue: AbstractControl;
@@ -128,12 +129,12 @@ export class PricingDefinitionComponent implements OnInit {
       entityID: new FormControl(this.currentEntityID),
       entityType: new FormControl(this.currentEntityType),
       restrictions: new FormGroup({
-        minDurationSecsEnabled: new FormControl(false),
-        minDurationSecs: new FormControl(null, Validators.compose([
+        minDurationEnabled: new FormControl(false),
+        minDuration: new FormControl(null, Validators.compose([
           Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)
         ])),
-        maxDurationSecsEnabled: new FormControl(false),
-        maxDurationSecs: new FormControl(null, Validators.compose([
+        maxDurationEnabled: new FormControl(false),
+        maxDuration: new FormControl(null, Validators.compose([
           Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)
         ])),
         minEnergyKWhEnabled: new FormControl(false),
@@ -234,10 +235,10 @@ export class PricingDefinitionComponent implements OnInit {
     this.parkingTimeStepValue = this.parkingTime.controls['stepSize'];
     this.parkingTimeStepUnit = this.parkingTime.controls['stepSizeUnit'];
     this.restrictions = this.formGroup.controls['restrictions'] as FormGroup;
-    this.minDurationSecsEnabled = this.restrictions.controls['minDurationSecsEnabled'];
-    this.minDurationSecsValue = this.restrictions.controls['minDurationSecs'];
-    this.maxDurationSecsEnabled = this.restrictions.controls['maxDurationSecsEnabled'];
-    this.maxDurationSecsValue = this.restrictions.controls['maxDurationSecs'];
+    this.minDurationEnabled = this.restrictions.controls['minDurationEnabled'];
+    this.minDuration = this.restrictions.controls['minDuration'];
+    this.maxDurationEnabled = this.restrictions.controls['maxDurationEnabled'];
+    this.maxDuration = this.restrictions.controls['maxDuration'];
     this.minEnergyKWhEnabled = this.restrictions.controls['minEnergyKWhEnabled'];
     this.minEnergyKWhValue = this.restrictions.controls['minEnergyKWh'];
     this.maxEnergyKWhEnabled = this.restrictions.controls['maxEnergyKWhEnabled'];
@@ -293,10 +294,10 @@ export class PricingDefinitionComponent implements OnInit {
         this.timeFromValue.setValue(this.currentPricingDefinition.restrictions?.timeFrom);
         this.minTime = this.currentPricingDefinition.restrictions?.timeTo;
         this.timeToValue.setValue(this.currentPricingDefinition.restrictions?.timeTo);
-        this.minDurationSecsEnabled.setValue(!!this.currentPricingDefinition.restrictions?.minDurationSecs);
-        this.minDurationSecsValue.setValue(this.currentPricingDefinition.restrictions?.minDurationSecs);
-        this.maxDurationSecsEnabled.setValue(!!this.currentPricingDefinition.restrictions?.maxDurationSecs);
-        this.maxDurationSecsValue.setValue(this.currentPricingDefinition.restrictions?.maxDurationSecs);
+        this.minDurationEnabled.setValue(!!this.currentPricingDefinition.restrictions?.minDurationSecs);
+        this.minDuration.setValue(PricingHelpers.toMinutes(this.currentPricingDefinition.restrictions?.minDurationSecs));
+        this.maxDurationEnabled.setValue(!!this.currentPricingDefinition.restrictions?.maxDurationSecs);
+        this.maxDuration.setValue(PricingHelpers.toMinutes(this.currentPricingDefinition.restrictions?.maxDurationSecs));
         this.minEnergyKWhEnabled.setValue(!!this.currentPricingDefinition.restrictions?.minEnergyKWh);
         this.minEnergyKWhValue.setValue(this.currentPricingDefinition.restrictions?.minEnergyKWh);
         this.maxEnergyKWhEnabled.setValue(!!this.currentPricingDefinition.restrictions?.maxEnergyKWh);
@@ -467,8 +468,8 @@ export class PricingDefinitionComponent implements OnInit {
       timeTo: (this.timeRangeEnabled.value)? this.timeToValue.value: null,
       minEnergyKWh: (this.minEnergyKWhEnabled.value)? this.minEnergyKWhValue.value: null,
       maxEnergyKWh: (this.maxEnergyKWhEnabled.value)? this.maxEnergyKWhValue.value: null,
-      minDurationSecs: (this.minDurationSecsEnabled.value)? this.minDurationSecsValue.value: null,
-      maxDurationSecs: (this.maxDurationSecsEnabled.value)? this.maxDurationSecsValue.value: null,
+      minDurationSecs: PricingHelpers.convertDurationToSeconds(this.minDurationEnabled.value, this.minDuration.value),
+      maxDurationSecs: PricingHelpers.convertDurationToSeconds(this.maxDurationEnabled.value, this.maxDuration.value),
     };
     // Clear empty data for best performances server-side
     staticRestrictions = this.shrinkPricingProperties(staticRestrictions);

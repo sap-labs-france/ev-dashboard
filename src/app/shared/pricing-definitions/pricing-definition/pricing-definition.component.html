@@ -267,34 +267,34 @@
                 <div class="row">
                   <!-- toggle min duration -->
                   <div class="col-md-2 pricing-dimension">
-                    <mat-slide-toggle (change)="toggle($event)" id="minDurationSecs" [checked]="minDurationSecsEnabled.value">
+                    <mat-slide-toggle (change)="toggle($event)" id="minDuration" [checked]="minDurationEnabled.value">
                       {{'settings.pricing.restriction_min_duration' | translate}}
                     </mat-slide-toggle>
                   </div>
                   <!-- value min duration -->
                   <div class="col-md-2">
-                    <mat-form-field *ngIf="minDurationSecsEnabled.value">
+                    <mat-form-field *ngIf="minDurationEnabled.value">
                       <mat-label>{{'settings.pricing.restriction_min_duration_unit' | translate}}</mat-label>
                       <input matInput type="text" placeholder="{{'settings.pricing.restriction_min_duration_unit' | translate}}"
-                      [formControl]="minDurationSecsValue" required/>
-                      <mat-error *ngIf="minDurationSecsValue?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
-                      <mat-error *ngIf="minDurationSecsValue?.errors?.pattern">{{'general.error_number_pattern' | translate}}</mat-error>
+                      [formControl]="minDuration" required/>
+                      <mat-error *ngIf="minDuration?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
+                      <mat-error *ngIf="minDuration?.errors?.pattern">{{'general.error_number_pattern' | translate}}</mat-error>
                     </mat-form-field>
                   </div>
                   <!-- toggle max duration -->
                   <div class="col-md-2 offset-1 pricing-dimension">
-                    <mat-slide-toggle (change)="toggle($event)" id="maxDurationSecs" [checked]="maxDurationSecsEnabled.value">
+                    <mat-slide-toggle (change)="toggle($event)" id="maxDuration" [checked]="maxDurationEnabled.value">
                       {{'settings.pricing.restriction_max_duration' | translate}}
                     </mat-slide-toggle>
                   </div>
                   <!-- value max duration -->
                   <div class="col-md-2">
-                    <mat-form-field *ngIf="maxDurationSecsEnabled.value">
+                    <mat-form-field *ngIf="maxDurationEnabled.value">
                       <mat-label>{{'settings.pricing.restriction_max_duration_unit' | translate}}</mat-label>
                       <input matInput type="text" placeholder="{{'settings.pricing.restriction_max_duration_unit' | translate}}"
-                      [formControl]="maxDurationSecsValue" required/>
-                      <mat-error *ngIf="maxDurationSecsValue?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
-                      <mat-error *ngIf="maxDurationSecsValue?.errors?.pattern">{{'general.error_number_pattern' | translate}}</mat-error>
+                      [formControl]="maxDuration" required/>
+                      <mat-error *ngIf="maxDuration?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
+                      <mat-error *ngIf="maxDuration?.errors?.pattern">{{'general.error_number_pattern' | translate}}</mat-error>
                     </mat-form-field>
                   </div>
                 </div>

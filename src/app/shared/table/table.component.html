@@ -144,7 +144,8 @@
                 [ngModel]="filterDef.currentValue"
                 [ranges]="filterDef.items[0]"
                 [alwaysShowCalendars]="true"
-                (ngModelChange)="dateRangeChanged(filterDef, $event)"/>
+                (ngModelChange)="dateRangeChanged(filterDef, $event)"
+                (keyup.enter)='dateRangeChangedDirectly(filterDef, $event)'/>
               <mat-icon matSuffix class="ngx-daterangepicker-action date-range-picker-icon mt-1" (click)="openDateRanges(ngxDatePickerElement)">
                 date_range
               </mat-icon>

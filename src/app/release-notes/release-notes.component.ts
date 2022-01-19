@@ -34,6 +34,7 @@ export class ReleaseNotesComponent {
               `Migrated Asset endpoint to the new authorization framework`,
               `Switched Date From/To controls to Data Range`,
               `Lowered, track and added in conf reCaptcha score`,
+              `Enhanced health-check to throw an error in case of low server performance`,
               `Fixed Site Admin cannot create Cars for other Users`,
               `Fixed cannot edit Charging Station with Connector IDs starting at 11`,
               `Fixed cannot export OCPI CDRs with Swagger`,

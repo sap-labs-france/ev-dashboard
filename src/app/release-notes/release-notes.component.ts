@@ -37,6 +37,7 @@ export class ReleaseNotesComponent {
               `Fixed Site Admin cannot create Cars for other Users`,
               `Fixed cannot edit Charging Station with Connector IDs starting at 11`,
               `Fixed cannot export OCPI CDRs with Swagger`,
+              `Fixed emails of eMSP in lower case in OCPI`
             ],
           },
         ],

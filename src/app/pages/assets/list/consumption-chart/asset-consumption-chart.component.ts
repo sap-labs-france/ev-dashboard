@@ -9,7 +9,7 @@ import { CentralServerService } from '../../../../services/central-server.servic
 import { LocaleService } from '../../../../services/locale.service';
 import { SpinnerService } from '../../../../services/spinner.service';
 import { AppDatePipe } from '../../../../shared/formatters/app-date.pipe';
-import { AppDecimalPipe } from '../../../../shared/formatters/app-decimal-pipe';
+import { AppDecimalPipe } from '../../../../shared/formatters/app-decimal.pipe';
 import { AppDurationPipe } from '../../../../shared/formatters/app-duration.pipe';
 import { AppUnitPipe } from '../../../../shared/formatters/app-unit.pipe';
 import { AssetConsumption, AssetType } from '../../../../types/Asset';

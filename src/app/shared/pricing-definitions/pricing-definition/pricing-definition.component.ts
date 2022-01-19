@@ -423,17 +423,18 @@ export class PricingDefinitionComponent implements OnInit {
   private initializeDimensions(pricingDefinition: PricingDefinition): void {
     this.initializeDimension(pricingDefinition, DimensionType.FLAT_FEE);
     this.initializeDimension(pricingDefinition, DimensionType.ENERGY);
-    this.initializeDimension(pricingDefinition, DimensionType.CHARGING_TIME);
-    this.initializeDimension(pricingDefinition, DimensionType.PARKING_TIME);
+    this.initializeDimension(pricingDefinition, DimensionType.CHARGING_TIME, true);
+    this.initializeDimension(pricingDefinition, DimensionType.PARKING_TIME, true);
   }
 
-  private initializeDimension(pricingDefinition: PricingDefinition, dimensionType: DimensionType): void {
+  private initializeDimension(pricingDefinition: PricingDefinition, dimensionType: DimensionType, isTimeDimension = false): void {
     const dimension: PricingDimension = pricingDefinition.dimensions?.[dimensionType];
     this[`${dimensionType}Enabled`].setValue(!!dimension?.active);
     this[`${dimensionType}Value`].setValue(dimension?.price);
     if (!!dimension?.stepSize) {
       this[`${dimensionType}StepEnabled`].setValue(true);
-      this[`${dimensionType}StepValue`].setValue(dimension?.stepSize);
+      const stepSize = (isTimeDimension)?PricingHelpers.toMinutes(dimension?.stepSize):dimension?.stepSize;
+      this[`${dimensionType}StepValue`].setValue(stepSize);
     }
   }
 
@@ -454,8 +455,8 @@ export class PricingDefinitionComponent implements OnInit {
     const dimensions: PricingDimensions = {
       flatFee: this.buildPricingDimension(DimensionType.FLAT_FEE),
       energy: this.buildPricingDimension(DimensionType.ENERGY),
-      chargingTime: this.buildPricingDimension(DimensionType.CHARGING_TIME),
-      parkingTime: this.buildPricingDimension(DimensionType.PARKING_TIME),
+      chargingTime: this.buildPricingDimension(DimensionType.CHARGING_TIME, true),
+      parkingTime: this.buildPricingDimension(DimensionType.PARKING_TIME, true),
     };
     // Static restrictions
     let staticRestrictions: PricingStaticRestriction = {
@@ -491,16 +492,23 @@ export class PricingDefinitionComponent implements OnInit {
     return pricingDefinition;
   }
 
-  private buildPricingDimension(dimensionType: DimensionType): PricingDimension {
+  private buildPricingDimension(dimensionType: DimensionType, isTimeDimension = false): PricingDimension {
     const price: number = this[`${dimensionType}Value`].value;
     if (price) {
+      // Dimension
       const dimension: PricingDimension = {
         active: true,
-        price
+        price,
       };
       const withStep: boolean = this[`${dimensionType}StepEnabled`]?.value;
-      if (withStep) {
-        dimension.stepSize = this[`${dimensionType}StepValue`]?.value;
+      if ( withStep) {
+        let stepSize = this[`${dimensionType}StepValue`]?.value;
+        if (isTimeDimension) {
+          // Converts minutes shown in the UI into seconds (as expected by the pricing model)
+          stepSize = PricingHelpers.toSeconds(stepSize);
+        }
+        // Dimension with Step Size
+        dimension.stepSize = stepSize;
       }
       return dimension;
     }

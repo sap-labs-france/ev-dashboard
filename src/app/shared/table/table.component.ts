@@ -151,10 +151,6 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public dateRangeChangedDirectly(filterDef: TableFilterDef, event: any) {
-    // Close all open pickers
-    for(const picker of this.datePickers){
-      picker.hide();
-    }
     const splitRangeValue = event.target.value.split(' - ');
     this.dateRangeChanged(filterDef, {
       startDate: moment(splitRangeValue[0], filterDef.dateRangeTableFilterDef.locale.displayFormat),

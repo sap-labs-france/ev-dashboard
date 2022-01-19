@@ -9,7 +9,7 @@ import { CentralServerService } from '../../../../../services/central-server.ser
 import { LocaleService } from '../../../../../services/locale.service';
 import { SpinnerService } from '../../../../../services/spinner.service';
 import { AppDatePipe } from '../../../../../shared/formatters/app-date.pipe';
-import { AppDecimalPipe } from '../../../../../shared/formatters/app-decimal-pipe';
+import { AppDecimalPipe } from '../../../../../shared/formatters/app-decimal.pipe';
 import { AppDurationPipe } from '../../../../../shared/formatters/app-duration.pipe';
 import { SiteAreaConsumption, SiteAreaValueTypes } from '../../../../../types/SiteArea';
 import { ConsumptionUnit } from '../../../../../types/Transaction';
@@ -430,7 +430,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
             position: 'left',
             ticks: {
               beginAtZero: true,
-              callback: (value: number) => parseInt(this.decimalPipe.transform(value, '1.0-0')),
+              callback: (value: number) => parseInt(this.decimalPipe.transform(value, '1.0-0'), 10),
               fontColor: this.defaultColor,
             },
             gridLines: {

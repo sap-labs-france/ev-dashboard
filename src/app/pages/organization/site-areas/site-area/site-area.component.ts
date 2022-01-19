@@ -1,154 +1,65 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import * as moment from 'moment';
+import { WindowService } from 'services/window.service';
+import { AbstractTabComponent } from 'shared/component/abstract-tab/abstract-tab.component';
 import { DialogMode } from 'types/Authorization';
+import { Site } from 'types/Site';
 
-import { AuthorizationService } from '../../../../services/authorization.service';
 import { CentralServerService } from '../../../../services/central-server.service';
 import { ComponentService } from '../../../../services/component.service';
-import { ConfigService } from '../../../../services/config.service';
 import { DialogService } from '../../../../services/dialog.service';
 import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
-import { SitesDialogComponent } from '../../../../shared/dialogs/sites/sites-dialog.component';
-import { Address } from '../../../../types/Address';
 import { RestResponse } from '../../../../types/GlobalType';
 import { HTTPError } from '../../../../types/HTTPError';
-import { RegistrationToken } from '../../../../types/RegistrationToken';
-import { Site } from '../../../../types/Site';
 import { SiteArea } from '../../../../types/SiteArea';
-import { ButtonType } from '../../../../types/Table';
 import { TenantComponents } from '../../../../types/Tenant';
-import { Constants } from '../../../../utils/Constants';
 import { Utils } from '../../../../utils/Utils';
+import { SiteAreaMainComponent } from './main/site-area-main.component';
+import { SiteAreaOcpiComponent } from './site-area-ocpi/site-area-ocpi.component';
 
 @Component({
   selector: 'app-site-area',
   templateUrl: 'site-area.component.html',
 })
-export class SiteAreaComponent implements OnInit {
+export class SiteAreaComponent extends AbstractTabComponent  implements OnInit {
   @Input() public currentSiteAreaID!: string;
   @Input() public dialogMode!: DialogMode;
   @Input() public dialogRef!: MatDialogRef<any>;
 
-  public image = Constants.NO_IMAGE;
-  public imageHasChanged = false;
-  public maxSize: number;
-  public siteArea: SiteArea;
-  public readOnly = true;
+  @ViewChild('siteAreaMainComponent') public siteAreaMainComponent!: SiteAreaMainComponent;
+  @ViewChild('siteAreaOcpiComponent') public siteAreaOcpiComponent!: SiteAreaOcpiComponent;
+
+  public ocpiActive: boolean;
+  public ocpiHasVisibleFields: boolean;
 
   public formGroup!: FormGroup;
-  public issuer!: AbstractControl;
-  public id!: AbstractControl;
-  public name!: AbstractControl;
-  public site!: AbstractControl;
-  public siteID!: AbstractControl;
-  public maximumPower!: AbstractControl;
-  public maximumPowerAmps!: AbstractControl;
-  public voltage!: AbstractControl;
-  public accessControl!: AbstractControl;
-  public smartCharging!: AbstractControl;
-  public numberOfPhases!: AbstractControl;
-
-  public phaseMap = [
-    { key: 1, description: 'site_areas.single_phased' },
-    { key: 3, description: 'site_areas.three_phased' },
-  ];
-
-  public address!: Address;
-  public canCreateSiteArea = false;
-  public canUpdateSiteArea = false;
-  public isSmartChargingComponentActive = false;
-
-  public registrationToken!: RegistrationToken;
+  public readOnly = true;
+  public siteArea: SiteArea;
 
   public constructor(
-    private authorizationService: AuthorizationService,
     private centralServerService: CentralServerService,
     private messageService: MessageService,
     private spinnerService: SpinnerService,
     private translateService: TranslateService,
-    private configService: ConfigService,
     private componentService: ComponentService,
-    private activatedRoute: ActivatedRoute,
-    private dialog: MatDialog,
     private dialogService: DialogService,
-    private router: Router) {
-    this.maxSize = this.configService.getSiteArea().maxPictureKb;
-    // Check auth
-    if (this.activatedRoute.snapshot.params['id'] &&
-      !authorizationService.canUpdateSiteArea()) {
-      // Not authorized
-      void this.router.navigate(['/']);
-    }
-    // Set
-    this.isSmartChargingComponentActive = this.componentService.isActive(TenantComponents.SMART_CHARGING);
+    private router: Router,
+    protected windowService: WindowService,
+    protected activatedRoute: ActivatedRoute,) {
+    super(activatedRoute, windowService, ['common', 'site-area-ocpi'], false);
+    this.ocpiActive = this.componentService.isActive(TenantComponents.OCPI);
   }
 
   public ngOnInit() {
     // Init the form
-    this.formGroup = new FormGroup({
-      issuer: new FormControl(true),
-      id: new FormControl(''),
-      name: new FormControl('',
-        Validators.compose([
-          Validators.required,
-          Validators.maxLength(255),
-        ])
-      ),
-      site: new FormControl('',
-        Validators.compose([
-          Validators.required,
-        ])
-      ),
-      siteID: new FormControl('',
-        Validators.compose([
-          Validators.required,
-        ])
-      ),
-      maximumPower: new FormControl(0,
-        Validators.compose([
-          Validators.pattern(/^[+-]?([0-9]*[.])?[0-9]+$/),
-          Validators.min(1),
-          Validators.required,
-        ])
-      ),
-      maximumPowerAmps: new FormControl(0),
-      accessControl: new FormControl(true),
-      smartCharging: new FormControl(false),
-      voltage: new FormControl(0,
-        Validators.compose([
-          Validators.required,
-          Validators.min(1),
-          Validators.pattern('^[+]?[0-9]*$'),
-        ])
-      ),
-      numberOfPhases: new FormControl('',
-        Validators.compose([
-          Validators.required,
-        ])
-      ),
-    });
-    // Form
-    this.issuer = this.formGroup.controls['issuer'];
-    this.id = this.formGroup.controls['id'];
-    this.name = this.formGroup.controls['name'];
-    this.site = this.formGroup.controls['site'];
-    this.siteID = this.formGroup.controls['siteID'];
-    this.maximumPower = this.formGroup.controls['maximumPower'];
-    this.maximumPowerAmps = this.formGroup.controls['maximumPowerAmps'];
-    this.smartCharging = this.formGroup.controls['smartCharging'];
-    this.accessControl = this.formGroup.controls['accessControl'];
-    this.voltage = this.formGroup.controls['voltage'];
-    this.numberOfPhases = this.formGroup.controls['numberOfPhases'];
-    this.maximumPowerAmps.disable();
+    this.formGroup = new FormGroup({});
     this.readOnly = (this.dialogMode === DialogMode.VIEW);
     if (this.currentSiteAreaID) {
       this.loadSiteArea();
-      this.loadRegistrationToken();
     } else if (this.activatedRoute && this.activatedRoute.params) {
       this.activatedRoute.params.subscribe((params: Params) => {
         this.currentSiteAreaID = params['id'];
@@ -158,146 +69,35 @@ export class SiteAreaComponent implements OnInit {
     Utils.handleDialogMode(this.dialogMode, this.formGroup);
   }
 
-  public assignSite() {
-    // Create the dialog
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.panelClass = 'transparent-dialog-container';
-    dialogConfig.data = {
-      title: 'site_areas.assign_site',
-      validateButtonTitle: 'general.select',
-      sitesAdminOnly: true,
-      rowMultipleSelection: false,
-      staticFilter: {
-        Issuer: true,
-        SiteAdmin: true,
-      }
-    };
-    // Open
-    this.dialog.open(SitesDialogComponent, dialogConfig).afterClosed().subscribe((result) => {
-      if (!Utils.isEmptyArray(result) && result[0].objectRef) {
-        const site: Site = (result[0].objectRef) as Site;
-        this.site.setValue(site.name);
-        this.siteID.setValue(site.id);
-        this.formGroup.markAsDirty();
-      }
-    });
-  }
-
-  public setCurrentSiteAreaId(currentSiteAreaId: string) {
-    this.currentSiteAreaID = currentSiteAreaId;
-  }
-
-  public voltageChanged() {
-    this.maximumPowerChanged();
-  }
-
-  public numberOfPhasesChanged() {
-    this.maximumPowerChanged();
+  public loadSiteArea() {
+    if (this.currentSiteAreaID) {
+      // Show spinner
+      this.spinnerService.show();
+      this.centralServerService.getSiteArea(this.currentSiteAreaID, true).subscribe((siteArea) => {
+        this.spinnerService.hide();
+        this.siteArea = siteArea;
+        // Check if OCPI has to be displayed
+        this.ocpiHasVisibleFields = siteArea.projectFields.includes('tariffID');
+        // Update form group
+        this.formGroup.updateValueAndValidity();
+        this.formGroup.markAsPristine();
+        this.formGroup.markAllAsTouched();
+      }, (error) => {
+        this.spinnerService.hide();
+        switch (error.status) {
+          case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+            this.messageService.showErrorMessage('site_areas.site_invalid');
+            break;
+          default:
+            Utils.handleHttpError(error, this.router, this.messageService,
+              this.centralServerService, 'general.unexpected_error_backend');
+        }
+      });
+    }
   }
 
   public refresh() {
     this.loadSiteArea();
-  }
-
-  public loadSiteArea() {
-    if (!this.currentSiteAreaID) {
-      return;
-    }
-    // Show spinner
-    this.spinnerService.show();
-    this.centralServerService.getSiteArea(this.currentSiteAreaID, true).subscribe((siteArea) => {
-      this.spinnerService.hide();
-      this.siteArea = siteArea;
-      this.canCreateSiteArea = this.canCreateSiteArea ||
-        this.authorizationService.isSiteAdmin(siteArea.siteID);
-      // if not admin switch in readonly mode
-      if (!this.canCreateSiteArea) {
-        this.formGroup.disable();
-      }
-      // Init form
-      if (Utils.objectHasProperty(siteArea, 'issuer')) {
-        this.formGroup.controls.issuer.setValue(siteArea.issuer);
-      }
-      if (siteArea.id) {
-        this.formGroup.controls.id.setValue(siteArea.id);
-      }
-      if (siteArea.name) {
-        this.formGroup.controls.name.setValue(siteArea.name);
-      }
-      if (siteArea.siteID) {
-        this.formGroup.controls.siteID.setValue(siteArea.siteID);
-      }
-      if (siteArea.site) {
-        this.site.setValue(siteArea.site.name);
-      }
-      if (siteArea.maximumPower) {
-        this.formGroup.controls.maximumPower.setValue(siteArea.maximumPower);
-      }
-      if (siteArea.numberOfPhases) {
-        this.formGroup.controls.numberOfPhases.setValue(siteArea.numberOfPhases);
-      }
-      if (siteArea.voltage) {
-        this.formGroup.controls.voltage.setValue(siteArea.voltage);
-      }
-      if (siteArea.smartCharging) {
-        this.formGroup.controls.smartCharging.setValue(siteArea.smartCharging);
-      } else {
-        this.formGroup.controls.smartCharging.setValue(false);
-      }
-      if (siteArea.accessControl) {
-        this.formGroup.controls.accessControl.setValue(siteArea.accessControl);
-      } else {
-        this.formGroup.controls.accessControl.setValue(false);
-      }
-      if (siteArea.address) {
-        this.address = siteArea.address;
-      }
-      this.refreshMaximumAmps();
-      // Update form group
-      this.formGroup.updateValueAndValidity();
-      this.formGroup.markAsPristine();
-      this.formGroup.markAllAsTouched();
-      // Get Site image
-      this.centralServerService.getSiteAreaImage(this.currentSiteAreaID).subscribe((siteAreaImage) => {
-        this.image = siteAreaImage ? siteAreaImage : Constants.NO_IMAGE;
-      });
-      this.canUpdateSiteArea = siteArea.canUpdate;
-      this.canCreateSiteArea = siteArea.canCreate;
-      if (!this.canUpdateSiteArea) {
-        this.formGroup.disable();
-      }
-    }, (error) => {
-      this.spinnerService.hide();
-      switch (error.status) {
-        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
-          this.messageService.showErrorMessage('site_areas.site_invalid');
-          break;
-        default:
-          Utils.handleHttpError(error, this.router, this.messageService,
-            this.centralServerService, 'general.unexpected_error_backend');
-      }
-    });
-  }
-
-  public updateSiteAreaImage(siteArea: SiteArea) {
-    if (this.imageHasChanged) {
-      // Set new image
-      if (this.image !== Constants.NO_IMAGE) {
-        siteArea.image = this.image;
-      } else {
-        siteArea.image = null;
-      }
-    } else {
-      // No changes
-      delete siteArea.image;
-    }
-  }
-
-  public updateSiteAreaCoordinates(siteArea: SiteArea) {
-    if (siteArea.address && siteArea.address.coordinates &&
-      !(siteArea.address.coordinates[0] || siteArea.address.coordinates[1])) {
-      delete siteArea.address.coordinates;
-    }
   }
 
   public saveSiteArea(siteArea: SiteArea) {
@@ -306,68 +106,6 @@ export class SiteAreaComponent implements OnInit {
     } else {
       this.createSiteArea(siteArea);
     }
-  }
-
-  public generateRegistrationToken() {
-    if (this.currentSiteAreaID) {
-      this.dialogService.createAndShowYesNoDialog(
-        this.translateService.instant('chargers.connections.registration_token_creation_title'),
-        this.translateService.instant('chargers.connections.registration_token_creation_confirm'),
-      ).subscribe((result) => {
-        if (result === ButtonType.YES) {
-          this.spinnerService.show();
-          this.centralServerService.createRegistrationToken({
-            siteAreaID: this.currentSiteAreaID,
-            description: this.translateService.instant(
-              'chargers.connections.registration_token_site_area_name', { siteAreaName: this.siteArea.name }),
-          }).subscribe((token) => {
-            this.spinnerService.hide();
-            if (token) {
-              this.loadRegistrationToken();
-              this.messageService.showSuccessMessage('chargers.connections.registration_token_creation_success');
-            } else {
-              Utils.handleError(null,
-                this.messageService, 'chargers.connections.registration_token_creation_error');
-            }
-          }, (error) => {
-            this.spinnerService.hide();
-            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-              'chargers.connections.registration_token_creation_error');
-          });
-        }
-      });
-    }
-  }
-
-  public copyUrl(url: string) {
-    Utils.copyToClipboard(url);
-    this.messageService.showInfoMessage('chargers.connections.url_copied');
-  }
-
-  public onImageChanged(event: any) {
-    // load picture
-    if (event.target.files && event.target.files[0]) {
-      const file = event.target.files[0];
-      if (file.size > (this.maxSize * 1024)) {
-        this.messageService.showErrorMessage('site_areas.image_size_error', { maxPictureKb: this.maxSize });
-      } else {
-        const reader = new FileReader();
-        reader.onload = () => {
-          this.image = reader.result as string;
-          this.imageHasChanged = true;
-          this.formGroup.markAsDirty();
-        };
-        reader.readAsDataURL(file);
-      }
-    }
-  }
-
-  public clearImage() {
-    // Clear
-    this.image = Constants.NO_IMAGE;
-    this.imageHasChanged = true;
-    // Set form dirty
-    this.formGroup.markAsDirty();
   }
 
   public closeDialog(saved: boolean = false) {
@@ -381,49 +119,16 @@ export class SiteAreaComponent implements OnInit {
       this.translateService, this.saveSiteArea.bind(this), this.closeDialog.bind(this));
   }
 
-  public refreshMaximumAmps() {
-    this.maximumPowerChanged();
-  }
-
-  public maximumPowerChanged() {
-    if (!this.maximumPower.errors && this.voltage.value && this.numberOfPhases.value ) {
-      this.maximumPowerAmps.setValue(
-        Math.floor((this.maximumPower.value as number) / (this.voltage.value as number) / (this.numberOfPhases.value as number)));
-    } else {
-      this.maximumPowerAmps.setValue(0);
-    }
-  }
-
-  private loadRegistrationToken() {
-    if (!this.currentSiteAreaID) {
-      return;
-    }
-    this.centralServerService.getRegistrationTokens({
-      SiteAreaID: this.currentSiteAreaID,
-    }).subscribe(((dataResult) => {
-      if (dataResult && dataResult.result) {
-        for (const registrationToken of dataResult.result) {
-          if (this.isRegistrationTokenValid(registrationToken)) {
-            this.registrationToken = registrationToken;
-            break;
-          }
-        }
-      }
-    }));
-  }
-
-  private isRegistrationTokenValid(registrationToken: RegistrationToken): boolean {
-    const now = moment();
-    return registrationToken.expirationDate && now.isBefore(registrationToken.expirationDate)
-      && (!registrationToken.revocationDate || now.isBefore(registrationToken.revocationDate));
+  public siteChanged(site: Site) {
+    this.siteAreaOcpiComponent?.siteChanged(site);
   }
 
   private createSiteArea(siteArea: SiteArea) {
     this.spinnerService.show();
     // Set the image
-    this.updateSiteAreaImage(siteArea);
+    this.siteAreaMainComponent.updateSiteAreaImage(siteArea);
     // Set coordinates
-    this.updateSiteAreaCoordinates(siteArea);
+    this.siteAreaMainComponent.updateSiteAreaCoordinates(siteArea);
     // Create
     this.centralServerService.createSiteArea(siteArea).subscribe((response) => {
       this.spinnerService.hide();
@@ -452,9 +157,9 @@ export class SiteAreaComponent implements OnInit {
   private updateSiteArea(siteArea: SiteArea) {
     this.spinnerService.show();
     // Set the image
-    this.updateSiteAreaImage(siteArea);
+    this.siteAreaMainComponent.updateSiteAreaImage(siteArea);
     // Set coordinates
-    this.updateSiteAreaCoordinates(siteArea);
+    this.siteAreaMainComponent.updateSiteAreaCoordinates(siteArea);
     // Update
     this.centralServerService.updateSiteArea(siteArea).subscribe((response) => {
       this.spinnerService.hide();

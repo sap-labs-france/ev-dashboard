@@ -1,10 +1,12 @@
-import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatFormField } from '@angular/material/form-field';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { MatSort } from '@angular/material/sort';
 import { MatDatetimepickerInputEvent } from '@mat-datetimepicker/core';
 import { TranslateService } from '@ngx-translate/core';
+import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
 import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, takeWhile } from 'rxjs/operators';
 
@@ -25,6 +27,8 @@ import { TableDataSource } from './table-data-source';
 export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() public dataSource!: TableDataSource<TableData>;
   @ViewChild('searchInput') public searchInput!: ElementRef;
+  @ViewChildren('ngxDatePickerElement') public datePickerElements!: QueryList<MatFormField>;
+  @ViewChildren(DaterangepickerDirective) public datePickers: QueryList<DaterangepickerDirective>;
   public searchPlaceholder = '';
   public ongoingAutoRefresh = false;
   public sort: MatSort = new MatSort();
@@ -132,6 +136,29 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     this.dataSource.filterChanged(filterDef);
     // this.updateUrlWithFilters(filterDef);
     this.refresh();
+  }
+
+  public dateRangeChanged(filterDef: TableFilterDef, event: any) {
+    const currentValue = filterDef.currentValue;
+    if (currentValue?.startDate !== event.startDate || currentValue?.endDate !== event.endDate) {
+      filterDef.currentValue = {
+        startDate: event?.startDate.toDate(),
+        endDate: event?.endDate.toDate()
+      };
+      this.filterChanged(filterDef);
+    }
+  }
+
+  public openDateRanges(parent: MatFormField) {
+    const parentHTMLElement = (parent.getConnectedOverlayOrigin().nativeElement as HTMLElement);
+    for (const picker of this.datePickers) {
+      // Close any other open pickers
+      if (parentHTMLElement.contains(picker.picker.pickerContainer.nativeElement as HTMLElement)) {
+        picker.toggle();
+      } else {
+        picker.hide();
+      }
+    }
   }
 
   public updateUrlWithFilters(filter: TableFilterDef) {

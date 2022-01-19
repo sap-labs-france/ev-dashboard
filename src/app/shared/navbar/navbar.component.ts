@@ -102,7 +102,9 @@ export class NavbarComponent implements OnInit {
 
   public ngOnInit() {
     if (this.activatedRoute && this.activatedRoute.routeConfig && this.activatedRoute.routeConfig.children) {
-      this.listTitles = this.activatedRoute.routeConfig.children.filter((route) => route.data && route.data.menu && this.guard.isRouteAllowed(route)).map((route) => route.data ? route.data.menu : null);
+      this.listTitles = this.activatedRoute.routeConfig.children
+        .filter((route) => route.data && route.data.menu && this.guard.isRouteAllowed(route))
+        .map((route) => route.data ? route.data.menu : null);
     }
     const navbar: HTMLElement = this.element.nativeElement;
     const body = document.getElementsByTagName('body')[0];

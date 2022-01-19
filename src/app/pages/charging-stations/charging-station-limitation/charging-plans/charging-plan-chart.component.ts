@@ -5,7 +5,7 @@ import * as moment from 'moment';
 
 import { LocaleService } from '../../../../services/locale.service';
 import { AppDatePipe } from '../../../../shared/formatters/app-date.pipe';
-import { AppDecimalPipe } from '../../../../shared/formatters/app-decimal-pipe';
+import { AppDecimalPipe } from '../../../../shared/formatters/app-decimal.pipe';
 import { AppDurationPipe } from '../../../../shared/formatters/app-duration.pipe';
 import { Schedule } from '../../../../types/ChargingProfile';
 import { ChargePoint, ChargingStation, ChargingStationPowers } from '../../../../types/ChargingStation';

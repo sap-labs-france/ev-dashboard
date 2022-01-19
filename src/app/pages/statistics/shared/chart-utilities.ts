@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import { ElementRef } from '@angular/core';
 import { Chart, ChartData, ChartDataSets, ChartOptions, ChartType } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';

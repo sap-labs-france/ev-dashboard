@@ -9,7 +9,7 @@ import { ConfigService } from '../../../services/config.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
-import { AppDecimalPipe } from '../../../shared/formatters/app-decimal-pipe';
+import { AppDecimalPipe } from '../../../shared/formatters/app-decimal.pipe';
 import { AppUnitPipe } from '../../../shared/formatters/app-unit.pipe';
 import { TableSyncCarCatalogsAction, TableSyncCarCatalogsActionDef } from '../../../shared/table/actions/cars/table-sync-car-catalogs-action';
 import { TableViewCarCatalogAction, TableViewCarCatalogActionDef } from '../../../shared/table/actions/cars/table-view-car-catalog-action';

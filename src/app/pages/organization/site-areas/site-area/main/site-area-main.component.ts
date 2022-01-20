@@ -4,6 +4,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
+import { SiteAreasDialogComponent } from 'shared/dialogs/site-areas/site-areas-dialog.component';
 
 import { CentralServerService } from '../../../../../services/central-server.service';
 import { ComponentService } from '../../../../../services/component.service';
@@ -41,6 +42,8 @@ export class SiteAreaMainComponent implements OnInit,OnChanges {
   public name!: AbstractControl;
   public site!: AbstractControl;
   public siteID!: AbstractControl;
+  public parentSiteArea!: AbstractControl;
+  public parentSiteAreaID!: AbstractControl;
   public maximumPower!: AbstractControl;
   public maximumPowerAmps!: AbstractControl;
   public voltage!: AbstractControl;
@@ -92,6 +95,8 @@ export class SiteAreaMainComponent implements OnInit,OnChanges {
         Validators.required,
       ])
     ));
+    this.formGroup.addControl('parentSiteArea', new FormControl(null));
+    this.formGroup.addControl('parentSiteAreaID', new FormControl(null));
     this.formGroup.addControl('maximumPower', new FormControl(0,
       Validators.compose([
         Validators.pattern(/^[+-]?([0-9]*[.])?[0-9]+$/),
@@ -120,6 +125,8 @@ export class SiteAreaMainComponent implements OnInit,OnChanges {
     this.name = this.formGroup.controls['name'];
     this.site = this.formGroup.controls['site'];
     this.siteID = this.formGroup.controls['siteID'];
+    this.parentSiteArea = this.formGroup.controls['parentSiteArea'];
+    this.parentSiteAreaID = this.formGroup.controls['parentSiteAreaID'];
     this.maximumPower = this.formGroup.controls['maximumPower'];
     this.maximumPowerAmps = this.formGroup.controls['maximumPowerAmps'];
     this.smartCharging = this.formGroup.controls['smartCharging'];
@@ -153,6 +160,12 @@ export class SiteAreaMainComponent implements OnInit,OnChanges {
       }
       if (this.siteArea.site) {
         this.site.setValue(this.siteArea.site.name);
+      }
+      if (this.siteArea.parentSiteAreaID) {
+        this.formGroup.controls.parentSiteAreaID.setValue(this.siteArea.parentSiteAreaID);
+      }
+      if (this.siteArea.parentSiteArea) {
+        this.formGroup.controls.parentSiteArea.setValue(this.siteArea.parentSiteArea.name);
       }
       if (this.siteArea.maximumPower) {
         this.formGroup.controls.maximumPower.setValue(this.siteArea.maximumPower);
@@ -215,6 +228,38 @@ export class SiteAreaMainComponent implements OnInit,OnChanges {
     });
   }
 
+  public assignParentSiteArea() {
+    // Create the dialog
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.panelClass = 'transparent-dialog-container';
+    dialogConfig.data = {
+      title: 'site_areas.select_parent_site_area',
+      validateButtonTitle: 'general.select',
+      sitesAdminOnly: true,
+      rowMultipleSelection: false,
+      currentSiteAreaID: this.currentSiteAreaID,
+      staticFilter: {
+        Issuer: true
+      }
+    };
+    // Open
+    this.dialog.open(SiteAreasDialogComponent, dialogConfig).afterClosed().subscribe((result) => {
+      if (!Utils.isEmptyArray(result) && result[0].objectRef) {
+        const parentSiteArea: SiteArea = (result[0].objectRef) as SiteArea;
+        if (!this.siteArea || parentSiteArea.id !== this.siteArea.id) {
+          this.parentSiteArea.setValue(parentSiteArea.name);
+          this.parentSiteAreaID.setValue(parentSiteArea.id);
+          this.formGroup.markAsDirty();
+        } else {
+          this.dialogService.createAndShowOkDialog(
+            this.translateService.instant('site_areas.site_area_hierarchy_error_title'),
+            this.translateService.instant('site_areas.site_area_hierarchy_circular_structure_error_body')
+          );
+        }
+      }
+    });
+  }
+
   public updateSiteAreaCoordinates(siteArea: SiteArea) {
     if (siteArea.address && siteArea.address.coordinates &&
       !(siteArea.address.coordinates[0] || siteArea.address.coordinates[1])) {
@@ -268,6 +313,14 @@ export class SiteAreaMainComponent implements OnInit,OnChanges {
     } else {
       this.maximumPowerAmps.setValue(0);
     }
+  }
+
+  public clearParent() {
+    this.siteArea.parentSiteAreaID = null;
+    this.siteArea.parentSiteArea = null;
+    this.parentSiteAreaID.setValue(null);
+    this.parentSiteArea.setValue(null);
+    this.formGroup.markAsDirty();
   }
 
   public generateRegistrationToken() {

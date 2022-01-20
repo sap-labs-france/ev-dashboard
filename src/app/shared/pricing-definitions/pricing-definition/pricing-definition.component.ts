@@ -174,19 +174,25 @@ export class PricingDefinitionComponent implements OnInit {
         energy: new FormGroup({
           active: new FormControl(false),
           price: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_FLOAT)),
-          stepSize: new FormControl(null),
+          stepSize: new FormControl(null,  Validators.compose([
+            Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)
+          ])),
           stepSizeEnabled: new FormControl(false)
         }),
         chargingTime: new FormGroup({
           active: new FormControl(false),
           price: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_FLOAT)),
-          stepSize: new FormControl(null),
+          stepSize: new FormControl(null, Validators.compose([
+            Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)
+          ])),
           stepSizeEnabled: new FormControl(false)
         }),
         parkingTime: new FormGroup({
           active: new FormControl(false),
           price: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_FLOAT)),
-          stepSize: new FormControl(null),
+          stepSize: new FormControl(null,  Validators.compose([
+            Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)
+          ])),
           stepSizeEnabled: new FormControl(false)
         }),
       })

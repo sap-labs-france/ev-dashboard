@@ -203,7 +203,7 @@
                     <!-- value -->
                     <div class="col-md-2">
                       <mat-form-field *ngIf="chargingTimeStepEnabled.value">
-                        <mat-label>{{'settings.pricing.charging_time_step_unit' | translate}}</mat-label>
+                        <mat-label>{{'settings.pricing.time_step_unit' | translate}}</mat-label>
                         <input matInput type="text" placeholder="{{'settings.pricing.value' | translate}}"
                         [formControl]="chargingTimeStepValue" required/>
                         <mat-error *ngIf="chargingTimeStepValue?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
@@ -241,7 +241,7 @@
                     <!-- value -->
                     <div class="col-md-2">
                       <mat-form-field *ngIf="parkingTimeStepEnabled.value">
-                        <mat-label>{{'settings.pricing.parking_time_step_unit' | translate }}</mat-label>
+                        <mat-label>{{'settings.pricing.time_step_unit' | translate }}</mat-label>
                         <input matInput type="text" placeholder="{{'settings.pricing.value' | translate}}"
                         [formControl]="parkingTimeStepValue" required/>
                         <mat-error *ngIf="parkingTimeStepValue?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>

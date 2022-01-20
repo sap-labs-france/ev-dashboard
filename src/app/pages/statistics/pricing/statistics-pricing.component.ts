@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { ChartData } from 'chart.js';
+
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
 import { LocaleService } from '../../../services/locale.service';
@@ -11,7 +12,6 @@ import { TenantComponents } from '../../../types/Tenant';
 import { SimpleChart } from '../shared/chart-utilities';
 import { StatisticsBuildService, StatisticsBuildValueWithUnit } from '../shared/statistics-build.service';
 import { StatisticsExportService } from '../shared/statistics-export.service';
-
 
 @Component({
   selector: 'app-statistics-pricing',

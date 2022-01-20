@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import { ElementRef } from '@angular/core';
-import { Chart, ChartData, ChartDataSets, ChartOptions, ChartType } from 'chart.js';
+import { Chart, ChartData, ChartDataset, ChartOptions, ChartType, ScaleChartOptions } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Font } from 'chartjs-plugin-datalabels/types/options';
 import { Utils } from 'utils/Utils';
@@ -43,40 +43,41 @@ export class SimpleChart {
     toolTipUnit?: string,
     withLegend = false,
     roundedChartLabels = true) {
+    Chart.register(ChartDataLabels);
     // Unregister global activation of Chart labels
-    Chart.plugins.unregister(ChartDataLabels);
-    Chart.Tooltip.positioners.customBar = (elements, eventPosition) => {
-      // Put the tooltip at the center of the selected bar (or bar section), and not at the top:
-      // @param elements {Chart.Element[]} the tooltip elements
-      // @param eventPosition {Point} the position of the event in canvas coordinates
-      // @returns {Point} the tooltip position
-      let yOffset = 0;
-      let sum = 0;
-      const dataSets = elements[0]._chart.data.datasets;
-      if (Array.isArray(dataSets)) {
-        if (dataSets.length === 1) {
-          yOffset = (elements[0]._chart.scales['y-axis-0'].bottom - elements[0]._model.y) / 2;
-        } else {
-          for (let i = 0; i < dataSets.length; i++) {
-            if (i <= elements[0]._datasetIndex &&
-              dataSets[i].stack === dataSets[elements[0]._datasetIndex].stack) {
-              sum += dataSets[i].data[elements[0]._index];
-            }
-          }
-          if (sum === 0) {
-            yOffset = (elements[0]._chart.scales['y-axis-0'].bottom - elements[0]._model.y) / 2;
-          } else {
-            yOffset = dataSets[elements[0]._datasetIndex].data[elements[0]._index] / sum;
-            yOffset *= (elements[0]._chart.scales['y-axis-0'].bottom - elements[0]._model.y) / 2;
-          }
-        }
-      }
+    // Chart.plugins.unregister(ChartDataLabels);
+    // Chart.Tooltip.positioners.customBar = (elements, eventPosition) => {
+    //   // Put the tooltip at the center of the selected bar (or bar section), and not at the top:
+    //   // @param elements {Chart.Element[]} the tooltip elements
+    //   // @param eventPosition {Point} the position of the event in canvas coordinates
+    //   // @returns {Point} the tooltip position
+    //   let yOffset = 0;
+    //   let sum = 0;
+    //   const dataSets = elements[0]._chart.data.datasets;
+    //   if (Array.isArray(dataSets)) {
+    //     if (dataSets.length === 1) {
+    //       yOffset = (elements[0]._chart.scales['y-axis-0'].bottom - elements[0]._model.y) / 2;
+    //     } else {
+    //       for (let i = 0; i < dataSets.length; i++) {
+    //         if (i <= elements[0]._datasetIndex &&
+    //           dataSets[i].stack === dataSets[elements[0]._datasetIndex].stack) {
+    //           sum += dataSets[i].data[elements[0]._index];
+    //         }
+    //       }
+    //       if (sum === 0) {
+    //         yOffset = (elements[0]._chart.scales['y-axis-0'].bottom - elements[0]._model.y) / 2;
+    //       } else {
+    //         yOffset = dataSets[elements[0]._datasetIndex].data[elements[0]._index] / sum;
+    //         yOffset *= (elements[0]._chart.scales['y-axis-0'].bottom - elements[0]._model.y) / 2;
+    //       }
+    //     }
+    //   }
 
-      return {
-        x: elements[0]._model.x,
-        y: elements[0]._model.y + yOffset,
-      };
-    };
+    //   return {
+    //     x: elements[0]._model.x,
+    //     y: elements[0]._model.y + yOffset,
+    //   };
+    // };
 
     this.language = language;
 
@@ -159,7 +160,7 @@ export class SimpleChart {
 
   public toggleHideLegend(withUpdate: boolean = true) {
     this.withLegend = !this.withLegend;
-    this.chartOptions.legend.display = this.withLegend;
+    this.chartOptions.plugins.legend.display = this.withLegend;
     const anyChart = this.chart; // type Chart does not know 'options'
     anyChart.options = this.chartOptions;
     this.chart = anyChart;
@@ -178,9 +179,9 @@ export class SimpleChart {
       });
     } else {
       const meta = this.chart.getDatasetMeta(0);
-      meta.data.forEach((object) => {
-        object.hidden = this.itemsHidden;
-      });
+      // meta.data.forEach((object) => {
+      //   object.hidden = this.itemsHidden;
+      // });
     }
     this.chart.update();
   }
@@ -193,7 +194,7 @@ export class SimpleChart {
     if (chartData && chartData.datasets && chartData.labels) {
       newChartData = { labels: [], datasets: [] };
       newChartData.labels = chartData.labels.slice();
-      const datasets: ChartDataSets[] = [];
+      const datasets: ChartDataset[] = [];
       chartData.datasets.forEach((dataset) => {
         numberArray = [];
         anyArray = [];
@@ -225,12 +226,14 @@ export class SimpleChart {
     this.withLegend = withLegend;
     this.roundedChartLabels = roundedChartLabels;
     this.chartOptions = {};
-    this.chartOptions.title = {
+    this.chartOptions.plugins.title = {
       display: true,
       text: mainLabel,
-      fontStyle: 'bold',
+      font: {
+        weight: 'bold',
+      },
     };
-    this.chartOptions.legend = {
+    this.chartOptions.plugins.legend = {
       display: withLegend,
       labels: {},
       position: 'bottom',
@@ -243,53 +246,57 @@ export class SimpleChart {
       duration: 2000,
       easing: 'easeOutBounce',
     };
-    this.chartOptions.tooltips = {
+    this.chartOptions.plugins.tooltip = {
       enabled: true,
-      position: 'customBar',
+      // position: 'customBar',
       callbacks: {
-        label: (tooltipItem, data) => {
-          let value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
-          let toolTip: string;
+        // label: (tooltipItem, data) => {
+        //   let value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+        //   let toolTip: string;
 
-          if (this.roundedChartLabels &&
-            typeof (value) === 'number') {
-            value = Math.round(value);
-          }
-          if (this.stackedChart) {
-            toolTip = data.datasets[tooltipItem.datasetIndex].label
-              + ' : ' + value.toLocaleString(this.language);
-          } else {
-            toolTip = value.toLocaleString(this.language);
-          }
-          if (toolTipUnit) {
-            toolTip = toolTip + ` ${toolTipUnit}`;
-          }
-          return toolTip;
-        },
+        //   if (this.roundedChartLabels &&
+        //     typeof (value) === 'number') {
+        //     value = Math.round(value);
+        //   }
+        //   if (this.stackedChart) {
+        //     toolTip = data.datasets[tooltipItem.datasetIndex].label
+        //       + ' : ' + value.toLocaleString(this.language);
+        //   } else {
+        //     toolTip = value.toLocaleString(this.language);
+        //   }
+        //   if (toolTipUnit) {
+        //     toolTip = toolTip + ` ${toolTipUnit}`;
+        //   }
+        //   return toolTip;
+        // },
       },
     };
     this.chartOptions.scales = {
-      xAxes: [{
+      x:{
         stacked,
-        scaleLabel: {
+        title: {
           display: true,
-          labelString: labelXAxis,
-          fontStyle: 'bold',
+          text: labelXAxis,
+          font: {
+            weight: 'bold',
+          },
         },
         ticks: {},
-      }],
-      yAxes: [{
+      },
+      y: {
         stacked,
-        scaleLabel: {
+        title: {
           display: true,
-          labelString: labelYAxis,
-          fontStyle: 'bold',
+          text: labelYAxis,
+          font: {
+            weight: 'bold',
+          },
         },
+        beginAtZero: true,
         ticks: {
-          beginAtZero: true,
           callback: (value, index, values) => value.toLocaleString(this.language),
         },
-      }]
+      }
     };
   }
 
@@ -299,12 +306,14 @@ export class SimpleChart {
     this.withLegend = withLegend;
     this.roundedChartLabels = roundedChartLabels;
     this.chartOptions = {};
-    this.chartOptions.title = {
+    this.chartOptions.plugins.title = {
       display: true,
       text: mainLabel,
-      fontStyle: 'bold',
+      font: {
+        weight: 'bold',
+      },
     };
-    this.chartOptions.legend = {
+    this.chartOptions.plugins.legend = {
       display: withLegend,
       labels: {},
       position: 'bottom',
@@ -317,25 +326,25 @@ export class SimpleChart {
       duration: 2000,
       easing: 'easeOutBounce',
     };
-    this.chartOptions.tooltips = {
+    this.chartOptions.plugins.tooltip = {
       enabled: true,
       callbacks: {
-        label: (tooltipItem, data) => {
-          let value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
-          let toolTip: string;
+        // label: (tooltipItem, data) => {
+        //   let value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+        //   let toolTip: string;
 
-          if (this.roundedChartLabels &&
-            typeof (value) === 'number') {
-            value = Math.round(value);
-          }
-          toolTip = data.labels[tooltipItem.index] + ' : '
-            + value.toLocaleString(this.language);
+        //   if (this.roundedChartLabels &&
+        //     typeof (value) === 'number') {
+        //     value = Math.round(value);
+        //   }
+        //   toolTip = data.labels[tooltipItem.index] + ' : '
+        //     + value.toLocaleString(this.language);
 
-          if (toolTipUnit) {
-            toolTip = toolTip + ` ${toolTipUnit}`;
-          }
-          return toolTip;
-        },
+        //   if (toolTipUnit) {
+        //     toolTip = toolTip + ` ${toolTipUnit}`;
+        //   }
+        //   return toolTip;
+        // },
       },
     };
   }
@@ -344,39 +353,37 @@ export class SimpleChart {
     let minValue = 0;
     let minDivisor: any;
     if (mainLabel) {
-      this.chartOptions.title.text = mainLabel;
+      this.chartOptions.plugins.title.text = mainLabel;
     }
-    this.chartOptions.title.fontColor = this.fontColor;
-    this.chartOptions.title.fontFamily = this.fontFamily;
-    this.chartOptions.title.fontSize = this.fontSizeNumber;
+    this.chartOptions.plugins.title.color = this.fontColor;
+    this.chartOptions.plugins.title.font.family = this.fontFamily;
+    this.chartOptions.plugins.title.font.size = this.fontSizeNumber;
     if (this.withLegend) {
-      this.chartOptions.legend.labels.fontColor = this.fontColor;
-      this.chartOptions.legend.labels.fontFamily = this.fontFamily;
+      this.chartOptions.plugins.legend.labels.color = this.fontColor;
+      this.chartOptions.plugins.legend.labels.font.family = this.fontFamily;
     }
     if (this.chartType === 'pie') {
       minDivisor = this.constMinDivisorPie;
     } else {
       minDivisor = this.constMinDivisorBar;
-      this.chartOptions.scales.xAxes.forEach((xAxis) => {
-        xAxis.scaleLabel.fontColor = this.fontColor;
-        xAxis.scaleLabel.fontFamily = this.fontFamily;
-        xAxis.ticks.fontColor = this.fontColor;
-        xAxis.ticks.fontFamily = this.fontFamily;
-      });
-      this.chartOptions.scales.yAxes.forEach((yAxis) => {
-        yAxis.scaleLabel.fontColor = this.fontColor;
-        yAxis.scaleLabel.fontFamily = this.fontFamily;
-        yAxis.ticks.fontColor = this.fontColor;
-        yAxis.ticks.fontFamily = this.fontFamily;
-      });
+      const x = this.chartOptions.scales.x;
+      // x.title.color = this.fontColor;
+      // x.title.font.family = this.fontFamily;
+      // x.ticks.color = this.fontColor;
+      // x.ticks.font.family = this.fontFamily;
+      // const y = this.chartOptions.scales.y;
+      // y.title.color = this.fontColor;
+      // y.title.font.family = this.fontFamily;
+      // y.ticks.color = this.fontColor;
+      // y.ticks.font.family = this.fontFamily;
     }
-    this.chartOptions.tooltips.backgroundColor = this.fontColor;
-    this.chartOptions.tooltips.bodyFontFamily = this.fontFamily;
-    this.chartOptions.tooltips.footerFontFamily = this.fontFamily;
-    this.chartOptions.tooltips.titleFontFamily = this.fontFamily;
-    this.chartOptions.tooltips.bodyFontColor = this.inversedFontColor;
-    this.chartOptions.tooltips.footerFontColor = this.inversedFontColor;
-    this.chartOptions.tooltips.titleFontColor = this.inversedFontColor;
+    this.chartOptions.plugins.tooltip.backgroundColor = this.fontColor;
+    // this.chartOptions.plugins.tooltip.bodyFont.family = this.fontFamily;
+    // this.chartOptions.plugins.tooltip.footerFont.family = this.fontFamily;
+    // this.chartOptions.plugins.tooltip.titleFont.family = this.fontFamily;
+    this.chartOptions.plugins.tooltip.bodyColor = this.inversedFontColor;
+    this.chartOptions.plugins.tooltip.footerColor = this.inversedFontColor;
+    this.chartOptions.plugins.tooltip.titleColor = this.inversedFontColor;
     if (this.stackedChart) {
       chartData.datasets.forEach((dataset) => {
         if (Array.isArray(dataset.data) === true &&
@@ -442,9 +449,9 @@ export class SimpleChart {
       chartData.datasets.forEach((dataset) => {
         dataset.hidden = false;
         dataset.backgroundColor = [];
-        for (let i = 0; i < dataset.data.length; i++) {
-          dataset.backgroundColor.push(this.getColorCode(i));
-        }
+        // for (let i = 0; i < dataset.data.length; i++) {
+        //   dataset.backgroundColor.push(this.getColorCode(i));
+        // }
         dataset.borderWidth = 0;
       });
     }

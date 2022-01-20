@@ -59,13 +59,18 @@ export class MessageService {
     this.showMessage('danger', message, title, params);
   }
 
-  public showActionsMessage(actionsResponse: ActionsResponse, messageSuccess: string, messageError: string, messageSuccessAndError: string, messageNoSuccessNoError: string): void {
+  public showActionsMessage(actionsResponse: ActionsResponse, messageSuccess: string, messageError: string,
+    messageSuccessAndError: string, messageNoSuccessNoError: string, displaySuccessAsInfo = false): void {
     // Success and Error
     if (actionsResponse.inSuccess > 0 && actionsResponse.inError > 0) {
       this.showWarningMessage(messageSuccessAndError, { inSuccess: actionsResponse.inSuccess, inError: actionsResponse.inError });
     // Success
     } else if (actionsResponse.inSuccess > 0) {
-      this.showSuccessMessage(messageSuccess, { inSuccess: actionsResponse.inSuccess });
+      if (displaySuccessAsInfo) {
+        this.showInfoMessage(messageSuccess, { inSuccess: actionsResponse.inSuccess });
+      } else {
+        this.showSuccessMessage(messageSuccess, { inSuccess: actionsResponse.inSuccess });
+      }
     } else if (actionsResponse.inError > 0) {
       this.showErrorMessage(messageError, { inError: actionsResponse.inError });
     } else {

@@ -1,7 +1,7 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { Utils } from 'utils/Utils';
 
-import { AppDecimalPipe } from '../../../shared/formatters/app-decimal-pipe';
+import { AppDecimalPipe } from '../../../shared/formatters/app-decimal.pipe';
 import { CellContentTemplateDirective } from '../../../shared/table/cell-content-template/cell-content-template.directive';
 import { Connector } from '../../../types/ChargingStation';
 

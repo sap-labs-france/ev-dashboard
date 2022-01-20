@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-import { AppDecimalPipe } from './app-decimal-pipe';
+import { AppDecimalPipe } from './app-decimal.pipe';
 
 @Pipe({ name: 'appUnit' })
 export class AppUnitPipe implements PipeTransform {

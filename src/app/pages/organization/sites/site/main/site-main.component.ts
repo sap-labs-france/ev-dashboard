@@ -1,13 +1,15 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { CentralServerService } from 'services/central-server.service';
-import { MessageService } from 'services/message.service';
-import { CompaniesDialogComponent } from 'shared/dialogs/companies/companies-dialog.component';
+
 import { Address } from 'types/Address';
+import { CentralServerService } from 'services/central-server.service';
+import { CompaniesDialogComponent } from 'shared/dialogs/companies/companies-dialog.component';
 import { Company } from 'types/Company';
-import { Site } from 'types/Site';
+import { ConfigService } from 'services/config.service';
 import { Constants } from 'utils/Constants';
+import { MessageService } from 'services/message.service';
+import { Site } from 'types/Site';
 import { Utils } from 'utils/Utils';
 
 @Component({
@@ -21,8 +23,8 @@ export class SiteMainComponent implements OnInit, OnChanges {
   @Input() public readOnly: boolean;
   @Output() public publicChanged = new EventEmitter<boolean>();
 
-  public siteImageSet = false;
   public image = Constants.NO_IMAGE;
+  public siteImageSet = false;
   public maxSize: number;
 
   public issuer!: AbstractControl;
@@ -39,7 +41,9 @@ export class SiteMainComponent implements OnInit, OnChanges {
   public constructor(
     private centralServerService: CentralServerService,
     private dialog: MatDialog,
+    private configService: ConfigService,
     private messageService: MessageService) {
+    this.maxSize = this.configService.getSite().maxPictureKb;
   }
 
   public ngOnInit(): void {
@@ -114,7 +118,7 @@ export class SiteMainComponent implements OnInit, OnChanges {
         this.centralServerService.getSiteImage(this.currentSiteID).subscribe((siteImage) => {
           this.siteImageSet = true;
           if (siteImage) {
-            this.image = siteImage ? siteImage : Constants.NO_IMAGE;
+            this.image = siteImage;
           }
         });
       }

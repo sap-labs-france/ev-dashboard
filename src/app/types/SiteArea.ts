@@ -19,6 +19,7 @@ export interface SiteArea extends TableData, SiteAreaAuthorizationActions {
   site: Site;
   issuer: boolean;
   chargingStations: ChargingStation[];
+  tariffID?: string;
 }
 
 export enum SiteAreaValueTypes {

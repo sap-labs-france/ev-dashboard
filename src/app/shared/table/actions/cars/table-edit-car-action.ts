@@ -25,12 +25,12 @@ export class TableEditCarAction extends TableEditAction {
   private editCar(carDialogComponent: ComponentType<unknown>, dialog: MatDialog,
     dialogParams: DialogParams<Car>, refresh?: () => Observable<void>) {
     super.edit(carDialogComponent, dialog, dialogParams, refresh, {
-      minWidth: ScreenSize.S,
-      maxWidth: ScreenSize.XXL,
+      minWidth: ScreenSize.L,
+      maxWidth: ScreenSize.XXXL,
       width: ScreenSize.XXL,
       minHeight: ScreenSize.S,
-      maxHeight: ScreenSize.XXXL,
-      height: ScreenSize.ML
+      maxHeight: ScreenSize.L,
+      height: ScreenSize.M
     });
   }
 }

@@ -115,6 +115,7 @@ export enum ScreenSize {
   XXS = '20',
   XS = '30',
   S = '40',
+  SM = '45',
   M = '50',
   ML = '55',
   L = '60',

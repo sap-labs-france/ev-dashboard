@@ -23,12 +23,12 @@ export class TableCreateAssetAction extends TableCreateAction {
 
   private createAsset(assetDialogComponent: ComponentType<unknown>, dialog: MatDialog, refresh?: () => Observable<void>) {
     super.create(assetDialogComponent, dialog, null, refresh, {
-      minWidth: ScreenSize.S,
-      maxWidth: ScreenSize.XXL,
+      minWidth: ScreenSize.L,
+      maxWidth: ScreenSize.XXXL,
       width: ScreenSize.XXL,
       minHeight: ScreenSize.S,
-      maxHeight: ScreenSize.XXXL,
-      height: ScreenSize.SM
+      maxHeight: ScreenSize.L,
+      height: ScreenSize.M
     });
   }
 }

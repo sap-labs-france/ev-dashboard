@@ -8,7 +8,7 @@
             <mat-icon>portrait</mat-icon>
             <span>{{'general.general' | translate}}</span>
           </ng-template>
-          <div class="card-body">
+          <div class="card-body mat-tab-dialog-body-content">
             <app-user-main #userMainComponent [formGroup]="formGroup" [user]='user' [currentUserID]='currentUserID'
               [metadata]='metadata' (roleChanged)="roleChanged($event)">
             </app-user-main>

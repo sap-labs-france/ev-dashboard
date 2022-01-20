@@ -25,7 +25,7 @@ export class TableEditChargingStationAction extends TableEditAction {
   private editChargingStation(chargingStationDialogComponent: ComponentType<unknown>, dialog: MatDialog,
     dialogParams: DialogParams<ChargingStation>, refresh?: () => Observable<void>) {
     super.edit(chargingStationDialogComponent, dialog, dialogParams, refresh, {
-      minWidth: ScreenSize.S,
+      minWidth: ScreenSize.L,
       maxWidth: ScreenSize.XXL,
       width: ScreenSize.XL,
       minHeight: ScreenSize.S,

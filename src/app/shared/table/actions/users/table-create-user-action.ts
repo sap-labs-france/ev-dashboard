@@ -25,12 +25,12 @@ export class TableCreateUserAction extends TableCreateAction {
   private createUser(userDialogComponent: ComponentType<unknown>,
     dialog: MatDialog, dialogParams?: DialogParams<User>, refresh?: () => Observable<void>) {
     super.create(userDialogComponent, dialog, dialogParams, refresh, {
-      minWidth: ScreenSize.S,
+      minWidth: ScreenSize.L,
       maxWidth: ScreenSize.XXL,
-      width: ScreenSize.XXL,
+      width: ScreenSize.XL,
       minHeight: ScreenSize.S,
-      maxHeight: ScreenSize.XXXL,
-      height: ScreenSize.ML
+      maxHeight: ScreenSize.L,
+      height: ScreenSize.M
     });
   }
 }

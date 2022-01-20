@@ -19,11 +19,10 @@
   .card-body {
     position: relative;
     overflow: auto;
-    max-height: 80vh;
+    max-height: 90vh;
     & .mat-toolbar {
       padding-left: 0px !important;
       padding-right: 0px !important;
-      margin-bottom: 1em;
     }
     & > .mat-toolbar, .mat-toolbar-row {
       padding-left: 0px !important;
@@ -310,5 +309,9 @@
 
   .card-body.table-full-width {
     padding: 0;
+  }
+
+  .form {
+    height: 100%;
   }
 }

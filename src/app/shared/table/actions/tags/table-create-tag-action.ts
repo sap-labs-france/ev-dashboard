@@ -27,10 +27,10 @@ export class TableCreateTagAction extends TableCreateAction {
     dialog: MatDialog, dialogParams?: DialogParams<Tag>, refresh?: () => Observable<void>) {
     super.create(tagDialogComponent, dialog, dialogParams, refresh, {
       minWidth: ScreenSize.S,
-      maxWidth: ScreenSize.XXL,
+      maxWidth: ScreenSize.L,
       width: ScreenSize.M,
       minHeight: ScreenSize.S,
-      maxHeight: ScreenSize.XXXL,
+      maxHeight: ScreenSize.L,
       height: ScreenSize.M
     });
   }

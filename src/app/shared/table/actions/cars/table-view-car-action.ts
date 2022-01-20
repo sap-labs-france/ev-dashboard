@@ -25,12 +25,12 @@ export class TableViewCarAction extends TableViewAction {
   private viewCar(carDialogComponent: ComponentType<unknown>, dialog: MatDialog,
     dialogParams: DialogParams<Car>, refresh?: () => Observable<void>) {
     super.view(carDialogComponent, dialog, dialogParams, refresh, {
-      minWidth: ScreenSize.S,
-      maxWidth: ScreenSize.XXL,
+      minWidth: ScreenSize.L,
+      maxWidth: ScreenSize.XXXL,
       width: ScreenSize.XXL,
       minHeight: ScreenSize.S,
-      maxHeight: ScreenSize.XXXL,
-      height: ScreenSize.ML
+      maxHeight: ScreenSize.L,
+      height: ScreenSize.M
     });
   }
 }

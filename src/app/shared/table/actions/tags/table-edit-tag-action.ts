@@ -26,10 +26,10 @@ export class TableEditTagAction extends TableEditAction {
     dialogParams: DialogParams<Tag>, refresh?: () => Observable<void>) {
     super.edit(tagDialogComponent, dialog, dialogParams, refresh, {
       minWidth: ScreenSize.S,
-      maxWidth: ScreenSize.XXL,
+      maxWidth: ScreenSize.L,
       width: ScreenSize.M,
       minHeight: ScreenSize.S,
-      maxHeight: ScreenSize.XXXL,
+      maxHeight: ScreenSize.L,
       height: ScreenSize.M
     });
   }

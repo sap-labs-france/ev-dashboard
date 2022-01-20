@@ -29,7 +29,7 @@ export class TableCreateSiteAreaAction extends TableCreateAction {
       width: ScreenSize.XL,
       minHeight: ScreenSize.L,
       maxHeight: ScreenSize.XXL,
-      height: ScreenSize.XL
+      height: ScreenSize.XLXXL
     });
   }
 }

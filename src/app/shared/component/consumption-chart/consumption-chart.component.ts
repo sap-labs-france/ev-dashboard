@@ -592,7 +592,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
           },
         },
       },
-      interaction: {
+      hover: {
         mode: 'index',
         intersect: false,
       },

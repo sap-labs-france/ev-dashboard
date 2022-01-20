@@ -28,4 +28,6 @@ export enum ConsumptionChartDatasetOrder {
   ASSET_PRODUCTION_AMPS = 26,
   CHARGING_STATION_CONSUMPTION_AMPS = 27,
   NET_CONSUMPTION_AMPS = 28,
+  PLAN_WATTS = 29,
+  PLAN_AMPS = 30,
 };

@@ -336,7 +336,7 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
           },
         },
       },
-      interaction: {
+      hover: {
         mode: 'index',
         intersect: false,
       },

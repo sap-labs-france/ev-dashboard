@@ -399,7 +399,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
           },
         },
       },
-      interaction: {
+      hover: {
         mode: 'index',
         intersect: false,
       },

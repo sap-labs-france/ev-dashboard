@@ -1956,8 +1956,9 @@ export class CentralServerService {
   }
 
   public getCurrencyCode(): string {
-    // The [ISO 4217] currency code
-    return this.getLoggedUser()?.currency || Constants.DEFAULT_CURRENCY_CODE;
+    // The [ISO 4217] currency code as defined in the Pricing Settings
+    // N.B.: An empty string is returned when not yet set!
+    return this.getLoggedUser()?.currency;
   }
 
   public isAuthenticated(): boolean {

@@ -20,6 +20,8 @@ export class SettingsPricingComponent implements OnInit {
   public isActive = false;
   public formGroup!: FormGroup;
   public pricingSettings!: PricingSettings;
+  public showSimplePricing = false;
+  public showPricingDefinitions = false;
 
   public constructor(
     private centralServerService: CentralServerService,
@@ -46,6 +48,10 @@ export class SettingsPricingComponent implements OnInit {
       this.spinnerService.hide();
       // Keep
       this.pricingSettings = settings;
+      // Simple pricing
+      this.showSimplePricing = (settings?.type === PricingSettingsType.SIMPLE);
+      // Pricing Definitions - a consistent currency code is required
+      this.showPricingDefinitions = this.showSimplePricing && !!this.centralServerService.getCurrencyCode();
       // Init form
       this.formGroup.markAsPristine();
     }, (error) => {

@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { DialogService } from 'services/dialog.service';
+import { ButtonType } from 'types/Table';
 
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
@@ -21,7 +24,6 @@ export class SettingsPricingComponent implements OnInit {
   public formGroup!: FormGroup;
   public pricingSettings!: PricingSettings;
   public isCurrencyCodeReadonly = false;
-  public isCurrencyChangePending = false;
   public showSimplePricing = false;
   public showPricingDefinitions = false;
 
@@ -29,7 +31,9 @@ export class SettingsPricingComponent implements OnInit {
     private centralServerService: CentralServerService,
     private componentService: ComponentService,
     private spinnerService: SpinnerService,
+    private dialogService: DialogService,
     private messageService: MessageService,
+    private translateService: TranslateService,
     private router: Router,
   ) {
     this.isActive = this.componentService.isActive(TenantComponents.PRICING);
@@ -78,8 +82,8 @@ export class SettingsPricingComponent implements OnInit {
       this.showPricingDefinitions = this.showSimplePricing && this.isCurrencyCodeReadonly;
       // Check the User Token
       if ( settings?.simple.currency && currentCurrencyCode !== settings?.simple.currency ) {
-        // Not in sync - We need to log out and log in again
-        this.isCurrencyChangePending = true;
+        // Not in sync - Currency has been change by another user
+        // TODO: Force logout?
       }
     }
   }
@@ -96,6 +100,28 @@ export class SettingsPricingComponent implements OnInit {
     } else {
       return;
     }
+    if (content.simple && !!content.simple.currency
+      && content.simple.currency !== this.centralServerService.getCurrencyCode()) {
+      // Ask for confirmation
+      this.dialogService.createAndShowYesNoDialog(
+        this.translateService.instant('settings.pricing.pricing_currency_changed_title'),
+        this.translateService.instant('settings.pricing.pricing_currency_changed_confirm'),
+      ).subscribe((response) => {
+        if (response === ButtonType.YES) {
+          this.savePricingSettings();
+        }
+      });
+    } else {
+      // Do not ask for confirmation
+      this.savePricingSettings();
+    }
+  }
+
+  public refresh() {
+    this.loadConfiguration();
+  }
+
+  private savePricingSettings() {
     // Save
     this.spinnerService.show();
     this.componentService.savePricingSettings(this.pricingSettings).subscribe((response) => {
@@ -119,9 +145,5 @@ export class SettingsPricingComponent implements OnInit {
             (!this.pricingSettings.id ? 'settings.pricing.create_error' : 'settings.pricing.update_error'));
       }
     });
-  }
-
-  public refresh() {
-    this.loadConfiguration();
   }
 }

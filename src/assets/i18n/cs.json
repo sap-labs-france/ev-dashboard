@@ -136,7 +136,6 @@
     "import_unexpected_error": "Došlo k chybě při importování souboru, zkontrolujte protokoly",
     "choose_file": "Vybrat soubor",
     "user_or_tenant_updated": "Byli jste odhlášeni, protože bylo aktualizováno nastavení vašeho profilu nebo vaší organizace ",
-    "currency_updated": "The currency has been set. Make sure the selected value is correct, log off, and log in again to benefit from the latest changes",
     "invalid_content": "Neplatný obsah",
     "open_in_maps": "Lokalizace",
     "change_pending_title": "Změny čekající na vyřízení",
@@ -1517,6 +1516,8 @@
       "update_success": "Nastavení  ceny bylo úspěšně aktualizováno",
       "update_error": "Došlo k chybě při aktualizaci nastavení  ceny, zkontrolujte protokoly",
       "full_description": "E-mobility poskytuje dva způsoby, jak vypočítat cenu relace EV.<br>Jednoduché stanovení ceny, které vám umožní nastavit pevnou cenu za kWh ve vaší nabíjecí infrastruktuře.<br>Externí pokročilý cenový systém určený pro složitější cenové plány nazvaný SAP Convergent Charging (SAP Hybris billing.)<br>Další technické informace naleznete na",
+      "pricing_currency_changed_title": "Modification of the currency",
+      "pricing_currency_changed_confirm": "You are about to change the currency. This will force you to reconnect after saving.<br/><br><strong> WARNING ! </strong>Once saved, the currency cannot be modified anymore!<br/><br/>Do you confirm that the selected value is correct?",
       "convergentcharging": {
         "title": "Systém SAP Convergent Charging",
         "chargeable_item_name": "Název zpoplatněné položky",

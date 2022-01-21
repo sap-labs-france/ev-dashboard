@@ -136,7 +136,6 @@
     "import_unexpected_error": "Beim Importieren der Datei ist ein Fehler aufgetreten, bitte überprüfen Sie die Logs.",
     "choose_file": "Datei auswählen",
     "user_or_tenant_updated": "Sie wurden ausgeloggt, weil entweder Ihre Einstellungen oder die Ihrer Organisation aktualisiert wurden",
-    "currency_updated": "The currency has been set. Make sure the selected value is correct, log off, and log in again to benefit from the latest changes",
     "invalid_content": "Ungültiger Inhalt",
     "open_in_maps": "Lokalisierung",
     "change_pending_title": "Ausstehende Änderungen",
@@ -1517,6 +1516,8 @@
       "update_success": "Preisbildungseinstellungen wurden erfolgreich aktuaqlisiert",
       "update_error": "Beim Aktualisieren der Preisbildungseinstellungen ist ein Fehler aufgetreten",
       "full_description": "E-Mobility bietet zwei Wege den Preis für den Ladevorgang zu berechnen.<br>Einfache Preisbildung ermöglicht es einen festen Preis pro kW.h für Ihre Ladestationen festzulegen.<br>Ein externes erweitertes Preisfindungssystem für komplexere Preisbildungspläne ist SAP Convergent Charging (SAP Hybris Rechnungslegung.)<br>Weitere technische Informationen auf ",
+      "pricing_currency_changed_title": "Modification of the currency",
+      "pricing_currency_changed_confirm": "You are about to change the currency. This will force you to reconnect after saving.<br/><br><strong> WARNING ! </strong>Once saved, the currency cannot be modified anymore!<br/><br/>Do you confirm that the selected value is correct?",
       "convergentcharging": {
         "title": "SAP Convergent Charging",
         "chargeable_item_name": "Name der gebührenpflichtigen Einheit",

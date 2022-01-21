@@ -11,15 +11,13 @@
       <div class="col-md-6">
         <mat-form-field>
           <mat-label for="inputPriceUnit">{{'pricing.price_unit_label' | translate}} *</mat-label>
-          <mat-select id="inputPriceUnit"
-            [disabled]="isCurrencyCodeReadonly"
-            [formControl]="currency">
+          <mat-select id="inputPriceUnit" [formControl]="currency">
             <mat-option value="AUD">Australian Dollar</mat-option>
             <mat-option value="BRL">Brazilian Real </mat-option>
             <mat-option value="CAD">Canadian Dollar</mat-option>
             <mat-option value="CZK">Czech Koruna</mat-option>
             <mat-option value="DKK">Danish Krone</mat-option>
-            <mat-option value="EUR">Euro</mat-option>
+            <mat-option value="EUR" selected>Euro</mat-option>
             <mat-option value="HKD">Hong Kong Dollar</mat-option>
             <mat-option value="HUF">Hungarian Forint </mat-option>
             <mat-option value="ILS">Israeli New Sheqel</mat-option>
@@ -44,9 +42,6 @@
             <div [translate]="'general.error_max_length'" [translateParams]="{length: 3}"></div>
           </mat-error>
         </mat-form-field>
-      </div>
-      <div *ngIf="isCurrencyChangePending" class="col-md-12 pricing-setting-pending">
-        <span>{{'general.currency_updated' | translate}}</span>
       </div>
     </div>
   </div>

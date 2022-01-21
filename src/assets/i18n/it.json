@@ -136,7 +136,6 @@
     "import_unexpected_error": "Error occurred while importing the file, check the logs",
     "choose_file": "Choose File",
     "user_or_tenant_updated": "Sei stato disconnesso perchè le impostazioni del tuo profilo o della tua organizzazione sono state aggiornate",
-    "currency_updated": "The currency has been set. Make sure the selected value is correct, log off, and log in again to benefit from the latest changes",
     "invalid_content": "Contenuto Non Valido",
     "open_in_maps": "Posizione",
     "change_pending_title": "Modifiche in Sospeso",

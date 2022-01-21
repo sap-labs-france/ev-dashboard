@@ -136,7 +136,6 @@
     "import_unexpected_error": "Došlo k chybě při importování souboru, zkontrolujte protokoly",
     "choose_file": "Vybrat soubor",
     "user_or_tenant_updated": "Byli jste odhlášeni, protože bylo aktualizováno nastavení vašeho profilu nebo vaší organizace ",
-    "currency_updated": "The currency has been set. Make sure the selected value is correct, log off, and log in again to benefit from the latest changes",
     "invalid_content": "Neplatný obsah",
     "open_in_maps": "Lokalizace",
     "change_pending_title": "Změny čekající na vyřízení",

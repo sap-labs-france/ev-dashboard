@@ -136,7 +136,6 @@
     "import_unexpected_error": "Error occurred while importing the file, check the logs",
     "choose_file": "Choose File",
     "user_or_tenant_updated": "Você foi descontactado porque o seu perfil ou as configurações da sua organização foram atualizadas",
-    "currency_updated": "The currency has been set. Make sure the selected value is correct, log off, and log in again to benefit from the latest changes",
     "invalid_content": "Conteúdo Invalido",
     "open_in_maps": "Localização",
     "change_pending_title": "Alterações pendentes",

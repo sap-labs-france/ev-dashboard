@@ -10,8 +10,6 @@ import { PricingSettings } from '../../../../types/Setting';
 export class SettingsSimplePricingComponent implements OnInit, OnChanges {
   @Input() public formGroup!: FormGroup;
   @Input() public pricingSettings!: PricingSettings;
-  @Input() public isCurrencyCodeReadonly!: boolean;
-  @Input() public isCurrencyChangePending!: boolean;
 
   public simplePricing!: FormGroup;
   public price!: AbstractControl;

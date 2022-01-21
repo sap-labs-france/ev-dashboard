@@ -136,6 +136,7 @@
     "import_unexpected_error": "Une erreur est survenue pendant l'import du fichier, vérifiez les logs",
     "choose_file": "Choisir un fichier",
     "user_or_tenant_updated": "Vous avez été déconnecté suite a une modification de votre profil ou des paramètres de votre organisation",
+    "currency_updated": "La monnaie a été modifiée. Vérifiez la valeur selectionée et faites en sorte de vous reconnecter afin d'appliquer les dernières modifications",
     "invalid_content": "Contenu invalide",
     "open_in_maps": "Localisation",
     "change_pending_title": "Modifications en attente",

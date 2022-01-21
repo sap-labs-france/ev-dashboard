@@ -20,6 +20,8 @@ export class SettingsPricingComponent implements OnInit {
   public isActive = false;
   public formGroup!: FormGroup;
   public pricingSettings!: PricingSettings;
+  public isCurrencyCodeReadonly = false;
+  public isCurrencyChangePending = false;
   public showSimplePricing = false;
   public showPricingDefinitions = false;
 
@@ -48,10 +50,8 @@ export class SettingsPricingComponent implements OnInit {
       this.spinnerService.hide();
       // Keep
       this.pricingSettings = settings;
-      // Simple pricing
-      this.showSimplePricing = (settings?.type === PricingSettingsType.SIMPLE);
-      // Pricing Definitions - a consistent currency code is required
-      this.showPricingDefinitions = this.showSimplePricing && !!this.centralServerService.getCurrencyCode();
+      // Check the context to enable/disable some controls
+      this.checkSettingsContext(settings);
       // Init form
       this.formGroup.markAsPristine();
     }, (error) => {
@@ -64,6 +64,24 @@ export class SettingsPricingComponent implements OnInit {
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
       }
     });
+  }
+
+  public checkSettingsContext(settings: PricingSettings) {
+    if (settings?.type === PricingSettingsType.SIMPLE) {
+      // Show the Simple pricing Form
+      this.showSimplePricing = true;
+      // Get the current currency code from the user token
+      const currentCurrencyCode = this.centralServerService.getCurrencyCode();
+      // Currency code cannot be changed once it is set
+      this.isCurrencyCodeReadonly = !!currentCurrencyCode;
+      // Show Pricing Definitions - only shown when the currency code is set
+      this.showPricingDefinitions = this.showSimplePricing && this.isCurrencyCodeReadonly;
+      // Check the User Token
+      if ( settings?.simple.currency && currentCurrencyCode !== settings?.simple.currency ) {
+        // Not in sync - We need to log out and log in again
+        this.isCurrencyChangePending = true;
+      }
+    }
   }
 
   public save(content: PricingSettings) {

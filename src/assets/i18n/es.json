@@ -136,6 +136,7 @@
     "import_unexpected_error": "Error occurrido mientras se importaba el archivo, verificar el registro",
     "choose_file": "Escoger archivo",
     "user_or_tenant_updated": "Se cerró la sesión porque se actualizó su perfil o la configuración de su organización",
+    "currency_updated": "The currency has been set. Make sure the selected value is correct, log off, and log in again to benefit from the latest changes",
     "invalid_content": "Contenido inválido",
     "open_in_maps": "Ubicación",
     "change_pending_title": "Cambios pendientes",

@@ -830,14 +830,14 @@ export class Utils {
         // Log Off (remove token)
         centralServerService.clearLoginInformation();
         // Navigate to Login
-        router.navigate(['/auth/login']);
+        void router.navigate(['/auth/login']);
         break;
       // Unauthorized: Token expired
       case StatusCodes.UNAUTHORIZED:
         // Log Off (remove token)
         centralServerService.clearLoginInformation();
         // Navigate to Login
-        router.navigate(['/auth/login']);
+        void router.navigate(['/auth/login']);
         break;
       // Forbidden
       case StatusCodes.FORBIDDEN:

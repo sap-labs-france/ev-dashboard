@@ -192,12 +192,6 @@ export class SiteAreaComponent extends AbstractTabComponent  implements OnInit {
             this.translateService.instant('site_areas.site_area_hierarchy_inconsistency_error_body',
               { siteAreaName: siteArea.name }));
           break;
-        case HTTPError.SITE_AREA_HIERARCHY_CIRCULAR_STRUCTURE_ERROR:
-          this.dialogService.createAndShowOkDialog(
-            this.translateService.instant('site_areas.site_area_hierarchy_error_title'),
-            this.translateService.instant('site_areas.site_area_hierarchy_circular_structure_error_body',
-              { siteAreaName: siteArea.name }));
-          break;
         default:
           Utils.handleHttpError(error, this.router, this.messageService,
             this.centralServerService, 'site_areas.update_error');

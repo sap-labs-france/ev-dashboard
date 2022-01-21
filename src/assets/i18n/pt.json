@@ -1516,6 +1516,8 @@
       "update_success": "As configurações de preços foram atualizadas com sucesso",
       "update_error": "Ocorreu um erro ao atualizar as configurações de preços",
       "full_description": "O E-Mobility oferece duas maneiras de calcular o preço de uma sessão EV. <br> Um preço simples que permite configurar um preço fixo por kW.h para sua infraestrutura de carregamento. <br> Um sistema de preços externo avançado para planos de preços complexos chamado SAP Convergent Charging (SAP Hybris billing.) <br> Mais informações técnicas disponíveis em ",
+      "pricing_currency_changed_title": "Modification of the currency",
+      "pricing_currency_changed_confirm": "You are about to change the currency. This will force you to reconnect after saving.<br/><br><strong> WARNING ! </strong>Once saved, the currency cannot be modified anymore!<br/><br/>Do you confirm that the selected value is correct?",
       "convergentcharging": {
         "title": "SAP Convergent Charging",
         "chargeable_item_name": "Nome do item cobrável",

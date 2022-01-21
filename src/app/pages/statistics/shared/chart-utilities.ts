@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import { ElementRef } from '@angular/core';
-import { Chart, ChartData, ChartDataset, ChartOptions, ChartType, ScaleChartOptions } from 'chart.js';
+import { Chart, ChartData, ChartDataset, ChartOptions, ChartType } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Font } from 'chartjs-plugin-datalabels/types/options';
 import { ChartTypeValues } from 'types/Chart';
@@ -253,25 +253,24 @@ export class SimpleChart {
       enabled: true,
       position: 'average',
       callbacks: {
-        // label: (tooltipItem, data) => {
-        //   let value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
-        //   let toolTip: string;
+        label: (context) => {
+          let value = context.dataset.data[context.dataIndex];
+          let toolTip: string;
 
-        //   if (this.roundedChartLabels &&
-        //     typeof (value) === 'number') {
-        //     value = Math.round(value);
-        //   }
-        //   if (this.stackedChart) {
-        //     toolTip = data.datasets[tooltipItem.datasetIndex].label
-        //       + ' : ' + value.toLocaleString(this.language);
-        //   } else {
-        //     toolTip = value.toLocaleString(this.language);
-        //   }
-        //   if (toolTipUnit) {
-        //     toolTip = toolTip + ` ${toolTipUnit}`;
-        //   }
-        //   return toolTip;
-        // },
+          if (this.roundedChartLabels &&
+            typeof (value) === 'number') {
+            value = Math.round(value);
+          }
+          if (this.stackedChart) {
+            toolTip = `${context.label} : ${value.toLocaleString(this.language)}`;
+          } else {
+            toolTip = value.toLocaleString(this.language);
+          }
+          if (toolTipUnit) {
+            toolTip = toolTip + ` ${toolTipUnit}`;
+          }
+          return toolTip;
+        },
       },
     };
     this.chartOptions.scales = {
@@ -334,22 +333,22 @@ export class SimpleChart {
     this.chartOptions.plugins.tooltip = {
       enabled: true,
       callbacks: {
-        // label: (tooltipItem, data) => {
-        //   let value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
-        //   let toolTip: string;
+        label: (context) => {
+          let value = context.dataset.data[context.dataIndex];
+          let toolTip: string;
 
-        //   if (this.roundedChartLabels &&
-        //     typeof (value) === 'number') {
-        //     value = Math.round(value);
-        //   }
-        //   toolTip = data.labels[tooltipItem.index] + ' : '
-        //     + value.toLocaleString(this.language);
+          if (this.roundedChartLabels &&
+            typeof (value) === 'number') {
+            value = Math.round(value);
+          }
 
-        //   if (toolTipUnit) {
-        //     toolTip = toolTip + ` ${toolTipUnit}`;
-        //   }
-        //   return toolTip;
-        // },
+          toolTip = `${context.label} : ${value.toLocaleString(this.language)}`;
+
+          if (toolTipUnit) {
+            toolTip = toolTip + ` ${toolTipUnit}`;
+          }
+          return toolTip;
+        },
       },
     };
   }

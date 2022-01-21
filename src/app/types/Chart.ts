@@ -31,3 +31,9 @@ export enum ConsumptionChartDatasetOrder {
   PLAN_WATTS = 29,
   PLAN_AMPS = 30,
 };
+
+export enum ChartTypeValues {
+  PIE = 'pie',
+  BAR = 'bar',
+  STACKED_BAR = 'stackedBar'
+};

@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { ChartData } from 'chart.js';
+import { ChartTypeValues } from 'types/Chart';
 
 import { CentralServerService } from '../../../services/central-server.service';
 import { LocaleService } from '../../../services/locale.service';
@@ -124,10 +125,10 @@ export class StatisticsConsumptionComponent implements OnInit {
     const labelXAxis: string = this.translateService.instant('statistics.graphic_title_month_x_axis');
     const labelYAxis: string = this.translateService.instant('statistics.graphic_title_consumption_y_axis');
     const toolTipUnit: string = this.translateService.instant('statistics.charger_kw_h');
-    this.barChart = new SimpleChart(this.language, 'stackedBar',
+    this.barChart = new SimpleChart(this.language, ChartTypeValues.STACKED_BAR,
       this.getChartLabel(), labelXAxis, labelYAxis, toolTipUnit, true);
     this.barChart.initChart(this.ctxBarChart);
-    this.pieChart = new SimpleChart(this.language, 'pie',
+    this.pieChart = new SimpleChart(this.language, ChartTypeValues.PIE,
       this.getChartLabel(), undefined, undefined, toolTipUnit, true);
     this.pieChart.initChart(this.ctxPieChart);
     this.chartsInitialized = true;

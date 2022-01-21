@@ -3,6 +3,7 @@ import { ElementRef } from '@angular/core';
 import { Chart, ChartData, ChartDataset, ChartOptions, ChartType, ScaleChartOptions } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Font } from 'chartjs-plugin-datalabels/types/options';
+import { ChartTypeValues } from 'types/Chart';
 import { Utils } from 'utils/Utils';
 
 export class ChartConstants {
@@ -36,7 +37,7 @@ export class SimpleChart {
 
   public constructor(
     language: string,
-    chartType: 'bar' | 'stackedBar' | 'pie',
+    chartType: ChartTypeValues,
     mainLabel: string,
     labelXAxis?: string,
     labelYAxis?: string,
@@ -82,13 +83,13 @@ export class SimpleChart {
     this.language = language;
 
     switch (chartType) {
-      case 'pie':
+      case ChartTypeValues.PIE:
         this.createPieChartOptions(mainLabel, toolTipUnit, withLegend, roundedChartLabels);
         break;
-      case 'bar':
+      case ChartTypeValues.BAR:
         this.createBarChartOptions(false, mainLabel, labelXAxis, labelYAxis, toolTipUnit, withLegend, roundedChartLabels);
         break;
-      case 'stackedBar':
+      case ChartTypeValues.STACKED_BAR:
         this.createBarChartOptions(true, mainLabel, labelXAxis, labelYAxis, toolTipUnit, withLegend, roundedChartLabels);
     }
   }
@@ -105,7 +106,7 @@ export class SimpleChart {
 
   public updateChart(chartData: ChartData, mainLabel?: string, toolTipUnit?: string, labelYAxis?: string): void {
     let anyChart: any;
-    if (this.chartType === 'pie') {
+    if (this.chartType === ChartTypeValues.PIE) {
       if (toolTipUnit) {
         this.createPieChartOptions(mainLabel, toolTipUnit, this.withLegend, this.roundedChartLabels);
       }
@@ -225,7 +226,9 @@ export class SimpleChart {
     this.toolTipUnit = toolTipUnit;
     this.withLegend = withLegend;
     this.roundedChartLabels = roundedChartLabels;
-    this.chartOptions = {};
+    this.chartOptions = {
+      plugins: {}
+    };
     this.chartOptions.plugins.title = {
       display: true,
       text: mainLabel,
@@ -301,11 +304,13 @@ export class SimpleChart {
   }
 
   private createPieChartOptions(mainLabel: string, toolTipUnit: string, withLegend: boolean, roundedChartLabels: boolean): void {
-    this.chartType = 'pie';
+    this.chartType = ChartTypeValues.PIE;
     this.toolTipUnit = toolTipUnit;
     this.withLegend = withLegend;
     this.roundedChartLabels = roundedChartLabels;
-    this.chartOptions = {};
+    this.chartOptions = {
+      plugins: {}
+    };
     this.chartOptions.plugins.title = {
       display: true,
       text: mainLabel,
@@ -352,35 +357,53 @@ export class SimpleChart {
   private updateChartOptions(chartData: ChartData, mainLabel: string, labelYAxis?: string, toolTipUnit?: string): void {
     let minValue = 0;
     let minDivisor: any;
+    if(!this.chartOptions.plugins.title){
+      this.chartOptions.plugins.title = {};
+    }
     if (mainLabel) {
       this.chartOptions.plugins.title.text = mainLabel;
     }
     this.chartOptions.plugins.title.color = this.fontColor;
+    if(!this.chartOptions.plugins.title.font){
+      this.chartOptions.plugins.title.font = {};
+    }
     this.chartOptions.plugins.title.font.family = this.fontFamily;
     this.chartOptions.plugins.title.font.size = this.fontSizeNumber;
     if (this.withLegend) {
+      if(!this.chartOptions.plugins.legend){
+        this.chartOptions.plugins.legend = {
+          labels: {
+            color: '',
+            font: {
+              family: '',
+            }
+          }
+        };
+      }
       this.chartOptions.plugins.legend.labels.color = this.fontColor;
       this.chartOptions.plugins.legend.labels.font.family = this.fontFamily;
     }
-    if (this.chartType === 'pie') {
+    if (this.chartType === ChartTypeValues.PIE) {
       minDivisor = this.constMinDivisorPie;
     } else {
       minDivisor = this.constMinDivisorBar;
       const x = this.chartOptions.scales.x;
-      // x.title.color = this.fontColor;
-      // x.title.font.family = this.fontFamily;
-      // x.ticks.color = this.fontColor;
-      // x.ticks.font.family = this.fontFamily;
-      // const y = this.chartOptions.scales.y;
-      // y.title.color = this.fontColor;
-      // y.title.font.family = this.fontFamily;
-      // y.ticks.color = this.fontColor;
-      // y.ticks.font.family = this.fontFamily;
+      x['title'] = { ...x['title'] };
+      x['title']['color'] = this.fontColor;
+      x['title']['font'] = { family: this.fontFamily };
+      x.ticks.color = this.fontColor;
+      x.ticks.font = { family: this.fontFamily };
+      const y = this.chartOptions.scales.y;
+      y['title'] = { ...y['title'] };
+      y['title']['color'] = this.fontColor;
+      y['title']['font'] = { family: this.fontFamily };
+      y.ticks.color = this.fontColor;
+      y.ticks.font = { family: this.fontFamily };
     }
     this.chartOptions.plugins.tooltip.backgroundColor = this.fontColor;
-    // this.chartOptions.plugins.tooltip.bodyFont.family = this.fontFamily;
-    // this.chartOptions.plugins.tooltip.footerFont.family = this.fontFamily;
-    // this.chartOptions.plugins.tooltip.titleFont.family = this.fontFamily;
+    this.chartOptions.plugins.tooltip.bodyFont = { family: this.fontFamily };
+    this.chartOptions.plugins.tooltip.footerFont = { family: this.fontFamily };
+    this.chartOptions.plugins.tooltip.titleFont = { family: this.fontFamily };
     this.chartOptions.plugins.tooltip.bodyColor = this.inversedFontColor;
     this.chartOptions.plugins.tooltip.footerColor = this.inversedFontColor;
     this.chartOptions.plugins.tooltip.titleColor = this.inversedFontColor;

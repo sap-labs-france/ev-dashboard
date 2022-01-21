@@ -251,7 +251,7 @@ export class SimpleChart {
     };
     this.chartOptions.plugins.tooltip = {
       enabled: true,
-      // position: 'customBar',
+      position: 'average',
       callbacks: {
         // label: (tooltipItem, data) => {
         //   let value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
@@ -388,13 +388,11 @@ export class SimpleChart {
     } else {
       minDivisor = this.constMinDivisorBar;
       const x = this.chartOptions.scales.x;
-      x['title'] = { ...x['title'] };
       x['title']['color'] = this.fontColor;
       x['title']['font'] = { family: this.fontFamily };
       x.ticks.color = this.fontColor;
       x.ticks.font = { family: this.fontFamily };
       const y = this.chartOptions.scales.y;
-      y['title'] = { ...y['title'] };
       y['title']['color'] = this.fontColor;
       y['title']['font'] = { family: this.fontFamily };
       y.ticks.color = this.fontColor;
@@ -471,10 +469,11 @@ export class SimpleChart {
     } else {
       chartData.datasets.forEach((dataset) => {
         dataset.hidden = false;
-        dataset.backgroundColor = [];
-        // for (let i = 0; i < dataset.data.length; i++) {
-        //   dataset.backgroundColor.push(this.getColorCode(i));
-        // }
+        const backgroundColor = [];
+        for (let i = 0; i < dataset.data.length; i++) {
+          backgroundColor.push(this.getColorCode(i));
+        }
+        dataset.backgroundColor = backgroundColor;
         dataset.borderWidth = 0;
       });
     }

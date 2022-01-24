@@ -26,9 +26,9 @@ export class AppUnitPipe implements PipeTransform {
 
   private parseMeasure(measureAsString: string): Measure {
     if (Unit[Unit[measureAsString]] === measureAsString) {
-      return { unit: Unit[measureAsString], size: Size.basis };
+      return { unit: Unit[measureAsString], size: Size.BASIS };
     }
-    return { unit: Unit[measureAsString.slice(1)], size: Size[measureAsString.slice(0, 1)] as any };
+    return { unit: Unit[measureAsString.slice(1)], size: Size[measureAsString.slice(0, 1).toUpperCase()] as any };
   }
 }
 
@@ -43,9 +43,9 @@ enum Unit {
 }
 
 enum Size {
-  basis = 1,
-  c = 10 * Size.basis,
-  d = 10 * Size.c,
-  k = 10 * Size.d,
-  m = 10 * Size.k,
+  BASIS = 1,
+  C = 10 * Size.BASIS,
+  D = 10 * Size.C,
+  K = 10 * Size.D,
+  M = 10 * Size.K,
 }

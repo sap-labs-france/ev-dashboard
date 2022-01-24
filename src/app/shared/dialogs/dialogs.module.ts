@@ -30,8 +30,8 @@ import { ConfirmationDialogComponent } from './confirmation/confirmation-dialog.
 import { ErrorCodeDetailsDialogComponent } from './error-code-details/error-code-details-dialog.component';
 import { GeoMapDialogComponent } from './geomap/geomap-dialog.component';
 import { ImportDialogComponent } from './import/import-dialog.component';
-import { LOG_ACTIONSDialogTableDataSource } from './logs/log-actions-dialog-table-data-source';
-import { LOG_ACTIONSDialogComponent } from './logs/log-actions-dialog.component';
+import { LogActionsDialogTableDataSource } from './logs/log-actions-dialog-table-data-source';
+import { LogActionsDialogComponent } from './logs/log-actions-dialog.component';
 import { QrCodeDialogComponent } from './qr-code/qr-code-dialog.component';
 import { ReportsDialogTableDataSource } from './reports/reports-dialog-table-data-source';
 import { ReportsDialogComponent } from './reports/reports-dialog.component';
@@ -79,7 +79,7 @@ import { UsersDialogComponent } from './users/users-dialog.component';
     ErrorCodeDetailsComponent,
     ReportsDialogComponent,
     CarCatalogsDialogComponent,
-    LOG_ACTIONSDialogComponent,
+    LogActionsDialogComponent,
   ],
   entryComponents: [
     CarMakersDialogComponent,
@@ -102,7 +102,7 @@ import { UsersDialogComponent } from './users/users-dialog.component';
     ErrorCodeDetailsComponent,
     ReportsDialogComponent,
     CarCatalogsDialogComponent,
-    LOG_ACTIONSDialogComponent,
+    LogActionsDialogComponent,
   ],
   exports: [
     CarMakersDialogComponent,
@@ -124,7 +124,7 @@ import { UsersDialogComponent } from './users/users-dialog.component';
     ErrorCodeDetailsComponent,
     ReportsDialogComponent,
     CarCatalogsDialogComponent,
-    LOG_ACTIONSDialogComponent,
+    LogActionsDialogComponent,
   ],
   providers: [
     AppConnectorIdPipe,
@@ -140,7 +140,7 @@ import { UsersDialogComponent } from './users/users-dialog.component';
     ReportsDialogTableDataSource,
     CarMakersTableDataSource,
     CarCatalogsDialogTableDataSource,
-    LOG_ACTIONSDialogTableDataSource,
+    LogActionsDialogTableDataSource,
   ],
 })
 export class DialogsModule {

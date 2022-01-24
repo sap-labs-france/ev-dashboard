@@ -219,7 +219,7 @@ export interface DialogParams<T extends DialogData> {
 }
 
 export interface AssetAuthorizationActions extends AuthorizationActions {
-  canRetrieveConsumption?:boolean;
-  canReadConsumption?:boolean;
-  canCheckConnection?:boolean;
+  canRetrieveConsumption?: boolean;
+  canReadConsumption?: boolean;
+  canCheckConnection?: boolean;
 }

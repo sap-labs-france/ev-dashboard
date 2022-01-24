@@ -2,10 +2,8 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import * as moment from 'moment';
 import { Observable } from 'rxjs';
-// import { InvoicesDialogComponent } from 'shared/dialogs/invoice/invoice.dialog.component';
-import { TransactionDialogComponent } from 'shared/dialogs/transaction/transaction.dialog.component';
+import { DateRangeTableFilter } from 'shared/table/filters/date-range-table-filter';
 import { IssuerFilter } from 'shared/table/filters/issuer-filter';
 
 import { AuthorizationService } from '../../../services/authorization.service';
@@ -22,8 +20,6 @@ import { TableSyncBillingInvoicesAction } from '../../../shared/table/actions/in
 import { BillingInvoiceDialogData, TableViewBillingInvoiceAction, TableViewBillingInvoiceActionDef } from '../../../shared/table/actions/invoices/table-view-billing-invoice-action';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
-import { EndDateFilter } from '../../../shared/table/filters/end-date-filter';
-import { StartDateFilter } from '../../../shared/table/filters/start-date-filter';
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { BillingButtonAction, BillingInvoice, BillingSessionData } from '../../../types/Billing';
@@ -223,8 +219,9 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
   public buildTableFiltersDef(): TableFilterDef[] {
     const issuerFilter = new IssuerFilter().getFilterDef();
     const filters = [
-      new StartDateFilter(moment().startOf('y').toDate()).getFilterDef(),
-      new EndDateFilter().getFilterDef(),
+      new DateRangeTableFilter({
+        translateService: this.translateService,
+      }).getFilterDef(),
       new InvoiceStatusFilter().getFilterDef(),
     ];
     if (this.authorizationService.isAdmin()) {

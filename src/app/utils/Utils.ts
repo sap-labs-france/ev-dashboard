@@ -1,4 +1,4 @@
-import { FormControl, FormGroup } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Data, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -111,6 +111,12 @@ export class Utils {
 
   public static isEmptyString(str: string): boolean {
     return str ? str.length === 0 : true;
+  }
+
+  public static convertEmptyStringToNull(control: AbstractControl) {
+    if(this.isEmptyString(control.value)){
+      control.setValue(null);
+    }
   }
 
   public static getConnectorLetterFromConnectorID(connectorID: number): string {
@@ -824,14 +830,14 @@ export class Utils {
         // Log Off (remove token)
         centralServerService.clearLoginInformation();
         // Navigate to Login
-        router.navigate(['/auth/login']);
+        void router.navigate(['/auth/login']);
         break;
       // Unauthorized: Token expired
       case StatusCodes.UNAUTHORIZED:
         // Log Off (remove token)
         centralServerService.clearLoginInformation();
         // Navigate to Login
-        router.navigate(['/auth/login']);
+        void router.navigate(['/auth/login']);
         break;
       // Forbidden
       case StatusCodes.FORBIDDEN:

@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 import { SpinnerService } from '../../../../services/spinner.service';
 import { AppDatePipe } from '../../../../shared/formatters/app-date.pipe';
-import { AppDecimalPipe } from '../../../../shared/formatters/app-decimal-pipe';
+import { AppDecimalPipe } from '../../../../shared/formatters/app-decimal.pipe';
 import { AppUnitPipe } from '../../../../shared/formatters/app-unit.pipe';
 import { TableDataSource } from '../../../../shared/table/table-data-source';
 import { ChargingProfile, Schedule } from '../../../../types/ChargingProfile';

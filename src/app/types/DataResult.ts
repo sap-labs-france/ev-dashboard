@@ -139,6 +139,8 @@ export interface CheckAssetConnectionResponse extends ActionResponse {
 
 export interface AssetDataResult extends DataResult<Asset> {
   canCreate: boolean;
+  canListSites: boolean;
+  canListSiteAreas: boolean;
 }
 
 export interface TransactionDataResult {

@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { ComponentService } from 'services/component.service';
 import { WindowService } from 'services/window.service';
@@ -55,11 +55,18 @@ export class SiteComponent extends AbstractTabComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.readOnly = this.dialogMode === DialogMode.VIEW;
     // Init the form
     this.formGroup = new FormGroup({});
-    // Load
-    this.loadSite();
+    this.readOnly = this.dialogMode === DialogMode.VIEW;
+    if (this.currentSiteID) {
+      this.loadSite();
+    } else if (this.activatedRoute && this.activatedRoute.params) {
+      this.activatedRoute.params.subscribe((params: Params) => {
+        this.currentSiteID = params['id'];
+      });
+    }
+    // Handle Dialog mode
+    Utils.handleDialogMode(this.dialogMode, this.formGroup);
   }
 
   public loadSite() {

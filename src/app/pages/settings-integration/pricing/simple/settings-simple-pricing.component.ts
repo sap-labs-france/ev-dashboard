@@ -38,6 +38,9 @@ export class SettingsSimplePricingComponent implements OnInit, OnChanges {
     // Keep
     this.price = this.simplePricing.controls['price'];
     this.currency = this.simplePricing.controls['currency'];
+    if ( this.isCurrencyCodeReadonly ) {
+      this.currency.disable();
+    }
     // Set
     this.updateFormData();
   }

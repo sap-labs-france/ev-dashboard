@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ComponentService } from 'services/component.service';
 import { ChargingStationTableFilter } from 'shared/table/filters/charging-station-table-filter';
+import { DateRangeTableFilter } from 'shared/table/filters/date-range-table-filter';
 import { IssuerFilter } from 'shared/table/filters/issuer-filter';
 import { SiteTableFilter } from 'shared/table/filters/site-table-filter';
 import { TenantComponents } from 'types/Tenant';
@@ -21,8 +22,6 @@ import { logLevels } from '../../../shared/model/logs.model';
 import { TableExportLogsAction, TableExportLogsActionDef } from '../../../shared/table/actions/logs/table-export-logs-action';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
-import { EndDateFilter } from '../../../shared/table/filters/end-date-filter';
-import { StartDateFilter } from '../../../shared/table/filters/start-date-filter';
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { DataResult } from '../../../types/DataResult';
@@ -252,8 +251,11 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
     const issuerFilter = new IssuerFilter().getFilterDef();
     if (this.authorizationService.isSuperAdmin()) {
       return [
-        new StartDateFilter(moment().startOf('d').toDate()).getFilterDef(),
-        new EndDateFilter().getFilterDef(),
+        new DateRangeTableFilter({
+          translateService: this.translateService,
+          showSeconds: true,
+          start: moment().startOf('day')
+        }).getFilterDef(),
         new LogLevelTableFilter().getFilterDef(),
         new LogSourceTableFilter().getFilterDef(),
         new LogActionTableFilter().getFilterDef(),
@@ -265,8 +267,11 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
         siteFilter.visible = false;
       }
       return [
-        new StartDateFilter(moment().startOf('d').toDate()).getFilterDef(),
-        new EndDateFilter().getFilterDef(),
+        new DateRangeTableFilter({
+          translateService: this.translateService,
+          showSeconds: true,
+          start: moment().startOf('day')
+        }).getFilterDef(),
         new LogLevelTableFilter().getFilterDef(),
         new LogSourceTableFilter().getFilterDef(),
         new LogActionTableFilter().getFilterDef(),

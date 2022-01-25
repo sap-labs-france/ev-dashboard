@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Site } from 'types/Site';
+import { Utils } from 'utils/Utils';
 
 @Component({
   selector: 'app-site-ocpi',
@@ -15,15 +16,11 @@ export class SiteOcpiComponent implements OnInit, OnChanges {
 
   public tariffID: AbstractControl;
 
-  // eslint-disable-next-line no-useless-constructor
-  public constructor() {
-  }
-
   public ngOnInit() {
     // Init the form
-    this.formGroup.addControl('tariffID', new FormControl('',
+    this.formGroup.addControl('tariffID', new FormControl(null,
       Validators.compose([
-        Validators.maxLength(50),
+        Validators.maxLength(36),
       ])));
 
     // Form
@@ -31,6 +28,7 @@ export class SiteOcpiComponent implements OnInit, OnChanges {
     if (this.readOnly) {
       this.formGroup.disable();
     }
+    this.enableDisableTariffID();
   }
 
   public ngOnChanges() {
@@ -50,6 +48,10 @@ export class SiteOcpiComponent implements OnInit, OnChanges {
   public publicChanged(publicValue: boolean) {
     this.public = publicValue;
     this.enableDisableTariffID();
+  }
+
+  public tariffIDChanged(control: AbstractControl) {
+    Utils.convertEmptyStringToNull(control);
   }
 
   private enableDisableTariffID() {

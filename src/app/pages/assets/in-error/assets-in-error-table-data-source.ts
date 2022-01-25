@@ -7,7 +7,6 @@ import { ComponentService } from 'services/component.service';
 import { SiteTableFilter } from 'shared/table/filters/site-table-filter';
 import { TenantComponents } from 'types/Tenant';
 
-import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
@@ -27,11 +26,10 @@ import { DataResult } from '../../../types/DataResult';
 import { AssetInError, AssetInErrorType, ErrorMessage } from '../../../types/InError';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
 import { Utils } from '../../../utils/Utils';
-import { AssetDialogComponent } from '../asset/asset.dialog.component';
+import { AssetDialogComponent } from '../asset/asset-dialog.component';
 
 @Injectable()
 export class AssetsInErrorTableDataSource extends TableDataSource<AssetInError> {
-  private isAdmin: boolean;
   private editAction = new TableEditAssetAction().getActionDef();
   private deleteAction = new TableDeleteAssetAction().getActionDef();
   private errorTypes = [
@@ -48,13 +46,11 @@ export class AssetsInErrorTableDataSource extends TableDataSource<AssetInError> 
     private router: Router,
     private componentService: ComponentService,
     private centralServerService: CentralServerService,
-    private authorizationService: AuthorizationService,
     private dialog: MatDialog,
     private dialogService: DialogService) {
     super(spinnerService, translateService);
     // Init
-    this.isAdmin = this.authorizationService.isAdmin();
-    this.setStaticFilters([{WithSiteArea: true}]);
+    this.setStaticFilters([{ WithSiteArea: true }]);
     this.initDataSource();
   }
 
@@ -156,15 +152,19 @@ export class AssetsInErrorTableDataSource extends TableDataSource<AssetInError> 
   }
 
   public buildTableDynamicRowActions(asset: AssetInError): TableActionDef[] {
-    if (this.isAdmin && asset.errorCode) {
+    if (asset.errorCode) {
       switch (asset.errorCode) {
         case AssetInErrorType.MISSING_SITE_AREA:
-          return [
-            this.editAction,
-            new TableMoreAction([
+          const rowActions: TableActionDef[] = [];
+          if (asset.canUpdate) {
+            rowActions.push(this.editAction);
+          }
+          if (asset.canDelete) {
+            rowActions.push(new TableMoreAction([
               this.deleteAction,
-            ]).getActionDef()
-          ];
+            ]).getActionDef());
+          }
+          return rowActions;
       }
     }
     return [];

@@ -9,12 +9,12 @@ import { DialogService } from '../../services/dialog.service';
 import { MessageService } from '../../services/message.service';
 import { SpinnerService } from '../../services/spinner.service';
 import { DialogTableDataSource } from '../../shared/dialogs/dialog-table-data-source';
-import { AppPricingDimensionsPrice } from '../../shared/formatters/app-pricing-dimensions-price';
 import { DataResult } from '../../types/DataResult';
 import PricingDefinition, { PricingButtonAction, PricingEntity } from '../../types/Pricing';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../types/Table';
 import { Utils } from '../../utils/Utils';
 import { AppDatePipe } from '../formatters/app-date.pipe';
+import { AppPricingDimensionsPrice } from '../formatters/app-pricing-dimensions.price.pipe';
 import { TableEditPricingDefinitionAction, TableEditPricingDefinitionActionDef } from '../table/actions/charging-stations/table-edit-pricing-definition-action';
 import { TableAutoRefreshAction } from '../table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from '../table/actions/table-refresh-action';
@@ -99,7 +99,7 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
       {
         id: 'staticRestrictions.validFrom',
         name: 'settings.pricing.valid_from',
-        formatter: (validFrom: Date) => this.datePipe.transform(validFrom),
+        formatter: (validFrom: Date) => this.datePipe.transform(validFrom, 'shortDate'),
         headerClass: 'd-none d-xl-table-cell col-30p',
         class: 'd-none d-xl-table-cell col-30p',
         sortable: true,
@@ -107,7 +107,7 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
       {
         id: 'staticRestrictions.validTo',
         name: 'settings.pricing.valid_to',
-        formatter: (validTo: Date) => this.datePipe.transform(validTo),
+        formatter: (validTo: Date) => this.datePipe.transform(validTo, 'shortDate'),
         headerClass: 'col-15p',
         class: 'd-none d-xl-table-cell col-30p',
         sortable: true,

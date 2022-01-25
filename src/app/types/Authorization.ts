@@ -57,9 +57,9 @@ export enum Entity {
   USERS_SITES = 'UsersSites',
   LOGGING = 'Logging',
   PRICING = 'Pricing',
+  PRICING_DEFINITION = 'PricingDefinition',
   BILLING = 'Billing',
   SETTING = 'Setting',
-  TOKEN = 'Token',
   ASYNC_TASK = 'AsyncTask',
   OCPI_ENDPOINT = 'OcpiEndpoint',
   OICP_ENDPOINT = 'OicpEndpoint',
@@ -74,14 +74,16 @@ export enum Entity {
   NOTIFICATION = 'Notification',
   TAG = 'Tag',
   PAYMENT_METHOD = 'PaymentMethod',
-  PRICING_DEFINITION = 'PricingDefinition',
+  SOURCE = 'Source',
 }
 
 export enum Action {
   READ = 'Read',
   CREATE = 'Create',
   UPDATE = 'Update',
+  UPDATE_BY_VISUAL_ID = 'UpdateByVisualID',
   REPLACE = 'Replace',
+  REVOKE = 'Revoke',
   DELETE = 'Delete',
   LOGOUT = 'Logout',
   LOGIN = 'Login',
@@ -91,6 +93,7 @@ export enum Action {
   ASSIGN = 'Assign',
   UNASSIGN = 'Unassign',
   CLEAR_CACHE = 'ClearCache',
+  TRIGGER_DATA_TRANSFER = 'DataTransfer',
   SYNCHRONIZE = 'Synchronize',
   GET_CONFIGURATION = 'GetConfiguration',
   CHANGE_CONFIGURATION = 'ChangeConfiguration',
@@ -116,21 +119,27 @@ export enum Action {
   BILLING_DELETE_PAYMENT_METHOD = 'BillingDeletePaymentMethod',
   BILLING_CHARGE_INVOICE = 'BillingChargeInvoice',
   CHECK_CONNECTION = 'CheckConnection',
+  CLEAR_BILLING_TEST_DATA = 'ClearBillingTestData',
   RETRIEVE_CONSUMPTION = 'RetrieveConsumption',
+  READ_CONSUMPTION = 'ReadConsumption',
+  CREATE_CONSUMPTION = 'CreateConsumption',
   PING = 'Ping',
   GENERATE_LOCAL_TOKEN = 'GenerateLocalToken',
   REGISTER = 'Register',
   TRIGGER_JOB = 'TriggerJob',
   DOWNLOAD = 'Download',
   IMPORT = 'Import',
-  ASSIGN_USERS_TO_SITE = 'AssignUsersToSite',
-  UNASSIGN_USERS_TO_SITE = 'UnassignUsersToSite',
-  ASSIGN_ASSETS_TO_SITE_AREA = 'AssignAssetsToSiteArea',
-  UNASSIGN_ASSETS_TO_SITE_AREA = 'UnassignAssetsToSiteArea',
-  ASSIGN_CHARGING_STATIONS_TO_SITE_AREA = 'AssignChargingStationsToSiteArea',
-  UNASSIGN_CHARGING_STATIONS_TO_SITE_AREA = 'UnassignChargingStationsToSiteArea',
+  ASSIGN_USERS_TO_SITE = 'AssignUsers',
+  UNASSIGN_USERS_FROM_SITE = 'UnassignUsers',
+  ASSIGN_ASSETS_TO_SITE_AREA = 'AssignAssets',
+  UNASSIGN_ASSETS_FROM_SITE_AREA = 'UnassignAssets',
+  READ_ASSETS_FROM_SITE_AREA = 'ReadAssets',
+  ASSIGN_CHARGING_STATIONS_TO_SITE_AREA = 'AssignChargingStations',
+  UNASSIGN_CHARGING_STATIONS_FROM_SITE_AREA = 'UnassignChargingStations',
+  READ_CHARGING_STATIONS_FROM_SITE_AREA = 'ReadChargingStationsFromSiteArea',
   EXPORT_OCPP_PARAMS = 'ExportOCPPParams',
   GENERATE_QR = 'GenerateQrCode',
+  MAINTAIN_PRICING_DEFINITIONS = 'MaintainPricingDefinitions',
 }
 
 export interface AuthorizationContext {
@@ -185,6 +194,10 @@ export interface SiteAuthorizationActions extends AuthorizationActions {
   canMaintainPricingDefinitions?: boolean;
 }
 
+export interface RegistrationTokenAuthorizationActions extends AuthorizationActions {
+  canRevoke?: boolean;
+}
+
 
 export enum DialogMode {
   EDIT = 'E',
@@ -201,4 +214,10 @@ export interface DialogData {
 export interface DialogParams<T extends DialogData> {
   dialogData?: T;
   dialogMode?: DialogMode;
+}
+
+export interface AssetAuthorizationActions extends AuthorizationActions {
+  canRetrieveConsumption?: boolean;
+  canReadConsumption?: boolean;
+  canCheckConnection?: boolean;
 }

@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { TransactionDialogComponent } from 'shared/dialogs/transaction/transaction.dialog.component';
+import { TransactionDialogComponent } from 'shared/dialogs/transaction/transaction-dialog.component';
 import { ConnectorTableFilter } from 'shared/table/filters/connector-table-filter';
 import { CarCatalog } from 'types/Car';
 import { Constants } from 'utils/Constants';
@@ -144,6 +144,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         name: 'transactions.charging_station',
         headerClass: 'col-15p',
         class: 'text-left col-15p',
+        sortable: true,
       },
       {
         id: 'connectorId',

@@ -9,7 +9,7 @@ import { CentralServerService } from '../../../../services/central-server.servic
 import { LocaleService } from '../../../../services/locale.service';
 import { SpinnerService } from '../../../../services/spinner.service';
 import { AppDatePipe } from '../../../../shared/formatters/app-date.pipe';
-import { AppDecimalPipe } from '../../../../shared/formatters/app-decimal-pipe';
+import { AppDecimalPipe } from '../../../../shared/formatters/app-decimal.pipe';
 import { AppDurationPipe } from '../../../../shared/formatters/app-duration.pipe';
 import { AppUnitPipe } from '../../../../shared/formatters/app-unit.pipe';
 import { AssetConsumption, AssetType } from '../../../../types/Asset';
@@ -230,10 +230,12 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
       for (const consumption of this.asset.values) {
         labels.push(new Date(consumption.startedAt).getTime());
         if (instantPowerDataSet) {
-          this.assetType === AssetType.PRODUCTION ? instantPowerDataSet.push(consumption.instantWatts * -1) : instantPowerDataSet.push(consumption.instantWatts);
+          const value = (this.assetType === AssetType.PRODUCTION ? consumption.instantWatts * -1 : consumption.instantWatts);
+          instantPowerDataSet.push(value);
         }
         if (instantAmpsDataSet) {
-          this.assetType === AssetType.PRODUCTION ? instantAmpsDataSet.push(consumption.instantAmps * -1) : instantAmpsDataSet.push(consumption.instantAmps);
+          const value = (this.assetType === AssetType.PRODUCTION ? consumption.instantAmps * -1 : consumption.instantAmps);
+          instantAmpsDataSet.push(value);
         }
         if (limitWattsDataSet) {
           if (consumption.limitWatts) {
@@ -386,7 +388,7 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
             },
             ticks: {
               beginAtZero: true,
-              callback: (value: number) => parseInt(this.decimalPipe.transform(value, '1.0-0')) + 'A',
+              callback: (value: number) => parseInt(this.decimalPipe.transform(value, '1.0-0'), 10) + 'A',
               fontColor: this.defaultColor,
             },
           },

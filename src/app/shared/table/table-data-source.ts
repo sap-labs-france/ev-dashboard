@@ -298,6 +298,7 @@ export abstract class TableDataSource<T extends TableData> {
       this.tableFiltersDef.forEach((filterDef: TableFilterDef) => {
         switch (filterDef.type) {
           case FilterType.DROPDOWN:
+          case FilterType.DATE_RANGE:
             filterDef.reset();
             break;
           case FilterType.DIALOG_TABLE:
@@ -345,6 +346,10 @@ export abstract class TableDataSource<T extends TableData> {
           if (filterDef.type === 'date') {
             // Date
             filterJson[filterDef.httpId] = filterDef.currentValue.toISOString();
+          } else if (filterDef.type === FilterType.DATE_RANGE) {
+            // Date range
+            filterJson[filterDef.dateRangeTableFilterDef?.startDateTimeHttpId] = filterDef.currentValue.startDate.toISOString();
+            filterJson[filterDef.dateRangeTableFilterDef?.endDateTimeHttpId] = filterDef.currentValue.endDate.toISOString();
           } else if (filterDef.type === FilterType.DIALOG_TABLE) {
             // Mono selection
             if (!filterDef.multiple) {

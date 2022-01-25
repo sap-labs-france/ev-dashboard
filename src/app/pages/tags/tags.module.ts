@@ -12,10 +12,10 @@ import { FormattersModule } from '../../shared/formatters/formatters.module';
 import { TableModule } from '../../shared/table/table.module';
 import { AppFormatTagStatusPipe, TagStatusFormatterComponent } from './formatters/tag-status-formatter.component';
 import { TagsListComponent } from './list/tags-list.component';
+import { TagAssignDialogComponent } from './tag-assign/tag-assign-dialog.component';
 import { TagAssignComponent } from './tag-assign/tag-assign.component';
-import { TagAssignDialogComponent } from './tag-assign/tag-assign.dialog.component';
+import { TagDialogComponent } from './tag/tag-dialog.component';
 import { TagComponent } from './tag/tag.component';
-import { TagDialogComponent } from './tag/tag.dialog.component';
 import { TagsComponent } from './tags.component';
 import { TagRoutes } from './tags.routing';
 

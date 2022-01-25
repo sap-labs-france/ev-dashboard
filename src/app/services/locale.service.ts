@@ -1,3 +1,5 @@
+import 'moment/locale/en-au';
+
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject } from 'rxjs';
@@ -17,6 +19,7 @@ export interface Locale {
 
 @Injectable()
 export class LocaleService {
+  private static considerBrowserLocaleAlreadyDone: boolean;
   private locale!: Locale;
   private currentLocaleSubject!: BehaviorSubject<Locale>;
 
@@ -28,6 +31,10 @@ export class LocaleService {
     this.centralServerService.getCurrentUserSubject().subscribe((user) => {
       this.considerUserLocale(user);
     });
+  }
+
+  public getLocaleInformation(): Locale {
+    return this.locale;
   }
 
   public getCurrentLocaleSubject(): BehaviorSubject<Locale> {
@@ -73,36 +80,26 @@ export class LocaleService {
   }
 
   private considerBrowserLocale() {
-    const locale = this.convertToLocale(this.translateService.getBrowserCultureLang());
-    this.updateLocale(locale);
+    if ( !LocaleService.considerBrowserLocaleAlreadyDone ) {
+      LocaleService.considerBrowserLocaleAlreadyDone = true;
+      const locale = Utils.convertToLocale(this.translateService.getBrowserCultureLang());
+      this.updateLocale(locale);
+    }
   }
 
   private updateLocale(locale: string) {
-    if (!this.locale || this.locale.currentLocale !== locale) {
-      this.locale = this.getSupportedLocale(locale);
+    const normalizedLocale = Utils.normalizeLocaleString(locale);
+    if (!this.locale || this.locale.currentLocale !== normalizedLocale) {
+      this.locale = this.getSupportedLocale(normalizedLocale);
       this.translateService.use(this.locale.language);
+      // Make sure to inform moment that the locale has been changed
+      Utils.changeMomentLocaleGlobally(this.locale.currentLocale);
       if (!this.currentLocaleSubject) {
         this.currentLocaleSubject = new BehaviorSubject<Locale>(this.locale);
       } else {
         this.currentLocaleSubject.next(this.locale);
       }
     }
-  }
-
-  private getSupportedLocale(locale: string) {
-    if (!Constants.SUPPORTED_LOCALES.includes(locale)) {
-      locale = Constants.DEFAULT_LOCALE;
-    };
-    let language = this.extractLanguage(locale);
-    if (!Constants.SUPPORTED_LANGUAGES.includes(language)) {
-      language = Constants.DEFAULT_LANGUAGE;
-    }
-    const currentLocale = locale;
-    return {
-      language,
-      currentLocale,
-      currentLocaleJS: this.convertToBrowserLocale(locale)
-    };
   }
 
   private getLocaleDescription(locale: string): string {
@@ -113,16 +110,17 @@ export class LocaleService {
     }
   }
 
-  private extractLanguage(locale: string) {
-    return locale.substring(0, locale.indexOf('_'));
+  private getSupportedLocale(locale: string): Locale {
+    locale = Utils.normalizeLocaleString(locale);
+    let language = Utils.extractLanguage(locale);
+    if (!Constants.SUPPORTED_LANGUAGES.includes(language)) {
+      language = Constants.DEFAULT_LANGUAGE;
+    }
+    const currentLocale = locale;
+    return {
+      language,
+      currentLocale,
+      currentLocaleJS: Utils.convertToBrowserLocale(locale)
+    };
   }
-
-  private convertToLocale(browserLocale: string) {
-    return browserLocale.replace('-', '_');
-  }
-
-  private convertToBrowserLocale(locale: string) {
-    return locale.replace('_', '-');
-  }
-
 }

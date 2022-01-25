@@ -1,4 +1,4 @@
-import { FormControl, FormGroup } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Data, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -111,6 +111,12 @@ export class Utils {
 
   public static isEmptyString(str: string): boolean {
     return str ? str.length === 0 : true;
+  }
+
+  public static convertEmptyStringToNull(control: AbstractControl) {
+    if(this.isEmptyString(control.value)){
+      control.setValue(null);
+    }
   }
 
   public static getConnectorLetterFromConnectorID(connectorID: number): string {
@@ -824,14 +830,14 @@ export class Utils {
         // Log Off (remove token)
         centralServerService.clearLoginInformation();
         // Navigate to Login
-        router.navigate(['/auth/login']);
+        void router.navigate(['/auth/login']);
         break;
       // Unauthorized: Token expired
       case StatusCodes.UNAUTHORIZED:
         // Log Off (remove token)
         centralServerService.clearLoginInformation();
         // Navigate to Login
-        router.navigate(['/auth/login']);
+        void router.navigate(['/auth/login']);
         break;
       // Forbidden
       case StatusCodes.FORBIDDEN:
@@ -941,5 +947,44 @@ export class Utils {
     // add double quote start and end
     // replace double quotes inside value to double double quotes to display double quote correctly in csv editor
     return typeof value === 'string' ? '"' + value.replace(/"/g, '""') + '"' : value;
+  }
+
+  public static normalizeLocaleString(locale: string): string {
+    if (Constants.SUPPORTED_LOCALES.includes(locale)) {
+      return locale;
+    }
+    return Constants.DEFAULT_LOCALE; // en_US
+  }
+
+  public static extractLanguage(locale: string) {
+    return locale.substring(0, locale.indexOf('_'));
+  }
+
+  public static convertToLocale(browserLocale: string) {
+    return browserLocale.replace('-', '_');
+  }
+
+  public static convertToBrowserLocale(locale: string) {
+    return locale.replace('_', '-');
+  }
+
+  public static convertToMomentLocale(locale: string) {
+    let momentLocale = Utils.convertToBrowserLocale(locale).toLowerCase(); // Converts 'fr-FR' to 'fr-fr'
+    const fragments = momentLocale.split('-');
+    if ( fragments.length===2 && fragments[0]===fragments[1] ) {
+      momentLocale = fragments[0];  // Converts 'fr-fr' to 'fr'
+    }
+    return momentLocale;
+  }
+
+  public static changeMomentLocaleGlobally(currentLocale: string) {
+    const momentLocale = Utils.convertToMomentLocale(currentLocale);
+    if ( moment.locale()!== momentLocale ) {
+      console.log('Attempt to set moment locale to: ' + momentLocale);
+      moment.locale(momentLocale);
+      console.log('Moment Locale as been set to: ' + moment.locale());
+      console.log('List of loaded locales: ' + moment.locales());
+      console.log('Current format -  Date: ' + moment().format('LL') + '- time: ' + moment().format('LT'));
+    }
   }
 }

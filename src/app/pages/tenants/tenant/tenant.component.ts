@@ -14,8 +14,7 @@ import { Address } from '../../../types/Address';
 import { RestResponse } from '../../../types/GlobalType';
 import { HTTPError } from '../../../types/HTTPError';
 import { AnalyticsSettingsType, BillingSettingsType, PricingSettingsType, RefundSettingsType, RoamingSettingsType, SmartChargingSettingsType } from '../../../types/Setting';
-import { Tenant } from '../../../types/Tenant';
-import { TenantComponents } from '../../../types/Tenant';
+import { Tenant, TenantComponents } from '../../../types/Tenant';
 import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 
@@ -201,7 +200,6 @@ export class TenantComponent implements OnInit {
     let carConnectorActive = false;
     let ocpiActive = false;
     let oicpActive = false;
-
     for (const component in tenant.components) {
       if (Utils.objectHasProperty(tenant.components, component)) {
         if (!tenant.components[component].active) {

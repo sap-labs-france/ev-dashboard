@@ -24,17 +24,22 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.5.15',
-        date: new Date('2022-01-16'),
+        date: new Date('2022-01-25'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
-              `Added OCPI Tariff ID in Charging Station and its Connectors`,
+              `Added Pricing restrictions on Duration, Energy, Time range and Days of week`,
+              `Added Roaming Tariff ID in Tenant' settings, Site, Site Area, Charging Station and Connector`,
               `Migrated Registration Token and Billing endpoints to RESTful API`,
               `Migrated Asset endpoint to the new authorization framework`,
+              `Switched Date From/To controls to Data Range`,
+              `Lowered, track and added in conf reCaptcha score`,
+              `Enhanced health-check to throw an error in case of low server performance`,
               `Fixed Site Admin cannot create Cars for other Users`,
               `Fixed cannot edit Charging Station with Connector IDs starting at 11`,
-              `Lowered, track and added in conf reCaptcha score`,
+              `Fixed cannot export OCPI CDRs with Swagger`,
+              `Fixed emails of eMSP in lower case in OCPI`
             ],
           },
         ],
@@ -83,7 +88,7 @@ export class ReleaseNotesComponent {
             changes: [
               `New Built-in Pricing engine`,
               `Added OCPI Tariff ID in Tenant's Settings and Site`,
-              `Technical users are only allowed to perform B2B requests`,
+              `API users are only allowed to perform B2B requests`,
               `Migrated Registration Token, Organization and Setting endpoints to RESTful API`,
               `Simplified authorizations on lists`,
               `Fixed Tenant's logo is not loaded when entering a new password`,
@@ -279,7 +284,7 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Site Admin can create users that are assigned to his sites`,
-              `Added Technical User filter in list`,
+              `Added API User filter in list`,
               `Added Czech locale for formatting decimals`,
               `Fixed Asset push REST API`,
               `Fixed OCPI CDR not sent right after the OCPP Status Notification 'Available'`,
@@ -320,7 +325,7 @@ export class ReleaseNotesComponent {
               `Admin can create an RFID Card not assigned to a User`,
               `Fixed Charging Station's template is not applied when the connectors already exist`,
               `Split OCPP Change Availability, Data Transfer, Unlock Connector and Change/Get Configuration commands in REST public API`,
-              `Added Technical User for querying the REST API (B2B)`,
+              `Added API User for querying the REST API (B2B)`,
               `Fixed Retrieve Configuration button in Charging Station's OCPP Parameters`,
               `Fixed exception handling when sending an OCPP command to a disconnected Charging Station`,
               `Display 'Installed' firmware update status in Charging Station list`,

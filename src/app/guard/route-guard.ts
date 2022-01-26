@@ -151,7 +151,7 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
   }
 
   private getFirstAuthorizedRoute(): string {
-    const entityRoutes: { entity: Entity; route: string; } [] = [
+    const entityRoutes: { entity: Entity; route: string } [] = [
       { entity: Entity.CHARGING_STATION, route: RouteGuardService.CHARGING_STATION_ROUTE },
       { entity: Entity.TRANSACTION, route: RouteGuardService.TRANSACTION_ROUTE },
       { entity: Entity.USER, route: RouteGuardService.USER_ROUTE },

@@ -6,7 +6,7 @@
     <h3 class="card-title">{{'settings.information' | translate}}</h3>
   </div>
   <div class="card-body">
-    <span>{{'settings.pricing.full_description' | translate}}</span>
+    <span [innerHtml]="'settings.pricing.full_description' | translate"></span>
     <a href="https://help.sap.com/viewer/product/SAP_CONVERGENT_CHARGING/4.0/en-US" target="new"><u>SAP Convergent Charging</u></a><br><br>
     {{'settings.activation_contact_msg' | translate}}
   </div>
@@ -19,8 +19,18 @@
     </button>
   </div>
   <!-- Pricing Settings -->
-  <app-settings-simple-pricing *ngIf="isActive && pricingSettings?.type === 'simple'" [pricingSettings]="pricingSettings" [formGroup]="formGroup"></app-settings-simple-pricing>
-  <app-pricing-definitions *ngIf="isActive && pricingSettings?.type === 'simple'" [inDialog]="false" [currentPricingDefinitionID]="currentPricingDefinitionID" [currentEntityID]="currentEntityID" [currentEntityType]="currentEntityType" [currentEntityName]="currentEntityName"></app-pricing-definitions>
+  <app-settings-simple-pricing *ngIf="isActive && showSimplePricing"
+    [isCurrencyCodeReadonly]="isCurrencyCodeReadonly"
+    [pricingSettings]="pricingSettings"
+    [formGroup]="formGroup">
+  </app-settings-simple-pricing>
+  <app-pricing-definitions *ngIf="isActive && showPricingDefinitions"
+    [inDialog]="false"
+    [currentPricingDefinitionID]="currentPricingDefinitionID"
+    [currentEntityID]="currentEntityID"
+    [currentEntityType]="currentEntityType"
+    [currentEntityName]="currentEntityName">
+  </app-pricing-definitions>
   <!-- Convergent Charging Pricing -->
   <app-settings-convergent-charging *ngIf="isActive && pricingSettings?.type === 'convergentCharging'" [pricingSettings]="pricingSettings" [formGroup]="formGroup"></app-settings-convergent-charging>
 </form>

@@ -11,13 +11,14 @@ import { AppConnectorTypeSelectionPipe } from './app-connector-type-selection.pi
 import { AppConnectorTypePipe } from './app-connector-type.pipe';
 import { AppCurrencyPipe } from './app-currency.pipe';
 import { AppDatePipe } from './app-date.pipe';
-import { AppDecimalPipe } from './app-decimal-pipe';
+import { AppDayPipe } from './app-day.pipe';
+import { AppDecimalPipe } from './app-decimal.pipe';
 import { AppDurationPipe } from './app-duration.pipe';
 import { AppFormatRowCellPipe } from './app-format-row-cell.pipe';
 import { AppInactivityPipe } from './app-inactivity.pipe';
-import { AppPercentPipe } from './app-percent-pipe';
-import { AppPricingDimensionsPrice } from './app-pricing-dimensions-price';
-import { AppPricingDimensionsUnit } from './app-pricing-dimensions-unit';
+import { AppPercentPipe } from './app-percent.pipe';
+import { AppPricingDimensionsUnit } from './app-pricing-dimensions-unit.pipe';
+import { AppPricingDimensionsPrice } from './app-pricing-dimensions.price.pipe';
 import { AppTaxName } from './app-tax-name.pipe';
 import { AppUnitPipe } from './app-unit.pipe';
 import { AppUserMultipleRolesPipe } from './app-user-multiple-roles.pipe';
@@ -47,6 +48,7 @@ import { AppUserNamePipe } from './app-user-name.pipe';
     AppTaxName,
     AppPricingDimensionsUnit,
     AppPricingDimensionsPrice,
+    AppDayPipe,
   ],
   exports: [
     AppArrayToStringPipe,
@@ -70,6 +72,7 @@ import { AppUserNamePipe } from './app-user-name.pipe';
     AppTaxName,
     AppPricingDimensionsUnit,
     AppPricingDimensionsPrice,
+    AppDayPipe,
   ],
   providers: [
     LocaleService,
@@ -93,6 +96,7 @@ import { AppUserNamePipe } from './app-user-name.pipe';
     AppTaxName,
     AppPricingDimensionsUnit,
     AppPricingDimensionsPrice,
+    AppDayPipe,
   ],
 })
 export class FormattersModule {

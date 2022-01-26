@@ -6,12 +6,12 @@ import { Observable } from 'rxjs';
 import { CentralServerService } from '../../../services/central-server.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
-import { AppDecimalPipe } from '../../../shared/formatters/app-decimal-pipe';
 import { AppUnitPipe } from '../../../shared/formatters/app-unit.pipe';
 import { CarCatalog } from '../../../types/Car';
 import { DataResult } from '../../../types/DataResult';
 import { TableColumnDef } from '../../../types/Table';
 import { Utils } from '../../../utils/Utils';
+import { AppDecimalPipe } from '../../formatters/app-decimal.pipe';
 import { DialogTableDataSource } from '../dialog-table-data-source';
 
 @Injectable()

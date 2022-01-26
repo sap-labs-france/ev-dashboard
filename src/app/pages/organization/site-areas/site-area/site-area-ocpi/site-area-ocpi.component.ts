@@ -1,14 +1,16 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Site } from 'types/Site';
-import { Utils } from 'utils/Utils';
+
+import { SiteArea } from '../../../../../types/SiteArea';
+import { Utils } from '../../../../../utils/Utils';
 
 @Component({
-  selector: 'app-site-ocpi',
-  templateUrl: 'site-ocpi.component.html',
+  selector: 'app-site-area-ocpi',
+  templateUrl: 'site-area-ocpi.component.html',
 })
-export class SiteOcpiComponent implements OnInit, OnChanges {
-  @Input() public site!: Site;
+export class SiteAreaOcpiComponent implements OnInit, OnChanges {
+  @Input() public siteArea!: SiteArea;
   @Input() public formGroup!: FormGroup;
   @Input() public readOnly: boolean;
 
@@ -22,7 +24,6 @@ export class SiteOcpiComponent implements OnInit, OnChanges {
       Validators.compose([
         Validators.maxLength(36),
       ])));
-
     // Form
     this.tariffID = this.formGroup.controls['tariffID'];
     if (this.readOnly) {
@@ -32,21 +33,21 @@ export class SiteOcpiComponent implements OnInit, OnChanges {
   }
 
   public ngOnChanges() {
-    this.loadSite();
+    this.loadSiteArea();
   }
 
-  public loadSite() {
-    if (this.site) {
-      this.public = this.site.public;
+  public loadSiteArea() {
+    if (this.siteArea) {
+      this.public = this.siteArea.site?.public;
       this.enableDisableTariffID();
-      if (this.site.tariffID) {
-        this.tariffID.setValue(this.site.tariffID);
+      if (this.siteArea.tariffID) {
+        this.tariffID.setValue(this.siteArea.tariffID);
       }
     }
   }
 
-  public publicChanged(publicValue: boolean) {
-    this.public = publicValue;
+  public siteChanged(site: Site) {
+    this.public = site?.public;
     this.enableDisableTariffID();
   }
 

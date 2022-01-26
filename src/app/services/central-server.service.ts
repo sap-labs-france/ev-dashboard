@@ -1955,6 +1955,12 @@ export class CentralServerService {
     return this.currentUser;
   }
 
+  public getCurrencyCode(): string {
+    // The [ISO 4217] currency code as defined in the Pricing Settings
+    // N.B.: An empty string is returned when not yet set!
+    return this.getLoggedUser()?.currency;
+  }
+
   public isAuthenticated(): boolean {
     return this.getLoggedUserToken() && !new JwtHelperService().isTokenExpired(this.getLoggedUserToken());
   }
@@ -3001,7 +3007,8 @@ export class CentralServerService {
       );
   }
 
-  public getChargingStationCompositeSchedule(id: string, connectorId: number, duration: number, unit: string): Observable<GetCompositeScheduleCommandResult | GetCompositeScheduleCommandResult[]> {
+  public getChargingStationCompositeSchedule(id: string, connectorId: number, duration: number, unit: string):
+  Observable<GetCompositeScheduleCommandResult | GetCompositeScheduleCommandResult[]> {
     // Verify init
     this.checkInit();
     // build request
@@ -3024,7 +3031,10 @@ export class CentralServerService {
       );
   }
 
-  public chargingStationLimitPower(charger: ChargingStation, chargePoint: ChargePoint, connectorId?: number, ampLimitValue: number = 0, forceUpdateChargingPlan: boolean = false): Observable<ActionResponse> {
+  public chargingStationLimitPower(
+    charger: ChargingStation, chargePoint: ChargePoint,
+    connectorId?: number, ampLimitValue: number = 0,
+    forceUpdateChargingPlan: boolean = false): Observable<ActionResponse> {
     // Verify init
     this.checkInit();
     // Execute

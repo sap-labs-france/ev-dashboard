@@ -24,7 +24,10 @@ export class TableDeleteAssetAction extends TableDeleteAction {
     };
   }
 
-  private deleteAsset(asset: Asset, dialogService: DialogService, translateService: TranslateService, messageService: MessageService, centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) {
+  private deleteAsset(asset: Asset, dialogService: DialogService,
+    translateService: TranslateService, messageService: MessageService,
+    centralServerService: CentralServerService, spinnerService: SpinnerService,
+    router: Router, refresh?: () => Observable<void>) {
     super.delete(
       asset, 'assets.delete_title',
       translateService.instant('assets.delete_confirm', { assetName: asset.name }),

@@ -31,7 +31,6 @@ export class TenantComponent extends AbstractTabComponent implements OnInit {
 
   public formGroup!: FormGroup;
   public tenant!: Tenant;
-  private currentTenant!: Tenant;
 
   public constructor(
     private centralServerService: CentralServerService,
@@ -170,7 +169,7 @@ export class TenantComponent extends AbstractTabComponent implements OnInit {
       this.messageService.showErrorMessage('tenants.save_error_car_connector');
       return;
     }
-    if (this.currentTenant) {
+    if (this.tenant) {
       this.updateTenant(tenant);
     } else {
       this.createTenant(tenant);

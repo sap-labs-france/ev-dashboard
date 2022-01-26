@@ -9,6 +9,11 @@
   }
 }
 
+.mat-button-toggle-checked {
+  background-color: $brand-primary;
+  color: white !important;
+}
+
 .mat-menu-item .mat-icon {
   margin-right: 0 !important;
 }

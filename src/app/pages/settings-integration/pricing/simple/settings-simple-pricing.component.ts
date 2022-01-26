@@ -10,6 +10,7 @@ import { PricingSettings } from '../../../../types/Setting';
 export class SettingsSimplePricingComponent implements OnInit, OnChanges {
   @Input() public formGroup!: FormGroup;
   @Input() public pricingSettings!: PricingSettings;
+  @Input() public isCurrencyCodeReadonly!: boolean;
 
   public simplePricing!: FormGroup;
   public price!: AbstractControl;
@@ -37,6 +38,9 @@ export class SettingsSimplePricingComponent implements OnInit, OnChanges {
     // Keep
     this.price = this.simplePricing.controls['price'];
     this.currency = this.simplePricing.controls['currency'];
+    if ( this.isCurrencyCodeReadonly ) {
+      this.currency.disable();
+    }
     // Set
     this.updateFormData();
   }

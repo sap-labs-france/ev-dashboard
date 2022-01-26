@@ -8,11 +8,6 @@
   <div class="card-body">
     <app-table [dataSource]="pricingsTableDataSource"></app-table>
   </div>
-  <div class="tabs-actions" *ngIf="inDialog">
-    <button mat-icon-button (click)="close()">
-      <mat-icon>close</mat-icon>
-    </button>
-  </div>
 </div>
 <div class="card" *ngIf="inDialog">
   <mat-tab-group animationDuration="0ms" disableRipple="true" class="mat-tab-info charger-dialog-container mat-tabs-with-actions">

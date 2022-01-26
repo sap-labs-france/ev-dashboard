@@ -66,7 +66,7 @@
             </ng-container>
             <!-- Refresh -->
             <button mat-raised-button *ngIf="actionRightDef.id === ButtonAction.REFRESH" class="button-refresh"
-              (click)="refresh()" [color]="(actionRightDef.color ? actionRightDef.color : '')" appTooltip
+              (click)="fetchLatestRefresh()" [color]="(actionRightDef.color ? actionRightDef.color : '')" appTooltip
               [title]="actionRightDef.tooltip | translate">
               <div *ngIf="ongoingAutoRefresh" class="spinner-autorefresh2">
                 <div class="loader"></div>
@@ -144,7 +144,8 @@
                 [ngModel]="filterDef.currentValue"
                 [ranges]="filterDef.items[0]"
                 [alwaysShowCalendars]="true"
-                (ngModelChange)="dateRangeChanged(filterDef, $event)"/>
+                (ngModelChange)="dateRangeChanged(filterDef, $event)"
+                (keyup.enter)="dateRangeChangedDirectly(filterDef, $event)"/>
               <mat-icon matSuffix class="ngx-daterangepicker-action date-range-picker-icon mt-1" (click)="openDateRanges(ngxDatePickerElement)">
                 date_range
               </mat-icon>

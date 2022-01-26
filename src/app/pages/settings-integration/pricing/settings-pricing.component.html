@@ -19,8 +19,18 @@
     </button>
   </div>
   <!-- Pricing Settings -->
-  <app-settings-simple-pricing *ngIf="isActive && pricingSettings?.type === 'simple'" [pricingSettings]="pricingSettings" [formGroup]="formGroup"></app-settings-simple-pricing>
-  <app-pricing-definitions *ngIf="isActive && pricingSettings?.type === 'simple'" [inDialog]="false" [currentPricingDefinitionID]="currentPricingDefinitionID" [currentEntityID]="currentEntityID" [currentEntityType]="currentEntityType" [currentEntityName]="currentEntityName"></app-pricing-definitions>
+  <app-settings-simple-pricing *ngIf="isActive && showSimplePricing"
+    [isCurrencyCodeReadonly]="isCurrencyCodeReadonly"
+    [pricingSettings]="pricingSettings"
+    [formGroup]="formGroup">
+  </app-settings-simple-pricing>
+  <app-pricing-definitions *ngIf="isActive && showPricingDefinitions"
+    [inDialog]="false"
+    [currentPricingDefinitionID]="currentPricingDefinitionID"
+    [currentEntityID]="currentEntityID"
+    [currentEntityType]="currentEntityType"
+    [currentEntityName]="currentEntityName">
+  </app-pricing-definitions>
   <!-- Convergent Charging Pricing -->
   <app-settings-convergent-charging *ngIf="isActive && pricingSettings?.type === 'convergentCharging'" [pricingSettings]="pricingSettings" [formGroup]="formGroup"></app-settings-convergent-charging>
 </form>

@@ -244,7 +244,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
         },
         scaleLabel: {
           display: true,
-          labelString: 'Consumption by Site Area'
+          labelString: this.translateService.instant('transactions.consumption')
         }
       }];
       // Assign

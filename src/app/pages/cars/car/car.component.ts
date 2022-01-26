@@ -7,11 +7,10 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { ComponentService } from 'services/component.service';
 import { UsersDialogComponent } from 'shared/dialogs/users/users-dialog.component';
-import { DialogMode } from 'types/Authorization';
+import { CarAuthorizationActions, DialogMode } from 'types/Authorization';
 import { CarConnectorConnectionSetting } from 'types/Setting';
 import { TenantComponents } from 'types/Tenant';
 
-import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
@@ -34,11 +33,11 @@ export class CarComponent implements OnInit {
   @Input() public currentCarID!: string;
   @Input() public dialogMode!: DialogMode;
   @Input() public dialogRef!: MatDialogRef<any>;
+  @Input() public carAuthorizationActions!: CarAuthorizationActions;
   public carCatalogImage: string;
   public isBasic: boolean;
   public selectedCarCatalog: CarCatalog;
   public carCatalogConverters: { type: CarConverterType; value: string; converter: CarConverter }[] = [];
-  public isAdmin: boolean;
   public canListUsers: boolean;
   public isCarConnectorComponentActive: boolean;
   public isPool = false;
@@ -77,13 +76,7 @@ export class CarComponent implements OnInit {
     private dialogService: DialogService,
     private router: Router,
     private dialog: MatDialog,
-    private authorizationService: AuthorizationService,
     private componentService: ComponentService ) {
-    this.isAdmin = this.authorizationService.isAdmin();
-    this.canListUsers = this.authorizationService.canListUsers();
-    if (this.isAdmin) {
-      this.carTypes.push({ key: CarType.POOL_CAR, value: 'cars.pool_car' });
-    }
     this.isCarConnectorComponentActive = this.componentService.isActive(TenantComponents.CAR_CONNECTOR);
   }
 
@@ -161,6 +154,12 @@ export class CarComponent implements OnInit {
     this.type.valueChanges.subscribe((value) => {
       this.isPool = (value === CarType.POOL_CAR);
     });
+    // Initialize authorization actions
+    this.canListUsers = Utils.convertToBoolean(this.carAuthorizationActions.canListUsers);
+    // Add car pool selection if authorized
+    if(this.carAuthorizationActions.canCreatePoolCar) {
+      this.carTypes.push({ key: CarType.POOL_CAR, value: 'cars.pool_car' });
+    }
     this.loadCar();
   }
 
@@ -200,6 +199,12 @@ export class CarComponent implements OnInit {
         this.formGroup.updateValueAndValidity();
         this.formGroup.markAsPristine();
         this.formGroup.markAllAsTouched();
+        // Update auhorization actions
+        this.canListUsers = Utils.convertToBoolean(car.canListUsers);
+        if(car.canCreatePoolCar) {
+          // Add car pool selection if authorized
+          this.carTypes.push({ key: CarType.POOL_CAR, value: 'cars.pool_car' });
+        }
       }, (error) => {
         this.spinnerService.hide();
         switch (error.status) {

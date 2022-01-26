@@ -1,5 +1,5 @@
 import { Asset } from './Asset';
-import { AuthorizationDefinitionFieldMetadata } from './Authorization';
+import { AuthorizationDefinitionFieldMetadata, CarAuthorizationActions } from './Authorization';
 import { Car, CarCatalog } from './Car';
 import { Company } from './Company';
 import { Log } from './Log';
@@ -99,8 +99,7 @@ export interface LogDataResult extends DataResult<Log> {
   canExport: boolean;
 }
 
-export interface CarDataResult extends DataResult<Car> {
-  canCreate: boolean;
+export interface CarDataResult extends DataResult<Car>, CarAuthorizationActions {
 }
 
 export interface CarCatalogDataResult extends DataResult<CarCatalog> {

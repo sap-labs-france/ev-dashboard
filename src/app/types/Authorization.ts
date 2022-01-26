@@ -167,6 +167,12 @@ export interface AuthorizationActions {
   metadata?: Record<string, AuthorizationDefinitionFieldMetadata>;
 }
 
+export interface CarAuthorizationActions extends AuthorizationActions {
+  canListUsers?: boolean;
+  canListCarCatalog?: boolean;
+  canCreatePoolCar?: boolean;
+}
+
 export interface TagAuthorizationActions extends AuthorizationActions {
   canUnassign?: boolean;
   canAssign?: boolean;

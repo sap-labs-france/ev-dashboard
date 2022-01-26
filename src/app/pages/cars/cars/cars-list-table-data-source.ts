@@ -4,8 +4,8 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { TableMoreAction } from 'shared/table/actions/table-more-action';
+import { CarAuthorizationActions } from 'types/Authorization';
 
-import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
@@ -34,6 +34,9 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
   private createAction = new TableCreateCarAction().getActionDef();
   private editAction = new TableEditCarAction().getActionDef();
   private deleteAction = new TableDeleteCarAction().getActionDef();
+  private usersFilter: TableFilterDef;
+  private carMakerFilter: TableFilterDef;
+  private authorizationActions: CarAuthorizationActions;
 
   public constructor(
     public spinnerService: SpinnerService,
@@ -43,7 +46,6 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
     private centralServerService: CentralServerService,
     private dialog: MatDialog,
     private datePipe: AppDatePipe,
-    private authorizationService: AuthorizationService,
     private dialogService: DialogService,
     private appUnitPipe: AppUnitPipe,
   ) {
@@ -64,7 +66,15 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
     return new Observable((observer) => {
       // Get cars
       this.centralServerService.getCars(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe((cars) => {
-        this.createAction.visible = cars.canCreate;
+        // Initialize authorization actions
+        this.authorizationActions = {
+          canCreate: Utils.convertToBoolean(cars.canCreate),
+          canListUsers: Utils.convertToBoolean(cars.canListUsers),
+          canListCarCatalog: Utils.convertToBoolean(cars.canListCarCatalog),
+          canCreatePoolCar: Utils.convertToBoolean(cars.canCreatePoolCar)
+        };
+        // Update filters visibility
+        this.updateFilterVisibilityWithAthorizationActions();
         observer.next(cars);
         observer.complete();
       }, (error) => {
@@ -226,19 +236,24 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
       case CarButtonAction.CREATE_CAR:
         if (actionDef.action) {
           (actionDef as TableCreateCarActionDef).action(CarDialogComponent,
-            this.dialog, this.refreshData.bind(this));
+            this.dialog, this.authorizationActions, this.refreshData.bind(this));
         }
         break;
     }
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {
-    const tableFilterDef: TableFilterDef[] = [];
-    if (this.authorizationService.canListUsers()) {
-      tableFilterDef.push(new UserTableFilter().getFilterDef());
-    }
-    tableFilterDef.push(new CarMakerTableFilter().getFilterDef());
-    return tableFilterDef;
+    this.usersFilter = new UserTableFilter().getFilterDef();
+    this.carMakerFilter = new CarMakerTableFilter().getFilterDef();
+    // Filter visibility will be defined by auth
+    this.usersFilter.visible = false;
+    this.carMakerFilter.visible = false;
+    // Create and return filter
+    const filters: TableFilterDef[] = [
+      this.usersFilter,
+      this.carMakerFilter
+    ];
+    return filters;
   }
 
   public buildTableActionsRightDef(): TableActionDef[] {
@@ -278,5 +293,11 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
         }
         break;
     }
+  }
+
+  private updateFilterVisibilityWithAthorizationActions(): void {
+    this.createAction.visible = this.authorizationActions.canCreate;
+    this.usersFilter.visible = this.authorizationActions.canListUsers;
+    this.carMakerFilter.visible = this.authorizationActions.canListCarCatalog;
   }
 }

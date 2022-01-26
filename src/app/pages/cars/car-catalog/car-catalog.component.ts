@@ -3,7 +3,6 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Constants } from 'utils/Constants';
 
-import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
@@ -19,16 +18,14 @@ export class CarCatalogComponent implements OnInit {
   @Input() public inDialog!: boolean;
   @Input() public dialogRef!: MatDialogRef<any>;
   public carCatalog: CarCatalog;
-  public isSuperAdmin: boolean;
+  public canDebug = false;
   public noImage = Constants.NO_IMAGE;
 
   public constructor(
     private centralServerService: CentralServerService,
     public spinnerService: SpinnerService,
     private messageService: MessageService,
-    private router: Router,
-    private authorizationService: AuthorizationService) {
-    this.isSuperAdmin = this.authorizationService.isSuperAdmin();
+    private router: Router) {
   }
 
   public ngOnInit(): void {
@@ -43,6 +40,7 @@ export class CarCatalogComponent implements OnInit {
     this.centralServerService.getCarCatalog(this.currentCarCatalogID).subscribe((carCatalog: CarCatalog) => {
       this.spinnerService.hide();
       this.carCatalog = carCatalog;
+      this.canDebug = carCatalog.canDebug;
     }, (error) => {
       this.spinnerService.hide();
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'cars.car_error');

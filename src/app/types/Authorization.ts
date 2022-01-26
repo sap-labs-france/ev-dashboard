@@ -140,6 +140,8 @@ export enum Action {
   EXPORT_OCPP_PARAMS = 'ExportOCPPParams',
   GENERATE_QR = 'GenerateQrCode',
   MAINTAIN_PRICING_DEFINITIONS = 'MaintainPricingDefinitions',
+  CREATE_POOL_CAR = 'CreatePoolCar',
+  DEBUG = 'Debug',
 }
 
 export interface AuthorizationContext {
@@ -171,6 +173,10 @@ export interface CarAuthorizationActions extends AuthorizationActions {
   canListUsers?: boolean;
   canListCarCatalog?: boolean;
   canCreatePoolCar?: boolean;
+}
+
+export interface CarCatalogAuthorizationActions extends AuthorizationActions {
+  canDebug?: boolean;
 }
 
 export interface TagAuthorizationActions extends AuthorizationActions {

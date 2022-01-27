@@ -20,10 +20,6 @@
       [disabled]="!formGroup.valid || formGroup.dirty">
       <mat-icon>insert_link</mat-icon><span>{{'settings.billing.check_connection' | translate}}</span>
     </button>
-    <button mat-raised-button color="primary" (click)="synchronizeUsers()"
-      [disabled]="!formGroup.valid || formGroup.dirty">
-      <mat-icon>sync</mat-icon><span>{{'settings.billing.user.synchronize_users' | translate}}</span>
-    </button>
     <button mat-raised-button color="warn" (click)="checkConnection(true)"
       [disabled]="!formGroup.valid || formGroup.dirty || !billingSettings?.billing?.taxID || billingSettings?.billing?.isTransactionBillingActivated">
       <mat-icon>toggle_off</mat-icon><span>{{'settings.billing.transaction_billing_activation' | translate}}</span>
@@ -32,10 +28,6 @@
       [disabled]="!formGroup.valid || formGroup.dirty">
       <mat-icon>clear</mat-icon><span>{{'settings.billing.billing_clear_test_data' | translate}}</span>
     </button>
-    <!-- <button mat-raised-button color="primary" (click)="synchronizeInvoices()"
-            [disabled]="!formGroup.valid || formGroup.dirty">
-      <mat-icon>sync</mat-icon><span>{{'settings.billing.invoice.synchronize_invoices' | translate}}</span>
-    </button> -->
   </div>
   <!-- Stripe -->
   <app-settings-stripe-billing *ngIf="isActive && billingSettings?.type === 'stripe'" [billingSettings]="billingSettings" [formGroup]="formGroup"></app-settings-stripe-billing>

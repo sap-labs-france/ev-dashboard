@@ -1613,18 +1613,6 @@ export class CentralServerService {
     );
   }
 
-  public synchronizeUsersForBilling(): Observable<ActionsResponse> {
-    this.checkInit();
-    // Execute the REST service
-    return this.httpClient.post<ActionsResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.BILLING_SYNCHRONIZE_USERS}`, {},
-      {
-        headers: this.buildHttpHeaders(),
-      })
-      .pipe(
-        catchError(this.handleHttpError),
-      );
-  }
-
   public synchronizeUserForBilling(userID: string): Observable<ActionResponse> {
     this.checkInit();
     // Execute the REST service
@@ -1736,32 +1724,6 @@ export class CentralServerService {
     }).pipe(
       catchError(this.handleHttpError),
     );
-  }
-
-  public synchronizeInvoicesForBilling(): Observable<ActionsResponse> {
-    this.checkInit();
-    // Execute the REST service
-    return this.httpClient.post<ActionsResponse>(
-      `${this.centralRestServerServiceSecuredURL}/${ServerAction.BILLING_SYNCHRONIZE_INVOICES}`, {},
-      {
-        headers: this.buildHttpHeaders(),
-      })
-      .pipe(
-        catchError(this.handleHttpError),
-      );
-  }
-
-  public forceSynchronizeUserInvoicesForBilling(userID: string): Observable<ActionsResponse> {
-    this.checkInit();
-    // Execute the REST service
-    return this.httpClient.post<ActionsResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.BILLING_FORCE_SYNCHRONIZE_USER_INVOICES}`,
-      { userID },
-      {
-        headers: this.buildHttpHeaders(),
-      })
-      .pipe(
-        catchError(this.handleHttpError),
-      );
   }
 
   public downloadInvoice(invoiceID: string): Observable<Blob> {

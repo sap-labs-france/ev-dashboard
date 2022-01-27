@@ -6,20 +6,23 @@ import { SiteAreaConsumptionChartComponent } from './site-area-consumption-chart
 
 @Component({
   template:
-    `<app-site-area-chart #siteAreaConsumptionChart *ngIf="siteAreaId" [siteAreaId]="siteAreaId" ratio="3"></app-site-area-chart>`,
+    `<app-site-area-chart #siteAreaConsumptionChart *ngIf="siteAreaId" [siteAreaId]="siteAreaId" ratio="3" [canCrudSiteArea]="canCrudSiteArea"></app-site-area-chart>`,
 })
 
 export class SiteAreaConsumptionChartDetailComponent extends CellContentTemplateDirective implements OnChanges, OnInit {
   @Input() public row!: SiteArea;
   @ViewChild('siteAreaConsumptionChart') public chartComponent!: SiteAreaConsumptionChartComponent;
   public siteAreaId!: string;
+  public canCrudSiteArea!: boolean;
 
   public ngOnInit(): void {
     this.siteAreaId = this.row.id as string;
+    this.canCrudSiteArea = this.row.canCrudSiteArea;
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
     this.siteAreaId = this.row.id as string;
+    this.canCrudSiteArea = this.row.canCrudSiteArea;
     this.chartComponent.refresh();
   }
 }

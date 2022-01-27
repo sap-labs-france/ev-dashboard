@@ -4,7 +4,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { Chart, ChartColor, ChartData, ChartDataSets, ChartOptions, ChartTooltipItem } from 'chart.js';
 import * as moment from 'moment';
 
-import { AuthorizationService } from '../../../../../services/authorization.service';
 import { CentralServerService } from '../../../../../services/central-server.service';
 import { LocaleService } from '../../../../../services/locale.service';
 import { SpinnerService } from '../../../../../services/spinner.service';
@@ -23,6 +22,7 @@ import { Utils } from '../../../../../utils/Utils';
 export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit {
   @Input() public siteAreaId!: string;
   @Input() public siteArea!: SiteAreaConsumption;
+  @Input() public canCrudSiteArea!: boolean;
 
   @ViewChild('primary', { static: true }) public primaryElement!: ElementRef;
   @ViewChild('secondary', { static: true }) public secondaryElement!: ElementRef;
@@ -35,7 +35,6 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
   public dateControl!: AbstractControl;
   public startDate = moment().startOf('d').toDate();
   public endDate = moment().endOf('d').toDate();
-  private canCrudSiteArea = false;
   private graphCreated = false;
   private lineTension = 0;
   private data: ChartData = {
@@ -66,13 +65,10 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
     private localeService: LocaleService,
     private datePipe: AppDatePipe,
     private durationPipe: AppDurationPipe,
-    private decimalPipe: AppDecimalPipe,
-    private authorizationService: AuthorizationService) {
+    private decimalPipe: AppDecimalPipe) {
     this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
       this.language = locale.language;
     });
-    this.canCrudSiteArea = this.authorizationService.canCreateSiteArea() && this.authorizationService.canReadSiteArea() &&
-      this.authorizationService.canUpdateSiteArea() && this.authorizationService.canDeleteSiteArea();
   }
 
   public ngOnInit() {
@@ -85,16 +81,19 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
     this.activeLegend.push(
       {
         key: this.translateService.instant('organization.graph.limit_amps') + this.translateService.instant('organization.graph.limit_watts'),
-        hidden: this.canCrudSiteArea ? false : true
-      },{
+        hidden: !Utils.convertToBoolean(this.canCrudSiteArea)
+      },
+      {
         key: this.translateService.instant('organization.graph.asset_consumption_amps') + this.translateService.instant('organization.graph.asset_consumption_watts'),
-        hidden: this.canCrudSiteArea ? false : true
-      },{
+        hidden: !Utils.convertToBoolean(this.canCrudSiteArea)
+      },
+      {
         key: this.translateService.instant('organization.graph.asset_production_amps') + this.translateService.instant('organization.graph.asset_production_watts'),
-        hidden: this.canCrudSiteArea ? false : true
-      },{
+        hidden: !Utils.convertToBoolean(this.canCrudSiteArea)
+      },
+      {
         key: this.translateService.instant('organization.graph.charging_station_consumption_amps') + this.translateService.instant('organization.graph.charging_station_consumption_watts'),
-        hidden: this.canCrudSiteArea ? false : true
+        hidden: !Utils.convertToBoolean(this.canCrudSiteArea)
       },
     );
   }

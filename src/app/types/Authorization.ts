@@ -195,6 +195,7 @@ export interface SiteAreaAuthorizationActions extends AuthorizationActions {
   canReadChargingStations?: boolean;
   canExportOCPPParams?: boolean;
   canGenerateQrCode?: boolean;
+  canCrudSiteArea?: boolean;
 }
 
 export interface SiteAuthorizationActions extends AuthorizationActions {

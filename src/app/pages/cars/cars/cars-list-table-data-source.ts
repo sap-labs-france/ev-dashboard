@@ -30,7 +30,6 @@ import { CarCatalogImageFormatterCellComponent } from '../cell-components/car-ca
 
 @Injectable()
 export class CarsListTableDataSource extends TableDataSource<Car> {
-  public isBasic: boolean;
   private createAction = new TableCreateCarAction().getActionDef();
   private editAction = new TableEditCarAction().getActionDef();
   private deleteAction = new TableDeleteCarAction().getActionDef();

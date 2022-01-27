@@ -35,12 +35,10 @@ export class CarComponent implements OnInit {
   @Input() public dialogRef!: MatDialogRef<any>;
   @Input() public carAuthorizationActions!: CarAuthorizationActions;
   public carCatalogImage: string;
-  public isBasic: boolean;
   public selectedCarCatalog: CarCatalog;
   public carCatalogConverters: { type: CarConverterType; value: string; converter: CarConverter }[] = [];
   public canListUsers: boolean;
   public isCarConnectorComponentActive: boolean;
-  public isPool = false;
   public readOnly = true;
 
   public formGroup!: FormGroup;
@@ -150,10 +148,6 @@ export class CarComponent implements OnInit {
     this.carConnectorMeterID = this.formGroup.get('carConnectorData.carConnectorMeterID');
     // Default
     this.converterType.disable();
-    // Register events
-    this.type.valueChanges.subscribe((value) => {
-      this.isPool = (value === CarType.POOL_CAR);
-    });
     // Initialize authorization actions
     this.canListUsers = Utils.convertToBoolean(this.carAuthorizationActions.canListUsers);
     // Add car pool selection if authorized
@@ -161,6 +155,8 @@ export class CarComponent implements OnInit {
       this.carTypes.push({ key: CarType.POOL_CAR, value: 'cars.pool_car' });
     }
     this.loadCar();
+    // Handle Dialog mode
+    Utils.handleDialogMode(this.dialogMode, this.formGroup);
   }
 
   public onClose() {

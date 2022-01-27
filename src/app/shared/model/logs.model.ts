@@ -16,8 +16,15 @@ export const sources: KeyValue[] = [
   { key: 'Oicp', value: 'Oicp Server' },
   { key: 'OData', value: 'OData Server' },
   { key: 'Batch', value: 'Batch Server' },
-];
-
+].sort((source1, source2) => {
+  if (source1.value.toLocaleLowerCase() < source2.value.toLocaleLowerCase()) {
+    return -1;
+  }
+  if (source1.value.toLocaleLowerCase() > source2.value.toLocaleLowerCase()) {
+    return 1;
+  }
+  return 0;
+});
 
 export const LOG_ACTIONS: KeyValue[] = Object.values(ServerAction)
   .map((value) => ({ key: value, value }))

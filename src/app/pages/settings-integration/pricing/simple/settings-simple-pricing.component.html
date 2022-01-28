@@ -8,16 +8,17 @@
 
   <div class="card-body">
     <div class="row mt-1">
-      <div class="col-md-6">
+      <div class="col-md-3">
         <mat-form-field>
           <mat-label for="inputPriceUnit">{{'pricing.price_unit_label' | translate}} *</mat-label>
-          <mat-select id="inputPriceUnit" [formControl]="currency">
+          <mat-select id="inputPriceUnit"
+            [formControl]="currency">
             <mat-option value="AUD">Australian Dollar</mat-option>
             <mat-option value="BRL">Brazilian Real </mat-option>
             <mat-option value="CAD">Canadian Dollar</mat-option>
             <mat-option value="CZK">Czech Koruna</mat-option>
             <mat-option value="DKK">Danish Krone</mat-option>
-            <mat-option value="EUR" selected>Euro</mat-option>
+            <mat-option value="EUR">Euro</mat-option>
             <mat-option value="HKD">Hong Kong Dollar</mat-option>
             <mat-option value="HUF">Hungarian Forint </mat-option>
             <mat-option value="ILS">Israeli New Sheqel</mat-option>

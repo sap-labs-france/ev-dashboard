@@ -28,7 +28,7 @@ export class AppUnitPipe implements PipeTransform {
     if (Unit[Unit[measureAsString]] === measureAsString) {
       return { unit: Unit[measureAsString], size: Size.BASIS };
     }
-    return { unit: Unit[measureAsString.slice(1)], size: Size[measureAsString.slice(0, 1)] as any };
+    return { unit: Unit[measureAsString.slice(1)], size: Size[measureAsString.slice(0, 1).toUpperCase()] as any };
   }
 }
 
@@ -38,8 +38,8 @@ interface Measure {
 }
 
 enum Unit {
-  WATT = 'W',
-  WATT_HOUR = 'Wh',
+  W,
+  Wh,
 }
 
 enum Size {

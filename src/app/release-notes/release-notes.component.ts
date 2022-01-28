@@ -24,11 +24,12 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.5.15',
-        date: new Date('2022-01-19'),
+        date: new Date('2022-01-27'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Added Pricing restrictions on Duration, Energy, Time range and Days of week`,
               `Added Roaming Tariff ID in Tenant' settings, Site, Site Area, Charging Station and Connector`,
               `Migrated Registration Token and Billing endpoints to RESTful API`,
               `Migrated Asset endpoint to the new authorization framework`,

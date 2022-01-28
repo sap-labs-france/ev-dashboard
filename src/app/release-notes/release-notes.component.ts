@@ -23,6 +23,18 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.5.16',
+        date: new Date('2022-01-28'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Fixed size of all pop-ups`
+            ],
+          },
+        ],
+      },
+      {
         version: '2.5.15',
         date: new Date('2022-01-27'),
         componentChanges: [

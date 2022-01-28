@@ -93,6 +93,7 @@ export interface CompanyDataResult extends DataResult<Company> {
 
 export interface SiteDataResult extends DataResult<Site> {
   canCreate: boolean;
+  canListCompanies: boolean;
 }
 
 export interface LogDataResult extends DataResult<Log> {

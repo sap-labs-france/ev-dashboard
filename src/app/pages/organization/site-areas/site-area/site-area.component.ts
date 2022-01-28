@@ -73,7 +73,7 @@ export class SiteAreaComponent extends AbstractTabComponent  implements OnInit {
     if (this.currentSiteAreaID) {
       // Show spinner
       this.spinnerService.show();
-      this.centralServerService.getSiteArea(this.currentSiteAreaID, true).subscribe((siteArea) => {
+      this.centralServerService.getSiteArea(this.currentSiteAreaID, true, true).subscribe((siteArea) => {
         this.spinnerService.hide();
         this.siteArea = siteArea;
         // Check if OCPI has to be displayed

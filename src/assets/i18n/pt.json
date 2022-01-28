@@ -1319,11 +1319,6 @@
         "title": "A sincronização de fatura falhou",
         "description": "A sincronização deste utilizador com o sistema de fatura falhou.",
         "action": "Sincronize novamente manualmente."
-      },
-      "no_billing_data": {
-        "title": "O utilizador não tem dados de fatura",
-        "description": "Este utilizador não foi sincronizado com o sistema de fatura.",
-        "action": "Sincronizar o utilizador."
       }
     },
     "export_tags_title": "Export Tags",

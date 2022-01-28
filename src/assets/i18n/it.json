@@ -1319,11 +1319,6 @@
         "title": "Sincronizzazione fattura fallita",
         "description": "La sincronizzazione di questo utente con il sistema di fatturazione non è riuscita.",
         "action": "Risincronizza manualmente."
-      },
-      "no_billing_data": {
-        "title": "L'utente non ha dati di fatturazione",
-        "description": "Questo utente non è stato sincronizzato con il sistema di fatturazione.",
-        "action": "Sincronizza l'utente."
       }
     },
     "export_tags_title": "Export Tags",

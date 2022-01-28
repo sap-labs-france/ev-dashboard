@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { CarAuthorizationActions, DialogParamsWithAuth } from 'types/Authorization';
 
 import { Car, CarButtonAction } from '../../../../types/Car';
+import { ScreenSize } from '../../../../types/GlobalType';
 import { TableActionDef } from '../../../../types/Table';
 import { TableCreateAction } from '../table-create-action';
 
@@ -23,6 +24,13 @@ export class TableCreateCarAction extends TableCreateAction {
 
   private createCar(carDialogComponent: ComponentType<unknown>,
     dialog: MatDialog, dialogParams: DialogParamsWithAuth<Car, CarAuthorizationActions>, refresh?: () => Observable<void>) {
-    super.create(carDialogComponent, dialog, null, refresh, null, dialogParams.authorizations);
+    super.create(carDialogComponent, dialog, null, refresh, {
+      minWidth: ScreenSize.L,
+      maxWidth: ScreenSize.XXXL,
+      width: ScreenSize.XXL,
+      minHeight: ScreenSize.S,
+      maxHeight: ScreenSize.L,
+      height: ScreenSize.M
+    }, dialogParams.authorizations);
   }
 }

@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { DialogParams } from 'types/Authorization';
 
 import { Asset, AssetButtonAction } from '../../../../types/Asset';
+import { ScreenSize } from '../../../../types/GlobalType';
 import { TableActionDef } from '../../../../types/Table';
 import { TableEditAction } from '../table-edit-action';
 
@@ -23,6 +24,13 @@ export class TableEditAssetAction extends TableEditAction {
 
   private editAsset(assetDialogComponent: ComponentType<unknown>, dialog: MatDialog,
     dialogParams: DialogParams<Asset>, refresh?: () => Observable<void>) {
-    super.edit(assetDialogComponent, dialog, dialogParams, refresh);
+    super.edit(assetDialogComponent, dialog, dialogParams, refresh, {
+      minWidth: ScreenSize.L,
+      maxWidth: ScreenSize.XXXL,
+      width: ScreenSize.XXL,
+      minHeight: ScreenSize.S,
+      maxHeight: ScreenSize.L,
+      height: ScreenSize.M
+    });
   }
 }

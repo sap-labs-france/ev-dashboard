@@ -6,7 +6,7 @@
           <mat-icon>link</mat-icon>
           <span>{{description.value}}</span>
         </ng-template>
-        <div class="card-body">
+        <div class="card-body mat-tab-body-content">
           <div class="tab-content">
             <div class="tab-pane active" id="profile">
               <div class="d-flex align-items-start flex-column mb-3">
@@ -44,13 +44,13 @@
     </mat-tab-group>
     <div class="tabs-actions">
       <button mat-button (click)="saveToken(formGroup.getRawValue())"
-        [disabled]="!formGroup.valid || !formGroup.dirty">
-        <mat-icon>save</mat-icon>
-        <span>{{'general.save' | translate}}</span>
-      </button>
-      <button mat-icon-button *ngIf="inDialog" (click)="close()">
-        <mat-icon>close</mat-icon>
-      </button>
-    </div>
+      [disabled]="!formGroup.valid || !formGroup.dirty">
+      <mat-icon>save</mat-icon>
+      <span>{{'general.save' | translate}}</span>
+    </button>
+    <button mat-icon-button *ngIf="inDialog" (click)="close()">
+      <mat-icon>close</mat-icon>
+    </button>
   </div>
+</div>
 </div>

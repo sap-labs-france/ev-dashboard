@@ -1319,11 +1319,6 @@
         "title": "Billing synchronization failed",
         "description": "The synchronization of this user with the billing system failed.",
         "action": "Re-synchronize it manually."
-      },
-      "no_billing_data": {
-        "title": "User has no billing data",
-        "description": "This user has not been synchronized with the billing system.",
-        "action": "Synchronize the user."
       }
     },
     "export_tags_title": "Export RFID cards",

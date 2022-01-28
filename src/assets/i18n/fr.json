@@ -1319,11 +1319,6 @@
         "title": "Synchronisation facturation échouée",
         "description": "La synchronisation de cet utilisateur avec le système de facturation a échouée.",
         "action": "Veuillez le re-synchroniser manuellement."
-      },
-      "no_billing_data": {
-        "title": "Aucune donnée de facturation",
-        "description": "Cet utilisateur n'a pas été synchronisé avec le système de facturation.",
-        "action": "Synchroniser l'utilisateur."
       }
     },
     "export_tags_title": "Exporter les badges",

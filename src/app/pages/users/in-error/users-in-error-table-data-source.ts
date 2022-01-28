@@ -219,10 +219,6 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
         key: UserInErrorType.FAILED_BILLING_SYNCHRO,
         value: this.translateService.instant(`users.errors.${UserInErrorType.FAILED_BILLING_SYNCHRO}.title`),
       });
-      errorTypes.push({
-        key: UserInErrorType.NO_BILLING_DATA,
-        value: this.translateService.instant(`users.errors.${UserInErrorType.NO_BILLING_DATA}.title`),
-      });
     }
     // Sort
     errorTypes.sort(Utils.sortArrayOfKeyValue);

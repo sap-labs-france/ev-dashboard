@@ -1,11 +1,1 @@
-<div class="card card-big billing-card-big">
-  <div class="card-header card-header-icon card-header-primary">
-    <div class="card-icon">
-      <mat-icon>payment</mat-icon>
-    </div>
-    <h3 class="card-title">{{'settings.billing.payment_methods' | translate}}</h3>
-  </div>
-  <div class="card-body">
-    <app-table [dataSource]="paymentMethodsTableDataSource"></app-table>
-  </div>
-</div>
+<app-table [dataSource]="paymentMethodsTableDataSource"></app-table>

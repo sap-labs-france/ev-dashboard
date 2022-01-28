@@ -1,15 +1,16 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
-import { DialogMode, DialogParams } from 'types/Authorization';
 
+import { DialogMode, DialogParams } from '../../../../types/Authorization';
+import { ScreenSize } from '../../../../types/GlobalType';
 import { SiteArea, SiteAreaButtonAction } from '../../../../types/SiteArea';
 import { TableActionDef } from '../../../../types/Table';
 import { TableAssignAction } from '../table-assign-action';
 
 export interface TableViewAssignedAssetsOfSiteAreaActionDef extends TableActionDef {
-  action: (siteAreaAssetsDialogComponent: ComponentType<unknown>, siteArea: DialogParams<SiteArea>,
-    dialog: MatDialog, refresh?: () => Observable<void>) => void;
+  action: (siteAreaAssetsDialogComponent: ComponentType<unknown>, dialog: MatDialog,
+    dialogParams: DialogParams<SiteArea>, refresh?: () => Observable<void>) => void;
 }
 
 export class TableViewAssignedAssetsOfSiteAreaAction extends TableAssignAction {
@@ -24,8 +25,15 @@ export class TableViewAssignedAssetsOfSiteAreaAction extends TableAssignAction {
     };
   }
 
-  private viewAssignedAssetsOfSiteArea(siteAreaAssetsDialogComponent: ComponentType<unknown>, siteArea: DialogParams<SiteArea>,
-    dialog: MatDialog, refresh?: () => Observable<void>) {
-    super.assign(siteAreaAssetsDialogComponent, dialog, siteArea, DialogMode.VIEW, refresh);
+  private viewAssignedAssetsOfSiteArea(siteAreaAssetsDialogComponent: ComponentType<unknown>, dialog: MatDialog,
+    dialogParams: DialogParams<SiteArea>, refresh?: () => Observable<void>) {
+    super.assign(siteAreaAssetsDialogComponent, dialog, dialogParams, DialogMode.VIEW, refresh, {
+      minWidth: ScreenSize.L,
+      maxWidth: ScreenSize.XXL,
+      width: ScreenSize.XL,
+      minHeight: ScreenSize.L,
+      maxHeight: ScreenSize.XXL,
+      height: ScreenSize.XL
+    });
   }
 }

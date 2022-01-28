@@ -1319,11 +1319,6 @@
         "title": "Rechnungssynchronisierung ist fehlgeschlagen",
         "description": "Die Synchronisierung dieses Nutzers mit dem Rechnungssystem ist fehlgeschlagen.",
         "action": "Re-synchronisieren Sie manuell."
-      },
-      "no_billing_data": {
-        "title": "Nutzer hat keine Rechnungsdaten",
-        "description": "Dieser Nutzer wurde nicht mit dem Rechnungssystem synchronisiert.",
-        "action": "Nutzer synchronisieren."
       }
     },
     "export_tags_title": "Badges exportieren",

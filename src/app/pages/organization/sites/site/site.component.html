@@ -6,7 +6,7 @@
           <mat-icon>portrait</mat-icon>
           <span>{{'general.general' | translate}}</span>
         </ng-template>
-        <div class="card-body">
+        <div class="card-body mat-tab-dialog-body-content">
           <app-site-main #siteMainComponent [formGroup]="formGroup" [currentSiteID]="currentSiteID" [site]="site" [readOnly]="readOnly" (publicChanged)="publicChanged($event)"></app-site-main>
         </div>
       </mat-tab>

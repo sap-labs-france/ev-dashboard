@@ -1,9 +1,9 @@
 import { AfterViewInit, Component, Inject, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { DialogParams } from 'types/Authorization';
-import { PaymentDialogData } from 'types/Billing';
-import { BillingSettings } from 'types/Setting';
 
+import { DialogParams } from '../../../../../types/Authorization';
+import { PaymentDialogData } from '../../../../../types/Billing';
+import { BillingSettings } from '../../../../../types/Setting';
 import { Utils } from '../../../../../utils/Utils';
 import { StripePaymentMethodComponent } from './stripe/stripe-payment-method.component';
 

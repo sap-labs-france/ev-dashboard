@@ -1,5 +1,5 @@
 <div class="main-content">
-  <div class="card card-testimonial">
+  <div class="card card-testimonial card-profile">
     <mat-tab-group animationDuration="0ms" disableRipple="true" class="mat-tab-info mat-tabs-with-close-action">
       <mat-tab>
         <ng-template mat-tab-label>
@@ -7,13 +7,13 @@
           <span class="d-block">{{carCatalog?.vehicleMake}} {{carCatalog?.vehicleModel}} {{carCatalog?.vehicleModelVersion}}
           </span>
         </ng-template>
-        <div class="card-body d-flex flex-column justify-content-around mt-lg-3">
-          <div class="tab-content">
+        <div class="card-body mat-tab-dialog-body-content pt-0">
+          <div class="w-100">
             <div class="tab-pane active" id="profile">
-              <div class="row app-car align-items-start">
+              <div class="row app-car align-items-center">
                 <div class="col-md-12 col-xl-5 d-block mt-0 m-auto">
                   <div class="rotating-card-container" [ngStyle]="{ 'pointer-events': 'none'}">
-                    <div class="card card-rotate card-background mt-0">
+                    <div class="card card-rotate card-background mt-0 mb-0">
                       <div class="front front-background"
                         [ngStyle]="{'background-image': (carCatalog && carCatalog.image ? 'url(' + carCatalog.image + ')' : 'url(' + noImage + ')'), 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
                         <div class="card-body">

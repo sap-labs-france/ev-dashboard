@@ -112,7 +112,6 @@ export enum Action {
   EXPORT = 'Export',
   CHANGE_AVAILABILITY = 'ChangeAvailability',
   REFUND_TRANSACTION = 'RefundTransaction',
-  SYNCHRONIZE_BILLING_USERS = 'SynchronizeBillingUsers',
   SYNCHRONIZE_BILLING_USER = 'SynchronizeBillingUser',
   BILLING_SETUP_PAYMENT_METHOD = 'BillingSetupPaymentMethod',
   BILLING_PAYMENT_METHODS = 'BillingPaymentMethods',
@@ -222,6 +221,12 @@ export interface DialogData {
   id: string | number;
   projectFields?: string[];
   metadata?: Record<string, AuthorizationDefinitionFieldMetadata>;
+}
+
+export interface DialogParamsWithAuth<T extends DialogData, U extends AuthorizationActions> {
+  dialogData?: T;
+  authorizations?: U;
+  dialogMode?: DialogMode;
 }
 
 export interface DialogParams<T extends DialogData> {

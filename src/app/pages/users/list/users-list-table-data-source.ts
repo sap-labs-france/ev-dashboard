@@ -28,7 +28,6 @@ import { TableDeleteUserAction, TableDeleteUserActionDef } from '../../../shared
 import { TableEditUserAction, TableEditUserActionDef } from '../../../shared/table/actions/users/table-edit-user-action';
 import { TableExportUsersAction, TableExportUsersActionDef } from '../../../shared/table/actions/users/table-export-users-action';
 import { TableForceSyncBillingUserAction } from '../../../shared/table/actions/users/table-force-sync-billing-user-action';
-import { TableSyncBillingUsersAction } from '../../../shared/table/actions/users/table-sync-billing-users-action';
 import { IssuerFilter, organizations } from '../../../shared/table/filters/issuer-filter';
 import { SiteTableFilter } from '../../../shared/table/filters/site-table-filter';
 import { TagTableFilter } from '../../../shared/table/filters/tag-table-filter';
@@ -61,7 +60,6 @@ export class UsersListTableDataSource extends TableDataSource<User> {
   private exportAction = new TableExportUsersAction().getActionDef();
   private importAction = new TableImportUsersAction().getActionDef();
   private createAction = new TableCreateUserAction().getActionDef();
-  private synchronizeBillingUsersAction = new TableSyncBillingUsersAction().getActionDef();
 
   public constructor(
     public spinnerService: SpinnerService,
@@ -117,7 +115,6 @@ export class UsersListTableDataSource extends TableDataSource<User> {
         this.createAction.visible = users.canCreate;
         this.importAction.visible = users.canImport;
         this.exportAction.visible = users.canExport;
-        this.synchronizeBillingUsersAction.visible = users.canSynchronizeBilling;
         observer.next(users);
         observer.complete();
       }, (error) => {
@@ -257,7 +254,6 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       this.createAction,
       this.importAction,
       this.exportAction,
-      this.synchronizeBillingUsersAction,
       ...tableActionsDef,
     ];
   }
@@ -327,14 +323,6 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       case UserButtonAction.IMPORT_USERS:
         if (actionDef.action) {
           (actionDef as TableImportUsersActionDef).action(ImportDialogComponent, this.dialog);
-        }
-        break;
-      case BillingButtonAction.SYNCHRONIZE_BILLING_USERS:
-        if (this.synchronizeBillingUsersAction.action) {
-          this.synchronizeBillingUsersAction.action(
-            this.dialogService, this.translateService, this.messageService,
-            this.centralServerService, this.router,
-          );
         }
         break;
     }

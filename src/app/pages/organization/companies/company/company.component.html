@@ -6,52 +6,52 @@
           <mat-icon>portrait</mat-icon>
           <span>{{name.value}}</span>
         </ng-template>
-        <div class="card-body">
-          <div class="row app-organization">
-            <div class="col-md-2">
-              <div class="rotating-card-container" [ngStyle]="{ 'pointer-events': readOnly ? 'none' : 'all'}">
-                <div class="card card-rotate card-background app-company-image mt-0">
-                  <div class="front front-background"
-                    [ngStyle]="{'background-image': 'url(' + logo + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
-                    <div class="card-body">
+        <div class="card-body mat-tab-dialog-body-content pt-0">
+          <div class="tab-content">
+            <div class="row app-organization align-items-center">
+              <div class="col-md-2">
+                <div class="rotating-card-container" [ngStyle]="{ 'pointer-events': readOnly ? 'none' : 'all'}">
+                  <div class="card card-rotate card-background app-company-image mt-0">
+                    <div class="front front-background" [ngStyle]="{'background-image': 'url(' + logo + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
+                      <div class="card-body">
+                      </div>
                     </div>
-                  </div>
-                  <div class="back back-background"
-                    [ngStyle]="{'background-image': 'url(' + logo + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
-                    <div *ngIf="!readOnly" class="card-body">
-                      <div class="footer text-center">
-                        <button mat-flat-button color="primary" class="me-2">
-                          <mat-icon (click)="file.click()">mode_edit</mat-icon>
-                          <div class="d-none">
-                            <input #file type="file" name="..." (change)="onLogoChanged($event)"
+                    <div class="back back-background" [ngStyle]="{'background-image': 'url(' + logo + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
+                      <div *ngIf="!readOnly" class="card-body">
+                        <div class="footer text-center">
+                          <button mat-flat-button color="primary" class="me-2">
+                            <mat-icon (click)="file.click()">mode_edit</mat-icon>
+                            <div class="d-none">
+                              <input #file type="file" name="..." (change)="onLogoChanged($event)"
                               accept="image/jpg,image/jpeg,image/png,image/gif">
-                          </div>
-                        </button>
-                        <button mat-flat-button color="warn">
-                          <mat-icon (click)="clearLogo()">delete</mat-icon>
-                        </button>
+                            </div>
+                          </button>
+                          <button mat-flat-button color="warn">
+                            <mat-icon (click)="clearLogo()">delete</mat-icon>
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="col-md-10">
-              <div class="form-group">
-                <mat-form-field>
-                  <input appAutofocus matInput placeholder="{{'companies.name' | translate}}"
+              <div class="col-md-10">
+                <div class="form-group">
+                  <mat-form-field>
+                    <input appAutofocus matInput placeholder="{{'companies.name' | translate}}"
                     class="app-organization-name" type="text" [formControl]="name" required>
-                  <mat-error *ngIf="name.errors?.required">
-                    {{"general.mandatory_field" | translate}}
-                  </mat-error>
-                </mat-form-field>
+                    <mat-error *ngIf="name.errors?.required">
+                      {{"general.mandatory_field" | translate}}
+                    </mat-error>
+                  </mat-form-field>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="row">
-            <div class="col-md-12">
-              <app-address [address]="address" [formGroup]="formGroup" componentName="{{'companies.company' | translate}}"
+            <div class="row">
+              <div class="col-md-12">
+                <app-address [address]="address" [formGroup]="formGroup" componentName="{{'companies.company' | translate}}"
                 [itemComponentName]="name.value" [onlyReadGeolocation]="readOnly"></app-address>
+              </div>
             </div>
           </div>
           <div class="clearfix"></div>
@@ -59,8 +59,7 @@
       </mat-tab>
     </mat-tab-group>
     <div class="tabs-actions">
-      <button mat-button *ngIf="!readOnly" (click)="saveCompany(formGroup.value)"
-        [disabled]="!formGroup.valid || !formGroup.dirty">
+      <button mat-button *ngIf="!readOnly" (click)="saveCompany(formGroup.value)" [disabled]="!formGroup.valid || !formGroup.dirty">
         <mat-icon>save</mat-icon>
         <span>{{'general.save' | translate}}</span>
       </button>

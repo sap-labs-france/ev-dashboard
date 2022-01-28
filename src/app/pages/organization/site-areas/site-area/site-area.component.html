@@ -6,7 +6,7 @@
           <mat-icon>portrait</mat-icon>
           <span>{{'general.general' | translate}}</span>
         </ng-template>
-        <div class="card-body">
+        <div class="card-body mat-tab-dialog-body-content">
           <app-site-area-main #siteAreaMainComponent [formGroup]="formGroup" [currentSiteAreaID]="currentSiteAreaID" [siteArea]="siteArea" [readOnly]="readOnly" (siteChanged)="siteChanged($event)"></app-site-area-main>
         </div>
       </mat-tab>
@@ -15,7 +15,7 @@
           <mat-icon>cloud</mat-icon>
           <span>{{'settings.tabs.ocpi' | translate}}</span>
         </ng-template>
-        <div class="card-body">
+        <div class="card-body mat-tab-dialog-body-content">
           <app-site-area-ocpi #siteAreaOcpiComponent [formGroup]="formGroup" [siteArea]="siteArea" [readOnly]="readOnly"></app-site-area-ocpi>
         </div>
       </mat-tab>

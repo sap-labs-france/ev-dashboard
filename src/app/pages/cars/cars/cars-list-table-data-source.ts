@@ -235,7 +235,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
       case CarButtonAction.CREATE_CAR:
         if (actionDef.action) {
           (actionDef as TableCreateCarActionDef).action(CarDialogComponent,
-            this.dialog, this.authorizationActions, this.refreshData.bind(this));
+            this.dialog, { authorizations: this.authorizationActions }, this.refreshData.bind(this));
         }
         break;
     }

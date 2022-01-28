@@ -40,7 +40,7 @@ export class TableCreateAction implements TableAction {
     dialogConfig.data = {
       dialogMode: DialogMode.CREATE,
       ...dialogParams,
-      ...authorizationActions
+      authorizations: { ...authorizationActions }
     };
     // disable outside click close
     dialogConfig.disableClose = true;

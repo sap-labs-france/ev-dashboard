@@ -6,7 +6,7 @@
           <mat-icon>portrait</mat-icon>
           <span>{{name.value}}</span>
         </ng-template>
-        <div class="card-body">
+        <div class="card-body mat-tab-dialog-body-content pt-0 align-items-end">
           <div class="row app-asset-align-center">
             <div class="col-md-12 col-xl-5">
               <div class="rotating-card-container" [ngStyle]="{ 'pointer-events': !readOnly ? 'all' : 'none'}">
@@ -42,8 +42,7 @@
             <div class="col-md-12 col-xl-7">
               <div class="form-group">
                 <mat-form-field>
-                  <input appAutofocus matInput placeholder="{{'assets.name' | translate}}" class="app-asset-name-bold"
-                    type="text" [formControl]="name" required>
+                  <input appAutofocus matInput placeholder="{{'assets.name' | translate}}" type="text" [formControl]="name" required>
                   <mat-error *ngIf="name.errors?.required">
                     {{"general.mandatory_field" | translate}}
                   </mat-error>

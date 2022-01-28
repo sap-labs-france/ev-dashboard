@@ -1319,11 +1319,6 @@
         "title": "A sincronização de fatura falhou",
         "description": "A sincronização deste utilizador com o sistema de fatura falhou.",
         "action": "Sincronize novamente manualmente."
-      },
-      "no_billing_data": {
-        "title": "O utilizador não tem dados de fatura",
-        "description": "Este utilizador não foi sincronizado com o sistema de fatura.",
-        "action": "Sincronizar o utilizador."
       }
     },
     "export_tags_title": "Export Tags",
@@ -1638,34 +1633,10 @@
       "billing_clear_test_data_error": "Operation failed. The test data deletion has been aborted",
       "payment_methods": "Payment methods",
       "user": {
-        "synchronize_users": "Sincronizar utilizadores de cobrança",
-        "synchronize_user": "Sincronizar utilizador de cobrança",
-        "force_synchronize_users": "Forçar a sincronização de utilizadores de cobrança",
-        "synchronize_users_dialog_title": "Sincronizar utilizadores de cobrança",
-        "synchronize_user_dialog_title": "Sincronizar utilizador de cobrança",
-        "force_synchronize_user_dialog_title": "FForçar sincronização (cobrança)",
-        "synchronize_users_dialog_confirm": "Deseja realmente sincronizar os utilizadores no sistema de faturamento?",
-        "synchronize_user_dialog_confirm": "Você realmente deseja sincronizar o utilizador '{{userFullName}}' no sistema de faturamento?",
-        "force_synchronize_user_dialog_confirm": "Deseja realmente forçar a sincronização do utilizador '{{userFullName}}' no sistema de faturamento? <br> Aviso, esta ação pode resultar na perda dos dados de faturamento relacionados. <br> Esta ação é irreversível.",
-        "synchronize_users_started": "A sincronização de utilizadores foi iniciada",
-        "synchronize_user_started": "A sincronização do utilizador foi iniciada",
-        "synchronize_users_success": "Sincronizado com sucesso {{number}} utilizador (s)",
+        "force_synchronize_user_dialog_title": "Sincronizar utilizador de cobrança",
+        "force_synchronize_user_dialog_confirm": "Você realmente deseja sincronizar o utilizador '{{userFullName}}' no sistema de faturamento?",
         "force_synchronize_user_success": "O utilizador '{{userFullName}}' foi sincronizado com sucesso",
-        "synchronize_users_success_all": "Todos os utilizadores já estão sincronizados",
-        "synchronize_users_failure": "A sincronização falhou com {{number}} erros. Verifique os registos do seu sistema de faturamento.",
-        "force_synchronize_user_failure": "Falha ao sincronizar o utilizador, verifique os registos",
-        "synchronize_users_error": "Ocorreu um erro ao sincronizar utilizadores para faturamento",
-        "synchronize_invoices": "Sincronização de Faturas de Faturamento"
-      },
-      "invoice": {
-        "synchronize_invoices": "Sincronizar faturas",
-        "synchronize_invoices_dialog_title": "Sincronizar faturas",
-        "synchronize_invoices_dialog_confirm": "Quer mesmo sincronizar as notas fiscais no sistema de faturamento?",
-        "synchronize_invoices_started": "A sincronização de faturas foi iniciada",
-        "synchronize_invoices_success": "{{Number}} fatura (s) sincronizada (s) com sucesso",
-        "synchronize_invoices_success_all": "Todas as faturas já estão sincronizadas",
-        "synchronize_invoices_failure": "A sincronização falhou com {{number}} erros. Verifique os registos do seu sistema de faturamento.",
-        "synchronize_invoices_error": "Ocorreu um erro ao sincronizar faturas para faturamento"
+        "force_synchronize_user_failure": "Falha ao sincronizar o utilizador, verifique os registos"
       },
       "stripe": {
         "description": "E-Mobility permite enviar faturas para os usuários da estação de carregamento com Stripe ...",

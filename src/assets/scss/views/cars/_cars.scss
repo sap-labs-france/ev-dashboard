@@ -4,8 +4,7 @@
 }
 
 .app-car {
-  align-items: center;
-  padding: 0 0 15px 0;
+  width: 100%;
 }
 
 .app-cars-logo {
@@ -28,6 +27,9 @@
 
 .car-catalog-carousel {
   min-height: 40vh;
+  width: 50vw;
+  margin: auto;
+  overflow: hidden !important;
 }
 
 .app-car-name {

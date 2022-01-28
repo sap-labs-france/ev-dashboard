@@ -1,8 +1,8 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
-import { ScreenSize } from 'types/GlobalType';
 
+import { ScreenSize } from '../../../../types/GlobalType';
 import { SiteButtonAction } from '../../../../types/Site';
 import { TableActionDef } from '../../../../types/Table';
 import { TableCreateAction } from '../table-create-action';
@@ -25,12 +25,12 @@ export class TableCreateSiteAction extends TableCreateAction {
   private createSite(siteDialogComponent: ComponentType<unknown>,
     dialog: MatDialog, refresh?: () => Observable<void>) {
     super.create(siteDialogComponent, dialog, null, refresh, {
-      minWidth: ScreenSize.M,
-      maxWidth: ScreenSize.XXXL,
-      width: ScreenSize.XXXL,
-      minHeight: ScreenSize.M,
-      maxHeight: ScreenSize.XXXL,
-      height: ScreenSize.XXXL
+      minWidth: ScreenSize.L,
+      maxWidth: ScreenSize.XXL,
+      width: ScreenSize.XL,
+      minHeight: ScreenSize.L,
+      maxHeight: ScreenSize.XXL,
+      height: ScreenSize.XL
     });
   }
 }

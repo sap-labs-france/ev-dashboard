@@ -1,9 +1,9 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
-import { DialogParams } from 'types/Authorization';
-import { ScreenSize } from 'types/GlobalType';
 
+import { DialogParams } from '../../../../types/Authorization';
+import { ScreenSize } from '../../../../types/GlobalType';
 import { Site, SiteButtonAction } from '../../../../types/Site';
 import { TableActionDef } from '../../../../types/Table';
 import { TableEditAction } from '../table-edit-action';
@@ -25,12 +25,12 @@ export class TableEditSiteAction extends TableEditAction {
   private editSite(siteDialogComponent: ComponentType<unknown>, dialog: MatDialog,
     dialogParams: DialogParams<Site>, refresh?: () => Observable<void>) {
     super.edit(siteDialogComponent, dialog, dialogParams, refresh, {
-      minWidth: ScreenSize.M,
-      maxWidth: ScreenSize.XXXL,
-      width: ScreenSize.XXXL,
-      minHeight: ScreenSize.M,
-      maxHeight: ScreenSize.XXXL,
-      height: ScreenSize.XXXL
+      minWidth: ScreenSize.L,
+      maxWidth: ScreenSize.XXL,
+      width: ScreenSize.XL,
+      minHeight: ScreenSize.L,
+      maxHeight: ScreenSize.XXL,
+      height: ScreenSize.XL
     });
   }
 }

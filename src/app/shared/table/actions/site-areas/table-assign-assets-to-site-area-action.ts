@@ -3,12 +3,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { DialogMode, DialogParams } from 'types/Authorization';
 
+import { ScreenSize } from '../../../../types/GlobalType';
 import { SiteArea, SiteAreaButtonAction } from '../../../../types/SiteArea';
 import { TableActionDef } from '../../../../types/Table';
 import { TableAssignAction } from '../table-assign-action';
 
 export interface TableAssignAssetsToSiteAreaActionDef extends TableActionDef {
-  action: (siteAreaAssetsDialogComponent: ComponentType<unknown>, siteArea: DialogParams<SiteArea>, dialog: MatDialog,
+  action: (siteAreaAssetsDialogComponent: ComponentType<unknown>, dialog: MatDialog, dialogParams: DialogParams<SiteArea>,
     refresh?: () => Observable<void>) => void;
 }
 
@@ -24,8 +25,15 @@ export class TableAssignAssetsToSiteAreaAction extends TableAssignAction {
     };
   }
 
-  private assignAssetsToSiteArea(siteAreaAssetsDialogComponent: ComponentType<unknown>, siteArea: DialogParams<SiteArea>,
-    dialog: MatDialog, refresh?: () => Observable<void>) {
-    super.assign(siteAreaAssetsDialogComponent, dialog, siteArea, DialogMode.EDIT, refresh);
+  private assignAssetsToSiteArea(siteAreaAssetsDialogComponent: ComponentType<unknown>, dialog: MatDialog,
+    dialogParams: DialogParams<SiteArea>, refresh?: () => Observable<void>) {
+    super.assign(siteAreaAssetsDialogComponent, dialog, dialogParams, DialogMode.EDIT, refresh, {
+      minWidth: ScreenSize.L,
+      maxWidth: ScreenSize.XXL,
+      width: ScreenSize.XL,
+      minHeight: ScreenSize.L,
+      maxHeight: ScreenSize.XXL,
+      height: ScreenSize.XL
+    });
   }
 }

@@ -111,7 +111,6 @@ export interface UserDataResult extends DataResult<User> {
   canCreate: boolean;
   canExport: boolean;
   canImport: boolean;
-  canSynchronizeBilling: boolean;
 }
 
 export interface SiteAreaDataResult extends DataResult<SiteArea> {

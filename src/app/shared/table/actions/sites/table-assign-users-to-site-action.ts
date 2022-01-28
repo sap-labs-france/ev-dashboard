@@ -1,8 +1,9 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
-import { DialogMode, DialogParams } from 'types/Authorization';
 
+import { DialogMode, DialogParams } from '../../../../types/Authorization';
+import { ScreenSize } from '../../../../types/GlobalType';
 import { Site, SiteButtonAction } from '../../../../types/Site';
 import { TableActionDef } from '../../../../types/Table';
 import { TableAssignAction } from '../table-assign-action';
@@ -26,6 +27,13 @@ export class TableAssignUsersToSiteAction extends TableAssignAction {
 
   private assignUsersToSite(siteUsersDialogComponent: ComponentType<unknown>, site: DialogParams<Site>,
     dialog: MatDialog, refresh?: () => Observable<void>) {
-    super.assign(siteUsersDialogComponent, dialog, site, DialogMode.EDIT, refresh);
+    super.assign(siteUsersDialogComponent, dialog, site, DialogMode.EDIT, refresh, {
+      minWidth: ScreenSize.L,
+      maxWidth: ScreenSize.XXL,
+      width: ScreenSize.XL,
+      minHeight: ScreenSize.L,
+      maxHeight: ScreenSize.XXL,
+      height: ScreenSize.XL
+    });
   }
 }

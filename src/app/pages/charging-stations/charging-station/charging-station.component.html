@@ -1,61 +1,71 @@
 <div class="main-content">
   <div class="card card-profile card-testimonial">
     <mat-tab-group animationDuration="0ms" disableRipple="true" (selectedTabChange)="changeActivePane($event)"
-      class="mat-tab-info charger-dialog-container mat-tabs-with-actions">
-      <mat-tab>
-        <ng-template mat-tab-label>
-          <mat-icon>ev_station</mat-icon>
-          <span>{{chargingStation?.id}}</span>
-        </ng-template>
-        <div class="card-body">
+    class="mat-tab-info charger-dialog-container mat-tabs-with-actions">
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon>ev_station</mat-icon>
+        <span>{{chargingStation?.id}}</span>
+      </ng-template>
+      <div class="card-body charger-param mat-tab-dialog-body-content">
+        <div class="tab-content">
           <app-charging-station-parameters [formGroup]="formGroup" [chargingStation]='chargingStation' [dialogRef]="dialogRef">
           </app-charging-station-parameters>
         </div>
-      </mat-tab>
-      <ng-container *ngIf="isAdmin && chargingStation?.issuer">
-        <mat-tab>
-          <ng-template mat-tab-label>
-            <mat-icon>info</mat-icon>
-            <span>{{'chargers.properties_title' | translate}}</span>
-          </ng-template>
-          <div class="card-body">
-            <app-charging-station-properties [chargingStation]='chargingStation'></app-charging-station-properties>
+      </div>
+    </mat-tab>
+    <ng-container *ngIf="isAdmin && chargingStation?.issuer">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon>info</mat-icon>
+          <span>{{'chargers.properties_title' | translate}}</span>
+        </ng-template>
+        <div class="card-body mat-tab-dialog-body-content">
+          <div class="tab-content">
+            <div>
+              <app-charging-station-properties [chargingStation]='chargingStation'></app-charging-station-properties>
+            </div>
           </div>
-        </mat-tab>
-      </ng-container>
-      <ng-container *ngIf="isAdmin && chargingStation?.issuer">
-        <mat-tab>
-          <ng-template mat-tab-label>
-            <mat-icon>build</mat-icon>
-            <span>{{'chargers.ocpp_parameters_title' | translate}}</span>
-          </ng-template>
-          <div class="card-body">
+        </div>
+      </mat-tab>
+    </ng-container>
+    <ng-container *ngIf="isAdmin && chargingStation?.issuer">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon>build</mat-icon>
+          <span>{{'chargers.ocpp_parameters_title' | translate}}</span>
+        </ng-template>
+        <div class="card-body mat-tab-dialog-body-content">
+          <div class="tab-content">
             <app-charging-station-ocpp-parameters [chargingStation]='chargingStation'>
             </app-charging-station-ocpp-parameters>
           </div>
-        </mat-tab>
-      </ng-container>
-      <ng-container *ngIf="!isProdLandscape && isAdmin && chargingStation?.issuer">
-        <mat-tab>
-          <ng-template mat-tab-label>
-            <mat-icon>system_update_alt</mat-icon>
-            <span>{{'chargers.firmware_update_title' | translate}}</span>
-          </ng-template>
-          <div class="card-body">
+        </div>
+      </mat-tab>
+    </ng-container>
+    <ng-container *ngIf="!isProdLandscape && isAdmin && chargingStation?.issuer">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon>system_update_alt</mat-icon>
+          <span>{{'chargers.firmware_update_title' | translate}}</span>
+        </ng-template>
+        <div class="card-body mat-tab-dialog-body-content">
+          <div class="tab-content">
             <app-charging-station-firmware-update [charger]='chargingStation'></app-charging-station-firmware-update>
           </div>
-        </mat-tab>
-      </ng-container>
-    </mat-tab-group>
-    <div class="tabs-actions">
-      <button mat-button (click)="saveChargingStation(formGroup.getRawValue())"
-        [disabled]="!formGroup.valid || !formGroup.dirty" [hidden]="!this.isAdmin || activeTabIndex !== 0">
-        <mat-icon>save</mat-icon>
-        <span>{{'chargers.save_charger' | translate}}</span>
-      </button>
-      <button mat-icon-button *ngIf="inDialog" (click)="close()">
-        <mat-icon>close</mat-icon>
-      </button>
-    </div>
-  </div>
+        </div>
+      </mat-tab>
+    </ng-container>
+  </mat-tab-group>
+  <div class="tabs-actions">
+    <button mat-button (click)="saveChargingStation(formGroup.getRawValue())"
+    [disabled]="!formGroup.valid || !formGroup.dirty" [hidden]="!this.isAdmin || activeTabIndex !== 0">
+    <mat-icon>save</mat-icon>
+    <span>{{'chargers.save_charger' | translate}}</span>
+  </button>
+  <button mat-icon-button *ngIf="inDialog" (click)="close()">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+</div>
 </div>

@@ -25,10 +25,10 @@ export class TableViewPricingDefinitionsAction extends TableViewPricingListActio
     dialogParams: DialogParams<PricingDefinitionDialogData>, refresh?: () => Observable<void>) {
     super.view(pricingDialogComponent, dialog, dialogParams, refresh, {
       minWidth: ScreenSize.L,
-      maxWidth: ScreenSize.XL,
+      maxWidth: ScreenSize.XXL,
       width: ScreenSize.XL,
       minHeight: ScreenSize.M,
-      maxHeight: ScreenSize.XXL,
+      maxHeight: ScreenSize.XL,
       height: ScreenSize.L
     });
   }

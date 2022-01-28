@@ -1,8 +1,9 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
-import { DialogParams } from 'types/Authorization';
 
+import { DialogParams } from '../../../../types/Authorization';
+import { ScreenSize } from '../../../../types/GlobalType';
 import { RegistrationToken, RegistrationTokenButtonAction } from '../../../../types/RegistrationToken';
 import { TableActionDef } from '../../../../types/Table';
 import { TableEditAction } from '../table-edit-action';
@@ -23,6 +24,13 @@ export class TableEditRegistrationTokenAction extends TableEditAction {
 
   private editToken(registrationTokenDialogComponent: ComponentType<unknown>, dialog: MatDialog,
     dialogParams: DialogParams<RegistrationToken>, refresh?: () => Observable<void>) {
-    super.edit(registrationTokenDialogComponent, dialog, dialogParams, refresh);
+    super.edit(registrationTokenDialogComponent, dialog, dialogParams, refresh, {
+      minWidth: ScreenSize.L,
+      maxWidth: ScreenSize.XXL,
+      width: ScreenSize.XL,
+      minHeight: ScreenSize.XS,
+      maxHeight: ScreenSize.M,
+      height: ScreenSize.XS
+    });
   }
 }

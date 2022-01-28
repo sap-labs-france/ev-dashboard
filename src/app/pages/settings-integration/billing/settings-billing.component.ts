@@ -9,8 +9,6 @@ import { ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
-import { TableSyncBillingInvoicesAction } from '../../../shared/table/actions/invoices/table-sync-billing-invoices-action';
-import { TableSyncBillingUsersAction } from '../../../shared/table/actions/users/table-sync-billing-users-action';
 import { RestResponse } from '../../../types/GlobalType';
 import { HTTPError } from '../../../types/HTTPError';
 import { BillingSetting, BillingSettings, BillingSettingsType, StripeBillingSetting } from '../../../types/Setting';
@@ -130,32 +128,6 @@ export class SettingsBillingComponent implements OnInit {
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
         'settings.billing.connection_error');
     });
-  }
-
-  public synchronizeUsers() {
-    const actionDef = new TableSyncBillingUsersAction().getActionDef();
-    if (actionDef && actionDef.action) {
-      actionDef.action(
-        this.dialogService,
-        this.translateService,
-        this.messageService,
-        this.centralServerService,
-        this.router,
-      );
-    }
-  }
-
-  public synchronizeInvoices() {
-    const actionDef = new TableSyncBillingInvoicesAction().getActionDef();
-    if (actionDef && actionDef.action) {
-      actionDef.action(
-        this.dialogService,
-        this.translateService,
-        this.messageService,
-        this.centralServerService,
-        this.router,
-      );
-    }
   }
 
   private activateTransactionBilling() {

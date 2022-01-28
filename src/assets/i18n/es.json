@@ -1319,11 +1319,6 @@
         "title": "Error en la sincronización de facturación",
         "description": "La sincronización de este usuario con el sistema de facturación falló",
         "action": "Vuelva a sincronizarlo manualmente."
-      },
-      "no_billing_data": {
-        "title": "El usuario no tiene datos de facturación",
-        "description": "Este usuario no se ha sincronizado con el sistema de facturación",
-        "action": "Sincronizar usuario"
       }
     },
     "export_tags_title": "Exportar insignias",

@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, Inject, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { CarAuthorizationActions, DialogMode, DialogParams } from 'types/Authorization';
+import { CarAuthorizationActions, DialogMode, DialogParamsWithAuth } from 'types/Authorization';
 import { Car } from 'types/Car';
 
 import { Utils } from '../../../utils/Utils';
@@ -17,16 +17,13 @@ export class CarDialogComponent implements AfterViewInit {
 
   public constructor(
     public dialogRef: MatDialogRef<CarDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) matDialogParams: any) {
-    let dialogParams = matDialogParams as DialogParams<Car>;
-    let carAuthorizationActions = matDialogParams as CarAuthorizationActions;
-
+    @Inject(MAT_DIALOG_DATA) dialogParams: DialogParamsWithAuth<Car, CarAuthorizationActions>) {
     this.carID = dialogParams.dialogData?.id;
     this.dialogMode = dialogParams.dialogMode;
     this.carAuthorizationActions = {
-      canListUsers: carAuthorizationActions.canListUsers,
-      canListCarCatalog: carAuthorizationActions.canListCarCatalog,
-      canCreatePoolCar: carAuthorizationActions.canCreatePoolCar
+      canListUsers: dialogParams.authorizations?.canListUsers,
+      canListCarCatalog: dialogParams.authorizations?.canListCarCatalog,
+      canCreatePoolCar: dialogParams.authorizations?.canCreatePoolCar
     }
   }
 

@@ -222,6 +222,12 @@ export interface DialogData {
   metadata?: Record<string, AuthorizationDefinitionFieldMetadata>;
 }
 
+export interface DialogParamsWithAuth<T extends DialogData, U extends AuthorizationActions> {
+  dialogData?: T;
+  authorizations?: U;
+  dialogMode?: DialogMode;
+}
+
 export interface DialogParams<T extends DialogData> {
   dialogData?: T;
   dialogMode?: DialogMode;

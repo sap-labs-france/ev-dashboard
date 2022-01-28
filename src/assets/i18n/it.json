@@ -1551,6 +1551,7 @@
       "pricing_definition_delete_error": "Error occurred while deleting a pricing definition, check the logs",
       "pricing_definition_error": "Error occurred while retrieving the pricing definition, check the logs",
       "pricing_definition_time_range_error": "Please select different start and end time",
+      "pricing_min_max_error": "Please select a maximum value greater than the minimum.",
       "connector_type": "Connector Type",
       "connector_power": "Connector Power",
       "value": "Value",

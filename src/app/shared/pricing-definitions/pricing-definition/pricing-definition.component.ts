@@ -239,13 +239,13 @@ export class PricingDefinitionComponent implements OnInit {
       this.minDate = this.validFrom.value;
     });
     this.timeFromValue.valueChanges.subscribe(() => {
-      if(this.timeToValue.value && this.timeFromValue.value === this.timeToValue.value){
+      if (this.timeToValue.value && this.timeFromValue.value === this.timeToValue.value) {
         this.timeFromValue.setErrors({timeRangeError: true});
         this.formGroup.markAsPristine();
       }
     });
     this.timeToValue.valueChanges.subscribe(() => {
-      if(this.timeFromValue.value && this.timeFromValue.value === this.timeToValue.value){
+      if (this.timeFromValue.value && this.timeFromValue.value === this.timeToValue.value) {
         this.timeToValue.setErrors({timeRangeError: true});
         this.formGroup.markAsPristine();
       }
@@ -520,5 +520,19 @@ export class PricingDefinitionComponent implements OnInit {
     }
     return properties;
   }
-
+  private validateMinMax() {
+    // Need one more step as we need to compare values when they are both filled
+    if (this.minDuration?.value && this.maxDuration?.value) {
+      if (this.minDuration?.value >= this.maxDuration?.value) {
+      this.maxDuration.setErrors({minMaxError: true});
+      this.formGroup.markAsPristine();
+      }
+    }
+    if (this.minEnergyKWhValue?.value && this.maxEnergyKWhValue?.value) {
+      if (this.minEnergyKWhValue?.value >= this.maxEnergyKWhValue?.value) {
+        this.maxEnergyKWhValue.setErrors({minMaxError: true});
+        this.formGroup.markAsPristine();
+      }
+    }
+  }
 }

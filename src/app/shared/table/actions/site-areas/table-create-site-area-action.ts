@@ -2,6 +2,7 @@ import { ComponentType } from '@angular/cdk/portal';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 
+import { ScreenSize } from '../../../../types/GlobalType';
 import { SiteAreaButtonAction } from '../../../../types/SiteArea';
 import { TableActionDef } from '../../../../types/Table';
 import { TableCreateAction } from '../table-create-action';
@@ -22,6 +23,13 @@ export class TableCreateSiteAreaAction extends TableCreateAction {
 
   private createSiteArea(siteAreaDialogComponent: ComponentType<unknown>,
     dialog: MatDialog, refresh?: () => Observable<void>) {
-    super.create(siteAreaDialogComponent, dialog, null, refresh);
+    super.create(siteAreaDialogComponent, dialog, null, refresh, {
+      minWidth: ScreenSize.L,
+      maxWidth: ScreenSize.XXL,
+      width: ScreenSize.XL,
+      minHeight: ScreenSize.L,
+      maxHeight: ScreenSize.XXL,
+      height: ScreenSize.XLXXL
+    });
   }
 }

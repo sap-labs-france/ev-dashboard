@@ -1319,11 +1319,6 @@
         "title": "Rechnungssynchronisierung ist fehlgeschlagen",
         "description": "Die Synchronisierung dieses Nutzers mit dem Rechnungssystem ist fehlgeschlagen.",
         "action": "Re-synchronisieren Sie manuell."
-      },
-      "no_billing_data": {
-        "title": "Nutzer hat keine Rechnungsdaten",
-        "description": "Dieser Nutzer wurde nicht mit dem Rechnungssystem synchronisiert.",
-        "action": "Nutzer synchronisieren."
       }
     },
     "export_tags_title": "Badges exportieren",
@@ -1638,34 +1633,10 @@
       "billing_clear_test_data_error": "Operation fehlgeschlagen. Löschen der Testdaten wurde abgebrochen",
       "payment_methods": "Payment methods",
       "user": {
-        "synchronize_users": "Abrechnungssynchronisierung",
-        "synchronize_user": "Abrechnungssynchronisierung",
-        "force_synchronize_users": "Erzwinge Abrechnungssynchronisierung",
-        "synchronize_users_dialog_title": "Nutzer in Rechnungslegung Synchronisieren",
-        "synchronize_user_dialog_title": "Nutzer in Rechnungslegung Synchronisieren",
-        "force_synchronize_user_dialog_title": "Erzwinge Synchronisieren von Nutzern in Rechnungslegung",
-        "synchronize_users_dialog_confirm": "Wollen Sie wirklich die Nutzer mit dem Abrechnungssystem synchronisieren?",
-        "synchronize_user_dialog_confirm": "Wollen Sie wirklich den Nutzer '{{userFullName}}' mit dem Abrechnungssystem synchronisieren?",
-        "force_synchronize_user_dialog_confirm": "Wollen Sie wirklich die Synchronisierung von '{{userFullName}}' mit dem Abrechnungssystem erzwingen?<br>Warnung, dies könnte zu einem Verlust von zugehörigen Abrechnungsdaten führen.<br>Dies ist nicht umkehrbar.",
-        "synchronize_users_started": "Die Synchronisierung der Nutzer wurde gestartet",
-        "synchronize_user_started": "Die Synchronisierung der Nutzer wurde gestartet",
-        "synchronize_users_success": "'{{number}}' Nutzer erfolgreich  synchronisiert",
+        "force_synchronize_user_dialog_title": "Nutzer in Rechnungslegung Synchronisieren",
+        "force_synchronize_user_dialog_confirm": "Wollen Sie wirklich den Nutzer '{{userFullName}}' mit dem Abrechnungssystem synchronisieren?",
         "force_synchronize_user_success": "Der Nutzer '{{userFullName}}' wurde erfolgreich synchronisiert",
-        "synchronize_users_success_all": "Alle Nutzer sind bereits synchronisiert",
-        "synchronize_users_failure": "Synchronisierung mit '{{number}}' Fehlern. Überprüfen Sie die Logs Ihres Abrechnungssystems.",
-        "force_synchronize_user_failure": "Fehler beim Synchronisieren des Nutzers, überprüfen Sie die Logs.",
-        "synchronize_users_error": "Beim Synchronisieren der Nutzer mit dem Abrechnungssystem ist ein Fehler aufgetreten",
-        "synchronize_invoices": "Rechnungssychnronisierung"
-      },
-      "invoice": {
-        "synchronize_invoices": "Rechnungen synchronisieren",
-        "synchronize_invoices_dialog_title": "Rechnungen synchronisieren",
-        "synchronize_invoices_dialog_confirm": "Möchsten Sie die Rechnungen im  Abrechnungssystem wirklich synchronisieren?",
-        "synchronize_invoices_started": "Die Synchronisierung der Rechnungen wurde gestartet",
-        "synchronize_invoices_success": "'{{number}}' Rechnungen wurden erfolgreich synchronisiert",
-        "synchronize_invoices_success_all": "Alle Rechnungen sind bereits synchronisiert.",
-        "synchronize_invoices_failure": "Die Synchronisierung ist mit '{{number}}' Fehlermeldungen fehlgeschlagen. Bitte überprüfen die Logs Ihres Abrechnungssystem",
-        "synchronize_invoices_error": "Während der Synchronisierung der Rechnungenen für das Abrechnungssystem ist ein Fehler aufgetreten"
+        "force_synchronize_user_failure": "Fehler beim Synchronisieren des Nutzers, überprüfen Sie die Logs."
       },
       "stripe": {
         "description": "E-Mobility ermöglicht das Senden von Rechnungen an Ladestationnutzer mit Stripe ...",

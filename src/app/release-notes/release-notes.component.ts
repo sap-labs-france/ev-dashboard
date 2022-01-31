@@ -23,8 +23,23 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.5.16',
+        date: new Date('2022-01-28'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Final Pricing engine`,
+              `Refactor aggregation of Sites' consumption charts`,
+              `Fixed size of all pop-ups`,
+              `Cleanup of unused Billing jobs`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.5.15',
-        date: new Date('2022-01-26'),
+        date: new Date('2022-01-27'),
         componentChanges: [
           {
             name: 'Dashboard',

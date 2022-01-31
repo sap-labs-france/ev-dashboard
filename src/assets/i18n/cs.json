@@ -1319,11 +1319,6 @@
         "title": "Synchronizace fakturace se nezdařila",
         "description": "Synchronizace tohoto uživatele s účetním systémem se nezdařila.",
         "action": "Opakovat synchronizaci ručně"
-      },
-      "no_billing_data": {
-        "title": "Uživatel nemá žádné údaje pro fakturaci",
-        "description": "Tento uživatel není synchronizován s účetním systémem.",
-        "action": "Synchronizovat uživatele"
       }
     },
     "export_tags_title": "Exportovat tagy",
@@ -1638,34 +1633,10 @@
       "billing_clear_test_data_error": "Operation failed. The test data deletion has been aborted",
       "payment_methods": "Payment methods",
       "user": {
-        "synchronize_users": "Synchronizovat uživatele fakturace",
-        "synchronize_user": "Synchronizovat uživatele fakturace",
-        "force_synchronize_users": "Vynutit synchronizaci uživatelů fakturace",
-        "synchronize_users_dialog_title": "Synchronizovat uživatele fakturace",
-        "synchronize_user_dialog_title": "Synchronizovat uživatele fakturace",
-        "force_synchronize_user_dialog_title": "Vynutit synchronizaci (fakturace)",
-        "synchronize_users_dialog_confirm": "Chcete opravdu synchronizovat uživatele v účetním systému?",
-        "synchronize_user_dialog_confirm": "Chcete opravdu synchronizovat uživatele '{{userFullName}}‘ v účetním systému?",
-        "force_synchronize_user_dialog_confirm": "Chcete opravdu vynutit synchronizaci uživatele '{{userFullName}}‘ v účetním systému?<br>Upozorňujeme, že tato akce může vést ke ztrátě souvisejících fakturačních údajů.<br>Tato akce je nevratná.",
-        "synchronize_users_started": "Synchronizace uživatelů byla zahájena",
-        "synchronize_user_started": "Synchronizace uživatele byla zahájena",
-        "synchronize_users_success": "Počet '{{number}}‘ uživatelů byl úspěšně aktualizován",
+        "force_synchronize_user_dialog_title": "Synchronizovat uživatele fakturace",
+        "force_synchronize_user_dialog_confirm": "Chcete opravdu synchronizovat uživatele '{{userFullName}}‘ v účetním systému?",
         "force_synchronize_user_success": "Uživatel '{{userFullName}}' byl úspěšně synchronizován",
-        "synchronize_users_success_all": "Všichni uživatelé již byli synchronizováni",
-        "synchronize_users_failure": "Synchronizace se nezdařila, došlo k počtu '{{number}}' chyb. Zkontrolujte protokoly svého účetního systému.",
-        "force_synchronize_user_failure": "Synchronizace uživatele se nezdařila, zkontrolujte protokoly",
-        "synchronize_users_error": "Došlo k chybě při synchronizaci uživatelů pro fakturaci, zkontrolujte protokoly",
-        "synchronize_invoices": "Synchronizace zúčtovaných faktur"
-      },
-      "invoice": {
-        "synchronize_invoices": "Synchronizovat faktury",
-        "synchronize_invoices_dialog_title": "Synchronizovat faktury",
-        "synchronize_invoices_dialog_confirm": "Chcete opravdu synchronizovat faktury v účetním systému?",
-        "synchronize_invoices_started": "Synchronizace faktur byla zahájena",
-        "synchronize_invoices_success": "Počet '{{number}}‘ faktur byl úspěšně synchronizován",
-        "synchronize_invoices_success_all": "Všechny faktury již byly synchronizovány",
-        "synchronize_invoices_failure": "Synchronizace se nezdařila, došlo k počtu '{{number}}' chyb. Zkontrolujte protokoly svého účetního systému.",
-        "synchronize_invoices_error": "Došlo k chybě při synchronizaci faktur pro zúčtování, zkontrolujte protokol"
+        "force_synchronize_user_failure": "Synchronizace uživatele se nezdařila, zkontrolujte protokoly"
       },
       "stripe": {
         "description": "E-mobility umožňuje odeslat faktury uživatelům nabíjecích stanic pomocí Stripe...",

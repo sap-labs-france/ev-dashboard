@@ -1319,11 +1319,6 @@
         "title": "Error en la sincronización de facturación",
         "description": "La sincronización de este usuario con el sistema de facturación falló",
         "action": "Vuelva a sincronizarlo manualmente."
-      },
-      "no_billing_data": {
-        "title": "El usuario no tiene datos de facturación",
-        "description": "Este usuario no se ha sincronizado con el sistema de facturación",
-        "action": "Sincronizar usuario"
       }
     },
     "export_tags_title": "Exportar insignias",
@@ -1638,34 +1633,10 @@
       "billing_clear_test_data_error": "Operation failed. The test data deletion has been aborted",
       "payment_methods": "Payment methods",
       "user": {
-        "synchronize_users": "Sincronización del usuario (Facturación)",
-        "synchronize_user": "Sincronización del usuario (Facturación)",
-        "force_synchronize_users": "Forzar sincronización del usuario (facturación)",
-        "synchronize_users_dialog_title": "Sincronizar usuarios (Facturación)",
-        "synchronize_user_dialog_title": "Sincronizar usuario (Facturación)",
-        "force_synchronize_user_dialog_title": "Forzar sincronización (facturación)",
-        "synchronize_users_dialog_confirm": "¿Está seguro de que desea sincronizar a los usuarios con el sistema de facturación?",
-        "synchronize_user_dialog_confirm": "¿Está seguro de que desea sincronizar al usuario '{{userFullName}}' con el sistema de facturación?",
-        "force_synchronize_user_dialog_confirm": "¿Está seguro de que desea forzar la sincronización del usuario '{{userFullName}}' con el sistema de facturación? <br> Tenga en cuenta que esta acción puede provocar la pérdida de los datos de facturación vinculados a él. < br> Esta acción es irreversible ",
-        "synchronize_users_started": "Se ha iniciado la sincronización del usuario",
-        "synchronize_user_started": "Se ha iniciado la sincronización del usuario",
-        "synchronize_users_success": "'{{number}}' usuario(s) se han sincronizado correctamente",
+        "force_synchronize_user_dialog_title": "Sincronizar usuario (Facturación)",
+        "force_synchronize_user_dialog_confirm": "¿Está seguro de que desea sincronizar al usuario '{{userFullName}}' con el sistema de facturación?",
         "force_synchronize_user_success": "El usuario '{{userFullName}}' se ha sincronizado correctamente",
-        "synchronize_users_success_all": "Todos los usuarios ya están sincronizados",
-        "synchronize_users_failure": "La sincronización falló con '{{number}}' errores. Verifique los registros del sistema de facturación",
-        "force_synchronize_user_failure": "Falló la sincronización del usuario, verifique los registros",
-        "synchronize_users_error": "Se produjo un error durante la sincronización del usuario",
-        "synchronize_invoices": "Sincronizar facturas de facturación"
-      },
-      "invoice": {
-        "synchronize_invoices": "Sincronizar facturas",
-        "synchronize_invoices_dialog_title": "Sincronizar facturas",
-        "synchronize_invoices_dialog_confirm": "¿Está seguro de que desea sincronizar las facturas del sistema de facturación?",
-        "synchronize_invoices_started": "Se ha iniciado la sincronización de facturas",
-        "synchronize_invoices_success": "'{{number}}' facturas sincronizadas exitosamente",
-        "synchronize_invoices_success_all": "Todas las facturas ya están sincronizadas",
-        "synchronize_invoices_failure": "La sincronización falló con '{{number}}' errores. Verifique los registros del sistema de facturación",
-        "synchronize_invoices_error": "Se produjo un error durante la sincronización de las facturas"
+        "force_synchronize_user_failure": "Falló la sincronización del usuario, verifique los registros"
       },
       "stripe": {
         "description": "E-Mobility permite enviar facturas a los usuarios de estaciones de carga con Stripe",

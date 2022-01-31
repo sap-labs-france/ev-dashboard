@@ -217,10 +217,6 @@ export class AuthorizationService {
     return this.canAccess(Entity.TRANSACTION, Action.REFUND_TRANSACTION);
   }
 
-  public canSynchronizeBillingUsers(): boolean {
-    return this.canAccess(Entity.USER, Action.SYNCHRONIZE_BILLING_USERS);
-  }
-
   public canSynchronizeInvoices(): boolean {
     return this.canAccess(Entity.INVOICE, Action.SYNCHRONIZE);
   }

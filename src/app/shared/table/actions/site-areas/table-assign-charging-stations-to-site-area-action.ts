@@ -1,8 +1,9 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
-import { DialogMode, DialogParams } from 'types/Authorization';
 
+import { DialogMode, DialogParams } from '../../../../types/Authorization';
+import { ScreenSize } from '../../../../types/GlobalType';
 import { SiteArea, SiteAreaButtonAction } from '../../../../types/SiteArea';
 import { TableActionDef } from '../../../../types/Table';
 import { TableAssignAction } from '../table-assign-action';
@@ -26,6 +27,13 @@ export class TableAssignChargingStationsToSiteAreaAction extends TableAssignActi
 
   private assignChargingStationsToSiteArea(siteAreaChargingStationsDialogComponent: ComponentType<unknown>, dialog: MatDialog,
     dialogParams: DialogParams<SiteArea>, refresh?: () => Observable<void>) {
-    super.assign(siteAreaChargingStationsDialogComponent, dialog, dialogParams, DialogMode.EDIT, refresh);
+    super.assign(siteAreaChargingStationsDialogComponent, dialog, dialogParams, DialogMode.EDIT, refresh, {
+      minWidth: ScreenSize.L,
+      maxWidth: ScreenSize.XXL,
+      width: ScreenSize.XL,
+      minHeight: ScreenSize.L,
+      maxHeight: ScreenSize.XXL,
+      height: ScreenSize.XL
+    });
   }
 }

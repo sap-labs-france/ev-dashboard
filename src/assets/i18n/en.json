@@ -1319,11 +1319,6 @@
         "title": "Billing synchronization failed",
         "description": "The synchronization of this user with the billing system failed.",
         "action": "Re-synchronize it manually."
-      },
-      "no_billing_data": {
-        "title": "User has no billing data",
-        "description": "This user has not been synchronized with the billing system.",
-        "action": "Synchronize the user."
       }
     },
     "export_tags_title": "Export RFID cards",
@@ -1638,34 +1633,10 @@
       "billing_clear_test_data_error": "Operation failed. The test data deletion has been aborted",
       "payment_methods": "Payment methods",
       "user": {
-        "synchronize_users": "Synchronize Billing Users",
-        "synchronize_user": "Synchronize Billing User",
-        "force_synchronize_users": "Force Synchronize Billing Users",
-        "synchronize_users_dialog_title": "Synchronize Billing Users",
-        "synchronize_user_dialog_title": "Synchronize Billing User",
-        "force_synchronize_user_dialog_title": "Force Synchronization (Billing)",
-        "synchronize_users_dialog_confirm": "Do you really want to synchronize the users in the billing system?",
-        "synchronize_user_dialog_confirm": "Do you really want to synchronize the user '{{userFullName}}' in the billing system?",
-        "force_synchronize_user_dialog_confirm": "Do you really want to force synchronization of the user '{{userFullName}}' in the billing system?<br>Warning, this action may result in the loss of related billing data.<br>This action is irreversible.",
-        "synchronize_users_started": "The synchronization of users has been started",
-        "synchronize_user_started": "The synchronization of the user has been started",
-        "synchronize_users_success": "Successfully synchronized '{{number}}' user(s)",
+        "force_synchronize_user_dialog_title": "Synchronize Billing User",
+        "force_synchronize_user_dialog_confirm": "Do you really want to synchronize the user '{{userFullName}}' in the billing system?",
         "force_synchronize_user_success": "The user '{{userFullName}}' has been synchronized successfully",
-        "synchronize_users_success_all": "All users are already synchronized",
-        "synchronize_users_failure": "Synchronization failed with '{{number}}' errors. Check your billing system's logs.",
-        "force_synchronize_user_failure": "Failed to synchronize the user, check the logs",
-        "synchronize_users_error": "Error occurred while synchronizing users for billing, check the logs",
-        "synchronize_invoices": "Billing Invoices Synchronization"
-      },
-      "invoice": {
-        "synchronize_invoices": "Synchronize Invoices",
-        "synchronize_invoices_dialog_title": "Synchronize Invoices",
-        "synchronize_invoices_dialog_confirm": "Do you really want to synchronize the invoices in the billing system?",
-        "synchronize_invoices_started": "The synchronization of invoices has been started",
-        "synchronize_invoices_success": "Successfully synchronized '{{number}}' invoice(s)",
-        "synchronize_invoices_success_all": "All invoices are already synchronized",
-        "synchronize_invoices_failure": "Synchronization failed with '{{number}}' errors. Check your billing system's logs.",
-        "synchronize_invoices_error": "Error occurred while synchronizing invoices for billing, check the logs"
+        "force_synchronize_user_failure": "Failed to synchronize the user, check the logs"
       },
       "stripe": {
         "description": "E-Mobility allows to send invoices to the charging station users with Stripe ...",

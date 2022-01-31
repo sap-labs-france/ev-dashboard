@@ -1,10 +1,11 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
-import { DialogParams } from 'types/Authorization';
 
 import { TableEditAction } from '../../../../shared/table/actions/table-edit-action';
+import { DialogParams } from '../../../../types/Authorization';
 import { Company, CompanyButtonAction } from '../../../../types/Company';
+import { ScreenSize } from '../../../../types/GlobalType';
 import { TableActionDef } from '../../../../types/Table';
 
 export interface TableEditCompanyActionDef extends TableActionDef {
@@ -23,6 +24,13 @@ export class TableEditCompanyAction extends TableEditAction {
 
   private editCompany(companyDialogComponent: ComponentType<unknown>, dialog: MatDialog,
     dialogParams: DialogParams<Company>, refresh?: () => Observable<void>) {
-    super.edit(companyDialogComponent, dialog, dialogParams, refresh);
+    super.edit(companyDialogComponent, dialog, dialogParams, refresh, {
+      minWidth: ScreenSize.L,
+      maxWidth: ScreenSize.XXL,
+      width: ScreenSize.XL,
+      minHeight: ScreenSize.S,
+      maxHeight: ScreenSize.L,
+      height: ScreenSize.M
+    });
   }
 }

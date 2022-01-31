@@ -1,10 +1,11 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
-import { DialogParams } from 'types/Authorization';
-import { Tag, TagButtonAction } from 'types/Tag';
 
+import { DialogParams } from '../../../../types/Authorization';
+import { ScreenSize } from '../../../../types/GlobalType';
 import { TableActionDef } from '../../../../types/Table';
+import { Tag, TagButtonAction } from '../../../../types/Tag';
 import { TableEditAction } from '../table-edit-action';
 
 export interface TableEditTagByVisualIDActionDef extends TableActionDef {
@@ -24,6 +25,13 @@ export class TableEditTagByVisualIDAction extends TableEditAction {
 
   private editTag(tagAssignDialogComponent: ComponentType<unknown>, dialog: MatDialog,
     dialogParams: DialogParams<Tag>, refresh?: () => Observable<void>) {
-    super.edit(tagAssignDialogComponent, dialog, dialogParams, refresh);
+    super.edit(tagAssignDialogComponent, dialog, dialogParams, refresh, {
+      minWidth: ScreenSize.S,
+      maxWidth: ScreenSize.L,
+      width: ScreenSize.M,
+      minHeight: ScreenSize.S,
+      maxHeight: ScreenSize.L,
+      height: ScreenSize.M
+    });
   }
 }

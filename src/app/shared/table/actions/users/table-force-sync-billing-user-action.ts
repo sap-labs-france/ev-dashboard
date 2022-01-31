@@ -30,8 +30,8 @@ export class TableForceSyncBillingUserAction extends TableSynchronizeAction {
   private forceSynchronizeUser(user: User, dialogService: DialogService, translateService: TranslateService, spinnerService: SpinnerService,
     messageService: MessageService, centralServerService: CentralServerService, router: Router, refresh?: () => Observable<void>) {
     dialogService.createAndShowYesNoDialog(
-      translateService.instant('settings.billing.user.synchronize_user_dialog_title'),
-      translateService.instant('settings.billing.user.synchronize_user_dialog_confirm', { userFullName: Utils.buildUserFullName(user) }),
+      translateService.instant('settings.billing.user.force_synchronize_user_dialog_title'),
+      translateService.instant('settings.billing.user.force_synchronize_user_dialog_confirm', { userFullName: Utils.buildUserFullName(user) }),
     ).subscribe((response) => {
       if (response === ButtonType.YES) {
         spinnerService.show();

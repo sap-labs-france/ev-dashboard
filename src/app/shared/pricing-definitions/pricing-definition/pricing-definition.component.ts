@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { MatSlideToggle, MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { PricingHelpers } from 'utils/PricingHelpers';
@@ -91,9 +91,9 @@ export class PricingDefinitionComponent implements OnInit {
   public restrictions!: FormGroup;
   // Duration
   public minDurationEnabled: AbstractControl;
-  public minDuration: AbstractControl;
+  public minDurationValue: AbstractControl;
   public maxDurationEnabled: AbstractControl;
-  public maxDuration: AbstractControl;
+  public maxDurationValue: AbstractControl;
   // Energy KWh
   public minEnergyKWhEnabled: AbstractControl;
   public minEnergyKWhValue: AbstractControl;
@@ -223,9 +223,9 @@ export class PricingDefinitionComponent implements OnInit {
     this.parkingTimeStepUnit = this.parkingTime.controls['stepSizeUnit'];
     this.restrictions = this.formGroup.controls['restrictions'] as FormGroup;
     this.minDurationEnabled = this.restrictions.controls['minDurationEnabled'];
-    this.minDuration = this.restrictions.controls['minDuration'];
+    this.minDurationValue = this.restrictions.controls['minDuration'];
     this.maxDurationEnabled = this.restrictions.controls['maxDurationEnabled'];
-    this.maxDuration = this.restrictions.controls['maxDuration'];
+    this.maxDurationValue = this.restrictions.controls['maxDuration'];
     this.minEnergyKWhEnabled = this.restrictions.controls['minEnergyKWhEnabled'];
     this.minEnergyKWhValue = this.restrictions.controls['minEnergyKWh'];
     this.maxEnergyKWhEnabled = this.restrictions.controls['maxEnergyKWhEnabled'];
@@ -283,9 +283,9 @@ export class PricingDefinitionComponent implements OnInit {
         this.minTime = this.currentPricingDefinition.restrictions?.timeTo;
         this.timeToValue.setValue(this.currentPricingDefinition.restrictions?.timeTo);
         this.minDurationEnabled.setValue(!!this.currentPricingDefinition.restrictions?.minDurationSecs);
-        this.minDuration.setValue(PricingHelpers.toMinutes(this.currentPricingDefinition.restrictions?.minDurationSecs));
+        this.minDurationValue.setValue(PricingHelpers.toMinutes(this.currentPricingDefinition.restrictions?.minDurationSecs));
         this.maxDurationEnabled.setValue(!!this.currentPricingDefinition.restrictions?.maxDurationSecs);
-        this.maxDuration.setValue(PricingHelpers.toMinutes(this.currentPricingDefinition.restrictions?.maxDurationSecs));
+        this.maxDurationValue.setValue(PricingHelpers.toMinutes(this.currentPricingDefinition.restrictions?.maxDurationSecs));
         this.minEnergyKWhEnabled.setValue(!!this.currentPricingDefinition.restrictions?.minEnergyKWh);
         this.minEnergyKWhValue.setValue(this.currentPricingDefinition.restrictions?.minEnergyKWh);
         this.maxEnergyKWhEnabled.setValue(!!this.currentPricingDefinition.restrictions?.maxEnergyKWh);
@@ -465,8 +465,8 @@ export class PricingDefinitionComponent implements OnInit {
       timeTo: (this.timeRangeEnabled.value)? this.timeToValue.value: null,
       minEnergyKWh: (this.minEnergyKWhEnabled.value)? this.minEnergyKWhValue.value: null,
       maxEnergyKWh: (this.maxEnergyKWhEnabled.value)? this.maxEnergyKWhValue.value: null,
-      minDurationSecs: PricingHelpers.convertDurationToSeconds(this.minDurationEnabled.value, this.minDuration.value),
-      maxDurationSecs: PricingHelpers.convertDurationToSeconds(this.maxDurationEnabled.value, this.maxDuration.value),
+      minDurationSecs: PricingHelpers.convertDurationToSeconds(this.minDurationEnabled.value, this.minDurationValue.value),
+      maxDurationSecs: PricingHelpers.convertDurationToSeconds(this.maxDurationEnabled.value, this.maxDurationValue.value),
     };
     // Clear empty data for best performances server-side
     staticRestrictions = this.shrinkPricingProperties(staticRestrictions);
@@ -522,16 +522,20 @@ export class PricingDefinitionComponent implements OnInit {
   }
   private validateMinMax() {
     // Need one more step as we need to compare values when they are both filled
-    if (this.minDuration?.value && this.maxDuration?.value) {
-      if (this.minDuration?.value >= this.maxDuration?.value) {
-      this.maxDuration.setErrors({minMaxError: true});
+    if (this.minDurationValue?.value && this.maxDurationValue?.value) {
+      if (Utils.convertToInteger(this.minDurationValue?.value) >= Utils.convertToInteger(this.maxDurationValue?.value)) {
+      this.maxDurationValue.setErrors({minMaxError: true});
       this.formGroup.markAsPristine();
+      } else {
+        this.maxDurationValue.setErrors(null);
       }
     }
     if (this.minEnergyKWhValue?.value && this.maxEnergyKWhValue?.value) {
-      if (this.minEnergyKWhValue?.value >= this.maxEnergyKWhValue?.value) {
+      if (Utils.convertToInteger(this.minEnergyKWhValue?.value) >= Utils.convertToInteger(this.maxEnergyKWhValue?.value)) {
         this.maxEnergyKWhValue.setErrors({minMaxError: true});
         this.formGroup.markAsPristine();
+      } else {
+        this.maxEnergyKWhValue.setErrors(null);
       }
     }
   }

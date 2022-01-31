@@ -276,9 +276,9 @@
                     <mat-form-field *ngIf="minDurationEnabled.value">
                       <mat-label>{{'settings.pricing.restriction_min_duration_unit' | translate}}</mat-label>
                       <input matInput type="text" placeholder="{{'settings.pricing.restriction_min_duration_unit' | translate}}"
-                      [formControl]="minDuration" (change)="validateMinMax()" required/>
-                      <mat-error *ngIf="minDuration?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
-                      <mat-error *ngIf="minDuration?.errors?.pattern">{{'general.error_number_pattern' | translate}}</mat-error>
+                      [formControl]="minDurationValue" (change)="validateMinMax()" required/>
+                      <mat-error *ngIf="minDurationValue?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
+                      <mat-error *ngIf="minDurationValue?.errors?.pattern">{{'general.error_number_pattern' | translate}}</mat-error>
                     </mat-form-field>
                   </div>
                   <!-- toggle max duration -->
@@ -292,10 +292,10 @@
                     <mat-form-field *ngIf="maxDurationEnabled.value">
                       <mat-label>{{'settings.pricing.restriction_max_duration_unit' | translate}}</mat-label>
                       <input matInput type="text" placeholder="{{'settings.pricing.restriction_max_duration_unit' | translate}}"
-                      [formControl]="maxDuration" (change)="validateMinMax()" required/>
-                      <mat-error *ngIf="maxDuration?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
-                      <mat-error *ngIf="maxDuration?.errors?.pattern">{{'general.error_number_pattern' | translate}}</mat-error>
-                      <mat-error *ngIf="maxDuration?.errors?.minMaxError">{{'settings.pricing.pricing_min_max_error' | translate}}</mat-error>
+                      [formControl]="maxDurationValue" (change)="validateMinMax()" required/>
+                      <mat-error *ngIf="maxDurationValue?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
+                      <mat-error *ngIf="maxDurationValue?.errors?.pattern">{{'general.error_number_pattern' | translate}}</mat-error>
+                      <mat-error *ngIf="maxDurationValue?.errors?.minMaxError">{{'settings.pricing.pricing_min_max_error' | translate}}</mat-error>
                     </mat-form-field>
                   </div>
                 </div>

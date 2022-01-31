@@ -372,6 +372,10 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
             display: true,
             color: 'rgba(0,0,0,0.2)',
           },
+          title: {
+            display: true,
+            text: this.translateService.instant('transactions.consumption') + ' (W)',
+          }
         },
         amperage: {
           type: 'linear',
@@ -382,9 +386,13 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
             color: 'rgba(0,0,0,0.2)',
           },
           ticks: {
-            callback: (value: number) => parseInt(this.decimalPipe.transform(value, '1.0-0'), 10) + 'A',
+            callback: (value: number) => this.decimalPipe.transform(value, '1.0-1') + ' A',
             color: this.defaultColor,
           },
+          title: {
+            display: true,
+            text: this.translateService.instant('transactions.consumption') + ' (A)',
+          }
         },
         percentage: {
           type: 'linear',
@@ -395,9 +403,13 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
             color: 'rgba(0,0,0,0.2)',
           },
           ticks: {
-            callback: (value) => `${value}%`,
+            callback: (value) => `${value} %`,
             color: this.defaultColor,
           },
+          title: {
+            display: true,
+            text: this.translateService.instant('transactions.graph.battery'),
+          }
         },
       },
     };

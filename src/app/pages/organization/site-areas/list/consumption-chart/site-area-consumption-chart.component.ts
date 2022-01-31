@@ -3,6 +3,7 @@ import { AbstractControl, FormControl, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { Chart, ChartData, ChartDataset, ChartOptions, Color, TooltipItem } from 'chart.js';
 import * as moment from 'moment';
+import { AppUnitPipe } from 'shared/formatters/app-unit.pipe';
 import { ConsumptionChartDatasetOrder } from 'types/Chart';
 
 import { AuthorizationService } from '../../../../../services/authorization.service';
@@ -63,6 +64,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
     private datePipe: AppDatePipe,
     private durationPipe: AppDurationPipe,
     private decimalPipe: AppDecimalPipe,
+    private unitPipe: AppUnitPipe,
     private authorizationService: AuthorizationService) {
     this.canCrudSiteArea = this.authorizationService.canCreateSiteArea() && this.authorizationService.canReadSiteArea() &&
       this.authorizationService.canUpdateSiteArea() && this.authorizationService.canDeleteSiteArea();
@@ -427,31 +429,35 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
           type: 'linear',
           position: 'left',
           display: 'auto',
-          beginAtZero: true,
-          min: 0,
           ticks: {
-            callback: (value: number) => parseInt(this.decimalPipe.transform(value, '1.0-0'), 10) + ((value < 1000) ? 'W' : 'kW'),
+            callback: (value: number) => this.unitPipe.transform(value, 'W', 'kW', true, 1, 0, 1),
             color: this.defaultColor,
           },
           grid: {
             display: true,
             color: 'rgba(0,0,0,0.2)',
           },
+          title: {
+            display: true,
+            text: this.translateService.instant('transactions.consumption') + ' (W)',
+          }
         },
         amperage: {
           type: 'linear',
           position: 'left',
           display: 'auto',
-          beginAtZero: true,
-          min: 0,
           grid: {
             display: true,
             color: 'rgba(0,0,0,0.2)',
           },
           ticks: {
-            callback: (value: number) => parseInt(this.decimalPipe.transform(value, '1.0-0'), 10) + 'A',
+            callback: (value: number) => this.decimalPipe.transform(value, '1.0-1') + ' A',
             color: this.defaultColor,
           },
+          title: {
+            display: true,
+            text: this.translateService.instant('transactions.consumption') + ' (A)',
+          }
         },
       },
     };

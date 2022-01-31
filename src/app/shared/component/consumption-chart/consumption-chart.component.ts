@@ -385,9 +385,9 @@ export class ConsumptionChartComponent implements AfterViewInit {
     const stateOfChargeDataSet = this.getDataSetByOrder(ConsumptionChartDatasetOrder.STATE_OF_CHARGE);
     const instantVoltsDataSet = this.getDataSetByOrder(ConsumptionChartDatasetOrder.INSTANT_VOLTS);
     const instantVoltsDCDataSet = this.getDataSetByOrder(ConsumptionChartDatasetOrder.INSTANT_VOLTS_DC);
-    const instantVoltsL1DataSet = this.getDataSetByOrder(ConsumptionChartDatasetOrder.INSTANT_WATTS_L1);
-    const instantVoltsL2DataSet = this.getDataSetByOrder(ConsumptionChartDatasetOrder.INSTANT_WATTS_L2);
-    const instantVoltsL3DataSet = this.getDataSetByOrder(ConsumptionChartDatasetOrder.INSTANT_WATTS_L3);
+    const instantVoltsL1DataSet = this.getDataSetByOrder(ConsumptionChartDatasetOrder.INSTANT_VOLTS_L1);
+    const instantVoltsL2DataSet = this.getDataSetByOrder(ConsumptionChartDatasetOrder.INSTANT_VOLTS_L2);
+    const instantVoltsL3DataSet = this.getDataSetByOrder(ConsumptionChartDatasetOrder.INSTANT_VOLTS_L3);
     const limitWattsDataSet = this.getDataSetByOrder(ConsumptionChartDatasetOrder.LIMIT_WATTS);
     const limitAmpsDataSet = this.getDataSetByOrder(ConsumptionChartDatasetOrder.LIMIT_AMPS);
     const labels: number[] = [];
@@ -483,6 +483,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
             if(!status){
               legend.chart.data.datasets.forEach((dataset) => dataset.borderWidth = 1);
               legend.chart.data.datasets[legendItem.datasetIndex].borderWidth = 5;
+              console.log(legend.chart.data.datasets);
               legend.chart.update();
             }
           },
@@ -620,8 +621,6 @@ export class ConsumptionChartComponent implements AfterViewInit {
           type: 'linear',
           position: 'left',
           display: 'auto',
-          beginAtZero: true,
-          min: 0,
           ticks: {
             callback: (value: number) => parseInt(this.decimalPipe.transform(value, '1.0-0'), 10) + ((value < 1000) ? 'W' : 'kW'),
             color: this.defaultColor,
@@ -635,8 +634,6 @@ export class ConsumptionChartComponent implements AfterViewInit {
           type: 'linear',
           position: 'left',
           display: 'auto',
-          beginAtZero: true,
-          min: 0,
           grid: {
             display: true,
             color: 'rgba(0,0,0,0.2)',
@@ -650,8 +647,6 @@ export class ConsumptionChartComponent implements AfterViewInit {
           type: 'linear',
           position: 'left',
           display: 'auto',
-          beginAtZero: true,
-          min: 0,
           grid: {
             display: false,
             color: 'rgba(0,0,0,0.2)',
@@ -665,8 +660,6 @@ export class ConsumptionChartComponent implements AfterViewInit {
           type: 'linear',
           position: 'right',
           display: 'auto',
-          beginAtZero: true,
-          min: 0,
           grid: {
             display: false,
             color: 'rgba(0,0,0,0.2)',

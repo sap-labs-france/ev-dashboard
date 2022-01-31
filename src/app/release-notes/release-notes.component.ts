@@ -29,6 +29,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `Final Pricing engine`,
               `Refactor aggregation of Sites' consumption charts`,
               `Fixed size of all pop-ups`,
               `Cleanup of unused Billing jobs`,

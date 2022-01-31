@@ -30,7 +30,7 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Final Pricing engine`,
-              `Fixed synchromization of new Cars`,
+              `Fixed synchromization of new Cars + Optimize image's size`,
               `Refactor aggregation of consumption charts for Sites`,
               `Fixed pop-up wrong size issues`,
               `Cleanup of unused Billing jobs`,

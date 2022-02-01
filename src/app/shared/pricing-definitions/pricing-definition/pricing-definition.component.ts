@@ -45,8 +45,7 @@ export class PricingDefinitionComponent implements OnInit {
   public entityID: AbstractControl;
   // Connector
   public connectorTypeMap = CONNECTOR_TYPE_SELECTION_MAP;
-  public connectorPowerValue: AbstractControl;
-  public connectorPowerUnit: AbstractControl;
+  public connectorPower: AbstractControl;
   // Static Restrictions
   public staticRestrictions!: FormGroup;
   public connectorType!: AbstractControl;
@@ -58,55 +57,48 @@ export class PricingDefinitionComponent implements OnInit {
   // Dimensions
   public dimensions!: FormGroup;
   // Flat fee
-  public flatFee: FormGroup;
+  public flatFeeDimension: FormGroup;
   public flatFeeEnabled: AbstractControl;
-  public flatFeeValue: AbstractControl;
-  public flatFeeUnit: AbstractControl;
+  public flatFee: AbstractControl;
   // Energy
-  public energy: FormGroup;
+  public energyDimension: FormGroup;
   public energyEnabled: AbstractControl;
-  public energyValue: AbstractControl;
-  public energyUnit: AbstractControl;
+  public energy: AbstractControl;
   public energyStepEnabled: AbstractControl;
-  public energyStepValue: AbstractControl;
-  public energyStepUnit: AbstractControl;
+  public energyStep: AbstractControl;
   // Charging time
-  public chargingTime: FormGroup;
+  public chargingTimeDimension: FormGroup;
   public chargingTimeEnabled: AbstractControl;
-  public chargingTimeValue: AbstractControl;
-  public chargingTimeUnit: AbstractControl;
+  public chargingTime: AbstractControl;
   // Parking time
-  public parkingTime: FormGroup;
+  public parkingTimeDimension: FormGroup;
   public parkingTimeEnabled: AbstractControl;
-  public parkingTimeValue: AbstractControl;
-  public parkingTimeUnit: AbstractControl;
+  public parkingTime: AbstractControl;
   // Step size
   public chargingTimeStepEnabled: AbstractControl;
-  public chargingTimeStepValue: AbstractControl;
-  public chargingTimeStepUnit: AbstractControl;
+  public chargingTimeStep: AbstractControl;
   public parkingTimeStepEnabled: AbstractControl;
-  public parkingTimeStepValue: AbstractControl;
-  public parkingTimeStepUnit: AbstractControl;
+  public parkingTimeStep: AbstractControl;
   // Restrictions
   public restrictions!: FormGroup;
   // Duration
   public minDurationEnabled: AbstractControl;
-  public minDurationValue: AbstractControl;
+  public minDuration: AbstractControl;
   public maxDurationEnabled: AbstractControl;
-  public maxDurationValue: AbstractControl;
+  public maxDuration: AbstractControl;
   // Energy KWh
   public minEnergyKWhEnabled: AbstractControl;
-  public minEnergyKWhValue: AbstractControl;
+  public minEnergyKWh: AbstractControl;
   public maxEnergyKWhEnabled: AbstractControl;
-  public maxEnergyKWhValue: AbstractControl;
+  public maxEnergyKWh: AbstractControl;
   // Days of week
   public daysOfWeekEnabled: AbstractControl;
   public selectedDays: AbstractControl;
   public daysOfTheWeek = [1, 2, 3, 4, 5, 6, 7];
   // Start/end date time
   public timeRangeEnabled: AbstractControl;
-  public timeFromValue: AbstractControl;
-  public timeToValue: AbstractControl;
+  public timeFrom: AbstractControl;
+  public timeTo: AbstractControl;
 
   // eslint-disable-next-line no-useless-constructor
   public constructor(
@@ -189,64 +181,61 @@ export class PricingDefinitionComponent implements OnInit {
     // Static restrictions
     this.staticRestrictions = this.formGroup.controls['staticRestrictions'] as FormGroup;
     this.connectorPowerEnabled = this.staticRestrictions.controls['connectorPowerEnabled'];
-    this.connectorPowerValue = this.staticRestrictions.controls['connectorPowerkW'];
-    this.connectorPowerUnit = this.staticRestrictions.controls['connectorPowerUnit'];
+    this.connectorPower = this.staticRestrictions.controls['connectorPowerkW'];
     this.connectorType = this.staticRestrictions.controls['connectorType'];
     this.validFrom = this.staticRestrictions.controls['validFrom'];
     this.validTo = this.staticRestrictions.controls['validTo'];
     // Dimensions
     this.dimensions = this.formGroup.controls['dimensions'] as FormGroup;
-    this.flatFee = this.dimensions.controls['flatFee'] as FormGroup;
-    this.flatFeeEnabled = this.flatFee.controls['active'];
-    this.flatFeeValue = this.flatFee.controls['price'];
-    this.flatFeeUnit = this.flatFee.controls['unit'];
-    this.energy = this.dimensions.controls['energy'] as FormGroup;
-    this.energyEnabled = this.energy.controls['active'];
-    this.energyValue = this.energy.controls['price'];
-    this.energyUnit = this.energy.controls['unit'];
-    this.energyStepEnabled = this.energy.controls['stepSizeEnabled'];
-    this.energyStepValue = this.energy.controls['stepSize'];
-    this.energyStepUnit = this.energy.controls['stepSizeUnit'];
-    this.chargingTime = this.dimensions.controls['chargingTime'] as FormGroup;
-    this.chargingTimeEnabled = this.chargingTime.controls['active'];
-    this.chargingTimeValue = this.chargingTime.controls['price'];
-    this.chargingTimeUnit = this.chargingTime.controls['unit'];
-    this.chargingTimeStepEnabled = this.chargingTime.controls['stepSizeEnabled'];
-    this.chargingTimeStepValue = this.chargingTime.controls['stepSize'];
-    this.chargingTimeStepUnit = this.chargingTime.controls['stepSizeUnit'];
-    this.parkingTime = this.dimensions.controls['parkingTime'] as FormGroup;
-    this.parkingTimeEnabled = this.parkingTime.controls['active'];
-    this.parkingTimeValue = this.parkingTime.controls['price'];
-    this.parkingTimeUnit = this.parkingTime.controls['unit'];
-    this.parkingTimeStepEnabled = this.parkingTime.controls['stepSizeEnabled'];
-    this.parkingTimeStepValue = this.parkingTime.controls['stepSize'];
-    this.parkingTimeStepUnit = this.parkingTime.controls['stepSizeUnit'];
+    // FlatFee
+    this.flatFeeDimension = this.dimensions.controls['flatFee'] as FormGroup;
+    this.flatFeeEnabled = this.flatFeeDimension.controls['active'];
+    this.flatFee = this.flatFeeDimension.controls['price'];
+    // Energy
+    this.energyDimension = this.dimensions.controls['energy'] as FormGroup;
+    this.energyEnabled = this.energyDimension.controls['active'];
+    this.energy = this.energyDimension.controls['price'];
+    this.energyStepEnabled = this.energyDimension.controls['stepSizeEnabled'];
+    this.energyStep = this.energyDimension.controls['stepSize'];
+    // ChargingTime
+    this.chargingTimeDimension = this.dimensions.controls['chargingTime'] as FormGroup;
+    this.chargingTimeEnabled = this.chargingTimeDimension.controls['active'];
+    this.chargingTime = this.chargingTimeDimension.controls['price'];
+    this.chargingTimeStepEnabled = this.chargingTimeDimension.controls['stepSizeEnabled'];
+    this.chargingTimeStep = this.chargingTimeDimension.controls['stepSize'];
+    // ParkingTime
+    this.parkingTimeDimension = this.dimensions.controls['parkingTime'] as FormGroup;
+    this.parkingTimeEnabled = this.parkingTimeDimension.controls['active'];
+    this.parkingTime = this.parkingTimeDimension.controls['price'];
+    this.parkingTimeStepEnabled = this.parkingTimeDimension.controls['stepSizeEnabled'];
+    this.parkingTimeStep = this.parkingTimeDimension.controls['stepSize'];
+    // Restrictions
     this.restrictions = this.formGroup.controls['restrictions'] as FormGroup;
     this.minDurationEnabled = this.restrictions.controls['minDurationEnabled'];
-    this.minDurationValue = this.restrictions.controls['minDuration'];
+    this.minDuration = this.restrictions.controls['minDuration'];
     this.maxDurationEnabled = this.restrictions.controls['maxDurationEnabled'];
-    this.maxDurationValue = this.restrictions.controls['maxDuration'];
+    this.maxDuration = this.restrictions.controls['maxDuration'];
     this.minEnergyKWhEnabled = this.restrictions.controls['minEnergyKWhEnabled'];
-    this.minEnergyKWhValue = this.restrictions.controls['minEnergyKWh'];
+    this.minEnergyKWh = this.restrictions.controls['minEnergyKWh'];
     this.maxEnergyKWhEnabled = this.restrictions.controls['maxEnergyKWhEnabled'];
-    this.maxEnergyKWhValue = this.restrictions.controls['maxEnergyKWh'];
+    this.maxEnergyKWh = this.restrictions.controls['maxEnergyKWh'];
     this.daysOfWeekEnabled = this.restrictions.controls['daysOfWeekEnabled'];
     this.selectedDays = this.restrictions.controls['selectedDays'];
     this.timeRangeEnabled = this.restrictions.controls['timeRangeEnabled'];
-    this.timeFromValue = this.restrictions.controls['timeFrom'];
-    this.timeToValue = this.restrictions.controls['timeTo'];
+    this.timeFrom = this.restrictions.controls['timeFrom'];
+    this.timeTo = this.restrictions.controls['timeTo'];
     this.validFrom.valueChanges.subscribe(() => {
       this.minDate = this.validFrom.value;
     });
-    this.timeFromValue.valueChanges.subscribe(() => {
-      if (this.timeToValue.value && this.timeFromValue.value === this.timeToValue.value) {
-        this.timeFromValue.setErrors({timeRangeError: true});
+    this.timeFrom.valueChanges.subscribe(() => {
+      if (this.timeTo.value && this.timeFrom.value === this.timeTo.value) {
+        this.timeFrom.setErrors({timeRangeError: true});
         this.formGroup.markAsPristine();
       }
     });
-    this.timeToValue.valueChanges.subscribe(() => {
-      if (this.timeFromValue.value && this.timeFromValue.value === this.timeToValue.value) {
-        this.timeToValue.setErrors({timeRangeError: true});
+    this.timeTo.valueChanges.subscribe(() => {
+      if (this.timeFrom.value && this.timeFrom.value === this.timeTo.value) {
+        this.timeTo.setErrors({timeRangeError: true});
         this.formGroup.markAsPristine();
       }
     });
@@ -271,25 +260,25 @@ export class PricingDefinitionComponent implements OnInit {
         this.validTo.setValue(this.currentPricingDefinition.staticRestrictions?.validTo);
         this.minDate = this.currentPricingDefinition.staticRestrictions?.validFrom;
         this.connectorType.setValue((this.currentPricingDefinition.staticRestrictions?.connectorType) || 'A');
-        this.connectorPowerValue.setValue(this.currentPricingDefinition.staticRestrictions?.connectorPowerkW);
-        this.connectorPowerEnabled.setValue(!!this.connectorPowerValue.value);
+        this.connectorPower.setValue(this.currentPricingDefinition.staticRestrictions?.connectorPowerkW);
+        this.connectorPowerEnabled.setValue(!!this.connectorPower.value);
         // Dimensions
         this.initializeDimensions(this.currentPricingDefinition);
         // Restrictions
         this.daysOfWeekEnabled.setValue(!!this.currentPricingDefinition.restrictions?.daysOfWeek);
         this.selectedDays.setValue(this.currentPricingDefinition.restrictions?.daysOfWeek?.map((day) => day.toString()) || null);
         this.timeRangeEnabled.setValue(!!this.currentPricingDefinition.restrictions?.timeFrom);
-        this.timeFromValue.setValue(this.currentPricingDefinition.restrictions?.timeFrom);
+        this.timeFrom.setValue(this.currentPricingDefinition.restrictions?.timeFrom);
         this.minTime = this.currentPricingDefinition.restrictions?.timeTo;
-        this.timeToValue.setValue(this.currentPricingDefinition.restrictions?.timeTo);
+        this.timeTo.setValue(this.currentPricingDefinition.restrictions?.timeTo);
         this.minDurationEnabled.setValue(!!this.currentPricingDefinition.restrictions?.minDurationSecs);
-        this.minDurationValue.setValue(PricingHelpers.toMinutes(this.currentPricingDefinition.restrictions?.minDurationSecs));
+        this.minDuration.setValue(PricingHelpers.toMinutes(this.currentPricingDefinition.restrictions?.minDurationSecs));
         this.maxDurationEnabled.setValue(!!this.currentPricingDefinition.restrictions?.maxDurationSecs);
-        this.maxDurationValue.setValue(PricingHelpers.toMinutes(this.currentPricingDefinition.restrictions?.maxDurationSecs));
+        this.maxDuration.setValue(PricingHelpers.toMinutes(this.currentPricingDefinition.restrictions?.maxDurationSecs));
         this.minEnergyKWhEnabled.setValue(!!this.currentPricingDefinition.restrictions?.minEnergyKWh);
-        this.minEnergyKWhValue.setValue(this.currentPricingDefinition.restrictions?.minEnergyKWh);
+        this.minEnergyKWh.setValue(this.currentPricingDefinition.restrictions?.minEnergyKWh);
         this.maxEnergyKWhEnabled.setValue(!!this.currentPricingDefinition.restrictions?.maxEnergyKWh);
-        this.maxEnergyKWhValue.setValue(this.currentPricingDefinition.restrictions?.maxEnergyKWh);
+        this.maxEnergyKWh.setValue(this.currentPricingDefinition.restrictions?.maxEnergyKWh);
         // Force refresh the form
         this.formGroup.updateValueAndValidity();
         this.formGroup.markAsPristine();
@@ -342,27 +331,27 @@ export class PricingDefinitionComponent implements OnInit {
   public toggleTimeRange(event: MatSlideToggleChange) {
     this.timeRangeEnabled.setValue(event.checked);
     if (event.checked) {
-      this.timeFromValue.setValidators(Validators.required);
-      this.timeToValue.setValidators(Validators.required);
+      this.timeFrom.setValidators(Validators.required);
+      this.timeTo.setValidators(Validators.required);
     } else {
-      this.clearAndResetControl(this.timeFromValue);
-      this.clearAndResetControl(this.timeToValue);
+      this.clearAndResetControl(this.timeFrom);
+      this.clearAndResetControl(this.timeTo);
     }
-    this.timeFromValue.markAsDirty();
-    this.timeToValue.markAsDirty();
-    this.timeFromValue.updateValueAndValidity();
-    this.timeToValue.updateValueAndValidity();
+    this.timeFrom.markAsDirty();
+    this.timeTo.markAsDirty();
+    this.timeFrom.updateValueAndValidity();
+    this.timeTo.updateValueAndValidity();
   }
 
   public toggle(event: MatSlideToggleChange) {
     this[`${event.source.id}Enabled`].setValue(event.checked);
     if (event.checked) {
-      this[`${event.source.id}Value`].setValidators(Validators.compose([
+      this[event.source.id].setValidators(Validators.compose([
         Validators.required,
         Validators.pattern(Constants.REGEX_VALIDATION_FLOAT)
       ]));
     } else {
-      this.clearAndResetControl(this[`${event.source.id}Value`]);
+      this.clearAndResetControl(this[event.source.id]);
     }
     this.formGroup.markAsDirty();
     this.formGroup.updateValueAndValidity();
@@ -423,11 +412,11 @@ export class PricingDefinitionComponent implements OnInit {
   private initializeDimension(pricingDefinition: PricingDefinition, dimensionType: DimensionType, isTimeDimension = false): void {
     const dimension: PricingDimension = pricingDefinition.dimensions?.[dimensionType];
     this[`${dimensionType}Enabled`].setValue(!!dimension?.active);
-    this[`${dimensionType}Value`].setValue(dimension?.price);
+    this[dimensionType].setValue(dimension?.price);
     if (!!dimension?.stepSize) {
       this[`${dimensionType}StepEnabled`].setValue(true);
       const stepSize = (isTimeDimension)?PricingHelpers.toMinutes(dimension?.stepSize):dimension?.stepSize;
-      this[`${dimensionType}StepValue`].setValue(stepSize);
+      this[`${dimensionType}Step`].setValue(stepSize);
     }
   }
 
@@ -456,17 +445,17 @@ export class PricingDefinitionComponent implements OnInit {
       validFrom: this.validFrom.value || null,
       validTo: this.validTo.value || null,
       connectorType: (this.connectorType.value !== Constants.SELECT_ALL) ? this.connectorType.value: null,
-      connectorPowerkW: (this.connectorPowerEnabled.value)? this.connectorPowerValue.value: null
+      connectorPowerkW: (this.connectorPowerEnabled.value)? this.connectorPower.value: null
     };
     // Dynamic restrictions
     let restrictions: PricingRestriction = {
       daysOfWeek: (this.daysOfWeekEnabled.value)? this.selectedDays.value: null,
-      timeFrom: (this.timeRangeEnabled.value)? this.timeFromValue.value: null,
-      timeTo: (this.timeRangeEnabled.value)? this.timeToValue.value: null,
-      minEnergyKWh: (this.minEnergyKWhEnabled.value)? this.minEnergyKWhValue.value: null,
-      maxEnergyKWh: (this.maxEnergyKWhEnabled.value)? this.maxEnergyKWhValue.value: null,
-      minDurationSecs: PricingHelpers.convertDurationToSeconds(this.minDurationEnabled.value, this.minDurationValue.value),
-      maxDurationSecs: PricingHelpers.convertDurationToSeconds(this.maxDurationEnabled.value, this.maxDurationValue.value),
+      timeFrom: (this.timeRangeEnabled.value)? this.timeFrom.value: null,
+      timeTo: (this.timeRangeEnabled.value)? this.timeTo.value: null,
+      minEnergyKWh: (this.minEnergyKWhEnabled.value)? this.minEnergyKWh.value: null,
+      maxEnergyKWh: (this.maxEnergyKWhEnabled.value)? this.maxEnergyKWh.value: null,
+      minDurationSecs: PricingHelpers.convertDurationToSeconds(this.minDurationEnabled.value, this.minDuration.value),
+      maxDurationSecs: PricingHelpers.convertDurationToSeconds(this.maxDurationEnabled.value, this.maxDuration.value),
     };
     // Clear empty data for best performances server-side
     staticRestrictions = this.shrinkPricingProperties(staticRestrictions);
@@ -486,7 +475,7 @@ export class PricingDefinitionComponent implements OnInit {
   }
 
   private buildPricingDimension(dimensionType: DimensionType, isTimeDimension = false): PricingDimension {
-    const price: number = this[`${dimensionType}Value`].value;
+    const price: number = this[dimensionType].value;
     if (price) {
       // Dimension
       const dimension: PricingDimension = {
@@ -495,7 +484,7 @@ export class PricingDefinitionComponent implements OnInit {
       };
       const withStep: boolean = this[`${dimensionType}StepEnabled`]?.value;
       if ( withStep) {
-        let stepSize = this[`${dimensionType}StepValue`]?.value;
+        let stepSize = this[`${dimensionType}Step`]?.value;
         if (isTimeDimension) {
           // Converts minutes shown in the UI into seconds (as expected by the pricing model)
           stepSize = PricingHelpers.toSeconds(stepSize);
@@ -522,20 +511,20 @@ export class PricingDefinitionComponent implements OnInit {
   }
   private validateMinMax() {
     // Need one more step as we need to compare values when they are both filled
-    if (this.minDurationValue?.value && this.maxDurationValue?.value) {
-      if (Utils.convertToInteger(this.minDurationValue?.value) >= Utils.convertToInteger(this.maxDurationValue?.value)) {
-        this.maxDurationValue.setErrors({minMaxError: true});
+    if (this.minDuration?.value && this.maxDuration?.value) {
+      if (Utils.convertToInteger(this.minDuration?.value) >= Utils.convertToInteger(this.maxDuration?.value)) {
+        this.maxDuration.setErrors({minMaxError: true});
         this.formGroup.markAsPristine();
       } else {
-        this.maxDurationValue.setErrors(null);
+        this.maxDuration.setErrors(null);
       }
     }
-    if (this.minEnergyKWhValue?.value && this.maxEnergyKWhValue?.value) {
-      if (Utils.convertToInteger(this.minEnergyKWhValue?.value) >= Utils.convertToInteger(this.maxEnergyKWhValue?.value)) {
-        this.maxEnergyKWhValue.setErrors({minMaxError: true});
+    if (this.minEnergyKWh?.value && this.maxEnergyKWh?.value) {
+      if (Utils.convertToInteger(this.minEnergyKWh?.value) >= Utils.convertToInteger(this.maxEnergyKWh?.value)) {
+        this.maxEnergyKWh.setErrors({minMaxError: true});
         this.formGroup.markAsPristine();
       } else {
-        this.maxEnergyKWhValue.setErrors(null);
+        this.maxEnergyKWh.setErrors(null);
       }
     }
   }

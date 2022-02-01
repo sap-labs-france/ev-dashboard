@@ -2,7 +2,7 @@ import { Component, ElementRef, Input, OnChanges, ViewChild } from '@angular/cor
 import { TranslateService } from '@ngx-translate/core';
 import { Chart, ChartData, ChartDataset, ChartOptions, Color, Point, TooltipItem } from 'chart.js';
 import * as moment from 'moment';
-import { ConsumptionChartDatasetOrder } from 'types/Chart';
+import { ConsumptionChartAxis, ConsumptionChartDatasetOrder } from 'types/Chart';
 
 import { AppDatePipe } from '../../../../shared/formatters/app-date.pipe';
 import { AppDecimalPipe } from '../../../../shared/formatters/app-decimal.pipe';
@@ -115,7 +115,7 @@ export class ChargingPlanChartComponent implements OnChanges {
       const chargingSlotDataSet: ChartDataset = {
         type: 'line',
         data: [],
-        yAxisID: 'power',
+        yAxisID: (this.selectedUnit === ConsumptionUnit.AMPERE) ? ConsumptionChartAxis.AMPERAGE : ConsumptionChartAxis.POWER,
         lineTension: this.lineTension,
         ...Utils.formatLineColor(this.instantPowerColor),
         label: this.translateService.instant((this.selectedUnit === ConsumptionUnit.AMPERE) ?
@@ -146,7 +146,7 @@ export class ChargingPlanChartComponent implements OnChanges {
       const limitDataSet: ChartDataset = {
         type: 'line',
         data: [],
-        yAxisID: 'power',
+        yAxisID: (this.selectedUnit === ConsumptionUnit.AMPERE) ? ConsumptionChartAxis.AMPERAGE : ConsumptionChartAxis.POWER,
         lineTension: this.lineTension,
         ...Utils.formatLineColor(this.limitColor),
         label: this.translateService.instant((this.selectedUnit === ConsumptionUnit.AMPERE) ?
@@ -236,7 +236,7 @@ export class ChargingPlanChartComponent implements OnChanges {
         intersect: false,
       },
       scales: {
-        x: {
+        [ConsumptionChartAxis.X]: {
           type: 'time',
           time: {
             tooltipFormat: moment.localeData().longDateFormat('LT'),
@@ -254,20 +254,32 @@ export class ChargingPlanChartComponent implements OnChanges {
             color: this.defaultColor,
           },
         },
-        power: {
+        [ConsumptionChartAxis.POWER]: {
           type: 'linear',
           position: 'left',
           ticks: {
-            callback: (value: number) => (this.selectedUnit === ConsumptionUnit.AMPERE) ?
-              parseInt(this.decimalPipe.transform(value, '1.0-0'), 10) + 'A' :
-              parseInt(this.decimalPipe.transform(value, '1.0-2'), 10) + 'kW',
+            callback: (value: number) => parseInt(this.decimalPipe.transform(value, '1.0-2'), 10) + 'kW',
             color: this.defaultColor,
           },
+          display: 'auto',
           grid: {
             display: true,
             color: 'rgba(0,0,0,0.2)',
           },
         },
+        [ConsumptionChartAxis.AMPERAGE]: {
+          type: 'linear',
+          position: 'left',
+          ticks: {
+            callback: (value: number) => parseInt(this.decimalPipe.transform(value, '1.0-0'), 10) + 'A',
+            color: this.defaultColor,
+          },
+          display: 'auto',
+          grid: {
+            display: true,
+            color: 'rgba(0,0,0,0.2)',
+          },
+        }
       },
       elements: {
         line: {

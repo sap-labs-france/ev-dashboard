@@ -18,7 +18,6 @@ export class CarCatalogComponent implements OnInit {
   @Input() public inDialog!: boolean;
   @Input() public dialogRef!: MatDialogRef<any>;
   public carCatalog: CarCatalog;
-  public canDebug = false;
   public noImage = Constants.NO_IMAGE;
 
   public constructor(
@@ -40,7 +39,6 @@ export class CarCatalogComponent implements OnInit {
     this.centralServerService.getCarCatalog(this.currentCarCatalogID).subscribe((carCatalog: CarCatalog) => {
       this.spinnerService.hide();
       this.carCatalog = carCatalog;
-      this.canDebug = carCatalog.canDebug;
     }, (error) => {
       this.spinnerService.hide();
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'cars.car_error');

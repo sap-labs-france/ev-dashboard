@@ -524,8 +524,8 @@ export class PricingDefinitionComponent implements OnInit {
     // Need one more step as we need to compare values when they are both filled
     if (this.minDurationValue?.value && this.maxDurationValue?.value) {
       if (Utils.convertToInteger(this.minDurationValue?.value) >= Utils.convertToInteger(this.maxDurationValue?.value)) {
-      this.maxDurationValue.setErrors({minMaxError: true});
-      this.formGroup.markAsPristine();
+        this.maxDurationValue.setErrors({minMaxError: true});
+        this.formGroup.markAsPristine();
       } else {
         this.maxDurationValue.setErrors(null);
       }

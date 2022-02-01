@@ -1525,7 +1525,7 @@
         "price": "Prezzo",
         "currency": "Valuta"
       },
-      "end_date_error": "Please provide a date after start date and time.",
+      "end_date_error": "End date must be after start date",
       "valid_from": "Valid From",
       "valid_to": "Valid To",
       "valid_from_to": "Valid From ... To",
@@ -1550,7 +1550,7 @@
       "pricing_definition_delete_success": "Pricing definition has been deleted successfully",
       "pricing_definition_delete_error": "Error occurred while deleting a pricing definition, check the logs",
       "pricing_definition_error": "Error occurred while retrieving the pricing definition, check the logs",
-      "pricing_definition_time_range_error": "Please select different start and end time",
+      "pricing_definition_time_range_error": "Start and end time must be different",
       "pricing_min_max_energy_error": "Maximum energy must be greater than the minimum energy",
       "pricing_min_max_duration_error": "Maximum duration must be greater than the minimum duration",
       "connector_type": "Connector Type",

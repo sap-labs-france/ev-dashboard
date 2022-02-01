@@ -1,13 +1,14 @@
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { HTTPError } from 'types/HTTPError';
 
 import { AuthorizationService } from '../../../../services/authorization.service';
 import { CentralServerService } from '../../../../services/central-server.service';
 import { DialogService } from '../../../../services/dialog.service';
 import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
-import { ChargePointStatus, ChargingStationButtonAction, OCPPGeneralResponse } from '../../../../types/ChargingStation';
+import { ChargingStationButtonAction, OCPPGeneralResponse } from '../../../../types/ChargingStation';
 import { ActionResponse } from '../../../../types/DataResult';
 import { ButtonColor, ButtonType, TableActionDef } from '../../../../types/Table';
 import { Transaction } from '../../../../types/Transaction';
@@ -74,12 +75,23 @@ export class TableChargingStationsStopTransactionAction implements TableAction {
                 }
               }, (error) => {
                 spinnerService.hide();
-                Utils.handleHttpError(error, router, messageService,
-                  centralServerService, 'chargers.stop_transaction_error');
+                // Check status error code
+                switch (error.status) {
+                  // Account already active
+                  case HTTPError.USER_NO_BADGE_ERROR:
+                    messageService.showErrorMessage('chargers.stop_transaction_missing_active_tag', { chargeBoxID: chargingStation.id });
+                    break;
+                  default:
+                    Utils.handleHttpError(error, router, messageService,
+                      centralServerService, 'chargers.stop_transaction_error');
+                    break;
+                }
               });
           } else {
             // Soft Stop
+            spinnerService.show();
             centralServerService.softStopTransaction(transaction.id).subscribe((res: ActionResponse) => {
+              spinnerService.hide();
               if (res.status === 'Invalid') {
                 messageService.showErrorMessage(
                   translateService.instant('transactions.notification.soft_stop.error'));
@@ -92,7 +104,7 @@ export class TableChargingStationsStopTransactionAction implements TableAction {
                 }
               }
             }, (error) => {
-              // eslint-disable-next-line max-len
+              spinnerService.hide();
               Utils.handleHttpError(error, router, messageService,
                 centralServerService, 'transactions.notification.soft_stop.error');
             });

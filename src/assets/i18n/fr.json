@@ -996,6 +996,7 @@
     "stop_transaction_success": "La session de la borne '{{chargeBoxID}}' a été stoppée avec succès",
     "stop_transaction_error": "Une erreur est survenue pendant la tentative d'arrêt de la session, vérifiez les logs",
     "stop_transaction_user_not_allowed": "Vous n'êtes pas autorisé à arrêter cette session",
+    "stop_transaction_missing_active_tag": "La transaction ne peut être démarrée sur la borne '{{chargeBoxID}}', vous devez avoir au moins un badge actif.",
     "start_transaction_title": "Démarrer",
     "start_transaction_button": "Démarrer",
     "start_transaction_confirm": "Voulez-vous vraiment démarrer une nouvelle session pour l'ultilisateur '{{userName}}' sur la borne '{{chargeBoxID}}'?",

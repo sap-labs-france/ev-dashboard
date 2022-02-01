@@ -73,7 +73,10 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
           canCreatePoolCar: Utils.convertToBoolean(cars.canCreatePoolCar)
         };
         // Update filters visibility
-        this.updateFilterVisibilityWithAthorizationActions();
+        this.createAction.visible = this.authorizationActions.canCreate;
+        this.usersFilter.visible = this.authorizationActions.canListUsers;
+        this.carMakerFilter.visible = this.authorizationActions.canListCarCatalog;
+        
         observer.next(cars);
         observer.complete();
       }, (error) => {
@@ -244,9 +247,6 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
   public buildTableFiltersDef(): TableFilterDef[] {
     this.usersFilter = new UserTableFilter().getFilterDef();
     this.carMakerFilter = new CarMakerTableFilter().getFilterDef();
-    // Filter visibility will be defined by auth
-    this.usersFilter.visible = false;
-    this.carMakerFilter.visible = false;
     // Create and return filter
     const filters: TableFilterDef[] = [
       this.usersFilter,
@@ -292,11 +292,5 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
         }
         break;
     }
-  }
-
-  private updateFilterVisibilityWithAthorizationActions(): void {
-    this.createAction.visible = this.authorizationActions.canCreate;
-    this.usersFilter.visible = this.authorizationActions.canListUsers;
-    this.carMakerFilter.visible = this.authorizationActions.canListCarCatalog;
   }
 }

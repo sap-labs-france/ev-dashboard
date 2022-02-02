@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, Inject, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { AuthorizationDefinitionFieldMetadata, DialogParams } from 'types/Authorization';
+import { AuthorizationDefinitionFieldMetadata, DataResultAuthorizations, DialogParamsWithAuth } from 'types/Authorization';
 import { RegistrationToken } from 'types/RegistrationToken';
 
 import { Utils } from '../../../../utils/Utils';
@@ -16,9 +16,9 @@ export class ChargingStationsRegistrationTokenDialogComponent implements AfterVi
 
   public constructor(
     public dialogRef: MatDialogRef<ChargingStationsRegistrationTokenDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) dialogParams: DialogParams<RegistrationToken>) {
+    @Inject(MAT_DIALOG_DATA) dialogParams: DialogParamsWithAuth<RegistrationToken, DataResultAuthorizations>) {
     this.tokenID = dialogParams.dialogData?.id;
-    this.metadata = dialogParams.dialogData?.metadata;
+    this.metadata = dialogParams.authorizations?.metadata;
   }
 
   public ngAfterViewInit() {

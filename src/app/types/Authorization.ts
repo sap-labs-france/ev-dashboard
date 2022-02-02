@@ -139,8 +139,6 @@ export enum Action {
   EXPORT_OCPP_PARAMS = 'ExportOCPPParams',
   GENERATE_QR = 'GenerateQrCode',
   MAINTAIN_PRICING_DEFINITIONS = 'MaintainPricingDefinitions',
-  CREATE_POOL_CAR = 'CreatePoolCar',
-  DEBUG = 'Debug',
 }
 
 export interface AuthorizationContext {
@@ -159,28 +157,80 @@ export interface AuthorizationContext {
   assets?: string[];
 }
 
-export interface AuthorizationActions {
-  canRead?: boolean;
-  canCreate?: boolean;
-  canUpdate?: boolean;
-  canDelete?: boolean;
+export interface AuthorizationAttributes {
   projectFields?: string[];
   metadata?: Record<string, AuthorizationDefinitionFieldMetadata>;
 }
-
-export interface CarAuthorizationActions extends AuthorizationActions {
+// ENTITY: COMMON AUTH ACTION
+export interface AuthorizationActions {
+  canRead?: boolean;
+  canUpdate?: boolean;
+  canDelete?: boolean;
+}
+// DATA RESULT: COMMON AUTH ACTION
+export interface DataResultAuthorizationActions {
+  canCreate?: boolean;
+}
+// BASIC DATA RESULT AUTHORIZATIONS
+export interface DataResultAuthorizations extends AuthorizationAttributes, DataResultAuthorizationActions {  
+} 
+// CARS
+export interface CarsAuthorizations extends AuthorizationAttributes, CarsAuthorizationActions {  
+} 
+export interface CarsAuthorizationActions extends DataResultAuthorizationActions{
   canListUsers?: boolean;
   canListCarCatalog?: boolean;
-  canCreatePoolCar?: boolean;
 }
-
+// CAR
+export interface CarAuthorizationActions extends AuthorizationActions {
+  canListUsers?: boolean;
+}
+// CAR CATALOGS
+export interface CarCatalogsAuthorizations extends AuthorizationAttributes, CarCatalogsAuthorizationActions {  
+} 
+export interface CarCatalogsAuthorizationActions extends DataResultAuthorizationActions {
+  canSync?: boolean;
+}
+// TAGS
+export interface TagsAuthorizations extends AuthorizationAttributes, TagsAuthorizationActions {  
+} 
+export interface TagsAuthorizationActions extends DataResultAuthorizationActions {
+  canAssign?: boolean;
+  canDelete?: boolean;
+  canImport?: boolean;
+  canExport?: boolean;
+  canUnassign?: boolean;
+  canListUsers?: boolean;
+  canListSources?: boolean;
+}
+// TAG
 export interface TagAuthorizationActions extends AuthorizationActions {
   canUnassign?: boolean;
   canAssign?: boolean;
-  canUpdateByVisualID?: boolean;
   canListUsers?: boolean;
+  canUpdateByVisualID?: boolean;
 }
-
+// USERS
+export interface UsersAuthorizations extends AuthorizationAttributes, UsersAuthorizationActions {  
+}
+export interface UsersAuthorizationActions extends DataResultAuthorizationActions {
+  canImport?: boolean;
+  canExport?: boolean; 
+}
+// ASSETS
+export interface AssetsAuthorizations extends AuthorizationAttributes, AssetsAuthorizationActions {  
+}
+export interface AssetsAuthorizationActions extends DataResultAuthorizationActions {
+  canListSites: boolean;
+  canListSiteAreas: boolean;
+}
+// ASSET
+export interface AssetAuthorizationActions extends AuthorizationActions {
+  canRetrieveConsumption?: boolean;
+  canReadConsumption?: boolean;
+  canCheckConnection?: boolean;
+}
+// SITE AREA
 export interface SiteAreaAuthorizationActions extends AuthorizationActions {
   canAssignAssets?: boolean;
   canUnassignAssets?: boolean;
@@ -191,7 +241,7 @@ export interface SiteAreaAuthorizationActions extends AuthorizationActions {
   canExportOCPPParams?: boolean;
   canGenerateQrCode?: boolean;
 }
-
+// SITE
 export interface SiteAuthorizationActions extends AuthorizationActions {
   canAssignUsers?: boolean;
   canUnassignUsers?: boolean;
@@ -200,11 +250,14 @@ export interface SiteAuthorizationActions extends AuthorizationActions {
   canGenerateQrCode?: boolean;
   canMaintainPricingDefinitions?: boolean;
 }
-
+// REGISTRATION TOKEN
 export interface RegistrationTokenAuthorizationActions extends AuthorizationActions {
   canRevoke?: boolean;
 }
-
+// LOGS
+export interface LogsAuthorizationActions extends AuthorizationActions {
+  canExport?: boolean;
+}
 
 export enum DialogMode {
   EDIT = 'E',
@@ -224,13 +277,7 @@ export interface DialogParams<T extends DialogData> {
 }
 
 // Additional auth parameter from DialogParams
-export interface DialogParamsWithAuth<T extends DialogData, U extends AuthorizationActions>
+export interface DialogParamsWithAuth<T extends DialogData, U extends AuthorizationAttributes>
   extends DialogParams<T> {
   authorizations?: U;
-}
-
-export interface AssetAuthorizationActions extends AuthorizationActions {
-  canRetrieveConsumption?: boolean;
-  canReadConsumption?: boolean;
-  canCheckConnection?: boolean;
 }

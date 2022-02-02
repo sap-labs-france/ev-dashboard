@@ -1,7 +1,7 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
-import { CarAuthorizationActions, DialogParamsWithAuth } from 'types/Authorization';
+import { CarsAuthorizations, DialogParamsWithAuth } from 'types/Authorization';
 
 import { Car, CarButtonAction } from '../../../../types/Car';
 import { ScreenSize } from '../../../../types/GlobalType';
@@ -10,7 +10,7 @@ import { TableCreateAction } from '../table-create-action';
 
 export interface TableCreateCarActionDef extends TableActionDef {
   action: (carDialogComponentcarDialogComponent: ComponentType<unknown>,
-    dialog: MatDialog, dialogParams: DialogParamsWithAuth<Car, CarAuthorizationActions>, refresh?: () => Observable<void>) => void;
+    dialog: MatDialog, dialogParams: DialogParamsWithAuth<Car, CarsAuthorizations>, refresh?: () => Observable<void>) => void;
 }
 
 export class TableCreateCarAction extends TableCreateAction {
@@ -23,7 +23,7 @@ export class TableCreateCarAction extends TableCreateAction {
   }
 
   private createCar(carDialogComponent: ComponentType<unknown>,
-    dialog: MatDialog, dialogParams: DialogParamsWithAuth<Car, CarAuthorizationActions>, refresh?: () => Observable<void>) {
+    dialog: MatDialog, dialogParams: DialogParamsWithAuth<Car, CarsAuthorizations>, refresh?: () => Observable<void>) {
     super.create(carDialogComponent, dialog, dialogParams, refresh, {
       minWidth: ScreenSize.L,
       maxWidth: ScreenSize.XXXL,

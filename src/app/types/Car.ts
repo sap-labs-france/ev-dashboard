@@ -1,9 +1,9 @@
-import { AuthorizationActions, CarAuthorizationActions } from './Authorization';
+import { CarAuthorizationActions } from './Authorization';
 import CreatedUpdatedProps from './CreatedUpdatedProps';
 import { TableData } from './Table';
 import { User } from './User';
 
-export interface CarCatalog extends TableData, AuthorizationActions {
+export interface CarCatalog extends TableData {
   id: number;
   vehicleModel: string;
   vehicleMake: string;

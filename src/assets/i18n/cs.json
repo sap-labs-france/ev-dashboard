@@ -496,7 +496,7 @@
     "create_error": "Došlo k chybě při vytvoření sekce parkoviště, zkontrolujte protokoly",
     "image_size_error": "Překročen limit velikosti obrázku, limit je menší než '{{maxPictureKb}}' Kb",
     "maximum_energy_watts": "Maximální výkon (W)",
-    "maximum_energy_amps_per_phase": "Maximum Amperage per phase(A)",
+    "maximum_energy_amps_per_phase": "Maximum Amperage per phase (A)",
     "maximum_energy_amps_total": "Maximum total Amperage (A)",
     "number_of_phases": "Počet fází",
     "export_all_params_title": "Exportovat parametry OCPP",

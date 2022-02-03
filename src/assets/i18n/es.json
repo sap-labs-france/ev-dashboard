@@ -496,7 +496,7 @@
     "create_error": "Se produjo un error al crear zona",
     "image_size_error": "Se excedió el límite de tamaño de la imagen, el límite está por debajo de '{{maxPictureKb}}' Kb",
     "maximum_energy_watts": "Potencia máxima (kW)",
-    "maximum_energy_amps_per_phase": "Maximum Amperage per phase(A)",
+    "maximum_energy_amps_per_phase": "Maximum Amperage per phase (A)",
     "maximum_energy_amps_total": "Amperaje máximo (A)",
     "number_of_phases": "Número de fases",
     "export_all_params_title": "Exportar parámetros OCPP",

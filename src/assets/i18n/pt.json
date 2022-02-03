@@ -996,6 +996,7 @@
     "stop_transaction_success": "A sessão da estação de carregamento '{{chargeBoxID}}' foi interrompida com sucesso",
     "stop_transaction_error": "Ocorreu um erro ao interromper a sessão",
     "stop_transaction_user_not_allowed": "Você não tem permissão para interromper esta sessão",
+    "stop_transaction_missing_active_tag": "The session cannot be stopped on the charging station '{{chargeBoxID}}', you need to have at least one active RFID card",
     "start_transaction_title": "Iniciar",
     "start_transaction_button": "Initiar",
     "start_transaction_confirm": "Você tem a certeza de que deseja iniciar uma nova sessão para o utilizador '{{userName}}' na estação de carregamento '{{chargeBoxID}}'?",

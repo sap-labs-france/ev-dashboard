@@ -340,7 +340,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       case UserButtonAction.EDIT_USER:
         if (actionDef.action) {
           (actionDef as TableEditUserActionDef).action(UserDialogComponent, this.dialog,
-            { authorizations: this.usersAuthorizations }, this.refreshData.bind(this));
+            { dialogData: user, authorizations: this.usersAuthorizations }, this.refreshData.bind(this));
         }
         break;
       case UserButtonAction.ASSIGN_SITES_TO_USER:

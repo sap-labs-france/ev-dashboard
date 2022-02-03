@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 
 import { CarButtonAction } from '../../../../types/Car';
+import { ScreenSize } from '../../../../types/GlobalType';
 import { TableActionDef } from '../../../../types/Table';
 import { TableCreateAction } from '../table-create-action';
 
@@ -22,6 +23,13 @@ export class TableCreateCarAction extends TableCreateAction {
 
   private createCar(carDialogComponent: ComponentType<unknown>,
     dialog: MatDialog, refresh?: () => Observable<void>) {
-    super.create(carDialogComponent, dialog, null, refresh);
+    super.create(carDialogComponent, dialog, null, refresh, {
+      minWidth: ScreenSize.L,
+      maxWidth: ScreenSize.XXXL,
+      width: ScreenSize.XXL,
+      minHeight: ScreenSize.S,
+      maxHeight: ScreenSize.L,
+      height: ScreenSize.M
+    });
   }
 }

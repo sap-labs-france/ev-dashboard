@@ -501,7 +501,8 @@
     "create_error": "Si è verificato un errore durante la creazione dell'area del sito",
     "image_size_error": "Il limite di dimensione dell'immagine è stato superato, il limite è inferiore a {{maxPictureKb}} Kb",
     "maximum_energy_watts": "Potenza Massima (W)",
-    "maximum_energy_amps": "Amperaggio Massimo (A)",
+    "maximum_energy_amps_per_phase": "Maximum Amperage per phase (A)",
+    "maximum_energy_amps_total": "Maximum total Amperage (A)",
     "number_of_phases": "Numero di fasi",
     "export_all_params_title": "Esporta parametri OCCP",
     "export_all_params_confirm": "Vuoi veramente esportare tutti i parametri OCPP di tutte le stazioni di ricarica appartenenti all'area del sito '{{siteAreaName}}' ?",
@@ -1001,6 +1002,7 @@
     "stop_transaction_success": "La sessione della stazione di ricarica '{{chargeBoxID}}' è stata interrotta con successo",
     "stop_transaction_error": "Si è verificato un errore durante l'interruzione della sessione",
     "stop_transaction_user_not_allowed": "Non sei autorizzato ad interromperer questa sessione",
+    "stop_transaction_missing_active_tag": "The session cannot be stopped on the charging station '{{chargeBoxID}}', you need to have at least one active RFID card",
     "start_transaction_title": "Avvia",
     "start_transaction_button": "Avvia",
     "start_transaction_confirm": "Vuoi veramete avviare una nuova sessione per l'utente '{{userName}}' sulla stazione di ricarica '{{chargeBoxID}}'?",
@@ -1324,11 +1326,6 @@
         "title": "Sincronizzazione fattura fallita",
         "description": "La sincronizzazione di questo utente con il sistema di fatturazione non è riuscita.",
         "action": "Risincronizza manualmente."
-      },
-      "no_billing_data": {
-        "title": "L'utente non ha dati di fatturazione",
-        "description": "Questo utente non è stato sincronizzato con il sistema di fatturazione.",
-        "action": "Sincronizza l'utente."
       }
     },
     "export_tags_title": "Export Tags",

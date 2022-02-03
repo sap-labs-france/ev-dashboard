@@ -45,7 +45,8 @@ export class SiteAreaMainComponent implements OnInit,OnChanges {
   public parentSiteArea!: AbstractControl;
   public parentSiteAreaID!: AbstractControl;
   public maximumPower!: AbstractControl;
-  public maximumPowerAmps!: AbstractControl;
+  public maximumTotalPowerAmps!: AbstractControl;
+  public maximumPowerAmpsPerPhase!: AbstractControl;
   public voltage!: AbstractControl;
   public accessControl!: AbstractControl;
   public smartCharging!: AbstractControl;
@@ -104,7 +105,8 @@ export class SiteAreaMainComponent implements OnInit,OnChanges {
         Validators.required,
       ])
     ));
-    this.formGroup.addControl('maximumPowerAmps', new FormControl(0));
+    this.formGroup.addControl('maximumPowerAmpsPerPhase', new FormControl(0));
+    this.formGroup.addControl('maximumTotalPowerAmps', new FormControl(0));
     this.formGroup.addControl('accessControl', new FormControl(true));
     this.formGroup.addControl('smartCharging', new FormControl(false));
     this.formGroup.addControl('voltage', new FormControl(0,
@@ -128,12 +130,14 @@ export class SiteAreaMainComponent implements OnInit,OnChanges {
     this.parentSiteArea = this.formGroup.controls['parentSiteArea'];
     this.parentSiteAreaID = this.formGroup.controls['parentSiteAreaID'];
     this.maximumPower = this.formGroup.controls['maximumPower'];
-    this.maximumPowerAmps = this.formGroup.controls['maximumPowerAmps'];
+    this.maximumPowerAmpsPerPhase = this.formGroup.controls['maximumPowerAmpsPerPhase'];
+    this.maximumTotalPowerAmps = this.formGroup.controls['maximumTotalPowerAmps'];
     this.smartCharging = this.formGroup.controls['smartCharging'];
     this.accessControl = this.formGroup.controls['accessControl'];
     this.voltage = this.formGroup.controls['voltage'];
     this.numberOfPhases = this.formGroup.controls['numberOfPhases'];
-    this.maximumPowerAmps.disable();
+    this.maximumPowerAmpsPerPhase.disable();
+    this.maximumTotalPowerAmps.disable();
     if (this.readOnly) {
       this.formGroup.disable();
     }
@@ -271,6 +275,10 @@ export class SiteAreaMainComponent implements OnInit,OnChanges {
     this.maximumPowerChanged();
   }
 
+  public numberOfPhasesChanged() {
+    this.maximumPowerChanged();
+  }
+
   public updateSiteAreaImage(siteArea: SiteArea) {
     if (this.image !== Constants.USER_NO_PICTURE) {
       siteArea.image = this.image;
@@ -308,10 +316,17 @@ export class SiteAreaMainComponent implements OnInit,OnChanges {
 
   public maximumPowerChanged() {
     if (!this.maximumPower.errors && this.voltage.value) {
-      this.maximumPowerAmps.setValue(
+      if (this.numberOfPhases.value) {
+        this.maximumPowerAmpsPerPhase.setValue(
+          Math.floor((this.maximumPower.value as number) / (this.voltage.value as number) / (this.numberOfPhases.value)));
+      } else {
+        this.maximumPowerAmpsPerPhase.setValue(0);
+      }
+      this.maximumTotalPowerAmps.setValue(
         Math.floor((this.maximumPower.value as number) / (this.voltage.value as number)));
     } else {
-      this.maximumPowerAmps.setValue(0);
+      this.maximumPowerAmpsPerPhase.setValue(0);
+      this.maximumTotalPowerAmps.setValue(0);
     }
   }
 

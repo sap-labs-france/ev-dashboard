@@ -127,21 +127,13 @@ export class PricingDefinitionComponent implements OnInit {
       entityType: new FormControl(this.currentEntityType),
       restrictions: new FormGroup({
         minDurationEnabled: new FormControl(false),
-        minDuration: new FormControl(null, Validators.compose([
-          Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)
-        ])),
+        minDuration: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)),
         maxDurationEnabled: new FormControl(false),
-        maxDuration: new FormControl(null, Validators.compose([
-          Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)
-        ])),
+        maxDuration: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)),
         minEnergyKWhEnabled: new FormControl(false),
-        minEnergyKWh: new FormControl(null, Validators.compose([
-          Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)
-        ])),
+        minEnergyKWh: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)),
         maxEnergyKWhEnabled: new FormControl(false),
-        maxEnergyKWh: new FormControl(null, Validators.compose([
-          Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)
-        ])),
+        maxEnergyKWh: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)),
         timeRangeEnabled: new FormControl(false),
         timeFrom: new FormControl(null),
         timeTo: new FormControl(null),
@@ -163,9 +155,7 @@ export class PricingDefinitionComponent implements OnInit {
           ])
         ),
       }),
-      description: new FormControl('', Validators.compose([
-        Validators.required,
-      ])),
+      description: new FormControl('', Validators.required),
       dimensions: new FormGroup({
         flatFee: new FormGroup({
           active: new FormControl(false),
@@ -174,25 +164,19 @@ export class PricingDefinitionComponent implements OnInit {
         energy: new FormGroup({
           active: new FormControl(false),
           price: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_FLOAT)),
-          stepSize: new FormControl(null,  Validators.compose([
-            Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)
-          ])),
+          stepSize: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)),
           stepSizeEnabled: new FormControl(false)
         }),
         chargingTime: new FormGroup({
           active: new FormControl(false),
           price: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_FLOAT)),
-          stepSize: new FormControl(null, Validators.compose([
-            Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)
-          ])),
+          stepSize: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)),
           stepSizeEnabled: new FormControl(false)
         }),
         parkingTime: new FormGroup({
           active: new FormControl(false),
           price: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_FLOAT)),
-          stepSize: new FormControl(null,  Validators.compose([
-            Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)
-          ])),
+          stepSize: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)),
           stepSizeEnabled: new FormControl(false)
         }),
       })
@@ -266,6 +250,7 @@ export class PricingDefinitionComponent implements OnInit {
         this.formGroup.markAsPristine();
       }
     });
+    this.formGroup.updateValueAndValidity();
     this.loadPricing();
   }
 
@@ -363,11 +348,13 @@ export class PricingDefinitionComponent implements OnInit {
       this.clearAndResetControl(this.timeFromValue);
       this.clearAndResetControl(this.timeToValue);
     }
-    this.formGroup.markAsDirty();
-    this.formGroup.updateValueAndValidity();
+    this.timeFromValue.markAsDirty();
+    this.timeToValue.markAsDirty();
+    this.timeFromValue.updateValueAndValidity();
+    this.timeToValue.updateValueAndValidity();
   }
 
-  public toggle(event: {checked: boolean; source: MatSlideToggle}) {
+  public toggle(event: MatSlideToggleChange) {
     this[`${event.source.id}Enabled`].setValue(event.checked);
     if (event.checked) {
       this[`${event.source.id}Value`].setValidators(Validators.compose([

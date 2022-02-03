@@ -501,7 +501,8 @@
     "create_error": "Ocurreu um erro na criação da area do site",
     "image_size_error": "O tamanho limite da imagem foir execidod o limete deve estar abiaxo {{maxPictureKb}} Kb",
     "maximum_energy_watts": "Poder maximo (W)",
-    "maximum_energy_amps": "Amperagem Maxima (A)",
+    "maximum_energy_amps_per_phase": "Maximum Amperage per phase (A)",
+    "maximum_energy_amps_total": "Maximum total Amperage (A)",
     "number_of_phases": "Numero de Fases",
     "export_all_params_title": "Exportar parametros OCPP",
     "export_all_params_confirm": "Você realmente deseja exportar todos os parâmetros OCPP de todas as estações de carregamento pertencentes à área do site '{{siteAreaName}}' ?",
@@ -1001,6 +1002,7 @@
     "stop_transaction_success": "A sessão da estação de carregamento '{{chargeBoxID}}' foi interrompida com sucesso",
     "stop_transaction_error": "Ocorreu um erro ao interromper a sessão",
     "stop_transaction_user_not_allowed": "Você não tem permissão para interromper esta sessão",
+    "stop_transaction_missing_active_tag": "The session cannot be stopped on the charging station '{{chargeBoxID}}', you need to have at least one active RFID card",
     "start_transaction_title": "Iniciar",
     "start_transaction_button": "Initiar",
     "start_transaction_confirm": "Você tem a certeza de que deseja iniciar uma nova sessão para o utilizador '{{userName}}' na estação de carregamento '{{chargeBoxID}}'?",
@@ -1324,11 +1326,6 @@
         "title": "A sincronização de fatura falhou",
         "description": "A sincronização deste utilizador com o sistema de fatura falhou.",
         "action": "Sincronize novamente manualmente."
-      },
-      "no_billing_data": {
-        "title": "O utilizador não tem dados de fatura",
-        "description": "Este utilizador não foi sincronizado com o sistema de fatura.",
-        "action": "Sincronizar o utilizador."
       }
     },
     "export_tags_title": "Export Tags",

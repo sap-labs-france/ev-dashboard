@@ -23,6 +23,24 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.5.16',
+        date: new Date('2022-02-03'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Final Pricing engine`,
+              `Check and Stop Transactions that haven't received the OCPP Stop Transaction message`,
+              `Fixed synchromization of new Cars + Optimize image's size`,
+              `Display amperage per phase in Site Area`,
+              `Refactor aggregation of consumption charts for Sites`,
+              `Fixed pop-up wrong size issues`,
+              `Cleanup of unused Billing jobs`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.5.15',
         date: new Date('2022-01-27'),
         componentChanges: [

@@ -12,6 +12,8 @@ import { TableModule } from '../../shared/table/table.module';
 import { TenantLogoFormatterCellComponent } from './cell-components/tenant-logo-formatter-cell.component';
 import { TenantsListTableDataSource } from './list/tenants-list-table-data-source';
 import { TenantsListComponent } from './list/tenants-list.component';
+import { TenantMainComponent } from './tenant/main/tenant-main.component';
+import { TenantComponentsComponent } from './tenant/tenant-components/tenant-components.component';
 import { TenantDialogComponent } from './tenant/tenant-dialog.component';
 import { TenantComponent } from './tenant/tenant.component';
 import { TenantsRoutes } from './tenants.routing';
@@ -34,6 +36,8 @@ import { TenantsRoutes } from './tenants.routing';
     TenantLogoFormatterCellComponent,
     TenantComponent,
     TenantDialogComponent,
+    TenantMainComponent,
+    TenantComponentsComponent
   ],
   entryComponents: [
     TenantsListComponent,

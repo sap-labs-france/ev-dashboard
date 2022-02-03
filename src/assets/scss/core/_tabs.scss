@@ -100,6 +100,21 @@
   }
 }
 
+.mat-tab-dialog-body-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 15px;
+  overflow: hidden !important;
+  .card-body {
+    margin-top: initial !important;
+  }
+}
+
+.tab-content {
+  width: 100%;
+}
+
 .mat-tab-header-pagination {
   background: $brand-primary;
   box-shadow: initial;
@@ -195,5 +210,13 @@
 }
 
 .mat-tab-body-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 15px;
   flex-grow: 1;
+  height: 90%;
+  .mat-tab-body {
+    height: 100%;
+  }
 }

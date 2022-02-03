@@ -1616,19 +1616,6 @@ export class CentralServerService {
     );
   }
 
-  public synchronizeUserForBilling(userID: string): Observable<ActionResponse> {
-    this.checkInit();
-    // Execute the REST service
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.BILLING_SYNCHRONIZE_USER}`, { id: userID },
-      {
-        headers: this.buildHttpHeaders(),
-      })
-      .pipe(
-        catchError(this.handleHttpError),
-      );
-  }
-
-  // TODO - create a dedicated method for the ATTACH?
   public setupPaymentMethod(parameters: any): Observable<BillingOperationResult> {
     this.checkInit();
     // Build the URL

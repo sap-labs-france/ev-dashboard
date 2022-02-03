@@ -501,7 +501,8 @@
     "create_error": "Beim Erstellen des Standortbereichs ist ein Fehler aufgetreten",
     "image_size_error": "Die maximale Bildgröße wurde überschritten, die maximale Bildgröße ist '{{maxPictureKb}}' Kb",
     "maximum_energy_watts": "Maximale Leistung (W)",
-    "maximum_energy_amps": "Maximale Stromstärke (A)",
+    "maximum_energy_amps_per_phase": "Maximum Amperage per phase (A)",
+    "maximum_energy_amps_total": "Maximum total Amperage (A)",
     "number_of_phases": "Anzahl der Phasen.",
     "export_all_params_title": "OCPP Parameter exportieren",
     "export_all_params_confirm": "Wollen Sie wirklich alle OCPP-Parameter von allen Ladestationen im Standortbereich '{{siteAreaName}}' exportieren?",
@@ -1001,6 +1002,7 @@
     "stop_transaction_success": "Der Ladevorgang an der Ladestation '{{chargeBoxID}}' wurde erfolgreich beendet",
     "stop_transaction_error": "Beim Beenden des Ladevorgangs ist ein Fehler aufgetreten",
     "stop_transaction_user_not_allowed": "Sie sind nicht berechtigt den Ladevorgang zu beenden",
+    "stop_transaction_missing_active_tag": "The session cannot be stopped on the charging station '{{chargeBoxID}}', you need to have at least one active RFID card",
     "start_transaction_title": "Start",
     "start_transaction_button": "Start",
     "start_transaction_confirm": "Wollen Sie für den Nutzer '{{userName}}' an der Ladestation '{{chargeBoxID}}' einen Ladevorgang starten?",
@@ -1324,11 +1326,6 @@
         "title": "Rechnungssynchronisierung ist fehlgeschlagen",
         "description": "Die Synchronisierung dieses Nutzers mit dem Rechnungssystem ist fehlgeschlagen.",
         "action": "Re-synchronisieren Sie manuell."
-      },
-      "no_billing_data": {
-        "title": "Nutzer hat keine Rechnungsdaten",
-        "description": "Dieser Nutzer wurde nicht mit dem Rechnungssystem synchronisiert.",
-        "action": "Nutzer synchronisieren."
       }
     },
     "export_tags_title": "Badges exportieren",

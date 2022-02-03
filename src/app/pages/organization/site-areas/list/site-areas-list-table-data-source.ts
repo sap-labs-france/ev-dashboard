@@ -339,13 +339,13 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
       case SiteAreaButtonAction.ASSIGN_ASSETS_TO_SITE_AREA:
         if (actionDef.action) {
           (actionDef as TableAssignAssetsToSiteAreaActionDef).action(
-            SiteAreaAssetsDialogComponent, { dialogData: siteArea }, this.dialog, this.refreshData.bind(this));
+            SiteAreaAssetsDialogComponent, this.dialog, { dialogData: siteArea }, this.refreshData.bind(this));
         }
         break;
       case SiteAreaButtonAction.VIEW_ASSETS_OF_SITE_AREA:
         if (actionDef.action) {
           (actionDef as TableViewAssignedAssetsOfSiteAreaActionDef).action(
-            SiteAreaAssetsDialogComponent, { dialogData: siteArea }, this.dialog,
+            SiteAreaAssetsDialogComponent, this.dialog, { dialogData: siteArea },
             this.refreshData.bind(this));
         }
         break;

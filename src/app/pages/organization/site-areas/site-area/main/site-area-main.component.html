@@ -80,9 +80,10 @@
             </div>
             <div class="col-md-6">
               <mat-form-field>
-                <mat-label for="numberOfPhases">{{'site_areas.number_of_phases' | translate}} *
+                <mat-label for="numberOfPhases">{{'site_areas.number_of_phases' | translate}} 
                 </mat-label>
-                <mat-select id="numberOfPhases" [formControl]="numberOfPhases">
+                <mat-select id="numberOfPhases" [formControl]="numberOfPhases" 
+                  (selectionChange)="numberOfPhasesChanged()" required>
                   <mat-option *ngFor="let phase of phaseMap" [value]="phase.key">
                     {{phase.description | translate}}
                   </mat-option>
@@ -103,10 +104,17 @@
                 </mat-error>
               </mat-form-field>
             </div>
+            <div class="w-100"></div>         
             <div class="col-md-6">
               <mat-form-field>
-                <input matInput placeholder="{{'site_areas.maximum_energy_amps' | translate}}" type="number"
-                  [formControl]="maximumPowerAmps">
+                <input matInput placeholder="{{'site_areas.maximum_energy_amps_per_phase' | translate}}" type="number"
+                  [formControl]="maximumPowerAmpsPerPhase">
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field>
+                <input matInput placeholder="{{'site_areas.maximum_energy_amps_total' | translate}}" type="number"
+                  [formControl]="maximumTotalPowerAmps">
               </mat-form-field>
             </div>
           </div>

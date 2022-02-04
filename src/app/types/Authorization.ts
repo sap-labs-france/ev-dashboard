@@ -242,6 +242,11 @@ export interface SiteAreaAuthorizationActions extends AuthorizationActions {
   canGenerateQrCode?: boolean;
   canCrudSiteArea?: boolean;
 }
+// SITES
+export interface SitesAuthorizationActions extends DataResultAuthorizationActions {
+  canListCompanies: boolean;
+}
+
 // SITE
 export interface SiteAuthorizationActions extends AuthorizationActions {
   canAssignUsers?: boolean;

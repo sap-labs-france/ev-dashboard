@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { ComponentService } from 'services/component.service';
 import { UsersDialogComponent } from 'shared/dialogs/users/users-dialog.component';
-import { CarAuthorizationActions, DialogMode } from 'types/Authorization';
+import { CarsAuthorizations, DialogMode } from 'types/Authorization';
 import { CarConnectorConnectionSetting } from 'types/Setting';
 import { TenantComponents } from 'types/Tenant';
 
@@ -33,7 +33,7 @@ export class CarComponent implements OnInit {
   @Input() public currentCarID!: string;
   @Input() public dialogMode!: DialogMode;
   @Input() public dialogRef!: MatDialogRef<any>;
-  @Input() public carAuthorizationActions!: CarAuthorizationActions;
+  @Input() public carsAuthorizations!: CarsAuthorizations;
   public carCatalogImage: string;
   public selectedCarCatalog: CarCatalog;
   public carCatalogConverters: { type: CarConverterType; value: string; converter: CarConverter }[] = [];
@@ -149,9 +149,9 @@ export class CarComponent implements OnInit {
     // Default
     this.converterType.disable();
     // Initialize authorization actions
-    this.canListUsers = Utils.convertToBoolean(this.carAuthorizationActions.canListUsers);
-    // Add car pool selection if authorized
-    if(this.carAuthorizationActions.canCreatePoolCar) {
+    this.canListUsers = Utils.convertToBoolean(this.carsAuthorizations.canListUsers);
+    // Car pool selection handled by cars metadata
+    if(this.carsAuthorizations.metadata?.createPoolCar?.visible) {
       this.carTypes.push({ key: CarType.POOL_CAR, value: 'cars.pool_car' });
     }
     this.loadCar();
@@ -197,10 +197,6 @@ export class CarComponent implements OnInit {
         this.formGroup.markAllAsTouched();
         // Update auhorization actions
         this.canListUsers = Utils.convertToBoolean(car.canListUsers);
-        if(car.canCreatePoolCar) {
-          // Add car pool selection if authorized
-          this.carTypes.push({ key: CarType.POOL_CAR, value: 'cars.pool_car' });
-        }
       }, (error) => {
         this.spinnerService.hide();
         switch (error.status) {

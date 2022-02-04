@@ -24,13 +24,17 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.5.16',
-        date: new Date('2022-01-28'),
+        date: new Date('2022-02-03'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
-              `Refactor aggregation of Sites' consumption charts`,
-              `Fixed size of all pop-ups`,
+              `Final Pricing engine`,
+              `Check and Stop Transactions that haven't received the OCPP Stop Transaction message`,
+              `Fixed synchromization of new Cars + Optimize image's size`,
+              `Display amperage per phase in Site Area`,
+              `Refactor aggregation of consumption charts for Sites`,
+              `Fixed pop-up wrong size issues`,
               `Cleanup of unused Billing jobs`,
             ],
           },

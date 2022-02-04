@@ -1,17 +1,17 @@
+import { BaseFilter } from "shared/filters/structures/base-filter.component";
+
 import { KeyValue } from "./GlobalType";
-import { FilterType } from "./Table";
 
 export type FilterValue = string[] | string | Date[] | Date | Number[] | Number;
 
 export interface FilterDef {
   id: string;
-  type: FilterType;
-  class: string;
-  label: string;
+  name: string;
   currentValue: FilterValue;
-  displayValue?: () => string;
-  reset?: () => void;
-  dependentFilters?: FilterDef[];
+  cssClass?: string;
+  label?: string;
+  displayLabel?: boolean;
+  dependentFilters?: BaseFilter[];
   visible?: boolean;
 }
 
@@ -45,4 +45,9 @@ export interface Locale {
   firstDay?: number;
   displayFormat?: string;
   applyLabel?: string;
+}
+
+export enum FilterImplementationTypes {
+  ISSUER = 'issuer',
+  STATUS = 'status'
 }

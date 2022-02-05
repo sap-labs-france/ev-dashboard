@@ -99,7 +99,7 @@
           </div>
           <div class="col-md-6 text-right" *ngIf="ocpiActive">
             <mat-form-field>
-              <input matInput type="text" placeholder="{{'ocpi.tariffID' | translate}}" (input)="emptyStringToNull(tariffID)"
+              <input matInput type="text" placeholder="{{'ocpi.tariff_id' | translate}}" (input)="emptyStringToNull(tariffID)"
                 [formControl]="tariffID" />
               <mat-error *ngIf="tariffID?.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
               <mat-error *ngIf="tariffID?.errors?.maxlength">

@@ -65,7 +65,7 @@
     <div class="row" *ngIf="ocpiActive && public.value">
       <div class="col-md-3 text-left form-group">
         <mat-form-field>
-          <input matInput type="text" placeholder="{{'ocpi.tariffID' | translate}}" [formControl]="tariffID"
+          <input matInput type="text" placeholder="{{'ocpi.tariff_id' | translate}}" [formControl]="tariffID"
           (input)="emptyStringToNull(tariffID)" />
           <mat-error *ngIf="tariffID?.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
           <mat-error *ngIf="tariffID?.errors?.maxlength">
@@ -94,6 +94,11 @@
       <div class="col-md-3 text-left form-group">
         <mat-checkbox [formControl]="manualConfiguration" (change)="manualConfigurationChanged($event.checked)">
           {{'chargers.manual_configuration' | translate}}
+        </mat-checkbox>
+      </div>
+      <div class="col-md-3 text-left form-group">
+        <mat-checkbox [formControl]="masterSlave">
+          {{'chargers.master_slave' | translate}}
         </mat-checkbox>
       </div>
     </div>

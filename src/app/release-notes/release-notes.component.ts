@@ -24,12 +24,13 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.5.16',
-        date: new Date('2022-02-03'),
+        date: new Date('2022-02-05'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `Final Pricing engine`,
+              `Added master/slave capability in Charging Station's template`,
               `Check and Stop Transactions that haven't received the OCPP Stop Transaction message`,
               `Fixed synchromization of new Cars + Optimize image's size`,
               `Display amperage per phase in Site Area`,

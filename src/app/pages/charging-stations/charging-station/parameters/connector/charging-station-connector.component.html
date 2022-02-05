@@ -97,7 +97,7 @@
               </mat-error>
             </mat-form-field>
           </div>
-          <div class="col-md-6 text-right" *ngIf="ocpiActive">
+          <div class="col-md-6 text-right" *ngIf="ocpiActive && isPublic">
             <mat-form-field>
               <input matInput type="text" placeholder="{{'ocpi.tariff_id' | translate}}" (input)="emptyStringToNull(tariffID)"
                 [formControl]="tariffID" />

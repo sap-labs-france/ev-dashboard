@@ -19,7 +19,7 @@ export class TableCreateCompanyAction extends TableCreateAction {
       ...super.getActionDef(),
       id: CompanyButtonAction.CREATE_COMPANY,
       action: this.createCompany,
-      // visible: false
+      visible: false
     };
   }
 

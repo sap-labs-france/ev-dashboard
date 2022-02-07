@@ -7,13 +7,15 @@ import { BaseFilter } from "./base-filter.component";
 @Component({
   selector: 'app-single-dropdown-filter',
   template: `
-  <mat-form-field>
-    <mat-select (selectionChange)="filterUpdated()" [(value)]="filter.currentValue"
-      [placeholder]="filter.name | translate" multiple disableRipple>
-      <mat-select-trigger>{{filter.label}}</mat-select-trigger>
-      <mat-option *ngFor="let item of filter.items" [value]="item">{{item.value | translate}}</mat-option>
-    </mat-select>
-  </mat-form-field>
+  <div [class]="filter.cssClass">
+    <mat-form-field>
+      <mat-select (selectionChange)="filterUpdated()" [(value)]="filter.currentValue"
+        [placeholder]="filter.name | translate">
+        <mat-option *ngFor="let item of filter.items" [value]="item.key">{{item.value | translate}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
   `
 })
 export class SingleSelectDropdownFilterComponent extends BaseFilter {

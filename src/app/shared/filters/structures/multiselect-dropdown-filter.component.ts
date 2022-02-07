@@ -1,45 +1,58 @@
-import { Component, Inject } from "@angular/core";
+import { Component, EventEmitter, Output } from "@angular/core";
+import { MatSelectChange } from "@angular/material/select";
 import { TranslateService } from "@ngx-translate/core";
-import { DropdownFilterDef } from "types/Filters";
+import { DropdownFilterDef, FilterValue } from "types/Filters";
+import { KeyValue } from "types/GlobalType";
 
 import { BaseFilter } from "./base-filter.component";
 
 @Component({
-  selector: 'app-multi-dropdown-filter',
+  selector: 'app-multiselect-dropdown-filter',
   template: `
-  <mat-form-field>
-  <mat-select (selectionChange)="filterUpdated()" [(value)]="filter.currentValue"
-      [placeholder]="filter.name | translate">
-      <mat-option *ngFor="let item of filter.items" [value]="item.key">{{item.value | translate}}
-      </mat-option>
+  <mat-form-field [class]="filter.cssClass" style="padding-right: 10px;">
+    <mat-select (selectionChange)="filterUpdated($event)" [(value)]="filter.currentValue"
+      [placeholder]="filter.name | translate" multiple disableRipple>
+      <mat-select-trigger>{{filter.label}}</mat-select-trigger>
+      <mat-option *ngFor="let item of filter.items" [value]="item">{{item.value | translate}}</mat-option>
     </mat-select>
   </mat-form-field>
   `
 })
-export class MultiSelectDropdownFilterComponent extends BaseFilter {
+export class MultiSelectDropdownFilterComponent extends BaseFilter{
+
+  @Output('dataChanged') dataChanged: EventEmitter<{httpId: string, id: string, currentValue: FilterValue}>
+  = new EventEmitter<{httpId: string, id: string, currentValue: FilterValue}>();
 
   public filter: DropdownFilterDef;
 
   public constructor(
-    private translateService: TranslateService
+    private translateService: TranslateService,
   ) {
     super();
     this.filter = {
-      id: '',
-      name: '',
+      cssClass: '',
       currentValue: [],
-      multiple: false,
-      items: []
-    };
-  }
-
-  public initFilter(filter: DropdownFilterDef): void {
-    this.filter = {...filter};
+      name: '',
+      label: '',
+      items: [],
+      multiple: true,
+      id: '',
+      httpId: '',
+    }
   }
 
   public reset(): void {
+    this.filter.currentValue = [];
+    this.filter.label = '';
   };
 
-  public filterUpdated(): void {
+  public filterUpdated(event: MatSelectChange): void {
+    const labels = event.value.map(val => val.value);
+    this.filter.label = labels.map(label => this.translateService.instant(label)).join(' , ');
+    this.dataChanged.emit({
+      id: this.filter.id,
+      httpId: this.filter.httpId,
+      currentValue: this.filter.currentValue
+    });
   }
 }

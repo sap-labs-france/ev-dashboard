@@ -2,15 +2,15 @@ import { BaseFilter } from "shared/filters/structures/base-filter.component";
 
 import { KeyValue } from "./GlobalType";
 
-export type FilterValue = string[] | string | Date[] | Date | Number[] | Number;
+export type FilterValue = string[] | string | Date[] | Date | Number[] | Number | KeyValue[] | KeyValue;
 
 export interface FilterDef {
   id: string;
+  httpId: string;
   name: string;
   currentValue: FilterValue;
-  cssClass?: string;
-  label?: string;
-  displayLabel?: boolean;
+  cssClass: string;
+  label: string;
   dependentFilters?: BaseFilter[];
   visible?: boolean;
 }

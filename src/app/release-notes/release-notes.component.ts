@@ -24,7 +24,7 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.5.16',
-        date: new Date('2022-02-05'),
+        date: new Date('2022-02-07'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -35,6 +35,7 @@ export class ReleaseNotesComponent {
               `Fixed synchromization of new Cars + Optimize image's size`,
               `Display amperage per phase in Site Area`,
               `Refactor aggregation of consumption charts for Sites`,
+              `Clear Connector's runtime data on Status Notification Available/Preparing`,
               `Fixed pop-up wrong size issues`,
               `Cleanup of unused Billing jobs`,
             ],

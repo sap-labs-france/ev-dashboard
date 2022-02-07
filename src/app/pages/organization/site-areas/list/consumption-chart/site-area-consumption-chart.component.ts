@@ -240,9 +240,12 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
       this.options.scales.yAxes = [{
         id: 'power',
         ticks: {
-          callback: (value: number) => (this.selectedUnit === ConsumptionUnit.AMPERE) ? value : value / 1000,
-          min: 0,
+          callback: (value: number) => (this.selectedUnit === ConsumptionUnit.AMPERE) ? value + ' A' : (value / 1000) + ' kW',
         },
+        scaleLabel: {
+          display: true,
+          labelString: this.translateService.instant('transactions.consumption')
+        }
       }];
       // Assign
       this.data.labels = [];

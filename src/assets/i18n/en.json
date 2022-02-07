@@ -496,7 +496,8 @@
     "create_error": "Error occurred while creating the site area, check the logs",
     "image_size_error": "The image size limit exceeded, limit is below '{{maxPictureKb}}' Kb",
     "maximum_energy_watts": "Maximum Power (W)",
-    "maximum_energy_amps": "Maximum Amperage (A)",
+    "maximum_energy_amps_per_phase": "Maximum Amperage per phase (A)",
+    "maximum_energy_amps_total": "Maximum total Amperage (A)",
     "number_of_phases": "Number of phases",
     "export_all_params_title": "Export OCPP parameters",
     "export_all_params_confirm": "Do you really want to export all the OCPP parameters of all the charging stations belonging to the site area '{{siteAreaName}}'?",
@@ -710,6 +711,7 @@
     "exclude_smart_charging": "Exclude from Smart Charging",
     "force_inactive": "This charging station is inactive",
     "manual_configuration": "Manual configuration",
+    "master_slave": "Master / Slave",
     "public_url": "Public URL",
     "current_ip": "Current IP Route",
     "select_chargers": "Select Charging Station",
@@ -996,6 +998,7 @@
     "stop_transaction_success": "The session of the charging station '{{chargeBoxID}}' has been stopped successfully",
     "stop_transaction_error": "Error occurred while stopping the session, check the logs",
     "stop_transaction_user_not_allowed": "You are not allowed to stop this session",
+    "stop_transaction_missing_active_tag": "The session cannot be stopped on the charging station '{{chargeBoxID}}', you need to have at least one active RFID card",
     "start_transaction_title": "Start",
     "start_transaction_button": "Start",
     "start_transaction_confirm": "Do you really want to start a new session for user '{{userName}}' on the charging station '{{chargeBoxID}}'?",
@@ -1319,11 +1322,6 @@
         "title": "Billing synchronization failed",
         "description": "The synchronization of this user with the billing system failed.",
         "action": "Re-synchronize it manually."
-      },
-      "no_billing_data": {
-        "title": "User has no billing data",
-        "description": "This user has not been synchronized with the billing system.",
-        "action": "Synchronize the user."
       }
     },
     "export_tags_title": "Export RFID cards",
@@ -1904,7 +1902,7 @@
     "roaming_platforms": "Inter Operability Platform",
     "cpo": "Charging Point Operator Identification",
     "emsp": "E-Mobility Service Provider Identification",
-    "tariffID": "Tariff ID",
+    "tariff_id": "Tariff ID",
     "description": "Open Charge Point Interface",
     "details": "Identification",
     "country_code": "Country code",

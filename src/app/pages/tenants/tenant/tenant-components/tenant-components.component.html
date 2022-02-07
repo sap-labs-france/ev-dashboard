@@ -1,0 +1,150 @@
+<div>
+  <form class="form" [formGroup]="formGroup">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="d-flex flex-column mx-3">
+          <div class="d-flex align-items-center component-item">
+            <mat-slide-toggle class="align-self-start mt-2" [formControl]="components['controls'].ocpi['controls'].active" (change)="toggleDropDownActivation($event, components['controls'].ocpi['controls'].type)">
+            </mat-slide-toggle>
+            <div class="d-flex flex-column me-auto ms-3 justify-content-around align-items-start w-100">
+              <div><strong><b>{{"ocpi.title" | translate}}</b></strong></div>
+              <div [innerHtml]="'ocpi.description' | translate"></div>
+            </div>
+          </div>
+          <div class="d-flex align-items-center component-item">
+            <mat-slide-toggle class="align-self-start mt-2" [formControl]="components['controls'].oicp['controls'].active">
+            </mat-slide-toggle>
+            <div class="d-flex flex-column me-auto ms-3 justify-content-around align-items-start w-100">
+              <div><strong><b>{{"oicp.title" | translate}}</b></strong></div>
+              <div [innerHtml]="'oicp.description' | translate"></div>
+            </div>
+          </div>
+          <div class="d-flex align-items-center component-item">
+            <mat-slide-toggle class="align-self-start mt-2" [formControl]="components['controls'].refund['controls'].active" (change)="toggleDropDownActivation($event, components['controls'].refund['controls'].type)"></mat-slide-toggle>
+            <div class="d-flex flex-column me-auto ms-3 justify-content-around align-items-start w-100">
+              <div><strong><b>{{"refund.title" | translate}}</b></strong></div>
+              <div [innerHtml]="'refund.description' | translate"></div>
+            </div>
+            <mat-form-field *ngIf="components['controls'].refund['controls'].active.value" class="flex-shrink-1 mx-5">
+              <mat-select [formControl]="components['controls'].refund['controls'].type" [placeholder]="'refund.type_placeholder' | translate" [required]="components['controls'].refund['controls'].active.value">
+                <mat-option *ngFor="let refundType of refundTypes" [value]="refundType.key">
+                  {{refundType.value | translate}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="components['controls'].refund['controls'].active.errors?.required">
+                {{"general.mandatory_field" | translate}}
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="d-flex align-items-center component-item">
+            <mat-slide-toggle class="align-self-start mt-2" [formControl]="components['controls'].pricing['controls'].active" (change)="toggleDropDownActivation($event, components['controls'].pricing['controls'].type)">
+            </mat-slide-toggle>
+            <div class="d-flex flex-column me-auto ms-3 justify-content-around align-items-start w-100">
+              <div><strong><b>{{"pricing.title" | translate}}</b></strong></div>
+              <div>{{"pricing.description" | translate}}</div>
+            </div>
+            <mat-form-field *ngIf="components['controls'].pricing['controls'].active.value" class="flex-shrink-1 mx-5">
+              <mat-select [formControl]="components['controls'].pricing['controls'].type" [placeholder]="'pricing.type_placeholder' | translate" [required]="components['controls'].pricing['controls'].active.value">
+                <mat-option *ngFor="let pricingType of pricingTypes" [value]="pricingType.key">
+                  {{pricingType.value | translate}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="components['controls'].pricing['controls'].active.errors?.required">
+                {{"general.mandatory_field" | translate}}
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="d-flex align-items-center component-item">
+            <mat-slide-toggle class="align-self-start mt-2" [formControl]="components['controls'].billing['controls'].active" (change)="toggleDropDownActivation($event, components['controls'].billing['controls'].type)">
+            </mat-slide-toggle>
+            <div class="d-flex flex-column me-auto ms-3 justify-content-around align-items-start w-100">
+              <div><strong><b>{{"billing.title" | translate}}</b></strong></div>
+              <div>{{"billing.description" | translate}}</div>
+            </div>
+            <mat-form-field *ngIf="components['controls'].billing['controls'].active.value" class="flex-shrink-1 mx-5">
+              <mat-select [formControl]="components['controls'].billing['controls'].type" [placeholder]="'billing.type_placeholder' | translate" [required]="components['controls'].billing['controls'].active.value">
+                <mat-option *ngFor="let billingType of billingTypes" [value]="billingType.key">
+                  {{billingType.value | translate}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="components['controls'].billing['controls'].active.errors?.required">
+                {{"general.mandatory_field" | translate}}
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="d-flex align-items-center component-item">
+            <mat-slide-toggle class="align-self-start mt-2" [formControl]="components['controls'].organization['controls'].active"></mat-slide-toggle>
+            <div class="d-flex flex-column me-auto ms-3 justify-content-around align-items-start">
+              <div><strong><b>{{"organization.title" | translate}}</b></strong></div>
+              <div>{{"organization.description" | translate}}</div>
+            </div>
+          </div>
+          <div class="d-flex align-items-center component-item">
+            <mat-slide-toggle class="align-self-start mt-2" [formControl]="components['controls'].car['controls'].active"></mat-slide-toggle>
+            <div class="d-flex flex-column me-auto ms-3 justify-content-around align-items-start">
+              <div><strong><b>{{"car.title" | translate}}</b></strong></div>
+              <div>{{"car.description" | translate}}</div>
+            </div>
+          </div>
+          <div class="d-flex align-items-center component-item">
+            <mat-slide-toggle class="align-self-start mt-2" [formControl]="components['controls'].carConnector['controls'].active"></mat-slide-toggle>
+            <div class="d-flex flex-column me-auto ms-3 justify-content-around align-items-start">
+              <div><strong><b>{{"car_connector.title" | translate}}</b></strong></div>
+              <div>{{"car_connector.description" | translate}}</div>
+            </div>
+          </div>
+          <div class="d-flex align-items-center component-item">
+            <mat-slide-toggle class="align-self-start mt-2" [formControl]="components['controls'].asset['controls'].active"></mat-slide-toggle>
+            <div class="d-flex flex-column me-auto ms-3 justify-content-around align-items-start">
+              <div><strong><b>{{"asset.title" | translate}}</b></strong></div>
+              <div>{{"asset.description" | translate}}</div>
+            </div>
+          </div>
+          <div class="d-flex align-items-center component-item">
+            <mat-slide-toggle class="align-self-start mt-2" [formControl]="components['controls'].statistics['controls'].active"></mat-slide-toggle>
+            <div class="d-flex flex-column me-auto ms-3 justify-content-around align-items-start">
+              <div><strong><b>{{"statistics.title" | translate}}</b></strong></div>
+              <div>{{"statistics.description" | translate}}</div>
+            </div>
+          </div>
+          <div class="d-flex align-items-center component-item">
+            <mat-slide-toggle class="align-self-start mt-2" [formControl]="components['controls'].analytics['controls'].active" (change)="toggleDropDownActivation($event, components['controls'].analytics['controls'].type)">
+            </mat-slide-toggle>
+            <div class="d-flex flex-column me-auto ms-3 justify-content-around align-items-start w-100">
+              <div><strong><b>{{"analytics.title" | translate}}</b></strong></div>
+              <div [innerHtml]="'analytics.description' | translate"></div>
+            </div>
+            <mat-form-field *ngIf="components['controls'].analytics['controls'].active.value" class="flex-shrink-1 mx-5">
+              <mat-select [formControl]="components['controls'].analytics['controls'].type" [placeholder]="'analytics.type_placeholder' | translate" [required]="components['controls'].analytics['controls'].active.value">
+                <mat-option *ngFor="let analyticsType of analyticsTypes" [value]="analyticsType.key">
+                  {{analyticsType.value | translate}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="components['controls'].analytics['controls'].active.errors?.required">
+                {{"general.mandatory_field" | translate}}
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="d-flex align-items-center component-item">
+            <mat-slide-toggle class="align-self-start mt-2" [formControl]="components['controls'].smartCharging['controls'].active" (change)="toggleDropDownActivation($event, components['controls'].smartCharging['controls'].type)">
+            </mat-slide-toggle>
+            <div class="d-flex flex-column me-auto ms-3 justify-content-around align-items-start w-100">
+              <div><strong><b>{{"smart_charging.title" | translate}}</b></strong></div>
+              <div>{{"smart_charging.description" | translate}}</div>
+            </div>
+            <mat-form-field *ngIf="components['controls'].smartCharging['controls'].active.value" class="flex-shrink-1 mx-5">
+              <mat-select [formControl]="components['controls'].smartCharging['controls'].type" [placeholder]="'smart_charging.type_placeholder' | translate" [required]="components['controls'].smartCharging['controls'].active.value">
+                <mat-option *ngFor="let smartChargingType of smartChargingTypes" [value]="smartChargingType.key">
+                  {{smartChargingType.value | translate}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="components['controls'].smartCharging['controls'].active.errors?.required">
+                {{"general.mandatory_field" | translate}}
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

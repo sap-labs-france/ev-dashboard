@@ -19,19 +19,19 @@ export class TableCreateCompanyAction extends TableCreateAction {
       ...super.getActionDef(),
       id: CompanyButtonAction.CREATE_COMPANY,
       action: this.createCompany,
-      visible: false
+      // visible: false
     };
   }
 
   private createCompany(companyDialogComponent: ComponentType<unknown>,
     dialog: MatDialog, refresh?: () => Observable<void>) {
     super.create(companyDialogComponent, dialog, null, refresh, {
-      minWidth: ScreenSize.L,
-      maxWidth: ScreenSize.XXL,
+      minWidth: ScreenSize.XL,
+      maxWidth: ScreenSize.XL,
       width: ScreenSize.XL,
-      minHeight: ScreenSize.S,
+      minHeight: ScreenSize.L,
       maxHeight: ScreenSize.L,
-      height: ScreenSize.M
+      height: ScreenSize.L
     });
   }
 }

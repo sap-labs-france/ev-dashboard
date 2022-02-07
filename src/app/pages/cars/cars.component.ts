@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { SpinnerService } from 'services/spinner.service';
 
 import { AuthorizationService } from '../../services/authorization.service';
 import { WindowService } from '../../services/window.service';
@@ -16,10 +17,12 @@ export class CarsComponent extends AbstractTabComponent {
   public constructor(
     activatedRoute: ActivatedRoute,
     windowService: WindowService,
-    authorizationService: AuthorizationService
+    authorizationService: AuthorizationService,
+    spinnerService: SpinnerService
   ) {
     super(activatedRoute, windowService, ['cars', 'carcatalogs']);
     this.isAdmin = authorizationService.isAdmin();
     this.isBasic = authorizationService.isBasic();
+    spinnerService.hide();
   }
 }

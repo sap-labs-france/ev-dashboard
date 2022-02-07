@@ -24,12 +24,12 @@ export class TableCreateCarAction extends TableCreateAction {
   private createCar(carDialogComponent: ComponentType<unknown>,
     dialog: MatDialog, refresh?: () => Observable<void>) {
     super.create(carDialogComponent, dialog, null, refresh, {
-      minWidth: ScreenSize.L,
-      maxWidth: ScreenSize.XXXL,
+      minWidth: ScreenSize.XXL,
+      maxWidth: ScreenSize.XXL,
       width: ScreenSize.XXL,
-      minHeight: ScreenSize.S,
+      minHeight: ScreenSize.L,
       maxHeight: ScreenSize.L,
-      height: ScreenSize.M
+      height: ScreenSize.L
     });
   }
 }

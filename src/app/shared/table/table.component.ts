@@ -146,7 +146,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
         startDate: event?.startDate.toDate(),
         endDate: event?.endDate.toDate()
       };
-      for (let picker of this.datePickers) {
+      for (const picker of this.datePickers) {
         picker.picker.updateCalendars();
       }
       this.filterChanged(filterDef);
@@ -294,7 +294,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public fetchLatestRefresh(autoRefresh = false) {
     const dateRangeFilters = this.dataSource.tableFiltersDef.filter(filter => filter.type === FilterType.DATE_RANGE);
-    for (let filter of dateRangeFilters) {
+    for (const filter of dateRangeFilters) {
       this.setDateRangeToLatest(filter);
     }
     this.refresh(autoRefresh);

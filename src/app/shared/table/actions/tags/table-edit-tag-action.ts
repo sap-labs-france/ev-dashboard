@@ -25,11 +25,11 @@ export class TableEditTagAction extends TableEditAction {
   private editTag(tagDialogComponent: ComponentType<unknown>, dialog: MatDialog,
     dialogParams: DialogParams<Tag>, refresh?: () => Observable<void>) {
     super.edit(tagDialogComponent, dialog, dialogParams, refresh, {
-      minWidth: ScreenSize.S,
-      maxWidth: ScreenSize.L,
+      minWidth: ScreenSize.M,
+      maxWidth: ScreenSize.M,
       width: ScreenSize.M,
-      minHeight: ScreenSize.S,
-      maxHeight: ScreenSize.L,
+      minHeight: ScreenSize.M,
+      maxHeight: ScreenSize.M,
       height: ScreenSize.M
     });
   }

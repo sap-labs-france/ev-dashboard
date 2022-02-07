@@ -36,6 +36,8 @@ export class ReleaseNotesComponent {
               `Display amperage per phase in Site Area`,
               `Refactor aggregation of consumption charts for Sites`,
               `Clear Connector's runtime data on Status Notification Available/Preparing`,
+              `Display RFID Cards in read-only for certain role`,
+              `DBT model WDC314P25MP1 supports credit card in template`,
               `Fixed pop-up wrong size issues`,
               `Cleanup of unused Billing jobs`,
             ],

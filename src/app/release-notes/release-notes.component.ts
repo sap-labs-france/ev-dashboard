@@ -32,7 +32,7 @@ export class ReleaseNotesComponent {
               `Final Pricing engine`,
               `Added master/slave capability in Charging Station's template`,
               `Check and Stop Transactions that haven't received the OCPP Stop Transaction message`,
-              `Fixed synchromization of new Cars + Optimize image's size`,
+              `Fixed synchronization of new Cars + Optimize image's size`,
               `Display amperage per phase in Site Area`,
               `Refactor aggregation of consumption charts for Sites`,
               `Clear Connector's runtime data on Status Notification Available/Preparing`,

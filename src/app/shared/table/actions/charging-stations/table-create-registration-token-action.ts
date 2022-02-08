@@ -25,12 +25,12 @@ export class TableCreateRegistrationTokenAction extends TableCreateAction {
   private createRegistrationToken(registrationTokenDialogComponent: ComponentType<unknown>,
     dialog: MatDialog, dialogParams?: DialogParamsWithAuth<RegistrationToken, DataResultAuthorizations>, refresh?: () => Observable<void>) {
     super.create(registrationTokenDialogComponent, dialog, dialogParams, refresh, {
-      minWidth: ScreenSize.L,
-      maxWidth: ScreenSize.XXL,
+      minWidth: ScreenSize.XL,
+      maxWidth: ScreenSize.XL,
       width: ScreenSize.XL,
-      minHeight: ScreenSize.XS,
-      maxHeight: ScreenSize.M,
-      height: ScreenSize.XS
+      minHeight: ScreenSize.S,
+      maxHeight: ScreenSize.S,
+      height: ScreenSize.S
     });
   }
 }

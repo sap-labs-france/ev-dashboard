@@ -101,11 +101,12 @@
 }
 
 .mat-tab-dialog-body-content {
-  display: flex;
+  // display: flex;
   align-items: center;
   justify-content: center;
   margin-top: 15px;
-  overflow: hidden !important;
+  padding-top: 0px;
+  // overflow: hidden !important;
   .card-body {
     margin-top: initial !important;
   }

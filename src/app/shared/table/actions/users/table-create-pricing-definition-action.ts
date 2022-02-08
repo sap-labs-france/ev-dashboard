@@ -27,9 +27,9 @@ export class TableCreatePricingDefinitionAction extends TableCreateAction {
     dialog: MatDialog, dialogParams: DialogParams<PricingDefinitionDialogData>, refresh?: () => Observable<void>) {
     super.create(pricingDefinitionDialogComponent, dialog, dialogParams, refresh, {
       minWidth: ScreenSize.XXL,
-      maxWidth: ScreenSize.XXXL,
+      maxWidth: ScreenSize.XXL,
       width: ScreenSize.XXL,
-      minHeight: ScreenSize.XXL,
+      minHeight: ScreenSize.XXXL,
       maxHeight: ScreenSize.XXXL,
       height: ScreenSize.XXXL
     });

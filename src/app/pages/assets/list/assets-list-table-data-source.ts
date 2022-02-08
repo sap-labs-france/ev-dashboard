@@ -3,12 +3,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { ComponentService } from 'services/component.service';
 import { SiteAreaTableFilter } from 'shared/table/filters/site-area-table-filter';
 import { SiteTableFilter } from 'shared/table/filters/site-table-filter';
-import { TenantComponents } from 'types/Tenant';
 
-import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
@@ -49,12 +46,10 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     private messageService: MessageService,
-    private componentService: ComponentService,
     private dialogService: DialogService,
     private router: Router,
     private dialog: MatDialog,
     private centralServerService: CentralServerService,
-    private authorizationService: AuthorizationService,
   ) {
     super(spinnerService, translateService);
     // Init

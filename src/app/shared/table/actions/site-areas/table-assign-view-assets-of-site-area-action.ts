@@ -28,11 +28,11 @@ export class TableViewAssignedAssetsOfSiteAreaAction extends TableAssignAction {
   private viewAssignedAssetsOfSiteArea(siteAreaAssetsDialogComponent: ComponentType<unknown>, dialog: MatDialog,
     dialogParams: DialogParams<SiteArea>, refresh?: () => Observable<void>) {
     super.assign(siteAreaAssetsDialogComponent, dialog, dialogParams, DialogMode.VIEW, refresh, {
-      minWidth: ScreenSize.L,
-      maxWidth: ScreenSize.XXL,
+      minWidth: ScreenSize.XL,
+      maxWidth: ScreenSize.XL,
       width: ScreenSize.XL,
-      minHeight: ScreenSize.L,
-      maxHeight: ScreenSize.XXL,
+      minHeight: ScreenSize.XL,
+      maxHeight: ScreenSize.XL,
       height: ScreenSize.XL
     });
   }

@@ -1,17 +1,18 @@
 import { AfterViewInit, Component, Inject, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { AuthorizationDefinitionFieldMetadata, DialogParamsWithAuth, TagsAuthorizations } from 'types/Authorization';
+import { AuthorizationDefinitionFieldMetadata, DialogMode, DialogParamsWithAuth, TagsAuthorizations } from 'types/Authorization';
 import { Tag } from 'types/Tag';
 
 import { Utils } from '../../../utils/Utils';
 import { TagComponent } from './tag.component';
 
 @Component({
-  template: '<app-tag #appRef [currentTagID]="tagID" [metadata]="metadata" [inDialog]="true" [dialogRef]="dialogRef"></app-tag>',
+  template: '<app-tag #appRef [currentTagID]="tagID" [dialogMode]="dialogMode" [metadata]="metadata" [inDialog]="true" [dialogRef]="dialogRef"></app-tag>',
 })
 export class TagDialogComponent implements AfterViewInit {
   @ViewChild('appRef') public appRef!: TagComponent;
   public tagID!: string;
+  public dialogMode!: DialogMode;
   public metadata?: Record<string, AuthorizationDefinitionFieldMetadata>;
 
   public constructor(
@@ -19,6 +20,7 @@ export class TagDialogComponent implements AfterViewInit {
     @Inject(MAT_DIALOG_DATA) dialogParams: DialogParamsWithAuth<Tag, TagsAuthorizations>) {
     this.tagID = dialogParams.dialogData?.id;
     this.metadata = dialogParams.authorizations?.metadata;
+    this.dialogMode = dialogParams.dialogMode;
   }
 
   public ngAfterViewInit() {

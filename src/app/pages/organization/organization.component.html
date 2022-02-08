@@ -3,8 +3,7 @@
     disableRipple="true" class="h-100 mat-tab-info">
     <mat-tab *ngIf="canListCompanies">
       <ng-template mat-tab-label>
-        <i class="fa fa-lg fa-building"></i>
-        &nbsp;&nbsp;{{'organization.tabs.companies' | translate}}
+        <mat-icon>business</mat-icon><span>{{'organization.tabs.companies' | translate}}</span>
       </ng-template>
       <ng-template matTabContent>
         <app-companies-list></app-companies-list>

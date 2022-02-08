@@ -147,7 +147,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
         startDate: event?.startDate.toDate(),
         endDate: event?.endDate.toDate()
       };
-      for (let picker of this.datePickers) {
+      for (const picker of this.datePickers) {
         picker.picker.updateCalendars();
       }
       this.filterChanged(filterDef);

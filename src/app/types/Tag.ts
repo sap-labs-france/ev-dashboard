@@ -29,6 +29,7 @@ export const TagOptionalImportProperties = [
 ];
 
 export enum TagButtonAction {
+  VIEW_TAG = 'view_tag',
   UNASSIGN_TAGS = 'unassign_tags',
   UNASSIGN_TAG = 'unassign_tag',
   ASSIGN_TAG = 'assign_tag',

@@ -39,6 +39,7 @@ interface Measure {
 
 enum Unit {
   W,
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   Wh,
 }
 

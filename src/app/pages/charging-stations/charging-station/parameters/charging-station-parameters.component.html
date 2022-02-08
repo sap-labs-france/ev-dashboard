@@ -65,7 +65,7 @@
     <div class="row" *ngIf="ocpiActive && public.value">
       <div class="col-md-3 text-left form-group">
         <mat-form-field>
-          <input matInput type="text" placeholder="{{'ocpi.tariffID' | translate}}" [formControl]="tariffID"
+          <input matInput type="text" placeholder="{{'ocpi.tariff_id' | translate}}" [formControl]="tariffID"
           (input)="emptyStringToNull(tariffID)" />
           <mat-error *ngIf="tariffID?.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
           <mat-error *ngIf="tariffID?.errors?.maxlength">
@@ -96,12 +96,17 @@
           {{'chargers.manual_configuration' | translate}}
         </mat-checkbox>
       </div>
+      <div class="col-md-3 text-left form-group">
+        <mat-checkbox [formControl]="masterSlave">
+          {{'chargers.master_slave' | translate}}
+        </mat-checkbox>
+      </div>
     </div>
     <div class="row charging-station-connector-component"
       *ngIf="chargingStation?.chargePoints?.length > 0; else chargingStationWithNoChargePoints">
       <div class="col-md-12" *ngFor="let chargePoint of chargingStation.chargePoints">
         <app-charging-station-charge-point [chargingStation]="chargingStation" [chargePoint]="chargePoint"
-          [formChargePointsArray]="chargePoints" [formConnectorsArray]="connectors" [isAdmin]="isAdmin"
+          [formChargePointsArray]="chargePoints" [formConnectorsArray]="connectors" [isAdmin]="isAdmin" [isPublic]="public.value" 
           (chargePointChanged)="chargePointChanged()" [manualConfiguration]="manualConfiguration.value">
         </app-charging-station-charge-point>
       </div>
@@ -110,8 +115,8 @@
       <div class="row charging-station-connector-component">
         <div class="col-md-6" *ngFor="let connector of chargingStation?.connectors">
           <app-charging-station-connector [chargingStation]="chargingStation" [connector]="connector"
-            [formConnectorsArray]="connectors" [isAdmin]="isAdmin" (connectorChanged)="connectorChanged()"
-            [manualConfiguration]="manualConfiguration.value">
+            [formConnectorsArray]="connectors" [isAdmin]="isAdmin" [isPublic]="public.value"
+            (connectorChanged)="connectorChanged()" [manualConfiguration]="manualConfiguration.value">
           </app-charging-station-connector>
         </div>
       </div>

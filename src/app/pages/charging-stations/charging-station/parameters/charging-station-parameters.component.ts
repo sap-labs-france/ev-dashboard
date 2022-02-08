@@ -38,6 +38,7 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
   public forceInactive: AbstractControl;
   public manualConfiguration: AbstractControl;
   public issuer!: AbstractControl;
+  public masterSlave!: AbstractControl;
   public maximumPower!: AbstractControl;
   public maximumPowerAmps!: AbstractControl;
   public coordinates!: FormArray;
@@ -80,6 +81,7 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
     this.formGroup.addControl('issuer', new FormControl(false));
     this.formGroup.addControl('forceInactive', new FormControl(false));
     this.formGroup.addControl('manualConfiguration', new FormControl(false));
+    this.formGroup.addControl('masterSlave', new FormControl(false));
     this.formGroup.addControl('maximumPower', new FormControl(0,
       Validators.compose([
         Validators.required,
@@ -133,6 +135,7 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
     this.excludeFromSmartCharging = new FormControl(false);
     this.forceInactive = this.formGroup.controls['forceInactive'];
     this.manualConfiguration = this.formGroup.controls['manualConfiguration'];
+    this.masterSlave = this.formGroup.controls['masterSlave'];
     this.maximumPower = this.formGroup.controls['maximumPower'];
     this.maximumPowerAmps = this.formGroup.controls['maximumPowerAmps'];
     this.siteArea = this.formGroup.controls['siteArea'];
@@ -145,6 +148,7 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
     this.latitude = this.coordinates.at(1);
     this.formGroup.updateValueAndValidity();
     this.maximumPowerAmps.disable();
+    this.masterSlave.disable();
   }
 
   public ngOnChanges() {
@@ -164,19 +168,17 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
       }
       // Init form with values
       this.formGroup.controls.id.setValue(this.chargingStation.id);
-      if (this.chargingStation.chargingStationURL) {
-        this.chargingStationURL.setValue(this.chargingStation.chargingStationURL);
-      }
+      this.issuer.setValue(this.chargingStation.issuer);
+      this.forceInactive.setValue(this.chargingStation.forceInactive);
+      this.manualConfiguration.setValue(this.chargingStation.manualConfiguration);
+      this.masterSlave.setValue(this.chargingStation.masterSlave);
+      this.chargingStationURL.setValue(this.chargingStation.chargingStationURL);
+      this.public.setValue(this.chargingStation.public);
+      this.tariffID.setValue(this.chargingStation.tariffID);
+      this.maximumPower.setValue(this.chargingStation.maximumPower);
+      this.maximumPowerAmps.setValue(Utils.computeChargingStationTotalAmps(this.chargingStation));
       if (!this.chargingStation.site.public) {
         this.public.disable();
-      } else if (this.chargingStation.public) {
-        this.public.setValue(this.chargingStation.public);
-      }
-      if (this.ocpiActive && this.chargingStation.tariffID) {
-        this.tariffID.setValue(this.chargingStation.tariffID);
-      }
-      if (this.chargingStation.issuer) {
-        this.issuer.setValue(this.chargingStation.issuer);
       }
       if (!this.chargingStation.capabilities?.supportChargingProfiles) {
         this.excludeFromSmartCharging.setValue(true);
@@ -186,28 +188,11 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
         this.formGroup.addControl('excludeFromSmartCharging', this.excludeFromSmartCharging);
         this.excludeFromSmartCharging.setValue(this.chargingStation.excludeFromSmartCharging);
       }
-      if (this.forceInactive) {
-        this.forceInactive.setValue(this.chargingStation.forceInactive);
-      }
-      if (this.manualConfiguration) {
-        this.manualConfiguration.setValue(this.chargingStation.manualConfiguration);
-      }
-      // If no charge points are available, charging station is manual configurable
-      if (Utils.isEmptyArray(this.chargingStation.chargePoints)) {
-        this.manualConfiguration.setValue(true);
-      }
-      if (this.chargingStation.maximumPower) {
-        this.maximumPower.setValue(this.chargingStation.maximumPower);
-        this.maximumPowerAmps.setValue(
-          Utils.computeChargingStationTotalAmps(this.chargingStation));
-      }
-      if (this.chargingStation.coordinates) {
+      if (Utils.containsGPSCoordinates(this.chargingStation.coordinates)) {
         this.longitude.setValue(this.chargingStation.coordinates[0]);
         this.latitude.setValue(this.chargingStation.coordinates[1]);
       }
-      if (this.chargingStation.siteAreaID) {
-        this.siteAreaID.setValue(this.chargingStation.siteAreaID);
-      }
+      this.siteAreaID.setValue(this.chargingStation.siteAreaID);
       if (this.chargingStation.siteArea) {
         this.siteArea.setValue(this.chargingStation.siteArea.name);
       }

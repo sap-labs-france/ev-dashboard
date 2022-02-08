@@ -25,8 +25,8 @@ export class CarDialogComponent implements AfterViewInit {
       canListUsers: dialogParams.authorizations?.canListUsers,
       // Metadata
       metadata: dialogParams.authorizations?.metadata
-      }
-    }
+    };
+  }
 
   public ngAfterViewInit() {
     // Register key event

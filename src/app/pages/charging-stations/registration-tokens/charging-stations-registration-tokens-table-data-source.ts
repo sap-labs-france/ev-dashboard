@@ -69,7 +69,7 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
         this.registrationTokensAuthorizations = {
           // Metadata
           metadata: registrationTokens.metadata
-        }
+        };
         observer.next(registrationTokens);
         observer.complete();
       }, (error) => {

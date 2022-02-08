@@ -20,6 +20,7 @@ export class CarCatalogComponent implements OnInit {
   public carCatalog: CarCatalog;
   public noImage = Constants.NO_IMAGE;
 
+  // eslint-disable-next-line no-useless-constructor
   public constructor(
     private centralServerService: CentralServerService,
     public spinnerService: SpinnerService,

@@ -25,11 +25,11 @@ export class TableEditRegistrationTokenAction extends TableEditAction {
   private editToken(registrationTokenDialogComponent: ComponentType<unknown>, dialog: MatDialog,
     dialogParams: DialogParams<RegistrationToken>, refresh?: () => Observable<void>) {
     super.edit(registrationTokenDialogComponent, dialog, dialogParams, refresh, {
-      minWidth: ScreenSize.L,
-      maxWidth: ScreenSize.XXL,
+      minWidth: ScreenSize.XL,
+      maxWidth: ScreenSize.XL,
       width: ScreenSize.XL,
       minHeight: ScreenSize.XS,
-      maxHeight: ScreenSize.M,
+      maxHeight: ScreenSize.XS,
       height: ScreenSize.XS
     });
   }

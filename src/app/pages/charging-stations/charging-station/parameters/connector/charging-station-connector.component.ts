@@ -23,6 +23,7 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
   @Input() public chargePoint!: ChargePoint;
   @Input() public formConnectorsArray: FormArray;
   @Input() public isAdmin!: boolean;
+  @Input() public isPublic!: boolean;
   @Input() public manualConfiguration!: boolean;
   @Output() public connectorChanged = new EventEmitter<any>();
 

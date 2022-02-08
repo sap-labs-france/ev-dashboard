@@ -16,6 +16,7 @@ import { TableExportTagsAction, TableExportTagsActionDef } from 'shared/table/ac
 import { TableImportTagsAction, TableImportTagsActionDef } from 'shared/table/actions/tags/table-import-tags-action';
 import { TableUnassignTagAction, TableUnassignTagActionDef } from 'shared/table/actions/tags/table-unassign-tag-action';
 import { TableUnassignTagsAction, TableUnassignTagsActionDef } from 'shared/table/actions/tags/table-unassign-tags-action';
+import { TableViewTagAction, TableViewTagActionDef } from 'shared/table/actions/tags/table-view-tag-action';
 import { TableNavigateToTransactionsAction } from 'shared/table/actions/transactions/table-navigate-to-transactions-action';
 import { organizations } from 'shared/table/filters/issuer-filter';
 import { StatusFilter } from 'shared/table/filters/status-filter';
@@ -62,6 +63,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
   private assignAction = new TableAssignTagAction().getActionDef();
   private importAction = new TableImportTagsAction().getActionDef();
   private exportAction = new TableExportTagsAction().getActionDef();
+  private viewAction = new TableViewTagAction().getActionDef();
   private projectFields: string[];
   private userFilter: TableFilterDef;
   private issuerFilter: TableFilterDef;
@@ -156,7 +158,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
           metadata: tags.metadata,
           // projected fields
           projectFields: tags.projectFields
-        }
+        };
         // Update filter visibility
         this.createAction.visible = this.tagsAuthorizations.canCreate;
         this.assignAction.visible = this.tagsAuthorizations.canAssign;
@@ -314,6 +316,8 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
           moreActions.addActionInMoreActions(this.activateAction);
         }
       }
+    } else {
+      rowActions.push(this.viewAction);
     }
     if (tag.canUpdateByVisualID) {
       rowActions.push(this.editByVisualIDAction);
@@ -388,6 +392,12 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
 
   public rowActionTriggered(actionDef: TableActionDef, tag: Tag) {
     switch (actionDef.id) {
+      case TagButtonAction.VIEW_TAG:
+        if (actionDef.action) {
+          (actionDef as TableViewTagActionDef).action(TagDialogComponent, this.dialog,
+            { dialogData: tag }, this.refreshData.bind(this));
+        }
+        break;
       case TagButtonAction.ACTIVATE_TAG:
         if (actionDef.action) {
           (actionDef as TableActivateTagActionDef).action(tag, this.dialogService, this.translateService, this.messageService,

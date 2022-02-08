@@ -17,7 +17,7 @@ export class UserDialogComponent implements AfterViewInit {
   public constructor(
     public dialogRef: MatDialogRef<UserDialogComponent>,
     @Inject(MAT_DIALOG_DATA) dialogParams: DialogParamsWithAuth<User, UsersAuthorizations>) {
-    this.currentUserID = dialogParams.dialogData?.id;    
+    this.currentUserID = dialogParams.dialogData?.id;
     this.metadata = dialogParams.authorizations?.metadata;
     this.dialogMode = dialogParams.dialogMode;
   }

@@ -25,11 +25,11 @@ export class TableEditTenantAction extends TableEditAction {
   private editTenant(tenantDialogComponent: ComponentType<unknown>, dialog: MatDialog,
     dialogParams: DialogParams<Tenant>, refresh?: () => Observable<void>) {
     super.edit(tenantDialogComponent, dialog, dialogParams, refresh, {
-      minWidth: ScreenSize.L,
-      maxWidth: ScreenSize.XXL,
+      minWidth: ScreenSize.XL,
+      maxWidth: ScreenSize.XL,
       width: ScreenSize.XL,
-      minHeight: ScreenSize.S,
-      maxHeight: ScreenSize.XL,
+      minHeight: ScreenSize.L,
+      maxHeight: ScreenSize.L,
       height: ScreenSize.L
     });
   }

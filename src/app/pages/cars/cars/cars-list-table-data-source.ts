@@ -66,7 +66,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
       // Get cars
       this.centralServerService.getCars(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe((cars) => {
         // Initialize cars authorization
-        this.carsAthorizations = { 
+        this.carsAthorizations = {
           // Authorization actions
           canCreate: Utils.convertToBoolean(cars.canCreate),
           canListUsers: Utils.convertToBoolean(cars.canListUsers),
@@ -78,7 +78,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
         this.createAction.visible = this.carsAthorizations.canCreate;
         this.usersFilter.visible = this.carsAthorizations.canListUsers;
         this.carMakerFilter.visible = this.carsAthorizations.canListCarCatalog;
-        
+
         observer.next(cars);
         observer.complete();
       }, (error) => {

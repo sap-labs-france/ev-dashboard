@@ -254,7 +254,8 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
         new DateRangeTableFilter({
           translateService: this.translateService,
           showSeconds: true,
-          start: moment().startOf('day')
+          start: moment().startOf('day'),
+          end: moment().endOf('day'),
         }).getFilterDef(),
         new LogLevelTableFilter().getFilterDef(),
         new LogSourceTableFilter().getFilterDef(),
@@ -270,7 +271,8 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
         new DateRangeTableFilter({
           translateService: this.translateService,
           showSeconds: true,
-          start: moment().startOf('day')
+          start: moment().startOf('day'),
+          end: moment().endOf('day'),
         }).getFilterDef(),
         new LogLevelTableFilter().getFilterDef(),
         new LogSourceTableFilter().getFilterDef(),

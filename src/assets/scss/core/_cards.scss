@@ -55,7 +55,6 @@
 
   .card-body {
     & + .card-footer {
-      padding-top: 0rem;
       border: 0;
     }
   }
@@ -295,10 +294,6 @@
       display: inline-flex;
     }
   }
-}
-
-.card-settings {
-  background: rgba($brand-primary, 0.1);
 }
 
 .card-settings-payment-method {

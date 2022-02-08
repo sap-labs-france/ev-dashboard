@@ -158,7 +158,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
           metadata: tags.metadata,
           // projected fields
           projectFields: tags.projectFields
-        }
+        };
         // Update filter visibility
         this.createAction.visible = this.tagsAuthorizations.canCreate;
         this.assignAction.visible = this.tagsAuthorizations.canAssign;
@@ -316,8 +316,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
           moreActions.addActionInMoreActions(this.activateAction);
         }
       }
-    }
-    else {
+    } else {
       rowActions.push(this.viewAction);
     }
     if (tag.canUpdateByVisualID) {

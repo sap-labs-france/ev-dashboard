@@ -172,11 +172,11 @@ export interface DataResultAuthorizationActions {
   canCreate?: boolean;
 }
 // BASIC DATA RESULT AUTHORIZATIONS
-export interface DataResultAuthorizations extends AuthorizationAttributes, DataResultAuthorizationActions {  
-} 
+export interface DataResultAuthorizations extends AuthorizationAttributes, DataResultAuthorizationActions {
+}
 // CARS
-export interface CarsAuthorizations extends AuthorizationAttributes, CarsAuthorizationActions {  
-} 
+export interface CarsAuthorizations extends AuthorizationAttributes, CarsAuthorizationActions {
+}
 export interface CarsAuthorizationActions extends DataResultAuthorizationActions{
   canListUsers?: boolean;
   canListCarCatalog?: boolean;
@@ -186,14 +186,14 @@ export interface CarAuthorizationActions extends AuthorizationActions {
   canListUsers?: boolean;
 }
 // CAR CATALOGS
-export interface CarCatalogsAuthorizations extends AuthorizationAttributes, CarCatalogsAuthorizationActions {  
-} 
+export interface CarCatalogsAuthorizations extends AuthorizationAttributes, CarCatalogsAuthorizationActions {
+}
 export interface CarCatalogsAuthorizationActions extends DataResultAuthorizationActions {
   canSync?: boolean;
 }
 // TAGS
-export interface TagsAuthorizations extends AuthorizationAttributes, TagsAuthorizationActions {  
-} 
+export interface TagsAuthorizations extends AuthorizationAttributes, TagsAuthorizationActions {
+}
 export interface TagsAuthorizationActions extends DataResultAuthorizationActions {
   canAssign?: boolean;
   canDelete?: boolean;
@@ -211,14 +211,14 @@ export interface TagAuthorizationActions extends AuthorizationActions {
   canUpdateByVisualID?: boolean;
 }
 // USERS
-export interface UsersAuthorizations extends AuthorizationAttributes, UsersAuthorizationActions {  
+export interface UsersAuthorizations extends AuthorizationAttributes, UsersAuthorizationActions {
 }
 export interface UsersAuthorizationActions extends DataResultAuthorizationActions {
   canImport?: boolean;
-  canExport?: boolean; 
+  canExport?: boolean;
 }
 // ASSETS
-export interface AssetsAuthorizations extends AuthorizationAttributes, AssetsAuthorizationActions {  
+export interface AssetsAuthorizations extends AuthorizationAttributes, AssetsAuthorizationActions {
 }
 export interface AssetsAuthorizationActions extends DataResultAuthorizationActions {
   canListSites: boolean;

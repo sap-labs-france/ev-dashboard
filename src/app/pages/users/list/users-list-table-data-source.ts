@@ -110,20 +110,20 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       // Get the Tenants
       this.centralServerService.getUsers(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((users) => {
-          // Initialize authorization actions
-          this.usersAuthorizations = {
-            // Authorization action
-            canCreate: users.canCreate,
-            canImport: users.canImport,
-            canExport: users.canExport,
-            // Metadata
-            metadata: users.metadata
-          }
-          this.createAction.visible = this.usersAuthorizations.canCreate;
-          this.importAction.visible = this.usersAuthorizations.canImport;
-          this.exportAction.visible = this.usersAuthorizations.canExport;
-          observer.next(users);
-          observer.complete();
+        // Initialize authorization actions
+        this.usersAuthorizations = {
+          // Authorization action
+          canCreate: users.canCreate,
+          canImport: users.canImport,
+          canExport: users.canExport,
+          // Metadata
+          metadata: users.metadata
+        };
+        this.createAction.visible = this.usersAuthorizations.canCreate;
+        this.importAction.visible = this.usersAuthorizations.canImport;
+        this.exportAction.visible = this.usersAuthorizations.canExport;
+        observer.next(users);
+        observer.complete();
       }, (error) => {
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
         observer.error(error);

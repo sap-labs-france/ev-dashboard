@@ -34,6 +34,7 @@ export class ReleaseNotesComponent {
               `Check and Stop Transactions that haven't received the OCPP Stop Transaction message`,
               `Fixed synchronization of new Cars + Optimize image's size`,
               `Fixed Roaming RFID Cards cannot start a Transaction when access control is disabled in Site Area`,
+              `Sanitize HTTP params on Export feature only once`,
               `Fixed no RFID Card has been found when the end-user sends a Remote Stop`,
               `Display amperage per phase in Site Area`,
               `Refactor aggregation of consumption charts for Sites`,

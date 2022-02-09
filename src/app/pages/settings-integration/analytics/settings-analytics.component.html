@@ -12,8 +12,8 @@
   </div>
 </div>
 
-<div *ngIf="isActive" class="h-100">
-  <form class="form" [formGroup]="formGroup" height="100%">
+<div *ngIf="isActive" class="settings-table">
+  <form class="form h-100" [formGroup]="formGroup">
     <div class="mat-toolbar-row mat-toolbar-settings">
       <button mat-raised-button color="warn" (click)="save(formGroup.value)"
           [disabled]="!formGroup.valid || !formGroup.dirty">
@@ -22,7 +22,7 @@
     </div>
     <!-- SAC -->
     <app-settings-sac *ngIf="analyticsSettings?.sac" [analyticsSettings]="analyticsSettings" [formGroup]="formGroup"></app-settings-sac>
+    <!-- Links -->
+    <app-table [dataSource]="analyticsLinksTableDataSource"></app-table>
   </form>
-  <!-- Links -->
-  <app-table [dataSource]="analyticsLinksTableDataSource"></app-table>
 </div>

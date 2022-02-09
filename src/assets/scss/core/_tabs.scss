@@ -94,7 +94,7 @@
 }
 
 .mat-tab-body-content {
-  // overflow: hidden !important;
+  height: 100%;
   .card-body {
     margin-top: initial !important;
   }
@@ -177,11 +177,9 @@
   &:hover {
     background-color: rgba($brand-background, .1);
   }
-
   .btn-link {
     color: white !important;
   }
-
 }
 
 .mat-tab-disabled {

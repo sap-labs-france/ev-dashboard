@@ -1,28 +1,39 @@
 import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Output, ViewChild } from '@angular/core';
-import { FilterValue } from 'types/Filters';
+import { BaseFilterDef, FilterHttpIDs } from 'types/Filters';
 
+import { FiltersService } from '../filters.service';
 import { MultiSelectDropdownFilterComponent } from '../structures/multiselect-dropdown-filter.component';
+import { BaseFilter } from './base-filter.component';
 
 @Component({
   selector: 'app-issuer-filter',
-  template: '<app-multiselect-dropdown-filter></app-multiselect-dropdown-filter>'
+  template: '<app-multiselect-dropdown-filter (dataChanged)="updateService($event)"></app-multiselect-dropdown-filter>'
 })
-export class IssuerFilterComponent implements AfterViewInit{
+export class IssuerFilterComponent extends BaseFilter implements AfterViewInit{
 
   @ViewChild(MultiSelectDropdownFilterComponent) msDropdownFilter!: MultiSelectDropdownFilterComponent;
 
-
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
+    private filtersService: FiltersService,
   ) {
+    super();
+    this.baseDetails = {
+      id: 'issuer',
+      httpId: FilterHttpIDs.ISSUER,
+      currentValue: []
+    }
+    this.filtersService.setFilterValue(this.baseDetails);
+  }
+
+  public updateService(newData: BaseFilterDef){
+    this.filtersService.setFilterValue(newData);
   }
 
   private initFilter() {
-    Object.assign(this.msDropdownFilter.filter, {
-      id: 'issuer',
-      httpId: 'Issuer',
+    this.msDropdownFilter.setFilter({
+      ...this.baseDetails,
       name: 'issuer.title',
-      currentValue: [],
       label: '',
       cssClass: 'col-md-6 col-lg-2 col-xl-2',
       items: [
@@ -30,7 +41,7 @@ export class IssuerFilterComponent implements AfterViewInit{
         { key: 'false', value: 'issuer.foreign' },
       ],
       multiple: true,
-    });
+    })
   }
 
   ngAfterViewInit(): void {

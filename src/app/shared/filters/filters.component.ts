@@ -1,8 +1,19 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ComponentFactory, ComponentFactoryResolver, HostListener, Renderer2, TemplateRef, Type, ViewChild, ViewContainerRef, ViewRef } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ComponentFactoryResolver, ViewChild, ViewContainerRef } from '@angular/core';
+import { FilterHttpIDs } from 'types/Filters';
 
-import { FilterImplementationTypes } from '../../types/Filters';
-import { IssuerFilterComponent } from './implementations/IssuerFilter.component';
-import { StatusFilterComponent } from './implementations/StatusFilter.component';
+import { FiltersService } from './filters.service';
+import { CarMakerFilterComponent } from './implementations/car-maker-filter.component';
+import { ChargingStationFilterComponent } from './implementations/charging-station-filter.component';
+import { CompaniesFilterComponent } from './implementations/companies-filter.component';
+import { ConnectorFilterComponent } from './implementations/connector-filter.component';
+import { ErrorTypeFilterComponent } from './implementations/error-type-filter.component';
+import { IssuerFilterComponent } from './implementations/issuer-filter.component';
+import { ReportsFilterComponent } from './implementations/reports-filter.component';
+import { SiteAreaFilterComponent } from './implementations/site-area-filter.component';
+import { SiteFilterComponent } from './implementations/site-filter.component';
+import { StatusFilterComponent } from './implementations/status-filter.component';
+import { TagsFilterComponent } from './implementations/tags-filter.component';
+import { UsersFilterComponent } from './implementations/users-filter.component';
 
 @Component({
   selector: 'app-filters',
@@ -12,28 +23,37 @@ export class FiltersComponent implements AfterViewInit{
 
   @ViewChild('filters', { read: ViewContainerRef, static: false }) filterList!: ViewContainerRef;
 
-  @HostListener('dataChanged')
-  onDataChanged(event: any) {
-    console.log(event);
+  private filterComponentList: any = {
+    [FilterHttpIDs.ISSUER]: IssuerFilterComponent,
+    [FilterHttpIDs.STATUS]: StatusFilterComponent,
+    [FilterHttpIDs.CONNECTOR]: ConnectorFilterComponent,
+    [FilterHttpIDs.ERROR_TYPE]: ErrorTypeFilterComponent,
+    [FilterHttpIDs.SITE]: SiteFilterComponent,
+    [FilterHttpIDs.CAR_MAKER]: CarMakerFilterComponent,
+    [FilterHttpIDs.CHARGING_STATION]: ChargingStationFilterComponent,
+    [FilterHttpIDs.COMPANY]: CompaniesFilterComponent,
+    [FilterHttpIDs.REPORTS]: ReportsFilterComponent,
+    [FilterHttpIDs.SITE_AREA]: SiteAreaFilterComponent,
+    [FilterHttpIDs.TAG]: TagsFilterComponent,
+    [FilterHttpIDs.USER]: UsersFilterComponent,
   }
 
   constructor(
     private componentFactoryResolver: ComponentFactoryResolver,
     private changeDetectorRef: ChangeDetectorRef,
-    private renderer2: Renderer2
+    private filtersService: FiltersService,
   ) {
   }
 
   ngAfterViewInit() {
-    const componentRef = this.filterList.createComponent<IssuerFilterComponent>(
-      this.componentFactoryResolver.resolveComponentFactory(IssuerFilterComponent)
-    );
-    this.renderer2.listen(componentRef.location.nativeElement, 'dataChanged', (event: any) => {
-      console.log(event);
-    })
+    for(const filterType of this.filtersService.getFilterList()) {
+      console.log(filterType);
+      const fType = typeof this.filterList[filterType];
+      const componentRef = this.filterList.createComponent<typeof fType>(
+        this.componentFactoryResolver.resolveComponentFactory(this.filterComponentList[filterType])
+      );
+    }
     this.changeDetectorRef.detectChanges();
-    // const componentFactory2 = this.componentFactoryResolver.resolveComponentFactory(StatusFilterComponent);
-    // this.filterList.createComponent<StatusFilterComponent>(componentFactory2);
   }
 
 }

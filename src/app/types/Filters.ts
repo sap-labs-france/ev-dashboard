@@ -1,17 +1,17 @@
-import { BaseFilter } from "shared/filters/structures/base-filter.component";
-
 import { KeyValue } from "./GlobalType";
 
 export type FilterValue = string[] | string | Date[] | Date | Number[] | Number | KeyValue[] | KeyValue;
 
-export interface FilterDef {
+export interface BaseFilterDef {
   id: string;
-  httpId: string;
-  name: string;
+  httpId: FilterHttpIDs;
   currentValue: FilterValue;
+}
+export interface FilterDef extends BaseFilterDef{
+  name: string;
   cssClass: string;
   label: string;
-  dependentFilters?: BaseFilter[];
+  // dependentFilters?: BaseFilter[];
   visible?: boolean;
 }
 
@@ -23,6 +23,7 @@ export interface DropdownFilterDef extends FilterDef {
 export interface DialogFilterDef extends FilterDef {
   dialogComponent: any;
   multiple: boolean;
+  dialogComponentData?: any;
 }
 
 export interface DateRangeFilterDef extends FilterDef {
@@ -47,7 +48,17 @@ export interface Locale {
   applyLabel?: string;
 }
 
-export enum FilterImplementationTypes {
-  ISSUER = 'issuer',
-  STATUS = 'status'
+export enum FilterHttpIDs {
+  ISSUER = 'Issuer',
+  STATUS = 'Active',
+  CONNECTOR = 'ConnectorID',
+  ERROR_TYPE = 'ErrorType',
+  SITE = 'SiteID',
+  CAR_MAKER = 'CarMaker',
+  CHARGING_STATION = 'ChargingStationID',
+  COMPANY = 'CompanyID',
+  REPORTS = 'ReportIDs',
+  SITE_AREA = 'SiteAreaID',
+  TAG = 'VisualTagID',
+  USER = 'UserID',
 }

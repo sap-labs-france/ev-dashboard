@@ -2,7 +2,7 @@ import { Component, Inject } from "@angular/core";
 import { TranslateService } from "@ngx-translate/core";
 import { DropdownFilterDef } from "types/Filters";
 
-import { BaseFilter } from "./base-filter.component";
+import { BaseTemplateFilter } from "./base-template-filter.component";
 
 @Component({
   selector: 'app-single-dropdown-filter',
@@ -18,7 +18,7 @@ import { BaseFilter } from "./base-filter.component";
   </div>
   `
 })
-export class SingleSelectDropdownFilterComponent extends BaseFilter {
+export class SingleSelectDropdownFilterComponent extends BaseTemplateFilter {
 
   public filter: DropdownFilterDef;
 

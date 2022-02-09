@@ -23,6 +23,7 @@ import { Constants } from './Constants';
 
 export class Utils {
   public static buildDependentFilters(filterDef: TableFilterDef) {
+    debugger;
     if (!Utils.isEmptyArray(filterDef.dependentFilters)) {
       filterDef.dialogComponentData = {
         staticFilter: {}

@@ -1,10 +1,9 @@
 import { Component, EventEmitter, Output } from "@angular/core";
 import { MatSelectChange } from "@angular/material/select";
 import { TranslateService } from "@ngx-translate/core";
-import { DropdownFilterDef, FilterValue } from "types/Filters";
-import { KeyValue } from "types/GlobalType";
+import { BaseFilterDef, DropdownFilterDef, FilterHttpIDs, FilterValue } from "types/Filters";
 
-import { BaseFilter } from "./base-filter.component";
+import { BaseTemplateFilter } from "./base-template-filter.component";
 
 @Component({
   selector: 'app-multiselect-dropdown-filter',
@@ -18,10 +17,9 @@ import { BaseFilter } from "./base-filter.component";
   </mat-form-field>
   `
 })
-export class MultiSelectDropdownFilterComponent extends BaseFilter{
+export class MultiSelectDropdownFilterComponent extends BaseTemplateFilter{
 
-  @Output('dataChanged') dataChanged: EventEmitter<{httpId: string, id: string, currentValue: FilterValue}>
-  = new EventEmitter<{httpId: string, id: string, currentValue: FilterValue}>();
+  @Output('dataChanged') dataChanged: EventEmitter<BaseFilterDef> = new EventEmitter<BaseFilterDef>();
 
   public filter: DropdownFilterDef;
 
@@ -37,7 +35,7 @@ export class MultiSelectDropdownFilterComponent extends BaseFilter{
       items: [],
       multiple: true,
       id: '',
-      httpId: '',
+      httpId: FilterHttpIDs.ISSUER,
     }
   }
 
@@ -45,6 +43,10 @@ export class MultiSelectDropdownFilterComponent extends BaseFilter{
     this.filter.currentValue = [];
     this.filter.label = '';
   };
+
+  public setFilter(filter: DropdownFilterDef) {
+    Object.assign(this.filter, filter);
+  }
 
   public filterUpdated(event: MatSelectChange): void {
     const labels = event.value.map(val => val.value);

@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'services/spinner.service';
+import { FiltersService } from 'shared/filters/filters.service';
+import { FilterHttpIDs } from 'types/Filters';
+import { AssetInErrorType } from 'types/InError';
 
 import { AuthorizationService } from '../../services/authorization.service';
 import { WindowService } from '../../services/window.service';
@@ -18,11 +22,34 @@ export class CarsComponent extends AbstractTabComponent {
     activatedRoute: ActivatedRoute,
     windowService: WindowService,
     authorizationService: AuthorizationService,
-    spinnerService: SpinnerService
+    spinnerService: SpinnerService,
+    filtersService: FiltersService,
+    translateService: TranslateService,
   ) {
     super(activatedRoute, windowService, ['cars', 'carcatalogs']);
     this.isAdmin = authorizationService.isAdmin();
     this.isBasic = authorizationService.isBasic();
+    filtersService.setFilterList([
+      FilterHttpIDs.ISSUER,
+      FilterHttpIDs.STATUS,
+      FilterHttpIDs.CONNECTOR,
+      FilterHttpIDs.ERROR_TYPE,
+      FilterHttpIDs.SITE,
+      FilterHttpIDs.CAR_MAKER,
+      FilterHttpIDs.CHARGING_STATION,
+      FilterHttpIDs.COMPANY,
+      FilterHttpIDs.REPORTS,
+      FilterHttpIDs.SITE_AREA,
+      FilterHttpIDs.TAG,
+      FilterHttpIDs.USER,
+    ], {
+      [FilterHttpIDs.ERROR_TYPE]: [
+        {
+          key: AssetInErrorType.MISSING_SITE_AREA,
+          value: translateService.instant(`assets.errors.${AssetInErrorType.MISSING_SITE_AREA}.title`),
+        }
+      ]
+    })
     spinnerService.hide();
   }
 }

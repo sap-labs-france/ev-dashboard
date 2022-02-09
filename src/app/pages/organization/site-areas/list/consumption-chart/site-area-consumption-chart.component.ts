@@ -59,7 +59,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
   private gridDisplay = {
     [ConsumptionChartAxis.POWER]: true,
     [ConsumptionChartAxis.AMPERAGE]: true,
-  }
+  };
 
   public constructor(
     private spinnerService: SpinnerService,
@@ -183,8 +183,8 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
       label: this.translateService.instant((this.selectedUnit === ConsumptionUnit.AMPERE) ?
         'organization.graph.asset_consumption_amps' : 'organization.graph.asset_consumption_watts'),
       order: (this.selectedUnit === ConsumptionUnit.AMPERE) ?
-       ConsumptionChartDatasetOrder.ASSET_CONSUMPTION_AMPS :
-       ConsumptionChartDatasetOrder.ASSET_CONSUMPTION_WATTS,
+        ConsumptionChartDatasetOrder.ASSET_CONSUMPTION_AMPS :
+        ConsumptionChartDatasetOrder.ASSET_CONSUMPTION_WATTS,
     });
     // Charging Stations Consumption Instant Amps/Power
     datasets.push({

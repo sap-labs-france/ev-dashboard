@@ -76,7 +76,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
     [ConsumptionChartAxis.PERCENTAGE]: false,
     [ConsumptionChartAxis.VOLTAGE]: false,
     [ConsumptionChartAxis.AMOUNT]: false,
-  }
+  };
 
   public constructor(
     private centralServerService: CentralServerService,
@@ -498,32 +498,35 @@ export class ConsumptionChartComponent implements AfterViewInit {
             legend.chart.data.datasets.forEach((dataset) => dataset.borderWidth = 3);
             legend.chart.update();
           },
+          // eslint-disable-next-line complexity
           onClick: (e, legendItem, legend) => {
             const dataset = legend.chart.data.datasets[legendItem.datasetIndex];
             const status = dataset.hidden;
             dataset.hidden = !status;
             this.data.datasets[legendItem.datasetIndex].hidden = !status;
-            const visibleDatasets = this.data.datasets.filter(dataset => !dataset.hidden).map(dataset => dataset.order);
-            for( const key in this.gridDisplay ) {
-              this.gridDisplay[key] = false;
+            const visibleDatasets = this.data.datasets.filter(ds => !ds.hidden).map(ds => ds.order);
+            for (const key in this.gridDisplay) {
+              if(Object.prototype.hasOwnProperty.call(this.gridDisplay, key)){
+                this.gridDisplay[key] = false;
+              }
             }
             if (
-             visibleDatasets.includes(ConsumptionChartDatasetOrder.INSTANT_WATTS) ||
-             visibleDatasets.includes(ConsumptionChartDatasetOrder.INSTANT_WATTS_L1) ||
-             visibleDatasets.includes(ConsumptionChartDatasetOrder.INSTANT_WATTS_L2) ||
-             visibleDatasets.includes(ConsumptionChartDatasetOrder.INSTANT_WATTS_L3) ||
-             visibleDatasets.includes(ConsumptionChartDatasetOrder.CUMULATED_CONSUMPTION_WH) ||
-             visibleDatasets.includes(ConsumptionChartDatasetOrder.LIMIT_WATTS)
+              visibleDatasets.includes(ConsumptionChartDatasetOrder.INSTANT_WATTS) ||
+              visibleDatasets.includes(ConsumptionChartDatasetOrder.INSTANT_WATTS_L1) ||
+              visibleDatasets.includes(ConsumptionChartDatasetOrder.INSTANT_WATTS_L2) ||
+              visibleDatasets.includes(ConsumptionChartDatasetOrder.INSTANT_WATTS_L3) ||
+              visibleDatasets.includes(ConsumptionChartDatasetOrder.CUMULATED_CONSUMPTION_WH) ||
+              visibleDatasets.includes(ConsumptionChartDatasetOrder.LIMIT_WATTS)
             ) {
               this.gridDisplay[ConsumptionChartAxis.POWER] = true;
             } else if (
-             visibleDatasets.includes(ConsumptionChartDatasetOrder.INSTANT_AMPS) ||
-             visibleDatasets.includes(ConsumptionChartDatasetOrder.INSTANT_AMPS_L1) ||
-             visibleDatasets.includes(ConsumptionChartDatasetOrder.INSTANT_AMPS_L2) ||
-             visibleDatasets.includes(ConsumptionChartDatasetOrder.INSTANT_AMPS_L3) ||
-             visibleDatasets.includes(ConsumptionChartDatasetOrder.INSTANT_AMPS_DC) ||
-             visibleDatasets.includes(ConsumptionChartDatasetOrder.CUMULATED_CONSUMPTION_AMPS) ||
-             visibleDatasets.includes(ConsumptionChartDatasetOrder.LIMIT_AMPS)
+              visibleDatasets.includes(ConsumptionChartDatasetOrder.INSTANT_AMPS) ||
+              visibleDatasets.includes(ConsumptionChartDatasetOrder.INSTANT_AMPS_L1) ||
+              visibleDatasets.includes(ConsumptionChartDatasetOrder.INSTANT_AMPS_L2) ||
+              visibleDatasets.includes(ConsumptionChartDatasetOrder.INSTANT_AMPS_L3) ||
+              visibleDatasets.includes(ConsumptionChartDatasetOrder.INSTANT_AMPS_DC) ||
+              visibleDatasets.includes(ConsumptionChartDatasetOrder.CUMULATED_CONSUMPTION_AMPS) ||
+              visibleDatasets.includes(ConsumptionChartDatasetOrder.LIMIT_AMPS)
             ) {
               this.gridDisplay[ConsumptionChartAxis.AMPERAGE] = true;
             } else if (

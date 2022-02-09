@@ -28,11 +28,11 @@ export class TableAssignSitesToUserAction extends TableAssignAction {
   private assignSitesToUser(userSitesDialogComponent: ComponentType<unknown>, user: DialogParams<User>,
     dialog: MatDialog, refresh?: () => Observable<void>) {
     super.assign(userSitesDialogComponent, dialog, user, DialogMode.EDIT, refresh, {
-      minWidth: ScreenSize.L,
-      maxWidth: ScreenSize.XXL,
+      minWidth: ScreenSize.XL,
+      maxWidth: ScreenSize.XL,
       width: ScreenSize.XL,
-      minHeight: ScreenSize.L,
-      maxHeight: ScreenSize.XXL,
+      minHeight: ScreenSize.XL,
+      maxHeight: ScreenSize.XL,
       height: ScreenSize.XL
     });
   }

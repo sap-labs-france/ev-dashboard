@@ -6,30 +6,30 @@ import { DialogParams } from '../../../../types/Authorization';
 import { ScreenSize } from '../../../../types/GlobalType';
 import { TableActionDef } from '../../../../types/Table';
 import { Tag, TagButtonAction } from '../../../../types/Tag';
-import { TableEditAction } from '../table-edit-action';
+import { TableViewAction } from '../table-view-action';
 
-export interface TableEditTagActionDef extends TableActionDef {
+export interface TableViewTagActionDef extends TableActionDef {
   action: (tagDialogComponent: ComponentType<unknown>, dialog: MatDialog,
     dialogParams: DialogParams<Tag>, refresh?: () => Observable<void>) => void;
 }
 
-export class TableEditTagAction extends TableEditAction {
-  public getActionDef(): TableEditTagActionDef {
+export class TableViewTagAction extends TableViewAction {
+  public getActionDef(): TableViewTagActionDef {
     return {
       ...super.getActionDef(),
-      id: TagButtonAction.EDIT_TAG,
-      action: this.editTag,
+      id: TagButtonAction.VIEW_TAG,
+      action: this.viewTag,
     };
   }
 
-  private editTag(tagDialogComponent: ComponentType<unknown>, dialog: MatDialog,
+  private viewTag(tagDialogComponent: ComponentType<unknown>, dialog: MatDialog,
     dialogParams: DialogParams<Tag>, refresh?: () => Observable<void>) {
-    super.edit(tagDialogComponent, dialog, dialogParams, refresh, {
-      minWidth: ScreenSize.M,
-      maxWidth: ScreenSize.M,
+    super.view(tagDialogComponent, dialog, dialogParams, refresh, {
+      minWidth: ScreenSize.S,
+      maxWidth: ScreenSize.L,
       width: ScreenSize.M,
-      minHeight: ScreenSize.M,
-      maxHeight: ScreenSize.M,
+      minHeight: ScreenSize.S,
+      maxHeight: ScreenSize.L,
       height: ScreenSize.M
     });
   }

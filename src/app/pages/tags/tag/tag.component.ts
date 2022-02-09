@@ -3,7 +3,7 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { AuthorizationDefinitionFieldMetadata } from 'types/Authorization';
+import { AuthorizationDefinitionFieldMetadata, DialogMode } from 'types/Authorization';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -26,6 +26,7 @@ export class TagComponent implements OnInit {
   @Input() public metadata!: Record<string, AuthorizationDefinitionFieldMetadata>;
   @Input() public inDialog!: boolean;
   @Input() public dialogRef!: MatDialogRef<any>;
+  @Input() public dialogMode!: DialogMode;
 
   public formGroup!: FormGroup;
   public id!: AbstractControl;
@@ -100,6 +101,8 @@ export class TagComponent implements OnInit {
       this.userID.setValidators(Validators.required);
     }
     this.loadTag();
+    // Handle Dialog mode
+    Utils.handleDialogMode(this.dialogMode, this.formGroup);
   }
 
   public onClose() {

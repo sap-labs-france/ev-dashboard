@@ -24,11 +24,11 @@ export class TableCreateTenantAction extends TableCreateAction {
   private createTenant(tenantDialogComponent: ComponentType<unknown>,
     dialog: MatDialog, refresh?: () => Observable<void>) {
     super.create(tenantDialogComponent, dialog, null, refresh, {
-      minWidth: ScreenSize.L,
-      maxWidth: ScreenSize.XXL,
+      minWidth: ScreenSize.XL,
+      maxWidth: ScreenSize.XL,
       width: ScreenSize.XL,
-      minHeight: ScreenSize.S,
-      maxHeight: ScreenSize.XL,
+      minHeight: ScreenSize.L,
+      maxHeight: ScreenSize.L,
       height: ScreenSize.L
     });
   }

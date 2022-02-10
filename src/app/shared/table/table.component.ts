@@ -146,6 +146,9 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
         startDate: event?.startDate.toDate(),
         endDate: event?.endDate.toDate()
       };
+      for (const picker of this.datePickers) {
+        picker.picker.updateCalendars();
+      }
       this.filterChanged(filterDef);
     }
   }
@@ -155,6 +158,15 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     this.dateRangeChanged(filterDef, {
       startDate: moment(splitRangeValue[0], filterDef.dateRangeTableFilterDef.locale.displayFormat),
       endDate: moment(splitRangeValue[1], filterDef.dateRangeTableFilterDef.locale.displayFormat)
+    });
+  }
+
+  public setDateRangeToLatest(filterDef: TableFilterDef) {
+    const startDate = moment(filterDef.currentValue.startDate);
+    const endDate = moment();
+    this.dateRangeChanged(filterDef, {
+      startDate,
+      endDate
     });
   }
 
@@ -280,6 +292,14 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  public fetchLatestRefresh(autoRefresh = false) {
+    const dateRangeFilters = this.dataSource.tableFiltersDef.filter(filter => filter.type === FilterType.DATE_RANGE);
+    for (const filter of dateRangeFilters) {
+      this.setDateRangeToLatest(filter);
+    }
+    this.refresh(autoRefresh);
+  }
+
   public refresh(autoRefresh = false) {
     // Start refresh
     if (!this.ongoingRefresh) {
@@ -394,7 +414,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       // Create the timer
       this.autoRefreshTimeout = setTimeout(() => {
         if (this.alive && !this.loading && !this.ongoingRefresh) {
-          this.refresh(true);
+          this.fetchLatestRefresh(true);
         }
       }, this.refreshIntervalSecs * 1000);
     }

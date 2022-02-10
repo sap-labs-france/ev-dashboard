@@ -29,7 +29,7 @@ export class TableCreatePricingDefinitionAction extends TableCreateAction {
       minWidth: ScreenSize.XXL,
       maxWidth: ScreenSize.XXL,
       width: ScreenSize.XXL,
-      minHeight: ScreenSize.XXL,
+      minHeight: ScreenSize.XXXL,
       maxHeight: ScreenSize.XXXL,
       height: ScreenSize.XXXL
     });

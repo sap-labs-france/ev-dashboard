@@ -28,7 +28,8 @@ export class Constants {
   /* RegEx validation rule */
   public static readonly REGEX_VALIDATION_LATITUDE = /^-?([1-8]?[1-9]|[1-9]0)\.{0,1}[0-9]*$/;
   public static readonly REGEX_VALIDATION_LONGITUDE = /^-?([1]?[0-7][0-9]|[1]?[0-8][0]|[1-9]?[0-9])\.{0,1}[0-9]*$/;
-  public static readonly REGEX_VALIDATION_NUMBER = /^((\d+(\.\d+)?))$/;
+  public static readonly REGEX_VALIDATION_FLOAT = /^((\d+(\.\d+)?))$/;
+  public static readonly REGEX_VALIDATION_NUMBER = /^\d+$/;
 
   /* Language and Locales */
   /* Make sure to maintain app.module.ts ==> e.g.: registerLocaleData(localeEnAU); */
@@ -36,6 +37,9 @@ export class Constants {
   public static readonly SUPPORTED_LANGUAGES = Object.freeze(['en', 'fr', 'es', 'de', 'pt', 'it', 'cs']);
   public static readonly DEFAULT_LOCALE = 'en_US';
   public static readonly DEFAULT_LANGUAGE = 'en';
+
+  /* Default Currency */
+  public static readonly DEFAULT_CURRENCY_CODE = 'EUR';
 
   public static readonly SELECT_ALL = 'A';
 }

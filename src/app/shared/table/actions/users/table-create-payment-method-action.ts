@@ -29,9 +29,9 @@ export class TableCreatePaymentMethodAction extends TableCreateAction {
       minWidth: ScreenSize.M,
       maxWidth: ScreenSize.M,
       width: ScreenSize.M,
-      minHeight: ScreenSize.XL,
-      maxHeight: ScreenSize.XL,
-      height: ScreenSize.XL
+      minHeight: ScreenSize.M,
+      maxHeight: ScreenSize.M,
+      height: ScreenSize.M
     });
   }
 }

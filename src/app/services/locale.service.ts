@@ -33,6 +33,10 @@ export class LocaleService {
     });
   }
 
+  public getLocaleInformation(): Locale {
+    return this.locale;
+  }
+
   public getCurrentLocaleSubject(): BehaviorSubject<Locale> {
     return this.currentLocaleSubject;
   }

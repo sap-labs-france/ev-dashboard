@@ -28,9 +28,9 @@ export class TableViewCarAction extends TableViewAction {
       minWidth: ScreenSize.XXL,
       maxWidth: ScreenSize.XXL,
       width: ScreenSize.XXL,
-      minHeight: ScreenSize.L,
-      maxHeight: ScreenSize.L,
-      height: ScreenSize.L
+      minHeight: ScreenSize.M,
+      maxHeight: ScreenSize.M,
+      height: ScreenSize.M
     });
   }
 }

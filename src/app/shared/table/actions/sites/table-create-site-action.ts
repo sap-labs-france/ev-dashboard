@@ -25,11 +25,11 @@ export class TableCreateSiteAction extends TableCreateAction {
   private createSite(siteDialogComponent: ComponentType<unknown>,
     dialog: MatDialog, refresh?: () => Observable<void>) {
     super.create(siteDialogComponent, dialog, null, refresh, {
-      minWidth: ScreenSize.L,
-      maxWidth: ScreenSize.XXL,
+      minWidth: ScreenSize.XL,
+      maxWidth: ScreenSize.XL,
       width: ScreenSize.XL,
-      minHeight: ScreenSize.L,
-      maxHeight: ScreenSize.XXL,
+      minHeight: ScreenSize.XL,
+      maxHeight: ScreenSize.XL,
       height: ScreenSize.XL
     });
   }

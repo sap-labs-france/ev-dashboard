@@ -24,12 +24,12 @@ export class TableViewPricingDefinitionsAction extends TableViewPricingListActio
   private viewPricingDefinitions(pricingDialogComponent: ComponentType<unknown>, dialog: MatDialog,
     dialogParams: DialogParams<PricingDefinitionDialogData>, refresh?: () => Observable<void>) {
     super.view(pricingDialogComponent, dialog, dialogParams, refresh, {
-      minWidth: ScreenSize.L,
-      maxWidth: ScreenSize.XXL,
+      minWidth: ScreenSize.XL,
+      maxWidth: ScreenSize.XL,
       width: ScreenSize.XL,
-      minHeight: ScreenSize.M,
+      minHeight: ScreenSize.XL,
       maxHeight: ScreenSize.XL,
-      height: ScreenSize.L
+      height: ScreenSize.XL
     });
   }
 }

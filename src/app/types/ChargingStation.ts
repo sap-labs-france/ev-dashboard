@@ -32,6 +32,7 @@ export interface ChargingStation extends TableData {
   manualConfiguration?: boolean;
   lastReboot: Date;
   chargingStationURL: string;
+  masterSlave: boolean;
   maximumPower: number;
   voltage: Voltage;
   excludeFromSmartCharging?: boolean;

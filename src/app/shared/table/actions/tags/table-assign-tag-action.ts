@@ -32,11 +32,11 @@ export class TableAssignTagAction extends TableCreateAction {
   private assign(tagAssignDialogComponent: ComponentType<unknown>,
     dialog: MatDialog, dialogParams?: DialogParams<Tag>, refresh?: () => Observable<void>) {
     super.create(tagAssignDialogComponent, dialog, dialogParams, refresh, {
-      minWidth: ScreenSize.S,
-      maxWidth: ScreenSize.L,
+      minWidth: ScreenSize.M,
+      maxWidth: ScreenSize.M,
       width: ScreenSize.M,
       minHeight: ScreenSize.XS,
-      maxHeight: ScreenSize.M,
+      maxHeight: ScreenSize.XS,
       height: ScreenSize.XS
     });
   }

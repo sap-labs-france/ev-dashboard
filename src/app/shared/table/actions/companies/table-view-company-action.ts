@@ -25,12 +25,12 @@ export class TableViewCompanyAction extends TableViewAction {
   private viewCompany(companyDialogComponent: ComponentType<unknown>, dialog: MatDialog,
     dialogParams: DialogParams<Company>, refresh?: () => Observable<void>) {
     super.view(companyDialogComponent, dialog, dialogParams, refresh, {
-      minWidth: ScreenSize.L,
-      maxWidth: ScreenSize.XXL,
+      minWidth: ScreenSize.XL,
+      maxWidth: ScreenSize.XL,
       width: ScreenSize.XL,
-      minHeight: ScreenSize.S,
+      minHeight: ScreenSize.L,
       maxHeight: ScreenSize.L,
-      height: ScreenSize.M
+      height: ScreenSize.L
     });
   }
 }

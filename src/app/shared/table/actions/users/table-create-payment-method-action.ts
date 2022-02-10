@@ -26,11 +26,11 @@ export class TableCreatePaymentMethodAction extends TableCreateAction {
   private createPaymentMethod(paymentMethodDialogComponent: ComponentType<unknown>,
     dialog: MatDialog, dialogParams: DialogParams<PaymentDialogData>, refresh?: () => Observable<void>) {
     super.create(paymentMethodDialogComponent, dialog, dialogParams, refresh, {
-      minWidth: ScreenSize.S,
-      maxWidth: ScreenSize.L,
+      minWidth: ScreenSize.M,
+      maxWidth: ScreenSize.M,
       width: ScreenSize.M,
-      minHeight: ScreenSize.S,
-      maxHeight: ScreenSize.L,
+      minHeight: ScreenSize.M,
+      maxHeight: ScreenSize.M,
       height: ScreenSize.M
     });
   }

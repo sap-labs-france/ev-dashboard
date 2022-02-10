@@ -11,24 +11,24 @@
       </div>
       <div class="card-body">
         <div class="d-flex flex-row text-left">
-          <div class="col-md-3" *ngIf="efficiency?.value || manualConfiguration">
+          <div class="col-md-3" *ngIf="currentType?.value === 'DC'">
             <mat-form-field>
               <input matInput placeholder="{{'chargers.efficiency' | translate}}" [formControl]="efficiency"
                 [readOnly]="!isAdmin" />
               <mat-error *ngIf="efficiency?.invalid">{{'chargers.invalid_efficiency' | translate}}</mat-error>
             </mat-form-field>
           </div>
-          <div class="flex-fill" *ngIf="cannotChargeInParallel?.value || manualConfiguration">
+          <div class="ms-2 col-md-3 align-self-center" *ngIf="connectorIDs?.value?.length > 1">
             <mat-checkbox [formControl]="cannotChargeInParallel" (change)="adjustMaximumPower()">
               {{'chargers.cant_charge_in_parallel' | translate}}
             </mat-checkbox>
           </div>
-          <div class="flex-fill" *ngIf="sharePowerToAllConnectors?.value || manualConfiguration">
+          <div class="col-md-3 align-self-center" *ngIf="connectorIDs?.value?.length > 1">
             <mat-checkbox [formControl]="sharePowerToAllConnectors" (change)="adjustMaximumPower()">
               {{'chargers.share_power_to_all_connectors' | translate}}
             </mat-checkbox>
           </div>
-          <div class="flex-fill" *ngIf="excludeFromPowerLimitation?.value || manualConfiguration">
+          <div class="col-md-3 align-self-center">
             <mat-checkbox [formControl]="excludeFromPowerLimitation">
               {{'chargers.exclude_from_power_limitation' | translate}}
             </mat-checkbox>
@@ -39,8 +39,9 @@
             <div *ngFor="let connector of chargingStation?.connectors">
               <app-charging-station-connector *ngIf="connectorID === connector.connectorId"
                 [chargingStation]="chargingStation" [chargePoint]="chargePoint" [connector]="connector"
-                [formConnectorsArray]="formConnectorsArray" [isAdmin]="isAdmin" (connectorChanged)="connectorChanged()"
-                [manualConfiguration]="manualConfiguration"></app-charging-station-connector>
+                [formConnectorsArray]="formConnectorsArray" [isAdmin]="isAdmin"  [isPublic]="isPublic"
+                (connectorChanged)="connectorChanged()" [manualConfiguration]="manualConfiguration">
+              </app-charging-station-connector>
             </div>
           </div>
         </div>

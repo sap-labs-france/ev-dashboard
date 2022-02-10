@@ -1559,7 +1559,7 @@ export class CentralServerService {
     return this.httpClient.get(url,
       {
         headers: this.buildHttpHeaders(),
-        responseType: 'arraybuffer' as 'json'
+        responseType: 'blob'
       })
       .pipe(
         catchError(this.handleHttpError),

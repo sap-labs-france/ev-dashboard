@@ -25,9 +25,9 @@ export class TableEditCarAction extends TableEditAction {
   private editCar(carDialogComponent: ComponentType<unknown>, dialog: MatDialog,
     dialogParams: DialogParams<Car>, refresh?: () => Observable<void>) {
     super.edit(carDialogComponent, dialog, dialogParams, refresh, {
-      minWidth: ScreenSize.XXL,
-      maxWidth: ScreenSize.XXL,
-      width: ScreenSize.XXL,
+      minWidth: ScreenSize.XXXL,
+      maxWidth: ScreenSize.XXXL,
+      width: ScreenSize.XXXL,
       minHeight: ScreenSize.M,
       maxHeight: ScreenSize.M,
       height: ScreenSize.M

@@ -11,7 +11,6 @@ export class FiltersService {
   private itemValueList: any;
 
   constructor() {
-    console.log('Setting up service')
     this.filterTypeList = [];
     this.filtersValue = [];
     this.itemValueList = {};
@@ -24,7 +23,6 @@ export class FiltersService {
     } else {
       filter.currentValue = baseDetails.currentValue;
     }
-    console.log('Setting filter key');
   }
 
   public setFilterList(

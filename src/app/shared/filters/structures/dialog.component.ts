@@ -2,7 +2,6 @@ import { Component, EventEmitter, Output } from "@angular/core";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { MatSelectChange } from "@angular/material/select";
 import { TranslateService } from "@ngx-translate/core";
-import { takeWhile } from "rxjs/operators";
 
 import { BaseFilterDef, DialogFilterDef, FilterHttpIDs } from "../../../types/Filters";
 import { BaseTemplateFilter } from "./base-template-filter.component";
@@ -12,7 +11,7 @@ import { BaseTemplateFilter } from "./base-template-filter.component";
   template: `
   <mat-form-field [class]="filter.cssClass">
     <input (click)="showDialogFilter()" [placeholder]="filter.name | translate"
-      [value]="filter.currentValue"
+      [value]="filter.label"
       class="form-field-popup" matInput readonly=true type="text" />
     <button mat-icon-button matSuffix (click)="resetDialogFilter()" aria-label="Clear">
       <mat-icon>clear</mat-icon>
@@ -84,9 +83,11 @@ export class DialogFilterComponent extends BaseTemplateFilter{
     // Show
     const dialogRef = this.dialog.open(this.filter.dialogComponent, dialogConfig);
     // Add sites
-    dialogRef.afterClosed().pipe(takeWhile(() => this.alive)).subscribe((data) => {
+    dialogRef.afterClosed().subscribe((data) => {
       if (data) {
+        console.log(data);
         this.filter.currentValue = data;
+        this.filter.label = data.map(t => t.value).join(', ');
         this.dataChanged.emit({
           id: this.filter.id,
           httpId: this.filter.httpId,

@@ -7,7 +7,6 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { MaterialModule } from '../../app.module';
 import { DialogsModule } from '../../shared/dialogs/dialogs.module';
-import { FiltersModule } from '../../shared/filters/filters.module';
 import { FormattersModule } from '../../shared/formatters/formatters.module';
 import { TableModule } from '../../shared/table/table.module';
 import { CarCatalogDialogComponent } from './car-catalog/car-catalog-dialog.component';
@@ -30,7 +29,6 @@ import { CarCatalogImageFormatterCellComponent } from './cell-components/car-cat
     TranslateModule,
     MaterialModule,
     TableModule,
-    FiltersModule,
     DialogsModule,
     FormattersModule,
     RouterModule.forChild(CarsRoutes),

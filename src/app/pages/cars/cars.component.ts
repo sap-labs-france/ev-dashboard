@@ -21,35 +21,10 @@ export class CarsComponent extends AbstractTabComponent {
   public constructor(
     activatedRoute: ActivatedRoute,
     windowService: WindowService,
-    authorizationService: AuthorizationService,
-    spinnerService: SpinnerService,
-    filtersService: FiltersService,
-    translateService: TranslateService,
+    authorizationService: AuthorizationService
   ) {
     super(activatedRoute, windowService, ['cars', 'carcatalogs']);
     this.isAdmin = authorizationService.isAdmin();
     this.isBasic = authorizationService.isBasic();
-    filtersService.setFilterList([
-      FilterHttpIDs.ISSUER,
-      FilterHttpIDs.STATUS,
-      FilterHttpIDs.CONNECTOR,
-      FilterHttpIDs.ERROR_TYPE,
-      FilterHttpIDs.SITE,
-      FilterHttpIDs.CAR_MAKER,
-      FilterHttpIDs.CHARGING_STATION,
-      FilterHttpIDs.COMPANY,
-      FilterHttpIDs.REPORTS,
-      FilterHttpIDs.SITE_AREA,
-      FilterHttpIDs.TAG,
-      FilterHttpIDs.USER,
-    ], {
-      [FilterHttpIDs.ERROR_TYPE]: [
-        {
-          key: AssetInErrorType.MISSING_SITE_AREA,
-          value: translateService.instant(`assets.errors.${AssetInErrorType.MISSING_SITE_AREA}.title`),
-        }
-      ]
-    })
-    spinnerService.hide();
   }
 }

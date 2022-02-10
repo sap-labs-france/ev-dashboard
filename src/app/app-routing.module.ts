@@ -45,6 +45,23 @@ const routes: Routes = [
         },
       },
       {
+        path: 'dashboard',
+        loadChildren: async () => import('./pages/dashboard/dashboard.module').then((m) => m.DashboardModule),
+        data: {
+          menu: {
+            title: 'dashboard',
+            type: 'link',
+            icon: 'dashboard',
+            path: '/dashboard',
+          },
+          auth: [
+            { entity: Entity.COMPANY, action: Action.LIST },
+            { entity: Entity.SITE, action: Action.LIST },
+            { entity: Entity.SITE_AREA, action: Action.LIST },
+          ],
+        }
+      },
+      {
         path: 'transactions',
         loadChildren: async () => import('./pages/transactions/transactions.module').then((m) => m.TransactionsModule),
         data: {

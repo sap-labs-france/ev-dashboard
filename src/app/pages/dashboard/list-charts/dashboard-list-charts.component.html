@@ -1,0 +1,37 @@
+<div>
+  <mat-grid-list cols="12" rowHeight="130px" gutterSize="10px" class="mat-grid-list">
+    <div *ngFor="let card of numberCards">
+      <mat-grid-tile class="mat-grid-tile"
+        [colspan]="3"
+        [rowspan]="1"
+        [class]="card.details.type"
+        *ngIf="card.details.display">
+        <div class="number-card">
+          <div class="content">
+            <div class="icon">
+              <mat-icon>{{ card.details.icon ? card.details.icon : 'info' }}</mat-icon>
+            </div>
+            <div class="details">
+              <span class="card-title">{{ card.details.title }}</span>
+              <span class="card-detail">{{ card.details.description }}</span>
+            </div>
+          </div>
+          <div class="footer">
+            <button mat-button class="view-button">View details</button>
+          </div>
+        </div>
+      </mat-grid-tile>
+    </div>
+    <mat-grid-tile class="filler" *ngIf="fillerCardColSpanSize != 12" [colspan]="fillerCardColSpanSize" [rowspan]="1"></mat-grid-tile>
+    <!-- <mat-grid-tile class="mat-grid-tile"
+      *ngFor="let card of chartCards"
+      [class]="card.type"
+      [colspan]="4"
+      [rowspan]="2">
+      <div class="chart-card">
+        {{ card.name }}
+        {{ card.description }}
+      </div>
+    </mat-grid-tile> -->
+  </mat-grid-list>
+</div>

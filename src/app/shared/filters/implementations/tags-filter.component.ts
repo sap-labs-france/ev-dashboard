@@ -36,7 +36,7 @@ export class TagsFilterComponent extends BaseFilter implements AfterViewInit{
       ...this.baseDetails,
       name: 'users.tags',
       label: '',
-      cssClass: 'col-md-6 col-lg-3 col-xl-2',
+      cssClass: '',
       dialogComponent: TagsDialogComponent,
       multiple: true,
     })

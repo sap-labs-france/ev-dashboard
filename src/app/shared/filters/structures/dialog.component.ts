@@ -10,7 +10,7 @@ import { BaseTemplateFilter } from "./base-template-filter.component";
 @Component({
   selector: 'app-dialog-filter',
   template: `
-  <mat-form-field [class]="filter.cssClass" style="padding-right: 10px;">
+  <mat-form-field [class]="filter.cssClass">
     <input (click)="showDialogFilter()" [placeholder]="filter.name | translate"
       [value]="filter.currentValue"
       class="form-field-popup" matInput readonly=true type="text" />

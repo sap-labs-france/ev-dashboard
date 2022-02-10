@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { MaterialModule } from 'app.module';
+import { DialogsModule } from 'shared/dialogs/dialogs.module';
 
 import { FiltersComponent } from './filters.component';
 import { FiltersService } from './filters.service';
@@ -27,6 +28,7 @@ import { SingleSelectDropdownFilterComponent } from './structures/singleselect-d
     CommonModule,
     TranslateModule,
     FormsModule,
+    DialogsModule,
     MaterialModule
   ],
   declarations: [

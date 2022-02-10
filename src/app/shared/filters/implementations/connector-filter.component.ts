@@ -36,7 +36,7 @@ export class ConnectorFilterComponent extends BaseFilter implements AfterViewIni
       ...this.baseDetails,
       name: 'chargers.connector',
       label: '',
-      cssClass: 'col-md-6 col-lg-2 col-xl-2',
+      cssClass: '',
       items: Object.assign([], CONNECTORS),
       multiple: true,
     })

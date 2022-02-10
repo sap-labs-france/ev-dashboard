@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { BaseFilterDef, FilterHttpIDs } from 'types/Filters';
 
 import { FiltersService } from '../filters.service';
@@ -35,7 +35,7 @@ export class IssuerFilterComponent extends BaseFilter implements AfterViewInit{
       ...this.baseDetails,
       name: 'issuer.title',
       label: '',
-      cssClass: 'col-md-6 col-lg-2 col-xl-2',
+      cssClass: '',
       items: [
         { key: 'true', value: 'issuer.local' },
         { key: 'false', value: 'issuer.foreign' },

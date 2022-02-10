@@ -36,7 +36,7 @@ export class UsersFilterComponent extends BaseFilter implements AfterViewInit{
       ...this.baseDetails,
       name: 'logs.user',
       label: '',
-      cssClass: 'col-md-6 col-lg-3 col-xl-2',
+      cssClass: '',
       dialogComponent: UsersDialogComponent,
       multiple: true,
     })

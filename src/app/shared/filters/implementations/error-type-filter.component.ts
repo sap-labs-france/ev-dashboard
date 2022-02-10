@@ -39,7 +39,7 @@ export class ErrorTypeFilterComponent extends BaseFilter implements AfterViewIni
       ...this.baseDetails,
       name: 'errors.title',
       label: '',
-      cssClass: 'col-md-6 col-lg-2 col-xl-2',
+      cssClass: '',
       items: this.items,
       multiple: true,
     })

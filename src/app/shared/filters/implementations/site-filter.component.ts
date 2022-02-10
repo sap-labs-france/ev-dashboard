@@ -36,7 +36,7 @@ export class SiteFilterComponent extends BaseFilter implements AfterViewInit{
       ...this.baseDetails,
       name: 'sites.titles',
       label: '',
-      cssClass: 'col-md-6 col-lg-3 col-xl-2',
+      cssClass: '',
       dialogComponent: SitesDialogComponent,
       multiple: true,
     })

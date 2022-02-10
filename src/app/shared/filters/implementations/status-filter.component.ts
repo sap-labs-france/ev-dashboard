@@ -35,7 +35,7 @@ export class StatusFilterComponent extends BaseFilter implements AfterViewInit{
       ...this.baseDetails,
       name: 'tags.status',
       label: '',
-      cssClass: 'col-md-6 col-lg-2 col-xl-2',
+      cssClass: '',
       items: [
         { key: 'true', value: 'tags.activated' },
         { key: 'false', value: 'tags.deactivated' },

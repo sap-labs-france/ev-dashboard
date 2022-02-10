@@ -1,5 +1,4 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
-import { CarMakersDialogComponent } from 'shared/dialogs/car-makers/car-makers-dialog.component';
 import { SiteAreasDialogComponent } from 'shared/dialogs/site-areas/site-areas-dialog.component';
 
 import { BaseFilterDef, FilterHttpIDs } from '../../../types/Filters';
@@ -37,7 +36,7 @@ export class SiteAreaFilterComponent extends BaseFilter implements AfterViewInit
       ...this.baseDetails,
       name: 'site_areas.title',
       label: '',
-      cssClass: 'col-md-6 col-lg-3 col-xl-2',
+      cssClass: '',
       dialogComponent: SiteAreasDialogComponent,
       multiple: true,
     })

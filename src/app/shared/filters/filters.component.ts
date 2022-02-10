@@ -21,7 +21,7 @@ import { UsersFilterComponent } from './implementations/users-filter.component';
 })
 export class FiltersComponent implements AfterViewInit{
 
-  @ViewChild('filters', { read: ViewContainerRef, static: false }) filterList!: ViewContainerRef;
+  @ViewChild('filters', { read: ViewContainerRef, static: false }) filtersList!: ViewContainerRef;
 
   private filterComponentList: any = {
     [FilterHttpIDs.ISSUER]: IssuerFilterComponent,
@@ -47,11 +47,9 @@ export class FiltersComponent implements AfterViewInit{
 
   ngAfterViewInit() {
     for(const filterType of this.filtersService.getFilterList()) {
-      console.log(filterType);
-      const fType = typeof this.filterList[filterType];
-      const componentRef = this.filterList.createComponent<typeof fType>(
-        this.componentFactoryResolver.resolveComponentFactory(this.filterComponentList[filterType])
-      );
+      const fType = this.filterComponentList[filterType];
+      const resolvedComponent = this.componentFactoryResolver.resolveComponentFactory(this.filterComponentList[filterType]);
+      this.filtersList.createComponent<typeof fType>(resolvedComponent);
     }
     this.changeDetectorRef.detectChanges();
   }

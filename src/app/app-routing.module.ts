@@ -57,7 +57,6 @@ const routes: Routes = [
           auth: [
             { entity: Entity.COMPANY, action: Action.LIST },
             { entity: Entity.SITE, action: Action.LIST },
-            { entity: Entity.SITE_AREA, action: Action.LIST },
           ],
         }
       },

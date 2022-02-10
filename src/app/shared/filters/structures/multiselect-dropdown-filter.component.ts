@@ -8,7 +8,7 @@ import { BaseTemplateFilter } from "./base-template-filter.component";
 @Component({
   selector: 'app-multiselect-dropdown-filter',
   template: `
-  <mat-form-field [class]="filter.cssClass" style="padding-right: 10px;">
+  <mat-form-field [class]="filter.cssClass">
     <mat-select (selectionChange)="filterUpdated($event)" [(value)]="filter.currentValue"
       [placeholder]="filter.name | translate" multiple disableRipple>
       <mat-select-trigger>{{filter.label}}</mat-select-trigger>

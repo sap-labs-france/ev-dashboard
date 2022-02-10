@@ -4,7 +4,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { PdfViewerModule } from 'ng2-pdf-viewer';
 
 import { MaterialModule } from '../../app.module';
 import { AddressModule } from '../../shared/address/address.module';
@@ -31,7 +30,6 @@ import { InvoicesTableDataSource } from './list/invoices-table-data-source';
     TableModule,
     DialogsModule,
     RouterModule.forChild(InvoicesRoutes),
-    PdfViewerModule,
   ],
   declarations: [
     InvoicesComponent,

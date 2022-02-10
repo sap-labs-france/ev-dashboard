@@ -5,7 +5,6 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { StripeCardCvcElement, StripeCardExpiryElement, StripeCardNumberElement, StripeElements } from '@stripe/stripe-js';
 import * as FileSaver from 'file-saver';
-import { PdfViewerComponent } from 'ng2-pdf-viewer';
 import { ComponentService } from 'services/component.service';
 import { MessageService } from 'services/message.service';
 import { StripeService } from 'services/stripe.service';
@@ -31,7 +30,7 @@ export class InvoiceComponent implements OnInit {
   @Input() public currentUserID!: string;
   @Input() public inDialog!: boolean;
   @Input() public dialogRef!: MatDialogRef<any>;
-  @ViewChild(PdfViewerComponent, {static: false})
+  // @ViewChild(PdfViewerComponent, {static: false})
   // @ViewChild('child') public child: InvoicePaymentComponent;
 
 
@@ -43,7 +42,7 @@ export class InvoiceComponent implements OnInit {
   public default!: AbstractControl;
   public visualID!: AbstractControl;
 
-  public pdfSrc: any;
+  // public pdfSrc: any;
   public isAdmin = false;
   public isBillingComponentActive: any;
   public acceptConditions: AbstractControl;
@@ -89,12 +88,12 @@ export class InvoiceComponent implements OnInit {
   public ngOnInit() {
     this.spinnerService.show();
     this.loadInvoice();
-    this.centralServerService.getInvoicePdf(this.currentInvoiceID).subscribe((invoice) => {
-      this.pdfSrc = {
-        data : new Uint8Array(invoice),
-      };
-      this.spinnerService.hide();
-    });
+    // this.centralServerService.getInvoicePdf(this.currentInvoiceID).subscribe((invoice) => {
+    //   this.pdfSrc = {
+    //     data : new Uint8Array(invoice),
+    //   };
+    // });
+    this.spinnerService.hide();
   }
 
   public loadInvoice() {

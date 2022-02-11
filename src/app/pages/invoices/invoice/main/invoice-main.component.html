@@ -1,0 +1,34 @@
+<div>
+  <form class="form" [formGroup]="formGroup">
+    <div class="row">
+      <div class="d-flex justify-content-around mb-3">
+        <div class="d-flex flex-column justify-content-around">
+          <div class="d-flex flex-column align-items-center">
+            <img [src]="userImage" class="rounded-circle icon avatar session-image mb-3" />
+            <div class="text-nowrap first-text">{{invoice?.user | appUserName}}</div>
+            <div class="text-nowrap first-text">{{invoice?.userID}}</div>
+          </div>
+        </div>
+        <div class="d-flex flex-column justify-content-around">
+          <div class="d-flex flex-column mb-3 align-items-center" appTooltip data-toggle="tooltip"
+            title="Number">
+            <mat-icon>receipt</mat-icon>
+            <div class="first-text">{{invoiceNumber}}</div>
+          </div>
+          <div class="d-flex flex-column mb-3 align-items-center" appTooltip data-toggle="tooltip"
+            title="Date">
+            <mat-icon>calendar</mat-icon>
+            <div class="first-text">{{invoice?.createdOn}}</div>
+          </div>
+        </div>
+        <div class="d-flex flex-column justify-content-around">
+          <div class="d-flex flex-column mb-3 align-items-center" appTooltip data-toggle="tooltip"
+            title="Amount">
+            <mat-icon>money</mat-icon>
+            <div class="first-text">{{invoiceAmount}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

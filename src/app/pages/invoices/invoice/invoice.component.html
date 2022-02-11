@@ -3,6 +3,33 @@
     <mat-tab-group animationDuration="0ms" disableRipple="true" class="mat-tab-info mat-tabs-with-actions">
       <mat-tab>
         <ng-template mat-tab-label>
+          <mat-icon>receipt</mat-icon>
+          <span>{{'invoices.invoice' | translate}}</span>
+        </ng-template>
+        <div class="card-body mat-tab-dialog-body-content">
+          <app-invoice-main #invoiceMainComponent [formGroup]="formGroup" [invoice]="invoice" [userImage]="userImage"></app-invoice-main>
+        </div>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon>ev_station</mat-icon>
+          <span>Sessions</span>
+        </ng-template>
+        <div class="card-body mat-tab-dialog-body-content">
+          <app-invoice-sessions #invoiceSessionsComponent [formGroup]="formGroup" [invoice]="invoice"></app-invoice-sessions>
+        </div>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon>picture_as_pdf</mat-icon>
+          <span>Preview</span>
+        </ng-template>
+        <div class="card-body mat-tab-dialog-body-content">
+          <app-invoice-preview #invoicePreviewComponent [formGroup]="formGroup" [invoice]="invoice"></app-invoice-preview>
+        </div>
+      </mat-tab>
+      <!-- <mat-tab>
+        <ng-template mat-tab-label>
           <mat-icon>portrait</mat-icon>
           <span>{{'invoices.invoice' | translate}} {{invoiceNumber || invoiceID}}</span>
         </ng-template>
@@ -18,12 +45,9 @@
               </button>
           </div>
           <hr>
-          <!-- <div class="pdf-container">
-            <pdf-viewer [src]="pdfSrc" [show-all]="true" [autoresize]="true"></pdf-viewer>
-          </div> -->
           <div class="clearfix"></div>
         </div>
-      </mat-tab>
+      </mat-tab> -->
     </mat-tab-group>
     <div class="tabs-actions">
       <button mat-icon-button *ngIf="inDialog" (click)="close()">

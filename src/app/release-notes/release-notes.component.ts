@@ -32,6 +32,7 @@ export class ReleaseNotesComponent {
               `Final Pricing engine`,
               `Added master/slave capability in Charging Station's template`,
               `Check and Stop Transactions that haven't received the OCPP Stop Transaction message`,
+              `Made the address mandatory for public Sites`,
               `Fixed synchronization of new Cars + Optimize image's size`,
               `Fixed Roaming RFID Cards cannot start a Transaction when access control is disabled in Site Area`,
               `Sanitize HTTP params on Export feature only once`,

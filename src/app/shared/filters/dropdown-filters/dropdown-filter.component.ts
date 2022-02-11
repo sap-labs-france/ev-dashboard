@@ -1,12 +1,12 @@
 import { Component, EventEmitter, Output } from "@angular/core";
 import { MatSelectChange } from "@angular/material/select";
 import { TranslateService } from "@ngx-translate/core";
-import { BaseFilterDef, DropdownFilterDef, FilterHttpIDs, FilterValue } from "types/Filters";
 
-import { BaseTemplateFilter } from "./base-template-filter.component";
+import { BaseFilterDef, DropdownFilterDef, FilterHttpIDs } from "../../../types/Filters";
+import { BaseTemplateFilter } from "../base-template-filter.component";
 
 @Component({
-  selector: 'app-multiselect-dropdown-filter',
+  selector: 'app-dropdown-filter',
   template: `
   <mat-form-field [class]="filter.cssClass">
     <mat-select (selectionChange)="filterUpdated($event)" [(value)]="filter.currentValue"
@@ -17,7 +17,7 @@ import { BaseTemplateFilter } from "./base-template-filter.component";
   </mat-form-field>
   `
 })
-export class MultiSelectDropdownFilterComponent extends BaseTemplateFilter{
+export class DropdownFilterComponent extends BaseTemplateFilter{
 
   @Output('dataChanged') dataChanged: EventEmitter<BaseFilterDef> = new EventEmitter<BaseFilterDef>();
 

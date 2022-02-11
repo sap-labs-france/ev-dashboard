@@ -1,9 +1,8 @@
-import { AuthorizationService } from 'services/authorization.service';
-import { CentralServerService } from 'services/central-server.service';
-import { Action, Entity } from 'types/Authorization';
-import { CardTypes } from 'types/Dashboard';
-import { FilterParams } from 'types/GlobalType';
-
+import { AuthorizationService } from '../../../../services/authorization.service';
+import { CentralServerService } from '../../../../services/central-server.service';
+import { Action, Entity } from '../../../../types/Authorization';
+import { CardTypes } from '../../../../types/Dashboard';
+import { FilterParams } from '../../../../types/GlobalType';
 import { NumberCardBaseComponent } from './number-card-base.component';
 
 export class ChargingStationErrorCardComponent extends NumberCardBaseComponent {

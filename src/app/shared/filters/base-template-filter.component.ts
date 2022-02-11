@@ -1,6 +1,4 @@
-import { FilterDef } from "types/Filters";
-
-// All filters must be a derived class of this filter
+// All filter templates must be a derived class of this filter
 export abstract class BaseTemplateFilter {
 
   public abstract reset(): void;

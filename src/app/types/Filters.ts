@@ -11,7 +11,7 @@ export interface FilterDef extends BaseFilterDef{
   name: string;
   cssClass: string;
   label: string;
-  // dependentFilters?: BaseFilter[];
+  dependentFilters?: FilterHttpIDs[];
   visible?: boolean;
 }
 

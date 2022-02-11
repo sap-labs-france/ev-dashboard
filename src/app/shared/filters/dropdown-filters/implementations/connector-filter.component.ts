@@ -1,18 +1,18 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 
-import { BaseFilterDef, FilterHttpIDs } from '../../../types/Filters';
-import { CONNECTORS } from '../../model/charging-stations.model';
-import { FiltersService } from '../filters.service';
-import { MultiSelectDropdownFilterComponent } from '../structures/multiselect-dropdown-filter.component';
-import { BaseFilter } from './base-filter.component';
+import { BaseFilterDef, FilterHttpIDs } from '../../../../types/Filters';
+import { CONNECTORS } from '../../../model/charging-stations.model';
+import { BaseFilter } from '../../base-filter.component';
+import { FiltersService } from '../../filters.service';
+import { DropdownFilterComponent } from '../dropdown-filter.component';
 
 @Component({
   selector: 'app-status-filter',
-  template: '<app-multiselect-dropdown-filter (dataChanged)="updateService($event)"></app-multiselect-dropdown-filter>'
+  template: '<app-dropdown-filter (dataChanged)="updateService($event)"></app-dropdown-filter>'
 })
 export class ConnectorFilterComponent extends BaseFilter implements AfterViewInit{
 
-  @ViewChild(MultiSelectDropdownFilterComponent) msDropdownFilter!: MultiSelectDropdownFilterComponent;
+  @ViewChild(DropdownFilterComponent) dropdownFilter!: DropdownFilterComponent;
 
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
@@ -32,7 +32,7 @@ export class ConnectorFilterComponent extends BaseFilter implements AfterViewIni
   }
 
   private initFilter() {
-    this.msDropdownFilter.setFilter({
+    this.dropdownFilter.setFilter({
       ...this.baseDetails,
       name: 'chargers.connector',
       label: '',

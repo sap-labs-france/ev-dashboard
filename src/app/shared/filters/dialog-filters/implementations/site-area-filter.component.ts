@@ -1,16 +1,16 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 
-import { SitesDialogComponent } from '../../../shared/dialogs/sites/sites-dialog.component';
-import { BaseFilterDef, FilterHttpIDs } from '../../../types/Filters';
-import { FiltersService } from '../filters.service';
-import { DialogFilterComponent } from '../structures/dialog.component';
-import { BaseFilter } from './base-filter.component';
+import { BaseFilterDef, FilterHttpIDs } from '../../../../types/Filters';
+import { SiteAreasDialogComponent } from '../../../dialogs/site-areas/site-areas-dialog.component';
+import { BaseFilter } from '../../base-filter.component';
+import { FiltersService } from '../../filters.service';
+import { DialogFilterComponent } from '../dialog.component';
 
 @Component({
-  selector: 'app-site-filter',
+  selector: 'app-site-area-filter',
   template: '<app-dialog-filter (dataChanged)="updateService($event)"></app-dialog-filter>'
 })
-export class SiteFilterComponent extends BaseFilter implements AfterViewInit{
+export class SiteAreaFilterComponent extends BaseFilter implements AfterViewInit{
 
   @ViewChild(DialogFilterComponent) dialogFilter!: DialogFilterComponent;
 
@@ -20,8 +20,8 @@ export class SiteFilterComponent extends BaseFilter implements AfterViewInit{
   ) {
     super();
     this.baseDetails = {
-      id: 'sites',
-      httpId: FilterHttpIDs.SITE,
+      id: 'siteAreas',
+      httpId: FilterHttpIDs.SITE_AREA,
       currentValue: [],
     }
     this.filtersService.setFilterValue(this.baseDetails);
@@ -34,11 +34,16 @@ export class SiteFilterComponent extends BaseFilter implements AfterViewInit{
   private initFilter() {
     this.dialogFilter.setFilter({
       ...this.baseDetails,
-      name: 'sites.titles',
+      name: 'site_areas.title',
       label: '',
       cssClass: '',
-      dialogComponent: SitesDialogComponent,
+      dialogComponent: SiteAreasDialogComponent,
       multiple: true,
+      dependentFilters: [
+        FilterHttpIDs.COMPANY,
+        FilterHttpIDs.ISSUER,
+        FilterHttpIDs.SITE,
+      ]
     })
   }
 

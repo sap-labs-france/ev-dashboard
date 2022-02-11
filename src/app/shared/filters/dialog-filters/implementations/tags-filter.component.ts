@@ -1,16 +1,16 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
-import { ChargingStationsDialogComponent } from 'shared/dialogs/charging-stations/charging-stations-dialog.component';
 
-import { BaseFilterDef, FilterHttpIDs } from '../../../types/Filters';
-import { FiltersService } from '../filters.service';
-import { DialogFilterComponent } from '../structures/dialog.component';
-import { BaseFilter } from './base-filter.component';
+import { BaseFilterDef, FilterHttpIDs } from '../../../../types/Filters';
+import { TagsDialogComponent } from '../../../dialogs/tags/tags-dialog.component';
+import { BaseFilter } from '../../base-filter.component';
+import { FiltersService } from '../../filters.service';
+import { DialogFilterComponent } from '../dialog.component';
 
 @Component({
-  selector: 'app-charging-station-filter',
+  selector: 'app-tags-filter',
   template: '<app-dialog-filter (dataChanged)="updateService($event)"></app-dialog-filter>'
 })
-export class ChargingStationFilterComponent extends BaseFilter implements AfterViewInit{
+export class TagsFilterComponent extends BaseFilter implements AfterViewInit{
 
   @ViewChild(DialogFilterComponent) dialogFilter!: DialogFilterComponent;
 
@@ -20,8 +20,8 @@ export class ChargingStationFilterComponent extends BaseFilter implements AfterV
   ) {
     super();
     this.baseDetails = {
-      id: 'charger',
-      httpId: FilterHttpIDs.CHARGING_STATION,
+      id: 'tag',
+      httpId: FilterHttpIDs.TAG,
       currentValue: [],
     }
     this.filtersService.setFilterValue(this.baseDetails);
@@ -34,11 +34,16 @@ export class ChargingStationFilterComponent extends BaseFilter implements AfterV
   private initFilter() {
     this.dialogFilter.setFilter({
       ...this.baseDetails,
-      name: 'chargers.title',
+      name: 'users.tags',
       label: '',
       cssClass: '',
-      dialogComponent: ChargingStationsDialogComponent,
+      dialogComponent: TagsDialogComponent,
       multiple: true,
+      dependentFilters: [
+        FilterHttpIDs.ISSUER,
+        FilterHttpIDs.SITE,
+        FilterHttpIDs.USER
+      ]
     })
   }
 

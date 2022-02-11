@@ -1,4 +1,4 @@
-import { NumberCard } from 'types/Dashboard';
+import { NumberCard } from '../../../../types/Dashboard';
 
 export abstract class NumberCardBaseComponent {
   protected details: NumberCard;
@@ -13,7 +13,8 @@ export abstract class NumberCardBaseComponent {
       display: false,
       title: '',
       description: '',
-      icon: 'info'
+      icon: 'info',
+      link: ''
     };
     this.ongoingFetch = false;
     this.timeoutId = setTimeout(() => {

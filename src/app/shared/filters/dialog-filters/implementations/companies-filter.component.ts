@@ -1,16 +1,16 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
-import { TagsDialogComponent } from 'shared/dialogs/tags/tags-dialog.component';
 
-import { BaseFilterDef, FilterHttpIDs } from '../../../types/Filters';
-import { FiltersService } from '../filters.service';
-import { DialogFilterComponent } from '../structures/dialog.component';
-import { BaseFilter } from './base-filter.component';
+import { BaseFilterDef, FilterHttpIDs } from '../../../../types/Filters';
+import { CompaniesDialogComponent } from '../../../dialogs/companies/companies-dialog.component';
+import { BaseFilter } from '../../base-filter.component';
+import { FiltersService } from '../../filters.service';
+import { DialogFilterComponent } from '../dialog.component';
 
 @Component({
-  selector: 'app-tags-filter',
+  selector: 'app-companies-filter',
   template: '<app-dialog-filter (dataChanged)="updateService($event)"></app-dialog-filter>'
 })
-export class TagsFilterComponent extends BaseFilter implements AfterViewInit{
+export class CompaniesFilterComponent extends BaseFilter implements AfterViewInit{
 
   @ViewChild(DialogFilterComponent) dialogFilter!: DialogFilterComponent;
 
@@ -20,8 +20,8 @@ export class TagsFilterComponent extends BaseFilter implements AfterViewInit{
   ) {
     super();
     this.baseDetails = {
-      id: 'tag',
-      httpId: FilterHttpIDs.TAG,
+      id: 'companies',
+      httpId: FilterHttpIDs.COMPANY,
       currentValue: [],
     }
     this.filtersService.setFilterValue(this.baseDetails);
@@ -34,11 +34,14 @@ export class TagsFilterComponent extends BaseFilter implements AfterViewInit{
   private initFilter() {
     this.dialogFilter.setFilter({
       ...this.baseDetails,
-      name: 'users.tags',
+      name: 'companies.title',
       label: '',
       cssClass: '',
-      dialogComponent: TagsDialogComponent,
+      dialogComponent: CompaniesDialogComponent,
       multiple: true,
+      dependentFilters: [
+        FilterHttpIDs.ISSUER
+      ]
     })
   }
 

@@ -1,16 +1,16 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
-import { CarMakersDialogComponent } from 'shared/dialogs/car-makers/car-makers-dialog.component';
 
-import { BaseFilterDef, FilterHttpIDs } from '../../../types/Filters';
-import { FiltersService } from '../filters.service';
-import { DialogFilterComponent } from '../structures/dialog.component';
-import { BaseFilter } from './base-filter.component';
+import { BaseFilterDef, FilterHttpIDs } from '../../../../types/Filters';
+import { UsersDialogComponent } from '../../../dialogs/users/users-dialog.component';
+import { BaseFilter } from '../../base-filter.component';
+import { FiltersService } from '../../filters.service';
+import { DialogFilterComponent } from '../dialog.component';
 
 @Component({
-  selector: 'app-car-maker-filter',
+  selector: 'app-users-filter',
   template: '<app-dialog-filter (dataChanged)="updateService($event)"></app-dialog-filter>'
 })
-export class CarMakerFilterComponent extends BaseFilter implements AfterViewInit{
+export class UsersFilterComponent extends BaseFilter implements AfterViewInit{
 
   @ViewChild(DialogFilterComponent) dialogFilter!: DialogFilterComponent;
 
@@ -20,8 +20,8 @@ export class CarMakerFilterComponent extends BaseFilter implements AfterViewInit
   ) {
     super();
     this.baseDetails = {
-      id: 'carMakers',
-      httpId: FilterHttpIDs.CAR_MAKER,
+      id: 'user',
+      httpId: FilterHttpIDs.USER,
       currentValue: [],
     }
     this.filtersService.setFilterValue(this.baseDetails);
@@ -34,11 +34,15 @@ export class CarMakerFilterComponent extends BaseFilter implements AfterViewInit
   private initFilter() {
     this.dialogFilter.setFilter({
       ...this.baseDetails,
-      name: 'cars.car_makers',
+      name: 'logs.user',
       label: '',
       cssClass: '',
-      dialogComponent: CarMakersDialogComponent,
+      dialogComponent: UsersDialogComponent,
       multiple: true,
+      dependentFilters: [
+        FilterHttpIDs.ISSUER,
+        FilterHttpIDs.SITE
+      ]
     })
   }
 

@@ -14,6 +14,7 @@ export interface BaseCard {
   description: string,
   type?: CardTypes,
   details?: ChargingStationInError[] | AssetInError[],
+  link?: string,
 }
 
 export interface NumberCard extends BaseCard{

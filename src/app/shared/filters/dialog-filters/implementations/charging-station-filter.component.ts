@@ -1,16 +1,16 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
-import { ReportsDialogComponent } from 'shared/dialogs/reports/reports-dialog.component';
 
-import { BaseFilterDef, FilterHttpIDs } from '../../../types/Filters';
-import { FiltersService } from '../filters.service';
-import { DialogFilterComponent } from '../structures/dialog.component';
-import { BaseFilter } from './base-filter.component';
+import { BaseFilterDef, FilterHttpIDs } from '../../../../types/Filters';
+import { ChargingStationsDialogComponent } from '../../../dialogs/charging-stations/charging-stations-dialog.component';
+import { BaseFilter } from '../../base-filter.component';
+import { FiltersService } from '../../filters.service';
+import { DialogFilterComponent } from '../dialog.component';
 
 @Component({
-  selector: 'app-reports-filter',
+  selector: 'app-charging-station-filter',
   template: '<app-dialog-filter (dataChanged)="updateService($event)"></app-dialog-filter>'
 })
-export class ReportsFilterComponent extends BaseFilter implements AfterViewInit{
+export class ChargingStationFilterComponent extends BaseFilter implements AfterViewInit{
 
   @ViewChild(DialogFilterComponent) dialogFilter!: DialogFilterComponent;
 
@@ -20,8 +20,8 @@ export class ReportsFilterComponent extends BaseFilter implements AfterViewInit{
   ) {
     super();
     this.baseDetails = {
-      id: 'refundData',
-      httpId: FilterHttpIDs.REPORTS,
+      id: 'charger',
+      httpId: FilterHttpIDs.CHARGING_STATION,
       currentValue: [],
     }
     this.filtersService.setFilterValue(this.baseDetails);
@@ -34,11 +34,16 @@ export class ReportsFilterComponent extends BaseFilter implements AfterViewInit{
   private initFilter() {
     this.dialogFilter.setFilter({
       ...this.baseDetails,
-      name: 'transactions.reportId',
+      name: 'chargers.title',
       label: '',
       cssClass: '',
-      dialogComponent: ReportsDialogComponent,
+      dialogComponent: ChargingStationsDialogComponent,
       multiple: true,
+      dependentFilters: [
+        FilterHttpIDs.ISSUER,
+        FilterHttpIDs.SITE,
+        FilterHttpIDs.SITE_AREA
+      ]
     })
   }
 

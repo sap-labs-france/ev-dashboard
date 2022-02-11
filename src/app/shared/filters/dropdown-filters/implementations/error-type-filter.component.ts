@@ -1,18 +1,18 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 
-import { BaseFilterDef, FilterHttpIDs } from '../../../types/Filters';
-import { KeyValue } from '../../../types/GlobalType';
-import { FiltersService } from '../filters.service';
-import { MultiSelectDropdownFilterComponent } from '../structures/multiselect-dropdown-filter.component';
-import { BaseFilter } from './base-filter.component';
+import { BaseFilterDef, FilterHttpIDs } from '../../../../types/Filters';
+import { KeyValue } from '../../../../types/GlobalType';
+import { BaseFilter } from '../../base-filter.component';
+import { FiltersService } from '../../filters.service';
+import { DropdownFilterComponent } from '../dropdown-filter.component';
 
 @Component({
   selector: 'app-error-type-filter',
-  template: '<app-multiselect-dropdown-filter (dataChanged)="updateService($event)"></app-multiselect-dropdown-filter>'
+  template: '<app-dropdown-filter (dataChanged)="updateService($event)"></app-dropdown-filter>'
 })
 export class ErrorTypeFilterComponent extends BaseFilter implements AfterViewInit{
 
-  @ViewChild(MultiSelectDropdownFilterComponent) msDropdownFilter!: MultiSelectDropdownFilterComponent;
+  @ViewChild(DropdownFilterComponent) dropdownFilter!: DropdownFilterComponent;
 
   private items: KeyValue[] = [];
 
@@ -35,7 +35,7 @@ export class ErrorTypeFilterComponent extends BaseFilter implements AfterViewIni
   }
 
   private initFilter() {
-    this.msDropdownFilter.setFilter({
+    this.dropdownFilter.setFilter({
       ...this.baseDetails,
       name: 'errors.title',
       label: '',

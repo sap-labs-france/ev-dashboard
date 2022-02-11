@@ -28,7 +28,7 @@ $carousel-control-next-icon-bg: url("data:image/svg+xml,%3csvg xmlns='http://www
     height:36px;
 
     .trending-icon {
-        color: $brand-text;    
+        color: $brand-text;
     }
 }
 
@@ -53,9 +53,9 @@ agm-map {
 }
 
 .navigation-button {
-    position: fixed; 
+    position: fixed;
     top: 0;
-    right:1%; 
+    right:1%;
     z-index:999
 }
 
@@ -70,9 +70,9 @@ agm-map {
 }
 
 .app-card-stats {
-    background-color: lighten($brand-info, 15%) !important; 
+    background-color: lighten($brand-info, 15%) !important;
     :hover,:focus {
-      background-color: lighten($brand-info, 15%) !important; 
+      background-color: lighten($brand-info, 15%) !important;
     }
 }
 
@@ -123,7 +123,7 @@ agm-map {
 
     h1, h2, h3, h4, div, span, p {
       color: $brand-background;
-      font-weight: 500; 
+      font-weight: 500;
       font-size: 1.5rem !important;
       padding: 14px 0px;
       background-color: $brand-primary;
@@ -135,3 +135,88 @@ agm-map {
     }
 }
 
+.mat-grid-list {
+  margin-top: 10px;
+
+  .mat-grid-tile {
+    border-radius: 5px;
+
+    &.filler {
+      border: none;
+    }
+
+    &.primary {
+      background: rgba($brand-primary, 0.2);
+    }
+
+    &.success {
+      background: rgba($brand-success, 0.2);
+    }
+
+    &.warning {
+      background: rgba($brand-warning, 0.2);
+    }
+
+    &.danger {
+      background: rgba($brand-danger, 0.2);
+    }
+
+    & .mat-figure {
+      padding: 10px 10px;
+
+      & .number-card {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+
+        & .content {
+          flex: 1;
+          display: flex;
+          flex-direction: row;
+        }
+
+        & .details {
+          flex: 1;
+        }
+
+        & .footer {
+          border: none;
+        }
+
+        & .mat-icon {
+          margin: 10px 5px 0 10px;
+          font-size: xx-large;
+          display: inline;
+        }
+
+        & .card-title {
+          margin: 5px 10px 5px 10px;
+          font-size: medium;
+          display: block;
+          text-align: right;
+        }
+
+        & .card-detail {
+          margin: 10px 10px 5px 10px;
+          font-size: xx-large;
+          display: block;
+          text-align: right;
+        }
+
+        & .view-button {
+          display: block;
+          text-align: right;
+        }
+
+      }
+    }
+
+    & .chart-card {
+      width: 100%;
+      height: 100%;
+    }
+
+  }
+
+}

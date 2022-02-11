@@ -1,16 +1,16 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
-import { SiteAreasDialogComponent } from 'shared/dialogs/site-areas/site-areas-dialog.component';
 
-import { BaseFilterDef, FilterHttpIDs } from '../../../types/Filters';
-import { FiltersService } from '../filters.service';
-import { DialogFilterComponent } from '../structures/dialog.component';
-import { BaseFilter } from './base-filter.component';
+import { BaseFilterDef, FilterHttpIDs } from '../../../../types/Filters';
+import { ReportsDialogComponent } from '../../../dialogs/reports/reports-dialog.component';
+import { BaseFilter } from '../../base-filter.component';
+import { FiltersService } from '../../filters.service';
+import { DialogFilterComponent } from '../dialog.component';
 
 @Component({
-  selector: 'app-site-area-filter',
+  selector: 'app-reports-filter',
   template: '<app-dialog-filter (dataChanged)="updateService($event)"></app-dialog-filter>'
 })
-export class SiteAreaFilterComponent extends BaseFilter implements AfterViewInit{
+export class ReportsFilterComponent extends BaseFilter implements AfterViewInit{
 
   @ViewChild(DialogFilterComponent) dialogFilter!: DialogFilterComponent;
 
@@ -20,8 +20,8 @@ export class SiteAreaFilterComponent extends BaseFilter implements AfterViewInit
   ) {
     super();
     this.baseDetails = {
-      id: 'siteAreas',
-      httpId: FilterHttpIDs.SITE_AREA,
+      id: 'refundData',
+      httpId: FilterHttpIDs.REPORTS,
       currentValue: [],
     }
     this.filtersService.setFilterValue(this.baseDetails);
@@ -34,10 +34,10 @@ export class SiteAreaFilterComponent extends BaseFilter implements AfterViewInit
   private initFilter() {
     this.dialogFilter.setFilter({
       ...this.baseDetails,
-      name: 'site_areas.title',
+      name: 'transactions.reportId',
       label: '',
       cssClass: '',
-      dialogComponent: SiteAreasDialogComponent,
+      dialogComponent: ReportsDialogComponent,
       multiple: true,
     })
   }

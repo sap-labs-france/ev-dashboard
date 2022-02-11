@@ -4,7 +4,7 @@ import { MatSelectChange } from "@angular/material/select";
 import { TranslateService } from "@ngx-translate/core";
 
 import { BaseFilterDef, DialogFilterDef, FilterHttpIDs } from "../../../types/Filters";
-import { BaseTemplateFilter } from "./base-template-filter.component";
+import { BaseTemplateFilter } from "../base-template-filter.component";
 
 @Component({
   selector: 'app-dialog-filter',

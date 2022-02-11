@@ -1,16 +1,16 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
-import { UsersDialogComponent } from 'shared/dialogs/users/users-dialog.component';
 
-import { BaseFilterDef, FilterHttpIDs } from '../../../types/Filters';
-import { FiltersService } from '../filters.service';
-import { DialogFilterComponent } from '../structures/dialog.component';
-import { BaseFilter } from './base-filter.component';
+import { BaseFilterDef, FilterHttpIDs } from '../../../../types/Filters';
+import { SitesDialogComponent } from '../../../dialogs/sites/sites-dialog.component';
+import { BaseFilter } from '../../base-filter.component';
+import { FiltersService } from '../../filters.service';
+import { DialogFilterComponent } from '../dialog.component';
 
 @Component({
-  selector: 'app-users-filter',
+  selector: 'app-site-filter',
   template: '<app-dialog-filter (dataChanged)="updateService($event)"></app-dialog-filter>'
 })
-export class UsersFilterComponent extends BaseFilter implements AfterViewInit{
+export class SiteFilterComponent extends BaseFilter implements AfterViewInit{
 
   @ViewChild(DialogFilterComponent) dialogFilter!: DialogFilterComponent;
 
@@ -20,8 +20,8 @@ export class UsersFilterComponent extends BaseFilter implements AfterViewInit{
   ) {
     super();
     this.baseDetails = {
-      id: 'user',
-      httpId: FilterHttpIDs.USER,
+      id: 'sites',
+      httpId: FilterHttpIDs.SITE,
       currentValue: [],
     }
     this.filtersService.setFilterValue(this.baseDetails);
@@ -34,11 +34,15 @@ export class UsersFilterComponent extends BaseFilter implements AfterViewInit{
   private initFilter() {
     this.dialogFilter.setFilter({
       ...this.baseDetails,
-      name: 'logs.user',
+      name: 'sites.titles',
       label: '',
       cssClass: '',
-      dialogComponent: UsersDialogComponent,
+      dialogComponent: SitesDialogComponent,
       multiple: true,
+      dependentFilters: [
+        FilterHttpIDs.COMPANY,
+        FilterHttpIDs.ISSUER
+      ]
     })
   }
 

@@ -1,16 +1,16 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
-import { CompaniesDialogComponent } from 'shared/dialogs/companies/companies-dialog.component';
 
-import { BaseFilterDef, FilterHttpIDs } from '../../../types/Filters';
-import { FiltersService } from '../filters.service';
-import { DialogFilterComponent } from '../structures/dialog.component';
-import { BaseFilter } from './base-filter.component';
+import { BaseFilterDef, FilterHttpIDs } from '../../../../types/Filters';
+import { CarMakersDialogComponent } from '../../../dialogs/car-makers/car-makers-dialog.component';
+import { BaseFilter } from '../../base-filter.component';
+import { FiltersService } from '../../filters.service';
+import { DialogFilterComponent } from '../dialog.component';
 
 @Component({
-  selector: 'app-companies-filter',
+  selector: 'app-car-maker-filter',
   template: '<app-dialog-filter (dataChanged)="updateService($event)"></app-dialog-filter>'
 })
-export class CompaniesFilterComponent extends BaseFilter implements AfterViewInit{
+export class CarMakerFilterComponent extends BaseFilter implements AfterViewInit{
 
   @ViewChild(DialogFilterComponent) dialogFilter!: DialogFilterComponent;
 
@@ -20,8 +20,8 @@ export class CompaniesFilterComponent extends BaseFilter implements AfterViewIni
   ) {
     super();
     this.baseDetails = {
-      id: 'companies',
-      httpId: FilterHttpIDs.COMPANY,
+      id: 'carMakers',
+      httpId: FilterHttpIDs.CAR_MAKER,
       currentValue: [],
     }
     this.filtersService.setFilterValue(this.baseDetails);
@@ -34,10 +34,10 @@ export class CompaniesFilterComponent extends BaseFilter implements AfterViewIni
   private initFilter() {
     this.dialogFilter.setFilter({
       ...this.baseDetails,
-      name: 'companies.title',
+      name: 'cars.car_makers',
       label: '',
       cssClass: '',
-      dialogComponent: CompaniesDialogComponent,
+      dialogComponent: CarMakersDialogComponent,
       multiple: true,
     })
   }

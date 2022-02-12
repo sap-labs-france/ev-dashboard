@@ -24,7 +24,7 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.6.0',
-        date: new Date('2022-02-11'),
+        date: new Date('2022-02-12'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -33,6 +33,7 @@ export class ReleaseNotesComponent {
               `Added master/slave capability in Charging Station's template`,
               `Check and Stop Transactions that haven't received the OCPP Stop Transaction message`,
               `Made the address mandatory for public Sites`,
+              `Fixed change of Site / Site Area is not propagated to Charging Stations, Transactions and Assets`,
               `Fixed synchronization of new Cars + Optimize image's size`,
               `Fixed Roaming RFID Cards cannot start a Transaction when access control is disabled in Site Area`,
               `Sanitize HTTP params on Export feature only once`,

@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 
-import { BaseFilterDef, FilterHttpIDs } from '../../../../types/Filters';
+import { BaseFilterDef, FilterHttpIDs, FilterIDs } from '../../../../types/Filters';
 import { CompaniesDialogComponent } from '../../../dialogs/companies/companies-dialog.component';
 import { BaseFilter } from '../../base-filter.component';
 import { FiltersService } from '../../filters.service';
@@ -20,7 +20,7 @@ export class CompaniesFilterComponent extends BaseFilter implements AfterViewIni
   ) {
     super();
     this.baseDetails = {
-      id: 'companies',
+      id: FilterIDs.COMPANY,
       httpId: FilterHttpIDs.COMPANY,
       currentValue: [],
     }
@@ -34,11 +34,11 @@ export class CompaniesFilterComponent extends BaseFilter implements AfterViewIni
   private initFilter() {
     this.dialogFilter.setFilter({
       ...this.baseDetails,
+      defaultValue: [],
       name: 'companies.title',
       label: '',
       cssClass: '',
       dialogComponent: CompaniesDialogComponent,
-      multiple: true,
       dependentFilters: [
         FilterHttpIDs.ISSUER
       ]

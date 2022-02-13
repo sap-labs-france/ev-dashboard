@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
-import { BaseFilterDef, FilterHttpIDs } from 'types/Filters';
+
+import { BaseFilterDef, DateRangeCurrentValue, FilterHttpIDs, FilterIDs } from '../../types/Filters';
+import { KeyValue } from '../../types/GlobalType';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FiltersService {
 
-  private filterTypeList: FilterHttpIDs[];
+  private filterTypeList: FilterIDs[];
   private filtersValue: BaseFilterDef[];
   private itemValueList: any;
 
@@ -17,17 +19,18 @@ export class FiltersService {
   }
 
   public setFilterValue(baseDetails: BaseFilterDef) {
-    const filter = this.filtersValue.find(filter => filter.httpId === baseDetails.httpId);
+    const filter = this.filtersValue.find(filter => filter.id === baseDetails.id);
     if(!filter) {
       this.filtersValue.push(baseDetails);
     } else {
       filter.currentValue = baseDetails.currentValue;
     }
+    console.log(this.getFilterValues());
   }
 
   public setFilterList(
-    filterTypeList: FilterHttpIDs[],
-    itemValueList?: { [key in FilterHttpIDs]?: any}
+    filterTypeList: FilterIDs[],
+    itemValueList?: { [key in FilterIDs]?: any}
   ) {
     Object.assign(this.itemValueList, itemValueList);
     this.filterTypeList = filterTypeList;
@@ -37,21 +40,26 @@ export class FiltersService {
     return this.filterTypeList;
   }
 
-  public getFilterItemValue(key: FilterHttpIDs): any {
+  public getFilterItemValue(key: FilterIDs): any {
     return this.itemValueList[key];
   }
 
-  public setFilterItemValue(key: FilterHttpIDs, item: any) {
-    this.itemValueList[key] = item;
-  }
-
-  public getFilterValues(keys?: FilterHttpIDs[]): any {
+  public getFilterValues(keys?: FilterIDs[]): any {
     const setFilterValue = {}
     keys = keys ? keys : this.filterTypeList;
     for(const key of keys) {
-      const filter = this.filtersValue.find(filter => filter.httpId === key)
+      const filter = this.filtersValue.find(filter => filter.id === key)
       if(filter && filter.currentValue) {
-        setFilterValue[filter.httpId] = filter.currentValue;
+        if(filter.httpId !== FilterHttpIDs.ALTERNATE) {
+          const currentValue = filter.currentValue as string[] | KeyValue[];
+          if(currentValue.length > 0) {
+            setFilterValue[filter.httpId] = currentValue;
+          }
+        } else {
+          const currentValue = filter.currentValue as DateRangeCurrentValue;
+          setFilterValue[filter.startDateTimeHttpId] = currentValue.startDate.toDate();
+          setFilterValue[filter.endDateTimeHttpId] = currentValue.endDate.toDate();
+        }
       }
     }
     return setFilterValue;

@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 
-import { BaseFilterDef, FilterHttpIDs } from '../../../../types/Filters';
+import { BaseFilterDef, FilterHttpIDs, FilterIDs } from '../../../../types/Filters';
 import { CarMakersDialogComponent } from '../../../dialogs/car-makers/car-makers-dialog.component';
 import { BaseFilter } from '../../base-filter.component';
 import { FiltersService } from '../../filters.service';
@@ -20,7 +20,7 @@ export class CarMakerFilterComponent extends BaseFilter implements AfterViewInit
   ) {
     super();
     this.baseDetails = {
-      id: 'carMakers',
+      id: FilterIDs.CAR_MAKER,
       httpId: FilterHttpIDs.CAR_MAKER,
       currentValue: [],
     }
@@ -37,8 +37,8 @@ export class CarMakerFilterComponent extends BaseFilter implements AfterViewInit
       name: 'cars.car_makers',
       label: '',
       cssClass: '',
+      defaultValue: [],
       dialogComponent: CarMakersDialogComponent,
-      multiple: true,
     })
   }
 

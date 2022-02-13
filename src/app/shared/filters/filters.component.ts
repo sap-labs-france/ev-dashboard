@@ -1,6 +1,7 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ComponentFactoryResolver, ViewChild, ViewContainerRef } from '@angular/core';
 
-import { FilterHttpIDs } from '../../types/Filters';
+import { FilterHttpIDs, FilterIDs } from '../../types/Filters';
+import { DateTimeRangeFilterComponent } from './date-range-filters/implementations/date-time-range-filter.component';
 import { CarMakerFilterComponent } from './dialog-filters/implementations/car-maker-filter.component';
 import { ChargingStationFilterComponent } from './dialog-filters/implementations/charging-station-filter.component';
 import { CompaniesFilterComponent } from './dialog-filters/implementations/companies-filter.component';
@@ -24,18 +25,19 @@ export class FiltersComponent implements AfterViewInit{
   @ViewChild('filters', { read: ViewContainerRef, static: false }) filtersList!: ViewContainerRef;
 
   private filterComponentList: any = {
-    [FilterHttpIDs.ISSUER]: IssuerFilterComponent,
-    [FilterHttpIDs.STATUS]: StatusFilterComponent,
-    [FilterHttpIDs.CONNECTOR]: ConnectorFilterComponent,
-    [FilterHttpIDs.ERROR_TYPE]: ErrorTypeFilterComponent,
-    [FilterHttpIDs.SITE]: SiteFilterComponent,
-    [FilterHttpIDs.CAR_MAKER]: CarMakerFilterComponent,
-    [FilterHttpIDs.CHARGING_STATION]: ChargingStationFilterComponent,
-    [FilterHttpIDs.COMPANY]: CompaniesFilterComponent,
-    [FilterHttpIDs.REPORTS]: ReportsFilterComponent,
-    [FilterHttpIDs.SITE_AREA]: SiteAreaFilterComponent,
-    [FilterHttpIDs.TAG]: TagsFilterComponent,
-    [FilterHttpIDs.USER]: UsersFilterComponent,
+    [FilterIDs.ISSUER]: IssuerFilterComponent,
+    [FilterIDs.STATUS]: StatusFilterComponent,
+    [FilterIDs.CONNECTOR]: ConnectorFilterComponent,
+    [FilterIDs.ERROR_TYPE]: ErrorTypeFilterComponent,
+    [FilterIDs.SITE]: SiteFilterComponent,
+    [FilterIDs.CAR_MAKER]: CarMakerFilterComponent,
+    [FilterIDs.CHARGING_STATION]: ChargingStationFilterComponent,
+    [FilterIDs.COMPANY]: CompaniesFilterComponent,
+    [FilterIDs.REPORTS]: ReportsFilterComponent,
+    [FilterIDs.SITE_AREA]: SiteAreaFilterComponent,
+    [FilterIDs.TAG]: TagsFilterComponent,
+    [FilterIDs.USER]: UsersFilterComponent,
+    [FilterIDs.DATE_RANGE]: DateTimeRangeFilterComponent,
   }
 
   constructor(

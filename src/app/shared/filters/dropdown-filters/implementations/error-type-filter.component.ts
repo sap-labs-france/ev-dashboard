@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 
-import { BaseFilterDef, FilterHttpIDs } from '../../../../types/Filters';
+import { BaseFilterDef, FilterHttpIDs, FilterIDs } from '../../../../types/Filters';
 import { KeyValue } from '../../../../types/GlobalType';
 import { BaseFilter } from '../../base-filter.component';
 import { FiltersService } from '../../filters.service';
@@ -22,11 +22,11 @@ export class ErrorTypeFilterComponent extends BaseFilter implements AfterViewIni
   ) {
     super();
     this.baseDetails = {
-      id: 'errorType',
+      id: FilterIDs.ERROR_TYPE,
       httpId: FilterHttpIDs.ERROR_TYPE,
       currentValue: [],
     }
-    this.items = this.filtersService.getFilterItemValue(FilterHttpIDs.ERROR_TYPE);
+    this.items = this.filtersService.getFilterItemValue(FilterIDs.ERROR_TYPE);
     this.filtersService.setFilterValue(this.baseDetails);
   }
 
@@ -37,11 +37,11 @@ export class ErrorTypeFilterComponent extends BaseFilter implements AfterViewIni
   private initFilter() {
     this.dropdownFilter.setFilter({
       ...this.baseDetails,
+      defaultValue: [],
       name: 'errors.title',
       label: '',
       cssClass: '',
       items: this.items,
-      multiple: true,
     })
   }
 

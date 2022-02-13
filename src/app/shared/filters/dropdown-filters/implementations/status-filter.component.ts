@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 
-import { BaseFilterDef, FilterHttpIDs } from '../../../../types/Filters';
+import { BaseFilterDef, FilterHttpIDs, FilterIDs } from '../../../../types/Filters';
 import { BaseFilter } from '../../base-filter.component';
 import { FiltersService } from '../../filters.service';
 import { DropdownFilterComponent } from '../dropdown-filter.component';
@@ -19,7 +19,7 @@ export class StatusFilterComponent extends BaseFilter implements AfterViewInit{
   ) {
     super();
     this.baseDetails = {
-      id: 'status',
+      id: FilterIDs.STATUS,
       httpId: FilterHttpIDs.STATUS,
       currentValue: [],
     }
@@ -33,6 +33,7 @@ export class StatusFilterComponent extends BaseFilter implements AfterViewInit{
   private initFilter() {
     this.dropdownFilter.setFilter({
       ...this.baseDetails,
+      defaultValue: [],
       name: 'tags.status',
       label: '',
       cssClass: '',
@@ -40,7 +41,6 @@ export class StatusFilterComponent extends BaseFilter implements AfterViewInit{
         { key: 'true', value: 'tags.activated' },
         { key: 'false', value: 'tags.deactivated' },
       ],
-      multiple: true,
     })
   }
 

@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 
-import { BaseFilterDef, FilterHttpIDs } from '../../../../types/Filters';
+import { BaseFilterDef, FilterHttpIDs, FilterIDs } from '../../../../types/Filters';
 import { ChargingStationsDialogComponent } from '../../../dialogs/charging-stations/charging-stations-dialog.component';
 import { BaseFilter } from '../../base-filter.component';
 import { FiltersService } from '../../filters.service';
@@ -20,7 +20,7 @@ export class ChargingStationFilterComponent extends BaseFilter implements AfterV
   ) {
     super();
     this.baseDetails = {
-      id: 'charger',
+      id: FilterIDs.CHARGING_STATION,
       httpId: FilterHttpIDs.CHARGING_STATION,
       currentValue: [],
     }
@@ -38,7 +38,7 @@ export class ChargingStationFilterComponent extends BaseFilter implements AfterV
       label: '',
       cssClass: '',
       dialogComponent: ChargingStationsDialogComponent,
-      multiple: true,
+      defaultValue: [],
       dependentFilters: [
         FilterHttpIDs.ISSUER,
         FilterHttpIDs.SITE,

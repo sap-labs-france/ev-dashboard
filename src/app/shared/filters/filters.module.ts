@@ -1,10 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
+import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 
 import { MaterialModule } from '../../../app/app.module';
 import { DialogsModule } from '../../shared/dialogs/dialogs.module';
+import { DateRangeBaseFilterComponent } from './date-range-filters/date-range-base-filter.component';
+import { DateTimeRangeFilterComponent } from './date-range-filters/implementations/date-time-range-filter.component';
 import { DialogFilterComponent } from './dialog-filters/dialog.component';
 import { CarMakerFilterComponent } from './dialog-filters/implementations/car-maker-filter.component';
 import { ChargingStationFilterComponent } from './dialog-filters/implementations/charging-station-filter.component';
@@ -28,7 +31,8 @@ import { FiltersService } from './filters.service';
     TranslateModule,
     FormsModule,
     DialogsModule,
-    MaterialModule
+    MaterialModule,
+    NgxDaterangepickerMd.forRoot()
   ],
   declarations: [
     FiltersComponent,
@@ -46,6 +50,8 @@ import { FiltersService } from './filters.service';
     SiteAreaFilterComponent,
     TagsFilterComponent,
     UsersFilterComponent,
+    DateRangeBaseFilterComponent,
+    DateTimeRangeFilterComponent
   ],
   exports: [
     FiltersComponent

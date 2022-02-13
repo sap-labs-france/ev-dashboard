@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 
-import { BaseFilterDef, FilterHttpIDs } from '../../../../types/Filters';
+import { BaseFilterDef, FilterHttpIDs, FilterIDs } from '../../../../types/Filters';
 import { BaseFilter } from '../../base-filter.component';
 import { FiltersService } from '../../filters.service';
 import { DropdownFilterComponent } from '../dropdown-filter.component';
@@ -19,7 +19,7 @@ export class IssuerFilterComponent extends BaseFilter implements AfterViewInit{
   ) {
     super();
     this.baseDetails = {
-      id: 'issuer',
+      id: FilterIDs.ISSUER,
       httpId: FilterHttpIDs.ISSUER,
       currentValue: []
     }
@@ -33,6 +33,7 @@ export class IssuerFilterComponent extends BaseFilter implements AfterViewInit{
   private initFilter() {
     this.dropdownFilter.setFilter({
       ...this.baseDetails,
+      defaultValue: [],
       name: 'issuer.title',
       label: '',
       cssClass: '',
@@ -40,7 +41,6 @@ export class IssuerFilterComponent extends BaseFilter implements AfterViewInit{
         { key: 'true', value: 'issuer.local' },
         { key: 'false', value: 'issuer.foreign' },
       ],
-      multiple: true,
     })
   }
 

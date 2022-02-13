@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 
-import { BaseFilterDef, FilterHttpIDs } from '../../../../types/Filters';
+import { BaseFilterDef, FilterHttpIDs, FilterIDs } from '../../../../types/Filters';
 import { CONNECTORS } from '../../../model/charging-stations.model';
 import { BaseFilter } from '../../base-filter.component';
 import { FiltersService } from '../../filters.service';
@@ -20,7 +20,7 @@ export class ConnectorFilterComponent extends BaseFilter implements AfterViewIni
   ) {
     super();
     this.baseDetails = {
-      id: 'connector',
+      id: FilterIDs.CONNECTOR,
       httpId: FilterHttpIDs.CONNECTOR,
       currentValue: [],
     }
@@ -34,11 +34,11 @@ export class ConnectorFilterComponent extends BaseFilter implements AfterViewIni
   private initFilter() {
     this.dropdownFilter.setFilter({
       ...this.baseDetails,
+      defaultValue: [],
       name: 'chargers.connector',
       label: '',
       cssClass: '',
       items: Object.assign([], CONNECTORS),
-      multiple: true,
     })
   }
 

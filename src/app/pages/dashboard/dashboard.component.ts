@@ -5,6 +5,8 @@ import { FiltersService } from 'shared/filters/filters.service';
 import { FilterHttpIDs } from 'types/Filters';
 import { AssetInErrorType } from 'types/InError';
 
+import { FilterIDs } from '../../types/Filters';
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: 'dashboard.component.html',
@@ -17,20 +19,21 @@ export class DashboardComponent {
     private translateService: TranslateService,
   ) {
     this.filtersService.setFilterList([
-      FilterHttpIDs.ISSUER,
-      FilterHttpIDs.STATUS,
-      FilterHttpIDs.CONNECTOR,
-      FilterHttpIDs.ERROR_TYPE,
-      FilterHttpIDs.SITE,
-      FilterHttpIDs.CAR_MAKER,
-      FilterHttpIDs.CHARGING_STATION,
-      FilterHttpIDs.COMPANY,
-      FilterHttpIDs.REPORTS,
-      FilterHttpIDs.SITE_AREA,
-      FilterHttpIDs.TAG,
-      FilterHttpIDs.USER,
+      FilterIDs.ISSUER,
+      FilterIDs.COMPANY,
+      FilterIDs.SITE,
+      FilterIDs.SITE_AREA,
+      FilterIDs.CHARGING_STATION,
+      FilterIDs.STATUS,
+      FilterIDs.CONNECTOR,
+      FilterIDs.ERROR_TYPE,
+      FilterIDs.CAR_MAKER,
+      FilterIDs.REPORTS,
+      FilterIDs.TAG,
+      FilterIDs.USER,
+      FilterIDs.DATE_RANGE,
     ], {
-      [FilterHttpIDs.ERROR_TYPE]: [
+      [FilterIDs.ERROR_TYPE]: [
         {
           key: AssetInErrorType.MISSING_SITE_AREA,
           value: this.translateService.instant(`assets.errors.${AssetInErrorType.MISSING_SITE_AREA}.title`),

@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 
-import { BaseFilterDef, FilterHttpIDs } from '../../../../types/Filters';
+import { BaseFilterDef, FilterHttpIDs, FilterIDs } from '../../../../types/Filters';
 import { SiteAreasDialogComponent } from '../../../dialogs/site-areas/site-areas-dialog.component';
 import { BaseFilter } from '../../base-filter.component';
 import { FiltersService } from '../../filters.service';
@@ -20,7 +20,7 @@ export class SiteAreaFilterComponent extends BaseFilter implements AfterViewInit
   ) {
     super();
     this.baseDetails = {
-      id: 'siteAreas',
+      id: FilterIDs.SITE_AREA,
       httpId: FilterHttpIDs.SITE_AREA,
       currentValue: [],
     }
@@ -34,11 +34,11 @@ export class SiteAreaFilterComponent extends BaseFilter implements AfterViewInit
   private initFilter() {
     this.dialogFilter.setFilter({
       ...this.baseDetails,
+      defaultValue: [],
       name: 'site_areas.title',
       label: '',
       cssClass: '',
       dialogComponent: SiteAreasDialogComponent,
-      multiple: true,
       dependentFilters: [
         FilterHttpIDs.COMPANY,
         FilterHttpIDs.ISSUER,

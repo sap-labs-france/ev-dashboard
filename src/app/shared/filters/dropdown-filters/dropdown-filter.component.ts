@@ -30,17 +30,17 @@ export class DropdownFilterComponent extends BaseTemplateFilter{
     this.filter = {
       cssClass: '',
       currentValue: [],
+      defaultValue: [],
       name: '',
       label: '',
       items: [],
-      multiple: true,
       id: '',
       httpId: FilterHttpIDs.ISSUER,
     }
   }
 
   public reset(): void {
-    this.filter.currentValue = [];
+    this.filter.currentValue = this.filter.defaultValue;
     this.filter.label = '';
   };
 

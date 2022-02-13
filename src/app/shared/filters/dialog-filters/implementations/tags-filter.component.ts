@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 
-import { BaseFilterDef, FilterHttpIDs } from '../../../../types/Filters';
+import { BaseFilterDef, FilterHttpIDs, FilterIDs } from '../../../../types/Filters';
 import { TagsDialogComponent } from '../../../dialogs/tags/tags-dialog.component';
 import { BaseFilter } from '../../base-filter.component';
 import { FiltersService } from '../../filters.service';
@@ -20,7 +20,7 @@ export class TagsFilterComponent extends BaseFilter implements AfterViewInit{
   ) {
     super();
     this.baseDetails = {
-      id: 'tag',
+      id: FilterIDs.TAG,
       httpId: FilterHttpIDs.TAG,
       currentValue: [],
     }
@@ -34,11 +34,11 @@ export class TagsFilterComponent extends BaseFilter implements AfterViewInit{
   private initFilter() {
     this.dialogFilter.setFilter({
       ...this.baseDetails,
+      defaultValue: [],
       name: 'users.tags',
       label: '',
       cssClass: '',
       dialogComponent: TagsDialogComponent,
-      multiple: true,
       dependentFilters: [
         FilterHttpIDs.ISSUER,
         FilterHttpIDs.SITE,

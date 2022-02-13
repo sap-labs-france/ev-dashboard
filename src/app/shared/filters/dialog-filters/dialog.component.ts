@@ -34,9 +34,9 @@ export class DialogFilterComponent extends BaseTemplateFilter{
     this.filter = {
       cssClass: '',
       currentValue: [],
+      defaultValue: [],
       name: '',
       label: '',
-      multiple: true,
       id: '',
       httpId: FilterHttpIDs.SITE,
       dialogComponent: null,
@@ -44,7 +44,7 @@ export class DialogFilterComponent extends BaseTemplateFilter{
   }
 
   public reset(): void {
-    this.filter.currentValue = [];
+    this.filter.currentValue = this.filter.defaultValue;
     this.filter.label = '';
   };
 
@@ -98,6 +98,11 @@ export class DialogFilterComponent extends BaseTemplateFilter{
   }
 
   public resetDialogFilter(): void {
-    console.log('Reset dialog filter');
+    this.filter.label = '';
+    this.dataChanged.emit({
+      id: this.filter.id,
+      httpId: this.filter.httpId,
+      currentValue: this.filter.defaultValue
+    });
   }
 }

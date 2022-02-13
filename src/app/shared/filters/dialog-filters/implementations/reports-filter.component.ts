@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 
-import { BaseFilterDef, FilterHttpIDs } from '../../../../types/Filters';
+import { BaseFilterDef, FilterHttpIDs, FilterIDs } from '../../../../types/Filters';
 import { ReportsDialogComponent } from '../../../dialogs/reports/reports-dialog.component';
 import { BaseFilter } from '../../base-filter.component';
 import { FiltersService } from '../../filters.service';
@@ -20,7 +20,7 @@ export class ReportsFilterComponent extends BaseFilter implements AfterViewInit{
   ) {
     super();
     this.baseDetails = {
-      id: 'refundData',
+      id: FilterIDs.REPORTS,
       httpId: FilterHttpIDs.REPORTS,
       currentValue: [],
     }
@@ -38,7 +38,7 @@ export class ReportsFilterComponent extends BaseFilter implements AfterViewInit{
       label: '',
       cssClass: '',
       dialogComponent: ReportsDialogComponent,
-      multiple: true,
+      defaultValue: [],
     })
   }
 

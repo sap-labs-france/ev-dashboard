@@ -1,4 +1,4 @@
-import { AfterContentInit, AfterViewInit, Component, DoCheck, Input, OnInit } from '@angular/core';
+import { AfterContentInit, AfterViewInit, Component, DoCheck, Input, OnChanges, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { CentralServerService } from 'services/central-server.service';
 import { BillingInvoice } from 'types/Billing';
@@ -7,7 +7,7 @@ import { BillingInvoice } from 'types/Billing';
   selector: 'app-invoice-main',
   templateUrl: 'invoice-main.component.html'
 })
-export class InvoiceMainComponent implements OnInit, AfterContentInit {
+export class InvoiceMainComponent implements OnInit, OnChanges {
   @Input() public formGroup: FormGroup;
   @Input() public invoice: BillingInvoice;
   @Input() public userImage!: string;
@@ -23,7 +23,11 @@ export class InvoiceMainComponent implements OnInit, AfterContentInit {
   public ngOnInit() {
   }
 
-  public ngAfterContentInit() {
+  public ngOnChanges() {
+    this.loadInvoice();
+  }
+
+  public loadInvoice() {
     setTimeout(() => {
       if (this.invoice) {
         this.invoiceNumber = this.invoice.number || 'N/A';

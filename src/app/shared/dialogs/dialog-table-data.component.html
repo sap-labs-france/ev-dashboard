@@ -7,9 +7,7 @@
         </ng-template>
         <div class="card-body mat-tab-dialog-body-content pt-0">
           <div class="tab-content">
-            <div class="row">
               <app-table [dataSource]="dialogDataSource"></app-table>
-            </div>
             <div class="card-footer mat-dialog-actions d-flex">
               <span class="toolbar-spacer"></span>
               <button mat-raised-button color="primary" (click)="validate()" [disabled]="dialogDataSource.selectedRows === 0">

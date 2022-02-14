@@ -300,8 +300,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
           moreActions.addActionInMoreActions(this.activateAction);
         }
       }
-    }
-    else {
+    } else {
       rowActions.push(this.viewAction);
     }
     if (tag.canUpdateByVisualID) {

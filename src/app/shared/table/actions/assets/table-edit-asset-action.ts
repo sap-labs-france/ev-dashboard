@@ -25,12 +25,12 @@ export class TableEditAssetAction extends TableEditAction {
   private editAsset(assetDialogComponent: ComponentType<unknown>, dialog: MatDialog,
     dialogParams: DialogParams<Asset>, refresh?: () => Observable<void>) {
     super.edit(assetDialogComponent, dialog, dialogParams, refresh, {
-      minWidth: ScreenSize.XXL,
-      maxWidth: ScreenSize.XXL,
-      width: ScreenSize.XXL,
-      minHeight: ScreenSize.M,
-      maxHeight: ScreenSize.M,
-      height: ScreenSize.M
+      minWidth: ScreenSize.XL,
+      maxWidth: ScreenSize.XL,
+      width: ScreenSize.XL,
+      minHeight: ScreenSize.S,
+      maxHeight: ScreenSize.S,
+      height: ScreenSize.S
     });
   }
 }

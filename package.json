@@ -108,7 +108,7 @@
     "ngx-moment": "^5.0.0",
     "popper.js": "^1.16.1",
     "rxjs": "^6.6.7",
-    "tldts": "^5.7.59",
+    "tldts": "^5.7.61",
     "tslib": "^2.3.1",
     "zone.js": "~0.11.4"
   },
@@ -149,7 +149,7 @@
     "jasmine": "~4.0.2",
     "jasmine-core": "~4.0.0",
     "jasmine-spec-reporter": "~7.0.0",
-    "karma": "~6.3.11",
+    "karma": "~6.3.14",
     "karma-chrome-launcher": "~3.1.0",
     "karma-cli": "^2.0.0",
     "karma-coverage": "~2.1.0",

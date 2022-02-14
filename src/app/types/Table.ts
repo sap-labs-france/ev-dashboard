@@ -68,6 +68,8 @@ export interface DateRangeTableFilterDef {
   locale?: Locale;
   startDateTimeHttpId?: string;
   endDateTimeHttpId?: string;
+  ranges?: any;
+  updateRanges(): void;
 }
 
 export interface Locale {

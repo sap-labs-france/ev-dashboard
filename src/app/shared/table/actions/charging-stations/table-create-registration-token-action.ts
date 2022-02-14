@@ -28,9 +28,9 @@ export class TableCreateRegistrationTokenAction extends TableCreateAction {
       minWidth: ScreenSize.XL,
       maxWidth: ScreenSize.XL,
       width: ScreenSize.XL,
-      minHeight: ScreenSize.S,
-      maxHeight: ScreenSize.S,
-      height: ScreenSize.S
+      minHeight: ScreenSize.XS,
+      maxHeight: ScreenSize.XS,
+      height: ScreenSize.XS
     });
   }
 }

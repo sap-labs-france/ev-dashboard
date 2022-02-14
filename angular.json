@@ -78,7 +78,7 @@
               "node_modules/bootstrap-notify/bootstrap-notify.min.js",
               "node_modules/bootstrap-select/dist/js/bootstrap-select.min.js",
               "node_modules/jasny-bootstrap/dist/js/jasny-bootstrap.min.js",
-              "node_modules/chart.js/dist/Chart.bundle.min.js",
+              "node_modules/chart.js/dist/chart.min.js",
               "node_modules/moment-duration-format/lib/moment-duration-format.js"
             ]
           },

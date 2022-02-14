@@ -137,7 +137,7 @@ export class AddressComponent implements OnInit, OnChanges {
       this.country.updateValueAndValidity();
       this.latitude.updateValueAndValidity();
       this.longitude.updateValueAndValidity();
-  }
+    }
   }
 
   public setAddress(address: GoogleAddress) {

@@ -94,10 +94,28 @@
 }
 
 .mat-tab-body-content {
-  overflow: hidden !important;
+  height: 100%;
   .card-body {
     margin-top: initial !important;
   }
+}
+
+.mat-tab-dialog-body-content {
+  align-items: center;
+  justify-content: center;
+  margin-top: 15px;
+  padding-top: 0px;
+  padding-bottom: 0 !important;
+  .card-body {
+    margin-top: initial !important;
+  }
+  .tab-content {
+    height: 100%;
+  }
+}
+
+.tab-content {
+  width: 100%;
 }
 
 .mat-tab-header-pagination {
@@ -159,11 +177,9 @@
   &:hover {
     background-color: rgba($brand-background, .1);
   }
-
   .btn-link {
     color: white !important;
   }
-
 }
 
 .mat-tab-disabled {
@@ -195,5 +211,13 @@
 }
 
 .mat-tab-body-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 15px;
   flex-grow: 1;
+  height: 90%;
+  .mat-tab-body {
+    height: 100%;
+  }
 }

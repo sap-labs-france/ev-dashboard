@@ -15,7 +15,6 @@ import { AppCurrencyPipe } from '../../../shared/formatters/app-currency.pipe';
 import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
 import { AppUserNamePipe } from '../../../shared/formatters/app-user-name.pipe';
 import { TableDownloadBillingInvoice } from '../../../shared/table/actions/invoices/table-download-billing-invoice-action';
-import { TableSyncBillingInvoicesAction } from '../../../shared/table/actions/invoices/table-sync-billing-invoices-action';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
@@ -31,7 +30,6 @@ import { InvoiceStatusFormatterComponent } from '../formatters/invoice-status-fo
 
 @Injectable()
 export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
-  private syncBillingInvoicesAction = new TableSyncBillingInvoicesAction().getActionDef();
   private downloadBillingInvoiceAction = new TableDownloadBillingInvoice().getActionDef();
 
   public constructor(
@@ -56,7 +54,6 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
       // Get the Invoices
       this.centralServerService.getInvoices(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((invoices) => {
-        this.syncBillingInvoicesAction.visible = this.authorizationService.canSynchronizeInvoices();
         observer.next(invoices);
         observer.complete();
       }, (error) => {
@@ -153,10 +150,6 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-    if (this.componentService.isActive(TenantComponents.BILLING) &&
-        this.authorizationService.canSynchronizeInvoices()) {
-      tableActionsDef.unshift(this.syncBillingInvoicesAction);
-    }
     return [
       ...tableActionsDef,
     ];
@@ -164,16 +157,6 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
 
   public actionTriggered(actionDef: TableActionDef) {
     // Action
-    switch (actionDef.id) {
-      case BillingButtonAction.SYNCHRONIZE_INVOICES:
-        if (this.syncBillingInvoicesAction.action) {
-          this.syncBillingInvoicesAction.action(
-            this.dialogService, this.translateService, this.messageService,
-            this.centralServerService, this.router, this.refreshData.bind(this)
-          );
-        }
-        break;
-    }
   }
 
   public rowActionTriggered(actionDef: TableActionDef, billingInvoice: BillingInvoice) {

@@ -1,10 +1,10 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
-import { DialogParams } from 'types/Authorization';
-import { ScreenSize } from 'types/GlobalType';
-import { PricingButtonAction, PricingDefinitionDialogData } from 'types/Pricing';
 
+import { DialogParams } from '../../../../types/Authorization';
+import { ScreenSize } from '../../../../types/GlobalType';
+import { PricingButtonAction, PricingDefinitionDialogData } from '../../../../types/Pricing';
 import { TableActionDef } from '../../../../types/Table';
 import { TableEditAction } from '../table-edit-action';
 
@@ -25,12 +25,12 @@ export class TableEditPricingDefinitionAction extends TableEditAction {
   private editPricingDefinition(pricingDefinitionDialogComponent: ComponentType<unknown>, dialog: MatDialog,
     dialogParams: DialogParams<PricingDefinitionDialogData>, refresh?: () => Observable<void>) {
     super.edit(pricingDefinitionDialogComponent, dialog, dialogParams, refresh, {
-      minWidth: ScreenSize.L,
+      minWidth: ScreenSize.XL,
       maxWidth: ScreenSize.XL,
       width: ScreenSize.XL,
-      minHeight: ScreenSize.XXL,
-      maxHeight: ScreenSize.XXXL,
-      height: ScreenSize.XXXL
+      minHeight: ScreenSize.XXXL,
+      maxHeight: ScreenSize.XXXXL,
+      height: ScreenSize.XXXXL
     });
   }
 }

@@ -1,6 +1,6 @@
-
 .connector-card {
     background: rgba($brand-primary, 0.1);
+    margin: 20px 0;
 }
 
 .component-invisible {
@@ -35,7 +35,8 @@
 }
 
 .charging-station-connector-component {
-    height: 50vh;
+    margin: 20px 0 0 0;
+    height: 100%;
     overflow: auto;
 }
 
@@ -43,6 +44,12 @@
 }
 
 .charger-param-component {
+}
+
+.charger-param {
+    height: auto;
+    // overflow: hidden !important;
+    margin-top: 1em !important;
 }
 
 .charger-profile-component {

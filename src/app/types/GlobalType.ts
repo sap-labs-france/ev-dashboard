@@ -115,11 +115,14 @@ export enum ScreenSize {
   XXS = '20',
   XS = '30',
   S = '40',
+  SM = '45',
   M = '50',
+  ML = '55',
   L = '60',
   XL = '70',
-  XXL = '80',
-  XXXL = '90',
+  XXL = '75',
+  XXXL = '80',
+  XXXXL = '90',
 }
 
 export interface PopupSize {

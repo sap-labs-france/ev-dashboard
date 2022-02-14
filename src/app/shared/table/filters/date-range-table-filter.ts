@@ -6,7 +6,6 @@ import { FilterType, TableFilterDef } from '../../../types/Table';
 import { TableFilter } from './table-filter';
 
 export class DateRangeTableFilter extends TableFilter {
-
   private allRanges: any = {};
   private translateService: TranslateService;
 

@@ -82,7 +82,7 @@
 .chart-container {
   position: relative;
   width: 100%;
-  height: 35vh;
+  min-height: 25vh;
   @media (max-width: 1280px) {
     height: 20em;
   }

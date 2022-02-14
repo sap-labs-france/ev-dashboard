@@ -182,6 +182,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
       ...Utils.formatLineColor(this.instantPowerAmpsColor),
       label: this.translateService.instant((this.selectedUnit === ConsumptionUnit.AMPERE) ?
         'transactions.graph.amps' : 'transactions.graph.power'),
+      fill: 'origin',
       order: (this.selectedUnit === ConsumptionUnit.AMPERE) ? ConsumptionChartDatasetOrder.INSTANT_AMPS : ConsumptionChartDatasetOrder.INSTANT_WATTS,
     });
     // Power/Amps L1/L2/L3
@@ -199,6 +200,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
         label: this.translateService.instant((this.selectedUnit === ConsumptionUnit.AMPERE) ?
           'transactions.graph.amps_l1' : 'transactions.graph.power_l1'),
         borderDash: [1, 1],
+        fill: 'origin',
         order: (this.selectedUnit === ConsumptionUnit.AMPERE) ? ConsumptionChartDatasetOrder.INSTANT_AMPS_L1 : ConsumptionChartDatasetOrder.INSTANT_WATTS_L1,
       });
       datasets.push({
@@ -212,6 +214,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
         label: this.translateService.instant((this.selectedUnit === ConsumptionUnit.AMPERE) ?
           'transactions.graph.amps_l2' : 'transactions.graph.power_l2'),
         borderDash: [3, 3],
+        fill: 'origin',
         order: (this.selectedUnit === ConsumptionUnit.AMPERE) ? ConsumptionChartDatasetOrder.INSTANT_AMPS_L2 : ConsumptionChartDatasetOrder.INSTANT_WATTS_L2,
       });
       datasets.push({
@@ -225,6 +228,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
         label: this.translateService.instant((this.selectedUnit === ConsumptionUnit.AMPERE) ?
           'transactions.graph.amps_l3' : 'transactions.graph.power_l3'),
         borderDash: [5, 5],
+        fill: 'origin',
         order: (this.selectedUnit === ConsumptionUnit.AMPERE) ? ConsumptionChartDatasetOrder.INSTANT_AMPS_L3 : ConsumptionChartDatasetOrder.INSTANT_WATTS_L3,
       });
     }
@@ -239,7 +243,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
       ...Utils.formatLineColor(this.limitColor),
       label: this.translateService.instant((this.selectedUnit === ConsumptionUnit.AMPERE) ?
         'transactions.graph.limit_amps' : 'transactions.graph.limit_watts'),
-      fill: { below: {...Utils.formatLineColor(this.limitColor)}.backgroundColor, target: {value: 1000000} },
+      fill: 'origin',
       order: (this.selectedUnit === ConsumptionUnit.AMPERE) ? ConsumptionChartDatasetOrder.LIMIT_AMPS : ConsumptionChartDatasetOrder.LIMIT_WATTS,
     });
     // Cumulated Amps/Power
@@ -253,6 +257,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
       ...Utils.formatLineColor(this.consumptionColor),
       label: this.translateService.instant((this.selectedUnit === ConsumptionUnit.AMPERE) ?
         'transactions.graph.energy_amps' : 'transactions.graph.energy'),
+      fill: 'origin',
       order: (this.selectedUnit === ConsumptionUnit.AMPERE) ? ConsumptionChartDatasetOrder.CUMULATED_CONSUMPTION_AMPS : ConsumptionChartDatasetOrder.CUMULATED_CONSUMPTION_WH,
     });
     // Amount
@@ -265,6 +270,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
         lineTension: this.lineTension,
         ...Utils.formatLineColor(this.amountColor),
         label: this.translateService.instant('transactions.graph.cumulated_amount'),
+        fill: 'origin',
         order: ConsumptionChartDatasetOrder.CUMULATED_AMOUNT,
       });
     }
@@ -278,6 +284,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
         lineTension: this.lineTension,
         ...Utils.formatLineColor(this.instantAmpsDCColor),
         label: this.translateService.instant('transactions.graph.amperage_dc'),
+        fill: 'origin',
         order: ConsumptionChartDatasetOrder.INSTANT_AMPS_DC,
       });
     }
@@ -291,6 +298,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
         lineTension: this.lineTension,
         ...Utils.formatLineColor(this.instantVoltsColor),
         label: this.translateService.instant('transactions.graph.voltage'),
+        fill: 'origin',
         order: ConsumptionChartDatasetOrder.INSTANT_VOLTS,
       });
     }
@@ -304,6 +312,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
         lineTension: this.lineTension,
         ...Utils.formatLineColor(this.instantVoltsColor),
         label: this.translateService.instant('transactions.graph.voltage_dc'),
+        fill: 'origin',
         order: ConsumptionChartDatasetOrder.INSTANT_VOLTS_DC,
       });
     }
@@ -320,6 +329,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
         ...Utils.formatLineColor(this.instantVoltsL1Color),
         label: this.translateService.instant('transactions.graph.voltage_l1'),
         borderDash: [1, 1],
+        fill: 'origin',
         order: ConsumptionChartDatasetOrder.INSTANT_VOLTS_L1,
       });
       datasets.push({
@@ -331,6 +341,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
         ...Utils.formatLineColor(this.instantVoltsL2Color),
         label: this.translateService.instant('transactions.graph.voltage_l2'),
         borderDash: [3, 3],
+        fill: 'origin',
         order: ConsumptionChartDatasetOrder.INSTANT_VOLTS_L2,
       });
       datasets.push({
@@ -342,6 +353,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
         ...Utils.formatLineColor(this.instantVoltsL3Color),
         label: this.translateService.instant('transactions.graph.voltage_l3'),
         borderDash: [5, 5],
+        fill: 'origin',
         order: ConsumptionChartDatasetOrder.INSTANT_VOLTS_L3,
       });
     }
@@ -355,6 +367,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
         lineTension: this.lineTension,
         ...Utils.formatLineColor(this.stateOfChargeColor),
         label: this.translateService.instant('transactions.graph.battery'),
+        fill: 'origin',
         order: ConsumptionChartDatasetOrder.STATE_OF_CHARGE,
       });
     }

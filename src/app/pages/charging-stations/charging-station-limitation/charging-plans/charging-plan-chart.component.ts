@@ -123,6 +123,7 @@ export class ChargingPlanChartComponent implements OnChanges {
         order: this.selectedUnit === ConsumptionUnit.AMPERE ?
           ConsumptionChartDatasetOrder.PLAN_AMPS :
           ConsumptionChartDatasetOrder.PLAN_WATTS,
+        fill: 'origin',
       };
       // Create Schedule chart points
       for (const chargingSlot of this.chargingSchedules) {
@@ -154,6 +155,7 @@ export class ChargingPlanChartComponent implements OnChanges {
         order: this.selectedUnit === ConsumptionUnit.AMPERE ?
           ConsumptionChartDatasetOrder.LIMIT_AMPS :
           ConsumptionChartDatasetOrder.LIMIT_WATTS,
+        fill: 'origin',
       };
       let chargingStationPowers: ChargingStationPowers;
       let chargePoint: ChargePoint;

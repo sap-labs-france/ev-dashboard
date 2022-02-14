@@ -185,6 +185,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
       order: (this.selectedUnit === ConsumptionUnit.AMPERE) ?
         ConsumptionChartDatasetOrder.ASSET_CONSUMPTION_AMPS :
         ConsumptionChartDatasetOrder.ASSET_CONSUMPTION_WATTS,
+      fill: 'origin',
     });
     // Charging Stations Consumption Instant Amps/Power
     datasets.push({
@@ -200,6 +201,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
       order: (this.selectedUnit === ConsumptionUnit.AMPERE) ?
         ConsumptionChartDatasetOrder.CHARGING_STATION_CONSUMPTION_AMPS :
         ConsumptionChartDatasetOrder.CHARGING_STATION_CONSUMPTION_WATTS,
+      fill: 'origin',
     });
     // Asset Production Instant Amps/Power
     datasets.push({
@@ -215,6 +217,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
       order: (this.selectedUnit === ConsumptionUnit.AMPERE) ?
         ConsumptionChartDatasetOrder.ASSET_PRODUCTION_AMPS :
         ConsumptionChartDatasetOrder.ASSET_PRODUCTION_WATTS,
+      fill: 'origin',
     });
     // Net Instant Amps/Power
     datasets.push({
@@ -230,6 +233,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
       order: (this.selectedUnit === ConsumptionUnit.AMPERE) ?
         ConsumptionChartDatasetOrder.NET_CONSUMPTION_AMPS :
         ConsumptionChartDatasetOrder.NET_CONSUMPTION_WATTS,
+      fill: 'origin',
     });
     // Limit Amps/Power
     datasets.push({
@@ -245,7 +249,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
       order: (this.selectedUnit === ConsumptionUnit.AMPERE) ?
         ConsumptionChartDatasetOrder.LIMIT_AMPS :
         ConsumptionChartDatasetOrder.LIMIT_WATTS,
-      fill: { below: {...Utils.formatLineColor(this.limitColor)}.backgroundColor, target: {value: 1000000} },
+      fill: 'origin',
     });
     // Assign
     this.data.labels = [];

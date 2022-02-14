@@ -165,6 +165,7 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
       ...Utils.formatLineColor(this.instantPowerColor),
       label: this.translateService.instant((this.selectedUnit === ConsumptionUnit.AMPERE) ?
         'transactions.graph.amps' : 'asset.graph.power'),
+      fill: 'origin',
       order: (this.selectedUnit === ConsumptionUnit.AMPERE) ? ConsumptionChartDatasetOrder.INSTANT_AMPS : ConsumptionChartDatasetOrder.INSTANT_WATTS,
     });
     // Limit Amps/Power
@@ -178,7 +179,7 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
       ...Utils.formatLineColor(this.limitColor),
       label: this.translateService.instant((this.selectedUnit === ConsumptionUnit.AMPERE) ?
         'transactions.graph.limit_amps' : 'asset.graph.limit_watts'),
-      fill: { below: {...Utils.formatLineColor(this.limitColor)}.backgroundColor, target: {value: 1000000} },
+      fill: 'origin',
       order: (this.selectedUnit === ConsumptionUnit.AMPERE) ? ConsumptionChartDatasetOrder.LIMIT_AMPS : ConsumptionChartDatasetOrder.LIMIT_WATTS,
     });
     if (this.asset.values[this.asset.values.length - 1].stateOfCharge) {
@@ -190,6 +191,7 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
         lineTension: this.lineTension,
         ...Utils.formatLineColor(this.stateOfChargeColor),
         label: this.translateService.instant('transactions.graph.battery'),
+        fill: 'origin',
         order: ConsumptionChartDatasetOrder.STATE_OF_CHARGE,
       });
     }

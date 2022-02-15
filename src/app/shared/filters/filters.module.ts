@@ -6,9 +6,7 @@ import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 
 import { MaterialModule } from '../../../app/app.module';
 import { DialogsModule } from '../../shared/dialogs/dialogs.module';
-import { DateRangeBaseFilterComponent } from './date-range-filters/date-range-base-filter.component';
 import { DateTimeRangeFilterComponent } from './date-range-filters/implementations/date-time-range-filter.component';
-import { DialogFilterComponent } from './dialog-filters/dialog.component';
 import { CarMakerFilterComponent } from './dialog-filters/implementations/car-maker-filter.component';
 import { ChargingStationFilterComponent } from './dialog-filters/implementations/charging-station-filter.component';
 import { CompaniesFilterComponent } from './dialog-filters/implementations/companies-filter.component';
@@ -17,7 +15,6 @@ import { SiteAreaFilterComponent } from './dialog-filters/implementations/site-a
 import { SiteFilterComponent } from './dialog-filters/implementations/site-filter.component';
 import { TagsFilterComponent } from './dialog-filters/implementations/tags-filter.component';
 import { UsersFilterComponent } from './dialog-filters/implementations/users-filter.component';
-import { DropdownFilterComponent } from './dropdown-filters/dropdown-filter.component';
 import { ConnectorFilterComponent } from './dropdown-filters/implementations/connector-filter.component';
 import { ErrorTypeFilterComponent } from './dropdown-filters/implementations/error-type-filter.component';
 import { IssuerFilterComponent } from './dropdown-filters/implementations/issuer-filter.component';
@@ -36,8 +33,6 @@ import { FiltersService } from './filters.service';
   ],
   declarations: [
     FiltersComponent,
-    DropdownFilterComponent,
-    DialogFilterComponent,
     IssuerFilterComponent,
     StatusFilterComponent,
     ConnectorFilterComponent,
@@ -50,7 +45,6 @@ import { FiltersService } from './filters.service';
     SiteAreaFilterComponent,
     TagsFilterComponent,
     UsersFilterComponent,
-    DateRangeBaseFilterComponent,
     DateTimeRangeFilterComponent
   ],
   exports: [

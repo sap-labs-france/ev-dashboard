@@ -1,55 +1,42 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
-import { BaseFilterDef, FilterHttpIDs, FilterIDs } from '../../../../types/Filters';
+import { FilterHttpIDs, FilterIDs } from '../../../../types/Filters';
+import { KeyValue } from '../../../../types/GlobalType';
 import { TagsDialogComponent } from '../../../dialogs/tags/tags-dialog.component';
-import { BaseFilter } from '../../base-filter.component';
 import { FiltersService } from '../../filters.service';
-import { DialogFilterComponent } from '../dialog.component';
+import { BaseDialogFilterComponent } from '../base-dialog.component';
 
 @Component({
   selector: 'app-tags-filter',
-  template: '<app-dialog-filter (dataChanged)="updateService($event)"></app-dialog-filter>'
+  templateUrl: '../base-dialog.component.html'
 })
-export class TagsFilterComponent extends BaseFilter implements AfterViewInit{
+export class TagsFilterComponent extends BaseDialogFilterComponent{
 
-  @ViewChild(DialogFilterComponent) dialogFilter!: DialogFilterComponent;
+  public id: string;
+  public label: string;
+  public visible: boolean;
+  public cssClass: string;
+  public name: string;
+  public httpId: FilterHttpIDs;
+  public currentValue: KeyValue[];
+  public defaultValue: KeyValue[];
+  public dialogComponent: any;
+  public dialogComponentData?: any;
 
   constructor(
-    private changeDetectorRef: ChangeDetectorRef,
-    private filtersService: FiltersService,
+    filtersService: FiltersService,
+    dialog: MatDialog
   ) {
-    super();
-    this.baseDetails = {
-      id: FilterIDs.TAG,
-      httpId: FilterHttpIDs.TAG,
-      currentValue: [],
-    }
-    this.filtersService.setFilterValue(this.baseDetails);
-  }
-
-  public updateService(newData: BaseFilterDef){
-    this.filtersService.setFilterValue(newData);
-  }
-
-  private initFilter() {
-    this.dialogFilter.setFilter({
-      ...this.baseDetails,
-      defaultValue: [],
-      name: 'users.tags',
-      label: '',
-      cssClass: '',
-      dialogComponent: TagsDialogComponent,
-      dependentFilters: [
-        FilterHttpIDs.ISSUER,
-        FilterHttpIDs.SITE,
-        FilterHttpIDs.USER
-      ]
-    })
-  }
-
-  ngAfterViewInit(): void {
-    this.initFilter();
-    this.changeDetectorRef.detectChanges();
+    super(dialog, filtersService);
+    this.id = FilterIDs.TAG;
+    this.httpId = FilterHttpIDs.TAG;
+    this.currentValue = [];
+    this.defaultValue = [];
+    this.name = 'users.tags';
+    this.label = '';
+    this.dialogComponent = TagsDialogComponent;
+    this.visible = true;
   }
 
 }

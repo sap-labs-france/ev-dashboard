@@ -1,50 +1,42 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
-import { BaseFilterDef, FilterHttpIDs, FilterIDs } from '../../../../types/Filters';
+import { FilterHttpIDs, FilterIDs } from '../../../../types/Filters';
+import { KeyValue } from '../../../../types/GlobalType';
 import { ReportsDialogComponent } from '../../../dialogs/reports/reports-dialog.component';
-import { BaseFilter } from '../../base-filter.component';
 import { FiltersService } from '../../filters.service';
-import { DialogFilterComponent } from '../dialog.component';
+import { BaseDialogFilterComponent } from '../base-dialog.component';
 
 @Component({
   selector: 'app-reports-filter',
-  template: '<app-dialog-filter (dataChanged)="updateService($event)"></app-dialog-filter>'
+  templateUrl: '../base-dialog.component.html'
 })
-export class ReportsFilterComponent extends BaseFilter implements AfterViewInit{
+export class ReportsFilterComponent extends BaseDialogFilterComponent{
 
-  @ViewChild(DialogFilterComponent) dialogFilter!: DialogFilterComponent;
+  public id: string;
+  public label: string;
+  public visible: boolean;
+  public cssClass: string;
+  public name: string;
+  public httpId: FilterHttpIDs;
+  public currentValue: KeyValue[];
+  public defaultValue: KeyValue[];
+  public dialogComponent: any;
+  public dialogComponentData?: any;
 
   constructor(
-    private changeDetectorRef: ChangeDetectorRef,
-    private filtersService: FiltersService,
+    filtersService: FiltersService,
+    dialog: MatDialog
   ) {
-    super();
-    this.baseDetails = {
-      id: FilterIDs.REPORTS,
-      httpId: FilterHttpIDs.REPORTS,
-      currentValue: [],
-    }
-    this.filtersService.setFilterValue(this.baseDetails);
-  }
-
-  public updateService(newData: BaseFilterDef){
-    this.filtersService.setFilterValue(newData);
-  }
-
-  private initFilter() {
-    this.dialogFilter.setFilter({
-      ...this.baseDetails,
-      name: 'transactions.reportId',
-      label: '',
-      cssClass: '',
-      dialogComponent: ReportsDialogComponent,
-      defaultValue: [],
-    })
-  }
-
-  ngAfterViewInit(): void {
-    this.initFilter();
-    this.changeDetectorRef.detectChanges();
+    super(dialog, filtersService);
+    this.id = FilterIDs.REPORTS;
+    this.httpId = FilterHttpIDs.REPORTS;
+    this.currentValue = [];
+    this.defaultValue = [];
+    this.name = 'transactions.reportId';
+    this.label = '';
+    this.dialogComponent = ReportsDialogComponent;
+    this.visible = true;
   }
 
 }

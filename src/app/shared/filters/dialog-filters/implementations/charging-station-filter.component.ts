@@ -1,55 +1,42 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
-import { BaseFilterDef, FilterHttpIDs, FilterIDs } from '../../../../types/Filters';
+import { FilterHttpIDs, FilterIDs } from '../../../../types/Filters';
+import { KeyValue } from '../../../../types/GlobalType';
 import { ChargingStationsDialogComponent } from '../../../dialogs/charging-stations/charging-stations-dialog.component';
-import { BaseFilter } from '../../base-filter.component';
 import { FiltersService } from '../../filters.service';
-import { DialogFilterComponent } from '../dialog.component';
+import { BaseDialogFilterComponent } from '../base-dialog.component';
 
 @Component({
   selector: 'app-charging-station-filter',
-  template: '<app-dialog-filter (dataChanged)="updateService($event)"></app-dialog-filter>'
+  templateUrl: '../base-dialog.component.html'
 })
-export class ChargingStationFilterComponent extends BaseFilter implements AfterViewInit{
+export class ChargingStationFilterComponent extends BaseDialogFilterComponent{
 
-  @ViewChild(DialogFilterComponent) dialogFilter!: DialogFilterComponent;
+  public id: string;
+  public label: string;
+  public visible: boolean;
+  public cssClass: string;
+  public name: string;
+  public httpId: FilterHttpIDs;
+  public currentValue: KeyValue[];
+  public defaultValue: KeyValue[];
+  public dialogComponent: any;
+  public dialogComponentData?: any;
 
   constructor(
-    private changeDetectorRef: ChangeDetectorRef,
-    private filtersService: FiltersService,
+    filtersService: FiltersService,
+    dialog: MatDialog
   ) {
-    super();
-    this.baseDetails = {
-      id: FilterIDs.CHARGING_STATION,
-      httpId: FilterHttpIDs.CHARGING_STATION,
-      currentValue: [],
-    }
-    this.filtersService.setFilterValue(this.baseDetails);
-  }
-
-  public updateService(newData: BaseFilterDef){
-    this.filtersService.setFilterValue(newData);
-  }
-
-  private initFilter() {
-    this.dialogFilter.setFilter({
-      ...this.baseDetails,
-      name: 'chargers.title',
-      label: '',
-      cssClass: '',
-      dialogComponent: ChargingStationsDialogComponent,
-      defaultValue: [],
-      dependentFilters: [
-        FilterHttpIDs.ISSUER,
-        FilterHttpIDs.SITE,
-        FilterHttpIDs.SITE_AREA
-      ]
-    })
-  }
-
-  ngAfterViewInit(): void {
-    this.initFilter();
-    this.changeDetectorRef.detectChanges();
+    super(dialog, filtersService);
+    this.id = FilterIDs.CHARGING_STATION;
+    this.httpId = FilterHttpIDs.CHARGING_STATION;
+    this.currentValue = [];
+    this.defaultValue = [];
+    this.name = 'chargers.title';
+    this.label = '';
+    this.dialogComponent = ChargingStationsDialogComponent;
+    this.visible = true;
   }
 
 }

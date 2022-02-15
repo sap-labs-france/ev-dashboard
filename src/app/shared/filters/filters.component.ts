@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ComponentFactoryResolver, ViewChild, ViewContainerRef } from '@angular/core';
 
-import { FilterHttpIDs, FilterIDs } from '../../types/Filters';
+import { FilterIDs } from '../../types/Filters';
 import { DateTimeRangeFilterComponent } from './date-range-filters/implementations/date-time-range-filter.component';
 import { CarMakerFilterComponent } from './dialog-filters/implementations/car-maker-filter.component';
 import { ChargingStationFilterComponent } from './dialog-filters/implementations/charging-station-filter.component';

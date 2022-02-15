@@ -1,54 +1,43 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { TranslateService } from '@ngx-translate/core';
 
-import { BaseFilterDef, FilterHttpIDs, FilterIDs } from '../../../../types/Filters';
+import { FilterHttpIDs, FilterIDs } from '../../../../types/Filters';
+import { KeyValue } from '../../../../types/GlobalType';
 import { UsersDialogComponent } from '../../../dialogs/users/users-dialog.component';
-import { BaseFilter } from '../../base-filter.component';
 import { FiltersService } from '../../filters.service';
-import { DialogFilterComponent } from '../dialog.component';
+import { BaseDialogFilterComponent } from '../base-dialog.component';
 
 @Component({
   selector: 'app-users-filter',
-  template: '<app-dialog-filter (dataChanged)="updateService($event)"></app-dialog-filter>'
+  templateUrl: '../base-dialog.component.html'
 })
-export class UsersFilterComponent extends BaseFilter implements AfterViewInit{
+export class UsersFilterComponent extends BaseDialogFilterComponent{
 
-  @ViewChild(DialogFilterComponent) dialogFilter!: DialogFilterComponent;
+  public id: string;
+  public label: string;
+  public visible: boolean;
+  public cssClass: string;
+  public name: string;
+  public httpId: FilterHttpIDs;
+  public currentValue: KeyValue[];
+  public defaultValue: KeyValue[];
+  public dialogComponent: any;
+  public dialogComponentData?: any;
 
   constructor(
-    private changeDetectorRef: ChangeDetectorRef,
-    private filtersService: FiltersService,
+    filtersService: FiltersService,
+    dialog: MatDialog,
   ) {
-    super();
-    this.baseDetails = {
-      id: FilterIDs.USER,
-      httpId: FilterHttpIDs.USER,
-      currentValue: [],
-    }
-    this.filtersService.setFilterValue(this.baseDetails);
-  }
-
-  public updateService(newData: BaseFilterDef){
-    this.filtersService.setFilterValue(newData);
-  }
-
-  private initFilter() {
-    this.dialogFilter.setFilter({
-      ...this.baseDetails,
-      defaultValue: [],
-      name: 'logs.user',
-      label: '',
-      cssClass: '',
-      dialogComponent: UsersDialogComponent,
-      dependentFilters: [
-        FilterHttpIDs.ISSUER,
-        FilterHttpIDs.SITE
-      ]
-    })
-  }
-
-  ngAfterViewInit(): void {
-    this.initFilter();
-    this.changeDetectorRef.detectChanges();
+    super(dialog, filtersService);
+    this.id = FilterIDs.USER;
+    this.httpId = FilterHttpIDs.USER;
+    this.currentValue = [];
+    this.defaultValue = [];
+    this.name = 'logs.user';
+    this.label = '';
+    this.dialogComponent = UsersDialogComponent;
+    this.visible = true;
   }
 
 }

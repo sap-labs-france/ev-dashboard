@@ -1,0 +1,7 @@
+<mat-form-field>
+  <mat-select (selectionChange)="filterUpdated($event)" [(value)]="currentValue"
+    [placeholder]="name | translate" multiple disableRipple>
+    <mat-select-trigger>{{label}}</mat-select-trigger>
+    <mat-option *ngFor="let item of items" [value]="item">{{item.value | translate}}</mat-option>
+  </mat-select>
+</mat-form-field>

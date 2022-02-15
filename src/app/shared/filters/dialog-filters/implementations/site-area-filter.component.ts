@@ -1,55 +1,42 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
-import { BaseFilterDef, FilterHttpIDs, FilterIDs } from '../../../../types/Filters';
+import { FilterHttpIDs, FilterIDs } from '../../../../types/Filters';
+import { KeyValue } from '../../../../types/GlobalType';
 import { SiteAreasDialogComponent } from '../../../dialogs/site-areas/site-areas-dialog.component';
-import { BaseFilter } from '../../base-filter.component';
 import { FiltersService } from '../../filters.service';
-import { DialogFilterComponent } from '../dialog.component';
+import { BaseDialogFilterComponent } from '../base-dialog.component';
 
 @Component({
   selector: 'app-site-area-filter',
-  template: '<app-dialog-filter (dataChanged)="updateService($event)"></app-dialog-filter>'
+  templateUrl: '../base-dialog.component.html'
 })
-export class SiteAreaFilterComponent extends BaseFilter implements AfterViewInit{
+export class SiteAreaFilterComponent extends BaseDialogFilterComponent{
 
-  @ViewChild(DialogFilterComponent) dialogFilter!: DialogFilterComponent;
+  public id: string;
+  public label: string;
+  public visible: boolean;
+  public cssClass: string;
+  public name: string;
+  public httpId: FilterHttpIDs;
+  public currentValue: KeyValue[];
+  public defaultValue: KeyValue[];
+  public dialogComponent: any;
+  public dialogComponentData?: any;
 
   constructor(
-    private changeDetectorRef: ChangeDetectorRef,
-    private filtersService: FiltersService,
+    filtersService: FiltersService,
+    dialog: MatDialog
   ) {
-    super();
-    this.baseDetails = {
-      id: FilterIDs.SITE_AREA,
-      httpId: FilterHttpIDs.SITE_AREA,
-      currentValue: [],
-    }
-    this.filtersService.setFilterValue(this.baseDetails);
-  }
-
-  public updateService(newData: BaseFilterDef){
-    this.filtersService.setFilterValue(newData);
-  }
-
-  private initFilter() {
-    this.dialogFilter.setFilter({
-      ...this.baseDetails,
-      defaultValue: [],
-      name: 'site_areas.title',
-      label: '',
-      cssClass: '',
-      dialogComponent: SiteAreasDialogComponent,
-      dependentFilters: [
-        FilterHttpIDs.COMPANY,
-        FilterHttpIDs.ISSUER,
-        FilterHttpIDs.SITE,
-      ]
-    })
-  }
-
-  ngAfterViewInit(): void {
-    this.initFilter();
-    this.changeDetectorRef.detectChanges();
+    super(dialog, filtersService);
+    this.id = FilterIDs.SITE_AREA;
+    this.httpId = FilterHttpIDs.SITE_AREA;
+    this.currentValue = [];
+    this.defaultValue = [];
+    this.name = 'site_areas.title';
+    this.label = '';
+    this.dialogComponent = SiteAreasDialogComponent;
+    this.visible = true;
   }
 
 }

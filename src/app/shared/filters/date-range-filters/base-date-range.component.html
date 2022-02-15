@@ -1,0 +1,17 @@
+<mat-form-field style="min-width: 300px">
+  <input matInput ngxDaterangepickerMd
+    [timePicker]="timePicker"
+    [timePickerSeconds]="timePickerSeconds"
+    [timePicker24Hour]="timePicker24Hour"
+    [locale]="locale"
+    [ngModel]="currentValue"
+    [ranges]="ranges"
+    [alwaysShowCalendars]="true"
+    (click)="openDateRanges()"
+    (ngModelChange)="filterUpdated($event)"
+    (keyup.enter)="dateRangeChangedDirectly($event)"/>
+  <mat-icon matSuffix class="ngx-daterangepicker-action date-range-picker-icon mt-1"
+    (click)="openDateRanges()">
+    date_range
+  </mat-icon>
+</mat-form-field>

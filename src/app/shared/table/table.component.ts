@@ -263,6 +263,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       validateButtonTitle: 'general.set_filter',
     };
     Utils.buildDependentFilters(filterDef);
+    console.log(filterDef.dialogComponentData);
     if (filterDef.dialogComponentData) {
       Object.assign(dialogConfig.data, filterDef.dialogComponentData);
     }

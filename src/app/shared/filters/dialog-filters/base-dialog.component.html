@@ -1,0 +1,8 @@
+<mat-form-field>
+  <input (click)="showDialogFilter()" [placeholder]="name | translate"
+    [value]="label"
+    class="form-field-popup" matInput readonly=true type="text" />
+  <button mat-icon-button matSuffix (click)="reset()" aria-label="Clear">
+    <mat-icon>clear</mat-icon>
+  </button>
+</mat-form-field>

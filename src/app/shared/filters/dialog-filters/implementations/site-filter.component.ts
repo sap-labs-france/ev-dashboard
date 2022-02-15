@@ -1,54 +1,43 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { TranslateService } from '@ngx-translate/core';
 
-import { BaseFilterDef, FilterHttpIDs, FilterIDs } from '../../../../types/Filters';
+import { FilterHttpIDs, FilterIDs } from '../../../../types/Filters';
+import { KeyValue } from '../../../../types/GlobalType';
 import { SitesDialogComponent } from '../../../dialogs/sites/sites-dialog.component';
-import { BaseFilter } from '../../base-filter.component';
 import { FiltersService } from '../../filters.service';
-import { DialogFilterComponent } from '../dialog.component';
+import { BaseDialogFilterComponent } from '../base-dialog.component';
 
 @Component({
   selector: 'app-site-filter',
-  template: '<app-dialog-filter (dataChanged)="updateService($event)"></app-dialog-filter>'
+  templateUrl: '../base-dialog.component.html'
 })
-export class SiteFilterComponent extends BaseFilter implements AfterViewInit{
+export class SiteFilterComponent extends BaseDialogFilterComponent{
 
-  @ViewChild(DialogFilterComponent) dialogFilter!: DialogFilterComponent;
+  public id: string;
+  public label: string;
+  public visible: boolean;
+  public cssClass: string;
+  public name: string;
+  public httpId: FilterHttpIDs;
+  public currentValue: KeyValue[];
+  public defaultValue: KeyValue[];
+  public dialogComponent: any;
+  public dialogComponentData?: any;
 
   constructor(
-    private changeDetectorRef: ChangeDetectorRef,
-    private filtersService: FiltersService,
+    filtersService: FiltersService,
+    dialog: MatDialog
   ) {
-    super();
-    this.baseDetails = {
-      id: FilterIDs.SITE,
-      httpId: FilterHttpIDs.SITE,
-      currentValue: [],
-    }
-    this.filtersService.setFilterValue(this.baseDetails);
-  }
-
-  public updateService(newData: BaseFilterDef){
-    this.filtersService.setFilterValue(newData);
-  }
-
-  private initFilter() {
-    this.dialogFilter.setFilter({
-      ...this.baseDetails,
-      defaultValue: [],
-      name: 'sites.titles',
-      label: '',
-      cssClass: '',
-      dialogComponent: SitesDialogComponent,
-      dependentFilters: [
-        FilterHttpIDs.COMPANY,
-        FilterHttpIDs.ISSUER
-      ]
-    })
-  }
-
-  ngAfterViewInit(): void {
-    this.initFilter();
-    this.changeDetectorRef.detectChanges();
+    super(dialog, filtersService);
+    this.id = FilterIDs.SITE;
+    this.httpId = FilterHttpIDs.SITE;
+    this.currentValue = [];
+    this.defaultValue = [];
+    this.name = 'sites.titles';
+    this.label = '';
+    this.dialogComponent = SitesDialogComponent;
+    this.visible = true;
   }
 
 }

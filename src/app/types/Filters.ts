@@ -1,42 +1,5 @@
 import * as moment from "moment";
 
-import { KeyValue } from "./GlobalType";
-
-export type FilterValue = string[] | KeyValue[] | DateRangeCurrentValue;
-
-export interface BaseFilterDef {
-  id: string;
-  httpId: FilterHttpIDs;
-  currentValue: FilterValue;
-  startDateTimeHttpId?: string;
-  endDateTimeHttpId?: string;
-}
-export interface FilterDef extends BaseFilterDef{
-  name: string;
-  cssClass: string;
-  label: string;
-  defaultValue: FilterValue;
-  dependentFilters?: FilterHttpIDs[];
-  visible?: boolean;
-}
-
-export interface DropdownFilterDef extends FilterDef {
-  items: KeyValue[];
-}
-
-export interface DialogFilterDef extends FilterDef {
-  dialogComponent: any;
-  dialogComponentData?: any;
-}
-
-export interface DateRangeFilterDef extends FilterDef {
-  timePicker: boolean;
-  timePicker24Hour: boolean;
-  timePickerSeconds: boolean;
-  locale?: Locale;
-  ranges?: any;
-}
-
 export interface Locale {
   daysOfWeek?: string[];
   monthNames?: string[];

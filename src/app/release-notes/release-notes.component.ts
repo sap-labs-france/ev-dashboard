@@ -29,7 +29,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
-              ``,
+              `Soft Stop of faulty ongoing Transactions`,
             ],
           },
         ],

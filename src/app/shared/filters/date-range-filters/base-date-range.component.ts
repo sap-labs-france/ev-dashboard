@@ -76,10 +76,10 @@ export abstract class BaseDateRangeFilterComponent extends BaseFilter{
   protected getCurrentValueAsKeyValue(): KeyValue[] {
     return [{
       key: this.startDateTimeHttpId,
-      value: this.currentValue.startDate
+      value: this.currentValue.startDate.toDate().toString(),
     }, {
       key: this.endDateTimeHttpId,
-      value: this.currentValue.endDate
+      value: this.currentValue.endDate.toDate().toString()
     }]
   }
 

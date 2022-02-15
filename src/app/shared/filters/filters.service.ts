@@ -38,7 +38,6 @@ export class FiltersService {
         delete this.filtersValue[newValue.key];
       }
     }
-    console.log(this.filtersValue);
   }
 
   public getFilterItemValue(key: FilterIDs): any {

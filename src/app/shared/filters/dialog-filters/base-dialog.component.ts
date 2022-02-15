@@ -40,7 +40,6 @@ export abstract class BaseDialogFilterComponent extends BaseFilter{
     // Add sites
     dialogRef.afterClosed().subscribe((data) => {
       if (data) {
-        console.log(data);
         this.currentValue = data;
         this.label = data.map(t => t.value).join(', ');
         this.filtersService.filterUpdated(this.getCurrentValueAsKeyValue());
@@ -69,7 +68,6 @@ export abstract class BaseDialogFilterComponent extends BaseFilter{
       };
     }
     this.dialogComponentData.staticFilter = staticFilterValues;
-    console.log(this.dialogComponentData);
   }
 
 }

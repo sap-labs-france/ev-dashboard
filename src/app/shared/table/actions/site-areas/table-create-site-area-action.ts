@@ -24,12 +24,12 @@ export class TableCreateSiteAreaAction extends TableCreateAction {
   private createSiteArea(siteAreaDialogComponent: ComponentType<unknown>,
     dialog: MatDialog, refresh?: () => Observable<void>) {
     super.create(siteAreaDialogComponent, dialog, null, refresh, {
-      minWidth: ScreenSize.L,
-      maxWidth: ScreenSize.XXL,
+      minWidth: ScreenSize.XL,
+      maxWidth: ScreenSize.XL,
       width: ScreenSize.XL,
-      minHeight: ScreenSize.L,
-      maxHeight: ScreenSize.XXL,
-      height: ScreenSize.XLXXL
+      minHeight: ScreenSize.XXXL,
+      maxHeight: ScreenSize.XXXL,
+      height: ScreenSize.XXXL
     });
   }
 }

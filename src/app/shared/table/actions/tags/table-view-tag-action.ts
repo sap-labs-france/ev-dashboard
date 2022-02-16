@@ -6,26 +6,25 @@ import { DialogParams } from '../../../../types/Authorization';
 import { ScreenSize } from '../../../../types/GlobalType';
 import { TableActionDef } from '../../../../types/Table';
 import { Tag, TagButtonAction } from '../../../../types/Tag';
-import { TableEditAction } from '../table-edit-action';
+import { TableViewAction } from '../table-view-action';
 
-export interface TableEditTagByVisualIDActionDef extends TableActionDef {
-  action: (tagAssignDialogComponent: ComponentType<unknown>, dialog: MatDialog,
-    dialogParams?: DialogParams<Tag>,
-    refresh?: () => Observable<void>) => void;
+export interface TableViewTagActionDef extends TableActionDef {
+  action: (tagDialogComponent: ComponentType<unknown>, dialog: MatDialog,
+    dialogParams: DialogParams<Tag>, refresh?: () => Observable<void>) => void;
 }
 
-export class TableEditTagByVisualIDAction extends TableEditAction {
-  public getActionDef(): TableEditTagByVisualIDActionDef {
+export class TableViewTagAction extends TableViewAction {
+  public getActionDef(): TableViewTagActionDef {
     return {
       ...super.getActionDef(),
-      id: TagButtonAction.EDIT_TAG_BY_VISUAL_ID,
-      action: this.editTag,
+      id: TagButtonAction.VIEW_TAG,
+      action: this.viewTag,
     };
   }
 
-  private editTag(tagAssignDialogComponent: ComponentType<unknown>, dialog: MatDialog,
+  private viewTag(tagDialogComponent: ComponentType<unknown>, dialog: MatDialog,
     dialogParams: DialogParams<Tag>, refresh?: () => Observable<void>) {
-    super.edit(tagAssignDialogComponent, dialog, dialogParams, refresh, {
+    super.view(tagDialogComponent, dialog, dialogParams, refresh, {
       minWidth: ScreenSize.M,
       maxWidth: ScreenSize.M,
       width: ScreenSize.M,

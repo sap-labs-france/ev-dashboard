@@ -1,6 +1,9 @@
+import 'chartjs-adapter-moment';
+
 import { Component } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
+import { Chart, registerables } from 'chart.js';
 
 import { CONNECTOR_ALL_TYPES_MAP } from './shared/model/charging-stations.model';
 
@@ -21,5 +24,6 @@ export class AppComponent {
           sanitizer.bypassSecurityTrustResourceUrl(connectorMap.svgIconFile));
       }
     }
+    Chart.register(...registerables);
   }
 }

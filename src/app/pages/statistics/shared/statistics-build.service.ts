@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { ChartData, ChartDataSets } from 'chart.js';
+import { ChartData, ChartDataset } from 'chart.js';
 import * as moment from 'moment';
 
 import { LocaleService } from '../../../services/locale.service';
@@ -46,7 +46,7 @@ export class StatisticsBuildService {
     let sum = 0;
     const totalDataArray: number[] = [];
     const transactionValues = statisticsData;
-    const datasets: ChartDataSets[] = [];
+    const datasets: ChartDataset[] = [];
     if (roundingDecimals !== 0) {
       if (roundingDecimals > 0) {
         for (let i = 0; i < roundingDecimals; i++) {
@@ -268,7 +268,7 @@ export class StatisticsBuildService {
       stackedChartData.datasets.forEach((dataset) => {
         if (dataset.stack !== ChartConstants.STACKED_TOTAL) {
           const labels: string[] = totalChartData.labels as string[];
-          const datasets: ChartDataSets[] = totalChartData.datasets as ChartDataSets[];
+          const datasets: ChartDataset[] = totalChartData.datasets as ChartDataset[];
           labels.push(dataset.label);
           totalValue = 0;
           numberArray = dataset.data;

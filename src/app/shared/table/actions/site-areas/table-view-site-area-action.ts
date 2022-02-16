@@ -25,12 +25,12 @@ export class TableViewSiteAreaAction extends TableViewAction {
   private viewSiteArea(siteAreaDialogComponent: ComponentType<unknown>, dialog: MatDialog,
     dialogParams: DialogParams<SiteArea>, refresh?: () => Observable<void>) {
     super.view(siteAreaDialogComponent, dialog, dialogParams, refresh, {
-      minWidth: ScreenSize.L,
-      maxWidth: ScreenSize.XXL,
+      minWidth: ScreenSize.XL,
+      maxWidth: ScreenSize.XL,
       width: ScreenSize.XL,
-      minHeight: ScreenSize.L,
-      maxHeight: ScreenSize.XXL,
-      height: ScreenSize.XLXXL
+      minHeight: ScreenSize.XXXL,
+      maxHeight: ScreenSize.XXXL,
+      height: ScreenSize.XXXL
     });
   }
 }

@@ -27,12 +27,12 @@ export class TableViewChargingStationsOfSiteAreaAction extends TableViewAction {
   private viewChargingStations(siteAreaChargingStationsDialogComponent: ComponentType<unknown>, dialog: MatDialog,
     dialogParams: DialogParams<SiteArea>, refresh?: () => Observable<void>) {
     super.view(siteAreaChargingStationsDialogComponent, dialog, dialogParams, refresh, {
-      minWidth: ScreenSize.L,
-      maxWidth: ScreenSize.XXL,
-      width: ScreenSize.XL,
-      minHeight: ScreenSize.L,
-      maxHeight: ScreenSize.XXL,
-      height: ScreenSize.XL
+      minWidth: ScreenSize.XXXL,
+      maxWidth: ScreenSize.XXXL,
+      width: ScreenSize.XXXL,
+      minHeight: ScreenSize.XXXL,
+      maxHeight: ScreenSize.XXXL,
+      height: ScreenSize.XXXL
     });
   }
 }

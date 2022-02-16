@@ -38,3 +38,12 @@ export enum ChartTypeValues {
   STACKED_BAR = 'stackedBar',
   LINE = 'line',
 };
+
+export enum ConsumptionChartAxis {
+  X = 'x',
+  AMPERAGE = 'Amperage',
+  POWER = 'Power',
+  PERCENTAGE = 'Percentage',
+  VOLTAGE = 'Voltage',
+  AMOUNT = 'Amount',
+}

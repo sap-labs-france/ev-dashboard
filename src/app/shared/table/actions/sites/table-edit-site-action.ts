@@ -25,12 +25,12 @@ export class TableEditSiteAction extends TableEditAction {
   private editSite(siteDialogComponent: ComponentType<unknown>, dialog: MatDialog,
     dialogParams: DialogParams<Site>, refresh?: () => Observable<void>) {
     super.edit(siteDialogComponent, dialog, dialogParams, refresh, {
-      minWidth: ScreenSize.L,
-      maxWidth: ScreenSize.XXL,
+      minWidth: ScreenSize.XL,
+      maxWidth: ScreenSize.XL,
       width: ScreenSize.XL,
-      minHeight: ScreenSize.L,
+      minHeight: ScreenSize.XXL,
       maxHeight: ScreenSize.XXL,
-      height: ScreenSize.XL
+      height: ScreenSize.XXL
     });
   }
 }

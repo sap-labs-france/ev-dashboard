@@ -6,14 +6,14 @@
           <mat-icon>portrait</mat-icon>
           <span>{{name.value}}</span>
         </ng-template>
-        <div class="card-body mat-tab-dialog-body-content pt-0 align-items-end">
-          <div class="row app-asset-align-center">
+        <div class="card-body mat-tab-dialog-body-content align-items-end">
+          <div class="row">
             <div class="col-md-12 col-xl-5">
               <div class="rotating-card-container" [ngStyle]="{ 'pointer-events': !readOnly ? 'all' : 'none'}">
                 <div class="card card-rotate card-background app-asset-image-padding mt-0">
                   <div class="front front-background"
                     [ngStyle]="{'background-image': 'url(' + image + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
-                    <div class="card-body">
+                    <div class="card-body mat-tab-dialog-body-content">
                     </div>
                   </div>
                   <div class="back back-background"

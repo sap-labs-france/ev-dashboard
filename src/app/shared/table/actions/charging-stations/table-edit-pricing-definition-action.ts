@@ -25,12 +25,12 @@ export class TableEditPricingDefinitionAction extends TableEditAction {
   private editPricingDefinition(pricingDefinitionDialogComponent: ComponentType<unknown>, dialog: MatDialog,
     dialogParams: DialogParams<PricingDefinitionDialogData>, refresh?: () => Observable<void>) {
     super.edit(pricingDefinitionDialogComponent, dialog, dialogParams, refresh, {
-      minWidth: ScreenSize.L,
-      maxWidth: ScreenSize.XXL,
+      minWidth: ScreenSize.XL,
+      maxWidth: ScreenSize.XL,
       width: ScreenSize.XL,
-      minHeight: ScreenSize.XXL,
-      maxHeight: ScreenSize.XXXL,
-      height: ScreenSize.XXXL
+      minHeight: ScreenSize.XXXL,
+      maxHeight: ScreenSize.XXXXL,
+      height: ScreenSize.XXXXL
     });
   }
 }

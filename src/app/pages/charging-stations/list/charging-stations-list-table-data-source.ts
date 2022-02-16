@@ -88,20 +88,24 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
         this.getPaging(), this.getSorting()).subscribe((chargingStations) => {
         // Update details status
         for (const chargingStation of chargingStations.result) {
-          // At first filter out the connectors that are null
-          chargingStation.connectors = chargingStation.connectors.filter((connector: Connector) => !Utils.isNullOrUndefined(connector));
-          for (const connector of chargingStation.connectors) {
-            connector.hasDetails = connector.currentTransactionID > 0;
-            let connectorIsInactive = false;
-            if (chargingStation.inactive || chargingStation.firmwareUpdateStatus === FirmwareStatus.INSTALLING) {
-              connectorIsInactive = true;
-            }
-            connector.status = connectorIsInactive ? ChargePointStatus.UNAVAILABLE : connector.status;
-            connector.currentInstantWatts = connectorIsInactive ? 0 : connector.currentInstantWatts;
-            connector.currentStateOfCharge = connectorIsInactive ? 0 : connector.currentStateOfCharge;
-            connector.currentTotalConsumptionWh = connectorIsInactive ? 0 : connector.currentTotalConsumptionWh;
-            connector.currentTotalInactivitySecs = connectorIsInactive ? 0 : connector.currentTotalInactivitySecs;
-          };
+          // Only for local Charging Station
+          if (chargingStation.issuer) {
+            // Remove invalid connectors
+            chargingStation.connectors = chargingStation.connectors.filter((connector: Connector) => !Utils.isNullOrUndefined(connector));
+            // Align Connector's status with Charging Station inactive flag
+            for (const connector of chargingStation.connectors) {
+              connector.hasDetails = connector.currentTransactionID > 0;
+              let connectorIsInactive = false;
+              if (chargingStation.inactive || chargingStation.firmwareUpdateStatus === FirmwareStatus.INSTALLING) {
+                connectorIsInactive = true;
+              }
+              connector.status = connectorIsInactive ? ChargePointStatus.UNAVAILABLE : connector.status;
+              connector.currentInstantWatts = connectorIsInactive ? 0 : connector.currentInstantWatts;
+              connector.currentStateOfCharge = connectorIsInactive ? 0 : connector.currentStateOfCharge;
+              connector.currentTotalConsumptionWh = connectorIsInactive ? 0 : connector.currentTotalConsumptionWh;
+              connector.currentTotalInactivitySecs = connectorIsInactive ? 0 : connector.currentTotalInactivitySecs;
+            };
+          }
         };
         this.canExport.visible = this.authorizationService.isAdmin();
         observer.next(chargingStations);

@@ -23,6 +23,19 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.6.1',
+        date: new Date('2022-02-16'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Soft Stop of faulty ongoing Transactions`,
+              `Adjusted the Roaming Charging Station's status`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.6.0',
         date: new Date('2022-02-14'),
         componentChanges: [

@@ -38,6 +38,10 @@
     color: $state-danger-bg;
   }
 
+  .charger-heartbeat-not-applicable {
+    color: $state-info-bg;
+  }
+
   .charger-heartbeat-date-error {
     color: $state-danger-bg;
     font-weight: 500;

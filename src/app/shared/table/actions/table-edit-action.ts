@@ -26,6 +26,10 @@ export class TableEditAction implements TableAction {
     dialogParams: DialogParams<DialogData>, refresh?: () => Observable<void>, size?: PopupSize) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
+    dialogConfig.minWidth = '60vw';
+    dialogConfig.maxWidth = '80vw';
+    dialogConfig.minHeight = '40vh';
+    dialogConfig.maxHeight = '80vh';
     // CSS
     dialogConfig.panelClass = 'transparent-dialog-container';
     dialogConfig.data = {

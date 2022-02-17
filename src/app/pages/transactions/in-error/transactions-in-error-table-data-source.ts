@@ -375,7 +375,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
       case LogButtonAction.NAVIGATE_TO_LOGS:
         if (actionDef.action) {
           (actionDef as TableOpenURLActionDef).action('logs?ChargingStationID=' + transaction.chargeBoxID +
-            '&Timestamp=' + transaction.timestamp + '&LogLevel=I');
+            '&StartDateTime=' + transaction.timestamp + '&LogLevel=I');
         }
         break;
     }

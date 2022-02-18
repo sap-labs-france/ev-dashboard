@@ -33,6 +33,7 @@ export class ReleaseNotesComponent {
               `Adjusted the Roaming Charging Station's status`,
               `Fixed filtering of Logs based on date time value set in URL`,
               `Updated Charging Station's template with new Vendors`,
+              `Clear Site Admin flag when User's role is changed to Admin`,
             ],
           },
         ],

@@ -50,3 +50,9 @@ $height-levels: 20,30,35,40,45,50,55,60,65,70,75,80,85,90,95;
     }
   }
 }
+
+@include media-breakpoint-up(xl) {
+  .h-xl-100 {
+    height: 100%;
+  }
+}

@@ -23,13 +23,13 @@ export class TableEditAction implements TableAction {
   }
 
   protected edit(component: ComponentType<unknown>, dialog: MatDialog,
-    dialogParams: DialogParams<DialogData>, refresh?: () => Observable<void>, size?: PopupSize) {
+    dialogParams: DialogParams<DialogData>, refresh?: () => Observable<void>) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
-    dialogConfig.minWidth = '60vw';
-    dialogConfig.maxWidth = '80vw';
-    dialogConfig.minHeight = '40vh';
-    dialogConfig.maxHeight = '80vh';
+    // dialogConfig.minWidth = '60vw';
+    dialogConfig.maxWidth = '85vw';
+    // dialogConfig.minHeight = '50vh';
+    // dialogConfig.maxHeight = '80vh';
     // CSS
     dialogConfig.panelClass = 'transparent-dialog-container';
     dialogConfig.data = {

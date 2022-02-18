@@ -25,13 +25,6 @@ export class TableEditTagByVisualIDAction extends TableEditAction {
 
   private editTag(tagAssignDialogComponent: ComponentType<unknown>, dialog: MatDialog,
     dialogParams: DialogParams<Tag>, refresh?: () => Observable<void>) {
-    super.edit(tagAssignDialogComponent, dialog, dialogParams, refresh, {
-      minWidth: ScreenSize.M,
-      maxWidth: ScreenSize.M,
-      width: ScreenSize.M,
-      minHeight: ScreenSize.SM,
-      maxHeight: ScreenSize.SM,
-      height: ScreenSize.SM
-    });
+    super.edit(tagAssignDialogComponent, dialog, dialogParams, refresh);
   }
 }

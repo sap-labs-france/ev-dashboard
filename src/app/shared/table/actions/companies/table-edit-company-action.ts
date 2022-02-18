@@ -24,13 +24,6 @@ export class TableEditCompanyAction extends TableEditAction {
 
   private editCompany(companyDialogComponent: ComponentType<unknown>, dialog: MatDialog,
     dialogParams: DialogParams<Company>, refresh?: () => Observable<void>) {
-    super.edit(companyDialogComponent, dialog, dialogParams, refresh, {
-      minWidth: ScreenSize.XL,
-      maxWidth: ScreenSize.XL,
-      width: ScreenSize.XL,
-      minHeight: ScreenSize.ML,
-      maxHeight: ScreenSize.ML,
-      height: ScreenSize.ML
-    });
+    super.edit(companyDialogComponent, dialog, dialogParams, refresh);
   }
 }

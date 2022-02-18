@@ -24,13 +24,6 @@ export class TableEditUserAction extends TableEditAction {
 
   private editUser(userDialogComponent: ComponentType<unknown>, dialog: MatDialog,
     dialogParams: DialogParams<User>, refresh?: () => Observable<void>) {
-    super.edit(userDialogComponent, dialog, dialogParams, refresh, {
-      minWidth: ScreenSize.XL,
-      maxWidth: ScreenSize.XL,
-      width: ScreenSize.XL,
-      minHeight: ScreenSize.M,
-      maxHeight: ScreenSize.M,
-      height: ScreenSize.M
-    });
+    super.edit(userDialogComponent, dialog, dialogParams, refresh);
   }
 }

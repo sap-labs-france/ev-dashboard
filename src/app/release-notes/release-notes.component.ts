@@ -24,11 +24,12 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.6.1',
-        date: new Date('2022-02-18'),
+        date: new Date('2022-02-19'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Fixed OCPI eMSP issues`,
               `Soft Stop of faulty ongoing Transactions`,
               `Adjusted the Roaming Charging Station's status`,
               `Fixed filtering of Logs based on date time value set in URL`,

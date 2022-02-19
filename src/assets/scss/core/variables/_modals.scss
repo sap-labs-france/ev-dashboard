@@ -16,3 +16,13 @@ $topbar-x: topbar-x !default;
 $bottombar-x: bottombar-x !default;
 $margin-bottom: 0 0 10px 0 !default;
 $margin-base-vertical: 15px !default;
+
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px, //tablet
+  lg: 992px, //laptop 992<lg<1200
+  xl: 1200px, //above mac screen
+  xxl: 1536px, //in-between TO BE TESTED
+  3xl: 1920px //xl screen
+);

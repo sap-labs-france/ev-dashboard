@@ -29,7 +29,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
-              `Fixed OCPI eMSP issues`,
+              `Fixed OCPI eMSP Locations and Authorize`,
               `Soft Stop of faulty ongoing Transactions`,
               `Adjusted the Roaming Charging Station's status`,
               `Fixed filtering of Logs based on date time value set in URL`,

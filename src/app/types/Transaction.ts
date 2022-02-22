@@ -4,6 +4,7 @@ import { ChargingStation } from './ChargingStation';
 import Consumption, { AbstractCurrentConsumption } from './Consumption';
 import { OCPICdr } from './ocpi/OCPICdr';
 import { OCPISession } from './ocpi/OCPISession';
+import { ResolvedPricingModel } from './Pricing';
 import { RefundStatus, RefundType } from './Refund';
 import { TableData } from './Table';
 import { User } from './User';
@@ -32,6 +33,8 @@ export interface Transaction extends TableData, AbstractCurrentConsumption {
   status: string;
   price: number;
   priceUnit: string;
+  pricingSource?: string;
+  pricingModel?: ResolvedPricingModel;
   refundData: {
     reportId: string;
     refundedAt: Date;

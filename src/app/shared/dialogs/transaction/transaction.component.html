@@ -73,6 +73,15 @@
           </div>
         </div>
       </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon>money</mat-icon>
+          <span>{{'general.menu.pricing' | translate}}</span>
+        </ng-template>
+        <div class="card-body mat-tab-dialog-body-content">
+          <app-transaction-pricing [transaction]="transaction"></app-transaction-pricing>
+        </div>
+      </mat-tab>
     </mat-tab-group>
   </div>
 </div>

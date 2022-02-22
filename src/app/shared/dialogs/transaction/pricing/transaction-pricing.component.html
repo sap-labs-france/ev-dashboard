@@ -1,92 +1,165 @@
 <div>
+
+  <div class="card-body mat-tab-dialog-body-content pt-0">
+    <div class="tab-content">
+      <div class="d-flex justify-content-around mb-3">
+        <!-- <div class="d-flex flex-column align-items-center">
+          <img [src]="loggedUserImage" class="rounded-circle icon avatar session-image mb-3" />
+          <div class="text-nowrap first-text">{{transaction.user | appUserName}}</div>
+          <div *ngIf="transaction.tag?.visualID" class="text-nowrap second-text">({{transaction.tag.visualID}})</div>
+          <div *ngIf="isStoppedByAnotherUser" class="text-nowrap third-text">{{"transactions.stopped_by" | translate}} {{transaction.stop.user | appUserName}}</div>
+        </div> -->
+        <div class="d-flex flex-column justify-content-around">
+          <div *ngIf="transaction.stop" class="d-flex flex-column mb-3 align-items-center " appTooltip
+            data-toogle="tooltip" title="{{'transactions.dialog.session.tooltips.amount' | translate}}">
+            <mat-icon>money</mat-icon>
+            <div class="first-text">{{transaction.stop.priceUnit ? (transaction.stop.roundedPrice | appCurrency:transaction.stop.priceUnit) : '-'}}</div>
+          </div>
+          <div *ngIf="!transaction.stop" class="d-flex flex-column mb-3 align-items-center" appTooltip
+            data-toogle="tooltip" title="{{'transactions.dialog.session.tooltips.current_consumption' | translate}}">
+            <mat-icon>flash_on</mat-icon>
+            <div class="first-text">{{transaction.currentInstantWatts | appUnit:'W':'kW'}}</div>
+          </div>
+          <div class="d-flex flex-column align-items-center" appTooltip data-toogle="tooltip"
+            title="{{'transactions.dialog.session.tooltips.start_date' | translate}}">
+            <mat-icon>timelapse</mat-icon>
+            <div class="first-text">{{transaction.timestamp | appDate}}</div>
+            <div *ngIf="transaction.stop" class="first-text"><small>({{transaction.stop.timestamp | appDate}})</small></div>
+          </div>
+        </div>
+        <!-- <div class="d-flex flex-column justify-content-around">
+          <div class="d-flex flex-column mb-3 align-items-center" appTooltip data-toogle="tooltip"
+            title="{{'transactions.dialog.session.tooltips.total_consumption' | translate}}">
+            <mat-icon>ev_station</mat-icon>
+            <div class="first-text">{{totalConsumptionWh | appUnit:'Wh':'kWh'}}</div>
+          </div>
+          <div class="d-flex flex-column align-items-center" appTooltip data-toogle="tooltip"
+            title="{{'transactions.dialog.session.tooltips.total_duration' | translate}}">
+            <mat-icon>timer</mat-icon>
+            <div class="first-text">{{totalDurationSecs | appDuration}}</div>
+          </div>
+        </div> -->
+        <!-- <div class="d-flex flex-column justify-content-around">
+          <div *ngIf="stateOfChargeIcon" class="d-flex flex-column mb-3 align-items-center" appTooltip
+            data-toogle="tooltip" title="{{'transactions.dialog.session.tooltips.state_of_charge' | translate}}">
+            <mat-icon>battery_charging_full</mat-icon>
+            <div class="first-text">{{stateOfCharge | appBatteryPercentage: endStateOfCharge }}</div>
+          </div>
+          <div class="d-flex flex-column align-items-center" appTooltip data-toogle="tooltip"
+            [ngClass]="transaction && (transaction.stop ? transaction.stop.inactivityStatus : transaction.currentInactivityStatus) | appColorByStatus"
+            title="{{'transactions.dialog.session.tooltips.inactivity' | translate}}">
+            <mat-icon >timer_off</mat-icon>
+            <div class="first-text">{{transaction | appInactivity}}</div>
+          </div>
+        </div> -->
+        <!-- <div *ngIf="isCarComponentActive && canDisplayCar" class="d-flex flex-column align-items-center">
+          <img [src]="carImage" class="rounded-circle icon avatar session-image mb-3" />
+          <div class="text-nowrap first-text">{{transaction?.carCatalog | appCarCatalogName}}</div>
+          <div *ngIf="transaction?.car?.licensePlate && canUpdateCar" class="text-nowrap second-text">({{transaction?.car?.licensePlate}})</div>
+        </div> -->
+      </div>
+    </div>
+  </div>
+
   <ng-container *ngFor="let pricingDefinition of pricingDefinitions">
-    <div class="card connector-card">
+    <div class="card session-pricing-detail-card">
       <div class="card-header card-header-primary card-header-icon">
+        <div class="card-icon">
+          <mat-icon>money</mat-icon>
+        </div>
         <h4 class="card-title text-left">
           {{pricingDefinition.name}}
         </h4>
       </div>
-      <div class="card-body">
-        <!-- FLAT FEE Dimension -->
-        <ng-container *ngIf="pricingDefinition.dimensions?.flatFee?.pricedData">
-          <div class="card-header card-header-primary card-header-icon">
-            <h4 class="card-title text-left">
-              <mat-label>{{'settings.pricing.flat_fee' | translate}}</mat-label>
-            </h4>
-          </div>
-          <div class="card-body">
-            <mat-label>Amount</mat-label>
-            <div class="d-flex flex-row text-left">
-              <mat-label>{{pricingDefinition.dimensions.flatFee.pricedData.roundedAmount | appCurrency}}</mat-label>
+      <div class="card-body ">
+        <div class="card session-pricing-detail-card">
+          <!-- FLAT FEE Dimension -->
+          <ng-container *ngIf="pricingDefinition.dimensions?.flatFee?.pricedData">
+            <div class="card-header card-header-primary card-header-icon">
+              <h4 class="card-title text-left">
+                <mat-label>{{'settings.pricing.flat_fee' | translate}}</mat-label>
+              </h4>
             </div>
-          </div>
-        </ng-container>
+            <div class="card-body">
+              <mat-label>Amount</mat-label>
+              <div class="d-flex flex-row text-left">
+                <mat-label>{{pricingDefinition.dimensions.flatFee.pricedData.roundedAmount | appCurrency}}</mat-label>
+              </div>
+            </div>
+          </ng-container>
+        </div>
         <!-- ENERGY Dimension -->
-        <ng-container *ngIf="pricingDefinition.dimensions?.energy?.pricedData">
-          <div class="card-header card-header-primary card-header-icon">
-            <h4 class="card-title text-left">
-              <mat-label>{{'settings.pricing.energy' | translate}}</mat-label>
-            </h4>
-          </div>
-          <div class="card-body">
-            <mat-label>Unit Price</mat-label>
-            <div class="d-flex flex-row text-left">
-              <mat-label>{{'energy_formatted_price' | appPricingDimensionsPrice:pricingDefinition.dimensions.energy.pricedData.unitPrice }}</mat-label>
+        <div class="card session-pricing-detail-card">
+          <ng-container *ngIf="pricingDefinition.dimensions?.energy?.pricedData">
+            <div class="card-header card-header-primary card-header-icon">
+              <h4 class="card-title text-left">
+                <mat-label>{{'settings.pricing.energy' | translate}}</mat-label>
+              </h4>
             </div>
-            <mat-label>Quantity</mat-label>
-            <div class="d-flex flex-row text-left">
-              <mat-label>{{pricingDefinition.dimensions.energy.pricedData.quantity}}</mat-label>
+            <div class="card-body">
+              <mat-label>Unit Price</mat-label>
+              <div class="d-flex flex-row text-left">
+                <mat-label>{{'energy_formatted_price' | appPricingDimensionsPrice:pricingDefinition.dimensions.energy.pricedData.unitPrice }}</mat-label>
+              </div>
+              <mat-label>Quantity</mat-label>
+              <div class="d-flex flex-row text-left">
+                <mat-label>{{pricingDefinition.dimensions.energy.pricedData.quantity | appUnit:'W':'kW':true:1:2:3}}</mat-label>
+              </div>
+              <mat-label>Amount</mat-label>
+              <div class="d-flex flex-row text-left">
+                <mat-label>{{pricingDefinition.dimensions.energy.pricedData.roundedAmount | appCurrency}}</mat-label>
+              </div>
             </div>
-            <mat-label>Amount</mat-label>
-            <div class="d-flex flex-row text-left">
-              <mat-label>{{pricingDefinition.dimensions.energy.pricedData.roundedAmount | appCurrency}}</mat-label>
-            </div>
-          </div>
-        </ng-container>
+          </ng-container>
+        </div>
         <!-- CHARGING TIME Dimension -->
-        <ng-container *ngIf="pricingDefinition.dimensions?.chargingTime?.pricedData">
-          <div class="card-header card-header-primary card-header-icon">
-            <h4 class="card-title text-left">
-              <mat-label>{{'settings.pricing.charging_time' | translate}}</mat-label>
-            </h4>
-          </div>
-          <div class="card-body">
-            <mat-label>Unit Price</mat-label>
-            <div class="d-flex flex-row text-left">
-              <mat-label>{{'charging_time_formatted_price' | appPricingDimensionsPrice:pricingDefinition.dimensions.chargingTime.pricedData.unitPrice }}</mat-label>
+        <div class="card session-pricing-detail-card">
+          <ng-container *ngIf="pricingDefinition.dimensions?.chargingTime?.pricedData">
+            <div class="card-header card-header-primary card-header-icon">
+              <h4 class="card-title text-left">
+                <mat-label>{{'settings.pricing.charging_time' | translate}}</mat-label>
+              </h4>
             </div>
-            <mat-label>Quantity</mat-label>
-            <div class="d-flex flex-row text-left">
-              <mat-label>{{pricingDefinition.dimensions.chargingTime.pricedData.quantity}}</mat-label>
+            <div class="card-body">
+              <mat-label>Unit Price</mat-label>
+              <div class="d-flex flex-row text-left">
+                <mat-label>{{'charging_time_formatted_price' | appPricingDimensionsPrice:pricingDefinition.dimensions.chargingTime.pricedData.unitPrice }}</mat-label>
+              </div>
+              <mat-label>Quantity</mat-label>
+              <div class="d-flex flex-row text-left">
+                <mat-label>{{pricingDefinition.dimensions.chargingTime.pricedData.quantity | appDuration}}</mat-label>
+              </div>
+              <mat-label>Amount</mat-label>
+              <div class="d-flex flex-row text-left">
+                <mat-label>{{pricingDefinition.dimensions.chargingTime.pricedData.roundedAmount | appCurrency}}</mat-label>
+              </div>
             </div>
-            <mat-label>Amount</mat-label>
-            <div class="d-flex flex-row text-left">
-              <mat-label>{{pricingDefinition.dimensions.chargingTime.pricedData.roundedAmount | appCurrency}}</mat-label>
-            </div>
-          </div>
-        </ng-container>
+          </ng-container>
+        </div>
         <!-- PARKING TIME Dimension -->
-        <ng-container *ngIf="pricingDefinition.dimensions?.parkingTime?.pricedData">
-          <div class="card-header card-header-primary card-header-icon">
-            <h4 class="card-title text-left">
-              <mat-label>{{'settings.pricing.parking_time' | translate}}</mat-label>
-            </h4>
-          </div>
-          <div class="card-body">
-            <mat-label>Unit Price</mat-label>
-            <div class="d-flex flex-row text-left">
-              <mat-label>{{'parking_time_formatted_price' | appPricingDimensionsPrice:pricingDefinition.dimensions.parkingTime.pricedData.unitPrice }}</mat-label>
+        <div class="card session-pricing-detail-card">
+          <ng-container *ngIf="pricingDefinition.dimensions?.parkingTime?.pricedData">
+            <div class="card-header card-header-primary card-header-icon">
+              <h4 class="card-title text-left">
+                <mat-label>{{'settings.pricing.parking_time' | translate}}</mat-label>
+              </h4>
             </div>
-            <mat-label>Quantity</mat-label>
-            <div class="d-flex flex-row text-left">
-              <mat-label>{{pricingDefinition.dimensions.parkingTime.pricedData.quantity}}</mat-label>
+            <div class="card-body">
+              <mat-label>Unit Price</mat-label>
+              <div class="d-flex flex-row text-left">
+                <mat-label>{{'parking_time_formatted_price' | appPricingDimensionsPrice:pricingDefinition.dimensions.parkingTime.pricedData.unitPrice }}</mat-label>
+              </div>
+              <mat-label>Quantity</mat-label>
+              <div class="d-flex flex-row text-left">
+                <mat-label>{{pricingDefinition.dimensions.parkingTime.pricedData.quantity | appDuration}}</mat-label>
+              </div>
+              <mat-label>Amount</mat-label>
+              <div class="d-flex flex-row text-left">
+                <mat-label>{{pricingDefinition.dimensions.parkingTime.pricedData.roundedAmount | appCurrency}}</mat-label>
+              </div>
             </div>
-            <mat-label>Amount</mat-label>
-            <div class="d-flex flex-row text-left">
-              <mat-label>{{pricingDefinition.dimensions.parkingTime.pricedData.roundedAmount | appCurrency}}</mat-label>
-            </div>
-          </div>
-        </ng-container>
+          </ng-container>
+        </div>
       </div>
     </div>
   </ng-container>

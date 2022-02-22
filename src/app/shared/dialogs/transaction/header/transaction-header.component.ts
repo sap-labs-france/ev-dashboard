@@ -3,10 +3,10 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/cor
 import { Transaction } from '../../../../types/Transaction';
 
 @Component({
-  selector: 'app-transaction-main',
-  templateUrl: './transaction-main.component.html',
+  selector: 'app-transaction-header',
+  templateUrl: './transaction-header.component.html',
 })
-export class TransactionMainComponent implements OnInit {
+export class TransactionHeaderComponent implements OnInit {
   @Input() public transaction: Transaction;
   @Input() public loggedUserImage: string;
   @Input() public totalConsumptionWh: number;

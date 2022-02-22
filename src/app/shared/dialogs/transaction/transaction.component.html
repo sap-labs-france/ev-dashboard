@@ -9,7 +9,7 @@
         <div class="card-body mat-tab-dialog-body-content pt-0">
           <div class="tab-content">
             <!-- header -->
-            <app-transaction-main
+            <app-transaction-header
               [transaction]="transaction"
               [loggedUserImage]="loggedUserImage"
               [stateOfChargeIcon]="stateOfChargeIcon"
@@ -20,7 +20,7 @@
               [canDisplayCar]="canDisplayCar"
               [isStoppedByAnotherUser]="isStoppedByAnotherUser"
               >
-            </app-transaction-main>
+            </app-transaction-header>
             <!-- chart -->
             <app-transaction-chart #chartConsumption [transaction]="transaction" [transactionId]="transaction.id"
               class="w-100" ratio="4">
@@ -36,7 +36,7 @@
         <div class="card-body mat-tab-dialog-body-content">
           <div class="tab-content">
             <!-- header -->
-            <app-transaction-main
+            <app-transaction-header
               [transaction]="transaction"
               [loggedUserImage]="loggedUserImage"
               [stateOfChargeIcon]="stateOfChargeIcon"
@@ -47,7 +47,7 @@
               [canDisplayCar]="canDisplayCar"
               [isStoppedByAnotherUser]="isStoppedByAnotherUser"
               >
-            </app-transaction-main>
+            </app-transaction-header>
             <app-transaction-pricing [transaction]="transaction">
             </app-transaction-pricing>
           </div>

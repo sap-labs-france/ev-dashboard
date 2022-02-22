@@ -53,8 +53,37 @@
   text-align: left;
 }
 
-.session-pricing-detail-card {
+.session-tariff-detail-card {
   background: rgba($brand-primary, 0.1);
-  margin: 20px 0;
+  margin-top: 30px;
 }
 
+.session-pricing-detail-card {
+  background: rgba($brand-primary, 0.1);
+  margin-top: 30px;
+  margin-right: 10px;
+}
+
+.session-pricing-properties {
+  width: 100%;
+}
+
+.session-tariff-property {
+  background: rgba($brand-primary, 0.1);
+  text-align: right;
+  min-width: 150px;
+}
+
+.session-tariff-text {
+  background: rgba($brand-primary, 0.1);
+  min-width: 400px;
+}
+
+.session-pricing-property {
+  background: rgba($brand-primary, 0.2);
+  text-align: right;
+}
+
+.session-pricing-value {
+  text-align: left;
+}

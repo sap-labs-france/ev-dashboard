@@ -42,6 +42,7 @@ export class TransactionComponent implements OnInit, OnDestroy {
   public isCarComponentActive: boolean;
   public canDisplayCar: boolean;
   public canUpdateCar: boolean;
+  public showPricingDetail: boolean;
 
   private refreshInterval;
 
@@ -60,6 +61,7 @@ export class TransactionComponent implements OnInit, OnDestroy {
     this.isCarComponentActive = this.componentService.isActive(TenantComponents.CAR);
     this.canUpdateCar = this.authorizationService.canUpdateCar();
     this.canDisplayCar = this.authorizationService.canReadCar();
+    this.showPricingDetail = false;
   }
 
   public ngOnInit(): void {
@@ -116,6 +118,10 @@ export class TransactionComponent implements OnInit, OnDestroy {
         this.stateOfCharge = transaction.stateOfCharge;
         this.endStateOfCharge = transaction.currentStateOfCharge;
         this.totalDurationSecs = transaction.currentTotalDurationSecs;
+      }
+      if ( transaction.pricingModel ) {
+        // Show pricing dimensions in a second tab
+        this.showPricingDetail = true;
       }
       if (Utils.objectHasProperty(transaction, 'stateOfCharge')) {
         if (this.stateOfCharge === 100) {

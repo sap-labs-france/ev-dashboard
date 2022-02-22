@@ -38,10 +38,6 @@ export class TransactionComponent implements OnInit, OnDestroy {
   public isStoppedByAnotherUser = false;
   public totalConsumptionWh!: number;
   public totalDurationSecs!: number;
-  public locale!: string;
-  public isCarComponentActive: boolean;
-  public canDisplayCar: boolean;
-  public canUpdateCar: boolean;
   public showPricingDetail: boolean;
 
   private refreshInterval;
@@ -51,16 +47,8 @@ export class TransactionComponent implements OnInit, OnDestroy {
     private messageService: MessageService,
     private router: Router,
     private centralServerService: CentralServerService,
-    private authorizationService: AuthorizationService,
     private componentService: ComponentService,
-    private configService: ConfigService,
-    private localeService: LocaleService) {
-    this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
-      this.locale = locale.currentLocaleJS;
-    });
-    this.isCarComponentActive = this.componentService.isActive(TenantComponents.CAR);
-    this.canUpdateCar = this.authorizationService.canUpdateCar();
-    this.canDisplayCar = this.authorizationService.canReadCar();
+    private configService: ConfigService) {
     this.showPricingDetail = false;
   }
 

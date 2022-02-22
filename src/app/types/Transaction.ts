@@ -33,7 +33,6 @@ export interface Transaction extends TableData, AbstractCurrentConsumption {
   status: string;
   price: number;
   priceUnit: string;
-  pricingSource?: string;
   pricingModel?: ResolvedPricingModel;
   refundData: {
     reportId: string;

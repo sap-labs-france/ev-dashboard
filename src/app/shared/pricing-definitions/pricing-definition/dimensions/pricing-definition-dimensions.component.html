@@ -1,0 +1,133 @@
+<!-- flatFee dimension -->
+<div class="row">
+  <!-- toggle -->
+  <div class="col-md-2 pricing-dimension">
+    <mat-slide-toggle (change)="toggle($event)" id="flatFee" [checked]="flatFeeEnabled.value">
+      {{'settings.pricing.flat_fee' | translate}}
+    </mat-slide-toggle>
+  </div>
+  <!-- value -->
+  <div class="col-md-2">
+    <mat-form-field *ngIf="flatFeeEnabled.value">
+      <mat-label>{{'flat_fee_unit' | appPricingDimensionsUnit}}</mat-label>
+      <input matInput type="text" placeholder="{{'settings.pricing.value' | translate}}"
+      [formControl]="flatFee" required/>
+      <mat-error *ngIf="flatFee?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
+      <mat-error *ngIf="flatFee?.errors?.pattern">{{'general.error_number_pattern' | translate}}</mat-error>
+    </mat-form-field>
+  </div>
+</div>
+<!-- energy dimension -->
+<div class="row">
+  <!-- toggle -->
+  <div class="col-md-2 pricing-dimension">
+    <mat-slide-toggle (change)="toggle($event)" id="energy" [checked]="energyEnabled.value">
+      {{'settings.pricing.energy' | translate}}
+    </mat-slide-toggle>
+  </div>
+  <!-- value -->
+  <div class="col-md-2">
+    <mat-form-field *ngIf="energyEnabled.value">
+      <mat-label>{{'energy_unit' | appPricingDimensionsUnit}}</mat-label>
+      <input matInput type="text" placeholder="{{'settings.pricing.value' | translate}}"
+      [formControl]="energy" required/>
+      <mat-error *ngIf="energy?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
+      <mat-error *ngIf="energy?.errors?.pattern">{{'general.error_number_pattern' | translate}}</mat-error>
+    </mat-form-field>
+  </div>
+  <!-- energy stepsizes -->
+  <span class="stepSize" *ngIf="energyEnabled.value">
+    <!-- checkbox -->
+    <div class="col-md-2 offset-1 pricing-dimension">
+      <mat-checkbox (change)="toggle($event)" id="energyStep" [formControl]="energyStepEnabled" [checked]="energyStepEnabled.value">
+        {{'settings.pricing.step_size' | translate}}
+      </mat-checkbox>
+    </div>
+    <!-- value -->
+    <div class="col-md-2">
+      <mat-form-field *ngIf="energyStepEnabled.value">
+        <mat-label>{{'energy_step_unit' | appPricingDimensionsUnit }}</mat-label>
+        <input matInput type="text" placeholder="{{'settings.pricing.value' | translate}}"
+        [formControl]="energyStep" required/>
+        <mat-error *ngIf="energyStep?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
+        <mat-error *ngIf="energyStep?.errors?.pattern">{{'general.error_number_pattern' | translate}}</mat-error>
+      </mat-form-field>
+    </div>
+  </span>
+</div>
+<!-- chargingTime dimension -->
+<div class="row">
+  <!-- toggle -->
+  <div class="col-md-2 pricing-dimension">
+    <mat-slide-toggle (change)="toggle($event)" id="chargingTime" [checked]="chargingTimeEnabled.value">
+      {{'settings.pricing.charging_time' | translate}}
+    </mat-slide-toggle>
+  </div>
+  <!-- value -->
+  <div class="col-md-2">
+    <mat-form-field *ngIf="chargingTimeEnabled.value">
+      <mat-label>{{'charging_time_unit' | appPricingDimensionsUnit }}</mat-label>
+      <input matInput type="text" placeholder="{{'settings.pricing.value' | translate}}" id="chargingTime"
+      [formControl]="chargingTime" required/>
+      <mat-error *ngIf="chargingTime?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
+      <mat-error *ngIf="chargingTime?.errors?.pattern">{{'general.error_number_pattern' | translate}}</mat-error>
+    </mat-form-field>
+  </div>
+  <!-- chargingTime step sizes -->
+  <span class="stepSize" *ngIf="chargingTimeEnabled.value">
+    <!-- checkbox -->
+    <div class="col-md-2 offset-1 pricing-dimension">
+      <mat-checkbox (change)="toggle($event)" id="chargingTimeStep" [formControl]="chargingTimeStepEnabled" [checked]="chargingTimeStepEnabled.value">
+        {{'settings.pricing.step_size' | translate}}
+      </mat-checkbox>
+    </div>
+    <!-- value -->
+    <div class="col-md-2">
+      <mat-form-field *ngIf="chargingTimeStepEnabled.value">
+        <mat-label>{{'settings.pricing.time_step_unit' | translate}}</mat-label>
+        <input matInput type="text" placeholder="{{'settings.pricing.value' | translate}}"
+        [formControl]="chargingTimeStep" required/>
+        <mat-error *ngIf="chargingTimeStep?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
+        <mat-error *ngIf="chargingTimeStep?.errors?.pattern">{{'general.error_number_pattern' | translate}}</mat-error>
+      </mat-form-field>
+    </div>
+  </span>
+</div>
+<!-- parkingTime dimension -->
+<div class="row">
+  <!-- toggle -->
+  <div class="col-md-2 pricing-dimension">
+    <mat-slide-toggle (change)="toggle($event)" id="parkingTime" [checked]="parkingTimeEnabled.value">
+      {{'settings.pricing.parking_time' | translate}}
+    </mat-slide-toggle>
+  </div>
+  <!-- value -->
+  <div class="col-md-2">
+    <mat-form-field *ngIf="parkingTimeEnabled.value">
+      <mat-label>{{'parking_time_unit' | appPricingDimensionsUnit }}</mat-label>
+      <input matInput type="text" placeholder="{{'settings.pricing.value' | translate}}" id="parkingTime"
+      [formControl]="parkingTime" required/>
+      <mat-error *ngIf="parkingTime?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
+      <mat-error *ngIf="parkingTime?.errors?.pattern">{{'general.error_number_pattern' | translate}}</mat-error>
+    </mat-form-field>
+  </div>
+  <!-- parkingTime step sizes -->
+  <span class="stepSize" *ngIf="parkingTimeEnabled.value">
+    <!-- checkbox -->
+    <div class="col-md-2 offset-1 pricing-dimension">
+      <mat-checkbox (change)="toggle($event)" id="parkingTimeStep" [formControl]="parkingTimeStepEnabled" [checked]="parkingTimeStepEnabled.value">
+        {{'settings.pricing.step_size' | translate}}
+      </mat-checkbox>
+    </div>
+    <!-- value -->
+    <div class="col-md-2">
+      <mat-form-field *ngIf="parkingTimeStepEnabled.value">
+        <mat-label>{{'settings.pricing.time_step_unit' | translate }}</mat-label>
+        <input matInput type="text" placeholder="{{'settings.pricing.value' | translate}}"
+        [formControl]="parkingTimeStep" required/>
+        <mat-error *ngIf="parkingTimeStep?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
+        <mat-error *ngIf="parkingTimeStep?.errors?.pattern">{{'general.error_number_pattern' | translate}}</mat-error>
+      </mat-form-field>
+    </div>
+  </span>
+</div>

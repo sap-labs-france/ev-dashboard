@@ -1,9 +1,9 @@
 import { AfterViewInit, Component, Inject, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Utils } from 'utils/Utils';
 
 import { DialogParams } from '../../../types/Authorization';
 import { PricingDefinitionDialogData } from '../../../types/Pricing';
+import { Utils } from '../../../utils/Utils';
 import { PricingDefinitionComponent } from './pricing-definition.component';
 
 @Component({
@@ -28,6 +28,6 @@ export class PricingDefinitionDialogComponent implements AfterViewInit {
   public ngAfterViewInit() {
     // Register key event
     Utils.registerSaveCloseKeyEvents(this.dialogRef, this.appRef.formGroup,
-      this.appRef.save.bind(this.appRef), this.appRef.close.bind(this.appRef));
+      this.appRef.savePricingDefinition.bind(this.appRef), this.appRef.close.bind(this.appRef));
   }
 }

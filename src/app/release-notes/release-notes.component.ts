@@ -23,8 +23,25 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.6.1',
+        date: new Date('2022-02-19'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Fixed OCPI eMSP Locations and Authorize`,
+              `Soft Stop of faulty ongoing Transactions`,
+              `Adjusted the Roaming Charging Station's status`,
+              `Fixed filtering of Logs based on date time value set in URL`,
+              `Updated Charging Station's template with new Vendors`,
+              `Clear Site Admin flag when User's role is changed to Admin`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.6.0',
-        date: new Date('2022-02-12'),
+        date: new Date('2022-02-14'),
         componentChanges: [
           {
             name: 'Dashboard',

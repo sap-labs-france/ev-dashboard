@@ -7,16 +7,16 @@
   </div>
   <div class="d-flex flex-column justify-content-around">
     <div *ngIf="transaction.stop" class="d-flex flex-column mb-3 align-items-center " appTooltip
-      data-toogle="tooltip" title="{{'transactions.dialog.session.tooltips.amount' | translate}}">
+      title="{{'transactions.dialog.session.tooltips.amount' | translate}}">
       <mat-icon>money</mat-icon>
       <div class="first-text">{{transaction.stop.priceUnit ? (transaction.stop.roundedPrice | appCurrency:transaction.stop.priceUnit) : '-'}}</div>
     </div>
     <div *ngIf="!transaction.stop" class="d-flex flex-column mb-3 align-items-center" appTooltip
-      data-toogle="tooltip" title="{{'transactions.dialog.session.tooltips.current_consumption' | translate}}">
+      title="{{'transactions.dialog.session.tooltips.current_consumption' | translate}}">
       <mat-icon>flash_on</mat-icon>
       <div class="first-text">{{transaction.currentInstantWatts | appUnit:'W':'kW'}}</div>
     </div>
-    <div class="d-flex flex-column align-items-center" appTooltip data-toogle="tooltip"
+    <div class="d-flex flex-column align-items-center" appTooltip
       title="{{'transactions.dialog.session.tooltips.start_date' | translate}}">
       <mat-icon>timelapse</mat-icon>
       <div class="first-text">{{transaction.timestamp | appDate}}</div>
@@ -24,12 +24,12 @@
     </div>
   </div>
   <div class="d-flex flex-column justify-content-around">
-    <div class="d-flex flex-column mb-3 align-items-center" appTooltip data-toogle="tooltip"
+    <div class="d-flex flex-column mb-3 align-items-center" appTooltip
       title="{{'transactions.dialog.session.tooltips.total_consumption' | translate}}">
       <mat-icon>ev_station</mat-icon>
       <div class="first-text">{{totalConsumptionWh | appUnit:'Wh':'kWh'}}</div>
     </div>
-    <div class="d-flex flex-column align-items-center" appTooltip data-toogle="tooltip"
+    <div class="d-flex flex-column align-items-center" appTooltip
       title="{{'transactions.dialog.session.tooltips.total_duration' | translate}}">
       <mat-icon>timer</mat-icon>
       <div class="first-text">{{totalDurationSecs | appDuration}}</div>
@@ -37,11 +37,11 @@
   </div>
   <div class="d-flex flex-column justify-content-around">
     <div *ngIf="stateOfChargeIcon" class="d-flex flex-column mb-3 align-items-center" appTooltip
-      data-toogle="tooltip" title="{{'transactions.dialog.session.tooltips.state_of_charge' | translate}}">
+      title="{{'transactions.dialog.session.tooltips.state_of_charge' | translate}}">
       <mat-icon>battery_charging_full</mat-icon>
       <div class="first-text">{{stateOfCharge | appBatteryPercentage: endStateOfCharge }}</div>
     </div>
-    <div class="d-flex flex-column align-items-center" appTooltip data-toogle="tooltip"
+    <div class="d-flex flex-column align-items-center" appTooltip
       [ngClass]="transaction && (transaction.stop ? transaction.stop.inactivityStatus : transaction.currentInactivityStatus) | appColorByStatus"
       title="{{'transactions.dialog.session.tooltips.inactivity' | translate}}">
       <mat-icon >timer_off</mat-icon>

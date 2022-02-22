@@ -1,102 +1,169 @@
 <div>
   <ng-container *ngFor="let pricingDefinition of pricingDefinitions">
-    <div class="card session-pricing-detail-card">
+    <div class="card">
       <div class="card-header card-header-primary card-header-icon">
         <div class="card-icon">
-          <mat-icon>money</mat-icon>
+          <mat-icon>payments</mat-icon>
         </div>
         <h4 class="card-title text-left">
           {{pricingDefinition.name}}
         </h4>
       </div>
       <div class="card-body ">
-        <div class="card session-pricing-detail-card">
-          <!-- FLAT FEE Dimension -->
-          <ng-container *ngIf="pricingDefinition.dimensions?.flatFee?.pricedData">
-            <div class="card-header card-header-primary card-header-icon">
-              <h4 class="card-title text-left">
-                <mat-label>{{'settings.pricing.flat_fee' | translate}}</mat-label>
-              </h4>
-            </div>
-            <div class="card-body">
-              <mat-label>Amount</mat-label>
-              <div class="d-flex flex-row text-left">
-                <mat-label>{{pricingDefinition.dimensions.flatFee.pricedData.roundedAmount | appCurrency}}</mat-label>
-              </div>
-            </div>
-          </ng-container>
+        <div class="table-responsive-md d-flex justify-content-left">
+          <table class="mat-table">
+            <tbody role="rowgroup">
+              <tr class="mat-row" role="row">
+                <th class="props-header px-2 py-2 text-left">Description</th>
+                <td class="px-2 py-2 text-left">{{pricingDefinition.description}}</td>
+              </tr>
+              <tr class="mat-row" role="row">
+                <th class="props-header px-2 py-2 text-left">Entity Type</th>
+                <td class="px-2 py-2 text-left">{{pricingDefinition.entityType}}</td>
+              </tr>
+              <tr class="mat-row" role="row">
+                <th class="props-header px-2 py-2 text-left">Entity ID</th>
+                <td class="px-2 py-2 text-left">{{pricingDefinition.entityID}}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-        <!-- ENERGY Dimension -->
-        <div class="card session-pricing-detail-card">
-          <ng-container *ngIf="pricingDefinition.dimensions?.energy?.pricedData">
-            <div class="card-header card-header-primary card-header-icon">
-              <h4 class="card-title text-left">
-                <mat-label>{{'settings.pricing.energy' | translate}}</mat-label>
-              </h4>
-            </div>
-            <div class="card-body">
-              <mat-label>Unit Price</mat-label>
-              <div class="d-flex flex-row text-left">
-                <mat-label>{{'energy_formatted_price' | appPricingDimensionsPrice:pricingDefinition.dimensions.energy.pricedData.unitPrice }}</mat-label>
+        <div class="d-flex justify-content-around mb-3">
+          <div class="card session-pricing-detail-card" *ngIf="pricingDefinition.dimensions?.flatFee?.pricedData">
+            <!-- FLAT FEE Dimension -->
+            <ng-container>
+              <div class="card-header card-header-primary card-header-icon">
+                <div class="card-icon">
+                  <mat-icon>price_change</mat-icon>
+                </div>
+                <h4 class="card-title text-left">
+                  <mat-label>{{'settings.pricing.flat_fee' | translate}}</mat-label>
+                </h4>
               </div>
-              <mat-label>Quantity</mat-label>
-              <div class="d-flex flex-row text-left">
-                <mat-label>{{pricingDefinition.dimensions.energy.pricedData.quantity | appUnit:'W':'kW':true:1:2:3}}</mat-label>
+              <div class="card-body">
+                <div class="table-responsive-md d-flex justify-content-left">
+                  <table class="mat-table">
+                    <tbody role="rowgroup">
+                      <tr class="mat-row" role="row">
+                        <th class="props-header px-2 py-2 text-left">Amount</th>
+                        <td class="px-2 py-2 text-left">{{pricingDefinition.dimensions.flatFee.pricedData.roundedAmount | appCurrency}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <mat-label>Amount</mat-label>
+                <div class="d-flex flex-row text-left">
+                  <mat-label>{{pricingDefinition.dimensions.flatFee.pricedData.roundedAmount | appCurrency}}</mat-label>
+                </div>
               </div>
-              <mat-label>Amount</mat-label>
-              <div class="d-flex flex-row text-left">
-                <mat-label>{{pricingDefinition.dimensions.energy.pricedData.roundedAmount | appCurrency}}</mat-label>
+            </ng-container>
+          </div>
+          <!-- ENERGY Dimension -->
+          <div class="card session-pricing-detail-card" *ngIf="pricingDefinition.dimensions?.energy?.pricedData">
+            <ng-container>
+              <div class="card-header card-header-primary card-header-icon">
+                <div class="card-icon">
+                  <mat-icon>flash_on</mat-icon>
+                </div>
+                <h4 class="card-title text-left">
+                  <mat-label>{{'settings.pricing.energy' | translate}}</mat-label>
+                </h4>
               </div>
-            </div>
-          </ng-container>
-        </div>
-        <!-- CHARGING TIME Dimension -->
-        <div class="card session-pricing-detail-card">
-          <ng-container *ngIf="pricingDefinition.dimensions?.chargingTime?.pricedData">
-            <div class="card-header card-header-primary card-header-icon">
-              <h4 class="card-title text-left">
-                <mat-label>{{'settings.pricing.charging_time' | translate}}</mat-label>
-              </h4>
-            </div>
-            <div class="card-body">
-              <mat-label>Unit Price</mat-label>
-              <div class="d-flex flex-row text-left">
-                <mat-label>{{'charging_time_formatted_price' | appPricingDimensionsPrice:pricingDefinition.dimensions.chargingTime.pricedData.unitPrice }}</mat-label>
+              <div class="card-body">
+                <div class="table-responsive-md d-flex justify-content-left">
+                  <table class="mat-table">
+                    <tbody role="rowgroup">
+                      <tr class="mat-row" role="row">
+                        <th class="props-header px-2 py-2 text-left">Unit Price</th>
+                        <td class="px-2 py-2 text-right">{{'energy_formatted_price' | appPricingDimensionsPrice:pricingDefinition.dimensions.energy.pricedData.unitPrice }}</td>
+                      </tr>
+                      <tr class="mat-row" role="row">
+                        <th class="props-header px-2 py-2 text-left">Quantity</th>
+                        <td class="px-2 py-2 text-right">{{pricingDefinition.dimensions.energy.pricedData.quantity | appUnit:'W':'kW':true:1:2:3}}</td>
+                      </tr>
+                      <tr class="mat-row" role="row">
+                        <th class="props-header px-2 py-2 text-left">Amount</th>
+                        <td class="px-2 py-2 text-right">{{pricingDefinition.dimensions.energy.pricedData.roundedAmount | appCurrency}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <mat-label>Unit Price</mat-label>
+                <div class="d-flex flex-row text-left">
+                  <mat-label>{{'energy_formatted_price' | appPricingDimensionsPrice:pricingDefinition.dimensions.energy.pricedData.unitPrice }}</mat-label>
+                </div>
+                <mat-label>Quantity</mat-label>
+                <div class="d-flex flex-row text-left">
+                  <mat-label>{{pricingDefinition.dimensions.energy.pricedData.quantity | appUnit:'W':'kW':true:1:2:3}}
+                  </mat-label>
+                </div>
+                <mat-label>Amount</mat-label>
+                <div class="d-flex flex-row text-left">
+                  <mat-label>{{pricingDefinition.dimensions.energy.pricedData.roundedAmount | appCurrency}}</mat-label>
+                </div>
               </div>
-              <mat-label>Quantity</mat-label>
-              <div class="d-flex flex-row text-left">
-                <mat-label>{{pricingDefinition.dimensions.chargingTime.pricedData.quantity | appDuration}}</mat-label>
+            </ng-container>
+          </div>
+          <!-- CHARGING TIME Dimension -->
+          <div class="card session-pricing-detail-card" *ngIf="pricingDefinition.dimensions?.chargingTime?.pricedData">
+            <ng-container *ngIf="pricingDefinition.dimensions?.chargingTime?.pricedData">
+              <div class="card-header card-header-primary card-header-icon">
+                <div class="card-icon">
+                  <mat-icon>timer</mat-icon>
+                </div>
+                <h4 class="card-title text-left">
+                  <mat-label>{{'settings.pricing.charging_time' | translate}}</mat-label>
+                </h4>
               </div>
-              <mat-label>Amount</mat-label>
-              <div class="d-flex flex-row text-left">
-                <mat-label>{{pricingDefinition.dimensions.chargingTime.pricedData.roundedAmount | appCurrency}}</mat-label>
+              <div class="card-body">
+                <mat-label>Unit Price</mat-label>
+                <div class="d-flex flex-row text-left">
+                  <mat-label>{{'charging_time_formatted_price' |
+                    appPricingDimensionsPrice:pricingDefinition.dimensions.chargingTime.pricedData.unitPrice }}
+                  </mat-label>
+                </div>
+                <mat-label>Quantity</mat-label>
+                <div class="d-flex flex-row text-left">
+                  <mat-label>{{pricingDefinition.dimensions.chargingTime.pricedData.quantity | appDuration}}</mat-label>
+                </div>
+                <mat-label>Amount</mat-label>
+                <div class="d-flex flex-row text-left">
+                  <mat-label>{{pricingDefinition.dimensions.chargingTime.pricedData.roundedAmount | appCurrency}}
+                  </mat-label>
+                </div>
               </div>
-            </div>
-          </ng-container>
-        </div>
-        <!-- PARKING TIME Dimension -->
-        <div class="card session-pricing-detail-card">
-          <ng-container *ngIf="pricingDefinition.dimensions?.parkingTime?.pricedData">
-            <div class="card-header card-header-primary card-header-icon">
-              <h4 class="card-title text-left">
-                <mat-label>{{'settings.pricing.parking_time' | translate}}</mat-label>
-              </h4>
-            </div>
-            <div class="card-body">
-              <mat-label>Unit Price</mat-label>
-              <div class="d-flex flex-row text-left">
-                <mat-label>{{'parking_time_formatted_price' | appPricingDimensionsPrice:pricingDefinition.dimensions.parkingTime.pricedData.unitPrice }}</mat-label>
+            </ng-container>
+          </div>
+          <!-- PARKING TIME Dimension -->
+          <div class="card session-pricing-detail-card" *ngIf="pricingDefinition.dimensions?.parkingTime?.pricedData">
+            <ng-container>
+              <div class="card-header card-header-primary card-header-icon">
+                <div class="card-icon">
+                  <mat-icon>history_toggle_off</mat-icon>
+                </div>
+                <h4 class="card-title text-left">
+                  <mat-label>{{'settings.pricing.parking_time' | translate}}</mat-label>
+                </h4>
               </div>
-              <mat-label>Quantity</mat-label>
-              <div class="d-flex flex-row text-left">
-                <mat-label>{{pricingDefinition.dimensions.parkingTime.pricedData.quantity | appDuration}}</mat-label>
+              <div class="card-body">
+                <mat-label>Unit Price</mat-label>
+                <div class="d-flex flex-row text-left">
+                  <mat-label>{{'parking_time_formatted_price' |
+                    appPricingDimensionsPrice:pricingDefinition.dimensions.parkingTime.pricedData.unitPrice }}
+                  </mat-label>
+                </div>
+                <mat-label>Quantity</mat-label>
+                <div class="d-flex flex-row text-left">
+                  <mat-label>{{pricingDefinition.dimensions.parkingTime.pricedData.quantity | appDuration}}</mat-label>
+                </div>
+                <mat-label>Amount</mat-label>
+                <div class="d-flex flex-row text-left">
+                  <mat-label>{{pricingDefinition.dimensions.parkingTime.pricedData.roundedAmount | appCurrency}}
+                  </mat-label>
+                </div>
               </div>
-              <mat-label>Amount</mat-label>
-              <div class="d-flex flex-row text-left">
-                <mat-label>{{pricingDefinition.dimensions.parkingTime.pricedData.roundedAmount | appCurrency}}</mat-label>
-              </div>
-            </div>
-          </ng-container>
+            </ng-container>
+          </div>
         </div>
       </div>
     </div>

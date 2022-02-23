@@ -2417,7 +2417,8 @@
         },
         "pricing-detail-description": "Description",
         "pricing-detail-unit-price": "Unit Price",
-        "pricing-detail-quantity": "Quantity",
+        "pricing-detail-consumption": "Consumption",
+        "pricing-detail-duration": "Duration",
         "pricing-detail-amount": "Amount"
       }
     },

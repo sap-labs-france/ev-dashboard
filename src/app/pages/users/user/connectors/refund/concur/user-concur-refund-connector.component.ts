@@ -92,11 +92,7 @@ export class UserConcurRefundConnectorComponent implements OnInit, OnChanges {
         userId: this.currentUserID,
       };
       this.document.location.href =
-        `${concurSetting.authenticationUrl}/oauth2/v0/authorize\
-        ?client_id=${concurSetting.clientId}\
-        &response_type=code&scope=EXPRPT\
-        &redirect_uri=${returnedUrl}\
-        &state=${JSON.stringify(state)}`;
+      `${concurSetting.authenticationUrl}/oauth2/v0/authorize?client_id=${concurSetting.clientId}&response_type=code&scope=EXPRPT&redirect_uri=${returnedUrl}&state=${JSON.stringify(state)}`;
     }
   }
 

@@ -65,10 +65,6 @@
   margin-bottom: 5px;
 }
 
-.session-pricing-properties {
-  width: 100%;
-}
-
 .session-tariff-property {
   background: rgba($brand-primary, 0.1);
   text-align: right;
@@ -78,6 +74,10 @@
 .session-tariff-text {
   background: rgba($brand-primary, 0.1);
   min-width: 400px;
+}
+
+.session-pricing-detail-properties {
+  float: right;
 }
 
 .session-pricing-property {

@@ -32,7 +32,6 @@ import { IssuerFilter, organizations } from '../../../shared/table/filters/issue
 import { SiteTableFilter } from '../../../shared/table/filters/site-table-filter';
 import { TagTableFilter } from '../../../shared/table/filters/tag-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
-import { BillingButtonAction } from '../../../types/Billing';
 import { DataResult } from '../../../types/DataResult';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
 import { TenantComponents } from '../../../types/Tenant';
@@ -147,12 +146,10 @@ export class UsersListTableDataSource extends TableDataSource<User> {
         sortable: true,
       },
       {
-        id: 'role',
-        name: 'users.role',
-        headerClass: 'col-10em',
-        class: 'text-left col-10em',
-        sortable: true,
-        formatter: (role: string) => role ? this.translateService.instant(this.appUserRolePipe.transform(role, loggedUserRole)) : '-',
+        id: 'id',
+        name: 'general.id',
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
       },
       {
         id: 'name',
@@ -169,6 +166,14 @@ export class UsersListTableDataSource extends TableDataSource<User> {
         headerClass: 'col-15p',
         class: 'text-left col-15p',
         sortable: true,
+      },
+      {
+        id: 'role',
+        name: 'users.role',
+        headerClass: 'col-10em',
+        class: 'text-left col-10em',
+        sortable: true,
+        formatter: (role: string) => role ? this.translateService.instant(this.appUserRolePipe.transform(role, loggedUserRole)) : '-',
       },
       {
         id: 'email',

@@ -9,16 +9,7 @@
         <div class="card-body mat-tab-dialog-body-content pt-0">
           <div class="tab-content">
             <!-- header -->
-            <app-transaction-header
-              [transaction]="transaction"
-              [loggedUserImage]="loggedUserImage"
-              [carImage]="carImage"
-              [stateOfChargeIcon]="stateOfChargeIcon"
-              [stateOfCharge]="stateOfCharge"
-              [endStateOfCharge]="endStateOfCharge"
-              [totalConsumptionWh]="totalConsumptionWh"
-              [totalDurationSecs]="totalDurationSecs"
-              >
+            <app-transaction-header [transaction]="transaction" [loggedUserImage]="loggedUserImage" [carImage]="carImage">
             </app-transaction-header>
             <!-- chart -->
             <mat-divider></mat-divider>
@@ -36,17 +27,7 @@
         <div class="card-body mat-tab-dialog-body-content">
           <div class="tab-content">
             <!-- header -->
-            <app-transaction-header
-              [transaction]="transaction"
-              [loggedUserImage]="loggedUserImage"
-              [carImage]="carImage"
-              [stateOfChargeIcon]="stateOfChargeIcon"
-              [stateOfCharge]="stateOfCharge"
-              [endStateOfCharge]="endStateOfCharge"
-              [totalConsumptionWh]="totalConsumptionWh"
-              [totalDurationSecs]="totalDurationSecs"
-              [isStoppedByAnotherUser]="isStoppedByAnotherUser"
-              >
+            <app-transaction-header [transaction]="transaction" [loggedUserImage]="loggedUserImage" [carImage]="carImage">
             </app-transaction-header>
             <mat-divider></mat-divider>
             <app-transaction-pricing [transaction]="transaction">

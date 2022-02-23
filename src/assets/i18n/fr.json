@@ -2414,7 +2414,11 @@
           "state_of_charge": "Niveau de batterie",
           "total_duration": "Durée totale",
           "inactivity": "Temps inactif"
-        }
+        },
+        "pricing-detail-description": "Description",
+        "pricing-detail-unit-price": "Prix unitaire",
+        "pricing-detail-quantity": "Quantité",
+        "pricing-detail-amount": "Montant"
       }
     },
     "notification": {

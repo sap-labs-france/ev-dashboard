@@ -2414,7 +2414,11 @@
           "state_of_charge": "Úroveň nabití baterie",
           "total_duration": "Celková doba trvání",
           "inactivity": "Doba nečinnosti"
-        }
+        },
+        "pricing-detail-description": "Description",
+        "pricing-detail-unit-price": "Unit Price",
+        "pricing-detail-quantity": "Quantity",
+        "pricing-detail-amount": "Amount"
       }
     },
     "notification": {

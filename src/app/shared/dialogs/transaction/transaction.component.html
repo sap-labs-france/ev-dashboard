@@ -21,6 +21,7 @@
               >
             </app-transaction-header>
             <!-- chart -->
+            <mat-divider></mat-divider>
             <app-transaction-chart #chartConsumption [transaction]="transaction" [transactionId]="transaction.id"
               class="w-100" ratio="4">
             </app-transaction-chart>
@@ -47,6 +48,7 @@
               [isStoppedByAnotherUser]="isStoppedByAnotherUser"
               >
             </app-transaction-header>
+            <mat-divider></mat-divider>
             <app-transaction-pricing [transaction]="transaction">
             </app-transaction-pricing>
           </div>

@@ -7,6 +7,7 @@ import { OCPISession } from './ocpi/OCPISession';
 import { ResolvedPricingModel } from './Pricing';
 import { RefundStatus, RefundType } from './Refund';
 import { TableData } from './Table';
+import { Tag } from './Tag';
 import { User } from './User';
 
 export interface Transaction extends TableData, AbstractCurrentConsumption {
@@ -26,6 +27,7 @@ export interface Transaction extends TableData, AbstractCurrentConsumption {
   siteID: string;
   user: User;
   tagID: string;
+  tag?: Tag;
   carID?: string;
   car?: Car;
   carCatalogID?: number;

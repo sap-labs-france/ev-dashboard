@@ -23,12 +23,25 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.6.1',
-        date: new Date('2022-02-18'),
+        version: '2.6.2',
+        date: new Date('2022-02-23'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Fixed OCPI eMSP Session and CDR modules`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.6.1',
+        date: new Date('2022-02-19'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Fixed OCPI eMSP Locations and Authorize modules`,
               `Soft Stop of faulty ongoing Transactions`,
               `Adjusted the Roaming Charging Station's status`,
               `Fixed filtering of Logs based on date time value set in URL`,

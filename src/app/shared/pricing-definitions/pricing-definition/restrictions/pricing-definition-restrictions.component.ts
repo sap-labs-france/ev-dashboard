@@ -1,16 +1,12 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { TranslateService } from '@ngx-translate/core';
 
-import { CentralServerService } from '../../../../services/central-server.service';
 import { AppDayPipe } from '../../../../shared/formatters/app-day.pipe';
-import { Entity } from '../../../../types/Authorization';
-import PricingDefinition, {  } from '../../../../types/Pricing';
+import PricingDefinition from '../../../../types/Pricing';
 import { Constants } from '../../../../utils/Constants';
 import { PricingHelpers } from '../../../../utils/PricingHelpers';
-import { PricingDefinitionDialogComponent } from './../pricing-definition.dialog.component';
 
 @Component({
   selector: 'app-pricing-definition-restrictions',
@@ -18,16 +14,9 @@ import { PricingDefinitionDialogComponent } from './../pricing-definition.dialog
 })
 
 export class PricingDefinitionRestricitionsComponent implements OnInit, OnChanges {
-  @Input() public inDialog!: boolean;
-  @Input() public dialogRef!: MatDialogRef<PricingDefinitionDialogComponent>;
-  @Input() public currentPricingDefinitionID!: string;
-  @Input() public currentEntityID!: string;
-  @Input() public currentEntityType!: string;
-  @Input() public currentEntityName: string;
   @Input() public formGroup!: FormGroup;
   @Input() public currentPricingDefinition: PricingDefinition;
 
-  public context: string;
   public minTime: string;
   // Restrictions
   public restrictions!: FormGroup;
@@ -52,13 +41,11 @@ export class PricingDefinitionRestricitionsComponent implements OnInit, OnChange
 
   // eslint-disable-next-line no-useless-constructor
   public constructor(
-    private centralServerService: CentralServerService,
     public translateService: TranslateService,
     public dayPipe: AppDayPipe) {
   }
 
   public ngOnInit(): void {
-    this.context = this.currentEntityType === Entity.TENANT ? this.centralServerService.getLoggedUser().tenantName : this.currentEntityName;
     this.formGroup.addControl('restrictions', new FormGroup({
       minDurationEnabled: new FormControl(false),
       minDuration: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)),

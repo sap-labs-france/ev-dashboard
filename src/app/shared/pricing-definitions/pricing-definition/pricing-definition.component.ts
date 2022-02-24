@@ -3,18 +3,17 @@ import { FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { PricingHelpers } from 'utils/PricingHelpers';
 
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
-import { AppDayPipe } from '../../../shared/formatters/app-day.pipe';
 import { ActionResponse } from '../../../types/DataResult';
 import { RestResponse } from '../../../types/GlobalType';
 import { HTTPError } from '../../../types/HTTPError';
 import PricingDefinition, { DimensionType, PricingDimension, PricingDimensions, PricingEntity, PricingRestriction, PricingStaticRestriction } from '../../../types/Pricing';
 import { Constants } from '../../../utils/Constants';
+import { PricingHelpers } from '../../../utils/PricingHelpers';
 import { Utils } from '../../../utils/Utils';
 import { PricingDefinitionDimensionsComponent } from './dimensions/pricing-definition-dimensions.component';
 import { PricingDefinitionMainComponent } from './main/pricing-definition-main.component';
@@ -50,8 +49,7 @@ export class PricingDefinitionComponent implements OnInit {
     private spinnerService: SpinnerService,
     private dialogService: DialogService,
     private router: Router,
-    public translateService: TranslateService,
-    public dayPipe: AppDayPipe) {
+    public translateService: TranslateService) {
   }
 
   public ngOnInit(): void {

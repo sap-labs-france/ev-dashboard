@@ -1,16 +1,14 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { TranslateService } from '@ngx-translate/core';
-import { CONNECTOR_TYPE_SELECTION_MAP } from 'shared/formatters/app-connector-type-selection.pipe';
 
 import { CentralServerService } from '../../../../services/central-server.service';
+import { CONNECTOR_TYPE_SELECTION_MAP } from '../../../../shared/formatters/app-connector-type-selection.pipe';
 import { AppDayPipe } from '../../../../shared/formatters/app-day.pipe';
 import { Entity } from '../../../../types/Authorization';
-import PricingDefinition, {  } from '../../../../types/Pricing';
+import PricingDefinition from '../../../../types/Pricing';
 import { Constants } from '../../../../utils/Constants';
-import { PricingDefinitionDialogComponent } from './../pricing-definition.dialog.component';
 
 @Component({
   selector: 'app-pricing-definition-main',
@@ -18,16 +16,12 @@ import { PricingDefinitionDialogComponent } from './../pricing-definition.dialog
 })
 
 export class PricingDefinitionMainComponent implements OnInit, OnChanges {
-  @Input() public inDialog!: boolean;
-  @Input() public dialogRef!: MatDialogRef<PricingDefinitionDialogComponent>;
-  @Input() public currentPricingDefinitionID!: string;
-  @Input() public currentEntityID!: string;
-  @Input() public currentEntityType!: string;
-  @Input() public currentEntityName: string;
-  @Input() public pricingDefinition: PricingDefinition;
   @Input() public formGroup!: FormGroup;
   @Input() public currentPricingDefinition: PricingDefinition;
 
+  public currentEntityName: string;
+  public currentEntityType!: string;
+  public currentEntityID!: string;
   public context: string;
   // Controls general
   public id: AbstractControl;

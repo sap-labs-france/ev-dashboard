@@ -1,20 +1,10 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
-import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
 
-import { CentralServerService } from '../../../../services/central-server.service';
-import { DialogService } from '../../../../services/dialog.service';
-import { MessageService } from '../../../../services/message.service';
-import { SpinnerService } from '../../../../services/spinner.service';
-import { AppDayPipe } from '../../../../shared/formatters/app-day.pipe';
-import { Entity } from '../../../../types/Authorization';
 import PricingDefinition, { DimensionType, PricingDimension } from '../../../../types/Pricing';
 import { Constants } from '../../../../utils/Constants';
 import { PricingHelpers } from '../../../../utils/PricingHelpers';
-import { PricingDefinitionDialogComponent } from './../pricing-definition.dialog.component';
 
 @Component({
   selector: 'app-pricing-definition-dimensions',
@@ -22,17 +12,9 @@ import { PricingDefinitionDialogComponent } from './../pricing-definition.dialog
 })
 
 export class PricingDefinitionDimensionsComponent implements OnInit, OnChanges {
-  @Input() public inDialog!: boolean;
-  @Input() public dialogRef!: MatDialogRef<PricingDefinitionDialogComponent>;
-  @Input() public currentPricingDefinitionID!: string;
-  @Input() public currentEntityID!: string;
-  @Input() public currentEntityType!: string;
-  @Input() public currentEntityName: string;
   @Input() public formGroup!: FormGroup;
-  @Input() public pricingDefinition: PricingDefinition;
   @Input() public currentPricingDefinition: PricingDefinition;
 
-  public context: string;
   // Dimensions
   public dimensions!: FormGroup;
   // Flat fee
@@ -43,8 +25,6 @@ export class PricingDefinitionDimensionsComponent implements OnInit, OnChanges {
   public energyDimension: FormGroup;
   public energyEnabled: AbstractControl;
   public energy: AbstractControl;
-  public energyStepEnabled: AbstractControl;
-  public energyStep: AbstractControl;
   // Charging time
   public chargingTimeDimension: FormGroup;
   public chargingTimeEnabled: AbstractControl;
@@ -54,20 +34,18 @@ export class PricingDefinitionDimensionsComponent implements OnInit, OnChanges {
   public parkingTimeEnabled: AbstractControl;
   public parkingTime: AbstractControl;
   // Step size
+  public energyStepEnabled: AbstractControl;
+  public energyStep: AbstractControl;
   public chargingTimeStepEnabled: AbstractControl;
   public chargingTimeStep: AbstractControl;
   public parkingTimeStepEnabled: AbstractControl;
   public parkingTimeStep: AbstractControl;
 
   // eslint-disable-next-line no-useless-constructor
-  public constructor(
-    private centralServerService: CentralServerService,
-    public translateService: TranslateService,
-    public dayPipe: AppDayPipe) {
+  public constructor() {
   }
 
   public ngOnInit(): void {
-    this.context = this.currentEntityType === Entity.TENANT ? this.centralServerService.getLoggedUser().tenantName : this.currentEntityName;
     this.formGroup.addControl('dimensions', new FormGroup({
       flatFee: new FormGroup({
         active: new FormControl(false),
@@ -113,7 +91,6 @@ export class PricingDefinitionDimensionsComponent implements OnInit, OnChanges {
     this.parkingTimeStepEnabled = this.parkingTimeDimension.controls['stepSizeEnabled'];
     this.parkingTimeStep = this.parkingTimeDimension.controls['stepSize'];
     this.formGroup.updateValueAndValidity();
-    // this.loadPricing();
   }
 
   public ngOnChanges(): void {

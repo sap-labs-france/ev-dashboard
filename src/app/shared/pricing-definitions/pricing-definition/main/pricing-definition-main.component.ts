@@ -19,10 +19,6 @@ export class PricingDefinitionMainComponent implements OnInit, OnChanges {
   @Input() public formGroup!: FormGroup;
   @Input() public currentPricingDefinition: PricingDefinition;
 
-  public currentEntityName: string;
-  public currentEntityType!: string;
-  public currentEntityID!: string;
-  public context: string;
   // Controls general
   public id: AbstractControl;
   public name: AbstractControl;
@@ -44,16 +40,14 @@ export class PricingDefinitionMainComponent implements OnInit, OnChanges {
 
   // eslint-disable-next-line no-useless-constructor
   public constructor(
-    private centralServerService: CentralServerService,
     public translateService: TranslateService,
     public dayPipe: AppDayPipe) {
   }
 
   public ngOnInit(): void {
-    this.context = this.currentEntityType === Entity.TENANT ? this.centralServerService.getLoggedUser().tenantName : this.currentEntityName;
     this.formGroup.addControl('id', new FormControl());
-    this.formGroup.addControl('entityID', new FormControl(this.currentEntityID));
-    this.formGroup.addControl('entityType', new FormControl(this.currentEntityType));
+    this.formGroup.addControl('entityID', new FormControl(''));
+    this.formGroup.addControl('entityType', new FormControl(''));
     this.formGroup.addControl('name', new FormControl('', Validators.required));
     this.formGroup.addControl('description', new FormControl('', Validators.required));
     this.formGroup.addControl('staticRestrictions', new FormGroup({
@@ -94,8 +88,6 @@ export class PricingDefinitionMainComponent implements OnInit, OnChanges {
     if (this.currentPricingDefinition) {
       // Init form
       this.id.setValue(this.currentPricingDefinition.id);
-      this.entityID.setValue(this.currentEntityID);
-      this.entityType.setValue(this.currentEntityType);
       this.name.setValue(this.currentPricingDefinition.name);
       this.description.setValue(this.currentPricingDefinition.description);
       // Static Restrictions

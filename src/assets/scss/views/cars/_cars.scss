@@ -3,10 +3,6 @@
   font-size: 1.5em;
 }
 
-.app-car {
-  width: 100%;
-}
-
 .app-cars-logo {
   max-width:  4em;
   display: block;
@@ -15,7 +11,7 @@
 }
 
 .car-advanced {
-  max-height: 70vh;
+  height: 100%;
   overflow-x: scroll;
   width: 100%;
 }

@@ -23,8 +23,37 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.5.16',
-        date: new Date('2022-02-07'),
+        version: '2.6.2',
+        date: new Date('2022-02-23'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Fixed OCPI eMSP Session and CDR modules`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.6.1',
+        date: new Date('2022-02-19'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Fixed OCPI eMSP Locations and Authorize modules`,
+              `Soft Stop of faulty ongoing Transactions`,
+              `Adjusted the Roaming Charging Station's status`,
+              `Fixed filtering of Logs based on date time value set in URL`,
+              `Updated Charging Station's template with new Vendors`,
+              `Clear Site Admin flag when User's role is changed to Admin`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.6.0',
+        date: new Date('2022-02-14'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -32,7 +61,12 @@ export class ReleaseNotesComponent {
               `Final Pricing engine`,
               `Added master/slave capability in Charging Station's template`,
               `Check and Stop Transactions that haven't received the OCPP Stop Transaction message`,
+              `Made the address mandatory for public Sites`,
+              `Fixed change of Site / Site Area is not propagated to Charging Stations, Transactions and Assets`,
               `Fixed synchronization of new Cars + Optimize image's size`,
+              `Fixed Roaming RFID Cards cannot start a Transaction when access control is disabled in Site Area`,
+              `Sanitize HTTP params on Export feature only once`,
+              `Fixed no RFID Card has been found when the end-user sends a Remote Stop`,
               `Display amperage per phase in Site Area`,
               `Refactor aggregation of consumption charts for Sites`,
               `Clear Connector's runtime data on Status Notification Available/Preparing`,

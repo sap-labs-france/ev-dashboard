@@ -92,12 +92,7 @@ export class UserMercedesCarConnectorComponent implements OnInit, OnChanges {
         userId: this.currentUserID,
       };
       this.document.location.href =
-        `${mercedesSetting.authenticationUrl}/as/authorization.oauth2\
-        ?client_id=${mercedesSetting.clientId}\
-        &response_type=code\
-        &scope=mb:vehicle:mbdata:evstatus offline_access\
-        &redirect_uri=${returnedUrl}\
-        &state=${JSON.stringify(state)}`;
+        `${mercedesSetting.authenticationUrl}/as/authorization.oauth2?client_id=${mercedesSetting.clientId}&response_type=code&scope=mb:vehicle:mbdata:evstatus offline_access&redirect_uri=${returnedUrl}&state=${JSON.stringify(state)}`;
     }
   }
 

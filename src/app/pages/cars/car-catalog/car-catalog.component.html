@@ -7,10 +7,10 @@
           <span class="d-block">{{carCatalog?.vehicleMake}} {{carCatalog?.vehicleModel}} {{carCatalog?.vehicleModelVersion}}
           </span>
         </ng-template>
-        <div class="card-body mat-tab-dialog-body-content pt-0">
+        <div class="card-body mat-tab-dialog-body-content">
           <div class="w-100">
             <div class="tab-pane active" id="profile">
-              <div class="row app-car align-items-center">
+              <div class="row w-100 align-items-center">
                 <div class="col-md-12 col-xl-5 d-block mt-0 m-auto">
                   <div class="rotating-card-container" [ngStyle]="{ 'pointer-events': 'none'}">
                     <div class="card card-rotate card-background mt-0 mb-0">
@@ -66,8 +66,8 @@
         <ng-template mat-tab-label>
           <mat-icon>battery_charging_full</mat-icon><span>{{"cars.battery" | translate}}</span>
         </ng-template>
-        <div class="card-body d-flex flex-column justify-content-around mt-lg-3">
-          <div class="col-md-12 app-car align-items-start text-left">
+        <div class="card-body d-flex flex-column mt-lg-3">
+          <div class="col-md-12 w-100 align-items-start text-left">
             <div class="row app-car-important-props">
               <div class="col-md-5 col-xl-3 font-weight-bold">{{"cars.battery_capacity_full" | translate}}</div>
               <div class="col-md-7 col-xl-9">{{carCatalog?.batteryCapacityFull ? (carCatalog.batteryCapacityFull | appDecimal:'1.0-1') : '-'}} {{carCatalog?.batteryCapacityFull ? ("cars.unit.kilowatt_heure" | translate) : ''}}</div>
@@ -141,8 +141,8 @@
         <ng-template mat-tab-label>
           <mat-icon>more_horiz</mat-icon><span>{{"cars.miscellaneous" | translate}}</span>
         </ng-template>
-        <div class="card-body d-flex flex-column justify-content-around mt-lg-3">
-          <div class="col-md-12 app-car align-items-start text-left">
+        <div class="card-body d-flex flex-column mt-lg-3">
+          <div class="col-md-12 w-100 align-items-start text-left">
             <div class="row">
               <div class="col-md-3 col-xl-2 font-weight-bold">{{"cars.misc_seats" | translate}}</div>
               <div class="col-md-9 col-xl-10">{{carCatalog?.miscSeats ? carCatalog.miscSeats : '-'}}</div>

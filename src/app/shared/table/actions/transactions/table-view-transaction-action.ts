@@ -30,9 +30,9 @@ export class TableViewTransactionAction extends TableViewAction {
   private viewTransaction(transactionDialogComponent: ComponentType<unknown>, dialog: MatDialog,
     dialogParams: DialogParams<TransactionDialogData>, refresh?: () => Observable<void>) {
     super.view(transactionDialogComponent, dialog, dialogParams, refresh, {
-      minWidth: ScreenSize.XXL,
-      maxWidth: ScreenSize.XXL,
-      width: ScreenSize.XXL,
+      minWidth: ScreenSize.XXXL,
+      maxWidth: ScreenSize.XXXL,
+      width: ScreenSize.XXXL,
       minHeight: ScreenSize.XL,
       maxHeight: ScreenSize.XL,
       height: ScreenSize.XL

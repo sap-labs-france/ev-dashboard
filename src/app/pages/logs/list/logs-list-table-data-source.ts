@@ -87,13 +87,20 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
         this.filterChanged(logLevelTableFilter);
       }
     }
-    // Timestamp
-    const timestamp = this.windowService.getSearch('Timestamp');
-    if (timestamp) {
-      const startDateFilter = this.tableFiltersDef.find(filter => filter.id === 'dateFrom');
-      if (startDateFilter) {
-        startDateFilter.currentValue = moment(timestamp).toDate();
-        this.filterChanged(startDateFilter);
+    // StartDateTime and EndDateTime
+    const startDateTime = this.windowService.getSearch('StartDateTime');
+    const endDateTime = this.windowService.getSearch('EndDateTime');
+    if (startDateTime) {
+      const startDateTimeValue = moment(startDateTime);
+      let endDateTimeValue = moment(startDateTime).endOf('day');
+      if (endDateTime) {
+        endDateTimeValue = moment(endDateTime);
+      }
+      const dateRangeFilter = this.tableFiltersDef.find(filter => filter.id === 'dateRange');
+      if (dateRangeFilter) {
+        dateRangeFilter.currentValue.startDate = startDateTimeValue;
+        dateRangeFilter.currentValue.endDate = endDateTimeValue;
+        this.filterChanged(dateRangeFilter);
         const timestampColumn = this.tableColumnsDef.find(column => column.id === 'timestamp');
         if (timestampColumn) {
           this.tableColumnsDef.forEach((column) => {
@@ -254,7 +261,8 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
         new DateRangeTableFilter({
           translateService: this.translateService,
           showSeconds: true,
-          start: moment().startOf('day')
+          start: moment().startOf('day'),
+          end: moment().endOf('day'),
         }).getFilterDef(),
         new LogLevelTableFilter().getFilterDef(),
         new LogSourceTableFilter().getFilterDef(),
@@ -270,7 +278,8 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
         new DateRangeTableFilter({
           translateService: this.translateService,
           showSeconds: true,
-          start: moment().startOf('day')
+          start: moment().startOf('day'),
+          end: moment().endOf('day'),
         }).getFilterDef(),
         new LogLevelTableFilter().getFilterDef(),
         new LogSourceTableFilter().getFilterDef(),

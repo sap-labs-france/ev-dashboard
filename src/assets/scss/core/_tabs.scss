@@ -94,21 +94,20 @@
 }
 
 .mat-tab-body-content {
-  overflow: hidden !important;
+  height: 100%;
   .card-body {
     margin-top: initial !important;
   }
 }
 
 .mat-tab-dialog-body-content {
-  // display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 15px;
-  padding-top: 0px;
-  // overflow: hidden !important;
   .card-body {
     margin-top: initial !important;
+  }
+  .tab-content {
+    height: 100%;
   }
 }
 
@@ -175,11 +174,9 @@
   &:hover {
     background-color: rgba($brand-background, .1);
   }
-
   .btn-link {
     color: white !important;
   }
-
 }
 
 .mat-tab-disabled {

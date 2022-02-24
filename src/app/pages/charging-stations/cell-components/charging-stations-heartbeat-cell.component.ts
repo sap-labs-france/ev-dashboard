@@ -7,17 +7,25 @@ import { ChargingStation } from '../../../types/ChargingStation';
 @Component({
   template: `
     <span class="charger-heartbeat" appTooltip data-offset="0px, 8px" [title]="this.row.lastSeen | amLocale:this.locale | amTimeAgo">
-      <i class="fa fa-heartbeat charger-heartbeat-icon charger-heartbeat-ok" [class.charger-heartbeat-error]="row.inactive"></i>
-      <ng-container *ngIf="row.inactive">
-        <span class="ms-1 charger-heartbeat-date charger-heartbeat-date-error">
-          {{'chargers.charger_disconnected' | translate}}
-        </span>
+      <ng-container *ngIf="row.issuer; else externalChargingStation">
+        <i class="fa fa-heartbeat charger-heartbeat-icon charger-heartbeat-ok" [class.charger-heartbeat-error]="row.inactive"></i>
+        <ng-container *ngIf="row.inactive; else activeChargingStation">
+          <span class="ms-1 charger-heartbeat-date charger-heartbeat-date-error">
+            {{'chargers.charger_disconnected' | translate}}
+          </span>
+        </ng-container>
+        <ng-template #activeChargingStation>
+          <span class="ms-1 charger-heartbeat-date charger-heartbeat-ok">
+            {{'chargers.charger_connected' | translate}}
+          </span>
+        </ng-template>
       </ng-container>
-      <ng-container *ngIf="!row.inactive">
-        <span class="ms-1 charger-heartbeat-date charger-heartbeat-ok">
-          {{'chargers.charger_connected' | translate}}
+      <ng-template #externalChargingStation>
+        <i class="fa fa-heartbeat charger-heartbeat-icon charger-heartbeat-not-applicable"></i>
+        <span class="ms-1 charger-heartbeat-date charger-heartbeat-not-applicable">
+          {{'chargers.status_unknown' | translate}}
         </span>
-      </ng-container>
+    </ng-template>
     </span>
   `,
 })

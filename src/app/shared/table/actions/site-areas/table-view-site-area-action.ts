@@ -28,9 +28,9 @@ export class TableViewSiteAreaAction extends TableViewAction {
       minWidth: ScreenSize.XL,
       maxWidth: ScreenSize.XL,
       width: ScreenSize.XL,
-      minHeight: ScreenSize.XXL,
-      maxHeight: ScreenSize.XXL,
-      height: ScreenSize.XXL
+      minHeight: ScreenSize.XXXL,
+      maxHeight: ScreenSize.XXXL,
+      height: ScreenSize.XXXL
     });
   }
 }

@@ -28,9 +28,9 @@ export class TableEditPricingDefinitionAction extends TableEditAction {
       minWidth: ScreenSize.XL,
       maxWidth: ScreenSize.XL,
       width: ScreenSize.XL,
-      minHeight: ScreenSize.XXL,
-      maxHeight: ScreenSize.XXXL,
-      height: ScreenSize.XXXL
+      minHeight: ScreenSize.XXXL,
+      maxHeight: ScreenSize.XXXXL,
+      height: ScreenSize.XXXXL
     });
   }
 }

@@ -28,9 +28,9 @@ export class TableEditChargingStationAction extends TableEditAction {
       minWidth: ScreenSize.XL,
       maxWidth: ScreenSize.XL,
       width: ScreenSize.XL,
-      minHeight: ScreenSize.XXL,
-      maxHeight: ScreenSize.XXL,
-      height: ScreenSize.XXL
+      minHeight: ScreenSize.XL,
+      maxHeight: ScreenSize.XL,
+      height: ScreenSize.XL
     });
   }
 }

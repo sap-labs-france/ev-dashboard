@@ -26,12 +26,12 @@ export class TableCreatePricingDefinitionAction extends TableCreateAction {
   private createPricing(pricingDefinitionDialogComponent: ComponentType<unknown>,
     dialog: MatDialog, dialogParams: DialogParams<PricingDefinitionDialogData>, refresh?: () => Observable<void>) {
     super.create(pricingDefinitionDialogComponent, dialog, dialogParams, refresh, {
-      minWidth: ScreenSize.XXL,
-      maxWidth: ScreenSize.XXL,
-      width: ScreenSize.XXL,
-      minHeight: ScreenSize.XXXL,
-      maxHeight: ScreenSize.XXXL,
-      height: ScreenSize.XXXL
+      minWidth: ScreenSize.XXXL,
+      maxWidth: ScreenSize.XXXL,
+      width: ScreenSize.XXXL,
+      minHeight: ScreenSize.XXXXL,
+      maxHeight: ScreenSize.XXXXL,
+      height: ScreenSize.XXXXL
     });
   }
 }

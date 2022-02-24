@@ -1,6 +1,8 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { ChartData } from 'chart.js';
+import { ChartTypeValues } from 'types/Chart';
+
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
 import { LocaleService } from '../../../services/locale.service';
@@ -11,7 +13,6 @@ import { TenantComponents } from '../../../types/Tenant';
 import { SimpleChart } from '../shared/chart-utilities';
 import { StatisticsBuildService, StatisticsBuildValueWithUnit } from '../shared/statistics-build.service';
 import { StatisticsExportService } from '../shared/statistics-export.service';
-
 
 @Component({
   selector: 'app-statistics-pricing',
@@ -144,10 +145,10 @@ export class StatisticsPricingComponent implements OnInit {
     const labelXAxis: string = this.translateService.instant('statistics.graphic_title_month_x_axis');
     const labelYAxis: string = this.translateService.instant('statistics.graphic_title_pricing_y_axis',
       { currency: toolTipUnit });
-    this.barChart = new SimpleChart(this.language, 'stackedBar',
+    this.barChart = new SimpleChart(this.language, ChartTypeValues.STACKED_BAR,
       this.getChartLabel(), labelXAxis, labelYAxis, toolTipUnit, true);
     this.barChart.initChart(this.ctxBarChart);
-    this.pieChart = new SimpleChart(this.language, 'pie',
+    this.pieChart = new SimpleChart(this.language, ChartTypeValues.PIE,
       this.getChartLabel(), undefined, undefined, toolTipUnit, true);
     this.pieChart.initChart(this.ctxPieChart);
     this.chartsInitialized = true;

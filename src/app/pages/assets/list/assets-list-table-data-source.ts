@@ -54,6 +54,7 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
     super(spinnerService, translateService);
     // Init
     this.setStaticFilters([{
+      WithSite: true,
       WithSiteArea: true
     }]);
     this.initDataSource();
@@ -114,6 +115,13 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
         class: 'col-20p',
         sorted: true,
         direction: 'asc',
+        sortable: true,
+      },
+      {
+        id: 'site.name',
+        name: 'sites.title',
+        headerClass: 'col-20p',
+        class: 'col-20p',
         sortable: true,
       },
       {

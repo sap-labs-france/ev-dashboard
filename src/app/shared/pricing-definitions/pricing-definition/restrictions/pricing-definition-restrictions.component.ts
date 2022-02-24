@@ -17,7 +17,6 @@ export class PricingDefinitionRestricitionsComponent implements OnInit, OnChange
   @Input() public formGroup!: FormGroup;
   @Input() public currentPricingDefinition: PricingDefinition;
 
-  public minTime: string;
   // Restrictions
   public restrictions!: FormGroup;
   // Duration
@@ -38,6 +37,7 @@ export class PricingDefinitionRestricitionsComponent implements OnInit, OnChange
   public timeRangeEnabled: AbstractControl;
   public timeFrom: AbstractControl;
   public timeTo: AbstractControl;
+  public minTime: string;
 
   // eslint-disable-next-line no-useless-constructor
   public constructor(

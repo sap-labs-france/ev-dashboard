@@ -32,11 +32,10 @@ export class PricingDefinitionMainComponent implements OnInit, OnChanges {
   // Static Restrictions
   public staticRestrictions!: FormGroup;
   public connectorType!: AbstractControl;
+  public connectorPowerEnabled!: AbstractControl;
   public validFrom: AbstractControl;
   public validTo: AbstractControl;
   public minDate: Date;
-  public minTime: string;
-  public connectorPowerEnabled!: AbstractControl;
 
   // eslint-disable-next-line no-useless-constructor
   public constructor(

@@ -24,12 +24,14 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.6.2',
-        date: new Date('2022-02-23'),
+        date: new Date('2022-02-24'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `Fixed OCPI eMSP Session and CDR modules`,
+              `Aligned minimum Consumption and Duration to Afirev standard`,
+              `Allow to remote Start Transaction when Billing is active and Site Area has no Access Control`,
             ],
           },
         ],

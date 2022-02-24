@@ -28,6 +28,6 @@ export class PricingDefinitionDialogComponent implements AfterViewInit {
   public ngAfterViewInit() {
     // Register key event
     Utils.registerSaveCloseKeyEvents(this.dialogRef, this.appRef.formGroup,
-      this.appRef.savePricingDefinition.bind(this.appRef), this.appRef.close.bind(this.appRef));
+      this.appRef.save.bind(this.appRef), this.appRef.close.bind(this.appRef));
   }
 }

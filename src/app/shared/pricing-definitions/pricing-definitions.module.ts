@@ -7,11 +7,8 @@ import { CommonDirectivesModule } from 'shared/directives/directives.module';
 import { MaterialModule } from '../../app.module';
 import { FormattersModule } from '../../shared/formatters/formatters.module';
 import { TableModule } from '../table/table.module';
-import { PricingDefinitionDimensionsComponent } from './pricing-definition/dimensions/pricing-definition-dimensions.component';
-import { PricingDefinitionMainComponent } from './pricing-definition/main/pricing-definition-main.component';
 import { PricingDefinitionComponent } from './pricing-definition/pricing-definition.component';
 import { PricingDefinitionDialogComponent } from './pricing-definition/pricing-definition.dialog.component';
-import { PricingDefinitionRestricitionsComponent } from './pricing-definition/restrictions/pricing-definition-restrictions.component';
 import { PricingDefinitionsComponent } from './pricing-definitions.component';
 import { PricingDefinitionsDialogComponent } from './pricing-definitions.dialog.component';
 
@@ -30,9 +27,6 @@ import { PricingDefinitionsDialogComponent } from './pricing-definitions.dialog.
     PricingDefinitionsDialogComponent,
     PricingDefinitionComponent,
     PricingDefinitionDialogComponent,
-    PricingDefinitionMainComponent,
-    PricingDefinitionRestricitionsComponent,
-    PricingDefinitionDimensionsComponent
   ],
   exports: [
     PricingDefinitionsComponent,

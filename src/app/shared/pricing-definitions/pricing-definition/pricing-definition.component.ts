@@ -1,6 +1,7 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { AbstractControl, FormGroup } from '@angular/forms';
+import { Component, Input, OnInit } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { MatSlideToggle, MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { PricingHelpers } from 'utils/PricingHelpers';
@@ -18,10 +19,7 @@ import PricingDefinition, { DimensionType, PricingDimension, PricingDimensions, 
 import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 import { CONNECTOR_TYPE_SELECTION_MAP } from '../../formatters/app-connector-type-selection.pipe';
-import { PricingDefinitionDimensionsComponent } from './dimensions/pricing-definition-dimensions.component';
-import { PricingDefinitionMainComponent } from './main/pricing-definition-main.component';
 import { PricingDefinitionDialogComponent } from './pricing-definition.dialog.component';
-import { PricingDefinitionRestricitionsComponent } from './restrictions/pricing-definition-restrictions.component';
 
 @Component({
   selector: 'app-pricing-definition',
@@ -35,11 +33,6 @@ export class PricingDefinitionComponent implements OnInit {
   @Input() public currentEntityID!: string;
   @Input() public currentEntityType!: string;
   @Input() public currentEntityName: string;
-  // @Input() public pricingDefinition: PricingDefinition;
-  @ViewChild('pricingDefinitionMainComponent') public pricingDefinitionMainComponent!: PricingDefinitionMainComponent;
-  @ViewChild('pricingDefinitionRestrictionsComponent') public pricingDefinitionRestrictionsComponent!: PricingDefinitionRestricitionsComponent;
-  @ViewChild('pricingDefinitionDimensionsComponent') public pricingDefinitionDimensionsComponent!: PricingDefinitionDimensionsComponent;
-
 
   public formGroup!: FormGroup;
   public currentPricingDefinition: PricingDefinition;
@@ -128,137 +121,136 @@ export class PricingDefinitionComponent implements OnInit {
 
   public ngOnInit(): void {
     this.context = this.currentEntityType === Entity.TENANT ? this.centralServerService.getLoggedUser().tenantName : this.currentEntityName;
-    this.formGroup = new FormGroup({});
-    // this.formGroup = new FormGroup({
-    //   id: new FormControl(),
-    //   entityID: new FormControl(this.currentEntityID),
-    //   entityType: new FormControl(this.currentEntityType),
-    //   restrictions: new FormGroup({
-    //     minDurationEnabled: new FormControl(false),
-    //     minDuration: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)),
-    //     maxDurationEnabled: new FormControl(false),
-    //     maxDuration: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)),
-    //     minEnergyKWhEnabled: new FormControl(false),
-    //     minEnergyKWh: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)),
-    //     maxEnergyKWhEnabled: new FormControl(false),
-    //     maxEnergyKWh: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)),
-    //     timeRangeEnabled: new FormControl(false),
-    //     timeFrom: new FormControl(null),
-    //     timeTo: new FormControl(null),
-    //     daysOfWeekEnabled: new FormControl(false),
-    //     selectedDays: new FormControl(null),
-    //   }),
-    //   name: new FormControl('',
-    //     Validators.compose([
-    //       Validators.required,
-    //     ])),
-    //   staticRestrictions: new FormGroup({
-    //     validFrom: new FormControl(null),
-    //     validTo: new FormControl(null),
-    //     connectorPowerEnabled: new FormControl(false),
-    //     connectorPowerkW: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_FLOAT)),
-    //     connectorType: new FormControl('A',
-    //       Validators.compose([
-    //         Validators.required,
-    //       ])
-    //     ),
-    //   }),
-    //   description: new FormControl('', Validators.required),
-    //   dimensions: new FormGroup({
-    //     flatFee: new FormGroup({
-    //       active: new FormControl(false),
-    //       price: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_FLOAT)),
-    //     }),
-    //     energy: new FormGroup({
-    //       active: new FormControl(false),
-    //       price: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_FLOAT)),
-    //       stepSize: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)),
-    //       stepSizeEnabled: new FormControl(false)
-    //     }),
-    //     chargingTime: new FormGroup({
-    //       active: new FormControl(false),
-    //       price: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_FLOAT)),
-    //       stepSize: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)),
-    //       stepSizeEnabled: new FormControl(false)
-    //     }),
-    //     parkingTime: new FormGroup({
-    //       active: new FormControl(false),
-    //       price: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_FLOAT)),
-    //       stepSize: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)),
-    //       stepSizeEnabled: new FormControl(false)
-    //     }),
-    //   })
-    // });
-    // this.id = this.formGroup.controls['id'];
-    // this.name = this.formGroup.controls['name'];
-    // this.description = this.formGroup.controls['description'];
-    // this.entityType = this.formGroup.controls['entityType'];
-    // this.entityID = this.formGroup.controls['entityID'];
-    // // Static restrictions
-    // this.staticRestrictions = this.formGroup.controls['staticRestrictions'] as FormGroup;
-    // this.connectorPowerEnabled = this.staticRestrictions.controls['connectorPowerEnabled'];
-    // this.connectorPowerValue = this.staticRestrictions.controls['connectorPowerkW'];
-    // this.connectorPowerUnit = this.staticRestrictions.controls['connectorPowerUnit'];
-    // this.connectorType = this.staticRestrictions.controls['connectorType'];
-    // this.validFrom = this.staticRestrictions.controls['validFrom'];
-    // this.validTo = this.staticRestrictions.controls['validTo'];
-    // // Dimensions
-    // this.dimensions = this.formGroup.controls['dimensions'] as FormGroup;
-    // this.flatFee = this.dimensions.controls['flatFee'] as FormGroup;
-    // this.flatFeeEnabled = this.flatFee.controls['active'];
-    // this.flatFeeValue = this.flatFee.controls['price'];
-    // this.flatFeeUnit = this.flatFee.controls['unit'];
-    // this.energy = this.dimensions.controls['energy'] as FormGroup;
-    // this.energyEnabled = this.energy.controls['active'];
-    // this.energyValue = this.energy.controls['price'];
-    // this.energyUnit = this.energy.controls['unit'];
-    // this.energyStepEnabled = this.energy.controls['stepSizeEnabled'];
-    // this.energyStepValue = this.energy.controls['stepSize'];
-    // this.energyStepUnit = this.energy.controls['stepSizeUnit'];
-    // this.chargingTime = this.dimensions.controls['chargingTime'] as FormGroup;
-    // this.chargingTimeEnabled = this.chargingTime.controls['active'];
-    // this.chargingTimeValue = this.chargingTime.controls['price'];
-    // this.chargingTimeUnit = this.chargingTime.controls['unit'];
-    // this.chargingTimeStepEnabled = this.chargingTime.controls['stepSizeEnabled'];
-    // this.chargingTimeStepValue = this.chargingTime.controls['stepSize'];
-    // this.chargingTimeStepUnit = this.chargingTime.controls['stepSizeUnit'];
-    // this.parkingTime = this.dimensions.controls['parkingTime'] as FormGroup;
-    // this.parkingTimeEnabled = this.parkingTime.controls['active'];
-    // this.parkingTimeValue = this.parkingTime.controls['price'];
-    // this.parkingTimeUnit = this.parkingTime.controls['unit'];
-    // this.parkingTimeStepEnabled = this.parkingTime.controls['stepSizeEnabled'];
-    // this.parkingTimeStepValue = this.parkingTime.controls['stepSize'];
-    // this.parkingTimeStepUnit = this.parkingTime.controls['stepSizeUnit'];
-    // this.restrictions = this.formGroup.controls['restrictions'] as FormGroup;
-    // this.minDurationEnabled = this.restrictions.controls['minDurationEnabled'];
-    // this.minDuration = this.restrictions.controls['minDuration'];
-    // this.maxDurationEnabled = this.restrictions.controls['maxDurationEnabled'];
-    // this.maxDuration = this.restrictions.controls['maxDuration'];
-    // this.minEnergyKWhEnabled = this.restrictions.controls['minEnergyKWhEnabled'];
-    // this.minEnergyKWhValue = this.restrictions.controls['minEnergyKWh'];
-    // this.maxEnergyKWhEnabled = this.restrictions.controls['maxEnergyKWhEnabled'];
-    // this.maxEnergyKWhValue = this.restrictions.controls['maxEnergyKWh'];
-    // this.daysOfWeekEnabled = this.restrictions.controls['daysOfWeekEnabled'];
-    // this.selectedDays = this.restrictions.controls['selectedDays'];
-    // this.timeRangeEnabled = this.restrictions.controls['timeRangeEnabled'];
-    // this.timeFromValue = this.restrictions.controls['timeFrom'];
-    // this.timeToValue = this.restrictions.controls['timeTo'];
-    // this.validFrom.valueChanges.subscribe(() => {
-    //   this.minDate = this.validFrom.value;
-    // });
-    // this.timeFromValue.valueChanges.subscribe(() => {
-    //   if(this.timeToValue.value && this.timeFromValue.value === this.timeToValue.value){
-    //     this.timeFromValue.setErrors({timeRangeError: true});
-    //     this.formGroup.markAsPristine();
-    //   }
-    // });
-    // this.timeToValue.valueChanges.subscribe(() => {
-    //   if(this.timeFromValue.value && this.timeFromValue.value === this.timeToValue.value){
-    //     this.timeToValue.setErrors({timeRangeError: true});
-    //     this.formGroup.markAsPristine();
-    //   }
-    // });
-    // this.formGroup.updateValueAndValidity();
+    this.formGroup = new FormGroup({
+      id: new FormControl(),
+      entityID: new FormControl(this.currentEntityID),
+      entityType: new FormControl(this.currentEntityType),
+      restrictions: new FormGroup({
+        minDurationEnabled: new FormControl(false),
+        minDuration: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)),
+        maxDurationEnabled: new FormControl(false),
+        maxDuration: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)),
+        minEnergyKWhEnabled: new FormControl(false),
+        minEnergyKWh: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)),
+        maxEnergyKWhEnabled: new FormControl(false),
+        maxEnergyKWh: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)),
+        timeRangeEnabled: new FormControl(false),
+        timeFrom: new FormControl(null),
+        timeTo: new FormControl(null),
+        daysOfWeekEnabled: new FormControl(false),
+        selectedDays: new FormControl(null),
+      }),
+      name: new FormControl('',
+        Validators.compose([
+          Validators.required,
+        ])),
+      staticRestrictions: new FormGroup({
+        validFrom: new FormControl(null),
+        validTo: new FormControl(null),
+        connectorPowerEnabled: new FormControl(false),
+        connectorPowerkW: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_FLOAT)),
+        connectorType: new FormControl('A',
+          Validators.compose([
+            Validators.required,
+          ])
+        ),
+      }),
+      description: new FormControl('', Validators.required),
+      dimensions: new FormGroup({
+        flatFee: new FormGroup({
+          active: new FormControl(false),
+          price: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_FLOAT)),
+        }),
+        energy: new FormGroup({
+          active: new FormControl(false),
+          price: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_FLOAT)),
+          stepSize: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)),
+          stepSizeEnabled: new FormControl(false)
+        }),
+        chargingTime: new FormGroup({
+          active: new FormControl(false),
+          price: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_FLOAT)),
+          stepSize: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)),
+          stepSizeEnabled: new FormControl(false)
+        }),
+        parkingTime: new FormGroup({
+          active: new FormControl(false),
+          price: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_FLOAT)),
+          stepSize: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)),
+          stepSizeEnabled: new FormControl(false)
+        }),
+      })
+    });
+    this.id = this.formGroup.controls['id'];
+    this.name = this.formGroup.controls['name'];
+    this.description = this.formGroup.controls['description'];
+    this.entityType = this.formGroup.controls['entityType'];
+    this.entityID = this.formGroup.controls['entityID'];
+    // Static restrictions
+    this.staticRestrictions = this.formGroup.controls['staticRestrictions'] as FormGroup;
+    this.connectorPowerEnabled = this.staticRestrictions.controls['connectorPowerEnabled'];
+    this.connectorPowerValue = this.staticRestrictions.controls['connectorPowerkW'];
+    this.connectorPowerUnit = this.staticRestrictions.controls['connectorPowerUnit'];
+    this.connectorType = this.staticRestrictions.controls['connectorType'];
+    this.validFrom = this.staticRestrictions.controls['validFrom'];
+    this.validTo = this.staticRestrictions.controls['validTo'];
+    // Dimensions
+    this.dimensions = this.formGroup.controls['dimensions'] as FormGroup;
+    this.flatFee = this.dimensions.controls['flatFee'] as FormGroup;
+    this.flatFeeEnabled = this.flatFee.controls['active'];
+    this.flatFeeValue = this.flatFee.controls['price'];
+    this.flatFeeUnit = this.flatFee.controls['unit'];
+    this.energy = this.dimensions.controls['energy'] as FormGroup;
+    this.energyEnabled = this.energy.controls['active'];
+    this.energyValue = this.energy.controls['price'];
+    this.energyUnit = this.energy.controls['unit'];
+    this.energyStepEnabled = this.energy.controls['stepSizeEnabled'];
+    this.energyStepValue = this.energy.controls['stepSize'];
+    this.energyStepUnit = this.energy.controls['stepSizeUnit'];
+    this.chargingTime = this.dimensions.controls['chargingTime'] as FormGroup;
+    this.chargingTimeEnabled = this.chargingTime.controls['active'];
+    this.chargingTimeValue = this.chargingTime.controls['price'];
+    this.chargingTimeUnit = this.chargingTime.controls['unit'];
+    this.chargingTimeStepEnabled = this.chargingTime.controls['stepSizeEnabled'];
+    this.chargingTimeStepValue = this.chargingTime.controls['stepSize'];
+    this.chargingTimeStepUnit = this.chargingTime.controls['stepSizeUnit'];
+    this.parkingTime = this.dimensions.controls['parkingTime'] as FormGroup;
+    this.parkingTimeEnabled = this.parkingTime.controls['active'];
+    this.parkingTimeValue = this.parkingTime.controls['price'];
+    this.parkingTimeUnit = this.parkingTime.controls['unit'];
+    this.parkingTimeStepEnabled = this.parkingTime.controls['stepSizeEnabled'];
+    this.parkingTimeStepValue = this.parkingTime.controls['stepSize'];
+    this.parkingTimeStepUnit = this.parkingTime.controls['stepSizeUnit'];
+    this.restrictions = this.formGroup.controls['restrictions'] as FormGroup;
+    this.minDurationEnabled = this.restrictions.controls['minDurationEnabled'];
+    this.minDuration = this.restrictions.controls['minDuration'];
+    this.maxDurationEnabled = this.restrictions.controls['maxDurationEnabled'];
+    this.maxDuration = this.restrictions.controls['maxDuration'];
+    this.minEnergyKWhEnabled = this.restrictions.controls['minEnergyKWhEnabled'];
+    this.minEnergyKWhValue = this.restrictions.controls['minEnergyKWh'];
+    this.maxEnergyKWhEnabled = this.restrictions.controls['maxEnergyKWhEnabled'];
+    this.maxEnergyKWhValue = this.restrictions.controls['maxEnergyKWh'];
+    this.daysOfWeekEnabled = this.restrictions.controls['daysOfWeekEnabled'];
+    this.selectedDays = this.restrictions.controls['selectedDays'];
+    this.timeRangeEnabled = this.restrictions.controls['timeRangeEnabled'];
+    this.timeFromValue = this.restrictions.controls['timeFrom'];
+    this.timeToValue = this.restrictions.controls['timeTo'];
+    this.validFrom.valueChanges.subscribe(() => {
+      this.minDate = this.validFrom.value;
+    });
+    this.timeFromValue.valueChanges.subscribe(() => {
+      if(this.timeToValue.value && this.timeFromValue.value === this.timeToValue.value){
+        this.timeFromValue.setErrors({timeRangeError: true});
+        this.formGroup.markAsPristine();
+      }
+    });
+    this.timeToValue.valueChanges.subscribe(() => {
+      if(this.timeFromValue.value && this.timeFromValue.value === this.timeToValue.value){
+        this.timeToValue.setErrors({timeRangeError: true});
+        this.formGroup.markAsPristine();
+      }
+    });
+    this.formGroup.updateValueAndValidity();
     this.loadPricing();
   }
 
@@ -324,10 +316,10 @@ export class PricingDefinitionComponent implements OnInit {
 
   public close() {
     Utils.checkAndSaveAndCloseDialog(this.formGroup, this.dialogService,
-      this.translateService, this.savePricingDefinition.bind(this), this.closeDialog.bind(this));
+      this.translateService, this.save.bind(this), this.closeDialog.bind(this));
   }
 
-  public savePricingDefinition() {
+  public save() {
     const pricingDefinitionToSave = this.convertFormToPricingDefinition();
     if (this.currentPricingDefinitionID) {
       this.updatePricingDefinition(pricingDefinitionToSave);
@@ -336,45 +328,45 @@ export class PricingDefinitionComponent implements OnInit {
     }
   }
 
-  // public toggleDaysOfWeek(event: MatSlideToggleChange) {
-  //   this.daysOfWeekEnabled.setValue(event.checked);
-  //   if(event.checked) {
-  //     this.selectedDays.setValidators(Validators.required);
-  //   } else {
-  //     this.clearAndResetControl(this.selectedDays);
-  //   }
-  //   this.formGroup.markAsDirty();
-  //   this.formGroup.updateValueAndValidity();
-  // }
+  public toggleDaysOfWeek(event: MatSlideToggleChange) {
+    this.daysOfWeekEnabled.setValue(event.checked);
+    if(event.checked) {
+      this.selectedDays.setValidators(Validators.required);
+    } else {
+      this.clearAndResetControl(this.selectedDays);
+    }
+    this.formGroup.markAsDirty();
+    this.formGroup.updateValueAndValidity();
+  }
 
-  // public toggleTimeRange(event: MatSlideToggleChange) {
-  //   this.timeRangeEnabled.setValue(event.checked);
-  //   if (event.checked) {
-  //     this.timeFromValue.setValidators(Validators.required);
-  //     this.timeToValue.setValidators(Validators.required);
-  //   } else {
-  //     this.clearAndResetControl(this.timeFromValue);
-  //     this.clearAndResetControl(this.timeToValue);
-  //   }
-  //   this.timeFromValue.markAsDirty();
-  //   this.timeToValue.markAsDirty();
-  //   this.timeFromValue.updateValueAndValidity();
-  //   this.timeToValue.updateValueAndValidity();
-  // }
+  public toggleTimeRange(event: MatSlideToggleChange) {
+    this.timeRangeEnabled.setValue(event.checked);
+    if (event.checked) {
+      this.timeFromValue.setValidators(Validators.required);
+      this.timeToValue.setValidators(Validators.required);
+    } else {
+      this.clearAndResetControl(this.timeFromValue);
+      this.clearAndResetControl(this.timeToValue);
+    }
+    this.timeFromValue.markAsDirty();
+    this.timeToValue.markAsDirty();
+    this.timeFromValue.updateValueAndValidity();
+    this.timeToValue.updateValueAndValidity();
+  }
 
-  // public toggle(event: MatSlideToggleChange) {
-  //   this[`${event.source.id}Enabled`].setValue(event.checked);
-  //   if (event.checked) {
-  //     this[`${event.source.id}Value`].setValidators(Validators.compose([
-  //       Validators.required,
-  //       Validators.pattern(Constants.REGEX_VALIDATION_FLOAT)
-  //     ]));
-  //   } else {
-  //     this.clearAndResetControl(this[`${event.source.id}Value`]);
-  //   }
-  //   this.formGroup.markAsDirty();
-  //   this.formGroup.updateValueAndValidity();
-  // }
+  public toggle(event: MatSlideToggleChange) {
+    this[`${event.source.id}Enabled`].setValue(event.checked);
+    if (event.checked) {
+      this[`${event.source.id}Value`].setValidators(Validators.compose([
+        Validators.required,
+        Validators.pattern(Constants.REGEX_VALIDATION_FLOAT)
+      ]));
+    } else {
+      this.clearAndResetControl(this[`${event.source.id}Value`]);
+    }
+    this.formGroup.markAsDirty();
+    this.formGroup.updateValueAndValidity();
+  }
 
   public createPricingDefinition(pricingDefinition: PricingDefinition) {
     this.spinnerService.show();
@@ -447,11 +439,11 @@ export class PricingDefinitionComponent implements OnInit {
 
   private convertFormToPricingDefinition() {
     // Main properties
-    const id: string = this.currentPricingDefinition.id;
-    const entityID: string = this.currentPricingDefinition.entityID;
-    const entityType: PricingEntity = this.currentPricingDefinition.entityType;
-    const name: string = this.currentPricingDefinition.name;
-    const description: string = this.currentPricingDefinition.description;
+    const id: string = this.id.value;
+    const entityID: string = this.entityID.value;
+    const entityType: PricingEntity = this.entityType.value;
+    const name: string = this.name.value;
+    const description: string = this.description.value;
     // Priced Dimensions
     const dimensions: PricingDimensions = {
       flatFee: this.buildPricingDimension(DimensionType.FLAT_FEE),

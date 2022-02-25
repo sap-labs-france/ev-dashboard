@@ -857,14 +857,14 @@ export class CentralServerService {
       );
   }
 
-  public getUserDefaultTagCar(userID: string): Observable<UserDefaultTagCar> {
+  public getUserDefaultTagCar(userID: string, chargingStationID: string): Observable<UserDefaultTagCar> {
     // Verify init
     this.checkInit();
-    return this.httpClient.get<UserDefaultTagCar>(this.buildRestEndpointUrl(ServerRoute.REST_USER_DEFAULT_TAG_CAR),
+    return this.httpClient.get<UserDefaultTagCar>(this.buildRestEndpointUrl(ServerRoute.REST_USER_DEFAULT_TAG_CAR, { id: userID } ),
       {
         headers: this.buildHttpHeaders(),
         params: {
-          UserID: userID
+          ChargingStationID: chargingStationID
         }
       })
       .pipe(

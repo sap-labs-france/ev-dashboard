@@ -71,15 +71,15 @@
                     <tbody role="rowgroup">
                       <tr class="mat-row" role="row">
                         <th class="session-pricing-property px-2 py-2">{{'transactions.dialog.session.pricing-detail-unit-price' | translate}}</th>
-                        <td class="session-pricing-value px-2 py-2 text-right">{{'energy_formatted_price' | appPricingDimensionsPrice:pricingDefinition.dimensions.energy.pricedData.unitPrice }}</td>
+                        <td class="session-pricing-value px-2 py-2">{{'energy_formatted_price' | appPricingDimensionsPrice:pricingDefinition.dimensions.energy.pricedData.unitPrice }}</td>
                       </tr>
                       <tr class="mat-row" role="row">
                         <th class="session-pricing-property px-2 py-2">{{'transactions.dialog.session.pricing-detail-consumption' | translate}}</th>
-                        <td class="session-pricing-value px-2 py-2 text-right">{{pricingDefinition.dimensions.energy.pricedData.quantity | appUnit:'Wh':'kWh':true:1:2:3}}</td>
+                        <td class="session-pricing-value px-2 py-2">{{pricingDefinition.dimensions.energy.pricedData.quantity | appUnit:'Wh':'kWh':true:1:2:3}}</td>
                       </tr>
                       <tr class="mat-row" role="row">
                         <th class="session-pricing-property px-2 py-2">{{'transactions.dialog.session.pricing-detail-amount' | translate}}</th>
-                        <td class="session-pricing-value px-2 py-2 text-right">{{pricingDefinition.dimensions.energy.pricedData.roundedAmount | appCurrency}}</td>
+                        <td class="session-pricing-value px-2 py-2">{{pricingDefinition.dimensions.energy.pricedData.roundedAmount | appCurrency}}</td>
                       </tr>
                     </tbody>
                   </table>
@@ -104,15 +104,15 @@
                     <tbody role="rowgroup">
                       <tr class="mat-row" role="row">
                         <th class="session-pricing-property px-2 py-2">{{'transactions.dialog.session.pricing-detail-unit-price' | translate}}</th>
-                        <td class="session-pricing-value px-2 py-2 text-right">{{'charging_time_formatted_price' | appPricingDimensionsPrice:pricingDefinition.dimensions.chargingTime.pricedData.unitPrice }}</td>
+                        <td class="session-pricing-value px-2 py-2">{{'charging_time_formatted_price' | appPricingDimensionsPrice:pricingDefinition.dimensions.chargingTime.pricedData.unitPrice }}</td>
                       </tr>
                       <tr class="mat-row" role="row">
                         <th class="session-pricing-property px-2 py-2">{{'transactions.dialog.session.pricing-detail-duration' | translate}}</th>
-                        <td class="session-pricing-value px-2 py-2 text-right">{{pricingDefinition.dimensions.chargingTime.pricedData.quantity | appDuration}}</td>
+                        <td class="session-pricing-value px-2 py-2">{{pricingDefinition.dimensions.chargingTime.pricedData.quantity | appDuration}}</td>
                       </tr>
                       <tr class="mat-row" role="row">
                         <th class="session-pricing-property px-2 py-2">{{'transactions.dialog.session.pricing-detail-amount' | translate}}</th>
-                        <td class="session-pricing-value px-2 py-2 text-right">{{pricingDefinition.dimensions.chargingTime.pricedData.roundedAmount | appCurrency}}</td>
+                        <td class="session-pricing-value px-2 py-2">{{pricingDefinition.dimensions.chargingTime.pricedData.roundedAmount | appCurrency}}</td>
                       </tr>
                     </tbody>
                   </table>
@@ -137,15 +137,15 @@
                     <tbody role="rowgroup">
                       <tr class="mat-row" role="row">
                         <th class="session-pricing-property px-2 py-2">{{'transactions.dialog.session.pricing-detail-unit-price' | translate}}</th>
-                        <td class="session-pricing-value px-2 py-2 text-right">{{'parking_time_formatted_price' | appPricingDimensionsPrice:pricingDefinition.dimensions.parkingTime.pricedData.unitPrice }}</td>
+                        <td class="session-pricing-value px-2 py-2">{{'parking_time_formatted_price' | appPricingDimensionsPrice:pricingDefinition.dimensions.parkingTime.pricedData.unitPrice }}</td>
                       </tr>
                       <tr class="mat-row" role="row">
                         <th class="session-pricing-property px-2 py-2">{{'transactions.dialog.session.pricing-detail-duration' | translate}}</th>
-                        <td class="session-pricing-value px-2 py-2 text-right">{{pricingDefinition.dimensions.parkingTime.pricedData.quantity | appDuration}}</td>
+                        <td class="session-pricing-value px-2 py-2">{{pricingDefinition.dimensions.parkingTime.pricedData.quantity | appDuration}}</td>
                       </tr>
                       <tr class="mat-row" role="row">
                         <th class="session-pricing-property px-2 py-2">{{'transactions.dialog.session.pricing-detail-amount' | translate}}</th>
-                        <td class="session-pricing-value px-2 py-2 text-right">{{pricingDefinition.dimensions.parkingTime.pricedData.roundedAmount | appCurrency}}</td>
+                        <td class="session-pricing-value px-2 py-2">{{pricingDefinition.dimensions.parkingTime.pricedData.roundedAmount | appCurrency}}</td>
                       </tr>
                     </tbody>
                   </table>

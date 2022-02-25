@@ -125,6 +125,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
   public loadAllConsumptionsChanged(matCheckboxChange: MatCheckboxChange) {
     if (matCheckboxChange) {
       this.loadAllConsumptions = matCheckboxChange.checked;
+      this.updateVisibleDatasets();
       this.refresh();
     }
   }
@@ -489,9 +490,8 @@ export class ConsumptionChartComponent implements AfterViewInit {
         duration: 0,
       },
       responsive: true,
-      maintainAspectRatio: false,
       // spanGaps: true,
-      // aspectRatio: this.ratio,
+      aspectRatio: this.ratio,
       plugins: {
         legend: {
           position: 'bottom',

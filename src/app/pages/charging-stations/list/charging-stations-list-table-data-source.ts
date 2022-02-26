@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { PricingDefinitionsDialogComponent } from 'shared/pricing-definitions/pricing-definitions.dialog.component';
+import { TableViewChargingStationAction, TableViewChargingStationActionDef } from 'shared/table/actions/charging-stations/table-view-charging-station-action';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -35,7 +36,7 @@ import { ChargePointStatus, ChargingStation, ChargingStationButtonAction, Connec
 import { DataResult } from '../../../types/DataResult';
 import { ButtonAction } from '../../../types/GlobalType';
 import { PricingButtonAction, PricingEntity } from '../../../types/Pricing';
-import { DropdownItem, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
+import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
 import { TenantComponents } from '../../../types/Tenant';
 import { Utils } from '../../../utils/Utils';
 import { ChargingStationsConnectorsCellComponent } from '../cell-components/charging-stations-connectors-cell.component';
@@ -51,6 +52,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
   private readonly isOrganizationComponentActive: boolean;
   private readonly isPricingComponentActive: boolean;
   private editAction = new TableEditChargingStationAction().getActionDef();
+  private viewAction = new TableViewChargingStationAction().getActionDef();
   private smartChargingAction = new TableChargingStationsSmartChargingAction().getActionDef();
   private deleteAction = new TableDeleteChargingStationAction().getActionDef();
   private generateQrCodeConnectorAction = new TableChargingStationGenerateQrCodeConnectorAction().getActionDef();
@@ -92,6 +94,8 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
           if (chargingStation.issuer) {
             // Remove invalid connectors
             chargingStation.connectors = chargingStation.connectors.filter((connector: Connector) => !Utils.isNullOrUndefined(connector));
+            // Check if both connectors are unavailable
+            let isUnavailable = true;
             // Align Connector's status with Charging Station inactive flag
             for (const connector of chargingStation.connectors) {
               connector.hasDetails = connector.currentTransactionID > 0;
@@ -99,12 +103,16 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
               if (chargingStation.inactive || chargingStation.firmwareUpdateStatus === FirmwareStatus.INSTALLING) {
                 connectorIsInactive = true;
               }
+              if (isUnavailable && connector.status !== ChargePointStatus.UNAVAILABLE) {
+                isUnavailable = false;
+              }
               connector.status = connectorIsInactive ? ChargePointStatus.UNAVAILABLE : connector.status;
               connector.currentInstantWatts = connectorIsInactive ? 0 : connector.currentInstantWatts;
               connector.currentStateOfCharge = connectorIsInactive ? 0 : connector.currentStateOfCharge;
               connector.currentTotalConsumptionWh = connectorIsInactive ? 0 : connector.currentTotalConsumptionWh;
               connector.currentTotalInactivitySecs = connectorIsInactive ? 0 : connector.currentTotalInactivitySecs;
-            };
+            }
+            chargingStation.isUnavailable = isUnavailable;
           }
         };
         this.canExport.visible = this.authorizationService.isAdmin();
@@ -267,11 +275,18 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
   }
 
   // eslint-disable-next-line complexity
-  public rowActionTriggered(actionDef: TableActionDef, chargingStation: ChargingStation, dropdownItem?: DropdownItem) {
+  public rowActionTriggered(actionDef: TableActionDef, chargingStation: ChargingStation) {
     switch (actionDef.id) {
       case ChargingStationButtonAction.EDIT_CHARGING_STATION:
         if (actionDef.action) {
           (actionDef as TableEditChargingStationActionDef).action(
+            ChargingStationDialogComponent, this.dialog,
+            { dialogData: chargingStation }, this.refreshData.bind(this));
+        }
+        break;
+      case ChargingStationButtonAction.VIEW_CHARGING_STATION:
+        if (actionDef.action) {
+          (actionDef as TableViewChargingStationActionDef).action(
             ChargingStationDialogComponent, this.dialog,
             { dialogData: chargingStation }, this.refreshData.bind(this));
         }
@@ -376,17 +391,6 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
   }
 
   public buildTableDynamicRowActions(chargingStation: ChargingStation): TableActionDef[] {
-    if (!chargingStation) {
-      return [];
-    }
-    // Check if both connectors are unavailable
-    let isUnavailable = true;
-    for (const connector of chargingStation.connectors) {
-      if (connector.status !== ChargePointStatus.UNAVAILABLE) {
-        isUnavailable = false;
-        break;
-      }
-    }
     // Check if GPS is available
     const openInMaps = new TableOpenInMapsAction().getActionDef();
     openInMaps.disabled = !Utils.containsGPSCoordinates(chargingStation.coordinates);
@@ -414,7 +418,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
           rebootAction,
           clearCacheAction,
           resetAction,
-          isUnavailable ? forceAvailableStatusAction : forceUnavailableStatusAction,
+          chargingStation.isUnavailable ? forceAvailableStatusAction : forceUnavailableStatusAction,
           this.generateQrCodeConnectorAction,
           openInMaps,
           this.deleteAction,
@@ -422,6 +426,9 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
         return tableActionDef;
       }
     }
-    return [openInMaps];
+    return [
+      this.viewAction,
+      openInMaps
+    ];
   }
 }

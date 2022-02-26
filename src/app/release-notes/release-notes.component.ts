@@ -30,6 +30,8 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Fixed OCPI eMSP Session and CDR modules`,
+              `Display OCPI Charging Stations in read-only`,
+              `Centralize Transaction Start/Stop in one endpoint`,
               `Aligned minimum Consumption and Duration to Afirev standard`,
               `Allow to remote Start Transaction when Billing is active and Site Area has no Access Control`,
             ],

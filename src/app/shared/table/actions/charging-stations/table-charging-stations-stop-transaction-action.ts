@@ -62,8 +62,7 @@ export class TableChargingStationsStopTransactionAction implements TableAction {
           spinnerService.show();
           centralServerService.stopTransaction(transaction.id).subscribe((res: ActionResponse) => {
             spinnerService.hide();
-            if (res.status === OCPPGeneralResponse.ACCEPTED ||
-                res.status === Constants.REST_RESPONSE_SUCCESS) {
+            if (res.status === OCPPGeneralResponse.ACCEPTED) {
               messageService.showSuccessMessage(
                 translateService.instant('chargers.stop_transaction_success',
                   { user: Utils.buildUserFullName(transaction.user) }));

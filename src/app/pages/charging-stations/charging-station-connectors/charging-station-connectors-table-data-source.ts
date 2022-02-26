@@ -5,7 +5,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { TransactionDialogComponent } from 'shared/dialogs/transaction/transaction-dialog.component';
 
-import { ChargingStationsConnectorInactivityCellComponent } from '../../../pages/charging-stations/cell-components/charging-stations-connector-inactivity-cell.component';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
@@ -29,12 +28,13 @@ import { TransactionButtonAction } from '../../../types/Transaction';
 import { User } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';
 import { ChargingStationsConnectorCellComponent } from '../cell-components/charging-stations-connector-cell.component';
+import { ChargingStationsConnectorInactivityCellComponent } from '../cell-components/charging-stations-connector-inactivity-cell.component';
 import { ChargingStationsConnectorStatusCellComponent } from '../cell-components/charging-stations-connector-status-cell.component';
 import { ChargingStationsInstantPowerConnectorProgressBarCellComponent } from '../cell-components/charging-stations-instant-power-connector-progress-bar-cell.component';
 import { ChargingStationsStartTransactionDialogComponent } from '../charging-station-start-transaction/charging-stations-start-transaction-dialog-component';
 
 @Injectable()
-export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSource<Connector> {
+export class ChargingStationConnectorsTableDataSource extends TableDataSource<Connector> {
   public stopTransactionAction = new TableChargingStationsStopTransactionAction().getActionDef();
   public startTransactionAction = new TableChargingStationsStartTransactionAction().getActionDef();
   public viewTransactionAction = new TableViewTransactionAction().getActionDef();

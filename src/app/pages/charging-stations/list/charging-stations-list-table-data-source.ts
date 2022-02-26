@@ -42,9 +42,9 @@ import { ChargingStationsConnectorsCellComponent } from '../cell-components/char
 import { ChargingStationsFirmwareStatusCellComponent } from '../cell-components/charging-stations-firmware-status-cell.component';
 import { ChargingStationsHeartbeatCellComponent } from '../cell-components/charging-stations-heartbeat-cell.component';
 import { ChargingStationsInstantPowerChargerProgressBarCellComponent } from '../cell-components/charging-stations-instant-power-charger-progress-bar-cell.component';
+import { ChargingStationConnectorsComponent } from '../charging-station-connectors/charging-station-connectors-component.component';
 import { ChargingStationLimitationDialogComponent } from '../charging-station-limitation/charging-station-limitation.dialog.component';
 import { ChargingStationDialogComponent } from '../charging-station/charging-station-dialog.component';
-import { ChargingStationsConnectorsDetailComponent } from '../details-component/charging-stations-connectors-detail-component.component';
 
 @Injectable()
 export class ChargingStationsListTableDataSource extends TableDataSource<ChargingStation> {
@@ -128,7 +128,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
       },
       rowDetails: {
         enabled: true,
-        angularComponent: ChargingStationsConnectorsDetailComponent,
+        angularComponent: ChargingStationConnectorsComponent,
       },
       hasDynamicRowAction: true,
     };

@@ -81,6 +81,13 @@ export class SiteAreasDialogTableDataSource extends DialogTableDataSource<SiteAr
         sortable: true,
       },
       {
+        id: 'address.address1',
+        name: 'general.address',
+        headerClass: 'col-20p',
+        class: 'col-20p',
+        sortable: true,
+      },
+      {
         id: 'address.city',
         name: 'general.city',
         headerClass: 'col-20p',

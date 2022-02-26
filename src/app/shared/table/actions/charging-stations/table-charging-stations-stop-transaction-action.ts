@@ -2,6 +2,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { HTTPError } from 'types/HTTPError';
+import { Constants } from 'utils/Constants';
 
 import { AuthorizationService } from '../../../../services/authorization.service';
 import { CentralServerService } from '../../../../services/central-server.service';
@@ -57,58 +58,26 @@ export class TableChargingStationsStopTransactionAction implements TableAction {
         translateService.instant('chargers.stop_transaction_confirm', { chargeBoxID: chargingStation.id }),
       ).subscribe((response) => {
         if (response === ButtonType.YES) {
-          if (!chargingStation.inactive && connector.currentTransactionID === transaction.id) {
-            // Remote Stop
-            spinnerService.show();
-            centralServerService.chargingStationStopTransaction(chargingStation.id, connector.currentTransactionID)
-              .subscribe((response2: ActionResponse) => {
-                spinnerService.hide();
-                if (response2.status === OCPPGeneralResponse.ACCEPTED) {
-                  messageService.showSuccessMessage(
-                    translateService.instant('chargers.stop_transaction_success', { chargeBoxID: chargingStation.id }));
-                  if (refresh) {
-                    refresh().subscribe();
-                  }
-                } else {
-                  Utils.handleError(JSON.stringify(response),
-                    messageService, translateService.instant('chargers.stop_transaction_error'));
-                }
-              }, (error) => {
-                spinnerService.hide();
-                // Check status error code
-                switch (error.status) {
-                  // Account already active
-                  case HTTPError.USER_NO_BADGE_ERROR:
-                    messageService.showErrorMessage('chargers.stop_transaction_missing_active_tag', { chargeBoxID: chargingStation.id });
-                    break;
-                  default:
-                    Utils.handleHttpError(error, router, messageService,
-                      centralServerService, 'chargers.stop_transaction_error');
-                    break;
-                }
-              });
-          } else {
-            // Soft Stop
-            spinnerService.show();
-            centralServerService.softStopTransaction(transaction.id).subscribe((res: ActionResponse) => {
-              spinnerService.hide();
-              if (res.status === 'Invalid') {
-                messageService.showErrorMessage(
-                  translateService.instant('transactions.notification.soft_stop.error'));
-              } else {
-                messageService.showSuccessMessage(
-                  translateService.instant('transactions.notification.soft_stop.success',
-                    { user: Utils.buildUserFullName(transaction.user) }));
-                if (refresh) {
-                  refresh().subscribe();
-                }
+          // Stop
+          spinnerService.show();
+          centralServerService.stopTransaction(transaction.id).subscribe((res: ActionResponse) => {
+            spinnerService.hide();
+            if (res.status === OCPPGeneralResponse.ACCEPTED) {
+              messageService.showSuccessMessage(
+                translateService.instant('chargers.stop_transaction_success',
+                  { user: Utils.buildUserFullName(transaction.user) }));
+              if (refresh) {
+                refresh().subscribe();
               }
-            }, (error) => {
-              spinnerService.hide();
-              Utils.handleHttpError(error, router, messageService,
-                centralServerService, 'transactions.notification.soft_stop.error');
-            });
-          }
+            } else {
+              messageService.showErrorMessage(
+                translateService.instant('chargers.stop_transaction_error'));
+            }
+          }, (error) => {
+            spinnerService.hide();
+            Utils.handleHttpError(error, router, messageService,
+              centralServerService, 'chargers.stop_transaction_error');
+          });
         }
       });
     }, (error) => {

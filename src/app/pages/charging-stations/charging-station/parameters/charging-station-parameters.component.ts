@@ -24,8 +24,8 @@ import { Utils } from '../../../../utils/Utils';
 // @Injectable()
 export class ChargingStationParametersComponent implements OnInit, OnChanges {
   @Input() public chargingStation!: ChargingStation;
-  @Input() public dialogRef!: MatDialogRef<any>;
   @Input() public formGroup: FormGroup;
+  @Input() public readOnly: boolean;
 
   public userLocales: KeyValue[];
   public isAdmin!: boolean;
@@ -149,6 +149,9 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
     this.formGroup.updateValueAndValidity();
     this.maximumPowerAmps.disable();
     this.masterSlave.disable();
+    if (this.readOnly) {
+      this.formGroup.disable();
+    }
   }
 
   public ngOnChanges() {

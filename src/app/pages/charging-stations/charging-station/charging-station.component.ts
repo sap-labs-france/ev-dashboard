@@ -5,6 +5,7 @@ import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { UtilsService } from 'services/utils.service';
+import { DialogMode } from 'types/Authorization';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -24,8 +25,8 @@ import { ChargingStationParametersComponent } from './parameters/charging-statio
 })
 export class ChargingStationComponent implements OnInit {
   @Input() public chargingStationID!: string;
-  @Input() public inDialog!: boolean;
   @Input() public dialogRef!: MatDialogRef<any>;
+  @Input() public dialogMode!: DialogMode;
   @ViewChild('chargingStationParameters', { static: true }) public chargingStationParametersComponent!: ChargingStationParametersComponent;
 
   public formGroup: FormGroup;
@@ -34,6 +35,7 @@ export class ChargingStationComponent implements OnInit {
   public isAdmin!: boolean;
   public isProdLandscape!: boolean;
 
+  public readOnly = true;
   public isPropertiesPaneDisabled = false;
   public isChargerPaneDisabled = false;
   public isOCPPParametersPaneDisabled = false;
@@ -56,6 +58,7 @@ export class ChargingStationComponent implements OnInit {
   }
 
   public ngOnInit() {
+    this.readOnly = this.dialogMode === DialogMode.VIEW;
     // Load
     this.loadChargingStation();
     // Check auth
@@ -68,6 +71,8 @@ export class ChargingStationComponent implements OnInit {
     }
     this.isAdmin = this.authorizationService.isAdmin();
     this.isProdLandscape = this.utilsService.isProdLandscape();
+    // Handle Dialog mode
+    Utils.handleDialogMode(this.dialogMode, this.formGroup);
   }
 
   public loadChargingStation() {
@@ -141,7 +146,7 @@ export class ChargingStationComponent implements OnInit {
   }
 
   public closeDialog(saved: boolean = false) {
-    if (this.inDialog) {
+    if (this.dialogRef) {
       this.dialogRef.close(saved);
     }
   }

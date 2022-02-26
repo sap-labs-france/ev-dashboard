@@ -189,13 +189,6 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
         formatter: (createdOn: Date) => this.datePipe.transform(createdOn, 'medium'),
       },
       {
-        id: 'host',
-        name: 'logs.host',
-        headerClass: 'col-15p',
-        class: 'text-left col-15p',
-        sortable: true,
-      },
-      {
         id: 'source',
         name: 'logs.source',
         headerClass: 'col-15p',

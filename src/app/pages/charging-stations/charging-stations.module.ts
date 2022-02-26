@@ -26,6 +26,8 @@ import { AppChargingStationsFormatPowerConnectorPipe, ChargingStationsInstantPow
 import { ChargingStationsTransactionDetailComponentCellComponent } from './cell-components/charging-stations-transaction-detail-cell.component';
 import { ChargingPlansListTableDataSource } from './charging-plans/charging-plans-list-table-data-source';
 import { ChargingPlansListComponent } from './charging-plans/charging-plans-list.component';
+import { ChargingStationConnectorsComponent } from './charging-station-connectors/charging-station-connectors-component.component';
+import { ChargingStationConnectorsTableDataSource } from './charging-station-connectors/charging-station-connectors-table-data-source';
 import { ChargingStationPowerSliderCellComponent } from './charging-station-limitation/cell-components/charging-station-power-slider-cell.component';
 import { ChargingPlanChartComponent } from './charging-station-limitation/charging-plans/charging-plan-chart.component';
 import { ChargingPlansComponent } from './charging-station-limitation/charging-plans/charging-plans.component';
@@ -47,8 +49,6 @@ import { ChargingStationConnectorComponent } from './charging-station/parameters
 import { ChargingStationPropertiesComponent } from './charging-station/properties/charging-station-properties.component';
 import { ChargingStationsComponent } from './charging-stations.component';
 import { ChargingStationsRoutes } from './charging-stations.routing';
-import { ChargingStationsConnectorsDetailComponent } from './details-component/charging-stations-connectors-detail-component.component';
-import { ChargingStationsConnectorsDetailTableDataSource } from './details-component/charging-stations-connectors-detail-table-data-source';
 import { ChargingStationsInErrorTableDataSource } from './in-error/charging-stations-in-error-table-data-source';
 import { ChargingStationsInErrorComponent } from './in-error/charging-stations-in-error.component';
 import { ChargingStationsListTableDataSource } from './list/charging-stations-list-table-data-source';
@@ -92,7 +92,7 @@ import { ChargingStationsRegistrationTokenDialogComponent } from './registration
     ChargingStationParametersComponent,
     ChargingStationConnectorComponent,
     ChargingStationChargePointComponent,
-    ChargingStationsConnectorsDetailComponent,
+    ChargingStationConnectorsComponent,
     ChargingStationsStartTransactionDialogComponent,
     TransactionDialogComponent,
     ChargingStationsHeartbeatCellComponent,
@@ -144,7 +144,7 @@ import { ChargingStationsRegistrationTokenDialogComponent } from './registration
     ChargingStationsConnectorCellComponent,
     ChargingStationOcppParametersInputFieldCellComponent,
     ChargingStationsComponent,
-    ChargingStationsConnectorsDetailComponent,
+    ChargingStationConnectorsComponent,
     ChargingStationsStartTransactionDialogComponent,
     ChargingStationsListComponent,
     ChargingStationsInErrorComponent,
@@ -161,7 +161,7 @@ import { ChargingStationsRegistrationTokenDialogComponent } from './registration
   providers: [
     ChargingStationsInErrorTableDataSource,
     ChargingStationsListTableDataSource,
-    ChargingStationsConnectorsDetailTableDataSource,
+    ChargingStationConnectorsTableDataSource,
     ChargingStationOcppParametersEditableTableDataSource,
     ChargingPlansListTableDataSource,
   ],

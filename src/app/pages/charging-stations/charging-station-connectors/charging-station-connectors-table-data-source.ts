@@ -5,7 +5,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { TransactionDialogComponent } from 'shared/dialogs/transaction/transaction-dialog.component';
 
-import { ChargingStationsConnectorInactivityCellComponent } from '../../../pages/charging-stations/cell-components/charging-stations-connector-inactivity-cell.component';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
@@ -29,12 +28,13 @@ import { TransactionButtonAction } from '../../../types/Transaction';
 import { User } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';
 import { ChargingStationsConnectorCellComponent } from '../cell-components/charging-stations-connector-cell.component';
+import { ChargingStationsConnectorInactivityCellComponent } from '../cell-components/charging-stations-connector-inactivity-cell.component';
 import { ChargingStationsConnectorStatusCellComponent } from '../cell-components/charging-stations-connector-status-cell.component';
 import { ChargingStationsInstantPowerConnectorProgressBarCellComponent } from '../cell-components/charging-stations-instant-power-connector-progress-bar-cell.component';
 import { ChargingStationsStartTransactionDialogComponent } from '../charging-station-start-transaction/charging-stations-start-transaction-dialog-component';
 
 @Injectable()
-export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSource<Connector> {
+export class ChargingStationConnectorsTableDataSource extends TableDataSource<Connector> {
   public stopTransactionAction = new TableChargingStationsStopTransactionAction().getActionDef();
   public startTransactionAction = new TableChargingStationsStartTransactionAction().getActionDef();
   public viewTransactionAction = new TableViewTransactionAction().getActionDef();
@@ -68,15 +68,20 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
       // Return connector
       if (this.chargingStation) {
         this.chargingStation.connectors.forEach((connector) => {
-          // eslint-disable-next-line max-len
-          connector.isStopAuthorized = !!connector.currentTransactionID && this.authorizationService.canStopTransaction(this.chargingStation.siteArea, connector.currentTagID);
-          // eslint-disable-next-line max-len
-          connector.isStartAuthorized = !connector.currentTransactionID && this.authorizationService.canStartTransaction(this.chargingStation.siteArea);
-          // eslint-disable-next-line max-len
-          connector.isTransactionDisplayAuthorized = this.authorizationService.canReadTransaction(this.chargingStation.siteArea, connector.currentTagID);
-          connector.hasDetails = !!connector.currentTransactionID && connector.isTransactionDisplayAuthorized;
+          if (this.chargingStation.issuer) {
+            connector.isStopAuthorized = !!connector.currentTransactionID &&
+              this.authorizationService.canStopTransaction(this.chargingStation.siteArea, connector.currentTagID);
+            connector.isStartAuthorized = !connector.currentTransactionID &&
+              this.authorizationService.canStartTransaction(this.chargingStation.siteArea);
+            connector.isTransactionDisplayAuthorized = this.authorizationService.canReadTransaction(this.chargingStation.siteArea, connector.currentTagID);
+            connector.hasDetails = !!connector.currentTransactionID && connector.isTransactionDisplayAuthorized;
+          } else {
+            connector.isStopAuthorized = connector.currentTransactionID > 0 && connector.status !== ChargePointStatus.AVAILABLE;
+            connector.isStartAuthorized = !connector.isStopAuthorized && connector.status === ChargePointStatus.AVAILABLE;
+            connector.isTransactionDisplayAuthorized = connector.currentTransactionID > 0;
+            connector.hasDetails = connector.currentTransactionID > 0;
+          }
         });
-
         observer.next({
           count: this.chargingStation.connectors.length,
           result: this.chargingStation.connectors,

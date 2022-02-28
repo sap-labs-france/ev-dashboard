@@ -419,7 +419,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         tableFiltersDef.push(new ConnectorTableFilter().getFilterDef());
       }
       if ((this.authorizationService.canListUsers())) {
-        userFilter = new UserTableFilter([issuerFilter, siteFilter]).getFilterDef();
+        userFilter = new UserTableFilter([siteFilter]).getFilterDef();
         tableFiltersDef.push(userFilter);
       }
       if ((this.authorizationService.canListTags())) {
@@ -432,7 +432,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         tableFiltersDef.push(new ConnectorTableFilter().getFilterDef());
       }
       if ((this.authorizationService.canListUsers())) {
-        userFilter = new UserTableFilter([issuerFilter]).getFilterDef();
+        userFilter = new UserTableFilter().getFilterDef();
         tableFiltersDef.push(userFilter);
       }
       if ((this.authorizationService.canListTags())) {

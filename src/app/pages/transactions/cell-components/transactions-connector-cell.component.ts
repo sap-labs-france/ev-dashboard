@@ -92,6 +92,6 @@ export class AppTransactionsFormatConnector implements PipeTransform {
     if (!transaction.status) {
       return `chargers.status_unknown`;
     }
-    return `chargers.status_${transaction.status.toLowerCase()}`;
+    return `chargers.status_${transaction.status ? transaction.status.toLowerCase() : 'unknown'}`;
   }
 }

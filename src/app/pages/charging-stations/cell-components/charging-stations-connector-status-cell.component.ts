@@ -78,6 +78,6 @@ export class AppChargingStationsFormatConnectorStatusPipe implements PipeTransfo
   }
 
   public buildConnectorStatusText(status: string): string {
-    return `chargers.status_${status.toLowerCase()}`;
+    return `chargers.status_${status ? status.toLowerCase() : 'unknown'}`;
   }
 }

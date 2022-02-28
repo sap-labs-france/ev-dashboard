@@ -23,13 +23,29 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.6.2',
+        date: new Date('2022-02-26'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Fixed OCPI eMSP Session and CDR modules`,
+              `Display OCPI Charging Stations in read-only`,
+              `Centralize Transaction Start/Stop in one endpoint`,
+              `Aligned minimum Consumption and Duration to Afirev standard`,
+              `Allow to remote Start Transaction when Billing is active and Site Area has no Access Control`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.6.1',
         date: new Date('2022-02-19'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
-              `Fixed OCPI eMSP Locations and Authorize`,
+              `Fixed OCPI eMSP Locations and Authorize modules`,
               `Soft Stop of faulty ongoing Transactions`,
               `Adjusted the Roaming Charging Station's status`,
               `Fixed filtering of Logs based on date time value set in URL`,

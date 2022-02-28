@@ -37,7 +37,7 @@
         <div class="row">
           <div class="col-md-6" *ngFor="let connectorID of chargePoint?.connectorIDs">
             <div *ngFor="let connector of chargingStation?.connectors">
-              <app-charging-station-connector *ngIf="connectorID === connector.connectorId"
+              <app-charging-station-connector *ngIf="connectorID === connector.connectorId" [readOnly]="readOnly"
                 [chargingStation]="chargingStation" [chargePoint]="chargePoint" [connector]="connector"
                 [formConnectorsArray]="formConnectorsArray" [isAdmin]="isAdmin"  [isPublic]="isPublic"
                 (connectorChanged)="connectorChanged()" [manualConfiguration]="manualConfiguration">

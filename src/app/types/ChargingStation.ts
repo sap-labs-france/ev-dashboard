@@ -28,6 +28,7 @@ export interface ChargingStation extends TableData {
   lastSeen: Date;
   deleted: boolean;
   inactive: boolean;
+  isUnavailable?: boolean;
   forceInactive: boolean;
   manualConfiguration?: boolean;
   lastReboot: Date;
@@ -217,6 +218,7 @@ export enum ChargingStationButtonAction {
   STOP_TRANSACTION = 'stop_transaction',
   UNLOCK_CONNECTOR = 'unlock_connector',
   EDIT_CHARGING_STATION = 'edit_charging_station',
+  VIEW_CHARGING_STATION = 'view_charging_station',
   DELETE_CHARGING_STATION = 'delete_charging_station',
   EXPORT_CHARGING_STATIONS = 'export_charging_stations',
   EXPORT_OCPP_PARAMS = 'export_ocpp_params',

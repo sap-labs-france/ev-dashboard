@@ -85,7 +85,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
   }
 
   public initFilters() {
-    const userID = this.windowService.getSearch('UserID');
+    const userID = this.windowService.getUrlParameterValue('UserID');
     if (userID) {
       const userTableFilter = this.tableFiltersDef.find(filter => filter.id === 'user');
       if (userTableFilter) {
@@ -97,7 +97,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
       this.loadUserFilterLabel(userID);
     }
     // Issuer
-    const issuer = this.windowService.getSearch('Issuer');
+    const issuer = this.windowService.getUrlParameterValue('Issuer');
     if (issuer) {
       const issuerTableFilter = this.tableFiltersDef.find(filter => filter.id === 'issuer');
       if (issuerTableFilter) {
@@ -106,7 +106,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
       }
     }
     // Tag
-    const tagID = this.windowService.getSearch('TagID');
+    const tagID = this.windowService.getUrlParameterValue('TagID');
     if (tagID) {
       this.setSearchValue(tagID);
       this.editAction.action(TagDialogComponent, this.dialog,

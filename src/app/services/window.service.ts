@@ -58,7 +58,7 @@ export class WindowService {
     }
   }
 
-  public getSearch(name: string): string {
+  public getUrlParameterValue(name: string): string {
     let search = '';
     if (window.location.search) {
       search = new URLSearchParams(window.location.search).get(name);
@@ -68,42 +68,42 @@ export class WindowService {
     return search;
   }
 
-  public getSearches(name: string): string[] {
+  public getUrlParameterValues(name: string): string[] {
     return new URLSearchParams(window.location.search).getAll(name);
   }
 
-  public appendSearch(name: string, value: string) {
+  public appendUrlParameter(name: string, value: string) {
     // Parse the query string
     const urlSearchParams = new URLSearchParams(window.location.search);
     // Add
     urlSearchParams.append(name, value);
     // Set it back
-    this.setSearchQueryParams(urlSearchParams.toString());
+    this.setUrlQueryParams(urlSearchParams.toString());
   }
 
-  public setSearch(name: string, value: string): void {
+  public setUrlParameter(name: string, value: string): void {
     // Parse the query string
     const urlSearchParams = new URLSearchParams(window.location.search);
     // Set
     urlSearchParams.set(name, value);
     // Set it back
-    this.setSearchQueryParams(urlSearchParams.toString());
+    this.setUrlQueryParams(urlSearchParams.toString());
   }
 
-  public deleteSearch(name: string): void {
+  public deleteUrlParameter(name: string): void {
     // Parse the query string
     const urlSearchParams = new URLSearchParams(window.location.search);
     // Delete
     urlSearchParams.delete(name);
     // Set it back
-    this.setSearchQueryParams(urlSearchParams.toString());
+    this.setUrlQueryParams(urlSearchParams.toString());
   }
 
-  public clearSearch() {
-    this.setSearchQueryParams(null);
+  public clearUrlParameter() {
+    this.setUrlQueryParams(null);
   }
 
-  private setSearchQueryParams(queryParams: string | null) {
+  private setUrlQueryParams(queryParams: string | null) {
     // Set the Query params
     if (history.pushState) {
       // Without page reload

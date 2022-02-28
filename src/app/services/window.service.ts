@@ -59,13 +59,13 @@ export class WindowService {
   }
 
   public getUrlParameterValue(name: string): string {
-    let search = '';
+    let value = '';
     if (window.location.search) {
-      search = new URLSearchParams(window.location.search).get(name);
+      value = new URLSearchParams(window.location.search).get(name);
     } else if (window.location.hash) {
-      search = new URLSearchParams(window.location.hash.slice(this.window.location.hash.indexOf('?'))).get(name);
+      value = new URLSearchParams(window.location.hash.slice(this.window.location.hash.indexOf('?'))).get(name);
     }
-    return search;
+    return value;
   }
 
   public getUrlParameterValues(name: string): string[] {
@@ -100,14 +100,13 @@ export class WindowService {
   }
 
   public clearUrlParameter() {
-    this.setUrlQueryParams(null);
+    this.setUrlQueryParams();
   }
 
-  private setUrlQueryParams(queryParams: string | null) {
+  private setUrlQueryParams(queryParams?: string) {
     // Set the Query params
     if (history.pushState) {
       // Without page reload
-      // eslint-disable-next-line max-len
       const newURL = `${window.location.protocol}//${window.location.host}${window.location.pathname}${queryParams ? '?' + queryParams : ''}${window.location.hash}`;
       window.history.pushState({ path: newURL }, '', newURL);
     } else {

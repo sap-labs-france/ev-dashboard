@@ -2705,7 +2705,7 @@ export class CentralServerService {
       },
     };
     return this.httpClient.put<ActionResponse>(
-      this.buildRestEndpointUrl(ServerRoute.REST_CHARGING_STATIONS_UNLOCK_CONNECTOR, { id: chargingStationID, connectorId }),
+      this.buildRestEndpointUrl(ServerRoute.REST_CHARGING_STATIONS_UNLOCK_CONNECTOR, { id: chargingStationID, connectorId }), {},
       {
         headers: this.buildHttpHeaders(),
       })

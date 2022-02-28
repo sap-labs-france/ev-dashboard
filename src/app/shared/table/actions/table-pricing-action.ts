@@ -26,14 +26,10 @@ export class TableViewPricingListAction implements TableAction {
     dialogParams: DialogParams<DialogData>, refresh?: () => Observable<void>, size?: PopupSize) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
-    // Popup Width
-    dialogConfig.minWidth = size?.minWidth ? size.minWidth + 'vw' : '80vw';
-    dialogConfig.maxWidth = size?.maxWidth ? size.maxWidth + 'vw' : dialogConfig.maxWidth;
-    dialogConfig.width = size?.width ? size.width + 'vw' : dialogConfig.width;
-    // Popup Height
-    dialogConfig.minHeight = size?.minHeight ? size.minHeight + 'vh' : '60vh';
-    dialogConfig.maxHeight = size?.maxHeight ? size.maxHeight + 'vh' : dialogConfig.maxHeight;
-    dialogConfig.height = size?.height ? size.height + 'vh' : dialogConfig.height;
+    // dialogConfig.minWidth = '60vw';
+    dialogConfig.maxWidth = '85vw';
+    // dialogConfig.minHeight = '50vh';
+    // dialogConfig.maxHeight = '80vh';
     // CSS
     dialogConfig.panelClass = 'transparent-dialog-container';
     dialogConfig.data = {

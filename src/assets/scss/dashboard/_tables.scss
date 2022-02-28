@@ -66,9 +66,6 @@ $outer-spinner: $brand-danger !default;
   justify-content: space-between;
   flex-direction: column;
   overflow: auto;
-  min-height: 40vh;
-  min-width: 50vw;
-  height: calc(100vh - (0.7 * 100vh));
   background-color: transparent;
   white-space: nowrap;
 }

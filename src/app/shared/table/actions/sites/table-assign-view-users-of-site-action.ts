@@ -3,7 +3,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 
 import { DialogMode, DialogParams } from '../../../../types/Authorization';
-import { ScreenSize } from '../../../../types/GlobalType';
 import { Site, SiteButtonAction } from '../../../../types/Site';
 import { TableActionDef } from '../../../../types/Table';
 import { TableAssignAction } from '../table-assign-action';
@@ -27,13 +26,6 @@ export class TableViewAssignedUsersOfSiteAction extends TableAssignAction {
 
   private viewAssignedUsersOfSite(siteUsersDialogComponent: ComponentType<unknown>, site: DialogParams<Site>,
     dialog: MatDialog, refresh?: () => Observable<void>) {
-    super.assign(siteUsersDialogComponent, dialog, site, DialogMode.VIEW, refresh, {
-      minWidth: ScreenSize.XL,
-      maxWidth: ScreenSize.XL,
-      width: ScreenSize.XL,
-      minHeight: ScreenSize.XL,
-      maxHeight: ScreenSize.XL,
-      height: ScreenSize.XL
-    });
+    super.assign(siteUsersDialogComponent, dialog, site, DialogMode.VIEW, refresh);
   }
 }

@@ -4,7 +4,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 
 import { DialogParams } from '../../../../types/Authorization';
-import { ScreenSize } from '../../../../types/GlobalType';
 import { PricingButtonAction, PricingDefinitionDialogData } from '../../../../types/Pricing';
 import { TableActionDef } from '../../../../types/Table';
 import { TableCreateAction } from '../table-create-action';
@@ -25,13 +24,6 @@ export class TableCreatePricingDefinitionAction extends TableCreateAction {
 
   private createPricing(pricingDefinitionDialogComponent: ComponentType<unknown>,
     dialog: MatDialog, dialogParams: DialogParams<PricingDefinitionDialogData>, refresh?: () => Observable<void>) {
-    super.create(pricingDefinitionDialogComponent, dialog, dialogParams, refresh, {
-      minWidth: ScreenSize.XXXL,
-      maxWidth: ScreenSize.XXXL,
-      width: ScreenSize.XXXL,
-      minHeight: ScreenSize.XXXXL,
-      maxHeight: ScreenSize.XXXXL,
-      height: ScreenSize.XXXXL
-    });
+    super.create(pricingDefinitionDialogComponent, dialog, dialogParams, refresh);
   }
 }

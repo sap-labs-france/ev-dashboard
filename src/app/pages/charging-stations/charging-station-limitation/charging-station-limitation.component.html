@@ -6,7 +6,7 @@
           <mat-icon>battery_charging_full</mat-icon>
           <span>{{'chargers.smart_charging.static_limit' | translate }}</span>
         </ng-template>
-        <div class="card-body row"
+        <div class="card-body"
           *ngIf="chargingStation?.capabilities?.supportStaticLimitation; else notSupported">
           <div class="col-md-12">
             <app-charging-station-static-limitation [chargingStation]="chargingStation">

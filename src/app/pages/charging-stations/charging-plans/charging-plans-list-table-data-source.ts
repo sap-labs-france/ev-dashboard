@@ -59,7 +59,7 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
 
   public initFilters() {
     // Charging Station
-    const chargingStationID = this.windowService.getSearch('ChargingStationID');
+    const chargingStationID = this.windowService.getUrlParameterValue('ChargingStationID');
     if (chargingStationID) {
       const chargingStationTableFilter = this.tableFiltersDef.find(filter => filter.id === 'charger');
       if (chargingStationTableFilter) {
@@ -67,7 +67,7 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
         this.filterChanged(chargingStationTableFilter);
       }
     }
-    const transactionID = this.windowService.getSearch('TransactionID');
+    const transactionID = this.windowService.getUrlParameterValue('TransactionID');
     if (transactionID) {
       this.setSearchValue(transactionID);
     }

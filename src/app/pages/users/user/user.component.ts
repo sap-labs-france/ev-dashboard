@@ -144,7 +144,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
 
   public closeDialog(saved: boolean = false) {
     if (this.inDialog) {
-      this.windowService.clearSearch();
+      this.windowService.clearUrlParameter();
       this.dialogRef.close(saved);
     }
   }

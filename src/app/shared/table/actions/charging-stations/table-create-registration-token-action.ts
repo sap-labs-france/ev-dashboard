@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 
 import { TableCreateAction } from '../../../../shared/table/actions/table-create-action';
 import { DialogParams } from '../../../../types/Authorization';
-import { ScreenSize } from '../../../../types/GlobalType';
 import { RegistrationToken, RegistrationTokenButtonAction } from '../../../../types/RegistrationToken';
 import { TableActionDef } from '../../../../types/Table';
 
@@ -24,13 +23,6 @@ export class TableCreateRegistrationTokenAction extends TableCreateAction {
 
   private createRegistrationToken(registrationTokenDialogComponent: ComponentType<unknown>,
     dialog: MatDialog, dialogParams?: DialogParams<RegistrationToken>, refresh?: () => Observable<void>) {
-    super.create(registrationTokenDialogComponent, dialog, null, refresh, {
-      minWidth: ScreenSize.XL,
-      maxWidth: ScreenSize.XL,
-      width: ScreenSize.XL,
-      minHeight: ScreenSize.XS,
-      maxHeight: ScreenSize.XS,
-      height: ScreenSize.XS
-    });
+    super.create(registrationTokenDialogComponent, dialog, null, refresh);
   }
 }

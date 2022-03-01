@@ -1,5 +1,4 @@
-$width-levels: 20,30,35,40,45,50,55,60,65,70,75,80,85,90,95;
-$height-levels: 20,30,35,40,45,50,55,60,65,70,75,80,85,90,95;
+$width-height-levels: 20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95;
 
 .mat-dialog-content {
   padding: 4px 24px;
@@ -44,7 +43,7 @@ $height-levels: 20,30,35,40,45,50,55,60,65,70,75,80,85,90,95;
   @include media-breakpoint-up($breakpoint) { // Media of at least the minimum breakpoint width
     $infix: breakpoint-infix($breakpoint, $grid-breakpoints); // Create -lg
     @each $prop, $unit in (width: vw, height: vh) { // for each width and height
-      @each $size in $width-levels { // for each 20 -> 95 will short the list once every dialog is done so I know which one i really need
+      @each $size in $width-height-levels { // for each 20 -> 95 will short the list once every dialog is done so I know which one i really need
         .#{$unit}#{$infix}-#{$size} { #{$prop}: #{$size}#{$unit} !important; } // -> .vh-lg-50 { height: 50 !important}
       }
     }

@@ -24,7 +24,7 @@ export class TransactionsInProgressComponent implements OnInit {
 
   public ngOnInit(): void {
     // Check if transaction ID id provided
-    const transactionID = Utils.convertToInteger(this.windowService.getSearch('TransactionID'));
+    const transactionID = Utils.convertToInteger(this.windowService.getUrlParameterValue('TransactionID'));
     if (transactionID) {
       const viewAction = new TableViewTransactionAction().getActionDef();
       viewAction.action(TransactionDialogComponent, this.dialog, {
@@ -32,7 +32,7 @@ export class TransactionsInProgressComponent implements OnInit {
         dialogMode: DialogMode.VIEW
       });
       // Clear Search
-      this.windowService.deleteSearch('TransactionID');
+      this.windowService.deleteUrlParameter('TransactionID');
     }
   }
 }

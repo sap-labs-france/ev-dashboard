@@ -240,24 +240,24 @@ export enum ServerAction {
 
   WS_CONNECTION = 'WSConnection',
   WS_MESSAGE = 'WSMessage',
-  WS_CONNECTION_PINGED = 'WSConnectionPinged',
-  WS_CONNECTION_OPENED = 'WSConnectionOpened',
-  WS_CONNECTION_CLOSED = 'WSConnectionClosed',
+  WS_CONNECTION_PING = 'WSConnectionPing',
+  WS_CONNECTION_OPEN = 'WSConnectionOpen',
+  WS_CONNECTION_CLOSE = 'WSConnectionClose',
 
-  WS_JSON_CONNECTION_OPENED = 'WSJsonConnectionOpened',
-  WS_JSON_CONNECTION_CLOSED = 'WSJsonConnectionClosed',
+  WS_JSON_CONNECTION_OPEN = 'WSJsonConnectionOpen',
+  WS_JSON_CONNECTION_CLOSE = 'WSJsonConnectionClose',
   WS_JSON_CONNECTION_ERROR = 'WSJsonConnectionError',
 
-  WS_REST_CONNECTION_OPENED = 'WSRestConnectionOpened',
-  WS_REST_CONNECTION_CLOSED = 'WSRestConnectionClosed',
+  WS_REST_CONNECTION_OPEN = 'WSRestConnectionOpen',
+  WS_REST_CONNECTION_CLOSE = 'WSRestConnectionClose',
   WS_REST_CONNECTION_ERROR = 'WSRestConnectionError',
 
   WS_REST_CLIENT_ERROR_RESPONSE = 'WSRestClientErrorResponse',
   WS_REST_CLIENT_MESSAGE = 'WSRestClientMessage',
   WS_REST_CLIENT_SEND_MESSAGE = 'WSRestClientSendMessage',
   WS_REST_CLIENT_CONNECTION = 'WSRestClientConnection',
-  WS_REST_CLIENT_CONNECTION_CLOSED = 'WSRestClientConnectionClosed',
-  WS_REST_CLIENT_CONNECTION_OPENED = 'WSRestClientConnectionOpened',
+  WS_REST_CLIENT_CONNECTION_CLOSE = 'WSRestClientConnectionClose',
+  WS_REST_CLIENT_CONNECTION_OPEN = 'WSRestClientConnectionOpene',
   WS_REST_CLIENT_CONNECTION_ERROR = 'WSRestClientConnectionError',
 
   NOTIFICATION = 'Notification',

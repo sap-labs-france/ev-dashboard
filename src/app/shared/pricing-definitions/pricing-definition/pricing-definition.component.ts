@@ -18,7 +18,7 @@ import { Utils } from '../../../utils/Utils';
 import { PricingDefinitionDimensionsComponent } from './dimensions/pricing-definition-dimensions.component';
 import { PricingDefinitionMainComponent } from './main/pricing-definition-main.component';
 import { PricingDefinitionDialogComponent } from './pricing-definition.dialog.component';
-import { PricingDefinitionRestricitionsComponent } from './restrictions/pricing-definition-restrictions.component';
+import { PricingDefinitionRestrictionsComponent } from './restrictions/pricing-definition-restrictions.component';
 
 @Component({
   selector: 'app-pricing-definition',
@@ -34,7 +34,7 @@ export class PricingDefinitionComponent implements OnInit {
   @Input() public currentEntityName: string;
 
   @ViewChild('pricingDefinitionMainComponent') public pricingDefinitionMain!: PricingDefinitionMainComponent;
-  @ViewChild('pricingDefinitionRestrictionsComponent') public pricingDefinitionRestrictions!: PricingDefinitionRestricitionsComponent;
+  @ViewChild('pricingDefinitionRestrictionsComponent') public pricingDefinitionRestrictions!: PricingDefinitionRestrictionsComponent;
   @ViewChild('pricingDefinitionDimensionsComponent') public pricingDefinitionDimensions!: PricingDefinitionDimensionsComponent;
 
 

@@ -235,22 +235,15 @@ export enum ServerAction {
   CONSUMPTION = 'Consumption',
   REBUILD_TRANSACTION_CONSUMPTIONS = 'RebuildTransactionConsumptions',
 
-  WS_CLIENT_ERROR = 'WSClientError',
-  WS_CLIENT_INFO = 'WSClientInfo',
-
   WS_CONNECTION = 'WSConnection',
+  WS_CONNECTION_ERROR = 'WSConnectionError',
   WS_MESSAGE = 'WSMessage',
   WS_CONNECTION_PING = 'WSConnectionPing',
   WS_CONNECTION_OPEN = 'WSConnectionOpen',
   WS_CONNECTION_CLOSE = 'WSConnectionClose',
 
-  WS_JSON_CONNECTION_OPEN = 'WSJsonConnectionOpen',
-  WS_JSON_CONNECTION_CLOSE = 'WSJsonConnectionClose',
-  WS_JSON_CONNECTION_ERROR = 'WSJsonConnectionError',
-
-  WS_REST_CONNECTION_OPEN = 'WSRestConnectionOpen',
-  WS_REST_CONNECTION_CLOSE = 'WSRestConnectionClose',
-  WS_REST_CONNECTION_ERROR = 'WSRestConnectionError',
+  WS_CLIENT_ERROR = 'WSClientError',
+  WS_CLIENT_INFO = 'WSClientInfo',
 
   WS_REST_CLIENT_ERROR_RESPONSE = 'WSRestClientErrorResponse',
   WS_REST_CLIENT_MESSAGE = 'WSRestClientMessage',

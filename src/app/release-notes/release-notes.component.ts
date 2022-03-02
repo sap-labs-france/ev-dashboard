@@ -30,6 +30,7 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Enhanced Web Socket management in Charging Station's server`,
+              `Simplified Web Socket traces`,
               `Fixed OCPI must return Charging when OCPP status is SuspendedEV/EVSE`,
             ],
           },

@@ -13,7 +13,7 @@ import { PricingHelpers } from '../../../../utils/PricingHelpers';
   templateUrl: './pricing-definition-restrictions.component.html',
 })
 
-export class PricingDefinitionRestricitionsComponent implements OnInit, OnChanges {
+export class PricingDefinitionRestrictionsComponent implements OnInit, OnChanges {
   @Input() public formGroup!: FormGroup;
   @Input() public currentPricingDefinition: PricingDefinition;
 

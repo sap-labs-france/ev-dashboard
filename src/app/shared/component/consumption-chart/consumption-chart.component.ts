@@ -146,6 +146,50 @@ export class ConsumptionChartComponent implements AfterViewInit {
     });
   }
 
+
+  // eslint-disable-next-line complexity
+  private updateVisibleGridLines(){
+    const visibleDatasets = this.data.datasets.filter(ds => !ds.hidden).map(ds => ds.order);
+    for (const key in this.gridDisplay) {
+      if(Object.prototype.hasOwnProperty.call(this.gridDisplay, key)){
+        this.gridDisplay[key] = false;
+      }
+    }
+    if (
+      visibleDatasets.includes(ConsumptionChartDatasetOrder.INSTANT_WATTS) ||
+      visibleDatasets.includes(ConsumptionChartDatasetOrder.INSTANT_WATTS_L1) ||
+      visibleDatasets.includes(ConsumptionChartDatasetOrder.INSTANT_WATTS_L2) ||
+      visibleDatasets.includes(ConsumptionChartDatasetOrder.INSTANT_WATTS_L3) ||
+      visibleDatasets.includes(ConsumptionChartDatasetOrder.CUMULATED_CONSUMPTION_WH) ||
+      visibleDatasets.includes(ConsumptionChartDatasetOrder.LIMIT_WATTS)
+    ) {
+      this.gridDisplay[ConsumptionChartAxis.POWER] = true;
+    } else if (
+      visibleDatasets.includes(ConsumptionChartDatasetOrder.INSTANT_AMPS) ||
+      visibleDatasets.includes(ConsumptionChartDatasetOrder.INSTANT_AMPS_L1) ||
+      visibleDatasets.includes(ConsumptionChartDatasetOrder.INSTANT_AMPS_L2) ||
+      visibleDatasets.includes(ConsumptionChartDatasetOrder.INSTANT_AMPS_L3) ||
+      visibleDatasets.includes(ConsumptionChartDatasetOrder.INSTANT_AMPS_DC) ||
+      visibleDatasets.includes(ConsumptionChartDatasetOrder.CUMULATED_CONSUMPTION_AMPS) ||
+      visibleDatasets.includes(ConsumptionChartDatasetOrder.LIMIT_AMPS)
+    ) {
+      this.gridDisplay[ConsumptionChartAxis.AMPERAGE] = true;
+    } else if (
+      visibleDatasets.includes(ConsumptionChartDatasetOrder.INSTANT_VOLTS) ||
+      visibleDatasets.includes(ConsumptionChartDatasetOrder.INSTANT_VOLTS_L1) ||
+      visibleDatasets.includes(ConsumptionChartDatasetOrder.INSTANT_VOLTS_L2) ||
+      visibleDatasets.includes(ConsumptionChartDatasetOrder.INSTANT_VOLTS_L3) ||
+      visibleDatasets.includes(ConsumptionChartDatasetOrder.INSTANT_VOLTS_DC)
+    ) {
+      this.gridDisplay[ConsumptionChartAxis.VOLTAGE] = true;
+    } else if( visibleDatasets.includes(ConsumptionChartDatasetOrder.STATE_OF_CHARGE) ) {
+      this.gridDisplay[ConsumptionChartAxis.PERCENTAGE] = true;
+    } else if( visibleDatasets.includes(ConsumptionChartDatasetOrder.CUMULATED_AMOUNT) ) {
+      this.gridDisplay[ConsumptionChartAxis.AMOUNT] = true;
+    }
+
+  }
+
   private getStyleColor(element: Element): string {
     const style = getComputedStyle(element);
     return style && style.color ? style.color : '';
@@ -154,16 +198,18 @@ export class ConsumptionChartComponent implements AfterViewInit {
   private prepareOrUpdateGraph() {
     if (this.canDisplayGraph()) {
       this.createGraphData();
+      this.refreshDataSets();
+      this.options = this.createOptions();
       if (!this.graphCreated) {
         this.graphCreated = true;
-        this.options = this.createOptions();
         this.chart = new Chart(this.chartElement.nativeElement.getContext('2d'), {
           type: 'bar',
           data: this.data,
           options: this.options,
         });
+      } else {
+        this.chart.options = this.options;
       }
-      this.refreshDataSets();
       this.chart.update();
     }
   }
@@ -388,6 +434,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
 
   // eslint-disable-next-line complexity
   private refreshDataSets() {
+    this.updateVisibleGridLines();
     for (const key of Object.keys(this.data.datasets)) {
       this.data.datasets[key].data = [];
     }
@@ -510,50 +557,12 @@ export class ConsumptionChartComponent implements AfterViewInit {
             legend.chart.data.datasets.forEach((dataset) => dataset.borderWidth = 3);
             legend.chart.update();
           },
-          // eslint-disable-next-line complexity
           onClick: (e, legendItem, legend) => {
             const dataset = legend.chart.data.datasets[legendItem.datasetIndex];
             const status = dataset.hidden;
             dataset.hidden = !status;
             this.data.datasets[legendItem.datasetIndex].hidden = !status;
-            const visibleDatasets = this.data.datasets.filter(ds => !ds.hidden).map(ds => ds.order);
-            for (const key in this.gridDisplay) {
-              if(Object.prototype.hasOwnProperty.call(this.gridDisplay, key)){
-                this.gridDisplay[key] = false;
-              }
-            }
-            if (
-              visibleDatasets.includes(ConsumptionChartDatasetOrder.INSTANT_WATTS) ||
-              visibleDatasets.includes(ConsumptionChartDatasetOrder.INSTANT_WATTS_L1) ||
-              visibleDatasets.includes(ConsumptionChartDatasetOrder.INSTANT_WATTS_L2) ||
-              visibleDatasets.includes(ConsumptionChartDatasetOrder.INSTANT_WATTS_L3) ||
-              visibleDatasets.includes(ConsumptionChartDatasetOrder.CUMULATED_CONSUMPTION_WH) ||
-              visibleDatasets.includes(ConsumptionChartDatasetOrder.LIMIT_WATTS)
-            ) {
-              this.gridDisplay[ConsumptionChartAxis.POWER] = true;
-            } else if (
-              visibleDatasets.includes(ConsumptionChartDatasetOrder.INSTANT_AMPS) ||
-              visibleDatasets.includes(ConsumptionChartDatasetOrder.INSTANT_AMPS_L1) ||
-              visibleDatasets.includes(ConsumptionChartDatasetOrder.INSTANT_AMPS_L2) ||
-              visibleDatasets.includes(ConsumptionChartDatasetOrder.INSTANT_AMPS_L3) ||
-              visibleDatasets.includes(ConsumptionChartDatasetOrder.INSTANT_AMPS_DC) ||
-              visibleDatasets.includes(ConsumptionChartDatasetOrder.CUMULATED_CONSUMPTION_AMPS) ||
-              visibleDatasets.includes(ConsumptionChartDatasetOrder.LIMIT_AMPS)
-            ) {
-              this.gridDisplay[ConsumptionChartAxis.AMPERAGE] = true;
-            } else if (
-              visibleDatasets.includes(ConsumptionChartDatasetOrder.INSTANT_VOLTS) ||
-              visibleDatasets.includes(ConsumptionChartDatasetOrder.INSTANT_VOLTS_L1) ||
-              visibleDatasets.includes(ConsumptionChartDatasetOrder.INSTANT_VOLTS_L2) ||
-              visibleDatasets.includes(ConsumptionChartDatasetOrder.INSTANT_VOLTS_L3) ||
-              visibleDatasets.includes(ConsumptionChartDatasetOrder.INSTANT_VOLTS_DC)
-            ) {
-              this.gridDisplay[ConsumptionChartAxis.VOLTAGE] = true;
-            } else if( visibleDatasets.includes(ConsumptionChartDatasetOrder.STATE_OF_CHARGE) ) {
-              this.gridDisplay[ConsumptionChartAxis.PERCENTAGE] = true;
-            } else if( visibleDatasets.includes(ConsumptionChartDatasetOrder.CUMULATED_AMOUNT) ) {
-              this.gridDisplay[ConsumptionChartAxis.AMOUNT] = true;
-            }
+            this.updateVisibleGridLines();
             legend.chart.options = this.createOptions();
             legend.chart.update();
           }

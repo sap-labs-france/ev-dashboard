@@ -24,7 +24,7 @@ import { Utils } from '../../../utils/Utils';
 })
 export class ChargingStationsStartTransactionDialogComponent implements OnInit {
   public title = '';
-  public chargeBoxID = '';
+  public chargingStationID = '';
   public isCarComponentActive: boolean;
   public selectedUser!: User;
   public selectedTag!: Tag;
@@ -56,7 +56,7 @@ export class ChargingStationsStartTransactionDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) data: any) {
     // Set
     this.title = data.title;
-    this.chargeBoxID = data.chargeBoxID;
+    this.chargingStationID = data.chargingStationID;
     this.loggedUser = this.centralServerService.getLoggedUser();
     this.canListUsers = this.authorizationService.canListUsers();
     this.isCarComponentActive = this.componentService.isActive(TenantComponents.CAR);
@@ -111,7 +111,7 @@ export class ChargingStationsStartTransactionDialogComponent implements OnInit {
   public loadUserDefaultTagCar() {
     if (this.userID.value) {
       this.spinnerService.show();
-      this.centralServerService.getUserDefaultTagCar(this.userID.value).subscribe((userDefaultTagCar: UserDefaultTagCar) => {
+      this.centralServerService.getUserDefaultTagCar(this.userID.value, this.chargingStationID).subscribe((userDefaultTagCar: UserDefaultTagCar) => {
         this.spinnerService.hide();
         // Set Tag
         this.selectedTag = userDefaultTagCar.tag;

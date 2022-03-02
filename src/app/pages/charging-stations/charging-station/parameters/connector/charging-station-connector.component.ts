@@ -24,6 +24,7 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
   @Input() public formConnectorsArray: FormArray;
   @Input() public isAdmin!: boolean;
   @Input() public isPublic!: boolean;
+  @Input() public readOnly: boolean;
   @Input() public manualConfiguration!: boolean;
   @Output() public connectorChanged = new EventEmitter<any>();
 
@@ -149,6 +150,10 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
       this.voltage.disable();
       this.amperagePerPhase.disable();
       this.numberOfConnectedPhase.disable();
+    }
+    console.log(this.readOnly);
+    if (this.readOnly) {
+      this.formConnectorGroup.disable();
     }
   }
 

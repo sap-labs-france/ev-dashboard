@@ -22,7 +22,7 @@ export class UsersInErrorComponent implements OnInit {
 
   public ngOnInit(): void {
     // Check if User ID id provided
-    const userID = this.windowService.getSearch('UserID');
+    const userID = this.windowService.getUrlParameterValue('UserID');
     if (userID) {
       const editAction = new TableEditUserAction().getActionDef();
       editAction.action(UserDialogComponent, this.dialog, {
@@ -30,7 +30,7 @@ export class UsersInErrorComponent implements OnInit {
         dialogMode: DialogMode.EDIT
       });
       // Clear Search
-      this.windowService.deleteSearch('UserID');
+      this.windowService.deleteUrlParameter('UserID');
     }
   }
 }

@@ -104,7 +104,7 @@ export class TableChargingStationsStartTransactionAction implements TableAction 
           return;
         }
         spinnerService.show();
-        centralServerService.chargingStationStartTransaction(
+        centralServerService.startTransaction(
           chargingStation.id, connector.connectorId, userID,
           visualTagID, carID).subscribe((startTransactionResponse: ActionResponse) => {
           spinnerService.hide();

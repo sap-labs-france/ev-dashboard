@@ -27,9 +27,9 @@ export class InvoicesListComponent implements OnInit {
 
   // Download from email
   public ngOnInit() {
-    const invoiceID = this.windowService.getSearch('InvoiceID');
+    const invoiceID = this.windowService.getUrlParameterValue('InvoiceID');
     if (invoiceID) {
-      const invoiceNumber = this.windowService.getSearch('InvoiceNumber');
+      const invoiceNumber = this.windowService.getUrlParameterValue('InvoiceNumber');
       this.centralServerService.downloadInvoice(invoiceID).subscribe((result) => {
         this.spinnerService.show();
         FileSaver.saveAs(result, 'invoice_' + (invoiceNumber ?? invoiceID) + '.pdf');

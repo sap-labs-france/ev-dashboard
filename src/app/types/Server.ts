@@ -52,6 +52,8 @@ export enum ServerAction {
   BOOT_NOTIFICATIONS = 'BootNotifications',
   STATUS_NOTIFICATIONS = 'StatusNotifications',
 
+  TRANSACTION_START = 'TransactionStart',
+  TRANSACTION_STOP = 'TransactionStop',
   TRANSACTION_SOFT_STOP = 'TransactionSoftStop',
   TRANSACTION_DELETE = 'TransactionDelete',
   TRANSACTIONS_DELETE = 'TransactionsDelete',
@@ -420,6 +422,7 @@ export enum ServerAction {
 
   BILLING = 'Billing',
   BILLING_TRANSACTION = 'BillingTransaction',
+  BILLING_SYNCHRONIZE_USER = 'BillingSynchronizeUser',
   BILLING_FORCE_SYNCHRONIZE_USER = 'BillingForceSynchronizeUser',
   CHECK_BILLING_CONNECTION = 'CheckBillingConnection',
   BILLING_TAXES = 'BillingTaxes',
@@ -432,8 +435,8 @@ export enum ServerAction {
   BILLING_PAYMENT_METHODS = 'BillingPaymentMethods',
   BILLING_DELETE_PAYMENT_METHOD = 'BillingDeletePaymentMethod',
   BILLING_CHARGE_INVOICE = 'BillingChargeInvoice',
-  BILLING_WEB_HOOK = 'BillingWebHook',
   BILLING_TEST_DATA_CLEANUP = 'BillingTestDataCleanup',
+  BILLING_BILL_PENDING_TRANSACTION = 'BillingBillPendingTransaction',
 
   PRICING = 'Pricing',
   PRICING_DEFINITION = 'PricingDefinition',
@@ -479,8 +482,8 @@ export enum ServerRoute {
   REST_CHARGING_STATIONS_REMOTE_START = 'charging-stations/:id/remote/start',
   REST_CHARGING_STATIONS_REMOTE_STOP = 'charging-stations/:id/remote/stop',
   REST_CHARGING_STATIONS_UNLOCK_CONNECTOR = 'charging-stations/:id/connectors/:connectorId/unlock',
-  REST_CHARGING_STATIONS_GET_COMPOSITE_SCHEDULE = 'charging-stations/:id/compositeschedule',
-  REST_CHARGING_STATIONS_GET_DIAGNOSTICS = 'charging-stations/:id/diagnostics',
+  REST_CHARGING_STATIONS_GET_COMPOSITE_SCHEDULE = 'charging-stations/:id/composite-schedule/get',
+  REST_CHARGING_STATIONS_GET_DIAGNOSTICS = 'charging-stations/:id/diagnostics/get',
   REST_CHARGING_STATIONS_FIRMWARE_UPDATE = 'charging-stations/:id/firmware/update',
   REST_CHARGING_STATIONS_CHANGE_AVAILABILITY = 'charging-stations/:id/availability/change',
   REST_CHARGING_STATIONS_RESERVE_NOW = 'charging-stations/:id/reserve/now',
@@ -517,6 +520,8 @@ export enum ServerRoute {
   REST_TRANSACTION_CDR = 'transactions/:id/ocpi/cdr',
   REST_TRANSACTION_CDR_EXPORT = 'transactions/:id/ocpi/cdr/export',
   REST_TRANSACTION_CONSUMPTIONS = 'transactions/:id/consumptions',
+  REST_TRANSACTION_START = 'transactions/start',
+  REST_TRANSACTION_STOP = 'transactions/:id/stop',
   REST_TRANSACTION_SOFT_STOP = 'transactions/:id/soft-stop',
   REST_TRANSACTIONS_REFUND_ACTION = 'transactions/action/refund',
   REST_TRANSACTIONS_REFUND = 'transactions/status/refund',
@@ -655,6 +660,8 @@ export enum ServerRoute {
   REST_BILLING_CHECK = 'billing/check',
   REST_BILLING_CLEAR_TEST_DATA = 'billing/clearTestData',
 
+  REST_BILLING_TAXES = 'billing/taxes',
+
   // BILLING URLs for CRUD operations on INVOICES
   REST_BILLING_INVOICES = 'invoices',
   REST_BILLING_INVOICE = 'invoices/:invoiceID',
@@ -682,6 +689,7 @@ export enum ServerType {
   OICP_SERVER = 'Oicp',
   ODATA_SERVER = 'OData',
   BATCH_SERVER = 'Batch',
+  MONITORING_SERVER = 'Monitoring',
   CENTRAL_SERVER = 'CentralServer',
 }
 

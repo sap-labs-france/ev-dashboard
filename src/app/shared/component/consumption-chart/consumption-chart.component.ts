@@ -503,7 +503,6 @@ export class ConsumptionChartComponent implements AfterViewInit {
             if(!status){
               legend.chart.data.datasets.forEach((dataset) => dataset.borderWidth = 1);
               legend.chart.data.datasets[legendItem.datasetIndex].borderWidth = 5;
-              console.log(legend.chart.data.datasets);
               legend.chart.update();
             }
           },

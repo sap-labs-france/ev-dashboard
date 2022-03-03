@@ -57,7 +57,7 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
 
   public initFilters() {
     // Server Actions
-    const actions = this.windowService.getSearch('actions');
+    const actions = this.windowService.getUrlParameterValue('actions');
     if (actions) {
       const logActionTableFilter = this.tableFiltersDef.find(filter => filter.id === 'action');
       if (logActionTableFilter) {
@@ -70,7 +70,7 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
       }
     }
     // Charging Station
-    const chargingStationID = this.windowService.getSearch('ChargingStationID');
+    const chargingStationID = this.windowService.getUrlParameterValue('ChargingStationID');
     if (chargingStationID) {
       const logSourceTableFilter = this.tableFiltersDef.find(filter => filter.id === 'charger');
       if (logSourceTableFilter) {
@@ -79,7 +79,7 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
       }
     }
     // Log Level
-    const logLevel = this.windowService.getSearch('LogLevel');
+    const logLevel = this.windowService.getUrlParameterValue('LogLevel');
     if (logLevel) {
       const logLevelTableFilter = this.tableFiltersDef.find(filter => filter.id === 'level');
       if (logLevelTableFilter) {
@@ -88,8 +88,8 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
       }
     }
     // StartDateTime and EndDateTime
-    const startDateTime = this.windowService.getSearch('StartDateTime');
-    const endDateTime = this.windowService.getSearch('EndDateTime');
+    const startDateTime = this.windowService.getUrlParameterValue('StartDateTime');
+    const endDateTime = this.windowService.getUrlParameterValue('EndDateTime');
     if (startDateTime) {
       const startDateTimeValue = moment(startDateTime);
       let endDateTimeValue = moment(startDateTime).endOf('day');

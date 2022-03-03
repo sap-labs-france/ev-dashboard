@@ -23,6 +23,20 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.6.3',
+        date: new Date('2022-03-03'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Enhanced Web Socket management in Charging Station's server`,
+              `Simplified Web Socket traces`,
+              `Fixed OCPI must return Charging when OCPP status is SuspendedEV/EVSE`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.6.2',
         date: new Date('2022-02-26'),
         componentChanges: [

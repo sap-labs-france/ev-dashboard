@@ -33,6 +33,7 @@ export class ReleaseNotesComponent {
               `Do not override Transaction ID in Meter Value from Connector if it's empty`,
               `Simplified Web Socket traces`,
               `Fixed OCPI must return Charging when OCPP status is SuspendedEV/EVSE`,
+              `Use human readable name for OCPI Site Area`,
             ],
           },
         ],

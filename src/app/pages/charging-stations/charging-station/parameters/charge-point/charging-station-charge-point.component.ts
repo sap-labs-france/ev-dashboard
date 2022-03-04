@@ -14,6 +14,7 @@ export class ChargingStationChargePointComponent implements OnInit, OnChanges {
   @Input() public formConnectorsArray: FormArray;
   @Input() public isAdmin!: boolean;
   @Input() public isPublic!: boolean;
+  @Input() public readOnly: boolean;
   @Input() public manualConfiguration!: boolean;
   @Output() public chargePointChanged = new EventEmitter<any>();
 
@@ -101,6 +102,10 @@ export class ChargingStationChargePointComponent implements OnInit, OnChanges {
     this.efficiency = this.formChargePointGroup.controls['efficiency'];
     this.connectorIDs = this.formChargePointGroup.controls['connectorIDs'];
     this.loadChargePoint();
+    console.log(this.readOnly);
+    if (this.readOnly) {
+      this.formChargePointGroup.disable();
+    }
   }
 
   public ngOnChanges() {

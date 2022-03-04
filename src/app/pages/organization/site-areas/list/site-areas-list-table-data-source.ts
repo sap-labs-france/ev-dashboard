@@ -80,7 +80,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
   }
 
   public initUrlParams() {
-    const siteAreaID = this.windowService.getSearch('SiteAreaID');
+    const siteAreaID = this.windowService.getUrlParameterValue('SiteAreaID');
     if (siteAreaID) {
       this.editAction.action(SiteAreaDialogComponent, this.dialog, {
         dialogData: { id: siteAreaID } as SiteArea

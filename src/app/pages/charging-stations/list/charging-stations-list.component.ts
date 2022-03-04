@@ -23,7 +23,7 @@ export class ChargingStationsListComponent implements OnInit {
 
   public ngOnInit(): void {
     // Check if transaction ID id provided
-    const chargingStationID = this.windowService.getSearch('ChargingStationID');
+    const chargingStationID = this.windowService.getUrlParameterValue('ChargingStationID');
     if (chargingStationID) {
       const editAction = new TableEditChargingStationAction().getActionDef();
       editAction.action(ChargingStationDialogComponent, this.dialog,
@@ -32,7 +32,7 @@ export class ChargingStationsListComponent implements OnInit {
           dialogMode: DialogMode.VIEW
         });
       // Clear Search
-      this.windowService.deleteSearch('ChargingStationID');
+      this.windowService.deleteUrlParameter('ChargingStationID');
     }
   }
 }

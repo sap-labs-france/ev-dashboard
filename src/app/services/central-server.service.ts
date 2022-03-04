@@ -2639,6 +2639,38 @@ export class CentralServerService {
       );
   }
 
+  public startTransaction(chargingStationID: string, connectorId: number, userID: string, visualTagID: string, carID?: string): Observable<ActionResponse> {
+    this.checkInit();
+    const body = {
+      chargingStationID,
+      carID,
+      userID,
+      args: {
+        visualTagID,
+        connectorId
+      },
+    };
+    return this.httpClient.put<ActionResponse>(
+      `${this.restServerSecuredURL}/${ServerRoute.REST_TRANSACTION_START}`, body,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public stopTransaction(id: number): Observable<ActionResponse> {
+    this.checkInit();
+    return this.httpClient.put<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_TRANSACTION_STOP, { id }), {},
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
   public softStopTransaction(id: number): Observable<ActionResponse> {
     this.checkInit();
     return this.httpClient.put<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_TRANSACTION_SOFT_STOP, { id }), {},
@@ -2974,7 +3006,7 @@ export class CentralServerService {
       }`;
     // Execute
     return this.httpClient.put<GetCompositeScheduleCommandResult | GetCompositeScheduleCommandResult[]>(
-      `${this.restServerSecuredURL}/${ServerRoute.REST_CHARGING_STATIONS}/${id}/compositeschedule`, body,
+      `${this.restServerSecuredURL}/${ServerRoute.REST_CHARGING_STATIONS}/${id}/composite-schedule/get`, body,
       {
         headers: this.buildHttpHeaders(),
       })

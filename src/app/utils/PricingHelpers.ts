@@ -21,17 +21,18 @@ export class PricingHelpers {
     return (enabled)? PricingHelpers.toSeconds(value): null;
   }
 
-  public static minMaxValidator(formGroup: FormGroup, minControl: string, maxControl: string): ValidatorFn {
-    const restrictions = formGroup.controls.restrictions as FormGroup;
+  public static minMaxValidator(minControl: string, maxControl: string): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
-      const fieldMinValue = restrictions.controls[minControl]?.value;
-      const fieldMaxValue = restrictions.controls[maxControl]?.value;
-      if (!Utils.isNullOrUndefined(fieldMinValue) && !Utils.isNullOrUndefined(fieldMaxValue) && fieldMaxValue !== '' && fieldMinValue !== '' && fieldMinValue >= 0 && fieldMaxValue >= 0) {
-        if (Number(fieldMaxValue) <= Number(fieldMinValue)) {
-          return {minMaxError: true};
+      if (control.parent.controls[`${minControl}Enabled`]?.value) {
+        const fieldMinValue = control.parent.controls[minControl]?.value;
+        const fieldMaxValue = control.parent.controls[maxControl]?.value;
+        if (!Utils.isNullOrUndefined(fieldMinValue) && !Utils.isNullOrUndefined(fieldMaxValue) && fieldMaxValue !== '' && fieldMinValue !== '' && fieldMinValue >= 0 && fieldMaxValue >= 0) {
+          if (Number(fieldMaxValue) <= Number(fieldMinValue)) {
+            return {minMaxError: true};
+          }
+          control.parent.controls[minControl].setErrors(null);
+          control.parent.controls[maxControl].setErrors(null);
         }
-        restrictions.controls[minControl].setErrors(null);
-        restrictions.controls[maxControl].setErrors(null);
       }
       return null;
     };

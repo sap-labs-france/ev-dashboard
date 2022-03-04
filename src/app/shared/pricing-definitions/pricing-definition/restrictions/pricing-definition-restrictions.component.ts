@@ -37,7 +37,6 @@ export class PricingDefinitionRestrictionsComponent implements OnInit, OnChanges
   public timeRangeEnabled: AbstractControl;
   public timeFrom: AbstractControl;
   public timeTo: AbstractControl;
-  public minTime: string;
 
   // eslint-disable-next-line no-useless-constructor
   public constructor(
@@ -48,18 +47,34 @@ export class PricingDefinitionRestrictionsComponent implements OnInit, OnChanges
   public ngOnInit(): void {
     this.formGroup.addControl('restrictions', new FormGroup({
       minDurationEnabled: new FormControl(false),
-      minDuration: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)),
+      minDuration: new FormControl({value: null, disabled: true}, Validators.compose([
+        Validators.required,
+        Validators.pattern(Constants.REGEX_VALIDATION_FLOAT),
+        PricingHelpers.minMaxValidator('minDuration', 'maxDuration')
+      ])),
       maxDurationEnabled: new FormControl(false),
-      maxDuration: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)),
+      maxDuration: new FormControl({value: null, disabled: true}, Validators.compose([
+        Validators.required,
+        Validators.pattern(Constants.REGEX_VALIDATION_FLOAT),
+        PricingHelpers.minMaxValidator('minDuration', 'maxDuration')
+      ])),
       minEnergyKWhEnabled: new FormControl(false),
-      minEnergyKWh: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)),
+      minEnergyKWh: new FormControl({value: null, disabled: true}, Validators.compose([
+        Validators.required,
+        Validators.pattern(Constants.REGEX_VALIDATION_FLOAT),
+        PricingHelpers.minMaxValidator('minEnergyKWh', 'maxEnergyKWh')
+      ])),
       maxEnergyKWhEnabled: new FormControl(false),
-      maxEnergyKWh: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)),
+      maxEnergyKWh: new FormControl({value: null, disabled: true}, Validators.compose([
+        Validators.required,
+        Validators.pattern(Constants.REGEX_VALIDATION_FLOAT),
+        PricingHelpers.minMaxValidator('minEnergyKWh', 'maxEnergyKWh')
+      ])),
       timeRangeEnabled: new FormControl(false),
       timeFrom: new FormControl(null),
       timeTo: new FormControl(null),
       daysOfWeekEnabled: new FormControl(false),
-      selectedDays: new FormControl(null),
+      selectedDays: new FormControl(null, Validators.required),
     }));
     this.restrictions = this.formGroup.controls['restrictions'] as FormGroup;
     this.minDurationEnabled = this.restrictions.controls['minDurationEnabled'];
@@ -103,16 +118,27 @@ export class PricingDefinitionRestrictionsComponent implements OnInit, OnChanges
       this.selectedDays.setValue(this.currentPricingDefinition.restrictions?.daysOfWeek?.map((day) => day.toString()) || null);
       this.timeRangeEnabled.setValue(!!this.currentPricingDefinition.restrictions?.timeFrom);
       this.timeFrom.setValue(this.currentPricingDefinition.restrictions?.timeFrom);
-      this.minTime = this.currentPricingDefinition.restrictions?.timeTo;
       this.timeTo.setValue(this.currentPricingDefinition.restrictions?.timeTo);
       this.minDurationEnabled.setValue(!!this.currentPricingDefinition.restrictions?.minDurationSecs);
-      this.minDuration.setValue(PricingHelpers.toMinutes(this.currentPricingDefinition.restrictions?.minDurationSecs));
+      if (!!this.currentPricingDefinition.restrictions?.minDurationSecs) {
+        this.minDuration.setValue(PricingHelpers.toMinutes(this.currentPricingDefinition.restrictions?.minDurationSecs));
+        this.minDuration.enable();
+      }
       this.maxDurationEnabled.setValue(!!this.currentPricingDefinition.restrictions?.maxDurationSecs);
-      this.maxDuration.setValue(PricingHelpers.toMinutes(this.currentPricingDefinition.restrictions?.maxDurationSecs));
+      if (!!this.currentPricingDefinition.restrictions?.maxDurationSecs) {
+        this.maxDuration.setValue(PricingHelpers.toMinutes(this.currentPricingDefinition.restrictions?.maxDurationSecs));
+        this.maxDuration.enable();
+      }
       this.minEnergyKWhEnabled.setValue(!!this.currentPricingDefinition.restrictions?.minEnergyKWh);
-      this.minEnergyKWh.setValue(this.currentPricingDefinition.restrictions?.minEnergyKWh);
+      if (!!this.currentPricingDefinition.restrictions?.minEnergyKWh) {
+        this.minEnergyKWh.setValue(PricingHelpers.toMinutes(this.currentPricingDefinition.restrictions?.minEnergyKWh));
+        this.minEnergyKWh.enable();
+      }
       this.maxEnergyKWhEnabled.setValue(!!this.currentPricingDefinition.restrictions?.maxEnergyKWh);
-      this.maxEnergyKWh.setValue(this.currentPricingDefinition.restrictions?.maxEnergyKWh);
+      if (!!this.currentPricingDefinition.restrictions?.maxEnergyKWh) {
+        this.maxEnergyKWh.setValue(PricingHelpers.toMinutes(this.currentPricingDefinition.restrictions?.maxEnergyKWh));
+        this.maxEnergyKWh.enable();
+      }
       // Force refresh the form
       this.formGroup.updateValueAndValidity();
       this.formGroup.markAsPristine();
@@ -149,13 +175,10 @@ export class PricingDefinitionRestrictionsComponent implements OnInit, OnChanges
   public toggleDuration(event: MatSlideToggleChange) {
     this[`${event.source.id}Enabled`].setValue(event.checked);
     if (event.checked) {
-      this[event.source.id].setValidators(Validators.compose([
-        Validators.required,
-        Validators.pattern(Constants.REGEX_VALIDATION_FLOAT),
-        PricingHelpers.minMaxValidator(this.formGroup, 'minDuration', 'maxDuration')
-      ]));
+      this[event.source.id].enable();
     } else {
       this.clearAndResetControl(this[`${event.source.id}`]);
+      this[event.source.id].disable();
     }
     this.formGroup.markAsDirty();
     this.formGroup.updateValueAndValidity();
@@ -164,13 +187,10 @@ export class PricingDefinitionRestrictionsComponent implements OnInit, OnChanges
   public toggleEnergy(event: MatSlideToggleChange) {
     this[`${event.source.id}Enabled`].setValue(event.checked);
     if (event.checked) {
-      this[event.source.id].setValidators(Validators.compose([
-        Validators.required,
-        Validators.pattern(Constants.REGEX_VALIDATION_FLOAT),
-        PricingHelpers.minMaxValidator(this.formGroup, 'minEnergyKWh', 'maxEnergyKWh')
-      ]));
+      this[event.source.id].enable();
     } else {
       this.clearAndResetControl(this[`${event.source.id}`]);
+      this[event.source.id].disable();
     }
     this.formGroup.markAsDirty();
     this.formGroup.updateValueAndValidity();

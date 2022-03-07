@@ -94,6 +94,8 @@ export class TenantsListTableDataSource extends TableDataSource<Tenant> {
         name: 'tenants.subdomain',
         headerClass: 'col-25p',
         class: 'col-25p',
+        sorted: true,
+        direction: 'asc',
         sortable: true,
       },
       {
@@ -101,8 +103,6 @@ export class TenantsListTableDataSource extends TableDataSource<Tenant> {
         name: 'tenants.name',
         headerClass: 'col-25p',
         class: 'text-left col-25p',
-        sorted: true,
-        direction: 'asc',
         sortable: true,
       },
       {

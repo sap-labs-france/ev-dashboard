@@ -22,16 +22,12 @@ export class PricingHelpers {
   }
 
   public static minMaxValidator(minControl: string, maxControl: string): ValidatorFn {
-    return (control: AbstractControl): { [key: string]: any } | null => {
-      if (control.parent.controls[`${minControl}Enabled`]?.value) {
+    return (control: AbstractControl): { [key: string]: boolean } | null => {
+      if (control.parent.controls[`${minControl}Enabled`]?.value && control.parent.controls[`${maxControl}Enabled`]?.value) {
         const fieldMinValue = control.parent.controls[minControl]?.value;
         const fieldMaxValue = control.parent.controls[maxControl]?.value;
-        if (!Utils.isNullOrUndefined(fieldMinValue) && !Utils.isNullOrUndefined(fieldMaxValue) && fieldMaxValue !== '' && fieldMinValue !== '' && fieldMinValue >= 0 && fieldMaxValue >= 0) {
-          if (Number(fieldMaxValue) <= Number(fieldMinValue)) {
-            return {minMaxError: true};
-          }
-          control.parent.controls[minControl].setErrors(null);
-          control.parent.controls[maxControl].setErrors(null);
+        if (Number(fieldMaxValue) <= Number(fieldMinValue)) {
+          return {minMaxError: true};
         }
       }
       return null;

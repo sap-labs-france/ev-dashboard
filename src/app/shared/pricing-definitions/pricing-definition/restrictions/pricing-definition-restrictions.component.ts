@@ -71,10 +71,10 @@ export class PricingDefinitionRestrictionsComponent implements OnInit, OnChanges
         PricingHelpers.minMaxValidator('minEnergyKWh', 'maxEnergyKWh')
       ])),
       timeRangeEnabled: new FormControl(false),
-      timeFrom: new FormControl(null),
-      timeTo: new FormControl(null),
+      timeFrom: new FormControl({value: null, disabled: true}, Validators.required),
+      timeTo: new FormControl({value: null, disabled: true}, Validators.required),
       daysOfWeekEnabled: new FormControl(false),
-      selectedDays: new FormControl(null, Validators.required),
+      selectedDays: new FormControl({value: null, disabled: true}, Validators.required),
     }));
     this.restrictions = this.formGroup.controls['restrictions'] as FormGroup;
     this.minDurationEnabled = this.restrictions.controls['minDurationEnabled'];
@@ -116,9 +116,19 @@ export class PricingDefinitionRestrictionsComponent implements OnInit, OnChanges
       // Restrictions
       this.daysOfWeekEnabled.setValue(!!this.currentPricingDefinition.restrictions?.daysOfWeek);
       this.selectedDays.setValue(this.currentPricingDefinition.restrictions?.daysOfWeek?.map((day) => day.toString()) || null);
+      if (!!this.currentPricingDefinition.restrictions?.daysOfWeek) {
+        this.selectedDays.setValue(this.currentPricingDefinition.restrictions?.daysOfWeek?.map((day) => day.toString()) || null);
+        this.selectedDays.enable();
+      }
       this.timeRangeEnabled.setValue(!!this.currentPricingDefinition.restrictions?.timeFrom);
-      this.timeFrom.setValue(this.currentPricingDefinition.restrictions?.timeFrom);
-      this.timeTo.setValue(this.currentPricingDefinition.restrictions?.timeTo);
+      if (!!this.currentPricingDefinition.restrictions?.timeFrom) {
+        this.timeFrom.setValue(this.currentPricingDefinition.restrictions?.timeFrom);
+        this.timeFrom.enable();
+      }
+      if (!!this.currentPricingDefinition.restrictions?.timeTo) {
+        this.timeTo.setValue(this.currentPricingDefinition.restrictions?.timeTo);
+        this.timeTo.enable();
+      }
       this.minDurationEnabled.setValue(!!this.currentPricingDefinition.restrictions?.minDurationSecs);
       if (!!this.currentPricingDefinition.restrictions?.minDurationSecs) {
         this.minDuration.setValue(PricingHelpers.toMinutes(this.currentPricingDefinition.restrictions?.minDurationSecs));
@@ -131,12 +141,12 @@ export class PricingDefinitionRestrictionsComponent implements OnInit, OnChanges
       }
       this.minEnergyKWhEnabled.setValue(!!this.currentPricingDefinition.restrictions?.minEnergyKWh);
       if (!!this.currentPricingDefinition.restrictions?.minEnergyKWh) {
-        this.minEnergyKWh.setValue(PricingHelpers.toMinutes(this.currentPricingDefinition.restrictions?.minEnergyKWh));
+        this.minEnergyKWh.setValue(this.currentPricingDefinition.restrictions?.minEnergyKWh);
         this.minEnergyKWh.enable();
       }
       this.maxEnergyKWhEnabled.setValue(!!this.currentPricingDefinition.restrictions?.maxEnergyKWh);
       if (!!this.currentPricingDefinition.restrictions?.maxEnergyKWh) {
-        this.maxEnergyKWh.setValue(PricingHelpers.toMinutes(this.currentPricingDefinition.restrictions?.maxEnergyKWh));
+        this.maxEnergyKWh.setValue(this.currentPricingDefinition.restrictions?.maxEnergyKWh);
         this.maxEnergyKWh.enable();
       }
       // Force refresh the form
@@ -148,26 +158,23 @@ export class PricingDefinitionRestrictionsComponent implements OnInit, OnChanges
 
   public toggleDaysOfWeek(event: MatSlideToggleChange) {
     this.daysOfWeekEnabled.setValue(event.checked);
-    if(event.checked) {
-      this.selectedDays.setValidators(Validators.required);
+    if (event.checked) {
+      this.selectedDays.enable();
     } else {
-      this.clearAndResetControl(this.selectedDays);
+      this.selectedDays.disable();
     }
-    this.formGroup.markAsDirty();
-    this.formGroup.updateValueAndValidity();
+    this.selectedDays.updateValueAndValidity();
   }
 
   public toggleTimeRange(event: MatSlideToggleChange) {
     this.timeRangeEnabled.setValue(event.checked);
     if (event.checked) {
-      this.timeFrom.setValidators(Validators.required);
-      this.timeTo.setValidators(Validators.required);
+      this.timeFrom.enable();
+      this.timeTo.enable();
     } else {
-      this.clearAndResetControl(this.timeFrom);
-      this.clearAndResetControl(this.timeTo);
+      this.timeFrom.disable();
+      this.timeTo.disable();
     }
-    this.timeFrom.markAsDirty();
-    this.timeTo.markAsDirty();
     this.timeFrom.updateValueAndValidity();
     this.timeTo.updateValueAndValidity();
   }
@@ -177,11 +184,10 @@ export class PricingDefinitionRestrictionsComponent implements OnInit, OnChanges
     if (event.checked) {
       this[event.source.id].enable();
     } else {
-      this.clearAndResetControl(this[`${event.source.id}`]);
       this[event.source.id].disable();
     }
-    this.formGroup.markAsDirty();
-    this.formGroup.updateValueAndValidity();
+    this.minDuration.updateValueAndValidity();
+    this.maxDuration.updateValueAndValidity();
   }
 
   public toggleEnergy(event: MatSlideToggleChange) {
@@ -189,16 +195,9 @@ export class PricingDefinitionRestrictionsComponent implements OnInit, OnChanges
     if (event.checked) {
       this[event.source.id].enable();
     } else {
-      this.clearAndResetControl(this[`${event.source.id}`]);
       this[event.source.id].disable();
     }
-    this.formGroup.markAsDirty();
-    this.formGroup.updateValueAndValidity();
-  }
-
-  private clearAndResetControl(control: AbstractControl) {
-    control.reset();
-    control.clearValidators();
-    control.updateValueAndValidity();
+    this.minEnergyKWh.updateValueAndValidity();
+    this.maxEnergyKWh.updateValueAndValidity();
   }
 }

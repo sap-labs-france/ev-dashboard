@@ -2,3 +2,7 @@
 	path = src/assets/configs-aws
 	url = ../../sap-labs-france/ev-aws.git
 	branch = master
+[submodule "src/assets/configs-ci"]
+	path = src/assets/configs-ci
+	url = ../../sap-labs-france/ev-ci.git
+	branch = master

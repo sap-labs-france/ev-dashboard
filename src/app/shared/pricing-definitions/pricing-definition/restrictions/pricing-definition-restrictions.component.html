@@ -1,7 +1,7 @@
 <!-- Duration -->
 <div class="row">
   <!-- toggle min duration -->
-  <div class="col-md-2 pricing-dimension">
+  <div class="col-md-3 col-xl-2 pricing-dimension">
     <mat-slide-toggle (change)="toggleDuration($event)" id="minDuration" [checked]="minDurationEnabled.value">
       {{'settings.pricing.restriction_min_duration' | translate}}
     </mat-slide-toggle>
@@ -18,7 +18,7 @@
     </mat-form-field>
   </div>
   <!-- toggle max duration -->
-  <div class="col-md-2 offset-1 pricing-dimension">
+  <div class="col-md-3 col-xl-2 offset-1 pricing-dimension">
     <mat-slide-toggle (change)="toggleDuration($event)" id="maxDuration" [checked]="maxDurationEnabled.value">
       {{'settings.pricing.restriction_max_duration' | translate}}
     </mat-slide-toggle>
@@ -38,7 +38,7 @@
 <!-- Energy -->
 <div class="row">
   <!-- toggle min energy -->
-  <div class="col-md-2 pricing-dimension">
+  <div class="col-md-3 col-xl-2 pricing-dimension">
     <mat-slide-toggle (change)="toggleEnergy($event)" id="minEnergyKWh" [checked]="minEnergyKWhEnabled.value">
       {{'settings.pricing.restriction_min_energy' | translate}}
     </mat-slide-toggle>
@@ -55,7 +55,7 @@
     </mat-form-field>
   </div>
   <!-- toggle max energy -->
-  <div class="col-md-2 offset-1 pricing-dimension">
+  <div class="col-md-3 col-xl-2 offset-1 pricing-dimension">
     <mat-slide-toggle (change)="toggleEnergy($event)" id="maxEnergyKWh" [checked]="maxEnergyKWhEnabled.value">
       {{'settings.pricing.restriction_max_energy' | translate}}
     </mat-slide-toggle>
@@ -74,7 +74,7 @@
 </div>
 <!-- time range -->
 <div class="row">
-  <div class="col-md-2 pricing-dimension">
+  <div class="col-md-3 col-xl-2 pricing-dimension">
     <mat-slide-toggle (change)="toggleTimeRange($event)" id="timeFrom" [checked]="timeRangeEnabled.value">
       {{'settings.pricing.restriction_time_range' | translate}}
     </mat-slide-toggle>
@@ -101,7 +101,7 @@
 <!-- days of week -->
 <div class="row">
   <!-- toggle days -->
-  <div class="col-md-2 pricing-dimension">
+  <div class="col-md-3 col-xl-2 pricing-dimension">
     <mat-slide-toggle (change)="toggleDaysOfWeek($event)" id="daysOfWeek" [checked]="daysOfWeekEnabled.value">
       {{'settings.pricing.restriction_days_of_week' | translate}}
     </mat-slide-toggle>

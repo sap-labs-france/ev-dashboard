@@ -6,7 +6,7 @@ import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { IssuerFilter } from 'shared/table/filters/issuer-filter';
 import { SiteAreaTableFilter } from 'shared/table/filters/site-area-table-filter';
-import { AuthorizationDefinitionFieldMetadata } from 'types/Authorization';
+import { DataResultAuthorizations } from 'types/Authorization';
 
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
@@ -42,7 +42,7 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
   private copySOAP15SecureAction = new TableCopyAction('chargers.connections.ocpp_15_soap_secure').getActionDef();
   private copySOAP16SecureAction = new TableCopyAction('chargers.connections.ocpp_16_soap_secure').getActionDef();
   private copyJSON16SecureAction = new TableCopyAction('chargers.connections.ocpp_16_json_secure').getActionDef();
-  private metadata?: Record<string, AuthorizationDefinitionFieldMetadata>;
+  private registrationTokensAuthorizations: DataResultAuthorizations;
 
   public constructor(
     public spinnerService: SpinnerService,
@@ -65,7 +65,11 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
       this.centralServerService.getRegistrationTokens(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((registrationTokens) => {
         this.createAction.visible = registrationTokens.canCreate;
-        this.metadata = registrationTokens.metadata;
+        // Initialise authorizations
+        this.registrationTokensAuthorizations = {
+          // Metadata
+          metadata: registrationTokens.metadata
+        };
         observer.next(registrationTokens);
         observer.complete();
       }, (error) => {
@@ -217,7 +221,7 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
       case RegistrationTokenButtonAction.CREATE_TOKEN:
         if (actionDef.id) {
           (actionDef as TableCreateRegistrationTokenActionDef).action(ChargingStationsRegistrationTokenDialogComponent,
-            this.dialog, { dialogData: { metadata: this.metadata } as RegistrationToken }, this.refreshData.bind(this));
+            this.dialog, { authorizations: this.registrationTokensAuthorizations }, this.refreshData.bind(this));
         }
         break;
     }

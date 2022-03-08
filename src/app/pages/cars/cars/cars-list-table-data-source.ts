@@ -4,8 +4,8 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { TableMoreAction } from 'shared/table/actions/table-more-action';
+import { CarsAuthorizations } from 'types/Authorization';
 
-import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
@@ -30,10 +30,12 @@ import { CarCatalogImageFormatterCellComponent } from '../cell-components/car-ca
 
 @Injectable()
 export class CarsListTableDataSource extends TableDataSource<Car> {
-  public isBasic: boolean;
   private createAction = new TableCreateCarAction().getActionDef();
   private editAction = new TableEditCarAction().getActionDef();
   private deleteAction = new TableDeleteCarAction().getActionDef();
+  private usersFilter: TableFilterDef;
+  private carMakerFilter: TableFilterDef;
+  private carsAthorizations: CarsAuthorizations;
 
   public constructor(
     public spinnerService: SpinnerService,
@@ -43,7 +45,6 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
     private centralServerService: CentralServerService,
     private dialog: MatDialog,
     private datePipe: AppDatePipe,
-    private authorizationService: AuthorizationService,
     private dialogService: DialogService,
     private appUnitPipe: AppUnitPipe,
   ) {
@@ -64,7 +65,20 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
     return new Observable((observer) => {
       // Get cars
       this.centralServerService.getCars(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe((cars) => {
-        this.createAction.visible = cars.canCreate;
+        // Initialize cars authorization
+        this.carsAthorizations = {
+          // Authorization actions
+          canCreate: Utils.convertToBoolean(cars.canCreate),
+          canListUsers: Utils.convertToBoolean(cars.canListUsers),
+          canListCarCatalog: Utils.convertToBoolean(cars.canListCarCatalog),
+          // metadata
+          metadata: cars.metadata
+        };
+        // Update filters visibility
+        this.createAction.visible = this.carsAthorizations.canCreate;
+        this.usersFilter.visible = this.carsAthorizations.canListUsers;
+        this.carMakerFilter.visible = this.carsAthorizations.canListCarCatalog;
+
         observer.next(cars);
         observer.complete();
       }, (error) => {
@@ -226,19 +240,21 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
       case CarButtonAction.CREATE_CAR:
         if (actionDef.action) {
           (actionDef as TableCreateCarActionDef).action(CarDialogComponent,
-            this.dialog, this.refreshData.bind(this));
+            this.dialog, { authorizations: this.carsAthorizations }, this.refreshData.bind(this));
         }
         break;
     }
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {
-    const tableFilterDef: TableFilterDef[] = [];
-    if (this.authorizationService.canListUsers()) {
-      tableFilterDef.push(new UserTableFilter().getFilterDef());
-    }
-    tableFilterDef.push(new CarMakerTableFilter().getFilterDef());
-    return tableFilterDef;
+    this.usersFilter = new UserTableFilter().getFilterDef();
+    this.carMakerFilter = new CarMakerTableFilter().getFilterDef();
+    // Create and return filter
+    const filters: TableFilterDef[] = [
+      this.usersFilter,
+      this.carMakerFilter
+    ];
+    return filters;
   }
 
   public buildTableActionsRightDef(): TableActionDef[] {
@@ -268,7 +284,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
       case CarButtonAction.EDIT_CAR:
         if (actionDef.action) {
           (actionDef as TableEditCarActionDef).action(CarDialogComponent, this.dialog,
-            { dialogData: car }, this.refreshData.bind(this));
+            { dialogData: car, authorizations: this.carsAthorizations }, this.refreshData.bind(this));
         }
         break;
       case CarButtonAction.DELETE_CAR:

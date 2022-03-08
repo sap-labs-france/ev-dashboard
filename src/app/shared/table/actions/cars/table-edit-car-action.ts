@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 
 import { DialogParams } from '../../../../types/Authorization';
 import { Car, CarButtonAction } from '../../../../types/Car';
-import { ScreenSize } from '../../../../types/GlobalType';
 import { TableActionDef } from '../../../../types/Table';
 import { TableEditAction } from '../table-edit-action';
 

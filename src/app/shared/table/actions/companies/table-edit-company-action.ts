@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 import { TableEditAction } from '../../../../shared/table/actions/table-edit-action';
 import { DialogParams } from '../../../../types/Authorization';
 import { Company, CompanyButtonAction } from '../../../../types/Company';
-import { ScreenSize } from '../../../../types/GlobalType';
 import { TableActionDef } from '../../../../types/Table';
 
 export interface TableEditCompanyActionDef extends TableActionDef {

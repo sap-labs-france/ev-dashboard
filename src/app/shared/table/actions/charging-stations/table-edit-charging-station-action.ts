@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 
 import { DialogParams } from '../../../../types/Authorization';
 import { ChargingStation, ChargingStationButtonAction } from '../../../../types/ChargingStation';
-import { ScreenSize } from '../../../../types/GlobalType';
 import { TableActionDef } from '../../../../types/Table';
 import { TableEditAction } from '../table-edit-action';
 

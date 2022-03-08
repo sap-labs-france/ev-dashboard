@@ -1,10 +1,9 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
-import { DialogParams } from 'types/Authorization';
 
 import { Asset, AssetButtonAction } from '../../../../types/Asset';
-import { ScreenSize } from '../../../../types/GlobalType';
+import { DialogParams } from '../../../../types/Authorization';
 import { TableActionDef } from '../../../../types/Table';
 import { TableEditAction } from '../table-edit-action';
 

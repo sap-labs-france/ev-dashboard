@@ -3,7 +3,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 
 import { DialogParams } from '../../../../types/Authorization';
-import { ScreenSize } from '../../../../types/GlobalType';
 import { TableActionDef } from '../../../../types/Table';
 import { Tag, TagButtonAction } from '../../../../types/Tag';
 import { TableEditAction } from '../table-edit-action';

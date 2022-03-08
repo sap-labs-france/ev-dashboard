@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 
 import { TableCreateAction } from '../../../../shared/table/actions/table-create-action';
 import { DialogParams } from '../../../../types/Authorization';
-import { ScreenSize } from '../../../../types/GlobalType';
 import { TableActionDef } from '../../../../types/Table';
 import { User, UserButtonAction } from '../../../../types/User';
 

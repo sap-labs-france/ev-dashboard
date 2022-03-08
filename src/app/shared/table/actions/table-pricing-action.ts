@@ -3,7 +3,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 
 import { DialogData, DialogMode, DialogParams } from '../../../types/Authorization';
-import { ButtonAction, PopupSize } from '../../../types/GlobalType';
+import { ButtonAction } from '../../../types/GlobalType';
 import { ButtonColor, TableActionDef } from '../../../types/Table';
 import { TableAction } from './table-action';
 
@@ -23,13 +23,10 @@ export class TableViewPricingListAction implements TableAction {
   }
 
   protected view(component: ComponentType<unknown>, dialog: MatDialog,
-    dialogParams: DialogParams<DialogData>, refresh?: () => Observable<void>, size?: PopupSize) {
+    dialogParams: DialogParams<DialogData>, refresh?: () => Observable<void>) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
-    // dialogConfig.minWidth = '60vw';
     dialogConfig.maxWidth = '85vw';
-    // dialogConfig.minHeight = '50vh';
-    // dialogConfig.maxHeight = '80vh';
     // CSS
     dialogConfig.panelClass = 'transparent-dialog-container';
     dialogConfig.data = {

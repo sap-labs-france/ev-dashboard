@@ -1,8 +1,8 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { ServerRoute } from 'types/Server';
 
-import { ButtonAction, PopupSize } from '../../../types/GlobalType';
+import { ButtonAction } from '../../../types/GlobalType';
+import { ServerRoute } from '../../../types/Server';
 import { ButtonColor, TableActionDef } from '../../../types/Table';
 import { TableAction } from './table-action';
 
@@ -23,13 +23,10 @@ export class TableImportAction implements TableAction {
   }
 
   protected import(component: ComponentType<unknown>, dialog: MatDialog, endpoint: ServerRoute,
-    entity: string,requiredProperties: string[], optionalProperties?: string[], size?: PopupSize) {
+    entity: string,requiredProperties: string[], optionalProperties?: string[]) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
-    // dialogConfig.minWidth = '60vw';
     dialogConfig.maxWidth = '85vw';
-    // dialogConfig.minHeight = '50vh';
-    // dialogConfig.maxHeight = '80vh';
     // CSS
     dialogConfig.panelClass = 'transparent-dialog-container';
     dialogConfig.data = {

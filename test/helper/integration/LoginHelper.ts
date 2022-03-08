@@ -3,11 +3,11 @@ import 'expect-puppeteer';
 import { Page } from 'puppeteer';
 
 import * as config from '../../config';
-import { UserTokenHelper } from './UserTokenHelper';
 
 export class LoginHelper {
 
-  public static DASHBOARD_BASE_URL = `${config.get('server.scheme')}://${config.get('server.host')}:${config.get('server.port')}`;
+  public static DASHBOARD_BASE_URL = `${config.get('server.scheme')}://${config.get('server.host')}:45000`;
+  // public static DASHBOARD_BASE_URL = `${config.get('server.scheme')}://${config.get('server.host')}:${config.get('server.port')}`;
 
   private static EMAIL_FIELD_SELECTOR = '#email-field';
   private static PASSWORD_FIELD_SELECTOR = '#password-field';

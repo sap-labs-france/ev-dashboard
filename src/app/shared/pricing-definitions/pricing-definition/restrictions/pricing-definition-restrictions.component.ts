@@ -164,6 +164,7 @@ export class PricingDefinitionRestrictionsComponent implements OnInit, OnChanges
       this.selectedDays.disable();
     }
     this.selectedDays.updateValueAndValidity();
+    this.formGroup.markAsDirty();
   }
 
   public toggleTimeRange(event: MatSlideToggleChange) {
@@ -177,6 +178,7 @@ export class PricingDefinitionRestrictionsComponent implements OnInit, OnChanges
     }
     this.timeFrom.updateValueAndValidity();
     this.timeTo.updateValueAndValidity();
+    this.formGroup.markAsDirty();
   }
 
   public toggleDuration(event: MatSlideToggleChange) {
@@ -188,6 +190,7 @@ export class PricingDefinitionRestrictionsComponent implements OnInit, OnChanges
     }
     this.minDuration.updateValueAndValidity();
     this.maxDuration.updateValueAndValidity();
+    this.formGroup.markAsDirty();
   }
 
   public toggleEnergy(event: MatSlideToggleChange) {
@@ -199,5 +202,6 @@ export class PricingDefinitionRestrictionsComponent implements OnInit, OnChanges
     }
     this.minEnergyKWh.updateValueAndValidity();
     this.maxEnergyKWh.updateValueAndValidity();
+    this.formGroup.markAsDirty();
   }
 }

@@ -24,7 +24,7 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.6.3',
-        date: new Date('2022-03-04'),
+        date: new Date('2022-03-08'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -32,6 +32,7 @@ export class ReleaseNotesComponent {
               `Enhanced Web Socket management in Charging Station's server`,
               `Do not override Transaction ID in Meter Value from Connector if it's empty`,
               `Simplified Web Socket traces`,
+              `Avoid too many payment attempts`,
               `Fixed OCPI must return Charging when OCPP status is SuspendedEV/EVSE`,
               `Use human readable name for OCPI Site Area`,
             ],

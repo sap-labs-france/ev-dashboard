@@ -187,7 +187,6 @@ export class ConsumptionChartComponent implements AfterViewInit {
     } else if( visibleDatasets.includes(ConsumptionChartDatasetOrder.CUMULATED_AMOUNT) ) {
       this.gridDisplay[ConsumptionChartAxis.AMOUNT] = true;
     }
-
   }
 
   private getStyleColor(element: Element): string {
@@ -537,8 +536,9 @@ export class ConsumptionChartComponent implements AfterViewInit {
         duration: 0,
       },
       responsive: true,
+      // maintainAspectRatio: true,
       // spanGaps: true,
-      aspectRatio: this.ratio,
+      // aspectRatio: this.ratio,
       plugins: {
         legend: {
           position: 'bottom',

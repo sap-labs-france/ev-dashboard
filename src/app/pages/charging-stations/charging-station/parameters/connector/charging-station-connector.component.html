@@ -84,7 +84,7 @@
               </mat-select>
             </mat-form-field>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-6" *ngIf="chargingStation?.issuer">
             <mat-form-field>
               <mat-select placeholder="{{'chargers.phase_assignment' | translate}}"
                 [formControl]="phaseAssignmentToGrid" required>
@@ -107,7 +107,7 @@
               </mat-error>
             </mat-form-field>
           </div>
-          <div class="col-md-12 text-right">
+          <div class="col-md-12 text-right" *ngIf="chargingStation?.issuer">
             <button type="button" mat-raised-button color="primary" (click)="generateQRCode()">
               <mat-icon>qr_code</mat-icon>
               <span>{{'general.display_qr' | translate}}</span>

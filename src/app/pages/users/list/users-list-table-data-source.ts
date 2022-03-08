@@ -84,7 +84,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
 
   public initFilters() {
     // Tag
-    const tagID = this.windowService.getSearch('TagID');
+    const tagID = this.windowService.getUrlParameterValue('TagID');
     if (tagID) {
       const tagTableFilter = this.tableFiltersDef.find(filter => filter.id === 'tag');
       if (tagTableFilter) {
@@ -95,7 +95,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       }
     }
     // Issuer
-    const issuer = this.windowService.getSearch('Issuer');
+    const issuer = this.windowService.getUrlParameterValue('Issuer');
     if (issuer) {
       const issuerTableFilter = this.tableFiltersDef.find(filter => filter.id === 'issuer');
       if (issuerTableFilter) {

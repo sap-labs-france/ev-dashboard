@@ -353,7 +353,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         filters.push(new ConnectorTableFilter().getFilterDef());
       }
       if ((this.authorizationService.canListUsers())) {
-        userFilter = new UserTableFilter([issuerFilter, siteFilter]).getFilterDef();
+        userFilter = new UserTableFilter([siteFilter]).getFilterDef();
         filters.push(userFilter);
       }
       if ((this.authorizationService.canListTags())) {
@@ -366,7 +366,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         filters.push(new ConnectorTableFilter().getFilterDef());
       }
       if ((this.authorizationService.canListUsers())) {
-        userFilter = new UserTableFilter([issuerFilter]).getFilterDef();
+        userFilter = new UserTableFilter().getFilterDef();
         filters.push(userFilter);
       }
       if ((this.authorizationService.canListTags())) {

@@ -166,14 +166,6 @@
           </div>
         </div>
       </mat-tab>
-      <mat-tab *ngIf="isSuperAdmin">
-        <ng-template mat-tab-label>
-          <mat-icon>info</mat-icon><span>{{"cars.debug_car" | translate}}</span>
-        </ng-template>
-        <div class="col-md-12 text-left p-3 pl-5 car-advanced">
-          <pre class="m-0"><small>{{ carCatalog | json }}</small></pre>
-        </div>
-      </mat-tab>
     </mat-tab-group>
     <div class="tabs-actions">
       <button mat-icon-button mat-dialog-close>

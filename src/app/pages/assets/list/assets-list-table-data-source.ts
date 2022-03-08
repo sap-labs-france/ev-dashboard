@@ -278,9 +278,6 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
     this.issuerFilter = new IssuerFilter().getFilterDef();
     this.siteFilter = new SiteTableFilter([this.issuerFilter]).getFilterDef();
     this.siteAreaFilter = new SiteAreaTableFilter([this.issuerFilter, this.siteFilter]).getFilterDef();
-    // Filter visibility will be defined by auth
-    this.siteFilter.visible = false;
-    this.siteAreaFilter.visible = false;
     // Create filters
     const filters: TableFilterDef[] = [
       this.issuerFilter,

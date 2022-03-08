@@ -32,6 +32,7 @@ export class ReleaseNotesComponent {
               `Enhanced Web Socket management in Charging Station's server`,
               `Do not override Transaction ID in Meter Value from Connector if it's empty`,
               `Simplified Web Socket traces`,
+              `Migrated Car endpoint to the new authorization framework`,
               `Avoid too many payment attempts`,
               `Fixed OCPI must return Charging when OCPP status is SuspendedEV/EVSE`,
               `Use human readable name for OCPI Site Area`,

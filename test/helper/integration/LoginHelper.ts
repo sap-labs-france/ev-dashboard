@@ -7,7 +7,6 @@ import { UserTokenHelper } from './UserTokenHelper';
 
 export class LoginHelper {
 
-  public static ADMIN_TOKEN = UserTokenHelper.generateAdmin();
   public static DASHBOARD_BASE_URL = `${config.get('server.scheme')}://${config.get('server.host')}:${config.get('server.port')}`;
 
   private static EMAIL_FIELD_SELECTOR = '#email-field';

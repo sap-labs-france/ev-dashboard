@@ -3,6 +3,7 @@ import 'expect-puppeteer';
 import { Page } from 'puppeteer';
 
 import { LoginHelper } from '../helper/integration/LoginHelper';
+import { UserTokenHelper } from '../helper/integration/UserTokenHelper';
 
 jest.setTimeout(60000);
 
@@ -21,7 +22,7 @@ beforeEach(async () => {
   // Usefull for debug with none headless browser
   await activePage.bringToFront();
   // Configure mock, IMPORTANT: jestPuppeteer.resetPage() reset the mocks
-  await LoginHelper.configureMocks(activePage, LoginHelper.ADMIN_TOKEN);
+  await LoginHelper.configureMocks(activePage, UserTokenHelper.generateAdmin());
 });
 
 describe('Login successfull', () => {

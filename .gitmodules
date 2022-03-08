@@ -6,3 +6,4 @@
 	path = src/assets/configs-ci
 	url = ../../sap-labs-france/ev-ci.git
 	branch = master
+	

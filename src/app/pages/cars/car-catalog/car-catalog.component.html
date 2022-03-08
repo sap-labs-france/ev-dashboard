@@ -1,4 +1,4 @@
-<div class="main-content">
+<div class="main-content vh-lg-60 vw-lg-80 vh-xl-45 vw-xxl-60 vh-3xl-40 vw-3xl-35">
   <div class="card card-testimonial card-profile">
     <mat-tab-group animationDuration="0ms" disableRipple="true" class="mat-tab-info mat-tabs-with-close-action">
       <mat-tab>
@@ -164,14 +164,6 @@
               <div class="col-md-9 col-xl-10">{{carCatalog?.miscSegment ? carCatalog.miscSegment : '-'}}</div>
             </div>
           </div>
-        </div>
-      </mat-tab>
-      <mat-tab *ngIf="isSuperAdmin">
-        <ng-template mat-tab-label>
-          <mat-icon>info</mat-icon><span>{{"cars.debug_car" | translate}}</span>
-        </ng-template>
-        <div class="col-md-12 text-left p-3 pl-5 car-advanced">
-          <pre class="m-0"><small>{{ carCatalog | json }}</small></pre>
         </div>
       </mat-tab>
     </mat-tab-group>

@@ -1,8 +1,8 @@
-<div class="main-content">
+<div class="main-content" [ngClass]="{'vh-lg-50 vw-lg-80 vw-xxl-60 vh-3xl-40 vw-3xl-35' : inDialog}">
   <div class="card card-profile card-testimonial">
     <form [formGroup]="formGroup" class="form">
       <mat-tab-group (selectedIndexChange)="updateRoute($event)" [selectedIndex]="activeTabIndex"
-          animationDuration="0ms" disableRipple="true" class="mat-tab-info mat-tabs-with-actions">
+          animationDuration="0ms" disableRipple="true" class="h-100 mat-tab-info mat-tabs-with-actions">
         <mat-tab>
           <ng-template mat-tab-label>
             <mat-icon>portrait</mat-icon>
@@ -72,7 +72,7 @@
             <span>{{'users.tabs.billing' | translate}}</span>
           </ng-template>
           <ng-template matTabContent>
-            <div class="card-body card-body-table-list">
+            <div class="card-body card-profile card-body-table-list">
               <app-payment-methods [currentUserID]=currentUserID>
               </app-payment-methods>
             </div>

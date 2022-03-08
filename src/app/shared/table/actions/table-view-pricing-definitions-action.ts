@@ -3,7 +3,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 
 import { DialogParams } from '../../../types/Authorization';
-import { ScreenSize } from '../../../types/GlobalType';
 import { PricingButtonAction, PricingDefinitionDialogData } from '../../../types/Pricing';
 import { TableActionDef } from '../../../types/Table';
 import { TableViewPricingListAction } from './table-pricing-action';
@@ -23,13 +22,6 @@ export class TableViewPricingDefinitionsAction extends TableViewPricingListActio
 
   private viewPricingDefinitions(pricingDialogComponent: ComponentType<unknown>, dialog: MatDialog,
     dialogParams: DialogParams<PricingDefinitionDialogData>, refresh?: () => Observable<void>) {
-    super.view(pricingDialogComponent, dialog, dialogParams, refresh, {
-      minWidth: ScreenSize.XL,
-      maxWidth: ScreenSize.XL,
-      width: ScreenSize.XL,
-      minHeight: ScreenSize.XL,
-      maxHeight: ScreenSize.XL,
-      height: ScreenSize.XL
-    });
+    super.view(pricingDialogComponent, dialog, dialogParams, refresh);
   }
 }

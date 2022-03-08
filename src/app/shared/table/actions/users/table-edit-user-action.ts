@@ -3,13 +3,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 
 import { TableEditAction } from '../../../../shared/table/actions/table-edit-action';
-import { DialogParams } from '../../../../types/Authorization';
+import { DialogParamsWithAuth, UsersAuthorizations } from '../../../../types/Authorization';
 import { TableActionDef } from '../../../../types/Table';
 import { User, UserButtonAction } from '../../../../types/User';
 
 export interface TableEditUserActionDef extends TableActionDef {
   action: (userDialogComponent: ComponentType<unknown>, dialog: MatDialog,
-    dialogParams: DialogParams<User>, refresh?: () => Observable<void>) => void;
+    dialogParams: DialogParamsWithAuth<User, UsersAuthorizations>, refresh?: () => Observable<void>) => void;
 }
 
 export class TableEditUserAction extends TableEditAction {
@@ -22,7 +22,7 @@ export class TableEditUserAction extends TableEditAction {
   }
 
   private editUser(userDialogComponent: ComponentType<unknown>, dialog: MatDialog,
-    dialogParams: DialogParams<User>, refresh?: () => Observable<void>) {
+    dialogParams: DialogParamsWithAuth<User, UsersAuthorizations>, refresh?: () => Observable<void>) {
     super.edit(userDialogComponent, dialog, dialogParams, refresh);
   }
 }

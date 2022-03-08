@@ -34,10 +34,10 @@ jobs:
         npm run build:dev
     - name: Start Dashboard
       run: |
-        npm run start & sleep 30
+        npm run start & sleep 60
     - name: Initialize integration test configuration
       run: |
         if [ ! -d test/config ]; then mkdir -p test/config; fi
-        cp src/assets/configs-ci/local.json test/config
+        cp src/assets/configs-ci/local-dashboard.json test/config/local.json
     - name: Run Integration Tests
       run: npm run test

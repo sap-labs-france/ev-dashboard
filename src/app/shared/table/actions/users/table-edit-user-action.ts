@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 
 import { TableEditAction } from '../../../../shared/table/actions/table-edit-action';
 import { DialogParamsWithAuth, UsersAuthorizations } from '../../../../types/Authorization';
-import { ScreenSize } from '../../../../types/GlobalType';
 import { TableActionDef } from '../../../../types/Table';
 import { User, UserButtonAction } from '../../../../types/User';
 
@@ -24,13 +23,6 @@ export class TableEditUserAction extends TableEditAction {
 
   private editUser(userDialogComponent: ComponentType<unknown>, dialog: MatDialog,
     dialogParams: DialogParamsWithAuth<User, UsersAuthorizations>, refresh?: () => Observable<void>) {
-    super.edit(userDialogComponent, dialog, dialogParams, refresh, {
-      minWidth: ScreenSize.XL,
-      maxWidth: ScreenSize.XL,
-      width: ScreenSize.XL,
-      minHeight: ScreenSize.M,
-      maxHeight: ScreenSize.M,
-      height: ScreenSize.M
-    });
+    super.edit(userDialogComponent, dialog, dialogParams, refresh);
   }
 }

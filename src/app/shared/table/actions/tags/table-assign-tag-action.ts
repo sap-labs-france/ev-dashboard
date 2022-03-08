@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 
 import { TableCreateAction } from '../../../../shared/table/actions/table-create-action';
 import { DialogParams } from '../../../../types/Authorization';
-import { ScreenSize } from '../../../../types/GlobalType';
 import { ButtonColor, TableActionDef } from '../../../../types/Table';
 import { Tag, TagButtonAction } from '../../../../types/Tag';
 
@@ -31,13 +30,6 @@ export class TableAssignTagAction extends TableCreateAction {
 
   private assign(tagAssignDialogComponent: ComponentType<unknown>,
     dialog: MatDialog, dialogParams?: DialogParams<Tag>, refresh?: () => Observable<void>) {
-    super.create(tagAssignDialogComponent, dialog, dialogParams, refresh, {
-      minWidth: ScreenSize.M,
-      maxWidth: ScreenSize.M,
-      width: ScreenSize.M,
-      minHeight: ScreenSize.XS,
-      maxHeight: ScreenSize.XS,
-      height: ScreenSize.XS
-    });
+    super.create(tagAssignDialogComponent, dialog, dialogParams, refresh);
   }
 }

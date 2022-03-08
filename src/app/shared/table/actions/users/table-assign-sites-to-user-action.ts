@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 
 import { TableAssignAction } from '../../../../shared/table/actions/table-assign-action';
 import { DialogMode, DialogParams } from '../../../../types/Authorization';
-import { ScreenSize } from '../../../../types/GlobalType';
 import { TableActionDef } from '../../../../types/Table';
 import { User, UserButtonAction } from '../../../../types/User';
 
@@ -27,13 +26,6 @@ export class TableAssignSitesToUserAction extends TableAssignAction {
 
   private assignSitesToUser(userSitesDialogComponent: ComponentType<unknown>, user: DialogParams<User>,
     dialog: MatDialog, refresh?: () => Observable<void>) {
-    super.assign(userSitesDialogComponent, dialog, user, DialogMode.EDIT, refresh, {
-      minWidth: ScreenSize.XL,
-      maxWidth: ScreenSize.XL,
-      width: ScreenSize.XL,
-      minHeight: ScreenSize.XL,
-      maxHeight: ScreenSize.XL,
-      height: ScreenSize.XL
-    });
+    super.assign(userSitesDialogComponent, dialog, user, DialogMode.EDIT, refresh);
   }
 }

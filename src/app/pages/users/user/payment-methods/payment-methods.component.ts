@@ -4,7 +4,7 @@ import { PaymentMethodsTableDataSource } from './payment-methods-table-data-sour
 
 @Component({
   selector: 'app-payment-methods',
-  templateUrl: 'payment-methods.component.html',
+  template: '<app-table [dataSource]="paymentMethodsTableDataSource"></app-table>',
   providers: [PaymentMethodsTableDataSource],
 })
 export class PaymentMethodsComponent implements OnInit {

@@ -30,6 +30,8 @@ export class PricingHelpers {
           return {minMaxError: true};
         }
       }
+      control.parent.controls[minControl].updateValueAndValidity();
+      control.parent.controls[maxControl].updateValueAndValidity();
       return null;
     };
   }

@@ -65,7 +65,7 @@ export class TableChargingStationsStopTransactionAction implements TableAction {
             if (res.status === OCPPGeneralResponse.ACCEPTED) {
               messageService.showSuccessMessage(
                 translateService.instant('chargers.stop_transaction_success',
-                  { user: Utils.buildUserFullName(transaction.user) }));
+                  { chargeBoxID: transaction.chargeBoxID }));
               if (refresh) {
                 refresh().subscribe();
               }

@@ -47,13 +47,13 @@ export class PricingDefinitionRestrictionsComponent implements OnInit, OnChanges
   public ngOnInit(): void {
     this.formGroup.addControl('restrictions', new FormGroup({
       minDurationEnabled: new FormControl(false),
-      minDuration: new FormControl({value: null, disabled: true}, PricingHelpers.minMaxValidator('minDuration', 'maxDuration')),
+      minDuration: new FormControl({value: null, disabled: true}, PricingHelpers.minValidator('maxDuration')),
       maxDurationEnabled: new FormControl(false),
-      maxDuration: new FormControl({value: null, disabled: true}, PricingHelpers.minMaxValidator('minDuration', 'maxDuration')),
+      maxDuration: new FormControl({value: null, disabled: true}, PricingHelpers.maxValidator('minDuration', 'maxDuration')),
       minEnergyKWhEnabled: new FormControl(false),
-      minEnergyKWh: new FormControl({value: null, disabled: true}, PricingHelpers.minMaxValidator('minEnergyKWh', 'maxEnergyKWh')),
+      minEnergyKWh: new FormControl({value: null, disabled: true}, PricingHelpers.minValidator('maxEnergyKWh')),
       maxEnergyKWhEnabled: new FormControl(false),
-      maxEnergyKWh: new FormControl({value: null, disabled: true}, PricingHelpers.minMaxValidator('minEnergyKWh', 'maxEnergyKWh')),
+      maxEnergyKWh: new FormControl({value: null, disabled: true}, PricingHelpers.maxValidator('minEnergyKWh', 'maxEnergyKWh')),
       timeRangeEnabled: new FormControl(false),
       timeFrom: new FormControl({value: null, disabled: true}, Validators.required),
       timeTo: new FormControl({value: null, disabled: true}, Validators.required),

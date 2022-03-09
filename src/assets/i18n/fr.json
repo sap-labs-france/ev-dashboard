@@ -1554,10 +1554,8 @@
       "pricing_definition_delete_success": "La tarification a été supprimée avec succès.",
       "pricing_definition_delete_error": "Une erreur est survenue pendant la suppression de la tarification, vérifier les logs.",
       "pricing_definition_error": "Une erreur est survenue pendant la récupération de la tarification, vérifier les logs.",
-      "pricing_definition_time_range_error": "Merci de sélectionner des heures de début et de fin différentes.",
-      "pricing_min_energy_error": "L'énergie minimale doit être inférieure à l'énergie maximale.",
+      "pricing_definition_time_range_error": "Les heures de début et de fin doivent être différentes.",
       "pricing_max_energy_error": "L'énergie maximale doit être supérieure à l'énergie minimale.",
-      "pricing_min_duration_error": "La durée minimale doit être inférieure à la durée maximale.",
       "pricing_max_duration_error": "La durée maximale doit être supérieure à la durée minimale.",
       "connector_type": "Type",
       "connector_power": "Puissance du connecteur",
@@ -1588,8 +1586,8 @@
       "restriction_min_duration": "Durée min",
       "restriction_min_duration_unit": "Minutes",
       "restriction_time_range": "Plage horaire",
-      "restriction_start_time": "Heure de début incluse",
-      "restriction_end_time": "Heure de fin exclue",
+      "restriction_start_time": "Heure de début",
+      "restriction_end_time": "Heure de fin",
       "restriction_days_of_week": "Jours de la semaine"
     },
     "billing": {

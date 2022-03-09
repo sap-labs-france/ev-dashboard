@@ -14,7 +14,6 @@
       [formControl]="minDuration" required/>
       <mat-error *ngIf="minDuration?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
       <mat-error *ngIf="minDuration?.errors?.pattern">{{'general.error_number_pattern' | translate}}</mat-error>
-      <mat-error *ngIf="minDuration?.errors?.minMaxError">{{'settings.pricing.pricing_min_duration_error' | translate}}</mat-error>
     </mat-form-field>
   </div>
   <!-- toggle max duration -->
@@ -51,7 +50,6 @@
       [formControl]="minEnergyKWh" required/>
       <mat-error *ngIf="minEnergyKWh?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
       <mat-error *ngIf="minEnergyKWh?.errors?.pattern">{{'general.error_number_pattern' | translate}}</mat-error>
-      <mat-error *ngIf="minEnergyKWh?.errors?.minMaxError">{{'settings.pricing.pricing_min_energy_error' | translate}}</mat-error>
     </mat-form-field>
   </div>
   <!-- toggle max energy -->

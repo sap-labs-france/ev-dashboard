@@ -1,15 +1,14 @@
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-
-import { Address } from 'types/Address';
 import { CentralServerService } from 'services/central-server.service';
-import { CompaniesDialogComponent } from 'shared/dialogs/companies/companies-dialog.component';
-import { Company } from 'types/Company';
 import { ConfigService } from 'services/config.service';
-import { Constants } from 'utils/Constants';
 import { MessageService } from 'services/message.service';
+import { CompaniesDialogComponent } from 'shared/dialogs/companies/companies-dialog.component';
+import { Address } from 'types/Address';
+import { Company } from 'types/Company';
 import { Site } from 'types/Site';
+import { Constants } from 'utils/Constants';
 import { Utils } from 'utils/Utils';
 
 @Component({
@@ -66,8 +65,8 @@ export class SiteMainComponent implements OnInit, OnChanges {
     this.formGroup.addControl('autoUserSiteAssignment', new FormControl(false));
     this.formGroup.addControl('public', new FormControl(false));
     // Form
-    this.issuer = this.formGroup.controls['issuer'];
     this.id = this.formGroup.controls['id'];
+    this.issuer = this.formGroup.controls['issuer'];
     this.name = this.formGroup.controls['name'];
     this.company = this.formGroup.controls['company'];
     this.companyID = this.formGroup.controls['companyID'];

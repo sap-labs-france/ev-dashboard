@@ -19,7 +19,7 @@ import { SiteArea } from '../../../../types/SiteArea';
 import { TenantComponents } from '../../../../types/Tenant';
 import { Utils } from '../../../../utils/Utils';
 import { SiteAreaMainComponent } from './main/site-area-main.component';
-import { SiteAreaOcpiComponent } from './site-area-ocpi/site-area-ocpi.component';
+import { SiteAreaOcpiComponent } from './ocpi/site-area-ocpi.component';
 
 @Component({
   selector: 'app-site-area',
@@ -50,7 +50,7 @@ export class SiteAreaComponent extends AbstractTabComponent  implements OnInit {
     private router: Router,
     protected windowService: WindowService,
     protected activatedRoute: ActivatedRoute,) {
-    super(activatedRoute, windowService, ['common', 'site-area-ocpi'], false);
+    super(activatedRoute, windowService, ['main', 'ocpi'], false);
     this.ocpiActive = this.componentService.isActive(TenantComponents.OCPI);
   }
 

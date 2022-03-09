@@ -60,9 +60,10 @@ export class SiteAreaComponent extends AbstractTabComponent implements OnInit {
     this.readOnly = (this.dialogMode === DialogMode.VIEW);
     if (this.currentSiteAreaID) {
       this.loadSiteArea();
-    } else if (this.activatedRoute && this.activatedRoute.params) {
+    } else if (this.activatedRoute?.params) {
       this.activatedRoute.params.subscribe((params: Params) => {
         this.currentSiteAreaID = params['id'];
+        this.loadSiteArea();
       });
     }
     // Handle Dialog mode
@@ -71,7 +72,6 @@ export class SiteAreaComponent extends AbstractTabComponent implements OnInit {
 
   public loadSiteArea() {
     if (this.currentSiteAreaID) {
-      // Show spinner
       this.spinnerService.show();
       this.centralServerService.getSiteArea(this.currentSiteAreaID, true).subscribe((siteArea) => {
         this.spinnerService.hide();

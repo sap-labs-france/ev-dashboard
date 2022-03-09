@@ -60,9 +60,10 @@ export class SiteComponent extends AbstractTabComponent implements OnInit {
     this.readOnly = this.dialogMode === DialogMode.VIEW;
     if (this.currentSiteID) {
       this.loadSite();
-    } else if (this.activatedRoute && this.activatedRoute.params) {
+    } else if (this.activatedRoute?.params) {
       this.activatedRoute.params.subscribe((params: Params) => {
         this.currentSiteID = params['id'];
+        this.loadSite();
       });
     }
     // Handle Dialog mode

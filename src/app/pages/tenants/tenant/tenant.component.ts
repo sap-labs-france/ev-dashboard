@@ -14,8 +14,8 @@ import { RestResponse } from '../../../types/GlobalType';
 import { HTTPError } from '../../../types/HTTPError';
 import { Tenant, TenantComponents } from '../../../types/Tenant';
 import { Utils } from '../../../utils/Utils';
+import { TenantComponentsComponent } from './components/tenant-components.component';
 import { TenantMainComponent } from './main/tenant-main.component';
-import { TenantComponentsComponent } from './tenant-components/tenant-components.component';
 
 @Component({
   selector: 'app-tenant',
@@ -41,7 +41,7 @@ export class TenantComponent extends AbstractTabComponent implements OnInit {
     private router: Router,
     protected activatedRoute: ActivatedRoute,
     protected windowService: WindowService) {
-    super(activatedRoute, windowService, ['common', 'tenant-components'], false);
+    super(activatedRoute, windowService, ['main', 'components'], false);
   }
 
   public ngOnInit() {

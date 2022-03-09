@@ -7,7 +7,7 @@ import { Utils } from '../../../utils/Utils';
 import { TagComponent } from './tag.component';
 
 @Component({
-  template: '<app-tag #appRef [currentTagID]="tagID" [dialogMode]="dialogMode" [metadata]="metadata" [inDialog]="true" [dialogRef]="dialogRef"></app-tag>',
+  template: '<app-tag #appRef [currentTagID]="tagID" [dialogMode]="dialogMode" [metadata]="metadata" [dialogRef]="dialogRef"></app-tag>',
 })
 export class TagDialogComponent implements AfterViewInit {
   @ViewChild('appRef') public appRef!: TagComponent;

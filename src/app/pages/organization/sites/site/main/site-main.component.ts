@@ -1,15 +1,14 @@
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-
-import { Address } from 'types/Address';
 import { CentralServerService } from 'services/central-server.service';
-import { CompaniesDialogComponent } from 'shared/dialogs/companies/companies-dialog.component';
-import { Company } from 'types/Company';
 import { ConfigService } from 'services/config.service';
-import { Constants } from 'utils/Constants';
 import { MessageService } from 'services/message.service';
+import { CompaniesDialogComponent } from 'shared/dialogs/companies/companies-dialog.component';
+import { Address } from 'types/Address';
+import { Company } from 'types/Company';
 import { Site } from 'types/Site';
+import { Constants } from 'utils/Constants';
 import { Utils } from 'utils/Utils';
 
 @Component({
@@ -24,7 +23,7 @@ export class SiteMainComponent implements OnInit, OnChanges {
   @Output() public publicChanged = new EventEmitter<boolean>();
 
   public image = Constants.NO_IMAGE;
-  public siteImageSet = false;
+  public imageChanged = false;
   public maxSize: number;
 
   public issuer!: AbstractControl;
@@ -66,8 +65,8 @@ export class SiteMainComponent implements OnInit, OnChanges {
     this.formGroup.addControl('autoUserSiteAssignment', new FormControl(false));
     this.formGroup.addControl('public', new FormControl(false));
     // Form
-    this.issuer = this.formGroup.controls['issuer'];
     this.id = this.formGroup.controls['id'];
+    this.issuer = this.formGroup.controls['issuer'];
     this.name = this.formGroup.controls['name'];
     this.company = this.formGroup.controls['company'];
     this.companyID = this.formGroup.controls['companyID'];
@@ -114,9 +113,9 @@ export class SiteMainComponent implements OnInit, OnChanges {
         this.formGroup.controls.autoUserSiteAssignment.disable();
       }
       // Get Site image
-      if (!this.siteImageSet) {
+      if (!this.imageChanged) {
         this.centralServerService.getSiteImage(this.currentSiteID).subscribe((siteImage) => {
-          this.siteImageSet = true;
+          this.imageChanged = true;
           if (siteImage) {
             this.image = siteImage;
           }
@@ -161,7 +160,7 @@ export class SiteMainComponent implements OnInit, OnChanges {
   }
 
   public updateSiteImage(site: Site) {
-    if (this.image !== Constants.USER_NO_PICTURE) {
+    if (this.image !== Constants.NO_IMAGE) {
       site.image = this.image;
     } else {
       site.image = null;
@@ -170,7 +169,7 @@ export class SiteMainComponent implements OnInit, OnChanges {
 
   public clearImage() {
     this.image = Constants.NO_IMAGE;
-    this.siteImageSet = false;
+    this.imageChanged = true;
     this.formGroup.markAsDirty();
   }
 
@@ -183,7 +182,7 @@ export class SiteMainComponent implements OnInit, OnChanges {
         const reader = new FileReader();
         reader.onload = () => {
           this.image = reader.result as string;
-          this.siteImageSet = true;
+          this.imageChanged = true;
           this.formGroup.markAsDirty();
         };
         reader.readAsDataURL(file);

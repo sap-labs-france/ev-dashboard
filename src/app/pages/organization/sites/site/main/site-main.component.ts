@@ -160,7 +160,7 @@ export class SiteMainComponent implements OnInit, OnChanges {
   }
 
   public updateSiteImage(site: Site) {
-    if (this.image !== Constants.USER_NO_PICTURE) {
+    if (this.image !== Constants.NO_IMAGE) {
       site.image = this.image;
     } else {
       site.image = null;

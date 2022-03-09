@@ -235,7 +235,7 @@ export class SiteAreaMainComponent implements OnInit,OnChanges {
   }
 
   public updateSiteAreaImage(siteArea: SiteArea) {
-    if (this.image !== Constants.USER_NO_PICTURE) {
+    if (this.image !== Constants.NO_IMAGE) {
       siteArea.image = this.image;
     } else {
       siteArea.image = null;

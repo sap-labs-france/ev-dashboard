@@ -47,29 +47,13 @@ export class PricingDefinitionRestrictionsComponent implements OnInit, OnChanges
   public ngOnInit(): void {
     this.formGroup.addControl('restrictions', new FormGroup({
       minDurationEnabled: new FormControl(false),
-      minDuration: new FormControl({value: null, disabled: true}, Validators.compose([
-        Validators.required,
-        Validators.pattern(Constants.REGEX_VALIDATION_FLOAT),
-        PricingHelpers.minMaxValidator('minDuration', 'maxDuration')
-      ])),
+      minDuration: new FormControl({value: null, disabled: true}, PricingHelpers.minMaxValidator('minDuration', 'maxDuration')),
       maxDurationEnabled: new FormControl(false),
-      maxDuration: new FormControl({value: null, disabled: true}, Validators.compose([
-        Validators.required,
-        Validators.pattern(Constants.REGEX_VALIDATION_FLOAT),
-        PricingHelpers.minMaxValidator('minDuration', 'maxDuration')
-      ])),
+      maxDuration: new FormControl({value: null, disabled: true}, PricingHelpers.minMaxValidator('minDuration', 'maxDuration')),
       minEnergyKWhEnabled: new FormControl(false),
-      minEnergyKWh: new FormControl({value: null, disabled: true}, Validators.compose([
-        Validators.required,
-        Validators.pattern(Constants.REGEX_VALIDATION_FLOAT),
-        PricingHelpers.minMaxValidator('minEnergyKWh', 'maxEnergyKWh')
-      ])),
+      minEnergyKWh: new FormControl({value: null, disabled: true}, PricingHelpers.minMaxValidator('minEnergyKWh', 'maxEnergyKWh')),
       maxEnergyKWhEnabled: new FormControl(false),
-      maxEnergyKWh: new FormControl({value: null, disabled: true}, Validators.compose([
-        Validators.required,
-        Validators.pattern(Constants.REGEX_VALIDATION_FLOAT),
-        PricingHelpers.minMaxValidator('minEnergyKWh', 'maxEnergyKWh')
-      ])),
+      maxEnergyKWh: new FormControl({value: null, disabled: true}, PricingHelpers.minMaxValidator('minEnergyKWh', 'maxEnergyKWh')),
       timeRangeEnabled: new FormControl(false),
       timeFrom: new FormControl({value: null, disabled: true}, Validators.required),
       timeTo: new FormControl({value: null, disabled: true}, Validators.required),
@@ -157,7 +141,6 @@ export class PricingDefinitionRestrictionsComponent implements OnInit, OnChanges
   }
 
   public toggleDaysOfWeek(event: MatSlideToggleChange) {
-    this.daysOfWeekEnabled.setValue(event.checked);
     if (event.checked) {
       this.selectedDays.enable();
     } else {
@@ -168,7 +151,6 @@ export class PricingDefinitionRestrictionsComponent implements OnInit, OnChanges
   }
 
   public toggleTimeRange(event: MatSlideToggleChange) {
-    this.timeRangeEnabled.setValue(event.checked);
     if (event.checked) {
       this.timeFrom.enable();
       this.timeTo.enable();
@@ -182,7 +164,6 @@ export class PricingDefinitionRestrictionsComponent implements OnInit, OnChanges
   }
 
   public toggleDuration(event: MatSlideToggleChange) {
-    this[`${event.source.id}Enabled`].setValue(event.checked);
     if (event.checked) {
       this[event.source.id].enable();
     } else {
@@ -194,7 +175,6 @@ export class PricingDefinitionRestrictionsComponent implements OnInit, OnChanges
   }
 
   public toggleEnergy(event: MatSlideToggleChange) {
-    this[`${event.source.id}Enabled`].setValue(event.checked);
     if (event.checked) {
       this[event.source.id].enable();
     } else {

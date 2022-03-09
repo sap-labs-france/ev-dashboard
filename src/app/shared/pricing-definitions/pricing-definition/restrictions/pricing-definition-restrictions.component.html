@@ -2,7 +2,7 @@
 <div class="row">
   <!-- toggle min duration -->
   <div class="col-md-3 col-xl-2 pricing-dimension">
-    <mat-slide-toggle (change)="toggleDuration($event)" id="minDuration" [checked]="minDurationEnabled.value">
+    <mat-slide-toggle (change)="toggleDuration($event)" id="minDuration" [formControl]="minDurationEnabled">
       {{'settings.pricing.restriction_min_duration' | translate}}
     </mat-slide-toggle>
   </div>
@@ -19,7 +19,7 @@
   </div>
   <!-- toggle max duration -->
   <div class="col-md-3 col-xl-2 offset-1 pricing-dimension">
-    <mat-slide-toggle (change)="toggleDuration($event)" id="maxDuration" [checked]="maxDurationEnabled.value">
+    <mat-slide-toggle (change)="toggleDuration($event)" id="maxDuration" [formControl]="maxDurationEnabled">
       {{'settings.pricing.restriction_max_duration' | translate}}
     </mat-slide-toggle>
   </div>
@@ -39,7 +39,7 @@
 <div class="row">
   <!-- toggle min energy -->
   <div class="col-md-3 col-xl-2 pricing-dimension">
-    <mat-slide-toggle (change)="toggleEnergy($event)" id="minEnergyKWh" [checked]="minEnergyKWhEnabled.value">
+    <mat-slide-toggle (change)="toggleEnergy($event)" id="minEnergyKWh" [formControl]="minEnergyKWhEnabled">
       {{'settings.pricing.restriction_min_energy' | translate}}
     </mat-slide-toggle>
   </div>
@@ -56,7 +56,7 @@
   </div>
   <!-- toggle max energy -->
   <div class="col-md-3 col-xl-2 offset-1 pricing-dimension">
-    <mat-slide-toggle (change)="toggleEnergy($event)" id="maxEnergyKWh" [checked]="maxEnergyKWhEnabled.value">
+    <mat-slide-toggle (change)="toggleEnergy($event)" id="maxEnergyKWh" [formControl]="maxEnergyKWhEnabled">
       {{'settings.pricing.restriction_max_energy' | translate}}
     </mat-slide-toggle>
   </div>
@@ -75,7 +75,7 @@
 <!-- time range -->
 <div class="row">
   <div class="col-md-3 col-xl-2 pricing-dimension">
-    <mat-slide-toggle (change)="toggleTimeRange($event)" id="timeFrom" [checked]="timeRangeEnabled.value">
+    <mat-slide-toggle (change)="toggleTimeRange($event)" id="timeFrom" [formControl]="timeRangeEnabled">
       {{'settings.pricing.restriction_time_range' | translate}}
     </mat-slide-toggle>
   </div>
@@ -102,7 +102,7 @@
 <div class="row">
   <!-- toggle days -->
   <div class="col-md-3 col-xl-2 pricing-dimension">
-    <mat-slide-toggle (change)="toggleDaysOfWeek($event)" id="daysOfWeek" [checked]="daysOfWeekEnabled.value">
+    <mat-slide-toggle (change)="toggleDaysOfWeek($event)" id="daysOfWeek" [formControl]="daysOfWeekEnabled">
       {{'settings.pricing.restriction_days_of_week' | translate}}
     </mat-slide-toggle>
   </div>

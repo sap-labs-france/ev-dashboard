@@ -1,4 +1,4 @@
-<div class="main-content">
+<div class="main-content vh-lg-60 vw-lg-80 vh-xl-40 vw-xxl-60 vh-3xl-35 vw-3xl-35">
   <div class="card card-profile card-testimonial">
     <mat-tab-group animationDuration="0ms" disableRipple="true" class="mat-tab-info mat-tabs-with-actions">
       <mat-tab>
@@ -7,9 +7,9 @@
           <span>{{name.value}}</span>
         </ng-template>
         <div class="card-body mat-tab-dialog-body-content align-items-end">
-          <div class="row">
-            <div class="col-md-12 col-xl-5">
-              <div class="rotating-card-container" [ngStyle]="{ 'pointer-events': !readOnly ? 'all' : 'none'}">
+          <div class="row h-xl-100">
+            <div class="col-md-12 col-xl-5 h-xl-100">
+              <div class="rotating-card-container h-100" [ngStyle]="{ 'pointer-events': !readOnly ? 'all' : 'none'}">
                 <div class="card card-rotate card-background app-asset-image-padding mt-0">
                   <div class="front front-background"
                     [ngStyle]="{'background-image': 'url(' + image + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
@@ -156,14 +156,14 @@
         </ng-template>
         <div class="card-body text-left">
           <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-12 col-xl-4">
               <div class="form-group">
                 <mat-checkbox [formControl]="dynamicAsset" (change)="disableConnectionDetails()">
                   {{'assets.dynamic_asset' | translate}}
                 </mat-checkbox>
               </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-12 col-xl-4">
               <div class="form-group">
                 <mat-checkbox [formControl]="usesPushAPI" (change)="disableConnectionDetails()">
                   {{'assets.uses_push_api' | translate}}
@@ -172,7 +172,7 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-12 col-xl-5">
               <div class="form-group">
                 <mat-form-field>
                   <mat-select [formControl]="connectionID" placeholder="{{'chargers.connector' | translate}}" required>
@@ -188,7 +188,7 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-12 col-xl-5">
               <div class="form-group">
                 <mat-form-field>
                   <input matInput type="text" placeholder="{{'assets.meter_id' | translate}}" [formControl]="meterID"

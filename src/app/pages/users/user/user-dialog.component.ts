@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, Inject, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { AuthorizationDefinitionFieldMetadata, DialogMode, DialogParams } from 'types/Authorization';
+import { AuthorizationDefinitionFieldMetadata, DialogMode, DialogParamsWithAuth, UsersAuthorizations } from 'types/Authorization';
 import { User } from 'types/User';
 
 import { Utils } from '../../../utils/Utils';
@@ -16,9 +16,9 @@ export class UserDialogComponent implements AfterViewInit {
   public dialogMode: DialogMode;
   public constructor(
     public dialogRef: MatDialogRef<UserDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) dialogParams: DialogParams<User>) {
+    @Inject(MAT_DIALOG_DATA) dialogParams: DialogParamsWithAuth<User, UsersAuthorizations>) {
     this.currentUserID = dialogParams.dialogData?.id;
-    this.metadata = dialogParams.dialogData?.metadata;
+    this.metadata = dialogParams.authorizations?.metadata;
     this.dialogMode = dialogParams.dialogMode;
   }
 

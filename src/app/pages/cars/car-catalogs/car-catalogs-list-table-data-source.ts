@@ -44,7 +44,6 @@ export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> 
     super(spinnerService, translateService);
     // Init
     this.initDataSource();
-    this.tableSyncCarCatalogsAction.visible = false;
   }
 
   public getPageSize(): number {

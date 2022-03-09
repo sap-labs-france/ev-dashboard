@@ -33,7 +33,7 @@ export class SiteAreaMainComponent implements OnInit,OnChanges {
   @Output() public siteChanged = new EventEmitter<Site>();
 
   public image = Constants.NO_IMAGE;
-  public siteAreaImageSet = false;
+  public imageChanged = false;
   public maxSize: number;
 
   public issuer!: AbstractControl;
@@ -182,9 +182,9 @@ export class SiteAreaMainComponent implements OnInit,OnChanges {
       }
       this.refreshMaximumAmps();
       // Get Site Area image
-      if (!this.siteAreaImageSet) {
+      if (!this.imageChanged) {
         this.centralServerService.getSiteAreaImage(this.currentSiteAreaID).subscribe((siteAreaImage) => {
-          this.siteAreaImageSet = true;
+          this.imageChanged = true;
           if (siteAreaImage) {
             this.image = siteAreaImage;
           }
@@ -244,7 +244,7 @@ export class SiteAreaMainComponent implements OnInit,OnChanges {
 
   public clearImage() {
     this.image = Constants.NO_IMAGE;
-    this.siteAreaImageSet = false;
+    this.imageChanged = true;
     this.formGroup.markAsDirty();
   }
 
@@ -257,7 +257,7 @@ export class SiteAreaMainComponent implements OnInit,OnChanges {
         const reader = new FileReader();
         reader.onload = () => {
           this.image = reader.result as string;
-          this.siteAreaImageSet = true;
+          this.imageChanged = true;
           this.formGroup.markAsDirty();
         };
         reader.readAsDataURL(file);

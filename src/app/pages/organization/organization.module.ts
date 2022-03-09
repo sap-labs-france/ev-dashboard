@@ -13,6 +13,7 @@ import { TableModule } from '../../shared/table/table.module';
 import { CompanyLogoFormatterCellComponent } from './companies/cell-components/company-logo-formatter-cell.component';
 import { CompanyDialogComponent } from './companies/company/company-dialog.component';
 import { CompanyComponent } from './companies/company/company.component';
+import { CompanyMainComponent } from './companies/company/main/company-main.component';
 import { CompaniesListTableDataSource } from './companies/list/companies-list-table-data-source';
 import { CompaniesListComponent } from './companies/list/companies-list.component';
 import { OrganizationComponent } from './organization.component';
@@ -61,6 +62,7 @@ import { SiteComponent } from './sites/site/site.component';
     SitesListComponent,
     SiteAreasListComponent,
     CompanyComponent,
+    CompanyMainComponent,
     CompanyDialogComponent,
     CompanyLogoFormatterCellComponent,
     SiteComponent,

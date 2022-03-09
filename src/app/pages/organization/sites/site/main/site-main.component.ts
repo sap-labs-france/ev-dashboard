@@ -23,7 +23,7 @@ export class SiteMainComponent implements OnInit, OnChanges {
   @Output() public publicChanged = new EventEmitter<boolean>();
 
   public image = Constants.NO_IMAGE;
-  public siteImageSet = false;
+  public imageChanged = false;
   public maxSize: number;
 
   public issuer!: AbstractControl;
@@ -113,9 +113,9 @@ export class SiteMainComponent implements OnInit, OnChanges {
         this.formGroup.controls.autoUserSiteAssignment.disable();
       }
       // Get Site image
-      if (!this.siteImageSet) {
+      if (!this.imageChanged) {
         this.centralServerService.getSiteImage(this.currentSiteID).subscribe((siteImage) => {
-          this.siteImageSet = true;
+          this.imageChanged = true;
           if (siteImage) {
             this.image = siteImage;
           }
@@ -169,7 +169,7 @@ export class SiteMainComponent implements OnInit, OnChanges {
 
   public clearImage() {
     this.image = Constants.NO_IMAGE;
-    this.siteImageSet = false;
+    this.imageChanged = true;
     this.formGroup.markAsDirty();
   }
 
@@ -182,7 +182,7 @@ export class SiteMainComponent implements OnInit, OnChanges {
         const reader = new FileReader();
         reader.onload = () => {
           this.image = reader.result as string;
-          this.siteImageSet = true;
+          this.imageChanged = true;
           this.formGroup.markAsDirty();
         };
         reader.readAsDataURL(file);

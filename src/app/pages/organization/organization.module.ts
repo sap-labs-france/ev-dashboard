@@ -37,8 +37,8 @@ import { SiteUsersDialogComponent } from './sites/site-users/site-users-dialog.c
 import { SiteUsersOwnerRadioComponent } from './sites/site-users/site-users-owner-radio.component';
 import { SiteUsersTableDataSource } from './sites/site-users/site-users-table-data-source';
 import { SiteMainComponent } from './sites/site/main/site-main.component';
+import { SiteOcpiComponent } from './sites/site/ocpi/site-ocpi.component';
 import { SiteDialogComponent } from './sites/site/site-dialog.component';
-import { SiteOcpiComponent } from './sites/site/site-ocpi/site-ocpi.component';
 import { SiteComponent } from './sites/site/site.component';
 
 @NgModule({

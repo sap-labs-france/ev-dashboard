@@ -18,7 +18,7 @@ import { Site } from '../../../../types/Site';
 import { TenantComponents } from '../../../../types/Tenant';
 import { Utils } from '../../../../utils/Utils';
 import { SiteMainComponent } from './main/site-main.component';
-import { SiteOcpiComponent } from './site-ocpi/site-ocpi.component';
+import { SiteOcpiComponent } from './ocpi/site-ocpi.component';
 
 @Component({
   selector: 'app-site',

@@ -24,8 +24,6 @@ export class PricingHelpers {
 
   public static minMaxValidator(minControl: string, maxControl: string): ValidatorFn {
     return (control: AbstractControl): { [key: string]: boolean } | { [key: string]: { [key: string]: string } } | null => {
-      // const numberRegExp = new RegExp(Constants.REGEX_VALIDATION_NUMBER);
-      // if (control.parent.controls[`${minControl}Enabled`]?.value && control.parent.controls[`${maxControl}Enabled`]?.value) {
       if (!Utils.isNullOrUndefined(Validators.required(control))) {
         return Validators.required(control);
       } else if (!Utils.isNullOrUndefined(Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)(control))) {
@@ -38,8 +36,6 @@ export class PricingHelpers {
         }
         return null;
       }
-      // control.parent.controls[minControl].updateValueAndValidity();
-      // control.parent.controls[maxControl].updateValueAndValidity();
       return null;
     };
   }

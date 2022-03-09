@@ -5,7 +5,6 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { AppDayPipe } from '../../../../shared/formatters/app-day.pipe';
 import PricingDefinition from '../../../../types/Pricing';
-import { Constants } from '../../../../utils/Constants';
 import { PricingHelpers } from '../../../../utils/PricingHelpers';
 
 @Component({
@@ -98,38 +97,37 @@ export class PricingDefinitionRestrictionsComponent implements OnInit, OnChanges
   public loadPricing() {
     if (this.currentPricingDefinition) {
       // Restrictions
-      this.daysOfWeekEnabled.setValue(!!this.currentPricingDefinition.restrictions?.daysOfWeek);
-      this.selectedDays.setValue(this.currentPricingDefinition.restrictions?.daysOfWeek?.map((day) => day.toString()) || null);
       if (!!this.currentPricingDefinition.restrictions?.daysOfWeek) {
+        this.daysOfWeekEnabled.setValue(true);
         this.selectedDays.setValue(this.currentPricingDefinition.restrictions?.daysOfWeek?.map((day) => day.toString()) || null);
         this.selectedDays.enable();
       }
-      this.timeRangeEnabled.setValue(!!this.currentPricingDefinition.restrictions?.timeFrom);
       if (!!this.currentPricingDefinition.restrictions?.timeFrom) {
+        this.timeRangeEnabled.setValue(true);
         this.timeFrom.setValue(this.currentPricingDefinition.restrictions?.timeFrom);
         this.timeFrom.enable();
+        if (!!this.currentPricingDefinition.restrictions?.timeTo) {
+          this.timeTo.setValue(this.currentPricingDefinition.restrictions?.timeTo);
+          this.timeTo.enable();
+        }
       }
-      if (!!this.currentPricingDefinition.restrictions?.timeTo) {
-        this.timeTo.setValue(this.currentPricingDefinition.restrictions?.timeTo);
-        this.timeTo.enable();
-      }
-      this.minDurationEnabled.setValue(!!this.currentPricingDefinition.restrictions?.minDurationSecs);
       if (!!this.currentPricingDefinition.restrictions?.minDurationSecs) {
+        this.minDurationEnabled.setValue(true);
         this.minDuration.setValue(PricingHelpers.toMinutes(this.currentPricingDefinition.restrictions?.minDurationSecs));
         this.minDuration.enable();
       }
-      this.maxDurationEnabled.setValue(!!this.currentPricingDefinition.restrictions?.maxDurationSecs);
       if (!!this.currentPricingDefinition.restrictions?.maxDurationSecs) {
+        this.maxDurationEnabled.setValue(true);
         this.maxDuration.setValue(PricingHelpers.toMinutes(this.currentPricingDefinition.restrictions?.maxDurationSecs));
         this.maxDuration.enable();
       }
-      this.minEnergyKWhEnabled.setValue(!!this.currentPricingDefinition.restrictions?.minEnergyKWh);
       if (!!this.currentPricingDefinition.restrictions?.minEnergyKWh) {
+        this.minEnergyKWhEnabled.setValue(true);
         this.minEnergyKWh.setValue(this.currentPricingDefinition.restrictions?.minEnergyKWh);
         this.minEnergyKWh.enable();
       }
-      this.maxEnergyKWhEnabled.setValue(!!this.currentPricingDefinition.restrictions?.maxEnergyKWh);
       if (!!this.currentPricingDefinition.restrictions?.maxEnergyKWh) {
+        this.maxEnergyKWhEnabled.setValue(true);
         this.maxEnergyKWh.setValue(this.currentPricingDefinition.restrictions?.maxEnergyKWh);
         this.maxEnergyKWh.enable();
       }

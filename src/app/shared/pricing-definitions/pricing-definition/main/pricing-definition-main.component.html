@@ -76,7 +76,7 @@
 <div class="row">
   <!-- connector title -->
   <div class="col-md-3 offset-7 pricing-dimension">
-    <mat-slide-toggle (change)="toggle($event)" id="connectorPower" [checked]="connectorPowerEnabled.value">
+    <mat-slide-toggle (change)="toggle($event)" id="connectorPower" [formControl]="connectorPowerEnabled">
       {{'settings.pricing.connector_power' | translate}}
     </mat-slide-toggle>
   </div>

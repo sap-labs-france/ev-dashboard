@@ -48,45 +48,63 @@ export class PricingDefinitionDimensionsComponent implements OnInit, OnChanges {
   public ngOnInit(): void {
     this.formGroup.addControl('dimensions', new FormGroup({
       flatFee: new FormGroup({
-        active: new FormControl(false),
-        price: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_FLOAT)),
+        flatFeeEnabled: new FormControl(false),
+        price: new FormControl({value: null, disabled: true}, Validators.pattern(Constants.REGEX_VALIDATION_FLOAT)),
       }),
       energy: new FormGroup({
-        active: new FormControl(false),
-        price: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_FLOAT)),
-        stepSize: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)),
+        energyEnabled: new FormControl(false),
+        price: new FormControl({value: null, disabled: true}, Validators.compose([
+          Validators.required,
+          Validators.pattern(Constants.REGEX_VALIDATION_FLOAT)
+        ])),
+        stepSize: new FormControl({value: null, disabled: true}, Validators.compose([
+          Validators.required,
+          Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)
+        ])),
         stepSizeEnabled: new FormControl(false)
       }),
       chargingTime: new FormGroup({
-        active: new FormControl(false),
-        price: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_FLOAT)),
-        stepSize: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)),
+        chargingTimeEnabled: new FormControl(false),
+        price: new FormControl({value: null, disabled: true}, Validators.compose([
+          Validators.required,
+          Validators.pattern(Constants.REGEX_VALIDATION_FLOAT)
+        ])),
+        stepSize: new FormControl({value: null, disabled: true}, Validators.compose([
+          Validators.required,
+          Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)
+        ])),
         stepSizeEnabled: new FormControl(false)
       }),
       parkingTime: new FormGroup({
-        active: new FormControl(false),
-        price: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_FLOAT)),
-        stepSize: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)),
+        parkingTimeEnabled: new FormControl(false),
+        price: new FormControl({value: null, disabled: true}, Validators.compose([
+          Validators.required,
+          Validators.pattern(Constants.REGEX_VALIDATION_FLOAT)
+        ])),
+        stepSize: new FormControl({value: null, disabled: true}, Validators.compose([
+          Validators.required,
+          Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)
+        ])),
         stepSizeEnabled: new FormControl(false)
       }),
     }));
     // Dimensions
     this.dimensions = this.formGroup.controls['dimensions'] as FormGroup;
     this.flatFeeDimension = this.dimensions.controls['flatFee'] as FormGroup;
-    this.flatFeeEnabled = this.flatFeeDimension.controls['active'];
+    this.flatFeeEnabled = this.flatFeeDimension.controls['flatFeeEnabled'];
     this.flatFee = this.flatFeeDimension.controls['price'];
     this.energyDimension = this.dimensions.controls['energy'] as FormGroup;
-    this.energyEnabled = this.energyDimension.controls['active'];
+    this.energyEnabled = this.energyDimension.controls['energyEnabled'];
     this.energy = this.energyDimension.controls['price'];
     this.energyStepEnabled = this.energyDimension.controls['stepSizeEnabled'];
     this.energyStep = this.energyDimension.controls['stepSize'];
     this.chargingTimeDimension = this.dimensions.controls['chargingTime'] as FormGroup;
-    this.chargingTimeEnabled = this.chargingTimeDimension.controls['active'];
+    this.chargingTimeEnabled = this.chargingTimeDimension.controls['chargingTimeEnabled'];
     this.chargingTime = this.chargingTimeDimension.controls['price'];
     this.chargingTimeStepEnabled = this.chargingTimeDimension.controls['stepSizeEnabled'];
     this.chargingTimeStep = this.chargingTimeDimension.controls['stepSize'];
     this.parkingTimeDimension = this.dimensions.controls['parkingTime'] as FormGroup;
-    this.parkingTimeEnabled = this.parkingTimeDimension.controls['active'];
+    this.parkingTimeEnabled = this.parkingTimeDimension.controls['parkingTimeEnabled'];
     this.parkingTime = this.parkingTimeDimension.controls['price'];
     this.parkingTimeStepEnabled = this.parkingTimeDimension.controls['stepSizeEnabled'];
     this.parkingTimeStep = this.parkingTimeDimension.controls['stepSize'];
@@ -98,14 +116,10 @@ export class PricingDefinitionDimensionsComponent implements OnInit, OnChanges {
   }
 
   public toggle(event: MatSlideToggleChange) {
-    this[`${event.source.id}Enabled`].setValue(event.checked);
     if (event.checked) {
-      this[event.source.id].setValidators(Validators.compose([
-        Validators.required,
-        Validators.pattern(Constants.REGEX_VALIDATION_FLOAT)
-      ]));
+      this[event.source.id].enable();
     } else {
-      this.clearAndResetControl(this[event.source.id]);
+      this[event.source.id].disable();
     }
     this.formGroup.markAsDirty();
     this.formGroup.updateValueAndValidity();
@@ -131,18 +145,16 @@ export class PricingDefinitionDimensionsComponent implements OnInit, OnChanges {
 
   private initializeDimension(pricingDefinition: PricingDefinition, dimensionType: DimensionType, isTimeDimension = false): void {
     const dimension: PricingDimension = pricingDefinition.dimensions?.[dimensionType];
-    this[`${dimensionType}Enabled`].setValue(!!dimension?.active);
-    this[dimensionType].setValue(dimension?.price);
+    if (!!dimension?.active) {
+      this[`${dimensionType}Enabled`].setValue(true);
+      this[dimensionType].enable();
+      this[dimensionType].setValue(dimension?.price);
+    }
     if (!!dimension?.stepSize) {
       this[`${dimensionType}StepEnabled`].setValue(true);
       const stepSize = (isTimeDimension) ? PricingHelpers.toMinutes(dimension?.stepSize) : dimension?.stepSize;
+      this[`${dimensionType}Step`].enable();
       this[`${dimensionType}Step`].setValue(stepSize);
     }
-  }
-
-  private clearAndResetControl(control: AbstractControl) {
-    control.reset();
-    control.clearValidators();
-    control.updateValueAndValidity();
   }
 }

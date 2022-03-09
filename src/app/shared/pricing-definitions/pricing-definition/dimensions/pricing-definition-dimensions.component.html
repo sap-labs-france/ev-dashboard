@@ -2,7 +2,7 @@
 <div class="row">
   <!-- toggle -->
   <div class="col-md-2 pricing-dimension">
-    <mat-slide-toggle (change)="toggle($event)" id="flatFee" [checked]="flatFeeEnabled.value">
+    <mat-slide-toggle (change)="toggle($event)" id="flatFee" [formControl]="flatFeeEnabled">
       {{'settings.pricing.flat_fee' | translate}}
     </mat-slide-toggle>
   </div>
@@ -21,7 +21,7 @@
 <div class="row">
   <!-- toggle -->
   <div class="col-md-2 pricing-dimension">
-    <mat-slide-toggle (change)="toggle($event)" id="energy" [checked]="energyEnabled.value">
+    <mat-slide-toggle (change)="toggle($event)" id="energy" [formControl]="energyEnabled">
       {{'settings.pricing.energy' | translate}}
     </mat-slide-toggle>
   </div>
@@ -39,7 +39,7 @@
   <span class="stepSize" *ngIf="energyEnabled.value">
     <!-- checkbox -->
     <div class="col-md-2 offset-1 pricing-dimension">
-      <mat-checkbox (change)="toggle($event)" id="energyStep" [formControl]="energyStepEnabled" [checked]="energyStepEnabled.value">
+      <mat-checkbox (change)="toggle($event)" id="energyStep" [formControl]="energyStepEnabled">
         {{'settings.pricing.step_size' | translate}}
       </mat-checkbox>
     </div>
@@ -59,7 +59,7 @@
 <div class="row">
   <!-- toggle -->
   <div class="col-md-2 pricing-dimension">
-    <mat-slide-toggle (change)="toggle($event)" id="chargingTime" [checked]="chargingTimeEnabled.value">
+    <mat-slide-toggle (change)="toggle($event)" id="chargingTime" [formControl]="chargingTimeEnabled">
       {{'settings.pricing.charging_time' | translate}}
     </mat-slide-toggle>
   </div>
@@ -77,7 +77,7 @@
   <span class="stepSize" *ngIf="chargingTimeEnabled.value">
     <!-- checkbox -->
     <div class="col-md-2 offset-1 pricing-dimension">
-      <mat-checkbox (change)="toggle($event)" id="chargingTimeStep" [formControl]="chargingTimeStepEnabled" [checked]="chargingTimeStepEnabled.value">
+      <mat-checkbox (change)="toggle($event)" id="chargingTimeStep" [formControl]="chargingTimeStepEnabled">
         {{'settings.pricing.step_size' | translate}}
       </mat-checkbox>
     </div>
@@ -97,7 +97,7 @@
 <div class="row">
   <!-- toggle -->
   <div class="col-md-2 pricing-dimension">
-    <mat-slide-toggle (change)="toggle($event)" id="parkingTime" [checked]="parkingTimeEnabled.value">
+    <mat-slide-toggle (change)="toggle($event)" id="parkingTime" [formControl]="parkingTimeEnabled">
       {{'settings.pricing.parking_time' | translate}}
     </mat-slide-toggle>
   </div>
@@ -115,7 +115,7 @@
   <span class="stepSize" *ngIf="parkingTimeEnabled.value">
     <!-- checkbox -->
     <div class="col-md-2 offset-1 pricing-dimension">
-      <mat-checkbox (change)="toggle($event)" id="parkingTimeStep" [formControl]="parkingTimeStepEnabled" [checked]="parkingTimeStepEnabled.value">
+      <mat-checkbox (change)="toggle($event)" id="parkingTimeStep" [formControl]="parkingTimeStepEnabled">
         {{'settings.pricing.step_size' | translate}}
       </mat-checkbox>
     </div>

@@ -3,10 +3,8 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { TranslateService } from '@ngx-translate/core';
 
-import { CentralServerService } from '../../../../services/central-server.service';
 import { CONNECTOR_TYPE_SELECTION_MAP } from '../../../../shared/formatters/app-connector-type-selection.pipe';
 import { AppDayPipe } from '../../../../shared/formatters/app-day.pipe';
-import { Entity } from '../../../../types/Authorization';
 import PricingDefinition from '../../../../types/Pricing';
 import { Constants } from '../../../../utils/Constants';
 
@@ -53,12 +51,11 @@ export class PricingDefinitionMainComponent implements OnInit, OnChanges {
       validFrom: new FormControl(null),
       validTo: new FormControl(null),
       connectorPowerEnabled: new FormControl(false),
-      connectorPowerkW: new FormControl(null, Validators.pattern(Constants.REGEX_VALIDATION_FLOAT)),
-      connectorType: new FormControl('A',
-        Validators.compose([
-          Validators.required,
-        ])
-      ),
+      connectorPowerkW: new FormControl({value: null, disabled: true}, Validators.compose([
+        Validators.required,
+        Validators.pattern(Constants.REGEX_VALIDATION_FLOAT)
+      ])),
+      connectorType: new FormControl('A', Validators.required),
     }));
     this.id = this.formGroup.controls['id'];
     this.name = this.formGroup.controls['name'];
@@ -94,8 +91,11 @@ export class PricingDefinitionMainComponent implements OnInit, OnChanges {
       this.validTo.setValue(this.currentPricingDefinition.staticRestrictions?.validTo);
       this.minDate = this.currentPricingDefinition.staticRestrictions?.validFrom;
       this.connectorType.setValue((this.currentPricingDefinition.staticRestrictions?.connectorType) || 'A');
-      this.connectorPowerValue.setValue(this.currentPricingDefinition.staticRestrictions?.connectorPowerkW);
-      this.connectorPowerEnabled.setValue(!!this.connectorPowerValue.value);
+      if (!!this.currentPricingDefinition.staticRestrictions?.connectorPowerkW) {
+        this.connectorPowerEnabled.setValue(true);
+        this.connectorPowerValue.setValue(this.currentPricingDefinition.staticRestrictions?.connectorPowerkW);
+        this.connectorPowerValue.enable();
+      }
       // Force refresh the form
       this.formGroup.updateValueAndValidity();
       this.formGroup.markAsPristine();
@@ -104,22 +104,12 @@ export class PricingDefinitionMainComponent implements OnInit, OnChanges {
   }
 
   public toggle(event: MatSlideToggleChange) {
-    this[`${event.source.id}Enabled`].setValue(event.checked);
     if (event.checked) {
-      this[`${event.source.id}Value`].setValidators(Validators.compose([
-        Validators.required,
-        Validators.pattern(Constants.REGEX_VALIDATION_FLOAT)
-      ]));
+      this[`${event.source.id}Value`].enable();
     } else {
-      this.clearAndResetControl(this[`${event.source.id}Value`]);
+      this[`${event.source.id}Value`].disable();
     }
     this.formGroup.markAsDirty();
     this.formGroup.updateValueAndValidity();
-  }
-
-  private clearAndResetControl(control: AbstractControl) {
-    control.reset();
-    control.clearValidators();
-    control.updateValueAndValidity();
   }
 }

@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -134,27 +135,27 @@ export class PricingDefinitionComponent implements OnInit {
     const description: string = this.pricingDefinitionMain.description.value;
     // Priced Dimensions
     const dimensions: PricingDimensions = {
-      flatFee: this.buildPricingDimension(DimensionType.FLAT_FEE),
-      energy: this.buildPricingDimension(DimensionType.ENERGY),
-      chargingTime: this.buildPricingDimension(DimensionType.CHARGING_TIME, true),
-      parkingTime: this.buildPricingDimension(DimensionType.PARKING_TIME, true),
+      flatFee: this.pricingDefinitionDimensions.flatFeeEnabled.value ? this.buildPricingDimension(DimensionType.FLAT_FEE) : null,
+      energy: this.pricingDefinitionDimensions.energyEnabled.value ? this.buildPricingDimension(DimensionType.ENERGY) : null,
+      chargingTime: this.pricingDefinitionDimensions.chargingTimeEnabled.value ? this.buildPricingDimension(DimensionType.CHARGING_TIME, true) : null,
+      parkingTime: this.pricingDefinitionDimensions.parkingTimeEnabled.value ? this.buildPricingDimension(DimensionType.PARKING_TIME, true) : null,
     };
     // Static restrictions
     let staticRestrictions: PricingStaticRestriction = {
       validFrom: this.pricingDefinitionMain.validFrom.value || null,
       validTo: this.pricingDefinitionMain.validTo.value || null,
       connectorType: (this.pricingDefinitionMain.connectorType.value !== Constants.SELECT_ALL) ? this.pricingDefinitionMain.connectorType.value: null,
-      connectorPowerkW: (this.pricingDefinitionMain.connectorPowerEnabled.value)? this.pricingDefinitionMain.connectorPowerValue.value: null
+      connectorPowerkW: (this.pricingDefinitionMain.connectorPowerEnabled.value) ? this.pricingDefinitionMain.connectorPowerValue.value : null
     };
     // Dynamic restrictions
     let restrictions: PricingRestriction = {
-      daysOfWeek: this.pricingDefinitionRestrictions.selectedDays.value || null,
-      timeFrom: this.pricingDefinitionRestrictions.timeFrom.value || null,
-      timeTo: this.pricingDefinitionRestrictions.timeTo.value || null,
-      minEnergyKWh: this.pricingDefinitionRestrictions.minEnergyKWh.value || null,
-      maxEnergyKWh: this.pricingDefinitionRestrictions.maxEnergyKWh.value || null,
-      minDurationSecs: PricingHelpers.convertDurationToSeconds(this.pricingDefinitionRestrictions.minDurationEnabled.value, this.pricingDefinitionRestrictions.minDuration.value),
-      maxDurationSecs: PricingHelpers.convertDurationToSeconds(this.pricingDefinitionRestrictions.maxDurationEnabled.value, this.pricingDefinitionRestrictions.maxDuration.value),
+      daysOfWeek: this.pricingDefinitionRestrictions.daysOfWeekEnabled.value ? this.pricingDefinitionRestrictions.selectedDays.value : null,
+      timeFrom: this.pricingDefinitionRestrictions.timeRangeEnabled.value ? this.pricingDefinitionRestrictions.timeFrom.value : null,
+      timeTo: this.pricingDefinitionRestrictions.timeRangeEnabled.value ? this.pricingDefinitionRestrictions.timeTo.value : null,
+      minEnergyKWh: this.pricingDefinitionRestrictions.minEnergyKWhEnabled.value ? this.pricingDefinitionRestrictions.minEnergyKWh.value : null,
+      maxEnergyKWh: this.pricingDefinitionRestrictions.maxEnergyKWhEnabled.value ? this.pricingDefinitionRestrictions.maxEnergyKWh.value : null,
+      minDurationSecs: this.pricingDefinitionRestrictions.minDurationEnabled.value ? PricingHelpers.convertDurationToSeconds(this.pricingDefinitionRestrictions.minDurationEnabled.value, this.pricingDefinitionRestrictions.minDuration.value) : null,
+      maxDurationSecs: this.pricingDefinitionRestrictions.minDurationEnabled.value ? PricingHelpers.convertDurationToSeconds(this.pricingDefinitionRestrictions.maxDurationEnabled.value, this.pricingDefinitionRestrictions.maxDuration.value) : null,
     };
     // Clear empty data for best performances server-side
     staticRestrictions = this.shrinkPricingProperties(staticRestrictions);
@@ -175,35 +176,34 @@ export class PricingDefinitionComponent implements OnInit {
 
   private buildPricingDimension(dimensionType: DimensionType, isTimeDimension = false): PricingDimension {
     const price: number = this.pricingDefinitionDimensions[dimensionType].value;
+    let dimension: PricingDimension;
     if (price) {
       // Dimension
-      const dimension: PricingDimension = {
+      dimension = {
         active: true,
         price,
       };
-      const withStep: boolean = this.pricingDefinitionDimensions[`${dimensionType}StepEnabled`]?.value;
-      if ( withStep) {
-        let stepSize = this.pricingDefinitionDimensions[`${dimensionType}Step`]?.value;
-        if (isTimeDimension) {
-          // Converts minutes shown in the UI into seconds (as expected by the pricing model)
-          stepSize = PricingHelpers.toSeconds(stepSize);
-        }
-        // Dimension with Step Size
-        dimension.stepSize = stepSize;
-      }
-      return dimension;
     }
-    // Well ... this is strange but the backend does not accept null as dimension so far!
-    return undefined;
+    const withStep: boolean = this.pricingDefinitionDimensions[`${dimensionType}StepEnabled`]?.value && this.pricingDefinitionDimensions[`${dimensionType}Enabled`].value;
+    if (withStep) {
+      let stepSize = this.pricingDefinitionDimensions[`${dimensionType}Step`]?.value;
+      if (isTimeDimension) {
+        // Converts minutes shown in the UI into seconds (as expected by the pricing model)
+        stepSize = PricingHelpers.toSeconds(stepSize);
+      }
+      // Dimension with Step Size
+      dimension.stepSize = stepSize;
+    }
+    return dimension;
   }
 
   private shrinkPricingProperties(properties: any): any  {
-    for ( const propertyName in properties ) {
-      if ( !properties[propertyName] ) {
+    for (const propertyName in properties) {
+      if (!properties[propertyName]) {
         delete properties[propertyName];
       }
     }
-    if ( Utils.isEmptyObject(properties)) {
+    if (Utils.isEmptyObject(properties)) {
       return null;
     }
     return properties;

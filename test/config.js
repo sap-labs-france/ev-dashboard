@@ -31,7 +31,7 @@ const config = convict({
     port: {
       doc: 'The SERVER server port to bind.',
       format: 'port',
-      default: 8002,
+      default: 45000,
       env: 'SERVER_PORT',
       arg: 'server_port'
     },

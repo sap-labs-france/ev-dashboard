@@ -4,7 +4,7 @@ import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { TranslateService } from '@ngx-translate/core';
 
 import { AppDayPipe } from '../../../../shared/formatters/app-day.pipe';
-import PricingDefinition from '../../../../types/Pricing';
+import PricingDefinition, { PricingRestriction } from '../../../../types/Pricing';
 import { PricingHelpers } from '../../../../utils/PricingHelpers';
 
 @Component({
@@ -178,5 +178,17 @@ export class PricingDefinitionRestrictionsComponent implements OnInit, OnChanges
     this.minEnergyKWh.updateValueAndValidity();
     this.maxEnergyKWh.updateValueAndValidity();
     this.formGroup.markAsDirty();
+  }
+
+  public buildPrincingRestrictions(): PricingRestriction {
+    return {
+      daysOfWeek: this.daysOfWeekEnabled.value ? this.selectedDays.value : null,
+      timeFrom: this.timeRangeEnabled.value ? this.timeFrom.value : null,
+      timeTo: this.timeRangeEnabled.value ? this.timeTo.value : null,
+      minEnergyKWh: this.minEnergyKWhEnabled.value ? this.minEnergyKWh.value : null,
+      maxEnergyKWh: this.maxEnergyKWhEnabled.value ? this.maxEnergyKWh.value : null,
+      minDurationSecs: this.minDurationEnabled.value ? PricingHelpers.convertDurationToSeconds(this.minDurationEnabled.value, this.minDuration.value) : null,
+      maxDurationSecs: this.minDurationEnabled.value ? PricingHelpers.convertDurationToSeconds(this.maxDurationEnabled.value, this.maxDuration.value) : null,
+    };
   }
 }

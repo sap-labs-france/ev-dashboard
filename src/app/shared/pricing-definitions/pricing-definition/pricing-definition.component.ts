@@ -15,9 +15,7 @@ import { SpinnerService } from '../../../services/spinner.service';
 import { ActionResponse } from '../../../types/DataResult';
 import { RestResponse } from '../../../types/GlobalType';
 import { HTTPError } from '../../../types/HTTPError';
-import PricingDefinition, { DimensionType, PricingDimension, PricingDimensions, PricingEntity, PricingRestriction, PricingStaticRestriction } from '../../../types/Pricing';
-import { Constants } from '../../../utils/Constants';
-import { PricingHelpers } from '../../../utils/PricingHelpers';
+import PricingDefinition, { PricingEntity } from '../../../types/Pricing';
 import { Utils } from '../../../utils/Utils';
 import { PricingDefinitionDimensionsComponent } from './dimensions/pricing-definition-dimensions.component';
 import { PricingDefinitionMainComponent } from './main/pricing-definition-main.component';
@@ -167,29 +165,11 @@ export class PricingDefinitionComponent extends AbstractTabComponent implements 
     const name: string = this.pricingDefinitionMain.name.value;
     const description: string = this.pricingDefinitionMain.description.value;
     // Priced Dimensions
-    const dimensions: PricingDimensions = {
-      flatFee: this.pricingDefinitionDimensions.flatFeeEnabled.value ? this.buildPricingDimension(DimensionType.FLAT_FEE) : null,
-      energy: this.pricingDefinitionDimensions.energyEnabled.value ? this.buildPricingDimension(DimensionType.ENERGY) : null,
-      chargingTime: this.pricingDefinitionDimensions.chargingTimeEnabled.value ? this.buildPricingDimension(DimensionType.CHARGING_TIME, true) : null,
-      parkingTime: this.pricingDefinitionDimensions.parkingTimeEnabled.value ? this.buildPricingDimension(DimensionType.PARKING_TIME, true) : null,
-    };
+    const dimensions = this.pricingDefinitionDimensions.buildPricingDimensions();
     // Static restrictions
-    let staticRestrictions: PricingStaticRestriction = {
-      validFrom: this.pricingDefinitionMain.validFrom.value || null,
-      validTo: this.pricingDefinitionMain.validTo.value || null,
-      connectorType: (this.pricingDefinitionMain.connectorType.value !== Constants.SELECT_ALL) ? this.pricingDefinitionMain.connectorType.value: null,
-      connectorPowerkW: (this.pricingDefinitionMain.connectorPowerEnabled.value) ? this.pricingDefinitionMain.connectorPowerValue.value : null
-    };
+    let staticRestrictions = this.pricingDefinitionMain.buildPricingDefinitions();
     // Dynamic restrictions
-    let restrictions: PricingRestriction = {
-      daysOfWeek: this.pricingDefinitionRestrictions.daysOfWeekEnabled.value ? this.pricingDefinitionRestrictions.selectedDays.value : null,
-      timeFrom: this.pricingDefinitionRestrictions.timeRangeEnabled.value ? this.pricingDefinitionRestrictions.timeFrom.value : null,
-      timeTo: this.pricingDefinitionRestrictions.timeRangeEnabled.value ? this.pricingDefinitionRestrictions.timeTo.value : null,
-      minEnergyKWh: this.pricingDefinitionRestrictions.minEnergyKWhEnabled.value ? this.pricingDefinitionRestrictions.minEnergyKWh.value : null,
-      maxEnergyKWh: this.pricingDefinitionRestrictions.maxEnergyKWhEnabled.value ? this.pricingDefinitionRestrictions.maxEnergyKWh.value : null,
-      minDurationSecs: this.pricingDefinitionRestrictions.minDurationEnabled.value ? PricingHelpers.convertDurationToSeconds(this.pricingDefinitionRestrictions.minDurationEnabled.value, this.pricingDefinitionRestrictions.minDuration.value) : null,
-      maxDurationSecs: this.pricingDefinitionRestrictions.minDurationEnabled.value ? PricingHelpers.convertDurationToSeconds(this.pricingDefinitionRestrictions.maxDurationEnabled.value, this.pricingDefinitionRestrictions.maxDuration.value) : null,
-    };
+    let restrictions = this.pricingDefinitionRestrictions.buildPrincingRestrictions();
     // Clear empty data for best performances server-side
     staticRestrictions = this.shrinkPricingProperties(staticRestrictions);
     restrictions = this.shrinkPricingProperties(restrictions);
@@ -205,29 +185,6 @@ export class PricingDefinitionComponent extends AbstractTabComponent implements 
       restrictions
     };
     return pricingDefinition;
-  }
-
-  private buildPricingDimension(dimensionType: DimensionType, isTimeDimension = false): PricingDimension {
-    const price: number = this.pricingDefinitionDimensions[dimensionType].value;
-    let dimension: PricingDimension;
-    if (price) {
-      // Dimension
-      dimension = {
-        active: true,
-        price,
-      };
-    }
-    const withStep: boolean = this.pricingDefinitionDimensions[`${dimensionType}StepEnabled`]?.value && this.pricingDefinitionDimensions[`${dimensionType}Enabled`].value;
-    if (withStep) {
-      let stepSize = this.pricingDefinitionDimensions[`${dimensionType}Step`]?.value;
-      if (isTimeDimension) {
-        // Converts minutes shown in the UI into seconds (as expected by the pricing model)
-        stepSize = PricingHelpers.toSeconds(stepSize);
-      }
-      // Dimension with Step Size
-      dimension.stepSize = stepSize;
-    }
-    return dimension;
   }
 
   private shrinkPricingProperties(properties: any): any  {

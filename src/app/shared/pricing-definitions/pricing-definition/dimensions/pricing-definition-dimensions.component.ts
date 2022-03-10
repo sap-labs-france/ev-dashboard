@@ -2,7 +2,7 @@ import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 
-import PricingDefinition, { DimensionType, PricingDimension } from '../../../../types/Pricing';
+import PricingDefinition, { DimensionType, PricingDimension, PricingDimensions } from '../../../../types/Pricing';
 import { Constants } from '../../../../utils/Constants';
 import { PricingHelpers } from '../../../../utils/PricingHelpers';
 
@@ -143,6 +143,15 @@ export class PricingDefinitionDimensionsComponent implements OnInit, OnChanges {
     this.formGroup.updateValueAndValidity();
   }
 
+  public buildPricingDimensions(): PricingDimensions {
+    return {
+      flatFee: this.flatFeeEnabled.value ? this.buildPricingDimension(DimensionType.FLAT_FEE) : null,
+      energy: this.energyEnabled.value ? this.buildPricingDimension(DimensionType.ENERGY) : null,
+      chargingTime: this.chargingTimeEnabled.value ? this.buildPricingDimension(DimensionType.CHARGING_TIME, true) : null,
+      parkingTime: this.parkingTimeEnabled.value ? this.buildPricingDimension(DimensionType.PARKING_TIME, true) : null,
+    };
+  }
+
   private initializeDimension(pricingDefinition: PricingDefinition, dimensionType: DimensionType, isTimeDimension = false): void {
     const dimension: PricingDimension = pricingDefinition.dimensions?.[dimensionType];
     if (!!dimension?.active) {
@@ -156,5 +165,28 @@ export class PricingDefinitionDimensionsComponent implements OnInit, OnChanges {
       this[`${dimensionType}Step`].enable();
       this[`${dimensionType}Step`].setValue(stepSize);
     }
+  }
+
+  private buildPricingDimension(dimensionType: DimensionType, isTimeDimension = false): PricingDimension {
+    const price: number = this[dimensionType].value;
+    let dimension: PricingDimension;
+    if (price) {
+      // Dimension
+      dimension = {
+        active: true,
+        price,
+      };
+    }
+    const withStep: boolean = this[`${dimensionType}StepEnabled`]?.value && this[`${dimensionType}Enabled`].value;
+    if (withStep) {
+      let stepSize = this[`${dimensionType}Step`]?.value;
+      if (isTimeDimension) {
+        // Converts minutes shown in the UI into seconds (as expected by the pricing model)
+        stepSize = PricingHelpers.toSeconds(stepSize);
+      }
+      // Dimension with Step Size
+      dimension.stepSize = stepSize;
+    }
+    return dimension;
   }
 }

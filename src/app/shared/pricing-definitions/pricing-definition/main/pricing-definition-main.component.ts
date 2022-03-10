@@ -5,7 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { CONNECTOR_TYPE_SELECTION_MAP } from '../../../../shared/formatters/app-connector-type-selection.pipe';
 import { AppDayPipe } from '../../../../shared/formatters/app-day.pipe';
-import PricingDefinition from '../../../../types/Pricing';
+import PricingDefinition, { PricingStaticRestriction } from '../../../../types/Pricing';
 import { Constants } from '../../../../utils/Constants';
 
 @Component({
@@ -114,5 +114,14 @@ export class PricingDefinitionMainComponent implements OnInit, OnChanges {
     }
     this.formGroup.markAsDirty();
     this.formGroup.updateValueAndValidity();
+  }
+
+  public buildPricingDefinitions(): PricingStaticRestriction {
+    return {
+      validFrom: this.validFrom.value || null,
+      validTo: this.validTo.value || null,
+      connectorType: (this.connectorType.value !== Constants.SELECT_ALL) ? this.connectorType.value: null,
+      connectorPowerkW: (this.connectorPowerEnabled.value) ? this.connectorPowerValue.value : null
+    };
   }
 }

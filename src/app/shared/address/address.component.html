@@ -4,7 +4,10 @@
       <mat-form-field>
         <input matInput ngx-google-places-autocomplete #placesRef="ngx-places" (onAddressChange)="setAddress($event)"
           placeholder="{{'general.address1' | translate}}" type="text" [formControl]="address1">
-      </mat-form-field>
+          <mat-error *ngIf="address1.errors?.required">
+            {{"general.mandatory_field" | translate}}
+          </mat-error>
+        </mat-form-field>
     </div>
   </div>
   <div class="col-md-6">
@@ -18,6 +21,9 @@
     <div class="form-group">
       <mat-form-field>
         <input matInput placeholder="{{'general.postal_code' | translate}}" type="text" [formControl]="postalCode">
+        <mat-error *ngIf="postalCode.errors?.required">
+          {{"general.mandatory_field" | translate}}
+        </mat-error>
       </mat-form-field>
     </div>
   </div>
@@ -25,6 +31,9 @@
     <div class="form-group">
       <mat-form-field>
         <input matInput placeholder="{{'general.city' | translate}}" type="text" [formControl]="city">
+        <mat-error *ngIf="city.errors?.required">
+          {{"general.mandatory_field" | translate}}
+        </mat-error>
       </mat-form-field>
     </div>
   </div>
@@ -46,6 +55,9 @@
     <div class="form-group">
       <mat-form-field>
         <input matInput placeholder="{{'general.country' | translate}}" type="text" [formControl]="country">
+        <mat-error *ngIf="country.errors?.required">
+          {{"general.mandatory_field" | translate}}
+        </mat-error>
       </mat-form-field>
     </div>
   </div>
@@ -54,6 +66,9 @@
       <mat-form-field>
         <input matInput placeholder="{{'general.latitude' | translate}}" type="text" [formControl]="latitude" >
         <mat-error>{{"general.invalid_value" | translate}}</mat-error>
+        <mat-error *ngIf="latitude.errors?.required">
+          {{"general.mandatory_field" | translate}}
+        </mat-error>
         <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignGeoMap()" [disabled]='onlyReadGeolocation'>
           <mat-icon>pin_drop</mat-icon>
         </button>
@@ -65,6 +80,9 @@
       <mat-form-field>
         <input matInput placeholder="{{'general.longitude' | translate}}" type="text" [formControl]="longitude">
         <mat-error>{{"general.invalid_value" | translate}}</mat-error>
+        <mat-error *ngIf="longitude.errors?.required">
+          {{"general.mandatory_field" | translate}}
+        </mat-error>
         <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignGeoMap()" [disabled]='onlyReadGeolocation'>
           <mat-icon>pin_drop</mat-icon>
         </button>

@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 
 import { CarsAuthorizations, DialogParamsWithAuth } from '../../../../types/Authorization';
 import { Car, CarButtonAction } from '../../../../types/Car';
-import { ScreenSize } from '../../../../types/GlobalType';
 import { TableActionDef } from '../../../../types/Table';
 import { TableEditAction } from '../table-edit-action';
 
@@ -24,13 +23,6 @@ export class TableEditCarAction extends TableEditAction {
 
   private editCar(carDialogComponent: ComponentType<unknown>, dialog: MatDialog,
     dialogParams: DialogParamsWithAuth<Car, CarsAuthorizations>, refresh?: () => Observable<void>) {
-    super.edit(carDialogComponent, dialog, dialogParams, refresh, {
-      minWidth: ScreenSize.XXL,
-      maxWidth: ScreenSize.XXL,
-      width: ScreenSize.XXL,
-      minHeight: ScreenSize.L,
-      maxHeight: ScreenSize.L,
-      height: ScreenSize.L
-    });
+    super.edit(carDialogComponent, dialog, dialogParams, refresh);
   }
 }

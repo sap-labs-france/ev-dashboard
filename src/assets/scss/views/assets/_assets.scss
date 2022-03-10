@@ -1,12 +1,5 @@
 
 // Common
-div.app-asset-align-center {
-  align-items: center;
-  padding: 0 0 15px 0;
-  overflow: hidden;
-  width: 100%;
-}
-
 div.app-asset-image-padding {
   padding: 10px;
 }
@@ -16,4 +9,8 @@ div.app-asset-image-padding {
   display: block;
   margin-left: auto;
   margin-right: auto;
+}
+
+.settings-table {
+  height: 90%;
 }

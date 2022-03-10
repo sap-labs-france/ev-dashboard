@@ -140,6 +140,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public dateRangeChanged(filterDef: TableFilterDef, event: any) {
+    filterDef.dateRangeTableFilterDef.updateRanges();
     const currentValue = filterDef.currentValue;
     if (currentValue?.startDate !== event.startDate || currentValue?.endDate !== event.endDate) {
       filterDef.currentValue = {
@@ -161,21 +162,13 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  public setDateRangeToLatest(filterDef: TableFilterDef) {
-    const startDate = moment(filterDef.currentValue.startDate);
-    const endDate = moment();
-    this.dateRangeChanged(filterDef, {
-      startDate,
-      endDate
-    });
-  }
-
-  public openDateRanges(parent: MatFormField) {
+  public openDateTimeRangePicker(parent: MatFormField, filterDef: TableFilterDef) {
+    filterDef.dateRangeTableFilterDef.updateRanges();
     const parentHTMLElement = (parent.getConnectedOverlayOrigin().nativeElement as HTMLElement);
     for (const picker of this.datePickers) {
       // Close any other open pickers
       if (parentHTMLElement.contains(picker.picker.pickerContainer.nativeElement as HTMLElement)) {
-        picker.toggle();
+        picker.open();
       } else {
         picker.hide();
       }
@@ -188,19 +181,19 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       // Capitalize first letter of search id
       const filterIdInCap = filter.httpId;
       if (filter.currentValue === 'null' || !filter.currentValue) {
-        this.windowService.deleteSearch(filterIdInCap);
+        this.windowService.deleteUrlParameter(filterIdInCap);
       } else {
         switch (filter.type) {
           case FilterType.DIALOG_TABLE: {
-            this.windowService.setSearch(filterIdInCap, filter.currentValue[0].key);
+            this.windowService.setUrlParameter(filterIdInCap, filter.currentValue[0].key);
             break;
           }
           case FilterType.DROPDOWN: {
-            this.windowService.setSearch(filterIdInCap, filter.currentValue);
+            this.windowService.setUrlParameter(filterIdInCap, filter.currentValue);
             break;
           }
           case FilterType.DATE: {
-            this.windowService.setSearch(filterIdInCap, JSON.stringify(filter.currentValue));
+            this.windowService.setUrlParameter(filterIdInCap, JSON.stringify(filter.currentValue));
             break;
           }
           default: {
@@ -290,14 +283,6 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       this.destroyAutoRefresh();
     }
-  }
-
-  public fetchLatestRefresh(autoRefresh = false) {
-    const dateRangeFilters = this.dataSource.tableFiltersDef.filter(filter => filter.type === FilterType.DATE_RANGE);
-    for (const filter of dateRangeFilters) {
-      this.setDateRangeToLatest(filter);
-    }
-    this.refresh(autoRefresh);
   }
 
   public refresh(autoRefresh = false) {
@@ -414,7 +399,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       // Create the timer
       this.autoRefreshTimeout = setTimeout(() => {
         if (this.alive && !this.loading && !this.ongoingRefresh) {
-          this.fetchLatestRefresh(true);
+          this.refresh(true);
         }
       }, this.refreshIntervalSecs * 1000);
     }

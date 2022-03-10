@@ -1,11 +1,11 @@
-<div class="main-content">
+<div class="main-content vh-lg-60 vw-lg-70 vh-xl-35 vw-xxl-60 vh-3xl-40 vw-3xl-35">
   <div class="card card-profile card-testimonial">
     <form [formGroup]="formGroup" class="form" autocomplete="off">
       <mat-tab-group animationDuration="0ms" disableRipple="true" class="mat-tab-info mat-tabs-with-actions">
         <mat-tab>
           <ng-template mat-tab-label>
             <mat-icon>money</mat-icon>
-            <span>{{name.value}} - {{context}}</span>
+            <span>{{'settings.pricing.title' | translate}} - {{context}}</span>
           </ng-template>
           <div class="card-body">
             <!-- General form -->

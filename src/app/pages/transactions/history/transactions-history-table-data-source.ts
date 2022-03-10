@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { TransactionDialogComponent } from 'shared/dialogs/transaction/transaction-dialog.component';
 import { ConnectorTableFilter } from 'shared/table/filters/connector-table-filter';
@@ -107,7 +106,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
 
   public initFilters() {
     // User
-    const userID = this.windowService.getSearch('UserID');
+    const userID = this.windowService.getUrlParameterValue('UserID');
     if (userID) {
       const userTableFilter = this.tableFiltersDef.find(filter => filter.id === 'user');
       if (userTableFilter) {
@@ -119,7 +118,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
       this.loadUserFilterLabel(userID);
     }
     // Tag
-    const visualID = this.windowService.getSearch('VisualID');
+    const visualID = this.windowService.getUrlParameterValue('VisualID');
     if (visualID) {
       const tagTableFilter = this.tableFiltersDef.find(filter => filter.id === 'tag');
       if (tagTableFilter) {
@@ -130,7 +129,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
       }
     }
     // Issuer
-    const issuer = this.windowService.getSearch('Issuer');
+    const issuer = this.windowService.getUrlParameterValue('Issuer');
     if (issuer) {
       const issuerTableFilter = this.tableFiltersDef.find(filter => filter.id === 'issuer');
       if (issuerTableFilter) {
@@ -420,7 +419,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         tableFiltersDef.push(new ConnectorTableFilter().getFilterDef());
       }
       if ((this.authorizationService.canListUsers())) {
-        userFilter = new UserTableFilter([issuerFilter, siteFilter]).getFilterDef();
+        userFilter = new UserTableFilter([siteFilter]).getFilterDef();
         tableFiltersDef.push(userFilter);
       }
       if ((this.authorizationService.canListTags())) {
@@ -433,7 +432,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         tableFiltersDef.push(new ConnectorTableFilter().getFilterDef());
       }
       if ((this.authorizationService.canListUsers())) {
-        userFilter = new UserTableFilter([issuerFilter]).getFilterDef();
+        userFilter = new UserTableFilter().getFilterDef();
         tableFiltersDef.push(userFilter);
       }
       if ((this.authorizationService.canListTags())) {
@@ -511,7 +510,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
       case LogButtonAction.NAVIGATE_TO_LOGS:
         if (actionDef.action) {
           (actionDef as TableOpenURLActionDef).action('logs?ChargingStationID=' + transaction.chargeBoxID +
-            '&Timestamp=' + transaction.timestamp + '&LogLevel=I');
+            '&StartDateTime=' + transaction.timestamp + '&EndDateTime=' + transaction.stop.timestamp + '&LogLevel=I');
         }
         break;
       case ChargingStationButtonAction.NAVIGATE_TO_CHARGING_PLANS:

@@ -23,7 +23,7 @@
                         accept="image/jpg,image/jpeg,image/png,image/gif">
                     </div>
                   </button>
-                  <button mat-flat-button color="warn" *ngIf="siteImageSet">
+                  <button mat-flat-button color="warn">
                     <mat-icon (click)="clearImage()">delete</mat-icon>
                   </button>
                 </div>
@@ -79,7 +79,7 @@
     <div class="row">
       <div class="col-md-12">
         <app-address [address]="address" [formGroup]="formGroup" componentName="{{'sites.site' | translate}}"
-          [itemComponentName]="name.value" [onlyReadGeolocation]="readOnly"></app-address>
+          [itemComponentName]="name.value" [onlyReadGeolocation]="readOnly" [mandatory]="public.value"></app-address>
       </div>
     </div>
   </form>

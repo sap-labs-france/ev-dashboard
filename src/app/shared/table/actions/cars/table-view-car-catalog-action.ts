@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 
 import { DialogParams } from '../../../../types/Authorization';
 import { CarButtonAction, CarCatalog } from '../../../../types/Car';
-import { ScreenSize } from '../../../../types/GlobalType';
 import { TableActionDef } from '../../../../types/Table';
 import { TableViewAction } from '../table-view-action';
 
@@ -24,13 +23,6 @@ export class TableViewCarCatalogAction extends TableViewAction {
 
   private viewCarCatalog(carCatalogDialogComponent: ComponentType<unknown>, dialog: MatDialog,
     dialogParams: DialogParams<CarCatalog>, refresh?: () => Observable<void>) {
-    super.view(carCatalogDialogComponent, dialog, dialogParams, refresh, {
-      minWidth: ScreenSize.XXL,
-      maxWidth: ScreenSize.XXL,
-      width: ScreenSize.XXL,
-      minHeight: ScreenSize.L,
-      maxHeight: ScreenSize.L,
-      height: ScreenSize.L
-    });
+    super.view(carCatalogDialogComponent, dialog, dialogParams, refresh);
   }
 }

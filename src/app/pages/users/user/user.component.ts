@@ -65,7 +65,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     private router: Router,
     protected activatedRoute: ActivatedRoute,
     protected windowService: WindowService) {
-    super(activatedRoute, windowService, ['common', 'notifications', 'address', 'password', 'connections', 'miscs', 'billing'], false);
+    super(activatedRoute, windowService, ['main', 'notifications', 'address', 'password', 'connections', 'miscs', 'billing'], false);
     // Admin?
     this.isAdmin = this.authorizationService.isAdmin();
     this.isSuperAdmin = this.authorizationService.isSuperAdmin();
@@ -73,10 +73,10 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.isSiteAdmin = this.authorizationService.hasSitesAdminRights();
     // Set Tab IDs
     if (this.isBasic || this.isSiteAdmin) {
-      this.setHashArray(['common', 'address', 'password', 'connections', 'miscs', 'billing']);
+      this.setHashArray(['main', 'address', 'password', 'connections', 'miscs', 'billing']);
     }
     if (this.isSuperAdmin) {
-      this.setHashArray(['common', 'notifications', 'address', 'password', 'miscs', 'billing']);
+      this.setHashArray(['main', 'notifications', 'address', 'password', 'miscs', 'billing']);
     }
     this.isBillingComponentActive = this.componentService.isActive(TenantComponents.BILLING);
     this.canListPaymentMethods = this.authorizationService.canListPaymentMethods();
@@ -144,7 +144,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
 
   public closeDialog(saved: boolean = false) {
     if (this.inDialog) {
-      this.windowService.clearSearch();
+      this.windowService.clearUrlParameter();
       this.dialogRef.close(saved);
     }
   }

@@ -19,6 +19,7 @@ export class AddressComponent implements OnInit, OnChanges {
   @Input() public address!: Address;
   @Input() public componentName!: string;
   @Input() public itemComponentName!: string;
+  @Input() public mandatory!: boolean;
   public addressFormGroup!: FormGroup;
   public address1!: AbstractControl;
   public address2!: AbstractControl;
@@ -87,35 +88,55 @@ export class AddressComponent implements OnInit, OnChanges {
   }
 
   public loadAddress() {
-    if (!this.address) {
-      return;
-    }
-    if (this.address.address1) {
-      this.addressFormGroup?.controls.address1.setValue(this.address.address1);
-    }
-    if (this.address.address2) {
-      this.addressFormGroup?.controls.address2.setValue(this.address.address2);
-    }
-    if (this.address.postalCode) {
-      this.addressFormGroup?.controls.postalCode.setValue(this.address.postalCode);
-    }
-    if (this.address.city) {
-      this.addressFormGroup?.controls.city.setValue(this.address.city);
-    }
-    if (this.address.department) {
-      this.addressFormGroup?.controls.department.setValue(this.address.department);
-    }
-    if (this.address.region) {
-      this.addressFormGroup?.controls.region.setValue(this.address.region);
-    }
-    if (this.address.country) {
-      this.addressFormGroup?.controls.country.setValue(this.address.country);
-    }
-    if (this.address.coordinates && this.address.coordinates.length === 2) {
-      this.coordinates?.at(0).setValue(this.address.coordinates[0]);
-      this.coordinates?.at(1).setValue(this.address.coordinates[1]);
-      this.longitude = this.coordinates?.at(0);
-      this.latitude = this.coordinates?.at(1);
+    if (this.address) {
+      if (this.address.address1) {
+        this.addressFormGroup?.controls.address1.setValue(this.address.address1);
+      }
+      if (this.address.address2) {
+        this.addressFormGroup?.controls.address2.setValue(this.address.address2);
+      }
+      if (this.address.postalCode) {
+        this.addressFormGroup?.controls.postalCode.setValue(this.address.postalCode);
+      }
+      if (this.address.city) {
+        this.addressFormGroup?.controls.city.setValue(this.address.city);
+      }
+      if (this.address.department) {
+        this.addressFormGroup?.controls.department.setValue(this.address.department);
+      }
+      if (this.address.region) {
+        this.addressFormGroup?.controls.region.setValue(this.address.region);
+      }
+      if (this.address.country) {
+        this.addressFormGroup?.controls.country.setValue(this.address.country);
+      }
+      if (this.address.coordinates && this.address.coordinates.length === 2) {
+        this.coordinates?.at(0).setValue(this.address.coordinates[0]);
+        this.coordinates?.at(1).setValue(this.address.coordinates[1]);
+        this.longitude = this.coordinates?.at(0);
+        this.latitude = this.coordinates?.at(1);
+      }
+      if (this.mandatory) {
+        this.address1.setValidators(Validators.required);
+        this.city.setValidators(Validators.required);
+        this.postalCode.setValidators(Validators.required);
+        this.country.setValidators(Validators.required);
+        this.latitude.setValidators(Validators.required);
+        this.longitude.setValidators(Validators.required);
+      } else {
+        this.address1.clearValidators();
+        this.city.clearValidators();
+        this.postalCode.clearValidators();
+        this.country.clearValidators();
+        this.latitude.clearValidators();
+        this.longitude.clearValidators();
+      }
+      this.address1.updateValueAndValidity();
+      this.city.updateValueAndValidity();
+      this.postalCode.updateValueAndValidity();
+      this.country.updateValueAndValidity();
+      this.latitude.updateValueAndValidity();
+      this.longitude.updateValueAndValidity();
     }
   }
 

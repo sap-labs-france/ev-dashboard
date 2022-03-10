@@ -1,9 +1,9 @@
 import { Component, ElementRef, Input, OnChanges, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { Chart, ChartColor, ChartData, ChartDataSets, ChartOptions, ChartPoint, ChartTooltipItem } from 'chart.js';
+import { Chart, ChartData, ChartDataset, ChartOptions, Color, Point, TooltipItem } from 'chart.js';
 import * as moment from 'moment';
+import { ConsumptionChartAxis, ConsumptionChartDatasetOrder } from 'types/Chart';
 
-import { LocaleService } from '../../../../services/locale.service';
 import { AppDatePipe } from '../../../../shared/formatters/app-date.pipe';
 import { AppDecimalPipe } from '../../../../shared/formatters/app-decimal.pipe';
 import { AppDurationPipe } from '../../../../shared/formatters/app-duration.pipe';
@@ -47,21 +47,18 @@ export class ChargingPlanChartComponent implements OnChanges {
     labels: [],
     datasets: [],
   };
-  private language!: string;
   private instantPowerColor!: string;
   private limitColor!: string;
   private defaultColor!: string;
   private lineTension = 0;
+  private firstLabel: number;
 
+  // eslint-disable-next-line no-useless-constructor
   public constructor(
     private translateService: TranslateService,
     private durationPipe: AppDurationPipe,
-    private localeService: LocaleService,
     private datePipe: AppDatePipe,
     private decimalPipe: AppDecimalPipe) {
-    this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
-      this.language = locale.language;
-    });
   }
 
   public ngOnChanges() {
@@ -87,7 +84,7 @@ export class ChargingPlanChartComponent implements OnChanges {
       // Build chart options
       this.options = this.createOptions();
       // Create Chart
-      this.chart = new Chart(this.chartElement.nativeElement.getContext('2d'), {
+      this.chart = new Chart(this.chartElement.nativeElement, {
         type: 'bar',
         data: this.data,
         options: this.options,
@@ -113,16 +110,20 @@ export class ChargingPlanChartComponent implements OnChanges {
     // Clear
     if (this.data && this.data.datasets && this.data.labels) {
       const labels: number[] = [];
-      const datasets: ChartDataSets[] = [];
+      const datasets: ChartDataset[] = [];
       // Build Schedules dataset
-      const chargingSlotDataSet: ChartDataSets = {
+      const chargingSlotDataSet: ChartDataset = {
         type: 'line',
         data: [],
-        yAxisID: 'power',
+        yAxisID: (this.selectedUnit === ConsumptionUnit.AMPERE) ? ConsumptionChartAxis.AMPERAGE : ConsumptionChartAxis.POWER,
         lineTension: this.lineTension,
         ...Utils.formatLineColor(this.instantPowerColor),
         label: this.translateService.instant((this.selectedUnit === ConsumptionUnit.AMPERE) ?
           'transactions.graph.plan_amps' : 'transactions.graph.plan_watts'),
+        order: this.selectedUnit === ConsumptionUnit.AMPERE ?
+          ConsumptionChartDatasetOrder.PLAN_AMPS :
+          ConsumptionChartDatasetOrder.PLAN_WATTS,
+        fill: 'origin',
       };
       // Create Schedule chart points
       for (const chargingSlot of this.chargingSchedules) {
@@ -130,7 +131,7 @@ export class ChargingPlanChartComponent implements OnChanges {
         chargingSlotDataSet.data.push({
           x: chargingSlot.startDate.getTime(),
           y: (this.selectedUnit === ConsumptionUnit.AMPERE) ? chargingSlot.limit : chargingSlot.limitInkW,
-        } as number & ChartPoint);
+        } as number & Point);
       }
       // Create the last Schedule point with the last duration
       if (chargingSlotDataSet.data && !Utils.isEmptyArray(this.chargingSchedules)) {
@@ -139,19 +140,22 @@ export class ChargingPlanChartComponent implements OnChanges {
         chargingSlotDataSet.data.push({
           x: chargingSlot.startDate.getTime() - 1000 + chargingSlot.duration * 60 * 1000,
           y: (this.selectedUnit === ConsumptionUnit.AMPERE) ? chargingSlot.limit : chargingSlot.limitInkW,
-        } as number & ChartPoint);
+        } as number & Point);
       }
       datasets.push(chargingSlotDataSet);
       // Build Max Limit dataset
-      const limitDataSet: ChartDataSets = {
-        name: 'limitWatts',
+      const limitDataSet: ChartDataset = {
         type: 'line',
         data: [],
-        yAxisID: 'power',
+        yAxisID: (this.selectedUnit === ConsumptionUnit.AMPERE) ? ConsumptionChartAxis.AMPERAGE : ConsumptionChartAxis.POWER,
         lineTension: this.lineTension,
         ...Utils.formatLineColor(this.limitColor),
         label: this.translateService.instant((this.selectedUnit === ConsumptionUnit.AMPERE) ?
           'transactions.graph.limit_plan_amps' : 'transactions.graph.limit_plan_watts'),
+        order: this.selectedUnit === ConsumptionUnit.AMPERE ?
+          ConsumptionChartDatasetOrder.LIMIT_AMPS :
+          ConsumptionChartDatasetOrder.LIMIT_WATTS,
+        fill: 'origin',
       };
       let chargingStationPowers: ChargingStationPowers;
       let chargePoint: ChargePoint;
@@ -166,14 +170,15 @@ export class ChargingPlanChartComponent implements OnChanges {
       for (const data of chargingSlotDataSet.data) {
         // First
         limitDataSet.data.push({
-          x: (data as ChartPoint).x,
+          x: (data as Point).x,
           y: (this.selectedUnit === ConsumptionUnit.AMPERE) ? chargingStationPowers.currentAmp : chargingStationPowers.currentWatt / 1000,
-        } as number & ChartPoint);
+        } as number & Point);
       }
       // Push in the graph
       datasets.push(limitDataSet);
       // Assign
       this.data.labels = labels;
+      this.firstLabel = labels[0];
       this.data.datasets = datasets;
       // Update
       this.chart.update();
@@ -181,56 +186,50 @@ export class ChargingPlanChartComponent implements OnChanges {
   }
 
   private createOptions(): ChartOptions {
-    const locale = moment.localeData(this.language);
     const options: ChartOptions = {
       animation: {
         duration: 0,
       },
-      legend: {
-        display: true,
-        position: 'bottom',
-      },
       responsive: true,
       maintainAspectRatio: this.ratio ? true : false,
       aspectRatio: this.ratio,
-      tooltips: {
-        bodySpacing: 5,
-        mode: 'index',
-        position: 'nearest',
-        multiKeyBackground: Utils.toRgba(this.instantPowerColor, 0.7),
-        intersect: false,
-        callbacks: {
-          labelColor: (tooltipItem: ChartTooltipItem, chart: Chart) => ({
-            borderColor: 'rgba(0,0,0,0)',
-            backgroundColor: this.data.datasets && tooltipItem.datasetIndex ?
-              this.data.datasets[tooltipItem.datasetIndex].borderColor as ChartColor : '',
-          }),
-          label: (tooltipItem: ChartTooltipItem, data: ChartData) => {
-            if (data.datasets && !Utils.isUndefined(tooltipItem.datasetIndex)) {
-              const dataSet = data.datasets[tooltipItem.datasetIndex];
-              if (dataSet && dataSet.data && !Utils.isUndefined(tooltipItem.index)) {
-                const chartPoint = dataSet.data[tooltipItem.index] as ChartPoint;
-                if (chartPoint) {
-                  const value = chartPoint.y as number;
-                  if (this.selectedUnit === ConsumptionUnit.AMPERE) {
-                    return ' ' + this.decimalPipe.transform(value, '1.0-0') + 'A';
-                  }
-                  return ' ' + this.decimalPipe.transform(value, '1.0-2') + 'kW';
+      plugins: {
+        legend: {
+          display: true,
+          position: 'bottom',
+        },
+        tooltip: {
+          bodySpacing: 5,
+          mode: 'index',
+          position: 'nearest',
+          multiKeyBackground: Utils.toRgba(this.instantPowerColor, 0.7),
+          intersect: false,
+          callbacks: {
+            labelColor: (context) => ({
+              borderColor: context.dataset.borderColor as Color,
+              backgroundColor: context.dataset.borderColor as Color,
+              dash: context.dataset.borderDash,
+            }),
+            label: (context) => {
+              let tooltipLabel = '';
+              const label = context.dataset.label;
+              const dataset = context.dataset;
+              const chartPoint = dataset.data[context.dataIndex] as Point;
+              if (chartPoint) {
+                const value = chartPoint.y as number;
+                if (this.selectedUnit === ConsumptionUnit.AMPERE) {
+                  tooltipLabel = ' ' + this.decimalPipe.transform(value, '1.0-0') + ' A';
+                } else {
+                  tooltipLabel = ' ' + this.decimalPipe.transform(value, '1.0-2') + ' kW';
                 }
               }
-            }
-            return '';
-          },
-          title: (item: ChartTooltipItem[], data: ChartData) => {
-            if (data.labels) {
-              const firstDate = new Date(data.labels[0] as number);
-              if (!Utils.isUndefined(item[0].index)) {
-                const currentDate = new Date(data.labels[item[0].index] as number);
-                return this.datePipe.transform(currentDate) + ' - ' +
-                  this.durationPipe.transform((currentDate.getTime() - firstDate.getTime()) / 1000);
-              }
-            }
-            return '';
+              return `${label}: ${tooltipLabel}`;
+            },
+            title: (tooltipItems) => {
+              const firstDate = new Date(this.firstLabel);
+              const currentDate = new Date(tooltipItems[0].parsed.x);
+              return this.datePipe.transform(currentDate) + ' - ' + this.durationPipe.transform((currentDate.getTime() - firstDate.getTime()) / 1000);
+            },
           },
         },
       },
@@ -239,46 +238,50 @@ export class ChargingPlanChartComponent implements OnChanges {
         intersect: false,
       },
       scales: {
-        xAxes: [
-          {
-            type: 'time',
-            distribution: 'linear',
-            time: {
-              tooltipFormat: locale.longDateFormat('LT'),
-              unit: 'hour',
-              displayFormats: {
-                hour: locale.longDateFormat('LT'),
-              },
-            },
-            gridLines: {
-              display: true,
-              color: 'rgba(0,0,0,0.2)',
-            },
-            ticks: {
-              autoSkip: true,
-              maxTicksLimit: 20,
-              fontColor: this.defaultColor,
+        [ConsumptionChartAxis.X]: {
+          type: 'time',
+          time: {
+            tooltipFormat: moment.localeData().longDateFormat('LT'),
+            unit: 'hour',
+            displayFormats: {
+              hour: moment.localeData().longDateFormat('LT'),
             },
           },
-        ],
-        yAxes: [
-          {
-            id: 'power',
-            type: 'linear',
-            position: 'left',
-            ticks: {
-              beginAtZero: true,
-              callback: (value: number) => (this.selectedUnit === ConsumptionUnit.AMPERE) ?
-                parseInt(this.decimalPipe.transform(value, '1.0-0'), 10) + 'A' :
-                parseInt(this.decimalPipe.transform(value, '1.0-2'), 10) + 'kW',
-              fontColor: this.defaultColor,
-            },
-            gridLines: {
-              display: true,
-              color: 'rgba(0,0,0,0.2)',
-            },
+          grid: {
+            display: true,
+            color: 'rgba(0,0,0,0.2)',
           },
-        ],
+          ticks: {
+            autoSkip: true,
+            color: this.defaultColor,
+          },
+        },
+        [ConsumptionChartAxis.POWER]: {
+          type: 'linear',
+          position: 'left',
+          ticks: {
+            callback: (value: number) => parseInt(this.decimalPipe.transform(value, '1.0-2'), 10) + 'kW',
+            color: this.defaultColor,
+          },
+          display: 'auto',
+          grid: {
+            display: true,
+            color: 'rgba(0,0,0,0.2)',
+          },
+        },
+        [ConsumptionChartAxis.AMPERAGE]: {
+          type: 'linear',
+          position: 'left',
+          ticks: {
+            callback: (value: number) => parseInt(this.decimalPipe.transform(value, '1.0-0'), 10) + 'A',
+            color: this.defaultColor,
+          },
+          display: 'auto',
+          grid: {
+            display: true,
+            color: 'rgba(0,0,0,0.2)',
+          },
+        }
       },
       elements: {
         line: {

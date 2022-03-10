@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 
 import { TableCreateAction } from '../../../../shared/table/actions/table-create-action';
 import { DialogParamsWithAuth, UsersAuthorizations } from '../../../../types/Authorization';
-import { ScreenSize } from '../../../../types/GlobalType';
 import { TableActionDef } from '../../../../types/Table';
 import { User, UserButtonAction } from '../../../../types/User';
 
@@ -24,13 +23,6 @@ export class TableCreateUserAction extends TableCreateAction {
 
   private createUser(userDialogComponent: ComponentType<unknown>,
     dialog: MatDialog, dialogParams?: DialogParamsWithAuth<User, UsersAuthorizations>, refresh?: () => Observable<void>) {
-    super.create(userDialogComponent, dialog, dialogParams, refresh, {
-      minWidth: ScreenSize.XL,
-      maxWidth: ScreenSize.XL,
-      width: ScreenSize.XL,
-      minHeight: ScreenSize.M,
-      maxHeight: ScreenSize.M,
-      height: ScreenSize.M
-    });
+    super.create(userDialogComponent, dialog, dialogParams, refresh);
   }
 }

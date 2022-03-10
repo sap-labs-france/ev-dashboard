@@ -19,6 +19,7 @@ export interface PropertyDisplay {
 // @Injectable()
 export class ChargingStationPropertiesComponent implements OnInit {
   @Input() public chargingStation!: ChargingStation;
+
   public chargerFormatted: any = {};
   public displayedProperties: PropertyDisplay[] = [
     { key: 'chargePointVendor', title: 'chargers.vendor' },

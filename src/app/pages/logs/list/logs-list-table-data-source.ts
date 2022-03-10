@@ -57,7 +57,7 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
 
   public initFilters() {
     // Server Actions
-    const actions = this.windowService.getSearch('actions');
+    const actions = this.windowService.getUrlParameterValue('actions');
     if (actions) {
       const logActionTableFilter = this.tableFiltersDef.find(filter => filter.id === 'action');
       if (logActionTableFilter) {
@@ -70,7 +70,7 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
       }
     }
     // Charging Station
-    const chargingStationID = this.windowService.getSearch('ChargingStationID');
+    const chargingStationID = this.windowService.getUrlParameterValue('ChargingStationID');
     if (chargingStationID) {
       const logSourceTableFilter = this.tableFiltersDef.find(filter => filter.id === 'charger');
       if (logSourceTableFilter) {
@@ -79,7 +79,7 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
       }
     }
     // Log Level
-    const logLevel = this.windowService.getSearch('LogLevel');
+    const logLevel = this.windowService.getUrlParameterValue('LogLevel');
     if (logLevel) {
       const logLevelTableFilter = this.tableFiltersDef.find(filter => filter.id === 'level');
       if (logLevelTableFilter) {
@@ -87,13 +87,20 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
         this.filterChanged(logLevelTableFilter);
       }
     }
-    // Timestamp
-    const timestamp = this.windowService.getSearch('Timestamp');
-    if (timestamp) {
-      const startDateFilter = this.tableFiltersDef.find(filter => filter.id === 'dateFrom');
-      if (startDateFilter) {
-        startDateFilter.currentValue = moment(timestamp).toDate();
-        this.filterChanged(startDateFilter);
+    // StartDateTime and EndDateTime
+    const startDateTime = this.windowService.getUrlParameterValue('StartDateTime');
+    const endDateTime = this.windowService.getUrlParameterValue('EndDateTime');
+    if (startDateTime) {
+      const startDateTimeValue = moment(startDateTime);
+      let endDateTimeValue = moment(startDateTime).endOf('day');
+      if (endDateTime) {
+        endDateTimeValue = moment(endDateTime);
+      }
+      const dateRangeFilter = this.tableFiltersDef.find(filter => filter.id === 'dateRange');
+      if (dateRangeFilter) {
+        dateRangeFilter.currentValue.startDate = startDateTimeValue;
+        dateRangeFilter.currentValue.endDate = endDateTimeValue;
+        this.filterChanged(dateRangeFilter);
         const timestampColumn = this.tableColumnsDef.find(column => column.id === 'timestamp');
         if (timestampColumn) {
           this.tableColumnsDef.forEach((column) => {
@@ -182,13 +189,6 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
         formatter: (createdOn: Date) => this.datePipe.transform(createdOn, 'medium'),
       },
       {
-        id: 'host',
-        name: 'logs.host',
-        headerClass: 'col-15p',
-        class: 'text-left col-15p',
-        sortable: true,
-      },
-      {
         id: 'source',
         name: 'logs.source',
         headerClass: 'col-15p',
@@ -254,7 +254,8 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
         new DateRangeTableFilter({
           translateService: this.translateService,
           showSeconds: true,
-          start: moment().startOf('day')
+          start: moment().startOf('day'),
+          end: moment().endOf('day'),
         }).getFilterDef(),
         new LogLevelTableFilter().getFilterDef(),
         new LogSourceTableFilter().getFilterDef(),
@@ -270,7 +271,8 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
         new DateRangeTableFilter({
           translateService: this.translateService,
           showSeconds: true,
-          start: moment().startOf('day')
+          start: moment().startOf('day'),
+          end: moment().endOf('day'),
         }).getFilterDef(),
         new LogLevelTableFilter().getFilterDef(),
         new LogSourceTableFilter().getFilterDef(),

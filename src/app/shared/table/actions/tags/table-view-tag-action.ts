@@ -3,7 +3,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 
 import { DialogParams } from '../../../../types/Authorization';
-import { ScreenSize } from '../../../../types/GlobalType';
 import { TableActionDef } from '../../../../types/Table';
 import { Tag, TagButtonAction } from '../../../../types/Tag';
 import { TableViewAction } from '../table-view-action';
@@ -24,13 +23,6 @@ export class TableViewTagAction extends TableViewAction {
 
   private viewTag(tagDialogComponent: ComponentType<unknown>, dialog: MatDialog,
     dialogParams: DialogParams<Tag>, refresh?: () => Observable<void>) {
-    super.view(tagDialogComponent, dialog, dialogParams, refresh, {
-      minWidth: ScreenSize.S,
-      maxWidth: ScreenSize.L,
-      width: ScreenSize.M,
-      minHeight: ScreenSize.S,
-      maxHeight: ScreenSize.L,
-      height: ScreenSize.M
-    });
+    super.view(tagDialogComponent, dialog, dialogParams, refresh);
   }
 }

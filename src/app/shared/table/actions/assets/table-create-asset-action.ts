@@ -3,7 +3,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 
 import { AssetButtonAction } from '../../../../types/Asset';
-import { ScreenSize } from '../../../../types/GlobalType';
 import { TableActionDef } from '../../../../types/Table';
 import { TableCreateAction } from '../table-create-action';
 
@@ -22,13 +21,6 @@ export class TableCreateAssetAction extends TableCreateAction {
   }
 
   private createAsset(assetDialogComponent: ComponentType<unknown>, dialog: MatDialog, refresh?: () => Observable<void>) {
-    super.create(assetDialogComponent, dialog, null, refresh, {
-      minWidth: ScreenSize.XXL,
-      maxWidth: ScreenSize.XXL,
-      width: ScreenSize.XXL,
-      minHeight: ScreenSize.M,
-      maxHeight: ScreenSize.M,
-      height: ScreenSize.M
-    });
+    super.create(assetDialogComponent, dialog, null, refresh);
   }
 }

@@ -2,18 +2,18 @@ import { Component, Input, OnChanges, OnInit, Self, SimpleChanges } from '@angul
 
 import { CellContentTemplateDirective } from '../../../shared/table/cell-content-template/cell-content-template.directive';
 import { ChargingStation } from '../../../types/ChargingStation';
-import { ChargingStationsConnectorsDetailTableDataSource } from './charging-stations-connectors-detail-table-data-source';
+import { ChargingStationConnectorsTableDataSource } from './charging-station-connectors-table-data-source';
 
 @Component({
   template: '<app-table class="connectors-details" [dataSource]="chargingStationsConnectorsDetailTableDataSource"></app-table>',
-  providers: [ChargingStationsConnectorsDetailTableDataSource],
+  providers: [ChargingStationConnectorsTableDataSource],
 })
 
-export class ChargingStationsConnectorsDetailComponent extends CellContentTemplateDirective implements OnInit, OnChanges {
+export class ChargingStationConnectorsComponent extends CellContentTemplateDirective implements OnInit, OnChanges {
   @Input() public row!: ChargingStation;
 
   public constructor(
-    @Self() public chargingStationsConnectorsDetailTableDataSource: ChargingStationsConnectorsDetailTableDataSource) {
+    @Self() public chargingStationsConnectorsDetailTableDataSource: ChargingStationConnectorsTableDataSource) {
     super();
   }
 

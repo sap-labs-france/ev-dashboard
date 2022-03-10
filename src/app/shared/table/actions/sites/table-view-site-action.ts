@@ -3,7 +3,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 
 import { DialogParams } from '../../../../types/Authorization';
-import { ScreenSize } from '../../../../types/GlobalType';
 import { Site, SiteButtonAction } from '../../../../types/Site';
 import { TableActionDef } from '../../../../types/Table';
 import { TableViewAction } from '../table-view-action';
@@ -24,13 +23,6 @@ export class TableViewSiteAction extends TableViewAction {
 
   private viewSite(siteDialogComponent: ComponentType<unknown>, dialog: MatDialog,
     dialogParams: DialogParams<Site>, refresh?: () => Observable<void>) {
-    super.view(siteDialogComponent, dialog, dialogParams, refresh, {
-      minWidth: ScreenSize.XL,
-      maxWidth: ScreenSize.XL,
-      width: ScreenSize.XL,
-      minHeight: ScreenSize.XXL,
-      maxHeight: ScreenSize.XXL,
-      height: ScreenSize.XXL
-    });
+    super.view(siteDialogComponent, dialog, dialogParams, refresh);
   }
 }

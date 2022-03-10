@@ -116,14 +116,14 @@ Build the sources as above and run it with:
 npm run start:prod:ssl
 ```
 
-## Tests End To End
+## Integration tests
 
-To run e2e tests, you first need to have a server and UI up and running. Then start the e2e suite with:
+To run integration tests, you first need to start the UI and run the below command:
 ```shell
-npm run e2e
+npm run test
 ```
 
-That's it!
+This will run all integraiton tests written with **Jest** framework.
 
 ## License
 

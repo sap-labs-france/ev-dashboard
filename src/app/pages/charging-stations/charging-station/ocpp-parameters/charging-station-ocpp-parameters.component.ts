@@ -16,7 +16,7 @@ import { ChargingStationOcppParametersEditableTableDataSource } from './charging
 
 @Component({
   selector: 'app-charging-station-ocpp-parameters',
-  template: '<div class="ocpp-param-component"><app-table [dataSource]="ocppParametersDataSource"></app-table></div>',
+  template: '<div class="h-100"><app-table [dataSource]="ocppParametersDataSource"></app-table></div>',
   providers: [ChargingStationOcppParametersEditableTableDataSource]
 })
 // @Injectable()

@@ -5,7 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { ImportDialogComponent } from 'shared/dialogs/import/import-dialog.component';
 import { TableImportUsersAction, TableImportUsersActionDef } from 'shared/table/actions/users/table-import-users-action';
-import { AuthorizationDefinitionFieldMetadata } from 'types/Authorization';
+import { UsersAuthorizations } from 'types/Authorization';
 import { TagButtonAction } from 'types/Tag';
 
 import { AuthorizationService } from '../../../services/authorization.service';
@@ -55,10 +55,10 @@ export class UsersListTableDataSource extends TableDataSource<User> {
   private synchronizeBillingUserAction = new TableForceSyncBillingUserAction().getActionDef();
   private navigateToTagsAction = new TableNavigateToTagsAction().getActionDef();
   private navigateToTransactionsAction = new TableNavigateToTransactionsAction().getActionDef();
-  private metadata?: Record<string, AuthorizationDefinitionFieldMetadata>;
   private exportAction = new TableExportUsersAction().getActionDef();
   private importAction = new TableImportUsersAction().getActionDef();
   private createAction = new TableCreateUserAction().getActionDef();
+  private usersAuthorizations: UsersAuthorizations;
 
   public constructor(
     public spinnerService: SpinnerService,
@@ -84,7 +84,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
 
   public initFilters() {
     // Tag
-    const tagID = this.windowService.getSearch('TagID');
+    const tagID = this.windowService.getUrlParameterValue('TagID');
     if (tagID) {
       const tagTableFilter = this.tableFiltersDef.find(filter => filter.id === 'tag');
       if (tagTableFilter) {
@@ -95,7 +95,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       }
     }
     // Issuer
-    const issuer = this.windowService.getSearch('Issuer');
+    const issuer = this.windowService.getUrlParameterValue('Issuer');
     if (issuer) {
       const issuerTableFilter = this.tableFiltersDef.find(filter => filter.id === 'issuer');
       if (issuerTableFilter) {
@@ -110,10 +110,18 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       // Get the Tenants
       this.centralServerService.getUsers(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((users) => {
-        this.metadata = users.metadata;
-        this.createAction.visible = users.canCreate;
-        this.importAction.visible = users.canImport;
-        this.exportAction.visible = users.canExport;
+        // Initialize authorization actions
+        this.usersAuthorizations = {
+          // Authorization action
+          canCreate: users.canCreate,
+          canImport: users.canImport,
+          canExport: users.canExport,
+          // Metadata
+          metadata: users.metadata
+        };
+        this.createAction.visible = this.usersAuthorizations.canCreate;
+        this.importAction.visible = this.usersAuthorizations.canImport;
+        this.exportAction.visible = this.usersAuthorizations.canExport;
         observer.next(users);
         observer.complete();
       }, (error) => {
@@ -315,7 +323,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       case UserButtonAction.CREATE_USER:
         if (actionDef.action) {
           (actionDef as TableCreateUserActionDef).action(UserDialogComponent,
-            this.dialog,{ dialogData: { metadata: this.metadata } as User }, this.refreshData.bind(this));
+            this.dialog,{ authorizations: this.usersAuthorizations }, this.refreshData.bind(this));
         }
         break;
       case UserButtonAction.EXPORT_USERS:
@@ -337,9 +345,8 @@ export class UsersListTableDataSource extends TableDataSource<User> {
     switch (actionDef.id) {
       case UserButtonAction.EDIT_USER:
         if (actionDef.action) {
-          user.metadata= this.metadata;
           (actionDef as TableEditUserActionDef).action(UserDialogComponent, this.dialog,
-            { dialogData: user }, this.refreshData.bind(this));
+            { dialogData: user, authorizations: this.usersAuthorizations }, this.refreshData.bind(this));
         }
         break;
       case UserButtonAction.ASSIGN_SITES_TO_USER:

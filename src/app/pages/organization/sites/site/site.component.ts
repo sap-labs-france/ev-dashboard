@@ -18,7 +18,7 @@ import { Site } from '../../../../types/Site';
 import { TenantComponents } from '../../../../types/Tenant';
 import { Utils } from '../../../../utils/Utils';
 import { SiteMainComponent } from './main/site-main.component';
-import { SiteOcpiComponent } from './site-ocpi/site-ocpi.component';
+import { SiteOcpiComponent } from './ocpi/site-ocpi.component';
 
 @Component({
   selector: 'app-site',
@@ -49,7 +49,7 @@ export class SiteComponent extends AbstractTabComponent implements OnInit {
     private router: Router,
     protected activatedRoute: ActivatedRoute,
     protected windowService: WindowService) {
-    super(activatedRoute, windowService, ['common', 'site-ocpi'], false);
+    super(activatedRoute, windowService, ['main', 'ocpi'], false);
     this.ocpiActive = this.componentService.isActive(TenantComponents.OCPI);
     this.ocpiHasVisibleFields = true;
   }
@@ -60,9 +60,10 @@ export class SiteComponent extends AbstractTabComponent implements OnInit {
     this.readOnly = this.dialogMode === DialogMode.VIEW;
     if (this.currentSiteID) {
       this.loadSite();
-    } else if (this.activatedRoute && this.activatedRoute.params) {
+    } else if (this.activatedRoute?.params) {
       this.activatedRoute.params.subscribe((params: Params) => {
         this.currentSiteID = params['id'];
+        this.loadSite();
       });
     }
     // Handle Dialog mode
@@ -99,18 +100,6 @@ export class SiteComponent extends AbstractTabComponent implements OnInit {
     this.siteOcpiComponent?.publicChanged(publicValue);
   }
 
-  public refresh() {
-    this.loadSite();
-  }
-
-  public saveSite(site: Site) {
-    if (this.currentSiteID) {
-      this.updateSite(site);
-    } else {
-      this.createSite(site);
-    }
-  }
-
   public closeDialog(saved: boolean = false) {
     if (this.dialogRef) {
       this.dialogRef.close(saved);
@@ -120,6 +109,14 @@ export class SiteComponent extends AbstractTabComponent implements OnInit {
   public close() {
     Utils.checkAndSaveAndCloseDialog(this.formGroup, this.dialogService,
       this.translateService, this.saveSite.bind(this), this.closeDialog.bind(this));
+  }
+
+  public saveSite(site: Site) {
+    if (this.currentSiteID) {
+      this.updateSite(site);
+    } else {
+      this.createSite(site);
+    }
   }
 
   private createSite(site: Site) {

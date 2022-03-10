@@ -58,56 +58,55 @@ export class WindowService {
     }
   }
 
-  public getSearch(name: string): string {
-    let search = '';
+  public getUrlParameterValue(name: string): string {
+    let value = '';
     if (window.location.search) {
-      search = new URLSearchParams(window.location.search).get(name);
+      value = new URLSearchParams(window.location.search).get(name);
     } else if (window.location.hash) {
-      search = new URLSearchParams(window.location.hash.slice(this.window.location.hash.indexOf('?'))).get(name);
+      value = new URLSearchParams(window.location.hash.slice(this.window.location.hash.indexOf('?'))).get(name);
     }
-    return search;
+    return value;
   }
 
-  public getSearches(name: string): string[] {
+  public getUrlParameterValues(name: string): string[] {
     return new URLSearchParams(window.location.search).getAll(name);
   }
 
-  public appendSearch(name: string, value: string) {
+  public appendUrlParameter(name: string, value: string) {
     // Parse the query string
     const urlSearchParams = new URLSearchParams(window.location.search);
     // Add
     urlSearchParams.append(name, value);
     // Set it back
-    this.setSearchQueryParams(urlSearchParams.toString());
+    this.setUrlQueryParams(urlSearchParams.toString());
   }
 
-  public setSearch(name: string, value: string): void {
+  public setUrlParameter(name: string, value: string): void {
     // Parse the query string
     const urlSearchParams = new URLSearchParams(window.location.search);
     // Set
     urlSearchParams.set(name, value);
     // Set it back
-    this.setSearchQueryParams(urlSearchParams.toString());
+    this.setUrlQueryParams(urlSearchParams.toString());
   }
 
-  public deleteSearch(name: string): void {
+  public deleteUrlParameter(name: string): void {
     // Parse the query string
     const urlSearchParams = new URLSearchParams(window.location.search);
     // Delete
     urlSearchParams.delete(name);
     // Set it back
-    this.setSearchQueryParams(urlSearchParams.toString());
+    this.setUrlQueryParams(urlSearchParams.toString());
   }
 
-  public clearSearch() {
-    this.setSearchQueryParams(null);
+  public clearUrlParameter() {
+    this.setUrlQueryParams();
   }
 
-  private setSearchQueryParams(queryParams: string | null) {
+  private setUrlQueryParams(queryParams?: string) {
     // Set the Query params
     if (history.pushState) {
       // Without page reload
-      // eslint-disable-next-line max-len
       const newURL = `${window.location.protocol}//${window.location.host}${window.location.pathname}${queryParams ? '?' + queryParams : ''}${window.location.hash}`;
       window.history.pushState({ path: newURL }, '', newURL);
     } else {

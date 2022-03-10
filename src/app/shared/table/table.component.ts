@@ -182,19 +182,19 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       // Capitalize first letter of search id
       const filterIdInCap = filter.httpId;
       if (filter.currentValue === 'null' || !filter.currentValue) {
-        this.windowService.deleteSearch(filterIdInCap);
+        this.windowService.deleteUrlParameter(filterIdInCap);
       } else {
         switch (filter.type) {
           case FilterType.DIALOG_TABLE: {
-            this.windowService.setSearch(filterIdInCap, filter.currentValue[0].key);
+            this.windowService.setUrlParameter(filterIdInCap, filter.currentValue[0].key);
             break;
           }
           case FilterType.DROPDOWN: {
-            this.windowService.setSearch(filterIdInCap, filter.currentValue);
+            this.windowService.setUrlParameter(filterIdInCap, filter.currentValue);
             break;
           }
           case FilterType.DATE: {
-            this.windowService.setSearch(filterIdInCap, JSON.stringify(filter.currentValue));
+            this.windowService.setUrlParameter(filterIdInCap, JSON.stringify(filter.currentValue));
             break;
           }
           default: {

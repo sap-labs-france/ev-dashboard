@@ -1,7 +1,7 @@
 <div class="charger-param-component">
   <form class="form" [formGroup]="formGroup">
     <div class="row">
-      <div class="col-md-6 form-group">
+      <div class="col-md-6 form-group" *ngIf="chargingStation?.issuer">
         <mat-form-field>
           <input matInput type="text" placeholder="{{'chargers.charger_url' | translate}}"
             [formControl]="chargingStationURL" required [readOnly]="!isAdmin" />
@@ -11,9 +11,9 @@
       <div class="col-md-6 form-group" [class.component-invisible]="!isOrganizationComponentActive">
         <mat-form-field>
           <input matInput type="text" readonly=true placeholder="{{'chargers.site_area' | translate}}"
-            class="form-field-popup" (click)="assignSiteArea()" [formControl]="siteArea" [disabled]="!issuer"
+            class="form-field-popup" (click)="assignSiteArea()" [formControl]="siteArea"
             required />
-          <button mat-button matSuffix mat-icon-button aria-label="Add" [hidden]="!isAdmin || !issuer">
+          <button mat-button matSuffix mat-icon-button aria-label="Add" [hidden]="!isAdmin || !chargingStation?.issuer">
             <mat-icon>create</mat-icon>
           </button>
           <mat-error *ngIf="siteArea?.errors?.required">
@@ -44,7 +44,7 @@
           <mat-error *ngIf="latitude?.errors?.pattern">{{"general.invalid_value" | translate}}</mat-error>
           <mat-error *ngIf="latitude?.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
           <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignGeoMap()"
-            [hidden]="!isAdmin || !issuer">
+            [hidden]="!isAdmin || !chargingStation?.issuer">
             <mat-icon>pin_drop</mat-icon>
           </button>
         </mat-form-field>
@@ -56,13 +56,13 @@
           <mat-error *ngIf="longitude?.errors?.pattern">{{"general.invalid_value" | translate}}</mat-error>
           <mat-error *ngIf="longitude?.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
           <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignGeoMap()"
-            [hidden]="!isAdmin || !issuer">
+            [hidden]="!isAdmin || !chargingStation?.issuer">
             <mat-icon>pin_drop</mat-icon>
           </button>
         </mat-form-field>
       </div>
     </div>
-    <div class="row" *ngIf="ocpiActive && public.value">
+    <div class="row" *ngIf="ocpiActive && public.value && chargingStation?.issuer">
       <div class="col-md-3 text-left form-group">
         <mat-form-field>
           <input matInput type="text" placeholder="{{'ocpi.tariff_id' | translate}}" [formControl]="tariffID"
@@ -74,7 +74,7 @@
         </mat-form-field>
       </div>
     </div>
-    <div class="row">
+    <div class="row" *ngIf="chargingStation?.issuer">
       <div class="col-md-3 text-left form-group">
         <mat-checkbox [formControl]="public">
           {{'chargers.public' | translate}}
@@ -105,7 +105,7 @@
     <div class="row charging-station-connector-component"
       *ngIf="chargingStation?.chargePoints?.length > 0; else chargingStationWithNoChargePoints">
       <div class="col-md-12" *ngFor="let chargePoint of chargingStation.chargePoints">
-        <app-charging-station-charge-point [chargingStation]="chargingStation" [chargePoint]="chargePoint"
+        <app-charging-station-charge-point [chargingStation]="chargingStation" [chargePoint]="chargePoint" [readOnly]="readOnly"
           [formChargePointsArray]="chargePoints" [formConnectorsArray]="connectors" [isAdmin]="isAdmin" [isPublic]="public.value" 
           (chargePointChanged)="chargePointChanged()" [manualConfiguration]="manualConfiguration.value">
         </app-charging-station-charge-point>
@@ -114,7 +114,7 @@
     <ng-template #chargingStationWithNoChargePoints>
       <div class="row charging-station-connector-component">
         <div class="col-md-6" *ngFor="let connector of chargingStation?.connectors">
-          <app-charging-station-connector [chargingStation]="chargingStation" [connector]="connector"
+          <app-charging-station-connector [chargingStation]="chargingStation" [connector]="connector" [readOnly]="readOnly"
             [formConnectorsArray]="connectors" [isAdmin]="isAdmin" [isPublic]="public.value"
             (connectorChanged)="connectorChanged()" [manualConfiguration]="manualConfiguration.value">
           </app-charging-station-connector>

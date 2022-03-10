@@ -3,7 +3,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 
 import { DialogParams } from '../../../../types/Authorization';
-import { ScreenSize } from '../../../../types/GlobalType';
 import { TableActionDef } from '../../../../types/Table';
 import { Tenant, TenantButtonAction } from '../../../../types/Tenant';
 import { TableEditAction } from '../table-edit-action';
@@ -24,13 +23,6 @@ export class TableEditTenantAction extends TableEditAction {
 
   private editTenant(tenantDialogComponent: ComponentType<unknown>, dialog: MatDialog,
     dialogParams: DialogParams<Tenant>, refresh?: () => Observable<void>) {
-    super.edit(tenantDialogComponent, dialog, dialogParams, refresh, {
-      minWidth: ScreenSize.XL,
-      maxWidth: ScreenSize.XL,
-      width: ScreenSize.XL,
-      minHeight: ScreenSize.L,
-      maxHeight: ScreenSize.L,
-      height: ScreenSize.L
-    });
+    super.edit(tenantDialogComponent, dialog, dialogParams, refresh);
   }
 }

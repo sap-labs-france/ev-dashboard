@@ -13,7 +13,8 @@ import { PricingHelpers } from '../../../../utils/PricingHelpers';
 
 export class PricingDefinitionDimensionsComponent implements OnInit, OnChanges {
   @Input() public formGroup!: FormGroup;
-  @Input() public currentPricingDefinition: PricingDefinition;
+  @Input() public pricingDefinition: PricingDefinition;
+  @Input() public readOnly: boolean;
 
   // Dimensions
   public dimensions!: FormGroup;
@@ -108,11 +109,20 @@ export class PricingDefinitionDimensionsComponent implements OnInit, OnChanges {
     this.parkingTime = this.parkingTimeDimension.controls['price'];
     this.parkingTimeStepEnabled = this.parkingTimeDimension.controls['stepSizeEnabled'];
     this.parkingTimeStep = this.parkingTimeDimension.controls['stepSize'];
-    this.formGroup.updateValueAndValidity();
   }
 
   public ngOnChanges(): void {
-    this.loadPricing();
+    this.loadPricingDefinition();
+  }
+
+  public loadPricingDefinition() {
+    if (this.pricingDefinition) {
+      // Dimensions
+      this.initializeDimension(this.pricingDefinition, DimensionType.FLAT_FEE);
+      this.initializeDimension(this.pricingDefinition, DimensionType.ENERGY);
+      this.initializeDimension(this.pricingDefinition, DimensionType.CHARGING_TIME, true);
+      this.initializeDimension(this.pricingDefinition, DimensionType.PARKING_TIME, true);
+    }
   }
 
   public toggle(event: MatSlideToggleChange) {
@@ -123,24 +133,6 @@ export class PricingDefinitionDimensionsComponent implements OnInit, OnChanges {
     }
     this.formGroup.markAsDirty();
     this.formGroup.updateValueAndValidity();
-  }
-
-  public loadPricing() {
-    if (this.currentPricingDefinition) {
-      // Dimensions
-      this.initializeDimensions(this.currentPricingDefinition);
-      // Force refresh the form
-      this.formGroup.updateValueAndValidity();
-      this.formGroup.markAsPristine();
-      this.formGroup.markAllAsTouched();
-    }
-  }
-
-  private initializeDimensions(pricingDefinition: PricingDefinition): void {
-    this.initializeDimension(pricingDefinition, DimensionType.FLAT_FEE);
-    this.initializeDimension(pricingDefinition, DimensionType.ENERGY);
-    this.initializeDimension(pricingDefinition, DimensionType.CHARGING_TIME, true);
-    this.initializeDimension(pricingDefinition, DimensionType.PARKING_TIME, true);
   }
 
   private initializeDimension(pricingDefinition: PricingDefinition, dimensionType: DimensionType, isTimeDimension = false): void {

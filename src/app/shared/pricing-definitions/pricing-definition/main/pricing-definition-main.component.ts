@@ -15,7 +15,8 @@ import { Constants } from '../../../../utils/Constants';
 
 export class PricingDefinitionMainComponent implements OnInit, OnChanges {
   @Input() public formGroup!: FormGroup;
-  @Input() public currentPricingDefinition: PricingDefinition;
+  @Input() public pricingDefinition: PricingDefinition;
+  @Input() public readOnly: boolean;
 
   // Controls general
   public id: AbstractControl;
@@ -73,27 +74,29 @@ export class PricingDefinitionMainComponent implements OnInit, OnChanges {
     this.validFrom.valueChanges.subscribe(() => {
       this.minDate = this.validFrom.value;
     });
-    this.formGroup.updateValueAndValidity();
+    if (this.readOnly) {
+      this.formGroup.disable();
+    }
   }
 
   public ngOnChanges() {
-    this.loadPricing();
+    this.loadPricingDefinition();
   }
 
-  public loadPricing() {
-    if (this.currentPricingDefinition) {
+  public loadPricingDefinition() {
+    if (this.pricingDefinition) {
       // Init form
-      this.id.setValue(this.currentPricingDefinition.id);
-      this.name.setValue(this.currentPricingDefinition.name);
-      this.description.setValue(this.currentPricingDefinition.description);
+      this.id.setValue(this.pricingDefinition.id);
+      this.name.setValue(this.pricingDefinition.name);
+      this.description.setValue(this.pricingDefinition.description);
       // Static Restrictions
-      this.validFrom.setValue(this.currentPricingDefinition.staticRestrictions?.validFrom);
-      this.validTo.setValue(this.currentPricingDefinition.staticRestrictions?.validTo);
-      this.minDate = this.currentPricingDefinition.staticRestrictions?.validFrom;
-      this.connectorType.setValue((this.currentPricingDefinition.staticRestrictions?.connectorType) || 'A');
-      if (!!this.currentPricingDefinition.staticRestrictions?.connectorPowerkW) {
+      this.validFrom.setValue(this.pricingDefinition.staticRestrictions?.validFrom);
+      this.validTo.setValue(this.pricingDefinition.staticRestrictions?.validTo);
+      this.minDate = this.pricingDefinition.staticRestrictions?.validFrom;
+      this.connectorType.setValue((this.pricingDefinition.staticRestrictions?.connectorType) || 'A');
+      if (!!this.pricingDefinition.staticRestrictions?.connectorPowerkW) {
         this.connectorPowerEnabled.setValue(true);
-        this.connectorPowerValue.setValue(this.currentPricingDefinition.staticRestrictions?.connectorPowerkW);
+        this.connectorPowerValue.setValue(this.pricingDefinition.staticRestrictions?.connectorPowerkW);
         this.connectorPowerValue.enable();
       }
       // Force refresh the form

@@ -14,7 +14,8 @@ import { PricingHelpers } from '../../../../utils/PricingHelpers';
 
 export class PricingDefinitionRestrictionsComponent implements OnInit, OnChanges {
   @Input() public formGroup!: FormGroup;
-  @Input() public currentPricingDefinition: PricingDefinition;
+  @Input() public pricingDefinition: PricingDefinition;
+  @Input() public readOnly: boolean;
 
   // Restrictions
   public restrictions!: FormGroup;
@@ -85,56 +86,52 @@ export class PricingDefinitionRestrictionsComponent implements OnInit, OnChanges
         this.formGroup.markAsPristine();
       }
     });
-    this.formGroup.updateValueAndValidity();
-    this.loadPricing();
+    if (this.readOnly) {
+      this.formGroup.disable();
+    }
   }
 
   public ngOnChanges(): void {
-    // Load
-    this.loadPricing();
+    this.loadPricingDefinition();
   }
 
-  public loadPricing() {
-    if (this.currentPricingDefinition) {
+  public loadPricingDefinition() {
+    if (this.pricingDefinition) {
       // Restrictions
-      if (!!this.currentPricingDefinition.restrictions?.daysOfWeek) {
+      if (!!this.pricingDefinition.restrictions?.daysOfWeek) {
         this.daysOfWeekEnabled.setValue(true);
-        this.selectedDays.setValue(this.currentPricingDefinition.restrictions?.daysOfWeek?.map((day) => day.toString()) || null);
+        this.selectedDays.setValue(this.pricingDefinition.restrictions?.daysOfWeek?.map((day) => day.toString()) || null);
         this.selectedDays.enable();
       }
-      if (!!this.currentPricingDefinition.restrictions?.timeFrom) {
+      if (!!this.pricingDefinition.restrictions?.timeFrom) {
         this.timeRangeEnabled.setValue(true);
-        this.timeFrom.setValue(this.currentPricingDefinition.restrictions?.timeFrom);
+        this.timeFrom.setValue(this.pricingDefinition.restrictions?.timeFrom);
         this.timeFrom.enable();
-        if (!!this.currentPricingDefinition.restrictions?.timeTo) {
-          this.timeTo.setValue(this.currentPricingDefinition.restrictions?.timeTo);
+        if (!!this.pricingDefinition.restrictions?.timeTo) {
+          this.timeTo.setValue(this.pricingDefinition.restrictions?.timeTo);
           this.timeTo.enable();
         }
       }
-      if (!!this.currentPricingDefinition.restrictions?.minDurationSecs) {
+      if (!!this.pricingDefinition.restrictions?.minDurationSecs) {
         this.minDurationEnabled.setValue(true);
-        this.minDuration.setValue(PricingHelpers.toMinutes(this.currentPricingDefinition.restrictions?.minDurationSecs));
+        this.minDuration.setValue(PricingHelpers.toMinutes(this.pricingDefinition.restrictions?.minDurationSecs));
         this.minDuration.enable();
       }
-      if (!!this.currentPricingDefinition.restrictions?.maxDurationSecs) {
+      if (!!this.pricingDefinition.restrictions?.maxDurationSecs) {
         this.maxDurationEnabled.setValue(true);
-        this.maxDuration.setValue(PricingHelpers.toMinutes(this.currentPricingDefinition.restrictions?.maxDurationSecs));
+        this.maxDuration.setValue(PricingHelpers.toMinutes(this.pricingDefinition.restrictions?.maxDurationSecs));
         this.maxDuration.enable();
       }
-      if (!!this.currentPricingDefinition.restrictions?.minEnergyKWh) {
+      if (!!this.pricingDefinition.restrictions?.minEnergyKWh) {
         this.minEnergyKWhEnabled.setValue(true);
-        this.minEnergyKWh.setValue(this.currentPricingDefinition.restrictions?.minEnergyKWh);
+        this.minEnergyKWh.setValue(this.pricingDefinition.restrictions?.minEnergyKWh);
         this.minEnergyKWh.enable();
       }
-      if (!!this.currentPricingDefinition.restrictions?.maxEnergyKWh) {
+      if (!!this.pricingDefinition.restrictions?.maxEnergyKWh) {
         this.maxEnergyKWhEnabled.setValue(true);
-        this.maxEnergyKWh.setValue(this.currentPricingDefinition.restrictions?.maxEnergyKWh);
+        this.maxEnergyKWh.setValue(this.pricingDefinition.restrictions?.maxEnergyKWh);
         this.maxEnergyKWh.enable();
       }
-      // Force refresh the form
-      this.formGroup.updateValueAndValidity();
-      this.formGroup.markAsPristine();
-      this.formGroup.markAllAsTouched();
     }
   }
 

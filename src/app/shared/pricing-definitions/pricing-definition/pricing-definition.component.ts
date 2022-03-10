@@ -30,11 +30,11 @@ import { PricingDefinitionRestrictionsComponent } from './restrictions/pricing-d
 })
 export class PricingDefinitionComponent extends AbstractTabComponent implements OnInit {
   @Input() public currentPricingDefinitionID!: string;
-  @Input() public dialogMode!: DialogMode;
-  @Input() public dialogRef!: MatDialogRef<PricingDefinitionDialogComponent>;
   @Input() public currentEntityID!: string;
   @Input() public currentEntityType!: PricingEntity;
   @Input() public currentEntityName: string;
+  @Input() public dialogMode!: DialogMode;
+  @Input() public dialogRef!: MatDialogRef<PricingDefinitionDialogComponent>;
 
   @ViewChild('pricingDefinitionMainComponent') public pricingDefinitionMain!: PricingDefinitionMainComponent;
   @ViewChild('pricingDefinitionRestrictionsComponent') public pricingDefinitionRestrictions!: PricingDefinitionRestrictionsComponent;
@@ -42,7 +42,7 @@ export class PricingDefinitionComponent extends AbstractTabComponent implements 
 
   public formGroup!: FormGroup;
   public readOnly = true;
-  public currentPricingDefinition: PricingDefinition;
+  public pricingDefinition: PricingDefinition;
   public context: string;
 
   // eslint-disable-next-line no-useless-constructor
@@ -79,7 +79,7 @@ export class PricingDefinitionComponent extends AbstractTabComponent implements 
       this.spinnerService.show();
       this.centralServerService.getPricingDefinition(this.currentPricingDefinitionID).subscribe((currentPricingDefinition) => {
         this.spinnerService.hide();
-        this.currentPricingDefinition = currentPricingDefinition;
+        this.pricingDefinition = currentPricingDefinition;
         // Update form group
         this.formGroup.updateValueAndValidity();
         this.formGroup.markAsPristine();

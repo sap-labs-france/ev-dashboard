@@ -4,7 +4,7 @@
       <mat-tab>
         <ng-template mat-tab-label>
           <mat-icon>portrait</mat-icon>
-          <span>{{'general.general' | translate}}</span>
+          <span>{{'tags.title' | translate}} - {{formGroup.controls['id'].value}}</span>
         </ng-template>
         <div class="card-body mat-tab-dialog-body-content">
           <app-tag-main #siteMainComponent [formGroup]="formGroup" [tag]="tag" [readOnly]="readOnly" [metadata]="metadata"></app-tag-main>

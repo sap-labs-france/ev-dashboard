@@ -4,7 +4,7 @@
       <mat-tab>
         <ng-template mat-tab-label>
           <mat-icon>account_balance</mat-icon>
-          <span>{{'general.general' | translate}}</span>
+          <span>{{'tenants.title' | translate}} - {{formGroup.controls['name'].value}}</span>
         </ng-template>
         <div class="card-body mat-tab-dialog-body-content">
           <app-tenant-main #tenantMainComponent [formGroup]="formGroup" [tenant]="tenant"></app-tenant-main>

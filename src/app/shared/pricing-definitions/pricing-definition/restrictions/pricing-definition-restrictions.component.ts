@@ -189,7 +189,7 @@ export class PricingDefinitionRestrictionsComponent implements OnInit, OnChanges
       minEnergyKWh: this.minEnergyKWhEnabled.value ? this.minEnergyKWh.value : null,
       maxEnergyKWh: this.maxEnergyKWhEnabled.value ? this.maxEnergyKWh.value : null,
       minDurationSecs: this.minDurationEnabled.value ? PricingHelpers.convertDurationToSeconds(this.minDurationEnabled.value, this.minDuration.value) : null,
-      maxDurationSecs: this.minDurationEnabled.value ? PricingHelpers.convertDurationToSeconds(this.maxDurationEnabled.value, this.maxDuration.value) : null,
+      maxDurationSecs: this.maxDurationEnabled.value ? PricingHelpers.convertDurationToSeconds(this.maxDurationEnabled.value, this.maxDuration.value) : null,
     };
     return Utils.shrinkObjectProperties(restrictions);
   }

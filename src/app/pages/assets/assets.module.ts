@@ -12,6 +12,8 @@ import { DialogsModule } from '../../shared/dialogs/dialogs.module';
 import { TableModule } from '../../shared/table/table.module';
 import { AssetDialogComponent } from './asset/asset-dialog.component';
 import { AssetComponent } from './asset/asset.component';
+import { AssetConnectionComponent } from './asset/connection/asset-connection.component';
+import { AssetMainComponent } from './asset/main/asset-main.component';
 import { AssetsComponent } from './assets.component';
 import { AssetsRoutes } from './assets.routing';
 import { AssetConsumptionCellComponent } from './cell-components/asset-consumption-cell.component';
@@ -39,6 +41,8 @@ import { AssetConsumptionChartComponent } from './list/consumption-chart/asset-c
   declarations: [
     AssetsComponent,
     AssetComponent,
+    AssetMainComponent,
+    AssetConnectionComponent,
     AssetDialogComponent,
     AssetsListComponent,
     AssetsInErrorComponent,
@@ -49,6 +53,8 @@ import { AssetConsumptionChartComponent } from './list/consumption-chart/asset-c
   entryComponents: [
     AssetsComponent,
     AssetComponent,
+    AssetMainComponent,
+    AssetConnectionComponent,
     AssetDialogComponent,
     AssetsListComponent,
     AssetsInErrorComponent,

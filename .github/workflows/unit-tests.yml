@@ -1,0 +1,42 @@
+name: Unit Tests CI
+
+on:
+  push:
+    branches:
+      - master
+      - master-qa
+  pull_request:
+    branches:
+      - master-qa
+
+jobs:
+  unit-tests-submodules:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x]
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        ssh-key: ${{ secrets.ACTION_ACCESS_SUB_MODULES_PRIVATE_REPOS }}
+        submodules: true
+    - name: Install NodeJs ${{ matrix.node-version }}
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: npm
+    - name: Install NodeJs Packages
+      run: npm ci
+    - name: Build sources
+      run: |
+        cp src/assets/configs-ci/config.json src/assets
+        npm run build:dev
+    - name: Start Dashboard
+      run: |
+        npm run start & sleep 60
+    - name: Initialize integration test configuration
+      run: |
+        if [ ! -d test/config ]; then mkdir -p test/config; fi
+        cp src/assets/configs-ci/local-dashboard.json test/config/local.json
+    - name: Run Integration Tests
+      run: npm run test

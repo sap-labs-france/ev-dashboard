@@ -7,7 +7,7 @@
           <span>{{'general.general' | translate}}</span>
         </ng-template>
         <div class="card-body mat-tab-dialog-body-content align-items-end">
-          <app-asset-main #assetMainComponent [formGroup]="formGroup" [currentAssetID]="currentAssetID" [asset]="asset" [readOnly]="readOnly"></app-asset-main>
+          <app-asset-main #assetMainComponent [formGroup]="formGroup" [asset]="asset" [readOnly]="readOnly"></app-asset-main>
         </div>
       </mat-tab>
       <mat-tab *ngIf="!readOnly">
@@ -16,7 +16,7 @@
           <span>{{'assets.dialog_tabs.connection' | translate}}</span>
         </ng-template>
         <div class="card-body mat-tab-dialog-body-content align-items-end">
-          <app-asset-connection [formGroup]="formGroup" [currentAssetID]="currentAssetID" [asset]="asset" [readOnly]="readOnly"></app-asset-connection>
+          <app-asset-connection [formGroup]="formGroup" [asset]="asset" [readOnly]="readOnly"></app-asset-connection>
         </div>
       </mat-tab>
     </mat-tab-group>

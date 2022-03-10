@@ -14,7 +14,6 @@ import { Constants } from '../../../../utils/Constants';
 })
 export class TenantMainComponent implements OnInit, OnChanges {
   @Input() public formGroup: FormGroup;
-  @Input() public currentTenantID!: string;
   @Input() public tenant!: Tenant;
 
   public id!: AbstractControl;
@@ -65,7 +64,6 @@ export class TenantMainComponent implements OnInit, OnChanges {
   }
 
   public ngOnChanges() {
-    // Load
     this.loadTenant();
   }
 
@@ -80,7 +78,7 @@ export class TenantMainComponent implements OnInit, OnChanges {
         this.address = this.tenant.address;
       }
       // Get Tenant logo
-      this.centralServerService.getTenantLogo(this.currentTenantID).subscribe((tenantLogo) => {
+      this.centralServerService.getTenantLogo(this.tenant.id).subscribe((tenantLogo) => {
         this.logo = tenantLogo ? tenantLogo : Constants.NO_IMAGE;
       });
     }

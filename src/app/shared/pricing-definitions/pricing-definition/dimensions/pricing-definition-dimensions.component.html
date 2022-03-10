@@ -8,7 +8,7 @@
   </div>
   <!-- value -->
   <div class="col-md-2">
-    <mat-form-field *ngIf="flatFeeEnabled.value">
+    <mat-form-field>
       <mat-label>{{'flat_fee_unit' | appPricingDimensionsUnit}}</mat-label>
       <input matInput type="text" placeholder="{{'settings.pricing.value' | translate}}"
       [formControl]="flatFee" required/>
@@ -27,7 +27,7 @@
   </div>
   <!-- value -->
   <div class="col-md-2">
-    <mat-form-field *ngIf="energyEnabled.value">
+    <mat-form-field>
       <mat-label>{{'energy_unit' | appPricingDimensionsUnit}}</mat-label>
       <input matInput type="text" placeholder="{{'settings.pricing.value' | translate}}"
       [formControl]="energy" required/>
@@ -36,7 +36,7 @@
     </mat-form-field>
   </div>
   <!-- energy stepsizes -->
-  <span class="stepSize" *ngIf="energyEnabled.value">
+  <span class="stepSize">
     <!-- checkbox -->
     <div class="col-md-2 offset-1 pricing-dimension">
       <mat-checkbox (change)="toggle($event)" id="energyStep" [formControl]="energyStepEnabled">
@@ -45,7 +45,7 @@
     </div>
     <!-- value -->
     <div class="col-md-2">
-      <mat-form-field *ngIf="energyStepEnabled.value">
+      <mat-form-field>
         <mat-label>{{'energy_step_unit' | appPricingDimensionsUnit }}</mat-label>
         <input matInput type="text" placeholder="{{'settings.pricing.value' | translate}}"
         [formControl]="energyStep" required/>
@@ -65,7 +65,7 @@
   </div>
   <!-- value -->
   <div class="col-md-2">
-    <mat-form-field *ngIf="chargingTimeEnabled.value">
+    <mat-form-field>
       <mat-label>{{'charging_time_unit' | appPricingDimensionsUnit }}</mat-label>
       <input matInput type="text" placeholder="{{'settings.pricing.value' | translate}}" id="chargingTime"
       [formControl]="chargingTime" required/>
@@ -74,7 +74,7 @@
     </mat-form-field>
   </div>
   <!-- chargingTime step sizes -->
-  <span class="stepSize" *ngIf="chargingTimeEnabled.value">
+  <span class="stepSize">
     <!-- checkbox -->
     <div class="col-md-2 offset-1 pricing-dimension">
       <mat-checkbox (change)="toggle($event)" id="chargingTimeStep" [formControl]="chargingTimeStepEnabled">
@@ -83,7 +83,7 @@
     </div>
     <!-- value -->
     <div class="col-md-2">
-      <mat-form-field *ngIf="chargingTimeStepEnabled.value">
+      <mat-form-field>
         <mat-label>{{'settings.pricing.time_step_unit' | translate}}</mat-label>
         <input matInput type="text" placeholder="{{'settings.pricing.value' | translate}}"
         [formControl]="chargingTimeStep" required/>
@@ -103,7 +103,7 @@
   </div>
   <!-- value -->
   <div class="col-md-2">
-    <mat-form-field *ngIf="parkingTimeEnabled.value">
+    <mat-form-field>
       <mat-label>{{'parking_time_unit' | appPricingDimensionsUnit }}</mat-label>
       <input matInput type="text" placeholder="{{'settings.pricing.value' | translate}}" id="parkingTime"
       [formControl]="parkingTime" required/>
@@ -112,7 +112,7 @@
     </mat-form-field>
   </div>
   <!-- parkingTime step sizes -->
-  <span class="stepSize" *ngIf="parkingTimeEnabled.value">
+  <span class="stepSize">
     <!-- checkbox -->
     <div class="col-md-2 offset-1 pricing-dimension">
       <mat-checkbox (change)="toggle($event)" id="parkingTimeStep" [formControl]="parkingTimeStepEnabled">
@@ -121,7 +121,7 @@
     </div>
     <!-- value -->
     <div class="col-md-2">
-      <mat-form-field *ngIf="parkingTimeStepEnabled.value">
+      <mat-form-field>
         <mat-label>{{'settings.pricing.time_step_unit' | translate }}</mat-label>
         <input matInput type="text" placeholder="{{'settings.pricing.value' | translate}}"
         [formControl]="parkingTimeStep" required/>

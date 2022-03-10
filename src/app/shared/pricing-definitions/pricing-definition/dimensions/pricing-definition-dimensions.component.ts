@@ -62,7 +62,7 @@ export class PricingDefinitionDimensionsComponent implements OnInit, OnChanges {
           Validators.required,
           Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)
         ])),
-        stepSizeEnabled: new FormControl(false)
+        stepSizeEnabled: new FormControl({value: false, disabled: true})
       }),
       chargingTime: new FormGroup({
         chargingTimeEnabled: new FormControl(false),
@@ -74,7 +74,7 @@ export class PricingDefinitionDimensionsComponent implements OnInit, OnChanges {
           Validators.required,
           Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)
         ])),
-        stepSizeEnabled: new FormControl(false)
+        stepSizeEnabled: new FormControl({value: false, disabled: true})
       }),
       parkingTime: new FormGroup({
         parkingTimeEnabled: new FormControl(false),
@@ -86,7 +86,7 @@ export class PricingDefinitionDimensionsComponent implements OnInit, OnChanges {
           Validators.required,
           Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)
         ])),
-        stepSizeEnabled: new FormControl(false)
+        stepSizeEnabled: new FormControl({value: false, disabled: true})
       }),
     }));
     // Dimensions
@@ -109,6 +109,9 @@ export class PricingDefinitionDimensionsComponent implements OnInit, OnChanges {
     this.parkingTime = this.parkingTimeDimension.controls['price'];
     this.parkingTimeStepEnabled = this.parkingTimeDimension.controls['stepSizeEnabled'];
     this.parkingTimeStep = this.parkingTimeDimension.controls['stepSize'];
+    if (this.readOnly) {
+      this.formGroup.disable();
+    }
   }
 
   public ngOnChanges(): void {
@@ -117,7 +120,6 @@ export class PricingDefinitionDimensionsComponent implements OnInit, OnChanges {
 
   public loadPricingDefinition() {
     if (this.pricingDefinition) {
-      // Dimensions
       this.initializeDimension(this.pricingDefinition, DimensionType.FLAT_FEE);
       this.initializeDimension(this.pricingDefinition, DimensionType.ENERGY);
       this.initializeDimension(this.pricingDefinition, DimensionType.CHARGING_TIME, true);
@@ -128,8 +130,14 @@ export class PricingDefinitionDimensionsComponent implements OnInit, OnChanges {
   public toggle(event: MatSlideToggleChange) {
     if (event.checked) {
       this[event.source.id].enable();
+      this[`${event.source.id}StepEnabled`]?.enable();
+      if (this[`${event.source.id}StepEnabled`].value) {
+        this[`${event.source.id}Step`].enable();
+      }
     } else {
       this[event.source.id].disable();
+      this[`${event.source.id}StepEnabled`]?.disable();
+      this[`${event.source.id}Step`].disable();
     }
     this.formGroup.markAsDirty();
     this.formGroup.updateValueAndValidity();

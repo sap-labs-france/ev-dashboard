@@ -8,7 +8,7 @@
   </div>
   <!-- value min duration -->
   <div class="col-md-2">
-    <mat-form-field *ngIf="minDurationEnabled.value">
+    <mat-form-field>
       <mat-label>{{'settings.pricing.restriction_min_duration_unit' | translate}}</mat-label>
       <input matInput type="text" placeholder="{{'settings.pricing.restriction_min_duration_unit' | translate}}"
       [formControl]="minDuration" required/>
@@ -24,7 +24,7 @@
   </div>
   <!-- value max duration -->
   <div class="col-md-2">
-    <mat-form-field *ngIf="maxDurationEnabled.value">
+    <mat-form-field>
       <mat-label>{{'settings.pricing.restriction_max_duration_unit' | translate}}</mat-label>
       <input matInput type="text" placeholder="{{'settings.pricing.restriction_max_duration_unit' | translate}}"
       [formControl]="maxDuration" required/>
@@ -44,7 +44,7 @@
   </div>
   <!-- value min energy -->
   <div class="col-md-2">
-    <mat-form-field *ngIf="minEnergyKWhEnabled.value">
+    <mat-form-field>
       <mat-label>{{'settings.pricing.restriction_min_energy_unit' | translate}}</mat-label>
       <input matInput type="text" placeholder="{{'settings.pricing.restriction_min_energy_unit' | translate}}"
       [formControl]="minEnergyKWh" required/>
@@ -60,7 +60,7 @@
   </div>
   <!-- value max energy -->
   <div class="col-md-2">
-    <mat-form-field *ngIf="maxEnergyKWhEnabled.value">
+    <mat-form-field>
       <mat-label>{{'settings.pricing.restriction_max_energy_unit' | translate}}</mat-label>
       <input matInput type="text" placeholder="{{'settings.pricing.restriction_max_energy_unit' | translate}}"
       [formControl]="maxEnergyKWh" required/>
@@ -79,7 +79,7 @@
   </div>
   <!-- start time -->
   <div class="col-md-2">
-    <mat-form-field *ngIf="timeRangeEnabled.value">
+    <mat-form-field>
       <mat-label>{{'settings.pricing.restriction_start_time' | translate}}</mat-label>
       <input matInput type="time" id="timeFrom" name="timeFrom" [formControl]="timeFrom" required/>
       <mat-error *ngIf="timeFrom?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
@@ -88,9 +88,9 @@
   </div>
   <!-- end time -->
   <div class="col-md-2">
-    <mat-form-field *ngIf="timeRangeEnabled.value">
+    <mat-form-field>
       <mat-label>{{'settings.pricing.restriction_end_time' | translate}}</mat-label>
-      <input matInput type="time" id="timeTo" name="timeTo" [formControl]="timeTo" [min]="minDate" required/>
+      <input matInput type="time" id="timeTo" name="timeTo" [formControl]="timeTo" [min]="timeFrom" required/>
       <mat-error *ngIf="timeTo?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
       <mat-error *ngIf='timeTo?.errors?.timeRangeError'>{{'settings.pricing.pricing_definition_time_range_error' | translate}}</mat-error>
     </mat-form-field>
@@ -106,7 +106,7 @@
   </div>
   <!-- value days -->
   <div class="col-md-2">
-    <mat-button-toggle-group *ngIf="daysOfWeekEnabled.value" [value]="selectedDays" [formControl]="selectedDays" name="daysOfWeekToggle" aria-label="Days of week" multiple>
+    <mat-button-toggle-group [value]="selectedDays" [formControl]="selectedDays" name="daysOfWeekToggle" aria-label="Days of week" multiple>
       <mat-button-toggle *ngFor="let dayNumber of daysOfTheWeek" value={{dayNumber}} class="mat-raised-button days-of-week-button">
         <span>{{dayNumber | appDay}}</span>
       </mat-button-toggle>

@@ -114,7 +114,7 @@
   },
   "optionalDependencies": {
     "bufferutil": "^4.0.6",
-    "utf-8-validate": "^5.0.8"
+    "utf-8-validate": "^5.0.9"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.1102.12",

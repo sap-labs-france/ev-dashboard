@@ -114,7 +114,7 @@ export class PricingDefinitionDimensionsComponent implements OnInit, OnChanges {
     }
   }
 
-  public ngOnChanges(): void {
+  public ngOnChanges() {
     this.loadPricingDefinition();
   }
 
@@ -131,13 +131,13 @@ export class PricingDefinitionDimensionsComponent implements OnInit, OnChanges {
     if (event.checked) {
       this[event.source.id].enable();
       this[`${event.source.id}StepEnabled`]?.enable();
-      if (this[`${event.source.id}StepEnabled`].value) {
+      if (this[`${event.source.id}StepEnabled`]?.value) {
         this[`${event.source.id}Step`].enable();
       }
     } else {
       this[event.source.id].disable();
       this[`${event.source.id}StepEnabled`]?.disable();
-      this[`${event.source.id}Step`].disable();
+      this[`${event.source.id}Step`]?.disable();
     }
     this.formGroup.markAsDirty();
     this.formGroup.updateValueAndValidity();
@@ -156,10 +156,12 @@ export class PricingDefinitionDimensionsComponent implements OnInit, OnChanges {
     const dimension: PricingDimension = pricingDefinition.dimensions?.[dimensionType];
     if (!!dimension?.active) {
       this[`${dimensionType}Enabled`].setValue(true);
+      this[`${dimensionType}StepEnabled`]?.enable();
       this[dimensionType].enable();
       this[dimensionType].setValue(dimension?.price);
     }
     if (!!dimension?.stepSize) {
+      this[`${dimensionType}StepEnabled`].enable();
       this[`${dimensionType}StepEnabled`].setValue(true);
       const stepSize = (isTimeDimension) ? PricingHelpers.toMinutes(dimension?.stepSize) : dimension?.stepSize;
       this[`${dimensionType}Step`].enable();

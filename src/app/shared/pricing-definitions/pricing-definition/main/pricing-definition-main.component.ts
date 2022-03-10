@@ -2,6 +2,7 @@ import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { TranslateService } from '@ngx-translate/core';
+import { Utils } from 'utils/Utils';
 
 import { CONNECTOR_TYPE_SELECTION_MAP } from '../../../../shared/formatters/app-connector-type-selection.pipe';
 import { AppDayPipe } from '../../../../shared/formatters/app-day.pipe';
@@ -42,7 +43,7 @@ export class PricingDefinitionMainComponent implements OnInit, OnChanges {
     public dayPipe: AppDayPipe) {
   }
 
-  public ngOnInit(): void {
+  public ngOnInit() {
     this.formGroup.addControl('id', new FormControl());
     this.formGroup.addControl('entityID', new FormControl(''));
     this.formGroup.addControl('entityType', new FormControl(''));
@@ -117,11 +118,12 @@ export class PricingDefinitionMainComponent implements OnInit, OnChanges {
   }
 
   public buildPricingDefinitions(): PricingStaticRestriction {
-    return {
+    const staticRestrictions: PricingStaticRestriction = {
       validFrom: this.validFrom.value || null,
       validTo: this.validTo.value || null,
       connectorType: (this.connectorType.value !== Constants.SELECT_ALL) ? this.connectorType.value: null,
       connectorPowerkW: (this.connectorPowerEnabled.value) ? this.connectorPowerValue.value : null
     };
+    return Utils.shrinkObjectProperties(staticRestrictions);
   }
 }

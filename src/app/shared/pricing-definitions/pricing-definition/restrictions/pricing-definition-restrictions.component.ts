@@ -2,6 +2,7 @@ import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { TranslateService } from '@ngx-translate/core';
+import { Utils } from 'utils/Utils';
 
 import { AppDayPipe } from '../../../../shared/formatters/app-day.pipe';
 import PricingDefinition, { PricingRestriction } from '../../../../types/Pricing';
@@ -91,7 +92,7 @@ export class PricingDefinitionRestrictionsComponent implements OnInit, OnChanges
     }
   }
 
-  public ngOnChanges(): void {
+  public ngOnChanges() {
     this.loadPricingDefinition();
   }
 
@@ -181,7 +182,7 @@ export class PricingDefinitionRestrictionsComponent implements OnInit, OnChanges
   }
 
   public buildPrincingRestrictions(): PricingRestriction {
-    return {
+    const restrictions: PricingRestriction = {
       daysOfWeek: this.daysOfWeekEnabled.value ? this.selectedDays.value : null,
       timeFrom: this.timeRangeEnabled.value ? this.timeFrom.value : null,
       timeTo: this.timeRangeEnabled.value ? this.timeTo.value : null,
@@ -190,5 +191,6 @@ export class PricingDefinitionRestrictionsComponent implements OnInit, OnChanges
       minDurationSecs: this.minDurationEnabled.value ? PricingHelpers.convertDurationToSeconds(this.minDurationEnabled.value, this.minDuration.value) : null,
       maxDurationSecs: this.minDurationEnabled.value ? PricingHelpers.convertDurationToSeconds(this.maxDurationEnabled.value, this.maxDuration.value) : null,
     };
+    return Utils.shrinkObjectProperties(restrictions);
   }
 }

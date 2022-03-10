@@ -167,12 +167,9 @@ export class PricingDefinitionComponent extends AbstractTabComponent implements 
     // Priced Dimensions
     const dimensions = this.pricingDefinitionDimensions.buildPricingDimensions();
     // Static restrictions
-    let staticRestrictions = this.pricingDefinitionMain.buildPricingDefinitions();
+    const staticRestrictions = this.pricingDefinitionMain.buildPricingDefinitions();
     // Dynamic restrictions
-    let restrictions = this.pricingDefinitionRestrictions.buildPrincingRestrictions();
-    // Clear empty data for best performances server-side
-    staticRestrictions = this.shrinkPricingProperties(staticRestrictions);
-    restrictions = this.shrinkPricingProperties(restrictions);
+    const restrictions = this.pricingDefinitionRestrictions.buildPrincingRestrictions();
     // Build the pricing definition
     const pricingDefinition: PricingDefinition = {
       id,
@@ -185,17 +182,5 @@ export class PricingDefinitionComponent extends AbstractTabComponent implements 
       restrictions
     };
     return pricingDefinition;
-  }
-
-  private shrinkPricingProperties(properties: any): any  {
-    for (const propertyName in properties) {
-      if (!properties[propertyName]) {
-        delete properties[propertyName];
-      }
-    }
-    if (Utils.isEmptyObject(properties)) {
-      return null;
-    }
-    return properties;
   }
 }

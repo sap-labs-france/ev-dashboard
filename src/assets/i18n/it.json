@@ -1562,7 +1562,7 @@
       "value": "Value",
       "unit": "Unit",
       "charging_station": "Charging Station",
-      "pricing_dimensions_title": "Pricing Dimensions",
+      "pricing_dimensions_title": "Dimensions",
       "pricing_definition_title": "Pricing Definition",
       "step_size": "Step Size",
       "connector_power_unit": "kW",

@@ -2,8 +2,11 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { WindowService } from 'services/window.service';
+import { AbstractTabComponent } from 'shared/component/abstract-tab/abstract-tab.component';
+import { DialogMode } from 'types/Authorization';
 
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
@@ -25,11 +28,10 @@ import { PricingDefinitionRestrictionsComponent } from './restrictions/pricing-d
   selector: 'app-pricing-definition',
   templateUrl: './pricing-definition.component.html',
 })
-
-export class PricingDefinitionComponent implements OnInit {
-  @Input() public inDialog!: boolean;
-  @Input() public dialogRef!: MatDialogRef<PricingDefinitionDialogComponent>;
+export class PricingDefinitionComponent extends AbstractTabComponent implements OnInit {
   @Input() public currentPricingDefinitionID!: string;
+  @Input() public dialogMode!: DialogMode;
+  @Input() public dialogRef!: MatDialogRef<PricingDefinitionDialogComponent>;
   @Input() public currentEntityID!: string;
   @Input() public currentEntityType!: PricingEntity;
   @Input() public currentEntityName: string;
@@ -38,8 +40,8 @@ export class PricingDefinitionComponent implements OnInit {
   @ViewChild('pricingDefinitionRestrictionsComponent') public pricingDefinitionRestrictions!: PricingDefinitionRestrictionsComponent;
   @ViewChild('pricingDefinitionDimensionsComponent') public pricingDefinitionDimensions!: PricingDefinitionDimensionsComponent;
 
-
   public formGroup!: FormGroup;
+  public readOnly = true;
   public currentPricingDefinition: PricingDefinition;
   public context: string;
 
@@ -50,23 +52,54 @@ export class PricingDefinitionComponent implements OnInit {
     private spinnerService: SpinnerService,
     private dialogService: DialogService,
     private router: Router,
-    public translateService: TranslateService) {
+    public translateService: TranslateService,
+    protected activatedRoute: ActivatedRoute,
+    protected windowService: WindowService) {
+    super(activatedRoute, windowService, ['main', 'dimensions', 'restrictions'], false);
   }
 
   public ngOnInit(): void {
     this.context = this.currentEntityType === PricingEntity.TENANT ? this.centralServerService.getLoggedUser().tenantName : this.currentEntityName;
     this.formGroup = new FormGroup({});
+    this.readOnly = this.dialogMode === DialogMode.VIEW;
+    if (this.currentPricingDefinitionID) {
+      this.loadPricingDefinition();
+    } else if (this.activatedRoute?.params) {
+      this.activatedRoute.params.subscribe((params: Params) => {
+        this.currentPricingDefinitionID = params['id'];
+        this.loadPricingDefinition();
+      });
+    }
+    // Handle Dialog mode
+    Utils.handleDialogMode(this.dialogMode, this.formGroup);
+  }
+
+  public loadPricingDefinition() {
     if (this.currentPricingDefinitionID) {
       this.spinnerService.show();
       this.centralServerService.getPricingDefinition(this.currentPricingDefinitionID).subscribe((currentPricingDefinition) => {
         this.spinnerService.hide();
         this.currentPricingDefinition = currentPricingDefinition;
+        // Update form group
+        this.formGroup.updateValueAndValidity();
+        this.formGroup.markAsPristine();
+        this.formGroup.markAllAsTouched();
+      }, (error) => {
+        this.spinnerService.hide();
+        switch (error.status) {
+          case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+            this.messageService.showErrorMessage('sites.pricing_definition_not_found');
+            break;
+          default:
+            Utils.handleHttpError(error, this.router, this.messageService,
+              this.centralServerService, 'general.unexpected_error_backend');
+        }
       });
     }
   }
 
   public closeDialog(saved = false) {
-    if (this.inDialog) {
+    if (this.dialogRef) {
       this.dialogRef.close(saved);
     }
   }
@@ -208,5 +241,4 @@ export class PricingDefinitionComponent implements OnInit {
     }
     return properties;
   }
-
 }

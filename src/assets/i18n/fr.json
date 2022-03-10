@@ -1562,7 +1562,7 @@
       "value": "Valeur",
       "unit": "Unité",
       "charging_station": "Borne",
-      "pricing_dimensions_title": "Dimensions du tarif",
+      "pricing_dimensions_title": "Dimensions",
       "pricing_definition_title": "Tarification",
       "step_size": "Taille du palier",
       "connector_power_unit": "kW",

@@ -15,7 +15,6 @@ import { Utils } from '../../../../../utils/Utils';
 })
 export class CompanyMainComponent implements OnInit, OnChanges {
   @Input() public formGroup: FormGroup;
-  @Input() public currentCompanyID!: string;
   @Input() public company!: Company;
   @Input() public readOnly: boolean;
 
@@ -72,7 +71,7 @@ export class CompanyMainComponent implements OnInit, OnChanges {
       }
       // Get Company logo
       if (!this.logoChanged) {
-        this.centralServerService.getCompanyLogo(this.currentCompanyID).subscribe((companyLogo) => {
+        this.centralServerService.getCompanyLogo(this.company.id).subscribe((companyLogo) => {
           this.logoChanged = true;
           if (companyLogo) {
             this.logo = companyLogo;

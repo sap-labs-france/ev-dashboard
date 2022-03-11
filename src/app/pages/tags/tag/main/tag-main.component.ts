@@ -14,7 +14,6 @@ import { Utils } from '../../../../utils/Utils';
 })
 export class TagMainComponent implements OnInit, OnChanges {
   @Input() public formGroup: FormGroup;
-  @Input() public currentTagID!: string;
   @Input() public tag!: Tag;
   @Input() public readOnly: boolean;
   @Input() public metadata!: Record<string, AuthorizationDefinitionFieldMetadata>;

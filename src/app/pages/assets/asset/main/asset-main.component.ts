@@ -22,7 +22,6 @@ import { Utils } from '../../../../utils/Utils';
 })
 export class AssetMainComponent implements OnInit, OnChanges {
   @Input() public formGroup: FormGroup;
-  @Input() public currentAssetID!: string;
   @Input() public asset!: Asset;
   @Input() public readOnly: boolean;
 
@@ -181,7 +180,7 @@ export class AssetMainComponent implements OnInit, OnChanges {
       this.formGroup.markAllAsTouched();
       // Get Asset image
       if (!this.imageChanged) {
-        this.centralServerService.getAssetImage(this.currentAssetID).subscribe((assetImage) => {
+        this.centralServerService.getAssetImage(this.asset.id).subscribe((assetImage) => {
           this.imageChanged = true;
           if (assetImage) {
             this.image = assetImage;

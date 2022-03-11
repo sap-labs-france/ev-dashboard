@@ -16,7 +16,6 @@ import { Utils } from '../../../../utils/Utils';
 })
 export class AssetConnectionComponent implements OnInit, OnChanges {
   @Input() public formGroup: FormGroup;
-  @Input() public currentAssetID!: string;
   @Input() public asset!: Asset;
   @Input() public readOnly: boolean;
 

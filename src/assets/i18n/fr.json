@@ -2416,6 +2416,8 @@
           "inactivity": "Temps inactif"
         },
         "pricing-detail-description": "Description",
+        "pricing-detail-entity-type": "Entité",
+        "pricing-detail-entity-id": "ID de l'entité",
         "pricing-detail-unit-price": "Prix unitaire",
         "pricing-detail-consumption": "Consommation",
         "pricing-detail-duration": "Durée",

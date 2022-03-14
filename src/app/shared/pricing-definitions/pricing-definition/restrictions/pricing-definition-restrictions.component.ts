@@ -2,11 +2,11 @@ import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { TranslateService } from '@ngx-translate/core';
-import { Utils } from 'utils/Utils';
 
 import { AppDayPipe } from '../../../../shared/formatters/app-day.pipe';
 import PricingDefinition, { PricingRestriction } from '../../../../types/Pricing';
 import { PricingHelpers } from '../../../../utils/PricingHelpers';
+import { Utils } from '../../../../utils/Utils';
 
 @Component({
   selector: 'app-pricing-definition-restrictions',
@@ -56,8 +56,8 @@ export class PricingDefinitionRestrictionsComponent implements OnInit, OnChanges
       maxEnergyKWhEnabled: new FormControl(false),
       maxEnergyKWh: new FormControl({value: null, disabled: true}, PricingHelpers.maxValidator('minEnergyKWh', 'maxEnergyKWh')),
       timeRangeEnabled: new FormControl(false),
-      timeFrom: new FormControl({value: null, disabled: true}, Validators.required),
-      timeTo: new FormControl({value: null, disabled: true}, Validators.required),
+      timeFrom: new FormControl({value: null, disabled: true}, PricingHelpers.minTimeValidator('timeTo')),
+      timeTo: new FormControl({value: null, disabled: true}, PricingHelpers.maxTimeValidator('timeFrom', 'timeTo')),
       daysOfWeekEnabled: new FormControl(false),
       selectedDays: new FormControl({value: null, disabled: true}, Validators.required),
     }));

@@ -52,8 +52,8 @@
                 <div class="card-body">
                   <div class="row">
                     <div class="col-md-8 offset-4">
-                      <mat-form-field class="text-right">
-                        <mat-label>{{'transactions.dialog.session.pricing-detail-amount' | translate}}</mat-label>
+                      <mat-form-field class="text-right-field">
+                        <mat-label> {{'transactions.dialog.session.pricing-detail-amount' | translate}}</mat-label>
                         <input matInput type="text" readonly=true value="{{pricingDefinition.dimensions.flatFee.pricedData.roundedAmount | appCurrency}}"/>
                       </mat-form-field>
                     </div>
@@ -75,15 +75,15 @@
                 <div class="card-body">
                   <div class="row">
                     <div class="col-md-8 offset-4">
-                      <mat-form-field class="text-right">
+                      <mat-form-field class="text-right-field">
                         <mat-label>{{'transactions.dialog.session.pricing-detail-unit-price' | translate}}</mat-label>
                         <input matInput type="text" readonly=true value="{{'energy_formatted_price' | appPricingDimensionsPrice:pricingDefinition.dimensions.energy.pricedData.unitPrice}}"/>
                       </mat-form-field>
-                      <mat-form-field class="text-right">
+                      <mat-form-field class="text-right-field">
                         <mat-label>{{'transactions.dialog.session.pricing-detail-consumption' | translate}}</mat-label>
                         <input matInput type="text" readonly=true value="{{pricingDefinition.dimensions.energy.pricedData.quantity | appUnit:'Wh':'kWh':true:1:2:3}}"/>
                       </mat-form-field>
-                      <mat-form-field class="text-right">
+                      <mat-form-field class="text-right-field">
                         <mat-label>{{'transactions.dialog.session.pricing-detail-amount' | translate}}</mat-label>
                         <input matInput type="text" readonly=true value="{{pricingDefinition.dimensions.energy.pricedData.roundedAmount | appCurrency}}"/>
                       </mat-form-field>
@@ -106,15 +106,15 @@
                 <div class="card-body">
                   <div class="row">
                     <div class="col-md-8 offset-4">
-                      <mat-form-field class="text-right">
+                      <mat-form-field class="text-right-field">
                         <mat-label>{{'transactions.dialog.session.pricing-detail-unit-price' | translate}}</mat-label>
                         <input matInput type="text" readonly=true value="{{'charging_time_formatted_price' | appPricingDimensionsPrice:pricingDefinition.dimensions.chargingTime.pricedData.unitPrice}}"/>
                       </mat-form-field>
-                      <mat-form-field class="text-right">
+                      <mat-form-field class="text-right-field">
                         <mat-label>{{'transactions.dialog.session.pricing-detail-duration' | translate}}</mat-label>
                         <input matInput type="text" readonly=true value="{{pricingDefinition.dimensions.chargingTime.pricedData.quantity | appDuration}}"/>
                       </mat-form-field>
-                      <mat-form-field class="text-right">
+                      <mat-form-field class="text-right-field">
                         <mat-label>{{'transactions.dialog.session.pricing-detail-amount' | translate}}</mat-label>
                         <input matInput type="text" readonly=true value="{{pricingDefinition.dimensions.chargingTime.pricedData.roundedAmount | appCurrency}}"/>
                       </mat-form-field>
@@ -137,15 +137,15 @@
                 <div class="card-body">
                   <div class="row">
                     <div class="col-md-8 offset-4">
-                      <mat-form-field class="text-right">
+                      <mat-form-field class="text-right-field">
                         <mat-label>{{'transactions.dialog.session.pricing-detail-unit-price' | translate}}</mat-label>
                         <input matInput type="text" readonly=true value="{{'parking_time_formatted_price' | appPricingDimensionsPrice:pricingDefinition.dimensions.parkingTime.pricedData.unitPrice}}"/>
                       </mat-form-field>
-                      <mat-form-field class="text-right">
+                      <mat-form-field class="text-right-field">
                         <mat-label>{{'transactions.dialog.session.pricing-detail-duration' | translate}}</mat-label>
                         <input matInput type="text" readonly=true value="{{pricingDefinition.dimensions.parkingTime.pricedData.quantity | appDuration}}"/>
                       </mat-form-field>
-                      <mat-form-field class="text-right">
+                      <mat-form-field class="text-right-field">
                         <mat-label>{{'transactions.dialog.session.pricing-detail-amount' | translate}}</mat-label>
                         <input matInput type="text" readonly=true value="{{pricingDefinition.dimensions.parkingTime.pricedData.roundedAmount | appCurrency}}"/>
                       </mat-form-field>

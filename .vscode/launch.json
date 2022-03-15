@@ -6,6 +6,20 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Launch tenant 'SLF@localhost' in Chrome",
+      "request": "launch",
+      "type": "pwa-chrome",
+      "url": "http://slf.localhost:45000",
+      "webRoot": "${workspaceFolder}"
+    },
+    {
+      "type": "pwa-chrome",
+      "request": "launch",
+      "name": "tenant: utbilling",
+      "url": "http://utbilling.localhost:45000",
+      "webRoot": "${workspaceFolder}"
+    },
+    {
       "type": "node",
       "name": "vscode-jest-tests",
       "request": "launch",

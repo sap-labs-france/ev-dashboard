@@ -21,7 +21,7 @@ import { TableNavigateToTransactionsAction } from 'shared/table/actions/transact
 import { organizations } from 'shared/table/filters/issuer-filter';
 import { StatusFilter } from 'shared/table/filters/status-filter';
 import { UserTableFilter } from 'shared/table/filters/user-table-filter';
-import { AuthorizationDefinitionFieldMetadata } from 'types/Authorization';
+import { TagsAuthorizations } from 'types/Authorization';
 import { DataResult } from 'types/DataResult';
 import { HTTPError } from 'types/HTTPError';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'types/Table';
@@ -67,7 +67,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
   private projectFields: string[];
   private userFilter: TableFilterDef;
   private issuerFilter: TableFilterDef;
-  private metadata?: Record<string, AuthorizationDefinitionFieldMetadata>;
+  private tagsAuthorizations: TagsAuthorizations;
   public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
@@ -143,16 +143,32 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
       // Get the Tags
       this.centralServerService.getTags(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((tags) => {
-        this.createAction.visible = tags.canCreate;
-        this.assignAction.visible = tags.canAssign;
-        this.importAction.visible = tags.canImport;
-        this.exportAction.visible = tags.canExport;
-        this.deleteManyAction.visible = tags.canDelete;
-        this.unassignManyAction.visible = tags.canUnassign;
-        this.projectFields = tags.projectFields;
-        this.userFilter.visible = Utils.convertToBoolean(tags.canListUsers);
-        this.issuerFilter.visible = Utils.convertToBoolean(tags.canListSources);
-        this.metadata = tags.metadata;
+        // Initialize authorizaiton object
+        this.tagsAuthorizations = {
+          // Authorization action
+          canCreate: tags.canCreate,
+          canAssign: tags.canAssign,
+          canImport: tags.canImport,
+          canExport: tags.canExport,
+          canDelete: tags.canDelete,
+          canUnassign: tags.canUnassign,
+          canListUsers: tags.canListUsers,
+          canListSources: tags.canListSources,
+          // Metadata
+          metadata: tags.metadata,
+          // projected fields
+          projectFields: tags.projectFields
+        };
+        // Update filter visibility
+        this.createAction.visible = this.tagsAuthorizations.canCreate;
+        this.assignAction.visible = this.tagsAuthorizations.canAssign;
+        this.importAction.visible = this.tagsAuthorizations.canImport;
+        this.exportAction.visible = this.tagsAuthorizations.canExport;
+        this.deleteManyAction.visible = this.tagsAuthorizations.canDelete;
+        this.unassignManyAction.visible = this.tagsAuthorizations.canUnassign;
+        this.projectFields = this.tagsAuthorizations.projectFields;
+        this.userFilter.visible = this.tagsAuthorizations.canListUsers;
+        this.issuerFilter.visible = this.tagsAuthorizations.canListSources;
         observer.next(tags);
         observer.complete();
       }, (error) => {
@@ -328,7 +344,8 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
       case TagButtonAction.CREATE_TAG:
         if (actionDef.action) {
           (actionDef as TableCreateTagActionDef).action(TagDialogComponent,
-            this.dialog, { dialogData: { metadata: this.metadata } as Tag }, this.refreshData.bind(this));
+            this.dialog, { authorizations: this.tagsAuthorizations }, this.refreshData.bind(this));
+
         }
         break;
       // Assign

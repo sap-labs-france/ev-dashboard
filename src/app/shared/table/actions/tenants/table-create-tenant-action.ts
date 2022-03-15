@@ -2,7 +2,6 @@ import { ComponentType } from '@angular/cdk/portal';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 
-import { ScreenSize } from '../../../../types/GlobalType';
 import { TableActionDef } from '../../../../types/Table';
 import { TenantButtonAction } from '../../../../types/Tenant';
 import { TableCreateAction } from '../table-create-action';
@@ -23,13 +22,6 @@ export class TableCreateTenantAction extends TableCreateAction {
 
   private createTenant(tenantDialogComponent: ComponentType<unknown>,
     dialog: MatDialog, refresh?: () => Observable<void>) {
-    super.create(tenantDialogComponent, dialog, null, refresh, {
-      minWidth: ScreenSize.XL,
-      maxWidth: ScreenSize.XL,
-      width: ScreenSize.XL,
-      minHeight: ScreenSize.L,
-      maxHeight: ScreenSize.L,
-      height: ScreenSize.L
-    });
+    super.create(tenantDialogComponent, dialog, null, refresh);
   }
 }

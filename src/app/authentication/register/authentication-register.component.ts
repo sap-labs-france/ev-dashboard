@@ -28,6 +28,8 @@ export class AuthenticationRegisterComponent implements OnInit, OnDestroy {
   public name: AbstractControl;
   public firstName: AbstractControl;
   public email: AbstractControl;
+  public phone!: AbstractControl;
+  public mobile!: AbstractControl;
   public passwords: FormGroup;
   public password: AbstractControl;
   public repeatPassword: AbstractControl;
@@ -74,6 +76,14 @@ export class AuthenticationRegisterComponent implements OnInit, OnDestroy {
           Validators.required,
           Validators.email,
         ])),
+      phone: new FormControl('',
+        Validators.compose([
+          Users.validatePhone,
+        ])),
+      mobile: new FormControl('',
+        Validators.compose([
+          Users.validatePhone,
+        ])),
       passwords: new FormGroup({
         password: new FormControl('',
           Validators.compose([
@@ -94,6 +104,8 @@ export class AuthenticationRegisterComponent implements OnInit, OnDestroy {
     // Form
     this.name = this.formGroup.controls['name'];
     this.email = this.formGroup.controls['email'];
+    this.phone = this.formGroup.controls['phone'];
+    this.mobile = this.formGroup.controls['mobile'];
     this.passwords = (this.formGroup.controls['passwords'] as FormGroup);
     this.password = this.passwords.controls['password'];
     this.repeatPassword = this.passwords.controls['repeatPassword'];

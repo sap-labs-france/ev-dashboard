@@ -83,7 +83,6 @@
       <mat-label>{{'settings.pricing.restriction_start_time' | translate}}</mat-label>
       <input matInput type="time" id="timeFrom" name="timeFrom" [formControl]="timeFrom" required/>
       <mat-error *ngIf="timeFrom?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
-      <mat-error *ngIf='timeTo?.errors?.timeRangeError'>{{'settings.pricing.pricing_definition_time_range_error' | translate}}</mat-error>
     </mat-form-field>
   </div>
   <!-- end time -->

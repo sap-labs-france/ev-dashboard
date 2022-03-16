@@ -1,24 +1,27 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import PricingDefinition, { ResolvedPricingModel } from 'types/Pricing';
-import { Transaction } from 'types/Transaction';
+import { ActivatedRoute } from '@angular/router';
+
+import { WindowService } from '../../../../services/window.service';
+import { AbstractTabComponent } from '../../../../shared/component/abstract-tab/abstract-tab.component';
+import PricingDefinition, { ResolvedPricingModel } from '../../../../types/Pricing';
+import { Transaction } from '../../../../types/Transaction';
 
 @Component({
   selector: 'app-transaction-pricing',
   templateUrl: 'transaction-pricing.component.html'
 })
-export class TransactionPricingComponent implements OnInit, OnChanges {
+export class TransactionPricingComponent extends AbstractTabComponent implements OnChanges {
   @Input() public transaction: Transaction;
 
   public pricingDefinitions: PricingDefinition[];
 
-  // eslint-disable-next-line no-useless-constructor
-  public constructor() {
+  public constructor(
+    protected activatedRoute: ActivatedRoute,
+    protected windowService: WindowService) {
+    super(activatedRoute, windowService, ['main', 'pricing'], false);
   }
 
-  public ngOnInit() {
-  }
-
-  public ngOnChanges(changes: SimpleChanges): void {
+  public ngOnChanges(): void {
     if (this.transaction) {
       this.pricingDefinitions = this.shrinkPricingData(this.transaction.pricingModel);
     }

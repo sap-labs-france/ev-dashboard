@@ -4,14 +4,14 @@ import { FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { WindowService } from 'services/window.service';
-import { AbstractTabComponent } from 'shared/component/abstract-tab/abstract-tab.component';
-import { DialogMode } from 'types/Authorization';
 
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
+import { WindowService } from '../../../services/window.service';
+import { AbstractTabComponent } from '../../../shared/component/abstract-tab/abstract-tab.component';
+import { DialogMode } from '../../../types/Authorization';
 import { ActionResponse } from '../../../types/DataResult';
 import { RestResponse } from '../../../types/GlobalType';
 import { HTTPError } from '../../../types/HTTPError';
@@ -43,7 +43,6 @@ export class PricingDefinitionComponent extends AbstractTabComponent implements 
   public pricingDefinition: PricingDefinition;
   public context: string;
 
-  // eslint-disable-next-line no-useless-constructor
   public constructor(
     private centralServerService: CentralServerService,
     private messageService: MessageService,

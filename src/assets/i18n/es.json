@@ -2416,7 +2416,14 @@
           "state_of_charge": "Nivel de batería",
           "total_duration": "Duración total",
           "inactivity": "Duración de actividad"
-        }
+        },
+        "pricing-detail-description": "Description",
+        "pricing-detail-entity-type": "Entity Type",
+        "pricing-detail-entity-id": "Entity ID",
+        "pricing-detail-unit-price": "Unit Price",
+        "pricing-detail-consumption": "Consumption",
+        "pricing-detail-duration": "Duration",
+        "pricing-detail-amount": "Amount"
       }
     },
     "notification": {

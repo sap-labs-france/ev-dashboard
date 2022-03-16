@@ -1,17 +1,15 @@
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { TenantComponents } from 'types/Tenant';
 
-import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
 import { ConfigService } from '../../../services/config.service';
-import { LocaleService } from '../../../services/locale.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { ConsumptionChartComponent } from '../../../shared/component/consumption-chart/consumption-chart.component';
 import { Image } from '../../../types/GlobalType';
-import { TenantComponents } from '../../../types/Tenant';
 import { Transaction } from '../../../types/Transaction';
 import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
@@ -30,18 +28,11 @@ export class TransactionComponent implements OnInit, OnDestroy {
   @Input() public dialogRef!: MatDialogRef<any>;
 
   public transaction!: Transaction;
-  public stateOfChargeIcon!: string;
-  public stateOfCharge!: number;
-  public endStateOfCharge!: number;
   public loggedUserImage = Constants.USER_NO_PICTURE;
   public carImage = Constants.NO_CAR_IMAGE;
-  public isStoppedByAnotherUser = false;
-  public totalConsumptionWh!: number;
-  public totalDurationSecs!: number;
-  public locale!: string;
-  public isCarComponentActive: boolean;
-  public canDisplayCar: boolean;
-  public canUpdateCar: boolean;
+  public isCarComponentActive = false;
+  public isPricingComponentActive = false;
+  public showPricingDetail = false;
 
   private refreshInterval;
 
@@ -50,16 +41,10 @@ export class TransactionComponent implements OnInit, OnDestroy {
     private messageService: MessageService,
     private router: Router,
     private centralServerService: CentralServerService,
-    private authorizationService: AuthorizationService,
     private componentService: ComponentService,
-    private configService: ConfigService,
-    private localeService: LocaleService) {
-    this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
-      this.locale = locale.currentLocaleJS;
-    });
+    private configService: ConfigService) {
     this.isCarComponentActive = this.componentService.isActive(TenantComponents.CAR);
-    this.canUpdateCar = this.authorizationService.canUpdateCar();
-    this.canDisplayCar = this.authorizationService.canReadCar();
+    this.isPricingComponentActive = this.componentService.isActive(TenantComponents.PRICING);
   }
 
   public ngOnInit(): void {
@@ -105,34 +90,9 @@ export class TransactionComponent implements OnInit, OnDestroy {
         this.createTransactionRefresh();
       }
       // Set properties
-      if (transaction.stop) {
-        this.totalConsumptionWh = transaction.stop.totalConsumptionWh;
-        this.stateOfCharge = transaction.stateOfCharge;
-        this.endStateOfCharge = transaction.stop.stateOfCharge;
-        this.totalDurationSecs = transaction.stop.totalDurationSecs;
-        this.isStoppedByAnotherUser = (transaction.user && transaction.user.id !== transaction.stop.user.id);
-      } else {
-        this.totalConsumptionWh = transaction.currentTotalConsumptionWh;
-        this.stateOfCharge = transaction.stateOfCharge;
-        this.endStateOfCharge = transaction.currentStateOfCharge;
-        this.totalDurationSecs = transaction.currentTotalDurationSecs;
-      }
-      if (Utils.objectHasProperty(transaction, 'stateOfCharge')) {
-        if (this.stateOfCharge === 100) {
-          this.stateOfChargeIcon = 'battery_full';
-        } else if (this.stateOfCharge >= 90) {
-          this.stateOfChargeIcon = 'battery_charging_90';
-        } else if (this.stateOfCharge >= 80) {
-          this.stateOfChargeIcon = 'battery_charging_80';
-        } else if (this.stateOfCharge >= 60) {
-          this.stateOfChargeIcon = 'battery_charging_60';
-        } else if (this.stateOfCharge >= 50) {
-          this.stateOfChargeIcon = 'battery_charging_50';
-        } else if (this.stateOfCharge >= 30) {
-          this.stateOfChargeIcon = 'battery_charging_30';
-        } else {
-          this.stateOfChargeIcon = 'battery_charging_20';
-        }
+      if ( this.isPricingComponentActive && transaction.pricingModel ) {
+        // Show pricing dimensions in a second tab
+        this.showPricingDetail = true;
       }
       // Load User's image
       if ((this.loggedUserImage === Constants.USER_NO_PICTURE) && transaction.user) {
@@ -143,7 +103,7 @@ export class TransactionComponent implements OnInit, OnDestroy {
         });
       }
       // Load Car's image
-      if ((this.carImage === Constants.NO_CAR_IMAGE) && transaction?.carCatalogID) {
+      if (this.isCarComponentActive && this.carImage === Constants.NO_CAR_IMAGE && transaction?.carCatalogID) {
         this.centralServerService.getCarCatalogImages(transaction.carCatalogID, {},
           { limit: 1, skip: Constants.DEFAULT_SKIP }).subscribe((carImage) => {
           if (carImage.count > 0) {

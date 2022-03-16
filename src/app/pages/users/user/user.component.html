@@ -1,4 +1,4 @@
-<div class="main-content" [ngClass]="{'vh-lg-50 vw-lg-80 vw-xxl-60 vh-3xl-40 vw-3xl-35' : inDialog}">
+<div class="main-content" [ngClass]="{'vh-lg-50 vw-lg-80 vw-xxl-60 vh-3xl-40 vw-3xl-35' : dialogRef}">
   <div class="card card-profile card-testimonial">
     <form [formGroup]="formGroup" class="form">
       <mat-tab-group (selectedIndexChange)="updateRoute($event)" [selectedIndex]="activeTabIndex"
@@ -6,11 +6,10 @@
         <mat-tab>
           <ng-template mat-tab-label>
             <mat-icon>portrait</mat-icon>
-            <span>{{'general.general' | translate}}</span>
+            <span>{{'users.title' | translate}} - {{formGroup.controls['name'].value}} {{formGroup.controls['firstName'].value}}</span>
           </ng-template>
           <div class="card-body mat-tab-dialog-body-content">
-            <app-user-main #userMainComponent [formGroup]="formGroup" [user]='user' [currentUserID]='currentUserID'
-              [metadata]='metadata' (roleChanged)="roleChanged($event)">
+            <app-user-main #userMainComponent [formGroup]="formGroup" [user]='user' [metadata]='metadata' (roleChanged)="roleChanged($event)">
             </app-user-main>
           </div>
         </mat-tab>
@@ -40,7 +39,7 @@
             <span>{{'users.security' | translate}}</span>
           </ng-template>
           <div class="card-body">
-            <app-user-security #userSecurityComponent [formGroup]="formGroup" [user]='user' [currentUserID]='currentUserID'>
+            <app-user-security #userSecurityComponent [formGroup]="formGroup" [user]='user'>
             </app-user-security>
           </div>
         </mat-tab>
@@ -51,7 +50,7 @@
           </ng-template>
           <ng-template matTabContent>
             <div class="card-body">
-              <app-user-connectors [currentUserID]='currentUserID'>
+              <app-user-connectors [user]='user'>
               </app-user-connectors>
             </div>
           </ng-template>
@@ -73,18 +72,18 @@
           </ng-template>
           <ng-template matTabContent>
             <div class="card-body card-profile card-body-table-list">
-              <app-payment-methods [currentUserID]=currentUserID>
+              <app-payment-methods [user]="user">
               </app-payment-methods>
             </div>
           </ng-template>
         </mat-tab>
       </mat-tab-group>
-      <div [class]="inDialog ? 'tabs-actions' : 'tabs-actions-embedded'">
+      <div [class]="dialogRef ? 'tabs-actions' : 'tabs-actions-embedded'">
         <button mat-button (click)="saveUser(formGroup.getRawValue())" [disabled]="!formGroup.valid || !formGroup.dirty">
           <mat-icon>save</mat-icon>
           <span>{{'general.save' | translate}}</span>
         </button>
-        <button mat-icon-button *ngIf="inDialog" (click)="close()">
+        <button mat-icon-button *ngIf="dialogRef" (click)="close()">
           <mat-icon>close</mat-icon>
         </button>
       </div>

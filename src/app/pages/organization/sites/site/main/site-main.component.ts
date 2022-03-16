@@ -17,7 +17,6 @@ import { Utils } from 'utils/Utils';
 })
 export class SiteMainComponent implements OnInit, OnChanges {
   @Input() public formGroup: FormGroup;
-  @Input() public currentSiteID!: string;
   @Input() public site!: Site;
   @Input() public readOnly: boolean;
   @Output() public publicChanged = new EventEmitter<boolean>();
@@ -114,7 +113,7 @@ export class SiteMainComponent implements OnInit, OnChanges {
       }
       // Get Site image
       if (!this.imageChanged) {
-        this.centralServerService.getSiteImage(this.currentSiteID).subscribe((siteImage) => {
+        this.centralServerService.getSiteImage(this.site.id).subscribe((siteImage) => {
           this.imageChanged = true;
           if (siteImage) {
             this.image = siteImage;

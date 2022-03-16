@@ -1554,13 +1554,15 @@
       "pricing_definition_delete_success": "Pricing definition has been deleted successfully",
       "pricing_definition_delete_error": "Error occurred while deleting a pricing definition, check the logs",
       "pricing_definition_error": "Error occurred while retrieving the pricing definition, check the logs",
-      "pricing_definition_time_range_error": "Please select different start and end time",
+      "pricing_definition_time_range_error": "Start and end time must be different",
+      "pricing_max_energy_error": "Maximum energy must be greater than the minimum energy",
+      "pricing_max_duration_error": "Maximum duration must be greater than the minimum duration",
       "connector_type": "Connector Type",
       "connector_power": "Connector Power",
       "value": "Value",
       "unit": "Unit",
       "charging_station": "Charging Station",
-      "pricing_dimensions_title": "Pricing Dimensions",
+      "pricing_dimensions_title": "Dimensions",
       "pricing_definition_title": "Pricing Definition",
       "step_size": "Step Size",
       "connector_power_unit": "kW",
@@ -1584,8 +1586,8 @@
       "restriction_min_duration": "Min duration",
       "restriction_min_duration_unit": "Minutes",
       "restriction_time_range": "Time range",
-      "restriction_start_time": "Start time included",
-      "restriction_end_time": "End time excluded",
+      "restriction_start_time": "Start time",
+      "restriction_end_time": "End time",
       "restriction_days_of_week": "Days of week"
     },
     "billing": {
@@ -2414,7 +2416,14 @@
           "state_of_charge": "Livello Batteria",
           "total_duration": "Durata Totale",
           "inactivity": "Durata inattività"
-        }
+        },
+        "pricing-detail-description": "Description",
+        "pricing-detail-entity-type": "Entity Type",
+        "pricing-detail-entity-id": "Entity ID",
+        "pricing-detail-unit-price": "Unit Price",
+        "pricing-detail-consumption": "Consumption",
+        "pricing-detail-duration": "Duration",
+        "pricing-detail-amount": "Amount"
       }
     },
     "notification": {

@@ -26,19 +26,5 @@
         "program": "${workspaceFolder}/node_modules/jest/bin/jest"
       }
     },
-    {
-      "name": "Launch tenant 'SLF@localhost' in Chrome",
-      "request": "launch",
-      "type": "pwa-chrome",
-      "url": "http://slf.localhost:45000",
-      "webRoot": "${workspaceFolder}"
-    },
-    {
-      "type": "pwa-chrome",
-      "request": "launch",
-      "name": "tenant: utbilling",
-      "url": "http://utbilling.localhost:45000",
-      "webRoot": "${workspaceFolder}"
-    }
   ]
 }

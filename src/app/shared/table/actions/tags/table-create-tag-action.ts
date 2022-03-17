@@ -3,7 +3,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 
 import { DialogParamsWithAuth, TagsAuthorizations } from '../../../../types/Authorization';
-import { ScreenSize } from '../../../../types/GlobalType';
 import { TableActionDef } from '../../../../types/Table';
 import { Tag, TagButtonAction } from '../../../../types/Tag';
 import { TableCreateAction } from '../table-create-action';
@@ -25,13 +24,6 @@ export class TableCreateTagAction extends TableCreateAction {
 
   private createTag(tagDialogComponent: ComponentType<unknown>,
     dialog: MatDialog, dialogParams?: DialogParamsWithAuth<Tag, TagsAuthorizations>, refresh?: () => Observable<void>) {
-    super.create(tagDialogComponent, dialog, dialogParams, refresh, {
-      minWidth: ScreenSize.M,
-      maxWidth: ScreenSize.M,
-      width: ScreenSize.M,
-      minHeight: ScreenSize.SM,
-      maxHeight: ScreenSize.SM,
-      height: ScreenSize.SM
-    });
+    super.create(tagDialogComponent, dialog, dialogParams, refresh);
   }
 }

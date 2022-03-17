@@ -1,16 +1,16 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import { FormGroup } from '@angular/forms';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { WindowService } from 'services/window.service';
+import { AbstractTabComponent } from 'shared/component/abstract-tab/abstract-tab.component';
 import { AuthorizationDefinitionFieldMetadata, DialogMode } from 'types/Authorization';
 
-import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
-import { UsersDialogComponent } from '../../../shared/dialogs/users/users-dialog.component';
 import { ActionResponse } from '../../../types/DataResult';
 import { RestResponse } from '../../../types/GlobalType';
 import { HTTPError } from '../../../types/HTTPError';
@@ -21,86 +21,37 @@ import { Utils } from '../../../utils/Utils';
   selector: 'app-tag',
   templateUrl: 'tag.component.html'
 })
-export class TagComponent implements OnInit {
+export class TagComponent extends AbstractTabComponent implements OnInit {
   @Input() public currentTagID!: string;
-  @Input() public metadata!: Record<string, AuthorizationDefinitionFieldMetadata>;
-  @Input() public inDialog!: boolean;
   @Input() public dialogRef!: MatDialogRef<any>;
+  @Input() public metadata!: Record<string, AuthorizationDefinitionFieldMetadata>;
   @Input() public dialogMode!: DialogMode;
 
   public formGroup!: FormGroup;
-  public id!: AbstractControl;
-  public description!: AbstractControl;
-  public user!: AbstractControl;
-  public userID!: AbstractControl;
-  public active!: AbstractControl;
-  public default!: AbstractControl;
-  public visualID!: AbstractControl;
+  public readOnly = true;
+  public tag!: Tag;
 
-  public isAdmin = false;
-
+  // eslint-disable-next-line no-useless-constructor
   public constructor(
     public spinnerService: SpinnerService,
-    private authorizationService: AuthorizationService,
     private centralServerService: CentralServerService,
     private messageService: MessageService,
     private translateService: TranslateService,
     private dialogService: DialogService,
+    protected activatedRoute: ActivatedRoute,
+    protected windowService: WindowService,
     private router: Router,
     private dialog: MatDialog) {
-    this.isAdmin = this.authorizationService.isAdmin();
+    super(activatedRoute, windowService, ['main'], false);
   }
 
   public ngOnInit() {
     // Init the form
-    this.formGroup = new FormGroup({
-      id: new FormControl('',
-        Validators.compose([
-          Validators.required,
-          Validators.minLength(1),
-          Validators.maxLength(20),
-          Validators.pattern('^[a-zA-Z0-9]*$'),
-        ])),
-      user: new FormControl('',
-        Validators.compose([
-        ])),
-      userID: new FormControl('',
-        Validators.compose([
-        ])),
-      description: new FormControl('',
-        Validators.compose([
-          Validators.required,
-        ])),
-      visualID: new FormControl('',
-        Validators.compose([
-          Validators.required,
-        ])),
-      active: new FormControl('',
-        Validators.compose([
-          Validators.required,
-        ])),
-      default: new FormControl(false,
-        Validators.compose([
-          Validators.required,
-        ])),
-    });
-    // Form
-    this.id = this.formGroup.controls['id'];
-    this.description = this.formGroup.controls['description'];
-    this.visualID = this.formGroup.controls['visualID'];
-    this.user = this.formGroup.controls['user'];
-    this.userID = this.formGroup.controls['userID'];
-    this.active = this.formGroup.controls['active'];
-    this.default = this.formGroup.controls['default'];
-    this.default.disable();
+    this.formGroup = new FormGroup({});
+    this.readOnly = this.dialogMode === DialogMode.VIEW;
     if (this.currentTagID) {
-      this.id.disable();
+      this.loadTag();
     }
-    if (this.metadata?.userID?.mandatory) {
-      this.user.setValidators(Validators.required);
-      this.userID.setValidators(Validators.required);
-    }
-    this.loadTag();
     // Handle Dialog mode
     Utils.handleDialogMode(this.dialogMode, this.formGroup);
   }
@@ -109,47 +60,13 @@ export class TagComponent implements OnInit {
     this.closeDialog();
   }
 
-  public assignUser() {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.panelClass = 'transparent-dialog-container';
-    // Set data
-    dialogConfig.data = {
-      rowMultipleSelection: false,
-      staticFilter: {
-      },
-    };
-    // Show
-    const dialogRef = this.dialog.open(UsersDialogComponent, dialogConfig);
-    // Register to the answer
-    dialogRef.afterClosed().subscribe((result) => {
-      this.user.setValue(Utils.buildUserFullName(result[0].objectRef));
-      this.userID.setValue(result[0].key);
-      this.default.enable();
-      this.formGroup.markAsDirty();
-    });
-  }
-
   public loadTag() {
     if (this.currentTagID) {
       this.spinnerService.show();
       this.centralServerService.getTag(this.currentTagID).subscribe((tag: Tag) => {
         this.spinnerService.hide();
-        // Init form
-        this.id.setValue(tag.id);
-        this.description.setValue(tag.description);
-        this.visualID.setValue(tag.visualID);
-        this.active.setValue(tag.active);
-        if (tag.user) {
-          this.userID.setValue(tag.user.id);
-          this.user.setValue(Utils.buildUserFullName(tag.user));
-          this.default.enable();
-          this.default.setValue(tag.default);
-        }
-        if (this.metadata?.userID?.mandatory) {
-          this.user.setValidators(Validators.required);
-          this.userID.setValidators(Validators.required);
-        }
-        this.id.disable();
+        this.tag = tag;
+        // Update form group
         this.formGroup.updateValueAndValidity();
         this.formGroup.markAsPristine();
         this.formGroup.markAllAsTouched();
@@ -168,13 +85,9 @@ export class TagComponent implements OnInit {
   }
 
   public closeDialog(saved: boolean = false) {
-    if (this.inDialog) {
+    if (this.dialogRef) {
       this.dialogRef.close(saved);
     }
-  }
-
-  public toUpperCase(control: AbstractControl) {
-    control.setValue(control.value.toUpperCase());
   }
 
   public close() {
@@ -188,14 +101,6 @@ export class TagComponent implements OnInit {
     } else {
       this.createTag(tag);
     }
-  }
-
-  public resetUser() {
-    this.userID.reset();
-    this.user.reset();
-    this.default.setValue(false);
-    this.default.disable();
-    this.formGroup.markAsDirty();
   }
 
   private updateTag(tag: Tag) {

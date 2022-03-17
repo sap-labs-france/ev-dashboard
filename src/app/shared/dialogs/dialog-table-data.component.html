@@ -1,4 +1,4 @@
-<div class="main-content">
+<div class="main-content vw-lg-55 vh-lg-50 vw-3xl-30">
   <div class="card card-profile card-testimonial">
     <mat-tab-group animationDuration="0ms" disableRipple="true" class="mat-tab-info mat-tabs-with-actions">
       <mat-tab>
@@ -8,20 +8,14 @@
         <div class="card-body mat-tab-dialog-body-content pt-0">
           <div class="tab-content">
               <app-table [dataSource]="dialogDataSource"></app-table>
-            <div class="card-footer mat-dialog-actions d-flex">
-              <span class="toolbar-spacer"></span>
-              <button mat-raised-button color="primary" (click)="validate()" [disabled]="dialogDataSource.selectedRows === 0">
-                {{buttonTitle | translate}}
-              </button>
-              <button mat-raised-button (click)="cancel()">
-                {{"general.cancel" | translate}}
-              </button>
-            </div>
           </div>
         </div>
       </mat-tab>
     </mat-tab-group>
     <div class="tabs-actions">
+      <button mat-button (click)="validate()" [disabled]="dialogDataSource.selectedRows === 0">
+        {{buttonTitle | translate}}
+      </button>
       <button mat-icon-button mat-dialog-close>
         <mat-icon>close</mat-icon>
       </button>

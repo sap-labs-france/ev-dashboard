@@ -129,7 +129,7 @@
             </div>
           </div>
         </div>
-        <div *ngIf="!readOnly && currentSiteAreaID && !formGroup.disabled">
+        <div *ngIf="!readOnly && siteArea && !formGroup.disabled">
           <div class="d-flex justify-content-start">
             <div *ngIf="registrationToken" class="me-2">
               <button mat-raised-button [matMenuTriggerFor]="ocppUrlMenu" color="primary">

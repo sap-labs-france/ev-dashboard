@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 
 import { Asset, AssetButtonAction } from '../../../../types/Asset';
 import { DialogParams } from '../../../../types/Authorization';
-import { ScreenSize } from '../../../../types/GlobalType';
 import { TableActionDef } from '../../../../types/Table';
 import { TableViewAction } from '../table-view-action';
 
@@ -24,13 +23,6 @@ export class TableViewAssetAction extends TableViewAction {
 
   private viewAsset(assetDialogComponent: ComponentType<unknown>, dialog: MatDialog,
     dialogParams: DialogParams<Asset>, refresh?: () => Observable<void>) {
-    super.view(assetDialogComponent, dialog, dialogParams, refresh, {
-      minWidth: ScreenSize.XL,
-      maxWidth: ScreenSize.XL,
-      width: ScreenSize.XL,
-      minHeight: ScreenSize.S,
-      maxHeight: ScreenSize.S,
-      height: ScreenSize.S
-    });
+    super.view(assetDialogComponent, dialog, dialogParams, refresh);
   }
 }

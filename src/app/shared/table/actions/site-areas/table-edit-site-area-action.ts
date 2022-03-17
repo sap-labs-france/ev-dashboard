@@ -3,7 +3,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 
 import { DialogParams } from '../../../../types/Authorization';
-import { ScreenSize } from '../../../../types/GlobalType';
 import { SiteArea, SiteAreaButtonAction } from '../../../../types/SiteArea';
 import { TableActionDef } from '../../../../types/Table';
 import { TableEditAction } from '../table-edit-action';
@@ -24,13 +23,6 @@ export class TableEditSiteAreaAction extends TableEditAction {
 
   private editSiteArea(siteAreaDialogComponent: ComponentType<unknown>, dialog: MatDialog,
     dialogParams: DialogParams<SiteArea>, refresh?: () => Observable<void>) {
-    super.edit(siteAreaDialogComponent, dialog, dialogParams, refresh, {
-      minWidth: ScreenSize.XL,
-      maxWidth: ScreenSize.XL,
-      width: ScreenSize.XL,
-      minHeight: ScreenSize.XXXL,
-      maxHeight: ScreenSize.XXXL,
-      height: ScreenSize.XXXL
-    });
+    super.edit(siteAreaDialogComponent, dialog, dialogParams, refresh);
   }
 }

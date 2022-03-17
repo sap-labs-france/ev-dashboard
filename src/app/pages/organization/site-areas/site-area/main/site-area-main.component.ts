@@ -28,13 +28,12 @@ import { Utils } from '../../../../../utils/Utils';
 })
 export class SiteAreaMainComponent implements OnInit,OnChanges {
   @Input() public formGroup: FormGroup;
-  @Input() public currentSiteAreaID!: string;
   @Input() public siteArea!: SiteArea;
   @Input() public readOnly: boolean;
   @Output() public siteChanged = new EventEmitter<Site>();
 
   public image = Constants.NO_IMAGE;
-  public siteAreaImageSet = false;
+  public imageChanged = false;
   public maxSize: number;
 
   public issuer!: AbstractControl;
@@ -141,7 +140,7 @@ export class SiteAreaMainComponent implements OnInit,OnChanges {
     if (this.readOnly) {
       this.formGroup.disable();
     }
-    if (this.currentSiteAreaID) {
+    if (this.siteArea) {
       this.loadRegistrationToken();
     }
   }
@@ -195,9 +194,9 @@ export class SiteAreaMainComponent implements OnInit,OnChanges {
       }
       this.refreshMaximumAmps();
       // Get Site Area image
-      if (!this.siteAreaImageSet) {
-        this.centralServerService.getSiteAreaImage(this.currentSiteAreaID).subscribe((siteAreaImage) => {
-          this.siteAreaImageSet = true;
+      if (!this.imageChanged) {
+        this.centralServerService.getSiteAreaImage(this.siteArea.id).subscribe((siteAreaImage) => {
+          this.imageChanged = true;
           if (siteAreaImage) {
             this.image = siteAreaImage;
           }
@@ -280,7 +279,7 @@ export class SiteAreaMainComponent implements OnInit,OnChanges {
   }
 
   public updateSiteAreaImage(siteArea: SiteArea) {
-    if (this.image !== Constants.USER_NO_PICTURE) {
+    if (this.image !== Constants.NO_IMAGE) {
       siteArea.image = this.image;
     } else {
       siteArea.image = null;
@@ -289,7 +288,7 @@ export class SiteAreaMainComponent implements OnInit,OnChanges {
 
   public clearImage() {
     this.image = Constants.NO_IMAGE;
-    this.siteAreaImageSet = false;
+    this.imageChanged = true;
     this.formGroup.markAsDirty();
   }
 
@@ -302,7 +301,7 @@ export class SiteAreaMainComponent implements OnInit,OnChanges {
         const reader = new FileReader();
         reader.onload = () => {
           this.image = reader.result as string;
-          this.siteAreaImageSet = true;
+          this.imageChanged = true;
           this.formGroup.markAsDirty();
         };
         reader.readAsDataURL(file);
@@ -339,7 +338,7 @@ export class SiteAreaMainComponent implements OnInit,OnChanges {
   }
 
   public generateRegistrationToken() {
-    if (this.currentSiteAreaID) {
+    if (this.siteArea) {
       this.dialogService.createAndShowYesNoDialog(
         this.translateService.instant('chargers.connections.registration_token_creation_title'),
         this.translateService.instant('chargers.connections.registration_token_creation_confirm'),
@@ -347,7 +346,7 @@ export class SiteAreaMainComponent implements OnInit,OnChanges {
         if (result === ButtonType.YES) {
           this.spinnerService.show();
           this.centralServerService.createRegistrationToken({
-            siteAreaID: this.currentSiteAreaID,
+            siteAreaID: this.siteArea.id,
             description: this.translateService.instant(
               'chargers.connections.registration_token_site_area_name', { siteAreaName: this.siteArea.name }),
           }).subscribe((token) => {
@@ -375,9 +374,9 @@ export class SiteAreaMainComponent implements OnInit,OnChanges {
   }
 
   private loadRegistrationToken() {
-    if (this.currentSiteAreaID) {
+    if (this.siteArea) {
       this.centralServerService.getRegistrationTokens(
-        { SiteAreaID: this.currentSiteAreaID }).subscribe(((dataResult) => {
+        { SiteAreaID: this.siteArea.id }).subscribe(((dataResult) => {
         if (dataResult && dataResult.result) {
           for (const registrationToken of dataResult.result) {
             if (this.isRegistrationTokenValid(registrationToken)) {

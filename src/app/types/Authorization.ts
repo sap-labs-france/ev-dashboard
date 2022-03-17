@@ -213,9 +213,14 @@ export interface TagAuthorizationActions extends AuthorizationActions {
 // USERS
 export interface UsersAuthorizations extends AuthorizationAttributes, UsersAuthorizationActions {
 }
+
 export interface UsersAuthorizationActions extends DataResultAuthorizationActions {
   canImport?: boolean;
   canExport?: boolean;
+}
+
+export interface UserAuthorizationActions extends AuthorizationActions {
+  canAssignSites?: boolean;
 }
 // ASSETS
 export interface AssetsAuthorizations extends AuthorizationAttributes, AssetsAuthorizationActions {

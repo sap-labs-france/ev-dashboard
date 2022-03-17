@@ -11,10 +11,9 @@ import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { ErrorCodeDetailsComponent } from '../../../shared/component/error-code-details/error-code-details.component';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
-import { TableMoreAction } from '../../../shared/table/actions/table-more-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { TableAssignSitesToUserAction, TableAssignSitesToUserActionDef } from '../../../shared/table/actions/users/table-assign-sites-to-user-action';
-import { TableDeleteUserAction, TableDeleteUserActionDef } from '../../../shared/table/actions/users/table-delete-user-action';
+import { TableDeleteUserActionDef } from '../../../shared/table/actions/users/table-delete-user-action';
 import { TableEditUserAction, TableEditUserActionDef } from '../../../shared/table/actions/users/table-edit-user-action';
 import { TableForceSyncBillingUserAction } from '../../../shared/table/actions/users/table-force-sync-billing-user-action';
 import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-table-filter';
@@ -35,7 +34,6 @@ import { UserDialogComponent } from '../user/user-dialog.component';
 export class UsersInErrorTableDataSource extends TableDataSource<User> {
   private editAction = new TableEditUserAction().getActionDef();
   private assignSitesToUser = new TableAssignSitesToUserAction().getActionDef();
-  private deleteAction = new TableDeleteUserAction().getActionDef();
   private forceSyncBillingUserAction = new TableForceSyncBillingUserAction().getActionDef();
 
   public constructor(
@@ -143,20 +141,13 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
   }
 
   public buildTableDynamicRowActions(user: UserInError): TableActionDef[] {
-    const rowActions: TableActionDef[] = [
-      this.editAction,
-      this.assignSitesToUser,
-    ];
-    const moreActions = new TableMoreAction([]);
-    if (!Utils.isEmptyArray(moreActions.getActionsInMoreActions())) {
-      rowActions.push(moreActions.getActionDef());
+    const rowActions: TableActionDef[] = [];
+    if (user.canUpdate) {
+      rowActions.push(this.editAction);
     }
-    if (this.componentService.isActive(TenantComponents.BILLING)) {
-      if (user.errorCode === UserInErrorType.FAILED_BILLING_SYNCHRO) {
-        moreActions.addActionInMoreActions(this.forceSyncBillingUserAction);
-      }
+    if (user.canAssignSites) {
+      rowActions.push(this.assignSitesToUser);
     }
-    moreActions.addActionInMoreActions(this.deleteAction);
     return rowActions;
   }
 

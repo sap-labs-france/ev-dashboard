@@ -240,7 +240,7 @@ export class SiteAreaMainComponent implements OnInit,OnChanges {
       validateButtonTitle: 'general.select',
       sitesAdminOnly: true,
       rowMultipleSelection: false,
-      currentSiteAreaID: this.currentSiteAreaID,
+      currentSiteAreaID: this.siteArea.id,
       staticFilter: {
         Issuer: true
       }

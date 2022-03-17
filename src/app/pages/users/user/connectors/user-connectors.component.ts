@@ -1,14 +1,15 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { CentralServerService } from 'services/central-server.service';
 import { IntegrationConnection } from 'types/Connection';
+import { User } from 'types/User';
 
 @Component({
   selector: 'app-user-connectors',
   templateUrl: './user-connectors.component.html',
 })
 // @Injectable()
-export class UserConnectorsComponent implements OnInit {
-  @Input() public currentUserID!: string;
+export class UserConnectorsComponent implements OnChanges {
+  @Input() public user!: User;
 
   public integrationConnections!: IntegrationConnection[];
 
@@ -17,7 +18,7 @@ export class UserConnectorsComponent implements OnInit {
     private centralServerService: CentralServerService) {
   }
 
-  public ngOnInit(): void {
+  public ngOnChanges(): void {
     this.loadConnections();
   }
 
@@ -26,8 +27,8 @@ export class UserConnectorsComponent implements OnInit {
   }
 
   private loadConnections() {
-    if (this.currentUserID) {
-      this.centralServerService.getIntegrationConnections(this.currentUserID).subscribe((connections) => {
+    if (this.user) {
+      this.centralServerService.getIntegrationConnections(this.user.id).subscribe((connections) => {
         this.integrationConnections = connections.result;
       });
     }

@@ -32,7 +32,6 @@ import { UserDialogComponent } from './user-dialog.component';
 export class UserComponent extends AbstractTabComponent implements OnInit {
   @Input() public currentUserID!: string;
   @Input() public metadata!: Record<string, AuthorizationDefinitionFieldMetadata>;
-  @Input() public inDialog!: boolean;
   @Input() public dialogRef!: MatDialogRef<UserDialogComponent>;
   @Input() public dialogMode!: DialogMode;
 
@@ -83,7 +82,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   }
 
   public updateRoute(event: number) {
-    if (!this.inDialog) {
+    if (!this.dialogRef) {
       super.updateRoute(event);
     }
   }
@@ -97,7 +96,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     // Load
     this.loadUser();
     // Call parent Tab manager
-    if (!this.inDialog) {
+    if (!this.dialogRef) {
       super.enableRoutingSynchronization();
     }
   }
@@ -143,7 +142,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   }
 
   public closeDialog(saved: boolean = false) {
-    if (this.inDialog) {
+    if (this.dialogRef) {
       this.windowService.clearUrlParameter();
       this.dialogRef.close(saved);
     }

@@ -22,6 +22,18 @@ import { ButtonType, FilterType, TableDataSourceMode, TableFilterDef } from '../
 import { Constants } from './Constants';
 
 export class Utils {
+  public static shrinkObjectProperties(properties: any): any  {
+    for (const propertyName in properties) {
+      if (!properties[propertyName]) {
+        delete properties[propertyName];
+      }
+    }
+    if (Utils.isEmptyObject(properties)) {
+      return null;
+    }
+    return properties;
+  }
+
   public static buildDependentFilters(filterDef: TableFilterDef) {
     if (!Utils.isEmptyArray(filterDef.dependentFilters)) {
       filterDef.dialogComponentData = {

@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
+import { User } from 'types/User';
 
 import { PaymentMethodsTableDataSource } from './payment-methods-table-data-source';
 
@@ -7,8 +8,8 @@ import { PaymentMethodsTableDataSource } from './payment-methods-table-data-sour
   template: '<app-table [dataSource]="paymentMethodsTableDataSource"></app-table>',
   providers: [PaymentMethodsTableDataSource],
 })
-export class PaymentMethodsComponent implements OnInit {
-  @Input() public currentUserID!: string;
+export class PaymentMethodsComponent implements OnChanges {
+  @Input() public user!: User;
 
   // eslint-disable-next-line no-useless-constructor
   public constructor(
@@ -16,7 +17,7 @@ export class PaymentMethodsComponent implements OnInit {
   ) {
   }
 
-  public ngOnInit() {
-    this.paymentMethodsTableDataSource.setCurrentUserID(this.currentUserID);
+  public ngOnChanges() {
+    this.paymentMethodsTableDataSource.setCurrentUserID(this.user?.id);
   }
 }

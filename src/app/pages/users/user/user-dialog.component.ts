@@ -7,7 +7,7 @@ import { Utils } from '../../../utils/Utils';
 import { UserComponent } from './user.component';
 
 @Component({
-  template: '<app-user #appRef [currentUserID]="currentUserID" [metadata]="metadata" [dialogMode]="dialogMode" [inDialog]="true" [dialogRef]="dialogRef"></app-user>',
+  template: '<app-user #appRef [currentUserID]="currentUserID" [metadata]="metadata" [dialogMode]="dialogMode" [dialogRef]="dialogRef"></app-user>',
 })
 export class UserDialogComponent implements AfterViewInit {
   @ViewChild('appRef') public appRef!: UserComponent;

@@ -179,7 +179,7 @@
       "vehicles": "Véhicules",
       "logs": "Logs",
       "tenants": "Organisations",
-      "pricing": "Prix",
+      "pricing": "Tarification",
       "components": "Composants",
       "settings": "Configuration",
       "integration_settings": "Paramètres Intégrations",
@@ -2416,7 +2416,14 @@
           "state_of_charge": "Niveau de batterie",
           "total_duration": "Durée totale",
           "inactivity": "Temps inactif"
-        }
+        },
+        "pricing-detail-description": "Description",
+        "pricing-detail-entity-type": "Entité",
+        "pricing-detail-entity-id": "ID de l'entité",
+        "pricing-detail-unit-price": "Prix unitaire",
+        "pricing-detail-consumption": "Consommation",
+        "pricing-detail-duration": "Durée",
+        "pricing-detail-amount": "Montant"
       }
     },
     "notification": {

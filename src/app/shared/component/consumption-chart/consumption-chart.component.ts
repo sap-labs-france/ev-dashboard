@@ -198,16 +198,16 @@ export class ConsumptionChartComponent implements AfterViewInit {
     if (this.canDisplayGraph()) {
       this.createGraphData();
       this.refreshDataSets();
-      this.options = this.createOptions();
+      const options = this.createOptions();
       if (!this.graphCreated) {
         this.graphCreated = true;
         this.chart = new Chart(this.chartElement.nativeElement.getContext('2d'), {
           type: 'bar',
           data: this.data,
-          options: this.options,
+          options,
         });
       } else {
-        this.chart.options = this.options;
+        this.chart.options = options;
       }
       this.chart.update();
     }
@@ -530,6 +530,105 @@ export class ConsumptionChartComponent implements AfterViewInit {
     this.firstLabel = labels[0];
   }
 
+  private buildScales(): any {
+    return {
+      [ConsumptionChartAxis.X]: {
+        type: 'time',
+        time: {
+          tooltipFormat: moment.localeData().longDateFormat('LT'),
+          unit: 'minute',
+          displayFormats: {
+            second: moment.localeData().longDateFormat('LTS'),
+            minute: moment.localeData().longDateFormat('LT'),
+          },
+        },
+        grid: {
+          display: true,
+          color: 'rgba(0,0,0,0.2)',
+        },
+        ticks: {
+          autoSkip: true,
+          color: this.defaultColor,
+        },
+      },
+      [ConsumptionChartAxis.POWER]:{
+        type: 'linear',
+        position: 'left',
+        display: 'auto',
+        ticks: {
+          callback: (value: number) => parseInt(this.decimalPipe.transform(value, '1.0-0'), 10) + ((value < 1000) ? 'W' : 'kW'),
+          color: this.defaultColor,
+        },
+        grid: {
+          display: true,
+          drawOnChartArea: this.gridDisplay[ConsumptionChartAxis.POWER],
+          color: 'rgba(0,0,0,0.2)',
+        },
+      },
+      [ConsumptionChartAxis.AMPERAGE]: {
+        type: 'linear',
+        position: 'left',
+        display: 'auto',
+        grid: {
+          display: true,
+          drawOnChartArea: this.gridDisplay[ConsumptionChartAxis.AMPERAGE],
+          color: 'rgba(0,0,0,0.2)',
+        },
+        ticks: {
+          callback: (value: number) => parseInt(this.decimalPipe.transform(value, '1.0-0'), 10) + 'A',
+          color: this.defaultColor,
+        },
+      },
+      [ConsumptionChartAxis.VOLTAGE]: {
+        type: 'linear',
+        position: 'left',
+        display: 'auto',
+        grid: {
+          display: true,
+          drawOnChartArea: this.gridDisplay[ConsumptionChartAxis.VOLTAGE],
+          color: 'rgba(0,0,0,0.2)',
+        },
+        ticks: {
+          callback: (value: number) => parseInt(this.decimalPipe.transform(value, '1.0-0'), 10) + 'V',
+          color: this.defaultColor,
+        },
+      },
+      [ConsumptionChartAxis.PERCENTAGE]: {
+        type: 'linear',
+        position: 'right',
+        display: 'auto',
+        grid: {
+          display: true,
+          drawOnChartArea: this.gridDisplay[ConsumptionChartAxis.PERCENTAGE],
+          color: 'rgba(0,0,0,0.2)',
+        },
+        ticks: {
+          callback: (value) => `${value}%`,
+          color: this.defaultColor,
+        },
+      },
+      [ConsumptionChartAxis.AMOUNT]: {
+        type: 'linear',
+        position: 'right',
+        display: 'auto',
+        beginAtZero: true,
+        min: 0,
+        grid: {
+          display: true,
+          drawOnChartArea: this.gridDisplay[ConsumptionChartAxis.AMOUNT],
+          color: 'rgba(0,0,0,0.2)',
+        },
+        ticks: {
+          callback: (value: number) => {
+            const result = this.appCurrencyPipe.transform(value, this.transaction.priceUnit);
+            return result ? result : '';
+          },
+          color: this.defaultColor,
+        },
+      }
+    };
+  }
+
   private createOptions(): ChartOptions {
     const options: ChartOptions = {
       animation: {
@@ -666,102 +765,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
         mode: 'index',
         intersect: false,
       },
-      scales: {
-        [ConsumptionChartAxis.X]: {
-          type: 'time',
-          time: {
-            tooltipFormat: moment.localeData().longDateFormat('LT'),
-            unit: 'minute',
-            displayFormats: {
-              second: moment.localeData().longDateFormat('LTS'),
-              minute: moment.localeData().longDateFormat('LT'),
-            },
-          },
-          grid: {
-            display: true,
-            color: 'rgba(0,0,0,0.2)',
-          },
-          ticks: {
-            autoSkip: true,
-            color: this.defaultColor,
-          },
-        },
-        [ConsumptionChartAxis.POWER]:{
-          type: 'linear',
-          position: 'left',
-          display: 'auto',
-          ticks: {
-            callback: (value: number) => parseInt(this.decimalPipe.transform(value, '1.0-0'), 10) + ((value < 1000) ? 'W' : 'kW'),
-            color: this.defaultColor,
-          },
-          grid: {
-            display: true,
-            drawOnChartArea: this.gridDisplay[ConsumptionChartAxis.POWER],
-            color: 'rgba(0,0,0,0.2)',
-          },
-        },
-        [ConsumptionChartAxis.AMPERAGE]: {
-          type: 'linear',
-          position: 'left',
-          display: 'auto',
-          grid: {
-            display: true,
-            drawOnChartArea: this.gridDisplay[ConsumptionChartAxis.AMPERAGE],
-            color: 'rgba(0,0,0,0.2)',
-          },
-          ticks: {
-            callback: (value: number) => parseInt(this.decimalPipe.transform(value, '1.0-0'), 10) + 'A',
-            color: this.defaultColor,
-          },
-        },
-        [ConsumptionChartAxis.VOLTAGE]: {
-          type: 'linear',
-          position: 'left',
-          display: 'auto',
-          grid: {
-            display: true,
-            drawOnChartArea: this.gridDisplay[ConsumptionChartAxis.VOLTAGE],
-            color: 'rgba(0,0,0,0.2)',
-          },
-          ticks: {
-            callback: (value: number) => parseInt(this.decimalPipe.transform(value, '1.0-0'), 10) + 'V',
-            color: this.defaultColor,
-          },
-        },
-        [ConsumptionChartAxis.PERCENTAGE]: {
-          type: 'linear',
-          position: 'right',
-          display: 'auto',
-          grid: {
-            display: true,
-            drawOnChartArea: this.gridDisplay[ConsumptionChartAxis.PERCENTAGE],
-            color: 'rgba(0,0,0,0.2)',
-          },
-          ticks: {
-            callback: (value) => `${value}%`,
-            color: this.defaultColor,
-          },
-        },
-        [ConsumptionChartAxis.AMOUNT]: {
-          type: 'linear',
-          position: 'right',
-          display: 'auto',
-          beginAtZero: true,
-          min: 0,
-          grid: {
-            display: true,
-            drawOnChartArea: this.gridDisplay[ConsumptionChartAxis.AMOUNT],
-            color: 'rgba(0,0,0,0.2)',
-          },
-          ticks: {
-            callback: (value: number) => {
-              const result = this.appCurrencyPipe.transform(value, this.transaction.priceUnit);
-              return result ? result : '';
-            },
-            color: this.defaultColor,
-          },
-        }
-      },
+      scales: this.buildScales(),
     };
     return options;
   }

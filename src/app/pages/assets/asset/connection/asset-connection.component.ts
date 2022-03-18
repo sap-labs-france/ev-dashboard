@@ -64,6 +64,8 @@ export class AssetConnectionComponent implements OnInit, OnChanges {
     if (this.readOnly) {
       this.formGroup.disable();
     }
+    // Load Connection
+    this.loadAssetConnection();
   }
 
   public ngOnChanges() {
@@ -86,8 +88,6 @@ export class AssetConnectionComponent implements OnInit, OnChanges {
       this.formGroup.updateValueAndValidity();
       this.formGroup.markAsPristine();
       this.formGroup.markAllAsTouched();
-      // Load Connection
-      this.loadAssetConnection();
     }
   }
 

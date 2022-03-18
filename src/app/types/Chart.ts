@@ -32,18 +32,38 @@ export enum ConsumptionChartDatasetOrder {
   PLAN_AMPS = 30,
 };
 
-export enum ChartTypeValues {
+export enum ChartTypes {
   PIE = 'pie',
   BAR = 'bar',
   STACKED_BAR = 'stackedBar',
   LINE = 'line',
 };
 
-export enum ConsumptionChartAxis {
+export enum ChartAxisNames {
   X = 'x',
   AMPERAGE = 'Amperage',
   POWER = 'Power',
   PERCENTAGE = 'Percentage',
   VOLTAGE = 'Voltage',
   AMOUNT = 'Amount',
+}
+
+export interface ChartAxes {
+  order: number,
+  key: ChartAxisNames,
+  value: any
+}
+
+export interface ChartDatum {
+  key: any,
+  axes: ChartAxes,
+  visibile: boolean,
+  color: string,
+}
+
+export interface Chart {
+  type: ChartTypes,
+  data: any,
+  datasets: ChartDatum[],
+  axes: ChartAxes[]
 }

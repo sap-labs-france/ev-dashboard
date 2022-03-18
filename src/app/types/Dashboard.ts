@@ -1,4 +1,4 @@
-import { ChartTypeValues } from './Chart';
+import { ChartTypes } from './Chart';
 import { AssetInError, ChargingStationInError } from './InError';
 
 export enum CardTypes {
@@ -22,5 +22,5 @@ export interface NumberCard extends BaseCard{
 };
 
 export interface ChartCard extends BaseCard{
-  chartType: ChartTypeValues,
+  chartType: ChartTypes,
 }

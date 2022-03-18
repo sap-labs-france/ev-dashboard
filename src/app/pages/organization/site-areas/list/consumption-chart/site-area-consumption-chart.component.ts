@@ -4,7 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Chart, ChartData, ChartDataset, ChartOptions, Color, TooltipItem } from 'chart.js';
 import * as moment from 'moment';
 import { AppUnitPipe } from 'shared/formatters/app-unit.pipe';
-import { ConsumptionChartAxis, ConsumptionChartDatasetOrder } from 'types/Chart';
+import { ChartAxisNames, ConsumptionChartDatasetOrder } from 'types/Chart';
 
 import { AuthorizationService } from '../../../../../services/authorization.service';
 import { CentralServerService } from '../../../../../services/central-server.service';
@@ -57,8 +57,8 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
     ConsumptionChartDatasetOrder.NET_CONSUMPTION_WATTS
   ];
   private gridDisplay = {
-    [ConsumptionChartAxis.POWER]: true,
-    [ConsumptionChartAxis.AMPERAGE]: true,
+    [ChartAxisNames.POWER]: true,
+    [ChartAxisNames.AMPERAGE]: true,
   };
 
   public constructor(
@@ -177,7 +177,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
       hidden: this.visibleDatasets.indexOf(ConsumptionChartDatasetOrder.ASSET_CONSUMPTION_AMPS) === -1
         && this.visibleDatasets.indexOf(ConsumptionChartDatasetOrder.ASSET_CONSUMPTION_WATTS) === -1,
       data: [],
-      yAxisID: this.selectedUnit === ConsumptionUnit.AMPERE ? ConsumptionChartAxis.AMPERAGE : ConsumptionChartAxis.POWER,
+      yAxisID: this.selectedUnit === ConsumptionUnit.AMPERE ? ChartAxisNames.AMPERAGE : ChartAxisNames.POWER,
       lineTension: this.lineTension,
       ...Utils.formatLineColor(this.assetConsumptionsInstantPowerColor),
       label: this.translateService.instant((this.selectedUnit === ConsumptionUnit.AMPERE) ?
@@ -193,7 +193,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
       hidden: this.visibleDatasets.indexOf(ConsumptionChartDatasetOrder.CHARGING_STATION_CONSUMPTION_WATTS) === -1
         && this.visibleDatasets.indexOf(ConsumptionChartDatasetOrder.CHARGING_STATION_CONSUMPTION_AMPS) === -1,
       data: [],
-      yAxisID: this.selectedUnit === ConsumptionUnit.AMPERE ? ConsumptionChartAxis.AMPERAGE : ConsumptionChartAxis.POWER,
+      yAxisID: this.selectedUnit === ConsumptionUnit.AMPERE ? ChartAxisNames.AMPERAGE : ChartAxisNames.POWER,
       lineTension: this.lineTension,
       ...Utils.formatLineColor(this.chargingStationsConsumptionsInstantPowerColor),
       label: this.translateService.instant((this.selectedUnit === ConsumptionUnit.AMPERE) ?
@@ -209,7 +209,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
       hidden: this.visibleDatasets.indexOf(ConsumptionChartDatasetOrder.ASSET_PRODUCTION_WATTS) === -1
         && this.visibleDatasets.indexOf(ConsumptionChartDatasetOrder.ASSET_PRODUCTION_AMPS) === -1,
       data: [],
-      yAxisID: this.selectedUnit === ConsumptionUnit.AMPERE ? ConsumptionChartAxis.AMPERAGE : ConsumptionChartAxis.POWER,
+      yAxisID: this.selectedUnit === ConsumptionUnit.AMPERE ? ChartAxisNames.AMPERAGE : ChartAxisNames.POWER,
       lineTension: this.lineTension,
       ...Utils.formatLineColor(this.assetProductionsInstantPowerColor),
       label: this.translateService.instant((this.selectedUnit === ConsumptionUnit.AMPERE) ?
@@ -225,7 +225,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
       hidden: this.visibleDatasets.indexOf(ConsumptionChartDatasetOrder.NET_CONSUMPTION_AMPS) === -1
         && this.visibleDatasets.indexOf(ConsumptionChartDatasetOrder.NET_CONSUMPTION_WATTS) === -1,
       data: [],
-      yAxisID: this.selectedUnit === ConsumptionUnit.AMPERE ? ConsumptionChartAxis.AMPERAGE : ConsumptionChartAxis.POWER,
+      yAxisID: this.selectedUnit === ConsumptionUnit.AMPERE ? ChartAxisNames.AMPERAGE : ChartAxisNames.POWER,
       lineTension: this.lineTension,
       ...Utils.formatLineColor(this.netInstantPowerColor),
       label: this.translateService.instant((this.selectedUnit === ConsumptionUnit.AMPERE) ?
@@ -241,7 +241,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
       hidden: this.visibleDatasets.indexOf(ConsumptionChartDatasetOrder.LIMIT_AMPS) === -1
         && this.visibleDatasets.indexOf(ConsumptionChartDatasetOrder.LIMIT_WATTS) === -1,
       data: [],
-      yAxisID: this.selectedUnit === ConsumptionUnit.AMPERE ? ConsumptionChartAxis.AMPERAGE : ConsumptionChartAxis.POWER,
+      yAxisID: this.selectedUnit === ConsumptionUnit.AMPERE ? ChartAxisNames.AMPERAGE : ChartAxisNames.POWER,
       lineTension: this.lineTension,
       ...Utils.formatLineColor(this.limitColor),
       label: this.translateService.instant((this.selectedUnit === ConsumptionUnit.AMPERE) ?
@@ -416,7 +416,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
         intersect: false,
       },
       scales: {
-        [ConsumptionChartAxis.X]:{
+        [ChartAxisNames.X]:{
           type: 'time',
           time: {
             tooltipFormat: moment.localeData().longDateFormat('LT'),
@@ -435,7 +435,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
             color: this.defaultColor,
           },
         },
-        [ConsumptionChartAxis.POWER]:{
+        [ChartAxisNames.POWER]:{
           type: 'linear',
           position: 'left',
           display: 'auto',
@@ -445,7 +445,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
           },
           grid: {
             display: true,
-            drawOnChartArea: this.gridDisplay[ConsumptionChartAxis.POWER],
+            drawOnChartArea: this.gridDisplay[ChartAxisNames.POWER],
             color: 'rgba(0,0,0,0.2)',
           },
           title: {
@@ -453,13 +453,13 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
             text: this.translateService.instant('transactions.consumption') + ' (W)',
           }
         },
-        [ConsumptionChartAxis.AMPERAGE]: {
+        [ChartAxisNames.AMPERAGE]: {
           type: 'linear',
           position: 'left',
           display: 'auto',
           grid: {
             display: true,
-            drawOnChartArea: this.gridDisplay[ConsumptionChartAxis.AMPERAGE],
+            drawOnChartArea: this.gridDisplay[ChartAxisNames.AMPERAGE],
             color: 'rgba(0,0,0,0.2)',
           },
           ticks: {

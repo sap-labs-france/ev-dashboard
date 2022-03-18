@@ -1,9 +1,10 @@
 /* eslint-disable no-underscore-dangle */
+
 import { ElementRef } from '@angular/core';
 import { Chart, ChartData, ChartDataset, ChartOptions, ChartType } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Font } from 'chartjs-plugin-datalabels/types/options';
-import { ChartTypeValues } from 'types/Chart';
+import { ChartTypes } from 'types/Chart';
 import { Utils } from 'utils/Utils';
 
 export class ChartConstants {
@@ -37,7 +38,7 @@ export class SimpleChart {
 
   public constructor(
     language: string,
-    chartType: ChartTypeValues,
+    chartType: ChartTypes,
     mainLabel: string,
     labelXAxis?: string,
     labelYAxis?: string,
@@ -83,13 +84,13 @@ export class SimpleChart {
     this.language = language;
 
     switch (chartType) {
-      case ChartTypeValues.PIE:
+      case ChartTypes.PIE:
         this.createPieChartOptions(mainLabel, toolTipUnit, withLegend, roundedChartLabels);
         break;
-      case ChartTypeValues.BAR:
+      case ChartTypes.BAR:
         this.createBarChartOptions(false, mainLabel, labelXAxis, labelYAxis, toolTipUnit, withLegend, roundedChartLabels);
         break;
-      case ChartTypeValues.STACKED_BAR:
+      case ChartTypes.STACKED_BAR:
         this.createBarChartOptions(true, mainLabel, labelXAxis, labelYAxis, toolTipUnit, withLegend, roundedChartLabels);
     }
   }
@@ -106,7 +107,7 @@ export class SimpleChart {
 
   public updateChart(chartData: ChartData, mainLabel?: string, toolTipUnit?: string, labelYAxis?: string): void {
     let anyChart: any;
-    if (this.chartType === ChartTypeValues.PIE) {
+    if (this.chartType === ChartTypes.PIE) {
       if (toolTipUnit) {
         this.createPieChartOptions(mainLabel, toolTipUnit, this.withLegend, this.roundedChartLabels);
       }
@@ -303,7 +304,7 @@ export class SimpleChart {
   }
 
   private createPieChartOptions(mainLabel: string, toolTipUnit: string, withLegend: boolean, roundedChartLabels: boolean): void {
-    this.chartType = ChartTypeValues.PIE;
+    this.chartType = ChartTypes.PIE;
     this.toolTipUnit = toolTipUnit;
     this.withLegend = withLegend;
     this.roundedChartLabels = roundedChartLabels;
@@ -382,7 +383,7 @@ export class SimpleChart {
       this.chartOptions.plugins.legend.labels.color = this.fontColor;
       this.chartOptions.plugins.legend.labels.font.family = this.fontFamily;
     }
-    if (this.chartType === ChartTypeValues.PIE) {
+    if (this.chartType === ChartTypes.PIE) {
       minDivisor = this.constMinDivisorPie;
     } else {
       minDivisor = this.constMinDivisorBar;

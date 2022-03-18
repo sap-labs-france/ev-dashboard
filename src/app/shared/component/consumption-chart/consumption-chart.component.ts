@@ -49,7 +49,6 @@ export class ConsumptionChartComponent implements AfterViewInit {
     labels: [],
     datasets: [],
   };
-  private options!: ChartOptions;
   private chart!: Chart;
   private consumptionColor!: string;
   private instantPowerAmpsColor!: string;
@@ -662,7 +661,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
             dataset.hidden = !status;
             this.data.datasets[legendItem.datasetIndex].hidden = !status;
             this.updateVisibleGridLines();
-            legend.chart.options = this.createOptions();
+            legend.chart.options.scales = this.buildScales();
             legend.chart.update();
           }
         },

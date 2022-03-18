@@ -26,7 +26,7 @@ export class TableViewAction implements TableAction {
     dialogParams: DialogParams<TableData>, refresh?: () => Observable<void>) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
-    dialogConfig.maxWidth = '85vw';
+    dialogConfig.maxWidth = '95vw';
     // CSS
     dialogConfig.panelClass = 'transparent-dialog-container';
     dialogConfig.data = {

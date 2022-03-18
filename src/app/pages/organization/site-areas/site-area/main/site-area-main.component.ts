@@ -240,7 +240,6 @@ export class SiteAreaMainComponent implements OnInit,OnChanges {
       validateButtonTitle: 'general.select',
       sitesAdminOnly: true,
       rowMultipleSelection: false,
-      currentSiteAreaID: this.siteArea.id,
       staticFilter: {
         Issuer: true
       }
@@ -330,8 +329,10 @@ export class SiteAreaMainComponent implements OnInit,OnChanges {
   }
 
   public clearParent() {
-    this.siteArea.parentSiteAreaID = null;
-    this.siteArea.parentSiteArea = null;
+    if (this.siteArea) {
+      this.siteArea.parentSiteAreaID = null;
+      this.siteArea.parentSiteArea = null;
+    }
     this.parentSiteAreaID.setValue(null);
     this.parentSiteArea.setValue(null);
     this.formGroup.markAsDirty();

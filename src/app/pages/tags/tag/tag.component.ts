@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { WindowService } from 'services/window.service';
@@ -40,8 +40,7 @@ export class TagComponent extends AbstractTabComponent implements OnInit {
     private dialogService: DialogService,
     protected activatedRoute: ActivatedRoute,
     protected windowService: WindowService,
-    private router: Router,
-    private dialog: MatDialog) {
+    private router: Router) {
     super(activatedRoute, windowService, ['main'], false);
   }
 

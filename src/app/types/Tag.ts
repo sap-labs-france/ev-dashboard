@@ -14,6 +14,10 @@ export interface Tag extends TableData, TagAuthorizationActions {
   lastChangedOn?: Date;
   user?: User;
   default?: boolean;
+  limit: TagLimit;
+}
+
+export interface TagLimit {
   limitKwhEnabled?: boolean;
   limitKwh?: number;
   limitKwhConsumed?: number;

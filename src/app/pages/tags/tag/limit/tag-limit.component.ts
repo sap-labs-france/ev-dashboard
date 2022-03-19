@@ -1,6 +1,5 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { AuthorizationDefinitionFieldMetadata } from 'types/Authorization';
 import { Constants } from 'utils/Constants';
@@ -18,9 +17,10 @@ export class TagLimitComponent implements OnInit, OnChanges {
   @Input() public readOnly: boolean;
   @Input() public metadata!: Record<string, AuthorizationDefinitionFieldMetadata>;
 
+  public limitFormGroup!: FormGroup;
   public limitKwhEnabled!: AbstractControl;
   public limitKwh!: AbstractControl;
-  public limitConsumedKwh!: AbstractControl;
+  public limitKwhConsumed!: AbstractControl;
 
   // eslint-disable-next-line no-useless-constructor
   public constructor(
@@ -29,19 +29,21 @@ export class TagLimitComponent implements OnInit, OnChanges {
 
   public ngOnInit() {
     // Init the form
-    this.formGroup.addControl('limitKwhEnabled', new FormControl(false));
-    this.formGroup.addControl('limitKwh', new FormControl({value: null, disabled: true},
+    this.limitFormGroup = new FormGroup({});
+    this.formGroup.addControl('limit', this.limitFormGroup);
+    this.limitFormGroup.addControl('limitKwhEnabled', new FormControl(false));
+    this.limitFormGroup.addControl('limitKwh', new FormControl({value: null, disabled: true},
       Validators.compose([
         Validators.required,
         Validators.pattern(Constants.REGEX_VALIDATION_FLOAT),
       ])));
-    this.formGroup.addControl('limitConsumedKwh', new FormControl({value: 0, disabled: true}));
+    this.limitFormGroup.addControl('limitKwhConsumed', new FormControl({value: 0, disabled: true}));
     // Form
-    this.limitKwhEnabled = this.formGroup.controls['limitKwhEnabled'];
-    this.limitKwh = this.formGroup.controls['limitKwh'];
-    this.limitConsumedKwh = this.formGroup.controls['limitConsumedKwh'];
+    this.limitKwhEnabled = this.limitFormGroup.controls['limitKwhEnabled'];
+    this.limitKwh = this.limitFormGroup.controls['limitKwh'];
+    this.limitKwhConsumed = this.limitFormGroup.controls['limitKwhConsumed'];
     if (this.readOnly) {
-      this.formGroup.disable();
+      this.limitFormGroup.disable();
     }
   }
 
@@ -51,8 +53,8 @@ export class TagLimitComponent implements OnInit, OnChanges {
     } else {
       this.limitKwh.disable();
     }
-    this.formGroup.markAsDirty();
-    this.formGroup.updateValueAndValidity();
+    this.limitFormGroup.markAsDirty();
+    this.limitFormGroup.updateValueAndValidity();
   }
 
   public ngOnChanges() {
@@ -61,12 +63,17 @@ export class TagLimitComponent implements OnInit, OnChanges {
 
   public loadTag() {
     if (this.tag) {
-      this.limitKwhEnabled.setValue(this.tag.limitKwhEnabled);
-      this.limitKwh.setValue(this.tag.limitKwh);
+      this.limitKwhEnabled.setValue(this.tag.limit?.limitKwhEnabled);
+      this.limitKwh.setValue(this.tag.limit?.limitKwh);
+      if (this.tag.limit?.limitKwhEnabled) {
+        this.limitKwh.enable();
+      } else {
+        this.limitKwh.disable();
+      }
     }
   }
 
   public resetLimitKwh() {
-    this.limitConsumedKwh.setValue(0);
+    this.limitKwhConsumed.setValue(0);
   }
 }

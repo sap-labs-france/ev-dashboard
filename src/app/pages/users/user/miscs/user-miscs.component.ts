@@ -25,7 +25,6 @@ export class UserMiscsComponent implements OnInit, OnChanges {
     // Form
     this.iNumber = this.formGroup.controls['iNumber'];
     this.costCenter = this.formGroup.controls['costCenter'];
-    this.formGroup.updateValueAndValidity();
   }
 
   public ngOnChanges() {

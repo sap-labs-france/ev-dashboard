@@ -12,7 +12,8 @@
       </mat-tab>
     </mat-tab-group>
     <div class="tabs-actions">
-      <button mat-button (click)="saveTag(formGroup.getRawValue())" [disabled]="!formGroup.valid || !formGroup.dirty">
+      <button mat-button *ngIf="!readOnly" (click)="saveTag(formGroup.getRawValue())"
+          [disabled]="!formGroup.valid || !formGroup.dirty">
         <mat-icon>save</mat-icon>
         <span>{{'general.save' | translate}}</span>
       </button>

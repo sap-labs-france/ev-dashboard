@@ -102,6 +102,7 @@ export class TagAssignComponent implements OnInit {
         this.description.setValue(tag.description);
         this.visualID.setValue(tag.visualID);
         this.default.setValue(tag.default);
+        // Update form group
         this.formGroup.updateValueAndValidity();
         this.formGroup.markAsPristine();
         this.formGroup.markAllAsTouched();

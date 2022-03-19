@@ -133,9 +133,6 @@ export class AssetMainComponent implements OnInit, OnChanges {
     this.coordinates = this.formGroup.controls['coordinates'] as FormArray;
     this.longitude = this.coordinates.at(0);
     this.latitude = this.coordinates.at(1);
-    if (this.readOnly) {
-      this.formGroup.disable();
-    }
   }
 
   public ngOnChanges() {
@@ -175,9 +172,6 @@ export class AssetMainComponent implements OnInit, OnChanges {
         this.longitude.setValue(this.asset.coordinates[0]);
         this.latitude.setValue(this.asset.coordinates[1]);
       }
-      this.formGroup.updateValueAndValidity();
-      this.formGroup.markAsPristine();
-      this.formGroup.markAllAsTouched();
       // Get Asset image
       if (!this.imageChanged) {
         this.centralServerService.getAssetImage(this.asset.id).subscribe((assetImage) => {

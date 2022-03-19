@@ -48,12 +48,11 @@ export class TagComponent extends AbstractTabComponent implements OnInit {
   public ngOnInit() {
     // Init the form
     this.formGroup = new FormGroup({});
-    this.readOnly = this.dialogMode === DialogMode.VIEW;
-    if (this.currentTagID || this.currentTagVisualID) {
-      this.loadTag();
-    }
     // Handle Dialog mode
+    this.readOnly = this.dialogMode === DialogMode.VIEW;
     Utils.handleDialogMode(this.dialogMode, this.formGroup);
+    // Load Tag
+    this.loadTag();
   }
 
   public onClose() {

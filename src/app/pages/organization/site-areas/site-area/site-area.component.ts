@@ -57,17 +57,11 @@ export class SiteAreaComponent extends AbstractTabComponent implements OnInit {
   public ngOnInit() {
     // Init the form
     this.formGroup = new FormGroup({});
-    this.readOnly = (this.dialogMode === DialogMode.VIEW);
-    if (this.currentSiteAreaID) {
-      this.loadSiteArea();
-    } else if (this.activatedRoute?.params) {
-      this.activatedRoute.params.subscribe((params: Params) => {
-        this.currentSiteAreaID = params['id'];
-        this.loadSiteArea();
-      });
-    }
     // Handle Dialog mode
+    this.readOnly = (this.dialogMode === DialogMode.VIEW);
     Utils.handleDialogMode(this.dialogMode, this.formGroup);
+    // Load Site Area
+    this.loadSiteArea();
   }
 
   public loadSiteArea() {

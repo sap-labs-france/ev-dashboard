@@ -1,6 +1,6 @@
 <div>
   <form class="form" [formGroup]="formGroup">
-    <div class="row">
+    <div class="row" *ngIf="idVisible">
       <div class="col-md-12">
         <div class="form-group">
           <mat-form-field>

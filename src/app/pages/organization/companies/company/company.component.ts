@@ -47,13 +47,11 @@ export class CompanyComponent extends AbstractTabComponent implements OnInit {
   public ngOnInit() {
     // Init the form
     this.formGroup = new FormGroup({});
-    this.readOnly = (this.dialogMode === DialogMode.VIEW);
-    // Load Company
-    if (this.currentCompanyID) {
-      this.loadCompany();
-    }
     // Handle Dialog mode
+    this.readOnly = (this.dialogMode === DialogMode.VIEW);
     Utils.handleDialogMode(this.dialogMode, this.formGroup);
+    // Load Company
+    this.loadCompany();
   }
 
   public loadCompany() {

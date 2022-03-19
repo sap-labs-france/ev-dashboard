@@ -1,8 +1,8 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 import { MatTabChangeEvent } from '@angular/material/tabs';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { UtilsService } from 'services/utils.service';
 import { DialogMode } from 'types/Authorization';
@@ -49,8 +49,8 @@ export class ChargingStationComponent implements OnInit {
     private translateService: TranslateService,
     private localeService: LocaleService,
     private dialogService: DialogService,
+    protected activatedRoute: ActivatedRoute,
     private utilsService: UtilsService,
-    private dialog: MatDialog,
     private router: Router) {
     // Get Locales
     this.userLocales = this.localeService.getLocales();
@@ -58,21 +58,13 @@ export class ChargingStationComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.readOnly = this.dialogMode === DialogMode.VIEW;
-    // Load
-    this.loadChargingStation();
-    // Check auth
-    if (!this.authorizationService.canUpdateChargingStation()
-      && !this.authorizationService.isDemo()) {
-      // Not authorized
-      this.messageService.showErrorMessage(
-        this.translateService.instant('chargers.action_error.not_authorized'));
-      this.dialog.closeAll();
-    }
     this.isAdmin = this.authorizationService.isAdmin();
     this.isProdLandscape = this.utilsService.isProdLandscape();
     // Handle Dialog mode
+    this.readOnly = this.dialogMode === DialogMode.VIEW;
     Utils.handleDialogMode(this.dialogMode, this.formGroup);
+    // Load Charging Station
+    this.loadChargingStation();
   }
 
   public loadChargingStation() {

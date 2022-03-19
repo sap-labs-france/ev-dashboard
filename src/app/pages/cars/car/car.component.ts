@@ -143,7 +143,6 @@ export class CarComponent implements OnInit {
     this.converterType = this.formGroup.controls['converterType'];
     this.converter = this.formGroup.controls['converter'];
     this.type = this.formGroup.controls['type'];
-    this.readOnly = (this.dialogMode === DialogMode.VIEW);
     this.carConnectorID = this.formGroup.get('carConnectorData.carConnectorID');
     this.carConnectorMeterID = this.formGroup.get('carConnectorData.carConnectorMeterID');
     // Default
@@ -154,9 +153,11 @@ export class CarComponent implements OnInit {
     if(this.carsAuthorizations.metadata?.createPoolCar?.visible) {
       this.carTypes.push({ key: CarType.POOL_CAR, value: 'cars.pool_car' });
     }
-    this.loadCar();
     // Handle Dialog mode
+    this.readOnly = (this.dialogMode === DialogMode.VIEW);
     Utils.handleDialogMode(this.dialogMode, this.formGroup);
+    // Load Car
+    this.loadCar();
   }
 
   public onClose() {

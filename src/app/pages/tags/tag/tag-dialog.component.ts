@@ -7,11 +7,12 @@ import { Utils } from '../../../utils/Utils';
 import { TagComponent } from './tag.component';
 
 @Component({
-  template: '<app-tag #appRef [currentTagID]="tagID" [dialogMode]="dialogMode" [metadata]="metadata" [dialogRef]="dialogRef"></app-tag>',
+  template: '<app-tag #appRef [currentTagID]="tagID" [currentTagVisualID]="tagVisualID" [dialogMode]="dialogMode" [metadata]="metadata" [dialogRef]="dialogRef"></app-tag>',
 })
 export class TagDialogComponent implements AfterViewInit {
   @ViewChild('appRef') public appRef!: TagComponent;
   public tagID!: string;
+  public tagVisualID!: string;
   public dialogMode!: DialogMode;
   public metadata?: Record<string, AuthorizationDefinitionFieldMetadata>;
 
@@ -19,6 +20,7 @@ export class TagDialogComponent implements AfterViewInit {
     public dialogRef: MatDialogRef<TagDialogComponent>,
     @Inject(MAT_DIALOG_DATA) dialogParams: DialogParamsWithAuth<Tag, TagsAuthorizations>) {
     this.tagID = dialogParams.dialogData?.id;
+    this.tagVisualID = dialogParams.dialogData?.visualID;
     this.metadata = dialogParams.authorizations?.metadata;
     this.dialogMode = dialogParams.dialogMode;
   }

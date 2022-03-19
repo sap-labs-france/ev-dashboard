@@ -23,6 +23,7 @@ import { Utils } from '../../../utils/Utils';
 })
 export class TagComponent extends AbstractTabComponent implements OnInit {
   @Input() public currentTagID!: string;
+  @Input() public currentTagVisualID!: string;
   @Input() public dialogRef!: MatDialogRef<any>;
   @Input() public metadata!: Record<string, AuthorizationDefinitionFieldMetadata>;
   @Input() public dialogMode!: DialogMode;
@@ -47,12 +48,11 @@ export class TagComponent extends AbstractTabComponent implements OnInit {
   public ngOnInit() {
     // Init the form
     this.formGroup = new FormGroup({});
-    this.readOnly = this.dialogMode === DialogMode.VIEW;
-    if (this.currentTagID) {
-      this.loadTag();
-    }
     // Handle Dialog mode
+    this.readOnly = this.dialogMode === DialogMode.VIEW;
     Utils.handleDialogMode(this.dialogMode, this.formGroup);
+    // Load Tag
+    this.loadTag();
   }
 
   public onClose() {
@@ -65,6 +65,28 @@ export class TagComponent extends AbstractTabComponent implements OnInit {
       this.centralServerService.getTag(this.currentTagID).subscribe((tag: Tag) => {
         this.spinnerService.hide();
         this.tag = tag;
+        this.metadata = tag.metadata;
+        // Update form group
+        this.formGroup.updateValueAndValidity();
+        this.formGroup.markAsPristine();
+        this.formGroup.markAllAsTouched();
+      }, (error) => {
+        this.spinnerService.hide();
+        switch (error.status) {
+          case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+            this.messageService.showErrorMessage('tags.tag_not_found');
+            break;
+          default:
+            Utils.handleHttpError(error, this.router, this.messageService,
+              this.centralServerService, 'tags.tag_error');
+        }
+      });
+    } else if (this.currentTagVisualID) {
+      this.spinnerService.show();
+      this.centralServerService.getTagByVisualID(this.currentTagVisualID).subscribe((tag: Tag) => {
+        this.spinnerService.hide();
+        this.tag = tag;
+        this.metadata = tag.metadata;
         // Update form group
         this.formGroup.updateValueAndValidity();
         this.formGroup.markAsPristine();
@@ -95,7 +117,7 @@ export class TagComponent extends AbstractTabComponent implements OnInit {
   }
 
   public saveTag(tag: Tag) {
-    if (this.currentTagID) {
+    if (this.currentTagID || this.currentTagVisualID) {
       this.updateTag(tag);
     } else {
       this.createTag(tag);

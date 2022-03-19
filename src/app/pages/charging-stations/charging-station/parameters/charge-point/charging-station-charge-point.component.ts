@@ -102,7 +102,6 @@ export class ChargingStationChargePointComponent implements OnInit, OnChanges {
     this.efficiency = this.formChargePointGroup.controls['efficiency'];
     this.connectorIDs = this.formChargePointGroup.controls['connectorIDs'];
     this.loadChargePoint();
-    console.log(this.readOnly);
     if (this.readOnly) {
       this.formChargePointGroup.disable();
     }

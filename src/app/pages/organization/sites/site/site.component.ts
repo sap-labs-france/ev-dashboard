@@ -57,17 +57,11 @@ export class SiteComponent extends AbstractTabComponent implements OnInit {
   public ngOnInit() {
     // Init the form
     this.formGroup = new FormGroup({});
-    this.readOnly = this.dialogMode === DialogMode.VIEW;
-    if (this.currentSiteID) {
-      this.loadSite();
-    } else if (this.activatedRoute?.params) {
-      this.activatedRoute.params.subscribe((params: Params) => {
-        this.currentSiteID = params['id'];
-        this.loadSite();
-      });
-    }
     // Handle Dialog mode
+    this.readOnly = this.dialogMode === DialogMode.VIEW;
     Utils.handleDialogMode(this.dialogMode, this.formGroup);
+    // Load Site
+    this.loadSite();
   }
 
   public loadSite() {

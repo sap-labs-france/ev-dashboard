@@ -58,17 +58,11 @@ export class PricingDefinitionComponent extends AbstractTabComponent implements 
   public ngOnInit(): void {
     this.context = this.currentEntityType === PricingEntity.TENANT ? this.centralServerService.getLoggedUser().tenantName : this.currentEntityName;
     this.formGroup = new FormGroup({});
-    this.readOnly = this.dialogMode === DialogMode.VIEW;
-    if (this.currentPricingDefinitionID) {
-      this.loadPricingDefinition();
-    } else if (this.activatedRoute?.params) {
-      this.activatedRoute.params.subscribe((params: Params) => {
-        this.currentPricingDefinitionID = params['id'];
-        this.loadPricingDefinition();
-      });
-    }
     // Handle Dialog mode
+    this.readOnly = this.dialogMode === DialogMode.VIEW;
     Utils.handleDialogMode(this.dialogMode, this.formGroup);
+    // Load Pricing Definition
+    this.loadPricingDefinition();
   }
 
   public loadPricingDefinition() {

@@ -47,17 +47,11 @@ export class AssetComponent extends AbstractTabComponent implements OnInit {
   public ngOnInit() {
     // Init the form
     this.formGroup = new FormGroup({});
-    this.readOnly = this.dialogMode === DialogMode.VIEW;
-    if (this.currentAssetID) {
-      this.loadAsset();
-    } else if (this.activatedRoute?.params) {
-      this.activatedRoute.params.subscribe((params: Params) => {
-        this.currentAssetID = params['id'];
-        this.loadAsset();
-      });
-    }
     // Handle Dialog mode
+    this.readOnly = this.dialogMode === DialogMode.VIEW;
     Utils.handleDialogMode(this.dialogMode, this.formGroup);
+    // Load Asset
+    this.loadAsset();
   }
 
   public loadAsset() {

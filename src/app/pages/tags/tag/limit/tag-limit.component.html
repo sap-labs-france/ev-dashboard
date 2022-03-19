@@ -1,0 +1,29 @@
+<div>
+  <form class="form" [formGroup]="formGroup">
+    <div class="row">
+      <div class="col-md-3 pricing-dimension">
+        <mat-slide-toggle (change)="toggleLimitKwh($event)" [formControl]="limitKwhEnabled">
+          {{'tags.limits_energy' | translate}}
+        </mat-slide-toggle>
+      </div>
+      <div class="col-md-3">
+        <mat-form-field>
+          <input matInput type="text" placeholder="{{'tags.limits_kwh' | translate}}" [formControl]="limitKwh" required/>
+          <mat-error *ngIf="limitKwh?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
+          <mat-error *ngIf="limitKwh?.errors?.pattern">{{'general.error_number_pattern' | translate}}</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-3">
+        <mat-form-field>
+          <input matInput type="text" placeholder="{{'tags.limits_consumed_kwh' | translate}}" [formControl]="limitConsumedKwh" required/>
+        </mat-form-field>
+      </div>
+      <div class="col-md-2">
+        <button mat-flat-button color="primary" *ngIf="!readOnly" [disabled]="!limitKwhEnabled.value" (click)="resetLimitKwh()">
+          <mat-icon>lock_reset</mat-icon>
+          <span>{{'general.reset' | translate}}</span>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

@@ -14,6 +14,9 @@ export interface Tag extends TableData, TagAuthorizationActions {
   lastChangedOn?: Date;
   user?: User;
   default?: boolean;
+  limitKwhEnabled?: boolean;
+  limitKwh?: number;
+  limitKwhConsumed?: number;
 }
 
 export const TagRequiredImportProperties = [

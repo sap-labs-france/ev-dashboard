@@ -193,6 +193,10 @@ export class CarComponent implements OnInit {
         if (car.user) {
           this.user.setValue(Utils.buildUserFullName(car.user));
         }
+        if (this.readOnly) {
+          // Async call for letting the sub form groups to init
+          setTimeout(() => this.formGroup.disable(), 0);
+        }
         this.formGroup.updateValueAndValidity();
         this.formGroup.markAsPristine();
         this.formGroup.markAllAsTouched();

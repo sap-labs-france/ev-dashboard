@@ -87,9 +87,6 @@ export class PricingDefinitionRestrictionsComponent implements OnInit, OnChanges
         this.formGroup.markAsPristine();
       }
     });
-    if (this.readOnly) {
-      this.formGroup.disable();
-    }
   }
 
   public ngOnChanges() {

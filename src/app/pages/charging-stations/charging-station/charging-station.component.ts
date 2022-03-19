@@ -77,6 +77,14 @@ export class ChargingStationComponent implements OnInit {
           this.isAdmin = this.authorizationService.isAdmin() ||
             this.authorizationService.isSiteAdmin(this.chargingStation.siteArea ? this.chargingStation.siteArea.siteID : '');
         }
+        if (this.readOnly) {
+          // Async call for letting the sub form groups to init
+          setTimeout(() => this.formGroup.disable(), 0);
+        }
+        // Update form group
+        this.formGroup.updateValueAndValidity();
+        this.formGroup.markAsPristine();
+        this.formGroup.markAllAsTouched();
       }, (error) => {
         this.spinnerService.hide();
         switch (error.status) {

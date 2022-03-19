@@ -70,9 +70,6 @@ export class TagMainComponent implements OnInit, OnChanges {
     this.active = this.formGroup.controls['active'];
     this.default = this.formGroup.controls['default'];
     this.default.disable();
-    if (this.readOnly) {
-      this.formGroup.disable();
-    }
   }
 
   public ngOnChanges() {

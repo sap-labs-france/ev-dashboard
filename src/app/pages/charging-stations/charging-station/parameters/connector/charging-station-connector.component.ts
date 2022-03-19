@@ -151,9 +151,6 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
       this.amperagePerPhase.disable();
       this.numberOfConnectedPhase.disable();
     }
-    if (this.readOnly) {
-      this.formConnectorGroup.disable();
-    }
   }
 
   public ngOnChanges() {

@@ -109,9 +109,6 @@ export class PricingDefinitionDimensionsComponent implements OnInit, OnChanges {
     this.parkingTime = this.parkingTimeDimension.controls['price'];
     this.parkingTimeStepEnabled = this.parkingTimeDimension.controls['stepSizeEnabled'];
     this.parkingTimeStep = this.parkingTimeDimension.controls['stepSize'];
-    if (this.readOnly) {
-      this.formGroup.disable();
-    }
   }
 
   public ngOnChanges() {

@@ -66,6 +66,10 @@ export class TagComponent extends AbstractTabComponent implements OnInit {
         this.spinnerService.hide();
         this.tag = tag;
         this.metadata = tag.metadata;
+        if (this.readOnly) {
+          // Async call for letting the sub form groups to init
+          setTimeout(() => this.formGroup.disable(), 0);
+        }
         // Update form group
         this.formGroup.updateValueAndValidity();
         this.formGroup.markAsPristine();
@@ -87,6 +91,10 @@ export class TagComponent extends AbstractTabComponent implements OnInit {
         this.spinnerService.hide();
         this.tag = tag;
         this.metadata = tag.metadata;
+        if (this.readOnly) {
+          // Async call for letting the sub form groups to init
+          setTimeout(() => this.formGroup.disable(), 0);
+        }
         // Update form group
         this.formGroup.updateValueAndValidity();
         this.formGroup.markAsPristine();

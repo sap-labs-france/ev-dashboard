@@ -26,6 +26,8 @@ export class TagMainComponent implements OnInit, OnChanges {
   public default!: AbstractControl;
   public visualID!: AbstractControl;
 
+  public idVisible = true;
+
   // eslint-disable-next-line no-useless-constructor
   public constructor(
     public spinnerService: SpinnerService,
@@ -71,10 +73,6 @@ export class TagMainComponent implements OnInit, OnChanges {
     if (this.readOnly) {
       this.formGroup.disable();
     }
-    if (this.metadata?.userID?.mandatory) {
-      this.user.setValidators(Validators.required);
-      this.userID.setValidators(Validators.required);
-    }
   }
 
   public ngOnChanges() {
@@ -96,6 +94,14 @@ export class TagMainComponent implements OnInit, OnChanges {
       if (this.metadata?.userID?.mandatory) {
         this.user.setValidators(Validators.required);
         this.userID.setValidators(Validators.required);
+      }
+      // Handle Meta Data
+      if (this.metadata?.userID?.mandatory) {
+        this.user.setValidators(Validators.required);
+        this.userID.setValidators(Validators.required);
+      }
+      if (this.metadata?.id) {
+        this.idVisible = this.metadata.id.visible;
       }
       this.id.disable();
     }

@@ -29,10 +29,11 @@ export const TagRequiredImportProperties = [
 ];
 export const TagOptionalImportProperties = [
   'description',
+  'limitKwh',
   'email',
   'firstName',
   'name',
-  'siteIDs'
+  'siteIDs',
 ];
 
 export enum TagButtonAction {

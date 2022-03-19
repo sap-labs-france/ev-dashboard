@@ -1,5 +1,6 @@
 {
   "general": {
+    "reset": "Reset",
     "captcha_text_1": "Tato stránka je chráněná reCAPTCHA a uplatňuje",
     "captcha_text_2": "zásady ochrany soukromí ",
     "captcha_text_3": "a",
@@ -1358,6 +1359,10 @@
   },
   "tags": {
     "id": "RFID",
+    "limits": "Limits",
+    "limits_energy": "Limit Energy",
+    "limits_kwh": "Limit in kWh",
+    "limits_consumed_kwh": "Consumed in kWh",
     "not_active": "Tato karta/čip není aktivní.",
     "issuer": "Vlastník organizace",
     "visual_id": "Vizuální ID",

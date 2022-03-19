@@ -1,5 +1,6 @@
 {
   "general": {
+    "reset": "Reset",
     "captcha_text_1": "Este sitio está protegido por reCAPTCHA y Google",
     "captcha_text_2": "Política de privacidad",
     "captcha_text_3": " y ",
@@ -1358,6 +1359,10 @@
   },
   "tags": {
     "id": "Insignia ID",
+    "limits": "Limits",
+    "limits_energy": "Limit Energy",
+    "limits_kwh": "Limit in kWh",
+    "limits_consumed_kwh": "Consumed in kWh",
     "not_active": "Esta insignia no está activa",
     "issuer": "Propietario de la organización",
     "visual_id": "Visual insignia ID",

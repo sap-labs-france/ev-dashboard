@@ -1,5 +1,6 @@
 {
   "general": {
+    "reset": "Reset",
     "captcha_text_1": "Este site esta protegido com reCAPTCHA e Google",
     "captcha_text_2": "Politica Privada",
     "captcha_text_3": " e ",
@@ -1358,6 +1359,10 @@
   },
   "tags": {
     "id": "Tag ID",
+    "limits": "Limits",
+    "limits_energy": "Limit Energy",
+    "limits_kwh": "Limit in kWh",
+    "limits_consumed_kwh": "Consumed in kWh",
     "not_active": "This badge is not active",
     "issuer": "Dono da Organização",
     "visual_id": "Visual Tag ID",

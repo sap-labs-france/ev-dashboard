@@ -10,6 +10,15 @@
           <app-tag-main #siteMainComponent [formGroup]="formGroup" [tag]="tag" [readOnly]="readOnly" [metadata]="metadata"></app-tag-main>
         </div>
       </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon>portrait</mat-icon>
+          <span>{{'tags.limits' | translate}}</span>
+        </ng-template>
+        <div class="card-body mat-tab-dialog-body-content">
+          <app-tag-limit #siteMainComponent [formGroup]="formGroup" [tag]="tag" [readOnly]="readOnly" [metadata]="metadata"></app-tag-limit>
+        </div>
+      </mat-tab>
     </mat-tab-group>
     <div class="tabs-actions">
       <button mat-button *ngIf="!readOnly" (click)="saveTag(formGroup.getRawValue())"

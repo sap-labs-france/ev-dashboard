@@ -1,5 +1,6 @@
 {
   "general": {
+    "reset": "Reset",
     "captcha_text_1": "Diese Seite wird durch reCAPTCHA und Google geschützt",
     "captcha_text_2": "Datenschutzbestimmungen",
     "captcha_text_3": " und ",
@@ -1358,6 +1359,10 @@
   },
   "tags": {
     "id": "RFID",
+    "limits": "Limits",
+    "limits_energy": "Limit Energy",
+    "limits_kwh": "Limit in kWh",
+    "limits_consumed_kwh": "Consumed in kWh",
     "not_active": "Dieser Badge ist nicht aktiv",
     "issuer": "Organisationseigentümer",
     "visual_id": "Visuelle RFID",

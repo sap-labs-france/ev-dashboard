@@ -1,5 +1,6 @@
 {
   "general": {
+    "reset": "Reset",
     "captcha_text_1": "This site is protected by reCAPTCHA and the Google",
     "captcha_text_2": "Privacy Policy",
     "captcha_text_3": " and ",
@@ -1358,6 +1359,10 @@
   },
   "tags": {
     "id": "RFID",
+    "limits": "Limits",
+    "limits_energy": "Limit Energy",
+    "limits_kwh": "Limit in kWh",
+    "limits_consumed_kwh": "Consumed in kWh",
     "not_active": "This RFID card is not active",
     "issuer": "Organization Owner",
     "visual_id": "Visual RFID",

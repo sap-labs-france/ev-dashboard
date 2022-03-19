@@ -1,5 +1,6 @@
 {
   "general": {
+    "reset": "Reset",
     "captcha_text_1": "Ce site est protégé par reCAPTCHA et Google",
     "captcha_text_2": "Règles de Confidentialité",
     "captcha_text_3": " et l'application des ",
@@ -1357,7 +1358,11 @@
     "failed_download": "Le téléchargement de la facture a échoué."
   },
   "tags": {
-    "id": "No Badge",
+    "id": "Badge ID",
+    "limits": "Limitations",
+    "limits_energy": "Limite Energie",
+    "limits_kwh": "Limite en kWh",
+    "limits_consumed_kwh": "Consommée en kWh",
     "not_active": "Ce badge n'est pas actif",
     "issuer": "Propriétaire",
     "visual_id": "No Badge Visuel",

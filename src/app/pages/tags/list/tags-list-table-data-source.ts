@@ -25,7 +25,7 @@ import { TagsAuthorizations } from 'types/Authorization';
 import { DataResult } from 'types/DataResult';
 import { HTTPError } from 'types/HTTPError';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'types/Table';
-import { Tag, TagButtonAction } from 'types/Tag';
+import { Tag, TagButtonAction, TagLimit } from 'types/Tag';
 import { TransactionButtonAction } from 'types/Transaction';
 import { User, UserButtonAction } from 'types/User';
 
@@ -247,6 +247,14 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
         class: 'text-center col-10em',
         sortable: true,
         formatter: (defaultTag) => Utils.displayYesNo(this.translateService, defaultTag),
+      },
+      {
+        id: 'limit',
+        name: 'tags.limits',
+        headerClass: 'text-center col-5em',
+        class: 'text-center col-10em',
+        sortable: true,
+        formatter: (limit: TagLimit) => Utils.displayYesNo(this.translateService, limit?.limitKwhEnabled),
       },
       {
         id: 'user.name',

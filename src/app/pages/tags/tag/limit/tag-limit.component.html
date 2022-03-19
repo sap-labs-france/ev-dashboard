@@ -11,6 +11,7 @@
           <input matInput type="text" placeholder="{{'tags.limits_kwh' | translate}}" [formControl]="limitKwh" required/>
           <mat-error *ngIf="limitKwh?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
           <mat-error *ngIf="limitKwh?.errors?.pattern">{{'general.error_number_pattern' | translate}}</mat-error>
+          <mat-error *ngIf="limitKwh?.errors?.min">{{'general.error_min_value' | translate:{value: 1} }}</mat-error>
         </mat-form-field>
       </div>
       <div class="col-md-3">

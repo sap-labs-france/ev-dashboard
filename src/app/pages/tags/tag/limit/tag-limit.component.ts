@@ -35,6 +35,7 @@ export class TagLimitComponent implements OnInit, OnChanges {
     this.limitFormGroup.addControl('limitKwh', new FormControl({value: null, disabled: true},
       Validators.compose([
         Validators.required,
+        Validators.min(1),
         Validators.pattern(Constants.REGEX_VALIDATION_FLOAT),
       ])));
     this.limitFormGroup.addControl('limitKwhConsumed', new FormControl({value: 0, disabled: true}));

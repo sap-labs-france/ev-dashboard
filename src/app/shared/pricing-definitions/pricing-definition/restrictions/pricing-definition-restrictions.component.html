@@ -9,7 +9,6 @@
   <!-- value min duration -->
   <div class="col-md-2">
     <mat-form-field>
-      <mat-label>{{'settings.pricing.restriction_min_duration_unit' | translate}}</mat-label>
       <input matInput type="text" placeholder="{{'settings.pricing.restriction_min_duration_unit' | translate}}"
       [formControl]="minDuration" required/>
       <mat-error *ngIf="minDuration?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
@@ -25,7 +24,6 @@
   <!-- value max duration -->
   <div class="col-md-2">
     <mat-form-field>
-      <mat-label>{{'settings.pricing.restriction_max_duration_unit' | translate}}</mat-label>
       <input matInput type="text" placeholder="{{'settings.pricing.restriction_max_duration_unit' | translate}}"
       [formControl]="maxDuration" required/>
       <mat-error *ngIf="maxDuration?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
@@ -45,7 +43,6 @@
   <!-- value min energy -->
   <div class="col-md-2">
     <mat-form-field>
-      <mat-label>{{'settings.pricing.restriction_min_energy_unit' | translate}}</mat-label>
       <input matInput type="text" placeholder="{{'settings.pricing.restriction_min_energy_unit' | translate}}"
       [formControl]="minEnergyKWh" required/>
       <mat-error *ngIf="minEnergyKWh?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
@@ -61,7 +58,6 @@
   <!-- value max energy -->
   <div class="col-md-2">
     <mat-form-field>
-      <mat-label>{{'settings.pricing.restriction_max_energy_unit' | translate}}</mat-label>
       <input matInput type="text" placeholder="{{'settings.pricing.restriction_max_energy_unit' | translate}}"
       [formControl]="maxEnergyKWh" required/>
       <mat-error *ngIf="maxEnergyKWh?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>

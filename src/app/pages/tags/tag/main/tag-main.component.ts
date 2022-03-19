@@ -51,11 +51,11 @@ export class TagMainComponent implements OnInit, OnChanges {
       Validators.compose([
         Validators.required,
       ])));
-    this.formGroup.addControl('active', new FormControl('',
+    this.formGroup.addControl('active', new FormControl(false,
       Validators.compose([
         Validators.required,
       ])));
-    this.formGroup.addControl('default', new FormControl('',
+    this.formGroup.addControl('default', new FormControl(false,
       Validators.compose([
         Validators.required,
       ])));

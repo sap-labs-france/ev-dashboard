@@ -17,9 +17,6 @@ jobs:
         node-version: [16.x]
     steps:
     - uses: actions/checkout@v2
-      with:
-        ssh-key: ${{ secrets.ACTION_ACCESS_SUB_MODULES_PRIVATE_REPOS }}
-        submodules: true
     - name: Install NodeJs ${{ matrix.node-version }}
       uses: actions/setup-node@v2
       with:

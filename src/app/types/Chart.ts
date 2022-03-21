@@ -67,3 +67,19 @@ export interface Chart {
   datasets: ChartDatum[],
   axes: ChartAxes[]
 }
+
+export enum ChartColor {
+  PRIMARY = '',
+  PRIMARY_2 = '',
+  PRIMARY_3 = '',
+  ACCENT = '',
+  DANGER = '',
+  SUCCESS = '',
+  WARNING = '',
+  CYAN = '',
+  PURPLE = '',
+  PURPLE_1 = '',
+  PURPLE_2 = '',
+  PURPLE_3 = '',
+  YELLOW = ''
+}

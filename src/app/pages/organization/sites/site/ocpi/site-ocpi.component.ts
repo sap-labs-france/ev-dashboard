@@ -25,9 +25,6 @@ export class SiteOcpiComponent implements OnInit, OnChanges {
 
     // Form
     this.tariffID = this.formGroup.controls['tariffID'];
-    if (this.readOnly) {
-      this.formGroup.disable();
-    }
     this.enableDisableTariffID();
   }
 

@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { WindowService } from 'services/window.service';
@@ -23,6 +23,7 @@ import { Utils } from '../../../utils/Utils';
 })
 export class TagComponent extends AbstractTabComponent implements OnInit {
   @Input() public currentTagID!: string;
+  @Input() public currentTagVisualID!: string;
   @Input() public dialogRef!: MatDialogRef<any>;
   @Input() public metadata!: Record<string, AuthorizationDefinitionFieldMetadata>;
   @Input() public dialogMode!: DialogMode;
@@ -40,20 +41,18 @@ export class TagComponent extends AbstractTabComponent implements OnInit {
     private dialogService: DialogService,
     protected activatedRoute: ActivatedRoute,
     protected windowService: WindowService,
-    private router: Router,
-    private dialog: MatDialog) {
+    private router: Router) {
     super(activatedRoute, windowService, ['main'], false);
   }
 
   public ngOnInit() {
     // Init the form
     this.formGroup = new FormGroup({});
-    this.readOnly = this.dialogMode === DialogMode.VIEW;
-    if (this.currentTagID) {
-      this.loadTag();
-    }
     // Handle Dialog mode
+    this.readOnly = this.dialogMode === DialogMode.VIEW;
     Utils.handleDialogMode(this.dialogMode, this.formGroup);
+    // Load Tag
+    this.loadTag();
   }
 
   public onClose() {
@@ -66,6 +65,36 @@ export class TagComponent extends AbstractTabComponent implements OnInit {
       this.centralServerService.getTag(this.currentTagID).subscribe((tag: Tag) => {
         this.spinnerService.hide();
         this.tag = tag;
+        this.metadata = tag.metadata;
+        if (this.readOnly) {
+          // Async call for letting the sub form groups to init
+          setTimeout(() => this.formGroup.disable(), 0);
+        }
+        // Update form group
+        this.formGroup.updateValueAndValidity();
+        this.formGroup.markAsPristine();
+        this.formGroup.markAllAsTouched();
+      }, (error) => {
+        this.spinnerService.hide();
+        switch (error.status) {
+          case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+            this.messageService.showErrorMessage('tags.tag_not_found');
+            break;
+          default:
+            Utils.handleHttpError(error, this.router, this.messageService,
+              this.centralServerService, 'tags.tag_error');
+        }
+      });
+    } else if (this.currentTagVisualID) {
+      this.spinnerService.show();
+      this.centralServerService.getTagByVisualID(this.currentTagVisualID).subscribe((tag: Tag) => {
+        this.spinnerService.hide();
+        this.tag = tag;
+        this.metadata = tag.metadata;
+        if (this.readOnly) {
+          // Async call for letting the sub form groups to init
+          setTimeout(() => this.formGroup.disable(), 0);
+        }
         // Update form group
         this.formGroup.updateValueAndValidity();
         this.formGroup.markAsPristine();
@@ -96,7 +125,7 @@ export class TagComponent extends AbstractTabComponent implements OnInit {
   }
 
   public saveTag(tag: Tag) {
-    if (this.currentTagID) {
+    if (this.currentTagID || this.currentTagVisualID) {
       this.updateTag(tag);
     } else {
       this.createTag(tag);

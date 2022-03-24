@@ -1,4 +1,4 @@
-import { Component, Injectable, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 import { AppDatePipe } from '../../../../shared/formatters/app-date.pipe';
 import { ChargingStation, ChargingStationCapabilities } from '../../../../types/ChargingStation';

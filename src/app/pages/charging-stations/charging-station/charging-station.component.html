@@ -58,7 +58,7 @@
       </ng-container>
     </mat-tab-group>
     <div class="tabs-actions">
-      <button mat-button (click)="saveChargingStation(formGroup.getRawValue())"
+      <button mat-button *ngIf="!readOnly" (click)="saveChargingStation(formGroup.getRawValue())"
           [disabled]="!formGroup.valid || !formGroup.dirty" [hidden]="!this.isAdmin || activeTabIndex !== 0">
         <mat-icon>save</mat-icon>
         <span>{{'chargers.save_charger' | translate}}</span>

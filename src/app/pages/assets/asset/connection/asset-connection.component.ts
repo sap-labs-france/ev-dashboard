@@ -61,9 +61,8 @@ export class AssetConnectionComponent implements OnInit, OnChanges {
     this.meterID = this.formGroup.controls['meterID'];
     // Disable connection form by default
     this.disableConnectionDetails();
-    if (this.readOnly) {
-      this.formGroup.disable();
-    }
+    // Load Connection
+    this.loadAssetConnection();
   }
 
   public ngOnChanges() {
@@ -83,11 +82,6 @@ export class AssetConnectionComponent implements OnInit, OnChanges {
       if (this.asset.meterID) {
         this.formGroup.controls.meterID.setValue(this.asset.meterID);
       }
-      this.formGroup.updateValueAndValidity();
-      this.formGroup.markAsPristine();
-      this.formGroup.markAllAsTouched();
-      // Load Connection
-      this.loadAssetConnection();
     }
   }
 

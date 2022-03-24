@@ -1362,7 +1362,7 @@
     "failed_download": "Stahování faktury se nezdařilo"
   },
   "tags": {
-    "id": "RFID Card ID",
+    "id": "RFID",
     "not_active": "Tato karta/čip není aktivní.",
     "issuer": "Vlastník organizace",
     "visual_id": "Vizuální ID",

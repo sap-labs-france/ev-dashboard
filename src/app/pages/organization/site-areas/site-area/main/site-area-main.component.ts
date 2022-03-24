@@ -137,12 +137,6 @@ export class SiteAreaMainComponent implements OnInit,OnChanges {
     this.numberOfPhases = this.formGroup.controls['numberOfPhases'];
     this.maximumPowerAmpsPerPhase.disable();
     this.maximumTotalPowerAmps.disable();
-    if (this.readOnly) {
-      this.formGroup.disable();
-    }
-    if (this.siteArea) {
-      this.loadRegistrationToken();
-    }
   }
 
   public ngOnChanges() {
@@ -193,6 +187,7 @@ export class SiteAreaMainComponent implements OnInit,OnChanges {
         this.address = this.siteArea.address;
       }
       this.refreshMaximumAmps();
+      this.loadRegistrationToken();
       // Get Site Area image
       if (!this.imageChanged) {
         this.centralServerService.getSiteAreaImage(this.siteArea.id).subscribe((siteAreaImage) => {

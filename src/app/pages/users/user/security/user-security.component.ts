@@ -40,7 +40,6 @@ export class UserSecurityComponent implements OnInit, OnChanges {
     this.passwords = (this.formGroup.controls['passwords'] as FormGroup);
     this.password = this.passwords.controls['password'];
     this.repeatPassword = this.passwords.controls['repeatPassword'];
-    this.formGroup.updateValueAndValidity();
   }
 
   public ngOnChanges() {

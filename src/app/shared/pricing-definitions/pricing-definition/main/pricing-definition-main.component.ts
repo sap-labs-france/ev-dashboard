@@ -75,9 +75,6 @@ export class PricingDefinitionMainComponent implements OnInit, OnChanges {
     this.validFrom.valueChanges.subscribe(() => {
       this.minDate = this.validFrom.value;
     });
-    if (this.readOnly) {
-      this.formGroup.disable();
-    }
   }
 
   public ngOnChanges() {
@@ -100,10 +97,6 @@ export class PricingDefinitionMainComponent implements OnInit, OnChanges {
         this.connectorPowerValue.setValue(this.pricingDefinition.staticRestrictions?.connectorPowerkW);
         this.connectorPowerValue.enable();
       }
-      // Force refresh the form
-      this.formGroup.updateValueAndValidity();
-      this.formGroup.markAsPristine();
-      this.formGroup.markAllAsTouched();
     }
   }
 

@@ -983,19 +983,6 @@ export class CentralServerService {
       );
   }
 
-  public updateTagByVisualID(tag: Partial<Tag>): Observable<ActionResponse> {
-    // Verify init
-    this.checkInit();
-    // Execute the REST service
-    return this.httpClient.put<ActionResponse>(this.buildRestEndpointUrl(ServerRoute.REST_TAGS), tag,
-      {
-        headers: this.buildHttpHeaders(),
-      })
-      .pipe(
-        catchError(this.handleHttpError),
-      );
-  }
-
   public getUsersInError(params: FilterParams,
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<User>> {
     // Verify init

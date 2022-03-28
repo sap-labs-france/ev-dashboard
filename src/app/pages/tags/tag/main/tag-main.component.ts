@@ -26,6 +26,8 @@ export class TagMainComponent implements OnInit, OnChanges {
   public default!: AbstractControl;
   public visualID!: AbstractControl;
 
+  public idVisible = true;
+
   // eslint-disable-next-line no-useless-constructor
   public constructor(
     public spinnerService: SpinnerService,
@@ -51,11 +53,11 @@ export class TagMainComponent implements OnInit, OnChanges {
       Validators.compose([
         Validators.required,
       ])));
-    this.formGroup.addControl('active', new FormControl('',
+    this.formGroup.addControl('active', new FormControl(true,
       Validators.compose([
         Validators.required,
       ])));
-    this.formGroup.addControl('default', new FormControl('',
+    this.formGroup.addControl('default', new FormControl(false,
       Validators.compose([
         Validators.required,
       ])));
@@ -68,13 +70,6 @@ export class TagMainComponent implements OnInit, OnChanges {
     this.active = this.formGroup.controls['active'];
     this.default = this.formGroup.controls['default'];
     this.default.disable();
-    if (this.readOnly) {
-      this.formGroup.disable();
-    }
-    if (this.metadata?.userID?.mandatory) {
-      this.user.setValidators(Validators.required);
-      this.userID.setValidators(Validators.required);
-    }
   }
 
   public ngOnChanges() {
@@ -96,6 +91,14 @@ export class TagMainComponent implements OnInit, OnChanges {
       if (this.metadata?.userID?.mandatory) {
         this.user.setValidators(Validators.required);
         this.userID.setValidators(Validators.required);
+      }
+      // Handle Meta Data
+      if (this.metadata?.userID?.mandatory) {
+        this.user.setValidators(Validators.required);
+        this.userID.setValidators(Validators.required);
+      }
+      if (this.metadata?.id) {
+        this.idVisible = this.metadata.id.visible;
       }
       this.id.disable();
     }

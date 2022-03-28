@@ -1,7 +1,7 @@
 <div>
   <form class="form" [formGroup]="formGroup">
     <div class="row app-organization align-items-center">
-      <div class="col-md-2">
+      <div class="col-md-3 mb-2">
         <div class="rotating-card-container" [ngStyle]="{ 'pointer-events': readOnly ? 'none' : 'all'}">
           <div class="card card-rotate card-background app-company-image mt-0">
             <div class="front front-background" [ngStyle]="{'background-image': 'url(' + logo + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
@@ -27,7 +27,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md-10">
+      <div class="col-md-9">
         <div class="form-group">
           <mat-form-field>
             <input appAutofocus matInput placeholder="{{'companies.name' | translate}}"

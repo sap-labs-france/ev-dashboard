@@ -105,7 +105,6 @@ export class UserNotificationsComponent implements OnInit, OnChanges {
     this.sendEndUserErrorNotification = this.notifications.controls['sendEndUserErrorNotification'];
     this.sendBillingNewInvoice = this.notifications.controls['sendBillingNewInvoice'];
     this.sendAdminAccountVerificationNotification = this.notifications.controls['sendAdminAccountVerificationNotification'];
-    this.formGroup.updateValueAndValidity();
     // Keep notifs
     this.notificationControls.push(...[
       this.notifications.controls.sendSessionStarted,

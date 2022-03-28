@@ -58,17 +58,11 @@ export class PricingDefinitionComponent extends AbstractTabComponent implements 
   public ngOnInit(): void {
     this.context = this.currentEntityType === PricingEntity.TENANT ? this.centralServerService.getLoggedUser().tenantName : this.currentEntityName;
     this.formGroup = new FormGroup({});
-    this.readOnly = this.dialogMode === DialogMode.VIEW;
-    if (this.currentPricingDefinitionID) {
-      this.loadPricingDefinition();
-    } else if (this.activatedRoute?.params) {
-      this.activatedRoute.params.subscribe((params: Params) => {
-        this.currentPricingDefinitionID = params['id'];
-        this.loadPricingDefinition();
-      });
-    }
     // Handle Dialog mode
+    this.readOnly = this.dialogMode === DialogMode.VIEW;
     Utils.handleDialogMode(this.dialogMode, this.formGroup);
+    // Load Pricing Definition
+    this.loadPricingDefinition();
   }
 
   public loadPricingDefinition() {
@@ -77,6 +71,10 @@ export class PricingDefinitionComponent extends AbstractTabComponent implements 
       this.centralServerService.getPricingDefinition(this.currentPricingDefinitionID).subscribe((currentPricingDefinition) => {
         this.spinnerService.hide();
         this.pricingDefinition = currentPricingDefinition;
+        if (this.readOnly) {
+          // Async call for letting the sub form groups to init
+          setTimeout(() => this.formGroup.disable(), 0);
+        }
         // Update form group
         this.formGroup.updateValueAndValidity();
         this.formGroup.markAsPristine();

@@ -1357,10 +1357,10 @@
     "failed_download": "Invoice download failed."
   },
   "tags": {
-    "id": "RFID Card ID",
+    "id": "RFID",
     "not_active": "This RFID card is not active",
     "issuer": "Organization Owner",
-    "visual_id": "Visual RFID Card ID",
+    "visual_id": "Visual RFID",
     "visual_id_instruction": "Please fill the ID that is displayed on the RFID card",
     "status": "Status",
     "activated": "Active",
@@ -2245,7 +2245,7 @@
     "duration": "Duration",
     "inactivity": "Inactivity",
     "user": "User",
-    "badge_id": "RFID card ID",
+    "badge_id": "RFID",
     "connector": "Connector",
     "total_consumption": "Consumption",
     "current_consumption": "Power",

@@ -24,7 +24,6 @@ export class UserMainComponent implements OnInit, OnChanges {
   @Input() public formGroup: FormGroup;
   @Input() public user!: User;
   @Input() public metadata!: Record<string, AuthorizationDefinitionFieldMetadata>;
-  @Input() public currentUserID!: string;
   @Output() public roleChanged = new EventEmitter<UserRole>();
 
   public isAdmin = false;
@@ -154,7 +153,6 @@ export class UserMainComponent implements OnInit, OnChanges {
     if (this.metadata?.status?.mandatory) {
       this.status.setValidators(Validators.required);
     }
-    this.formGroup.updateValueAndValidity();
   }
 
   public ngOnChanges() {
@@ -211,7 +209,7 @@ export class UserMainComponent implements OnInit, OnChanges {
       }
       // Load Image
       if (!this.userImageSet) {
-        this.centralServerService.getUserImage(this.currentUserID).subscribe((userImage) => {
+        this.centralServerService.getUserImage(this.user.id).subscribe((userImage) => {
           this.userImageSet = true;
           if (userImage && userImage.image) {
             this.image = userImage.image.toString();

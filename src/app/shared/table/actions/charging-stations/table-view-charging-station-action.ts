@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 
 import { DialogParams } from '../../../../types/Authorization';
 import { ChargingStation, ChargingStationButtonAction } from '../../../../types/ChargingStation';
-import { ScreenSize } from '../../../../types/GlobalType';
 import { TableActionDef } from '../../../../types/Table';
 import { TableViewAction } from '../table-view-action';
 
@@ -24,13 +23,6 @@ export class TableViewChargingStationAction extends TableViewAction {
 
   private viewChargingStation(chargingStationDialogComponent: ComponentType<unknown>, dialog: MatDialog,
     dialogParams: DialogParams<ChargingStation>, refresh?: () => Observable<void>) {
-    super.view(chargingStationDialogComponent, dialog, dialogParams, refresh, {
-      minWidth: ScreenSize.XL,
-      maxWidth: ScreenSize.XL,
-      width: ScreenSize.XL,
-      minHeight: ScreenSize.XL,
-      maxHeight: ScreenSize.XL,
-      height: ScreenSize.XL
-    });
+    super.view(chargingStationDialogComponent, dialog, dialogParams, refresh);
   }
 }

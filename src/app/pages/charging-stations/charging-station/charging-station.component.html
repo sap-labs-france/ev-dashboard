@@ -1,4 +1,4 @@
-<div class="main-content vh-lg-75 vw-lg-80 vh-xl-75 vw-xl-70 vh-3xl-75 vw-3xl-40">
+<div class="main-content vh-lg-75 vw-lg-80 vh-xl-75 vw-xl-70 vh-3xl-60 vw-3xl-40">
   <div class="card card-profile card-testimonial">
     <mat-tab-group animationDuration="0ms" disableRipple="true" (selectedTabChange)="changeActivePane($event)"
         class="mat-tab-info charger-dialog-container mat-tabs-with-actions">
@@ -58,7 +58,7 @@
       </ng-container>
     </mat-tab-group>
     <div class="tabs-actions">
-      <button mat-button (click)="saveChargingStation(formGroup.getRawValue())"
+      <button mat-button *ngIf="!readOnly" (click)="saveChargingStation(formGroup.getRawValue())"
           [disabled]="!formGroup.valid || !formGroup.dirty" [hidden]="!this.isAdmin || activeTabIndex !== 0">
         <mat-icon>save</mat-icon>
         <span>{{'chargers.save_charger' | translate}}</span>

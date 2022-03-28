@@ -1,8 +1,8 @@
 <div class="row">
-  <app-user-mercedes-car-connector [currentUserID]='currentUserID' [integrationConnections]='integrationConnections'
+  <app-user-mercedes-car-connector [user]='user' [integrationConnections]='integrationConnections'
     (connectorChangedconnectorChanged)="onConnectorChanged()">
   </app-user-mercedes-car-connector>
-  <app-user-concur-refund-connector [currentUserID]='currentUserID' [integrationConnections]='integrationConnections'
+  <app-user-concur-refund-connector [user]='user' [integrationConnections]='integrationConnections'
     (connectorChangedconnectorChanged)="onConnectorChanged()">
   </app-user-concur-refund-connector>
 </div>

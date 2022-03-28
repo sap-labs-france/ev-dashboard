@@ -1,7 +1,7 @@
 <div>
   <form class="form" [formGroup]="formGroup">
     <div class="row">
-      <div class="col-md-2 my-auto">
+      <div class="col-md-3 my-auto mb-2">
         <div class="rotating-card-container img-fluid" [ngStyle]="{ 'pointer-events': 'all' }">
           <div class="card card-rotate card-background app-tenant-image m-0">
             <div class="front front-background" [ngStyle]="{'background-image': 'url(' + logo + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
@@ -26,29 +26,20 @@
           </div>
         </div>
       </div>
-      <div class="col-md-10">
-        <div class="form-group">
-          <mat-form-field>
-            <input [formControl]="name" appAutofocus matInput
-            placeholder="{{'tenants.name' | translate}}" required type="text">
-            <mat-error *ngIf="name.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
-            <mat-error *ngIf="name.errors?.maxlength">
-              <div [translateParams]="{length: 100}" [translate]="'general.error_max_length'"></div>
-            </mat-error>
-          </mat-form-field>
+      <div class="col-md-9">
+        <div class="col-md-12">
+          <div class="form-group">
+            <mat-form-field>
+              <input [formControl]="name" appAutofocus matInput
+              placeholder="{{'tenants.name' | translate}}" required type="text">
+              <mat-error *ngIf="name.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+              <mat-error *ngIf="name.errors?.maxlength">
+                <div [translateParams]="{length: 100}" [translate]="'general.error_max_length'"></div>
+              </mat-error>
+            </mat-form-field>
+          </div>
         </div>
-      </div>
-      <div class="col-md-12">
-        <div class="form-group">
-          <mat-form-field>
-            <input [formControl]="email" matInput placeholder="{{'tenants.email' | translate}}" required type="text">
-            <mat-error *ngIf="email.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
-            <mat-error *ngIf="email.errors?.email">{{"authentication.invalid_email" | translate}}</mat-error>
-          </mat-form-field>
-        </div>
-      </div>
-      <div class="col-md-12">
-        <div class="form-group">
+        <div class="form-group col-md-12">
           <mat-form-field>
             <input [formControl]="subdomain" matInput placeholder="{{'tenants.subdomain' | translate}}" required type="text">
             <mat-error *ngIf="subdomain.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
@@ -58,6 +49,13 @@
             <mat-error *ngIf="subdomain.errors?.pattern">{{"tenants.error_subdomain" | translate}}</mat-error>
           </mat-form-field>
         </div>
+      </div>
+      <div class="form-group col-md-12">
+        <mat-form-field>
+          <input [formControl]="email" matInput placeholder="{{'tenants.email' | translate}}" required type="text">
+          <mat-error *ngIf="email.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+          <mat-error *ngIf="email.errors?.email">{{"authentication.invalid_email" | translate}}</mat-error>
+        </mat-form-field>
       </div>
       <div class="row">
         <div class="col-md-12">

@@ -3,7 +3,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 
 import { DialogData, DialogMode, DialogParams } from '../../../types/Authorization';
-import { ButtonAction, PopupSize } from '../../../types/GlobalType';
+import { ButtonAction } from '../../../types/GlobalType';
 import { ButtonColor, TableActionDef } from '../../../types/Table';
 import { TableAction } from './table-action';
 
@@ -23,17 +23,10 @@ export class TableViewPricingListAction implements TableAction {
   }
 
   protected view(component: ComponentType<unknown>, dialog: MatDialog,
-    dialogParams: DialogParams<DialogData>, refresh?: () => Observable<void>, size?: PopupSize) {
+    dialogParams: DialogParams<DialogData>, refresh?: () => Observable<void>) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
-    // Popup Width
-    dialogConfig.minWidth = size?.minWidth ? size.minWidth + 'vw' : '80vw';
-    dialogConfig.maxWidth = size?.maxWidth ? size.maxWidth + 'vw' : dialogConfig.maxWidth;
-    dialogConfig.width = size?.width ? size.width + 'vw' : dialogConfig.width;
-    // Popup Height
-    dialogConfig.minHeight = size?.minHeight ? size.minHeight + 'vh' : '60vh';
-    dialogConfig.maxHeight = size?.maxHeight ? size.maxHeight + 'vh' : dialogConfig.maxHeight;
-    dialogConfig.height = size?.height ? size.height + 'vh' : dialogConfig.height;
+    dialogConfig.maxWidth = '85vw';
     // CSS
     dialogConfig.panelClass = 'transparent-dialog-container';
     dialogConfig.data = {

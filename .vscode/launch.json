@@ -6,7 +6,7 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Launch tenant 'SLF@localhost' in Chrome",
+      "name": "tenant: slf",
       "request": "launch",
       "type": "pwa-chrome",
       "url": "http://slf.localhost:45000",
@@ -18,6 +18,27 @@
       "name": "tenant: utbilling",
       "url": "http://utbilling.localhost:45000",
       "webRoot": "${workspaceFolder}"
-    }
+    },
+    {
+      "type": "node",
+      "name": "vscode-jest-tests",
+      "request": "launch",
+      "program": "${workspaceFolder}/node_modules/.bin/jest",
+      "args": [
+        "--i",
+        "--runInBand",
+        "--config='./jest.config.ts'",
+        "--reporters='default'",
+        "--reporters='./test/JestEvseReporter'",
+        "--watchAll=false",
+      ],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "disableOptimisticBPs": false,
+      "windows": {
+        "program": "${workspaceFolder}/node_modules/jest/bin/jest"
+      }
+    },
   ]
 }

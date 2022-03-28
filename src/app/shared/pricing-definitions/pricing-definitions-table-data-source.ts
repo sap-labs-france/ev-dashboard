@@ -92,16 +92,16 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
       {
         id: 'name',
         name: 'chargers.name',
-        headerClass: 'd-none d-xl-table-cell col-30p',
-        class: 'd-none d-xl-table-cell col-30p',
+        headerClass: 'col-15p',
+        class: 'col-15p',
         sortable: true,
       },
       {
         id: 'staticRestrictions.validFrom',
         name: 'settings.pricing.valid_from',
         formatter: (validFrom: Date) => this.datePipe.transform(validFrom, 'shortDate'),
-        headerClass: 'd-none d-xl-table-cell col-30p',
-        class: 'd-none d-xl-table-cell col-30p',
+        headerClass: 'col-15p',
+        class: 'col-15p',
         sortable: true,
       },
       {
@@ -109,7 +109,7 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
         name: 'settings.pricing.valid_to',
         formatter: (validTo: Date) => this.datePipe.transform(validTo, 'shortDate'),
         headerClass: 'col-15p',
-        class: 'd-none d-xl-table-cell col-30p',
+        class: 'col-15p',
         sortable: true,
       },
       {

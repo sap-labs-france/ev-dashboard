@@ -3,7 +3,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 
 import { DialogParams } from '../../../../types/Authorization';
-import { ScreenSize } from '../../../../types/GlobalType';
 import { TableActionDef } from '../../../../types/Table';
 import { Tag, TagButtonAction } from '../../../../types/Tag';
 import { TableEditAction } from '../table-edit-action';
@@ -25,13 +24,6 @@ export class TableEditTagByVisualIDAction extends TableEditAction {
 
   private editTag(tagAssignDialogComponent: ComponentType<unknown>, dialog: MatDialog,
     dialogParams: DialogParams<Tag>, refresh?: () => Observable<void>) {
-    super.edit(tagAssignDialogComponent, dialog, dialogParams, refresh, {
-      minWidth: ScreenSize.M,
-      maxWidth: ScreenSize.M,
-      width: ScreenSize.M,
-      minHeight: ScreenSize.SM,
-      maxHeight: ScreenSize.SM,
-      height: ScreenSize.SM
-    });
+    super.edit(tagAssignDialogComponent, dialog, dialogParams, refresh);
   }
 }

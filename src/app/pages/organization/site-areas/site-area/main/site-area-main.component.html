@@ -1,7 +1,7 @@
 <div>
   <form class="form" [formGroup]="formGroup">
     <div class="row app-organization">
-      <div class="col-md-5 d-block mt-auto">
+      <div class="col-md-5 d-block mb-auto">
         <div class="rotating-card-container" [ngStyle]="{ 'pointer-events': !readOnly ? 'all' : 'none'}">
           <div class="card card-rotate card-background app-site-area-image-padding mt-0">
             <div class="front front-background"
@@ -119,7 +119,7 @@
             </div>
           </div>
         </div>
-        <div *ngIf="!readOnly && currentSiteAreaID && !formGroup.disabled">
+        <div *ngIf="!readOnly && siteArea && !formGroup.disabled">
           <div class="d-flex justify-content-start">
             <div *ngIf="registrationToken" class="me-2">
               <button mat-raised-button [matMenuTriggerFor]="ocppUrlMenu" color="primary">

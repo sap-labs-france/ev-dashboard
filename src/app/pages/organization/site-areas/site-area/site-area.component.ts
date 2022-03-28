@@ -19,13 +19,13 @@ import { SiteArea } from '../../../../types/SiteArea';
 import { TenantComponents } from '../../../../types/Tenant';
 import { Utils } from '../../../../utils/Utils';
 import { SiteAreaMainComponent } from './main/site-area-main.component';
-import { SiteAreaOcpiComponent } from './site-area-ocpi/site-area-ocpi.component';
+import { SiteAreaOcpiComponent } from './ocpi/site-area-ocpi.component';
 
 @Component({
   selector: 'app-site-area',
   templateUrl: 'site-area.component.html',
 })
-export class SiteAreaComponent extends AbstractTabComponent  implements OnInit {
+export class SiteAreaComponent extends AbstractTabComponent implements OnInit {
   @Input() public currentSiteAreaID!: string;
   @Input() public dialogMode!: DialogMode;
   @Input() public dialogRef!: MatDialogRef<any>;
@@ -49,36 +49,34 @@ export class SiteAreaComponent extends AbstractTabComponent  implements OnInit {
     private dialogService: DialogService,
     private router: Router,
     protected windowService: WindowService,
-    protected activatedRoute: ActivatedRoute,) {
-    super(activatedRoute, windowService, ['common', 'site-area-ocpi'], false);
+    protected activatedRoute: ActivatedRoute) {
+    super(activatedRoute, windowService, ['main', 'ocpi'], false);
     this.ocpiActive = this.componentService.isActive(TenantComponents.OCPI);
   }
 
   public ngOnInit() {
     // Init the form
     this.formGroup = new FormGroup({});
-    this.readOnly = (this.dialogMode === DialogMode.VIEW);
-    if (this.currentSiteAreaID) {
-      this.loadSiteArea();
-    } else if (this.activatedRoute && this.activatedRoute.params) {
-      this.activatedRoute.params.subscribe((params: Params) => {
-        this.currentSiteAreaID = params['id'];
-      });
-    }
     // Handle Dialog mode
+    this.readOnly = (this.dialogMode === DialogMode.VIEW);
     Utils.handleDialogMode(this.dialogMode, this.formGroup);
+    // Load Site Area
+    this.loadSiteArea();
   }
 
   public loadSiteArea() {
     if (this.currentSiteAreaID) {
-      // Show spinner
       this.spinnerService.show();
       this.centralServerService.getSiteArea(this.currentSiteAreaID, true).subscribe((siteArea) => {
         this.spinnerService.hide();
         this.siteArea = siteArea;
         // Check if OCPI has to be displayed
         this.ocpiHasVisibleFields = siteArea.projectFields.includes('tariffID');
-        // Update form group
+        if (this.readOnly) {
+          // Async call for letting the sub form groups to init
+          setTimeout(() => this.formGroup.disable(), 0);
+        }
+          // Update form group
         this.formGroup.updateValueAndValidity();
         this.formGroup.markAsPristine();
         this.formGroup.markAllAsTouched();
@@ -96,18 +94,6 @@ export class SiteAreaComponent extends AbstractTabComponent  implements OnInit {
     }
   }
 
-  public refresh() {
-    this.loadSiteArea();
-  }
-
-  public saveSiteArea(siteArea: SiteArea) {
-    if (this.currentSiteAreaID) {
-      this.updateSiteArea(siteArea);
-    } else {
-      this.createSiteArea(siteArea);
-    }
-  }
-
   public closeDialog(saved: boolean = false) {
     if (this.dialogRef) {
       this.dialogRef.close(saved);
@@ -121,6 +107,14 @@ export class SiteAreaComponent extends AbstractTabComponent  implements OnInit {
 
   public siteChanged(site: Site) {
     this.siteAreaOcpiComponent?.siteChanged(site);
+  }
+
+  public saveSiteArea(siteArea: SiteArea) {
+    if (this.currentSiteAreaID) {
+      this.updateSiteArea(siteArea);
+    } else {
+      this.createSiteArea(siteArea);
+    }
   }
 
   private createSiteArea(siteArea: SiteArea) {

@@ -4,7 +4,7 @@
       <mat-tab>
         <ng-template mat-tab-label>
           <mat-icon>portrait</mat-icon>
-          <span>{{ carCatalog?.value }}</span>
+          <span>{{'car.title' | translate}} - {{carCatalog?.value}}</span>
         </ng-template>
         <div class="card-body mat-tab-dialog-body-content">
           <div class="row w-100 align-items-center">
@@ -130,7 +130,8 @@
       </mat-tab>
     </mat-tab-group>
     <div class="tabs-actions">
-      <button mat-button (click)="saveCar(formGroup.getRawValue())" [disabled]="!formGroup.valid || !formGroup.dirty" >
+      <button mat-button *ngIf="!readOnly" (click)="saveCar(formGroup.getRawValue())"
+          [disabled]="!formGroup.valid || !formGroup.dirty" >
         <mat-icon>save</mat-icon>
         <span>{{ "general.save" | translate }}</span>
       </button>

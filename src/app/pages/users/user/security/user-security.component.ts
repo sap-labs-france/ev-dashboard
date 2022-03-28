@@ -14,7 +14,6 @@ import { Utils } from '../../../../utils/Utils';
 export class UserSecurityComponent implements OnInit, OnChanges {
   @Input() public formGroup: FormGroup;
   @Input() public user!: User;
-  @Input() public currentUserID!: string;
 
   public parentErrorStateMatcher = new ParentErrorStateMatcher();
   public hidePassword = true;
@@ -31,17 +30,16 @@ export class UserSecurityComponent implements OnInit, OnChanges {
         Validators.compose([
           Users.passwordWithNoSpace,
           Users.validatePassword,
-        ].concat(!Utils.isEmptyString(this.currentUserID) ? [] : [Validators.required]))),
+        ])),
       repeatPassword: new FormControl('',
         Validators.compose([
           Users.validatePassword,
-        ].concat(!Utils.isEmptyString(this.currentUserID) ? [] : [Validators.required]))),
+        ])),
     }, (passwordFormGroup: FormGroup) => Utils.validateEqual(passwordFormGroup, 'password', 'repeatPassword')));
     // Form
     this.passwords = (this.formGroup.controls['passwords'] as FormGroup);
     this.password = this.passwords.controls['password'];
     this.repeatPassword = this.passwords.controls['repeatPassword'];
-    this.formGroup.updateValueAndValidity();
   }
 
   public ngOnChanges() {

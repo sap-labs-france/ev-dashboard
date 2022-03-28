@@ -39,6 +39,7 @@ export class ReleaseNotesComponent {
               `Use human readable name for OCPI Site Area`,
               `Display default images in Car and Company list when not provided`,
               `Aligned Organization endpoint with new authorization framework`,
+              `Show pricing details in the Session History and Session In Progress dialogs`,
             ],
           },
         ],

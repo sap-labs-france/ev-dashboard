@@ -37,6 +37,7 @@ export class ReleaseNotesComponent {
               `Fixed OCPI must return Charging when OCPP status is SuspendedEV/EVSE`,
               `Fixed OCPI Sessions sync after Transaction has been taken place`,
               `Use human readable name for OCPI Site Area`,
+              `Display default images in Car and Company list when not provided`,
             ],
           },
         ],

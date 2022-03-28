@@ -6,12 +6,12 @@ import { Car, CarCatalog } from '../../../types/Car';
 @Component({
   template: `
     <div class="logo-container">
-      <img class="app-cars-logo"
+      <img class="app-car-image"
         [src]="row['carCatalog'] ? row['carCatalog']['image'] : row['image']" alt="">
     </div>
   `,
 })
 
-export class CarCatalogImageFormatterCellComponent extends CellContentTemplateDirective {
+export class CarImageFormatterCellComponent extends CellContentTemplateDirective {
   @Input() public row!: CarCatalog | Car;
 }

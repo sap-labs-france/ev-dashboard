@@ -24,7 +24,7 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.6.3',
-        date: new Date('2022-03-08'),
+        date: new Date('2022-03-28'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -35,6 +35,7 @@ export class ReleaseNotesComponent {
               `Migrated Car endpoint to the new authorization framework`,
               `Avoid too many payment attempts`,
               `Fixed OCPI must return Charging when OCPP status is SuspendedEV/EVSE`,
+              `Fixed OCPI Sessions sync after Transaction has been taken place`,
               `Use human readable name for OCPI Site Area`,
             ],
           },

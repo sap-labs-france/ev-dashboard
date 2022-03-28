@@ -22,7 +22,7 @@ import { DataResult } from '../../../types/DataResult';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
 import { Utils } from '../../../utils/Utils';
 import { CarCatalogDialogComponent } from '../car-catalog/car-catalog-dialog.component';
-import { CarCatalogImageFormatterCellComponent } from '../cell-components/car-catalog-image-formatter-cell.component';
+import { CarImageFormatterCellComponent } from '../cell-components/car-image-formatter-cell.component';
 
 @Injectable()
 export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> {
@@ -93,7 +93,7 @@ export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> 
         headerClass: 'text-center col-8p',
         class: 'col-8p p-0',
         isAngularComponent: true,
-        angularComponent: CarCatalogImageFormatterCellComponent,
+        angularComponent: CarImageFormatterCellComponent,
       },
       {
         id: 'id',

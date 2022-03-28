@@ -38,6 +38,7 @@ export class ReleaseNotesComponent {
               `Fixed OCPI Sessions sync after Transaction has been taken place`,
               `Use human readable name for OCPI Site Area`,
               `Display default images in Car and Company list when not provided`,
+              `Aligned Organization endpoint with new authorization framework`,
             ],
           },
         ],

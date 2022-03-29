@@ -258,6 +258,16 @@ export interface RegistrationTokenAuthorizationActions extends AuthorizationActi
 export interface LogsAuthorizationActions extends AuthorizationActions {
   canExport?: boolean;
 }
+// INVOICES
+export interface BillingInvoicesAuthorizations extends AuthorizationAttributes, BillingInvoicesAuthorizationActions {
+}
+export interface BillingInvoicesAuthorizationActions extends DataResultAuthorizationActions {
+  canListUsers?: boolean;
+}
+// INVOICE
+export interface BillingInvoiceAuthorizationActions extends AuthorizationActions {
+  canDownload?: boolean;
+}
 
 export enum DialogMode {
   EDIT = 'E',

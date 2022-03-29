@@ -1,3 +1,4 @@
+import { BillingInvoiceAuthorizationActions } from './Authorization';
 import { BillingSettings } from './Setting';
 import { TableData } from './Table';
 
@@ -20,7 +21,7 @@ export interface BillingUserData extends TableData {
   hasSynchroError: boolean;
 }
 
-export interface BillingInvoice extends TableData {
+export interface BillingInvoice extends TableData, BillingInvoiceAuthorizationActions {
   id: string;
   createdOn?: Date;
   invoiceID: string;

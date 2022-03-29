@@ -1,5 +1,6 @@
 import { Asset } from './Asset';
-import { AssetsAuthorizations, CarCatalogsAuthorizations, CarsAuthorizations, DataResultAuthorizations, LogsAuthorizationActions, TagsAuthorizations, UsersAuthorizations } from './Authorization';
+import { AssetsAuthorizations, BillingInvoicesAuthorizations, CarCatalogsAuthorizations, CarsAuthorizations, DataResultAuthorizations, LogsAuthorizationActions, TagsAuthorizations, UsersAuthorizations } from './Authorization';
+import { BillingInvoice } from './Billing';
 import { Car, CarCatalog } from './Car';
 import { Company } from './Company';
 import { Log } from './Log';
@@ -112,6 +113,9 @@ export interface PricingDefinitionDataResult extends DataResult<PricingDefinitio
 }
 
 export interface AssetDataResult extends DataResult<Asset>, AssetsAuthorizations {
+}
+
+export interface BillingInvoiceDataResult extends DataResult<BillingInvoice>, BillingInvoicesAuthorizations {
 }
 
 export interface CheckAssetConnectionResponse extends ActionResponse {

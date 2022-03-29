@@ -4,7 +4,7 @@
       <mat-tab>
         <ng-template mat-tab-label>
           <mat-icon>portrait</mat-icon>
-          <span>{{'tags.title' | translate}} - {{formGroup.controls['id'].value}}</span>
+          <span>{{'tags.title' | translate}} - {{formGroup.controls['id'].value ? formGroup.controls['id'].value : formGroup.controls['visualID'].value}}</span>
         </ng-template>
         <div class="card-body mat-tab-dialog-body-content">
           <app-tag-main #siteMainComponent [formGroup]="formGroup" [tag]="tag" [readOnly]="readOnly" [metadata]="metadata"></app-tag-main>
@@ -12,7 +12,8 @@
       </mat-tab>
     </mat-tab-group>
     <div class="tabs-actions">
-      <button mat-button (click)="saveTag(formGroup.getRawValue())" [disabled]="!formGroup.valid || !formGroup.dirty">
+      <button mat-button *ngIf="!readOnly" (click)="saveTag(formGroup.getRawValue())"
+          [disabled]="!formGroup.valid || !formGroup.dirty">
         <mat-icon>save</mat-icon>
         <span>{{'general.save' | translate}}</span>
       </button>

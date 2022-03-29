@@ -121,13 +121,35 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
     }
   }
 
-  private updateVisibleDatasets(){
+  private updateVisibleDatasets() {
     this.visibleDatasets = [];
     this.data.datasets.forEach(dataset => {
       if(!dataset.hidden){
         this.visibleDatasets.push(dataset.order);
       }
     });
+  }
+
+  private updateVisibleGridLines() {
+    const visibleDatasets = this.data.datasets.filter(ds => !ds.hidden).map(ds => ds.order);
+    for (const key in this.gridDisplay) {
+      if(Object.prototype.hasOwnProperty.call(this.gridDisplay, key)) {
+        this.gridDisplay[key] = false;
+      }
+    }
+    if (
+      visibleDatasets.includes(ConsumptionChartDatasetOrder.INSTANT_WATTS) ||
+      visibleDatasets.includes(ConsumptionChartDatasetOrder.LIMIT_WATTS)
+    ) {
+      this.gridDisplay[ConsumptionChartAxis.POWER] = true;
+    } else if (
+      visibleDatasets.includes(ConsumptionChartDatasetOrder.INSTANT_AMPS) ||
+      visibleDatasets.includes(ConsumptionChartDatasetOrder.LIMIT_AMPS)
+    ) {
+      this.gridDisplay[ConsumptionChartAxis.AMPERAGE] = true;
+    } else if( visibleDatasets.includes(ConsumptionChartDatasetOrder.STATE_OF_CHARGE) ) {
+      this.gridDisplay[ConsumptionChartAxis.PERCENTAGE] = true;
+    }
   }
 
   private getStyleColor(element: Element): string {
@@ -137,17 +159,19 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
 
   private prepareOrUpdateGraph() {
     if (this.canDisplayGraph()) {
+      this.createGraphData();
+      this.refreshDataSets();
+      this.options = this.createOptions();
       if (!this.graphCreated) {
         this.graphCreated = true;
-        this.options = this.createOptions();
-        this.createGraphData();
         this.chart = new Chart(this.chartElement.nativeElement.getContext('2d'), {
           type: 'bar',
           data: this.data,
           options: this.options,
         });
+      } else {
+        this.chart.options = this.options;
       }
-      this.refreshDataSets();
       this.chart.update();
     }
   }
@@ -210,6 +234,7 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
   }
 
   private refreshDataSets() {
+    this.updateVisibleGridLines();
     for (const key of Object.keys(this.data.datasets)) {
       this.data.datasets[key].data = [];
     }
@@ -292,25 +317,7 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
             const status = dataset.hidden;
             dataset.hidden = !status;
             this.data.datasets[legendItem.datasetIndex].hidden = !status;
-            const visibleDatasets = this.data.datasets.filter(ds => !ds.hidden).map(ds => ds.order);
-            for (const key in this.gridDisplay) {
-              if(Object.prototype.hasOwnProperty.call(this.gridDisplay, key)) {
-                this.gridDisplay[key] = false;
-              }
-            }
-            if (
-              visibleDatasets.includes(ConsumptionChartDatasetOrder.INSTANT_WATTS) ||
-              visibleDatasets.includes(ConsumptionChartDatasetOrder.LIMIT_WATTS)
-            ) {
-              this.gridDisplay[ConsumptionChartAxis.POWER] = true;
-            } else if (
-              visibleDatasets.includes(ConsumptionChartDatasetOrder.INSTANT_AMPS) ||
-              visibleDatasets.includes(ConsumptionChartDatasetOrder.LIMIT_AMPS)
-            ) {
-              this.gridDisplay[ConsumptionChartAxis.AMPERAGE] = true;
-            } else if( visibleDatasets.includes(ConsumptionChartDatasetOrder.STATE_OF_CHARGE) ) {
-              this.gridDisplay[ConsumptionChartAxis.PERCENTAGE] = true;
-            }
+            this.updateVisibleGridLines();
             legend.chart.options = this.createOptions();
             legend.chart.update();
           }

@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 
 import { AuthorizationService } from '../../../../services/authorization.service';
@@ -146,12 +146,8 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
     this.tariffID = this.formGroup.controls['tariffID'];
     this.longitude = this.coordinates.at(0);
     this.latitude = this.coordinates.at(1);
-    this.formGroup.updateValueAndValidity();
     this.maximumPowerAmps.disable();
     this.masterSlave.disable();
-    if (this.readOnly) {
-      this.formGroup.disable();
-    }
   }
 
   public ngOnChanges() {
@@ -200,7 +196,8 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
         this.siteArea.setValue(this.chargingStation.siteArea.name);
       }
       if (!this.chargingStation.issuer) {
-        this.formGroup.disable();
+        // Async call for letting the sub form groups to init
+        setTimeout(() => this.formGroup.disable(), 0);
       }
       // URL not editable in case OCPP v1.6 or above
       if (this.chargingStation.ocppProtocol === OCPPProtocol.JSON) {
@@ -209,10 +206,6 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
       if (this.chargingStation.chargePoints && !this.manualConfiguration.value) {
         this.maximumPower.disable();
       }
-      // Force refresh the form
-      this.formGroup.updateValueAndValidity();
-      this.formGroup.markAsPristine();
-      this.formGroup.markAllAsTouched();
     }
   }
 

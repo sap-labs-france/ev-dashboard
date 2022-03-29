@@ -44,18 +44,6 @@
                   </div>
                   <div class="input-group-prepend">
                     <span class="input-group-text">
-                      <mat-icon>phone</mat-icon>
-                      <mat-form-field class="ms-2">
-                        <input [formControl]="phone" matInput placeholder="{{'users.phone' | translate}}" type="text">
-                        <mat-error *ngIf="phone.errors?.invalidPhone">
-                          {{"users.invalid_phone_number" | translate}}
-                          {{phone.errors?.pattern | json}}
-                        </mat-error>
-                      </mat-form-field>
-                    </span>
-                  </div>
-                  <div class="input-group-prepend">
-                    <span class="input-group-text">
                       <mat-icon>smartphone</mat-icon>
                       <mat-form-field class="ms-2">
                         <input [formControl]="mobile" matInput placeholder="{{'users.mobile' | translate}}" type="text">

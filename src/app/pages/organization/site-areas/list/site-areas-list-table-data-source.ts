@@ -97,7 +97,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
           canCreate: siteAreas.canCreate
         };
         // Build TableDef using the initialized auth object
-        this.setTableDef(this.buildTableDefWithAuth());
+        this.setTableDef(this.buildTableDef());
         this.createAction.visible = this.siteAreasAuthorizations.canCreate;
         observer.next(siteAreas);
         observer.complete();
@@ -108,9 +108,21 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     });
   }
 
-  // TableDef build is handled after retrieving site areas authorizations
+  // This function will be called twice: once in the normal worklow and second with auth
+  // TODO: Try to refactor so that we have a seperate tabledef init with authorization
   public buildTableDef(): TableDef {
-    return {};
+    return {
+      search: {
+        enabled: true,
+      },
+      rowDetails: {
+        enabled: true,
+        showDetailsField: 'issuer',
+        angularComponent: SiteAreaConsumptionChartDetailComponent,
+        additionalParameters: this.siteAreasAuthorizations
+      },
+      hasDynamicRowAction: true,
+    };
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
@@ -363,20 +375,5 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
       issuerFilter,
       new SiteTableFilter([issuerFilter]).getFilterDef(),
     ];
-  }
-  // Build tableDef using initialized authorizations retrieved from backend (additionalParameters)
-  private buildTableDefWithAuth(): TableDef {
-    return {
-      search: {
-        enabled: true,
-      },
-      rowDetails: {
-        enabled: true,
-        showDetailsField: 'issuer',
-        angularComponent: SiteAreaConsumptionChartDetailComponent,
-        additionalParameters: this.siteAreasAuthorizations
-      },
-      hasDynamicRowAction: true,
-    };
   }
 }

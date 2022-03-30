@@ -24,7 +24,7 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.6.3',
-        date: new Date('2022-03-28'),
+        date: new Date('2022-03-30'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -40,6 +40,7 @@ export class ReleaseNotesComponent {
               `Display default images in Car and Company list when not provided`,
               `Aligned Organization endpoint with new authorization framework`,
               `Show pricing details in the Session History and Session In Progress dialogs`,
+              `Cannot assign a non public Site Area in Edit Charging Station`,
             ],
           },
         ],

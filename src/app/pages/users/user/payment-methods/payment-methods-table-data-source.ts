@@ -3,9 +3,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { BillingPaymentMethodsAuthorizationActions } from 'types/Authorization';
 import { HTTPError } from 'types/HTTPError';
 
-import { AuthorizationService } from '../../../../services/authorization.service';
 import { CentralServerService } from '../../../../services/central-server.service';
 import { ComponentService } from '../../../../services/component.service';
 import { DialogService } from '../../../../services/dialog.service';
@@ -18,7 +18,7 @@ import { TableCreatePaymentMethodAction, TableCreatePaymentMethodActionDef } fro
 import { TableDeletePaymentMethodAction, TableDeletePaymentMethodActionDef } from '../../../../shared/table/actions/users/table-delete-payment-method';
 import { TableDataSource } from '../../../../shared/table/table-data-source';
 import { BillingButtonAction, BillingPaymentMethod } from '../../../../types/Billing';
-import { DataResult } from '../../../../types/DataResult';
+import { BillingPaymentMethodDataResult } from '../../../../types/DataResult';
 import { BillingSettings } from '../../../../types/Setting';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../../types/Table';
 import { Utils } from '../../../../utils/Utils';
@@ -27,17 +27,17 @@ import { PaymentMethodDialogComponent } from './payment-method/payment-method.di
 
 @Injectable()
 export class PaymentMethodsTableDataSource extends TableDataSource<BillingPaymentMethod> {
-  public canCreatePaymentMethod: boolean;
   public currentUserID: string;
   public billingSettings: BillingSettings;
   private deleteAction = new TableDeletePaymentMethodAction().getActionDef();
   private createAction = new TableCreatePaymentMethodAction().getActionDef();
+  private paymentsAthorizations: BillingPaymentMethodsAuthorizationActions;
+
 
   public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     public componentService: ComponentService,
-    public authorizationService: AuthorizationService,
     public windowService: WindowService,
     public activatedRoute: ActivatedRoute,
     public centralServerService: CentralServerService,
@@ -47,7 +47,6 @@ export class PaymentMethodsTableDataSource extends TableDataSource<BillingPaymen
     private datePipe: AppDatePipe,
     private dialog: MatDialog) {
     super(spinnerService, translateService);
-    this.canCreatePaymentMethod = this.authorizationService.canCreatePaymentMethod();
     this.componentService.getBillingSettings().subscribe((settings) => {
       this.spinnerService.hide();
       this.billingSettings = settings;
@@ -59,14 +58,19 @@ export class PaymentMethodsTableDataSource extends TableDataSource<BillingPaymen
     this.currentUserID = currentUserID;
   }
 
-  public loadDataImpl(): Observable<DataResult<BillingPaymentMethod>> {
+  public loadDataImpl(): Observable<BillingPaymentMethodDataResult> {
     return new Observable((observer) => {
       // User provided?
       if (this.currentUserID) {
         // Yes: Get data
         this.centralServerService.getPaymentMethods(this.currentUserID, this.buildFilterValues(),
           this.getPaging(), this.getSorting()).subscribe((paymentMethods) => {
-          this.createAction.visible = this.canCreatePaymentMethod;
+          // Init authorizations
+          this.paymentsAthorizations = {
+            canCreate: paymentMethods.canCreate
+          };
+          // Set action visibility
+          this.createAction.visible = this.paymentsAthorizations.canCreate;
           observer.next(paymentMethods);
           observer.complete();
         }, (error) => {
@@ -156,15 +160,15 @@ export class PaymentMethodsTableDataSource extends TableDataSource<BillingPaymen
     if (this.activatedRoute.snapshot.url[0]?.path === 'profile') {
       this.currentUserID = this.centralServerService.getLoggedUser().id;
     }
-    if (this.canCreatePaymentMethod) {
-      tableActionsDef.unshift(this.createAction);
-    }
-    return tableActionsDef;
+    return [
+      this.createAction,
+      ...tableActionsDef
+    ];
   }
 
   public buildTableDynamicRowActions(paymentMethod: BillingPaymentMethod): TableActionDef[] {
     const rowActions: TableActionDef[] = [];
-    if (!paymentMethod.isDefault) {
+    if (paymentMethod.canDelete) {
       rowActions.push(this.deleteAction);
     }
     return rowActions;

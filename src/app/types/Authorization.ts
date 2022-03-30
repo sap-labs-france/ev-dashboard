@@ -269,6 +269,14 @@ export interface BillingInvoiceAuthorizationActions extends AuthorizationActions
   canDownload?: boolean;
 }
 
+// PAYMENT METHODS
+export interface BillingPaymentMethodsAuthorizationActions extends DataResultAuthorizationActions {
+}
+
+// PAYMENT METHOD
+export interface BillingPaymentMethodAuthorizationActions extends AuthorizationActions {
+}
+
 export enum DialogMode {
   EDIT = 'E',
   CREATE = 'C',

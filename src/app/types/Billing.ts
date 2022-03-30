@@ -1,4 +1,4 @@
-import { BillingInvoiceAuthorizationActions } from './Authorization';
+import { BillingInvoiceAuthorizationActions, BillingPaymentMethodAuthorizationActions } from './Authorization';
 import { BillingSettings } from './Setting';
 import { TableData } from './Table';
 
@@ -62,7 +62,7 @@ export interface BillingInvoiceItem {
   taxes?: string[];
 }
 
-export interface BillingPaymentMethod {
+export interface BillingPaymentMethod extends BillingPaymentMethodAuthorizationActions {
   id: string;
   brand: string;
   expiringOn: string;

@@ -153,7 +153,6 @@ export class UserMainComponent implements OnInit, OnChanges {
     if (this.metadata?.status?.mandatory) {
       this.status.setValidators(Validators.required);
     }
-    this.formGroup.updateValueAndValidity();
   }
 
   public ngOnChanges() {

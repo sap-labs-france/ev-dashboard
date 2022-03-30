@@ -1,5 +1,5 @@
 import { Asset } from './Asset';
-import { AssetsAuthorizations, BillingInvoicesAuthorizations, BillingPaymentMethodsAuthorizationActions, CarCatalogsAuthorizations, CarsAuthorizations, DataResultAuthorizations, LogsAuthorizationActions, TagsAuthorizations, UsersAuthorizations } from './Authorization';
+import { AssetsAuthorizations, BillingInvoicesAuthorizations, BillingPaymentMethodsAuthorizationActions, CarCatalogsAuthorizations, CarsAuthorizations, DataResultAuthorizations, LogsAuthorizationActions, SitesAuthorizationActions, TagsAuthorizations, UsersAuthorizations } from './Authorization';
 import { BillingInvoice, BillingPaymentMethod } from './Billing';
 import { Car, CarCatalog } from './Car';
 import { Company } from './Company';
@@ -88,7 +88,7 @@ export interface RegistrationTokenDataResult extends DataResult<RegistrationToke
 export interface CompanyDataResult extends DataResult<Company> {
 }
 
-export interface SiteDataResult extends DataResult<Site> {
+export interface SiteDataResult extends DataResult<Site>, SitesAuthorizationActions {
 }
 
 export interface LogDataResult extends DataResult<Log>, LogsAuthorizationActions {

@@ -102,6 +102,7 @@ export class TagAssignComponent implements OnInit {
         this.description.setValue(tag.description);
         this.visualID.setValue(tag.visualID);
         this.default.setValue(tag.default);
+        // Update form group
         this.formGroup.updateValueAndValidity();
         this.formGroup.markAsPristine();
         this.formGroup.markAllAsTouched();
@@ -145,7 +146,7 @@ export class TagAssignComponent implements OnInit {
 
   private updateTag(tag: Tag) {
     this.spinnerService.show();
-    this.centralServerService.updateTagByVisualID(tag).subscribe((response: ActionResponse) => {
+    this.centralServerService.updateTag(tag).subscribe((response: ActionResponse) => {
       this.spinnerService.hide();
       if (response.status === RestResponse.SUCCESS) {
         this.messageService.showSuccessMessage('tags.update_by_visual_id_success', { visualID: tag.visualID });

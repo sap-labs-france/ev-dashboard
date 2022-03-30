@@ -3,9 +3,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { AuthorizationService } from 'services/authorization.service';
 import { WindowService } from 'services/window.service';
 import { TableSiteAreaGenerateQrCodeConnectorAction, TableSiteAreaGenerateQrCodeConnectorsActionDef } from 'shared/table/actions/site-areas/table-site-area-generate-qr-code-connector-action';
+import { DataResultAuthorizations } from 'types/Authorization';
 
 import { CentralServerService } from '../../../../services/central-server.service';
 import { ComponentService } from '../../../../services/component.service';
@@ -45,6 +45,7 @@ import { SiteAreaConsumptionChartDetailComponent } from './consumption-chart/sit
 
 @Injectable()
 export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
+  private siteAreasAuthorizations: DataResultAuthorizations;
   private readonly isAssetComponentActive: boolean;
   private editAction = new TableEditSiteAreaAction().getActionDef();
   private assignChargingStationsToSiteAreaAction = new TableAssignChargingStationsToSiteAreaAction().getActionDef();
@@ -67,7 +68,6 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     private dialog: MatDialog,
     private appUnitPipe: AppUnitPipe,
     private centralServerService: CentralServerService,
-    private authorizationService: AuthorizationService,
     private datePipe: AppDatePipe,
     private windowService: WindowService,
     private componentService: ComponentService) {
@@ -93,7 +93,12 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
       // Get Site Areas
       this.centralServerService.getSiteAreas(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((siteAreas) => {
-        this.createAction.visible = siteAreas.canCreate;
+        this.siteAreasAuthorizations = {
+          canCreate: siteAreas.canCreate
+        };
+        // Build TableDef using the initialized auth object
+        this.setTableDef(this.buildTableDef());
+        this.createAction.visible = this.siteAreasAuthorizations.canCreate;
         observer.next(siteAreas);
         observer.complete();
       }, (error) => {
@@ -103,6 +108,8 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     });
   }
 
+  // This function will be called twice: once in the normal worklow and second with auth
+  // TODO: Try to refactor so that we have a seperate tabledef init with authorization
   public buildTableDef(): TableDef {
     return {
       search: {
@@ -112,6 +119,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
         enabled: true,
         showDetailsField: 'issuer',
         angularComponent: SiteAreaConsumptionChartDetailComponent,
+        additionalParameters: this.siteAreasAuthorizations
       },
       hasDynamicRowAction: true,
     };

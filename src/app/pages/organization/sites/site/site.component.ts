@@ -57,17 +57,11 @@ export class SiteComponent extends AbstractTabComponent implements OnInit {
   public ngOnInit() {
     // Init the form
     this.formGroup = new FormGroup({});
-    this.readOnly = this.dialogMode === DialogMode.VIEW;
-    if (this.currentSiteID) {
-      this.loadSite();
-    } else if (this.activatedRoute?.params) {
-      this.activatedRoute.params.subscribe((params: Params) => {
-        this.currentSiteID = params['id'];
-        this.loadSite();
-      });
-    }
     // Handle Dialog mode
+    this.readOnly = this.dialogMode === DialogMode.VIEW;
     Utils.handleDialogMode(this.dialogMode, this.formGroup);
+    // Load Site
+    this.loadSite();
   }
 
   public loadSite() {
@@ -78,6 +72,10 @@ export class SiteComponent extends AbstractTabComponent implements OnInit {
         this.site = site;
         // Check if OCPI has to be displayed
         this.ocpiHasVisibleFields = site.projectFields.includes('tariffID');
+        if (this.readOnly) {
+          // Async call for letting the sub form groups to init
+          setTimeout(() => this.formGroup.disable(), 0);
+        }
         // Update form group
         this.formGroup.updateValueAndValidity();
         this.formGroup.markAsPristine();

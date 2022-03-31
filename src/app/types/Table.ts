@@ -167,6 +167,7 @@ export interface TableDef {
     detailsField?: string;
     angularComponent?: any;
     showDetailsField?: string;
+    additionalParameters?: any;
   };
   rowFieldNameIdentifier?: string;
   isSimpleTable?: boolean;

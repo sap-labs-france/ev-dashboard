@@ -24,7 +24,7 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.6.3',
-        date: new Date('2022-03-08'),
+        date: new Date('2022-03-30'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -35,7 +35,12 @@ export class ReleaseNotesComponent {
               `Migrated Car endpoint to the new authorization framework`,
               `Avoid too many payment attempts`,
               `Fixed OCPI must return Charging when OCPP status is SuspendedEV/EVSE`,
+              `Fixed OCPI Sessions sync after Transaction has been taken place`,
               `Use human readable name for OCPI Site Area`,
+              `Display default images in Car and Company list when not provided`,
+              `Aligned Organization endpoint with new authorization framework`,
+              `Show pricing details in the Session History and Session In Progress dialogs`,
+              `Cannot assign a non public Site Area in Edit Charging Station`,
             ],
           },
         ],

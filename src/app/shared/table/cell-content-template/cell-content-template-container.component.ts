@@ -53,6 +53,7 @@ export class CellContentTemplateContainerComponent implements OnInit, OnChanges 
       // Pass the data
       this.cellComponent.row = this.row;
       this.cellComponent.columnDef = this.columnDef;
+      this.cellComponent.tableDef = this.tableDef;
       // Listen
       this.cellComponent.componentChanged.subscribe((data: any) => {
         this.componentChanged.emit(data);

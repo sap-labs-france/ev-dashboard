@@ -81,12 +81,7 @@
 
 .chart-container {
   position: relative;
-  width: 100%;
-  min-height: 25vh;
-  @media (max-width: 1280px) {
-    height: 20em;
-  }
-  margin: 0 0 20px 0;
+  height: 25em;
 }
 
 .chart-container-profiles {

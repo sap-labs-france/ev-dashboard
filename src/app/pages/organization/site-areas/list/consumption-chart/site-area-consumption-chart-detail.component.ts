@@ -1,4 +1,6 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { DataResultAuthorizationActions } from 'types/Authorization';
+import { TableDef } from 'types/Table';
 
 import { CellContentTemplateDirective } from '../../../../../shared/table/cell-content-template/cell-content-template.directive';
 import { SiteArea } from '../../../../../types/SiteArea';
@@ -6,20 +8,25 @@ import { SiteAreaConsumptionChartComponent } from './site-area-consumption-chart
 
 @Component({
   template:
-    `<app-site-area-chart #siteAreaConsumptionChart *ngIf="siteAreaId" [siteAreaId]="siteAreaId" ratio="3"></app-site-area-chart>`,
+    `<app-site-area-chart #siteAreaConsumptionChart *ngIf="siteArea.id" [siteArea]="siteArea" ratio="3" [siteAreasAuthorizations]="siteAreasAuthorizations">
+    </app-site-area-chart>`,
 })
 
 export class SiteAreaConsumptionChartDetailComponent extends CellContentTemplateDirective implements OnChanges, OnInit {
   @Input() public row!: SiteArea;
+  @Input() public tableDef!: TableDef;
   @ViewChild('siteAreaConsumptionChart') public chartComponent!: SiteAreaConsumptionChartComponent;
-  public siteAreaId!: string;
+  public siteArea!: SiteArea;
+  public siteAreasAuthorizations!: DataResultAuthorizationActions;
 
   public ngOnInit(): void {
-    this.siteAreaId = this.row.id as string;
+    this.siteArea = this.row;
+    this.siteAreasAuthorizations = this.tableDef.rowDetails.additionalParameters;
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    this.siteAreaId = this.row.id as string;
+    this.siteArea = this.row;
+    this.siteAreasAuthorizations = this.tableDef.rowDetails.additionalParameters;
     this.chartComponent.refresh();
   }
 }

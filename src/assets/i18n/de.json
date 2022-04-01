@@ -240,7 +240,7 @@
       "force_available_status": "Status verfügbar erzwingen",
       "force_unavailable_status": "Status nicht verfügbar erzwingen",
       "display_users": "Nutzer anzeigen",
-      "pricing": "Preise"
+      "pricing": "Manuelle Preisbildung"
     }
   },
   "issuer": {
@@ -1147,7 +1147,7 @@
     "search_10_minutes": "Letzten 10 Minuten",
     "search_30_minutes": "Letzten 30 Minuten",
     "search_one_hour": "Letzte Stunde",
-    "search_24_hours": "Letzten 24 Stunden",
+    "search_24_hours": "Letzte 24 Stunden",
     "search_today": "Heute",
     "search_yesterday": "Gestern",
     "search_this_week": "Diese Woche",
@@ -1194,7 +1194,7 @@
     "edit_profile": "Profil bearbeiten",
     "user_number": "Nutzer",
     "technical_user": "Technischer Nutzer",
-    "non_technical_user": "Normaler Nutzer",
+    "non_technical_user": "Anwender",
     "role": "Rolle",
     "roles": "Rollen",
     "role_admin": "Administrator",
@@ -1525,7 +1525,7 @@
         "password": "Passwort"
       },
       "settings": {
-        "title": "Preis Einstellungen",
+        "title": "Preiseinstellungen",
         "price": "Preis (pro kW.h)",
         "currency": "Währung"
       },
@@ -1539,7 +1539,7 @@
       "parking_time": "Parkzeit",
       "create_title": "Preisdefinition erstellen",
       "pricing_definition_description": "Beschreibung",
-      "pricing_definition_name": "Preisdefinitionsname",
+      "pricing_definition_name": "Name",
       "pricing_definition_creation_confirm": "Möchten Sie die Preisdefinition erstellen?",
       "pricing_definition_creation_success": "Preisdefinition erfolgreich erstellt",
       "pricing_definition_creation_error": "Beim Erstellen der Preisdefinition ist ein Fehler aufgetreten. Bitte überprüfen Sie die Logs",

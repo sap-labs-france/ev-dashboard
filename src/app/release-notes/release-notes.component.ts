@@ -23,6 +23,18 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.6.4',
+        date: new Date('2022-04-04'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Align OCPI endpoints with REST`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.6.3',
         date: new Date('2022-03-30'),
         componentChanges: [

@@ -2507,7 +2507,7 @@ export class CentralServerService {
     this.checkInit();
     // Execute the REST service
     return this.httpClient.put<ActionResponse>(
-      this.buildRestEndpointUrl(RESTServerRoute.REST_OCPI_ENDPOINT_UNREGISTER, { id }),
+      this.buildRestEndpointUrl(RESTServerRoute.REST_OCPI_ENDPOINT_UNREGISTER, { id }), {},
       {
         headers: this.buildHttpHeaders(),
       })

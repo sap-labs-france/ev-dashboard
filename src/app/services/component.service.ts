@@ -54,16 +54,6 @@ export class ComponentService {
               currency: config.simple.currency ? config.simple.currency : '',
             };
           }
-          // Convergent Charging
-          if (config.convergentCharging) {
-            pricingSettings.type = PricingSettingsType.CONVERGENT_CHARGING;
-            pricingSettings.convergentCharging = {
-              url: config.convergentCharging.url ? config.convergentCharging.url : '',
-              chargeableItemName: config.convergentCharging.chargeableItemName ? config.convergentCharging.chargeableItemName : '',
-              user: config.convergentCharging.user ? config.convergentCharging.user : '',
-              password: config.convergentCharging.password ? config.convergentCharging.password : '',
-            };
-          }
         }
         observer.next(pricingSettings);
         observer.complete();
@@ -81,9 +71,6 @@ export class ComponentService {
       sensitiveData: [],
       content: Utils.cloneObject(settings),
     };
-    if (settings.type === PricingSettingsType.CONVERGENT_CHARGING) {
-      settingsToSave.sensitiveData = ['content.convergentCharging.password'];
-    }
     // Delete IDS
     delete settingsToSave.content.id;
     delete settingsToSave.content.identifier;

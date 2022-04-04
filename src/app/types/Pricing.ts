@@ -99,7 +99,6 @@ export interface PricedConsumption {
 
 export enum PricingSource {
   SIMPLE = 'simple',
-  CONVERGENT_CHARGING = 'convergentCharging',
   OCPI = 'ocpi',
 }
 

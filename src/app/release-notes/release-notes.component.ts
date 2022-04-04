@@ -23,8 +23,23 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.6.4',
+        date: new Date('2022-04-04'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Align OCPI endpoints with REST`,
+              `Enhanced OCPI and Axios logs`,
+              `Fixed missing Logo in master tenant`,
+              `Updated German translation`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.6.3',
-        date: new Date('2022-03-28'),
+        date: new Date('2022-03-30'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -40,6 +55,7 @@ export class ReleaseNotesComponent {
               `Display default images in Car and Company list when not provided`,
               `Aligned Organization endpoint with new authorization framework`,
               `Show pricing details in the Session History and Session In Progress dialogs`,
+              `Cannot assign a non public Site Area in Edit Charging Station`,
             ],
           },
         ],

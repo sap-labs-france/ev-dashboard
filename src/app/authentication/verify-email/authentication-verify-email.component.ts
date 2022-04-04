@@ -103,12 +103,14 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
         this.verifyEmailAction = false;
       }
     }
-    // Retrieve tenant's logo
-    this.centralServerService.getTenantLogoBySubdomain(this.subDomain).subscribe((tenantLogo: string) => {
-      if (tenantLogo) {
-        this.tenantLogo = tenantLogo;
-      }
-    });
+    if (this.subDomain) {
+      // Retrieve tenant's logo
+      this.centralServerService.getTenantLogoBySubdomain(this.subDomain).subscribe((tenantLogo: string) => {
+        if (tenantLogo) {
+          this.tenantLogo = tenantLogo;
+        }
+      });
+    }
   }
 
   public ngOnDestroy() {

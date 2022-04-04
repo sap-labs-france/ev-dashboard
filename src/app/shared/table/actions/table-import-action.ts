@@ -2,7 +2,7 @@ import { ComponentType } from '@angular/cdk/portal';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
 import { ButtonAction } from '../../../types/GlobalType';
-import { ServerRoute } from '../../../types/Server';
+import { RESTServerRoute } from '../../../types/Server';
 import { ButtonColor, TableActionDef } from '../../../types/Table';
 import { TableAction } from './table-action';
 
@@ -22,7 +22,7 @@ export class TableImportAction implements TableAction {
     return this.action;
   }
 
-  protected import(component: ComponentType<unknown>, dialog: MatDialog, endpoint: ServerRoute,
+  protected import(component: ComponentType<unknown>, dialog: MatDialog, endpoint: RESTServerRoute,
     entity: string,requiredProperties: string[], optionalProperties?: string[]) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();

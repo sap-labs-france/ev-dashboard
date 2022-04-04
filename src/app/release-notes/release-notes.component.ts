@@ -31,6 +31,7 @@ export class ReleaseNotesComponent {
             changes: [
               `Align OCPI endpoints with REST`,
               `Enhanced OCPI and Axios logs`,
+              `Fixed missing Logo in master tenant`,
             ],
           },
         ],

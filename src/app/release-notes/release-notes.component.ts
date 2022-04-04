@@ -32,6 +32,7 @@ export class ReleaseNotesComponent {
               `Align OCPI endpoints with REST`,
               `Enhanced OCPI and Axios logs`,
               `Fixed missing Logo in master tenant`,
+              `Updated German translation`,
             ],
           },
         ],

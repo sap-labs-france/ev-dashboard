@@ -238,11 +238,11 @@ export class AssetMainComponent implements OnInit, OnChanges {
     this.dialog.open(SiteAreasDialogComponent, dialogConfig)
       .afterClosed().subscribe((result) => {
         if (!Utils.isEmptyArray(result) && result[0].objectRef) {
-          const siteArea = ((result[0].objectRef) as SiteArea);
-          this.formGroup.markAsDirty();
-          this.formGroup.controls.siteArea.setValue(siteArea.name);
-          this.formGroup.controls.siteAreaID.setValue(siteArea.id);
+          const siteArea = result[0].objectRef as SiteArea;
+          this.siteArea.setValue(siteArea.name);
+          this.siteAreaID.setValue(siteArea.id);
           this.selectedSiteArea = siteArea;
+          this.formGroup.markAsDirty();
         }
       });
   }

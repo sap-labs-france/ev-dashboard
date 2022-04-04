@@ -1519,16 +1519,10 @@
       "create_error": "Si è verificato un errore durante la creazione delle impostazioni di Pricing",
       "update_success": "Le impostazioni di Pricing sono state aggiornate correttamente",
       "update_error": "Si è verificato un errore durante l'aggiornamento delle impostazioni di Pricing",
-      "full_description": "E-Mobility fornisce due modalità di calcolo del prezzo di una sessione EV.<br>Un princing semplificato che permette l'impostazione di un prezzo fisso per kW.h nella tua infrastruttura di ricarica.<br>Un sistema esterno di pricing avanzato per piani di pricing complessi chiamato SAP Convergent Charging (fatturazione SAP Hybris.)<br>Ulteriori informazioni tecniche disponibili all'indirizzo ",
+      "full_description": "Open E-Mobility provides a pricing module which allows a flexible definition of the company pricing strategy.",
       "pricing_currency_changed_title": "Modification of the currency",
       "pricing_currency_changed_confirm": "You are about to change the currency. This will force you to reconnect after saving.<br/><br><strong> WARNING ! </strong>Once saved, the currency cannot be modified anymore!<br/><br/>Do you confirm that the selected value is correct?",
-      "convergentcharging": {
-        "title": "SAP Convergent Charging",
-        "chargeable_item_name": "Nome Item Ricaricabile",
-        "url": "Url",
-        "user": "Utente",
-        "password": "Password"
-      },
+      "simple_pricing_title": "Built-in Pricing Module",
       "settings": {
         "title": "Pricing Settings",
         "price": "Prezzo",

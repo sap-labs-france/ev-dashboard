@@ -1519,16 +1519,10 @@
       "create_error": "Une erreur est survenue pendant la creation de la configuration de tarification, vérifiez les logs",
       "update_success": "La configuration de la tarification a été mise à jour avec succès",
       "update_error": "Une erreur est survenue durant la mise à jour de la configuration de tarification, vérifiez les logs",
-      "full_description": "E-Mobility founit deux moyens de calculer le prix d'une session d'un véhicule electrique.<br>Un prix fixe par kW.h pour votre infrastructure de recharge.<br>Un sytème externe pour le calcul de prix complèxes appelé SAP Convergent Charging (SAP Hybris Billing).<br>Plus d'informations techniques disponibilite sur ",
+      "full_description": "Open E-Mobility fournit un module de tarification permettant de définir de manière flexique la stratégie tarifaire de l'entreprise.",
       "pricing_currency_changed_title": "Modification de la monnaie",
       "pricing_currency_changed_confirm": "Vous êtes sur le point de changer de monnaie. La sauvegarde va provoquer une déconnexion de votre utilisateur.<br/><br><strong> ATTENTION! </strong>Une fois sauvegardée, la monnaie ne sera plus modifiable !<br/><br/>Confirmez-vous que la valeur sélectionnée est correcte ?",
-      "convergentcharging": {
-        "title": "SAP Convergent Charging",
-        "chargeable_item_name": "Nom du Chargeable Item",
-        "url": "Url",
-        "user": "Utilisateur",
-        "password": "Mot de passe"
-      },
+      "simple_pricing_title": "Built-in Pricing Module",
       "settings": {
         "title": "Paramètres de tarification",
         "price": "Prix (au kW.h)",

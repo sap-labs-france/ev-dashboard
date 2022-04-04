@@ -30,6 +30,7 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Align OCPI endpoints with REST`,
+              `Enhanced OCPI and Axios logs`,
             ],
           },
         ],

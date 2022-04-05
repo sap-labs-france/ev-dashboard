@@ -19,28 +19,26 @@
     </button>
   </div>
   <form class="form" [formGroup]="formGroup">
+    <!-- Business details -->
     <div class="card">
       <div class="card-header card-header-icon card-header-primary">
         <div class="card-icon">
           <mat-icon>business</mat-icon>
         </div>
-        <h3 class="card-title">{{'ocpi.details' | translate}}</h3>
+        <h3 class="card-title">{{'ocpi.business_details' | translate}}</h3>
       </div>
       <div class="card-body">
-        <!-- Business details -->
-        <p class="font-weight-bold">{{'ocpi.business_details' | translate}}</p>
         <div class="row">
           <div class="col-md-6">
             <mat-form-field>
               <input appAutofocus matInput type="text" [formControl]="name"
                 placeholder="{{'ocpi.businessdetails.name' | translate}}" required>
-              <mat-error *ngIf="name.errors?.required">{{"general.mandatory_field"
-                  | translate}}</mat-error>
+              <mat-error *ngIf="name.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
               <mat-error *ngIf="name.errors?.maxlength">
-                <div [translate]="'general.error_max_length'" [translateParams]="{length: 100}"></div>
+                <div [translate]="'general.error_max_length'" [translateParams]="{ length: 100 }"></div>
               </mat-error>
               <mat-error *ngIf="name.errors?.minlength">
-                <div [translate]="'general.error_min_length'" [translateParams]="{length: 100}"></div>
+                <div [translate]="'general.error_min_length'" [translateParams]="{ length: 100 }"></div>
               </mat-error>
             </mat-form-field>
           </div>
@@ -54,7 +52,6 @@
             </mat-form-field>
           </div>
         </div>
-        <p class="font-weight-bold">{{'ocpi.logo' | translate}}</p>
         <div class="row">
           <div class="col-md-6">
             <mat-form-field>
@@ -102,7 +99,7 @@
               </mat-error>
             </mat-form-field>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-3">
             <mat-form-field>
               <mat-select placeholder="{{'ocpi.businessdetails.logo.category' | translate}}"
                 [formControl]="logoCategory">
@@ -112,7 +109,9 @@
               </mat-select>
             </mat-form-field>
           </div>
-          <div class="col-md-3">
+        </div>
+        <div class="row">
+          <div class="col-md-2">
             <mat-form-field>
               <mat-label for="inputPriceUnit">{{'pricing.price_unit_label' | translate}} *</mat-label>
               <mat-select id="inputPriceUnit" [formControl]="currency">

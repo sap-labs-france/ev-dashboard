@@ -27,7 +27,7 @@
         <h3 class="card-title">{{'ocpi.details' | translate}}</h3>
       </div>
       <div class="card-body">
-        <!-- CPO identifier business details -->
+        <!-- Business details -->
         <p class="font-weight-bold">{{'ocpi.business_details' | translate}}</p>
         <div class="row">
           <div class="col-md-6">
@@ -148,12 +148,22 @@
             </mat-form-field>
           </div>
         </div>
-        <!-- CPO identifier COUNTRY_CODE/PARTY_ID -->
+      </div>
+    </div>
+    <!-- CPO identifier COUNTRY_CODE/PARTY_ID -->
+    <div class="card">
+      <div class="card-header card-header-icon card-header-primary">
+        <div class="card-icon">
+          <mat-icon>business</mat-icon>
+        </div>
+        <h3 class="card-title">{{'ocpi.cpo' | translate}}</h3>
+      </div>
+      <div class="card-body">
         <div class="dropdown-divider"></div>
         <div class="row">
           <div class="col-md-12 mb-2">
             <mat-checkbox [checked]="cpoIsActive" (change)="enableDisableCPO($event.checked)">
-              {{'ocpi.cpo' | translate}}
+              {{'ocpi.enable_cpo' | translate}}
             </mat-checkbox>
           </div>
           <div class="col-md-6">
@@ -196,12 +206,22 @@
             </mat-form-field>
           </div>
         </div>
-        <!-- EMSP identifier COUNTRY_CODE/PARTY_ID -->
+      </div>
+    </div>
+    <!-- EMSP identifier COUNTRY_CODE/PARTY_ID -->
+    <div class="card">
+      <div class="card-header card-header-icon card-header-primary">
+        <div class="card-icon">
+          <mat-icon>business</mat-icon>
+        </div>
+        <h3 class="card-title">{{'ocpi.emsp' | translate}}</h3>
+      </div>
+      <div class="card-body">
         <div class="dropdown-divider"></div>
         <div class="row">
           <div class="col-md-12 mb-2">
             <mat-checkbox [checked]="emspIsActive" (change)="enableDisableEMSP($event.checked)">
-              {{'ocpi.emsp' | translate}}
+              {{'ocpi.enable_emsp' | translate}}
             </mat-checkbox>
           </div>
           <div class="col-md-6">

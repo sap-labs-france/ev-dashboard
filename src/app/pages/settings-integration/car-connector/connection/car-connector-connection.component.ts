@@ -13,7 +13,6 @@ import { CarConnectorConnectionDialogComponent } from './car-connector-connectio
 })
 export class CarConnectorConnectionComponent implements OnInit {
   @Input() public currentCarConnectorConnection!: CarConnectorConnectionSetting;
-  @Input() public inDialog!: boolean;
   @Input() public dialogRef!: MatDialogRef<CarConnectorConnectionDialogComponent>;
 
   public formGroup!: FormGroup;
@@ -97,14 +96,14 @@ export class CarConnectorConnectionComponent implements OnInit {
     return this.translateService.instant('general.create');
   }
 
-  public cancel(): void {
-    if (this.inDialog) {
+  public close(): void {
+    if (this.dialogRef) {
       this.dialogRef.close();
     }
   }
 
-  public setConnectionAndClose(carConnectorConnection: CarConnectorConnectionSetting): void {
-    if (this.inDialog) {
+  public save(carConnectorConnection: CarConnectorConnectionSetting): void {
+    if (this.dialogRef) {
       // Generate the ID
       if (!carConnectorConnection.id) {
         carConnectorConnection.id = new Date().getTime().toString();

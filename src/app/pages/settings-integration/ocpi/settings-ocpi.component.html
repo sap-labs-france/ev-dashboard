@@ -154,19 +154,18 @@
     <div class="card">
       <div class="card-header card-header-icon card-header-primary">
         <div class="card-icon">
-          <mat-icon>business</mat-icon>
+          <mat-icon>ev_station</mat-icon>
         </div>
         <h3 class="card-title">{{'ocpi.cpo' | translate}}</h3>
       </div>
       <div class="card-body">
-        <div class="dropdown-divider"></div>
         <div class="row">
           <div class="col-md-12 mb-2">
             <mat-checkbox [checked]="cpoIsActive" (change)="enableDisableCPO($event.checked)">
               {{'ocpi.enable_cpo' | translate}}
             </mat-checkbox>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-3">
             <mat-form-field>
               <input matInput type="text" [formControl]="cpoCountryCode"
                 placeholder="{{'ocpi.country_code' | translate}}" (input)="toUpperCase(cpoCountryCode)" required>
@@ -180,7 +179,7 @@
               </mat-error>
             </mat-form-field>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-3">
             <mat-form-field>
               <input matInput type="text" [formControl]="cpoPartyID"
                 placeholder="{{'ocpi.party_id' | translate}}" (input)="toUpperCase(cpoPartyID)" required>
@@ -194,7 +193,7 @@
               </mat-error>
             </mat-form-field>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-3">
             <mat-form-field>
               <mat-label for="tariffID">{{'ocpi.tariff_id' | translate}}</mat-label>
               <input matInput type="text" [formControl]="tariffID" (input)="emptyStringToNull(tariffID)"
@@ -212,19 +211,18 @@
     <div class="card">
       <div class="card-header card-header-icon card-header-primary">
         <div class="card-icon">
-          <mat-icon>business</mat-icon>
+          <mat-icon>badge</mat-icon>
         </div>
         <h3 class="card-title">{{'ocpi.emsp' | translate}}</h3>
       </div>
       <div class="card-body">
-        <div class="dropdown-divider"></div>
         <div class="row">
           <div class="col-md-12 mb-2">
             <mat-checkbox [checked]="emspIsActive" (change)="enableDisableEMSP($event.checked)">
               {{'ocpi.enable_emsp' | translate}}
             </mat-checkbox>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-3">
             <mat-form-field>
               <input matInput type="text" [formControl]="emspCountryCode"
                 placeholder="{{'ocpi.country_code' | translate}}" (input)="toUpperCase(emspCountryCode)" required>
@@ -238,7 +236,7 @@
               </mat-error>
             </mat-form-field>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-3">
             <mat-form-field>
               <input matInput type="text" [formControl]="emspPartyID"
                 placeholder="{{'ocpi.party_id' | translate}}" (input)="toUpperCase(emspPartyID)" required>

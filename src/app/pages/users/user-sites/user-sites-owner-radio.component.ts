@@ -14,6 +14,7 @@ import { Utils } from '../../../utils/Utils';
   template: `
     <div class="d-flex justify-content-center">
       <mat-checkbox class="mx-auto" [checked]="(row.siteOwner ? row.siteOwner : false)"
+        [disabled]="(!loggedUser.sitesAdmin.includes(row.site.id))"
         (change)="changeSiteOwner($event)">
       </mat-checkbox>
     </div>`

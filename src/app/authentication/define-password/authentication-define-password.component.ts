@@ -87,12 +87,14 @@ export class AuthenticationDefinePasswordComponent implements OnInit, OnDestroy 
     const body = document.getElementsByTagName('body')[0];
     body.classList.add('lock-page');
     body.classList.add('off-canvas-sidebar');
-    // Retrieve tenant's logo
-    this.centralServerService.getTenantLogoBySubdomain(this.subDomain).subscribe((tenantLogo: string) => {
-      if (tenantLogo) {
-        this.tenantLogo = tenantLogo;
-      }
-    });
+    if (this.subDomain) {
+      // Retrieve tenant's logo
+      this.centralServerService.getTenantLogoBySubdomain(this.subDomain).subscribe((tenantLogo: string) => {
+        if (tenantLogo) {
+          this.tenantLogo = tenantLogo;
+        }
+      });
+    }
   }
 
   public ngOnDestroy() {

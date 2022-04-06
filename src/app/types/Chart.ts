@@ -57,7 +57,7 @@ export interface ChartAxes {
 export interface ChartDatum {
   key: any,
   axes: ChartAxes,
-  visibile: boolean,
+  visible: boolean,
   color: string,
 }
 

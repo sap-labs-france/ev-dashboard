@@ -5,7 +5,7 @@ import { AppDecimalPipe } from 'shared/formatters/app-decimal.pipe';
 import { ChartAxisNames } from 'types/Chart';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ChartScaleService {
 

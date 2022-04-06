@@ -1,0 +1,14 @@
+<div class="number-card">
+  <div class="content">
+    <div class="icon">
+      <mat-icon>{{ card.details.icon ? card.details.icon : 'info' }}</mat-icon>
+    </div>
+    <div class="details">
+      <span class="card-title">{{ card.details.title }}</span>
+      <span class="card-detail">{{ card.details.description }}</span>
+    </div>
+  </div>
+  <div class="footer">
+    <button mat-button class="view-button">View details</button>
+  </div>
+</div>

@@ -3,8 +3,8 @@ import { AuthorizationService } from 'services/authorization.service';
 import { CentralServerService } from 'services/central-server.service';
 import { ChartCard } from 'types/Dashboard';
 
+import { DashboardBaseCardComponent } from './dashboard-base-card.component';
 import { AssetErrorCardComponent } from './number-cards/number-card-asset-error-count';
-import { NumberCardBaseComponent } from './number-cards/number-card-base.component';
 import { ChargingStationErrorCardComponent } from './number-cards/number-card-charging-station-error-count';
 
 @Component({
@@ -12,7 +12,7 @@ import { ChargingStationErrorCardComponent } from './number-cards/number-card-ch
   templateUrl: './dashboard-list-charts.component.html'
 })
 export class DashboardChartListComponent{
-  public numberCards: NumberCardBaseComponent[] = [];
+  public numberCards: DashboardBaseCardComponent[] = [];
   public chartCards: ChartCard[] = [];
   public fillerCardColSpanSize: number;
 

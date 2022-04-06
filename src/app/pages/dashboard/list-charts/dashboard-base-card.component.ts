@@ -1,7 +1,7 @@
-import { NumberCard } from '../../../../types/Dashboard';
+import { ChartCard, NumberCard } from '../../../types/Dashboard';
 
-export abstract class NumberCardBaseComponent {
-  protected details: NumberCard;
+export abstract class DashboardBaseCardComponent {
+  protected details: NumberCard | ChartCard;
 
   private ongoingFetch: boolean;
   private timeoutId: any;
@@ -14,7 +14,7 @@ export abstract class NumberCardBaseComponent {
       title: '',
       description: '',
       icon: 'info',
-      link: ''
+      link: '',
     };
     this.ongoingFetch = false;
     this.timeoutId = setTimeout(() => {

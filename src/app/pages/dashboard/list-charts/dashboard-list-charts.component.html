@@ -23,6 +23,7 @@
       </mat-grid-tile>
     </div>
     <mat-grid-tile class="filler" *ngIf="fillerCardColSpanSize != 12" [colspan]="fillerCardColSpanSize" [rowspan]="1"></mat-grid-tile>
+    <app-chart-element></app-chart-element>
     <!-- <mat-grid-tile class="mat-grid-tile"
       *ngFor="let card of chartCards"
       [class]="card.type"

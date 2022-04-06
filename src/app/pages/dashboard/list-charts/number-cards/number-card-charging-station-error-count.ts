@@ -3,16 +3,16 @@ import { CentralServerService } from '../../../../services/central-server.servic
 import { Action, Entity } from '../../../../types/Authorization';
 import { CardTypes } from '../../../../types/Dashboard';
 import { FilterParams } from '../../../../types/GlobalType';
-import { NumberCardBaseComponent } from './number-card-base.component';
+import { DashboardBaseCardComponent } from '../dashboard-base-card.component';
 
-export class ChargingStationErrorCardComponent extends NumberCardBaseComponent {
+export class ChargingStationErrorCardComponent extends DashboardBaseCardComponent {
 
   public constructor(
     private centralServerService: CentralServerService,
     private authorizationService: AuthorizationService,
     private filterParams: FilterParams = {}
   ){
-    super(30000);
+    super(0);
     this.details = {
       display: true,
       title: 'Charging Stations in Error',
@@ -20,7 +20,7 @@ export class ChargingStationErrorCardComponent extends NumberCardBaseComponent {
       description: '...',
       type: CardTypes.PRIMARY,
       details: []
-    }
+    };
   }
 
   protected fetchDetails(): void {

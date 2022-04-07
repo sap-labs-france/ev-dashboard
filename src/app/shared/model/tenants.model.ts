@@ -3,12 +3,8 @@ import { AnalyticsSettingsType, BillingSettingsType, PricingSettingsType, Refund
 
 export const PRICING_TYPES: KeyValue[] = [
   {
-    key: PricingSettingsType.CONVERGENT_CHARGING,
-    value: 'settings.pricing.convergentcharging.title'
-  },
-  {
     key: PricingSettingsType.SIMPLE,
-    value: 'settings.pricing.title'
+    value: 'settings.pricing.simple_pricing_title'
   },
 ];
 

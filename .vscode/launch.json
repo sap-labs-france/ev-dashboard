@@ -6,22 +6,22 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "tenant: slf",
+      "name": "Debug Tenant 'slf'",
       "request": "launch",
       "type": "pwa-chrome",
       "url": "http://slf.localhost:45000",
       "webRoot": "${workspaceFolder}"
     },
     {
+      "name": "Debug Tenant 'utbilling'",
       "type": "pwa-chrome",
       "request": "launch",
-      "name": "tenant: utbilling",
       "url": "http://utbilling.localhost:45000",
       "webRoot": "${workspaceFolder}"
     },
     {
+      "name": "Run all Tests",
       "type": "node",
-      "name": "vscode-jest-tests",
       "request": "launch",
       "program": "${workspaceFolder}/node_modules/.bin/jest",
       "args": [

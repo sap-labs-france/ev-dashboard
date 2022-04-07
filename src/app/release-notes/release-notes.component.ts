@@ -34,6 +34,7 @@ export class ReleaseNotesComponent {
               `Fixed missing Logo in master tenant`,
               `Updated German translation`,
               `Aligned Charging Profile's amperage floating points with OCPP specifications`,
+              `Fixed new OCPI authorization is requested during Start Transaction when IOP sends a Remote Start`,
             ],
           },
         ],

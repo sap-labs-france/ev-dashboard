@@ -23,7 +23,7 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.6.7',
+        version: '2.6.4',
         date: new Date('2022-04-04'),
         componentChanges: [
           {

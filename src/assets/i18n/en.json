@@ -845,7 +845,10 @@
       "power_limit_success": "The power of the charging station '{{chargeBoxID}}' has been limited successfully",
       "power_limit_error": "Error occurred while limiting charging station power, check the logs",
       "power_limit_has_charging_plan_title": "Existing Charging Plan",
-      "power_limit_has_charging_plan_confim": "There is a conflict with an existing charging plan!<br>Do you want to change the plan and adjust it to the new limit?",
+      "power_limit_has_charging_plan_confim": [
+        "There is a conflict with an existing charging plan!",
+        "Do you want to change the plan and adjust it to the new limit?"
+      ],
       "power_limit_plan_title": "Planner Limit power",
       "power_limit_plan_confirm": "Do you really want to limit the power of '{{chargeBoxID}}' with this charging plan?",
       "power_limit_plan_clear": "Do you really want to clear the charging profile of '{{chargeBoxID}}'?",
@@ -892,11 +895,20 @@
       "retrieve_schedule": "Retrieve Plans",
       "charging_schedule": "Charging Plans of '{{chargeBoxID}}'",
       "enable_smart_charging_for_site_area_title": "Enable Smart Charging",
-      "enable_smart_charging_for_site_area_body": "If you enable the smart charging for this site area, the optimization algorithm will take over the current static limitation and the charging plans.<br>Do you want to continue?",
+      "enable_smart_charging_for_site_area_body": [
+        "If you enable the smart charging for this site area, the optimization algorithm will take over the current static limitation and the charging plans.",
+        "Do you want to continue?"
+      ],
       "disable_smart_charging_for_site_area_title": "Disable Smart Charging",
-      "disable_smart_charging_for_site_area_body": "If you disable the smart charging for this site area, all charging plans will be deleted.<br>Do you want to continue?",
+      "disable_smart_charging_for_site_area_body": [
+        "If you disable the smart charging for this site area, all charging plans will be deleted.",
+        "Do you want to continue?"
+      ],
       "clearing_charging_profiles_not_successful_title": "An error occurred while deleting the charging plans, check the logs",
-      "clearing_charging_profiles_not_successful_body": "Failed to delete the charging plans of the charging stations belonging to the site area '{{siteAreaName}}'!<br>Please check the logs and proceed manually with the deletion of the charging plan(s).",
+      "clearing_charging_profiles_not_successful_body": [
+        "Failed to delete the charging plans of the charging stations belonging to the site area '{{siteAreaName}}'!",
+        "Please check the logs and proceed manually with the deletion of the charging plan(s)."
+      ],
       "trigger_smart_charging_title": "Trigger Smart Charging",
       "trigger_smart_charging_confirm": "Do you really want to trigger the smart charging algorithm?",
       "trigger_smart_charging": "Trigger Smart Charging",
@@ -1440,7 +1452,10 @@
     "save_error_smart_charging": "Organization must be active to use Smart Charging",
     "save_error_asset": "Organization must be active to use Asset",
     "save_error_car_connector": "Car Management must be active to use Car Connector",
-    "smart_charging_still_active_for_site_area": "Smart Charging is still active for certain Site Areas.<br>Please deactivate Smart Charging for every Site Area in the tenant.",
+    "smart_charging_still_active_for_site_area": [
+      "Smart Charging is still active for certain Site Areas.",
+      "Please deactivate Smart Charging for every Site Area in the tenant."
+    ],
     "logo_size_error": "The logo size limit exceeded, limit is below {{maxPictureKb}} Kb"
   },
   "settings": {
@@ -1467,7 +1482,11 @@
       "create_error": "Error occurred while creating the OCPI settings, check the logs",
       "update_success": "OCPI settings have been updated successfully",
       "update_error": "Error occurred while updating the OCPI settings, check the logs",
-      "description": "E-Mobility provides a certified service to connect to an external E-Roaming Platform.<br>This feature exposes real-time the charging station infrastructure and availability via the OCPI standard protocol (Open Charge Point Interface).<br>E-Mobility is currently using the Gireve Inter-Operability Platform (IOP)."
+      "description": [
+        "E-Mobility provides a certified service to connect to an external E-Roaming Platform.",
+        "This feature exposes real-time the charging station infrastructure and availability via the OCPI standard protocol (Open Charge Point Interface).",
+        "E-Mobility is currently using the Gireve Inter-Operability Platform (IOP)."
+      ]
     },
     "oicp": {
       "hubject": {
@@ -1479,10 +1498,18 @@
       "create_error": "Error occurred while creating the OICP settings, check the logs",
       "update_success": "OICP settings have been updated successfully",
       "update_error": "Error occurred while updating the OICP settings, check the logs",
-      "description": "E-Mobility provides a certified service to connect to an external E-Roaming Platform.<br>This feature exposes real-time the charging station infrastructure and availability via the OICP protocol (Open InterCharge Protocol).<br>E-Mobility is currently using the Hubject B2B Service Platform (HBS)."
+      "description": [
+        "E-Mobility provides a certified service to connect to an external E-Roaming Platform.",
+        "This feature exposes real-time the charging station infrastructure and availability via the OICP protocol (Open InterCharge Protocol).",
+        "E-Mobility is currently using the Hubject B2B Service Platform (HBS)."
+      ]
     },
     "refund": {
-      "description": "E-Mobility provides a refund service for an external expense system.<br>This feature allows the user to push his sessions to an expense system and get reimbursed of the electricity he consumed.<br>E-Mobility is currently using SAP Concur. More technical information available at ",
+      "description": [
+        "E-Mobility provides a refund service for an external expense system.",
+        "This feature allows the user to push his sessions to an expense system and get reimbursed of the electricity he consumed.",
+        "E-Mobility is currently using SAP Concur. More technical information available at "
+      ],
       "not_found": "Refunding settings not found",
       "create_success": "Refunding settings have been created successfully",
       "create_error": "Error occurred while creating the Refunding settings, check the logs",
@@ -1519,10 +1546,26 @@
       "create_error": "Error occurred while creating the Pricing settings, check the logs",
       "update_success": "Pricing settings have been updated successfully",
       "update_error": "Error occurred while updating the Pricing settings, check the logs",
-      "full_description": "Open E-Mobility provides a pricing module which allows a flexible definition of the company pricing strategy.",
-      "pricing_currency_changed_title": "Modification of the currency",
-      "pricing_currency_changed_confirm": "You are about to change the currency. This will force you to reconnect after saving.<br/><br><strong> WARNING ! </strong>Once saved, the currency cannot be modified anymore!<br/><br/>Do you confirm that the selected value is correct?",
       "simple_pricing_title": "Built-in Pricing Module",
+      "full_description": [
+        "E-Mobility provides two ways to compute the price of an EV session.",
+        "A simple pricing which allows you to setup a fixed price per kW.h for your charging infrastructure.",
+        "An external advanced pricing system for complex pricing plans called SAP Convergent Charging (SAP Hybris billing.)",
+        "More technical information available at "
+      ],
+      "pricing_currency_changed_title": "Modification of the currency",
+      "pricing_currency_changed_confirm": [
+        "You are about to change the currency. This will force you to reconnect after saving.",
+        "<strong> WARNING ! </strong>Once saved, the currency cannot be modified anymore!",
+        "Do you confirm that the selected value is correct?"
+      ],
+      "convergentcharging": {
+        "title": "SAP Convergent Charging",
+        "chargeable_item_name": "Chargeable Item Name",
+        "url": "Url",
+        "user": "User",
+        "password": "Password"
+      },
       "settings": {
         "title": "Pricing Settings",
         "price": "Price (per kW.h)",
@@ -1628,7 +1671,10 @@
       "payment_methods_cvc_error": "Invalid verification code",
       "transaction_billing_activation": "Billing Activation",
       "transaction_billing_activation_title": "Activate Billing of Transactions",
-      "transaction_billing_activation_confirm": "Do you really want to activate the billing of charging sessions? <br><br> <strong> WARNING ! </strong> Once activated, you will NOT be able to deactivate it !",
+      "transaction_billing_activation_confirm": [
+        "Do you really want to activate the billing of charging sessions? ",
+        "<strong> WARNING ! </strong> Once activated, you will NOT be able to deactivate it !"
+      ],
       "transaction_billing_activation_success": "Billing of charging sessions has been successfully activated",
       "transaction_billing_activation_error": "Billing of charging sessions cannot be activated",
       "billing_clear_test_data": "Delete Test Data",
@@ -1663,7 +1709,13 @@
         "title": "SAP Analytics",
         "settings": "Settings"
       },
-      "description": "E-Mobility exposes its data to external analytics tools.<br>This feature exposes real-time all the session data through a connector to external data analytics tools.<br>E-Mobility is currently using SAP Analytics Cloud via an OData connector.<br>SAP Analytics Cloud supports the intelligent use of charging data to simplify operational decision making.<br>More technical information available at ",
+      "description": [
+        "E-Mobility exposes its data to external analytics tools.",
+        "This feature exposes real-time all the session data through a connector to external data analytics tools.",
+        "E-Mobility is currently using SAP Analytics Cloud via an OData connector.",
+        "SAP Analytics Cloud supports the intelligent use of charging data to simplify operational decision making.",
+        "More technical information available at "
+      ],
       "setting_do_not_exist": "Configuration has not been found",
       "setting_not_found": "SAP Analytics settings have not been found",
       "create_success": "SAP Analytics Cloud settings have been created successfully",

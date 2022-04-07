@@ -845,7 +845,10 @@
       "power_limit_success": "Die Leistung von '{{chargeBoxID}}' wurde erfolgreich begrenzt",
       "power_limit_error": "Beim Begrenzen der Leistung der Ladestation ist ein Fehler aufgetreten.",
       "power_limit_has_charging_plan_title": "Bestehender Ladeplan",
-      "power_limit_has_charging_plan_confim": "Es gibt einen Konflikt mit der bestehenden Ladeplanung!<br>Wollen Sie die Ladeplanung ändern und an das neue Limit anpassen?",
+      "power_limit_has_charging_plan_confim": [
+        "Es gibt einen Konflikt mit der bestehenden Ladeplanung!",
+        "Wollen Sie die Ladeplanung ändern und an das neue Limit anpassen?"
+      ],
       "power_limit_plan_title": "Leistungsbegrenzungsplaner",
       "power_limit_plan_confirm": "Wollen Sie die Leistung von '{{chargeBoxID}}' mit dieser Ladeplanung begrenzen?",
       "power_limit_plan_clear": "Wollen Sie das Ladeprofil von '{{chargeBoxID}}' wirklich löschen?",
@@ -892,11 +895,20 @@
       "retrieve_schedule": "Pläne abrufen",
       "charging_schedule": "Ladepläne von '{{chargeBoxID}}'",
       "enable_smart_charging_for_site_area_title": "Smart-Charging aktivieren",
-      "enable_smart_charging_for_site_area_body": "Wenn Smart-Charging für den Standortbereich aktiviert wird, übernimmt der Optimierungsalgorithmus die Limitierung und die Ladapläne der Ladestationen.<br>Möchten Sie fortfahren?",
+      "enable_smart_charging_for_site_area_body": [
+        "Wenn Smart-Charging für den Standortbereich aktiviert wird, übernimmt der Optimierungsalgorithmus die Limitierung und die Ladapläne der Ladestationen.",
+        "Möchten Sie fortfahren?"
+      ],
       "disable_smart_charging_for_site_area_title": "Smart-Charging deaktivieren",
-      "disable_smart_charging_for_site_area_body": "Wenn Sie Smart-Charging deaktivieren werden alle Ladepläne dieses Standortbereichs gelöscht.<br>Möchten Sie fortfahren?",
+      "disable_smart_charging_for_site_area_body": [
+        "Wenn Sie Smart-Charging deaktivieren werden alle Ladepläne dieses Standortbereichs gelöscht.",
+        "Möchten Sie fortfahren?"
+      ],
       "clearing_charging_profiles_not_successful_title": "Beim Löschen der Ladepprofiles ist ein Fehler aufgetreten",
-      "clearing_charging_profiles_not_successful_body": "Das Löschen der Ladeplanung des Standortbereichs '{{siteAreaName}}' ist fehlgeschlagen!<br> Bitte überprüfen Sie die Logs und löschen Sie die Ladepläne manuell.",
+      "clearing_charging_profiles_not_successful_body": [
+        "Das Löschen der Ladeplanung des Standortbereichs '{{siteAreaName}}' ist fehlgeschlagen!",
+        "Bitte überprüfen Sie die Logs und löschen Sie die Ladepläne manuell."
+      ],
       "trigger_smart_charging_title": "Smart-Charging-Algorithmus auslösen",
       "trigger_smart_charging_confirm": "Möchten Sie den Smart-Charging-Algorithmus wirklich auslösen?",
       "trigger_smart_charging": "Smart-Charging-Algorithmus auslösen",
@@ -1440,7 +1452,10 @@
     "save_error_smart_charging": "Organisation muss für Smart-Charging aktiv sein",
     "save_error_building": "Organisation muss aktiv sein, um Assets zu nutzen zu können",
     "save_error_car_connector": "Fahrzeug Management muss aktiv sein, um Fahrzeug Verbindungen zu nutzen",
-    "smart_charging_still_active_for_site_area": "Smart-Charging ist für ausgewählte Standortbereiche noch immer aktiv.<br>Bitte deaktivieren Sie Smart-Charging für alle Standortbereiche des Mandanten.",
+    "smart_charging_still_active_for_site_area": [
+      "Smart-Charging ist für ausgewählte Standortbereiche noch immer aktiv.",
+      "Bitte deaktivieren Sie Smart-Charging für alle Standortbereiche des Mandanten."
+    ],
     "logo_size_error": "Die maximale Bildgröße wurde überschritten, das Bild muss kleiner als {{maxPictureKb}} Kb sein "
   },
   "settings": {
@@ -1467,7 +1482,11 @@
       "create_error": "Beim Erstellen der OCPI-Einstellungen ist ein Fehler aufgetreten",
       "update_success": "OCPI-Einstellungen wurden erfolgreich aktualisiert",
       "update_error": "Beim Aktualisieren der OCPI-Einstellungen ist ein Fehler aufgetreten",
-      "description": "E-Mobility stellt einen zertifizierten Service zur Verbindung zur externen E-Roaming Plattform zur Verfügung.<br>Dieses Feature legt in Echtzeit die Lade-Infrastruktur und -Verfügbarkeit via OCPI-Standard-Protokoll (Open Charge Point Interface) offen.<br>E-Mobility nutzt momentan die Gireve Inter-Operability Platform (IOP)."
+      "description": [
+        "E-Mobility stellt einen zertifizierten Service zur Verbindung zur externen E-Roaming Plattform zur Verfügung.",
+        "Dieses Feature legt in Echtzeit die Lade-Infrastruktur und -Verfügbarkeit via OCPI-Standard-Protokoll (Open Charge Point Interface) offen.",
+        "E-Mobility nutzt momentan die Gireve Inter-Operability Platform (IOP)."
+      ]
     },
     "oicp": {
       "hubject": {
@@ -1479,10 +1498,18 @@
       "create_error": "Beim Erstellen der OICP-Einstellungen ist ein Fehler aufgetreten",
       "update_success": "OICP-Einstellungen wurden erfolgreich aktualisiert",
       "update_error": "Beim Aktualisieren der OICP-Einstellungen ist ein Fehler aufgetreten",
-      "description": "E-Mobility stellt einen zertifizierten Service zur Verbindung zur externen E-Roaming Plattform zur Verfügung.<br>Dieses Feature legt in Echtzeit die Lade-Infrastruktur und -Verfügbarkeit via OICP-Protokoll (Open InterCharge Protocol) offen.<br>E-Mobility nutzt momentan die Hubject B2B Service Plattform (HBS)."
+      "description": [
+        "E-Mobility stellt einen zertifizierten Service zur Verbindung zur externen E-Roaming Plattform zur Verfügung.",
+        "Dieses Feature legt in Echtzeit die Lade-Infrastruktur und -Verfügbarkeit via OICP-Protokoll (Open InterCharge Protocol) offen.",
+        "E-Mobility nutzt momentan die Hubject B2B Service Plattform (HBS)."
+      ]
     },
     "refund": {
-      "description": "E-Mobility bietet einen Rückerstattungsservice für ein externes Kostensystem.<br>Dieses Feature ermöglicht es die Ladevorgänge in ein externes Kostensystem zu übertragen und die verbrauchte Energie zurückerstattet zu bekommen.<br>E-Mobility benutzt zur Zeit SAP Concur. Weitere technische Informationen finden Sie auf ",
+      "description": [
+        "E-Mobility bietet einen Rückerstattungsservice für ein externes Kostensystem.",
+        "Dieses Feature ermöglicht es die Ladevorgänge in ein externes Kostensystem zu übertragen und die verbrauchte Energie zurückerstattet zu bekommen.",
+        "E-Mobility benutzt zur Zeit SAP Concur. Weitere technische Informationen finden Sie auf "
+      ],
       "not_found": "Rückerstattungseinstellungen nicht gefunden",
       "create_success": "Rückerstattungseinstellungen erfolgreich erstellt",
       "create_error": "Beim Erstellen der Rückerstattungseinstellungen ist ein Fehler aufgetreten",
@@ -1519,10 +1546,26 @@
       "create_error": "Beim Erstellen der Preisbildungseinstellungen ist ein Fehler aufgetreten",
       "update_success": "Preisbildungseinstellungen wurden erfolgreich aktuaqlisiert",
       "update_error": "Beim Aktualisieren der Preisbildungseinstellungen ist ein Fehler aufgetreten",
-      "full_description": "Open E-Mobility provides a pricing module which allows a flexible definition of the company pricing strategy.",
-      "pricing_currency_changed_title": "Währung ändern",
-      "pricing_currency_changed_confirm": "Sie aktualisieren Ihre Währung. Nach dem speichern muss sich erneut verbunden werden.<br/><br><strong> WARNING ! </strong>Nach dem speichern kann die Währung nicht mehr geändert werden!<br/><br/>Bitte bestätigen Sie, dass der aktuelle Wert korrekt ist.",
       "simple_pricing_title": "Built-in Pricing Module",
+      "full_description": [
+        "E-Mobility bietet zwei Wege den Preis für den Ladevorgang zu berechnen.",
+        "Einfache Preisbildung ermöglicht es einen festen Preis pro kW.h für Ihre Ladestationen festzulegen.",
+        "Ein externes erweitertes Preisfindungssystem für komplexere Preisbildungspläne ist SAP Convergent Charging (SAP Hybris Rechnungslegung.)",
+        "Weitere technische Informationen auf "
+      ],
+      "pricing_currency_changed_title": "Modification of the currency",
+      "pricing_currency_changed_confirm": [
+        "You are about to change the currency. This will force you to reconnect after saving.",
+        "<strong> WARNING ! </strong>Once saved, the currency cannot be modified anymore!",
+        "Do you confirm that the selected value is correct?"
+      ],
+      "convergentcharging": {
+        "title": "SAP Convergent Charging",
+        "chargeable_item_name": "Name der gebührenpflichtigen Einheit",
+        "url": "Url",
+        "user": "Nutzer",
+        "password": "Passwort"
+      },
       "settings": {
         "title": "Preiseinstellungen",
         "price": "Preis (pro kW.h)",
@@ -1628,7 +1671,10 @@
       "payment_methods_cvc_error": "Ungültiger Verifizierungscode",
       "transaction_billing_activation": "Rechnungslegung aktivieren",
       "transaction_billing_activation_title": "Rechnungslegung aktivieren",
-      "transaction_billing_activation_confirm": "Möchten Sie die Abrechnung von Ladevorgängen wirklich aktivieren? <br><br> <strong> WARNUNG ! </strong> Einmal aktiviert, können Sie NICHT mehr deaktiviert werden!",
+      "transaction_billing_activation_confirm": [
+        "Möchten Sie die Abrechnung von Ladevorgängen wirklich aktivieren? ",
+        "<strong> WARNUNG ! </strong> Einmal aktiviert, können Sie NICHT mehr deaktiviert werden!"
+      ],
       "transaction_billing_activation_success": "Die Abrechnung von Ladevorgängen wurde erfolgreich aktiviert",
       "transaction_billing_activation_error": "Die Abrechnung von Ladevorgängen kann nicht aktiviert werden",
       "billing_clear_test_data": "Testdaten löschen",
@@ -1663,7 +1709,13 @@
         "title": "SAP Analytics",
         "settings": "Einstellungen"
       },
-      "description": "E-Mobility stellt Daten an externe Analyseservices zur Verfügung .<br>Dieses Feature stellt alle Ladevorgangsdaten in Echtzeit einem externen Analyse Tool zur Verfügung.<br>E-Mobility benutzt derzeit SAP Analytics Cloud mit einem OData connector.<br>SAP Analytics Cloud unterstützt die intelligente Nutzung von Ladevorgangsdaten um Entscheidungen zu vereinfachen.<br>Weitere technische Informationen auf ",
+      "description": [
+        "E-Mobility stellt Daten an externe Analyseservices zur Verfügung.",
+        "Dieses Feature stellt alle Ladevorgangsdaten in Echtzeit einem externen Analyse Tool zur Verfügung.",
+        "E-Mobility benutzt derzeit SAP Analytics Cloud mit einem OData connector.",
+        "SAP Analytics Cloud unterstützt die intelligente Nutzung von Ladevorgangsdaten um Entscheidungen zu vereinfachen.",
+        "Weitere technische Informationen auf "
+      ],
       "setting_do_not_exist": "Konfiguration wurde nicht gefunden",
       "setting_not_found": "SAP Analytics Cloud-Einstellungen nicht gefunden",
       "create_success": "SAP Analytics Cloud-Einstellungen wurden erfolgreich erstellt",

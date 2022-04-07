@@ -23,7 +23,7 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.6.4',
+        version: '2.6.7',
         date: new Date('2022-04-04'),
         componentChanges: [
           {
@@ -33,6 +33,7 @@ export class ReleaseNotesComponent {
               `Enhanced OCPI and Axios logs`,
               `Fixed missing Logo in master tenant`,
               `Updated German translation`,
+              `Aligned Charging Profile's amperage floating points with OCPP specifications`,
             ],
           },
         ],

@@ -845,7 +845,10 @@
       "power_limit_success": "La potenza della stazione di ricarica '{{chargeBoxID}}' è stata limitata con successo",
       "power_limit_error": "Si è verificato un errore durante la limitazione della potenza della stazione di ricarica",
       "power_limit_has_charging_plan_title": "Piano di Ricarica Esistente",
-      "power_limit_has_charging_plan_confim": "C'è un conflitto con un piano di ricarica esistente!<br>Vuoi veramente modificare il piano ed adattarlo al nuovo limite?",
+      "power_limit_has_charging_plan_confim": [
+        "C'è un conflitto con un piano di ricarica esistente!",
+        "Vuoi veramente modificare il piano ed adattarlo al nuovo limite?"
+      ],
       "power_limit_plan_title": "Pianificatore Limite Potenza",
       "power_limit_plan_confirm": "Vuoi veramente limitare la potenza di '{{chargeBoxID}}' con questo piano di ricarica?",
       "power_limit_plan_clear": "Vuoi veramente cancellare il profilo di ricarica di '{{chargeBoxID}}'?",
@@ -892,11 +895,20 @@
       "retrieve_schedule": "Recupera Piani",
       "charging_schedule": "Piani di ricarica di '{{chargeBoxID}}'",
       "enable_smart_charging_for_site_area_title": "Abilita Smart Charging",
-      "enable_smart_charging_for_site_area_body": "Se attivi la ricarica smart per quest'area del sito, l'algoritmo di ottimizzazione sostituirà l'attuale limitazione statica e i piani di ricarica.<br>Vuoi continuare?",
+      "enable_smart_charging_for_site_area_body": [
+        "Se attivi la ricarica smart per quest'area del sito, l'algoritmo di ottimizzazione sostituirà l'attuale limitazione statica e i piani di ricarica.",
+        "Vuoi continuare?"
+      ],
       "disable_smart_charging_for_site_area_title": "Disabilita Ricarica Smart",
-      "disable_smart_charging_for_site_area_body": "Se disattivi la ricarica smart per quest'area del sito, tutti i piani di ricarica saranno cancellati.<br>Vuoi continuare?",
+      "disable_smart_charging_for_site_area_body": [
+        "Se disattivi la ricarica smart per quest'area del sito, tutti i piani di ricarica saranno cancellati.",
+        "Vuoi continuare?"
+      ],
       "clearing_charging_profiles_not_successful_title": "Si è verificato un errore durante la cancellazione dei piani di ricarica",
-      "clearing_charging_profiles_not_successful_body": "Impossibile cancellare i piani di ricarica delle stazioni di ricarica appartenenti all'area del sito '{{siteAreaName}}'!<br>Controlla i log e procedi manualmente con la cancellazione del(i) piano(i) di ricarica.",
+      "clearing_charging_profiles_not_successful_body": [
+        "Impossibile cancellare i piani di ricarica delle stazioni di ricarica appartenenti all'area del sito '{{siteAreaName}}'!",
+        "Controlla i log e procedi manualmente con la cancellazione del(i) piano(i) di ricarica."
+      ],
       "trigger_smart_charging_title": "Attiva Ricarica Smart",
       "trigger_smart_charging_confirm": "Vuoi veramente attivare l'algoritmo di ricarica smart?",
       "trigger_smart_charging": "Attiva Ricarica Smart",
@@ -1440,7 +1452,10 @@
     "save_error_smart_charging": "L'organizzazione deve essere attiva per utilizzare Carica Smart",
     "save_error_asset": "L'Organizzazione deve essere attiva per usare Risorsa",
     "save_error_car_connector": "Car Management must be active to use Car Connector",
-    "smart_charging_still_active_for_site_area": "Carica Smart è ancora attiva per alcune aree del sito.<br>Si prega di disattivare la Carica Smart per tutte le aree del sito nell'organizzazione.",
+    "smart_charging_still_active_for_site_area": [
+      "Carica Smart è ancora attiva per alcune aree del sito.",
+      "Si prega di disattivare la Carica Smart per tutte le aree del sito nell'organizzazione."
+    ],
     "logo_size_error": "Il limite di dimensione del logo è stato superato, il limite è inferiore a {{maxPictureKb}} Kb"
   },
   "settings": {
@@ -1467,7 +1482,11 @@
       "create_error": "Si è verificato un errore durante la creazione delle impostazioni OCPI",
       "update_success": "Le impostazioni OCPI sono state aggiornate correttamente",
       "update_error": "Si è verificato un errore durante l'aggiornamento delle impostazioni OCPI",
-      "description": "E-Mobility fornisce un servizio certificato per la connessione ad una Piattaforma E-Roaming esterna.<br>Questa funzionalità espone in tempo reale l'infrastruttura e la disponibilità della stazione di ricarica tramite il protocollo standard OCPI (Open Charge Point Interface).<br>E-Mobility sta attualmente utilizzando la Gireve Inter-Operability Platform (IOP)."
+      "description": [
+        "E-Mobility fornisce un servizio certificato per la connessione ad una Piattaforma E-Roaming esterna.",
+        "Questa funzionalità espone in tempo reale l'infrastruttura e la disponibilità della stazione di ricarica tramite il protocollo standard OCPI (Open Charge Point Interface).",
+        "E-Mobility sta attualmente utilizzando la Gireve Inter-Operability Platform (IOP)."
+      ]
     },
     "oicp": {
       "hubject": {
@@ -1479,10 +1498,18 @@
       "create_error": "Error occurred while creating the OICP settings, check the logs",
       "update_success": "OICP settings have been updated successfully",
       "update_error": "Error occurred while updating the OICP settings, check the logs",
-      "description": "E-Mobility provides a certified service to connect to an external E-Roaming Platform.<br>This feature exposes real-time the charging station infrastructure and availability via the OICP protocol (Open InterCharge Protocol).<br>E-Mobility is currently using the Hubject B2B Service Platform (HBS)."
+      "description": [
+        "E-Mobility provides a certified service to connect to an external E-Roaming Platform.",
+        "This feature exposes real-time the charging station infrastructure and availability via the OICP protocol (Open InterCharge Protocol).",
+        "E-Mobility is currently using the Hubject B2B Service Platform (HBS)."
+      ]
     },
     "refund": {
-      "description": "E-Mobility fornisce un servizio di rimborso per un sistema di gestione spese esterno.<br>Questa funzionalità consente all'utente di inoltrare le sue sessioni ad un sistema di gestione spese esterno ed ottenere il rimborso per l'elettricità consumata.<br>E-Mobility sta usando attualmente SAP Concur. Ulteriori informazioni tecniche disponibili all'indirizzo ",
+      "description": [
+        "E-Mobility fornisce un servizio di rimborso per un sistema di gestione spese esterno.",
+        "Questa funzionalità consente all'utente di inoltrare le sue sessioni ad un sistema di gestione spese esterno ed ottenere il rimborso per l'elettricità consumata.",
+        "E-Mobility sta usando attualmente SAP Concur. Ulteriori informazioni tecniche disponibili all'indirizzo"
+      ],
       "not_found": "Impostazioni di rimborso non trovate",
       "create_success": "Le impostazioni di rimborso sono state create con successo",
       "create_error": "Si è verificato un errore durante la creazione delle impostazioni di Rimborso",
@@ -1519,10 +1546,26 @@
       "create_error": "Si è verificato un errore durante la creazione delle impostazioni di Pricing",
       "update_success": "Le impostazioni di Pricing sono state aggiornate correttamente",
       "update_error": "Si è verificato un errore durante l'aggiornamento delle impostazioni di Pricing",
-      "full_description": "Open E-Mobility provides a pricing module which allows a flexible definition of the company pricing strategy.",
-      "pricing_currency_changed_title": "Modification of the currency",
-      "pricing_currency_changed_confirm": "You are about to change the currency. This will force you to reconnect after saving.<br/><br><strong> WARNING ! </strong>Once saved, the currency cannot be modified anymore!<br/><br/>Do you confirm that the selected value is correct?",
       "simple_pricing_title": "Built-in Pricing Module",
+      "full_description": [
+        "E-Mobility fornisce due modalità di calcolo del prezzo di una sessione EV.",
+        "Un princing semplificato che permette l'impostazione di un prezzo fisso per kW.h nella tua infrastruttura di ricarica.",
+        "Un sistema esterno di pricing avanzato per piani di pricing complessi chiamato SAP Convergent Charging (fatturazione SAP Hybris.)",
+        "Ulteriori informazioni tecniche disponibili all'indirizzo"
+      ],
+      "pricing_currency_changed_title": "Modification of the currency",
+      "pricing_currency_changed_confirm": [
+        "You are about to change the currency. This will force you to reconnect after saving.",
+        "<strong> WARNING ! </strong>Once saved, the currency cannot be modified anymore!",
+        "Do you confirm that the selected value is correct?"
+      ],
+      "convergentcharging": {
+        "title": "SAP Convergent Charging",
+        "chargeable_item_name": "Nome Item Ricaricabile",
+        "url": "Url",
+        "user": "Utente",
+        "password": "Password"
+      },
       "settings": {
         "title": "Pricing Settings",
         "price": "Prezzo",
@@ -1628,7 +1671,10 @@
       "payment_methods_cvc_error": "Invalid verification code",
       "transaction_billing_activation": "Billing Activation",
       "transaction_billing_activation_title": "Billing Activation",
-      "transaction_billing_activation_confirm": "Do you really want to activate the billing of charging sessions? <br><br> <strong> WARNING ! </strong> Once activated, you will NOT be able to deactivate it !",
+      "transaction_billing_activation_confirm": [
+        "Do you really want to activate the billing of charging sessions? ",
+        "<strong> WARNING ! </strong> Once activated, you will NOT be able to deactivate it !"
+      ],
       "transaction_billing_activation_success": "Billing of charging sessions has been successfully activated",
       "transaction_billing_activation_error": "Billing of charging sessions cannot be activated",
       "billing_clear_test_data": "Delete Test Data",
@@ -1663,7 +1709,13 @@
         "title": "SAP Analytics",
         "settings": "Impostazioni"
       },
-      "description": "E-Mobility espone i suoi dati ad uno strumento di analisi dati esterno.<br>Questa funzione espone in tempo reale tutti i dati della sessione attraverso un connettore a strumenti esterni di analisi dei dati.<br>E-Mobility sta attualmente usando SAP Analytics Cloud per mezzo di un connettore OData.<br>SAP Analytics Cloud supporta l'uso intelligente dei dati di ricarica per semplificare il processo decisionale operativo.<br>Ulteriori informazioni tecniche disponibili all'indirizzo ",
+      "description": [
+        "E-Mobility espone i suoi dati ad uno strumento di analisi dati esterno.",
+        "Questa funzione espone in tempo reale tutti i dati della sessione attraverso un connettore a strumenti esterni di analisi dei dati.",
+        "E-Mobility sta attualmente usando SAP Analytics Cloud per mezzo di un connettore OData.",
+        "SAP Analytics Cloud supporta l'uso intelligente dei dati di ricarica per semplificare il processo decisionale operativo.",
+        "Ulteriori informazioni tecniche disponibili all'indirizzo"
+      ],
       "setting_do_not_exist": "La configurazione non è stata trovata",
       "setting_not_found": "Le impostazioni di SAP Analytics non sono state trovate",
       "create_success": "Le impostazioni di SAP Analytics Cloud sono state create con successo",

@@ -31,7 +31,6 @@ export interface SettingDBContent {
   ocpi?: OcpiSetting;
   oicp?: OicpSetting;
   simple?: SimplePricingSetting;
-  convergentCharging?: ConvergentChargingPricingSetting;
   billing?: BillingSetting;
   stripe?: StripeBillingSetting;
   sac?: SacAnalyticsSetting;
@@ -54,14 +53,12 @@ export interface SettingLink extends TableData {
 
 export enum PricingSettingsType {
   SIMPLE = 'simple',
-  CONVERGENT_CHARGING = 'convergentCharging',
 }
 
 export interface PricingSettings extends Setting {
   identifier: TenantComponents.PRICING;
   type: PricingSettingsType;
   simple: SimplePricingSetting;
-  convergentCharging: ConvergentChargingPricingSetting;
 }
 
 export interface PricingSetting {}
@@ -69,13 +66,6 @@ export interface PricingSetting {}
 export interface SimplePricingSetting extends PricingSetting {
   price: number;
   currency: string;
-}
-
-export interface ConvergentChargingPricingSetting extends PricingSetting {
-  url: string;
-  chargeableItemName: string;
-  user: string;
-  password: string;
 }
 
 export enum RoamingSettingsType {

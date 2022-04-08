@@ -23,6 +23,8 @@ export class CarConnectorComponent implements OnInit, OnChanges {
   @Input() public readOnly: boolean;
   @Input() public carsAuthorizations!: CarsAuthorizations;
 
+  public initialized = false;
+
   public carConnectorName!: AbstractControl;
   public carConnectorID!: AbstractControl;
   public carConnectorMeterID!: AbstractControl;
@@ -49,8 +51,9 @@ export class CarConnectorComponent implements OnInit, OnChanges {
       }));
     this.carConnectorID = this.formGroup.get('carConnectorData.carConnectorID');
     this.carConnectorMeterID = this.formGroup.get('carConnectorData.carConnectorMeterID');
-    // Load available connectors
+    this.initialized = true;
     this.loadCarConnectors();
+    this.loadCar();
   }
 
   public ngOnChanges() {
@@ -58,7 +61,7 @@ export class CarConnectorComponent implements OnInit, OnChanges {
   }
 
   public loadCar() {
-    if (this.car && this.carConnectorConnections) {
+    if (this.initialized && this.car && this.carConnectorConnections) {
       const foundCarConnectorConnection = this.carConnectorConnections.find((carConnectorConnection) =>
         carConnectorConnection.id ===  this.car.carConnectorData?.carConnectorID);
       // Set

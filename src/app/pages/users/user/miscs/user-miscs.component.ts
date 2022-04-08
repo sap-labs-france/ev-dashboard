@@ -11,6 +11,8 @@ export class UserMiscsComponent implements OnInit, OnChanges {
   @Input() public formGroup: FormGroup;
   @Input() public user!: User;
 
+  public initialized = false;
+
   public iNumber!: AbstractControl;
   public costCenter!: AbstractControl;
 
@@ -25,6 +27,8 @@ export class UserMiscsComponent implements OnInit, OnChanges {
     // Form
     this.iNumber = this.formGroup.controls['iNumber'];
     this.costCenter = this.formGroup.controls['costCenter'];
+    this.initialized = true;
+    this.loadUser();
   }
 
   public ngOnChanges() {
@@ -33,12 +37,12 @@ export class UserMiscsComponent implements OnInit, OnChanges {
 
   // eslint-disable-next-line complexity
   public loadUser() {
-    if (this.user) {
+    if (this.initialized && this.user) {
       if (this.user.iNumber) {
-        this.formGroup.controls.iNumber.setValue(this.user.iNumber);
+        this.iNumber.setValue(this.user.iNumber);
       }
       if (this.user.costCenter) {
-        this.formGroup.controls.costCenter.setValue(this.user.costCenter);
+        this.costCenter.setValue(this.user.costCenter);
       }
     }
   }

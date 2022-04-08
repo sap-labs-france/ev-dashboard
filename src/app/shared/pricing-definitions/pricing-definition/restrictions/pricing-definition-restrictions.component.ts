@@ -18,6 +18,8 @@ export class PricingDefinitionRestrictionsComponent implements OnInit, OnChanges
   @Input() public pricingDefinition: PricingDefinition;
   @Input() public readOnly: boolean;
 
+  public initialized = false;
+
   // Restrictions
   public restrictions!: FormGroup;
   // Duration
@@ -87,6 +89,8 @@ export class PricingDefinitionRestrictionsComponent implements OnInit, OnChanges
         this.formGroup.markAsPristine();
       }
     });
+    this.initialized = true;
+    this.loadPricingDefinition();
   }
 
   public ngOnChanges() {
@@ -94,7 +98,7 @@ export class PricingDefinitionRestrictionsComponent implements OnInit, OnChanges
   }
 
   public loadPricingDefinition() {
-    if (this.pricingDefinition) {
+    if (this.initialized && this.pricingDefinition) {
       // Restrictions
       if (!!this.pricingDefinition.restrictions?.daysOfWeek) {
         this.daysOfWeekEnabled.setValue(true);

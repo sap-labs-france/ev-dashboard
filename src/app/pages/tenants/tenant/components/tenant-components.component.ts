@@ -14,6 +14,8 @@ export class TenantComponentsComponent implements OnInit, OnChanges {
   @Input() public tenant!: Tenant;
   @Input() public formGroup!: FormGroup;
 
+  public initialized = false;
+
   public id!: AbstractControl;
   public components!: FormGroup;
   public pricingTypes: KeyValue[];
@@ -43,6 +45,8 @@ export class TenantComponentsComponent implements OnInit, OnChanges {
         type: new FormControl(''),
       }));
     }
+    this.initialized = true;
+    this.loadTenant();
   }
 
   public ngOnChanges() {
@@ -60,7 +64,7 @@ export class TenantComponentsComponent implements OnInit, OnChanges {
   }
 
   public loadTenant() {
-    if (this.tenant) {
+    if (this.initialized && this.tenant) {
       // Add available components
       for (const componentIdentifier of Object.values(TenantComponents)) {
         // Set the params

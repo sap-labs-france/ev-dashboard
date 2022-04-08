@@ -31,6 +31,7 @@ export class AddressComponent implements OnInit, OnChanges {
   public coordinates!: FormArray;
   public longitude!: AbstractControl;
   public latitude!: AbstractControl;
+  public initialized = false;
 
   // eslint-disable-next-line no-useless-constructor
   public constructor(
@@ -79,7 +80,7 @@ export class AddressComponent implements OnInit, OnChanges {
     this.coordinates = this.addressFormGroup.controls['coordinates'] as FormArray;
     this.longitude = this.coordinates.at(0);
     this.latitude = this.coordinates.at(1);
-    // Set
+    this.initialized = true;
     this.loadAddress();
   }
 
@@ -88,27 +89,27 @@ export class AddressComponent implements OnInit, OnChanges {
   }
 
   public loadAddress() {
-    if (this.address) {
+    if (this.initialized && this.address) {
       if (this.address.address1) {
-        this.addressFormGroup?.controls.address1.setValue(this.address.address1);
+        this.address1.setValue(this.address.address1);
       }
       if (this.address.address2) {
-        this.addressFormGroup?.controls.address2.setValue(this.address.address2);
+        this.address2.setValue(this.address.address2);
       }
       if (this.address.postalCode) {
-        this.addressFormGroup?.controls.postalCode.setValue(this.address.postalCode);
+        this.postalCode.setValue(this.address.postalCode);
       }
       if (this.address.city) {
-        this.addressFormGroup?.controls.city.setValue(this.address.city);
+        this.city.setValue(this.address.city);
       }
       if (this.address.department) {
-        this.addressFormGroup?.controls.department.setValue(this.address.department);
+        this.department.setValue(this.address.department);
       }
       if (this.address.region) {
-        this.addressFormGroup?.controls.region.setValue(this.address.region);
+        this.region.setValue(this.address.region);
       }
       if (this.address.country) {
-        this.addressFormGroup?.controls.country.setValue(this.address.country);
+        this.country.setValue(this.address.country);
       }
       if (this.address.coordinates && this.address.coordinates.length === 2) {
         this.coordinates?.at(0).setValue(this.address.coordinates[0]);
@@ -148,23 +149,23 @@ export class AddressComponent implements OnInit, OnChanges {
       switch (addressComponent.types[0]) {
         // Postal Code
         case 'postal_code':
-          this.addressFormGroup.controls.postalCode.setValue(addressComponent.long_name);
+          this.postalCode.setValue(addressComponent.long_name);
           break;
         // Town
         case 'locality':
-          this.addressFormGroup.controls.city.setValue(addressComponent.long_name);
+          this.city.setValue(addressComponent.long_name);
           break;
         // Department
         case 'administrative_area_level_2':
-          this.addressFormGroup.controls.department.setValue(addressComponent.long_name);
+          this.department.setValue(addressComponent.long_name);
           break;
         // Region
         case 'administrative_area_level_1':
-          this.addressFormGroup.controls.region.setValue(addressComponent.long_name);
+          this.region.setValue(addressComponent.long_name);
           break;
         // Country
         case 'country':
-          this.addressFormGroup.controls.country.setValue(addressComponent.long_name);
+          this.country.setValue(addressComponent.long_name);
           break;
         case 'route':
           route = addressComponent.long_name;
@@ -177,12 +178,12 @@ export class AddressComponent implements OnInit, OnChanges {
     // build Address 2
     const address2 = `${streetNumber} ${route}`;
     // Address
-    this.addressFormGroup.controls.address1.setValue(address.name);
+    this.address1.setValue(address.name);
     // Set Address 2 if different from Address 1
     if (address2 !== address.name) {
-      this.addressFormGroup.controls.address2.setValue(address2);
+      this.address2.setValue(address2);
     } else {
-      this.addressFormGroup.controls.address2.setValue('');
+      this.address2.setValue('');
     }
     // Latitude
     this.latitude.setValue(address.geometry.location.lat());

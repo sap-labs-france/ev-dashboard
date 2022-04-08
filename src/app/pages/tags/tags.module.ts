@@ -14,7 +14,7 @@ import { AppFormatTagStatusPipe, TagStatusFormatterComponent } from './formatter
 import { TagsListComponent } from './list/tags-list.component';
 import { TagAssignDialogComponent } from './tag-assign/tag-assign-dialog.component';
 import { TagAssignComponent } from './tag-assign/tag-assign.component';
-import { TagLimitComponent } from './tag/limit/tag-limit.component';
+import { TagLimitsComponent } from './tag/limits/tag-limits.component';
 import { TagMainComponent } from './tag/main/tag-main.component';
 import { TagDialogComponent } from './tag/tag-dialog.component';
 import { TagComponent } from './tag/tag.component';
@@ -42,7 +42,7 @@ import { TagRoutes } from './tags.routing';
     TagAssignDialogComponent,
     TagComponent,
     TagMainComponent,
-    TagLimitComponent,
+    TagLimitsComponent,
     TagAssignComponent,
     TagsComponent,
   ],

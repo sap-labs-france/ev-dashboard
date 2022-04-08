@@ -8,10 +8,10 @@ import { SpinnerService } from '../../../../services/spinner.service';
 import { Tag } from '../../../../types/Tag';
 
 @Component({
-  selector: 'app-tag-limit',
-  templateUrl: 'tag-limit.component.html'
+  selector: 'app-tag-limits',
+  templateUrl: 'tag-limits.component.html'
 })
-export class TagLimitComponent implements OnInit, OnChanges {
+export class TagLimitsComponent implements OnInit, OnChanges {
   @Input() public formGroup: FormGroup;
   @Input() public tag!: Tag;
   @Input() public readOnly: boolean;

@@ -42,7 +42,7 @@ export class TagComponent extends AbstractTabComponent implements OnInit {
     protected activatedRoute: ActivatedRoute,
     protected windowService: WindowService,
     private router: Router) {
-    super(activatedRoute, windowService, ['main'], false);
+    super(activatedRoute, windowService, ['main', 'limits'], false);
   }
 
   public ngOnInit() {

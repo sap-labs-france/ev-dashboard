@@ -19,6 +19,8 @@ export class PricingDefinitionMainComponent implements OnInit, OnChanges {
   @Input() public pricingDefinition: PricingDefinition;
   @Input() public readOnly: boolean;
 
+  public initialized = false;
+
   // Controls general
   public id: AbstractControl;
   public name: AbstractControl;
@@ -75,6 +77,8 @@ export class PricingDefinitionMainComponent implements OnInit, OnChanges {
     this.validFrom.valueChanges.subscribe(() => {
       this.minDate = this.validFrom.value;
     });
+    this.initialized = true;
+    this.loadPricingDefinition();
   }
 
   public ngOnChanges() {
@@ -82,7 +86,7 @@ export class PricingDefinitionMainComponent implements OnInit, OnChanges {
   }
 
   public loadPricingDefinition() {
-    if (this.pricingDefinition) {
+    if (this.initialized && this.pricingDefinition) {
       // Init form
       this.id.setValue(this.pricingDefinition.id);
       this.name.setValue(this.pricingDefinition.name);

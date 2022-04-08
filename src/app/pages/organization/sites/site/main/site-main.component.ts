@@ -24,6 +24,7 @@ export class SiteMainComponent implements OnInit, OnChanges {
   public image = Constants.NO_IMAGE;
   public imageChanged = false;
   public maxSize: number;
+  public initialized = false;
 
   public issuer!: AbstractControl;
   public id!: AbstractControl;
@@ -33,7 +34,7 @@ export class SiteMainComponent implements OnInit, OnChanges {
   public autoUserSiteAssignment!: AbstractControl;
   public public!: AbstractControl;
 
-  public address!: Address;
+  public address = {} as Address;
 
   // eslint-disable-next-line no-useless-constructor
   public constructor(
@@ -71,6 +72,8 @@ export class SiteMainComponent implements OnInit, OnChanges {
     this.companyID = this.formGroup.controls['companyID'];
     this.autoUserSiteAssignment = this.formGroup.controls['autoUserSiteAssignment'];
     this.public = this.formGroup.controls['public'];
+    this.initialized = true;
+    this.loadSite();
   }
 
   public ngOnChanges() {
@@ -78,7 +81,7 @@ export class SiteMainComponent implements OnInit, OnChanges {
   }
 
   public loadSite() {
-    if (this.site) {
+    if (this.initialized && this.site) {
       this.formGroup.controls.id.setValue(this.site.id);
       if (Utils.objectHasProperty(this.site, 'issuer')) {
         this.formGroup.controls.issuer.setValue(this.site.issuer);

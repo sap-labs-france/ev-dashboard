@@ -442,6 +442,7 @@
     "private_limitation": "Some features are not available when the site is private"
   },
   "site_areas": {
+    "limits": "Limits",
     "assign_site": "Assegna Sito",
     "smart_charging": "Carica Smart",
     "export_all_ocpp_params": "Esporta Tutti i Parametri OCPP",

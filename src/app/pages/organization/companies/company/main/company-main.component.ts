@@ -21,6 +21,7 @@ export class CompanyMainComponent implements OnInit, OnChanges {
   public logo = Constants.NO_IMAGE;
   public logoChanged = false;
   public maxSize: number;
+  public initialized = false;
 
   public issuer!: AbstractControl;
   public id!: AbstractControl;
@@ -46,6 +47,8 @@ export class CompanyMainComponent implements OnInit, OnChanges {
     this.issuer = this.formGroup.controls['issuer'];
     this.id = this.formGroup.controls['id'];
     this.name = this.formGroup.controls['name'];
+    this.initialized = true;
+    this.loadCompany();
   }
 
   public ngOnChanges() {
@@ -53,15 +56,15 @@ export class CompanyMainComponent implements OnInit, OnChanges {
   }
 
   public loadCompany() {
-    if (this.company) {
+    if (this.initialized && this.company) {
       if (Utils.objectHasProperty(this.company, 'issuer')) {
-        this.formGroup.controls.issuer.setValue(this.company.issuer);
+        this.issuer.setValue(this.company.issuer);
       }
       if (this.company.id) {
-        this.formGroup.controls.id.setValue(this.company.id);
+        this.id.setValue(this.company.id);
       }
       if (this.company.name) {
-        this.formGroup.controls.name.setValue(this.company.name);
+        this.name.setValue(this.company.name);
       }
       if (this.company.address) {
         this.address = this.company.address;

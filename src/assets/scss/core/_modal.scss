@@ -196,44 +196,6 @@
   }
 }
 
-.transparent-dialog-container {
-  .mat-dialog-container {
-    background: none;
-    box-shadow: none;
-    overflow: hidden;
-  }
-
-  .mat-tab-group {
-    margin-top: -20px;
-  }
-
-  .mat-tab-header {
-    margin-left: 15px;
-    margin-right: 15px;
-    background: $brand-primary;
-  }
-
-  .mat-tabs-with-actions {
-    .mat-tab-header {
-      padding-right: 125px !important;
-    }
-  }
-
-  .mat-tabs-with-close-action {
-    .mat-tab-header {
-      padding-right: 40px !important;
-    }
-  }
-
-  .mat-tab-labels {
-    padding: 11px 7px 7px 7px;
-  }
-
-  .mat-dialog-content {
-    margin: 0;
-  }
-}
-
 .mat-dialog-container {
   border-radius: 0 !important;
 }

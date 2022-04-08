@@ -9,7 +9,7 @@ import localeEs from '@angular/common/locales/es';
 import localeFr from '@angular/common/locales/fr';
 import localeIt from '@angular/common/locales/it';
 import localePt from '@angular/common/locales/pt';
-import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { APP_INITIALIZER, Injectable, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
@@ -142,6 +142,7 @@ export const localeFactory = (centralServerService: CentralServerService, transl
   return Utils.convertToMomentLocale(browserLocale);
 };
 
+@Injectable()
 class CustomTranslateDefaultParser extends TranslateDefaultParser {
   public getValue(target: any, key: string): any {
     let value = super.getValue(target, key);

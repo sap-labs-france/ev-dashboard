@@ -18,6 +18,7 @@ import { HTTPError } from '../../../../types/HTTPError';
 import { SiteArea } from '../../../../types/SiteArea';
 import { TenantComponents } from '../../../../types/Tenant';
 import { Utils } from '../../../../utils/Utils';
+import { SiteAreaLimitsComponent } from './limits/site-area-limits.component';
 import { SiteAreaMainComponent } from './main/site-area-main.component';
 import { SiteAreaOcpiComponent } from './ocpi/site-area-ocpi.component';
 
@@ -31,6 +32,7 @@ export class SiteAreaComponent extends AbstractTabComponent implements OnInit {
   @Input() public dialogRef!: MatDialogRef<any>;
 
   @ViewChild('siteAreaMainComponent') public siteAreaMainComponent!: SiteAreaMainComponent;
+  @ViewChild('siteAreaLimitsComponent') public siteAreaLimitsComponent!: SiteAreaLimitsComponent;
   @ViewChild('siteAreaOcpiComponent') public siteAreaOcpiComponent!: SiteAreaOcpiComponent;
 
   public ocpiActive: boolean;
@@ -50,7 +52,7 @@ export class SiteAreaComponent extends AbstractTabComponent implements OnInit {
     private router: Router,
     protected windowService: WindowService,
     protected activatedRoute: ActivatedRoute) {
-    super(activatedRoute, windowService, ['main', 'ocpi'], false);
+    super(activatedRoute, windowService, ['main', 'limits', 'ocpi'], false);
     this.ocpiActive = this.componentService.isActive(TenantComponents.OCPI);
   }
 
@@ -76,7 +78,7 @@ export class SiteAreaComponent extends AbstractTabComponent implements OnInit {
           // Async call for letting the sub form groups to init
           setTimeout(() => this.formGroup.disable(), 0);
         }
-          // Update form group
+        // Update form group
         this.formGroup.updateValueAndValidity();
         this.formGroup.markAsPristine();
         this.formGroup.markAllAsTouched();

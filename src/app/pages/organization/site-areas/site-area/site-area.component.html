@@ -10,7 +10,16 @@
           <app-site-area-main #siteAreaMainComponent [formGroup]="formGroup" [siteArea]="siteArea" [readOnly]="readOnly" (siteChanged)="siteChanged($event)"></app-site-area-main>
         </div>
       </mat-tab>
-      <mat-tab *ngIf="ocpiActive">
+      <mat-tab *ngIf="formGroup.controls['issuer'].value">
+        <ng-template mat-tab-label>
+          <mat-icon>portrait</mat-icon>
+          <span>{{'site_areas.limits' | translate}}</span>
+        </ng-template>
+        <div class="card-body mat-tab-dialog-body-content">
+          <app-site-area-limits #siteAreaLimitsComponent [formGroup]="formGroup" [siteArea]="siteArea" [readOnly]="readOnly"></app-site-area-limits>
+        </div>
+      </mat-tab>
+      <mat-tab *ngIf="formGroup.controls['issuer'].value && ocpiActive">
         <ng-template mat-tab-label>
           <mat-icon>cloud</mat-icon>
           <span>{{'settings.tabs.ocpi' | translate}}</span>

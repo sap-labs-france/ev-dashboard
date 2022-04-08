@@ -1,0 +1,62 @@
+<form class="form" [formGroup]="formGroup">
+  <div class="row">
+    <div class="col-md-12 mb-3">
+      <div *ngIf="isSmartChargingComponentActive" class="text-left">
+        <mat-checkbox [formControl]="smartCharging">
+          {{'site_areas.enable_smart_charging' | translate}}
+        </mat-checkbox>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4">
+      <mat-form-field>
+        <mat-select placeholder="{{'chargers.voltage' | translate}}" [formControl]="voltage"
+          (selectionChange)="voltageChanged()" required>
+          <mat-option [value]="230">230</mat-option>
+          <mat-option [value]="110">110</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="col-md-4">
+      <mat-form-field>
+        <mat-label for="numberOfPhases">{{'site_areas.number_of_phases' | translate}} 
+        </mat-label>
+        <mat-select id="numberOfPhases" [formControl]="numberOfPhases" 
+          (selectionChange)="numberOfPhasesChanged()" required>
+          <mat-option *ngFor="let phase of phaseMap" [value]="phase.key">
+            {{phase.description | translate}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="numberOfPhases.errors?.required">
+          {{"general.mandatory_field" | translate}}</mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4">
+      <mat-form-field>
+        <input matInput placeholder="{{'site_areas.maximum_energy_watts' | translate}}" type="number"
+          [formControl]="maximumPower" (input)="maximumPowerChanged()" required>
+        <mat-error *ngIf="maximumPower.errors?.min">
+          {{"general.error_min_value" | translate:{value: 1} }}</mat-error>
+        <mat-error *ngIf="maximumPower.errors?.pattern">{{"chargers.invalid_power" | translate}}
+        </mat-error>
+        <mat-error *ngIf="maximumPower.errors?.required">{{"general.mandatory_field" | translate}}
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="col-md-4">
+      <mat-form-field>
+        <input matInput placeholder="{{'site_areas.maximum_energy_amps_total' | translate}}" type="number"
+          [formControl]="maximumTotalPowerAmps">
+      </mat-form-field>
+    </div>
+    <div class="col-md-4">
+      <mat-form-field>
+        <input matInput placeholder="{{'site_areas.maximum_energy_amps_per_phase' | translate}}" type="number"
+          [formControl]="maximumPowerAmpsPerPhase">
+      </mat-form-field>
+    </div>
+  </div>
+</form>

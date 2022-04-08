@@ -442,6 +442,7 @@
     "private_limitation": "Some features are not available when the site is private"
   },
   "site_areas": {
+    "limits": "Limits",
     "assign_site": "Asignar zonas",
     "smart_charging": "Carga inteligente",
     "export_all_ocpp_params": "Exportar todos los parámetros OCPP",
@@ -495,7 +496,7 @@
     "create_success": "La zona '{{siteAreaName}}' se ha creado exitosamente",
     "create_error": "Se produjo un error al crear zona",
     "image_size_error": "Se excedió el límite de tamaño de la imagen, el límite está por debajo de '{{maxPictureKb}}' Kb",
-    "maximum_energy_watts": "Potencia máxima (kW)",
+    "maximum_energy_watts": "Potencia máxima (W)",
     "maximum_energy_amps_per_phase": "Maximum Amperage per phase (A)",
     "maximum_energy_amps_total": "Amperaje máximo (A)",
     "number_of_phases": "Número de fases",

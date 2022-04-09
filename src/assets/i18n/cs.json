@@ -1519,7 +1519,7 @@
       "create_error": "Došlo k chybě při vytvoření nastavení ceny, zkontrolujte protokoly",
       "update_success": "Nastavení  ceny bylo úspěšně aktualizováno",
       "update_error": "Došlo k chybě při aktualizaci nastavení  ceny, zkontrolujte protokoly",
-      "full_description": "Open E-Mobility provides a pricing module which allows a flexible definition of the company pricing strategy.",
+      "full_description": "Charge Angels provides a pricing module which allows a flexible definition of the company pricing strategy.",
       "pricing_currency_changed_title": "Modification of the currency",
       "pricing_currency_changed_confirm": "You are about to change the currency. This will force you to reconnect after saving.<br/><br><strong> WARNING ! </strong>Once saved, the currency cannot be modified anymore!<br/><br/>Do you confirm that the selected value is correct?",
       "simple_pricing_title": "Built-in Pricing Module",

@@ -24,7 +24,7 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.6.4',
-        date: new Date('2022-04-04'),
+        date: new Date('2022-04-08'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -33,6 +33,9 @@ export class ReleaseNotesComponent {
               `Enhanced OCPI and Axios logs`,
               `Fixed missing Logo in master tenant`,
               `Updated German translation`,
+              `Aligned Charging Profile's amperage floating points with OCPP specifications`,
+              `Fixed new OCPI authorization is requested during Start Transaction when IOP sends a Remote Start`,
+              `Fixed cannot scroll tabs in User pop-up`,
             ],
           },
         ],

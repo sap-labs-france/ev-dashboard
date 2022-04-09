@@ -6,7 +6,6 @@ import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 
 import { CentralServerService } from '../../../../../services/central-server.service';
-import { ComponentService } from '../../../../../services/component.service';
 import { ConfigService } from '../../../../../services/config.service';
 import { DialogService } from '../../../../../services/dialog.service';
 import { MessageService } from '../../../../../services/message.service';
@@ -17,7 +16,6 @@ import { RegistrationToken } from '../../../../../types/RegistrationToken';
 import { Site } from '../../../../../types/Site';
 import { SiteArea } from '../../../../../types/SiteArea';
 import { ButtonType } from '../../../../../types/Table';
-import { TenantComponents } from '../../../../../types/Tenant';
 import { Constants } from '../../../../../utils/Constants';
 import { Utils } from '../../../../../utils/Utils';
 
@@ -25,7 +23,7 @@ import { Utils } from '../../../../../utils/Utils';
   selector: 'app-site-area-main',
   templateUrl: 'site-area-main.component.html',
 })
-export class SiteAreaMainComponent implements OnInit,OnChanges {
+export class SiteAreaMainComponent implements OnInit, OnChanges {
   @Input() public formGroup: FormGroup;
   @Input() public siteArea!: SiteArea;
   @Input() public readOnly: boolean;
@@ -34,27 +32,16 @@ export class SiteAreaMainComponent implements OnInit,OnChanges {
   public image = Constants.NO_IMAGE;
   public imageChanged = false;
   public maxSize: number;
+  public initialized = false;
 
   public issuer!: AbstractControl;
   public id!: AbstractControl;
   public name!: AbstractControl;
   public site!: AbstractControl;
   public siteID!: AbstractControl;
-  public maximumPower!: AbstractControl;
-  public maximumTotalPowerAmps!: AbstractControl;
-  public maximumPowerAmpsPerPhase!: AbstractControl;
-  public voltage!: AbstractControl;
   public accessControl!: AbstractControl;
-  public smartCharging!: AbstractControl;
-  public numberOfPhases!: AbstractControl;
-
-  public phaseMap = [
-    { key: 1, description: 'site_areas.single_phased' },
-    { key: 3, description: 'site_areas.three_phased' },
-  ];
 
   public address!: Address;
-  public isSmartChargingComponentActive = false;
 
   public registrationToken!: RegistrationToken;
 
@@ -66,10 +53,8 @@ export class SiteAreaMainComponent implements OnInit,OnChanges {
     private dialogService: DialogService,
     private router: Router,
     private translateService: TranslateService,
-    private configService: ConfigService,
-    private componentService: ComponentService) {
+    private configService: ConfigService) {
     this.maxSize = this.configService.getSiteArea().maxPictureKb;
-    this.isSmartChargingComponentActive = this.componentService.isActive(TenantComponents.SMART_CHARGING);
   }
 
   public ngOnInit() {
@@ -92,44 +77,16 @@ export class SiteAreaMainComponent implements OnInit,OnChanges {
         Validators.required,
       ])
     ));
-    this.formGroup.addControl('maximumPower', new FormControl(0,
-      Validators.compose([
-        Validators.pattern(/^[+-]?([0-9]*[.])?[0-9]+$/),
-        Validators.min(1),
-        Validators.required,
-      ])
-    ));
-    this.formGroup.addControl('maximumPowerAmpsPerPhase', new FormControl(0));
-    this.formGroup.addControl('maximumTotalPowerAmps', new FormControl(0));
     this.formGroup.addControl('accessControl', new FormControl(true));
-    this.formGroup.addControl('smartCharging', new FormControl(false));
-    this.formGroup.addControl('voltage', new FormControl(0,
-      Validators.compose([
-        Validators.required,
-        Validators.min(1),
-        Validators.pattern('^[+]?[0-9]*$'),
-      ])
-    ));
-    this.formGroup.addControl('numberOfPhases', new FormControl('',
-      Validators.compose([
-        Validators.required,
-      ])
-    ));
     // Form
     this.issuer = this.formGroup.controls['issuer'];
     this.id = this.formGroup.controls['id'];
     this.name = this.formGroup.controls['name'];
     this.site = this.formGroup.controls['site'];
     this.siteID = this.formGroup.controls['siteID'];
-    this.maximumPower = this.formGroup.controls['maximumPower'];
-    this.maximumPowerAmpsPerPhase = this.formGroup.controls['maximumPowerAmpsPerPhase'];
-    this.maximumTotalPowerAmps = this.formGroup.controls['maximumTotalPowerAmps'];
-    this.smartCharging = this.formGroup.controls['smartCharging'];
     this.accessControl = this.formGroup.controls['accessControl'];
-    this.voltage = this.formGroup.controls['voltage'];
-    this.numberOfPhases = this.formGroup.controls['numberOfPhases'];
-    this.maximumPowerAmpsPerPhase.disable();
-    this.maximumTotalPowerAmps.disable();
+    this.initialized = true;
+    this.loadSiteArea();
   }
 
   public ngOnChanges() {
@@ -137,43 +94,28 @@ export class SiteAreaMainComponent implements OnInit,OnChanges {
   }
 
   public loadSiteArea() {
-    if (this.siteArea) {
-      this.formGroup.controls.id.setValue(this.siteArea.id);
+    if (this.initialized && this.siteArea) {
+      this.id.setValue(this.siteArea.id);
       if (Utils.objectHasProperty(this.siteArea, 'issuer')) {
-        this.formGroup.controls.issuer.setValue(this.siteArea.issuer);
+        this.issuer.setValue(this.siteArea.issuer);
       }
       if (this.siteArea.name) {
-        this.formGroup.controls.name.setValue(this.siteArea.name);
+        this.name.setValue(this.siteArea.name);
       }
       if (this.siteArea.siteID) {
-        this.formGroup.controls.siteID.setValue(this.siteArea.siteID);
+        this.siteID.setValue(this.siteArea.siteID);
       }
       if (this.siteArea.site) {
         this.site.setValue(this.siteArea.site.name);
       }
-      if (this.siteArea.maximumPower) {
-        this.formGroup.controls.maximumPower.setValue(this.siteArea.maximumPower);
-      }
-      if (this.siteArea.numberOfPhases) {
-        this.formGroup.controls.numberOfPhases.setValue(this.siteArea.numberOfPhases);
-      }
-      if (this.siteArea.voltage) {
-        this.formGroup.controls.voltage.setValue(this.siteArea.voltage);
-      }
-      if (this.siteArea.smartCharging) {
-        this.formGroup.controls.smartCharging.setValue(this.siteArea.smartCharging);
-      } else {
-        this.formGroup.controls.smartCharging.setValue(false);
-      }
       if (this.siteArea.accessControl) {
-        this.formGroup.controls.accessControl.setValue(this.siteArea.accessControl);
+        this.accessControl.setValue(this.siteArea.accessControl);
       } else {
-        this.formGroup.controls.accessControl.setValue(false);
+        this.accessControl.setValue(false);
       }
       if (this.siteArea.address) {
         this.address = this.siteArea.address;
       }
-      this.refreshMaximumAmps();
       this.loadRegistrationToken();
       // Get Site Area image
       if (!this.imageChanged) {
@@ -220,14 +162,6 @@ export class SiteAreaMainComponent implements OnInit,OnChanges {
     }
   }
 
-  public voltageChanged() {
-    this.maximumPowerChanged();
-  }
-
-  public numberOfPhasesChanged() {
-    this.maximumPowerChanged();
-  }
-
   public updateSiteAreaImage(siteArea: SiteArea) {
     if (this.image !== Constants.NO_IMAGE) {
       siteArea.image = this.image;
@@ -256,26 +190,6 @@ export class SiteAreaMainComponent implements OnInit,OnChanges {
         };
         reader.readAsDataURL(file);
       }
-    }
-  }
-
-  public refreshMaximumAmps() {
-    this.maximumPowerChanged();
-  }
-
-  public maximumPowerChanged() {
-    if (!this.maximumPower.errors && this.voltage.value) {
-      if (this.numberOfPhases.value) {
-        this.maximumPowerAmpsPerPhase.setValue(
-          Math.floor((this.maximumPower.value as number) / (this.voltage.value as number) / (this.numberOfPhases.value)));
-      } else {
-        this.maximumPowerAmpsPerPhase.setValue(0);
-      }
-      this.maximumTotalPowerAmps.setValue(
-        Math.floor((this.maximumPower.value as number) / (this.voltage.value as number)));
-    } else {
-      this.maximumPowerAmpsPerPhase.setValue(0);
-      this.maximumTotalPowerAmps.setValue(0);
     }
   }
 

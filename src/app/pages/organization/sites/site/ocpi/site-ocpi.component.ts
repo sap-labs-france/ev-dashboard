@@ -13,6 +13,7 @@ export class SiteOcpiComponent implements OnInit, OnChanges {
   @Input() public readOnly: boolean;
 
   public public = false;
+  public initialized = false;
 
   public tariffID: AbstractControl;
 
@@ -26,6 +27,8 @@ export class SiteOcpiComponent implements OnInit, OnChanges {
     // Form
     this.tariffID = this.formGroup.controls['tariffID'];
     this.enableDisableTariffID();
+    this.initialized = true;
+    this.loadSite();
   }
 
   public ngOnChanges() {
@@ -33,7 +36,7 @@ export class SiteOcpiComponent implements OnInit, OnChanges {
   }
 
   public loadSite() {
-    if (this.site) {
+    if (this.initialized && this.site) {
       this.public = this.site.public;
       this.enableDisableTariffID();
       if (this.site.tariffID) {

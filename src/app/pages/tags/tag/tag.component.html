@@ -21,12 +21,11 @@
       </mat-tab>
     </mat-tab-group>
     <div class="tabs-actions">
-      <button mat-button *ngIf="!readOnly" (click)="saveTag(formGroup.getRawValue())"
+      <button mat-icon-button *ngIf="!readOnly" (click)="saveTag(formGroup.getRawValue())" title="{{'general.save' | translate}}"
           [disabled]="!formGroup.valid || !formGroup.dirty">
         <mat-icon>save</mat-icon>
-        <span>{{'general.save' | translate}}</span>
       </button>
-      <button mat-icon-button *ngIf="dialogRef" (click)="close()">
+      <button mat-icon-button *ngIf="dialogRef" (click)="close()" title="{{'general.close' | translate}}">
         <mat-icon>close</mat-icon>
       </button>
     </div>

@@ -20,6 +20,7 @@ export class AssetConnectionComponent implements OnInit, OnChanges {
   @Input() public readOnly: boolean;
 
   public assetConnections!: KeyValue[];
+  public initialized = false;
 
   public dynamicAsset!: AbstractControl;
   public usesPushAPI!: AbstractControl;
@@ -61,8 +62,9 @@ export class AssetConnectionComponent implements OnInit, OnChanges {
     this.meterID = this.formGroup.controls['meterID'];
     // Disable connection form by default
     this.disableConnectionDetails();
-    // Load Connection
+    this.initialized = true;
     this.loadAssetConnection();
+    this.loadAsset();
   }
 
   public ngOnChanges() {
@@ -70,17 +72,17 @@ export class AssetConnectionComponent implements OnInit, OnChanges {
   }
 
   public loadAsset() {
-    if (this.asset) {
+    if (this.initialized && this.asset) {
       if (this.asset.dynamicAsset) {
-        this.formGroup.controls.dynamicAsset.setValue(this.asset.dynamicAsset);
-        this.formGroup.controls.usesPushAPI.setValue(this.asset.usesPushAPI);
+        this.dynamicAsset.setValue(this.asset.dynamicAsset);
+        this.usesPushAPI.setValue(this.asset.usesPushAPI);
         this.disableConnectionDetails();
       }
       if (this.asset.connectionID) {
-        this.formGroup.controls.connectionID.setValue(this.asset.connectionID);
+        this.connectionID.setValue(this.asset.connectionID);
       }
       if (this.asset.meterID) {
-        this.formGroup.controls.meterID.setValue(this.asset.meterID);
+        this.meterID.setValue(this.asset.meterID);
       }
     }
   }

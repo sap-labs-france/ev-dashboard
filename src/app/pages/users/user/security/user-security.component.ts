@@ -18,6 +18,7 @@ export class UserSecurityComponent implements OnInit, OnChanges {
   public parentErrorStateMatcher = new ParentErrorStateMatcher();
   public hidePassword = true;
   public hideRepeatPassword = true;
+  public initialized = false;
 
   public passwords!: FormGroup;
   public password!: AbstractControl;
@@ -40,6 +41,8 @@ export class UserSecurityComponent implements OnInit, OnChanges {
     this.passwords = (this.formGroup.controls['passwords'] as FormGroup);
     this.password = this.passwords.controls['password'];
     this.repeatPassword = this.passwords.controls['repeatPassword'];
+    this.initialized = true;
+    this.loadUser();
   }
 
   public ngOnChanges() {
@@ -48,7 +51,7 @@ export class UserSecurityComponent implements OnInit, OnChanges {
 
   // eslint-disable-next-line complexity
   public loadUser() {
-    if (this.user) {
+    if (this.initialized && this.user) {
       // Reset password
       this.passwords.controls.password.setValue('');
       this.passwords.controls.repeatPassword.setValue('');

@@ -6,7 +6,7 @@ import { Utils } from '../../../../../utils/Utils';
 import { SettingsOcpiEndpointComponent } from './settings-ocpi-endpoint.component';
 
 @Component({
-  template: '<app-ocpi-endpoint #appRef [currentEndpoint]="currentEndpoint" [inDialog]="true" [dialogRef]="dialogRef"></app-ocpi-endpoint>',
+  template: '<app-ocpi-endpoint #appRef [currentEndpoint]="currentEndpoint" [dialogRef]="dialogRef"></app-ocpi-endpoint>',
 })
 export class SettingsOcpiEndpointDialogComponent implements AfterViewInit {
   @ViewChild('appRef') public appRef!: SettingsOcpiEndpointComponent;

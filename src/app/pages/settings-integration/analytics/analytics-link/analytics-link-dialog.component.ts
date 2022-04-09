@@ -64,7 +64,7 @@ export class AnalyticsLinkDialogComponent implements OnInit {
     this.url = this.formGroup.controls['url'];
     // Register key event
     Utils.registerSaveCloseKeyEvents(this.dialogRef, this.formGroup,
-      this.setLinkAndClose.bind(this), this.close.bind(this));
+      this.save.bind(this), this.close.bind(this));
     // Get Create/Update submit translation
     this.submitButtonType = this.submitButtonTranslation();
   }
@@ -75,10 +75,10 @@ export class AnalyticsLinkDialogComponent implements OnInit {
 
   public close() {
     Utils.checkAndSaveAndCloseDialog(this.formGroup, this.dialogService,
-      this.translateService, this.setLinkAndClose.bind(this), this.closeDialog.bind(this));
+      this.translateService, this.save.bind(this), this.closeDialog.bind(this));
   }
 
-  public setLinkAndClose(analyticsLink: SettingLink) {
+  public save(analyticsLink: SettingLink) {
     this.dialogRef.close(analyticsLink);
   }
 

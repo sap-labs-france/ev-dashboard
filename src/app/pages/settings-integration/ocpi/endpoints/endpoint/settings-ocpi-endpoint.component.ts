@@ -20,7 +20,6 @@ import { Utils } from '../../../../../utils/Utils';
 })
 export class SettingsOcpiEndpointComponent implements OnInit {
   @Input() public currentEndpoint!: OcpiEndpoint;
-  @Input() public inDialog!: boolean;
   @Input() public dialogRef!: MatDialogRef<any>;
   public formGroup!: FormGroup;
   public id!: AbstractControl;
@@ -133,7 +132,7 @@ export class SettingsOcpiEndpointComponent implements OnInit {
   }
 
   public closeDialog(saved: boolean = false) {
-    if (this.inDialog) {
+    if (this.dialogRef) {
       this.dialogRef.close(saved);
     }
   }

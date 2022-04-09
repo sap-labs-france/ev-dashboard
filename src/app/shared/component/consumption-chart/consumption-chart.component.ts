@@ -131,18 +131,18 @@ export class ConsumptionChartComponent implements AfterViewInit {
 
   public unitChanged(key: ConsumptionUnit) {
     this.selectedUnit = key;
-    // Update visible datasets list
-    this.updateVisibleDatasets();
     this.prepareOrUpdateGraph();
   }
 
   private updateVisibleDatasets(){
-    this.visibleDatasets = [];
-    this.data.datasets.forEach(dataset => {
-      if(!dataset.hidden){
-        this.visibleDatasets.push(dataset.order);
-      }
-    });
+    if(this.data.datasets.length > 0) {
+      this.visibleDatasets = [];
+      this.data.datasets.forEach(dataset => {
+        if(!dataset.hidden){
+          this.visibleDatasets.push(dataset.order);
+        }
+      });
+    }
   }
 
 
@@ -195,6 +195,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
 
   private prepareOrUpdateGraph() {
     if (this.canDisplayGraph()) {
+      this.updateVisibleDatasets();
       this.createGraphData();
       this.refreshDataSets();
       const options = this.createOptions();

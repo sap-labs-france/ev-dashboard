@@ -1,5 +1,5 @@
 <form class="form" [formGroup]="formGroup">
-  <div class="row app-organization">
+  <div class="row">
     <div class="col-md-5">
       <div class="rotating-card-container" [ngStyle]="{ 'pointer-events': readOnly ? 'none' : 'all'}">
         <div class="card card-rotate card-background app-site-image-padding mt-0">
@@ -78,7 +78,7 @@
   <div class="row">
     <div class="col-md-12">
       <app-address [address]="address" [formGroup]="formGroup" componentName="{{'sites.site' | translate}}"
-        [itemComponentName]="name.value" [onlyReadGeolocation]="readOnly" [mandatory]="public.value"></app-address>
+        [itemComponentName]="name.value" [onlyReadGeolocation]="readOnly" [mandatory]="true"></app-address>
     </div>
   </div>
 </form>

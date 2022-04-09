@@ -9,7 +9,7 @@ import localeEs from '@angular/common/locales/es';
 import localeFr from '@angular/common/locales/fr';
 import localeIt from '@angular/common/locales/it';
 import localePt from '@angular/common/locales/pt';
-import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { APP_INITIALIZER, Injectable, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
@@ -44,7 +44,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DatetimeAdapter, MatDatetimepickerModule } from '@mat-datetimepicker/core';
 import { MatMomentDatetimeModule, MomentDatetimeAdapter } from '@mat-datetimepicker/moment';
-import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateDefaultParser, TranslateLoader, TranslateModule, TranslateParser, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ChartModule } from 'angular2-chartjs';
 import { NgxCaptchaModule } from 'ngx-captcha';
@@ -142,6 +142,17 @@ export const localeFactory = (centralServerService: CentralServerService, transl
   return Utils.convertToMomentLocale(browserLocale);
 };
 
+@Injectable()
+class CustomTranslateDefaultParser extends TranslateDefaultParser {
+  public getValue(target: any, key: string): any {
+    let value = super.getValue(target, key);
+    if (!Utils.isEmptyArray(value)) {
+      value = (value as string[]).join('<br>');
+    }
+    return value;
+  }
+}
+
 @NgModule({
   imports: [
     BrowserModule,
@@ -164,6 +175,10 @@ export const localeFactory = (centralServerService: CentralServerService, transl
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
         deps: [HttpClient],
+      },
+      parser: {
+        provide: TranslateParser,
+        useClass: CustomTranslateDefaultParser
       },
     }),
   ],

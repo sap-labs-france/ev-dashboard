@@ -860,7 +860,7 @@
       "clear_profiles_button": "Profile löschen",
       "current_limit": "Aktuelle Planung der Leistungslimitierung",
       "current_limit_title": "Aktuelles Leistungslimit",
-      "limit_title": "Limit (kW)",
+      "limit_title": "Limit",
       "limit_in_amps": "({{limitInAmps}}A)",
       "limit_in_watts": "'{{limitInWatts}}kW",
       "no_current_limit": "Keine Limitierungsplanung gefunden",
@@ -1373,6 +1373,7 @@
   "tags": {
     "id": "RFID",
     "limits": "Limits",
+    "limit_consumed": "Consumed",
     "limits_energy": "Limit Energy",
     "limits_kwh": "Limit in kWh",
     "limits_consumed_kwh": "Consumed in kWh",

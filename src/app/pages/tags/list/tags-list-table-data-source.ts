@@ -250,11 +250,11 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
       },
       {
         id: 'limit',
-        name: 'tags.limits',
+        name: 'tags.limit_consumed',
         headerClass: 'text-center col-5em',
         class: 'text-center col-10em',
         sortable: true,
-        formatter: (limit: TagLimit) => Utils.displayYesNo(this.translateService, limit?.limitKwhEnabled),
+        formatter: (limit: TagLimit) => Utils.displayTagLimit(limit),
       },
       {
         id: 'user.name',

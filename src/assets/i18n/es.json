@@ -1373,6 +1373,7 @@
   "tags": {
     "id": "Insignia ID",
     "limits": "Limits",
+    "limit_consumed": "Consumed",
     "limits_energy": "Limit Energy",
     "limits_kwh": "Limit in kWh",
     "limits_consumed_kwh": "Consumed in kWh",

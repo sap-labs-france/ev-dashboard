@@ -1373,6 +1373,7 @@
   "tags": {
     "id": "Badge ID",
     "limits": "Limitations",
+    "limit_consumed": "Consommé",
     "limits_energy": "Limite Energie",
     "limits_kwh": "Limite en kWh",
     "limits_consumed_kwh": "Consommée en kWh",

@@ -6,7 +6,7 @@ import { StatusCodes } from 'http-status-codes';
 import * as moment from 'moment';
 import { DialogMode } from 'types/Authorization';
 import { HTTPError } from 'types/HTTPError';
-import { Tag } from 'types/Tag';
+import { Tag, TagLimit } from 'types/Tag';
 import { User, UserToken } from 'types/User';
 
 import { CentralServerService } from '../services/central-server.service';
@@ -22,6 +22,17 @@ import { ButtonType, FilterType, TableDataSourceMode, TableFilterDef } from '../
 import { Constants } from './Constants';
 
 export class Utils {
+  public static displayTagLimit(limit: TagLimit): string {
+    if (!limit?.limitKwhEnabled) {
+      return '-';
+    }
+    if (Utils.isNullOrUndefined(limit.limitKwhConsumed)) {
+      limit.limitKwhConsumed = 0;
+    }
+    const percentageUsed = Utils.roundTo((limit.limitKwhConsumed / limit.limitKwh) * 100, 0);
+    return `${limit.limitKwhConsumed} / ${limit.limitKwh} kWh (${percentageUsed}%)`;
+  }
+
   public static shrinkObjectProperties(properties: any): any  {
     for (const propertyName in properties) {
       if (!properties[propertyName]) {

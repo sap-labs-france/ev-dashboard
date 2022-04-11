@@ -10,7 +10,16 @@
           <app-site-area-main #siteAreaMainComponent [formGroup]="formGroup" [siteArea]="siteArea" [readOnly]="readOnly" (siteChanged)="siteChanged($event)"></app-site-area-main>
         </div>
       </mat-tab>
-      <mat-tab *ngIf="ocpiActive">
+      <mat-tab *ngIf="formGroup.controls['issuer'].value">
+        <ng-template mat-tab-label>
+          <mat-icon>portrait</mat-icon>
+          <span>{{'site_areas.limits' | translate}}</span>
+        </ng-template>
+        <div class="card-body mat-tab-dialog-body-content">
+          <app-site-area-limits #siteAreaLimitsComponent [formGroup]="formGroup" [siteArea]="siteArea" [readOnly]="readOnly"></app-site-area-limits>
+        </div>
+      </mat-tab>
+      <mat-tab *ngIf="formGroup.controls['issuer'].value && ocpiActive">
         <ng-template mat-tab-label>
           <mat-icon>cloud</mat-icon>
           <span>{{'settings.tabs.ocpi' | translate}}</span>
@@ -21,12 +30,11 @@
       </mat-tab>
     </mat-tab-group>
     <div class="tabs-actions">
-      <button mat-button *ngIf="!readOnly" (click)="saveSiteArea(formGroup.getRawValue())"
-        [disabled]="!formGroup.valid || !formGroup.dirty">
+      <button mat-icon-button *ngIf="!readOnly" (click)="saveSiteArea(formGroup.getRawValue())" title="{{'general.save' | translate}}"
+          [disabled]="!formGroup.valid || !formGroup.dirty">
         <mat-icon>save</mat-icon>
-        <span>{{'general.save' | translate}}</span>
       </button>
-      <button mat-icon-button *ngIf="dialogRef" (click)="close()">
+      <button mat-icon-button *ngIf="dialogRef" (click)="close()" title="{{'general.close' | translate}}">
         <mat-icon>close</mat-icon>
       </button>
     </div>

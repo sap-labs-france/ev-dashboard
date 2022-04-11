@@ -34,6 +34,8 @@
                     </mat-form-field>
                   </div>
                 </div>
+              </div>
+              <div class="row">
                 <!-- OCPI Endpoint - URL -->
                 <div class="col-md-12">
                   <div class="form-group">
@@ -47,6 +49,8 @@
                     </mat-form-field>
                   </div>
                 </div>
+              </div>
+              <div class="row">
                 <!-- OCPI Endpoint - Country Code / Party id-->
                 <div class="col-md-6">
                   <div class="form-group" *ngIf="!currentEndpoint?.id">
@@ -79,30 +83,29 @@
                     </mat-form-field>
                   </div>
                 </div>
-
+              </div>
+              <div class="row">
                 <!-- OCPI Endpoint - Token -->
-                <div class="col-md-12">
+                <div class="col">
                   <div class="form-group">
-                    <div class="d-flex flex-row">
-                      <div class="flex-grow-1">
-                        <mat-form-field class="endpoint-dialog-no-padding-bottom">
-                          <input matInput placeholder="{{'ocpiendpoints.local_token' | translate}}" type="text"
-                            [formControl]="localToken">
-                          <mat-error *ngIf="localToken.errors?.maxlength">
-                            <div [translate]="'general.error_max_length'" [translateParams]="{length: 64}"></div>
-                          </mat-error>
-                        </mat-form-field>
-                      </div>
-                      <div align="right" pull-right>
-                        <button mat-raised-button color="primary" (click)="generateLocalToken(formGroup.value)">
-                          <mat-icon>vpn_key</mat-icon>
-                          <span>{{'ocpiendpoints.generate_new_token' | translate}}</span>
-                        </button>
-                      </div>
-                    </div>
+                    <mat-form-field class="endpoint-dialog-no-padding-bottom">
+                      <input matInput placeholder="{{'ocpiendpoints.local_token' | translate}}" type="text"
+                        [formControl]="localToken">
+                      <mat-error *ngIf="localToken.errors?.maxlength">
+                        <div [translate]="'general.error_max_length'" [translateParams]="{length: 64}"></div>
+                      </mat-error>
+                    </mat-form-field>
                   </div>
                 </div>
-                <div class="col-md-12">
+                <div class="col-md-4 text-end">
+                  <button mat-raised-button color="primary" (click)="generateLocalToken(formGroup.value)">
+                    <mat-icon>vpn_key</mat-icon>
+                    <span>{{'ocpiendpoints.generate_new_token' | translate}}</span>
+                  </button>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
                   <div class="form-group">
                     <mat-form-field class="endpoint-dialog-no-padding-bottom">
                       <input matInput placeholder="{{'ocpiendpoints.token' | translate}}" type="text"
@@ -111,18 +114,18 @@
                         <div [translate]="'general.error_max_length'" [translateParams]="{length: 64}"></div>
                       </mat-error>
                     </mat-form-field>
-                    <div align="right" pull-right>
-                      <button mat-raised-button color="primary" (click)="testConnection(formGroup.value)"
-                        [disabled]="!token.value || baseUrl.errors?.required || baseUrl.errors?.pattern">
-                        <mat-icon>touch_app</mat-icon>
-                        <span>{{'ocpiendpoints.test_connection' | translate}}</span>
-                      </button>
-                    </div>
                   </div>
                 </div>
+                <div class="col-md-4 text-end">
+                  <button mat-raised-button color="primary" (click)="testConnection(formGroup.value)"
+                    [disabled]="!token.value || baseUrl.errors?.required || baseUrl.errors?.pattern">
+                    <mat-icon>touch_app</mat-icon>
+                    <span>{{'ocpiendpoints.test_connection' | translate}}</span>
+                  </button>
+                </div>
               </div>
-              <div class="clearfix"></div>
             </div>
+            <div class="clearfix"></div>
           </div>
         </div>
       </mat-tab>

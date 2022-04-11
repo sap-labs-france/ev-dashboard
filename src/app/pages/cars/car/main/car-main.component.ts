@@ -30,6 +30,7 @@ export class CarMainComponent implements OnInit, OnChanges {
   public carCatalogConverters: { type: CarConverterType; value: string; converter: CarConverter }[] = [];
   public canListUsers: boolean;
   public isCarConnectorComponentActive: boolean;
+  public initialized = false;
 
   public id!: AbstractControl;
   public vin!: AbstractControl;
@@ -108,6 +109,8 @@ export class CarMainComponent implements OnInit, OnChanges {
     if(this.carsAuthorizations.metadata?.createPoolCar?.visible) {
       this.carTypes.push({ key: CarType.POOL_CAR, value: 'cars.pool_car' });
     }
+    this.initialized = true;
+    this.loadCar();
   }
 
   public ngOnChanges() {
@@ -115,7 +118,7 @@ export class CarMainComponent implements OnInit, OnChanges {
   }
 
   public loadCar() {
-    if (this.car) {
+    if (this.initialized && this.car) {
       this.id.setValue(this.car.id);
       this.carCatalogID.setValue(this.car.carCatalogID);
       this.selectedCarCatalog = this.car.carCatalog;
@@ -196,8 +199,6 @@ export class CarMainComponent implements OnInit, OnChanges {
   }
 
   private buildCarCatalogConverter() {
-    console.log(this.selectedCarCatalog);
-    
     const standardConverter: CarConverter = {
       type: CarConverterType.STANDARD,
       powerWatts: this.selectedCarCatalog.chargeStandardPower,

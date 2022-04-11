@@ -1,12 +1,11 @@
 <div class="main-content vh-lg-30 vw-lg-60 vw-xxl-50 vh-3xl-25 vw-3xl-30">
   <div class="card card-profile card-testimonial">
-    <mat-tab-group animationDuration="0ms" disableRipple="true" class="mat-tab-info mat-tabs-with-actions">
+    <mat-tab-group animationDuration="0ms" disableRipple="true" class="mat-tab-info" [class]="dialogRef ? 'mat-tabs-with-actions' : 'mat-tabs-with-close-action'">
       <mat-tab>
         <ng-template mat-tab-label>
           <mat-icon>link</mat-icon>
-          <span>{{description.value}}</span>
+          <span>{{"chargers.token" | translate}} - {{description.value}}</span>
         </ng-template>
-        <!-- <div class="card-body mat-tab-body-content"> -->
         <div class="card-body pb-0">
           <div class="tab-content">
             <div class="tab-pane active" id="profile">
@@ -43,13 +42,12 @@
         </div>
       </mat-tab>
     </mat-tab-group>
-    <div class="tabs-actions">
-      <button mat-button (click)="saveToken(formGroup.getRawValue())"
-      [disabled]="!formGroup.valid || !formGroup.dirty">
+    <div [class]="dialogRef ? 'tabs-actions' : 'tabs-actions-embedded'">
+      <button mat-icon-button (click)="saveToken(formGroup.getRawValue())" title="{{'general.save' | translate}}"
+        [disabled]="!formGroup.valid || !formGroup.dirty">
       <mat-icon>save</mat-icon>
-      <span>{{'general.save' | translate}}</span>
     </button>
-    <button mat-icon-button *ngIf="inDialog" (click)="close()">
+    <button mat-icon-button *ngIf="inDialog" (click)="close()" title="{{'general.close' | translate}}">
       <mat-icon>close</mat-icon>
     </button>
   </div>

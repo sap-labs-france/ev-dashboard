@@ -669,6 +669,7 @@
   },
   "chargers": {
     "chargers": "Nabíjecí stanice",
+    "token": "Token",
     "user": "Uživatel",
     "charger_not_found": "Nabíjecí stanice nebyla nalezena",
     "vendor": "Prodejce",

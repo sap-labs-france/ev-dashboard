@@ -1,7 +1,7 @@
 <div class="main-content vh-lg-75 vw-lg-80 vh-xl-75 vw-xl-70 vh-3xl-60 vw-3xl-40">
   <div class="card card-profile card-testimonial">
     <mat-tab-group animationDuration="0ms" disableRipple="true" (selectedTabChange)="changeActivePane($event)"
-        class="mat-tab-info charger-dialog-container mat-tabs-with-actions">
+        class="mat-tab-info charger-dialog-container" [class]="dialogRef ? 'mat-tabs-with-actions' : 'mat-tabs-with-close-action'">
       <mat-tab>
         <ng-template mat-tab-label>
           <mat-icon>ev_station</mat-icon>

@@ -1,7 +1,7 @@
 <div class="main-content vh-lg-35 vw-lg-70 vw-xl-75 vw-xxl-50 vw-3xl-35">
   <div class="card card-profile card-testimonial">
     <form [formGroup]="formGroup" class="form" autocomplete="off">
-      <mat-tab-group animationDuration="0ms" disableRipple="true" class="mat-tab-info mat-tabs-with-actions">
+      <mat-tab-group animationDuration="0ms" disableRipple="true" class="mat-tab-info" [class]="dialogRef ? 'mat-tabs-with-actions' : 'mat-tabs-with-close-action'">
         <mat-tab>
           <ng-template mat-tab-label>
             <mat-icon>money</mat-icon>
@@ -30,13 +30,12 @@
           </div>
         </mat-tab>
       </mat-tab-group>
-      <div class="tabs-actions">
-        <button mat-button *ngIf="!readOnly" type="button" (click)="savePricingDefinition()"
+      <div [class]="dialogRef ? 'tabs-actions' : 'tabs-actions-embedded'">
+        <button mat-icon-button *ngIf="!readOnly" type="button" (click)="savePricingDefinition()" title="{{'general.save' | translate}}"
             [disabled]="!formGroup.valid || !formGroup.dirty">
           <mat-icon>save</mat-icon>
-          <span>{{'general.save' | translate}}</span>
         </button>
-        <button mat-icon-button type="button" *ngIf="dialogRef" (click)="close()">
+        <button mat-icon-button type="button" *ngIf="dialogRef" (click)="close()" title="{{'general.close' | translate}}">
           <mat-icon>close</mat-icon>
         </button>
       </div>

@@ -669,6 +669,7 @@
   },
   "chargers": {
     "chargers": "Stazioni di Ricarica",
+    "token": "Token",
     "user": "Utente",
     "charger_not_found": "La stazione di ricarica non è stata trovata",
     "vendor": "Fornitore",

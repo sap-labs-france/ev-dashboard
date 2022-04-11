@@ -669,6 +669,7 @@
   },
   "chargers": {
     "chargers": "Bornes",
+    "token": "Jeton",
     "user": "Utilisateur",
     "charger_not_found": "La borne n'a pas été trouvée",
     "vendor": "Vendeur",

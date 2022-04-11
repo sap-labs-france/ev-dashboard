@@ -5,7 +5,7 @@ import { OcpiEndpoint } from '../../../../../types/ocpi/OCPIEndpoint';
 import { SettingsOcpiEndpointsDetailsTableDataSource } from './settings-ocpi-endpoints-details-table-data-source';
 
 @Component({
-  template: '<app-table class="endpoint-details" [dataSource]="settingsOcpiEndpointsDetaislTableDataSource"></app-table>',
+  template: '<app-table [dataSource]="settingsOcpiEndpointsDetaislTableDataSource"></app-table>',
   providers: [SettingsOcpiEndpointsDetailsTableDataSource],
 })
 

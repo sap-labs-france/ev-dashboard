@@ -1,5 +1,7 @@
+@import '../../../../../../../assets/scss/core/variables/theme';
+@import '../../../../../../../assets/scss/core/variables/brand';
+
 .justified-italic-text-box {
-  @include box-shadow($bmd-shadow-4dp);
   color: mat-color($app-grey, 800);
   padding: 10px 15px;
   margin-bottom: 10px;
@@ -13,10 +15,3 @@
   margin-top: -.8em;
   text-align: left;
 }
-
-.deactivated-setting-message {
-  color: $brand-danger;
-  font-size: 1.2em;
-  margin-bottom: 1em;
-}
-

@@ -1,4 +1,4 @@
-<div class="card pricing-in-card" *ngIf="!inDialog">
+<div class="card" *ngIf="!inDialog">
   <div class="card-header card-header-icon card-header-primary">
     <div class="card-icon">
       <mat-icon>money</mat-icon>
@@ -9,7 +9,6 @@
     <app-table [dataSource]="pricingsTableDataSource"></app-table>
   </div>
 </div>
-
 <div class="main-content vh-lg-60 vw-lg-80 vw-xl-70 vh-3xl-50 vw-3xl-40" *ngIf="inDialog">
   <div class="card card-profile card-testimonial">
     <mat-tab-group animationDuration="0ms" disableRipple="true" class="mat-tab-info charger-dialog-container mat-tabs-with-close-action">

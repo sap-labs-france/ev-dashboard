@@ -34,7 +34,7 @@
       </div>
       <div class="form-group">
         <mat-form-field>
-          <input appAutofocus matInput placeholder="{{ 'cars.vin' | translate }}" class="app-car-name" type="text" [formControl]="vin" required />
+          <input appAutofocus matInput placeholder="{{ 'cars.vin' | translate }}" type="text" [formControl]="vin" required />
           <mat-error *ngIf="vin.errors?.required"> {{ "general.mandatory_field" | translate }}
           </mat-error>
           <mat-error *ngIf="vin.errors?.invalidVIN">{{ "cars.invalid_vin" | translate }}</mat-error>
@@ -42,7 +42,7 @@
       </div>
       <div class="form-group">
         <mat-form-field>
-          <input appAutofocus matInput placeholder="{{ 'cars.license_plate' | translate }}" class="app-car-name" type="text" [formControl]="licensePlate" required />
+          <input appAutofocus matInput placeholder="{{ 'cars.license_plate' | translate }}" type="text" [formControl]="licensePlate" required />
           <mat-error *ngIf="licensePlate.errors?.required">
             {{ "general.mandatory_field" | translate }}
           </mat-error>

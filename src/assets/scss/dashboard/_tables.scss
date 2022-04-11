@@ -4,6 +4,10 @@ $medium-spinner: $brand-success !default;
 $inner-spinner: $brand-warning !default;
 $outer-spinner: $brand-danger !default;
 
+.settings-table {
+  height: 90%;
+}
+
 .filter-row {
   @media screen and (max-width: $res435) {
     width: 100%;

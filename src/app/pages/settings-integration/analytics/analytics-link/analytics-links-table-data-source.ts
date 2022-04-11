@@ -73,7 +73,6 @@ export class AnalyticsLinksTableDataSource extends TableDataSource<SettingLink> 
 
   public buildTableDef(): TableDef {
     return {
-      class: 'analytics-links-table-list',
       search: {
         enabled: false,
       },

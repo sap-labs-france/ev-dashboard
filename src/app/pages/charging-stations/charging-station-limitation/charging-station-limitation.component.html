@@ -14,7 +14,7 @@
           </div>
         </div>
         <ng-template #notSupported>
-          <div class="card-body feature-not-supported pt-4">
+          <div class="card-body mat-subheading-2 text-danger pt-4">
             {{'chargers.smart_charging.not_supported' | translate }}
           </div>
         </ng-template>
@@ -30,7 +30,7 @@
             <app-charging-plans [chargingStation]="chargingStation"></app-charging-plans>
           </div>
           <ng-template #notSupported>
-            <div class="card-body feature-not-supported pt-4">
+            <div class="card-body mat-subheading-2 text-danger pt-4">
               {{'chargers.smart_charging.not_supported' | translate }}
             </div>
           </ng-template>
@@ -46,7 +46,7 @@
           <app-charging-station-advanced [chargingStation]="chargingStation"></app-charging-station-advanced>
         </div>
         <ng-template #notSupported>
-          <div class="card-body feature-not-supported pt-4">
+          <div class="card-body mat-subheading-2 text-danger pt-4">
             {{'chargers.smart_charging.not_supported' | translate }}
           </div>
         </ng-template>

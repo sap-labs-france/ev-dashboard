@@ -25,6 +25,7 @@ import { SiteAreaOcpiComponent } from './ocpi/site-area-ocpi.component';
 @Component({
   selector: 'app-site-area',
   templateUrl: 'site-area.component.html',
+  styleUrls: ['./site-area.component.scss']
 })
 export class SiteAreaComponent extends AbstractTabComponent implements OnInit {
   @Input() public currentSiteAreaID!: string;

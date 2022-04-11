@@ -8,7 +8,8 @@ import { Transaction } from '../../../../types/Transaction';
 
 @Component({
   selector: 'app-transaction-pricing',
-  templateUrl: 'transaction-pricing.component.html'
+  templateUrl: 'transaction-pricing.component.html',
+  styleUrls: ['transaction-pricing.component.scss']
 })
 export class TransactionPricingComponent extends AbstractTabComponent implements OnChanges {
   @Input() public transaction: Transaction;

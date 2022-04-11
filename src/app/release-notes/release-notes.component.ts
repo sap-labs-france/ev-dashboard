@@ -12,7 +12,8 @@ interface ComponentChange {
 }
 
 @Component({
-  templateUrl: './release-notes.component.html',
+  templateUrl: 'release-notes.component.html',
+  styleUrls: ['release-notes.component.scss']
 })
 export class ReleaseNotesComponent {
   public releaseNotes: ReleaseNotes[] = [];

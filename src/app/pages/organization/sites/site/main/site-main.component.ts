@@ -13,7 +13,7 @@ import { Utils } from 'utils/Utils';
 
 @Component({
   selector: 'app-site-main',
-  templateUrl: './site-main.component.html',
+  templateUrl: 'site-main.component.html',
 })
 export class SiteMainComponent implements OnInit, OnChanges {
   @Input() public formGroup: FormGroup;

@@ -5,7 +5,7 @@ import { ErrorMessage } from '../../../types/InError';
 import { Utils } from '../../../utils/Utils';
 
 @Component({
-  templateUrl: './error-code-details-dialog.component.html',
+  templateUrl: 'error-code-details-dialog.component.html',
 })
 export class ErrorCodeDetailsDialogComponent {
   public error!: ErrorMessage;

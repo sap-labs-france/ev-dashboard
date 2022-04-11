@@ -5,7 +5,7 @@ import { AbstractTabComponent } from 'shared/component/abstract-tab/abstract-tab
 
 @Component({
   selector: 'app-settings-technical',
-  templateUrl: './settings-technical.component.html'
+  templateUrl: 'settings-technical.component.html'
 })
 export class SettingsTechnicalComponent extends AbstractTabComponent {
   public constructor(

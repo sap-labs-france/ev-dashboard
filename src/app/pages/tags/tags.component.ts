@@ -7,7 +7,7 @@ import { AbstractTabComponent } from '../../shared/component/abstract-tab/abstra
 
 @Component({
   selector: 'app-tags',
-  templateUrl: './tags.component.html',
+  templateUrl: 'tags.component.html',
 })
 export class TagsComponent extends AbstractTabComponent {
   public canListTags: boolean;

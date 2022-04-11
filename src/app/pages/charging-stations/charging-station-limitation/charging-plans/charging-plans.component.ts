@@ -36,6 +36,7 @@ interface ProfileType {
 @Component({
   selector: 'app-charging-plans',
   templateUrl: 'charging-plans.component.html',
+  styleUrls: ['charging-plans.component.scss'],
   providers: [
     ChargingPlansEditableTableDataSource,
     ChargingPlansTableDataSource,

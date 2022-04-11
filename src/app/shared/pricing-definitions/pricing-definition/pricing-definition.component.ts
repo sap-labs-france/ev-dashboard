@@ -24,7 +24,7 @@ import { PricingDefinitionRestrictionsComponent } from './restrictions/pricing-d
 
 @Component({
   selector: 'app-pricing-definition',
-  templateUrl: './pricing-definition.component.html',
+  templateUrl: 'pricing-definition.component.html',
   styleUrls: ['pricing-definition.component.scss']
 })
 export class PricingDefinitionComponent extends AbstractTabComponent implements OnInit {

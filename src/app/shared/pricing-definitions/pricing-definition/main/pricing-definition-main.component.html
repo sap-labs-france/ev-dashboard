@@ -48,7 +48,7 @@
   <!-- Connector Drop down -->
   <div class="col-md-5 offset-1">
     <div class="form-group">
-      <mat-form-field class="connector-type-select">
+      <mat-form-field>
         <mat-select placeholder="{{'settings.pricing.connector_type' | translate}}" [formControl]="connectorType">
           <mat-select-trigger>
             <div class="d-flex align-items-center">
@@ -59,7 +59,7 @@
               </div>
             </div>
           </mat-select-trigger>
-          <mat-option *ngFor="let connectorType of connectorTypeMap" [value]="connectorType.key" class="connector-type-select-option">
+          <mat-option *ngFor="let connectorType of connectorTypeMap" [value]="connectorType.key">
             <mat-icon [svgIcon]="connectorType.key" class="mat-select-icon"></mat-icon>
             <span>{{connectorType.description | translate}}</span>
           </mat-option>

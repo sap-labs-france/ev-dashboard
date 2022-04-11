@@ -10,7 +10,7 @@ import { AssetConnectionDialogComponent } from './asset-connection.dialog.compon
 
 @Component({
   selector: 'app-settings-asset-connection',
-  templateUrl: './asset-connection.component.html'
+  templateUrl: 'asset-connection.component.html'
 })
 export class AssetConnectionComponent implements OnInit {
   @Input() public currentAssetConnection!: AssetConnectionSetting;

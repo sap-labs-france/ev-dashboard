@@ -19,7 +19,7 @@ import { TenantMainComponent } from './main/tenant-main.component';
 
 @Component({
   selector: 'app-tenant',
-  templateUrl: './tenant.component.html',
+  templateUrl: 'tenant.component.html',
 })
 export class TenantComponent extends AbstractTabComponent implements OnInit {
   @Input() public currentTenantID!: string;

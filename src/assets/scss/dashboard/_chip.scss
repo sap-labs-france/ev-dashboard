@@ -39,7 +39,6 @@
   margin: -5px !important;
 }
 
-// flat bg with text color variations
 .chip-default {
   @include chip($brand-default);
 }

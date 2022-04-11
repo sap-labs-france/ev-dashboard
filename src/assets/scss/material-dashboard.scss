@@ -1,10 +1,12 @@
 // Import Core Vars/Mixins
 @import "core/variables";
 @import "core/mixins";
+
 // Bootstrap
 @import "~bootstrap/scss/bootstrap";
-@import "core/recaptcha";
+
 // Core Components
+@import "core/recaptcha";
 @import "core/buttons";
 @import "core/checkboxes";
 @import "dashboard/cards";
@@ -22,29 +24,25 @@
 @import "core/progress";
 @import "core/ripples";
 @import "core/menu";
+@import "core/cards/card-rotate";
+
+// Dashboard
 @import "dashboard/sidebar-and-main-panel";
 @import "dashboard/tables";
 @import "dashboard/misc";
 @import "dashboard/pages";
-
 @import "dashboard/fileupload";
 @import "dashboard/responsive";
 @import "dashboard/custom";
-@import "core/cards/card-rotate";
+@import "dashboard/chip";
+@import "dashboard/carousel";
+@import "dashboard/dialogs";
+@import "dashboard/chart";
+@import "dashboard/recaptcha";
+@import "dashboard/qr-code";
+@import "dashboard/geomap.dialog";
+@import "dashboard/date-picker";
 
-@import "views/charging-stations/charging-station";
-@import "views/charging-stations/charging-stations-data-source-table";
-@import "views/charging-stations/smart-charging-limit-planner-chart";
-@import "views/charging-stations/smart-charging-limit-planner";
-@import "views/charging-stations/smart-charging-power-slider";
-@import "views/shared/chip";
-@import "views/shared/connector-cell";
-@import "views/shared/chart";
-@import "views/shared/dialogs";
-@import "views/shared/geomap.dialog";
-@import "views/shared/session.dialog";
-@import "views/shared/recaptcha";
-@import "views/shared/carousel";
-@import "views/shared/date-picker";
-@import "views/shared/qr-code";
-@import "views/release-notes/release-notes";
+// Views
+@import "shared/charging-station";
+@import "shared/connector-cell";

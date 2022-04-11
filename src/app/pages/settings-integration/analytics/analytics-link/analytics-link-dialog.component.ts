@@ -11,7 +11,7 @@ import { Constants } from '../../../../utils/Constants';
 import { Utils } from '../../../../utils/Utils';
 
 @Component({
-  templateUrl: './analytics-link-dialog.component.html',
+  templateUrl: 'analytics-link-dialog.component.html',
 })
 export class AnalyticsLinkDialogComponent implements OnInit {
   public formGroup!: FormGroup;

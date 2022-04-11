@@ -116,12 +116,14 @@ export class AuthenticationLoginComponent implements OnInit, OnDestroy {
       this.acceptEula.setValue('true');
       this.login(this.formGroup.value);
     }
-    // Retrieve tenant's logo
-    this.centralServerService.getTenantLogoBySubdomain(this.subDomain).subscribe((tenantLogo: string) => {
-      if (tenantLogo) {
-        this.tenantLogo = tenantLogo;
-      }
-    });
+    if (this.subDomain) {
+      // Retrieve tenant's logo
+      this.centralServerService.getTenantLogoBySubdomain(this.subDomain).subscribe((tenantLogo: string) => {
+        if (tenantLogo) {
+          this.tenantLogo = tenantLogo;
+        }
+      });
+    }
   }
 
   public sidebarToggle() {

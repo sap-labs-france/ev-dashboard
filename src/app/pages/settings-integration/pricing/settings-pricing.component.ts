@@ -89,12 +89,8 @@ export class SettingsPricingComponent implements OnInit {
   }
 
   public save(content: PricingSettings) {
-    // Convergent Charging
-    if (content.convergentCharging) {
-      this.pricingSettings.type = PricingSettingsType.CONVERGENT_CHARGING;
-      this.pricingSettings.convergentCharging = content.convergentCharging;
-    // Simple
-    } else if (content.simple) {
+    // Built-in Pricing
+    if (content.simple) {
       this.pricingSettings.type = PricingSettingsType.SIMPLE;
       this.pricingSettings.simple = content.simple;
     } else {

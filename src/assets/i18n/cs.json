@@ -442,6 +442,7 @@
     "private_limitation": "Some features are not available when the site is private"
   },
   "site_areas": {
+    "limits": "Limits",
     "assign_site": "Přiřadit parkoviště",
     "smart_charging": "Smart nabíjení",
     "export_all_ocpp_params": "Exportovat všechny parametry OCPP ",
@@ -840,7 +841,10 @@
       "power_limit_success": "Výkon nabíjecí stanice '{{chargeBoxID}}' byl úspěšně omezen",
       "power_limit_error": "Došlo k chybě při omezení výkonu nabíjecí stanice, zkontrolujte protokoly",
       "power_limit_has_charging_plan_title": "Stávající plán nabíjení",
-      "power_limit_has_charging_plan_confim": "Došlo k rozporu se stávajícím plánem nabíjení!<br>Chcete změnit plán a přizpůsobit ho novému limitu?",
+      "power_limit_has_charging_plan_confim": [
+        "Došlo k rozporu se stávajícím plánem nabíjení!",
+        "Chcete změnit plán a přizpůsobit ho novému limitu?"
+      ],
       "power_limit_plan_title": "Plánovač limitu výkonu",
       "power_limit_plan_confirm": "Chcete opravdu omezit výkon nabíjecí stanice '{{chargeBoxID}}‘ tímto plánem nabíjení?",
       "power_limit_plan_clear": "Chcete opravdu vymazat nabíjecí profil nabíjecí stanice '{{chargeBoxID}}'?",
@@ -887,11 +891,20 @@
       "retrieve_schedule": "Vyhledat plány",
       "charging_schedule": "Nabíjecí plány nabíjecí stanice '{{chargeBoxID}}'",
       "enable_smart_charging_for_site_area_title": "Povolit Smart nabíjení",
-      "enable_smart_charging_for_site_area_body": "Pokud povolíte Smart nabíjení v této sekci parkoviště, optimalizační algoritmus vystřídá současné statické omezení a plány nabíjení<br>Chcete pokračovat?",
+      "enable_smart_charging_for_site_area_body": [
+        "Pokud povolíte Smart nabíjení v této sekci parkoviště, optimalizační algoritmus vystřídá současné statické omezení a plány nabíjení",
+        "Chcete pokračovat?"
+      ],
       "disable_smart_charging_for_site_area_title": "Zakázat Smart nabíjení",
-      "disable_smart_charging_for_site_area_body": "Když zakážete Smart nabíjení v této sekci parkoviště, všechny plány nabíjení budou vymazány.<br>Chcete pokračovat?",
+      "disable_smart_charging_for_site_area_body": [
+        "Když zakážete Smart nabíjení v této sekci parkoviště, všechny plány nabíjení budou vymazány.",
+        "Chcete pokračovat?"
+      ],
       "clearing_charging_profiles_not_successful_title": "Došlo k chybě při vymazání plánů nabíjení, zkontrolujte protokoly",
-      "clearing_charging_profiles_not_successful_body": "Vymazání nabíjecích plánů nabíjecích stanic patřících k sekci parkoviště '{{siteAreaName}}‘ se nezdařilo!<br>Zkontrolujte prosím protokoly a pokračujte ručním vymazáním nabíjecích plánů.",
+      "clearing_charging_profiles_not_successful_body": [
+        "Vymazání nabíjecích plánů nabíjecích stanic patřících k sekci parkoviště '{{siteAreaName}}‘ se nezdařilo!",
+        "Zkontrolujte prosím protokoly a pokračujte ručním vymazáním nabíjecích plánů."
+      ],
       "trigger_smart_charging_title": "Spustit Smart nabíjení",
       "trigger_smart_charging_confirm": "Chcete opravdu spustit algoritmus Smart nabíjení?",
       "trigger_smart_charging": "Spustit Smart nabíjení",
@@ -1435,7 +1448,10 @@
     "save_error_smart_charging": "Chcete-li použít Smart nabíjení, musí být organizace aktivní",
     "save_error_asset": "Chcete-li použít prostředek, musí být organizace aktivní",
     "save_error_car_connector": "Chcete-li použít konektor pro elektromobily, musí být management aut aktivní",
-    "smart_charging_still_active_for_site_area": "Smart nabíjení je stále ještě aktivní u konkrétních sekcí parkoviště.<br>Deaktivujte prosím Smart nabíjení v každé sekci parkoviště v účtu nájemce.",
+    "smart_charging_still_active_for_site_area": [
+      "Smart nabíjení je stále ještě aktivní u konkrétních sekcí parkoviště.",
+      "Deaktivujte prosím Smart nabíjení v každé sekci parkoviště v účtu nájemce."
+    ],
     "logo_size_error": "Překročen limit velikosti loga, limit je menší než '{{maxPictureKb}}' Kb"
   },
   "settings": {
@@ -1462,7 +1478,11 @@
       "create_error": "Došlo k chybě při vytvoření nastavení protokolu OCPI, zkontrolujte protokoly",
       "update_success": "Nastavení protokolu OCPI bylo úspěšně aktualizováno",
       "update_error": "Došlo k chybě při aktualizaci nastavení protokolu OCPI, zkontrolujte protokoly",
-      "description": "E-mobility poskytuje certifikovanou službu připojení k externím e-roamingovým platformám.<br>Tato funkce ukazuje infrastrukturu a dostupnost nabíjecích stanic v reálném čase pomocí standardního protokolu OCPI (Open Charge Point Interface).<br>E-mobility v současnosti používá platformu interoperability (IOP) Gireve."
+      "description": [
+        "E-mobility poskytuje certifikovanou službu připojení k externím e-roamingovým platformám.",
+        "Tato funkce ukazuje infrastrukturu a dostupnost nabíjecích stanic v reálném čase pomocí standardního protokolu OCPI (Open Charge Point Interface).",
+        "E-mobility v současnosti používá platformu interoperability (IOP) Gireve."
+      ]
     },
     "oicp": {
       "hubject": {
@@ -1474,10 +1494,18 @@
       "create_error": "Došlo k chybě při vytvoření nastavení protokolu OICP, zkontrolujte protokoly",
       "update_success": "Nastavení protokolu OICP bylo úspěšně aktualizováno",
       "update_error": "Došlo k chybě při aktualizaci nastavení protokolu OICP, zkontrolujte protokoly",
-      "description": "E-mobility poskytuje certifikovanou službu připojení k externím e-roamingovým platformám.<br>Tato funkce ukazuje infrastrukturu a dostupnost nabíjecích stanic v reálném čase pomocí protokolu OICP (Open InterCharge Protocol).<br>E-mobility v současnosti používá servisní platformu Hubject B2B (HBS)."
+      "description": [
+        "E-mobility poskytuje certifikovanou službu připojení k externím e-roamingovým platformám.",
+        "Tato funkce ukazuje infrastrukturu a dostupnost nabíjecích stanic v reálném čase pomocí protokolu OICP (Open InterCharge Protocol).",
+        "E-mobility v současnosti používá servisní platformu Hubject B2B (HBS)."
+      ]
     },
     "refund": {
-      "description": "E-mobility poskytuje refundační službu externím systémům správy výdajů.<br>Tato funkce umožňuje uživateli zadat své relace do systému správy výdajů a dostat proplacenou elektřinu, kterou spotřeboval.<br>E-mobility v současnosti používá software SAP Concur. Další technické informace naleznete na",
+      "description": [
+        "E-mobility poskytuje refundační službu externím systémům správy výdajů.",
+        "Tato funkce umožňuje uživateli zadat své relace do systému správy výdajů a dostat proplacenou elektřinu, kterou spotřeboval.",
+        "E-mobility v současnosti používá software SAP Concur. Další technické informace naleznete na"
+      ],
       "not_found": "Nastavení  refundace nenalezeno",
       "create_success": "Nastavení  refundace bylo úspěšně vytvořeno",
       "create_error": "Došlo k chybě při vytvoření nastavení  refundace, zkontrolujte protokoly",
@@ -1514,9 +1542,19 @@
       "create_error": "Došlo k chybě při vytvoření nastavení ceny, zkontrolujte protokoly",
       "update_success": "Nastavení  ceny bylo úspěšně aktualizováno",
       "update_error": "Došlo k chybě při aktualizaci nastavení  ceny, zkontrolujte protokoly",
-      "full_description": "E-mobility poskytuje dva způsoby, jak vypočítat cenu relace EV.<br>Jednoduché stanovení ceny, které vám umožní nastavit pevnou cenu za kWh ve vaší nabíjecí infrastruktuře.<br>Externí pokročilý cenový systém určený pro složitější cenové plány nazvaný SAP Convergent Charging (SAP Hybris billing.)<br>Další technické informace naleznete na",
+      "simple_pricing_title": "Built-in Pricing Module",
+      "full_description": [
+        "E-mobility poskytuje dva způsoby, jak vypočítat cenu relace EV.",
+        "Jednoduché stanovení ceny, které vám umožní nastavit pevnou cenu za kWh ve vaší nabíjecí infrastruktuře.",
+        "Externí pokročilý cenový systém určený pro složitější cenové plány nazvaný SAP Convergent Charging (SAP Hybris billing.)",
+        "Další technické informace naleznete na"
+      ],
       "pricing_currency_changed_title": "Modification of the currency",
-      "pricing_currency_changed_confirm": "You are about to change the currency. This will force you to reconnect after saving.<br/><br><strong> WARNING ! </strong>Once saved, the currency cannot be modified anymore!<br/><br/>Do you confirm that the selected value is correct?",
+      "pricing_currency_changed_confirm": [
+        "You are about to change the currency. This will force you to reconnect after saving.",
+        "<strong> WARNING ! </strong>Once saved, the currency cannot be modified anymore!",
+        "Do you confirm that the selected value is correct?"
+      ],
       "convergentcharging": {
         "title": "Systém SAP Convergent Charging",
         "chargeable_item_name": "Název zpoplatněné položky",
@@ -1629,7 +1667,10 @@
       "payment_methods_cvc_error": "Neplatný ověřovací kód",
       "transaction_billing_activation": "Billing Activation",
       "transaction_billing_activation_title": "Activate Billing of Transactions",
-      "transaction_billing_activation_confirm": "Do you really want to activate the billing of charging sessions? <br><br> <strong> WARNING ! </strong> Once activated, you will NOT be able to deactivate it !",
+      "transaction_billing_activation_confirm": [
+        "Do you really want to activate the billing of charging sessions?",
+        "<strong> WARNING ! </strong> Once activated, you will NOT be able to deactivate it !"
+      ],
       "transaction_billing_activation_success": "Billing of charging sessions has been successfully activated",
       "transaction_billing_activation_error": "Billing of charging sessions cannot be activated",
       "billing_clear_test_data": "Delete Test Data",
@@ -1664,7 +1705,13 @@
         "title": "Analytika SAP",
         "settings": "Nastavení"
       },
-      "description": "E-mobility zpřístupňuje své údaje externím analytickým nástrojům.<br>Tato funkce zpřístupňuje všechny údaje o relacích v reálném čase prostřednictvím konektoru externím analytickým nástrojům.<br> E-mobility v současnosti používá SAP Analytics Cloud pomocí konektoru OData.<br>SAP Analytics Cloud podporuje inteligentní používání údajů o nabíjení, aby se zjednodušilo operativní rozhodování.<br>Další technické informace naleznete na ",
+      "description": [
+        "E-mobility zpřístupňuje své údaje externím analytickým nástrojům.",
+        "Tato funkce zpřístupňuje všechny údaje o relacích v reálném čase prostřednictvím konektoru externím analytickým nástrojům.",
+        " E-mobility v současnosti používá SAP Analytics Cloud pomocí konektoru OData.",
+        "SAP Analytics Cloud podporuje inteligentní používání údajů o nabíjení, aby se zjednodušilo operativní rozhodování.",
+        "Další technické informace naleznete na "
+      ],
       "setting_do_not_exist": "Konfigurace nebyla nalezena",
       "setting_not_found": "Nastavení SAP Analytics nebylo nenalezeno",
       "create_success": "Nastavení SAP Analytics Cloud bylo úspěšně vytvořeno",
@@ -1903,8 +1950,10 @@
     "title": "Roaming protokolu OCPI",
     "type_placeholder": "Typ",
     "roaming_platforms": "Platforma interoperability",
-    "cpo": "Identifikace provozovatele nabíjecího místa",
-    "emsp": "Identifikace poskytovatele služby e-mobility",
+    "cpo": "Charging Point Operator",
+    "enable_cpo": "Enable Charging Point Operator",
+    "emsp": "e-Mobility Service Provider",
+    "enable_emsp": "Enable e-Mobility Service Provider",
     "tariff_id": "Tariff ID",
     "description": "Otevřít rozhraní nabíjecího místa",
     "details": "Identifikace",

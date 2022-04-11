@@ -29,6 +29,7 @@ export class AssetMainComponent implements OnInit, OnChanges {
   public imageChanged = false;
   public maxSize: number;
   public isSmartChargingComponentActive = false;
+  public initialized = false;
 
   public selectedSiteArea: SiteArea;
   public assetTypes!: KeyValue[];
@@ -133,6 +134,8 @@ export class AssetMainComponent implements OnInit, OnChanges {
     this.coordinates = this.formGroup.controls['coordinates'] as FormArray;
     this.longitude = this.coordinates.at(0);
     this.latitude = this.coordinates.at(1);
+    this.initialized = true;
+    this.loadAsset();
   }
 
   public ngOnChanges() {
@@ -141,32 +144,32 @@ export class AssetMainComponent implements OnInit, OnChanges {
 
   public loadAsset() {
     // ID not provided we are in creation mode
-    if (this.asset) {
+    if (this.initialized && this.asset) {
       if (this.asset.id) {
-        this.formGroup.controls.id.setValue(this.asset.id);
+        this.id.setValue(this.asset.id);
       }
       if (this.asset.name) {
-        this.formGroup.controls.name.setValue(this.asset.name);
+        this.name.setValue(this.asset.name);
       }
       if (this.asset.siteArea && this.asset.siteArea.name) {
-        this.formGroup.controls.siteAreaID.setValue(this.asset.siteArea.id);
-        this.formGroup.controls.siteArea.setValue(this.asset.siteArea.name);
+        this.siteAreaID.setValue(this.asset.siteArea.id);
+        this.siteArea.setValue(this.asset.siteArea.name);
         this.selectedSiteArea = this.asset.siteArea;
       }
       if (this.asset.assetType) {
-        this.formGroup.controls.assetType.setValue(this.asset.assetType);
+        this.assetType.setValue(this.asset.assetType);
       }
       if (this.asset.excludeFromSmartCharging) {
-        this.formGroup.controls.excludeFromSmartCharging.setValue(this.asset.excludeFromSmartCharging);
+        this.excludeFromSmartCharging.setValue(this.asset.excludeFromSmartCharging);
       }
       if (this.asset.variationThresholdPercent) {
-        this.formGroup.controls.variationThresholdPercent.setValue(this.asset.variationThresholdPercent);
+        this.variationThresholdPercent.setValue(this.asset.variationThresholdPercent);
       }
       if (this.asset.fluctuationPercent) {
-        this.formGroup.controls.fluctuationPercent.setValue(this.asset.fluctuationPercent);
+        this.fluctuationPercent.setValue(this.asset.fluctuationPercent);
       }
       if (!Utils.isUndefined(this.asset.staticValueWatt)) {
-        this.formGroup.controls.staticValueWatt.setValue(this.asset.staticValueWatt);
+        this.staticValueWatt.setValue(this.asset.staticValueWatt);
       }
       if (this.asset.coordinates) {
         this.longitude.setValue(this.asset.coordinates[0]);
@@ -238,11 +241,14 @@ export class AssetMainComponent implements OnInit, OnChanges {
     this.dialog.open(SiteAreasDialogComponent, dialogConfig)
       .afterClosed().subscribe((result) => {
         if (!Utils.isEmptyArray(result) && result[0].objectRef) {
-          const siteArea = ((result[0].objectRef) as SiteArea);
-          this.formGroup.markAsDirty();
-          this.formGroup.controls.siteArea.setValue(siteArea.name);
-          this.formGroup.controls.siteAreaID.setValue(siteArea.id);
+          const siteArea = result[0].objectRef as SiteArea;
+          console.log(siteArea);
+          this.siteArea.setValue(siteArea.name);
+          this.siteAreaID.setValue(siteArea.id);
           this.selectedSiteArea = siteArea;
+          this.longitude.setValue(siteArea.address?.coordinates[0]);
+          this.latitude.setValue(siteArea.address?.coordinates[1]);
+          this.formGroup.markAsDirty();
         }
       });
   }
@@ -251,48 +257,26 @@ export class AssetMainComponent implements OnInit, OnChanges {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '70vw';
-    dialogConfig.disableClose = false;
+    dialogConfig.disableClose = true;
     dialogConfig.panelClass = 'transparent-dialog-container';
-    // Get latitude/longitude from form
-    let latitude = this.latitude.value;
-    let longitude = this.longitude.value;
-    // If one is not available try to get from SiteArea and then from Site
-    if (!latitude || !longitude) {
-      if (this.selectedSiteArea && this.selectedSiteArea.address) {
-        if (this.selectedSiteArea.address.coordinates && this.selectedSiteArea.address.coordinates.length === 2) {
-          latitude = this.selectedSiteArea.address.coordinates[1];
-          longitude = this.selectedSiteArea.address.coordinates[0];
-        } else {
-          const site = this.selectedSiteArea.site;
-          if (site && site.address && site.address.coordinates && site.address.coordinates.length === 2) {
-            latitude = site.address.coordinates[1];
-            longitude = site.address.coordinates[0];
-          }
-        }
-      }
-    }
     // Set data
     dialogConfig.data = {
       dialogTitle: this.translateService.instant('geomap.dialog_geolocation_title',
         { componentName: 'Asset', itemComponentName: this.name.value ? this.name.value : 'Asset' }),
-      latitude,
-      longitude,
-      label: this.name.value ? this.name.value : 'Asset',
+      latitude: this.latitude.value, longitude: this.longitude.value,
+      label: this.name.value ?? 'Asset',
     };
-    // Disable outside click close
-    dialogConfig.disableClose = true;
     // Open
     this.dialog.open(GeoMapDialogComponent, dialogConfig)
       .afterClosed().subscribe((result) => {
         if (result) {
           if (result.latitude) {
             this.latitude.setValue(result.latitude);
-            this.formGroup.markAsDirty();
           }
           if (result.longitude) {
             this.longitude.setValue(result.longitude);
-            this.formGroup.markAsDirty();
           }
+          this.formGroup.markAsDirty();
         }
       });
   }

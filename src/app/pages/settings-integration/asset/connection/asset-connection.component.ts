@@ -132,13 +132,13 @@ export class AssetConnectionComponent implements OnInit {
     return this.translateService.instant('general.create');
   }
 
-  public cancel(): void {
+  public close(): void {
     if (this.inDialog) {
       this.dialogRef.close();
     }
   }
 
-  public setConnectionAndClose(assetConnection: AssetConnectionSetting): void {
+  public save(assetConnection: AssetConnectionSetting): void {
     if (this.inDialog) {
       // Generate the ID
       if (!assetConnection.id) {

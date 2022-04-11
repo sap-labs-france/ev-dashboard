@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import * as moment from 'moment';
+import * as moment from 'moment-timezone';
 
 import { AnalyticsSettings } from '../../../../types/Setting';
 import { Constants } from '../../../../utils/Constants';
@@ -35,9 +35,7 @@ export class SettingsSacComponent implements OnInit, OnChanges {
         Validators.required,
       ),
     });
-
     this.formGroup.addControl('sac', this.sac);
-
     // Keep
     this.mainUrl = this.sac.controls['mainUrl'];
     this.timezone = this.sac.controls['timezone'];
@@ -54,7 +52,6 @@ export class SettingsSacComponent implements OnInit, OnChanges {
   }
 
   public updateFormData() {
-    // Set data
     if (this.mainUrl) {
       this.mainUrl.setValue(this.analyticsSettings.sac.mainUrl);
       this.analyticsLinksTableDataSource.setLinks(this.analyticsSettings.links ? this.analyticsSettings.links : []);

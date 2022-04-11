@@ -118,15 +118,6 @@
                   </app-settings-lacroix-connection>
                 </div>
               </div>
-              <div class="card-footer mat-dialog-actions" align="end">
-                <button mat-raised-button color="warn" (click)="setConnectionAndClose(formGroup.value)"
-                  [disabled]="!formGroup.valid || !formGroup.dirty">
-                  {{ submitButtonTranslation | translate }}
-                </button>
-                <button mat-raised-button (click)="cancel()">
-                  {{"general.cancel" | translate}}
-                </button>
-              </div>
             </div>
           </div>
         </div>
@@ -139,5 +130,14 @@
         </ng-template>
       </mat-tab>
     </mat-tab-group>
+    <div class="tabs-actions">
+      <button mat-button (click)="save(formGroup.value)" [disabled]="!formGroup.valid || !formGroup.dirty">
+        <mat-icon>save</mat-icon>
+        <span>{{'general.save' | translate}}</span>
+      </button>
+      <button mat-icon-button (click)="close()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
   </div>
 </div>

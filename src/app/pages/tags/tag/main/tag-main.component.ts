@@ -18,6 +18,9 @@ export class TagMainComponent implements OnInit, OnChanges {
   @Input() public readOnly: boolean;
   @Input() public metadata!: Record<string, AuthorizationDefinitionFieldMetadata>;
 
+  public idVisible = true;
+  public initialized = false;
+
   public id!: AbstractControl;
   public description!: AbstractControl;
   public user!: AbstractControl;
@@ -25,8 +28,6 @@ export class TagMainComponent implements OnInit, OnChanges {
   public active!: AbstractControl;
   public default!: AbstractControl;
   public visualID!: AbstractControl;
-
-  public idVisible = true;
 
   // eslint-disable-next-line no-useless-constructor
   public constructor(
@@ -70,6 +71,8 @@ export class TagMainComponent implements OnInit, OnChanges {
     this.active = this.formGroup.controls['active'];
     this.default = this.formGroup.controls['default'];
     this.default.disable();
+    this.initialized = true;
+    this.loadTag();
   }
 
   public ngOnChanges() {
@@ -77,7 +80,7 @@ export class TagMainComponent implements OnInit, OnChanges {
   }
 
   public loadTag() {
-    if (this.tag) {
+    if (this.initialized && this.tag) {
       this.id.setValue(this.tag.id);
       this.description.setValue(this.tag.description);
       this.visualID.setValue(this.tag.visualID);

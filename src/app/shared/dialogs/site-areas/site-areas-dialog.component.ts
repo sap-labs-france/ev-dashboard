@@ -9,7 +9,8 @@ import { SiteAreasDialogTableDataSource } from './site-areas-dialog-table-data-s
 
 @Component({
   templateUrl: '../dialog-table-data.component.html',
-  providers: [SiteAreasDialogTableDataSource]
+  providers: [SiteAreasDialogTableDataSource],
+  styleUrls: ['../dialog-table-data-big.component.scss']
 })
 export class SiteAreasDialogComponent extends DialogTableDataComponent<SiteArea> {
   public constructor(

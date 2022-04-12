@@ -49,7 +49,7 @@ export class CompanyComponent extends AbstractTabComponent implements OnInit {
     // Init the form
     this.formGroup = new FormGroup({});
     // Handle Dialog mode
-    this.readOnly = (this.dialogMode === DialogMode.VIEW);
+    this.readOnly = this.dialogMode === DialogMode.VIEW;
     Utils.handleDialogMode(this.dialogMode, this.formGroup);
     // Load Company
     this.loadCompany();

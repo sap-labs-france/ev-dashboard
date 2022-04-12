@@ -1,5 +1,5 @@
 <!-- Duration -->
-<div class="row">
+<div class="row mb-2">
   <!-- Toggle Min Furation -->
   <div class="col-md-3 align-self-center">
     <mat-slide-toggle (change)="toggleDuration($event)" id="minDuration" [formControl]="minDurationEnabled">
@@ -31,7 +31,7 @@
   </div>
 </div>
 <!-- Energy -->
-<div class="row">
+<div class="row mb-2">
   <!-- Toggle Min Energy -->
   <div class="col-md-3 align-self-center">
     <mat-slide-toggle (change)="toggleEnergy($event)" id="minEnergyKWh" [formControl]="minEnergyKWhEnabled">
@@ -63,7 +63,7 @@
   </div>
 </div>
 <!-- Time range -->
-<div class="row">
+<div class="row mb-2">
   <div class="col-md-3 align-self-center">
     <mat-slide-toggle (change)="toggleTimeRange($event)" id="timeFrom" [formControl]="timeRangeEnabled">
       {{'settings.pricing.restriction_time_range' | translate}}
@@ -88,15 +88,15 @@
   </div>
 </div>
 <!-- Days of Week -->
-<div class="row">
-  <!-- toggle days -->
+<div class="row mb-2">
+  <!-- Toggle Days -->
   <div class="col-md-3 align-self-center">
     <mat-slide-toggle (change)="toggleDaysOfWeek($event)" id="daysOfWeek" [formControl]="daysOfWeekEnabled">
       {{'settings.pricing.restriction_days_of_week' | translate}}
     </mat-slide-toggle>
   </div>
   <!-- Value -->
-  <div class="col-md-2">
+  <div class="col-md-8">
     <mat-button-toggle-group [value]="selectedDays" [formControl]="selectedDays" name="daysOfWeekToggle" aria-label="Days of week" multiple>
       <mat-button-toggle *ngFor="let dayNumber of daysOfTheWeek" value={{dayNumber}} class="mat-raised-button days-of-week-button">
         <span>{{dayNumber | appDay}}</span>

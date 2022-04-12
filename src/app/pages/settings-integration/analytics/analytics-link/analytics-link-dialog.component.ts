@@ -12,6 +12,7 @@ import { Utils } from '../../../../utils/Utils';
 
 @Component({
   templateUrl: 'analytics-link-dialog.component.html',
+  styleUrls: ['analytics-link-dialog.component.scss']
 })
 export class AnalyticsLinkDialogComponent implements OnInit {
   public formGroup!: FormGroup;

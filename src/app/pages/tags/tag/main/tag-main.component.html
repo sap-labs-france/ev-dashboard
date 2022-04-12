@@ -1,6 +1,6 @@
 <form class="form" [formGroup]="formGroup">
   <div class="row" *ngIf="idVisible">
-    <div class="col-md-12">
+    <div class="col-md-6">
       <div class="form-group">
         <mat-form-field>
           <input appAutofocus matInput placeholder="{{'tags.id' | translate}}" type="text"
@@ -20,7 +20,7 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-6">
       <div class="form-group" appTooltip title="{{'tags.visual_id_instruction' | translate}}">
         <mat-form-field>
           <input  matInput placeholder="{{'tags.visual_id' | translate}}"
@@ -46,7 +46,7 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-6">
       <div class="form-group">
         <mat-form-field>
           <input matInput type="text" readonly=true placeholder="{{'users.title' | translate}}"
@@ -62,7 +62,7 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-6">
       <div class="form-group">
         <mat-form-field>
           <mat-select [formControl]="active" placeholder="{{'tags.status' | translate}}" required>

@@ -18,6 +18,7 @@ import { Utils } from '../../../../../utils/Utils';
 @Component({
   selector: 'app-oicp-endpoint',
   templateUrl: 'settings-oicp-endpoint.component.html',
+  styleUrls: ['settings-oicp-endpoint.component.scss']
 })
 export class SettingsOicpEndpointComponent implements OnInit {
   @Input() public currentEndpoint!: OicpEndpoint;

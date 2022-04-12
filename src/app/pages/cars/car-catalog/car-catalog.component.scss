@@ -2,9 +2,13 @@
   font-size: 1.5em;
 }
 
-
 .car-catalog-carousel {
   max-height: 35vh;
   margin: auto;
   overflow: hidden !important;
+}
+
+.car-catalog-dialog-size {
+  max-height: 420px;
+  max-width: 850px;
 }

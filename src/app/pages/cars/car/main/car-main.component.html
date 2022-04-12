@@ -1,6 +1,6 @@
 <form class="form" [formGroup]="formGroup">
-  <div class="row w-100 align-items-center">
-    <div class="col-md-12 col-xl-5 d-block m-auto">
+  <div class="row w-100">
+    <div class="col-md-12 col-xl-5 d-block">
       <div class="rotating-card-container" [ngStyle]="{ 'pointer-events': 'none' }">
         <div class="card card-rotate card-background mt-0 mb-0">
           <div class="front front-background" [ngStyle]="{'background-image': selectedCarCatalog && carCatalogImage ? 'url(' + carCatalogImage + ')' : 'url(' + noImage + ')', 'background-size': 'contain', 'background-repeat': 'no-repeat'}">
@@ -73,7 +73,7 @@
       <div class="form-group">
         <div class="text-left">
           <mat-radio-group [formControl]="type">
-            <div *ngFor="let type of carTypes">
+            <div *ngFor="let type of carTypes" class="mt-1">
               <mat-radio-button value="{{ type.key }}">
                 {{type.value | translate}}
               </mat-radio-button>

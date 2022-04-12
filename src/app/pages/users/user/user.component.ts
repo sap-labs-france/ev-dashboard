@@ -27,7 +27,8 @@ import { UserDialogComponent } from './user-dialog.component';
 
 @Component({
   selector: 'app-user',
-  templateUrl: 'user.component.html'
+  templateUrl: 'user.component.html',
+  styleUrls: ['user.component.scss']
 })
 export class UserComponent extends AbstractTabComponent implements OnInit {
   @Input() public currentUserID!: string;

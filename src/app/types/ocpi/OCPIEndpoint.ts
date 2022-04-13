@@ -38,6 +38,7 @@ export enum OcpiButtonAction {
   PULL_SESSIONS = 'pull_sessions',
   PULL_TOKENS = 'pull_tokens',
   START_JOB = 'stop_start_job',
+  UPDATE_CREDENTIALS = 'update_credentials',
 }
 
 export enum OcpiEndpointStatus {

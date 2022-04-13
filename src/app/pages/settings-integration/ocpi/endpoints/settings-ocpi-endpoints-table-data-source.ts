@@ -3,6 +3,8 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { TableUpdateOCPICredentialsAction } from 'shared/table/actions/ocpi/table-update-ocpi-credentials-action';
+import { TableMoreAction } from 'shared/table/actions/table-more-action';
 
 import { CentralServerService } from '../../../../services/central-server.service';
 import { DialogService } from '../../../../services/dialog.service';
@@ -18,7 +20,7 @@ import { TableUnregisterAction } from '../../../../shared/table/actions/table-un
 import { TableDataSource } from '../../../../shared/table/table-data-source';
 import { DataResult } from '../../../../types/DataResult';
 import { ButtonAction, RestResponse } from '../../../../types/GlobalType';
-import { OcpiEndpoint, OcpiEndpointStatus } from '../../../../types/ocpi/OCPIEndpoint';
+import { OcpiButtonAction, OcpiEndpoint, OcpiEndpointStatus } from '../../../../types/ocpi/OCPIEndpoint';
 import { ButtonType, DropdownItem, TableActionDef, TableColumnDef, TableDef } from '../../../../types/Table';
 import { Utils } from '../../../../utils/Utils';
 import { SettingsOcpiEndpointDialogComponent } from './endpoint/settings-ocpi-endpoint.dialog.component';
@@ -33,6 +35,7 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEn
   private deleteAction = new TableDeleteAction().getActionDef();
   private registerAction = new TableRegisterAction().getActionDef();
   private unregisterAction = new TableUnregisterAction().getActionDef();
+  private updateCredentialsAction = new TableUpdateOCPICredentialsAction().getActionDef();
   private createAction = new TableCreateAction().getActionDef();
 
   public constructor(
@@ -167,12 +170,19 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEn
     const rowActions: TableActionDef[] = [
       this.editAction,
     ];
+    const moreActions = new TableMoreAction([]);
+    moreActions.addActionInMoreActions(this.registerAction);
+    moreActions.addActionInMoreActions(this.unregisterAction);
+    moreActions.addActionInMoreActions(this.updateCredentialsAction);
+    moreActions.addActionInMoreActions(this.deleteAction);
     if (ocpiEndpoint.status === OcpiEndpointStatus.REGISTERED) {
-      rowActions.push(this.unregisterAction);
+      this.registerAction.disabled = true;
+      this.unregisterAction.disabled = false;
     } else {
-      rowActions.push(this.registerAction);
+      this.registerAction.disabled = false;
+      this.unregisterAction.disabled = true;
     }
-    rowActions.push(this.deleteAction);
+    rowActions.push(moreActions.getActionDef());
     return rowActions;
   }
 
@@ -191,14 +201,17 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEn
       case ButtonAction.EDIT:
         this.showOcpiEndpointDialog(ocpiEndpoint);
         break;
-      case ButtonAction.DELETE:
-        this.deleteOcpiEndpoint(ocpiEndpoint);
-        break;
       case ButtonAction.REGISTER:
         this.registerOcpiEndpoint(ocpiEndpoint);
         break;
       case ButtonAction.UNREGISTER:
         this.unregisterOcpiEndpoint(ocpiEndpoint);
+        break;
+      case OcpiButtonAction.UPDATE_CREDENTIALS:
+        this.updateCredentialsOcpiEndpoint(ocpiEndpoint);
+        break;
+      case ButtonAction.DELETE:
+        this.deleteOcpiEndpoint(ocpiEndpoint);
         break;
     }
   }
@@ -290,6 +303,28 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEn
         }, (error) => {
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
             'ocpiendpoints.unregister_error');
+        });
+      }
+    });
+  }
+
+  private updateCredentialsOcpiEndpoint(ocpiendpoint: OcpiEndpoint) {
+    this.dialogService.createAndShowYesNoDialog(
+      this.translateService.instant('ocpiendpoints.update_credentials_title'),
+      this.translateService.instant('ocpiendpoints.update_credentials_confirm', { name: ocpiendpoint.name }),
+    ).subscribe((result) => {
+      if (result === ButtonType.YES) {
+        this.centralServerService.unregisterOcpiEndpoint(ocpiendpoint.id).subscribe((response) => {
+          if (response.status === RestResponse.SUCCESS) {
+            this.messageService.showSuccessMessage('ocpiendpoints.update_credentials_success', { name: ocpiendpoint.name });
+            this.refreshData().subscribe();
+          } else {
+            Utils.handleError(JSON.stringify(response),
+              this.messageService, 'ocpiendpoints.update_credentials_error');
+          }
+        }, (error) => {
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+            'ocpiendpoints.update_credentials_error');
         });
       }
     });

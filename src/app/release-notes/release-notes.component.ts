@@ -31,6 +31,7 @@ export class ReleaseNotesComponent {
             changes: [
               `Added Mobile phone in register user`,
               `Fixed CSS issues in pop-ups`,
+              `Default Tenant's users can reset their passwords`
             ],
           },
         ],

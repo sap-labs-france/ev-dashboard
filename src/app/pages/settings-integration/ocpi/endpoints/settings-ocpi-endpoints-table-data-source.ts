@@ -33,8 +33,6 @@ import { SettingsOcpiEndpointsDetailsComponent } from './ocpi-details/settings-o
 export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEndpoint> {
   private editAction = new TableEditAction().getActionDef();
   private deleteAction = new TableDeleteAction().getActionDef();
-  private registerAction = new TableRegisterAction().getActionDef();
-  private unregisterAction = new TableUnregisterAction().getActionDef();
   private updateCredentialsAction = new TableUpdateOCPICredentialsAction().getActionDef();
   private createAction = new TableCreateAction().getActionDef();
 
@@ -171,16 +169,18 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEn
       this.editAction,
     ];
     const moreActions = new TableMoreAction([]);
-    moreActions.addActionInMoreActions(this.registerAction);
-    moreActions.addActionInMoreActions(this.unregisterAction);
+    const registerAction = new TableRegisterAction().getActionDef();
+    const unregisterAction = new TableUnregisterAction().getActionDef();
+    moreActions.addActionInMoreActions(registerAction);
+    moreActions.addActionInMoreActions(unregisterAction);
     moreActions.addActionInMoreActions(this.updateCredentialsAction);
     moreActions.addActionInMoreActions(this.deleteAction);
     if (ocpiEndpoint.status === OcpiEndpointStatus.REGISTERED) {
-      this.registerAction.disabled = true;
-      this.unregisterAction.disabled = false;
+      registerAction.disabled = true;
+      unregisterAction.disabled = false;
     } else {
-      this.registerAction.disabled = false;
-      this.unregisterAction.disabled = true;
+      registerAction.disabled = false;
+      unregisterAction.disabled = true;
     }
     rowActions.push(moreActions.getActionDef());
     return rowActions;
@@ -314,7 +314,7 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEn
       this.translateService.instant('ocpiendpoints.update_credentials_confirm', { name: ocpiendpoint.name }),
     ).subscribe((result) => {
       if (result === ButtonType.YES) {
-        this.centralServerService.unregisterOcpiEndpoint(ocpiendpoint.id).subscribe((response) => {
+        this.centralServerService.updateCredentialsOcpiEndpoint(ocpiendpoint.id).subscribe((response) => {
           if (response.status === RestResponse.SUCCESS) {
             this.messageService.showSuccessMessage('ocpiendpoints.update_credentials_success', { name: ocpiendpoint.name });
             this.refreshData().subscribe();

@@ -9,7 +9,7 @@ import { DialogService } from 'services/dialog.service';
 import { MessageService } from 'services/message.service';
 import { ActionsResponse } from 'types/DataResult';
 import { HTTPError } from 'types/HTTPError';
-import { ServerRoute } from 'types/Server';
+import { RESTServerRoute } from 'types/Server';
 import { ButtonType } from 'types/Table';
 import { Utils } from 'utils/Utils';
 
@@ -28,7 +28,7 @@ export class ImportDialogComponent implements OnInit {
   public title: string;
   public entity: string;
   private ngxCsvParser: NgxCsvParser;
-  private endpoint: ServerRoute;
+  private endpoint: RESTServerRoute;
   private requiredProperties: string[];
   private optionalProperties: string[];
   private messageSuccess: string;

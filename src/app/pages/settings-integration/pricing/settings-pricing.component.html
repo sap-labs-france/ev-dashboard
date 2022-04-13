@@ -7,7 +7,7 @@
   </div>
   <div class="card-body">
     <span [innerHtml]="'settings.pricing.full_description' | translate"></span>
-    <a href="https://help.sap.com/viewer/product/SAP_CONVERGENT_CHARGING/4.0/en-US" target="new"><u>SAP Convergent Charging</u></a><br><br>
+    <br><br>
     {{'settings.activation_contact_msg' | translate}}
   </div>
 </div>
@@ -15,7 +15,8 @@
   <div class="mat-toolbar-row mat-toolbar-settings">
     <button mat-raised-button color="warn" (click)="save(formGroup.value)"
       [disabled]="!formGroup.valid || !formGroup.dirty">
-      <mat-icon>save</mat-icon><span>{{'general.save' | translate}}</span>
+      <mat-icon>save</mat-icon>
+      <span>{{'general.save' | translate}}</span>
     </button>
   </div>
   <form class="form" [formGroup]="formGroup">
@@ -33,8 +34,6 @@
         [currentEntityType]="currentEntityType"
         [currentEntityName]="currentEntityName">
       </app-pricing-definitions>
-      <!-- Convergent Charging Pricing -->
-      <app-settings-convergent-charging *ngIf="isActive && pricingSettings?.type === 'convergentCharging'" [pricingSettings]="pricingSettings" [formGroup]="formGroup"></app-settings-convergent-charging>
     </div>
   </form>
 </div>

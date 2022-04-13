@@ -23,8 +23,26 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.6.4',
+        date: new Date('2022-04-08'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Align OCPI endpoints with REST`,
+              `Enhanced OCPI and Axios logs`,
+              `Fixed missing Logo in master tenant`,
+              `Updated German translation`,
+              `Aligned Charging Profile's amperage floating points with OCPP specifications`,
+              `Fixed new OCPI authorization is requested during Start Transaction when IOP sends a Remote Start`,
+              `Fixed cannot scroll tabs in User pop-up`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.6.3',
-        date: new Date('2022-03-28'),
+        date: new Date('2022-03-30'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -40,6 +58,7 @@ export class ReleaseNotesComponent {
               `Display default images in Car and Company list when not provided`,
               `Aligned Organization endpoint with new authorization framework`,
               `Show pricing details in the Session History and Session In Progress dialogs`,
+              `Cannot assign a non public Site Area in Edit Charging Station`,
             ],
           },
         ],

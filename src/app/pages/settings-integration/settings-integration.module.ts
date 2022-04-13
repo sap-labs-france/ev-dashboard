@@ -61,7 +61,6 @@ import { SettingsOicpEndpointsDetailsComponent } from './oicp/endpoints/oicp-det
 import { SettingsOicpEndpointsTableDataSource } from './oicp/endpoints/settings-oicp-endpoints-table-data-source';
 import { SettingsOicpEndpointsComponent } from './oicp/endpoints/settings-oicp-endpoints.component';
 import { SettingsOicpComponent } from './oicp/settings-oicp.component';
-import { SettingsConvergentChargingComponent } from './pricing/convergent-charging/settings-convergent-charging.component';
 import { SettingsPricingComponent } from './pricing/settings-pricing.component';
 import { SettingsSimplePricingComponent } from './pricing/simple/settings-simple-pricing.component';
 import { SettingsConcurComponent } from './refund/concur/settings-concur.component';
@@ -92,7 +91,6 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     SettingsRefundComponent,
     SettingsConcurComponent,
     SettingsSimplePricingComponent,
-    SettingsConvergentChargingComponent,
     SettingsBillingComponent,
     SettingsStripeComponent,
     SettingsAnalyticsComponent,
@@ -164,7 +162,6 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     SettingsOicpEndpointsComponent,
     SettingsRefundComponent,
     SettingsConcurComponent,
-    SettingsConvergentChargingComponent,
     SettingsBillingComponent,
     SettingsStripeComponent,
     SettingsAnalyticsComponent,

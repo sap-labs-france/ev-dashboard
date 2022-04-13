@@ -1,7 +1,7 @@
 <div class="main-content vh-lg-75 vw-lg-80 vh-xl-75 vw-xl-70 vh-3xl-60 vw-3xl-40">
   <div class="card card-profile card-testimonial">
     <mat-tab-group animationDuration="0ms" disableRipple="true" (selectedTabChange)="changeActivePane($event)"
-        class="mat-tab-info charger-dialog-container mat-tabs-with-actions">
+        class="mat-tab-info charger-dialog-container" [class]="dialogRef ? 'mat-tabs-with-actions' : 'mat-tabs-with-close-action'">
       <mat-tab>
         <ng-template mat-tab-label>
           <mat-icon>ev_station</mat-icon>
@@ -58,12 +58,11 @@
       </ng-container>
     </mat-tab-group>
     <div class="tabs-actions">
-      <button mat-button *ngIf="!readOnly" (click)="saveChargingStation(formGroup.getRawValue())"
+      <button mat-icon-button *ngIf="!readOnly" (click)="saveChargingStation(formGroup.getRawValue())" title="{{'general.save' | translate}}"
           [disabled]="!formGroup.valid || !formGroup.dirty" [hidden]="!this.isAdmin || activeTabIndex !== 0">
         <mat-icon>save</mat-icon>
-        <span>{{'chargers.save_charger' | translate}}</span>
       </button>
-      <button mat-icon-button *ngIf="dialogRef" (click)="close()">
+      <button mat-icon-button *ngIf="dialogRef" (click)="close()" title="{{'general.close' | translate}}">
         <mat-icon>close</mat-icon>
       </button>
     </div>

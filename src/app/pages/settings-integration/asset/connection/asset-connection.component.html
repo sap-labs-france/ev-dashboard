@@ -1,6 +1,6 @@
 <div class="main-content">
   <div class="card card-profile card-testimonial">
-    <mat-tab-group animationDuration="0ms" disableRipple="true" class="mat-tab-info">
+    <mat-tab-group animationDuration="0ms" disableRipple="true" class="mat-tab-info" [class]="dialogRef ? 'mat-tabs-with-actions' : 'mat-tabs-with-close-action'">
       <mat-tab>
         <ng-template mat-tab-label>
           <mat-icon>account_balance</mat-icon>
@@ -118,26 +118,19 @@
                   </app-settings-lacroix-connection>
                 </div>
               </div>
-              <div class="card-footer mat-dialog-actions" align="end">
-                <button mat-raised-button color="warn" (click)="setConnectionAndClose(formGroup.value)"
-                  [disabled]="!formGroup.valid || !formGroup.dirty">
-                  {{ submitButtonTranslation | translate }}
-                </button>
-                <button mat-raised-button (click)="cancel()">
-                  {{"general.cancel" | translate}}
-                </button>
-              </div>
             </div>
           </div>
         </div>
       </mat-tab>
-      <mat-tab disabled>
-        <ng-template mat-tab-label>
-          <button mat-icon-button *ngIf="inDialog" (click)="cancel()">
-            <mat-icon>close</mat-icon>
-          </button>
-        </ng-template>
-      </mat-tab>
     </mat-tab-group>
+    <div [class]="dialogRef ? 'tabs-actions' : 'tabs-actions-embedded'">
+      <button mat-icon-button (click)="save(formGroup.value)" title="{{'general.save' | translate}}"
+          [disabled]="!formGroup.valid || !formGroup.dirty">
+        <mat-icon>save</mat-icon>
+      </button>
+      <button mat-icon-button (click)="close()" title="{{'general.close' | translate}}">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
   </div>
 </div>

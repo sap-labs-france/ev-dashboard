@@ -9,7 +9,7 @@ import { TagsDialogTableDataSource } from './tags-dialog-table-data-source';
 
 @Component({
   templateUrl: '../dialog-table-data.component.html',
-  styleUrls: ['../dialog-table-data-very-big.component.scss']
+  styleUrls: ['../dialog-table-data-xxl.component.scss']
 })
 export class TagsDialogComponent extends DialogTableDataComponent<Tag> {
   public constructor(

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { ConnectorTableFilter } from 'shared/table/filters/connector-table-filter';
 import { DateRangeTableFilter } from 'shared/table/filters/date-range-table-filter';

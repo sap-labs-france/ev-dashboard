@@ -7,7 +7,8 @@ import { Tenant } from '../../../types/Tenant';
 @Component({
   template: `
     <div class="logo-container">
-      <img class="app-tenants-logo" [src]="row['logo'] ? row['logo'] : noImage" alt="">
+      <img class="app-tenants-logo" [src]="row['logo']" alt=""
+        onerror="this.src='/assets/img/theme/no-image.png';">
     </div>
   `,
 })

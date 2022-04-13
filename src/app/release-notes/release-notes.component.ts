@@ -29,6 +29,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `Added update of OCPI Credentials`,
               `Use Session optimized consumptions to send OCPI Session/CDR`,
               `Added Mobile phone in register user`,
               `Fixed CSS issues in pop-ups`,

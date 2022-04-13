@@ -17,6 +17,7 @@ import { Utils } from '../../../utils/Utils';
 @Component({
   selector: 'app-transaction',
   templateUrl: 'transaction.component.html',
+  styleUrls: ['transaction.component.scss']
 })
 export class TransactionComponent implements OnInit, OnDestroy {
   @ViewChild('chartConsumption') public chartComponent!: ConsumptionChartComponent;

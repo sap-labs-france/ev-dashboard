@@ -185,7 +185,7 @@ export class AuthenticationRegisterComponent implements OnInit, OnDestroy {
             case HTTPError.USER_EULA_ERROR:
               this.messageService.showErrorMessage(this.messages['must_accept_eula']);
               break;
-            // Unexpected error`
+            // Unexpected error
             default:
               Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
           }

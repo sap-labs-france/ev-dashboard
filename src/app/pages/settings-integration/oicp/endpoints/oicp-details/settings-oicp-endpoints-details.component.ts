@@ -5,7 +5,7 @@ import { OicpEndpoint } from '../../../../../types/oicp/OICPEndpoint';
 import { SettingsOicpEndpointsDetailsTableDataSource } from './settings-oicp-endpoints-details-table-data-source';
 
 @Component({
-  template: '<app-table class="endpoint-details" [dataSource]="settingsOicpEndpointsDetaislTableDataSource"></app-table>',
+  template: '<app-table [dataSource]="settingsOicpEndpointsDetaislTableDataSource"></app-table>',
   providers: [SettingsOicpEndpointsDetailsTableDataSource],
 })
 

@@ -12,7 +12,7 @@ import { Constants } from '../../utils/Constants';
 
 @Component({
   selector: 'app-authentication-reset-password',
-  templateUrl: './authentication-reset-password.component.html',
+  templateUrl: 'authentication-reset-password.component.html',
 })
 
 export class AuthenticationResetPasswordComponent implements OnInit, OnDestroy {

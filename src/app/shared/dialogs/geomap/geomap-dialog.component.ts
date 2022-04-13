@@ -6,7 +6,7 @@ import { Address } from 'ngx-google-places-autocomplete/objects/address';
 import { Utils } from '../../../utils/Utils';
 
 @Component({
-  templateUrl: './geomap-dialog.component.html',
+  templateUrl: 'geomap-dialog.component.html',
 })
 export class GeoMapDialogComponent {
   public mapLatitude: number;

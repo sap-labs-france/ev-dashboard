@@ -1,6 +1,6 @@
-<div class="main-content vh-lg-60 vw-lg-80 vh-xl-75 vw-xxl-60 vh-3xl-60 vw-3xl-35">
+<div class="main-content vw-90 vh-90 site-area-dialog-size">
   <div class="card card-profile card-testimonial">
-    <mat-tab-group animationDuration="0ms" disableRipple="true" class="mat-tab-info" [class]="dialogRef ? 'mat-tabs-with-actions' : 'mat-tabs-with-close-action'">
+    <mat-tab-group animationDuration="0ms" disableRipple="true" class="mat-tab-info" [class]="dialogRef && !readOnly ? 'mat-tabs-with-actions' : 'mat-tabs-with-close-action'">
       <mat-tab>
         <ng-template mat-tab-label>
           <mat-icon>portrait</mat-icon>
@@ -29,7 +29,7 @@
         </div>
       </mat-tab>
     </mat-tab-group>
-    <div class="tabs-actions">
+    <div [class]="dialogRef ? 'tabs-actions' : 'tabs-actions-embedded'">
       <button mat-icon-button *ngIf="!readOnly" (click)="saveSiteArea(formGroup.getRawValue())" title="{{'general.save' | translate}}"
           [disabled]="!formGroup.valid || !formGroup.dirty">
         <mat-icon>save</mat-icon>

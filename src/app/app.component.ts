@@ -9,7 +9,7 @@ import { CONNECTOR_ALL_TYPES_MAP } from './shared/model/charging-stations.model'
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
+  templateUrl: 'app.component.html',
 })
 export class AppComponent {
   public title = 'e-Mobility';

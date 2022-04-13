@@ -16,7 +16,8 @@ import { Utils } from '../../../../../utils/Utils';
 
 @Component({
   selector: 'app-ocpi-endpoint',
-  templateUrl: './settings-ocpi-endpoint.component.html',
+  templateUrl: 'settings-ocpi-endpoint.component.html',
+  styleUrls: ['settings-ocpi-endpoint.component.scss']
 })
 export class SettingsOcpiEndpointComponent implements OnInit {
   @Input() public currentEndpoint!: OcpiEndpoint;

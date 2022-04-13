@@ -2,7 +2,7 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 
 import { CentralServerService } from '../../../services/central-server.service';
@@ -24,7 +24,8 @@ import { PricingDefinitionRestrictionsComponent } from './restrictions/pricing-d
 
 @Component({
   selector: 'app-pricing-definition',
-  templateUrl: './pricing-definition.component.html',
+  templateUrl: 'pricing-definition.component.html',
+  styleUrls: ['pricing-definition.component.scss']
 })
 export class PricingDefinitionComponent extends AbstractTabComponent implements OnInit {
   @Input() public currentPricingDefinitionID!: string;

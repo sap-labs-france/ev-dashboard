@@ -11,7 +11,7 @@ declare const $: any;
 
 @Component({
   selector: 'app-settings-integration',
-  templateUrl: './settings-integration.component.html',
+  templateUrl: 'settings-integration.component.html',
 })
 export class SettingsIntegrationComponent extends AbstractTabComponent {
   public isOCPIActive = false;

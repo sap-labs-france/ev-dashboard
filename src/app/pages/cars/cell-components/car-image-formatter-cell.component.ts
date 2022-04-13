@@ -10,6 +10,7 @@ import { Car, CarCatalog } from '../../../types/Car';
         [src]="row['carCatalog'] ? row['carCatalog']['image'] : row['image']" alt="">
     </div>
   `,
+  styleUrls: ['car-image-formatter-cell.component.scss']
 })
 
 export class CarImageFormatterCellComponent extends CellContentTemplateDirective {

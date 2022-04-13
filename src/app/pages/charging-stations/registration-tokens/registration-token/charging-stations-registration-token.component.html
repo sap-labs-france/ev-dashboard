@@ -1,4 +1,4 @@
-<div class="main-content vh-lg-30 vw-lg-60 vw-xxl-50 vh-3xl-25 vw-3xl-30">
+<div class="main-content vw-90 vh-90 charging-station-registration-token-dialog-size">
   <div class="card card-profile card-testimonial">
     <mat-tab-group animationDuration="0ms" disableRipple="true" class="mat-tab-info" [class]="dialogRef ? 'mat-tabs-with-actions' : 'mat-tabs-with-close-action'">
       <mat-tab>
@@ -6,36 +6,45 @@
           <mat-icon>link</mat-icon>
           <span>{{"chargers.token" | translate}} - {{description.value}}</span>
         </ng-template>
-        <div class="card-body pb-0">
+        <div class="card-body">
           <div class="tab-content">
             <div class="tab-pane active" id="profile">
-              <div class="d-flex align-items-start flex-column mb-3">
-                <mat-form-field class="col-md-12 col-lg-10 col-xl-8 form-group">
-                  <input [formControl]="description" appAutofocus matInput
-                    placeholder="{{'general.description' | translate}}" type="text">
-                  <mat-error *ngIf="description.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
-                  <mat-error *ngIf="description.errors?.maxlength">
-                    <div [translateParams]="{length: 100}" [translate]="'general.error_max_length'"></div>
-                  </mat-error>
-                </mat-form-field>
-                <mat-form-field class="col-md-5 col-lg-4 col-xl-3 form-group">
-                  <mat-datetimepicker #picker type="datetime" openOnFocus="false" mode="portrait" timeInterval="1">
-                  </mat-datetimepicker>
-                  <mat-datetimepicker-toggle [for]="picker" matSuffix></mat-datetimepicker-toggle>
-                  <input [formControl]="expirationDate" matInput placeholder="{{'general.expired_on' | translate}}"
-                    [matDatetimepicker]="picker" autocomplete="false">
-                </mat-form-field>
-                <mat-form-field class="col-md-9 col-lg-8 col-xl-6 form-group" *ngIf="isOrganizationComponentActive">
-                  <input matInput type="text" readonly=true placeholder="{{'chargers.site_area' | translate}}"
-                    class="form-field-popup" (click)="assignSiteArea()" [formControl]="siteArea"/>
-                  <button *ngIf="siteArea.enabled && siteArea.value" mat-icon-button matSuffix (click)="resetSiteArea()" aria-label="Clear">
-                    <mat-icon>clear</mat-icon>
-                  </button>
-                  <mat-error *ngIf="siteArea.errors?.required">
-                    {{"general.mandatory_field" | translate}}
-                  </mat-error>
-                </mat-form-field>
-                <div class="clearfix"></div>
+              <div class="row pb-1">
+                <div class="col-md-12">
+                  <mat-form-field class="form-group">
+                    <input [formControl]="description" appAutofocus matInput
+                      placeholder="{{'general.description' | translate}}" type="text">
+                    <mat-error *ngIf="description.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+                    <mat-error *ngIf="description.errors?.maxlength">
+                      <div [translateParams]="{length: 100}" [translate]="'general.error_max_length'"></div>
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row pb-1">
+                <div class="col-md-6">
+                  <mat-form-field class="form-group">
+                    <mat-datetimepicker #picker type="datetime" openOnFocus="false" mode="portrait" timeInterval="1">
+                    </mat-datetimepicker>
+                    <mat-datetimepicker-toggle [for]="picker" matSuffix></mat-datetimepicker-toggle>
+                    <input [formControl]="expirationDate" matInput placeholder="{{'general.expired_on' | translate}}"
+                      [matDatetimepicker]="picker" autocomplete="false">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-10">
+                  <mat-form-field class="form-group" *ngIf="isOrganizationComponentActive">
+                    <input matInput type="text" readonly=true placeholder="{{'chargers.site_area' | translate}}"
+                      class="form-field-popup" (click)="assignSiteArea()" [formControl]="siteArea"/>
+                    <button *ngIf="siteArea.enabled && siteArea.value" mat-icon-button matSuffix (click)="resetSiteArea()" aria-label="Clear">
+                      <mat-icon>clear</mat-icon>
+                    </button>
+                    <mat-error *ngIf="siteArea.errors?.required">
+                      {{"general.mandatory_field" | translate}}
+                    </mat-error>
+                  </mat-form-field>
+                </div>
               </div>
             </div>
           </div>

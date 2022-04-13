@@ -18,7 +18,7 @@ import { Utils } from '../../../../utils/Utils';
 
 @Component({
   selector: 'app-charging-station-static-limitation',
-  templateUrl: './charging-station-static-limitation.component.html',
+  templateUrl: 'charging-station-static-limitation.component.html',
 })
 @Injectable()
 export class ChargingStationStaticLimitationComponent {

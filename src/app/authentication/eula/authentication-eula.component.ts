@@ -5,7 +5,7 @@ import { CentralServerService } from '../../services/central-server.service';
 import { SpinnerService } from '../../services/spinner.service';
 
 @Component({
-  templateUrl: './authentication-eula.component.html',
+  templateUrl: 'authentication-eula.component.html',
 })
 export class AuthenticationEulaComponent implements OnInit {
   public eulaText!: string;

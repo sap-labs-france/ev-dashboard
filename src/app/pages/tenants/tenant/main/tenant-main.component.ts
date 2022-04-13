@@ -10,7 +10,7 @@ import { Constants } from '../../../../utils/Constants';
 
 @Component({
   selector: 'app-tenant-main',
-  templateUrl: './tenant-main.component.html',
+  templateUrl: 'tenant-main.component.html',
 })
 export class TenantMainComponent implements OnInit, OnChanges {
   @Input() public formGroup: FormGroup;

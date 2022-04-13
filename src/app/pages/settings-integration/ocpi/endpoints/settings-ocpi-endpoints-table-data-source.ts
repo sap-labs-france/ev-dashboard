@@ -33,7 +33,6 @@ import { SettingsOcpiEndpointsDetailsComponent } from './ocpi-details/settings-o
 export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEndpoint> {
   private editAction = new TableEditAction().getActionDef();
   private deleteAction = new TableDeleteAction().getActionDef();
-  private updateCredentialsAction = new TableUpdateOCPICredentialsAction().getActionDef();
   private createAction = new TableCreateAction().getActionDef();
 
   public constructor(
@@ -171,16 +170,19 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEn
     const moreActions = new TableMoreAction([]);
     const registerAction = new TableRegisterAction().getActionDef();
     const unregisterAction = new TableUnregisterAction().getActionDef();
+    const updateCredentialsAction = new TableUpdateOCPICredentialsAction().getActionDef();
     moreActions.addActionInMoreActions(registerAction);
     moreActions.addActionInMoreActions(unregisterAction);
-    moreActions.addActionInMoreActions(this.updateCredentialsAction);
+    moreActions.addActionInMoreActions(updateCredentialsAction);
     moreActions.addActionInMoreActions(this.deleteAction);
     if (ocpiEndpoint.status === OcpiEndpointStatus.REGISTERED) {
       registerAction.disabled = true;
       unregisterAction.disabled = false;
+      updateCredentialsAction.disabled = false;
     } else {
       registerAction.disabled = false;
       unregisterAction.disabled = true;
+      updateCredentialsAction.disabled = true;
     }
     rowActions.push(moreActions.getActionDef());
     return rowActions;

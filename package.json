@@ -122,7 +122,7 @@
     "@angular-eslint/eslint-plugin": "^4.3.0",
     "@angular-eslint/eslint-plugin-template": "^4.3.0",
     "@angular-eslint/schematics": "^13.0.1",
-    "@angular-eslint/template-parser": "^4.3.0",
+    "@angular-eslint/template-parser": "^13.2.0",
     "@angular/cli": "~11.2.14",
     "@angular/compiler-cli": "~11.2.13",
     "@types/bootstrap": "^5.1.6",

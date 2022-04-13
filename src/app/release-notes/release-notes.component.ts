@@ -12,7 +12,7 @@ interface ComponentChange {
 }
 
 @Component({
-  templateUrl: './release-notes.component.html',
+  templateUrl: 'release-notes.component.html'
 })
 export class ReleaseNotesComponent {
   public releaseNotes: ReleaseNotes[] = [];
@@ -22,6 +22,19 @@ export class ReleaseNotesComponent {
   }
   public buildReleaseNotes() {
     this.releaseNotes = [
+      {
+        version: '2.6.5',
+        date: new Date('2022-04-13'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added Mobile phone in register user`,
+              `Fixed CSS issues in pop-ups`,
+            ],
+          },
+        ],
+      },
       {
         version: '2.6.4',
         date: new Date('2022-04-08'),

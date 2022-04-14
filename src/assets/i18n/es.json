@@ -1678,7 +1678,7 @@
       "billing_clear_test_data_confirm": "Do you really want to delete all billing test data?",
       "billing_clear_test_data_success": "The test data has been deleted",
       "billing_clear_test_data_error": "Operation failed. The test data deletion has been aborted",
-      "payment_methods": "Payment methods",
+      "payment_methods": "Métodos de pago",
       "user": {
         "force_synchronize_user_dialog_title": "Sincronizar usuario (Facturación)",
         "force_synchronize_user_dialog_confirm": "¿Está seguro de que desea sincronizar al usuario '{{userFullName}}' con el sistema de facturación?",

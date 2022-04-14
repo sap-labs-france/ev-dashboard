@@ -25,13 +25,14 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.6.5',
-        date: new Date('2022-04-13'),
+        date: new Date('2022-04-14'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `Added update of OCPI Credentials`,
               `Use Session optimized consumptions to send OCPI Session/CDR`,
+              `Fixed OCPI CPO Services call return eMSP ones`,
               `Added Mobile phone in register user`,
               `Fixed CSS issues in pop-ups`,
               `Default Tenant's users can reset their passwords`,

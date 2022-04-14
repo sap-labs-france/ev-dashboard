@@ -32,7 +32,7 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
   private issuerFilter: TableFilterDef;
   private dateRangeFilter: TableFilterDef;
   private invoiceStatusFilter: TableFilterDef;
-  private invoicesAthorizations: BillingInvoicesAuthorizations;
+  private invoicesAuthorizations: BillingInvoicesAuthorizations;
 
 
   public constructor(
@@ -55,11 +55,11 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
       this.centralServerService.getInvoices(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((invoices) => {
         // Initialise authorizations
-        this.invoicesAthorizations = {
+        this.invoicesAuthorizations = {
           canListUsers: invoices.canListUsers
         };
         // Update filters visibility
-        this.usersFilter.visible = this.invoicesAthorizations.canListUsers;
+        this.usersFilter.visible = this.invoicesAuthorizations.canListUsers;
         // Build Dynamic TableColumnsDef
         this.setTableColumnsDef(this.buildDynamicTableColumnDefs());
 
@@ -120,7 +120,7 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
       },
     );
     // Columns only available for authorized users
-    if (this.invoicesAthorizations.canListUsers) {
+    if (this.invoicesAuthorizations.canListUsers) {
       columns.push(
         {
           id: 'user',

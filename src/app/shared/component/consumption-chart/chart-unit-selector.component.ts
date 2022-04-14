@@ -10,7 +10,7 @@ export interface UnitButtonGroup {
 
 @Component({
   selector: 'app-chart-unit-selector',
-  templateUrl: './chart-unit-selector.component.html',
+  templateUrl: 'chart-unit-selector.component.html',
 })
 export class ChartUnitSelectorComponent {
   @Output() public unitChanged = new EventEmitter();

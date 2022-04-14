@@ -49,7 +49,6 @@ export class SettingsAnalyticsComponent implements OnInit {
     this.spinnerService.show();
     this.componentService.getSacSettings().subscribe((settings) => {
       this.spinnerService.hide();
-      // Keep
       this.analyticsSettings = settings;
       // Set Links
       this.analyticsLinksTableDataSource.setLinks(settings.links);
@@ -104,7 +103,6 @@ export class SettingsAnalyticsComponent implements OnInit {
   }
 
   public refresh() {
-    // Load Setting
     this.loadConfiguration();
   }
 }

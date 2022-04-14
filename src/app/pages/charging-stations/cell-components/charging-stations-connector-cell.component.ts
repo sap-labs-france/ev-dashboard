@@ -29,6 +29,7 @@ import { ChargePointStatus, Connector } from '../../../types/ChargingStation';
       </div>
     </div>
   `,
+  styleUrls: ['charging-stations-connector-cell.component.scss'],
 })
 @Injectable()
 export class ChargingStationsConnectorCellComponent extends CellContentTemplateDirective {

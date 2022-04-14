@@ -9,7 +9,8 @@ import { CarConnectorConnectionDialogComponent } from './car-connector-connectio
 
 @Component({
   selector: 'app-settings-car-connector-connection',
-  templateUrl: './car-connector-connection.component.html'
+  templateUrl: 'car-connector-connection.component.html',
+  styleUrls: ['car-connector-connection.component.scss']
 })
 export class CarConnectorConnectionComponent implements OnInit {
   @Input() public currentCarConnectorConnection!: CarConnectorConnectionSetting;

@@ -20,9 +20,9 @@ $margin-base-vertical: 15px !default;
 $grid-breakpoints: (
   xs: 0,
   sm: 576px,
-  md: 768px, //tablet
-  lg: 992px, //laptop 992<lg<1200
-  xl: 1200px, //above mac screen
-  xxl: 1536px, //in-between TO BE TESTED
-  3xl: 2000px //xl screen - test on claude linux laptop
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1400px,
+  3xl: 2000px
 );

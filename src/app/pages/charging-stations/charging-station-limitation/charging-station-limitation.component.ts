@@ -12,6 +12,7 @@ import { Utils } from '../../../utils/Utils';
 @Component({
   selector: 'app-charging-station-limitation',
   templateUrl: 'charging-station-limitation.component.html',
+  styleUrls: ['charging-station-limitation.component.scss']
 })
 export class ChargingStationLimitationComponent implements OnInit {
   @Input() public chargingStationID!: string;

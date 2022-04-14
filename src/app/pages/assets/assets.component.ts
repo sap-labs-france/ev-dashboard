@@ -7,7 +7,7 @@ import { AbstractTabComponent } from '../../shared/component/abstract-tab/abstra
 
 @Component({
   selector: 'app-assets',
-  templateUrl: './assets.component.html',
+  templateUrl: 'assets.component.html',
 })
 export class AssetsComponent extends AbstractTabComponent {
   public canListAssets: boolean;

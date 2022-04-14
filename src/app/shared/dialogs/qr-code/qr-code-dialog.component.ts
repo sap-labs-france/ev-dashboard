@@ -10,7 +10,7 @@ import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 
 @Component({
-  templateUrl: './qr-code-dialog.component.html',
+  templateUrl: 'qr-code-dialog.component.html',
 })
 export class QrCodeDialogComponent {
   public qrCode: string;

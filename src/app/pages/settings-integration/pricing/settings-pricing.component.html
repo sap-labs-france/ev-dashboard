@@ -15,7 +15,8 @@
   <div class="mat-toolbar-row mat-toolbar-settings">
     <button mat-raised-button color="warn" (click)="save(formGroup.value)"
       [disabled]="!formGroup.valid || !formGroup.dirty">
-      <mat-icon>save</mat-icon><span>{{'general.save' | translate}}</span>
+      <mat-icon>save</mat-icon>
+      <span>{{'general.save' | translate}}</span>
     </button>
   </div>
   <form class="form" [formGroup]="formGroup">

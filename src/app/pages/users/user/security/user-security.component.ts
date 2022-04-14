@@ -8,7 +8,7 @@ import { Utils } from '../../../../utils/Utils';
 
 @Component({
   selector: 'app-user-security',
-  templateUrl: './user-security.component.html',
+  templateUrl: 'user-security.component.html',
 })
 // @Injectable()
 export class UserSecurityComponent implements OnInit, OnChanges {

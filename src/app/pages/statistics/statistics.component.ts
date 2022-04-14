@@ -9,7 +9,7 @@ import { TenantComponents } from '../../types/Tenant';
 
 @Component({
   selector: 'app-statistics',
-  templateUrl: './statistics.component.html',
+  templateUrl: 'statistics.component.html',
 })
 export class StatisticsComponent extends AbstractTabComponent {
   public isAdmin: boolean;

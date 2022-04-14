@@ -2516,6 +2516,20 @@ export class CentralServerService {
       );
   }
 
+  public updateCredentialsOcpiEndpoint(id: string): Observable<ActionResponse> {
+    // Verify init
+    this.checkInit();
+    // Execute the REST service
+    return this.httpClient.put<ActionResponse>(
+      this.buildRestEndpointUrl(RESTServerRoute.REST_OCPI_ENDPOINT_CREDENTIALS, { id }), {},
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
   public registerOcpiEndpoint(id: string): Observable<ActionResponse> {
     // Verify init
     this.checkInit();

@@ -1,0 +1,9 @@
+@import "../../../../assets/scss/core/variables";
+
+.power-bar-text {
+  text-align: center;
+  font-size: 0.9rem;
+  .power-bar-text-error {
+    color: $state-danger-bg;
+  }
+}

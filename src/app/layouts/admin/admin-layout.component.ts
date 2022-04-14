@@ -10,7 +10,7 @@ declare const $: any;
 
 @Component({
   selector: 'app-layout',
-  templateUrl: './admin-layout.component.html',
+  templateUrl: 'admin-layout.component.html',
 })
 
 export class AdminLayoutComponent implements OnInit, AfterViewInit {

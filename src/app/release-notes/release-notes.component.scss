@@ -1,0 +1,25 @@
+@import "../../assets/scss/core/variables";
+
+.release-notes-header {
+  color: $brand-primary;
+  &:hover {
+    cursor: default;
+  }
+
+  th {
+    padding: 0;
+    font-size: 1.3rem !important;
+  }
+}
+
+.release-notes-row {
+  td {
+    padding: 5px 20px;
+    font-size: 1rem;
+  }
+
+  &:hover {
+    background-color: initial;
+    cursor: default;
+  }
+}

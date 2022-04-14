@@ -56,7 +56,7 @@ export class SitesDialogTableDataSource extends DialogTableDataSource<Site> {
       {
         id: 'name',
         name: 'sites.name',
-        class: 'text-left col-600px',
+        class: 'text-left col-20p',
         sorted: true,
         direction: 'asc',
         sortable: true,
@@ -64,19 +64,19 @@ export class SitesDialogTableDataSource extends DialogTableDataSource<Site> {
       {
         id: 'address.address1',
         name: 'general.address',
-        headerClass: 'col-20p',
+        headerClass: 'col-35p',
         class: 'col-20p',
         sortable: true,
       },
       {
         id: 'address.city',
         name: 'general.city',
-        class: 'text-left col-350px',
+        class: 'text-left col-15p',
       },
       {
         id: 'address.country',
         name: 'general.country',
-        class: 'text-left col-300px',
+        class: 'text-left col-15p',
       },
     ];
   }

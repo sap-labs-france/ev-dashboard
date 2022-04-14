@@ -14,7 +14,7 @@ import { StatisticsExportService } from '../shared/statistics-export.service';
 
 @Component({
   selector: 'app-statistics-inactivity',
-  templateUrl: './statistics-inactivity.component.html',
+  templateUrl: 'statistics-inactivity.component.html',
 })
 
 export class StatisticsInactivityComponent implements OnInit {

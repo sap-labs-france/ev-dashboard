@@ -670,6 +670,7 @@
   },
   "chargers": {
     "chargers": "Estações de Carregamento",
+    "token": "Token",
     "user": "Uitlizador",
     "charger_not_found": "A estação de carregamento não foi encontrada",
     "vendor": "Fornecedor",
@@ -1891,6 +1892,10 @@
     "unregister_success": "O IOP '{{name}}' foi cancelado com sucesso",
     "register_error": "Ocorreu um erro ao registar o IOP",
     "unregister_error": "Ocorreu um erro ao cancelar o registo do IOP",
+    "update_credentials_title": "Update Credentials IOP",
+    "update_credentials_confirm": "Do you want to update the credentials in the IOP '{{name}}'?",
+    "update_credentials_success": "The credentials have been updated successfully in the IOP '{{name}}'",
+    "update_credentials_error": "Error occurred while updating the credentials with the IOP, check the logs",
     "push_evse_statuses_title": "Enviar status EVSE",
     "push_tokens_title": "Enviar tokens de usuário",
     "push_evse_statuses_confirm": "Deseja enviar todos os status EVSE para IOP '{{name}}'?",
@@ -1977,6 +1982,7 @@
     "check_locations": "Verificar locais",
     "check_sessions": "Verificar sessões",
     "check_cdrs": "Verificar Cdrs",
+    "update_credentials": "Update Credentials",
     "businessdetails": {
       "name": "Nome do operador",
       "website": "Link para o site da operadora",

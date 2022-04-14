@@ -11,7 +11,7 @@ import { Constants } from '../../../../utils/Constants';
 
 @Component({
   selector: 'app-pricing-definition-main',
-  templateUrl: './pricing-definition-main.component.html',
+  templateUrl: 'pricing-definition-main.component.html',
 })
 
 export class PricingDefinitionMainComponent implements OnInit, OnChanges {

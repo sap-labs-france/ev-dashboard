@@ -9,9 +9,9 @@ import { Company } from '../../../../types/Company';
       <img *ngIf="row['logo']" class="app-company-logo" alt="" [src]="row['logo']">
     </div>
   `,
+  styleUrls: ['company-logo-formatter-cell.component.scss']
 })
 
 export class CompanyLogoFormatterCellComponent extends CellContentTemplateDirective {
   @Input() public row!: Company;
-
 }

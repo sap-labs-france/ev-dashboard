@@ -670,6 +670,7 @@
   },
   "chargers": {
     "chargers": "Bornes",
+    "token": "Jeton",
     "user": "Utilisateur",
     "charger_not_found": "La borne n'a pas été trouvée",
     "vendor": "Vendeur",
@@ -1892,6 +1893,10 @@
     "unregister_success": "L'IOP '{{name}}' a été désenregistré avec succès",
     "register_error": "Une erreur est survenue pendant la procédure d'enregistrement avec l'IOP, vérifiez les logs",
     "unregister_error": "Une erreur est survenue pendant la procédure de désenregistrement avec l'IOP, vérifiez les logs",
+    "update_credentials_title": "Mettre a jour la connexion IOP",
+    "update_credentials_confirm": "Voulez-vous vraiment mettre a jour les informations de connexion dans l'IOP '{{name}}'?",
+    "update_credentials_success": "Les informations de connexion ont été mise à jour avec succès dans IOP '{{name}}'",
+    "update_credentials_error": "Une erreur est survenue pendant la mise a jour des informations de connexion avec l'IOP, vérifiez les logs",
     "push_evse_statuses_title": "Envoi des statuts des EVSEs",
     "push_tokens_title": "Envoi des jetons des utilisateurs",
     "push_evse_statuses_confirm": "Voulez-vous vraiment envoyer le statut de tous les EVSEs à l'IOP '{{name}}'?",
@@ -1978,6 +1983,7 @@
     "check_locations": "Vérifier les Sites",
     "check_sessions": "Vérifier les Sessions",
     "check_cdrs": "Vérifier les CDRs",
+    "update_credentials": "Mise à jour Connexion",
     "businessdetails": {
       "name": "Nom de l'operateur",
       "website": "Site web de l'operateur",

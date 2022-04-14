@@ -16,7 +16,7 @@ import { StatisticsExportService } from '../shared/statistics-export.service';
 
 @Component({
   selector: 'app-statistics-pricing',
-  templateUrl: './statistics-pricing.component.html',
+  templateUrl: 'statistics-pricing.component.html',
 })
 
 export class StatisticsPricingComponent implements OnInit {

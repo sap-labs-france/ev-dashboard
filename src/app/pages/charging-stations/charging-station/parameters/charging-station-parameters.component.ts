@@ -19,7 +19,7 @@ import { Utils } from '../../../../utils/Utils';
 
 @Component({
   selector: 'app-charging-station-parameters',
-  templateUrl: './charging-station-parameters.component.html',
+  templateUrl: 'charging-station-parameters.component.html',
 })
 // @Injectable()
 export class ChargingStationParametersComponent implements OnInit, OnChanges {

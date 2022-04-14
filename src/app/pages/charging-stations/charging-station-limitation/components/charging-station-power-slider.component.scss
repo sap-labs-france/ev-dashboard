@@ -1,0 +1,15 @@
+@import "../../../../../assets/scss/core/variables";
+
+.current-power-text {
+  margin-top: -10px;
+  font-size: 1.2em;
+}
+
+.current-power-text-in-list {
+  margin-top: -55px;
+  font-size: 1em;
+}
+
+.current-power-text-not-supported {
+  color: $brand-danger;
+}

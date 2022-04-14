@@ -1,12 +1,12 @@
 <div class="main-content">
   <div class="row" *ngIf="chargingStation.inactive">
-    <div class="col-md-12 text-left charging-station-inactive mb-3">
+    <div class="col-md-12 text-left mat-subheading-2 text-danger mb-3">
       {{"chargers.smart_charging.charging_station_inactive" | translate }}
     </div>
   </div>
   <div class="row"
     *ngIf="!chargingStation.inactive && isSmartChargingComponentActive && chargingStation.siteArea?.smartCharging && chargingStation?.capabilities?.supportChargingProfiles && !chargingStation.excludeFromSmartCharging">
-    <div class="col-md-12 text-left smart-charging-active-warn mb-3">
+    <div class="col-md-12 text-left mat-subheading-2 text-danger mb-3">
       {{"chargers.smart_charging.smart_charging_enabled_static_limitation" | translate }}
     </div>
   </div>

@@ -6,7 +6,7 @@ import { AssetWitConnectionType } from '../../../../../types/Setting';
 
 @Component({
   selector: 'app-settings-wit-connection',
-  templateUrl: './wit-asset-connection.component.html'
+  templateUrl: 'wit-asset-connection.component.html'
 })
 export class WitAssetConnectionComponent implements OnInit {
   @Input() public formGroup!: FormGroup;

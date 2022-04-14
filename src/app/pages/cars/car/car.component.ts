@@ -24,6 +24,7 @@ import { CarMainComponent } from './main/car-main.component';
 @Component({
   selector: 'app-car',
   templateUrl: 'car.component.html',
+  styleUrls: ['car.component.scss']
 })
 export class CarComponent extends AbstractTabComponent implements OnInit {
   @Input() public currentCarID!: string;

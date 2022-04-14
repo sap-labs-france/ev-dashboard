@@ -18,6 +18,7 @@ import { Connector } from '../../../types/ChargingStation';
       </mat-progress-bar>
     </div>
   `,
+  styleUrls: ['charging-stations-common.component.scss'],
 })
 export class ChargingStationsInstantPowerConnectorProgressBarCellComponent extends CellContentTemplateDirective {
   @Input() public row!: Connector;

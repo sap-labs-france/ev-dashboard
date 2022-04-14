@@ -14,7 +14,7 @@ import { ButtonType } from 'types/Table';
 import { Utils } from 'utils/Utils';
 
 @Component({
-  templateUrl: './import-dialog.component.html',
+  templateUrl: 'import-dialog.component.html',
 })
 export class ImportDialogComponent implements OnInit {
   public uploader: FileUploader;

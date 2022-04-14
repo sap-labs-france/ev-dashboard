@@ -5,7 +5,7 @@ import { AssetIothinkConnectionType } from '../../../../../types/Setting';
 
 @Component({
   selector: 'app-settings-iothink-connection',
-  templateUrl: './iothink-asset-connection.component.html'
+  templateUrl: 'iothink-asset-connection.component.html'
 })
 export class IothinkAssetConnectionComponent implements OnInit {
   @Input() public formGroup!: FormGroup;

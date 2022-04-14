@@ -50,7 +50,7 @@ export class ChargingStationsDialogTableDataSource extends DialogTableDataSource
       },
       {
         id: 'chargePointVendor',
-        name: 'chargers.name',
+        name: 'chargers.vendor',
         class: 'text-left',
       },
     ];

@@ -7,7 +7,7 @@ import { AbstractTabComponent } from '../../shared/component/abstract-tab/abstra
 
 @Component({
   selector: 'app-invoices',
-  templateUrl: './invoices.component.html',
+  templateUrl: 'invoices.component.html',
 })
 export class InvoicesComponent extends AbstractTabComponent {
   public isAdmin: boolean;

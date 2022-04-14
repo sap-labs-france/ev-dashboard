@@ -15,7 +15,7 @@ import { SettingsCarConnectorConnectionEditableTableDataSource } from './setting
 
 @Component({
   selector: 'app-settings-car-connector',
-  templateUrl: './settings-car-connector.component.html',
+  templateUrl: 'settings-car-connector.component.html',
   providers: [SettingsCarConnectorConnectionEditableTableDataSource]
 })
 export class SettingsCarConnectorComponent implements OnInit {

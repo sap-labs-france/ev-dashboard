@@ -1,0 +1,14 @@
+@import "../../../../../assets/scss/core/variables";
+
+.session-tariff-detail-card {
+  background: rgba($brand-primary, 0.1);
+  padding-bottom: 30px;
+}
+
+.session-pricing-detail-card {
+  background: rgba($brand-primary, 0.1);
+  margin-top: 30px;
+  margin-right: 15px;
+  margin-bottom: 5px;
+  min-height: 90%;
+}

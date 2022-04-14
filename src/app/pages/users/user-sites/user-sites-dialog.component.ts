@@ -11,6 +11,7 @@ import { UserSitesTableDataSource } from './user-sites-table-data-source';
 @Component({
   selector: 'app-user-sites-dialog',
   templateUrl: 'user-sites-dialog.component.html',
+  styleUrls: ['user-sites-dialog.component.scss'],
   providers: [UserSitesTableDataSource],
 })
 export class UserSitesDialogComponent {

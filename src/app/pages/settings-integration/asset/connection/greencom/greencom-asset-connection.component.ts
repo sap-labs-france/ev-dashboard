@@ -5,7 +5,7 @@ import { AssetGreencomConnectionType } from '../../../../../types/Setting';
 
 @Component({
   selector: 'app-settings-greencom-connection',
-  templateUrl: './greencom-asset-connection.component.html'
+  templateUrl: 'greencom-asset-connection.component.html'
 })
 export class GreencomAssetConnectionComponent implements OnInit {
   @Input() public formGroup!: FormGroup;

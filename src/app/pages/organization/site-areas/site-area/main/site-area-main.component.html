@@ -34,8 +34,7 @@
     <div class="col-md-7">
       <div class="form-group">
         <mat-form-field>
-          <input appAutofocus matInput placeholder="{{'site_areas.name' | translate}}" class="app-organization-name"
-            type="text" [formControl]="name" required>
+          <input appAutofocus matInput placeholder="{{'site_areas.name' | translate}}" type="text" [formControl]="name" required>
           <mat-error *ngIf="name.errors?.required">
             {{"general.mandatory_field" | translate}}
           </mat-error>

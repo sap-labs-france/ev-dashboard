@@ -1,0 +1,15 @@
+@import "../../../../assets/scss/core/variables";
+
+.charger-connector-type {
+  text-align: center;
+  width: 30px;
+  height: 30px;
+  font-size: 1rem;
+  font-weight: bold;
+  margin-right: 3px;
+  justify-content: center;
+  padding-top: .13rem;
+  .charger-connector-type-active-text {
+    color: $brand-text;
+  }
+}

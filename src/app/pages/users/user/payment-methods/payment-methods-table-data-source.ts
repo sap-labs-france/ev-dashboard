@@ -31,7 +31,7 @@ export class PaymentMethodsTableDataSource extends TableDataSource<BillingPaymen
   public billingSettings: BillingSettings;
   private deleteAction = new TableDeletePaymentMethodAction().getActionDef();
   private createAction = new TableCreatePaymentMethodAction().getActionDef();
-  private paymentsAthorizations: BillingPaymentMethodsAuthorizationActions;
+  private paymentsAuthorizations: BillingPaymentMethodsAuthorizationActions;
 
 
   public constructor(
@@ -66,11 +66,11 @@ export class PaymentMethodsTableDataSource extends TableDataSource<BillingPaymen
         this.centralServerService.getPaymentMethods(this.currentUserID, this.buildFilterValues(),
           this.getPaging(), this.getSorting()).subscribe((paymentMethods) => {
           // Init authorizations
-          this.paymentsAthorizations = {
+          this.paymentsAuthorizations = {
             canCreate: paymentMethods.canCreate
           };
           // Set action visibility
-          this.createAction.visible = this.paymentsAthorizations.canCreate;
+          this.createAction.visible = this.paymentsAuthorizations.canCreate;
           observer.next(paymentMethods);
           observer.complete();
         }, (error) => {

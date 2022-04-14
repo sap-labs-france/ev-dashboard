@@ -1,4 +1,4 @@
-<div class="main-content vh-lg-50 vw-lg-80 vw-xxl-60 vh-3xl-40 vw-3xl-35">
+<div [class]="dialogRef ? 'main-content vw-90 vh-90 user-dialog-size' : 'main-content flex-grow-1'">
   <div class="card card-profile card-testimonial">
     <form [formGroup]="formGroup" class="form">
       <mat-tab-group (selectedIndexChange)="updateRoute($event)" [selectedIndex]="activeTabIndex"
@@ -71,7 +71,7 @@
             <span>{{'users.tabs.billing' | translate}}</span>
           </ng-template>
           <ng-template matTabContent>
-            <div class="card-body card-profile card-body-table-list">
+            <div class="card-body card-profile">
               <app-payment-methods [user]="user">
               </app-payment-methods>
             </div>

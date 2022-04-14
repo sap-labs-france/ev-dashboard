@@ -10,6 +10,7 @@ import { Tenant } from '../../../types/Tenant';
         onerror="this.src='/assets/img/theme/no-image.png';">
     </div>
   `,
+  styleUrls: ['tenant-logo-formatter-cell.component.scss']
 })
 
 export class TenantLogoFormatterCellComponent extends CellContentTemplateDirective {

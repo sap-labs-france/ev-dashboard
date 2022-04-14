@@ -11,7 +11,7 @@
             <div class="col-md-12">
               <div class="form-group" appTooltip title="{{'tags.visual_id_instruction' | translate}}">
                 <mat-form-field>
-                  <input  matInput placeholder="{{'tags.visual_id' | translate}}" class="app-car-name"
+                  <input  matInput placeholder="{{'tags.visual_id' | translate}}"
                     type="text" [formControl]="visualID">
                   <mat-error *ngIf="visualID.errors?.required">
                     {{"general.mandatory_field" | translate}}
@@ -24,7 +24,7 @@
             <div class="col-md-12">
               <div class="form-group">
                 <mat-form-field>
-                  <input matInput placeholder="{{'general.description' | translate}}" class="app-car-name"
+                  <input matInput placeholder="{{'general.description' | translate}}"
                     type="text" [formControl]="description">
                   <mat-error *ngIf="description.errors?.required">
                     {{"general.mandatory_field" | translate}}

@@ -10,6 +10,7 @@ import { Company } from '../../../../types/Company';
       onerror="this.src='/assets/img/theme/no-image.png';">
     </div>
   `,
+  styleUrls: ['company-logo-formatter-cell.component.scss']
 })
 
 export class CompanyLogoFormatterCellComponent extends CellContentTemplateDirective {

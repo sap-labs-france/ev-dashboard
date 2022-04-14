@@ -15,7 +15,7 @@ import { Utils } from 'utils/Utils';
 
 @Component({
   selector: 'app-user-mercedes-car-connector',
-  templateUrl: './user-mercedes-car-connector.component.html',
+  templateUrl: 'user-mercedes-car-connector.component.html',
 })
 // @Injectable()
 export class UserMercedesCarConnectorComponent implements OnInit, OnChanges {

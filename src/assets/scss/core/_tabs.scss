@@ -150,6 +150,8 @@
 }
 
 .transparent-dialog-container {
+  max-width: initial !important;
+
   .mat-dialog-container {
     background: none;
     box-shadow: none;

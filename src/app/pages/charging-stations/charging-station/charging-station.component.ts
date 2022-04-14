@@ -22,6 +22,7 @@ import { ChargingStationParametersComponent } from './parameters/charging-statio
 @Component({
   selector: 'app-charging-station',
   templateUrl: 'charging-station.component.html',
+  styleUrls: ['charging-station.component.scss']
 })
 export class ChargingStationComponent implements OnInit {
   @Input() public chargingStationID!: string;

@@ -28,6 +28,7 @@ import { ChargingStation } from '../../../types/ChargingStation';
     </ng-template>
     </span>
   `,
+  styleUrls: ['charging-stations-heartbeat-cell.component.scss'],
 })
 export class ChargingStationsHeartbeatCellComponent extends CellContentTemplateDirective {
   @Input() public row!: ChargingStation;

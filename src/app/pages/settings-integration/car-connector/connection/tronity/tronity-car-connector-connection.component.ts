@@ -6,7 +6,7 @@ import { CarConnectorTronityConnectionType } from '../../../../../types/Setting'
 
 @Component({
   selector: 'app-settings-tronity-connection',
-  templateUrl: './tronity-car-connector-connection.component.html'
+  templateUrl: 'tronity-car-connector-connection.component.html'
 })
 export class TronityCarConnectorConnectionComponent implements OnInit {
   @Input() public formGroup!: FormGroup;

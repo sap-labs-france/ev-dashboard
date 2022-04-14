@@ -19,7 +19,7 @@ import { Utils } from '../../utils/Utils';
 
 @Component({
   selector: 'app-authentication-register',
-  templateUrl: './authentication-register.component.html',
+  templateUrl: 'authentication-register.component.html',
 })
 
 export class AuthenticationRegisterComponent implements OnInit, OnDestroy {

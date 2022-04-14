@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { WindowService } from 'services/window.service';
 import { AbstractTabComponent } from 'shared/component/abstract-tab/abstract-tab.component';
@@ -25,6 +25,7 @@ import { SiteAreaOcpiComponent } from './ocpi/site-area-ocpi.component';
 @Component({
   selector: 'app-site-area',
   templateUrl: 'site-area.component.html',
+  styleUrls: ['site-area.component.scss']
 })
 export class SiteAreaComponent extends AbstractTabComponent implements OnInit {
   @Input() public currentSiteAreaID!: string;
@@ -60,7 +61,7 @@ export class SiteAreaComponent extends AbstractTabComponent implements OnInit {
     // Init the form
     this.formGroup = new FormGroup({});
     // Handle Dialog mode
-    this.readOnly = (this.dialogMode === DialogMode.VIEW);
+    this.readOnly = this.dialogMode === DialogMode.VIEW;
     Utils.handleDialogMode(this.dialogMode, this.formGroup);
     // Load Site Area
     this.loadSiteArea();

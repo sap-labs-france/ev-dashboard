@@ -20,6 +20,7 @@ import { CompanyMainComponent } from './main/company-main.component';
 @Component({
   selector: 'app-company',
   templateUrl: 'company.component.html',
+  styleUrls: ['company.component.scss']
 })
 export class CompanyComponent extends AbstractTabComponent implements OnInit {
   @Input() public currentCompanyID!: string;
@@ -48,7 +49,7 @@ export class CompanyComponent extends AbstractTabComponent implements OnInit {
     // Init the form
     this.formGroup = new FormGroup({});
     // Handle Dialog mode
-    this.readOnly = (this.dialogMode === DialogMode.VIEW);
+    this.readOnly = this.dialogMode === DialogMode.VIEW;
     Utils.handleDialogMode(this.dialogMode, this.formGroup);
     // Load Company
     this.loadCompany();

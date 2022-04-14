@@ -1,0 +1,26 @@
+@import "../../../../assets/scss/core/variables";
+
+.charger-heartbeat {
+  .charger-heartbeat-icon {
+    font-size: 1.1rem;
+    margin-right: 3px;
+  }
+
+  .charger-heartbeat-ok {
+    color: $state-success-bg;
+  }
+
+  .charger-heartbeat-error {
+    color: $state-danger-bg;
+  }
+
+  .charger-heartbeat-not-applicable {
+    color: $state-info-bg;
+  }
+
+  .charger-heartbeat-date-error {
+    color: $state-danger-bg;
+    font-weight: 500;
+  }
+}
+

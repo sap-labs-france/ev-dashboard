@@ -9,6 +9,7 @@ import { ChargingStationsDialogTableDataSource } from './charging-stations-dialo
 
 @Component({
   templateUrl: '../dialog-table-data.component.html',
+  styleUrls: ['../dialog-table-data.component.scss']
 })
 export class ChargingStationsDialogComponent extends DialogTableDataComponent<ChargingStation> {
   public constructor(

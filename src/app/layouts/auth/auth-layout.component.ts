@@ -6,7 +6,7 @@ import { version } from '../../../../package.json';
 
 @Component({
   selector: 'app-layout',
-  templateUrl: './auth-layout.component.html',
+  templateUrl: 'auth-layout.component.html',
 })
 export class AuthLayoutComponent implements OnInit {
   public version: string = version;

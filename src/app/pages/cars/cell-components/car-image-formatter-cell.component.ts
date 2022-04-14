@@ -11,6 +11,7 @@ import { Car, CarCatalog } from '../../../types/Car';
         onerror="this.src='/assets/img/theme/no-car.png';">
     </div>
   `,
+  styleUrls: ['car-image-formatter-cell.component.scss']
 })
 
 export class CarImageFormatterCellComponent extends CellContentTemplateDirective {

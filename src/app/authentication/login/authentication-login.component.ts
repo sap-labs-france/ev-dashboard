@@ -21,7 +21,7 @@ declare let $: any;
 
 @Component({
   selector: 'app-authentication-login',
-  templateUrl: './authentication-login.component.html',
+  templateUrl: 'authentication-login.component.html',
 })
 export class AuthenticationLoginComponent implements OnInit, OnDestroy {
   public formGroup: FormGroup;

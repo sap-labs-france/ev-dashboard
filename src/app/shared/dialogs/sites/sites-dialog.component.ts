@@ -9,6 +9,7 @@ import { SitesDialogTableDataSource } from './sites-dialog-table-data-source';
 
 @Component({
   templateUrl: '../dialog-table-data.component.html',
+  styleUrls: ['../dialog-table-data.component.scss']
 })
 export class SitesDialogComponent extends DialogTableDataComponent<Site> {
   public constructor(

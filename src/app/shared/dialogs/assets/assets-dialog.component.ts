@@ -10,6 +10,7 @@ import { AssetsDialogTableDataSource } from './assets-dialog-table-data-source';
 
 @Component({
   templateUrl: '../dialog-table-data.component.html',
+  styleUrls: ['../dialog-table-data.component.scss']
 })
 export class AssetsDialogComponent extends DialogTableDataComponent<Asset> {
   public constructor(

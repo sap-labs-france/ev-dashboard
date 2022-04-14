@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { Constants } from 'utils/Constants';
 
 import { CellContentTemplateDirective } from '../../../shared/table/cell-content-template/cell-content-template.directive';
 import { Tenant } from '../../../types/Tenant';
@@ -15,5 +14,4 @@ import { Tenant } from '../../../types/Tenant';
 
 export class TenantLogoFormatterCellComponent extends CellContentTemplateDirective {
   @Input() public row!: Tenant;
-  public noImage = Constants.NO_IMAGE;
 }

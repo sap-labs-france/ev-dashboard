@@ -12,14 +12,10 @@
             <div class="tab-pane active" id="profile">
               <div class="row w-100 align-items-center">
                 <div class="col-md-12 col-xl-5 d-block mt-0 m-auto">
-                  <div class="rotating-card-container" [ngStyle]="{ 'pointer-events': 'none'}">
-                    <div class="card card-rotate card-background mt-0 mb-0">
-                      <div class="front front-background"
-                        [ngStyle]="{'background-image': (carCatalog && carCatalog.image ? 'url(' + carCatalog.image + ')' : 'url(' + noImage + ')'), 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
-                        <div class="card-body">
-                        </div>
-                      </div>
-                    </div>
+                  <div class="card card-background mt-0 mb-0">
+                    <img class="front front-background" alt=""
+                      [ngStyle]="{'background-size' : 'contain', 'background-repeat': 'no-repeat'}"
+                      [src]="carCatalog.image" onerror="this.src='/assets/img/theme/no-car.png';">
                   </div>
                 </div>
                 <div class="col-md-12 col-xl-7 text-left">

@@ -32,6 +32,7 @@ export class ReleaseNotesComponent {
             changes: [
               `Added update of OCPI Credentials`,
               `Use Session optimized consumptions to send OCPI Session/CDR`,
+              `Fixed OCPI CPO Services call return eMSP ones`,
               `Added Mobile phone in register user`,
               `Fixed CSS issues in pop-ups`,
               `Default Tenant's users can reset their passwords`,

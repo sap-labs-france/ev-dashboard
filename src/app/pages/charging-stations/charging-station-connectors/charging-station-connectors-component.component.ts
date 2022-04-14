@@ -7,6 +7,7 @@ import { ChargingStationConnectorsTableDataSource } from './charging-station-con
 @Component({
   template: '<app-table class="connectors-details" [dataSource]="chargingStationsConnectorsDetailTableDataSource"></app-table>',
   providers: [ChargingStationConnectorsTableDataSource],
+  styleUrls: ['charging-station-connectors-component.component.scss'],
 })
 
 export class ChargingStationConnectorsComponent extends CellContentTemplateDirective implements OnInit, OnChanges {

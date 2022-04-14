@@ -6,7 +6,7 @@ import { CarConnectorMercedesConnectionType } from '../../../../../types/Setting
 
 @Component({
   selector: 'app-settings-mercedes-connection',
-  templateUrl: './mercedes-car-connector-connection.component.html'
+  templateUrl: 'mercedes-car-connector-connection.component.html'
 })
 export class MercedesCarConnectorConnectionComponent implements OnInit {
   @Input() public formGroup!: FormGroup;

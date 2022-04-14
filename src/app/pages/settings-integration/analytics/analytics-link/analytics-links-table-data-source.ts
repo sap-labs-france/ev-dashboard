@@ -24,6 +24,7 @@ export class AnalyticsLinksTableDataSource extends TableDataSource<SettingLink> 
   private analyticsLinks!: SettingLink[];
   private editAction = new TableEditAction().getActionDef();
   private openURLAction = new TableOpenURLAction().getActionDef();
+  private createAction = new TableCreateAction().getActionDef();
   private deleteAction = new TableDeleteAction().getActionDef();
 
   public constructor(
@@ -47,6 +48,7 @@ export class AnalyticsLinksTableDataSource extends TableDataSource<SettingLink> 
 
   public loadDataImpl(): Observable<DataResult<SettingLink>> {
     return new Observable((observer) => {
+      this.createAction.visible = true;
       if (this.analyticsLinks) {
         this.analyticsLinks.sort((a, b) => (a.name > b.name) ? 1 : (b.name > a.name) ? -1 : 0);
         const links = [];
@@ -71,7 +73,6 @@ export class AnalyticsLinksTableDataSource extends TableDataSource<SettingLink> 
 
   public buildTableDef(): TableDef {
     return {
-      class: 'analytics-links-table-list',
       search: {
         enabled: false,
       },
@@ -122,9 +123,8 @@ export class AnalyticsLinksTableDataSource extends TableDataSource<SettingLink> 
   }
 
   public buildTableActionsDef(): TableActionDef[] {
-    // const tableActionsDef = super.buildTableActionsDef();
     return [
-      new TableCreateAction().getActionDef(),
+      this.createAction,
     ];
   }
 

@@ -29,7 +29,7 @@ export interface StatisticsButtonGroup {
 
 @Component({
   selector: 'app-statistics-filters',
-  templateUrl: './statistics-filters.component.html',
+  templateUrl: 'statistics-filters.component.html',
 })
 export class StatisticsFiltersComponent implements OnInit {
   @ViewChild(DaterangepickerComponent) public dateRangePickerComponent: DaterangepickerComponent;

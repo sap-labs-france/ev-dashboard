@@ -10,6 +10,7 @@ import { Utils } from '../../../../utils/Utils';
 @Component({
   selector: 'app-charging-station-power-slider',
   templateUrl: 'charging-station-power-slider.component.html',
+  styleUrls: ['charging-station-power-slider.component.scss'],
 })
 // @Injectable()
 export class ChargingStationPowerSliderComponent implements OnInit, OnChanges {

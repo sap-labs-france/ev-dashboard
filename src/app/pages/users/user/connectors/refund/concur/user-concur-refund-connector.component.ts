@@ -15,7 +15,7 @@ import { Utils } from 'utils/Utils';
 
 @Component({
   selector: 'app-user-concur-refund-connector',
-  templateUrl: './user-concur-refund-connector.component.html',
+  templateUrl: 'user-concur-refund-connector.component.html',
 })
 // @Injectable()
 export class UserConcurRefundConnectorComponent implements OnInit, OnChanges {

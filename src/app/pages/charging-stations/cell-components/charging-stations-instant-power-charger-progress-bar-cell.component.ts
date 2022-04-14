@@ -18,6 +18,7 @@ import { Utils } from '../../../utils/Utils';
       </mat-progress-bar>
     </div>
   `,
+  styleUrls: ['charging-stations-common.component.scss'],
 })
 export class ChargingStationsInstantPowerChargerProgressBarCellComponent extends CellContentTemplateDirective {
   @Input() public row!: ChargingStation;

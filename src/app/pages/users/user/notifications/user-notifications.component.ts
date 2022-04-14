@@ -7,7 +7,7 @@ import { Utils } from '../../../../utils/Utils';
 
 @Component({
   selector: 'app-user-notifications',
-  templateUrl: './user-notifications.component.html',
+  templateUrl: 'user-notifications.component.html',
 })
 // @Injectable()
 export class UserNotificationsComponent implements OnInit, OnChanges {

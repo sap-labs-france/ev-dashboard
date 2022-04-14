@@ -10,7 +10,7 @@ import { Utils } from '../../../../utils/Utils';
 
 @Component({
   selector: 'app-pricing-definition-restrictions',
-  templateUrl: './pricing-definition-restrictions.component.html',
+  templateUrl: 'pricing-definition-restrictions.component.html',
 })
 
 export class PricingDefinitionRestrictionsComponent implements OnInit, OnChanges {

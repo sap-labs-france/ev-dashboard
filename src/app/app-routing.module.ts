@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { TenantComponents } from 'types/Tenant';
 
 import { BrowserNotSupportedComponent } from './browser-not-supported/browser-not-supported.component';
-import { DevEnvGuard } from './guard/development.guard';
 import { AdminLayoutComponent } from './layouts/admin/admin-layout.component';
 import { AuthLayoutComponent } from './layouts/auth/auth-layout.component';
 import { ReleaseNotesComponent } from './release-notes/release-notes.component';
@@ -179,26 +178,6 @@ const routes: Routes = [
             { entity: Entity.SITE_AREA, action: Action.LIST },
           ],
           component: TenantComponents.ORGANIZATION,
-        },
-      },
-      {
-        path: 'template',
-        canLoad: [DevEnvGuard],
-        loadChildren: async () => import('./pages/template/template.module').then((m) => m.TemplateModule),
-        data: {
-          menu: {
-            title: 'template',
-            type: 'link',
-            icon: 'help',
-            path: '/template',
-          },
-          auth: {
-            entity: Entity.LOGGING,
-            action: Action.LIST,
-          },
-          options: {
-            onlyDev: true,
-          },
         },
       },
       {

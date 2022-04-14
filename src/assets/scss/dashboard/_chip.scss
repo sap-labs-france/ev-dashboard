@@ -1,0 +1,68 @@
+
+@mixin chip($color) {
+  color: $color !important;
+  opacity: 1 !important;
+  border: 2px solid $color !important;
+  background-color: transparent !important;
+  font-size: 0.9rem;
+  font-weight: bold;
+  width: 92%;
+  justify-content: center;
+}
+.mat-standard-chip {
+  min-width: 85px !important;;
+  margin: 0 !important;
+}
+
+.chip-width-13em {
+  max-width: 13em;
+}
+
+.chip-width-10em {
+  max-width: 10em;
+}
+
+.chip-width-8em {
+  max-width: 8em;
+}
+
+.chip-width-5em {
+  max-width: 5em;
+}
+
+.mat-chip-disabled {
+  opacity: 0;
+}
+
+.mat-chip-list-wrapper {
+  justify-content: center;
+  margin: -5px !important;
+}
+
+.chip-default {
+  @include chip($brand-default);
+}
+
+.chip-primary {
+  @include chip($brand-primary);
+}
+
+.chip-info {
+  @include chip($brand-info);
+}
+
+.chip-success {
+  @include chip($brand-success);
+}
+
+.chip-warning {
+  @include chip($brand-warning);
+}
+
+.chip-danger {
+  @include chip($brand-danger);
+}
+
+.chip-grey {
+  @include chip($brand-disabled);
+}

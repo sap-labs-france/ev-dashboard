@@ -11,6 +11,7 @@ import { PricingDefinitionsDialogComponent } from './pricing-definitions.dialog.
   selector: 'app-pricing-definitions',
   templateUrl: 'pricing-definitions.component.html',
   providers: [PricingDefinitionsTableDataSource],
+  styleUrls: ['pricing-definitions.component.scss']
 })
 export class PricingDefinitionsComponent implements OnInit {
   @Input() public inDialog!: boolean;

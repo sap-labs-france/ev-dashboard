@@ -615,6 +615,7 @@ export enum RESTServerRoute {
   REST_OCPI_ENDPOINT = 'ocpi/endpoints/:id',
   REST_OCPI_ENDPOINT_REGISTER = 'ocpi/endpoints/:id/register',
   REST_OCPI_ENDPOINT_UNREGISTER = 'ocpi/endpoints/:id/unregister',
+  REST_OCPI_ENDPOINT_CREDENTIALS = 'ocpi/endpoints/:id/credentials',
 
   REST_OICP_ENDPOINTS = 'oicp/endpoints',
   REST_OICP_ENDPOINT = 'oicp/endpoints/:id',

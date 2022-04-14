@@ -5,7 +5,7 @@ import { SettingsOicpEndpointsTableDataSource } from './settings-oicp-endpoints-
 
 @Component({
   selector: 'app-settings-oicp-endpoints',
-  templateUrl: './settings-oicp-endpoints.component.html',
+  templateUrl: 'settings-oicp-endpoints.component.html',
 })
 export class SettingsOicpEndpointsComponent {
   public isAdmin!: boolean;

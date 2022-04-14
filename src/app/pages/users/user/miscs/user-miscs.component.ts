@@ -4,7 +4,7 @@ import { User } from 'types/User';
 
 @Component({
   selector: 'app-user-miscs',
-  templateUrl: './user-miscs.component.html',
+  templateUrl: 'user-miscs.component.html',
 })
 // @Injectable()
 export class UserMiscsComponent implements OnInit, OnChanges {

@@ -23,6 +23,7 @@ import { SiteOcpiComponent } from './ocpi/site-ocpi.component';
 @Component({
   selector: 'app-site',
   templateUrl: 'site.component.html',
+  styleUrls: ['site.component.scss']
 })
 export class SiteComponent extends AbstractTabComponent implements OnInit {
   @Input() public currentSiteID!: string;

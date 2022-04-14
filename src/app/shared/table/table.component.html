@@ -180,7 +180,7 @@
         <tr>
           <!-- Select Header -->
           <th *ngIf="dataSource.tableDef.rowSelection && dataSource.tableDef.rowSelection.enabled"
-            class="text-left col-5em">
+            class="text-center col-3em p-0">
             <mat-checkbox (change)="$event ? toggleMasterSelect() : null"
               *ngIf="dataSource.tableDef.rowSelection.multiple" [disabled]="dataSource.totalNumberOfRecords <= 0"
               [checked]="dataSource.selectedRows > 0 && dataSource.selectedRows === dataSource.data.length"
@@ -215,7 +215,7 @@
             [id]="dataSource.tableDef.rowFieldNameIdentifier ? row[dataSource.tableDef.rowFieldNameIdentifier] : rowIndex">
             <!-- Select Cell -->
             <td *ngIf="dataSource.tableDef.rowSelection && dataSource.tableDef.rowSelection.enabled"
-              class="text-left col-5em col-select">
+              class="text-center col-3em col-select">
               <mat-checkbox (change)="toggleRowSelection(row, $event)" (click)="$event.stopPropagation()"
                 [checked]="row.isSelected" [disabled]="!row.isSelectable">
               </mat-checkbox>

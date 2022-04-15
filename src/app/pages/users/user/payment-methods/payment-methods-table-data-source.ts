@@ -157,9 +157,6 @@ export class PaymentMethodsTableDataSource extends TableDataSource<BillingPaymen
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-    if (this.activatedRoute.snapshot.url[0]?.path === 'profile') {
-      this.currentUserID = this.centralServerService.getLoggedUser().id;
-    }
     return [
       this.createAction,
       ...tableActionsDef

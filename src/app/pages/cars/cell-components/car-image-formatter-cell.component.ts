@@ -7,7 +7,8 @@ import { Car, CarCatalog } from '../../../types/Car';
   template: `
     <div class="logo-container">
       <img class="app-car-image"
-        [src]="row['carCatalog'] ? row['carCatalog']['image'] : row['image']" alt="">
+        [src]="row['carCatalog'] ? row['carCatalog']['image'] : row['image']" alt=""
+        onerror="this.src='/assets/img/theme/no-car.png';">
     </div>
   `,
   styleUrls: ['car-image-formatter-cell.component.scss']

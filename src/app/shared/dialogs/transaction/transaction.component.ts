@@ -30,7 +30,7 @@ export class TransactionComponent implements OnInit, OnDestroy {
 
   public transaction!: Transaction;
   public loggedUserImage = Constants.USER_NO_PICTURE;
-  public carImage = Constants.NO_CAR_IMAGE;
+  public carImage = Constants.NO_IMAGE;
   public isCarComponentActive = false;
   public isPricingComponentActive = false;
   public showPricingDetail = false;
@@ -104,7 +104,7 @@ export class TransactionComponent implements OnInit, OnDestroy {
         });
       }
       // Load Car's image
-      if (this.isCarComponentActive && this.carImage === Constants.NO_CAR_IMAGE && transaction?.carCatalogID) {
+      if (this.isCarComponentActive && this.carImage === Constants.NO_IMAGE && transaction?.carCatalogID) {
         this.centralServerService.getCarCatalogImages(transaction.carCatalogID, {},
           { limit: 1, skip: Constants.DEFAULT_SKIP }).subscribe((carImage) => {
           if (carImage.count > 0) {

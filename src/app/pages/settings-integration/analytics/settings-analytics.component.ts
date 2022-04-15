@@ -16,6 +16,7 @@ import { AnalyticsLinksTableDataSource } from './analytics-link/analytics-links-
 @Component({
   selector: 'app-settings-analytics',
   templateUrl: 'settings-analytics.component.html',
+  styleUrls: ['settings-analytics.component.scss']
 })
 export class SettingsAnalyticsComponent implements OnInit {
   public isActive = false;

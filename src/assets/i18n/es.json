@@ -1543,34 +1543,21 @@
       "update_success": "La configuración de costos se ha actualizado correctamente",
       "update_error": "Se produjo un error al actualizar la configuración de costos",
       "simple_pricing_title": "Built-in Pricing Module",
-      "full_description": [
-        "E-Mobility proporciona dos formas de calcular el costo de una sesión de un vehículo eléctrico.",
-        "Un precio fijo por kW.h para su infraestructura de carga.",
-        "Un sistema externo para calcular costos complejos llamado SAP Carga convergente (facturación de SAP Hybris).",
-        "Más información técnica disponible en:"
-      ],
+      "full_description": "Open E-Mobility provides a pricing module which allows a flexible definition of your company's pricing strategy.",
       "pricing_currency_changed_title": "Modification of the currency",
       "pricing_currency_changed_confirm": [
         "You are about to change the currency. This will force you to reconnect after saving.",
         "<strong> WARNING ! </strong>Once saved, the currency cannot be modified anymore!",
         "Do you confirm that the selected value is correct?"
       ],
-      "convergentcharging": {
-        "title": "SAP Convergent Charging",
-        "chargeable_item_name": "Nombre del artículo cobrable",
-        "url": "Url",
-        "user": "Usuario",
-        "password": "Contraseña"
-      },
       "settings": {
         "title": "Pricing Settings",
         "price": "Price (per kW.h)",
         "currency": "Moneda"
       },
-      "end_date_error": "Please provide a date after start date and time.",
+      "end_date_error": "The date must be greater than the valid-from date",
       "valid_from": "Valid From",
       "valid_to": "Valid To",
-      "valid_from_to": "Valid From ... To",
       "flat_fee": "Flat Fee",
       "energy": "Energy",
       "charging_time": "Charging Time",
@@ -1678,7 +1665,7 @@
       "billing_clear_test_data_confirm": "Do you really want to delete all billing test data?",
       "billing_clear_test_data_success": "The test data has been deleted",
       "billing_clear_test_data_error": "Operation failed. The test data deletion has been aborted",
-      "payment_methods": "Payment methods",
+      "payment_methods": "Métodos de pago",
       "user": {
         "force_synchronize_user_dialog_title": "Sincronizar usuario (Facturación)",
         "force_synchronize_user_dialog_confirm": "¿Está seguro de que desea sincronizar al usuario '{{userFullName}}' con el sistema de facturación?",

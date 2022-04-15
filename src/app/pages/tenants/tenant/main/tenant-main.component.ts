@@ -11,6 +11,7 @@ import { Constants } from '../../../../utils/Constants';
 @Component({
   selector: 'app-tenant-main',
   templateUrl: 'tenant-main.component.html',
+  styleUrls: ['../tenant.component.scss']
 })
 export class TenantMainComponent implements OnInit, OnChanges {
   @Input() public formGroup: FormGroup;

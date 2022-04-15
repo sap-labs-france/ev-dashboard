@@ -1544,34 +1544,21 @@
       "update_success": "As configurações de preços foram atualizadas com sucesso",
       "update_error": "Ocorreu um erro ao atualizar as configurações de preços",
       "simple_pricing_title": "Built-in Pricing Module",
-      "full_description": [
-        "O E-Mobility oferece duas maneiras de calcular o preço de uma sessão EV.",
-        "Um preço simples que permite configurar um preço fixo por kW.h para sua infraestrutura de carregamento.",
-        "Um sistema de preços externo avançado para planos de preços complexos chamado SAP Convergent Charging (SAP Hybris billing.)",
-        "Mais informações técnicas disponíveis em"
-      ],
+      "full_description": "Open E-Mobility provides a pricing module which allows a flexible definition of your company's pricing strategy.",
       "pricing_currency_changed_title": "Modification of the currency",
       "pricing_currency_changed_confirm": [
         "You are about to change the currency. This will force you to reconnect after saving.",
         "<strong>WARNING !</strong>Once saved, the currency cannot be modified anymore!",
         "Do you confirm that the selected value is correct?"
       ],
-      "convergentcharging": {
-        "title": "SAP Convergent Charging",
-        "chargeable_item_name": "Nome do item cobrável",
-        "url": "Url",
-        "user": "Utilizador",
-        "password": "Password"
-      },
       "settings": {
         "title": "Pricing Settings",
         "price": "Preço",
         "currency": "Moeda"
       },
-      "end_date_error": "Please provide a date after start date and time.",
+      "end_date_error": "The date must be greater than the valid-from date",
       "valid_from": "Valid From",
       "valid_to": "Valid To",
-      "valid_from_to": "Valid From ... To",
       "flat_fee": "Flat Fee",
       "energy": "Energy",
       "charging_time": "Charging Time",

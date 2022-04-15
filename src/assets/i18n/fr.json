@@ -1557,7 +1557,7 @@
         "price": "Prix (au kW.h)",
         "currency": "Devise"
       },
-      "end_date_error": "La date doit être supérieure à la date de début de valitité",
+      "end_date_error": "La date doit être supérieure à la date de début de validité",
       "valid_from": "Valide à partir de",
       "valid_to": "Valide jusqu'au",
       "flat_fee": "Frais fixe",

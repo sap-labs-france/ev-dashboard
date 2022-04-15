@@ -1544,12 +1544,7 @@
       "update_success": "Nastavení  ceny bylo úspěšně aktualizováno",
       "update_error": "Došlo k chybě při aktualizaci nastavení  ceny, zkontrolujte protokoly",
       "simple_pricing_title": "Built-in Pricing Module",
-      "full_description": [
-        "E-mobility poskytuje dva způsoby, jak vypočítat cenu relace EV.",
-        "Jednoduché stanovení ceny, které vám umožní nastavit pevnou cenu za kWh ve vaší nabíjecí infrastruktuře.",
-        "Externí pokročilý cenový systém určený pro složitější cenové plány nazvaný SAP Convergent Charging (SAP Hybris billing.)",
-        "Další technické informace naleznete na"
-      ],
+      "full_description": "Open E-Mobility provides a pricing module which allows a flexible definition of your company's pricing strategy.",
       "pricing_currency_changed_title": "Modification of the currency",
       "pricing_currency_changed_confirm": [
         "You are about to change the currency. This will force you to reconnect after saving.",
@@ -1564,7 +1559,6 @@
       "end_date_error": "The date must be greater than the valid-from date",
       "valid_from": "Valid From",
       "valid_to": "Valid To",
-      "valid_from_to": "Valid From ... To",
       "flat_fee": "Flat Fee",
       "energy": "Energy",
       "charging_time": "Charging Time",

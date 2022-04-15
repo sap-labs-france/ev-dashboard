@@ -1544,12 +1544,7 @@
       "update_success": "Preisbildungseinstellungen wurden erfolgreich aktuaqlisiert",
       "update_error": "Beim Aktualisieren der Preisbildungseinstellungen ist ein Fehler aufgetreten",
       "simple_pricing_title": "Built-in Pricing Module",
-      "full_description": [
-        "E-Mobility bietet zwei Wege den Preis für den Ladevorgang zu berechnen.",
-        "Einfache Preisbildung ermöglicht es einen festen Preis pro kW.h für Ihre Ladestationen festzulegen.",
-        "Ein externes erweitertes Preisfindungssystem für komplexere Preisbildungspläne ist SAP Convergent Charging (SAP Hybris Rechnungslegung.)",
-        "Weitere technische Informationen auf "
-      ],
+      "full_description": "Open E-Mobility provides a pricing module which allows a flexible definition of your company's pricing strategy.",
       "pricing_currency_changed_title": "Modification of the currency",
       "pricing_currency_changed_confirm": [
         "You are about to change the currency. This will force you to reconnect after saving.",
@@ -1564,7 +1559,6 @@
       "end_date_error": "The date must be greater than the valid-from date",
       "valid_from": "Gültig ab",
       "valid_to": "Gültig bis",
-      "valid_from_to": "Gültig von ... bis",
       "flat_fee": "Pauschalgebühr",
       "energy": "Energie",
       "charging_time": "Ladezeit",

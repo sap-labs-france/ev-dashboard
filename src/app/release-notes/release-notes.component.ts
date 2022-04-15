@@ -37,6 +37,7 @@ export class ReleaseNotesComponent {
               `Fixed CSS issues in pop-ups`,
               `Default Tenant's users can reset their passwords`,
               `Added RFID Card filter in Refund session list`,
+              `Added Authorization ID in Session and CDR for Gireve`,
               `Return HTTP 404 when image is not found`,
             ],
           },

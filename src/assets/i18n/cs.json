@@ -1556,19 +1556,12 @@
         "<strong> WARNING ! </strong>Once saved, the currency cannot be modified anymore!",
         "Do you confirm that the selected value is correct?"
       ],
-      "convergentcharging": {
-        "title": "Systém SAP Convergent Charging",
-        "chargeable_item_name": "Název zpoplatněné položky",
-        "url": "URL",
-        "user": "Uživatel",
-        "password": "Heslo"
-      },
       "settings": {
         "title": "Pricing Settings",
         "price": "Price (per kW.h)",
         "currency": "Měna"
       },
-      "end_date_error": "Please provide a date after start date and time.",
+      "end_date_error": "The date must be greater than the valid-from date",
       "valid_from": "Valid From",
       "valid_to": "Valid To",
       "valid_from_to": "Valid From ... To",

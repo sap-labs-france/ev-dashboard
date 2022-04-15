@@ -1557,19 +1557,12 @@
         "<strong> ATTENTION! </strong>Une fois sauvegardée, la monnaie ne sera plus modifiable !",
         "Confirmez-vous que la valeur sélectionnée est correcte ?"
       ],
-      "convergentcharging": {
-        "title": "SAP Convergent Charging",
-        "chargeable_item_name": "Nom du Chargeable Item",
-        "url": "Url",
-        "user": "Utilisateur",
-        "password": "Mot de passe"
-      },
       "settings": {
         "title": "Paramètres de tarification",
         "price": "Prix (au kW.h)",
         "currency": "Devise"
       },
-      "end_date_error": "Choisissez une date après la date et l'heure de départ",
+      "end_date_error": "La date doit être supérieure à la date de début de valitité",
       "valid_from": "Valide à partir de",
       "valid_to": "Valide jusqu'au",
       "valid_from_to": "Valide du ... au",

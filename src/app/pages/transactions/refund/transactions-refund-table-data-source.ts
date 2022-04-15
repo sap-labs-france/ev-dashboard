@@ -1,12 +1,15 @@
 import { Injectable } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import * as moment from 'moment';
 import { Observable } from 'rxjs';
+import { TransactionDialogComponent } from 'shared/dialogs/transaction/transaction-dialog.component';
+import { TableViewTransactionAction, TableViewTransactionActionDef, TransactionDialogData } from 'shared/table/actions/transactions/table-view-transaction-action';
 import { ConnectorTableFilter } from 'shared/table/filters/connector-table-filter';
 import { DateRangeTableFilter } from 'shared/table/filters/date-range-table-filter';
 import { IssuerFilter } from 'shared/table/filters/issuer-filter';
 import { SiteTableFilter } from 'shared/table/filters/site-table-filter';
+import { TagTableFilter } from 'shared/table/filters/tag-table-filter';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -54,6 +57,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
   private exportTransactionsAction = new TableExportTransactionsAction().getActionDef();
   private refundTransactionsAction = new TableRefundTransactionsAction().getActionDef();
   private openURLRefundAction = new TableOpenURLRefundAction().getActionDef();
+  private viewAction = new TableViewTransactionAction().getActionDef();
 
   public constructor(
     public spinnerService: SpinnerService,
@@ -61,6 +65,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
     private messageService: MessageService,
     private dialogService: DialogService,
     private router: Router,
+    private dialog: MatDialog,
     private centralServerService: CentralServerService,
     private componentService: ComponentService,
     private authorizationService: AuthorizationService,
@@ -281,6 +286,9 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
         filters.push(userFilter);
       }
     }
+    if ((this.authorizationService.canListTags())) {
+      filters.push(new TagTableFilter([issuerFilter]).getFilterDef());
+    }
     filters.push(new ReportTableFilter().getFilterDef());
     return filters;
   }
@@ -346,6 +354,24 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
       new TableAutoRefreshAction(false).getActionDef(),
       new TableRefreshAction().getActionDef(),
     ];
+  }
+
+  public buildTableRowActions(): TableActionDef[] {
+    return [
+      this.viewAction
+    ];
+  }
+
+  public rowActionTriggered(actionDef: TableActionDef, transaction: Transaction) {
+    switch (actionDef.id) {
+      case TransactionButtonAction.VIEW_TRANSACTION:
+        if (actionDef.action) {
+          (actionDef as TableViewTransactionActionDef).action(TransactionDialogComponent, this.dialog,
+            { dialogData: { transactionID: transaction.id } as TransactionDialogData },
+            this.refreshData.bind(this));
+        }
+        break;
+    }
   }
 
   public isSelectable(row: Transaction) {

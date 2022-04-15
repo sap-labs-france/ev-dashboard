@@ -20,6 +20,7 @@ import { AssetMainComponent } from './main/asset-main.component';
 @Component({
   selector: 'app-asset',
   templateUrl: 'asset.component.html',
+  styleUrls: ['asset.component.scss']
 })
 export class AssetComponent extends AbstractTabComponent implements OnInit {
   @Input() public currentAssetID!: string;

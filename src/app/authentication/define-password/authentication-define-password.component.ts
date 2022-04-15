@@ -17,7 +17,7 @@ import { Utils } from '../../utils/Utils';
 
 @Component({
   selector: 'app-authentication-define-password',
-  templateUrl: './authentication-define-password.component.html',
+  templateUrl: 'authentication-define-password.component.html',
 })
 
 export class AuthenticationDefinePasswordComponent implements OnInit, OnDestroy {

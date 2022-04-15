@@ -11,7 +11,8 @@ import { Utils } from '../../../utils/Utils';
 
 @Component({
   selector: 'app-car-catalog',
-  templateUrl: 'car-catalog.component.html'
+  templateUrl: 'car-catalog.component.html',
+  styleUrls: ['car-catalog.component.scss']
 })
 export class CarCatalogComponent implements OnInit {
   @Input() public currentCarCatalogID!: number;

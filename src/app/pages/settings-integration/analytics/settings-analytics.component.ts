@@ -16,6 +16,7 @@ import { AnalyticsLinksTableDataSource } from './analytics-link/analytics-links-
 @Component({
   selector: 'app-settings-analytics',
   templateUrl: 'settings-analytics.component.html',
+  styleUrls: ['settings-analytics.component.scss']
 })
 export class SettingsAnalyticsComponent implements OnInit {
   public isActive = false;
@@ -49,7 +50,6 @@ export class SettingsAnalyticsComponent implements OnInit {
     this.spinnerService.show();
     this.componentService.getSacSettings().subscribe((settings) => {
       this.spinnerService.hide();
-      // Keep
       this.analyticsSettings = settings;
       // Set Links
       this.analyticsLinksTableDataSource.setLinks(settings.links);
@@ -104,7 +104,6 @@ export class SettingsAnalyticsComponent implements OnInit {
   }
 
   public refresh() {
-    // Load Setting
     this.loadConfiguration();
   }
 }

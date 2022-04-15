@@ -11,7 +11,8 @@ import { Constants } from '../../../../utils/Constants';
 import { Utils } from '../../../../utils/Utils';
 
 @Component({
-  templateUrl: './analytics-link-dialog.component.html',
+  templateUrl: 'analytics-link-dialog.component.html',
+  styleUrls: ['analytics-link-dialog.component.scss']
 })
 export class AnalyticsLinkDialogComponent implements OnInit {
   public formGroup!: FormGroup;
@@ -26,7 +27,7 @@ export class AnalyticsLinkDialogComponent implements OnInit {
   public submitButtonType!: any;
 
   public constructor(
-    protected dialogRef: MatDialogRef<AnalyticsLinkDialogComponent>,
+    public dialogRef: MatDialogRef<AnalyticsLinkDialogComponent>,
     private translateService: TranslateService,
     private dialogService: DialogService,
     private appUserMultipleRolesPipe: AppUserMultipleRolesPipe,

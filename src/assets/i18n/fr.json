@@ -674,6 +674,7 @@
   },
   "chargers": {
     "chargers": "Bornes",
+    "token": "Jeton",
     "user": "Utilisateur",
     "charger_not_found": "La borne n'a pas été trouvée",
     "vendor": "Vendeur",
@@ -1549,34 +1550,21 @@
       "update_success": "La configuration de la tarification a été mise à jour avec succès",
       "update_error": "Une erreur est survenue durant la mise à jour de la configuration de tarification, vérifiez les logs",
       "simple_pricing_title": "Built-in Pricing Module",
-      "full_description": [
-        "E-Mobility founit deux moyens de calculer le prix d'une session d'un véhicule electrique.",
-        "Un prix fixe par kW.h pour votre infrastructure de recharge.",
-        "Un sytème externe pour le calcul de prix complèxes appelé SAP Convergent Charging (SAP Hybris Billing).",
-        "Plus d'informations techniques disponibilite sur "
-      ],
+      "full_description": "Open E-Mobility fournit un module de tarification permettant de définir de manière flexique la stratégie tarifaire de votre entreprise.",
       "pricing_currency_changed_title": "Modification de la monnaie",
       "pricing_currency_changed_confirm": [
         "Vous êtes sur le point de changer de monnaie. La sauvegarde va provoquer une déconnexion de votre utilisateur.",
         "<strong> ATTENTION! </strong>Une fois sauvegardée, la monnaie ne sera plus modifiable !",
         "Confirmez-vous que la valeur sélectionnée est correcte ?"
       ],
-      "convergentcharging": {
-        "title": "SAP Convergent Charging",
-        "chargeable_item_name": "Nom du Chargeable Item",
-        "url": "Url",
-        "user": "Utilisateur",
-        "password": "Mot de passe"
-      },
       "settings": {
         "title": "Paramètres de tarification",
         "price": "Prix (au kW.h)",
         "currency": "Devise"
       },
-      "end_date_error": "Choisissez une date après la date et l'heure de départ",
+      "end_date_error": "La date doit être supérieure à la date de début de validité",
       "valid_from": "Valide à partir de",
       "valid_to": "Valide jusqu'au",
-      "valid_from_to": "Valide du ... au",
       "flat_fee": "Frais fixe",
       "energy": "Energie",
       "charging_time": "Temps de charge",
@@ -1891,6 +1879,10 @@
     "unregister_success": "L'IOP '{{name}}' a été désenregistré avec succès",
     "register_error": "Une erreur est survenue pendant la procédure d'enregistrement avec l'IOP, vérifiez les logs",
     "unregister_error": "Une erreur est survenue pendant la procédure de désenregistrement avec l'IOP, vérifiez les logs",
+    "update_credentials_title": "Mettre a jour la connexion IOP",
+    "update_credentials_confirm": "Voulez-vous vraiment mettre a jour les informations de connexion dans l'IOP '{{name}}'?",
+    "update_credentials_success": "Les informations de connexion ont été mise à jour avec succès dans IOP '{{name}}'",
+    "update_credentials_error": "Une erreur est survenue pendant la mise a jour des informations de connexion avec l'IOP, vérifiez les logs",
     "push_evse_statuses_title": "Envoi des statuts des EVSEs",
     "push_tokens_title": "Envoi des jetons des utilisateurs",
     "push_evse_statuses_confirm": "Voulez-vous vraiment envoyer le statut de tous les EVSEs à l'IOP '{{name}}'?",
@@ -1977,6 +1969,7 @@
     "check_locations": "Vérifier les Sites",
     "check_sessions": "Vérifier les Sessions",
     "check_cdrs": "Vérifier les CDRs",
+    "update_credentials": "Mise à jour Connexion",
     "businessdetails": {
       "name": "Nom de l'operateur",
       "website": "Site web de l'operateur",

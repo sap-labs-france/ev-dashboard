@@ -1,12 +1,10 @@
 <form class="form" [formGroup]="formGroup">
-  <div class="row w-100 align-items-center">
-    <div class="col-md-12 col-xl-5 d-block m-auto">
-      <div class="rotating-card-container" [ngStyle]="{ 'pointer-events': 'none' }">
-        <div class="card card-rotate card-background mt-0 mb-0">
-          <div class="front front-background" [ngStyle]="{'background-image': selectedCarCatalog && carCatalogImage ? 'url(' + carCatalogImage + ')' : 'url(' + noImage + ')', 'background-size': 'contain', 'background-repeat': 'no-repeat'}">
-            <div class="card-body"></div>
-          </div>
-        </div>
+  <div class="row w-100">
+    <div class="col-md-12 col-xl-5 d-block">
+      <div class="card card-background mt-0 mb-0">
+        <img class="front front-background" alt=""
+          [ngStyle]="{'background-size' : 'contain', 'background-repeat': 'no-repeat'}"
+          [src]="carCatalogImage" onerror="this.src='/assets/img/theme/no-image.png';">
       </div>
     </div>
     <div class="col-md-12 col-xl-7">
@@ -34,7 +32,7 @@
       </div>
       <div class="form-group">
         <mat-form-field>
-          <input appAutofocus matInput placeholder="{{ 'cars.vin' | translate }}" class="app-car-name" type="text" [formControl]="vin" required />
+          <input appAutofocus matInput placeholder="{{ 'cars.vin' | translate }}" type="text" [formControl]="vin" required />
           <mat-error *ngIf="vin.errors?.required"> {{ "general.mandatory_field" | translate }}
           </mat-error>
           <mat-error *ngIf="vin.errors?.invalidVIN">{{ "cars.invalid_vin" | translate }}</mat-error>
@@ -42,7 +40,7 @@
       </div>
       <div class="form-group">
         <mat-form-field>
-          <input appAutofocus matInput placeholder="{{ 'cars.license_plate' | translate }}" class="app-car-name" type="text" [formControl]="licensePlate" required />
+          <input appAutofocus matInput placeholder="{{ 'cars.license_plate' | translate }}" type="text" [formControl]="licensePlate" required />
           <mat-error *ngIf="licensePlate.errors?.required">
             {{ "general.mandatory_field" | translate }}
           </mat-error>
@@ -73,7 +71,7 @@
       <div class="form-group">
         <div class="text-left">
           <mat-radio-group [formControl]="type">
-            <div *ngFor="let type of carTypes">
+            <div *ngFor="let type of carTypes" class="mt-1">
               <mat-radio-button value="{{ type.key }}">
                 {{type.value | translate}}
               </mat-radio-button>

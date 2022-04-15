@@ -12,7 +12,8 @@ interface ComponentChange {
 }
 
 @Component({
-  templateUrl: './release-notes.component.html',
+  templateUrl: 'release-notes.component.html',
+  styleUrls: ['release-notes.component.scss']
 })
 export class ReleaseNotesComponent {
   public releaseNotes: ReleaseNotes[] = [];
@@ -22,6 +23,26 @@ export class ReleaseNotesComponent {
   }
   public buildReleaseNotes() {
     this.releaseNotes = [
+      {
+        version: '2.6.5',
+        date: new Date('2022-04-15'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added update of OCPI Credentials`,
+              `Use Session optimized consumptions to send OCPI Session/CDR`,
+              `Fixed OCPI CPO Services call return eMSP ones`,
+              `Added Mobile phone in register user`,
+              `Fixed CSS issues in pop-ups`,
+              `Default Tenant's users can reset their passwords`,
+              `Added RFID Card filter in Refund session list`,
+              `Added Authorization ID in Session and CDR for Gireve`,
+              `Return HTTP 404 when image is not found`,
+            ],
+          },
+        ],
+      },
       {
         version: '2.6.4',
         date: new Date('2022-04-08'),

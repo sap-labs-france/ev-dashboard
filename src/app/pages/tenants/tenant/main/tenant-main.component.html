@@ -1,8 +1,8 @@
 <form class="form" [formGroup]="formGroup">
   <div class="row">
-    <div class="col-md-3 my-auto mb-2">
+    <div class="col-md-3 my-auto">
       <div class="rotating-card-container img-fluid" [ngStyle]="{ 'pointer-events': 'all' }">
-        <div class="card card-rotate card-background app-tenant-image m-0">
+        <div class="card card-rotate card-background app-small-image m-0">
           <div class="front front-background" [ngStyle]="{'background-image': 'url(' + logo + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
             <div class="card-body">
             </div>
@@ -48,18 +48,18 @@
           <mat-error *ngIf="subdomain.errors?.pattern">{{"tenants.error_subdomain" | translate}}</mat-error>
         </mat-form-field>
       </div>
-    </div>
-    <div class="form-group col-md-12">
-      <mat-form-field>
-        <input [formControl]="email" matInput placeholder="{{'tenants.email' | translate}}" required type="text">
-        <mat-error *ngIf="email.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
-        <mat-error *ngIf="email.errors?.email">{{"authentication.invalid_email" | translate}}</mat-error>
-      </mat-form-field>
-    </div>
-    <div class="row">
-      <div class="col-md-12">
-        <app-address [address]="address" [formGroup]="formGroup" componentName="{{'tenants.title' | translate}}" [itemComponentName]="name.value"></app-address>
+      <div class="form-group col-md-12">
+        <mat-form-field>
+          <input [formControl]="email" matInput placeholder="{{'tenants.email' | translate}}" required type="text">
+          <mat-error *ngIf="email.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+          <mat-error *ngIf="email.errors?.email">{{"authentication.invalid_email" | translate}}</mat-error>
+        </mat-form-field>
       </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <app-address [address]="address" [formGroup]="formGroup" componentName="{{'tenants.title' | translate}}" [itemComponentName]="name.value"></app-address>
     </div>
   </div>
 </form>

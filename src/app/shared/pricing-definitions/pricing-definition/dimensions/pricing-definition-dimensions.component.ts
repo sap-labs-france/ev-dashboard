@@ -8,7 +8,7 @@ import { PricingHelpers } from '../../../../utils/PricingHelpers';
 
 @Component({
   selector: 'app-pricing-definition-dimensions',
-  templateUrl: './pricing-definition-dimensions.component.html',
+  templateUrl: 'pricing-definition-dimensions.component.html',
 })
 
 export class PricingDefinitionDimensionsComponent implements OnInit, OnChanges {

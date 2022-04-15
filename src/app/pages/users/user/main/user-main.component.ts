@@ -17,7 +17,7 @@ import { TenantComponents } from '../../../../types/Tenant';
 
 @Component({
   selector: 'app-user-main',
-  templateUrl: './user-main.component.html',
+  templateUrl: 'user-main.component.html',
 })
 // @Injectable()
 export class UserMainComponent implements OnInit, OnChanges {

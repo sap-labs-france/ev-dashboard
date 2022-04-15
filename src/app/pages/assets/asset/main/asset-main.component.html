@@ -2,7 +2,7 @@
   <div class="row h-xl-100">
     <div class="col-md-12 col-xl-5 h-xl-100">
       <div class="rotating-card-container h-100" [ngStyle]="{ 'pointer-events': !readOnly ? 'all' : 'none'}">
-        <div class="card card-rotate card-background app-asset-image-padding mt-0">
+        <div class="card card-rotate card-background mt-0">
           <div class="front front-background"
             [ngStyle]="{'background-image': 'url(' + image + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
             <div class="card-body mat-tab-dialog-body-content">
@@ -11,9 +11,6 @@
           <div class="back back-background"
             [ngStyle]="{'background-image': 'url(' + image + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
             <div *ngIf="!readOnly" class="card-body">
-              <h5 class="card-title">
-                {{'general.change_picture' | translate}}
-              </h5>
               <div class="footer text-center">
                 <button mat-flat-button color="primary" class="me-2">
                   <mat-icon (click)="file.click()">mode_edit</mat-icon>

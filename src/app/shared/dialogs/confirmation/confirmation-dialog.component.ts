@@ -6,7 +6,7 @@ import { ButtonType, DialogType } from '../../../types/Table';
 import { Utils } from '../../../utils/Utils';
 
 @Component({
-  templateUrl: './confirmation-dialog.component.html',
+  templateUrl: 'confirmation-dialog.component.html',
 })
 export class ConfirmationDialogComponent implements AfterViewInit {
   public title = '';

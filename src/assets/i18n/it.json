@@ -674,6 +674,7 @@
   },
   "chargers": {
     "chargers": "Stazioni di Ricarica",
+    "token": "Token",
     "user": "Utente",
     "charger_not_found": "La stazione di ricarica non è stata trovata",
     "vendor": "Fornitore",
@@ -1548,34 +1549,21 @@
       "update_success": "Le impostazioni di Pricing sono state aggiornate correttamente",
       "update_error": "Si è verificato un errore durante l'aggiornamento delle impostazioni di Pricing",
       "simple_pricing_title": "Built-in Pricing Module",
-      "full_description": [
-        "E-Mobility fornisce due modalità di calcolo del prezzo di una sessione EV.",
-        "Un princing semplificato che permette l'impostazione di un prezzo fisso per kW.h nella tua infrastruttura di ricarica.",
-        "Un sistema esterno di pricing avanzato per piani di pricing complessi chiamato SAP Convergent Charging (fatturazione SAP Hybris.)",
-        "Ulteriori informazioni tecniche disponibili all'indirizzo"
-      ],
+      "full_description": "Open E-Mobility provides a pricing module which allows a flexible definition of your company's pricing strategy.",
       "pricing_currency_changed_title": "Modification of the currency",
       "pricing_currency_changed_confirm": [
         "You are about to change the currency. This will force you to reconnect after saving.",
         "<strong> WARNING ! </strong>Once saved, the currency cannot be modified anymore!",
         "Do you confirm that the selected value is correct?"
       ],
-      "convergentcharging": {
-        "title": "SAP Convergent Charging",
-        "chargeable_item_name": "Nome Item Ricaricabile",
-        "url": "Url",
-        "user": "Utente",
-        "password": "Password"
-      },
       "settings": {
         "title": "Pricing Settings",
         "price": "Prezzo",
         "currency": "Valuta"
       },
-      "end_date_error": "Please provide a date after start date and time.",
+      "end_date_error": "The date must be greater than the valid-from date",
       "valid_from": "Valid From",
       "valid_to": "Valid To",
-      "valid_from_to": "Valid From ... To",
       "flat_fee": "Flat Fee",
       "energy": "Energy",
       "charging_time": "Charging Time",
@@ -1683,7 +1671,7 @@
       "billing_clear_test_data_confirm": "Do you really want to delete all billing test data?",
       "billing_clear_test_data_success": "The test data has been deleted",
       "billing_clear_test_data_error": "Operation failed. The test data deletion has been aborted",
-      "payment_methods": "Payment methods",
+      "payment_methods": "Metodi di pagamento",
       "user": {
         "force_synchronize_user_dialog_title": "Sincronizza Utente Fatturazione",
         "force_synchronize_user_dialog_confirm": "Vuoi veramente sincronizzare  l'utente '{{userFullName}}' nel sistema di fatturazione?",
@@ -1890,6 +1878,10 @@
     "unregister_success": "La registrazione dell'IOP '{{name}}' è stata annullata con successo",
     "register_error": "Si è verificato un errore durante la registrazione dell'IOP",
     "unregister_error": "Si è verificato un errore durante l'annullamento della registrazione dell'IOP",
+    "update_credentials_title": "Update Credentials IOP",
+    "update_credentials_confirm": "Do you want to update the credentials in the IOP '{{name}}'?",
+    "update_credentials_success": "The credentials have been updated successfully in the IOP '{{name}}'",
+    "update_credentials_error": "Error occurred while updating the credentials with the IOP, check the logs",
     "push_evse_statuses_title": "Invia Stati EVSE",
     "push_tokens_title": "Invia Toke Utente",
     "push_evse_statuses_confirm": "Vuoi veramente inviare tutti gli stati EVSE all'IOP '{{name}}'?",
@@ -1976,6 +1968,7 @@
     "check_locations": "Controllo Postazioni",
     "check_sessions": "Controllo Sessioni",
     "check_cdrs": "Controllo Rendiconti Sessioni Ricarica (CDR)",
+    "update_credentials": "Update Credentials",
     "businessdetails": {
       "name": "Nome dell'operatore",
       "website": "Link al sito dell'operatore",

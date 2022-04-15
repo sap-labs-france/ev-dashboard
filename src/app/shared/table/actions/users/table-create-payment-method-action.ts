@@ -17,6 +17,9 @@ export class TableCreatePaymentMethodAction extends TableCreateAction {
   public getActionDef(): TableCreatePaymentMethodActionDef {
     return {
       ...super.getActionDef(),
+      icon: 'add',
+      name: 'general.add',
+      tooltip: 'general.tooltips.add',
       id: BillingButtonAction.CREATE_PAYMENT_METHOD,
       action: this.createPaymentMethod,
     };

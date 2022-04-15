@@ -10,7 +10,8 @@ import { AssetConnectionDialogComponent } from './asset-connection.dialog.compon
 
 @Component({
   selector: 'app-settings-asset-connection',
-  templateUrl: './asset-connection.component.html'
+  templateUrl: 'asset-connection.component.html',
+  styleUrls: ['asset-connection.component.scss']
 })
 export class AssetConnectionComponent implements OnInit {
   @Input() public currentAssetConnection!: AssetConnectionSetting;
@@ -77,7 +78,6 @@ export class AssetConnectionComponent implements OnInit {
     this.type = this.formGroup.controls['type'];
     this.url = this.formGroup.controls['url'];
     this.refreshIntervalMins = this.formGroup.controls['refreshIntervalMins'];
-    // Load current values if connection already exists
     this.loadAssetConnection();
     // Get Create/Update button translation
     this.submitButtonTranslation = this.getSubmitButtonTranslation();
@@ -85,22 +85,22 @@ export class AssetConnectionComponent implements OnInit {
 
   public loadAssetConnection(): void {
     if (this.currentAssetConnection) {
-      this.formGroup.controls.id.setValue(this.currentAssetConnection.id);
+      this.id.setValue(this.currentAssetConnection.id);
       if (this.currentAssetConnection.name) {
-        this.formGroup.controls.name.setValue(this.currentAssetConnection.name);
+        this.name.setValue(this.currentAssetConnection.name);
       }
       if (this.currentAssetConnection.description) {
-        this.formGroup.controls.description.setValue(this.currentAssetConnection.description);
+        this.description.setValue(this.currentAssetConnection.description);
       }
       if (this.currentAssetConnection.type) {
-        this.formGroup.controls.type.setValue(this.currentAssetConnection.type);
+        this.type.setValue(this.currentAssetConnection.type);
         this.loadConnectionType();
       }
       if (this.currentAssetConnection.url) {
-        this.formGroup.controls.url.setValue(this.currentAssetConnection.url);
+        this.url.setValue(this.currentAssetConnection.url);
       }
       if (this.currentAssetConnection.refreshIntervalMins) {
-        this.formGroup.controls.refreshIntervalMins.setValue(this.currentAssetConnection.refreshIntervalMins);
+        this.refreshIntervalMins.setValue(this.currentAssetConnection.refreshIntervalMins);
       }
     }
   }
@@ -149,20 +149,20 @@ export class AssetConnectionComponent implements OnInit {
   }
 
   public typeChanged(type: AssetConnectionType) {
-    if (this.formGroup.controls.greencomConnection && type !== AssetConnectionType.GREENCOM) {
-      delete this.formGroup.controls.greencomConnection;
+    if (this.greencomConnection && type !== AssetConnectionType.GREENCOM) {
+      delete this.greencomConnection;
     }
-    if (this.formGroup.controls.schneiderConnection && type !== AssetConnectionType.SCHNEIDER) {
-      delete this.formGroup.controls.schneiderConnection;
+    if (this.schneiderConnection && type !== AssetConnectionType.SCHNEIDER) {
+      delete this.schneiderConnection;
     }
-    if (this.formGroup.controls.iothinkConnection && type !== AssetConnectionType.IOTHINK) {
-      delete this.formGroup.controls.iothinkConnection;
+    if (this.iothinkConnection && type !== AssetConnectionType.IOTHINK) {
+      delete this.iothinkConnection;
     }
-    if (this.formGroup.controls.witConnection && type !== AssetConnectionType.WIT) {
-      delete this.formGroup.controls.witConnection;
+    if (this.witConnection && type !== AssetConnectionType.WIT) {
+      delete this.witConnection;
     }
-    if (this.formGroup.controls.lacroixConnection && type !== AssetConnectionType.LACROIX) {
-      delete this.formGroup.controls.lacroixConnection;
+    if (this.lacroixConnection && type !== AssetConnectionType.LACROIX) {
+      delete this.lacroixConnection;
     }
   }
 }

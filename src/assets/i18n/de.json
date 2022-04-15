@@ -674,6 +674,7 @@
   },
   "chargers": {
     "chargers": "Ladestationen",
+    "token": "Token",
     "user": "Nutzer",
     "charger_not_found": "Die Ladestation wurde nicht gefunden",
     "vendor": "Hersteller",
@@ -1548,34 +1549,21 @@
       "update_success": "Preisbildungseinstellungen wurden erfolgreich aktuaqlisiert",
       "update_error": "Beim Aktualisieren der Preisbildungseinstellungen ist ein Fehler aufgetreten",
       "simple_pricing_title": "Built-in Pricing Module",
-      "full_description": [
-        "E-Mobility bietet zwei Wege den Preis für den Ladevorgang zu berechnen.",
-        "Einfache Preisbildung ermöglicht es einen festen Preis pro kW.h für Ihre Ladestationen festzulegen.",
-        "Ein externes erweitertes Preisfindungssystem für komplexere Preisbildungspläne ist SAP Convergent Charging (SAP Hybris Rechnungslegung.)",
-        "Weitere technische Informationen auf "
-      ],
+      "full_description": "Open E-Mobility provides a pricing module which allows a flexible definition of your company's pricing strategy.",
       "pricing_currency_changed_title": "Modification of the currency",
       "pricing_currency_changed_confirm": [
         "You are about to change the currency. This will force you to reconnect after saving.",
         "<strong> WARNING ! </strong>Once saved, the currency cannot be modified anymore!",
         "Do you confirm that the selected value is correct?"
       ],
-      "convergentcharging": {
-        "title": "SAP Convergent Charging",
-        "chargeable_item_name": "Name der gebührenpflichtigen Einheit",
-        "url": "Url",
-        "user": "Nutzer",
-        "password": "Passwort"
-      },
       "settings": {
         "title": "Preiseinstellungen",
         "price": "Preis (pro kW.h)",
         "currency": "Währung"
       },
-      "end_date_error": "Bitte wählen Sie ein Datum nach dem Startzeitpunkt.",
+      "end_date_error": "The date must be greater than the valid-from date",
       "valid_from": "Gültig ab",
       "valid_to": "Gültig bis",
-      "valid_from_to": "Gültig von ... bis",
       "flat_fee": "Pauschalgebühr",
       "energy": "Energie",
       "charging_time": "Ladezeit",
@@ -1890,6 +1878,10 @@
     "unregister_success": "Der IOP '{{name}}' wurde erfolgreich abgemeldet",
     "register_error": "Beim Registrieren des IOP ist ein Fehler aufgetreten",
     "unregister_error": "Beim Abmelden des IOP ist ein Fehler aufgetreten",
+    "update_credentials_title": "Update Credentials IOP",
+    "update_credentials_confirm": "Do you want to update the credentials in the IOP '{{name}}'?",
+    "update_credentials_success": "The credentials have been updated successfully in the IOP '{{name}}'",
+    "update_credentials_error": "Error occurred while updating the credentials with the IOP, check the logs",
     "push_evse_statuses_title": "EVSE Status senden",
     "push_tokens_title": "Nutzer-Token senden",
     "push_evse_statuses_confirm": "Wollen Sie wirklich alle EVSE-Status zu IOP '{{name}}' senden?",
@@ -1976,6 +1968,7 @@
     "check_locations": "Standorte überprüfen",
     "check_sessions": "Ladevorgänge überprüfen",
     "check_cdrs": "CDRs überprüfen",
+    "update_credentials": "Update Credentials",
     "businessdetails": {
       "name": "Name des Betreibers",
       "website": "Link zur Betreiber-Website",

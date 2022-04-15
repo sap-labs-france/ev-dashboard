@@ -11,9 +11,6 @@
           <div class="back back-background"
             [ngStyle]="{'background-image': 'url(' + image + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
             <div *ngIf="!readOnly" class="card-body">
-              <h5 class="card-title">
-                {{'general.change_picture' | translate}}
-              </h5>
               <div class="footer text-center">
                 <button mat-flat-button color="primary" class="me-2">
                   <mat-icon (click)="file.click()">mode_edit</mat-icon>
@@ -34,8 +31,7 @@
     <div class="col-md-7">
       <div class="form-group">
         <mat-form-field>
-          <input appAutofocus matInput placeholder="{{'site_areas.name' | translate}}" class="app-organization-name"
-            type="text" [formControl]="name" required>
+          <input appAutofocus matInput placeholder="{{'site_areas.name' | translate}}" type="text" [formControl]="name" required>
           <mat-error *ngIf="name.errors?.required">
             {{"general.mandatory_field" | translate}}
           </mat-error>

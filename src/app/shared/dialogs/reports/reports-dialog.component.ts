@@ -9,6 +9,7 @@ import { ReportsDialogTableDataSource } from './reports-dialog-table-data-source
 
 @Component({
   templateUrl: '../dialog-table-data.component.html',
+  styleUrls: ['../dialog-table-data.component.scss']
 })
 export class ReportsDialogComponent extends DialogTableDataComponent<RefundReport> {
   public constructor(

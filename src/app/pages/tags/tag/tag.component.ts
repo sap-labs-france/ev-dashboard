@@ -19,7 +19,8 @@ import { Utils } from '../../../utils/Utils';
 
 @Component({
   selector: 'app-tag',
-  templateUrl: 'tag.component.html'
+  templateUrl: 'tag.component.html',
+  styleUrls: ['tag.component.scss']
 })
 export class TagComponent extends AbstractTabComponent implements OnInit {
   @Input() public currentTagID!: string;

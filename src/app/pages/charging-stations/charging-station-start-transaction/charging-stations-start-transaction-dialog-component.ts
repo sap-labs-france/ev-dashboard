@@ -20,7 +20,7 @@ import { User, UserDefaultTagCar, UserToken } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';
 
 @Component({
-  templateUrl: './charging-stations-start-transaction-dialog-component.html',
+  templateUrl: 'charging-stations-start-transaction-dialog-component.html',
 })
 export class ChargingStationsStartTransactionDialogComponent implements OnInit {
   public title = '';

@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { StatusCodes } from 'http-status-codes';
@@ -16,7 +16,8 @@ import { Utils } from '../../../../../utils/Utils';
 
 @Component({
   selector: 'app-ocpi-endpoint',
-  templateUrl: './settings-ocpi-endpoint.component.html',
+  templateUrl: 'settings-ocpi-endpoint.component.html',
+  styleUrls: ['settings-ocpi-endpoint.component.scss']
 })
 export class SettingsOcpiEndpointComponent implements OnInit {
   @Input() public currentEndpoint!: OcpiEndpoint;
@@ -38,7 +39,6 @@ export class SettingsOcpiEndpointComponent implements OnInit {
     private centralServerService: CentralServerService,
     private messageService: MessageService,
     private spinnerService: SpinnerService,
-    private dialog: MatDialog,
     private dialogService: DialogService,
     private translateService: TranslateService,
     private router: Router) {
@@ -100,31 +100,31 @@ export class SettingsOcpiEndpointComponent implements OnInit {
       return;
     }
     if (this.currentEndpoint.id) {
-      this.formGroup.controls.id.setValue(this.currentEndpoint.id);
+      this.id.setValue(this.currentEndpoint.id);
     }
     if (this.currentEndpoint.name) {
-      this.formGroup.controls.name.setValue(this.currentEndpoint.name);
+      this.name.setValue(this.currentEndpoint.name);
     }
     if (this.currentEndpoint.role) {
-      this.formGroup.controls.role.setValue(this.currentEndpoint.role);
+      this.role.setValue(this.currentEndpoint.role);
     }
     if (this.currentEndpoint.baseUrl) {
-      this.formGroup.controls.baseUrl.setValue(this.currentEndpoint.baseUrl);
+      this.baseUrl.setValue(this.currentEndpoint.baseUrl);
     }
     if (this.currentEndpoint.countryCode) {
-      this.formGroup.controls.countryCode.setValue(this.currentEndpoint.countryCode);
+      this.countryCode.setValue(this.currentEndpoint.countryCode);
     }
     if (this.currentEndpoint.partyId) {
-      this.formGroup.controls.partyId.setValue(this.currentEndpoint.partyId);
+      this.partyId.setValue(this.currentEndpoint.partyId);
     }
     if (this.currentEndpoint.localToken) {
-      this.formGroup.controls.localToken.setValue(this.currentEndpoint.localToken);
+      this.localToken.setValue(this.currentEndpoint.localToken);
     }
     if (this.currentEndpoint.token) {
-      this.formGroup.controls.token.setValue(this.currentEndpoint.token);
+      this.token.setValue(this.currentEndpoint.token);
     }
     if (Utils.objectHasProperty(this.currentEndpoint, 'isBackgroundPatchJobActive')) {
-      this.formGroup.controls.isBackgroundPatchJobActive.setValue(this.currentEndpoint.backgroundPatchJob);
+      this.isBackgroundPatchJobActive.setValue(this.currentEndpoint.backgroundPatchJob);
     }
     this.formGroup.updateValueAndValidity();
     this.formGroup.markAsPristine();
@@ -180,22 +180,22 @@ export class SettingsOcpiEndpointComponent implements OnInit {
         this.messageService.showSuccessMessage('ocpiendpoints.success_ping', { name: ocpiEndpoint.name });
       } else {
         // switch message according status code recieved
-        let messageId = 'ocpiendpoints.error_ping';
+        let messageID = 'ocpiendpoints.error_ping';
         switch (response.statusCode) {
           case StatusCodes.UNAUTHORIZED:
-            messageId = 'ocpiendpoints.error_ping_401';
+            messageID = 'ocpiendpoints.error_ping_401';
             break;
           case StatusCodes.NOT_FOUND:
-            messageId = 'ocpiendpoints.error_ping_404';
+            messageID = 'ocpiendpoints.error_ping_404';
             break;
           case StatusCodes.PRECONDITION_FAILED:
-            messageId = 'ocpiendpoints.error_ping_412';
+            messageID = 'ocpiendpoints.error_ping_412';
             break;
           default:
-            messageId = 'ocpiendpoints.error_ping';
+            messageID = 'ocpiendpoints.error_ping';
         }
         Utils.handleError(JSON.stringify(response),
-          this.messageService, messageId);
+          this.messageService, messageID);
       }
     }, (error) => {
       this.spinnerService.hide();

@@ -18,7 +18,7 @@ import { Utils } from '../../utils/Utils';
 
 @Component({
   selector: 'app-authentication-verify-email',
-  templateUrl: './authentication-verify-email.component.html',
+  templateUrl: 'authentication-verify-email.component.html',
 })
 export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
   public email: AbstractControl;

@@ -31,7 +31,7 @@ export abstract class DialogTableDataComponent<T extends TableData> {
     // Set static filter
     if (data.staticFilter) {
       this.dialogDataSource.setStaticFilters([
-        this.dialogDataSource.getStaticFilters(),
+        ...this.dialogDataSource.getStaticFilters(),
         data.staticFilter,
       ]);
     }

@@ -10,6 +10,7 @@ import { SiteUsersTableDataSource } from './site-users-table-data-source';
 @Component({
   templateUrl: 'site-users-dialog.component.html',
   providers: [SiteUsersTableDataSource],
+  styleUrls: ['site-users-dialog.component.scss']
 })
 
 export class SiteUsersDialogComponent {

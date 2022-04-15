@@ -8,7 +8,8 @@ import { Transaction } from '../../../../types/Transaction';
 
 @Component({
   selector: 'app-transaction-header',
-  templateUrl: './transaction-header.component.html',
+  templateUrl: 'transaction-header.component.html',
+  styleUrls: ['transaction-header.component.scss']
 })
 export class TransactionHeaderComponent implements OnChanges {
   @Input() public transaction: Transaction;

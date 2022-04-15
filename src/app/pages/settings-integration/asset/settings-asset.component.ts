@@ -16,6 +16,7 @@ import { SettingsAssetConnectionEditableTableDataSource } from './settings-asset
 @Component({
   selector: 'app-settings-asset',
   templateUrl: 'settings-asset.component.html',
+  styleUrls: ['settings-asset.component.scss'],
   providers: [SettingsAssetConnectionEditableTableDataSource]
 })
 export class SettingsAssetComponent implements OnInit {

@@ -8,56 +8,47 @@
           </span>
         </ng-template>
         <div class="card-body mat-tab-dialog-body-content">
-          <div class="w-100">
-            <div class="tab-pane active" id="profile">
-              <div class="row w-100 align-items-center">
-                <div class="col-md-12 col-xl-6 d-block mt-0 m-auto">
-                  <div class="rotating-card-container" [ngStyle]="{ 'pointer-events': 'none'}">
-                    <div class="card card-rotate card-background mt-0 mb-0">
-                      <div class="front front-background"
-                        [ngStyle]="{'background-image': (carCatalog && carCatalog.image ? 'url(' + carCatalog.image + ')' : 'url(' + noImage + ')'), 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
-                        <div class="card-body">
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-12 col-xl-6 text-left">
-                  <div class="row app-car-important-props">
-                    <div class="col-md-3 font-weight-bold">{{"cars.vehicle_make" | translate}}</div>
-                    <div class="col-md-9">{{carCatalog?.vehicleMake}}</div>
-                  </div>
-                  <div class="row mt-3 app-car-important-props">
-                    <div class="col-md-3 font-weight-bold">{{"cars.vehicle_model" | translate}}</div>
-                    <div class="col-md-9">{{carCatalog?.vehicleModel}}</div>
-                  </div>
-                  <div class="row mt-3 app-car-important-props">
-                    <div class="col-md-3 font-weight-bold">{{"cars.vehicle_model_version" | translate}}</div>
-                    <div class="col-md-9">{{carCatalog?.vehicleModelVersion ? carCatalog.vehicleModelVersion : '-'}}</div>
-                  </div>
-                  <div class="row mt-3">
-                    <div class="col-md-3 font-weight-bold">{{"cars.performance_acceleration" | translate}}</div>
-                    <div class="col-md-9">{{carCatalog?.performanceAcceleration ? carCatalog.performanceAcceleration : '-'}} {{"cars.unit.seconde" | translate}}</div>
-                  </div>
-                  <div class="row mt-3">
-                    <div class="col-md-3 font-weight-bold">{{"cars.drivetrain_torque" | translate}}</div>
-                    <div class="col-md-9">{{carCatalog?.drivetrainTorque ? carCatalog.drivetrainTorque : '-'}} {{"cars.unit.newton_metre" | translate}}</div>
-                  </div>
-                  <div class="row mt-3">
-                    <div class="col-md-3 font-weight-bold">{{"cars.performance_top_speed" | translate}}</div>
-                    <div class="col-md-9">{{carCatalog?.performanceTopspeed ? carCatalog.performanceTopspeed : '-'}} km/h</div>
-                  </div>
-                  <div class="row mt-3">
-                    <div class="col-md-3 font-weight-bold">{{"cars.drivetrain_propulsion" | translate}}</div>
-                    <div class="col-md-9">{{carCatalog?.drivetrainPropulsion ? carCatalog.drivetrainPropulsion : '-'}}</div>
-                  </div>
-                  <div class="row mt-3">
-                    <div class="col-md-3 font-weight-bold">{{"cars.misc_turning_circle" | translate}}</div>
-                    <div class="col-md-9">{{carCatalog?.miscTurningCircle ? carCatalog.miscTurningCircle : '-'}} {{"cars.unit.meters" | translate}}</div>
-                  </div>
-                </div>
+          <div class="row">
+            <div class="col-md-5">
+              <div class="card card-background mt-0 mb-0">
+                <img class="front front-background" alt=""
+                  [ngStyle]="{'background-size' : 'contain', 'background-repeat': 'no-repeat'}"
+                  [src]="carCatalog.image" onerror="this.src='/assets/img/theme/no-image.png';">
               </div>
-              <div class="clearfix"></div>
+            </div>
+            <div class="col-md-7 text-left">
+              <div class="row app-car-important-props">
+                <div class="col-md-4 font-weight-bold">{{"cars.vehicle_make" | translate}}</div>
+                <div class="col-md-8">{{carCatalog?.vehicleMake}}</div>
+              </div>
+              <div class="row mt-3 app-car-important-props">
+                <div class="col-md-4 font-weight-bold">{{"cars.vehicle_model" | translate}}</div>
+                <div class="col-md-8">{{carCatalog?.vehicleModel}}</div>
+              </div>
+              <div class="row mt-3 app-car-important-props">
+                <div class="col-md-4 font-weight-bold">{{"cars.vehicle_model_version" | translate}}</div>
+                <div class="col-md-8">{{carCatalog?.vehicleModelVersion ? carCatalog.vehicleModelVersion : '-'}}</div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-md-4 font-weight-bold">{{"cars.performance_acceleration" | translate}}</div>
+                <div class="col-md-8">{{carCatalog?.performanceAcceleration ? carCatalog.performanceAcceleration : '-'}} {{"cars.unit.seconde" | translate}}</div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-md-4 font-weight-bold">{{"cars.drivetrain_torque" | translate}}</div>
+                <div class="col-md-8">{{carCatalog?.drivetrainTorque ? carCatalog.drivetrainTorque : '-'}} {{"cars.unit.newton_metre" | translate}}</div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-md-4 font-weight-bold">{{"cars.performance_top_speed" | translate}}</div>
+                <div class="col-md-8">{{carCatalog?.performanceTopspeed ? carCatalog.performanceTopspeed : '-'}} km/h</div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-md-4 font-weight-bold">{{"cars.drivetrain_propulsion" | translate}}</div>
+                <div class="col-md-8">{{carCatalog?.drivetrainPropulsion ? carCatalog.drivetrainPropulsion : '-'}}</div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-md-4 font-weight-bold">{{"cars.misc_turning_circle" | translate}}</div>
+                <div class="col-md-8">{{carCatalog?.miscTurningCircle ? carCatalog.miscTurningCircle : '-'}} {{"cars.unit.meters" | translate}}</div>
+              </div>
             </div>
           </div>
         </div>

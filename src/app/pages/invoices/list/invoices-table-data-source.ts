@@ -56,13 +56,10 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
         this.getPaging(), this.getSorting()).subscribe((invoices) => {
         // Initialise authorizations
         this.invoicesAuthorizations = {
-          canListUsers: invoices.canListUsers
+          canListUsers:  Utils.convertToBoolean(invoices.canListUsers)
         };
         // Update filters visibility
         this.usersFilter.visible = this.invoicesAuthorizations.canListUsers;
-        // Build Dynamic TableColumnsDef
-        this.setTableColumnsDef(this.buildDynamicTableColumnDefs());
-
         observer.next(invoices);
         observer.complete();
       }, (error) => {
@@ -89,7 +86,7 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
     return rowActions;
   }
 
-  public buildDynamicTableColumnDefs(): TableColumnDef[] {
+  public buildTableColumnDefs(): TableColumnDef[] {
     const columns = [];
     columns.push(
       {
@@ -118,26 +115,19 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
         class: 'col-15p',
         sortable: true,
       },
-    );
-    // Columns only available for authorized users
-    if (this.invoicesAuthorizations.canListUsers) {
-      columns.push(
-        {
-          id: 'user',
-          name: 'invoices.user',
-          headerClass: 'col-20p text-left',
-          class: 'col-20p text-left',
-          formatter: (user: User) => this.appUserNamePipe.transform(user),
-        },
-        {
-          id: 'user.email',
-          name: 'users.email',
-          headerClass: 'col-20p text-left',
-          class: 'col-20p text-left',
-        }
-      );
-    }
-    columns.push(
+      {
+        id: 'user',
+        name: 'invoices.user',
+        headerClass: 'col-20p text-left',
+        class: 'col-20p text-left',
+        formatter: (user: User) => this.appUserNamePipe.transform(user),
+      },
+      {
+        id: 'user.email',
+        name: 'users.email',
+        headerClass: 'col-20p text-left',
+        class: 'col-20p text-left',
+      },
       {
         id: 'sessions',
         name: 'invoices.number_of_items',
@@ -153,14 +143,8 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
         headerClass: 'col-10p',
         class: 'col-10p',
         sortable: true,
-      },
-    );
+      });
     return columns as TableColumnDef[];
-  }
-
-  // Empty as some fields require authorizations retrieved from backend, check buildDynamicTableColumnDefs
-  public buildTableColumnDefs(): TableColumnDef[] {
-    return [];
   }
 
   public buildTableActionsDef(): TableActionDef[] {

@@ -67,7 +67,7 @@ export class PaymentMethodsTableDataSource extends TableDataSource<BillingPaymen
           this.getPaging(), this.getSorting()).subscribe((paymentMethods) => {
           // Init authorizations
           this.paymentsAuthorizations = {
-            canCreate: paymentMethods.canCreate
+            canCreate: Utils.convertToBoolean(paymentMethods.canCreate)
           };
           // Set action visibility
           this.createAction.visible = this.paymentsAuthorizations.canCreate;

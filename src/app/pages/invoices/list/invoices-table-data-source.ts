@@ -116,11 +116,11 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
         sortable: true,
       },
       {
-        id: 'user',
+        id: 'user.name',
         name: 'invoices.user',
         headerClass: 'col-20p text-left',
         class: 'col-20p text-left',
-        formatter: (user: User) => this.appUserNamePipe.transform(user),
+        formatter: (name: string, invoice: BillingInvoice) => this.appUserNamePipe.transform(invoice.user),
       },
       {
         id: 'user.email',

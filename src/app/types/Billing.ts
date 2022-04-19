@@ -1,6 +1,7 @@
 import { BillingInvoiceAuthorizationActions, BillingPaymentMethodAuthorizationActions } from './Authorization';
 import { BillingSettings } from './Setting';
 import { TableData } from './Table';
+import { User } from './User';
 
 export enum BillingInvoiceStatus {
   PAID = 'paid',
@@ -26,6 +27,7 @@ export interface BillingInvoice extends TableData, BillingInvoiceAuthorizationAc
   createdOn?: Date;
   invoiceID: string;
   userID?: string;
+  user?: User;
   // eslint-disable-next-line id-blacklist
   number: string;
   status: BillingInvoiceStatus;

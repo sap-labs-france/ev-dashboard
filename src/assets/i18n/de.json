@@ -470,15 +470,22 @@
     "parent_site_area": "Übergeordneter Standortbereich",
     "select_parent_site_area": "Übergeordneten Standortbereich wählen",
     "site_area_hierarchy_error_title": "Standortbereich Hierarchie Fehler",
-    "site_area_hierarchy_circular_structure_error_body": [
-      "Beim Aktualiesieren der Standortbereichshierarchie ist ein Fehler aufgetreten.",
-      "Bitte stellen Sie sicher, dass keine zirkulären Strukturen existieren"
+    "site_area_tree_error": [
+      "An error occurred while modifying the Site Area chain.",
+      "Avoid circular dependencies within the tree.",
+      "For more information please check the logs."
     ],
-    "site_area_hierarchy_inconsistency_error_body": [
-      "Beim Aktualiesieren der Standortbereichskette ist ein Fehler aufgetreten.",
-      "Bitte stellen Sie sicher, dass alle Standortbereiche den gleichen Standort, Anzahl der Phasen, Spannung und gleiche Smart Charging konfiguration aufweisen.",
-      "Außerdem sollten zirkuläre Strukturen in den Hierarchien vermieden werden.",
-      "Für mehr Informationen überprüfen Sie die Logs."
+    "site_area_tree_error_smart_charging": [
+      "An error occurred while modifying the Site Area chain.",
+      "Site Area must have the same Smart Charging value as its parent."
+    ],
+    "site_area_tree_error_voltage": [
+      "An error occurred while modifying the Site Area chain.",
+      "Site Area must have the same Voltage as its parent."
+    ],
+    "site_area_tree_error_number_of_phases": [
+      "An error occurred while modifying the Site Area chain.",
+      "Site Area must have the same Number of Phases as its parent."
     ],
     "site_invalid": "Standortbereich ungültig",
     "site_area_does_not_exist": "Standortbereich existiert nicht",

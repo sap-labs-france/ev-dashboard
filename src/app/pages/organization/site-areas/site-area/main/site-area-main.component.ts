@@ -185,16 +185,9 @@ export class SiteAreaMainComponent implements OnInit, OnChanges {
     this.dialog.open(SiteAreasDialogComponent, dialogConfig).afterClosed().subscribe((result) => {
       if (!Utils.isEmptyArray(result) && result[0].objectRef) {
         const parentSiteArea: SiteArea = (result[0].objectRef) as SiteArea;
-        if (!this.siteArea || parentSiteArea.id !== this.siteArea.id) {
-          this.parentSiteArea.setValue(parentSiteArea.name);
-          this.parentSiteAreaID.setValue(parentSiteArea.id);
-          this.formGroup.markAsDirty();
-        } else {
-          this.dialogService.createAndShowOkDialog(
-            this.translateService.instant('site_areas.site_area_hierarchy_error_title'),
-            this.translateService.instant('site_areas.site_area_hierarchy_circular_structure_error_body')
-          );
-        }
+        this.parentSiteArea.setValue(parentSiteArea.name);
+        this.parentSiteAreaID.setValue(parentSiteArea.id);
+        this.formGroup.markAsDirty();
       }
     });
   }

@@ -470,15 +470,22 @@
     "parent_site_area": "Parent Site Area",
     "select_parent_site_area": "Select Parent Site Area",
     "site_area_hierarchy_error_title": "Site Area Hierarchy Error",
-    "site_area_hierarchy_circular_structure_error_body": [
-      "An error occurred while modifying the site area chain.",
-      "Please make sure that there are no circular structures in the site area tree."
-    ],
-    "site_area_hierarchy_inconsistency_error_body": [
-      "An error occurred while modifying the site area chain.",
-      "Please make sure that all sub site areas and its parents have the same site, number of phases, voltage and smart charging enablement.",
-      "Please also avoid circular structures within the trees.",
+    "site_area_tree_error": [
+      "An error occurred while modifying the Site Area chain.",
+      "Avoid circular dependencies within the tree.",
       "For more information please check the logs."
+    ],
+    "site_area_tree_error_smart_charging": [
+      "An error occurred while modifying the Site Area chain.",
+      "Site Area must have the same Smart Charging value as its parent."
+    ],
+    "site_area_tree_error_voltage": [
+      "An error occurred while modifying the Site Area chain.",
+      "Site Area must have the same Voltage as its parent."
+    ],
+    "site_area_tree_error_number_of_phases": [
+      "An error occurred while modifying the Site Area chain.",
+      "Site Area must have the same Number of Phases as its parent."
     ],
     "site_invalid": "Area Sito non Valida",
     "site_area_does_not_exist": "L'Area del Sito non esiste",

@@ -470,15 +470,22 @@
     "parent_site_area": "Parent Site Area",
     "select_parent_site_area": "Select Parent Site Area",
     "site_area_hierarchy_error_title": "Site Area Hierarchy Error",
-    "site_area_hierarchy_circular_structure_error_body": [
-      "An error occurred while modifying the site area chain.",
-      "Please make sure that there are no circular structures in the site area tree."
+    "site_area_tree_error": [
+      "Une erreur est survenue pendant la modification de la hiérarchie des zones.",
+      "Evitez les dépendances circulaires.",
+      "Pour plus d'information, vérifiez les logs."
     ],
-    "site_area_hierarchy_inconsistency_error_body": [
-      "An error occurred while modifying the site area chain.",
-      "Please make sure that all sub site areas and its parents have the same site, number of phases, voltage and smart charging enablement.",
-      "Please also avoid circular structures within the trees.",
-      "For more information please check the logs."
+    "site_area_tree_error_smart_charging": [
+      "Une erreur est survenue pendant la modification de la hiérarchie des zones.",
+      "La Zone doit avoir la même valeure Charge Intelligente que son parent."
+    ],
+    "site_area_tree_error_voltage": [
+      "Une erreur est survenue pendant la modification de la hiérarchie des zones.",
+      "La Zone doit avoir le même Voltage que son parent."
+    ],
+    "site_area_tree_error_number_of_phases": [
+      "Une erreur est survenue pendant la modification de la hiérarchie des zones.",
+      "La Zone doit avoir le même Nombre de Phases que son parent."
     ],
     "site_invalid": "Area do Site Inválida",
     "site_area_does_not_exist": "A are ado site não existe",

@@ -145,8 +145,7 @@ export class SiteAreaComponent extends AbstractTabComponent implements OnInit {
           this.messageService.showErrorMessage('site_areas.site_area_does_not_exist');
           break;
         default:
-          Utils.handleHttpError(error, this.router, this.messageService,
-            this.centralServerService, 'site_areas.create_error');
+          this.handleHttpTreeError(error, 'site_areas.create_error');
       }
     });
   }
@@ -204,9 +203,36 @@ export class SiteAreaComponent extends AbstractTabComponent implements OnInit {
             this.translateService.instant('site_areas.site_area_tree_error_voltage'));
           break;
         default:
-          Utils.handleHttpError(error, this.router, this.messageService,
-            this.centralServerService, 'site_areas.update_error');
+          this.handleHttpTreeError(error, 'site_areas.update_error');
       }
     });
+  }
+
+  private handleHttpTreeError(error: any, defaultMessage: string) {
+    switch (error.status) {
+      case HTTPError.SITE_AREA_TREE_ERROR:
+        this.dialogService.createAndShowOkDialog(
+          this.translateService.instant('site_areas.site_area_hierarchy_error_title'),
+          this.translateService.instant('site_areas.site_area_tree_error'));
+        break;
+      case HTTPError.SITE_AREA_TREE_ERROR_SMART_CHARGING:
+        this.dialogService.createAndShowOkDialog(
+          this.translateService.instant('site_areas.site_area_hierarchy_error_title'),
+          this.translateService.instant('site_areas.site_area_tree_error_smart_charging'));
+        break;
+      case HTTPError.SITE_AREA_TREE_ERROR_SMART_NBR_PHASES:
+        this.dialogService.createAndShowOkDialog(
+          this.translateService.instant('site_areas.site_area_hierarchy_error_title'),
+          this.translateService.instant('site_areas.site_area_tree_error_number_of_phases'));
+        break;
+      case HTTPError.SITE_AREA_TREE_ERROR_VOLTAGE:
+        this.dialogService.createAndShowOkDialog(
+          this.translateService.instant('site_areas.site_area_hierarchy_error_title'),
+          this.translateService.instant('site_areas.site_area_tree_error_voltage'));
+        break;
+      default:
+        Utils.handleHttpError(error, this.router, this.messageService,
+          this.centralServerService, defaultMessage);
+    }
   }
 }

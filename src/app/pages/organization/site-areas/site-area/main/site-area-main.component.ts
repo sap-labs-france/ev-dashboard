@@ -160,10 +160,14 @@ export class SiteAreaMainComponent implements OnInit, OnChanges {
     this.dialog.open(SitesDialogComponent, dialogConfig).afterClosed().subscribe((result) => {
       if (!Utils.isEmptyArray(result) && result[0].objectRef) {
         const site: Site = (result[0].objectRef) as Site;
-        this.site.setValue(site.name);
-        this.siteID.setValue(site.id);
-        this.siteChanged.emit(site);
-        this.formGroup.markAsDirty();
+        if (this.siteID.value !== site.id) {
+          this.site.setValue(site.name);
+          this.siteID.setValue(site.id);
+          this.siteChanged.emit(site);
+          this.parentSiteArea.setValue(null);
+          this.parentSiteAreaID.setValue(null);
+          this.formGroup.markAsDirty();
+        }
       }
     });
   }
@@ -178,16 +182,20 @@ export class SiteAreaMainComponent implements OnInit, OnChanges {
       sitesAdminOnly: true,
       rowMultipleSelection: false,
       staticFilter: {
-        Issuer: true
+        Issuer: true,
+        SiteID: this.siteID.value,
+        ExcludeSiteAreaID: this.id?.value
       }
     };
     // Open
     this.dialog.open(SiteAreasDialogComponent, dialogConfig).afterClosed().subscribe((result) => {
       if (!Utils.isEmptyArray(result) && result[0].objectRef) {
         const parentSiteArea: SiteArea = (result[0].objectRef) as SiteArea;
-        this.parentSiteArea.setValue(parentSiteArea.name);
-        this.parentSiteAreaID.setValue(parentSiteArea.id);
-        this.formGroup.markAsDirty();
+        if (this.parentSiteAreaID.value !== parentSiteArea.id) {
+          this.parentSiteArea.setValue(parentSiteArea.name);
+          this.parentSiteAreaID.setValue(parentSiteArea.id);
+          this.formGroup.markAsDirty();
+        }
       }
     });
   }

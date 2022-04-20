@@ -8,13 +8,15 @@ import { PricingHelpers } from '../../../../utils/PricingHelpers';
 
 @Component({
   selector: 'app-pricing-definition-dimensions',
-  templateUrl: './pricing-definition-dimensions.component.html',
+  templateUrl: 'pricing-definition-dimensions.component.html',
 })
 
 export class PricingDefinitionDimensionsComponent implements OnInit, OnChanges {
   @Input() public formGroup!: FormGroup;
   @Input() public pricingDefinition: PricingDefinition;
   @Input() public readOnly: boolean;
+
+  public initialized = false;
 
   // Dimensions
   public dimensions!: FormGroup;
@@ -41,10 +43,6 @@ export class PricingDefinitionDimensionsComponent implements OnInit, OnChanges {
   public chargingTimeStep: AbstractControl;
   public parkingTimeStepEnabled: AbstractControl;
   public parkingTimeStep: AbstractControl;
-
-  // eslint-disable-next-line no-useless-constructor
-  public constructor() {
-  }
 
   public ngOnInit(): void {
     this.formGroup.addControl('dimensions', new FormGroup({
@@ -109,6 +107,8 @@ export class PricingDefinitionDimensionsComponent implements OnInit, OnChanges {
     this.parkingTime = this.parkingTimeDimension.controls['price'];
     this.parkingTimeStepEnabled = this.parkingTimeDimension.controls['stepSizeEnabled'];
     this.parkingTimeStep = this.parkingTimeDimension.controls['stepSize'];
+    this.initialized = true;
+    this.loadPricingDefinition();
   }
 
   public ngOnChanges() {
@@ -116,7 +116,7 @@ export class PricingDefinitionDimensionsComponent implements OnInit, OnChanges {
   }
 
   public loadPricingDefinition() {
-    if (this.pricingDefinition) {
+    if (this.initialized && this.pricingDefinition) {
       this.initializeDimension(this.pricingDefinition, DimensionType.FLAT_FEE);
       this.initializeDimension(this.pricingDefinition, DimensionType.ENERGY);
       this.initializeDimension(this.pricingDefinition, DimensionType.CHARGING_TIME, true);

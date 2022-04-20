@@ -17,7 +17,8 @@ import { Utils } from '../../../../../utils/Utils';
 
 @Component({
   selector: 'app-oicp-endpoint',
-  templateUrl: './settings-oicp-endpoint.component.html',
+  templateUrl: 'settings-oicp-endpoint.component.html',
+  styleUrls: ['settings-oicp-endpoint.component.scss']
 })
 export class SettingsOicpEndpointComponent implements OnInit {
   @Input() public currentEndpoint!: OicpEndpoint;
@@ -112,31 +113,31 @@ export class SettingsOicpEndpointComponent implements OnInit {
       return;
     }
     if (this.currentEndpoint.id) {
-      this.formGroup.controls.id.setValue(this.currentEndpoint.id);
+      this.id.setValue(this.currentEndpoint.id);
     }
     if (this.currentEndpoint.name) {
-      this.formGroup.controls.name.setValue(this.currentEndpoint.name);
+      this.name.setValue(this.currentEndpoint.name);
     }
     if (this.currentEndpoint.role) {
-      this.formGroup.controls.role.setValue(this.currentEndpoint.role);
+      this.role.setValue(this.currentEndpoint.role);
     }
     if (this.currentEndpoint.baseUrl) {
-      this.formGroup.controls.baseUrl.setValue(this.currentEndpoint.baseUrl);
+      this.baseUrl.setValue(this.currentEndpoint.baseUrl);
     }
     if (this.currentEndpoint.countryCode) {
-      this.formGroup.controls.countryCode.setValue(this.currentEndpoint.countryCode);
+      this.countryCode.setValue(this.currentEndpoint.countryCode);
     }
     if (this.currentEndpoint.partyId) {
-      this.formGroup.controls.partyId.setValue(this.currentEndpoint.partyId);
+      this.partyId.setValue(this.currentEndpoint.partyId);
     }
     if (this.currentEndpoint.localToken) {
-      this.formGroup.controls.localToken.setValue(this.currentEndpoint.localToken);
+      this.localToken.setValue(this.currentEndpoint.localToken);
     }
     if (this.currentEndpoint.token) {
-      this.formGroup.controls.token.setValue(this.currentEndpoint.token);
+      this.token.setValue(this.currentEndpoint.token);
     }
     if (Utils.objectHasProperty(this.currentEndpoint, 'isBackgroundPatchJobActive')) {
-      this.formGroup.controls.isBackgroundPatchJobActive.setValue(this.currentEndpoint.backgroundPatchJob);
+      this.isBackgroundPatchJobActive.setValue(this.currentEndpoint.backgroundPatchJob);
     }
     this.formGroup.updateValueAndValidity();
     this.formGroup.markAsPristine();

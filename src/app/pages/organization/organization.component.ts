@@ -7,7 +7,7 @@ import { AbstractTabComponent } from '../../shared/component/abstract-tab/abstra
 
 @Component({
   selector: 'app-organization',
-  templateUrl: './organization.component.html',
+  templateUrl: 'organization.component.html',
 })
 export class OrganizationComponent extends AbstractTabComponent {
   public canListCompanies = false;

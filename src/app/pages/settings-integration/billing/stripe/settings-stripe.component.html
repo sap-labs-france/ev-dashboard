@@ -7,8 +7,8 @@
   </div>
   <div class="card-body">
     <div class="row mt-1">
-        <div *ngIf="transactionBillingActivated" class="col-md-12 deactivated-setting-message">
-        <span>{{'settings.billing.deactivated_setting_message' | translate}}</span>
+      <div *ngIf="transactionBillingActivated" class="col-md-12 mb-2">
+        <span class="mat-subheading-2 text-danger">{{'settings.billing.deactivated_setting_message' | translate}}</span>
       </div>
       <div class="col-md-6">
         <mat-form-field>

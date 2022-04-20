@@ -5,7 +5,7 @@ import { User } from 'types/User';
 
 @Component({
   selector: 'app-user-connectors',
-  templateUrl: './user-connectors.component.html',
+  templateUrl: 'user-connectors.component.html',
 })
 // @Injectable()
 export class UserConnectorsComponent implements OnChanges {

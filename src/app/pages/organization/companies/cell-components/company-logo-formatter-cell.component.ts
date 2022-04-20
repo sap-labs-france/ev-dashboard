@@ -6,12 +6,13 @@ import { Company } from '../../../../types/Company';
 @Component({
   template: `
     <div class="logo-container">
-      <img *ngIf="row['logo']" class="app-company-logo" alt="" [src]="row['logo']">
+      <img class="app-company-logo" alt="" [src]="row['logo']"
+      onerror="this.src='/assets/img/theme/no-image.png';">
     </div>
   `,
+  styleUrls: ['company-logo-formatter-cell.component.scss']
 })
 
 export class CompanyLogoFormatterCellComponent extends CellContentTemplateDirective {
   @Input() public row!: Company;
-
 }

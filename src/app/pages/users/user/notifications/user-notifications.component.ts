@@ -7,7 +7,7 @@ import { Utils } from '../../../../utils/Utils';
 
 @Component({
   selector: 'app-user-notifications',
-  templateUrl: './user-notifications.component.html',
+  templateUrl: 'user-notifications.component.html',
 })
 // @Injectable()
 export class UserNotificationsComponent implements OnInit, OnChanges {
@@ -17,7 +17,7 @@ export class UserNotificationsComponent implements OnInit, OnChanges {
   public isAdmin = false;
   public isSuperAdmin = false;
   public isBasic = false;
-
+  public initialized = false;
   public currentRole: UserRole;
 
   public notificationsActive!: AbstractControl;
@@ -43,7 +43,6 @@ export class UserNotificationsComponent implements OnInit, OnChanges {
   public sendEndUserErrorNotification!: AbstractControl;
   public sendBillingNewInvoice!: AbstractControl;
   public sendAdminAccountVerificationNotification!: AbstractControl;
-
   private adminNotificationControls: AbstractControl[] = [];
   private notificationControls: AbstractControl[] = [];
 
@@ -107,30 +106,32 @@ export class UserNotificationsComponent implements OnInit, OnChanges {
     this.sendAdminAccountVerificationNotification = this.notifications.controls['sendAdminAccountVerificationNotification'];
     // Keep notifs
     this.notificationControls.push(...[
-      this.notifications.controls.sendSessionStarted,
-      this.notifications.controls.sendOptimalChargeReached,
-      this.notifications.controls.sendEndOfCharge,
-      this.notifications.controls.sendEndOfSession,
-      this.notifications.controls.sendUserAccountStatusChanged,
-      this.notifications.controls.sendSessionNotStarted,
-      this.notifications.controls.sendUserAccountInactivity,
-      this.notifications.controls.sendBillingNewInvoice,
-      this.notifications.controls.sendPreparingSessionNotStarted,
+      this.sendSessionStarted,
+      this.sendOptimalChargeReached,
+      this.sendEndOfCharge,
+      this.sendEndOfSession,
+      this.sendUserAccountStatusChanged,
+      this.sendSessionNotStarted,
+      this.sendUserAccountInactivity,
+      this.sendBillingNewInvoice,
+      this.sendPreparingSessionNotStarted,
     ]);
     this.adminNotificationControls.push(...[
-      this.notifications.controls.sendUnknownUserBadged,
-      this.notifications.controls.sendUnknownUserBadged,
-      this.notifications.controls.sendChargingStationStatusError,
-      this.notifications.controls.sendOfflineChargingStations,
-      this.notifications.controls.sendOcpiPatchStatusError,
-      this.notifications.controls.sendOicpPatchStatusError,
-      this.notifications.controls.sendBillingSynchronizationFailed,
-      this.notifications.controls.sendBillingPeriodicOperationFailed,
-      this.notifications.controls.sendComputeAndApplyChargingProfilesFailed,
-      this.notifications.controls.sendEndUserErrorNotification,
-      this.notifications.controls.sendChargingStationRegistered,
-      this.notifications.controls.sendAdminAccountVerificationNotification,
+      this.sendUnknownUserBadged,
+      this.sendUnknownUserBadged,
+      this.sendChargingStationStatusError,
+      this.sendOfflineChargingStations,
+      this.sendOcpiPatchStatusError,
+      this.sendOicpPatchStatusError,
+      this.sendBillingSynchronizationFailed,
+      this.sendBillingPeriodicOperationFailed,
+      this.sendComputeAndApplyChargingProfilesFailed,
+      this.sendEndUserErrorNotification,
+      this.sendChargingStationRegistered,
+      this.sendAdminAccountVerificationNotification,
     ]);
+    this.initialized = true;
+    this.loadUser();
   }
 
   public ngOnChanges() {
@@ -139,11 +140,11 @@ export class UserNotificationsComponent implements OnInit, OnChanges {
 
   // eslint-disable-next-line complexity
   public loadUser() {
-    if (this.user) {
+    if (this.initialized && this.user) {
       // Init form
       this.currentRole = this.user.role;
       if (Utils.objectHasProperty(this.user, 'notificationsActive')) {
-        this.formGroup.controls.notificationsActive.setValue(this.user.notificationsActive);
+        this.notificationsActive.setValue(this.user.notificationsActive);
       }
       this.enableAllNotifications(this.user.notificationsActive);
       // Set notifications
@@ -184,22 +185,22 @@ export class UserNotificationsComponent implements OnInit, OnChanges {
     this.currentRole = role;
     switch (role) {
       case UserRole.DEMO:
-        this.formGroup.controls.notificationsActive.setValue(false);
-        this.formGroup.controls.notificationsActive.disable();
+        this.notificationsActive.setValue(false);
+        this.notificationsActive.disable();
         this.enableAllNotifications(false);
         this.setAllNotificationsValue(false);
         break;
       case UserRole.BASIC:
-        this.formGroup.controls.notificationsActive.setValue(true);
-        this.formGroup.controls.notificationsActive.enable();
+        this.notificationsActive.setValue(true);
+        this.notificationsActive.enable();
         this.enableNotifications(this.notificationControls, true);
         this.setNotificationsValue(this.notificationControls, true);
         this.enableNotifications(this.adminNotificationControls, false);
         this.setNotificationsValue(this.adminNotificationControls, false);
         break;
       case UserRole.ADMIN:
-        this.formGroup.controls.notificationsActive.setValue(true);
-        this.formGroup.controls.notificationsActive.enable();
+        this.notificationsActive.setValue(true);
+        this.notificationsActive.enable();
         this.enableAllNotifications(true);
         this.setAllNotificationsValue(true);
         break;
@@ -208,7 +209,7 @@ export class UserNotificationsComponent implements OnInit, OnChanges {
 
   // TODO: the event 'checked' is not provided with the current version of Angular (11) -> 13 should be okay
   public toggleNotificationsActive(checked: boolean) {
-    this.enableAllNotifications(!this.formGroup.controls.notificationsActive.value);
+    this.enableAllNotifications(!this.notificationsActive.value);
   }
 
   private enableAllNotifications(enabled: boolean) {

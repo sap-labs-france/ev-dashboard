@@ -10,7 +10,7 @@ import { Utils } from '../../../../utils/Utils';
 
 @Component({
   selector: 'app-carousel',
-  templateUrl: './car-carousel.component.html',
+  templateUrl: 'car-carousel.component.html',
   providers: [NgbCarouselConfig],  // add NgbCarouselConfig to the component providers
 })
 export class CarCarouselComponent implements AfterViewInit {

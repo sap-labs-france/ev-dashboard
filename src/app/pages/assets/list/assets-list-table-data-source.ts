@@ -207,16 +207,11 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
       rowActions.push(this.retrieveConsumptionAction);
     }
     // More action
+    moreActions.addActionInMoreActions(openInMaps);
     if(asset.canDelete) {
       moreActions.addActionInMoreActions(this.deleteAction);
     }
-    if (!Utils.isEmptyArray(moreActions.getActionsInMoreActions())) {
-      moreActions.addActionInMoreActions(openInMaps);
-      rowActions.push(moreActions.getActionDef());
-    } else {
-      // More action is empty we put actions directly in row
-      rowActions.push(openInMaps);
-    }
+    rowActions.push(moreActions.getActionDef());
     return rowActions;
   }
 

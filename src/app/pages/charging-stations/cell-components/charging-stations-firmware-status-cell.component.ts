@@ -7,7 +7,7 @@ import { ChargingStation, FirmwareStatus } from '../../../types/ChargingStation'
 @Component({
   template: `
     <ng-container *ngIf="!row?.firmwareUpdateStatus || row?.firmwareUpdateStatus === 'Idle'; else displayFirmwareStatus">
-      <span class="d-none d-xl-table-cell text-center firmware-version">{{row.firmwareVersion}}</span>
+      <span class="d-none d-xl-table-cell text-center p-1">{{row.firmwareVersion}}</span>
     </ng-container>
     <ng-template #displayFirmwareStatus>
       <ng-container class="table-cell-angular-big-component">

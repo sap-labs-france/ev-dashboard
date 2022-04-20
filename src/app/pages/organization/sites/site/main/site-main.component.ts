@@ -13,7 +13,7 @@ import { Utils } from 'utils/Utils';
 
 @Component({
   selector: 'app-site-main',
-  templateUrl: './site-main.component.html',
+  templateUrl: 'site-main.component.html',
 })
 export class SiteMainComponent implements OnInit, OnChanges {
   @Input() public formGroup: FormGroup;
@@ -24,6 +24,7 @@ export class SiteMainComponent implements OnInit, OnChanges {
   public image = Constants.NO_IMAGE;
   public imageChanged = false;
   public maxSize: number;
+  public initialized = false;
 
   public issuer!: AbstractControl;
   public id!: AbstractControl;
@@ -33,7 +34,7 @@ export class SiteMainComponent implements OnInit, OnChanges {
   public autoUserSiteAssignment!: AbstractControl;
   public public!: AbstractControl;
 
-  public address!: Address;
+  public address = {} as Address;
 
   // eslint-disable-next-line no-useless-constructor
   public constructor(
@@ -71,6 +72,8 @@ export class SiteMainComponent implements OnInit, OnChanges {
     this.companyID = this.formGroup.controls['companyID'];
     this.autoUserSiteAssignment = this.formGroup.controls['autoUserSiteAssignment'];
     this.public = this.formGroup.controls['public'];
+    this.initialized = true;
+    this.loadSite();
   }
 
   public ngOnChanges() {
@@ -78,35 +81,35 @@ export class SiteMainComponent implements OnInit, OnChanges {
   }
 
   public loadSite() {
-    if (this.site) {
-      this.formGroup.controls.id.setValue(this.site.id);
+    if (this.initialized && this.site) {
+      this.id.setValue(this.site.id);
       if (Utils.objectHasProperty(this.site, 'issuer')) {
-        this.formGroup.controls.issuer.setValue(this.site.issuer);
+        this.issuer.setValue(this.site.issuer);
       }
       if (this.site.name) {
-        this.formGroup.controls.name.setValue(this.site.name);
+        this.name.setValue(this.site.name);
       }
       if (this.site.companyID) {
-        this.formGroup.controls.companyID.setValue(this.site.companyID);
+        this.companyID.setValue(this.site.companyID);
       }
       if (this.site.company) {
-        this.formGroup.controls.company.setValue(this.site.company.name);
+        this.company.setValue(this.site.company.name);
       }
       if (this.site.autoUserSiteAssignment) {
-        this.formGroup.controls.autoUserSiteAssignment.setValue(this.site.autoUserSiteAssignment);
+        this.autoUserSiteAssignment.setValue(this.site.autoUserSiteAssignment);
       } else {
-        this.formGroup.controls.autoUserSiteAssignment.setValue(false);
+        this.autoUserSiteAssignment.setValue(false);
       }
       if (this.site.public) {
-        this.formGroup.controls.public.setValue(this.site.public);
+        this.public.setValue(this.site.public);
       } else {
-        this.formGroup.controls.public.setValue(false);
+        this.public.setValue(false);
       }
       if (this.site.address) {
         this.address = this.site.address;
       }
       if (this.site.metadata?.autoUserSiteAssignment && !this.site.metadata?.autoUserSiteAssignment.enabled) {
-        this.formGroup.controls.autoUserSiteAssignment.disable();
+        this.autoUserSiteAssignment.disable();
       }
       // Get Site image
       if (!this.imageChanged) {

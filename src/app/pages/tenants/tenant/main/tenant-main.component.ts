@@ -10,11 +10,13 @@ import { Constants } from '../../../../utils/Constants';
 
 @Component({
   selector: 'app-tenant-main',
-  templateUrl: './tenant-main.component.html',
+  templateUrl: 'tenant-main.component.html',
 })
 export class TenantMainComponent implements OnInit, OnChanges {
   @Input() public formGroup: FormGroup;
   @Input() public tenant!: Tenant;
+
+  public initialized = false;
 
   public id!: AbstractControl;
   public name!: AbstractControl;
@@ -61,6 +63,8 @@ export class TenantMainComponent implements OnInit, OnChanges {
     this.email = this.formGroup.controls['email'];
     this.subdomain = this.formGroup.controls['subdomain'];
     this.subdomain = this.formGroup.controls['subdomain'];
+    this.initialized = true;
+    this.loadTenant();
   }
 
   public ngOnChanges() {
@@ -68,7 +72,7 @@ export class TenantMainComponent implements OnInit, OnChanges {
   }
 
   public loadTenant() {
-    if (this.tenant) {
+    if (this.initialized && this.tenant) {
       // Init main part
       this.id.setValue(this.tenant.id);
       this.name.setValue(this.tenant.name);

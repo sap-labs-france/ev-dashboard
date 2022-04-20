@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { IssuerFilter } from 'shared/table/filters/issuer-filter';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -183,12 +184,10 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {
-    if (this.isOrganizationComponentActive) {
-      return [
-        new ChargingStationTableFilter().getFilterDef(),
-      ];
-    }
-    return [];
+    const issuerFilter = new IssuerFilter().getFilterDef();
+    return [
+      new ChargingStationTableFilter([issuerFilter]).getFilterDef(),
+    ];
   }
 
   public buildTableDynamicRowActions(chargingProfile: ChargingProfile): TableActionDef[] {

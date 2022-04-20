@@ -14,7 +14,7 @@ export interface PropertyDisplay {
 
 @Component({
   selector: 'app-charging-station-properties',
-  templateUrl: './charging-station-properties.component.html',
+  templateUrl: 'charging-station-properties.component.html',
 })
 // @Injectable()
 export class ChargingStationPropertiesComponent implements OnInit {

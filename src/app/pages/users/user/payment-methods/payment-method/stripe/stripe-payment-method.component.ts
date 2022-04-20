@@ -18,7 +18,8 @@ import { PaymentMethodDialogComponent } from '../payment-method.dialog.component
 
 @Component({
   selector: 'app-stripe-payment-method',
-  templateUrl: './stripe-payment-method.component.html',
+  templateUrl: 'stripe-payment-method.component.html',
+  styleUrls: ['stripe-payment-method.component.scss']
 })
 
 export class StripePaymentMethodComponent implements OnInit {

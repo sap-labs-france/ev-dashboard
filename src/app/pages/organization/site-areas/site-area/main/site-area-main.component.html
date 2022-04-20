@@ -1,5 +1,5 @@
 <form class="form" [formGroup]="formGroup">
-  <div class="row app-organization">
+  <div class="row">
     <div class="col-md-5 d-block mb-auto">
       <div class="rotating-card-container" [ngStyle]="{ 'pointer-events': !readOnly ? 'all' : 'none'}">
         <div class="card card-rotate card-background app-site-area-image-padding mt-0">
@@ -11,9 +11,6 @@
           <div class="back back-background"
             [ngStyle]="{'background-image': 'url(' + image + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
             <div *ngIf="!readOnly" class="card-body">
-              <h5 class="card-title">
-                {{'general.change_picture' | translate}}
-              </h5>
               <div class="footer text-center">
                 <button mat-flat-button color="primary" class="me-2">
                   <mat-icon (click)="file.click()">mode_edit</mat-icon>
@@ -34,8 +31,7 @@
     <div class="col-md-7">
       <div class="form-group">
         <mat-form-field>
-          <input appAutofocus matInput placeholder="{{'site_areas.name' | translate}}" class="app-organization-name"
-            type="text" [formControl]="name" required>
+          <input appAutofocus matInput placeholder="{{'site_areas.name' | translate}}" type="text" [formControl]="name" required>
           <mat-error *ngIf="name.errors?.required">
             {{"general.mandatory_field" | translate}}
           </mat-error>
@@ -57,65 +53,10 @@
         <mat-form-field *ngIf="!formGroup.enabled">
           <input matInput type="text" placeholder="{{'sites.site' | translate}}" [formControl]="site" required />
         </mat-form-field>
-        <div *ngIf="issuer?.value" class="text-left">
+        <div *ngIf="issuer?.value" class="text-left mb-2">
           <mat-checkbox [formControl]="accessControl">
             {{'site_areas.enable_access_control' | translate}}
           </mat-checkbox>
-        </div>
-        <div *ngIf="issuer?.value && isSmartChargingComponentActive" class="text-left">
-          <mat-checkbox [formControl]="smartCharging">
-            {{'site_areas.enable_smart_charging' | translate}}
-          </mat-checkbox>
-        </div>
-        <div *ngIf="issuer?.value" class="row">
-          <div class="col-md-6">
-            <mat-form-field>
-              <mat-select placeholder="{{'chargers.voltage' | translate}}" [formControl]="voltage"
-                (selectionChange)="voltageChanged()" required>
-                <mat-option [value]="230">230</mat-option>
-                <mat-option [value]="110">110</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-          <div class="col-md-6">
-            <mat-form-field>
-              <mat-label for="numberOfPhases">{{'site_areas.number_of_phases' | translate}} 
-              </mat-label>
-              <mat-select id="numberOfPhases" [formControl]="numberOfPhases" 
-                (selectionChange)="numberOfPhasesChanged()" required>
-                <mat-option *ngFor="let phase of phaseMap" [value]="phase.key">
-                  {{phase.description | translate}}
-                </mat-option>
-              </mat-select>
-              <mat-error *ngIf="numberOfPhases.errors?.required">
-                {{"general.mandatory_field" | translate}}</mat-error>
-            </mat-form-field>
-          </div>
-          <div class="col-md-6">
-            <mat-form-field>
-              <input matInput placeholder="{{'site_areas.maximum_energy_watts' | translate}}" type="number"
-                [formControl]="maximumPower" (input)="maximumPowerChanged()" required>
-              <mat-error *ngIf="maximumPower.errors?.min">
-                {{"general.error_min_value" | translate:{value: 1} }}</mat-error>
-              <mat-error *ngIf="maximumPower.errors?.pattern">{{"chargers.invalid_power" | translate}}
-              </mat-error>
-              <mat-error *ngIf="maximumPower.errors?.required">{{"general.mandatory_field" | translate}}
-              </mat-error>
-            </mat-form-field>
-          </div>
-          <div class="w-100"></div>         
-          <div class="col-md-6">
-            <mat-form-field>
-              <input matInput placeholder="{{'site_areas.maximum_energy_amps_per_phase' | translate}}" type="number"
-                [formControl]="maximumPowerAmpsPerPhase">
-            </mat-form-field>
-          </div>
-          <div class="col-md-6">
-            <mat-form-field>
-              <input matInput placeholder="{{'site_areas.maximum_energy_amps_total' | translate}}" type="number"
-                [formControl]="maximumTotalPowerAmps">
-            </mat-form-field>
-          </div>
         </div>
       </div>
       <div *ngIf="!readOnly && siteArea && !formGroup.disabled">

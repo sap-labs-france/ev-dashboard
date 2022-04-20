@@ -5,7 +5,7 @@ import { AssetLacroixConnectionType } from '../../../../../types/Setting';
 
 @Component({
   selector: 'app-settings-lacroix-connection',
-  templateUrl: './lacroix-asset-connection.component.html'
+  templateUrl: 'lacroix-asset-connection.component.html'
 })
 export class LacroixAssetConnectionComponent implements OnInit {
   @Input() public formGroup!: FormGroup;

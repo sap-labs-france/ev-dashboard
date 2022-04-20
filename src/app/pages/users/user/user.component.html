@@ -1,8 +1,8 @@
-<div class="main-content" [ngClass]="{'vh-lg-50 vw-lg-80 vw-xxl-60 vh-3xl-40 vw-3xl-35' : dialogRef}">
+<div [class]="dialogRef ? 'main-content vw-90 vh-90 user-dialog-size' : 'main-content flex-grow-1'">
   <div class="card card-profile card-testimonial">
     <form [formGroup]="formGroup" class="form">
       <mat-tab-group (selectedIndexChange)="updateRoute($event)" [selectedIndex]="activeTabIndex"
-          animationDuration="0ms" disableRipple="true" class="h-100 mat-tab-info mat-tabs-with-actions">
+          animationDuration="0ms" disableRipple="true" class="h-100 mat-tab-info" [class]="dialogRef ? 'mat-tabs-with-actions' : 'mat-tabs-with-close-action'">
         <mat-tab>
           <ng-template mat-tab-label>
             <mat-icon>portrait</mat-icon>
@@ -71,19 +71,19 @@
             <span>{{'users.tabs.billing' | translate}}</span>
           </ng-template>
           <ng-template matTabContent>
-            <div class="card-body card-profile card-body-table-list">
-              <app-payment-methods [user]="user">
+            <div class="card-body card-profile">
+              <app-payment-methods [currentUserID]="currentUserID">
               </app-payment-methods>
             </div>
           </ng-template>
         </mat-tab>
       </mat-tab-group>
       <div [class]="dialogRef ? 'tabs-actions' : 'tabs-actions-embedded'">
-        <button mat-button (click)="saveUser(formGroup.getRawValue())" [disabled]="!formGroup.valid || !formGroup.dirty">
+        <button mat-icon-button (click)="saveUser(formGroup.getRawValue())" title="{{'general.save' | translate}}"
+            [disabled]="!formGroup.valid || !formGroup.dirty">
           <mat-icon>save</mat-icon>
-          <span>{{'general.save' | translate}}</span>
         </button>
-        <button mat-icon-button *ngIf="dialogRef" (click)="close()">
+        <button mat-icon-button *ngIf="dialogRef" (click)="close()" title="{{'general.close' | translate}}">
           <mat-icon>close</mat-icon>
         </button>
       </div>

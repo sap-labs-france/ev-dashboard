@@ -1,6 +1,6 @@
-<div class="main-content">
+<div class="main-content vw-90 vh-90 ocpi-endpoint-settings-dialog-size">
   <div class="card card-profile card-testimonial">
-    <mat-tab-group animationDuration="0ms" disableRipple="true" class="mat-tab-info mat-tabs-with-actions">
+    <mat-tab-group animationDuration="0ms" disableRipple="true" class="mat-tab-info" [class]="dialogRef ? 'mat-tabs-with-actions' : 'mat-tabs-with-close-action'">
       <mat-tab>
         <ng-template mat-tab-label>
           <mat-icon>call_split</mat-icon>
@@ -34,6 +34,8 @@
                     </mat-form-field>
                   </div>
                 </div>
+              </div>
+              <div class="row">
                 <!-- OCPI Endpoint - URL -->
                 <div class="col-md-12">
                   <div class="form-group">
@@ -47,6 +49,8 @@
                     </mat-form-field>
                   </div>
                 </div>
+              </div>
+              <div class="row">
                 <!-- OCPI Endpoint - Country Code / Party id-->
                 <div class="col-md-6">
                   <div class="form-group" *ngIf="!currentEndpoint?.id">
@@ -79,60 +83,59 @@
                     </mat-form-field>
                   </div>
                 </div>
-
+              </div>
+              <div class="row">
                 <!-- OCPI Endpoint - Token -->
-                <div class="col-md-12">
+                <div class="col">
                   <div class="form-group">
-                    <div class="d-flex flex-row">
-                      <div class="flex-grow-1">
-                        <mat-form-field class="endpoint-dialog-no-padding-bottom">
-                          <input matInput placeholder="{{'ocpiendpoints.local_token' | translate}}" type="text"
-                            [formControl]="localToken">
-                          <mat-error *ngIf="localToken.errors?.maxlength">
-                            <div [translate]="'general.error_max_length'" [translateParams]="{length: 64}"></div>
-                          </mat-error>
-                        </mat-form-field>
-                      </div>
-                      <div align="right" pull-right>
-                        <button mat-raised-button color="primary" (click)="generateLocalToken(formGroup.value)">
-                          <mat-icon>vpn_key</mat-icon>
-                          <span>{{'ocpiendpoints.generate_new_token' | translate}}</span>
-                        </button>
-                      </div>
-                    </div>
+                    <mat-form-field>
+                      <input matInput placeholder="{{'ocpiendpoints.local_token' | translate}}" type="text"
+                        [formControl]="localToken">
+                      <mat-error *ngIf="localToken.errors?.maxlength">
+                        <div [translate]="'general.error_max_length'" [translateParams]="{length: 64}"></div>
+                      </mat-error>
+                    </mat-form-field>
                   </div>
                 </div>
-                <div class="col-md-12">
+                <div class="col-md-4 text-end">
+                  <button mat-raised-button color="primary" (click)="generateLocalToken(formGroup.value)">
+                    <mat-icon>vpn_key</mat-icon>
+                    <span>{{'ocpiendpoints.generate_new_token' | translate}}</span>
+                  </button>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
                   <div class="form-group">
-                    <mat-form-field class="endpoint-dialog-no-padding-bottom">
+                    <mat-form-field>
                       <input matInput placeholder="{{'ocpiendpoints.token' | translate}}" type="text"
                         [formControl]="token">
                       <mat-error *ngIf="token.errors?.maxlength">
                         <div [translate]="'general.error_max_length'" [translateParams]="{length: 64}"></div>
                       </mat-error>
                     </mat-form-field>
-                    <div align="right" pull-right>
-                      <button mat-raised-button color="primary" (click)="testConnection(formGroup.value)"
-                        [disabled]="!token.value || baseUrl.errors?.required || baseUrl.errors?.pattern">
-                        <mat-icon>touch_app</mat-icon>
-                        <span>{{'ocpiendpoints.test_connection' | translate}}</span>
-                      </button>
-                    </div>
                   </div>
                 </div>
+                <div class="col-md-4 text-end">
+                  <button mat-raised-button color="primary" (click)="testConnection(formGroup.value)"
+                    [disabled]="!token.value || baseUrl.errors?.required || baseUrl.errors?.pattern">
+                    <mat-icon>touch_app</mat-icon>
+                    <span>{{'ocpiendpoints.test_connection' | translate}}</span>
+                  </button>
+                </div>
               </div>
-              <div class="clearfix"></div>
             </div>
+            <div class="clearfix"></div>
           </div>
         </div>
       </mat-tab>
     </mat-tab-group>
-    <div class="tabs-actions">
-      <button mat-button (click)="save(formGroup.value)" [disabled]="!formGroup.valid || !formGroup.dirty">
+    <div [class]="dialogRef ? 'tabs-actions' : 'tabs-actions-embedded'">
+      <button mat-icon-button (click)="save(formGroup.value)" title="{{'general.save' | translate}}"
+          [disabled]="!formGroup.valid || !formGroup.dirty">
         <mat-icon>save</mat-icon>
-        <span>{{'general.save' | translate}}</span>
       </button>
-      <button mat-icon-button (click)="close()">
+      <button mat-icon-button (click)="close()" title="{{'general.close' | translate}}">
         <mat-icon>close</mat-icon>
       </button>
     </div>

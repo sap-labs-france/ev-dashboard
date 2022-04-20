@@ -22,7 +22,6 @@ export class Constants {
 
   public static readonly USER_NO_PICTURE = 'assets/img/theme/no-photo.png';
   public static readonly NO_IMAGE = 'assets/img/theme/no-image.png';
-  public static readonly NO_CAR_IMAGE = 'assets/img/theme/no-car.png';
   public static readonly TENANT_DEFAULT_LOGO = '/assets/img/logo-low.gif';
 
   /* RegEx validation rule */

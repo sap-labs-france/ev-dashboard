@@ -13,7 +13,7 @@ import { StatisticsExportService } from '../shared/statistics-export.service';
 
 @Component({
   selector: 'app-statistics-consumption',
-  templateUrl: './statistics-consumption.component.html',
+  templateUrl: 'statistics-consumption.component.html',
 })
 
 export class StatisticsConsumptionComponent implements OnInit {

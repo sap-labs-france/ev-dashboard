@@ -1,10 +1,12 @@
 // Import Core Vars/Mixins
 @import "core/variables";
 @import "core/mixins";
+
 // Bootstrap
 @import "~bootstrap/scss/bootstrap";
-@import "core/recaptcha";
+
 // Core Components
+@import "core/recaptcha";
 @import "core/buttons";
 @import "core/checkboxes";
 @import "dashboard/cards";
@@ -22,61 +24,25 @@
 @import "core/progress";
 @import "core/ripples";
 @import "core/menu";
+@import "core/cards/card-rotate";
+
+// Dashboard
 @import "dashboard/sidebar-and-main-panel";
 @import "dashboard/tables";
 @import "dashboard/misc";
 @import "dashboard/pages";
-// Components for PRO
 @import "dashboard/fileupload";
 @import "dashboard/responsive";
-// Custom
 @import "dashboard/custom";
-// Card rotating
-@import "core/cards/card-rotate";
-
+@import "dashboard/chip";
+@import "dashboard/carousel";
+@import "dashboard/dialogs";
+@import "dashboard/chart";
+@import "dashboard/recaptcha";
+@import "dashboard/qr-code";
+@import "dashboard/geomap.dialog";
+@import "dashboard/date-picker";
 
 // Views
-@import "views/templates/templates";
-
-@import "views/dashboard/card-chart";
-@import "views/dashboard/card-keyfigure";
-@import "views/dashboard/dashboard";
-
-@import "views/browser-not-supported/browser-not-supported";
-
-@import "views/charging-stations/charging-station";
-@import "views/charging-stations/charging-stations-data-source-table";
-@import "views/charging-stations/smart-charging-limit-planner-chart";
-@import "views/charging-stations/smart-charging-limit-planner";
-@import "views/charging-stations/smart-charging-power-slider";
-
-@import "views/organization/organization";
-
-@import "views/assets/assets";
-
-@import "views/billing/billing";
-
-@import "views/pricing/pricing";
-
-@import "views/cars/cars";
-
-@import "views/tags/tags";
-
-@import "views/tenant/tenant";
-
-@import "views/shared/chip";
-@import "views/shared/connector-cell";
-@import "views/shared/chart";
-@import "views/shared/dialogs";
-@import "views/shared/geomap.dialog";
-@import "views/shared/session.dialog";
-@import "views/shared/recaptcha";
-@import "views/shared/carousel";
-@import "views/shared/date-picker";
-@import "views/shared/qr-code";
-
-@import "views/settings/endpoint.dialog";
-@import "views/settings/settings-ocpi-endpoints-source-table";
-@import "views/settings/settings-sac-links-source-table";
-
-@import "views/release-notes/release-notes";
+@import "shared/charging-station";
+@import "shared/connector-cell";

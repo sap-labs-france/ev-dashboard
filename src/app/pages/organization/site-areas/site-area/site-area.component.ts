@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { WindowService } from 'services/window.service';
 import { AbstractTabComponent } from 'shared/component/abstract-tab/abstract-tab.component';
@@ -18,12 +18,14 @@ import { HTTPError } from '../../../../types/HTTPError';
 import { SiteArea } from '../../../../types/SiteArea';
 import { TenantComponents } from '../../../../types/Tenant';
 import { Utils } from '../../../../utils/Utils';
+import { SiteAreaLimitsComponent } from './limits/site-area-limits.component';
 import { SiteAreaMainComponent } from './main/site-area-main.component';
 import { SiteAreaOcpiComponent } from './ocpi/site-area-ocpi.component';
 
 @Component({
   selector: 'app-site-area',
   templateUrl: 'site-area.component.html',
+  styleUrls: ['site-area.component.scss']
 })
 export class SiteAreaComponent extends AbstractTabComponent implements OnInit {
   @Input() public currentSiteAreaID!: string;
@@ -31,6 +33,7 @@ export class SiteAreaComponent extends AbstractTabComponent implements OnInit {
   @Input() public dialogRef!: MatDialogRef<any>;
 
   @ViewChild('siteAreaMainComponent') public siteAreaMainComponent!: SiteAreaMainComponent;
+  @ViewChild('siteAreaLimitsComponent') public siteAreaLimitsComponent!: SiteAreaLimitsComponent;
   @ViewChild('siteAreaOcpiComponent') public siteAreaOcpiComponent!: SiteAreaOcpiComponent;
 
   public ocpiActive: boolean;
@@ -50,7 +53,7 @@ export class SiteAreaComponent extends AbstractTabComponent implements OnInit {
     private router: Router,
     protected windowService: WindowService,
     protected activatedRoute: ActivatedRoute) {
-    super(activatedRoute, windowService, ['main', 'ocpi'], false);
+    super(activatedRoute, windowService, ['main', 'limits', 'ocpi'], false);
     this.ocpiActive = this.componentService.isActive(TenantComponents.OCPI);
   }
 
@@ -58,7 +61,7 @@ export class SiteAreaComponent extends AbstractTabComponent implements OnInit {
     // Init the form
     this.formGroup = new FormGroup({});
     // Handle Dialog mode
-    this.readOnly = (this.dialogMode === DialogMode.VIEW);
+    this.readOnly = this.dialogMode === DialogMode.VIEW;
     Utils.handleDialogMode(this.dialogMode, this.formGroup);
     // Load Site Area
     this.loadSiteArea();
@@ -76,7 +79,7 @@ export class SiteAreaComponent extends AbstractTabComponent implements OnInit {
           // Async call for letting the sub form groups to init
           setTimeout(() => this.formGroup.disable(), 0);
         }
-          // Update form group
+        // Update form group
         this.formGroup.updateValueAndValidity();
         this.formGroup.markAsPristine();
         this.formGroup.markAllAsTouched();

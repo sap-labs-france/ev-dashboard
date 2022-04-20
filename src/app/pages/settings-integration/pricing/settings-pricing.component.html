@@ -11,28 +11,27 @@
     {{'settings.activation_contact_msg' | translate}}
   </div>
 </div>
-<div *ngIf="isActive" class="d-flex flex-column">
+<div *ngIf="isActive" class="d-flex flex-column h-100">
   <div class="mat-toolbar-row mat-toolbar-settings">
     <button mat-raised-button color="warn" (click)="save(formGroup.value)"
       [disabled]="!formGroup.valid || !formGroup.dirty">
-      <mat-icon>save</mat-icon><span>{{'general.save' | translate}}</span>
+      <mat-icon>save</mat-icon>
+      <span>{{'general.save' | translate}}</span>
     </button>
   </div>
-  <form class="form" [formGroup]="formGroup">
-    <div>
-      <!-- Pricing Settings -->
-      <app-settings-simple-pricing *ngIf="isActive && showSimplePricing"
-        [isCurrencyCodeReadonly]="isCurrencyCodeReadonly"
-        [pricingSettings]="pricingSettings"
-        [formGroup]="formGroup">
-      </app-settings-simple-pricing>
-      <app-pricing-definitions *ngIf="isActive && showPricingDefinitions"
-        [inDialog]="false"
-        [currentPricingDefinitionID]="currentPricingDefinitionID"
-        [currentEntityID]="currentEntityID"
-        [currentEntityType]="currentEntityType"
-        [currentEntityName]="currentEntityName">
-      </app-pricing-definitions>
-    </div>
+  <form class="form h-100" [formGroup]="formGroup">
+    <!-- Pricing Settings -->
+    <app-settings-simple-pricing *ngIf="isActive && showSimplePricing"
+      [isCurrencyCodeReadonly]="isCurrencyCodeReadonly"
+      [pricingSettings]="pricingSettings"
+      [formGroup]="formGroup">
+    </app-settings-simple-pricing>
+    <app-pricing-definitions *ngIf="isActive && showPricingDefinitions"
+      [inDialog]="false"
+      [currentPricingDefinitionID]="currentPricingDefinitionID"
+      [currentEntityID]="currentEntityID"
+      [currentEntityType]="currentEntityType"
+      [currentEntityName]="currentEntityName">
+    </app-pricing-definitions>
   </form>
 </div>

@@ -9,7 +9,7 @@ import { TenantComponents } from '../../types/Tenant';
 
 @Component({
   selector: 'app-transactions',
-  templateUrl: './transactions.component.html',
+  templateUrl: 'transactions.component.html',
 })
 export class TransactionsComponent extends AbstractTabComponent {
   public canListTransactions: boolean;

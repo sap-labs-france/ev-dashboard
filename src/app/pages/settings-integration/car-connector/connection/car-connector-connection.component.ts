@@ -9,7 +9,8 @@ import { CarConnectorConnectionDialogComponent } from './car-connector-connectio
 
 @Component({
   selector: 'app-settings-car-connector-connection',
-  templateUrl: './car-connector-connection.component.html'
+  templateUrl: 'car-connector-connection.component.html',
+  styleUrls: ['car-connector-connection.component.scss']
 })
 export class CarConnectorConnectionComponent implements OnInit {
   @Input() public currentCarConnectorConnection!: CarConnectorConnectionSetting;
@@ -64,15 +65,15 @@ export class CarConnectorConnectionComponent implements OnInit {
 
   public loadCarConnectorConnection(): void {
     if (this.currentCarConnectorConnection) {
-      this.formGroup.controls.id.setValue(this.currentCarConnectorConnection.id);
+      this.id.setValue(this.currentCarConnectorConnection.id);
       if (this.currentCarConnectorConnection.name) {
-        this.formGroup.controls.name.setValue(this.currentCarConnectorConnection.name);
+        this.name.setValue(this.currentCarConnectorConnection.name);
       }
       if (this.currentCarConnectorConnection.description) {
-        this.formGroup.controls.description.setValue(this.currentCarConnectorConnection.description);
+        this.description.setValue(this.currentCarConnectorConnection.description);
       }
       if (this.currentCarConnectorConnection.type) {
-        this.formGroup.controls.type.setValue(this.currentCarConnectorConnection.type);
+        this.type.setValue(this.currentCarConnectorConnection.type);
         this.loadConnectionType();
       }
     }
@@ -113,11 +114,11 @@ export class CarConnectorConnectionComponent implements OnInit {
   }
 
   public typeChanged(type: CarConnectorConnectionType) {
-    if (this.formGroup.controls.mercedesConnection && type !== CarConnectorConnectionType.MERCEDES) {
-      delete this.formGroup.controls.mercedesConnection;
+    if (this.mercedesConnection && type !== CarConnectorConnectionType.MERCEDES) {
+      delete this.mercedesConnection;
     }
-    if (this.formGroup.controls.tronityConnection && type !== CarConnectorConnectionType.TRONITY) {
-      delete this.formGroup.controls.tronityConnection;
+    if (this.tronityConnection && type !== CarConnectorConnectionType.TRONITY) {
+      delete this.tronityConnection;
     }
   }
 }

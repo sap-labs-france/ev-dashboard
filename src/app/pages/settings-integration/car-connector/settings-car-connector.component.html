@@ -16,11 +16,12 @@
     <div class="mat-toolbar-row mat-toolbar-settings">
       <button mat-raised-button color="warn" (click)="save()"
           [disabled]="!formGroup.valid || !formGroup.dirty">
-        <mat-icon>save</mat-icon><span>{{'general.save' | translate}}</span>
+        <mat-icon>save</mat-icon>
+        <span>{{'general.save' | translate}}</span>
       </button>
     </div>
     <!-- Connections -->
-    <div class="card h-100">
+    <div class="card cars-settings-connectors">
       <div class="card-header card-header-icon card-header-primary">
         <div class="card-icon">
           <mat-icon>bluetooth_drive</mat-icon>

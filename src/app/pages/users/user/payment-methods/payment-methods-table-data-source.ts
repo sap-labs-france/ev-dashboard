@@ -33,7 +33,6 @@ export class PaymentMethodsTableDataSource extends TableDataSource<BillingPaymen
   private createAction = new TableCreatePaymentMethodAction().getActionDef();
   private paymentsAuthorizations: BillingPaymentMethodsAuthorizationActions;
 
-
   public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,

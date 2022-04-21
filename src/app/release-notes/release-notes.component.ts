@@ -31,6 +31,7 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Fixed payment limit URL parameter is not provided in mobile app`,
+              `Migrated Billing endpoint to the new authorization framework`,
             ],
           },
         ],

@@ -254,10 +254,6 @@ export abstract class TableDataSource<T extends TableData> {
     this.tableDef = tableDef;
   }
 
-  public setTableColumnsDef(tableColumnsDef: TableColumnDef[]) {
-    this.tableColumnsDef = tableColumnsDef;
-  }
-
   public filterChanged(filter: TableFilterDef) {
     // Reset to default paging
     this.setPaging({

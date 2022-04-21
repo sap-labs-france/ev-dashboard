@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { TransactionDialogComponent } from 'shared/dialogs/transaction/transaction-dialog.component';
+import { TableDeleteTransactionsAction, TableDeleteTransactionsActionDef } from 'shared/table/actions/transactions/table-delete-transactions-action';
 import { ConnectorTableFilter } from 'shared/table/filters/connector-table-filter';
 import { DateRangeTableFilter } from 'shared/table/filters/date-range-table-filter';
 import { CarCatalog } from 'types/Car';
@@ -29,7 +30,6 @@ import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto
 import { TableMoreAction } from '../../../shared/table/actions/table-more-action';
 import { TableOpenURLActionDef } from '../../../shared/table/actions/table-open-url-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
-import { TableDeleteTransactionAction, TableDeleteTransactionActionDef } from '../../../shared/table/actions/transactions/table-delete-transaction-action';
 import { TableExportTransactionOcpiCdrAction, TableExportTransactionOcpiCdrActionDef } from '../../../shared/table/actions/transactions/table-export-transaction-ocpi-cdr';
 import { TableExportTransactionsAction, TableExportTransactionsActionDef } from '../../../shared/table/actions/transactions/table-export-transactions-action';
 import { TablePushTransactionOcpiCdrAction, TablePushTransactionOcpiCdrActionDef } from '../../../shared/table/actions/transactions/table-push-transaction-ocpi-cdr-action';
@@ -58,11 +58,11 @@ import { TransactionsInactivityStatusFilter } from '../filters/transactions-inac
 export class TransactionsHistoryTableDataSource extends TableDataSource<Transaction> {
   private isAdmin = false;
   private viewAction = new TableViewTransactionAction().getActionDef();
-  private deleteAction = new TableDeleteTransactionAction().getActionDef();
   private navigateToLogsAction = new TableNavigateToLogsAction().getActionDef();
   private navigateToChargingPlansAction = new TableNavigateToChargingPlansAction().getActionDef();
   private transactionPushOcpiCdrAction = new TablePushTransactionOcpiCdrAction().getActionDef();
   private exportTransactionOcpiCdrAction = new TableExportTransactionOcpiCdrAction().getActionDef();
+  private deleteManyAction = new TableDeleteTransactionsAction().getActionDef();
   private readonly isOrganizationComponentActive: boolean;
   private canExport = new TableExportTransactionsAction().getActionDef();
 
@@ -166,6 +166,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
       this.centralServerService.getTransactions(this.buildFilterValues(), this.getPaging(), this.getSorting())
         .subscribe((transactions) => {
           this.canExport.visible = this.authorizationService.canExportTransactions();
+          this.deleteManyAction.visible = this.authorizationService.canDeleteTransaction();
           observer.next(transactions);
           observer.complete();
         }, (error) => {
@@ -180,6 +181,10 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     return {
       search: {
         enabled: true,
+      },
+      rowSelection: {
+        enabled: true,
+        multiple: true,
       },
       rowDetails: {
         enabled: true,
@@ -459,7 +464,6 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
             moreActions.addActionInMoreActions(this.exportTransactionOcpiCdrAction);
           }
         }
-        moreActions.addActionInMoreActions(this.deleteAction);
         if (!Utils.isEmptyArray(moreActions.getActionsInMoreActions())) {
           rowActions.push(moreActions.getActionDef());
         }
@@ -482,8 +486,6 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
 
   public canDisplayRowAction(actionDef: TableActionDef, transaction: Transaction) {
     switch (actionDef.id) {
-      case TransactionButtonAction.DELETE_TRANSACTION:
-        return this.isAdmin;
       case TransactionButtonAction.REFUND_TRANSACTIONS:
         return !Utils.objectHasProperty(transaction, 'refund');
       default:
@@ -493,13 +495,6 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
 
   public rowActionTriggered(actionDef: TableActionDef, transaction: Transaction) {
     switch (actionDef.id) {
-      case TransactionButtonAction.DELETE_TRANSACTION:
-        if (actionDef.action) {
-          (actionDef as TableDeleteTransactionActionDef).action(
-            transaction, this.dialogService, this.translateService, this.messageService,
-            this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
-        }
-        break;
       case TransactionButtonAction.VIEW_TRANSACTION:
         if (actionDef.action) {
           (actionDef as TableViewTransactionActionDef).action(TransactionDialogComponent, this.dialog,
@@ -547,6 +542,9 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     if (this.authorizationService.canExportTransactions()) {
       tableActionsDef.unshift(this.canExport);
     }
+    if (this.authorizationService.canDeleteTransaction) {
+      tableActionsDef.unshift(this.deleteManyAction);
+    }
     return tableActionsDef;
   }
 
@@ -557,6 +555,14 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
           (actionDef as TableExportTransactionsActionDef).action(this.buildFilterValues(), this.dialogService,
             this.translateService, this.messageService, this.centralServerService, this.router,
             this.spinnerService);
+        }
+        break;
+      case TransactionButtonAction.DELETE_TRANSACTIONS:
+        if (actionDef.action) {
+          (actionDef as TableDeleteTransactionsActionDef).action(
+            this.getSelectedRows(), this.dialogService, this.translateService, this.messageService,
+            this.centralServerService, this.spinnerService, this.router,
+            this.clearSelectedRows.bind(this), this.refreshData.bind(this));
         }
         break;
     }

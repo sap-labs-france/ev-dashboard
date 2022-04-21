@@ -25,12 +25,12 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.6.6',
-        date: new Date('2022-04-19'),
+        date: new Date('2022-04-21'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
-              ``,
+              `Fixed payment limit URL parameter is not provided in mobile app`,
             ],
           },
         ],

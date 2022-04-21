@@ -65,7 +65,6 @@ export class StripePaymentMethodComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    // TODO: make sure to wait for stripe to be initialized - spinner show
     void this.initialize();
     this.userID = this.dialogRef.componentInstance.userID;
     this.formGroup = new FormGroup({
@@ -104,7 +103,6 @@ export class StripePaymentMethodComponent implements OnInit {
     this.cardNumber = this.elements.create('cardNumber');
     this.cardNumber.mount('#cardNumber');
     this.cardNumber.on('change', event => {
-      // this.cardNumberError = event.error?.message || '';
       this.cardNumberError = event.error ? this.translateService.instant('settings.billing.payment_methods_card_number_error') : '';
       this.isCardNumberValid = !event.error && event.complete;
     });

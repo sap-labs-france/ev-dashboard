@@ -25,7 +25,6 @@ import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto
 import { TableMoreAction } from '../../../shared/table/actions/table-more-action';
 import { TableOpenURLActionDef } from '../../../shared/table/actions/table-open-url-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
-import { TableDeleteTransactionAction, TableDeleteTransactionActionDef } from '../../../shared/table/actions/transactions/table-delete-transaction-action';
 import { TableDeleteTransactionsAction, TableDeleteTransactionsActionDef } from '../../../shared/table/actions/transactions/table-delete-transactions-action';
 import { TableViewTransactionAction, TableViewTransactionActionDef, TransactionDialogData } from '../../../shared/table/actions/transactions/table-view-transaction-action';
 import { ChargingStationTableFilter } from '../../../shared/table/filters/charging-station-table-filter';
@@ -49,7 +48,6 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
   private isAdmin = false;
   private isSiteAdmin = false;
   private viewAction = new TableViewTransactionAction().getActionDef();
-  private deleteAction = new TableDeleteTransactionAction().getActionDef();
   private deleteManyAction = new TableDeleteTransactionsAction().getActionDef();
   private navigateToLogsAction = new TableNavigateToLogsAction().getActionDef();
   private errorTypes = [
@@ -345,9 +343,6 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
       if (!Utils.isEmptyArray(moreActions.getActionsInMoreActions())) {
         rowActions.push(moreActions.getActionDef());
       }
-      if (this.authorizationService.canDeleteTransaction()) {
-        moreActions.addActionInMoreActions(this.deleteAction);
-      }
     } else {
       if (this.authorizationService.canListLogs()) {
         moreActions.addActionInMoreActions(this.navigateToLogsAction);
@@ -358,13 +353,6 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
 
   public rowActionTriggered(actionDef: TableActionDef, transaction: Transaction) {
     switch (actionDef.id) {
-      case TransactionButtonAction.DELETE_TRANSACTION:
-        if (actionDef.action) {
-          (actionDef as TableDeleteTransactionActionDef).action(
-            transaction, this.dialogService, this.translateService, this.messageService,
-            this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
-        }
-        break;
       case TransactionButtonAction.VIEW_TRANSACTION:
         if (actionDef.action) {
           (actionDef as TableViewTransactionActionDef).action(TransactionDialogComponent, this.dialog,

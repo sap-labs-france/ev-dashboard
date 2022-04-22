@@ -215,6 +215,11 @@ export class SiteAreaComponent extends AbstractTabComponent implements OnInit {
           this.translateService.instant('site_areas.site_area_hierarchy_error_title'),
           this.translateService.instant('site_areas.site_area_tree_error'));
         break;
+      case HTTPError.SITE_AREA_TREE_ERROR_SITE:
+        this.dialogService.createAndShowOkDialog(
+          this.translateService.instant('site_areas.site_area_hierarchy_error_title'),
+          this.translateService.instant('site_areas.site_area_tree_error_site'));
+        break;
       case HTTPError.SITE_AREA_TREE_ERROR_SMART_CHARGING:
         this.dialogService.createAndShowOkDialog(
           this.translateService.instant('site_areas.site_area_hierarchy_error_title'),

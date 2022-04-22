@@ -475,6 +475,11 @@
       "Avoid circular dependencies within the tree.",
       "For more information please check the logs."
     ],
+    "site_area_tree_error_site": [
+      "An error occurred while modifying the Site Area chain.",
+      "Site Area has children with a different Site.",
+      "Do you want to update the children with the same Site or to detach them?"
+    ],
     "site_area_tree_error_smart_charging": [
       "An error occurred while modifying the Site Area chain.",
       "Site Area must have the same Smart Charging value as its parent."

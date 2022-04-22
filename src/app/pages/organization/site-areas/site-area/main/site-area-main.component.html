@@ -41,6 +41,16 @@
           </mat-error>
         </mat-form-field>
         <mat-form-field *ngIf="formGroup.enabled">
+          <input matInput type="text" readonly=true placeholder="{{'site_areas.parent_site_area' | translate}}"
+            class="form-field-popup" (click)="assignParentSiteArea()" [formControl]="parentSiteArea" />
+          <button mat-button matSuffix mat-icon-button (click)="assignParentSiteArea()">
+            <mat-icon>create</mat-icon>
+          </button>
+          <button *ngIf="parentSiteAreaID.value" mat-icon-button matSuffix (click)="clearParent()">
+            <mat-icon>clear</mat-icon>
+          </button>
+        </mat-form-field>
+        <mat-form-field *ngIf="formGroup.enabled">
           <input matInput type="text" readonly=true placeholder="{{'sites.site' | translate}}"
             class="form-field-popup" (click)="assignSite()" [formControl]="site" required />
           <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignSite()">
@@ -52,16 +62,6 @@
         </mat-form-field>
         <mat-form-field *ngIf="!formGroup.enabled">
           <input matInput type="text" placeholder="{{'sites.site' | translate}}" [formControl]="site" required />
-        </mat-form-field>
-        <mat-form-field *ngIf="formGroup.enabled">
-          <input matInput type="text" readonly=true placeholder="{{'site_areas.parent_site_area' | translate}}"
-            class="form-field-popup" (click)="assignParentSiteArea()" [formControl]="parentSiteArea" />
-          <button mat-button matSuffix mat-icon-button (click)="assignParentSiteArea()">
-            <mat-icon>create</mat-icon>
-          </button>
-          <button *ngIf="parentSiteAreaID.value" mat-icon-button matSuffix (click)="clearParent()">
-            <mat-icon>clear</mat-icon>
-          </button>
         </mat-form-field>
         <div *ngIf="issuer?.value" class="text-left mb-2">
           <mat-checkbox [formControl]="accessControl">

@@ -100,6 +100,15 @@ export enum FilterType {
   DATE_RANGE = 'date-range',
 }
 
+export interface CustomButton {
+  id: string;
+  name: string;
+  color?: 'primary'|'warn';
+  cancelButton?: boolean;
+  validateButton?: boolean;
+}
+
+
 export enum ButtonType {
   OK = 'OK',
   CANCEL = 'CANCEL',

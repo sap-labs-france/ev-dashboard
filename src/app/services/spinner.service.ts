@@ -27,15 +27,13 @@ export class SpinnerService {
 
   public hide(): void {
     SpinnerService.counter--;
-    if ( SpinnerService.counter<0) {
+    if (SpinnerService.counter < 0) {
       console.log('SpinnerService - Unexpected situation - counter: ' + SpinnerService.counter);
       SpinnerService.counter = 0;
     }
-    if (this.spinner) {
-      if ( SpinnerService.counter===0) {
-        this.spinner.style['display'] = 'none';
-        this.visible = false;
-      }
+    if (this.spinner && SpinnerService.counter === 0) {
+      this.spinner.style['display'] = 'none';
+      this.visible = false;
     }
   }
 }

@@ -476,10 +476,16 @@
       "Pour plus d'information, vérifiez les logs."
     ],
     "site_area_tree_error_site": [
-      "An error occurred while modifying the Site Area chain.",
-      "Site Area has children with a different Site.",
-      "Do you want to update the children with the same Site or to detach them?"
+      "Une erreur est survenue pendant la modification de la hiérarchie des zones.",
+      "Les sous-zones n'ont pas le même Site que leur parent.",
+      "Voulez-vous:",
+      "1 - Mettre à jour toutes les zones de la hiérarchie avec le nouveau Site",
+      "2 - Rattacher les sous-zones a la zone parente",
+      "3 - Effacer la zone parente des sous-zones"
     ],
+    "site_area_tree_error_site_update": "Mettre à jour (1)",
+    "site_area_tree_error_site_attach": "Assigner (2)",
+    "site_area_tree_error_site_clear": "Effacer (3)",
     "site_area_tree_error_smart_charging": [
       "Une erreur est survenue pendant la modification de la hiérarchie des zones.",
       "La Zone doit avoir la même valeure Charge Intelligente que son parent."

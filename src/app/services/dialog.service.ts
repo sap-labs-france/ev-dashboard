@@ -16,31 +16,37 @@ export class DialogService {
     this.matDialog.closeAll();
   }
 
-  public createAndShowDialog(title: string, message: string, buttons: CustomButton[]): Observable<ButtonType> {
+  public createAndShowDialog(title: string, message: string, buttons: CustomButton[], withCancelButton: boolean = true): Observable<string> {
+    if (withCancelButton) {
+      buttons = [
+        ...buttons,
+        { id: ButtonType.CANCEL, name: 'general.cancel', cancelButton: true },
+      ];
+    }
     return this.createAndShowCustomDialog(title, message, buttons);
   }
 
-  public createAndShowOkDialog(title: string, message: string): Observable<ButtonType> {
+  public createAndShowOkDialog(title: string, message: string): Observable<string> {
     return this.createAndShowCustomDialog(title, message, [
       { id: ButtonType.OK, name: 'general.ok', color: 'primary', validateButton: true },
     ]);
   }
 
-  public createAndShowYesNoDialog(title: string, message: string): Observable<ButtonType> {
+  public createAndShowYesNoDialog(title: string, message: string): Observable<string> {
     return this.createAndShowCustomDialog(title, message, [
       { id: ButtonType.YES, name: 'general.yes', color: 'warn', validateButton: true },
       { id: ButtonType.NO, name: 'general.no', cancelButton: true },
     ]);
   }
 
-  public createAndShowInvalidChangeCloseDialog(title: string, message: string): Observable<ButtonType> {
+  public createAndShowInvalidChangeCloseDialog(title: string, message: string): Observable<string> {
     return this.createAndShowCustomDialog(title, message, [
       { id: ButtonType.DO_NOT_SAVE_AND_CLOSE, name: 'general.do_not_save_and_close', color: 'warn' },
       { id: ButtonType.CANCEL, name: 'general.cancel', cancelButton: true },
     ]);
   }
 
-  public createAndShowDirtyChangeCloseDialog(title: string, message: string): Observable<ButtonType> {
+  public createAndShowDirtyChangeCloseDialog(title: string, message: string): Observable<string> {
     return this.createAndShowCustomDialog(title, message, [
       { id: ButtonType.SAVE_AND_CLOSE, name: 'general.save_and_close', color: 'primary', validateButton: true },
       { id: ButtonType.DO_NOT_SAVE_AND_CLOSE, name: 'general.do_not_save_and_close', color: 'warn' },
@@ -48,7 +54,7 @@ export class DialogService {
     ]);
   }
 
-  private createAndShowCustomDialog(title: string, message: string|string[], buttons: CustomButton[]): Observable<ButtonType> {
+  private createAndShowCustomDialog(title: string, message: string|string[], buttons: CustomButton[]): Observable<string> {
     // Transform i18n Array to HTML message
     if (!Utils.isEmptyArray(message)) {
       message = (message as string[]).join('<br>');

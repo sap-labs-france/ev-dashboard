@@ -478,8 +478,14 @@
     "site_area_tree_error_site": [
       "An error occurred while modifying the Site Area chain.",
       "Site Area has children with a different Site.",
-      "Do you want to update the children with the same Site or to detach them?"
+      "Do you want to:",
+      "1 - Update all Site Area chain with the new Site",
+      "2 - Attach all children to the parent Site Area",
+      "3 - Clear the parent Site Area in all children"
     ],
+    "site_area_tree_error_site_update": "Update (1)",
+    "site_area_tree_error_site_attach": "Attach (2)",
+    "site_area_tree_error_site_clear": "Clear (3)",
     "site_area_tree_error_smart_charging": [
       "An error occurred while modifying the Site Area chain.",
       "Site Area must have the same Smart Charging value as its parent."

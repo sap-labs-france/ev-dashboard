@@ -44,6 +44,12 @@ export interface SiteAreaConsumption {
   values: Consumption[];
 }
 
+export enum SubSiteAreaAction {
+  UPDATE = 'update',
+  ATTACH = 'attach',
+  CLEAR = 'clear',
+}
+
 export enum SiteAreaButtonAction {
   VIEW_SITE_AREA = 'view_site_area',
   EDIT_SITE_AREA = 'edit_site_area',
@@ -53,4 +59,7 @@ export enum SiteAreaButtonAction {
   VIEW_CHARGING_STATIONS_OF_SITE_AREA = 'view_charging_stations_of_site_area',
   ASSIGN_ASSETS_TO_SITE_AREA = 'assign_assets_to_site_area',
   VIEW_ASSETS_OF_SITE_AREA = 'view_assets_of_site_area',
+  SUB_SITE_AREA_UPDATE = 'sub_site_area_update',
+  SUB_SITE_AREA_ATTACH = 'sub_site_area_attach',
+  SUB_SITE_AREA_CLEAR = 'sub_site_area_clear',
 }

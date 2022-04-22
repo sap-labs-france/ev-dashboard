@@ -28,7 +28,7 @@ import { RegistrationToken } from '../types/RegistrationToken';
 import { RESTServerRoute, ServerAction } from '../types/Server';
 import { BillingSettings, SettingDB } from '../types/Setting';
 import { Site, SiteUser } from '../types/Site';
-import { SiteArea, SiteAreaConsumption } from '../types/SiteArea';
+import { SiteArea, SiteAreaConsumption, SubSiteAreaAction } from '../types/SiteArea';
 import { StatisticData } from '../types/Statistic';
 import { Tag } from '../types/Tag';
 import { Tenant } from '../types/Tenant';
@@ -2144,11 +2144,15 @@ export class CentralServerService {
       );
   }
 
-  public updateSiteArea(siteArea: SiteArea): Observable<ActionResponse> {
+  public updateSiteArea(siteArea: SiteArea, subSiteAreaAction?: SubSiteAreaAction): Observable<ActionResponse> {
     // Verify init
     this.checkInit();
     // Execute
-    return this.httpClient.put<ActionResponse>(this.buildRestEndpointUrl(RESTServerRoute.REST_SITE_AREA, { id: siteArea.id }), siteArea,
+    return this.httpClient.put<ActionResponse>(this.buildRestEndpointUrl(RESTServerRoute.REST_SITE_AREA, { id: siteArea.id }),
+      {
+        ...siteArea,
+        subSiteAreasAction: subSiteAreaAction
+      },
       {
         headers: this.buildHttpHeaders(),
       })

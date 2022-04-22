@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/member-ordering */
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -21,9 +20,7 @@ import { PaymentMethodDialogComponent } from '../payment-method.dialog.component
   templateUrl: 'stripe-payment-method.component.html',
   styleUrls: ['stripe-payment-method.component.scss']
 })
-
 export class StripePaymentMethodComponent implements OnInit {
-
   @Input() public inDialog!: boolean;
   @Input() public dialogRef!: MatDialogRef<PaymentMethodDialogComponent>;
   @Input() public currentUserID!: string;
@@ -73,6 +70,21 @@ export class StripePaymentMethodComponent implements OnInit {
     this.acceptConditions = this.formGroup.controls['acceptConditions'];
   }
 
+  public handleAcceptConditions() {
+    this.hasAcceptedConditions = !this.hasAcceptedConditions;
+  }
+
+  public linkCardToAccount() {
+    this.isSaveClicked = true;
+    void this.doCreatePaymentMethod();
+  }
+
+  public close(saved: boolean = false) {
+    if (this.inDialog) {
+      this.dialogRef.close(saved);
+    }
+  }
+
   private async initialize(): Promise<void> {
     try {
       this.spinnerService.show();
@@ -87,10 +99,6 @@ export class StripePaymentMethodComponent implements OnInit {
     } finally {
       this.spinnerService.hide();
     }
-  }
-
-  public handleAcceptConditions() {
-    this.hasAcceptedConditions = !this.hasAcceptedConditions;
   }
 
   private getStripeFacade() {
@@ -120,11 +128,6 @@ export class StripePaymentMethodComponent implements OnInit {
       this.cvcError = event.error ? this.translateService.instant('settings.billing.payment_methods_cvc_error') : '';
       this.isCvcValid = !event.error && event.complete;
     });
-  }
-
-  public linkCardToAccount() {
-    this.isSaveClicked = true;
-    void this.doCreatePaymentMethod();
   }
 
   private async doCreatePaymentMethod() {
@@ -196,12 +199,6 @@ export class StripePaymentMethodComponent implements OnInit {
       return response;
     } finally {
       this.spinnerService.hide();
-    }
-  }
-
-  public close(saved: boolean = false) {
-    if (this.inDialog) {
-      this.dialogRef.close(saved);
     }
   }
 }

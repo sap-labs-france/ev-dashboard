@@ -835,7 +835,7 @@ export class Utils {
       case MobileType.IOS:
         return `eMobility://${path}`;
       case MobileType.ANDROID:
-        return `intent://${path}#Intent;scheme=eMobility;package=com.emobility;end`;
+        return `intent://${path}#Intent;scheme=eMobility;package=com.chargeangels;end`;
     }
   }
 

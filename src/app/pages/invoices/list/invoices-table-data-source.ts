@@ -4,11 +4,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { DateRangeTableFilter } from 'shared/table/filters/date-range-table-filter';
 import { IssuerFilter } from 'shared/table/filters/issuer-filter';
+import { BillingInvoicesAuthorizations } from 'types/Authorization';
 
-import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
-import { ComponentService } from '../../../services/component.service';
-import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { AppCurrencyPipe } from '../../../shared/formatters/app-currency.pipe';
@@ -20,9 +18,8 @@ import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { BillingButtonAction, BillingInvoice, BillingSessionData } from '../../../types/Billing';
-import { DataResult } from '../../../types/DataResult';
+import { BillingInvoiceDataResult } from '../../../types/DataResult';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
-import { TenantComponents } from '../../../types/Tenant';
 import { User } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';
 import { InvoiceStatusFilter } from '../filters/invoices-status-filter';
@@ -31,29 +28,38 @@ import { InvoiceStatusFormatterComponent } from '../formatters/invoice-status-fo
 @Injectable()
 export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
   private downloadBillingInvoiceAction = new TableDownloadBillingInvoice().getActionDef();
+  private usersFilter: TableFilterDef;
+  private issuerFilter: TableFilterDef;
+  private dateRangeFilter: TableFilterDef;
+  private invoiceStatusFilter: TableFilterDef;
+  private invoicesAuthorizations: BillingInvoicesAuthorizations;
+
 
   public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     private messageService: MessageService,
-    private dialogService: DialogService,
     private router: Router,
     private appUserNamePipe: AppUserNamePipe,
     private centralServerService: CentralServerService,
-    private authorizationService: AuthorizationService,
     private datePipe: AppDatePipe,
-    private appCurrencyPipe: AppCurrencyPipe,
-    private componentService: ComponentService) {
+    private appCurrencyPipe: AppCurrencyPipe) {
     super(spinnerService, translateService);
     // Init
     this.initDataSource();
   }
 
-  public loadDataImpl(): Observable<DataResult<BillingInvoice>> {
+  public loadDataImpl(): Observable<BillingInvoiceDataResult> {
     return new Observable((observer) => {
       // Get the Invoices
       this.centralServerService.getInvoices(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((invoices) => {
+        // Initialise authorizations
+        this.invoicesAuthorizations = {
+          canListUsers:  Utils.convertToBoolean(invoices.canListUsers)
+        };
+        // Update filters visibility
+        this.usersFilter.visible = this.invoicesAuthorizations.canListUsers;
         observer.next(invoices);
         observer.complete();
       }, (error) => {
@@ -74,7 +80,7 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
 
   public buildTableDynamicRowActions(invoice: BillingInvoice): TableActionDef[] {
     const rowActions = [];
-    if (invoice.downloadable && this.authorizationService.canDownloadInvoice(invoice.userID)) {
+    if (invoice.downloadable && invoice.canDownload) {
       rowActions.push(this.downloadBillingInvoiceAction);
     }
     return rowActions;
@@ -109,25 +115,19 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
         class: 'col-15p',
         sortable: true,
       },
-    );
-    if (this.authorizationService.isAdmin()) {
-      columns.push(
-        {
-          id: 'user',
-          name: 'invoices.user',
-          headerClass: 'col-20p text-left',
-          class: 'col-20p text-left',
-          formatter: (user: User) => this.appUserNamePipe.transform(user),
-        },
-        {
-          id: 'user.email',
-          name: 'users.email',
-          headerClass: 'col-20p text-left',
-          class: 'col-20p text-left',
-        }
-      );
-    }
-    columns.push(
+      {
+        id: 'user.name',
+        name: 'invoices.user',
+        headerClass: 'col-20p text-left',
+        class: 'col-20p text-left',
+        formatter: (name: string, invoice: BillingInvoice) => this.appUserNamePipe.transform(invoice.user),
+      },
+      {
+        id: 'user.email',
+        name: 'users.email',
+        headerClass: 'col-20p text-left',
+        class: 'col-20p text-left',
+      },
       {
         id: 'sessions',
         name: 'invoices.number_of_items',
@@ -143,8 +143,7 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
         headerClass: 'col-10p',
         class: 'col-10p',
         sortable: true,
-      },
-    );
+      });
     return columns as TableColumnDef[];
   }
 
@@ -180,17 +179,14 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {
-    const issuerFilter = new IssuerFilter().getFilterDef();
-    const filters = [
-      new DateRangeTableFilter({
-        translateService: this.translateService,
-      }).getFilterDef(),
-      new InvoiceStatusFilter().getFilterDef(),
+    this.issuerFilter = new IssuerFilter().getFilterDef();
+    this.usersFilter = new UserTableFilter([this.issuerFilter]).getFilterDef();
+    this.dateRangeFilter = new DateRangeTableFilter({ translateService: this.translateService }).getFilterDef();
+    this.invoiceStatusFilter = new InvoiceStatusFilter().getFilterDef();
+    return [
+      this.dateRangeFilter,
+      this.invoiceStatusFilter,
+      this.usersFilter
     ];
-    if (this.authorizationService.isAdmin()) {
-      // Set Issuer filter as invisible static filter
-      filters.push(new UserTableFilter([issuerFilter]).getFilterDef());
-    }
-    return filters;
   }
 }

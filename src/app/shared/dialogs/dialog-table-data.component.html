@@ -13,8 +13,8 @@
       </mat-tab>
     </mat-tab-group>
     <div class="tabs-actions">
-      <button mat-button (click)="validate()" [disabled]="dialogDataSource.selectedRows === 0">
-        {{buttonTitle | translate}}
+      <button mat-icon-button (click)="validate()" [disabled]="dialogDataSource.selectedRows === 0">
+        <mat-icon>done</mat-icon>
       </button>
       <button mat-icon-button mat-dialog-close>
         <mat-icon>close</mat-icon>

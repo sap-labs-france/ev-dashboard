@@ -129,7 +129,6 @@ export class SiteMainComponent implements OnInit, OnChanges {
     dialogConfig.panelClass = 'transparent-dialog-container';
     dialogConfig.data = {
       title: 'sites.assign_company',
-      validateButtonTitle: 'general.select',
       sitesAdminOnly: true,
       rowMultipleSelection: false,
       staticFilter: {

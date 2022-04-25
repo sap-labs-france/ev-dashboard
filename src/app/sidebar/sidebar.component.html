@@ -1,10 +1,11 @@
-<nav></nav><div class="logo">
+<nav></nav>
+<div class="logo">
   <div class="simple-text logo-mini">
     <a mat-button (click)="toggleSidebar()" href="javascript:void(0)">
       <i class="material-icons">menu</i>
     </a>
   </div>
-  <div *ngIf="!sidebarMinimized" class="simple-text me-2">
+  <div *ngIf="!sidebarMinimized" class="simple-text ms-3 me-2">
     {{'general.app_name' | translate}}
     <div>
       <a routerLink="/release-notes" class="app-version">

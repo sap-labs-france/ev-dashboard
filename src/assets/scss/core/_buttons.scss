@@ -42,6 +42,9 @@
     color: white !important;
     padding-right: 5px !important;
   }
+  @media screen and (max-width: 992px) {
+    display: none !important;
+  }
 }
 
 .button-refresh {

@@ -4,7 +4,7 @@
       <i class="material-icons">menu</i>
     </a>
   </div>
-  <div *ngIf="!misc?.sidebar_mini_active" class="simple-text me-2">
+  <div *ngIf="!sidebarMinimized" class="simple-text me-2">
     {{'general.app_name' | translate}}
     <div>
       <a routerLink="/release-notes" class="app-version">
@@ -15,7 +15,7 @@
 </div>
 <div class="logo text-center p-0">
   <div class="simple-text">
-    <img class="logo-img" [class.small-logo-img]="misc?.sidebar_mini_active" [src]="logo" alt="">
+    <img class="logo-img" [class.small-logo-img]="sidebarMinimized" [src]="logo" alt="">
   </div>
 </div>
 <div class="sidebar-wrapper">
@@ -61,7 +61,7 @@
         <p>{{'general.menu.' + menuItem.title | translate}}</p>
       </a>
       <!--If it have a submenu-->
-      <a data-toggle="collapse" href="#{{menuItem.collapse}}" *ngIf="menuItem.type === 'sub'" (click)="updatePS()"
+      <a data-toggle="collapse" href="#{{menuItem.collapse}}" *ngIf="menuItem.type === 'sub'"
         class="nav-link">
         <i class="material-icons">{{menuItem.icontype}}</i>
         <p>{{'general.menu.' + menuItem.title | translate}}

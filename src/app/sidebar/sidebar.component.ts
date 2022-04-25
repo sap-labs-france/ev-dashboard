@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Component, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { version } from '../../../package.json';
@@ -7,8 +8,6 @@ import { AuthorizationService } from '../services/authorization.service';
 import { CentralServerService } from '../services/central-server.service';
 import { UserToken } from '../types/User';
 import { Constants } from '../utils/Constants';
-
-declare const $: any;
 
 @Component({
   selector: 'app-sidebar-cmp',
@@ -23,18 +22,15 @@ export class SidebarComponent {
   public isAdmin = false;
   public canEditProfile = false;
   public logo = Constants.NO_IMAGE;
-  public misc: any = {
-    navbar_menu_visible: 0,
-    active_collapse: true,
-    disabled_collapse_init: 0,
-  };
+  public sidebarMinimized: boolean;
 
   public constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private guard: RouteGuardService,
     private authorizationService: AuthorizationService,
-    private centralServerService: CentralServerService) {
+    private centralServerService: CentralServerService,
+    @Inject(DOCUMENT) private document: Document) {
     // Get the routes
     if (this.activatedRoute && this.activatedRoute.routeConfig && this.activatedRoute.routeConfig.children) {
       this.menuItems = this.activatedRoute.routeConfig.children.filter((route) =>
@@ -51,37 +47,19 @@ export class SidebarComponent {
       this.canEditProfile = true;
     }
     // Read user
-    this.refreshUser();
+    this.loadUser();
     // Read tenant
-    this.refreshTenant();
-  }
-
-  public isMobileMenu() {
-    return false;
-  }
-
-  public updatePS(): void {
-    if (window.matchMedia('(min-width: 960px)').matches && !this.isMac()) {
-      const elemSidebar = document.querySelector('.sidebar .sidebar-wrapper') ;
-    }
-  }
-
-  public isMac(): boolean {
-    let bool = false;
-    if (navigator.platform.toUpperCase().indexOf('MAC') >= 0 || navigator.platform.toUpperCase().indexOf('IPAD') >= 0) {
-      bool = true;
-    }
-    return bool;
+    this.loadTenant();
   }
 
   public toggleSidebar() {
-    const body = document.getElementsByTagName('body')[0];
-    if (this.misc.sidebar_mini_active === true) {
+    const body = this.document.getElementsByTagName('body')[0];
+    if (this.sidebarMinimized === true) {
       body.classList.remove('sidebar-mini');
-      this.misc.sidebar_mini_active = false;
+      this.sidebarMinimized = false;
     } else {
       body.classList.add('sidebar-mini');
-      this.misc.sidebar_mini_active = true;
+      this.sidebarMinimized = true;
     }
   }
 
@@ -100,7 +78,7 @@ export class SidebarComponent {
     });
   }
 
-  private refreshUser() {
+  private loadUser() {
     // Get the user's image
     if (this.loggedUser && this.loggedUser.id) {
       this.centralServerService.getUserImage(this.loggedUser.id).subscribe((userImage) => {
@@ -120,7 +98,7 @@ export class SidebarComponent {
     }
   }
 
-  private refreshTenant() {
+  private loadTenant() {
     // Get Tenant logo
     if (this.loggedUser.tenantID !== 'default') {
       this.centralServerService.getTenantLogo(this.loggedUser.tenantID).subscribe((tenantLogo) => {

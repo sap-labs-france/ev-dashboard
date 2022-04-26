@@ -33,6 +33,7 @@ export class ReleaseNotesComponent {
               `Fixed payment limit URL parameter is not provided in mobile app`,
               `Migrated Billing endpoint to the new authorization framework`,
               `OCPI RFID Cards are created on the fly when Remote Start is triggered by the Roaming platform`,
+              `Never calculate the cost of an OCPI Transaction`,
             ],
           },
         ],

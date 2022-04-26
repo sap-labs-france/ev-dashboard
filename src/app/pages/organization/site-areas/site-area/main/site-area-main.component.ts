@@ -193,6 +193,8 @@ export class SiteAreaMainComponent implements OnInit, OnChanges {
         if (this.parentSiteAreaID.value !== parentSiteArea.id) {
           this.parentSiteArea.setValue(parentSiteArea.name);
           this.parentSiteAreaID.setValue(parentSiteArea.id);
+          this.site.setValue(parentSiteArea.site.name);
+          this.siteID.setValue(parentSiteArea.site.id);
           this.formGroup.markAsDirty();
         }
       }

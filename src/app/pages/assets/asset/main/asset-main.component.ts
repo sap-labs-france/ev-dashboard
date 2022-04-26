@@ -231,7 +231,6 @@ export class AssetMainComponent implements OnInit, OnChanges {
     dialogConfig.panelClass = 'transparent-dialog-container';
     dialogConfig.data = {
       title: 'chargers.assign_site_area',
-      validateButtonTitle: 'general.select',
       sitesAdminOnly: true,
       rowMultipleSelection: false,
       staticFilter: {

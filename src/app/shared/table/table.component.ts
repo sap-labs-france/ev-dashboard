@@ -252,10 +252,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     // Disable outside click close
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
-    // Init button title
-    dialogConfig.data = {
-      validateButtonTitle: 'general.set_filter',
-    };
+    dialogConfig.data = {};
     Utils.buildDependentFilters(filterDef);
     if (filterDef.dialogComponentData) {
       Object.assign(dialogConfig.data, filterDef.dialogComponentData);

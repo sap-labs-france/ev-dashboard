@@ -148,7 +148,6 @@ export class SiteAreaMainComponent implements OnInit, OnChanges {
     dialogConfig.panelClass = 'transparent-dialog-container';
     dialogConfig.data = {
       title: 'site_areas.assign_site',
-      validateButtonTitle: 'general.select',
       sitesAdminOnly: true,
       rowMultipleSelection: false,
       staticFilter: {

@@ -1173,7 +1173,7 @@ export class CentralServerService {
 
   public exportLogs(params: FilterParams): Observable<Blob> {
     this.checkInit();
-    return this.httpClient.get(this.buildRestEndpointUrl(RESTServerRoute.REST_LOGGINGS_EXPORT),
+    return this.httpClient.get(this.buildRestEndpointUrl(RESTServerRoute.REST_LOGS_EXPORT),
       {
         headers: this.buildHttpHeaders(),
         responseType: 'blob',
@@ -1455,7 +1455,7 @@ export class CentralServerService {
     // Build Ordering
     this.getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<LogDataResult>(this.buildRestEndpointUrl(RESTServerRoute.REST_LOGGINGS),
+    return this.httpClient.get<LogDataResult>(this.buildRestEndpointUrl(RESTServerRoute.REST_LOGS),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -1472,7 +1472,7 @@ export class CentralServerService {
       return EMPTY;
     }
     // Call
-    return this.httpClient.get<Log>(this.buildRestEndpointUrl(RESTServerRoute.REST_LOGGING, { id }),
+    return this.httpClient.get<Log>(this.buildRestEndpointUrl(RESTServerRoute.REST_LOG, { id }),
       {
         headers: this.buildHttpHeaders(),
       })

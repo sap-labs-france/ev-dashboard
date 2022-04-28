@@ -25,7 +25,7 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.6.6',
-        date: new Date('2022-04-26'),
+        date: new Date('2022-04-28'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -34,6 +34,7 @@ export class ReleaseNotesComponent {
               `Migrated Billing endpoint to the new authorization framework`,
               `OCPI RFID Cards are created on the fly when Remote Start is triggered by the Roaming platform`,
               `Never calculate the cost of an OCPI Transaction`,
+              `Do not price the Roaming transaction`,
             ],
           },
         ],

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { ActionResponse } from '../types/DataResult';
-import { AnalyticsSettings, AssetConnectionType, AssetSettings, AssetSettingsType, BillingSettings, BillingSettingsType, CarConnectorConnectionType, CarConnectorSetting, CarConnectorSettings, CarConnectorSettingsType, CryptoSettings, PricingSettings, PricingSettingsType, RefundSettings, RefundSettingsType, RoamingSettings, RoamingSettingsType, SmartChargingSettings, SmartChargingSettingsType, TechnicalSettings, UserSettings, UserSettingsType } from '../types/Setting';
+import { AnalyticsSettings, AssetConnectionType, AssetSettings, AssetSettingsType, BillingSettings, BillingSettingsType, CarConnectorConnectionType, CarConnectorSetting, CarConnectorSettings, CarConnectorSettingsType, CryptoSettings, MobileSettings, PricingSettings, PricingSettingsType, RefundSettings, RefundSettingsType, RoamingSettings, RoamingSettingsType, SmartChargingSettings, SmartChargingSettingsType, TechnicalSettings, UserSettings, UserSettingsType } from '../types/Setting';
 import { TenantComponents } from '../types/Tenant';
 import { Utils } from '../utils/Utils';
 import { CentralServerService } from './central-server.service';
@@ -427,6 +427,46 @@ export class ComponentService {
         observer.error(error);
       });
     });
+  }
+
+  public getMobileAppSettings(): Observable<MobileSettings> {
+    return new Observable((observer) => {
+      const mobileSettings = {
+        identifier: TechnicalSettings.MOBILE,
+      } as MobileSettings;
+      // Get the Asset settings
+      this.centralServerService.getSetting(TechnicalSettings.MOBILE).subscribe((settings) => {
+        // Get the currency
+        if (settings) {
+          // ID
+          mobileSettings.id = settings.id;
+          // Crypto Key
+          mobileSettings.mobile = {
+            settingsIOSMobileAppID: settings.content.mobile.settingsIOSMobileAppID,
+            settingsAndroidMobileAppID: settings.content.mobile.settingsAndroidMobileAppID,
+            scheme: settings.content.mobile.scheme,
+          };
+        }
+        observer.next(mobileSettings);
+        observer.complete();
+      }, (error) => {
+        observer.error(error);
+      });
+    });
+  }
+
+  public saveMobileAppSettings(settings: MobileSettings): Observable<ActionResponse> {
+    // build settings to proceed update
+    const settingsToSave = {
+      id: settings.id,
+      identifier: settings.identifier,
+      content: Utils.cloneObject(settings)
+    };
+    // Delete IDS
+    delete settingsToSave.content.id;
+    delete settingsToSave.content.identifier;
+    delete settingsToSave.content.sensitiveData;
+    return this.centralServerService.updateSetting(settingsToSave);
   }
 
   public getCryptoSettings(): Observable<CryptoSettings> {

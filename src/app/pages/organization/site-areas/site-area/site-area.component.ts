@@ -43,6 +43,8 @@ export class SiteAreaComponent extends AbstractTabComponent implements OnInit {
   public readOnly = true;
   public siteArea: SiteArea;
 
+  private subSiteAreaActions: SubSiteAreaAction[] = [];
+
   public constructor(
     private centralServerService: CentralServerService,
     private messageService: MessageService,
@@ -112,22 +114,22 @@ export class SiteAreaComponent extends AbstractTabComponent implements OnInit {
     this.siteAreaOcpiComponent?.siteChanged(site);
   }
 
-  public saveSiteArea(siteArea: SiteArea, subSiteAreaAction: SubSiteAreaAction) {
+  public saveSiteArea(siteArea: SiteArea, subSiteAreaActions: SubSiteAreaAction[]) {
     if (this.currentSiteAreaID) {
-      this.updateSiteArea(siteArea, subSiteAreaAction);
+      this.updateSiteArea(siteArea, subSiteAreaActions);
     } else {
-      this.createSiteArea(siteArea);
+      this.createSiteArea(siteArea, subSiteAreaActions);
     }
   }
 
-  private createSiteArea(siteArea: SiteArea) {
+  private createSiteArea(siteArea: SiteArea, subSiteAreaActions: SubSiteAreaAction[] = []) {
     this.spinnerService.show();
     // Set the image
     this.siteAreaMainComponent.updateSiteAreaImage(siteArea);
     // Set coordinates
     this.siteAreaMainComponent.updateSiteAreaCoordinates(siteArea);
     // Create
-    this.centralServerService.createSiteArea(siteArea).subscribe((response) => {
+    this.centralServerService.createSiteArea(siteArea, subSiteAreaActions).subscribe((response) => {
       this.spinnerService.hide();
       if (response.status === RestResponse.SUCCESS) {
         this.messageService.showSuccessMessage('site_areas.create_success',
@@ -150,14 +152,14 @@ export class SiteAreaComponent extends AbstractTabComponent implements OnInit {
     });
   }
 
-  private updateSiteArea(siteArea: SiteArea, subSiteAreaAction: SubSiteAreaAction) {
+  private updateSiteArea(siteArea: SiteArea, subSiteAreaActions: SubSiteAreaAction[] = []) {
     this.spinnerService.show();
     // Set the image
     this.siteAreaMainComponent.updateSiteAreaImage(siteArea);
     // Set coordinates
     this.siteAreaMainComponent.updateSiteAreaCoordinates(siteArea);
     // Update
-    this.centralServerService.updateSiteArea(siteArea, subSiteAreaAction).subscribe((response) => {
+    this.centralServerService.updateSiteArea(siteArea, subSiteAreaActions).subscribe((response) => {
       this.spinnerService.hide();
       if (response.status === RestResponse.SUCCESS) {
         this.messageService.showSuccessMessage('site_areas.update_success', { siteAreaName: siteArea.name });
@@ -217,7 +219,8 @@ export class SiteAreaComponent extends AbstractTabComponent implements OnInit {
               break;
           }
           if (subSiteAreaAction) {
-            this.saveSiteArea(siteArea, subSiteAreaAction);
+            this.subSiteAreaActions.push(subSiteAreaAction);
+            this.saveSiteArea(siteArea, this.subSiteAreaActions);
           }
         });
         break;
@@ -227,7 +230,8 @@ export class SiteAreaComponent extends AbstractTabComponent implements OnInit {
           this.translateService.instant('site_areas.site_area_tree_error_smart_charging')
         ).subscribe((result: ButtonAction) => {
           if (result === ButtonAction.YES) {
-            this.saveSiteArea(siteArea, SubSiteAreaAction.FORCE_SMART_CHARGING);
+            this.subSiteAreaActions.push(SubSiteAreaAction.FORCE_SMART_CHARGING);
+            this.saveSiteArea(siteArea, this.subSiteAreaActions);
           }
         });
         break;

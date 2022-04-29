@@ -159,13 +159,6 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
         headerClass: 'col-10p text-center',
         class: 'col-10p text-center',
         formatter: (numberOfPhases: number, siteArea: SiteArea) => siteArea.issuer ? numberOfPhases.toString() : '-',
-      },
-      {
-        id: 'accessControl',
-        name: 'site_areas.access_control',
-        headerClass: 'col-10p text-center',
-        class: 'col-10p text-center',
-        formatter: (accessControl: boolean, siteArea: SiteArea) => siteArea.issuer ? Utils.displayYesNo(this.translateService, accessControl) : '-',
       }
     ];
     if (this.componentService.isActive(TenantComponents.SMART_CHARGING)) {
@@ -181,6 +174,13 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     }
     tableColumnDef.push(
       {
+        id: 'accessControl',
+        name: 'site_areas.access_control',
+        headerClass: 'col-10p text-center',
+        class: 'col-10p text-center',
+        formatter: (accessControl: boolean, siteArea: SiteArea) => siteArea.issuer ? Utils.displayYesNo(this.translateService, accessControl) : '-',
+      },
+      {
         id: 'parentSiteArea.name',
         name: 'site_areas.parent_site_area',
         headerClass: 'col-20p',
@@ -191,7 +191,6 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
         name: 'sites.site',
         headerClass: 'col-20p',
         class: 'col-20p',
-        sortable: true,
       },
       {
         id: 'address.city',
@@ -228,7 +227,6 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
         formatter: (lastChangedOn: Date) => this.datePipe.transform(lastChangedOn),
         headerClass: 'col-15em',
         class: 'col-15em',
-        sortable: true,
       },
       {
         id: 'lastChangedBy',

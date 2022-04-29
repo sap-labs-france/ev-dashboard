@@ -2131,11 +2131,15 @@ export class CentralServerService {
       );
   }
 
-  public createSiteArea(siteArea: SiteArea): Observable<ActionResponse> {
+  public createSiteArea(siteArea: SiteArea, subSiteAreaActions: SubSiteAreaAction[] = []): Observable<ActionResponse> {
     // Verify init
     this.checkInit();
     // Execute
-    return this.httpClient.post<ActionResponse>(this.buildRestEndpointUrl(RESTServerRoute.REST_SITE_AREAS), siteArea,
+    return this.httpClient.post<ActionResponse>(this.buildRestEndpointUrl(RESTServerRoute.REST_SITE_AREAS),
+      {
+        ...siteArea,
+        subSiteAreasAction: subSiteAreaActions.join('|')
+      },
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2144,14 +2148,14 @@ export class CentralServerService {
       );
   }
 
-  public updateSiteArea(siteArea: SiteArea, subSiteAreaAction?: SubSiteAreaAction): Observable<ActionResponse> {
+  public updateSiteArea(siteArea: SiteArea, subSiteAreaActions: SubSiteAreaAction[] = []): Observable<ActionResponse> {
     // Verify init
     this.checkInit();
     // Execute
     return this.httpClient.put<ActionResponse>(this.buildRestEndpointUrl(RESTServerRoute.REST_SITE_AREA, { id: siteArea.id }),
       {
         ...siteArea,
-        subSiteAreasAction: subSiteAreaAction
+        subSiteAreasAction: subSiteAreaActions.join('|')
       },
       {
         headers: this.buildHttpHeaders(),

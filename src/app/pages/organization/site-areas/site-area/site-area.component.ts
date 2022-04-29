@@ -13,7 +13,7 @@ import { ComponentService } from '../../../../services/component.service';
 import { DialogService } from '../../../../services/dialog.service';
 import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
-import { RestResponse } from '../../../../types/GlobalType';
+import { ButtonAction, RestResponse } from '../../../../types/GlobalType';
 import { HTTPError } from '../../../../types/HTTPError';
 import { SiteArea, SiteAreaButtonAction, SubSiteAreaAction } from '../../../../types/SiteArea';
 import { TenantComponents } from '../../../../types/Tenant';
@@ -182,26 +182,6 @@ export class SiteAreaComponent extends AbstractTabComponent implements OnInit {
               { siteAreaName: siteArea.name }));
           this.closeDialog(true);
           break;
-        case HTTPError.SITE_AREA_TREE_ERROR:
-          this.dialogService.createAndShowOkDialog(
-            this.translateService.instant('site_areas.site_area_hierarchy_error_title'),
-            this.translateService.instant('site_areas.site_area_tree_error'));
-          break;
-        case HTTPError.SITE_AREA_TREE_ERROR_SMART_CHARGING:
-          this.dialogService.createAndShowOkDialog(
-            this.translateService.instant('site_areas.site_area_hierarchy_error_title'),
-            this.translateService.instant('site_areas.site_area_tree_error_smart_charging'));
-          break;
-        case HTTPError.SITE_AREA_TREE_ERROR_SMART_NBR_PHASES:
-          this.dialogService.createAndShowOkDialog(
-            this.translateService.instant('site_areas.site_area_hierarchy_error_title'),
-            this.translateService.instant('site_areas.site_area_tree_error_number_of_phases'));
-          break;
-        case HTTPError.SITE_AREA_TREE_ERROR_VOLTAGE:
-          this.dialogService.createAndShowOkDialog(
-            this.translateService.instant('site_areas.site_area_hierarchy_error_title'),
-            this.translateService.instant('site_areas.site_area_tree_error_voltage'));
-          break;
         default:
           this.handleHttpTreeError(siteArea, error, 'site_areas.update_error');
       }
@@ -242,9 +222,14 @@ export class SiteAreaComponent extends AbstractTabComponent implements OnInit {
         });
         break;
       case HTTPError.SITE_AREA_TREE_ERROR_SMART_CHARGING:
-        this.dialogService.createAndShowOkDialog(
+        this.dialogService.createAndShowYesNoDialog(
           this.translateService.instant('site_areas.site_area_hierarchy_error_title'),
-          this.translateService.instant('site_areas.site_area_tree_error_smart_charging'));
+          this.translateService.instant('site_areas.site_area_tree_error_smart_charging')
+        ).subscribe((result: ButtonAction) => {
+          if (result === ButtonAction.YES) {
+            this.saveSiteArea(siteArea, SubSiteAreaAction.FORCE_SMART_CHARGING);
+          }
+        });
         break;
       case HTTPError.SITE_AREA_TREE_ERROR_SMART_NBR_PHASES:
         this.dialogService.createAndShowOkDialog(

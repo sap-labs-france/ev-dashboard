@@ -15,10 +15,9 @@ import { AppDatePipe } from '../../../../shared/formatters/app-date.pipe';
 import { TableNavigateToLogsAction } from '../../../../shared/table/actions/logs/table-navigate-to-logs-action';
 import { ChargingProfile, ChargingProfileKindType, ChargingProfilePurposeType, ChargingSchedule, ChargingSchedulePeriod, Profile, RecurrencyKindType, Schedule } from '../../../../types/ChargingProfile';
 import { ChargingRateUnitType, ChargingStation } from '../../../../types/ChargingStation';
-import { RestResponse } from '../../../../types/GlobalType';
+import { ButtonAction, RestResponse } from '../../../../types/GlobalType';
 import { HTTPError } from '../../../../types/HTTPError';
 import { ServerAction } from '../../../../types/Server';
-import { ButtonType } from '../../../../types/Table';
 import { TenantComponents } from '../../../../types/Tenant';
 import { Utils } from '../../../../utils/Utils';
 import { ChargingPlansEditableTableDataSource } from './charging-plans-editable-table-data-source';
@@ -187,7 +186,7 @@ export class ChargingPlansComponent implements OnInit, AfterViewInit {
       this.translateService.instant('chargers.smart_charging.trigger_smart_charging_title'),
       this.translateService.instant('chargers.smart_charging.trigger_smart_charging_confirm'),
     ).subscribe((result) => {
-      if (result === ButtonType.YES) {
+      if (result === ButtonAction.YES) {
         this.spinnerService.show();
         this.centralServerService.triggerSmartCharging(this.chargingStation.siteArea.id).subscribe((response) => {
           this.spinnerService.hide();
@@ -259,7 +258,7 @@ export class ChargingPlansComponent implements OnInit, AfterViewInit {
       this.translateService.instant('chargers.smart_charging.clear_profile_title'),
       this.translateService.instant('chargers.smart_charging.clear_profile_confirm', { chargeBoxID: this.chargingStation.id }),
     ).subscribe((result) => {
-      if (result === ButtonType.YES) {
+      if (result === ButtonAction.YES) {
         // Build charging profile
         const chargingProfile = this.buildChargingProfile();
         this.spinnerService.show();
@@ -295,7 +294,7 @@ export class ChargingPlansComponent implements OnInit, AfterViewInit {
       this.translateService.instant('chargers.smart_charging.power_limit_plan_title'),
       this.translateService.instant('chargers.smart_charging.power_limit_plan_confirm', { chargeBoxID: this.chargingStation.id }),
     ).subscribe((result) => {
-      if (result === ButtonType.YES) {
+      if (result === ButtonAction.YES) {
         // Build charging profile
         const chargingProfile = this.buildChargingProfile();
         this.spinnerService.show();

@@ -11,7 +11,7 @@ import { EditableTableDataSource } from '../../../shared/table/editable-table-da
 import { DataResult } from '../../../types/DataResult';
 import { ButtonAction } from '../../../types/GlobalType';
 import { CarConnectorConnectionSetting, CarConnectorConnectionType } from '../../../types/Setting';
-import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableEditType, TableFilterDef } from '../../../types/Table';
+import { TableActionDef, TableColumnDef, TableDef, TableEditType, TableFilterDef } from '../../../types/Table';
 import { CarConnectorConnectionDialogComponent } from './connection/car-connector-connection.dialog.component';
 
 @Injectable()
@@ -111,7 +111,7 @@ export class SettingsCarConnectorConnectionEditableTableDataSource extends Edita
           this.translateService.instant('settings.car_connector.connection.delete_title'),
           this.translateService.instant('settings.car_connector.connection.delete_confirm', { carConnectorConnectionName: carConnectorConnection.name }),
         ).subscribe((result) => {
-          if (result === ButtonType.YES) {
+          if (result === ButtonAction.YES) {
             super.rowActionTriggered(actionDef, carConnectorConnection);
           }
         });

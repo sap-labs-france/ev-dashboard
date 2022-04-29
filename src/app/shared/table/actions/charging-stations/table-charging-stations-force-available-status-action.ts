@@ -1,6 +1,7 @@
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { ButtonAction, ButtonActionColor } from 'types/GlobalType';
 import { OCPPAvailabilityStatus } from 'types/ocpp/OCPP';
 
 import { CentralServerService } from '../../../../services/central-server.service';
@@ -9,7 +10,7 @@ import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
 import { ChargingStation, ChargingStationButtonAction } from '../../../../types/ChargingStation';
 import { ActionResponse } from '../../../../types/DataResult';
-import { ButtonColor, ButtonType, TableActionDef } from '../../../../types/Table';
+import { TableActionDef } from '../../../../types/Table';
 import { Utils } from '../../../../utils/Utils';
 import { TableAction } from '../table-action';
 
@@ -24,7 +25,7 @@ export class TableChargingStationsForceAvailableStatusAction implements TableAct
     id: ChargingStationButtonAction.FORCE_AVAILABLE_STATUS,
     type: 'button',
     icon: 'play_arrow',
-    color: ButtonColor.PRIMARY,
+    color: ButtonActionColor.PRIMARY,
     name: 'chargers.force_available_status_action',
     tooltip: 'general.tooltip.force_available_status',
     action: this.forceAvailable,
@@ -42,7 +43,7 @@ export class TableChargingStationsForceAvailableStatusAction implements TableAct
       translateService.instant('chargers.force_available_status_title'),
       translateService.instant('chargers.force_available_status_confirm', { chargeBoxID: chargingStation.id }),
     ).subscribe((result) => {
-      if (result === ButtonType.YES) {
+      if (result === ButtonAction.YES) {
         spinnerService.show();
         // Change Availability
         centralServerService.chargingStationChangeAvailability(chargingStation.id, true).subscribe((response: ActionResponse) => {

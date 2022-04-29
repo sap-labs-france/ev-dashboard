@@ -166,7 +166,20 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
         headerClass: 'col-10p text-center',
         class: 'col-10p text-center',
         formatter: (accessControl: boolean, siteArea: SiteArea) => siteArea.issuer ? Utils.displayYesNo(this.translateService, accessControl) : '-',
-      },
+      }
+    ];
+    if (this.componentService.isActive(TenantComponents.SMART_CHARGING)) {
+      tableColumnDef.push(
+        {
+          id: 'smartCharging',
+          name: 'site_areas.smart_charging',
+          headerClass: 'col-10p text-center',
+          class: 'col-10p text-center',
+          formatter: (smartCharging: boolean) => Utils.displayYesNo(this.translateService, smartCharging),
+        }
+      );
+    }
+    tableColumnDef.push(
       {
         id: 'parentSiteArea.name',
         name: 'site_areas.parent_site_area',
@@ -224,18 +237,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
         headerClass: 'col-15em',
         class: 'col-15em',
       },
-    ];
-    if (this.componentService.isActive(TenantComponents.SMART_CHARGING)) {
-      tableColumnDef.push(
-        {
-          id: 'smartCharging',
-          name: 'site_areas.smart_charging',
-          headerClass: 'col-10p text-center',
-          class: 'col-10p text-center',
-          formatter: (smartCharging: boolean) => Utils.displayYesNo(this.translateService, smartCharging),
-        }
-      );
-    }
+    );
     return tableColumnDef;
   }
 

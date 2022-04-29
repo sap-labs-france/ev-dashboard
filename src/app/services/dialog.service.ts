@@ -2,9 +2,8 @@ import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { CustomDialogComponent } from 'shared/dialogs/custom/custom-dialog.component';
+import { ButtonAction, CustomButton } from 'types/GlobalType';
 import { Utils } from 'utils/Utils';
-
-import { ButtonType, CustomButton } from '../types/Table';
 
 @Injectable()
 export class DialogService {
@@ -20,7 +19,7 @@ export class DialogService {
     if (withCancelButton) {
       buttons = [
         ...buttons,
-        { id: ButtonType.CANCEL, name: 'general.cancel', cancelButton: true },
+        { id: ButtonAction.CANCEL, name: 'general.cancel', cancelButton: true },
       ];
     }
     return this.createAndShowCustomDialog(title, message, buttons);
@@ -28,29 +27,29 @@ export class DialogService {
 
   public createAndShowOkDialog(title: string, message: string): Observable<string> {
     return this.createAndShowCustomDialog(title, message, [
-      { id: ButtonType.OK, name: 'general.ok', color: 'primary', validateButton: true },
+      { id: ButtonAction.OK, name: 'general.ok', color: 'primary', validateButton: true },
     ]);
   }
 
   public createAndShowYesNoDialog(title: string, message: string): Observable<string> {
     return this.createAndShowCustomDialog(title, message, [
-      { id: ButtonType.YES, name: 'general.yes', color: 'warn', validateButton: true },
-      { id: ButtonType.NO, name: 'general.no', cancelButton: true },
+      { id: ButtonAction.YES, name: 'general.yes', color: 'warn', validateButton: true },
+      { id: ButtonAction.NO, name: 'general.no', cancelButton: true },
     ]);
   }
 
   public createAndShowInvalidChangeCloseDialog(title: string, message: string): Observable<string> {
     return this.createAndShowCustomDialog(title, message, [
-      { id: ButtonType.DO_NOT_SAVE_AND_CLOSE, name: 'general.do_not_save_and_close', color: 'warn' },
-      { id: ButtonType.CANCEL, name: 'general.cancel', cancelButton: true },
+      { id: ButtonAction.DO_NOT_SAVE_AND_CLOSE, name: 'general.do_not_save_and_close', color: 'warn' },
+      { id: ButtonAction.CANCEL, name: 'general.cancel', cancelButton: true },
     ]);
   }
 
   public createAndShowDirtyChangeCloseDialog(title: string, message: string): Observable<string> {
     return this.createAndShowCustomDialog(title, message, [
-      { id: ButtonType.SAVE_AND_CLOSE, name: 'general.save_and_close', color: 'primary', validateButton: true },
-      { id: ButtonType.DO_NOT_SAVE_AND_CLOSE, name: 'general.do_not_save_and_close', color: 'warn' },
-      { id: ButtonType.CANCEL, name: 'general.cancel', cancelButton: true },
+      { id: ButtonAction.SAVE_AND_CLOSE, name: 'general.save_and_close', color: 'primary', validateButton: true },
+      { id: ButtonAction.DO_NOT_SAVE_AND_CLOSE, name: 'general.do_not_save_and_close', color: 'warn' },
+      { id: ButtonAction.CANCEL, name: 'general.cancel', cancelButton: true },
     ]);
   }
 

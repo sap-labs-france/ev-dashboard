@@ -1,6 +1,7 @@
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { ButtonActionColor, ButtonAction } from 'types/GlobalType';
 
 import { CentralServerService } from '../../../../services/central-server.service';
 import { DialogService } from '../../../../services/dialog.service';
@@ -8,7 +9,7 @@ import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
 import { ChargingStation, ChargingStationButtonAction, OCPPGeneralResponse } from '../../../../types/ChargingStation';
 import { ActionResponse } from '../../../../types/DataResult';
-import { ButtonColor, ButtonType, TableActionDef } from '../../../../types/Table';
+import { TableActionDef } from '../../../../types/Table';
 import { Utils } from '../../../../utils/Utils';
 import { TableAction } from '../table-action';
 
@@ -23,7 +24,7 @@ export class TableChargingStationsClearCacheAction implements TableAction {
     id: ChargingStationButtonAction.CLEAR_CACHE,
     type: 'button',
     icon: 'layers_clear',
-    color: ButtonColor.PRIMARY,
+    color: ButtonActionColor.PRIMARY,
     name: 'chargers.clear_cache_action',
     tooltip: 'general.tooltips.clear_cache',
     action: this.clearCache,
@@ -41,7 +42,7 @@ export class TableChargingStationsClearCacheAction implements TableAction {
       translateService.instant('chargers.clear_cache_title'),
       translateService.instant('chargers.clear_cache_confirm', { chargeBoxID: chargingStation.id }),
     ).subscribe((result) => {
-      if (result === ButtonType.YES) {
+      if (result === ButtonAction.YES) {
         spinnerService.show();
         // Clear cache
         centralServerService.chargingStationClearCache(chargingStation.id).subscribe((response: ActionResponse) => {

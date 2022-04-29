@@ -7,8 +7,8 @@ import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
-import { ButtonAction, FilterParams } from '../../../types/GlobalType';
-import { ButtonColor, ButtonType, TableActionDef } from '../../../types/Table';
+import { ButtonActionColor, ButtonAction, FilterParams } from '../../../types/GlobalType';
+import { TableActionDef } from '../../../types/Table';
 import { Utils } from '../../../utils/Utils';
 import { TableAction } from './table-action';
 
@@ -18,7 +18,7 @@ export class TableExportAction implements TableAction {
     type: 'button',
     icon: 'cloud_download',
     name: 'general.export',
-    color: ButtonColor.PRIMARY,
+    color: ButtonActionColor.PRIMARY,
     tooltip: 'general.tooltips.export',
     action: this.export
   };
@@ -36,7 +36,7 @@ export class TableExportAction implements TableAction {
       translateService.instant(messageTitle),
       translateService.instant(messageConfirm),
     ).subscribe((response) => {
-      if (response === ButtonType.YES) {
+      if (response === ButtonAction.YES) {
         spinnerService.show();
         exportData(filters).subscribe((result) => {
           spinnerService.hide();

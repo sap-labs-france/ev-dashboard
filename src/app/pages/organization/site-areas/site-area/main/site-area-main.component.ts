@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { SiteAreasDialogComponent } from 'shared/dialogs/site-areas/site-areas-dialog.component';
+import { ButtonAction } from 'types/GlobalType';
 
 import { CentralServerService } from '../../../../../services/central-server.service';
 import { ConfigService } from '../../../../../services/config.service';
@@ -16,7 +17,6 @@ import { Address } from '../../../../../types/Address';
 import { RegistrationToken } from '../../../../../types/RegistrationToken';
 import { Site } from '../../../../../types/Site';
 import { SiteArea } from '../../../../../types/SiteArea';
-import { ButtonType } from '../../../../../types/Table';
 import { Constants } from '../../../../../utils/Constants';
 import { Utils } from '../../../../../utils/Utils';
 
@@ -255,7 +255,7 @@ export class SiteAreaMainComponent implements OnInit, OnChanges {
         this.translateService.instant('chargers.connections.registration_token_creation_title'),
         this.translateService.instant('chargers.connections.registration_token_creation_confirm'),
       ).subscribe((result) => {
-        if (result === ButtonType.YES) {
+        if (result === ButtonAction.YES) {
           this.spinnerService.show();
           this.centralServerService.createRegistrationToken({
             siteAreaID: this.siteArea.id,

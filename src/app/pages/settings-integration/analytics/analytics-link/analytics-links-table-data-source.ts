@@ -15,7 +15,7 @@ import { TableDataSource } from '../../../../shared/table/table-data-source';
 import { DataResult } from '../../../../types/DataResult';
 import { ButtonAction } from '../../../../types/GlobalType';
 import { SettingLink } from '../../../../types/Setting';
-import { ButtonType, DropdownItem, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../../types/Table';
+import { DropdownItem, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../../types/Table';
 import { AnalyticsLinkDialogComponent } from './analytics-link-dialog.component';
 
 @Injectable()
@@ -204,7 +204,7 @@ export class AnalyticsLinksTableDataSource extends TableDataSource<SettingLink> 
       this.translateService.instant('analytics.delete_title'),
       this.translateService.instant('analytics.delete_confirm', { linkName: analyticsLink.name }),
     ).subscribe((result) => {
-      if (result === ButtonType.YES) {
+      if (result === ButtonAction.YES) {
         const index = this.analyticsLinks.findIndex((link) => link.id === analyticsLink.id);
         if (index > -1) {
           this.analyticsLinks.splice(index, 1);

@@ -488,7 +488,8 @@
     "site_area_tree_error_site_clear": "Effacer (3)",
     "site_area_tree_error_smart_charging": [
       "Une erreur est survenue pendant la modification de la hiérarchie des zones.",
-      "La Zone doit avoir la même valeur Charge Intelligente que son parent."
+      "La Zone doit avoir la même valeur de Charge Intelligente dans toute la hiérarchie.",
+      "Voulez-vous changer la valeur de la Charge Intelligente dans toute la hiérarchie ?"
     ],
     "site_area_tree_error_voltage": [
       "Une erreur est survenue pendant la modification de la hiérarchie des zones.",

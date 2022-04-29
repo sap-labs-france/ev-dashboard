@@ -495,6 +495,10 @@
       "An error occurred while modifying the Site Area chain.",
       "Site Area must have the same Voltage as its parent."
     ],
+    "site_area_tree_error_max_power": [
+      "An error occurred while modifying the Site Area chain.",
+      "The total power of the child Site Areas must be lower than the one of their parents."
+    ],
     "site_area_tree_error_number_of_phases": [
       "An error occurred while modifying the Site Area chain.",
       "Site Area must have the same Number of Phases as its parent."

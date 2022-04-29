@@ -251,6 +251,11 @@ export class SiteAreaComponent extends AbstractTabComponent implements OnInit {
           this.translateService.instant('site_areas.site_area_hierarchy_error_title'),
           this.translateService.instant('site_areas.site_area_tree_error_voltage'));
         break;
+      case HTTPError.SITE_AREA_TREE_ERROR_CHILDREN_MAX_POWER:
+        this.dialogService.createAndShowOkDialog(
+          this.translateService.instant('site_areas.site_area_hierarchy_error_title'),
+          this.translateService.instant('site_areas.site_area_tree_error_max_power'));
+        break;
       default:
         Utils.handleHttpError(error, this.router, this.messageService,
           this.centralServerService, defaultMessage);

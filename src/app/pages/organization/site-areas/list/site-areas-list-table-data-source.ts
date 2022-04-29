@@ -133,8 +133,6 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
         sortable: true,
         headerClass: 'col-30p',
         class: 'col-30p',
-        sorted: true,
-        direction: 'asc',
       },
       {
         id: 'name',

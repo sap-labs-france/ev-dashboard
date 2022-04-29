@@ -480,7 +480,7 @@
       "Les sous-zones n'ont pas le même Site que leur parent.",
       "Voulez-vous:",
       "1 - Mettre à jour toutes les zones de la hiérarchie avec le nouveau Site",
-      "2 - Rattacher les sous-zones a la zone parente",
+      "2 - Assigner la Zone parente actuelle à toutes les sous-zones",
       "3 - Effacer la zone parente des sous-zones"
     ],
     "site_area_tree_error_site_update": "Mettre à jour (1)",
@@ -488,7 +488,7 @@
     "site_area_tree_error_site_clear": "Effacer (3)",
     "site_area_tree_error_smart_charging": [
       "Une erreur est survenue pendant la modification de la hiérarchie des zones.",
-      "La Zone doit avoir la même valeure Charge Intelligente que son parent."
+      "La Zone doit avoir la même valeur Charge Intelligente que son parent."
     ],
     "site_area_tree_error_voltage": [
       "Une erreur est survenue pendant la modification de la hiérarchie des zones.",

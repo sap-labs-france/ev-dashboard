@@ -480,11 +480,11 @@
       "Site Area has children with a different Site.",
       "Do you want to:",
       "1 - Update all Site Area chain with the new Site",
-      "2 - Attach all children to the parent Site Area",
+      "2 - Assign the current parent Site Area to all children",
       "3 - Clear the parent Site Area in all children"
     ],
     "site_area_tree_error_site_update": "Update (1)",
-    "site_area_tree_error_site_attach": "Attach (2)",
+    "site_area_tree_error_site_attach": "Assign (2)",
     "site_area_tree_error_site_clear": "Clear (3)",
     "site_area_tree_error_smart_charging": [
       "An error occurred while modifying the Site Area chain.",

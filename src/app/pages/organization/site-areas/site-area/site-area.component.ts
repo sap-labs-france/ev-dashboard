@@ -240,6 +240,12 @@ export class SiteAreaComponent extends AbstractTabComponent implements OnInit {
           this.translateService.instant('site_areas.site_area_hierarchy_error_title'),
           this.translateService.instant('site_areas.site_area_tree_error_number_of_phases'));
         break;
+      case HTTPError.SITE_AREA_TREE_ERROR_MULTIPLE_ACTIONS_NOT_SUPPORTED:
+        this.dialogService.createAndShowOkDialog(
+          this.translateService.instant('site_areas.site_area_hierarchy_error_title'),
+          this.translateService.instant('site_areas.site_area_tree_error_multiple_actions_not_supported'));
+        this.subSiteAreaActions.length = 0;
+        break;
       case HTTPError.SITE_AREA_TREE_ERROR_VOLTAGE:
         this.dialogService.createAndShowOkDialog(
           this.translateService.instant('site_areas.site_area_hierarchy_error_title'),

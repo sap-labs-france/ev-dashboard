@@ -499,6 +499,11 @@
       "Une erreur est survenue pendant la modification de la hiérarchie des zones.",
       "La Zone doit avoir le même Nombre de Phases que son parent."
     ],
+    "site_area_tree_error_multiple_actions_not_supported": [
+      "Une erreur est survenue pendant la modification de la hiérarchie des zones.",
+      "Les changements multiples ne sont actuellement pas supporté (eg. changement de Site et Charge Intelligente).",
+      "Effectuez un changement a la fois."
+    ],
     "site_invalid": "Zone invalide",
     "site_area_does_not_exist": "Cette zone n'existe pas",
     "max_limit_kw": "Limite Max",

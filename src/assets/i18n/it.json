@@ -499,6 +499,11 @@
       "An error occurred while modifying the Site Area chain.",
       "Site Area must have the same Number of Phases as its parent."
     ],
+    "site_area_tree_error_multiple_actions_not_supported": [
+      "An error occurred while modifying the Site Area chain.",
+      "Multiple changes are currently not supported (eg. change of Site and Smart Charging.)",
+      "Perform one change at a time."
+    ],
     "site_invalid": "Area Sito non Valida",
     "site_area_does_not_exist": "L'Area del Sito non esiste",
     "max_limit_kw": "Limite Massimo",

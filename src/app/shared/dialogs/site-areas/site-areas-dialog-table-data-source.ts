@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { ComponentService } from 'services/component.service';
+import { TenantComponents } from 'types/Tenant';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -23,7 +25,8 @@ export class SiteAreasDialogTableDataSource extends DialogTableDataSource<SiteAr
     private messageService: MessageService,
     private router: Router,
     private centralServerService: CentralServerService,
-    private authorizationService: AuthorizationService) {
+    private authorizationService: AuthorizationService,
+    private componentService: ComponentService) {
     super(spinnerService, translateService);
     // Init
     this.initDataSource();
@@ -45,7 +48,6 @@ export class SiteAreasDialogTableDataSource extends DialogTableDataSource<SiteAr
       if (this.siteIDs) {
         filterValues['SiteID'] = this.siteIDs;
       }
-
       this.centralServerService.getSiteAreas(filterValues,
         this.getPaging(), this.getSorting()).subscribe((siteAreas) => {
         observer.next(siteAreas);
@@ -71,7 +73,7 @@ export class SiteAreasDialogTableDataSource extends DialogTableDataSource<SiteAr
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    return [
+    const tableColumnDef: TableColumnDef[] = [
       {
         id: 'name',
         name: 'site_areas.title',
@@ -80,6 +82,19 @@ export class SiteAreasDialogTableDataSource extends DialogTableDataSource<SiteAr
         direction: 'asc',
         sortable: true,
       },
+    ];
+    if (this.componentService.isActive(TenantComponents.SMART_CHARGING)) {
+      tableColumnDef.push(
+        {
+          id: 'smartCharging',
+          name: 'site_areas.smart_charging',
+          headerClass: 'col-10p text-center',
+          class: 'col-10p text-center',
+          formatter: (smartCharging: boolean) => Utils.displayYesNo(this.translateService, smartCharging),
+        }
+      );
+    }
+    tableColumnDef.push(
       {
         id: 'address.address1',
         name: 'general.address',
@@ -107,6 +122,7 @@ export class SiteAreasDialogTableDataSource extends DialogTableDataSource<SiteAr
         class: 'text-left col-20p',
         direction: 'asc',
       },
-    ];
+    );
+    return tableColumnDef;
   }
 }

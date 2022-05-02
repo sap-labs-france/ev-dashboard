@@ -495,10 +495,6 @@
       "Une erreur est survenue pendant la modification de la hiérarchie des zones.",
       "La Zone doit avoir le même Voltage que son parent."
     ],
-    "site_area_tree_error_max_power": [
-      "Une erreur est survenue pendant la modification de la hiérarchie des zones.",
-      "La puissance totale des sous-zones ne doit pas depasser celle de leurs parents."
-    ],
     "site_area_tree_error_number_of_phases": [
       "Une erreur est survenue pendant la modification de la hiérarchie des zones.",
       "La Zone doit avoir le même Nombre de Phases que son parent."

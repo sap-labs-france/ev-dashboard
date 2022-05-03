@@ -3,6 +3,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { SiteUsersAuthorizations } from 'types/Authorization';
 
 import { CentralServerService } from '../../../../services/central-server.service';
 import { DialogService } from '../../../../services/dialog.service';
@@ -26,6 +27,7 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
   private site!: Site;
   private addAction = new TableAddAction().getActionDef();
   private removeAction = new TableRemoveAction().getActionDef();
+  private siteUsersAuthorization: SiteUsersAuthorizations;
 
   public constructor(
     public spinnerService: SpinnerService,
@@ -43,13 +45,19 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
     return new Observable((observer) => {
       // Site data provided?
       if (this.site) {
-        this.addAction.visible = this.site.canAssignUsers;
-        this.removeAction.visible = this.site.canUnassignUsers;
         // Yes: Get data
         this.centralServerService.getSiteUsers(
           { ...this.buildFilterValues(), SiteID: this.site.id },
           this.getPaging(), this.getSorting()
         ).subscribe((siteUsers) => {
+          // Initialize siteUsers authorization
+          this.siteUsersAuthorization = {
+            // Authorization actions
+            canUpdateUserSite: Utils.convertToBoolean(siteUsers.canUpdateUserSite)
+          };
+          this.setTableColumnDef(this.buildDynamicTableColumnDefs());
+          this.setTableDef(this.buildDynamicTableDef());
+          this.setTableActionDef(this.buildDynamicTableActionsDef());
           observer.next(siteUsers);
           observer.complete();
         }, (error) => {
@@ -72,7 +80,34 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
         class: 'table-dialog-list',
         rowFieldNameIdentifier: 'user.email',
         rowSelection: {
-          enabled: this.site?.canAssignUsers || this.site?.canUnassignUsers,
+          enabled: false,
+          multiple: true,
+        },
+        search: {
+          enabled: true,
+        },
+      };
+    }
+    return {
+      class: 'table-dialog-list',
+      rowFieldNameIdentifier: 'user.email',
+      rowSelection: {
+        enabled: false,
+        multiple: false,
+      },
+      search: {
+        enabled: true,
+      },
+    };
+  }
+
+  public buildDynamicTableDef(): TableDef {
+    if (this.getMode() === TableDataSourceMode.READ_WRITE) {
+      return {
+        class: 'table-dialog-list',
+        rowFieldNameIdentifier: 'user.email',
+        rowSelection: {
+          enabled: this.siteUsersAuthorization?.canUpdateUserSite,
           multiple: true,
         },
         search: {
@@ -94,6 +129,11 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
+    // need to split into build vs buildDynamic as there are info we don't have at the init time (user "can"s)
+    return [];
+  }
+
+  public buildDynamicTableColumnDefs(): TableColumnDef[] {
     const columns: TableColumnDef[] = [
       {
         id: 'user.name',
@@ -132,7 +172,6 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
         class: 'col-10p',
       });
     }
-
     return columns;
   }
 
@@ -141,12 +180,17 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
   }
 
   public buildTableActionsDef(): TableActionDef[] {
-    const tableActionsDef = super.buildTableActionsDef();
+    return super.buildTableActionsDef();
+  }
+
+  public buildDynamicTableActionsDef(): TableActionDef[] {
+    // Update filters visibility
+    this.addAction.visible = this.siteUsersAuthorization.canUpdateUserSite;
+    this.removeAction.visible = this.siteUsersAuthorization.canUpdateUserSite;
+    const tableActionsDef = [];
     if (this.getMode() === TableDataSourceMode.READ_WRITE) {
-      if (this.site.canAssignUsers) {
+      if (this.siteUsersAuthorization?.canUpdateUserSite) {
         tableActionsDef.push(this.addAction);
-      }
-      if (this.site.canUnassignUsers) {
         tableActionsDef.push(this.removeAction);
       }
     }

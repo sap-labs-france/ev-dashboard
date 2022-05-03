@@ -3,6 +3,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { UserSitesAuthorizations } from 'types/Authorization';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -27,7 +28,7 @@ export class UserSitesTableDataSource extends TableDataSource<SiteUser> {
   private user!: User;
   private addAction = new TableAddAction().getActionDef();
   private removeAction = new TableRemoveAction().getActionDef();
-
+  private userSitesAuthorization: UserSitesAuthorizations;
   public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
@@ -35,8 +36,7 @@ export class UserSitesTableDataSource extends TableDataSource<SiteUser> {
     private router: Router,
     private dialog: MatDialog,
     private dialogService: DialogService,
-    private centralServerService: CentralServerService,
-    private authorizationService: AuthorizationService) {
+    private centralServerService: CentralServerService) {
     super(spinnerService, translateService);
     // Init
     this.initDataSource();
@@ -44,13 +44,19 @@ export class UserSitesTableDataSource extends TableDataSource<SiteUser> {
 
   public loadDataImpl(): Observable<DataResult<SiteUser>> {
     return new Observable((observer) => {
-      this.addAction.visible = this.authorizationService.canAssignUsersSites();
-      this.removeAction.visible = this.authorizationService.canUnassignUsersSites();
       // User provided?
       if (this.user) {
         // Yes: Get data
         this.centralServerService.getUserSites(this.buildFilterValues(),
           this.getPaging(), this.getSorting()).subscribe((userSites) => {
+          // Initialize siteUsers authorization
+          this.userSitesAuthorization = {
+            // Authorization actions
+            canUpdateUserSite: Utils.convertToBoolean(userSites.canUpdateUserSite)
+          };
+          // Set table column def with userSitesAuthorization set
+          this.setTableColumnDef(this.buildDynamicTableColumnDefs());
+          this.setTableActionDef(this.buildDynamicTableActionsDef());
           observer.next(userSites);
           observer.complete();
         }, (error) => {
@@ -82,6 +88,11 @@ export class UserSitesTableDataSource extends TableDataSource<SiteUser> {
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
+    // need to split into build vs buildDynamic as there are info we don't have at the init time (user "can"s)
+    return [];
+  }
+
+  public buildDynamicTableColumnDefs(): TableColumnDef[] {
     const columns: TableColumnDef[] = [
       {
         id: 'site.name',
@@ -110,18 +121,17 @@ export class UserSitesTableDataSource extends TableDataSource<SiteUser> {
         angularComponent: UserSitesAdminCheckboxComponent,
         name: 'sites.admin_role',
         class: 'col-10p',
+        visible: this.userSitesAuthorization?.canUpdateUserSite,
       },
-
-    ];
-    if (this.authorizationService.canCreateSiteArea()) {
-      columns.push({
+      {
         id: 'siteOwner',
         isAngularComponent: true,
         angularComponent: UserSitesOwnerRadioComponent,
         name: 'sites.owner_role',
         class: 'col-10p',
-      });
-    }
+        visible: this.userSitesAuthorization?.canUpdateUserSite,
+      }
+    ];
     return columns;
   }
 
@@ -135,14 +145,19 @@ export class UserSitesTableDataSource extends TableDataSource<SiteUser> {
   }
 
   public buildTableActionsDef(): TableActionDef[] {
+    return super.buildTableActionsDef();
+  }
+
+  public buildDynamicTableActionsDef(): TableActionDef[] {
+    // Update filters visibility
+    this.addAction.visible = this.userSitesAuthorization.canUpdateUserSite;
+    this.removeAction.visible = this.userSitesAuthorization.canUpdateUserSite;
     const tableActionsDef = super.buildTableActionsDef();
-    if (this.authorizationService.canAssignUsersSites()) {
-      tableActionsDef.push(this.addAction);
-    }
-    if (this.authorizationService.canUnassignUsersSites()) {
-      tableActionsDef.push(this.removeAction);
-    }
-    return tableActionsDef;
+    return [
+      this.addAction,
+      this.removeAction,
+      ...tableActionsDef,
+    ];
   }
 
   public actionTriggered(actionDef: TableActionDef) {
@@ -152,7 +167,6 @@ export class UserSitesTableDataSource extends TableDataSource<SiteUser> {
       case ButtonAction.ADD:
         this.showAddSitesDialog();
         break;
-
       // Remove
       case ButtonAction.REMOVE:
         // Empty?

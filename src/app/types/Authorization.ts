@@ -227,7 +227,31 @@ export interface UsersAuthorizationActions extends DataResultAuthorizationAction
 
 export interface UserAuthorizationActions extends AuthorizationActions {
   canAssignSites?: boolean;
+  canUnassignSites?: boolean;
 }
+
+// USERSITES
+export interface UserSitesAuthorizations extends AuthorizationAttributes, UserSitesAuthorizationActions {
+  canUpdateUserSite?: boolean;
+}
+
+export interface UserSitesAuthorizationActions extends DataResultAuthorizationActions {
+}
+
+export interface UserSiteAuthorizationActions extends AuthorizationActions {
+}
+
+// SITEUSERS
+export interface SiteUsersAuthorizations extends AuthorizationAttributes, SiteUsersAuthorizationActions {
+  canUpdateUserSite?: boolean;
+}
+
+export interface SiteUsersAuthorizationActions extends DataResultAuthorizationActions {
+}
+
+export interface SiteUserAuthorizationActions extends AuthorizationActions {
+}
+
 // ASSETS
 export interface AssetsAuthorizations extends AuthorizationAttributes, AssetsAuthorizationActions {
 }

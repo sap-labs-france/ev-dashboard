@@ -1,16 +1,16 @@
 import { Asset } from './Asset';
-import { AssetsAuthorizations, BillingInvoicesAuthorizations, BillingPaymentMethodsAuthorizationActions, CarCatalogsAuthorizations, CarsAuthorizations, DataResultAuthorizations, LogsAuthorizationActions, SitesAuthorizationActions, TagsAuthorizations, UsersAuthorizations } from './Authorization';
+import { AssetsAuthorizations, BillingInvoicesAuthorizations, BillingPaymentMethodsAuthorizationActions, CarCatalogsAuthorizations, CarsAuthorizations, DataResultAuthorizations, LogsAuthorizationActions, SiteUsersAuthorizations, SitesAuthorizationActions, TagsAuthorizations, UserSitesAuthorizations, UsersAuthorizations } from './Authorization';
 import { BillingInvoice, BillingPaymentMethod } from './Billing';
 import { Car, CarCatalog } from './Car';
 import { Company } from './Company';
 import { Log } from './Log';
 import PricingDefinition from './Pricing';
 import { RegistrationToken } from './RegistrationToken';
-import { Site } from './Site';
+import { Site, SiteUser } from './Site';
 import { SiteArea } from './SiteArea';
 import { Tag } from './Tag';
 import { Transaction } from './Transaction';
-import { User, UserStatus } from './User';
+import { User, UserSite, UserStatus } from './User';
 
 export interface ActionResponse {
   status: string;
@@ -101,6 +101,12 @@ export interface CarCatalogDataResult extends DataResult<CarCatalog>, CarCatalog
 }
 
 export interface UserDataResult extends DataResult<User>, UsersAuthorizations {
+}
+
+export interface UserSiteDataResult extends DataResult<UserSite>, UserSitesAuthorizations {
+}
+
+export interface SiteUserDataResult extends DataResult<SiteUser>, SiteUsersAuthorizations {
 }
 
 export interface SiteAreaDataResult extends DataResult<SiteArea> {

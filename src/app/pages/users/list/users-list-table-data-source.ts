@@ -279,7 +279,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
         rowActions.push(this.editAction);
       }
       if (this.componentService.isActive(TenantComponents.ORGANIZATION)) {
-        if (this.authorizationService.canListUsersSites()) {
+        if (user.canAssignSites || user.canUnassignSites) {
           rowActions.push(this.assignSitesToUser);
         }
       }

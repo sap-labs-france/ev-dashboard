@@ -145,7 +145,7 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
     if (user.canUpdate) {
       rowActions.push(this.editAction);
     }
-    if (user.canAssignSites) {
+    if (user.canAssignSites || user.canUnassignSites) {
       rowActions.push(this.assignSitesToUser);
     }
     return rowActions;

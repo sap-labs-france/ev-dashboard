@@ -7,14 +7,14 @@ import { BehaviorSubject, EMPTY, Observable, TimeoutError, of, throwError } from
 import { catchError, switchMap } from 'rxjs/operators';
 
 import { Asset, AssetConsumption } from '../types/Asset';
-import { BillingPaymentMethod, BillingTax } from '../types/Billing';
+import { BillingTax } from '../types/Billing';
 import { Car, CarCatalog, CarMaker, ImageObject } from '../types/Car';
 import { ChargingProfile, GetCompositeScheduleCommandResult } from '../types/ChargingProfile';
 import { ChargePoint, ChargingStation, OCPPAvailabilityType, OcppParameter } from '../types/ChargingStation';
 import { Company } from '../types/Company';
 import CentralSystemServerConfiguration from '../types/configuration/CentralSystemServerConfiguration';
 import { IntegrationConnection, UserConnection } from '../types/Connection';
-import { ActionResponse, ActionsResponse, AssetDataResult, BillingInvoiceDataResult, BillingOperationResult, BillingPaymentMethodDataResult, CarCatalogDataResult, CarDataResult, CheckAssetConnectionResponse, CheckBillingConnectionResponse, CompanyDataResult, DataResult, LogDataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OICPJobStatusesResponse, OICPPingResponse, Ordering, Paging, PricingDefinitionDataResult, RegistrationTokenDataResult, SiteAreaDataResult, SiteDataResult, TagDataResult, UserDataResult } from '../types/DataResult';
+import { ActionResponse, ActionsResponse, AssetDataResult, BillingInvoiceDataResult, BillingOperationResult, BillingPaymentMethodDataResult, CarCatalogDataResult, CarDataResult, CheckAssetConnectionResponse, CheckBillingConnectionResponse, CompanyDataResult, DataResult, LogDataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OICPJobStatusesResponse, OICPPingResponse, Ordering, Paging, PricingDefinitionDataResult, RegistrationTokenDataResult, SiteAreaDataResult, SiteDataResult, SiteUserDataResult, TagDataResult, UserDataResult, UserSiteDataResult } from '../types/DataResult';
 import { EndUserLicenseAgreement } from '../types/Eula';
 import { FilterParams, Image, KeyValue } from '../types/GlobalType';
 import { AssetInError, ChargingStationInError, TransactionInError } from '../types/InError';
@@ -27,13 +27,13 @@ import { RefundReport } from '../types/Refund';
 import { RegistrationToken } from '../types/RegistrationToken';
 import { RESTServerRoute, ServerAction } from '../types/Server';
 import { BillingSettings, SettingDB } from '../types/Setting';
-import { Site, SiteUser } from '../types/Site';
+import { Site } from '../types/Site';
 import { SiteArea, SiteAreaConsumption } from '../types/SiteArea';
 import { StatisticData } from '../types/Statistic';
 import { Tag } from '../types/Tag';
 import { Tenant } from '../types/Tenant';
 import { OcpiData, Transaction } from '../types/Transaction';
-import { User, UserDefaultTagCar, UserSite, UserToken } from '../types/User';
+import { User, UserDefaultTagCar, UserToken } from '../types/User';
 import { Constants } from '../utils/Constants';
 import { Utils } from '../utils/Utils';
 import { ConfigService } from './config.service';
@@ -355,7 +355,7 @@ export class CentralServerService {
   }
 
   public getUserSites(params: FilterParams,
-    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<SiteUser>> {
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<SiteUserDataResult> {
     // Verify init
     this.checkInit();
     // Build Paging
@@ -363,7 +363,7 @@ export class CentralServerService {
     // Build Ordering
     this.getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<DataResult<SiteUser>>(this.buildRestEndpointUrl(RESTServerRoute.REST_USER_SITES, { id: params.UserID.toString() }),
+    return this.httpClient.get<SiteUserDataResult>(this.buildRestEndpointUrl(RESTServerRoute.REST_USER_SITES, { id: params.UserID.toString() }),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -783,7 +783,7 @@ export class CentralServerService {
   }
 
   public getSiteUsers(params: FilterParams,
-    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<UserSite>> {
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<UserSiteDataResult> {
     // Verify init
     this.checkInit();
     // Build Paging
@@ -791,7 +791,7 @@ export class CentralServerService {
     // Build Ordering
     this.getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<DataResult<UserSite>>(this.buildRestEndpointUrl(RESTServerRoute.REST_SITE_USERS, { id: params.SiteID as string }),
+    return this.httpClient.get<UserSiteDataResult>(this.buildRestEndpointUrl(RESTServerRoute.REST_SITE_USERS, { id: params.SiteID as string }),
       {
         headers: this.buildHttpHeaders(),
         params,

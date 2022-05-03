@@ -13,8 +13,9 @@ import { Utils } from '../../../utils/Utils';
 @Component({
   template: `
     <div class="d-flex justify-content-center">
-      <mat-checkbox class="mx-auto" [disabled]="(!loggedUser.sitesAdmin.includes(row.site.id))"
+      <mat-checkbox class="mx-auto"
         [checked]="(row.siteAdmin ? row.siteAdmin : false) || (user && user.role === 'A')"
+        [disabled]="(!loggedUser.sitesAdmin.includes(row.site.id) && loggedUser.role !== 'A') || (user && user.role === 'A')"
         (change)="changeSiteAdmin($event)">
       </mat-checkbox>
     </div>`

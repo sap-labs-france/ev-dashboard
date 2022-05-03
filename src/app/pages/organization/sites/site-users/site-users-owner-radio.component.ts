@@ -12,8 +12,10 @@ import { Utils } from '../../../../utils/Utils';
 @Component({
   template: `
     <div class="d-flex justify-content-center">
-      <mat-radio-button #rbid class="mx-auto" [checked]="(row.siteOwner ? true : false)"
-        (change) = "changeRadioButton($event)" (click) = "changeSiteOwner()">
+      <mat-radio-button #rbid class="mx-auto"
+        [checked]="(row.siteOwner ? row.siteOwner : false)"
+        [disabled]="(!loggedUser.sitesAdmin.includes(row.siteID) && loggedUser.role !== 'A') || row.user?.role === 'A'"
+        (change)="changeRadioButton($event)">
       </mat-radio-button>
     </div>`
 })
@@ -30,13 +32,13 @@ export class SiteUsersOwnerRadioComponent extends CellContentTemplateDirective {
     this.loggedUser = centralServerService.getLoggedUser();
   }
 
-  public changeSiteOwner() {
-    this.radioButtonRef.checked = !this.radioButtonRef.checked;
-    this.setUserSiteOwner(this.row, this.radioButtonRef.checked);
-  }
-
   public changeRadioButton(matRadioChange: MatRadioChange) {
+    // uncheck the previous siteOwner
+    this.radioButtonRef.checked = !this.radioButtonRef.checked;
+    // check the new siteOwner
     matRadioChange.source.checked  = !matRadioChange.source.checked;
+    // update in db
+    this.setUserSiteOwner(this.row, this.radioButtonRef.checked);
   }
 
   private setUserSiteOwner(userSite: UserSite, siteOwner: boolean) {

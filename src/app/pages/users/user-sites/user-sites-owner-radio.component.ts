@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { Router } from '@angular/router';
 
@@ -7,21 +7,24 @@ import { MessageService } from '../../../services/message.service';
 import { CellContentTemplateDirective } from '../../../shared/table/cell-content-template/cell-content-template.directive';
 import { RestResponse } from '../../../types/GlobalType';
 import { SiteUser } from '../../../types/Site';
-import { UserToken } from '../../../types/User';
+import { User, UserToken } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';
 
 @Component({
   template: `
     <div class="d-flex justify-content-center">
-      <mat-checkbox class="mx-auto" [checked]="(row.siteOwner ? row.siteOwner : false)"
-        [disabled]="(!loggedUser.sitesAdmin.includes(row.site.id))"
+      <mat-checkbox class="mx-auto"
+        [checked]="(row.siteOwner ? row.siteOwner : false)"
+        [disabled]="(!loggedUser.sitesAdmin.includes(row.site.id) && loggedUser.role !== 'A') || (user && user.role === 'A')"
         (change)="changeSiteOwner($event)">
       </mat-checkbox>
     </div>`
 })
-export class UserSitesOwnerRadioComponent extends CellContentTemplateDirective {
+
+export class UserSitesOwnerRadioComponent extends CellContentTemplateDirective implements OnInit {
   @Input() public row!: SiteUser;
   public loggedUser: UserToken;
+  public user: User;
 
   public constructor(
     private messageService: MessageService,
@@ -29,6 +32,12 @@ export class UserSitesOwnerRadioComponent extends CellContentTemplateDirective {
     private router: Router) {
     super();
     this.loggedUser = centralServerService.getLoggedUser();
+  }
+
+  public ngOnInit(): void {
+    this.centralServerService.getUser(this.row.userID).subscribe((user) => {
+      this.user = user;
+    });
   }
 
   public changeSiteOwner(matCheckboxChange: MatCheckboxChange) {

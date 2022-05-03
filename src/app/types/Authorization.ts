@@ -161,39 +161,45 @@ export interface AuthorizationAttributes {
   projectFields?: string[];
   metadata?: Record<string, AuthorizationDefinitionFieldMetadata>;
 }
-// ENTITY: COMMON AUTH ACTION
+
+// Entity: Common Authorization Action
 export interface AuthorizationActions {
   canRead?: boolean;
   canUpdate?: boolean;
   canDelete?: boolean;
 }
-// DATA RESULT: COMMON AUTH ACTION
+
+// Data Result: Common Authorization Action
 export interface DataResultAuthorizationActions {
   canCreate?: boolean;
 }
-// BASIC DATA RESULT AUTHORIZATIONS
+
+// Basic Data Result Authorizations
 export interface DataResultAuthorizations extends AuthorizationAttributes, DataResultAuthorizationActions {
 }
-// CARS
+
 export interface CarsAuthorizations extends AuthorizationAttributes, CarsAuthorizationActions {
 }
+
 export interface CarsAuthorizationActions extends DataResultAuthorizationActions{
   canListUsers?: boolean;
   canListCarCatalog?: boolean;
 }
-// CAR
+
 export interface CarAuthorizationActions extends AuthorizationActions {
   canListUsers?: boolean;
 }
-// CAR CATALOGS
+
 export interface CarCatalogsAuthorizations extends AuthorizationAttributes, CarCatalogsAuthorizationActions {
 }
+
 export interface CarCatalogsAuthorizationActions extends DataResultAuthorizationActions {
   canSync?: boolean;
 }
-// TAGS
+
 export interface TagsAuthorizations extends AuthorizationAttributes, TagsAuthorizationActions {
 }
+
 export interface TagsAuthorizationActions extends DataResultAuthorizationActions {
   canAssign?: boolean;
   canDelete?: boolean;
@@ -203,14 +209,14 @@ export interface TagsAuthorizationActions extends DataResultAuthorizationActions
   canListUsers?: boolean;
   canListSources?: boolean;
 }
-// TAG
+
 export interface TagAuthorizationActions extends AuthorizationActions {
   canUnassign?: boolean;
   canAssign?: boolean;
   canListUsers?: boolean;
   canUpdateByVisualID?: boolean;
 }
-// USERS
+
 export interface UsersAuthorizations extends AuthorizationAttributes, UsersAuthorizationActions {
 }
 
@@ -225,17 +231,18 @@ export interface UserAuthorizationActions extends AuthorizationActions {
 // ASSETS
 export interface AssetsAuthorizations extends AuthorizationAttributes, AssetsAuthorizationActions {
 }
+
 export interface AssetsAuthorizationActions extends DataResultAuthorizationActions {
   canListSites: boolean;
   canListSiteAreas: boolean;
 }
-// ASSET
+
 export interface AssetAuthorizationActions extends AuthorizationActions {
   canRetrieveConsumption?: boolean;
   canReadConsumption?: boolean;
   canCheckConnection?: boolean;
 }
-// SITE AREA
+
 export interface SiteAreaAuthorizationActions extends AuthorizationActions {
   canAssignAssets?: boolean;
   canUnassignAssets?: boolean;
@@ -246,12 +253,11 @@ export interface SiteAreaAuthorizationActions extends AuthorizationActions {
   canExportOCPPParams?: boolean;
   canGenerateQrCode?: boolean;
 }
-// SITES
+
 export interface SitesAuthorizationActions extends DataResultAuthorizationActions {
   canListCompanies: boolean;
 }
 
-// SITE
 export interface SiteAuthorizationActions extends AuthorizationActions {
   canAssignUsers?: boolean;
   canUnassignUsers?: boolean;
@@ -260,13 +266,30 @@ export interface SiteAuthorizationActions extends AuthorizationActions {
   canGenerateQrCode?: boolean;
   canMaintainPricingDefinitions?: boolean;
 }
-// REGISTRATION TOKEN
+
 export interface RegistrationTokenAuthorizationActions extends AuthorizationActions {
   canRevoke?: boolean;
 }
-// LOGS
+
 export interface LogsAuthorizationActions extends AuthorizationActions {
   canExport?: boolean;
+}
+
+export interface BillingInvoicesAuthorizations extends AuthorizationAttributes, BillingInvoicesAuthorizationActions {
+}
+
+export interface BillingInvoicesAuthorizationActions extends DataResultAuthorizationActions {
+  canListUsers?: boolean;
+}
+
+export interface BillingInvoiceAuthorizationActions extends AuthorizationActions {
+  canDownload?: boolean;
+}
+
+export interface BillingPaymentMethodsAuthorizationActions extends DataResultAuthorizationActions {
+}
+
+export interface BillingPaymentMethodAuthorizationActions extends AuthorizationActions {
 }
 
 export enum DialogMode {

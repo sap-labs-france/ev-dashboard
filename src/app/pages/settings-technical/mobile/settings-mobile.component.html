@@ -15,16 +15,16 @@
       <div class="row">
         <div class="col-md-6">
           <mat-form-field>
-            <input matInput type="text" type="text" [formControl]="settingsIOSMobileAppID"
+            <input matInput type="text" type="text" [formControl]="iosMobileAppID"
               placeholder="{{'technical_settings.mobile.ios_mobile_app_id' | translate}}" required>
-              <mat-error *ngIf="settingsIOSMobileAppID.errors?.required">
+              <mat-error *ngIf="iosMobileAppID.errors?.required">
                 {{"general.mandatory_field" | translate}}
               </mat-error>
           </mat-form-field>
           <mat-form-field>
-            <input matInput type="text" [formControl]="settingsAndroidMobileAppID"
+            <input matInput type="text" [formControl]="androidMobileAppID"
               placeholder="{{'technical_settings.mobile.android_mobile_app_id' | translate}}" required>
-              <mat-error *ngIf="settingsAndroidMobileAppID.errors?.required">
+              <mat-error *ngIf="androidMobileAppID.errors?.required">
                 {{"general.mandatory_field" | translate}}
               </mat-error>
           </mat-form-field>

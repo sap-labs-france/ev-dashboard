@@ -17,8 +17,8 @@ import { Utils } from '../../../utils/Utils';
 })
 export class SettingsMobileComponent implements OnInit {
 
-  public settingsIOSMobileAppID!: AbstractControl;
-  public settingsAndroidMobileAppID!: AbstractControl;
+  public iosMobileAppID!: AbstractControl;
+  public androidMobileAppID!: AbstractControl;
   public scheme!: AbstractControl;
 
   public mobileSettings: MobileSettings;
@@ -36,11 +36,11 @@ export class SettingsMobileComponent implements OnInit {
   public ngOnInit() {
     this.formGroup = new FormGroup({});
     // Init the form
-    this.formGroup.addControl('settingsIOSMobileAppID', new FormControl('',
+    this.formGroup.addControl('iosMobileAppID', new FormControl('',
       Validators.compose([
         Validators.required,
       ])));
-    this.formGroup.addControl('settingsAndroidMobileAppID', new FormControl('',
+    this.formGroup.addControl('androidMobileAppID', new FormControl('',
       Validators.compose([
         Validators.required,
       ])));
@@ -49,20 +49,20 @@ export class SettingsMobileComponent implements OnInit {
         Validators.required,
       ])));
     // Form
-    this.settingsIOSMobileAppID = this.formGroup.controls['settingsIOSMobileAppID'];
-    this.settingsAndroidMobileAppID = this.formGroup.controls['settingsAndroidMobileAppID'];
+    this.iosMobileAppID = this.formGroup.controls['iosMobileAppID'];
+    this.androidMobileAppID = this.formGroup.controls['androidMobileAppID'];
     this.scheme = this.formGroup.controls['scheme'];
     this.loadMobileAppSettings();
   }
 
   public save() {
-    if (!this.settingsIOSMobileAppID.value || !this.settingsAndroidMobileAppID.value || !this.scheme.value) {
+    if (!this.iosMobileAppID.value || !this.androidMobileAppID.value || !this.scheme.value) {
       return;
     }
     this.spinnerService.show();
     this.mobileSettings.type = MobileSettingsType.MOBILE;
-    this.mobileSettings.mobile.settingsIOSMobileAppID = this.settingsIOSMobileAppID.value;
-    this.mobileSettings.mobile.settingsAndroidMobileAppID = this.settingsAndroidMobileAppID.value;
+    this.mobileSettings.mobile.iosMobileAppID = this.iosMobileAppID.value;
+    this.mobileSettings.mobile.androidMobileAppID = this.androidMobileAppID.value;
     this.mobileSettings.mobile.scheme = this.scheme.value;
     this.componentService.saveMobileAppSettings(this.mobileSettings).subscribe(
       (response) => {
@@ -99,8 +99,8 @@ export class SettingsMobileComponent implements OnInit {
         if (settings?.mobile) {
           // load
           this.mobileSettings = settings;
-          this.settingsIOSMobileAppID.setValue(settings.mobile.settingsIOSMobileAppID);
-          this.settingsAndroidMobileAppID.setValue(settings.mobile.settingsAndroidMobileAppID);
+          this.iosMobileAppID.setValue(settings.mobile.iosMobileAppID);
+          this.androidMobileAppID.setValue(settings.mobile.androidMobileAppID);
           this.scheme.setValue(settings.mobile.scheme);
           // Init form
           this.formGroup.markAsPristine();

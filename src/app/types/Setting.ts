@@ -364,7 +364,6 @@ export interface MobileSettings extends Setting {
 }
 
 export interface MobileSetting {
-  iosMobileAppID: string;
   androidMobileAppID: string;
   scheme: string;
 }

@@ -442,7 +442,6 @@ export class ComponentService {
           mobileSettings.id = settings.id;
           // Crypto Key
           mobileSettings.mobile = {
-            iosMobileAppID: settings.content.mobile.iosMobileAppID,
             androidMobileAppID: settings.content.mobile.androidMobileAppID,
             scheme: settings.content.mobile.scheme,
           };

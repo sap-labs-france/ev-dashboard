@@ -17,7 +17,6 @@ import { Utils } from '../../../utils/Utils';
 })
 export class SettingsMobileComponent implements OnInit {
 
-  public iosMobileAppID!: AbstractControl;
   public androidMobileAppID!: AbstractControl;
   public scheme!: AbstractControl;
 
@@ -36,10 +35,6 @@ export class SettingsMobileComponent implements OnInit {
   public ngOnInit() {
     this.formGroup = new FormGroup({});
     // Init the form
-    this.formGroup.addControl('iosMobileAppID', new FormControl('',
-      Validators.compose([
-        Validators.required,
-      ])));
     this.formGroup.addControl('androidMobileAppID', new FormControl('',
       Validators.compose([
         Validators.required,
@@ -49,19 +44,17 @@ export class SettingsMobileComponent implements OnInit {
         Validators.required,
       ])));
     // Form
-    this.iosMobileAppID = this.formGroup.controls['iosMobileAppID'];
     this.androidMobileAppID = this.formGroup.controls['androidMobileAppID'];
     this.scheme = this.formGroup.controls['scheme'];
     this.loadMobileAppSettings();
   }
 
   public save() {
-    if (!this.iosMobileAppID.value || !this.androidMobileAppID.value || !this.scheme.value) {
+    if (!this.androidMobileAppID.value || !this.scheme.value) {
       return;
     }
     this.spinnerService.show();
     this.mobileSettings.type = MobileSettingsType.MOBILE;
-    this.mobileSettings.mobile.iosMobileAppID = this.iosMobileAppID.value;
     this.mobileSettings.mobile.androidMobileAppID = this.androidMobileAppID.value;
     this.mobileSettings.mobile.scheme = this.scheme.value;
     this.componentService.saveMobileAppSettings(this.mobileSettings).subscribe(
@@ -99,7 +92,6 @@ export class SettingsMobileComponent implements OnInit {
         if (settings?.mobile) {
           // load
           this.mobileSettings = settings;
-          this.iosMobileAppID.setValue(settings.mobile.iosMobileAppID);
           this.androidMobileAppID.setValue(settings.mobile.androidMobileAppID);
           this.scheme.setValue(settings.mobile.scheme);
           // Init form

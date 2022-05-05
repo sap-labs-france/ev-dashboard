@@ -46,10 +46,14 @@ export class PaymentMethodsTableDataSource extends TableDataSource<BillingPaymen
     private datePipe: AppDatePipe,
     private dialog: MatDialog) {
     super(spinnerService, translateService);
+    // Load billing settings
+    this.spinnerService.show();
     this.componentService.getBillingSettings().subscribe((settings) => {
-      this.spinnerService.hide();
       this.billingSettings = settings;
-    });
+      this.spinnerService.hide();
+    }, (error) => {
+      this.spinnerService.hide();
+    });;
     this.initDataSource();
   }
 

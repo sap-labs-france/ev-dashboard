@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/member-ordering */
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -21,9 +20,7 @@ import { PaymentMethodDialogComponent } from '../payment-method.dialog.component
   templateUrl: 'stripe-payment-method.component.html',
   styleUrls: ['stripe-payment-method.component.scss']
 })
-
 export class StripePaymentMethodComponent implements OnInit {
-
   @Input() public inDialog!: boolean;
   @Input() public dialogRef!: MatDialogRef<PaymentMethodDialogComponent>;
   @Input() public currentUserID!: string;
@@ -65,13 +62,27 @@ export class StripePaymentMethodComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    // TODO: make sure to wait for stripe to be initialized - spinner show
-    this.initialize();
+    void this.initialize();
     this.userID = this.dialogRef.componentInstance.userID;
     this.formGroup = new FormGroup({
       acceptConditions: new FormControl()
     });
     this.acceptConditions = this.formGroup.controls['acceptConditions'];
+  }
+
+  public handleAcceptConditions() {
+    this.hasAcceptedConditions = !this.hasAcceptedConditions;
+  }
+
+  public linkCardToAccount() {
+    this.isSaveClicked = true;
+    void this.doCreatePaymentMethod();
+  }
+
+  public close(saved: boolean = false) {
+    if (this.inDialog) {
+      this.dialogRef.close(saved);
+    }
   }
 
   private async initialize(): Promise<void> {
@@ -90,10 +101,6 @@ export class StripePaymentMethodComponent implements OnInit {
     }
   }
 
-  public handleAcceptConditions() {
-    this.hasAcceptedConditions = !this.hasAcceptedConditions;
-  }
-
   private getStripeFacade() {
     return this.stripeService.getStripeFacade();
   }
@@ -104,7 +111,6 @@ export class StripePaymentMethodComponent implements OnInit {
     this.cardNumber = this.elements.create('cardNumber');
     this.cardNumber.mount('#cardNumber');
     this.cardNumber.on('change', event => {
-      // this.cardNumberError = event.error?.message || '';
       this.cardNumberError = event.error ? this.translateService.instant('settings.billing.payment_methods_card_number_error') : '';
       this.isCardNumberValid = !event.error && event.complete;
     });
@@ -124,11 +130,6 @@ export class StripePaymentMethodComponent implements OnInit {
     });
   }
 
-  public linkCardToAccount() {
-    this.isSaveClicked = true;
-    void this.doCreatePaymentMethod();
-  }
-
   private async doCreatePaymentMethod() {
     const operationResult: any = await this.createPaymentMethod();
     if (operationResult.error) {
@@ -143,7 +144,6 @@ export class StripePaymentMethodComponent implements OnInit {
       }
       this.isSaveClicked = false;
     } else {
-      this.spinnerService.hide();
       // Operation succeeded
       this.messageService.showSuccessMessage('settings.billing.payment_methods_create_success', { last4: operationResult.internalData.card.last4 });
       this.close(true);
@@ -151,64 +151,54 @@ export class StripePaymentMethodComponent implements OnInit {
   }
 
   private async createPaymentMethod(): Promise<any> {
-    // c.f. STRIPE SAMPLE at: https://stripe.com/docs/billing/subscriptions/fixed-price#collect-payment
-    let operationResult = null;
+    try {
+      // Step #1 - Create A STRIPE Setup Intent
+      const setupIntent = await this.createSetupIntent();
+      // Step #2 - Confirm the STRIPE Setup Intent to carry out 3DS authentication (redirects to the bank authentication page)
+      const confirmationResult = await this.confirmSetupIntent(setupIntent);
+      if (confirmationResult.error) {
+        // 3DS authentication has been aborted or user was not able to authenticate
+        return confirmationResult;
+      }
+      // Step #3 - Now attach the payment method to the user
+      return this.attachPaymentMethod(confirmationResult);
+    } catch (error) {
+      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
+    }
+  }
+
+  private async createSetupIntent(): Promise<any> {
     try {
       this.spinnerService.show();
-      // -----------------------------------------------------------------------------------------------
-      // Step #0 - Create Setup Intent
-      // -----------------------------------------------------------------------------------------------
       const response: BillingOperationResult = await this.centralServerService.setupPaymentMethod({
         userID: this.userID
       }).toPromise();
-      // -----------------------------------------------------------------------------------------------
-      // Step #1 - Confirm the SetupIntent with data provided and carry out 3DS
-      // c.f. https://stripe.com/docs/js/setup_intents/confirm_card_setup
-      // -----------------------------------------------------------------------------------------------
-      const setupIntent: any = response?.internalData;
-      // TODO: handle spinner .hide / .show in a better way ? to be tested in prod // we cannot anymore reclick save button twice
-      // setTimeout doesn't work as expected - it never hides...
-      // setTimeout(function() {
-      this.spinnerService.hide();
-      // }, 4000);
-      // eslint-disable-next-line max-len
-      const result: { setupIntent?: SetupIntent; error?: StripeError } = await this.getStripeFacade().confirmCardSetup( setupIntent.client_secret, {
-        payment_method: {
-          card: this.cardNumber
-          // TODO: put email and address
-          // billing_details: {
-          //   name: this.centralServerService.getCurrentUserSubject().value.email + new Date(),
-          // },
-        },
-      });
-      this.spinnerService.show();
-      if (result.error) {
-        operationResult = result;
-      } else {
-        operationResult = this.attachPaymentMethod(result);
-      }
-    } catch (error) {
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
+      return response?.internalData;
     } finally {
       this.spinnerService.hide();
     }
-    return operationResult;
-  }
-  // -----------------------------------------------------------------------------------------------
-  // Step #2 - Really attach the payment method / not called when 3DS failed
-  // -----------------------------------------------------------------------------------------------
-  private async attachPaymentMethod(operationResult: {setupIntent?: SetupIntent; error?: StripeError}) {
-    const response: BillingOperationResult = await this.centralServerService.setupPaymentMethod({
-      setupIntentId: operationResult.setupIntent?.id,
-      paymentMethodId: operationResult.setupIntent?.payment_method,
-      userID: this.userID
-    }).toPromise();
-    return response;
   }
 
-  public close(saved: boolean = false) {
-    if (this.inDialog) {
-      this.dialogRef.close(saved);
+  private async confirmSetupIntent(setupIntent: any): Promise<{ setupIntent?: SetupIntent; error?: StripeError }> {
+    const result: { setupIntent?: SetupIntent; error?: StripeError } = await this.getStripeFacade().confirmCardSetup( setupIntent.client_secret, {
+      payment_method: {
+        card: this.cardNumber
+      },
+    });
+    return result;
+  }
+
+  private async attachPaymentMethod(operationResult: {setupIntent?: SetupIntent; error?: StripeError}) {
+    try {
+      this.spinnerService.show();
+      const response: BillingOperationResult = await this.centralServerService.setupPaymentMethod({
+        setupIntentId: operationResult.setupIntent?.id,
+        paymentMethodId: operationResult.setupIntent?.payment_method,
+        userID: this.userID
+      }).toPromise();
+      return response;
+    } finally {
+      this.spinnerService.hide();
     }
   }
 }

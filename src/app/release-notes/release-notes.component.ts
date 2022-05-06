@@ -25,7 +25,7 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.6.6',
-        date: new Date('2022-05-02'),
+        date: new Date('2022-05-06'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -37,6 +37,7 @@ export class ReleaseNotesComponent {
               `Do not price the Roaming transaction`,
               `Ensured OCPP Heartbeart message is correct before being validated with a Json schema`,
               `Validate OCPP Meter Value requests with a Json schema`,
+              `Do not update Charging Station max power in master/slave`,
             ],
           },
         ],

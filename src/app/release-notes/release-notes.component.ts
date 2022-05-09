@@ -25,12 +25,12 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.6.6',
-        date: new Date('2022-05-06'),
+        date: new Date('2022-05-09'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
-              `Fixed payment limit URL parameter is not provided in mobile app`,
+              `Removed Limit URL parameter when calling payment methods endpoint`,
               `Migrated Billing endpoint to the new authorization framework`,
               `OCPI RFID Cards are created on the fly when Remote Start is triggered by the Roaming platform`,
               `Never calculate the cost of an OCPI Transaction`,

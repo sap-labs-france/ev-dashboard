@@ -68,7 +68,7 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
     this.resetToken = this.route.snapshot.queryParamMap.get('ResetToken');
     this.verificationEmail = this.route.snapshot.queryParamMap.get('Email');
     // Handle Deep Linking
-    if (Utils.isInMobileApp()) {
+    if (Utils.isInMobileApp() && this.windowService.getSubdomain() !== 'ezcharge') {
       // Forward to Mobile App
       const mobileAppURL: string = Utils.buildMobileAppDeepLink(
         `verifyAccount/${this.windowService.getSubdomain()}/${this.verificationEmail}/${this.verificationToken}/${this.resetToken}`);

@@ -159,7 +159,6 @@ export class CarMainComponent implements OnInit, OnChanges {
     dialogConfig.panelClass = 'transparent-dialog-container';
     dialogConfig.data = {
       title: 'cars.assign_user',
-      validateButtonTitle: 'general.select',
       sitesAdminOnly: true,
       rowMultipleSelection: false,
     };
@@ -180,7 +179,6 @@ export class CarMainComponent implements OnInit, OnChanges {
     dialogConfig.panelClass = 'transparent-dialog-container';
     dialogConfig.data = {
       title: 'cars.assign_car_catalog',
-      validateButtonTitle: 'general.select',
       rowMultipleSelection: false,
     };
     // Open

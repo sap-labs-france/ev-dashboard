@@ -24,6 +24,25 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.6.6',
+        date: new Date('2022-05-09'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Removed Limit URL parameter when calling payment methods endpoint`,
+              `Migrated Billing endpoint to the new authorization framework`,
+              `OCPI RFID Cards are created on the fly when Remote Start is triggered by the Roaming platform`,
+              `Never calculate the cost of an OCPI Transaction`,
+              `Do not price the Roaming transaction`,
+              `Ensured OCPP Heartbeart message is correct before being validated with a Json schema`,
+              `Validate OCPP Meter Value requests with a Json schema`,
+              `Do not update Charging Station max power in master/slave`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.6.5',
         date: new Date('2022-04-15'),
         componentChanges: [

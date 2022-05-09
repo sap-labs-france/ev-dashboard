@@ -7,14 +7,14 @@ import { BehaviorSubject, EMPTY, Observable, TimeoutError, of, throwError } from
 import { catchError, switchMap } from 'rxjs/operators';
 
 import { Asset, AssetConsumption } from '../types/Asset';
-import { BillingInvoice, BillingPaymentMethod, BillingTax } from '../types/Billing';
+import { BillingPaymentMethod, BillingTax } from '../types/Billing';
 import { Car, CarCatalog, CarMaker, ImageObject } from '../types/Car';
 import { ChargingProfile, GetCompositeScheduleCommandResult } from '../types/ChargingProfile';
 import { ChargePoint, ChargingStation, OCPPAvailabilityType, OcppParameter } from '../types/ChargingStation';
 import { Company } from '../types/Company';
 import CentralSystemServerConfiguration from '../types/configuration/CentralSystemServerConfiguration';
 import { IntegrationConnection, UserConnection } from '../types/Connection';
-import { ActionResponse, ActionsResponse, AssetDataResult, BillingOperationResult, CarCatalogDataResult, CarDataResult, CheckAssetConnectionResponse, CheckBillingConnectionResponse, CompanyDataResult, DataResult, LogDataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OICPJobStatusesResponse, OICPPingResponse, Ordering, Paging, PricingDefinitionDataResult, RegistrationTokenDataResult, SiteAreaDataResult, SiteDataResult, TagDataResult, UserDataResult } from '../types/DataResult';
+import { ActionResponse, ActionsResponse, AssetDataResult, BillingInvoiceDataResult, BillingOperationResult, BillingPaymentMethodDataResult, CarCatalogDataResult, CarDataResult, CheckAssetConnectionResponse, CheckBillingConnectionResponse, CompanyDataResult, DataResult, LogDataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OICPJobStatusesResponse, OICPPingResponse, Ordering, Paging, PricingDefinitionDataResult, RegistrationTokenDataResult, SiteAreaDataResult, SiteDataResult, TagDataResult, UserDataResult } from '../types/DataResult';
 import { EndUserLicenseAgreement } from '../types/Eula';
 import { FilterParams, Image, KeyValue } from '../types/GlobalType';
 import { AssetInError, ChargingStationInError, TransactionInError } from '../types/InError';
@@ -1170,7 +1170,7 @@ export class CentralServerService {
 
   public exportLogs(params: FilterParams): Observable<Blob> {
     this.checkInit();
-    return this.httpClient.get(this.buildRestEndpointUrl(RESTServerRoute.REST_LOGGINGS_EXPORT),
+    return this.httpClient.get(this.buildRestEndpointUrl(RESTServerRoute.REST_LOGS_EXPORT),
       {
         headers: this.buildHttpHeaders(),
         responseType: 'blob',
@@ -1452,7 +1452,7 @@ export class CentralServerService {
     // Build Ordering
     this.getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<LogDataResult>(this.buildRestEndpointUrl(RESTServerRoute.REST_LOGGINGS),
+    return this.httpClient.get<LogDataResult>(this.buildRestEndpointUrl(RESTServerRoute.REST_LOGS),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -1469,7 +1469,7 @@ export class CentralServerService {
       return EMPTY;
     }
     // Call
-    return this.httpClient.get<Log>(this.buildRestEndpointUrl(RESTServerRoute.REST_LOGGING, { id }),
+    return this.httpClient.get<Log>(this.buildRestEndpointUrl(RESTServerRoute.REST_LOG, { id }),
       {
         headers: this.buildHttpHeaders(),
       })
@@ -1617,7 +1617,7 @@ export class CentralServerService {
   }
 
   public getPaymentMethods(currentUserID: string, params: FilterParams,
-    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<BillingPaymentMethod>> {
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<BillingPaymentMethodDataResult> {
     // Verify init
     this.checkInit();
     // Build Paging
@@ -1629,7 +1629,7 @@ export class CentralServerService {
       userID: currentUserID
     });
     // Execute the REST Service
-    return this.httpClient.get<DataResult<BillingPaymentMethod>>(url, {
+    return this.httpClient.get<BillingPaymentMethodDataResult>(url, {
       headers: this.buildHttpHeaders(),
       params
     }).pipe(
@@ -1682,7 +1682,7 @@ export class CentralServerService {
   }
 
   public getInvoices(params: FilterParams,
-    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<BillingInvoice>> {
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<BillingInvoiceDataResult> {
     // Verify init
     this.checkInit();
     // Build Paging
@@ -1692,7 +1692,7 @@ export class CentralServerService {
     // Build the URL
     const url = this.buildRestEndpointUrl(RESTServerRoute.REST_BILLING_INVOICES);
     // Execute the REST Service
-    return this.httpClient.get<DataResult<BillingInvoice>>(url, {
+    return this.httpClient.get<BillingInvoiceDataResult>(url, {
       headers: this.buildHttpHeaders(),
       params
     }).pipe(

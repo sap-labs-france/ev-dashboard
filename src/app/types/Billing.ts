@@ -1,5 +1,7 @@
+import { BillingInvoiceAuthorizationActions, BillingPaymentMethodAuthorizationActions } from './Authorization';
 import { BillingSettings } from './Setting';
 import { TableData } from './Table';
+import { User } from './User';
 
 export enum BillingInvoiceStatus {
   PAID = 'paid',
@@ -20,11 +22,12 @@ export interface BillingUserData extends TableData {
   hasSynchroError: boolean;
 }
 
-export interface BillingInvoice extends TableData {
+export interface BillingInvoice extends TableData, BillingInvoiceAuthorizationActions {
   id: string;
   createdOn?: Date;
   invoiceID: string;
   userID?: string;
+  user?: User;
   // eslint-disable-next-line id-blacklist
   number: string;
   status: BillingInvoiceStatus;
@@ -61,7 +64,7 @@ export interface BillingInvoiceItem {
   taxes?: string[];
 }
 
-export interface BillingPaymentMethod {
+export interface BillingPaymentMethod extends BillingPaymentMethodAuthorizationActions {
   id: string;
   brand: string;
   expiringOn: string;

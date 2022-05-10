@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { WindowService } from 'services/window.service';
 import { TransactionDialogComponent } from 'shared/dialogs/transaction/transaction-dialog.component';
 import { AppDurationPipe } from 'shared/formatters/app-duration.pipe';
 import { AppUnitPipe } from 'shared/formatters/app-unit.pipe';
@@ -103,7 +104,8 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     private centralServerService: CentralServerService,
     private datePipe: AppDatePipe,
     private appConnectorIdPipe: AppConnectorIdPipe,
-    private appUserNamePipe: AppUserNamePipe) {
+    private appUserNamePipe: AppUserNamePipe,
+    private windowService: WindowService) {
     super(spinnerService, translateService);
     // Admin
     this.isAdmin = this.authorizationService.isAdmin();
@@ -363,7 +365,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
       case LogButtonAction.NAVIGATE_TO_LOGS:
         if (actionDef.action) {
           (actionDef as TableOpenURLActionDef).action('logs?ChargingStationID=' + transaction.chargeBoxID +
-            '&StartDateTime=' + transaction.timestamp + '&LogLevel=I');
+            '&StartDateTime=' + transaction.timestamp + '&LogLevel=I', this.windowService);
         }
         break;
     }

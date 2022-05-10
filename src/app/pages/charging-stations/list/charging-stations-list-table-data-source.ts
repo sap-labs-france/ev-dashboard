@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { PricingDefinitionsDialogComponent } from 'shared/pricing-definitions/pricing-definitions.dialog.component';
 import { TableViewChargingStationAction, TableViewChargingStationActionDef } from 'shared/table/actions/charging-stations/table-view-charging-station-action';
+import { ChargingStationsAuthorizations } from 'types/Authorization';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -33,7 +34,7 @@ import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-tab
 import { SiteTableFilter } from '../../../shared/table/filters/site-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { ChargePointStatus, ChargingStation, ChargingStationButtonAction, Connector, FirmwareStatus } from '../../../types/ChargingStation';
-import { DataResult } from '../../../types/DataResult';
+import { ChargingStationDataResult, DataResult } from '../../../types/DataResult';
 import { ButtonAction } from '../../../types/GlobalType';
 import { PricingButtonAction, PricingEntity } from '../../../types/Pricing';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
@@ -58,6 +59,9 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
   private generateQrCodeConnectorAction = new TableChargingStationGenerateQrCodeConnectorAction().getActionDef();
   private canExport = new TableExportChargingStationsAction().getActionDef();
   private maintainPricingDefinitionsAction = new TableViewPricingDefinitionsAction().getActionDef();
+
+  private chargingStationsAthorizations: ChargingStationsAuthorizations;
+
 
   public constructor(
     public spinnerService: SpinnerService,
@@ -84,10 +88,19 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
     this.initDataSource();
   }
 
-  public loadDataImpl(): Observable<DataResult<ChargingStation>> {
+  public loadDataImpl(): Observable<ChargingStationDataResult> {
     return new Observable((observer) => {
       this.centralServerService.getChargingStations(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((chargingStations) => {
+
+        // Build auth object
+        this.chargingStationsAthorizations = {
+          canExport: Utils.convertToBoolean(chargingStations.canExport),
+          metadata: chargingStations.metadata
+        };
+        // Update filters visibility
+        this.canExport.visible = this.chargingStationsAthorizations.canExport;
+
         // Update details status
         for (const chargingStation of chargingStations.result) {
           // Only for local Charging Station
@@ -115,7 +128,8 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
             chargingStation.isUnavailable = isUnavailable;
           }
         };
-        this.canExport.visible = this.authorizationService.isAdmin();
+
+
         observer.next(chargingStations);
         observer.complete();
       }, (error) => {
@@ -143,105 +157,93 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    // As sort directive in table can only be unset in Angular 7, all columns will be sortable
-    // Build common part for all cases
-    const tableColumns: TableColumnDef[] = [
-      {
-        id: 'id',
-        name: 'chargers.name',
-        sortable: true,
-        headerClass: 'col-30p',
-        class: 'col-30p',
-        sorted: true,
-        direction: 'asc',
-      },
-    ];
-    if (this.isOrganizationComponentActive) {
-      tableColumns.push(
-        {
-          id: 'site.name',
-          name: 'sites.title',
-          class: 'd-none d-xl-table-cell col-20p',
-          headerClass: 'd-none d-xl-table-cell col-20p',
-        },
-        {
-          id: 'siteArea.name',
-          name: 'site_areas.title',
-          class: 'd-none d-xl-table-cell col-20p',
-          headerClass: 'd-none d-xl-table-cell col-20p',
-        },
-      );
+    const columns: TableColumnDef[] = [];
+    columns.push({
+      id: 'id',
+      name: 'chargers.name',
+      sortable: true,
+      headerClass: 'col-30p',
+      class: 'col-30p',
+      sorted: true,
+      direction: 'asc',
+    },
+    {
+      id: 'site.name',
+      name: 'sites.title',
+      class: 'd-none d-xl-table-cell col-20p',
+      headerClass: 'd-none d-xl-table-cell col-20p',
+    },
+    {
+      id: 'siteArea.name',
+      name: 'site_areas.title',
+      class: 'd-none d-xl-table-cell col-20p',
+      headerClass: 'd-none d-xl-table-cell col-20p',
+    },
+    {
+      id: 'inactive',
+      name: 'chargers.heartbeat_title',
+      headerClass: 'text-center col-30p',
+      class: 'text-center col-30p',
+      isAngularComponent: true,
+      angularComponent: ChargingStationsHeartbeatCellComponent,
+    },
+    {
+      id: 'connectorsStatus',
+      name: 'chargers.connectors_title',
+      headerClass: 'text-center',
+      class: 'text-center table-cell-angular-big-component',
+      isAngularComponent: true,
+      angularComponent: ChargingStationsConnectorsCellComponent,
+    },
+    {
+      id: 'connectorsConsumption',
+      name: 'chargers.consumption_title',
+      headerClass: 'text-center col-15em',
+      class: 'text-center col-15em',
+      isAngularComponent: true,
+      angularComponent: ChargingStationsInstantPowerChargerProgressBarCellComponent,
+    },
+    {
+      id: 'public',
+      name: 'chargers.public_charger',
+      headerClass: 'text-center col-5em',
+      class: 'text-center col-5em',
+      formatter: (publicChargingStation: boolean) => Utils.displayYesNo(this.translateService, publicChargingStation)
+    },
+    {
+      id: 'chargePointVendor',
+      name: 'chargers.vendor',
+      headerClass: 'd-none d-lg-table-cell col-20p',
+      class: 'd-none d-lg-table-cell col-20p',
+      sortable: true,
+    },
+    {
+      id: 'chargePointModel',
+      name: 'chargers.model',
+      headerClass: 'd-none d-lg-table-cell col-20p',
+      class: 'd-none d-lg-table-cell col-20p',
+      sortable: true,
+    },
+    {
+      id: 'firmwareVersion',
+      name: 'chargers.firmware_version',
+      headerClass: 'text-center col-20p',
+      class: 'text-center table-cell-angular-big-component col-20p',
+      sortable: false,
+      isAngularComponent: true,
+      angularComponent: ChargingStationsFirmwareStatusCellComponent,
+    },
+    {
+      id: 'ocppVersion',
+      name: 'chargers.ocpp_version_title',
+      headerClass: 'd-none d-xl-table-cell text-center col-10p',
+      class: 'd-none d-xl-table-cell text-center col-10p',
+      sortable: false,
+      formatter: (ocppVersion: string, row: ChargingStation) =>
+        (ocppVersion && row.ocppProtocol) ? `${ocppVersion} / ${row.ocppProtocol}` : '-'
     }
-    tableColumns.push(
-      {
-        id: 'inactive',
-        name: 'chargers.heartbeat_title',
-        headerClass: 'text-center col-30p',
-        class: 'text-center col-30p',
-        isAngularComponent: true,
-        angularComponent: ChargingStationsHeartbeatCellComponent,
-      },
-      {
-        id: 'connectorsStatus',
-        name: 'chargers.connectors_title',
-        headerClass: 'text-center',
-        class: 'text-center table-cell-angular-big-component',
-        isAngularComponent: true,
-        angularComponent: ChargingStationsConnectorsCellComponent,
-      },
-      {
-        id: 'connectorsConsumption',
-        name: 'chargers.consumption_title',
-        headerClass: 'text-center col-15em',
-        class: 'text-center col-15em',
-        isAngularComponent: true,
-        angularComponent: ChargingStationsInstantPowerChargerProgressBarCellComponent,
-      },
-      {
-        id: 'public',
-        name: 'chargers.public_charger',
-        headerClass: 'text-center col-5em',
-        class: 'text-center col-5em',
-        formatter: (publicChargingStation: boolean) => Utils.displayYesNo(this.translateService, publicChargingStation)
-      },
     );
-    if (this.authorizationService.isAdmin()) {
-      tableColumns.push(
-        {
-          id: 'chargePointVendor',
-          name: 'chargers.vendor',
-          headerClass: 'd-none d-lg-table-cell col-20p',
-          class: 'd-none d-lg-table-cell col-20p',
-          sortable: true,
-        },
-        {
-          id: 'chargePointModel',
-          name: 'chargers.model',
-          headerClass: 'd-none d-lg-table-cell col-20p',
-          class: 'd-none d-lg-table-cell col-20p',
-          sortable: true,
-        },
-        {
-          id: 'firmwareVersion',
-          name: 'chargers.firmware_version',
-          headerClass: 'text-center col-20p',
-          class: 'text-center table-cell-angular-big-component col-20p',
-          sortable: false,
-          isAngularComponent: true,
-          angularComponent: ChargingStationsFirmwareStatusCellComponent,
-        },
-        {
-          id: 'ocppVersion',
-          name: 'chargers.ocpp_version_title',
-          headerClass: 'd-none d-xl-table-cell text-center col-10p',
-          class: 'd-none d-xl-table-cell text-center col-10p',
-          sortable: false,
-          formatter: (ocppVersion: string, row: ChargingStation) =>
-            (ocppVersion && row.ocppProtocol) ? `${ocppVersion} / ${row.ocppProtocol}` : '-'
-        },
-      );
-    }
-    return tableColumns;
+    return columns;
   }
 
   public buildTableActionsRightDef(): TableActionDef[] {
@@ -253,12 +255,10 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-    if (this.authorizationService.isAdmin()) {
-      return [
-        this.canExport,
-        ...tableActionsDef,
-      ];
-    }
+    return [
+      this.canExport,
+      ...tableActionsDef,
+    ];
     return tableActionsDef;
   }
 

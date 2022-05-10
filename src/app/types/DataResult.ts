@@ -1,7 +1,8 @@
 import { Asset } from './Asset';
-import { AssetsAuthorizations, BillingInvoicesAuthorizations, BillingPaymentMethodsAuthorizationActions, CarCatalogsAuthorizations, CarsAuthorizations, DataResultAuthorizations, LogsAuthorizationActions, SitesAuthorizationActions, TagsAuthorizations, UsersAuthorizations } from './Authorization';
+import { AssetsAuthorizations, BillingInvoicesAuthorizations, BillingPaymentMethodsAuthorizationActions, CarCatalogsAuthorizations, CarsAuthorizations, ChargingStationsAuthorizations, DataResultAuthorizations, LogsAuthorizationActions, SitesAuthorizationActions, TagsAuthorizations, UsersAuthorizations } from './Authorization';
 import { BillingInvoice, BillingPaymentMethod } from './Billing';
 import { Car, CarCatalog } from './Car';
+import { ChargingStation } from './ChargingStation';
 import { Company } from './Company';
 import { Log } from './Log';
 import PricingDefinition from './Pricing';
@@ -119,6 +120,9 @@ export interface BillingInvoiceDataResult extends DataResult<BillingInvoice>, Bi
 }
 
 export interface BillingPaymentMethodDataResult extends DataResult<BillingPaymentMethod>, BillingPaymentMethodsAuthorizationActions {
+}
+
+export interface ChargingStationDataResult extends DataResult<ChargingStation>, ChargingStationsAuthorizations {
 }
 
 export interface CheckAssetConnectionResponse extends ActionResponse {

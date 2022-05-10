@@ -288,6 +288,17 @@ export interface BillingPaymentMethodsAuthorizationActions extends DataResultAut
 export interface BillingPaymentMethodAuthorizationActions extends AuthorizationActions {
 }
 
+export interface ChargingStationsAuthorizations extends AuthorizationAttributes, ChargingStationsAuthorizationActions {
+}
+
+export interface ChargingStationsAuthorizationActions extends DataResultAuthorizationActions{
+  canExport?: boolean;
+}
+
+export interface ChargingStationAuthorizationActions extends AuthorizationActions {
+  canListUsers?: boolean;
+}
+
 export enum DialogMode {
   EDIT = 'E',
   CREATE = 'C',

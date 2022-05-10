@@ -170,14 +170,14 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
     {
       id: 'site.name',
       name: 'sites.title',
-      class: 'd-none d-xl-table-cell col-20p',
-      headerClass: 'd-none d-xl-table-cell col-20p',
+      class: 'col-20p',
+      headerClass: 'col-20p',
     },
     {
       id: 'siteArea.name',
       name: 'site_areas.title',
-      class: 'd-none d-xl-table-cell col-20p',
-      headerClass: 'd-none d-xl-table-cell col-20p',
+      class: 'col-20p',
+      headerClass: 'col-20p',
     },
     {
       id: 'inactive',
@@ -213,15 +213,15 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
     {
       id: 'chargePointVendor',
       name: 'chargers.vendor',
-      headerClass: 'd-none d-lg-table-cell col-20p',
-      class: 'd-none d-lg-table-cell col-20p',
+      headerClass: 'col-20p',
+      class: 'col-20p',
       sortable: true,
     },
     {
       id: 'chargePointModel',
       name: 'chargers.model',
-      headerClass: 'd-none d-lg-table-cell col-20p',
-      class: 'd-none d-lg-table-cell col-20p',
+      headerClass: 'col-20p',
+      class: 'col-20p',
       sortable: true,
     },
     {
@@ -236,8 +236,8 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
     {
       id: 'ocppVersion',
       name: 'chargers.ocpp_version_title',
-      headerClass: 'd-none d-xl-table-cell text-center col-10p',
-      class: 'd-none d-xl-table-cell text-center col-10p',
+      headerClass: 'text-center col-10p',
+      class: 'text-center col-10p',
       sortable: false,
       formatter: (ocppVersion: string, row: ChargingStation) =>
         (ocppVersion && row.ocppProtocol) ? `${ocppVersion} / ${row.ocppProtocol}` : '-'

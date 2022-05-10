@@ -70,7 +70,7 @@ export class AuthenticationDefinePasswordComponent implements OnInit, OnDestroy 
     this.repeatPassword = this.passwords.controls['repeatPassword'];
     this.resetPasswordHash = this.route.snapshot.queryParamMap.get('hash');
     // Handle Deep Linking
-    if (Utils.isInMobileApp() && this.windowService.getSubdomain() !== 'ezcharge') {
+    if (Utils.isInMobileApp(this.subDomain)) {
       // Forward to Mobile App
       const mobileAppURL = Utils.buildMobileAppDeepLink(
         `resetPassword/${this.windowService.getSubdomain()}/${this.resetPasswordHash}`);

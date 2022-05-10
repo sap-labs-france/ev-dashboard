@@ -159,7 +159,6 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     let endDate;
     const parentHTMLElement = (parent.getConnectedOverlayOrigin().nativeElement as HTMLElement);
     for(const picker of this.datePickers) {
-      console.log(picker);
       if (parentHTMLElement.contains(picker.picker.pickerContainer.nativeElement as HTMLElement)) {
         startDate = picker.picker.startDate;
         endDate = picker.picker.endDate;

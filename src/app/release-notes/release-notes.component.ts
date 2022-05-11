@@ -25,7 +25,7 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.6.6',
-        date: new Date('2022-05-10'),
+        date: new Date('2022-05-11'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -39,6 +39,8 @@ export class ReleaseNotesComponent {
               `Validate OCPP Meter Value requests with a Json schema`,
               `Do not update Charging Station max power in master/slave`,
               `Fixed date/time picker when data is entered manually`,
+              `Avoid API User to login using the mobile app`,
+              `Enhanced error management when pushing OCPI Cdr`,
             ],
           },
         ],

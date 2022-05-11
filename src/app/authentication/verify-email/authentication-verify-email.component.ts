@@ -68,7 +68,7 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
     this.resetToken = this.route.snapshot.queryParamMap.get('ResetToken');
     this.verificationEmail = this.route.snapshot.queryParamMap.get('Email');
     // Handle Deep Linking
-    if (Utils.isInMobileApp()) {
+    if (Utils.isInMobileApp(this.subDomain)) {
       // Forward to Mobile App
       const mobileAppURL: string = Utils.buildMobileAppDeepLink(
         `verifyAccount/${this.windowService.getSubdomain()}/${this.verificationEmail}/${this.verificationToken}/${this.resetToken}`);
@@ -86,7 +86,7 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
     body.classList.add('lock-page');
     body.classList.add('off-canvas-sidebar');
     // Check email
-    if (this.verificationEmail && !Utils.isInMobileApp()) {
+    if (this.verificationEmail && !Utils.isInMobileApp(this.subDomain)) {
       // Set email
       this.formGroup.controls.email.setValue(this.verificationEmail);
       // Check if verificationToken

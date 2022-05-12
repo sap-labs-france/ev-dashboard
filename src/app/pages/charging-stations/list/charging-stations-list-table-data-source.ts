@@ -60,6 +60,11 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
   private canExport = new TableExportChargingStationsAction().getActionDef();
   private maintainPricingDefinitionsAction = new TableViewPricingDefinitionsAction().getActionDef();
 
+  private issuerFilter: TableFilterDef;
+  private siteFilter: TableFilterDef;
+  private siteAreaFilter: TableFilterDef;
+  private companyFilter: TableFilterDef;
+
   private chargingStationsAthorizations: ChargingStationsAuthorizations;
 
 
@@ -96,10 +101,17 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
         // Build auth object
         this.chargingStationsAthorizations = {
           canExport: Utils.convertToBoolean(chargingStations.canExport),
+          canListCompanies: Utils.convertToBoolean(chargingStations.canListCompanies),
+          canListSiteAreas: Utils.convertToBoolean(chargingStations.canListSiteAreas),
+          canListSites: Utils.convertToBoolean(chargingStations.canListSites),
+
           metadata: chargingStations.metadata
         };
         // Update filters visibility
         this.canExport.visible = this.chargingStationsAthorizations.canExport;
+        this.siteFilter.visible = this.chargingStationsAthorizations.canListSites;
+        this.siteAreaFilter.visible =this.chargingStationsAthorizations.canListSiteAreas;
+        this.companyFilter.visible = this.chargingStationsAthorizations.canListCompanies;
 
         // Update details status
         for (const chargingStation of chargingStations.result) {
@@ -259,7 +271,6 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
       this.canExport,
       ...tableActionsDef,
     ];
-    return tableActionsDef;
   }
 
   public actionTriggered(actionDef: TableActionDef) {
@@ -376,59 +387,78 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {
-    if (this.isOrganizationComponentActive) {
-      const issuerFilter = new IssuerFilter().getFilterDef();
-      const companyFilter = new CompanyTableFilter([issuerFilter]).getFilterDef();
-      const siteFilter = new SiteTableFilter([issuerFilter, companyFilter]).getFilterDef();
-      return [
-        issuerFilter,
-        companyFilter,
-        siteFilter,
-        new SiteAreaTableFilter([siteFilter, issuerFilter, companyFilter]).getFilterDef(),
-      ];
-    }
-    return [];
+    this.issuerFilter = new IssuerFilter().getFilterDef();
+    this.siteFilter = new SiteTableFilter([this.issuerFilter]).getFilterDef();
+    this.siteAreaFilter = new SiteAreaTableFilter([this.issuerFilter, this.siteFilter]).getFilterDef();
+    this.companyFilter = new CompanyTableFilter([this.issuerFilter]).getFilterDef();
+    // Create filters
+    const filters: TableFilterDef[] = [
+      this.issuerFilter,
+      this.siteFilter,
+      this.siteAreaFilter,
+      this.companyFilter
+    ];
+    return filters;
   }
 
   public buildTableDynamicRowActions(chargingStation: ChargingStation): TableActionDef[] {
-    // Check if GPS is available
+    const tableActionDef: TableActionDef[] = [];
+    // Edit
+    if(chargingStation.canUpdate){
+      tableActionDef.push(this.editAction);
+      tableActionDef.push(this.smartChargingAction);
+    }
+    // Maintain pricing
+    if(this.isPricingComponentActive && chargingStation.canMaintainPricingDefinitions){
+      tableActionDef.push(this.maintainPricingDefinitionsAction);
+    }
+    // More action
+    const moreActions = new TableMoreAction([]);
+    // Reset
+    if(chargingStation.canReset) {
+      const rebootAction = new TableChargingStationsRebootAction().getActionDef();
+      rebootAction.disabled = chargingStation.inactive;
+      moreActions.addActionInMoreActions(rebootAction);
+    }
+    // Clear cache
+    if(chargingStation.canClearCache) {
+      const clearCacheAction = new TableChargingStationsClearCacheAction().getActionDef();
+      clearCacheAction.disabled = chargingStation.inactive;
+      moreActions.addActionInMoreActions(clearCacheAction);
+    }
+    // Reset
+    if(chargingStation.canReset) {
+      const resetAction = new TableChargingStationsResetAction().getActionDef();
+      resetAction.disabled = chargingStation.inactive;
+      moreActions.addActionInMoreActions(resetAction);
+    }
+    // Change availability
+    if(chargingStation.canChangeAvailability) {
+      const forceAvailableStatusAction = new TableChargingStationsForceAvailableStatusAction().getActionDef();
+      forceAvailableStatusAction.disabled = chargingStation.inactive;
+      const forceUnavailableStatusAction = new TableChargingStationsForceUnavailableStatusAction().getActionDef();
+      forceUnavailableStatusAction.disabled = chargingStation.inactive;
+      moreActions.addActionInMoreActions(chargingStation.isUnavailable ? forceAvailableStatusAction : forceUnavailableStatusAction,);
+    }
+    // Generate QR code
+    if(chargingStation.canGenerateQrCode) {
+      moreActions.addActionInMoreActions(this.generateQrCodeConnectorAction);
+    }
+    // Maps
     const openInMaps = new TableOpenInMapsAction().getActionDef();
     openInMaps.disabled = !Utils.containsGPSCoordinates(chargingStation.coordinates);
-    if (chargingStation.issuer) {
-      if (this.authorizationService.isAdmin() ||
-        this.authorizationService.isSiteAdmin(chargingStation.siteArea ? chargingStation.siteArea.siteID : '')) {
-        const rebootAction = new TableChargingStationsRebootAction().getActionDef();
-        rebootAction.disabled = chargingStation.inactive;
-        const clearCacheAction = new TableChargingStationsClearCacheAction().getActionDef();
-        clearCacheAction.disabled = chargingStation.inactive;
-        const resetAction = new TableChargingStationsResetAction().getActionDef();
-        resetAction.disabled = chargingStation.inactive;
-        const forceAvailableStatusAction = new TableChargingStationsForceAvailableStatusAction().getActionDef();
-        forceAvailableStatusAction.disabled = chargingStation.inactive;
-        const forceUnavailableStatusAction = new TableChargingStationsForceUnavailableStatusAction().getActionDef();
-        forceUnavailableStatusAction.disabled = chargingStation.inactive;
-        const tableActionDef: TableActionDef[] = [
-          this.editAction,
-          this.smartChargingAction
-        ];
-        if (this.isPricingComponentActive) {
-          tableActionDef.push(this.maintainPricingDefinitionsAction);
-        }
-        tableActionDef.push(new TableMoreAction([
-          rebootAction,
-          clearCacheAction,
-          resetAction,
-          chargingStation.isUnavailable ? forceAvailableStatusAction : forceUnavailableStatusAction,
-          this.generateQrCodeConnectorAction,
-          openInMaps,
-          this.deleteAction,
-        ]).getActionDef());
-        return tableActionDef;
-      }
+    moreActions.addActionInMoreActions(openInMaps);
+    // Delete
+    if(chargingStation.canDelete) {
+      moreActions.addActionInMoreActions(this.deleteAction);
     }
-    return [
-      this.viewAction,
-      openInMaps
-    ];
+    // Add more action
+    if(moreActions.getActionsInMoreActions().length > 1) {
+      tableActionDef.push(moreActions.getActionDef());
+    } else {
+      // If only one element in more action put it in the table action def
+      tableActionDef.push(moreActions.getActionsInMoreActions()[0]);
+    }
+    return tableActionDef;
   }
 }

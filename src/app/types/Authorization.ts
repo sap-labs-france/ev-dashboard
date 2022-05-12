@@ -291,8 +291,29 @@ export interface BillingPaymentMethodAuthorizationActions extends AuthorizationA
 export interface ChargingStationsAuthorizations extends AuthorizationAttributes, ChargingStationsAuthorizationActions {
 }
 
-export interface ChargingStationsAuthorizationActions extends DataResultAuthorizationActions{
+export interface ChargingStationsAuthorizationActions extends DataResultAuthorizationActions {
   canExport?: boolean;
+  canListCompanies?: boolean;
+  canListSites?: boolean;
+  canListSiteAreas?: boolean;
+  canReserveNow?: boolean;
+  canReset?: boolean;
+  canClearCache?: boolean;
+  canGetConfiguration?: boolean;
+  canChangeConfiguration?: boolean;
+  canSetChargingProfile?: boolean;
+  canGetCompositeSchedule?: boolean;
+  canClearChargingProfile?: boolean;
+  canGetDiagnostics?: boolean;
+  canUpdateFirmware?: boolean;
+  canRemoteStopTransaction?: boolean;
+  canStopTransaction?: boolean;
+  canChangeAvailability?: boolean;
+  canRemoteStartTransaction?: boolean;
+  canUnlockConnector?: boolean;
+  canDataTransfer?: boolean;
+  canGenerateQrCode?: boolean;
+  canMaintainPricingDefinitions?: boolean;
 }
 
 export interface ChargingStationAuthorizationActions extends AuthorizationActions {

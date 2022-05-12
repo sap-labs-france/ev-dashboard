@@ -407,6 +407,8 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
     if(chargingStation.canUpdate){
       tableActionDef.push(this.editAction);
       tableActionDef.push(this.smartChargingAction);
+    } else {
+      tableActionDef.push(this.viewAction);
     }
     // Maintain pricing
     if(this.isPricingComponentActive && chargingStation.canMaintainPricingDefinitions){

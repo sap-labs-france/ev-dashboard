@@ -7,7 +7,6 @@ import { PricingDefinitionsDialogComponent } from 'shared/pricing-definitions/pr
 import { TableViewChargingStationAction, TableViewChargingStationActionDef } from 'shared/table/actions/charging-stations/table-view-charging-station-action';
 import { ChargingStationsAuthorizations } from 'types/Authorization';
 
-import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
@@ -34,7 +33,7 @@ import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-tab
 import { SiteTableFilter } from '../../../shared/table/filters/site-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { ChargePointStatus, ChargingStation, ChargingStationButtonAction, Connector, FirmwareStatus } from '../../../types/ChargingStation';
-import { ChargingStationDataResult, DataResult } from '../../../types/DataResult';
+import { ChargingStationDataResult } from '../../../types/DataResult';
 import { ButtonAction } from '../../../types/GlobalType';
 import { PricingButtonAction, PricingEntity } from '../../../types/Pricing';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
@@ -74,7 +73,6 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
     private messageService: MessageService,
     private router: Router,
     private centralServerService: CentralServerService,
-    private authorizationService: AuthorizationService,
     private componentService: ComponentService,
     private dialog: MatDialog,
     private dialogService: DialogService,
@@ -404,38 +402,38 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
   public buildTableDynamicRowActions(chargingStation: ChargingStation): TableActionDef[] {
     const tableActionDef: TableActionDef[] = [];
     // Edit
-    if(chargingStation.canUpdate){
+    if (chargingStation.canUpdate) {
       tableActionDef.push(this.editAction);
       tableActionDef.push(this.smartChargingAction);
     } else {
       tableActionDef.push(this.viewAction);
     }
     // Maintain pricing
-    if(this.isPricingComponentActive && chargingStation.canMaintainPricingDefinitions){
+    if (this.isPricingComponentActive && chargingStation.canMaintainPricingDefinitions) {
       tableActionDef.push(this.maintainPricingDefinitionsAction);
     }
     // More action
     const moreActions = new TableMoreAction([]);
     // Reset
-    if(chargingStation.canReset) {
+    if (chargingStation.canReset) {
       const rebootAction = new TableChargingStationsRebootAction().getActionDef();
       rebootAction.disabled = chargingStation.inactive;
       moreActions.addActionInMoreActions(rebootAction);
     }
     // Clear cache
-    if(chargingStation.canClearCache) {
+    if (chargingStation.canClearCache) {
       const clearCacheAction = new TableChargingStationsClearCacheAction().getActionDef();
       clearCacheAction.disabled = chargingStation.inactive;
       moreActions.addActionInMoreActions(clearCacheAction);
     }
     // Reset
-    if(chargingStation.canReset) {
+    if (chargingStation.canReset) {
       const resetAction = new TableChargingStationsResetAction().getActionDef();
       resetAction.disabled = chargingStation.inactive;
       moreActions.addActionInMoreActions(resetAction);
     }
     // Change availability
-    if(chargingStation.canChangeAvailability) {
+    if (chargingStation.canChangeAvailability) {
       const forceAvailableStatusAction = new TableChargingStationsForceAvailableStatusAction().getActionDef();
       forceAvailableStatusAction.disabled = chargingStation.inactive;
       const forceUnavailableStatusAction = new TableChargingStationsForceUnavailableStatusAction().getActionDef();
@@ -443,7 +441,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
       moreActions.addActionInMoreActions(chargingStation.isUnavailable ? forceAvailableStatusAction : forceUnavailableStatusAction,);
     }
     // Generate QR code
-    if(chargingStation.canGenerateQrCode) {
+    if (chargingStation.canGenerateQrCode) {
       moreActions.addActionInMoreActions(this.generateQrCodeConnectorAction);
     }
     // Maps
@@ -451,14 +449,14 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
     openInMaps.disabled = !Utils.containsGPSCoordinates(chargingStation.coordinates);
     moreActions.addActionInMoreActions(openInMaps);
     // Delete
-    if(chargingStation.canDelete) {
+    if (chargingStation.canDelete) {
       moreActions.addActionInMoreActions(this.deleteAction);
     }
-    // Add more action
-    if(moreActions.getActionsInMoreActions().length > 1) {
+    // Add more action if array has more than one element
+    if (moreActions.getActionsInMoreActions().length > 1) {
       tableActionDef.push(moreActions.getActionDef());
-    } else {
-      // If only one element in more action put it in the table action def
+    } else if (!Utils.isEmptyArray(moreActions.getActionsInMoreActions())) {
+      // More action has only one element we put it directly in tableAction
       tableActionDef.push(moreActions.getActionsInMoreActions()[0]);
     }
     return tableActionDef;

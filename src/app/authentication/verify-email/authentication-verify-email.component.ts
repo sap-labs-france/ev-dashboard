@@ -120,13 +120,9 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
   }
 
   public verifyEmail(data: any) {
-    // Show
     this.spinnerService.show();
-    // Verify Email
     this.centralServerService.verifyEmail({ Email: data.email, VerificationToken: data.verificationToken }).subscribe((response: VerifyEmailResponse) => {
-      // Hide
       this.spinnerService.hide();
-      // Success
       if (response.status && response.status === RestResponse.SUCCESS) {
         if (this.resetToken) {
           // Show message

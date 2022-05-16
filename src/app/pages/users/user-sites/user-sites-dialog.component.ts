@@ -21,11 +21,15 @@ export class UserSitesDialogComponent {
     private translateService: TranslateService,
     private dialogRef: MatDialogRef<UserSitesDialogComponent>,
     @Inject(MAT_DIALOG_DATA) dialogParams: DialogParams<User>) {
-    if (dialogParams.dialogData) {
-      this.userSitesTableDataSource.setUser(dialogParams.dialogData);
-      this.dialogTitle = this.translateService.instant('users.assigned_sites_to_user', {userName: Users.buildUserFullName(dialogParams.dialogData) });
-    } else {
-      this.dialogTitle = this.translateService.instant('users.sites');
+    if (dialogParams) {
+      if (dialogParams.dialogData) {
+        this.userSitesTableDataSource.setUser(dialogParams.dialogData);
+        this.dialogTitle = this.translateService.instant('users.assigned_sites_to_user', {userName: Users.buildUserFullName(dialogParams.dialogData) });
+      } else {
+        this.dialogTitle = this.translateService.instant('users.sites');
+      }
+      this.userSitesTableDataSource.setMode(
+        Utils.getTableDataSourceModeFromDialogMode(dialogParams.dialogMode));
     }
     Utils.registerCloseKeyEvents(this.dialogRef);
   }

@@ -17,7 +17,7 @@ import { TableDataSource } from '../../../shared/table/table-data-source';
 import { DataResult } from '../../../types/DataResult';
 import { ButtonAction, RestResponse } from '../../../types/GlobalType';
 import { Site, SiteUser } from '../../../types/Site';
-import { ButtonType, TableActionDef, TableColumnDef, TableDef } from '../../../types/Table';
+import { ButtonType, TableActionDef, TableColumnDef, TableDataSourceMode, TableDef } from '../../../types/Table';
 import { User } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';
 import { UserSitesAdminCheckboxComponent } from './user-sites-admin-checkbox.component';
@@ -114,14 +114,16 @@ export class UserSitesTableDataSource extends TableDataSource<SiteUser> {
         name: 'general.country',
         headerClass: 'col-20p',
         class: 'text-left',
-      },
-      {
+      }
+    ];
+    if (this.getMode() === TableDataSourceMode.READ_WRITE) {
+      columns.push({
         id: 'siteAdmin',
         isAngularComponent: true,
         angularComponent: UserSitesAdminCheckboxComponent,
         name: 'sites.admin_role',
         class: 'col-10p',
-        visible: this.userSitesAuthorization?.canUpdateUserSite,
+        // visible: this.userSitesAuthorization?.canUpdateUserSite,
       },
       {
         id: 'siteOwner',
@@ -129,9 +131,9 @@ export class UserSitesTableDataSource extends TableDataSource<SiteUser> {
         angularComponent: UserSitesOwnerRadioComponent,
         name: 'sites.owner_role',
         class: 'col-10p',
-        visible: this.userSitesAuthorization?.canUpdateUserSite,
-      }
-    ];
+        // visible: this.userSitesAuthorization?.canUpdateUserSite,
+      });
+    }
     return columns;
   }
 

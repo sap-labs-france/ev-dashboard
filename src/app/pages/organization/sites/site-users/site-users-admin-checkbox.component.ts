@@ -14,7 +14,7 @@ import { Utils } from '../../../../utils/Utils';
     <div class="d-flex justify-content-center">
       <mat-checkbox class="mx-auto"
         [checked]="(row.siteAdmin ? row.siteAdmin : false) || row.user.role === 'A'"
-        [disabled]="((!loggedUser.sitesAdmin.includes(row.siteID)) && loggedUser.role !== 'A') || row.user.role === 'A'"
+        [disabled]="(!loggedUser.sitesAdmin.includes(row.siteID) && loggedUser.role !== 'A') || row.user.role === 'A'"
         (change)="changeSiteAdmin($event)">
       </mat-checkbox>
     </div>`,

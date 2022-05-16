@@ -30,7 +30,6 @@ export class SiteUsersDialogComponent {
       }
       this.siteUsersTableDataSource.setMode(
         Utils.getTableDataSourceModeFromDialogMode(dialogParams.dialogMode));
-      this.siteUsersTableDataSource.initDataSource(true);
     }
     Utils.registerCloseKeyEvents(this.dialogRef);
   }

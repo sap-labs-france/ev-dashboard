@@ -292,6 +292,14 @@ export interface ChargingStationsAuthorizations extends AuthorizationAttributes,
 }
 
 export interface ChargingStationsAuthorizationActions extends DataResultAuthorizationActions {
+  canListUsers?: boolean;
+  canListSites?: boolean;
+  canListSiteAreas?: boolean;
+  canListCompanies?: boolean;
+  canExport?: boolean;
+}
+
+export interface ChargingStationAuthorizationActions extends AuthorizationActions {
   canExport?: boolean;
   canListCompanies?: boolean;
   canListSites?: boolean;
@@ -314,10 +322,6 @@ export interface ChargingStationsAuthorizationActions extends DataResultAuthoriz
   canDataTransfer?: boolean;
   canGenerateQrCode?: boolean;
   canMaintainPricingDefinitions?: boolean;
-}
-
-export interface ChargingStationAuthorizationActions extends AuthorizationActions {
-  canListUsers?: boolean;
 }
 
 export enum DialogMode {

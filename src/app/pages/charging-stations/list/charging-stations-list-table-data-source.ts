@@ -290,7 +290,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
         if (actionDef.action) {
           (actionDef as TableEditChargingStationActionDef).action(
             ChargingStationDialogComponent, this.dialog,
-            { dialogData: chargingStation }, this.refreshData.bind(this));
+            { dialogData: chargingStation, authorizations: this.chargingStationsAthorizations }, this.refreshData.bind(this));
         }
         break;
       case ChargingStationButtonAction.VIEW_CHARGING_STATION:

@@ -1,4 +1,4 @@
-import { ChargingStationsAuthorizations } from './Authorization';
+import { ChargingStationAuthorizationActions } from './Authorization';
 import { KeyValue } from './GlobalType';
 import { Site } from './Site';
 import { SiteArea } from './SiteArea';
@@ -6,7 +6,7 @@ import { TableData } from './Table';
 import { InactivityStatus } from './Transaction';
 import { User } from './User';
 
-export interface ChargingStation extends TableData, ChargingStationsAuthorizations {
+export interface ChargingStation extends TableData, ChargingStationAuthorizationActions {
   id: string;
   templateHash?: string;
   templateHashTechnical?: string;

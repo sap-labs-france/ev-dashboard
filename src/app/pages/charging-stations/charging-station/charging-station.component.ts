@@ -74,8 +74,6 @@ export class ChargingStationComponent implements OnInit {
       this.centralServerService.getChargingStation(this.chargingStationID).subscribe((chargingStation) => {
         this.spinnerService.hide();
         // Init auth
-        this.canUpdate = chargingStation.canUpdate;
-        this.canGetParameters = chargingStation.canGetConfiguration;
         this.chargingStation = chargingStation;
         if (this.readOnly || !this.chargingStation.issuer) {
           // Async call for letting the sub form groups to init

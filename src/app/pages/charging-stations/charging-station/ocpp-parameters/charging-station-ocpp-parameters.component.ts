@@ -2,7 +2,6 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { AuthorizationService } from '../../../../services/authorization.service';
 import { CentralServerService } from '../../../../services/central-server.service';
 import { LocaleService } from '../../../../services/locale.service';
 import { MessageService } from '../../../../services/message.service';
@@ -22,28 +21,19 @@ import { ChargingStationOcppParametersEditableTableDataSource } from './charging
 // @Injectable()
 export class ChargingStationOcppParametersComponent implements OnInit {
   @Input() public chargingStation!: ChargingStation;
-  public isAdmin: boolean;
   public formGroup!: FormGroup;
   public parameters!: FormArray;
   public userLocales: KeyValue[];
 
   public constructor(
     public ocppParametersDataSource: ChargingStationOcppParametersEditableTableDataSource,
-    private authorizationService: AuthorizationService,
     private centralServerService: CentralServerService,
     private messageService: MessageService,
     private spinnerService: SpinnerService,
     private localeService: LocaleService,
     private router: Router,
   ) {
-    // Check auth
-    if (!authorizationService.canUpdateChargingStation()) {
-      void this.router.navigate(['/']);
-    }
-    // Get Locales
     this.userLocales = this.localeService.getLocales();
-    // Admin?
-    this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
     this.formGroup = new FormGroup({});
   }
 

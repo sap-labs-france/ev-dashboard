@@ -103,6 +103,10 @@ export class WindowService {
     this.setUrlQueryParams();
   }
 
+  public openUrl(url: string) {
+    this.window.open(url, '_blank');
+  }
+
   private setUrlQueryParams(queryParams?: string) {
     // Set the Query params
     if (history.pushState) {

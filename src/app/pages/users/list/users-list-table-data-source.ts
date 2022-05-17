@@ -373,12 +373,12 @@ export class UsersListTableDataSource extends TableDataSource<User> {
         break;
       case TagButtonAction.NAVIGATE_TO_TAGS:
         if (actionDef.action) {
-          (actionDef as TableOpenURLActionDef).action('tags#all?UserID=' + user.id + '&Issuer=' + user.issuer);
+          (actionDef as TableOpenURLActionDef).action('tags#all?UserID=' + user.id + '&Issuer=' + user.issuer, this.windowService);
         }
         break;
       case TransactionButtonAction.NAVIGATE_TO_TRANSACTIONS:
         if (actionDef.action) {
-          (actionDef as TableOpenURLActionDef).action('transactions#history?UserID=' + user.id + '&Issuer=' + user.issuer);
+          (actionDef as TableOpenURLActionDef).action('transactions#history?UserID=' + user.id + '&Issuer=' + user.issuer, this.windowService);
         }
         break;
     }

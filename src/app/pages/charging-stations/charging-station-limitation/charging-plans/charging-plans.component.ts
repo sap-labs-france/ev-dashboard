@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
+import { WindowService } from 'services/window.service';
 import { ActionResponse } from 'types/DataResult';
 
 import { CentralServerService } from '../../../../services/central-server.service';
@@ -77,6 +78,7 @@ export class ChargingPlansComponent implements OnInit, AfterViewInit {
     private componentService: ComponentService,
     private messageService: MessageService,
     private spinnerService: SpinnerService,
+    private windowService: WindowService
   ) {
     this.isSmartChargingComponentActive = this.componentService.isActive(TenantComponents.SMART_CHARGING);
   }
@@ -84,7 +86,7 @@ export class ChargingPlansComponent implements OnInit, AfterViewInit {
   public navigateToLog() {
     new TableNavigateToLogsAction().getActionDef().action('logs?ChargingStationID=' + this.chargingStation.id +
       '&actions=' + ServerAction.CHARGING_PROFILES + '|'
-      + ServerAction.CHARGING_PROFILE_DELETE + '|' + ServerAction.CHARGING_PROFILE_UPDATE);
+      + ServerAction.CHARGING_PROFILE_DELETE + '|' + ServerAction.CHARGING_PROFILE_UPDATE, this.windowService);
   }
 
   public ngOnInit(): void {

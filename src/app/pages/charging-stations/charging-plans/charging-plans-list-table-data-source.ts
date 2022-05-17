@@ -178,7 +178,7 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
         }
         break;
       case ChargingStationButtonAction.NAVIGATE_TO_SITE_AREA:
-        this.navigateToSiteAreaAction.action('organization#site-areas?SiteAreaID=' + chargingProfile.chargingStation.siteArea.id);
+        this.navigateToSiteAreaAction.action('organization#site-areas?SiteAreaID=' + chargingProfile.chargingStation.siteArea.id, this.windowService);
         break;
     }
   }

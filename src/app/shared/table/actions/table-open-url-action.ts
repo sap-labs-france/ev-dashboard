@@ -1,9 +1,11 @@
+
+import { WindowService } from 'services/window.service';
 import { ButtonActionColor, ButtonAction } from '../../../types/GlobalType';
 import { TableActionDef } from '../../../types/Table';
 import { TableAction } from './table-action';
 
 export interface TableOpenURLActionDef extends TableActionDef {
-  action?: (url: string) => void;
+  action?: (url: string, windowService: WindowService) => void;
 }
 
 export class TableOpenURLAction implements TableAction {
@@ -22,7 +24,7 @@ export class TableOpenURLAction implements TableAction {
     return this.action;
   }
 
-  protected openURL(url: string) {
-    window.open(url, '_blank');
+  protected openURL(url: string, windowService: WindowService) {
+    windowService.openUrl(url);
   }
 }

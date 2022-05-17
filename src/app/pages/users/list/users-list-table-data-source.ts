@@ -84,12 +84,12 @@ export class UsersListTableDataSource extends TableDataSource<User> {
 
   public initFilters() {
     // Tag
-    const tagID = this.windowService.getUrlParameterValue('TagID');
-    if (tagID) {
+    const visualID = this.windowService.getUrlParameterValue('VisualID');
+    if (visualID) {
       const tagTableFilter = this.tableFiltersDef.find(filter => filter.id === 'tag');
       if (tagTableFilter) {
         tagTableFilter.currentValue.push({
-          key: tagID, value: tagID,
+          key: visualID, value: visualID,
         });
         this.filterChanged(tagTableFilter);
       }

@@ -424,7 +424,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
         break;
       case UserButtonAction.NAVIGATE_TO_USER:
         if (actionDef.action) {
-          (actionDef as TableOpenURLActionDef).action(`users#all?TagID=${tag.id}&Issuer=${tag.issuer}`, this.windowService);
+          (actionDef as TableOpenURLActionDef).action(`users#all?VisualID=${tag.visualID}&Issuer=${tag.issuer}`, this.windowService);
         }
         break;
       case TransactionButtonAction.NAVIGATE_TO_TRANSACTIONS:

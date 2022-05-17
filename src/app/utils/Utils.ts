@@ -291,8 +291,8 @@ export class Utils {
     messageService.showErrorMessage(errorMessage, params);
   }
 
-  public static isInMobileApp(): boolean {
-    return Utils.getMobileVendor() !== null;
+  public static isInMobileApp(subDomain: string): boolean {
+    return Utils.getMobileVendor() !== null && subDomain !== 'ezcharge';
   }
 
   public static replaceSpecialCharsInCSVValueParam(value: string): string {

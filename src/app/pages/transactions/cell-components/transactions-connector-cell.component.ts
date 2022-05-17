@@ -9,8 +9,7 @@ import { Transaction } from '../../../types/Transaction';
     <!-- Connector ID -->
     <div class="d-flex justify-content-center">
       <div appTooltip data-offset="0px, 8px"
-          [title]="row | appTransactionsFormatConnector:'text' | translate"
-          class="charger-connector-container">
+          [title]="row | appTransactionsFormatConnector:'text' | translate" class="charger-connector-container">
         <div [class]="row | appTransactionsFormatConnector:'class'">
           {{row.connectorId | appConnectorId}}
         </div>
@@ -92,6 +91,6 @@ export class AppTransactionsFormatConnector implements PipeTransform {
     if (!transaction.status) {
       return `chargers.status_unknown`;
     }
-    return `chargers.status_${transaction.status.toLowerCase()}`;
+    return `chargers.status_${transaction.status ? transaction.status.toLowerCase() : 'unknown'}`;
   }
 }

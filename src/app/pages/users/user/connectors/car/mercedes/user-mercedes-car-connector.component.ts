@@ -10,15 +10,16 @@ import { ActionResponse } from 'types/DataResult';
 import { RestResponse } from 'types/GlobalType';
 import { CarConnectorConnectionSetting, CarConnectorConnectionType } from 'types/Setting';
 import { TenantComponents } from 'types/Tenant';
+import { User } from 'types/User';
 import { Utils } from 'utils/Utils';
 
 @Component({
   selector: 'app-user-mercedes-car-connector',
-  templateUrl: './user-mercedes-car-connector.component.html',
+  templateUrl: 'user-mercedes-car-connector.component.html',
 })
 // @Injectable()
 export class UserMercedesCarConnectorComponent implements OnInit, OnChanges {
-  @Input() public currentUserID!: string;
+  @Input() public user!: User;
   @Input() public integrationConnections!: IntegrationConnection[];
   @Output() public connectorChanged = new EventEmitter<void>();
 
@@ -89,15 +90,10 @@ export class UserMercedesCarConnectorComponent implements OnInit, OnChanges {
       const state = {
         connector: IntegrationConnectionType.MERCEDES,
         appId: this.mercedesConnectionSetting.id,
-        userId: this.currentUserID,
+        userId: this.user?.id,
       };
       this.document.location.href =
-        `${mercedesSetting.authenticationUrl}/as/authorization.oauth2\
-        ?client_id=${mercedesSetting.clientId}\
-        &response_type=code\
-        &scope=mb:vehicle:mbdata:evstatus offline_access\
-        &redirect_uri=${returnedUrl}\
-        &state=${JSON.stringify(state)}`;
+        `${mercedesSetting.authenticationUrl}/as/authorization.oauth2?client_id=${mercedesSetting.clientId}&response_type=code&scope=mb:vehicle:mbdata:evstatus offline_access&redirect_uri=${returnedUrl}&state=${JSON.stringify(state)}`;
     }
   }
 

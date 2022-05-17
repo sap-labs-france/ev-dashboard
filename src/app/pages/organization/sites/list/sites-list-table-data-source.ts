@@ -3,7 +3,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { AuthorizationService } from 'services/authorization.service';
 import { ComponentService } from 'services/component.service';
 import { PricingDefinitionsDialogComponent } from 'shared/pricing-definitions/pricing-definitions.dialog.component';
 import { TableSiteGenerateQrCodeConnectorAction, TableSiteGenerateQrCodeConnectorsActionDef } from 'shared/table/actions/sites/table-site-generate-qr-code-connector-action';
@@ -52,6 +51,8 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
   private siteGenerateQrCodeConnectorAction = new TableSiteGenerateQrCodeConnectorAction().getActionDef();
   private createAction = new TableCreateSiteAction().getActionDef();
   private maintainPricingDefinitionsAction = new TableViewPricingDefinitionsAction().getActionDef();
+  private companyFilter: TableFilterDef;
+  private issuerFilter: TableFilterDef;
 
   public constructor(
     public spinnerService: SpinnerService,
@@ -60,7 +61,6 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
     private dialogService: DialogService,
     private router: Router,
     private dialog: MatDialog,
-    private authorizationService: AuthorizationService,
     private centralServerService: CentralServerService,
     private datePipe: AppDatePipe,
     private componentService: ComponentService) {
@@ -75,7 +75,8 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
       // Get Sites
       this.centralServerService.getSites(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((sites) => {
-        this.createAction.visible = sites.canCreate;
+        this.createAction.visible = Utils.convertToBoolean(sites.canCreate);
+        this.companyFilter.visible = Utils.convertToBoolean(sites.canListCompanies);
         observer.next(sites);
         observer.complete();
       }, (error) => {
@@ -315,13 +316,14 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {
-    const issuerFilter = new IssuerFilter().getFilterDef();
+    this.issuerFilter = new IssuerFilter().getFilterDef();
+    this.companyFilter = new CompanyTableFilter([this.issuerFilter]).getFilterDef();
+    // Filter visibility will be defined by auth
+    this.companyFilter.visible = false;
     const filters = [
-      issuerFilter,
+      this.issuerFilter,
+      this.companyFilter
     ];
-    if (this.authorizationService.canListCompanies()) {
-      filters.push(new CompanyTableFilter([issuerFilter]).getFilterDef());
-    }
     return filters;
   }
 }

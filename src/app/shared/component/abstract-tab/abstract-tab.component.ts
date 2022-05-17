@@ -36,7 +36,7 @@ export class AbstractTabComponent implements OnDestroy {
   public updateRoute(index: number) {
     if (this.synchronizeRouting) {
       if (this.hashArray && index < this.hashArray.length) {
-        this.windowService.clearSearch();
+        this.windowService.clearUrlParameter();
         this.windowService.setHash(this.hashArray[index]);
       }
     }

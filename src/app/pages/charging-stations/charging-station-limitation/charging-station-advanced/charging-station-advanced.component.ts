@@ -12,7 +12,7 @@ import { Utils } from '../../../../utils/Utils';
 
 @Component({
   selector: 'app-charging-station-advanced',
-  templateUrl: './charging-station-advanced.component.html',
+  templateUrl: 'charging-station-advanced.component.html',
 })
 // @Injectable()
 export class ChargingStationAdvancedComponent implements OnInit {

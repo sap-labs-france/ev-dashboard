@@ -1,13 +1,13 @@
-<div class="chargingStation-profile-component">
+<div class="h-100">
   <form class="form" [formGroup]="formGroup">
     <div class="row" *ngIf="chargingStation.inactive">
-      <div class="col-md-12 text-left charging-station-inactive mb-3">
+      <div class="col-md-12 text-left mat-subheading-2 text-danger mb-3">
         {{"chargers.smart_charging.charging_station_inactive" | translate }}
       </div>
     </div>
     <div class="row"
       *ngIf="!chargingStation.inactive && isSmartChargingComponentActive && chargingStation.siteArea?.smartCharging && !chargingStation.excludeFromSmartCharging">
-      <div class="col-md-12 text-left smart-charging-active-warn mb-3">
+      <div class="col-md-12 text-left mat-subheading-2 text-danger mb-3">
         {{"chargers.smart_charging.smart_charging_enabled_charging_profiles" | translate }}
       </div>
     </div>
@@ -83,7 +83,7 @@
           </div>
         </div>
       </div>
-      <div class="text-right col-md-8 chart-position-in-pop-up">
+      <div class="text-right col-md-8">
         <app-charging-station-smart-charging-limit-planner-chart [chargingStation]="chargingStation"
           [connectorId]="currentChargingProfile ? currentChargingProfile.connectorID : 0"
           [chargingSchedules]="currentChargingSchedules">

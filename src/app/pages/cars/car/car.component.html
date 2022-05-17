@@ -1,97 +1,13 @@
-<div class="main-content">
+<div class="main-content vw-90 vh-90 car-dialog-size">
   <div class="card card-profile card-testimonial">
-    <mat-tab-group animationDuration="0ms" disableRipple="true" class="mat-tab-info mat-tabs-with-actions" (selectedTabChange)="onTabChanged($event);">
+    <mat-tab-group animationDuration="0ms" disableRipple="true" class="mat-tab-info" [class]="dialogRef ? 'mat-tabs-with-actions' : 'mat-tabs-with-close-action'">
       <mat-tab>
         <ng-template mat-tab-label>
           <mat-icon>portrait</mat-icon>
-          <span>{{ carCatalog?.value }}</span>
+          <span>{{'car.title' | translate}} - {{formGroup.controls['carCatalog'].value}}</span>
         </ng-template>
         <div class="card-body mat-tab-dialog-body-content">
-          <div class="row app-car align-items-center">
-            <div class="col-md-12 col-xl-5 d-block m-auto">
-              <div class="rotating-card-container" [ngStyle]="{ 'pointer-events': 'none' }">
-                <div class="card card-rotate card-background mt-0 mb-0">
-                  <div class="front front-background" [ngStyle]="{'background-image': selectedCarCatalog && carCatalogImage ? 'url(' + carCatalogImage + ')' : 'url(' + noImage + ')', 'background-size': 'contain', 'background-repeat': 'no-repeat'}">
-                    <div class="card-body"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-12 col-xl-7">
-              <div class="form-group">
-                <mat-form-field>
-                  <input matInput type="text" readonly="true" placeholder="{{ 'car.tabs.car_catalogs' | translate }}" class="form-field-popup" (click)="changeCarCatalog()" [formControl]="carCatalog" required/>
-                  <button *ngIf="carCatalog.enabled" mat-button matSuffix mat-icon-button aria-label="Add" (click)="changeCarCatalog()" >
-                    <mat-icon>create</mat-icon>
-                  </button>
-                  <mat-error *ngIf="carCatalog.errors?.required">
-                    {{ "general.mandatory_field" | translate }}
-                  </mat-error>
-                </mat-form-field>
-              </div>
-              <div class="form-group">
-                <mat-form-field>
-                  <mat-label for="converterType">{{ "cars.converter" | translate }} * </mat-label>
-                  <mat-select id="converterType" [formControl]="converterType" (selectionChange)="converterChanged($event)" >
-                    <mat-option *ngFor="let carCatalogConverter of carCatalogConverters" [value]="carCatalogConverter.type" >
-                      {{ carCatalogConverter.value }}
-                    </mat-option>
-                  </mat-select>
-                  <mat-error *ngIf="carCatalog.errors?.required"> {{ "general.mandatory_field" | translate }}</mat-error>
-                </mat-form-field>
-              </div>
-              <div class="form-group">
-                <mat-form-field>
-                  <input appAutofocus matInput placeholder="{{ 'cars.vin' | translate }}" class="app-car-name" type="text" [formControl]="vin" required />
-                  <mat-error *ngIf="vin.errors?.required"> {{ "general.mandatory_field" | translate }}
-                  </mat-error>
-                  <mat-error *ngIf="vin.errors?.invalidVIN">{{ "cars.invalid_vin" | translate }}</mat-error>
-                </mat-form-field>
-              </div>
-              <div class="form-group">
-                <mat-form-field>
-                  <input appAutofocus matInput placeholder="{{ 'cars.license_plate' | translate }}" class="app-car-name" type="text" [formControl]="licensePlate" required />
-                  <mat-error *ngIf="licensePlate.errors?.required">
-                    {{ "general.mandatory_field" | translate }}
-                  </mat-error>
-                  <mat-error *ngIf="licensePlate.errors?.pattern">
-                    {{ "users.invalid_plate_id" | translate }}
-                  </mat-error>
-                </mat-form-field>
-              </div>
-              <div class="form-group" *ngIf="canListUsers">
-                <mat-form-field>
-                  <input matInput type="text" readonly=true placeholder="{{'cars.user' | translate}}"
-                  class="form-field-popup" (click)="assignUser()" [formControl]="user" />
-                  <button mat-button matSuffix mat-icon-button aria-label="Add">
-                    <mat-icon>create</mat-icon>
-                  </button>
-                  <button *ngIf="userID.value" mat-icon-button matSuffix (click)="clearUser()" aria-label="Add">
-                    <mat-icon>clear</mat-icon>
-                  </button>
-                </mat-form-field>
-              </div>
-              <div class="form-group">
-                <div class="text-left">
-                  <mat-checkbox value="false" [formControl]="isDefault">
-                    {{ "cars.default_car" | translate }}
-                  </mat-checkbox>
-                </div>
-              </div>
-              <div class="form-group">
-                <div class="text-left">
-                  <mat-radio-group [formControl]="type">
-                    <div *ngFor="let type of carTypes">
-                      <mat-radio-button value="{{ type.key }}">
-                        {{type.value | translate}}
-                      </mat-radio-button>
-                    </div>
-                  </mat-radio-group>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="clearfix"></div>
+          <app-car-main #carMainComponent [formGroup]="formGroup" [car]="car" [carsAuthorizations]="carsAuthorizations" [readOnly]="readOnly"></app-car-main>
         </div>
       </mat-tab>
       <mat-tab *ngIf="isCarConnectorComponentActive" >
@@ -99,42 +15,17 @@
           <mat-icon>bluetooth_drive</mat-icon>
           <span>{{"car_connector.title"|translate}}</span>
         </ng-template>
-        <div class="card-body">
-          <div class="col-md-5">
-            <div class="form-group">
-              <mat-form-field>
-                <mat-label for="carConnectorName">{{ "cars.car_connector_name" | translate }} </mat-label>
-                <mat-select id="carConnectorName" [formControl]="carConnectorID" (selectionChange)="carConnectorChanged($event)">
-                  <mat-option *ngFor="let carConnectorConnection of carConnectorConnections" [value]="carConnectorConnection.id">
-                    {{carConnectorConnection.name}}
-                  </mat-option>
-                </mat-select>
-                <button *ngIf="carConnectorID.value" mat-icon-button matSuffix (click)="clearCarConnectorID(); $event.stopPropagation()" aria-label="Clear">
-                  <mat-icon>clear</mat-icon>
-                </button>
-              </mat-form-field>
-            </div>
-          </div>
-          <div class="col-md-12">
-            <div class="form-group">
-              <mat-form-field>
-                <input matInput type="text" placeholder="{{'cars.car_connector_meter_id'|translate}}" [formControl]="carConnectorMeterID"/>
-                <button *ngIf="carConnectorMeterID.value" mat-icon-button matSuffix (click)="clearCarConnectorMeterID()" aria-label="Clear">
-                  <mat-icon>clear</mat-icon>
-                </button>
-              </mat-form-field>
-            </div>
-          </div>
-          <div class="clearfix"></div>
+        <div class="card-body mat-tab-dialog-body-content">
+          <app-car-connector #carConnectorComponent [formGroup]="formGroup" [car]="car" [carsAuthorizations]="carsAuthorizations" [readOnly]="readOnly"></app-car-connector>
         </div>
       </mat-tab>
     </mat-tab-group>
     <div class="tabs-actions">
-      <button mat-button (click)="saveCar(formGroup.getRawValue())" [disabled]="!formGroup.valid || !formGroup.dirty" >
+      <button mat-icon-button *ngIf="!readOnly" (click)="saveCar(formGroup.getRawValue())" title="{{'general.save' | translate}}"
+          [disabled]="!formGroup.valid || !formGroup.dirty" >
         <mat-icon>save</mat-icon>
-        <span>{{ "general.save" | translate }}</span>
       </button>
-      <button mat-icon-button *ngIf="dialogRef" (click)="close()">
+      <button mat-icon-button *ngIf="dialogRef" (click)="close()" title="{{'general.close' | translate}}">
         <mat-icon>close</mat-icon>
       </button>
     </div>

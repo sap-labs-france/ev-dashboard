@@ -10,11 +10,6 @@
           </div>
           <div class="card-body table-responsive">
             <table class="table table-hover" *ngFor="let componentChange of releaseNote.componentChanges">
-              <thead class="text-danger">
-                <tr class="release-notes-header">
-                  <th>{{componentChange.name}}</th>
-                </tr>
-              </thead>
               <tbody>
                 <tr class="release-notes-row" *ngFor="let change of componentChange.changes">
                   <td>{{change}}</td>

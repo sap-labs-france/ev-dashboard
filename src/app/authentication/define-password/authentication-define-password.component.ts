@@ -17,7 +17,7 @@ import { Utils } from '../../utils/Utils';
 
 @Component({
   selector: 'app-authentication-define-password',
-  templateUrl: './authentication-define-password.component.html',
+  templateUrl: 'authentication-define-password.component.html',
 })
 
 export class AuthenticationDefinePasswordComponent implements OnInit, OnDestroy {
@@ -70,9 +70,9 @@ export class AuthenticationDefinePasswordComponent implements OnInit, OnDestroy 
     this.repeatPassword = this.passwords.controls['repeatPassword'];
     this.resetPasswordHash = this.route.snapshot.queryParamMap.get('hash');
     // Handle Deep Linking
-    if (Utils.isInMobileApp()) {
+    if (Utils.isInMobileApp(this.subDomain)) {
       // Forward to Mobile App
-      const mobileAppURL: string = Utils.buildMobileAppDeepLink(
+      const mobileAppURL = Utils.buildMobileAppDeepLink(
         `resetPassword/${this.windowService.getSubdomain()}/${this.resetPasswordHash}`);
       window.location.href = mobileAppURL;
     }
@@ -87,12 +87,14 @@ export class AuthenticationDefinePasswordComponent implements OnInit, OnDestroy 
     const body = document.getElementsByTagName('body')[0];
     body.classList.add('lock-page');
     body.classList.add('off-canvas-sidebar');
-    // Retrieve tenant's logo
-    this.centralServerService.getTenantLogoBySubdomain(this.subDomain).subscribe((tenantLogo: string) => {
-      if (tenantLogo) {
-        this.tenantLogo = tenantLogo;
-      }
-    });
+    if (this.subDomain) {
+      // Retrieve tenant's logo
+      this.centralServerService.getTenantLogoBySubdomain(this.subDomain).subscribe((tenantLogo: string) => {
+        if (tenantLogo) {
+          this.tenantLogo = tenantLogo;
+        }
+      });
+    }
   }
 
   public ngOnDestroy() {

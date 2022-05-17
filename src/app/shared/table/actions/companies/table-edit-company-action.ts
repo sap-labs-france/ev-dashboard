@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 import { TableEditAction } from '../../../../shared/table/actions/table-edit-action';
 import { DialogParams } from '../../../../types/Authorization';
 import { Company, CompanyButtonAction } from '../../../../types/Company';
-import { ScreenSize } from '../../../../types/GlobalType';
 import { TableActionDef } from '../../../../types/Table';
 
 export interface TableEditCompanyActionDef extends TableActionDef {
@@ -24,13 +23,6 @@ export class TableEditCompanyAction extends TableEditAction {
 
   private editCompany(companyDialogComponent: ComponentType<unknown>, dialog: MatDialog,
     dialogParams: DialogParams<Company>, refresh?: () => Observable<void>) {
-    super.edit(companyDialogComponent, dialog, dialogParams, refresh, {
-      minWidth: ScreenSize.XL,
-      maxWidth: ScreenSize.XL,
-      width: ScreenSize.XL,
-      minHeight: ScreenSize.ML,
-      maxHeight: ScreenSize.ML,
-      height: ScreenSize.ML
-    });
+    super.edit(companyDialogComponent, dialog, dialogParams, refresh);
   }
 }

@@ -1,0 +1,128 @@
+@mixin chart-color($color) {
+  color: $color !important;
+}
+
+.chart-default {
+  @include chart-color($brand-default);
+}
+
+.chart-primary {
+  @include chart-color($brand-primary);
+}
+
+.chart-primary-1 {
+  @include chart-color(mat-color($app-primary, 500));
+}
+
+.chart-primary-2 {
+  @include chart-color(mat-color($app-primary, 400));
+}
+
+.chart-primary-3 {
+  @include chart-color(mat-color($app-primary, 300));
+}
+
+
+.chart-accent {
+  @include chart-color($brand-accent);
+}
+
+.chart-info {
+  @include chart-color($brand-info);
+}
+
+.chart-success {
+  @include chart-color($brand-success);
+}
+
+.chart-warning {
+  @include chart-color($brand-warning);
+}
+
+.chart-danger {
+  @include chart-color($brand-danger);
+}
+
+.chart-grey {
+  @include chart-color($brand-disabled);
+}
+
+.chart-yellow {
+  @include chart-color($brand-yellow);
+}
+
+.chart-purple {
+  @include chart-color($brand-purple);
+}
+
+.chart-purple-1 {
+  @include chart-color(mat-color($app-indigo, 500));
+}
+
+.chart-purple-2 {
+  @include chart-color(mat-color($app-indigo, 400));
+}
+
+.chart-purple-3 {
+  @include chart-color(mat-color($app-indigo, 300));
+}
+
+.chart-cyan {
+  @include chart-color($brand-cyan);
+}
+
+.chart-brown {
+  @include chart-color($brand-brown);
+}
+
+.chart-yellow {
+  @include chart-color($brand-yellow);
+}
+
+.chart-container {
+  position: relative;
+  height: 25em;
+}
+
+.chart-container-profiles {
+  position: relative;
+  height:27vh;
+}
+
+.chart-container-statistics {
+  position: relative;
+  margin: auto;
+  width: calc((100vw - 260px) * 0.95);
+  @media (max-width: 991px) {
+    width: 95vw;
+    height: calc(95vw * 0.5);
+  }
+    .chartjs-render-monitor {
+      width: 100% !important;
+      height: 100% !important;
+    }
+}
+
+.chart {
+  position: relative;
+  width: 100%;
+}
+
+.icon-zoom {
+  position: relative;
+  width: 100px;
+  margin-top: -55px;
+}
+
+.graph-no-consumption {
+  text-align: center !important;
+  font-size: 1rem;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 35vh;
+  @media (max-width: 1280px) {
+    height: 20em;
+  }
+}

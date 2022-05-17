@@ -9,7 +9,8 @@ import { SiteAreaChargingStationsDataSource } from './site-area-charging-station
 
 @Component({
   templateUrl: 'site-area-charging-stations-dialog.component.html',
-  providers: [SiteAreaChargingStationsDataSource]
+  providers: [SiteAreaChargingStationsDataSource],
+  styleUrls: ['site-area-charging-stations-dialog.component.scss']
 })
 export class SiteAreaChargingStationsDialogComponent {
   public dialogTitle: string;

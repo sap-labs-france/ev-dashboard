@@ -6,12 +6,13 @@ import { Tenant } from '../../../types/Tenant';
 @Component({
   template: `
     <div class="logo-container">
-      <img *ngIf="row.logo" class="app-tenants-logo" [src]='row.logo' alt="">
+      <img class="app-tenants-logo" [src]="row['logo']" alt=""
+        onerror="this.src='/assets/img/theme/no-image.png';">
     </div>
   `,
+  styleUrls: ['tenant-logo-formatter-cell.component.scss']
 })
 
 export class TenantLogoFormatterCellComponent extends CellContentTemplateDirective {
   @Input() public row!: Tenant;
-
 }

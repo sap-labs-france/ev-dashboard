@@ -1,6 +1,6 @@
-<div *ngIf="transaction" class="main-content">
+<div *ngIf="transaction" class="main-content vw-90 vh-90 transaction-dialog-size">
   <div class="card card-profile card-testimonial">
-    <mat-tab-group animationDuration="0ms" disableRipple="true" class="mat-tab-info mat-tabs-with-actions">
+    <mat-tab-group animationDuration="0ms" disableRipple="true" class="mat-tab-info mat-tabs-with-close-action">
       <mat-tab>
         <ng-template mat-tab-label>
           <span>{{transaction.chargeBoxID}} -
@@ -8,66 +8,27 @@
         </ng-template>
         <div class="card-body mat-tab-dialog-body-content pt-0">
           <div class="tab-content">
-            <div class="d-flex justify-content-around mb-3">
-              <div class="d-flex flex-column align-items-center">
-                <img [src]="loggedUserImage" class="rounded-circle icon avatar session-image mb-3" />
-                <div class="text-nowrap first-text">{{transaction.user | appUserName}}</div>
-                <div *ngIf="transaction.tag?.visualID" class="text-nowrap second-text">({{transaction.tag.visualID}})</div>
-                <div *ngIf="isStoppedByAnotherUser" class="text-nowrap third-text">{{"transactions.stopped_by" | translate}} {{transaction.stop.user | appUserName}}</div>
-              </div>
-              <div class="d-flex flex-column justify-content-around">
-                <div *ngIf="transaction.stop" class="d-flex flex-column mb-3 align-items-center " appTooltip
-                  data-toogle="tooltip" title="{{'transactions.dialog.session.tooltips.amount' | translate}}">
-                  <mat-icon>money</mat-icon>
-                  <div class="first-text">{{transaction.stop.priceUnit ? (transaction.stop.roundedPrice | appCurrency:transaction.stop.priceUnit) : '-'}}</div>
-                </div>
-                <div *ngIf="!transaction.stop" class="d-flex flex-column mb-3 align-items-center" appTooltip
-                  data-toogle="tooltip" title="{{'transactions.dialog.session.tooltips.current_consumption' | translate}}">
-                  <mat-icon>flash_on</mat-icon>
-                  <div class="first-text">{{transaction.currentInstantWatts | appUnit:'W':'kW'}}</div>
-                </div>
-                <div class="d-flex flex-column align-items-center" appTooltip data-toogle="tooltip"
-                  title="{{'transactions.dialog.session.tooltips.start_date' | translate}}">
-                  <mat-icon>timelapse</mat-icon>
-                  <div class="first-text">{{transaction.timestamp | appDate}}</div>
-                  <div *ngIf="transaction.stop" class="first-text"><small>({{transaction.stop.timestamp | appDate}})</small></div>
-                </div>
-              </div>
-              <div class="d-flex flex-column justify-content-around">
-                <div class="d-flex flex-column mb-3 align-items-center" appTooltip data-toogle="tooltip"
-                  title="{{'transactions.dialog.session.tooltips.total_consumption' | translate}}">
-                  <mat-icon>ev_station</mat-icon>
-                  <div class="first-text">{{totalConsumptionWh | appUnit:'Wh':'kWh'}}</div>
-                </div>
-                <div class="d-flex flex-column align-items-center" appTooltip data-toogle="tooltip"
-                  title="{{'transactions.dialog.session.tooltips.total_duration' | translate}}">
-                  <mat-icon>timer</mat-icon>
-                  <div class="first-text">{{totalDurationSecs | appDuration}}</div>
-                </div>
-              </div>
-              <div class="d-flex flex-column justify-content-around">
-                <div *ngIf="stateOfChargeIcon" class="d-flex flex-column mb-3 align-items-center" appTooltip
-                  data-toogle="tooltip" title="{{'transactions.dialog.session.tooltips.state_of_charge' | translate}}">
-                  <mat-icon>battery_charging_full</mat-icon>
-                  <div class="first-text">{{stateOfCharge | appBatteryPercentage: endStateOfCharge }}</div>
-                </div>
-                <div class="d-flex flex-column align-items-center" appTooltip data-toogle="tooltip"
-                  [ngClass]="transaction && (transaction.stop ? transaction.stop.inactivityStatus : transaction.currentInactivityStatus) | appColorByStatus"
-                  title="{{'transactions.dialog.session.tooltips.inactivity' | translate}}">
-                  <mat-icon >timer_off</mat-icon>
-                  <div class="first-text">{{transaction | appInactivity}}</div>
-                </div>
-              </div>
-              <div *ngIf="isCarComponentActive && canDisplayCar" class="d-flex flex-column align-items-center">
-                <img [src]="carImage" class="rounded-circle icon avatar session-image mb-3" />
-                <div class="text-nowrap first-text">{{transaction?.carCatalog | appCarCatalogName}}</div>
-                <div *ngIf="transaction?.car?.licensePlate && canUpdateCar" class="text-nowrap second-text">({{transaction?.car?.licensePlate}})</div>
-              </div>
-            </div>
+            <!-- header -->
+            <app-transaction-header [transaction]="transaction" [loggedUserImage]="loggedUserImage" [carImage]="carImage"></app-transaction-header>
             <!-- chart -->
-            <app-transaction-chart #chartConsumption [transaction]="transaction" [transactionId]="transaction.id"
-              class="w-100" ratio="4">
-            </app-transaction-chart>
+            <mat-divider class="space-before-chart"></mat-divider>
+            <app-transaction-chart #chartConsumption [transaction]="transaction" [transactionId]="transaction.id" class="w-100" ratio="3"></app-transaction-chart>
+          </div>
+        </div>
+      </mat-tab>
+      <mat-tab *ngIf="showPricingDetail">
+        <ng-template mat-tab-label>
+          <mat-icon>money</mat-icon>
+          <span>{{'general.menu.pricing' | translate}}</span>
+        </ng-template>
+        <div class="card-body mat-tab-dialog-body-content pt-0">
+          <div class="tab-content">
+            <div class="h-100">
+              <!-- header -->
+              <app-transaction-header [transaction]="transaction" [loggedUserImage]="loggedUserImage" [carImage]="carImage"></app-transaction-header>
+              <mat-divider class="space-before-chart"></mat-divider>
+              <app-transaction-pricing [transaction]="transaction" class="w-100"></app-transaction-pricing>
+            </div>
           </div>
         </div>
       </mat-tab>

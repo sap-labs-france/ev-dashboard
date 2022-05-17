@@ -1,0 +1,38 @@
+@import "../../../../../assets/scss/core/variables";
+@import "../../../../../assets/scss/core/type";
+
+.icon {
+  width: 3em;
+  height: 3em;
+
+  &-charger {
+    @extend .icon;
+    filter: invert(1);
+  }
+}
+
+.icon-font {
+  font-size: 3em;
+}
+
+.avatar {
+  vertical-align: center;
+}
+
+.first-text {
+  font-size: $font-size-base;
+}
+
+.second-text {
+  font-size: $font-size-xs;
+}
+
+.session-image {
+  width: 4em;
+  height: 4em;
+}
+
+.session-image-car {
+  width: auto;
+  height: 4.5em;
+}

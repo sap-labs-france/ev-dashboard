@@ -259,7 +259,7 @@
     "consumption_gauge_footer": "Poder instantaneo em kW",
     "consumption_gauge_title": "Poder Instantâneo",
     "consumption_title": "Poder Instantâneo",
-    "gas_footer": "Economizou combustível usando um veículo térmico que consome 8L / 100km ",
+    "gas_footer": "Economizou combustível usando um veículo térmico que consome 8L / 100km",
     "gas_title": "Combustível",
     "km_footer": "Distância percorrida por veículo elétrico consumindo 18kW.h / 100km",
     "km_title": "Distância",
@@ -318,7 +318,7 @@
     "delete_confirm": "Você realmente deseja excluir a empresa '{{companyName}}'?",
     "delete_success": "A empresa '{{companyName}}' foi eliminado com sucesso",
     "delete_error": "O erro ocorreu enquanto tentava eliminar a empresa",
-    "changed_by_other_user": "A empresa '{{companyName}}' modificada por outro utilizador vai ser rearregado ",
+    "changed_by_other_user": "A empresa '{{companyName}}' modificada por outro utilizador vai ser rearregado",
     "update_success": "A empresa '{{companyName}}' foi atualizada com sucesso",
     "update_error": "O error ocorreu enquanto se efetuava o update da empresa",
     "company_not_found": "A empresa não foi encontrada",
@@ -356,11 +356,11 @@
     "delete_confirm": "Você quer mesmo eliminar o ativo '{{assetName}}'?",
     "delete_success": "O ativo '{{assetName}}' foi eliminado com sucesso",
     "delete_error": "O erro ocorreu enqaunto tentava eliminar o ativo",
-    "changed_by_other_user": "O ativo '{{assetName}}' foi modificado por outro utilizador e recarregado ",
+    "changed_by_other_user": "O ativo '{{assetName}}' foi modificado por outro utilizador e recarregado",
     "update_success": "O ativo '{{assetName}}' foi atualizado com sucesso",
     "update_error": "O erro ocorreu enquanto atualizava o ativo",
     "asset_not_found": "O ativo não foi encontrado",
-    "asset_settings_error": "Ocorreu um erro ao obter conexões de ativos ",
+    "asset_settings_error": "Ocorreu um erro ao obter conexões de ativos",
     "create_success": "O ativo '{{assetName}}' foi criado com sucesso",
     "create_error": "O error ocurreu enquanto criava o ativo",
     "refresh_success": "The asset's consumption or production has been successfully retrieved",
@@ -429,7 +429,7 @@
     "image_size_error": "O limite de tamanho da imagem foi excedido, o limite está abaixo {{maxPictureKb}} Kb",
     "admin_role": "Administratdor do Site",
     "owner_role": "Dono do Siste",
-    "update_set_site_admin_success": "O utilizador '{{userName}}' é agora o administrador deste site ",
+    "update_set_site_admin_success": "O utilizador '{{userName}}' é agora o administrador deste site",
     "update_remove_site_admin_success": "O utilizador '{{userName}}' não é mais administrador deste site",
     "update_site_users_role_error": "Ocorreu um erro ao tentar atualizar as autorizações do utilizador '{{userName}}'",
     "update_set_site_owner_success": "O utilizador '{{userName}}' é agora dono do site",
@@ -442,6 +442,7 @@
     "private_limitation": "Some features are not available when the site is private"
   },
   "site_areas": {
+    "limits": "Limits",
     "assign_site": "Atribuir Site",
     "smart_charging": "Carregamento Inteligente",
     "export_all_ocpp_params": "Exportar todos os parametros OCPP",
@@ -450,7 +451,7 @@
     "no_site_areas": "Não foi encontrado nenhum site",
     "site_areas_number": "Area(s) Site",
     "show_all_chargers": "Mostrar todas as estações de carga",
-    "enable_access_control": "Habilitar o Controlo de Acesso (o utilizador deve-se autenticar com o badge) ",
+    "enable_access_control": "Habilitar o Controlo de Acesso (o utilizador deve-se autenticar com o badge)",
     "enable_smart_charging": "Habilitar o carregamento Inteligente",
     "access_control": "Controlo de acessos",
     "charger_list_source_title": "Disponível",
@@ -668,6 +669,7 @@
   },
   "chargers": {
     "chargers": "Estações de Carregamento",
+    "token": "Token",
     "user": "Uitlizador",
     "charger_not_found": "A estação de carregamento não foi encontrada",
     "vendor": "Fornecedor",
@@ -779,7 +781,7 @@
     "reboot_title": "Reiniciar estação de carregamento",
     "soft_reset_title": "Reiniciar estação de carregamento",
     "charger_id_not_found": "A estção de carregamento ID '{{chargerID}}' não foi encontrada",
-    "no_transaction_found": "Não foram encontradas sessões na estação '{{chargerID}}' ",
+    "no_transaction_found": "Não foram encontradas sessões na estação '{{chargerID}}'",
     "dialog": {
       "export": {
         "title": "Exportar estações de carga",
@@ -840,7 +842,10 @@
       "power_limit_success": "A potencia da estação de carregamento '{{chargeBoxID}}' foi limitada com suecesso",
       "power_limit_error": "Ocorreu um erro ao limitar a energia da estação de carregamento",
       "power_limit_has_charging_plan_title": "Plano de carregamento existente",
-      "power_limit_has_charging_plan_confim": "Há um conflito com um plano de cobrança existente!<br>Você quer mudar o plano e ajustá-lo ao novo limite?",
+      "power_limit_has_charging_plan_confim": [
+        "Há um conflito com um plano de cobrança existente!",
+        "Você quer mudar o plano e ajustá-lo ao novo limite?"
+      ],
       "power_limit_plan_title": "Planear Limite de Potencia",
       "power_limit_plan_confirm": "Você realmente deseja limitar o potencia de'{{chargeBoxID}}' com este plano de carregamento?",
       "power_limit_plan_clear": "Você realmente deseja limpar o perfil de carregamento de'{{chargeBoxID}}'?",
@@ -887,11 +892,20 @@
       "retrieve_schedule": "Reativação de Planos",
       "charging_schedule": "Planos de Carregamento de '{{chargeBoxID}}'",
       "enable_smart_charging_for_site_area_title": "Ativar Carreegamento Inteligente",
-      "enable_smart_charging_for_site_area_body": "Se você habilitar o carregamento inteligente para esta área do site, o algoritmo de otimização assumirá a limitação estática atual e os planos de carregamento.<br>Você quer continuar?",
+      "enable_smart_charging_for_site_area_body": [
+        "Se você habilitar o carregamento inteligente para esta área do site, o algoritmo de otimização assumirá a limitação estática atual e os planos de carregamento.",
+        "Você quer continuar?"
+      ],
       "disable_smart_charging_for_site_area_title": "Desativar carregamento inteligente",
-      "disable_smart_charging_for_site_area_body": "Se você desativar o carregamento inteligente para esta área de local, todos os planos de carregamento serão excluídos.<br>Você quer continuar?",
+      "disable_smart_charging_for_site_area_body": [
+        "Se você desativar o carregamento inteligente para esta área de local, todos os planos de carregamento serão excluídos.",
+        "Você quer continuar?"
+      ],
       "clearing_charging_profiles_not_successful_title": "Ocorreu um erro ao eliminar os planos de cobrança",
-      "clearing_charging_profiles_not_successful_body": "Falha ao excluir os planos de carregamento das estações de carregamento pertencentes à área do local '{{siteAreaName}}'!<br>Verifique os registos e proceda manualmente com a exclusão do (s) plano (s) de carregamento.",
+      "clearing_charging_profiles_not_successful_body": [
+        "Falha ao excluir os planos de carregamento das estações de carregamento pertencentes à área do local '{{siteAreaName}}'!",
+        "Verifique os registos e proceda manualmente com a exclusão do (s) plano (s) de carregamento."
+      ],
       "trigger_smart_charging_title": "Acionar carregamento inteligente",
       "trigger_smart_charging_confirm": "Você realmente deseja ativar o algoritmo de carregamento inteligente?",
       "trigger_smart_charging": "Ativar carregamento inteligenteg",
@@ -1435,7 +1449,10 @@
     "save_error_smart_charging": "A organização deve estar ativa para usar o Carregamento Inteligente",
     "save_error_asset": "A organização deve estar ativa para usar o ativo",
     "save_error_car_connector": "Car Management must be active to use Car Connector",
-    "smart_charging_still_active_for_site_area": "O Carregamento inteligente Charging ainda está ativo para determinadas áreas do site. <br> Desative o Carregamento Inteligente para cada área do site no locatário.",
+    "smart_charging_still_active_for_site_area": [
+      "O Carregamento inteligente Charging ainda está ativo para determinadas áreas do site.",
+      " Desative o Carregamento Inteligente para cada área do site no locatário."
+    ],
     "logo_size_error": "O limite de tamanho do logotipo foi excedido, o limite está abaixo de {{maxPictureKb}} Kb"
   },
   "settings": {
@@ -1462,7 +1479,11 @@
       "create_error": "Ocorreu um erro ao criar as configurações OCPI",
       "update_success": "As configurações OCPI foram atualizadas com sucesso",
       "update_error": "Ocorreu um erro ao atualizar as configurações OCPI",
-      "description": "E-Mobility fornece um serviço certificado para se conectar a uma plataforma E-Roaming externa. <br> Este recurso expõe em tempo real a infraestrutura da estação de carregamento e a disponibilidade por meio do protocolo padrão OCPI (Open Charge Point Interface). <br> E-Mobility está atualmente usando a Gireve Inter-Operability Platform (IOP)."
+      "description": [
+        "E-Mobility fornece um serviço certificado para se conectar a uma plataforma E-Roaming externa.",
+        "Este recurso expõe em tempo real a infraestrutura da estação de carregamento e a disponibilidade por meio do protocolo padrão OCPI (Open Charge Point Interface).",
+        "E-Mobility está atualmente usando a Gireve Inter-Operability Platform (IOP)."
+      ]
     },
     "oicp": {
       "hubject": {
@@ -1474,10 +1495,18 @@
       "create_error": "Error occurred while creating the OICP settings, check the logs",
       "update_success": "OICP settings have been updated successfully",
       "update_error": "Error occurred while updating the OICP settings, check the logs",
-      "description": "E-Mobility provides a certified service to connect to an external E-Roaming Platform.<br>This feature exposes real-time the charging station infrastructure and availability via the OICP protocol (Open InterCharge Protocol).<br>E-Mobility is currently using the Hubject B2B Service Platform (HBS)."
+      "description": [
+        "E-Mobility provides a certified service to connect to an external E-Roaming Platform.",
+        "This feature exposes real-time the charging station infrastructure and availability via the OICP protocol (Open InterCharge Protocol).",
+        "E-Mobility is currently using the Hubject B2B Service Platform (HBS)."
+      ]
     },
     "refund": {
-      "description": "O E-Mobility fornece um serviço de reembolso para um sistema de despesas externas. <br> Este recurso permite que o utilizador envie suas sessões para um sistema de despesas e seja reembolsado pela eletricidade que consumiu. <br> O E-Mobility está usando o SAP Concur. Mais informações técnicas disponíveis em ",
+      "description": [
+        "O E-Mobility fornece um serviço de reembolso para um sistema de despesas externas.",
+        "Este recurso permite que o utilizador envie suas sessões para um sistema de despesas e seja reembolsado pela eletricidade que consumiu.",
+        "O E-Mobility está usando o SAP Concur. Mais informações técnicas disponíveis em"
+      ],
       "not_found": "Configurações de reembolso não encontradas",
       "create_success": "As configurações de reembolso foram criadas com sucesso",
       "create_error": "Ocorreu um erro ao criar as configurações de Reembolso",
@@ -1514,25 +1543,22 @@
       "create_error": "Ocorreu um erro ao criar as configurações de preços",
       "update_success": "As configurações de preços foram atualizadas com sucesso",
       "update_error": "Ocorreu um erro ao atualizar as configurações de preços",
-      "full_description": "O E-Mobility oferece duas maneiras de calcular o preço de uma sessão EV. <br> Um preço simples que permite configurar um preço fixo por kW.h para sua infraestrutura de carregamento. <br> Um sistema de preços externo avançado para planos de preços complexos chamado SAP Convergent Charging (SAP Hybris billing.) <br> Mais informações técnicas disponíveis em ",
+      "simple_pricing_title": "Built-in Pricing Module",
+      "full_description": "Open E-Mobility provides a pricing module which allows a flexible definition of your company's pricing strategy.",
       "pricing_currency_changed_title": "Modification of the currency",
-      "pricing_currency_changed_confirm": "You are about to change the currency. This will force you to reconnect after saving.<br/><br><strong> WARNING ! </strong>Once saved, the currency cannot be modified anymore!<br/><br/>Do you confirm that the selected value is correct?",
-      "convergentcharging": {
-        "title": "SAP Convergent Charging",
-        "chargeable_item_name": "Nome do item cobrável",
-        "url": "Url",
-        "user": "Utilizador",
-        "password": "Password"
-      },
+      "pricing_currency_changed_confirm": [
+        "You are about to change the currency. This will force you to reconnect after saving.",
+        "<strong>WARNING !</strong>Once saved, the currency cannot be modified anymore!",
+        "Do you confirm that the selected value is correct?"
+      ],
       "settings": {
         "title": "Pricing Settings",
         "price": "Preço",
         "currency": "Moeda"
       },
-      "end_date_error": "Please provide a date after start date and time.",
+      "end_date_error": "The date must be greater than the valid-from date",
       "valid_from": "Valid From",
       "valid_to": "Valid To",
-      "valid_from_to": "Valid From ... To",
       "flat_fee": "Flat Fee",
       "energy": "Energy",
       "charging_time": "Charging Time",
@@ -1554,13 +1580,15 @@
       "pricing_definition_delete_success": "Pricing definition has been deleted successfully",
       "pricing_definition_delete_error": "Error occurred while deleting a pricing definition, check the logs",
       "pricing_definition_error": "Error occurred while retrieving the pricing definition, check the logs",
-      "pricing_definition_time_range_error": "Please select different start and end time",
+      "pricing_definition_time_range_error": "Start and end time must be different",
+      "pricing_max_energy_error": "Maximum energy must be greater than the minimum energy",
+      "pricing_max_duration_error": "Maximum duration must be greater than the minimum duration",
       "connector_type": "Connector Type",
       "connector_power": "Connector Power",
       "value": "Value",
       "unit": "Unit",
       "charging_station": "Charging Station",
-      "pricing_dimensions_title": "Pricing Dimensions",
+      "pricing_dimensions_title": "Dimensions",
       "pricing_definition_title": "Pricing Definition",
       "step_size": "Step Size",
       "connector_power_unit": "kW",
@@ -1584,8 +1612,8 @@
       "restriction_min_duration": "Min duration",
       "restriction_min_duration_unit": "Minutes",
       "restriction_time_range": "Time range",
-      "restriction_start_time": "Start time included",
-      "restriction_end_time": "End time excluded",
+      "restriction_start_time": "Start time",
+      "restriction_end_time": "End time",
       "restriction_days_of_week": "Days of week"
     },
     "billing": {
@@ -1627,7 +1655,10 @@
       "payment_methods_cvc_error": "Invalid verification code",
       "transaction_billing_activation": "Billing Activation",
       "transaction_billing_activation_title": "Billing Activation",
-      "transaction_billing_activation_confirm": "Do you really want to activate the billing of charging sessions? <br><br> <strong> WARNING ! </strong> Once activated, you will NOT be able to deactivate it !",
+      "transaction_billing_activation_confirm": [
+        "Do you really want to activate the billing of charging sessions?",
+        "<strong> WARNING ! </strong> Once activated, you will NOT be able to deactivate it!"
+      ],
       "transaction_billing_activation_success": "Billing of charging sessions has been successfully activated",
       "transaction_billing_activation_error": "Billing of charging sessions cannot be activated",
       "billing_clear_test_data": "Delete Test Data",
@@ -1635,7 +1666,7 @@
       "billing_clear_test_data_confirm": "Do you really want to delete all billing test data?",
       "billing_clear_test_data_success": "The test data has been deleted",
       "billing_clear_test_data_error": "Operation failed. The test data deletion has been aborted",
-      "payment_methods": "Payment methods",
+      "payment_methods": "Payment Methods",
       "user": {
         "force_synchronize_user_dialog_title": "Sincronizar utilizador de cobrança",
         "force_synchronize_user_dialog_confirm": "Você realmente deseja sincronizar o utilizador '{{userFullName}}' no sistema de faturamento?",
@@ -1662,7 +1693,13 @@
         "title": "SAP Analytics",
         "settings": "Configurações"
       },
-      "description": "A E-Mobility expõe seus dados a ferramentas analíticas externas. <br> Este recurso expõe em tempo real todos os dados da sessão por meio de um conector para ferramentas analíticas de dados externas. <br> A E-Mobility está usando o SAP Analytics Cloud por meio de um conector OData. <br> SAP Analytics Cloud suporta o uso inteligente de dados de cobrança para simplificar a tomada de decisões operacionais. <br> Mais informações técnicas disponíveis em ",
+      "description": [
+        "A E-Mobility expõe seus dados a ferramentas analíticas externas.",
+        "Este recurso expõe em tempo real todos os dados da sessão por meio de um conector para ferramentas analíticas de dados externas.",
+        "A E-Mobility está usando o SAP Analytics Cloud por meio de um conector OData.",
+        "SAP Analytics Cloud suporta o uso inteligente de dados de cobrança para simplificar a tomada de decisões operacionais.",
+        "Mais informações técnicas disponíveis em"
+      ],
       "setting_do_not_exist": "A configuração não foi encontrada",
       "setting_not_found": "As configurações do SAP Analytics não foram encontradas",
       "create_success": "As configurações do SAP Analytics Cloud foram criadas com sucesso",
@@ -1836,6 +1873,10 @@
     "unregister_success": "O IOP '{{name}}' foi cancelado com sucesso",
     "register_error": "Ocorreu um erro ao registar o IOP",
     "unregister_error": "Ocorreu um erro ao cancelar o registo do IOP",
+    "update_credentials_title": "Update Credentials IOP",
+    "update_credentials_confirm": "Do you want to update the credentials in the IOP '{{name}}'?",
+    "update_credentials_success": "The credentials have been updated successfully in the IOP '{{name}}'",
+    "update_credentials_error": "Error occurred while updating the credentials with the IOP, check the logs",
     "push_evse_statuses_title": "Enviar status EVSE",
     "push_tokens_title": "Enviar tokens de usuário",
     "push_evse_statuses_confirm": "Deseja enviar todos os status EVSE para IOP '{{name}}'?",
@@ -1901,8 +1942,10 @@
     "title": "Roaming OCPI",
     "type_placeholder": "Tipo",
     "roaming_platforms": "plataforma de Inter Operabilidade",
-    "cpo": "Identificação do Operador do Ponto de Carregamento",
-    "emsp": "E-Mobility Identificação do Provedor de Serviços",
+    "cpo": "Charging Point Operator",
+    "enable_cpo": "Enable Charging Point Operator",
+    "emsp": "e-Mobility Service Provider",
+    "enable_emsp": "Enable e-Mobility Service Provider",
     "tariff_id": "Tariff ID",
     "description": "Interface de ponto de carga aberta",
     "details": "Identificação",
@@ -1920,6 +1963,7 @@
     "check_locations": "Verificar locais",
     "check_sessions": "Verificar sessões",
     "check_cdrs": "Verificar Cdrs",
+    "update_credentials": "Update Credentials",
     "businessdetails": {
       "name": "Nome do operador",
       "website": "Link para o site da operadora",
@@ -2122,7 +2166,7 @@
     "synchronize_car_catalogs_up_to_date": "Carros já atualizados",
     "select_car_maker": "Selecione fabricante de automóveis",
     "car_makers": "Fabricantes de automóveis",
-    "create_success": "O carro '{{carName}}' foi criado com sucesso ",
+    "create_success": "O carro '{{carName}}' foi criado com sucesso",
     "update_success": " carro '{{carName}}' foi atualizado com sucesso",
     "delete_success": "O carro '{{carName}}' foi excluído com sucesso",
     "delete_error": "Ocorreu um erro ao excluir o carro",
@@ -2311,8 +2355,8 @@
     "load_transactions_error": "Ocorreu um erro ao recuperar as sessões",
     "load_transaction_error": "Ocorreu um erro ao recuperar a sessão",
     "total_duration": "Duração total",
-    "refund_transactions": "Reembolso ",
-    "pending_transactions": "Pendente ",
+    "refund_transactions": "Reembolso",
+    "pending_transactions": "Pendente",
     "count_refunded_reports": "Relatórios",
     "hours": "hora(s)",
     "mins": "minuto(s)",
@@ -2414,7 +2458,14 @@
           "state_of_charge": "Nível de Bateria",
           "total_duration": "Duração Total",
           "inactivity": "Duração de Inatividade"
-        }
+        },
+        "pricing-detail-description": "Description",
+        "pricing-detail-entity-type": "Entity Type",
+        "pricing-detail-entity-id": "Entity ID",
+        "pricing-detail-unit-price": "Unit Price",
+        "pricing-detail-consumption": "Consumption",
+        "pricing-detail-duration": "Duration",
+        "pricing-detail-amount": "Amount"
       }
     },
     "notification": {

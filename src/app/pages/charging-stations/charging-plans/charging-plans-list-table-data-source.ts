@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { IssuerFilter } from 'shared/table/filters/issuer-filter';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -59,7 +60,7 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
 
   public initFilters() {
     // Charging Station
-    const chargingStationID = this.windowService.getSearch('ChargingStationID');
+    const chargingStationID = this.windowService.getUrlParameterValue('ChargingStationID');
     if (chargingStationID) {
       const chargingStationTableFilter = this.tableFiltersDef.find(filter => filter.id === 'charger');
       if (chargingStationTableFilter) {
@@ -67,7 +68,7 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
         this.filterChanged(chargingStationTableFilter);
       }
     }
-    const transactionID = this.windowService.getSearch('TransactionID');
+    const transactionID = this.windowService.getUrlParameterValue('TransactionID');
     if (transactionID) {
       this.setSearchValue(transactionID);
     }
@@ -183,12 +184,10 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {
-    if (this.isOrganizationComponentActive) {
-      return [
-        new ChargingStationTableFilter().getFilterDef(),
-      ];
-    }
-    return [];
+    const issuerFilter = new IssuerFilter().getFilterDef();
+    return [
+      new ChargingStationTableFilter([issuerFilter]).getFilterDef(),
+    ];
   }
 
   public buildTableDynamicRowActions(chargingProfile: ChargingProfile): TableActionDef[] {

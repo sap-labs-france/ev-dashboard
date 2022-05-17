@@ -3,7 +3,7 @@ import { SortDirection } from '@angular/material/sort';
 import * as moment from 'moment';
 
 import { AssetButtonAction } from './Asset';
-import { AuthorizationActions } from './Authorization';
+import { AuthorizationActions, AuthorizationAttributes } from './Authorization';
 import { BillingButtonAction } from './Billing';
 import { CarButtonAction } from './Car';
 import { ChargingStationButtonAction } from './ChargingStation';
@@ -21,13 +21,12 @@ import { TenantButtonAction } from './Tenant';
 import { TransactionButtonAction } from './Transaction';
 import { UserButtonAction } from './User';
 
-export interface TableData extends AuthorizationActions {
+export interface TableData extends AuthorizationAttributes, AuthorizationActions {
   id: string | number;
   key?: string;
   isSelected?: boolean;
   isSelectable?: boolean;
   isExpanded?: boolean;
-  projectFields?: string[];
 }
 
 export enum TableDataSourceMode {
@@ -169,6 +168,7 @@ export interface TableDef {
     detailsField?: string;
     angularComponent?: any;
     showDetailsField?: string;
+    additionalParameters?: any;
   };
   rowFieldNameIdentifier?: string;
   isSimpleTable?: boolean;

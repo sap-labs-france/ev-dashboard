@@ -86,7 +86,7 @@
   top: 0px;
   right: 15px;
   z-index: 999999999;
-  height: 58px;
+  height: 59px;
   padding-top: 7px;
   padding-right: 8px;
   background: $brand-primary;
@@ -103,9 +103,6 @@
 .mat-tab-dialog-body-content {
   align-items: center;
   justify-content: center;
-  margin-top: 15px;
-  padding-top: 0px;
-  padding-bottom: 0 !important;
   .card-body {
     margin-top: initial !important;
   }
@@ -135,10 +132,63 @@
   box-shadow: initial !important;
 }
 
+.mat-dialog-container {
+  .mat-tab-header-pagination {
+    padding-top: 4px;
+  }
+}
+
 .mat-tab-labels {
   padding: 7px;
   color: $brand-background !important;
 }
+
+.mat-tabs-with-close-action {
+  .mat-tab-header {
+    margin-right: 55px !important;
+  }
+}
+
+.transparent-dialog-container {
+  max-width: initial !important;
+
+  .mat-dialog-container {
+    background: none;
+    box-shadow: none;
+    overflow: hidden;
+  }
+
+  .mat-tab-group {
+    margin-top: -20px;
+  }
+
+  .mat-tab-header {
+    margin-left: 15px;
+    margin-right: 15px;
+    background: $brand-primary;
+  }
+
+  .mat-tabs-with-actions {
+    .mat-tab-header {
+      margin-right: 90px !important;
+    }
+  }
+
+  .mat-tabs-with-close-action {
+    .mat-tab-header {
+      margin-right: 55px !important;
+    }
+  }
+
+  .mat-tab-labels {
+    padding: 11px 7px 7px 7px;
+  }
+
+  .mat-dialog-content {
+    margin: 0;
+  }
+}
+
 .mat-tab-info .mat-tab-labels {
   background: $brand-primary;
 }

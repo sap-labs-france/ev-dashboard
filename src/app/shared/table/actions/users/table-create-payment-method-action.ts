@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 
 import { DialogParams } from '../../../../types/Authorization';
 import { BillingButtonAction, PaymentDialogData } from '../../../../types/Billing';
-import { ScreenSize } from '../../../../types/GlobalType';
 import { TableActionDef } from '../../../../types/Table';
 import { TableCreateAction } from '../table-create-action';
 
@@ -18,6 +17,9 @@ export class TableCreatePaymentMethodAction extends TableCreateAction {
   public getActionDef(): TableCreatePaymentMethodActionDef {
     return {
       ...super.getActionDef(),
+      icon: 'add',
+      name: 'general.add',
+      tooltip: 'general.tooltips.add',
       id: BillingButtonAction.CREATE_PAYMENT_METHOD,
       action: this.createPaymentMethod,
     };
@@ -25,13 +27,6 @@ export class TableCreatePaymentMethodAction extends TableCreateAction {
 
   private createPaymentMethod(paymentMethodDialogComponent: ComponentType<unknown>,
     dialog: MatDialog, dialogParams: DialogParams<PaymentDialogData>, refresh?: () => Observable<void>) {
-    super.create(paymentMethodDialogComponent, dialog, dialogParams, refresh, {
-      minWidth: ScreenSize.M,
-      maxWidth: ScreenSize.M,
-      width: ScreenSize.M,
-      minHeight: ScreenSize.M,
-      maxHeight: ScreenSize.M,
-      height: ScreenSize.M
-    });
+    super.create(paymentMethodDialogComponent, dialog, dialogParams, refresh);
   }
 }

@@ -29,7 +29,7 @@ export interface StatisticsButtonGroup {
 
 @Component({
   selector: 'app-statistics-filters',
-  templateUrl: './statistics-filters.component.html',
+  templateUrl: 'statistics-filters.component.html',
 })
 export class StatisticsFiltersComponent implements OnInit {
   @ViewChild(DaterangepickerComponent) public dateRangePickerComponent: DaterangepickerComponent;
@@ -274,10 +274,7 @@ export class StatisticsFiltersComponent implements OnInit {
     // Disable outside click close
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
-    // Set Validate button title to 'Set Filter'
-    dialogConfig.data = {
-      validateButtonTitle: 'general.set_filter',
-    };
+    dialogConfig.data = {};
     // Rebuild static filters from dependant ones
     Utils.buildDependentFilters(filterDef);
     if (filterDef.dialogComponentData) {

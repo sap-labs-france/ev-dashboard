@@ -27,12 +27,12 @@ import { UserDialogComponent } from './user-dialog.component';
 
 @Component({
   selector: 'app-user',
-  templateUrl: 'user.component.html'
+  templateUrl: 'user.component.html',
+  styleUrls: ['user.component.scss']
 })
 export class UserComponent extends AbstractTabComponent implements OnInit {
   @Input() public currentUserID!: string;
   @Input() public metadata!: Record<string, AuthorizationDefinitionFieldMetadata>;
-  @Input() public inDialog!: boolean;
   @Input() public dialogRef!: MatDialogRef<UserDialogComponent>;
   @Input() public dialogMode!: DialogMode;
 
@@ -65,7 +65,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     private router: Router,
     protected activatedRoute: ActivatedRoute,
     protected windowService: WindowService) {
-    super(activatedRoute, windowService, ['common', 'notifications', 'address', 'password', 'connections', 'miscs', 'billing'], false);
+    super(activatedRoute, windowService, ['main', 'notifications', 'address', 'password', 'connections', 'miscs', 'billing'], false);
     // Admin?
     this.isAdmin = this.authorizationService.isAdmin();
     this.isSuperAdmin = this.authorizationService.isSuperAdmin();
@@ -73,17 +73,17 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.isSiteAdmin = this.authorizationService.hasSitesAdminRights();
     // Set Tab IDs
     if (this.isBasic || this.isSiteAdmin) {
-      this.setHashArray(['common', 'address', 'password', 'connections', 'miscs', 'billing']);
+      this.setHashArray(['main', 'address', 'password', 'connections', 'miscs', 'billing']);
     }
     if (this.isSuperAdmin) {
-      this.setHashArray(['common', 'notifications', 'address', 'password', 'miscs', 'billing']);
+      this.setHashArray(['main', 'notifications', 'address', 'password', 'miscs', 'billing']);
     }
     this.isBillingComponentActive = this.componentService.isActive(TenantComponents.BILLING);
     this.canListPaymentMethods = this.authorizationService.canListPaymentMethods();
   }
 
   public updateRoute(event: number) {
-    if (!this.inDialog) {
+    if (!this.dialogRef) {
       super.updateRoute(event);
     }
   }
@@ -97,7 +97,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     // Load
     this.loadUser();
     // Call parent Tab manager
-    if (!this.inDialog) {
+    if (!this.dialogRef) {
       super.enableRoutingSynchronization();
     }
   }
@@ -143,8 +143,8 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   }
 
   public closeDialog(saved: boolean = false) {
-    if (this.inDialog) {
-      this.windowService.clearSearch();
+    if (this.dialogRef) {
+      this.windowService.clearUrlParameter();
       this.dialogRef.close(saved);
     }
   }

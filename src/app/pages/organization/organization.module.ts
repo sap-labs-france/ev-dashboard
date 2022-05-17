@@ -13,6 +13,7 @@ import { TableModule } from '../../shared/table/table.module';
 import { CompanyLogoFormatterCellComponent } from './companies/cell-components/company-logo-formatter-cell.component';
 import { CompanyDialogComponent } from './companies/company/company-dialog.component';
 import { CompanyComponent } from './companies/company/company.component';
+import { CompanyMainComponent } from './companies/company/main/company-main.component';
 import { CompaniesListTableDataSource } from './companies/list/companies-list-table-data-source';
 import { CompaniesListComponent } from './companies/list/companies-list.component';
 import { OrganizationComponent } from './organization.component';
@@ -25,9 +26,10 @@ import { SiteAreaAssetsDialogComponent } from './site-areas/site-area-assets/sit
 import { SiteAreaAssetsDataSource } from './site-areas/site-area-assets/site-area-assets-table-data-source';
 import { SiteAreaChargingStationsDialogComponent } from './site-areas/site-area-charging-stations/site-area-charging-stations-dialog.component';
 import { SiteAreaChargingStationsDataSource } from './site-areas/site-area-charging-stations/site-area-charging-stations-table-data-source';
+import { SiteAreaLimitsComponent } from './site-areas/site-area/limits/site-area-limits.component';
 import { SiteAreaMainComponent } from './site-areas/site-area/main/site-area-main.component';
+import { SiteAreaOcpiComponent } from './site-areas/site-area/ocpi/site-area-ocpi.component';
 import { SiteAreaDialogComponent } from './site-areas/site-area/site-area-dialog.component';
-import { SiteAreaOcpiComponent } from './site-areas/site-area/site-area-ocpi/site-area-ocpi.component';
 import { SiteAreaComponent } from './site-areas/site-area/site-area.component';
 import { SitesListTableDataSource } from './sites/list/sites-list-table-data-source';
 import { SitesListComponent } from './sites/list/sites-list.component';
@@ -36,8 +38,8 @@ import { SiteUsersDialogComponent } from './sites/site-users/site-users-dialog.c
 import { SiteUsersOwnerRadioComponent } from './sites/site-users/site-users-owner-radio.component';
 import { SiteUsersTableDataSource } from './sites/site-users/site-users-table-data-source';
 import { SiteMainComponent } from './sites/site/main/site-main.component';
+import { SiteOcpiComponent } from './sites/site/ocpi/site-ocpi.component';
 import { SiteDialogComponent } from './sites/site/site-dialog.component';
-import { SiteOcpiComponent } from './sites/site/site-ocpi/site-ocpi.component';
 import { SiteComponent } from './sites/site/site.component';
 
 @NgModule({
@@ -61,6 +63,7 @@ import { SiteComponent } from './sites/site/site.component';
     SitesListComponent,
     SiteAreasListComponent,
     CompanyComponent,
+    CompanyMainComponent,
     CompanyDialogComponent,
     CompanyLogoFormatterCellComponent,
     SiteComponent,
@@ -71,6 +74,7 @@ import { SiteComponent } from './sites/site/site.component';
     SiteAreaChargingStationsDialogComponent,
     SiteAreaAssetsDialogComponent,
     SiteMainComponent,
+    SiteAreaLimitsComponent,
     SiteOcpiComponent,
     SiteAreaMainComponent,
     SiteAreaOcpiComponent,

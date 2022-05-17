@@ -1,0 +1,157 @@
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.detail-connector {
+  min-width: 58px;
+  margin-right: -10px !important;
+}
+
+.charger-connector-container {
+  text-align: center;
+  width: 30px;
+  height: 30px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+  color: white;
+
+  &.charger-connector-container-image {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 2px solid darken(mat-color($mat-blue, 600), 15%);
+
+    &.charger-connector-container-image-small {
+      left: -15px;
+      transition: all .2s ease-in-out;
+      z-index: 0;
+      position: relative;
+    }
+  }
+
+  &.charger-connector-container-image-small:hover {
+    transform: scale(1.5);
+    z-index: 2;
+  }
+
+  &.charger-connector-container-image-large {
+    margin-left: 4px;
+  }
+
+  &.connector-not-typed-icon {
+    color: mat-color($mat-red, 600);
+  }
+
+  .charger-connector-background {
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    &.charger-connector-background-spinner:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      animation: spinner 3s linear infinite;
+      border-radius: 50%;
+      border-left: 3px solid mat-color($mat-blue, 200);
+      border-top: 3px solid mat-color($mat-blue, 600);
+      border-right: 3px solid mat-color($mat-blue, 200);
+      border-bottom: 3px solid mat-color($mat-blue, 600);
+      z-index: -1;
+    }
+  }
+
+  .charger-connector-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    color: white;
+    position: relative;
+    // top: -30px;
+    opacity: 1 !important;
+    z-index: 0;
+  }
+
+  .charger-connector-available {
+    color: mat-color($mat-green, 600);
+    border: 2px solid darken(mat-color($mat-green, 600), 5%);
+    background-color: white;
+  }
+
+  .charger-connector-charging-available-text {
+    color: mat-color($mat-green, 600);
+  }
+
+  &.charger-connector-type-background {
+    border: 1px solid mat-color($mat-grey, 600);
+    background-color: lighten(mat-color($mat-grey, 600), 20%);
+  }
+
+  .charger-connector-charging {
+    background-color: mat-color($mat-blue, 600);
+    border: 2px solid darken(mat-color($mat-blue, 600), 15%);
+  }
+
+  .charger-connector-charging-active:before {
+    background-color: mat-color($mat-blue, 600);
+  }
+
+  .charger-connector-charging-active-text {
+    color: white;
+    text-shadow: 0 0 4px white, 0 0 18px white;
+  }
+
+  .charger-connector-charging-inactive {
+    background-color: mat-color($mat-blue, 600);
+    border: 2px solid darken(mat-color($mat-blue, 600), 15%);
+  }
+
+  .charger-connector-faulted {
+    background-color: mat-color($mat-red, 600);
+    border: 2px solid darken(mat-color($mat-red, 600), 15%);
+  }
+
+  .charger-connector-unavailable {
+    background-color: mat-color($mat-grey, 600);
+    border: 2px solid darken(mat-color($mat-grey, 600), 15%);
+  }
+
+  .charger-connector-suspended-evse {
+    background-color: mat-color($mat-blue, 600);
+    border: 2px solid darken(mat-color($mat-blue, 600), 15%);
+  }
+
+  .charger-connector-suspended-ev {
+    background-color: mat-color($mat-blue, 600);
+    border: 2px solid darken(mat-color($mat-blue, 600), 15%);
+  }
+
+  .charger-connector-preparing,
+  .charger-connector-finishing {
+    background-color: mat-color($mat-orange, 600);
+    border: 2px solid darken(mat-color($mat-orange, 600), 15%);
+  }
+
+  .charger-connector-reserved {
+    background-color: mat-color($mat-orange, 600);
+    border: 2px solid darken(mat-color($mat-orange, 600), 15%);
+  }
+
+  .charger-connector-unknown {
+    background-color: mat-color($mat-grey, 600);
+    border: 2px solid darken(mat-color($mat-grey, 600), 15%);
+  }
+}

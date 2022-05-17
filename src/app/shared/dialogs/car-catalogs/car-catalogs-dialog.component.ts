@@ -9,6 +9,7 @@ import { CarCatalogsDialogTableDataSource } from './car-catalogs-dialog-table-da
 
 @Component({
   templateUrl: '../dialog-table-data.component.html',
+  styleUrls: ['../dialog-table-data.component.scss']
 })
 export class CarCatalogsDialogComponent extends DialogTableDataComponent<CarCatalog> {
   public constructor(

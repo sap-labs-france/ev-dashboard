@@ -16,3 +16,13 @@ $topbar-x: topbar-x !default;
 $bottombar-x: bottombar-x !default;
 $margin-bottom: 0 0 10px 0 !default;
 $margin-base-vertical: 15px !default;
+
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1400px,
+  3xl: 2000px
+);

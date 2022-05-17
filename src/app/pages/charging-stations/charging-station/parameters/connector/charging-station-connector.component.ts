@@ -24,6 +24,7 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
   @Input() public formConnectorsArray: FormArray;
   @Input() public isAdmin!: boolean;
   @Input() public isPublic!: boolean;
+  @Input() public readOnly: boolean;
   @Input() public manualConfiguration!: boolean;
   @Output() public connectorChanged = new EventEmitter<any>();
 
@@ -37,20 +38,18 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
     { key: CurrentType.AC, description: 'chargers.alternating_current' },
     { key: CurrentType.DC, description: 'chargers.direct_current' },
   ];
-
   public phaseAssignmentToGridMapThreePhased = [
     { description: 'chargers.phase_combinations.three_phased.cs_1_g_1', phaseAssignmentToGrid: { csPhaseL1: OCPPPhase.L1, csPhaseL2: OCPPPhase.L2, csPhaseL3: OCPPPhase.L3 } },
     { description: 'chargers.phase_combinations.three_phased.cs_1_g_2', phaseAssignmentToGrid: { csPhaseL1: OCPPPhase.L2, csPhaseL2: OCPPPhase.L3, csPhaseL3: OCPPPhase.L1 } },
     { description: 'chargers.phase_combinations.three_phased.cs_1_g_3', phaseAssignmentToGrid: { csPhaseL1: OCPPPhase.L3, csPhaseL2: OCPPPhase.L1, csPhaseL3: OCPPPhase.L2 } },
   ];
-
   public phaseAssignmentToGridMapSinglePhased = [
     { description: 'chargers.phase_combinations.single_phased.cs_1_g_1', phaseAssignmentToGrid: { csPhaseL1: OCPPPhase.L1, csPhaseL2: null, csPhaseL3: null } },
     { description: 'chargers.phase_combinations.single_phased.cs_1_g_2', phaseAssignmentToGrid: { csPhaseL1: OCPPPhase.L2, csPhaseL2: null, csPhaseL3: null } },
     { description: 'chargers.phase_combinations.single_phased.cs_1_g_3', phaseAssignmentToGrid: { csPhaseL1: OCPPPhase.L3, csPhaseL2: null, csPhaseL3: null } },
   ];
-
   public phaseAssignmentToGridMap = this.phaseAssignmentToGridMapThreePhased;
+  public initialized = false;
 
   public formConnectorGroup: FormGroup;
   public connectorID!: AbstractControl;
@@ -142,7 +141,6 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
     this.numberOfConnectedPhase = this.formConnectorGroup.controls['numberOfConnectedPhase'];
     this.phaseAssignmentToGrid = this.formConnectorGroup.controls['phaseAssignmentToGrid'];
     this.tariffID = this.formConnectorGroup.controls['tariffID'];
-    this.loadConnector();
     this.phaseAssignmentToGrid.enable();
     if (!this.isAdmin) {
       this.type.disable();
@@ -150,6 +148,8 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
       this.amperagePerPhase.disable();
       this.numberOfConnectedPhase.disable();
     }
+    this.initialized = true;
+    this.loadConnector();
   }
 
   public ngOnChanges() {
@@ -157,7 +157,7 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
   }
 
   public loadConnector() {
-    if (this.connector && this.formConnectorGroup) {
+    if (this.initialized && this.connector && this.formConnectorGroup) {
       const chargePoint = Utils.getChargePointFromID(this.chargingStation, this.connector.chargePointID);
       // Update connector values
       this.type.setValue(this.connector.type);
@@ -199,10 +199,6 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
       if (this.connector.tariffID) {
         this.tariffID.setValue(this.connector.tariffID);
       }
-      // Force refresh the form
-      this.formConnectorGroup.updateValueAndValidity();
-      this.formConnectorGroup.markAsPristine();
-      this.formConnectorGroup.markAllAsTouched();
     }
   }
 

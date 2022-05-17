@@ -18,11 +18,12 @@ import { Site } from '../../../../types/Site';
 import { TenantComponents } from '../../../../types/Tenant';
 import { Utils } from '../../../../utils/Utils';
 import { SiteMainComponent } from './main/site-main.component';
-import { SiteOcpiComponent } from './site-ocpi/site-ocpi.component';
+import { SiteOcpiComponent } from './ocpi/site-ocpi.component';
 
 @Component({
   selector: 'app-site',
   templateUrl: 'site.component.html',
+  styleUrls: ['site.component.scss']
 })
 export class SiteComponent extends AbstractTabComponent implements OnInit {
   @Input() public currentSiteID!: string;
@@ -49,7 +50,7 @@ export class SiteComponent extends AbstractTabComponent implements OnInit {
     private router: Router,
     protected activatedRoute: ActivatedRoute,
     protected windowService: WindowService) {
-    super(activatedRoute, windowService, ['common', 'site-ocpi'], false);
+    super(activatedRoute, windowService, ['main', 'ocpi'], false);
     this.ocpiActive = this.componentService.isActive(TenantComponents.OCPI);
     this.ocpiHasVisibleFields = true;
   }
@@ -57,16 +58,11 @@ export class SiteComponent extends AbstractTabComponent implements OnInit {
   public ngOnInit() {
     // Init the form
     this.formGroup = new FormGroup({});
-    this.readOnly = this.dialogMode === DialogMode.VIEW;
-    if (this.currentSiteID) {
-      this.loadSite();
-    } else if (this.activatedRoute && this.activatedRoute.params) {
-      this.activatedRoute.params.subscribe((params: Params) => {
-        this.currentSiteID = params['id'];
-      });
-    }
     // Handle Dialog mode
+    this.readOnly = this.dialogMode === DialogMode.VIEW;
     Utils.handleDialogMode(this.dialogMode, this.formGroup);
+    // Load Site
+    this.loadSite();
   }
 
   public loadSite() {
@@ -77,6 +73,10 @@ export class SiteComponent extends AbstractTabComponent implements OnInit {
         this.site = site;
         // Check if OCPI has to be displayed
         this.ocpiHasVisibleFields = site.projectFields.includes('tariffID');
+        if (this.readOnly) {
+          // Async call for letting the sub form groups to init
+          setTimeout(() => this.formGroup.disable(), 0);
+        }
         // Update form group
         this.formGroup.updateValueAndValidity();
         this.formGroup.markAsPristine();
@@ -99,18 +99,6 @@ export class SiteComponent extends AbstractTabComponent implements OnInit {
     this.siteOcpiComponent?.publicChanged(publicValue);
   }
 
-  public refresh() {
-    this.loadSite();
-  }
-
-  public saveSite(site: Site) {
-    if (this.currentSiteID) {
-      this.updateSite(site);
-    } else {
-      this.createSite(site);
-    }
-  }
-
   public closeDialog(saved: boolean = false) {
     if (this.dialogRef) {
       this.dialogRef.close(saved);
@@ -120,6 +108,14 @@ export class SiteComponent extends AbstractTabComponent implements OnInit {
   public close() {
     Utils.checkAndSaveAndCloseDialog(this.formGroup, this.dialogService,
       this.translateService, this.saveSite.bind(this), this.closeDialog.bind(this));
+  }
+
+  public saveSite(site: Site) {
+    if (this.currentSiteID) {
+      this.updateSite(site);
+    } else {
+      this.createSite(site);
+    }
   }
 
   private createSite(site: Site) {

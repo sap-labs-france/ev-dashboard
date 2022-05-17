@@ -2,6 +2,17 @@
 export enum ServerAction {
   UNKNOWN_ACTION = 'Unknown',
 
+  SAP_CONCUR_REQUEST = 'SapConcurRequest',
+  RECAPTCHA_REQUEST = 'RecaptchaRequest',
+  GREENCOM_REQUEST = 'GreencomRequest',
+  STRIPE_REQUEST = 'StripeRequest',
+  IOTHINK_REQUEST = 'IOThinkRequest',
+  LACROIX_REQUEST = 'LacroixRequest',
+  EV_DATABASE_REQUEST = 'EVDatabaseRequest',
+  WIT_REQUEST = 'WitRequest',
+  SAP_SMART_CHARGING_REQUEST = 'SapSmartChargingRequest',
+
+  DEPRECATED_REST_ENDPOINT = 'DeprecatedRestEndpoint',
   LOGIN = 'Login',
   LOGOUT = 'Logout',
   PASSWORD_RESET = 'Reset',
@@ -52,14 +63,16 @@ export enum ServerAction {
   BOOT_NOTIFICATIONS = 'BootNotifications',
   STATUS_NOTIFICATIONS = 'StatusNotifications',
 
+  TRANSACTION_START = 'TransactionStart',
+  TRANSACTION_STOP = 'TransactionStop',
   TRANSACTION_SOFT_STOP = 'TransactionSoftStop',
   TRANSACTION_DELETE = 'TransactionDelete',
   TRANSACTIONS_DELETE = 'TransactionsDelete',
   UPDATE_TRANSACTION = 'UpdateTransaction',
 
-  LOGGINGS = 'Loggings',
-  LOGGING = 'Logging',
-  LOGGINGS_EXPORT = 'LoggingsExport',
+  LOGS = 'Logs',
+  LOG = 'Log',
+  LOGS_EXPORT = 'LogsExport',
 
   CHARGING_STATIONS = 'ChargingStations',
 
@@ -114,6 +127,7 @@ export enum ServerAction {
   INTEGRATION_CONNECTION_DELETE = 'IntegrationConnectionDelete',
 
   ROAMING = 'Roaming',
+
   OCPI_SETTINGS = 'OcpiSettings',
   OCPI_CLIENT_INITIALIZATION = 'OcpiClientInitialization',
   OCPI_ENDPOINT_CREATE = 'OcpiEndpointCreate',
@@ -128,50 +142,62 @@ export enum ServerAction {
   OCPI_ENDPOINT_SEND_EVSE_STATUSES = 'OcpiEndpointSendEVSEStatuses',
   OCPI_ENDPOINT_SEND_TOKENS = 'OcpiEndpointSendTokens',
   OCPI_ENDPOINT_GENERATE_LOCAL_TOKEN = 'OcpiEndpointGenerateLocalToken',
-  OCPI_ENDPOINTS = 'OcpiEndpoints',
-  OCPI_ENDPOINT = 'OcpiEndpoint',
-  OCPI_REGISTER = 'OcpiRegister',
-  OCPI_UNREGISTER = 'OcpiUnregister',
-  OCPI_AUTHORIZE_TOKEN = 'OcpiAuthorizeToken',
-  OCPI_COMMAND = 'OcpiCommand',
-  OCPI_PUT_TOKEN = 'OcpiPutToken',
-  OCPI_PATCH_TOKEN = 'OcpiPatchToken',
-  OCPI_PATCH_LOCATION = 'OcpiPatchLocation',
-  OCPI_PATCH_STATUS = 'OcpiPatchStatus',
-  OCPI_PATCH_SESSION = 'OcpiPatchSession',
-  OCPI_PUT_LOCATION = 'OcpiPutLocation',
-  OCPI_PUT_SESSION = 'OcpiPutSession',
-  OCPI_CHECK_CDRS = 'OcpiCheckCdrs',
-  OCPI_CHECK_SESSIONS = 'OcpiCheckSessions',
-  OCPI_CHECK_LOCATIONS = 'OcpiCheckLocations',
-  OCPI_CHECK_TOKENS = 'OcpiCheckTokens',
-  OCPI_PUSH_TOKEN = 'OcpiPushToken',
-  OCPI_PUSH_TOKENS = 'OcpiPushTokens',
-  OCPI_PUSH_SESSION = 'OcpiPushSession',
-  OCPI_PUSH_SESSIONS = 'OcpiPushSessions',
-  OCPI_PUSH_EVSE_STATUSES = 'OcpiPushEVSEStatuses',
-  OCPI_PUSH_CDRS = 'OcpiPushCdrs',
-  OCPI_PULL_CDRS = 'OcpiPullCdrs',
-  OCPI_PULL_LOCATIONS = 'OcpiPullLocations',
-  OCPI_PULL_SESSIONS = 'OcpiPullSessions',
-  OCPI_PULL_TOKENS = 'OcpiPullTokens',
-  OCPI_START_SESSION = 'OcpiStartSession',
-  OCPI_STOP_SESSION = 'OcpiStopSession',
-  OCPI_RESERVE_NOW = 'OcpiReserveNow',
-  OCPI_UNLOCK_CONNECTOR = 'OcpiUnlockConnector',
-  OCPI_GET_VERSIONS = 'OcpiGetVersions',
-  OCPI_GET_ENDPOINT_VERSIONS = 'OcpiGetEndpointVersions',
-  OCPI_GET_LOCATIONS = 'OcpiGetLocations',
-  OCPI_GET_TOKEN = 'OcpiGetToken',
-  OCPI_GET_TARIFF = 'OcpiGetTariff',
-  OCPI_GET_TARIFFS = 'OcpiGetTariffs',
-  OCPI_POST_CREDENTIALS = 'OcpiPostCredentials',
-  OCPI_DELETE_CREDENTIALS = 'OcpiDeleteCredentials',
   OCPI_ENDPOINT_UPDATE = 'OcpiEndpointUpdate',
   OCPI_ENDPOINT_REGISTER = 'OcpiEndpointRegister',
   OCPI_ENDPOINT_UNREGISTER = 'OcpiEndpointUnregister',
   OCPI_ENDPOINT_DELETE = 'OcpiEndpointDelete',
+  OCPI_ENDPOINTS = 'OcpiEndpoints',
+  OCPI_ENDPOINT = 'OcpiEndpoint',
+  OCPI_REGISTER = 'OcpiRegister',
+  OCPI_UNREGISTER = 'OcpiUnregister',
+  OCPI_GET_VERSIONS = 'OcpiGetVersions',
+  OCPI_GET_ENDPOINT_VERSIONS = 'OcpiGetEndpointVersions',
+  OCPI_CREATE_CREDENTIALS = 'OcpiCreateCredentials',
+  OCPI_UPDATE_CREDENTIALS = 'OcpiUpdateCredentials',
+  OCPI_DELETE_CREDENTIALS = 'OcpiDeleteCredentials',
 
+  OCPI_CPO_REQUEST = 'OcpiCpoRequest',
+  OCPI_CPO_GET_SERVICES = 'OcpiCpoGetServices',
+  OCPI_CPO_COMMAND = 'OcpiCpoCommand',
+  OCPI_CPO_UPDATE_STATUS = 'OcpiCpoUpdateStatus',
+  OCPI_CPO_CHECK_CDRS = 'OcpiCpoCheckCdrs',
+  OCPI_CPO_CHECK_SESSIONS = 'OcpiCpoCheckSessions',
+  OCPI_CPO_GET_SESSIONS = 'OcpiCpoGetSessions',
+  OCPI_CPO_PUSH_SESSIONS = 'OcpiCpoPushSessions',
+  OCPI_CPO_START_SESSION = 'OcpiCpoStartSession',
+  OCPI_CPO_STOP_SESSION = 'OcpiCpoStopSession',
+  OCPI_CPO_CHECK_LOCATIONS = 'OcpiCpoCheckLocations',
+  OCPI_CPO_GET_LOCATIONS = 'OcpiCpoGetLocations',
+  OCPI_CPO_GET_CDRS = 'OcpiCpoGetCdrs',
+  OCPI_CPO_PUSH_EVSE_STATUSES = 'OcpiCpoPushEVSEStatuses',
+  OCPI_CPO_PUSH_CDRS = 'OcpiCpoPushCdrs',
+  OCPI_CPO_GET_TOKENS = 'OcpiCpoGetTokens',
+  OCPI_CPO_GET_TOKEN = 'OcpiCpoGetToken',
+  OCPI_CPO_UPDATE_TOKEN = 'OcpiCpoUpdateToken',
+  OCPI_CPO_AUTHORIZE_TOKEN = 'OcpiCpoAuthorizeToken',
+  OCPI_CPO_GET_TARIFFS = 'OcpiCpoGetTariffs',
+
+  OCPI_EMSP_REQUEST = 'OcpiEmspRequest',
+  OCPI_EMSP_GET_SERVICES = 'OcpiEmspGetServices',
+  OCPI_EMSP_COMMAND = 'OcpiEmspCommand',
+  OCPI_EMSP_AUTHORIZE_TOKEN = 'OcpiEmspAuthorizeToken',
+  OCPI_EMSP_UPDATE_LOCATION = 'OcpiEmspUpdateLocation',
+  OCPI_EMSP_GET_LOCATIONS = 'OcpiEmspGetLocations',
+  OCPI_EMSP_GET_SESSIONS = 'OcpiEmspGetSessions',
+  OCPI_EMSP_GET_SESSION = 'OcpiEmspGetSession',
+  OCPI_EMSP_UPDATE_SESSION = 'OcpiEmspUpdateSession',
+  OCPI_EMSP_START_SESSION = 'OcpiEmspStartSession',
+  OCPI_EMSP_STOP_SESSION = 'OcpiEmspStopSession',
+  OCPI_EMSP_UPDATE_TOKENS = 'OcpiEmspUpdateTokens',
+  OCPI_EMSP_GET_CDR = 'OcpiEmspGetCdr',
+  OCPI_EMSP_GET_CDRS = 'OcpiEmspGetCdrs',
+  OCPI_EMSP_GET_TOKENS = 'OcpiEmspGetTokens',
+  OCPI_EMSP_CREATE_CDR = 'OcpiEmspCreateCdr',
+  OCPI_EMSP_RESERVE_NOW = 'OcpiEmspReserveNow',
+  OCPI_EMSP_UNLOCK_CONNECTOR = 'OcpiEmspUnlockConnector',
+  OCPI_EMSP_GET_TARIFF = 'OcpiEmspGetTariff',
+
+  OICP_CPO_REQUEST = 'OicpCpoRequest',
   OICP_SETTINGS = 'OicpSettings',
   OICP_ENDPOINT_CREATE = 'OicpEndpointCreate',
   OICP_ENDPOINT_PING = 'OicpEndpointPing',
@@ -207,6 +233,7 @@ export enum ServerAction {
 
   DB_WATCH = 'DBWatch',
   DB_MONITOR = 'DBMonitor',
+  MONITORING = 'Monitoring',
 
   EXPRESS_SERVER = 'ExpressServer',
   ODATA_SERVER = 'ODataServer',
@@ -233,30 +260,19 @@ export enum ServerAction {
   CONSUMPTION = 'Consumption',
   REBUILD_TRANSACTION_CONSUMPTIONS = 'RebuildTransactionConsumptions',
 
-  WS_CLIENT_ERROR = 'WSClientError',
-  WS_CLIENT_INFO = 'WSClientInfo',
+  WS_SERVER_MESSAGE = 'WsServerMessage',
+  WS_SERVER_CONNECTION = 'WsServerConnection',
+  WS_SERVER_CONNECTION_PING = 'WsServerConnectionPing',
+  WS_SERVER_CONNECTION_CLOSE = 'WsServerConnectionClose',
+  WS_SERVER_CONNECTION_OPEN = 'WsServerConnectionOpen',
+  WS_SERVER_CONNECTION_ERROR = 'WsServerConnectionError',
 
-  WS_CONNECTION = 'WSConnection',
-  WS_MESSAGE = 'WSMessage',
-  WS_CONNECTION_PINGED = 'WSConnectionPinged',
-  WS_CONNECTION_OPENED = 'WSConnectionOpened',
-  WS_CONNECTION_CLOSED = 'WSConnectionClosed',
-
-  WS_JSON_CONNECTION_OPENED = 'WSJsonConnectionOpened',
-  WS_JSON_CONNECTION_CLOSED = 'WSJsonConnectionClosed',
-  WS_JSON_CONNECTION_ERROR = 'WSJsonConnectionError',
-
-  WS_REST_CONNECTION_OPENED = 'WSRestConnectionOpened',
-  WS_REST_CONNECTION_CLOSED = 'WSRestConnectionClosed',
-  WS_REST_CONNECTION_ERROR = 'WSRestConnectionError',
-
-  WS_REST_CLIENT_ERROR_RESPONSE = 'WSRestClientErrorResponse',
-  WS_REST_CLIENT_MESSAGE = 'WSRestClientMessage',
-  WS_REST_CLIENT_SEND_MESSAGE = 'WSRestClientSendMessage',
-  WS_REST_CLIENT_CONNECTION = 'WSRestClientConnection',
-  WS_REST_CLIENT_CONNECTION_CLOSED = 'WSRestClientConnectionClosed',
-  WS_REST_CLIENT_CONNECTION_OPENED = 'WSRestClientConnectionOpened',
-  WS_REST_CLIENT_CONNECTION_ERROR = 'WSRestClientConnectionError',
+  WS_CLIENT_ERROR = 'WsClientError',
+  WS_CLIENT_MESSAGE = 'WsClientMessage',
+  WS_CLIENT_CONNECTION = 'WsClientConnection',
+  WS_CLIENT_CONNECTION_CLOSE = 'WsClientConnectionClose',
+  WS_CLIENT_CONNECTION_OPEN = 'WsClientConnectionOpen',
+  WS_CLIENT_CONNECTION_ERROR = 'WsClientConnectionError',
 
   NOTIFICATION = 'Notification',
   CHARGING_STATION_STATUS_ERROR = 'ChargingStationStatusError',
@@ -420,6 +436,7 @@ export enum ServerAction {
 
   BILLING = 'Billing',
   BILLING_TRANSACTION = 'BillingTransaction',
+  BILLING_SYNCHRONIZE_USER = 'BillingSynchronizeUser',
   BILLING_FORCE_SYNCHRONIZE_USER = 'BillingForceSynchronizeUser',
   CHECK_BILLING_CONNECTION = 'CheckBillingConnection',
   BILLING_TAXES = 'BillingTaxes',
@@ -432,8 +449,8 @@ export enum ServerAction {
   BILLING_PAYMENT_METHODS = 'BillingPaymentMethods',
   BILLING_DELETE_PAYMENT_METHOD = 'BillingDeletePaymentMethod',
   BILLING_CHARGE_INVOICE = 'BillingChargeInvoice',
-  BILLING_WEB_HOOK = 'BillingWebHook',
   BILLING_TEST_DATA_CLEANUP = 'BillingTestDataCleanup',
+  BILLING_BILL_PENDING_TRANSACTION = 'BillingBillPendingTransaction',
 
   PRICING = 'Pricing',
   PRICING_DEFINITION = 'PricingDefinition',
@@ -441,6 +458,7 @@ export enum ServerAction {
   PRICING_DEFINITION_CREATE = 'PricingDefinitionCreate',
   PRICING_DEFINITION_UPDATE = 'PricingDefinitionUpdate',
   PRICING_DEFINITION_DELETE = 'PricingDefinitionDelete',
+  PRICING_MODEL_RESOLVE = 'PricingModelResolve',
 
   MONGO_DB = 'MongoDB',
 
@@ -458,7 +476,7 @@ export enum ServerAction {
 }
 
 // RESTful API
-export enum ServerRoute {
+export enum RESTServerRoute {
   REST_SIGNIN = 'signin',
   REST_SIGNON = 'signon',
   REST_SIGNOUT = 'signout',
@@ -479,8 +497,8 @@ export enum ServerRoute {
   REST_CHARGING_STATIONS_REMOTE_START = 'charging-stations/:id/remote/start',
   REST_CHARGING_STATIONS_REMOTE_STOP = 'charging-stations/:id/remote/stop',
   REST_CHARGING_STATIONS_UNLOCK_CONNECTOR = 'charging-stations/:id/connectors/:connectorId/unlock',
-  REST_CHARGING_STATIONS_GET_COMPOSITE_SCHEDULE = 'charging-stations/:id/compositeschedule',
-  REST_CHARGING_STATIONS_GET_DIAGNOSTICS = 'charging-stations/:id/diagnostics',
+  REST_CHARGING_STATIONS_GET_COMPOSITE_SCHEDULE = 'charging-stations/:id/composite-schedule/get',
+  REST_CHARGING_STATIONS_GET_DIAGNOSTICS = 'charging-stations/:id/diagnostics/get',
   REST_CHARGING_STATIONS_FIRMWARE_UPDATE = 'charging-stations/:id/firmware/update',
   REST_CHARGING_STATIONS_CHANGE_AVAILABILITY = 'charging-stations/:id/availability/change',
   REST_CHARGING_STATIONS_RESERVE_NOW = 'charging-stations/:id/reserve/now',
@@ -517,6 +535,8 @@ export enum ServerRoute {
   REST_TRANSACTION_CDR = 'transactions/:id/ocpi/cdr',
   REST_TRANSACTION_CDR_EXPORT = 'transactions/:id/ocpi/cdr/export',
   REST_TRANSACTION_CONSUMPTIONS = 'transactions/:id/consumptions',
+  REST_TRANSACTION_START = 'transactions/start',
+  REST_TRANSACTION_STOP = 'transactions/:id/stop',
   REST_TRANSACTION_SOFT_STOP = 'transactions/:id/soft-stop',
   REST_TRANSACTIONS_REFUND_ACTION = 'transactions/action/refund',
   REST_TRANSACTIONS_REFUND = 'transactions/status/refund',
@@ -572,13 +592,12 @@ export enum ServerRoute {
   REST_CONNECTIONS = 'connections',
   REST_CONNECTION = 'connections/:id',
 
-  REST_LOGGINGS = 'loggings',
-  REST_LOGGING = 'loggings/:id',
-  REST_LOGGINGS_EXPORT = 'loggings/action/export',
+  REST_LOGS = 'logs',
+  REST_LOG = 'logs/:id',
+  REST_LOGS_EXPORT = 'logs/action/export',
 
   REST_NOTIFICATIONS = 'notifications',
   REST_NOTIFICATIONS_END_USER_REPORT_ERROR = 'notifications/action/end-user/report-error',
-
 
   REST_OCPI_ENDPOINT_PING = 'ocpi/endpoints/:id/ping',
   REST_OCPI_ENDPOINT_CHECK_CDRS = 'ocpi/endpoints/:id/cdrs/check',
@@ -595,6 +614,7 @@ export enum ServerRoute {
   REST_OCPI_ENDPOINT = 'ocpi/endpoints/:id',
   REST_OCPI_ENDPOINT_REGISTER = 'ocpi/endpoints/:id/register',
   REST_OCPI_ENDPOINT_UNREGISTER = 'ocpi/endpoints/:id/unregister',
+  REST_OCPI_ENDPOINT_CREDENTIALS = 'ocpi/endpoints/:id/credentials',
 
   REST_OICP_ENDPOINTS = 'oicp/endpoints',
   REST_OICP_ENDPOINT = 'oicp/endpoints/:id',
@@ -655,6 +675,8 @@ export enum ServerRoute {
   REST_BILLING_CHECK = 'billing/check',
   REST_BILLING_CLEAR_TEST_DATA = 'billing/clearTestData',
 
+  REST_BILLING_TAXES = 'billing/taxes',
+
   // BILLING URLs for CRUD operations on INVOICES
   REST_BILLING_INVOICES = 'invoices',
   REST_BILLING_INVOICE = 'invoices/:invoiceID',
@@ -664,7 +686,25 @@ export enum ServerRoute {
 
   // PRICING URLs for CRUD operations
   REST_PRICING_DEFINITIONS = 'pricing-definitions',
-  REST_PRICING_DEFINITION = 'pricing-definitions/:id'
+  REST_PRICING_DEFINITION = 'pricing-definitions/:id',
+
+  // PRICING URLs for Non-CRUD operations
+  REST_PRICING_MODEL_RESOLVE = 'pricing-model/resolve',
+}
+
+export enum OCPIServerRoute {
+  OCPI_CREDENTIALS = 'credentials',
+  OCPI_LOCATIONS = 'locations',
+  OCPI_TOKENS = 'tokens',
+  OCPI_SESSIONS = 'sessions',
+  OCPI_CDRS = 'cdrs',
+  OCPI_COMMANDS = 'commands',
+  OCPI_TARIFFS = 'tariffs',
+  OCPI_VERSIONS = 'versions',
+}
+
+export enum OCPIServerRouteVersions {
+  VERSION_211 = '2.1.1'
 }
 
 export enum ServerProtocol {
@@ -682,6 +722,7 @@ export enum ServerType {
   OICP_SERVER = 'Oicp',
   ODATA_SERVER = 'OData',
   BATCH_SERVER = 'Batch',
+  MONITORING_SERVER = 'Monitoring',
   CENTRAL_SERVER = 'CentralServer',
 }
 

@@ -1,0 +1,17 @@
+<form class="form" [formGroup]="formGroup">
+  <div class="row">
+    <div class="col-md-5">
+      <label *ngIf="!public" class="text-danger">
+        {{"sites.private_limitation" | translate}}
+      </label>
+      <mat-form-field>
+        <input matInput type="text" placeholder="{{'ocpi.tariff_id' | translate}}"
+          [formControl]="tariffID" (input)="tariffIDChanged(tariffID)"/>
+        <mat-error *ngIf="tariffID?.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+        <mat-error *ngIf="tariffID?.errors?.maxlength">
+          <div [translate]="'general.error_max_length'" [translateParams]="{length: 36}"></div>
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+</form>

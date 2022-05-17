@@ -14,6 +14,7 @@ export class ChargingStationChargePointComponent implements OnInit, OnChanges {
   @Input() public formConnectorsArray: FormArray;
   @Input() public isAdmin!: boolean;
   @Input() public isPublic!: boolean;
+  @Input() public readOnly: boolean;
   @Input() public manualConfiguration!: boolean;
   @Output() public chargePointChanged = new EventEmitter<any>();
 
@@ -22,6 +23,7 @@ export class ChargingStationChargePointComponent implements OnInit, OnChanges {
     { key: 3, description: 'chargers.tri_phases' },
     { key: 0, description: 'chargers.direct_current' },
   ];
+  public initialized = false;
 
   public formChargePointGroup: FormGroup;
   public currentType!: AbstractControl;
@@ -100,6 +102,7 @@ export class ChargingStationChargePointComponent implements OnInit, OnChanges {
     this.power = this.formChargePointGroup.controls['power'];
     this.efficiency = this.formChargePointGroup.controls['efficiency'];
     this.connectorIDs = this.formChargePointGroup.controls['connectorIDs'];
+    this.initialized = true;
     this.loadChargePoint();
   }
 
@@ -108,7 +111,7 @@ export class ChargingStationChargePointComponent implements OnInit, OnChanges {
   }
 
   public loadChargePoint() {
-    if (this.chargePoint && this.formChargePointGroup) {
+    if (this.initialized && this.chargePoint && this.formChargePointGroup) {
       // Set data
       this.currentType.setValue(this.chargePoint.currentType);
       this.voltage.setValue(this.chargePoint.voltage);

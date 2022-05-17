@@ -1,8 +1,8 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { ServerRoute } from 'types/Server';
 
-import { ButtonAction, PopupSize } from '../../../types/GlobalType';
+import { ButtonAction } from '../../../types/GlobalType';
+import { RESTServerRoute } from '../../../types/Server';
 import { ButtonColor, TableActionDef } from '../../../types/Table';
 import { TableAction } from './table-action';
 
@@ -22,18 +22,11 @@ export class TableImportAction implements TableAction {
     return this.action;
   }
 
-  protected import(component: ComponentType<unknown>, dialog: MatDialog, endpoint: ServerRoute,
-    entity: string,requiredProperties: string[], optionalProperties?: string[], size?: PopupSize) {
+  protected import(component: ComponentType<unknown>, dialog: MatDialog, endpoint: RESTServerRoute,
+    entity: string,requiredProperties: string[], optionalProperties?: string[]) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
-    // Popup Width
-    dialogConfig.minWidth = size?.minWidth ? size.minWidth + 'vw' : '60vw';
-    dialogConfig.maxWidth = size?.maxWidth ? size.maxWidth + 'vw' : dialogConfig.maxWidth;
-    dialogConfig.width = size?.width ? size.width + 'vw' : dialogConfig.width;
-    // Popup Height
-    dialogConfig.minHeight = size?.minHeight ? size.minHeight + 'vh' : '60vh';
-    dialogConfig.maxHeight = size?.maxHeight ? size.maxHeight + 'vh' : dialogConfig.maxHeight;
-    dialogConfig.height = size?.height ? size.height + 'vh' : dialogConfig.height;
+    dialogConfig.maxWidth = '85vw';
     // CSS
     dialogConfig.panelClass = 'transparent-dialog-container';
     dialogConfig.data = {

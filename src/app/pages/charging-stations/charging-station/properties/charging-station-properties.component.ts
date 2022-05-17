@@ -1,4 +1,4 @@
-import { Component, Injectable, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 import { AppDatePipe } from '../../../../shared/formatters/app-date.pipe';
 import { ChargingStation, ChargingStationCapabilities } from '../../../../types/ChargingStation';
@@ -14,11 +14,12 @@ export interface PropertyDisplay {
 
 @Component({
   selector: 'app-charging-station-properties',
-  templateUrl: './charging-station-properties.component.html',
+  templateUrl: 'charging-station-properties.component.html',
 })
 // @Injectable()
 export class ChargingStationPropertiesComponent implements OnInit {
   @Input() public chargingStation!: ChargingStation;
+
   public chargerFormatted: any = {};
   public displayedProperties: PropertyDisplay[] = [
     { key: 'chargePointVendor', title: 'chargers.vendor' },

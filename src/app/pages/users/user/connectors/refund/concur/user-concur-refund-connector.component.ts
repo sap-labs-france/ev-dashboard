@@ -10,15 +10,16 @@ import { ActionResponse } from 'types/DataResult';
 import { RestResponse } from 'types/GlobalType';
 import { RefundSettings } from 'types/Setting';
 import { TenantComponents } from 'types/Tenant';
+import { User } from 'types/User';
 import { Utils } from 'utils/Utils';
 
 @Component({
   selector: 'app-user-concur-refund-connector',
-  templateUrl: './user-concur-refund-connector.component.html',
+  templateUrl: 'user-concur-refund-connector.component.html',
 })
 // @Injectable()
 export class UserConcurRefundConnectorComponent implements OnInit, OnChanges {
-  @Input() public currentUserID!: string;
+  @Input() public user!: User;
   @Input() public integrationConnections!: IntegrationConnection[];
   @Output() public connectorChanged = new EventEmitter<void>();
 
@@ -89,14 +90,10 @@ export class UserConcurRefundConnectorComponent implements OnInit, OnChanges {
       const state = {
         connector: IntegrationConnectionType.CONCUR,
         appId: this.refundSetting.id,
-        userId: this.currentUserID,
+        userId: this.user?.id,
       };
       this.document.location.href =
-        `${concurSetting.authenticationUrl}/oauth2/v0/authorize\
-        ?client_id=${concurSetting.clientId}\
-        &response_type=code&scope=EXPRPT\
-        &redirect_uri=${returnedUrl}\
-        &state=${JSON.stringify(state)}`;
+      `${concurSetting.authenticationUrl}/oauth2/v0/authorize?client_id=${concurSetting.clientId}&response_type=code&scope=EXPRPT&redirect_uri=${returnedUrl}&state=${JSON.stringify(state)}`;
     }
   }
 

@@ -1,0 +1,56 @@
+.connector-card {
+  background: rgba($brand-primary, 0.1);
+  margin: 20px 0;
+}
+
+.component-invisible {
+  display: none;
+}
+
+.connector-type-select-option {
+  img {
+    filter: invert(1);
+  }
+  &:hover {
+    img {
+      filter: invert(0);
+    }
+  }
+}
+
+.card-connector-icon {
+  font-family: none !important; // Need to be deactivate to display properly SVG icons
+}
+
+.connector-type-select .mat-form-field-infix {
+  height: 45px;
+}
+
+.charging-station-debug-component {
+  height: 50vh;
+  overflow: auto;
+}
+
+.charging-station-connector-component {
+  margin: 20px 0 0 0;
+  height: 100%;
+  overflow: auto;
+}
+
+.charger-dialog-container {}
+
+.charger-param-component {}
+
+.charger-param {
+  height: auto;
+  // overflow: hidden !important;
+  margin-top: 1em !important;
+}
+
+.ocpp-param-field {
+  width: 100%;
+}
+
+.props-header {
+  min-width: 200px;
+}

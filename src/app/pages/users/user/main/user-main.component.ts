@@ -17,21 +17,18 @@ import { TenantComponents } from '../../../../types/Tenant';
 
 @Component({
   selector: 'app-user-main',
-  templateUrl: './user-main.component.html',
+  templateUrl: 'user-main.component.html',
 })
 // @Injectable()
 export class UserMainComponent implements OnInit, OnChanges {
   @Input() public formGroup: FormGroup;
   @Input() public user!: User;
   @Input() public metadata!: Record<string, AuthorizationDefinitionFieldMetadata>;
-  @Input() public currentUserID!: string;
   @Output() public roleChanged = new EventEmitter<UserRole>();
 
   public isAdmin = false;
   public isSuperAdmin = false;
-
   public isBillingComponentActive: boolean;
-
   public originalEmail!: string;
   public userImageSet = false;
   public image = Constants.USER_NO_PICTURE;
@@ -39,6 +36,7 @@ export class UserMainComponent implements OnInit, OnChanges {
   public userLocales: KeyValue[];
   public userStatuses: KeyValue[];
   public userRoles: KeyValue[];
+  public initialized = false;
 
   public id!: AbstractControl;
   public issuer!: AbstractControl;
@@ -154,7 +152,8 @@ export class UserMainComponent implements OnInit, OnChanges {
     if (this.metadata?.status?.mandatory) {
       this.status.setValidators(Validators.required);
     }
-    this.formGroup.updateValueAndValidity();
+    this.initialized = true;
+    this.loadUser();
   }
 
   public ngOnChanges() {
@@ -162,56 +161,56 @@ export class UserMainComponent implements OnInit, OnChanges {
   }
 
   public loadUser() {
-    if (this.user) {
+    if (this.initialized && this.user) {
       if (this.user.id) {
-        this.formGroup.controls.id.setValue(this.user.id);
+        this.id.setValue(this.user.id);
       }
-      this.formGroup.controls.issuer.setValue(this.user.issuer);
+      this.issuer.setValue(this.user.issuer);
       if (this.user.name) {
-        this.formGroup.controls.name.setValue(this.user.name.toUpperCase());
+        this.name.setValue(this.user.name.toUpperCase());
       }
       if (this.user.firstName) {
-        this.formGroup.controls.firstName.setValue(this.user.firstName);
+        this.firstName.setValue(this.user.firstName);
       }
       if (this.user.email) {
-        this.formGroup.controls.email.setValue(this.user.email);
+        this.email.setValue(this.user.email);
         this.originalEmail = this.user.email;
       }
       if (this.user.phone) {
-        this.formGroup.controls.phone.setValue(this.user.phone);
+        this.phone.setValue(this.user.phone);
       }
       if (this.user.mobile) {
-        this.formGroup.controls.mobile.setValue(this.user.mobile);
+        this.mobile.setValue(this.user.mobile);
       }
       if (this.user.status) {
-        this.formGroup.controls.status.setValue(this.user.status);
+        this.status.setValue(this.user.status);
       }
       if (this.user.role) {
-        this.formGroup.controls.role.setValue(this.user.role);
+        this.role.setValue(this.user.role);
       }
       if (this.user.locale) {
-        this.formGroup.controls.locale.setValue(this.user.locale);
+        this.locale.setValue(this.user.locale);
       }
       if (this.user.plateID) {
-        this.formGroup.controls.plateID.setValue(this.user.plateID);
+        this.plateID.setValue(this.user.plateID);
       }
       if (this.user.projectFields.includes('technical')) {
         if (this.user.technical) {
-          this.formGroup.controls.technical.setValue(this.user.technical);
+          this.technical.setValue(this.user.technical);
         }
       } else {
-        this.formGroup.controls.technical.disable();
+        this.technical.disable();
       }
       if (this.user.projectFields.includes('freeAccess') && this.isBillingComponentActive) {
         if (this.user.freeAccess) {
-          this.formGroup.controls.freeAccess.setValue(this.user.freeAccess);
+          this.freeAccess.setValue(this.user.freeAccess);
         }
       } else {
-        this.formGroup.controls.freeAccess.disable();
+        this.freeAccess.disable();
       }
       // Load Image
       if (!this.userImageSet) {
-        this.centralServerService.getUserImage(this.currentUserID).subscribe((userImage) => {
+        this.centralServerService.getUserImage(this.user.id).subscribe((userImage) => {
           this.userImageSet = true;
           if (userImage && userImage.image) {
             this.image = userImage.image.toString();

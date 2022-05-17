@@ -19,7 +19,7 @@ import { Utils } from '../../utils/Utils';
 
 @Component({
   selector: 'app-authentication-register',
-  templateUrl: './authentication-register.component.html',
+  templateUrl: 'authentication-register.component.html',
 })
 
 export class AuthenticationRegisterComponent implements OnInit, OnDestroy {
@@ -28,6 +28,7 @@ export class AuthenticationRegisterComponent implements OnInit, OnDestroy {
   public name: AbstractControl;
   public firstName: AbstractControl;
   public email: AbstractControl;
+  public mobile!: AbstractControl;
   public passwords: FormGroup;
   public password: AbstractControl;
   public repeatPassword: AbstractControl;
@@ -74,6 +75,11 @@ export class AuthenticationRegisterComponent implements OnInit, OnDestroy {
           Validators.required,
           Validators.email,
         ])),
+      mobile: new FormControl('',
+        Validators.compose([
+          Validators.required,
+          Users.validatePhone,
+        ])),
       passwords: new FormGroup({
         password: new FormControl('',
           Validators.compose([
@@ -94,6 +100,7 @@ export class AuthenticationRegisterComponent implements OnInit, OnDestroy {
     // Form
     this.name = this.formGroup.controls['name'];
     this.email = this.formGroup.controls['email'];
+    this.mobile = this.formGroup.controls['mobile'];
     this.passwords = (this.formGroup.controls['passwords'] as FormGroup);
     this.password = this.passwords.controls['password'];
     this.repeatPassword = this.passwords.controls['repeatPassword'];
@@ -110,12 +117,14 @@ export class AuthenticationRegisterComponent implements OnInit, OnDestroy {
     const body = document.getElementsByTagName('body')[0];
     body.classList.add('lock-page');
     body.classList.add('off-canvas-sidebar');
-    // Retrieve tenant's logo
-    this.centralServerService.getTenantLogoBySubdomain(this.subDomain).subscribe((tenantLogo: string) => {
-      if (tenantLogo) {
-        this.tenantLogo = tenantLogo;
-      }
-    });
+    if (this.subDomain) {
+      // Retrieve tenant's logo
+      this.centralServerService.getTenantLogoBySubdomain(this.subDomain).subscribe((tenantLogo: string) => {
+        if (tenantLogo) {
+          this.tenantLogo = tenantLogo;
+        }
+      });
+    }
   }
 
   public ngOnDestroy() {
@@ -176,7 +185,7 @@ export class AuthenticationRegisterComponent implements OnInit, OnDestroy {
             case HTTPError.USER_EULA_ERROR:
               this.messageService.showErrorMessage(this.messages['must_accept_eula']);
               break;
-            // Unexpected error`
+            // Unexpected error
             default:
               Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
           }

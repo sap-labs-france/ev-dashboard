@@ -3,7 +3,6 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Constants } from 'utils/Constants';
 
-import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
@@ -12,23 +11,22 @@ import { Utils } from '../../../utils/Utils';
 
 @Component({
   selector: 'app-car-catalog',
-  templateUrl: 'car-catalog.component.html'
+  templateUrl: 'car-catalog.component.html',
+  styleUrls: ['car-catalog.component.scss']
 })
 export class CarCatalogComponent implements OnInit {
   @Input() public currentCarCatalogID!: number;
   @Input() public inDialog!: boolean;
   @Input() public dialogRef!: MatDialogRef<any>;
   public carCatalog: CarCatalog;
-  public isSuperAdmin: boolean;
   public noImage = Constants.NO_IMAGE;
 
+  // eslint-disable-next-line no-useless-constructor
   public constructor(
     private centralServerService: CentralServerService,
     public spinnerService: SpinnerService,
     private messageService: MessageService,
-    private router: Router,
-    private authorizationService: AuthorizationService) {
-    this.isSuperAdmin = this.authorizationService.isSuperAdmin();
+    private router: Router) {
   }
 
   public ngOnInit(): void {

@@ -10,17 +10,18 @@
     {{'settings.activation_contact_msg' | translate}}
   </div>
 </div>
-
 <div *ngIf="isActive">
   <form class="form" [formGroup]="formGroup" height="100%">
     <div class="mat-toolbar-row left-actions">
       <button mat-raised-button color="warn" (click)="save(formGroup.value)"
         [disabled]="!formGroup.valid || !formGroup.dirty">
-        <mat-icon>save</mat-icon><span>{{'general.save' | translate}}</span>
+        <mat-icon>save</mat-icon>
+        <span>{{'general.save' | translate}}</span>
       </button>
       <button mat-raised-button color="primary" (click)="checkConnection()"
         [disabled]="!formGroup.valid || formGroup.dirty">
-        <mat-icon>link</mat-icon><span>{{'settings.smart_charging.check_connection' | translate}}</span>
+        <mat-icon>link</mat-icon>
+        <span>{{'settings.smart_charging.check_connection' | translate}}</span>
       </button>
     </div>
     <!-- SAP Smart Charging -->

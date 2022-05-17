@@ -23,6 +23,7 @@ import { ChargingStationsRegistrationTokenDialogComponent } from './charging-sta
 @Component({
   selector: 'app-charging-stations-registration-token',
   templateUrl: 'charging-stations-registration-token.component.html',
+  styleUrls: ['charging-stations-registration-token.component.scss']
 })
 export class ChargingStationsRegistrationTokenComponent implements OnInit {
   @Input() public currentTokenID!: string;
@@ -179,7 +180,6 @@ export class ChargingStationsRegistrationTokenComponent implements OnInit {
     dialogConfig.panelClass = 'transparent-dialog-container';
     dialogConfig.data = {
       title: 'chargers.assign_site_area',
-      validateButtonTitle: 'general.select',
       sitesAdminOnly: true,
       rowMultipleSelection: false,
       staticFilter: {

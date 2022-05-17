@@ -18,7 +18,7 @@ import { Utils } from '../../utils/Utils';
 
 @Component({
   selector: 'app-authentication-verify-email',
-  templateUrl: './authentication-verify-email.component.html',
+  templateUrl: 'authentication-verify-email.component.html',
 })
 export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
   public email: AbstractControl;
@@ -68,7 +68,7 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
     this.resetToken = this.route.snapshot.queryParamMap.get('ResetToken');
     this.verificationEmail = this.route.snapshot.queryParamMap.get('Email');
     // Handle Deep Linking
-    if (Utils.isInMobileApp()) {
+    if (Utils.isInMobileApp(this.subDomain)) {
       // Forward to Mobile App
       const mobileAppURL: string = Utils.buildMobileAppDeepLink(
         `verifyAccount/${this.windowService.getSubdomain()}/${this.verificationEmail}/${this.verificationToken}/${this.resetToken}`);
@@ -86,7 +86,7 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
     body.classList.add('lock-page');
     body.classList.add('off-canvas-sidebar');
     // Check email
-    if (this.verificationEmail && !Utils.isInMobileApp()) {
+    if (this.verificationEmail && !Utils.isInMobileApp(this.subDomain)) {
       // Set email
       this.formGroup.controls.email.setValue(this.verificationEmail);
       // Check if verificationToken
@@ -103,12 +103,14 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
         this.verifyEmailAction = false;
       }
     }
-    // Retrieve tenant's logo
-    this.centralServerService.getTenantLogoBySubdomain(this.subDomain).subscribe((tenantLogo: string) => {
-      if (tenantLogo) {
-        this.tenantLogo = tenantLogo;
-      }
-    });
+    if (this.subDomain) {
+      // Retrieve tenant's logo
+      this.centralServerService.getTenantLogoBySubdomain(this.subDomain).subscribe((tenantLogo: string) => {
+        if (tenantLogo) {
+          this.tenantLogo = tenantLogo;
+        }
+      });
+    }
   }
 
   public ngOnDestroy() {
@@ -118,13 +120,9 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
   }
 
   public verifyEmail(data: any) {
-    // Show
     this.spinnerService.show();
-    // Verify Email
     this.centralServerService.verifyEmail({ Email: data.email, VerificationToken: data.verificationToken }).subscribe((response: VerifyEmailResponse) => {
-      // Hide
       this.spinnerService.hide();
-      // Success
       if (response.status && response.status === RestResponse.SUCCESS) {
         if (this.resetToken) {
           // Show message

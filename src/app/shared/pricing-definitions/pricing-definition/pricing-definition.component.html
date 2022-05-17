@@ -1,392 +1,41 @@
-<div class="main-content">
+<div class="main-content vw-90 vh-90 pricing-dialog-size">
   <div class="card card-profile card-testimonial">
     <form [formGroup]="formGroup" class="form" autocomplete="off">
-      <mat-tab-group animationDuration="0ms" disableRipple="true" class="mat-tab-info mat-tabs-with-actions">
+      <mat-tab-group animationDuration="0ms" disableRipple="true" class="mat-tab-info" [class]="dialogRef ? 'mat-tabs-with-actions' : 'mat-tabs-with-close-action'">
         <mat-tab>
           <ng-template mat-tab-label>
             <mat-icon>money</mat-icon>
             <span>{{'settings.pricing.title' | translate}} - {{context}}</span>
           </ng-template>
-          <div class="card-body">
-            <!-- General form -->
-            <div class="card mt-0">
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-md-12">
-                    <div class="form-group">
-                      <mat-form-field>
-                        <input matInput appAutofocus type="text" placeholder="{{'settings.pricing.pricing_definition_name' | translate}}"
-                        [formControl]="name" required/>
-                        <mat-error *ngIf="name?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
-                        <mat-error *ngIf="name?.errors?.maxlength">
-                          <div [translate]="'general.error_max_length'" [translateParams]="{length: 100}"></div>
-                        </mat-error>
-                      </mat-form-field>
-                    </div>
-                    <div class="form-group">
-                      <mat-form-field>
-                        <input matInput type="text" placeholder="{{'settings.pricing.pricing_definition_description' | translate}}"
-                        [formControl]="description" required/>
-                        <mat-error *ngIf="description?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
-                        <mat-error *ngIf="description?.errors?.maxlength">
-                          <div [translate]="'general.error_max_length'" [translateParams]="{length: 100}"></div>
-                        </mat-error>
-                      </mat-form-field>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <!-- from -->
-                  <div class="col-md-3">
-                    <div class="form-group">
-                      <mat-form-field>
-                        <mat-datetimepicker #pickerDateStart type="date" openOnFocus="false" mode="portrait" timeInterval="1">
-                        </mat-datetimepicker>
-                        <mat-datetimepicker-toggle [for]="pickerDateStart" matSuffix></mat-datetimepicker-toggle>
-                        <input matInput [formControl]="validFrom" placeholder="{{'settings.pricing.valid_from' | translate}}"
-                        [matDatetimepicker]="pickerDateStart">
-                        <mat-error *ngIf="validFrom?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
-                      </mat-form-field>
-                    </div>
-                  </div>
-                  <!-- to -->
-                  <div class="col-md-3">
-                    <div class="form-group">
-                      <mat-form-field>
-                        <mat-datetimepicker #pickerDateEnd type="date" openOnFocus="false" mode="portrait" timeInterval="1">
-                        </mat-datetimepicker>
-                        <mat-datetimepicker-toggle [for]="pickerDateEnd" matSuffix></mat-datetimepicker-toggle>
-                        <input matInput [formControl]="validTo" [min]="minDate" placeholder="{{'settings.pricing.valid_to' | translate}}"
-                        [matDatetimepicker]="pickerDateEnd">
-                        <mat-error *ngIf="validTo?.errors?.matDatepickerMin">{{'settings.pricing.end_date_error' | translate}}</mat-error>
-                      </mat-form-field>
-                    </div>
-                  </div>
-                  <!-- connector drop down -->
-                  <div class="col-md-5 offset-1">
-                    <div class="form-group">
-                      <mat-form-field class="connector-type-select">
-                        <mat-select placeholder="{{'settings.pricing.connector_type' | translate}}" [formControl]="connectorType">
-                          <mat-select-trigger>
-                            <div class="d-flex align-items-center">
-                              <mat-icon class="d-flex me-2 mat-select-icon" [svgIcon]="connectorType?.value">
-                              </mat-icon>
-                              <div class="d-flex">
-                                {{connectorType?.value | appConnectorTypeSelection:'text' | translate}}
-                              </div>
-                            </div>
-                          </mat-select-trigger>
-                          <mat-option *ngFor="let connectorType of connectorTypeMap" [value]="connectorType.key" class="connector-type-select-option">
-                            <mat-icon [svgIcon]="connectorType.key" class="mat-select-icon"></mat-icon>
-                            <span>{{connectorType.description | translate}}</span>
-                          </mat-option>
-                        </mat-select>
-                        <mat-error *ngIf="connectorType?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
-                      </mat-form-field>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <!-- connector title -->
-                  <div class="col-md-3 offset-7 pricing-dimension">
-                    <mat-slide-toggle (change)="toggle($event)" id="connectorPower" [checked]="connectorPowerEnabled.value">
-                      {{'settings.pricing.connector_power' | translate}}
-                    </mat-slide-toggle>
-                  </div>
-                  <!-- connector value -->
-                  <div class="col-md-2">
-                    <mat-form-field *ngIf="connectorPowerEnabled.value">
-                      <mat-label>{{'settings.pricing.connector_power_unit' | translate}}</mat-label>
-                      <input matInput type="text" placeholder="{{'settings.pricing.value' | translate}}"
-                      [formControl]="connectorPowerValue" required/>
-                      <mat-error *ngIf="connectorPowerValue?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
-                      <mat-error *ngIf="connectorPowerValue?.errors?.pattern">{{'general.error_number_pattern' | translate}}</mat-error>
-                    </mat-form-field>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- form Dimensions -->
-            <div class="card">
-              <div class="card-body">
-                <!-- Dimensions title -->
-                <div class="row pricing-header">
-                  <div class="col-md-5 text-left">
-                    <span>
-                      {{'settings.pricing.pricing_dimensions_title' | translate}}
-                    </span>
-                  </div>
-                </div>
-                <!-- flatFee dimension -->
-                <div class="row">
-                  <!-- toggle -->
-                  <div class="col-md-2 pricing-dimension">
-                    <mat-slide-toggle (change)="toggle($event)" id="flatFee" [checked]="flatFeeEnabled.value">
-                      {{'settings.pricing.flat_fee' | translate}}
-                    </mat-slide-toggle>
-                  </div>
-                  <!-- value -->
-                  <div class="col-md-2">
-                    <mat-form-field *ngIf="flatFeeEnabled.value">
-                      <mat-label>{{'flat_fee_unit' | appPricingDimensionsUnit}}</mat-label>
-                      <input matInput type="text" placeholder="{{'settings.pricing.value' | translate}}"
-                      [formControl]="flatFeeValue" required/>
-                      <mat-error *ngIf="flatFeeValue?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
-                      <mat-error *ngIf="flatFeeValue?.errors?.pattern">{{'general.error_number_pattern' | translate}}</mat-error>
-                    </mat-form-field>
-                  </div>
-                </div>
-                <!-- energy dimension -->
-                <div class="row">
-                  <!-- toggle -->
-                  <div class="col-md-2 pricing-dimension">
-                    <mat-slide-toggle (change)="toggle($event)" id="energy" [checked]="energyEnabled.value">
-                      {{'settings.pricing.energy' | translate}}
-                    </mat-slide-toggle>
-                  </div>
-                  <!-- value -->
-                  <div class="col-md-2">
-                    <mat-form-field *ngIf="energyEnabled.value">
-                      <mat-label>{{'energy_unit' | appPricingDimensionsUnit}}</mat-label>
-                      <input matInput type="text" placeholder="{{'settings.pricing.value' | translate}}"
-                      [formControl]="energyValue" required/>
-                      <mat-error *ngIf="energyValue?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
-                      <mat-error *ngIf="energyValue?.errors?.pattern">{{'general.error_number_pattern' | translate}}</mat-error>
-                    </mat-form-field>
-                  </div>
-                  <!-- energy stepsizes -->
-                  <span class="stepSize" *ngIf="energyEnabled.value">
-                    <!-- checkbox -->
-                    <div class="col-md-2 offset-1 pricing-dimension">
-                      <mat-checkbox (change)="toggle($event)" id="energyStep" [formControl]="energyStepEnabled" [checked]="energyStepEnabled.value">
-                        {{'settings.pricing.step_size' | translate}}
-                      </mat-checkbox>
-                    </div>
-                    <!-- value -->
-                    <div class="col-md-2">
-                      <mat-form-field *ngIf="energyStepEnabled.value">
-                        <mat-label>{{'energy_step_unit' | appPricingDimensionsUnit }}</mat-label>
-                        <input matInput type="text" placeholder="{{'settings.pricing.value' | translate}}"
-                        [formControl]="energyStepValue" required/>
-                        <mat-error *ngIf="energyStepValue?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
-                        <mat-error *ngIf="energyStepValue?.errors?.pattern">{{'general.error_number_pattern' | translate}}</mat-error>
-                      </mat-form-field>
-                    </div>
-                  </span>
-                </div>
-                <!-- chargingTime dimension -->
-                <div class="row">
-                  <!-- toggle -->
-                  <div class="col-md-2 pricing-dimension">
-                    <mat-slide-toggle (change)="toggle($event)" id="chargingTime" [checked]="chargingTimeEnabled.value">
-                      {{'settings.pricing.charging_time' | translate}}
-                    </mat-slide-toggle>
-                  </div>
-                  <!-- value -->
-                  <div class="col-md-2">
-                    <mat-form-field *ngIf="chargingTimeEnabled.value">
-                      <mat-label>{{'charging_time_unit' | appPricingDimensionsUnit }}</mat-label>
-                      <input matInput type="text" placeholder="{{'settings.pricing.value' | translate}}" id="chargingTime"
-                      [formControl]="chargingTimeValue" required/>
-                      <mat-error *ngIf="chargingTimeValue?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
-                      <mat-error *ngIf="chargingTimeValue?.errors?.pattern">{{'general.error_number_pattern' | translate}}</mat-error>
-                    </mat-form-field>
-                  </div>
-                  <!-- chargingTime step sizes -->
-                  <span class="stepSize" *ngIf="chargingTimeEnabled.value">
-                    <!-- checkbox -->
-                    <div class="col-md-2 offset-1 pricing-dimension">
-                      <mat-checkbox (change)="toggle($event)" id="chargingTimeStep" [formControl]="chargingTimeStepEnabled" [checked]="chargingTimeStepEnabled.value">
-                        {{'settings.pricing.step_size' | translate}}
-                      </mat-checkbox>
-                    </div>
-                    <!-- value -->
-                    <div class="col-md-2">
-                      <mat-form-field *ngIf="chargingTimeStepEnabled.value">
-                        <mat-label>{{'settings.pricing.time_step_unit' | translate}}</mat-label>
-                        <input matInput type="text" placeholder="{{'settings.pricing.value' | translate}}"
-                        [formControl]="chargingTimeStepValue" required/>
-                        <mat-error *ngIf="chargingTimeStepValue?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
-                        <mat-error *ngIf="chargingTimeStepValue?.errors?.pattern">{{'general.error_number_pattern' | translate}}</mat-error>
-                      </mat-form-field>
-                    </div>
-                  </span>
-                </div>
-                <!-- parkingTime dimension -->
-                <div class="row">
-                  <!-- toggle -->
-                  <div class="col-md-2 pricing-dimension">
-                    <mat-slide-toggle (change)="toggle($event)" id="parkingTime" [checked]="parkingTimeEnabled.value">
-                      {{'settings.pricing.parking_time' | translate}}
-                    </mat-slide-toggle>
-                  </div>
-                  <!-- value -->
-                  <div class="col-md-2">
-                    <mat-form-field *ngIf="parkingTimeEnabled.value">
-                      <mat-label>{{'parking_time_unit' | appPricingDimensionsUnit }}</mat-label>
-                      <input matInput type="text" placeholder="{{'settings.pricing.value' | translate}}" id="parkingTime"
-                      [formControl]="parkingTimeValue" required/>
-                      <mat-error *ngIf="parkingTimeValue?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
-                      <mat-error *ngIf="parkingTimeValue?.errors?.pattern">{{'general.error_number_pattern' | translate}}</mat-error>
-                    </mat-form-field>
-                  </div>
-                  <!-- parkingTime step sizes -->
-                  <span class="stepSize" *ngIf="parkingTimeEnabled.value">
-                    <!-- checkbox -->
-                    <div class="col-md-2 offset-1 pricing-dimension">
-                      <mat-checkbox (change)="toggle($event)" id="parkingTimeStep" [formControl]="parkingTimeStepEnabled" [checked]="parkingTimeStepEnabled.value">
-                        {{'settings.pricing.step_size' | translate}}
-                      </mat-checkbox>
-                    </div>
-                    <!-- value -->
-                    <div class="col-md-2">
-                      <mat-form-field *ngIf="parkingTimeStepEnabled.value">
-                        <mat-label>{{'settings.pricing.time_step_unit' | translate }}</mat-label>
-                        <input matInput type="text" placeholder="{{'settings.pricing.value' | translate}}"
-                        [formControl]="parkingTimeStepValue" required/>
-                        <mat-error *ngIf="parkingTimeStepValue?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
-                        <mat-error *ngIf="parkingTimeStepValue?.errors?.pattern">{{'general.error_number_pattern' | translate}}</mat-error>
-                      </mat-form-field>
-                    </div>
-                  </span>
-                </div>
-              </div>
-            </div>
-            <!-- form Restrictions -->
-            <div class="card">
-              <div class="card-body">
-                <!-- Restrictions title -->
-                <div class="row pricing-header">
-                  <div class="col-md-5 text-left">
-                    <span>
-                      {{'settings.pricing.restrictions_title' | translate}}
-                    </span>
-                  </div>
-                </div>
-                <!-- Duration -->
-                <div class="row">
-                  <!-- toggle min duration -->
-                  <div class="col-md-2 pricing-dimension">
-                    <mat-slide-toggle (change)="toggle($event)" id="minDuration" [checked]="minDurationEnabled.value">
-                      {{'settings.pricing.restriction_min_duration' | translate}}
-                    </mat-slide-toggle>
-                  </div>
-                  <!-- value min duration -->
-                  <div class="col-md-2">
-                    <mat-form-field *ngIf="minDurationEnabled.value">
-                      <mat-label>{{'settings.pricing.restriction_min_duration_unit' | translate}}</mat-label>
-                      <input matInput type="text" placeholder="{{'settings.pricing.restriction_min_duration_unit' | translate}}"
-                      [formControl]="minDuration" required/>
-                      <mat-error *ngIf="minDuration?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
-                      <mat-error *ngIf="minDuration?.errors?.pattern">{{'general.error_number_pattern' | translate}}</mat-error>
-                    </mat-form-field>
-                  </div>
-                  <!-- toggle max duration -->
-                  <div class="col-md-2 offset-1 pricing-dimension">
-                    <mat-slide-toggle (change)="toggle($event)" id="maxDuration" [checked]="maxDurationEnabled.value">
-                      {{'settings.pricing.restriction_max_duration' | translate}}
-                    </mat-slide-toggle>
-                  </div>
-                  <!-- value max duration -->
-                  <div class="col-md-2">
-                    <mat-form-field *ngIf="maxDurationEnabled.value">
-                      <mat-label>{{'settings.pricing.restriction_max_duration_unit' | translate}}</mat-label>
-                      <input matInput type="text" placeholder="{{'settings.pricing.restriction_max_duration_unit' | translate}}"
-                      [formControl]="maxDuration" required/>
-                      <mat-error *ngIf="maxDuration?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
-                      <mat-error *ngIf="maxDuration?.errors?.pattern">{{'general.error_number_pattern' | translate}}</mat-error>
-                    </mat-form-field>
-                  </div>
-                </div>
-                <!-- Energy -->
-                <div class="row">
-                  <!-- toggle min energy -->
-                  <div class="col-md-2 pricing-dimension">
-                    <mat-slide-toggle (change)="toggle($event)" id="minEnergyKWh" [checked]="minEnergyKWhEnabled.value">
-                      {{'settings.pricing.restriction_min_energy' | translate}}
-                    </mat-slide-toggle>
-                  </div>
-                  <!-- value min energy -->
-                  <div class="col-md-2">
-                    <mat-form-field *ngIf="minEnergyKWhEnabled.value">
-                      <mat-label>{{'settings.pricing.restriction_min_energy_unit' | translate}}</mat-label>
-                      <input matInput type="text" placeholder="{{'settings.pricing.restriction_min_energy_unit' | translate}}"
-                      [formControl]="minEnergyKWhValue" required/>
-                      <mat-error *ngIf="minEnergyKWhValue?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
-                      <mat-error *ngIf="minEnergyKWhValue?.errors?.pattern">{{'general.error_number_pattern' | translate}}</mat-error>
-                    </mat-form-field>
-                  </div>
-                  <!-- toggle max energy -->
-                  <div class="col-md-2 offset-1 pricing-dimension">
-                    <mat-slide-toggle (change)="toggle($event)" id="maxEnergyKWh" [checked]="maxEnergyKWhEnabled.value">
-                      {{'settings.pricing.restriction_max_energy' | translate}}
-                    </mat-slide-toggle>
-                  </div>
-                  <!-- value max energy -->
-                  <div class="col-md-2">
-                    <mat-form-field *ngIf="maxEnergyKWhEnabled.value">
-                      <mat-label>{{'settings.pricing.restriction_max_energy_unit' | translate}}</mat-label>
-                      <input matInput type="text" placeholder="{{'settings.pricing.restriction_max_energy_unit' | translate}}"
-                      [formControl]="maxEnergyKWhValue" required/>
-                      <mat-error *ngIf="maxEnergyKWhValue?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
-                      <mat-error *ngIf="maxEnergyKWhValue?.errors?.pattern">{{'general.error_number_pattern' | translate}}</mat-error>
-                    </mat-form-field>
-                  </div>
-                </div>
-                <!-- time range -->
-                <div class="row">
-                  <div class="col-md-2 pricing-dimension">
-                    <mat-slide-toggle (change)="toggleTimeRange($event)" id="timeFrom" [checked]="timeRangeEnabled.value">
-                      {{'settings.pricing.restriction_time_range' | translate}}
-                    </mat-slide-toggle>
-                  </div>
-                  <!-- start time -->
-                  <div class="col-md-2">
-                    <mat-form-field *ngIf="timeRangeEnabled.value">
-                      <mat-label>{{'settings.pricing.restriction_start_time' | translate}}</mat-label>
-                      <input matInput type="time" id="timeFromValue" name="timeFromValue" [formControl]="timeFromValue" required/>
-                    </mat-form-field>
-                    <mat-error *ngIf="timeFromValue?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
-                    <mat-error *ngIf='timeToValue?.errors?.timeRangeError'>{{'settings.pricing.pricing_definition_time_range_error' | translate}}</mat-error>
-                  </div>
-                  <!-- end time -->
-                  <div class="col-md-2">
-                    <mat-form-field *ngIf="timeRangeEnabled.value">
-                      <mat-label>{{'settings.pricing.restriction_end_time' | translate}}</mat-label>
-                      <input matInput type="time" id="timeToValue" name="timeToValue" [formControl]="timeToValue" [min]="minDate" required/>
-                    </mat-form-field>
-                    <mat-error *ngIf="timeToValue?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
-                    <mat-error *ngIf='timeToValue?.errors?.timeRangeError'>{{'settings.pricing.pricing_definition_time_range_error' | translate}}</mat-error>
-                  </div>
-                </div>
-                <!-- days of week -->
-                <div class="row">
-                  <!-- toggle days -->
-                  <div class="col-md-2 pricing-dimension">
-                    <mat-slide-toggle (change)="toggleDaysOfWeek($event)" id="daysOfWeek" [checked]="daysOfWeekEnabled.value">
-                      {{'settings.pricing.restriction_days_of_week' | translate}}
-                    </mat-slide-toggle>
-                  </div>
-                  <!-- value days -->
-                  <div class="col-md-2">
-                    <mat-button-toggle-group *ngIf="daysOfWeekEnabled.value" [value]="selectedDays" [formControl]="selectedDays" name="daysOfWeekToggle" aria-label="Days of week" multiple>
-                      <mat-button-toggle *ngFor="let dayNumber of daysOfTheWeek" value={{dayNumber}} class="mat-raised-button days-of-week-button">
-                        <span>{{dayNumber | appDay}}</span>
-                      </mat-button-toggle>
-                    </mat-button-toggle-group>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <div class="card-body mat-tab-dialog-body-content">
+            <app-pricing-definition-main #pricingDefinitionMainComponent [formGroup]="formGroup" [pricingDefinition]="pricingDefinition" [readOnly]="readOnly"></app-pricing-definition-main>
+          </div>
+        </mat-tab>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon>format_list_numbered_rtl</mat-icon>
+            <span>{{'settings.pricing.pricing_dimensions_title' | translate}}</span>
+          </ng-template>
+          <div class="card-body mat-tab-dialog-body-content">
+            <app-pricing-definition-dimensions #pricingDefinitionDimensionsComponent [formGroup]="formGroup" [pricingDefinition]="pricingDefinition" [readOnly]="readOnly"></app-pricing-definition-dimensions>
+          </div>
+        </mat-tab>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon>rule</mat-icon>
+            <span>{{'settings.pricing.restrictions_title' | translate}}</span>
+          </ng-template>
+          <div class="card-body mat-tab-dialog-body-content">
+            <app-pricing-definition-restrictions #pricingDefinitionRestrictionsComponent [formGroup]="formGroup" [pricingDefinition]="pricingDefinition" [readOnly]="readOnly"></app-pricing-definition-restrictions>
           </div>
         </mat-tab>
       </mat-tab-group>
-      <div class="tabs-actions">
-        <button mat-button type="button" (click)="save()" [disabled]="!formGroup.valid || !formGroup.dirty">
+      <div [class]="dialogRef ? 'tabs-actions' : 'tabs-actions-embedded'">
+        <button mat-icon-button *ngIf="!readOnly" type="button" (click)="savePricingDefinition()" title="{{'general.save' | translate}}"
+            [disabled]="!formGroup.valid || !formGroup.dirty">
           <mat-icon>save</mat-icon>
-          <span>{{'general.save' | translate}}</span>
         </button>
-        <button mat-icon-button type="button" *ngIf="inDialog" (click)="close()">
+        <button mat-icon-button type="button" *ngIf="dialogRef" (click)="close()" title="{{'general.close' | translate}}">
           <mat-icon>close</mat-icon>
         </button>
       </div>

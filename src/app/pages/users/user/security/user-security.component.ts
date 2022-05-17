@@ -8,17 +8,17 @@ import { Utils } from '../../../../utils/Utils';
 
 @Component({
   selector: 'app-user-security',
-  templateUrl: './user-security.component.html',
+  templateUrl: 'user-security.component.html',
 })
 // @Injectable()
 export class UserSecurityComponent implements OnInit, OnChanges {
   @Input() public formGroup: FormGroup;
   @Input() public user!: User;
-  @Input() public currentUserID!: string;
 
   public parentErrorStateMatcher = new ParentErrorStateMatcher();
   public hidePassword = true;
   public hideRepeatPassword = true;
+  public initialized = false;
 
   public passwords!: FormGroup;
   public password!: AbstractControl;
@@ -31,17 +31,18 @@ export class UserSecurityComponent implements OnInit, OnChanges {
         Validators.compose([
           Users.passwordWithNoSpace,
           Users.validatePassword,
-        ].concat(!Utils.isEmptyString(this.currentUserID) ? [] : [Validators.required]))),
+        ])),
       repeatPassword: new FormControl('',
         Validators.compose([
           Users.validatePassword,
-        ].concat(!Utils.isEmptyString(this.currentUserID) ? [] : [Validators.required]))),
+        ])),
     }, (passwordFormGroup: FormGroup) => Utils.validateEqual(passwordFormGroup, 'password', 'repeatPassword')));
     // Form
     this.passwords = (this.formGroup.controls['passwords'] as FormGroup);
     this.password = this.passwords.controls['password'];
     this.repeatPassword = this.passwords.controls['repeatPassword'];
-    this.formGroup.updateValueAndValidity();
+    this.initialized = true;
+    this.loadUser();
   }
 
   public ngOnChanges() {
@@ -50,7 +51,7 @@ export class UserSecurityComponent implements OnInit, OnChanges {
 
   // eslint-disable-next-line complexity
   public loadUser() {
-    if (this.user) {
+    if (this.initialized && this.user) {
       // Reset password
       this.passwords.controls.password.setValue('');
       this.passwords.controls.repeatPassword.setValue('');

@@ -12,7 +12,8 @@ interface ComponentChange {
 }
 
 @Component({
-  templateUrl: './release-notes.component.html',
+  templateUrl: 'release-notes.component.html',
+  styleUrls: ['release-notes.component.scss']
 })
 export class ReleaseNotesComponent {
   public releaseNotes: ReleaseNotes[] = [];
@@ -23,13 +24,117 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.6.1',
-        date: new Date('2022-02-15'),
+        version: '2.6.6',
+        date: new Date('2022-05-11'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Removed Limit URL parameter when calling payment methods endpoint`,
+              `Migrated Billing endpoint to the new authorization framework`,
+              `OCPI RFID Cards are created on the fly when Remote Start is triggered by the Roaming platform`,
+              `Never calculate the cost of an OCPI Transaction`,
+              `Do not price the Roaming transaction`,
+              `Ensured OCPP Heartbeart message is correct before being validated with a Json schema`,
+              `Validate OCPP Meter Value requests with a Json schema`,
+              `Do not update Charging Station max power in master/slave`,
+              `Fixed date/time picker when data is entered manually`,
+              `Avoid API User to login using the mobile app`,
+              `Enhanced error management when pushing OCPI Cdr`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.6.5',
+        date: new Date('2022-04-15'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added update of OCPI Credentials`,
+              `Use Session optimized consumptions to send OCPI Session/CDR`,
+              `Fixed OCPI CPO Services call return eMSP ones`,
+              `Added Mobile phone in register user`,
+              `Fixed CSS issues in pop-ups`,
+              `Default Tenant's users can reset their passwords`,
+              `Added RFID Card filter in Refund session list`,
+              `Added Authorization ID in Session and CDR for Gireve`,
+              `Return HTTP 404 when image is not found`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.6.4',
+        date: new Date('2022-04-08'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Align OCPI endpoints with REST`,
+              `Enhanced OCPI and Axios logs`,
+              `Fixed missing Logo in master tenant`,
+              `Updated German translation`,
+              `Aligned Charging Profile's amperage floating points with OCPP specifications`,
+              `Fixed new OCPI authorization is requested during Start Transaction when IOP sends a Remote Start`,
+              `Fixed cannot scroll tabs in User pop-up`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.6.3',
+        date: new Date('2022-03-30'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Enhanced Web Socket management in Charging Station's server`,
+              `Do not override Transaction ID in Meter Value from Connector if it's empty`,
+              `Simplified Web Socket traces`,
+              `Migrated Car endpoint to the new authorization framework`,
+              `Avoid too many payment attempts`,
+              `Fixed OCPI must return Charging when OCPP status is SuspendedEV/EVSE`,
+              `Fixed OCPI Sessions sync after Transaction has been taken place`,
+              `Use human readable name for OCPI Site Area`,
+              `Display default images in Car and Company list when not provided`,
+              `Aligned Organization endpoint with new authorization framework`,
+              `Show pricing details in the Session History and Session In Progress dialogs`,
+              `Cannot assign a non public Site Area in Edit Charging Station`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.6.2',
+        date: new Date('2022-02-26'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Fixed OCPI eMSP Session and CDR modules`,
+              `Display OCPI Charging Stations in read-only`,
+              `Centralize Transaction Start/Stop in one endpoint`,
+              `Aligned minimum Consumption and Duration to Afirev standard`,
+              `Allow to remote Start Transaction when Billing is active and Site Area has no Access Control`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.6.1',
+        date: new Date('2022-02-19'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Fixed OCPI eMSP Locations and Authorize modules`,
               `Soft Stop of faulty ongoing Transactions`,
+              `Adjusted the Roaming Charging Station's status`,
+              `Fixed filtering of Logs based on date time value set in URL`,
+              `Updated Charging Station's template with new Vendors`,
+              `Clear Site Admin flag when User's role is changed to Admin`,
             ],
           },
         ],
@@ -821,10 +926,10 @@ export class ReleaseNotesComponent {
               `Add billing invoices detailed description support`,
               `Add assets information refresh interval support`,
               `Add notification support for billing payment failure`,
-              `Fix RFID Card ID support to search filter`,
+              `Fix RFID support to search filter`,
               `Fix consumption computation from MeterValues Current.Import measurand`,
               `Fix organizations read permission for admin role with also site admin role`,
-              `Allow site admin role to view transaction RFID Card ID if done on their site`,
+              `Allow site admin role to view transaction RFID if done on their site`,
               `Add a visual ID field to RFID Card record`,
               `Fix RFID Cards CSV import/export`,
               `Fix user site assignment`,
@@ -1168,7 +1273,7 @@ export class ReleaseNotesComponent {
               `Retrieve the completed Transactions via the new RESTful endpoint`,
               `Crypto key used for encrypting sensitive data can now be changed per tenant`,
               `Admin users are now notified when new end-users register and need their account activated`,
-              `Export RFID Card ID and Description in Session History`,
+              `Export RFID and Description in Session History`,
               `Do not try to retrieve the Settings if Tenant's components are not active`,
               `Added Legrand model 059011 in Charging Station's template`,
               `Fixed Car's thumbnails not displayed`,
@@ -1393,7 +1498,7 @@ export class ReleaseNotesComponent {
               `Fixed CSS in Car Catalog popup for mid-size screens`,
               `Enhanced performances of the Carousel control used to display all the Car's images`,
               `Hide car features in front if Car component is not active`,
-              `Added new Delta OCPP parameter in templates to correctly read RFID Card ID with shorter length like New Motion`,
+              `Added new Delta OCPP parameter in templates to correctly read RFID with shorter length like New Motion`,
               `Setup backup notification email server in AWS in addition to the one in SCP`,
               `Fixed translation issues`,
             ],
@@ -1407,7 +1512,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
-              `Start a Transaction with a given Car and RFID Card ID`,
+              `Start a Transaction with a given Car and RFID`,
               `Fixed refresh of power when nbr phase is changed`,
               `Fixed Instant Power progress bar with wrong Max Power in Charging Station's list`,
               `Added debug logs for Charging Stations connection issues`,
@@ -1613,7 +1718,7 @@ export class ReleaseNotesComponent {
               `Enable the Basic users to activate/deactivate his Notifications`,
               `Allow high volume of data in export functions`,
               `Migration tasks for aligning the local RFID Cards with local Users + default description`,
-              `For RFID Card ID to be in upper case when created manually`,
+              `For RFID to be in upper case when created manually`,
               `Auto refresh RFID Card management list`,
               `Build Smart Charging safe Car + Override with Meter Values`,
               `Enable vehicle identifier in OCPP for the Ebee Charging Station`,
@@ -1657,7 +1762,7 @@ export class ReleaseNotesComponent {
               `Added ATESS vendor for Smart Charging support`,
               `Fixed number of phase in Smart Charging when no consumption`,
               `Added Logo and Address in Tenant management`,
-              `Added RFID Card ID in Sessions' lists`,
+              `Added RFID in Sessions' lists`,
               `Always try to get the User during Start Transaction when ACL is not active on Site Area`,
               `Ignore OCPP Status Notification on Connector ID '0'`,
               `Get OCPI public Locations with no Charging Station`,
@@ -1712,7 +1817,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
-              `Handle multiple OCPI Authorizations with the same RFID Card ID`,
+              `Handle multiple OCPI Authorizations with the same RFID`,
               `Convert the total parking time in hours in the OCPI CDR`,
               `Put back the price in the OCPI CDR even if the pricing is not active`,
             ],
@@ -2397,7 +2502,7 @@ export class ReleaseNotesComponent {
               `Admin Users can enable/disable Notifications`,
               `Fix stop authorization for Basic User`,
               `Admins cannot delete a Session that has already been refunded`,
-              `User's RFID Card ID is not regenerated when not existing in profile`,
+              `User's RFID is not regenerated when not existing in profile`,
               `Hide column when the browser is resized`,
               `Both OCPI and Notification entities has been migrated to TypeScript`,
             ],
@@ -2561,7 +2666,7 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Improved security of Charging Stations registration with a token generated by an Admin or a Site Admin user`,
-              `Fixed save of User's profile with multiple same RFID Card IDs`,
+              `Fixed save of User's profile with multiple same RFIDs`,
               `Email validation in User's profile should be the same as in the backend`,
               `Fixed Basic User cannot change his picture in his profile`,
               `Fixed filter named Type not working in Session Refund view`,
@@ -2584,7 +2689,7 @@ export class ReleaseNotesComponent {
             name: 'Front-end',
             changes: [
               `Add the number of Sessions in Statistics`,
-              `Cannot assign an RFID Card ID which is already used by another user`,
+              `Cannot assign an RFID which is already used by another user`,
               `Force mandatory fields to be highlighted in Charging Station Settings`,
               `Added Sessions with a wrong inactivity in Faulty Sessions`,
               `Added multi-selection in all drop-down filters`,

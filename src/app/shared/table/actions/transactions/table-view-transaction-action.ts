@@ -3,7 +3,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { DialogData, DialogParams } from 'types/Authorization';
 
-import { ScreenSize } from '../../../../types/GlobalType';
 import { TableActionDef } from '../../../../types/Table';
 import { TransactionButtonAction } from '../../../../types/Transaction';
 import { TableViewAction } from '../table-view-action';
@@ -29,13 +28,6 @@ export class TableViewTransactionAction extends TableViewAction {
 
   private viewTransaction(transactionDialogComponent: ComponentType<unknown>, dialog: MatDialog,
     dialogParams: DialogParams<TransactionDialogData>, refresh?: () => Observable<void>) {
-    super.view(transactionDialogComponent, dialog, dialogParams, refresh, {
-      minWidth: ScreenSize.XXXL,
-      maxWidth: ScreenSize.XXXL,
-      width: ScreenSize.XXXL,
-      minHeight: ScreenSize.XL,
-      maxHeight: ScreenSize.XL,
-      height: ScreenSize.XL
-    });
+    super.view(transactionDialogComponent, dialog, dialogParams, refresh);
   }
 }

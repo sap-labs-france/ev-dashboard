@@ -10,12 +10,13 @@ import { Constants } from '../../../../utils/Constants';
 
 @Component({
   selector: 'app-tenant-main',
-  templateUrl: './tenant-main.component.html',
+  templateUrl: 'tenant-main.component.html',
 })
 export class TenantMainComponent implements OnInit, OnChanges {
   @Input() public formGroup: FormGroup;
-  @Input() public currentTenantID!: string;
   @Input() public tenant!: Tenant;
+
+  public initialized = false;
 
   public id!: AbstractControl;
   public name!: AbstractControl;
@@ -62,15 +63,16 @@ export class TenantMainComponent implements OnInit, OnChanges {
     this.email = this.formGroup.controls['email'];
     this.subdomain = this.formGroup.controls['subdomain'];
     this.subdomain = this.formGroup.controls['subdomain'];
+    this.initialized = true;
+    this.loadTenant();
   }
 
   public ngOnChanges() {
-    // Load
     this.loadTenant();
   }
 
   public loadTenant() {
-    if (this.tenant) {
+    if (this.initialized && this.tenant) {
       // Init main part
       this.id.setValue(this.tenant.id);
       this.name.setValue(this.tenant.name);
@@ -80,7 +82,7 @@ export class TenantMainComponent implements OnInit, OnChanges {
         this.address = this.tenant.address;
       }
       // Get Tenant logo
-      this.centralServerService.getTenantLogo(this.currentTenantID).subscribe((tenantLogo) => {
+      this.centralServerService.getTenantLogo(this.tenant.id).subscribe((tenantLogo) => {
         this.logo = tenantLogo ? tenantLogo : Constants.NO_IMAGE;
       });
     }

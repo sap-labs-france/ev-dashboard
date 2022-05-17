@@ -36,6 +36,7 @@ interface ProfileType {
 @Component({
   selector: 'app-charging-plans',
   templateUrl: 'charging-plans.component.html',
+  styleUrls: ['charging-plans.component.scss'],
   providers: [
     ChargingPlansEditableTableDataSource,
     ChargingPlansTableDataSource,
@@ -266,9 +267,9 @@ export class ChargingPlansComponent implements OnInit, AfterViewInit {
           this.spinnerService.hide();
           if (response.status === RestResponse.SUCCESS) {
             // Remove from array
-            this.chargingProfiles = this.chargingProfiles.filter((exitingChargingProfile) => exitingChargingProfile.id !== chargingProfile.id);
             this.messageService.showSuccessMessage(this.translateService.instant('chargers.smart_charging.clear_profile_success',
               { chargeBoxID: this.chargingStation.id }));
+            this.refresh();
           } else {
             Utils.handleError(JSON.stringify(response),
               this.messageService, this.translateService.instant('chargers.smart_charging.clear_profile_error'));
@@ -309,16 +310,10 @@ export class ChargingPlansComponent implements OnInit, AfterViewInit {
         restRequest(chargingProfile).subscribe((response) => {
           this.spinnerService.hide();
           if (response.status === RestResponse.SUCCESS) {
-            // Push new profile in array
-            const foundChargingProfile = this.chargingProfiles.find((exitingChargingProfile) => exitingChargingProfile.id === chargingProfile.id);
-            if (!foundChargingProfile) {
-              chargingProfile.id = response.id;
-              this.chargingProfilesControl.setValue(chargingProfile);
-              this.chargingProfiles.push(chargingProfile);
-            }
             this.messageService.showSuccessMessage(
               this.translateService.instant('chargers.smart_charging.power_limit_plan_success',
                 { chargeBoxID: this.chargingStation.id }));
+            this.refresh();
           } else {
             Utils.handleError(JSON.stringify(response),
               this.messageService, this.translateService.instant('chargers.smart_charging.power_limit_plan_error'));

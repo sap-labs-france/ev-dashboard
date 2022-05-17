@@ -29,6 +29,7 @@ import { ChargePointStatus, Connector } from '../../../types/ChargingStation';
       </div>
     </div>
   `,
+  styleUrls: ['charging-stations-connector-cell.component.scss'],
 })
 @Injectable()
 export class ChargingStationsConnectorCellComponent extends CellContentTemplateDirective {
@@ -101,6 +102,6 @@ export class AppChargingStationsFormatConnectorPipe implements PipeTransform {
   }
 
   public buildConnectorText(connector: Connector): string {
-    return `chargers.status_${connector.status.toLowerCase()}`;
+    return `chargers.status_${connector.status ? connector.status.toLowerCase() : 'unknown'}`;
   }
 }

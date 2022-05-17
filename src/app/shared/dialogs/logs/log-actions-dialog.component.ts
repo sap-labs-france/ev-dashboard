@@ -9,6 +9,7 @@ import { LogActionsDialogTableDataSource } from './log-actions-dialog-table-data
 
 @Component({
   templateUrl: '../dialog-table-data.component.html',
+  styleUrls: ['../dialog-table-data-xs.component.scss']
 })
 export class LogActionsDialogComponent extends DialogTableDataComponent<LogAction> {
   public constructor(

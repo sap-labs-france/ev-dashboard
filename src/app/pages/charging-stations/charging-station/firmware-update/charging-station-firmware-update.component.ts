@@ -17,7 +17,7 @@ import { Utils } from '../../../../utils/Utils';
 
 @Component({
   selector: 'app-charging-station-firmware-update',
-  templateUrl: './charging-station-firmware-update.component.html',
+  templateUrl: 'charging-station-firmware-update.component.html',
 })
 export class ChargingStationFirmwareUpdateComponent implements OnInit {
   @Input() public charger!: ChargingStation;

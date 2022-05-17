@@ -6,7 +6,6 @@ import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { MatSort } from '@angular/material/sort';
 import { MatDatetimepickerInputEvent } from '@mat-datetimepicker/core';
 import { TranslateService } from '@ngx-translate/core';
-import * as moment from 'moment';
 import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
 import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, takeWhile } from 'rxjs/operators';
@@ -149,16 +148,25 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       };
       for (const picker of this.datePickers) {
         picker.picker.updateCalendars();
+        picker.hide();
       }
       this.filterChanged(filterDef);
     }
   }
 
-  public dateRangeChangedDirectly(filterDef: TableFilterDef, event: any) {
-    const splitRangeValue = event.target.value.split(' - ');
+  public dateRangeChangedDirectly(parent: MatFormField, filterDef: TableFilterDef) {
+    let startDate;
+    let endDate;
+    const parentHTMLElement = (parent.getConnectedOverlayOrigin().nativeElement as HTMLElement);
+    for(const picker of this.datePickers) {
+      if (parentHTMLElement.contains(picker.picker.pickerContainer.nativeElement as HTMLElement)) {
+        startDate = picker.picker.startDate;
+        endDate = picker.picker.endDate;
+      }
+    }
     this.dateRangeChanged(filterDef, {
-      startDate: moment(splitRangeValue[0], filterDef.dateRangeTableFilterDef.locale.displayFormat),
-      endDate: moment(splitRangeValue[1], filterDef.dateRangeTableFilterDef.locale.displayFormat)
+      startDate,
+      endDate
     });
   }
 
@@ -181,19 +189,19 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       // Capitalize first letter of search id
       const filterIdInCap = filter.httpId;
       if (filter.currentValue === 'null' || !filter.currentValue) {
-        this.windowService.deleteSearch(filterIdInCap);
+        this.windowService.deleteUrlParameter(filterIdInCap);
       } else {
         switch (filter.type) {
           case FilterType.DIALOG_TABLE: {
-            this.windowService.setSearch(filterIdInCap, filter.currentValue[0].key);
+            this.windowService.setUrlParameter(filterIdInCap, filter.currentValue[0].key);
             break;
           }
           case FilterType.DROPDOWN: {
-            this.windowService.setSearch(filterIdInCap, filter.currentValue);
+            this.windowService.setUrlParameter(filterIdInCap, filter.currentValue);
             break;
           }
           case FilterType.DATE: {
-            this.windowService.setSearch(filterIdInCap, JSON.stringify(filter.currentValue));
+            this.windowService.setUrlParameter(filterIdInCap, JSON.stringify(filter.currentValue));
             break;
           }
           default: {
@@ -251,10 +259,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     // Disable outside click close
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
-    // Init button title
-    dialogConfig.data = {
-      validateButtonTitle: 'general.set_filter',
-    };
+    dialogConfig.data = {};
     Utils.buildDependentFilters(filterDef);
     console.log(filterDef.dialogComponentData);
     if (filterDef.dialogComponentData) {

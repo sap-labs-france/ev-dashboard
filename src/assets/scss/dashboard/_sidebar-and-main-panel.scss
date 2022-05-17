@@ -212,7 +212,6 @@
     div.logo-mini {
       opacity: 1;
       margin-left: 25px;
-      margin-right: 15px;
     }
     a.logo-normal {
       display: block;
@@ -275,8 +274,6 @@
       background-color: rgba(180, 180, 180, .3);
     }
     .photo {
-      width: 45px;
-      height: 45px;
       overflow: hidden;
       float: left;
       z-index: 5;
@@ -286,7 +283,8 @@
       @include shadow-big();
       @extend .animation-transition-general;
       img {
-        width: 100%;
+        width: 3.5em;
+        height: 3.5em;
       }
     }
     a {

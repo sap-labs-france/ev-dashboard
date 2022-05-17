@@ -5,7 +5,7 @@ import { AssetSchneiderConnectionType } from '../../../../../types/Setting';
 
 @Component({
   selector: 'app-settings-schneider-connection',
-  templateUrl: './schneider-asset-connection.component.html'
+  templateUrl: 'schneider-asset-connection.component.html'
 })
 export class SchneiderAssetConnectionComponent implements OnInit {
   @Input() public formGroup!: FormGroup;

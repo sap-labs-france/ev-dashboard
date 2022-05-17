@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 
 import { AuthorizationService } from '../../../../services/authorization.service';
@@ -19,19 +19,20 @@ import { Utils } from '../../../../utils/Utils';
 
 @Component({
   selector: 'app-charging-station-parameters',
-  templateUrl: './charging-station-parameters.component.html',
+  templateUrl: 'charging-station-parameters.component.html',
 })
 // @Injectable()
 export class ChargingStationParametersComponent implements OnInit, OnChanges {
   @Input() public chargingStation!: ChargingStation;
-  @Input() public dialogRef!: MatDialogRef<any>;
   @Input() public formGroup: FormGroup;
+  @Input() public readOnly: boolean;
 
   public userLocales: KeyValue[];
   public isAdmin!: boolean;
   public ocpiActive: boolean;
   public isSmartChargingComponentActive = false;
 
+  public id!: AbstractControl;
   public chargingStationURL!: AbstractControl;
   public public!: AbstractControl;
   public excludeFromSmartCharging: AbstractControl;
@@ -128,11 +129,13 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
         Validators.maxLength(36)
       ])
     ));
+    this.formGroup.addControl('excludeFromSmartCharging', new FormControl(false));
     // Form
+    this.id = this.formGroup.controls['id'];
     this.chargingStationURL = this.formGroup.controls['chargingStationURL'];
     this.public = this.formGroup.controls['public'];
     this.issuer = this.formGroup.controls['issuer'];
-    this.excludeFromSmartCharging = new FormControl(false);
+    this.excludeFromSmartCharging = this.formGroup.controls['excludeFromSmartCharging'];
     this.forceInactive = this.formGroup.controls['forceInactive'];
     this.manualConfiguration = this.formGroup.controls['manualConfiguration'];
     this.masterSlave = this.formGroup.controls['masterSlave'];
@@ -146,7 +149,6 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
     this.tariffID = this.formGroup.controls['tariffID'];
     this.longitude = this.coordinates.at(0);
     this.latitude = this.coordinates.at(1);
-    this.formGroup.updateValueAndValidity();
     this.maximumPowerAmps.disable();
     this.masterSlave.disable();
   }
@@ -167,7 +169,7 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
         this.formGroup.disable();
       }
       // Init form with values
-      this.formGroup.controls.id.setValue(this.chargingStation.id);
+      this.id.setValue(this.chargingStation.id);
       this.issuer.setValue(this.chargingStation.issuer);
       this.forceInactive.setValue(this.chargingStation.forceInactive);
       this.manualConfiguration.setValue(this.chargingStation.manualConfiguration);
@@ -183,9 +185,7 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
       if (!this.chargingStation.capabilities?.supportChargingProfiles) {
         this.excludeFromSmartCharging.setValue(true);
         this.excludeFromSmartCharging.disable();
-      } else if (this.excludeFromSmartCharging) {
-        // Only save this property, when charging station supports charging profiles
-        this.formGroup.addControl('excludeFromSmartCharging', this.excludeFromSmartCharging);
+      } else {
         this.excludeFromSmartCharging.setValue(this.chargingStation.excludeFromSmartCharging);
       }
       if (Utils.containsGPSCoordinates(this.chargingStation.coordinates)) {
@@ -196,9 +196,6 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
       if (this.chargingStation.siteArea) {
         this.siteArea.setValue(this.chargingStation.siteArea.name);
       }
-      if (!this.chargingStation.issuer) {
-        this.formGroup.disable();
-      }
       // URL not editable in case OCPP v1.6 or above
       if (this.chargingStation.ocppProtocol === OCPPProtocol.JSON) {
         this.chargingStationURL.disable();
@@ -206,10 +203,6 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
       if (this.chargingStation.chargePoints && !this.manualConfiguration.value) {
         this.maximumPower.disable();
       }
-      // Force refresh the form
-      this.formGroup.updateValueAndValidity();
-      this.formGroup.markAsPristine();
-      this.formGroup.markAllAsTouched();
     }
   }
 
@@ -256,7 +249,6 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
     dialogConfig.panelClass = 'transparent-dialog-container';
     dialogConfig.data = {
       title: 'chargers.assign_site_area',
-      validateButtonTitle: 'general.select',
       sitesAdminOnly: true,
       rowMultipleSelection: false,
       staticFilter: {
@@ -266,16 +258,11 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
     // Open
     this.dialog.open(SiteAreasDialogComponent, dialogConfig).afterClosed().subscribe((result) => {
       if (!Utils.isEmptyArray(result) && result[0].objectRef) {
-        this.chargingStation.siteArea = ((result[0].objectRef) as SiteArea);
-        this.chargingStation.site = this.chargingStation.siteArea.site;
-        this.siteArea.setValue(this.chargingStation.siteArea.name);
-        this.siteAreaID.setValue(this.chargingStation.siteArea.id);
-        if (!this.chargingStation.site.public) {
-          this.public.setValue(false);
-          this.public.disable();
-        } else {
-          this.public.enable();
-        }
+        const siteArea = result[0].objectRef as SiteArea;
+        this.chargingStation.siteArea = siteArea;
+        this.chargingStation.site = siteArea.site;
+        this.siteArea.setValue(siteArea.name);
+        this.siteAreaID.setValue(siteArea.id);
         this.formGroup.markAsDirty();
       }
     });

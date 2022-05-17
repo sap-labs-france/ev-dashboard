@@ -4,15 +4,15 @@ import { TranslateService } from '@ngx-translate/core';
 import { Chart, ChartData, ChartDataset, ChartOptions, Color, TooltipItem } from 'chart.js';
 import * as moment from 'moment';
 import { AppUnitPipe } from 'shared/formatters/app-unit.pipe';
+import { DataResultAuthorizationActions } from 'types/Authorization';
 import { ChartAxisNames, ConsumptionChartDatasetOrder } from 'types/Chart';
 
-import { AuthorizationService } from '../../../../../services/authorization.service';
 import { CentralServerService } from '../../../../../services/central-server.service';
 import { SpinnerService } from '../../../../../services/spinner.service';
 import { AppDatePipe } from '../../../../../shared/formatters/app-date.pipe';
 import { AppDecimalPipe } from '../../../../../shared/formatters/app-decimal.pipe';
 import { AppDurationPipe } from '../../../../../shared/formatters/app-duration.pipe';
-import { SiteAreaConsumption, SiteAreaValueTypes } from '../../../../../types/SiteArea';
+import { SiteArea, SiteAreaConsumption, SiteAreaValueTypes } from '../../../../../types/SiteArea';
 import { ConsumptionUnit } from '../../../../../types/Transaction';
 import { Utils } from '../../../../../utils/Utils';
 
@@ -22,9 +22,8 @@ import { Utils } from '../../../../../utils/Utils';
 })
 
 export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit {
-  @Input() public siteAreaId!: string;
-  @Input() public siteArea!: SiteAreaConsumption;
-
+  @Input() public siteArea!: SiteArea;
+  @Input() public siteAreasAuthorizations: DataResultAuthorizationActions;
   @ViewChild('primary', { static: true }) public primaryElement!: ElementRef;
   @ViewChild('secondary', { static: true }) public secondaryElement!: ElementRef;
   @ViewChild('warning', { static: true }) public warningElement!: ElementRef;
@@ -32,11 +31,11 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
   @ViewChild('danger', { static: true }) public dangerElement!: ElementRef;
   @ViewChild('chart', { static: true }) public chartElement!: ElementRef;
 
+  public siteAreaConsumption!: SiteAreaConsumption;
   public selectedUnit = ConsumptionUnit.KILOWATT;
   public dateControl!: AbstractControl;
   public startDate = moment().startOf('d').toDate();
   public endDate = moment().endOf('d').toDate();
-  private canCrudSiteArea = false;
   private graphCreated = false;
   private lineTension = 0;
   private data: ChartData = {
@@ -61,6 +60,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
     [ChartAxisNames.AMPERAGE]: true,
   };
 
+  // eslint-disable-next-line no-useless-constructor
   public constructor(
     private spinnerService: SpinnerService,
     private centralServerService: CentralServerService,
@@ -68,10 +68,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
     private datePipe: AppDatePipe,
     private durationPipe: AppDurationPipe,
     private decimalPipe: AppDecimalPipe,
-    private unitPipe: AppUnitPipe,
-    private authorizationService: AuthorizationService) {
-    this.canCrudSiteArea = this.authorizationService.canCreateSiteArea() && this.authorizationService.canReadSiteArea() &&
-      this.authorizationService.canUpdateSiteArea() && this.authorizationService.canDeleteSiteArea();
+    private unitPipe: AppUnitPipe) {
   }
 
   public ngOnInit() {
@@ -81,7 +78,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
         Validators.required,
       ]));
     this.dateControl.setValue(this.startDate);
-    if(this.canCrudSiteArea){
+    if(this.siteAreasAuthorizations.canCreate && this.siteArea.canRead && this.siteArea.canUpdate && this.siteArea.canDelete){
       this.visibleDatasets.push(...[
         ConsumptionChartDatasetOrder.LIMIT_WATTS,
         ConsumptionChartDatasetOrder.ASSET_CONSUMPTION_WATTS,
@@ -109,14 +106,14 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
   public refresh() {
     this.spinnerService.show();
     // Change Date for testing e.g.:
-    this.centralServerService.getSiteAreaConsumption(this.siteAreaId, this.startDate, this.endDate)
+    this.centralServerService.getSiteAreaConsumption(this.siteArea.id, this.startDate, this.endDate)
       .subscribe((siteAreaData) => {
         this.spinnerService.hide();
-        this.siteArea = siteAreaData;
+        this.siteAreaConsumption = siteAreaData;
         this.prepareOrUpdateGraph();
       }, (error) => {
         this.spinnerService.hide();
-        delete this.siteArea;
+        delete this.siteAreaConsumption;
       });
   }
 
@@ -262,7 +259,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
   }
 
   private canDisplayGraph() {
-    return this.siteArea?.values?.length > 0;
+    return this.siteAreaConsumption?.values?.length > 0;
   }
 
   private refreshDataSets() {
@@ -280,7 +277,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
     const netConsumptionsInstantAmpsDataSet = this.getDataSetByOrder(ConsumptionChartDatasetOrder.NET_CONSUMPTION_AMPS);
     const limitWattsDataSet = this.getDataSetByOrder(ConsumptionChartDatasetOrder.LIMIT_WATTS);
     const limitAmpsDataSet = this.getDataSetByOrder(ConsumptionChartDatasetOrder.LIMIT_AMPS);
-    for (const consumption of this.siteArea.values) {
+    for (const consumption of this.siteAreaConsumption.values) {
       const dateTime = new Date(consumption.startedAt);
       labels.push(dateTime.getTime());
       if (assetConsumptionsInstantPowerDataSet) {

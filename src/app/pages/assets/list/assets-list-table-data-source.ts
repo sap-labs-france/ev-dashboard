@@ -207,16 +207,11 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
       rowActions.push(this.retrieveConsumptionAction);
     }
     // More action
+    moreActions.addActionInMoreActions(openInMaps);
     if(asset.canDelete) {
       moreActions.addActionInMoreActions(this.deleteAction);
     }
-    if (!Utils.isEmptyArray(moreActions.getActionsInMoreActions())) {
-      moreActions.addActionInMoreActions(openInMaps);
-      rowActions.push(moreActions.getActionDef());
-    } else {
-      // More action is empty we put actions directly in row
-      rowActions.push(openInMaps);
-    }
+    rowActions.push(moreActions.getActionDef());
     return rowActions;
   }
 
@@ -278,9 +273,6 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
     this.issuerFilter = new IssuerFilter().getFilterDef();
     this.siteFilter = new SiteTableFilter([this.issuerFilter]).getFilterDef();
     this.siteAreaFilter = new SiteAreaTableFilter([this.issuerFilter, this.siteFilter]).getFilterDef();
-    // Filter visibility will be defined by auth
-    this.siteFilter.visible = false;
-    this.siteAreaFilter.visible = false;
     // Create filters
     const filters: TableFilterDef[] = [
       this.issuerFilter,

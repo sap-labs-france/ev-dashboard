@@ -11,7 +11,8 @@ import { Constants } from '../../../../utils/Constants';
 import { Utils } from '../../../../utils/Utils';
 
 @Component({
-  templateUrl: './analytics-link-dialog.component.html',
+  templateUrl: 'analytics-link-dialog.component.html',
+  styleUrls: ['analytics-link-dialog.component.scss']
 })
 export class AnalyticsLinkDialogComponent implements OnInit {
   public formGroup!: FormGroup;
@@ -26,7 +27,7 @@ export class AnalyticsLinkDialogComponent implements OnInit {
   public submitButtonType!: any;
 
   public constructor(
-    protected dialogRef: MatDialogRef<AnalyticsLinkDialogComponent>,
+    public dialogRef: MatDialogRef<AnalyticsLinkDialogComponent>,
     private translateService: TranslateService,
     private dialogService: DialogService,
     private appUserMultipleRolesPipe: AppUserMultipleRolesPipe,
@@ -64,7 +65,7 @@ export class AnalyticsLinkDialogComponent implements OnInit {
     this.url = this.formGroup.controls['url'];
     // Register key event
     Utils.registerSaveCloseKeyEvents(this.dialogRef, this.formGroup,
-      this.setLinkAndClose.bind(this), this.close.bind(this));
+      this.save.bind(this), this.close.bind(this));
     // Get Create/Update submit translation
     this.submitButtonType = this.submitButtonTranslation();
   }
@@ -75,10 +76,10 @@ export class AnalyticsLinkDialogComponent implements OnInit {
 
   public close() {
     Utils.checkAndSaveAndCloseDialog(this.formGroup, this.dialogService,
-      this.translateService, this.setLinkAndClose.bind(this), this.closeDialog.bind(this));
+      this.translateService, this.save.bind(this), this.closeDialog.bind(this));
   }
 
-  public setLinkAndClose(analyticsLink: SettingLink) {
+  public save(analyticsLink: SettingLink) {
     this.dialogRef.close(analyticsLink);
   }
 

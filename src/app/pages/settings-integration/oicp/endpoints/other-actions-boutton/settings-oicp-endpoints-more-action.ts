@@ -1,6 +1,6 @@
 import { TableAction } from '../../../../../shared/table/actions/table-action';
 import { ButtonAction } from '../../../../../types/GlobalType';
-import { ButtonColor, TableActionDef } from '../../../../../types/Table';
+import { ButtonActionColor, TableActionDef } from '../../../../../types/Table';
 import { SettingsOICPStartJobAction } from './settings-oicp-start-job-action';
 
 export class SettingsOicpEndpointsMoreAction implements TableAction {
@@ -8,7 +8,7 @@ export class SettingsOicpEndpointsMoreAction implements TableAction {
     id: ButtonAction.MORE,
     type: 'button',
     icon: 'more_horiz',
-    color: ButtonColor.PRIMARY,
+    color: ButtonActionColor.PRIMARY,
     name: 'general.edit',
     tooltip: 'general.tooltips.more',
     isDropdownMenu: true,

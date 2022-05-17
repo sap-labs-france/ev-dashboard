@@ -1,6 +1,7 @@
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { ButtonActionColor, ButtonAction } from 'types/GlobalType';
 
 import { CentralServerService } from '../../../../services/central-server.service';
 import { DialogService } from '../../../../services/dialog.service';
@@ -8,7 +9,7 @@ import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
 import { ChargingStation, ChargingStationButtonAction, OCPPGeneralResponse } from '../../../../types/ChargingStation';
 import { ActionResponse } from '../../../../types/DataResult';
-import { ButtonColor, ButtonType, TableActionDef } from '../../../../types/Table';
+import { TableActionDef } from '../../../../types/Table';
 import { Utils } from '../../../../utils/Utils';
 import { TableAction } from '../table-action';
 
@@ -23,7 +24,7 @@ export class TableChargingStationsRebootAction implements TableAction {
     id: ChargingStationButtonAction.REBOOT,
     type: 'button',
     icon: 'repeat',
-    color: ButtonColor.WARN,
+    color: ButtonActionColor.WARN,
     name: 'chargers.reboot_action',
     tooltip: 'general.tooltips.reboot',
     action: this.reboot,
@@ -41,7 +42,7 @@ export class TableChargingStationsRebootAction implements TableAction {
       translateService.instant('chargers.reboot_required_title'),
       translateService.instant('chargers.reboot_required_confirm', { chargeBoxID: chargingStation.id }),
     ).subscribe((result) => {
-      if (result === ButtonType.YES) {
+      if (result === ButtonAction.YES) {
         spinnerService.show();
         // Reboot
         centralServerService.chargingStationReset(chargingStation.id, true).subscribe((response: ActionResponse) => {

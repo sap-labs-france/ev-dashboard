@@ -1,12 +1,13 @@
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import * as FileSaver from 'file-saver';
+import { ButtonActionColor } from 'types/GlobalType';
 
 import { CentralServerService } from '../../../../services/central-server.service';
 import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
 import { BillingButtonAction } from '../../../../types/Billing';
-import { ButtonColor, TableActionDef } from '../../../../types/Table';
+import { TableActionDef } from '../../../../types/Table';
 import { Utils } from '../../../../utils/Utils';
 import { TableAction } from '../table-action';
 
@@ -20,7 +21,7 @@ export class TableDownloadBillingInvoice implements TableAction {
     id: BillingButtonAction.DOWNLOAD_INVOICE,
     type: 'button',
     icon: 'cloud_download',
-    color: ButtonColor.PRIMARY,
+    color: ButtonActionColor.PRIMARY,
     name: 'general.download',
     tooltip: 'invoices.tooltips.download',
     action: this.downloadInvoice,

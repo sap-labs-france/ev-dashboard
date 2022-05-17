@@ -1,5 +1,5 @@
-import { ButtonAction } from '../../../types/GlobalType';
-import { ButtonColor, TableActionDef } from '../../../types/Table';
+import { ButtonActionColor, ButtonAction } from '../../../types/GlobalType';
+import { TableActionDef } from '../../../types/Table';
 import { TableAction } from './table-action';
 
 export class TableStopAction implements TableAction {
@@ -7,7 +7,7 @@ export class TableStopAction implements TableAction {
     id: ButtonAction.STOP,
     type: 'button',
     icon: 'stop',
-    color: ButtonColor.WARN,
+    color: ButtonActionColor.WARN,
     name: 'general.stop',
     tooltip: 'general.tooltips.stop',
   };

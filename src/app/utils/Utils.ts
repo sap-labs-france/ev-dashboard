@@ -16,9 +16,9 @@ import { AppUnitPipe } from '../shared/formatters/app-unit.pipe';
 import { Address } from '../types/Address';
 import { Car, CarCatalog, CarConverter, CarType } from '../types/Car';
 import { ChargePoint, ChargingStation, ChargingStationPowers, Connector, CurrentType, StaticLimitAmps, Voltage } from '../types/ChargingStation';
-import { KeyValue } from '../types/GlobalType';
+import { ButtonAction, KeyValue } from '../types/GlobalType';
 import { MobileType } from '../types/Mobile';
-import { ButtonType, FilterType, TableDataSourceMode, TableFilterDef } from '../types/Table';
+import { FilterType, TableDataSourceMode, TableFilterDef } from '../types/Table';
 import { Constants } from './Constants';
 
 export class Utils {
@@ -185,7 +185,7 @@ export class Utils {
         translateService.instant('general.change_invalid_pending_title'),
         translateService.instant('general.change_invalid_pending_text'),
       ).subscribe((result) => {
-        if (result === ButtonType.DO_NOT_SAVE_AND_CLOSE) {
+        if (result === ButtonAction.DO_NOT_SAVE_AND_CLOSE) {
           closeDialog(false);
         }
       });
@@ -194,9 +194,9 @@ export class Utils {
         translateService.instant('general.change_pending_title'),
         translateService.instant('general.change_pending_text'),
       ).subscribe((result) => {
-        if (result === ButtonType.SAVE_AND_CLOSE) {
+        if (result === ButtonAction.SAVE_AND_CLOSE) {
           save(formGroup.getRawValue());
-        } else if (result === ButtonType.DO_NOT_SAVE_AND_CLOSE) {
+        } else if (result === ButtonAction.DO_NOT_SAVE_AND_CLOSE) {
           closeDialog(false);
         }
       });

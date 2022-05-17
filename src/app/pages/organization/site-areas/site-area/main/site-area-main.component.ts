@@ -4,6 +4,8 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
+import { SiteAreasDialogComponent } from 'shared/dialogs/site-areas/site-areas-dialog.component';
+import { ButtonAction } from 'types/GlobalType';
 
 import { CentralServerService } from '../../../../../services/central-server.service';
 import { ConfigService } from '../../../../../services/config.service';
@@ -15,7 +17,6 @@ import { Address } from '../../../../../types/Address';
 import { RegistrationToken } from '../../../../../types/RegistrationToken';
 import { Site } from '../../../../../types/Site';
 import { SiteArea } from '../../../../../types/SiteArea';
-import { ButtonType } from '../../../../../types/Table';
 import { Constants } from '../../../../../utils/Constants';
 import { Utils } from '../../../../../utils/Utils';
 
@@ -39,6 +40,8 @@ export class SiteAreaMainComponent implements OnInit, OnChanges {
   public name!: AbstractControl;
   public site!: AbstractControl;
   public siteID!: AbstractControl;
+  public parentSiteArea!: AbstractControl;
+  public parentSiteAreaID!: AbstractControl;
   public accessControl!: AbstractControl;
 
   public address!: Address;
@@ -77,6 +80,8 @@ export class SiteAreaMainComponent implements OnInit, OnChanges {
         Validators.required,
       ])
     ));
+    this.formGroup.addControl('parentSiteArea', new FormControl(null));
+    this.formGroup.addControl('parentSiteAreaID', new FormControl(null));
     this.formGroup.addControl('accessControl', new FormControl(true));
     // Form
     this.issuer = this.formGroup.controls['issuer'];
@@ -84,6 +89,8 @@ export class SiteAreaMainComponent implements OnInit, OnChanges {
     this.name = this.formGroup.controls['name'];
     this.site = this.formGroup.controls['site'];
     this.siteID = this.formGroup.controls['siteID'];
+    this.parentSiteArea = this.formGroup.controls['parentSiteArea'];
+    this.parentSiteAreaID = this.formGroup.controls['parentSiteAreaID'];
     this.accessControl = this.formGroup.controls['accessControl'];
     this.initialized = true;
     this.loadSiteArea();
@@ -107,6 +114,12 @@ export class SiteAreaMainComponent implements OnInit, OnChanges {
       }
       if (this.siteArea.site) {
         this.site.setValue(this.siteArea.site.name);
+      }
+      if (this.siteArea.parentSiteAreaID) {
+        this.formGroup.controls.parentSiteAreaID.setValue(this.siteArea.parentSiteAreaID);
+      }
+      if (this.siteArea.parentSiteArea) {
+        this.formGroup.controls.parentSiteArea.setValue(this.siteArea.parentSiteArea.name);
       }
       if (this.siteArea.accessControl) {
         this.accessControl.setValue(this.siteArea.accessControl);
@@ -146,10 +159,44 @@ export class SiteAreaMainComponent implements OnInit, OnChanges {
     this.dialog.open(SitesDialogComponent, dialogConfig).afterClosed().subscribe((result) => {
       if (!Utils.isEmptyArray(result) && result[0].objectRef) {
         const site: Site = (result[0].objectRef) as Site;
-        this.site.setValue(site.name);
-        this.siteID.setValue(site.id);
-        this.siteChanged.emit(site);
-        this.formGroup.markAsDirty();
+        if (this.siteID.value !== site.id) {
+          this.site.setValue(site.name);
+          this.siteID.setValue(site.id);
+          this.siteChanged.emit(site);
+          this.parentSiteArea.setValue(null);
+          this.parentSiteAreaID.setValue(null);
+          this.formGroup.markAsDirty();
+        }
+      }
+    });
+  }
+
+  public assignParentSiteArea() {
+    // Create the dialog
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.panelClass = 'transparent-dialog-container';
+    dialogConfig.data = {
+      title: 'site_areas.select_parent_site_area',
+      validateButtonTitle: 'general.select',
+      sitesAdminOnly: true,
+      rowMultipleSelection: false,
+      staticFilter: {
+        Issuer: true,
+        SiteID: this.siteID.value,
+        ExcludeSiteAreaID: this.id?.value
+      }
+    };
+    // Open
+    this.dialog.open(SiteAreasDialogComponent, dialogConfig).afterClosed().subscribe((result) => {
+      if (!Utils.isEmptyArray(result) && result[0].objectRef) {
+        const parentSiteArea: SiteArea = (result[0].objectRef) as SiteArea;
+        if (this.parentSiteAreaID.value !== parentSiteArea.id) {
+          this.parentSiteArea.setValue(parentSiteArea.name);
+          this.parentSiteAreaID.setValue(parentSiteArea.id);
+          this.site.setValue(parentSiteArea.site.name);
+          this.siteID.setValue(parentSiteArea.site.id);
+          this.formGroup.markAsDirty();
+        }
       }
     });
   }
@@ -192,13 +239,23 @@ export class SiteAreaMainComponent implements OnInit, OnChanges {
     }
   }
 
+  public clearParent() {
+    if (this.siteArea) {
+      this.siteArea.parentSiteAreaID = null;
+      this.siteArea.parentSiteArea = null;
+    }
+    this.parentSiteAreaID.setValue(null);
+    this.parentSiteArea.setValue(null);
+    this.formGroup.markAsDirty();
+  }
+
   public generateRegistrationToken() {
     if (this.siteArea) {
       this.dialogService.createAndShowYesNoDialog(
         this.translateService.instant('chargers.connections.registration_token_creation_title'),
         this.translateService.instant('chargers.connections.registration_token_creation_confirm'),
       ).subscribe((result) => {
-        if (result === ButtonType.YES) {
+        if (result === ButtonAction.YES) {
           this.spinnerService.show();
           this.centralServerService.createRegistrationToken({
             siteAreaID: this.siteArea.id,

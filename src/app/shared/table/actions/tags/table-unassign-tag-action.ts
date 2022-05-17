@@ -6,8 +6,8 @@ import { CentralServerService } from '../../../../services/central-server.servic
 import { DialogService } from '../../../../services/dialog.service';
 import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
-import { RestResponse } from '../../../../types/GlobalType';
-import { ButtonColor, ButtonType, TableActionDef } from '../../../../types/Table';
+import { ButtonAction, ButtonActionColor, RestResponse } from '../../../../types/GlobalType';
+import { TableActionDef } from '../../../../types/Table';
 import { Tag, TagButtonAction } from '../../../../types/Tag';
 import { Utils } from '../../../../utils/Utils';
 import { TableAction } from '../table-action';
@@ -24,7 +24,7 @@ export class TableUnassignTagAction implements TableAction {
       action: this.unassignTag,
       type: 'button',
       icon: 'delete',
-      color: ButtonColor.WARN,
+      color: ButtonActionColor.WARN,
       name: 'general.delete',
       tooltip: 'general.tooltips.delete',
     };
@@ -36,7 +36,7 @@ export class TableUnassignTagAction implements TableAction {
       translateService.instant('tags.delete_title'),
       translateService.instant('tags.delete_confirm', { id: tag.visualID }),
     ).subscribe((result) => {
-      if (result === ButtonType.YES) {
+      if (result === ButtonAction.YES) {
         spinnerService.show();
         centralServerService.unassignTag(tag.visualID).subscribe((response) => {
           spinnerService.hide();

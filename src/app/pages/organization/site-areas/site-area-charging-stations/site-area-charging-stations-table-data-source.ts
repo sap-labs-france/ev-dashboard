@@ -17,7 +17,7 @@ import { DataResult } from '../../../../types/DataResult';
 import { ButtonAction, RestResponse } from '../../../../types/GlobalType';
 import { HTTPError } from '../../../../types/HTTPError';
 import { SiteArea } from '../../../../types/SiteArea';
-import { ButtonType, TableActionDef, TableColumnDef, TableDataSourceMode, TableDef } from '../../../../types/Table';
+import { TableActionDef, TableColumnDef, TableDataSourceMode, TableDef } from '../../../../types/Table';
 import { Utils } from '../../../../utils/Utils';
 
 @Injectable()
@@ -153,7 +153,7 @@ export class SiteAreaChargingStationsDataSource extends TableDataSource<Charging
             this.translateService.instant('site_areas.remove_chargers_title'),
             this.translateService.instant('site_areas.remove_chargers_confirm'),
           ).subscribe((response) => {
-            if (response === ButtonType.YES) {
+            if (response === ButtonAction.YES) {
               // Remove
               this.removeChargers(this.getSelectedRows().map((row) => row.id));
             }

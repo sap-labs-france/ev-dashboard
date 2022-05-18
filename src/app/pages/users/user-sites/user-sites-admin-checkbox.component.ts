@@ -6,7 +6,7 @@ import { CentralServerService } from '../../../services/central-server.service';
 import { MessageService } from '../../../services/message.service';
 import { CellContentTemplateDirective } from '../../../shared/table/cell-content-template/cell-content-template.directive';
 import { RestResponse } from '../../../types/GlobalType';
-import { SiteUser } from '../../../types/Site';
+import { UserSite } from '../../../types/Site';
 import { User, UserToken } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';
 
@@ -21,7 +21,7 @@ import { Utils } from '../../../utils/Utils';
     </div>`
 })
 export class UserSitesAdminCheckboxComponent extends CellContentTemplateDirective implements OnInit {
-  @Input() public row!: SiteUser;
+  @Input() public row!: UserSite;
   public loggedUser: UserToken;
   public user!: User;
 
@@ -45,26 +45,26 @@ export class UserSitesAdminCheckboxComponent extends CellContentTemplateDirectiv
     });
   }
 
-  private setUserSiteAdmin(siteUser: SiteUser, siteAdmin: boolean) {
+  private setUserSiteAdmin(userSite: UserSite, siteAdmin: boolean) {
     // Set
-    siteUser.siteAdmin = siteAdmin;
+    userSite.siteAdmin = siteAdmin;
     // Update
-    this.centralServerService.updateSiteUserAdmin(siteUser.site.id, siteUser.userID, siteAdmin).subscribe((response) => {
+    this.centralServerService.updateSiteUserAdmin(userSite.site.id, userSite.userID, siteAdmin).subscribe((response) => {
       if (response.status === RestResponse.SUCCESS) {
         if (siteAdmin) {
-          this.messageService.showSuccessMessage('users.update_set_site_admin_success', {siteName: siteUser.site.name});
+          this.messageService.showSuccessMessage('users.update_set_site_admin_success', {siteName: userSite.site.name});
         } else {
-          this.messageService.showSuccessMessage('users.update_remove_site_admin_success', {siteName: siteUser.site.name});
+          this.messageService.showSuccessMessage('users.update_remove_site_admin_success', {siteName: userSite.site.name});
         }
       } else {
-        siteUser.siteAdmin = !siteAdmin;
+        userSite.siteAdmin = !siteAdmin;
         Utils.handleError(JSON.stringify(response),
-          this.messageService, 'users.update_site_admin_role_error', {siteName: siteUser.site.name});
+          this.messageService, 'users.update_site_admin_role_error', {siteName: userSite.site.name});
       }
     }, (error) => {
-      siteUser.siteAdmin = !siteAdmin;
+      userSite.siteAdmin = !siteAdmin;
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-        'users.update_site_admin_role_error', {siteName: siteUser.site.name});
+        'users.update_site_admin_role_error', {siteName: userSite.site.name});
     },
     );
   }

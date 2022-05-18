@@ -6,11 +6,11 @@ import { Company } from './Company';
 import { Log } from './Log';
 import PricingDefinition from './Pricing';
 import { RegistrationToken } from './RegistrationToken';
-import { Site, SiteUser } from './Site';
+import { Site, UserSite } from './Site';
 import { SiteArea } from './SiteArea';
 import { Tag } from './Tag';
 import { Transaction } from './Transaction';
-import { User, UserSite, UserStatus } from './User';
+import { SiteUser, User, UserStatus } from './User';
 
 export interface ActionResponse {
   status: string;

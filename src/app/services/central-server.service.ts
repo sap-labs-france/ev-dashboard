@@ -354,7 +354,7 @@ export class CentralServerService {
       );
   }
 
-  public getUserSites(params: FilterParams,
+  public getSiteUsers(params: FilterParams,
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<SiteUserDataResult> {
     // Verify init
     this.checkInit();
@@ -363,7 +363,7 @@ export class CentralServerService {
     // Build Ordering
     this.getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<SiteUserDataResult>(this.buildRestEndpointUrl(RESTServerRoute.REST_USER_SITES, { id: params.UserID.toString() }),
+    return this.httpClient.get<SiteUserDataResult>(this.buildRestEndpointUrl(RESTServerRoute.REST_SITE_USERS, { id: params.SiteID as string }),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -782,7 +782,7 @@ export class CentralServerService {
       );
   }
 
-  public getSiteUsers(params: FilterParams,
+  public getUserSites(params: FilterParams,
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<UserSiteDataResult> {
     // Verify init
     this.checkInit();
@@ -791,7 +791,7 @@ export class CentralServerService {
     // Build Ordering
     this.getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<UserSiteDataResult>(this.buildRestEndpointUrl(RESTServerRoute.REST_SITE_USERS, { id: params.SiteID as string }),
+    return this.httpClient.get<UserSiteDataResult>(this.buildRestEndpointUrl(RESTServerRoute.REST_USER_SITES, { id: params.UserID.toString() }),
       {
         headers: this.buildHttpHeaders(),
         params,

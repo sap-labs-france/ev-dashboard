@@ -3,9 +3,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { UserSitesAuthorizations } from 'types/Authorization';
 
-import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
@@ -14,9 +12,10 @@ import { SitesDialogComponent } from '../../../shared/dialogs/sites/sites-dialog
 import { TableAddAction } from '../../../shared/table/actions/table-add-action';
 import { TableRemoveAction } from '../../../shared/table/actions/table-remove-action';
 import { TableDataSource } from '../../../shared/table/table-data-source';
+import { UserSitesAuthorizations } from '../../../types/Authorization';
 import { DataResult } from '../../../types/DataResult';
 import { ButtonAction, RestResponse } from '../../../types/GlobalType';
-import { Site, SiteUser } from '../../../types/Site';
+import { Site, UserSite } from '../../../types/Site';
 import { ButtonType, TableActionDef, TableColumnDef, TableDataSourceMode, TableDef } from '../../../types/Table';
 import { User } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';
@@ -24,7 +23,7 @@ import { UserSitesAdminCheckboxComponent } from './user-sites-admin-checkbox.com
 import { UserSitesOwnerRadioComponent } from './user-sites-owner-radio.component';
 
 @Injectable()
-export class UserSitesTableDataSource extends TableDataSource<SiteUser> {
+export class UserSitesTableDataSource extends TableDataSource<UserSite> {
   private user!: User;
   private addAction = new TableAddAction().getActionDef();
   private removeAction = new TableRemoveAction().getActionDef();
@@ -42,20 +41,21 @@ export class UserSitesTableDataSource extends TableDataSource<SiteUser> {
     this.initDataSource();
   }
 
-  public loadDataImpl(): Observable<DataResult<SiteUser>> {
+  public loadDataImpl(): Observable<DataResult<UserSite>> {
     return new Observable((observer) => {
       // User provided?
       if (this.user) {
         // Yes: Get data
         this.centralServerService.getUserSites(this.buildFilterValues(),
           this.getPaging(), this.getSorting()).subscribe((userSites) => {
-          // Initialize siteUsers authorization
+          // Initialize userSites authorization
           this.userSitesAuthorization = {
             // Authorization actions
-            canUpdateUserSite: Utils.convertToBoolean(userSites.canUpdateUserSite)
+            canUpdateUserSites: Utils.convertToBoolean(userSites.canUpdateUserSites)
           };
           // Set table column def with userSitesAuthorization set
           this.setTableColumnDef(this.buildDynamicTableColumnDefs());
+          this.setTableDef(this.buildDynamicTableDef());
           this.setTableActionDef(this.buildDynamicTableActionsDef());
           observer.next(userSites);
           observer.complete();
@@ -74,10 +74,50 @@ export class UserSitesTableDataSource extends TableDataSource<SiteUser> {
   }
 
   public buildTableDef(): TableDef {
+    if (this.getMode() === TableDataSourceMode.READ_WRITE) {
+      return {
+        class: 'table-dialog-list',
+        rowSelection: {
+          enabled: false,
+          multiple: true,
+        },
+        search: {
+          enabled: true,
+        },
+        rowFieldNameIdentifier: 'site.id',
+      };
+    }
     return {
       class: 'table-dialog-list',
       rowSelection: {
+        enabled: false,
+        multiple: true,
+      },
+      search: {
         enabled: true,
+      },
+      rowFieldNameIdentifier: 'site.id',
+    };
+  }
+
+  public buildDynamicTableDef(): TableDef {
+    if (this.getMode() === TableDataSourceMode.READ_WRITE) {
+      return {
+        class: 'table-dialog-list',
+        rowSelection: {
+          enabled: this.userSitesAuthorization?.canUpdateUserSites,
+          multiple: true,
+        },
+        search: {
+          enabled: true,
+        },
+        rowFieldNameIdentifier: 'site.id',
+      };
+    }
+    return {
+      class: 'table-dialog-list',
+      rowSelection: {
+        enabled: false,
         multiple: true,
       },
       search: {
@@ -123,7 +163,7 @@ export class UserSitesTableDataSource extends TableDataSource<SiteUser> {
         angularComponent: UserSitesAdminCheckboxComponent,
         name: 'sites.admin_role',
         class: 'col-10p',
-        // visible: this.userSitesAuthorization?.canUpdateUserSite,
+        visible: this.userSitesAuthorization?.canUpdateUserSites,
       },
       {
         id: 'siteOwner',
@@ -131,7 +171,7 @@ export class UserSitesTableDataSource extends TableDataSource<SiteUser> {
         angularComponent: UserSitesOwnerRadioComponent,
         name: 'sites.owner_role',
         class: 'col-10p',
-        // visible: this.userSitesAuthorization?.canUpdateUserSite,
+        visible: this.userSitesAuthorization?.canUpdateUserSites,
       });
     }
     return columns;
@@ -152,14 +192,14 @@ export class UserSitesTableDataSource extends TableDataSource<SiteUser> {
 
   public buildDynamicTableActionsDef(): TableActionDef[] {
     // Update filters visibility
-    this.addAction.visible = this.userSitesAuthorization.canUpdateUserSite;
-    this.removeAction.visible = this.userSitesAuthorization.canUpdateUserSite;
+    this.addAction.visible = this.user?.canAssignSites;
+    this.removeAction.visible = this.user?.canUnassignSites;
     const tableActionsDef = super.buildTableActionsDef();
-    return [
-      this.addAction,
-      this.removeAction,
-      ...tableActionsDef,
-    ];
+    if (this.getMode() === TableDataSourceMode.READ_WRITE) {
+      tableActionsDef.push(this.addAction);
+      tableActionsDef.push(this.removeAction);
+    }
+    return tableActionsDef;
   }
 
   public actionTriggered(actionDef: TableActionDef) {

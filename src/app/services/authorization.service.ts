@@ -120,18 +120,6 @@ export class AuthorizationService {
     return this.canAccess(Entity.SITE_AREA, Action.READ);
   }
 
-  public canAssignUsersSites(): boolean {
-    return this.canAccess(Entity.USERS_SITES, Action.ASSIGN);
-  }
-
-  public canUnassignUsersSites(): boolean {
-    return this.canAccess(Entity.USERS_SITES, Action.UNASSIGN);
-  }
-
-  public canListUsersSites(): boolean {
-    return this.canAccess(Entity.USERS_SITES, Action.LIST);
-  }
-
   public canCreateSiteArea(): boolean {
     return this.canAccess(Entity.SITE_AREA, Action.CREATE);
   }

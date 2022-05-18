@@ -6,7 +6,7 @@ import { CentralServerService } from '../../../../services/central-server.servic
 import { MessageService } from '../../../../services/message.service';
 import { CellContentTemplateDirective } from '../../../../shared/table/cell-content-template/cell-content-template.directive';
 import { RestResponse } from '../../../../types/GlobalType';
-import { UserSite, UserToken } from '../../../../types/User';
+import { SiteUser, UserToken } from '../../../../types/User';
 import { Utils } from '../../../../utils/Utils';
 
 @Component({
@@ -20,7 +20,7 @@ import { Utils } from '../../../../utils/Utils';
     </div>`
 })
 export class SiteUsersOwnerRadioComponent extends CellContentTemplateDirective {
-  @Input() public row!: UserSite;
+  @Input() public row!: SiteUser;
   @ViewChild('rbid') public radioButtonRef!: MatRadioButton;
   public loggedUser: UserToken;
 
@@ -41,26 +41,26 @@ export class SiteUsersOwnerRadioComponent extends CellContentTemplateDirective {
     this.setUserSiteOwner(this.row, this.radioButtonRef.checked);
   }
 
-  private setUserSiteOwner(userSite: UserSite, siteOwner: boolean) {
+  private setUserSiteOwner(siteUser: SiteUser, siteOwner: boolean) {
     // Update
-    this.centralServerService.updateSiteOwner(userSite.siteID, userSite.user.id, siteOwner).subscribe((response) => {
+    this.centralServerService.updateSiteOwner(siteUser.siteID, siteUser.user.id, siteOwner).subscribe((response) => {
       if (response.status === RestResponse.SUCCESS) {
         if (siteOwner) {
-          this.messageService.showSuccessMessage('sites.update_set_site_owner_success', {userName: Utils.buildUserFullName(userSite.user)});
+          this.messageService.showSuccessMessage('sites.update_set_site_owner_success', {userName: Utils.buildUserFullName(siteUser.user)});
         } else {
-          this.messageService.showSuccessMessage('sites.update_remove_site_owner_success', {userName: Utils.buildUserFullName(userSite.user)});
+          this.messageService.showSuccessMessage('sites.update_remove_site_owner_success', {userName: Utils.buildUserFullName(siteUser.user)});
         }
       } else {
         Utils.handleError(JSON.stringify(response),
           this.messageService, 'sites.update_site_users_owner_error', {
-            userName: Utils.buildUserFullName(userSite.user),
+            userName: Utils.buildUserFullName(siteUser.user),
           });
       }
     }
     ,
     (error) => {
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-        'sites.update_site_users_owner_error', {userName: Utils.buildUserFullName(userSite.user)});
+        'sites.update_site_users_owner_error', {userName: Utils.buildUserFullName(siteUser.user)});
     },
     );
   }

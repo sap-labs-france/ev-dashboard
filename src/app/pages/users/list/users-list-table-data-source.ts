@@ -3,18 +3,14 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { ImportDialogComponent } from 'shared/dialogs/import/import-dialog.component';
-import { TableImportUsersAction, TableImportUsersActionDef } from 'shared/table/actions/users/table-import-users-action';
-import { UsersAuthorizations } from 'types/Authorization';
-import { TagButtonAction } from 'types/Tag';
 
-import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { WindowService } from '../../../services/window.service';
+import { ImportDialogComponent } from '../../../shared/dialogs/import/import-dialog.component';
 import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
 import { TableMoreAction } from '../../../shared/table/actions/table-more-action';
@@ -23,17 +19,21 @@ import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-
 import { TableNavigateToTagsAction } from '../../../shared/table/actions/tags/table-navigate-to-tags-action';
 import { TableNavigateToTransactionsAction } from '../../../shared/table/actions/transactions/table-navigate-to-transactions-action';
 import { TableAssignSitesToUserAction, TableAssignSitesToUserActionDef } from '../../../shared/table/actions/users/table-assign-sites-to-user-action';
+import { TableViewAssignedSitesOfUserAction, TableViewAssignedSitesOfUserActionDef } from '../../../shared/table/actions/users/table-assign-view-sites-of-user-action';
 import { TableCreateUserAction, TableCreateUserActionDef } from '../../../shared/table/actions/users/table-create-user-action';
 import { TableDeleteUserAction, TableDeleteUserActionDef } from '../../../shared/table/actions/users/table-delete-user-action';
 import { TableEditUserAction, TableEditUserActionDef } from '../../../shared/table/actions/users/table-edit-user-action';
 import { TableExportUsersAction, TableExportUsersActionDef } from '../../../shared/table/actions/users/table-export-users-action';
 import { TableForceSyncBillingUserAction } from '../../../shared/table/actions/users/table-force-sync-billing-user-action';
+import { TableImportUsersAction, TableImportUsersActionDef } from '../../../shared/table/actions/users/table-import-users-action';
 import { IssuerFilter, organizations } from '../../../shared/table/filters/issuer-filter';
 import { SiteTableFilter } from '../../../shared/table/filters/site-table-filter';
 import { TagTableFilter } from '../../../shared/table/filters/tag-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
+import { UsersAuthorizations } from '../../../types/Authorization';
 import { DataResult } from '../../../types/DataResult';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
+import { TagButtonAction } from '../../../types/Tag';
 import { TenantComponents } from '../../../types/Tenant';
 import { TransactionButtonAction } from '../../../types/Transaction';
 import { User, UserButtonAction } from '../../../types/User';
@@ -58,6 +58,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
   private exportAction = new TableExportUsersAction().getActionDef();
   private importAction = new TableImportUsersAction().getActionDef();
   private createAction = new TableCreateUserAction().getActionDef();
+  private viewSitesOfUser = new TableViewAssignedSitesOfUserAction().getActionDef();
   private usersAuthorizations: UsersAuthorizations;
 
   public constructor(
@@ -68,16 +69,12 @@ export class UsersListTableDataSource extends TableDataSource<User> {
     private router: Router,
     private dialog: MatDialog,
     private centralServerService: CentralServerService,
-    private authorizationService: AuthorizationService,
     private componentService: ComponentService,
     private appUserRolePipe: AppUserRolePipe,
     private datePipe: AppDatePipe,
     private windowService: WindowService) {
     super(spinnerService, translateService);
     // Init
-    if (this.authorizationService.hasSitesAdminRights()) {
-      this.setStaticFilters([{ SiteID: this.authorizationService.getSitesAdmin().join('|') }]);
-    }
     this.initDataSource();
     this.initFilters();
   }
@@ -281,16 +278,18 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       if (this.componentService.isActive(TenantComponents.ORGANIZATION)) {
         if (user.canAssignSites || user.canUnassignSites) {
           rowActions.push(this.assignSitesToUser);
+        } else if (user.canListUserSites) {
+          rowActions.push(this.viewSitesOfUser);
         }
       }
-      if (this.authorizationService.canListTokens()) {
+      if (user.canListTags) {
         moreActions.addActionInMoreActions(this.navigateToTagsAction);
       }
-      if (this.authorizationService.canListTransactions()) {
+      if (user.canListTransactions) {
         moreActions.addActionInMoreActions(this.navigateToTransactionsAction);
       }
       if (this.componentService.isActive(TenantComponents.BILLING)) {
-        if (this.authorizationService.canSynchronizeBillingUser()) {
+        if (user.canSynchronizeBillingUser) {
           moreActions.addActionInMoreActions(this.synchronizeBillingUserAction);
         }
       }
@@ -301,10 +300,10 @@ export class UsersListTableDataSource extends TableDataSource<User> {
         rowActions.push(moreActions.getActionDef());
       }
     } else {
-      if (this.authorizationService.canListTokens()) {
+      if (user.canListTags) {
         moreActions.addActionInMoreActions(this.navigateToTagsAction);
       }
-      if (this.authorizationService.canListTransactions()) {
+      if (user.canListTransactions) {
         moreActions.addActionInMoreActions(this.navigateToTransactionsAction);
       }
       if (user.canDelete) {
@@ -353,6 +352,12 @@ export class UsersListTableDataSource extends TableDataSource<User> {
         if (actionDef.action) {
           (actionDef as TableAssignSitesToUserActionDef).action(
             UserSitesDialogComponent, { dialogData: user }, this.dialog, this.refreshData.bind(this));
+        }
+        break;
+      case UserButtonAction.VIEW_SITES_OF_USER:
+        if (actionDef.action) {
+          (actionDef as TableViewAssignedSitesOfUserActionDef).action(UserSitesDialogComponent, { dialogData: user },
+            this.dialog, this.refreshData.bind(this));
         }
         break;
       case UserButtonAction.DELETE_USER:

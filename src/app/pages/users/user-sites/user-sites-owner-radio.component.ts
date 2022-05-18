@@ -6,7 +6,7 @@ import { CentralServerService } from '../../../services/central-server.service';
 import { MessageService } from '../../../services/message.service';
 import { CellContentTemplateDirective } from '../../../shared/table/cell-content-template/cell-content-template.directive';
 import { RestResponse } from '../../../types/GlobalType';
-import { SiteUser } from '../../../types/Site';
+import { UserSite } from '../../../types/Site';
 import { User, UserToken } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';
 
@@ -22,7 +22,7 @@ import { Utils } from '../../../utils/Utils';
 })
 
 export class UserSitesOwnerRadioComponent extends CellContentTemplateDirective implements OnInit {
-  @Input() public row!: SiteUser;
+  @Input() public row!: UserSite;
   public loggedUser: UserToken;
   public user: User;
 
@@ -46,26 +46,26 @@ export class UserSitesOwnerRadioComponent extends CellContentTemplateDirective i
     }
   }
 
-  private setUserSiteOwner(siteUser: SiteUser, siteOwner: boolean) {
+  private setUserSiteOwner(userSite: UserSite, siteOwner: boolean) {
     // Update
-    this.centralServerService.updateSiteOwner(siteUser.site.id, siteUser.userID, siteOwner).subscribe((response) => {
+    this.centralServerService.updateSiteOwner(userSite.site.id, userSite.userID, siteOwner).subscribe((response) => {
       if (response.status === RestResponse.SUCCESS) {
         if (siteOwner) {
-          this.messageService.showSuccessMessage('users.update_set_site_owner_success', {siteName: siteUser.site.name});
+          this.messageService.showSuccessMessage('users.update_set_site_owner_success', {siteName: userSite.site.name});
         } else {
-          this.messageService.showSuccessMessage('users.update_remove_site_owner_success', {siteName: siteUser.site.name});
+          this.messageService.showSuccessMessage('users.update_remove_site_owner_success', {siteName: userSite.site.name});
         }
       } else {
         Utils.handleError(JSON.stringify(response),
           this.messageService, 'users.update_site_users_owner_error', {
-            siteName: siteUser.site.name,
+            siteName: userSite.site.name,
           });
       }
     }
     ,
     (error) => {
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-        'users.update_site_users_owner_error', {siteName: siteUser.site.name});
+        'users.update_site_users_owner_error', {siteName: userSite.site.name});
     },
     );
   }

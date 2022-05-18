@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { DialogMode } from 'types/Authorization';
-import { User } from 'types/User';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { TableEditUserAction } from '../../../shared/table/actions/users/table-edit-user-action';
+import { DialogMode } from '../../../types/Authorization';
+import { User } from '../../../types/User';
 import { UserDialogComponent } from '../user/user-dialog.component';
 import { UserComponent } from '../user/user.component';
 import { UsersListTableDataSource } from './users-list-table-data-source';
@@ -16,15 +16,14 @@ import { UsersListTableDataSource } from './users-list-table-data-source';
   providers: [UsersListTableDataSource, UserComponent],
 })
 export class UsersListComponent implements OnInit {
-  public isAdmin: boolean;
 
+  // eslint-disable-next-line no-useless-constructor
   public constructor(
     public usersListTableDataSource: UsersListTableDataSource,
     private authorizationService: AuthorizationService,
     private dialog: MatDialog,
     private activatedRoute: ActivatedRoute,
     private router: Router) {
-    this.isAdmin = this.authorizationService.isAdmin();
   }
 
   public ngOnInit(): void {

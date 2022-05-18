@@ -240,6 +240,7 @@
       "force_available_status": "Force Status to Available",
       "force_unavailable_status": "Force Status to Unavailable",
       "display_users": "Display users",
+      "display_sites": "Display sites",
       "pricing": "Pricing"
     }
   },
@@ -1304,6 +1305,7 @@
     "update_remove_site_owner_success": "The user is no more owner of the site '{{siteName}}'",
     "update_site_owner_role_error": "Error occurred while trying to update the user right to the site '{{siteName}}', check the logs",
     "redirect": "Navigate to User",
+    "display_sites": "Display Sites",
     "connectors": {
       "connect": "Connect",
       "revoke": "Revoke",

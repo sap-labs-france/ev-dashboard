@@ -54,7 +54,8 @@ export enum Entity {
   TRANSACTION = 'Transaction',
   REPORT = 'Report',
   USER = 'User',
-  USERS_SITES = 'UsersSites',
+  USER_SITE = 'UserSite',
+  SITE_USER = 'SiteUser',
   LOGGING = 'Logging',
   PRICING = 'Pricing',
   PRICING_DEFINITION = 'PricingDefinition',
@@ -228,11 +229,15 @@ export interface UsersAuthorizationActions extends DataResultAuthorizationAction
 export interface UserAuthorizationActions extends AuthorizationActions {
   canAssignSites?: boolean;
   canUnassignSites?: boolean;
+  canListUserSites?: boolean;
+  canListTags?: boolean;
+  canListTransactions?: boolean;
+  canSynchronizeBillingUser?: boolean;
 }
 
 // USERSITES
 export interface UserSitesAuthorizations extends AuthorizationAttributes, UserSitesAuthorizationActions {
-  canUpdateUserSite?: boolean;
+  canUpdateUserSites?: boolean;
 }
 
 export interface UserSitesAuthorizationActions extends DataResultAuthorizationActions {
@@ -243,7 +248,7 @@ export interface UserSiteAuthorizationActions extends AuthorizationActions {
 
 // SITEUSERS
 export interface SiteUsersAuthorizations extends AuthorizationAttributes, SiteUsersAuthorizationActions {
-  canUpdateUserSite?: boolean;
+  canUpdateSiteUsers?: boolean;
 }
 
 export interface SiteUsersAuthorizationActions extends DataResultAuthorizationActions {
@@ -285,7 +290,7 @@ export interface SitesAuthorizationActions extends DataResultAuthorizationAction
 export interface SiteAuthorizationActions extends AuthorizationActions {
   canAssignUsers?: boolean;
   canUnassignUsers?: boolean;
-  canReadUsers?: boolean;
+  canListSiteUsers?: boolean;
   canExportOCPPParams?: boolean;
   canGenerateQrCode?: boolean;
   canMaintainPricingDefinitions?: boolean;

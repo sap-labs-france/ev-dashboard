@@ -26,7 +26,7 @@ export interface Site extends TableData, CreatedUpdatedProps, SiteAuthorizationA
   public?: boolean;
 }
 
-export interface SiteUser extends TableData {
+export interface UserSite extends TableData {
   site: Site;
   userID: string;
   siteAdmin: boolean;

@@ -3,7 +3,6 @@ import { Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 
-import { AuthorizationService } from '../../../../services/authorization.service';
 import { CentralServerService } from '../../../../services/central-server.service';
 import { DialogService } from '../../../../services/dialog.service';
 import { MessageService } from '../../../../services/message.service';
@@ -27,7 +26,6 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
   public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
-    public authorizationService: AuthorizationService,
     public dialogService: DialogService,
     public centralServerService: CentralServerService,
     public router: Router,

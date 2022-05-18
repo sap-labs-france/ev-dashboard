@@ -304,6 +304,7 @@ export interface ChargingStationAuthorizationActions extends AuthorizationAction
   canListCompanies?: boolean;
   canListSites?: boolean;
   canListSiteAreas?: boolean;
+  canListUsers?: boolean;
   canReserveNow?: boolean;
   canReset?: boolean;
   canClearCache?: boolean;

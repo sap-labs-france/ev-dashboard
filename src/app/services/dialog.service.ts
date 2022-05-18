@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
+import { CustomDialogComponent } from 'shared/dialogs/custom/custom-dialog.component';
+import { ButtonAction, CustomButton } from 'types/GlobalType';
 import { Utils } from 'utils/Utils';
-
-import { ConfirmationDialogComponent } from '../shared/dialogs/confirmation/confirmation-dialog.component';
-import { ButtonType, DialogType } from '../types/Table';
 
 @Injectable()
 export class DialogService {
@@ -16,31 +15,46 @@ export class DialogService {
     this.matDialog.closeAll();
   }
 
-  public createAndShowOkCancelDialog(title: string, message: string): Observable<ButtonType> {
-    return this.createAndShowDialog(ConfirmationDialogComponent, DialogType.OK_CANCEL, title, message);
+  public createAndShowDialog(title: string, message: string, buttons: CustomButton[], withCancelButton: boolean = true): Observable<string> {
+    if (withCancelButton) {
+      buttons = [
+        ...buttons,
+        { id: ButtonAction.CANCEL, name: 'general.cancel', cancelButton: true },
+      ];
+    }
+    return this.createAndShowCustomDialog(title, message, buttons);
   }
 
-  public createAndShowOkDialog(title: string, message: string): Observable<ButtonType> {
-    return this.createAndShowDialog(ConfirmationDialogComponent, DialogType.OK, title, message);
+  public createAndShowOkDialog(title: string, message: string): Observable<string> {
+    return this.createAndShowCustomDialog(title, message, [
+      { id: ButtonAction.OK, name: 'general.ok', color: 'primary', validateButton: true },
+    ]);
   }
 
-  public createAndShowYesNoDialog(title: string, message: string): Observable<ButtonType> {
-    return this.createAndShowDialog(ConfirmationDialogComponent, DialogType.YES_NO, title, message);
+  public createAndShowYesNoDialog(title: string, message: string): Observable<string> {
+    return this.createAndShowCustomDialog(title, message, [
+      { id: ButtonAction.YES, name: 'general.yes', color: 'warn', validateButton: true },
+      { id: ButtonAction.NO, name: 'general.no', cancelButton: true },
+    ]);
   }
 
-  public createAndShowYesNoCancelDialog(title: string, message: string): Observable<ButtonType> {
-    return this.createAndShowDialog(ConfirmationDialogComponent, DialogType.YES_NO_CANCEL, title, message);
+  public createAndShowInvalidChangeCloseDialog(title: string, message: string): Observable<string> {
+    return this.createAndShowCustomDialog(title, message, [
+      { id: ButtonAction.DO_NOT_SAVE_AND_CLOSE, name: 'general.do_not_save_and_close', color: 'warn' },
+      { id: ButtonAction.CANCEL, name: 'general.cancel', cancelButton: true },
+    ]);
   }
 
-  public createAndShowInvalidChangeCloseDialog(title: string, message: string): Observable<ButtonType> {
-    return this.createAndShowDialog(ConfirmationDialogComponent, DialogType.INVALID_CHANGE, title, message);
+  public createAndShowDirtyChangeCloseDialog(title: string, message: string): Observable<string> {
+    return this.createAndShowCustomDialog(title, message, [
+      { id: ButtonAction.SAVE_AND_CLOSE, name: 'general.save_and_close', color: 'primary', validateButton: true },
+      { id: ButtonAction.DO_NOT_SAVE_AND_CLOSE, name: 'general.do_not_save_and_close', color: 'warn' },
+      { id: ButtonAction.CANCEL, name: 'general.cancel', cancelButton: true },
+    ]);
   }
 
-  public createAndShowDirtyChangeCloseDialog(title: string, message: string): Observable<ButtonType> {
-    return this.createAndShowDialog(ConfirmationDialogComponent, DialogType.DIRTY_CHANGE, title, message);
-  }
-
-  private createAndShowDialog(component: any, dialogType: DialogType, title: string, message: string|string[]): Observable<ButtonType> {
+  private createAndShowCustomDialog(title: string, message: string|string[], buttons: CustomButton[]): Observable<string> {
+    // Transform i18n Array to HTML message
     if (!Utils.isEmptyArray(message)) {
       message = (message as string[]).join('<br>');
     }
@@ -50,10 +64,10 @@ export class DialogService {
     dialogConfig.disableClose = true;
     // Set data
     dialogConfig.data = {
-      title, message, dialogType,
+      title, message, buttons,
     };
     // Show
-    const dialogRef = this.matDialog.open(component, dialogConfig);
+    const dialogRef = this.matDialog.open(CustomDialogComponent, dialogConfig);
     // Register
     return dialogRef.afterClosed();
   }

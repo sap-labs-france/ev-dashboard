@@ -1,9 +1,10 @@
 import { TranslateService } from '@ngx-translate/core';
 import { saveAs } from 'file-saver';
+import { ButtonAction } from 'types/GlobalType';
 
 import { DialogService } from '../../../../services/dialog.service';
 import { ChargingStation, ChargingStationButtonAction, OcppParameter } from '../../../../types/ChargingStation';
-import { ButtonType, TableActionDef } from '../../../../types/Table';
+import { TableActionDef } from '../../../../types/Table';
 import { Constants } from '../../../../utils/Constants';
 import { Utils } from '../../../../utils/Utils';
 import { TableExportAction } from '../table-export-action';
@@ -27,7 +28,7 @@ export class TableExportOCPPParamsLocalAction extends TableExportAction {
       translateService.instant('chargers.dialog.exportConfig.title'),
       translateService.instant('chargers.dialog.exportConfig.confirm'),
     ).subscribe((response) => {
-      if (response === ButtonType.YES) {
+      if (response === ButtonAction.YES) {
         // Header
         const headers = [
           'chargingStation',

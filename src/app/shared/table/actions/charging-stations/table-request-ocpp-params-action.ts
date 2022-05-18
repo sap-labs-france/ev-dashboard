@@ -1,6 +1,7 @@
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { ButtonActionColor, ButtonAction } from 'types/GlobalType';
 
 import { CentralServerService } from '../../../../services/central-server.service';
 import { DialogService } from '../../../../services/dialog.service';
@@ -8,7 +9,7 @@ import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
 import { ChargingStation, ChargingStationButtonAction, OCPPGeneralResponse } from '../../../../types/ChargingStation';
 import { ActionResponse } from '../../../../types/DataResult';
-import { ButtonColor, ButtonType, TableActionDef } from '../../../../types/Table';
+import { TableActionDef } from '../../../../types/Table';
 import { Utils } from '../../../../utils/Utils';
 import { TableAction } from '../table-action';
 
@@ -23,7 +24,7 @@ export class TableRequestOCPPParamsAction implements TableAction {
     id: ChargingStationButtonAction.REQUEST_OCPP_PARAMS,
     type: 'button',
     icon: 'vertical_align_bottom',
-    color: ButtonColor.PRIMARY,
+    color: ButtonActionColor.PRIMARY,
     name: 'chargers.button_retrieve_configuration',
     tooltip: 'chargers.button_retrieve_configuration',
     action: this.requestOCPPParameters,
@@ -39,7 +40,7 @@ export class TableRequestOCPPParamsAction implements TableAction {
       translateService.instant('chargers.retrieve_configuration_title'),
       translateService.instant('chargers.retrieve_configuration_confirm', { chargeBoxID: chargingStation.id })
     ).subscribe((result) => {
-      if (result === ButtonType.YES) {
+      if (result === ButtonAction.YES) {
         spinnerService.show();
         centralServerService.requestChargingStationOcppParameters(chargingStation.id).subscribe((response: ActionResponse) => {
           spinnerService.hide();

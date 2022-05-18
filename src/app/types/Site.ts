@@ -40,5 +40,4 @@ export enum SiteButtonAction {
   DELETE_SITE = 'delete_site',
   ASSIGN_USERS_TO_SITE = 'assign_users_to_site',
   VIEW_USERS_OF_SITE = 'view_users_of_site',
-
 }

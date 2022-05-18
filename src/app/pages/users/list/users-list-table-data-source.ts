@@ -81,12 +81,12 @@ export class UsersListTableDataSource extends TableDataSource<User> {
 
   public initFilters() {
     // Tag
-    const tagID = this.windowService.getUrlParameterValue('TagID');
-    if (tagID) {
+    const visualID = this.windowService.getUrlParameterValue('VisualID');
+    if (visualID) {
       const tagTableFilter = this.tableFiltersDef.find(filter => filter.id === 'tag');
       if (tagTableFilter) {
         tagTableFilter.currentValue.push({
-          key: tagID, value: tagID,
+          key: visualID, value: visualID,
         });
         this.filterChanged(tagTableFilter);
       }
@@ -378,12 +378,12 @@ export class UsersListTableDataSource extends TableDataSource<User> {
         break;
       case TagButtonAction.NAVIGATE_TO_TAGS:
         if (actionDef.action) {
-          (actionDef as TableOpenURLActionDef).action('tags#all?UserID=' + user.id + '&Issuer=' + user.issuer);
+          (actionDef as TableOpenURLActionDef).action('tags#all?UserID=' + user.id + '&Issuer=' + user.issuer, this.windowService);
         }
         break;
       case TransactionButtonAction.NAVIGATE_TO_TRANSACTIONS:
         if (actionDef.action) {
-          (actionDef as TableOpenURLActionDef).action('transactions#history?UserID=' + user.id + '&Issuer=' + user.issuer);
+          (actionDef as TableOpenURLActionDef).action('transactions#history?UserID=' + user.id + '&Issuer=' + user.issuer, this.windowService);
         }
         break;
     }

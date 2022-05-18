@@ -1,6 +1,7 @@
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { ButtonAction } from 'types/GlobalType';
 import { HTTPError } from 'types/HTTPError';
 import { Constants } from 'utils/Constants';
 
@@ -9,7 +10,7 @@ import { DialogService } from '../../../../services/dialog.service';
 import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
 import { CarButtonAction } from '../../../../types/Car';
-import { ButtonType, TableActionDef } from '../../../../types/Table';
+import { TableActionDef } from '../../../../types/Table';
 import { Utils } from '../../../../utils/Utils';
 import { TableSynchronizeAction } from '../table-synchronize-action';
 
@@ -34,7 +35,7 @@ export class TableSyncCarCatalogsAction extends TableSynchronizeAction {
       translateService.instant('settings.car.synchronize_car_catalogs_dialog_title'),
       translateService.instant('settings.car.synchronize_car_catalogs_dialog_confirm'),
     ).subscribe((response) => {
-      if (response === ButtonType.YES) {
+      if (response === ButtonAction.YES) {
         spinnerService.show();
         centralServerService.synchronizeCarsCatalog().subscribe((synchronizeResponse) => {
           spinnerService.hide();

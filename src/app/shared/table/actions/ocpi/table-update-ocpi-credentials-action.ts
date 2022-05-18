@@ -1,6 +1,7 @@
+import { ButtonActionColor } from 'types/GlobalType';
 import { OcpiButtonAction } from 'types/ocpi/OCPIEndpoint';
 
-import { ButtonColor, TableActionDef } from '../../../../types/Table';
+import { TableActionDef } from '../../../../types/Table';
 import { TableAction } from '../table-action';
 
 export class TableUpdateOCPICredentialsAction implements TableAction {
@@ -8,7 +9,7 @@ export class TableUpdateOCPICredentialsAction implements TableAction {
     id: OcpiButtonAction.UPDATE_CREDENTIALS,
     type: 'button',
     icon: 'cloud_upload',
-    color: ButtonColor.PRIMARY,
+    color: ButtonActionColor.PRIMARY,
     name: 'ocpi.update_credentials',
     tooltip: 'ocpi.update_credentials',
   };

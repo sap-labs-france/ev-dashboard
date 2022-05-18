@@ -1,5 +1,5 @@
-import { ButtonAction } from '../../../types/GlobalType';
-import { ButtonColor, TableActionDef } from '../../../types/Table';
+import { ButtonActionColor, ButtonAction } from '../../../types/GlobalType';
+import { TableActionDef } from '../../../types/Table';
 import { TableAction } from './table-action';
 
 export class TableUnregisterAction implements TableAction {
@@ -7,7 +7,7 @@ export class TableUnregisterAction implements TableAction {
     id: ButtonAction.UNREGISTER,
     type: 'button',
     icon: 'link_off',
-    color: ButtonColor.PRIMARY,
+    color: ButtonActionColor.PRIMARY,
     name: 'general.unregister',
     tooltip: 'general.tooltips.unregister',
   };

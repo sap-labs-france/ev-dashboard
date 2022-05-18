@@ -8,7 +8,7 @@ import { BillingButtonAction } from './Billing';
 import { CarButtonAction } from './Car';
 import { ChargingStationButtonAction } from './ChargingStation';
 import { CompanyButtonAction } from './Company';
-import { ButtonAction, KeyValue } from './GlobalType';
+import { ButtonAction, ButtonActionColor, KeyValue } from './GlobalType';
 import { LogButtonAction } from './Log';
 import { OcpiButtonAction } from './ocpi/OCPIEndpoint';
 import { OicpButtonAction } from './oicp/OICPEndpoint';
@@ -100,31 +100,6 @@ export enum FilterType {
   DATE_RANGE = 'date-range',
 }
 
-export enum ButtonType {
-  OK = 'OK',
-  CANCEL = 'CANCEL',
-  YES = 'YES',
-  NO = 'NO',
-  SAVE_AND_CLOSE = 'SAVE_AND_CLOSE',
-  DO_NOT_SAVE_AND_CLOSE = 'DO_NOT_SAVE_AND_CLOSE',
-}
-
-export enum ButtonColor {
-  BASIC = '',
-  PRIMARY = 'primary',
-  ACCENT = 'accent',
-  WARN = 'warn',
-}
-
-export enum DialogType {
-  OK = 'OK',
-  YES_NO = 'YES_NO',
-  OK_CANCEL = 'OK_CANCEL',
-  YES_NO_CANCEL = 'YES_NO_CANCEL',
-  INVALID_CHANGE = 'INVALID_CHANGE',
-  DIRTY_CHANGE = 'DIRTY_CHANGE',
-}
-
 export interface TableActionDef {
   id: ButtonAction | CompanyButtonAction | TenantButtonAction | SiteAreaButtonAction | ChargingStationButtonAction |
   UserButtonAction | TransactionButtonAction | SiteButtonAction | OcpiButtonAction | OicpButtonAction | AssetButtonAction |
@@ -133,7 +108,7 @@ export interface TableActionDef {
   currentValue?: any;
   name: string;
   icon?: string;
-  color?: ButtonColor;
+  color?: ButtonActionColor;
   disabled?: boolean;
   visible?: boolean;
   isDropdownMenu?: boolean;

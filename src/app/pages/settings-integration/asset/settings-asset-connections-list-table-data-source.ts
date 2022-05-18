@@ -15,7 +15,7 @@ import { AssetButtonAction } from '../../../types/Asset';
 import { DataResult } from '../../../types/DataResult';
 import { ButtonAction } from '../../../types/GlobalType';
 import { AssetConnectionSetting, AssetConnectionType } from '../../../types/Setting';
-import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableEditType, TableFilterDef } from '../../../types/Table';
+import { TableActionDef, TableColumnDef, TableDef, TableEditType, TableFilterDef } from '../../../types/Table';
 import { AssetConnectionDialogComponent } from './connection/asset-connection.dialog.component';
 import { TableCheckAssetConnectionAction } from './table-actions/table-check-asset-connection-action';
 
@@ -126,7 +126,7 @@ export class SettingsAssetConnectionEditableTableDataSource extends EditableTabl
           this.translateService.instant('settings.asset.connection.delete_title'),
           this.translateService.instant('settings.asset.connection.delete_confirm', { assetConnectionName: assetConnection.name }),
         ).subscribe((result) => {
-          if (result === ButtonType.YES) {
+          if (result === ButtonAction.YES) {
             super.rowActionTriggered(actionDef, assetConnection);
           }
         });

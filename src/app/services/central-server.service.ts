@@ -28,7 +28,7 @@ import { RegistrationToken } from '../types/RegistrationToken';
 import { RESTServerRoute, ServerAction } from '../types/Server';
 import { BillingSettings, SettingDB } from '../types/Setting';
 import { Site } from '../types/Site';
-import { SiteArea, SiteAreaConsumption } from '../types/SiteArea';
+import { SiteArea, SiteAreaConsumption, SubSiteAreaAction } from '../types/SiteArea';
 import { StatisticData } from '../types/Statistic';
 import { Tag } from '../types/Tag';
 import { Tenant } from '../types/Tenant';
@@ -477,10 +477,13 @@ export class CentralServerService {
       );
   }
 
-  public getSiteArea(siteAreaID: string, withSite?: boolean): Observable<SiteArea> {
+  public getSiteArea(siteAreaID: string, withSite?: boolean, withParentSiteArea?: boolean): Observable<SiteArea> {
     const params: { [param: string]: string } = {};
     if (withSite) {
       params['WithSite'] = withSite.toString();
+    }
+    if (withParentSiteArea) {
+      params['WithParentSiteArea'] = withParentSiteArea.toString();
     }
     // Verify init
     this.checkInit();
@@ -2128,11 +2131,15 @@ export class CentralServerService {
       );
   }
 
-  public createSiteArea(siteArea: SiteArea): Observable<ActionResponse> {
+  public createSiteArea(siteArea: SiteArea, subSiteAreaActions: SubSiteAreaAction[] = []): Observable<ActionResponse> {
     // Verify init
     this.checkInit();
     // Execute
-    return this.httpClient.post<ActionResponse>(this.buildRestEndpointUrl(RESTServerRoute.REST_SITE_AREAS), siteArea,
+    return this.httpClient.post<ActionResponse>(this.buildRestEndpointUrl(RESTServerRoute.REST_SITE_AREAS),
+      {
+        ...siteArea,
+        subSiteAreasAction: subSiteAreaActions.join('|')
+      },
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2141,11 +2148,15 @@ export class CentralServerService {
       );
   }
 
-  public updateSiteArea(siteArea: SiteArea): Observable<ActionResponse> {
+  public updateSiteArea(siteArea: SiteArea, subSiteAreaActions: SubSiteAreaAction[] = []): Observable<ActionResponse> {
     // Verify init
     this.checkInit();
     // Execute
-    return this.httpClient.put<ActionResponse>(this.buildRestEndpointUrl(RESTServerRoute.REST_SITE_AREA, { id: siteArea.id }), siteArea,
+    return this.httpClient.put<ActionResponse>(this.buildRestEndpointUrl(RESTServerRoute.REST_SITE_AREA, { id: siteArea.id }),
+      {
+        ...siteArea,
+        subSiteAreasAction: subSiteAreaActions.join('|')
+      },
       {
         headers: this.buildHttpHeaders(),
       })

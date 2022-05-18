@@ -1,5 +1,5 @@
-import { ButtonAction } from '../../../types/GlobalType';
-import { ButtonColor, TableActionDef } from '../../../types/Table';
+import { ButtonActionColor, ButtonAction } from '../../../types/GlobalType';
+import { TableActionDef } from '../../../types/Table';
 import { TableAction } from './table-action';
 
 export class TableCopyAction implements TableAction {
@@ -7,7 +7,7 @@ export class TableCopyAction implements TableAction {
     id: ButtonAction.COPY,
     type: 'button',
     icon: 'file_copy',
-    color: ButtonColor.PRIMARY,
+    color: ButtonActionColor.PRIMARY,
     name: 'general.copy',
     tooltip: 'general.tooltips.copy',
   };

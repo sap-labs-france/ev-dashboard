@@ -61,7 +61,7 @@
           <div class="col-md-6">
             <mat-form-field>
               <input matInput placeholder="{{'chargers.amperagePerPhase' | translate}}" (input)="amperageChanged()"
-                type="number" required [formControl]="amperagePerPhase" [readOnly]="!isAdmin">
+                type="number" required [formControl]="amperagePerPhase" [readOnly]="readOnly">
               <mat-error *ngIf="amperagePerPhase?.errors?.required">{{'general.mandatory_field' | translate}}
               </mat-error>
               <mat-error *ngIf="amperagePerPhase?.errors?.min || amperagePerPhase?.errors?.pattern">

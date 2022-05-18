@@ -125,22 +125,19 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
         name: 'chargers.smart_charging.charging_plans.stack_level',
         sortable: false,
       },
+      {
+        id: 'chargingStation.siteArea.name',
+        name: 'chargers.smart_charging.charging_plans.site_area',
+        sortable: false,
+      },
+      {
+        id: 'chargingStation.siteArea.maximumPower',
+        name: 'chargers.smart_charging.charging_plans.site_area_limit',
+        sortable: false,
+        formatter: (maximumPower: number) => maximumPower > 0 ? this.appUnitPipe.transform(maximumPower, 'W', 'kW', true, 0, 0, 0) : '',
+      },
+
     ];
-    if (this.isOrganizationComponentActive) {
-      tableColumns.push(
-        {
-          id: 'chargingStation.siteArea.name',
-          name: 'chargers.smart_charging.charging_plans.site_area',
-          sortable: false,
-        },
-        {
-          id: 'chargingStation.siteArea.maximumPower',
-          name: 'chargers.smart_charging.charging_plans.site_area_limit',
-          sortable: false,
-          formatter: (maximumPower: number) => maximumPower > 0 ? this.appUnitPipe.transform(maximumPower, 'W', 'kW', true, 0, 0, 0) : '',
-        },
-      );
-    }
     return tableColumns;
   }
 

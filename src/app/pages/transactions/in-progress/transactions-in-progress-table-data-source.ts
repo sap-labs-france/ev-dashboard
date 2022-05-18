@@ -287,7 +287,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
     switch (actionDef.id) {
       case ChargingStationButtonAction.STOP_TRANSACTION:
         if (actionDef.action) {
-          (actionDef as TableChargingStationsStopTransactionActionDef).action(transaction, this.authorizationService,
+          (actionDef as TableChargingStationsStopTransactionActionDef).action(transaction,
             this.dialogService, this.translateService, this.messageService, this.centralServerService, this.spinnerService,
             this.router, this.refreshData.bind(this));
         }

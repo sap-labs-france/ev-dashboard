@@ -2,7 +2,6 @@ import { Component, Injectable, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 
-import { AuthorizationService } from '../../../../services/authorization.service';
 import { CentralServerService } from '../../../../services/central-server.service';
 import { ComponentService } from '../../../../services/component.service';
 import { DialogService } from '../../../../services/dialog.service';
@@ -24,11 +23,9 @@ import { Utils } from '../../../../utils/Utils';
 export class ChargingStationStaticLimitationComponent {
   @Input() public chargingStation!: ChargingStation;
   public userLocales: KeyValue[];
-  public isAdmin: boolean;
   public isSmartChargingComponentActive = false;
 
   public constructor(
-    private authorizationService: AuthorizationService,
     private centralServerService: CentralServerService,
     private messageService: MessageService,
     private spinnerService: SpinnerService,
@@ -37,15 +34,8 @@ export class ChargingStationStaticLimitationComponent {
     private componentService: ComponentService,
     private router: Router,
     private dialogService: DialogService) {
-    // Check Auth
-    if (!authorizationService.canUpdateChargingStation()) {
-      // Not authorized
-      void this.router.navigate(['/']);
-    }
     // Get Locales
     this.userLocales = this.localeService.getLocales();
-    // Admin?
-    this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
     this.isSmartChargingComponentActive = this.componentService.isActive(TenantComponents.SMART_CHARGING);
   }
 

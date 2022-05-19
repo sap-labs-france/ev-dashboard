@@ -1,10 +1,7 @@
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { HTTPError } from 'types/HTTPError';
-import { Constants } from 'utils/Constants';
 
-import { AuthorizationService } from '../../../../services/authorization.service';
 import { CentralServerService } from '../../../../services/central-server.service';
 import { DialogService } from '../../../../services/dialog.service';
 import { MessageService } from '../../../../services/message.service';
@@ -44,9 +41,7 @@ export class TableChargingStationsStopTransactionAction implements TableAction {
     refresh?: () => Observable<void>) {
     // Get the charging station
     centralServerService.getChargingStation(transaction.chargeBoxID).subscribe((chargingStation) => {
-      const connector = Utils.getConnectorFromID(chargingStation, transaction.connectorId);
-      const isStopAuthorized = chargingStation.canStopTransaction;
-      if (!isStopAuthorized) {
+      if (!chargingStation.canStopTransaction) {
         dialogService.createAndShowOkDialog(
           translateService.instant('chargers.action_error.transaction_stop_title'),
           translateService.instant('chargers.action_error.transaction_stop_not_authorized'));

@@ -144,7 +144,7 @@
     "deep-object-diff": "^1.1.0",
     "eslint": "^7.32.0",
     "eslint-plugin-import": "2.25.4",
-    "eslint-plugin-jsdoc": "^37.6.3",
+    "eslint-plugin-jsdoc": "^39.3.0",
     "eslint-plugin-prefer-arrow": "^1.2.3",
     "husky": "^7.0.4",
     "import-sort-parser-typescript": "^6.0.0",

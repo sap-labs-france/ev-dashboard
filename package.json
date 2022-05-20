@@ -110,14 +110,14 @@
     "tldts": "^5.7.61",
     "ts-jest": "^27.1.4",
     "tslib": "^2.3.1",
-    "zone.js": "~0.11.4"
+    "zone.js": "~0.11.5"
   },
   "optionalDependencies": {
     "bufferutil": "^4.0.6",
     "utf-8-validate": "^5.0.9"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.1102.12",
+    "@angular-devkit/build-angular": "~13.3.6",
     "@angular-eslint/builder": "^4.3.0",
     "@angular-eslint/eslint-plugin": "^4.3.0",
     "@angular-eslint/eslint-plugin-template": "^4.3.0",

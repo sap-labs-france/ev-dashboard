@@ -155,7 +155,7 @@
     "moment-locales-webpack-plugin": "^1.2.0",
     "moment-timezone-data-webpack-plugin": "^1.5.0",
     "npm-check": "^5.9.2",
-    "puppeteer": "^13.4.0",
+    "puppeteer": "^14.1.1",
     "rimraf": "^3.0.2",
     "rosie": "^2.1.0",
     "ts-node": "~10.7.0",

@@ -107,10 +107,10 @@
     "ngx-moment": "^5.0.0",
     "popper.js": "^1.16.1",
     "rxjs": "^6.6.7",
-    "tldts": "^5.7.61",
+    "tldts": "^5.7.79",
     "ts-jest": "^27.1.4",
     "tslib": "^2.3.1",
-    "zone.js": "~0.11.4"
+    "zone.js": "~0.11.5"
   },
   "optionalDependencies": {
     "bufferutil": "^4.0.6",

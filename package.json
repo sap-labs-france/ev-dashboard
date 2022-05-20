@@ -64,7 +64,7 @@
   "dependencies": {
     "@agm/core": "^1.1.0",
     "@angular/animations": "~11.2.13",
-    "@angular/cdk": "^11.2.12",
+    "@angular/cdk": "^13.3.7",
     "@angular/common": "~11.2.13",
     "@angular/compiler": "~11.2.13",
     "@angular/core": "~11.2.13",
@@ -110,7 +110,7 @@
     "tldts": "^5.7.61",
     "ts-jest": "^27.1.4",
     "tslib": "^2.3.1",
-    "zone.js": "~0.11.4"
+    "zone.js": "~0.11.5"
   },
   "optionalDependencies": {
     "bufferutil": "^4.0.6",

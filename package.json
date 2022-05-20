@@ -71,7 +71,7 @@
     "@angular/forms": "~11.2.13",
     "@angular/localize": "^11.2.13",
     "@angular/material": "^11.2.12",
-    "@angular/material-moment-adapter": "^11.2.12",
+    "@angular/material-moment-adapter": "^13.3.7",
     "@angular/platform-browser": "~11.2.13",
     "@angular/platform-browser-dynamic": "~11.2.13",
     "@angular/router": "~11.2.13",
@@ -110,7 +110,7 @@
     "tldts": "^5.7.61",
     "ts-jest": "^27.1.4",
     "tslib": "^2.3.1",
-    "zone.js": "~0.11.4"
+    "zone.js": "~0.11.5"
   },
   "optionalDependencies": {
     "bufferutil": "^4.0.6",

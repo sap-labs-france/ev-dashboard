@@ -12,7 +12,7 @@ import { SpinnerService } from '../../../services/spinner.service';
 import { WindowService } from '../../../services/window.service';
 import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
-import { TableOpenURLAction } from '../../../shared/table/actions/table-open-url-action';
+import { TableOpenURLAction, TableOpenURLActionDef } from '../../../shared/table/actions/table-open-url-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { TableCreateTenantAction, TableCreateTenantActionDef } from '../../../shared/table/actions/tenants/table-create-tenant-action';
 import { TableDeleteTenantAction, TableDeleteTenantActionDef } from '../../../shared/table/actions/tenants/table-delete-tenant-action';
@@ -191,7 +191,8 @@ export class TenantsListTableDataSource extends TableDataSource<Tenant> {
         break;
       case ButtonAction.OPEN_URL:
         if (actionDef.action) {
-          actionDef.action(`${this.windowService.getProtocol()}//${tenant.subdomain}.${this.windowService.getHost()}`);
+          (actionDef as TableOpenURLActionDef).action(
+            `${this.windowService.getProtocol()}//${tenant.subdomain}.${this.windowService.getHost()}`, this.windowService);
         }
         break;
     }

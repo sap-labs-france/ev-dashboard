@@ -30,7 +30,7 @@ export class AuthenticationDefinePasswordComponent implements OnInit, OnDestroy 
   public hidePassword = true;
   public hideRepeatPassword = true;
   public mobileVendor!: string;
-  public tenantLogo = Constants.TENANT_DEFAULT_LOGO;
+  public tenantLogo = Constants.NO_IMAGE;
 
   private siteKey: string;
   private subDomain: string;

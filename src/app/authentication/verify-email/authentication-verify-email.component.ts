@@ -28,7 +28,7 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
   public resetToken: string | null;
   public verificationEmail: string | null;
 
-  public tenantLogo = Constants.TENANT_DEFAULT_LOGO;
+  public tenantLogo = Constants.NO_IMAGE;
 
   private messages!: Record<string, string>;
 

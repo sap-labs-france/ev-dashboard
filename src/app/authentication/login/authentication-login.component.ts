@@ -31,7 +31,7 @@ export class AuthenticationLoginComponent implements OnInit, OnDestroy {
   public acceptEula: AbstractControl;
 
   public hidePassword = true;
-  public tenantLogo = Constants.TENANT_DEFAULT_LOGO;
+  public tenantLogo = Constants.NO_IMAGE;
 
   private toggleButton: any;
   private sidebarVisible: boolean;
@@ -119,6 +119,7 @@ export class AuthenticationLoginComponent implements OnInit, OnDestroy {
     if (this.subDomain) {
       // Retrieve tenant's logo
       this.centralServerService.getTenantLogoBySubdomain(this.subDomain).subscribe((tenantLogo: string) => {
+        console.log(tenantLogo);
         if (tenantLogo) {
           this.tenantLogo = tenantLogo;
         }

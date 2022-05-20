@@ -101,7 +101,7 @@
     "moment-timezone": "^0.5.34",
     "ng2-file-upload": "^1.4.0",
     "ngx-captcha": "^9.0.1",
-    "ngx-csv-parser": "0.0.7",
+    "ngx-csv-parser": "1.1.1",
     "ngx-daterangepicker-material": "^5.0.2",
     "ngx-google-places-autocomplete": "^2.0.5",
     "ngx-moment": "^5.0.0",

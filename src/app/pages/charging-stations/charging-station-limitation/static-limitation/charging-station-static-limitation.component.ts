@@ -11,8 +11,7 @@ import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
 import { TableChargingStationsRebootAction } from '../../../../shared/table/actions/charging-stations/table-charging-stations-reboot-action';
 import { ChargePoint, ChargingStation, OCPPConfigurationStatus } from '../../../../types/ChargingStation';
-import { KeyValue } from '../../../../types/GlobalType';
-import { ButtonType } from '../../../../types/Table';
+import { ButtonAction, KeyValue } from '../../../../types/GlobalType';
 import { TenantComponents } from '../../../../types/Tenant';
 import { Utils } from '../../../../utils/Utils';
 
@@ -55,7 +54,7 @@ export class ChargingStationStaticLimitationComponent {
       this.translateService.instant('chargers.smart_charging.power_limit_title'),
       this.translateService.instant('chargers.smart_charging.power_limit_confirm', { chargeBoxID: this.chargingStation.id }),
     ).subscribe((result) => {
-      if (result === ButtonType.YES) {
+      if (result === ButtonAction.YES) {
         this.spinnerService.show();
         this.centralServerService.getChargingProfiles({ ChargingStationID: this.chargingStation.id }).subscribe((chargingProfilesResult) => {
           this.spinnerService.hide();
@@ -85,7 +84,7 @@ export class ChargingStationStaticLimitationComponent {
               this.translateService.instant('chargers.smart_charging.power_limit_has_charging_plan_title'),
               this.translateService.instant('chargers.smart_charging.power_limit_has_charging_plan_confim'),
             ).subscribe((subresult) => {
-              if (subresult === ButtonType.YES) {
+              if (subresult === ButtonAction.YES) {
                 // No: Apply it right away
                 this.applyStaticLimit(chargePoint, true);
               }

@@ -1,5 +1,5 @@
-import { ButtonAction } from '../../../types/GlobalType';
-import { ButtonColor, TableActionDef } from '../../../types/Table';
+import { ButtonActionColor, ButtonAction } from '../../../types/GlobalType';
+import { TableActionDef } from '../../../types/Table';
 import { TableAction } from './table-action';
 
 export class TableMoreAction implements TableAction {
@@ -7,7 +7,7 @@ export class TableMoreAction implements TableAction {
     id: ButtonAction.MORE,
     type: 'button',
     icon: 'more_horiz',
-    color: ButtonColor.BASIC,
+    color: ButtonActionColor.BASIC,
     name: 'general.edit',
     tooltip: 'general.tooltips.more',
     isDropdownMenu: true,

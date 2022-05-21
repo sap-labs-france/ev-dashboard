@@ -1,5 +1,5 @@
-import { ButtonAction } from '../../../types/GlobalType';
-import { ButtonColor, TableActionDef } from '../../../types/Table';
+import { ButtonActionColor, ButtonAction } from '../../../types/GlobalType';
+import { TableActionDef } from '../../../types/Table';
 import { TableAction } from './table-action';
 
 export class TableActivateAction implements TableAction {
@@ -7,7 +7,7 @@ export class TableActivateAction implements TableAction {
     id: ButtonAction.ACTIVATE,
     type: 'button',
     icon: 'link',
-    color: ButtonColor.PRIMARY,
+    color: ButtonActionColor.PRIMARY,
     name: 'general.activate',
     tooltip: 'general.tooltips.activate',
   };

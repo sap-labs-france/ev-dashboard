@@ -6,8 +6,8 @@ import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { ActionResponse } from '../../../types/DataResult';
-import { ButtonAction, RestResponse } from '../../../types/GlobalType';
-import { ButtonColor, ButtonType, TableActionDef, TableData } from '../../../types/Table';
+import { ButtonActionColor, ButtonAction, RestResponse } from '../../../types/GlobalType';
+import { TableActionDef, TableData } from '../../../types/Table';
 import { Utils } from '../../../utils/Utils';
 import { TableAction } from './table-action';
 
@@ -16,7 +16,7 @@ export class TableRevokeAction implements TableAction {
     id: ButtonAction.REVOKE,
     type: 'button',
     icon: 'link_off',
-    color: ButtonColor.WARN,
+    color: ButtonActionColor.WARN,
     name: 'general.revoke',
     tooltip: 'general.tooltips.revoke',
     action: this.revoke
@@ -35,7 +35,7 @@ export class TableRevokeAction implements TableAction {
       messageTitle,
       messageConfirm,
     ).subscribe((result) => {
-      if (result === ButtonType.YES) {
+      if (result === ButtonAction.YES) {
         spinnerService.show();
         revokeData(data.id).subscribe((response) => {
           spinnerService.hide();

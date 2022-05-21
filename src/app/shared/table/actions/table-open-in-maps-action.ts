@@ -1,5 +1,5 @@
-import { ButtonAction } from '../../../types/GlobalType';
-import { ButtonColor, TableActionDef } from '../../../types/Table';
+import { ButtonActionColor, ButtonAction } from '../../../types/GlobalType';
+import { TableActionDef } from '../../../types/Table';
 import { TableAction } from './table-action';
 
 export class TableOpenInMapsAction implements TableAction {
@@ -7,7 +7,7 @@ export class TableOpenInMapsAction implements TableAction {
     id: ButtonAction.OPEN_IN_MAPS,
     type: 'button',
     icon: 'location_on',
-    color: ButtonColor.PRIMARY,
+    color: ButtonActionColor.PRIMARY,
     name: 'general.open_in_maps',
     tooltip: 'general.tooltips.open_in_maps',
     action: this.openInMap,

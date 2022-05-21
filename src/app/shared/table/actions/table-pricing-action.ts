@@ -3,8 +3,8 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 
 import { DialogData, DialogMode, DialogParams } from '../../../types/Authorization';
-import { ButtonAction } from '../../../types/GlobalType';
-import { ButtonColor, TableActionDef } from '../../../types/Table';
+import { ButtonActionColor, ButtonAction } from '../../../types/GlobalType';
+import { TableActionDef } from '../../../types/Table';
 import { TableAction } from './table-action';
 
 export class TableViewPricingListAction implements TableAction {
@@ -12,7 +12,7 @@ export class TableViewPricingListAction implements TableAction {
     id: ButtonAction.VIEW_PRICING_DEFINITIONS,
     type: 'button',
     icon: 'money',
-    color: ButtonColor.PRIMARY,
+    color: ButtonActionColor.PRIMARY,
     name: 'general.menu.pricing',
     tooltip: 'general.tooltips.pricing',
     action: this.view,

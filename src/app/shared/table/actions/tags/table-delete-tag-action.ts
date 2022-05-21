@@ -6,8 +6,8 @@ import { CentralServerService } from '../../../../services/central-server.servic
 import { DialogService } from '../../../../services/dialog.service';
 import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
-import { RestResponse } from '../../../../types/GlobalType';
-import { ButtonType, TableActionDef } from '../../../../types/Table';
+import { ButtonAction, RestResponse } from '../../../../types/GlobalType';
+import { TableActionDef } from '../../../../types/Table';
 import { Tag, TagButtonAction } from '../../../../types/Tag';
 import { Utils } from '../../../../utils/Utils';
 import { TableDeleteAction } from '../table-delete-action';
@@ -32,7 +32,7 @@ export class TableDeleteTagAction extends TableDeleteAction {
       translateService.instant('tags.delete_title'),
       translateService.instant('tags.delete_confirm', { id: tag.id }),
     ).subscribe((result) => {
-      if (result === ButtonType.YES) {
+      if (result === ButtonAction.YES) {
         spinnerService.show();
         centralServerService.deleteTag(tag.id).subscribe((response) => {
           spinnerService.hide();

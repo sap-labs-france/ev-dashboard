@@ -2,6 +2,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { ActionsResponse } from 'types/DataResult';
+import { ButtonActionColor, ButtonAction } from 'types/GlobalType';
 import { Tag, TagButtonAction } from 'types/Tag';
 import { Utils } from 'utils/Utils';
 
@@ -9,7 +10,7 @@ import { CentralServerService } from '../../../../services/central-server.servic
 import { DialogService } from '../../../../services/dialog.service';
 import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
-import { ButtonColor, ButtonType, TableActionDef } from '../../../../types/Table';
+import { TableActionDef } from '../../../../types/Table';
 import { TableAction } from '../table-action';
 
 export interface TableUnassignTagsActionDef extends TableActionDef {
@@ -25,7 +26,7 @@ export class TableUnassignTagsAction implements TableAction {
       action: this.unassignTags,
       type: 'button',
       icon: 'delete',
-      color: ButtonColor.WARN,
+      color: ButtonActionColor.WARN,
       name: 'general.delete',
       tooltip: 'general.tooltips.delete',
       linkedToListSelection: true,
@@ -47,7 +48,7 @@ export class TableUnassignTagsAction implements TableAction {
       translateService.instant('tags.delete_tags_title'),
       translateService.instant('tags.delete_tags_confirm', { quantity: tags.length }),
     ).subscribe((response) => {
-      if (response === ButtonType.YES) {
+      if (response === ButtonAction.YES) {
         spinnerService.show();
         centralServerService.unassignTags(tags.map((tag) => tag.visualID)).subscribe((responseAction: ActionsResponse) => {
           spinnerService.hide();

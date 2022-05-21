@@ -18,7 +18,7 @@ import { TableDataSource } from '../../../../../shared/table/table-data-source';
 import { DataResult } from '../../../../../types/DataResult';
 import { ButtonAction, RestResponse } from '../../../../../types/GlobalType';
 import { OicpButtonAction, OicpEndpoint, OicpEndpointDetail, OicpRole } from '../../../../../types/oicp/OICPEndpoint';
-import { ButtonType, TableActionDef, TableColumnDef, TableDef } from '../../../../../types/Table';
+import { TableActionDef, TableColumnDef, TableDef } from '../../../../../types/Table';
 import { Utils } from '../../../../../utils/Utils';
 import { OicpDetailFailureEvsesStatusFormatterComponent } from '../formatters/oicp-detail-failure-evses-status-formatter.component';
 import { OicpDetailJobStatusFormatterComponent } from '../formatters/oicp-detail-job-status-formatter.component';
@@ -203,7 +203,7 @@ export class SettingsOicpEndpointsDetailsTableDataSource extends TableDataSource
       this.translateService.instant('oicpendpoints.push_evse_statuses_title'),
       this.translateService.instant('oicpendpoints.push_evse_statuses_confirm', { name: oicpendpoint.name }),
     ).subscribe((result) => {
-      if (result === ButtonType.YES) {
+      if (result === ButtonAction.YES) {
         // Ping
         this.centralServerService.sendEVSEStatusesOicpEndpoint(oicpendpoint).subscribe((response) => {
           if (response.failure === 0) {
@@ -232,7 +232,7 @@ export class SettingsOicpEndpointsDetailsTableDataSource extends TableDataSource
       this.translateService.instant('oicpendpoints.push_evses_title'),
       this.translateService.instant('oicpendpoints.push_evses_confirm', { name: oicpendpoint.name }),
     ).subscribe((result) => {
-      if (result === ButtonType.YES) {
+      if (result === ButtonAction.YES) {
         // Ping
         this.centralServerService.sendEVSEsOicpEndpoint(oicpendpoint).subscribe((response) => {
           if (response.failure === 0) {
@@ -264,7 +264,7 @@ export class SettingsOicpEndpointsDetailsTableDataSource extends TableDataSource
       (enable) ? this.translateService.instant('oicpendpoints.start_background_job_confirm', { name: oicpendpoint.name })
         : this.translateService.instant('oicpendpoints.stop_background_job_confirm', { name: oicpendpoint.name }),
     ).subscribe((result) => {
-      if (result === ButtonType.YES) {
+      if (result === ButtonAction.YES) {
         // Switch background job state
         oicpendpoint.backgroundPatchJob = enable;
         this.centralServerService.updateOicpEndpoint(oicpendpoint).subscribe((response) => {

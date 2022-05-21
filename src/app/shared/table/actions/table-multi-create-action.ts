@@ -1,5 +1,5 @@
 import { ButtonAction } from '../../../types/GlobalType';
-import { ButtonColor, TableActionDef } from '../../../types/Table';
+import { ButtonActionColor, TableActionDef } from '../../../types/Table';
 import { TableAction } from './table-action';
 
 export class TableMultiCreateAction implements TableAction {
@@ -7,7 +7,7 @@ export class TableMultiCreateAction implements TableAction {
     id: ButtonAction.MULTI_CREATE,
     type: 'dropdown-button',
     icon: 'more_vert',
-    color: ButtonColor.PRIMARY,
+    color: ButtonActionColor.PRIMARY,
     name: 'general.create',
     tooltip: 'general.tooltips.create',
     isDropdownMenu: true,

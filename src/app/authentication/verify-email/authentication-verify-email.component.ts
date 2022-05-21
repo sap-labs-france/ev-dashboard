@@ -28,7 +28,7 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
   public resetToken: string | null;
   public verificationEmail: string | null;
 
-  public tenantLogo = Constants.TENANT_DEFAULT_LOGO;
+  public tenantLogo = Constants.NO_IMAGE;
 
   private messages!: Record<string, string>;
 
@@ -120,13 +120,9 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
   }
 
   public verifyEmail(data: any) {
-    // Show
     this.spinnerService.show();
-    // Verify Email
     this.centralServerService.verifyEmail({ Email: data.email, VerificationToken: data.verificationToken }).subscribe((response: VerifyEmailResponse) => {
-      // Hide
       this.spinnerService.hide();
-      // Success
       if (response.status && response.status === RestResponse.SUCCESS) {
         if (this.resetToken) {
           // Show message

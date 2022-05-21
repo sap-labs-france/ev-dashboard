@@ -74,7 +74,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     super(spinnerService, translateService);
     // Init
     this.isAssetComponentActive = this.componentService.isActive(TenantComponents.ASSET);
-    this.setStaticFilters([{ WithSite: true }]);
+    this.setStaticFilters([{ WithSite: true }, { WithParentSiteArea: true },]);
     this.initDataSource();
     this.initUrlParams();
   }
@@ -133,8 +133,6 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
         sortable: true,
         headerClass: 'col-30p',
         class: 'col-30p',
-        sorted: true,
-        direction: 'asc',
       },
       {
         id: 'name',
@@ -159,7 +157,20 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
         headerClass: 'col-10p text-center',
         class: 'col-10p text-center',
         formatter: (numberOfPhases: number, siteArea: SiteArea) => siteArea.issuer ? numberOfPhases.toString() : '-',
-      },
+      }
+    ];
+    if (this.componentService.isActive(TenantComponents.SMART_CHARGING)) {
+      tableColumnDef.push(
+        {
+          id: 'smartCharging',
+          name: 'site_areas.smart_charging',
+          headerClass: 'col-10p text-center',
+          class: 'col-10p text-center',
+          formatter: (smartCharging: boolean) => Utils.displayYesNo(this.translateService, smartCharging),
+        }
+      );
+    }
+    tableColumnDef.push(
       {
         id: 'accessControl',
         name: 'site_areas.access_control',
@@ -168,11 +179,16 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
         formatter: (accessControl: boolean, siteArea: SiteArea) => siteArea.issuer ? Utils.displayYesNo(this.translateService, accessControl) : '-',
       },
       {
+        id: 'parentSiteArea.name',
+        name: 'site_areas.parent_site_area',
+        headerClass: 'col-20p',
+        class: 'col-20p',
+      },
+      {
         id: 'site.name',
         name: 'sites.site',
         headerClass: 'col-20p',
         class: 'col-20p',
-        sortable: true,
       },
       {
         id: 'address.city',
@@ -209,7 +225,6 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
         formatter: (lastChangedOn: Date) => this.datePipe.transform(lastChangedOn),
         headerClass: 'col-15em',
         class: 'col-15em',
-        sortable: true,
       },
       {
         id: 'lastChangedBy',
@@ -218,18 +233,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
         headerClass: 'col-15em',
         class: 'col-15em',
       },
-    ];
-    if (this.componentService.isActive(TenantComponents.SMART_CHARGING)) {
-      tableColumnDef.push(
-        {
-          id: 'smartCharging',
-          name: 'site_areas.smart_charging',
-          headerClass: 'col-10p text-center',
-          class: 'col-10p text-center',
-          formatter: (smartCharging: boolean) => Utils.displayYesNo(this.translateService, smartCharging),
-        }
-      );
-    }
+    );
     return tableColumnDef;
   }
 

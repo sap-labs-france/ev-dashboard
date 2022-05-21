@@ -54,6 +54,14 @@ export interface FilterParams {
   [param: string]: string | string[];
 }
 
+export interface CustomButton {
+  id: string;
+  name: string;
+  color?: 'primary'|'warn';
+  cancelButton?: boolean;
+  validateButton?: boolean;
+}
+
 export enum ButtonAction {
   ACTIVATE = 'activate',
   DEACTIVATE = 'deactivate',
@@ -88,7 +96,20 @@ export enum ButtonAction {
   DOWNLOAD = 'download',
   TEST_CONNECTION = 'test_connection',
   IMPORT = 'import',
-  VIEW_PRICING_DEFINITIONS = 'pricing_definitions'
+  VIEW_PRICING_DEFINITIONS = 'pricing_definitions',
+  OK = 'OK',
+  CANCEL = 'CANCEL',
+  YES = 'YES',
+  NO = 'NO',
+  SAVE_AND_CLOSE = 'SAVE_AND_CLOSE',
+  DO_NOT_SAVE_AND_CLOSE = 'DO_NOT_SAVE_AND_CLOSE',
+}
+
+export enum ButtonActionColor {
+  BASIC = '',
+  PRIMARY = 'primary',
+  ACCENT = 'accent',
+  WARN = 'warn',
 }
 
 export enum ChipType {

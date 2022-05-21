@@ -7,8 +7,8 @@ import { DialogService } from '../../../../services/dialog.service';
 import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
 import { ChargingStation, ChargingStationButtonAction, OCPPConfigurationStatus, OcppParameter } from '../../../../types/ChargingStation';
-import { KeyValue } from '../../../../types/GlobalType';
-import { ButtonType, TableActionDef } from '../../../../types/Table';
+import { ButtonAction, KeyValue } from '../../../../types/GlobalType';
+import { TableActionDef } from '../../../../types/Table';
 import { Utils } from '../../../../utils/Utils';
 import { TableSaveAction } from '../table-save-action';
 import { TableChargingStationsRebootAction } from './table-charging-stations-reboot-action';
@@ -40,7 +40,7 @@ export class TableSaveOCPPParameterAction extends TableSaveAction {
         translateService.instant('chargers.set_configuration_title'),
         translateService.instant('chargers.set_configuration_confirm', { chargeBoxID: charger.id, key: param.key }),
       ).subscribe((result) => {
-        if (result === ButtonType.YES) {
+        if (result === ButtonAction.YES) {
           spinnerService.show();
           const params: KeyValue = { key: param.key, value: param.value, readonly: param.readonly };
           if (param.custom) {

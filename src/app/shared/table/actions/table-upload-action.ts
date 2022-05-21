@@ -1,10 +1,10 @@
 import { OicpButtonAction } from 'types/oicp/OICPEndpoint';
 
 import { ChargingStationButtonAction } from '../../../types/ChargingStation';
-import { ButtonAction } from '../../../types/GlobalType';
+import { ButtonAction, ButtonActionColor } from '../../../types/GlobalType';
 import { OcpiButtonAction } from '../../../types/ocpi/OCPIEndpoint';
 import { SiteButtonAction } from '../../../types/Site';
-import { ButtonColor, TableActionDef } from '../../../types/Table';
+import { TableActionDef } from '../../../types/Table';
 import { TransactionButtonAction } from '../../../types/Transaction';
 import { UserButtonAction } from '../../../types/User';
 import { TableAction } from './table-action';
@@ -14,7 +14,7 @@ export class TableUploadAction implements TableAction {
     id: ButtonAction.SEND,
     type: 'button',
     icon: 'cloud_upload',
-    color: ButtonColor.PRIMARY,
+    color: ButtonActionColor.PRIMARY,
     name: 'general.upload',
     tooltip: 'general.tooltips.upload',
   };

@@ -7,9 +7,9 @@ import { CentralServerService } from '../../../../services/central-server.servic
 import { DialogService } from '../../../../services/dialog.service';
 import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
-import { RestResponse } from '../../../../types/GlobalType';
+import { ButtonAction, RestResponse } from '../../../../types/GlobalType';
 import PricingDefinition, { PricingButtonAction } from '../../../../types/Pricing';
-import { ButtonType, TableActionDef } from '../../../../types/Table';
+import { TableActionDef } from '../../../../types/Table';
 import { Utils } from '../../../../utils/Utils';
 import { TableDeleteAction } from '../table-delete-action';
 
@@ -33,7 +33,7 @@ export class TableDeletePricingDefinitionAction extends TableDeleteAction {
       translateService.instant('settings.pricing.pricing_definition_delete_title'),
       translateService.instant('settings.pricing.pricing_definition_delete_confirm'),
     ).subscribe((result) => {
-      if (result === ButtonType.YES) {
+      if (result === ButtonAction.YES) {
         spinnerService.show();
         centralServerService.deletePricingDefinition(pricingDefinition.id).subscribe((response) => {
           spinnerService.hide();

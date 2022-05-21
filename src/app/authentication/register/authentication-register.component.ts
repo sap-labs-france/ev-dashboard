@@ -36,7 +36,7 @@ export class AuthenticationRegisterComponent implements OnInit, OnDestroy {
   public hidePassword = true;
   public hideRepeatPassword = true;
 
-  public tenantLogo = Constants.TENANT_DEFAULT_LOGO;
+  public tenantLogo = Constants.NO_IMAGE;
 
   private messages: Record<string, string>;
   private subDomain: string;

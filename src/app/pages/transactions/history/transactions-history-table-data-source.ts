@@ -505,13 +505,13 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
       case LogButtonAction.NAVIGATE_TO_LOGS:
         if (actionDef.action) {
           (actionDef as TableOpenURLActionDef).action('logs?ChargingStationID=' + transaction.chargeBoxID +
-            '&StartDateTime=' + transaction.timestamp + '&EndDateTime=' + transaction.stop.timestamp + '&LogLevel=I');
+            '&StartDateTime=' + transaction.timestamp + '&EndDateTime=' + transaction.stop.timestamp + '&LogLevel=I', this.windowService);
         }
         break;
       case ChargingStationButtonAction.NAVIGATE_TO_CHARGING_PLANS:
         if (actionDef.action) {
           (actionDef as TableOpenURLActionDef).action('charging-stations#chargingplans?ChargingStationID=' +
-            transaction.chargeBoxID + '&TransactionID=' + transaction.id);
+            transaction.chargeBoxID + '&TransactionID=' + transaction.id, this.windowService);
         }
         break;
       case TransactionButtonAction.PUSH_TRANSACTION_CDR:

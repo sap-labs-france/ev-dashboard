@@ -13,9 +13,9 @@ import { ComponentService } from '../../../../services/component.service';
 import { DialogService } from '../../../../services/dialog.service';
 import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
-import { RestResponse } from '../../../../types/GlobalType';
+import { ButtonAction, RestResponse } from '../../../../types/GlobalType';
 import { HTTPError } from '../../../../types/HTTPError';
-import { SiteArea } from '../../../../types/SiteArea';
+import { SiteArea, SiteAreaButtonAction, SubSiteAreaAction } from '../../../../types/SiteArea';
 import { TenantComponents } from '../../../../types/Tenant';
 import { Utils } from '../../../../utils/Utils';
 import { SiteAreaLimitsComponent } from './limits/site-area-limits.component';
@@ -42,6 +42,8 @@ export class SiteAreaComponent extends AbstractTabComponent implements OnInit {
   public formGroup!: FormGroup;
   public readOnly = true;
   public siteArea: SiteArea;
+
+  private subSiteAreaActions: SubSiteAreaAction[] = [];
 
   public constructor(
     private centralServerService: CentralServerService,
@@ -70,7 +72,7 @@ export class SiteAreaComponent extends AbstractTabComponent implements OnInit {
   public loadSiteArea() {
     if (this.currentSiteAreaID) {
       this.spinnerService.show();
-      this.centralServerService.getSiteArea(this.currentSiteAreaID, true).subscribe((siteArea) => {
+      this.centralServerService.getSiteArea(this.currentSiteAreaID, true, true).subscribe((siteArea) => {
         this.spinnerService.hide();
         this.siteArea = siteArea;
         // Check if OCPI has to be displayed
@@ -112,22 +114,22 @@ export class SiteAreaComponent extends AbstractTabComponent implements OnInit {
     this.siteAreaOcpiComponent?.siteChanged(site);
   }
 
-  public saveSiteArea(siteArea: SiteArea) {
+  public saveSiteArea(siteArea: SiteArea, subSiteAreaActions: SubSiteAreaAction[]) {
     if (this.currentSiteAreaID) {
-      this.updateSiteArea(siteArea);
+      this.updateSiteArea(siteArea, subSiteAreaActions);
     } else {
-      this.createSiteArea(siteArea);
+      this.createSiteArea(siteArea, subSiteAreaActions);
     }
   }
 
-  private createSiteArea(siteArea: SiteArea) {
+  private createSiteArea(siteArea: SiteArea, subSiteAreaActions: SubSiteAreaAction[] = []) {
     this.spinnerService.show();
     // Set the image
     this.siteAreaMainComponent.updateSiteAreaImage(siteArea);
     // Set coordinates
     this.siteAreaMainComponent.updateSiteAreaCoordinates(siteArea);
     // Create
-    this.centralServerService.createSiteArea(siteArea).subscribe((response) => {
+    this.centralServerService.createSiteArea(siteArea, subSiteAreaActions).subscribe((response) => {
       this.spinnerService.hide();
       if (response.status === RestResponse.SUCCESS) {
         this.messageService.showSuccessMessage('site_areas.create_success',
@@ -142,23 +144,22 @@ export class SiteAreaComponent extends AbstractTabComponent implements OnInit {
       this.spinnerService.hide();
       switch (error.status) {
         case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
-          this.messageService.showErrorMessage('site_areas.site_area_do_not_exist');
+          this.messageService.showErrorMessage('site_areas.site_area_does_not_exist');
           break;
         default:
-          Utils.handleHttpError(error, this.router, this.messageService,
-            this.centralServerService, 'site_areas.create_error');
+          this.handleHttpTreeError(siteArea, error, 'site_areas.create_error');
       }
     });
   }
 
-  private updateSiteArea(siteArea: SiteArea) {
+  private updateSiteArea(siteArea: SiteArea, subSiteAreaActions: SubSiteAreaAction[] = []) {
     this.spinnerService.show();
     // Set the image
     this.siteAreaMainComponent.updateSiteAreaImage(siteArea);
     // Set coordinates
     this.siteAreaMainComponent.updateSiteAreaCoordinates(siteArea);
     // Update
-    this.centralServerService.updateSiteArea(siteArea).subscribe((response) => {
+    this.centralServerService.updateSiteArea(siteArea, subSiteAreaActions).subscribe((response) => {
       this.spinnerService.hide();
       if (response.status === RestResponse.SUCCESS) {
         this.messageService.showSuccessMessage('site_areas.update_success', { siteAreaName: siteArea.name });
@@ -173,6 +174,9 @@ export class SiteAreaComponent extends AbstractTabComponent implements OnInit {
         case HTTPError.THREE_PHASE_CHARGER_ON_SINGLE_PHASE_SITE_AREA:
           this.messageService.showErrorMessage('site_areas.update_phase_error');
           break;
+        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+          this.messageService.showErrorMessage('site_areas.site_area_does_not_exist');
+          break;
         case HTTPError.CLEAR_CHARGING_PROFILE_NOT_SUCCESSFUL:
           this.dialogService.createAndShowOkDialog(
             this.translateService.instant('chargers.smart_charging.clearing_charging_profiles_not_successful_title'),
@@ -180,13 +184,76 @@ export class SiteAreaComponent extends AbstractTabComponent implements OnInit {
               { siteAreaName: siteArea.name }));
           this.closeDialog(true);
           break;
-        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
-          this.messageService.showErrorMessage('site_areas.site_areas_do_not_exist');
-          break;
         default:
-          Utils.handleHttpError(error, this.router, this.messageService,
-            this.centralServerService, 'site_areas.update_error');
+          this.handleHttpTreeError(siteArea, error, 'site_areas.update_error');
       }
     });
+  }
+
+  private handleHttpTreeError(siteArea: SiteArea, error: any, defaultMessage: string) {
+    switch (error.status) {
+      case HTTPError.SITE_AREA_TREE_ERROR:
+        this.dialogService.createAndShowOkDialog(
+          this.translateService.instant('site_areas.site_area_hierarchy_error_title'),
+          this.translateService.instant('site_areas.site_area_tree_error'));
+        break;
+      case HTTPError.SITE_AREA_TREE_ERROR_SITE:
+        this.dialogService.createAndShowDialog(
+          this.translateService.instant('site_areas.site_area_hierarchy_error_title'),
+          this.translateService.instant('site_areas.site_area_tree_error_site'), [
+            { id: SiteAreaButtonAction.SUB_SITE_AREA_UPDATE, name: 'site_areas.site_area_tree_error_site_update', color: 'primary' },
+            { id: SiteAreaButtonAction.SUB_SITE_AREA_ATTACH, name: 'site_areas.site_area_tree_error_site_attach', color: 'primary' },
+            { id: SiteAreaButtonAction.SUB_SITE_AREA_CLEAR, name: 'site_areas.site_area_tree_error_site_clear', color: 'warn' },
+          ]
+        ).subscribe((result: SiteAreaButtonAction) => {
+          let subSiteAreaAction: SubSiteAreaAction;
+          switch (result) {
+            case SiteAreaButtonAction.SUB_SITE_AREA_ATTACH:
+              subSiteAreaAction = SubSiteAreaAction.ATTACH;
+              break;
+            case SiteAreaButtonAction.SUB_SITE_AREA_UPDATE:
+              subSiteAreaAction = SubSiteAreaAction.UPDATE;
+              break;
+            case SiteAreaButtonAction.SUB_SITE_AREA_CLEAR:
+              subSiteAreaAction = SubSiteAreaAction.CLEAR;
+              break;
+          }
+          if (subSiteAreaAction) {
+            this.subSiteAreaActions.push(subSiteAreaAction);
+            this.saveSiteArea(siteArea, this.subSiteAreaActions);
+          }
+        });
+        break;
+      case HTTPError.SITE_AREA_TREE_ERROR_SMART_CHARGING:
+        this.dialogService.createAndShowYesNoDialog(
+          this.translateService.instant('site_areas.site_area_hierarchy_error_title'),
+          this.translateService.instant('site_areas.site_area_tree_error_smart_charging')
+        ).subscribe((result: ButtonAction) => {
+          if (result === ButtonAction.YES) {
+            this.subSiteAreaActions.push(SubSiteAreaAction.FORCE_SMART_CHARGING);
+            this.saveSiteArea(siteArea, this.subSiteAreaActions);
+          }
+        });
+        break;
+      case HTTPError.SITE_AREA_TREE_ERROR_SMART_NBR_PHASES:
+        this.dialogService.createAndShowOkDialog(
+          this.translateService.instant('site_areas.site_area_hierarchy_error_title'),
+          this.translateService.instant('site_areas.site_area_tree_error_number_of_phases'));
+        break;
+      case HTTPError.SITE_AREA_TREE_ERROR_MULTIPLE_ACTIONS_NOT_SUPPORTED:
+        this.dialogService.createAndShowOkDialog(
+          this.translateService.instant('site_areas.site_area_hierarchy_error_title'),
+          this.translateService.instant('site_areas.site_area_tree_error_multiple_actions_not_supported'));
+        this.subSiteAreaActions.length = 0;
+        break;
+      case HTTPError.SITE_AREA_TREE_ERROR_VOLTAGE:
+        this.dialogService.createAndShowOkDialog(
+          this.translateService.instant('site_areas.site_area_hierarchy_error_title'),
+          this.translateService.instant('site_areas.site_area_tree_error_voltage'));
+        break;
+      default:
+        Utils.handleHttpError(error, this.router, this.messageService,
+          this.centralServerService, defaultMessage);
+    }
   }
 }

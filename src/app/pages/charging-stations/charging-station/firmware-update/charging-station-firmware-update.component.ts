@@ -10,9 +10,8 @@ import { LocaleService } from '../../../../services/locale.service';
 import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
 import { ChargingStation } from '../../../../types/ChargingStation';
-import { KeyValue } from '../../../../types/GlobalType';
+import { ButtonAction, KeyValue } from '../../../../types/GlobalType';
 import { HTTPError } from '../../../../types/HTTPError';
-import { ButtonType } from '../../../../types/Table';
 import { Utils } from '../../../../utils/Utils';
 
 @Component({
@@ -63,7 +62,7 @@ export class ChargingStationFirmwareUpdateComponent implements OnInit {
       this.translateService.instant('chargers.update_firmware_title'),
       this.translateService.instant('chargers.update_firmware_confirm', { chargeBoxID: this.charger.id }),
     ).subscribe((result) => {
-      if (result === ButtonType.YES) {
+      if (result === ButtonAction.YES) {
         this.spinnerService.show();
         this.centralServerService.chargingStationUpdateFirmware(this.charger, this.url.value).subscribe(() => {
           this.spinnerService.hide();

@@ -1,6 +1,7 @@
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { ButtonActionColor, ButtonAction } from 'types/GlobalType';
 
 import { CentralServerService } from '../../../../services/central-server.service';
 import { DialogService } from '../../../../services/dialog.service';
@@ -8,7 +9,7 @@ import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
 import { ChargingStation, ChargingStationButtonAction, OCPPGeneralResponse } from '../../../../types/ChargingStation';
 import { ActionResponse } from '../../../../types/DataResult';
-import { ButtonColor, ButtonType, TableActionDef } from '../../../../types/Table';
+import { TableActionDef } from '../../../../types/Table';
 import { Utils } from '../../../../utils/Utils';
 import { TableAction } from '../table-action';
 
@@ -23,7 +24,7 @@ export class TableUpdateOCPPParamsAction implements TableAction {
     id: ChargingStationButtonAction.UPDATE_OCPP_PARAMS,
     type: 'button',
     icon: 'system_update_alt',
-    color: ButtonColor.PRIMARY,
+    color: ButtonActionColor.PRIMARY,
     name: 'chargers.button_force_ocpp_params_update_from_template',
     tooltip: 'chargers.button_force_ocpp_params_update_from_template',
     action: this.updateOCPPParameters,
@@ -40,7 +41,7 @@ export class TableUpdateOCPPParamsAction implements TableAction {
       translateService.instant('chargers.ocpp_params_update_from_template_title'),
       translateService.instant('chargers.ocpp_params_update_from_template_confirm', { chargeBoxID: chargingStation.id })
     ).subscribe((result) => {
-      if (result === ButtonType.YES) {
+      if (result === ButtonAction.YES) {
         spinnerService.show();
         centralServerService.updateChargingStationOCPPParamWithTemplate(chargingStation.id).subscribe((response: ActionResponse) => {
           spinnerService.hide();

@@ -6,8 +6,8 @@ import { CentralServerService } from '../../../../services/central-server.servic
 import { DialogService } from '../../../../services/dialog.service';
 import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
-import { RestResponse } from '../../../../types/GlobalType';
-import { ButtonType, TableActionDef } from '../../../../types/Table';
+import { ButtonAction, RestResponse } from '../../../../types/GlobalType';
+import { TableActionDef } from '../../../../types/Table';
 import { Tag, TagButtonAction } from '../../../../types/Tag';
 import { Utils } from '../../../../utils/Utils';
 import { TableActivateAction } from '../table-activate-action';
@@ -32,7 +32,7 @@ export class TableActivateTagAction extends TableActivateAction {
       translateService.instant('tags.activate_title'),
       translateService.instant('tags.activate_confirm', { tagID: tag.id }),
     ).subscribe((response) => {
-      if (response === ButtonType.YES) {
+      if (response === ButtonAction.YES) {
         spinnerService.show();
         const tagUpdated: Tag = {
           id: tag.id,

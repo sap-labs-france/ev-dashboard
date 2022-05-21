@@ -1,9 +1,9 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
-import { ButtonAction } from '../../../types/GlobalType';
+import { ButtonActionColor, ButtonAction } from '../../../types/GlobalType';
 import { RESTServerRoute } from '../../../types/Server';
-import { ButtonColor, TableActionDef } from '../../../types/Table';
+import { TableActionDef } from '../../../types/Table';
 import { TableAction } from './table-action';
 
 export class TableImportAction implements TableAction {
@@ -12,7 +12,7 @@ export class TableImportAction implements TableAction {
     type: 'button',
     icon: 'cloud_upload',
     name: 'general.import',
-    color: ButtonColor.PRIMARY,
+    color: ButtonActionColor.PRIMARY,
     tooltip: 'general.import',
     action: this.import
   };

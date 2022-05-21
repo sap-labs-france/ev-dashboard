@@ -3,8 +3,8 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 
 import { AuthorizationAttributes, DialogData, DialogMode, DialogParamsWithAuth } from '../../../types/Authorization';
-import { ButtonAction } from '../../../types/GlobalType';
-import { ButtonColor, TableActionDef } from '../../../types/Table';
+import { ButtonActionColor, ButtonAction } from '../../../types/GlobalType';
+import { TableActionDef } from '../../../types/Table';
 import { TableAction } from './table-action';
 
 export class TableEditAction implements TableAction {
@@ -12,7 +12,7 @@ export class TableEditAction implements TableAction {
     id: ButtonAction.EDIT,
     type: 'button',
     icon: 'edit',
-    color: ButtonColor.PRIMARY,
+    color: ButtonActionColor.PRIMARY,
     name: 'general.edit',
     tooltip: 'general.tooltips.edit',
     action: this.edit,

@@ -1,5 +1,5 @@
 import { ButtonAction } from '../../../types/GlobalType';
-import { ButtonColor, TableActionDef } from '../../../types/Table';
+import { ButtonActionColor, TableActionDef } from '../../../types/Table';
 import { TableAction } from './table-action';
 
 export class TableSettingsAction implements TableAction {
@@ -7,7 +7,7 @@ export class TableSettingsAction implements TableAction {
     id: ButtonAction.SETTINGS,
     type: 'button',
     icon: 'settings',
-    color: ButtonColor.PRIMARY,
+    color: ButtonActionColor.PRIMARY,
     name: 'general.edit',
     tooltip: 'general.tooltips.settings',
   };

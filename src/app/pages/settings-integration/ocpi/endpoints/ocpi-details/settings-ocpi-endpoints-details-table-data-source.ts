@@ -21,7 +21,7 @@ import { DataResult } from '../../../../../types/DataResult';
 import { ButtonAction, RestResponse } from '../../../../../types/GlobalType';
 import { HTTPError } from '../../../../../types/HTTPError';
 import { OcpiButtonAction, OcpiEndpoint, OcpiEndpointDetail, OcpiRole } from '../../../../../types/ocpi/OCPIEndpoint';
-import { ButtonType, TableActionDef, TableColumnDef, TableDef } from '../../../../../types/Table';
+import { TableActionDef, TableColumnDef, TableDef } from '../../../../../types/Table';
 import { Utils } from '../../../../../utils/Utils';
 import { OcpiDetailFailureEvsesStatusFormatterComponent } from '../formatters/ocpi-detail-failure-evses-status-formatter.component';
 import { OcpiDetailJobStatusFormatterComponent } from '../formatters/ocpi-detail-job-status-formatter.component';
@@ -238,7 +238,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
       this.translateService.instant('ocpiendpoints.push_evse_statuses_title'),
       this.translateService.instant('ocpiendpoints.push_evse_statuses_confirm', { name: ocpiendpoint.name }),
     ).subscribe((result) => {
-      if (result === ButtonType.YES) {
+      if (result === ButtonAction.YES) {
         this.centralServerService.sendEVSEStatusesOcpiEndpoint(ocpiendpoint).subscribe((response) => {
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
             this.messageService.showInfoMessage('ocpiendpoints.push_evse_statuses_success', { success: response.success });
@@ -270,7 +270,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
       this.translateService.instant('ocpiendpoints.push_tokens_title'),
       this.translateService.instant('ocpiendpoints.push_tokens_confirm', { name: ocpiendpoint.name }),
     ).subscribe((result) => {
-      if (result === ButtonType.YES) {
+      if (result === ButtonAction.YES) {
         this.centralServerService.sendTokensOcpiEndpoint(ocpiendpoint).subscribe((response) => {
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
             this.messageService.showInfoMessage('ocpiendpoints.push_tokens_success');
@@ -302,7 +302,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
       this.translateService.instant('ocpiendpoints.pull_locations_title'),
       this.translateService.instant('ocpiendpoints.pull_locations_confirm', { name: ocpiendpoint.name }),
     ).subscribe((result) => {
-      if (result === ButtonType.YES) {
+      if (result === ButtonAction.YES) {
         this.centralServerService.pullLocationsOcpiEndpoint(ocpiendpoint).subscribe((response) => {
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
             this.messageService.showInfoMessage('ocpiendpoints.pull_locations_success');
@@ -334,7 +334,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
       this.translateService.instant('ocpiendpoints.get_sessions_title'),
       this.translateService.instant('ocpiendpoints.get_sessions_confirm', { name: ocpiendpoint.name }),
     ).subscribe((result) => {
-      if (result === ButtonType.YES) {
+      if (result === ButtonAction.YES) {
         this.centralServerService.pullSessionsOcpiEndpoint(ocpiendpoint).subscribe((response) => {
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
             this.messageService.showInfoMessage('ocpiendpoints.get_sessions_success');
@@ -366,7 +366,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
       this.translateService.instant('ocpiendpoints.pull_tokens_title'),
       this.translateService.instant('ocpiendpoints.pull_tokens_confirm', { name: ocpiendpoint.name }),
     ).subscribe((result) => {
-      if (result === ButtonType.YES) {
+      if (result === ButtonAction.YES) {
         this.centralServerService.pullTokensOcpiEndpoint(ocpiendpoint).subscribe((response) => {
           if (response.status === RestResponse.SUCCESS) {
             this.messageService.showInfoMessage('ocpiendpoints.pull_tokens_success', { success: response.success });
@@ -398,7 +398,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
       this.translateService.instant('ocpiendpoints.check_locations_title'),
       this.translateService.instant('ocpiendpoints.check_locations_confirm', { name: ocpiendpoint.name }),
     ).subscribe((result) => {
-      if (result === ButtonType.YES) {
+      if (result === ButtonAction.YES) {
         this.centralServerService.checkLocationsOcpiEndpoint(ocpiendpoint).subscribe((response) => {
           if (response.status === RestResponse.SUCCESS) {
             this.messageService.showInfoMessage('ocpiendpoints.check_locations_success', { success: response.success });
@@ -430,7 +430,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
       this.translateService.instant('ocpiendpoints.check_sessions_title'),
       this.translateService.instant('ocpiendpoints.check_sessions_confirm', { name: ocpiendpoint.name }),
     ).subscribe((result) => {
-      if (result === ButtonType.YES) {
+      if (result === ButtonAction.YES) {
         this.centralServerService.checkSessionsOcpiEndpoint(ocpiendpoint).subscribe((response) => {
           if (response.status === RestResponse.SUCCESS) {
             this.messageService.showInfoMessage('ocpiendpoints.check_sessions_success');
@@ -462,7 +462,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
       this.translateService.instant('ocpiendpoints.check_cdrs_title'),
       this.translateService.instant('ocpiendpoints.check_cdrs_confirm', { name: ocpiendpoint.name }),
     ).subscribe((result) => {
-      if (result === ButtonType.YES) {
+      if (result === ButtonAction.YES) {
         this.centralServerService.checkCdrsOcpiEndpoint(ocpiendpoint).subscribe((response) => {
           if (response.status === RestResponse.SUCCESS) {
             this.messageService.showInfoMessage('ocpiendpoints.check_cdrs_success');
@@ -494,7 +494,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
       this.translateService.instant('ocpiendpoints.pull_cdrs_title'),
       this.translateService.instant('ocpiendpoints.pull_cdrs_confirm', { name: ocpiendpoint.name }),
     ).subscribe((result) => {
-      if (result === ButtonType.YES) {
+      if (result === ButtonAction.YES) {
         this.centralServerService.pullCdrsOcpiEndpoint(ocpiendpoint).subscribe((response) => {
           if (response.status === RestResponse.SUCCESS) {
             this.messageService.showInfoMessage('ocpiendpoints.pull_cdrs_success', { success: response.success });
@@ -529,7 +529,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
       (enable) ? this.translateService.instant('ocpiendpoints.start_background_job_confirm', { name: ocpiendpoint.name })
         : this.translateService.instant('ocpiendpoints.stop_background_job_confirm', { name: ocpiendpoint.name }),
     ).subscribe((result) => {
-      if (result === ButtonType.YES) {
+      if (result === ButtonAction.YES) {
         // Switch background job state
         ocpiendpoint.backgroundPatchJob = enable;
         this.centralServerService.updateOcpiEndpoint(ocpiendpoint).subscribe((response) => {

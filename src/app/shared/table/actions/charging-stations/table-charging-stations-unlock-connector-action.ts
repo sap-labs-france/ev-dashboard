@@ -8,8 +8,9 @@ import { SpinnerService } from 'services/spinner.service';
 import { TableAction } from 'shared/table/actions/table-action';
 import { ChargingStation, ChargingStationButtonAction, Connector } from 'types/ChargingStation';
 import { ActionResponse } from 'types/DataResult';
+import { ButtonActionColor, ButtonAction } from 'types/GlobalType';
 import { OCPPUnlockStatus } from 'types/ocpp/OCPP';
-import { ButtonColor, ButtonType, TableActionDef } from 'types/Table';
+import { TableActionDef } from 'types/Table';
 import { Utils } from 'utils/Utils';
 
 export interface TableChargingStationsUnlockConnectorActionDef extends TableActionDef {
@@ -24,7 +25,7 @@ export class TableChargingStationsUnlockConnectorAction implements TableAction {
     id: ChargingStationButtonAction.UNLOCK_CONNECTOR,
     type: 'button',
     icon: 'lock_open',
-    color: ButtonColor.ACCENT,
+    color: ButtonActionColor.ACCENT,
     name: 'general.unlock',
     tooltip: 'general.tooltips.unlock',
     action: this.unlockConnector.bind(this),
@@ -45,7 +46,7 @@ export class TableChargingStationsUnlockConnectorAction implements TableAction {
         connectorId: Utils.getConnectorLetterFromConnectorID(connector.connectorId),
       }),
     ).subscribe((response) => {
-      if (response === ButtonType.YES) {
+      if (response === ButtonAction.YES) {
         spinnerService.show();
         centralServerService.chargingStationsUnlockConnector(
           chargingStation.id, connector.connectorId).subscribe((unlockConnectorResponse: ActionResponse) => {

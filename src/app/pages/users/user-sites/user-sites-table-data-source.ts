@@ -16,7 +16,7 @@ import { TableDataSource } from '../../../shared/table/table-data-source';
 import { DataResult } from '../../../types/DataResult';
 import { ButtonAction, RestResponse } from '../../../types/GlobalType';
 import { Site, SiteUser } from '../../../types/Site';
-import { ButtonType, TableActionDef, TableColumnDef, TableDef } from '../../../types/Table';
+import { TableActionDef, TableColumnDef, TableDef } from '../../../types/Table';
 import { User } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';
 import { UserSitesAdminCheckboxComponent } from './user-sites-admin-checkbox.component';
@@ -164,7 +164,7 @@ export class UserSitesTableDataSource extends TableDataSource<SiteUser> {
             this.translateService.instant('users.remove_sites_title'),
             this.translateService.instant('users.remove_sites_confirm'),
           ).subscribe((response) => {
-            if (response === ButtonType.YES) {
+            if (response === ButtonAction.YES) {
               // Remove
               this.removeSites(this.getSelectedRows().map((row) => row.site.id));
             }

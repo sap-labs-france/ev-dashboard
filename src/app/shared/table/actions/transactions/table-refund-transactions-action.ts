@@ -1,6 +1,7 @@
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { ButtonActionColor, ButtonAction } from 'types/GlobalType';
 
 import { CentralServerService } from '../../../../services/central-server.service';
 import { DialogService } from '../../../../services/dialog.service';
@@ -9,7 +10,7 @@ import { SpinnerService } from '../../../../services/spinner.service';
 import { ActionsResponse } from '../../../../types/DataResult';
 import { HTTPError } from '../../../../types/HTTPError';
 import { RefundSettings } from '../../../../types/Setting';
-import { ButtonColor, ButtonType, TableActionDef } from '../../../../types/Table';
+import { TableActionDef } from '../../../../types/Table';
 import { Transaction, TransactionButtonAction } from '../../../../types/Transaction';
 import { Utils } from '../../../../utils/Utils';
 import { TableAction } from '../table-action';
@@ -25,7 +26,7 @@ export class TableRefundTransactionsAction implements TableAction {
     id: TransactionButtonAction.REFUND_TRANSACTIONS,
     type: 'button',
     icon: 'local_atm',
-    color: ButtonColor.PRIMARY,
+    color: ButtonActionColor.PRIMARY,
     name: 'general.refund',
     tooltip: 'general.tooltips.refund',
     action: this.refund,
@@ -49,7 +50,7 @@ export class TableRefundTransactionsAction implements TableAction {
         translateService.instant('transactions.dialog.refund.title'),
         translateService.instant('transactions.dialog.refund.confirm', { quantity: transactions.length }),
       ).subscribe((response) => {
-        if (response === ButtonType.YES) {
+        if (response === ButtonAction.YES) {
           spinnerService.show();
           centralServerService.refundTransactions(transactions.map((transaction) => transaction.id))
             .subscribe((res: ActionsResponse) => {

@@ -69,7 +69,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
   }
 
   public setEndpoint(ocpiEndpoint: OCPIEndpoint) {
-    this.ocpiEndpoint = ocpiEndpoint;
+    this.ocpiEndpoint = Utils.cloneObject(ocpiEndpoint);
     this.initDataSource(true);
   }
 

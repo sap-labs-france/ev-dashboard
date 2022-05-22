@@ -1970,8 +1970,9 @@
     "start_background_job_confirm": "Voulez-vous vraiment démarrer le processus de mise à jour pour IOP '{{name}}' ?",
     "stop_background_job_title": "Arrêter le processus de mise à jour",
     "stop_background_job_confirm": "Voulez-vous vraiment arrêter le processus de mise à jour pour IOP '{{name}}' ?",
-    "total_charge_points": "Points de Charge",
-    "total_tokens": "Jetons",
+    "total_charge_points": "Bornes",
+    "total_tokens": "Badges",
+    "total_locations": "Sites",
     "total": "Total",
     "succeeded": "Succès",
     "failed": "Echecs"

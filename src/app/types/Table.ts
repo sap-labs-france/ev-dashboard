@@ -10,7 +10,7 @@ import { ChargingStationButtonAction } from './ChargingStation';
 import { CompanyButtonAction } from './Company';
 import { ButtonAction, ButtonActionColor, KeyValue } from './GlobalType';
 import { LogButtonAction } from './Log';
-import { OcpiButtonAction } from './ocpi/OCPIEndpoint';
+import { OCPIButtonAction } from './ocpi/OCPIEndpoint';
 import { OicpButtonAction } from './oicp/OICPEndpoint';
 import { PricingButtonAction } from './Pricing';
 import { RegistrationTokenButtonAction } from './RegistrationToken';
@@ -102,7 +102,7 @@ export enum FilterType {
 
 export interface TableActionDef {
   id: ButtonAction | CompanyButtonAction | TenantButtonAction | SiteAreaButtonAction | ChargingStationButtonAction |
-  UserButtonAction | TransactionButtonAction | SiteButtonAction | OcpiButtonAction | OicpButtonAction | AssetButtonAction |
+  UserButtonAction | TransactionButtonAction | SiteButtonAction | OCPIButtonAction | OicpButtonAction | AssetButtonAction |
   BillingButtonAction | CarButtonAction | LogButtonAction | RegistrationTokenButtonAction | TagButtonAction | PricingButtonAction;
   type: ActionType;
   currentValue?: any;

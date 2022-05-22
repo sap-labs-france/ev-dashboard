@@ -1,33 +1,89 @@
-import { TableData } from '../Table';
+import CreatedUpdatedProps from 'types/CreatedUpdatedProps';
 
-export interface OcpiEndpoint extends TableData {
+import { TableData } from '../Table';
+import { OCPIRole } from './OCPIRole';
+
+export interface OCPIEndpoint extends TableData, CreatedUpdatedProps, OCPILastCpoPushStatus, OCPILastCpoPullToken, OCPILastEmspPullLocation, OCPILastEmspPushToken {
   id: string;
+  role: OCPIRole;
   name: string;
-  role: string;
   baseUrl: string;
-  countryCode: string;
-  partyId: string;
-  version?: string;
-  status?: OcpiEndpointStatus;
   localToken: string;
   token: string;
+  countryCode: string;
+  partyId: string;
   backgroundPatchJob: boolean;
-  lastPatchJobOn: Date;
-  lastPatchJobResult?: any;
+  status?: OCPIRegistrationStatus;
+  version?: string;
+  businessDetails?: OCPIBusinessDetails;
+  availableEndpoints?: OCPIAvailableEndpoints;
+  versionUrl?: string;
 }
 
-export interface OcpiEndpointDetail extends TableData {
-  id: string;
-  ocpiendpoint: OcpiEndpoint;
-  status: string;
-  backgroundPatchJob: boolean;
-  lastPatchJobOn: Date;
-  successNbr: number;
-  failureNbr: number;
-  totalNbr: number;
+export interface OCPIBusinessDetails {
+  name: string;
+  website: string;
+  logo?: {
+    url: string;
+    thumbnail: string;
+    category: string;
+    type: string;
+    width: number;
+    height: number;
+  };
 }
 
-export enum OcpiButtonAction {
+export interface OCPILastEmspPushToken {
+  lastEmspPushTokens?: Date;
+  lastEmspPushTokensResult?: {
+    successNbr: number;
+    failureNbr: number;
+    totalNbr: number;
+    tokenIDsInFailure?: string[];
+  };
+}
+
+export interface OCPILastEmspPullLocation {
+  lastEmspPullLocations?: Date;
+  lastEmspPullLocationsResult?: {
+    successNbr: number;
+    failureNbr: number;
+    totalNbr: number;
+    locationIDsInFailure?: string[];
+  };
+}
+
+export interface OCPILastCpoPullToken {
+  lastCpoPullTokens?: Date;
+  lastCpoPullTokensResult?: {
+    successNbr: number;
+    failureNbr: number;
+    totalNbr: number;
+    tokenIDsInFailure?: string[];
+  };
+}
+
+export interface OCPILastCpoPushStatus {
+  lastCpoPushStatuses?: Date;
+  lastCpoPushStatusesResult?: {
+    successNbr: number;
+    failureNbr: number;
+    totalNbr: number;
+    chargeBoxIDsInFailure?: string[];
+  };
+}
+
+export interface OCPIAvailableEndpoints {
+  credentials: string;
+  locations: string;
+  tokens: string;
+  commands: string;
+  sessions: string;
+  cdrs: string;
+  tariffs: string;
+}
+
+export enum OCPIButtonAction {
   PUSH_TOKENS = 'push_tokens',
   PUSH_EVSE_STATUSES = 'push_evse_statuses',
   CHECK_CDRS = 'check_cdrs',
@@ -41,18 +97,13 @@ export enum OcpiButtonAction {
   UPDATE_CREDENTIALS = 'update_credentials',
 }
 
-export enum OcpiEndpointStatus {
+export enum OCPIRegistrationStatus {
   NEW = 'new',
   REGISTERED = 'registered',
   UNREGISTERED = 'unregistered',
 }
 
-export enum OcpiRole {
-  CPO = 'CPO',
-  EMSP = 'EMSP',
-}
-
-export enum OcpiEndpointPatchJobStatus {
+export enum OCPIEndpointPatchJobStatus {
   ACTIVE = 'active',
   INACTIVE = 'inactive',
 }

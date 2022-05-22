@@ -1969,8 +1969,9 @@
     "start_background_job_confirm": "Chcete spustit všechny úlohy na pozadí platformy IOP '{{name}}'?",
     "stop_background_job_title": "Ukončit úlohu na pozadí",
     "stop_background_job_confirm": "Chcete ukončit všechny úlohy na pozadí platformy IOP '{{name}}'?",
-    "total_charge_points": "Nabíjecí místa celkem",
-    "total_tokens": "Tokeny celkem",
+    "total_charge_points": "Charging Stations",
+    "total_tokens": "RFID Cards",
+    "total_locations": "Sites",
     "total": "Celkem",
     "succeeded": "Úspěšně",
     "failed": "Nezdařilo se"

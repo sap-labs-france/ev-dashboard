@@ -33,12 +33,9 @@ import { SettingsCarConnectorConnectionEditableTableDataSource } from './car-con
 import { SettingsCarConnectorComponent } from './car-connector/settings-car-connector.component';
 import { SettingsOcpiEndpointComponent } from './ocpi/endpoints/endpoint/settings-ocpi-endpoint.component';
 import { SettingsOcpiEndpointDialogComponent } from './ocpi/endpoints/endpoint/settings-ocpi-endpoint.dialog.component';
-import { AppFormatOcpiEvsesFailurePipe, OcpiDetailFailureEvsesStatusFormatterComponent } from './ocpi/endpoints/formatters/ocpi-detail-failure-evses-status-formatter.component';
-import { AppFormatOcpiDetailJobStatusPipe, OcpiDetailJobStatusFormatterComponent } from './ocpi/endpoints/formatters/ocpi-detail-job-status-formatter.component';
-import { OcpiDetailSuccessEvsesStatusFormatterComponent } from './ocpi/endpoints/formatters/ocpi-detail-success-evses-status-formatter.component';
-import { AppFormatOcpiEvsesTotalPipe, OcpiDetailTotalEvsesStatusFormatterComponent } from './ocpi/endpoints/formatters/ocpi-detail-total-evses-status-formatter.component';
-import { AppFormatOcpiJobResultPipe, OcpiJobResultFormatterComponent } from './ocpi/endpoints/formatters/ocpi-job-result-formatter.component';
-import { AppFormatOcpiPatchJobResultPipe, OcpiPatchJobResultFormatterComponent } from './ocpi/endpoints/formatters/ocpi-patch-job-result-formatter.component';
+import { OcpiDetailFailureFormatterComponent } from './ocpi/endpoints/formatters/ocpi-detail-failure-formatter.component';
+import { OcpiDetailSuccessFormatterComponent } from './ocpi/endpoints/formatters/ocpi-detail-success-formatter.component';
+import { OcpiDetailTotalFormatterComponent } from './ocpi/endpoints/formatters/ocpi-detail-total-formatter.component';
 import { AppFormatOcpiPatchJobStatusPipe, OcpiPatchJobStatusFormatterComponent } from './ocpi/endpoints/formatters/ocpi-patch-job-status-formatter.component';
 import { AppFormatOcpiStatusPipe, OcpiEndpointStatusFormatterComponent } from './ocpi/endpoints/formatters/ocpi-status-formatter.component';
 import { SettingsOcpiEndpointsDetailsTableDataSource } from './ocpi/endpoints/ocpi-details/settings-ocpi-endpoints-details-table-data-source';
@@ -97,7 +94,6 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     SettingsSacComponent,
     SettingsSmartChargingComponent,
     SettingsSapSmartChargingComponent,
-    OcpiJobResultFormatterComponent,
     OicpJobResultFormatterComponent,
     AnalyticsLinkDialogComponent,
     SettingsOcpiComponent,
@@ -124,16 +120,9 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     OcpiEndpointStatusFormatterComponent,
     OicpEndpointStatusFormatterComponent,
     AppFormatOcpiStatusPipe,
-    OcpiDetailJobStatusFormatterComponent,
-    AppFormatOcpiDetailJobStatusPipe,
-    AppFormatOcpiJobResultPipe,
-    OcpiPatchJobResultFormatterComponent,
-    AppFormatOcpiPatchJobResultPipe,
-    OcpiDetailTotalEvsesStatusFormatterComponent,
-    AppFormatOcpiEvsesTotalPipe,
-    OcpiDetailSuccessEvsesStatusFormatterComponent,
-    OcpiDetailFailureEvsesStatusFormatterComponent,
-    AppFormatOcpiEvsesFailurePipe,
+    OcpiDetailTotalFormatterComponent,
+    OcpiDetailSuccessFormatterComponent,
+    OcpiDetailFailureFormatterComponent,
     OcpiPatchJobStatusFormatterComponent,
     AppFormatOcpiPatchJobStatusPipe,
     SettingsOcpiEndpointsDetailsComponent,
@@ -186,11 +175,9 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     SettingsOcpiEndpointDialogComponent,
     SettingsOcpiEndpointComponent,
     OcpiEndpointStatusFormatterComponent,
-    OcpiDetailJobStatusFormatterComponent,
-    OcpiPatchJobResultFormatterComponent,
-    OcpiDetailTotalEvsesStatusFormatterComponent,
-    OcpiDetailSuccessEvsesStatusFormatterComponent,
-    OcpiDetailFailureEvsesStatusFormatterComponent,
+    OcpiDetailTotalFormatterComponent,
+    OcpiDetailSuccessFormatterComponent,
+    OcpiDetailFailureFormatterComponent,
     OcpiPatchJobStatusFormatterComponent,
     SettingsOcpiEndpointsDetailsComponent,
     SettingsOicpEndpointDialogComponent,

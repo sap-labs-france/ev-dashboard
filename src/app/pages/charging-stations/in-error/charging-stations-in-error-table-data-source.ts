@@ -140,7 +140,6 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
         class: 'text-center',
         isAngularComponent: true,
         angularComponent: ChargingStationsHeartbeatCellComponent,
-        sortable: false,
       },
       {
         id: 'connectorsStatus',

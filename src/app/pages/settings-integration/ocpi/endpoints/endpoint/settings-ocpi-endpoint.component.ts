@@ -4,13 +4,13 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { StatusCodes } from 'http-status-codes';
+import { OCPIEndpoint } from 'types/ocpi/OCPIEndpoint';
 
 import { CentralServerService } from '../../../../../services/central-server.service';
 import { DialogService } from '../../../../../services/dialog.service';
 import { MessageService } from '../../../../../services/message.service';
 import { SpinnerService } from '../../../../../services/spinner.service';
 import { RestResponse } from '../../../../../types/GlobalType';
-import { OcpiEndpoint } from '../../../../../types/ocpi/OCPIEndpoint';
 import { Constants } from '../../../../../utils/Constants';
 import { Utils } from '../../../../../utils/Utils';
 
@@ -20,7 +20,7 @@ import { Utils } from '../../../../../utils/Utils';
   styleUrls: ['settings-ocpi-endpoint.component.scss']
 })
 export class SettingsOcpiEndpointComponent implements OnInit {
-  @Input() public currentEndpoint!: OcpiEndpoint;
+  @Input() public currentEndpoint!: OCPIEndpoint;
   @Input() public dialogRef!: MatDialogRef<any>;
   public formGroup!: FormGroup;
   public id!: AbstractControl;
@@ -142,17 +142,17 @@ export class SettingsOcpiEndpointComponent implements OnInit {
       this.translateService, this.save.bind(this), this.closeDialog.bind(this));
   }
 
-  public save(endpoint: OcpiEndpoint) {
+  public save(endpoint: OCPIEndpoint) {
     if (this.currentEndpoint && this.currentEndpoint.id) {
       // update existing Ocpi Endpoint
-      this.updateOcpiEndpoint(endpoint);
+      this.updateOCPIEndpoint(endpoint);
     } else {
       // create new Ocpi Endpoint
-      this.createOcpiEndpoint(endpoint);
+      this.createOCPIEndpoint(endpoint);
     }
   }
 
-  public generateLocalToken(ocpiendpoint: OcpiEndpoint) {
+  public generateLocalToken(ocpiendpoint: OCPIEndpoint) {
     // Show
     this.spinnerService.show();
     // Generate new local token
@@ -172,7 +172,7 @@ export class SettingsOcpiEndpointComponent implements OnInit {
     });
   }
 
-  public testConnection(ocpiEndpoint: OcpiEndpoint) {
+  public testConnection(ocpiEndpoint: OCPIEndpoint) {
     this.spinnerService.show();
     this.centralServerService.pingOcpiEndpoint(ocpiEndpoint).subscribe((response) => {
       this.spinnerService.hide();
@@ -204,7 +204,7 @@ export class SettingsOcpiEndpointComponent implements OnInit {
     });
   }
 
-  private createOcpiEndpoint(ocpiEndpoint: OcpiEndpoint) {
+  private createOCPIEndpoint(ocpiEndpoint: OCPIEndpoint) {
     this.spinnerService.show();
     this.centralServerService.createOcpiEndpoint(ocpiEndpoint).subscribe((response) => {
       this.spinnerService.hide();
@@ -222,7 +222,7 @@ export class SettingsOcpiEndpointComponent implements OnInit {
     });
   }
 
-  private updateOcpiEndpoint(ocpiEndpoint: OcpiEndpoint) {
+  private updateOCPIEndpoint(ocpiEndpoint: OCPIEndpoint) {
     this.spinnerService.show();
     this.centralServerService.updateOcpiEndpoint(ocpiEndpoint).subscribe((response) => {
       this.spinnerService.hide();

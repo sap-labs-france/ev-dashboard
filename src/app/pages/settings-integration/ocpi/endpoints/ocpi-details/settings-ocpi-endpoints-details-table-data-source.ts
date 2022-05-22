@@ -96,7 +96,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
   public buildTableColumnDefs(): TableColumnDef[] {
     const tableColumnDefs = [
       {
-        id: 'lastCpoPushStatusesResult',
+        id: 'lastCpoPushStatuses',
         type: 'integer',
         name: 'ocpiendpoints.total_charge_points',
         isAngularComponent: true,
@@ -107,7 +107,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
       },
       // CPO Charging Station Statuses
       {
-        id: 'lastCpoPushStatusesResult',
+        id: 'lastCpoPushStatuses',
         type: 'integer',
         name: 'ocpiendpoints.succeeded',
         isAngularComponent: true,
@@ -117,7 +117,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
         visible: this.ocpiEndpoint?.role === OCPIRole.CPO,
       },
       {
-        id: 'lastCpoPushStatusesResult',
+        id: 'lastCpoPushStatuses',
         type: 'integer',
         name: 'ocpiendpoints.failed',
         isAngularComponent: true,
@@ -127,7 +127,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
         visible: this.ocpiEndpoint?.role === OCPIRole.CPO,
       },
       {
-        id: 'lastCpoPushStatuses',
+        id: 'lastCpoPushStatuses.lastUpdatedOn',
         type: 'date',
         formatter: (lastCpoPushStatuses: Date) => lastCpoPushStatuses ? this.datePipe.transform(lastCpoPushStatuses) : '-',
         name: 'ocpiendpoints.last_patch_job_on',
@@ -135,7 +135,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
       },
       // CPO Pull Tokens
       {
-        id: 'lastCpoPullTokensResult',
+        id: 'lastCpoPullTokens',
         type: 'integer',
         name: 'ocpiendpoints.total_tokens',
         isAngularComponent: true,
@@ -145,7 +145,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
         visible: this.ocpiEndpoint?.role === OCPIRole.CPO,
       },
       {
-        id: 'lastCpoPullTokensResult',
+        id: 'lastCpoPullTokens',
         type: 'integer',
         name: 'ocpiendpoints.succeeded',
         isAngularComponent: true,
@@ -155,7 +155,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
         visible: this.ocpiEndpoint?.role === OCPIRole.CPO,
       },
       {
-        id: 'lastCpoPullTokensResult',
+        id: 'lastCpoPullTokens',
         type: 'integer',
         name: 'ocpiendpoints.failed',
         isAngularComponent: true,
@@ -165,7 +165,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
         visible: this.ocpiEndpoint?.role === OCPIRole.CPO,
       },
       {
-        id: 'lastCpoPullTokens',
+        id: 'lastCpoPullTokens.lastUpdatedOn',
         type: 'date',
         formatter: (lastCpoPushStatuses: Date) => lastCpoPushStatuses ? this.datePipe.transform(lastCpoPushStatuses) : '-',
         name: 'ocpiendpoints.last_patch_job_on',
@@ -173,7 +173,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
       },
       // EMSP Pull Locations
       {
-        id: 'lastEmspPullLocationsResult',
+        id: 'lastEmspPullLocations',
         type: 'integer',
         name: 'ocpiendpoints.total_locations',
         isAngularComponent: true,
@@ -183,7 +183,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
         visible: this.ocpiEndpoint?.role === OCPIRole.EMSP,
       },
       {
-        id: 'lastEmspPullLocationsResult',
+        id: 'lastEmspPullLocations',
         type: 'integer',
         name: 'ocpiendpoints.succeeded',
         isAngularComponent: true,
@@ -193,7 +193,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
         visible: this.ocpiEndpoint?.role === OCPIRole.EMSP,
       },
       {
-        id: 'lastEmspPullLocationsResult',
+        id: 'lastEmspPullLocations',
         type: 'integer',
         name: 'ocpiendpoints.failed',
         isAngularComponent: true,
@@ -203,7 +203,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
         visible: this.ocpiEndpoint?.role === OCPIRole.EMSP,
       },
       {
-        id: 'lastEmspPullLocations',
+        id: 'lastEmspPullLocations.lastUpdatedOn',
         type: 'date',
         formatter: (lastCpoPushStatuses: Date) => lastCpoPushStatuses ? this.datePipe.transform(lastCpoPushStatuses) : '-',
         name: 'ocpiendpoints.last_patch_job_on',
@@ -211,7 +211,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
       },
       // EMSP Push Tokens
       {
-        id: 'lastEmspPushTokensResult',
+        id: 'lastEmspPushTokens',
         type: 'integer',
         name: 'ocpiendpoints.total_tokens',
         isAngularComponent: true,
@@ -221,7 +221,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
         visible: this.ocpiEndpoint?.role === OCPIRole.EMSP,
       },
       {
-        id: 'lastEmspPushTokensResult',
+        id: 'lastEmspPushTokens',
         type: 'integer',
         name: 'ocpiendpoints.succeeded',
         isAngularComponent: true,
@@ -231,7 +231,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
         visible: this.ocpiEndpoint?.role === OCPIRole.EMSP,
       },
       {
-        id: 'lastEmspPushTokensResult',
+        id: 'lastEmspPushTokens',
         type: 'integer',
         name: 'ocpiendpoints.failed',
         isAngularComponent: true,
@@ -241,7 +241,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
         visible: this.ocpiEndpoint?.role === OCPIRole.EMSP,
       },
       {
-        id: 'lastEmspPushTokens',
+        id: 'lastEmspPushTokens.lastUpdatedOn',
         type: 'date',
         formatter: (lastCpoPushStatuses: Date) => lastCpoPushStatuses ? this.datePipe.transform(lastCpoPushStatuses) : '-',
         name: 'ocpiendpoints.last_patch_job_on',

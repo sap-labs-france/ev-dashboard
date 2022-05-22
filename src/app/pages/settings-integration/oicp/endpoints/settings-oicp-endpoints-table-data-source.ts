@@ -129,7 +129,6 @@ export class SettingsOicpEndpointsTableDataSource extends TableDataSource<OicpEn
         angularComponent: OicpEndpointStatusFormatterComponent,
         headerClass: 'text-center col-10p',
         class: 'table-cell-angular-big-component',
-        sortable: false,
       },
       {
         id: 'patchJobStatus',
@@ -138,7 +137,6 @@ export class SettingsOicpEndpointsTableDataSource extends TableDataSource<OicpEn
         angularComponent: OicpPatchJobStatusFormatterComponent,
         headerClass: 'text-center col-10p',
         class: 'table-cell-angular-big-component',
-        sortable: false,
       },
       {
         id: 'patchJobResult',
@@ -147,7 +145,6 @@ export class SettingsOicpEndpointsTableDataSource extends TableDataSource<OicpEn
         angularComponent: OicpPatchJobResultFormatterComponent,
         headerClass: 'text-center col-10p',
         class: 'table-cell-angular-big-component',
-        sortable: false,
       },
     ];
   }

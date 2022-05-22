@@ -1969,8 +1969,9 @@
     "start_background_job_confirm": "Wollen Sie die Hintergrundaktivitäten für IOP '{{name}}' starten?",
     "stop_background_job_title": "Stop Hintergrundaktivitäten",
     "stop_background_job_confirm": "Wollen Sie die Hintergrundaktivitäten für IOP '{{name}}' stoppen?",
-    "total_charge_points": "Gesamtanzahl Ladepunkte",
-    "total_tokens": "Gesamtanzahl Tokens",
+    "total_charge_points": "Charging Stations",
+    "total_tokens": "RFID Cards",
+    "total_locations": "Sites",
     "total": "Gesamt",
     "succeeded": "Erfolgreich",
     "failed": "Fehlgeschlagen"

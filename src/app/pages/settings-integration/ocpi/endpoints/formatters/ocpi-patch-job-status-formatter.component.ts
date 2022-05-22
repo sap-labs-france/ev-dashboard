@@ -2,7 +2,7 @@ import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 
 import { CellContentTemplateDirective } from '../../../../../shared/table/cell-content-template/cell-content-template.directive';
 import { ChipType } from '../../../../../types/GlobalType';
-import { OcpiEndpoint } from '../../../../../types/ocpi/OCPIEndpoint';
+import { OCPIEndpoint } from '../../../../../types/ocpi/OCPIEndpoint';
 
 @Component({
   template: `
@@ -14,7 +14,7 @@ import { OcpiEndpoint } from '../../../../../types/ocpi/OCPIEndpoint';
   `,
 })
 export class OcpiPatchJobStatusFormatterComponent extends CellContentTemplateDirective {
-  @Input() public row!: OcpiEndpoint;
+  @Input() public row!: OCPIEndpoint;
 }
 
 @Pipe({ name: 'appFormatOcpiPatchJobStatus' })

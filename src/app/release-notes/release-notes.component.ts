@@ -25,12 +25,13 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.6.7',
-        date: new Date('2022-05-22'),
+        date: new Date('2022-05-23'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `Implemented sub Site Areas`,
+              `Log in error failed OCPI Commands`,
               `Enhanced OCPI Job management`,
             ],
           },

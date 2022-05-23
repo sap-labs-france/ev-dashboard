@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { StatusCodes } from 'http-status-codes';
 import { CentralServerService } from 'services/central-server.service';
 import { ComponentService } from 'services/component.service';
 import { MessageService } from 'services/message.service';
@@ -48,7 +49,7 @@ export class SettingsCryptoComponent implements OnInit {
       (error) => {
         this.spinnerService.hide();
         switch (error.status) {
-          case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+          case StatusCodes.NOT_FOUND:
             this.messageService.showErrorMessage('technical_settings.crypto.setting_do_not_exist');
             break;
           default:
@@ -94,7 +95,7 @@ export class SettingsCryptoComponent implements OnInit {
       (error) => {
         this.spinnerService.hide();
         switch (error.status) {
-          case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+          case StatusCodes.NOT_FOUND:
             this.messageService.showErrorMessage('technical_settings.crypto.setting_do_not_exist');
             break;
           case HTTPError.CRYPTO_MIGRATION_IN_PROGRESS:

@@ -3,6 +3,7 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { StatusCodes } from 'http-status-codes';
 import * as moment from 'moment';
 import { AuthorizationDefinitionFieldMetadata } from 'types/Authorization';
 
@@ -96,7 +97,7 @@ export class ChargingStationsRegistrationTokenComponent implements OnInit {
       }, (error) => {
         this.spinnerService.hide();
         switch (error.status) {
-          case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+          case StatusCodes.NOT_FOUND:
             this.messageService.showErrorMessage('chargers.connections.registration_token_not_found');
             break;
           default:
@@ -164,7 +165,7 @@ export class ChargingStationsRegistrationTokenComponent implements OnInit {
     }, (error) => {
       this.spinnerService.hide();
       switch (error.status) {
-        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+        case StatusCodes.NOT_FOUND:
           this.messageService.showErrorMessage('chargers.connections.registration_token_not_found');
           break;
         default:

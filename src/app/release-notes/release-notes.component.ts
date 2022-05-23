@@ -32,6 +32,7 @@ export class ReleaseNotesComponent {
             changes: [
               `Implemented sub Site Areas`,
               `Log in error failed OCPI Commands`,
+              `Get OCPI eMSP Tags with createdOn in addition to lastChangedOn`,
               `Enhanced OCPI Job management`,
             ],
           },

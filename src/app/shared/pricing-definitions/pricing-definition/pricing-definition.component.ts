@@ -4,6 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { StatusCodes } from 'http-status-codes';
 
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
@@ -83,7 +84,7 @@ export class PricingDefinitionComponent extends AbstractTabComponent implements 
       }, (error) => {
         this.spinnerService.hide();
         switch (error.status) {
-          case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+          case StatusCodes.NOT_FOUND:
             this.messageService.showErrorMessage('sites.pricing_definition_not_found');
             break;
           default:
@@ -145,7 +146,7 @@ export class PricingDefinitionComponent extends AbstractTabComponent implements 
     }, (error) => {
       this.spinnerService.hide();
       switch (error.status) {
-        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+        case StatusCodes.NOT_FOUND:
           this.messageService.showErrorMessage('settings.pricing.pricing_definition_not_found');
           break;
         default:

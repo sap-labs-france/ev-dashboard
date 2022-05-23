@@ -3,6 +3,7 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { StatusCodes } from 'http-status-codes';
 import { ButtonAction } from 'types/GlobalType';
 import { User } from 'types/User';
 
@@ -164,7 +165,7 @@ export class AuthenticationLoginComponent implements OnInit, OnDestroy {
       this.spinnerService.hide();
       switch (error.status) {
         // Wrong email or password
-        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+        case StatusCodes.NOT_FOUND:
           this.messageService.showErrorMessage(this.messages['wrong_email_or_password']);
           break;
         // Account is locked

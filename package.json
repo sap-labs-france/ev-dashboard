@@ -136,7 +136,7 @@
     "@types/jsonwebtoken": "^8.5.8",
     "@types/moment-duration-format": "^2.2.3",
     "@types/node": "^16.11.12",
-    "@types/puppeteer": "^5.4.5",
+    "@types/puppeteer": "^5.4.6",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
     "convict": "^6.2.3",

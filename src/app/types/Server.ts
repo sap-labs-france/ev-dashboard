@@ -526,6 +526,9 @@ export enum RESTServerRoute {
   REST_CHARGING_PROFILES = 'charging-profiles',
   REST_CHARGING_PROFILE = 'charging-profiles/:id',
 
+  REST_CHARGING_STATION_TEMPLATES = 'charging-station-templates',
+  //TODO: @Melvyn new route id here
+
   REST_TRANSACTIONS = 'transactions',
   REST_TRANSACTIONS_IN_ERROR = 'transactions/status/in-error',
   REST_TRANSACTIONS_ACTIVE = 'transactions/status/active',

@@ -189,7 +189,8 @@
       "template": "Templates",
       "cars": "Cars",
       "invoices": "Invoices",
-      "tags": "RFID Cards"
+      "tags": "RFID Cards",
+      "charging_station_templates": "Charging Station Templates"
     },
     "tooltips": {
       "push_cdr": "Push CDR",
@@ -2587,6 +2588,29 @@
         "title": "Session with no Billing data",
         "description": "There is no billing data for this Session.",
         "action": "Delete the session or create an invoice from it."
+      }
+    }
+  },
+  "templates": {
+    "title": "Charging Station Templates",
+    "tabs": {
+      "charging_station_templates": "Charging Station Templates"
+    },
+    "invalid_json": "Invalid JSON format",
+    "template_not_found": "Template has not been found",
+    "create_success": "The template '{{templateID}}' has been created successfully",
+    "create_error": "Error occurred while creating the template, check the logs",
+    "update_success": "The template '{{templateID}}' has been updated successfully",
+    "update_error": "Error occurred while updating the template, check the logs",
+    "delete_confirm": "Do you really want to delete the template '{{templateID}}'?",
+    "delete_success": "The template '{{templateID}}' has been deleted successfully",
+    "delete_error": "Error occurred while deleting the template, check the logs",
+    "delete_title": "Delete Template",
+    "dialog": {
+      "export": {
+        "title": "Export charging station templates",
+        "confirm": "Do you really want to export all the charging station templates matching the filters?",
+        "error": "Error occurred while trying to export the charging station templates, check the logs"
       }
     }
   },

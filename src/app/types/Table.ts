@@ -7,6 +7,7 @@ import { AuthorizationActions, AuthorizationAttributes } from './Authorization';
 import { BillingButtonAction } from './Billing';
 import { CarButtonAction } from './Car';
 import { ChargingStationButtonAction } from './ChargingStation';
+import { ChargingStationTemplateButtonAction } from './ChargingStationTemplate';
 import { CompanyButtonAction } from './Company';
 import { ButtonAction, ButtonActionColor, KeyValue } from './GlobalType';
 import { LogButtonAction } from './Log';
@@ -103,7 +104,7 @@ export enum FilterType {
 export interface TableActionDef {
   id: ButtonAction | CompanyButtonAction | TenantButtonAction | SiteAreaButtonAction | ChargingStationButtonAction |
   UserButtonAction | TransactionButtonAction | SiteButtonAction | OCPIButtonAction | OicpButtonAction | AssetButtonAction |
-  BillingButtonAction | CarButtonAction | LogButtonAction | RegistrationTokenButtonAction | TagButtonAction | PricingButtonAction;
+  BillingButtonAction | CarButtonAction | LogButtonAction | RegistrationTokenButtonAction | TagButtonAction | PricingButtonAction | ChargingStationTemplateButtonAction;
   type: ActionType;
   currentValue?: any;
   name: string;

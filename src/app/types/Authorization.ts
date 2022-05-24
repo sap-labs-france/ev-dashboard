@@ -75,6 +75,7 @@ export enum Entity {
   TAG = 'Tag',
   PAYMENT_METHOD = 'PaymentMethod',
   SOURCE = 'Source',
+  CHARGING_STATION_TEMPLATE = 'ChargingStationTemplate',
 }
 
 export enum Action {
@@ -286,6 +287,13 @@ export interface BillingPaymentMethodsAuthorizationActions extends DataResultAut
 }
 
 export interface BillingPaymentMethodAuthorizationActions extends AuthorizationActions {
+}
+
+export interface ChargingStationTemplateAuthorizations extends AuthorizationAttributes, ChargingStationTemplateAuthorizationActions {
+}
+
+export interface ChargingStationTemplateAuthorizationActions extends DataResultAuthorizationActions {
+
 }
 
 export enum DialogMode {

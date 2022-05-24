@@ -1,7 +1,8 @@
 import { Asset } from './Asset';
-import { AssetsAuthorizations, BillingInvoicesAuthorizations, BillingPaymentMethodsAuthorizationActions, CarCatalogsAuthorizations, CarsAuthorizations, DataResultAuthorizations, LogsAuthorizationActions, SitesAuthorizationActions, TagsAuthorizations, UsersAuthorizations } from './Authorization';
+import { AssetsAuthorizations, BillingInvoicesAuthorizations, BillingPaymentMethodsAuthorizationActions, CarCatalogsAuthorizations, CarsAuthorizations, ChargingStationTemplateAuthorizationActions, DataResultAuthorizations, LogsAuthorizationActions, SitesAuthorizationActions, TagsAuthorizations, UsersAuthorizations } from './Authorization';
 import { BillingInvoice, BillingPaymentMethod } from './Billing';
 import { Car, CarCatalog } from './Car';
+import { ChargingStationTemplate } from './ChargingStationTemplate';
 import { Company } from './Company';
 import { Log } from './Log';
 import PricingDefinition from './Pricing';
@@ -153,6 +154,9 @@ export interface TransactionRefundDataResult {
     totalPricePending: number;
     currency: string;
   };
+}
+
+export interface ChargingStationTemplateDataResult extends DataResult<ChargingStationTemplate>, ChargingStationTemplateAuthorizationActions {
 }
 
 export interface Ordering {

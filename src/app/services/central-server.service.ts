@@ -5,6 +5,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { StatusCodes } from 'http-status-codes';
 import { BehaviorSubject, EMPTY, Observable, TimeoutError, of, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
+import { ChargingStationTemplate } from 'types/ChargingStationTemplate';
 
 import { Asset, AssetConsumption } from '../types/Asset';
 import { BillingTax } from '../types/Billing';
@@ -14,7 +15,7 @@ import { ChargePoint, ChargingStation, OCPPAvailabilityType, OcppParameter } fro
 import { Company } from '../types/Company';
 import CentralSystemServerConfiguration from '../types/configuration/CentralSystemServerConfiguration';
 import { IntegrationConnection, UserConnection } from '../types/Connection';
-import { ActionResponse, ActionsResponse, AssetDataResult, BillingInvoiceDataResult, BillingOperationResult, BillingPaymentMethodDataResult, CarCatalogDataResult, CarDataResult, CheckAssetConnectionResponse, CheckBillingConnectionResponse, CompanyDataResult, DataResult, LogDataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OICPJobStatusesResponse, OICPPingResponse, Ordering, Paging, PricingDefinitionDataResult, RegistrationTokenDataResult, SiteAreaDataResult, SiteDataResult, TagDataResult, UserDataResult } from '../types/DataResult';
+import { ActionResponse, ActionsResponse, AssetDataResult, BillingInvoiceDataResult, BillingOperationResult, BillingPaymentMethodDataResult, CarCatalogDataResult, CarDataResult, ChargingStationTemplateDataResult, CheckAssetConnectionResponse, CheckBillingConnectionResponse, CompanyDataResult, DataResult, LogDataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OICPJobStatusesResponse, OICPPingResponse, Ordering, Paging, PricingDefinitionDataResult, RegistrationTokenDataResult, SiteAreaDataResult, SiteDataResult, TagDataResult, UserDataResult } from '../types/DataResult';
 import { EndUserLicenseAgreement } from '../types/Eula';
 import { FilterParams, Image, KeyValue } from '../types/GlobalType';
 import { AssetInError, ChargingStationInError, TransactionInError } from '../types/InError';
@@ -3275,6 +3276,76 @@ export class CentralServerService {
     const url = this.buildRestEndpointUrl(RESTServerRoute.REST_PRICING_DEFINITION, { id });
     // Execute the REST service
     return this.httpClient.delete<ActionResponse>(url, params)
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public getChargingStationTemplates(params: FilterParams,
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<ChargingStationTemplateDataResult> {
+    // Verify init
+    this.checkInit();
+    // Build Paging
+    this.getPaging(paging, params);
+    // Build Ordering
+    this.getSorting(ordering, params);
+    // TODO @Melvyn this one works
+    const url = this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATION_TEMPLATES);
+    // Execute the REST service
+    return this.httpClient.get<ChargingStationTemplateDataResult>(url,
+      {
+        headers: this.buildHttpHeaders(),
+        params
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+    return new Observable();
+  }
+
+  public getChargingStationTemplate(id: string): Observable<ChargingStationTemplate> {
+    // Verify init
+    this.checkInit();
+    // Execute the REST service
+    if (!id) {
+      return EMPTY;
+    }
+    // TODO @Melvyn create / align this route
+    const url = this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATION, { id });
+    return this.httpClient.get<ChargingStationTemplate>(url,
+      {
+        headers: this.buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public createChargingStationTemplate(template: ChargingStationTemplate): Observable<ActionResponse> {
+    // Verify init
+    this.checkInit();
+    // TODO @Melvyn create / align this route
+    const url = this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATION);
+    // Execute the REST service
+    return this.httpClient.post<ActionResponse>(url, template,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public updateChargingStationTemplate(template: ChargingStationTemplate): Observable<ActionResponse> {
+    // Verify init
+    this.checkInit();
+    // TODO @Melvyn create / align this route
+    const url = this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATION, { id: template.id });
+    // Execute
+    return this.httpClient.put<ActionResponse>(url, template,
+      {
+        headers: this.buildHttpHeaders(),
+      })
       .pipe(
         catchError(this.handleHttpError),
       );

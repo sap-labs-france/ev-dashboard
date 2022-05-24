@@ -6,8 +6,7 @@ import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
-import { FilterParams } from '../../../types/GlobalType';
-import { ButtonType } from '../../../types/Table';
+import { ButtonAction, FilterParams } from '../../../types/GlobalType';
 import { Utils } from '../../../utils/Utils';
 
 @Injectable()
@@ -30,7 +29,7 @@ export class StatisticsExportService {
 
   public exportDataWithDialog(filterParams: FilterParams, dialogTitle: string, dialogQuestion: string) {
     this.dialogService.createAndShowYesNoDialog(dialogTitle, dialogQuestion).subscribe((response) => {
-      if (response === ButtonType.YES) {
+      if (response === ButtonAction.YES) {
         this.exportStatisticsData(filterParams);
       }
     });

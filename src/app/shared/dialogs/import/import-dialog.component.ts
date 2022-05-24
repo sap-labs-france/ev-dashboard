@@ -1,4 +1,4 @@
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { StatusCodes } from 'http-status-codes';
@@ -8,13 +8,14 @@ import { CentralServerService } from 'services/central-server.service';
 import { DialogService } from 'services/dialog.service';
 import { MessageService } from 'services/message.service';
 import { ActionsResponse } from 'types/DataResult';
+import { ButtonAction } from 'types/GlobalType';
 import { HTTPError } from 'types/HTTPError';
 import { RESTServerRoute } from 'types/Server';
-import { ButtonType } from 'types/Table';
 import { Utils } from 'utils/Utils';
 
 @Component({
   templateUrl: 'import-dialog.component.html',
+  styleUrls: ['import-dialog.component.scss']
 })
 export class ImportDialogComponent implements OnInit {
   public uploader: FileUploader;
@@ -128,7 +129,7 @@ export class ImportDialogComponent implements OnInit {
       this.translateService.instant(this.confirmImportTitle),
       this.autoActivateImportedUsers ? this.translateService.instant(this.confirmImportMessageAutoActivate) : this.translateService.instant(this.confirmImportMessage),
     ).subscribe((result) => {
-      if (result === ButtonType.YES) {
+      if (result === ButtonAction.YES) {
         this.uploader.uploadAll();
       }
     });

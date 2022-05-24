@@ -8,8 +8,6 @@ import { CellContentTemplateDirective } from './cell-content-template.directive'
   template: `
     <ng-template></ng-template>`,
 })
-
-// eslint-disable-next-line @angular-eslint/component-class-suffix
 export class CellContentTemplateContainerComponent implements OnInit, OnChanges {
   @Input() public row!: TableData;
   @Input() public columnDef!: TableColumnDef;

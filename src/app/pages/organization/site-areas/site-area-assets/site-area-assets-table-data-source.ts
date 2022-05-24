@@ -16,7 +16,7 @@ import { Asset, AssetType } from '../../../../types/Asset';
 import { DataResult } from '../../../../types/DataResult';
 import { ButtonAction, RestResponse } from '../../../../types/GlobalType';
 import { SiteArea } from '../../../../types/SiteArea';
-import { ButtonType, TableActionDef, TableColumnDef, TableDataSourceMode, TableDef } from '../../../../types/Table';
+import { TableActionDef, TableColumnDef, TableDataSourceMode, TableDef } from '../../../../types/Table';
 import { Utils } from '../../../../utils/Utils';
 
 @Injectable()
@@ -167,7 +167,7 @@ export class SiteAreaAssetsDataSource extends TableDataSource<Asset> {
             this.translateService.instant('site_areas.remove_assets_title'),
             this.translateService.instant('site_areas.remove_assets_confirm'),
           ).subscribe((response) => {
-            if (response === ButtonType.YES) {
+            if (response === ButtonAction.YES) {
               this.removeAssets(this.getSelectedRows().map((row) => row.id));
             }
           });

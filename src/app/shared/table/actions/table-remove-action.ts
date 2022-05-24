@@ -1,5 +1,5 @@
-import { ButtonAction } from '../../../types/GlobalType';
-import { ButtonColor, TableActionDef } from '../../../types/Table';
+import { ButtonActionColor, ButtonAction } from '../../../types/GlobalType';
+import { TableActionDef } from '../../../types/Table';
 import { TableAction } from './table-action';
 
 export class TableRemoveAction implements TableAction {
@@ -7,7 +7,7 @@ export class TableRemoveAction implements TableAction {
     id: ButtonAction.REMOVE,
     type: 'button',
     icon: 'remove',
-    color: ButtonColor.WARN,
+    color: ButtonActionColor.WARN,
     name: 'general.remove',
     tooltip: 'general.tooltips.remove',
     linkedToListSelection: true,

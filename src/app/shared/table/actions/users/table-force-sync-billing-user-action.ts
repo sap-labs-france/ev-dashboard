@@ -7,8 +7,8 @@ import { DialogService } from '../../../../services/dialog.service';
 import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
 import { TableSynchronizeAction } from '../../../../shared/table/actions/table-synchronize-action';
-import { RestResponse } from '../../../../types/GlobalType';
-import { ButtonType, TableActionDef } from '../../../../types/Table';
+import { ButtonAction, RestResponse } from '../../../../types/GlobalType';
+import { TableActionDef } from '../../../../types/Table';
 import { User, UserButtonAction } from '../../../../types/User';
 import { Utils } from '../../../../utils/Utils';
 
@@ -33,7 +33,7 @@ export class TableForceSyncBillingUserAction extends TableSynchronizeAction {
       translateService.instant('settings.billing.user.force_synchronize_user_dialog_title'),
       translateService.instant('settings.billing.user.force_synchronize_user_dialog_confirm', { userFullName: Utils.buildUserFullName(user) }),
     ).subscribe((response) => {
-      if (response === ButtonType.YES) {
+      if (response === ButtonAction.YES) {
         spinnerService.show();
         centralServerService.forceSynchronizeUserForBilling(user.id).subscribe((synchronizeResponse) => {
           spinnerService.hide();

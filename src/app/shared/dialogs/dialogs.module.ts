@@ -26,7 +26,7 @@ import { ChargingStationsDialogTableDataSource } from './charging-stations/charg
 import { ChargingStationsDialogComponent } from './charging-stations/charging-stations-dialog.component';
 import { CompaniesDialogTableDataSource } from './companies/companies-dialog-table-data-source';
 import { CompaniesDialogComponent } from './companies/companies-dialog.component';
-import { ConfirmationDialogComponent } from './confirmation/confirmation-dialog.component';
+import { CustomDialogComponent } from './custom/custom-dialog.component';
 import { ErrorCodeDetailsDialogComponent } from './error-code-details/error-code-details-dialog.component';
 import { GeoMapDialogComponent } from './geomap/geomap-dialog.component';
 import { ImportDialogComponent } from './import/import-dialog.component';
@@ -71,7 +71,7 @@ import { UsersDialogComponent } from './users/users-dialog.component';
     UsersDialogComponent,
     TagsDialogComponent,
     CarsDialogComponent,
-    ConfirmationDialogComponent,
+    CustomDialogComponent,
     ChargingStationsDialogComponent,
     SiteAreasDialogComponent,
     AssetsDialogComponent,
@@ -93,7 +93,7 @@ import { UsersDialogComponent } from './users/users-dialog.component';
     UsersDialogComponent,
     TagsDialogComponent,
     CarsDialogComponent,
-    ConfirmationDialogComponent,
+    CustomDialogComponent,
     ChargingStationsDialogComponent,
     SiteAreasDialogComponent,
     AssetsDialogComponent,
@@ -116,7 +116,7 @@ import { UsersDialogComponent } from './users/users-dialog.component';
     UsersDialogComponent,
     TagsDialogComponent,
     CarsDialogComponent,
-    ConfirmationDialogComponent,
+    CustomDialogComponent,
     ChargingStationsDialogComponent,
     SiteAreasDialogComponent,
     AssetsDialogComponent,

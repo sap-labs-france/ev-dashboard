@@ -2,6 +2,7 @@ import { EventEmitter, Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { WindowService } from 'services/window.service';
 
 import { DialogService } from '../../../../services/dialog.service';
 import { SpinnerService } from '../../../../services/spinner.service';
@@ -9,13 +10,13 @@ import { AppUserMultipleRolesPipe } from '../../../../shared/formatters/app-user
 import { TableCreateAction } from '../../../../shared/table/actions/table-create-action';
 import { TableDeleteAction } from '../../../../shared/table/actions/table-delete-action';
 import { TableEditAction } from '../../../../shared/table/actions/table-edit-action';
-import { TableOpenURLAction } from '../../../../shared/table/actions/table-open-url-action';
+import { TableOpenURLAction, TableOpenURLActionDef } from '../../../../shared/table/actions/table-open-url-action';
 import { TableRefreshAction } from '../../../../shared/table/actions/table-refresh-action';
 import { TableDataSource } from '../../../../shared/table/table-data-source';
 import { DataResult } from '../../../../types/DataResult';
 import { ButtonAction } from '../../../../types/GlobalType';
 import { SettingLink } from '../../../../types/Setting';
-import { ButtonType, DropdownItem, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../../types/Table';
+import { DropdownItem, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../../types/Table';
 import { AnalyticsLinkDialogComponent } from './analytics-link-dialog.component';
 
 @Injectable()
@@ -30,6 +31,7 @@ export class AnalyticsLinksTableDataSource extends TableDataSource<SettingLink> 
   public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
+    private windowService: WindowService,
     private appUserMultipleRolesPipe: AppUserMultipleRolesPipe,
     private dialogService: DialogService,
     private dialog: MatDialog) {
@@ -156,7 +158,7 @@ export class AnalyticsLinksTableDataSource extends TableDataSource<SettingLink> 
         break;
       case ButtonAction.OPEN_URL:
         if (actionDef.action) {
-          actionDef.action(link.url);
+          (actionDef as TableOpenURLActionDef).action(link.url, this.windowService);
         }
         break;
     }
@@ -204,7 +206,7 @@ export class AnalyticsLinksTableDataSource extends TableDataSource<SettingLink> 
       this.translateService.instant('analytics.delete_title'),
       this.translateService.instant('analytics.delete_confirm', { linkName: analyticsLink.name }),
     ).subscribe((result) => {
-      if (result === ButtonType.YES) {
+      if (result === ButtonAction.YES) {
         const index = this.analyticsLinks.findIndex((link) => link.id === analyticsLink.id);
         if (index > -1) {
           this.analyticsLinks.splice(index, 1);

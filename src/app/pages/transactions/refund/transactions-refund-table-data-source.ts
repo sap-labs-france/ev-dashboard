@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { WindowService } from 'services/window.service';
 import { TransactionDialogComponent } from 'shared/dialogs/transaction/transaction-dialog.component';
 import { TableViewTransactionAction, TableViewTransactionActionDef, TransactionDialogData } from 'shared/table/actions/transactions/table-view-transaction-action';
 import { ConnectorTableFilter } from 'shared/table/filters/connector-table-filter';
@@ -75,7 +76,8 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
     private appConnectorIdPipe: AppConnectorIdPipe,
     private appUserNamePipe: AppUserNamePipe,
     private appDurationPipe: AppDurationPipe,
-    private appCurrencyPipe: AppCurrencyPipe) {
+    private appCurrencyPipe: AppCurrencyPipe,
+    private windowService: WindowService) {
     super(spinnerService, translateService);
     this.refundTransactionEnabled = this.authorizationService.canRefundTransaction();
     this.isAdmin = this.authorizationService.isAdmin();
@@ -336,7 +338,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
         } else if (this.refundSetting && this.refundSetting.concur && actionDef.action) {
           (actionDef as TableOpenURLActionDef).action(this.refundSetting.concur.appUrl ?
             this.refundSetting.concur.appUrl :
-            this.refundSetting.concur.apiUrl);
+            this.refundSetting.concur.apiUrl, this.windowService);
         }
         break;
       case TransactionButtonAction.EXPORT_TRANSACTIONS:

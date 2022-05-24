@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { StatusCodes } from 'http-status-codes';
 import { Observable } from 'rxjs';
 import { SpinnerService } from 'services/spinner.service';
 import { WindowService } from 'services/window.service';
@@ -127,7 +128,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
     }, (error) => {
       this.spinnerService.hide();
       switch (error.status) {
-        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+        case StatusCodes.NOT_FOUND:
           this.messageService.showErrorMessage('users.user_do_not_exist');
           break;
         default:
@@ -424,12 +425,12 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
         break;
       case UserButtonAction.NAVIGATE_TO_USER:
         if (actionDef.action) {
-          (actionDef as TableOpenURLActionDef).action(`users#all?TagID=${tag.id}&Issuer=${tag.issuer}`);
+          (actionDef as TableOpenURLActionDef).action(`users#all?VisualID=${tag.visualID}&Issuer=${tag.issuer}`, this.windowService);
         }
         break;
       case TransactionButtonAction.NAVIGATE_TO_TRANSACTIONS:
         if (actionDef.action) {
-          (actionDef as TableOpenURLActionDef).action(`transactions#history?VisualID=${tag.visualID}&Issuer=${tag.issuer}`);
+          (actionDef as TableOpenURLActionDef).action(`transactions#history?VisualID=${tag.visualID}&Issuer=${tag.issuer}`, this.windowService);
         }
         break;
       case TagButtonAction.EDIT_TAG_BY_VISUAL_ID:

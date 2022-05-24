@@ -1,9 +1,7 @@
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { HTTPError } from 'types/HTTPError';
-import { Constants } from 'utils/Constants';
-
+import { ButtonAction, ButtonActionColor } from 'types/GlobalType';
 import { AuthorizationService } from '../../../../services/authorization.service';
 import { CentralServerService } from '../../../../services/central-server.service';
 import { DialogService } from '../../../../services/dialog.service';
@@ -11,10 +9,11 @@ import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
 import { ChargingStationButtonAction, OCPPGeneralResponse } from '../../../../types/ChargingStation';
 import { ActionResponse } from '../../../../types/DataResult';
-import { ButtonColor, ButtonType, TableActionDef } from '../../../../types/Table';
+import { TableActionDef } from '../../../../types/Table';
 import { Transaction } from '../../../../types/Transaction';
 import { Utils } from '../../../../utils/Utils';
 import { TableAction } from '../table-action';
+
 
 export interface TableChargingStationsStopTransactionActionDef extends TableActionDef {
   action: (transaction: Transaction, authorizationService: AuthorizationService,
@@ -28,7 +27,7 @@ export class TableChargingStationsStopTransactionAction implements TableAction {
     id: ChargingStationButtonAction.STOP_TRANSACTION,
     type: 'button',
     icon: 'stop',
-    color: ButtonColor.WARN,
+    color: ButtonActionColor.WARN,
     name: 'general.stop',
     tooltip: 'general.tooltips.stop',
     action: this.stopTransaction.bind(this),
@@ -57,7 +56,7 @@ export class TableChargingStationsStopTransactionAction implements TableAction {
         translateService.instant('chargers.stop_transaction_title'),
         translateService.instant('chargers.stop_transaction_confirm', { chargeBoxID: chargingStation.id }),
       ).subscribe((response) => {
-        if (response === ButtonType.YES) {
+        if (response === ButtonAction.YES) {
           // Stop
           spinnerService.show();
           centralServerService.stopTransaction(transaction.id).subscribe((res: ActionResponse) => {

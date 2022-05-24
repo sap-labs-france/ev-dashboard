@@ -49,7 +49,7 @@
           </mat-error>
         </mat-form-field>
       </div>
-      <div class="form-group" *ngIf="canListUsers">
+      <div class="form-group" *ngIf="carsAuthorizations?.canListUsers">
         <mat-form-field>
           <input matInput type="text" readonly=true placeholder="{{'cars.user' | translate}}"
           class="form-field-popup" (click)="assignUser()" [formControl]="user" />

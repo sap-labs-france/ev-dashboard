@@ -7,7 +7,7 @@ import { BehaviorSubject, EMPTY, Observable, TimeoutError, of, throwError } from
 import { catchError, switchMap } from 'rxjs/operators';
 
 import { Asset, AssetConsumption } from '../types/Asset';
-import { BillingPaymentMethod, BillingTax } from '../types/Billing';
+import { BillingTax } from '../types/Billing';
 import { Car, CarCatalog, CarMaker, ImageObject } from '../types/Car';
 import { ChargingProfile, GetCompositeScheduleCommandResult } from '../types/ChargingProfile';
 import { ChargePoint, ChargingStation, OCPPAvailabilityType, OcppParameter } from '../types/ChargingStation';
@@ -19,7 +19,7 @@ import { EndUserLicenseAgreement } from '../types/Eula';
 import { FilterParams, Image, KeyValue } from '../types/GlobalType';
 import { AssetInError, ChargingStationInError, TransactionInError } from '../types/InError';
 import { Log } from '../types/Log';
-import { OcpiEndpoint } from '../types/ocpi/OCPIEndpoint';
+import { OCPIEndpoint } from '../types/ocpi/OCPIEndpoint';
 import { OCPPResetType } from '../types/ocpp/OCPP';
 import { OicpEndpoint } from '../types/oicp/OICPEndpoint';
 import PricingDefinition from '../types/Pricing';
@@ -28,7 +28,7 @@ import { RegistrationToken } from '../types/RegistrationToken';
 import { RESTServerRoute, ServerAction } from '../types/Server';
 import { BillingSettings, SettingDB } from '../types/Setting';
 import { Site, SiteUser } from '../types/Site';
-import { SiteArea, SiteAreaConsumption } from '../types/SiteArea';
+import { SiteArea, SiteAreaConsumption, SubSiteAreaAction } from '../types/SiteArea';
 import { StatisticData } from '../types/Statistic';
 import { Tag } from '../types/Tag';
 import { Tenant } from '../types/Tenant';
@@ -477,10 +477,13 @@ export class CentralServerService {
       );
   }
 
-  public getSiteArea(siteAreaID: string, withSite?: boolean): Observable<SiteArea> {
+  public getSiteArea(siteAreaID: string, withSite?: boolean, withParentSiteArea?: boolean): Observable<SiteArea> {
     const params: { [param: string]: string } = {};
     if (withSite) {
       params['WithSite'] = withSite.toString();
+    }
+    if (withParentSiteArea) {
+      params['WithParentSiteArea'] = withParentSiteArea.toString();
     }
     // Verify init
     this.checkInit();
@@ -1315,7 +1318,7 @@ export class CentralServerService {
 
   // eslint-disable-next-line max-len
   public getOcpiEndpoints(params: FilterParams,
-    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<OcpiEndpoint>> {
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<OCPIEndpoint>> {
     // Verify init
     this.checkInit();
     // Build Paging
@@ -1323,7 +1326,7 @@ export class CentralServerService {
     // Build Ordering
     this.getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<DataResult<OcpiEndpoint>>(this.buildRestEndpointUrl(RESTServerRoute.REST_OCPI_ENDPOINTS),
+    return this.httpClient.get<DataResult<OCPIEndpoint>>(this.buildRestEndpointUrl(RESTServerRoute.REST_OCPI_ENDPOINTS),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -2128,11 +2131,15 @@ export class CentralServerService {
       );
   }
 
-  public createSiteArea(siteArea: SiteArea): Observable<ActionResponse> {
+  public createSiteArea(siteArea: SiteArea, subSiteAreaActions: SubSiteAreaAction[] = []): Observable<ActionResponse> {
     // Verify init
     this.checkInit();
     // Execute
-    return this.httpClient.post<ActionResponse>(this.buildRestEndpointUrl(RESTServerRoute.REST_SITE_AREAS), siteArea,
+    return this.httpClient.post<ActionResponse>(this.buildRestEndpointUrl(RESTServerRoute.REST_SITE_AREAS),
+      {
+        ...siteArea,
+        subSiteAreasAction: subSiteAreaActions.join('|')
+      },
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2141,11 +2148,15 @@ export class CentralServerService {
       );
   }
 
-  public updateSiteArea(siteArea: SiteArea): Observable<ActionResponse> {
+  public updateSiteArea(siteArea: SiteArea, subSiteAreaActions: SubSiteAreaAction[] = []): Observable<ActionResponse> {
     // Verify init
     this.checkInit();
     // Execute
-    return this.httpClient.put<ActionResponse>(this.buildRestEndpointUrl(RESTServerRoute.REST_SITE_AREA, { id: siteArea.id }), siteArea,
+    return this.httpClient.put<ActionResponse>(this.buildRestEndpointUrl(RESTServerRoute.REST_SITE_AREA, { id: siteArea.id }),
+      {
+        ...siteArea,
+        subSiteAreasAction: subSiteAreaActions.join('|')
+      },
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2207,7 +2218,7 @@ export class CentralServerService {
       );
   }
 
-  public sendEVSEStatusesOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<OCPIJobStatusesResponse> {
+  public sendEVSEStatusesOcpiEndpoint(ocpiEndpoint: OCPIEndpoint): Observable<OCPIJobStatusesResponse> {
     // Verify init
     this.checkInit();
     // Execute
@@ -2221,7 +2232,7 @@ export class CentralServerService {
       );
   }
 
-  public sendTokensOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<ActionResponse> {
+  public sendTokensOcpiEndpoint(ocpiEndpoint: OCPIEndpoint): Observable<ActionResponse> {
     // Verify init
     this.checkInit();
     // Execute
@@ -2235,7 +2246,7 @@ export class CentralServerService {
       );
   }
 
-  public pullLocationsOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<OCPIJobStatusesResponse> {
+  public pullLocationsOcpiEndpoint(ocpiEndpoint: OCPIEndpoint): Observable<OCPIJobStatusesResponse> {
     // Verify init
     this.checkInit();
     // Execute
@@ -2249,7 +2260,7 @@ export class CentralServerService {
       );
   }
 
-  public pullSessionsOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<OCPIJobStatusesResponse> {
+  public pullSessionsOcpiEndpoint(ocpiEndpoint: OCPIEndpoint): Observable<OCPIJobStatusesResponse> {
     // Verify init
     this.checkInit();
     // Execute
@@ -2263,7 +2274,7 @@ export class CentralServerService {
       );
   }
 
-  public pullTokensOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<OCPIJobStatusesResponse> {
+  public pullTokensOcpiEndpoint(ocpiEndpoint: OCPIEndpoint): Observable<OCPIJobStatusesResponse> {
     // Verify init
     this.checkInit();
     // Execute
@@ -2277,7 +2288,7 @@ export class CentralServerService {
       );
   }
 
-  public pullCdrsOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<OCPIJobStatusesResponse> {
+  public pullCdrsOcpiEndpoint(ocpiEndpoint: OCPIEndpoint): Observable<OCPIJobStatusesResponse> {
     // Verify init
     this.checkInit();
     // Execute
@@ -2291,7 +2302,7 @@ export class CentralServerService {
       );
   }
 
-  public checkLocationsOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<OCPIJobStatusesResponse> {
+  public checkLocationsOcpiEndpoint(ocpiEndpoint: OCPIEndpoint): Observable<OCPIJobStatusesResponse> {
     // Verify init
     this.checkInit();
     // Execute
@@ -2305,7 +2316,7 @@ export class CentralServerService {
       );
   }
 
-  public checkCdrsOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<OCPIJobStatusesResponse> {
+  public checkCdrsOcpiEndpoint(ocpiEndpoint: OCPIEndpoint): Observable<OCPIJobStatusesResponse> {
     // Verify init
     this.checkInit();
     // Execute
@@ -2319,7 +2330,7 @@ export class CentralServerService {
       );
   }
 
-  public checkSessionsOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<OCPIJobStatusesResponse> {
+  public checkSessionsOcpiEndpoint(ocpiEndpoint: OCPIEndpoint): Observable<OCPIJobStatusesResponse> {
     // Verify init
     this.checkInit();
     // Execute
@@ -2459,7 +2470,7 @@ export class CentralServerService {
       );
   }
 
-  public generateLocalTokenOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<OCPIGenerateLocalTokenResponse> {
+  public generateLocalTokenOcpiEndpoint(ocpiEndpoint: OCPIEndpoint): Observable<OCPIGenerateLocalTokenResponse> {
     // Verify init
     this.checkInit();
     // Execute
@@ -2474,7 +2485,7 @@ export class CentralServerService {
       );
   }
 
-  public updateOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<ActionResponse> {
+  public updateOcpiEndpoint(ocpiEndpoint: OCPIEndpoint): Observable<ActionResponse> {
     // Verify init
     this.checkInit();
     // Execute

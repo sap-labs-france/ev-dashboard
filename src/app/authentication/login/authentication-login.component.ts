@@ -3,6 +3,8 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { StatusCodes } from 'http-status-codes';
+import { ButtonAction } from 'types/GlobalType';
 import { User } from 'types/User';
 
 import { AuthorizationService } from '../../services/authorization.service';
@@ -12,7 +14,6 @@ import { MessageService } from '../../services/message.service';
 import { SpinnerService } from '../../services/spinner.service';
 import { WindowService } from '../../services/window.service';
 import { HTTPError } from '../../types/HTTPError';
-import { ButtonType } from '../../types/Table';
 import { Constants } from '../../utils/Constants';
 import { Users } from '../../utils/Users';
 import { Utils } from '../../utils/Utils';
@@ -31,7 +32,7 @@ export class AuthenticationLoginComponent implements OnInit, OnDestroy {
   public acceptEula: AbstractControl;
 
   public hidePassword = true;
-  public tenantLogo = Constants.TENANT_DEFAULT_LOGO;
+  public tenantLogo = Constants.NO_IMAGE;
 
   private toggleButton: any;
   private sidebarVisible: boolean;
@@ -119,6 +120,7 @@ export class AuthenticationLoginComponent implements OnInit, OnDestroy {
     if (this.subDomain) {
       // Retrieve tenant's logo
       this.centralServerService.getTenantLogoBySubdomain(this.subDomain).subscribe((tenantLogo: string) => {
+        console.log(tenantLogo);
         if (tenantLogo) {
           this.tenantLogo = tenantLogo;
         }
@@ -163,7 +165,7 @@ export class AuthenticationLoginComponent implements OnInit, OnDestroy {
       this.spinnerService.hide();
       switch (error.status) {
         // Wrong email or password
-        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+        case StatusCodes.NOT_FOUND:
           this.messageService.showErrorMessage(this.messages['wrong_email_or_password']);
           break;
         // Account is locked
@@ -193,7 +195,7 @@ export class AuthenticationLoginComponent implements OnInit, OnDestroy {
               this.translateService.instant('authentication.verify_email_title'),
               this.translateService.instant('authentication.verify_email_resend_confirm'),
             ).subscribe((response) => {
-              if (response === ButtonType.YES) {
+              if (response === ButtonAction.YES) {
                 void this.router.navigate(['/auth/verify-email'], { queryParams: { Email: user['email'] } });
               }
             });

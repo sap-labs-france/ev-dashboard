@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { WindowService } from 'services/window.service';
 import { IssuerFilter } from 'shared/table/filters/issuer-filter';
 
 import { AuthorizationService } from '../../../services/authorization.service';
@@ -55,7 +56,8 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
     private authorizationService: AuthorizationService,
     private componentService: ComponentService,
     private dialog: MatDialog,
-    private dialogService: DialogService) {
+    private dialogService: DialogService,
+    private windowService: WindowService) {
     super(spinnerService, translateService);
     // Init
     this.isAdmin = this.authorizationService.isAdmin();
@@ -138,7 +140,6 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
         class: 'text-center',
         isAngularComponent: true,
         angularComponent: ChargingStationsHeartbeatCellComponent,
-        sortable: false,
       },
       {
         id: 'connectorsStatus',
@@ -217,7 +218,7 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
         break;
       case LogButtonAction.NAVIGATE_TO_LOGS:
         if (actionDef.action) {
-          (actionDef as TableOpenURLActionDef).action('logs?ChargingStationID=' + chargingStation.id);
+          (actionDef as TableOpenURLActionDef).action('logs?ChargingStationID=' + chargingStation.id, this.windowService);
         }
         break;
     }

@@ -1,17 +1,19 @@
 import { Component, Input } from '@angular/core';
+import { OCPIEndpoint } from 'types/ocpi/OCPIEndpoint';
+import { TableColumnDef } from 'types/Table';
 
 import { CellContentTemplateDirective } from '../../../../../shared/table/cell-content-template/cell-content-template.directive';
-import { OcpiEndpointDetail } from '../../../../../types/ocpi/OCPIEndpoint';
 
 @Component({
   template: `
     <mat-chip-list [selectable]="false">
       <mat-chip ngClass="chip-width-5em chip-success" [disabled]="true">
-        {{row.successNbr}}
+        {{row[columnDef.id]?.successNbr || '0'}}
       </mat-chip>
     </mat-chip-list>
   `,
 })
-export class OcpiDetailSuccessEvsesStatusFormatterComponent extends CellContentTemplateDirective {
-  @Input() public row!: OcpiEndpointDetail;
+export class OcpiDetailSuccessFormatterComponent extends CellContentTemplateDirective {
+  @Input() public row!: OCPIEndpoint;
+  @Input() public columnDef!: TableColumnDef;
 }

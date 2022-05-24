@@ -1,6 +1,7 @@
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { ButtonActionColor, ButtonAction } from 'types/GlobalType';
 
 import { CentralServerService } from '../../../../services/central-server.service';
 import { DialogService } from '../../../../services/dialog.service';
@@ -8,7 +9,7 @@ import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
 import { ActionsResponse } from '../../../../types/DataResult';
 import { HTTPError } from '../../../../types/HTTPError';
-import { ButtonColor, ButtonType, TableActionDef } from '../../../../types/Table';
+import { TableActionDef } from '../../../../types/Table';
 import { Transaction, TransactionButtonAction } from '../../../../types/Transaction';
 import { Utils } from '../../../../utils/Utils';
 import { TableAction } from '../table-action';
@@ -24,7 +25,7 @@ export class TablePushTransactionOcpiCdrAction implements TableAction {
     id: TransactionButtonAction.PUSH_TRANSACTION_CDR,
     type: 'button',
     icon: 'cloud_upload',
-    color: ButtonColor.PRIMARY,
+    color: ButtonActionColor.PRIMARY,
     name: 'general.tooltips.push_cdr',
     tooltip: 'general.tooltips.push_cdr',
     action: this.pushCdr,
@@ -42,7 +43,7 @@ export class TablePushTransactionOcpiCdrAction implements TableAction {
       translateService.instant('transactions.dialog.roaming.title'),
       translateService.instant('transactions.dialog.roaming.confirm', { sessionID: transaction.id }),
     ).subscribe((response) => {
-      if (response === ButtonType.YES) {
+      if (response === ButtonAction.YES) {
         spinnerService.show();
         centralServerService.pushTransactionCdr(transaction.id).subscribe((res: ActionsResponse) => {
           spinnerService.hide();

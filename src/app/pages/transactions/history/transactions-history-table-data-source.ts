@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { StatusCodes } from 'http-status-codes';
 import { Observable } from 'rxjs';
 import { TransactionDialogComponent } from 'shared/dialogs/transaction/transaction-dialog.component';
 import { TableDeleteTransactionsAction, TableDeleteTransactionsActionDef } from 'shared/table/actions/transactions/table-delete-transactions-action';
@@ -151,7 +152,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     }, (error) => {
       this.spinnerService.hide();
       switch (error.status) {
-        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+        case StatusCodes.NOT_FOUND:
           this.messageService.showErrorMessage('users.user_do_not_exist');
           break;
         default:
@@ -505,13 +506,13 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
       case LogButtonAction.NAVIGATE_TO_LOGS:
         if (actionDef.action) {
           (actionDef as TableOpenURLActionDef).action('logs?ChargingStationID=' + transaction.chargeBoxID +
-            '&StartDateTime=' + transaction.timestamp + '&EndDateTime=' + transaction.stop.timestamp + '&LogLevel=I');
+            '&StartDateTime=' + transaction.timestamp + '&EndDateTime=' + transaction.stop.timestamp + '&LogLevel=I', this.windowService);
         }
         break;
       case ChargingStationButtonAction.NAVIGATE_TO_CHARGING_PLANS:
         if (actionDef.action) {
           (actionDef as TableOpenURLActionDef).action('charging-stations#chargingplans?ChargingStationID=' +
-            transaction.chargeBoxID + '&TransactionID=' + transaction.id);
+            transaction.chargeBoxID + '&TransactionID=' + transaction.id, this.windowService);
         }
         break;
       case TransactionButtonAction.PUSH_TRANSACTION_CDR:

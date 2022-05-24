@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { StatusCodes } from 'http-status-codes';
 import { ReCaptchaV3Service } from 'ngx-captcha';
 import { UserStatus } from 'types/User';
 
@@ -28,7 +29,7 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
   public resetToken: string | null;
   public verificationEmail: string | null;
 
-  public tenantLogo = Constants.TENANT_DEFAULT_LOGO;
+  public tenantLogo = Constants.NO_IMAGE;
 
   private messages!: Record<string, string>;
 
@@ -120,13 +121,9 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
   }
 
   public verifyEmail(data: any) {
-    // Show
     this.spinnerService.show();
-    // Verify Email
     this.centralServerService.verifyEmail({ Email: data.email, VerificationToken: data.verificationToken }).subscribe((response: VerifyEmailResponse) => {
-      // Hide
       this.spinnerService.hide();
-      // Success
       if (response.status && response.status === RestResponse.SUCCESS) {
         if (this.resetToken) {
           // Show message
@@ -166,7 +163,7 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
           this.messageService.showErrorMessage(this.messages['verify_email_token_not_valid']);
           break;
         // Email does not exist
-        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+        case StatusCodes.NOT_FOUND:
           // Report the error
           this.messageService.showErrorMessage(this.messages['verify_email_email_not_valid']);
           break;
@@ -208,7 +205,7 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
             this.messageService.showInfoMessage(this.messages['verify_email_already_active']);
             void this.router.navigate(['/auth/login'], { queryParams: { email: this.email.value } });
             break;
-          case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+          case StatusCodes.NOT_FOUND:
             this.messageService.showErrorMessage(this.messages['verify_email_email_not_valid']);
             break;
           default:

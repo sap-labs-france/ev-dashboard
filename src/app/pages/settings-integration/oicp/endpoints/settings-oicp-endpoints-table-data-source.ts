@@ -19,7 +19,7 @@ import { TableDataSource } from '../../../../shared/table/table-data-source';
 import { DataResult } from '../../../../types/DataResult';
 import { ButtonAction, RestResponse } from '../../../../types/GlobalType';
 import { OicpEndpoint } from '../../../../types/oicp/OICPEndpoint';
-import { ButtonType, DropdownItem, TableActionDef, TableColumnDef, TableDef } from '../../../../types/Table';
+import { DropdownItem, TableActionDef, TableColumnDef, TableDef } from '../../../../types/Table';
 import { Utils } from '../../../../utils/Utils';
 import { SettingsOicpEndpointDialogComponent } from './endpoint/settings-oicp-endpoint.dialog.component';
 import { OicpPatchJobResultFormatterComponent } from './formatters/oicp-patch-job-result-formatter.component';
@@ -129,7 +129,6 @@ export class SettingsOicpEndpointsTableDataSource extends TableDataSource<OicpEn
         angularComponent: OicpEndpointStatusFormatterComponent,
         headerClass: 'text-center col-10p',
         class: 'table-cell-angular-big-component',
-        sortable: false,
       },
       {
         id: 'patchJobStatus',
@@ -138,7 +137,6 @@ export class SettingsOicpEndpointsTableDataSource extends TableDataSource<OicpEn
         angularComponent: OicpPatchJobStatusFormatterComponent,
         headerClass: 'text-center col-10p',
         class: 'table-cell-angular-big-component',
-        sortable: false,
       },
       {
         id: 'patchJobResult',
@@ -147,7 +145,6 @@ export class SettingsOicpEndpointsTableDataSource extends TableDataSource<OicpEn
         angularComponent: OicpPatchJobResultFormatterComponent,
         headerClass: 'text-center col-10p',
         class: 'table-cell-angular-big-component',
-        sortable: false,
       },
     ];
   }
@@ -227,7 +224,7 @@ export class SettingsOicpEndpointsTableDataSource extends TableDataSource<OicpEn
       this.translateService.instant('oicpendpoints.delete_title'),
       this.translateService.instant('oicpendpoints.delete_confirm', { name: oicpendpoint.name }),
     ).subscribe((result) => {
-      if (result === ButtonType.YES) {
+      if (result === ButtonAction.YES) {
         this.centralServerService.deleteOicpEndpoint(oicpendpoint.id).subscribe((response) => {
           if (response.status === RestResponse.SUCCESS) {
             this.messageService.showSuccessMessage('oicpendpoints.delete_success', { name: oicpendpoint.name });
@@ -249,7 +246,7 @@ export class SettingsOicpEndpointsTableDataSource extends TableDataSource<OicpEn
       this.translateService.instant('oicpendpoints.register_title'),
       this.translateService.instant('oicpendpoints.register_confirm', { name: oicpendpoint.name }),
     ).subscribe((result) => {
-      if (result === ButtonType.YES) {
+      if (result === ButtonAction.YES) {
         this.centralServerService.registerOicpEndpoint(oicpendpoint.id).subscribe((response) => {
           if (response.status === RestResponse.SUCCESS) {
             this.messageService.showSuccessMessage('oicpendpoints.register_success', { name: oicpendpoint.name });
@@ -271,7 +268,7 @@ export class SettingsOicpEndpointsTableDataSource extends TableDataSource<OicpEn
       this.translateService.instant('oicpendpoints.unregister_title'),
       this.translateService.instant('oicpendpoints.unregister_confirm', { name: oicpendpoint.name }),
     ).subscribe((result) => {
-      if (result === ButtonType.YES) {
+      if (result === ButtonAction.YES) {
         this.centralServerService.unregisterOicpEndpoint(oicpendpoint.id).subscribe((response) => {
           if (response.status === RestResponse.SUCCESS) {
             this.messageService.showSuccessMessage('oicpendpoints.unregister_success', { name: oicpendpoint.name });

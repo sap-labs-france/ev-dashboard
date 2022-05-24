@@ -2319,6 +2319,10 @@
       "in_error": "Em erro"
     }
   },
+  "billingPlatform": {
+    "title": "Billing Platform",
+    "description": "Manage several billing accounts"
+  },
   "transactions": {
     "id": "Id",
     "date_from": "Data",

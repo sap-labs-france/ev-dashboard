@@ -2320,6 +2320,10 @@
       "in_error": "En Erreur"
     }
   },
+  "billingPlatform": {
+    "title": "Plateforme de facturation",
+    "description": "Gestion de plusieurs comptes de facturation"
+  },
   "transactions": {
     "id": "Id",
     "date_from": "Date",

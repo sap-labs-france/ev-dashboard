@@ -2318,6 +2318,10 @@
       "in_error": "Con errores"
     }
   },
+  "billingPlatform": {
+    "title": "Billing Platform",
+    "description": "Manage several billing accounts"
+  },
   "transactions": {
     "id": "ID",
     "date_from": "Fecha",

@@ -135,7 +135,6 @@ export class CarMainComponent implements OnInit, OnChanges {
       if (this.car.user) {
         this.user.setValue(Utils.buildUserFullName(this.car.user));
       }
-      this.canListUsers = Utils.convertToBoolean(this.car.canListUsers);
     }
   }
 

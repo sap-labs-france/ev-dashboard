@@ -25,13 +25,14 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.6.7',
-        date: new Date('2022-05-23'),
+        date: new Date('2022-05-24'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `Implemented sub Site Areas`,
               `Log in error failed OCPI Commands`,
+              `Fixed Admin and Site Admin cannot create a Car with a user`,
               `Get OCPI eMSP Tags with createdOn in addition to lastChangedOn`,
               `Enhanced OCPI Job management`,
             ],

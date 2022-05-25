@@ -25,7 +25,7 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.6.7',
-        date: new Date('2022-05-24'),
+        date: new Date('2022-05-25'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -34,6 +34,10 @@ export class ReleaseNotesComponent {
               `Log in error failed OCPI Commands`,
               `Fixed Admin and Site Admin cannot create a Car with a user`,
               `Get OCPI eMSP Tags with createdOn in addition to lastChangedOn`,
+              `Ignore the Smart Charging if no Charging Station is used`,
+              `Fixed Mobile App does not receive the Charging Station connector's stats for Sites and Site Areas`,
+              `Ensure last transaction handling will not make the Status notification failing`,
+              `Do not send 'null' value in pricing via OCPI`,
               `Enhanced OCPI Job management`,
             ],
           },

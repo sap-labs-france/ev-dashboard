@@ -52,7 +52,7 @@
       <div class="form-group" *ngIf="carsAuthorizations?.canListUsers">
         <mat-form-field>
           <input matInput type="text" readonly=true placeholder="{{'cars.user' | translate}}"
-          class="form-field-popup" (click)="assignUser()" [formControl]="user" />
+            class="form-field-popup" (click)="assignUser()" [formControl]="user" [required]="carsAuthorizations?.metadata?.userID?.mandatory" />
           <button mat-button matSuffix mat-icon-button aria-label="Add">
             <mat-icon>create</mat-icon>
           </button>

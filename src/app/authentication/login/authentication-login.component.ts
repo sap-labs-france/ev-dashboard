@@ -120,18 +120,18 @@ export class AuthenticationLoginComponent implements OnInit, OnDestroy {
     if (this.subDomain) {
       // Retrieve tenant's logo
       this.centralServerService.getTenantLogoBySubdomain(this.subDomain).subscribe((tenantLogo: string) => {
-        console.log(tenantLogo);
         if (tenantLogo) {
           this.tenantLogo = tenantLogo;
         }
       });
+    } else {
+      this.tenantLogo = Constants.MASTER_TENANT_LOGO;
     }
   }
 
   public sidebarToggle() {
     const toggleButton = this.toggleButton;
     const body = document.getElementsByTagName('body')[0];
-    const sidebar = document.getElementsByClassName('navbar-collapse')[0];
     if (this.sidebarVisible === false) {
       setTimeout(() => {
         toggleButton.classList.add('toggled');

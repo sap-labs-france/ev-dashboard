@@ -35,6 +35,7 @@ export class ReleaseNotesComponent {
               `Fixed Admin and Site Admin cannot create a Car with a user`,
               `Get OCPI eMSP Tags with createdOn in addition to lastChangedOn`,
               `Ignore the Smart Charging if no Charging Station is used`,
+              `Fixed Mobile App do not receive the stats for Sites and Site Areas`,
               `Enhanced OCPI Job management`,
             ],
           },

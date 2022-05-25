@@ -19,7 +19,7 @@ import { EndUserLicenseAgreement } from '../types/Eula';
 import { FilterParams, Image, KeyValue } from '../types/GlobalType';
 import { AssetInError, ChargingStationInError, TransactionInError } from '../types/InError';
 import { Log } from '../types/Log';
-import { OcpiEndpoint } from '../types/ocpi/OCPIEndpoint';
+import { OCPIEndpoint } from '../types/ocpi/OCPIEndpoint';
 import { OCPPResetType } from '../types/ocpp/OCPP';
 import { OicpEndpoint } from '../types/oicp/OICPEndpoint';
 import PricingDefinition from '../types/Pricing';
@@ -1318,7 +1318,7 @@ export class CentralServerService {
 
   // eslint-disable-next-line max-len
   public getOcpiEndpoints(params: FilterParams,
-    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<OcpiEndpoint>> {
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<OCPIEndpoint>> {
     // Verify init
     this.checkInit();
     // Build Paging
@@ -1326,7 +1326,7 @@ export class CentralServerService {
     // Build Ordering
     this.getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<DataResult<OcpiEndpoint>>(this.buildRestEndpointUrl(RESTServerRoute.REST_OCPI_ENDPOINTS),
+    return this.httpClient.get<DataResult<OCPIEndpoint>>(this.buildRestEndpointUrl(RESTServerRoute.REST_OCPI_ENDPOINTS),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -2218,7 +2218,7 @@ export class CentralServerService {
       );
   }
 
-  public sendEVSEStatusesOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<OCPIJobStatusesResponse> {
+  public sendEVSEStatusesOcpiEndpoint(ocpiEndpoint: OCPIEndpoint): Observable<OCPIJobStatusesResponse> {
     // Verify init
     this.checkInit();
     // Execute
@@ -2232,7 +2232,7 @@ export class CentralServerService {
       );
   }
 
-  public sendTokensOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<ActionResponse> {
+  public sendTokensOcpiEndpoint(ocpiEndpoint: OCPIEndpoint): Observable<ActionResponse> {
     // Verify init
     this.checkInit();
     // Execute
@@ -2246,7 +2246,7 @@ export class CentralServerService {
       );
   }
 
-  public pullLocationsOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<OCPIJobStatusesResponse> {
+  public pullLocationsOcpiEndpoint(ocpiEndpoint: OCPIEndpoint): Observable<OCPIJobStatusesResponse> {
     // Verify init
     this.checkInit();
     // Execute
@@ -2260,7 +2260,7 @@ export class CentralServerService {
       );
   }
 
-  public pullSessionsOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<OCPIJobStatusesResponse> {
+  public pullSessionsOcpiEndpoint(ocpiEndpoint: OCPIEndpoint): Observable<OCPIJobStatusesResponse> {
     // Verify init
     this.checkInit();
     // Execute
@@ -2274,7 +2274,7 @@ export class CentralServerService {
       );
   }
 
-  public pullTokensOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<OCPIJobStatusesResponse> {
+  public pullTokensOcpiEndpoint(ocpiEndpoint: OCPIEndpoint): Observable<OCPIJobStatusesResponse> {
     // Verify init
     this.checkInit();
     // Execute
@@ -2288,7 +2288,7 @@ export class CentralServerService {
       );
   }
 
-  public pullCdrsOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<OCPIJobStatusesResponse> {
+  public pullCdrsOcpiEndpoint(ocpiEndpoint: OCPIEndpoint): Observable<OCPIJobStatusesResponse> {
     // Verify init
     this.checkInit();
     // Execute
@@ -2302,7 +2302,7 @@ export class CentralServerService {
       );
   }
 
-  public checkLocationsOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<OCPIJobStatusesResponse> {
+  public checkLocationsOcpiEndpoint(ocpiEndpoint: OCPIEndpoint): Observable<OCPIJobStatusesResponse> {
     // Verify init
     this.checkInit();
     // Execute
@@ -2316,7 +2316,7 @@ export class CentralServerService {
       );
   }
 
-  public checkCdrsOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<OCPIJobStatusesResponse> {
+  public checkCdrsOcpiEndpoint(ocpiEndpoint: OCPIEndpoint): Observable<OCPIJobStatusesResponse> {
     // Verify init
     this.checkInit();
     // Execute
@@ -2330,7 +2330,7 @@ export class CentralServerService {
       );
   }
 
-  public checkSessionsOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<OCPIJobStatusesResponse> {
+  public checkSessionsOcpiEndpoint(ocpiEndpoint: OCPIEndpoint): Observable<OCPIJobStatusesResponse> {
     // Verify init
     this.checkInit();
     // Execute
@@ -2470,7 +2470,7 @@ export class CentralServerService {
       );
   }
 
-  public generateLocalTokenOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<OCPIGenerateLocalTokenResponse> {
+  public generateLocalTokenOcpiEndpoint(ocpiEndpoint: OCPIEndpoint): Observable<OCPIGenerateLocalTokenResponse> {
     // Verify init
     this.checkInit();
     // Execute
@@ -2485,7 +2485,7 @@ export class CentralServerService {
       );
   }
 
-  public updateOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<ActionResponse> {
+  public updateOcpiEndpoint(ocpiEndpoint: OCPIEndpoint): Observable<ActionResponse> {
     // Verify init
     this.checkInit();
     // Execute

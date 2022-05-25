@@ -15,6 +15,7 @@ import { Utils } from 'utils/Utils';
 
 @Component({
   templateUrl: 'import-dialog.component.html',
+  styleUrls: ['import-dialog.component.scss']
 })
 export class ImportDialogComponent implements OnInit {
   public uploader: FileUploader;

@@ -1,6 +1,6 @@
 import { ChargingStationButtonAction } from '../../../types/ChargingStation';
-import { ButtonActionColor, ButtonAction } from '../../../types/GlobalType';
-import { OcpiButtonAction } from '../../../types/ocpi/OCPIEndpoint';
+import { ButtonAction, ButtonActionColor } from '../../../types/GlobalType';
+import { OCPIButtonAction } from '../../../types/ocpi/OCPIEndpoint';
 import { SiteButtonAction } from '../../../types/Site';
 import { TableActionDef } from '../../../types/Table';
 import { TransactionButtonAction } from '../../../types/Transaction';
@@ -17,7 +17,7 @@ export class TableDownloadAction implements TableAction {
     tooltip: 'invoices.tooltips.download',
   };
 
-  public constructor(id?: ButtonAction | ChargingStationButtonAction | UserButtonAction | TransactionButtonAction | SiteButtonAction | OcpiButtonAction,
+  public constructor(id?: ButtonAction | ChargingStationButtonAction | UserButtonAction | TransactionButtonAction | SiteButtonAction | OCPIButtonAction,
     name?: string, tooltip?: string) {
     if (id) {
       this.action.id = id;

@@ -459,10 +459,13 @@ export abstract class TableDataSource<T extends TableData> {
           for (const tableColumnDef of this.tableColumnsDef) {
             tableColumnDef.visible = data.projectFields.includes(tableColumnDef.id);
           }
-          // No projected fields, display all
+        // No projected fields, display all
         } else {
           for (const tableColumnDef of this.tableColumnsDef) {
-            tableColumnDef.visible = true;
+            // Only if prop is not provided
+            if (!Utils.objectHasProperty(tableColumnDef, 'visible')) {
+              tableColumnDef.visible = true;
+            }
           }
         }
         // Build stats

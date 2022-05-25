@@ -102,10 +102,10 @@ export class SidebarComponent {
     // Get Tenant logo
     if (this.loggedUser.tenantID !== 'default') {
       this.centralServerService.getTenantLogo(this.loggedUser.tenantID).subscribe((tenantLogo) => {
-        this.logo = tenantLogo ? tenantLogo : Constants.TENANT_DEFAULT_LOGO;
+        this.logo = tenantLogo ? tenantLogo : Constants.NO_IMAGE;
       });
     } else {
-      this.logo = Constants.TENANT_DEFAULT_LOGO;
+      this.logo = Constants.NO_IMAGE;
     }
   }
 }

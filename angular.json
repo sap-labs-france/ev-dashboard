@@ -61,6 +61,11 @@
                 "glob": "**/*",
                 "input": "src/nginx/",
                 "output": "/nginx/"
+              },
+              {
+                "glob": "apple-app-site-association",
+                "input": "src/assets/.well-known/",
+                "output": "/.well-known/"
               }
             ],
             "styles": [

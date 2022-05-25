@@ -1970,8 +1970,9 @@
     "start_background_job_confirm": "¿Está seguro que desea iniciar el proceso de actualización del IOP '{{name}}'?",
     "stop_background_job_title": "Detener el proceso de actualización",
     "stop_background_job_confirm": "¿Está seguro que desea detener el proceso de actualización del IOP '{{name}}'?",
-    "total_charge_points": "Puntos de carga",
-    "total_tokens": "Tokens",
+    "total_charge_points": "Charging Stations",
+    "total_tokens": "RFID Cards",
+    "total_locations": "Sites",
     "total": "Total",
     "succeeded": "Exitoso",
     "failed": "Fallido"

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { StatusCodes } from 'http-status-codes';
 import { Observable } from 'rxjs';
 import { TransactionDialogComponent } from 'shared/dialogs/transaction/transaction-dialog.component';
 import { TableDeleteTransactionsAction, TableDeleteTransactionsActionDef } from 'shared/table/actions/transactions/table-delete-transactions-action';
@@ -151,7 +152,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     }, (error) => {
       this.spinnerService.hide();
       switch (error.status) {
-        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+        case StatusCodes.NOT_FOUND:
           this.messageService.showErrorMessage('users.user_do_not_exist');
           break;
         default:

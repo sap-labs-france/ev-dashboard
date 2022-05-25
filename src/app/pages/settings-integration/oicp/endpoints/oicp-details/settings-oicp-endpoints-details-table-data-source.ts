@@ -103,7 +103,6 @@ export class SettingsOicpEndpointsDetailsTableDataSource extends TableDataSource
         angularComponent: OicpDetailJobStatusFormatterComponent,
         headerClass: 'text-center',
         class: 'table-cell-angular-big-component',
-        sortable: false,
       },
       {
         id: 'lastPatchJobOn',
@@ -114,7 +113,6 @@ export class SettingsOicpEndpointsDetailsTableDataSource extends TableDataSource
         class: 'text-left col-40p',
         sorted: true,
         direction: 'desc',
-        sortable: false,
       },
       {
         id: 'totalNbr',
@@ -124,7 +122,6 @@ export class SettingsOicpEndpointsDetailsTableDataSource extends TableDataSource
         angularComponent: OicpDetailTotalEvsesStatusFormatterComponent,
         headerClass: 'text-center col-10p',
         class: 'table-cell-angular-big-component',
-        sorted: false,
       },
       {
         id: 'successNbr',
@@ -134,7 +131,6 @@ export class SettingsOicpEndpointsDetailsTableDataSource extends TableDataSource
         angularComponent: OicpDetailSuccessEvsesStatusFormatterComponent,
         headerClass: 'text-center col-10p',
         class: 'table-cell-angular-big-component',
-        sorted: false,
       },
       {
         id: 'failureNbr',
@@ -144,7 +140,6 @@ export class SettingsOicpEndpointsDetailsTableDataSource extends TableDataSource
         angularComponent: OicpDetailFailureEvsesStatusFormatterComponent,
         headerClass: 'text-center col-10p',
         class: 'table-cell-angular-big-component',
-        sorted: false,
       },
     ];
   }

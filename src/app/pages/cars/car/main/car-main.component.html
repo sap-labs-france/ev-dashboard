@@ -59,6 +59,7 @@
           <button *ngIf="userID.value" mat-icon-button matSuffix (click)="clearUser()" aria-label="Add">
             <mat-icon>clear</mat-icon>
           </button>
+          <mat-error *ngIf="userID.errors?.required"> {{ "general.mandatory_field" | translate }}</mat-error>
         </mat-form-field>
       </div>
       <div class="form-group">

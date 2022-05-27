@@ -25,7 +25,7 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.6.7',
-        date: new Date('2022-05-25'),
+        date: new Date('2022-05-27'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -38,6 +38,7 @@ export class ReleaseNotesComponent {
               `Fixed Mobile App does not receive the Charging Station connector's stats for Sites and Site Areas`,
               `Ensure last transaction handling will not make the Status notification failing`,
               `Do not send 'null' value in pricing via OCPI`,
+              `Fixed connector stats does not contain connector level information`,
               `Enhanced OCPI Job management`,
             ],
           },

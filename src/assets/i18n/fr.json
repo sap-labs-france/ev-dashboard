@@ -1483,6 +1483,7 @@
     "save_error_refund": "La tarification doit être active pour utiliser le remboursement",
     "save_error_roaming": "You cannot activate both the OCPI and OICP roaming components",
     "save_error_billing": "La tarification doit être active pour utiliser la facturation",
+    "save_error_billing_platform": "La facturation doit être active pour utiliser la plateforme de facturation",
     "save_error_smart_charging": "L'organisation doit être active pour utiliser Smart Charging",
     "save_error_asset": "L'Organisation doit être active pour utiliser Asset",
     "save_error_car_connector": "La gestion des véhicules doit être activée pour utiliser le connecteur des véhicules",

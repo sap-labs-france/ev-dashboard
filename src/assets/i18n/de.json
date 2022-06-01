@@ -1483,6 +1483,7 @@
     "save_error_refund": "Preisbildung muss für die Rückerstattung aktiv sein",
     "save_error_roaming": "Sie können nicht gleichzeitig die OCPI- und die OICP-Roaming-Komponente aktivieren.",
     "save_error_billing": "Preisbildung muss für Rechnungslegung aktiv sein",
+    "save_error_billing_platform": "Billing must be active to use Billing Platform",
     "save_error_smart_charging": "Organisation muss für Smart-Charging aktiv sein",
     "save_error_building": "Organisation muss aktiv sein, um Assets zu nutzen zu können",
     "save_error_car_connector": "Fahrzeug Management muss aktiv sein, um Fahrzeug Verbindungen zu nutzen",

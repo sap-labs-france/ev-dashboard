@@ -4,6 +4,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { StatusCodes } from 'http-status-codes';
+import { TagsAuthorizationActions } from 'types/Authorization';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -24,6 +25,7 @@ export class TagAssignComponent implements OnInit {
   @Input() public currentTagVisualID!: string;
   @Input() public inDialog!: boolean;
   @Input() public dialogRef!: MatDialogRef<any>;
+  @Input() public tagsAuthorizations!: TagsAuthorizationActions;
 
   public formGroup!: FormGroup;
   public description!: AbstractControl;

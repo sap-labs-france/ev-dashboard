@@ -147,14 +147,14 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
         // Initialize authorizaiton object
         this.tagsAuthorizations = {
           // Authorization action
-          canCreate: tags.canCreate,
-          canAssign: tags.canAssign,
-          canImport: tags.canImport,
-          canExport: tags.canExport,
-          canDelete: tags.canDelete,
-          canUnassign: tags.canUnassign,
-          canListUsers: tags.canListUsers,
-          canListSources: tags.canListSources,
+          canCreate: Utils.convertToBoolean(tags.canCreate),
+          canAssign: Utils.convertToBoolean(tags.canAssign),
+          canImport: Utils.convertToBoolean(tags.canImport),
+          canExport: Utils.convertToBoolean(tags.canExport),
+          canDelete: Utils.convertToBoolean(tags.canDelete),
+          canUnassign: Utils.convertToBoolean(tags.canUnassign),
+          canListUsers: Utils.convertToBoolean(tags.canListUsers),
+          canListSources: Utils.convertToBoolean(tags.canListSources),
           // Metadata
           metadata: tags.metadata,
           // projected fields
@@ -353,7 +353,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
       case TagButtonAction.ASSIGN_TAG:
         if (actionDef.action) {
           (actionDef as TableAssignTagActionDef).action(TagAssignDialogComponent,
-            this.dialog, null, this.refreshData.bind(this));
+            this.dialog, { authorizations: this.tagsAuthorizations }, this.refreshData.bind(this));
         }
         break;
       // Delete
@@ -396,7 +396,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
       case TagButtonAction.VIEW_TAG:
         if (actionDef.action) {
           (actionDef as TableViewTagActionDef).action(TagDialogComponent, this.dialog,
-            { dialogData: tag }, this.refreshData.bind(this));
+            { dialogData: tag, authorizations: this.tagsAuthorizations }, this.refreshData.bind(this));
         }
         break;
       case TagButtonAction.ACTIVATE_TAG:
@@ -420,7 +420,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
       case TagButtonAction.EDIT_TAG:
         if (actionDef.action) {
           (actionDef as TableEditTagActionDef).action(TagDialogComponent, this.dialog,
-            { dialogData: tag }, this.refreshData.bind(this));
+            { dialogData: tag /*, authorizations: this.tagsAuthorizations*/ }, this.refreshData.bind(this));
         }
         break;
       case UserButtonAction.NAVIGATE_TO_USER:
@@ -436,7 +436,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
       case TagButtonAction.EDIT_TAG_BY_VISUAL_ID:
         if (actionDef.action) {
           (actionDef as TableEditTagByVisualIDActionDef).action(TagAssignDialogComponent, this.dialog,
-            { dialogData: { visualID: tag.visualID } as Tag },
+            { dialogData: { visualID: tag.visualID } as Tag /*, authorizations: this.tagsAuthorizations */ },
             this.refreshData.bind(this));
         }
         break;

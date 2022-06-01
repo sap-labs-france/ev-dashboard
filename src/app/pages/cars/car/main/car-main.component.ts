@@ -105,9 +105,15 @@ export class CarMainComponent implements OnInit, OnChanges {
     this.type = this.formGroup.controls['type'];
     // Default
     this.converterType.disable();
-    // Car pool selection handled by cars metadata
+    // Pool Car
     if(this.carsAuthorizations.metadata?.createPoolCar?.visible) {
       this.carTypes.push({ key: CarType.POOL_CAR, value: 'cars.pool_car' });
+    }
+    // User ID
+    console.log(this.carsAuthorizations);
+    if(this.carsAuthorizations.metadata?.userID?.mandatory) {
+      this.user.setValidators(Validators.required);
+      this.userID.setValidators(Validators.required);
     }
     this.initialized = true;
     this.loadCar();
@@ -135,7 +141,6 @@ export class CarMainComponent implements OnInit, OnChanges {
       if (this.car.user) {
         this.user.setValue(Utils.buildUserFullName(this.car.user));
       }
-      this.canListUsers = Utils.convertToBoolean(this.car.canListUsers);
     }
   }
 

@@ -111,6 +111,8 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
           this.tenantLogo = tenantLogo;
         }
       });
+    } else {
+      this.tenantLogo = Constants.MASTER_TENANT_LOGO;
     }
   }
 

@@ -36,7 +36,7 @@
                 <div class="col-md-10">
                   <mat-form-field class="form-group" *ngIf="isOrganizationComponentActive">
                     <input matInput type="text" readonly=true placeholder="{{'chargers.site_area' | translate}}"
-                      class="form-field-popup" (click)="assignSiteArea()" [formControl]="siteArea"/>
+                      class="form-field-popup" (click)="assignSiteArea()" [formControl]="siteArea" [required]="metadata?.siteAreaID?.mandatory"/>
                     <button *ngIf="siteArea.enabled && siteArea.value" mat-icon-button matSuffix (click)="resetSiteArea()" aria-label="Clear">
                       <mat-icon>clear</mat-icon>
                     </button>

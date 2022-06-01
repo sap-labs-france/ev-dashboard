@@ -2,14 +2,14 @@ import { ComponentType } from '@angular/cdk/portal';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 
-import { DialogParams } from '../../../../types/Authorization';
+import { DialogParamsWithAuth, TagsAuthorizations } from '../../../../types/Authorization';
 import { TableActionDef } from '../../../../types/Table';
 import { Tag, TagButtonAction } from '../../../../types/Tag';
 import { TableEditAction } from '../table-edit-action';
 
 export interface TableEditTagByVisualIDActionDef extends TableActionDef {
   action: (tagAssignDialogComponent: ComponentType<unknown>, dialog: MatDialog,
-    dialogParams?: DialogParams<Tag>,
+    dialogParams?: DialogParamsWithAuth<Tag, TagsAuthorizations>,
     refresh?: () => Observable<void>) => void;
 }
 
@@ -23,7 +23,7 @@ export class TableEditTagByVisualIDAction extends TableEditAction {
   }
 
   private editTag(tagAssignDialogComponent: ComponentType<unknown>, dialog: MatDialog,
-    dialogParams: DialogParams<Tag>, refresh?: () => Observable<void>) {
+    dialogParams: DialogParamsWithAuth<Tag, TagsAuthorizations>, refresh?: () => Observable<void>) {
     super.edit(tagAssignDialogComponent, dialog, dialogParams, refresh);
   }
 }

@@ -24,7 +24,6 @@ import { StatusFilter } from 'shared/table/filters/status-filter';
 import { UserTableFilter } from 'shared/table/filters/user-table-filter';
 import { TagsAuthorizations } from 'types/Authorization';
 import { DataResult } from 'types/DataResult';
-import { HTTPError } from 'types/HTTPError';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'types/Table';
 import { Tag, TagButtonAction } from 'types/Tag';
 import { TransactionButtonAction } from 'types/Transaction';
@@ -111,7 +110,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
     if (tagID) {
       this.setSearchValue(tagID);
       this.editAction.action(TagDialogComponent, this.dialog,
-        { dialogData: { id: tagID, projectFields: this.projectFields } as Tag },
+        { dialogData: { id: tagID, projectFields: this.projectFields } as Tag, authorizations: this.tagsAuthorizations },
         this.refreshData.bind(this));
     }
   }
@@ -420,7 +419,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
       case TagButtonAction.EDIT_TAG:
         if (actionDef.action) {
           (actionDef as TableEditTagActionDef).action(TagDialogComponent, this.dialog,
-            { dialogData: tag /*, authorizations: this.tagsAuthorizations*/ }, this.refreshData.bind(this));
+            { dialogData: tag, authorizations: this.tagsAuthorizations }, this.refreshData.bind(this));
         }
         break;
       case UserButtonAction.NAVIGATE_TO_USER:
@@ -436,7 +435,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
       case TagButtonAction.EDIT_TAG_BY_VISUAL_ID:
         if (actionDef.action) {
           (actionDef as TableEditTagByVisualIDActionDef).action(TagAssignDialogComponent, this.dialog,
-            { dialogData: { visualID: tag.visualID } as Tag /*, authorizations: this.tagsAuthorizations */ },
+            { dialogData: { visualID: tag.visualID } as Tag , authorizations: this.tagsAuthorizations },
             this.refreshData.bind(this));
         }
         break;

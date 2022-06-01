@@ -7,7 +7,7 @@ import { Utils } from '../../../utils/Utils';
 import { TagAssignComponent } from './tag-assign.component';
 
 @Component({
-  template: '<app-tag-assign #appRef [currentTagVisualID]="tagVisualID" [inDialog]="true" [tagsAuthorizations]=tagsAuthorizations [dialogRef]="dialogRef"></app-tag-assign>',
+  template: '<app-tag-assign #appRef [currentTagVisualID]="tagVisualID" [inDialog]="true" [tagsAuthorizations]="tagsAuthorizations" [dialogRef]="dialogRef"></app-tag-assign>',
 })
 export class TagAssignDialogComponent implements AfterViewInit {
   @ViewChild('appRef') public appRef!: TagAssignComponent;

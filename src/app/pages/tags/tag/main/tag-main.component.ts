@@ -71,12 +71,12 @@ export class TagMainComponent implements OnInit, OnChanges {
     this.active = this.formGroup.controls['active'];
     this.default = this.formGroup.controls['default'];
     this.default.disable();
-    if (this.tag?.metadata?.userID?.mandatory) {
+    if (this.tagsAuthorizations?.metadata?.userID?.mandatory) {
       this.user.setValidators(Validators.required);
       this.userID.setValidators(Validators.required);
     }
-    if (this.tag?.metadata?.id) {
-      this.idVisible = this.tag.metadata.id.visible;
+    if (this.tagsAuthorizations?.metadata?.id) {
+      this.idVisible = this.tagsAuthorizations.metadata.id.visible;
     }
     this.initialized = true;
     this.loadTag();

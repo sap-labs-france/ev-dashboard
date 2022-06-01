@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, Inject, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { ChargingStationsAuthorizationActions, ChargingStationsAuthorizations, DialogMode, DialogParams, DialogParamsWithAuth } from 'types/Authorization';
+import { ChargingStationsAuthorizations, DialogMode, DialogParamsWithAuth } from 'types/Authorization';
 import { ChargingStation } from 'types/ChargingStation';
 
 import { Utils } from '../../../utils/Utils';
@@ -21,11 +21,7 @@ export class ChargingStationDialogComponent implements AfterViewInit {
     @Inject(MAT_DIALOG_DATA) dialogParams: DialogParamsWithAuth<ChargingStation, ChargingStationsAuthorizations>) {
     this.chargingStationID = dialogParams.dialogData?.id;
     this.dialogMode = dialogParams.dialogMode;
-    this.chargingStationsAuthorizations = {
-      canListSiteAreas: dialogParams.authorizations?.canListSiteAreas,
-      // Metadata
-      metadata: dialogParams.authorizations?.metadata
-    };
+    this.chargingStationsAuthorizations = dialogParams.authorizations;
   }
 
   public ngAfterViewInit() {

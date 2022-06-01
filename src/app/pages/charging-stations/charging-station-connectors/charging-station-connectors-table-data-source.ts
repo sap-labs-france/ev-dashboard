@@ -68,17 +68,10 @@ export class ChargingStationConnectorsTableDataSource extends TableDataSource<Co
       // Return connector
       if (this.chargingStation) {
         this.chargingStation.connectors.forEach((connector) => {
-          if (this.chargingStation.issuer) {
-            connector.isStopAuthorized = !!connector.currentTransactionID && this.chargingStation.canStopTransaction;
-            connector.isStartAuthorized = !connector.currentTransactionID && this.chargingStation.canStartTransaction;
-            connector.isTransactionDisplayAuthorized = this.authorizationService.canReadTransaction(this.chargingStation.siteArea, connector.currentTagID);
-            connector.hasDetails = !!connector.currentTransactionID && connector.isTransactionDisplayAuthorized;
-          } else {
-            connector.isStopAuthorized = connector.currentTransactionID > 0 && connector.status !== ChargePointStatus.AVAILABLE;
-            connector.isStartAuthorized = !connector.isStopAuthorized && connector.status === ChargePointStatus.AVAILABLE;
-            connector.isTransactionDisplayAuthorized = connector.currentTransactionID > 0;
-            connector.hasDetails = connector.currentTransactionID > 0;
-          }
+          connector.isStopAuthorized = connector.canStopTransaction;
+          connector.isStartAuthorized = connector.canStartTransaction;
+          connector.isTransactionDisplayAuthorized = this.authorizationService.canReadTransaction(this.chargingStation.siteArea, connector.currentTagID);
+          connector.hasDetails = !!connector.currentTransactionID && connector.isTransactionDisplayAuthorized;
         });
         observer.next({
           count: this.chargingStation.connectors.length,

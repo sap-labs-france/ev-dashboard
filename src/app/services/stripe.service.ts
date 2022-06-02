@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Stripe } from '@stripe/stripe-js';
 import { loadStripe } from '@stripe/stripe-js/pure';
+import { StatusCodes } from 'http-status-codes';
 import { HTTPError } from 'types/HTTPError';
 import { BillingSettings } from 'types/Setting';
 import { Utils } from 'utils/Utils';
@@ -44,7 +45,7 @@ export class StripeService {
       return await this.componentService.getBillingSettings().toPromise();
     } catch (error) {
       switch (error.status) {
-        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+        case StatusCodes.NOT_FOUND:
           this.messageService.showErrorMessage('settings.billing.not_found');
           break;
         default:

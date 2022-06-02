@@ -1,12 +1,13 @@
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import * as FileSaver from 'file-saver';
+import { ButtonAction } from 'types/GlobalType';
 
 import { CentralServerService } from '../../../../services/central-server.service';
 import { DialogService } from '../../../../services/dialog.service';
 import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
-import { ButtonType, TableActionDef } from '../../../../types/Table';
+import { TableActionDef } from '../../../../types/Table';
 import { TransactionButtonAction } from '../../../../types/Transaction';
 import { Utils } from '../../../../utils/Utils';
 import { TableExportAction } from '../table-export-action';
@@ -34,7 +35,7 @@ export class TableExportTransactionOcpiCdrAction extends TableExportAction {
       translateService.instant('transactions.export_ocpi_cdr_title'),
       translateService.instant('transactions.export_ocpi_cdr_confirm', { transactionID }),
     ).subscribe((response) => {
-      if (response === ButtonType.YES) {
+      if (response === ButtonAction.YES) {
         spinnerService.show();
         centralServerService.exportTransactionOcpiCdr(transactionID).subscribe((result) => {
           spinnerService.hide();

@@ -2,7 +2,7 @@ import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 
 import { CellContentTemplateDirective } from '../../../../../shared/table/cell-content-template/cell-content-template.directive';
 import { ChipType, KeyValue } from '../../../../../types/GlobalType';
-import { OcpiEndpoint, OcpiEndpointStatus } from '../../../../../types/ocpi/OCPIEndpoint';
+import { OCPIEndpoint, OCPIRegistrationStatus } from '../../../../../types/ocpi/OCPIEndpoint';
 
 export const ocpiStatuses: KeyValue[] = [
   { key: 'new', value: 'ocpiendpoints.new' },
@@ -20,7 +20,7 @@ export const ocpiStatuses: KeyValue[] = [
   `,
 })
 export class OcpiEndpointStatusFormatterComponent extends CellContentTemplateDirective {
-  @Input() public row!: OcpiEndpoint;
+  @Input() public row!: OCPIEndpoint;
 }
 
 @Pipe({ name: 'appFormatOcpiStatus' })
@@ -30,13 +30,13 @@ export class AppFormatOcpiStatusPipe implements PipeTransform {
     if (type === 'class') {
       let classNames = 'chip-width-10em ';
       switch (status) {
-        case OcpiEndpointStatus.NEW:
+        case OCPIRegistrationStatus.NEW:
           classNames += ChipType.INFO;
           break;
-        case OcpiEndpointStatus.REGISTERED:
+        case OCPIRegistrationStatus.REGISTERED:
           classNames += ChipType.SUCCESS;
           break;
-        case OcpiEndpointStatus.UNREGISTERED:
+        case OCPIRegistrationStatus.UNREGISTERED:
           classNames += ChipType.WARNING;
           break;
         default:

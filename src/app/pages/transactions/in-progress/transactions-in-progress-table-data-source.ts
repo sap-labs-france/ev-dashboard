@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { WindowService } from 'services/window.service';
 import { TransactionDialogComponent } from 'shared/dialogs/transaction/transaction-dialog.component';
 import { ConnectorTableFilter } from 'shared/table/filters/connector-table-filter';
 import { CarCatalog } from 'types/Car';
@@ -71,7 +72,8 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
     private appUnitPipe: AppUnitPipe,
     private appBatteryPercentagePipe: AppBatteryPercentagePipe,
     private appUserNamePipe: AppUserNamePipe,
-    private appDurationPipe: AppDurationPipe) {
+    private appDurationPipe: AppDurationPipe,
+    private windowService: WindowService) {
     super(spinnerService, translateService);
     // Admin
     this.isAdmin = this.authorizationService.isAdmin();
@@ -301,13 +303,13 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
       case LogButtonAction.NAVIGATE_TO_LOGS:
         if (actionDef.action) {
           (actionDef as TableOpenURLActionDef).action('logs?ChargingStationID=' + transaction.chargeBoxID +
-            '&StartDateTime=' + transaction.timestamp + '&LogLevel=I');
+            '&StartDateTime=' + transaction.timestamp + '&LogLevel=I', this.windowService);
         }
         break;
       case ChargingStationButtonAction.NAVIGATE_TO_CHARGING_PLANS:
         if (actionDef.action) {
           (actionDef as TableOpenURLActionDef).action('charging-stations#chargingplans?ChargingStationID=' + transaction.chargeBoxID
-            + '&TransactionID=' + transaction.id);
+            + '&TransactionID=' + transaction.id, this.windowService);
         }
         break;
     }

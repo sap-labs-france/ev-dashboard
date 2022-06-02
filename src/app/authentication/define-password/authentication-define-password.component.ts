@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { StatusCodes } from 'http-status-codes';
 import { ReCaptchaV3Service } from 'ngx-captcha';
 import { Constants } from 'utils/Constants';
 
@@ -30,7 +31,7 @@ export class AuthenticationDefinePasswordComponent implements OnInit, OnDestroy 
   public hidePassword = true;
   public hideRepeatPassword = true;
   public mobileVendor!: string;
-  public tenantLogo = Constants.TENANT_DEFAULT_LOGO;
+  public tenantLogo = Constants.NO_IMAGE;
 
   private siteKey: string;
   private subDomain: string;
@@ -70,9 +71,9 @@ export class AuthenticationDefinePasswordComponent implements OnInit, OnDestroy 
     this.repeatPassword = this.passwords.controls['repeatPassword'];
     this.resetPasswordHash = this.route.snapshot.queryParamMap.get('hash');
     // Handle Deep Linking
-    if (Utils.isInMobileApp()) {
+    if (Utils.isInMobileApp(this.subDomain)) {
       // Forward to Mobile App
-      const mobileAppURL: string = Utils.buildMobileAppDeepLink(
+      const mobileAppURL = Utils.buildMobileAppDeepLink(
         `resetPassword/${this.windowService.getSubdomain()}/${this.resetPasswordHash}`);
       window.location.href = mobileAppURL;
     }
@@ -94,6 +95,8 @@ export class AuthenticationDefinePasswordComponent implements OnInit, OnDestroy 
           this.tenantLogo = tenantLogo;
         }
       });
+    } else {
+      this.tenantLogo = Constants.MASTER_TENANT_LOGO;
     }
   }
 
@@ -129,7 +132,7 @@ export class AuthenticationDefinePasswordComponent implements OnInit, OnDestroy 
         this.spinnerService.hide();
         switch (error.status) {
           // Hash no longer valid
-          case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+          case StatusCodes.NOT_FOUND:
             this.messageService.showErrorMessage('authentication.define_password_hash_not_valid');
             break;
           default:

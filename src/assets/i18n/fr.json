@@ -467,8 +467,45 @@
     "name": "Nom",
     "title": "Zone",
     "titles": "Zones",
+    "parent_site_area": "Zone parente",
+    "select_parent_site_area": "Sélectionnez la zone parente",
+    "site_area_hierarchy_error_title": "Erreur dans la hiérarchie des zones",
+    "site_area_tree_error": [
+      "Une erreur est survenue pendant la modification de la hiérarchie des zones.",
+      "Evitez les dépendances circulaires.",
+      "Pour plus d'information, vérifiez les logs."
+    ],
+    "site_area_tree_error_site": [
+      "Une erreur est survenue pendant la modification de la hiérarchie des zones.",
+      "Les sous-zones n'ont pas le même Site que leur parent.",
+      "Voulez-vous:",
+      "1 - Mettre à jour toutes les zones de la hiérarchie avec le nouveau Site",
+      "2 - Assigner la Zone parente actuelle à toutes les sous-zones",
+      "3 - Effacer la zone parente des sous-zones"
+    ],
+    "site_area_tree_error_site_update": "Mettre à jour (1)",
+    "site_area_tree_error_site_attach": "Assigner (2)",
+    "site_area_tree_error_site_clear": "Effacer (3)",
+    "site_area_tree_error_smart_charging": [
+      "Une erreur est survenue pendant la modification de la hiérarchie des zones.",
+      "La Zone doit avoir la même valeur de Charge Intelligente dans toute la hiérarchie.",
+      "Voulez-vous changer la valeur de la Charge Intelligente dans toute la hiérarchie ?"
+    ],
+    "site_area_tree_error_voltage": [
+      "Une erreur est survenue pendant la modification de la hiérarchie des zones.",
+      "La Zone doit avoir le même Voltage que son parent."
+    ],
+    "site_area_tree_error_number_of_phases": [
+      "Une erreur est survenue pendant la modification de la hiérarchie des zones.",
+      "La Zone doit avoir le même Nombre de Phases que son parent."
+    ],
+    "site_area_tree_error_multiple_actions_not_supported": [
+      "Une erreur est survenue pendant la modification de la hiérarchie des zones.",
+      "Les changements multiples ne sont actuellement pas supporté (eg. changement de Site et Charge Intelligente).",
+      "Effectuez un changement a la fois."
+    ],
     "site_invalid": "Zone invalide",
-    "site_area_do_not_exist": "Site Area n'existe plus",
+    "site_area_does_not_exist": "Cette zone n'existe pas",
     "max_limit_kw": "Limite Max",
     "created_on": "Créée le",
     "created_by": "Créée par",
@@ -1161,7 +1198,7 @@
     "search_10_minutes": "Dernière 10 Minutes",
     "search_30_minutes": "Dernière 30 Minutes",
     "search_one_hour": "Dernière Heure",
-    "search_24_hours": "Last 24 hours",
+    "search_24_hours": "Dernière 24 Heures",
     "search_today": "Aujourd'hui",
     "search_yesterday": "Hier",
     "search_this_week": "Cette Semaine",
@@ -1933,8 +1970,9 @@
     "start_background_job_confirm": "Voulez-vous vraiment démarrer le processus de mise à jour pour IOP '{{name}}' ?",
     "stop_background_job_title": "Arrêter le processus de mise à jour",
     "stop_background_job_confirm": "Voulez-vous vraiment arrêter le processus de mise à jour pour IOP '{{name}}' ?",
-    "total_charge_points": "Points de Charge",
-    "total_tokens": "Jetons",
+    "total_charge_points": "Bornes",
+    "total_tokens": "Badges",
+    "total_locations": "Sites",
     "total": "Total",
     "succeeded": "Succès",
     "failed": "Echecs"

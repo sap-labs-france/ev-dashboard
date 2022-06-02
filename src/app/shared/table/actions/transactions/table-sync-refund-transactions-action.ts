@@ -6,8 +6,8 @@ import { CentralServerService } from '../../../../services/central-server.servic
 import { DialogService } from '../../../../services/dialog.service';
 import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
-import { RestResponse } from '../../../../types/GlobalType';
-import { ButtonType, TableActionDef } from '../../../../types/Table';
+import { ButtonAction, RestResponse } from '../../../../types/GlobalType';
+import { TableActionDef } from '../../../../types/Table';
 import { TransactionButtonAction } from '../../../../types/Transaction';
 import { Utils } from '../../../../utils/Utils';
 import { TableSynchronizeAction } from '../table-synchronize-action';
@@ -33,7 +33,7 @@ export class TableSyncRefundTransactionsAction extends TableSynchronizeAction {
       translateService.instant('settings.refund.synchronize_dialog_refund_title'),
       translateService.instant('settings.refund.synchronize_dialog_refund_confirm'),
     ).subscribe((response) => {
-      if (response === ButtonType.YES) {
+      if (response === ButtonAction.YES) {
         messageService.showInfoMessage('settings.refund.synchronize_started');
         centralServerService.synchronizeRefundedTransactions().subscribe((synchronizeResponse) => {
           if (synchronizeResponse.status === RestResponse.SUCCESS) {

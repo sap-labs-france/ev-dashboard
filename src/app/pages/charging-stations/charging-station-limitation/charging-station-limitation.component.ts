@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { StatusCodes } from 'http-status-codes';
 
 import { CentralServerService } from '../../../services/central-server.service';
 import { MessageService } from '../../../services/message.service';
@@ -47,7 +48,7 @@ export class ChargingStationLimitationComponent implements OnInit {
       }, (error) => {
         this.spinnerService.hide();
         switch (error.status) {
-          case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+          case StatusCodes.NOT_FOUND:
             this.messageService.showErrorMessage('chargers.charger_not_found');
             break;
           default:

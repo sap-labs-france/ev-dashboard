@@ -7,8 +7,8 @@ import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { ActionsResponse } from '../../../types/DataResult';
-import { ButtonAction } from '../../../types/GlobalType';
-import { ButtonColor, ButtonType, TableActionDef, TableData } from '../../../types/Table';
+import { ButtonActionColor, ButtonAction } from '../../../types/GlobalType';
+import { TableActionDef, TableData } from '../../../types/Table';
 import { Utils } from '../../../utils/Utils';
 import { TableAction } from './table-action';
 
@@ -17,7 +17,7 @@ export class TableDeleteManyAction implements TableAction {
     id: ButtonAction.DELETE_MANY,
     type: 'button',
     icon: 'delete',
-    color: ButtonColor.WARN,
+    color: ButtonActionColor.WARN,
     name: 'general.delete',
     tooltip: 'general.tooltips.delete',
     action: this.deleteMany,
@@ -40,7 +40,7 @@ export class TableDeleteManyAction implements TableAction {
       translateService.instant(messageTitle),
       translateService.instant(messageConfirm, { quantity: datas.length }),
     ).subscribe((response) => {
-      if (response === ButtonType.YES) {
+      if (response === ButtonAction.YES) {
         spinnerService.show();
         deleteManyData(datas.map((data) => data.id)).subscribe((responseAction: ActionsResponse) => {
           spinnerService.hide();

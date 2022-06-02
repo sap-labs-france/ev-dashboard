@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { StatusCodes } from 'http-status-codes';
 import { Observable } from 'rxjs';
 import { SpinnerService } from 'services/spinner.service';
 import { WindowService } from 'services/window.service';
@@ -23,7 +24,6 @@ import { StatusFilter } from 'shared/table/filters/status-filter';
 import { UserTableFilter } from 'shared/table/filters/user-table-filter';
 import { TagsAuthorizations } from 'types/Authorization';
 import { DataResult } from 'types/DataResult';
-import { HTTPError } from 'types/HTTPError';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'types/Table';
 import { Tag, TagButtonAction } from 'types/Tag';
 import { TransactionButtonAction } from 'types/Transaction';
@@ -110,7 +110,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
     if (tagID) {
       this.setSearchValue(tagID);
       this.editAction.action(TagDialogComponent, this.dialog,
-        { dialogData: { id: tagID, projectFields: this.projectFields } as Tag },
+        { dialogData: { id: tagID, projectFields: this.projectFields } as Tag, authorizations: this.tagsAuthorizations },
         this.refreshData.bind(this));
     }
   }
@@ -127,7 +127,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
     }, (error) => {
       this.spinnerService.hide();
       switch (error.status) {
-        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+        case StatusCodes.NOT_FOUND:
           this.messageService.showErrorMessage('users.user_do_not_exist');
           break;
         default:
@@ -146,14 +146,14 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
         // Initialize authorizaiton object
         this.tagsAuthorizations = {
           // Authorization action
-          canCreate: tags.canCreate,
-          canAssign: tags.canAssign,
-          canImport: tags.canImport,
-          canExport: tags.canExport,
-          canDelete: tags.canDelete,
-          canUnassign: tags.canUnassign,
-          canListUsers: tags.canListUsers,
-          canListSources: tags.canListSources,
+          canCreate: Utils.convertToBoolean(tags.canCreate),
+          canAssign: Utils.convertToBoolean(tags.canAssign),
+          canImport: Utils.convertToBoolean(tags.canImport),
+          canExport: Utils.convertToBoolean(tags.canExport),
+          canDelete: Utils.convertToBoolean(tags.canDelete),
+          canUnassign: Utils.convertToBoolean(tags.canUnassign),
+          canListUsers: Utils.convertToBoolean(tags.canListUsers),
+          canListSources: Utils.convertToBoolean(tags.canListSources),
           // Metadata
           metadata: tags.metadata,
           // projected fields
@@ -352,7 +352,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
       case TagButtonAction.ASSIGN_TAG:
         if (actionDef.action) {
           (actionDef as TableAssignTagActionDef).action(TagAssignDialogComponent,
-            this.dialog, null, this.refreshData.bind(this));
+            this.dialog, { authorizations: this.tagsAuthorizations }, this.refreshData.bind(this));
         }
         break;
       // Delete
@@ -395,7 +395,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
       case TagButtonAction.VIEW_TAG:
         if (actionDef.action) {
           (actionDef as TableViewTagActionDef).action(TagDialogComponent, this.dialog,
-            { dialogData: tag }, this.refreshData.bind(this));
+            { dialogData: tag, authorizations: this.tagsAuthorizations }, this.refreshData.bind(this));
         }
         break;
       case TagButtonAction.ACTIVATE_TAG:
@@ -419,23 +419,23 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
       case TagButtonAction.EDIT_TAG:
         if (actionDef.action) {
           (actionDef as TableEditTagActionDef).action(TagDialogComponent, this.dialog,
-            { dialogData: tag }, this.refreshData.bind(this));
+            { dialogData: tag, authorizations: this.tagsAuthorizations }, this.refreshData.bind(this));
         }
         break;
       case UserButtonAction.NAVIGATE_TO_USER:
         if (actionDef.action) {
-          (actionDef as TableOpenURLActionDef).action(`users#all?TagID=${tag.id}&Issuer=${tag.issuer}`);
+          (actionDef as TableOpenURLActionDef).action(`users#all?VisualID=${tag.visualID}&Issuer=${tag.issuer}`, this.windowService);
         }
         break;
       case TransactionButtonAction.NAVIGATE_TO_TRANSACTIONS:
         if (actionDef.action) {
-          (actionDef as TableOpenURLActionDef).action(`transactions#history?VisualID=${tag.visualID}&Issuer=${tag.issuer}`);
+          (actionDef as TableOpenURLActionDef).action(`transactions#history?VisualID=${tag.visualID}&Issuer=${tag.issuer}`, this.windowService);
         }
         break;
       case TagButtonAction.EDIT_TAG_BY_VISUAL_ID:
         if (actionDef.action) {
           (actionDef as TableEditTagByVisualIDActionDef).action(TagAssignDialogComponent, this.dialog,
-            { dialogData: { visualID: tag.visualID } as Tag },
+            { dialogData: { visualID: tag.visualID } as Tag , authorizations: this.tagsAuthorizations },
             this.refreshData.bind(this));
         }
         break;

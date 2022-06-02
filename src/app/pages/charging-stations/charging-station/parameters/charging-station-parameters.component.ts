@@ -9,9 +9,8 @@ import { LocaleService } from '../../../../services/locale.service';
 import { GeoMapDialogComponent } from '../../../../shared/dialogs/geomap/geomap-dialog.component';
 import { SiteAreasDialogComponent } from '../../../../shared/dialogs/site-areas/site-areas-dialog.component';
 import { ChargingStation, OCPPProtocol } from '../../../../types/ChargingStation';
-import { KeyValue } from '../../../../types/GlobalType';
+import { ButtonAction, KeyValue } from '../../../../types/GlobalType';
 import { SiteArea } from '../../../../types/SiteArea';
-import { ButtonType } from '../../../../types/Table';
 import { TenantComponents } from '../../../../types/Tenant';
 import { Constants } from '../../../../utils/Constants';
 import { Utils } from '../../../../utils/Utils';
@@ -318,7 +317,7 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
         this.translateService.instant('chargers.dialog.enable_manual_configuration.title'),
         this.translateService.instant('chargers.dialog.enable_manual_configuration.confirm'),
       ).subscribe((result) => {
-        if (result === ButtonType.NO) {
+        if (result === ButtonAction.NO) {
           this.manualConfiguration.setValue(false);
           // Reload initial charging station to restore e.g. maximum power, when it was changed by the adjustment methods
           this.loadChargingStation();
@@ -332,7 +331,7 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
         this.translateService.instant('chargers.dialog.disable_manual_configuration.title'),
         this.translateService.instant('chargers.dialog.disable_manual_configuration.confirm'),
       ).subscribe((result) => {
-        if (result === ButtonType.NO) {
+        if (result === ButtonAction.NO) {
           this.manualConfiguration.setValue(true);
         } else {
           this.maximumPower.disable();

@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { StatusCodes } from 'http-status-codes';
 
 import { CentralServerService } from '../../../../services/central-server.service';
 import { DialogService } from '../../../../services/dialog.service';
@@ -9,9 +10,8 @@ import { LocaleService } from '../../../../services/locale.service';
 import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
 import { ChargingStation } from '../../../../types/ChargingStation';
-import { KeyValue } from '../../../../types/GlobalType';
+import { ButtonAction, KeyValue } from '../../../../types/GlobalType';
 import { HTTPError } from '../../../../types/HTTPError';
-import { ButtonType } from '../../../../types/Table';
 import { Utils } from '../../../../utils/Utils';
 
 @Component({
@@ -63,7 +63,7 @@ export class ChargingStationFirmwareUpdateComponent implements OnInit {
       this.translateService.instant('chargers.update_firmware_title'),
       this.translateService.instant('chargers.update_firmware_confirm', { chargeBoxID: this.chargingStation.id }),
     ).subscribe((result) => {
-      if (result === ButtonType.YES) {
+      if (result === ButtonAction.YES) {
         this.spinnerService.show();
         this.centralServerService.chargingStationUpdateFirmware(this.chargingStation, this.url.value).subscribe(() => {
           this.spinnerService.hide();
@@ -72,7 +72,7 @@ export class ChargingStationFirmwareUpdateComponent implements OnInit {
         }, (error) => {
           this.spinnerService.hide();
           switch (error.status) {
-            case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+            case StatusCodes.NOT_FOUND:
               this.messageService.showErrorMessage(this.messages['update_firmware_error']);
               break;
             default:

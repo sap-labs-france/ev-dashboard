@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { ChargingStationsAuthorizations, DialogParamsWithAuth } from 'types/Authorization';
+import { ButtonAction, ButtonActionColor } from 'types/GlobalType';
 import { StartTransaction } from 'types/Transaction';
 
 import { CentralServerService } from '../../../../services/central-server.service';
@@ -12,7 +13,7 @@ import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
 import { ChargePointStatus, ChargingStation, ChargingStationButtonAction, Connector, OCPPGeneralResponse } from '../../../../types/ChargingStation';
 import { ActionResponse } from '../../../../types/DataResult';
-import { ButtonColor, ButtonType, TableActionDef } from '../../../../types/Table';
+import { TableActionDef } from '../../../../types/Table';
 import { Utils } from '../../../../utils/Utils';
 import { TableAction } from '../table-action';
 
@@ -28,7 +29,7 @@ export class TableChargingStationsStartTransactionAction implements TableAction 
     id: ChargingStationButtonAction.START_TRANSACTION,
     type: 'button',
     icon: 'play_arrow',
-    color: ButtonColor.ACCENT,
+    color: ButtonActionColor.ACCENT,
     name: 'general.start',
     tooltip: 'general.tooltips.start',
     action: this.startTransaction.bind(this),
@@ -92,7 +93,7 @@ export class TableChargingStationsStartTransactionAction implements TableAction 
         userName: userFullName,
       }),
     ).subscribe((response) => {
-      if (response === ButtonType.YES) {
+      if (response === ButtonAction.YES) {
         // Check badge
         if (!visualTagID) {
           messageService.showErrorMessage(

@@ -1,5 +1,5 @@
 import { ButtonAction } from '../../../types/GlobalType';
-import { ButtonColor, TableActionDef } from '../../../types/Table';
+import { ButtonActionColor, TableActionDef } from '../../../types/Table';
 import { TableAction } from './table-action';
 
 export class TableOpenAction implements TableAction {
@@ -7,7 +7,7 @@ export class TableOpenAction implements TableAction {
     id: ButtonAction.OPEN,
     type: 'button',
     icon: 'open_in_new',
-    color: ButtonColor.PRIMARY,
+    color: ButtonActionColor.PRIMARY,
     name: 'general.open',
     tooltip: 'general.tooltips.open',
   };

@@ -2,6 +2,7 @@ import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
 import { Router } from '@angular/router';
+import { StatusCodes } from 'http-status-codes';
 import { ComponentService } from 'services/component.service';
 import { CarsAuthorizations } from 'types/Authorization';
 import { CarConnectorConnectionSetting } from 'types/Setting';
@@ -104,7 +105,7 @@ export class CarConnectorComponent implements OnInit, OnChanges {
       this.loadCar();
     }, (error) => {
       switch (error.status) {
-        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+        case StatusCodes.NOT_FOUND:
           this.messageService.showErrorMessage('settings.car_connector.setting_not_found');
           break;
         default:

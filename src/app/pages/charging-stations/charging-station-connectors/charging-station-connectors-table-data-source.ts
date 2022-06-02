@@ -124,7 +124,6 @@ export class ChargingStationConnectorsTableDataSource extends TableDataSource<Co
         class: 'table-cell-angular-big-component col-10em',
         isAngularComponent: true,
         angularComponent: ChargingStationsConnectorStatusCellComponent,
-        sortable: false,
       },
       {
         id: 'info',
@@ -132,7 +131,6 @@ export class ChargingStationConnectorsTableDataSource extends TableDataSource<Co
         headerClass: 'text-center col-15em',
         class: 'text-center col-15em',
         formatter: (info: string, row: Connector) => Utils.buildConnectorInfo(row),
-        sortable: false,
       },
       {
         id: 'currentInstantWatts',
@@ -141,7 +139,6 @@ export class ChargingStationConnectorsTableDataSource extends TableDataSource<Co
         class: 'text-center col-20p',
         isAngularComponent: true,
         angularComponent: ChargingStationsInstantPowerConnectorProgressBarCellComponent,
-        sortable: false,
       },
       {
         id: 'currentTotalConsumptionWh',
@@ -149,7 +146,6 @@ export class ChargingStationConnectorsTableDataSource extends TableDataSource<Co
         headerClass: 'col-15p',
         class: 'col-15p',
         formatter: (value: number) => this.appUnitPipe.transform(value, 'Wh', 'kWh'),
-        sortable: false,
       },
       {
         id: 'currentTotalInactivitySecs',

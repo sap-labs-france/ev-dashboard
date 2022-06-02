@@ -18,7 +18,7 @@ import { TableDataSource } from '../../../../../shared/table/table-data-source';
 import { DataResult } from '../../../../../types/DataResult';
 import { ButtonAction, RestResponse } from '../../../../../types/GlobalType';
 import { OicpButtonAction, OicpEndpoint, OicpEndpointDetail, OicpRole } from '../../../../../types/oicp/OICPEndpoint';
-import { ButtonType, TableActionDef, TableColumnDef, TableDef } from '../../../../../types/Table';
+import { TableActionDef, TableColumnDef, TableDef } from '../../../../../types/Table';
 import { Utils } from '../../../../../utils/Utils';
 import { OicpDetailFailureEvsesStatusFormatterComponent } from '../formatters/oicp-detail-failure-evses-status-formatter.component';
 import { OicpDetailJobStatusFormatterComponent } from '../formatters/oicp-detail-job-status-formatter.component';
@@ -103,7 +103,6 @@ export class SettingsOicpEndpointsDetailsTableDataSource extends TableDataSource
         angularComponent: OicpDetailJobStatusFormatterComponent,
         headerClass: 'text-center',
         class: 'table-cell-angular-big-component',
-        sortable: false,
       },
       {
         id: 'lastPatchJobOn',
@@ -114,7 +113,6 @@ export class SettingsOicpEndpointsDetailsTableDataSource extends TableDataSource
         class: 'text-left col-40p',
         sorted: true,
         direction: 'desc',
-        sortable: false,
       },
       {
         id: 'totalNbr',
@@ -124,7 +122,6 @@ export class SettingsOicpEndpointsDetailsTableDataSource extends TableDataSource
         angularComponent: OicpDetailTotalEvsesStatusFormatterComponent,
         headerClass: 'text-center col-10p',
         class: 'table-cell-angular-big-component',
-        sorted: false,
       },
       {
         id: 'successNbr',
@@ -134,7 +131,6 @@ export class SettingsOicpEndpointsDetailsTableDataSource extends TableDataSource
         angularComponent: OicpDetailSuccessEvsesStatusFormatterComponent,
         headerClass: 'text-center col-10p',
         class: 'table-cell-angular-big-component',
-        sorted: false,
       },
       {
         id: 'failureNbr',
@@ -144,7 +140,6 @@ export class SettingsOicpEndpointsDetailsTableDataSource extends TableDataSource
         angularComponent: OicpDetailFailureEvsesStatusFormatterComponent,
         headerClass: 'text-center col-10p',
         class: 'table-cell-angular-big-component',
-        sorted: false,
       },
     ];
   }
@@ -203,7 +198,7 @@ export class SettingsOicpEndpointsDetailsTableDataSource extends TableDataSource
       this.translateService.instant('oicpendpoints.push_evse_statuses_title'),
       this.translateService.instant('oicpendpoints.push_evse_statuses_confirm', { name: oicpendpoint.name }),
     ).subscribe((result) => {
-      if (result === ButtonType.YES) {
+      if (result === ButtonAction.YES) {
         // Ping
         this.centralServerService.sendEVSEStatusesOicpEndpoint(oicpendpoint).subscribe((response) => {
           if (response.failure === 0) {
@@ -232,7 +227,7 @@ export class SettingsOicpEndpointsDetailsTableDataSource extends TableDataSource
       this.translateService.instant('oicpendpoints.push_evses_title'),
       this.translateService.instant('oicpendpoints.push_evses_confirm', { name: oicpendpoint.name }),
     ).subscribe((result) => {
-      if (result === ButtonType.YES) {
+      if (result === ButtonAction.YES) {
         // Ping
         this.centralServerService.sendEVSEsOicpEndpoint(oicpendpoint).subscribe((response) => {
           if (response.failure === 0) {
@@ -264,7 +259,7 @@ export class SettingsOicpEndpointsDetailsTableDataSource extends TableDataSource
       (enable) ? this.translateService.instant('oicpendpoints.start_background_job_confirm', { name: oicpendpoint.name })
         : this.translateService.instant('oicpendpoints.stop_background_job_confirm', { name: oicpendpoint.name }),
     ).subscribe((result) => {
-      if (result === ButtonType.YES) {
+      if (result === ButtonAction.YES) {
         // Switch background job state
         oicpendpoint.backgroundPatchJob = enable;
         this.centralServerService.updateOicpEndpoint(oicpendpoint).subscribe((response) => {

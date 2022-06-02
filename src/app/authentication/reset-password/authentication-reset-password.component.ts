@@ -19,7 +19,7 @@ export class AuthenticationResetPasswordComponent implements OnInit, OnDestroy {
   public email: AbstractControl;
   public formGroup: FormGroup;
 
-  public tenantLogo = Constants.TENANT_DEFAULT_LOGO;
+  public tenantLogo = Constants.NO_IMAGE;
 
   private siteKey: string;
   private subDomain: string;
@@ -64,6 +64,8 @@ export class AuthenticationResetPasswordComponent implements OnInit, OnDestroy {
           this.tenantLogo = tenantLogo;
         }
       });
+    } else {
+      this.tenantLogo = Constants.MASTER_TENANT_LOGO;
     }
   }
 

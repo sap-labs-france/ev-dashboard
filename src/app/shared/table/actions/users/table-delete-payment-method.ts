@@ -3,12 +3,13 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { BillingButtonAction, BillingPaymentMethod } from 'types/Billing';
+import { ButtonAction } from 'types/GlobalType';
 
 import { CentralServerService } from '../../../../services/central-server.service';
 import { DialogService } from '../../../../services/dialog.service';
 import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
-import { ButtonType, TableActionDef } from '../../../../types/Table';
+import { TableActionDef } from '../../../../types/Table';
 import { Utils } from '../../../../utils/Utils';
 import { TableDeleteAction } from '../table-delete-action';
 
@@ -32,7 +33,7 @@ export class TableDeletePaymentMethodAction extends TableDeleteAction {
       translateService.instant('settings.billing.payment_methods_delete_title'),
       translateService.instant('settings.billing.payment_methods_delete_confirm', { last4: paymentMethod.last4 }),
     ).subscribe((result) => {
-      if (result === ButtonType.YES) {
+      if (result === ButtonAction.YES) {
         spinnerService.show();
         centralServerService.deletePaymentMethod(paymentMethod.id, userID).subscribe((response) => {
           spinnerService.hide();

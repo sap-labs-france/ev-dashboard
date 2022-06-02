@@ -35,7 +35,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
   private deleteAction = new TableDeleteCarAction().getActionDef();
   private usersFilter: TableFilterDef;
   private carMakerFilter: TableFilterDef;
-  private carsAthorizations: CarsAuthorizations;
+  private carsAuthorizations: CarsAuthorizations;
 
   public constructor(
     public spinnerService: SpinnerService,
@@ -66,7 +66,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
       // Get cars
       this.centralServerService.getCars(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe((cars) => {
         // Initialize cars authorization
-        this.carsAthorizations = {
+        this.carsAuthorizations = {
           // Authorization actions
           canCreate: Utils.convertToBoolean(cars.canCreate),
           canListUsers: Utils.convertToBoolean(cars.canListUsers),
@@ -75,10 +75,9 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
           metadata: cars.metadata
         };
         // Update filters visibility
-        this.createAction.visible = this.carsAthorizations.canCreate;
-        this.usersFilter.visible = this.carsAthorizations.canListUsers;
-        this.carMakerFilter.visible = this.carsAthorizations.canListCarCatalog;
-
+        this.createAction.visible = this.carsAuthorizations.canCreate;
+        this.usersFilter.visible = this.carsAuthorizations.canListUsers;
+        this.carMakerFilter.visible = this.carsAuthorizations.canListCarCatalog;
         observer.next(cars);
         observer.complete();
       }, (error) => {
@@ -106,7 +105,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    const tableColumnDef: TableColumnDef[] = [
+    return [
       {
         id: 'carCatalog.image',
         name: 'cars.image',
@@ -121,8 +120,6 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
         headerClass: 'col-20p',
         class: 'col-20p',
       },
-    ];
-    tableColumnDef.push(
       {
         id: 'carCatalog.vehicleMake',
         name: 'cars.vehicle_make',
@@ -147,11 +144,11 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
         formatter: (vehicleModelVersion: string) => vehicleModelVersion ? vehicleModelVersion : '-',
       },
       {
-        id: 'user',
+        id: 'user.name',
         name: 'cars.users',
         headerClass: 'col-20p',
         class: 'col-20p',
-        formatter: (user: User) => Utils.buildUserFullName(user),
+        formatter: (name: string, car: Car) => Utils.buildUserFullName(car.user),
       },
       {
         id: 'licensePlate',
@@ -173,9 +170,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
         headerClass: 'text-center col-10p',
         class: 'text-center col-10p',
         formatter: (defaultCar: boolean) => Utils.displayYesNo(this.translateService, defaultCar),
-      }
-    );
-    tableColumnDef.push(
+      },
       {
         id: 'converter',
         name: 'cars.charge_standard_tables',
@@ -230,8 +225,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
         headerClass: 'col-15em',
         class: 'col-15em',
       },
-    );
-    return tableColumnDef;
+    ];
   }
 
   public actionTriggered(actionDef: TableActionDef) {
@@ -240,7 +234,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
       case CarButtonAction.CREATE_CAR:
         if (actionDef.action) {
           (actionDef as TableCreateCarActionDef).action(CarDialogComponent,
-            this.dialog, { authorizations: this.carsAthorizations }, this.refreshData.bind(this));
+            this.dialog, { authorizations: this.carsAuthorizations }, this.refreshData.bind(this));
         }
         break;
     }
@@ -284,7 +278,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
       case CarButtonAction.EDIT_CAR:
         if (actionDef.action) {
           (actionDef as TableEditCarActionDef).action(CarDialogComponent, this.dialog,
-            { dialogData: car, authorizations: this.carsAthorizations }, this.refreshData.bind(this));
+            { dialogData: car, authorizations: this.carsAuthorizations }, this.refreshData.bind(this));
         }
         break;
       case CarButtonAction.DELETE_CAR:

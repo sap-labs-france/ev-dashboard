@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { SiteAreaTableFilter } from 'shared/table/filters/site-area-table-filter';
 import { SiteTableFilter } from 'shared/table/filters/site-table-filter';
+import { AssetsAuthorizations } from 'types/Authorization';
 
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
@@ -41,6 +42,7 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
   private issuerFilter: TableFilterDef;
   private siteFilter: TableFilterDef;
   private siteAreaFilter: TableFilterDef;
+  private assetsAuthorizations: AssetsAuthorizations;
 
   public constructor(
     public spinnerService: SpinnerService,
@@ -64,12 +66,15 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
     return new Observable((observer) => {
       // get assets
       this.centralServerService.getAssets(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe((assets) => {
-        // lookup for image otherwise assign default
-        for (const asset of assets.result) {
-          if (!asset.image) {
-            asset.image = Constants.NO_IMAGE;
-          }
-        }
+        // Initialize cars authorization
+        this.assetsAuthorizations = {
+          // Authorization actions
+          canCreate: Utils.convertToBoolean(assets.canCreate),
+          canListSites: Utils.convertToBoolean(assets.canListSites),
+          canListSiteAreas: Utils.convertToBoolean(assets.canListSiteAreas),
+          // metadata
+          metadata: assets.metadata
+        };
         // Asset auth
         this.canCreate.visible = Utils.convertToBoolean(assets.canCreate);
         // Specific filter authorizations not part of Asset
@@ -222,7 +227,7 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
       case AssetButtonAction.CREATE_ASSET:
         if (actionDef.action) {
           (actionDef as TableCreateAssetActionDef).action(AssetDialogComponent,
-            this.dialog, this.refreshData.bind(this));
+            this.dialog, { authorizations: this.assetsAuthorizations }, this.refreshData.bind(this));
         }
         break;
     }
@@ -233,13 +238,13 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
       case AssetButtonAction.VIEW_ASSET:
         if (actionDef.action) {
           (actionDef as TableViewAssetActionDef).action(AssetDialogComponent, this.dialog,
-            { dialogData: asset }, this.refreshData.bind(this));
+            { dialogData: asset, authorizations: this.assetsAuthorizations }, this.refreshData.bind(this));
         }
         break;
       case AssetButtonAction.EDIT_ASSET:
         if (actionDef.action) {
           (actionDef as TableEditAssetActionDef).action(AssetDialogComponent, this.dialog,
-            { dialogData: asset }, this.refreshData.bind(this));
+            { dialogData: asset, authorizations: this.assetsAuthorizations }, this.refreshData.bind(this));
         }
         break;
       case AssetButtonAction.DELETE_ASSET:

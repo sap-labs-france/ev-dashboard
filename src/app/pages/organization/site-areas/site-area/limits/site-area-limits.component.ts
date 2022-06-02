@@ -41,7 +41,6 @@ export class SiteAreaLimitsComponent implements OnInit, OnChanges {
     this.formGroup.addControl('maximumPower', new FormControl(0,
       Validators.compose([
         Validators.pattern(/^[+-]?([0-9]*[.])?[0-9]+$/),
-        Validators.min(1),
         Validators.required,
       ])
     ));

@@ -24,19 +24,44 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.6.6',
-        date: new Date('2022-05-02'),
+        version: '2.6.7',
+        date: new Date('2022-05-27'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
-              `Fixed payment limit URL parameter is not provided in mobile app`,
+              `Implemented sub Site Areas`,
+              `Log in error failed OCPI Commands`,
+              `Fixed Admin and Site Admin cannot create a Car with a user`,
+              `Get OCPI eMSP Tags with createdOn in addition to lastChangedOn`,
+              `Ignore the Smart Charging if no Charging Station is used`,
+              `Fixed Mobile App does not receive the Charging Station connector's stats for Sites and Site Areas`,
+              `Ensure last transaction handling will not make the Status notification failing`,
+              `Do not send 'null' value in pricing via OCPI`,
+              `Fixed connector stats does not contain connector level information`,
+              `Enhanced OCPI Job management`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.6.6',
+        date: new Date('2022-05-11'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Removed Limit URL parameter when calling payment methods endpoint`,
               `Migrated Billing endpoint to the new authorization framework`,
               `OCPI RFID Cards are created on the fly when Remote Start is triggered by the Roaming platform`,
               `Never calculate the cost of an OCPI Transaction`,
               `Do not price the Roaming transaction`,
               `Ensured OCPP Heartbeart message is correct before being validated with a Json schema`,
               `Validate OCPP Meter Value requests with a Json schema`,
+              `Do not update Charging Station max power in master/slave`,
+              `Fixed date/time picker when data is entered manually`,
+              `Avoid API User to login using the mobile app`,
+              `Enhanced error management when pushing OCPI Cdr`,
             ],
           },
         ],

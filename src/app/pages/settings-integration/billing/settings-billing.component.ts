@@ -2,14 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { ButtonType } from 'types/Table';
+import { StatusCodes } from 'http-status-codes';
 
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
-import { RestResponse } from '../../../types/GlobalType';
+import { ButtonAction, RestResponse } from '../../../types/GlobalType';
 import { HTTPError } from '../../../types/HTTPError';
 import { BillingSetting, BillingSettings, BillingSettingsType, StripeBillingSetting } from '../../../types/Setting';
 import { TenantComponents } from '../../../types/Tenant';
@@ -61,7 +61,7 @@ export class SettingsBillingComponent implements OnInit {
     }, (error) => {
       this.spinnerService.hide();
       switch (error.status) {
-        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+        case StatusCodes.NOT_FOUND:
           this.messageService.showErrorMessage('settings.billing.not_found');
           break;
         default:
@@ -96,7 +96,7 @@ export class SettingsBillingComponent implements OnInit {
     }, (error) => {
       this.spinnerService.hide();
       switch (error.status) {
-        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+        case StatusCodes.NOT_FOUND:
           this.messageService.showErrorMessage('settings.billing.not_found');
           break;
         default:
@@ -135,7 +135,7 @@ export class SettingsBillingComponent implements OnInit {
       this.translateService.instant('settings.billing.transaction_billing_activation_title'),
       this.translateService.instant('settings.billing.transaction_billing_activation_confirm'),
     ).subscribe((response) => {
-      if (response === ButtonType.YES) {
+      if (response === ButtonAction.YES) {
         this.billingSettings.billing.isTransactionBillingActivated = true;
         this.save(this.billingSettings);
       }
@@ -147,7 +147,7 @@ export class SettingsBillingComponent implements OnInit {
       this.translateService.instant('settings.billing.billing_clear_test_data_title'),
       this.translateService.instant('settings.billing.billing_clear_test_data_confirm'),
     ).subscribe((response) => {
-      if (response === ButtonType.YES) {
+      if (response === ButtonAction.YES) {
         this.triggerTestDataCleanup();
       }
     });

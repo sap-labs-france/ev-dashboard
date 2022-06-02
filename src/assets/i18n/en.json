@@ -467,8 +467,45 @@
     "name": "Name",
     "title": "Site Area",
     "titles": "Site Areas",
+    "parent_site_area": "Parent Site Area",
+    "select_parent_site_area": "Select Parent Site Area",
+    "site_area_hierarchy_error_title": "Site Area Hierarchy Error",
+    "site_area_tree_error": [
+      "An error occurred while modifying the Site Area chain.",
+      "Avoid circular dependencies within the tree.",
+      "For more information please check the logs."
+    ],
+    "site_area_tree_error_site": [
+      "An error occurred while modifying the Site Area chain.",
+      "Site Area has children with a different Site.",
+      "Do you want to:",
+      "1 - Update all Site Area chain with the new Site",
+      "2 - Assign the current parent Site Area to all children",
+      "3 - Clear the parent Site Area in all children"
+    ],
+    "site_area_tree_error_site_update": "Update (1)",
+    "site_area_tree_error_site_attach": "Assign (2)",
+    "site_area_tree_error_site_clear": "Clear (3)",
+    "site_area_tree_error_smart_charging": [
+      "An error occurred while modifying the Site Area chain.",
+      "Site Area must have the same Smart Charging value as its parent.",
+      "Do you want change the Smart Charging value to the whole Site Area chain?"
+    ],
+    "site_area_tree_error_voltage": [
+      "An error occurred while modifying the Site Area chain.",
+      "Site Area must have the same Voltage as its parent."
+    ],
+    "site_area_tree_error_number_of_phases": [
+      "An error occurred while modifying the Site Area chain.",
+      "Site Area must have the same Number of Phases as its parent."
+    ],
+    "site_area_tree_error_multiple_actions_not_supported": [
+      "An error occurred while modifying the Site Area chain.",
+      "Multiple changes are currently not supported (eg. change of Site and Smart Charging.)",
+      "Perform one change at a time."
+    ],
     "site_invalid": "Site Area invalid",
-    "site_area_do_not_exist": "Site Area does not exist",
+    "site_area_does_not_exist": "Site Area does not exist",
     "max_limit_kw": "Limite Max",
     "created_on": "Created On",
     "created_by": "Created By",
@@ -1932,8 +1969,9 @@
     "start_background_job_confirm": "Do you want to start the background job for IOP '{{name}}'?",
     "stop_background_job_title": "Stop Background Job",
     "stop_background_job_confirm": "Do you want to stop the background job for IOP '{{name}}'?",
-    "total_charge_points": "Total Charge Points",
-    "total_tokens": "Total Tokens",
+    "total_charge_points": "Charging Stations",
+    "total_tokens": "RFID Cards",
+    "total_locations": "Sites",
     "total": "Total",
     "succeeded": "Succeeded",
     "failed": "Failed"

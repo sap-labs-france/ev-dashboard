@@ -1,9 +1,16 @@
 {
   "applinks": {
+      "apps": [],
       "details": [
       {
-        "appID": "SG7N28T3A2.com.e-Mobility",
-        "paths": ["*"]
+        "appID": "2UGX2474J8.com.e-Mobility",
+        "paths": ["*"],
+        "components": [
+                  {
+                    "/": "*",
+                    "comment": "Matches any URL whose path starts with URL_PATH and instructs the system not to open it as a universal link"
+                  }
+                ],
       }
     ]
 }

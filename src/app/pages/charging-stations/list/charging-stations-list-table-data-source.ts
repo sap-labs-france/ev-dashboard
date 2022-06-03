@@ -297,7 +297,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
         if (actionDef.action) {
           (actionDef as TableViewChargingStationActionDef).action(
             ChargingStationDialogComponent, this.dialog,
-            { dialogData: chargingStation }, this.refreshData.bind(this));
+            { dialogData: chargingStation, authorizations: this.chargingStationsAthorizations }, this.refreshData.bind(this));
         }
         break;
       case ChargingStationButtonAction.REBOOT:
@@ -314,7 +314,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
             {
               dialogData: {
                 id: chargingStation.id, ocppVersion: chargingStation.ocppVersion, canUpdate: chargingStation.canUpdate
-              },
+              }, authorizations: this.chargingStationsAthorizations
             },
             this.refreshData.bind(this)
           );

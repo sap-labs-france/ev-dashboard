@@ -24,6 +24,21 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.6.8',
+        date: new Date('2022-06-03'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Aligned new authorizations in the pop-ups`,
+              `Fix Charging Station's Statistics wrong label tooltip`,
+              `Handle Connectors' statuses of inactive Charging Stations in the backend`,
+              `Track OCPP JSON WS memory footprints`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.6.7',
         date: new Date('2022-05-27'),
         componentChanges: [

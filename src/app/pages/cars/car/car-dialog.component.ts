@@ -20,12 +20,7 @@ export class CarDialogComponent implements AfterViewInit {
     @Inject(MAT_DIALOG_DATA) dialogParams: DialogParamsWithAuth<Car, CarsAuthorizations>) {
     this.carID = dialogParams.dialogData?.id;
     this.dialogMode = dialogParams.dialogMode;
-    this.carsAuthorizations = {
-      // Authorization actions
-      canListUsers: dialogParams.authorizations?.canListUsers,
-      // Metadata
-      metadata: dialogParams.authorizations?.metadata
-    };
+    this.carsAuthorizations = dialogParams.authorizations;
   }
 
   public ngAfterViewInit() {

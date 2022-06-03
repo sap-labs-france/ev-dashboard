@@ -50,7 +50,7 @@
       <div class="form-group">
         <mat-form-field>
           <input matInput type="text" readonly=true placeholder="{{'users.title' | translate}}"
-            class="form-field-popup" (click)="assignUser()" [formControl]="user" [required]="metadata?.userID?.mandatory"/>
+            class="form-field-popup" (click)="assignUser()" [formControl]="user" [required]="tagsAuthorizations?.metadata?.userID?.mandatory"/>
           <button *ngIf="user.enabled && user.value" mat-icon-button matSuffix (click)="resetUser()" aria-label="Clear">
             <mat-icon>clear</mat-icon>
           </button>

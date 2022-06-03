@@ -262,7 +262,7 @@ export class SimpleChart {
             value = Math.round(value);
           }
           if (this.stackedChart) {
-            toolTip = `${context.label} : ${value.toLocaleString(this.language)}`;
+            toolTip = `${context.dataset.label} : ${value.toLocaleString(this.language)}`;
           } else {
             toolTip = value.toLocaleString(this.language);
           }

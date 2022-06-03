@@ -1,22 +1,24 @@
 import { AfterViewInit, Component, Inject, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
-import { DialogParams } from '../../../types/Authorization';
+import { DialogParamsWithAuth, TagsAuthorizations } from '../../../types/Authorization';
 import { Tag } from '../../../types/Tag';
 import { Utils } from '../../../utils/Utils';
 import { TagAssignComponent } from './tag-assign.component';
 
 @Component({
-  template: '<app-tag-assign #appRef [currentTagVisualID]="tagVisualID" [inDialog]="true" [dialogRef]="dialogRef"></app-tag-assign>',
+  template: '<app-tag-assign #appRef [currentTagVisualID]="tagVisualID" [inDialog]="true" [tagsAuthorizations]="tagsAuthorizations" [dialogRef]="dialogRef"></app-tag-assign>',
 })
 export class TagAssignDialogComponent implements AfterViewInit {
   @ViewChild('appRef') public appRef!: TagAssignComponent;
   public tagVisualID!: string;
+  public tagsAuthorizations!: TagsAuthorizations;
 
   public constructor(
     public dialogRef: MatDialogRef<TagAssignDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) dialogParams: DialogParams<Tag>) {
+    @Inject(MAT_DIALOG_DATA) dialogParams: DialogParamsWithAuth<Tag, TagsAuthorizations>) {
     this.tagVisualID = dialogParams.dialogData?.visualID;
+    this.tagsAuthorizations = dialogParams.authorizations;
   }
 
   public ngAfterViewInit() {

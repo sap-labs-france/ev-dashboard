@@ -32,6 +32,7 @@ export class ReleaseNotesComponent {
             changes: [
               `Aligned new authorizations in the pop-ups`,
               `Fix Charging Station's Statistics wrong label tooltip`,
+              `Handle Connectors' statuses of inactive Charging Stations in the backend`,
             ],
           },
         ],

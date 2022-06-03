@@ -24,6 +24,18 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.6.8',
+        date: new Date('2022-06-03'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Aligned new authorizations in the pop-ups`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.6.7',
         date: new Date('2022-05-27'),
         componentChanges: [

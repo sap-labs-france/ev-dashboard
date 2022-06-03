@@ -31,6 +31,7 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Aligned new authorizations in the pop-ups`,
+              `Fix Charging Station's Statistics wrong label tooltip`,
             ],
           },
         ],

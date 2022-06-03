@@ -105,7 +105,7 @@ export class SidebarComponent {
         this.logo = tenantLogo ? tenantLogo : Constants.NO_IMAGE;
       });
     } else {
-      this.logo = Constants.NO_IMAGE;
+      this.logo = Constants.MASTER_TENANT_LOGO;
     }
   }
 }

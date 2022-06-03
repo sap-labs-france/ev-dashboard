@@ -2,6 +2,7 @@ import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
+import { AssetsAuthorizations } from 'types/Authorization';
 
 import { CentralServerService } from '../../../../services/central-server.service';
 import { ComponentService } from '../../../../services/component.service';
@@ -24,6 +25,7 @@ export class AssetMainComponent implements OnInit, OnChanges {
   @Input() public formGroup: FormGroup;
   @Input() public asset!: Asset;
   @Input() public readOnly: boolean;
+  @Input() public assetsAuthorizations!: AssetsAuthorizations;
 
   public image: string = Constants.NO_IMAGE;
   public imageChanged = false;

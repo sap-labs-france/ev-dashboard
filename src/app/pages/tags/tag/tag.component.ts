@@ -6,7 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { StatusCodes } from 'http-status-codes';
 import { WindowService } from 'services/window.service';
 import { AbstractTabComponent } from 'shared/component/abstract-tab/abstract-tab.component';
-import { AuthorizationDefinitionFieldMetadata, DialogMode } from 'types/Authorization';
+import { DialogMode, TagsAuthorizations } from 'types/Authorization';
 
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
@@ -27,7 +27,7 @@ export class TagComponent extends AbstractTabComponent implements OnInit {
   @Input() public currentTagID!: string;
   @Input() public currentTagVisualID!: string;
   @Input() public dialogRef!: MatDialogRef<any>;
-  @Input() public metadata!: Record<string, AuthorizationDefinitionFieldMetadata>;
+  @Input() public tagsAuthorizations!: TagsAuthorizations;
   @Input() public dialogMode!: DialogMode;
 
   public formGroup!: FormGroup;
@@ -67,7 +67,6 @@ export class TagComponent extends AbstractTabComponent implements OnInit {
       this.centralServerService.getTag(this.currentTagID).subscribe((tag: Tag) => {
         this.spinnerService.hide();
         this.tag = tag;
-        this.metadata = tag.metadata;
         if (this.readOnly) {
           // Async call for letting the sub form groups to init
           setTimeout(() => this.formGroup.disable(), 0);
@@ -92,7 +91,6 @@ export class TagComponent extends AbstractTabComponent implements OnInit {
       this.centralServerService.getTagByVisualID(this.currentTagVisualID).subscribe((tag: Tag) => {
         this.spinnerService.hide();
         this.tag = tag;
-        this.metadata = tag.metadata;
         if (this.readOnly) {
           // Async call for letting the sub form groups to init
           setTimeout(() => this.formGroup.disable(), 0);

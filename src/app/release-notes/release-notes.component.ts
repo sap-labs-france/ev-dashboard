@@ -33,6 +33,8 @@ export class ReleaseNotesComponent {
               `Aligned new authorizations in the pop-ups`,
               `Fix Charging Station's Statistics wrong label tooltip`,
               `Handle Connectors' statuses of inactive Charging Stations in the backend`,
+              `Fixed OCPI Token updated with User ID instead of UID`,
+              `OCPI eMSP Pull CDR of the last 2 weeks instead of the last 2 days`,
               `Track OCPP JSON WS memory footprints`,
             ],
           },

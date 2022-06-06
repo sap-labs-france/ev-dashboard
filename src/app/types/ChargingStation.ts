@@ -153,6 +153,7 @@ export interface Connector extends TableData {
   tariffID?: string;
   canStopTransaction: boolean;
   canStartTransaction: boolean;
+  canUnlockConnector: boolean;
 }
 
 export interface PhaseAssignmentToGrid {

@@ -15,31 +15,26 @@ import { InvoicesListComponent } from './list/invoices-list.component';
 import { InvoicesTableDataSource } from './list/invoices-table-data-source';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    AddressModule,
-    ReactiveFormsModule,
-    TranslateModule,
-    MaterialModule,
-    TableModule,
-    DialogsModule,
-    RouterModule.forChild(InvoicesRoutes),
-  ],
-  declarations: [
-    InvoicesComponent,
-    InvoicesListComponent,
-    InvoiceStatusFormatterComponent,
-    AppFormatInvoiceStatusPipe
-  ],
-  entryComponents: [
-    InvoicesComponent,
-    InvoicesListComponent,
-    InvoiceStatusFormatterComponent,
-  ],
-  providers: [
-    InvoicesTableDataSource,
-  ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        AddressModule,
+        ReactiveFormsModule,
+        TranslateModule,
+        MaterialModule,
+        TableModule,
+        DialogsModule,
+        RouterModule.forChild(InvoicesRoutes),
+    ],
+    declarations: [
+        InvoicesComponent,
+        InvoicesListComponent,
+        InvoiceStatusFormatterComponent,
+        AppFormatInvoiceStatusPipe
+    ],
+    providers: [
+        InvoicesTableDataSource,
+    ]
 })
 
 export class InvoicesModule {

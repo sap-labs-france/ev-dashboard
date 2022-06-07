@@ -16,28 +16,23 @@ import { TechnicalSettingsRoutes } from './settings-technical.routing';
 import { SettingsUserComponent } from './users/settings-user.component';
 
 @NgModule({
-  declarations: [
-    SettingsTechnicalComponent,
-    SettingsCryptoComponent,
-    SettingsCryptoKeyComponent,
-    SettingsUserComponent
-  ],
-  imports: [
-    CommonModule,
-    RouterModule.forChild(TechnicalSettingsRoutes),
-    TranslateModule,
-    MaterialModule,
-    DialogsModule,
-    CommonDirectivesModule,
-    FormattersModule,
-    TableModule,
-    FormsModule,
-    ReactiveFormsModule
-  ],
-  entryComponents: [
-    SettingsCryptoComponent,
-    SettingsCryptoKeyComponent,
-    SettingsUserComponent
-  ]
+    declarations: [
+        SettingsTechnicalComponent,
+        SettingsCryptoComponent,
+        SettingsCryptoKeyComponent,
+        SettingsUserComponent
+    ],
+    imports: [
+        CommonModule,
+        RouterModule.forChild(TechnicalSettingsRoutes),
+        TranslateModule,
+        MaterialModule,
+        DialogsModule,
+        CommonDirectivesModule,
+        FormattersModule,
+        TableModule,
+        FormsModule,
+        ReactiveFormsModule
+    ]
 })
 export class SettingsTechnicalModule { }

@@ -15,29 +15,26 @@ import { LogsListComponent } from './list/logs-list.component';
 import { LogsRoutes } from './logs.routing';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule.forChild(LogsRoutes),
-    FormsModule,
-    ReactiveFormsModule,
-    TranslateModule,
-    MaterialModule,
-    TableModule,
-    ComponentModule,
-    CommonDirectivesModule,
-    DialogsModule,
-  ],
-  declarations: [
-    LogsListComponent,
-    LogLevelFormatterComponent,
-    AppFormatLogLevelPipe,
-  ],
-  entryComponents: [
-    LogLevelFormatterComponent,
-  ],
-  providers: [
-    LogsListTableDataSource,
-  ],
+    imports: [
+        CommonModule,
+        RouterModule.forChild(LogsRoutes),
+        FormsModule,
+        ReactiveFormsModule,
+        TranslateModule,
+        MaterialModule,
+        TableModule,
+        ComponentModule,
+        CommonDirectivesModule,
+        DialogsModule,
+    ],
+    declarations: [
+        LogsListComponent,
+        LogLevelFormatterComponent,
+        AppFormatLogLevelPipe,
+    ],
+    providers: [
+        LogsListTableDataSource,
+    ]
 })
 
 export class LogsModule {

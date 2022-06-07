@@ -19,37 +19,32 @@ import { TenantComponent } from './tenant/tenant.component';
 import { TenantsRoutes } from './tenants.routing';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule.forChild(TenantsRoutes),
-    FormsModule,
-    ReactiveFormsModule,
-    TranslateModule,
-    MaterialModule,
-    TableModule,
-    CommonDirectivesModule,
-    DialogsModule,
-    AddressModule,
-  ],
-  declarations: [
-    TenantsListComponent,
-    TenantLogoFormatterCellComponent,
-    TenantComponent,
-    TenantDialogComponent,
-    TenantMainComponent,
-    TenantComponentsComponent
-  ],
-  entryComponents: [
-    TenantsListComponent,
-    TenantLogoFormatterCellComponent,
-    TenantDialogComponent,
-  ],
-  exports: [
-    TenantsListComponent,
-  ],
-  providers: [
-    TenantsListTableDataSource,
-  ],
+    imports: [
+        CommonModule,
+        RouterModule.forChild(TenantsRoutes),
+        FormsModule,
+        ReactiveFormsModule,
+        TranslateModule,
+        MaterialModule,
+        TableModule,
+        CommonDirectivesModule,
+        DialogsModule,
+        AddressModule,
+    ],
+    declarations: [
+        TenantsListComponent,
+        TenantLogoFormatterCellComponent,
+        TenantComponent,
+        TenantDialogComponent,
+        TenantMainComponent,
+        TenantComponentsComponent
+    ],
+    exports: [
+        TenantsListComponent,
+    ],
+    providers: [
+        TenantsListTableDataSource,
+    ]
 })
 
 export class TenantsModule {

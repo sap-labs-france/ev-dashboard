@@ -10,7 +10,7 @@
         </ng-template>
         <div class="card-body charger-param mat-tab-dialog-body-content">
           <div class="tab-content">
-            <app-charging-station-parameters [formGroup]="formGroup" [chargingStation]='chargingStation' [readOnly]="readOnly">
+            <app-charging-station-parameters [formGroup]="formGroup" [chargingStation]='chargingStation' [chargingStationsAuthorizations]="chargingStationsAuthorizations" [readOnly]="readOnly">
             </app-charging-station-parameters>
           </div>
         </div>
@@ -24,7 +24,7 @@
           <div class="card-body mat-tab-dialog-body-content">
             <div class="tab-content">
               <div>
-                <app-charging-station-properties [chargingStation]='chargingStation'></app-charging-station-properties>
+                <app-charging-station-properties [chargingStation]='chargingStation' [chargingStationsAuthorizations]="chargingStationsAuthorizations"></app-charging-station-properties>
               </div>
             </div>
           </div>
@@ -38,7 +38,7 @@
           </ng-template>
           <div class="card-body mat-tab-dialog-body-content">
             <div class="tab-content">
-              <app-charging-station-ocpp-parameters [chargingStation]='chargingStation'>
+              <app-charging-station-ocpp-parameters [chargingStation]='chargingStation' [chargingStationsAuthorizations]="chargingStationsAuthorizations">
               </app-charging-station-ocpp-parameters>
             </div>
           </div>
@@ -52,7 +52,7 @@
           </ng-template>
           <div class="card-body mat-tab-dialog-body-content">
             <div class="tab-content">
-              <app-charging-station-firmware-update [chargingStation]='chargingStation'></app-charging-station-firmware-update>
+              <app-charging-station-firmware-update [chargingStation]='chargingStation' [chargingStationsAuthorizations]="chargingStationsAuthorizations"></app-charging-station-firmware-update>
             </div>
           </div>
         </mat-tab>

@@ -1,6 +1,7 @@
 import { Component, Injectable, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { ChargingStationsAuthorizations } from 'types/Authorization';
 
 import { CentralServerService } from '../../../../services/central-server.service';
 import { ComponentService } from '../../../../services/component.service';
@@ -21,6 +22,8 @@ import { Utils } from '../../../../utils/Utils';
 @Injectable()
 export class ChargingStationStaticLimitationComponent {
   @Input() public chargingStation!: ChargingStation;
+  @Input() public chargingStationsAuthorizations: ChargingStationsAuthorizations;
+
   public userLocales: KeyValue[];
   public isSmartChargingComponentActive = false;
 

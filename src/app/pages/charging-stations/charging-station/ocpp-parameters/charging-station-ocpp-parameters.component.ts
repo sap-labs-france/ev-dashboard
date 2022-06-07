@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { StatusCodes } from 'http-status-codes';
+import { ChargingStationsAuthorizations } from 'types/Authorization';
 
 import { CentralServerService } from '../../../../services/central-server.service';
 import { LocaleService } from '../../../../services/locale.service';
@@ -10,7 +11,6 @@ import { SpinnerService } from '../../../../services/spinner.service';
 import { ChargingStation, OcppParameter } from '../../../../types/ChargingStation';
 import { DataResult } from '../../../../types/DataResult';
 import { KeyValue } from '../../../../types/GlobalType';
-import { HTTPError } from '../../../../types/HTTPError';
 import { Utils } from '../../../../utils/Utils';
 import { ChargingStationOcppParametersEditableTableDataSource } from './charging-station-ocpp-parameters-editable-table-data-source.component';
 
@@ -22,6 +22,8 @@ import { ChargingStationOcppParametersEditableTableDataSource } from './charging
 // @Injectable()
 export class ChargingStationOcppParametersComponent implements OnInit {
   @Input() public chargingStation!: ChargingStation;
+  @Input() public chargingStationsAuthorizations: ChargingStationsAuthorizations;
+
   public formGroup!: FormGroup;
   public parameters!: FormArray;
   public userLocales: KeyValue[];

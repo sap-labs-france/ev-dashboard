@@ -3,6 +3,7 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { StatusCodes } from 'http-status-codes';
+import { ChargingStationsAuthorizations } from 'types/Authorization';
 
 import { CentralServerService } from '../../../../services/central-server.service';
 import { DialogService } from '../../../../services/dialog.service';
@@ -11,7 +12,6 @@ import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
 import { ChargingStation } from '../../../../types/ChargingStation';
 import { ButtonAction, KeyValue } from '../../../../types/GlobalType';
-import { HTTPError } from '../../../../types/HTTPError';
 import { Utils } from '../../../../utils/Utils';
 
 @Component({
@@ -20,6 +20,8 @@ import { Utils } from '../../../../utils/Utils';
 })
 export class ChargingStationFirmwareUpdateComponent implements OnInit {
   @Input() public chargingStation!: ChargingStation;
+  @Input() public chargingStationsAuthorizations: ChargingStationsAuthorizations;
+
   public formGroup: FormGroup;
 
   public userLocales: KeyValue[];

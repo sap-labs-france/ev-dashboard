@@ -2,6 +2,7 @@ import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
+import { ChargingStationsAuthorizations } from 'types/Authorization';
 
 import { ComponentService } from '../../../../services/component.service';
 import { DialogService } from '../../../../services/dialog.service';
@@ -24,6 +25,7 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
   @Input() public chargingStation!: ChargingStation;
   @Input() public formGroup: FormGroup;
   @Input() public readOnly: boolean;
+  @Input() public chargingStationsAuthorizations: ChargingStationsAuthorizations;
 
   public userLocales: KeyValue[];
   public ocpiActive: boolean;

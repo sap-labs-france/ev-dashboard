@@ -292,6 +292,10 @@ export interface BillingPaymentMethodAuthorizationActions extends AuthorizationA
 export interface ChargingStationsAuthorizations extends AuthorizationAttributes, ChargingStationsAuthorizationActions {
 }
 
+export interface ChargingProfilesAuthorizations extends ChargingStationsAuthorizations {
+  canListChargingStations?: boolean;
+}
+
 export interface ChargingStationsAuthorizationActions extends DataResultAuthorizationActions {
   canListUsers?: boolean;
   canListSites?: boolean;
@@ -325,6 +329,10 @@ export interface ChargingStationAuthorizationActions extends AuthorizationAction
   canDataTransfer?: boolean;
   canGenerateQrCode?: boolean;
   canMaintainPricingDefinitions?: boolean;
+}
+
+export interface ChargingProfileAuthorizationActions extends AuthorizationActions {
+  canReadSiteArea?: boolean;
 }
 
 export enum DialogMode {

@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { ChargingStationsAuthorizations } from 'types/Authorization';
 
 import { CentralServerService } from '../../../../services/central-server.service';
 import { MessageService } from '../../../../services/message.service';
@@ -17,6 +18,8 @@ import { Utils } from '../../../../utils/Utils';
 // @Injectable()
 export class ChargingStationAdvancedComponent implements OnInit {
   @Input() public chargingStation!: ChargingStation;
+  @Input() public chargingStationsAuthorizations!: ChargingStationsAuthorizations;
+
 
   public formGroup!: FormGroup;
   public connectorControl!: AbstractControl;

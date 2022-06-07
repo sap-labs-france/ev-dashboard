@@ -4,8 +4,8 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { IssuerFilter } from 'shared/table/filters/issuer-filter';
+import { ChargingProfilesAuthorizations } from 'types/Authorization';
 
-import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
@@ -22,7 +22,7 @@ import { ChargingStationTableFilter } from '../../../shared/table/filters/chargi
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { ChargingProfile } from '../../../types/ChargingProfile';
 import { ChargingStationButtonAction } from '../../../types/ChargingStation';
-import { DataResult } from '../../../types/DataResult';
+import { ChargingProfileDataResult } from '../../../types/DataResult';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
 import { TenantComponents } from '../../../types/Tenant';
 import { Utils } from '../../../utils/Utils';
@@ -33,6 +33,8 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
   private readonly isOrganizationComponentActive: boolean;
   private smartChargingAction = new TableChargingStationsSmartChargingAction().getActionDef();
   private navigateToSiteAreaAction = new TableNavigateToSiteAreaAction().getActionDef();
+  private chargingStationTableFilter: TableFilterDef;
+  private chargingProfilesAuthorizations: ChargingProfilesAuthorizations;
 
   public constructor(
     public spinnerService: SpinnerService,
@@ -41,7 +43,6 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
     private router: Router,
     private appUnitPipe: AppUnitPipe,
     private centralServerService: CentralServerService,
-    private authorizationService: AuthorizationService,
     private componentService: ComponentService,
     private dialog: MatDialog,
     private dialogService: DialogService,
@@ -74,10 +75,21 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
     }
   }
 
-  public loadDataImpl(): Observable<DataResult<ChargingProfile>> {
+  public loadDataImpl(): Observable<ChargingProfileDataResult> {
     return new Observable((observer) => {
       this.centralServerService.getChargingProfiles(this.buildFilterValues(), this.getPaging(), this.getSorting())
         .subscribe((chargingProfiles) => {
+          // Build auth object
+          this.chargingProfilesAuthorizations = {
+            canExport: Utils.convertToBoolean(chargingProfiles.canExport),
+            canListCompanies: Utils.convertToBoolean(chargingProfiles.canListCompanies),
+            canListSiteAreas: Utils.convertToBoolean(chargingProfiles.canListSiteAreas),
+            canListSites: Utils.convertToBoolean(chargingProfiles.canListSites),
+            canListChargingStations: Utils.convertToBoolean(chargingProfiles.canListChargingStations),
+            metadata: chargingProfiles.metadata
+          };
+          // Update filters visibility
+          this.chargingStationTableFilter.visible = this.chargingProfilesAuthorizations.canListChargingStations;
           observer.next(chargingProfiles);
           observer.complete();
         }, (error) => {
@@ -150,11 +162,6 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-    if (this.authorizationService.isAdmin()) {
-      return [
-        ...tableActionsDef,
-      ];
-    }
     return tableActionsDef;
   }
 
@@ -168,7 +175,7 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
                 id: chargingProfile.chargingStationID,
                 canUpdate: chargingProfile.canUpdate,
                 ocppVersion: chargingProfile.chargingStation.ocppVersion
-              }
+              }, authorizations: this.chargingProfilesAuthorizations
             },
             this.refreshData.bind(this)
           );
@@ -182,28 +189,22 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
 
   public buildTableFiltersDef(): TableFilterDef[] {
     const issuerFilter = new IssuerFilter().getFilterDef();
+    this.chargingStationTableFilter = new ChargingStationTableFilter([issuerFilter]).getFilterDef();
+    this.chargingStationTableFilter.visible = false;
     return [
-      new ChargingStationTableFilter([issuerFilter]).getFilterDef(),
+      this.chargingStationTableFilter
     ];
   }
 
   public buildTableDynamicRowActions(chargingProfile: ChargingProfile): TableActionDef[] {
-    if (!chargingProfile) {
-      return [];
+    const tableActionDef: TableActionDef[] = [];
+    if (chargingProfile.canUpdate) {
+      tableActionDef.push(this.smartChargingAction);
     }
-    if (this.authorizationService.isAdmin() && !this.isOrganizationComponentActive ) {
-      return [
-        this.smartChargingAction
-      ];
-    }
-    if (this.authorizationService.isAdmin() ||
-      this.authorizationService.isSiteAdmin(chargingProfile.chargingStation.siteArea ? chargingProfile.chargingStation.siteArea.siteID : '')) {
+    if (chargingProfile.canReadSiteArea) {
       const moreActions = new TableMoreAction([this.navigateToSiteAreaAction]);
-      return [
-        this.smartChargingAction,
-        moreActions.getActionDef(),
-      ];
+      tableActionDef.push(moreActions.getActionDef());
     }
-    return [];
+    return tableActionDef;
   }
 }

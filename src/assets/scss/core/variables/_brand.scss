@@ -1,29 +1,30 @@
 // Light Theme ---------------------------------
+@use '~@angular/material' as mat;
 // Set Bootstrap theme according Material theme
-$brand-primary: mat-color($app-primary) !default;
-$brand-accent: mat-color($app-accent) !default;
-$brand-info: mat-color($app-accent) !default;
-$brand-success: mat-color($app-success) !default;
-$brand-warning: mat-color($app-warning) !default;
-$brand-danger: mat-color($app-danger) !default;
-$brand-disabled: mat-color($app-foreground, disabled) !default;
-$brand-text: mat-color($app-foreground, text) !default;
-$brand-hover: mat-color($app-background, hover) !default;
-$brand-background: mat-color($app-background, background) !default;
+$brand-primary: mat.get-color-from-palette($app-primary) !default;
+$brand-accent: mat.get-color-from-palette($app-accent) !default;
+$brand-info: mat.get-color-from-palette($app-accent) !default;
+$brand-success: mat.get-color-from-palette($app-success) !default;
+$brand-warning: mat.get-color-from-palette($app-warning) !default;
+$brand-danger: mat.get-color-from-palette($app-danger) !default;
+$brand-disabled: mat.get-color-from-palette($app-foreground, disabled) !default;
+$brand-text: mat.get-color-from-palette($app-foreground, text) !default;
+$brand-hover: mat.get-color-from-palette($app-background, hover) !default;
+$brand-background: mat.get-color-from-palette($app-background, background) !default;
 $brand-default: $brand-primary !default;
 
-$brand-yellow: mat-color($app-yellow) !default;
-$brand-purple: mat-color($app-purple) !default;
-$brand-grey: mat-color($app-grey) !default;
-$brand-brown: mat-color($app-brown) !default;
-$brand-blue-grey: mat-color($app-blue-grey) !default;
-$brand-deep-orange: mat-color($app-deep-orange) !default;
-$brand-lime: mat-color($app-lime) !default;
-$brand-light-green: mat-color($app-light-green) !default;
-$brand-teal: mat-color($app-teal) !default;
-$brand-cyan: mat-color($app-cyan) !default;
-$brand-indigo: mat-color($app-indigo) !default;
-$brand-pink: mat-color($app-pink) !default;
+$brand-yellow: mat.get-color-from-palette($app-yellow) !default;
+$brand-purple: mat.get-color-from-palette($app-purple) !default;
+$brand-grey: mat.get-color-from-palette($app-grey) !default;
+$brand-brown: mat.get-color-from-palette($app-brown) !default;
+$brand-blue-grey: mat.get-color-from-palette($app-blue-grey) !default;
+$brand-deep-orange: mat.get-color-from-palette($app-deep-orange) !default;
+$brand-lime: mat.get-color-from-palette($app-lime) !default;
+$brand-light-green: mat.get-color-from-palette($app-light-green) !default;
+$brand-teal: mat.get-color-from-palette($app-teal) !default;
+$brand-cyan: mat.get-color-from-palette($app-cyan) !default;
+$brand-indigo: mat.get-color-from-palette($app-indigo) !default;
+$brand-pink: mat.get-color-from-palette($app-pink) !default;
 
 // End of Light Theme ---------------------------------
 

@@ -2,7 +2,7 @@ import { DOCUMENT } from '@angular/common';
 import { Component, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { version } from '../../../package.json';
+import pkg from '../../../package.json';
 import { RouteGuardService } from '../guard/route-guard';
 import { AuthorizationService } from '../services/authorization.service';
 import { CentralServerService } from '../services/central-server.service';
@@ -14,7 +14,7 @@ import { Constants } from '../utils/Constants';
   templateUrl: 'sidebar.component.html',
 })
 export class SidebarComponent {
-  public version: string = version;
+  public version: string = pkg.version;
   public mobileMenuVisible: any = 0;
   public menuItems!: any[];
   public loggedUser!: UserToken;

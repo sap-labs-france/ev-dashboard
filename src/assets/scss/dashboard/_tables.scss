@@ -1,3 +1,4 @@
+@use '~@angular/material' as mat;
 
 
 $medium-spinner: $brand-success !default;
@@ -62,7 +63,7 @@ $outer-spinner: $brand-danger !default;
   white-space: nowrap;
   height: 25vh;
   min-height: 100px;
-  background-color: mat-color($app-background, dialog);
+  background-color: mat.get-color-from-palette($app-background, dialog);
 }
 
 .table-dialog-list {
@@ -100,7 +101,7 @@ tr.mat-header-row {
   @media screen and (max-width: $res375) {
     overflow: auto;
   }
-  background: mat-color($app-background, dialog);
+  background: mat.get-color-from-palette($app-background, dialog);
   padding: 0 10px;
 }
 

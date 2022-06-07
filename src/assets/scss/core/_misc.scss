@@ -1,10 +1,11 @@
+@use '~@angular/material' as mat;
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: mat-color($app-foreground, disabled);
+  background: mat.get-color-from-palette($app-foreground, disabled);
 }
 
 ::-webkit-scrollbar-track {

@@ -145,6 +145,7 @@ export enum ServerAction {
   OCPI_ENDPOINT_UPDATE = 'OcpiEndpointUpdate',
   OCPI_ENDPOINT_REGISTER = 'OcpiEndpointRegister',
   OCPI_ENDPOINT_UNREGISTER = 'OcpiEndpointUnregister',
+  OCPI_ENDPOINT_CREDENTIALS = 'OcpiEndpointCredentials',
   OCPI_ENDPOINT_DELETE = 'OcpiEndpointDelete',
   OCPI_ENDPOINTS = 'OcpiEndpoints',
   OCPI_ENDPOINT = 'OcpiEndpoint',
@@ -451,6 +452,7 @@ export enum ServerAction {
   BILLING_CHARGE_INVOICE = 'BillingChargeInvoice',
   BILLING_TEST_DATA_CLEANUP = 'BillingTestDataCleanup',
   BILLING_BILL_PENDING_TRANSACTION = 'BillingBillPendingTransaction',
+  BILLING_CREATE_SUB_ACCOUNT = 'BillingCreateSubAccount',
 
   PRICING = 'Pricing',
   PRICING_DEFINITION = 'PricingDefinition',

@@ -32,7 +32,7 @@ import { IssuerFilter } from '../../../shared/table/filters/issuer-filter';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
 import { SiteTableFilter } from '../../../shared/table/filters/site-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
-import { ChargePointStatus, ChargingStation, ChargingStationButtonAction, Connector, FirmwareStatus } from '../../../types/ChargingStation';
+import { ChargingStation, ChargingStationButtonAction } from '../../../types/ChargingStation';
 import { DataResult } from '../../../types/DataResult';
 import { ButtonAction } from '../../../types/GlobalType';
 import { PricingButtonAction, PricingEntity } from '../../../types/Pricing';
@@ -88,33 +88,6 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
     return new Observable((observer) => {
       this.centralServerService.getChargingStations(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((chargingStations) => {
-        // Update details status
-        for (const chargingStation of chargingStations.result) {
-          // Only for local Charging Station
-          if (chargingStation.issuer) {
-            // Remove invalid connectors
-            chargingStation.connectors = chargingStation.connectors.filter((connector: Connector) => !Utils.isNullOrUndefined(connector));
-            // Check if both connectors are unavailable
-            let isUnavailable = true;
-            // Align Connector's status with Charging Station inactive flag
-            for (const connector of chargingStation.connectors) {
-              connector.hasDetails = connector.currentTransactionID > 0;
-              let connectorIsInactive = false;
-              if (chargingStation.inactive || chargingStation.firmwareUpdateStatus === FirmwareStatus.INSTALLING) {
-                connectorIsInactive = true;
-              }
-              if (isUnavailable && connector.status !== ChargePointStatus.UNAVAILABLE) {
-                isUnavailable = false;
-              }
-              connector.status = connectorIsInactive ? ChargePointStatus.UNAVAILABLE : connector.status;
-              connector.currentInstantWatts = connectorIsInactive ? 0 : connector.currentInstantWatts;
-              connector.currentStateOfCharge = connectorIsInactive ? 0 : connector.currentStateOfCharge;
-              connector.currentTotalConsumptionWh = connectorIsInactive ? 0 : connector.currentTotalConsumptionWh;
-              connector.currentTotalInactivitySecs = connectorIsInactive ? 0 : connector.currentTotalInactivitySecs;
-            }
-            chargingStation.isUnavailable = isUnavailable;
-          }
-        };
         this.canExport.visible = this.authorizationService.isAdmin();
         observer.next(chargingStations);
         observer.complete();
@@ -418,7 +391,8 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
           rebootAction,
           clearCacheAction,
           resetAction,
-          chargingStation.isUnavailable ? forceAvailableStatusAction : forceUnavailableStatusAction,
+          forceAvailableStatusAction,
+          forceUnavailableStatusAction,
           this.generateQrCodeConnectorAction,
           openInMaps,
           this.deleteAction,

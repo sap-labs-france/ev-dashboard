@@ -1,12 +1,12 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { StatusCodes } from 'http-status-codes';
 import { WindowService } from 'services/window.service';
 import { AbstractTabComponent } from 'shared/component/abstract-tab/abstract-tab.component';
-import { DialogMode } from 'types/Authorization';
+import { AssetsAuthorizations, DialogMode } from 'types/Authorization';
 
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
@@ -14,7 +14,6 @@ import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { Asset } from '../../../types/Asset';
 import { RestResponse } from '../../../types/GlobalType';
-import { HTTPError } from '../../../types/HTTPError';
 import { Utils } from '../../../utils/Utils';
 import { AssetMainComponent } from './main/asset-main.component';
 
@@ -27,6 +26,7 @@ export class AssetComponent extends AbstractTabComponent implements OnInit {
   @Input() public currentAssetID!: string;
   @Input() public dialogMode!: DialogMode;
   @Input() public dialogRef!: MatDialogRef<any>;
+  @Input() public assetsAuthorizations!: AssetsAuthorizations;
 
   @ViewChild('assetMainComponent') public assetMainComponent!: AssetMainComponent;
 

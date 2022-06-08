@@ -1,5 +1,5 @@
 // Light Theme ---------------------------------
-@use '~@angular/material' as mat;
+@use '@angular/material' as mat;
 // Set Bootstrap theme according Material theme
 $brand-primary: mat.get-color-from-palette($app-primary) !default;
 $brand-accent: mat.get-color-from-palette($app-accent) !default;

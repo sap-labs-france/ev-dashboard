@@ -1,5 +1,5 @@
 // Create Material custom theme 
-@use '~@angular/material' as mat;
+@use '@angular/material' as mat;
 @import '~@mat-datetimepicker/core/datetimepicker/datetimepicker-theme.scss';
 
 $min-contrast-ratio: 2.5;

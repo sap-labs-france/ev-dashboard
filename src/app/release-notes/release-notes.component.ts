@@ -31,6 +31,13 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Aligned new authorizations in the pop-ups`,
+              `Fix Charging Station's Statistics wrong label tooltip`,
+              `Handle Connectors' statuses of inactive Charging Stations in the backend`,
+              `Fixed OCPI Token updated with User ID instead of UID`,
+              `Pull the last 2 weeks OCPI eMSP Cdrs/Sessions when triggered manually in the UI`,
+              `Track OCPP JSON WS memory footprints`,
+              `Display all Charging Stations in Log list filter`,
+              `Fixed cannot change URL for SOAP Charging Station`,
             ],
           },
         ],

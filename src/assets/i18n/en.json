@@ -1485,6 +1485,7 @@
     "save_error_refund": "Pricing must be active to use refunding",
     "save_error_roaming": "You cannot activate both the OCPI and OICP roaming components",
     "save_error_billing": "Pricing must be active to use billing",
+    "save_error_billing_platform": "Billing must be active to use Billing Platform",
     "save_error_smart_charging": "Organization must be active to use Smart Charging",
     "save_error_asset": "Organization must be active to use Asset",
     "save_error_car_connector": "Car Management must be active to use Car Connector",
@@ -2320,6 +2321,10 @@
       "invoices": "Invoices",
       "in_error": "In Error"
     }
+  },
+  "billingPlatform": {
+    "title": "Billing Platform",
+    "description": "Manage several billing accounts"
   },
   "transactions": {
     "id": "Id",

@@ -1485,6 +1485,7 @@
     "save_error_refund": "Los costos deben ser activados para obtener un reembolso",
     "save_error_roaming": "Impossible activar los componentes de itinerencia OCPI y OICP",
     "save_error_billing": "Los costos deben ser activados para usar la facturación",
+    "save_error_billing_platform": "Billing must be active to use Billing Platform",
     "save_error_smart_charging": "La organización debe ser activada para usar la carga inteligente",
     "save_error_asset": "La organización debe ser activada para usar los activos",
     "save_error_car_connector": "La admisitration de vehículos debe estar activa para usar al Car Connector",
@@ -2319,6 +2320,10 @@
       "invoices": "Facturas",
       "in_error": "Con errores"
     }
+  },
+  "billingPlatform": {
+    "title": "Billing Platform",
+    "description": "Manage several billing accounts"
   },
   "transactions": {
     "id": "ID",

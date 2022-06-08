@@ -19,8 +19,6 @@ export class ChargingStationLimitationDialogComponent {
     @Inject(MAT_DIALOG_DATA) dialogParams: DialogParamsWithAuth<SmartChargingDialogData, ChargingStationsAuthorizations>) {
     this.chargingStationID = dialogParams.dialogData?.id as string;
     this.chargingStationsAuthorizations = dialogParams.authorizations;
-    // Set in charging profile also
-    console.log( this.chargingStationsAuthorizations);
     Utils.registerCloseKeyEvents(this.dialogRef);
   }
 }

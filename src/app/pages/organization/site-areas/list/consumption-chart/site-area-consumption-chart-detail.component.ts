@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
-import { DataResultAuthorizationActions } from 'types/Authorization';
+import { SiteAreasAuthorizations } from 'types/Authorization';
 import { TableDef } from 'types/Table';
 
 import { CellContentTemplateDirective } from '../../../../../shared/table/cell-content-template/cell-content-template.directive';
@@ -17,7 +17,7 @@ export class SiteAreaConsumptionChartDetailComponent extends CellContentTemplate
   @Input() public tableDef!: TableDef;
   @ViewChild('siteAreaConsumptionChart') public chartComponent!: SiteAreaConsumptionChartComponent;
   public siteArea!: SiteArea;
-  public siteAreasAuthorizations!: DataResultAuthorizationActions;
+  public siteAreasAuthorizations!: SiteAreasAuthorizations;
 
   public ngOnInit(): void {
     this.siteArea = this.row;

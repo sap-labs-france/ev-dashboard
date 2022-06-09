@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { ComponentService } from 'services/component.service';
 import { SiteTableFilter } from 'shared/table/filters/site-table-filter';
+import { AssetsAuthorizations } from 'types/Authorization';
 import { TenantComponents } from 'types/Tenant';
 
 import { CentralServerService } from '../../../services/central-server.service';
@@ -22,7 +23,7 @@ import { IssuerFilter } from '../../../shared/table/filters/issuer-filter';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { AssetButtonAction } from '../../../types/Asset';
-import { DataResult } from '../../../types/DataResult';
+import { AssetInErrorDataResult } from '../../../types/DataResult';
 import { AssetInError, AssetInErrorType, ErrorMessage } from '../../../types/InError';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
 import { Utils } from '../../../utils/Utils';
@@ -32,6 +33,7 @@ import { AssetDialogComponent } from '../asset/asset-dialog.component';
 export class AssetsInErrorTableDataSource extends TableDataSource<AssetInError> {
   private editAction = new TableEditAssetAction().getActionDef();
   private deleteAction = new TableDeleteAssetAction().getActionDef();
+  private assetsAuthorizations: AssetsAuthorizations;
   private errorTypes = [
     {
       key: AssetInErrorType.MISSING_SITE_AREA,
@@ -54,10 +56,15 @@ export class AssetsInErrorTableDataSource extends TableDataSource<AssetInError> 
     this.initDataSource();
   }
 
-  public loadDataImpl(): Observable<DataResult<AssetInError>> {
+  public loadDataImpl(): Observable<AssetInErrorDataResult> {
     return new Observable((observer) => {
       this.centralServerService.getAssetsInError(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((assets) => {
+        this.assetsAuthorizations = {
+          canListSiteAreas: assets.canListSiteAreas,
+          canCreate: assets.canCreate,
+          canListSites: assets.canListSites
+        };
         this.formatErrorMessages(assets.result);
         observer.next(assets);
         observer.complete();
@@ -124,7 +131,7 @@ export class AssetsInErrorTableDataSource extends TableDataSource<AssetInError> 
       case AssetButtonAction.EDIT_ASSET:
         if (actionDef.action) {
           (actionDef as TableEditAssetActionDef).action(AssetDialogComponent, this.dialog,
-            { dialogData: asset }, this.refreshData.bind(this));
+            { dialogData: asset, authorizations: this.assetsAuthorizations }, this.refreshData.bind(this));
         }
         break;
       case AssetButtonAction.DELETE_ASSET:

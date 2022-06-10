@@ -5,7 +5,7 @@ import { Car, CarCatalog } from './Car';
 import { ChargingProfile } from './ChargingProfile';
 import { ChargingStation } from './ChargingStation';
 import { Company } from './Company';
-import { ChargingStationInError } from './InError';
+import { AssetInError, ChargingStationInError } from './InError';
 import { Log } from './Log';
 import PricingDefinition from './Pricing';
 import { RegistrationToken } from './RegistrationToken';
@@ -116,6 +116,9 @@ export interface PricingDefinitionDataResult extends DataResult<PricingDefinitio
 }
 
 export interface AssetDataResult extends DataResult<Asset>, AssetsAuthorizations {
+}
+
+export interface AssetInErrorDataResult extends DataResult<AssetInError>, AssetsAuthorizations {
 }
 
 export interface BillingInvoiceDataResult extends DataResult<BillingInvoice>, BillingInvoicesAuthorizations {

@@ -39,6 +39,7 @@ export class ReleaseNotesComponent {
               `Display all Charging Stations in Log list filter`,
               `Fixed cannot change URL for SOAP Charging Station`,
               `Used Ramer Douglas Peucker algo to optimize the charging curve`,
+              `Log more information on OCPI wrong Token`,
             ],
           },
         ],

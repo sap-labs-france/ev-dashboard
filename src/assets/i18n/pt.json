@@ -1489,6 +1489,7 @@
     "save_error_refund": "O preço deve estar ativo para usar o reembolso",
     "save_error_roaming": "You cannot activate both the OCPI and OICP roaming components",
     "save_error_billing": "O preço deve estar ativo para usar na fatura",
+    "save_error_billing_platform": "Billing must be active to use Billing Platform",
     "save_error_smart_charging": "A organização deve estar ativa para usar o Carregamento Inteligente",
     "save_error_asset": "A organização deve estar ativa para usar o ativo",
     "save_error_car_connector": "Car Management must be active to use Car Connector",
@@ -2325,6 +2326,10 @@
       "in_error": "Em erro"
     }
   },
+  "billingPlatform": {
+    "title": "Billing Platform",
+    "description": "Manage several billing accounts"
+  },
   "transactions": {
     "id": "Id",
     "date_from": "Data",
@@ -2461,7 +2466,7 @@
       "limit": "Limite",
       "limit_watts": "Limite de Potência (kW)",
       "limit_amps": "Limite de Potência (A)",
-      "load_all_consumptions": "Mostra a resolução completa do gráfico (um ponto a cada 60s)",
+      "load_all_consumptions": "Mostra a resolução completa do gráfico",
       "unit_kilowatts": "kW",
       "unit_amperage": "Amp"
     },

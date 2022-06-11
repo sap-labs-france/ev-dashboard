@@ -1,10 +1,10 @@
 import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormControl, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
-import { Chart, ChartData, ChartDataset, ChartOptions, Color, TooltipItem } from 'chart.js';
+import { Chart, ChartData, ChartDataset, ChartOptions, Color } from 'chart.js';
 import * as moment from 'moment';
 import { AppUnitPipe } from 'shared/formatters/app-unit.pipe';
-import { DataResultAuthorizationActions } from 'types/Authorization';
+import { SiteAreasAuthorizations } from 'types/Authorization';
 import { ConsumptionChartAxis, ConsumptionChartDatasetOrder } from 'types/Chart';
 
 import { CentralServerService } from '../../../../../services/central-server.service';
@@ -23,7 +23,7 @@ import { Utils } from '../../../../../utils/Utils';
 
 export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit {
   @Input() public siteArea!: SiteArea;
-  @Input() public siteAreasAuthorizations: DataResultAuthorizationActions;
+  @Input() public siteAreasAuthorizations: SiteAreasAuthorizations;
   @ViewChild('primary', { static: true }) public primaryElement!: ElementRef;
   @ViewChild('secondary', { static: true }) public secondaryElement!: ElementRef;
   @ViewChild('warning', { static: true }) public warningElement!: ElementRef;

@@ -278,7 +278,7 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
         new LogSourceTableFilter().getFilterDef(),
         new LogActionTableFilter().getFilterDef(),
         siteFilter,
-        new ChargingStationTableFilter([issuerFilter, siteFilter]).getFilterDef(),
+        new ChargingStationTableFilter([siteFilter]).getFilterDef(),
         new UserTableFilter([issuerFilter]).getFilterDef(),
       ];
     }

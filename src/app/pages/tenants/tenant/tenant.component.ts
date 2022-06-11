@@ -103,6 +103,7 @@ export class TenantComponent extends AbstractTabComponent implements OnInit {
     let pricingActive = false;
     let refundActive = false;
     let billingActive = false;
+    let billingPlatformActive = false;
     let smartChargingActive = false;
     let organizationActive = false;
     let assetActive = false;
@@ -123,6 +124,9 @@ export class TenantComponent extends AbstractTabComponent implements OnInit {
         }
         if (component === TenantComponents.BILLING) {
           billingActive = tenant.components[component].active;
+        }
+        if (component === TenantComponents.BILLING_PLATFORM) {
+          billingPlatformActive = tenant.components[component].active;
         }
         if (component === TenantComponents.SMART_CHARGING) {
           smartChargingActive = tenant.components[component].active;
@@ -157,6 +161,10 @@ export class TenantComponent extends AbstractTabComponent implements OnInit {
     }
     if (billingActive && !pricingActive) {
       this.messageService.showErrorMessage('tenants.save_error_billing');
+      return;
+    }
+    if (billingPlatformActive && !billingActive) {
+      this.messageService.showErrorMessage('tenants.save_error_billing_platform');
       return;
     }
     if (smartChargingActive && !organizationActive) {

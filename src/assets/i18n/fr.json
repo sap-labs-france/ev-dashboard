@@ -1489,6 +1489,7 @@
     "save_error_refund": "La tarification doit être active pour utiliser le remboursement",
     "save_error_roaming": "You cannot activate both the OCPI and OICP roaming components",
     "save_error_billing": "La tarification doit être active pour utiliser la facturation",
+    "save_error_billing_platform": "La facturation doit être active pour utiliser la plateforme de facturation",
     "save_error_smart_charging": "L'organisation doit être active pour utiliser Smart Charging",
     "save_error_asset": "L'Organisation doit être active pour utiliser Asset",
     "save_error_car_connector": "La gestion des véhicules doit être activée pour utiliser le connecteur des véhicules",
@@ -2326,6 +2327,10 @@
       "in_error": "En Erreur"
     }
   },
+  "billingPlatform": {
+    "title": "Plateforme de facturation",
+    "description": "Gestion de plusieurs comptes de facturation"
+  },
   "transactions": {
     "id": "Id",
     "date_from": "Date",
@@ -2462,7 +2467,7 @@
       "limit": "Limitation",
       "limit_watts": "Limitation Réseau (kW)",
       "limit_amps": "Limitation Réseau (A)",
-      "load_all_consumptions": "Afficher la résolution maximale de la courbe (1 point toutes les 60s)",
+      "load_all_consumptions": "Afficher la résolution maximale de la courbe",
       "unit_kilowatts": "kW",
       "unit_amperage": "Amp"
     },

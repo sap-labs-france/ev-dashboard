@@ -42,7 +42,7 @@ import { DataResult, TransactionDataResult } from '../../../types/DataResult';
 import { LogButtonAction } from '../../../types/Log';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
 import { TenantComponents } from '../../../types/Tenant';
-import { Transaction, TransactionButtonAction } from '../../../types/Transaction';
+import { Transaction, TransactionButtonAction, TransactionStatisticsType } from '../../../types/Transaction';
 import { User } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';
 import { TransactionsConnectorCellComponent } from '../cell-components/transactions-connector-cell.component';
@@ -88,7 +88,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         WithUser: true,
         WithCar: true,
         WithChargingStation: true,
-        Statistics: 'ongoing',
+        Statistics: TransactionStatisticsType.ONGOING,
       }]);
     }
     this.initDataSource();

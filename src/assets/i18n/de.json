@@ -2460,7 +2460,7 @@
       "limit": "Limit",
       "limit_watts": "Netz-Limit (kW)",
       "limit_amps": "Netz-Limit (A)",
-      "load_all_consumptions": "Diagramm in voller Auflösung anzeigen (Alle 60s ein Punkt)",
+      "load_all_consumptions": "Diagramm in voller Auflösung anzeigen",
       "unit_kilowatts": "kW",
       "unit_amperage": "Amp"
     },

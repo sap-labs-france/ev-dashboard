@@ -25,7 +25,7 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.6.8',
-        date: new Date('2022-06-09'),
+        date: new Date('2022-06-13'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -39,6 +39,7 @@ export class ReleaseNotesComponent {
               `Display all Charging Stations in Log list filter`,
               `Fixed cannot change URL for SOAP Charging Station`,
               `Used Ramer Douglas Peucker algo to optimize the charging curve`,
+              `Log more information on OCPI wrong Token`,
             ],
           },
         ],

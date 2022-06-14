@@ -151,8 +151,8 @@ export interface Connector extends TableData {
   isTransactionDisplayAuthorized: boolean;
   phaseAssignmentToGrid: PhaseAssignmentToGrid;
   tariffID?: string;
-  canStopTransaction: boolean;
-  canStartTransaction: boolean;
+  canRemoteStopTransaction: boolean;
+  canRemoteStartTransaction: boolean;
   canUnlockConnector: boolean;
 }
 

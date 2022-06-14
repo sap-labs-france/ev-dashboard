@@ -178,10 +178,10 @@ export class ChargingStationConnectorsTableDataSource extends TableDataSource<Co
       if (connector.isTransactionDisplayAuthorized) {
         rowActions.push(this.viewTransactionAction);
       }
-      if (connector.canStopTransaction) {
+      if (connector.canRemoteStopTransaction) {
         rowActions.push(this.stopTransactionAction);
       }
-      if (connector.canStartTransaction) {
+      if (connector.canRemoteStartTransaction) {
         rowActions.push(this.startTransactionAction);
       }
       if (connector.canUnlockConnector) {

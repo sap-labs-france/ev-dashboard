@@ -18,7 +18,7 @@ export class TableViewAssignedSitesOfUserAction extends TableAssignAction {
     return {
       ...super.getActionDef(),
       id: UserButtonAction.VIEW_SITES_OF_USER,
-      icon: 'people',
+      icon: 'remove_red_eye',
       name: 'users.display_sites',
       tooltip: 'general.tooltips.display_sites',
       action: this.viewAssignedSitesOfUser,

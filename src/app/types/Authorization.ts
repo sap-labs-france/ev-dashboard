@@ -298,7 +298,7 @@ export interface BillingPaymentMethodAuthorizationActions extends AuthorizationA
 export interface ChargingStationsAuthorizations extends AuthorizationAttributes, ChargingStationsAuthorizationActions {
 }
 
-export interface ChargingProfilesAuthorizations extends ChargingStationsAuthorizations {
+export interface ChargingProfilesAuthorizations extends AuthorizationAttributes, DataResultAuthorizationActions {
   canListChargingStations?: boolean;
 }
 

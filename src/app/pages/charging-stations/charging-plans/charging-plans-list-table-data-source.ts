@@ -81,10 +81,6 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
         .subscribe((chargingProfiles) => {
           // Build auth object
           this.chargingProfilesAuthorizations = {
-            canExport: Utils.convertToBoolean(chargingProfiles.canExport),
-            canListCompanies: Utils.convertToBoolean(chargingProfiles.canListCompanies),
-            canListSiteAreas: Utils.convertToBoolean(chargingProfiles.canListSiteAreas),
-            canListSites: Utils.convertToBoolean(chargingProfiles.canListSites),
             canListChargingStations: Utils.convertToBoolean(chargingProfiles.canListChargingStations),
             metadata: chargingProfiles.metadata
           };

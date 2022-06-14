@@ -2461,7 +2461,7 @@
       "limit": "Límite máximo",
       "limit_watts": "Límite de red (kW)",
       "limit_amps": "Límite de red (A)",
-      "load_all_consumptions": "Mostrar resolución completa de la gráfica (un punto cada 6s)",
+      "load_all_consumptions": "Mostrar resolución completa de la gráfica",
       "unit_kilowatts": "kW",
       "unit_amperage": "Amp"
     },

@@ -2463,7 +2463,7 @@
       "limit": "Limitation",
       "limit_watts": "Limitation Réseau (kW)",
       "limit_amps": "Limitation Réseau (A)",
-      "load_all_consumptions": "Afficher la résolution maximale de la courbe (1 point toutes les 60s)",
+      "load_all_consumptions": "Afficher la résolution maximale de la courbe",
       "unit_kilowatts": "kW",
       "unit_amperage": "Amp"
     },

@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
-import { DialogParams } from 'types/Authorization';
+import { DialogParamsWithAuth, SitesAuthorizations } from 'types/Authorization';
 import { Site } from 'types/Site';
 
 import { Utils } from '../../../../utils/Utils';
@@ -20,7 +20,7 @@ export class SiteUsersDialogComponent {
     public siteUsersTableDataSource: SiteUsersTableDataSource,
     private dialogRef: MatDialogRef<SiteUsersDialogComponent>,
     private translateService: TranslateService,
-    @Inject(MAT_DIALOG_DATA) dialogParams: DialogParams<Site>) {
+    @Inject(MAT_DIALOG_DATA) dialogParams: DialogParamsWithAuth<Site, SitesAuthorizations>) {
     if (dialogParams) {
       if (dialogParams.dialogData) {
         this.siteUsersTableDataSource.setSite(dialogParams.dialogData);

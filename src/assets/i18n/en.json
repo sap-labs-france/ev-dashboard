@@ -2462,7 +2462,7 @@
       "limit": "Limit",
       "limit_watts": "Grid Limit (kW)",
       "limit_amps": "Grid Limit (A)",
-      "load_all_consumptions": "Show full chart resolution (one point every 60s)",
+      "load_all_consumptions": "Show full chart resolution",
       "unit_kilowatts": "kW",
       "unit_amperage": "Amp"
     },

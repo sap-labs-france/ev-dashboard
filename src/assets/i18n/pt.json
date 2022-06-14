@@ -2462,7 +2462,7 @@
       "limit": "Limite",
       "limit_watts": "Limite de Potência (kW)",
       "limit_amps": "Limite de Potência (A)",
-      "load_all_consumptions": "Mostra a resolução completa do gráfico (um ponto a cada 60s)",
+      "load_all_consumptions": "Mostra a resolução completa do gráfico",
       "unit_kilowatts": "kW",
       "unit_amperage": "Amp"
     },

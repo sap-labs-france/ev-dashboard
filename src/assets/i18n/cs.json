@@ -2462,7 +2462,7 @@
       "limit": "Limit",
       "limit_watts": "Limit sítě (kW)",
       "limit_amps": "Limit sítě (A)",
-      "load_all_consumptions": "Ukázat graf v plném rozlišení (jeden bod každých 60 s)",
+      "load_all_consumptions": "Ukázat graf v plném rozlišení",
       "unit_kilowatts": "kW",
       "unit_amperage": "A"
     },

@@ -262,14 +262,17 @@ export interface AssetsAuthorizations extends AuthorizationAttributes, AssetsAut
 }
 
 export interface AssetsAuthorizationActions extends DataResultAuthorizationActions {
-  canListSites: boolean;
-  canListSiteAreas: boolean;
+  canListSites?: boolean;
+  canListSiteAreas?: boolean;
 }
 
 export interface AssetAuthorizationActions extends AuthorizationActions {
   canRetrieveConsumption?: boolean;
   canReadConsumption?: boolean;
   canCheckConnection?: boolean;
+}
+
+export interface SiteAreasAuthorizations extends AuthorizationAttributes, DataResultAuthorizationActions {
 }
 
 export interface SiteAreaAuthorizationActions extends AuthorizationActions {
@@ -281,6 +284,9 @@ export interface SiteAreaAuthorizationActions extends AuthorizationActions {
   canReadChargingStations?: boolean;
   canExportOCPPParams?: boolean;
   canGenerateQrCode?: boolean;
+}
+
+export interface SitesAuthorizations extends AuthorizationAttributes, SitesAuthorizationActions {
 }
 
 export interface SitesAuthorizationActions extends DataResultAuthorizationActions {

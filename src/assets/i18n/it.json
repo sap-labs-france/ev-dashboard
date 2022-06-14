@@ -2462,7 +2462,7 @@
       "limit": "Limite",
       "limit_watts": "Limite Rete Elettrica (kW)",
       "limit_amps": "Limite Rete Elettrica (A)",
-      "load_all_consumptions": "Mostra risoluzione massima del grafico (un punto ogni 60 secondi)",
+      "load_all_consumptions": "Mostra risoluzione massima del grafico",
       "unit_kilowatts": "kW",
       "unit_amperage": "Amp"
     },

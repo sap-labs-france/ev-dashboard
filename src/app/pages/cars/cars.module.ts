@@ -23,32 +23,32 @@ import { CarsListComponent } from './cars/cars-list.component';
 import { CarImageFormatterCellComponent } from './cell-components/car-image-formatter-cell.component';
 
 @NgModule({
-    imports: [
-        NgbModule,
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        TranslateModule,
-        MaterialModule,
-        TableModule,
-        DialogsModule,
-        FormattersModule,
-        RouterModule.forChild(CarsRoutes),
-    ],
-    declarations: [
-        CarCarouselComponent,
-        CarImageFormatterCellComponent,
-        CarCatalogDialogComponent,
-        CarCatalogComponent,
-        CarsComponent,
-        CarCatalogsListComponent,
-        CarsListComponent,
-        CarDialogComponent,
-        CarComponent,
-        CarMainComponent,
-        CarConnectorComponent,
-    ],
-    providers: []
+  imports: [
+    NgbModule,
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    TranslateModule,
+    MaterialModule,
+    TableModule,
+    DialogsModule,
+    FormattersModule,
+    RouterModule.forChild(CarsRoutes),
+  ],
+  declarations: [
+    CarCarouselComponent,
+    CarImageFormatterCellComponent,
+    CarCatalogDialogComponent,
+    CarCatalogComponent,
+    CarsComponent,
+    CarCatalogsListComponent,
+    CarsListComponent,
+    CarDialogComponent,
+    CarComponent,
+    CarMainComponent,
+    CarConnectorComponent,
+  ],
+  providers: []
 })
 
 export class CarsModule {

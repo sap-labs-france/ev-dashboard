@@ -25,35 +25,35 @@ import { AssetConsumptionChartDetailComponent } from './list/consumption-chart/a
 import { AssetConsumptionChartComponent } from './list/consumption-chart/asset-consumption-chart.component';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        FormsModule,
-        FormattersModule,
-        AddressModule,
-        ReactiveFormsModule,
-        TranslateModule,
-        MaterialModule,
-        TableModule,
-        DialogsModule,
-        RouterModule.forChild(AssetsRoutes),
-        ComponentModule
-    ],
-    declarations: [
-        AssetsComponent,
-        AssetComponent,
-        AssetMainComponent,
-        AssetConnectionComponent,
-        AssetDialogComponent,
-        AssetsListComponent,
-        AssetsInErrorComponent,
-        AssetConsumptionChartDetailComponent,
-        AssetConsumptionChartComponent,
-        AssetConsumptionCellComponent,
-    ],
-    providers: [
-        AssetsListTableDataSource,
-        AssetsInErrorTableDataSource
-    ]
+  imports: [
+    CommonModule,
+    FormsModule,
+    FormattersModule,
+    AddressModule,
+    ReactiveFormsModule,
+    TranslateModule,
+    MaterialModule,
+    TableModule,
+    DialogsModule,
+    RouterModule.forChild(AssetsRoutes),
+    ComponentModule
+  ],
+  declarations: [
+    AssetsComponent,
+    AssetComponent,
+    AssetMainComponent,
+    AssetConnectionComponent,
+    AssetDialogComponent,
+    AssetsListComponent,
+    AssetsInErrorComponent,
+    AssetConsumptionChartDetailComponent,
+    AssetConsumptionChartComponent,
+    AssetConsumptionCellComponent,
+  ],
+  providers: [
+    AssetsListTableDataSource,
+    AssetsInErrorTableDataSource
+  ]
 })
 
 export class AssetsModule {

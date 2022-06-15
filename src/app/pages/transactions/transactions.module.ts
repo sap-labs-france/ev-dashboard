@@ -6,8 +6,6 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { MaterialModule } from '../../app.module';
 import { ComponentModule } from '../../shared/component/component.module';
-import { ConsumptionChartComponent } from '../../shared/component/consumption-chart/consumption-chart.component';
-import { ErrorCodeDetailsComponent } from '../../shared/component/error-code-details/error-code-details.component';
 import { DialogsModule } from '../../shared/dialogs/dialogs.module';
 import { CommonDirectivesModule } from '../../shared/directives/directives.module';
 import { FormattersModule } from '../../shared/formatters/formatters.module';
@@ -26,38 +24,38 @@ import { TransactionsComponent } from './transactions.component';
 import { TransactionsRoutes } from './transactions.routing';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        RouterModule.forChild(TransactionsRoutes),
-        FormsModule,
-        ReactiveFormsModule,
-        TranslateModule,
-        MaterialModule,
-        TableModule,
-        CommonDirectivesModule,
-        DialogsModule,
-        FormattersModule,
-        ComponentModule,
-    ],
-    declarations: [
-        TransactionsComponent,
-        TransactionsHistoryComponent,
-        TransactionsInErrorComponent,
-        TransactionsInProgressComponent,
-        TransactionsRefundComponent,
-        AppTransactionsFormatConnector,
-        TransactionsConnectorCellComponent,
-        TransactionsInactivityCellComponent,
-    ],
-    exports: [
-        TransactionsComponent,
-    ],
-    providers: [
-        TransactionsHistoryTableDataSource,
-        TransactionsInErrorTableDataSource,
-        TransactionsInProgressTableDataSource,
-        TransactionsRefundTableDataSource,
-    ]
+  imports: [
+    CommonModule,
+    RouterModule.forChild(TransactionsRoutes),
+    FormsModule,
+    ReactiveFormsModule,
+    TranslateModule,
+    MaterialModule,
+    TableModule,
+    CommonDirectivesModule,
+    DialogsModule,
+    FormattersModule,
+    ComponentModule,
+  ],
+  declarations: [
+    TransactionsComponent,
+    TransactionsHistoryComponent,
+    TransactionsInErrorComponent,
+    TransactionsInProgressComponent,
+    TransactionsRefundComponent,
+    AppTransactionsFormatConnector,
+    TransactionsConnectorCellComponent,
+    TransactionsInactivityCellComponent,
+  ],
+  exports: [
+    TransactionsComponent,
+  ],
+  providers: [
+    TransactionsHistoryTableDataSource,
+    TransactionsInErrorTableDataSource,
+    TransactionsInProgressTableDataSource,
+    TransactionsRefundTableDataSource,
+  ]
 })
 
 export class TransactionsModule {

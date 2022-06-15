@@ -21,31 +21,31 @@ import { TagsComponent } from './tags.component';
 import { TagRoutes } from './tags.routing';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        RouterModule.forChild(TagRoutes),
-        ReactiveFormsModule,
-        TranslateModule,
-        MaterialModule,
-        AddressModule,
-        TableModule,
-        DialogsModule,
-        CommonDirectivesModule,
-        FormattersModule,
-    ],
-    declarations: [
-        TagStatusFormatterComponent,
-        AppFormatTagStatusPipe,
-        TagsListComponent,
-        TagDialogComponent,
-        TagAssignDialogComponent,
-        TagComponent,
-        TagMainComponent,
-        TagAssignComponent,
-        TagsComponent,
-    ],
-    exports: [],
-    providers: []
+  imports: [
+    CommonModule,
+    RouterModule.forChild(TagRoutes),
+    ReactiveFormsModule,
+    TranslateModule,
+    MaterialModule,
+    AddressModule,
+    TableModule,
+    DialogsModule,
+    CommonDirectivesModule,
+    FormattersModule,
+  ],
+  declarations: [
+    TagStatusFormatterComponent,
+    AppFormatTagStatusPipe,
+    TagsListComponent,
+    TagDialogComponent,
+    TagAssignDialogComponent,
+    TagComponent,
+    TagMainComponent,
+    TagAssignComponent,
+    TagsComponent,
+  ],
+  exports: [],
+  providers: []
 })
 
 export class TagsModule {

@@ -22,33 +22,33 @@ import { StatisticsTransactionsComponent } from './transactions/statistics-trans
 import { StatisticsUsageComponent } from './usage/statistics-usage.component';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        RouterModule.forChild(StatisticsRoutes),
-        FormsModule,
-        ReactiveFormsModule,
-        TranslateModule,
-        MaterialModule,
-        ComponentModule,
-        CommonDirectivesModule,
-        TableModule,
-        DialogsModule,
-        NgxDaterangepickerMd,
-    ],
-    declarations: [
-        StatisticsComponent,
-        StatisticsConsumptionComponent,
-        StatisticsUsageComponent,
-        StatisticsInactivityComponent,
-        StatisticsTransactionsComponent,
-        StatisticsPricingComponent,
-        StatisticsFiltersComponent,
-    ],
-    exports: [],
-    providers: [
-        StatisticsBuildService,
-        StatisticsExportService,
-    ]
+  imports: [
+    CommonModule,
+    RouterModule.forChild(StatisticsRoutes),
+    FormsModule,
+    ReactiveFormsModule,
+    TranslateModule,
+    MaterialModule,
+    ComponentModule,
+    CommonDirectivesModule,
+    TableModule,
+    DialogsModule,
+    NgxDaterangepickerMd,
+  ],
+  declarations: [
+    StatisticsComponent,
+    StatisticsConsumptionComponent,
+    StatisticsUsageComponent,
+    StatisticsInactivityComponent,
+    StatisticsTransactionsComponent,
+    StatisticsPricingComponent,
+    StatisticsFiltersComponent,
+  ],
+  exports: [],
+  providers: [
+    StatisticsBuildService,
+    StatisticsExportService,
+  ]
 })
 
 export class StatisticsModule {

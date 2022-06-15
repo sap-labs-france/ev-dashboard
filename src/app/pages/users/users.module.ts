@@ -6,7 +6,6 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { MaterialModule } from '../../app.module';
 import { AddressModule } from '../../shared/address/address.module';
-import { ErrorCodeDetailsComponent } from '../../shared/component/error-code-details/error-code-details.component';
 import { DialogsModule } from '../../shared/dialogs/dialogs.module';
 import { CommonDirectivesModule } from '../../shared/directives/directives.module';
 import { FormattersModule } from '../../shared/formatters/formatters.module';
@@ -40,57 +39,57 @@ import { UsersComponent } from './users.component';
 import { UserRoutes } from './users.routing';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        RouterModule.forChild(UserRoutes),
-        ReactiveFormsModule,
-        TranslateModule,
-        MaterialModule,
-        AddressModule,
-        TableModule,
-        DialogsModule,
-        CommonDirectivesModule,
-        FormattersModule,
-    ],
-    declarations: [
-        UserStatusFormatterComponent,
-        AppFormatUserStatusPipe,
-        UsersListComponent,
-        UsersInErrorComponent,
-        UsersComponent,
-        UserComponent,
-        UserMainComponent,
-        UserNotificationsComponent,
-        UserSecurityComponent,
-        UserConnectorsComponent,
-        UserMercedesCarConnectorComponent,
-        UserConcurRefundConnectorComponent,
-        UserMiscsComponent,
-        UserDialogComponent,
-        UserSitesDialogComponent,
-        UserSitesAdminCheckboxComponent,
-        ConcurUserConnectionComponent,
-        MercedesUserConnectionComponent,
-        AppUserRolePipe,
-        AppUserStatusPipe,
-        UserSitesOwnerRadioComponent,
-        StripePaymentMethodComponent,
-        PaymentMethodsComponent,
-        PaymentMethodDialogComponent,
-        AppPaymentMethodStatusPipe,
-        PaymentMethodStatusComponent
-    ],
-    exports: [
-        AppUserRolePipe,
-        AppUserStatusPipe,
-        UserDialogComponent,
-    ],
-    providers: [
-        AppUserRolePipe,
-        AppUserStatusPipe,
-        UserSitesTableDataSource,
-        UsersInErrorTableDataSource,
-    ]
+  imports: [
+    CommonModule,
+    RouterModule.forChild(UserRoutes),
+    ReactiveFormsModule,
+    TranslateModule,
+    MaterialModule,
+    AddressModule,
+    TableModule,
+    DialogsModule,
+    CommonDirectivesModule,
+    FormattersModule,
+  ],
+  declarations: [
+    UserStatusFormatterComponent,
+    AppFormatUserStatusPipe,
+    UsersListComponent,
+    UsersInErrorComponent,
+    UsersComponent,
+    UserComponent,
+    UserMainComponent,
+    UserNotificationsComponent,
+    UserSecurityComponent,
+    UserConnectorsComponent,
+    UserMercedesCarConnectorComponent,
+    UserConcurRefundConnectorComponent,
+    UserMiscsComponent,
+    UserDialogComponent,
+    UserSitesDialogComponent,
+    UserSitesAdminCheckboxComponent,
+    ConcurUserConnectionComponent,
+    MercedesUserConnectionComponent,
+    AppUserRolePipe,
+    AppUserStatusPipe,
+    UserSitesOwnerRadioComponent,
+    StripePaymentMethodComponent,
+    PaymentMethodsComponent,
+    PaymentMethodDialogComponent,
+    AppPaymentMethodStatusPipe,
+    PaymentMethodStatusComponent
+  ],
+  exports: [
+    AppUserRolePipe,
+    AppUserStatusPipe,
+    UserDialogComponent,
+  ],
+  providers: [
+    AppUserRolePipe,
+    AppUserStatusPipe,
+    UserSitesTableDataSource,
+    UsersInErrorTableDataSource,
+  ]
 })
 
 export class UsersModule {

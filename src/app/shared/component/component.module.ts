@@ -14,26 +14,26 @@ import { ConsumptionChartDetailComponent } from './consumption-chart/consumption
 import { ConsumptionChartComponent } from './consumption-chart/consumption-chart.component';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        MatChipsModule,
-        TranslateModule,
-        CommonDirectivesModule,
-        FormattersModule,
-        ChartModule,
-        MaterialModule,
-        FormsModule,
-        NgxDaterangepickerMd,
-    ],
-    declarations: [
-        ConsumptionChartDetailComponent,
-        ConsumptionChartComponent,
-        ChartUnitSelectorComponent,
-    ],
-    exports: [
-        ConsumptionChartComponent,
-        ChartUnitSelectorComponent,
-    ]
+  imports: [
+    CommonModule,
+    MatChipsModule,
+    TranslateModule,
+    CommonDirectivesModule,
+    FormattersModule,
+    ChartModule,
+    MaterialModule,
+    FormsModule,
+    NgxDaterangepickerMd,
+  ],
+  declarations: [
+    ConsumptionChartDetailComponent,
+    ConsumptionChartComponent,
+    ChartUnitSelectorComponent,
+  ],
+  exports: [
+    ConsumptionChartComponent,
+    ChartUnitSelectorComponent,
+  ]
 })
 export class ComponentModule {
 }

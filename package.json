@@ -110,7 +110,7 @@
     "tldts": "^5.7.80",
     "ts-jest": "^27.1.4",
     "tslib": "^2.4.0",
-    "zone.js": "~0.11.5"
+    "zone.js": "~0.11.6"
   },
   "optionalDependencies": {
     "bufferutil": "^4.0.6",

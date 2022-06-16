@@ -137,93 +137,92 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    const columns: TableColumnDef[] = [];
-    columns.push({
-      id: 'id',
-      name: 'chargers.name',
-      sortable: true,
-      headerClass: 'col-30p',
-      class: 'col-30p',
-      sorted: true,
-      direction: 'asc',
-    },
-    {
-      id: 'site.name',
-      name: 'sites.title',
-      class: 'col-20p',
-      headerClass: 'col-20p',
-    },
-    {
-      id: 'siteArea.name',
-      name: 'site_areas.title',
-      class: 'col-20p',
-      headerClass: 'col-20p',
-    },
-    {
-      id: 'inactive',
-      name: 'chargers.heartbeat_title',
-      headerClass: 'text-center col-30p',
-      class: 'text-center col-30p',
-      isAngularComponent: true,
-      angularComponent: ChargingStationsHeartbeatCellComponent,
-    },
-    {
-      id: 'connectorsStatus',
-      name: 'chargers.connectors_title',
-      headerClass: 'text-center',
-      class: 'text-center table-cell-angular-big-component',
-      isAngularComponent: true,
-      angularComponent: ChargingStationsConnectorsCellComponent,
-    },
-    {
-      id: 'connectorsConsumption',
-      name: 'chargers.consumption_title',
-      headerClass: 'text-center col-15em',
-      class: 'text-center col-15em',
-      isAngularComponent: true,
-      angularComponent: ChargingStationsInstantPowerChargerProgressBarCellComponent,
-    },
-    {
-      id: 'public',
-      name: 'chargers.public_charger',
-      headerClass: 'text-center col-5em',
-      class: 'text-center col-5em',
-      formatter: (publicChargingStation: boolean) => Utils.displayYesNo(this.translateService, publicChargingStation)
-    },
-    {
-      id: 'chargePointVendor',
-      name: 'chargers.vendor',
-      headerClass: 'col-20p',
-      class: 'col-20p',
-      sortable: true,
-    },
-    {
-      id: 'chargePointModel',
-      name: 'chargers.model',
-      headerClass: 'col-20p',
-      class: 'col-20p',
-      sortable: true,
-    },
-    {
-      id: 'firmwareVersion',
-      name: 'chargers.firmware_version',
-      headerClass: 'text-center col-20p',
-      class: 'text-center table-cell-angular-big-component col-20p',
-      sortable: false,
-      isAngularComponent: true,
-      angularComponent: ChargingStationsFirmwareStatusCellComponent,
-    },
-    {
-      id: 'ocppVersion',
-      name: 'chargers.ocpp_version_title',
-      headerClass: 'text-center col-10p',
-      class: 'text-center col-10p',
-      sortable: false,
-      formatter: (ocppVersion: string, row: ChargingStation) =>
-        (ocppVersion && row.ocppProtocol) ? `${ocppVersion} / ${row.ocppProtocol}` : '-'
-    }
-    );
-    return columns;
+    return [
+      {
+        id: 'id',
+        name: 'chargers.name',
+        sortable: true,
+        headerClass: 'col-30p',
+        class: 'col-30p',
+        sorted: true,
+        direction: 'asc',
+      },
+      {
+        id: 'site.name',
+        name: 'sites.title',
+        class: 'col-20p',
+        headerClass: 'col-20p',
+      },
+      {
+        id: 'siteArea.name',
+        name: 'site_areas.title',
+        class: 'col-20p',
+        headerClass: 'col-20p',
+      },
+      {
+        id: 'inactive',
+        name: 'chargers.heartbeat_title',
+        headerClass: 'text-center col-30p',
+        class: 'text-center col-30p',
+        isAngularComponent: true,
+        angularComponent: ChargingStationsHeartbeatCellComponent,
+      },
+      {
+        id: 'connectorsStatus',
+        name: 'chargers.connectors_title',
+        headerClass: 'text-center',
+        class: 'text-center table-cell-angular-big-component',
+        isAngularComponent: true,
+        angularComponent: ChargingStationsConnectorsCellComponent,
+      },
+      {
+        id: 'connectorsConsumption',
+        name: 'chargers.consumption_title',
+        headerClass: 'text-center col-15em',
+        class: 'text-center col-15em',
+        isAngularComponent: true,
+        angularComponent: ChargingStationsInstantPowerChargerProgressBarCellComponent,
+      },
+      {
+        id: 'public',
+        name: 'chargers.public_charger',
+        headerClass: 'text-center col-5em',
+        class: 'text-center col-5em',
+        formatter: (publicChargingStation: boolean) => Utils.displayYesNo(this.translateService, publicChargingStation)
+      },
+      {
+        id: 'chargePointVendor',
+        name: 'chargers.vendor',
+        headerClass: 'col-20p',
+        class: 'col-20p',
+        sortable: true,
+      },
+      {
+        id: 'chargePointModel',
+        name: 'chargers.model',
+        headerClass: 'col-20p',
+        class: 'col-20p',
+        sortable: true,
+      },
+      {
+        id: 'firmwareVersion',
+        name: 'chargers.firmware_version',
+        headerClass: 'text-center col-20p',
+        class: 'text-center table-cell-angular-big-component col-20p',
+        sortable: false,
+        isAngularComponent: true,
+        angularComponent: ChargingStationsFirmwareStatusCellComponent,
+      },
+      {
+        id: 'ocppVersion',
+        name: 'chargers.ocpp_version_title',
+        headerClass: 'text-center col-10p',
+        class: 'text-center col-10p',
+        sortable: false,
+        formatter: (ocppVersion: string, row: ChargingStation) =>
+          (ocppVersion && row.ocppProtocol) ? `${ocppVersion} / ${row.ocppProtocol}` : '-'
+      }
+    ];
   }
 
   public buildTableActionsRightDef(): TableActionDef[] {

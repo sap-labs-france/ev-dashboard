@@ -984,7 +984,7 @@ export class CentralServerService {
   }
 
   public getUsersInError(params: FilterParams,
-    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<User>> {
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<UserDataResult> {
     // Verify init
     this.checkInit();
     // Build Paging
@@ -992,7 +992,7 @@ export class CentralServerService {
     // Build Ordering
     this.getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<DataResult<User>>(this.buildRestEndpointUrl(RESTServerRoute.REST_USERS_IN_ERROR),
+    return this.httpClient.get<UserDataResult>(this.buildRestEndpointUrl(RESTServerRoute.REST_USERS_IN_ERROR),
       {
         headers: this.buildHttpHeaders(),
         params,

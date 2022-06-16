@@ -282,36 +282,23 @@ export class UsersListTableDataSource extends TableDataSource<User> {
           rowActions.push(this.viewSitesOfUser);
         }
       }
-      if (user.canListTags) {
-        moreActions.addActionInMoreActions(this.navigateToTagsAction);
-      }
-      if (user.canListTransactions) {
-        moreActions.addActionInMoreActions(this.navigateToTransactionsAction);
-      }
       if (this.componentService.isActive(TenantComponents.BILLING)) {
         if (user.canSynchronizeBillingUser) {
           moreActions.addActionInMoreActions(this.synchronizeBillingUserAction);
         }
       }
-      if (user.canDelete) {
-        moreActions.addActionInMoreActions(this.deleteAction);
-      }
-      if (!Utils.isEmptyArray(moreActions.getActionsInMoreActions())) {
-        rowActions.push(moreActions.getActionDef());
-      }
-    } else {
-      if (user.canListTags) {
-        moreActions.addActionInMoreActions(this.navigateToTagsAction);
-      }
-      if (user.canListTransactions) {
-        moreActions.addActionInMoreActions(this.navigateToTransactionsAction);
-      }
-      if (user.canDelete) {
-        moreActions.addActionInMoreActions(this.deleteAction);
-      }
-      if (!Utils.isEmptyArray(moreActions.getActionsInMoreActions())) {
-        rowActions.push(moreActions.getActionDef());
-      }
+    }
+    if (user.canListTags) {
+      moreActions.addActionInMoreActions(this.navigateToTagsAction);
+    }
+    if (user.canListTransactions) {
+      moreActions.addActionInMoreActions(this.navigateToTransactionsAction);
+    }
+    if (user.canDelete) {
+      moreActions.addActionInMoreActions(this.deleteAction);
+    }
+    if (!Utils.isEmptyArray(moreActions.getActionsInMoreActions())) {
+      rowActions.push(moreActions.getActionDef());
     }
     return rowActions;
   }
@@ -322,7 +309,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       case UserButtonAction.CREATE_USER:
         if (actionDef.action) {
           (actionDef as TableCreateUserActionDef).action(UserDialogComponent,
-            this.dialog,{ authorizations: this.usersAuthorizations }, this.refreshData.bind(this));
+            this.dialog, { authorizations: this.usersAuthorizations }, this.refreshData.bind(this));
         }
         break;
       case UserButtonAction.EXPORT_USERS:
@@ -344,20 +331,20 @@ export class UsersListTableDataSource extends TableDataSource<User> {
     switch (actionDef.id) {
       case UserButtonAction.EDIT_USER:
         if (actionDef.action) {
-          (actionDef as TableEditUserActionDef).action(UserDialogComponent, this.dialog,
-            { dialogData: user, authorizations: this.usersAuthorizations }, this.refreshData.bind(this));
+          (actionDef as TableEditUserActionDef).action(
+            UserDialogComponent, this.dialog, { dialogData: user, authorizations: this.usersAuthorizations }, this.refreshData.bind(this));
         }
         break;
       case UserButtonAction.ASSIGN_SITES_TO_USER:
         if (actionDef.action) {
           (actionDef as TableAssignSitesToUserActionDef).action(
-            UserSitesDialogComponent, { dialogData: user }, this.dialog, this.refreshData.bind(this));
+            UserSitesDialogComponent, this.dialog, { dialogData: user, authorizations: this.usersAuthorizations }, this.refreshData.bind(this));
         }
         break;
       case UserButtonAction.VIEW_SITES_OF_USER:
         if (actionDef.action) {
-          (actionDef as TableViewAssignedSitesOfUserActionDef).action(UserSitesDialogComponent, { dialogData: user },
-            this.dialog, this.refreshData.bind(this));
+          (actionDef as TableViewAssignedSitesOfUserActionDef).action(
+            UserSitesDialogComponent, this.dialog, { dialogData: user, authorizations: this.usersAuthorizations },this.refreshData.bind(this));
         }
         break;
       case UserButtonAction.DELETE_USER:

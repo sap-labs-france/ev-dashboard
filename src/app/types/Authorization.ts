@@ -235,7 +235,6 @@ export interface UserAuthorizationActions extends AuthorizationActions {
   canSynchronizeBillingUser?: boolean;
 }
 
-// USERSITES
 export interface UserSitesAuthorizations extends AuthorizationAttributes, UserSitesAuthorizationActions {
   canUpdateUserSites?: boolean;
 }
@@ -246,7 +245,6 @@ export interface UserSitesAuthorizationActions extends DataResultAuthorizationAc
 export interface UserSiteAuthorizationActions extends AuthorizationActions {
 }
 
-// SITEUSERS
 export interface SiteUsersAuthorizations extends AuthorizationAttributes, SiteUsersAuthorizationActions {
   canUpdateSiteUsers?: boolean;
 }

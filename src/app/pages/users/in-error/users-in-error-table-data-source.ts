@@ -18,6 +18,7 @@ import { TableEditUserAction, TableEditUserActionDef } from '../../../shared/tab
 import { TableForceSyncBillingUserAction } from '../../../shared/table/actions/users/table-force-sync-billing-user-action';
 import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
+import { UsersAuthorizations } from '../../../types/Authorization';
 import { DataResult } from '../../../types/DataResult';
 import { ErrorMessage, UserInError, UserInErrorType } from '../../../types/InError';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
@@ -35,6 +36,7 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
   private editAction = new TableEditUserAction().getActionDef();
   private assignSitesToUser = new TableAssignSitesToUserAction().getActionDef();
   private forceSyncBillingUserAction = new TableForceSyncBillingUserAction().getActionDef();
+  private usersAuthorizations: UsersAuthorizations;
 
   public constructor(
     public spinnerService: SpinnerService,
@@ -56,6 +58,12 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
       // Get the Tenants
       this.centralServerService.getUsersInError(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((users) => {
+        // Initialize authorization actions
+        this.usersAuthorizations = {
+          // Metadata
+          metadata: users.metadata
+        };
+
         this.formatErrorMessages(users.result);
         observer.next(users);
         observer.complete();
@@ -155,14 +163,14 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
     switch (actionDef.id) {
       case UserButtonAction.EDIT_USER:
         if (actionDef.action) {
-          (actionDef as TableEditUserActionDef).action(UserDialogComponent, this.dialog,
-            { dialogData: user }, this.refreshData.bind(this));
+          (actionDef as TableEditUserActionDef).action(
+            UserDialogComponent, this.dialog, { dialogData: user, authorizations: this.usersAuthorizations }, this.refreshData.bind(this));
         }
         break;
       case UserButtonAction.ASSIGN_SITES_TO_USER:
         if (actionDef.action) {
           (actionDef as TableAssignSitesToUserActionDef).action(
-            UserSitesDialogComponent, { dialogData: user }, this.dialog, this.refreshData.bind(this));
+            UserSitesDialogComponent, this.dialog, { dialogData: user, authorizations: this.usersAuthorizations }, this.refreshData.bind(this));
         }
         break;
       case UserButtonAction.DELETE_USER:

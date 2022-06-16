@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AssetsAuthorizations } from 'types/Authorization';
 
 import { CentralServerService } from '../../../../services/central-server.service';
 import { ComponentService } from '../../../../services/component.service';
@@ -18,6 +19,7 @@ export class AssetConnectionComponent implements OnInit, OnChanges {
   @Input() public formGroup: FormGroup;
   @Input() public asset!: Asset;
   @Input() public readOnly: boolean;
+  @Input() public assetsAuthorizations!: AssetsAuthorizations;
 
   public assetConnections!: KeyValue[];
   public initialized = false;

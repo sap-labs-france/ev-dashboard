@@ -4,6 +4,7 @@ import { BillingInvoice, BillingPaymentMethod } from './Billing';
 import { Car, CarCatalog } from './Car';
 import { ChargingStationTemplate } from './ChargingStationTemplate';
 import { Company } from './Company';
+import { AssetInError } from './InError';
 import { Log } from './Log';
 import PricingDefinition from './Pricing';
 import { RegistrationToken } from './RegistrationToken';
@@ -114,6 +115,9 @@ export interface PricingDefinitionDataResult extends DataResult<PricingDefinitio
 }
 
 export interface AssetDataResult extends DataResult<Asset>, AssetsAuthorizations {
+}
+
+export interface AssetInErrorDataResult extends DataResult<AssetInError>, AssetsAuthorizations {
 }
 
 export interface BillingInvoiceDataResult extends DataResult<BillingInvoice>, BillingInvoicesAuthorizations {

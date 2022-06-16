@@ -98,9 +98,9 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
     // Set charger
     this.chargingStation = chargingStation;
     // Init visibility
-    this.updateOCPPParamsAction.visible = chargingStation?.canUpdate;
-    this.requestOCPPParamsAction.visible = chargingStation?.canUpdate;
-    this. exportOCPPParamsLocalAction.visible = chargingStation?.canUpdate;
+    this.updateOCPPParamsAction.visible = chargingStation?.canUpdateOCPPParams;
+    this.requestOCPPParamsAction.visible = chargingStation?.canUpdateOCPPParams;
+    this.exportOCPPParamsLocalAction.visible = chargingStation?.canGetOCPPParams;
     // Force refresh
     this.initDataSource(true);
   }

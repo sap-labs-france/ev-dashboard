@@ -36,7 +36,6 @@ export class ChargingStationTemplateMainComponent implements OnInit, OnChanges {
   }
 
   public onTemplateChange(event) {
-    console.log('toto');
     try {
       const toto = JSON.parse(event.target.value);
       this.chargingStationTemplate.updateValueAndValidity();
@@ -51,7 +50,7 @@ export class ChargingStationTemplateMainComponent implements OnInit, OnChanges {
 
   public loadTemplate() {
     if (this.template) {
-      this.chargingStationTemplate.setValue(this.template);
+      this.chargingStationTemplate.setValue(JSON.stringify(this.template, undefined, 4));
     }
   }
 }

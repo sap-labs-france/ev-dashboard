@@ -3289,7 +3289,6 @@ export class CentralServerService {
     this.getPaging(paging, params);
     // Build Ordering
     this.getSorting(ordering, params);
-    // TODO @Melvyn this one works
     const url = this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATION_TEMPLATES);
     // Execute the REST service
     return this.httpClient.get<ChargingStationTemplateDataResult>(url,
@@ -3310,8 +3309,7 @@ export class CentralServerService {
     if (!id) {
       return EMPTY;
     }
-    // TODO @Melvyn create / align this route
-    const url = this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATION, { id });
+    const url = this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATION_TEMPLATE, { id });
     return this.httpClient.get<ChargingStationTemplate>(url,
       {
         headers: this.buildHttpHeaders()
@@ -3324,8 +3322,7 @@ export class CentralServerService {
   public createChargingStationTemplate(template: ChargingStationTemplate): Observable<ActionResponse> {
     // Verify init
     this.checkInit();
-    // TODO @Melvyn create / align this route
-    const url = this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATION);
+    const url = this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATION_TEMPLATES);
     // Execute the REST service
     return this.httpClient.post<ActionResponse>(url, template,
       {
@@ -3339,12 +3336,28 @@ export class CentralServerService {
   public updateChargingStationTemplate(template: ChargingStationTemplate): Observable<ActionResponse> {
     // Verify init
     this.checkInit();
-    // TODO @Melvyn create / align this route
-    const url = this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATION, { id: template.id });
+    const url = this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATION_TEMPLATE, { id: template.id });
     // Execute
     return this.httpClient.put<ActionResponse>(url, template,
       {
         headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public deleteChargingStationTemplate(id: string): Observable<ChargingStationTemplate> {
+    // Verify init
+    this.checkInit();
+    // Execute the REST service
+    if (!id) {
+      return EMPTY;
+    }
+    const url = this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATION_TEMPLATE, { id });
+    return this.httpClient.delete<ChargingStationTemplate>(url,
+      {
+        headers: this.buildHttpHeaders()
       })
       .pipe(
         catchError(this.handleHttpError),

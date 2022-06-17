@@ -44,7 +44,6 @@ import { UserTableFilter } from '../../../shared/table/filters/user-table-filter
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { ChargingStationButtonAction, Connector } from '../../../types/ChargingStation';
 import { DataResult, TransactionDataResult } from '../../../types/DataResult';
-import { HTTPError } from '../../../types/HTTPError';
 import { LogButtonAction } from '../../../types/Log';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
 import { TenantComponents } from '../../../types/Tenant';
@@ -196,16 +195,14 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    const tableColumns: TableColumnDef[] = [];
-    if (this.isAdmin) {
-      tableColumns.push({
+    return [
+      {
         id: 'id',
         name: 'transactions.id',
         headerClass: 'col-10p',
         class: 'col-10p',
-      });
-    }
-    tableColumns.push(
+        visible: this.isAdmin
+      },
       {
         id: 'timestamp',
         name: 'transactions.started_at',
@@ -274,96 +271,95 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         headerClass: 'col-10p',
         class: 'col-10p',
         formatter: (stateOfCharge: number, row: Transaction) => stateOfCharge ? `${stateOfCharge}% > ${row.stop.stateOfCharge}%` : '-',
-      }
-    );
-    if (this.componentService.isActive(TenantComponents.PRICING)) {
-      tableColumns.push({
+      },
+      {
         id: 'stop.roundedPrice',
         name: 'transactions.price',
         headerClass: 'col-10p',
         class: 'col-10p',
         formatter: (roundedPrice: number, transaction: Transaction) =>
           this.appCurrencyPipe.transform(roundedPrice, transaction.stop.priceUnit),
-      });
-    }
-    if (this.isOrganizationComponentActive) {
-      tableColumns.push(
-        {
-          id: 'company.name',
-          name: 'companies.title',
-          class: 'd-none d-xl-table-cell col-20p',
-          headerClass: 'd-none d-xl-table-cell col-20p',
-        },
-        {
-          id: 'site.name',
-          name: 'sites.title',
-          class: 'd-none d-xl-table-cell col-20p',
-          headerClass: 'd-none d-xl-table-cell col-20p',
-        },
-        {
-          id: 'siteArea.name',
-          name: 'site_areas.title',
-          class: 'd-none d-xl-table-cell col-20p',
-          headerClass: 'd-none d-xl-table-cell col-20p',
-        },
-      );
-    }
-    if (this.authorizationService.canListUsers()) {
-      tableColumns.push({
+        visible: this.componentService.isActive(TenantComponents.PRICING)
+      },
+      {
+        id: 'company.name',
+        name: 'companies.title',
+        class: 'd-none d-xl-table-cell col-20p',
+        headerClass: 'd-none d-xl-table-cell col-20p',
+        visible: this.isOrganizationComponentActive
+      },
+      {
+        id: 'site.name',
+        name: 'sites.title',
+        class: 'd-none d-xl-table-cell col-20p',
+        headerClass: 'd-none d-xl-table-cell col-20p',
+        visible: this.isOrganizationComponentActive
+      },
+      {
+        id: 'siteArea.name',
+        name: 'site_areas.title',
+        class: 'd-none d-xl-table-cell col-20p',
+        headerClass: 'd-none d-xl-table-cell col-20p',
+        visible: this.isOrganizationComponentActive
+      },
+      {
         id: 'user',
         name: 'transactions.user',
         headerClass: 'col-15p',
         class: 'text-left col-15p',
         formatter: (user: User) => this.appUserNamePipe.transform(user),
+        visible: this.authorizationService.canListUsers()
       },
       {
         id: 'tagID',
         name: 'tags.id',
         headerClass: 'col-10p',
         class: 'text-left col-10p',
-        formatter: (tagID: string) => tagID ? tagID : '-'
+        formatter: (tagID: string) => tagID ? tagID : '-',
+        visible: this.authorizationService.canListUsers()
       },
       {
         id: 'tag.visualID',
         name: 'tags.visual_id',
         headerClass: 'col-15p',
         class: 'text-left col-15p',
-        formatter: (visualID: string) => visualID ? visualID : '-'
-      });
-    }
-    if (this.componentService.isActive(TenantComponents.CAR)) {
-      if (this.authorizationService.canListCars()) {
-        tableColumns.push({
-          id: 'carCatalog',
-          name: 'car.title',
-          headerClass: 'text-center col-15p',
-          class: 'text-center col-15p',
-          sortable: true,
-          formatter: (carCatalog: CarCatalog) => carCatalog ? Utils.buildCarCatalogName(carCatalog) : '-',
-        });
-      }
-      if (this.authorizationService.canUpdateCar()) {
-        tableColumns.push({
-          id: 'car.licensePlate',
-          name: 'cars.license_plate',
-          headerClass: 'text-center col-15p',
-          class: 'text-center col-15p',
-          sortable: true,
-          formatter: (licensePlate: string) => licensePlate ? licensePlate : '-'
-        });
-      }
-    }
-    if (this.componentService.isActive(TenantComponents.BILLING) &&
-        this.authorizationService.canListInvoicesBilling()) {
-      tableColumns.push({
+        formatter: (visualID: string) => visualID ? visualID : '-',
+        visible: this.authorizationService.canListUsers()
+      },
+      {
+        id: 'tag.description',
+        name: 'general.description',
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
+        visible: this.authorizationService.canListUsers()
+      },
+      {
+        id: 'carCatalog',
+        name: 'car.title',
+        headerClass: 'text-center col-15p',
+        class: 'text-center col-15p',
+        sortable: true,
+        formatter: (carCatalog: CarCatalog) => carCatalog ? Utils.buildCarCatalogName(carCatalog) : '-',
+        visible: this.componentService.isActive(TenantComponents.CAR) && this.authorizationService.canListCars()
+      },
+      {
+        id: 'car.licensePlate',
+        name: 'cars.license_plate',
+        headerClass: 'text-center col-15p',
+        class: 'text-center col-15p',
+        sortable: true,
+        formatter: (licensePlate: string) => licensePlate ? licensePlate : '-',
+        visible: this.componentService.isActive(TenantComponents.CAR) && this.authorizationService.canUpdateCar()
+      },
+      {
         id: 'billingData.stop.invoiceNumber',
         name: 'invoices.number',
         headerClass: 'text-center col-10p',
         class: 'col-10p',
         formatter: (invoiceNumber: string) => invoiceNumber || '-',
-      });
-    }
-    return tableColumns;
+        visible: this.componentService.isActive(TenantComponents.BILLING) && this.authorizationService.canListInvoicesBilling()
+      }
+    ];
   }
 
   public formatInactivity(totalInactivitySecs: number, row: Transaction) {

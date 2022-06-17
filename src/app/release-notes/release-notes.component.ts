@@ -24,6 +24,19 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.6.9',
+        date: new Date('2022-06-17'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Fixed OCPI Tag type to match RFID standard`,
+              `Handle Tag ID sent by payment terminals`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.6.8',
         date: new Date('2022-06-13'),
         componentChanges: [

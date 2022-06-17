@@ -141,9 +141,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    const loggedUserRole = this.centralServerService.getLoggedUser().role;
-    const columns = [];
-    columns.push(
+    return [
       {
         id: 'status',
         name: 'users.status',
@@ -181,7 +179,8 @@ export class UsersListTableDataSource extends TableDataSource<User> {
         headerClass: 'col-10em',
         class: 'text-left col-10em',
         sortable: true,
-        formatter: (role: string) => role ? this.translateService.instant(this.appUserRolePipe.transform(role, loggedUserRole)) : '-',
+        formatter: (role: string) => role ? this.translateService.instant(
+          this.appUserRolePipe.transform(role, this.centralServerService.getLoggedUser().role)) : '-',
       },
       {
         id: 'email',
@@ -190,27 +189,23 @@ export class UsersListTableDataSource extends TableDataSource<User> {
         class: 'text-left col-20p',
         sortable: true,
       },
-    );
-    if (this.componentService.isActive(TenantComponents.BILLING)) {
-      columns.push(
-        {
-          id: 'billingData.customerID',
-          name: 'billing.id',
-          headerClass: 'col-15p',
-          class: 'col-15p',
-          sortable: true,
-        },
-        {
-          id: 'billingData.lastChangedOn',
-          name: 'billing.updated_on',
-          headerClass: 'col-15p',
-          class: 'col-15p',
-          sortable: true,
-          formatter: (lastChangedOn: Date) => this.datePipe.transform(lastChangedOn),
-        },
-      );
-    }
-    columns.push(
+      {
+        id: 'billingData.customerID',
+        name: 'billing.id',
+        headerClass: 'col-15p',
+        class: 'col-15p',
+        sortable: true,
+        visible: this.componentService.isActive(TenantComponents.BILLING),
+      },
+      {
+        id: 'billingData.lastChangedOn',
+        name: 'billing.updated_on',
+        headerClass: 'col-15p',
+        class: 'col-15p',
+        sortable: true,
+        formatter: (lastChangedOn: Date) => this.datePipe.transform(lastChangedOn),
+        visible: this.componentService.isActive(TenantComponents.BILLING),
+      },
       {
         id: 'createdOn',
         name: 'users.created_on',
@@ -257,8 +252,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
         sortable: true,
         formatter: (technicalUser: boolean) => Utils.displayYesNo(this.translateService, technicalUser),
       },
-    );
-    return columns as TableColumnDef[];
+    ];
   }
 
   public buildTableActionsDef(): TableActionDef[] {

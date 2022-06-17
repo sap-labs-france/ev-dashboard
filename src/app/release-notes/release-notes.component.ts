@@ -33,6 +33,7 @@ export class ReleaseNotesComponent {
               `Fixed OCPI Tag type to match RFID standard`,
               `Handle Tag ID sent by payment terminals`,
               `Retrigger the Async task framework after it has run once`,
+              `Check of OCPI CPO Locations is now done once a day`,
             ],
           },
         ],

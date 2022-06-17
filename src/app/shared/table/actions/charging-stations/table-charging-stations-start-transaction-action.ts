@@ -67,7 +67,7 @@ export class TableChargingStationsStartTransactionAction implements TableAction 
     dialogConfig.minWidth = '40vw';
     dialogConfig.panelClass = '';
     // Build dialog data
-    const dialogData: DialogParamsWithAuth<ChargingStation,ChargingStationsAuthorizations> = {
+    const dialogData: DialogParamsWithAuth<ChargingStation, ChargingStationsAuthorizations> = {
       dialogData: chargingStation,
     };
     dialogConfig.data = dialogData;

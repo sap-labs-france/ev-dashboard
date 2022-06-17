@@ -105,9 +105,7 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    // As sort directive in table can only be unset in Angular 7, all columns will be sortable
-    // Build common part for all cases
-    const tableColumns: TableColumnDef[] = [
+    return [
       {
         id: 'chargingStationID',
         name: 'chargers.smart_charging.charging_plans.charging_station_id',
@@ -137,16 +135,16 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
         id: 'chargingStation.siteArea.name',
         name: 'chargers.smart_charging.charging_plans.site_area',
         sortable: false,
+        visible: this.isOrganizationComponentActive
       },
       {
         id: 'chargingStation.siteArea.maximumPower',
         name: 'chargers.smart_charging.charging_plans.site_area_limit',
         sortable: false,
         formatter: (maximumPower: number) => maximumPower > 0 ? this.appUnitPipe.transform(maximumPower, 'W', 'kW', true, 0, 0, 0) : '',
+        visible: this.isOrganizationComponentActive
       },
-
     ];
-    return tableColumns;
   }
 
   public buildTableActionsRightDef(): TableActionDef[] {

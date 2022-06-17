@@ -66,7 +66,6 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
 
   private chargingStationsAthorizations: ChargingStationsAuthorizations;
 
-
   public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
@@ -95,14 +94,12 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
     return new Observable((observer) => {
       this.centralServerService.getChargingStations(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((chargingStations) => {
-
         // Build auth object
         this.chargingStationsAthorizations = {
           canExport: Utils.convertToBoolean(chargingStations.canExport),
           canListCompanies: Utils.convertToBoolean(chargingStations.canListCompanies),
           canListSiteAreas: Utils.convertToBoolean(chargingStations.canListSiteAreas),
           canListSites: Utils.convertToBoolean(chargingStations.canListSites),
-
           metadata: chargingStations.metadata
         };
         // Update filters visibility
@@ -152,12 +149,14 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
         name: 'sites.title',
         class: 'col-20p',
         headerClass: 'col-20p',
+        visible: this.isOrganizationComponentActive
       },
       {
         id: 'siteArea.name',
         name: 'site_areas.title',
         class: 'col-20p',
         headerClass: 'col-20p',
+        visible: this.isOrganizationComponentActive
       },
       {
         id: 'inactive',

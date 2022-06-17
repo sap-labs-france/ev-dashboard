@@ -53,7 +53,7 @@ export class ChargingStationsStartTransactionDialogComponent implements OnInit {
     private componentService: ComponentService,
     private centralServerService: CentralServerService,
     private dialogRef: MatDialogRef<ChargingStationsStartTransactionDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data: DialogParamsWithAuth<ChargingStation,ChargingStationsAuthorizations> ) {
+    @Inject(MAT_DIALOG_DATA) data: DialogParamsWithAuth<ChargingStation, ChargingStationsAuthorizations> ) {
     // Set
     this.title = translateService.instant('chargers.start_transaction_details_title', { chargeBoxID: data.dialogData.id });
     this.chargingStationID = data.dialogData.id;

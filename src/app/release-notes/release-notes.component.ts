@@ -34,6 +34,7 @@ export class ReleaseNotesComponent {
               `Handle Tag ID sent by payment terminals`,
               `Retrigger the Async task framework after it has run once`,
               `Check of OCPI CPO Locations is now done once a day`,
+              `Log in error failed Remote Push Notification`,
             ],
           },
         ],

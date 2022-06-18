@@ -35,6 +35,7 @@ export class ReleaseNotesComponent {
               `Retrigger the Async task framework after it has run once`,
               `Check of OCPI CPO Locations is now done once a day`,
               `Log in error failed Remote Push Notification`,
+              `Virtual RFID ID are generated now on 8 bytes`,
             ],
           },
         ],

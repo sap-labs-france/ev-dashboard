@@ -25,13 +25,17 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.6.9',
-        date: new Date('2022-06-17'),
+        date: new Date('2022-06-19'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `Fixed OCPI Tag type to match RFID standard`,
               `Handle Tag ID sent by payment terminals`,
+              `Retrigger the Async task framework after it has run once`,
+              `Check of OCPI CPO Locations is now done once a day`,
+              `Log in error failed Remote Push Notification`,
+              `Virtual RFID ID are generated now on 8 bytes`,
             ],
           },
         ],

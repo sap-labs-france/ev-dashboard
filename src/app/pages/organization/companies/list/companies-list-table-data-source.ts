@@ -74,7 +74,7 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    const tableColumnDef: TableColumnDef[] = [
+    return [
       {
         id: 'logo',
         name: 'companies.logo',
@@ -146,7 +146,6 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
         class: 'col-15em',
       },
     ];
-    return tableColumnDef;
   }
 
   public buildTableActionsDef(): TableActionDef[] {

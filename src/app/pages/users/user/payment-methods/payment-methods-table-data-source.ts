@@ -106,7 +106,7 @@ export class PaymentMethodsTableDataSource extends TableDataSource<BillingPaymen
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    const columns: TableColumnDef[] = [
+    return [
       {
         id: 'status',
         name: 'general.status',
@@ -155,7 +155,6 @@ export class PaymentMethodsTableDataSource extends TableDataSource<BillingPaymen
         formatter: (createdOn: Date) => this.datePipe.transform(createdOn)
       }
     ];
-    return columns;
   }
 
   public buildTableActionsDef(): TableActionDef[] {

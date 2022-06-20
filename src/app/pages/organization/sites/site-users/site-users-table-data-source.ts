@@ -152,10 +152,8 @@ export class SiteUsersTableDataSource extends TableDataSource<SiteUser> {
         id: 'user.email',
         name: 'users.email',
         class: 'text-left col-40p',
-      }
-    ];
-    if (this.getMode() === TableDataSourceMode.READ_WRITE) {
-      columns.push({
+      },
+      {
         id: 'siteAdmin',
         isAngularComponent: true,
         angularComponent: SiteUsersAdminCheckboxComponent,
@@ -172,8 +170,7 @@ export class SiteUsersTableDataSource extends TableDataSource<SiteUser> {
         headerClass: 'text-center',
         class: 'col-10p',
         visible: this.siteUsersAuthorization?.canUpdateSiteUsers,
-      });
-    }
+      }];
     return columns;
   }
 

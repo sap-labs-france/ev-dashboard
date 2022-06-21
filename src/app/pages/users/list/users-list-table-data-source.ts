@@ -59,6 +59,13 @@ export class UsersListTableDataSource extends TableDataSource<User> {
   private importAction = new TableImportUsersAction().getActionDef();
   private createAction = new TableCreateUserAction().getActionDef();
   private viewSitesOfUser = new TableViewAssignedSitesOfUserAction().getActionDef();
+  private issuerFilter: TableFilterDef;
+  private userRoleFilter: TableFilterDef;
+  private userStatusFilter: TableFilterDef;
+  private tagFilter: TableFilterDef;
+  private siteFilter: TableFilterDef;
+  private userTechnicalFilter: TableFilterDef;
+  private userFreeAccessFilter: TableFilterDef;
   private usersAuthorizations: UsersAuthorizations;
 
   public constructor(
@@ -110,15 +117,18 @@ export class UsersListTableDataSource extends TableDataSource<User> {
         // Initialize authorization actions
         this.usersAuthorizations = {
           // Authorization action
-          canCreate: users.canCreate,
-          canImport: users.canImport,
-          canExport: users.canExport,
+          canCreate: Utils.convertToBoolean(users.canCreate),
+          canImport: Utils.convertToBoolean(users.canImport),
+          canExport: Utils.convertToBoolean(users.canExport),
           // Metadata
           metadata: users.metadata
         };
         this.createAction.visible = this.usersAuthorizations.canCreate;
         this.importAction.visible = this.usersAuthorizations.canImport;
         this.exportAction.visible = this.usersAuthorizations.canExport;
+        this.tagFilter.visible = Utils.convertToBoolean(users.canListTags);
+        this.siteFilter.visible = Utils.convertToBoolean(users.canListSites) && this.componentService.isActive(TenantComponents.ORGANIZATION);
+        this.userFreeAccessFilter.visible = this.componentService.isActive(TenantComponents.BILLING);
         observer.next(users);
         observer.complete();
       }, (error) => {
@@ -378,22 +388,22 @@ export class UsersListTableDataSource extends TableDataSource<User> {
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {
-    const issuerFilter = new IssuerFilter().getFilterDef();
-    const siteFilter = new SiteTableFilter([issuerFilter]).getFilterDef();
-    const filters = [
-      issuerFilter,
-      new UserRoleFilter(this.centralServerService).getFilterDef(),
-      new UserStatusFilter().getFilterDef(),
-      new TagTableFilter([issuerFilter]).getFilterDef(),
-      siteFilter,
-      new UserTechnicalFilter().getFilterDef(),
+    this.issuerFilter = new IssuerFilter().getFilterDef();
+    this.userRoleFilter = new UserRoleFilter(this.centralServerService).getFilterDef();
+    this.userStatusFilter = new UserStatusFilter().getFilterDef();
+    this.tagFilter = new TagTableFilter().getFilterDef();
+    this.siteFilter = new SiteTableFilter([this.issuerFilter]).getFilterDef();
+    this.userTechnicalFilter = new UserTechnicalFilter().getFilterDef();
+    this.userFreeAccessFilter = new UserFreeAccessFilter().getFilterDef();
+    const filters: TableFilterDef[] = [
+      this.issuerFilter,
+      this.userRoleFilter,
+      this.userStatusFilter,
+      this.tagFilter,
+      this.siteFilter,
+      this.userTechnicalFilter,
+      this.userFreeAccessFilter,
     ];
-    if (this.componentService.isActive(TenantComponents.BILLING)) {
-      filters.push(new UserFreeAccessFilter().getFilterDef());
-    }
-    if (!this.componentService.isActive(TenantComponents.ORGANIZATION)) {
-      siteFilter.visible = false;
-    }
     return filters;
   }
 }

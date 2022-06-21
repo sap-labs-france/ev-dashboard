@@ -78,11 +78,11 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
       this.centralServerService.getSites(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((sites) => {
         this.sitesAuthorizations = {
-          canListCompanies: sites.canListCompanies,
-          canCreate: sites.canCreate
+          canListCompanies: Utils.convertToBoolean(sites.canListCompanies),
+          canCreate: Utils.convertToBoolean(sites.canCreate),
         };
-        this.createAction.visible = Utils.convertToBoolean(sites.canCreate);
-        this.companyFilter.visible = Utils.convertToBoolean(sites.canListCompanies);
+        this.createAction.visible = this.sitesAuthorizations.canCreate;
+        this.companyFilter.visible = this.sitesAuthorizations.canListCompanies;
         observer.next(sites);
         observer.complete();
       }, (error) => {

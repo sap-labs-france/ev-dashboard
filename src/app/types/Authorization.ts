@@ -224,6 +224,8 @@ export interface UsersAuthorizations extends AuthorizationAttributes, UsersAutho
 export interface UsersAuthorizationActions extends DataResultAuthorizationActions {
   canImport?: boolean;
   canExport?: boolean;
+  canListTags?: boolean;
+  canListSites?: boolean;
 }
 
 export interface UserAuthorizationActions extends AuthorizationActions {

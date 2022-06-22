@@ -872,7 +872,7 @@ export class Utils {
         break;
       case StatusCodes.MOVED_PERMANENTLY:
         if (error.details?.errorDetailedMessage?.redirectToURL) {
-          window.location.href = error.details.errorDetailedMessage?.redirectToURL;
+          window.location.href = error.details.errorDetailedMessage.redirectToURL;
         }
         break;
       // Backend issue

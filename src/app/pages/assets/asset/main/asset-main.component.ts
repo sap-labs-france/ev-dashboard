@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AssetsAuthorizations } from 'types/Authorization';
 
@@ -56,7 +57,7 @@ export class AssetMainComponent implements OnInit, OnChanges {
     private configService: ConfigService,
     private dialog: MatDialog,
     private translateService: TranslateService,
-  ) {
+    private router: Router) {
     this.maxSize = this.configService.getAsset().maxImageKb;
     this.assetTypes = AssetTypes;
     this.isSmartChargingComponentActive = this.componentService.isActive(TenantComponents.SMART_CHARGING);
@@ -184,6 +185,9 @@ export class AssetMainComponent implements OnInit, OnChanges {
           if (assetImage) {
             this.image = assetImage;
           }
+        }, (error) => {
+          Utils.handleHttpError(error, this.router, this.messageService,
+            this.centralServerService, 'general.unexpected_error_backend');
         });
       }
     }

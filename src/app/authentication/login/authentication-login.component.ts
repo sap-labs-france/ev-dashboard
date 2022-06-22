@@ -120,10 +120,13 @@ export class AuthenticationLoginComponent implements OnInit, OnDestroy {
     if (this.subDomain) {
       // Retrieve tenant's logo
       this.centralServerService.getTenantLogoBySubdomain(this.subDomain).subscribe((tenantLogo: string) => {
-        console.log(tenantLogo);
         if (tenantLogo) {
           this.tenantLogo = tenantLogo;
         }
+      }, (error) => {
+        this.spinnerService.hide();
+        Utils.handleHttpError(error, this.router, this.messageService,
+          this.centralServerService, 'general.unexpected_error_backend');
       });
     } else {
       this.tenantLogo = Constants.MASTER_TENANT_LOGO;

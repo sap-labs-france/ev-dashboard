@@ -165,7 +165,6 @@ export interface AuthorizationAttributes {
 
 // Entity: Common Authorization Action
 export interface AuthorizationActions {
-  canRead?: boolean;
   canUpdate?: boolean;
   canDelete?: boolean;
 }

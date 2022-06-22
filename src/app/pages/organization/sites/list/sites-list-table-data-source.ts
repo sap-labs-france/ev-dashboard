@@ -7,6 +7,7 @@ import { ComponentService } from 'services/component.service';
 import { PricingDefinitionsDialogComponent } from 'shared/pricing-definitions/pricing-definitions.dialog.component';
 import { TableSiteGenerateQrCodeConnectorAction, TableSiteGenerateQrCodeConnectorsActionDef } from 'shared/table/actions/sites/table-site-generate-qr-code-connector-action';
 import { TableViewPricingDefinitionsAction, TableViewPricingDefinitionsActionDef } from 'shared/table/actions/table-view-pricing-definitions-action';
+import { SitesAuthorizations } from 'types/Authorization';
 import { PricingButtonAction, PricingEntity } from 'types/Pricing';
 import { TenantComponents } from 'types/Tenant';
 
@@ -53,6 +54,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
   private maintainPricingDefinitionsAction = new TableViewPricingDefinitionsAction().getActionDef();
   private companyFilter: TableFilterDef;
   private issuerFilter: TableFilterDef;
+  private sitesAuthorizations: SitesAuthorizations;
 
   public constructor(
     public spinnerService: SpinnerService,
@@ -75,6 +77,10 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
       // Get Sites
       this.centralServerService.getSites(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((sites) => {
+        this.sitesAuthorizations = {
+          canListCompanies: sites.canListCompanies,
+          canCreate: sites.canCreate
+        };
         this.createAction.visible = Utils.convertToBoolean(sites.canCreate);
         this.companyFilter.visible = Utils.convertToBoolean(sites.canListCompanies);
         observer.next(sites);
@@ -243,24 +249,24 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
       case SiteButtonAction.EDIT_SITE:
         if (actionDef.action) {
           (actionDef as TableEditSiteActionDef).action(SiteDialogComponent, this.dialog,
-            { dialogData: site }, this.refreshData.bind(this));
+            { dialogData: site, authorizations: this.sitesAuthorizations }, this.refreshData.bind(this));
         }
         break;
       case SiteButtonAction.VIEW_SITE:
         if (actionDef.action) {
           (actionDef as TableViewSiteActionDef).action(SiteDialogComponent, this.dialog,
-            { dialogData: site }, this.refreshData.bind(this));
+            { dialogData: site, authorizations: this.sitesAuthorizations }, this.refreshData.bind(this));
         }
         break;
       case SiteButtonAction.ASSIGN_USERS_TO_SITE:
         if (actionDef.action) {
-          (actionDef as TableAssignUsersToSiteActionDef).action(SiteUsersDialogComponent, { dialogData: site },
+          (actionDef as TableAssignUsersToSiteActionDef).action(SiteUsersDialogComponent, { dialogData: site, authorizations: this.sitesAuthorizations },
             this.dialog, this.refreshData.bind(this));
         }
         break;
       case SiteButtonAction.VIEW_USERS_OF_SITE:
         if (actionDef.action) {
-          (actionDef as TableViewAssignedUsersOfSiteActionDef).action(SiteUsersDialogComponent, { dialogData: site },
+          (actionDef as TableViewAssignedUsersOfSiteActionDef).action(SiteUsersDialogComponent, { dialogData: site, authorizations: this.sitesAuthorizations },
             this.dialog, this.refreshData.bind(this));
         }
         break;

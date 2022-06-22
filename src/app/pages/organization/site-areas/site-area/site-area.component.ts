@@ -6,7 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { StatusCodes } from 'http-status-codes';
 import { WindowService } from 'services/window.service';
 import { AbstractTabComponent } from 'shared/component/abstract-tab/abstract-tab.component';
-import { DialogMode } from 'types/Authorization';
+import { DialogMode, SiteAreasAuthorizations } from 'types/Authorization';
 import { Site } from 'types/Site';
 
 import { CentralServerService } from '../../../../services/central-server.service';
@@ -32,6 +32,7 @@ export class SiteAreaComponent extends AbstractTabComponent implements OnInit {
   @Input() public currentSiteAreaID!: string;
   @Input() public dialogMode!: DialogMode;
   @Input() public dialogRef!: MatDialogRef<any>;
+  @Input() public siteAreasAuthorizations!: SiteAreasAuthorizations;
 
   @ViewChild('siteAreaMainComponent') public siteAreaMainComponent!: SiteAreaMainComponent;
   @ViewChild('siteAreaLimitsComponent') public siteAreaLimitsComponent!: SiteAreaLimitsComponent;

@@ -247,7 +247,6 @@ export class AssetMainComponent implements OnInit, OnChanges {
       .afterClosed().subscribe((result) => {
         if (!Utils.isEmptyArray(result) && result[0].objectRef) {
           const siteArea = result[0].objectRef as SiteArea;
-          console.log(siteArea);
           this.siteArea.setValue(siteArea.name);
           this.siteAreaID.setValue(siteArea.id);
           this.selectedSiteArea = siteArea;

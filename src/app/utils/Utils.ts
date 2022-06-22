@@ -514,16 +514,18 @@ export class Utils {
       chargePoint.power = 0;
       for (const connectorID of chargePoint.connectorIDs) {
         const connector = Utils.getConnectorFromID(chargingStation, connectorID);
-        if (chargePoint.cannotChargeInParallel || chargePoint.sharePowerToAllConnectors) {
-          chargePoint.amperage = connector.amperage;
-          chargePoint.power = connector.power;
-        } else {
-          chargePoint.amperage += connector.amperage;
-          chargePoint.power += connector.power;
+        if (connector) {
+          if (chargePoint.cannotChargeInParallel || chargePoint.sharePowerToAllConnectors) {
+            chargePoint.amperage = connector.amperage;
+            chargePoint.power = connector.power;
+          } else {
+            chargePoint.amperage += connector.amperage;
+            chargePoint.power += connector.power;
+          }
+          chargePoint.numberOfConnectedPhase = connector.numberOfConnectedPhase;
+          chargePoint.currentType = connector.currentType;
+          chargePoint.voltage = connector.voltage;
         }
-        chargePoint.numberOfConnectedPhase = connector.numberOfConnectedPhase;
-        chargePoint.currentType = connector.currentType;
-        chargePoint.voltage = connector.voltage;
       }
     }
   }

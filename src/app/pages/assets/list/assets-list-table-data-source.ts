@@ -104,7 +104,7 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    const tableColumnDef: TableColumnDef[] = [
+    return [
       {
         id: 'id',
         name: 'general.id',
@@ -183,7 +183,6 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
         },
       },
     ];
-    return tableColumnDef;
   }
 
   public buildTableActionsDef(): TableActionDef[] {

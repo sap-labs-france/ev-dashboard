@@ -130,7 +130,7 @@
     "@types/bootstrap": "^5.1.12",
     "@types/chart.js": "^2.9.37",
     "@types/convict": "^6.0.2",
-    "@types/expect-puppeteer": "^5.0.0",
+    "@types/expect-puppeteer": "^5.0.1",
     "@types/file-saver": "^2.0.5",
     "@types/jest": "^27.4.1",
     "@types/jest-environment-puppeteer": "^5.0.2",

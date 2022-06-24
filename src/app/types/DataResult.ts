@@ -1,9 +1,11 @@
 import { Asset } from './Asset';
-import { AssetsAuthorizations, BillingInvoicesAuthorizations, BillingPaymentMethodsAuthorizationActions, CarCatalogsAuthorizations, CarsAuthorizations, DataResultAuthorizations, LogsAuthorizationActions, SitesAuthorizationActions, TagsAuthorizations, UsersAuthorizations } from './Authorization';
+import { AssetsAuthorizations, BillingInvoicesAuthorizations, BillingPaymentMethodsAuthorizationActions, CarCatalogsAuthorizations, CarsAuthorizations, ChargingProfilesAuthorizations, ChargingStationsAuthorizations, DataResultAuthorizations, LogsAuthorizationActions, SitesAuthorizationActions, TagsAuthorizations, UsersAuthorizations } from './Authorization';
 import { BillingInvoice, BillingPaymentMethod } from './Billing';
 import { Car, CarCatalog } from './Car';
+import { ChargingProfile } from './ChargingProfile';
+import { ChargingStation } from './ChargingStation';
 import { Company } from './Company';
-import { AssetInError } from './InError';
+import { AssetInError, ChargingStationInError } from './InError';
 import { Log } from './Log';
 import PricingDefinition from './Pricing';
 import { RegistrationToken } from './RegistrationToken';
@@ -123,6 +125,15 @@ export interface BillingInvoiceDataResult extends DataResult<BillingInvoice>, Bi
 }
 
 export interface BillingPaymentMethodDataResult extends DataResult<BillingPaymentMethod>, BillingPaymentMethodsAuthorizationActions {
+}
+
+export interface ChargingStationDataResult extends DataResult<ChargingStation>, ChargingStationsAuthorizations {
+}
+
+export interface ChargingStationInErrorDataResult extends DataResult<ChargingStationInError>, ChargingStationsAuthorizations {
+}
+
+export interface ChargingProfileDataResult extends DataResult<ChargingProfile>, ChargingProfilesAuthorizations {
 }
 
 export interface CheckAssetConnectionResponse extends ActionResponse {

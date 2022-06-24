@@ -25,11 +25,12 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.6.9',
-        date: new Date('2022-06-19'),
+        date: new Date('2022-06-24'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Migrated Charging Station endpoint to the new authorization framework`,
               `Fixed OCPI Tag type to match RFID standard`,
               `Handle Tag ID sent by payment terminals`,
               `Retrigger the Async task framework after it has run once`,
@@ -47,7 +48,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
-              `Aligned pop-ups with new authorizations framework`,
+              `Aligned pop-ups with new authorization framework`,
               `Fix Charging Station's Statistics wrong label tooltip`,
               `Handle Connectors' statuses of inactive Charging Stations in the backend`,
               `Fixed OCPI Token updated with User ID instead of UID`,

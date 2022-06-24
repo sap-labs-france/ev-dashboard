@@ -1846,7 +1846,8 @@
   "technical_settings": {
     "tabs": {
       "crypto": "Krypto",
-      "users": "Uživatel"
+      "users": "Uživatel",
+      "mobile": "Mobile"
     },
     "crypto": {
       "crypto_key": {
@@ -1871,6 +1872,15 @@
       "update_success": "Nastavení uživatele bylo úspěšně aktualizováno",
       "update_error": "Došlo k chybě při aktualizaci nastavení uživatele, zkontrolujte protokoly",
       "setting_do_not_exist": "Nastavení uživatele nenalezeno"
+    },
+    "mobile": {
+      "title": "Mobile Settings",
+      "update_success": "Mobile settings have been updated successfully",
+      "update_error": "Error occurred while updating the mobile settings, check the logs",
+      "setting_do_not_exist": "Mobile settings not found",
+      "ios_mobile_app_id": "IOS mobile application ID",
+      "android_mobile_app_id": "Android mobile application ID",
+      "scheme": "scheme"
     }
   },
   "ocpiendpoints": {

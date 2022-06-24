@@ -4,7 +4,8 @@ import { TenantComponents } from './Tenant';
 
 export enum TechnicalSettings {
   USER = 'user',
-  CRYPTO = 'crypto'
+  CRYPTO = 'crypto',
+  MOBILE = 'mobile'
 }
 export interface Setting extends TableData, CreatedUpdatedProps {
   identifier: TenantComponents | TechnicalSettings;
@@ -24,7 +25,12 @@ type SettingsType = CryptoSettingsType
 | SmartChargingSettingsType
 | AssetSettingsType
 | CarConnectorSettingsType
-| UserSettingsType;
+| UserSettingsType
+| MobileSettingsType;
+
+export enum MobileSettingsType {
+  MOBILE = 'mobile',
+}
 
 export interface SettingDBContent {
   type: SettingsType;
@@ -41,6 +47,7 @@ export interface SettingDBContent {
   carConnector?: CarConnectorSetting;
   crypto?: CryptoSetting;
   user?: UserSetting;
+  mobile?: MobileSetting;
 }
 
 export interface SettingLink extends TableData {
@@ -348,4 +355,15 @@ export interface UserSettings extends Setting {
 
 export interface UserSetting {
   autoActivateAccountAfterValidation: boolean;
+}
+
+export interface MobileSettings extends Setting {
+  identifier: TechnicalSettings.MOBILE;
+  type: MobileSettingsType;
+  mobile?: MobileSetting;
+}
+
+export interface MobileSetting {
+  androidMobileAppID: string;
+  scheme: string;
 }

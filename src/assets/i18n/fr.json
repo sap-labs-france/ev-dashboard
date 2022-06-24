@@ -1847,7 +1847,8 @@
   "technical_settings": {
     "tabs": {
       "crypto": "Chiffrement",
-      "users": "Utilisateurs"
+      "users": "Utilisateurs",
+      "mobile": "Mobile"
     },
     "crypto": {
       "crypto_key": {
@@ -1872,6 +1873,15 @@
       "update_success": "La configuration utilisateurs été mise à jour avec succès",
       "update_error": "Une erreur est survenue pendant la mise à jour de la configuration des utilisateurs, vérifiez les logs",
       "setting_do_not_exist": "La configuration des utilisateurs n'a pas été trouvée"
+    },
+    "mobile": {
+      "title": "Réglages Application Mobile",
+      "update_success": "La configuration de l'application mobile a été mise à jour avec succès",
+      "update_error": "Une erreur est survenue pendant la mise à jour de la configuration de l'application mobile, vérifiez les logs",
+      "setting_do_not_exist": "La configuration de l'application mobile n'a pas été trouvée",
+      "ios_mobile_app_id": "IOS mobile application ID",
+      "android_mobile_app_id": "Android mobile application ID",
+      "scheme": "scheme"
     }
   },
   "ocpiendpoints": {

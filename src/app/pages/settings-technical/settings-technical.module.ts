@@ -11,6 +11,7 @@ import { FormattersModule } from '../../shared/formatters/formatters.module';
 import { TableModule } from '../../shared/table/table.module';
 import { SettingsCryptoKeyComponent } from './crypto/crypto-key/settings-crypto-key.component';
 import { SettingsCryptoComponent } from './crypto/settings-crypto.component';
+import { SettingsMobileComponent } from './mobile/settings-mobile.component';
 import { SettingsTechnicalComponent } from './settings-technical.component';
 import { TechnicalSettingsRoutes } from './settings-technical.routing';
 import { SettingsUserComponent } from './users/settings-user.component';
@@ -20,7 +21,8 @@ import { SettingsUserComponent } from './users/settings-user.component';
     SettingsTechnicalComponent,
     SettingsCryptoComponent,
     SettingsCryptoKeyComponent,
-    SettingsUserComponent
+    SettingsUserComponent,
+    SettingsMobileComponent
   ],
   imports: [
     CommonModule,
@@ -37,7 +39,8 @@ import { SettingsUserComponent } from './users/settings-user.component';
   entryComponents: [
     SettingsCryptoComponent,
     SettingsCryptoKeyComponent,
-    SettingsUserComponent
+    SettingsUserComponent,
+    SettingsMobileComponent
   ]
 })
 export class SettingsTechnicalModule { }

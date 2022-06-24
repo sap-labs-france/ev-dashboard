@@ -77,7 +77,6 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
     private dialogService: DialogService,
   ) {
     super(spinnerService, translateService);
-    // Init
     this.isOrganizationComponentActive = this.componentService.isActive(TenantComponents.ORGANIZATION);
     this.isPricingComponentActive = this.componentService.isActive(TenantComponents.PRICING);
     if (this.isOrganizationComponentActive) {
@@ -107,6 +106,11 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
         this.siteFilter.visible = this.chargingStationsAthorizations.canListSites;
         this.siteAreaFilter.visible =this.chargingStationsAthorizations.canListSiteAreas;
         this.companyFilter.visible = this.chargingStationsAthorizations.canListCompanies;
+        // Set back the projected fields
+        const tableDef = this.getTableDef();
+        tableDef.rowDetails.additionalParameters = {
+          projectFields: chargingStations.projectFields
+        };
         observer.next(chargingStations);
         observer.complete();
       }, (error) => {

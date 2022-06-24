@@ -68,13 +68,23 @@ export class ChargingStationConnectorsTableDataSource extends TableDataSource<Co
     return new Observable((observer) => {
       // Return connector
       if (this.chargingStation) {
-        this.chargingStation.connectors.forEach((connector) => {
-          connector.isTransactionDisplayAuthorized = this.authorizationService.canReadTransaction(this.chargingStation.siteArea, connector.currentTagID);
-          connector.hasDetails = !!connector.currentTransactionID && connector.isTransactionDisplayAuthorized;
+        // Rebuild projected fields for Connector
+        let connectorsProjectedFields = this.additionalParameters.projectFields.filter(
+          (projectField) => projectField.startsWith('connectors.'));
+        connectorsProjectedFields = connectorsProjectedFields.map((connectorsProjectedField) => {
+          if (connectorsProjectedField.startsWith('connectors.')) {
+            return connectorsProjectedField.substring(11);
+          }
         });
+        for (const connector of this.chargingStation.connectors) {
+          connector.isTransactionDisplayAuthorized =
+            this.authorizationService.canReadTransaction(this.chargingStation.siteArea, connector.currentTagID);
+          connector.hasDetails = !!connector.currentTransactionID && connector.isTransactionDisplayAuthorized;
+        }
         observer.next({
           count: this.chargingStation.connectors.length,
           result: this.chargingStation.connectors,
+          projectFields: connectorsProjectedFields
         });
       }
       observer.complete();
@@ -156,11 +166,11 @@ export class ChargingStationConnectorsTableDataSource extends TableDataSource<Co
         angularComponent: ChargingStationsConnectorInactivityCellComponent,
       },
       {
-        id: 'user',
+        id: 'user.name',
         name: 'chargers.user',
         headerClass: 'col-20p',
         class: 'text-left col-20p',
-        formatter: (user: User) => this.appUserNamePipe.transform(user),
+        formatter: (name: string, connector: Connector) => this.appUserNamePipe.transform(connector.user),
       },
     ];
   }

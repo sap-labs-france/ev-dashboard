@@ -210,14 +210,14 @@ export class TransfersTableDataSource extends TableDataSource<BillingTransfer> {
     ];
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, transaction: Transaction) {
+  public rowActionTriggered(actionDef: TableActionDef, transfer: BillingTransfer) {
     switch (actionDef.id) {
-      case TransactionButtonAction.VIEW_TRANSACTION:
-        if (actionDef.action) {
-          (actionDef as TableViewTransactionActionDef).action(TransactionDialogComponent, this.dialog,
-            { dialogData: { transactionID: transaction.id } as TransactionDialogData },
-            this.refreshData.bind(this));
-        }
+      case TransferButtonAction.VIEW_TRANSFER:
+        // if (actionDef.action) {
+        //   (actionDef as TableViewTransferActionDef).action(TransferDialogComponent, this.dialog,
+        //     { dialogData: { transferID: transfer.id } as TransferDialogData },
+        //     this.refreshData.bind(this));
+        // }
         break;
     }
   }

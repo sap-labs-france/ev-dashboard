@@ -147,6 +147,7 @@ export interface BillingTransferSession {
 }
 
 export enum TransferButtonAction {
+  VIEW_TRANSFER = 'view_transfer',
   EXPORT_TRANSFERS = 'export_transfers',
   FINALIZE_TRANSFER = 'finalize_transfer',
   SEND_TRANSFER = 'send_transfer'

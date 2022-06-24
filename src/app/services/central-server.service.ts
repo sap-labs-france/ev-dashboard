@@ -64,6 +64,10 @@ export class CentralServerService {
     this.initialized = false;
   }
 
+  public getWindowService(): WindowService {
+    return this.windowService;
+  }
+
   public getCentralRestServerServiceUtilURL(): string {
     return this.centralRestServerServiceUtilURL;
   }
@@ -3410,7 +3414,7 @@ export class CentralServerService {
 
   private handleHttpError(error: HttpErrorResponse): Observable<any> {
     // We might use a remote logging infrastructure
-    const errMsg = { status: 0, message: '', details: undefined };
+    const errMsg = { status: 0, message: '', details: null };
     if (error.error.size > 0) {
       return new Observable(observer => {
         const reader = new FileReader();
@@ -3426,11 +3430,11 @@ export class CentralServerService {
       if (error && error instanceof TimeoutError) {
         errMsg.status = StatusCodes.REQUEST_TIMEOUT;
         errMsg.message = error.message;
-        errMsg.details = undefined;
+        errMsg.details = null;
       } else if (error) {
         errMsg.status = error.status;
-        errMsg.message = error.message ? error.message : error.toString();
-        errMsg.details = error.error ? error.error : undefined;
+        errMsg.message = error.message ?? error.toString();
+        errMsg.details = error.error ?? null;
       }
       return throwError(errMsg);
     }

@@ -871,8 +871,9 @@ export class Utils {
         messageService.showErrorMessage(error.message);
         break;
       case StatusCodes.MOVED_PERMANENTLY:
-        if (error.details?.errorDetailedMessage?.redirectToURL) {
-          window.location.href = error.details.errorDetailedMessage.redirectToURL;
+        if (error.details?.errorDetailedMessage?.redirectDomain) {
+          centralServerService.getWindowService().redirectToDomain(
+            error.details.errorDetailedMessage.redirectDomain);
         }
         break;
       // Backend issue

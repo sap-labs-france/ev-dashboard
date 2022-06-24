@@ -52,6 +52,11 @@ export class WindowService {
     return false;
   }
 
+  public redirectToDomain(domain: string): void {
+    const subdomain = this.getSubdomain();
+    this.window.location.href = subdomain ? `https://${subdomain}.${domain}` : `https://${domain}`;
+  }
+
   public setHash(hash: string): void {
     if (this.getHash() !== hash) {
       this.window.history.replaceState({}, '', `${this.getPath()}#${hash}`);

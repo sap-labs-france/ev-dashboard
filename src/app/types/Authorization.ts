@@ -69,6 +69,7 @@ export enum Entity {
   CAR_CATALOG = 'CarCatalog',
   CAR = 'Car',
   INVOICE = 'Invoice',
+  TRANSFER = 'Transfer',
   TAX = 'Tax',
   REGISTRATION_TOKEN = 'RegistrationToken',
   CHARGING_PROFILE = 'ChargingProfile',
@@ -280,7 +281,14 @@ export interface LogsAuthorizationActions extends AuthorizationActions {
 export interface BillingInvoicesAuthorizations extends AuthorizationAttributes, BillingInvoicesAuthorizationActions {
 }
 
+export interface BillingTransfersAuthorizations extends AuthorizationAttributes, BillingTransfersAuthorizationActions {
+}
+
 export interface BillingInvoicesAuthorizationActions extends DataResultAuthorizationActions {
+  canListUsers?: boolean;
+}
+
+export interface BillingTransfersAuthorizationActions extends DataResultAuthorizationActions {
   canListUsers?: boolean;
 }
 
@@ -368,3 +376,12 @@ export interface DialogParamsWithAuth<T extends DialogData, U extends Authorizat
   extends DialogParams<T> {
   authorizations?: U;
 }
+
+export interface BillingAccountAuthorizationActions extends AuthorizationActions {
+  canOnboard?: boolean;
+}
+
+export interface BillingTransferAuthorizationActions extends AuthorizationActions {
+  canTransfer?: boolean;
+}
+

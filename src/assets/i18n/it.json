@@ -1407,6 +1407,27 @@
     "user": "Utente",
     "failed_download": "Download della fattura non riuscito"
   },
+  "transfers": {
+    "tabs": {
+      "list": "Transfers"
+    },
+    "tooltips": {
+      "Finalize": "Finalize transfer",
+      "Send": "Send transfer"
+    },
+    "status": {
+      "draft": "Draft",
+      "pending": "Pending",
+      "finalized": "Finalized",
+      "transferred": "Transferred"
+    },
+    "id": "ID",
+    "accountID": "Account ID",
+    "amount": "Amount",
+    "transferAmount": "Transferred Amount",
+    "number_of_items": "Sessions",
+    "externalTransferID": "External ID"
+  },
   "tags": {
     "id": "Tag ID",
     "not_active": "This badge is not active",

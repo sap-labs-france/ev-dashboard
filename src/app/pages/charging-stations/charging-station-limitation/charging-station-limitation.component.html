@@ -9,7 +9,7 @@
         <div class="card-body"
           *ngIf="chargingStation?.capabilities?.supportStaticLimitation; else notSupported">
           <div class="col-md-12">
-            <app-charging-station-static-limitation [chargingStation]="chargingStation">
+            <app-charging-station-static-limitation [chargingStation]="chargingStation" [chargingStationsAuthorizations]="chargingStationsAuthorizations">
             </app-charging-station-static-limitation>
           </div>
         </div>
@@ -27,7 +27,7 @@
         <ng-template matTabContent>
           <div class="card-body"
             *ngIf="chargingStation?.capabilities?.supportChargingProfiles; else notSupported">
-            <app-charging-plans [chargingStation]="chargingStation"></app-charging-plans>
+            <app-charging-plans [chargingStation]="chargingStation" [chargingStationsAuthorizations]="chargingStationsAuthorizations"></app-charging-plans>
           </div>
           <ng-template #notSupported>
             <div class="card-body mat-subheading-2 text-danger pt-4">
@@ -43,7 +43,7 @@
         </ng-template>
         <div class="card-body"
           *ngIf="chargingStation?.capabilities?.supportChargingProfiles; else notSupported">
-          <app-charging-station-advanced [chargingStation]="chargingStation"></app-charging-station-advanced>
+          <app-charging-station-advanced [chargingStation]="chargingStation" [chargingStationsAuthorizations]="chargingStationsAuthorizations"></app-charging-station-advanced>
         </div>
         <ng-template #notSupported>
           <div class="card-body mat-subheading-2 text-danger pt-4">

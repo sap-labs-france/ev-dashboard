@@ -57,6 +57,7 @@ export class ReleaseNotesComponent {
               `Fixed cannot change URL for SOAP Charging Station`,
               `Used Ramer Douglas Peucker algo to optimize the charging curve`,
               `Log more information on OCPI wrong Token`,
+              `Migrated Charging Station endpoint to the new authorization framework`,
             ],
           },
         ],

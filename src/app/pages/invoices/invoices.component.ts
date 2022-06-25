@@ -24,7 +24,7 @@ export class InvoicesComponent extends AbstractTabComponent {
     super(activatedRoute, windowService, ['all', 'transfers']);
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.hasSitesAdminRights();
     if (this.componentService.isActive(TenantComponents.BILLING_PLATFORM)) {
-      this.canListTransfers = true; /* TODO this.authorizationService.canListTransfers(); */
+      this.canListTransfers = this.authorizationService.canListTransfers();
     }
   }
 }

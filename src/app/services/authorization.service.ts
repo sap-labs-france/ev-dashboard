@@ -28,6 +28,10 @@ export class AuthorizationService {
     return this.canAccess(Entity.INVOICE, Action.LIST);
   }
 
+  public canListTransfers(): boolean {
+    return this.canAccess(Entity.BILLING_TRANSFER, Action.LIST);
+  }
+
   public canListCars(): boolean {
     return this.canAccess(Entity.CAR, Action.LIST);
   }
@@ -215,10 +219,6 @@ export class AuthorizationService {
 
   public canRefundTransaction(): boolean {
     return this.canAccess(Entity.TRANSACTION, Action.REFUND_TRANSACTION);
-  }
-
-  public canListTransfers(): boolean {
-    return this.canAccess(Entity.TRANSFER, Action.LIST);
   }
 
   public canSynchronizeInvoices(): boolean {

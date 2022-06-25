@@ -3,8 +3,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { DialogService } from 'services/dialog.service';
 import { WindowService } from 'services/window.service';
-import { TransactionDialogComponent } from 'shared/dialogs/transaction/transaction-dialog.component';
+import { TableFinalizeBillingTransferAction } from 'shared/table/actions/invoices/table-finalize-billing-transfer-action';
+import { TableSendBillingTransferAction } from 'shared/table/actions/invoices/table-send-billing-transfer-action';
+import { TableMoreAction } from 'shared/table/actions/table-more-action';
 import { TableViewTransactionAction, TableViewTransactionActionDef, TransactionDialogData } from 'shared/table/actions/transactions/table-view-transaction-action';
 import { DateRangeTableFilter } from 'shared/table/filters/date-range-table-filter';
 import { BillingTransfer, BillingTransferSession, TransferButtonAction } from 'types/Billing';
@@ -13,7 +16,6 @@ import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
-import { ConsumptionChartDetailComponent } from '../../../shared/component/consumption-chart/consumption-chart-detail.component';
 import { AppCurrencyPipe } from '../../../shared/formatters/app-currency.pipe';
 import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
 import { AppUnitPipe } from '../../../shared/formatters/app-unit.pipe';
@@ -22,7 +24,6 @@ import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { DataResult, TransactionRefundDataResult } from '../../../types/DataResult';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
-import { Transaction, TransactionButtonAction } from '../../../types/Transaction';
 import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 import { TransfersStatusFilter } from '../filters/transfers-status-filter';
@@ -31,9 +32,12 @@ import { TransferStatusFormatterComponent } from '../formatters/transfer-status-
 @Injectable()
 export class TransfersTableDataSource extends TableDataSource<BillingTransfer> {
   private viewAction = new TableViewTransactionAction().getActionDef();
+  private finalizeBillingTransferAction = new TableFinalizeBillingTransferAction().getActionDef();
+  private sendBillingTransferAction = new TableSendBillingTransferAction().getActionDef();
 
   public constructor(
     public spinnerService: SpinnerService,
+    public dialogService: DialogService,
     public translateService: TranslateService,
     private messageService: MessageService,
     private router: Router,
@@ -48,8 +52,7 @@ export class TransfersTableDataSource extends TableDataSource<BillingTransfer> {
     // Load settings
     // this.loadSettings();
     // Init
-    this.setStaticFilters([{
-      WithUser: true,
+    this.setStaticFilters([{WithUser: true,
     }]);
     this.initDataSource();
   }
@@ -79,8 +82,9 @@ export class TransfersTableDataSource extends TableDataSource<BillingTransfer> {
       },
       rowDetails: {
         enabled: false,
-        angularComponent: ConsumptionChartDetailComponent,
+        // angularComponent: TransferDetailComponent,
       },
+      hasDynamicRowAction: true,
     };
   }
 
@@ -185,6 +189,24 @@ export class TransfersTableDataSource extends TableDataSource<BillingTransfer> {
     return tableActionsDef;
   }
 
+  public buildTableDynamicRowActions(transfer: BillingTransfer): TableActionDef[] {
+    const rowActions: TableActionDef[] = [];
+    const moreActions = new TableMoreAction([]);
+    // TODO
+    // if (this.authorizationService.canFinalizeTransfer()) {
+    moreActions.addActionInMoreActions(this.finalizeBillingTransferAction);
+    //}
+    // TODO
+    // if (this.authorizationService.canSendTransfer()) {
+    moreActions.addActionInMoreActions(this.sendBillingTransferAction);
+    // }
+
+    if (!Utils.isEmptyArray(moreActions.getActionsInMoreActions())) {
+      rowActions.push(moreActions.getActionDef());
+    }
+    return rowActions;
+  }
+
   public actionTriggered(actionDef: TableActionDef) {
     switch (actionDef.id) {
       // case TransferButtonAction.EXPORT_TRANSFERS:
@@ -218,6 +240,22 @@ export class TransfersTableDataSource extends TableDataSource<BillingTransfer> {
         //     { dialogData: { transferID: transfer.id } as TransferDialogData },
         //     this.refreshData.bind(this));
         // }
+        break;
+      case TransferButtonAction.FINALIZE_TRANSFER:
+        if (this.finalizeBillingTransferAction.action) {
+          this.finalizeBillingTransferAction.action(transfer.id,
+            this.translateService, this.spinnerService,
+            this.messageService, this.centralServerService, this.router
+          );
+        }
+        break;
+      case TransferButtonAction.SEND_TRANSFER:
+        if (this.sendBillingTransferAction.action) {
+          this.finalizeBillingTransferAction.action(transfer.id,
+            this.translateService, this.spinnerService,
+            this.messageService, this.centralServerService, this.router
+          );
+        }
         break;
     }
   }

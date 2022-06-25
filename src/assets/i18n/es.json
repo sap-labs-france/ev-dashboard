@@ -1412,8 +1412,8 @@
       "list": "Transfers"
     },
     "tooltips": {
-      "Finalize": "Finalize transfer",
-      "Send": "Send transfer"
+      "finalize": "Finalize transfer",
+      "send": "Send transfer"
     },
     "status": {
       "draft": "Draft",
@@ -1426,7 +1426,9 @@
     "amount": "Amount",
     "transferAmount": "Transferred Amount",
     "number_of_items": "Sessions",
-    "externalTransferID": "External ID"
+    "externalTransferID": "External ID",
+    "cannot_finalize_transfer": "Cannot finalize the transfer",
+    "cannot_send_transfer": "Cannot send the transfer"
   },
   "tags": {
     "id": "Insignia ID",

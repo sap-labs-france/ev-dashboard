@@ -1703,25 +1703,6 @@ export class CentralServerService {
     );
   }
 
-  public getTransfers(params: FilterParams,
-    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<BillingTransferDataResult> {
-    // Verify init
-    this.checkInit();
-    // Build Paging
-    this.getPaging(paging, params);
-    // Build Ordering
-    this.getSorting(ordering, params);
-    // Build the URL
-    const url = this.buildRestEndpointUrl(RESTServerRoute.REST_BILLING_TRANSFERS);
-    // Execute the REST Service
-    return this.httpClient.get<BillingTransferDataResult>(url, {
-      headers: this.buildHttpHeaders(),
-      params
-    }).pipe(
-      catchError(this.handleHttpError),
-    );
-  }
-
   public downloadInvoice(invoiceID: string): Observable<Blob> {
     this.checkInit();
     if (!invoiceID) {
@@ -1876,6 +1857,51 @@ export class CentralServerService {
       {
         headers: this.buildHttpHeaders(this.windowService.getSubdomain()),
         params: { Language: language }
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public getTransfers(params: FilterParams,
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<BillingTransferDataResult> {
+    // Verify init
+    this.checkInit();
+    // Build Paging
+    this.getPaging(paging, params);
+    // Build Ordering
+    this.getSorting(ordering, params);
+    // Build the URL
+    const url = this.buildRestEndpointUrl(RESTServerRoute.REST_BILLING_TRANSFERS);
+    // Execute the REST Service
+    return this.httpClient.get<BillingTransferDataResult>(url, {
+      headers: this.buildHttpHeaders(),
+      params
+    }).pipe(
+      catchError(this.handleHttpError),
+    );
+  }
+
+  public finalizeTransfer(userID: string): Observable<ActionResponse> {
+    this.checkInit();
+    // Execute the REST service
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${RESTServerRoute.REST_BILLING_FINALIZE_TRANSFER}`,
+      { id: userID },
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public sendTransfer(userID: string): Observable<ActionResponse> {
+    this.checkInit();
+    // Execute the REST service
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${RESTServerRoute.REST_BILLING_SEND_TRANSFER}`,
+      { id: userID },
+      {
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
         catchError(this.handleHttpError),

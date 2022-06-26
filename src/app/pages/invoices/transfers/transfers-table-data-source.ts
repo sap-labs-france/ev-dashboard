@@ -19,6 +19,7 @@ import { SpinnerService } from '../../../services/spinner.service';
 import { AppCurrencyPipe } from '../../../shared/formatters/app-currency.pipe';
 import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
 import { AppUnitPipe } from '../../../shared/formatters/app-unit.pipe';
+import { AppUserNamePipe } from '../../../shared/formatters/app-user-name.pipe';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { TableDataSource } from '../../../shared/table/table-data-source';
@@ -47,6 +48,7 @@ export class TransfersTableDataSource extends TableDataSource<BillingTransfer> {
     private datePipe: AppDatePipe,
     private appUnitPipe: AppUnitPipe,
     private appCurrencyPipe: AppCurrencyPipe,
+    private appUserNamePipe: AppUserNamePipe,
     private windowService: WindowService) {
     super(spinnerService, translateService);
     // Load settings
@@ -108,38 +110,30 @@ export class TransfersTableDataSource extends TableDataSource<BillingTransfer> {
         sortable: true,
       },
       {
-        id: 'id',
-        name: 'transfers.id',
-        headerClass: 'col-20p',
-        class: 'col-20p',
-        sorted: true,
+        id: 'createdOn',
+        name: 'general.created_on',
+        formatter: (createdOn: Date) => this.datePipe.transform(createdOn),
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
         sortable: true,
+        sorted: true,
         direction: 'desc',
       },
-      {
-        id: 'accountID',
-        name: 'transfers.accountID',
-        headerClass: 'col-20p',
-        class: 'col-20p',
-        sorted: true,
-        sortable: true,
-        direction: 'desc',
-      },
+      // {
+      //   id: 'id',
+      //   name: 'transfers.id',
+      //   headerClass: 'col-20p',
+      //   class: 'col-20p',
+      //   sortable: false,
+      //   direction: 'desc',
+      // },
       {
         id: 'amount',
         name: 'transfers.amount',
         formatter: (amount: number, transfer: BillingTransfer) => this.appCurrencyPipe.transform(amount), /* TODO - , transfer.currency.toUpperCase()), */
         headerClass: 'col-10p',
         class: 'col-10p',
-        sortable: true,
-      },
-      {
-        id: 'transferAmount',
-        name: 'transfers.transferAmount',
-        formatter: (amount: number, transfer: BillingTransfer) => this.appCurrencyPipe.transform(amount), /* TODO - , transfer.currency.toUpperCase()), */
-        headerClass: 'col-10p',
-        class: 'col-10p',
-        sortable: true,
+        sortable: false,
       },
       {
         id: 'sessions',
@@ -150,12 +144,35 @@ export class TransfersTableDataSource extends TableDataSource<BillingTransfer> {
         sortable: false,
       },
       {
-        id: 'externalTransferID',
-        name: 'transfers.externalTransferID',
+        id: 'transferAmount',
+        name: 'transfers.transferAmount',
+        formatter: (amount: number, transfer: BillingTransfer) => this.appCurrencyPipe.transform(amount), /* TODO - , transfer.currency.toUpperCase()), */
+        headerClass: 'col-10p',
+        class: 'col-10p',
+        sortable: false,
+      },
+      {
+        id: 'transferExternalID',
+        name: 'transfers.transferExternalID',
         headerClass: 'col-20p',
         class: 'col-20p',
         sorted: true,
-        sortable: true,
+        sortable: false,
+        direction: 'desc',
+      },
+      {
+        id: 'businessOwner',
+        name: 'transfers.accountOwner',
+        headerClass: 'col-20p text-left',
+        class: 'col-20p text-left',
+        formatter: (dummy: string, transfer: BillingTransfer) => this.appUserNamePipe.transform(transfer.businessOwner),
+      },
+      {
+        id: 'account.accountExternalID',
+        name: 'transfers.accountExternalID',
+        headerClass: 'col-20p',
+        class: 'col-20p',
+        sortable: false,
         direction: 'desc',
       },
     );

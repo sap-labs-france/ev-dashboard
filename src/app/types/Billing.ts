@@ -129,8 +129,10 @@ export interface BillingTransfer extends TableData, CreatedUpdatedProps, Billing
   totalAmount: number; // Depends on the fee strategy and thus on the final number of sessions
   transferAmount: number; // Amount transferred after applying platform fees
   accountID: string;
+  account?: BillingAccount;
+  businessOwner?: User;
   platformFeeData: BillingPlatformFeeData;
-  transferExternalID?: string; // Transfer sent to the CPO
+  transferExternalID: string; // Transfer sent to the CPO
 }
 
 // Very important - preserve maximal precision - Decimal type is persisted as an object in the DB

@@ -1422,11 +1422,12 @@
       "transferred": "Transferred"
     },
     "id": "ID",
-    "accountID": "Account ID",
+    "accountExternalID": "Connected Account",
     "amount": "Amount",
     "transferAmount": "Transferred Amount",
     "number_of_items": "Sessions",
-    "externalTransferID": "External ID",
+    "transferExternalID": "External ID",
+    "accountOwner": "Owner",
     "cannot_finalize_transfer": "Cannot finalize the transfer",
     "cannot_send_transfer": "Cannot send the transfer"
   },

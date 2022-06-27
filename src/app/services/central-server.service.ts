@@ -1882,11 +1882,11 @@ export class CentralServerService {
     );
   }
 
-  public finalizeTransfer(userID: string): Observable<ActionResponse> {
+  public finalizeTransfer(transferID: string): Observable<ActionResponse> {
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${RESTServerRoute.REST_BILLING_FINALIZE_TRANSFER}`,
-      { id: userID },
+    const url = this.buildRestEndpointUrl(RESTServerRoute.REST_BILLING_TRANSFER_FINALIZE, { id: transferID });
+    return this.httpClient.patch<ActionResponse>(url, {},
       {
         headers: this.buildHttpHeaders(),
       })
@@ -1895,11 +1895,11 @@ export class CentralServerService {
       );
   }
 
-  public sendTransfer(userID: string): Observable<ActionResponse> {
+  public sendTransfer(transferID: string): Observable<ActionResponse> {
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${RESTServerRoute.REST_BILLING_SEND_TRANSFER}`,
-      { id: userID },
+    const url = this.buildRestEndpointUrl(RESTServerRoute.REST_BILLING_TRANSFER_SEND, { id: transferID });
+    return this.httpClient.patch<ActionResponse>(url, {},
       {
         headers: this.buildHttpHeaders(),
       })

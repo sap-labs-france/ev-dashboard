@@ -128,7 +128,7 @@ export class TransfersTableDataSource extends TableDataSource<BillingTransfer> {
       //   direction: 'desc',
       // },
       {
-        id: 'amount',
+        id: 'totalAmount',
         name: 'transfers.amount',
         formatter: (amount: number, transfer: BillingTransfer) => this.appCurrencyPipe.transform(amount), /* TODO - , transfer.currency.toUpperCase()), */
         headerClass: 'col-10p',
@@ -262,7 +262,8 @@ export class TransfersTableDataSource extends TableDataSource<BillingTransfer> {
         if (this.finalizeBillingTransferAction.action) {
           this.finalizeBillingTransferAction.action(transfer.id,
             this.translateService, this.spinnerService,
-            this.messageService, this.centralServerService, this.router
+            this.messageService, this.centralServerService, this.router,
+            this.refreshData.bind(this)
           );
         }
         break;
@@ -270,7 +271,8 @@ export class TransfersTableDataSource extends TableDataSource<BillingTransfer> {
         if (this.sendBillingTransferAction.action) {
           this.finalizeBillingTransferAction.action(transfer.id,
             this.translateService, this.spinnerService,
-            this.messageService, this.centralServerService, this.router
+            this.messageService, this.centralServerService, this.router,
+            this.refreshData.bind(this)
           );
         }
         break;

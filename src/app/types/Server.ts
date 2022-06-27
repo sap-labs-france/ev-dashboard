@@ -692,8 +692,8 @@ export enum RESTServerRoute {
 
   // Billing Transfers
   REST_BILLING_TRANSFERS = 'billing/transfers',
-  REST_BILLING_FINALIZE_TRANSFER = 'billing/transfer/:id/finalize',
-  REST_BILLING_SEND_TRANSFER = 'billing/transfer/:id/send',
+  REST_BILLING_TRANSFER_FINALIZE = 'billing/transfers/:id/finalize',
+  REST_BILLING_TRANSFER_SEND = 'billing/transfers/:id/send',
 
   // PRICING URLs for Non-CRUD operations
   REST_PRICING_MODEL_RESOLVE = 'pricing-model/resolve',

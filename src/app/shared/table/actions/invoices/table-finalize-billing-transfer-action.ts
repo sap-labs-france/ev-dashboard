@@ -1,6 +1,7 @@
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { ButtonActionColor } from 'types/GlobalType';
+import { Observable } from 'rxjs';
+import { ButtonActionColor, RestResponse } from 'types/GlobalType';
 
 import { CentralServerService } from '../../../../services/central-server.service';
 import { MessageService } from '../../../../services/message.service';
@@ -12,7 +13,7 @@ import { TableAction } from '../table-action';
 
 export interface TableFinalizeBillingTransferDef extends TableActionDef {
   action: (ID: string, translateService: TranslateService, spinnerService: SpinnerService,
-    messageService: MessageService, centralServerService: CentralServerService, router: Router) => void;
+    messageService: MessageService, centralServerService: CentralServerService, router: Router, refresh?: () => Observable<void>)  => void;
 }
 
 export class TableFinalizeBillingTransferAction implements TableAction {
@@ -31,10 +32,18 @@ export class TableFinalizeBillingTransferAction implements TableAction {
   }
 
   private finalizeTransfer(ID: string, translateService: TranslateService, spinnerService: SpinnerService,
-    messageService: MessageService, centralServerService: CentralServerService, router: Router) {
+    messageService: MessageService, centralServerService: CentralServerService, router: Router, refresh?: () => Observable<void>) {
     spinnerService.show();
-    centralServerService.finalizeTransfer(ID).subscribe((result) => {
+    centralServerService.finalizeTransfer(ID).subscribe((response) => {
       spinnerService.hide();
+      if (response.status === RestResponse.SUCCESS) {
+        if (refresh) {
+          refresh().subscribe();
+        }
+        // TODO - messageService.showSuccessMessage(translateService.instant('transfers.transfer_finalize_success'));
+      } else {
+        // TODO - Utils.handleError(JSON.stringify(response), messageService, 'transfers.transfer_finalize_failure');
+      }
     }, (error) => {
       spinnerService.hide();
       Utils.handleHttpError(error, router, messageService,

@@ -1325,7 +1325,7 @@
     "export_users_error": "Une erreur est survenue pendant l'export des utilisateurs",
     "update_success": "L'utilisateur '{{userFullName}}' a été mis à jour avec succès",
     "update_sites_success": "Les sites ont été ajouté avec succès",
-    "changed_by_other_user": "L'utilisateur '{{userFullName}}' a été modifié. Les données vont être reactualisées",
+    "changed_by_other_user": "L'utilisateur '{{userFullName}}' a été modifié. Les données vont être réactualisées",
     "update_error": "Une erreur est survenue pendant la mise à jour de l'utilisateur, vérifiez les logs",
     "user_do_not_exist": "L'utilisateur n'existe plus",
     "title": "Utilisateur",

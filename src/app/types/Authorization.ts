@@ -60,6 +60,9 @@ export enum Entity {
   PRICING = 'Pricing',
   PRICING_DEFINITION = 'PricingDefinition',
   BILLING = 'Billing',
+  BILLING_PLATFORM = 'BillingPlatform',
+  BILLING_SUB_ACCOUNT = 'BillingSubAccount',
+  BILLING_TRANSFER = 'BillingTransfer',
   SETTING = 'Setting',
   ASYNC_TASK = 'AsyncTask',
   OCPI_ENDPOINT = 'OcpiEndpoint',
@@ -118,6 +121,8 @@ export enum Action {
   BILLING_PAYMENT_METHODS = 'BillingPaymentMethods',
   BILLING_DELETE_PAYMENT_METHOD = 'BillingDeletePaymentMethod',
   BILLING_CHARGE_INVOICE = 'BillingChargeInvoice',
+  BILLING_FINALIZE_TRANSFER = 'BillingFinalizeTransfer',
+  BILLING_SEND_TRANSFER = 'BillingSendTransfer',
   CHECK_CONNECTION = 'CheckConnection',
   CLEAR_BILLING_TEST_DATA = 'ClearBillingTestData',
   RETRIEVE_CONSUMPTION = 'RetrieveConsumption',
@@ -280,7 +285,14 @@ export interface LogsAuthorizationActions extends AuthorizationActions {
 export interface BillingInvoicesAuthorizations extends AuthorizationAttributes, BillingInvoicesAuthorizationActions {
 }
 
+export interface BillingTransfersAuthorizations extends AuthorizationAttributes, BillingTransfersAuthorizationActions {
+}
+
 export interface BillingInvoicesAuthorizationActions extends DataResultAuthorizationActions {
+  canListUsers?: boolean;
+}
+
+export interface BillingTransfersAuthorizationActions extends DataResultAuthorizationActions {
   canListUsers?: boolean;
 }
 
@@ -368,3 +380,12 @@ export interface DialogParamsWithAuth<T extends DialogData, U extends Authorizat
   extends DialogParams<T> {
   authorizations?: U;
 }
+
+export interface BillingAccountAuthorizationActions extends AuthorizationActions {
+  canOnboard?: boolean;
+}
+
+export interface BillingTransferAuthorizationActions extends AuthorizationActions {
+  canTransfer?: boolean;
+}
+

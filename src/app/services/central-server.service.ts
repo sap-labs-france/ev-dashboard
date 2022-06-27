@@ -14,7 +14,7 @@ import { ChargePoint, ChargingStation, OCPPAvailabilityType, OcppParameter } fro
 import { Company } from '../types/Company';
 import CentralSystemServerConfiguration from '../types/configuration/CentralSystemServerConfiguration';
 import { IntegrationConnection, UserConnection } from '../types/Connection';
-import { ActionResponse, ActionsResponse, AssetDataResult, AssetInErrorDataResult, BillingInvoiceDataResult, BillingOperationResult, BillingPaymentMethodDataResult, CarCatalogDataResult, CarDataResult, ChargingProfileDataResult, ChargingStationDataResult, ChargingStationInErrorDataResult, CheckAssetConnectionResponse, CheckBillingConnectionResponse, CompanyDataResult, DataResult, LogDataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OICPJobStatusesResponse, OICPPingResponse, Ordering, Paging, PricingDefinitionDataResult, RegistrationTokenDataResult, SiteAreaDataResult, SiteDataResult, TagDataResult, UserDataResult } from '../types/DataResult';
+import { ActionResponse, ActionsResponse, AssetDataResult, AssetInErrorDataResult, BillingInvoiceDataResult, BillingOperationResult, BillingPaymentMethodDataResult, BillingTransferDataResult, CarCatalogDataResult, CarDataResult, ChargingProfileDataResult, ChargingStationDataResult, ChargingStationInErrorDataResult, CheckAssetConnectionResponse, CheckBillingConnectionResponse, CompanyDataResult, DataResult, LogDataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OICPJobStatusesResponse, OICPPingResponse, Ordering, Paging, PricingDefinitionDataResult, RegistrationTokenDataResult, SiteAreaDataResult, SiteDataResult, TagDataResult, UserDataResult } from '../types/DataResult';
 import { EndUserLicenseAgreement } from '../types/Eula';
 import { FilterParams, Image, KeyValue } from '../types/GlobalType';
 import { TransactionInError } from '../types/InError';
@@ -1857,6 +1857,51 @@ export class CentralServerService {
       {
         headers: this.buildHttpHeaders(this.windowService.getSubdomain()),
         params: { Language: language }
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public getTransfers(params: FilterParams,
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<BillingTransferDataResult> {
+    // Verify init
+    this.checkInit();
+    // Build Paging
+    this.getPaging(paging, params);
+    // Build Ordering
+    this.getSorting(ordering, params);
+    // Build the URL
+    const url = this.buildRestEndpointUrl(RESTServerRoute.REST_BILLING_TRANSFERS);
+    // Execute the REST Service
+    return this.httpClient.get<BillingTransferDataResult>(url, {
+      headers: this.buildHttpHeaders(),
+      params
+    }).pipe(
+      catchError(this.handleHttpError),
+    );
+  }
+
+  public finalizeTransfer(transferID: string): Observable<ActionResponse> {
+    this.checkInit();
+    // Execute the REST service
+    const url = this.buildRestEndpointUrl(RESTServerRoute.REST_BILLING_TRANSFER_FINALIZE, { id: transferID });
+    return this.httpClient.patch<ActionResponse>(url, {},
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public sendTransfer(transferID: string): Observable<ActionResponse> {
+    this.checkInit();
+    // Execute the REST service
+    const url = this.buildRestEndpointUrl(RESTServerRoute.REST_BILLING_TRANSFER_SEND, { id: transferID });
+    return this.httpClient.patch<ActionResponse>(url, {},
+      {
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
         catchError(this.handleHttpError),

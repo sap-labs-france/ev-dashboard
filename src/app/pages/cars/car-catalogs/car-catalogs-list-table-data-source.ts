@@ -86,7 +86,7 @@ export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> 
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    const tableColumnDef: TableColumnDef[] = [
+    return [
       {
         id: 'image',
         name: 'cars.image',
@@ -219,7 +219,6 @@ export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> 
           this.decimalPipe.transform(acceleration) + ' ' + this.translateService.instant('cars.unit.secondes') : '-',
       },
     ];
-    return tableColumnDef;
   }
 
   public rowActionTriggered(actionDef: TableActionDef, carCatalog: CarCatalog) {
@@ -248,10 +247,7 @@ export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> 
   }
 
   public buildTableDynamicRowActions(carCatalog: CarCatalog): TableActionDef[] {
-    if (carCatalog.canRead) {
-      return [this.openAction];
-    }
-    return [];
+    return [this.openAction];
   }
 
   public buildTableActionsRightDef(): TableActionDef[] {

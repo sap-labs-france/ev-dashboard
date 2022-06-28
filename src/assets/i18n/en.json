@@ -1666,6 +1666,7 @@
       "check_connection": "Check Connection",
       "connection_success": "Connection to the billing system was tested successfully",
       "connection_error": "Impossible to connect to the billing system. Check your secret key.",
+      "create_subaccount": "Create Subaccount",
       "force_synchronize": "Force Billing Synchronization",
       "payment_methods_create_title": "Create a payment method",
       "payment_methods_create_success": "The payment method ending with '{{last4}}' has been created successfully",
@@ -1709,11 +1710,14 @@
         "force_synchronize_user_dialog_title": "Synchronize Billing User",
         "force_synchronize_user_dialog_confirm": "Do you really want to synchronize the user '{{userFullName}}' in the billing system?",
         "force_synchronize_user_success": "The user '{{userFullName}}' has been synchronized successfully",
-        "force_synchronize_user_failure": "Failed to synchronize the user, check the logs"
+        "force_synchronize_user_failure": "Failed to synchronize the user, check the logs",
+        "user": "User",
+        "subaccount_status": "Status"
       },
       "stripe": {
         "description": "E-Mobility allows to send invoices to the charging station users with Stripe ...",
         "title": "Stripe",
+        "subaccount_title": "Stripe Subaccounts",
         "url": "URL of Stripe Dashboard",
         "public_key": "Publishable API Key",
         "invalid_public_key": "Publishable API key is not plausible",

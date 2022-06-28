@@ -1665,6 +1665,7 @@
       "check_connection": "Verificar conexión",
       "connection_success": "La conexión al sistema de facturación se verificó exitosamente",
       "connection_error": "No se puede conectar al sistema de facturación. Verifique su clave secreta",
+      "create_subaccount": "Create Subaccount",
       "force_synchronize": "Forzar sincronización de facturas",
       "payment_methods_create_title": "Create a payment method",
       "payment_methods_create_success": "The payment method ending with '{{last4}}' has been created successfully",
@@ -1708,11 +1709,14 @@
         "force_synchronize_user_dialog_title": "Sincronizar usuario (Facturación)",
         "force_synchronize_user_dialog_confirm": "¿Está seguro de que desea sincronizar al usuario '{{userFullName}}' con el sistema de facturación?",
         "force_synchronize_user_success": "El usuario '{{userFullName}}' se ha sincronizado correctamente",
-        "force_synchronize_user_failure": "Falló la sincronización del usuario, verifique los registros"
+        "force_synchronize_user_failure": "Falló la sincronización del usuario, verifique los registros",
+        "user": "Usuario",
+        "subaccount_status": "Estatus"
       },
       "stripe": {
         "description": "E-Mobility permite enviar facturas a los usuarios de estaciones de carga con Stripe",
         "title": "Stripe",
+        "subaccount_title": "Stripe Subaccounts",
         "url": "URL de su cueanta en Stripe",
         "public_key": "Clave publicable",
         "invalid_public_key": "La clave publicable no es plausible",

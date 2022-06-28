@@ -1666,6 +1666,7 @@
       "check_connection": "Zkontrolovat připojení",
       "connection_success": "Spojení s účetním systémem bylo úspěšně otestováno",
       "connection_error": "Nelze se připojit k účetnímu systému. Zkontrolujte svůj tajný klíč.",
+      "create_subaccount": "Create Subaccount",
       "force_synchronize": "Vynutit synchronizaci fakturace",
       "payment_methods_create_title": "Vytvořit způsob platby",
       "payment_methods_create_success": "Způsob platby končící čtyřčíslím '{{last4}}‘ byl úspěšně vytvořen",
@@ -1709,11 +1710,14 @@
         "force_synchronize_user_dialog_title": "Synchronizovat uživatele fakturace",
         "force_synchronize_user_dialog_confirm": "Chcete opravdu synchronizovat uživatele '{{userFullName}}‘ v účetním systému?",
         "force_synchronize_user_success": "Uživatel '{{userFullName}}' byl úspěšně synchronizován",
-        "force_synchronize_user_failure": "Synchronizace uživatele se nezdařila, zkontrolujte protokoly"
+        "force_synchronize_user_failure": "Synchronizace uživatele se nezdařila, zkontrolujte protokoly",
+        "user": "User",
+        "subaccount_status": "Stav"
       },
       "stripe": {
         "description": "E-mobility umožňuje odeslat faktury uživatelům nabíjecích stanic pomocí Stripe...",
         "title": "Stripe",
+        "subaccount_title": "Stripe Subaccounts",
         "url": "URL ovládacího panelu Stripe",
         "public_key": "Publikovatelný klíč API",
         "invalid_public_key": "Publikovatelný klíč API není věrohodný",

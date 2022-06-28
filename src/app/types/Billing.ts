@@ -1,4 +1,4 @@
-import { BillingInvoiceAuthorizationActions, BillingPaymentMethodAuthorizationActions } from './Authorization';
+import { AuthorizationActions, BillingInvoiceAuthorizationActions, BillingPaymentMethodAuthorizationActions } from './Authorization';
 import { BillingSettings } from './Setting';
 import { TableData } from './Table';
 import { User } from './User';
@@ -77,4 +77,22 @@ export interface BillingPaymentMethod extends BillingPaymentMethodAuthorizationA
 export interface PaymentDialogData extends TableData {
   userId: string;
   setting: BillingSettings;
+}
+
+export enum BillingAccountStatus {
+  IDLE = 'idle',
+  PENDING = 'pending',
+  ACTIVE = 'active'
+}
+
+export interface BillingAccount extends AuthorizationActions {
+  id: string;
+  accountID: string;
+  activationLink?: string;
+  userID?: string;
+  status: BillingAccountStatus;
+}
+
+export interface BillingAccountData {
+  accountID: string;
 }

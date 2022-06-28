@@ -1666,6 +1666,7 @@
       "check_connection": "Verifique a conexão",
       "connection_success": "A conexão com o sistema de faturamento foi testada com sucesso",
       "connection_error": "Impossível conectar ao sistema de faturamento. Verifique sua chave secreta.",
+      "create_subaccount": "Create Subaccount",
       "force_synchronize": "Forçar sincronização de faturamento",
       "payment_methods_create_title": "Create a payment method",
       "payment_methods_create_success": "The payment method ending with '{{last4}}' has been created successfully",
@@ -1709,11 +1710,14 @@
         "force_synchronize_user_dialog_title": "Sincronizar utilizador de cobrança",
         "force_synchronize_user_dialog_confirm": "Você realmente deseja sincronizar o utilizador '{{userFullName}}' no sistema de faturamento?",
         "force_synchronize_user_success": "O utilizador '{{userFullName}}' foi sincronizado com sucesso",
-        "force_synchronize_user_failure": "Falha ao sincronizar o utilizador, verifique os registos"
+        "force_synchronize_user_failure": "Falha ao sincronizar o utilizador, verifique os registos",
+        "user": "Utilizador",
+        "subaccount_status": "Estado"
       },
       "stripe": {
         "description": "E-Mobility permite enviar faturas para os usuários da estação de carregamento com Stripe ...",
         "title": "Stripe",
+        "subaccount_title": "Stripe Subaccounts",
         "url": "URL do Stripe Dashboard",
         "public_key": "Chave de API publicável",
         "invalid_public_key": "A chave de API publicável não é plausível",

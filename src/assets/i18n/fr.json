@@ -1667,6 +1667,7 @@
       "check_connection": "Vérifier connexion",
       "connection_success": "Connexion vers le système de facturation vérifiée avec succès",
       "connection_error": "Connexion vers le système de facturation impossible. Vérifiez votre clé secrète.",
+      "create_subaccount": "Create Subaccount",
       "force_synchronize": "Forcer Synchro Facturation",
       "payment_methods_create_title": "Créer une méthode de paiement",
       "payment_methods_create_success": "Le moyen de paiement se terminant par '{{last4}}' a été créé avec succès",
@@ -1710,11 +1711,14 @@
         "force_synchronize_user_dialog_title": "Synchroniser Utilisateur (Facturation)",
         "force_synchronize_user_dialog_confirm": "Voulez-vous vraiment synchroniser l'utilisateur '{{userFullName}}' avec le système de facturation ?",
         "force_synchronize_user_success": "L'utilisateur '{{userFullName}}' a été synchronisé avec succès",
-        "force_synchronize_user_failure": "Echec de synchronisation de l'utilisateur, vérifiez les logs"
+        "force_synchronize_user_failure": "Echec de synchronisation de l'utilisateur, vérifiez les logs",
+        "user": "Utilisateur",
+        "subaccount_status": "Statut"
       },
       "stripe": {
         "description": "E-Mobility permet d'envoyer des factures aux utilisateurs de bornes avec Stripe",
         "title": "Stripe",
+        "subaccount_title": "Stripe Subaccounts",
         "url": "URL du terminal Stripe",
         "public_key": "Clé API publique",
         "invalid_public_key": "La clé API publique n'est pas plausible",

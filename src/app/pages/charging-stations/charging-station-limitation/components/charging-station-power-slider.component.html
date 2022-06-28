@@ -5,7 +5,7 @@
     </td>
     <td class="p-3">
       <mat-slider
-        [disabled]="chargingStation?.inactive || (isSmartChargingComponentActive && chargingStation.siteArea?.smartCharging && chargingStation?.capabilities?.supportChargingProfiles && !chargingStation.excludeFromSmartCharging)"
+        [disabled]="chargingStation?.inactive || !chargingStation.canLimitPower || (isSmartChargingComponentActive && chargingStation.siteArea?.smartCharging && chargingStation?.capabilities?.supportChargingProfiles && !chargingStation.excludeFromSmartCharging)"
         thumbLabel class="col-md-12" [min]="minAmp" [max]="maxAmp" [step]="ampSteps" [value]="currentAmp"
         [displayWith]="formatSlideLabelPowerKW" (change)="sliderChanged($event.value)">
       </mat-slider>

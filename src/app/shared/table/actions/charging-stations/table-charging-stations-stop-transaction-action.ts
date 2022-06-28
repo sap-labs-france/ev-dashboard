@@ -2,7 +2,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { ButtonAction, ButtonActionColor } from 'types/GlobalType';
-import { AuthorizationService } from '../../../../services/authorization.service';
+
 import { CentralServerService } from '../../../../services/central-server.service';
 import { DialogService } from '../../../../services/dialog.service';
 import { MessageService } from '../../../../services/message.service';
@@ -14,9 +14,8 @@ import { Transaction } from '../../../../types/Transaction';
 import { Utils } from '../../../../utils/Utils';
 import { TableAction } from '../table-action';
 
-
 export interface TableChargingStationsStopTransactionActionDef extends TableActionDef {
-  action: (transaction: Transaction, authorizationService: AuthorizationService,
+  action: (transaction: Transaction,
     dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
     centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router,
     refresh?: () => Observable<void>) => void;
@@ -37,15 +36,13 @@ export class TableChargingStationsStopTransactionAction implements TableAction {
     return this.action;
   }
 
-  private stopTransaction(transaction: Transaction, authorizationService: AuthorizationService,
+  private stopTransaction(transaction: Transaction,
     dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
     centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router,
     refresh?: () => Observable<void>) {
     // Get the charging station
     centralServerService.getChargingStation(transaction.chargeBoxID).subscribe((chargingStation) => {
-      const connector = Utils.getConnectorFromID(chargingStation, transaction.connectorId);
-      const isStopAuthorized = authorizationService.canStopTransaction(chargingStation.siteArea, connector.currentTagID);
-      if (!isStopAuthorized) {
+      if (!chargingStation.canStopTransaction) {
         dialogService.createAndShowOkDialog(
           translateService.instant('chargers.action_error.transaction_stop_title'),
           translateService.instant('chargers.action_error.transaction_stop_not_authorized'));

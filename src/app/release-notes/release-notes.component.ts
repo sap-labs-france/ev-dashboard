@@ -25,7 +25,7 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.6.9',
-        date: new Date('2022-06-27'),
+        date: new Date('2022-06-30'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -37,6 +37,7 @@ export class ReleaseNotesComponent {
               `Check of OCPI CPO Locations is now done once a day`,
               `Log in error failed Remote Push Notification`,
               `Virtual RFID ID are generated now on 8 bytes`,
+              `Added automatic redirection of migrated tenants to a k8s cluster`,
             ],
           },
         ],

@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ReCaptchaV3Service } from 'ngx-captcha';
+import { Utils } from 'utils/Utils';
 
 import { CentralServerService } from '../../services/central-server.service';
 import { ConfigService } from '../../services/config.service';
@@ -63,6 +64,10 @@ export class AuthenticationResetPasswordComponent implements OnInit, OnDestroy {
         if (tenantLogo) {
           this.tenantLogo = tenantLogo;
         }
+      }, (error) => {
+        this.spinnerService.hide();
+        Utils.handleHttpError(error, this.router, this.messageService,
+          this.centralServerService, 'general.unexpected_error_backend');
       });
     } else {
       this.tenantLogo = Constants.MASTER_TENANT_LOGO;

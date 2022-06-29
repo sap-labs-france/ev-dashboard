@@ -64,6 +64,10 @@ export class CentralServerService {
     this.initialized = false;
   }
 
+  public getWindowService(): WindowService {
+    return this.windowService;
+  }
+
   public getCentralRestServerServiceUtilURL(): string {
     return this.centralRestServerServiceUtilURL;
   }
@@ -3453,19 +3457,32 @@ export class CentralServerService {
     }
   }
 
-  private handleHttpError(error: HttpErrorResponse): Observable<never> {
+  private handleHttpError(error: HttpErrorResponse): Observable<any> {
     // We might use a remote logging infrastructure
-    const errMsg = { status: 0, message: '', details: undefined };
-    if (error && error instanceof TimeoutError) {
-      errMsg.status = StatusCodes.REQUEST_TIMEOUT;
-      errMsg.message = error.message;
-      errMsg.details = undefined;
-    } else if (error) {
-      errMsg.status = error.status;
-      errMsg.message = error.message ? error.message : error.toString();
-      errMsg.details = error.error ? error.error : undefined;
+    const errMsg = { status: 0, message: '', details: null };
+    if (error.error.size > 0) {
+      return new Observable(observer => {
+        const reader = new FileReader();
+        reader.readAsText(error.error); // convert blob to Text
+        reader.onloadend = () => {
+          errMsg.status = error.status;
+          errMsg.message = error.message;
+          errMsg.details = JSON.parse(reader.result.toString());
+          observer.error(errMsg);
+        };
+      });
+    } else {
+      if (error && error instanceof TimeoutError) {
+        errMsg.status = StatusCodes.REQUEST_TIMEOUT;
+        errMsg.message = error.message;
+        errMsg.details = null;
+      } else if (error) {
+        errMsg.status = error.status;
+        errMsg.message = error.message ?? error.toString();
+        errMsg.details = error.error ?? null;
+      }
+      return throwError(errMsg);
     }
-    return throwError(errMsg);
   }
 
   private processImage(blob: Blob): Observable<string> {

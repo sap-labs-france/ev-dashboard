@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { CentralServerService } from 'services/central-server.service';
 import { ConfigService } from 'services/config.service';
 import { MessageService } from 'services/message.service';
@@ -41,7 +42,8 @@ export class SiteMainComponent implements OnInit, OnChanges {
     private centralServerService: CentralServerService,
     private dialog: MatDialog,
     private configService: ConfigService,
-    private messageService: MessageService) {
+    private messageService: MessageService,
+    private router: Router) {
     this.maxSize = this.configService.getSite().maxPictureKb;
   }
 
@@ -118,6 +120,9 @@ export class SiteMainComponent implements OnInit, OnChanges {
           if (siteImage) {
             this.image = siteImage;
           }
+        }, (error) => {
+          Utils.handleHttpError(error, this.router, this.messageService,
+            this.centralServerService, 'general.unexpected_error_backend');
         });
       }
     }

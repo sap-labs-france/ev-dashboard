@@ -1692,6 +1692,8 @@
       "connection_success": "Connexion vers le système de facturation vérifiée avec succès",
       "connection_error": "Connexion vers le système de facturation impossible. Vérifiez votre clé secrète.",
       "create_subaccount": "Create Subaccount",
+      "create_subaccount_success": "Subaccount added successfully",
+      "create_subaccount_error": "Error occurred while adding the subaccount, check the logs",
       "force_synchronize": "Forcer Synchro Facturation",
       "payment_methods_create_title": "Créer une méthode de paiement",
       "payment_methods_create_success": "Le moyen de paiement se terminant par '{{last4}}' a été créé avec succès",

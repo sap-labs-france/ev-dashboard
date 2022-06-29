@@ -1,27 +1,40 @@
 /* eslint-disable no-useless-constructor */
+
 import { Component, Inject, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
+import { CentralServerService } from 'services/central-server.service';
+import { MessageService } from 'services/message.service';
+import { SpinnerService } from 'services/spinner.service';
+import { UsersDialogComponent } from 'shared/dialogs/users/users-dialog.component';
 import { BillingAccount } from 'types/Billing';
+import { ActionResponse } from 'types/DataResult';
+import { RestResponse } from 'types/GlobalType';
 import { Utils } from 'utils/Utils';
 
 import { DialogService } from '../../../../services/dialog.service';
 
 @Component({
-  templateUrl: './settings-billing-subaccounts-dialog.component.html'
+  templateUrl: './settings-billing-subaccounts-dialog.component.html',
+  styleUrls: ['./settings-billing-subaccounts-dialog.component.scss']
 })
 export class SettingsBillingSubaccountDialogComponent implements OnInit{
   public currentSubaccount: BillingAccount;
   public formGroup!: FormGroup;
 
   public id!: AbstractControl;
-  public name!: AbstractControl;
+  public user!: AbstractControl;
+  public userID!: AbstractControl;
 
   public constructor(
     public dialogRef: MatDialogRef<SettingsBillingSubaccountDialogComponent>,
+    private centralServerService: CentralServerService,
+    private spinnerService: SpinnerService,
+    private messageService: MessageService,
     private translateService: TranslateService,
     private dialogService: DialogService,
+    private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) data: BillingAccount
   ){
     this.currentSubaccount = data;
@@ -29,16 +42,13 @@ export class SettingsBillingSubaccountDialogComponent implements OnInit{
 
   public ngOnInit(): void {
     this.formGroup = new FormGroup({
-      id: new FormControl(this.currentSubaccount ? this.currentSubaccount.accountID : ''),
-      name: new FormControl(this.currentSubaccount ? this.currentSubaccount.userID : '',
-        Validators.compose([
-          Validators.required,
-          Validators.maxLength(100),
-        ])
-      ),
+      id: new FormControl(this.currentSubaccount ? this.currentSubaccount.accountExternalID : ''),
+      user: new FormControl(''),
+      userID: new FormControl(''),
     });
     this.id = this.formGroup.controls['id'];
-    this.name = this.formGroup.controls['name'];
+    this.user = this.formGroup.controls['user'];
+    this.userID = this.formGroup.controls['userID'];
     // Register key event
     Utils.registerSaveCloseKeyEvents(this.dialogRef, this.formGroup,
       this.save.bind(this), this.close.bind(this));
@@ -53,8 +63,49 @@ export class SettingsBillingSubaccountDialogComponent implements OnInit{
       this.translateService, this.save.bind(this), this.closeDialog.bind(this));
   }
 
-  public save(currentSubaccount: BillingAccount) {
-    this.dialogRef.close(currentSubaccount);
+  public save(currentSubaccount: {id: string; userID: string; user: string}) {
+    this.spinnerService.show();
+    this.centralServerService.createBillingSubAccounts({
+      id: '',
+      businessOwnerID: currentSubaccount.userID
+    }).subscribe((response: ActionResponse) => {
+      this.spinnerService.hide();
+      if(response.status === RestResponse.SUCCESS) {
+        // handle success message
+        this.messageService.showSuccessMessage('settings.billing.create_subaccount_success');
+        this.dialogRef.close(true);
+      } else {
+        Utils.handleError(JSON.stringify(response), this.messageService, 'settings.billing.create_subaccount_error');
+        this.dialogRef.close(false);
+      }
+    }, (error) => {
+      //handle error here
+      this.spinnerService.hide();
+      this.dialogRef.close(false);
+      Utils.handleError(JSON.stringify(error), this.messageService, 'settings.billing.create_subaccount_error');
+    });
   }
 
+  public assignUser() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.panelClass = 'transparent-dialog-container';
+    // Set data
+    dialogConfig.data = {
+      rowMultipleSelection: false,
+      staticFilter: {
+      },
+    };
+    // Open
+    this.dialog.open(UsersDialogComponent, dialogConfig).afterClosed().subscribe((result) => {
+      this.user.setValue(Utils.buildUserFullName(result[0].objectRef));
+      this.userID.setValue(result[0].key);
+      this.formGroup.markAsDirty();
+    });
+  }
+
+  public resetUser() {
+    this.userID.reset();
+    this.user.reset();
+    this.formGroup.markAsDirty();
+  }
 }

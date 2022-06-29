@@ -19,7 +19,6 @@ import { SettingsBillingSubaccountDialogComponent } from './settings-billing-sub
 export class BillingsSubAccountTableDataSource extends TableDataSource<BillingAccount> {
   public changed = new EventEmitter<boolean>();
   private subaccounts!: BillingAccount[];
-  private editAction = new TableEditAction().getActionDef();
   private onboardAction = new TableOpenURLAction().getActionDef();
   private createAction = new TableCreateAction().getActionDef();
 
@@ -30,6 +29,10 @@ export class BillingsSubAccountTableDataSource extends TableDataSource<BillingAc
     super(spinnerService, translateService);
     // Init
     this.initDataSource();
+  }
+
+  public setSubAccounts(subaccounts: BillingAccount[]) {
+    this.subaccounts = subaccounts ? subaccounts : [];
   }
 
   public buildTableDef(): TableDef {
@@ -74,7 +77,6 @@ export class BillingsSubAccountTableDataSource extends TableDataSource<BillingAc
 
   public buildTableRowActions(): TableActionDef[] {
     return [
-      this.editAction,
       this.onboardAction,
     ];
   }
@@ -91,9 +93,6 @@ export class BillingsSubAccountTableDataSource extends TableDataSource<BillingAc
 
   public rowActionTriggered(actionDef: TableActionDef, subaccount: BillingAccount) {
     switch (actionDef.id) {
-      case ButtonAction.EDIT:
-        this.createSubaccountDialog(subaccount);
-        break;
       case ButtonAction.OPEN_URL:
         this.onboardSubaccount(subaccount);
         break;
@@ -114,7 +113,7 @@ export class BillingsSubAccountTableDataSource extends TableDataSource<BillingAc
     return new Observable((observer) => {
       this.createAction.visible = true;
       if (this.subaccounts) {
-        this.subaccounts.sort((a, b) => (a.userID > b.userID) ? 1 : (b.userID > a.userID) ? -1 : 0);
+        this.subaccounts.sort((a, b) => (a.businessOwnerID > b.businessOwnerID) ? 1 : (b.businessOwnerID > a.businessOwnerID) ? -1 : 0);
         const accounts = [];
         for (let index = 0; index < this.subaccounts.length; index++) {
           const subaccount = this.subaccounts[index];
@@ -147,19 +146,11 @@ export class BillingsSubAccountTableDataSource extends TableDataSource<BillingAc
     dialogConfig.disableClose = true;
     // Open
     const dialogRef = this.dialog.open(SettingsBillingSubaccountDialogComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe((result) => {
-      // if (result) {
-      //   // find object
-      //   const index = this.subaccounts.findIndex((link) => link.id === result.id);
-      //   if (index >= 0) {
-      //     this.subaccounts.splice(index, 1, result);
-      //   } else {
-      //     this.subaccounts.push(result);
-      //   }
-      //   this.refreshData().subscribe();
-      //   this.changed.emit(true);
-      // }
-      console.log(result);
+    dialogRef.afterClosed().subscribe((status) => {
+      if (status) {
+        this.refreshData().subscribe();
+        this.changed.emit(true);
+      }
     });
   }
 

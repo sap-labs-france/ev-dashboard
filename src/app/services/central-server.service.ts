@@ -7,14 +7,14 @@ import { BehaviorSubject, EMPTY, Observable, TimeoutError, of, throwError } from
 import { catchError, switchMap } from 'rxjs/operators';
 
 import { Asset, AssetConsumption } from '../types/Asset';
-import { BillingTax } from '../types/Billing';
+import { BillingAccount, BillingTax } from '../types/Billing';
 import { Car, CarCatalog, CarMaker, ImageObject } from '../types/Car';
 import { ChargingProfile, GetCompositeScheduleCommandResult } from '../types/ChargingProfile';
 import { ChargePoint, ChargingStation, OCPPAvailabilityType, OcppParameter } from '../types/ChargingStation';
 import { Company } from '../types/Company';
 import CentralSystemServerConfiguration from '../types/configuration/CentralSystemServerConfiguration';
 import { IntegrationConnection, UserConnection } from '../types/Connection';
-import { ActionResponse, ActionsResponse, AssetDataResult, AssetInErrorDataResult, BillingInvoiceDataResult, BillingOperationResult, BillingPaymentMethodDataResult, BillingTransferDataResult, CarCatalogDataResult, CarDataResult, ChargingProfileDataResult, ChargingStationDataResult, ChargingStationInErrorDataResult, CheckAssetConnectionResponse, CheckBillingConnectionResponse, CompanyDataResult, DataResult, LogDataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OICPJobStatusesResponse, OICPPingResponse, Ordering, Paging, PricingDefinitionDataResult, RegistrationTokenDataResult, SiteAreaDataResult, SiteDataResult, TagDataResult, UserDataResult } from '../types/DataResult';
+import { ActionResponse, ActionsResponse, AssetDataResult, AssetInErrorDataResult, BillingAccountDataResult, BillingInvoiceDataResult, BillingOperationResult, BillingPaymentMethodDataResult, BillingTransferDataResult, CarCatalogDataResult, CarDataResult, ChargingProfileDataResult, ChargingStationDataResult, ChargingStationInErrorDataResult, CheckAssetConnectionResponse, CheckBillingConnectionResponse, CompanyDataResult, DataResult, LogDataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OICPJobStatusesResponse, OICPPingResponse, Ordering, Paging, PricingDefinitionDataResult, RegistrationTokenDataResult, SiteAreaDataResult, SiteDataResult, TagDataResult, UserDataResult } from '../types/DataResult';
 import { EndUserLicenseAgreement } from '../types/Eula';
 import { FilterParams, Image, KeyValue } from '../types/GlobalType';
 import { TransactionInError } from '../types/InError';
@@ -1682,6 +1682,32 @@ export class CentralServerService {
       .pipe(
         catchError(this.handleHttpError),
       );
+  }
+
+  public createBillingSubAccounts(subaccount: BillingAccount): Observable<ActionResponse> {
+    // Verify init
+    this.checkInit();
+    // Execute
+    return this.httpClient.post<ActionResponse>(this.buildRestEndpointUrl(RESTServerRoute.REST_BILLING_SUB_ACCOUNTS), subaccount,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public getBillingSubAccounts(): Observable<BillingAccountDataResult> {
+    // verify init
+    this.checkInit();
+    // Build the URL
+    const url = this.buildRestEndpointUrl(RESTServerRoute.REST_BILLING_SUB_ACCOUNTS);
+    // Execute the REST Service
+    return this.httpClient.get<BillingAccountDataResult>(url, {
+      headers: this.buildHttpHeaders()
+    }).pipe(
+      catchError(this.handleHttpError),
+    );
   }
 
   public getInvoices(params: FilterParams,

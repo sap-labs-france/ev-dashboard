@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { BillingAccount } from 'types/Billing';
 
 import { ActionResponse } from '../types/DataResult';
 import { AnalyticsSettings, AssetConnectionType, AssetSettings, AssetSettingsType, BillingSettings, BillingSettingsType, CarConnectorConnectionType, CarConnectorSetting, CarConnectorSettings, CarConnectorSettingsType, CryptoSettings, PricingSettings, PricingSettingsType, RefundSettings, RefundSettingsType, RoamingSettings, RoamingSettingsType, SmartChargingSettings, SmartChargingSettingsType, TechnicalSettings, UserSettings, UserSettingsType } from '../types/Setting';
@@ -250,12 +251,20 @@ export class ComponentService {
   }
 
 
-  public getBillingSettings(): Observable<BillingSettings> {
+  public getBillingSettings(): Observable<{ billing: BillingSettings; accounts: BillingAccount[] }> {
     return new Observable((observer) => {
       // Get the Billing settings
-      this.centralServerService.getBillingSettings().subscribe((billingSettings) => {
-        observer.next(billingSettings);
-        observer.complete();
+      this.centralServerService.getBillingSettings().subscribe((billing) => {
+        this.centralServerService.getBillingSubAccounts().subscribe((accounts) => {
+          const settings = {
+            billing,
+            accounts: accounts.result
+          };
+          observer.next(settings);
+          observer.complete();
+        }, (error) => {
+          observer.error(error);
+        });
       }, (error) => {
         observer.error(error);
       });

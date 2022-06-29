@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Stripe } from '@stripe/stripe-js';
 import { loadStripe } from '@stripe/stripe-js/pure';
 import { StatusCodes } from 'http-status-codes';
+import { BillingAccount } from 'types/Billing';
 import { HTTPError } from 'types/HTTPError';
 import { BillingSettings } from 'types/Setting';
 import { Utils } from 'utils/Utils';
@@ -28,9 +29,9 @@ export class StripeService {
   public async initializeStripe(): Promise<Stripe> {
     if (!StripeService.stripeFacade) {
       const billingSettings = await this.loadBillingConfiguration();
-      if (billingSettings?.stripe?.publicKey) {
+      if (billingSettings?.billing?.stripe?.publicKey) {
         loadStripe.setLoadParameters({ advancedFraudSignals: false });
-        StripeService.stripeFacade = await loadStripe(billingSettings.stripe.publicKey);
+        StripeService.stripeFacade = await loadStripe(billingSettings.billing.stripe.publicKey);
       }
     }
     return StripeService.stripeFacade;
@@ -40,7 +41,7 @@ export class StripeService {
     return StripeService.stripeFacade;
   }
 
-  private async loadBillingConfiguration(): Promise<BillingSettings> {
+  private async loadBillingConfiguration(): Promise<{ billing: BillingSettings; accounts: BillingAccount[] }> {
     try {
       return await this.componentService.getBillingSettings().toPromise();
     } catch (error) {

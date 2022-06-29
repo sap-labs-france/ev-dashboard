@@ -55,11 +55,13 @@ export class SettingsBillingComponent implements OnInit {
     this.componentService.getBillingSettings().subscribe((settings) => {
       this.spinnerService.hide();
       // Keep
-      this.billingSettings = settings;
+      this.billingSettings = settings.billing;
       // Enable additional actions based on the account nature
-      this.checkConnectionContext(settings);
+      this.checkConnectionContext(settings.billing);
       // Init form
       this.formGroup.markAsPristine();
+      this.billingsSubAccountTableDataSource.setSubAccounts(settings.accounts);
+      this.billingsSubAccountTableDataSource.loadData().subscribe();
     }, (error) => {
       this.spinnerService.hide();
       switch (error.status) {

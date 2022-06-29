@@ -282,6 +282,9 @@ export interface LogsAuthorizationActions extends AuthorizationActions {
   canExport?: boolean;
 }
 
+export interface BillingAccountAuthorizations extends AuthorizationAttributes, BillingInvoicesAuthorizationActions {
+}
+
 export interface BillingInvoicesAuthorizations extends AuthorizationAttributes, BillingInvoicesAuthorizationActions {
 }
 

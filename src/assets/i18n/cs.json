@@ -1691,6 +1691,8 @@
       "connection_success": "Spojení s účetním systémem bylo úspěšně otestováno",
       "connection_error": "Nelze se připojit k účetnímu systému. Zkontrolujte svůj tajný klíč.",
       "create_subaccount": "Create Subaccount",
+      "create_subaccount_success": "Subaccount added successfully",
+      "create_subaccount_error": "Error occurred while adding the subaccount, check the logs",
       "force_synchronize": "Vynutit synchronizaci fakturace",
       "payment_methods_create_title": "Vytvořit způsob platby",
       "payment_methods_create_success": "Způsob platby končící čtyřčíslím '{{last4}}‘ byl úspěšně vytvořen",

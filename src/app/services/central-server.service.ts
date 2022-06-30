@@ -1710,6 +1710,23 @@ export class CentralServerService {
     );
   }
 
+  public onboardSubAccount(id: string): Observable<BillingAccount> {
+    this.checkInit();
+    if (!id) {
+      return EMPTY;
+    }
+    const url = this.buildRestEndpointUrl(RESTServerRoute.REST_BILLING_SUB_ACCOUNT_ONBOARD, {
+      id
+    });
+    return this.httpClient.get<BillingAccount>(url,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
   public getInvoices(params: FilterParams,
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<BillingInvoiceDataResult> {
     // Verify init

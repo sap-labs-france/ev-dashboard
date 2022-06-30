@@ -1760,7 +1760,9 @@
         "create_error": "Error occurred while adding the subaccount, check the logs",
         "status_idle": "Idle",
         "status_pending": "Pending",
-        "status_active": "Active"
+        "status_active": "Active",
+        "onboard_success": "Subaccount onboarded successfully",
+        "onboard_error": "Error occurred while onboarding the subaccount, check the logs"
       }
     },
     "analytics": {

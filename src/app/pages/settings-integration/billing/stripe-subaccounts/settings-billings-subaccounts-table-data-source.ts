@@ -2,12 +2,14 @@ import { EventEmitter, Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { CentralServerService } from 'services/central-server.service';
+import { MessageService } from 'services/message.service';
 import { SpinnerService } from 'services/spinner.service';
+import { TableOnboardSubAccountAction, TableOnboardSubAccountActionDef } from 'shared/table/actions/settings/billing/table-onboard-subaccount';
 import { TableCreateAction } from 'shared/table/actions/table-create-action';
-import { TableOpenURLAction } from 'shared/table/actions/table-open-url-action';
 import { TableRefreshAction } from 'shared/table/actions/table-refresh-action';
 import { TableDataSource } from 'shared/table/table-data-source';
-import { BillingAccount } from 'types/Billing';
+import { BillingAccount, BillingButtonAction } from 'types/Billing';
 import { DataResult } from 'types/DataResult';
 import { ButtonAction } from 'types/GlobalType';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'types/Table';
@@ -19,12 +21,13 @@ import { SettingsBillingSubaccountDialogComponent } from './settings-billing-sub
 export class BillingsSubAccountTableDataSource extends TableDataSource<BillingAccount> {
   public changed = new EventEmitter<boolean>();
   private subaccounts!: BillingAccount[];
-  private onboardAction = new TableOpenURLAction().getActionDef();
   private createAction = new TableCreateAction().getActionDef();
 
   public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
+    private centralServerService: CentralServerService,
+    private messageService: MessageService,
     private dialog: MatDialog) {
     super(spinnerService, translateService);
     // Init
@@ -46,6 +49,7 @@ export class BillingsSubAccountTableDataSource extends TableDataSource<BillingAc
       footer: {
         enabled: false,
       },
+      hasDynamicRowAction: true,
       rowFieldNameIdentifier: 'businessOwnerID',
     };
   }
@@ -77,10 +81,11 @@ export class BillingsSubAccountTableDataSource extends TableDataSource<BillingAc
     ];
   }
 
-  public buildTableRowActions(): TableActionDef[] {
-    return [
-      this.onboardAction,
-    ];
+  public buildTableDynamicRowActions(row?: BillingAccount): TableActionDef[] {
+    const rowActions: TableActionDef[] = [];
+    const onboardAction = new TableOnboardSubAccountAction().getActionDef();
+    rowActions.push(onboardAction);
+    return rowActions;
   }
 
   public actionTriggered(actionDef: TableActionDef) {
@@ -95,8 +100,12 @@ export class BillingsSubAccountTableDataSource extends TableDataSource<BillingAc
 
   public rowActionTriggered(actionDef: TableActionDef, subaccount: BillingAccount) {
     switch (actionDef.id) {
-      case ButtonAction.OPEN_URL:
-        this.onboardSubaccount(subaccount);
+      case BillingButtonAction.ONBOARD_SUBACCOUNT:
+        (actionDef as TableOnboardSubAccountActionDef).action(subaccount.id,
+          this.centralServerService,
+          this.spinnerService,
+          this.messageService
+        );
         break;
     }
   }
@@ -148,9 +157,5 @@ export class BillingsSubAccountTableDataSource extends TableDataSource<BillingAc
         this.changed.emit(true);
       }
     });
-  }
-
-  public onboardSubaccount(subaccount: BillingAccount){
-    // Execute onboarding for subaccount
   }
 }

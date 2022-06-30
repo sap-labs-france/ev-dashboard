@@ -4,7 +4,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { SpinnerService } from 'services/spinner.service';
 import { TableCreateAction } from 'shared/table/actions/table-create-action';
-import { TableEditAction } from 'shared/table/actions/table-edit-action';
 import { TableOpenURLAction } from 'shared/table/actions/table-open-url-action';
 import { TableRefreshAction } from 'shared/table/actions/table-refresh-action';
 import { TableDataSource } from 'shared/table/table-data-source';

@@ -40,6 +40,8 @@ export class AppFormatSubAccountStatusPipe implements PipeTransform {
         classNames += ChipType.WARNING;
         break;
       case BillingAccountStatus.ACTIVE:
+        classNames += ChipType.SUCCESS;
+        break;
       default:
         classNames += ChipType.DEFAULT;
     }

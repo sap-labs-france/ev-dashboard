@@ -9,7 +9,7 @@ import { TableOnboardSubAccountAction, TableOnboardSubAccountActionDef } from 's
 import { TableCreateAction } from 'shared/table/actions/table-create-action';
 import { TableRefreshAction } from 'shared/table/actions/table-refresh-action';
 import { TableDataSource } from 'shared/table/table-data-source';
-import { BillingAccount, BillingButtonAction } from 'types/Billing';
+import { BillingAccount, BillingAccountStatus, BillingButtonAction } from 'types/Billing';
 import { DataResult } from 'types/DataResult';
 import { ButtonAction } from 'types/GlobalType';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'types/Table';
@@ -84,7 +84,9 @@ export class BillingsSubAccountTableDataSource extends TableDataSource<BillingAc
   public buildTableDynamicRowActions(row?: BillingAccount): TableActionDef[] {
     const rowActions: TableActionDef[] = [];
     const onboardAction = new TableOnboardSubAccountAction().getActionDef();
-    rowActions.push(onboardAction);
+    if(row.status === BillingAccountStatus.IDLE){
+      rowActions.push(onboardAction);
+    }
     return rowActions;
   }
 

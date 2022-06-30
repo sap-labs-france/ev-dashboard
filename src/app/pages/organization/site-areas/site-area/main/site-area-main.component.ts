@@ -137,6 +137,10 @@ export class SiteAreaMainComponent implements OnInit, OnChanges {
           if (siteAreaImage) {
             this.image = siteAreaImage;
           }
+        }, (error) => {
+          this.spinnerService.hide();
+          Utils.handleHttpError(error, this.router, this.messageService,
+            this.centralServerService, 'general.unexpected_error_backend');
         });
       }
     }

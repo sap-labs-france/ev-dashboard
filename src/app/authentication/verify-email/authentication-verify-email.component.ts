@@ -110,6 +110,10 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
         if (tenantLogo) {
           this.tenantLogo = tenantLogo;
         }
+      }, (error) => {
+        this.spinnerService.hide();
+        Utils.handleHttpError(error, this.router, this.messageService,
+          this.centralServerService, 'general.unexpected_error_backend');
       });
     } else {
       this.tenantLogo = Constants.MASTER_TENANT_LOGO;

@@ -693,6 +693,11 @@ export enum RESTServerRoute {
   REST_PRICING_DEFINITIONS = 'pricing-definitions',
   REST_PRICING_DEFINITION = 'pricing-definitions/:id',
 
+  // Billing Transfers
+  REST_BILLING_TRANSFERS = 'billing/transfers',
+  REST_BILLING_TRANSFER_FINALIZE = 'billing/transfers/:id/finalize',
+  REST_BILLING_TRANSFER_SEND = 'billing/transfers/:id/send',
+
   // PRICING URLs for Non-CRUD operations
   REST_PRICING_MODEL_RESOLVE = 'pricing-model/resolve',
 }

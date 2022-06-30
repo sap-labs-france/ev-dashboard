@@ -4,7 +4,7 @@ import * as moment from 'moment';
 
 import { AssetButtonAction } from './Asset';
 import { AuthorizationActions, AuthorizationAttributes } from './Authorization';
-import { BillingButtonAction } from './Billing';
+import { BillingButtonAction, TransferButtonAction } from './Billing';
 import { CarButtonAction } from './Car';
 import { ChargingStationButtonAction } from './ChargingStation';
 import { ChargingStationTemplateButtonAction } from './ChargingStationTemplate';

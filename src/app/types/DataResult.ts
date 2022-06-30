@@ -1,6 +1,6 @@
 import { Asset } from './Asset';
-import { AssetsAuthorizations, BillingInvoicesAuthorizations, BillingPaymentMethodsAuthorizationActions, CarCatalogsAuthorizations, CarsAuthorizations, ChargingProfilesAuthorizations, ChargingStationTemplateAuthorizationActions, ChargingStationsAuthorizations, DataResultAuthorizations, LogsAuthorizationActions, SitesAuthorizationActions, TagsAuthorizations, UsersAuthorizations } from './Authorization';
-import { BillingInvoice, BillingPaymentMethod } from './Billing';
+import { AssetsAuthorizations, BillingInvoicesAuthorizations, BillingPaymentMethodsAuthorizationActions, BillingTransfersAuthorizations, CarCatalogsAuthorizations, CarsAuthorizations, ChargingProfilesAuthorizations, ChargingStationTemplateAuthorizationActions, ChargingStationsAuthorizations, DataResultAuthorizations, LogsAuthorizationActions, SitesAuthorizationActions, TagsAuthorizations, UsersAuthorizations } from './Authorization';
+import { BillingInvoice, BillingPaymentMethod, BillingTransfer } from './Billing';
 import { Car, CarCatalog } from './Car';
 import { ChargingProfile } from './ChargingProfile';
 import { ChargingStation } from './ChargingStation';
@@ -123,6 +123,9 @@ export interface AssetInErrorDataResult extends DataResult<AssetInError>, Assets
 }
 
 export interface BillingInvoiceDataResult extends DataResult<BillingInvoice>, BillingInvoicesAuthorizations {
+}
+
+export interface BillingTransferDataResult extends DataResult<BillingTransfer>, BillingTransfersAuthorizations {
 }
 
 export interface BillingPaymentMethodDataResult extends DataResult<BillingPaymentMethod>, BillingPaymentMethodsAuthorizationActions {

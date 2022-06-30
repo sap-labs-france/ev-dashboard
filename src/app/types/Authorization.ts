@@ -285,11 +285,17 @@ export interface LogsAuthorizationActions extends AuthorizationActions {
 export interface BillingInvoicesAuthorizations extends AuthorizationAttributes, BillingInvoicesAuthorizationActions {
 }
 
+export interface BillingTaxesAuthorizations extends AuthorizationAttributes, BillingTaxesAuthorizationActions {
+}
+
 export interface BillingTransfersAuthorizations extends AuthorizationAttributes, BillingTransfersAuthorizationActions {
 }
 
 export interface BillingInvoicesAuthorizationActions extends DataResultAuthorizationActions {
   canListUsers?: boolean;
+}
+
+export interface BillingTaxesAuthorizationActions extends DataResultAuthorizationActions {
 }
 
 export interface BillingTransfersAuthorizationActions extends DataResultAuthorizationActions {

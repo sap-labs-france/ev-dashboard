@@ -24,6 +24,7 @@ import { WitAssetConnectionComponent } from './asset/connection/wit/wit-asset-co
 import { SettingsAssetConnectionEditableTableDataSource } from './asset/settings-asset-connections-list-table-data-source';
 import { SettingsAssetComponent } from './asset/settings-asset.component';
 import { SettingsBillingComponent } from './billing/settings-billing.component';
+import { AppFormatSubAccountStatusPipe, SubAccountStatusFormatterComponent } from './billing/stripe-subaccounts/formatters/subaccounts-status-formatter.component';
 import { SettingsBillingSubaccountDialogComponent } from './billing/stripe-subaccounts/settings-billing-subaccounts-dialog.component';
 import { BillingsSubAccountTableDataSource } from './billing/stripe-subaccounts/settings-billings-subaccounts-table-data-source';
 import { SettingsStripeComponent } from './billing/stripe/settings-stripe.component';
@@ -98,7 +99,6 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     SettingsSapSmartChargingComponent,
     OicpJobResultFormatterComponent,
     AnalyticsLinkDialogComponent,
-    // SettingsBillingSubaccountDialogComponent,
     SettingsOcpiComponent,
     SettingsOicpComponent,
     SettingsOcpiEndpointsComponent,
@@ -145,7 +145,9 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     AppFormatOicpPatchJobStatusPipe,
     SettingsOicpEndpointsDetailsComponent,
     SettingsPricingComponent,
-    SettingsBillingSubaccountDialogComponent
+    SettingsBillingSubaccountDialogComponent,
+    SubAccountStatusFormatterComponent,
+    AppFormatSubAccountStatusPipe
   ],
   entryComponents: [
     SettingsIntegrationComponent,
@@ -194,7 +196,8 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     OicpDetailFailureEvsesStatusFormatterComponent,
     OicpPatchJobStatusFormatterComponent,
     SettingsOicpEndpointsDetailsComponent,
-    SettingsBillingSubaccountDialogComponent
+    SettingsBillingSubaccountDialogComponent,
+    SubAccountStatusFormatterComponent
   ],
   providers: [
     SettingsOcpiEndpointsDetailsTableDataSource,
@@ -204,7 +207,7 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     SettingsAssetConnectionEditableTableDataSource,
     SettingsCarConnectorConnectionEditableTableDataSource,
     AnalyticsLinksTableDataSource,
-    BillingsSubAccountTableDataSource
+    BillingsSubAccountTableDataSource,
   ],
 })
 

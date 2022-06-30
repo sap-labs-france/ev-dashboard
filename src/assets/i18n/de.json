@@ -1690,9 +1690,6 @@
       "check_connection": "Verbindung überprüfen",
       "connection_success": "Verbindung zum Abrechnungssystem wurde erfolgreich überprüft",
       "connection_error": "Es konnte keine Verbindung zum Abrechnungssystem hergestellt werden. Überprüfen Sie den Sicherheitsschlüssel.",
-      "create_subaccount": "Create Subaccount",
-      "create_subaccount_success": "Subaccount added successfully",
-      "create_subaccount_error": "Error occurred while adding the subaccount, check the logs",
       "force_synchronize": "Abrechnungssynchronisierung erwzingen",
       "payment_methods_create_title": "Eine neue Zahlungsmethode erstellen ",
       "payment_methods_create_success": "Die Zahlungsmethode, die mit '{{last4}}' endet, wurde erfolgreich erstellt",
@@ -1736,9 +1733,7 @@
         "force_synchronize_user_dialog_title": "Nutzer in Rechnungslegung Synchronisieren",
         "force_synchronize_user_dialog_confirm": "Wollen Sie wirklich den Nutzer '{{userFullName}}' mit dem Abrechnungssystem synchronisieren?",
         "force_synchronize_user_success": "Der Nutzer '{{userFullName}}' wurde erfolgreich synchronisiert",
-        "force_synchronize_user_failure": "Fehler beim Synchronisieren des Nutzers, überprüfen Sie die Logs.",
-        "user": "Nutzer",
-        "subaccount_status": "Status"
+        "force_synchronize_user_failure": "Fehler beim Synchronisieren des Nutzers, überprüfen Sie die Logs."
       },
       "stripe": {
         "description": "E-Mobility ermöglicht das Senden von Rechnungen an Ladestationnutzer mit Stripe ...",
@@ -1754,6 +1749,17 @@
         "periodic_billing": "Periodische Abrechnung",
         "tax": "Steuern",
         "no_tax": "Keine Steuern"
+      },
+      "stripe_subaccount": {
+        "user": "User",
+        "status": "Status",
+        "title": "Stripe Subaccounts",
+        "create": "Create Subaccount",
+        "create_success": "Subaccount added successfully",
+        "create_error": "Error occurred while adding the subaccount, check the logs",
+        "status_idle": "Idle",
+        "status_pending": "Pending",
+        "status_active": "Active"
       }
     },
     "analytics": {

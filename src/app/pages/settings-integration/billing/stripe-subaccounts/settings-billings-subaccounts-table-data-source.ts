@@ -13,6 +13,7 @@ import { DataResult } from 'types/DataResult';
 import { ButtonAction } from 'types/GlobalType';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'types/Table';
 
+import { SubAccountStatusFormatterComponent } from './formatters/subaccounts-status-formatter.component';
 import { SettingsBillingSubaccountDialogComponent } from './settings-billing-subaccounts-dialog.component';
 
 @Injectable()
@@ -46,25 +47,27 @@ export class BillingsSubAccountTableDataSource extends TableDataSource<BillingAc
       footer: {
         enabled: false,
       },
-      rowFieldNameIdentifier: 'name',
+      rowFieldNameIdentifier: 'businessOwnerID',
     };
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
     return [
       {
-        id: 'name',
-        name: 'settings.billing.user.user',
+        id: 'businessOwnerID',
+        name: 'settings.billing.stripe_subaccount.user',
         headerClass: 'col-25p',
         class: 'col-25p',
-        sortable: false,
+        sortable: true,
       },
       {
         id: 'status',
-        name: 'settings.billing.user.subaccount_status',
-        headerClass: 'col-25p',
+        name: 'settings.billing.stripe_subaccount.status',
+        isAngularComponent: true,
+        angularComponent: SubAccountStatusFormatterComponent,
+        headerClass: 'col-25p text-center',
         class: 'col-25p',
-        sortable: false,
+        sortable: true,
       }
     ];
   }
@@ -114,15 +117,9 @@ export class BillingsSubAccountTableDataSource extends TableDataSource<BillingAc
       this.createAction.visible = true;
       if (this.subaccounts) {
         this.subaccounts.sort((a, b) => (a.businessOwnerID > b.businessOwnerID) ? 1 : (b.businessOwnerID > a.businessOwnerID) ? -1 : 0);
-        const accounts = [];
-        for (let index = 0; index < this.subaccounts.length; index++) {
-          const subaccount = this.subaccounts[index];
-          subaccount.id = index.toString();
-          accounts.push(subaccount);
-        }
         observer.next({
-          count: accounts.length,
-          result: accounts,
+          count: this.subaccounts.length,
+          result: this.subaccounts,
         });
       } else {
         observer.next({

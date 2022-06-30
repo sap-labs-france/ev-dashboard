@@ -1690,9 +1690,6 @@
       "check_connection": "Zkontrolovat připojení",
       "connection_success": "Spojení s účetním systémem bylo úspěšně otestováno",
       "connection_error": "Nelze se připojit k účetnímu systému. Zkontrolujte svůj tajný klíč.",
-      "create_subaccount": "Create Subaccount",
-      "create_subaccount_success": "Subaccount added successfully",
-      "create_subaccount_error": "Error occurred while adding the subaccount, check the logs",
       "force_synchronize": "Vynutit synchronizaci fakturace",
       "payment_methods_create_title": "Vytvořit způsob platby",
       "payment_methods_create_success": "Způsob platby končící čtyřčíslím '{{last4}}‘ byl úspěšně vytvořen",
@@ -1736,9 +1733,7 @@
         "force_synchronize_user_dialog_title": "Synchronizovat uživatele fakturace",
         "force_synchronize_user_dialog_confirm": "Chcete opravdu synchronizovat uživatele '{{userFullName}}‘ v účetním systému?",
         "force_synchronize_user_success": "Uživatel '{{userFullName}}' byl úspěšně synchronizován",
-        "force_synchronize_user_failure": "Synchronizace uživatele se nezdařila, zkontrolujte protokoly",
-        "user": "User",
-        "subaccount_status": "Stav"
+        "force_synchronize_user_failure": "Synchronizace uživatele se nezdařila, zkontrolujte protokoly"
       },
       "stripe": {
         "description": "E-mobility umožňuje odeslat faktury uživatelům nabíjecích stanic pomocí Stripe...",
@@ -1754,6 +1749,17 @@
         "periodic_billing": "Periodická fakturace (ještě nezavedena)",
         "tax": "Daň",
         "no_tax": "Bez daně"
+      },
+      "stripe_subaccount": {
+        "user": "User",
+        "status": "Status",
+        "title": "Stripe Subaccounts",
+        "create": "Create Subaccount",
+        "create_success": "Subaccount added successfully",
+        "create_error": "Error occurred while adding the subaccount, check the logs",
+        "status_idle": "Idle",
+        "status_pending": "Pending",
+        "status_active": "Active"
       }
     },
     "analytics": {

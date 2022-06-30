@@ -1691,9 +1691,6 @@
       "check_connection": "Vérifier connexion",
       "connection_success": "Connexion vers le système de facturation vérifiée avec succès",
       "connection_error": "Connexion vers le système de facturation impossible. Vérifiez votre clé secrète.",
-      "create_subaccount": "Create Subaccount",
-      "create_subaccount_success": "Subaccount added successfully",
-      "create_subaccount_error": "Error occurred while adding the subaccount, check the logs",
       "force_synchronize": "Forcer Synchro Facturation",
       "payment_methods_create_title": "Créer une méthode de paiement",
       "payment_methods_create_success": "Le moyen de paiement se terminant par '{{last4}}' a été créé avec succès",
@@ -1737,9 +1734,7 @@
         "force_synchronize_user_dialog_title": "Synchroniser Utilisateur (Facturation)",
         "force_synchronize_user_dialog_confirm": "Voulez-vous vraiment synchroniser l'utilisateur '{{userFullName}}' avec le système de facturation ?",
         "force_synchronize_user_success": "L'utilisateur '{{userFullName}}' a été synchronisé avec succès",
-        "force_synchronize_user_failure": "Echec de synchronisation de l'utilisateur, vérifiez les logs",
-        "user": "Utilisateur",
-        "subaccount_status": "Statut"
+        "force_synchronize_user_failure": "Echec de synchronisation de l'utilisateur, vérifiez les logs"
       },
       "stripe": {
         "description": "E-Mobility permet d'envoyer des factures aux utilisateurs de bornes avec Stripe",
@@ -1755,6 +1750,17 @@
         "periodic_billing": "Facturation périodique",
         "tax": "Taxe",
         "no_tax": "Aucune Taxe"
+      },
+      "stripe_subaccount": {
+        "user": "User",
+        "status": "Status",
+        "title": "Stripe Subaccounts",
+        "create": "Create Subaccount",
+        "create_success": "Subaccount added successfully",
+        "create_error": "Error occurred while adding the subaccount, check the logs",
+        "status_idle": "Idle",
+        "status_pending": "Pending",
+        "status_active": "Active"
       }
     },
     "analytics": {

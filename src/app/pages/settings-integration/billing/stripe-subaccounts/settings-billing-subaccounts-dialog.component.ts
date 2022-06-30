@@ -72,17 +72,17 @@ export class SettingsBillingSubaccountDialogComponent implements OnInit{
       this.spinnerService.hide();
       if(response.status === RestResponse.SUCCESS) {
         // handle success message
-        this.messageService.showSuccessMessage('settings.billing.create_subaccount_success');
+        this.messageService.showSuccessMessage('settings.billing.stripe_subaccount.create_success');
         this.dialogRef.close(true);
       } else {
-        Utils.handleError(JSON.stringify(response), this.messageService, 'settings.billing.create_subaccount_error');
+        Utils.handleError(JSON.stringify(response), this.messageService, 'settings.billing.stripe_subaccount.create_error');
         this.dialogRef.close(false);
       }
     }, (error) => {
       //handle error here
       this.spinnerService.hide();
       this.dialogRef.close(false);
-      Utils.handleError(JSON.stringify(error), this.messageService, 'settings.billing.create_subaccount_error');
+      Utils.handleError(JSON.stringify(error), this.messageService, 'settings.billing.stripe_subaccount.create_error');
     });
   }
 

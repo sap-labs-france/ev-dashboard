@@ -1689,9 +1689,6 @@
       "check_connection": "Verificar conexión",
       "connection_success": "La conexión al sistema de facturación se verificó exitosamente",
       "connection_error": "No se puede conectar al sistema de facturación. Verifique su clave secreta",
-      "create_subaccount": "Create Subaccount",
-      "create_subaccount_success": "Subaccount added successfully",
-      "create_subaccount_error": "Error occurred while adding the subaccount, check the logs",
       "force_synchronize": "Forzar sincronización de facturas",
       "payment_methods_create_title": "Create a payment method",
       "payment_methods_create_success": "The payment method ending with '{{last4}}' has been created successfully",
@@ -1735,9 +1732,7 @@
         "force_synchronize_user_dialog_title": "Sincronizar usuario (Facturación)",
         "force_synchronize_user_dialog_confirm": "¿Está seguro de que desea sincronizar al usuario '{{userFullName}}' con el sistema de facturación?",
         "force_synchronize_user_success": "El usuario '{{userFullName}}' se ha sincronizado correctamente",
-        "force_synchronize_user_failure": "Falló la sincronización del usuario, verifique los registros",
-        "user": "Usuario",
-        "subaccount_status": "Estatus"
+        "force_synchronize_user_failure": "Falló la sincronización del usuario, verifique los registros"
       },
       "stripe": {
         "description": "E-Mobility permite enviar facturas a los usuarios de estaciones de carga con Stripe",
@@ -1753,6 +1748,17 @@
         "periodic_billing": "Facturación periódica",
         "tax": "Impuesto",
         "no_tax": "Sin impuestos"
+      },
+      "stripe_subaccount": {
+        "user": "User",
+        "status": "Status",
+        "title": "Stripe Subaccounts",
+        "create": "Create Subaccount",
+        "create_success": "Subaccount added successfully",
+        "create_error": "Error occurred while adding the subaccount, check the logs",
+        "status_idle": "Idle",
+        "status_pending": "Pending",
+        "status_active": "Active"
       }
     },
     "analytics": {

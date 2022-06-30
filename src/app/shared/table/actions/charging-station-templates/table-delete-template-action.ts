@@ -30,8 +30,7 @@ export class TableDeleteTemplateAction extends TableDeleteAction {
       template, 'templates.delete_title',
       translateService.instant('templates.delete_confirm', { templateID: template.id }),
       translateService.instant('templates.delete_success', { templateID: template.id }),
-      // TODO: @melvyn add delete chargingStationTemplate to centralServerService
-      'templates.delete_error', centralServerService.deleteSite.bind(centralServerService),
+      'templates.delete_error', centralServerService.deleteChargingStationTemplate.bind(centralServerService),
       dialogService, translateService, messageService, centralServerService, spinnerService, router, refresh);
   }
 }

@@ -2617,7 +2617,10 @@
         "confirm": "Do you really want to export all the charging station templates matching the filters?",
         "error": "Error occurred while trying to export the charging station templates, check the logs"
       }
-    }
+    },
+    "chargePointVendor": "chargePointVendor",
+    "chargePointModel": "chargePointModel",
+    "chargeBoxSerialNumber": "chargeBoxSerialNumber"
   },
   "geomap": {
     "dialog_geolocation_title": "Set Geolocation of '{{componentName}}' '{{itemComponentName}}'",

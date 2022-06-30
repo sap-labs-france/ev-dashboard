@@ -7,12 +7,12 @@
           <span>{{this.dialogTitle}}</span>
         </ng-template>
         <div class="card-body mat-tab-dialog-body-content">
-          <app-charging-station-template-main #chargingStationTemplateMainComponent [formGroup]="formGroup" [template]="template"></app-charging-station-template-main>
+          <app-charging-station-template-main #chargingStationTemplateMainComponent [formGroup]="formGroup" [chargingStationTemplate]="template"></app-charging-station-template-main>
         </div>
       </mat-tab>
     </mat-tab-group>
     <div [class]="dialogRef ? 'tabs-actions' : 'tabs-actions-embedded'">
-      <button mat-icon-button *ngIf="!readOnly" (click)="saveTemplate(formGroup.value)" title="{{'general.save' | translate}}"
+      <button mat-icon-button *ngIf="!readOnly" (click)="saveTemplate()" title="{{'general.save' | translate}}"
           [disabled]="!formGroup.valid || !formGroup.dirty">
         <mat-icon>save</mat-icon>
       </button>

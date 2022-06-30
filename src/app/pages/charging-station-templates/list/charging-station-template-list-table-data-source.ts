@@ -70,13 +70,25 @@ export class ChargingStationTemplatesListTableDataSource extends TableDataSource
   public buildTableColumnDefs(): TableColumnDef[] {
     return [
       {
-        id: 'id',
-        name: 'general.id',
+        id: 'template.chargePointVendor',
+        name: 'templates.chargePointVendor',
         sortable: true,
         headerClass: 'col-30p',
         class: 'col-30p',
-        sorted: true,
-        direction: 'asc',
+      },
+      {
+        id: 'template.extraFilters.chargePointModel',
+        name: 'templates.chargePointModel',
+        sortable: true,
+        headerClass: 'col-30p',
+        class: 'col-30p',
+      },
+      {
+        id: 'template.extraFilters.chargeBoxSerialNumber',
+        name: 'templates.chargeBoxSerialNumber',
+        sortable: true,
+        headerClass: 'col-30p',
+        class: 'col-30p',
       }
     ];
   }
@@ -91,7 +103,6 @@ export class ChargingStationTemplatesListTableDataSource extends TableDataSource
 
   public buildTableDynamicRowActions(chargingStationTemplate: ChargingStationTemplate): TableActionDef[] {
     const rowActions = [];
-    const moreActions = new TableMoreAction([]);
     if (chargingStationTemplate.canUpdate) {
       rowActions.push(this.editAction);
     } else {

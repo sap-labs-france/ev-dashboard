@@ -1,29 +1,32 @@
 import { AfterViewInit, Component, Inject, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { TranslateService } from '@ngx-translate/core';
 
-import { DialogMode, DialogParams } from '../../../types/Authorization';
+import { ChargingStationTemplateAuthorizations, DialogMode, DialogParams, DialogParamsWithAuth } from '../../../types/Authorization';
 import { ChargingStationTemplate } from '../../../types/ChargingStationTemplate';
 import { Utils } from '../../../utils/Utils';
 import { ChargingStationTemplateComponent } from './charging-station-template.component';
 
 @Component({
-  template: '<app-charging-station-template #appRef [currentTemplateID]="templateID" [dialogMode]="dialogMode" [dialogRef]="dialogRef"></app-charging-station-template>',
+  template: '<app-charging-station-template #appRef [currentTemplateID]="templateID" [dialogMode]="dialogMode" [dialogRef]="dialogRef" [dialogTitle]="dialogTitle"></app-charging-station-template>',
 })
 export class ChargingStationTemplateDialogComponent implements AfterViewInit {
   @ViewChild('appRef') public appRef!: ChargingStationTemplateComponent;
   public templateID!: string;
   public dialogMode!: DialogMode;
+  public dialogTitle: string;
 
   public constructor(
     public dialogRef: MatDialogRef<ChargingStationTemplateDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) dialogParams: DialogParams<ChargingStationTemplate>) {
+    private translateService: TranslateService,
+    @Inject(MAT_DIALOG_DATA) dialogParams: DialogParamsWithAuth<ChargingStationTemplate, ChargingStationTemplateAuthorizations>) {
     this.templateID = dialogParams.dialogData?.id;
     this.dialogMode = dialogParams.dialogMode;
+    this.dialogTitle = dialogParams.dialogData?.id ? dialogParams.dialogData.id : this.translateService.instant('templates.title');
   }
 
   public ngAfterViewInit() {
     // Register key event
-    Utils.registerSaveCloseKeyEvents(this.dialogRef, this.appRef.formGroup,
-      this.appRef.saveTemplate.bind(this.appRef), this.appRef.close.bind(this.appRef));
+    Utils.registerCloseKeyEvents(this.dialogRef);
   }
 }

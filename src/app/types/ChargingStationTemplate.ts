@@ -1,41 +1,45 @@
 import { ChargePoint, ChargingRateUnitType, ChargingStationCapabilities, ConnectorType, CurrentType, Voltage } from './ChargingStation';
+import CreatedUpdatedProps from './CreatedUpdatedProps';
 import { TableData } from './Table';
 
-export interface ChargingStationTemplate extends TableData {
+export interface ChargingStationTemplate extends TableData, CreatedUpdatedProps {
   id: string;
-  qa?: boolean;
-  hash?: string;
-  hashTechnical?: string;
-  hashCapabilities?: string;
-  hashOcppStandard?: string;
-  hashOcppVendor?: string;
-  chargePointVendor: string;
-  extraFilters: {
-    chargeBoxSerialNumber?: string;
+  template:
+  {
+    id: string;
+    hash?: string;
+    hashTechnical?: string;
+    hashCapabilities?: string;
+    hashOcppStandard?: string;
+    hashOcppVendor?: string;
+    chargePointVendor: string;
+    extraFilters: {
+      chargeBoxSerialNumber?: string;
+    };
+    technical: {
+      masterSlave: boolean;
+      maximumPower: number;
+      voltage?: Voltage;
+      powerLimitUnit: ChargingRateUnitType;
+      chargePoints?: ChargePoint[];
+      connectors: ChargingStationTemplateConnector[];
+    };
+    capabilities: {
+      supportedFirmwareVersions: string[];
+      supportedOcppVersions: string[];
+      capabilities: ChargingStationCapabilities;
+    }[];
+    ocppStandardParameters: {
+      supportedFirmwareVersions: string[];
+      supportedOcppVersions: string[];
+      parameters: Record<string, string>;
+    }[];
+    ocppVendorParameters: {
+      supportedFirmwareVersions: string[];
+      supportedOcppVersions: string[];
+      parameters: Record<string, string>;
+    }[];
   };
-  technical: {
-    masterSlave: boolean;
-    maximumPower: number;
-    voltage?: Voltage;
-    powerLimitUnit: ChargingRateUnitType;
-    chargePoints?: ChargePoint[];
-    connectors: ChargingStationTemplateConnector[];
-  };
-  capabilities: {
-    supportedFirmwareVersions: string[];
-    supportedOcppVersions: string[];
-    capabilities: ChargingStationCapabilities;
-  }[];
-  ocppStandardParameters: {
-    supportedFirmwareVersions: string[];
-    supportedOcppVersions: string[];
-    parameters: Record<string, string>;
-  }[];
-  ocppVendorParameters: {
-    supportedFirmwareVersions: string[];
-    supportedOcppVersions: string[];
-    parameters: Record<string, string>;
-  }[];
 }
 
 export interface ChargingStationTemplateConnector {

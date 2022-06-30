@@ -11,9 +11,10 @@ import { Templates } from '../../../../utils/Templates';
 })
 export class ChargingStationTemplateMainComponent implements OnInit, OnChanges {
   @Input() public formGroup: FormGroup;
-  @Input() public template!: ChargingStationTemplate;
+  @Input() public chargingStationTemplate!: ChargingStationTemplate;
 
-  public chargingStationTemplate!: AbstractControl;
+  public id!: AbstractControl;
+  public template!: AbstractControl;
 
   // eslint-disable-next-line no-useless-constructor
   public constructor(
@@ -21,13 +22,15 @@ export class ChargingStationTemplateMainComponent implements OnInit, OnChanges {
   }
 
   public ngOnInit() {
-    this.formGroup.addControl('chargingStationTemplate', new FormControl('',
+    this.formGroup.addControl('id', new FormControl(''));
+    this.formGroup.addControl('template', new FormControl('',
       Validators.compose([
         Validators.required,
         Templates.validateJSON
       ])));
     // Form
-    this.chargingStationTemplate = this.formGroup.controls['chargingStationTemplate'];
+    this.id = this.formGroup.controls['id'];
+    this.template = this.formGroup.controls['template'];
     this.loadTemplate();
   }
 
@@ -35,22 +38,16 @@ export class ChargingStationTemplateMainComponent implements OnInit, OnChanges {
     this.loadTemplate();
   }
 
-  public onTemplateChange(event) {
-    try {
-      const toto = JSON.parse(event.target.value);
-      this.chargingStationTemplate.updateValueAndValidity();
-      this.formGroup.markAsDirty();
-    } catch (error) {
-      console.log('ERROR');
-      return false;
-    }
-    console.log('SUCCESS');
-    return true;
+  public onTemplateChange() {
+    this.template.updateValueAndValidity();
+    this.formGroup.markAsDirty();
   }
 
   public loadTemplate() {
-    if (this.template) {
-      this.chargingStationTemplate.setValue(JSON.stringify(this.template, undefined, 4));
+    if (this.chargingStationTemplate) {
+      // const tutu = JSON.stringify(this.template.template, undefined, 4);
+      this.id.setValue(this.chargingStationTemplate.id);
+      this.template.setValue(JSON.stringify(this.chargingStationTemplate.template, undefined, 4));
     }
   }
 }

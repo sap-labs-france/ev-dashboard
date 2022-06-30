@@ -14,7 +14,6 @@ import { AbstractTabComponent } from '../../../shared/component/abstract-tab/abs
 import { DialogMode } from '../../../types/Authorization';
 import { ChargingStationTemplate } from '../../../types/ChargingStationTemplate';
 import { RestResponse } from '../../../types/GlobalType';
-import { HTTPError } from '../../../types/HTTPError';
 import { Utils } from '../../../utils/Utils';
 import { ChargingStationTemplateMainComponent } from './main/charging-station-template-main.component';
 
@@ -27,6 +26,7 @@ export class ChargingStationTemplateComponent extends AbstractTabComponent imple
   @Input() public currentTemplateID!: string;
   @Input() public dialogMode!: DialogMode;
   @Input() public dialogRef!: MatDialogRef<any>;
+  @Input() public dialogTitle!: string;
 
   @ViewChild('chargingStationTemplateMainComponent') public chargingStationTemplateMainComponent!: ChargingStationTemplateMainComponent;
 
@@ -59,9 +59,9 @@ export class ChargingStationTemplateComponent extends AbstractTabComponent imple
   public loadChargingStationTemplate() {
     if (this.currentTemplateID) {
       this.spinnerService.show();
-      this.centralServerService.getChargingStationTemplate(this.currentTemplateID).subscribe((template) => {
+      this.centralServerService.getChargingStationTemplate(this.currentTemplateID).subscribe((chargingStationTemplate) => {
         this.spinnerService.hide();
-        this.template = template;
+        this.template = chargingStationTemplate;
         if (this.readOnly) {
           // Async call for letting the sub form groups to init
           setTimeout(() => this.formGroup.disable(), 0);
@@ -95,11 +95,11 @@ export class ChargingStationTemplateComponent extends AbstractTabComponent imple
       this.translateService, this.saveTemplate.bind(this), this.closeDialog.bind(this));
   }
 
-  public saveTemplate(template: ChargingStationTemplate) {
+  public saveTemplate() {
     if (this.currentTemplateID) {
-      this.updateChargingStationTemplate(template);
+      this.updateChargingStationTemplate(this.template);
     } else {
-      this.createChargingStationTemplate(template);
+      this.createChargingStationTemplate(this.template);
     }
   }
 

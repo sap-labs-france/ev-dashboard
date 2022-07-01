@@ -1764,7 +1764,7 @@
         "status_idle": "Idle",
         "status_pending": "Pending",
         "status_active": "Active",
-        "onboard_success": "Account was onboarded successfully",
+        "onboard_success": "The onboarding process has been triggered. A mail has been sent to the business owner",
         "onboard_error": "Error occurred while onboarding the account, check the logs"
       }
     },

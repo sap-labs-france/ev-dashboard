@@ -22,7 +22,7 @@ import { FilterType, TableDataSourceMode, TableFilterDef } from '../types/Table'
 import { Constants } from './Constants';
 
 export class Utils {
-  public static shrinkObjectProperties(properties: any): any  {
+  public static shrinkObjectProperties(properties: any): any {
     for (const propertyName in properties) {
       if (!properties[propertyName]) {
         delete properties[propertyName];
@@ -869,6 +869,12 @@ export class Utils {
         break;
       case StatusCodes.REQUEST_TIMEOUT:
         messageService.showErrorMessage(error.message);
+        break;
+      case StatusCodes.MOVED_PERMANENTLY:
+        if (error.details?.errorDetailedMessage?.redirectDomain) {
+          centralServerService.getWindowService().redirectToDomain(
+            error.details.errorDetailedMessage.redirectDomain);
+        }
         break;
       // Backend issue
       default:

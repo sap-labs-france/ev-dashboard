@@ -14,10 +14,10 @@ import { ChargePoint, ChargingStation, OCPPAvailabilityType, OcppParameter } fro
 import { Company } from '../types/Company';
 import CentralSystemServerConfiguration from '../types/configuration/CentralSystemServerConfiguration';
 import { IntegrationConnection, UserConnection } from '../types/Connection';
-import { ActionResponse, ActionsResponse, AssetDataResult, AssetInErrorDataResult, BillingInvoiceDataResult, BillingOperationResult, BillingPaymentMethodDataResult, CarCatalogDataResult, CarDataResult, CheckAssetConnectionResponse, CheckBillingConnectionResponse, CompanyDataResult, DataResult, LogDataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OICPJobStatusesResponse, OICPPingResponse, Ordering, Paging, PricingDefinitionDataResult, RegistrationTokenDataResult, SiteAreaDataResult, SiteDataResult, TagDataResult, UserDataResult } from '../types/DataResult';
+import { ActionResponse, ActionsResponse, AssetDataResult, AssetInErrorDataResult, BillingInvoiceDataResult, BillingOperationResult, BillingPaymentMethodDataResult, BillingTaxDataResult, BillingTransferDataResult, CarCatalogDataResult, CarDataResult, ChargingProfileDataResult, ChargingStationDataResult, ChargingStationInErrorDataResult, CheckAssetConnectionResponse, CheckBillingConnectionResponse, CompanyDataResult, DataResult, LogDataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OICPJobStatusesResponse, OICPPingResponse, Ordering, Paging, PricingDefinitionDataResult, RegistrationTokenDataResult, SiteAreaDataResult, SiteDataResult, TagDataResult, UserDataResult } from '../types/DataResult';
 import { EndUserLicenseAgreement } from '../types/Eula';
 import { FilterParams, Image, KeyValue } from '../types/GlobalType';
-import { ChargingStationInError, TransactionInError } from '../types/InError';
+import { TransactionInError } from '../types/InError';
 import { Log } from '../types/Log';
 import { OCPIEndpoint } from '../types/ocpi/OCPIEndpoint';
 import { OCPPResetType } from '../types/ocpp/OCPP';
@@ -62,6 +62,10 @@ export class CentralServerService {
     public configService: ConfigService) {
     // Default
     this.initialized = false;
+  }
+
+  public getWindowService(): WindowService {
+    return this.windowService;
   }
 
   public getCentralRestServerServiceUtilURL(): string {
@@ -392,13 +396,13 @@ export class CentralServerService {
       );
   }
 
-  public getChargingProfiles(params: FilterParams, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<ChargingProfile>> {
+  public getChargingProfiles(params: FilterParams, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<ChargingProfileDataResult> {
     this.checkInit();
     // Build Paging
     this.getPaging(paging, params);
     // Build Ordering
     this.getSorting(ordering, params);
-    return this.httpClient.get<DataResult<ChargingProfile>>(
+    return this.httpClient.get<ChargingProfileDataResult>(
       this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_PROFILES),
       {
         headers: this.buildHttpHeaders(),
@@ -711,7 +715,7 @@ export class CentralServerService {
   }
 
   public getChargingStations(params: FilterParams,
-    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<ChargingStation>> {
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<ChargingStationDataResult> {
     // Verify init
     this.checkInit();
     // Build Paging
@@ -719,7 +723,7 @@ export class CentralServerService {
     // Build Ordering
     this.getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<DataResult<ChargingStation>>(this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATIONS),
+    return this.httpClient.get<ChargingStationDataResult>(this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATIONS),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -767,7 +771,7 @@ export class CentralServerService {
 
   // eslint-disable-next-line max-len
   public getChargingStationsInError(params: FilterParams,
-    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<ChargingStationInError>> {
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<ChargingStationInErrorDataResult> {
     // Verify init
     this.checkInit();
     // Build Paging
@@ -775,7 +779,7 @@ export class CentralServerService {
     // Build Ordering
     this.getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<DataResult<ChargingStationInError>>(this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATIONS_IN_ERROR),
+    return this.httpClient.get<ChargingStationInErrorDataResult>(this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATIONS_IN_ERROR),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -1672,16 +1676,16 @@ export class CentralServerService {
       );
   }
 
-  public getBillingTaxes(): Observable<BillingTax[]> {
+  public getBillingTaxes(): Observable<BillingTaxDataResult> {
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<BillingTax[]>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.BILLING_TAXES}`,
-      {
-        headers: this.buildHttpHeaders(),
-      })
-      .pipe(
-        catchError(this.handleHttpError),
-      );
+    const url = this.buildRestEndpointUrl(RESTServerRoute.REST_BILLING_TAXES);
+    // Execute the REST Service
+    return this.httpClient.get<BillingTaxDataResult>(url, {
+      headers: this.buildHttpHeaders(),
+    }).pipe(
+      catchError(this.handleHttpError),
+    );
   }
 
   public getInvoices(params: FilterParams,
@@ -1857,6 +1861,51 @@ export class CentralServerService {
       {
         headers: this.buildHttpHeaders(this.windowService.getSubdomain()),
         params: { Language: language }
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public getTransfers(params: FilterParams,
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<BillingTransferDataResult> {
+    // Verify init
+    this.checkInit();
+    // Build Paging
+    this.getPaging(paging, params);
+    // Build Ordering
+    this.getSorting(ordering, params);
+    // Build the URL
+    const url = this.buildRestEndpointUrl(RESTServerRoute.REST_BILLING_TRANSFERS);
+    // Execute the REST Service
+    return this.httpClient.get<BillingTransferDataResult>(url, {
+      headers: this.buildHttpHeaders(),
+      params
+    }).pipe(
+      catchError(this.handleHttpError),
+    );
+  }
+
+  public finalizeTransfer(transferID: string): Observable<ActionResponse> {
+    this.checkInit();
+    // Execute the REST service
+    const url = this.buildRestEndpointUrl(RESTServerRoute.REST_BILLING_TRANSFER_FINALIZE, { id: transferID });
+    return this.httpClient.patch<ActionResponse>(url, {},
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public sendTransfer(transferID: string): Observable<ActionResponse> {
+    this.checkInit();
+    // Execute the REST service
+    const url = this.buildRestEndpointUrl(RESTServerRoute.REST_BILLING_TRANSFER_SEND, { id: transferID });
+    return this.httpClient.patch<ActionResponse>(url, {},
+      {
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
         catchError(this.handleHttpError),
@@ -3408,19 +3457,32 @@ export class CentralServerService {
     }
   }
 
-  private handleHttpError(error: HttpErrorResponse): Observable<never> {
+  private handleHttpError(error: HttpErrorResponse): Observable<any> {
     // We might use a remote logging infrastructure
-    const errMsg = { status: 0, message: '', details: undefined };
-    if (error && error instanceof TimeoutError) {
-      errMsg.status = StatusCodes.REQUEST_TIMEOUT;
-      errMsg.message = error.message;
-      errMsg.details = undefined;
-    } else if (error) {
-      errMsg.status = error.status;
-      errMsg.message = error.message ? error.message : error.toString();
-      errMsg.details = error.error ? error.error : undefined;
+    const errMsg = { status: 0, message: '', details: null };
+    if (error.error.size > 0) {
+      return new Observable(observer => {
+        const reader = new FileReader();
+        reader.readAsText(error.error); // convert blob to Text
+        reader.onloadend = () => {
+          errMsg.status = error.status;
+          errMsg.message = error.message;
+          errMsg.details = JSON.parse(reader.result.toString());
+          observer.error(errMsg);
+        };
+      });
+    } else {
+      if (error && error instanceof TimeoutError) {
+        errMsg.status = StatusCodes.REQUEST_TIMEOUT;
+        errMsg.message = error.message;
+        errMsg.details = null;
+      } else if (error) {
+        errMsg.status = error.status;
+        errMsg.message = error.message ?? error.toString();
+        errMsg.details = error.error ?? null;
+      }
+      return throwError(errMsg);
     }
-    return throwError(errMsg);
   }
 
   private processImage(blob: Blob): Observable<string> {

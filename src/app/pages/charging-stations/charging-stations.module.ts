@@ -23,7 +23,6 @@ import { AppChargingStationsFormatFirmwareStatusPipe, ChargingStationsFirmwareSt
 import { ChargingStationsHeartbeatCellComponent } from './cell-components/charging-stations-heartbeat-cell.component';
 import { AppChargingStationsFormatPowerChargerPipe, ChargingStationsInstantPowerChargerProgressBarCellComponent } from './cell-components/charging-stations-instant-power-charger-progress-bar-cell.component';
 import { AppChargingStationsFormatPowerConnectorPipe, ChargingStationsInstantPowerConnectorProgressBarCellComponent } from './cell-components/charging-stations-instant-power-connector-progress-bar-cell.component';
-import { ChargingStationsTransactionDetailComponentCellComponent } from './cell-components/charging-stations-transaction-detail-cell.component';
 import { ChargingPlansListTableDataSource } from './charging-plans/charging-plans-list-table-data-source';
 import { ChargingPlansListComponent } from './charging-plans/charging-plans-list.component';
 import { ChargingStationConnectorsComponent } from './charging-station-connectors/charging-station-connectors-component.component';
@@ -96,7 +95,6 @@ import { ChargingStationsRegistrationTokenDialogComponent } from './registration
     ChargingStationsStartTransactionDialogComponent,
     TransactionDialogComponent,
     ChargingStationsHeartbeatCellComponent,
-    ChargingStationsTransactionDetailComponentCellComponent,
     ChargingStationsInstantPowerChargerProgressBarCellComponent,
     ChargingStationsInstantPowerConnectorProgressBarCellComponent,
     ChargingStationsConnectorStatusCellComponent,
@@ -136,7 +134,6 @@ import { ChargingStationsRegistrationTokenDialogComponent } from './registration
     AppChargingStationsFormatConnectorStatusPipe,
     AppChargingStationsFormatFirmwareStatusPipe,
     ChargingStationsHeartbeatCellComponent,
-    ChargingStationsTransactionDetailComponentCellComponent,
     ChargingStationsInstantPowerChargerProgressBarCellComponent,
     ChargingStationsInstantPowerConnectorProgressBarCellComponent,
     ChargingStationsConnectorStatusCellComponent,

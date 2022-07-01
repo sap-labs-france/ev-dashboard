@@ -2888,7 +2888,7 @@ export class CentralServerService {
     // Build Ordering
     this.getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<CarCatalogDataResult>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CAR_CATALOGS}`,
+    return this.httpClient.get<CarCatalogDataResult>(this.buildRestEndpointUrl(RESTServerRoute.REST_CAR_CATALOGS),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -3105,7 +3105,7 @@ export class CentralServerService {
       }
     }`;
     // Execute
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CHARGING_STATION_SET_CHARGING_PROFILE}`, body,
+    return this.httpClient.post<ActionResponse>(this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_PROFILES), body,
       {
         headers: this.buildHttpHeaders(),
       })

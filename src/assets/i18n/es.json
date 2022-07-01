@@ -1752,6 +1752,11 @@
         "user": "User",
         "status": "Status",
         "title": "Connected accounts",
+        "description": [
+          "Description line 1",
+          "Description line 2",
+          "Description line 3"
+        ],
         "create": "Add connected account",
         "create_success": "Account was added successfully",
         "create_error": "Error occurred while adding the account, check the logs",

@@ -22,6 +22,7 @@ import { BillingAccountTableDataSource } from './connected-account/settings-bill
 })
 export class SettingsBillingComponent implements OnInit {
   public isActive = false;
+  public isConnectedAccountActive = false;
 
   public formGroup!: FormGroup;
   public billingSettings!: BillingSettings;
@@ -39,6 +40,7 @@ export class SettingsBillingComponent implements OnInit {
     public billingAccountTableDataSource: BillingAccountTableDataSource,
   ) {
     this.isActive = this.componentService.isActive(TenantComponents.BILLING);
+    this.isConnectedAccountActive = this.componentService.isActive(TenantComponents.BILLING_PLATFORM) && this.isActive;
   }
 
   public ngOnInit(): void {

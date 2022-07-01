@@ -255,7 +255,7 @@ export class ComponentService {
     return new Observable((observer) => {
       // Get the Billing settings
       this.centralServerService.getBillingSettings().subscribe((billing) => {
-        this.centralServerService.getBillingSubAccounts().subscribe((accounts) => {
+        this.centralServerService.getBillingAccounts().subscribe((accounts) => {
           const settings = {
             billing,
             accounts: accounts.result

@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { CentralServerService } from 'services/central-server.service';
 import { MessageService } from 'services/message.service';
 import { SpinnerService } from 'services/spinner.service';
-import { TableOnboardSubAccountAction, TableOnboardSubAccountActionDef } from 'shared/table/actions/settings/billing/table-onboard-subaccount';
+import { TableOnboardAccountAction, TableOnboardAccountActionDef } from 'shared/table/actions/settings/billing/table-onboard-account';
 import { TableCreateAction } from 'shared/table/actions/table-create-action';
 import { TableRefreshAction } from 'shared/table/actions/table-refresh-action';
 import { TableDataSource } from 'shared/table/table-data-source';
@@ -14,13 +14,13 @@ import { DataResult } from 'types/DataResult';
 import { ButtonAction } from 'types/GlobalType';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'types/Table';
 
-import { SubAccountStatusFormatterComponent } from './formatters/subaccounts-status-formatter.component';
-import { SettingsBillingSubaccountDialogComponent } from './settings-billing-subaccounts-dialog.component';
+import { AccountStatusFormatterComponent } from './formatters/account-status-formatter.component';
+import { SettingsBillingAccountDialogComponent } from './settings-billing-account-dialog.component';
 
 @Injectable()
-export class BillingsSubAccountTableDataSource extends TableDataSource<BillingAccount> {
+export class BillingAccountTableDataSource extends TableDataSource<BillingAccount> {
   public changed = new EventEmitter<boolean>();
-  private subaccounts!: BillingAccount[];
+  private accounts!: BillingAccount[];
   private createAction = new TableCreateAction().getActionDef();
 
   public constructor(
@@ -34,8 +34,8 @@ export class BillingsSubAccountTableDataSource extends TableDataSource<BillingAc
     this.initDataSource();
   }
 
-  public setSubAccounts(subaccounts: BillingAccount[]) {
-    this.subaccounts = subaccounts ? subaccounts : [];
+  public setAccounts(accounts: BillingAccount[]) {
+    this.accounts = accounts ? accounts : [];
   }
 
   public buildTableDef(): TableDef {
@@ -58,16 +58,16 @@ export class BillingsSubAccountTableDataSource extends TableDataSource<BillingAc
     return [
       {
         id: 'businessOwnerID',
-        name: 'settings.billing.stripe_subaccount.user',
+        name: 'settings.billing.connected_account.user',
         headerClass: 'col-25p',
         class: 'col-25p',
         sortable: true,
       },
       {
         id: 'status',
-        name: 'settings.billing.stripe_subaccount.status',
+        name: 'settings.billing.connected_account.status',
         isAngularComponent: true,
-        angularComponent: SubAccountStatusFormatterComponent,
+        angularComponent: AccountStatusFormatterComponent,
         headerClass: 'col-25p text-center',
         class: 'col-25p',
         sortable: true,
@@ -83,7 +83,7 @@ export class BillingsSubAccountTableDataSource extends TableDataSource<BillingAc
 
   public buildTableDynamicRowActions(row?: BillingAccount): TableActionDef[] {
     const rowActions: TableActionDef[] = [];
-    const onboardAction = new TableOnboardSubAccountAction().getActionDef();
+    const onboardAction = new TableOnboardAccountAction().getActionDef();
     if(row.status === BillingAccountStatus.IDLE){
       rowActions.push(onboardAction);
     }
@@ -95,15 +95,15 @@ export class BillingsSubAccountTableDataSource extends TableDataSource<BillingAc
     switch (actionDef.id) {
       // Add
       case ButtonAction.CREATE:
-        this.createSubaccountDialog();
+        this.createAccountDialog();
         break;
     }
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, subaccount: BillingAccount) {
+  public rowActionTriggered(actionDef: TableActionDef, account: BillingAccount) {
     switch (actionDef.id) {
-      case BillingButtonAction.ONBOARD_SUBACCOUNT:
-        (actionDef as TableOnboardSubAccountActionDef).action(subaccount.id,
+      case BillingButtonAction.ONBOARD_CONNECTED_ACCOUNT:
+        (actionDef as TableOnboardAccountActionDef).action(account.id,
           this.centralServerService,
           this.spinnerService,
           this.messageService
@@ -125,11 +125,11 @@ export class BillingsSubAccountTableDataSource extends TableDataSource<BillingAc
   public loadDataImpl(): Observable<DataResult<BillingAccount>> {
     return new Observable((observer) => {
       this.createAction.visible = true;
-      if (this.subaccounts) {
-        this.subaccounts.sort((a, b) => (a.businessOwnerID > b.businessOwnerID) ? 1 : (b.businessOwnerID > a.businessOwnerID) ? -1 : 0);
+      if (this.accounts) {
+        this.accounts.sort((a, b) => (a.businessOwnerID > b.businessOwnerID) ? 1 : (b.businessOwnerID > a.businessOwnerID) ? -1 : 0);
         observer.next({
-          count: this.subaccounts.length,
-          result: this.subaccounts,
+          count: this.accounts.length,
+          result: this.accounts,
         });
       } else {
         observer.next({
@@ -141,18 +141,18 @@ export class BillingsSubAccountTableDataSource extends TableDataSource<BillingAc
     });
   }
 
-  public createSubaccountDialog(subaccount?: BillingAccount) {
+  public createAccountDialog(account?: BillingAccount) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '50vw';
     dialogConfig.panelClass = 'transparent-dialog-container';
-    if (subaccount) {
-      dialogConfig.data = subaccount;
+    if (account) {
+      dialogConfig.data = account;
     }
     // disable outside click close
     dialogConfig.disableClose = true;
     // Open
-    const dialogRef = this.dialog.open(SettingsBillingSubaccountDialogComponent, dialogConfig);
+    const dialogRef = this.dialog.open(SettingsBillingAccountDialogComponent, dialogConfig);
     dialogRef.afterClosed().subscribe((status) => {
       if (status) {
         this.refreshData().subscribe();

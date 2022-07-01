@@ -1684,11 +1684,11 @@ export class CentralServerService {
       );
   }
 
-  public createBillingSubAccounts(subaccount: BillingAccount): Observable<ActionResponse> {
+  public createBillingAccounts(account: BillingAccount): Observable<ActionResponse> {
     // Verify init
     this.checkInit();
     // Execute
-    return this.httpClient.post<ActionResponse>(this.buildRestEndpointUrl(RESTServerRoute.REST_BILLING_SUB_ACCOUNTS), subaccount,
+    return this.httpClient.post<ActionResponse>(this.buildRestEndpointUrl(RESTServerRoute.REST_BILLING_ACCOUNTS), account,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -1697,11 +1697,11 @@ export class CentralServerService {
       );
   }
 
-  public getBillingSubAccounts(): Observable<BillingAccountDataResult> {
+  public getBillingAccounts(): Observable<BillingAccountDataResult> {
     // verify init
     this.checkInit();
     // Build the URL
-    const url = this.buildRestEndpointUrl(RESTServerRoute.REST_BILLING_SUB_ACCOUNTS);
+    const url = this.buildRestEndpointUrl(RESTServerRoute.REST_BILLING_ACCOUNTS);
     // Execute the REST Service
     return this.httpClient.get<BillingAccountDataResult>(url, {
       headers: this.buildHttpHeaders()
@@ -1710,12 +1710,12 @@ export class CentralServerService {
     );
   }
 
-  public onboardSubAccount(id: string): Observable<BillingAccount> {
+  public onboardAccount(id: string): Observable<BillingAccount> {
     this.checkInit();
     if (!id) {
       return EMPTY;
     }
-    const url = this.buildRestEndpointUrl(RESTServerRoute.REST_BILLING_SUB_ACCOUNT_ONBOARD, {
+    const url = this.buildRestEndpointUrl(RESTServerRoute.REST_BILLING_ACCOUNT_ONBOARD, {
       id
     });
     return this.httpClient.get<BillingAccount>(url,

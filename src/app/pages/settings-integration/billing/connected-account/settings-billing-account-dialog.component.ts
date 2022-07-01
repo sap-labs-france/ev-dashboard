@@ -1,7 +1,7 @@
 /* eslint-disable no-useless-constructor */
 
 import { Component, Inject, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { CentralServerService } from 'services/central-server.service';
@@ -16,11 +16,11 @@ import { Utils } from 'utils/Utils';
 import { DialogService } from '../../../../services/dialog.service';
 
 @Component({
-  templateUrl: './settings-billing-subaccounts-dialog.component.html',
-  styleUrls: ['./settings-billing-subaccounts-dialog.component.scss']
+  templateUrl: './settings-billing-account-dialog.component.html',
+  styleUrls: ['./settings-billing-account-dialog.component.scss']
 })
-export class SettingsBillingSubaccountDialogComponent implements OnInit{
-  public currentSubaccount: BillingAccount;
+export class SettingsBillingAccountDialogComponent implements OnInit{
+  public currentAccount: BillingAccount;
   public formGroup!: FormGroup;
 
   public id!: AbstractControl;
@@ -28,7 +28,7 @@ export class SettingsBillingSubaccountDialogComponent implements OnInit{
   public userID!: AbstractControl;
 
   public constructor(
-    public dialogRef: MatDialogRef<SettingsBillingSubaccountDialogComponent>,
+    public dialogRef: MatDialogRef<SettingsBillingAccountDialogComponent>,
     private centralServerService: CentralServerService,
     private spinnerService: SpinnerService,
     private messageService: MessageService,
@@ -37,12 +37,12 @@ export class SettingsBillingSubaccountDialogComponent implements OnInit{
     private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) data: BillingAccount
   ){
-    this.currentSubaccount = data;
+    this.currentAccount = data;
   }
 
   public ngOnInit(): void {
     this.formGroup = new FormGroup({
-      id: new FormControl(this.currentSubaccount ? this.currentSubaccount.accountExternalID : ''),
+      id: new FormControl(this.currentAccount ? this.currentAccount.accountExternalID : ''),
       user: new FormControl(''),
       userID: new FormControl(''),
     });
@@ -63,26 +63,26 @@ export class SettingsBillingSubaccountDialogComponent implements OnInit{
       this.translateService, this.save.bind(this), this.closeDialog.bind(this));
   }
 
-  public save(currentSubaccount: {id: string; userID: string; user: string}) {
+  public save(currentAccount: {id: string; userID: string; user: string}) {
     this.spinnerService.show();
-    this.centralServerService.createBillingSubAccounts({
+    this.centralServerService.createBillingAccounts({
       id: '',
-      businessOwnerID: currentSubaccount.userID
+      businessOwnerID: currentAccount.userID
     }).subscribe((response: ActionResponse) => {
       this.spinnerService.hide();
       if(response.status === RestResponse.SUCCESS) {
         // handle success message
-        this.messageService.showSuccessMessage('settings.billing.stripe_subaccount.create_success');
+        this.messageService.showSuccessMessage('settings.billing.connected_account.create_success');
         this.dialogRef.close(true);
       } else {
-        Utils.handleError(JSON.stringify(response), this.messageService, 'settings.billing.stripe_subaccount.create_error');
+        Utils.handleError(JSON.stringify(response), this.messageService, 'settings.billing.connected_account.create_error');
         this.dialogRef.close(false);
       }
     }, (error) => {
       //handle error here
       this.spinnerService.hide();
       this.dialogRef.close(false);
-      Utils.handleError(JSON.stringify(error), this.messageService, 'settings.billing.stripe_subaccount.create_error');
+      Utils.handleError(JSON.stringify(error), this.messageService, 'settings.billing.connected_account.create_error');
     });
   }
 

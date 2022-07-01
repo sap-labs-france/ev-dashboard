@@ -23,10 +23,10 @@ import { SchneiderAssetConnectionComponent } from './asset/connection/schneider/
 import { WitAssetConnectionComponent } from './asset/connection/wit/wit-asset-connection.component';
 import { SettingsAssetConnectionEditableTableDataSource } from './asset/settings-asset-connections-list-table-data-source';
 import { SettingsAssetComponent } from './asset/settings-asset.component';
+import { AccountStatusFormatterComponent, AppFormatAccountStatusPipe } from './billing/connected-account/formatters/account-status-formatter.component';
+import { SettingsBillingAccountDialogComponent } from './billing/connected-account/settings-billing-account-dialog.component';
+import { BillingAccountTableDataSource } from './billing/connected-account/settings-billing-account-table-data-source';
 import { SettingsBillingComponent } from './billing/settings-billing.component';
-import { AppFormatSubAccountStatusPipe, SubAccountStatusFormatterComponent } from './billing/stripe-subaccounts/formatters/subaccounts-status-formatter.component';
-import { SettingsBillingSubaccountDialogComponent } from './billing/stripe-subaccounts/settings-billing-subaccounts-dialog.component';
-import { BillingsSubAccountTableDataSource } from './billing/stripe-subaccounts/settings-billings-subaccounts-table-data-source';
 import { SettingsStripeComponent } from './billing/stripe/settings-stripe.component';
 import { CarConnectorConnectionComponent } from './car-connector/connection/car-connector-connection.component';
 import { CarConnectorConnectionDialogComponent } from './car-connector/connection/car-connector-connection.dialog.component';
@@ -145,9 +145,9 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     AppFormatOicpPatchJobStatusPipe,
     SettingsOicpEndpointsDetailsComponent,
     SettingsPricingComponent,
-    SettingsBillingSubaccountDialogComponent,
-    SubAccountStatusFormatterComponent,
-    AppFormatSubAccountStatusPipe
+    SettingsBillingAccountDialogComponent,
+    AccountStatusFormatterComponent,
+    AppFormatAccountStatusPipe
   ],
   entryComponents: [
     SettingsIntegrationComponent,
@@ -196,8 +196,8 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     OicpDetailFailureEvsesStatusFormatterComponent,
     OicpPatchJobStatusFormatterComponent,
     SettingsOicpEndpointsDetailsComponent,
-    SettingsBillingSubaccountDialogComponent,
-    SubAccountStatusFormatterComponent
+    SettingsBillingAccountDialogComponent,
+    AccountStatusFormatterComponent
   ],
   providers: [
     SettingsOcpiEndpointsDetailsTableDataSource,
@@ -207,7 +207,7 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     SettingsAssetConnectionEditableTableDataSource,
     SettingsCarConnectorConnectionEditableTableDataSource,
     AnalyticsLinksTableDataSource,
-    BillingsSubAccountTableDataSource,
+    BillingAccountTableDataSource,
   ],
 })
 

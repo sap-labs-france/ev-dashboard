@@ -1750,18 +1750,18 @@
         "tax": "Steuern",
         "no_tax": "Keine Steuern"
       },
-      "stripe_subaccount": {
+      "connected_account": {
         "user": "User",
         "status": "Status",
-        "title": "Stripe Subaccounts",
-        "create": "Create Subaccount",
-        "create_success": "Subaccount added successfully",
-        "create_error": "Error occurred while adding the subaccount, check the logs",
+        "title": "Connected accounts",
+        "create": "Add connected account",
+        "create_success": "Account was added successfully",
+        "create_error": "Error occurred while adding the account, check the logs",
         "status_idle": "Idle",
         "status_pending": "Pending",
         "status_active": "Active",
-        "onboard_success": "Subaccount onboarded successfully",
-        "onboard_error": "Error occurred while onboarding the subaccount, check the logs"
+        "onboard_success": "Account was onboarded successfully",
+        "onboard_error": "Error occurred while onboarding the account, check the logs"
       }
     },
     "analytics": {

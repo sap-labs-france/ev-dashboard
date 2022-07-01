@@ -14,7 +14,7 @@ import { HTTPError } from '../../../types/HTTPError';
 import { BillingSetting, BillingSettings, BillingSettingsType, StripeBillingSetting } from '../../../types/Setting';
 import { TenantComponents } from '../../../types/Tenant';
 import { Utils } from '../../../utils/Utils';
-import { BillingsSubAccountTableDataSource } from './stripe-subaccounts/settings-billings-subaccounts-table-data-source';
+import { BillingAccountTableDataSource } from './connected-account/settings-billing-account-table-data-source';
 
 @Component({
   selector: 'app-settings-billing',
@@ -36,7 +36,7 @@ export class SettingsBillingComponent implements OnInit {
     private spinnerService: SpinnerService,
     private translateService: TranslateService,
     private router: Router,
-    public billingsSubAccountTableDataSource: BillingsSubAccountTableDataSource,
+    public billingAccountTableDataSource: BillingAccountTableDataSource,
   ) {
     this.isActive = this.componentService.isActive(TenantComponents.BILLING);
   }
@@ -60,8 +60,8 @@ export class SettingsBillingComponent implements OnInit {
       this.checkConnectionContext(settings.billing);
       // Init form
       this.formGroup.markAsPristine();
-      this.billingsSubAccountTableDataSource.setSubAccounts(settings.accounts);
-      this.billingsSubAccountTableDataSource.loadData().subscribe();
+      this.billingAccountTableDataSource.setAccounts(settings.accounts);
+      this.billingAccountTableDataSource.loadData().subscribe();
     }, (error) => {
       this.spinnerService.hide();
       switch (error.status) {

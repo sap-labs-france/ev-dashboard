@@ -1688,17 +1688,15 @@ export class CentralServerService {
     );
   }
 
-  public createBillingAccounts(account: BillingAccount): Observable<ActionResponse> {
+  public createBillingAccount(account: BillingAccount): Observable<ActionResponse> {
     // Verify init
     this.checkInit();
     // Execute
-    return this.httpClient.post<ActionResponse>(this.buildRestEndpointUrl(RESTServerRoute.REST_BILLING_ACCOUNTS), account,
-      {
-        headers: this.buildHttpHeaders(),
-      })
-      .pipe(
-        catchError(this.handleHttpError),
-      );
+    return this.httpClient.post<ActionResponse>(this.buildRestEndpointUrl(RESTServerRoute.REST_BILLING_ACCOUNTS), account,{
+      headers: this.buildHttpHeaders(),
+    }).pipe(
+      catchError(this.handleHttpError),
+    );
   }
 
   public getBillingAccounts(): Observable<BillingAccountDataResult> {
@@ -1722,13 +1720,11 @@ export class CentralServerService {
     const url = this.buildRestEndpointUrl(RESTServerRoute.REST_BILLING_ACCOUNT_ONBOARD, {
       id
     });
-    return this.httpClient.get<BillingAccount>(url,
-      {
-        headers: this.buildHttpHeaders(),
-      })
-      .pipe(
-        catchError(this.handleHttpError),
-      );
+    return this.httpClient.patch<ActionResponse>(url,{
+      headers: this.buildHttpHeaders(),
+    }).pipe(
+      catchError(this.handleHttpError),
+    );
   }
 
   public getInvoices(params: FilterParams,

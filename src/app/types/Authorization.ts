@@ -61,7 +61,7 @@ export enum Entity {
   PRICING_DEFINITION = 'PricingDefinition',
   BILLING = 'Billing',
   BILLING_PLATFORM = 'BillingPlatform',
-  BILLING_SUB_ACCOUNT = 'BillingSubAccount',
+  BILLING_ACCOUNT = 'BillingAccount',
   BILLING_TRANSFER = 'BillingTransfer',
   SETTING = 'Setting',
   ASYNC_TASK = 'AsyncTask',

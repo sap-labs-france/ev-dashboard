@@ -1,5 +1,6 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { CentralServerService } from '../../../../../services/central-server.service';
 import { ConfigService } from '../../../../../services/config.service';
@@ -31,7 +32,8 @@ export class CompanyMainComponent implements OnInit, OnChanges {
   public constructor(
     private centralServerService: CentralServerService,
     private messageService: MessageService,
-    private configService: ConfigService) {
+    private configService: ConfigService,
+    private router: Router) {
     this.maxSize = this.configService.getCompany().maxLogoKb;
   }
 
@@ -76,6 +78,9 @@ export class CompanyMainComponent implements OnInit, OnChanges {
           if (companyLogo) {
             this.logo = companyLogo;
           }
+        }, (error) => {
+          Utils.handleHttpError(error, this.router, this.messageService,
+            this.centralServerService, 'general.unexpected_error_backend');
         });
       }
     }

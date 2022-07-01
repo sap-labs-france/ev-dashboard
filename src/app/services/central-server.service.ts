@@ -14,7 +14,7 @@ import { ChargePoint, ChargingStation, OCPPAvailabilityType, OcppParameter } fro
 import { Company } from '../types/Company';
 import CentralSystemServerConfiguration from '../types/configuration/CentralSystemServerConfiguration';
 import { IntegrationConnection, UserConnection } from '../types/Connection';
-import { ActionResponse, ActionsResponse, AssetDataResult, AssetInErrorDataResult, BillingAccountDataResult, BillingInvoiceDataResult, BillingOperationResult, BillingPaymentMethodDataResult, BillingTransferDataResult, CarCatalogDataResult, CarDataResult, ChargingProfileDataResult, ChargingStationDataResult, ChargingStationInErrorDataResult, CheckAssetConnectionResponse, CheckBillingConnectionResponse, CompanyDataResult, DataResult, LogDataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OICPJobStatusesResponse, OICPPingResponse, Ordering, Paging, PricingDefinitionDataResult, RegistrationTokenDataResult, SiteAreaDataResult, SiteDataResult, TagDataResult, UserDataResult } from '../types/DataResult';
+import { ActionResponse, ActionsResponse, AssetDataResult, AssetInErrorDataResult, BillingInvoiceDataResult, BillingOperationResult, BillingPaymentMethodDataResult, BillingTaxDataResult, BillingTransferDataResult, CarCatalogDataResult, CarDataResult, ChargingProfileDataResult, ChargingStationDataResult, ChargingStationInErrorDataResult, CheckAssetConnectionResponse, CheckBillingConnectionResponse, CompanyDataResult, DataResult, LogDataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OICPJobStatusesResponse, OICPPingResponse, Ordering, Paging, PricingDefinitionDataResult, RegistrationTokenDataResult, SiteAreaDataResult, SiteDataResult, TagDataResult, UserDataResult } from '../types/DataResult';
 import { EndUserLicenseAgreement } from '../types/Eula';
 import { FilterParams, Image, KeyValue } from '../types/GlobalType';
 import { TransactionInError } from '../types/InError';
@@ -62,6 +62,10 @@ export class CentralServerService {
     public configService: ConfigService) {
     // Default
     this.initialized = false;
+  }
+
+  public getWindowService(): WindowService {
+    return this.windowService;
   }
 
   public getCentralRestServerServiceUtilURL(): string {
@@ -1672,16 +1676,16 @@ export class CentralServerService {
       );
   }
 
-  public getBillingTaxes(): Observable<BillingTax[]> {
+  public getBillingTaxes(): Observable<BillingTaxDataResult> {
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<BillingTax[]>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.BILLING_TAXES}`,
-      {
-        headers: this.buildHttpHeaders(),
-      })
-      .pipe(
-        catchError(this.handleHttpError),
-      );
+    const url = this.buildRestEndpointUrl(RESTServerRoute.REST_BILLING_TAXES);
+    // Execute the REST Service
+    return this.httpClient.get<BillingTaxDataResult>(url, {
+      headers: this.buildHttpHeaders(),
+    }).pipe(
+      catchError(this.handleHttpError),
+    );
   }
 
   public createBillingAccounts(account: BillingAccount): Observable<ActionResponse> {
@@ -3496,19 +3500,32 @@ export class CentralServerService {
     }
   }
 
-  private handleHttpError(error: HttpErrorResponse): Observable<never> {
+  private handleHttpError(error: HttpErrorResponse): Observable<any> {
     // We might use a remote logging infrastructure
-    const errMsg = { status: 0, message: '', details: undefined };
-    if (error && error instanceof TimeoutError) {
-      errMsg.status = StatusCodes.REQUEST_TIMEOUT;
-      errMsg.message = error.message;
-      errMsg.details = undefined;
-    } else if (error) {
-      errMsg.status = error.status;
-      errMsg.message = error.message ? error.message : error.toString();
-      errMsg.details = error.error ? error.error : undefined;
+    const errMsg = { status: 0, message: '', details: null };
+    if (error.error.size > 0) {
+      return new Observable(observer => {
+        const reader = new FileReader();
+        reader.readAsText(error.error); // convert blob to Text
+        reader.onloadend = () => {
+          errMsg.status = error.status;
+          errMsg.message = error.message;
+          errMsg.details = JSON.parse(reader.result.toString());
+          observer.error(errMsg);
+        };
+      });
+    } else {
+      if (error && error instanceof TimeoutError) {
+        errMsg.status = StatusCodes.REQUEST_TIMEOUT;
+        errMsg.message = error.message;
+        errMsg.details = null;
+      } else if (error) {
+        errMsg.status = error.status;
+        errMsg.message = error.message ?? error.toString();
+        errMsg.details = error.error ?? null;
+      }
+      return throwError(errMsg);
     }
-    return throwError(errMsg);
   }
 
   private processImage(blob: Blob): Observable<string> {

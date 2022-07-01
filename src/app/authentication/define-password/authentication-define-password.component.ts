@@ -11,7 +11,6 @@ import { MessageService } from '../../services/message.service';
 import { SpinnerService } from '../../services/spinner.service';
 import { WindowService } from '../../services/window.service';
 import { RestResponse } from '../../types/GlobalType';
-import { HTTPError } from '../../types/HTTPError';
 import { ParentErrorStateMatcher } from '../../utils/ParentStateMatcher';
 import { Users } from '../../utils/Users';
 import { Utils } from '../../utils/Utils';
@@ -94,6 +93,10 @@ export class AuthenticationDefinePasswordComponent implements OnInit, OnDestroy 
         if (tenantLogo) {
           this.tenantLogo = tenantLogo;
         }
+      }, (error) => {
+        this.spinnerService.hide();
+        Utils.handleHttpError(error, this.router, this.messageService,
+          this.centralServerService, 'general.unexpected_error_backend');
       });
     } else {
       this.tenantLogo = Constants.MASTER_TENANT_LOGO;

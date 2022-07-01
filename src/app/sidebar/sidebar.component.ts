@@ -1,6 +1,8 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MessageService } from 'services/message.service';
+import { Utils } from 'utils/Utils';
 
 import { version } from '../../../package.json';
 import { RouteGuardService } from '../guard/route-guard';
@@ -30,6 +32,7 @@ export class SidebarComponent {
     private guard: RouteGuardService,
     private authorizationService: AuthorizationService,
     private centralServerService: CentralServerService,
+    private messageService: MessageService,
     @Inject(DOCUMENT) private document: Document) {
     // Get the routes
     if (this.activatedRoute && this.activatedRoute.routeConfig && this.activatedRoute.routeConfig.children) {
@@ -103,6 +106,9 @@ export class SidebarComponent {
     if (this.loggedUser.tenantID !== 'default') {
       this.centralServerService.getTenantLogo(this.loggedUser.tenantID).subscribe((tenantLogo) => {
         this.logo = tenantLogo ? tenantLogo : Constants.NO_IMAGE;
+      }, (error) => {
+        Utils.handleHttpError(error, this.router, this.messageService,
+          this.centralServerService, 'general.unexpected_error_backend');
       });
     } else {
       this.logo = Constants.MASTER_TENANT_LOGO;

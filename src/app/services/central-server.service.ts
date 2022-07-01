@@ -1712,15 +1712,10 @@ export class CentralServerService {
     );
   }
 
-  public onboardAccount(id: string): Observable<BillingAccount> {
+  public onboardAccount(accountID: string): Observable<BillingAccount> {
     this.checkInit();
-    if (!id) {
-      return EMPTY;
-    }
-    const url = this.buildRestEndpointUrl(RESTServerRoute.REST_BILLING_ACCOUNT_ONBOARD, {
-      id
-    });
-    return this.httpClient.patch<ActionResponse>(url,{
+    const url = this.buildRestEndpointUrl(RESTServerRoute.REST_BILLING_ACCOUNT_ONBOARD, { id: accountID });
+    return this.httpClient.patch<ActionResponse>(url, {}, {
       headers: this.buildHttpHeaders(),
     }).pipe(
       catchError(this.handleHttpError),
@@ -1927,28 +1922,22 @@ export class CentralServerService {
 
   public finalizeTransfer(transferID: string): Observable<ActionResponse> {
     this.checkInit();
-    // Execute the REST service
     const url = this.buildRestEndpointUrl(RESTServerRoute.REST_BILLING_TRANSFER_FINALIZE, { id: transferID });
-    return this.httpClient.patch<ActionResponse>(url, {},
-      {
-        headers: this.buildHttpHeaders(),
-      })
-      .pipe(
-        catchError(this.handleHttpError),
-      );
+    return this.httpClient.patch<ActionResponse>(url, {}, {
+      headers: this.buildHttpHeaders(),
+    }).pipe(
+      catchError(this.handleHttpError),
+    );
   }
 
   public sendTransfer(transferID: string): Observable<ActionResponse> {
     this.checkInit();
-    // Execute the REST service
     const url = this.buildRestEndpointUrl(RESTServerRoute.REST_BILLING_TRANSFER_SEND, { id: transferID });
-    return this.httpClient.patch<ActionResponse>(url, {},
-      {
-        headers: this.buildHttpHeaders(),
-      })
-      .pipe(
-        catchError(this.handleHttpError),
-      );
+    return this.httpClient.patch<ActionResponse>(url, {}, {
+      headers: this.buildHttpHeaders(),
+    }).pipe(
+      catchError(this.handleHttpError),
+    );
   }
 
   public login(user: any): Observable<LoginResponse> {

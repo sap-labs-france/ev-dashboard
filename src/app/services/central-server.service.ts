@@ -3459,30 +3459,31 @@ export class CentralServerService {
 
   private handleHttpError(error: HttpErrorResponse): Observable<any> {
     // We might use a remote logging infrastructure
-    const errMsg = { status: 0, message: '', details: null };
-    if (error.error.size > 0) {
+    const errorInfo = { status: 0, message: '', details: null };
+    // Handle redirection of Tenant
+    if (error.status === StatusCodes.MOVED_PERMANENTLY &&
+        error.error.size > 0) {
       return new Observable(observer => {
         const reader = new FileReader();
         reader.readAsText(error.error); // convert blob to Text
         reader.onloadend = () => {
-          errMsg.status = error.status;
-          errMsg.message = error.message;
-          errMsg.details = JSON.parse(reader.result.toString());
-          observer.error(errMsg);
+          errorInfo.status = error.status;
+          errorInfo.message = error.message;
+          errorInfo.details = JSON.parse(reader.result.toString());
+          observer.error(errorInfo);
         };
       });
-    } else {
-      if (error && error instanceof TimeoutError) {
-        errMsg.status = StatusCodes.REQUEST_TIMEOUT;
-        errMsg.message = error.message;
-        errMsg.details = null;
-      } else if (error) {
-        errMsg.status = error.status;
-        errMsg.message = error.message ?? error.toString();
-        errMsg.details = error.error ?? null;
-      }
-      return throwError(errMsg);
     }
+    if (error instanceof TimeoutError) {
+      errorInfo.status = StatusCodes.REQUEST_TIMEOUT;
+      errorInfo.message = error.message;
+      errorInfo.details = null;
+    } else  {
+      errorInfo.status = error.status;
+      errorInfo.message = error.message ?? error.toString();
+      errorInfo.details = error.error ?? null;
+    }
+    return throwError(errorInfo);
   }
 
   private processImage(blob: Blob): Observable<string> {

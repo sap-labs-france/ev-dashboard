@@ -1738,7 +1738,6 @@
       "stripe": {
         "description": "E-mobility umožňuje odeslat faktury uživatelům nabíjecích stanic pomocí Stripe...",
         "title": "Stripe",
-        "subaccount_title": "Stripe Subaccounts",
         "url": "URL ovládacího panelu Stripe",
         "public_key": "Publikovatelný klíč API",
         "invalid_public_key": "Publikovatelný klíč API není věrohodný",

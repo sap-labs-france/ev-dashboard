@@ -1739,7 +1739,6 @@
       "stripe": {
         "description": "E-Mobility permet d'envoyer des factures aux utilisateurs de bornes avec Stripe",
         "title": "Stripe",
-        "subaccount_title": "Stripe Subaccounts",
         "url": "URL du terminal Stripe",
         "public_key": "Clé API publique",
         "invalid_public_key": "La clé API publique n'est pas plausible",

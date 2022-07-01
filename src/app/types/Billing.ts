@@ -49,7 +49,7 @@ export enum BillingButtonAction {
   DOWNLOAD_INVOICE = 'download_invoice',
   CREATE_PAYMENT_METHOD = 'create_payment_method',
   DELETE_PAYMENT_METHOD = 'delete_payment_method',
-  ONBOARD_CONNECTED_ACCOUNT = 'onboard_subaccount',
+  ONBOARD_CONNECTED_ACCOUNT = 'onboard_connected_account',
 }
 
 export interface BillingTransactionData {

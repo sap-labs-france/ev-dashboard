@@ -1738,7 +1738,6 @@
       "stripe": {
         "description": "E-Mobility ermöglicht das Senden von Rechnungen an Ladestationnutzer mit Stripe ...",
         "title": "Stripe",
-        "subaccount_title": "Stripe Subaccounts",
         "url": "URL vom Stripe Dashboard",
         "public_key": "Teilbarer API Key",
         "invalid_public_key": "Teilbarer API Key ist nicht plausibel",

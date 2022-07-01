@@ -1738,7 +1738,6 @@
       "stripe": {
         "description": "E-Mobility permite enviar faturas para os usuários da estação de carregamento com Stripe ...",
         "title": "Stripe",
-        "subaccount_title": "Stripe Subaccounts",
         "url": "URL do Stripe Dashboard",
         "public_key": "Chave de API publicável",
         "invalid_public_key": "A chave de API publicável não é plausível",

@@ -1737,7 +1737,6 @@
       "stripe": {
         "description": "E-Mobility permite enviar facturas a los usuarios de estaciones de carga con Stripe",
         "title": "Stripe",
-        "subaccount_title": "Stripe Subaccounts",
         "url": "URL de su cueanta en Stripe",
         "public_key": "Clave publicable",
         "invalid_public_key": "La clave publicable no es plausible",

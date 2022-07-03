@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { StatusCodes } from 'http-status-codes';
 import { ReCaptchaV3Service } from 'ngx-captcha';
 
 import { CentralServerService } from '../../services/central-server.service';
@@ -125,8 +126,14 @@ export class AuthenticationRegisterComponent implements OnInit, OnDestroy {
         }
       }, (error) => {
         this.spinnerService.hide();
-        Utils.handleHttpError(error, this.router, this.messageService,
-          this.centralServerService, 'general.unexpected_error_backend');
+        switch (error.status) {
+          case StatusCodes.NOT_FOUND:
+            this.tenantLogo = Constants.NO_IMAGE;
+            break;
+          default:
+            Utils.handleHttpError(error, this.router, this.messageService,
+              this.centralServerService, 'general.unexpected_error_backend');
+        }
       });
     } else {
       this.tenantLogo = Constants.MASTER_TENANT_LOGO;

@@ -125,8 +125,14 @@ export class AuthenticationLoginComponent implements OnInit, OnDestroy {
         }
       }, (error) => {
         this.spinnerService.hide();
-        Utils.handleHttpError(error, this.router, this.messageService,
-          this.centralServerService, 'general.unexpected_error_backend');
+        switch (error.status) {
+          case StatusCodes.NOT_FOUND:
+            this.tenantLogo = Constants.NO_IMAGE;
+            break;
+          default:
+            Utils.handleHttpError(error, this.router, this.messageService,
+              this.centralServerService, 'general.unexpected_error_backend');
+        }
       });
     } else {
       this.tenantLogo = Constants.MASTER_TENANT_LOGO;

@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { StatusCodes } from 'http-status-codes';
 import { ReCaptchaV3Service } from 'ngx-captcha';
 import { Utils } from 'utils/Utils';
 
@@ -66,8 +67,14 @@ export class AuthenticationResetPasswordComponent implements OnInit, OnDestroy {
         }
       }, (error) => {
         this.spinnerService.hide();
-        Utils.handleHttpError(error, this.router, this.messageService,
-          this.centralServerService, 'general.unexpected_error_backend');
+        switch (error.status) {
+          case StatusCodes.NOT_FOUND:
+            this.tenantLogo = Constants.NO_IMAGE;
+            break;
+          default:
+            Utils.handleHttpError(error, this.router, this.messageService,
+              this.centralServerService, 'general.unexpected_error_backend');
+        }
       });
     } else {
       this.tenantLogo = Constants.MASTER_TENANT_LOGO;

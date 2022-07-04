@@ -76,9 +76,7 @@ export class CompanyMainComponent implements OnInit, OnChanges {
       if (!this.logoChanged) {
         this.centralServerService.getCompanyLogo(this.company.id).subscribe((companyLogo) => {
           this.logoChanged = true;
-          if (companyLogo) {
-            this.logo = companyLogo;
-          }
+          this.logo = companyLogo ?? Constants.NO_IMAGE;
         }, (error) => {
           switch (error.status) {
             case StatusCodes.NOT_FOUND:

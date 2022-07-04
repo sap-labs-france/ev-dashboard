@@ -1485,7 +1485,7 @@ export class CentralServerService {
       );
   }
 
-  public getUserImage(id: string): Observable<Image> {
+  public getUserImage(id: string): Observable<string> {
     // Verify init
     this.checkInit();
     // Execute the REST service
@@ -1493,11 +1493,13 @@ export class CentralServerService {
       return EMPTY;
     }
     const url = this.buildRestEndpointUrl(RESTServerRoute.REST_USER_IMAGE, { id });
-    return this.httpClient.get<Image>(url,
+    return this.httpClient.get<Blob>(url,
       {
         headers: this.buildHttpHeaders(),
+        responseType: 'blob' as 'json',
       })
       .pipe(
+        switchMap((blob: Blob) => this.processImage(blob)),
         catchError(this.handleHttpError),
       );
   }

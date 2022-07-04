@@ -135,9 +135,7 @@ export class SiteAreaMainComponent implements OnInit, OnChanges {
       if (!this.imageChanged) {
         this.centralServerService.getSiteAreaImage(this.siteArea.id).subscribe((siteAreaImage) => {
           this.imageChanged = true;
-          if (siteAreaImage) {
-            this.image = siteAreaImage;
-          }
+          this.image = siteAreaImage ?? Constants.NO_IMAGE;
         }, (error) => {
           switch (error.status) {
             case StatusCodes.NOT_FOUND:

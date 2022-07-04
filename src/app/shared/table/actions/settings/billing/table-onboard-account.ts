@@ -1,18 +1,15 @@
+import { Observable } from 'rxjs';
 import { CentralServerService } from 'services/central-server.service';
-import { MessageService } from 'services/message.service';
-import { SpinnerService } from 'services/spinner.service';
-import { BillingButtonAction } from 'types/Billing';
+import { BillingAccount, BillingAccountStatus, BillingButtonAction } from 'types/Billing';
 import { ButtonActionColor } from 'types/GlobalType';
 import { TableActionDef } from 'types/Table';
-import { Utils } from 'utils/Utils';
 
 import { TableAction } from '../../table-action';
 
 export interface TableOnboardAccountActionDef extends TableActionDef {
-  action: (id: string,
-    centralServerService: CentralServerService,
-    spinnerService: SpinnerService,
-    messageService: MessageService) => void;
+  action: (account: BillingAccount,
+    centralServerService: CentralServerService
+  ) => Observable<BillingAccount>;
 }
 
 export class TableOnboardAccountAction implements TableAction {
@@ -32,22 +29,8 @@ export class TableOnboardAccountAction implements TableAction {
   }
 
   //Onboard the connected account
-  private onboardAccount(id: string,
-    centralServerService: CentralServerService,
-    spinnerService: SpinnerService,
-    messageService: MessageService) {
-    // execute onboarding operation here
-    spinnerService.show();
-    centralServerService.onboardAccount(id).subscribe((response) => {
-      spinnerService.hide();
-      if(response) {
-        messageService.showSuccessMessage('settings.billing.connected_account.onboard_success');
-      } else {
-        Utils.handleError(JSON.stringify(response), messageService, 'settings.billing.connected_account.onboard_error');
-      }
-    }, (error) => {
-      spinnerService.hide();
-      Utils.handleError(JSON.stringify(error), messageService, 'settings.billing.connected_account.onboard_error');
-    });
+  private onboardAccount(account: BillingAccount,
+    centralServerService: CentralServerService): Observable<BillingAccount> {
+    return centralServerService.onboardAccount(account.id);
   }
 }

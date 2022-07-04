@@ -14,6 +14,7 @@ import { BillingAccount, BillingAccountStatus, BillingButtonAction } from 'types
 import { DataResult } from 'types/DataResult';
 import { ButtonAction } from 'types/GlobalType';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'types/Table';
+import { Utils } from 'utils/Utils';
 
 import { AccountStatusFormatterComponent } from './formatters/account-status-formatter.component';
 import { SettingsBillingAccountDialogComponent } from './settings-billing-account-dialog.component';
@@ -105,11 +106,7 @@ export class BillingAccountTableDataSource extends TableDataSource<BillingAccoun
   public rowActionTriggered(actionDef: TableActionDef, account: BillingAccount) {
     switch (actionDef.id) {
       case BillingButtonAction.ONBOARD_CONNECTED_ACCOUNT:
-        (actionDef as TableOnboardAccountActionDef).action(account.id,
-          this.centralServerService,
-          this.spinnerService,
-          this.messageService
-        );
+        this.onboardAccount(actionDef as TableOnboardAccountActionDef, account);
         break;
     }
   }
@@ -154,11 +151,30 @@ export class BillingAccountTableDataSource extends TableDataSource<BillingAccoun
     // Open
     const dialogRef = this.dialog.open(SettingsBillingAccountDialogComponent, dialogConfig);
     dialogRef.afterClosed().subscribe((status) => {
-      console.log(status);
       if (status) {
         this.refreshData().subscribe();
         this.changed.emit(true);
       }
+    });
+  }
+
+  private onboardAccount(onboardAction: TableOnboardAccountActionDef, account: BillingAccount) {
+    this.spinnerService.show();
+    onboardAction.action(
+      account,
+      this.centralServerService
+    ).subscribe((response) => {
+      this.spinnerService.hide();
+      if(response) {
+        this.messageService.showSuccessMessage('settings.billing.connected_account.onboard_success');
+        this.refreshData().subscribe();
+        this.changed.emit(true);
+      } else {
+        Utils.handleError(JSON.stringify(response), this.messageService, 'settings.billing.connected_account.onboard_error');
+      }
+    }, (error) => {
+      this.spinnerService.hide();
+      Utils.handleError(JSON.stringify(error), this.messageService, 'settings.billing.connected_account.onboard_error');
     });
   }
 }

@@ -452,7 +452,7 @@ export enum ServerAction {
   BILLING_CHARGE_INVOICE = 'BillingChargeInvoice',
   BILLING_TEST_DATA_CLEANUP = 'BillingTestDataCleanup',
   BILLING_BILL_PENDING_TRANSACTION = 'BillingBillPendingTransaction',
-  BILLING_CREATE_SUB_ACCOUNT = 'BillingCreateSubAccount',
+  BILLING_CREATE_ACCOUNT = 'BillingCreateAccount',
 
   PRICING = 'Pricing',
   PRICING_DEFINITION = 'PricingDefinition',
@@ -679,10 +679,10 @@ export enum RESTServerRoute {
 
   REST_BILLING_TAXES = 'billing/taxes',
 
-  REST_BILLING_ACCOUNTS = 'billing/sub-accounts',
-  REST_BILLING_ACCOUNT = 'billing/sub-accounts/:id',
-  REST_BILLING_ACCOUNT_ONBOARD = 'billing/sub-accounts/:id/onboard',
-  REST_BILLING_ACCOUNT_ACTIVATE = 'billing/sub-accounts/:id/activate',
+  REST_BILLING_ACCOUNTS = 'billing/accounts',
+  REST_BILLING_ACCOUNT = 'billing/accounts/:id',
+  REST_BILLING_ACCOUNT_ONBOARD = 'billing/accounts/:id/onboard',
+  REST_BILLING_ACCOUNT_ACTIVATE = 'billing/accounts/:id/activate',
 
   // BILLING URLs for CRUD operations on INVOICES
   REST_BILLING_INVOICES = 'invoices',

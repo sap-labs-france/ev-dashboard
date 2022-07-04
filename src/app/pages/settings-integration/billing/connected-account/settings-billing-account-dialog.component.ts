@@ -65,7 +65,7 @@ export class SettingsBillingAccountDialogComponent implements OnInit{
 
   public save(currentAccount: {id: string; userID: string; user: string}) {
     this.spinnerService.show();
-    this.centralServerService.createBillingAccounts({
+    this.centralServerService.createBillingAccount({
       id: '',
       businessOwnerID: currentAccount.userID
     }).subscribe((response) => {

@@ -3,6 +3,7 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { StatusCodes } from 'http-status-codes';
 import * as moment from 'moment';
 import { SiteAreasDialogComponent } from 'shared/dialogs/site-areas/site-areas-dialog.component';
 import { ButtonAction } from 'types/GlobalType';
@@ -136,6 +137,15 @@ export class SiteAreaMainComponent implements OnInit, OnChanges {
           this.imageChanged = true;
           if (siteAreaImage) {
             this.image = siteAreaImage;
+          }
+        }, (error) => {
+          switch (error.status) {
+            case StatusCodes.NOT_FOUND:
+              this.image = Constants.NO_IMAGE;
+              break;
+            default:
+              Utils.handleHttpError(error, this.router, this.messageService,
+                this.centralServerService, 'general.unexpected_error_backend');
           }
         });
       }

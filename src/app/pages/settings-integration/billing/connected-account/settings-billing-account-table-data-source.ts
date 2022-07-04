@@ -53,15 +53,23 @@ export class BillingAccountTableDataSource extends TableDataSource<BillingAccoun
         enabled: false,
       },
       hasDynamicRowAction: true,
-      rowFieldNameIdentifier: 'businessOwnerID',
+      rowFieldNameIdentifier: 'user.email',
     };
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
     return [
       {
-        id: 'businessOwnerID',
-        name: 'settings.billing.connected_account.user',
+        id: 'user.name',
+        name: 'users.title',
+        headerClass: 'col-25p',
+        class: 'col-25p',
+        formatter: (name: string, account: BillingAccount) => Utils.buildUserFullName(account.user),
+        sortable: true,
+      },
+      {
+        id: 'user.email',
+        name: 'users.email',
         headerClass: 'col-25p',
         class: 'col-25p',
         sortable: true,
@@ -126,7 +134,7 @@ export class BillingAccountTableDataSource extends TableDataSource<BillingAccoun
       this.createAction.visible = true;
       this.componentService.getBillingAccountsSettings().subscribe((accounts) => {
         this.accounts = accounts;
-        // this.accounts.sort((a, b) => (a.businessOwnerID > b.businessOwnerID) ? 1 : (b.businessOwnerID > a.businessOwnerID) ? -1 : 0);
+        this.accounts.sort((a, b) => (a.user.name > b.user.name) ? 1 : (b.user.name > a.user.name) ? -1 : 0);
         observer.next({
           count: this.accounts.length,
           result: this.accounts,

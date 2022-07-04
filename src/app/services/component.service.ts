@@ -250,21 +250,23 @@ export class ComponentService {
     return this.centralServerService.updateSetting(settingsToSave);
   }
 
-
-  public getBillingSettings(): Observable<{ billing: BillingSettings; accounts: BillingAccount[] }> {
+  public getBillingSettings(): Observable<BillingSettings> {
     return new Observable((observer) => {
       // Get the Billing settings
-      this.centralServerService.getBillingSettings().subscribe((billing) => {
-        this.centralServerService.getBillingAccounts().subscribe((accounts) => {
-          const settings = {
-            billing,
-            accounts: accounts.result
-          };
-          observer.next(settings);
-          observer.complete();
-        }, (error) => {
-          observer.error(error);
-        });
+      this.centralServerService.getBillingSettings().subscribe((billingSettings) => {
+        observer.next(billingSettings);
+        observer.complete();
+      }, (error) => {
+        observer.error(error);
+      });
+    });
+  }
+
+  public getBillingAccountsSettings(): Observable<BillingAccount[]> {
+    return new Observable((observer) => {
+      this.centralServerService.getBillingAccounts().subscribe((accounts) => {
+        observer.next(accounts.result);
+        observer.complete();
       }, (error) => {
         observer.error(error);
       });

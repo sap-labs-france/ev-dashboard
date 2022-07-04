@@ -36,7 +36,7 @@
   <!-- Stripe -->
   <app-settings-stripe-billing *ngIf="isActive && billingSettings?.type === 'stripe'" [billingSettings]="billingSettings" [formGroup]="formGroup"></app-settings-stripe-billing>
   <!-- Connected accounts -->
-  <div *ngIf="!isConnectedAccountActive" class="card">
+  <!-- <div *ngIf="!isConnectedAccountActive" class="card">
     <div class="card-header card-header-icon card-header-primary">
       <div class="card-icon">
         <mat-icon>info</mat-icon>
@@ -48,7 +48,7 @@
       <br><br>
       {{'settings.activation_contact_msg' | translate}}
     </div>
-  </div>
+  </div> -->
   <div *ngIf="isConnectedAccountActive" class="card">
     <div class="card-header card-header-icon card-header-primary">
       <div class="card-icon">

@@ -29,9 +29,9 @@ export class StripeService {
   public async initializeStripe(): Promise<Stripe> {
     if (!StripeService.stripeFacade) {
       const billingSettings = await this.loadBillingConfiguration();
-      if (billingSettings?.billing?.stripe?.publicKey) {
+      if (billingSettings?.stripe?.publicKey) {
         loadStripe.setLoadParameters({ advancedFraudSignals: false });
-        StripeService.stripeFacade = await loadStripe(billingSettings.billing.stripe.publicKey);
+        StripeService.stripeFacade = await loadStripe(billingSettings.stripe.publicKey);
       }
     }
     return StripeService.stripeFacade;
@@ -41,7 +41,7 @@ export class StripeService {
     return StripeService.stripeFacade;
   }
 
-  private async loadBillingConfiguration(): Promise<{ billing: BillingSettings; accounts: BillingAccount[] }> {
+  private async loadBillingConfiguration(): Promise<BillingSettings> {
     try {
       return await this.componentService.getBillingSettings().toPromise();
     } catch (error) {

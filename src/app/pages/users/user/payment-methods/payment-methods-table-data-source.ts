@@ -49,7 +49,7 @@ export class PaymentMethodsTableDataSource extends TableDataSource<BillingPaymen
     // Load billing settings
     this.spinnerService.show();
     this.componentService.getBillingSettings().subscribe((settings) => {
-      this.billingSettings = settings.billing;
+      this.billingSettings = settings;
       this.spinnerService.hide();
     }, (error) => {
       this.spinnerService.hide();

@@ -1718,7 +1718,7 @@ export class CentralServerService {
     const url = this.buildRestEndpointUrl(RESTServerRoute.REST_BILLING_ACCOUNT_ONBOARD, {
       id
     });
-    return this.httpClient.get<BillingAccount>(url,
+    return this.httpClient.patch<BillingAccount>(url, {},
       {
         headers: this.buildHttpHeaders(),
       })

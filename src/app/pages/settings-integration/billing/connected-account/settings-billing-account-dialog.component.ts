@@ -68,9 +68,9 @@ export class SettingsBillingAccountDialogComponent implements OnInit{
     this.centralServerService.createBillingAccounts({
       id: '',
       businessOwnerID: currentAccount.userID
-    }).subscribe((response: ActionResponse) => {
+    }).subscribe((response) => {
       this.spinnerService.hide();
-      if(response.status === RestResponse.SUCCESS) {
+      if(response) {
         // handle success message
         this.messageService.showSuccessMessage('settings.billing.connected_account.create_success');
         this.dialogRef.close(true);

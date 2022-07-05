@@ -25,7 +25,7 @@ import { SettingsAssetConnectionEditableTableDataSource } from './asset/settings
 import { SettingsAssetComponent } from './asset/settings-asset.component';
 import { AccountStatusFormatterComponent, AppFormatAccountStatusPipe } from './billing/connected-account/formatters/account-status-formatter.component';
 import { SettingsBillingAccountDialogComponent } from './billing/connected-account/settings-billing-account-dialog.component';
-import { BillingAccountTableDataSource } from './billing/connected-account/settings-billing-account-table-data-source';
+import { BillingAccountsTableDataSource } from './billing/connected-account/settings-billing-accounts-table-data-source';
 import { SettingsBillingComponent } from './billing/settings-billing.component';
 import { SettingsStripeComponent } from './billing/stripe/settings-stripe.component';
 import { CarConnectorConnectionComponent } from './car-connector/connection/car-connector-connection.component';
@@ -207,7 +207,7 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     SettingsAssetConnectionEditableTableDataSource,
     SettingsCarConnectorConnectionEditableTableDataSource,
     AnalyticsLinksTableDataSource,
-    BillingAccountTableDataSource,
+    BillingAccountsTableDataSource,
   ],
 })
 

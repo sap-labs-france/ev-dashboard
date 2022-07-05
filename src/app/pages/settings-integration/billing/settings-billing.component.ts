@@ -14,7 +14,7 @@ import { HTTPError } from '../../../types/HTTPError';
 import { BillingSetting, BillingSettings, BillingSettingsType, StripeBillingSetting } from '../../../types/Setting';
 import { TenantComponents } from '../../../types/Tenant';
 import { Utils } from '../../../utils/Utils';
-import { BillingAccountTableDataSource } from './connected-account/settings-billing-account-table-data-source';
+import { BillingAccountsTableDataSource } from './connected-account/settings-billing-accounts-table-data-source';
 
 @Component({
   selector: 'app-settings-billing',
@@ -37,7 +37,7 @@ export class SettingsBillingComponent implements OnInit {
     private spinnerService: SpinnerService,
     private translateService: TranslateService,
     private router: Router,
-    public billingAccountTableDataSource: BillingAccountTableDataSource,
+    public billingAccountTableDataSource: BillingAccountsTableDataSource,
   ) {
     this.isActive = this.componentService.isActive(TenantComponents.BILLING);
     this.isConnectedAccountActive = this.componentService.isActive(TenantComponents.BILLING_PLATFORM) && this.isActive;

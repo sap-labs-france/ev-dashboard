@@ -20,7 +20,7 @@ import { AccountStatusFormatterComponent } from './formatters/account-status-for
 import { SettingsBillingAccountDialogComponent } from './settings-billing-account-dialog.component';
 
 @Injectable()
-export class BillingAccountTableDataSource extends TableDataSource<BillingAccount> {
+export class BillingAccountsTableDataSource extends TableDataSource<BillingAccount> {
   public changed = new EventEmitter<boolean>();
   private accounts!: BillingAccount[];
   private createAction = new TableCreateAction().getActionDef();

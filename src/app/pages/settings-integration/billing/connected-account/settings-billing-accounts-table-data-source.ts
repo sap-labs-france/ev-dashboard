@@ -64,6 +64,8 @@ export class BillingAccountsTableDataSource extends TableDataSource<BillingAccou
         name: 'users.title',
         headerClass: 'col-25p',
         class: 'col-25p',
+        sorted: true,
+        direction: 'asc',
         formatter: (name: string, account: BillingAccount) => Utils.buildUserFullName(account.businessOwner),
         sortable: true,
       },
@@ -81,7 +83,6 @@ export class BillingAccountsTableDataSource extends TableDataSource<BillingAccou
         angularComponent: AccountStatusFormatterComponent,
         headerClass: 'col-25p text-center',
         class: 'col-25p',
-        sortable: true,
       }
     ];
   }

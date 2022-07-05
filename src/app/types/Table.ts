@@ -4,7 +4,7 @@ import * as moment from 'moment';
 
 import { AssetButtonAction } from './Asset';
 import { AuthorizationActions, AuthorizationAttributes } from './Authorization';
-import { BillingButtonAction } from './Billing';
+import { BillingButtonAction, TransferButtonAction } from './Billing';
 import { CarButtonAction } from './Car';
 import { ChargingStationButtonAction } from './ChargingStation';
 import { CompanyButtonAction } from './Company';
@@ -103,7 +103,7 @@ export enum FilterType {
 export interface TableActionDef {
   id: ButtonAction | CompanyButtonAction | TenantButtonAction | SiteAreaButtonAction | ChargingStationButtonAction |
   UserButtonAction | TransactionButtonAction | SiteButtonAction | OCPIButtonAction | OicpButtonAction | AssetButtonAction |
-  BillingButtonAction | CarButtonAction | LogButtonAction | RegistrationTokenButtonAction | TagButtonAction | PricingButtonAction;
+  BillingButtonAction | CarButtonAction | LogButtonAction | RegistrationTokenButtonAction | TagButtonAction | PricingButtonAction | TransferButtonAction;
   type: ActionType;
   currentValue?: any;
   name: string;

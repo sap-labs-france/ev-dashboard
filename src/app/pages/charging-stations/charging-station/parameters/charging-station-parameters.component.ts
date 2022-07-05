@@ -2,8 +2,8 @@ import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
+import { ChargingStationsAuthorizations } from 'types/Authorization';
 
-import { AuthorizationService } from '../../../../services/authorization.service';
 import { ComponentService } from '../../../../services/component.service';
 import { DialogService } from '../../../../services/dialog.service';
 import { LocaleService } from '../../../../services/locale.service';
@@ -25,9 +25,9 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
   @Input() public chargingStation!: ChargingStation;
   @Input() public formGroup: FormGroup;
   @Input() public readOnly: boolean;
+  @Input() public chargingStationsAuthorizations: ChargingStationsAuthorizations;
 
   public userLocales: KeyValue[];
-  public isAdmin!: boolean;
   public ocpiActive: boolean;
   public isSmartChargingComponentActive = false;
 
@@ -49,23 +49,22 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
   public connectors!: FormArray;
   public chargePoints!: FormArray;
   public tariffID: AbstractControl;
-
   public isOrganizationComponentActive: boolean;
 
+  private initialized: boolean;
+
   public constructor(
-    private authorizationService: AuthorizationService,
     private componentService: ComponentService,
     private translateService: TranslateService,
     private localeService: LocaleService,
     private dialogService: DialogService,
     private dialog: MatDialog) {
-
+    this.initialized = false;
     // Get Locales
     this.userLocales = this.localeService.getLocales();
     this.isOrganizationComponentActive = this.componentService.isActive(TenantComponents.ORGANIZATION);
     this.isSmartChargingComponentActive = this.componentService.isActive(TenantComponents.SMART_CHARGING);
     this.ocpiActive = this.componentService.isActive(TenantComponents.OCPI);
-    this.isAdmin = this.authorizationService.isAdmin();
   }
 
   public ngOnInit(): void {
@@ -150,6 +149,9 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
     this.latitude = this.coordinates.at(1);
     this.maximumPowerAmps.disable();
     this.masterSlave.disable();
+    // Form initialized
+    this.initialized = true;
+    this.loadChargingStation();
   }
 
   public ngOnChanges() {
@@ -158,15 +160,7 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
 
   // eslint-disable-next-line complexity
   public loadChargingStation() {
-    if (this.chargingStation) {
-      // Admin?
-      this.isAdmin = this.authorizationService.isAdmin() ||
-        this.authorizationService.isSiteAdmin(this.chargingStation.siteArea ?
-          this.chargingStation.siteArea.siteID : '');
-      // Deactivate for non admin users
-      if (!this.isAdmin) {
-        this.formGroup.disable();
-      }
+    if (this.initialized && this.chargingStation) {
       // Init form with values
       this.id.setValue(this.chargingStation.id);
       this.issuer.setValue(this.chargingStation.issuer);

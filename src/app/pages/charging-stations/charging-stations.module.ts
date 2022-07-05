@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { ChartModule } from 'angular2-chartjs';
 import { MomentModule } from 'ngx-moment';
+import { TransactionDialogComponent } from 'shared/dialogs/transaction/transaction-dialog.component';
 import { PricingDefinitionsModule } from 'shared/pricing-definitions/pricing-definitions.module';
 
 import { MaterialModule } from '../../app.module';
@@ -22,7 +23,6 @@ import { AppChargingStationsFormatFirmwareStatusPipe, ChargingStationsFirmwareSt
 import { ChargingStationsHeartbeatCellComponent } from './cell-components/charging-stations-heartbeat-cell.component';
 import { AppChargingStationsFormatPowerChargerPipe, ChargingStationsInstantPowerChargerProgressBarCellComponent } from './cell-components/charging-stations-instant-power-charger-progress-bar-cell.component';
 import { AppChargingStationsFormatPowerConnectorPipe, ChargingStationsInstantPowerConnectorProgressBarCellComponent } from './cell-components/charging-stations-instant-power-connector-progress-bar-cell.component';
-import { ChargingStationsTransactionDetailComponentCellComponent } from './cell-components/charging-stations-transaction-detail-cell.component';
 import { ChargingPlansListTableDataSource } from './charging-plans/charging-plans-list-table-data-source';
 import { ChargingPlansListComponent } from './charging-plans/charging-plans-list.component';
 import { ChargingStationConnectorsComponent } from './charging-station-connectors/charging-station-connectors-component.component';
@@ -75,6 +75,43 @@ import { ChargingStationsRegistrationTokenDialogComponent } from './registration
     MomentModule,
     PricingDefinitionsModule,
   ],
+  entryComponents: [
+    ChargingStationLimitationComponent,
+    ChargingStationLimitationDialogComponent,
+    ChargingPlansComponent,
+    ChargingStationPowerSliderComponent,
+    ChargingStationPowerSliderCellComponent,
+    ChargingStationStaticLimitationComponent,
+    ChargingPlanChartComponent,
+    ChargingStationAdvancedComponent,
+    ChargingStationDialogComponent,
+    ChargingStationComponent,
+    ChargingStationPropertiesComponent,
+    ChargingStationOcppParametersComponent,
+    ChargingStationParametersComponent,
+    ChargingStationConnectorComponent,
+    ChargingStationChargePointComponent,
+    ChargingStationConnectorsComponent,
+    ChargingStationsStartTransactionDialogComponent,
+    TransactionDialogComponent,
+    ChargingStationsHeartbeatCellComponent,
+    ChargingStationsInstantPowerChargerProgressBarCellComponent,
+    ChargingStationsInstantPowerConnectorProgressBarCellComponent,
+    ChargingStationsConnectorStatusCellComponent,
+    ChargingStationsConnectorsCellComponent,
+    ChargingStationsConnectorCellComponent,
+    ChargingStationOcppParametersInputFieldCellComponent,
+    ChargingStationsListComponent,
+    ChargingStationsInErrorComponent,
+    ChargingStationsConnectorInactivityCellComponent,
+    ChargingStationFirmwareUpdateComponent,
+    ChargingStationsFirmwareStatusCellComponent,
+    ChargingPlansListComponent,
+    ChargingStationsRegistrationTokenStatusComponent,
+    ChargingStationsRegistrationTokenComponent,
+    ChargingStationsRegistrationTokenDialogComponent,
+    ChargingStationsRegistrationTokensComponent,
+  ],
   declarations: [
     ChargingStationLimitationComponent,
     ChargingStationLimitationDialogComponent,
@@ -97,7 +134,6 @@ import { ChargingStationsRegistrationTokenDialogComponent } from './registration
     AppChargingStationsFormatConnectorStatusPipe,
     AppChargingStationsFormatFirmwareStatusPipe,
     ChargingStationsHeartbeatCellComponent,
-    ChargingStationsTransactionDetailComponentCellComponent,
     ChargingStationsInstantPowerChargerProgressBarCellComponent,
     ChargingStationsInstantPowerConnectorProgressBarCellComponent,
     ChargingStationsConnectorStatusCellComponent,

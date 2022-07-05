@@ -88,7 +88,7 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    const columns: TableColumnDef[] = [
+    return [
       {
         id: 'name',
         name: 'chargers.name',
@@ -141,7 +141,6 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
         class: 'col-15p',
       },
     ];
-    return columns;
   }
 
   public buildTableActionsDef(): TableActionDef[] {

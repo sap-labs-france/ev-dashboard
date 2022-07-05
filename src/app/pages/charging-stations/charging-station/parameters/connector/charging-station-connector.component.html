@@ -61,7 +61,7 @@
           <div class="col-md-6">
             <mat-form-field>
               <input matInput placeholder="{{'chargers.amperagePerPhase' | translate}}" (input)="amperageChanged()"
-                type="number" required [formControl]="amperagePerPhase" [readOnly]="!isAdmin">
+                type="number" required [formControl]="amperagePerPhase" [readOnly]="readOnly">
               <mat-error *ngIf="amperagePerPhase?.errors?.required">{{'general.mandatory_field' | translate}}
               </mat-error>
               <mat-error *ngIf="amperagePerPhase?.errors?.min || amperagePerPhase?.errors?.pattern">
@@ -107,7 +107,7 @@
               </mat-error>
             </mat-form-field>
           </div>
-          <div class="col-md-12 text-right" *ngIf="chargingStation?.issuer">
+          <div class="col-md-12 text-right" *ngIf="chargingStation?.canGetConnectorQRCode">
             <button type="button" mat-raised-button color="primary" (click)="generateQRCode()">
               <mat-icon>qr_code</mat-icon>
               <span>{{'general.display_qr' | translate}}</span>

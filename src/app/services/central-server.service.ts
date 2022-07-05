@@ -8,14 +8,13 @@ import { catchError, switchMap } from 'rxjs/operators';
 import { ChargingStationTemplate } from 'types/ChargingStationTemplate';
 
 import { Asset, AssetConsumption } from '../types/Asset';
-import { BillingTax } from '../types/Billing';
 import { Car, CarCatalog, CarMaker, ImageObject } from '../types/Car';
 import { ChargingProfile, GetCompositeScheduleCommandResult } from '../types/ChargingProfile';
 import { ChargePoint, ChargingStation, OCPPAvailabilityType, OcppParameter } from '../types/ChargingStation';
 import { Company } from '../types/Company';
 import CentralSystemServerConfiguration from '../types/configuration/CentralSystemServerConfiguration';
 import { IntegrationConnection, UserConnection } from '../types/Connection';
-import { ActionResponse, ActionsResponse, AssetDataResult, AssetInErrorDataResult, BillingInvoiceDataResult, BillingOperationResult, BillingPaymentMethodDataResult, BillingTransferDataResult, CarCatalogDataResult, CarDataResult, ChargingProfileDataResult, ChargingStationDataResult, ChargingStationInErrorDataResult, ChargingStationTemplateDataResult, CheckAssetConnectionResponse, CheckBillingConnectionResponse, CompanyDataResult, DataResult, LogDataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OICPJobStatusesResponse, OICPPingResponse, Ordering, Paging, PricingDefinitionDataResult, RegistrationTokenDataResult, SiteAreaDataResult, SiteDataResult, TagDataResult, UserDataResult } from '../types/DataResult';
+import { ActionResponse, ActionsResponse, AssetDataResult, AssetInErrorDataResult, BillingInvoiceDataResult, BillingOperationResult, BillingPaymentMethodDataResult, BillingTaxDataResult, BillingTransferDataResult, CarCatalogDataResult, CarDataResult, ChargingProfileDataResult, ChargingStationDataResult, ChargingStationInErrorDataResult, ChargingStationTemplateDataResult, CheckAssetConnectionResponse, CheckBillingConnectionResponse, CompanyDataResult, DataResult, LogDataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OICPJobStatusesResponse, OICPPingResponse, Ordering, Paging, PricingDefinitionDataResult, RegistrationTokenDataResult, SiteAreaDataResult, SiteDataResult, TagDataResult, UserDataResult } from '../types/DataResult';
 import { EndUserLicenseAgreement } from '../types/Eula';
 import { FilterParams, Image, KeyValue } from '../types/GlobalType';
 import { TransactionInError } from '../types/InError';
@@ -1486,7 +1485,7 @@ export class CentralServerService {
       );
   }
 
-  public getUserImage(id: string): Observable<Image> {
+  public getUserImage(id: string): Observable<string> {
     // Verify init
     this.checkInit();
     // Execute the REST service
@@ -1494,11 +1493,13 @@ export class CentralServerService {
       return EMPTY;
     }
     const url = this.buildRestEndpointUrl(RESTServerRoute.REST_USER_IMAGE, { id });
-    return this.httpClient.get<Image>(url,
+    return this.httpClient.get<Blob>(url,
       {
         headers: this.buildHttpHeaders(),
+        responseType: 'blob' as 'json',
       })
       .pipe(
+        switchMap((blob: Blob) => this.processImage(blob)),
         catchError(this.handleHttpError),
       );
   }
@@ -1677,16 +1678,16 @@ export class CentralServerService {
       );
   }
 
-  public getBillingTaxes(): Observable<BillingTax[]> {
+  public getBillingTaxes(): Observable<BillingTaxDataResult> {
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<BillingTax[]>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.BILLING_TAXES}`,
-      {
-        headers: this.buildHttpHeaders(),
-      })
-      .pipe(
-        catchError(this.handleHttpError),
-      );
+    const url = this.buildRestEndpointUrl(RESTServerRoute.REST_BILLING_TAXES);
+    // Execute the REST Service
+    return this.httpClient.get<BillingTaxDataResult>(url, {
+      headers: this.buildHttpHeaders(),
+    }).pipe(
+      catchError(this.handleHttpError),
+    );
   }
 
   public getInvoices(params: FilterParams,
@@ -2889,7 +2890,7 @@ export class CentralServerService {
     // Build Ordering
     this.getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<CarCatalogDataResult>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CAR_CATALOGS}`,
+    return this.httpClient.get<CarCatalogDataResult>(this.buildRestEndpointUrl(RESTServerRoute.REST_CAR_CATALOGS),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -3106,7 +3107,7 @@ export class CentralServerService {
       }
     }`;
     // Execute
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CHARGING_STATION_SET_CHARGING_PROFILE}`, body,
+    return this.httpClient.post<ActionResponse>(this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_PROFILES), body,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -3542,30 +3543,31 @@ export class CentralServerService {
 
   private handleHttpError(error: HttpErrorResponse): Observable<any> {
     // We might use a remote logging infrastructure
-    const errMsg = { status: 0, message: '', details: null };
-    if (error.error.size > 0) {
+    const errorInfo = { status: 0, message: '', details: null };
+    // Handle redirection of Tenant
+    if (error.status === StatusCodes.MOVED_PERMANENTLY &&
+        error.error.size > 0) {
       return new Observable(observer => {
         const reader = new FileReader();
         reader.readAsText(error.error); // convert blob to Text
         reader.onloadend = () => {
-          errMsg.status = error.status;
-          errMsg.message = error.message;
-          errMsg.details = JSON.parse(reader.result.toString());
-          observer.error(errMsg);
+          errorInfo.status = error.status;
+          errorInfo.message = error.message;
+          errorInfo.details = JSON.parse(reader.result.toString());
+          observer.error(errorInfo);
         };
       });
-    } else {
-      if (error && error instanceof TimeoutError) {
-        errMsg.status = StatusCodes.REQUEST_TIMEOUT;
-        errMsg.message = error.message;
-        errMsg.details = null;
-      } else if (error) {
-        errMsg.status = error.status;
-        errMsg.message = error.message ?? error.toString();
-        errMsg.details = error.error ?? null;
-      }
-      return throwError(errMsg);
     }
+    if (error instanceof TimeoutError) {
+      errorInfo.status = StatusCodes.REQUEST_TIMEOUT;
+      errorInfo.message = error.message;
+      errorInfo.details = null;
+    } else  {
+      errorInfo.status = error.status;
+      errorInfo.message = error.message ?? error.toString();
+      errorInfo.details = error.error ?? null;
+    }
+    return throwError(errorInfo);
   }
 
   private processImage(blob: Blob): Observable<string> {

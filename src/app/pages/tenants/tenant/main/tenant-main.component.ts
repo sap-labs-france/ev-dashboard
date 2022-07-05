@@ -1,5 +1,8 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { StatusCodes } from 'http-status-codes';
+import { Utils } from 'utils/Utils';
 
 import { CentralServerService } from '../../../../services/central-server.service';
 import { ConfigService } from '../../../../services/config.service';
@@ -30,6 +33,7 @@ export class TenantMainComponent implements OnInit, OnChanges {
 
   public constructor(
     private centralServerService: CentralServerService,
+    private router: Router,
     private messageService: MessageService,
     private configService: ConfigService) {
     this.logoMaxSize = this.configService.getTenant().maxLogoKb;
@@ -83,7 +87,16 @@ export class TenantMainComponent implements OnInit, OnChanges {
       }
       // Get Tenant logo
       this.centralServerService.getTenantLogo(this.tenant.id).subscribe((tenantLogo) => {
-        this.logo = tenantLogo ? tenantLogo : Constants.NO_IMAGE;
+        this.logo = tenantLogo ?? Constants.NO_IMAGE;
+      }, (error) => {
+        switch (error.status) {
+          case StatusCodes.NOT_FOUND:
+            this.logo = Constants.NO_IMAGE;
+            break;
+          default:
+            Utils.handleHttpError(error, this.router, this.messageService,
+              this.centralServerService, 'general.unexpected_error_backend');
+        }
       });
     }
   }

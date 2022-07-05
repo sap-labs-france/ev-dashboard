@@ -1,6 +1,7 @@
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { StatusCodes } from 'http-status-codes';
 import { TenantComponents } from 'types/Tenant';
 
 import { CentralServerService } from '../../../services/central-server.service';
@@ -97,9 +98,16 @@ export class TransactionComponent implements OnInit, OnDestroy {
       }
       // Load User's image
       if ((this.loggedUserImage === Constants.USER_NO_PICTURE) && transaction.user) {
-        this.centralServerService.getUserImage(transaction.user.id).subscribe((userImage: Image) => {
-          if (userImage && userImage.image) {
-            this.loggedUserImage = userImage.image.toString();
+        this.centralServerService.getUserImage(transaction.user.id).subscribe((userImage) => {
+          this.loggedUserImage = userImage ?? Constants.USER_NO_PICTURE;
+        }, (error) => {
+          switch (error.status) {
+            case StatusCodes.NOT_FOUND:
+              this.loggedUserImage = Constants.USER_NO_PICTURE;
+              break;
+            default:
+              Utils.handleHttpError(error, this.router, this.messageService,
+                this.centralServerService, 'general.unexpected_error_backend');
           }
         });
       }

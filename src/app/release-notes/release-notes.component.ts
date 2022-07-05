@@ -25,7 +25,7 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.6.9',
-        date: new Date('2022-06-30'),
+        date: new Date('2022-07-05'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -38,6 +38,7 @@ export class ReleaseNotesComponent {
               `Log in error failed Remote Push Notification`,
               `Virtual RFID ID are generated now on 8 bytes`,
               `Added automatic redirection of migrated tenants to a k8s cluster`,
+              `Fix Site not provided in Charging Profile`
             ],
           },
         ],

@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { StatusCodes } from 'http-status-codes';
 
 import { CentralServerService } from '../../../../../services/central-server.service';
 import { ConfigService } from '../../../../../services/config.service';
@@ -75,12 +76,16 @@ export class CompanyMainComponent implements OnInit, OnChanges {
       if (!this.logoChanged) {
         this.centralServerService.getCompanyLogo(this.company.id).subscribe((companyLogo) => {
           this.logoChanged = true;
-          if (companyLogo) {
-            this.logo = companyLogo;
-          }
+          this.logo = companyLogo ?? Constants.NO_IMAGE;
         }, (error) => {
-          Utils.handleHttpError(error, this.router, this.messageService,
-            this.centralServerService, 'general.unexpected_error_backend');
+          switch (error.status) {
+            case StatusCodes.NOT_FOUND:
+              this.logo = Constants.NO_IMAGE;
+              break;
+            default:
+              Utils.handleHttpError(error, this.router, this.messageService,
+                this.centralServerService, 'general.unexpected_error_backend');
+          }
         });
       }
     }

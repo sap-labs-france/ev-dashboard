@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { StatusCodes } from 'http-status-codes';
 import { CentralServerService } from 'services/central-server.service';
 import { ConfigService } from 'services/config.service';
 import { MessageService } from 'services/message.service';
@@ -9,6 +11,7 @@ import { KeyValue } from 'types/GlobalType';
 import { User, UserRole, UserStatus } from 'types/User';
 import { Constants } from 'utils/Constants';
 import { Users } from 'utils/Users';
+import { Utils } from 'utils/Utils';
 
 import { AuthorizationService } from '../../../../services/authorization.service';
 import { ComponentService } from '../../../../services/component.service';
@@ -60,7 +63,8 @@ export class UserMainComponent implements OnInit, OnChanges {
     private messageService: MessageService,
     private componentService: ComponentService,
     private configService: ConfigService,
-    private localeService: LocaleService) {
+    private localeService: LocaleService,
+    private router: Router) {
     // Admin?
     this.isAdmin = this.authorizationService.isAdmin();
     this.isSuperAdmin = this.authorizationService.isSuperAdmin();
@@ -212,8 +216,15 @@ export class UserMainComponent implements OnInit, OnChanges {
       if (!this.userImageSet) {
         this.centralServerService.getUserImage(this.user.id).subscribe((userImage) => {
           this.userImageSet = true;
-          if (userImage && userImage.image) {
-            this.image = userImage.image.toString();
+          this.image = userImage ?? Constants.USER_NO_PICTURE;
+        }, (error) => {
+          switch (error.status) {
+            case StatusCodes.NOT_FOUND:
+              this.image = Constants.USER_NO_PICTURE;
+              break;
+            default:
+              Utils.handleHttpError(error, this.router, this.messageService,
+                this.centralServerService, 'general.unexpected_error_backend');
           }
         });
       }

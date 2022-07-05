@@ -3348,7 +3348,6 @@ export class CentralServerService {
       .pipe(
         catchError(this.handleHttpError),
       );
-    return new Observable();
   }
 
   public getChargingStationTemplate(id: string): Observable<ChargingStationTemplate> {

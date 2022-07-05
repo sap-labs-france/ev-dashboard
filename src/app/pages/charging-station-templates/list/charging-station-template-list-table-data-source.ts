@@ -3,6 +3,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { AppDatePipe } from 'shared/formatters/app-date.pipe';
+import { User } from 'types/User';
 
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
@@ -37,9 +39,11 @@ export class ChargingStationTemplatesListTableDataSource extends TableDataSource
     private dialogService: DialogService,
     private router: Router,
     private dialog: MatDialog,
-    private centralServerService: CentralServerService) {
+    private centralServerService: CentralServerService,
+    private datePipe: AppDatePipe) {
     super(spinnerService, translateService);
-    this.setStaticFilters([{ WithCompany: true }]);
+    // With user
+    this.setStaticFilters([{ WithUser: true }]);
     this.initDataSource();
   }
 
@@ -72,6 +76,7 @@ export class ChargingStationTemplatesListTableDataSource extends TableDataSource
       {
         id: 'template.chargePointVendor',
         name: 'templates.chargePointVendor',
+        formatter: (chargePointVendor: string) => chargePointVendor ?? '-',
         sortable: true,
         headerClass: 'col-30p',
         class: 'col-30p',
@@ -79,6 +84,7 @@ export class ChargingStationTemplatesListTableDataSource extends TableDataSource
       {
         id: 'template.extraFilters.chargePointModel',
         name: 'templates.chargePointModel',
+        formatter: (chargePointModel: string) => chargePointModel ?? '-',
         sortable: true,
         headerClass: 'col-30p',
         class: 'col-30p',
@@ -86,10 +92,43 @@ export class ChargingStationTemplatesListTableDataSource extends TableDataSource
       {
         id: 'template.extraFilters.chargeBoxSerialNumber',
         name: 'templates.chargeBoxSerialNumber',
+        formatter: (chargeBoxSerialNumber: string) => chargeBoxSerialNumber ?? '-',
         sortable: true,
         headerClass: 'col-30p',
         class: 'col-30p',
-      }
+      },
+      {
+        id: 'createdOn',
+        name: 'general.created_on',
+        formatter: (createdOn: Date) => this.datePipe.transform(createdOn) ?? '-',
+        sortable: true,
+        headerClass: 'col-30p',
+        class: 'col-30p',
+      },
+      {
+        id: 'createdBy',
+        name: 'general.created_by',
+        formatter: (user: User) => Utils.buildUserFullName(user) ?? '-',
+        sortable: true,
+        headerClass: 'col-30p',
+        class: 'col-30p',
+      },
+      {
+        id: 'lastChangedOn',
+        name: 'general.changed_on',
+        formatter: (lastChangedOn: Date) => this.datePipe.transform(lastChangedOn) ?? '-',
+        sortable: true,
+        headerClass: 'col-30p',
+        class: 'col-30p',
+      },
+      {
+        id: 'lastChangedBy',
+        name: 'general.changed_by',
+        formatter: (user: User) => Utils.buildUserFullName(user) ?? '-',
+        sortable: true,
+        headerClass: 'col-30p',
+        class: 'col-30p',
+      },
     ];
   }
 

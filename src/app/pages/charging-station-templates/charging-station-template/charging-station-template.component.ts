@@ -32,7 +32,7 @@ export class ChargingStationTemplateComponent extends AbstractTabComponent imple
 
   public formGroup!: FormGroup;
   public readOnly = true;
-  public template!: ChargingStationTemplate;
+  public chargingStationTemplate!: ChargingStationTemplate;
 
   public constructor(
     private centralServerService: CentralServerService,
@@ -61,7 +61,7 @@ export class ChargingStationTemplateComponent extends AbstractTabComponent imple
       this.spinnerService.show();
       this.centralServerService.getChargingStationTemplate(this.currentTemplateID).subscribe((chargingStationTemplate) => {
         this.spinnerService.hide();
-        this.template = chargingStationTemplate;
+        this.chargingStationTemplate = chargingStationTemplate;
         if (this.readOnly) {
           // Async call for letting the sub form groups to init
           setTimeout(() => this.formGroup.disable(), 0);
@@ -95,11 +95,11 @@ export class ChargingStationTemplateComponent extends AbstractTabComponent imple
       this.translateService, this.saveTemplate.bind(this), this.closeDialog.bind(this));
   }
 
-  public saveTemplate() {
+  public saveTemplate(chargingStationTemplate: ChargingStationTemplate) {
     if (this.currentTemplateID) {
-      this.updateChargingStationTemplate(this.template);
+      this.updateChargingStationTemplate(chargingStationTemplate);
     } else {
-      this.createChargingStationTemplate(this.template);
+      this.createChargingStationTemplate(chargingStationTemplate);
     }
   }
 
@@ -128,13 +128,13 @@ export class ChargingStationTemplateComponent extends AbstractTabComponent imple
     });
   }
 
-  private updateChargingStationTemplate(template: ChargingStationTemplate) {
+  private updateChargingStationTemplate(chargingStationTemplate: ChargingStationTemplate) {
     this.spinnerService.show();
     // Update
-    this.centralServerService.updateChargingStationTemplate(template).subscribe((response) => {
+    this.centralServerService.updateChargingStationTemplate(chargingStationTemplate).subscribe((response) => {
       this.spinnerService.hide();
       if (response.status === RestResponse.SUCCESS) {
-        this.messageService.showSuccessMessage('templates.update_success', { templateID: template.id });
+        this.messageService.showSuccessMessage('templates.update_success', { templateID: chargingStationTemplate.id });
         this.closeDialog(true);
       } else {
         Utils.handleError(JSON.stringify(response),

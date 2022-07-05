@@ -1699,14 +1699,21 @@ export class CentralServerService {
     );
   }
 
-  public getBillingAccounts(): Observable<BillingAccountDataResult> {
+  public getBillingAccounts(paging: Paging = Constants.DEFAULT_PAGING,
+    ordering: Ordering[] = []): Observable<BillingAccountDataResult> {
     // verify init
     this.checkInit();
+    const params: FilterParams = {};
+    // Build Paging
+    this.getPaging(paging, params);
+    // Build Ordering
+    this.getSorting(ordering, params);
     // Build the URL
     const url = this.buildRestEndpointUrl(RESTServerRoute.REST_BILLING_ACCOUNTS);
     // Execute the REST Service
     return this.httpClient.get<BillingAccountDataResult>(url, {
       headers: this.buildHttpHeaders(),
+      params
     }).pipe(
       catchError(this.handleHttpError),
     );

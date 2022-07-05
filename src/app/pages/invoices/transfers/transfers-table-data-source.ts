@@ -269,7 +269,7 @@ export class TransfersTableDataSource extends TableDataSource<BillingTransfer> {
         break;
       case TransferButtonAction.SEND_TRANSFER:
         if (this.sendBillingTransferAction.action) {
-          this.finalizeBillingTransferAction.action(transfer.id,
+          this.sendBillingTransferAction.action(transfer.id,
             this.translateService, this.spinnerService,
             this.messageService, this.centralServerService, this.router,
             this.refreshData.bind(this)

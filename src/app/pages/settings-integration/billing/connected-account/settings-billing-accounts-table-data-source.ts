@@ -53,7 +53,7 @@ export class BillingAccountsTableDataSource extends TableDataSource<BillingAccou
         enabled: false,
       },
       hasDynamicRowAction: true,
-      rowFieldNameIdentifier: 'user.email',
+      rowFieldNameIdentifier: 'businessOwner.email',
     };
   }
 

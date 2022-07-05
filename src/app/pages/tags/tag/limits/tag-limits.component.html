@@ -1,6 +1,6 @@
 <div>
   <form class="form" [formGroup]="formGroup">
-    <div class="row">
+    <div class="row align-items-center">
       <div class="col-md-3 pricing-dimension">
         <mat-slide-toggle (change)="toggleLimitKwh($event)" [formControl]="limitKwhEnabled">
           {{'tags.limits_energy' | translate}}

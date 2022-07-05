@@ -60,15 +60,15 @@ export class BillingAccountsTableDataSource extends TableDataSource<BillingAccou
   public buildTableColumnDefs(): TableColumnDef[] {
     return [
       {
-        id: 'user.name',
+        id: 'businessOwner.name',
         name: 'users.title',
         headerClass: 'col-25p',
         class: 'col-25p',
-        formatter: (name: string, account: BillingAccount) => Utils.buildUserFullName(account.user),
+        formatter: (name: string, account: BillingAccount) => Utils.buildUserFullName(account.businessOwner),
         sortable: true,
       },
       {
-        id: 'user.email',
+        id: 'businessOwner.email',
         name: 'users.email',
         headerClass: 'col-25p',
         class: 'col-25p',
@@ -134,7 +134,6 @@ export class BillingAccountsTableDataSource extends TableDataSource<BillingAccou
       this.createAction.visible = true;
       this.componentService.getBillingAccountsSettings().subscribe((accounts) => {
         this.accounts = accounts;
-        this.accounts.sort((a, b) => (a.user.name > b.user.name) ? 1 : (b.user.name > a.user.name) ? -1 : 0);
         observer.next({
           count: this.accounts.length,
           result: this.accounts,

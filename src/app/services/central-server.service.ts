@@ -1702,14 +1702,11 @@ export class CentralServerService {
   public getBillingAccounts(): Observable<BillingAccountDataResult> {
     // verify init
     this.checkInit();
-    const params: { [param: string]: string } = {};
-    params['WithUser'] = 'true';
     // Build the URL
     const url = this.buildRestEndpointUrl(RESTServerRoute.REST_BILLING_ACCOUNTS);
     // Execute the REST Service
     return this.httpClient.get<BillingAccountDataResult>(url, {
       headers: this.buildHttpHeaders(),
-      params
     }).pipe(
       catchError(this.handleHttpError),
     );

@@ -263,7 +263,7 @@ export class ComponentService {
     });
   }
 
-  public getBillingAccountsSettings(paging: Paging = Constants.DEFAULT_PAGING,
+  public getBillingAccounts(paging: Paging = Constants.DEFAULT_PAGING,
     ordering: Ordering[] = []): Observable<BillingAccount[]> {
     return new Observable((observer) => {
       this.centralServerService.getBillingAccounts(paging, ordering).subscribe((accounts) => {

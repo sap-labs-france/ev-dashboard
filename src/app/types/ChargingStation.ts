@@ -29,7 +29,6 @@ export interface ChargingStation extends TableData, ChargingStationAuthorization
   lastSeen: Date;
   deleted: boolean;
   inactive: boolean;
-  isUnavailable?: boolean;
   forceInactive: boolean;
   manualConfiguration?: boolean;
   lastReboot: Date;

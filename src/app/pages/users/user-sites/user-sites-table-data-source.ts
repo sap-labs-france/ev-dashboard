@@ -82,7 +82,7 @@ export class UserSitesTableDataSource extends TableDataSource<SiteUser> {
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    return [
+    const columns: TableColumnDef[] = [
       {
         id: 'site.name',
         name: 'sites.name',
@@ -111,15 +111,18 @@ export class UserSitesTableDataSource extends TableDataSource<SiteUser> {
         name: 'sites.admin_role',
         class: 'col-10p',
       },
-      {
+
+    ];
+    if (this.authorizationService.canCreateSiteArea()) {
+      columns.push({
         id: 'siteOwner',
         isAngularComponent: true,
         angularComponent: UserSitesOwnerRadioComponent,
         name: 'sites.owner_role',
         class: 'col-10p',
-        visible: this.authorizationService.canCreateSiteArea(),
-      }
-    ];
+      });
+    }
+    return columns;
   }
 
   public setUser(user: User) {

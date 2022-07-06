@@ -5,7 +5,6 @@ import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { WindowService } from 'services/window.service';
-import { ChargingStationsAuthorizations } from 'types/Authorization';
 import { ActionResponse } from 'types/DataResult';
 
 import { CentralServerService } from '../../../../services/central-server.service';
@@ -45,8 +44,6 @@ interface ProfileType {
 })
 export class ChargingPlansComponent implements OnInit, AfterViewInit {
   @Input() public chargingStation!: ChargingStation;
-  @Input() public chargingStationsAuthorizations: ChargingStationsAuthorizations;
-
 
   public profileTypeMap: ProfileType[] = [
     {

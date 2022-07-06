@@ -496,10 +496,6 @@ export abstract class TableDataSource<T extends TableData> {
     this.clearPaging();
   }
 
-  public getTableDef(): TableDef {
-    return this.tableDef;
-  }
-
   public clearData() {
     this.data.length = 0;
   }

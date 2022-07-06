@@ -3,11 +3,10 @@ import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators }
 import { MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { ChargingStationsAuthorizations, DialogParamsWithAuth } from 'types/Authorization';
 import { Car } from 'types/Car';
-import { ChargingStation } from 'types/ChargingStation';
 import { Tag } from 'types/Tag';
 
+import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
 import { MessageService } from '../../../services/message.service';
@@ -52,13 +51,14 @@ export class ChargingStationsStartTransactionDialogComponent implements OnInit {
     private translateService: TranslateService,
     private componentService: ComponentService,
     private centralServerService: CentralServerService,
+    private authorizationService: AuthorizationService,
     private dialogRef: MatDialogRef<ChargingStationsStartTransactionDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data: DialogParamsWithAuth<ChargingStation, ChargingStationsAuthorizations> ) {
+    @Inject(MAT_DIALOG_DATA) data: any) {
     // Set
-    this.title = translateService.instant('chargers.start_transaction_details_title', { chargeBoxID: data.dialogData.id });
-    this.chargingStationID = data.dialogData.id;
+    this.title = data.title;
+    this.chargingStationID = data.chargingStationID;
     this.loggedUser = this.centralServerService.getLoggedUser();
-    this.canListUsers = data.dialogData.canListUsers;
+    this.canListUsers = this.authorizationService.canListUsers();
     this.isCarComponentActive = this.componentService.isActive(TenantComponents.CAR);
     Utils.registerValidateCloseKeyEvents(this.dialogRef,
       this.startTransaction.bind(this), this.cancel.bind(this));

@@ -94,7 +94,7 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    return [
+    const columns: TableColumnDef[] = [
       {
         id: 'user.name',
         name: 'users.name',
@@ -112,15 +112,16 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
         id: 'user.email',
         name: 'users.email',
         class: 'text-left col-40p',
-      },
-      {
+      }
+    ];
+    if (this.getMode() === TableDataSourceMode.READ_WRITE) {
+      columns.push({
         id: 'siteAdmin',
         isAngularComponent: true,
         angularComponent: SiteUsersAdminCheckboxComponent,
         name: 'sites.admin_role',
         headerClass: 'text-center',
         class: 'col-10p',
-        visible: this.getMode() === TableDataSourceMode.READ_WRITE,
       },
       {
         id: 'siteOwner',
@@ -129,9 +130,10 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
         name: 'sites.owner_role',
         headerClass: 'text-center',
         class: 'col-10p',
-        visible: this.getMode() === TableDataSourceMode.READ_WRITE,
-      }
-    ];
+      });
+    }
+
+    return columns;
   }
 
   public setSite(site: Site) {

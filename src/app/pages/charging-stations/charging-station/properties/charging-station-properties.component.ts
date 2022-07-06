@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ChargingStationsAuthorizations } from 'types/Authorization';
 
 import { AppDatePipe } from '../../../../shared/formatters/app-date.pipe';
 import { ChargingStation, ChargingStationCapabilities } from '../../../../types/ChargingStation';
@@ -20,8 +19,6 @@ export interface PropertyDisplay {
 // @Injectable()
 export class ChargingStationPropertiesComponent implements OnInit {
   @Input() public chargingStation!: ChargingStation;
-  @Input() public chargingStationsAuthorizations: ChargingStationsAuthorizations;
-
 
   public chargerFormatted: any = {};
   public displayedProperties: PropertyDisplay[] = [

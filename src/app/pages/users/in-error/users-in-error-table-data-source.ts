@@ -78,7 +78,9 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    return [
+    const loggedUserRole = this.centralServerService.getLoggedUser().role;
+    const columns = [];
+    columns.push(
       {
         id: 'status',
         name: 'users.status',
@@ -91,8 +93,7 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
       {
         id: 'role',
         name: 'users.role',
-        formatter: (role: string) => this.translateService.instant(
-          this.userRolePipe.transform(role, this.centralServerService.getLoggedUser().role)),
+        formatter: (role: string) => this.translateService.instant(this.userRolePipe.transform(role, loggedUserRole)),
         headerClass: 'col-10p text-center',
         class: 'text-left col-10p text-center',
         sortable: true,
@@ -133,8 +134,8 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
         class: 'col-30p text-danger',
         sortable: true,
         formatter: (value: string, row: UserInError) => this.translateService.instant(`users.errors.${row.errorCode}.title`),
-      },
-    ];
+      });
+    return columns as TableColumnDef[];
   }
 
   public buildTableActionsDef(): TableActionDef[] {

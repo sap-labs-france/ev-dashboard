@@ -104,7 +104,7 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    return [
+    const tableColumnDef: TableColumnDef[] = [
       {
         id: 'id',
         name: 'general.id',
@@ -183,6 +183,7 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
         },
       },
     ];
+    return tableColumnDef;
   }
 
   public buildTableActionsDef(): TableActionDef[] {
@@ -203,7 +204,7 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
     if(asset.canUpdate) {
       rowActions.push(this.editAction);
     // Show button
-    } else {
+    } else if (asset.canRead) {
       rowActions.push(this.displayAction);
     }
     // Display refresh button

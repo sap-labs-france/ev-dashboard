@@ -196,7 +196,8 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    return [
+    const tableColumnDef: TableColumnDef[] = [];
+    tableColumnDef.push(
       {
         id: 'active',
         name: 'tags.status',
@@ -260,6 +261,8 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
         headerClass: 'col-20em',
         class: 'col-20em',
       },
+    );
+    tableColumnDef.push(
       {
         id: 'lastChangedOn',
         name: 'users.changed_on',
@@ -284,7 +287,8 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
         formatter: (issuer) => issuer ? this.translateService.instant('issuer.local') :
           this.translateService.instant('issuer.foreign'),
       },
-    ];
+    );
+    return tableColumnDef;
   }
 
   public buildTableActionsDef(): TableActionDef[] {

@@ -110,6 +110,7 @@ export class CarMainComponent implements OnInit, OnChanges {
       this.carTypes.push({ key: CarType.POOL_CAR, value: 'cars.pool_car' });
     }
     // User ID
+    console.log(this.carsAuthorizations);
     if(this.carsAuthorizations.metadata?.userID?.mandatory) {
       this.user.setValidators(Validators.required);
       this.userID.setValidators(Validators.required);

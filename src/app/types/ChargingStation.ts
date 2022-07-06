@@ -1,4 +1,3 @@
-import { ChargingStationAuthorizationActions } from './Authorization';
 import { KeyValue } from './GlobalType';
 import { Site } from './Site';
 import { SiteArea } from './SiteArea';
@@ -6,7 +5,7 @@ import { TableData } from './Table';
 import { InactivityStatus } from './Transaction';
 import { User } from './User';
 
-export interface ChargingStation extends TableData, ChargingStationAuthorizationActions {
+export interface ChargingStation extends TableData {
   id: string;
   templateHash?: string;
   templateHashTechnical?: string;
@@ -151,9 +150,6 @@ export interface Connector extends TableData {
   isTransactionDisplayAuthorized: boolean;
   phaseAssignmentToGrid: PhaseAssignmentToGrid;
   tariffID?: string;
-  canRemoteStopTransaction: boolean;
-  canRemoteStartTransaction: boolean;
-  canUnlockConnector: boolean;
 }
 
 export interface PhaseAssignmentToGrid {

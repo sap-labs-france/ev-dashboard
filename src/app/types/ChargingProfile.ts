@@ -1,8 +1,8 @@
 import { ChargingRateUnitType, ChargingStation } from '../types/ChargingStation';
-import { ChargingProfileAuthorizationActions, DialogData } from './Authorization';
+import { DialogData } from './Authorization';
 import { TableData } from './Table';
 
-export interface ChargingProfile extends ChargingProfileAuthorizationActions, TableData, DialogData {
+export interface ChargingProfile extends TableData, DialogData {
   id: string;
   chargingStationID: string;
   chargingStation?: ChargingStation;

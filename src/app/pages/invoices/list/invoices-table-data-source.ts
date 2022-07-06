@@ -87,7 +87,8 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    return [
+    const columns = [];
+    columns.push(
       {
         id: 'status',
         name: 'general.status',
@@ -130,7 +131,7 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
       {
         id: 'sessions',
         name: 'invoices.number_of_items',
-        formatter: (sessions: BillingSessionData[], invoice: BillingInvoice) => sessions?.length?.toString(),
+        formatter: (sessions: BillingSessionData[], invoice: BillingInvoice) => sessions?.length,
         headerClass: 'col-10p text-center',
         class: 'col-10p text-center',
         sortable: false,
@@ -142,8 +143,8 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
         headerClass: 'col-10p',
         class: 'col-10p',
         sortable: true,
-      }
-    ];
+      });
+    return columns as TableColumnDef[];
   }
 
   public buildTableActionsDef(): TableActionDef[] {

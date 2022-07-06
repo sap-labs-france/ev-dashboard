@@ -17,7 +17,7 @@
         <mat-icon>save</mat-icon><span>{{'general.apply' | translate}}</span>
       </button>
       <button mat-raised-button color="primary" (click)="deleteChargingProfile()"
-        [disabled]="chargingStation.inactive || !chargingStation.canDeleteChargingProfile || (isSmartChargingComponentActive && chargingStation.siteArea?.smartCharging && !chargingStation.excludeFromSmartCharging) || chargingProfiles.length === 0">
+        [disabled]="chargingStation.inactive || (isSmartChargingComponentActive && chargingStation.siteArea?.smartCharging && !chargingStation.excludeFromSmartCharging) || chargingProfiles.length === 0">
         <mat-icon>delete</mat-icon><span>{{'general.delete' | translate}}</span>
       </button>
       <button mat-raised-button color="primary" (click)="refresh()">

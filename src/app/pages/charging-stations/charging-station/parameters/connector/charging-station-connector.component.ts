@@ -22,6 +22,7 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
   @Input() public connector!: Connector;
   @Input() public chargePoint!: ChargePoint;
   @Input() public formConnectorsArray: FormArray;
+  @Input() public isAdmin!: boolean;
   @Input() public isPublic!: boolean;
   @Input() public readOnly: boolean;
   @Input() public manualConfiguration!: boolean;
@@ -141,7 +142,7 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
     this.phaseAssignmentToGrid = this.formConnectorGroup.controls['phaseAssignmentToGrid'];
     this.tariffID = this.formConnectorGroup.controls['tariffID'];
     this.phaseAssignmentToGrid.enable();
-    if (this.readOnly) {
+    if (!this.isAdmin) {
       this.type.disable();
       this.voltage.disable();
       this.amperagePerPhase.disable();
@@ -184,7 +185,7 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
       this.amperagePerPhase.setValue((this.amperage.value as number) / (this.numberOfConnectedPhase.value as number));
       if (this.chargePoint && !this.manualConfiguration) {
         this.formConnectorGroup.disable();
-        if (!this.readOnly) {
+        if (this.isAdmin) {
           this.phaseAssignmentToGrid.enable();
         }
       } else {

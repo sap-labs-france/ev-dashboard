@@ -6,8 +6,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { StatusCodes } from 'http-status-codes';
 import { UtilsService } from 'services/utils.service';
-import { ChargingStationsAuthorizations, DialogMode } from 'types/Authorization';
+import { DialogMode } from 'types/Authorization';
 
+import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
 import { LocaleService } from '../../../services/locale.service';
@@ -28,17 +29,14 @@ export class ChargingStationComponent implements OnInit {
   @Input() public chargingStationID!: string;
   @Input() public dialogRef!: MatDialogRef<any>;
   @Input() public dialogMode!: DialogMode;
-  @Input() public chargingStationsAuthorizations!: ChargingStationsAuthorizations;
-
   @ViewChild('chargingStationParameters', { static: true }) public chargingStationParametersComponent!: ChargingStationParametersComponent;
 
   public formGroup: FormGroup;
   public chargingStation: ChargingStation;
   public userLocales: KeyValue[];
+  public isAdmin!: boolean;
   public isProdLandscape!: boolean;
 
-  public canUpdate: boolean;
-  public canGetParameters: boolean;
   public readOnly = true;
   public isPropertiesPaneDisabled = false;
   public isChargerPaneDisabled = false;
@@ -46,6 +44,7 @@ export class ChargingStationComponent implements OnInit {
   public activeTabIndex = 0;
 
   public constructor(
+    private authorizationService: AuthorizationService,
     private spinnerService: SpinnerService,
     private centralServerService: CentralServerService,
     private messageService: MessageService,
@@ -61,6 +60,7 @@ export class ChargingStationComponent implements OnInit {
   }
 
   public ngOnInit() {
+    this.isAdmin = this.authorizationService.isAdmin();
     this.isProdLandscape = this.utilsService.isProdLandscape();
     // Handle Dialog mode
     this.readOnly = this.dialogMode === DialogMode.VIEW;
@@ -74,8 +74,11 @@ export class ChargingStationComponent implements OnInit {
       this.spinnerService.show();
       this.centralServerService.getChargingStation(this.chargingStationID).subscribe((chargingStation) => {
         this.spinnerService.hide();
-        // Init auth
         this.chargingStation = chargingStation;
+        if (chargingStation) {
+          this.isAdmin = this.authorizationService.isAdmin() ||
+            this.authorizationService.isSiteAdmin(this.chargingStation.siteArea ? this.chargingStation.siteArea.siteID : '');
+        }
         if (this.readOnly || !this.chargingStation.issuer) {
           // Async call for letting the sub form groups to init
           setTimeout(() => this.formGroup.disable(), 0);

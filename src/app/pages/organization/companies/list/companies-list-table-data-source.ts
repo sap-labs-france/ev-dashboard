@@ -74,7 +74,7 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    return [
+    const tableColumnDef: TableColumnDef[] = [
       {
         id: 'logo',
         name: 'companies.logo',
@@ -146,6 +146,7 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
         class: 'col-15em',
       },
     ];
+    return tableColumnDef;
   }
 
   public buildTableActionsDef(): TableActionDef[] {
@@ -164,7 +165,7 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
     const moreActions = new TableMoreAction([]);
     if (company.canUpdate) {
       rowActions.push(this.editAction);
-    } else {
+    } else if (company.canRead) {
       rowActions.push(this.viewAction);
     }
     moreActions.addActionInMoreActions(openInMaps);

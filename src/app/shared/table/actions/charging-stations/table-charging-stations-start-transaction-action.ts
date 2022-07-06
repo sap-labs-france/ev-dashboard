@@ -3,8 +3,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { ChargingStationsAuthorizations, DialogParamsWithAuth } from 'types/Authorization';
-import { ButtonAction, ButtonActionColor } from 'types/GlobalType';
+import { ButtonActionColor, ButtonAction } from 'types/GlobalType';
 import { StartTransaction } from 'types/Transaction';
 
 import { CentralServerService } from '../../../../services/central-server.service';
@@ -47,7 +46,7 @@ export class TableChargingStationsStartTransactionAction implements TableAction 
     if (chargingStation.inactive) {
       dialogService.createAndShowOkDialog(
         translateService.instant('chargers.action_error.transaction_start_title'),
-        translateService.instant('chargers.action_error.transaction_start_title'));
+        translateService.instant('chargers.action_error.transaction_start_chargingStation_inactive'));
       return;
     }
     if (connector.status === ChargePointStatus.UNAVAILABLE) {
@@ -62,15 +61,17 @@ export class TableChargingStationsStartTransactionAction implements TableAction 
         translateService.instant('chargers.action_error.transaction_in_progress'));
       return;
     }
-    // Create dialog config
+    // Create dialog data
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '40vw';
     dialogConfig.panelClass = '';
-    // Build dialog data
-    const dialogData: DialogParamsWithAuth<ChargingStation, ChargingStationsAuthorizations> = {
-      dialogData: chargingStation,
+    // Set data
+    dialogConfig.data = {
+      title: translateService.instant('chargers.start_transaction_details_title', {
+        chargeBoxID: chargingStation.id
+      }),
+      chargingStationID: chargingStation.id,
     };
-    dialogConfig.data = dialogData;
     // Show
     const dialogRef = dialog.open(chargingStationsStartTransactionDialogComponent, dialogConfig);
     dialogRef.afterClosed().subscribe((startTransaction: StartTransaction) => {

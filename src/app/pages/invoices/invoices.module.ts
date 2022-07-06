@@ -9,12 +9,10 @@ import { AddressModule } from '../../shared/address/address.module';
 import { DialogsModule } from '../../shared/dialogs/dialogs.module';
 import { TableModule } from '../../shared/table/table.module';
 import { AppFormatInvoiceStatusPipe, InvoiceStatusFormatterComponent } from './formatters/invoice-status-formatter.component';
-import { AppFormatTransferStatusPipe, TransferStatusFormatterComponent } from './formatters/transfer-status-formatter.component';
 import { InvoicesComponent } from './invoices.component';
 import { InvoicesRoutes } from './invoices.routing';
 import { InvoicesListComponent } from './list/invoices-list.component';
 import { InvoicesTableDataSource } from './list/invoices-table-data-source';
-import { TransfersListComponent } from './transfers/transfers-list.component';
 
 @NgModule({
   imports: [
@@ -32,17 +30,7 @@ import { TransfersListComponent } from './transfers/transfers-list.component';
     InvoicesComponent,
     InvoicesListComponent,
     InvoiceStatusFormatterComponent,
-    TransfersListComponent,
-    TransferStatusFormatterComponent,
-    AppFormatInvoiceStatusPipe,
-    AppFormatTransferStatusPipe
-  ],
-  entryComponents: [
-    InvoicesComponent,
-    InvoicesListComponent,
-    TransfersListComponent,
-    InvoiceStatusFormatterComponent,
-    TransferStatusFormatterComponent,
+    AppFormatInvoiceStatusPipe
   ],
   providers: [
     InvoicesTableDataSource,

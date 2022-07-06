@@ -78,7 +78,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
         Validators.required,
       ]));
     this.dateControl.setValue(this.startDate);
-    if(this.siteAreasAuthorizations.canCreate && this.siteArea.canUpdate && this.siteArea.canDelete) {
+    if(this.siteAreasAuthorizations.canCreate && this.siteArea.canRead && this.siteArea.canUpdate && this.siteArea.canDelete){
       this.visibleDatasets.push(...[
         ConsumptionChartDatasetOrder.LIMIT_WATTS,
         ConsumptionChartDatasetOrder.ASSET_CONSUMPTION_WATTS,

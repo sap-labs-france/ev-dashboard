@@ -1407,30 +1407,6 @@
     "user": "Utilizador",
     "failed_download": "Invoice download failed."
   },
-  "transfers": {
-    "tabs": {
-      "list": "Transfers"
-    },
-    "tooltips": {
-      "finalize": "Finalize transfer",
-      "send": "Send transfer"
-    },
-    "status": {
-      "draft": "Draft",
-      "pending": "Pending",
-      "finalized": "Finalized",
-      "transferred": "Transferred"
-    },
-    "id": "ID",
-    "accountExternalID": "Connected Account",
-    "amount": "Amount",
-    "transferAmount": "Transferred Amount",
-    "number_of_items": "Sessions",
-    "transferExternalID": "External ID",
-    "accountOwner": "Owner",
-    "cannot_finalize_transfer": "Cannot finalize the transfer",
-    "cannot_send_transfer": "Cannot send the transfer"
-  },
   "tags": {
     "id": "Tag ID",
     "not_active": "This badge is not active",

@@ -13,7 +13,7 @@ import { TableAddAction } from '../../../../shared/table/actions/table-add-actio
 import { TableRemoveAction } from '../../../../shared/table/actions/table-remove-action';
 import { TableDataSource } from '../../../../shared/table/table-data-source';
 import { ChargingStation } from '../../../../types/ChargingStation';
-import { ChargingStationDataResult } from '../../../../types/DataResult';
+import { DataResult } from '../../../../types/DataResult';
 import { ButtonAction, RestResponse } from '../../../../types/GlobalType';
 import { HTTPError } from '../../../../types/HTTPError';
 import { SiteArea } from '../../../../types/SiteArea';
@@ -37,7 +37,7 @@ export class SiteAreaChargingStationsDataSource extends TableDataSource<Charging
     super(spinnerService, translateService);
   }
 
-  public loadDataImpl(): Observable<ChargingStationDataResult> {
+  public loadDataImpl(): Observable<DataResult<ChargingStation>> {
     return new Observable((observer) => {
       this.addAction.visible = this.siteArea.canAssignChargingStations;
       this.removeAction.visible = this.siteArea.canUnassignChargingStations;

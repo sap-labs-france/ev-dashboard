@@ -3,21 +3,12 @@
     disableRipple="true" class="h-100 mat-tab-info">
     <mat-tab>
       <ng-template mat-tab-label>
-        <mat-icon>receipt</mat-icon><span>{{'billing.tabs.invoices' | translate}}</span>
+        <mat-icon>receipt</mat-icon>
+        &nbsp;&nbsp;{{'billing.tabs.invoices' | translate}}
       </ng-template>
       <ng-template matTabContent>
         <app-invoices-list></app-invoices-list>
       </ng-template>
     </mat-tab>
-    <ng-container *ngIf="canListTransfers">
-      <mat-tab>
-        <ng-template mat-tab-label>
-          <mat-icon>money</mat-icon><span>{{'transfers.tabs.list' | translate}}</span>
-        </ng-template>
-        <ng-template matTabContent>
-          <app-transfers-list></app-transfers-list>
-        </ng-template>
-      </mat-tab>
-    </ng-container>
   </mat-tab-group>
 </div>

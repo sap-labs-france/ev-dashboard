@@ -126,7 +126,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    return [
+    const tableColumnDef: TableColumnDef[] = [
       {
         id: 'id',
         name: 'general.id',
@@ -157,15 +157,20 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
         headerClass: 'col-10p text-center',
         class: 'col-10p text-center',
         formatter: (numberOfPhases: number, siteArea: SiteArea) => siteArea.issuer ? numberOfPhases.toString() : '-',
-      },
-      {
-        id: 'smartCharging',
-        name: 'site_areas.smart_charging',
-        headerClass: 'col-10p text-center',
-        class: 'col-10p text-center',
-        formatter: (smartCharging: boolean) => Utils.displayYesNo(this.translateService, smartCharging),
-        visible: this.componentService.isActive(TenantComponents.SMART_CHARGING),
-      },
+      }
+    ];
+    if (this.componentService.isActive(TenantComponents.SMART_CHARGING)) {
+      tableColumnDef.push(
+        {
+          id: 'smartCharging',
+          name: 'site_areas.smart_charging',
+          headerClass: 'col-10p text-center',
+          class: 'col-10p text-center',
+          formatter: (smartCharging: boolean) => Utils.displayYesNo(this.translateService, smartCharging),
+        }
+      );
+    }
+    tableColumnDef.push(
       {
         id: 'accessControl',
         name: 'site_areas.access_control',
@@ -228,7 +233,8 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
         headerClass: 'col-15em',
         class: 'col-15em',
       },
-    ];
+    );
+    return tableColumnDef;
   }
 
   public buildTableActionsDef(): TableActionDef[] {

@@ -5,8 +5,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { WindowService } from 'services/window.service';
 import { IssuerFilter } from 'shared/table/filters/issuer-filter';
-import { ChargingStationsAuthorizations } from 'types/Authorization';
 
+import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
@@ -26,8 +26,8 @@ import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-t
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
 import { SiteTableFilter } from '../../../shared/table/filters/site-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
-import { ChargingStationButtonAction, Connector } from '../../../types/ChargingStation';
-import { ChargingStationInErrorDataResult } from '../../../types/DataResult';
+import { ChargePointStatus, ChargingStationButtonAction, Connector, OCPPVersion } from '../../../types/ChargingStation';
+import { DataResult } from '../../../types/DataResult';
 import { ChargingStationInError, ChargingStationInErrorType, ErrorMessage } from '../../../types/InError';
 import { LogButtonAction } from '../../../types/Log';
 import { DropdownItem, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
@@ -39,13 +39,13 @@ import { ChargingStationDialogComponent } from '../charging-station/charging-sta
 
 @Injectable()
 export class ChargingStationsInErrorTableDataSource extends TableDataSource<ChargingStationInError> {
+  private isAdmin: boolean;
   private editAction = new TableEditChargingStationAction().getActionDef();
+  private deleteAction = new TableDeleteChargingStationAction().getActionDef();
+  private resetAction = new TableChargingStationsResetAction().getActionDef();
+  private rebootAction = new TableChargingStationsRebootAction().getActionDef();
   private navigateToLogsAction = new TableNavigateToLogsAction().getActionDef();
   private isOrganizationComponentActive: boolean;
-  private chargingStationsAthorizations: ChargingStationsAuthorizations;
-  private issuerFilter: TableFilterDef;
-  private siteFilter: TableFilterDef;
-  private siteAreaFilter: TableFilterDef;
 
   public constructor(
     public spinnerService: SpinnerService,
@@ -53,12 +53,14 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
     private messageService: MessageService,
     private router: Router,
     private centralServerService: CentralServerService,
+    private authorizationService: AuthorizationService,
     private componentService: ComponentService,
     private dialog: MatDialog,
     private dialogService: DialogService,
     private windowService: WindowService) {
     super(spinnerService, translateService);
     // Init
+    this.isAdmin = this.authorizationService.isAdmin();
     this.isOrganizationComponentActive = this.componentService.isActive(TenantComponents.ORGANIZATION);
 
     if (this.isOrganizationComponentActive) {
@@ -70,23 +72,25 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
     this.initDataSource();
   }
 
-  public loadDataImpl(): Observable<ChargingStationInErrorDataResult> {
+  public loadDataImpl(): Observable<DataResult<ChargingStationInError>> {
     return new Observable((observer) => {
       this.centralServerService.getChargingStationsInError(this.buildFilterValues(),
-        this.getPaging(), this.getSorting()).subscribe((chargingStations) => {
-        // Build auth object
-        this.chargingStationsAthorizations = {
-          canExport: Utils.convertToBoolean(chargingStations.canExport),
-          canListCompanies: Utils.convertToBoolean(chargingStations.canListCompanies),
-          canListSiteAreas: Utils.convertToBoolean(chargingStations.canListSiteAreas),
-          canListSites: Utils.convertToBoolean(chargingStations.canListSites),
-          metadata: chargingStations.metadata
-        };
-        // Update filters visibility
-        this.siteFilter.visible = this.chargingStationsAthorizations.canListSites;
-        this.siteAreaFilter.visible = this.chargingStationsAthorizations.canListSiteAreas;
-        this.formatErrorMessages(chargingStations.result);
-        observer.next(chargingStations);
+        this.getPaging(), this.getSorting()).subscribe((chargers) => {
+        this.formatErrorMessages(chargers.result);
+        // Update details status
+        chargers.result.forEach((chargingStation: ChargingStationInError) => {
+          // At first filter out the connectors that are null
+          chargingStation.connectors = chargingStation.connectors.filter((connector) => !Utils.isNullOrUndefined(connector));
+          chargingStation.connectors.forEach((connector) => {
+            connector.hasDetails = connector.currentTransactionID > 0;
+            connector.status = chargingStation.inactive ? ChargePointStatus.UNAVAILABLE : connector.status;
+            connector.currentInstantWatts = chargingStation.inactive ? 0 : connector.currentInstantWatts;
+            connector.currentStateOfCharge = chargingStation.inactive ? 0 : connector.currentStateOfCharge;
+            connector.currentTotalConsumptionWh = chargingStation.inactive ? 0 : connector.currentTotalConsumptionWh;
+            connector.currentTotalInactivitySecs = chargingStation.inactive ? 0 : connector.currentTotalInactivitySecs;
+          });
+        });
+        observer.next(chargers);
         observer.complete();
       }, (error) => {
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
@@ -220,6 +224,20 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
     }
   }
 
+  public onRowActionMenuOpen(action: TableActionDef, row: ChargingStationInError) {
+    if (action.dropdownActions) {
+      action.dropdownActions.forEach((dropdownAction) => {
+        if (dropdownAction.id === ChargingStationButtonAction.SMART_CHARGING) {
+          // Check charging station version
+          dropdownAction.disabled = row.ocppVersion === OCPPVersion.VERSION_15 || row.inactive;
+        } else {
+          // Check active status of CS
+          dropdownAction.disabled = row.inactive;
+        }
+      });
+    }
+  }
+
   public buildTableFiltersDef(): TableFilterDef[] {
     // Create error type
     const errorTypes = [];
@@ -244,53 +262,46 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
     // Sort
     errorTypes.sort(Utils.sortArrayOfKeyValue);
     // Build filters
-    this.issuerFilter = new IssuerFilter().getFilterDef();
-    this.siteFilter = new SiteTableFilter([this.issuerFilter]).getFilterDef();
-    this.siteAreaFilter = new SiteAreaTableFilter([this.issuerFilter, this.siteFilter]).getFilterDef();
-
-    // Create filters
-    const filters: TableFilterDef[] = [
-      this.issuerFilter,
-      this.siteFilter,
-      this.siteAreaFilter,
-      new ErrorTypeTableFilter(errorTypes).getFilterDef()
+    if (this.isOrganizationComponentActive) {
+      const issuerFilter = new IssuerFilter().getFilterDef();
+      const siteFilter = new SiteTableFilter([issuerFilter]).getFilterDef();
+      return [
+        siteFilter,
+        new SiteAreaTableFilter([siteFilter, issuerFilter]).getFilterDef(),
+        new ErrorTypeTableFilter(errorTypes).getFilterDef(),
+      ];
+    }
+    return [
+      new ErrorTypeTableFilter(errorTypes).getFilterDef(),
     ];
-    return filters;
   }
 
-  public buildTableDynamicRowActions(chargingStation: ChargingStationInError): TableActionDef[] {
-    const tableActionDef: TableActionDef[] = [];
-    // Edit
-    if (chargingStation.canUpdate) {
-      tableActionDef.push(this.editAction);
+  public buildTableDynamicRowActions(charger: ChargingStationInError): TableActionDef[] {
+    if (this.isAdmin && charger.errorCode) {
+      switch (charger.errorCode) {
+        case ChargingStationInErrorType.MISSING_SETTINGS:
+        case ChargingStationInErrorType.MISSING_SITE_AREA:
+        case ChargingStationInErrorType.CONNECTION_BROKEN:
+          return [
+            this.editAction,
+            this.navigateToLogsAction,
+            new TableMoreAction([
+              this.deleteAction,
+            ]).getActionDef(),
+          ];
+        case ChargingStationInErrorType.CONNECTOR_ERROR:
+          return [
+            this.editAction,
+            this.navigateToLogsAction,
+            new TableMoreAction([
+              this.deleteAction,
+              this.resetAction,
+              this.rebootAction,
+            ]).getActionDef(),
+          ];
+      }
     }
-    // Navigate to log
-    tableActionDef.push(this.navigateToLogsAction);
-    // More action
-    const moreActions = new TableMoreAction([]);
-    // Delete
-    if (chargingStation.canDelete) {
-      const deleteAction = new TableDeleteChargingStationAction().getActionDef();
-      deleteAction.disabled = chargingStation.inactive;
-      moreActions.addActionInMoreActions(deleteAction);
-    }
-    // Reboot
-    if (chargingStation.canReset && chargingStation.errorCode === ChargingStationInErrorType.CONNECTOR_ERROR) {
-      const rebootAction = new TableChargingStationsRebootAction().getActionDef();
-      rebootAction.disabled = chargingStation.inactive;
-      moreActions.addActionInMoreActions(rebootAction);
-    }
-    // Reset
-    if (chargingStation.canReset && chargingStation.errorCode === ChargingStationInErrorType.CONNECTOR_ERROR) {
-      const resetAction = new TableChargingStationsResetAction().getActionDef();
-      resetAction.disabled = chargingStation.inactive;
-      moreActions.addActionInMoreActions(resetAction);
-    }
-    // Add more action
-    if (!Utils.isEmptyArray(moreActions.getActionsInMoreActions())) {
-      tableActionDef.push(moreActions.getActionDef());
-    }
-    return tableActionDef;
+    return [];
   }
 
   private formatErrorMessages(chargersInError: ChargingStationInError[]) {

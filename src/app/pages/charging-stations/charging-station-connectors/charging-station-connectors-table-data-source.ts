@@ -21,7 +21,7 @@ import { TableNoAction } from '../../../shared/table/actions/table-no-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { TableViewTransactionAction, TableViewTransactionActionDef, TransactionDialogData } from '../../../shared/table/actions/transactions/table-view-transaction-action';
 import { TableDataSource } from '../../../shared/table/table-data-source';
-import { ChargingStation, ChargingStationButtonAction, Connector } from '../../../types/ChargingStation';
+import { ChargePointStatus, ChargingStation, ChargingStationButtonAction, Connector } from '../../../types/ChargingStation';
 import { DataResult } from '../../../types/DataResult';
 import { TableActionDef, TableColumnDef, TableDef } from '../../../types/Table';
 import { TransactionButtonAction } from '../../../types/Transaction';
@@ -37,7 +37,6 @@ import { ChargingStationsStartTransactionDialogComponent } from '../charging-sta
 export class ChargingStationConnectorsTableDataSource extends TableDataSource<Connector> {
   public stopTransactionAction = new TableChargingStationsStopTransactionAction().getActionDef();
   public startTransactionAction = new TableChargingStationsStartTransactionAction().getActionDef();
-  public unlockConnectorAction = new TableChargingStationsUnlockConnectorAction().getActionDef();
   public viewTransactionAction = new TableViewTransactionAction().getActionDef();
   public noAction = new TableNoAction().getActionDef();
 
@@ -68,23 +67,24 @@ export class ChargingStationConnectorsTableDataSource extends TableDataSource<Co
     return new Observable((observer) => {
       // Return connector
       if (this.chargingStation) {
-        // Rebuild projected fields for Connector
-        let connectorsProjectedFields = this.additionalParameters.projectFields.filter(
-          (projectField) => projectField.startsWith('connectors.'));
-        connectorsProjectedFields = connectorsProjectedFields.map((connectorsProjectedField) => {
-          if (connectorsProjectedField.startsWith('connectors.')) {
-            return connectorsProjectedField.substring(11);
+        this.chargingStation.connectors.forEach((connector) => {
+          if (this.chargingStation.issuer) {
+            connector.isStopAuthorized = !!connector.currentTransactionID &&
+              this.authorizationService.canStopTransaction(this.chargingStation.siteArea, connector.currentTagID);
+            connector.isStartAuthorized = !connector.currentTransactionID &&
+              this.authorizationService.canStartTransaction(this.chargingStation.siteArea);
+            connector.isTransactionDisplayAuthorized = this.authorizationService.canReadTransaction(this.chargingStation.siteArea, connector.currentTagID);
+            connector.hasDetails = !!connector.currentTransactionID && connector.isTransactionDisplayAuthorized;
+          } else {
+            connector.isStopAuthorized = connector.currentTransactionID > 0 && connector.status !== ChargePointStatus.AVAILABLE;
+            connector.isStartAuthorized = !connector.isStopAuthorized && connector.status === ChargePointStatus.AVAILABLE;
+            connector.isTransactionDisplayAuthorized = connector.currentTransactionID > 0;
+            connector.hasDetails = connector.currentTransactionID > 0;
           }
         });
-        for (const connector of this.chargingStation.connectors) {
-          connector.isTransactionDisplayAuthorized =
-            this.authorizationService.canReadTransaction(this.chargingStation.siteArea, connector.currentTagID);
-          connector.hasDetails = !!connector.currentTransactionID && connector.isTransactionDisplayAuthorized;
-        }
         observer.next({
           count: this.chargingStation.connectors.length,
           result: this.chargingStation.connectors,
-          projectFields: connectorsProjectedFields
         });
       }
       observer.complete();
@@ -166,11 +166,11 @@ export class ChargingStationConnectorsTableDataSource extends TableDataSource<Co
         angularComponent: ChargingStationsConnectorInactivityCellComponent,
       },
       {
-        id: 'user.name',
+        id: 'user',
         name: 'chargers.user',
         headerClass: 'col-20p',
         class: 'text-left col-20p',
-        formatter: (name: string, connector: Connector) => this.appUserNamePipe.transform(connector.user),
+        formatter: (user: User) => this.appUserNamePipe.transform(user),
       },
     ];
   }
@@ -188,14 +188,16 @@ export class ChargingStationConnectorsTableDataSource extends TableDataSource<Co
       if (connector.isTransactionDisplayAuthorized) {
         rowActions.push(this.viewTransactionAction);
       }
-      if (connector.canRemoteStopTransaction) {
+      if (connector.isStopAuthorized) {
         rowActions.push(this.stopTransactionAction);
       }
-      if (connector.canRemoteStartTransaction) {
+      if (connector.isStartAuthorized && !this.chargingStation.inactive) {
         rowActions.push(this.startTransactionAction);
       }
-      if (connector.canUnlockConnector) {
-        rowActions.push(this.unlockConnectorAction);
+      if (this.authorizationService.canUnlockConnector(this.chargingStation.siteArea)) {
+        const unlockConnectorAction = new TableChargingStationsUnlockConnectorAction().getActionDef();
+        unlockConnectorAction.disabled = connector.status === ChargePointStatus.AVAILABLE || this.chargingStation.inactive;
+        rowActions.push(unlockConnectorAction);
       }
     }
     if (!Utils.isEmptyArray(rowActions)) {
@@ -223,7 +225,7 @@ export class ChargingStationConnectorsTableDataSource extends TableDataSource<Co
         this.centralServerService.getTransaction(connector.currentTransactionID).subscribe((transaction) => {
           if (actionDef.action) {
             (actionDef as TableChargingStationsStopTransactionActionDef).action(
-              transaction, this.dialogService,
+              transaction, this.authorizationService, this.dialogService,
               this.translateService, this.messageService, this.centralServerService, this.spinnerService,
               this.router, this.refreshData.bind(this));
           }

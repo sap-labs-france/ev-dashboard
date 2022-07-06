@@ -2,7 +2,7 @@
   <div class="card card-profile card-testimonial">
     <mat-tab-group animationDuration="0ms" disableRipple="true" (selectedTabChange)="changeActivePane($event)"
         class="mat-tab-info charger-dialog-container"
-        [class]="dialogRef && !readOnly && activeTabIndex === 0 ? 'mat-tabs-with-actions' : 'mat-tabs-with-close-action'">
+        [class]="dialogRef && !readOnly && this.isAdmin && activeTabIndex === 0 ? 'mat-tabs-with-actions' : 'mat-tabs-with-close-action'">
       <mat-tab>
         <ng-template mat-tab-label>
           <mat-icon>ev_station</mat-icon>
@@ -10,12 +10,12 @@
         </ng-template>
         <div class="card-body charger-param mat-tab-dialog-body-content">
           <div class="tab-content">
-            <app-charging-station-parameters [formGroup]="formGroup" [chargingStation]='chargingStation' [chargingStationsAuthorizations]="chargingStationsAuthorizations" [readOnly]="readOnly">
+            <app-charging-station-parameters [formGroup]="formGroup" [chargingStation]='chargingStation' [readOnly]="readOnly">
             </app-charging-station-parameters>
           </div>
         </div>
       </mat-tab>
-      <ng-container *ngIf="chargingStation?.canUpdate">
+      <ng-container *ngIf="isAdmin && chargingStation?.issuer">
         <mat-tab>
           <ng-template mat-tab-label>
             <mat-icon>info</mat-icon>
@@ -24,13 +24,13 @@
           <div class="card-body mat-tab-dialog-body-content">
             <div class="tab-content">
               <div>
-                <app-charging-station-properties [chargingStation]='chargingStation' [chargingStationsAuthorizations]="chargingStationsAuthorizations"></app-charging-station-properties>
+                <app-charging-station-properties [chargingStation]='chargingStation'></app-charging-station-properties>
               </div>
             </div>
           </div>
         </mat-tab>
       </ng-container>
-      <ng-container *ngIf="chargingStation?.canGetOCPPParams">
+      <ng-container *ngIf="isAdmin && chargingStation?.issuer">
         <mat-tab>
           <ng-template mat-tab-label>
             <mat-icon>build</mat-icon>
@@ -38,13 +38,13 @@
           </ng-template>
           <div class="card-body mat-tab-dialog-body-content">
             <div class="tab-content">
-              <app-charging-station-ocpp-parameters [chargingStation]='chargingStation' [chargingStationsAuthorizations]="chargingStationsAuthorizations">
+              <app-charging-station-ocpp-parameters [chargingStation]='chargingStation'>
               </app-charging-station-ocpp-parameters>
             </div>
           </div>
         </mat-tab>
       </ng-container>
-      <ng-container *ngIf="!isProdLandscape && chargingStation?.canUpdateFirmware">
+      <ng-container *ngIf="!isProdLandscape && isAdmin && chargingStation?.issuer">
         <mat-tab>
           <ng-template mat-tab-label>
             <mat-icon>system_update_alt</mat-icon>
@@ -52,7 +52,7 @@
           </ng-template>
           <div class="card-body mat-tab-dialog-body-content">
             <div class="tab-content">
-              <app-charging-station-firmware-update [chargingStation]='chargingStation' [chargingStationsAuthorizations]="chargingStationsAuthorizations"></app-charging-station-firmware-update>
+              <app-charging-station-firmware-update [charger]='chargingStation'></app-charging-station-firmware-update>
             </div>
           </div>
         </mat-tab>
@@ -60,7 +60,7 @@
     </mat-tab-group>
     <div [class]="dialogRef ? 'tabs-actions' : 'tabs-actions-embedded'">
       <button mat-icon-button *ngIf="!readOnly" (click)="saveChargingStation(formGroup.getRawValue())" title="{{'general.save' | translate}}"
-          [disabled]="!formGroup.valid || !formGroup.dirty">
+          [disabled]="!formGroup.valid || !formGroup.dirty" [hidden]="!this.isAdmin || activeTabIndex !== 0">
         <mat-icon>save</mat-icon>
       </button>
       <button mat-icon-button *ngIf="dialogRef" (click)="close()" title="{{'general.close' | translate}}">

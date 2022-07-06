@@ -73,7 +73,7 @@ export class SiteAreasDialogTableDataSource extends DialogTableDataSource<SiteAr
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    return [
+    const tableColumnDef: TableColumnDef[] = [
       {
         id: 'name',
         name: 'site_areas.title',
@@ -82,14 +82,19 @@ export class SiteAreasDialogTableDataSource extends DialogTableDataSource<SiteAr
         direction: 'asc',
         sortable: true,
       },
-      {
-        id: 'smartCharging',
-        name: 'site_areas.smart_charging',
-        headerClass: 'col-10p text-center',
-        class: 'col-10p text-center',
-        formatter: (smartCharging: boolean) => Utils.displayYesNo(this.translateService, smartCharging),
-        visible: this.componentService.isActive(TenantComponents.SMART_CHARGING),
-      },
+    ];
+    if (this.componentService.isActive(TenantComponents.SMART_CHARGING)) {
+      tableColumnDef.push(
+        {
+          id: 'smartCharging',
+          name: 'site_areas.smart_charging',
+          headerClass: 'col-10p text-center',
+          class: 'col-10p text-center',
+          formatter: (smartCharging: boolean) => Utils.displayYesNo(this.translateService, smartCharging),
+        }
+      );
+    }
+    tableColumnDef.push(
       {
         id: 'address.address1',
         name: 'general.address',
@@ -117,6 +122,7 @@ export class SiteAreasDialogTableDataSource extends DialogTableDataSource<SiteAr
         class: 'text-left col-20p',
         direction: 'asc',
       },
-    ];
+    );
+    return tableColumnDef;
   }
 }

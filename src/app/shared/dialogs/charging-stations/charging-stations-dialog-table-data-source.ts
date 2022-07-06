@@ -7,7 +7,7 @@ import { CentralServerService } from '../../../services/central-server.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { ChargingStation } from '../../../types/ChargingStation';
-import { ChargingStationDataResult } from '../../../types/DataResult';
+import { DataResult } from '../../../types/DataResult';
 import { TableColumnDef } from '../../../types/Table';
 import { Utils } from '../../../utils/Utils';
 import { DialogTableDataSource } from '../dialog-table-data-source';
@@ -25,7 +25,7 @@ export class ChargingStationsDialogTableDataSource extends DialogTableDataSource
     this.initDataSource();
   }
 
-  public loadDataImpl(): Observable<ChargingStationDataResult> {
+  public loadDataImpl(): Observable<DataResult<ChargingStation>> {
     return new Observable((observer) => {
       this.centralServerService.getChargingStations(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((chargers) => {

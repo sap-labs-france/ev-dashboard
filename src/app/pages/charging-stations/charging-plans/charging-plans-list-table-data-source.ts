@@ -4,8 +4,8 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { IssuerFilter } from 'shared/table/filters/issuer-filter';
-import { ChargingProfilesAuthorizations } from 'types/Authorization';
 
+import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
@@ -22,7 +22,7 @@ import { ChargingStationTableFilter } from '../../../shared/table/filters/chargi
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { ChargingProfile } from '../../../types/ChargingProfile';
 import { ChargingStationButtonAction } from '../../../types/ChargingStation';
-import { ChargingProfileDataResult } from '../../../types/DataResult';
+import { DataResult } from '../../../types/DataResult';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
 import { TenantComponents } from '../../../types/Tenant';
 import { Utils } from '../../../utils/Utils';
@@ -33,8 +33,6 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
   private readonly isOrganizationComponentActive: boolean;
   private smartChargingAction = new TableChargingStationsSmartChargingAction().getActionDef();
   private navigateToSiteAreaAction = new TableNavigateToSiteAreaAction().getActionDef();
-  private chargingStationTableFilter: TableFilterDef;
-  private chargingProfilesAuthorizations: ChargingProfilesAuthorizations;
 
   public constructor(
     public spinnerService: SpinnerService,
@@ -43,6 +41,7 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
     private router: Router,
     private appUnitPipe: AppUnitPipe,
     private centralServerService: CentralServerService,
+    private authorizationService: AuthorizationService,
     private componentService: ComponentService,
     private dialog: MatDialog,
     private dialogService: DialogService,
@@ -75,17 +74,10 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
     }
   }
 
-  public loadDataImpl(): Observable<ChargingProfileDataResult> {
+  public loadDataImpl(): Observable<DataResult<ChargingProfile>> {
     return new Observable((observer) => {
       this.centralServerService.getChargingProfiles(this.buildFilterValues(), this.getPaging(), this.getSorting())
         .subscribe((chargingProfiles) => {
-          // Build auth object
-          this.chargingProfilesAuthorizations = {
-            canListChargingStations: Utils.convertToBoolean(chargingProfiles.canListChargingStations),
-            metadata: chargingProfiles.metadata
-          };
-          // Update filters visibility
-          this.chargingStationTableFilter.visible = this.chargingProfilesAuthorizations.canListChargingStations;
           observer.next(chargingProfiles);
           observer.complete();
         }, (error) => {
@@ -105,7 +97,9 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    return [
+    // As sort directive in table can only be unset in Angular 7, all columns will be sortable
+    // Build common part for all cases
+    const tableColumns: TableColumnDef[] = [
       {
         id: 'chargingStationID',
         name: 'chargers.smart_charging.charging_plans.charging_station_id',
@@ -131,20 +125,23 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
         name: 'chargers.smart_charging.charging_plans.stack_level',
         sortable: false,
       },
-      {
-        id: 'chargingStation.siteArea.name',
-        name: 'chargers.smart_charging.charging_plans.site_area',
-        sortable: false,
-        visible: this.isOrganizationComponentActive
-      },
-      {
-        id: 'chargingStation.siteArea.maximumPower',
-        name: 'chargers.smart_charging.charging_plans.site_area_limit',
-        sortable: false,
-        formatter: (maximumPower: number) => maximumPower > 0 ? this.appUnitPipe.transform(maximumPower, 'W', 'kW', true, 0, 0, 0) : '',
-        visible: this.isOrganizationComponentActive
-      },
     ];
+    if (this.isOrganizationComponentActive) {
+      tableColumns.push(
+        {
+          id: 'chargingStation.siteArea.name',
+          name: 'chargers.smart_charging.charging_plans.site_area',
+          sortable: false,
+        },
+        {
+          id: 'chargingStation.siteArea.maximumPower',
+          name: 'chargers.smart_charging.charging_plans.site_area_limit',
+          sortable: false,
+          formatter: (maximumPower: number) => maximumPower > 0 ? this.appUnitPipe.transform(maximumPower, 'W', 'kW', true, 0, 0, 0) : '',
+        },
+      );
+    }
+    return tableColumns;
   }
 
   public buildTableActionsRightDef(): TableActionDef[] {
@@ -156,6 +153,11 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
+    if (this.authorizationService.isAdmin()) {
+      return [
+        ...tableActionsDef,
+      ];
+    }
     return tableActionsDef;
   }
 
@@ -169,7 +171,7 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
                 id: chargingProfile.chargingStationID,
                 canUpdate: chargingProfile.canUpdate,
                 ocppVersion: chargingProfile.chargingStation.ocppVersion
-              }, authorizations: this.chargingProfilesAuthorizations
+              }
             },
             this.refreshData.bind(this)
           );
@@ -183,22 +185,28 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
 
   public buildTableFiltersDef(): TableFilterDef[] {
     const issuerFilter = new IssuerFilter().getFilterDef();
-    this.chargingStationTableFilter = new ChargingStationTableFilter([issuerFilter]).getFilterDef();
-    this.chargingStationTableFilter.visible = false;
     return [
-      this.chargingStationTableFilter
+      new ChargingStationTableFilter([issuerFilter]).getFilterDef(),
     ];
   }
 
   public buildTableDynamicRowActions(chargingProfile: ChargingProfile): TableActionDef[] {
-    const tableActionDef: TableActionDef[] = [];
-    if (chargingProfile.canUpdate) {
-      tableActionDef.push(this.smartChargingAction);
+    if (!chargingProfile) {
+      return [];
     }
-    if (chargingProfile.canReadSiteArea) {
+    if (this.authorizationService.isAdmin() && !this.isOrganizationComponentActive ) {
+      return [
+        this.smartChargingAction
+      ];
+    }
+    if (this.authorizationService.isAdmin() ||
+      this.authorizationService.isSiteAdmin(chargingProfile.chargingStation.siteArea ? chargingProfile.chargingStation.siteArea.siteID : '')) {
       const moreActions = new TableMoreAction([this.navigateToSiteAreaAction]);
-      tableActionDef.push(moreActions.getActionDef());
+      return [
+        this.smartChargingAction,
+        moreActions.getActionDef(),
+      ];
     }
-    return tableActionDef;
+    return [];
   }
 }

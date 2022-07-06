@@ -85,12 +85,6 @@ export enum InactivityStatus {
   ERROR = 'E',
 }
 
-export enum TransactionStatisticsType {
-  REFUND = 'refund',
-  HISTORY = 'history',
-  ONGOING = 'ongoing',
-}
-
 export enum TransactionButtonAction {
   VIEW_TRANSACTION = 'view_transaction',
   EDIT_TRANSACTION = 'edit_transaction',

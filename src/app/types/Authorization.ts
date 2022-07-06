@@ -61,7 +61,7 @@ export enum Entity {
   PRICING_DEFINITION = 'PricingDefinition',
   BILLING = 'Billing',
   BILLING_PLATFORM = 'BillingPlatform',
-  BILLING_SUB_ACCOUNT = 'BillingSubAccount',
+  BILLING_ACCOUNT = 'BillingAccount',
   BILLING_TRANSFER = 'BillingTransfer',
   SETTING = 'Setting',
   ASYNC_TASK = 'AsyncTask',
@@ -280,6 +280,9 @@ export interface RegistrationTokenAuthorizationActions extends AuthorizationActi
 
 export interface LogsAuthorizationActions extends AuthorizationActions {
   canExport?: boolean;
+}
+
+export interface BillingAccountAuthorizations extends AuthorizationAttributes, BillingInvoicesAuthorizationActions {
 }
 
 export interface BillingInvoicesAuthorizations extends AuthorizationAttributes, BillingInvoicesAuthorizationActions {

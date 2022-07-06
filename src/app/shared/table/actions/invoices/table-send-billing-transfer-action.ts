@@ -18,7 +18,7 @@ export interface TableSendBillingTransferDef extends TableActionDef {
 
 export class TableSendBillingTransferAction implements TableAction {
   private action: TableSendBillingTransferDef = {
-    id: TransferButtonAction.FINALIZE_TRANSFER,
+    id: TransferButtonAction.SEND_TRANSFER,
     type: 'button',
     icon: 'cloud_upload',
     color: ButtonActionColor.PRIMARY,

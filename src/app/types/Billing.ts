@@ -49,6 +49,7 @@ export enum BillingButtonAction {
   DOWNLOAD_INVOICE = 'download_invoice',
   CREATE_PAYMENT_METHOD = 'create_payment_method',
   DELETE_PAYMENT_METHOD = 'delete_payment_method',
+  ONBOARD_CONNECTED_ACCOUNT = 'onboard_connected_account',
 }
 
 export interface BillingTransactionData {
@@ -92,11 +93,12 @@ export interface BillingPlatformFeeStrategy {
 }
 
 export interface BillingAccount extends CreatedUpdatedProps, BillingTransferAuthorizationActions {
-  id?: string;
-  businessOwnerID?: string;
-  status: BillingAccountStatus;
+  id: string;
+  businessOwnerID: string;
+  businessOwner?: User;
+  status?: BillingAccountStatus;
   activationLink?: string;
-  accountExternalID: string;
+  accountExternalID?: string;
 }
 
 export interface BillingAccountData {

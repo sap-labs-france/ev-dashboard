@@ -3,6 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { StatusCodes } from 'http-status-codes';
+import { BillingAccountsTableDataSource } from 'pages/accounts/accounts-table-data-source';
 
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
@@ -21,6 +22,7 @@ import { Utils } from '../../../utils/Utils';
 })
 export class SettingsBillingComponent implements OnInit {
   public isActive = false;
+  public isConnectedAccountActive = false;
 
   public formGroup!: FormGroup;
   public billingSettings!: BillingSettings;
@@ -35,8 +37,10 @@ export class SettingsBillingComponent implements OnInit {
     private spinnerService: SpinnerService,
     private translateService: TranslateService,
     private router: Router,
+    public billingAccountTableDataSource: BillingAccountsTableDataSource,
   ) {
     this.isActive = this.componentService.isActive(TenantComponents.BILLING);
+    this.isConnectedAccountActive = this.componentService.isActive(TenantComponents.BILLING_PLATFORM) && this.isActive;
   }
 
   public ngOnInit(): void {
@@ -58,6 +62,7 @@ export class SettingsBillingComponent implements OnInit {
       this.checkConnectionContext(settings);
       // Init form
       this.formGroup.markAsPristine();
+      this.billingAccountTableDataSource.loadData().subscribe();
     }, (error) => {
       this.spinnerService.hide();
       switch (error.status) {

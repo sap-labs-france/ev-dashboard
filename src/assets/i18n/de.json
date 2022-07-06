@@ -1428,8 +1428,8 @@
     "number_of_items": "Sessions",
     "transferExternalID": "External ID",
     "accountOwner": "Owner",
-    "cannot_finalize_transfer": "Cannot finalize the transfer",
-    "cannot_send_transfer": "Cannot send the transfer"
+    "cannot_finalize_transfer": "Operation failed - The transfer could not be finalized",
+    "cannot_send_transfer": "Operation failed - The transfer has not been sent to the billing system"
   },
   "tags": {
     "id": "RFID",
@@ -1748,6 +1748,19 @@
         "periodic_billing": "Periodische Abrechnung",
         "tax": "Steuern",
         "no_tax": "Keine Steuern"
+      },
+      "connected_account": {
+        "user": "User",
+        "status": "Status",
+        "title": "Connected Accounts",
+        "create": "Add connected account",
+        "create_success": "Account was added successfully",
+        "create_error": "Error occurred while adding the account, check the logs",
+        "status_idle": "Idle",
+        "status_pending": "Pending",
+        "status_active": "Active",
+        "onboard_success": "The onboarding process has been triggered. A mail has been sent to the business owner",
+        "onboard_error": "Error occurred while onboarding the account, check the logs"
       }
     },
     "analytics": {

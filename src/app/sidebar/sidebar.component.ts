@@ -1,6 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { StatusCodes } from 'http-status-codes';
 import { MessageService } from 'services/message.service';
 import { Utils } from 'utils/Utils';
 
@@ -85,10 +86,15 @@ export class SidebarComponent {
     // Get the user's image
     if (this.loggedUser && this.loggedUser.id) {
       this.centralServerService.getUserImage(this.loggedUser.id).subscribe((userImage) => {
-        if (userImage?.image) {
-          this.loggedUserImage = userImage.image;
-        } else {
-          this.loggedUserImage = Constants.USER_NO_PICTURE;
+        this.loggedUserImage = userImage ?? Constants.USER_NO_PICTURE;
+      }, (error) => {
+        switch (error.status) {
+          case StatusCodes.NOT_FOUND:
+            this.loggedUserImage = Constants.USER_NO_PICTURE;
+            break;
+          default:
+            Utils.handleHttpError(error, this.router, this.messageService,
+              this.centralServerService, 'general.unexpected_error_backend');
         }
       });
       this.centralServerService.getUser(this.loggedUser.id).subscribe((user) => {
@@ -105,10 +111,16 @@ export class SidebarComponent {
     // Get Tenant logo
     if (this.loggedUser.tenantID !== 'default') {
       this.centralServerService.getTenantLogo(this.loggedUser.tenantID).subscribe((tenantLogo) => {
-        this.logo = tenantLogo ? tenantLogo : Constants.NO_IMAGE;
+        this.logo = tenantLogo ?? Constants.NO_IMAGE;
       }, (error) => {
-        Utils.handleHttpError(error, this.router, this.messageService,
-          this.centralServerService, 'general.unexpected_error_backend');
+        switch (error.status) {
+          case StatusCodes.NOT_FOUND:
+            this.logo = Constants.NO_IMAGE;
+            break;
+          default:
+            Utils.handleHttpError(error, this.router, this.messageService,
+              this.centralServerService, 'general.unexpected_error_backend');
+        }
       });
     } else {
       this.logo = Constants.MASTER_TENANT_LOGO;

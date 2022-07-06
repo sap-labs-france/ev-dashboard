@@ -118,9 +118,7 @@ export class SiteMainComponent implements OnInit, OnChanges {
       if (!this.imageChanged) {
         this.centralServerService.getSiteImage(this.site.id).subscribe((siteImage) => {
           this.imageChanged = true;
-          if (siteImage) {
-            this.image = siteImage;
-          }
+          this.image = siteImage ?? Constants.NO_IMAGE;
         }, (error) => {
           switch (error.status) {
             case StatusCodes.NOT_FOUND:

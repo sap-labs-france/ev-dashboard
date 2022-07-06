@@ -183,9 +183,7 @@ export class AssetMainComponent implements OnInit, OnChanges {
       if (!this.imageChanged) {
         this.centralServerService.getAssetImage(this.asset.id).subscribe((assetImage) => {
           this.imageChanged = true;
-          if (assetImage) {
-            this.image = assetImage;
-          }
+          this.image = assetImage ?? Constants.NO_IMAGE;
         }, (error) => {
           switch (error.status) {
             case StatusCodes.NOT_FOUND:

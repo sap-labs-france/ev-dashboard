@@ -407,10 +407,11 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
     // Change availability
     if (chargingStation.canChangeAvailability) {
       const forceAvailableStatusAction = new TableChargingStationsForceAvailableStatusAction().getActionDef();
-      forceAvailableStatusAction.disabled = chargingStation.inactive;
       const forceUnavailableStatusAction = new TableChargingStationsForceUnavailableStatusAction().getActionDef();
+      forceAvailableStatusAction.disabled = chargingStation.inactive;
       forceUnavailableStatusAction.disabled = chargingStation.inactive;
-      moreActions.addActionInMoreActions(chargingStation.isUnavailable ? forceAvailableStatusAction : forceUnavailableStatusAction,);
+      moreActions.addActionInMoreActions(forceAvailableStatusAction);
+      moreActions.addActionInMoreActions(forceUnavailableStatusAction);
     }
     // Generate QR code
     if (chargingStation.canGenerateQrCode) {

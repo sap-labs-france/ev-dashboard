@@ -1428,8 +1428,8 @@
     "number_of_items": "Sessions",
     "transferExternalID": "External ID",
     "accountOwner": "Owner",
-    "cannot_finalize_transfer": "Cannot finalize the transfer",
-    "cannot_send_transfer": "Cannot send the transfer"
+    "cannot_finalize_transfer": "Operation failed - The transfer could not be finalized",
+    "cannot_send_transfer": "Operation failed - The transfer has not been sent to the billing system"
   },
   "tags": {
     "id": "Insignia ID",

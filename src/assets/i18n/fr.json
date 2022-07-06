@@ -1428,8 +1428,8 @@
     "number_of_items": "Sessions",
     "transferExternalID": "ID externe",
     "accountOwner": "Responsable business",
-    "cannot_finalize_transfer": "Le virement n'a pas pu être finalisé",
-    "cannot_send_transfer": "Echec de la transmission du virement"
+    "cannot_finalize_transfer": "L'opération a échoué - Le virement n'a pas pu être finalisé",
+    "cannot_send_transfer": "L'opération a échoué - Le virement n'a pas pu être transmis au système de facturation"
   },
   "tags": {
     "id": "RFID",

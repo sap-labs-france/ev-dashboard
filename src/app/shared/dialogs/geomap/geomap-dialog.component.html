@@ -24,20 +24,25 @@
       </div>
     </div>
     <div>
-      <google-map [options]="mapOptions" [center]="center" [zoom]="zoom"
-        (maptypeidChanged)="mapTypeIdChange($event)" (mapClick)="mapClick($event)">
+      <agm-map [streetViewControl]="false" [zoom]="zoom" [latitude]="mapLatitude" [longitude]="mapLongitude"
+        (mapReady)="mapReady($event)" (mapTypeIdChange)="mapTypeIdChange($event)" (mapClick)="mapClick($event)"
+        [disableDefaultUI]="true" [mapTypeControl]="true" class="app-shadow">
         <ng-container *ngIf="markers && markers.length > 0; else elseTemplate">
-          <map-marker [position]="marker.position" [icon]="icon" [label]="marker.label">
-          </map-marker>
+          <agm-marker *ngFor="let marker of markers" [latitude]="marker.latitude" [longitude]="marker.longitude"
+            [label]="marker.labelFormatted" [markerDraggable]="true && !displayOnly" (dragEnd)="mapClick($event)"
+            [iconUrl]="icon">
+          </agm-marker>
         </ng-container>
         <ng-template #elseTemplate>
-          <map-marker [position]="marker.position" [icon]="icon" [label]="labelFormatted">
-          </map-marker>
+          <agm-marker [latitude]="markerLatitude" [longitude]="markerLongitude" [label]="labelFormatted"
+            [markerDraggable]="true && !displayOnly" (dragEnd)="mapClick($event)" [iconUrl]="icon">
+          </agm-marker>
         </ng-template>
-      </google-map>
-
+      </agm-map>
     </div>
   </div>
+
+
   <div class="card-footer mat-dialog-actions">
     <button mat-raised-button color="primary" class="app-btn-min-max-width" (click)="minZoom()">
       <mat-icon>zoom_out</mat-icon><span>{{'geomap.min_zoom' | translate}}</span>

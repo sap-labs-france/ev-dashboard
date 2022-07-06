@@ -54,6 +54,9 @@ export class TagLimitsComponent implements OnInit, OnChanges {
     } else {
       this.limitKwh.disable();
     }
+    if (!this.limitKwhConsumed.value) {
+      this.limitKwhConsumed.setValue(0);
+    }
     this.limitFormGroup.markAsDirty();
     this.limitFormGroup.updateValueAndValidity();
   }

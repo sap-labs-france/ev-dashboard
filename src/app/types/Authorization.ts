@@ -50,6 +50,7 @@ export enum Entity {
   SITE_AREA = 'SiteArea',
   COMPANY = 'Company',
   CHARGING_STATION = 'ChargingStation',
+  CONNECTOR = 'Connector',
   TENANT = 'Tenant',
   TRANSACTION = 'Transaction',
   REPORT = 'Report',
@@ -59,6 +60,9 @@ export enum Entity {
   PRICING = 'Pricing',
   PRICING_DEFINITION = 'PricingDefinition',
   BILLING = 'Billing',
+  BILLING_PLATFORM = 'BillingPlatform',
+  BILLING_SUB_ACCOUNT = 'BillingSubAccount',
+  BILLING_TRANSFER = 'BillingTransfer',
   SETTING = 'Setting',
   ASYNC_TASK = 'AsyncTask',
   OCPI_ENDPOINT = 'OcpiEndpoint',
@@ -117,6 +121,8 @@ export enum Action {
   BILLING_PAYMENT_METHODS = 'BillingPaymentMethods',
   BILLING_DELETE_PAYMENT_METHOD = 'BillingDeletePaymentMethod',
   BILLING_CHARGE_INVOICE = 'BillingChargeInvoice',
+  BILLING_FINALIZE_TRANSFER = 'BillingFinalizeTransfer',
+  BILLING_SEND_TRANSFER = 'BillingSendTransfer',
   CHECK_CONNECTION = 'CheckConnection',
   CLEAR_BILLING_TEST_DATA = 'ClearBillingTestData',
   RETRIEVE_CONSUMPTION = 'RetrieveConsumption',
@@ -164,7 +170,6 @@ export interface AuthorizationAttributes {
 
 // Entity: Common Authorization Action
 export interface AuthorizationActions {
-  canRead?: boolean;
   canUpdate?: boolean;
   canDelete?: boolean;
 }
@@ -229,14 +234,17 @@ export interface AssetsAuthorizations extends AuthorizationAttributes, AssetsAut
 }
 
 export interface AssetsAuthorizationActions extends DataResultAuthorizationActions {
-  canListSites: boolean;
-  canListSiteAreas: boolean;
+  canListSites?: boolean;
+  canListSiteAreas?: boolean;
 }
 
 export interface AssetAuthorizationActions extends AuthorizationActions {
   canRetrieveConsumption?: boolean;
   canReadConsumption?: boolean;
   canCheckConnection?: boolean;
+}
+
+export interface SiteAreasAuthorizations extends AuthorizationAttributes, DataResultAuthorizationActions {
 }
 
 export interface SiteAreaAuthorizationActions extends AuthorizationActions {
@@ -248,6 +256,9 @@ export interface SiteAreaAuthorizationActions extends AuthorizationActions {
   canReadChargingStations?: boolean;
   canExportOCPPParams?: boolean;
   canGenerateQrCode?: boolean;
+}
+
+export interface SitesAuthorizations extends AuthorizationAttributes, SitesAuthorizationActions {
 }
 
 export interface SitesAuthorizationActions extends DataResultAuthorizationActions {
@@ -274,7 +285,20 @@ export interface LogsAuthorizationActions extends AuthorizationActions {
 export interface BillingInvoicesAuthorizations extends AuthorizationAttributes, BillingInvoicesAuthorizationActions {
 }
 
+export interface BillingTaxesAuthorizations extends AuthorizationAttributes, BillingTaxesAuthorizationActions {
+}
+
+export interface BillingTransfersAuthorizations extends AuthorizationAttributes, BillingTransfersAuthorizationActions {
+}
+
 export interface BillingInvoicesAuthorizationActions extends DataResultAuthorizationActions {
+  canListUsers?: boolean;
+}
+
+export interface BillingTaxesAuthorizationActions extends DataResultAuthorizationActions {
+}
+
+export interface BillingTransfersAuthorizationActions extends DataResultAuthorizationActions {
   canListUsers?: boolean;
 }
 
@@ -286,6 +310,58 @@ export interface BillingPaymentMethodsAuthorizationActions extends DataResultAut
 }
 
 export interface BillingPaymentMethodAuthorizationActions extends AuthorizationActions {
+}
+
+export interface ChargingStationsAuthorizations extends AuthorizationAttributes, ChargingStationsAuthorizationActions {
+}
+
+export interface ChargingProfilesAuthorizations extends AuthorizationAttributes, DataResultAuthorizationActions {
+  canListChargingStations?: boolean;
+}
+
+export interface ChargingStationsAuthorizationActions extends DataResultAuthorizationActions {
+  canListUsers?: boolean;
+  canListSites?: boolean;
+  canListSiteAreas?: boolean;
+  canListCompanies?: boolean;
+  canExport?: boolean;
+}
+
+export interface ChargingStationAuthorizationActions extends AuthorizationActions {
+  canExport?: boolean;
+  canListCompanies?: boolean;
+  canListSites?: boolean;
+  canListSiteAreas?: boolean;
+  canListUsers?: boolean;
+  canReserveNow?: boolean;
+  canReset?: boolean;
+  canClearCache?: boolean;
+  canGetConfiguration?: boolean;
+  canChangeConfiguration?: boolean;
+  canSetChargingProfile?: boolean;
+  canGetCompositeSchedule?: boolean;
+  canClearChargingProfile?: boolean;
+  canGetDiagnostics?: boolean;
+  canUpdateFirmware?: boolean;
+  canRemoteStopTransaction?: boolean;
+  canStopTransaction?: boolean;
+  canStartTransaction?: boolean;
+  canChangeAvailability?: boolean;
+  canRemoteStartTransaction?: boolean;
+  canUnlockConnector?: boolean;
+  canDataTransfer?: boolean;
+  canGenerateQrCode?: boolean;
+  canMaintainPricingDefinitions?: boolean;
+  canUpdateOCPPParams?: boolean;
+  canLimitPower?: boolean;
+  canDeleteChargingProfile?: boolean;
+  canGetOCPPParams?: boolean;
+  canUpdateChargingProfile?: boolean;
+  canGetConnectorQRCode?: boolean;
+}
+
+export interface ChargingProfileAuthorizationActions extends AuthorizationActions {
+  canReadSiteArea?: boolean;
 }
 
 export enum DialogMode {
@@ -310,3 +386,12 @@ export interface DialogParamsWithAuth<T extends DialogData, U extends Authorizat
   extends DialogParams<T> {
   authorizations?: U;
 }
+
+export interface BillingAccountAuthorizationActions extends AuthorizationActions {
+  canOnboard?: boolean;
+}
+
+export interface BillingTransferAuthorizationActions extends AuthorizationActions {
+  canTransfer?: boolean;
+}
+

@@ -28,7 +28,7 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
 
   public constructor(private centralServerService: CentralServerService) {
     this.centralServerService.getBillingTaxes().subscribe((taxes) => {
-      this.taxes = taxes;
+      this.taxes = taxes.result;
     });
     this.transactionBillingActivated = false;
   }

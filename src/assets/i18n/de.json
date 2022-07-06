@@ -1407,6 +1407,30 @@
     "user": "Nutzer",
     "failed_download": "Download der Rechnung fehlgeschlagen."
   },
+  "transfers": {
+    "tabs": {
+      "list": "Transfers"
+    },
+    "tooltips": {
+      "finalize": "Finalize transfer",
+      "send": "Send transfer"
+    },
+    "status": {
+      "draft": "Draft",
+      "pending": "Pending",
+      "finalized": "Finalized",
+      "transferred": "Transferred"
+    },
+    "id": "ID",
+    "accountExternalID": "Connected Account",
+    "amount": "Amount",
+    "transferAmount": "Transferred Amount",
+    "number_of_items": "Sessions",
+    "transferExternalID": "External ID",
+    "accountOwner": "Owner",
+    "cannot_finalize_transfer": "Cannot finalize the transfer",
+    "cannot_send_transfer": "Cannot send the transfer"
+  },
   "tags": {
     "id": "RFID",
     "not_active": "Dieser Badge ist nicht aktiv",
@@ -1483,6 +1507,7 @@
     "save_error_refund": "Preisbildung muss für die Rückerstattung aktiv sein",
     "save_error_roaming": "Sie können nicht gleichzeitig die OCPI- und die OICP-Roaming-Komponente aktivieren.",
     "save_error_billing": "Preisbildung muss für Rechnungslegung aktiv sein",
+    "save_error_billing_platform": "Billing must be active to use Billing Platform",
     "save_error_smart_charging": "Organisation muss für Smart-Charging aktiv sein",
     "save_error_building": "Organisation muss aktiv sein, um Assets zu nutzen zu können",
     "save_error_car_connector": "Fahrzeug Management muss aktiv sein, um Fahrzeug Verbindungen zu nutzen",
@@ -1969,8 +1994,9 @@
     "start_background_job_confirm": "Wollen Sie die Hintergrundaktivitäten für IOP '{{name}}' starten?",
     "stop_background_job_title": "Stop Hintergrundaktivitäten",
     "stop_background_job_confirm": "Wollen Sie die Hintergrundaktivitäten für IOP '{{name}}' stoppen?",
-    "total_charge_points": "Gesamtanzahl Ladepunkte",
-    "total_tokens": "Gesamtanzahl Tokens",
+    "total_charge_points": "Charging Stations",
+    "total_tokens": "RFID Cards",
+    "total_locations": "Sites",
     "total": "Gesamt",
     "succeeded": "Erfolgreich",
     "failed": "Fehlgeschlagen"
@@ -2318,6 +2344,10 @@
       "in_error": "Fehlerhaft"
     }
   },
+  "billingPlatform": {
+    "title": "Billing Platform",
+    "description": "Manage several billing accounts"
+  },
   "transactions": {
     "id": "Id",
     "date_from": "Datum",
@@ -2454,7 +2484,7 @@
       "limit": "Limit",
       "limit_watts": "Netz-Limit (kW)",
       "limit_amps": "Netz-Limit (A)",
-      "load_all_consumptions": "Diagramm in voller Auflösung anzeigen (Alle 60s ein Punkt)",
+      "load_all_consumptions": "Diagramm in voller Auflösung anzeigen",
       "unit_kilowatts": "kW",
       "unit_amperage": "Amp"
     },

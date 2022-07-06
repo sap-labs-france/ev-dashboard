@@ -1,12 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { StatusCodes } from 'http-status-codes';
+import { ChargingStationsAuthorizations } from 'types/Authorization';
 
 import { CentralServerService } from '../../../services/central-server.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { ChargingStation } from '../../../types/ChargingStation';
-import { HTTPError } from '../../../types/HTTPError';
 import { Utils } from '../../../utils/Utils';
 
 @Component({
@@ -16,8 +17,10 @@ import { Utils } from '../../../utils/Utils';
 })
 export class ChargingStationLimitationComponent implements OnInit {
   @Input() public chargingStationID!: string;
+  @Input() public chargingStationsAuthorizations!: ChargingStationsAuthorizations;
   @Input() public inDialog!: boolean;
   @Input() public dialogRef!: MatDialogRef<any>;
+
   public chargingStation: ChargingStation;
 
   // eslint-disable-next-line no-useless-constructor
@@ -47,7 +50,7 @@ export class ChargingStationLimitationComponent implements OnInit {
       }, (error) => {
         this.spinnerService.hide();
         switch (error.status) {
-          case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+          case StatusCodes.NOT_FOUND:
             this.messageService.showErrorMessage('chargers.charger_not_found');
             break;
           default:

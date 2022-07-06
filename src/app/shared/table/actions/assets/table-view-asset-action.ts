@@ -3,13 +3,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 
 import { Asset, AssetButtonAction } from '../../../../types/Asset';
-import { DialogParams } from '../../../../types/Authorization';
+import { AssetsAuthorizations, DialogParamsWithAuth } from '../../../../types/Authorization';
 import { TableActionDef } from '../../../../types/Table';
 import { TableViewAction } from '../table-view-action';
 
 export interface TableViewAssetActionDef extends TableActionDef {
   action: (assetDialogComponent: ComponentType<unknown>, dialog: MatDialog,
-    dialogParams: DialogParams<Asset>, refresh?: () => Observable<void>) => void;
+    dialogParams: DialogParamsWithAuth<Asset, AssetsAuthorizations>, refresh?: () => Observable<void>) => void;
 }
 
 export class TableViewAssetAction extends TableViewAction {
@@ -22,7 +22,7 @@ export class TableViewAssetAction extends TableViewAction {
   }
 
   private viewAsset(assetDialogComponent: ComponentType<unknown>, dialog: MatDialog,
-    dialogParams: DialogParams<Asset>, refresh?: () => Observable<void>) {
+    dialogParams: DialogParamsWithAuth<Asset, AssetsAuthorizations>, refresh?: () => Observable<void>) {
     super.view(assetDialogComponent, dialog, dialogParams, refresh);
   }
 }

@@ -3,9 +3,10 @@ import { FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { StatusCodes } from 'http-status-codes';
 import { WindowService } from 'services/window.service';
 import { AbstractTabComponent } from 'shared/component/abstract-tab/abstract-tab.component';
-import { DialogMode } from 'types/Authorization';
+import { DialogMode, SiteAreasAuthorizations } from 'types/Authorization';
 import { Site } from 'types/Site';
 
 import { CentralServerService } from '../../../../services/central-server.service';
@@ -31,6 +32,7 @@ export class SiteAreaComponent extends AbstractTabComponent implements OnInit {
   @Input() public currentSiteAreaID!: string;
   @Input() public dialogMode!: DialogMode;
   @Input() public dialogRef!: MatDialogRef<any>;
+  @Input() public siteAreasAuthorizations!: SiteAreasAuthorizations;
 
   @ViewChild('siteAreaMainComponent') public siteAreaMainComponent!: SiteAreaMainComponent;
   @ViewChild('siteAreaLimitsComponent') public siteAreaLimitsComponent!: SiteAreaLimitsComponent;
@@ -88,7 +90,7 @@ export class SiteAreaComponent extends AbstractTabComponent implements OnInit {
       }, (error) => {
         this.spinnerService.hide();
         switch (error.status) {
-          case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+          case StatusCodes.NOT_FOUND:
             this.messageService.showErrorMessage('site_areas.site_invalid');
             break;
           default:
@@ -143,7 +145,7 @@ export class SiteAreaComponent extends AbstractTabComponent implements OnInit {
     }, (error) => {
       this.spinnerService.hide();
       switch (error.status) {
-        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+        case StatusCodes.NOT_FOUND:
           this.messageService.showErrorMessage('site_areas.site_area_does_not_exist');
           break;
         default:
@@ -174,7 +176,7 @@ export class SiteAreaComponent extends AbstractTabComponent implements OnInit {
         case HTTPError.THREE_PHASE_CHARGER_ON_SINGLE_PHASE_SITE_AREA:
           this.messageService.showErrorMessage('site_areas.update_phase_error');
           break;
-        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+        case StatusCodes.NOT_FOUND:
           this.messageService.showErrorMessage('site_areas.site_area_does_not_exist');
           break;
         case HTTPError.CLEAR_CHARGING_PROFILE_NOT_SUCCESSFUL:

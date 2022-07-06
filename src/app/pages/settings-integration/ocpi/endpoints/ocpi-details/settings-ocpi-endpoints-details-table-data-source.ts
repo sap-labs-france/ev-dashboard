@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { OCPIRole } from 'types/ocpi/OCPIRole';
 import { Constants } from 'utils/Constants';
 
 import { CentralServerService } from '../../../../../services/central-server.service';
@@ -20,28 +21,27 @@ import { TableDataSource } from '../../../../../shared/table/table-data-source';
 import { DataResult } from '../../../../../types/DataResult';
 import { ButtonAction, RestResponse } from '../../../../../types/GlobalType';
 import { HTTPError } from '../../../../../types/HTTPError';
-import { OcpiButtonAction, OcpiEndpoint, OcpiEndpointDetail, OcpiRole } from '../../../../../types/ocpi/OCPIEndpoint';
+import { OCPIButtonAction, OCPIEndpoint } from '../../../../../types/ocpi/OCPIEndpoint';
 import { TableActionDef, TableColumnDef, TableDef } from '../../../../../types/Table';
 import { Utils } from '../../../../../utils/Utils';
-import { OcpiDetailFailureEvsesStatusFormatterComponent } from '../formatters/ocpi-detail-failure-evses-status-formatter.component';
-import { OcpiDetailJobStatusFormatterComponent } from '../formatters/ocpi-detail-job-status-formatter.component';
-import { OcpiDetailSuccessEvsesStatusFormatterComponent } from '../formatters/ocpi-detail-success-evses-status-formatter.component';
-import { OcpiDetailTotalEvsesStatusFormatterComponent } from '../formatters/ocpi-detail-total-evses-status-formatter.component';
+import { OcpiDetailFailureFormatterComponent } from '../formatters/ocpi-detail-failure-formatter.component';
+import { OcpiDetailSuccessFormatterComponent } from '../formatters/ocpi-detail-success-formatter.component';
+import { OcpiDetailTotalFormatterComponent } from '../formatters/ocpi-detail-total-formatter.component';
 
 @Injectable()
-export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource<OcpiEndpointDetail> {
-  private ocpiEndpoint!: OcpiEndpoint;
+export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource<OCPIEndpoint> {
+  private ocpiEndpoint!: OCPIEndpoint;
   private startAction = new TableStartAction().getActionDef();
   private stopAction = new TableStopAction().getActionDef();
-  private pushEVSEStatusesAction = new TableUploadAction(OcpiButtonAction.PUSH_EVSE_STATUSES, 'ocpi.push_evse_statuses').getActionDef();
-  private pushTokensAction = new TableUploadAction(OcpiButtonAction.PUSH_TOKENS, 'ocpi.push_tokens').getActionDef();
-  private getCdrsAction = new TableDownloadAction(OcpiButtonAction.PULL_CDRS, 'ocpi.pull_cdrs').getActionDef();
-  private getLocationsAction = new TableDownloadAction(OcpiButtonAction.PULL_LOCATIONS, 'ocpi.pull_locations').getActionDef();
-  private getSessionsAction = new TableDownloadAction(OcpiButtonAction.PULL_SESSIONS, 'ocpi.pull_sessions').getActionDef();
-  private checkCdrsAction = new TableDownloadAction(OcpiButtonAction.CHECK_CDRS, 'ocpi.check_cdrs').getActionDef();
-  private checkLocationsAction = new TableDownloadAction(OcpiButtonAction.CHECK_LOCATIONS, 'ocpi.check_locations').getActionDef();
-  private checkSessionsAction = new TableDownloadAction(OcpiButtonAction.CHECK_SESSIONS, 'ocpi.check_sessions').getActionDef();
-  private getTokensAction = new TableDownloadAction(OcpiButtonAction.PULL_TOKENS, 'ocpi.pull_tokens').getActionDef();
+  private pushEVSEStatusesAction = new TableUploadAction(OCPIButtonAction.PUSH_EVSE_STATUSES, 'ocpi.push_evse_statuses').getActionDef();
+  private pushTokensAction = new TableUploadAction(OCPIButtonAction.PUSH_TOKENS, 'ocpi.push_tokens').getActionDef();
+  private getCdrsAction = new TableDownloadAction(OCPIButtonAction.PULL_CDRS, 'ocpi.pull_cdrs').getActionDef();
+  private getLocationsAction = new TableDownloadAction(OCPIButtonAction.PULL_LOCATIONS, 'ocpi.pull_locations').getActionDef();
+  private getSessionsAction = new TableDownloadAction(OCPIButtonAction.PULL_SESSIONS, 'ocpi.pull_sessions').getActionDef();
+  private checkCdrsAction = new TableDownloadAction(OCPIButtonAction.CHECK_CDRS, 'ocpi.check_cdrs').getActionDef();
+  private checkLocationsAction = new TableDownloadAction(OCPIButtonAction.CHECK_LOCATIONS, 'ocpi.check_locations').getActionDef();
+  private checkSessionsAction = new TableDownloadAction(OCPIButtonAction.CHECK_SESSIONS, 'ocpi.check_sessions').getActionDef();
+  private getTokensAction = new TableDownloadAction(OCPIButtonAction.PULL_TOKENS, 'ocpi.pull_tokens').getActionDef();
 
   public constructor(
     public spinnerService: SpinnerService,
@@ -56,31 +56,20 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
     this.initDataSource();
   }
 
-  public loadDataImpl(): Observable<DataResult<OcpiEndpointDetail>> {
+  public loadDataImpl(): Observable<DataResult<OCPIEndpoint>> {
     return new Observable((observer) => {
-      // Return connector
-      let ocpiEndpointDetail;
       if (this.ocpiEndpoint) {
-        // Set
-        ocpiEndpointDetail = ({
-          id: this.ocpiEndpoint.id,
-          ocpiendpoint: this.ocpiEndpoint,
-          successNbr: this.ocpiEndpoint.lastPatchJobResult ? this.ocpiEndpoint.lastPatchJobResult.successNbr : 0,
-          failureNbr: this.ocpiEndpoint.lastPatchJobResult ? this.ocpiEndpoint.lastPatchJobResult.failureNbr : 0,
-          totalNbr: this.ocpiEndpoint.lastPatchJobResult ? this.ocpiEndpoint.lastPatchJobResult.totalNbr : 0,
-          lastPatchJobOn: this.ocpiEndpoint.lastPatchJobOn ? this.ocpiEndpoint.lastPatchJobOn : null,
-        } as OcpiEndpointDetail);
         observer.next({
           count: 1,
-          result: [ocpiEndpointDetail],
+          result: [this.ocpiEndpoint],
         });
         observer.complete();
       }
     });
   }
 
-  public setEndpoint(ocpiEndpoint: OcpiEndpoint) {
-    this.ocpiEndpoint = ocpiEndpoint;
+  public setEndpoint(ocpiEndpoint: OCPIEndpoint) {
+    this.ocpiEndpoint = Utils.cloneObject(ocpiEndpoint);
     this.initDataSource(true);
   }
 
@@ -107,54 +96,156 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
   public buildTableColumnDefs(): TableColumnDef[] {
     return [
       {
-        id: 'patchJobStatus',
-        name: 'ocpiendpoints.patch_job_status',
-        isAngularComponent: true,
-        angularComponent: OcpiDetailJobStatusFormatterComponent,
-        headerClass: 'text-center',
-        class: 'table-cell-angular-big-component',
-        sortable: false,
-      },
-      {
-        id: 'lastPatchJobOn',
-        type: 'date',
-        formatter: (lastPatchJobOn) => !!lastPatchJobOn ? this.datePipe.transform(lastPatchJobOn) : '',
-        name: 'ocpiendpoints.last_patch_job_on',
-        headerClass: 'col-40p',
-        class: 'text-left col-40p',
-        sorted: true,
-        direction: 'desc',
-        sortable: false,
-      },
-      {
-        id: 'totalNbr',
+        id: 'lastCpoPushStatuses',
         type: 'integer',
-        name: this.ocpiEndpoint ? (this.ocpiEndpoint.role === 'CPO' ? 'ocpiendpoints.total_charge_points' : 'ocpiendpoints.total_tokens') : 'ocpiendpoints.total',
+        name: 'ocpiendpoints.total_charge_points',
         isAngularComponent: true,
-        angularComponent: OcpiDetailTotalEvsesStatusFormatterComponent,
+        angularComponent: OcpiDetailTotalFormatterComponent,
         headerClass: 'text-center col-10p',
         class: 'table-cell-angular-big-component',
-        sorted: false,
+        visible: this.ocpiEndpoint?.role === OCPIRole.CPO,
       },
+      // CPO Charging Station Statuses
       {
-        id: 'successNbr',
+        id: 'lastCpoPushStatuses',
         type: 'integer',
         name: 'ocpiendpoints.succeeded',
         isAngularComponent: true,
-        angularComponent: OcpiDetailSuccessEvsesStatusFormatterComponent,
+        angularComponent: OcpiDetailSuccessFormatterComponent,
         headerClass: 'text-center col-10p',
         class: 'table-cell-angular-big-component',
-        sorted: false,
+        visible: this.ocpiEndpoint?.role === OCPIRole.CPO,
       },
       {
-        id: 'failureNbr',
+        id: 'lastCpoPushStatuses',
         type: 'integer',
         name: 'ocpiendpoints.failed',
         isAngularComponent: true,
-        angularComponent: OcpiDetailFailureEvsesStatusFormatterComponent,
+        angularComponent: OcpiDetailFailureFormatterComponent,
         headerClass: 'text-center col-10p',
         class: 'table-cell-angular-big-component',
-        sorted: false,
+        visible: this.ocpiEndpoint?.role === OCPIRole.CPO,
+      },
+      {
+        id: 'lastCpoPushStatuses.lastUpdatedOn',
+        type: 'date',
+        formatter: (lastCpoPushStatuses: Date) => lastCpoPushStatuses ? this.datePipe.transform(lastCpoPushStatuses) : '-',
+        name: 'ocpiendpoints.last_patch_job_on',
+        visible: this.ocpiEndpoint?.role === OCPIRole.CPO,
+      },
+      // CPO Pull Tokens
+      {
+        id: 'lastCpoPullTokens',
+        type: 'integer',
+        name: 'ocpiendpoints.total_tokens',
+        isAngularComponent: true,
+        angularComponent: OcpiDetailTotalFormatterComponent,
+        headerClass: 'text-center col-10p',
+        class: 'table-cell-angular-big-component',
+        visible: this.ocpiEndpoint?.role === OCPIRole.CPO,
+      },
+      {
+        id: 'lastCpoPullTokens',
+        type: 'integer',
+        name: 'ocpiendpoints.succeeded',
+        isAngularComponent: true,
+        angularComponent: OcpiDetailSuccessFormatterComponent,
+        headerClass: 'text-center col-10p',
+        class: 'table-cell-angular-big-component',
+        visible: this.ocpiEndpoint?.role === OCPIRole.CPO,
+      },
+      {
+        id: 'lastCpoPullTokens',
+        type: 'integer',
+        name: 'ocpiendpoints.failed',
+        isAngularComponent: true,
+        angularComponent: OcpiDetailFailureFormatterComponent,
+        headerClass: 'text-center col-10p',
+        class: 'table-cell-angular-big-component',
+        visible: this.ocpiEndpoint?.role === OCPIRole.CPO,
+      },
+      {
+        id: 'lastCpoPullTokens.lastUpdatedOn',
+        type: 'date',
+        formatter: (lastCpoPushStatuses: Date) => lastCpoPushStatuses ? this.datePipe.transform(lastCpoPushStatuses) : '-',
+        name: 'ocpiendpoints.last_patch_job_on',
+        visible: this.ocpiEndpoint?.role === OCPIRole.CPO,
+      },
+      // EMSP Pull Locations
+      {
+        id: 'lastEmspPullLocations',
+        type: 'integer',
+        name: 'ocpiendpoints.total_locations',
+        isAngularComponent: true,
+        angularComponent: OcpiDetailTotalFormatterComponent,
+        headerClass: 'text-center col-10p',
+        class: 'table-cell-angular-big-component',
+        visible: this.ocpiEndpoint?.role === OCPIRole.EMSP,
+      },
+      {
+        id: 'lastEmspPullLocations',
+        type: 'integer',
+        name: 'ocpiendpoints.succeeded',
+        isAngularComponent: true,
+        angularComponent: OcpiDetailSuccessFormatterComponent,
+        headerClass: 'text-center col-10p',
+        class: 'table-cell-angular-big-component',
+        visible: this.ocpiEndpoint?.role === OCPIRole.EMSP,
+      },
+      {
+        id: 'lastEmspPullLocations',
+        type: 'integer',
+        name: 'ocpiendpoints.failed',
+        isAngularComponent: true,
+        angularComponent: OcpiDetailFailureFormatterComponent,
+        headerClass: 'text-center col-10p',
+        class: 'table-cell-angular-big-component',
+        visible: this.ocpiEndpoint?.role === OCPIRole.EMSP,
+      },
+      {
+        id: 'lastEmspPullLocations.lastUpdatedOn',
+        type: 'date',
+        formatter: (lastCpoPushStatuses: Date) => lastCpoPushStatuses ? this.datePipe.transform(lastCpoPushStatuses) : '-',
+        name: 'ocpiendpoints.last_patch_job_on',
+        visible: this.ocpiEndpoint?.role === OCPIRole.EMSP,
+      },
+      // EMSP Push Tokens
+      {
+        id: 'lastEmspPushTokens',
+        type: 'integer',
+        name: 'ocpiendpoints.total_tokens',
+        isAngularComponent: true,
+        angularComponent: OcpiDetailTotalFormatterComponent,
+        headerClass: 'text-center col-10p',
+        class: 'table-cell-angular-big-component',
+        visible: this.ocpiEndpoint?.role === OCPIRole.EMSP,
+      },
+      {
+        id: 'lastEmspPushTokens',
+        type: 'integer',
+        name: 'ocpiendpoints.succeeded',
+        isAngularComponent: true,
+        angularComponent: OcpiDetailSuccessFormatterComponent,
+        headerClass: 'text-center col-10p',
+        class: 'table-cell-angular-big-component',
+        visible: this.ocpiEndpoint?.role === OCPIRole.EMSP,
+      },
+      {
+        id: 'lastEmspPushTokens',
+        type: 'integer',
+        name: 'ocpiendpoints.failed',
+        isAngularComponent: true,
+        angularComponent: OcpiDetailFailureFormatterComponent,
+        headerClass: 'text-center col-10p',
+        class: 'table-cell-angular-big-component',
+        visible: this.ocpiEndpoint?.role === OCPIRole.EMSP,
+      },
+      {
+        id: 'lastEmspPushTokens.lastUpdatedOn',
+        type: 'date',
+        formatter: (lastCpoPushStatuses: Date) => lastCpoPushStatuses ? this.datePipe.transform(lastCpoPushStatuses) : '-',
+        name: 'ocpiendpoints.last_patch_job_on',
+        visible: this.ocpiEndpoint?.role === OCPIRole.EMSP,
       },
     ];
   }
@@ -166,74 +257,76 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
     ];
   }
 
-  public buildTableDynamicRowActions(rowItem: OcpiEndpointDetail): TableActionDef[] {
+  public buildTableDynamicRowActions(rowItem: OCPIEndpoint): TableActionDef[] {
     const rowActions: TableActionDef[] = [];
-    if (rowItem && rowItem.ocpiendpoint) {
+    if (rowItem) {
       // Check is background job is active for the ocpi endpoint
-      if (rowItem.ocpiendpoint.backgroundPatchJob) {
+      if (rowItem.backgroundPatchJob) {
         rowActions.push(this.stopAction);
       } else {
         rowActions.push(this.startAction);
       }
       let syncActions: TableActionDef;
-      if (rowItem.ocpiendpoint.role === OcpiRole.CPO) {
+      if (rowItem.role === OCPIRole.CPO) {
         syncActions = new TableMoreAction([
           this.pushEVSEStatusesAction,
           this.getTokensAction,
           this.checkLocationsAction,
           this.checkSessionsAction,
-          this.checkCdrsAction]).getActionDef();
+          this.checkCdrsAction,
+        ]).getActionDef();
       } else {
         syncActions = new TableMoreAction([
           this.getLocationsAction,
+          this.pushTokensAction,
           this.getSessionsAction,
           this.getCdrsAction,
-          this.pushTokensAction]).getActionDef();
+        ]).getActionDef();
       }
       rowActions.push(syncActions);
     }
     return rowActions;
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, ocpiEndpointDetail: OcpiEndpointDetail) {
+  public rowActionTriggered(actionDef: TableActionDef, ocpiEndpoint: OCPIEndpoint) {
     switch (actionDef.id) {
-      case OcpiButtonAction.PUSH_TOKENS:
-        this.pushTokensOcpiEndpoint(ocpiEndpointDetail.ocpiendpoint);
+      case OCPIButtonAction.PUSH_TOKENS:
+        this.pushTokensOcpiEndpoint(ocpiEndpoint);
         break;
-      case OcpiButtonAction.PUSH_EVSE_STATUSES:
-        this.pushEVSEStatusesOcpiEndpoint(ocpiEndpointDetail.ocpiendpoint);
+      case OCPIButtonAction.PUSH_EVSE_STATUSES:
+        this.pushEVSEStatusesOcpiEndpoint(ocpiEndpoint);
         break;
-      case OcpiButtonAction.PULL_CDRS:
-        this.pullCdrsOcpiEndpoint(ocpiEndpointDetail.ocpiendpoint);
+      case OCPIButtonAction.PULL_CDRS:
+        this.pullCdrsOcpiEndpoint(ocpiEndpoint);
         break;
-      case OcpiButtonAction.PULL_LOCATIONS:
-        this.pullLocationsOcpiEndpoint(ocpiEndpointDetail.ocpiendpoint);
+      case OCPIButtonAction.PULL_LOCATIONS:
+        this.pullLocationsOcpiEndpoint(ocpiEndpoint);
         break;
-      case OcpiButtonAction.PULL_SESSIONS:
-        this.pullSessionsOcpiEndpoint(ocpiEndpointDetail.ocpiendpoint);
+      case OCPIButtonAction.PULL_SESSIONS:
+        this.pullSessionsOcpiEndpoint(ocpiEndpoint);
         break;
-      case OcpiButtonAction.PULL_TOKENS:
-        this.pullTokensOcpiEndpoint(ocpiEndpointDetail.ocpiendpoint);
+      case OCPIButtonAction.PULL_TOKENS:
+        this.pullTokensOcpiEndpoint(ocpiEndpoint);
         break;
-      case OcpiButtonAction.CHECK_CDRS:
-        this.checkCdrsOcpiEndpoint(ocpiEndpointDetail.ocpiendpoint);
+      case OCPIButtonAction.CHECK_CDRS:
+        this.checkCdrsOcpiEndpoint(ocpiEndpoint);
         break;
-      case OcpiButtonAction.CHECK_SESSIONS:
-        this.checkSessionsOcpiEndpoint(ocpiEndpointDetail.ocpiendpoint);
+      case OCPIButtonAction.CHECK_SESSIONS:
+        this.checkSessionsOcpiEndpoint(ocpiEndpoint);
         break;
-      case OcpiButtonAction.CHECK_LOCATIONS:
-        this.checkLocationsOcpiEndpoint(ocpiEndpointDetail.ocpiendpoint);
+      case OCPIButtonAction.CHECK_LOCATIONS:
+        this.checkLocationsOcpiEndpoint(ocpiEndpoint);
         break;
       case ButtonAction.START:
-        this.enableDisableBackgroundJob(ocpiEndpointDetail.ocpiendpoint, true);
+        this.enableDisableBackgroundJob(ocpiEndpoint, true);
         break;
       case ButtonAction.STOP:
-        this.enableDisableBackgroundJob(ocpiEndpointDetail.ocpiendpoint, false);
+        this.enableDisableBackgroundJob(ocpiEndpoint, false);
         break;
     }
   }
 
-  private pushEVSEStatusesOcpiEndpoint(ocpiendpoint: OcpiEndpoint) {
+  private pushEVSEStatusesOcpiEndpoint(ocpiendpoint: OCPIEndpoint) {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('ocpiendpoints.push_evse_statuses_title'),
       this.translateService.instant('ocpiendpoints.push_evse_statuses_confirm', { name: ocpiendpoint.name }),
@@ -265,7 +358,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
     });
   }
 
-  private pushTokensOcpiEndpoint(ocpiendpoint: OcpiEndpoint) {
+  private pushTokensOcpiEndpoint(ocpiendpoint: OCPIEndpoint) {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('ocpiendpoints.push_tokens_title'),
       this.translateService.instant('ocpiendpoints.push_tokens_confirm', { name: ocpiendpoint.name }),
@@ -297,7 +390,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
     });
   }
 
-  private pullLocationsOcpiEndpoint(ocpiendpoint: OcpiEndpoint) {
+  private pullLocationsOcpiEndpoint(ocpiendpoint: OCPIEndpoint) {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('ocpiendpoints.pull_locations_title'),
       this.translateService.instant('ocpiendpoints.pull_locations_confirm', { name: ocpiendpoint.name }),
@@ -329,7 +422,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
     });
   }
 
-  private pullSessionsOcpiEndpoint(ocpiendpoint: OcpiEndpoint) {
+  private pullSessionsOcpiEndpoint(ocpiendpoint: OCPIEndpoint) {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('ocpiendpoints.get_sessions_title'),
       this.translateService.instant('ocpiendpoints.get_sessions_confirm', { name: ocpiendpoint.name }),
@@ -361,7 +454,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
     });
   }
 
-  private pullTokensOcpiEndpoint(ocpiendpoint: OcpiEndpoint) {
+  private pullTokensOcpiEndpoint(ocpiendpoint: OCPIEndpoint) {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('ocpiendpoints.pull_tokens_title'),
       this.translateService.instant('ocpiendpoints.pull_tokens_confirm', { name: ocpiendpoint.name }),
@@ -393,7 +486,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
     });
   }
 
-  private checkLocationsOcpiEndpoint(ocpiendpoint: OcpiEndpoint) {
+  private checkLocationsOcpiEndpoint(ocpiendpoint: OCPIEndpoint) {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('ocpiendpoints.check_locations_title'),
       this.translateService.instant('ocpiendpoints.check_locations_confirm', { name: ocpiendpoint.name }),
@@ -425,7 +518,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
     });
   }
 
-  private checkSessionsOcpiEndpoint(ocpiendpoint: OcpiEndpoint) {
+  private checkSessionsOcpiEndpoint(ocpiendpoint: OCPIEndpoint) {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('ocpiendpoints.check_sessions_title'),
       this.translateService.instant('ocpiendpoints.check_sessions_confirm', { name: ocpiendpoint.name }),
@@ -457,7 +550,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
     });
   }
 
-  private checkCdrsOcpiEndpoint(ocpiendpoint: OcpiEndpoint) {
+  private checkCdrsOcpiEndpoint(ocpiendpoint: OCPIEndpoint) {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('ocpiendpoints.check_cdrs_title'),
       this.translateService.instant('ocpiendpoints.check_cdrs_confirm', { name: ocpiendpoint.name }),
@@ -489,7 +582,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
     });
   }
 
-  private pullCdrsOcpiEndpoint(ocpiendpoint: OcpiEndpoint) {
+  private pullCdrsOcpiEndpoint(ocpiendpoint: OCPIEndpoint) {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('ocpiendpoints.pull_cdrs_title'),
       this.translateService.instant('ocpiendpoints.pull_cdrs_confirm', { name: ocpiendpoint.name }),
@@ -521,7 +614,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
     });
   }
 
-  private enableDisableBackgroundJob(ocpiendpoint: OcpiEndpoint, enable: boolean) {
+  private enableDisableBackgroundJob(ocpiendpoint: OCPIEndpoint, enable: boolean) {
     // update it with dialog
     this.dialogService.createAndShowYesNoDialog(
       (enable) ? this.translateService.instant('ocpiendpoints.start_background_job_title')

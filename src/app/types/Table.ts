@@ -4,13 +4,13 @@ import * as moment from 'moment';
 
 import { AssetButtonAction } from './Asset';
 import { AuthorizationActions, AuthorizationAttributes } from './Authorization';
-import { BillingButtonAction } from './Billing';
+import { BillingButtonAction, TransferButtonAction } from './Billing';
 import { CarButtonAction } from './Car';
 import { ChargingStationButtonAction } from './ChargingStation';
 import { CompanyButtonAction } from './Company';
 import { ButtonAction, ButtonActionColor, KeyValue } from './GlobalType';
 import { LogButtonAction } from './Log';
-import { OcpiButtonAction } from './ocpi/OCPIEndpoint';
+import { OCPIButtonAction } from './ocpi/OCPIEndpoint';
 import { OicpButtonAction } from './oicp/OICPEndpoint';
 import { PricingButtonAction } from './Pricing';
 import { RegistrationTokenButtonAction } from './RegistrationToken';
@@ -102,8 +102,8 @@ export enum FilterType {
 
 export interface TableActionDef {
   id: ButtonAction | CompanyButtonAction | TenantButtonAction | SiteAreaButtonAction | ChargingStationButtonAction |
-  UserButtonAction | TransactionButtonAction | SiteButtonAction | OcpiButtonAction | OicpButtonAction | AssetButtonAction |
-  BillingButtonAction | CarButtonAction | LogButtonAction | RegistrationTokenButtonAction | TagButtonAction | PricingButtonAction;
+  UserButtonAction | TransactionButtonAction | SiteButtonAction | OCPIButtonAction | OicpButtonAction | AssetButtonAction |
+  BillingButtonAction | CarButtonAction | LogButtonAction | RegistrationTokenButtonAction | TagButtonAction | PricingButtonAction | TransferButtonAction;
   type: ActionType;
   currentValue?: any;
   name: string;

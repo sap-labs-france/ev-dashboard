@@ -1,7 +1,10 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { StatusCodes } from 'http-status-codes';
+import { AssetsAuthorizations } from 'types/Authorization';
 
 import { CentralServerService } from '../../../../services/central-server.service';
 import { ComponentService } from '../../../../services/component.service';
@@ -24,6 +27,7 @@ export class AssetMainComponent implements OnInit, OnChanges {
   @Input() public formGroup: FormGroup;
   @Input() public asset!: Asset;
   @Input() public readOnly: boolean;
+  @Input() public assetsAuthorizations!: AssetsAuthorizations;
 
   public image: string = Constants.NO_IMAGE;
   public imageChanged = false;
@@ -54,7 +58,7 @@ export class AssetMainComponent implements OnInit, OnChanges {
     private configService: ConfigService,
     private dialog: MatDialog,
     private translateService: TranslateService,
-  ) {
+    private router: Router) {
     this.maxSize = this.configService.getAsset().maxImageKb;
     this.assetTypes = AssetTypes;
     this.isSmartChargingComponentActive = this.componentService.isActive(TenantComponents.SMART_CHARGING);
@@ -179,8 +183,15 @@ export class AssetMainComponent implements OnInit, OnChanges {
       if (!this.imageChanged) {
         this.centralServerService.getAssetImage(this.asset.id).subscribe((assetImage) => {
           this.imageChanged = true;
-          if (assetImage) {
-            this.image = assetImage;
+          this.image = assetImage ?? Constants.NO_IMAGE;
+        }, (error) => {
+          switch (error.status) {
+            case StatusCodes.NOT_FOUND:
+              this.image = Constants.NO_IMAGE;
+              break;
+            default:
+              Utils.handleHttpError(error, this.router, this.messageService,
+                this.centralServerService, 'general.unexpected_error_backend');
           }
         });
       }
@@ -241,7 +252,6 @@ export class AssetMainComponent implements OnInit, OnChanges {
       .afterClosed().subscribe((result) => {
         if (!Utils.isEmptyArray(result) && result[0].objectRef) {
           const siteArea = result[0].objectRef as SiteArea;
-          console.log(siteArea);
           this.siteArea.setValue(siteArea.name);
           this.siteAreaID.setValue(siteArea.id);
           this.selectedSiteArea = siteArea;

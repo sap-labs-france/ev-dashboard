@@ -262,7 +262,7 @@ export class SimpleChart {
             value = Math.round(value);
           }
           if (this.stackedChart) {
-            toolTip = `${context.label} : ${value.toLocaleString(this.language)}`;
+            toolTip = `${context.dataset.label} : ${value.toLocaleString(this.language)}`;
           } else {
             toolTip = value.toLocaleString(this.language);
           }
@@ -366,8 +366,8 @@ export class SimpleChart {
     if(!this.chartOptions.plugins.title.font){
       this.chartOptions.plugins.title.font = {};
     }
-    this.chartOptions.plugins.title.font.family = this.fontFamily;
-    this.chartOptions.plugins.title.font.size = this.fontSizeNumber;
+    this.chartOptions.plugins.title.font['family'] = this.fontFamily;
+    this.chartOptions.plugins.title.font['size'] = this.fontSizeNumber;
     if (this.withLegend) {
       if(!this.chartOptions.plugins.legend){
         this.chartOptions.plugins.legend = {
@@ -380,7 +380,7 @@ export class SimpleChart {
         };
       }
       this.chartOptions.plugins.legend.labels.color = this.fontColor;
-      this.chartOptions.plugins.legend.labels.font.family = this.fontFamily;
+      this.chartOptions.plugins.legend.labels.font['family'] = this.fontFamily;
     }
     if (this.chartType === ChartTypeValues.PIE) {
       minDivisor = this.constMinDivisorPie;

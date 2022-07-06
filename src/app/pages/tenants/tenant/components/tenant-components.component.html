@@ -72,6 +72,13 @@
           </mat-form-field>
         </div>
         <div class="d-flex align-items-center component-item">
+          <mat-slide-toggle class="align-self-start mt-2" [formControl]="components['controls'].billingPlatform['controls'].active"></mat-slide-toggle>
+          <div class="d-flex flex-column me-auto ms-3 justify-content-around align-items-start">
+            <div><strong><b>{{"billingPlatform.title" | translate}}</b></strong></div>
+            <div>{{"billingPlatform.description" | translate}}</div>
+          </div>
+        </div>
+        <div class="d-flex align-items-center component-item">
           <mat-slide-toggle class="align-self-start mt-2" [formControl]="components['controls'].organization['controls'].active"></mat-slide-toggle>
           <div class="d-flex flex-column me-auto ms-3 justify-content-around align-items-start">
             <div><strong><b>{{"organization.title" | translate}}</b></strong></div>

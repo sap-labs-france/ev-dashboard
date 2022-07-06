@@ -145,6 +145,7 @@ export enum ServerAction {
   OCPI_ENDPOINT_UPDATE = 'OcpiEndpointUpdate',
   OCPI_ENDPOINT_REGISTER = 'OcpiEndpointRegister',
   OCPI_ENDPOINT_UNREGISTER = 'OcpiEndpointUnregister',
+  OCPI_ENDPOINT_CREDENTIALS = 'OcpiEndpointCredentials',
   OCPI_ENDPOINT_DELETE = 'OcpiEndpointDelete',
   OCPI_ENDPOINTS = 'OcpiEndpoints',
   OCPI_ENDPOINT = 'OcpiEndpoint',
@@ -451,6 +452,7 @@ export enum ServerAction {
   BILLING_CHARGE_INVOICE = 'BillingChargeInvoice',
   BILLING_TEST_DATA_CLEANUP = 'BillingTestDataCleanup',
   BILLING_BILL_PENDING_TRANSACTION = 'BillingBillPendingTransaction',
+  BILLING_CREATE_SUB_ACCOUNT = 'BillingCreateSubAccount',
 
   PRICING = 'Pricing',
   PRICING_DEFINITION = 'PricingDefinition',
@@ -687,6 +689,11 @@ export enum RESTServerRoute {
   // PRICING URLs for CRUD operations
   REST_PRICING_DEFINITIONS = 'pricing-definitions',
   REST_PRICING_DEFINITION = 'pricing-definitions/:id',
+
+  // Billing Transfers
+  REST_BILLING_TRANSFERS = 'billing/transfers',
+  REST_BILLING_TRANSFER_FINALIZE = 'billing/transfers/:id/finalize',
+  REST_BILLING_TRANSFER_SEND = 'billing/transfers/:id/send',
 
   // PRICING URLs for Non-CRUD operations
   REST_PRICING_MODEL_RESOLVE = 'pricing-model/resolve',

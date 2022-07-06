@@ -1,12 +1,13 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { StatusCodes } from 'http-status-codes';
 import { ComponentService } from 'services/component.service';
 import { WindowService } from 'services/window.service';
 import { AbstractTabComponent } from 'shared/component/abstract-tab/abstract-tab.component';
-import { DialogMode } from 'types/Authorization';
+import { DialogMode, SitesAuthorizations } from 'types/Authorization';
 
 import { CentralServerService } from '../../../../services/central-server.service';
 import { DialogService } from '../../../../services/dialog.service';
@@ -29,6 +30,7 @@ export class SiteComponent extends AbstractTabComponent implements OnInit {
   @Input() public currentSiteID!: string;
   @Input() public dialogMode!: DialogMode;
   @Input() public dialogRef!: MatDialogRef<any>;
+  @Input() public sitesAuthorizations!: SitesAuthorizations;
 
   @ViewChild('siteMainComponent') public siteMainComponent!: SiteMainComponent;
   @ViewChild('siteOcpiComponent') public siteOcpiComponent!: SiteOcpiComponent;
@@ -84,7 +86,7 @@ export class SiteComponent extends AbstractTabComponent implements OnInit {
       }, (error) => {
         this.spinnerService.hide();
         switch (error.status) {
-          case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+          case StatusCodes.NOT_FOUND:
             this.messageService.showErrorMessage('sites.site_not_found');
             break;
           default:
@@ -138,7 +140,7 @@ export class SiteComponent extends AbstractTabComponent implements OnInit {
     }, (error) => {
       this.spinnerService.hide();
       switch (error.status) {
-        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+        case StatusCodes.NOT_FOUND:
           this.messageService.showErrorMessage('sites.site_not_found');
           break;
         default:
@@ -164,7 +166,7 @@ export class SiteComponent extends AbstractTabComponent implements OnInit {
     }, (error) => {
       this.spinnerService.hide();
       switch (error.status) {
-        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+        case StatusCodes.NOT_FOUND:
           this.messageService.showErrorMessage('sites.site_not_found');
           break;
         case HTTPError.FEATURE_NOT_SUPPORTED_ERROR:

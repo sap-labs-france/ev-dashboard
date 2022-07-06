@@ -21,7 +21,7 @@ import { TableNoAction } from '../../../shared/table/actions/table-no-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { TableViewTransactionAction, TableViewTransactionActionDef, TransactionDialogData } from '../../../shared/table/actions/transactions/table-view-transaction-action';
 import { TableDataSource } from '../../../shared/table/table-data-source';
-import { ChargePointStatus, ChargingStation, ChargingStationButtonAction, Connector } from '../../../types/ChargingStation';
+import { ChargingStation, ChargingStationButtonAction, Connector } from '../../../types/ChargingStation';
 import { DataResult } from '../../../types/DataResult';
 import { TableActionDef, TableColumnDef, TableDef } from '../../../types/Table';
 import { TransactionButtonAction } from '../../../types/Transaction';
@@ -37,6 +37,7 @@ import { ChargingStationsStartTransactionDialogComponent } from '../charging-sta
 export class ChargingStationConnectorsTableDataSource extends TableDataSource<Connector> {
   public stopTransactionAction = new TableChargingStationsStopTransactionAction().getActionDef();
   public startTransactionAction = new TableChargingStationsStartTransactionAction().getActionDef();
+  public unlockConnectorAction = new TableChargingStationsUnlockConnectorAction().getActionDef();
   public viewTransactionAction = new TableViewTransactionAction().getActionDef();
   public noAction = new TableNoAction().getActionDef();
 
@@ -67,24 +68,23 @@ export class ChargingStationConnectorsTableDataSource extends TableDataSource<Co
     return new Observable((observer) => {
       // Return connector
       if (this.chargingStation) {
-        this.chargingStation.connectors.forEach((connector) => {
-          if (this.chargingStation.issuer) {
-            connector.isStopAuthorized = !!connector.currentTransactionID &&
-              this.authorizationService.canStopTransaction(this.chargingStation.siteArea, connector.currentTagID);
-            connector.isStartAuthorized = !connector.currentTransactionID &&
-              this.authorizationService.canStartTransaction(this.chargingStation.siteArea);
-            connector.isTransactionDisplayAuthorized = this.authorizationService.canReadTransaction(this.chargingStation.siteArea, connector.currentTagID);
-            connector.hasDetails = !!connector.currentTransactionID && connector.isTransactionDisplayAuthorized;
-          } else {
-            connector.isStopAuthorized = connector.currentTransactionID > 0 && connector.status !== ChargePointStatus.AVAILABLE;
-            connector.isStartAuthorized = !connector.isStopAuthorized && connector.status === ChargePointStatus.AVAILABLE;
-            connector.isTransactionDisplayAuthorized = connector.currentTransactionID > 0;
-            connector.hasDetails = connector.currentTransactionID > 0;
+        // Rebuild projected fields for Connector
+        let connectorsProjectedFields = this.additionalParameters.projectFields.filter(
+          (projectField) => projectField.startsWith('connectors.'));
+        connectorsProjectedFields = connectorsProjectedFields.map((connectorsProjectedField) => {
+          if (connectorsProjectedField.startsWith('connectors.')) {
+            return connectorsProjectedField.substring(11);
           }
         });
+        for (const connector of this.chargingStation.connectors) {
+          connector.isTransactionDisplayAuthorized =
+            this.authorizationService.canReadTransaction(this.chargingStation.siteArea, connector.currentTagID);
+          connector.hasDetails = !!connector.currentTransactionID && connector.isTransactionDisplayAuthorized;
+        }
         observer.next({
           count: this.chargingStation.connectors.length,
           result: this.chargingStation.connectors,
+          projectFields: connectorsProjectedFields
         });
       }
       observer.complete();
@@ -133,7 +133,6 @@ export class ChargingStationConnectorsTableDataSource extends TableDataSource<Co
         class: 'table-cell-angular-big-component col-10em',
         isAngularComponent: true,
         angularComponent: ChargingStationsConnectorStatusCellComponent,
-        sortable: false,
       },
       {
         id: 'info',
@@ -141,7 +140,6 @@ export class ChargingStationConnectorsTableDataSource extends TableDataSource<Co
         headerClass: 'text-center col-15em',
         class: 'text-center col-15em',
         formatter: (info: string, row: Connector) => Utils.buildConnectorInfo(row),
-        sortable: false,
       },
       {
         id: 'currentInstantWatts',
@@ -150,7 +148,6 @@ export class ChargingStationConnectorsTableDataSource extends TableDataSource<Co
         class: 'text-center col-20p',
         isAngularComponent: true,
         angularComponent: ChargingStationsInstantPowerConnectorProgressBarCellComponent,
-        sortable: false,
       },
       {
         id: 'currentTotalConsumptionWh',
@@ -158,7 +155,6 @@ export class ChargingStationConnectorsTableDataSource extends TableDataSource<Co
         headerClass: 'col-15p',
         class: 'col-15p',
         formatter: (value: number) => this.appUnitPipe.transform(value, 'Wh', 'kWh'),
-        sortable: false,
       },
       {
         id: 'currentTotalInactivitySecs',
@@ -170,11 +166,11 @@ export class ChargingStationConnectorsTableDataSource extends TableDataSource<Co
         angularComponent: ChargingStationsConnectorInactivityCellComponent,
       },
       {
-        id: 'user',
+        id: 'user.name',
         name: 'chargers.user',
         headerClass: 'col-20p',
         class: 'text-left col-20p',
-        formatter: (user: User) => this.appUserNamePipe.transform(user),
+        formatter: (name: string, connector: Connector) => this.appUserNamePipe.transform(connector.user),
       },
     ];
   }
@@ -192,16 +188,14 @@ export class ChargingStationConnectorsTableDataSource extends TableDataSource<Co
       if (connector.isTransactionDisplayAuthorized) {
         rowActions.push(this.viewTransactionAction);
       }
-      if (connector.isStopAuthorized) {
+      if (connector.canRemoteStopTransaction) {
         rowActions.push(this.stopTransactionAction);
       }
-      if (connector.isStartAuthorized && !this.chargingStation.inactive) {
+      if (connector.canRemoteStartTransaction) {
         rowActions.push(this.startTransactionAction);
       }
-      if (this.authorizationService.canUnlockConnector(this.chargingStation.siteArea)) {
-        const unlockConnectorAction = new TableChargingStationsUnlockConnectorAction().getActionDef();
-        unlockConnectorAction.disabled = connector.status === ChargePointStatus.AVAILABLE || this.chargingStation.inactive;
-        rowActions.push(unlockConnectorAction);
+      if (connector.canUnlockConnector) {
+        rowActions.push(this.unlockConnectorAction);
       }
     }
     if (!Utils.isEmptyArray(rowActions)) {
@@ -229,7 +223,7 @@ export class ChargingStationConnectorsTableDataSource extends TableDataSource<Co
         this.centralServerService.getTransaction(connector.currentTransactionID).subscribe((transaction) => {
           if (actionDef.action) {
             (actionDef as TableChargingStationsStopTransactionActionDef).action(
-              transaction, this.authorizationService, this.dialogService,
+              transaction, this.dialogService,
               this.translateService, this.messageService, this.centralServerService, this.spinnerService,
               this.router, this.refreshData.bind(this));
           }

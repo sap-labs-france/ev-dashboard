@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { AuthorizationDefinitionFieldMetadata } from 'types/Authorization';
+import { TagsAuthorizations } from 'types/Authorization';
 
 import { SpinnerService } from '../../../../services/spinner.service';
 import { UsersDialogComponent } from '../../../../shared/dialogs/users/users-dialog.component';
@@ -16,7 +16,7 @@ export class TagMainComponent implements OnInit, OnChanges {
   @Input() public formGroup: FormGroup;
   @Input() public tag!: Tag;
   @Input() public readOnly: boolean;
-  @Input() public metadata!: Record<string, AuthorizationDefinitionFieldMetadata>;
+  @Input() public tagsAuthorizations!: TagsAuthorizations;
 
   public idVisible = true;
   public initialized = false;
@@ -71,6 +71,13 @@ export class TagMainComponent implements OnInit, OnChanges {
     this.active = this.formGroup.controls['active'];
     this.default = this.formGroup.controls['default'];
     this.default.disable();
+    if (this.tagsAuthorizations?.metadata?.userID?.mandatory) {
+      this.user.setValidators(Validators.required);
+      this.userID.setValidators(Validators.required);
+    }
+    if (this.tagsAuthorizations?.metadata?.id) {
+      this.idVisible = this.tagsAuthorizations.metadata.id.visible;
+    }
     this.initialized = true;
     this.loadTag();
   }
@@ -90,18 +97,6 @@ export class TagMainComponent implements OnInit, OnChanges {
         this.user.setValue(Utils.buildUserFullName(this.tag.user));
         this.default.enable();
         this.default.setValue(this.tag.default);
-      }
-      if (this.metadata?.userID?.mandatory) {
-        this.user.setValidators(Validators.required);
-        this.userID.setValidators(Validators.required);
-      }
-      // Handle Meta Data
-      if (this.metadata?.userID?.mandatory) {
-        this.user.setValidators(Validators.required);
-        this.userID.setValidators(Validators.required);
-      }
-      if (this.metadata?.id) {
-        this.idVisible = this.metadata.id.visible;
       }
       this.id.disable();
     }

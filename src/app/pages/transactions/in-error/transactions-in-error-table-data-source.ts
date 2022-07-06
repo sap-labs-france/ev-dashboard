@@ -184,16 +184,14 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    const columns = [];
-    if (this.isAdmin) {
-      columns.push({
+    return [
+      {
         id: 'id',
         name: 'transactions.id',
-        headerClass: 'col-10p',
-        class: 'col-10p',
-      });
-    }
-    columns.push(
+        headerClass: 'd-none d-xl-table-cell',
+        class: 'd-none d-xl-table-cell',
+        visible: this.isAdmin
+      },
       {
         id: 'timestamp',
         name: 'transactions.started_at',
@@ -256,38 +254,41 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
         class: 'col-10p',
         formatter: (stateOfCharge: number, row: Transaction) => stateOfCharge ? `${stateOfCharge}% > ${row.stop.stateOfCharge}%` : '-',
       },
-    );
-    if (this.isAdmin || this.isSiteAdmin) {
-      columns.push(
-        {
-          id: 'user',
-          name: 'transactions.user',
-          headerClass: 'col-15p',
-          class: 'text-left col-15p',
-          formatter: (value: User) => this.appUserNamePipe.transform(value),
-        },
-        {
-          id: 'tagID',
-          name: 'transactions.badge_id',
-          headerClass: 'col-15p',
-          class: 'text-left col-15p',
-          formatter: (tagID: string) => tagID ? tagID : '-'
-        }
-      );
-      if (this.componentService.isActive(TenantComponents.CAR)) {
-        if (this.authorizationService.canListCars()) {
-          columns.push({
-            id: 'carCatalog',
-            name: 'car.title',
-            headerClass: 'text-center col-15p',
-            class: 'text-center col-15p',
-            sortable: true,
-            formatter: (carCatalog: CarCatalog) => carCatalog ? Utils.buildCarCatalogName(carCatalog) : '-',
-          });
-        }
+      {
+        id: 'user',
+        name: 'transactions.user',
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
+        formatter: (value: User) => this.appUserNamePipe.transform(value),
+        visible: this.authorizationService.canListUsers()
+      },
+      {
+        id: 'tagID',
+        name: 'tags.id',
+        headerClass: 'col-10p',
+        class: 'text-left col-10p',
+        formatter: (tagID: string) => tagID ? tagID : '-',
+        visible: this.authorizationService.canListUsers()
+      },
+      {
+        id: 'carCatalog',
+        name: 'car.title',
+        headerClass: 'text-center col-15p',
+        class: 'text-center col-15p',
+        sortable: true,
+        formatter: (carCatalog: CarCatalog) => carCatalog ? Utils.buildCarCatalogName(carCatalog) : '-',
+        visible: this.componentService.isActive(TenantComponents.CAR) && this.authorizationService.canListCars()
+      },
+      {
+        id: 'car.licensePlate',
+        name: 'cars.license_plate',
+        headerClass: 'text-center col-15p',
+        class: 'text-center col-15p',
+        sortable: true,
+        formatter: (licensePlate: string) => licensePlate ? licensePlate : '-',
+        visible: this.componentService.isActive(TenantComponents.CAR) && this.authorizationService.canUpdateCar()
       }
-    }
-    return columns as TableColumnDef[];
+    ];
   }
 
   public formatChargingStation(chargingStationID: string, row: Transaction) {

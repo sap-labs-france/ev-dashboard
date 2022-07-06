@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
-import { DialogParams } from 'types/Authorization';
+import { DialogParamsWithAuth, SiteAreasAuthorizations } from 'types/Authorization';
 
 import { SiteArea } from '../../../../types/SiteArea';
 import { Utils } from '../../../../utils/Utils';
@@ -19,7 +19,7 @@ export class SiteAreaChargingStationsDialogComponent {
     public siteAreaChargersDataSource: SiteAreaChargingStationsDataSource,
     private dialogRef: MatDialogRef<SiteAreaChargingStationsDialogComponent>,
     private translateService: TranslateService,
-    @Inject(MAT_DIALOG_DATA) dialogParams: DialogParams<SiteArea>) {
+    @Inject(MAT_DIALOG_DATA) dialogParams: DialogParamsWithAuth<SiteArea, SiteAreasAuthorizations>) {
     // default title
     this.dialogTitle = this.translateService.instant('chargers.chargers');
     if (dialogParams) {

@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { StatusCodes } from 'http-status-codes';
 import { ReCaptchaV3Service } from 'ngx-captcha';
 import { Constants } from 'utils/Constants';
 
@@ -10,7 +11,6 @@ import { MessageService } from '../../services/message.service';
 import { SpinnerService } from '../../services/spinner.service';
 import { WindowService } from '../../services/window.service';
 import { RestResponse } from '../../types/GlobalType';
-import { HTTPError } from '../../types/HTTPError';
 import { ParentErrorStateMatcher } from '../../utils/ParentStateMatcher';
 import { Users } from '../../utils/Users';
 import { Utils } from '../../utils/Utils';
@@ -30,7 +30,7 @@ export class AuthenticationDefinePasswordComponent implements OnInit, OnDestroy 
   public hidePassword = true;
   public hideRepeatPassword = true;
   public mobileVendor!: string;
-  public tenantLogo = Constants.TENANT_DEFAULT_LOGO;
+  public tenantLogo = Constants.NO_IMAGE;
 
   private siteKey: string;
   private subDomain: string;
@@ -93,7 +93,19 @@ export class AuthenticationDefinePasswordComponent implements OnInit, OnDestroy 
         if (tenantLogo) {
           this.tenantLogo = tenantLogo;
         }
+      }, (error) => {
+        this.spinnerService.hide();
+        switch (error.status) {
+          case StatusCodes.NOT_FOUND:
+            this.tenantLogo = Constants.NO_IMAGE;
+            break;
+          default:
+            Utils.handleHttpError(error, this.router, this.messageService,
+              this.centralServerService, 'general.unexpected_error_backend');
+        }
       });
+    } else {
+      this.tenantLogo = Constants.MASTER_TENANT_LOGO;
     }
   }
 
@@ -129,7 +141,7 @@ export class AuthenticationDefinePasswordComponent implements OnInit, OnDestroy 
         this.spinnerService.hide();
         switch (error.status) {
           // Hash no longer valid
-          case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+          case StatusCodes.NOT_FOUND:
             this.messageService.showErrorMessage('authentication.define_password_hash_not_valid');
             break;
           default:

@@ -3,6 +3,7 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { StatusCodes } from 'http-status-codes';
 import { ButtonAction } from 'types/GlobalType';
 import { User } from 'types/User';
 
@@ -31,7 +32,7 @@ export class AuthenticationLoginComponent implements OnInit, OnDestroy {
   public acceptEula: AbstractControl;
 
   public hidePassword = true;
-  public tenantLogo = Constants.TENANT_DEFAULT_LOGO;
+  public tenantLogo = Constants.NO_IMAGE;
 
   private toggleButton: any;
   private sidebarVisible: boolean;
@@ -122,14 +123,25 @@ export class AuthenticationLoginComponent implements OnInit, OnDestroy {
         if (tenantLogo) {
           this.tenantLogo = tenantLogo;
         }
+      }, (error) => {
+        this.spinnerService.hide();
+        switch (error.status) {
+          case StatusCodes.NOT_FOUND:
+            this.tenantLogo = Constants.NO_IMAGE;
+            break;
+          default:
+            Utils.handleHttpError(error, this.router, this.messageService,
+              this.centralServerService, 'general.unexpected_error_backend');
+        }
       });
+    } else {
+      this.tenantLogo = Constants.MASTER_TENANT_LOGO;
     }
   }
 
   public sidebarToggle() {
     const toggleButton = this.toggleButton;
     const body = document.getElementsByTagName('body')[0];
-    const sidebar = document.getElementsByClassName('navbar-collapse')[0];
     if (this.sidebarVisible === false) {
       setTimeout(() => {
         toggleButton.classList.add('toggled');
@@ -163,7 +175,7 @@ export class AuthenticationLoginComponent implements OnInit, OnDestroy {
       this.spinnerService.hide();
       switch (error.status) {
         // Wrong email or password
-        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+        case StatusCodes.NOT_FOUND:
           this.messageService.showErrorMessage(this.messages['wrong_email_or_password']);
           break;
         // Account is locked

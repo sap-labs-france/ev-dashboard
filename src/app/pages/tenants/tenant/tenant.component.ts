@@ -3,6 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { StatusCodes } from 'http-status-codes';
 
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
@@ -73,7 +74,7 @@ export class TenantComponent extends AbstractTabComponent implements OnInit {
         // Hide
         this.spinnerService.hide();
         switch (error.status) {
-          case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+          case StatusCodes.NOT_FOUND:
             this.messageService.showErrorMessage('tenants.tenant_not_found');
             break;
           default:
@@ -102,6 +103,7 @@ export class TenantComponent extends AbstractTabComponent implements OnInit {
     let pricingActive = false;
     let refundActive = false;
     let billingActive = false;
+    let billingPlatformActive = false;
     let smartChargingActive = false;
     let organizationActive = false;
     let assetActive = false;
@@ -122,6 +124,9 @@ export class TenantComponent extends AbstractTabComponent implements OnInit {
         }
         if (component === TenantComponents.BILLING) {
           billingActive = tenant.components[component].active;
+        }
+        if (component === TenantComponents.BILLING_PLATFORM) {
+          billingPlatformActive = tenant.components[component].active;
         }
         if (component === TenantComponents.SMART_CHARGING) {
           smartChargingActive = tenant.components[component].active;
@@ -156,6 +161,10 @@ export class TenantComponent extends AbstractTabComponent implements OnInit {
     }
     if (billingActive && !pricingActive) {
       this.messageService.showErrorMessage('tenants.save_error_billing');
+      return;
+    }
+    if (billingPlatformActive && !billingActive) {
+      this.messageService.showErrorMessage('tenants.save_error_billing_platform');
       return;
     }
     if (smartChargingActive && !organizationActive) {

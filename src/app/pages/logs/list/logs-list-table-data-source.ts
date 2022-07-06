@@ -122,7 +122,7 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
         this.getPaging(), this.getSorting()).subscribe((logs) => {
         this.exportAction.visible = logs.canExport;
         // Add the users in the message
-        logs.result.map((log: Log) => {
+        for (const log of logs.result) {
           let user;
           // Set User
           if (log.user) {
@@ -136,8 +136,7 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
           if (user) {
             log.message = `${user} > ${log.message}`;
           }
-          return log;
-        });
+        }
         observer.next(logs);
         observer.complete();
       }, (error) => {
@@ -278,7 +277,7 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
         new LogSourceTableFilter().getFilterDef(),
         new LogActionTableFilter().getFilterDef(),
         siteFilter,
-        new ChargingStationTableFilter([issuerFilter, siteFilter]).getFilterDef(),
+        new ChargingStationTableFilter([siteFilter]).getFilterDef(),
         new UserTableFilter([issuerFilter]).getFilterDef(),
       ];
     }

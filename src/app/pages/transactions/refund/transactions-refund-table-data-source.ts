@@ -151,8 +151,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    const columns: TableColumnDef[] = [];
-    columns.push(
+    return [
       {
         id: 'id',
         name: 'transactions.id',
@@ -220,16 +219,14 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
         name: 'transactions.price',
         formatter: (price, row) => this.appCurrencyPipe.transform(price, row.stop.priceUnit),
       },
-    );
-    if (this.componentService.isActive(TenantComponents.CAR) &&
-      this.authorizationService.canListCars()) {
-      columns.push({
+      {
         id: 'carCatalog',
         name: 'car.title',
         headerClass: 'text-center col-15p',
         class: 'text-center col-15p',
         sortable: true,
         formatter: (carCatalog: CarCatalog) => carCatalog ? Utils.buildCarCatalogName(carCatalog) : '-',
+        visible: this.componentService.isActive(TenantComponents.CAR) && this.authorizationService.canListCars(),
       },
       {
         id: 'car.licensePlate',
@@ -237,10 +234,10 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
         headerClass: 'text-center col-15p',
         class: 'text-center col-15p',
         sortable: true,
-        formatter: (licensePlate: string) => licensePlate ? licensePlate : '-'
-      });
-    }
-    return columns as TableColumnDef[];
+        formatter: (licensePlate: string) => licensePlate ? licensePlate : '-',
+        visible: this.componentService.isActive(TenantComponents.CAR) && this.authorizationService.canListCars(),
+      }
+    ];
   }
 
   public formatInactivity(totalInactivitySecs: number, row: Transaction) {

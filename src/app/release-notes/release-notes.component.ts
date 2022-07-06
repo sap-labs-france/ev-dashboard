@@ -24,13 +24,63 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.6.9',
+        date: new Date('2022-07-05'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Migrated Charging Station endpoint to the new authorization framework`,
+              `Fixed OCPI Tag type to match RFID standard`,
+              `Handle Tag ID sent by payment terminals`,
+              `Retrigger the Async task framework after it has run once`,
+              `Check of OCPI CPO Locations is now done once a day`,
+              `Log in error failed Remote Push Notification`,
+              `Virtual RFID ID are generated now on 8 bytes`,
+              `Added automatic redirection of migrated tenants to a k8s cluster`,
+              `Fix Site not provided in Charging Profile`
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.6.8',
+        date: new Date('2022-06-13'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Aligned pop-ups with new authorization framework`,
+              `Fix Charging Station's Statistics wrong label tooltip`,
+              `Handle Connectors' statuses of inactive Charging Stations in the backend`,
+              `Fixed OCPI Token updated with User ID instead of UID`,
+              `Pull the last 2 weeks OCPI eMSP Cdrs/Sessions when triggered manually in the UI`,
+              `Track OCPP JSON WS memory footprints`,
+              `Display all Charging Stations in Log list filter`,
+              `Fixed cannot change URL for SOAP Charging Station`,
+              `Used Ramer Douglas Peucker algo to optimize the charging curve`,
+              `Log more information on OCPI wrong Token`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.6.7',
-        date: new Date('2022-05-17'),
+        date: new Date('2022-05-27'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `Implemented sub Site Areas`,
+              `Log in error failed OCPI Commands`,
+              `Fixed Admin and Site Admin cannot create a Car with a user`,
+              `Get OCPI eMSP Tags with createdOn in addition to lastChangedOn`,
+              `Ignore the Smart Charging if no Charging Station is used`,
+              `Fixed Mobile App does not receive the Charging Station connector's stats for Sites and Site Areas`,
+              `Ensure last transaction handling will not make the Status notification failing`,
+              `Do not send 'null' value in pricing via OCPI`,
+              `Fixed connector stats does not contain connector level information`,
+              `Enhanced OCPI Job management`,
             ],
           },
         ],

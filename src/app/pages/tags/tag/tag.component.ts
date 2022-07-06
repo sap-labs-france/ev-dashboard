@@ -3,9 +3,10 @@ import { FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { StatusCodes } from 'http-status-codes';
 import { WindowService } from 'services/window.service';
 import { AbstractTabComponent } from 'shared/component/abstract-tab/abstract-tab.component';
-import { AuthorizationDefinitionFieldMetadata, DialogMode } from 'types/Authorization';
+import { DialogMode, TagsAuthorizations } from 'types/Authorization';
 
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
@@ -26,7 +27,7 @@ export class TagComponent extends AbstractTabComponent implements OnInit {
   @Input() public currentTagID!: string;
   @Input() public currentTagVisualID!: string;
   @Input() public dialogRef!: MatDialogRef<any>;
-  @Input() public metadata!: Record<string, AuthorizationDefinitionFieldMetadata>;
+  @Input() public tagsAuthorizations!: TagsAuthorizations;
   @Input() public dialogMode!: DialogMode;
 
   public formGroup!: FormGroup;
@@ -66,7 +67,6 @@ export class TagComponent extends AbstractTabComponent implements OnInit {
       this.centralServerService.getTag(this.currentTagID).subscribe((tag: Tag) => {
         this.spinnerService.hide();
         this.tag = tag;
-        this.metadata = tag.metadata;
         if (this.readOnly) {
           // Async call for letting the sub form groups to init
           setTimeout(() => this.formGroup.disable(), 0);
@@ -78,7 +78,7 @@ export class TagComponent extends AbstractTabComponent implements OnInit {
       }, (error) => {
         this.spinnerService.hide();
         switch (error.status) {
-          case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+          case StatusCodes.NOT_FOUND:
             this.messageService.showErrorMessage('tags.tag_not_found');
             break;
           default:
@@ -91,7 +91,6 @@ export class TagComponent extends AbstractTabComponent implements OnInit {
       this.centralServerService.getTagByVisualID(this.currentTagVisualID).subscribe((tag: Tag) => {
         this.spinnerService.hide();
         this.tag = tag;
-        this.metadata = tag.metadata;
         if (this.readOnly) {
           // Async call for letting the sub form groups to init
           setTimeout(() => this.formGroup.disable(), 0);
@@ -103,7 +102,7 @@ export class TagComponent extends AbstractTabComponent implements OnInit {
       }, (error) => {
         this.spinnerService.hide();
         switch (error.status) {
-          case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+          case StatusCodes.NOT_FOUND:
             this.messageService.showErrorMessage('tags.tag_not_found');
             break;
           default:

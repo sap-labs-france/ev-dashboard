@@ -1407,6 +1407,30 @@
     "user": "Utente",
     "failed_download": "Download della fattura non riuscito"
   },
+  "transfers": {
+    "tabs": {
+      "list": "Transfers"
+    },
+    "tooltips": {
+      "finalize": "Finalize transfer",
+      "send": "Send transfer"
+    },
+    "status": {
+      "draft": "Draft",
+      "pending": "Pending",
+      "finalized": "Finalized",
+      "transferred": "Transferred"
+    },
+    "id": "ID",
+    "accountExternalID": "Connected Account",
+    "amount": "Amount",
+    "transferAmount": "Transferred Amount",
+    "number_of_items": "Sessions",
+    "transferExternalID": "External ID",
+    "accountOwner": "Owner",
+    "cannot_finalize_transfer": "Cannot finalize the transfer",
+    "cannot_send_transfer": "Cannot send the transfer"
+  },
   "tags": {
     "id": "Tag ID",
     "not_active": "This badge is not active",
@@ -1483,6 +1507,7 @@
     "save_error_refund": "Il prezzo deve essere attivo per utilizzare il rimborso",
     "save_error_roaming": "You cannot activate both the OCPI and OICP roaming components",
     "save_error_billing": "Il prezzo deve essere attivo per usare la fatturazione",
+    "save_error_billing_platform": "Billing must be active to use Billing Platform",
     "save_error_smart_charging": "L'organizzazione deve essere attiva per utilizzare Carica Smart",
     "save_error_asset": "L'Organizzazione deve essere attiva per usare Risorsa",
     "save_error_car_connector": "Car Management must be active to use Car Connector",
@@ -1969,8 +1994,9 @@
     "start_background_job_confirm": "Vuoi veramente avviare il job di background per l'IOP '{{name}}'?",
     "stop_background_job_title": "Interrompi Job di Background",
     "stop_background_job_confirm": "Vuoi veramente interrompere il job di background per l'IOP '{{name}}'?",
-    "total_charge_points": "Totale Punti Ricarica",
-    "total_tokens": "Token Totali",
+    "total_charge_points": "Charging Stations",
+    "total_tokens": "RFID Cards",
+    "total_locations": "Sites",
     "total": "Totale",
     "succeeded": "Successo",
     "failed": "Fallito"
@@ -2318,6 +2344,10 @@
       "in_error": "In Errore"
     }
   },
+  "billingPlatform": {
+    "title": "Billing Platform",
+    "description": "Manage several billing accounts"
+  },
   "transactions": {
     "id": "Id",
     "date_from": "Data",
@@ -2454,7 +2484,7 @@
       "limit": "Limite",
       "limit_watts": "Limite Rete Elettrica (kW)",
       "limit_amps": "Limite Rete Elettrica (A)",
-      "load_all_consumptions": "Mostra risoluzione massima del grafico (un punto ogni 60 secondi)",
+      "load_all_consumptions": "Mostra risoluzione massima del grafico",
       "unit_kilowatts": "kW",
       "unit_amperage": "Amp"
     },

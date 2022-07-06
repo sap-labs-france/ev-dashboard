@@ -5,7 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { WindowService } from 'services/window.service';
 import { TableSiteAreaGenerateQrCodeConnectorAction, TableSiteAreaGenerateQrCodeConnectorsActionDef } from 'shared/table/actions/site-areas/table-site-area-generate-qr-code-connector-action';
-import { DataResultAuthorizations } from 'types/Authorization';
+import { SiteAreasAuthorizations } from 'types/Authorization';
 
 import { CentralServerService } from '../../../../services/central-server.service';
 import { ComponentService } from '../../../../services/component.service';
@@ -45,7 +45,7 @@ import { SiteAreaConsumptionChartDetailComponent } from './consumption-chart/sit
 
 @Injectable()
 export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
-  private siteAreasAuthorizations: DataResultAuthorizations;
+  private siteAreasAuthorizations: SiteAreasAuthorizations;
   private readonly isAssetComponentActive: boolean;
   private editAction = new TableEditSiteAreaAction().getActionDef();
   private assignChargingStationsToSiteAreaAction = new TableAssignChargingStationsToSiteAreaAction().getActionDef();
@@ -83,7 +83,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     const siteAreaID = this.windowService.getUrlParameterValue('SiteAreaID');
     if (siteAreaID) {
       this.editAction.action(SiteAreaDialogComponent, this.dialog, {
-        dialogData: { id: siteAreaID } as SiteArea
+        dialogData: { id: siteAreaID } as SiteArea, authorizations: this.siteAreasAuthorizations
       });
     }
   }
@@ -126,7 +126,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    const tableColumnDef: TableColumnDef[] = [
+    return [
       {
         id: 'id',
         name: 'general.id',
@@ -157,20 +157,15 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
         headerClass: 'col-10p text-center',
         class: 'col-10p text-center',
         formatter: (numberOfPhases: number, siteArea: SiteArea) => siteArea.issuer ? numberOfPhases.toString() : '-',
-      }
-    ];
-    if (this.componentService.isActive(TenantComponents.SMART_CHARGING)) {
-      tableColumnDef.push(
-        {
-          id: 'smartCharging',
-          name: 'site_areas.smart_charging',
-          headerClass: 'col-10p text-center',
-          class: 'col-10p text-center',
-          formatter: (smartCharging: boolean) => Utils.displayYesNo(this.translateService, smartCharging),
-        }
-      );
-    }
-    tableColumnDef.push(
+      },
+      {
+        id: 'smartCharging',
+        name: 'site_areas.smart_charging',
+        headerClass: 'col-10p text-center',
+        class: 'col-10p text-center',
+        formatter: (smartCharging: boolean) => Utils.displayYesNo(this.translateService, smartCharging),
+        visible: this.componentService.isActive(TenantComponents.SMART_CHARGING),
+      },
       {
         id: 'accessControl',
         name: 'site_areas.access_control',
@@ -233,8 +228,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
         headerClass: 'col-15em',
         class: 'col-15em',
       },
-    );
-    return tableColumnDef;
+    ];
   }
 
   public buildTableActionsDef(): TableActionDef[] {
@@ -299,27 +293,27 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
       case SiteAreaButtonAction.EDIT_SITE_AREA:
         if (actionDef.action) {
           (actionDef as TableEditSiteAreaActionDef).action(SiteAreaDialogComponent, this.dialog,
-            { dialogData: siteArea }, this.refreshData.bind(this));
+            { dialogData: siteArea, authorizations: this.siteAreasAuthorizations }, this.refreshData.bind(this));
         }
         break;
       case SiteAreaButtonAction.VIEW_SITE_AREA:
         if (actionDef.action) {
           (actionDef as TableViewSiteAreaActionDef).action(SiteAreaDialogComponent, this.dialog,
-            { dialogData: siteArea }, this.refreshData.bind(this));
+            { dialogData: siteArea, authorizations: this.siteAreasAuthorizations }, this.refreshData.bind(this));
         }
         break;
       case SiteAreaButtonAction.ASSIGN_CHARGING_STATIONS_TO_SITE_AREA:
         if (actionDef.action) {
           (actionDef as TableAssignChargingStationsToSiteAreaActionDef).action(
             SiteAreaChargingStationsDialogComponent, this.dialog,
-            { dialogData: siteArea }, this.refreshData.bind(this));
+            { dialogData: siteArea, authorizations: this.siteAreasAuthorizations }, this.refreshData.bind(this));
         }
         break;
       case SiteAreaButtonAction.VIEW_CHARGING_STATIONS_OF_SITE_AREA:
         if (actionDef.action) {
           (actionDef as TableViewChargingStationsOfSiteAreaActionDef).action(
             SiteAreaChargingStationsDialogComponent, this.dialog,
-            { dialogData: siteArea }, this.refreshData.bind(this));
+            { dialogData: siteArea, authorizations: this.siteAreasAuthorizations }, this.refreshData.bind(this));
         }
         break;
       case SiteAreaButtonAction.DELETE_SITE_AREA:
@@ -345,13 +339,13 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
       case SiteAreaButtonAction.ASSIGN_ASSETS_TO_SITE_AREA:
         if (actionDef.action) {
           (actionDef as TableAssignAssetsToSiteAreaActionDef).action(
-            SiteAreaAssetsDialogComponent, this.dialog, { dialogData: siteArea }, this.refreshData.bind(this));
+            SiteAreaAssetsDialogComponent, this.dialog, { dialogData: siteArea, authorizations: this.siteAreasAuthorizations }, this.refreshData.bind(this));
         }
         break;
       case SiteAreaButtonAction.VIEW_ASSETS_OF_SITE_AREA:
         if (actionDef.action) {
           (actionDef as TableViewAssignedAssetsOfSiteAreaActionDef).action(
-            SiteAreaAssetsDialogComponent, this.dialog, { dialogData: siteArea },
+            SiteAreaAssetsDialogComponent, this.dialog, { dialogData: siteArea, authorizations: this.siteAreasAuthorizations },
             this.refreshData.bind(this));
         }
         break;

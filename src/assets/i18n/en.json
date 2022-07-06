@@ -1407,6 +1407,30 @@
     "user": "User",
     "failed_download": "Invoice download failed."
   },
+  "transfers": {
+    "tabs": {
+      "list": "Transfers"
+    },
+    "tooltips": {
+      "finalize": "Finalize transfer",
+      "send": "Send transfer"
+    },
+    "status": {
+      "draft": "Draft",
+      "pending": "Pending",
+      "finalized": "Finalized",
+      "transferred": "Transferred"
+    },
+    "id": "ID",
+    "accountExternalID": "Connected Account",
+    "amount": "Amount",
+    "transferAmount": "Transferred Amount",
+    "number_of_items": "Sessions",
+    "transferExternalID": "External ID",
+    "accountOwner": "Owner",
+    "cannot_finalize_transfer": "Cannot finalize the transfer",
+    "cannot_send_transfer": "Cannot send the transfer"
+  },
   "tags": {
     "id": "RFID",
     "not_active": "This RFID card is not active",
@@ -1483,6 +1507,7 @@
     "save_error_refund": "Pricing must be active to use refunding",
     "save_error_roaming": "You cannot activate both the OCPI and OICP roaming components",
     "save_error_billing": "Pricing must be active to use billing",
+    "save_error_billing_platform": "Billing must be active to use Billing Platform",
     "save_error_smart_charging": "Organization must be active to use Smart Charging",
     "save_error_asset": "Organization must be active to use Asset",
     "save_error_car_connector": "Car Management must be active to use Car Connector",
@@ -1969,8 +1994,9 @@
     "start_background_job_confirm": "Do you want to start the background job for IOP '{{name}}'?",
     "stop_background_job_title": "Stop Background Job",
     "stop_background_job_confirm": "Do you want to stop the background job for IOP '{{name}}'?",
-    "total_charge_points": "Total Charge Points",
-    "total_tokens": "Total Tokens",
+    "total_charge_points": "Charging Stations",
+    "total_tokens": "RFID Cards",
+    "total_locations": "Sites",
     "total": "Total",
     "succeeded": "Succeeded",
     "failed": "Failed"
@@ -2318,6 +2344,10 @@
       "in_error": "In Error"
     }
   },
+  "billingPlatform": {
+    "title": "Billing Platform",
+    "description": "Manage several billing accounts"
+  },
   "transactions": {
     "id": "Id",
     "date_from": "Date",
@@ -2454,7 +2484,7 @@
       "limit": "Limit",
       "limit_watts": "Grid Limit (kW)",
       "limit_amps": "Grid Limit (A)",
-      "load_all_consumptions": "Show full chart resolution (one point every 60s)",
+      "load_all_consumptions": "Show full chart resolution",
       "unit_kilowatts": "kW",
       "unit_amperage": "Amp"
     },

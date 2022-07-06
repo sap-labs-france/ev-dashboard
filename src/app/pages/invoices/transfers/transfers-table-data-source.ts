@@ -10,7 +10,7 @@ import { TableSendBillingTransferAction } from 'shared/table/actions/invoices/ta
 import { TableMoreAction } from 'shared/table/actions/table-more-action';
 import { TableViewTransactionAction, TableViewTransactionActionDef, TransactionDialogData } from 'shared/table/actions/transactions/table-view-transaction-action';
 import { DateRangeTableFilter } from 'shared/table/filters/date-range-table-filter';
-import { BillingTransfer, BillingTransferSession, TransferButtonAction } from 'types/Billing';
+import { BillingTransfer, BillingTransferSession, BillingTransferStatus, TransferButtonAction } from 'types/Billing';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -209,15 +209,18 @@ export class TransfersTableDataSource extends TableDataSource<BillingTransfer> {
   public buildTableDynamicRowActions(transfer: BillingTransfer): TableActionDef[] {
     const rowActions: TableActionDef[] = [];
     const moreActions = new TableMoreAction([]);
-    // TODO
-    // if (this.authorizationService.canFinalizeTransfer()) {
-    moreActions.addActionInMoreActions(this.finalizeBillingTransferAction);
-    //}
-    // TODO
-    // if (this.authorizationService.canSendTransfer()) {
-    moreActions.addActionInMoreActions(this.sendBillingTransferAction);
-    // }
-
+    if ( transfer.status === BillingTransferStatus.PENDING ) {
+      // ACHTUNG - Do not reuse the common instance of the action
+      const disabledAction = new TableFinalizeBillingTransferAction().getActionDef();
+      disabledAction.disabled = true;
+      moreActions.addActionInMoreActions(disabledAction);
+    }
+    if ( transfer.status === BillingTransferStatus.DRAFT ) {
+      moreActions.addActionInMoreActions(this.finalizeBillingTransferAction);
+    }
+    if ( transfer.status === BillingTransferStatus.FINALIZED ) {
+      moreActions.addActionInMoreActions(this.sendBillingTransferAction);
+    }
     if (!Utils.isEmptyArray(moreActions.getActionsInMoreActions())) {
       rowActions.push(moreActions.getActionDef());
     }

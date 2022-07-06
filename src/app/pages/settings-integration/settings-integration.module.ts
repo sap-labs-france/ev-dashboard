@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { AccountStatusFormatterComponent, AppFormatAccountStatusPipe } from 'pages/accounts/formatters/account-status-formatter.component';
 import { PricingDefinitionsModule } from 'shared/pricing-definitions/pricing-definitions.module';
 
 import { MaterialModule } from '../../app.module';
@@ -10,6 +11,8 @@ import { DialogsModule } from '../../shared/dialogs/dialogs.module';
 import { CommonDirectivesModule } from '../../shared/directives/directives.module';
 import { FormattersModule } from '../../shared/formatters/formatters.module';
 import { TableModule } from '../../shared/table/table.module';
+import { AccountDialogComponent } from './../accounts/account/account-dialog.component';
+import { BillingAccountsTableDataSource } from './../accounts/accounts-table-data-source';
 import { AnalyticsLinkDialogComponent } from './analytics/analytics-link/analytics-link-dialog.component';
 import { AnalyticsLinksTableDataSource } from './analytics/analytics-link/analytics-links-table-data-source';
 import { SettingsSacComponent } from './analytics/sac/settings-sac.component';
@@ -23,9 +26,6 @@ import { SchneiderAssetConnectionComponent } from './asset/connection/schneider/
 import { WitAssetConnectionComponent } from './asset/connection/wit/wit-asset-connection.component';
 import { SettingsAssetConnectionEditableTableDataSource } from './asset/settings-asset-connections-list-table-data-source';
 import { SettingsAssetComponent } from './asset/settings-asset.component';
-import { AccountStatusFormatterComponent, AppFormatAccountStatusPipe } from './billing/connected-account/formatters/account-status-formatter.component';
-import { SettingsBillingAccountDialogComponent } from './billing/connected-account/settings-billing-account-dialog.component';
-import { BillingAccountsTableDataSource } from './billing/connected-account/settings-billing-accounts-table-data-source';
 import { SettingsBillingComponent } from './billing/settings-billing.component';
 import { SettingsStripeComponent } from './billing/stripe/settings-stripe.component';
 import { CarConnectorConnectionComponent } from './car-connector/connection/car-connector-connection.component';
@@ -145,7 +145,7 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     AppFormatOicpPatchJobStatusPipe,
     SettingsOicpEndpointsDetailsComponent,
     SettingsPricingComponent,
-    SettingsBillingAccountDialogComponent,
+    AccountDialogComponent,
     AccountStatusFormatterComponent,
     AppFormatAccountStatusPipe
   ],
@@ -196,7 +196,7 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     OicpDetailFailureEvsesStatusFormatterComponent,
     OicpPatchJobStatusFormatterComponent,
     SettingsOicpEndpointsDetailsComponent,
-    SettingsBillingAccountDialogComponent,
+    AccountDialogComponent,
     AccountStatusFormatterComponent
   ],
   providers: [

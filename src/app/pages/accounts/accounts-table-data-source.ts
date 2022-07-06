@@ -16,8 +16,8 @@ import { ButtonAction } from 'types/GlobalType';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'types/Table';
 import { Utils } from 'utils/Utils';
 
+import { AccountDialogComponent } from './account/account-dialog.component';
 import { AccountStatusFormatterComponent } from './formatters/account-status-formatter.component';
-import { SettingsBillingAccountDialogComponent } from './settings-billing-account-dialog.component';
 
 @Injectable()
 export class BillingAccountsTableDataSource extends TableDataSource<BillingAccount> {
@@ -160,7 +160,7 @@ export class BillingAccountsTableDataSource extends TableDataSource<BillingAccou
     // disable outside click close
     dialogConfig.disableClose = true;
     // Open
-    const dialogRef = this.dialog.open(SettingsBillingAccountDialogComponent, dialogConfig);
+    const dialogRef = this.dialog.open(AccountDialogComponent, dialogConfig);
     dialogRef.afterClosed().subscribe((status) => {
       if (status) {
         this.refreshData().subscribe();

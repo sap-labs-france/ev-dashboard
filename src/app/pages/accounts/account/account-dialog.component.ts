@@ -5,6 +5,7 @@ import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { CentralServerService } from 'services/central-server.service';
+import { DialogService } from 'services/dialog.service';
 import { MessageService } from 'services/message.service';
 import { SpinnerService } from 'services/spinner.service';
 import { UsersDialogComponent } from 'shared/dialogs/users/users-dialog.component';
@@ -13,13 +14,11 @@ import { ActionResponse } from 'types/DataResult';
 import { RestResponse } from 'types/GlobalType';
 import { Utils } from 'utils/Utils';
 
-import { DialogService } from '../../../../services/dialog.service';
-
 @Component({
-  templateUrl: './settings-billing-account-dialog.component.html',
-  styleUrls: ['./settings-billing-account-dialog.component.scss']
+  templateUrl: './account-dialog.component.html',
+  styleUrls: ['./account-dialog.component.scss']
 })
-export class SettingsBillingAccountDialogComponent implements OnInit{
+export class AccountDialogComponent implements OnInit{
   public currentAccount: BillingAccount;
   public formGroup!: FormGroup;
 
@@ -28,7 +27,7 @@ export class SettingsBillingAccountDialogComponent implements OnInit{
   public userID!: AbstractControl;
 
   public constructor(
-    public dialogRef: MatDialogRef<SettingsBillingAccountDialogComponent>,
+    public dialogRef: MatDialogRef<AccountDialogComponent>,
     private centralServerService: CentralServerService,
     private spinnerService: SpinnerService,
     private messageService: MessageService,

@@ -1749,6 +1749,19 @@
         "periodic_billing": "Facturation périodique",
         "tax": "Taxe",
         "no_tax": "Aucune Taxe"
+      },
+      "connected_account": {
+        "user": "User",
+        "status": "Status",
+        "title": "Connected accounts",
+        "create": "Add connected account",
+        "create_success": "Account was added successfully",
+        "create_error": "Error occurred while adding the account, check the logs",
+        "status_idle": "Idle",
+        "status_pending": "Pending",
+        "status_active": "Active",
+        "onboard_success": "The onboarding process has been triggered. A mail has been sent to the business owner",
+        "onboard_error": "Error occurred while onboarding the account, check the logs"
       }
     },
     "analytics": {

@@ -248,12 +248,12 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
         formatter: (defaultTag) => Utils.displayYesNo(this.translateService, defaultTag),
       },
       {
-        id: 'limit',
+        id: 'limit.limitKwhEnabled',
         name: 'tags.limit_consumed',
         headerClass: 'text-center col-5em',
         class: 'text-center col-10em',
         sortable: true,
-        formatter: (limit: TagLimit) => Utils.displayTagLimit(limit),
+        formatter: (limit: TagLimit, tag: Tag) => Utils.displayTagLimit(tag.limit),
       },
       {
         id: 'user.name',

@@ -1407,6 +1407,30 @@
     "user": "Utilizador",
     "failed_download": "Invoice download failed."
   },
+  "transfers": {
+    "tabs": {
+      "list": "Transfers"
+    },
+    "tooltips": {
+      "finalize": "Finalize transfer",
+      "send": "Send transfer"
+    },
+    "status": {
+      "draft": "Draft",
+      "pending": "Pending",
+      "finalized": "Finalized",
+      "transferred": "Transferred"
+    },
+    "id": "ID",
+    "accountExternalID": "Connected Account",
+    "amount": "Amount",
+    "transferAmount": "Transferred Amount",
+    "number_of_items": "Sessions",
+    "transferExternalID": "External ID",
+    "accountOwner": "Owner",
+    "cannot_finalize_transfer": "Operation failed - The transfer could not be finalized",
+    "cannot_send_transfer": "Operation failed - The transfer has not been sent to the billing system"
+  },
   "tags": {
     "id": "Tag ID",
     "not_active": "This badge is not active",
@@ -1724,6 +1748,19 @@
         "periodic_billing": "Faturamento periódico",
         "tax": "Imposto",
         "no_tax": "Sem Imposto"
+      },
+      "connected_account": {
+        "user": "User",
+        "status": "Status",
+        "title": "Connected accounts",
+        "create": "Add connected account",
+        "create_success": "Account was added successfully",
+        "create_error": "Error occurred while adding the account, check the logs",
+        "status_idle": "Idle",
+        "status_pending": "Pending",
+        "status_active": "Active",
+        "onboard_success": "The onboarding process has been triggered. A mail has been sent to the business owner",
+        "onboard_error": "Error occurred while onboarding the account, check the logs"
       }
     },
     "analytics": {

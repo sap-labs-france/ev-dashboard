@@ -2,7 +2,7 @@ import { ComponentType } from '@angular/cdk/portal';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { DialogParams } from 'types/Authorization';
+import { ChargingStationsAuthorizations, DialogParamsWithAuth } from 'types/Authorization';
 
 import { DialogService } from '../../../../services/dialog.service';
 import { ChargingStationButtonAction } from '../../../../types/ChargingStation';
@@ -16,7 +16,7 @@ export interface SmartChargingDialogData extends TableData {
 export interface TableChargingStationsSmartChargingActionDef extends TableActionDef {
   action: (chargingStationDialogComponent: ComponentType<unknown>, dialogService: DialogService,
     translateService: TranslateService, dialog: MatDialog,
-    dialogParams: DialogParams<SmartChargingDialogData>, refresh?: () => Observable<void>) => void;
+    dialogParams: DialogParamsWithAuth<SmartChargingDialogData, ChargingStationsAuthorizations>, refresh?: () => Observable<void>) => void;
 }
 
 export class TableChargingStationsSmartChargingAction extends TableViewAction {
@@ -33,7 +33,7 @@ export class TableChargingStationsSmartChargingAction extends TableViewAction {
 
   private viewSmartCharging(chargingStationDialogComponent: ComponentType<unknown>, dialogService: DialogService,
     translateService: TranslateService, dialog: MatDialog,
-    dialogParams: DialogParams<SmartChargingDialogData>, refresh?: () => Observable<void>) {
+    dialogParams: DialogParamsWithAuth<SmartChargingDialogData, ChargingStationsAuthorizations>, refresh?: () => Observable<void>) {
     if (parseFloat(dialogParams.dialogData.ocppVersion) < 1.6) {
       dialogService.createAndShowOkDialog(
         translateService.instant('chargers.action_error.smart_charging_title'),

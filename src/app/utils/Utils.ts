@@ -22,7 +22,7 @@ import { FilterType, TableDataSourceMode, TableFilterDef } from '../types/Table'
 import { Constants } from './Constants';
 
 export class Utils {
-  public static shrinkObjectProperties(properties: any): any  {
+  public static shrinkObjectProperties(properties: any): any {
     for (const propertyName in properties) {
       if (!properties[propertyName]) {
         delete properties[propertyName];
@@ -514,16 +514,18 @@ export class Utils {
       chargePoint.power = 0;
       for (const connectorID of chargePoint.connectorIDs) {
         const connector = Utils.getConnectorFromID(chargingStation, connectorID);
-        if (chargePoint.cannotChargeInParallel || chargePoint.sharePowerToAllConnectors) {
-          chargePoint.amperage = connector.amperage;
-          chargePoint.power = connector.power;
-        } else {
-          chargePoint.amperage += connector.amperage;
-          chargePoint.power += connector.power;
+        if (connector) {
+          if (chargePoint.cannotChargeInParallel || chargePoint.sharePowerToAllConnectors) {
+            chargePoint.amperage = connector.amperage;
+            chargePoint.power = connector.power;
+          } else {
+            chargePoint.amperage += connector.amperage;
+            chargePoint.power += connector.power;
+          }
+          chargePoint.numberOfConnectedPhase = connector.numberOfConnectedPhase;
+          chargePoint.currentType = connector.currentType;
+          chargePoint.voltage = connector.voltage;
         }
-        chargePoint.numberOfConnectedPhase = connector.numberOfConnectedPhase;
-        chargePoint.currentType = connector.currentType;
-        chargePoint.voltage = connector.voltage;
       }
     }
   }
@@ -867,6 +869,12 @@ export class Utils {
         break;
       case StatusCodes.REQUEST_TIMEOUT:
         messageService.showErrorMessage(error.message);
+        break;
+      case StatusCodes.MOVED_PERMANENTLY:
+        if (error.details?.errorDetailedMessage?.redirectDomain) {
+          centralServerService.getWindowService().redirectToDomain(
+            error.details.errorDetailedMessage.redirectDomain);
+        }
         break;
       // Backend issue
       default:

@@ -94,7 +94,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    const tableColumnDefs = [
+    return [
       {
         id: 'lastCpoPushStatuses',
         type: 'integer',
@@ -248,7 +248,6 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
         visible: this.ocpiEndpoint?.role === OCPIRole.EMSP,
       },
     ];
-    return tableColumnDefs;
   }
 
   public buildTableActionsRightDef(): TableActionDef[] {

@@ -42,7 +42,7 @@ import { DataResult, TransactionDataResult } from '../../../types/DataResult';
 import { LogButtonAction } from '../../../types/Log';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
 import { TenantComponents } from '../../../types/Tenant';
-import { Transaction, TransactionButtonAction } from '../../../types/Transaction';
+import { Transaction, TransactionButtonAction, TransactionStatisticsType } from '../../../types/Transaction';
 import { User } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';
 import { TransactionsConnectorCellComponent } from '../cell-components/transactions-connector-cell.component';
@@ -88,7 +88,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         WithUser: true,
         WithCar: true,
         WithChargingStation: true,
-        Statistics: 'ongoing',
+        Statistics: TransactionStatisticsType.ONGOING,
       }]);
     }
     this.initDataSource();
@@ -121,16 +121,14 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    const tableColumns: TableColumnDef[] = [];
-    if (this.isAdmin) {
-      tableColumns.push({
+    return [
+      {
         id: 'id',
         name: 'transactions.id',
         headerClass: 'd-none d-xl-table-cell',
         class: 'd-none d-xl-table-cell',
-      });
-    }
-    tableColumns.push(
+        visible: this.isAdmin
+      },
       {
         id: 'timestamp',
         name: 'transactions.started_at',
@@ -205,91 +203,92 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
           return this.appBatteryPercentagePipe.transform(row.stateOfCharge, currentStateOfCharge);
         },
       },
-    );
-    if (this.componentService.isActive(TenantComponents.PRICING)) {
-      tableColumns.push({
+      {
         id: 'currentCumulatedPrice',
         name: 'transactions.price',
         headerClass: 'col-10p',
         class: 'col-10p',
         formatter: (price: number, transaction: Transaction) => this.appCurrencyPipe.transform(price, transaction.priceUnit),
-      });
-    }
-    if (this.isOrganizationComponentActive) {
-      tableColumns.push(
-        {
-          id: 'company.name',
-          name: 'companies.title',
-          class: 'd-none d-xl-table-cell col-20p',
-          headerClass: 'd-none d-xl-table-cell col-20p',
-        },
-        {
-          id: 'site.name',
-          name: 'sites.title',
-          class: 'd-none d-xl-table-cell col-20p',
-          headerClass: 'd-none d-xl-table-cell col-20p',
-        },
-        {
-          id: 'siteArea.name',
-          name: 'site_areas.title',
-          class: 'd-none d-xl-table-cell col-20p',
-          headerClass: 'd-none d-xl-table-cell col-20p',
-        },
-      );
-    }
-    if (this.authorizationService.canListUsers()) {
-      tableColumns.push({
+        visible: this.componentService.isActive(TenantComponents.PRICING)
+      },
+      {
+        id: 'company.name',
+        name: 'companies.title',
+        class: 'd-none d-xl-table-cell col-20p',
+        headerClass: 'd-none d-xl-table-cell col-20p',
+        visible: this.isOrganizationComponentActive
+      },
+      {
+        id: 'site.name',
+        name: 'sites.title',
+        class: 'd-none d-xl-table-cell col-20p',
+        headerClass: 'd-none d-xl-table-cell col-20p',
+        visible: this.isOrganizationComponentActive
+      },
+      {
+        id: 'siteArea.name',
+        name: 'site_areas.title',
+        class: 'd-none d-xl-table-cell col-20p',
+        headerClass: 'd-none d-xl-table-cell col-20p',
+        visible: this.isOrganizationComponentActive
+      },
+      {
         id: 'user',
         name: 'transactions.user',
         headerClass: 'col-15p',
         class: 'text-left col-15p',
         formatter: (value: User) => this.appUserNamePipe.transform(value),
+        visible: this.authorizationService.canListUsers()
       },
       {
         id: 'tagID',
         name: 'tags.id',
         headerClass: 'col-10p',
         class: 'text-left col-10p',
-        formatter: (tagID: string) => tagID ? tagID : '-'
+        formatter: (tagID: string) => tagID ? tagID : '-',
+        visible: this.authorizationService.canListUsers()
       },
       {
         id: 'tag.visualID',
         name: 'tags.visual_id',
         headerClass: 'col-15p',
         class: 'text-left col-15p',
-        formatter: (visualID: string) => visualID ? visualID : '-'
-      });
-    }
-    if (this.componentService.isActive(TenantComponents.CAR)) {
-      if (this.authorizationService.canListCars()) {
-        tableColumns.push({
-          id: 'carCatalog',
-          name: 'car.title',
-          headerClass: 'text-center col-15p',
-          class: 'text-center col-15p',
-          sortable: true,
-          formatter: (carCatalog: CarCatalog) => carCatalog ? Utils.buildCarCatalogName(carCatalog) : '-',
-        });
+        formatter: (visualID: string) => visualID ? visualID : '-',
+        visible: this.authorizationService.canListUsers()
+      },
+      {
+        id: 'tag.description',
+        name: 'general.description',
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
+        visible: this.authorizationService.canListUsers()
+      },
+      {
+        id: 'carCatalog',
+        name: 'car.title',
+        headerClass: 'text-center col-15p',
+        class: 'text-center col-15p',
+        sortable: true,
+        formatter: (carCatalog: CarCatalog) => carCatalog ? Utils.buildCarCatalogName(carCatalog) : '-',
+        visible: this.componentService.isActive(TenantComponents.CAR) && this.authorizationService.canListCars()
+      },
+      {
+        id: 'car.licensePlate',
+        name: 'cars.license_plate',
+        headerClass: 'text-center col-15p',
+        class: 'text-center col-15p',
+        sortable: true,
+        formatter: (licensePlate: string) => licensePlate ? licensePlate : '-',
+        visible: this.componentService.isActive(TenantComponents.CAR) && this.authorizationService.canUpdateCar()
       }
-      if (this.authorizationService.canUpdateCar()) {
-        tableColumns.push({
-          id: 'car.licensePlate',
-          name: 'cars.license_plate',
-          headerClass: 'text-center col-15p',
-          class: 'text-center col-15p',
-          sortable: true,
-          formatter: (licensePlate: string) => licensePlate ? licensePlate : '-'
-        });
-      }
-    }
-    return tableColumns;
+    ];
   }
 
   public rowActionTriggered(actionDef: TableActionDef, transaction: Transaction) {
     switch (actionDef.id) {
       case ChargingStationButtonAction.STOP_TRANSACTION:
         if (actionDef.action) {
-          (actionDef as TableChargingStationsStopTransactionActionDef).action(transaction, this.authorizationService,
+          (actionDef as TableChargingStationsStopTransactionActionDef).action(transaction,
             this.dialogService, this.translateService, this.messageService, this.centralServerService, this.spinnerService,
             this.router, this.refreshData.bind(this));
         }

@@ -62,7 +62,11 @@ export class SettingsBillingComponent implements OnInit {
       this.checkConnectionContext(settings);
       // Init form
       this.formGroup.markAsPristine();
-      this.billingAccountTableDataSource.loadData().subscribe();
+      if ( this.isConnectedAccountActive ) {
+        // TO DO - This should not be there -move it in the nested component
+        // TO DO - This is called twice when navigating to the billing settings
+        this.billingAccountTableDataSource.loadData().subscribe();
+      }
     }, (error) => {
       this.spinnerService.hide();
       switch (error.status) {

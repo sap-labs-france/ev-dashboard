@@ -35,26 +35,12 @@
   </div>
   <!-- Stripe -->
   <app-settings-stripe-billing *ngIf="isActive && billingSettings?.type === 'stripe'" [billingSettings]="billingSettings" [formGroup]="formGroup"></app-settings-stripe-billing>
-  <!-- Connected accounts -->
-  <!-- <div *ngIf="!isConnectedAccountActive" class="card">
-    <div class="card-header card-header-icon card-header-primary">
-      <div class="card-icon">
-        <mat-icon>info</mat-icon>
-      </div>
-      <h3 class="card-title">{{'settings.information' | translate}}</h3>
-    </div>
-    <div class="card-body">
-      <span [innerHtml]="'settings.billing.connected_account.description' | translate"></span>
-      <br><br>
-      {{'settings.activation_contact_msg' | translate}}
-    </div>
-  </div> -->
   <div *ngIf="isConnectedAccountActive" class="card">
     <div class="card-header card-header-icon card-header-primary">
       <div class="card-icon">
         <mat-icon>business</mat-icon>
       </div>
-      <h3 class="card-title">{{'settings.billing.connected_account.title' | translate}}</h3>
+      <h3 class="card-title">{{'settings.billing.connected_account.title' | translate}} - TEST {{isConnectedAccountActive}} </h3>
     </div>
     <div class="card-body">
       <app-table [dataSource]="billingAccountTableDataSource"></app-table>

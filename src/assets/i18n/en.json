@@ -1752,7 +1752,7 @@
       "connected_account": {
         "user": "User",
         "status": "Status",
-        "title": "Connected Accounts",
+        "title": "Connected Accounts - TODO - move account-related texts in a dedicated section (like the invoices section)",
         "create": "Add connected account",
         "create_success": "Account was added successfully",
         "create_error": "Error occurred while adding the account, check the logs",

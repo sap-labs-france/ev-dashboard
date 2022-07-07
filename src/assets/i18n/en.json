@@ -1422,7 +1422,7 @@
       "transferred": "Transferred"
     },
     "id": "ID",
-    "accountExternalID": "Connected Account",
+    "accountExternalID": "Connected Account ID",
     "amount": "Amount",
     "transferAmount": "Transferred Amount",
     "number_of_items": "Sessions",

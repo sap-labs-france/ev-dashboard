@@ -40,7 +40,7 @@ export class SettingsBillingComponent implements OnInit {
     public billingAccountTableDataSource: BillingAccountsTableDataSource,
   ) {
     this.isActive = this.componentService.isActive(TenantComponents.BILLING);
-    this.isConnectedAccountActive = this.componentService.isActive(TenantComponents.BILLING_PLATFORM) && this.isActive;
+    // this.isConnectedAccountActive = this.componentService.isActive(TenantComponents.BILLING_PLATFORM) && this.isActive;
   }
 
   public ngOnInit(): void {
@@ -62,9 +62,13 @@ export class SettingsBillingComponent implements OnInit {
       this.checkConnectionContext(settings);
       // Init form
       this.formGroup.markAsPristine();
+      // Show the Connected Accounts only when the billing of transaction is ON
+      this.isConnectedAccountActive = this.componentService.isActive(TenantComponents.BILLING_PLATFORM)
+        && this.isActive
+        && this.billingSettings.billing.isTransactionBillingActivated;
+      // Fetch the account data
       if ( this.isConnectedAccountActive ) {
         // TO DO - This should not be there -move it in the nested component
-        // TO DO - This is called twice when navigating to the billing settings
         this.billingAccountTableDataSource.loadData().subscribe();
       }
     }, (error) => {

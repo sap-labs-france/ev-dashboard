@@ -60,8 +60,16 @@ export class BillingAccountsTableDataSource extends TableDataSource<BillingAccou
   public buildTableColumnDefs(): TableColumnDef[] {
     return [
       {
+        id: 'status',
+        name: 'settings.billing.connected_account.status',
+        isAngularComponent: true,
+        angularComponent: AccountStatusFormatterComponent,
+        headerClass: 'col-25p text-center',
+        class: 'col-25p',
+      },
+      {
         id: 'businessOwner.name',
-        name: 'users.title',
+        name: 'Business Owner', // TODO - translate
         headerClass: 'col-25p',
         class: 'col-25p',
         sorted: true,
@@ -77,12 +85,11 @@ export class BillingAccountsTableDataSource extends TableDataSource<BillingAccou
         sortable: true,
       },
       {
-        id: 'status',
-        name: 'settings.billing.connected_account.status',
-        isAngularComponent: true,
-        angularComponent: AccountStatusFormatterComponent,
-        headerClass: 'col-25p text-center',
+        id: 'accountExternalID',
+        name: 'Connected Account ID', // TODO - translate
+        headerClass: 'col-25p',
         class: 'col-25p',
+        sortable: true,
       }
     ];
   }

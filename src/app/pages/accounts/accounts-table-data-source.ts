@@ -61,15 +61,15 @@ export class BillingAccountsTableDataSource extends TableDataSource<BillingAccou
     return [
       {
         id: 'status',
-        name: 'settings.billing.connected_account.status',
+        name: 'accounts.list.status',
         isAngularComponent: true,
         angularComponent: AccountStatusFormatterComponent,
-        headerClass: 'col-25p text-center',
-        class: 'col-25p',
+        headerClass: 'col-20p text-center',
+        class: 'col-20p',
       },
       {
         id: 'businessOwner.name',
-        name: 'Business Owner', // TODO - translate
+        name: 'accounts.list.business_owner',
         headerClass: 'col-25p',
         class: 'col-25p',
         sorted: true,
@@ -86,7 +86,7 @@ export class BillingAccountsTableDataSource extends TableDataSource<BillingAccou
       },
       {
         id: 'accountExternalID',
-        name: 'Connected Account ID', // TODO - translate
+        name: 'accounts.list.account_id',
         headerClass: 'col-25p',
         class: 'col-25p',
         sortable: true,
@@ -184,15 +184,15 @@ export class BillingAccountsTableDataSource extends TableDataSource<BillingAccou
     ).subscribe((response) => {
       this.spinnerService.hide();
       if(response) {
-        this.messageService.showSuccessMessage('settings.billing.connected_account.onboard_success');
+        this.messageService.showSuccessMessage('accounts.message.onboard_success');
         this.refreshData().subscribe();
         this.changed.emit(true);
       } else {
-        Utils.handleError(JSON.stringify(response), this.messageService, 'settings.billing.connected_account.onboard_error');
+        Utils.handleError(JSON.stringify(response), this.messageService, 'accounts.message.onboard_error');
       }
     }, (error) => {
       this.spinnerService.hide();
-      Utils.handleError(JSON.stringify(error), this.messageService, 'settings.billing.connected_account.onboard_error');
+      Utils.handleError(JSON.stringify(error), this.messageService, 'accounts.message.onboard_error');
     });
   }
 }

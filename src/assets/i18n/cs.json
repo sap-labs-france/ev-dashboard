@@ -1517,6 +1517,26 @@
     ],
     "logo_size_error": "Překročen limit velikosti loga, limit je menší než '{{maxPictureKb}}' Kb"
   },
+  "accounts": {
+    "title": "Connected Accounts",
+    "list": {
+      "add": "Add connected account",
+      "business_owner": "Business Owner",
+      "status": "Status",
+      "account_id": "Connected Account ID"
+    },
+    "message": {
+      "create_success": "Account was added successfully",
+      "create_error": "Error occurred while adding the account, check the logs",
+      "onboard_success": "The onboarding process has been triggered. A mail has been sent to the business owner",
+      "onboard_error": "Error occurred while onboarding the account, check the logs"
+    },
+    "status": {
+      "account_idle": "Idle",
+      "account_pending": "Pending",
+      "account_active": "Active"
+    }
+  },
   "settings": {
     "settings_not_saved_title": "Nastavení nejsou uložena",
     "settings_not_saved": "Nejprve musíte uložit svá nastavení",
@@ -1748,19 +1768,6 @@
         "periodic_billing": "Periodická fakturace (ještě nezavedena)",
         "tax": "Daň",
         "no_tax": "Bez daně"
-      },
-      "connected_account": {
-        "user": "User",
-        "status": "Status",
-        "title": "Connected accounts",
-        "create": "Add connected account",
-        "create_success": "Account was added successfully",
-        "create_error": "Error occurred while adding the account, check the logs",
-        "status_idle": "Idle",
-        "status_pending": "Pending",
-        "status_active": "Active",
-        "onboard_success": "The onboarding process has been triggered. A mail has been sent to the business owner",
-        "onboard_error": "Error occurred while onboarding the account, check the logs"
       }
     },
     "analytics": {

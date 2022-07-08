@@ -35,5 +35,5 @@
   </div>
   <!-- Stripe -->
   <app-settings-stripe-billing *ngIf="isBillingActive && billingSettings?.type === 'stripe'" [billingSettings]="billingSettings" [formGroup]="formGroup"></app-settings-stripe-billing>
-  <app-billing-accounts *ngIf="this.isBillingPlatformActive && this.isBillingActive && this.isBillingTransactionEnabled"></app-billing-accounts>
+  <app-billing-accounts *ngIf="isBillingActive && isBillingPlatformActive && isBillingTransactionEnabled"></app-billing-accounts>
 </form>

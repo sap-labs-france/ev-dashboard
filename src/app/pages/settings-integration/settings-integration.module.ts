@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { AccountStatusFormatterComponent, AppFormatAccountStatusPipe } from 'pages/accounts/formatters/account-status-formatter.component';
 import { PricingDefinitionsModule } from 'shared/pricing-definitions/pricing-definitions.module';
 
 import { MaterialModule } from '../../app.module';
@@ -10,6 +11,8 @@ import { DialogsModule } from '../../shared/dialogs/dialogs.module';
 import { CommonDirectivesModule } from '../../shared/directives/directives.module';
 import { FormattersModule } from '../../shared/formatters/formatters.module';
 import { TableModule } from '../../shared/table/table.module';
+import { AccountDialogComponent } from './../accounts/account/account-dialog.component';
+import { BillingAccountsTableDataSource } from './../accounts/accounts-table-data-source';
 import { AnalyticsLinkDialogComponent } from './analytics/analytics-link/analytics-link-dialog.component';
 import { AnalyticsLinksTableDataSource } from './analytics/analytics-link/analytics-links-table-data-source';
 import { SettingsSacComponent } from './analytics/sac/settings-sac.component';
@@ -142,6 +145,9 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     AppFormatOicpPatchJobStatusPipe,
     SettingsOicpEndpointsDetailsComponent,
     SettingsPricingComponent,
+    AccountDialogComponent,
+    AccountStatusFormatterComponent,
+    AppFormatAccountStatusPipe
   ],
   entryComponents: [
     SettingsIntegrationComponent,
@@ -190,6 +196,8 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     OicpDetailFailureEvsesStatusFormatterComponent,
     OicpPatchJobStatusFormatterComponent,
     SettingsOicpEndpointsDetailsComponent,
+    AccountDialogComponent,
+    AccountStatusFormatterComponent
   ],
   providers: [
     SettingsOcpiEndpointsDetailsTableDataSource,
@@ -199,6 +207,7 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     SettingsAssetConnectionEditableTableDataSource,
     SettingsCarConnectorConnectionEditableTableDataSource,
     AnalyticsLinksTableDataSource,
+    BillingAccountsTableDataSource,
   ],
 })
 

@@ -66,6 +66,7 @@ export class BillingAccountsTableDataSource extends TableDataSource<BillingAccou
         angularComponent: AccountStatusFormatterComponent,
         headerClass: 'col-20p text-center',
         class: 'col-20p',
+        sortable: true,
       },
       {
         id: 'businessOwner.name',

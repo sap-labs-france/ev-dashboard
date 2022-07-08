@@ -1427,7 +1427,7 @@
     "transferAmount": "Montant transféré",
     "number_of_items": "Sessions",
     "transferExternalID": "ID externe",
-    "accountOwner": "Responsable business",
+    "accountOwner": "Chef de l'entreprise",
     "cannot_finalize_transfer": "L'opération a échoué - Le virement n'a pas pu être finalisé",
     "cannot_send_transfer": "L'opération a échoué - Le virement n'a pas pu être transmis au système de facturation"
   },

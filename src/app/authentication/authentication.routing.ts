@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 
+import { AccountOnboardingComponent } from './account-onboarding/account-onboarding.component';
 import { AuthenticationDefinePasswordComponent } from './define-password/authentication-define-password.component';
 import { AuthenticationEulaComponent } from './eula/authentication-eula.component';
 import { AuthenticationLoginComponent } from './login/authentication-login.component';
@@ -32,6 +33,10 @@ export const AuthenticationRoutes: Routes = [
   {
     path: 'verify-email',
     component: AuthenticationVerifyEmailComponent,
+  },
+  {
+    path: 'account-onboarding',
+    component: AccountOnboardingComponent,
   }, {
     path: '**',
     redirectTo: 'login',

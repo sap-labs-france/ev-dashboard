@@ -268,8 +268,7 @@ export class CentralServerService {
   }
 
   public getCompanyLogo(companyID: string): Observable<string> {
-    const params: { [param: string]: string } = {};
-    params['TenantID'] = this.currentUser?.tenantID;
+    const params: { [param: string]: string } = { TenantID: this.currentUser?.tenantID };
     // Verify init
     this.checkInit();
     // Execute the REST service
@@ -322,8 +321,7 @@ export class CentralServerService {
   }
 
   public getAssetImage(assetID: string): Observable<string> {
-    const params: { [param: string]: string } = {};
-    params['TenantID'] = this.currentUser?.tenantID;
+    const params: { [param: string]: string } = { TenantID: this.currentUser?.tenantID };
     // Verify init
     this.checkInit();
     // Execute the REST service
@@ -445,8 +443,7 @@ export class CentralServerService {
   }
 
   public getSiteImage(siteID: string): Observable<string> {
-    const params: { [param: string]: string } = {};
-    params['TenantID'] = this.currentUser?.tenantID;
+    const params: { [param: string]: string } = { TenantID: this.currentUser?.tenantID };
     // Verify init
     this.checkInit();
     // Execute the REST service
@@ -503,8 +500,7 @@ export class CentralServerService {
   }
 
   public getSiteAreaImage(siteAreaID: string): Observable<string> {
-    const params: { [param: string]: string } = {};
-    params['TenantID'] = this.currentUser?.tenantID;
+    const params: { [param: string]: string } = { TenantID: this.currentUser?.tenantID };
     // Verify init
     this.checkInit();
     // Execute the REST service
@@ -1725,6 +1721,28 @@ export class CentralServerService {
     this.checkInit();
     const url = this.buildRestEndpointUrl(RESTServerRoute.REST_BILLING_ACCOUNT_ONBOARD, { id: accountID });
     return this.httpClient.patch<ActionResponse>(url, {}, {
+      headers: this.buildHttpHeaders(),
+    }).pipe(
+      catchError(this.handleHttpError),
+    );
+  }
+
+  public refreshBillingAccount(accountID: string): Observable<BillingAccount> {
+    this.checkInit();
+    const params: { [param: string]: string } = { TenantID: this.currentUser?.tenantID };
+    const url = this.buildUtilRestEndpointUrl(RESTServerRoute.REST_BILLING_ACCOUNT_REFRESH, { id: accountID });
+    return this.httpClient.patch<ActionResponse>(url, params, {
+      headers: this.buildHttpHeaders(),
+    }).pipe(
+      catchError(this.handleHttpError),
+    );
+  }
+
+  public activateBillingAccount(accountID: string): Observable<BillingAccount> {
+    this.checkInit();
+    const params: { [param: string]: string } = { TenantID: this.currentUser?.tenantID };
+    const url = this.buildUtilRestEndpointUrl(RESTServerRoute.REST_BILLING_ACCOUNT_ACTIVATE, { id: accountID });
+    return this.httpClient.patch<ActionResponse>(url, params, {
       headers: this.buildHttpHeaders(),
     }).pipe(
       catchError(this.handleHttpError),

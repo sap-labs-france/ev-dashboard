@@ -1520,9 +1520,9 @@
   "accounts": {
     "title": "Connected Accounts",
     "list": {
-      "add": "Add connected account",
+      "add_account": "Add Connected Account",
       "business_owner": "Business Owner",
-      "status": "Status",
+      "account_status": "Status",
       "account_id": "Connected Account ID"
     },
     "message": {

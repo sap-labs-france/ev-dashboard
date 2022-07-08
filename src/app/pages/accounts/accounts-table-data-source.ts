@@ -61,7 +61,7 @@ export class BillingAccountsTableDataSource extends TableDataSource<BillingAccou
     return [
       {
         id: 'status',
-        name: 'accounts.list.status',
+        name: 'accounts.list.account_status',
         isAngularComponent: true,
         angularComponent: AccountStatusFormatterComponent,
         headerClass: 'col-20p text-center',

@@ -682,6 +682,7 @@ export enum RESTServerRoute {
   REST_BILLING_ACCOUNTS = 'billing/accounts',
   REST_BILLING_ACCOUNT = 'billing/accounts/:id',
   REST_BILLING_ACCOUNT_ONBOARD = 'billing/accounts/:id/onboard',
+  REST_BILLING_ACCOUNT_REFRESH = 'billing/accounts/:id/refresh',
   REST_BILLING_ACCOUNT_ACTIVATE = 'billing/accounts/:id/activate',
 
   // BILLING URLs for CRUD operations on INVOICES

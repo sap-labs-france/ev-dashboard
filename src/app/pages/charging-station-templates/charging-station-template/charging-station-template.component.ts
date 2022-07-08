@@ -95,7 +95,11 @@ export class ChargingStationTemplateComponent extends AbstractTabComponent imple
       this.translateService, this.saveTemplate.bind(this), this.closeDialog.bind(this));
   }
 
-  public saveTemplate(chargingStationTemplate: ChargingStationTemplate) {
+  public saveTemplate() {
+    const chargingStationTemplate: ChargingStationTemplate = {
+      id: this.currentTemplateID || '',
+      template: JSON.parse(this.formGroup.controls.template.value)
+    };
     if (this.currentTemplateID) {
       this.updateChargingStationTemplate(chargingStationTemplate);
     } else {

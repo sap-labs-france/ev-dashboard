@@ -12,7 +12,7 @@
       </mat-tab>
     </mat-tab-group>
     <div [class]="dialogRef ? 'tabs-actions' : 'tabs-actions-embedded'">
-      <button mat-icon-button *ngIf="!readOnly" (click)="saveTemplate(formGroup.getRawValue())" title="{{'general.save' | translate}}"
+      <button mat-icon-button *ngIf="!readOnly" (click)="saveTemplate()" title="{{'general.save' | translate}}"
         [disabled]="!formGroup.valid || !formGroup.dirty">
         <mat-icon>save</mat-icon>
       </button>

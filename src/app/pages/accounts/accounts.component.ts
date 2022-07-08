@@ -7,18 +7,13 @@ import { BillingAccountsTableDataSource } from './accounts-table-data-source';
   selector: 'app-billing-accounts',
   templateUrl: 'accounts.component.html',
 })
-export class AccountsComponent implements OnInit{
+export class AccountsComponent{
 
   // eslint-disable-next-line no-useless-constructor
   public constructor(
     public billingAccountTableDataSource: BillingAccountsTableDataSource,
     public translateService: TranslateService
   ) {
-  }
-
-  public ngOnInit(): void {
-    // Fetch the account data
-    this.billingAccountTableDataSource.loadData().subscribe();
   }
 
 }

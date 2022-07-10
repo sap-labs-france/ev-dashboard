@@ -1,6 +1,7 @@
 {
   "general": {
     "reset": "Reset",
+    "history": "Historique",
     "captcha_text_1": "Ce site est protégé par reCAPTCHA et Google",
     "captcha_text_2": "Règles de Confidentialité",
     "captcha_text_3": " et l'application des ",
@@ -1413,8 +1414,9 @@
     "limits": "Limitations",
     "limit_consumed": "Consommé",
     "limits_energy": "Limite Energie",
-    "limits_kwh": "Limite en kWh",
-    "limits_consumed_kwh": "Consommée en kWh",
+    "limits_enabled": "Limite Active",
+    "limits_kwh": "Limite (kWh)",
+    "limits_consumed_kwh": "Consommée (kWh)",
     "not_active": "Ce badge n'est pas actif",
     "issuer": "Propriétaire",
     "visual_id": "No Badge Visuel",

@@ -91,8 +91,8 @@ export class ChargingStationConnectorsTableDataSource extends TableDataSource<Co
     });
   }
 
-  public setCharger(charger: ChargingStation) {
-    this.chargingStation = charger;
+  public setChargingStation(chargingStation: ChargingStation) {
+    this.chargingStation = chargingStation;
   }
 
   public buildTableDef(): TableDef {

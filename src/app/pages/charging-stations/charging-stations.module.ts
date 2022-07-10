@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { ChartModule } from 'angular2-chartjs';
 import { MomentModule } from 'ngx-moment';
+import { TagLimitsHistoryTableDataSource } from 'pages/tags/tag/limits-history/tag-limits-history-table-data-source';
 import { TransactionDialogComponent } from 'shared/dialogs/transaction/transaction-dialog.component';
 import { PricingDefinitionsModule } from 'shared/pricing-definitions/pricing-definitions.module';
 
@@ -162,6 +163,7 @@ import { ChargingStationsRegistrationTokenDialogComponent } from './registration
     ChargingStationsInErrorTableDataSource,
     ChargingStationsListTableDataSource,
     ChargingStationConnectorsTableDataSource,
+    TagLimitsHistoryTableDataSource,
     ChargingStationOcppParametersEditableTableDataSource,
     ChargingPlansListTableDataSource,
   ],

@@ -28,7 +28,7 @@ export class ChargingStationConnectorsComponent extends CellContentTemplateDirec
 
   private refreshData(): void {
     // Set the charger
-    this.chargingStationsConnectorsDetailTableDataSource.setCharger(this.row);
+    this.chargingStationsConnectorsDetailTableDataSource.setChargingStation(this.row);
     // Reload data
     this.chargingStationsConnectorsDetailTableDataSource.refreshData(false).subscribe();
   }

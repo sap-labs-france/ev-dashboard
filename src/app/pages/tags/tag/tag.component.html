@@ -7,7 +7,7 @@
           <span>{{'tags.title' | translate}} - {{formGroup.controls['id'].value ? formGroup.controls['id'].value : formGroup.controls['visualID'].value}}</span>
         </ng-template>
         <div class="card-body mat-tab-dialog-body-content">
-          <app-tag-main #siteMainComponent [formGroup]="formGroup" [tag]="tag" [readOnly]="readOnly" [tagsAuthorizations]="tagsAuthorizations"></app-tag-main>
+          <app-tag-main [formGroup]="formGroup" [tag]="tag" [readOnly]="readOnly" [tagsAuthorizations]="tagsAuthorizations"></app-tag-main>
         </div>
       </mat-tab>
       <mat-tab>
@@ -16,7 +16,16 @@
           <span>{{'tags.limits' | translate}}</span>
         </ng-template>
         <div class="card-body mat-tab-dialog-body-content">
-          <app-tag-limits #siteMainComponent [formGroup]="formGroup" [tag]="tag" [readOnly]="readOnly" [tagsAuthorizations]="tagsAuthorizations"></app-tag-limits>
+          <app-tag-limits [formGroup]="formGroup" [tag]="tag" [readOnly]="readOnly" [tagsAuthorizations]="tagsAuthorizations"></app-tag-limits>
+        </div>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon>portrait</mat-icon>
+          <span>{{'tags.limits_history' | translate}}</span>
+        </ng-template>
+        <div class="card-body mat-tab-dialog-body-content">
+          <app-tag-limits-history [formGroup]="formGroup" [tag]="tag" [readOnly]="readOnly" [tagsAuthorizations]="tagsAuthorizations"></app-tag-limits-history>
         </div>
       </mat-tab>
     </mat-tab-group>

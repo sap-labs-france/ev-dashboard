@@ -21,6 +21,18 @@ export interface TagLimit {
   limitKwhEnabled?: boolean;
   limitKwh?: number;
   limitKwhConsumed?: number;
+  changeHistory?: TagChangeHistory[];
+}
+
+export interface TagChangeHistory extends TableData {
+  lastChangedOn: Date;
+  lastChangedBy: Partial<User>;
+  oldLimitKwhEnabled: boolean;
+  newLimitKwhEnabled: boolean;
+  oldLimitKwh: number;
+  oldLimitKwhConsumed: number;
+  newLimitKwh: number;
+  newLimitKwhConsumed: number;
 }
 
 export const TagRequiredImportProperties = [

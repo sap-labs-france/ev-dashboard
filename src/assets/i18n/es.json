@@ -1412,6 +1412,7 @@
   "tags": {
     "id": "Insignia ID",
     "limits": "Limits",
+    "limits_history": "Limits History",
     "limit_consumed": "Consumed",
     "limits_energy": "Limit Energy",
     "limits_enabled": "Limit Enabled",

@@ -85,8 +85,8 @@ export class TagLimitsHistoryTableDataSource extends TableDataSource<TagChangeHi
         name: 'tags.limits_enabled',
         headerClass: 'col-15p',
         class: 'col-15p',
-        formatter: (newLimitKwhEnabled: number, tagChangeHistory: TagChangeHistory) =>
-          this.buildLimitChanges(tagChangeHistory.oldLimitKwhEnabled, newLimitKwhEnabled),
+        formatter: (newLimitKwhEnabled: boolean, tagChangeHistory: TagChangeHistory) =>
+          this.buildLimitActiveChanges(tagChangeHistory.oldLimitKwhEnabled, newLimitKwhEnabled),
       },
       {
         id: 'newLimitKwh',
@@ -113,7 +113,12 @@ export class TagLimitsHistoryTableDataSource extends TableDataSource<TagChangeHi
     ];
   }
 
-  private buildLimitChanges(oldValue: number|boolean, newValue: number|boolean): string {
+  private buildLimitChanges(oldValue: number, newValue: number): string {
     return oldValue !== newValue ? `${oldValue} > ${newValue}` : '-';
+  }
+
+  private buildLimitActiveChanges(oldValue: boolean, newValue: boolean): string {
+    return oldValue !== newValue ?
+      `${Utils.displayYesNo(this.translateService, oldValue)} > ${Utils.displayYesNo(this.translateService, newValue)}` : '-';
   }
 }

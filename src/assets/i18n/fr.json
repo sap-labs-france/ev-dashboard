@@ -1412,6 +1412,7 @@
   "tags": {
     "id": "Badge ID",
     "limits": "Limitations",
+    "limits_history": "Historique Limitations",
     "limit_consumed": "Consommé",
     "limits_energy": "Limite Energie",
     "limits_enabled": "Limite Active",

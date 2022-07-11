@@ -76,7 +76,7 @@
     "@angular/router": "^13.3.11",
     "@auth0/angular-jwt": "^5.0.2",
     "@mat-datetimepicker/core": "^9.0.61",
-    "@mat-datetimepicker/moment": "^9.0.61",
+    "@mat-datetimepicker/moment": "^9.0.68",
     "@ng-bootstrap/ng-bootstrap": "^12.1.2",
     "@ngx-translate/core": "^13.0.0",
     "@ngx-translate/http-loader": "^6.0.0",

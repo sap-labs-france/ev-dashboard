@@ -1422,12 +1422,13 @@
       "transferred": "Transferred"
     },
     "id": "ID",
-    "accountExternalID": "Connected Account",
+    "accountExternalID": "Connected Account ID",
     "amount": "Amount",
+    "collected_funds": "Collected Funds",
     "transferAmount": "Transferred Amount",
     "number_of_items": "Sessions",
     "transferExternalID": "External ID",
-    "accountOwner": "Owner",
+    "accountOwner": "Business Owner",
     "cannot_finalize_transfer": "Operation failed - The transfer could not be finalized",
     "cannot_send_transfer": "Operation failed - The transfer has not been sent to the billing system"
   },

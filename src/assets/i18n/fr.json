@@ -1422,8 +1422,8 @@
       "transferred": "Transféré"
     },
     "id": "ID",
-    "accountExternalID": "Compte connecté",
-    "amount": "Montant",
+    "accountExternalID": "ID du compte connecté",
+    "collected_funds": "Fonds collectés",
     "transferAmount": "Montant transféré",
     "number_of_items": "Sessions",
     "transferExternalID": "ID externe",

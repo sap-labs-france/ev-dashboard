@@ -124,6 +124,10 @@ export interface BillingPlatformFeeData {
   invoiceExternalID?: string; // Invoice sent to the CPO
 }
 
+export interface BillingAccountSessionFee extends BillingPlatformFeeStrategy {
+  feeAmount: number;
+}
+
 export interface BillingTransfer extends TableData, CreatedUpdatedProps, BillingTransferAuthorizationActions {
   id: string;
   status: BillingTransferStatus;
@@ -149,7 +153,7 @@ export interface BillingTransferSession {
   // amountAsDecimal: BillingAmount;
   amount: number; // ACHTUNG - That one should not include any taxes
   roundedAmount: number;
-  platformFeeStrategy: BillingPlatformFeeStrategy;
+  accountSessionFee: BillingAccountSessionFee;
 }
 
 export interface BillingPlatformInvoice {

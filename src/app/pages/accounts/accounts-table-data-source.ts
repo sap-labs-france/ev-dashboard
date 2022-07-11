@@ -60,8 +60,17 @@ export class BillingAccountsTableDataSource extends TableDataSource<BillingAccou
   public buildTableColumnDefs(): TableColumnDef[] {
     return [
       {
+        id: 'status',
+        name: 'accounts.list.account_status',
+        isAngularComponent: true,
+        angularComponent: AccountStatusFormatterComponent,
+        headerClass: 'col-20p text-center',
+        class: 'col-20p',
+        sortable: true,
+      },
+      {
         id: 'businessOwner.name',
-        name: 'users.title',
+        name: 'accounts.list.business_owner',
         headerClass: 'col-25p',
         class: 'col-25p',
         sorted: true,
@@ -77,12 +86,11 @@ export class BillingAccountsTableDataSource extends TableDataSource<BillingAccou
         sortable: true,
       },
       {
-        id: 'status',
-        name: 'settings.billing.connected_account.status',
-        isAngularComponent: true,
-        angularComponent: AccountStatusFormatterComponent,
-        headerClass: 'col-25p text-center',
+        id: 'accountExternalID',
+        name: 'accounts.list.account_id',
+        headerClass: 'col-25p',
         class: 'col-25p',
+        sortable: true,
       }
     ];
   }
@@ -177,15 +185,15 @@ export class BillingAccountsTableDataSource extends TableDataSource<BillingAccou
     ).subscribe((response) => {
       this.spinnerService.hide();
       if(response) {
-        this.messageService.showSuccessMessage('settings.billing.connected_account.onboard_success');
+        this.messageService.showSuccessMessage('accounts.message.onboard_success');
         this.refreshData().subscribe();
         this.changed.emit(true);
       } else {
-        Utils.handleError(JSON.stringify(response), this.messageService, 'settings.billing.connected_account.onboard_error');
+        Utils.handleError(JSON.stringify(response), this.messageService, 'accounts.message.onboard_error');
       }
     }, (error) => {
       this.spinnerService.hide();
-      Utils.handleError(JSON.stringify(error), this.messageService, 'settings.billing.connected_account.onboard_error');
+      Utils.handleError(JSON.stringify(error), this.messageService, 'accounts.message.onboard_error');
     });
   }
 }

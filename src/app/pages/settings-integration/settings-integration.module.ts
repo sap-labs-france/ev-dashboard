@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { AccountsComponent } from 'pages/accounts/accounts.component';
 import { AccountStatusFormatterComponent, AppFormatAccountStatusPipe } from 'pages/accounts/formatters/account-status-formatter.component';
 import { PricingDefinitionsModule } from 'shared/pricing-definitions/pricing-definitions.module';
 
@@ -147,7 +148,8 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     SettingsPricingComponent,
     AccountDialogComponent,
     AccountStatusFormatterComponent,
-    AppFormatAccountStatusPipe
+    AppFormatAccountStatusPipe,
+    AccountsComponent
   ],
   entryComponents: [
     SettingsIntegrationComponent,

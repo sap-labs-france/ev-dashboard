@@ -3,7 +3,6 @@ import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { StatusCodes } from 'http-status-codes';
-import { BillingAccountsTableDataSource } from 'pages/accounts/accounts-table-data-source';
 
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
@@ -21,12 +20,12 @@ import { Utils } from '../../../utils/Utils';
   templateUrl: 'settings-billing.component.html',
 })
 export class SettingsBillingComponent implements OnInit {
-  public isActive = false;
-  public isConnectedAccountActive = false;
+  public isBillingActive = false;
+  public isBillingPlatformActive = false;
+  public isBillingTransactionEnabled = false;
 
   public formGroup!: FormGroup;
   public billingSettings!: BillingSettings;
-  public transactionBillingActivated: boolean;
   public isClearTestDataVisible = false;
 
   public constructor(
@@ -37,17 +36,16 @@ export class SettingsBillingComponent implements OnInit {
     private spinnerService: SpinnerService,
     private translateService: TranslateService,
     private router: Router,
-    public billingAccountTableDataSource: BillingAccountsTableDataSource,
   ) {
-    this.isActive = this.componentService.isActive(TenantComponents.BILLING);
-    this.isConnectedAccountActive = this.componentService.isActive(TenantComponents.BILLING_PLATFORM) && this.isActive;
+    this.isBillingActive = this.componentService.isActive(TenantComponents.BILLING);
+    this.isBillingPlatformActive = this.componentService.isActive(TenantComponents.BILLING_PLATFORM);
   }
 
   public ngOnInit(): void {
     // Build the form
     this.formGroup = new FormGroup({});
     // Load the conf
-    if (this.isActive) {
+    if (this.isBillingActive) {
       this.loadConfiguration();
     }
   }
@@ -58,11 +56,11 @@ export class SettingsBillingComponent implements OnInit {
       this.spinnerService.hide();
       // Keep
       this.billingSettings = settings;
+      this.isBillingTransactionEnabled = this.billingSettings.billing.isTransactionBillingActivated;
       // Enable additional actions based on the account nature
       this.checkConnectionContext(settings);
       // Init form
       this.formGroup.markAsPristine();
-      this.billingAccountTableDataSource.loadData().subscribe();
     }, (error) => {
       this.spinnerService.hide();
       switch (error.status) {
@@ -78,13 +76,10 @@ export class SettingsBillingComponent implements OnInit {
 
   public save(newSettings: any) {
     this.billingSettings.type = BillingSettingsType.STRIPE;
-    if (newSettings?.billing?.isTransactionBillingActivated) {
-      this.transactionBillingActivated = newSettings.billing.isTransactionBillingActivated;
-    } else {
-      this.transactionBillingActivated = this.billingSettings.billing.isTransactionBillingActivated;
-    }
     this.billingSettings.billing = newSettings.billing as BillingSetting;
-    this.billingSettings.billing.isTransactionBillingActivated = this.transactionBillingActivated;
+    if (newSettings?.billing?.isTransactionBillingActivated) {
+      this.billingSettings.billing.isTransactionBillingActivated = newSettings.billing.isTransactionBillingActivated;
+    }
     this.billingSettings.stripe = newSettings.stripe as StripeBillingSetting;
     // Save
     this.spinnerService.show();

@@ -129,7 +129,7 @@ export class TransfersTableDataSource extends TableDataSource<BillingTransfer> {
       // },
       {
         id: 'totalAmount',
-        name: 'transfers.amount',
+        name: 'transfers.collected_funds',
         formatter: (amount: number, transfer: BillingTransfer) => this.appCurrencyPipe.transform(amount), /* TODO - , transfer.currency.toUpperCase()), */
         headerClass: 'col-10p',
         class: 'col-10p',

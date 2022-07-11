@@ -130,7 +130,7 @@ export class TransfersTableDataSource extends TableDataSource<BillingTransfer> {
       {
         id: 'totalAmount',
         name: 'transfers.collected_funds',
-        formatter: (amount: number, transfer: BillingTransfer) => this.appCurrencyPipe.transform(amount),
+        formatter: (amount: number, transfer: BillingTransfer) => this.appCurrencyPipe.transform(amount, transfer.currency),
         headerClass: 'col-10p',
         class: 'col-10p',
         sortable: false,
@@ -146,7 +146,7 @@ export class TransfersTableDataSource extends TableDataSource<BillingTransfer> {
       {
         id: 'transferAmount',
         name: 'transfers.transferAmount',
-        formatter: (amount: number, transfer: BillingTransfer) => this.appCurrencyPipe.transform(amount), /* TODO - , transfer.currency.toUpperCase()), */
+        formatter: (amount: number, transfer: BillingTransfer) => this.appCurrencyPipe.transform(amount, transfer.currency),
         headerClass: 'col-10p',
         class: 'col-10p',
         sortable: false,
@@ -154,7 +154,7 @@ export class TransfersTableDataSource extends TableDataSource<BillingTransfer> {
       {
         id: 'invoice.totalAmount',
         name: 'transfers.platform_fee_amount',
-        formatter: (amount: number, transfer: BillingTransfer) => this.appCurrencyPipe.transform(amount), /* TODO - , transfer.currency), */
+        formatter: (amount: number, transfer: BillingTransfer) => this.appCurrencyPipe.transform(amount, transfer.currency),
         headerClass: 'col-10p',
         class: 'col-10p',
         sortable: false,

@@ -39,17 +39,12 @@ import { TenantsRoutes } from './tenants.routing';
     TenantMainComponent,
     TenantComponentsComponent
   ],
-  entryComponents: [
-    TenantsListComponent,
-    TenantLogoFormatterCellComponent,
-    TenantDialogComponent,
-  ],
   exports: [
     TenantsListComponent,
   ],
   providers: [
     TenantsListTableDataSource,
-  ],
+  ]
 })
 
 export class TenantsModule {

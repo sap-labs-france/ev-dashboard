@@ -31,7 +31,6 @@ import { ChargingStationTemplatesListComponent } from './list/charging-station-t
     MaterialModule,
     DialogsModule,
     CommonDirectivesModule,
-    FormattersModule,
     TableModule,
     FormsModule,
     ReactiveFormsModule

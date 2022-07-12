@@ -4,9 +4,7 @@ import { TableData } from './Table';
 
 export interface ChargingStationTemplate extends TableData, CreatedUpdatedProps {
   id: string;
-  template:
-  {
-    id: string;
+  template: {
     hash?: string;
     hashTechnical?: string;
     hashCapabilities?: string;
@@ -14,14 +12,15 @@ export interface ChargingStationTemplate extends TableData, CreatedUpdatedProps 
     hashOcppVendor?: string;
     chargePointVendor: string;
     extraFilters: {
+      chargePointModel: string;
       chargeBoxSerialNumber?: string;
     };
     technical: {
-      masterSlave: boolean;
+      masterSlave?: boolean;
       maximumPower: number;
-      voltage?: Voltage;
+      voltage: Voltage;
       powerLimitUnit: ChargingRateUnitType;
-      chargePoints?: ChargePoint[];
+      chargePoints: ChargePoint[];
       connectors: ChargingStationTemplateConnector[];
     };
     capabilities: {

@@ -114,7 +114,7 @@ export class ChargingStationTemplateComponent extends AbstractTabComponent imple
       this.spinnerService.hide();
       if (response.status === RestResponse.SUCCESS) {
         this.messageService.showSuccessMessage('templates.create_success',
-          { templateID: template.id });
+          { template: template.template.chargePointVendor + ' - ' + template.template.extraFilters.chargePointModel });
         this.closeDialog(true);
       } else {
         Utils.handleError(JSON.stringify(response),
@@ -138,7 +138,7 @@ export class ChargingStationTemplateComponent extends AbstractTabComponent imple
     this.centralServerService.updateChargingStationTemplate(chargingStationTemplate).subscribe((response) => {
       this.spinnerService.hide();
       if (response.status === RestResponse.SUCCESS) {
-        this.messageService.showSuccessMessage('templates.update_success', { templateID: chargingStationTemplate.id });
+        this.messageService.showSuccessMessage('templates.update_success', { template: chargingStationTemplate.template.chargePointVendor + ' - ' + chargingStationTemplate.template.extraFilters.chargePointModel });
         this.closeDialog(true);
       } else {
         Utils.handleError(JSON.stringify(response),

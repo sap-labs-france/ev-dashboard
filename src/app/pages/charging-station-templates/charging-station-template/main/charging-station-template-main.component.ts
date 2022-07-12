@@ -1,7 +1,6 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { SpinnerService } from '../../../../services/spinner.service';
 import { ChargingStationTemplate } from '../../../../types/ChargingStationTemplate';
 import { Templates } from '../../../../utils/Templates';
 
@@ -17,8 +16,7 @@ export class ChargingStationTemplateMainComponent implements OnInit, OnChanges {
   public template!: AbstractControl;
 
   // eslint-disable-next-line no-useless-constructor
-  public constructor(
-    public spinnerService: SpinnerService) {
+  public constructor() {
   }
 
   public ngOnInit() {
@@ -45,7 +43,6 @@ export class ChargingStationTemplateMainComponent implements OnInit, OnChanges {
 
   public loadTemplate() {
     if (this.chargingStationTemplate) {
-      // const tutu = JSON.stringify(this.template.template, undefined, 4);
       this.id.setValue(this.chargingStationTemplate.id);
       this.template.setValue(JSON.stringify(this.chargingStationTemplate.template, undefined, 4));
     }

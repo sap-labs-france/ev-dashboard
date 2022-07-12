@@ -28,8 +28,8 @@ export class TableDeleteTemplateAction extends TableDeleteAction {
     centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) {
     super.delete(
       template, 'templates.delete_title',
-      translateService.instant('templates.delete_confirm', { templateID: template.id }),
-      translateService.instant('templates.delete_success', { templateID: template.id }),
+      translateService.instant('templates.delete_confirm', { template: template.template.chargePointVendor + ' - ' + template.template.extraFilters.chargePointModel }),
+      translateService.instant('templates.delete_success', { template: template.template.chargePointVendor + ' - ' + template.template.extraFilters.chargePointModel }),
       'templates.delete_error', centralServerService.deleteChargingStationTemplate.bind(centralServerService),
       dialogService, translateService, messageService, centralServerService, spinnerService, router, refresh);
   }

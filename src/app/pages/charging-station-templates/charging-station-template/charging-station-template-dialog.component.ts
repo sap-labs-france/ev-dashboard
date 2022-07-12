@@ -2,7 +2,7 @@ import { AfterViewInit, Component, Inject, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 
-import { ChargingStationTemplateAuthorizations, DialogMode, DialogParams, DialogParamsWithAuth } from '../../../types/Authorization';
+import { ChargingStationTemplateAuthorizations, DialogMode, DialogParamsWithAuth } from '../../../types/Authorization';
 import { ChargingStationTemplate } from '../../../types/ChargingStationTemplate';
 import { Utils } from '../../../utils/Utils';
 import { ChargingStationTemplateComponent } from './charging-station-template.component';

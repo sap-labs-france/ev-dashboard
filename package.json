@@ -67,7 +67,7 @@
     "@angular/compiler": "^14.0.5",
     "@angular/core": "^14.0.5",
     "@angular/forms": "^14.0.5",
-    "@angular/google-maps": "^13.3.9",
+    "@angular/google-maps": "^14.0.4",
     "@angular/localize": "^14.0.5",
     "@angular/material": "^13.3.9",
     "@angular/material-moment-adapter": "^13.3.9",

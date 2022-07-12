@@ -66,6 +66,11 @@
                 "glob": "apple-app-site-association",
                 "input": "src/assets/.well-known/",
                 "output": "/.well-known/"
+              },
+              {
+                "glob": "assetlinks.json",
+                "input": "src/assets/.well-known/",
+                "output": "/.well-known"
               }
             ],
             "styles": [

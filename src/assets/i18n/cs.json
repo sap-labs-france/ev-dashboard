@@ -1425,7 +1425,7 @@
     "accountExternalID": "Connected Account ID",
     "amount": "Amount",
     "collected_funds": "Collected Funds",
-    "platform_fee_amount": "Fee Charged",
+    "platform_fee_amount": "Collected Fee",
     "document_number": "Invoice",
     "transferAmount": "Transfer",
     "number_of_items": "Sessions",

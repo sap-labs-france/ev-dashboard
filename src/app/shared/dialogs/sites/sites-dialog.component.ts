@@ -9,20 +9,21 @@ import { SitesDialogTableDataSource } from './sites-dialog-table-data-source';
 
 @Component({
   templateUrl: '../dialog-table-data.component.html',
+  providers: [SitesDialogTableDataSource],
   styleUrls: ['../dialog-table-data.component.scss']
 })
 export class SitesDialogComponent extends DialogTableDataComponent<Site> {
   public constructor(
-    public dialogDataSource: SitesDialogTableDataSource,
+    public sitesDataSource: SitesDialogTableDataSource,
     protected dialogRef: MatDialogRef<SitesDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data: any) {
     // Super class
-    super(data, dialogRef, dialogDataSource);
+    super(data, dialogRef, sitesDataSource);
     // Default title
     if (Utils.isEmptyString(this.title)) {
       this.title = 'sites.select_sites';
     }
-    this.dialogDataSource.destroyDataSource();
+    this.sitesDataSource.destroyDataSource();
   }
 
   public getSelectedItems(selectedRows: Site[]): KeyValue[] {

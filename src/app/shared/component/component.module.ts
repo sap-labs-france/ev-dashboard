@@ -33,10 +33,7 @@ import { ConsumptionChartComponent } from './consumption-chart/consumption-chart
   exports: [
     ConsumptionChartComponent,
     ChartUnitSelectorComponent,
-  ],
-  entryComponents: [
-    ConsumptionChartDetailComponent,
-  ],
+  ]
 })
 export class ComponentModule {
 }

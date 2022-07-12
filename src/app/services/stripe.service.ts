@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Stripe } from '@stripe/stripe-js';
 import { loadStripe } from '@stripe/stripe-js/pure';
 import { StatusCodes } from 'http-status-codes';
+import { BillingAccount } from 'types/Billing';
 import { HTTPError } from 'types/HTTPError';
 import { BillingSettings } from 'types/Setting';
 import { Utils } from 'utils/Utils';

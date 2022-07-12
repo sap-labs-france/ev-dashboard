@@ -6,7 +6,6 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { MaterialModule } from '../../app.module';
 import { AddressModule } from '../../shared/address/address.module';
-import { ErrorCodeDetailsComponent } from '../../shared/component/error-code-details/error-code-details.component';
 import { DialogsModule } from '../../shared/dialogs/dialogs.module';
 import { CommonDirectivesModule } from '../../shared/directives/directives.module';
 import { FormattersModule } from '../../shared/formatters/formatters.module';
@@ -80,14 +79,6 @@ import { UserRoutes } from './users.routing';
     AppPaymentMethodStatusPipe,
     PaymentMethodStatusComponent
   ],
-  entryComponents: [
-    UserStatusFormatterComponent,
-    UserDialogComponent,
-    UserSitesDialogComponent,
-    UserSitesAdminCheckboxComponent,
-    ErrorCodeDetailsComponent,
-    UserSitesOwnerRadioComponent,
-  ],
   exports: [
     AppUserRolePipe,
     AppUserStatusPipe,
@@ -98,7 +89,7 @@ import { UserRoutes } from './users.routing';
     AppUserStatusPipe,
     UserSitesTableDataSource,
     UsersInErrorTableDataSource,
-  ],
+  ]
 })
 
 export class UsersModule {

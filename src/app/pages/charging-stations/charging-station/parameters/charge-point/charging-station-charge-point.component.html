@@ -14,7 +14,7 @@
           <div class="col-md-3" *ngIf="currentType?.value === 'DC'">
             <mat-form-field>
               <input matInput placeholder="{{'chargers.efficiency' | translate}}" [formControl]="efficiency"
-                [readOnly]="!isAdmin" />
+                [readOnly]="readOnly" />
               <mat-error *ngIf="efficiency?.invalid">{{'chargers.invalid_efficiency' | translate}}</mat-error>
             </mat-form-field>
           </div>
@@ -39,7 +39,7 @@
             <div *ngFor="let connector of chargingStation?.connectors">
               <app-charging-station-connector *ngIf="connectorID === connector.connectorId" [readOnly]="readOnly"
                 [chargingStation]="chargingStation" [chargePoint]="chargePoint" [connector]="connector"
-                [formConnectorsArray]="formConnectorsArray" [isAdmin]="isAdmin"  [isPublic]="isPublic"
+                [formConnectorsArray]="formConnectorsArray" [isPublic]="isPublic"
                 (connectorChanged)="connectorChanged()" [manualConfiguration]="manualConfiguration">
               </app-charging-station-connector>
             </div>

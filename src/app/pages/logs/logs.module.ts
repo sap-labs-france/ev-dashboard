@@ -32,12 +32,9 @@ import { LogsRoutes } from './logs.routing';
     LogLevelFormatterComponent,
     AppFormatLogLevelPipe,
   ],
-  entryComponents: [
-    LogLevelFormatterComponent,
-  ],
   providers: [
     LogsListTableDataSource,
-  ],
+  ]
 })
 
 export class LogsModule {

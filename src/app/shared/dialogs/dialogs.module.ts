@@ -1,6 +1,6 @@
-import { AgmCoreModule } from '@agm/core';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { GoogleMapsModule } from '@angular/google-maps';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { FileUploadModule } from 'ng2-file-upload';
@@ -57,7 +57,7 @@ import { UsersDialogComponent } from './users/users-dialog.component';
     TranslateModule,
     ComponentModule,
     FormattersModule,
-    AgmCoreModule,
+    GoogleMapsModule,
     GooglePlaceModule,
     FileUploadModule,
   ],
@@ -76,29 +76,6 @@ import { UsersDialogComponent } from './users/users-dialog.component';
     SiteAreasDialogComponent,
     AssetsDialogComponent,
     CompaniesDialogComponent,
-    GeoMapDialogComponent,
-    QrCodeDialogComponent,
-    ImportDialogComponent,
-    ErrorCodeDetailsDialogComponent,
-    ErrorCodeDetailsComponent,
-    ReportsDialogComponent,
-    CarCatalogsDialogComponent,
-    LogActionsDialogComponent,
-  ],
-  entryComponents: [
-    CarMakersDialogComponent,
-    TransactionComponent,
-    TransactionDialogComponent,
-    SitesDialogComponent,
-    UsersDialogComponent,
-    TagsDialogComponent,
-    CarsDialogComponent,
-    CustomDialogComponent,
-    ChargingStationsDialogComponent,
-    SiteAreasDialogComponent,
-    AssetsDialogComponent,
-    CompaniesDialogComponent,
-    ConsumptionChartComponent,
     GeoMapDialogComponent,
     QrCodeDialogComponent,
     ImportDialogComponent,
@@ -145,7 +122,7 @@ import { UsersDialogComponent } from './users/users-dialog.component';
     CarMakersTableDataSource,
     CarCatalogsDialogTableDataSource,
     LogActionsDialogTableDataSource,
-  ],
+  ]
 })
 export class DialogsModule {
 }

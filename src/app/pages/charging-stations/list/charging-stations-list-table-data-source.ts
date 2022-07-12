@@ -5,8 +5,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { PricingDefinitionsDialogComponent } from 'shared/pricing-definitions/pricing-definitions.dialog.component';
 import { TableViewChargingStationAction, TableViewChargingStationActionDef } from 'shared/table/actions/charging-stations/table-view-charging-station-action';
+import { ChargingStationsAuthorizations } from 'types/Authorization';
 
-import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
@@ -33,7 +33,7 @@ import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-tab
 import { SiteTableFilter } from '../../../shared/table/filters/site-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { ChargingStation, ChargingStationButtonAction } from '../../../types/ChargingStation';
-import { DataResult } from '../../../types/DataResult';
+import { ChargingStationDataResult } from '../../../types/DataResult';
 import { ButtonAction } from '../../../types/GlobalType';
 import { PricingButtonAction, PricingEntity } from '../../../types/Pricing';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
@@ -59,19 +59,24 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
   private canExport = new TableExportChargingStationsAction().getActionDef();
   private maintainPricingDefinitionsAction = new TableViewPricingDefinitionsAction().getActionDef();
 
+  private issuerFilter: TableFilterDef;
+  private siteFilter: TableFilterDef;
+  private siteAreaFilter: TableFilterDef;
+  private companyFilter: TableFilterDef;
+
+  private chargingStationsAuthorizations: ChargingStationsAuthorizations;
+
   public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     private messageService: MessageService,
     private router: Router,
     private centralServerService: CentralServerService,
-    private authorizationService: AuthorizationService,
     private componentService: ComponentService,
     private dialog: MatDialog,
     private dialogService: DialogService,
   ) {
     super(spinnerService, translateService);
-    // Init
     this.isOrganizationComponentActive = this.componentService.isActive(TenantComponents.ORGANIZATION);
     this.isPricingComponentActive = this.componentService.isActive(TenantComponents.PRICING);
     if (this.isOrganizationComponentActive) {
@@ -84,11 +89,28 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
     this.initDataSource();
   }
 
-  public loadDataImpl(): Observable<DataResult<ChargingStation>> {
+  public loadDataImpl(): Observable<ChargingStationDataResult> {
     return new Observable((observer) => {
       this.centralServerService.getChargingStations(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((chargingStations) => {
-        this.canExport.visible = this.authorizationService.isAdmin();
+        // Build auth object
+        this.chargingStationsAuthorizations = {
+          canExport: Utils.convertToBoolean(chargingStations.canExport),
+          canListCompanies: Utils.convertToBoolean(chargingStations.canListCompanies),
+          canListSiteAreas: Utils.convertToBoolean(chargingStations.canListSiteAreas),
+          canListSites: Utils.convertToBoolean(chargingStations.canListSites),
+          metadata: chargingStations.metadata
+        };
+        // Update filters visibility
+        this.canExport.visible = this.chargingStationsAuthorizations.canExport;
+        this.siteFilter.visible = this.chargingStationsAuthorizations.canListSites;
+        this.siteAreaFilter.visible =this.chargingStationsAuthorizations.canListSiteAreas;
+        this.companyFilter.visible = this.chargingStationsAuthorizations.canListCompanies;
+        // Set back the projected fields
+        const tableDef = this.getTableDef();
+        tableDef.rowDetails.additionalParameters = {
+          projectFields: chargingStations.projectFields
+        };
         observer.next(chargingStations);
         observer.complete();
       }, (error) => {
@@ -116,9 +138,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    // As sort directive in table can only be unset in Angular 7, all columns will be sortable
-    // Build common part for all cases
-    const tableColumns: TableColumnDef[] = [
+    return [
       {
         id: 'id',
         name: 'chargers.name',
@@ -128,24 +148,20 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
         sorted: true,
         direction: 'asc',
       },
-    ];
-    if (this.isOrganizationComponentActive) {
-      tableColumns.push(
-        {
-          id: 'site.name',
-          name: 'sites.title',
-          class: 'd-none d-xl-table-cell col-20p',
-          headerClass: 'd-none d-xl-table-cell col-20p',
-        },
-        {
-          id: 'siteArea.name',
-          name: 'site_areas.title',
-          class: 'd-none d-xl-table-cell col-20p',
-          headerClass: 'd-none d-xl-table-cell col-20p',
-        },
-      );
-    }
-    tableColumns.push(
+      {
+        id: 'site.name',
+        name: 'sites.title',
+        class: 'col-20p',
+        headerClass: 'col-20p',
+        visible: this.isOrganizationComponentActive
+      },
+      {
+        id: 'siteArea.name',
+        name: 'site_areas.title',
+        class: 'col-20p',
+        headerClass: 'col-20p',
+        visible: this.isOrganizationComponentActive
+      },
       {
         id: 'inactive',
         name: 'chargers.heartbeat_title',
@@ -177,44 +193,39 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
         class: 'text-center col-5em',
         formatter: (publicChargingStation: boolean) => Utils.displayYesNo(this.translateService, publicChargingStation)
       },
-    );
-    if (this.authorizationService.isAdmin()) {
-      tableColumns.push(
-        {
-          id: 'chargePointVendor',
-          name: 'chargers.vendor',
-          headerClass: 'd-none d-lg-table-cell col-20p',
-          class: 'd-none d-lg-table-cell col-20p',
-          sortable: true,
-        },
-        {
-          id: 'chargePointModel',
-          name: 'chargers.model',
-          headerClass: 'd-none d-lg-table-cell col-20p',
-          class: 'd-none d-lg-table-cell col-20p',
-          sortable: true,
-        },
-        {
-          id: 'firmwareVersion',
-          name: 'chargers.firmware_version',
-          headerClass: 'text-center col-20p',
-          class: 'text-center table-cell-angular-big-component col-20p',
-          sortable: false,
-          isAngularComponent: true,
-          angularComponent: ChargingStationsFirmwareStatusCellComponent,
-        },
-        {
-          id: 'ocppVersion',
-          name: 'chargers.ocpp_version_title',
-          headerClass: 'd-none d-xl-table-cell text-center col-10p',
-          class: 'd-none d-xl-table-cell text-center col-10p',
-          sortable: false,
-          formatter: (ocppVersion: string, row: ChargingStation) =>
-            (ocppVersion && row.ocppProtocol) ? `${ocppVersion} / ${row.ocppProtocol}` : '-'
-        },
-      );
-    }
-    return tableColumns;
+      {
+        id: 'chargePointVendor',
+        name: 'chargers.vendor',
+        headerClass: 'col-20p',
+        class: 'col-20p',
+        sortable: true,
+      },
+      {
+        id: 'chargePointModel',
+        name: 'chargers.model',
+        headerClass: 'col-20p',
+        class: 'col-20p',
+        sortable: true,
+      },
+      {
+        id: 'firmwareVersion',
+        name: 'chargers.firmware_version',
+        headerClass: 'text-center col-20p',
+        class: 'text-center table-cell-angular-big-component col-20p',
+        sortable: false,
+        isAngularComponent: true,
+        angularComponent: ChargingStationsFirmwareStatusCellComponent,
+      },
+      {
+        id: 'ocppVersion',
+        name: 'chargers.ocpp_version_title',
+        headerClass: 'text-center col-10p',
+        class: 'text-center col-10p',
+        sortable: false,
+        formatter: (ocppVersion: string, row: ChargingStation) =>
+          (ocppVersion && row.ocppProtocol) ? `${ocppVersion} / ${row.ocppProtocol}` : '-'
+      }
+    ];
   }
 
   public buildTableActionsRightDef(): TableActionDef[] {
@@ -226,13 +237,10 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-    if (this.authorizationService.isAdmin()) {
-      return [
-        this.canExport,
-        ...tableActionsDef,
-      ];
-    }
-    return tableActionsDef;
+    return [
+      this.canExport,
+      ...tableActionsDef,
+    ];
   }
 
   public actionTriggered(actionDef: TableActionDef) {
@@ -254,14 +262,14 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
         if (actionDef.action) {
           (actionDef as TableEditChargingStationActionDef).action(
             ChargingStationDialogComponent, this.dialog,
-            { dialogData: chargingStation }, this.refreshData.bind(this));
+            { dialogData: chargingStation, authorizations: this.chargingStationsAuthorizations }, this.refreshData.bind(this));
         }
         break;
       case ChargingStationButtonAction.VIEW_CHARGING_STATION:
         if (actionDef.action) {
           (actionDef as TableViewChargingStationActionDef).action(
             ChargingStationDialogComponent, this.dialog,
-            { dialogData: chargingStation }, this.refreshData.bind(this));
+            { dialogData: chargingStation, authorizations: this.chargingStationsAuthorizations }, this.refreshData.bind(this));
         }
         break;
       case ChargingStationButtonAction.REBOOT:
@@ -278,7 +286,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
             {
               dialogData: {
                 id: chargingStation.id, ocppVersion: chargingStation.ocppVersion, canUpdate: chargingStation.canUpdate
-              },
+              }, authorizations: this.chargingStationsAuthorizations
             },
             this.refreshData.bind(this)
           );
@@ -349,60 +357,81 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {
-    if (this.isOrganizationComponentActive) {
-      const issuerFilter = new IssuerFilter().getFilterDef();
-      const companyFilter = new CompanyTableFilter([issuerFilter]).getFilterDef();
-      const siteFilter = new SiteTableFilter([issuerFilter, companyFilter]).getFilterDef();
-      return [
-        issuerFilter,
-        companyFilter,
-        siteFilter,
-        new SiteAreaTableFilter([siteFilter, issuerFilter, companyFilter]).getFilterDef(),
-      ];
-    }
-    return [];
+    this.issuerFilter = new IssuerFilter().getFilterDef();
+    this.siteFilter = new SiteTableFilter([this.issuerFilter]).getFilterDef();
+    this.siteAreaFilter = new SiteAreaTableFilter([this.issuerFilter, this.siteFilter]).getFilterDef();
+    this.companyFilter = new CompanyTableFilter([this.issuerFilter]).getFilterDef();
+    // Create filters
+    const filters: TableFilterDef[] = [
+      this.issuerFilter,
+      this.siteFilter,
+      this.siteAreaFilter,
+      this.companyFilter
+    ];
+    return filters;
   }
 
   public buildTableDynamicRowActions(chargingStation: ChargingStation): TableActionDef[] {
-    // Check if GPS is available
+    const tableActionDef: TableActionDef[] = [];
+    // Edit
+    if (chargingStation.canUpdate) {
+      tableActionDef.push(this.editAction);
+      tableActionDef.push(this.smartChargingAction);
+    } else {
+      tableActionDef.push(this.viewAction);
+    }
+    // Maintain pricing
+    if (this.isPricingComponentActive && chargingStation.canMaintainPricingDefinitions) {
+      tableActionDef.push(this.maintainPricingDefinitionsAction);
+    }
+    // More action
+    const moreActions = new TableMoreAction([]);
+    // Reset
+    if (chargingStation.canReset) {
+      const rebootAction = new TableChargingStationsRebootAction().getActionDef();
+      rebootAction.disabled = chargingStation.inactive;
+      moreActions.addActionInMoreActions(rebootAction);
+    }
+    // Clear cache
+    if (chargingStation.canClearCache) {
+      const clearCacheAction = new TableChargingStationsClearCacheAction().getActionDef();
+      clearCacheAction.disabled = chargingStation.inactive;
+      moreActions.addActionInMoreActions(clearCacheAction);
+    }
+    // Reset
+    if (chargingStation.canReset) {
+      const resetAction = new TableChargingStationsResetAction().getActionDef();
+      resetAction.disabled = chargingStation.inactive;
+      moreActions.addActionInMoreActions(resetAction);
+    }
+    // Change availability
+    if (chargingStation.canChangeAvailability) {
+      const forceAvailableStatusAction = new TableChargingStationsForceAvailableStatusAction().getActionDef();
+      const forceUnavailableStatusAction = new TableChargingStationsForceUnavailableStatusAction().getActionDef();
+      forceAvailableStatusAction.disabled = chargingStation.inactive;
+      forceUnavailableStatusAction.disabled = chargingStation.inactive;
+      moreActions.addActionInMoreActions(forceAvailableStatusAction);
+      moreActions.addActionInMoreActions(forceUnavailableStatusAction);
+    }
+    // Generate QR code
+    if (chargingStation.canGenerateQrCode) {
+      moreActions.addActionInMoreActions(this.generateQrCodeConnectorAction);
+    }
+    // Maps
     const openInMaps = new TableOpenInMapsAction().getActionDef();
     openInMaps.disabled = !Utils.containsGPSCoordinates(chargingStation.coordinates);
-    if (chargingStation.issuer) {
-      if (this.authorizationService.isAdmin() ||
-        this.authorizationService.isSiteAdmin(chargingStation.siteArea ? chargingStation.siteArea.siteID : '')) {
-        const rebootAction = new TableChargingStationsRebootAction().getActionDef();
-        rebootAction.disabled = chargingStation.inactive;
-        const clearCacheAction = new TableChargingStationsClearCacheAction().getActionDef();
-        clearCacheAction.disabled = chargingStation.inactive;
-        const resetAction = new TableChargingStationsResetAction().getActionDef();
-        resetAction.disabled = chargingStation.inactive;
-        const forceAvailableStatusAction = new TableChargingStationsForceAvailableStatusAction().getActionDef();
-        forceAvailableStatusAction.disabled = chargingStation.inactive;
-        const forceUnavailableStatusAction = new TableChargingStationsForceUnavailableStatusAction().getActionDef();
-        forceUnavailableStatusAction.disabled = chargingStation.inactive;
-        const tableActionDef: TableActionDef[] = [
-          this.editAction,
-          this.smartChargingAction
-        ];
-        if (this.isPricingComponentActive) {
-          tableActionDef.push(this.maintainPricingDefinitionsAction);
-        }
-        tableActionDef.push(new TableMoreAction([
-          rebootAction,
-          clearCacheAction,
-          resetAction,
-          forceAvailableStatusAction,
-          forceUnavailableStatusAction,
-          this.generateQrCodeConnectorAction,
-          openInMaps,
-          this.deleteAction,
-        ]).getActionDef());
-        return tableActionDef;
-      }
+    moreActions.addActionInMoreActions(openInMaps);
+    // Delete
+    if (chargingStation.canDelete) {
+      moreActions.addActionInMoreActions(this.deleteAction);
     }
-    return [
-      this.viewAction,
-      openInMaps
-    ];
+    // Add more action if array has more than one element
+    if (moreActions.getActionsInMoreActions().length > 1) {
+      tableActionDef.push(moreActions.getActionDef());
+    } else if (!Utils.isEmptyArray(moreActions.getActionsInMoreActions())) {
+      // More action has only one element we put it directly in tableAction
+      tableActionDef.push(moreActions.getActionsInMoreActions()[0]);
+    }
+    return tableActionDef;
   }
 }

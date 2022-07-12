@@ -20,7 +20,6 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "aot": true,
             "outputPath": "dist",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -85,7 +84,13 @@
               "node_modules/jasny-bootstrap/dist/js/jasny-bootstrap.min.js",
               "node_modules/chart.js/dist/chart.min.js",
               "node_modules/moment-duration-format/lib/moment-duration-format.js"
-            ]
+            ],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "production": {
@@ -116,10 +121,9 @@
               ]
             },
             "development": {
-              "optimization": false,
-              "sourceMap": true
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",

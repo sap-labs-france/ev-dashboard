@@ -25,17 +25,21 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.6.9',
-        date: new Date('2022-06-19'),
+        date: new Date('2022-07-11'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Migrated Charging Station endpoint to the new authorization framework`,
               `Fixed OCPI Tag type to match RFID standard`,
               `Handle Tag ID sent by payment terminals`,
               `Retrigger the Async task framework after it has run once`,
               `Check of OCPI CPO Locations is now done once a day`,
               `Log in error failed Remote Push Notification`,
               `Virtual RFID ID are generated now on 8 bytes`,
+              `Added automatic redirection of migrated tenants to a k8s cluster`,
+              `Fix Site not provided in Charging Profile`,
+              `Migration to Angular 13`,
             ],
           },
         ],
@@ -47,7 +51,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
-              `Aligned pop-ups with new authorizations framework`,
+              `Aligned pop-ups with new authorization framework`,
               `Fix Charging Station's Statistics wrong label tooltip`,
               `Handle Connectors' statuses of inactive Charging Stations in the backend`,
               `Fixed OCPI Token updated with User ID instead of UID`,

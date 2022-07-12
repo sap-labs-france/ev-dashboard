@@ -3,9 +3,15 @@
     <div class="col-md-6">
       <div class="form-group">
         <mat-form-field>
-          <input matInput
-              placeholder="{{'billing.id' | translate}}" type="text" [formControl]="accountID">
-          </mat-form-field>
+          <input matInput type="text" readonly=true placeholder="{{'settings.billing.connected_account.user' | translate}}"
+            class="form-field-popup" (click)="assignAccounts()" [formControl]="account"/>
+          <button *ngIf="account.enabled && account.value" mat-icon-button matSuffix (click)="resetAccount()" aria-label="Clear">
+            <mat-icon>clear</mat-icon>
+          </button>
+          <mat-error *ngIf="account.errors?.required">
+            {{"general.mandatory_field" | translate}}
+          </mat-error>
+        </mat-form-field>
       </div>
     </div>
   </div>
@@ -14,8 +20,12 @@
       <div class="form-group">
         <mat-form-field>
           <input matInput
-              placeholder="{{'settings.pricing.flat_fee' | translate}}" type="text" [formControl]="flatFee">
-          </mat-form-field>
+              placeholder="{{'settings.pricing.flat_fee' | translate}}" type="number" [formControl]="flatFee">
+          <mat-error
+            *ngIf="flatFee.errors?.pattern || flatFee.errors?.max">
+            {{"settings.pricing.invalid_flat_fee" | translate}}
+          </mat-error>
+        </mat-form-field>
       </div>
     </div>
   </div>
@@ -24,8 +34,12 @@
       <div class="form-group">
         <mat-form-field>
           <input matInput
-              placeholder="{{'settings.pricing.flat_fee' | translate}}" type="text" [formControl]="flatFee">
-          </mat-form-field>
+              placeholder="{{'settings.pricing.percentage' | translate}}" type="number" [formControl]="percentage">
+          <mat-error
+            *ngIf="percentage.errors?.pattern || percentage.errors?.max">
+            {{"settings.pricing.invalid_percentage" | translate}}
+          </mat-error>
+        </mat-form-field>
       </div>
     </div>
   </div>

@@ -1,15 +1,13 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { StatusCodes } from 'http-status-codes';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { AccountsDialogComponent } from 'shared/dialogs/accounts/accounts-dialog.component';
+import { BillingAccount } from 'types/Billing';
+import { Utils } from 'utils/Utils';
 
 import { CentralServerService } from '../../../../../services/central-server.service';
-import { ConfigService } from '../../../../../services/config.service';
 import { MessageService } from '../../../../../services/message.service';
-import { Address } from '../../../../../types/Address';
 import { Company } from '../../../../../types/Company';
-import { Constants } from '../../../../../utils/Constants';
-import { Utils } from '../../../../../utils/Utils';
 
 @Component({
   selector: 'app-company-billing',
@@ -21,28 +19,31 @@ export class CompanyBillingComponent implements OnInit, OnChanges {
   @Input() public readOnly: boolean;
 
   public initialized = false;
-  public accountID!: AbstractControl;
+  public account!: AbstractControl;
   public flatFee!: AbstractControl;
   public percentage!: AbstractControl;
 
   // eslint-disable-next-line no-useless-constructor
   public constructor(
-    private centralServerService: CentralServerService,
-    private messageService: MessageService) {
+    private dialog: MatDialog) {
   }
 
   public ngOnInit() {
-    this.formGroup.addControl('accountID', new FormControl(''));
-    this.formGroup.addControl('flatFee', new FormControl(''));
-    // this.formGroup.addControl('name', new FormControl('',
-    //   Validators.compose([
-    //     Validators.required,
-    //   ])
-    // ));
-    // // Form
-    // this.issuer = this.formGroup.controls['issuer'];
-    // this.id = this.formGroup.controls['id'];
-    // this.name = this.formGroup.controls['name'];
+    this.formGroup.addControl('account', new FormControl(''));
+    this.formGroup.addControl('flatFee', new FormControl(0,
+      Validators.compose([
+        Validators.pattern(/^[+]?([0-9]*[.])?[0-9]+$/),
+      ])
+    ));
+    this.formGroup.addControl('percentage', new FormControl(0,
+      Validators.compose([
+        Validators.max(100),
+        Validators.pattern(/^[+]?([0-9]*[.])?[0-9]+$/),
+      ])
+    ));
+    this.account = this.formGroup.controls['account'];
+    this.flatFee = this.formGroup.controls['flatFee'];
+    this.percentage = this.formGroup.controls['percentage'];
     this.loadCompany();
   }
 
@@ -52,19 +53,34 @@ export class CompanyBillingComponent implements OnInit, OnChanges {
 
   public loadCompany() {
     if (this.initialized && this.company) {
-      // if (Utils.objectHasProperty(this.company, 'issuer')) {
-      //   this.issuer.setValue(this.company.issuer);
-      // }
-      // if (this.company.id) {
-      //   this.id.setValue(this.company.id);
-      // }
-      // if (this.company.name) {
-      //   this.name.setValue(this.company.name);
-      // }
-      // if (this.company.address) {
-      //   this.address = this.company.address;
-      // }
+      if (this.company.accountData) {
+        const accountData = this.company.accountData;
+        this.account.setValue(accountData.accountID);
+        this.flatFee.setValue(accountData.platformFeeStrategy.flatFeePerSession);
+        this.percentage.setValue(accountData.platformFeeStrategy.percentage);
+      }
     }
+  }
+
+  public assignAccounts() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.panelClass = 'transparent-dialog-container';
+    // Set data
+    dialogConfig.data = {
+      rowMultipleSelection: false,
+      staticFilter: {
+      },
+    };
+    // Open
+    this.dialog.open(AccountsDialogComponent, dialogConfig).afterClosed().subscribe((result) => {
+      this.account.setValue(Utils.buildUserFullName((result[0].objectRef as BillingAccount).businessOwner));
+      this.formGroup.markAsDirty();
+    });
+  }
+
+  public resetAccount() {
+    this.account.reset();
+    this.formGroup.markAsDirty();
   }
 
 }

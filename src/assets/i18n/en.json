@@ -1409,6 +1409,32 @@
     "user": "User",
     "failed_download": "Invoice download failed."
   },
+  "transfers": {
+    "tabs": {
+      "list": "Transfers"
+    },
+    "tooltips": {
+      "finalize": "Finalize transfer",
+      "send": "Send transfer"
+    },
+    "status": {
+      "draft": "Draft",
+      "pending": "Pending",
+      "finalized": "Finalized",
+      "transferred": "Transferred"
+    },
+    "id": "ID",
+    "accountExternalID": "Connected Account ID",
+    "collected_funds": "Collected Funds",
+    "document_number": "Invoice",
+    "platform_fee_amount": "Collected Fee",
+    "transferAmount": "Transfer",
+    "number_of_items": "Sessions",
+    "transferExternalID": "External ID",
+    "accountOwner": "Business Owner",
+    "cannot_finalize_transfer": "Operation failed - The transfer could not be finalized",
+    "cannot_send_transfer": "Operation failed - The transfer has not been sent to the billing system"
+  },
   "tags": {
     "id": "RFID",
     "not_active": "This RFID card is not active",
@@ -1494,6 +1520,26 @@
       "Please deactivate Smart Charging for every Site Area in the tenant."
     ],
     "logo_size_error": "The logo size limit exceeded, limit is below {{maxPictureKb}} Kb"
+  },
+  "accounts": {
+    "title": "Connected Accounts",
+    "list": {
+      "add_account": "Add Connected Account",
+      "business_owner": "Business Owner",
+      "account_status": "Status",
+      "account_id": "Connected Account ID"
+    },
+    "message": {
+      "create_success": "Account was added successfully",
+      "create_error": "Error occurred while adding the account, check the logs",
+      "onboard_success": "The onboarding process has been triggered. A mail has been sent to the business owner",
+      "onboard_error": "Error occurred while onboarding the account, check the logs"
+    },
+    "status": {
+      "account_idle": "Idle",
+      "account_pending": "Pending",
+      "account_active": "Active"
+    }
   },
   "settings": {
     "settings_not_saved_title": "Settings not Saved",

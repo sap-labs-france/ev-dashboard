@@ -28,6 +28,18 @@ export class AuthorizationService {
     return this.canAccess(Entity.INVOICE, Action.LIST);
   }
 
+  public canListTransfers(): boolean {
+    return this.canAccess(Entity.BILLING_TRANSFER, Action.LIST);
+  }
+
+  public canFinalizeTransfer(): boolean {
+    return this.canAccess(Entity.BILLING_TRANSFER, Action.BILLING_FINALIZE_TRANSFER);
+  }
+
+  public canSendTransfer(): boolean {
+    return this.canAccess(Entity.BILLING_TRANSFER, Action.BILLING_SEND_TRANSFER);
+  }
+
   public canListCars(): boolean {
     return this.canAccess(Entity.CAR, Action.LIST);
   }

@@ -1,4 +1,4 @@
-<div *ngIf="!isActive" class="card">
+<div *ngIf="!isBillingActive" class="card">
   <div class="card-header card-header-icon card-header-primary">
     <div class="card-icon">
       <mat-icon>info</mat-icon>
@@ -10,7 +10,7 @@
     {{'settings.activation_contact_msg' | translate}}
   </div>
 </div>
-<form *ngIf="isActive" class="form" [formGroup]="formGroup">
+<form *ngIf="isBillingActive" class="form" [formGroup]="formGroup">
   <div class="mat-toolbar-row left-actions">
     <button mat-raised-button color="warn" (click)="save(formGroup.getRawValue())"
       [disabled]="!formGroup.valid || !formGroup.dirty">
@@ -34,5 +34,6 @@
     </button>
   </div>
   <!-- Stripe -->
-  <app-settings-stripe-billing *ngIf="isActive && billingSettings?.type === 'stripe'" [billingSettings]="billingSettings" [formGroup]="formGroup"></app-settings-stripe-billing>
+  <app-settings-stripe-billing *ngIf="isBillingActive && billingSettings?.type === 'stripe'" [billingSettings]="billingSettings" [formGroup]="formGroup"></app-settings-stripe-billing>
+  <app-billing-accounts *ngIf="isBillingActive && isBillingPlatformActive && isBillingTransactionEnabled"></app-billing-accounts>
 </form>

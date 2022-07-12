@@ -34,7 +34,6 @@ import { StatisticsUsageComponent } from './usage/statistics-usage.component';
     TableModule,
     DialogsModule,
     NgxDaterangepickerMd,
-
   ],
   declarations: [
     StatisticsComponent,
@@ -45,14 +44,11 @@ import { StatisticsUsageComponent } from './usage/statistics-usage.component';
     StatisticsPricingComponent,
     StatisticsFiltersComponent,
   ],
-  exports: [
-  ],
-  entryComponents: [
-  ],
+  exports: [],
   providers: [
     StatisticsBuildService,
     StatisticsExportService,
-  ],
+  ]
 })
 
 export class StatisticsModule {

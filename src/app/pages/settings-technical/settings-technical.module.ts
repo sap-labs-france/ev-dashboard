@@ -33,11 +33,6 @@ import { SettingsUserComponent } from './users/settings-user.component';
     TableModule,
     FormsModule,
     ReactiveFormsModule
-  ],
-  entryComponents: [
-    SettingsCryptoComponent,
-    SettingsCryptoKeyComponent,
-    SettingsUserComponent
   ]
 })
 export class SettingsTechnicalModule { }

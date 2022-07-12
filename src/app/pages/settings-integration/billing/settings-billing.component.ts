@@ -20,11 +20,13 @@ import { Utils } from '../../../utils/Utils';
   templateUrl: 'settings-billing.component.html',
 })
 export class SettingsBillingComponent implements OnInit {
-  public isActive = false;
+  public isBillingActive = false;
+  public isBillingPlatformActive = false;
+  public isBillingTransactionEnabled = false;
 
   public formGroup!: FormGroup;
   public billingSettings!: BillingSettings;
-  public transactionBillingActivated: boolean;
+  public transactionBillingActivated: boolean; // ##CR - reverting some changes
   public isClearTestDataVisible = false;
 
   public constructor(
@@ -36,14 +38,15 @@ export class SettingsBillingComponent implements OnInit {
     private translateService: TranslateService,
     private router: Router,
   ) {
-    this.isActive = this.componentService.isActive(TenantComponents.BILLING);
+    this.isBillingActive = this.componentService.isActive(TenantComponents.BILLING);
+    this.isBillingPlatformActive = this.componentService.isActive(TenantComponents.BILLING_PLATFORM);
   }
 
   public ngOnInit(): void {
     // Build the form
     this.formGroup = new FormGroup({});
     // Load the conf
-    if (this.isActive) {
+    if (this.isBillingActive) {
       this.loadConfiguration();
     }
   }
@@ -54,6 +57,7 @@ export class SettingsBillingComponent implements OnInit {
       this.spinnerService.hide();
       // Keep
       this.billingSettings = settings;
+      this.isBillingTransactionEnabled = this.billingSettings.billing.isTransactionBillingActivated;
       // Enable additional actions based on the account nature
       this.checkConnectionContext(settings);
       // Init form

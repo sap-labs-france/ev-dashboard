@@ -50,20 +50,10 @@ import { AssetConsumptionChartComponent } from './list/consumption-chart/asset-c
     AssetConsumptionChartComponent,
     AssetConsumptionCellComponent,
   ],
-  entryComponents: [
-    AssetsComponent,
-    AssetComponent,
-    AssetMainComponent,
-    AssetConnectionComponent,
-    AssetDialogComponent,
-    AssetsListComponent,
-    AssetsInErrorComponent,
-    AssetConsumptionCellComponent,
-  ],
   providers: [
     AssetsListTableDataSource,
     AssetsInErrorTableDataSource
-  ],
+  ]
 })
 
 export class AssetsModule {

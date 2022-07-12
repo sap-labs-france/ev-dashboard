@@ -189,7 +189,8 @@
       "template": "Template",
       "cars": "Veicoli",
       "invoices": "Fatture",
-      "tags": "Badges"
+      "tags": "Badges",
+      "charging_station_templates": "Charging Station Templates"
     },
     "tooltips": {
       "push_cdr": "Spingi CDR",
@@ -333,9 +334,9 @@
     "logo": "Logo",
     "name": "Nome",
     "asset_type": "Tipo risorsa",
-    "fluctuation": "Fluttuazione a breve termine (%)",
+    "fluctuation_percent": "Fluttuazione a breve termine (%)",
     "variation_percent": "Variation Threshold (%)",
-    "fallback_value": "Valore di fallback (W)",
+    "static_value_watt": "Potenza Statica (W)",
     "produce": "Produce Energia",
     "consume": "Consuma Energia",
     "consume_and_produce": "Consuma e Produce Energia",
@@ -1131,7 +1132,7 @@
         "action": "Controlla i dettagli del codice di errore ed eventualmente riavviare la stazione di ricarica"
       }
     },
-    "charging_station": {
+    "connections": {
       "registration_tokens_title": "Token Registrazione Stazione di Ricarica",
       "registration_token_site_area_name": "Token per l'Area del Sito '{{siteAreaName}}'",
       "registration_token_creation_title": "Crea Token Registrazione",
@@ -2001,7 +2002,7 @@
     "push_tokens_error": "Si è verificato un errore durante l'aggiornamento dei token utente - controlla i log per maggiori dettagli",
     "start_stop_job": "Abilita/Disabilita job in background",
     "background_job_activated": "Job di background attivati con successo",
-    "background_job_desactivated": "Job di background disattivati con successo",
+    "background_job_deactivated": "Job di background disattivati con successo",
     "background_job_no_run": "Non eseguito",
     "start_background_job_title": "Avvia Job di Background",
     "start_background_job_confirm": "Vuoi veramente avviare il job di background per l'IOP '{{name}}'?",
@@ -2631,6 +2632,32 @@
         "action": "Cancella la sessione o crea una fattura da essa."
       }
     }
+  },
+  "templates": {
+    "title": "Charging Station Templates",
+    "tabs": {
+      "charging_station_templates": "Charging Station Templates"
+    },
+    "invalid_json": "Invalid JSON format",
+    "template_not_found": "Template has not been found",
+    "create_success": "The template '{{templateID}}' has been created successfully",
+    "create_error": "Error occurred while creating the template, check the logs",
+    "update_success": "The template '{{templateID}}' has been updated successfully",
+    "update_error": "Error occurred while updating the template, check the logs",
+    "delete_confirm": "Do you really want to delete the template '{{templateID}}'?",
+    "delete_success": "The template '{{templateID}}' has been deleted successfully",
+    "delete_error": "Error occurred while deleting the template, check the logs",
+    "delete_title": "Delete Template",
+    "dialog": {
+      "export": {
+        "title": "Export charging station templates",
+        "confirm": "Do you really want to export all the charging station templates matching the filters?",
+        "error": "Error occurred while trying to export the charging station templates, check the logs"
+      }
+    },
+    "chargePointVendor": "chargePointVendor",
+    "chargePointModel": "chargePointModel",
+    "chargeBoxSerialNumber": "chargeBoxSerialNumber"
   },
   "geomap": {
     "dialog_geolocation_title": "Imposta Geolocalizzazione di {{componentName}} '{{itemComponentName}}'",

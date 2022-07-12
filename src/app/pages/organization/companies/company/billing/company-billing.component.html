@@ -1,0 +1,32 @@
+<form class="form" [formGroup]="formGroup">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <mat-form-field>
+          <input matInput
+              placeholder="{{'billing.id' | translate}}" type="text" [formControl]="accountID">
+          </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <mat-form-field>
+          <input matInput
+              placeholder="{{'settings.pricing.flat_fee' | translate}}" type="text" [formControl]="flatFee">
+          </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <mat-form-field>
+          <input matInput
+              placeholder="{{'settings.pricing.flat_fee' | translate}}" type="text" [formControl]="flatFee">
+          </mat-form-field>
+      </div>
+    </div>
+  </div>
+</form>

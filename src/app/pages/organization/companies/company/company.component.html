@@ -10,6 +10,14 @@
           <app-company-main #companyMainComponent [formGroup]="formGroup" [company]="company" [readOnly]="readOnly"></app-company-main>
         </div>
       </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon>payment</mat-icon><span>{{'settings.tabs.billing' | translate}}</span>
+        </ng-template>
+        <div class="card-body mat-tab-dialog-body-content pt-0">
+          <app-company-billing [formGroup]="formGroup" [company]="company" [readOnly]="readOnly"></app-company-billing>
+        </div>
+      </mat-tab>
     </mat-tab-group>
     <div [class]="dialogRef ? 'tabs-actions' : 'tabs-actions-embedded'">
       <button mat-icon-button *ngIf="!readOnly" (click)="saveCompany(formGroup.value)" title="{{'general.save' | translate}}"

@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Utils } from 'utils/Utils';
 
 import { CentralServerService } from '../../../../services/central-server.service';
@@ -12,11 +12,11 @@ import { Constants } from '../../../../utils/Constants';
   templateUrl: 'settings-stripe.component.html',
 })
 export class SettingsStripeComponent implements OnInit, OnChanges {
-  @Input() public formGroup!: FormGroup;
+  @Input() public formGroup!: UntypedFormGroup;
   @Input() public billingSettings!: BillingSettings;
 
-  public stripe!: FormGroup;
-  public billing!: FormGroup;
+  public stripe!: UntypedFormGroup;
+  public billing!: UntypedFormGroup;
   public url!: AbstractControl;
   public secretKey!: AbstractControl;
   public publicKey!: AbstractControl;
@@ -34,28 +34,28 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
   }
 
   public ngOnInit() {
-    this.stripe = new FormGroup({
-      url: new FormControl('',
+    this.stripe = new UntypedFormGroup({
+      url: new UntypedFormControl('',
         Validators.compose([
           Validators.maxLength(200),
           Validators.pattern(Constants.URL_PATTERN),
         ]),
       ),
-      secretKey: new FormControl('',
+      secretKey: new UntypedFormControl('',
         Validators.compose([
           Validators.required,
         ]),
       ),
-      publicKey: new FormControl('',
+      publicKey: new UntypedFormControl('',
         Validators.compose([
           this.validatePublicKey,
         ]),
       ),
     });
-    this.billing = new FormGroup({
-      immediateBillingAllowed: new FormControl(false),
-      periodicBillingAllowed: new FormControl(false),
-      taxID: new FormControl('',
+    this.billing = new UntypedFormGroup({
+      immediateBillingAllowed: new UntypedFormControl(false),
+      periodicBillingAllowed: new UntypedFormControl(false),
+      taxID: new UntypedFormControl('',
         Validators.compose([
           // Validators.required,
         ]),
@@ -94,7 +94,7 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
     return { invalid: true };
   }
 
-  public validateBillingMethod(fg: FormGroup) {
+  public validateBillingMethod(fg: UntypedFormGroup) {
     if (!fg.value['immediateBillingAllowed'] && !fg.value['periodicBillingAllowed']) {
       return { invalid: true };
     }

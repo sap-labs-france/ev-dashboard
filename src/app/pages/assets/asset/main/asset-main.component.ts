@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormArray, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -24,7 +24,7 @@ import { Utils } from '../../../../utils/Utils';
   templateUrl: 'asset-main.component.html',
 })
 export class AssetMainComponent implements OnInit, OnChanges {
-  @Input() public formGroup: FormGroup;
+  @Input() public formGroup: UntypedFormGroup;
   @Input() public asset!: Asset;
   @Input() public readOnly: boolean;
   @Input() public assetsAuthorizations!: AssetsAuthorizations;
@@ -47,7 +47,7 @@ export class AssetMainComponent implements OnInit, OnChanges {
   public variationThresholdPercent!: AbstractControl;
   public fluctuationPercent!: AbstractControl;
   public staticValueWatt!: AbstractControl;
-  public coordinates!: FormArray;
+  public coordinates!: UntypedFormArray;
   public longitude!: AbstractControl;
   public latitude!: AbstractControl;
 
@@ -66,61 +66,61 @@ export class AssetMainComponent implements OnInit, OnChanges {
 
   public ngOnInit() {
     // Init the form
-    this.formGroup.addControl('id', new FormControl(''));
-    this.formGroup.addControl('name', new FormControl('',
+    this.formGroup.addControl('id', new UntypedFormControl(''));
+    this.formGroup.addControl('name', new UntypedFormControl('',
       Validators.compose([
         Validators.required,
         Validators.maxLength(255),
       ])
     ));
-    this.formGroup.addControl('siteArea', new FormControl('',
+    this.formGroup.addControl('siteArea', new UntypedFormControl('',
       Validators.compose([
         Validators.required,
       ])
     ));
-    this.formGroup.addControl('siteAreaID', new FormControl('',
+    this.formGroup.addControl('siteAreaID', new UntypedFormControl('',
       Validators.compose([
         Validators.required,
       ])
     ));
-    this.formGroup.addControl('assetType', new FormControl('',
+    this.formGroup.addControl('assetType', new UntypedFormControl('',
       Validators.compose([
         Validators.required,
       ])
     ));
-    this.formGroup.addControl('excludeFromSmartCharging', new FormControl(false));
-    this.formGroup.addControl('variationThresholdPercent', new FormControl(null,
+    this.formGroup.addControl('excludeFromSmartCharging', new UntypedFormControl(false));
+    this.formGroup.addControl('variationThresholdPercent', new UntypedFormControl(null,
       Validators.compose([
         Validators.max(100),
         Validators.pattern('^[+]?[0-9]*$'),
       ])
     ));
-    this.formGroup.addControl('fluctuationPercent', new FormControl(null,
+    this.formGroup.addControl('fluctuationPercent', new UntypedFormControl(null,
       Validators.compose([
         Validators.max(100),
         Validators.pattern('^[+]?[0-9]*$'),
       ])
     ));
-    this.formGroup.addControl('staticValueWatt', new FormControl(null,
+    this.formGroup.addControl('staticValueWatt', new UntypedFormControl(null,
       Validators.compose([
         Validators.required,
       ])
     ));
-    this.formGroup.addControl('coordinates', new FormArray([
-      new FormControl(null,
+    this.formGroup.addControl('coordinates', new UntypedFormArray([
+      new UntypedFormControl(null,
         Validators.compose([
           Validators.max(180),
           Validators.min(-180),
           Validators.pattern(Constants.REGEX_VALIDATION_LONGITUDE),
         ])),
-      new FormControl(null,
+      new UntypedFormControl(null,
         Validators.compose([
           Validators.max(90),
           Validators.min(-90),
           Validators.pattern(Constants.REGEX_VALIDATION_LATITUDE),
         ])),
     ]));
-    this.formGroup.addControl('connectionID', new FormControl('',
+    this.formGroup.addControl('connectionID', new UntypedFormControl('',
       Validators.compose([
         Validators.required,
       ])
@@ -135,7 +135,7 @@ export class AssetMainComponent implements OnInit, OnChanges {
     this.variationThresholdPercent = this.formGroup.controls['variationThresholdPercent'];
     this.fluctuationPercent = this.formGroup.controls['fluctuationPercent'];
     this.staticValueWatt = this.formGroup.controls['staticValueWatt'];
-    this.coordinates = this.formGroup.controls['coordinates'] as FormArray;
+    this.coordinates = this.formGroup.controls['coordinates'] as UntypedFormArray;
     this.longitude = this.coordinates.at(0);
     this.latitude = this.coordinates.at(1);
     this.initialized = true;

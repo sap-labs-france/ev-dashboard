@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { StatusCodes } from 'http-status-codes';
 import { ReCaptchaV3Service } from 'ngx-captcha';
@@ -19,7 +19,7 @@ import { Constants } from '../../utils/Constants';
 
 export class AuthenticationResetPasswordComponent implements OnInit, OnDestroy {
   public email: AbstractControl;
-  public formGroup: FormGroup;
+  public formGroup: UntypedFormGroup;
 
   public tenantLogo = Constants.NO_IMAGE;
 
@@ -37,8 +37,8 @@ export class AuthenticationResetPasswordComponent implements OnInit, OnDestroy {
     // Get the Site Key
     this.siteKey = this.configService.getUser().captchaSiteKey;
     // Init Form
-    this.formGroup = new FormGroup({
-      email: new FormControl('',
+    this.formGroup = new UntypedFormGroup({
+      email: new UntypedFormControl('',
         Validators.compose([
           Validators.required,
           Validators.email,

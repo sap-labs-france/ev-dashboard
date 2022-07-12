@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AbstractControl, FormGroup } from '@angular/forms';
+import { AbstractControl, UntypedFormGroup } from '@angular/forms';
 
 import { SettingsOcpiEndpointsTableDataSource } from './settings-ocpi-endpoints-table-data-source';
 
@@ -10,7 +10,7 @@ import { SettingsOcpiEndpointsTableDataSource } from './settings-ocpi-endpoints-
 })
 export class SettingsOcpiEndpointsComponent {
   public isAdmin!: boolean;
-  public formGroup!: FormGroup;
+  public formGroup!: UntypedFormGroup;
   public name!: AbstractControl;
   public countryCode!: AbstractControl;
   public partyID!: AbstractControl;

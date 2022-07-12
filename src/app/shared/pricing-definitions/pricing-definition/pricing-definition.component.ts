@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -40,7 +40,7 @@ export class PricingDefinitionComponent extends AbstractTabComponent implements 
   @ViewChild('pricingDefinitionRestrictionsComponent') public pricingDefinitionRestrictions!: PricingDefinitionRestrictionsComponent;
   @ViewChild('pricingDefinitionDimensionsComponent') public pricingDefinitionDimensions!: PricingDefinitionDimensionsComponent;
 
-  public formGroup!: FormGroup;
+  public formGroup!: UntypedFormGroup;
   public readOnly = true;
   public pricingDefinition: PricingDefinition;
   public context: string;
@@ -59,7 +59,7 @@ export class PricingDefinitionComponent extends AbstractTabComponent implements 
 
   public ngOnInit(): void {
     this.context = this.currentEntityType === PricingEntity.TENANT ? this.centralServerService.getLoggedUser().tenantName : this.currentEntityName;
-    this.formGroup = new FormGroup({});
+    this.formGroup = new UntypedFormGroup({});
     // Handle Dialog mode
     this.readOnly = this.dialogMode === DialogMode.VIEW;
     Utils.handleDialogMode(this.dialogMode, this.formGroup);

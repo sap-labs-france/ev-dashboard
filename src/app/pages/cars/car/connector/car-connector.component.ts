@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
 import { Router } from '@angular/router';
 import { StatusCodes } from 'http-status-codes';
@@ -19,7 +19,7 @@ import { Utils } from '../../../../utils/Utils';
   templateUrl: 'car-connector.component.html',
 })
 export class CarConnectorComponent implements OnInit, OnChanges {
-  @Input() public formGroup: FormGroup;
+  @Input() public formGroup: UntypedFormGroup;
   @Input() public car!: Car;
   @Input() public readOnly: boolean;
   @Input() public carsAuthorizations!: CarsAuthorizations;
@@ -42,11 +42,11 @@ export class CarConnectorComponent implements OnInit, OnChanges {
 
   public ngOnInit() {
     this.formGroup.addControl(
-      'carConnectorData', new FormGroup({
-        carConnectorID: new FormControl('',
+      'carConnectorData', new UntypedFormGroup({
+        carConnectorID: new UntypedFormControl('',
           Validators.compose([
           ])),
-        carConnectorMeterID: new FormControl('',
+        carConnectorMeterID: new UntypedFormControl('',
           Validators.compose([
           ])),
       }));

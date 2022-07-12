@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 import { CryptoSettings } from '../../../../types/Setting';
 
@@ -8,18 +8,18 @@ import { CryptoSettings } from '../../../../types/Setting';
   templateUrl: 'settings-crypto-key.component.html',
 })
 export class SettingsCryptoKeyComponent implements OnInit, OnChanges {
-  @Input() public formGroup!: FormGroup;
+  @Input() public formGroup!: UntypedFormGroup;
   @Input() public cryptoSettings!: CryptoSettings;
 
-  public cryptoKey!: FormGroup;
+  public cryptoKey!: UntypedFormGroup;
   public key!: AbstractControl;
   public blockCypher!: AbstractControl;
   public blockSize!: AbstractControl;
   public operationMode!: AbstractControl;
 
   public ngOnInit(): void {
-    this.cryptoKey = new FormGroup({
-      key: new FormControl(
+    this.cryptoKey = new UntypedFormGroup({
+      key: new UntypedFormControl(
         '',
         Validators.compose([
           Validators.required,
@@ -27,9 +27,9 @@ export class SettingsCryptoKeyComponent implements OnInit, OnChanges {
           Validators.maxLength(32),
         ])
       ),
-      blockCypher: new FormControl('', Validators.compose([Validators.required])),
-      blockSize: new FormControl('', Validators.compose([Validators.required])),
-      operationMode: new FormControl('', Validators.compose([Validators.required])),
+      blockCypher: new UntypedFormControl('', Validators.compose([Validators.required])),
+      blockSize: new UntypedFormControl('', Validators.compose([Validators.required])),
+      operationMode: new UntypedFormControl('', Validators.compose([Validators.required])),
     });
     // Add
     this.formGroup.addControl('crypto', this.cryptoKey);

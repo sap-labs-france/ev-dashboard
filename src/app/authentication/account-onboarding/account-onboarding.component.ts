@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { StatusCodes } from 'http-status-codes';
@@ -23,7 +23,7 @@ import { Utils } from '../../utils/Utils';
   templateUrl: 'account-onboarding.component.html',
 })
 export class AccountOnboardingComponent implements OnInit, OnDestroy {
-  public formGroup: FormGroup;
+  public formGroup: UntypedFormGroup;
   public onboardingHasBeenDone = false;
   private tenantID: string | null;
   private accountID: string | null;
@@ -42,8 +42,8 @@ export class AccountOnboardingComponent implements OnInit, OnDestroy {
     private reCaptchaV3Service: ReCaptchaV3Service,
     private configService: ConfigService) {
     // Init Form
-    this.formGroup = new FormGroup({
-      email: new FormControl('',
+    this.formGroup = new UntypedFormGroup({
+      email: new UntypedFormControl('',
         Validators.compose([
           Validators.required
         ])),

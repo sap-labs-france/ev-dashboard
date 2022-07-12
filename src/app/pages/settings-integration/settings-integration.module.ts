@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { AccountsComponent } from 'pages/accounts/accounts.component';
 import { AccountStatusFormatterComponent, AppFormatAccountStatusPipe } from 'pages/accounts/formatters/account-status-formatter.component';
 import { PricingDefinitionsModule } from 'shared/pricing-definitions/pricing-definitions.module';
 
@@ -147,57 +148,8 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     SettingsPricingComponent,
     AccountDialogComponent,
     AccountStatusFormatterComponent,
-    AppFormatAccountStatusPipe
-  ],
-  entryComponents: [
-    SettingsIntegrationComponent,
-    SettingsOcpiComponent,
-    SettingsOcpiEndpointsComponent,
-    SettingsOicpComponent,
-    SettingsOicpEndpointsComponent,
-    SettingsRefundComponent,
-    SettingsConcurComponent,
-    SettingsBillingComponent,
-    SettingsStripeComponent,
-    SettingsAnalyticsComponent,
-    SettingsSimplePricingComponent,
-    SettingsSacComponent,
-    SettingsSmartChargingComponent,
-    SettingsSapSmartChargingComponent,
-    SettingsAssetComponent,
-    AssetConnectionComponent,
-    AssetConnectionDialogComponent,
-    SchneiderAssetConnectionComponent,
-    GreencomAssetConnectionComponent,
-    IothinkAssetConnectionComponent,
-    WitAssetConnectionComponent,
-    LacroixAssetConnectionComponent,
-    SettingsCarConnectorComponent,
-    CarConnectorConnectionComponent,
-    CarConnectorConnectionDialogComponent,
-    MercedesCarConnectorConnectionComponent,
-    TronityCarConnectorConnectionComponent,
-    AnalyticsLinkDialogComponent,
-    SettingsOcpiEndpointDialogComponent,
-    SettingsOcpiEndpointComponent,
-    OcpiEndpointStatusFormatterComponent,
-    OcpiDetailTotalFormatterComponent,
-    OcpiDetailSuccessFormatterComponent,
-    OcpiDetailFailureFormatterComponent,
-    OcpiPatchJobStatusFormatterComponent,
-    SettingsOcpiEndpointsDetailsComponent,
-    SettingsOicpEndpointDialogComponent,
-    SettingsOicpEndpointComponent,
-    OicpEndpointStatusFormatterComponent,
-    OicpDetailJobStatusFormatterComponent,
-    OicpPatchJobResultFormatterComponent,
-    OicpDetailTotalEvsesStatusFormatterComponent,
-    OicpDetailSuccessEvsesStatusFormatterComponent,
-    OicpDetailFailureEvsesStatusFormatterComponent,
-    OicpPatchJobStatusFormatterComponent,
-    SettingsOicpEndpointsDetailsComponent,
-    AccountDialogComponent,
-    AccountStatusFormatterComponent
+    AppFormatAccountStatusPipe,
+    AccountsComponent
   ],
   providers: [
     SettingsOcpiEndpointsDetailsTableDataSource,
@@ -208,7 +160,7 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     SettingsCarConnectorConnectionEditableTableDataSource,
     AnalyticsLinksTableDataSource,
     BillingAccountsTableDataSource,
-  ],
+  ]
 })
 
 export class SettingsIntegrationModule {

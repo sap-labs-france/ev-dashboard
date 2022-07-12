@@ -5,7 +5,7 @@ import { StatusCodes } from 'http-status-codes';
 import { MessageService } from 'services/message.service';
 import { Utils } from 'utils/Utils';
 
-import { version } from '../../../package.json';
+import pkg from '../../../package.json';
 import { RouteGuardService } from '../guard/route-guard';
 import { AuthorizationService } from '../services/authorization.service';
 import { CentralServerService } from '../services/central-server.service';
@@ -17,7 +17,7 @@ import { Constants } from '../utils/Constants';
   templateUrl: 'sidebar.component.html',
 })
 export class SidebarComponent {
-  public version: string = version;
+  public version: string = pkg.version;
   public mobileMenuVisible: any = 0;
   public menuItems!: any[];
   public loggedUser!: UserToken;

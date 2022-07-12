@@ -6,8 +6,6 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { MaterialModule } from '../../app.module';
 import { ComponentModule } from '../../shared/component/component.module';
-import { ConsumptionChartComponent } from '../../shared/component/consumption-chart/consumption-chart.component';
-import { ErrorCodeDetailsComponent } from '../../shared/component/error-code-details/error-code-details.component';
 import { DialogsModule } from '../../shared/dialogs/dialogs.module';
 import { CommonDirectivesModule } from '../../shared/directives/directives.module';
 import { FormattersModule } from '../../shared/formatters/formatters.module';
@@ -49,17 +47,6 @@ import { TransactionsRoutes } from './transactions.routing';
     TransactionsConnectorCellComponent,
     TransactionsInactivityCellComponent,
   ],
-  entryComponents: [
-    TransactionsComponent,
-    TransactionsHistoryComponent,
-    TransactionsInProgressComponent,
-    TransactionsInErrorComponent,
-    TransactionsRefundComponent,
-    TransactionsConnectorCellComponent,
-    ConsumptionChartComponent,
-    ErrorCodeDetailsComponent,
-    TransactionsInactivityCellComponent,
-  ],
   exports: [
     TransactionsComponent,
   ],
@@ -68,7 +55,7 @@ import { TransactionsRoutes } from './transactions.routing';
     TransactionsInErrorTableDataSource,
     TransactionsInProgressTableDataSource,
     TransactionsRefundTableDataSource,
-  ],
+  ]
 })
 
 export class TransactionsModule {

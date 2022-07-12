@@ -34,16 +34,18 @@ export class AppFormatTransferStatusPipe implements PipeTransform {
   public buildTransferStatusClasses(status: BillingTransferStatus): string {
     let classNames = 'chip-width-8em ';
     switch (status) {
-      case BillingTransferStatus.DRAFT:
       case BillingTransferStatus.PENDING:
         classNames += ChipType.WARNING;
         break;
+      case BillingTransferStatus.DRAFT:
+        classNames += ChipType.GREY;
+        break;
       case BillingTransferStatus.FINALIZED:
-        classNames += ChipType.WARNING;
+        classNames += ChipType.DEFAULT;
         break;
       case BillingTransferStatus.TRANSFERRED:
       default:
-        classNames += ChipType.DEFAULT;
+        classNames += ChipType.SUCCESS;
     }
     return classNames;
   }

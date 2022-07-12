@@ -37,16 +37,9 @@ import { TransfersListComponent } from './transfers/transfers-list.component';
     AppFormatInvoiceStatusPipe,
     AppFormatTransferStatusPipe
   ],
-  entryComponents: [
-    InvoicesComponent,
-    InvoicesListComponent,
-    TransfersListComponent,
-    InvoiceStatusFormatterComponent,
-    TransferStatusFormatterComponent,
-  ],
   providers: [
     InvoicesTableDataSource,
-  ],
+  ]
 })
 
 export class InvoicesModule {

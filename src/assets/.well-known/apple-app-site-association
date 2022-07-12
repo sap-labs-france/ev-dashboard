@@ -1,9 +1,19 @@
 {
-  "applinks": {
-      "details": [
-      {
-        "appID": "SG7N28T3A2.com.e-Mobility",
-        "paths": ["*"]
-      }
-    ]
+	"applinks": {
+		"apps": [],
+		"details": [{
+			"appID": "SG7N28T3A2.com.e-Mobility",
+			"paths": ["*"],
+			"components": [
+			  {
+			    "/": "/auth/verify-email/*",
+			    "?": {"Email": "?*", "VerificationToken": "?*", "ResetToken": "*"}
+			  },
+			  {
+			    "/": "/auth/define-password/*",
+			    "?": {"hash": "?*"}
+			  }
+			]
+		}]
+	}
 }

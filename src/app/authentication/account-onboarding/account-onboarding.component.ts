@@ -1,21 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
-import { StatusCodes } from 'http-status-codes';
-import { ReCaptchaV3Service } from 'ngx-captcha';
 import { BillingAccount } from 'types/Billing';
-import { UserStatus } from 'types/User';
 
 import { CentralServerService } from '../../services/central-server.service';
-import { ConfigService } from '../../services/config.service';
 import { MessageService } from '../../services/message.service';
 import { SpinnerService } from '../../services/spinner.service';
 import { WindowService } from '../../services/window.service';
-import { BillingAccountDataResult, VerifyEmailResponse } from '../../types/DataResult';
-import { RestResponse } from '../../types/GlobalType';
-import { HTTPError } from '../../types/HTTPError';
-import { Constants } from '../../utils/Constants';
 import { Utils } from '../../utils/Utils';
 
 @Component({
@@ -25,11 +16,10 @@ import { Utils } from '../../utils/Utils';
 export class AccountOnboardingComponent implements OnInit, OnDestroy {
   public formGroup: FormGroup;
   public onboardingHasBeenDone = false;
-  private tenantID: string | null;
-  private accountID: string | null;
-  private operationResult: string | null;
-  private subDomain: string;
-
+  public accountActivationFailed = false;
+  private tenantID: string;
+  private accountID: string;
+  private operationResult: string;
 
   public constructor(
     private centralServerService: CentralServerService,
@@ -37,10 +27,7 @@ export class AccountOnboardingComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private spinnerService: SpinnerService,
     private messageService: MessageService,
-    private windowService: WindowService,
-    private translateService: TranslateService,
-    private reCaptchaV3Service: ReCaptchaV3Service,
-    private configService: ConfigService) {
+    private windowService: WindowService) {
     // Init Form
     this.formGroup = new FormGroup({
       email: new FormControl('',
@@ -48,14 +35,12 @@ export class AccountOnboardingComponent implements OnInit, OnDestroy {
           Validators.required
         ])),
     });
-    // Keep the sub-domain
-    this.subDomain = this.windowService.getSubdomain();
     // Get data from URL parameters
     // e.g.:
     // - http://utbillingplatform.localhost:45000/auth/account-onboarding?TenantID=aaaaaaaaaaaaaaaaaaaaaab4&AccountID=62c7e3c6659750bbebf591c1
     // - http://utbillingplatform.localhost:45000/auth/account-onboarding?TenantID=aaaaaaaaaaaaaaaaaaaaaab4&AccountID=62c7e3c6659750bbebf591c1&OperationResult=Success
     // - http://utbillingplatform.localhost:45000/auth/account-onboarding?TenantID=aaaaaaaaaaaaaaaaaaaaaab4&AccountID=62c7e3c6659750bbebf591c1&OperationResult=Refresh
-    this.accountID = this.route.snapshot.queryParamMap.get('AccountID');
+    this.tenantID = this.route.snapshot.queryParamMap.get('TenantID');
     this.accountID = this.route.snapshot.queryParamMap.get('AccountID');
     this.operationResult = this.route.snapshot.queryParamMap.get('OperationResult');
     if ( this.operationResult === 'Success' ) {
@@ -72,8 +57,7 @@ export class AccountOnboardingComponent implements OnInit, OnDestroy {
     const body = document.getElementsByTagName('body')[0];
     body.classList.add('lock-page');
     body.classList.add('off-canvas-sidebar');
-
-    if ( this.onboardingHasBeenDone ) {
+    if ( this.onboardingHasBeenDone) {
       this.triggerAccountActivation();
     }
   }
@@ -101,36 +85,27 @@ export class AccountOnboardingComponent implements OnInit, OnDestroy {
         // Redirect to the account onboarding wizard
         window.location.href = billingAccount.activationLink;
       } else {
-        // Unexpected error
-        // TODO - translate
-        Utils.handleHttpError(billingAccount, this.router, this.messageService, this.centralServerService, 'Operation failed - The link to the onboarding page could not be retrieved');
+        this.accountActivationFailed = true;
       }
     }, (error) => {
       // Hide
       this.spinnerService.hide();
-      // Check status error code
-      // TODO - translate
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'Operation failed - The link to the onboarding page could not be retrieved');
+      this.accountActivationFailed = true;
+      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'accounts.onboarding.onboarding_process_failed');
     });
   }
 
   private triggerAccountActivation() {
     this.centralServerService.activateBillingAccount(this.accountID).subscribe((billingAccount: BillingAccount) => {
       this.spinnerService.hide();
-      if (billingAccount.id) {
-        // Nothing to do - just show the CONGRATULATION message
-      } else {
-        // Unexpected error
-        // TODO - translate
-        Utils.handleHttpError(billingAccount, this.router, this.messageService, this.centralServerService, 'Operation failed - The onboarding of the account has been aborted');
+      if (!billingAccount.id) {
+        this.accountActivationFailed = true;
       }
     }, (error) => {
       // Hide
       this.spinnerService.hide();
-      // Check status error code
-      // TODO - translate
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'Operation failed - The onboarding of the account has been aborted');
+      this.accountActivationFailed = true;
+      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'accounts.onboarding.onboarding_process_failed');
     });
   }
-
 }

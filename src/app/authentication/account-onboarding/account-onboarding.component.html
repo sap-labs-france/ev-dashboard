@@ -5,25 +5,28 @@
         <form class="form" [formGroup]="formGroup" (ngSubmit)="navigate()">
           <div class="card card-login card-hidden">
             <div class="card-header card-header-primary text-center h-25">
-              <h4 class="card-title text-center">Open e-Mobility - Account Onboarding</h4>
+              <h4 class="card-title text-center">{{"accounts.onboarding.onboarding_title" | translate}}</h4>
             </div>
             <div class="card-body">
               <span *ngIf="!onboardingHasBeenDone" class="bmd-form-group">
-                You have been invited to onboard your company as an account connected to the Open e-Mobility platform.<br/>
+                {{"accounts.onboarding.onboarding_message" | translate}}<br/>
                 <br/>
-                Click the link below to proceed.
+                {{"accounts.onboarding.onboarding_message_to_proceed" | translate}}
               </span>
-              <span *ngIf="onboardingHasBeenDone" class="bmd-form-group">
-                Congratulation!<br/>
+              <span *ngIf="onboardingHasBeenDone && !accountActivationFailed" class="bmd-form-group">
+                {{"accounts.onboarding.onboarding_congratulations" | translate}}<br/>
                 <br/>
-                The onboarding of your account has been completed.
+                {{"accounts.onboarding.onboarding_process_completed" | translate}}
+              </span>
+              <span *ngIf="onboardingHasBeenDone && accountActivationFailed" class="bmd-form-group">
+                {{"accounts.onboarding.onboarding_process_failed" | translate}}
               </span>
             </div>
             <div *ngIf="!onboardingHasBeenDone" class="card-footer justify-content-center mb-4">
-              <button mat-button type="submit">Proceed</button>
+              <button mat-button type="submit">{{"accounts.onboarding.onboarding_button_proceed" | translate}}</button>
             </div>
             <div *ngIf="onboardingHasBeenDone" class="card-footer justify-content-center mb-4">
-              <button mat-button type="submit">Navigate to the e-Mobility Dashboard</button>
+              <button mat-button type="submit">{{"accounts.onboarding.onboarding_navigate_to_dashboard" | translate}}</button>
             </div>
           </div>
         </form>

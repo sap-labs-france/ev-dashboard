@@ -1537,6 +1537,16 @@
       "account_idle": "Idle",
       "account_pending": "Pending",
       "account_active": "Active"
+    },
+    "onboarding": {
+      "onboarding_title": "Open e-Mobility - Account Onboarding",
+      "onboarding_message": "You have been invited to onboard your company as an account connected to the Open e-Mobility platform.",
+      "onboarding_message_to_proceed": "Click the link below to complete the onboarding process.",
+      "onboarding_congratulations": "Congratulations",
+      "onboarding_process_completed": "The onboarding of your account has been completed.",
+      "onboarding_button_proceed": "Proceed",
+      "onboarding_navigate_to_dashboard": "Navigate to the dashboard",
+      "onboarding_process_failed": "The activation of your account has failed - contact the support to get help!"
     }
   },
   "settings": {

@@ -14,8 +14,8 @@ import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
 import { Company } from '../../../../types/Company';
 import { RestResponse } from '../../../../types/GlobalType';
-import { HTTPError } from '../../../../types/HTTPError';
 import { Utils } from '../../../../utils/Utils';
+import { CompanyBillingComponent } from './billing/company-billing.component';
 import { CompanyMainComponent } from './main/company-main.component';
 
 @Component({
@@ -29,6 +29,7 @@ export class CompanyComponent extends AbstractTabComponent implements OnInit {
   @Input() public dialogRef!: MatDialogRef<any>;
 
   @ViewChild('companyMainComponent') public companyMainComponent!: CompanyMainComponent;
+  @ViewChild('companyBillingComponent') public companyBillingComponent!: CompanyBillingComponent;
 
   public formGroup!: FormGroup;
   public readOnly = true;
@@ -97,6 +98,7 @@ export class CompanyComponent extends AbstractTabComponent implements OnInit {
 
   public saveCompany(company: Company) {
     if (this.currentCompanyID) {
+      company.accountData = this.companyBillingComponent.getAccountData();
       this.updateCompany(company);
     } else {
       this.createCompany(company);

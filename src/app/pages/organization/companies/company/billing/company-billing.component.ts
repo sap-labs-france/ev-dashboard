@@ -2,11 +2,8 @@ import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { AccountsDialogComponent } from 'shared/dialogs/accounts/accounts-dialog.component';
-import { BillingAccount } from 'types/Billing';
-import { Utils } from 'utils/Utils';
+import { BillingAccount, BillingAccountData } from 'types/Billing';
 
-import { CentralServerService } from '../../../../../services/central-server.service';
-import { MessageService } from '../../../../../services/message.service';
 import { Company } from '../../../../../types/Company';
 
 @Component({
@@ -19,7 +16,7 @@ export class CompanyBillingComponent implements OnInit, OnChanges {
   @Input() public readOnly: boolean;
 
   public initialized = false;
-  public account!: AbstractControl;
+  public accountID!: AbstractControl;
   public flatFee!: AbstractControl;
   public percentage!: AbstractControl;
 
@@ -29,7 +26,7 @@ export class CompanyBillingComponent implements OnInit, OnChanges {
   }
 
   public ngOnInit() {
-    this.formGroup.addControl('account', new FormControl(''));
+    this.formGroup.addControl('accountID', new FormControl(''));
     this.formGroup.addControl('flatFee', new FormControl(0,
       Validators.compose([
         Validators.pattern(/^[+]?([0-9]*[.])?[0-9]+$/),
@@ -41,9 +38,10 @@ export class CompanyBillingComponent implements OnInit, OnChanges {
         Validators.pattern(/^[+]?([0-9]*[.])?[0-9]+$/),
       ])
     ));
-    this.account = this.formGroup.controls['account'];
+    this.accountID = this.formGroup.controls['accountID'];
     this.flatFee = this.formGroup.controls['flatFee'];
     this.percentage = this.formGroup.controls['percentage'];
+    this.initialized = true;
     this.loadCompany();
   }
 
@@ -55,11 +53,22 @@ export class CompanyBillingComponent implements OnInit, OnChanges {
     if (this.initialized && this.company) {
       if (this.company.accountData) {
         const accountData = this.company.accountData;
-        this.account.setValue(accountData.accountID);
+        this.accountID.setValue(accountData.accountID);
         this.flatFee.setValue(accountData.platformFeeStrategy.flatFeePerSession);
         this.percentage.setValue(accountData.platformFeeStrategy.percentage);
       }
     }
+  }
+
+  public getAccountData() {
+    const companyAccountData: BillingAccountData = {
+      accountID: this.accountID.value,
+      platformFeeStrategy: {
+        flatFeePerSession: this.flatFee.value,
+        percentage: this.percentage.value
+      }
+    };
+    return companyAccountData;
   }
 
   public assignAccounts() {
@@ -73,13 +82,13 @@ export class CompanyBillingComponent implements OnInit, OnChanges {
     };
     // Open
     this.dialog.open(AccountsDialogComponent, dialogConfig).afterClosed().subscribe((result) => {
-      this.account.setValue(Utils.buildUserFullName((result[0].objectRef as BillingAccount).businessOwner));
+      this.accountID.setValue((result[0].objectRef as BillingAccount).id);
       this.formGroup.markAsDirty();
     });
   }
 
   public resetAccount() {
-    this.account.reset();
+    this.accountID.reset();
     this.formGroup.markAsDirty();
   }
 

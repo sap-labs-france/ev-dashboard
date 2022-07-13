@@ -15,7 +15,7 @@
           <mat-icon>payment</mat-icon><span>{{'settings.tabs.billing' | translate}}</span>
         </ng-template>
         <div class="card-body mat-tab-dialog-body-content pt-0">
-          <app-company-billing [formGroup]="formGroup" [company]="company" [readOnly]="readOnly"></app-company-billing>
+          <app-company-billing #companyBillingComponent [formGroup]="formGroup" [company]="company" [readOnly]="readOnly"></app-company-billing>
         </div>
       </mat-tab>
     </mat-tab-group>

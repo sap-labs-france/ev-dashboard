@@ -19,7 +19,7 @@ export class AccountsDialogComponent extends DialogTableDataComponent<BillingAcc
     super(data, dialogRef, accountsListTableDataSource);
     // Default title
     if (Utils.isEmptyString(this.title)) {
-      this.title = 'users.select_users';
+      this.title = 'accounts.list.select_account';
     }
     this.accountsListTableDataSource.destroyDataSource();
   }

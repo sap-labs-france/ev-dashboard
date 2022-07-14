@@ -1523,6 +1523,7 @@
   "accounts": {
     "title": "Connected Accounts",
     "list": {
+      "select_account": "Select Connected Account",
       "add_account": "Add Connected Account",
       "business_owner": "Business Owner",
       "account_status": "Status",

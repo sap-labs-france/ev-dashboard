@@ -126,6 +126,7 @@ import { UsersDialogComponent } from './users/users-dialog.component';
     CarMakersTableDataSource,
     CarCatalogsDialogTableDataSource,
     LogActionsDialogTableDataSource,
+    AccountsDialogTableDataSource
   ]
 })
 export class DialogsModule {

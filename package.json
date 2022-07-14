@@ -69,7 +69,7 @@
     "@angular/forms": "^13.3.11",
     "@angular/google-maps": "^13.3.9",
     "@angular/localize": "^13.3.11",
-    "@angular/material": "^13.3.9",
+    "@angular/material": "^14.0.5",
     "@angular/material-moment-adapter": "^13.3.9",
     "@angular/platform-browser": "^13.3.11",
     "@angular/platform-browser-dynamic": "^13.3.11",

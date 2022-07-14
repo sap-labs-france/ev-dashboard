@@ -1624,7 +1624,6 @@
       "invalid_flat_fee": "Flat fee entered must be a positive number",
       "percentage": "Percentage (%)",
       "invalid_percentage": "Must be a valid percentage between 0 to 100",
-      "account_id": "Account ID",
       "energy": "Energy",
       "charging_time": "Charging Time",
       "parking_time": "Parking Time",
@@ -1753,6 +1752,7 @@
         "no_tax": "Sin impuestos"
       },
       "connected_account": {
+        "account_id": "Account ID",
         "user": "User",
         "status": "Status",
         "title": "Connected accounts",

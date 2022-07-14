@@ -3,7 +3,7 @@
     <div class="col-md-6">
       <div class="form-group">
         <mat-form-field>
-          <input matInput type="text" readonly=true placeholder="{{'settings.pricing.account_id' | translate}}"
+          <input matInput type="text" readonly=true placeholder="{{'settings.billing.connected_account.account_id' | translate}}"
             class="form-field-popup" (click)="assignAccounts()" [formControl]="accountID"/>
           <button *ngIf="accountID.enabled && accountID.value" mat-icon-button matSuffix (click)="resetAccount()" aria-label="Clear">
             <mat-icon>clear</mat-icon>

@@ -41,6 +41,10 @@ export class AccountsDialogTableDataSource extends DialogTableDataSource<Billing
   public buildTableColumnDefs(): TableColumnDef[] {
     return [
       {
+        id: 'id',
+        name: 'settings.billing.connected_account.account_id',
+      },
+      {
         id: 'businessOwner.name',
         name: 'users.title',
         formatter: (name: string, account: BillingAccount) => Utils.buildUserFullName(account.businessOwner),

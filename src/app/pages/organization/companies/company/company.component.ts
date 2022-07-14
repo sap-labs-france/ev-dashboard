@@ -4,9 +4,11 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { StatusCodes } from 'http-status-codes';
+import { ComponentService } from 'services/component.service';
 import { WindowService } from 'services/window.service';
 import { AbstractTabComponent } from 'shared/component/abstract-tab/abstract-tab.component';
 import { DialogMode } from 'types/Authorization';
+import { TenantComponents } from 'types/Tenant';
 
 import { CentralServerService } from '../../../../services/central-server.service';
 import { DialogService } from '../../../../services/dialog.service';
@@ -34,9 +36,12 @@ export class CompanyComponent extends AbstractTabComponent implements OnInit {
   public formGroup!: FormGroup;
   public readOnly = true;
   public company: Company;
+  public isBillingActive = false;
+  public isBillingPlatformActive = false;
 
   public constructor(
     private centralServerService: CentralServerService,
+    private componentService: ComponentService,
     private messageService: MessageService,
     private spinnerService: SpinnerService,
     private dialogService: DialogService,
@@ -45,6 +50,8 @@ export class CompanyComponent extends AbstractTabComponent implements OnInit {
     private translateService: TranslateService,
     private router: Router) {
     super(activatedRoute, windowService, ['main'], false);
+    this.isBillingActive = this.componentService.isActive(TenantComponents.BILLING);
+    this.isBillingPlatformActive = this.componentService.isActive(TenantComponents.BILLING_PLATFORM);
   }
 
   public ngOnInit() {

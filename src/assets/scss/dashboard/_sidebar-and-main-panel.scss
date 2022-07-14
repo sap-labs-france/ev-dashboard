@@ -1,3 +1,4 @@
+@use '@angular/material' as mat;
 .wrapper {
   position: relative;
   top: 0;
@@ -131,7 +132,7 @@
       }
       &.active > a,
       &.active > a i {
-        color: mat-color($app-foreground, base) !important;
+        color: mat.get-color-from-palette($app-foreground, base) !important;
       }
       &.separator {
         margin: 15px 0;

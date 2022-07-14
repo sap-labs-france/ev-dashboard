@@ -30,7 +30,7 @@ export class ChargingStationConnectorsComponent extends CellContentTemplateDirec
     // Pass Additional params
     this.chargingStationsConnectorsDetailTableDataSource.additionalParameters = this.tableDef.rowDetails?.additionalParameters;
     // Set the charger
-    this.chargingStationsConnectorsDetailTableDataSource.setCharger(this.row);
+    this.chargingStationsConnectorsDetailTableDataSource.setChargingStation(this.row);
     // Reload data
     this.chargingStationsConnectorsDetailTableDataSource.refreshData(false).subscribe();
   }

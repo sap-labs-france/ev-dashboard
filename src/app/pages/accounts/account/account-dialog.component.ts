@@ -71,17 +71,17 @@ export class AccountDialogComponent implements OnInit{
       this.spinnerService.hide();
       if(response) {
         // handle success message
-        this.messageService.showSuccessMessage('settings.billing.connected_account.create_success');
+        this.messageService.showSuccessMessage('accounts.message.create_success');
         this.dialogRef.close(true);
       } else {
-        Utils.handleError(JSON.stringify(response), this.messageService, 'settings.billing.connected_account.create_error');
+        Utils.handleError(JSON.stringify(response), this.messageService, 'accounts.message.create_error');
         this.dialogRef.close(false);
       }
     }, (error) => {
       //handle error here
       this.spinnerService.hide();
       this.dialogRef.close(false);
-      Utils.handleError(JSON.stringify(error), this.messageService, 'settings.billing.connected_account.create_error');
+      Utils.handleError(JSON.stringify(error), this.messageService, 'accounts.message.create_error');
     });
   }
 

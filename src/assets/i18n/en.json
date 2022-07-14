@@ -1422,12 +1422,14 @@
       "transferred": "Transferred"
     },
     "id": "ID",
-    "accountExternalID": "Connected Account",
-    "amount": "Amount",
-    "transferAmount": "Transferred Amount",
+    "accountExternalID": "Connected Account ID",
+    "collected_funds": "Collected Funds",
+    "document_number": "Invoice",
+    "platform_fee_amount": "Collected Fee",
+    "transferAmount": "Transfer",
     "number_of_items": "Sessions",
     "transferExternalID": "External ID",
-    "accountOwner": "Owner",
+    "accountOwner": "Business Owner",
     "cannot_finalize_transfer": "Operation failed - The transfer could not be finalized",
     "cannot_send_transfer": "Operation failed - The transfer has not been sent to the billing system"
   },
@@ -1516,6 +1518,36 @@
       "Please deactivate Smart Charging for every Site Area in the tenant."
     ],
     "logo_size_error": "The logo size limit exceeded, limit is below {{maxPictureKb}} Kb"
+  },
+  "accounts": {
+    "title": "Connected Accounts",
+    "list": {
+      "add_account": "Add Connected Account",
+      "business_owner": "Business Owner",
+      "account_status": "Status",
+      "account_id": "Connected Account ID"
+    },
+    "message": {
+      "create_success": "Account was added successfully",
+      "create_error": "Error occurred while adding the account, check the logs",
+      "onboard_success": "The onboarding process has been triggered. A mail has been sent to the business owner",
+      "onboard_error": "Error occurred while onboarding the account, check the logs"
+    },
+    "status": {
+      "account_idle": "Idle",
+      "account_pending": "Pending",
+      "account_active": "Active"
+    },
+    "onboarding": {
+      "onboarding_title": "Open e-Mobility - Account Onboarding",
+      "onboarding_message": "You have been invited to onboard your company as an account connected to the Open e-Mobility platform.",
+      "onboarding_message_to_proceed": "Click the link below to complete the onboarding process.",
+      "onboarding_congratulations": "Congratulations",
+      "onboarding_process_completed": "The onboarding of your account has been completed.",
+      "onboarding_button_proceed": "Proceed",
+      "onboarding_navigate_to_dashboard": "Navigate to the dashboard",
+      "onboarding_process_failed": "The activation of your account has failed - contact the support to get help!"
+    }
   },
   "settings": {
     "settings_not_saved_title": "Settings not Saved",
@@ -1751,20 +1783,6 @@
         "periodic_billing": "Periodic Billing",
         "tax": "Tax",
         "no_tax": "No Tax"
-      },
-      "connected_account": {
-        "account_id": "Account ID",
-        "user": "User",
-        "status": "Status",
-        "title": "Connected Accounts",
-        "create": "Add connected account",
-        "create_success": "Account was added successfully",
-        "create_error": "Error occurred while adding the account, check the logs",
-        "status_idle": "Idle",
-        "status_pending": "Pending",
-        "status_active": "Active",
-        "onboard_success": "The onboarding process has been triggered. A mail has been sent to the business owner",
-        "onboard_error": "Error occurred while onboarding the account, check the logs"
       }
     },
     "analytics": {

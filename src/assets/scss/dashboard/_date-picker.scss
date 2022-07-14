@@ -1,3 +1,4 @@
+@use '@angular/material' as mat;
 .mat-form-field-infix .md-drppicker.drops-down-auto.ltr.shown.double {
     margin-top: 9px !important;
     background-color: $brand-background;
@@ -9,7 +10,7 @@
     }
 
     & div.buttons_input button.btn {
-      background-color: mat-color($app-primary);
+      background-color: mat.get-color-from-palette($app-primary);
       color: $brand-background;
     }
 
@@ -20,7 +21,7 @@
     td {
 
       &.available:hover {
-        background-color:lighten(mat-color($mat-grey, 600), 45%);
+        background-color:lighten(mat.get-color-from-palette(mat.$grey-palette, 600), 45%);
         color:$brand-text
       }
 
@@ -29,12 +30,12 @@
         &, &.start-date, &.end-date {
           background-color: $brand-background;
           border-color: $brand-background;
-          color: lighten(mat-color($mat-grey, 600), 10%);
+          color: lighten(mat.get-color-from-palette(mat.$grey-palette, 600), 10%);
         }
 
         &.in-range {
-          background-color: lighten(mat-color($mat-grey, 600), 40%);
-          border-color: mat-color($app-grey,600);
+          background-color: lighten(mat.get-color-from-palette(mat.$grey-palette, 600), 40%);
+          border-color: mat.get-color-from-palette($app-grey,600);
           color: $brand-text;
         }
 
@@ -44,7 +45,7 @@
         transition: background 300ms ease-out, border 300ms ease-out;
 
         &, &:hover {
-          background-color: mat-color($app-primary);
+          background-color: mat.get-color-from-palette($app-primary);
           color: $brand-background;
         }
       }
@@ -55,7 +56,7 @@
 
       &:hover {
         border-radius: 4px;
-        background-color:lighten(mat-color($mat-grey, 600), 45%);
+        background-color:lighten(mat.get-color-from-palette(mat.$grey-palette, 600), 45%);
         color: $brand-background;
       }
 
@@ -64,7 +65,7 @@
         color: $brand-text;
 
         &.active {
-          background-color: mat-color($app-primary);
+          background-color: mat.get-color-from-palette($app-primary);
           color: $brand-background;
         }
       }

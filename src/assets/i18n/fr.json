@@ -1422,9 +1422,11 @@
       "transferred": "Transféré"
     },
     "id": "ID",
-    "accountExternalID": "Compte connecté",
-    "amount": "Montant",
-    "transferAmount": "Montant transféré",
+    "accountExternalID": "ID du compte connecté",
+    "collected_funds": "Fonds collectés",
+    "document_number": "Facture",
+    "platform_fee_amount": "Commission collectée",
+    "transferAmount": "Virement",
     "number_of_items": "Sessions",
     "transferExternalID": "ID externe",
     "accountOwner": "Responsable business",
@@ -1516,6 +1518,36 @@
       "Désactivez la charge intelligente sur ces zones."
     ],
     "logo_size_error": "La taille de l'image est trop importante, la limite est de {{maxPictureKb}} Ko"
+  },
+  "accounts": {
+    "title": "Connected Accounts",
+    "list": {
+      "add_account": "Add Connected Account",
+      "business_owner": "Business Owner",
+      "account_status": "Status",
+      "account_id": "Connected Account ID"
+    },
+    "message": {
+      "create_success": "Account was added successfully",
+      "create_error": "Error occurred while adding the account, check the logs",
+      "onboard_success": "The onboarding process has been triggered. A mail has been sent to the business owner",
+      "onboard_error": "Error occurred while onboarding the account, check the logs"
+    },
+    "status": {
+      "account_idle": "Idle",
+      "account_pending": "Pending",
+      "account_active": "Active"
+    },
+    "onboarding": {
+      "onboarding_title": "Open e-Mobility - Enregistrement et connexion de votre compte",
+      "onboarding_message": "Vous avez reçu une invitation afin de connecter le compte de votre société à la platforme Open e-Mobility.",
+      "onboarding_message_to_proceed": "Cliquez le lien ci-dessous pour ternminer la procédure.",
+      "onboarding_congratulations": "Félicitation",
+      "onboarding_process_completed": "La procédure de connexion de votre compte est maintenant terminée.",
+      "onboarding_button_proceed": "Continuer",
+      "onboarding_navigate_to_dashboard": "Retour vers le tableau de bord",
+      "onboarding_process_failed": "L'activation de votre compte a échoué - contactez le support pour obtenir de l'aide !"
+    }
   },
   "settings": {
     "settings_not_saved_title": "Changements non Sauvegardé",
@@ -1752,20 +1784,6 @@
         "periodic_billing": "Facturation périodique",
         "tax": "Taxe",
         "no_tax": "Aucune Taxe"
-      },
-      "connected_account": {
-        "account_id": "Account ID",
-        "user": "User",
-        "status": "Status",
-        "title": "Connected accounts",
-        "create": "Add connected account",
-        "create_success": "Account was added successfully",
-        "create_error": "Error occurred while adding the account, check the logs",
-        "status_idle": "Idle",
-        "status_pending": "Pending",
-        "status_active": "Active",
-        "onboard_success": "The onboarding process has been triggered. A mail has been sent to the business owner",
-        "onboard_error": "Error occurred while onboarding the account, check the logs"
       }
     },
     "analytics": {

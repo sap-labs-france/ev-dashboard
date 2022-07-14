@@ -124,6 +124,10 @@ export interface BillingPlatformFeeData {
   invoiceExternalID?: string; // Invoice sent to the CPO
 }
 
+export interface BillingAccountSessionFee extends BillingPlatformFeeStrategy {
+  feeAmount: number;
+}
+
 export interface BillingTransfer extends TableData, CreatedUpdatedProps, BillingTransferAuthorizationActions {
   id: string;
   status: BillingTransferStatus;
@@ -135,6 +139,8 @@ export interface BillingTransfer extends TableData, CreatedUpdatedProps, Billing
   businessOwner?: User;
   platformFeeData: BillingPlatformFeeData;
   transferExternalID: string; // Transfer sent to the CPO
+  currency: string;
+  invoice?: BillingPlatformInvoice; // The invoice generated to bill the platform fee
 }
 
 // Very important - preserve maximal precision - Decimal type is persisted as an object in the DB
@@ -147,7 +153,20 @@ export interface BillingTransferSession {
   // amountAsDecimal: BillingAmount;
   amount: number; // ACHTUNG - That one should not include any taxes
   roundedAmount: number;
-  platformFeeStrategy: BillingPlatformFeeStrategy;
+  accountSessionFee: BillingAccountSessionFee;
+}
+
+export interface BillingPlatformInvoice {
+  invoiceID: string;
+  liveMode: boolean;
+  userID: string;
+  documentNumber: string;
+  status: BillingInvoiceStatus;
+  amount: number; // This one is in cents
+  totalAmount: number;
+  currency: string;
+  customerID: string;
+  createdOn: Date;
 }
 
 export enum TransferButtonAction {

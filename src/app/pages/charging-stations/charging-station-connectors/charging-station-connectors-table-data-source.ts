@@ -25,7 +25,6 @@ import { ChargingStation, ChargingStationButtonAction, Connector } from '../../.
 import { DataResult } from '../../../types/DataResult';
 import { TableActionDef, TableColumnDef, TableDef } from '../../../types/Table';
 import { TransactionButtonAction } from '../../../types/Transaction';
-import { User } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';
 import { ChargingStationsConnectorCellComponent } from '../cell-components/charging-stations-connector-cell.component';
 import { ChargingStationsConnectorInactivityCellComponent } from '../cell-components/charging-stations-connector-inactivity-cell.component';
@@ -91,8 +90,8 @@ export class ChargingStationConnectorsTableDataSource extends TableDataSource<Co
     });
   }
 
-  public setCharger(charger: ChargingStation) {
-    this.chargingStation = charger;
+  public setChargingStation(chargingStation: ChargingStation) {
+    this.chargingStation = chargingStation;
   }
 
   public buildTableDef(): TableDef {

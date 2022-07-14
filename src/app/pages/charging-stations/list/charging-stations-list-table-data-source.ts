@@ -64,7 +64,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
   private siteAreaFilter: TableFilterDef;
   private companyFilter: TableFilterDef;
 
-  private chargingStationsAthorizations: ChargingStationsAuthorizations;
+  private chargingStationsAuthorizations: ChargingStationsAuthorizations;
 
   public constructor(
     public spinnerService: SpinnerService,
@@ -94,7 +94,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
       this.centralServerService.getChargingStations(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((chargingStations) => {
         // Build auth object
-        this.chargingStationsAthorizations = {
+        this.chargingStationsAuthorizations = {
           canExport: Utils.convertToBoolean(chargingStations.canExport),
           canListCompanies: Utils.convertToBoolean(chargingStations.canListCompanies),
           canListSiteAreas: Utils.convertToBoolean(chargingStations.canListSiteAreas),
@@ -102,10 +102,10 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
           metadata: chargingStations.metadata
         };
         // Update filters visibility
-        this.canExport.visible = this.chargingStationsAthorizations.canExport;
-        this.siteFilter.visible = this.chargingStationsAthorizations.canListSites;
-        this.siteAreaFilter.visible =this.chargingStationsAthorizations.canListSiteAreas;
-        this.companyFilter.visible = this.chargingStationsAthorizations.canListCompanies;
+        this.canExport.visible = this.chargingStationsAuthorizations.canExport;
+        this.siteFilter.visible = this.chargingStationsAuthorizations.canListSites;
+        this.siteAreaFilter.visible =this.chargingStationsAuthorizations.canListSiteAreas;
+        this.companyFilter.visible = this.chargingStationsAuthorizations.canListCompanies;
         // Set back the projected fields
         const tableDef = this.getTableDef();
         tableDef.rowDetails.additionalParameters = {
@@ -262,14 +262,14 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
         if (actionDef.action) {
           (actionDef as TableEditChargingStationActionDef).action(
             ChargingStationDialogComponent, this.dialog,
-            { dialogData: chargingStation, authorizations: this.chargingStationsAthorizations }, this.refreshData.bind(this));
+            { dialogData: chargingStation, authorizations: this.chargingStationsAuthorizations }, this.refreshData.bind(this));
         }
         break;
       case ChargingStationButtonAction.VIEW_CHARGING_STATION:
         if (actionDef.action) {
           (actionDef as TableViewChargingStationActionDef).action(
             ChargingStationDialogComponent, this.dialog,
-            { dialogData: chargingStation, authorizations: this.chargingStationsAthorizations }, this.refreshData.bind(this));
+            { dialogData: chargingStation, authorizations: this.chargingStationsAuthorizations }, this.refreshData.bind(this));
         }
         break;
       case ChargingStationButtonAction.REBOOT:
@@ -286,7 +286,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
             {
               dialogData: {
                 id: chargingStation.id, ocppVersion: chargingStation.ocppVersion, canUpdate: chargingStation.canUpdate
-              }, authorizations: this.chargingStationsAthorizations
+              }, authorizations: this.chargingStationsAuthorizations
             },
             this.refreshData.bind(this)
           );

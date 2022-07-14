@@ -6,7 +6,6 @@ import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { ChartModule } from 'angular2-chartjs';
 import { MomentModule } from 'ngx-moment';
-import { TransactionDialogComponent } from 'shared/dialogs/transaction/transaction-dialog.component';
 import { PricingDefinitionsModule } from 'shared/pricing-definitions/pricing-definitions.module';
 
 import { MaterialModule } from '../../app.module';
@@ -75,43 +74,6 @@ import { ChargingStationsRegistrationTokenDialogComponent } from './registration
     MomentModule,
     PricingDefinitionsModule,
   ],
-  entryComponents: [
-    ChargingStationLimitationComponent,
-    ChargingStationLimitationDialogComponent,
-    ChargingPlansComponent,
-    ChargingStationPowerSliderComponent,
-    ChargingStationPowerSliderCellComponent,
-    ChargingStationStaticLimitationComponent,
-    ChargingPlanChartComponent,
-    ChargingStationAdvancedComponent,
-    ChargingStationDialogComponent,
-    ChargingStationComponent,
-    ChargingStationPropertiesComponent,
-    ChargingStationOcppParametersComponent,
-    ChargingStationParametersComponent,
-    ChargingStationConnectorComponent,
-    ChargingStationChargePointComponent,
-    ChargingStationConnectorsComponent,
-    ChargingStationsStartTransactionDialogComponent,
-    TransactionDialogComponent,
-    ChargingStationsHeartbeatCellComponent,
-    ChargingStationsInstantPowerChargerProgressBarCellComponent,
-    ChargingStationsInstantPowerConnectorProgressBarCellComponent,
-    ChargingStationsConnectorStatusCellComponent,
-    ChargingStationsConnectorsCellComponent,
-    ChargingStationsConnectorCellComponent,
-    ChargingStationOcppParametersInputFieldCellComponent,
-    ChargingStationsListComponent,
-    ChargingStationsInErrorComponent,
-    ChargingStationsConnectorInactivityCellComponent,
-    ChargingStationFirmwareUpdateComponent,
-    ChargingStationsFirmwareStatusCellComponent,
-    ChargingPlansListComponent,
-    ChargingStationsRegistrationTokenStatusComponent,
-    ChargingStationsRegistrationTokenComponent,
-    ChargingStationsRegistrationTokenDialogComponent,
-    ChargingStationsRegistrationTokensComponent,
-  ],
   declarations: [
     ChargingStationLimitationComponent,
     ChargingStationLimitationDialogComponent,
@@ -161,7 +123,7 @@ import { ChargingStationsRegistrationTokenDialogComponent } from './registration
     ChargingStationConnectorsTableDataSource,
     ChargingStationOcppParametersEditableTableDataSource,
     ChargingPlansListTableDataSource,
-  ],
+  ]
 })
 export class ChargingStationsModule {
 }

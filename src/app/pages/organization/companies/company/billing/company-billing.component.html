@@ -3,12 +3,12 @@
     <div class="col-md-6">
       <div class="form-group">
         <mat-form-field>
-          <input matInput type="text" readonly=true placeholder="{{'accounts.list.account_id' | translate}}"
-            class="form-field-popup" (click)="assignAccounts()" [formControl]="accountID"/>
-          <button *ngIf="accountID.enabled && accountID.value" mat-icon-button matSuffix (click)="resetAccount()" aria-label="Clear">
+          <input matInput type="text" readonly=true placeholder="{{'accounts.list.billing_account' | translate}}"
+            class="form-field-popup" (click)="assignAccounts()" [formControl]="accountName"/>
+          <button *ngIf="accountName.enabled && accountName.value" mat-icon-button matSuffix (click)="resetAccount()" aria-label="Clear">
             <mat-icon>clear</mat-icon>
           </button>
-          <mat-error *ngIf="accountID.errors?.required">
+          <mat-error *ngIf="accountName.errors?.required">
             {{"general.mandatory_field" | translate}}
           </mat-error>
         </mat-form-field>

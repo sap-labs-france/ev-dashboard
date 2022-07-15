@@ -3,6 +3,7 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { AccountsDialogComponent } from 'shared/dialogs/accounts/accounts-dialog.component';
 import { BillingAccount, BillingAccountData } from 'types/Billing';
+import { Utils } from 'utils/Utils';
 
 import { Company } from '../../../../../types/Company';
 
@@ -17,6 +18,7 @@ export class CompanyBillingComponent implements OnInit, OnChanges {
 
   public initialized = false;
   public accountID!: AbstractControl;
+  public accountName!: AbstractControl;
   public flatFee!: AbstractControl;
   public percentage!: AbstractControl;
 
@@ -27,6 +29,7 @@ export class CompanyBillingComponent implements OnInit, OnChanges {
 
   public ngOnInit() {
     this.formGroup.addControl('accountID', new FormControl(''));
+    this.formGroup.addControl('accountName', new FormControl(''));
     this.formGroup.addControl('flatFee', new FormControl(0,
       Validators.compose([
         Validators.pattern(/^[+]?([0-9]*[.])?[0-9]+$/),
@@ -39,6 +42,7 @@ export class CompanyBillingComponent implements OnInit, OnChanges {
       ])
     ));
     this.accountID = this.formGroup.controls['accountID'];
+    this.accountName = this.formGroup.controls['accountName'];
     this.flatFee = this.formGroup.controls['flatFee'];
     this.percentage = this.formGroup.controls['percentage'];
     this.initialized = true;
@@ -54,6 +58,7 @@ export class CompanyBillingComponent implements OnInit, OnChanges {
       if (this.company.accountData) {
         const accountData = this.company.accountData;
         this.accountID.setValue(accountData.accountID);
+        this.accountName.setValue(Utils.buildUserFullName(accountData.account.businessOwner));
         this.flatFee.setValue(accountData.platformFeeStrategy.flatFeePerSession);
         this.percentage.setValue(accountData.platformFeeStrategy.percentage);
       }
@@ -83,12 +88,14 @@ export class CompanyBillingComponent implements OnInit, OnChanges {
     // Open
     this.dialog.open(AccountsDialogComponent, dialogConfig).afterClosed().subscribe((result) => {
       this.accountID.setValue((result[0].objectRef as BillingAccount).id);
+      this.accountName.setValue(Utils.buildUserFullName((result[0].objectRef as BillingAccount).businessOwner));
       this.formGroup.markAsDirty();
     });
   }
 
   public resetAccount() {
     this.accountID.reset();
+    this.accountName.reset();
     this.formGroup.markAsDirty();
   }
 

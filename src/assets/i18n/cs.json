@@ -1527,7 +1527,8 @@
       "add_account": "Add Connected Account",
       "business_owner": "Business Owner",
       "account_status": "Status",
-      "account_id": "Connected Account ID"
+      "account_id": "Connected Account ID",
+      "billing_account": "Connected Account"
     },
     "message": {
       "create_success": "Account was added successfully",

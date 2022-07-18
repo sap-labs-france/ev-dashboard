@@ -25,6 +25,7 @@ export class AccountDialogComponent implements OnInit{
   public id!: AbstractControl;
   public user!: AbstractControl;
   public userID!: AbstractControl;
+  public companyName!: AbstractControl;
 
   public constructor(
     public dialogRef: MatDialogRef<AccountDialogComponent>,
@@ -44,10 +45,12 @@ export class AccountDialogComponent implements OnInit{
       id: new FormControl(this.currentAccount ? this.currentAccount.accountExternalID : ''),
       user: new FormControl(''),
       userID: new FormControl(''),
+      companyName: new FormControl(''),
     });
     this.id = this.formGroup.controls['id'];
     this.user = this.formGroup.controls['user'];
     this.userID = this.formGroup.controls['userID'];
+    this.companyName = this.formGroup.controls['companyName'];
     // Register key event
     Utils.registerSaveCloseKeyEvents(this.dialogRef, this.formGroup,
       this.save.bind(this), this.close.bind(this));
@@ -62,10 +65,11 @@ export class AccountDialogComponent implements OnInit{
       this.translateService, this.save.bind(this), this.closeDialog.bind(this));
   }
 
-  public save(currentAccount: {id: string; userID: string; user: string}) {
+  public save(currentAccount: {id: string; userID: string; user: string; companyName: string}) {
     this.spinnerService.show();
     this.centralServerService.createBillingAccount({
       id: '',
+      companyName: currentAccount.companyName,
       businessOwnerID: currentAccount.userID
     }).subscribe((response) => {
       this.spinnerService.hide();

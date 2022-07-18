@@ -13,6 +13,15 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <mat-form-field>
+                      <input matInput type="text" placeholder="{{ 'companies.title' | translate }}" [formControl]="companyName"/>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <mat-form-field>
                       <input matInput type="text" readonly=true placeholder="{{'users.title' | translate}}"
                         class="form-field-popup" (click)="assignUser()" [formControl]="user"/>
                       <button *ngIf="user.enabled && user.value" mat-icon-button matSuffix (click)="resetUser()" aria-label="Clear">

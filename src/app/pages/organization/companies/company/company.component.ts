@@ -38,6 +38,7 @@ export class CompanyComponent extends AbstractTabComponent implements OnInit {
   public company: Company;
   public isBillingActive = false;
   public isBillingPlatformActive = false;
+  public accountHasVisibleFields: boolean;
 
   public constructor(
     private centralServerService: CentralServerService,
@@ -70,6 +71,8 @@ export class CompanyComponent extends AbstractTabComponent implements OnInit {
       this.centralServerService.getCompany(this.currentCompanyID).subscribe((company: Company) => {
         this.spinnerService.hide();
         this.company = company;
+        // Check if Account Data is to be displayed
+        this.accountHasVisibleFields = company.projectFields.includes('accountData.accountID');
         if (this.readOnly) {
           // Async call for letting the sub form groups to init
           setTimeout(() => this.formGroup.disable(), 0);

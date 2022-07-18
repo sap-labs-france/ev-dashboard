@@ -10,7 +10,7 @@
           <app-company-main #companyMainComponent [formGroup]="formGroup" [company]="company" [readOnly]="readOnly"></app-company-main>
         </div>
       </mat-tab>
-      <mat-tab *ngIf="isBillingActive && isBillingPlatformActive">
+      <mat-tab *ngIf="isBillingActive && isBillingPlatformActive && accountHasVisibleFields ">
         <ng-template mat-tab-label>
           <mat-icon>payment</mat-icon><span>{{'settings.tabs.billing' | translate}}</span>
         </ng-template>

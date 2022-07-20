@@ -76,7 +76,7 @@
     "@angular/material-moment-adapter": "^14.0.5",
     "@angular/platform-browser": "^14.0.5",
     "@angular/platform-browser-dynamic": "^14.0.5",
-    "@angular/router": "^14.0.5",
+    "@angular/router": "^14.1.0",
     "@auth0/angular-jwt": "^5.0.2",
     "@mat-datetimepicker/core": "^10.0.0",
     "@mat-datetimepicker/moment": "^10.0.0",

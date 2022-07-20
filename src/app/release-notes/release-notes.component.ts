@@ -25,7 +25,7 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.6.9',
-        date: new Date('2022-07-11'),
+        date: new Date('2022-07-20'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -39,7 +39,7 @@ export class ReleaseNotesComponent {
               `Virtual RFID ID are generated now on 8 bytes`,
               `Added automatic redirection of migrated tenants to a k8s cluster`,
               `Fix Site not provided in Charging Profile`,
-              `Migration to Angular 13`,
+              `Migration to Angular 14`,
             ],
           },
         ],

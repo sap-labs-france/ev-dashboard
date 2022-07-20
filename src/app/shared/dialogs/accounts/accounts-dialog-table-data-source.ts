@@ -41,6 +41,10 @@ export class AccountsDialogTableDataSource extends DialogTableDataSource<Billing
   public buildTableColumnDefs(): TableColumnDef[] {
     return [
       {
+        id: 'companyName',
+        name: 'companies.title',
+      },
+      {
         id: 'businessOwner.name',
         name: 'users.title',
         formatter: (name: string, account: BillingAccount) => Utils.buildUserFullName(account.businessOwner),
@@ -52,6 +56,7 @@ export class AccountsDialogTableDataSource extends DialogTableDataSource<Billing
       {
         id: 'status',
         name: 'accounts.list.account_status',
+        headerClass: 'text-center',
         isAngularComponent: true,
         angularComponent: AccountStatusFormatterComponent,
       }

@@ -58,7 +58,7 @@ export class CompanyBillingComponent implements OnInit, OnChanges {
       if (this.company.accountData) {
         const accountData = this.company.accountData;
         this.accountID.setValue(accountData.accountID);
-        this.accountName.setValue(Utils.buildUserFullName(accountData.account.businessOwner));
+        this.accountName.setValue(accountData.account.companyName);
         this.flatFee.setValue(accountData.platformFeeStrategy.flatFeePerSession);
         this.percentage.setValue(accountData.platformFeeStrategy.percentage);
       }
@@ -88,7 +88,7 @@ export class CompanyBillingComponent implements OnInit, OnChanges {
     // Open
     this.dialog.open(AccountsDialogComponent, dialogConfig).afterClosed().subscribe((result) => {
       this.accountID.setValue((result[0].objectRef as BillingAccount).id);
-      this.accountName.setValue(Utils.buildUserFullName((result[0].objectRef as BillingAccount).businessOwner));
+      this.accountName.setValue((result[0].objectRef as BillingAccount).companyName);
       this.formGroup.markAsDirty();
     });
   }

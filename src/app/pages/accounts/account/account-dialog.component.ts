@@ -45,6 +45,7 @@ export class AccountDialogComponent implements OnInit{
       id: new UntypedFormControl(this.currentAccount ? this.currentAccount.accountExternalID : ''),
       user: new UntypedFormControl(''),
       userID: new UntypedFormControl(''),
+      companyName: new UntypedFormControl(''),
     });
     this.id = this.formGroup.controls['id'];
     this.user = this.formGroup.controls['user'];

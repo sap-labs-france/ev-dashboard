@@ -1,7 +1,7 @@
 /* eslint-disable no-useless-constructor */
 
 import { Component, Inject, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { CentralServerService } from 'services/central-server.service';
@@ -20,7 +20,7 @@ import { Utils } from 'utils/Utils';
 })
 export class AccountDialogComponent implements OnInit{
   public currentAccount: BillingAccount;
-  public formGroup!: FormGroup;
+  public formGroup!: UntypedFormGroup;
 
   public id!: AbstractControl;
   public user!: AbstractControl;
@@ -40,10 +40,10 @@ export class AccountDialogComponent implements OnInit{
   }
 
   public ngOnInit(): void {
-    this.formGroup = new FormGroup({
-      id: new FormControl(this.currentAccount ? this.currentAccount.accountExternalID : ''),
-      user: new FormControl(''),
-      userID: new FormControl(''),
+    this.formGroup = new UntypedFormGroup({
+      id: new UntypedFormControl(this.currentAccount ? this.currentAccount.accountExternalID : ''),
+      user: new UntypedFormControl(''),
+      userID: new UntypedFormControl(''),
     });
     this.id = this.formGroup.controls['id'];
     this.user = this.formGroup.controls['user'];

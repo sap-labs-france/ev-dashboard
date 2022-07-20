@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AssetsAuthorizations } from 'types/Authorization';
 
@@ -16,7 +16,7 @@ import { Utils } from '../../../../utils/Utils';
   templateUrl: 'asset-connection.component.html',
 })
 export class AssetConnectionComponent implements OnInit, OnChanges {
-  @Input() public formGroup: FormGroup;
+  @Input() public formGroup: UntypedFormGroup;
   @Input() public asset!: Asset;
   @Input() public readOnly: boolean;
   @Input() public assetsAuthorizations!: AssetsAuthorizations;
@@ -41,18 +41,18 @@ export class AssetConnectionComponent implements OnInit, OnChanges {
 
   public ngOnInit() {
     // Init the form
-    this.formGroup.addControl('connectionID', new FormControl('',
+    this.formGroup.addControl('connectionID', new UntypedFormControl('',
       Validators.compose([
         Validators.required,
       ])
     ));
-    this.formGroup.addControl('dynamicAsset', new FormControl(false,
+    this.formGroup.addControl('dynamicAsset', new UntypedFormControl(false,
       Validators.compose([
         Validators.required,
       ])
     ));
-    this.formGroup.addControl('usesPushAPI', new FormControl(false));
-    this.formGroup.addControl('meterID', new FormControl('',
+    this.formGroup.addControl('usesPushAPI', new UntypedFormControl(false));
+    this.formGroup.addControl('meterID', new UntypedFormControl('',
       Validators.compose([
         Validators.required,
       ])

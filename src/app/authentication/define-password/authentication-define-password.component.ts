@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StatusCodes } from 'http-status-codes';
 import { ReCaptchaV3Service } from 'ngx-captcha';
@@ -22,9 +22,9 @@ import { Utils } from '../../utils/Utils';
 
 export class AuthenticationDefinePasswordComponent implements OnInit, OnDestroy {
   public parentErrorStateMatcher = new ParentErrorStateMatcher();
-  public formGroup: FormGroup;
+  public formGroup: UntypedFormGroup;
   public resetPasswordHash!: string | null;
-  public passwords: FormGroup;
+  public passwords: UntypedFormGroup;
   public password: AbstractControl;
   public repeatPassword: AbstractControl;
   public hidePassword = true;
@@ -49,23 +49,23 @@ export class AuthenticationDefinePasswordComponent implements OnInit, OnDestroy 
     // Keep the sub-domain
     this.subDomain = this.windowService.getSubdomain();
     // Init Form
-    this.formGroup = new FormGroup({
-      passwords: new FormGroup({
-        password: new FormControl('',
+    this.formGroup = new UntypedFormGroup({
+      passwords: new UntypedFormGroup({
+        password: new UntypedFormControl('',
           Validators.compose([
             Validators.required,
             Users.passwordWithNoSpace,
             Users.validatePassword,
           ])),
-        repeatPassword: new FormControl('',
+        repeatPassword: new UntypedFormControl('',
           Validators.compose([
             Validators.required,
           ])),
       },
-      (passwordFormGroup: FormGroup) => Utils.validateEqual(passwordFormGroup, 'password', 'repeatPassword')),
+      (passwordFormGroup: UntypedFormGroup) => Utils.validateEqual(passwordFormGroup, 'password', 'repeatPassword')),
     });
     // Form
-    this.passwords = (this.formGroup.controls['passwords'] as FormGroup);
+    this.passwords = (this.formGroup.controls['passwords'] as UntypedFormGroup);
     this.password = this.passwords.controls['password'];
     this.repeatPassword = this.passwords.controls['repeatPassword'];
     this.resetPasswordHash = this.route.snapshot.queryParamMap.get('hash');

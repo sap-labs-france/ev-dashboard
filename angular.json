@@ -120,8 +120,7 @@
                 }
               ]
             },
-            "development": {
-            }
+            "development": {}
           },
           "defaultConfiguration": ""
         },
@@ -184,6 +183,5 @@
         }
       }
     }
-  },
-  "defaultProject": "ev-dashboard"
+  }
 }

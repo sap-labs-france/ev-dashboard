@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { StatusCodes } from 'http-status-codes';
@@ -24,7 +24,7 @@ export class SettingsBillingComponent implements OnInit {
   public isBillingPlatformActive = false;
   public isBillingTransactionEnabled = false;
 
-  public formGroup!: FormGroup;
+  public formGroup!: UntypedFormGroup;
   public billingSettings!: BillingSettings;
   public transactionBillingActivated: boolean; // ##CR - reverting some changes
   public isClearTestDataVisible = false;
@@ -44,7 +44,7 @@ export class SettingsBillingComponent implements OnInit {
 
   public ngOnInit(): void {
     // Build the form
-    this.formGroup = new FormGroup({});
+    this.formGroup = new UntypedFormGroup({});
     // Load the conf
     if (this.isBillingActive) {
       this.loadConfiguration();

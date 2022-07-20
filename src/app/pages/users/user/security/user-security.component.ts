@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { User } from 'types/User';
 import { ParentErrorStateMatcher } from 'utils/ParentStateMatcher';
 import { Users } from 'utils/Users';
@@ -12,7 +12,7 @@ import { Utils } from '../../../../utils/Utils';
 })
 // @Injectable()
 export class UserSecurityComponent implements OnInit, OnChanges {
-  @Input() public formGroup: FormGroup;
+  @Input() public formGroup: UntypedFormGroup;
   @Input() public user!: User;
 
   public parentErrorStateMatcher = new ParentErrorStateMatcher();
@@ -20,25 +20,25 @@ export class UserSecurityComponent implements OnInit, OnChanges {
   public hideRepeatPassword = true;
   public initialized = false;
 
-  public passwords!: FormGroup;
+  public passwords!: UntypedFormGroup;
   public password!: AbstractControl;
   public repeatPassword!: AbstractControl;
 
   public ngOnInit(): void {
     // Init the form
-    this.formGroup.addControl('passwords', new FormGroup({
-      password: new FormControl('',
+    this.formGroup.addControl('passwords', new UntypedFormGroup({
+      password: new UntypedFormControl('',
         Validators.compose([
           Users.passwordWithNoSpace,
           Users.validatePassword,
         ])),
-      repeatPassword: new FormControl('',
+      repeatPassword: new UntypedFormControl('',
         Validators.compose([
           Users.validatePassword,
         ])),
-    }, (passwordFormGroup: FormGroup) => Utils.validateEqual(passwordFormGroup, 'password', 'repeatPassword')));
+    }, (passwordFormGroup: UntypedFormGroup) => Utils.validateEqual(passwordFormGroup, 'password', 'repeatPassword')));
     // Form
-    this.passwords = (this.formGroup.controls['passwords'] as FormGroup);
+    this.passwords = (this.formGroup.controls['passwords'] as UntypedFormGroup);
     this.password = this.passwords.controls['password'];
     this.repeatPassword = this.passwords.controls['repeatPassword'];
     this.initialized = true;

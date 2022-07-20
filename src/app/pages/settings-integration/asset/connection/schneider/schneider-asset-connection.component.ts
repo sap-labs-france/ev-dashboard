@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 import { AssetSchneiderConnectionType } from '../../../../../types/Setting';
 
@@ -8,21 +8,21 @@ import { AssetSchneiderConnectionType } from '../../../../../types/Setting';
   templateUrl: 'schneider-asset-connection.component.html'
 })
 export class SchneiderAssetConnectionComponent implements OnInit {
-  @Input() public formGroup!: FormGroup;
+  @Input() public formGroup!: UntypedFormGroup;
   @Input() public schneiderConnection!: AssetSchneiderConnectionType;
 
-  public schneiderLoginForm!: FormGroup;
+  public schneiderLoginForm!: UntypedFormGroup;
   public user!: AbstractControl;
   public password!: AbstractControl;
 
   public ngOnInit(): void {
     // Set login credentials form
-    this.schneiderLoginForm = new FormGroup({
-      user: new FormControl('',
+    this.schneiderLoginForm = new UntypedFormGroup({
+      user: new UntypedFormControl('',
         Validators.compose([
           Validators.required,
         ])),
-      password: new FormControl('',
+      password: new UntypedFormControl('',
         Validators.compose([
           Validators.required,
         ])),

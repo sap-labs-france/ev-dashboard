@@ -1,4 +1,4 @@
-import { FormArray } from '@angular/forms';
+import { UntypedFormArray } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -22,7 +22,7 @@ export class TableCheckAssetConnectionAction extends TableCheckConnectionAction 
     };
   }
 
-  private checkConnectionConfirm(assetConnection: AssetConnectionSetting, formArray: FormArray, dialogService: DialogService,
+  private checkConnectionConfirm(assetConnection: AssetConnectionSetting, formArray: UntypedFormArray, dialogService: DialogService,
     spinnerService: SpinnerService, translateService: TranslateService, centralServerService: CentralServerService,
     messageService: MessageService, router: Router) {
     if (formArray.dirty) {

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -33,7 +33,7 @@ export class CompanyComponent extends AbstractTabComponent implements OnInit {
   @ViewChild('companyMainComponent') public companyMainComponent!: CompanyMainComponent;
   @ViewChild('companyBillingComponent') public companyBillingComponent!: CompanyBillingComponent;
 
-  public formGroup!: FormGroup;
+  public formGroup!: UntypedFormGroup;
   public readOnly = true;
   public company: Company;
   public isBillingActive = false;
@@ -57,7 +57,7 @@ export class CompanyComponent extends AbstractTabComponent implements OnInit {
 
   public ngOnInit() {
     // Init the form
-    this.formGroup = new FormGroup({});
+    this.formGroup = new UntypedFormGroup({});
     // Handle Dialog mode
     this.readOnly = this.dialogMode === DialogMode.VIEW;
     Utils.handleDialogMode(this.dialogMode, this.formGroup);

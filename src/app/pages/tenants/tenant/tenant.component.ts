@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -31,7 +31,7 @@ export class TenantComponent extends AbstractTabComponent implements OnInit {
   @ViewChild('tenantMainComponent') public tenantMainComponent!: TenantMainComponent;
   @ViewChild('tenantComponentsComponent') public tenantComponentsComponent!: TenantComponentsComponent;
 
-  public formGroup!: FormGroup;
+  public formGroup!: UntypedFormGroup;
   public tenant!: Tenant;
 
   public constructor(
@@ -48,7 +48,7 @@ export class TenantComponent extends AbstractTabComponent implements OnInit {
 
   public ngOnInit() {
     // Init the form
-    this.formGroup = new FormGroup({});
+    this.formGroup = new UntypedFormGroup({});
     if (this.currentTenantID) {
       this.loadTenant();
     } else if (this.activatedRoute && this.activatedRoute.params) {

@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { TagsAuthorizations } from 'types/Authorization';
 
@@ -13,7 +13,7 @@ import { Utils } from '../../../../utils/Utils';
   templateUrl: 'tag-main.component.html'
 })
 export class TagMainComponent implements OnInit, OnChanges {
-  @Input() public formGroup: FormGroup;
+  @Input() public formGroup: UntypedFormGroup;
   @Input() public tag!: Tag;
   @Input() public readOnly: boolean;
   @Input() public tagsAuthorizations!: TagsAuthorizations;
@@ -37,28 +37,28 @@ export class TagMainComponent implements OnInit, OnChanges {
 
   public ngOnInit() {
     // Init the form
-    this.formGroup.addControl('id', new FormControl('',
+    this.formGroup.addControl('id', new UntypedFormControl('',
       Validators.compose([
         Validators.required,
         Validators.minLength(1),
         Validators.maxLength(20),
         Validators.pattern('^[a-zA-Z0-9]*$'),
       ])));
-    this.formGroup.addControl('user', new FormControl(''));
-    this.formGroup.addControl('userID', new FormControl('', ));
-    this.formGroup.addControl('description', new FormControl('',
+    this.formGroup.addControl('user', new UntypedFormControl(''));
+    this.formGroup.addControl('userID', new UntypedFormControl('', ));
+    this.formGroup.addControl('description', new UntypedFormControl('',
       Validators.compose([
         Validators.required,
       ])));
-    this.formGroup.addControl('visualID', new FormControl('',
+    this.formGroup.addControl('visualID', new UntypedFormControl('',
       Validators.compose([
         Validators.required,
       ])));
-    this.formGroup.addControl('active', new FormControl(true,
+    this.formGroup.addControl('active', new UntypedFormControl(true,
       Validators.compose([
         Validators.required,
       ])));
-    this.formGroup.addControl('default', new FormControl(false,
+    this.formGroup.addControl('default', new UntypedFormControl(false,
       Validators.compose([
         Validators.required,
       ])));

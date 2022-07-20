@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { StatusCodes } from 'http-status-codes';
@@ -23,7 +23,7 @@ import { Utils } from '../../utils/Utils';
 })
 export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
   public email: AbstractControl;
-  public formGroup: FormGroup;
+  public formGroup: UntypedFormGroup;
   public verifyEmailAction!: boolean;
   public verificationToken: string | null;
   public resetToken: string | null;
@@ -53,8 +53,8 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
     // Get the Site Key
     this.siteKey = this.configService.getUser().captchaSiteKey;
     // Init Form
-    this.formGroup = new FormGroup({
-      email: new FormControl('',
+    this.formGroup = new UntypedFormGroup({
+      email: new UntypedFormControl('',
         Validators.compose([
           Validators.required,
           Validators.email,

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -27,7 +27,7 @@ export class TagAssignComponent implements OnInit {
   @Input() public dialogRef!: MatDialogRef<any>;
   @Input() public tagsAuthorizations!: TagsAuthorizationActions;
 
-  public formGroup!: FormGroup;
+  public formGroup!: UntypedFormGroup;
   public description!: AbstractControl;
   public user!: AbstractControl;
   public userID!: AbstractControl;
@@ -50,24 +50,24 @@ export class TagAssignComponent implements OnInit {
 
   public ngOnInit() {
     // Init the form
-    this.formGroup = new FormGroup({
-      user: new FormControl('',
+    this.formGroup = new UntypedFormGroup({
+      user: new UntypedFormControl('',
         Validators.compose([
           Validators.required,
         ])),
-      userID: new FormControl('',
+      userID: new UntypedFormControl('',
         Validators.compose([
           Validators.required,
         ])),
-      description: new FormControl('',
+      description: new UntypedFormControl('',
         Validators.compose([
           Validators.required,
         ])),
-      visualID: new FormControl('',
+      visualID: new UntypedFormControl('',
         Validators.compose([
           Validators.required,
         ])),
-      default: new FormControl('',
+      default: new UntypedFormControl('',
         Validators.compose([
           Validators.required,
         ])),

@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 import { SmartChargingSettings } from '../../../../types/Setting';
 import { Constants } from '../../../../utils/Constants';
@@ -9,10 +9,10 @@ import { Constants } from '../../../../utils/Constants';
   templateUrl: 'settings-sap-smart-charging.component.html',
 })
 export class SettingsSapSmartChargingComponent implements OnInit, OnChanges {
-  @Input() public formGroup!: FormGroup;
+  @Input() public formGroup!: UntypedFormGroup;
   @Input() public smartChargingSettings!: SmartChargingSettings;
 
-  public sapSmartCharging!: FormGroup;
+  public sapSmartCharging!: UntypedFormGroup;
   public optimizerUrl!: AbstractControl;
   public user!: AbstractControl;
   public password!: AbstractControl;
@@ -21,28 +21,28 @@ export class SettingsSapSmartChargingComponent implements OnInit, OnChanges {
   public limitBufferAC!: AbstractControl;
 
   public ngOnInit(): void {
-    this.sapSmartCharging = new FormGroup({
-      optimizerUrl: new FormControl('',
+    this.sapSmartCharging = new UntypedFormGroup({
+      optimizerUrl: new UntypedFormControl('',
         Validators.compose([
           Validators.required,
           Validators.pattern(Constants.URL_PATTERN),
         ]),
       ),
-      user: new FormControl('',
+      user: new UntypedFormControl('',
         Validators.compose([
           Validators.required,
           Validators.maxLength(100),
         ]),
       ),
-      password: new FormControl('',
+      password: new UntypedFormControl('',
         Validators.compose([
           Validators.required,
           Validators.maxLength(100),
         ]),
       ),
-      stickyLimitation: new FormControl(''),
-      limitBufferDC: new FormControl(''),
-      limitBufferAC: new FormControl(''),
+      stickyLimitation: new UntypedFormControl(''),
+      limitBufferDC: new UntypedFormControl(''),
+      limitBufferAC: new UntypedFormControl(''),
     });
     // Add
     this.formGroup.addControl('sapSmartCharging', this.sapSmartCharging);

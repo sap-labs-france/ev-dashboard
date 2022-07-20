@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -51,7 +51,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public user!: User;
   public address!: Address;
 
-  public formGroup!: FormGroup;
+  public formGroup!: UntypedFormGroup;
 
   public canListPaymentMethods: boolean;
 
@@ -94,7 +94,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       this.currentUserID = this.centralServerService.getLoggedUser().id;
     }
     // Init the form
-    this.formGroup = new FormGroup({});
+    this.formGroup = new UntypedFormGroup({});
     // Load
     this.loadUser();
     // Call parent Tab manager

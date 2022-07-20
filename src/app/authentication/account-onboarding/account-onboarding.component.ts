@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BillingAccount } from 'types/Billing';
 
@@ -14,7 +14,7 @@ import { Utils } from '../../utils/Utils';
   templateUrl: 'account-onboarding.component.html',
 })
 export class AccountOnboardingComponent implements OnInit, OnDestroy {
-  public formGroup: FormGroup;
+  public formGroup: UntypedFormGroup;
   public onboardingHasBeenDone = false;
   public accountActivationFailed = false;
   private tenantID: string;
@@ -29,8 +29,8 @@ export class AccountOnboardingComponent implements OnInit, OnDestroy {
     private messageService: MessageService,
     private windowService: WindowService) {
     // Init Form
-    this.formGroup = new FormGroup({
-      email: new FormControl('',
+    this.formGroup = new UntypedFormGroup({
+      email: new UntypedFormControl('',
         Validators.compose([
           Validators.required
         ])),

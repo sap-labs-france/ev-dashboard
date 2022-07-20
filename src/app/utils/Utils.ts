@@ -1,4 +1,4 @@
-import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Data, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -64,7 +64,7 @@ export class Utils {
     return value ? translateService.instant('general.yes') : translateService.instant('general.no');
   }
 
-  public static handleDialogMode(dialogMode: DialogMode, formGroup: FormGroup) {
+  public static handleDialogMode(dialogMode: DialogMode, formGroup: UntypedFormGroup) {
     switch (dialogMode) {
       case DialogMode.CREATE:
       case DialogMode.EDIT:
@@ -163,7 +163,7 @@ export class Utils {
     });
   }
 
-  public static registerSaveCloseKeyEvents(dialogRef: MatDialogRef<any>, formGroup: FormGroup,
+  public static registerSaveCloseKeyEvents(dialogRef: MatDialogRef<any>, formGroup: UntypedFormGroup,
     save: (data: Data) => void, close: () => void) {
     // listen to keystroke
     dialogRef.keydownEvents().subscribe((keydownEvents) => {
@@ -178,7 +178,7 @@ export class Utils {
     });
   }
 
-  public static checkAndSaveAndCloseDialog(formGroup: FormGroup, dialogService: DialogService,
+  public static checkAndSaveAndCloseDialog(formGroup: UntypedFormGroup, dialogService: DialogService,
     translateService: TranslateService, save: (data: Data) => void, closeDialog: (saved: boolean) => void) {
     if (formGroup.invalid && formGroup.dirty) {
       dialogService.createAndShowInvalidChangeCloseDialog(
@@ -229,9 +229,9 @@ export class Utils {
     return JSON.parse(JSON.stringify(object)) as T;
   }
 
-  public static validateEqual(formGroup: FormGroup, firstField: string, secondField: string) {
-    const field1: FormControl = formGroup.controls[firstField] as FormControl;
-    const field2: FormControl = formGroup.controls[secondField] as FormControl;
+  public static validateEqual(formGroup: UntypedFormGroup, firstField: string, secondField: string) {
+    const field1: UntypedFormControl = formGroup.controls[firstField] as UntypedFormControl;
+    const field2: UntypedFormControl = formGroup.controls[secondField] as UntypedFormControl;
 
     // Null?
     if (!field1.value && !field2.value) {

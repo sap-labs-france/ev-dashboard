@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 import { RefundSettings } from '../../../../types/Setting';
 
@@ -8,10 +8,10 @@ import { RefundSettings } from '../../../../types/Setting';
   templateUrl: 'settings-concur.component.html',
 })
 export class SettingsConcurComponent implements OnInit, OnChanges {
-  @Input() public formGroup!: FormGroup;
+  @Input() public formGroup!: UntypedFormGroup;
   @Input() public refundSettings!: RefundSettings;
 
-  public concur!: FormGroup;
+  public concur!: UntypedFormGroup;
   public concurAuthenticationUrl!: AbstractControl;
   public concurAppUrl!: AbstractControl;
   public concurApiUrl!: AbstractControl;
@@ -24,56 +24,56 @@ export class SettingsConcurComponent implements OnInit, OnChanges {
 
   public ngOnInit() {
     this.formGroup.addControl('concur',
-      new FormGroup({
-        authenticationUrl: new FormControl('',
+      new UntypedFormGroup({
+        authenticationUrl: new UntypedFormControl('',
           Validators.compose([
             Validators.required,
             Validators.maxLength(100),
           ]),
         ),
-        apiUrl: new FormControl('',
+        apiUrl: new UntypedFormControl('',
           Validators.compose([
             Validators.required,
             Validators.maxLength(100),
           ]),
         ),
-        appUrl: new FormControl('',
+        appUrl: new UntypedFormControl('',
           Validators.compose([
             Validators.required,
             Validators.maxLength(100),
           ]),
         ),
-        clientId: new FormControl('',
+        clientId: new UntypedFormControl('',
           Validators.compose([
             Validators.required,
             Validators.maxLength(100),
           ]),
         ),
-        clientSecret: new FormControl('',
+        clientSecret: new UntypedFormControl('',
           Validators.compose([
             Validators.required,
             Validators.maxLength(100),
           ]),
         ),
-        paymentTypeId: new FormControl('',
+        paymentTypeId: new UntypedFormControl('',
           Validators.compose([
             Validators.required,
             Validators.maxLength(100),
           ]),
         ),
-        expenseTypeCode: new FormControl('',
+        expenseTypeCode: new UntypedFormControl('',
           Validators.compose([
             Validators.required,
             Validators.maxLength(100),
           ]),
         ),
-        policyId: new FormControl('',
+        policyId: new UntypedFormControl('',
           Validators.compose([
             Validators.required,
             Validators.maxLength(100),
           ]),
         ),
-        reportName: new FormControl('',
+        reportName: new UntypedFormControl('',
           Validators.compose([
             Validators.required,
             Validators.maxLength(100),
@@ -82,7 +82,7 @@ export class SettingsConcurComponent implements OnInit, OnChanges {
       }),
     );
     // Keep
-    this.concur = (this.formGroup.controls['concur'] as FormGroup);
+    this.concur = (this.formGroup.controls['concur'] as UntypedFormGroup);
     this.concurAuthenticationUrl = this.concur.controls['authenticationUrl'];
     this.concurAppUrl = this.concur.controls['appUrl'];
     this.concurApiUrl = this.concur.controls['apiUrl'];

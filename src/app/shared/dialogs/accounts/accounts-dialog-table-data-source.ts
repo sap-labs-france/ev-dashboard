@@ -42,11 +42,11 @@ export class AccountsDialogTableDataSource extends DialogTableDataSource<Billing
     return [
       {
         id: 'companyName',
-        name: 'companies.title',
+        name: 'accounts.list.company_name',
       },
       {
         id: 'businessOwner.name',
-        name: 'users.title',
+        name: 'accounts.list.business_owner',
         formatter: (name: string, account: BillingAccount) => Utils.buildUserFullName(account.businessOwner),
       },
       {

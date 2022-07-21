@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -32,7 +32,7 @@ export class ChargingStationComponent implements OnInit {
 
   @ViewChild('chargingStationParameters', { static: true }) public chargingStationParametersComponent!: ChargingStationParametersComponent;
 
-  public formGroup: FormGroup;
+  public formGroup: UntypedFormGroup;
   public chargingStation: ChargingStation;
   public userLocales: KeyValue[];
   public isProdLandscape!: boolean;
@@ -57,7 +57,7 @@ export class ChargingStationComponent implements OnInit {
     private router: Router) {
     // Get Locales
     this.userLocales = this.localeService.getLocales();
-    this.formGroup = new FormGroup({});
+    this.formGroup = new UntypedFormGroup({});
   }
 
   public ngOnInit() {

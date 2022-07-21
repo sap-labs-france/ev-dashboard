@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormGroup } from '@angular/forms';
+import { UntypedFormArray, UntypedFormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { StatusCodes } from 'http-status-codes';
 
@@ -23,8 +23,8 @@ import { SettingsAssetConnectionEditableTableDataSource } from './settings-asset
 export class SettingsAssetComponent implements OnInit {
   public isActive = false;
 
-  public formGroup!: FormGroup;
-  public assetConnections!: FormArray;
+  public formGroup!: UntypedFormGroup;
+  public assetConnections!: UntypedFormArray;
 
   public assetSettings!: AssetSettings;
 
@@ -41,11 +41,11 @@ export class SettingsAssetComponent implements OnInit {
   public ngOnInit(): void {
     if (this.isActive) {
       // Build the form
-      this.formGroup = new FormGroup({
-        assetConnections: new FormArray([]),
+      this.formGroup = new UntypedFormGroup({
+        assetConnections: new UntypedFormArray([]),
       });
       // Form Controls
-      this.assetConnections = this.formGroup.controls['assetConnections'] as FormArray;
+      this.assetConnections = this.formGroup.controls['assetConnections'] as UntypedFormArray;
       // Assign connections form to data source
       this.assetConnectionListTableDataSource.setFormArray(this.assetConnections);
       // Load the conf

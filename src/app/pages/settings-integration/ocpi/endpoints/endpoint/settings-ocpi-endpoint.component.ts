@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -22,7 +22,7 @@ import { Utils } from '../../../../../utils/Utils';
 export class SettingsOcpiEndpointComponent implements OnInit {
   @Input() public currentEndpoint!: OCPIEndpoint;
   @Input() public dialogRef!: MatDialogRef<any>;
-  public formGroup!: FormGroup;
+  public formGroup!: UntypedFormGroup;
   public id!: AbstractControl;
   public name!: AbstractControl;
   public role!: AbstractControl;
@@ -45,43 +45,43 @@ export class SettingsOcpiEndpointComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.formGroup = new FormGroup({
-      id: new FormControl(''),
-      name: new FormControl('',
+    this.formGroup = new UntypedFormGroup({
+      id: new UntypedFormControl(''),
+      name: new UntypedFormControl('',
         Validators.compose([
           Validators.required,
           Validators.maxLength(100),
         ])),
-      role: new FormControl('',
+      role: new UntypedFormControl('',
         Validators.compose([
           Validators.required,
         ])),
-      baseUrl: new FormControl('',
+      baseUrl: new UntypedFormControl('',
         Validators.compose([
           Validators.required,
           Validators.pattern(Constants.URL_PATTERN),
         ])),
-      countryCode: new FormControl('',
+      countryCode: new UntypedFormControl('',
         Validators.compose([
           Validators.required,
           Validators.maxLength(2),
           Validators.minLength(2),
         ])),
-      partyId: new FormControl('',
+      partyId: new UntypedFormControl('',
         Validators.compose([
           Validators.required,
           Validators.maxLength(3),
           Validators.minLength(3),
         ])),
-      localToken: new FormControl('',
+      localToken: new UntypedFormControl('',
         Validators.compose([
           Validators.maxLength(64),
         ])),
-      token: new FormControl('',
+      token: new UntypedFormControl('',
         Validators.compose([
           Validators.maxLength(64),
         ])),
-      backgroundPatchJob: new FormControl(false),
+      backgroundPatchJob: new UntypedFormControl(false),
     });
     this.id = this.formGroup.controls['id'];
     this.name = this.formGroup.controls['name'];

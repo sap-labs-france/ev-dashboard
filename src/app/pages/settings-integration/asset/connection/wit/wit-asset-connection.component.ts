@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Constants } from 'utils/Constants';
 
 import { AssetWitConnectionType } from '../../../../../types/Setting';
@@ -9,10 +9,10 @@ import { AssetWitConnectionType } from '../../../../../types/Setting';
   templateUrl: 'wit-asset-connection.component.html'
 })
 export class WitAssetConnectionComponent implements OnInit {
-  @Input() public formGroup!: FormGroup;
+  @Input() public formGroup!: UntypedFormGroup;
   @Input() public witConnection!: AssetWitConnectionType;
 
-  public witLoginForm!: FormGroup;
+  public witLoginForm!: UntypedFormGroup;
   public authenticationUrl!: AbstractControl;
   public clientId!: AbstractControl;
   public clientSecret!: AbstractControl;
@@ -21,25 +21,25 @@ export class WitAssetConnectionComponent implements OnInit {
 
   public ngOnInit(): void {
     // Set login credentials form
-    this.witLoginForm = new FormGroup({
-      authenticationUrl: new FormControl('',
+    this.witLoginForm = new UntypedFormGroup({
+      authenticationUrl: new UntypedFormControl('',
         Validators.compose([
           Validators.required,
           Validators.pattern(Constants.URL_PATTERN),
         ])),
-      clientId: new FormControl('',
+      clientId: new UntypedFormControl('',
         Validators.compose([
           Validators.required,
         ])),
-      clientSecret: new FormControl('',
+      clientSecret: new UntypedFormControl('',
         Validators.compose([
           Validators.required,
         ])),
-      user: new FormControl('',
+      user: new UntypedFormControl('',
         Validators.compose([
           Validators.required,
         ])),
-      password: new FormControl('',
+      password: new UntypedFormControl('',
         Validators.compose([
           Validators.required,
         ])),

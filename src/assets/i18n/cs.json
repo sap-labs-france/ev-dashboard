@@ -1526,6 +1526,7 @@
       "select_account": "Select Connected Account",
       "add_account": "Add Connected Account",
       "business_owner": "Business Owner",
+      "company_name": "Company Name",
       "account_status": "Status",
       "account_id": "Connected Account ID",
       "billing_account": "Connected Account"

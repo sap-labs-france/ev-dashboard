@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -14,14 +14,14 @@ import { Utils } from '../../../../utils/Utils';
 })
 
 export class PricingDefinitionRestrictionsComponent implements OnInit, OnChanges {
-  @Input() public formGroup!: FormGroup;
+  @Input() public formGroup!: UntypedFormGroup;
   @Input() public pricingDefinition: PricingDefinition;
   @Input() public readOnly: boolean;
 
   public initialized = false;
 
   // Restrictions
-  public restrictions!: FormGroup;
+  public restrictions!: UntypedFormGroup;
   // Duration
   public minDurationEnabled: AbstractControl;
   public minDuration: AbstractControl;
@@ -48,22 +48,22 @@ export class PricingDefinitionRestrictionsComponent implements OnInit, OnChanges
   }
 
   public ngOnInit(): void {
-    this.formGroup.addControl('restrictions', new FormGroup({
-      minDurationEnabled: new FormControl(false),
-      minDuration: new FormControl({value: null, disabled: true}, PricingHelpers.minValidator('maxDuration')),
-      maxDurationEnabled: new FormControl(false),
-      maxDuration: new FormControl({value: null, disabled: true}, PricingHelpers.maxValidator('minDuration', 'maxDuration')),
-      minEnergyKWhEnabled: new FormControl(false),
-      minEnergyKWh: new FormControl({value: null, disabled: true}, PricingHelpers.minValidator('maxEnergyKWh')),
-      maxEnergyKWhEnabled: new FormControl(false),
-      maxEnergyKWh: new FormControl({value: null, disabled: true}, PricingHelpers.maxValidator('minEnergyKWh', 'maxEnergyKWh')),
-      timeRangeEnabled: new FormControl(false),
-      timeFrom: new FormControl({value: null, disabled: true}, PricingHelpers.minTimeValidator('timeTo')),
-      timeTo: new FormControl({value: null, disabled: true}, PricingHelpers.maxTimeValidator('timeFrom', 'timeTo')),
-      daysOfWeekEnabled: new FormControl(false),
-      selectedDays: new FormControl({value: null, disabled: true}, Validators.required),
+    this.formGroup.addControl('restrictions', new UntypedFormGroup({
+      minDurationEnabled: new UntypedFormControl(false),
+      minDuration: new UntypedFormControl({value: null, disabled: true}, PricingHelpers.minValidator('maxDuration')),
+      maxDurationEnabled: new UntypedFormControl(false),
+      maxDuration: new UntypedFormControl({value: null, disabled: true}, PricingHelpers.maxValidator('minDuration', 'maxDuration')),
+      minEnergyKWhEnabled: new UntypedFormControl(false),
+      minEnergyKWh: new UntypedFormControl({value: null, disabled: true}, PricingHelpers.minValidator('maxEnergyKWh')),
+      maxEnergyKWhEnabled: new UntypedFormControl(false),
+      maxEnergyKWh: new UntypedFormControl({value: null, disabled: true}, PricingHelpers.maxValidator('minEnergyKWh', 'maxEnergyKWh')),
+      timeRangeEnabled: new UntypedFormControl(false),
+      timeFrom: new UntypedFormControl({value: null, disabled: true}, PricingHelpers.minTimeValidator('timeTo')),
+      timeTo: new UntypedFormControl({value: null, disabled: true}, PricingHelpers.maxTimeValidator('timeFrom', 'timeTo')),
+      daysOfWeekEnabled: new UntypedFormControl(false),
+      selectedDays: new UntypedFormControl({value: null, disabled: true}, Validators.required),
     }));
-    this.restrictions = this.formGroup.controls['restrictions'] as FormGroup;
+    this.restrictions = this.formGroup.controls['restrictions'] as UntypedFormGroup;
     this.minDurationEnabled = this.restrictions.controls['minDurationEnabled'];
     this.minDuration = this.restrictions.controls['minDuration'];
     this.maxDurationEnabled = this.restrictions.controls['maxDurationEnabled'];

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -26,7 +26,7 @@ import { Utils } from '../../../../../utils/Utils';
   templateUrl: 'site-area-main.component.html',
 })
 export class SiteAreaMainComponent implements OnInit, OnChanges {
-  @Input() public formGroup: FormGroup;
+  @Input() public formGroup: UntypedFormGroup;
   @Input() public siteArea!: SiteArea;
   @Input() public readOnly: boolean;
   @Output() public siteChanged = new EventEmitter<Site>();
@@ -63,27 +63,27 @@ export class SiteAreaMainComponent implements OnInit, OnChanges {
 
   public ngOnInit() {
     // Init the form
-    this.formGroup.addControl('issuer', new FormControl(true));
-    this.formGroup.addControl('id', new FormControl(''));
-    this.formGroup.addControl('name', new FormControl('',
+    this.formGroup.addControl('issuer', new UntypedFormControl(true));
+    this.formGroup.addControl('id', new UntypedFormControl(''));
+    this.formGroup.addControl('name', new UntypedFormControl('',
       Validators.compose([
         Validators.required,
         Validators.maxLength(255),
       ])
     ));
-    this.formGroup.addControl('site', new FormControl('',
+    this.formGroup.addControl('site', new UntypedFormControl('',
       Validators.compose([
         Validators.required,
       ])
     ));
-    this.formGroup.addControl('siteID', new FormControl('',
+    this.formGroup.addControl('siteID', new UntypedFormControl('',
       Validators.compose([
         Validators.required,
       ])
     ));
-    this.formGroup.addControl('parentSiteArea', new FormControl(null));
-    this.formGroup.addControl('parentSiteAreaID', new FormControl(null));
-    this.formGroup.addControl('accessControl', new FormControl(true));
+    this.formGroup.addControl('parentSiteArea', new UntypedFormControl(null));
+    this.formGroup.addControl('parentSiteAreaID', new UntypedFormControl(null));
+    this.formGroup.addControl('accessControl', new UntypedFormControl(true));
     // Form
     this.issuer = this.formGroup.controls['issuer'];
     this.id = this.formGroup.controls['id'];

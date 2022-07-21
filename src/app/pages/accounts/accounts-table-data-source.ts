@@ -70,7 +70,7 @@ export class BillingAccountsTableDataSource extends TableDataSource<BillingAccou
       },
       {
         id: 'companyName',
-        name: 'companies.title',
+        name: 'accounts.list.company_name',
         headerClass: 'col-25p',
         class: 'col-25p',
         sortable: true,

@@ -126,15 +126,15 @@ export interface BillingPlatformFeeData {
   invoiceExternalID?: string; // Invoice sent to the CPO
 }
 
-export interface BillingAccountSessionFee extends BillingPlatformFeeStrategy {
-  feeAmount: number;
-}
-
 export interface BillingTransfer extends TableData, CreatedUpdatedProps, BillingTransferAuthorizationActions {
   id: string;
   status: BillingTransferStatus;
-  sessions: BillingTransferSession[];
-  totalAmount: number; // Depends on the fee strategy and thus on the final number of sessions
+  sessionCounter: number; // Number of transactions
+  collectedFunds: number; // Total amount of the priced transactions
+  collectedFlatFees: number;
+  collectedFees: number; // Total amount of the platform fee collected
+  totalConsumptionWh: number;
+  totalDurationSecs: number;
   transferAmount: number; // Amount transferred after applying platform fees
   accountID: string;
   account?: BillingAccount;
@@ -147,16 +147,6 @@ export interface BillingTransfer extends TableData, CreatedUpdatedProps, Billing
 
 // Very important - preserve maximal precision - Decimal type is persisted as an object in the DB
 // export type BillingAmount = Decimal.Value;
-
-export interface BillingTransferSession {
-  transactionID: number;
-  invoiceID: string;
-  invoiceNumber: string;
-  // amountAsDecimal: BillingAmount;
-  amount: number; // ACHTUNG - That one should not include any taxes
-  roundedAmount: number;
-  accountSessionFee: BillingAccountSessionFee;
-}
 
 export interface BillingPlatformInvoice {
   invoiceID: string;

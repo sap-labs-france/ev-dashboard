@@ -52,7 +52,7 @@
     "eslint:file": "mkdir -p test/results-eslint && ng lint --format json --silent > test/results-eslint/jsonOutput.json",
     "eslint:report": "ng-lint-report --jsonfile test/results-eslint/jsonOutput.json --output test/results-eslint",
     "clean-install": "rimraf package-lock.json && rimraf node_modules && npm cache clear --force && npm install --force",
-    "npm-check": "npm-check",
+    "npm-check": "npm-check --skip-unused",
     "ng:update": "ng update",
     "angular-update": "ng update @angular/cli @angular/core",
     "material-update": "ng update @angular/material",

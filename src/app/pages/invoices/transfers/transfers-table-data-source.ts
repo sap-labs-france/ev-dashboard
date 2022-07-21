@@ -10,7 +10,7 @@ import { TableSendBillingTransferAction } from 'shared/table/actions/invoices/ta
 import { TableMoreAction } from 'shared/table/actions/table-more-action';
 import { TableViewTransactionAction, TableViewTransactionActionDef, TransactionDialogData } from 'shared/table/actions/transactions/table-view-transaction-action';
 import { DateRangeTableFilter } from 'shared/table/filters/date-range-table-filter';
-import { BillingTransfer, BillingTransferSession, BillingTransferStatus, TransferButtonAction } from 'types/Billing';
+import { BillingTransfer, BillingTransferStatus, TransferButtonAction } from 'types/Billing';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -128,15 +128,14 @@ export class TransfersTableDataSource extends TableDataSource<BillingTransfer> {
       //   direction: 'desc',
       // },
       {
-        id: 'sessions',
+        id: 'sessionCounter',
         name: 'transfers.number_of_items',
-        formatter: (sessions: BillingTransferSession[], invoice: BillingTransfer) => sessions?.length?.toString(),
         headerClass: 'col-10p text-center',
         class: 'col-10p text-center',
         sortable: false,
       },
       {
-        id: 'totalAmount',
+        id: 'collectedFunds',
         name: 'transfers.collected_funds',
         formatter: (amount: number, transfer: BillingTransfer) => this.appCurrencyPipe.transform(amount, transfer.currency),
         headerClass: 'col-10p',
@@ -144,8 +143,16 @@ export class TransfersTableDataSource extends TableDataSource<BillingTransfer> {
         sortable: false,
       },
       {
-        id: 'invoice.totalAmount',
+        id: 'collectedFees',
         name: 'transfers.platform_fee_amount',
+        formatter: (amount: number, transfer: BillingTransfer) => this.appCurrencyPipe.transform(amount, transfer.currency),
+        headerClass: 'col-10p',
+        class: 'col-10p',
+        sortable: false,
+      },
+      {
+        id: 'invoice.totalAmount',
+        name: 'Fees (incl. taxes)',
         formatter: (amount: number, transfer: BillingTransfer) => this.appCurrencyPipe.transform(amount, transfer.currency),
         headerClass: 'col-10p',
         class: 'col-10p',

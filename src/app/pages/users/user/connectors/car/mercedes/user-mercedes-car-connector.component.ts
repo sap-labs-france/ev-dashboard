@@ -93,6 +93,7 @@ export class UserMercedesCarConnectorComponent implements OnInit, OnChanges {
         userId: this.user?.id,
       };
       this.document.location.href =
+        // eslint-disable-next-line max-len
         `${mercedesSetting.authenticationUrl}/as/authorization.oauth2?client_id=${mercedesSetting.clientId}&response_type=code&scope=mb:vehicle:mbdata:evstatus offline_access&redirect_uri=${returnedUrl}&state=${JSON.stringify(state)}`;
     }
   }

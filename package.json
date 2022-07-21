@@ -158,7 +158,7 @@
     "moment-timezone-data-webpack-plugin": "^1.5.0",
     "ng-lint-report": "^0.2.0",
     "npm-check": "^6.0.1",
-    "puppeteer": "^15.4.0",
+    "puppeteer": "^15.4.2",
     "rimraf": "^3.0.2",
     "rosie": "^2.1.0",
     "ts-node": "~10.9.1",

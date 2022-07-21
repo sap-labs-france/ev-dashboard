@@ -161,7 +161,7 @@
     "puppeteer": "^15.4.0",
     "rimraf": "^3.0.2",
     "rosie": "^2.1.0",
-    "ts-node": "~10.8.2",
+    "ts-node": "~10.9.1",
     "ts-node-dev": "^2.0.0",
     "typescript": "~4.6.4",
     "webpack": "^5.73.0",

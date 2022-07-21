@@ -10,6 +10,7 @@ import { Company } from '../../../../../types/Company';
 @Component({
   selector: 'app-company-billing',
   templateUrl: 'company-billing.component.html',
+  styleUrls: ['./company-billing.component.scss']
 })
 export class CompanyBillingComponent implements OnInit, OnChanges {
   @Input() public formGroup: FormGroup;
@@ -21,6 +22,7 @@ export class CompanyBillingComponent implements OnInit, OnChanges {
   public accountName!: AbstractControl;
   public flatFee!: AbstractControl;
   public percentage!: AbstractControl;
+  public accountUserName!: string;
 
   // eslint-disable-next-line no-useless-constructor
   public constructor(
@@ -61,6 +63,7 @@ export class CompanyBillingComponent implements OnInit, OnChanges {
         this.accountName.setValue(accountData.account.companyName);
         this.flatFee.setValue(accountData.platformFeeStrategy.flatFeePerSession);
         this.percentage.setValue(accountData.platformFeeStrategy.percentage);
+        this.accountUserName = Utils.buildUserFullName(accountData.account.businessOwner);
       }
     }
   }
@@ -87,8 +90,10 @@ export class CompanyBillingComponent implements OnInit, OnChanges {
     };
     // Open
     this.dialog.open(AccountsDialogComponent, dialogConfig).afterClosed().subscribe((result) => {
-      this.accountID.setValue((result[0].objectRef as BillingAccount).id);
-      this.accountName.setValue((result[0].objectRef as BillingAccount).companyName);
+      const account = result[0].objectRef as BillingAccount;
+      this.accountID.setValue(account.id);
+      this.accountName.setValue(account.companyName);
+      this.accountUserName = Utils.buildUserFullName(account.businessOwner);
       this.formGroup.markAsDirty();
     });
   }
@@ -96,6 +101,7 @@ export class CompanyBillingComponent implements OnInit, OnChanges {
   public resetAccount() {
     this.accountID.reset();
     this.accountName.reset();
+    this.accountUserName = '';
     this.formGroup.markAsDirty();
   }
 

@@ -18,8 +18,8 @@ export class TableOnboardAccountAction implements TableAction {
     type: 'button',
     color: ButtonActionColor.PRIMARY,
     icon: 'person_add',
-    name: 'general.add',
-    tooltip: 'general.tooltips.add',
+    name: 'accounts.onboarding.onboard_action',
+    tooltip: 'accounts.onboarding.onboard_action',
     action: this.onboardAccount,
   };
 

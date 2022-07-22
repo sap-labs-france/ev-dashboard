@@ -1542,6 +1542,7 @@
       "account_active": "Active"
     },
     "onboarding": {
+      "onboard_action": "Envoyer l'emnail d'invitation au responsable de l'entreprise",
       "onboarding_title": "Open e-Mobility - Enregistrement et connexion de votre compte",
       "onboarding_message": "Vous avez reçu une invitation afin de connecter le compte de votre société à la platforme Open e-Mobility.",
       "onboarding_message_to_proceed": "Cliquez le lien ci-dessous pour ternminer la procédure.",
@@ -1556,7 +1557,7 @@
       "platform_flat_fee": "Flat fee per session",
       "platform_flat_fee_invalid": "Flat fee entered must be a positive number",
       "platform_fee_percentage": "Fee percentage per session",
-      "platform_fee_percentage_invalid": "Fee percentage must be between 0 to 100"
+      "platform_fee_percentage_invalid": "Fee percentage must be between 0% to 100%"
     }
   },
   "settings": {

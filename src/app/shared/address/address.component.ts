@@ -118,19 +118,12 @@ export class AddressComponent implements OnInit, OnChanges {
         this.latitude = this.coordinates?.at(1);
       }
       if (this.mandatory) {
-        this.address1.setValidators(Validators.required);
-        this.city.setValidators(Validators.required);
-        this.postalCode.setValidators(Validators.required);
-        this.country.setValidators(Validators.required);
-        this.latitude.setValidators(Validators.required);
-        this.longitude.setValidators(Validators.required);
-      } else {
-        this.address1.clearValidators();
-        this.city.clearValidators();
-        this.postalCode.clearValidators();
-        this.country.clearValidators();
-        this.latitude.clearValidators();
-        this.longitude.clearValidators();
+        this.address1.addValidators(Validators.required);
+        this.city.addValidators(Validators.required);
+        this.postalCode.addValidators(Validators.required);
+        this.country.addValidators(Validators.required);
+        this.latitude.addValidators(Validators.required);
+        this.longitude.addValidators(Validators.required);
       }
       this.address1.updateValueAndValidity();
       this.city.updateValueAndValidity();

@@ -1522,10 +1522,13 @@
   "accounts": {
     "title": "Connected Accounts",
     "list": {
+      "select_account": "Select Connected Account",
       "add_account": "Add Connected Account",
       "business_owner": "Business Owner",
+      "company_name": "Nom de l'entreprise",
       "account_status": "Status",
-      "account_id": "Connected Account ID"
+      "account_id": "Connected Account ID",
+      "billing_account": "Connected Account"
     },
     "message": {
       "create_success": "Account was added successfully",
@@ -1539,6 +1542,7 @@
       "account_active": "Active"
     },
     "onboarding": {
+      "onboard_action": "Envoyer l'email d'inscription au responsable de l'entreprise",
       "onboarding_title": "Open e-Mobility - Enregistrement et connexion de votre compte",
       "onboarding_message": "Vous avez reçu une invitation afin de connecter le compte de votre société à la platforme Open e-Mobility.",
       "onboarding_message_to_proceed": "Cliquez le lien ci-dessous pour ternminer la procédure.",
@@ -1547,6 +1551,13 @@
       "onboarding_button_proceed": "Continuer",
       "onboarding_navigate_to_dashboard": "Retour vers le tableau de bord",
       "onboarding_process_failed": "L'activation de votre compte a échoué - contactez le support pour obtenir de l'aide !"
+    },
+    "platform_fee": {
+      "platform_fee_group_title": "Commission Appliquée par la plateforme",
+      "platform_flat_fee": "Frais fixe par session",
+      "platform_flat_fee_invalid": "Les frais fixes doivent étre supérieur à zéro",
+      "platform_fee_percentage": "Pourcentage de frais de commission",
+      "platform_fee_percentage_invalid": "Le pourcentage doit être compris entre 0% et 100%"
     }
   },
   "settings": {

@@ -42,7 +42,7 @@ export class AccountDialogComponent implements OnInit{
 
   public ngOnInit(): void {
     this.formGroup = new UntypedFormGroup({
-      id: new UntypedFormControl(this.currentAccount ? this.currentAccount.accountExternalID : ''),
+      id: new UntypedFormControl(this.currentAccount ? this.currentAccount.id : null),
       user: new UntypedFormControl(''),
       userID: new UntypedFormControl(''),
       companyName: new UntypedFormControl(''),
@@ -68,7 +68,7 @@ export class AccountDialogComponent implements OnInit{
   public save(currentAccount: {id: string; userID: string; user: string; companyName: string}) {
     this.spinnerService.show();
     this.centralServerService.createBillingAccount({
-      id: '',
+      id: currentAccount.id,
       companyName: currentAccount.companyName,
       businessOwnerID: currentAccount.userID
     }).subscribe((response) => {

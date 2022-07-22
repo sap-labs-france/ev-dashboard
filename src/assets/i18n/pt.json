@@ -1553,11 +1553,11 @@
       "onboarding_process_failed": "The activation of your account has failed - contact the support to get help!"
     },
     "platform_fee": {
-      "platform_fee_group_title": "Commission Appliquée par la plateforme",
-      "platform_flat_fee": "Frais fixe par session",
-      "platform_flat_fee_invalid": "Les frais fixes doivent étre supérieur à zéro",
-      "platform_fee_percentage": "Pourcentage de frais de commission",
-      "platform_fee_percentage_invalid": "Le pourcentage doit étre compris entre 0% et 100%"
+      "platform_fee_group_title": "Platform Fee",
+      "platform_flat_fee": "Flat fee per session",
+      "platform_flat_fee_invalid": "Flat fee entered must be a positive number",
+      "platform_fee_percentage": "Fee percentage per session",
+      "platform_fee_percentage_invalid": "Fee percentage must be between 0% to 100%"
     }
   },
   "settings": {

@@ -19,10 +19,10 @@ export class CompanyBillingComponent implements OnInit, OnChanges {
 
   public initialized = false;
   public accountID!: AbstractControl;
-  public accountName!: AbstractControl;
+  public companyName!: AbstractControl;
   public flatFee!: AbstractControl;
   public percentage!: AbstractControl;
-  public accountUserName!: string;
+  public businessOwnerName!: string;
 
   // eslint-disable-next-line no-useless-constructor
   public constructor(
@@ -31,7 +31,7 @@ export class CompanyBillingComponent implements OnInit, OnChanges {
 
   public ngOnInit() {
     this.formGroup.addControl('accountID', new FormControl(''));
-    this.formGroup.addControl('accountName', new FormControl(''));
+    this.formGroup.addControl('companyName', new FormControl(''));
     this.formGroup.addControl('flatFee', new FormControl(0,
       Validators.compose([
         Validators.pattern(/^[+]?([0-9]*[.])?[0-9]+$/),
@@ -44,7 +44,7 @@ export class CompanyBillingComponent implements OnInit, OnChanges {
       ])
     ));
     this.accountID = this.formGroup.controls['accountID'];
-    this.accountName = this.formGroup.controls['accountName'];
+    this.companyName = this.formGroup.controls['companyName'];
     this.flatFee = this.formGroup.controls['flatFee'];
     this.percentage = this.formGroup.controls['percentage'];
     this.initialized = true;
@@ -60,26 +60,15 @@ export class CompanyBillingComponent implements OnInit, OnChanges {
       if (this.company.accountData) {
         const accountData = this.company.accountData;
         this.accountID.setValue(accountData.accountID);
-        this.accountName.setValue(accountData.account.companyName);
+        this.companyName.setValue(accountData.account.companyName);
         this.flatFee.setValue(accountData.platformFeeStrategy.flatFeePerSession);
         this.percentage.setValue(accountData.platformFeeStrategy.percentage);
-        this.accountUserName = Utils.buildUserFullName(accountData.account.businessOwner);
+        this.businessOwnerName = Utils.buildUserFullName(accountData.account.businessOwner);
       }
     }
   }
 
-  public getAccountData() {
-    const companyAccountData: BillingAccountData = {
-      accountID: this.accountID.value,
-      platformFeeStrategy: {
-        flatFeePerSession: this.flatFee.value,
-        percentage: this.percentage.value
-      }
-    };
-    return companyAccountData;
-  }
-
-  public assignAccounts() {
+  public assignAccount() {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.panelClass = 'transparent-dialog-container';
     // Set data
@@ -92,17 +81,27 @@ export class CompanyBillingComponent implements OnInit, OnChanges {
     this.dialog.open(AccountsDialogComponent, dialogConfig).afterClosed().subscribe((result) => {
       const account = result[0].objectRef as BillingAccount;
       this.accountID.setValue(account.id);
-      this.accountName.setValue(account.companyName);
-      this.accountUserName = Utils.buildUserFullName(account.businessOwner);
+      this.companyName.setValue(account.companyName);
+      this.businessOwnerName = Utils.buildUserFullName(account.businessOwner);
       this.formGroup.markAsDirty();
     });
   }
 
   public resetAccount() {
     this.accountID.reset();
-    this.accountName.reset();
-    this.accountUserName = '';
+    this.companyName.reset();
+    this.businessOwnerName = '';
     this.formGroup.markAsDirty();
   }
 
+  public updateCompanyConnectedAccount(company: Company) {
+    const accountID = this.accountID.value;
+    company.accountData = {
+      accountID,
+      platformFeeStrategy: {
+        flatFeePerSession: (accountID)? this.flatFee.value: 0,
+        percentage: (accountID)?  this.percentage.value: 0,
+      }
+    };
+  }
 }

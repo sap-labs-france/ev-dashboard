@@ -108,7 +108,6 @@ export class CompanyComponent extends AbstractTabComponent implements OnInit {
 
   public saveCompany(company: Company) {
     if (this.currentCompanyID) {
-      company.accountData = this.companyBillingComponent.getAccountData();
       this.updateCompany(company);
     } else {
       this.createCompany(company);
@@ -121,6 +120,8 @@ export class CompanyComponent extends AbstractTabComponent implements OnInit {
     this.companyMainComponent.updateCompanyLogo(company);
     // Set coordinates
     this.companyMainComponent.updateCompanyCoordinates(company);
+    // Set connected account
+    this.companyBillingComponent?.updateCompanyConnectedAccount(company);
     // Create
     this.centralServerService.createCompany(company).subscribe((response) => {
       this.spinnerService.hide();
@@ -152,6 +153,8 @@ export class CompanyComponent extends AbstractTabComponent implements OnInit {
     this.companyMainComponent.updateCompanyLogo(company);
     // Set coordinates
     this.companyMainComponent.updateCompanyCoordinates(company);
+    // Set connected account
+    this.companyBillingComponent?.updateCompanyConnectedAccount(company);
     // Update
     this.centralServerService.updateCompany(company).subscribe((response) => {
       this.spinnerService.hide();

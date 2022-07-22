@@ -1550,6 +1550,13 @@
       "onboarding_button_proceed": "Continuer",
       "onboarding_navigate_to_dashboard": "Retour vers le tableau de bord",
       "onboarding_process_failed": "L'activation de votre compte a échoué - contactez le support pour obtenir de l'aide !"
+    },
+    "platform_fee": {
+      "platform_fee_group_title": "Platform Fee",
+      "platform_flat_fee": "Flat fee per session",
+      "platform_flat_fee_invalid": "Flat fee entered must be a positive number",
+      "platform_fee_percentage": "Fee percentage per session",
+      "platform_fee_percentage_invalid": "Fee percentage must be between 0 to 100"
     }
   },
   "settings": {
@@ -1658,9 +1665,6 @@
       "valid_from": "Valide à partir de",
       "valid_to": "Valide jusqu'au",
       "flat_fee": "Frais fixe",
-      "invalid_flat_fee": "Flat fee entered must be a positive number",
-      "percentage": "Percentage (%)",
-      "invalid_percentage": "Must be a valid percentage between 0 to 100",
       "energy": "Energie",
       "charging_time": "Temps de charge",
       "parking_time": "Temps de parking",

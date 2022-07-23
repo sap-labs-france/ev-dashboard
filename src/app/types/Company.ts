@@ -1,4 +1,5 @@
 import { Address } from './Address';
+import { BillingAccountData } from './Billing';
 import CreatedUpdatedProps from './CreatedUpdatedProps';
 import { TableData } from './Table';
 
@@ -8,6 +9,7 @@ export interface Company extends TableData, CreatedUpdatedProps {
   address: Address;
   logo: string;
   issuer: boolean;
+  accountData?: BillingAccountData;
 }
 
 export enum CompanyButtonAction {

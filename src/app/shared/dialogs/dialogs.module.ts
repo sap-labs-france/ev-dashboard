@@ -14,6 +14,8 @@ import { ErrorCodeDetailsComponent } from '../component/error-code-details/error
 import { AppConnectorIdPipe } from '../formatters/app-connector-id.pipe';
 import { FormattersModule } from '../formatters/formatters.module';
 import { TableModule } from '../table/table.module';
+import { AccountsDialogTableDataSource } from './accounts/accounts-dialog-table-data-source';
+import { AccountsDialogComponent } from './accounts/accounts-dialog.component';
 import { AssetsDialogTableDataSource } from './assets/assets-dialog-table-data-source';
 import { AssetsDialogComponent } from './assets/assets-dialog.component';
 import { CarCatalogsDialogTableDataSource } from './car-catalogs/car-catalogs-dialog-table-data-source';
@@ -84,6 +86,7 @@ import { UsersDialogComponent } from './users/users-dialog.component';
     ReportsDialogComponent,
     CarCatalogsDialogComponent,
     LogActionsDialogComponent,
+    AccountsDialogComponent,
   ],
   exports: [
     CarMakersDialogComponent,
@@ -106,6 +109,7 @@ import { UsersDialogComponent } from './users/users-dialog.component';
     ReportsDialogComponent,
     CarCatalogsDialogComponent,
     LogActionsDialogComponent,
+    AccountsDialogComponent,
   ],
   providers: [
     AppConnectorIdPipe,
@@ -122,6 +126,7 @@ import { UsersDialogComponent } from './users/users-dialog.component';
     CarMakersTableDataSource,
     CarCatalogsDialogTableDataSource,
     LogActionsDialogTableDataSource,
+    AccountsDialogTableDataSource
   ]
 })
 export class DialogsModule {

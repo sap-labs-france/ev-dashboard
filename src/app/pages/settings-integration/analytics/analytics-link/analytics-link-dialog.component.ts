@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -15,7 +15,7 @@ import { Utils } from '../../../../utils/Utils';
   styleUrls: ['analytics-link-dialog.component.scss']
 })
 export class AnalyticsLinkDialogComponent implements OnInit {
-  public formGroup!: FormGroup;
+  public formGroup!: UntypedFormGroup;
   public id!: AbstractControl;
   public name!: AbstractControl;
   public description!: AbstractControl;
@@ -42,17 +42,17 @@ export class AnalyticsLinkDialogComponent implements OnInit {
       { key: 'D', value: '' },
       { key: '', value: '' } ];
     this.roleList.forEach((role) => role.value = this.translateService.instant(this.appUserMultipleRolesPipe.transform(role.key)));
-    this.formGroup = new FormGroup({
-      id: new FormControl(this.currentLink ? this.currentLink.id : ''),
-      name: new FormControl(this.currentLink ? this.currentLink.name : '',
+    this.formGroup = new UntypedFormGroup({
+      id: new UntypedFormControl(this.currentLink ? this.currentLink.id : ''),
+      name: new UntypedFormControl(this.currentLink ? this.currentLink.name : '',
         Validators.compose([
           Validators.required,
           Validators.maxLength(100),
         ])),
-      description: new FormControl(this.currentLink ? this.currentLink.description : '',
+      description: new UntypedFormControl(this.currentLink ? this.currentLink.description : '',
         Validators.required),
-      role: new FormControl(this.currentLink ? this.currentLink.role : ''),
-      url: new FormControl(this.currentLink ? this.currentLink.url : '',
+      role: new UntypedFormControl(this.currentLink ? this.currentLink.role : ''),
+      url: new UntypedFormControl(this.currentLink ? this.currentLink.url : '',
         Validators.compose([
           Validators.required,
           Validators.pattern(Constants.URL_PATTERN),

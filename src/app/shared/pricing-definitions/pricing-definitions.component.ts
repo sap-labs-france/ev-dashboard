@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 
 import { ComponentService } from '../../services/component.service';
@@ -22,7 +22,7 @@ export class PricingDefinitionsComponent implements OnInit {
   @Input() public currentEntityName!: string;
 
   public isActive = false;
-  public formGroup: FormGroup;
+  public formGroup: UntypedFormGroup;
 
   public constructor(
     private componentService: ComponentService,

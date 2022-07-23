@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { StatusCodes } from 'http-status-codes';
 import { CentralServerService } from 'services/central-server.service';
@@ -17,7 +17,7 @@ import { Utils } from '../../../utils/Utils';
   templateUrl: 'settings-crypto.component.html',
 })
 export class SettingsCryptoComponent implements OnInit {
-  public formGroup!: FormGroup;
+  public formGroup!: UntypedFormGroup;
   public cryptoSettings: CryptoSettings;
 
   // eslint-disable-next-line no-useless-constructor
@@ -31,7 +31,7 @@ export class SettingsCryptoComponent implements OnInit {
 
   public ngOnInit(): void {
     // Build the form
-    this.formGroup = new FormGroup({});
+    this.formGroup = new UntypedFormGroup({});
     // Load the conf
     this.loadConfiguration();
   }

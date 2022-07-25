@@ -3,18 +3,26 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { ComponentService } from 'services/component.service';
 import { SiteTableFilter } from 'shared/table/filters/site-table-filter';
 import { AssetsAuthorizations } from 'types/Authorization';
 import { TenantComponents } from 'types/Tenant';
 
-import { CentralServerService } from '../../../services/central-server.service';
-import { DialogService } from '../../../services/dialog.service';
-import { MessageService } from '../../../services/message.service';
-import { SpinnerService } from '../../../services/spinner.service';
+import {
+  CentralServerService,
+  DialogService,
+  MessageService,
+  SpinnerService,
+  ComponentService,
+} from '@services';
 import { ErrorCodeDetailsComponent } from '../../../shared/component/error-code-details/error-code-details.component';
-import { TableDeleteAssetAction, TableDeleteAssetActionDef } from '../../../shared/table/actions/assets/table-delete-asset-action';
-import { TableEditAssetAction, TableEditAssetActionDef } from '../../../shared/table/actions/assets/table-edit-asset-action';
+import {
+  TableDeleteAssetAction,
+  TableDeleteAssetActionDef,
+} from '../../../shared/table/actions/assets/table-delete-asset-action';
+import {
+  TableEditAssetAction,
+  TableEditAssetActionDef,
+} from '../../../shared/table/actions/assets/table-edit-asset-action';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
 import { TableMoreAction } from '../../../shared/table/actions/table-more-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
@@ -37,8 +45,10 @@ export class AssetsInErrorTableDataSource extends TableDataSource<AssetInError> 
   private errorTypes = [
     {
       key: AssetInErrorType.MISSING_SITE_AREA,
-      value: this.translateService.instant(`assets.errors.${AssetInErrorType.MISSING_SITE_AREA}.title`),
-    }
+      value: this.translateService.instant(
+        `assets.errors.${AssetInErrorType.MISSING_SITE_AREA}.title`
+      ),
+    },
   ];
 
   public constructor(
@@ -49,7 +59,8 @@ export class AssetsInErrorTableDataSource extends TableDataSource<AssetInError> 
     private componentService: ComponentService,
     private centralServerService: CentralServerService,
     private dialog: MatDialog,
-    private dialogService: DialogService) {
+    private dialogService: DialogService
+  ) {
     super(spinnerService, translateService);
     // Init
     this.setStaticFilters([{ WithSiteArea: true }]);
@@ -58,20 +69,30 @@ export class AssetsInErrorTableDataSource extends TableDataSource<AssetInError> 
 
   public loadDataImpl(): Observable<AssetInErrorDataResult> {
     return new Observable((observer) => {
-      this.centralServerService.getAssetsInError(this.buildFilterValues(),
-        this.getPaging(), this.getSorting()).subscribe((assets) => {
-        this.assetsAuthorizations = {
-          canListSiteAreas: assets.canListSiteAreas,
-          canCreate: assets.canCreate,
-          canListSites: assets.canListSites
-        };
-        this.formatErrorMessages(assets.result);
-        observer.next(assets);
-        observer.complete();
-      }, (error) => {
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        observer.error(error);
-      });
+      this.centralServerService
+        .getAssetsInError(this.buildFilterValues(), this.getPaging(), this.getSorting())
+        .subscribe(
+          (assets) => {
+            this.assetsAuthorizations = {
+              canListSiteAreas: assets.canListSiteAreas,
+              canCreate: assets.canCreate,
+              canListSites: assets.canListSites,
+            };
+            this.formatErrorMessages(assets.result);
+            observer.next(assets);
+            observer.complete();
+          },
+          (error) => {
+            Utils.handleHttpError(
+              error,
+              this.router,
+              this.messageService,
+              this.centralServerService,
+              'general.error_backend'
+            );
+            observer.error(error);
+          }
+        );
     });
   }
 
@@ -130,14 +151,26 @@ export class AssetsInErrorTableDataSource extends TableDataSource<AssetInError> 
     switch (actionDef.id) {
       case AssetButtonAction.EDIT_ASSET:
         if (actionDef.action) {
-          (actionDef as TableEditAssetActionDef).action(AssetDialogComponent, this.dialog,
-            { dialogData: asset, authorizations: this.assetsAuthorizations }, this.refreshData.bind(this));
+          (actionDef as TableEditAssetActionDef).action(
+            AssetDialogComponent,
+            this.dialog,
+            { dialogData: asset, authorizations: this.assetsAuthorizations },
+            this.refreshData.bind(this)
+          );
         }
         break;
       case AssetButtonAction.DELETE_ASSET:
         if (actionDef.action) {
-          (actionDef as TableDeleteAssetActionDef).action(asset, this.dialogService, this.translateService, this.messageService,
-            this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
+          (actionDef as TableDeleteAssetActionDef).action(
+            asset,
+            this.dialogService,
+            this.translateService,
+            this.messageService,
+            this.centralServerService,
+            this.spinnerService,
+            this.router,
+            this.refreshData.bind(this)
+          );
         }
         break;
     }
@@ -145,9 +178,7 @@ export class AssetsInErrorTableDataSource extends TableDataSource<AssetInError> 
 
   public buildTableFiltersDef(): TableFilterDef[] {
     const issuerFilter = new IssuerFilter().getFilterDef();
-    const filters: TableFilterDef[] = [
-      issuerFilter,
-    ];
+    const filters: TableFilterDef[] = [issuerFilter];
     // Show Site Area Filter If Organization component is active
     if (this.componentService.isActive(TenantComponents.ORGANIZATION)) {
       const siteFilter = new SiteTableFilter([issuerFilter]).getFilterDef();
@@ -167,9 +198,7 @@ export class AssetsInErrorTableDataSource extends TableDataSource<AssetInError> 
             rowActions.push(this.editAction);
           }
           if (asset.canDelete) {
-            rowActions.push(new TableMoreAction([
-              this.deleteAction,
-            ]).getActionDef());
+            rowActions.push(new TableMoreAction([this.deleteAction]).getActionDef());
           }
           return rowActions;
       }

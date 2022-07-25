@@ -3,10 +3,7 @@ import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } fro
 import { Router } from '@angular/router';
 import { AssetsAuthorizations } from 'types/Authorization';
 
-import { CentralServerService } from '../../../../services/central-server.service';
-import { ComponentService } from '../../../../services/component.service';
-import { MessageService } from '../../../../services/message.service';
-import { SpinnerService } from '../../../../services/spinner.service';
+import { CentralServerService, ComponentService, MessageService, SpinnerService } from '@services';
 import { Asset } from '../../../../types/Asset';
 import { KeyValue } from '../../../../types/GlobalType';
 import { Utils } from '../../../../utils/Utils';
@@ -36,27 +33,23 @@ export class AssetConnectionComponent implements OnInit, OnChanges {
     private messageService: MessageService,
     private spinnerService: SpinnerService,
     private router: Router
-  ) {
-  }
+  ) {}
 
   public ngOnInit() {
     // Init the form
-    this.formGroup.addControl('connectionID', new UntypedFormControl('',
-      Validators.compose([
-        Validators.required,
-      ])
-    ));
-    this.formGroup.addControl('dynamicAsset', new UntypedFormControl(false,
-      Validators.compose([
-        Validators.required,
-      ])
-    ));
+    this.formGroup.addControl(
+      'connectionID',
+      new UntypedFormControl('', Validators.compose([Validators.required]))
+    );
+    this.formGroup.addControl(
+      'dynamicAsset',
+      new UntypedFormControl(false, Validators.compose([Validators.required]))
+    );
     this.formGroup.addControl('usesPushAPI', new UntypedFormControl(false));
-    this.formGroup.addControl('meterID', new UntypedFormControl('',
-      Validators.compose([
-        Validators.required,
-      ])
-    ));
+    this.formGroup.addControl(
+      'meterID',
+      new UntypedFormControl('', Validators.compose([Validators.required]))
+    );
     // Form
     this.dynamicAsset = this.formGroup.controls['dynamicAsset'];
     this.usesPushAPI = this.formGroup.controls['usesPushAPI'];
@@ -90,7 +83,11 @@ export class AssetConnectionComponent implements OnInit, OnChanges {
   }
 
   public disableConnectionDetails() {
-    if (Utils.convertToBoolean(this.dynamicAsset.value && !Utils.convertToBoolean(this.usesPushAPI.value))) {
+    if (
+      Utils.convertToBoolean(
+        this.dynamicAsset.value && !Utils.convertToBoolean(this.usesPushAPI.value)
+      )
+    ) {
       this.connectionID.enable();
       this.meterID.enable();
     } else {
@@ -109,19 +106,27 @@ export class AssetConnectionComponent implements OnInit, OnChanges {
 
   public loadAssetConnection() {
     this.spinnerService.show();
-    this.componentService.getAssetSettings().subscribe((assetSettings) => {
-      this.spinnerService.hide();
-      if (assetSettings) {
-        const connections = [] as KeyValue[];
-        for (const connection of assetSettings.asset.connections) {
-          connections.push({ key: connection.id, value: connection.name });
+    this.componentService.getAssetSettings().subscribe(
+      (assetSettings) => {
+        this.spinnerService.hide();
+        if (assetSettings) {
+          const connections = [] as KeyValue[];
+          for (const connection of assetSettings.asset.connections) {
+            connections.push({ key: connection.id, value: connection.name });
+          }
+          this.assetConnections = connections;
         }
-        this.assetConnections = connections;
+      },
+      (error) => {
+        this.spinnerService.hide();
+        Utils.handleHttpError(
+          error,
+          this.router,
+          this.messageService,
+          this.centralServerService,
+          'assets.asset_settings_error'
+        );
       }
-    }, (error) => {
-      this.spinnerService.hide();
-      Utils.handleHttpError(error, this.router, this.messageService,
-        this.centralServerService, 'assets.asset_settings_error');
-    });
+    );
   }
 }

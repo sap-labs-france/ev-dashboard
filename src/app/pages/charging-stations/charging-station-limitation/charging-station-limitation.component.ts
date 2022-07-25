@@ -4,16 +4,14 @@ import { Router } from '@angular/router';
 import { StatusCodes } from 'http-status-codes';
 import { ChargingStationsAuthorizations } from 'types/Authorization';
 
-import { CentralServerService } from '../../../services/central-server.service';
-import { MessageService } from '../../../services/message.service';
-import { SpinnerService } from '../../../services/spinner.service';
+import { CentralServerService, SpinnerService, MessageService } from '@services';
 import { ChargingStation } from '../../../types/ChargingStation';
 import { Utils } from '../../../utils/Utils';
 
 @Component({
   selector: 'app-charging-station-limitation',
   templateUrl: 'charging-station-limitation.component.html',
-  styleUrls: ['charging-station-limitation.component.scss']
+  styleUrls: ['charging-station-limitation.component.scss'],
 })
 export class ChargingStationLimitationComponent implements OnInit {
   @Input() public chargingStationID!: string;
@@ -28,8 +26,8 @@ export class ChargingStationLimitationComponent implements OnInit {
     private spinnerService: SpinnerService,
     private centralServerService: CentralServerService,
     private messageService: MessageService,
-    private router: Router) {
-  }
+    private router: Router
+  ) {}
 
   public ngOnInit() {
     this.loadChargingStation();
@@ -44,20 +42,28 @@ export class ChargingStationLimitationComponent implements OnInit {
   public loadChargingStation() {
     if (this.chargingStationID) {
       this.spinnerService.show();
-      this.centralServerService.getChargingStation(this.chargingStationID).subscribe((chargingStation) => {
-        this.spinnerService.hide();
-        this.chargingStation = chargingStation;
-      }, (error) => {
-        this.spinnerService.hide();
-        switch (error.status) {
-          case StatusCodes.NOT_FOUND:
-            this.messageService.showErrorMessage('chargers.charger_not_found');
-            break;
-          default:
-            Utils.handleHttpError(error, this.router, this.messageService,
-              this.centralServerService, 'chargers.charger_not_found');
+      this.centralServerService.getChargingStation(this.chargingStationID).subscribe(
+        (chargingStation) => {
+          this.spinnerService.hide();
+          this.chargingStation = chargingStation;
+        },
+        (error) => {
+          this.spinnerService.hide();
+          switch (error.status) {
+            case StatusCodes.NOT_FOUND:
+              this.messageService.showErrorMessage('chargers.charger_not_found');
+              break;
+            default:
+              Utils.handleHttpError(
+                error,
+                this.router,
+                this.messageService,
+                this.centralServerService,
+                'chargers.charger_not_found'
+              );
+          }
         }
-      });
+      );
     }
   }
 }

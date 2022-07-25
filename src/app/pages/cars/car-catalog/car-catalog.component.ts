@@ -3,16 +3,14 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Constants } from 'utils/Constants';
 
-import { CentralServerService } from '../../../services/central-server.service';
-import { MessageService } from '../../../services/message.service';
-import { SpinnerService } from '../../../services/spinner.service';
+import { CentralServerService, MessageService, SpinnerService } from '@services';
 import { CarCatalog } from '../../../types/Car';
 import { Utils } from '../../../utils/Utils';
 
 @Component({
   selector: 'app-car-catalog',
   templateUrl: 'car-catalog.component.html',
-  styleUrls: ['car-catalog.component.scss']
+  styleUrls: ['car-catalog.component.scss'],
 })
 export class CarCatalogComponent implements OnInit {
   @Input() public currentCarCatalogID!: number;
@@ -26,8 +24,8 @@ export class CarCatalogComponent implements OnInit {
     private centralServerService: CentralServerService,
     public spinnerService: SpinnerService,
     private messageService: MessageService,
-    private router: Router) {
-  }
+    private router: Router
+  ) {}
 
   public ngOnInit(): void {
     this.loadCar();
@@ -38,12 +36,21 @@ export class CarCatalogComponent implements OnInit {
       return;
     }
     this.spinnerService.show();
-    this.centralServerService.getCarCatalog(this.currentCarCatalogID).subscribe((carCatalog: CarCatalog) => {
-      this.spinnerService.hide();
-      this.carCatalog = carCatalog;
-    }, (error) => {
-      this.spinnerService.hide();
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'cars.car_error');
-    });
+    this.centralServerService.getCarCatalog(this.currentCarCatalogID).subscribe(
+      (carCatalog: CarCatalog) => {
+        this.spinnerService.hide();
+        this.carCatalog = carCatalog;
+      },
+      (error) => {
+        this.spinnerService.hide();
+        Utils.handleHttpError(
+          error,
+          this.router,
+          this.messageService,
+          this.centralServerService,
+          'cars.car_error'
+        );
+      }
+    );
   }
 }

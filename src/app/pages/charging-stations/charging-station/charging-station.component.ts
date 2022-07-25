@@ -8,11 +8,13 @@ import { StatusCodes } from 'http-status-codes';
 import { UtilsService } from 'services/utils.service';
 import { ChargingStationsAuthorizations, DialogMode } from 'types/Authorization';
 
-import { CentralServerService } from '../../../services/central-server.service';
-import { DialogService } from '../../../services/dialog.service';
-import { LocaleService } from '../../../services/locale.service';
-import { MessageService } from '../../../services/message.service';
-import { SpinnerService } from '../../../services/spinner.service';
+import {
+  CentralServerService,
+  DialogService,
+  LocaleService,
+  MessageService,
+  SpinnerService,
+} from '@services';
 import { ChargingStation } from '../../../types/ChargingStation';
 import { KeyValue, RestResponse } from '../../../types/GlobalType';
 import { HTTPError } from '../../../types/HTTPError';
@@ -22,7 +24,7 @@ import { ChargingStationParametersComponent } from './parameters/charging-statio
 @Component({
   selector: 'app-charging-station',
   templateUrl: 'charging-station.component.html',
-  styleUrls: ['charging-station.component.scss']
+  styleUrls: ['charging-station.component.scss'],
 })
 export class ChargingStationComponent implements OnInit {
   @Input() public chargingStationID!: string;
@@ -30,7 +32,8 @@ export class ChargingStationComponent implements OnInit {
   @Input() public dialogMode!: DialogMode;
   @Input() public chargingStationsAuthorizations!: ChargingStationsAuthorizations;
 
-  @ViewChild('chargingStationParameters', { static: true }) public chargingStationParametersComponent!: ChargingStationParametersComponent;
+  @ViewChild('chargingStationParameters', { static: true })
+  public chargingStationParametersComponent!: ChargingStationParametersComponent;
 
   public formGroup: UntypedFormGroup;
   public chargingStation: ChargingStation;
@@ -54,7 +57,8 @@ export class ChargingStationComponent implements OnInit {
     private dialogService: DialogService,
     protected activatedRoute: ActivatedRoute,
     private utilsService: UtilsService,
-    private router: Router) {
+    private router: Router
+  ) {
     // Get Locales
     this.userLocales = this.localeService.getLocales();
     this.formGroup = new UntypedFormGroup({});
@@ -72,29 +76,37 @@ export class ChargingStationComponent implements OnInit {
   public loadChargingStation() {
     if (this.chargingStationID) {
       this.spinnerService.show();
-      this.centralServerService.getChargingStation(this.chargingStationID).subscribe((chargingStation) => {
-        this.spinnerService.hide();
-        // Init auth
-        this.chargingStation = chargingStation;
-        if (this.readOnly || !this.chargingStation.issuer) {
-          // Async call for letting the sub form groups to init
-          setTimeout(() => this.formGroup.disable(), 0);
+      this.centralServerService.getChargingStation(this.chargingStationID).subscribe(
+        (chargingStation) => {
+          this.spinnerService.hide();
+          // Init auth
+          this.chargingStation = chargingStation;
+          if (this.readOnly || !this.chargingStation.issuer) {
+            // Async call for letting the sub form groups to init
+            setTimeout(() => this.formGroup.disable(), 0);
+          }
+          // Update form group
+          this.formGroup.updateValueAndValidity();
+          this.formGroup.markAsPristine();
+          this.formGroup.markAllAsTouched();
+        },
+        (error) => {
+          this.spinnerService.hide();
+          switch (error.status) {
+            case StatusCodes.NOT_FOUND:
+              this.messageService.showErrorMessage('chargers.charger_not_found');
+              break;
+            default:
+              Utils.handleHttpError(
+                error,
+                this.router,
+                this.messageService,
+                this.centralServerService,
+                'chargers.charger_not_found'
+              );
+          }
         }
-        // Update form group
-        this.formGroup.updateValueAndValidity();
-        this.formGroup.markAsPristine();
-        this.formGroup.markAllAsTouched();
-      }, (error) => {
-        this.spinnerService.hide();
-        switch (error.status) {
-          case StatusCodes.NOT_FOUND:
-            this.messageService.showErrorMessage('chargers.charger_not_found');
-            break;
-          default:
-            Utils.handleHttpError(error, this.router, this.messageService,
-              this.centralServerService, 'chargers.charger_not_found');
-        }
-      });
+      );
     }
   }
 
@@ -109,35 +121,44 @@ export class ChargingStationComponent implements OnInit {
     }
     // Save
     this.spinnerService.show();
-    this.centralServerService.updateChargingStationParams(chargingStationToSave).subscribe((response) => {
-      this.spinnerService.hide();
-      if (response.status === RestResponse.SUCCESS) {
-        this.messageService.showSuccessMessage('chargers.change_config_success',
-          { chargeBoxID: this.chargingStation.id });
-        this.closeDialog(true);
-      } else {
-        this.messageService.showErrorMessage('chargers.change_config_error');
-      }
-    }, (error) => {
-      this.spinnerService.hide();
-      switch (error.status) {
-        case StatusCodes.NOT_FOUND:
+    this.centralServerService.updateChargingStationParams(chargingStationToSave).subscribe(
+      (response) => {
+        this.spinnerService.hide();
+        if (response.status === RestResponse.SUCCESS) {
+          this.messageService.showSuccessMessage('chargers.change_config_success', {
+            chargeBoxID: this.chargingStation.id,
+          });
+          this.closeDialog(true);
+        } else {
           this.messageService.showErrorMessage('chargers.change_config_error');
-          break;
-        case HTTPError.THREE_PHASE_CHARGER_ON_SINGLE_PHASE_SITE_AREA:
-          this.messageService.showErrorMessage('chargers.change_config_phase_error');
-          break;
-        case HTTPError.CHARGE_POINT_NOT_VALID:
-          this.messageService.showErrorMessage('chargers.charge_point_connectors_error');
-          break;
-        case HTTPError.FEATURE_NOT_SUPPORTED_ERROR:
-          this.messageService.showErrorMessage('chargers.update_public_cs_error');
-          break;
-        default:
-          Utils.handleHttpError(error, this.router, this.messageService,
-            this.centralServerService, 'chargers.change_config_error');
+        }
+      },
+      (error) => {
+        this.spinnerService.hide();
+        switch (error.status) {
+          case StatusCodes.NOT_FOUND:
+            this.messageService.showErrorMessage('chargers.change_config_error');
+            break;
+          case HTTPError.THREE_PHASE_CHARGER_ON_SINGLE_PHASE_SITE_AREA:
+            this.messageService.showErrorMessage('chargers.change_config_phase_error');
+            break;
+          case HTTPError.CHARGE_POINT_NOT_VALID:
+            this.messageService.showErrorMessage('chargers.charge_point_connectors_error');
+            break;
+          case HTTPError.FEATURE_NOT_SUPPORTED_ERROR:
+            this.messageService.showErrorMessage('chargers.update_public_cs_error');
+            break;
+          default:
+            Utils.handleHttpError(
+              error,
+              this.router,
+              this.messageService,
+              this.centralServerService,
+              'chargers.change_config_error'
+            );
+        }
       }
-    });
+    );
   }
 
   public changeActivePane(tabChangedEvent: MatTabChangeEvent) {
@@ -151,8 +172,12 @@ export class ChargingStationComponent implements OnInit {
   }
 
   public close() {
-    Utils.checkAndSaveAndCloseDialog(this.formGroup, this.dialogService, this.translateService,
-      this.saveChargingStation.bind(this), this.closeDialog.bind(this));
+    Utils.checkAndSaveAndCloseDialog(
+      this.formGroup,
+      this.dialogService,
+      this.translateService,
+      this.saveChargingStation.bind(this),
+      this.closeDialog.bind(this)
+    );
   }
-
 }

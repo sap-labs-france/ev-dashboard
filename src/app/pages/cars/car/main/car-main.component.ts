@@ -6,7 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { UsersDialogComponent } from 'shared/dialogs/users/users-dialog.component';
 import { CarsAuthorizations } from 'types/Authorization';
 
-import { SpinnerService } from '../../../../services/spinner.service';
+import { SpinnerService } from '@services';
 import { CarCatalogsDialogComponent } from '../../../../shared/dialogs/car-catalogs/car-catalogs-dialog.component';
 import { Car, CarCatalog, CarConverter, CarConverterType, CarType } from '../../../../types/Car';
 import { KeyValue } from '../../../../types/GlobalType';
@@ -27,7 +27,11 @@ export class CarMainComponent implements OnInit, OnChanges {
 
   public carCatalogImage: string;
   public selectedCarCatalog: CarCatalog;
-  public carCatalogConverters: { type: CarConverterType; value: string; converter: CarConverter }[] = [];
+  public carCatalogConverters: {
+    type: CarConverterType;
+    value: string;
+    converter: CarConverter;
+  }[] = [];
   public canListUsers: boolean;
   public isCarConnectorComponentActive: boolean;
   public initialized = false;
@@ -47,50 +51,49 @@ export class CarMainComponent implements OnInit, OnChanges {
   public userID!: AbstractControl;
   public carTypes: KeyValue[] = [
     { key: CarType.COMPANY, value: 'cars.company_car' },
-    { key: CarType.PRIVATE, value: 'cars.private_car' }
+    { key: CarType.PRIVATE, value: 'cars.private_car' },
   ];
 
   // eslint-disable-next-line no-useless-constructor
   public constructor(
     public spinnerService: SpinnerService,
     private translateService: TranslateService,
-    private dialog: MatDialog) {
-  }
+    private dialog: MatDialog
+  ) {}
 
   public ngOnInit() {
     this.formGroup.addControl('id', new UntypedFormControl(''));
-    this.formGroup.addControl('vin', new UntypedFormControl('',
-      Validators.compose([
-        Validators.required,
-        Cars.validateVIN
-      ])));
-    this.formGroup.addControl('licensePlate', new UntypedFormControl('',
-      Validators.compose([
-        Validators.pattern('^[A-Z0-9- ]*$'),
-      ])));
-    this.formGroup.addControl('carCatalog', new UntypedFormControl('',
-      Validators.compose([
-        Validators.required,
-      ])));
-    this.formGroup.addControl('carCatalogID', new UntypedFormControl('',
-      Validators.compose([
-        Validators.required,
-      ])));
-    this.formGroup.addControl('converterType', new UntypedFormControl('',
-      Validators.compose([
-        Validators.required,
-      ])));
-    this.formGroup.addControl('converter', new UntypedFormControl('',
-      Validators.compose([
-        Validators.required,
-      ])));
+    this.formGroup.addControl(
+      'vin',
+      new UntypedFormControl('', Validators.compose([Validators.required, Cars.validateVIN]))
+    );
+    this.formGroup.addControl(
+      'licensePlate',
+      new UntypedFormControl('', Validators.compose([Validators.pattern('^[A-Z0-9- ]*$')]))
+    );
+    this.formGroup.addControl(
+      'carCatalog',
+      new UntypedFormControl('', Validators.compose([Validators.required]))
+    );
+    this.formGroup.addControl(
+      'carCatalogID',
+      new UntypedFormControl('', Validators.compose([Validators.required]))
+    );
+    this.formGroup.addControl(
+      'converterType',
+      new UntypedFormControl('', Validators.compose([Validators.required]))
+    );
+    this.formGroup.addControl(
+      'converter',
+      new UntypedFormControl('', Validators.compose([Validators.required]))
+    );
     this.formGroup.addControl('user', new UntypedFormControl(''));
     this.formGroup.addControl('userID', new UntypedFormControl(''));
     this.formGroup.addControl('isDefault', new UntypedFormControl(''));
-    this.formGroup.addControl('type', new UntypedFormControl(CarType.COMPANY,
-      Validators.compose([
-        Validators.required,
-      ])));
+    this.formGroup.addControl(
+      'type',
+      new UntypedFormControl(CarType.COMPANY, Validators.compose([Validators.required]))
+    );
     // Form
     this.id = this.formGroup.controls['id'];
     this.vin = this.formGroup.controls['vin'];
@@ -106,11 +109,11 @@ export class CarMainComponent implements OnInit, OnChanges {
     // Default
     this.converterType.disable();
     // Pool Car
-    if(this.carsAuthorizations.metadata?.createPoolCar?.visible) {
+    if (this.carsAuthorizations.metadata?.createPoolCar?.visible) {
       this.carTypes.push({ key: CarType.POOL_CAR, value: 'cars.pool_car' });
     }
     // User ID
-    if(this.carsAuthorizations.metadata?.userID?.mandatory) {
+    if (this.carsAuthorizations.metadata?.userID?.mandatory) {
       this.user.setValidators(Validators.required);
       this.userID.setValidators(Validators.required);
     }
@@ -167,14 +170,17 @@ export class CarMainComponent implements OnInit, OnChanges {
       rowMultipleSelection: false,
     };
     // Open
-    this.dialog.open(UsersDialogComponent, dialogConfig).afterClosed().subscribe((result) => {
-      if (!Utils.isEmptyArray(result) && result[0].objectRef) {
-        const user = ((result[0].objectRef) as User);
-        this.user.setValue(Utils.buildUserFullName(user));
-        this.userID.setValue(user.id);
-        this.formGroup.markAsDirty();
-      }
-    });
+    this.dialog
+      .open(UsersDialogComponent, dialogConfig)
+      .afterClosed()
+      .subscribe((result) => {
+        if (!Utils.isEmptyArray(result) && result[0].objectRef) {
+          const user = result[0].objectRef as User;
+          this.user.setValue(Utils.buildUserFullName(user));
+          this.userID.setValue(user.id);
+          this.formGroup.markAsDirty();
+        }
+      });
   }
 
   public changeCarCatalog() {
@@ -186,18 +192,21 @@ export class CarMainComponent implements OnInit, OnChanges {
       rowMultipleSelection: false,
     };
     // Open
-    this.dialog.open(CarCatalogsDialogComponent, dialogConfig).afterClosed().subscribe((result) => {
-      if (!Utils.isEmptyArray(result) && result[0].objectRef) {
-        const carCatalog: CarCatalog = (result[0].objectRef) as CarCatalog;
-        this.carCatalogID.setValue(result[0].key);
-        this.carCatalog.setValue(Utils.buildCarCatalogName(carCatalog));
-        this.selectedCarCatalog = carCatalog;
-        this.carCatalogImage = carCatalog.image;
-        // Build drop down
-        this.buildCarCatalogConverter();
-        this.formGroup.markAsDirty();
-      }
-    });
+    this.dialog
+      .open(CarCatalogsDialogComponent, dialogConfig)
+      .afterClosed()
+      .subscribe((result) => {
+        if (!Utils.isEmptyArray(result) && result[0].objectRef) {
+          const carCatalog: CarCatalog = result[0].objectRef as CarCatalog;
+          this.carCatalogID.setValue(result[0].key);
+          this.carCatalog.setValue(Utils.buildCarCatalogName(carCatalog));
+          this.selectedCarCatalog = carCatalog;
+          this.carCatalogImage = carCatalog.image;
+          // Build drop down
+          this.buildCarCatalogConverter();
+          this.formGroup.markAsDirty();
+        }
+      });
   }
 
   private buildCarCatalogConverter() {
@@ -219,11 +228,13 @@ export class CarMainComponent implements OnInit, OnChanges {
       amperagePerPhase: this.selectedCarCatalog.chargeOptionPhaseAmp,
       numberOfPhases: this.selectedCarCatalog.chargeOptionPhase,
     };
-    this.carCatalogConverters = [{
-      type: CarConverterType.STANDARD,
-      value: Utils.buildCarCatalogConverterName(standardConverter, this.translateService),
-      converter: standardConverter,
-    }];
+    this.carCatalogConverters = [
+      {
+        type: CarConverterType.STANDARD,
+        value: Utils.buildCarCatalogConverterName(standardConverter, this.translateService),
+        converter: standardConverter,
+      },
+    ];
     if (this.selectedCarCatalog.chargeAlternativePower) {
       this.carCatalogConverters.push({
         type: CarConverterType.ALTERNATIVE,
@@ -231,8 +242,10 @@ export class CarMainComponent implements OnInit, OnChanges {
         converter: alternativeConverter,
       });
     }
-    if (this.selectedCarCatalog.chargeOptionPower > 0 &&
-        this.selectedCarCatalog.chargeOptionPower !== this.selectedCarCatalog.chargeAlternativePower) {
+    if (
+      this.selectedCarCatalog.chargeOptionPower > 0 &&
+      this.selectedCarCatalog.chargeOptionPower !== this.selectedCarCatalog.chargeAlternativePower
+    ) {
       this.carCatalogConverters.push({
         type: CarConverterType.OPTION,
         value: Utils.buildCarCatalogConverterName(optionalConverter, this.translateService),

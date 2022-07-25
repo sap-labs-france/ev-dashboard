@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { AuthorizationService } from '../../services/authorization.service';
-import { WindowService } from '../../services/window.service';
+import { AuthorizationService, WindowService } from '@services';
 import { AbstractTabComponent } from '../../shared/component/abstract-tab/abstract-tab.component';
 
 @Component({
@@ -16,7 +15,7 @@ export class AssetsComponent extends AbstractTabComponent {
   public constructor(
     private authorizationService: AuthorizationService,
     activatedRoute: ActivatedRoute,
-    windowService: WindowService,
+    windowService: WindowService
   ) {
     super(activatedRoute, windowService, ['assets', 'inerror']);
     this.canListAssets = this.authorizationService.canListAssets();

@@ -83,7 +83,7 @@ import {
   SpinnerService,
   StripeService,
   WindowService,
-} from './services';
+} from '@services';
 
 registerLocaleData(localeEn);
 registerLocaleData(localeFr);

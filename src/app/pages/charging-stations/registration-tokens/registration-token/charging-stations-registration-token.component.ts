@@ -7,11 +7,13 @@ import { StatusCodes } from 'http-status-codes';
 import * as moment from 'moment';
 import { AuthorizationDefinitionFieldMetadata } from 'types/Authorization';
 
-import { CentralServerService } from '../../../../services/central-server.service';
-import { ComponentService } from '../../../../services/component.service';
-import { DialogService } from '../../../../services/dialog.service';
-import { MessageService } from '../../../../services/message.service';
-import { SpinnerService } from '../../../../services/spinner.service';
+import {
+  CentralServerService,
+  ComponentService,
+  DialogService,
+  MessageService,
+  SpinnerService,
+} from '@services';
 import { SiteAreasDialogComponent } from '../../../../shared/dialogs/site-areas/site-areas-dialog.component';
 import { RestResponse } from '../../../../types/GlobalType';
 import { HTTPError } from '../../../../types/HTTPError';
@@ -24,7 +26,7 @@ import { ChargingStationsRegistrationTokenDialogComponent } from './charging-sta
 @Component({
   selector: 'app-charging-stations-registration-token',
   templateUrl: 'charging-stations-registration-token.component.html',
-  styleUrls: ['charging-stations-registration-token.component.scss']
+  styleUrls: ['charging-stations-registration-token.component.scss'],
 })
 export class ChargingStationsRegistrationTokenComponent implements OnInit {
   @Input() public currentTokenID!: string;
@@ -49,25 +51,26 @@ export class ChargingStationsRegistrationTokenComponent implements OnInit {
     private componentService: ComponentService,
     private translateService: TranslateService,
     private dialog: MatDialog,
-    private router: Router) {
-    this.isOrganizationComponentActive = this.componentService.isActive(TenantComponents.ORGANIZATION);
+    private router: Router
+  ) {
+    this.isOrganizationComponentActive = this.componentService.isActive(
+      TenantComponents.ORGANIZATION
+    );
   }
 
   public ngOnInit(): void {
     this.formGroup = new UntypedFormGroup({
       id: new UntypedFormControl(),
       siteArea: new UntypedFormControl(),
-      siteAreaID: new UntypedFormControl('',
-        Validators.compose([
-        ])),
-      description: new UntypedFormControl('', Validators.compose([
-        Validators.required,
-        Validators.maxLength(100),
-      ])),
-      expirationDate: new UntypedFormControl(moment().add(1, 'month'),
-        Validators.compose([
-          Validators.required,
-        ])),
+      siteAreaID: new UntypedFormControl('', Validators.compose([])),
+      description: new UntypedFormControl(
+        '',
+        Validators.compose([Validators.required, Validators.maxLength(100)])
+      ),
+      expirationDate: new UntypedFormControl(
+        moment().add(1, 'month'),
+        Validators.compose([Validators.required])
+      ),
     });
     this.siteArea = this.formGroup.controls['siteArea'];
     this.siteAreaID = this.formGroup.controls['siteAreaID'];
@@ -84,27 +87,39 @@ export class ChargingStationsRegistrationTokenComponent implements OnInit {
   public loadRegistrationToken() {
     if (this.currentTokenID) {
       this.spinnerService.show();
-      this.centralServerService.getRegistrationToken(this.currentTokenID).subscribe((registrationToken) => {
-        this.formGroup.markAsPristine();
-        this.spinnerService.hide();
-        this.currentToken = registrationToken;
-        // Init form
-        this.siteArea.setValue(this.currentToken.siteArea ? this.currentToken.siteArea.name : null);
-        this.siteAreaID.setValue(this.currentToken.siteAreaID || null);
-        this.description.setValue(this.currentToken.description);
-        this.expirationDate.setValue(this.currentToken.expirationDate);
-        this.id.setValue(this.currentToken.id);
-      }, (error) => {
-        this.spinnerService.hide();
-        switch (error.status) {
-          case StatusCodes.NOT_FOUND:
-            this.messageService.showErrorMessage('chargers.connections.registration_token_not_found');
-            break;
-          default:
-            Utils.handleHttpError(error, this.router, this.messageService,
-              this.centralServerService, 'chargers.connections.registration_token_error');
+      this.centralServerService.getRegistrationToken(this.currentTokenID).subscribe(
+        (registrationToken) => {
+          this.formGroup.markAsPristine();
+          this.spinnerService.hide();
+          this.currentToken = registrationToken;
+          // Init form
+          this.siteArea.setValue(
+            this.currentToken.siteArea ? this.currentToken.siteArea.name : null
+          );
+          this.siteAreaID.setValue(this.currentToken.siteAreaID || null);
+          this.description.setValue(this.currentToken.description);
+          this.expirationDate.setValue(this.currentToken.expirationDate);
+          this.id.setValue(this.currentToken.id);
+        },
+        (error) => {
+          this.spinnerService.hide();
+          switch (error.status) {
+            case StatusCodes.NOT_FOUND:
+              this.messageService.showErrorMessage(
+                'chargers.connections.registration_token_not_found'
+              );
+              break;
+            default:
+              Utils.handleHttpError(
+                error,
+                this.router,
+                this.messageService,
+                this.centralServerService,
+                'chargers.connections.registration_token_error'
+              );
+          }
         }
-      });
+      );
     }
   }
 
@@ -115,8 +130,13 @@ export class ChargingStationsRegistrationTokenComponent implements OnInit {
   }
 
   public close() {
-    Utils.checkAndSaveAndCloseDialog(this.formGroup, this.dialogService,
-      this.translateService, this.saveToken.bind(this), this.closeDialog.bind(this));
+    Utils.checkAndSaveAndCloseDialog(
+      this.formGroup,
+      this.dialogService,
+      this.translateService,
+      this.saveToken.bind(this),
+      this.closeDialog.bind(this)
+    );
   }
 
   public resetSiteArea() {
@@ -135,44 +155,73 @@ export class ChargingStationsRegistrationTokenComponent implements OnInit {
 
   public createToken(token: RegistrationToken) {
     this.spinnerService.show();
-    this.centralServerService.createRegistrationToken(token).subscribe((response) => {
-      this.spinnerService.hide();
-      if (token) {
-        this.messageService.showSuccessMessage('chargers.connections.registration_token_creation_success');
-        this.closeDialog(true);
-      } else {
-        Utils.handleError(null,
-          this.messageService, 'chargers.connections.registration_token_creation_error');
+    this.centralServerService.createRegistrationToken(token).subscribe(
+      (response) => {
+        this.spinnerService.hide();
+        if (token) {
+          this.messageService.showSuccessMessage(
+            'chargers.connections.registration_token_creation_success'
+          );
+          this.closeDialog(true);
+        } else {
+          Utils.handleError(
+            null,
+            this.messageService,
+            'chargers.connections.registration_token_creation_error'
+          );
+        }
+      },
+      (error) => {
+        this.spinnerService.hide();
+        Utils.handleHttpError(
+          error,
+          this.router,
+          this.messageService,
+          this.centralServerService,
+          'chargers.connections.registration_token_creation_error'
+        );
       }
-    }, (error) => {
-      this.spinnerService.hide();
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'chargers.connections.registration_token_creation_error');
-    });
+    );
   }
 
   public updateToken(token: RegistrationToken) {
     this.spinnerService.show();
     // Update
-    this.centralServerService.updateRegistrationToken(token).subscribe((response) => {
-      this.spinnerService.hide();
-      if (response.status === RestResponse.SUCCESS) {
-        this.messageService.showSuccessMessage('chargers.connections.registration_token_update_success');
-        this.closeDialog(true);
-      } else {
-        Utils.handleError(JSON.stringify(response),
-          this.messageService, 'chargers.connections.registration_token_update_error');
+    this.centralServerService.updateRegistrationToken(token).subscribe(
+      (response) => {
+        this.spinnerService.hide();
+        if (response.status === RestResponse.SUCCESS) {
+          this.messageService.showSuccessMessage(
+            'chargers.connections.registration_token_update_success'
+          );
+          this.closeDialog(true);
+        } else {
+          Utils.handleError(
+            JSON.stringify(response),
+            this.messageService,
+            'chargers.connections.registration_token_update_error'
+          );
+        }
+      },
+      (error) => {
+        this.spinnerService.hide();
+        switch (error.status) {
+          case StatusCodes.NOT_FOUND:
+            this.messageService.showErrorMessage(
+              'chargers.connections.registration_token_not_found'
+            );
+            break;
+          default:
+            Utils.handleHttpError(
+              error,
+              this.router,
+              this.messageService,
+              this.centralServerService,
+              'chargers.connections.registration_token_update_error'
+            );
+        }
       }
-    }, (error) => {
-      this.spinnerService.hide();
-      switch (error.status) {
-        case StatusCodes.NOT_FOUND:
-          this.messageService.showErrorMessage('chargers.connections.registration_token_not_found');
-          break;
-        default:
-          Utils.handleHttpError(error, this.router, this.messageService,
-            this.centralServerService, 'chargers.connections.registration_token_update_error');
-      }
-    });
+    );
   }
 
   public assignSiteArea() {
@@ -184,14 +233,16 @@ export class ChargingStationsRegistrationTokenComponent implements OnInit {
       sitesAdminOnly: true,
       rowMultipleSelection: false,
       staticFilter: {
-        Issuer: true
+        Issuer: true,
       },
     };
     // Open
-    this.dialog.open(SiteAreasDialogComponent, dialogConfig)
-      .afterClosed().subscribe((result) => {
+    this.dialog
+      .open(SiteAreasDialogComponent, dialogConfig)
+      .afterClosed()
+      .subscribe((result) => {
         if (!Utils.isEmptyArray(result) && result[0].objectRef) {
-          const siteArea = (result[0].objectRef) as SiteArea;
+          const siteArea = result[0].objectRef as SiteArea;
           this.siteArea.setValue(siteArea.name);
           this.siteAreaID.setValue(siteArea.id);
           this.formGroup.markAsDirty();

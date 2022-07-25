@@ -2,11 +2,11 @@ import { EventEmitter, Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { CentralServerService } from 'services/central-server.service';
-import { ComponentService } from 'services/component.service';
-import { MessageService } from 'services/message.service';
-import { SpinnerService } from 'services/spinner.service';
-import { TableOnboardAccountAction, TableOnboardAccountActionDef } from 'shared/table/actions/settings/billing/table-onboard-account';
+import { CentralServerService, ComponentService, MessageService, SpinnerService } from '@services';
+import {
+  TableOnboardAccountAction,
+  TableOnboardAccountActionDef,
+} from 'shared/table/actions/settings/billing/table-onboard-account';
 import { TableCreateAction } from 'shared/table/actions/table-create-action';
 import { TableRefreshAction } from 'shared/table/actions/table-refresh-action';
 import { TableDataSource } from 'shared/table/table-data-source';
@@ -31,7 +31,8 @@ export class BillingAccountsTableDataSource extends TableDataSource<BillingAccou
     private centralServerService: CentralServerService,
     private componentService: ComponentService,
     private messageService: MessageService,
-    private dialog: MatDialog) {
+    private dialog: MatDialog
+  ) {
     super(spinnerService, translateService);
     // Init
     this.initDataSource();
@@ -82,7 +83,8 @@ export class BillingAccountsTableDataSource extends TableDataSource<BillingAccou
         headerClass: 'col-25p',
         class: 'col-25p',
         direction: 'asc',
-        formatter: (name: string, account: BillingAccount) => Utils.buildUserFullName(account.businessOwner),
+        formatter: (name: string, account: BillingAccount) =>
+          Utils.buildUserFullName(account.businessOwner),
         sortable: true,
       },
       {
@@ -98,20 +100,18 @@ export class BillingAccountsTableDataSource extends TableDataSource<BillingAccou
         headerClass: 'col-25p',
         class: 'col-25p',
         sortable: true,
-      }
+      },
     ];
   }
 
   public buildTableActionsDef(): TableActionDef[] {
-    return [
-      this.createAction,
-    ];
+    return [this.createAction];
   }
 
   public buildTableDynamicRowActions(row?: BillingAccount): TableActionDef[] {
     const rowActions: TableActionDef[] = [];
     const onboardAction = new TableOnboardAccountAction().getActionDef();
-    if(row.status === BillingAccountStatus.IDLE){
+    if (row.status === BillingAccountStatus.IDLE) {
       rowActions.push(onboardAction);
     }
     return rowActions;
@@ -136,9 +136,7 @@ export class BillingAccountsTableDataSource extends TableDataSource<BillingAccou
   }
 
   public buildTableActionsRightDef(): TableActionDef[] {
-    return [
-      new TableRefreshAction().getActionDef(),
-    ];
+    return [new TableRefreshAction().getActionDef()];
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {
@@ -148,19 +146,19 @@ export class BillingAccountsTableDataSource extends TableDataSource<BillingAccou
   public loadDataImpl(): Observable<DataResult<BillingAccount>> {
     return new Observable((observer) => {
       this.createAction.visible = true;
-      this.componentService.getBillingAccounts(
-        this.getPaging(),
-        this.getSorting()
-      ).subscribe((accounts) => {
-        this.accounts = accounts;
-        observer.next({
-          count: this.accounts.length,
-          result: this.accounts,
-        });
-        observer.complete();
-      }, (error) => {
-        observer.error(error);
-      });
+      this.componentService.getBillingAccounts(this.getPaging(), this.getSorting()).subscribe(
+        (accounts) => {
+          this.accounts = accounts;
+          observer.next({
+            count: this.accounts.length,
+            result: this.accounts,
+          });
+          observer.complete();
+        },
+        (error) => {
+          observer.error(error);
+        }
+      );
     });
   }
 
@@ -186,21 +184,29 @@ export class BillingAccountsTableDataSource extends TableDataSource<BillingAccou
 
   private onboardAccount(onboardAction: TableOnboardAccountActionDef, account: BillingAccount) {
     this.spinnerService.show();
-    onboardAction.action(
-      account,
-      this.centralServerService
-    ).subscribe((response) => {
-      this.spinnerService.hide();
-      if(response) {
-        this.messageService.showSuccessMessage('accounts.message.onboard_success');
-        this.refreshData().subscribe();
-        this.changed.emit(true);
-      } else {
-        Utils.handleError(JSON.stringify(response), this.messageService, 'accounts.message.onboard_error');
+    onboardAction.action(account, this.centralServerService).subscribe(
+      (response) => {
+        this.spinnerService.hide();
+        if (response) {
+          this.messageService.showSuccessMessage('accounts.message.onboard_success');
+          this.refreshData().subscribe();
+          this.changed.emit(true);
+        } else {
+          Utils.handleError(
+            JSON.stringify(response),
+            this.messageService,
+            'accounts.message.onboard_error'
+          );
+        }
+      },
+      (error) => {
+        this.spinnerService.hide();
+        Utils.handleError(
+          JSON.stringify(error),
+          this.messageService,
+          'accounts.message.onboard_error'
+        );
       }
-    }, (error) => {
-      this.spinnerService.hide();
-      Utils.handleError(JSON.stringify(error), this.messageService, 'accounts.message.onboard_error');
-    });
+    );
   }
 }

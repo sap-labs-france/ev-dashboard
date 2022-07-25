@@ -1,6 +1,17 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { AbstractControl, UntypedFormControl, UntypedFormGroup, ValidationErrors, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
+import {
+  AbstractControl,
+  UntypedFormControl,
+  UntypedFormGroup,
+  ValidationErrors,
+  Validators,
+} from '@angular/forms';
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogConfig,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { ChargingStationsAuthorizations, DialogParamsWithAuth } from 'types/Authorization';
@@ -8,10 +19,7 @@ import { Car } from 'types/Car';
 import { ChargingStation } from 'types/ChargingStation';
 import { Tag } from 'types/Tag';
 
-import { CentralServerService } from '../../../services/central-server.service';
-import { ComponentService } from '../../../services/component.service';
-import { MessageService } from '../../../services/message.service';
-import { SpinnerService } from '../../../services/spinner.service';
+import { CentralServerService, ComponentService, MessageService, SpinnerService } from '@services';
 import { CarsDialogComponent } from '../../../shared/dialogs/cars/cars-dialog.component';
 import { TagsDialogComponent } from '../../../shared/dialogs/tags/tags-dialog.component';
 import { UsersDialogComponent } from '../../../shared/dialogs/users/users-dialog.component';
@@ -53,43 +61,36 @@ export class ChargingStationsStartTransactionDialogComponent implements OnInit {
     private componentService: ComponentService,
     private centralServerService: CentralServerService,
     private dialogRef: MatDialogRef<ChargingStationsStartTransactionDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data: DialogParamsWithAuth<ChargingStation, ChargingStationsAuthorizations> ) {
+    @Inject(MAT_DIALOG_DATA)
+    data: DialogParamsWithAuth<ChargingStation, ChargingStationsAuthorizations>
+  ) {
     // Set
-    this.title = translateService.instant('chargers.start_transaction_details_title', { chargeBoxID: data.dialogData.id });
+    this.title = translateService.instant('chargers.start_transaction_details_title', {
+      chargeBoxID: data.dialogData.id,
+    });
     this.chargingStationID = data.dialogData.id;
     this.loggedUser = this.centralServerService.getLoggedUser();
     this.canListUsers = data.dialogData.canListUsers;
     this.isCarComponentActive = this.componentService.isActive(TenantComponents.CAR);
-    Utils.registerValidateCloseKeyEvents(this.dialogRef,
-      this.startTransaction.bind(this), this.cancel.bind(this));
+    Utils.registerValidateCloseKeyEvents(
+      this.dialogRef,
+      this.startTransaction.bind(this),
+      this.cancel.bind(this)
+    );
   }
 
   public ngOnInit() {
     // Init the form
     this.formGroup = new UntypedFormGroup({
-      user: new UntypedFormControl('',
-        Validators.compose([
-          Validators.required,
-        ])),
-      userID: new UntypedFormControl('',
-        Validators.compose([
-          Validators.required,
-        ])),
-      car: new UntypedFormControl('',
-        Validators.compose([
-        ])),
-      carID: new UntypedFormControl('',
-        Validators.compose([
-        ])),
-      tag: new UntypedFormControl('',
-        Validators.compose([
-          Validators.required,
-          this.tagActiveValidator.bind(this),
-        ])),
-      visualTagID: new UntypedFormControl('',
-        Validators.compose([
-          Validators.required,
-        ]))
+      user: new UntypedFormControl('', Validators.compose([Validators.required])),
+      userID: new UntypedFormControl('', Validators.compose([Validators.required])),
+      car: new UntypedFormControl('', Validators.compose([])),
+      carID: new UntypedFormControl('', Validators.compose([])),
+      tag: new UntypedFormControl(
+        '',
+        Validators.compose([Validators.required, this.tagActiveValidator.bind(this)])
+      ),
+      visualTagID: new UntypedFormControl('', Validators.compose([Validators.required])),
     });
     // Form
     this.user = this.formGroup.controls['user'];
@@ -111,36 +112,59 @@ export class ChargingStationsStartTransactionDialogComponent implements OnInit {
   public loadUserDefaultTagCar() {
     if (this.userID.value) {
       this.spinnerService.show();
-      this.centralServerService.getUserDefaultTagCar(this.userID.value, this.chargingStationID).subscribe((userDefaultTagCar: UserDefaultTagCar) => {
-        this.spinnerService.hide();
-        // Set Tag
-        this.selectedTag = userDefaultTagCar.tag;
-        this.tag.setValue(userDefaultTagCar.tag ? Utils.buildTagName(userDefaultTagCar.tag) : '');
-        this.visualTagID.setValue(userDefaultTagCar.tag?.visualID);
-        // Set Car
-        this.selectedCar = userDefaultTagCar.car;
-        this.car.setValue(userDefaultTagCar.car ? Utils.buildCarName(userDefaultTagCar.car, this.translateService, false) : '');
-        this.carID.setValue(userDefaultTagCar.car?.id);
-        // Update form
-        this.formGroup.updateValueAndValidity();
-        if (Utils.isEmptyArray(userDefaultTagCar.errorCodes)) {
-          this.formGroup.markAsPristine();
-          this.formGroup.markAllAsTouched();
-        } else {
-          // Setting errors automatically disable start transaction button
-          this.formGroup.setErrors(userDefaultTagCar.errorCodes);
-          // Set mat-error message depending on errorCode provided
-          if (userDefaultTagCar.errorCodes[0] === StartTransactionErrorCode.BILLING_NO_PAYMENT_METHOD) {
-            this.errorMessage = this.translateService.instant('transactions.error_start_no_payment_method');
-          } else {
-            this.errorMessage = this.translateService.instant('transactions.error_start_general');
+      this.centralServerService
+        .getUserDefaultTagCar(this.userID.value, this.chargingStationID)
+        .subscribe(
+          (userDefaultTagCar: UserDefaultTagCar) => {
+            this.spinnerService.hide();
+            // Set Tag
+            this.selectedTag = userDefaultTagCar.tag;
+            this.tag.setValue(
+              userDefaultTagCar.tag ? Utils.buildTagName(userDefaultTagCar.tag) : ''
+            );
+            this.visualTagID.setValue(userDefaultTagCar.tag?.visualID);
+            // Set Car
+            this.selectedCar = userDefaultTagCar.car;
+            this.car.setValue(
+              userDefaultTagCar.car
+                ? Utils.buildCarName(userDefaultTagCar.car, this.translateService, false)
+                : ''
+            );
+            this.carID.setValue(userDefaultTagCar.car?.id);
+            // Update form
+            this.formGroup.updateValueAndValidity();
+            if (Utils.isEmptyArray(userDefaultTagCar.errorCodes)) {
+              this.formGroup.markAsPristine();
+              this.formGroup.markAllAsTouched();
+            } else {
+              // Setting errors automatically disable start transaction button
+              this.formGroup.setErrors(userDefaultTagCar.errorCodes);
+              // Set mat-error message depending on errorCode provided
+              if (
+                userDefaultTagCar.errorCodes[0] ===
+                StartTransactionErrorCode.BILLING_NO_PAYMENT_METHOD
+              ) {
+                this.errorMessage = this.translateService.instant(
+                  'transactions.error_start_no_payment_method'
+                );
+              } else {
+                this.errorMessage = this.translateService.instant(
+                  'transactions.error_start_general'
+                );
+              }
+            }
+          },
+          (error) => {
+            this.spinnerService.hide();
+            Utils.handleHttpError(
+              error,
+              this.router,
+              this.messageService,
+              this.centralServerService,
+              'general.error_backend'
+            );
           }
-        }
-      }, (error) => {
-        this.spinnerService.hide();
-        Utils.handleHttpError(error, this.router, this.messageService,
-          this.centralServerService, 'general.error_backend');
-      });
+        );
     }
   }
 
@@ -177,7 +201,7 @@ export class ChargingStationsStartTransactionDialogComponent implements OnInit {
       rowMultipleSelection: false,
       staticFilter: {
         UserID: this.userID.value,
-        Issuer: true
+        Issuer: true,
       },
     };
     // Show
@@ -199,7 +223,7 @@ export class ChargingStationsStartTransactionDialogComponent implements OnInit {
     dialogConfig.data = {
       rowMultipleSelection: false,
       staticFilter: {
-        UserID: this.userID.value
+        UserID: this.userID.value,
       },
     };
     // Show
@@ -220,7 +244,7 @@ export class ChargingStationsStartTransactionDialogComponent implements OnInit {
         userID: this.userID.value,
         userFullName: this.user.value,
         carID: this.carID.value,
-        visualTagID: this.visualTagID.value
+        visualTagID: this.visualTagID.value,
       };
       this.dialogRef.close(startTransaction);
     }

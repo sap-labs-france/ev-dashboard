@@ -96,6 +96,7 @@ export interface BillingAccount extends CreatedUpdatedProps, BillingTransferAuth
   id: string;
   businessOwnerID: string;
   businessOwner?: User;
+  companyName?: string;
   status?: BillingAccountStatus;
   activationLink?: string;
   accountExternalID?: string;
@@ -103,6 +104,7 @@ export interface BillingAccount extends CreatedUpdatedProps, BillingTransferAuth
 
 export interface BillingAccountData {
   accountID: string;
+  account?: BillingAccount;
   platformFeeStrategy?: BillingPlatformFeeStrategy;
 }
 

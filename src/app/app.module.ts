@@ -47,6 +47,18 @@ import { DatetimeAdapter, MatDatetimepickerModule } from '@mat-datetimepicker/co
 import { MatMomentDatetimeModule, MomentDatetimeAdapter } from '@mat-datetimepicker/moment';
 import { TranslateDefaultParser, TranslateLoader, TranslateModule, TranslateParser, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import {
+  AuthorizationService,
+  CentralServerService,
+  ComponentService,
+  ConfigService,
+  LocalStorageService,
+  LocaleService,
+  MessageService,
+  SpinnerService,
+  StripeService,
+  WindowService
+} from '@services';
 import { ChartModule } from 'angular2-chartjs';
 import { NgxCaptchaModule } from 'ngx-captcha';
 import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
@@ -61,16 +73,6 @@ import { AdminLayoutComponent } from './layouts/admin/admin-layout.component';
 import { AuthLayoutComponent } from './layouts/auth/auth-layout.component';
 import { WINDOW_PROVIDERS } from './providers/window.provider';
 import { ReleaseNotesComponent } from './release-notes/release-notes.component';
-import { AuthorizationService } from './services/authorization.service';
-import { CentralServerService } from './services/central-server.service';
-import { ComponentService } from './services/component.service';
-import { ConfigService } from './services/config.service';
-import { LocalStorageService } from './services/local-storage.service';
-import { LocaleService } from './services/locale.service';
-import { MessageService } from './services/message.service';
-import { SpinnerService } from './services/spinner.service';
-import { StripeService } from './services/stripe.service';
-import { WindowService } from './services/window.service';
 import { FooterModule } from './shared/footer/footer.module';
 import { NavbarModule } from './shared/navbar/navbar.module';
 import { SidebarModule } from './sidebar/sidebar.module';

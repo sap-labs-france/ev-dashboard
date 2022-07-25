@@ -1,11 +1,8 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
+import { CentralServerService, ComponentService, MessageService, SpinnerService } from '@services';
 import { Observable } from 'rxjs';
-import { CentralServerService } from 'services/central-server.service';
-import { ComponentService } from 'services/component.service';
-import { MessageService } from 'services/message.service';
-import { SpinnerService } from 'services/spinner.service';
 import { TableOnboardAccountAction, TableOnboardAccountActionDef } from 'shared/table/actions/settings/billing/table-onboard-account';
 import { TableCreateAction } from 'shared/table/actions/table-create-action';
 import { TableRefreshAction } from 'shared/table/actions/table-refresh-action';

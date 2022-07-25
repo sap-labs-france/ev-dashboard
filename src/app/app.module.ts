@@ -45,7 +45,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { DatetimeAdapter, MatDatetimepickerModule } from '@mat-datetimepicker/core';
 import { MatMomentDatetimeModule, MomentDatetimeAdapter } from '@mat-datetimepicker/moment';
-import { TranslateDefaultParser, TranslateLoader, TranslateModule, TranslateParser, TranslateService } from '@ngx-translate/core';
+import {
+  TranslateDefaultParser,
+  TranslateLoader,
+  TranslateModule,
+  TranslateParser,
+  TranslateService,
+} from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ChartModule } from 'angular2-chartjs';
 import { NgxCaptchaModule } from 'ngx-captcha';
@@ -61,20 +67,23 @@ import { AdminLayoutComponent } from './layouts/admin/admin-layout.component';
 import { AuthLayoutComponent } from './layouts/auth/auth-layout.component';
 import { WINDOW_PROVIDERS } from './providers/window.provider';
 import { ReleaseNotesComponent } from './release-notes/release-notes.component';
-import { AuthorizationService } from './services/authorization.service';
-import { CentralServerService } from './services/central-server.service';
-import { ComponentService } from './services/component.service';
-import { ConfigService } from './services/config.service';
-import { LocalStorageService } from './services/local-storage.service';
-import { LocaleService } from './services/locale.service';
-import { MessageService } from './services/message.service';
-import { SpinnerService } from './services/spinner.service';
-import { StripeService } from './services/stripe.service';
-import { WindowService } from './services/window.service';
 import { FooterModule } from './shared/footer/footer.module';
 import { NavbarModule } from './shared/navbar/navbar.module';
 import { SidebarModule } from './sidebar/sidebar.module';
 import { Utils } from './utils/Utils';
+
+import {
+  AuthorizationService,
+  CentralServerService,
+  ComponentService,
+  ConfigService,
+  LocalStorageService,
+  LocaleService,
+  MessageService,
+  SpinnerService,
+  StripeService,
+  WindowService,
+} from './services';
 
 registerLocaleData(localeEn);
 registerLocaleData(localeFr);
@@ -118,21 +127,21 @@ registerLocaleData(localeEnAU);
     MatTabsModule,
     MatToolbarModule,
   ],
-  providers: [
-    { provide: DatetimeAdapter, useClass: MomentDatetimeAdapter },
-  ],
+  providers: [{ provide: DatetimeAdapter, useClass: MomentDatetimeAdapter }],
 })
-export class MaterialModule {
-}
+export class MaterialModule {}
 
 // Load translations from "/assets/i18n/[lang].json" ([lang] is the lang
 export const HttpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(http);
 
-export const getLocalStorage = () => (!Utils.isUndefined(window)) ? window.localStorage : null;
+export const getLocalStorage = () => (!Utils.isUndefined(window) ? window.localStorage : null);
 
 export const configFactory = (config: ConfigService) => () => config.getConfig();
 
-export const localeFactory = (centralServerService: CentralServerService, translateService: TranslateService) => {
+export const localeFactory = (
+  centralServerService: CentralServerService,
+  translateService: TranslateService
+) => {
   const loggedUser = centralServerService.getLoggedUser();
   if (loggedUser && loggedUser.locale) {
     // Locale of the current user (if any)
@@ -180,19 +189,12 @@ class CustomTranslateDefaultParser extends TranslateDefaultParser {
       },
       parser: {
         provide: TranslateParser,
-        useClass: CustomTranslateDefaultParser
+        useClass: CustomTranslateDefaultParser,
       },
     }),
   ],
-  declarations: [
-    AppComponent,
-    AdminLayoutComponent,
-    AuthLayoutComponent,
-    ReleaseNotesComponent,
-  ],
-  exports: [
-    TranslateModule,
-  ],
+  declarations: [AppComponent, AdminLayoutComponent, AuthLayoutComponent, ReleaseNotesComponent],
+  exports: [TranslateModule],
   providers: [
     WINDOW_PROVIDERS,
     CentralServerService,
@@ -210,16 +212,21 @@ class CustomTranslateDefaultParser extends TranslateDefaultParser {
     WindowService,
     StripeService,
     { provide: APP_INITIALIZER, useFactory: configFactory, deps: [ConfigService], multi: true },
-    { provide: MAT_DATE_LOCALE, useFactory: localeFactory, deps: [CentralServerService, TranslateService], multi: true },
+    {
+      provide: MAT_DATE_LOCALE,
+      useFactory: localeFactory,
+      deps: [CentralServerService, TranslateService],
+      multi: true,
+    },
     { provide: DatetimeAdapter, useClass: MomentDatetimeAdapter },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {
   public constructor(
     private centralServerService: CentralServerService,
-    private translateService: TranslateService) {
-
+    private translateService: TranslateService
+  ) {
     // Default
     let language = this.translateService.getBrowserLang();
     // Get current user

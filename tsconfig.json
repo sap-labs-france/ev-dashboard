@@ -3,6 +3,10 @@
   "compileOnSave": false,
   "compilerOptions": {
     "baseUrl": "./src/app",
+    "paths": {
+      "@services": ["./services"],
+      "@pages": ["./pages"]
+    },
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
@@ -14,12 +18,7 @@
     "allowSyntheticDefaultImports": true,
     "target": "es2020",
     "module": "es2020",
-    "lib": [
-      "es2018",
-      "dom"
-    ],
-    "typeRoots": [
-      "node_modules/@types"
-    ]
+    "lib": ["es2018", "dom"],
+    "typeRoots": ["node_modules/@types"]
   }
 }

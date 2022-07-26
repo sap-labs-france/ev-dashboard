@@ -288,7 +288,7 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
   }
 
   private createOptions(): ChartOptions {
-    const options: ChartOptions = {
+    const options: ChartOptions | any = {
       animation: {
         duration: 0,
       },
@@ -376,6 +376,7 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
       scales: {
         [ConsumptionChartAxis.X]:{
           type: 'time',
+          beginAtZero: true,
           time: {
             tooltipFormat: moment.localeData().longDateFormat('LT'),
             unit: 'minute',

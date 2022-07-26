@@ -1,6 +1,6 @@
 import { Component, ElementRef, Input, OnChanges, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { Chart, ChartData, ChartDataset, ChartOptions, Color, Point, TooltipItem } from 'chart.js';
+import { Chart, ChartData, ChartDataset, ChartOptions, Color, Point } from 'chart.js';
 import * as moment from 'moment';
 import { ConsumptionChartAxis, ConsumptionChartDatasetOrder } from 'types/Chart';
 
@@ -15,12 +15,13 @@ import { Utils } from '../../../../utils/Utils';
 @Component({
   selector: 'app-charging-station-smart-charging-limit-planner-chart',
   template: `
-    <div>
-      <div class="btn-group mat-button-group">
+    <div class="row">
+      <div class="offset-8 col-4">
         <app-chart-unit-selector (unitChanged)="unitChanged($event)"></app-chart-unit-selector>
       </div>
     </div>
     <div class="chart-container chart-container-profiles">
+      <div #purple class='chart-purple'></div>
       <div #primary class='chart-primary'></div>
       <div #danger class='chart-danger'></div>
       <canvas #chart></canvas>
@@ -33,10 +34,9 @@ export class ChargingPlanChartComponent implements OnChanges {
   @Input() public connectorId!: number;
   @Input() public chargingSchedules: Schedule[];
 
-  @ViewChild('primary', { static: true }) public primaryElement!: ElementRef;
   @ViewChild('danger', { static: true }) public dangerElement!: ElementRef;
+  @ViewChild('purple', { static: true }) public purpleElement!: ElementRef;
   @ViewChild('chart', { static: true }) public chartElement!: ElementRef;
-
 
   public selectedUnit = ConsumptionUnit.KILOWATT;
 
@@ -47,8 +47,8 @@ export class ChargingPlanChartComponent implements OnChanges {
     labels: [],
     datasets: [],
   };
-  private instantPowerColor!: string;
-  private limitColor!: string;
+  private limitChargingPlan!: string;
+  private limitMax!: string;
   private defaultColor!: string;
   private lineTension = 0;
   private firstLabel: number;
@@ -78,8 +78,8 @@ export class ChargingPlanChartComponent implements OnChanges {
     if (!this.graphCreated) {
       this.graphCreated = true;
       // Get colors
-      this.instantPowerColor = this.getStyleColor(this.primaryElement.nativeElement);
-      this.limitColor = this.getStyleColor(this.dangerElement.nativeElement);
+      this.limitMax = this.getStyleColor(this.purpleElement.nativeElement);
+      this.limitChargingPlan = this.getStyleColor(this.dangerElement.nativeElement);
       this.defaultColor = this.getStyleColor(this.chartElement.nativeElement);
       // Build chart options
       this.options = this.createOptions();
@@ -115,14 +115,13 @@ export class ChargingPlanChartComponent implements OnChanges {
       const chargingSlotDataSet: ChartDataset = {
         type: 'line',
         data: [],
-        yAxisID: (this.selectedUnit === ConsumptionUnit.AMPERE) ? ConsumptionChartAxis.AMPERAGE : ConsumptionChartAxis.POWER,
+        yAxisID: this.selectedUnit === ConsumptionUnit.AMPERE ? ConsumptionChartAxis.AMPERAGE : ConsumptionChartAxis.POWER,
         lineTension: this.lineTension,
-        ...Utils.formatLineColor(this.instantPowerColor),
-        label: this.translateService.instant((this.selectedUnit === ConsumptionUnit.AMPERE) ?
-          'transactions.graph.plan_amps' : 'transactions.graph.plan_watts'),
+        ...Utils.formatLineColor(this.limitChargingPlan),
+        label: this.translateService.instant(this.selectedUnit === ConsumptionUnit.AMPERE ?
+          'transactions.graph.limit_plan_amps' : 'transactions.graph.limit_plan_watts'),
         order: this.selectedUnit === ConsumptionUnit.AMPERE ?
-          ConsumptionChartDatasetOrder.PLAN_AMPS :
-          ConsumptionChartDatasetOrder.PLAN_WATTS,
+          ConsumptionChartDatasetOrder.PLAN_AMPS : ConsumptionChartDatasetOrder.PLAN_WATTS,
         fill: 'origin',
       };
       // Create Schedule chart points
@@ -130,7 +129,7 @@ export class ChargingPlanChartComponent implements OnChanges {
         labels.push(chargingSlot.startDate.getTime());
         chargingSlotDataSet.data.push({
           x: chargingSlot.startDate.getTime(),
-          y: (this.selectedUnit === ConsumptionUnit.AMPERE) ? chargingSlot.limit : chargingSlot.limitInkW,
+          y: this.selectedUnit === ConsumptionUnit.AMPERE ? chargingSlot.limit : chargingSlot.limitInkW,
         } as number & Point);
       }
       // Create the last Schedule point with the last duration
@@ -139,7 +138,7 @@ export class ChargingPlanChartComponent implements OnChanges {
         labels.push(chargingSlot.startDate.getTime() + chargingSlot.duration * 60 * 1000);
         chargingSlotDataSet.data.push({
           x: chargingSlot.startDate.getTime() - 1000 + chargingSlot.duration * 60 * 1000,
-          y: (this.selectedUnit === ConsumptionUnit.AMPERE) ? chargingSlot.limit : chargingSlot.limitInkW,
+          y: this.selectedUnit === ConsumptionUnit.AMPERE ? chargingSlot.limit : chargingSlot.limitInkW,
         } as number & Point);
       }
       datasets.push(chargingSlotDataSet);
@@ -149,13 +148,11 @@ export class ChargingPlanChartComponent implements OnChanges {
         data: [],
         yAxisID: (this.selectedUnit === ConsumptionUnit.AMPERE) ? ConsumptionChartAxis.AMPERAGE : ConsumptionChartAxis.POWER,
         lineTension: this.lineTension,
-        ...Utils.formatLineColor(this.limitColor),
+        ...Utils.formatLineColor(this.limitMax),
         label: this.translateService.instant((this.selectedUnit === ConsumptionUnit.AMPERE) ?
-          'transactions.graph.limit_plan_amps' : 'transactions.graph.limit_plan_watts'),
+          'transactions.graph.plan_amps' : 'transactions.graph.plan_watts'),
         order: this.selectedUnit === ConsumptionUnit.AMPERE ?
-          ConsumptionChartDatasetOrder.LIMIT_AMPS :
-          ConsumptionChartDatasetOrder.LIMIT_WATTS,
-        fill: 'origin',
+          ConsumptionChartDatasetOrder.LIMIT_AMPS : ConsumptionChartDatasetOrder.LIMIT_WATTS,
       };
       let chargingStationPowers: ChargingStationPowers;
       let chargePoint: ChargePoint;
@@ -166,12 +163,13 @@ export class ChargingPlanChartComponent implements OnChanges {
       } else {
         chargingStationPowers = Utils.getChargingStationPowers(this.chargingStation);
       }
-      // Add First and Last Max Limit points
+      // Add First Limit points
       for (const data of chargingSlotDataSet.data) {
         // First
         limitDataSet.data.push({
           x: (data as Point).x,
-          y: (this.selectedUnit === ConsumptionUnit.AMPERE) ? chargingStationPowers.currentAmp : chargingStationPowers.currentWatt / 1000,
+          y: this.selectedUnit === ConsumptionUnit.AMPERE ?
+            chargingStationPowers.currentAmp : chargingStationPowers.currentWatt / 1000,
         } as number & Point);
       }
       // Push in the graph
@@ -186,7 +184,7 @@ export class ChargingPlanChartComponent implements OnChanges {
   }
 
   private createOptions(): ChartOptions {
-    const options: ChartOptions = {
+    const options: ChartOptions | any = {
       animation: {
         duration: 0,
       },
@@ -202,7 +200,7 @@ export class ChargingPlanChartComponent implements OnChanges {
           bodySpacing: 5,
           mode: 'index',
           position: 'nearest',
-          multiKeyBackground: Utils.toRgba(this.instantPowerColor, 0.7),
+          multiKeyBackground: Utils.toRgba(this.limitChargingPlan, 0.7),
           intersect: false,
           callbacks: {
             labelColor: (context) => ({
@@ -240,6 +238,7 @@ export class ChargingPlanChartComponent implements OnChanges {
       scales: {
         [ConsumptionChartAxis.X]: {
           type: 'time',
+          beginAtZero: true,
           time: {
             tooltipFormat: moment.localeData().longDateFormat('LT'),
             unit: 'hour',
@@ -258,7 +257,7 @@ export class ChargingPlanChartComponent implements OnChanges {
         },
         [ConsumptionChartAxis.POWER]: {
           type: 'linear',
-          position: 'left',
+          position: 'left', 
           ticks: {
             callback: (value: number) => parseInt(this.decimalPipe.transform(value, '1.0-2'), 10) + 'kW',
             color: this.defaultColor,

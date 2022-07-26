@@ -530,10 +530,153 @@ export class ConsumptionChartComponent implements AfterViewInit {
     this.firstLabel = labels[0];
   }
 
+
+  private createOptions(): ChartOptions {
+    const options: ChartOptions | any = {
+      animation: {
+        duration: 0,
+      },
+      responsive: true,
+      maintainAspectRatio: false,
+      // spanGaps: true,
+      // aspectRatio: this.ratio,
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: {
+            color: this.defaultColor,
+          },
+          onHover: (e, legendItem, legend) => {
+            const status = legend.chart.data.datasets[legendItem.datasetIndex].hidden;
+            if(!status){
+              legend.chart.data.datasets.forEach((dataset) => dataset.borderWidth = 1);
+              legend.chart.data.datasets[legendItem.datasetIndex].borderWidth = 5;
+              legend.chart.update();
+            }
+          },
+          onLeave: (e, legendItem, legend) => {
+            legend.chart.data.datasets.forEach((dataset) => dataset.borderWidth = 3);
+            legend.chart.update();
+          },
+          onClick: (e, legendItem, legend) => {
+            const dataset = legend.chart.data.datasets[legendItem.datasetIndex];
+            const status = dataset.hidden;
+            dataset.hidden = !status;
+            this.data.datasets[legendItem.datasetIndex].hidden = !status;
+            this.updateVisibleGridLines();
+            legend.chart.options.scales = this.buildScales();
+            legend.chart.update();
+          }
+        },
+        tooltip: {
+          bodySpacing: 5,
+          mode: 'index',
+          position: 'nearest',
+          multiKeyBackground: Utils.toRgba(this.instantPowerAmpsColor, 0.7),
+          intersect: false,
+          callbacks: {
+            labelColor: (context) => ({
+              borderColor: context.dataset.borderColor as Color,
+              backgroundColor: context.dataset.borderColor as Color,
+              dash: context.dataset.borderDash,
+            }),
+            // eslint-disable-next-line complexity
+            label: (context) => {
+              const dataset = context.dataset;
+              const value = dataset.data[context.dataIndex] as number;
+              const label = context.dataset.label;
+              let tooltipLabel = '';
+              switch (context.dataset.order) {
+                case ConsumptionChartDatasetOrder.INSTANT_WATTS:
+                  tooltipLabel = ' ' + this.decimalPipe.transform(value / 1000, '1.0-2') + ' kW';
+                  break;
+                case ConsumptionChartDatasetOrder.INSTANT_WATTS_L1:
+                  tooltipLabel = ' ' + this.decimalPipe.transform(value / 1000, '1.0-2') + ' kW L1';
+                  break;
+                case ConsumptionChartDatasetOrder.INSTANT_WATTS_L2:
+                  tooltipLabel = ' ' + this.decimalPipe.transform(value / 1000, '1.0-2') + ' kW L2';
+                  break;
+                case ConsumptionChartDatasetOrder.INSTANT_WATTS_L3:
+                  tooltipLabel = ' ' + this.decimalPipe.transform(value / 1000, '1.0-2') + ' kW L3';
+                  break;
+                case ConsumptionChartDatasetOrder.INSTANT_AMPS:
+                  tooltipLabel = ' ' + this.decimalPipe.transform(value, '1.0-0') + ' A';
+                  break;
+                case ConsumptionChartDatasetOrder.INSTANT_AMPS_L1:
+                  tooltipLabel = ' ' + this.decimalPipe.transform(value, '1.0-0') + ' A L1';
+                  break;
+                case ConsumptionChartDatasetOrder.INSTANT_AMPS_L2:
+                  tooltipLabel = ' ' + this.decimalPipe.transform(value, '1.0-0') + ' A L2';
+                  break;
+                case ConsumptionChartDatasetOrder.INSTANT_AMPS_L3:
+                  tooltipLabel = ' ' + this.decimalPipe.transform(value, '1.0-0') + ' A L3';
+                  break;
+                case ConsumptionChartDatasetOrder.INSTANT_AMPS_DC:
+                  tooltipLabel = ' ' + this.decimalPipe.transform(value, '1.0-0') + ' A DC';
+                  break;
+                case ConsumptionChartDatasetOrder.CUMULATED_CONSUMPTION_WH:
+                  tooltipLabel = ' ' + this.decimalPipe.transform(value / 1000, '1.0-2') + ' kW.h';
+                  break;
+                case ConsumptionChartDatasetOrder.CUMULATED_CONSUMPTION_AMPS:
+                  tooltipLabel = ' ' + this.decimalPipe.transform(value, '1.0-2') + ' A.h';
+                  break;
+                case ConsumptionChartDatasetOrder.LIMIT_WATTS:
+                  tooltipLabel = ' ' + this.decimalPipe.transform(value / 1000, '1.0-2') + ' kW';
+                  break;
+                case ConsumptionChartDatasetOrder.LIMIT_AMPS:
+                  tooltipLabel = ' ' + this.decimalPipe.transform(value, '1.0-0') + ' A';
+                  break;
+                case ConsumptionChartDatasetOrder.STATE_OF_CHARGE:
+                  tooltipLabel = ` ${value} %`;
+                  break;
+                case ConsumptionChartDatasetOrder.INSTANT_VOLTS:
+                  tooltipLabel = ' ' + this.decimalPipe.transform(value, '1.0-2') + ' V';
+                  break;
+                case ConsumptionChartDatasetOrder.INSTANT_VOLTS_DC:
+                  tooltipLabel = ' ' + this.decimalPipe.transform(value, '1.0-2') + ' V DC';
+                  break;
+                case ConsumptionChartDatasetOrder.INSTANT_VOLTS_L1:
+                  tooltipLabel = ' ' + this.decimalPipe.transform(value, '1.0-2') + ' V L1';
+                  break;
+                case ConsumptionChartDatasetOrder.INSTANT_VOLTS_L2:
+                  tooltipLabel = ' ' + this.decimalPipe.transform(value, '1.0-2') + ' V L2';
+                  break;
+                case ConsumptionChartDatasetOrder.INSTANT_VOLTS_L3:
+                  tooltipLabel = ' ' + this.decimalPipe.transform(value, '1.0-2') + ' V L3';
+                  break;
+                case ConsumptionChartDatasetOrder.AMOUNT:
+                  tooltipLabel = this.appCurrencyPipe.transform(value, this.transaction.priceUnit) + '';
+                  break;
+                case ConsumptionChartDatasetOrder.CUMULATED_AMOUNT:
+                  tooltipLabel = this.appCurrencyPipe.transform(value, this.transaction.priceUnit) + '';
+                  break;
+                default:
+                  tooltipLabel = value + '';
+              }
+              return `${label}: ${tooltipLabel}`;
+            },
+            title: (tooltipItems) => {
+              const firstDate = new Date(this.firstLabel);
+              const currentDate = new Date(tooltipItems[0].parsed.x);
+              return this.datePipe.transform(currentDate) + ' - ' + this.durationPipe.transform((currentDate.getTime() - firstDate.getTime()) / 1000);
+            },
+          },
+        },
+      },
+      hover: {
+        mode: 'index',
+        intersect: false,
+      },
+      scales: this.buildScales(),
+    };
+    return options;
+  }
+
   private buildScales(): any {
     return {
       [ConsumptionChartAxis.X]: {
         type: 'time',
+        beginAtZero: true,
         time: {
           tooltipFormat: moment.localeData().longDateFormat('LT'),
           unit: 'minute',
@@ -627,146 +770,5 @@ export class ConsumptionChartComponent implements AfterViewInit {
         },
       }
     };
-  }
-
-  private createOptions(): ChartOptions {
-    const options: ChartOptions = {
-      animation: {
-        duration: 0,
-      },
-      responsive: true,
-      maintainAspectRatio: false,
-      // spanGaps: true,
-      // aspectRatio: this.ratio,
-      plugins: {
-        legend: {
-          position: 'bottom',
-          labels: {
-            color: this.defaultColor,
-          },
-          onHover: (e, legendItem, legend) => {
-            const status = legend.chart.data.datasets[legendItem.datasetIndex].hidden;
-            if(!status){
-              legend.chart.data.datasets.forEach((dataset) => dataset.borderWidth = 1);
-              legend.chart.data.datasets[legendItem.datasetIndex].borderWidth = 5;
-              legend.chart.update();
-            }
-          },
-          onLeave: (e, legendItem, legend) => {
-            legend.chart.data.datasets.forEach((dataset) => dataset.borderWidth = 3);
-            legend.chart.update();
-          },
-          onClick: (e, legendItem, legend) => {
-            const dataset = legend.chart.data.datasets[legendItem.datasetIndex];
-            const status = dataset.hidden;
-            dataset.hidden = !status;
-            this.data.datasets[legendItem.datasetIndex].hidden = !status;
-            this.updateVisibleGridLines();
-            legend.chart.options.scales = this.buildScales();
-            legend.chart.update();
-          }
-        },
-        tooltip: {
-          bodySpacing: 5,
-          mode: 'index',
-          position: 'nearest',
-          multiKeyBackground: Utils.toRgba(this.instantPowerAmpsColor, 0.7),
-          intersect: false,
-          callbacks: {
-            labelColor: (context) => ({
-              borderColor: context.dataset.borderColor as Color,
-              backgroundColor: context.dataset.borderColor as Color,
-              dash: context.dataset.borderDash,
-            }),
-            // eslint-disable-next-line complexity
-            label: (context) => {
-              const dataset = context.dataset;
-              const value = dataset.data[context.dataIndex] as number;
-              const label = context.dataset.label;
-              let tooltipLabel = '';
-              switch (context.dataset.order) {
-                case ConsumptionChartDatasetOrder.INSTANT_WATTS:
-                  tooltipLabel =   ' ' + this.decimalPipe.transform(value / 1000, '1.0-2') + ' kW';
-                  break;
-                case ConsumptionChartDatasetOrder.INSTANT_WATTS_L1:
-                  tooltipLabel =   ' ' + this.decimalPipe.transform(value / 1000, '1.0-2') + ' kW L1';
-                  break;
-                case ConsumptionChartDatasetOrder.INSTANT_WATTS_L2:
-                  tooltipLabel =   ' ' + this.decimalPipe.transform(value / 1000, '1.0-2') + ' kW L2';
-                  break;
-                case ConsumptionChartDatasetOrder.INSTANT_WATTS_L3:
-                  tooltipLabel =   ' ' + this.decimalPipe.transform(value / 1000, '1.0-2') + ' kW L3';
-                  break;
-                case ConsumptionChartDatasetOrder.INSTANT_AMPS:
-                  tooltipLabel =   ' ' + this.decimalPipe.transform(value, '1.0-0') + ' A';
-                  break;
-                case ConsumptionChartDatasetOrder.INSTANT_AMPS_L1:
-                  tooltipLabel =   ' ' + this.decimalPipe.transform(value, '1.0-0') + ' A L1';
-                  break;
-                case ConsumptionChartDatasetOrder.INSTANT_AMPS_L2:
-                  tooltipLabel =   ' ' + this.decimalPipe.transform(value, '1.0-0') + ' A L2';
-                  break;
-                case ConsumptionChartDatasetOrder.INSTANT_AMPS_L3:
-                  tooltipLabel =   ' ' + this.decimalPipe.transform(value, '1.0-0') + ' A L3';
-                  break;
-                case ConsumptionChartDatasetOrder.INSTANT_AMPS_DC:
-                  tooltipLabel =   ' ' + this.decimalPipe.transform(value, '1.0-0') + ' A DC';
-                  break;
-                case ConsumptionChartDatasetOrder.CUMULATED_CONSUMPTION_WH:
-                  tooltipLabel =   ' ' + this.decimalPipe.transform(value / 1000, '1.0-2') + ' kW.h';
-                  break;
-                case ConsumptionChartDatasetOrder.CUMULATED_CONSUMPTION_AMPS:
-                  tooltipLabel =   ' ' + this.decimalPipe.transform(value, '1.0-2') + ' A.h';
-                  break;
-                case ConsumptionChartDatasetOrder.LIMIT_WATTS:
-                  tooltipLabel =   ' ' + this.decimalPipe.transform(value / 1000, '1.0-2') + ' kW';
-                  break;
-                case ConsumptionChartDatasetOrder.LIMIT_AMPS:
-                  tooltipLabel =   ' ' + this.decimalPipe.transform(value, '1.0-0') + ' A';
-                  break;
-                case ConsumptionChartDatasetOrder.STATE_OF_CHARGE:
-                  tooltipLabel =   ` ${value} %`;
-                  break;
-                case ConsumptionChartDatasetOrder.INSTANT_VOLTS:
-                  tooltipLabel =   ' ' + this.decimalPipe.transform(value, '1.0-2') + ' V';
-                  break;
-                case ConsumptionChartDatasetOrder.INSTANT_VOLTS_DC:
-                  tooltipLabel =   ' ' + this.decimalPipe.transform(value, '1.0-2') + ' V DC';
-                  break;
-                case ConsumptionChartDatasetOrder.INSTANT_VOLTS_L1:
-                  tooltipLabel =   ' ' + this.decimalPipe.transform(value, '1.0-2') + ' V L1';
-                  break;
-                case ConsumptionChartDatasetOrder.INSTANT_VOLTS_L2:
-                  tooltipLabel =   ' ' + this.decimalPipe.transform(value, '1.0-2') + ' V L2';
-                  break;
-                case ConsumptionChartDatasetOrder.INSTANT_VOLTS_L3:
-                  tooltipLabel =   ' ' + this.decimalPipe.transform(value, '1.0-2') + ' V L3';
-                  break;
-                case ConsumptionChartDatasetOrder.AMOUNT:
-                  tooltipLabel =   this.appCurrencyPipe.transform(value, this.transaction.priceUnit) + '';
-                  break;
-                case ConsumptionChartDatasetOrder.CUMULATED_AMOUNT:
-                  tooltipLabel =   this.appCurrencyPipe.transform(value, this.transaction.priceUnit) + '';
-                  break;
-                default:
-                  tooltipLabel =   value + '';
-              }
-              return `${label}: ${tooltipLabel}`;
-            },
-            title: (tooltipItems) => {
-              const firstDate = new Date(this.firstLabel);
-              const currentDate = new Date(tooltipItems[0].parsed.x);
-              return this.datePipe.transform(currentDate) + ' - ' + this.durationPipe.transform((currentDate.getTime() - firstDate.getTime()) / 1000);
-            },
-          },
-        },
-      },
-      hover: {
-        mode: 'index',
-        intersect: false,
-      },
-      scales: this.buildScales(),
-    };
-    return options;
   }
 }

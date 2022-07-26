@@ -3,7 +3,7 @@
     <!-- Toolbar -->
     <div *ngIf="dataSource.hasActions || dataSource.hasFilters || dataSource.isSearchEnabled" class="mat-toolbar">
       <!-- Actions  -->
-      <div class="left-actions d-flex flex-row mat-toolbar-row ">
+      <div class="left-actions d-flex flex-wrap flex-row mat-toolbar-row ">
         <!-- Create Left Actions -->
         <ng-container *ngFor="let actionDef of dataSource.tableActionsDef; let i=index">
           <!-- Action Button -->

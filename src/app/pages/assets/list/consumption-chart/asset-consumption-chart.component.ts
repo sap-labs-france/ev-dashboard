@@ -165,7 +165,7 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
       if (!this.graphCreated) {
         this.graphCreated = true;
         this.chart = new Chart(this.chartElement.nativeElement.getContext('2d'), {
-          type: 'bar',
+          type: 'line',
           data: this.data,
           options: this.options,
         });

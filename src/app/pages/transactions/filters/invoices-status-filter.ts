@@ -1,6 +1,7 @@
+import { TRANSACTION_INVOICE_STATUS } from 'shared/model/transactions-invoices.model';
+
 import { TableFilter } from '../../../shared/table/filters/table-filter';
 import { FilterType, TableFilterDef } from '../../../types/Table';
-import { TRANSACTION_INVOICE_STATUS } from '../model/invoices.model';
 
 export class InvoiceStatusFilter extends TableFilter {
   public constructor() {

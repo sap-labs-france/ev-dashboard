@@ -1,4 +1,3 @@
-import { AgmCoreModule } from '@agm/core';
 import { registerLocaleData } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import localeCs from '@angular/common/locales/cs'; // ACHTUNG - cz does not exists ==> cs-CZ
@@ -11,6 +10,7 @@ import localeIt from '@angular/common/locales/it';
 import localePt from '@angular/common/locales/pt';
 import { APP_INITIALIZER, Injectable, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { GoogleMapsModule } from '@angular/google-maps';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
@@ -42,6 +42,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterModule } from '@angular/router';
 import { DatetimeAdapter, MatDatetimepickerModule } from '@mat-datetimepicker/core';
 import { MatMomentDatetimeModule, MomentDatetimeAdapter } from '@mat-datetimepicker/moment';
 import { TranslateDefaultParser, TranslateLoader, TranslateModule, TranslateParser, TranslateService } from '@ngx-translate/core';
@@ -155,6 +156,7 @@ class CustomTranslateDefaultParser extends TranslateDefaultParser {
 
 @NgModule({
   imports: [
+    RouterModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
@@ -169,7 +171,7 @@ class CustomTranslateDefaultParser extends TranslateDefaultParser {
     ChartModule,
     BrowserNotSupportedModule,
     NgxDaterangepickerMd.forRoot(),
-    AgmCoreModule.forRoot({ apiKey: 'AIzaSyCIH5GgUOJF-4TlCcL5le107L_thn6WESg' }),
+    GoogleMapsModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

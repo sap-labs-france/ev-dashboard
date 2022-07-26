@@ -1,5 +1,5 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -25,7 +25,7 @@ export class StripePaymentMethodComponent implements OnInit {
   @Input() public dialogRef!: MatDialogRef<PaymentMethodDialogComponent>;
   @Input() public currentUserID!: string;
   @ViewChild('cardInfo', { static: true }) public cardInfo: ElementRef;
-  public formGroup!: FormGroup;
+  public formGroup!: UntypedFormGroup;
   public isBillingComponentActive: boolean;
   public userID: string;
   public acceptConditions: AbstractControl;
@@ -64,8 +64,8 @@ export class StripePaymentMethodComponent implements OnInit {
   public ngOnInit(): void {
     void this.initialize();
     this.userID = this.dialogRef.componentInstance.userID;
-    this.formGroup = new FormGroup({
-      acceptConditions: new FormControl()
+    this.formGroup = new UntypedFormGroup({
+      acceptConditions: new UntypedFormControl()
     });
     this.acceptConditions = this.formGroup.controls['acceptConditions'];
   }

@@ -1,12 +1,14 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { StatusCodes } from 'http-status-codes';
+import { ComponentService } from 'services/component.service';
 import { WindowService } from 'services/window.service';
 import { AbstractTabComponent } from 'shared/component/abstract-tab/abstract-tab.component';
 import { DialogMode } from 'types/Authorization';
+import { TenantComponents } from 'types/Tenant';
 
 import { CentralServerService } from '../../../../services/central-server.service';
 import { DialogService } from '../../../../services/dialog.service';
@@ -14,8 +16,8 @@ import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
 import { Company } from '../../../../types/Company';
 import { RestResponse } from '../../../../types/GlobalType';
-import { HTTPError } from '../../../../types/HTTPError';
 import { Utils } from '../../../../utils/Utils';
+import { CompanyBillingComponent } from './billing/company-billing.component';
 import { CompanyMainComponent } from './main/company-main.component';
 
 @Component({
@@ -29,13 +31,18 @@ export class CompanyComponent extends AbstractTabComponent implements OnInit {
   @Input() public dialogRef!: MatDialogRef<any>;
 
   @ViewChild('companyMainComponent') public companyMainComponent!: CompanyMainComponent;
+  @ViewChild('companyBillingComponent') public companyBillingComponent!: CompanyBillingComponent;
 
-  public formGroup!: FormGroup;
+  public formGroup!: UntypedFormGroup;
   public readOnly = true;
   public company: Company;
+  public isBillingActive = false;
+  public isBillingPlatformActive = false;
+  public accountHasVisibleFields: boolean;
 
   public constructor(
     private centralServerService: CentralServerService,
+    private componentService: ComponentService,
     private messageService: MessageService,
     private spinnerService: SpinnerService,
     private dialogService: DialogService,
@@ -44,11 +51,13 @@ export class CompanyComponent extends AbstractTabComponent implements OnInit {
     private translateService: TranslateService,
     private router: Router) {
     super(activatedRoute, windowService, ['main'], false);
+    this.isBillingActive = this.componentService.isActive(TenantComponents.BILLING);
+    this.isBillingPlatformActive = this.componentService.isActive(TenantComponents.BILLING_PLATFORM);
   }
 
   public ngOnInit() {
     // Init the form
-    this.formGroup = new FormGroup({});
+    this.formGroup = new UntypedFormGroup({});
     // Handle Dialog mode
     this.readOnly = this.dialogMode === DialogMode.VIEW;
     Utils.handleDialogMode(this.dialogMode, this.formGroup);
@@ -62,6 +71,8 @@ export class CompanyComponent extends AbstractTabComponent implements OnInit {
       this.centralServerService.getCompany(this.currentCompanyID).subscribe((company: Company) => {
         this.spinnerService.hide();
         this.company = company;
+        // Check if Account Data is to be displayed
+        this.accountHasVisibleFields = company.projectFields.includes('accountData.accountID');
         if (this.readOnly) {
           // Async call for letting the sub form groups to init
           setTimeout(() => this.formGroup.disable(), 0);
@@ -109,6 +120,8 @@ export class CompanyComponent extends AbstractTabComponent implements OnInit {
     this.companyMainComponent.updateCompanyLogo(company);
     // Set coordinates
     this.companyMainComponent.updateCompanyCoordinates(company);
+    // Set connected account
+    this.companyBillingComponent?.updateCompanyConnectedAccount(company);
     // Create
     this.centralServerService.createCompany(company).subscribe((response) => {
       this.spinnerService.hide();
@@ -140,6 +153,8 @@ export class CompanyComponent extends AbstractTabComponent implements OnInit {
     this.companyMainComponent.updateCompanyLogo(company);
     // Set coordinates
     this.companyMainComponent.updateCompanyCoordinates(company);
+    // Set connected account
+    this.companyBillingComponent?.updateCompanyConnectedAccount(company);
     // Update
     this.centralServerService.updateCompany(company).subscribe((response) => {
       this.spinnerService.hide();

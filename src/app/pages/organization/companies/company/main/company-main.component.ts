@@ -1,5 +1,7 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { StatusCodes } from 'http-status-codes';
 
 import { CentralServerService } from '../../../../../services/central-server.service';
 import { ConfigService } from '../../../../../services/config.service';
@@ -14,7 +16,7 @@ import { Utils } from '../../../../../utils/Utils';
   templateUrl: 'company-main.component.html',
 })
 export class CompanyMainComponent implements OnInit, OnChanges {
-  @Input() public formGroup: FormGroup;
+  @Input() public formGroup: UntypedFormGroup;
   @Input() public company!: Company;
   @Input() public readOnly: boolean;
 
@@ -31,14 +33,15 @@ export class CompanyMainComponent implements OnInit, OnChanges {
   public constructor(
     private centralServerService: CentralServerService,
     private messageService: MessageService,
-    private configService: ConfigService) {
+    private configService: ConfigService,
+    private router: Router) {
     this.maxSize = this.configService.getCompany().maxLogoKb;
   }
 
   public ngOnInit() {
-    this.formGroup.addControl('issuer', new FormControl(true));
-    this.formGroup.addControl('id', new FormControl(''));
-    this.formGroup.addControl('name', new FormControl('',
+    this.formGroup.addControl('issuer', new UntypedFormControl(true));
+    this.formGroup.addControl('id', new UntypedFormControl(''));
+    this.formGroup.addControl('name', new UntypedFormControl('',
       Validators.compose([
         Validators.required,
       ])
@@ -73,8 +76,15 @@ export class CompanyMainComponent implements OnInit, OnChanges {
       if (!this.logoChanged) {
         this.centralServerService.getCompanyLogo(this.company.id).subscribe((companyLogo) => {
           this.logoChanged = true;
-          if (companyLogo) {
-            this.logo = companyLogo;
+          this.logo = companyLogo ?? Constants.NO_IMAGE;
+        }, (error) => {
+          switch (error.status) {
+            case StatusCodes.NOT_FOUND:
+              this.logo = Constants.NO_IMAGE;
+              break;
+            default:
+              Utils.handleHttpError(error, this.router, this.messageService,
+                this.centralServerService, 'general.unexpected_error_backend');
           }
         });
       }

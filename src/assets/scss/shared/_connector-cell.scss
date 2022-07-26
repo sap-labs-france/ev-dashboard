@@ -1,3 +1,4 @@
+@use '@angular/material' as mat;
 @keyframes spinner {
   to {
     transform: rotate(360deg);
@@ -24,7 +25,7 @@
     width: 28px;
     height: 28px;
     border-radius: 50%;
-    border: 2px solid darken(mat-color($mat-blue, 600), 15%);
+    border: 2px solid darken(mat.get-color-from-palette(mat.$blue-palette, 600), 15%);
 
     &.charger-connector-container-image-small {
       left: -15px;
@@ -44,7 +45,7 @@
   }
 
   &.connector-not-typed-icon {
-    color: mat-color($mat-red, 600);
+    color: mat.get-color-from-palette(mat.$red-palette, 600);
   }
 
   .charger-connector-background {
@@ -64,10 +65,10 @@
       height: 100%;
       animation: spinner 3s linear infinite;
       border-radius: 50%;
-      border-left: 3px solid mat-color($mat-blue, 200);
-      border-top: 3px solid mat-color($mat-blue, 600);
-      border-right: 3px solid mat-color($mat-blue, 200);
-      border-bottom: 3px solid mat-color($mat-blue, 600);
+      border-left: 3px solid mat.get-color-from-palette(mat.$blue-palette, 200);
+      border-top: 3px solid mat.get-color-from-palette(mat.$blue-palette, 600);
+      border-right: 3px solid mat.get-color-from-palette(mat.$blue-palette, 200);
+      border-bottom: 3px solid mat.get-color-from-palette(mat.$blue-palette, 600);
       z-index: -1;
     }
   }
@@ -86,27 +87,27 @@
   }
 
   .charger-connector-available {
-    color: mat-color($mat-green, 600);
-    border: 2px solid darken(mat-color($mat-green, 600), 5%);
+    color: mat.get-color-from-palette(mat.$green-palette, 600);
+    border: 2px solid darken(mat.get-color-from-palette(mat.$green-palette, 600), 5%);
     background-color: white;
   }
 
   .charger-connector-charging-available-text {
-    color: mat-color($mat-green, 600);
+    color: mat.get-color-from-palette(mat.$green-palette, 600);
   }
 
   &.charger-connector-type-background {
-    border: 1px solid mat-color($mat-grey, 600);
-    background-color: lighten(mat-color($mat-grey, 600), 20%);
+    border: 1px solid mat.get-color-from-palette(mat.$grey-palette, 600);
+    background-color: lighten(mat.get-color-from-palette(mat.$grey-palette, 600), 20%);
   }
 
   .charger-connector-charging {
-    background-color: mat-color($mat-blue, 600);
-    border: 2px solid darken(mat-color($mat-blue, 600), 15%);
+    background-color: mat.get-color-from-palette(mat.$blue-palette, 600);
+    border: 2px solid darken(mat.get-color-from-palette(mat.$blue-palette, 600), 15%);
   }
 
   .charger-connector-charging-active:before {
-    background-color: mat-color($mat-blue, 600);
+    background-color: mat.get-color-from-palette(mat.$blue-palette, 600);
   }
 
   .charger-connector-charging-active-text {
@@ -115,43 +116,43 @@
   }
 
   .charger-connector-charging-inactive {
-    background-color: mat-color($mat-blue, 600);
-    border: 2px solid darken(mat-color($mat-blue, 600), 15%);
+    background-color: mat.get-color-from-palette(mat.$blue-palette, 600);
+    border: 2px solid darken(mat.get-color-from-palette(mat.$blue-palette, 600), 15%);
   }
 
   .charger-connector-faulted {
-    background-color: mat-color($mat-red, 600);
-    border: 2px solid darken(mat-color($mat-red, 600), 15%);
+    background-color: mat.get-color-from-palette(mat.$red-palette, 600);
+    border: 2px solid darken(mat.get-color-from-palette(mat.$red-palette, 600), 15%);
   }
 
   .charger-connector-unavailable {
-    background-color: mat-color($mat-grey, 600);
-    border: 2px solid darken(mat-color($mat-grey, 600), 15%);
+    background-color: mat.get-color-from-palette(mat.$grey-palette, 600);
+    border: 2px solid darken(mat.get-color-from-palette(mat.$grey-palette, 600), 15%);
   }
 
   .charger-connector-suspended-evse {
-    background-color: mat-color($mat-blue, 600);
-    border: 2px solid darken(mat-color($mat-blue, 600), 15%);
+    background-color: mat.get-color-from-palette(mat.$blue-palette, 600);
+    border: 2px solid darken(mat.get-color-from-palette(mat.$blue-palette, 600), 15%);
   }
 
   .charger-connector-suspended-ev {
-    background-color: mat-color($mat-blue, 600);
-    border: 2px solid darken(mat-color($mat-blue, 600), 15%);
+    background-color: mat.get-color-from-palette(mat.$blue-palette, 600);
+    border: 2px solid darken(mat.get-color-from-palette(mat.$blue-palette, 600), 15%);
   }
 
   .charger-connector-preparing,
   .charger-connector-finishing {
-    background-color: mat-color($mat-orange, 600);
-    border: 2px solid darken(mat-color($mat-orange, 600), 15%);
+    background-color: mat.get-color-from-palette(mat.$orange-palette, 600);
+    border: 2px solid darken(mat.get-color-from-palette(mat.$orange-palette, 600), 15%);
   }
 
   .charger-connector-reserved {
-    background-color: mat-color($mat-orange, 600);
-    border: 2px solid darken(mat-color($mat-orange, 600), 15%);
+    background-color: mat.get-color-from-palette(mat.$orange-palette, 600);
+    border: 2px solid darken(mat.get-color-from-palette(mat.$orange-palette, 600), 15%);
   }
 
   .charger-connector-unknown {
-    background-color: mat-color($mat-grey, 600);
-    border: 2px solid darken(mat-color($mat-grey, 600), 15%);
+    background-color: mat.get-color-from-palette(mat.$grey-palette, 600);
+    border: 2px solid darken(mat.get-color-from-palette(mat.$grey-palette, 600), 15%);
   }
 }

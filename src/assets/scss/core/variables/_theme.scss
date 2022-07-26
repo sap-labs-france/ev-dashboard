@@ -1,41 +1,41 @@
-// Create Material custom theme 
-@import '~@angular/material/theming';
-@import '~@mat-datetimepicker/core/datetimepicker/datetimepicker-theme.scss';
+// Create Material custom theme
+@use '@angular/material' as mat;
+@import 'node_modules/@mat-datetimepicker/core/datetimepicker/datetimepicker-theme.scss';
 
 $min-contrast-ratio: 2.5;
 
 // Material Theming
-@include mat-core();
+@include mat.core();
 
 // Light Theme ---------------------------------
 // Define colors with mat palette
-$app-primary: mat-palette($mat-blue, 700);
-$app-accent: mat-palette($mat-blue, 500);
-$app-danger: mat-palette($mat-red, 700);
+$app-primary: mat.define-palette(mat.$blue-palette, 700);
+$app-accent: mat.define-palette(mat.$blue-palette, 500);
+$app-danger: mat.define-palette(mat.$red-palette, 700);
 // Create the theme for materials
-$app-theme: mat-light-theme($app-primary, $app-accent, $app-danger);
+$app-theme: mat.define-light-theme($app-primary, $app-accent, $app-danger);
 // Other
-$app-success: mat-palette($mat-green, 700);
-$app-warning: mat-palette($mat-orange, 700);
-$app-yellow: mat-palette($mat-yellow, 700);
-$app-purple: mat-palette($mat-deep-purple, 700);
-$app-grey: mat-palette($mat-grey, 700);
-$app-brown: mat-palette($mat-brown, 700);
-$app-blue-grey: mat-palette($mat-blue-grey, 700);
-$app-deep-orange: mat-palette($mat-deep-orange, 700);
-$app-lime: mat-palette($mat-lime, 700);
-$app-light-green: mat-palette($mat-light-green, 700);
-$app-teal: mat-palette($mat-teal, 700);
-$app-cyan: mat-palette($mat-cyan, 700);
-$app-indigo: mat-palette($mat-indigo, 700);
-$app-pink: mat-palette($mat-pink, 700);
+$app-success: mat.define-palette(mat.$green-palette, 700);
+$app-warning: mat.define-palette(mat.$orange-palette, 700);
+$app-yellow: mat.define-palette(mat.$yellow-palette, 700);
+$app-purple: mat.define-palette(mat.$deep-purple-palette, 700);
+$app-grey: mat.define-palette(mat.$grey-palette, 700);
+$app-brown: mat.define-palette(mat.$brown-palette, 700);
+$app-blue-grey: mat.define-palette(mat.$blue-grey-palette, 700);
+$app-deep-orange: mat.define-palette(mat.$deep-orange-palette, 700);
+$app-lime: mat.define-palette(mat.$lime-palette, 700);
+$app-light-green: mat.define-palette(mat.$light-green-palette, 700);
+$app-teal: mat.define-palette(mat.$teal-palette, 700);
+$app-cyan: mat.define-palette(mat.$cyan-palette, 700);
+$app-indigo: mat.define-palette(mat.$indigo-palette, 700);
+$app-pink: mat.define-palette(mat.$pink-palette, 700);
 
 // Bg/Fg
 $app-foreground: map-get($app-theme, foreground);
 $app-background: map-get($app-theme, background);
 
 // Use it
-@include angular-material-theme($app-theme);
+@include mat.all-component-themes($app-theme);
 // Datetime picker
 @include mat-datetimepicker-theme($app-theme);
 // End of Light Theme ---------------------------------
@@ -43,20 +43,20 @@ $app-background: map-get($app-theme, background);
 // Dark Theme ---------------------------------
 .dark-theme {
   // Define colors with mat palette
-  $app-primary: mat-palette($mat-grey, 600);
-  $app-accent: mat-palette($mat-grey, A200, A100, A400);
-  $app-danger: mat-palette($mat-red, 300);
+  $app-primary: mat.define-palette(mat.$grey-palette, 600);
+  $app-accent: mat.define-palette(mat.$grey-palette, A200, A100, A400);
+  $app-danger: mat.define-palette(mat.$red-palette, 300);
   // Create the theme for materials
-  $app-theme: mat-dark-theme($app-primary, $app-accent, $app-danger);
+  $app-theme: mat.define-dark-theme($app-primary, $app-accent, $app-danger);
   // Other
-  $app-success: mat-palette($mat-green, 300);
-  $app-warning: mat-palette($mat-orange, 300);
+  $app-success: mat.define-palette(mat.$green-palette, 300);
+  $app-warning: mat.define-palette(mat.$orange-palette, 300);
   // Bg/Fg
   $app-foreground: map-get($app-theme, foreground);
   $app-background: map-get($app-theme, background);
-  
+
   // Use it
-  @include angular-material-theme($app-theme);
+  @include mat.all-component-themes($app-theme);
   // Datetime picker
   @include mat-datetimepicker-theme($app-theme);
   // End of Dark Theme ---------------------------------

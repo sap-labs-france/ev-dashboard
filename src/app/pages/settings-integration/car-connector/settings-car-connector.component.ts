@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormGroup } from '@angular/forms';
+import { UntypedFormArray, UntypedFormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { StatusCodes } from 'http-status-codes';
 
@@ -23,8 +23,8 @@ import { SettingsCarConnectorConnectionEditableTableDataSource } from './setting
 export class SettingsCarConnectorComponent implements OnInit {
   public isActive = false;
 
-  public formGroup!: FormGroup;
-  public carConnectors!: FormArray;
+  public formGroup!: UntypedFormGroup;
+  public carConnectors!: UntypedFormArray;
 
   public carConnectorSettings!: CarConnectorSettings;
 
@@ -41,11 +41,11 @@ export class SettingsCarConnectorComponent implements OnInit {
   public ngOnInit(): void {
     if (this.isActive) {
       // Build the form
-      this.formGroup = new FormGroup({
-        carConnectors: new FormArray([]),
+      this.formGroup = new UntypedFormGroup({
+        carConnectors: new UntypedFormArray([]),
       });
       // Form Controls
-      this.carConnectors = this.formGroup.controls['carConnectors'] as FormArray;
+      this.carConnectors = this.formGroup.controls['carConnectors'] as UntypedFormArray;
       // Assign connections form to data source
       this.settingsCarConnectorConnectionTableDataSource.setFormArray(this.carConnectors);
       // Load the conf

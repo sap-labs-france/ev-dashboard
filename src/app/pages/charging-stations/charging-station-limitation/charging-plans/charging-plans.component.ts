@@ -1,10 +1,11 @@
 import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
-import { AbstractControl, FormArray, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormArray, UntypedFormControl, UntypedFormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { WindowService } from 'services/window.service';
+import { ChargingStationsAuthorizations } from 'types/Authorization';
 import { ActionResponse } from 'types/DataResult';
 
 import { CentralServerService } from '../../../../services/central-server.service';
@@ -44,6 +45,8 @@ interface ProfileType {
 })
 export class ChargingPlansComponent implements OnInit, AfterViewInit {
   @Input() public chargingStation!: ChargingStation;
+  @Input() public chargingStationsAuthorizations: ChargingStationsAuthorizations;
+
 
   public profileTypeMap: ProfileType[] = [
     {
@@ -55,12 +58,12 @@ export class ChargingPlansComponent implements OnInit, AfterViewInit {
       chargingProfileKindType: ChargingProfileKindType.RECURRING, stackLevel: 2, profileId: 2
     },
   ];
-  public formGroup!: FormGroup;
+  public formGroup!: UntypedFormGroup;
   public profileTypeControl!: AbstractControl;
   public chargingProfilesControl!: AbstractControl;
   public startDateControl!: AbstractControl;
   public endDateControl!: AbstractControl;
-  public chargingSchedules!: FormArray;
+  public chargingSchedules!: UntypedFormArray;
   public chargingProfiles: ChargingProfile[] = [];
   public currentChargingProfile: ChargingProfile;
   public currentChargingSchedules: Schedule[] = [];
@@ -90,22 +93,22 @@ export class ChargingPlansComponent implements OnInit, AfterViewInit {
 
   public ngOnInit(): void {
     // Init the form
-    this.formGroup = new FormGroup({
-      profileTypeControl: new FormControl('',
+    this.formGroup = new UntypedFormGroup({
+      profileTypeControl: new UntypedFormControl('',
         Validators.compose([
           Validators.required,
         ])),
-      chargingProfilesControl: new FormControl(''),
-      startDateControl: new FormControl('',
+      chargingProfilesControl: new UntypedFormControl(''),
+      startDateControl: new UntypedFormControl('',
         Validators.compose([
           Validators.required,
           // this.validateDateMustBeInTheFuture,
         ])),
-      endDateControl: new FormControl('',
+      endDateControl: new UntypedFormControl('',
         Validators.compose([
           this.validateEndDateLimitInRecurringPlan.bind(this),
         ])),
-      schedules: new FormArray([],
+      schedules: new UntypedFormArray([],
         Validators.compose([
           Validators.required,
         ])),
@@ -115,7 +118,7 @@ export class ChargingPlansComponent implements OnInit, AfterViewInit {
     this.chargingProfilesControl = this.formGroup.controls['chargingProfilesControl'];
     this.startDateControl = this.formGroup.controls['startDateControl'];
     this.endDateControl = this.formGroup.controls['endDateControl'];
-    this.chargingSchedules = this.formGroup.controls['schedules'] as FormArray;
+    this.chargingSchedules = this.formGroup.controls['schedules'] as UntypedFormArray;
     this.startDateControl.setValue(moment().add(10, 'm').startOf('m').toDate());
     this.scheduleEditableTableDataSource.startDate = this.startDateControl.value as Date;
     this.profileTypeControl.setValue(this.profileTypeMap[0]);

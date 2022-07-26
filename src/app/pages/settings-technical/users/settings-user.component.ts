@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { StatusCodes } from 'http-status-codes';
 
@@ -22,7 +22,7 @@ export class SettingsUserComponent implements OnInit {
   public userSettings: UserSettings;
   public router: Router;
 
-  public formGroup!: FormGroup;
+  public formGroup!: UntypedFormGroup;
   public autoActivateAccountAfterValidation!: AbstractControl;
 
   public constructor(
@@ -34,8 +34,8 @@ export class SettingsUserComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.formGroup = new FormGroup({
-      autoActivateAccountAfterValidation : new FormControl(),
+    this.formGroup = new UntypedFormGroup({
+      autoActivateAccountAfterValidation : new UntypedFormControl(),
     });
     this.autoActivateAccountAfterValidation = this.formGroup.controls['autoActivateAccountAfterValidation'];
     // Register check event

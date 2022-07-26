@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -25,7 +25,7 @@ declare let $: any;
   templateUrl: 'authentication-login.component.html',
 })
 export class AuthenticationLoginComponent implements OnInit, OnDestroy {
-  public formGroup: FormGroup;
+  public formGroup: UntypedFormGroup;
   public email: AbstractControl;
   public returnUrl!: string;
   public password: AbstractControl;
@@ -64,18 +64,18 @@ export class AuthenticationLoginComponent implements OnInit, OnDestroy {
     // Keep the sub-domain
     this.subDomain = this.windowService.getSubdomain();
     // Init Form
-    this.formGroup = new FormGroup({
-      email: new FormControl('',
+    this.formGroup = new UntypedFormGroup({
+      email: new UntypedFormControl('',
         Validators.compose([
           Validators.required,
           Validators.email,
         ])),
-      password: new FormControl('',
+      password: new UntypedFormControl('',
         Validators.compose([
           Validators.required,
           Users.passwordWithNoSpace,
         ])),
-      acceptEula: new FormControl('',
+      acceptEula: new UntypedFormControl('',
         Validators.compose([
           Validators.required,
         ])),
@@ -122,6 +122,16 @@ export class AuthenticationLoginComponent implements OnInit, OnDestroy {
       this.centralServerService.getTenantLogoBySubdomain(this.subDomain).subscribe((tenantLogo: string) => {
         if (tenantLogo) {
           this.tenantLogo = tenantLogo;
+        }
+      }, (error) => {
+        this.spinnerService.hide();
+        switch (error.status) {
+          case StatusCodes.NOT_FOUND:
+            this.tenantLogo = Constants.NO_IMAGE;
+            break;
+          default:
+            Utils.handleHttpError(error, this.router, this.messageService,
+              this.centralServerService, 'general.unexpected_error_backend');
         }
       });
     } else {

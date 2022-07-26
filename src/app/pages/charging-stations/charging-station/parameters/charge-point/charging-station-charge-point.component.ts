@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
-import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormArray, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 import { ChargePoint, ChargingStation, CurrentType, Voltage } from '../../../../../types/ChargingStation';
 
@@ -10,9 +10,8 @@ import { ChargePoint, ChargingStation, CurrentType, Voltage } from '../../../../
 export class ChargingStationChargePointComponent implements OnInit, OnChanges {
   @Input() public chargingStation!: ChargingStation;
   @Input() public chargePoint!: ChargePoint;
-  @Input() public formChargePointsArray: FormArray;
-  @Input() public formConnectorsArray: FormArray;
-  @Input() public isAdmin!: boolean;
+  @Input() public formChargePointsArray: UntypedFormArray;
+  @Input() public formConnectorsArray: UntypedFormArray;
   @Input() public isPublic!: boolean;
   @Input() public readOnly: boolean;
   @Input() public manualConfiguration!: boolean;
@@ -25,7 +24,7 @@ export class ChargingStationChargePointComponent implements OnInit, OnChanges {
   ];
   public initialized = false;
 
-  public formChargePointGroup: FormGroup;
+  public formChargePointGroup: UntypedFormGroup;
   public currentType!: AbstractControl;
   public voltage!: AbstractControl;
   public amperage!: AbstractControl;
@@ -39,55 +38,55 @@ export class ChargingStationChargePointComponent implements OnInit, OnChanges {
 
   public ngOnInit() {
     // Init charge point
-    this.formChargePointGroup = new FormGroup({
-      chargePointID: new FormControl(this.chargePoint.chargePointID),
-      ocppParamForPowerLimitation: new FormControl(this.chargePoint.ocppParamForPowerLimitation),
-      currentType: new FormControl(CurrentType.AC,
+    this.formChargePointGroup = new UntypedFormGroup({
+      chargePointID: new UntypedFormControl(this.chargePoint.chargePointID),
+      ocppParamForPowerLimitation: new UntypedFormControl(this.chargePoint.ocppParamForPowerLimitation),
+      currentType: new UntypedFormControl(CurrentType.AC,
         Validators.compose([
         ])
       ),
-      voltage: new FormControl(Voltage.VOLTAGE_230,
-        Validators.compose([
-          Validators.min(1),
-          Validators.pattern('^[+]?[0-9]*$'),
-        ])
-      ),
-      amperage: new FormControl(0,
+      voltage: new UntypedFormControl(Voltage.VOLTAGE_230,
         Validators.compose([
           Validators.min(1),
           Validators.pattern('^[+]?[0-9]*$'),
         ])
       ),
-      numberOfConnectedPhase: new FormControl(3,
+      amperage: new UntypedFormControl(0,
+        Validators.compose([
+          Validators.min(1),
+          Validators.pattern('^[+]?[0-9]*$'),
+        ])
+      ),
+      numberOfConnectedPhase: new UntypedFormControl(3,
         Validators.compose([
           Validators.required,
         ])
       ),
-      cannotChargeInParallel: new FormControl(false,
+      cannotChargeInParallel: new UntypedFormControl(false,
         Validators.compose([
         ])
       ),
-      sharePowerToAllConnectors: new FormControl(false,
+      sharePowerToAllConnectors: new UntypedFormControl(false,
         Validators.compose([
         ])
       ),
-      excludeFromPowerLimitation: new FormControl(false,
+      excludeFromPowerLimitation: new UntypedFormControl(false,
         Validators.compose([
         ])
       ),
-      power: new FormControl(0,
+      power: new UntypedFormControl(0,
         Validators.compose([
           Validators.min(1),
           Validators.pattern('^[+]?[0-9]*$'),
         ])
       ),
-      efficiency: new FormControl(0,
+      efficiency: new UntypedFormControl(0,
         Validators.compose([
           Validators.max(100),
           Validators.pattern('^[+]?[0-9]*$'),
         ])
       ),
-      connectorIDs: new FormControl([]),
+      connectorIDs: new UntypedFormControl([]),
     });
     // Add to form array
     this.formChargePointsArray.push(this.formChargePointGroup);

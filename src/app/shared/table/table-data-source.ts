@@ -1,4 +1,4 @@
-import { FormArray } from '@angular/forms';
+import { UntypedFormArray } from '@angular/forms';
 import { MatSort } from '@angular/material/sort';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, of } from 'rxjs';
@@ -23,7 +23,7 @@ export abstract class TableDataSource<T extends TableData> {
   public tableDataSourceMode!: TableDataSourceMode;
 
   public data: T[] = [];
-  public formArray?: FormArray;
+  public formArray?: UntypedFormArray;
   public paging: Paging = {
     limit: this.getPageSize(),
     skip: 0,
@@ -494,6 +494,10 @@ export abstract class TableDataSource<T extends TableData> {
     this.clearData();
     this.resetTotalNumberOfRecords();
     this.clearPaging();
+  }
+
+  public getTableDef(): TableDef {
+    return this.tableDef;
   }
 
   public clearData() {

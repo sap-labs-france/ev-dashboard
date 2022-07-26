@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -16,7 +16,7 @@ export class CarConnectorConnectionComponent implements OnInit {
   @Input() public currentCarConnectorConnection!: CarConnectorConnectionSetting;
   @Input() public dialogRef!: MatDialogRef<CarConnectorConnectionDialogComponent>;
 
-  public formGroup!: FormGroup;
+  public formGroup!: UntypedFormGroup;
   public id!: AbstractControl;
   public description!: AbstractControl;
   public name!: AbstractControl;
@@ -36,18 +36,18 @@ export class CarConnectorConnectionComponent implements OnInit {
 
   public ngOnInit(): void {
     // Init Form
-    this.formGroup = new FormGroup({
-      id: new FormControl(''),
-      name: new FormControl('',
+    this.formGroup = new UntypedFormGroup({
+      id: new UntypedFormControl(''),
+      name: new UntypedFormControl('',
         Validators.compose([
           Validators.required,
           Validators.maxLength(100),
         ])),
-      description: new FormControl('',
+      description: new UntypedFormControl('',
         Validators.compose([
           Validators.required,
         ])),
-      type: new FormControl('',
+      type: new UntypedFormControl('',
         Validators.compose([
           Validators.required,
         ])),

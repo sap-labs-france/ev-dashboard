@@ -202,7 +202,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
       if (!this.graphCreated) {
         this.graphCreated = true;
         this.chart = new Chart(this.chartElement.nativeElement.getContext('2d'), {
-          type: 'bar',
+          type: 'line',
           data: this.data,
           options,
         });
@@ -676,7 +676,6 @@ export class ConsumptionChartComponent implements AfterViewInit {
     return {
       [ConsumptionChartAxis.X]: {
         type: 'time',
-        beginAtZero: true,
         time: {
           tooltipFormat: moment.localeData().longDateFormat('LT'),
           unit: 'minute',
@@ -754,7 +753,6 @@ export class ConsumptionChartComponent implements AfterViewInit {
         type: 'linear',
         position: 'right',
         display: 'auto',
-        beginAtZero: true,
         min: 0,
         grid: {
           display: true,

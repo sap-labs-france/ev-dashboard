@@ -165,7 +165,7 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
       if (!this.graphCreated) {
         this.graphCreated = true;
         this.chart = new Chart(this.chartElement.nativeElement.getContext('2d'), {
-          type: 'bar',
+          type: 'line',
           data: this.data,
           options: this.options,
         });
@@ -288,7 +288,7 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
   }
 
   private createOptions(): ChartOptions {
-    const options: ChartOptions | any = {
+    const options: ChartOptions = {
       animation: {
         duration: 0,
       },
@@ -376,7 +376,6 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
       scales: {
         [ConsumptionChartAxis.X]:{
           type: 'time',
-          beginAtZero: true,
           time: {
             tooltipFormat: moment.localeData().longDateFormat('LT'),
             unit: 'minute',

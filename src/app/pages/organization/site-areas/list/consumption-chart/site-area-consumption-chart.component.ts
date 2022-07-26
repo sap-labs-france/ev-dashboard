@@ -155,7 +155,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
         this.options = this.createOptions();
         this.createGraphData();
         this.chart = new Chart(this.chartElement.nativeElement.getContext('2d'), {
-          type: 'bar',
+          type: 'line',
           data: this.data,
           options: this.options,
         });
@@ -316,7 +316,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
   }
 
   private createOptions(): ChartOptions {
-    const options: ChartOptions | any = {
+    const options: ChartOptions = {
       animation: {
         duration: 0,
       },
@@ -415,7 +415,6 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
       scales: {
         [ConsumptionChartAxis.X]:{
           type: 'time',
-          beginAtZero: true,
           time: {
             tooltipFormat: moment.localeData().longDateFormat('LT'),
             unit: 'minute',

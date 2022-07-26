@@ -85,7 +85,7 @@ export class ChargingPlanChartComponent implements OnChanges {
       this.options = this.createOptions();
       // Create Chart
       this.chart = new Chart(this.chartElement.nativeElement, {
-        type: 'bar',
+        type: 'line',
         data: this.data,
         options: this.options,
       });
@@ -184,7 +184,7 @@ export class ChargingPlanChartComponent implements OnChanges {
   }
 
   private createOptions(): ChartOptions {
-    const options: ChartOptions | any = {
+    const options: ChartOptions = {
       animation: {
         duration: 0,
       },
@@ -238,7 +238,6 @@ export class ChargingPlanChartComponent implements OnChanges {
       scales: {
         [ConsumptionChartAxis.X]: {
           type: 'time',
-          beginAtZero: true,
           time: {
             tooltipFormat: moment.localeData().longDateFormat('LT'),
             unit: 'hour',

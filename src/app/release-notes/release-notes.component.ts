@@ -25,7 +25,7 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.6.9',
-        date: new Date('2022-07-21'),
+        date: new Date('2022-07-26'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -40,6 +40,7 @@ export class ReleaseNotesComponent {
               `Fixed OCPI Tag type to match RFID standard`,
               `Fixed Site not provided in Charging Profile`,
               `Use Outlet in OCPP Meter Value's Location for Energy.Active.Import.Register`,
+              `Reduced charging curve optimization`,
               `Migration to Angular 14`,
             ],
           },

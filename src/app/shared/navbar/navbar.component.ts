@@ -34,7 +34,6 @@ export class NavbarComponent implements OnInit {
     router.events.pipe(
       filter(event => event instanceof NavigationStart)
     ).subscribe((event: NavigationStart) => {
-      console.log('asd');
       if (this.mobileMenuVisible) {
         this.mobileMenuVisible = 0;
       }

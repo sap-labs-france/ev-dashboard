@@ -1,6 +1,6 @@
 import { DOCUMENT, Location } from '@angular/common';
 import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, NavigationStart, Router } from '@angular/router';
 import * as jQuery from 'jquery';
 import { filter } from 'rxjs/operators';
 
@@ -29,6 +29,16 @@ export class NavbarComponent implements OnInit {
     @Inject(DOCUMENT) private document: Document) {
     this.location = location;
     this.sidebarVisible = false;
+
+    // On Router Change
+    router.events.pipe(
+      filter(event => event instanceof NavigationStart)
+    ).subscribe((event: NavigationStart) => {
+      console.log('asd');
+      if (this.mobileMenuVisible) {
+        this.mobileMenuVisible = 0;
+      }
+    });
   }
 
   public minimizeSidebar() {

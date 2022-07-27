@@ -105,7 +105,8 @@
   }
   .nav-content {
     height: calc(95vh - 200px);
-    overflow: auto;
+    overflow-y: scroll;
+    overflow-x: hidden;
   }
   .nav {
     margin-top: 15px;

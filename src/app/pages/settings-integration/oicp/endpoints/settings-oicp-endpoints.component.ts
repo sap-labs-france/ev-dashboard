@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AbstractControl, FormGroup } from '@angular/forms';
+import { AbstractControl, UntypedFormGroup } from '@angular/forms';
 
 import { SettingsOicpEndpointsTableDataSource } from './settings-oicp-endpoints-table-data-source';
 
@@ -9,7 +9,7 @@ import { SettingsOicpEndpointsTableDataSource } from './settings-oicp-endpoints-
 })
 export class SettingsOicpEndpointsComponent {
   public isAdmin!: boolean;
-  public formGroup!: FormGroup;
+  public formGroup!: UntypedFormGroup;
   public name!: AbstractControl;
   public countryCode!: AbstractControl;
   public partyID!: AbstractControl;

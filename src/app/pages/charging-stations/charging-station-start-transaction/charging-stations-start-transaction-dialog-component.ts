@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -31,7 +31,7 @@ export class ChargingStationsStartTransactionDialogComponent implements OnInit {
   public selectedTag!: Tag;
   public selectedCar!: Car;
 
-  public formGroup!: FormGroup;
+  public formGroup!: UntypedFormGroup;
   public user!: AbstractControl;
   public userID!: AbstractControl;
   public car!: AbstractControl;
@@ -66,27 +66,27 @@ export class ChargingStationsStartTransactionDialogComponent implements OnInit {
 
   public ngOnInit() {
     // Init the form
-    this.formGroup = new FormGroup({
-      user: new FormControl('',
+    this.formGroup = new UntypedFormGroup({
+      user: new UntypedFormControl('',
         Validators.compose([
           Validators.required,
         ])),
-      userID: new FormControl('',
+      userID: new UntypedFormControl('',
         Validators.compose([
           Validators.required,
         ])),
-      car: new FormControl('',
+      car: new UntypedFormControl('',
         Validators.compose([
         ])),
-      carID: new FormControl('',
+      carID: new UntypedFormControl('',
         Validators.compose([
         ])),
-      tag: new FormControl('',
+      tag: new UntypedFormControl('',
         Validators.compose([
           Validators.required,
           this.tagActiveValidator.bind(this),
         ])),
-      visualTagID: new FormControl('',
+      visualTagID: new UntypedFormControl('',
         Validators.compose([
           Validators.required,
         ]))

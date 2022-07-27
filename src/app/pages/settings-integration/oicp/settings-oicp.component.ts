@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { StatusCodes } from 'http-status-codes';
 
@@ -21,8 +21,8 @@ import { Utils } from '../../../utils/Utils';
 export class SettingsOicpComponent implements OnInit {
   public isActive = false;
 
-  public formGroup!: FormGroup;
-  public logoGroup!: FormGroup;
+  public formGroup!: UntypedFormGroup;
+  public logoGroup!: UntypedFormGroup;
 
   public cpoCountryCode!: AbstractControl;
   public cpoPartyID!: AbstractControl;
@@ -73,62 +73,62 @@ export class SettingsOicpComponent implements OnInit {
   public ngOnInit() {
     if (this.isActive) {
       // build form
-      this.formGroup = new FormGroup({
-        businessDetails: new FormGroup({
-          name: new FormControl(''),
-          website: new FormControl('',
+      this.formGroup = new UntypedFormGroup({
+        businessDetails: new UntypedFormGroup({
+          name: new UntypedFormControl(''),
+          website: new UntypedFormControl('',
             Validators.pattern(Constants.URL_PATTERN)),
-          logo: new FormGroup({
-            url: new FormControl('',
+          logo: new UntypedFormGroup({
+            url: new UntypedFormControl('',
               Validators.pattern(Constants.URL_PATTERN)),
-            thumbnail: new FormControl(''),
-            category: new FormControl(''),
-            type: new FormControl(''),
-            width: new FormControl(undefined,
+            thumbnail: new UntypedFormControl(''),
+            category: new UntypedFormControl(''),
+            type: new UntypedFormControl(''),
+            width: new UntypedFormControl(undefined,
               Validators.pattern(/^[0-9]*$/)),
-            height: new FormControl(undefined,
+            height: new UntypedFormControl(undefined,
               Validators.pattern(/^[0-9]*$/)),
           }),
         }),
-        cpo: new FormGroup({
-          countryCode: new FormControl('',
+        cpo: new UntypedFormGroup({
+          countryCode: new UntypedFormControl('',
             Validators.compose([
               Validators.required,
               Validators.maxLength(2),
               Validators.minLength(2),
             ])),
-          partyID: new FormControl('',
+          partyID: new UntypedFormControl('',
             Validators.compose([
               Validators.required,
               Validators.maxLength(3),
               Validators.minLength(3),
             ])),
-          key: new FormControl('',
+          key: new UntypedFormControl('',
             Validators.compose([
               Validators.required,
               Validators.minLength(2),
             ])),
-          cert: new FormControl('',
+          cert: new UntypedFormControl('',
             Validators.compose([
               Validators.required,
               Validators.minLength(3),
             ])),
         }),
-        emsp: new FormGroup({
-          countryCode: new FormControl('',
+        emsp: new UntypedFormGroup({
+          countryCode: new UntypedFormControl('',
             Validators.compose([
               Validators.required,
               Validators.maxLength(2),
               Validators.minLength(2),
             ])),
-          partyID: new FormControl('',
+          partyID: new UntypedFormControl('',
             Validators.compose([
               Validators.required,
               Validators.maxLength(3),
               Validators.minLength(3),
             ])),
         }),
-        currency: new FormControl('',
+        currency: new UntypedFormControl('',
           Validators.compose([
             Validators.required,
             Validators.maxLength(3),
@@ -136,18 +136,18 @@ export class SettingsOicpComponent implements OnInit {
         ),
       });
       // CPO identifier
-      this.cpoCountryCode = (this.formGroup.controls['cpo'] as FormGroup).controls['countryCode'];
-      this.cpoPartyID = (this.formGroup.controls['cpo'] as FormGroup).controls['partyID'];
+      this.cpoCountryCode = (this.formGroup.controls['cpo'] as UntypedFormGroup).controls['countryCode'];
+      this.cpoPartyID = (this.formGroup.controls['cpo'] as UntypedFormGroup).controls['partyID'];
       // CPO Certificates
-      this.cpoKey = (this.formGroup.controls['cpo'] as FormGroup).controls['key'];
-      this.cpoCert = (this.formGroup.controls['cpo'] as FormGroup).controls['cert'];
+      this.cpoKey = (this.formGroup.controls['cpo'] as UntypedFormGroup).controls['key'];
+      this.cpoCert = (this.formGroup.controls['cpo'] as UntypedFormGroup).controls['cert'];
       // EMSP identifier
-      this.emspCountryCode = (this.formGroup.controls['emsp'] as FormGroup).controls['countryCode'];
-      this.emspPartyID = (this.formGroup.controls['emsp'] as FormGroup).controls['partyID'];
+      this.emspCountryCode = (this.formGroup.controls['emsp'] as UntypedFormGroup).controls['countryCode'];
+      this.emspPartyID = (this.formGroup.controls['emsp'] as UntypedFormGroup).controls['partyID'];
       // business details - image
-      this.name = (this.formGroup.controls['businessDetails'] as FormGroup).controls['name'];
-      this.website = (this.formGroup.controls['businessDetails'] as FormGroup).controls['website'];
-      this.logoGroup = ((this.formGroup.controls['businessDetails'] as FormGroup).controls['logo'] as FormGroup);
+      this.name = (this.formGroup.controls['businessDetails'] as UntypedFormGroup).controls['name'];
+      this.website = (this.formGroup.controls['businessDetails'] as UntypedFormGroup).controls['website'];
+      this.logoGroup = ((this.formGroup.controls['businessDetails'] as UntypedFormGroup).controls['logo'] as UntypedFormGroup);
       this.logoURL = this.logoGroup.controls['url'];
       this.logoThumbnail = this.logoGroup.controls['thumbnail'];
       this.logoCategory = this.logoGroup.controls['category'];

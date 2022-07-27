@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 import { AssetIothinkConnectionType } from '../../../../../types/Setting';
 
@@ -8,21 +8,21 @@ import { AssetIothinkConnectionType } from '../../../../../types/Setting';
   templateUrl: 'iothink-asset-connection.component.html'
 })
 export class IothinkAssetConnectionComponent implements OnInit {
-  @Input() public formGroup!: FormGroup;
+  @Input() public formGroup!: UntypedFormGroup;
   @Input() public iothinkConnection!: AssetIothinkConnectionType;
 
-  public iothinkLoginForm!: FormGroup;
+  public iothinkLoginForm!: UntypedFormGroup;
   public user!: AbstractControl;
   public password!: AbstractControl;
 
   public ngOnInit(): void {
     // Set login credentials form
-    this.iothinkLoginForm = new FormGroup({
-      user: new FormControl('',
+    this.iothinkLoginForm = new UntypedFormGroup({
+      user: new UntypedFormControl('',
         Validators.compose([
           Validators.required,
         ])),
-      password: new FormControl('',
+      password: new UntypedFormControl('',
         Validators.compose([
           Validators.required,
         ])),

@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { AbstractControl, FormControl, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { Chart, ChartData, ChartDataset, ChartOptions, Color } from 'chart.js';
 import * as moment from 'moment';
@@ -73,7 +73,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
 
   public ngOnInit() {
     // Date control
-    this.dateControl = new FormControl('dateControl',
+    this.dateControl = new UntypedFormControl('dateControl',
       Validators.compose([
         Validators.required,
       ]));
@@ -155,7 +155,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
         this.options = this.createOptions();
         this.createGraphData();
         this.chart = new Chart(this.chartElement.nativeElement.getContext('2d'), {
-          type: 'bar',
+          type: 'line',
           data: this.data,
           options: this.options,
         });

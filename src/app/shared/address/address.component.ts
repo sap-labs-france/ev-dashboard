@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormArray, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { Address as GoogleAddress } from 'ngx-google-places-autocomplete/objects/address';
@@ -13,14 +13,14 @@ import { GeoMapDialogComponent } from '../dialogs/geomap/geomap-dialog.component
   templateUrl: 'address.component.html',
 })
 export class AddressComponent implements OnInit, OnChanges {
-  @Input() public formGroup!: FormGroup;
+  @Input() public formGroup!: UntypedFormGroup;
   @Input() public hideGeolocation = false;
   @Input() public onlyReadGeolocation = false;
   @Input() public address!: Address;
   @Input() public componentName!: string;
   @Input() public itemComponentName!: string;
   @Input() public mandatory!: boolean;
-  public addressFormGroup!: FormGroup;
+  public addressFormGroup!: UntypedFormGroup;
   public address1!: AbstractControl;
   public address2!: AbstractControl;
   public postalCode!: AbstractControl;
@@ -28,7 +28,7 @@ export class AddressComponent implements OnInit, OnChanges {
   public department!: AbstractControl;
   public region!: AbstractControl;
   public country!: AbstractControl;
-  public coordinates!: FormArray;
+  public coordinates!: UntypedFormArray;
   public longitude!: AbstractControl;
   public latitude!: AbstractControl;
   public initialized = false;
@@ -40,22 +40,22 @@ export class AddressComponent implements OnInit, OnChanges {
 
   public ngOnInit() {
     // Set Address form group
-    this.addressFormGroup = new FormGroup({
-      address1: new FormControl(''),
-      address2: new FormControl(''),
-      postalCode: new FormControl(''),
-      city: new FormControl(''),
-      department: new FormControl(''),
-      region: new FormControl(''),
-      country: new FormControl(''),
-      coordinates: new FormArray([
-        new FormControl('',
+    this.addressFormGroup = new UntypedFormGroup({
+      address1: new UntypedFormControl(''),
+      address2: new UntypedFormControl(''),
+      postalCode: new UntypedFormControl(''),
+      city: new UntypedFormControl(''),
+      department: new UntypedFormControl(''),
+      region: new UntypedFormControl(''),
+      country: new UntypedFormControl(''),
+      coordinates: new UntypedFormArray([
+        new UntypedFormControl('',
           Validators.compose([
             Validators.max(180),
             Validators.min(-180),
             Validators.pattern(Constants.REGEX_VALIDATION_LONGITUDE),
           ])),
-        new FormControl('',
+        new UntypedFormControl('',
           Validators.compose([
             Validators.max(90),
             Validators.min(-90),
@@ -77,7 +77,7 @@ export class AddressComponent implements OnInit, OnChanges {
     this.department = this.addressFormGroup.controls['department'];
     this.region = this.addressFormGroup.controls['region'];
     this.country = this.addressFormGroup.controls['country'];
-    this.coordinates = this.addressFormGroup.controls['coordinates'] as FormArray;
+    this.coordinates = this.addressFormGroup.controls['coordinates'] as UntypedFormArray;
     this.longitude = this.coordinates.at(0);
     this.latitude = this.coordinates.at(1);
     this.initialized = true;
@@ -118,19 +118,12 @@ export class AddressComponent implements OnInit, OnChanges {
         this.latitude = this.coordinates?.at(1);
       }
       if (this.mandatory) {
-        this.address1.setValidators(Validators.required);
-        this.city.setValidators(Validators.required);
-        this.postalCode.setValidators(Validators.required);
-        this.country.setValidators(Validators.required);
-        this.latitude.setValidators(Validators.required);
-        this.longitude.setValidators(Validators.required);
-      } else {
-        this.address1.clearValidators();
-        this.city.clearValidators();
-        this.postalCode.clearValidators();
-        this.country.clearValidators();
-        this.latitude.clearValidators();
-        this.longitude.clearValidators();
+        this.address1.addValidators(Validators.required);
+        this.city.addValidators(Validators.required);
+        this.postalCode.addValidators(Validators.required);
+        this.country.addValidators(Validators.required);
+        this.latitude.addValidators(Validators.required);
+        this.longitude.addValidators(Validators.required);
       }
       this.address1.updateValueAndValidity();
       this.city.updateValueAndValidity();

@@ -127,3 +127,8 @@
     height: 20em;
   }
 }
+
+.fit-screen {
+  display:block;
+  width:calc(100vw - 330px);
+}

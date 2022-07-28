@@ -131,7 +131,7 @@ const routes: Routes = [
       },
       {
         path: 'charging-station-templates',
-        loadChildren: async () => import('./pages/charging-station-templates/charging-station-templates.module').then((m) => m.ChargingStationTemplatesModule),
+        loadChildren: async () => (await import('./pages/charging-station-templates/charging-station-templates.module')).ChargingStationTemplatesModule,
         data: {
           menu: {
             title: 'charging_station_templates',

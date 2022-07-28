@@ -7,7 +7,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MaterialModule } from '../../app.module';
 import { DialogsModule } from '../../shared/dialogs/dialogs.module';
 import { CommonDirectivesModule } from '../../shared/directives/directives.module';
-import { FormattersModule } from '../../shared/formatters/formatters.module';
 import { TableModule } from '../../shared/table/table.module';
 import { ChargingStationTemplateDialogComponent } from './charging-station-template/charging-station-template-dialog.component';
 import { ChargingStationTemplateComponent } from './charging-station-template/charging-station-template.component';

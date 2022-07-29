@@ -169,7 +169,7 @@ class CustomTranslateDefaultParser extends TranslateDefaultParser {
     ChartModule,
     BrowserNotSupportedModule,
     NgxDaterangepickerMd.forRoot(),
-    AgmCoreModule.forRoot({ apiKey: 'AIzaSyAbV_yOHcuYRAxsQKaiWCqVwcHKuwBxnXU' }),
+    AgmCoreModule.forRoot({ apiKey: 'AIzaSyDeQpDfLHK3IdINGL-GCMqEopade4zfj1c' }),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

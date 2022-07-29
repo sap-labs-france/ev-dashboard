@@ -128,7 +128,10 @@
   }
 }
 
-.fit-screen {
-  display:block;
-  width:calc(100vw - 330px);
+// fit diagram to screen when not mobile display
+@media (min-width: 991px) {
+  .fit-screen {
+    display:block;
+    width:calc(100vw - 330px);
+  }
 }

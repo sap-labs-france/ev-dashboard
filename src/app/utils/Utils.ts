@@ -126,7 +126,7 @@ export class Utils {
   }
 
   public static convertEmptyStringToNull(control: AbstractControl) {
-    if(this.isEmptyString(control.value)){
+    if (this.isEmptyString(control.value)) {
       control.setValue(null);
     }
   }
@@ -870,10 +870,14 @@ export class Utils {
       case StatusCodes.REQUEST_TIMEOUT:
         messageService.showErrorMessage(error.message);
         break;
-      case StatusCodes.MOVED_PERMANENTLY:
-        if (error.details?.errorDetailedMessage?.redirectDomain) {
+      case StatusCodes.MOVED_TEMPORARILY:
+        const { redirectDomain = null, subdomain = null } = error.details?.errorDetailedMessage || {};
+        if (redirectDomain && subdomain) {
           centralServerService.getWindowService().redirectToDomain(
-            error.details.errorDetailedMessage.redirectDomain);
+            redirectDomain,
+            subdomain);
+        } else {
+          console.log(`HTTP Error: ${errorMessage}: ${error.message} (${error.status})`, error);
         }
         break;
       // Backend issue
@@ -991,7 +995,7 @@ export class Utils {
   public static convertToMomentLocale(locale: string) {
     let momentLocale = Utils.convertToBrowserLocale(locale).toLowerCase(); // Converts 'fr-FR' to 'fr-fr'
     const fragments = momentLocale.split('-');
-    if ( fragments.length===2 && fragments[0]===fragments[1] ) {
+    if (fragments.length === 2 && fragments[0] === fragments[1]) {
       momentLocale = fragments[0];  // Converts 'fr-fr' to 'fr'
     }
     return momentLocale;
@@ -999,7 +1003,7 @@ export class Utils {
 
   public static changeMomentLocaleGlobally(currentLocale: string) {
     const momentLocale = Utils.convertToMomentLocale(currentLocale);
-    if ( moment.locale()!== momentLocale ) {
+    if (moment.locale() !== momentLocale) {
       console.log('Attempt to set moment locale to: ' + momentLocale);
       moment.locale(momentLocale);
       console.log('Moment Locale as been set to: ' + moment.locale());

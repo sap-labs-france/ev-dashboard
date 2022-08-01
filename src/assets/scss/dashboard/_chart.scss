@@ -90,6 +90,12 @@
   height:27vh;
 }
 
+.canvas-container {
+  display: flex !important;
+  object-fit: contain !important;
+  height : 68vh !important;
+}
+
 .chart-container-statistics {
   position: relative;
   margin: auto;

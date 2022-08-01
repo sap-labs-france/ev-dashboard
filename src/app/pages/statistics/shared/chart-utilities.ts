@@ -371,10 +371,12 @@ export class SimpleChart {
     if (this.withLegend) {
       if(!this.chartOptions.plugins.legend){
         this.chartOptions.plugins.legend = {
+          position: this.chartType === ChartTypeValues.PIE ? 'left' : 'top',
           labels: {
             color: '',
             font: {
               family: '',
+              size: this.chartType === ChartTypeValues.PIE ?  30 : 15,
             }
           }
         };

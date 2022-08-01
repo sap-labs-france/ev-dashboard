@@ -24,23 +24,36 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.6.9',
-        date: new Date('2022-07-21'),
+        version: '2.6.10',
+        date: new Date('2022-07-26'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `Migrated Charging Station endpoint to the new authorization framework`,
+              `Added automatic redirection of migrated tenants to a k8s cluster`,
+              `Fixed Site not provided in Charging Profile`,
+              `Use Outlet in OCPP Meter Value's Location for Energy.Active.Import.Register`,
+              `Reduced charging curve optimization`,
+              `Fixed Charging Profile's CSS issues`,
+              `Migration to Angular 14`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.6.9',
+        date: new Date('2022-06-19'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Fixed OCPI Tag type to match RFID standard`,
               `Handle Tag ID sent by payment terminals`,
               `Retrigger the Async task framework after it has run once`,
               `Check of OCPI CPO Locations is now done once a day`,
               `Log in error failed Remote Push Notification`,
               `Virtual RFID ID are generated now on 8 bytes`,
-              `Added automatic redirection of migrated tenants to a k8s cluster`,
-              `Fixed OCPI Tag type to match RFID standard`,
-              `Fixed Site not provided in Charging Profile`,
-              `Use Outlet in OCPP Meter Value's Location for Energy.Active.Import.Register`,
-              `Migration to Angular 14`,
             ],
           },
         ],
@@ -2360,7 +2373,7 @@ export class ReleaseNotesComponent {
               `Added AWS deployment and configuration files`,
               `Switched the Charging Station's Heartbeat interval to 300 seconds`,
               `Update of Charging Stations with Template is always applied during Boot Notification`,
-              `Set the minimum power to 2 Amps in the Charging Station Limitation`,
+              `Set the minimum power to 2 Amps in the Connector Limitation`,
               `Fixed Jump in Maps button not disabled when GPS coordinates are not provided in Site, Site Area, Company, Charging Station and Asset lists`,
               `Fixed Delete action not displayed in User's list`,
             ],

@@ -155,7 +155,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
         this.options = this.createOptions();
         this.createGraphData();
         this.chart = new Chart(this.chartElement.nativeElement.getContext('2d'), {
-          type: 'bar',
+          type: 'line',
           data: this.data,
           options: this.options,
         });

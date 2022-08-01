@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { AccountBillingComponent } from 'shared/component/account-billing/account-billing.component';
 import { PricingDefinitionsModule } from 'shared/pricing-definitions/pricing-definitions.module';
 
 import { MaterialModule } from '../../app.module';
@@ -11,7 +12,6 @@ import { ComponentModule } from '../../shared/component/component.module';
 import { DialogsModule } from '../../shared/dialogs/dialogs.module';
 import { TableModule } from '../../shared/table/table.module';
 import { CompanyLogoFormatterCellComponent } from './companies/cell-components/company-logo-formatter-cell.component';
-import { CompanyBillingComponent } from './companies/company/billing/company-billing.component';
 import { CompanyDialogComponent } from './companies/company/company-dialog.component';
 import { CompanyComponent } from './companies/company/company.component';
 import { CompanyMainComponent } from './companies/company/main/company-main.component';
@@ -65,7 +65,7 @@ import { SiteComponent } from './sites/site/site.component';
     SiteAreasListComponent,
     CompanyComponent,
     CompanyMainComponent,
-    CompanyBillingComponent,
+    AccountBillingComponent,
     CompanyDialogComponent,
     CompanyLogoFormatterCellComponent,
     SiteComponent,

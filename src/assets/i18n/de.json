@@ -2523,7 +2523,7 @@
       "voltage_l2": "Spannung L2 (V)",
       "voltage_l3": "Spannung L3 (V)",
       "plan_watts": "Plan (kW)",
-      "plan_amps": "Plan (A)",
+      "plan_amps": "Connector Limit (A)",
       "limit_plan_watts": "Geplantes Limit (kW)",
       "limit_plan_amps": "Plan-Limit (A)",
       "limit": "Limit",

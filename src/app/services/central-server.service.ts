@@ -3534,8 +3534,7 @@ export class CentralServerService {
     // We might use a remote logging infrastructure
     const errorInfo = { status: 0, message: '', details: null };
     // Handle redirection of Tenant
-    if (error.status === StatusCodes.MOVED_PERMANENTLY &&
-        error.error.size > 0) {
+    if ( error.status === StatusCodes.MOVED_TEMPORARILY && error.error.size > 0) {
       return new Observable(observer => {
         const reader = new FileReader();
         reader.readAsText(error.error); // convert blob to Text

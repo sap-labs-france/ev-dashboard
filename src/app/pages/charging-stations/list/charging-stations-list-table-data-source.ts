@@ -223,7 +223,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
         class: 'text-center col-10p',
         sortable: false,
         formatter: (ocppVersion: string, row: ChargingStation) =>
-          (ocppVersion && row.ocppProtocol) ? `${ocppVersion} / ${row.ocppProtocol}` : '-'
+          (ocppVersion && row.ocppProtocol) ? `${ocppVersion} / ${row.ocppProtocol}` : ''
       }
     ];
   }

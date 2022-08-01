@@ -1,5 +1,6 @@
 import { Address } from './Address';
 import { SiteAuthorizationActions } from './Authorization';
+import { BillingAccountData } from './Billing';
 import { Company } from './Company';
 import CreatedUpdatedProps from './CreatedUpdatedProps';
 import { SiteArea } from './SiteArea';
@@ -24,6 +25,7 @@ export interface Site extends TableData, CreatedUpdatedProps, SiteAuthorizationA
   userIDs: string[];
   users: User[];
   public?: boolean;
+  accountData?: BillingAccountData;
 }
 
 export interface SiteUser extends TableData {

@@ -90,7 +90,6 @@
 .login-page {
 
   .card-login {
-    min-width: 465px;
     @include transform-translate-y(0);
     @extend .animation-transition-general;
 

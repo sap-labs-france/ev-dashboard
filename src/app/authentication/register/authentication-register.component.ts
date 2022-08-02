@@ -1,7 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { StatusCodes } from 'http-status-codes';
 import { ReCaptchaV3Service } from 'ngx-captcha';
 
 import { CentralServerService } from '../../services/central-server.service';
@@ -24,12 +25,12 @@ import { Utils } from '../../utils/Utils';
 
 export class AuthenticationRegisterComponent implements OnInit, OnDestroy {
   public parentErrorStateMatcher = new ParentErrorStateMatcher();
-  public formGroup: FormGroup;
+  public formGroup: UntypedFormGroup;
   public name: AbstractControl;
   public firstName: AbstractControl;
   public email: AbstractControl;
   public mobile!: AbstractControl;
-  public passwords: FormGroup;
+  public passwords: UntypedFormGroup;
   public password: AbstractControl;
   public repeatPassword: AbstractControl;
   public acceptEula: AbstractControl;
@@ -61,38 +62,38 @@ export class AuthenticationRegisterComponent implements OnInit, OnDestroy {
     // Keep the sub-domain
     this.subDomain = this.windowService.getSubdomain();
     // Init Form
-    this.formGroup = new FormGroup({
-      name: new FormControl('',
+    this.formGroup = new UntypedFormGroup({
+      name: new UntypedFormControl('',
         Validators.compose([
           Validators.required,
         ])),
-      firstName: new FormControl('',
+      firstName: new UntypedFormControl('',
         Validators.compose([
           Validators.required,
         ])),
-      email: new FormControl('',
+      email: new UntypedFormControl('',
         Validators.compose([
           Validators.required,
           Validators.email,
         ])),
-      mobile: new FormControl('',
+      mobile: new UntypedFormControl('',
         Validators.compose([
           Validators.required,
           Users.validatePhone,
         ])),
-      passwords: new FormGroup({
-        password: new FormControl('',
+      passwords: new UntypedFormGroup({
+        password: new UntypedFormControl('',
           Validators.compose([
             Validators.required,
             Users.passwordWithNoSpace,
             Users.validatePassword,
           ])),
-        repeatPassword: new FormControl('',
+        repeatPassword: new UntypedFormControl('',
           Validators.compose([
             Validators.required,
           ])),
-      }, (passwordFormGroup: FormGroup) => Utils.validateEqual(passwordFormGroup, 'password', 'repeatPassword')),
-      acceptEula: new FormControl('',
+      }, (passwordFormGroup: UntypedFormGroup) => Utils.validateEqual(passwordFormGroup, 'password', 'repeatPassword')),
+      acceptEula: new UntypedFormControl('',
         Validators.compose([
           Validators.required,
         ])),
@@ -101,7 +102,7 @@ export class AuthenticationRegisterComponent implements OnInit, OnDestroy {
     this.name = this.formGroup.controls['name'];
     this.email = this.formGroup.controls['email'];
     this.mobile = this.formGroup.controls['mobile'];
-    this.passwords = (this.formGroup.controls['passwords'] as FormGroup);
+    this.passwords = (this.formGroup.controls['passwords'] as UntypedFormGroup);
     this.password = this.passwords.controls['password'];
     this.repeatPassword = this.passwords.controls['repeatPassword'];
     this.firstName = this.formGroup.controls['firstName'];
@@ -122,6 +123,16 @@ export class AuthenticationRegisterComponent implements OnInit, OnDestroy {
       this.centralServerService.getTenantLogoBySubdomain(this.subDomain).subscribe((tenantLogo: string) => {
         if (tenantLogo) {
           this.tenantLogo = tenantLogo;
+        }
+      }, (error) => {
+        this.spinnerService.hide();
+        switch (error.status) {
+          case StatusCodes.NOT_FOUND:
+            this.tenantLogo = Constants.NO_IMAGE;
+            break;
+          default:
+            Utils.handleHttpError(error, this.router, this.messageService,
+              this.centralServerService, 'general.unexpected_error_backend');
         }
       });
     } else {

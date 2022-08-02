@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -30,7 +30,7 @@ export class TagComponent extends AbstractTabComponent implements OnInit {
   @Input() public tagsAuthorizations!: TagsAuthorizations;
   @Input() public dialogMode!: DialogMode;
 
-  public formGroup!: FormGroup;
+  public formGroup!: UntypedFormGroup;
   public readOnly = true;
   public tag!: Tag;
 
@@ -49,7 +49,7 @@ export class TagComponent extends AbstractTabComponent implements OnInit {
 
   public ngOnInit() {
     // Init the form
-    this.formGroup = new FormGroup({});
+    this.formGroup = new UntypedFormGroup({});
     // Handle Dialog mode
     this.readOnly = this.dialogMode === DialogMode.VIEW;
     Utils.handleDialogMode(this.dialogMode, this.formGroup);

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -36,7 +36,7 @@ export class CarComponent extends AbstractTabComponent implements OnInit {
   @ViewChild('carMainComponent') public carMainComponent!: CarMainComponent;
   @ViewChild('carConnectorComponent') public carConnectorComponent!: CarConnectorComponent;
 
-  public formGroup!: FormGroup;
+  public formGroup!: UntypedFormGroup;
   public isCarConnectorComponentActive: boolean;
   public canListUsers: boolean;
   public readOnly = true;
@@ -58,7 +58,7 @@ export class CarComponent extends AbstractTabComponent implements OnInit {
 
   public ngOnInit() {
     // Init the form
-    this.formGroup = new FormGroup({});
+    this.formGroup = new UntypedFormGroup({});
     // Handle Dialog mode
     this.readOnly = this.dialogMode === DialogMode.VIEW;
     this.canListUsers = Utils.convertToBoolean(this.carsAuthorizations.canListUsers);

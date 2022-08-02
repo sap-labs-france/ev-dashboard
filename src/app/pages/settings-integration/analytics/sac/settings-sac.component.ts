@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import * as moment from 'moment-timezone';
 
 import { AnalyticsSettings } from '../../../../types/Setting';
@@ -11,10 +11,10 @@ import { AnalyticsLinksTableDataSource } from '../analytics-link/analytics-links
   templateUrl: 'settings-sac.component.html',
 })
 export class SettingsSacComponent implements OnInit, OnChanges {
-  @Input() public formGroup!: FormGroup;
+  @Input() public formGroup!: UntypedFormGroup;
   @Input() public analyticsSettings!: AnalyticsSettings;
 
-  public sac!: FormGroup;
+  public sac!: UntypedFormGroup;
   public mainUrl!: AbstractControl;
   public timezone!: AbstractControl;
   public timezoneList: any = [];
@@ -27,11 +27,11 @@ export class SettingsSacComponent implements OnInit, OnChanges {
 
   public ngOnInit(): void {
     // Add control
-    this.sac = new FormGroup({
-      mainUrl: new FormControl('',
+    this.sac = new UntypedFormGroup({
+      mainUrl: new UntypedFormControl('',
         Validators.pattern(Constants.URL_PATTERN),
       ),
-      timezone: new FormControl('',
+      timezone: new UntypedFormControl('',
         Validators.required,
       ),
     });

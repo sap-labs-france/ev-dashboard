@@ -203,7 +203,7 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
     if(asset.canUpdate) {
       rowActions.push(this.editAction);
     // Show button
-    } else if (asset.canRead) {
+    } else {
       rowActions.push(this.displayAction);
     }
     // Display refresh button

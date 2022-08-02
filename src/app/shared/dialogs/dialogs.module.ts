@@ -1,6 +1,6 @@
-import { AgmCoreModule } from '@agm/core';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { GoogleMapsModule } from '@angular/google-maps';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { FileUploadModule } from 'ng2-file-upload';
@@ -14,6 +14,8 @@ import { ErrorCodeDetailsComponent } from '../component/error-code-details/error
 import { AppConnectorIdPipe } from '../formatters/app-connector-id.pipe';
 import { FormattersModule } from '../formatters/formatters.module';
 import { TableModule } from '../table/table.module';
+import { AccountsDialogTableDataSource } from './accounts/accounts-dialog-table-data-source';
+import { AccountsDialogComponent } from './accounts/accounts-dialog.component';
 import { AssetsDialogTableDataSource } from './assets/assets-dialog-table-data-source';
 import { AssetsDialogComponent } from './assets/assets-dialog.component';
 import { CarCatalogsDialogTableDataSource } from './car-catalogs/car-catalogs-dialog-table-data-source';
@@ -57,7 +59,7 @@ import { UsersDialogComponent } from './users/users-dialog.component';
     TranslateModule,
     ComponentModule,
     FormattersModule,
-    AgmCoreModule,
+    GoogleMapsModule,
     GooglePlaceModule,
     FileUploadModule,
   ],
@@ -84,29 +86,7 @@ import { UsersDialogComponent } from './users/users-dialog.component';
     ReportsDialogComponent,
     CarCatalogsDialogComponent,
     LogActionsDialogComponent,
-  ],
-  entryComponents: [
-    CarMakersDialogComponent,
-    TransactionComponent,
-    TransactionDialogComponent,
-    SitesDialogComponent,
-    UsersDialogComponent,
-    TagsDialogComponent,
-    CarsDialogComponent,
-    CustomDialogComponent,
-    ChargingStationsDialogComponent,
-    SiteAreasDialogComponent,
-    AssetsDialogComponent,
-    CompaniesDialogComponent,
-    ConsumptionChartComponent,
-    GeoMapDialogComponent,
-    QrCodeDialogComponent,
-    ImportDialogComponent,
-    ErrorCodeDetailsDialogComponent,
-    ErrorCodeDetailsComponent,
-    ReportsDialogComponent,
-    CarCatalogsDialogComponent,
-    LogActionsDialogComponent,
+    AccountsDialogComponent,
   ],
   exports: [
     CarMakersDialogComponent,
@@ -129,6 +109,7 @@ import { UsersDialogComponent } from './users/users-dialog.component';
     ReportsDialogComponent,
     CarCatalogsDialogComponent,
     LogActionsDialogComponent,
+    AccountsDialogComponent,
   ],
   providers: [
     AppConnectorIdPipe,
@@ -145,7 +126,8 @@ import { UsersDialogComponent } from './users/users-dialog.component';
     CarMakersTableDataSource,
     CarCatalogsDialogTableDataSource,
     LogActionsDialogTableDataSource,
-  ],
+    AccountsDialogTableDataSource
+  ]
 })
 export class DialogsModule {
 }

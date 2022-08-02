@@ -3,7 +3,6 @@ import { Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 
-import { AuthorizationService } from '../../../../services/authorization.service';
 import { CentralServerService } from '../../../../services/central-server.service';
 import { DialogService } from '../../../../services/dialog.service';
 import { MessageService } from '../../../../services/message.service';
@@ -19,12 +18,14 @@ import { ChargingStationOcppParametersInputFieldCellComponent } from './cell-com
 
 @Injectable()
 export class ChargingStationOcppParametersEditableTableDataSource extends EditableTableDataSource<OcppParameter> {
-  private charger!: ChargingStation;
+  public chargingStation!: ChargingStation;
+  private updateOCPPParamsAction = new TableUpdateOCPPParamsAction().getActionDef();
+  private requestOCPPParamsAction = new TableRequestOCPPParamsAction().getActionDef();
+  private exportOCPPParamsLocalAction = new TableExportOCPPParamsLocalAction().getActionDef();
 
   public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
-    public authorizationService: AuthorizationService,
     public dialogService: DialogService,
     public centralServerService: CentralServerService,
     public router: Router,
@@ -46,18 +47,10 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
   }
 
   public buildTableActionsDef(): TableActionDef[] {
-    // Create
-    const updateOCPPParamsAction = new TableUpdateOCPPParamsAction().getActionDef();
-    const requestOCPPParamsAction = new TableRequestOCPPParamsAction().getActionDef();
-    const exportOCPPParamsLocalAction = new TableExportOCPPParamsLocalAction().getActionDef();
-    // Activate the buttoms
-    updateOCPPParamsAction.visible = true;
-    requestOCPPParamsAction.visible = true;
-    exportOCPPParamsLocalAction.visible = true;
     return [
-      updateOCPPParamsAction,
-      requestOCPPParamsAction,
-      exportOCPPParamsLocalAction
+      this.updateOCPPParamsAction,
+      this.requestOCPPParamsAction,
+      this.exportOCPPParamsLocalAction
     ];
   }
 
@@ -79,19 +72,19 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
       case ChargingStationButtonAction.EXPORT_LOCAL_OCPP_PARAMS:
         if (actionDef.action) {
           (actionDef as TableExportOCPPParamsLocalActionDef).action(
-            this.charger, this.getContent(), this.dialogService, this.translateService);
+            this.chargingStation, this.getContent(), this.dialogService, this.translateService);
         }
         break;
       case ChargingStationButtonAction.UPDATE_OCPP_PARAMS:
         if (actionDef.action) {
-          (actionDef as TableUpdateOCPPParamsActionDef).action(this.charger, this.dialogService, this.translateService, this.messageService, this.centralServerService,
+          (actionDef as TableUpdateOCPPParamsActionDef).action(this.chargingStation, this.dialogService, this.translateService, this.messageService, this.centralServerService,
             this.router, this.spinnerService, this.refreshEditableData.bind(this));
         }
         break;
       case ChargingStationButtonAction.REQUEST_OCPP_PARAMS:
         if (actionDef.action) {
           (actionDef as TableRequestOCPPParamsActionDef).action(
-            this.charger, this.dialogService, this.translateService, this.messageService, this.centralServerService,
+            this.chargingStation, this.dialogService, this.translateService, this.messageService, this.centralServerService,
             this.router, this.spinnerService, this.refreshEditableData.bind(this));
         }
         break;
@@ -101,8 +94,15 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
     }
   }
 
-  public setCharger(charger: ChargingStation) {
-    this.charger = charger;
+  public setCharger(chargingStation: ChargingStation) {
+    // Set charger
+    this.chargingStation = chargingStation;
+    // Init visibility
+    this.updateOCPPParamsAction.visible = chargingStation?.canUpdateOCPPParams;
+    this.requestOCPPParamsAction.visible = chargingStation?.canUpdateOCPPParams;
+    this.exportOCPPParamsLocalAction.visible = chargingStation?.canGetOCPPParams;
+    // Force refresh
+    this.initDataSource(true);
   }
 
   public rowActionTriggered(actionDef: TableActionDef, ocppParameter: OcppParameter, dropdownItem?: DropdownItem, postDataProcessing?: () => void) {
@@ -110,7 +110,7 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
       case ChargingStationButtonAction.SAVE_OCPP_PARAMETER:
         if (actionDef.action) {
           (actionDef as TableSaveOCPPParameterActionDef).action(
-            this.charger, ocppParameter, this.dialogService, this.translateService, this.messageService,
+            this.chargingStation, ocppParameter, this.dialogService, this.translateService, this.messageService,
             this.centralServerService, this.spinnerService, this.router, this.refreshEditableData.bind(this));
         }
         break;

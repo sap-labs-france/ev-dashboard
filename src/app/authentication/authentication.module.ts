@@ -7,6 +7,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MaterialModule } from '../app.module';
 import { DialogsModule } from '../shared/dialogs/dialogs.module';
 import { CommonDirectivesModule } from '../shared/directives/directives.module';
+import { AccountOnboardingComponent } from './account-onboarding/account-onboarding.component';
 import { AuthenticationRoutes } from './authentication.routing';
 import { AuthenticationDefinePasswordComponent } from './define-password/authentication-define-password.component';
 import { AuthenticationEulaComponent } from './eula/authentication-eula.component';
@@ -35,6 +36,7 @@ import { AuthenticationVerifyEmailComponent } from './verify-email/authenticatio
     AuthenticationResetPasswordComponent,
     AuthenticationDefinePasswordComponent,
     AuthenticationVerifyEmailComponent,
+    AccountOnboardingComponent
   ],
 })
 

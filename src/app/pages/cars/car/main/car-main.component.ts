@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatSelectChange } from '@angular/material/select';
 import { TranslateService } from '@ngx-translate/core';
@@ -20,7 +20,7 @@ import { Utils } from '../../../../utils/Utils';
   templateUrl: 'car-main.component.html',
 })
 export class CarMainComponent implements OnInit, OnChanges {
-  @Input() public formGroup: FormGroup;
+  @Input() public formGroup: UntypedFormGroup;
   @Input() public car!: Car;
   @Input() public readOnly: boolean;
   @Input() public carsAuthorizations!: CarsAuthorizations;
@@ -58,36 +58,36 @@ export class CarMainComponent implements OnInit, OnChanges {
   }
 
   public ngOnInit() {
-    this.formGroup.addControl('id', new FormControl(''));
-    this.formGroup.addControl('vin', new FormControl('',
+    this.formGroup.addControl('id', new UntypedFormControl(''));
+    this.formGroup.addControl('vin', new UntypedFormControl('',
       Validators.compose([
         Validators.required,
         Cars.validateVIN
       ])));
-    this.formGroup.addControl('licensePlate', new FormControl('',
+    this.formGroup.addControl('licensePlate', new UntypedFormControl('',
       Validators.compose([
         Validators.pattern('^[A-Z0-9- ]*$'),
       ])));
-    this.formGroup.addControl('carCatalog', new FormControl('',
+    this.formGroup.addControl('carCatalog', new UntypedFormControl('',
       Validators.compose([
         Validators.required,
       ])));
-    this.formGroup.addControl('carCatalogID', new FormControl('',
+    this.formGroup.addControl('carCatalogID', new UntypedFormControl('',
       Validators.compose([
         Validators.required,
       ])));
-    this.formGroup.addControl('converterType', new FormControl('',
+    this.formGroup.addControl('converterType', new UntypedFormControl('',
       Validators.compose([
         Validators.required,
       ])));
-    this.formGroup.addControl('converter', new FormControl('',
+    this.formGroup.addControl('converter', new UntypedFormControl('',
       Validators.compose([
         Validators.required,
       ])));
-    this.formGroup.addControl('user', new FormControl(''));
-    this.formGroup.addControl('userID', new FormControl(''));
-    this.formGroup.addControl('isDefault', new FormControl(''));
-    this.formGroup.addControl('type', new FormControl(CarType.COMPANY,
+    this.formGroup.addControl('user', new UntypedFormControl(''));
+    this.formGroup.addControl('userID', new UntypedFormControl(''));
+    this.formGroup.addControl('isDefault', new UntypedFormControl(''));
+    this.formGroup.addControl('type', new UntypedFormControl(CarType.COMPANY,
       Validators.compose([
         Validators.required,
       ])));

@@ -1,3 +1,4 @@
+@use '@angular/material' as mat;
 @mixin chart-color($color) {
   color: $color !important;
 }
@@ -11,15 +12,15 @@
 }
 
 .chart-primary-1 {
-  @include chart-color(mat-color($app-primary, 500));
+  @include chart-color(mat.get-color-from-palette($app-primary, 500));
 }
 
 .chart-primary-2 {
-  @include chart-color(mat-color($app-primary, 400));
+  @include chart-color(mat.get-color-from-palette($app-primary, 400));
 }
 
 .chart-primary-3 {
-  @include chart-color(mat-color($app-primary, 300));
+  @include chart-color(mat.get-color-from-palette($app-primary, 300));
 }
 
 
@@ -56,15 +57,15 @@
 }
 
 .chart-purple-1 {
-  @include chart-color(mat-color($app-indigo, 500));
+  @include chart-color(mat.get-color-from-palette($app-indigo, 500));
 }
 
 .chart-purple-2 {
-  @include chart-color(mat-color($app-indigo, 400));
+  @include chart-color(mat.get-color-from-palette($app-indigo, 400));
 }
 
 .chart-purple-3 {
-  @include chart-color(mat-color($app-indigo, 300));
+  @include chart-color(mat.get-color-from-palette($app-indigo, 300));
 }
 
 .chart-cyan {
@@ -124,5 +125,13 @@
   height: 35vh;
   @media (max-width: 1280px) {
     height: 20em;
+  }
+}
+
+// fit diagram to screen when not mobile display
+@media (min-width: 991px) {
+  .fit-screen {
+    display:block;
+    width:calc(100vw - 330px);
   }
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { StatusCodes } from 'http-status-codes';
 
@@ -22,7 +22,7 @@ import { AnalyticsLinksTableDataSource } from './analytics-link/analytics-links-
 export class SettingsAnalyticsComponent implements OnInit {
   public isActive = false;
   public analyticsSettings!: AnalyticsSettings;
-  public formGroup: FormGroup;
+  public formGroup: UntypedFormGroup;
 
   public constructor(
     private centralServerService: CentralServerService,
@@ -41,7 +41,7 @@ export class SettingsAnalyticsComponent implements OnInit {
   public ngOnInit(): void {
     if (this.isActive) {
       // Build form
-      this.formGroup = new FormGroup({});
+      this.formGroup = new UntypedFormGroup({});
       // Load the conf
       this.loadConfiguration();
     }

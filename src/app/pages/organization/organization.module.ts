@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { AccountBillingComponent } from 'shared/component/account-billing/account-billing.component';
 import { PricingDefinitionsModule } from 'shared/pricing-definitions/pricing-definitions.module';
 
 import { MaterialModule } from '../../app.module';
@@ -64,6 +65,7 @@ import { SiteComponent } from './sites/site/site.component';
     SiteAreasListComponent,
     CompanyComponent,
     CompanyMainComponent,
+    AccountBillingComponent,
     CompanyDialogComponent,
     CompanyLogoFormatterCellComponent,
     SiteComponent,
@@ -83,22 +85,6 @@ import { SiteComponent } from './sites/site/site.component';
     SiteAreaConsumptionChartComponent,
     SiteAreaConsumptionChartDetailComponent
   ],
-  entryComponents: [
-    OrganizationComponent,
-    CompaniesListComponent,
-    SitesListComponent,
-    SiteAreasListComponent,
-    CompanyDialogComponent,
-    CompanyLogoFormatterCellComponent,
-    SiteAreaDialogComponent,
-    SiteAreaComponent,
-    SiteDialogComponent,
-    SiteUsersDialogComponent,
-    SiteAreaChargingStationsDialogComponent,
-    SiteAreaAssetsDialogComponent,
-    SiteUsersAdminCheckboxComponent,
-    SiteUsersOwnerRadioComponent,
-  ],
   providers: [
     CompaniesListTableDataSource,
     SiteAreasListTableDataSource,
@@ -106,7 +92,7 @@ import { SiteComponent } from './sites/site/site.component';
     SiteAreaAssetsDataSource,
     SitesListTableDataSource,
     SiteUsersTableDataSource,
-  ],
+  ]
 })
 
 export class OrganizationModule {

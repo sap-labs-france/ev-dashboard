@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Site } from 'types/Site';
 
 import { SiteArea } from '../../../../../types/SiteArea';
@@ -11,7 +11,7 @@ import { Utils } from '../../../../../utils/Utils';
 })
 export class SiteAreaOcpiComponent implements OnInit, OnChanges {
   @Input() public siteArea!: SiteArea;
-  @Input() public formGroup!: FormGroup;
+  @Input() public formGroup!: UntypedFormGroup;
   @Input() public readOnly: boolean;
 
   public public = false;
@@ -21,7 +21,7 @@ export class SiteAreaOcpiComponent implements OnInit, OnChanges {
 
   public ngOnInit() {
     // Init the form
-    this.formGroup.addControl('tariffID', new FormControl(null,
+    this.formGroup.addControl('tariffID', new UntypedFormControl(null,
       Validators.compose([
         Validators.maxLength(36),
       ])));

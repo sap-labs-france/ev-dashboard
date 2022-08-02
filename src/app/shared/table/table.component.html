@@ -3,7 +3,7 @@
     <!-- Toolbar -->
     <div *ngIf="dataSource.hasActions || dataSource.hasFilters || dataSource.isSearchEnabled" class="mat-toolbar">
       <!-- Actions  -->
-      <div class="left-actions d-flex flex-row mat-toolbar-row ">
+      <div class="left-actions d-flex flex-wrap flex-row mat-toolbar-row ">
         <!-- Create Left Actions -->
         <ng-container *ngFor="let actionDef of dataSource.tableActionsDef; let i=index">
           <!-- Action Button -->
@@ -198,7 +198,7 @@
           </th>
           <!-- Text Header -->
           <th *ngFor="let tableColumnDef of dataSource.tableColumnsDef" (click)="sortChanged(tableColumnDef)"
-            [class]="(tableColumnDef.headerClass ? tableColumnDef.headerClass + ' table-header' : 'table-header')"
+            [class]="tableColumnDef.headerClass ? tableColumnDef.headerClass + ' table-header' : 'table-header'"
             [class.sortable]="tableColumnDef.sortable" [hidden]="!tableColumnDef.visible">
             {{tableColumnDef.name | translate}}
             <mat-icon *ngIf="sort.active === tableColumnDef.id">
@@ -211,8 +211,7 @@
       <tbody *ngIf="dataSource.data.length > 0">
         <ng-template ngFor let-row let-rowIndex="index" [ngForOf]="dataSource.data"
           [ngForTrackBy]="dataSource.tableDef.isEditable ? trackByObjectIndex : trackByObjectId">
-          <tr
-            [id]="dataSource.tableDef.rowFieldNameIdentifier ? row[dataSource.tableDef.rowFieldNameIdentifier] : rowIndex">
+          <tr [id]="dataSource.tableDef.rowFieldNameIdentifier ? row[dataSource.tableDef.rowFieldNameIdentifier] : rowIndex">
             <!-- Select Cell -->
             <td *ngIf="dataSource.tableDef.rowSelection && dataSource.tableDef.rowSelection.enabled"
               class="text-center col-3em col-select">
@@ -223,9 +222,8 @@
             <!-- Detail Cell -->
             <td *ngIf="dataSource.tableDef.rowDetails && dataSource.tableDef.rowDetails.enabled"
               class="col-3em details-column-row">
-              <mat-icon
-                *ngIf="dataSource.tableDef.rowDetails && dataSource.tableDef.rowDetails.showDetailsField ? row[dataSource.tableDef.rowDetails.showDetailsField] : true"
-                (click)="showHideDetailsClicked(row)">
+              <mat-icon *ngIf="dataSource.tableDef.rowDetails?.showDetailsField ? row[dataSource.tableDef.rowDetails.showDetailsField] : true"
+                  (click)="showHideDetailsClicked(row)">
                 {{row.isExpanded ? "expand_more" : "chevron_right"}}
               </mat-icon>
             </td>

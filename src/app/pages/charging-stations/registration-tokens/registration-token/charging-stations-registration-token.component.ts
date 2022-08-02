@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -33,7 +33,7 @@ export class ChargingStationsRegistrationTokenComponent implements OnInit {
   @Input() public metadata!: Record<string, AuthorizationDefinitionFieldMetadata>;
 
   public readonly isOrganizationComponentActive: boolean;
-  public formGroup!: FormGroup;
+  public formGroup!: UntypedFormGroup;
   public siteArea!: AbstractControl;
   public siteAreaID!: AbstractControl;
   public expirationDate!: AbstractControl;
@@ -54,17 +54,17 @@ export class ChargingStationsRegistrationTokenComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.formGroup = new FormGroup({
-      id: new FormControl(),
-      siteArea: new FormControl(),
-      siteAreaID: new FormControl('',
+    this.formGroup = new UntypedFormGroup({
+      id: new UntypedFormControl(),
+      siteArea: new UntypedFormControl(),
+      siteAreaID: new UntypedFormControl('',
         Validators.compose([
         ])),
-      description: new FormControl('', Validators.compose([
+      description: new UntypedFormControl('', Validators.compose([
         Validators.required,
         Validators.maxLength(100),
       ])),
-      expirationDate: new FormControl(moment().add(1, 'month'),
+      expirationDate: new UntypedFormControl(moment().add(1, 'month'),
         Validators.compose([
           Validators.required,
         ])),

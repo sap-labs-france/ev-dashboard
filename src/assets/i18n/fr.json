@@ -1412,7 +1412,7 @@
       "list": "Virements"
     },
     "tooltips": {
-      "download": "Télécharger le virement",
+      "download": "Télécharger la facture de frais de commission",
       "finalize": "Finaliser le virement",
       "send": "Transmettre le virement"
     },
@@ -1433,7 +1433,7 @@
     "accountOwner": "Responsable business",
     "cannot_finalize_transfer": "L'opération a échoué - Le virement n'a pas pu être finalisé",
     "cannot_send_transfer": "L'opération a échoué - Le virement n'a pas pu être transmis au système de facturation",
-    "cannot_download_transfer": "Impossible de télécharger le virement"
+    "cannot_download_commission_incoice": "Impossible de télécharger la facture de frais de commission"
   },
   "tags": {
     "id": "RFID",

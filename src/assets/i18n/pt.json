@@ -1412,7 +1412,7 @@
       "list": "Transfers"
     },
     "tooltips": {
-      "download": "Download transfer",
+      "download": "Download commission invoice",
       "finalize": "Finalize transfer",
       "send": "Send transfer"
     },
@@ -1433,7 +1433,7 @@
     "accountOwner": "Business Owner",
     "cannot_finalize_transfer": "Operation failed - The transfer could not be finalized",
     "cannot_send_transfer": "Operation failed - The transfer has not been sent to the billing system",
-    "cannot_download_transfer": "Cannot download transfer"
+    "cannot_download_commission_incoice": "Cannot download commission invoice"
   },
   "tags": {
     "id": "Tag ID",

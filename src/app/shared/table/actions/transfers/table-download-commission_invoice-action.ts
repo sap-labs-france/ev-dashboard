@@ -11,38 +11,38 @@ import { TableActionDef } from '../../../../types/Table';
 import { Utils } from '../../../../utils/Utils';
 import { TableAction } from '../table-action';
 
-export interface TableDownloadBillingTransferDef extends TableActionDef {
+export interface TableDownloadCommissionInvoiceDef extends TableActionDef {
   action: (transferID: string, filename: string, translateService: TranslateService, spinnerService: SpinnerService,
     messageService: MessageService, centralServerService: CentralServerService, router: Router) => void;
 }
 
-export class TableDownloadBillingTransfer implements TableAction {
-  private action: TableDownloadBillingTransferDef = {
-    id: TransferButtonAction.DOWNLOAD_TRANSFER,
+export class TableDownloadCommissionInvoice implements TableAction {
+  private action: TableDownloadCommissionInvoiceDef = {
+    id: TransferButtonAction.DOWNLOAD_COMMISSION_INCOICE,
     type: 'button',
     icon: 'cloud_download',
     color: ButtonActionColor.PRIMARY,
     name: 'general.download',
     tooltip: 'transfers.tooltips.download',
-    action: this.downloadtransfer,
+    action: this.downloadCommissionInvoice,
   };
 
   // Return an action
-  public getActionDef(): TableDownloadBillingTransferDef {
+  public getActionDef(): TableDownloadCommissionInvoiceDef {
     return this.action;
   }
 
   // Download from UI
-  private downloadtransfer(transferID: string, filename: string, translateService: TranslateService, spinnerService: SpinnerService,
+  private downloadCommissionInvoice(transferID: string, filename: string, translateService: TranslateService, spinnerService: SpinnerService,
     messageService: MessageService, centralServerService: CentralServerService, router: Router) {
     spinnerService.show();
-    centralServerService.downloadTransfer(transferID).subscribe((result) => {
+    centralServerService.downloadCommissionInvoice(transferID).subscribe((result) => {
       FileSaver.saveAs(result, filename);
       spinnerService.hide();
     }, (error) => {
       spinnerService.hide();
       Utils.handleHttpError(error, router, messageService,
-        centralServerService, translateService.instant('transfers.cannot_download_transfer'));
+        centralServerService, translateService.instant('transfers.cannot_download_commission_incoice'));
     });
   }
 }

@@ -8,8 +8,8 @@ import { WindowService } from 'services/window.service';
 import { TableFinalizeBillingTransferAction } from 'shared/table/actions/invoices/table-finalize-billing-transfer-action';
 import { TableSendBillingTransferAction } from 'shared/table/actions/invoices/table-send-billing-transfer-action';
 import { TableMoreAction } from 'shared/table/actions/table-more-action';
-import { TableViewTransactionAction, TableViewTransactionActionDef, TransactionDialogData } from 'shared/table/actions/transactions/table-view-transaction-action';
-import { TableDownloadBillingTransfer } from 'shared/table/actions/transfers/table-download-billing-transfer-action';
+import { TableViewTransactionAction } from 'shared/table/actions/transactions/table-view-transaction-action';
+import { TableDownloadCommissionInvoice } from 'shared/table/actions/transfers/table-download-commission_invoice-action';
 import { DateRangeTableFilter } from 'shared/table/filters/date-range-table-filter';
 import { BillingTransfer, BillingTransferStatus, TransferButtonAction } from 'types/Billing';
 
@@ -33,7 +33,7 @@ import { TransferStatusFormatterComponent } from '../formatters/transfer-status-
 
 @Injectable()
 export class TransfersTableDataSource extends TableDataSource<BillingTransfer> {
-  private downloadBillingInvoiceAction = new TableDownloadBillingTransfer().getActionDef();
+  private downloadCommissionInvoice = new TableDownloadCommissionInvoice().getActionDef();
   private viewAction = new TableViewTransactionAction().getActionDef();
   private finalizeBillingTransferAction = new TableFinalizeBillingTransferAction().getActionDef();
   private sendBillingTransferAction = new TableSendBillingTransferAction().getActionDef();
@@ -255,7 +255,7 @@ export class TransfersTableDataSource extends TableDataSource<BillingTransfer> {
       moreActions.addActionInMoreActions(this.sendBillingTransferAction);
     }
     if (transfer.invoice && transfer.canDownload) {
-      rowActions.push(this.downloadBillingInvoiceAction);
+      rowActions.push(this.downloadCommissionInvoice);
     }
     if (!Utils.isEmptyArray(moreActions.getActionsInMoreActions())) {
       rowActions.push(moreActions.getActionDef());
@@ -297,9 +297,9 @@ export class TransfersTableDataSource extends TableDataSource<BillingTransfer> {
         //     this.refreshData.bind(this));
         // }
         break;
-      case TransferButtonAction.DOWNLOAD_TRANSFER:
-        if (this.downloadBillingInvoiceAction.action) {
-          this.downloadBillingInvoiceAction.action(
+      case TransferButtonAction.DOWNLOAD_COMMISSION_INCOICE:
+        if (this.downloadCommissionInvoice.action) {
+          this.downloadCommissionInvoice.action(
             transfer.id, 'invoice_' + transfer.invoice?.invoiceID, this.translateService, this.spinnerService,
             this.messageService, this.centralServerService, this.router
           );

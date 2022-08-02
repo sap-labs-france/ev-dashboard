@@ -1786,7 +1786,7 @@ export class CentralServerService {
       );
   }
 
-  public downloadTransfer(transferID: string): Observable<Blob> {
+  public downloadCommissionInvoice(transferID: string): Observable<Blob> {
     this.checkInit();
     if (!transferID) {
       return EMPTY;

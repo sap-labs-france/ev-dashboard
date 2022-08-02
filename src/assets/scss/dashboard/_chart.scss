@@ -98,7 +98,6 @@
 
 .chart-container-statistics {
   position: relative;
-  margin: auto;
   width: calc((100vw - 260px) * 0.95);
   @media (max-width: 991px) {
     width: 95vw;
@@ -131,5 +130,13 @@
   height: 35vh;
   @media (max-width: 1280px) {
     height: 20em;
+  }
+}
+
+// fit diagram to screen when not mobile display
+@media (min-width: 991px) {
+  .fit-screen {
+    display:block;
+    width:calc(100vw - 330px);
   }
 }

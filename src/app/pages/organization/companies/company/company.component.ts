@@ -7,6 +7,7 @@ import { StatusCodes } from 'http-status-codes';
 import { ComponentService } from 'services/component.service';
 import { WindowService } from 'services/window.service';
 import { AbstractTabComponent } from 'shared/component/abstract-tab/abstract-tab.component';
+import { AccountBillingComponent } from 'shared/component/account-billing/account-billing.component';
 import { DialogMode } from 'types/Authorization';
 import { TenantComponents } from 'types/Tenant';
 
@@ -17,7 +18,6 @@ import { SpinnerService } from '../../../../services/spinner.service';
 import { Company } from '../../../../types/Company';
 import { RestResponse } from '../../../../types/GlobalType';
 import { Utils } from '../../../../utils/Utils';
-import { CompanyBillingComponent } from './billing/company-billing.component';
 import { CompanyMainComponent } from './main/company-main.component';
 
 @Component({
@@ -31,7 +31,7 @@ export class CompanyComponent extends AbstractTabComponent implements OnInit {
   @Input() public dialogRef!: MatDialogRef<any>;
 
   @ViewChild('companyMainComponent') public companyMainComponent!: CompanyMainComponent;
-  @ViewChild('companyBillingComponent') public companyBillingComponent!: CompanyBillingComponent;
+  @ViewChild('accountBillingComponent') public accountBillingComponent!: AccountBillingComponent;
 
   public formGroup!: UntypedFormGroup;
   public readOnly = true;
@@ -121,7 +121,7 @@ export class CompanyComponent extends AbstractTabComponent implements OnInit {
     // Set coordinates
     this.companyMainComponent.updateCompanyCoordinates(company);
     // Set connected account
-    this.companyBillingComponent?.updateCompanyConnectedAccount(company);
+    this.accountBillingComponent?.updateEntityConnectedAccount(company);
     // Create
     this.centralServerService.createCompany(company).subscribe((response) => {
       this.spinnerService.hide();
@@ -154,7 +154,7 @@ export class CompanyComponent extends AbstractTabComponent implements OnInit {
     // Set coordinates
     this.companyMainComponent.updateCompanyCoordinates(company);
     // Set connected account
-    this.companyBillingComponent?.updateCompanyConnectedAccount(company);
+    this.accountBillingComponent?.updateEntityConnectedAccount(company);
     // Update
     this.centralServerService.updateCompany(company).subscribe((response) => {
       this.spinnerService.hide();

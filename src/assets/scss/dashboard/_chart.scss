@@ -90,9 +90,21 @@
   height:27vh;
 }
 
-.chart-container-statistics {
-  position: relative;
-  width: 68vw; // adapt to both the barchart and pie
+.chart-container-statistics-pie {
+  width: 80vh;
+  margin: auto;
+  @media (max-width: 991px) {
+    width: 95vw;
+    height: calc(95vw * 0.5);
+  }
+    .chartjs-render-monitor {
+      width: 100% !important;
+      height: 100% !important;
+    }
+}
+
+.chart-container-statistics-bar {
+  width: 120vh;
   margin: auto;
   @media (max-width: 991px) {
     width: 95vw;

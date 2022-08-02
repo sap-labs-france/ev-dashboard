@@ -4,10 +4,10 @@
     (filters)="filtersChanged($event)" (update)="updateCharts($event)" (export)="exportData()"></app-statistics-filters>
   <h3>
     <div class="chart">
-      <div [hidden]="(selectedChart === 'month') && chartsInitialized" class="chart-container-statistics">
+      <div [hidden]="(selectedChart === 'month') && chartsInitialized" class="chart-container-statistics-pie">
         <canvas #consumptionPieChart></canvas>
       </div>
-      <div [hidden]="(selectedChart !== 'month') && chartsInitialized" class="chart-container-statistics">
+      <div [hidden]="(selectedChart !== 'month') && chartsInitialized" class="chart-container-statistics-bar">
         <canvas #consumptionBarChart></canvas>
       </div>
     </div>

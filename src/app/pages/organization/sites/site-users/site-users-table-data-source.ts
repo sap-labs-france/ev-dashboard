@@ -184,8 +184,8 @@ export class SiteUsersTableDataSource extends TableDataSource<SiteUser> {
 
   public buildDynamicTableActionsDef(): TableActionDef[] {
     // Update filters visibility
-    this.addAction.visible = this.site.canAssignUsers;
-    this.removeAction.visible = this.site.canUnassignUsers;
+    this.addAction.visible = this.site?.canAssignUnassignUsers;
+    this.removeAction.visible = this.site?.canAssignUnassignUsers;
     const tableActionsDef = [];
     if (this.getMode() === TableDataSourceMode.READ_WRITE) {
       tableActionsDef.push(this.addAction);
@@ -201,7 +201,6 @@ export class SiteUsersTableDataSource extends TableDataSource<SiteUser> {
       case ButtonAction.ADD:
         this.showAddUsersDialog();
         break;
-
       // Remove
       case ButtonAction.REMOVE:
         // Empty?

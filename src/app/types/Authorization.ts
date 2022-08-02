@@ -135,8 +135,8 @@ export enum Action {
   TRIGGER_JOB = 'TriggerJob',
   DOWNLOAD = 'Download',
   IMPORT = 'Import',
-  ASSIGN_USERS_TO_SITE = 'AssignUsers',
-  UNASSIGN_USERS_FROM_SITE = 'UnassignUsers',
+  ASSIGN_USERS_TO_SITE = 'AssignUsersToSite',
+  UNASSIGN_USERS_FROM_SITE = 'UnassignUsersFromSite',
   ASSIGN_ASSETS_TO_SITE_AREA = 'AssignAssets',
   UNASSIGN_ASSETS_FROM_SITE_AREA = 'UnassignAssets',
   READ_ASSETS_FROM_SITE_AREA = 'ReadAssets',
@@ -234,8 +234,7 @@ export interface UsersAuthorizationActions extends DataResultAuthorizationAction
 }
 
 export interface UserAuthorizationActions extends AuthorizationActions {
-  canAssignSites?: boolean;
-  canUnassignSites?: boolean;
+  canAssignUnassignSites?: boolean;
   canListUserSites?: boolean;
   canListTags?: boolean;
   canListTransactions?: boolean;
@@ -299,8 +298,7 @@ export interface SitesAuthorizationActions extends DataResultAuthorizationAction
 }
 
 export interface SiteAuthorizationActions extends AuthorizationActions {
-  canAssignUsers?: boolean;
-  canUnassignUsers?: boolean;
+  canAssignUnassignUsers?: boolean;
   canListSiteUsers?: boolean;
   canExportOCPPParams?: boolean;
   canGenerateQrCode?: boolean;

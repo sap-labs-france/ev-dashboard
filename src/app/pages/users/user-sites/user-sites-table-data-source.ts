@@ -192,8 +192,8 @@ export class UserSitesTableDataSource extends TableDataSource<UserSite> {
 
   public buildDynamicTableActionsDef(): TableActionDef[] {
     // Update filters visibility
-    this.addAction.visible = this.user?.canAssignSites;
-    this.removeAction.visible = this.user?.canUnassignSites;
+    this.addAction.visible = this.user?.canAssignUnassignSites;
+    this.removeAction.visible = this.user?.canAssignUnassignSites;
     const tableActionsDef = super.buildTableActionsDef();
     if (this.getMode() === TableDataSourceMode.READ_WRITE) {
       tableActionsDef.push(this.addAction);

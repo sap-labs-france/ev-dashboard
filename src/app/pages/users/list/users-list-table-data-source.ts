@@ -280,7 +280,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
         rowActions.push(this.editAction);
       }
       if (this.componentService.isActive(TenantComponents.ORGANIZATION)) {
-        if (user.canAssignSites || user.canUnassignSites) {
+        if (user.canAssignUnassignSites) {
           rowActions.push(this.assignSitesToUser);
         } else if (user.canListUserSites) {
           rowActions.push(this.viewSitesOfUser);

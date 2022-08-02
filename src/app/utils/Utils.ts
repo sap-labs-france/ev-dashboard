@@ -1,4 +1,4 @@
-import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Data, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -64,7 +64,7 @@ export class Utils {
     return value ? translateService.instant('general.yes') : translateService.instant('general.no');
   }
 
-  public static handleDialogMode(dialogMode: DialogMode, formGroup: FormGroup) {
+  public static handleDialogMode(dialogMode: DialogMode, formGroup: UntypedFormGroup) {
     switch (dialogMode) {
       case DialogMode.CREATE:
       case DialogMode.EDIT:
@@ -126,7 +126,7 @@ export class Utils {
   }
 
   public static convertEmptyStringToNull(control: AbstractControl) {
-    if(this.isEmptyString(control.value)){
+    if (this.isEmptyString(control.value)) {
       control.setValue(null);
     }
   }
@@ -163,7 +163,7 @@ export class Utils {
     });
   }
 
-  public static registerSaveCloseKeyEvents(dialogRef: MatDialogRef<any>, formGroup: FormGroup,
+  public static registerSaveCloseKeyEvents(dialogRef: MatDialogRef<any>, formGroup: UntypedFormGroup,
     save: (data: Data) => void, close: () => void) {
     // listen to keystroke
     dialogRef.keydownEvents().subscribe((keydownEvents) => {
@@ -178,7 +178,7 @@ export class Utils {
     });
   }
 
-  public static checkAndSaveAndCloseDialog(formGroup: FormGroup, dialogService: DialogService,
+  public static checkAndSaveAndCloseDialog(formGroup: UntypedFormGroup, dialogService: DialogService,
     translateService: TranslateService, save: (data: Data) => void, closeDialog: (saved: boolean) => void) {
     if (formGroup.invalid && formGroup.dirty) {
       dialogService.createAndShowInvalidChangeCloseDialog(
@@ -229,9 +229,9 @@ export class Utils {
     return JSON.parse(JSON.stringify(object)) as T;
   }
 
-  public static validateEqual(formGroup: FormGroup, firstField: string, secondField: string) {
-    const field1: FormControl = formGroup.controls[firstField] as FormControl;
-    const field2: FormControl = formGroup.controls[secondField] as FormControl;
+  public static validateEqual(formGroup: UntypedFormGroup, firstField: string, secondField: string) {
+    const field1: UntypedFormControl = formGroup.controls[firstField] as UntypedFormControl;
+    const field2: UntypedFormControl = formGroup.controls[secondField] as UntypedFormControl;
 
     // Null?
     if (!field1.value && !field2.value) {
@@ -870,10 +870,14 @@ export class Utils {
       case StatusCodes.REQUEST_TIMEOUT:
         messageService.showErrorMessage(error.message);
         break;
-      case StatusCodes.MOVED_PERMANENTLY:
-        if (error.details?.errorDetailedMessage?.redirectDomain) {
+      case StatusCodes.MOVED_TEMPORARILY:
+        const { redirectDomain = null, subdomain = null } = error.details?.errorDetailedMessage || {};
+        if (redirectDomain && subdomain) {
           centralServerService.getWindowService().redirectToDomain(
-            error.details.errorDetailedMessage.redirectDomain);
+            redirectDomain,
+            subdomain);
+        } else {
+          console.log(`HTTP Error: ${errorMessage}: ${error.message} (${error.status})`, error);
         }
         break;
       // Backend issue
@@ -991,7 +995,7 @@ export class Utils {
   public static convertToMomentLocale(locale: string) {
     let momentLocale = Utils.convertToBrowserLocale(locale).toLowerCase(); // Converts 'fr-FR' to 'fr-fr'
     const fragments = momentLocale.split('-');
-    if ( fragments.length===2 && fragments[0]===fragments[1] ) {
+    if (fragments.length === 2 && fragments[0] === fragments[1]) {
       momentLocale = fragments[0];  // Converts 'fr-fr' to 'fr'
     }
     return momentLocale;
@@ -999,7 +1003,7 @@ export class Utils {
 
   public static changeMomentLocaleGlobally(currentLocale: string) {
     const momentLocale = Utils.convertToMomentLocale(currentLocale);
-    if ( moment.locale()!== momentLocale ) {
+    if (moment.locale() !== momentLocale) {
       console.log('Attempt to set moment locale to: ' + momentLocale);
       moment.locale(momentLocale);
       console.log('Moment Locale as been set to: ' + moment.locale());

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { StatusCodes } from 'http-status-codes';
@@ -18,7 +18,7 @@ import { Utils } from 'utils/Utils';
   templateUrl: 'site-main.component.html',
 })
 export class SiteMainComponent implements OnInit, OnChanges {
-  @Input() public formGroup: FormGroup;
+  @Input() public formGroup: UntypedFormGroup;
   @Input() public site!: Site;
   @Input() public readOnly: boolean;
   @Output() public publicChanged = new EventEmitter<boolean>();
@@ -50,23 +50,23 @@ export class SiteMainComponent implements OnInit, OnChanges {
 
   public ngOnInit(): void {
     // Init the form
-    this.formGroup.addControl('issuer', new FormControl(true));
-    this.formGroup.addControl('id', new FormControl(''));
-    this.formGroup.addControl('name', new FormControl('',
+    this.formGroup.addControl('issuer', new UntypedFormControl(true));
+    this.formGroup.addControl('id', new UntypedFormControl(''));
+    this.formGroup.addControl('name', new UntypedFormControl('',
       Validators.compose([
         Validators.required,
         Validators.maxLength(255),
       ])));
-    this.formGroup.addControl('company', new FormControl('',
+    this.formGroup.addControl('company', new UntypedFormControl('',
       Validators.compose([
         Validators.required,
       ])));
-    this.formGroup.addControl('companyID', new FormControl('',
+    this.formGroup.addControl('companyID', new UntypedFormControl('',
       Validators.compose([
         Validators.required,
       ])));
-    this.formGroup.addControl('autoUserSiteAssignment', new FormControl(false));
-    this.formGroup.addControl('public', new FormControl(false));
+    this.formGroup.addControl('autoUserSiteAssignment', new UntypedFormControl(false));
+    this.formGroup.addControl('public', new UntypedFormControl(false));
     // Form
     this.id = this.formGroup.controls['id'];
     this.issuer = this.formGroup.controls['issuer'];

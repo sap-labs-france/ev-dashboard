@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 
 import { ANALYTICS_TYPES, BILLING_TYPES, PRICING_TYPES, REFUND_TYPES, SMART_CHARGING_TYPES } from '../../../../shared/model/tenants.model';
@@ -12,12 +12,12 @@ import { Tenant, TenantComponents } from '../../../../types/Tenant';
 })
 export class TenantComponentsComponent implements OnInit, OnChanges {
   @Input() public tenant!: Tenant;
-  @Input() public formGroup!: FormGroup;
+  @Input() public formGroup!: UntypedFormGroup;
 
   public initialized = false;
 
   public id!: AbstractControl;
-  public components!: FormGroup;
+  public components!: UntypedFormGroup;
   public pricingTypes: KeyValue[];
   public billingTypes: KeyValue[];
   public refundTypes: KeyValue[];
@@ -34,15 +34,15 @@ export class TenantComponentsComponent implements OnInit, OnChanges {
 
   public ngOnInit() {
     // Init component part form
-    this.formGroup.addControl('components', new FormGroup({}));
+    this.formGroup.addControl('components', new UntypedFormGroup({}));
     // Assign form
-    this.components = (this.formGroup.controls['components'] as FormGroup);
+    this.components = (this.formGroup.controls['components'] as UntypedFormGroup);
     // Create component
     for (const componentIdentifier of Object.values(TenantComponents)) {
       // Create controls
-      this.components.addControl(componentIdentifier, new FormGroup({
-        active: new FormControl(false),
-        type: new FormControl(''),
+      this.components.addControl(componentIdentifier, new UntypedFormGroup({
+        active: new UntypedFormControl(false),
+        type: new UntypedFormControl(''),
       }));
     }
     this.initialized = true;
@@ -53,7 +53,7 @@ export class TenantComponentsComponent implements OnInit, OnChanges {
     this.loadTenant();
   }
 
-  public toggleDropDownActivation(event: MatSlideToggleChange, inputControl: FormControl) {
+  public toggleDropDownActivation(event: MatSlideToggleChange, inputControl: UntypedFormControl) {
     if (inputControl) {
       if (event.checked) {
         inputControl.enable();
@@ -70,7 +70,7 @@ export class TenantComponentsComponent implements OnInit, OnChanges {
         // Set the params
         if (this.tenant.components && this.tenant.components[componentIdentifier]) {
           // Get component group
-          const component = this.components.controls[componentIdentifier] as FormGroup;
+          const component = this.components.controls[componentIdentifier] as UntypedFormGroup;
           // Set Active
           component.controls.active.setValue(
             this.tenant.components[componentIdentifier].active === true);

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { StatusCodes } from 'http-status-codes';
 import { CentralServerService } from 'services/central-server.service';
@@ -24,7 +24,7 @@ import { TenantComponents } from '../../../../types/Tenant';
 })
 // @Injectable()
 export class UserMainComponent implements OnInit, OnChanges {
-  @Input() public formGroup: FormGroup;
+  @Input() public formGroup: UntypedFormGroup;
   @Input() public user!: User;
   @Input() public metadata!: Record<string, AuthorizationDefinitionFieldMetadata>;
   @Output() public roleChanged = new EventEmitter<UserRole>();
@@ -84,61 +84,61 @@ export class UserMainComponent implements OnInit, OnChanges {
 
   public ngOnInit(): void {
     // Init the form
-    this.formGroup.addControl('id', new FormControl(''));
-    this.formGroup.addControl('issuer', new FormControl(true));
-    this.formGroup.addControl('name', new FormControl('',
+    this.formGroup.addControl('id', new UntypedFormControl(''));
+    this.formGroup.addControl('issuer', new UntypedFormControl(true));
+    this.formGroup.addControl('name', new UntypedFormControl('',
       Validators.compose([
         Validators.required,
         Validators.maxLength(255)
       ]))
     );
-    this.formGroup.addControl('firstName', new FormControl('',
+    this.formGroup.addControl('firstName', new UntypedFormControl('',
       Validators.compose([
         Validators.required,
         Validators.maxLength(255)
       ]))
     );
-    this.formGroup.addControl('email', new FormControl('',
+    this.formGroup.addControl('email', new UntypedFormControl('',
       Validators.compose([
         Validators.required,
         Validators.email,
       ]))
     );
-    this.formGroup.addControl('phone', new FormControl('',
+    this.formGroup.addControl('phone', new UntypedFormControl('',
       Validators.compose([
         Users.validatePhone,
       ]))
     );
-    this.formGroup.addControl('mobile', new FormControl('',
+    this.formGroup.addControl('mobile', new UntypedFormControl('',
       Validators.compose([
         Users.validatePhone,
       ]))
     );
-    this.formGroup.addControl('plateID', new FormControl('',
+    this.formGroup.addControl('plateID', new UntypedFormControl('',
       Validators.compose([
         Validators.pattern('^[A-Z0-9- ]*$'),
       ]))
     );
-    this.formGroup.addControl('status', new FormControl(
+    this.formGroup.addControl('status', new UntypedFormControl(
       UserStatus.ACTIVE,
       Validators.compose([
         Validators.required,
       ]))
     );
-    this.formGroup.addControl('role', new FormControl(
+    this.formGroup.addControl('role', new UntypedFormControl(
       this.isSuperAdmin ? UserRole.SUPER_ADMIN : UserRole.BASIC,
       Validators.compose([
         Validators.pattern('^[A-Z0-9- ]*$'),
       ]))
     );
-    this.formGroup.addControl('locale', new FormControl(
+    this.formGroup.addControl('locale', new UntypedFormControl(
       this.currentLocale,
       Validators.compose([
         Validators.required,
       ]))
     );
-    this.formGroup.addControl('technical', new FormControl(false));
-    this.formGroup.addControl('freeAccess', new FormControl(false));
+    this.formGroup.addControl('technical', new UntypedFormControl(false));
+    this.formGroup.addControl('freeAccess', new UntypedFormControl(false));
     // Form
     this.id = this.formGroup.controls['id'];
     this.issuer = this.formGroup.controls['issuer'];

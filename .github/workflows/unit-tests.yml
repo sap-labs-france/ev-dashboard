@@ -26,7 +26,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: npm
     - name: Install NodeJs Packages
-      run: npm ci
+      run: npm ci --force
     - name: Build sources
       run: |
         cp src/assets/configs-ci/config.json src/assets

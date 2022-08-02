@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { StatusCodes } from 'http-status-codes';
@@ -22,7 +22,7 @@ export class ChargingStationFirmwareUpdateComponent implements OnInit {
   @Input() public chargingStation!: ChargingStation;
   @Input() public chargingStationsAuthorizations: ChargingStationsAuthorizations;
 
-  public formGroup: FormGroup;
+  public formGroup: UntypedFormGroup;
 
   public userLocales: KeyValue[];
   public url!: AbstractControl;
@@ -47,8 +47,8 @@ export class ChargingStationFirmwareUpdateComponent implements OnInit {
 
   public ngOnInit() {
     // Init FormControl
-    this.formGroup = new FormGroup({
-      url: new FormControl('',
+    this.formGroup = new UntypedFormGroup({
+      url: new UntypedFormControl('',
         Validators.compose([
           Validators.required,
         ])),

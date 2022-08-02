@@ -1524,10 +1524,13 @@
   "accounts": {
     "title": "Connected Accounts",
     "list": {
+      "select_account": "Select Connected Account",
       "add_account": "Add Connected Account",
       "business_owner": "Business Owner",
+      "company_name": "Company Name",
       "account_status": "Status",
-      "account_id": "Connected Account ID"
+      "account_id": "Connected Account ID",
+      "billing_account": "Connected Account"
     },
     "message": {
       "create_success": "Account was added successfully",
@@ -1539,6 +1542,24 @@
       "account_idle": "Idle",
       "account_pending": "Pending",
       "account_active": "Active"
+    },
+    "onboarding": {
+      "onboard_action": "Send the onboarding email to the business owner",
+      "onboarding_title": "Open e-Mobility - Account Onboarding",
+      "onboarding_message": "You have been invited to onboard your company as an account connected to the Open e-Mobility platform.",
+      "onboarding_message_to_proceed": "Click the link below to complete the onboarding process.",
+      "onboarding_congratulations": "Congratulations",
+      "onboarding_process_completed": "The onboarding of your account has been completed.",
+      "onboarding_button_proceed": "Proceed",
+      "onboarding_navigate_to_dashboard": "Navigate to the dashboard",
+      "onboarding_process_failed": "The activation of your account has failed - contact the support to get help!"
+    },
+    "platform_fee": {
+      "platform_fee_group_title": "Platform Fee",
+      "platform_flat_fee": "Flat fee per session",
+      "platform_flat_fee_invalid": "Flat fee entered must be a positive number",
+      "platform_fee_percentage": "Fee percentage per session",
+      "platform_fee_percentage_invalid": "Fee percentage must be between 0% to 100%"
     }
   },
   "settings": {
@@ -2500,8 +2521,8 @@
       "voltage_l1": "Voltage L1 (V)",
       "voltage_l2": "Voltage L2 (V)",
       "voltage_l3": "Voltage L3 (V)",
-      "plan_watts": "Plan (kW)",
-      "plan_amps": "Plan (A)",
+      "plan_watts": "Connector Limit (kW)",
+      "plan_amps": "Connector Limit (A)",
       "limit_plan_watts": "Plan del límite (kW)",
       "limit_plan_amps": "Plan del límite (A)",
       "limit": "Límite máximo",

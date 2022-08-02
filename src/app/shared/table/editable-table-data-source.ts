@@ -1,5 +1,5 @@
 import { EventEmitter } from '@angular/core';
-import { AbstractControl, FormArray, FormControl, FormGroup, ValidatorFn } from '@angular/forms';
+import { AbstractControl, UntypedFormArray, UntypedFormControl, UntypedFormGroup, ValidatorFn } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, Subject, from, of } from 'rxjs';
 
@@ -68,7 +68,7 @@ export abstract class EditableTableDataSource<T extends TableData> extends Table
     return this.tableChangedSubject;
   }
 
-  public setFormArray(formArray: FormArray) {
+  public setFormArray(formArray: UntypedFormArray) {
     this.formArray = formArray;
   }
 
@@ -110,7 +110,7 @@ export abstract class EditableTableDataSource<T extends TableData> extends Table
 
   public setPropertyValue(row: T, propertyName: string, propertyValue: string | boolean | number) {
     row[propertyName] = propertyValue;
-    (row[`${propertyName}FormControl`] as FormControl).setValue(propertyValue);
+    (row[`${propertyName}FormControl`] as UntypedFormControl).setValue(propertyValue);
   }
 
   public rowCellUpdated(cellValue: any, rowIndex: number, columnDef: TableColumnDef, postDataProcessing?: () => void) {
@@ -118,13 +118,13 @@ export abstract class EditableTableDataSource<T extends TableData> extends Table
     const contentRows = this.getContent();
     if (this.formArray) {
       const row = contentRows[rowIndex];
-      const formControl = row[`${columnDef.id}FormControl`] as FormControl;
+      const formControl = row[`${columnDef.id}FormControl`] as UntypedFormControl;
       // Clear previous selection
       if (columnDef.editType === TableEditType.RADIO_BUTTON) {
         for (const contentRow of contentRows) {
           // Set value + form value
           contentRow[columnDef.id] = false;
-          (row[`${columnDef.id}FormControl`] as FormControl).setValue(false);
+          (row[`${columnDef.id}FormControl`] as UntypedFormControl).setValue(false);
         }
       }
       // Set value + form value
@@ -134,7 +134,7 @@ export abstract class EditableTableDataSource<T extends TableData> extends Table
         contentRows[rowIndex][columnDef.id] = cellValue;
       }
       // Check form button
-      const formGroup = row['formGroup'] as FormGroup;
+      const formGroup = row['formGroup'] as UntypedFormGroup;
       const tableFormRowAction = this.getTableFormRowAction(row);
       if (tableFormRowAction) {
         tableFormRowAction.disabled = !formGroup.valid;
@@ -186,7 +186,7 @@ export abstract class EditableTableDataSource<T extends TableData> extends Table
     return false;
   }
 
-  protected createFormGroup(editableRow: T): FormGroup {
+  protected createFormGroup(editableRow: T): UntypedFormGroup {
     const controls = {};
     for (const tableColumnDef of this.tableColumnsDef) {
       let value;
@@ -211,15 +211,15 @@ export abstract class EditableTableDataSource<T extends TableData> extends Table
         }
         tableColumnDef.validators.push(this.uniqValidator(this.formArray, tableColumnDef.id));
       }
-      const formControl = new FormControl(value, tableColumnDef.validators);
+      const formControl = new UntypedFormControl(value, tableColumnDef.validators);
       if (tableColumnDef.canBeDisabled && this.isCellDisabled(tableColumnDef, editableRow)) {
         formControl.disable({ onlySelf: true });
       }
       controls[tableColumnDef.id] = formControl;
     }
     // Keep the ref
-    editableRow['formGroup'] = new FormGroup(controls);
-    return editableRow['formGroup'] as FormGroup;
+    editableRow['formGroup'] = new UntypedFormGroup(controls);
+    return editableRow['formGroup'] as UntypedFormGroup;
   }
 
   private getTableFormRowAction(row: T): TableActionDef {
@@ -244,7 +244,7 @@ export abstract class EditableTableDataSource<T extends TableData> extends Table
     if (this.formArray && this.editableRows) {
       const editableRow = this.editableRows[rowIndex];
       // There is one form group per line containing the form controls (one per props in table column def)
-      const formGroup = this.formArray.controls[rowIndex] as FormGroup;
+      const formGroup = this.formArray.controls[rowIndex] as UntypedFormGroup;
       if (formGroup) {
         for (const tableColumnDef of this.tableColumnsDef) {
           // Assign the form control to the data
@@ -288,7 +288,7 @@ export abstract class EditableTableDataSource<T extends TableData> extends Table
     }
   }
 
-  private uniqValidator(formArray: FormArray, controlId: string): ValidatorFn {
+  private uniqValidator(formArray: UntypedFormArray, controlId: string): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
       const duplicate = formArray.value.find((row: any) => row[controlId] === control.value);
       return duplicate ? { duplicate: true } : null;

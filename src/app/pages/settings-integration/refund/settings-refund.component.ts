@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { StatusCodes } from 'http-status-codes';
@@ -23,7 +23,7 @@ import { Utils } from '../../../utils/Utils';
 export class SettingsRefundComponent implements OnInit {
   public isActive = false;
 
-  public formGroup!: FormGroup;
+  public formGroup!: UntypedFormGroup;
   public refundSettings!: RefundSettings;
 
   public constructor(
@@ -41,7 +41,7 @@ export class SettingsRefundComponent implements OnInit {
   public ngOnInit(): void {
     if (this.isActive) {
       // Build the form
-      this.formGroup = new FormGroup({});
+      this.formGroup = new UntypedFormGroup({});
       // Load the conf
       this.loadConfiguration();
     }

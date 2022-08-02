@@ -1,8 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StatusCodes } from 'http-status-codes';
-import { ReCaptchaV3Service } from 'ngx-captcha';
 import { Constants } from 'utils/Constants';
 
 import { CentralServerService } from '../../services/central-server.service';
@@ -19,12 +18,11 @@ import { Utils } from '../../utils/Utils';
   selector: 'app-authentication-define-password',
   templateUrl: 'authentication-define-password.component.html',
 })
-
 export class AuthenticationDefinePasswordComponent implements OnInit, OnDestroy {
   public parentErrorStateMatcher = new ParentErrorStateMatcher();
-  public formGroup: FormGroup;
+  public formGroup: UntypedFormGroup;
   public resetPasswordHash!: string | null;
-  public passwords: FormGroup;
+  public passwords: UntypedFormGroup;
   public password: AbstractControl;
   public repeatPassword: AbstractControl;
   public hidePassword = true;
@@ -32,7 +30,6 @@ export class AuthenticationDefinePasswordComponent implements OnInit, OnDestroy 
   public mobileVendor!: string;
   public tenantLogo = Constants.NO_IMAGE;
 
-  private siteKey: string;
   private subDomain: string;
 
   public constructor(
@@ -41,31 +38,28 @@ export class AuthenticationDefinePasswordComponent implements OnInit, OnDestroy 
     private route: ActivatedRoute,
     private spinnerService: SpinnerService,
     private messageService: MessageService,
-    private reCaptchaV3Service: ReCaptchaV3Service,
     private windowService: WindowService,
     private configService: ConfigService) {
-    // Get the Site Key
-    this.siteKey = this.configService.getUser().captchaSiteKey;
     // Keep the sub-domain
     this.subDomain = this.windowService.getSubdomain();
     // Init Form
-    this.formGroup = new FormGroup({
-      passwords: new FormGroup({
-        password: new FormControl('',
+    this.formGroup = new UntypedFormGroup({
+      passwords: new UntypedFormGroup({
+        password: new UntypedFormControl('',
           Validators.compose([
             Validators.required,
             Users.passwordWithNoSpace,
             Users.validatePassword,
           ])),
-        repeatPassword: new FormControl('',
+        repeatPassword: new UntypedFormControl('',
           Validators.compose([
             Validators.required,
           ])),
       },
-      (passwordFormGroup: FormGroup) => Utils.validateEqual(passwordFormGroup, 'password', 'repeatPassword')),
+      (passwordFormGroup: UntypedFormGroup) => Utils.validateEqual(passwordFormGroup, 'password', 'repeatPassword')),
     });
     // Form
-    this.passwords = (this.formGroup.controls['passwords'] as FormGroup);
+    this.passwords = (this.formGroup.controls['passwords'] as UntypedFormGroup);
     this.password = this.passwords.controls['password'];
     this.repeatPassword = this.passwords.controls['repeatPassword'];
     this.resetPasswordHash = this.route.snapshot.queryParamMap.get('hash');
@@ -116,39 +110,20 @@ export class AuthenticationDefinePasswordComponent implements OnInit, OnDestroy 
   }
 
   public resetPassword(data: any) {
-    this.reCaptchaV3Service.execute(this.siteKey, 'ResetPassword', (token) => {
-      if (token) {
-        data['captcha'] = token;
+    data['hash'] = this.resetPasswordHash;
+    this.updatePassword(data);
+    this.spinnerService.show();
+    this.centralServerService.resetUserPassword(data).subscribe((response) => {
+      this.spinnerService.hide();
+      if (response.status && response.status === RestResponse.SUCCESS) {
+        // Show message
+        this.messageService.showSuccessMessage('authentication.define_password_success');
+        // Go back to login
+        void this.router.navigate(['/auth/login']);
       } else {
-        this.messageService.showErrorMessage('authentication.invalid_captcha_token');
-        return;
+        Utils.handleError(JSON.stringify(response),
+          this.messageService, 'authentication.define_password_error');
       }
-      data['hash'] = this.resetPasswordHash;
-      this.updatePassword(data);
-      this.spinnerService.show();
-      this.centralServerService.resetUserPassword(data).subscribe((response) => {
-        this.spinnerService.hide();
-        if (response.status && response.status === RestResponse.SUCCESS) {
-          // Show message
-          this.messageService.showSuccessMessage('authentication.define_password_success');
-          // Go back to login
-          void this.router.navigate(['/auth/login']);
-        } else {
-          Utils.handleError(JSON.stringify(response),
-            this.messageService, 'authentication.define_password_error');
-        }
-      }, (error) => {
-        this.spinnerService.hide();
-        switch (error.status) {
-          // Hash no longer valid
-          case StatusCodes.NOT_FOUND:
-            this.messageService.showErrorMessage('authentication.define_password_hash_not_valid');
-            break;
-          default:
-            Utils.handleHttpError(error, this.router, this.messageService,
-              this.centralServerService, 'general.unexpected_error_backend');
-        }
-      });
     });
   }
 

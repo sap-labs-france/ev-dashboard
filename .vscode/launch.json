@@ -20,6 +20,20 @@
       "webRoot": "${workspaceFolder}"
     },
     {
+      "name": "Debug Tenant 'utbillingplatform'",
+      "type": "pwa-chrome",
+      "request": "launch",
+      "url": "http://utbillingplatform.localhost:45000",
+      "webRoot": "${workspaceFolder}"
+    },
+    {
+      "name": "Debug Tenant 'salvatore'",
+      "type": "pwa-chrome",
+      "request": "launch",
+      "url": "http://salvatore.localhost:45000",
+      "webRoot": "${workspaceFolder}"
+    },
+    {
       "name": "Run all Tests",
       "type": "node",
       "request": "launch",

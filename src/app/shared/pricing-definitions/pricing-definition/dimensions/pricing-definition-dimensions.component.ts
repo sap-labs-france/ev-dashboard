@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 
 import PricingDefinition, { DimensionType, PricingDimension, PricingDimensions } from '../../../../types/Pricing';
@@ -12,28 +12,28 @@ import { PricingHelpers } from '../../../../utils/PricingHelpers';
 })
 
 export class PricingDefinitionDimensionsComponent implements OnInit, OnChanges {
-  @Input() public formGroup!: FormGroup;
+  @Input() public formGroup!: UntypedFormGroup;
   @Input() public pricingDefinition: PricingDefinition;
   @Input() public readOnly: boolean;
 
   public initialized = false;
 
   // Dimensions
-  public dimensions!: FormGroup;
+  public dimensions!: UntypedFormGroup;
   // Flat fee
-  public flatFeeDimension: FormGroup;
+  public flatFeeDimension: UntypedFormGroup;
   public flatFeeEnabled: AbstractControl;
   public flatFee: AbstractControl;
   // Energy
-  public energyDimension: FormGroup;
+  public energyDimension: UntypedFormGroup;
   public energyEnabled: AbstractControl;
   public energy: AbstractControl;
   // Charging time
-  public chargingTimeDimension: FormGroup;
+  public chargingTimeDimension: UntypedFormGroup;
   public chargingTimeEnabled: AbstractControl;
   public chargingTime: AbstractControl;
   // Parking time
-  public parkingTimeDimension: FormGroup;
+  public parkingTimeDimension: UntypedFormGroup;
   public parkingTimeEnabled: AbstractControl;
   public parkingTime: AbstractControl;
   // Step size
@@ -45,64 +45,64 @@ export class PricingDefinitionDimensionsComponent implements OnInit, OnChanges {
   public parkingTimeStep: AbstractControl;
 
   public ngOnInit(): void {
-    this.formGroup.addControl('dimensions', new FormGroup({
-      flatFee: new FormGroup({
-        flatFeeEnabled: new FormControl(false),
-        price: new FormControl({value: null, disabled: true}, Validators.pattern(Constants.REGEX_VALIDATION_FLOAT)),
+    this.formGroup.addControl('dimensions', new UntypedFormGroup({
+      flatFee: new UntypedFormGroup({
+        flatFeeEnabled: new UntypedFormControl(false),
+        price: new UntypedFormControl({value: null, disabled: true}, Validators.pattern(Constants.REGEX_VALIDATION_FLOAT)),
       }),
-      energy: new FormGroup({
-        energyEnabled: new FormControl(false),
-        price: new FormControl({value: null, disabled: true}, Validators.compose([
+      energy: new UntypedFormGroup({
+        energyEnabled: new UntypedFormControl(false),
+        price: new UntypedFormControl({value: null, disabled: true}, Validators.compose([
           Validators.required,
           Validators.pattern(Constants.REGEX_VALIDATION_FLOAT)
         ])),
-        stepSize: new FormControl({value: null, disabled: true}, Validators.compose([
+        stepSize: new UntypedFormControl({value: null, disabled: true}, Validators.compose([
           Validators.required,
           Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)
         ])),
-        stepSizeEnabled: new FormControl({value: false, disabled: true})
+        stepSizeEnabled: new UntypedFormControl({value: false, disabled: true})
       }),
-      chargingTime: new FormGroup({
-        chargingTimeEnabled: new FormControl(false),
-        price: new FormControl({value: null, disabled: true}, Validators.compose([
+      chargingTime: new UntypedFormGroup({
+        chargingTimeEnabled: new UntypedFormControl(false),
+        price: new UntypedFormControl({value: null, disabled: true}, Validators.compose([
           Validators.required,
           Validators.pattern(Constants.REGEX_VALIDATION_FLOAT)
         ])),
-        stepSize: new FormControl({value: null, disabled: true}, Validators.compose([
+        stepSize: new UntypedFormControl({value: null, disabled: true}, Validators.compose([
           Validators.required,
           Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)
         ])),
-        stepSizeEnabled: new FormControl({value: false, disabled: true})
+        stepSizeEnabled: new UntypedFormControl({value: false, disabled: true})
       }),
-      parkingTime: new FormGroup({
-        parkingTimeEnabled: new FormControl(false),
-        price: new FormControl({value: null, disabled: true}, Validators.compose([
+      parkingTime: new UntypedFormGroup({
+        parkingTimeEnabled: new UntypedFormControl(false),
+        price: new UntypedFormControl({value: null, disabled: true}, Validators.compose([
           Validators.required,
           Validators.pattern(Constants.REGEX_VALIDATION_FLOAT)
         ])),
-        stepSize: new FormControl({value: null, disabled: true}, Validators.compose([
+        stepSize: new UntypedFormControl({value: null, disabled: true}, Validators.compose([
           Validators.required,
           Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)
         ])),
-        stepSizeEnabled: new FormControl({value: false, disabled: true})
+        stepSizeEnabled: new UntypedFormControl({value: false, disabled: true})
       }),
     }));
     // Dimensions
-    this.dimensions = this.formGroup.controls['dimensions'] as FormGroup;
-    this.flatFeeDimension = this.dimensions.controls['flatFee'] as FormGroup;
+    this.dimensions = this.formGroup.controls['dimensions'] as UntypedFormGroup;
+    this.flatFeeDimension = this.dimensions.controls['flatFee'] as UntypedFormGroup;
     this.flatFeeEnabled = this.flatFeeDimension.controls['flatFeeEnabled'];
     this.flatFee = this.flatFeeDimension.controls['price'];
-    this.energyDimension = this.dimensions.controls['energy'] as FormGroup;
+    this.energyDimension = this.dimensions.controls['energy'] as UntypedFormGroup;
     this.energyEnabled = this.energyDimension.controls['energyEnabled'];
     this.energy = this.energyDimension.controls['price'];
     this.energyStepEnabled = this.energyDimension.controls['stepSizeEnabled'];
     this.energyStep = this.energyDimension.controls['stepSize'];
-    this.chargingTimeDimension = this.dimensions.controls['chargingTime'] as FormGroup;
+    this.chargingTimeDimension = this.dimensions.controls['chargingTime'] as UntypedFormGroup;
     this.chargingTimeEnabled = this.chargingTimeDimension.controls['chargingTimeEnabled'];
     this.chargingTime = this.chargingTimeDimension.controls['price'];
     this.chargingTimeStepEnabled = this.chargingTimeDimension.controls['stepSizeEnabled'];
     this.chargingTimeStep = this.chargingTimeDimension.controls['stepSize'];
-    this.parkingTimeDimension = this.dimensions.controls['parkingTime'] as FormGroup;
+    this.parkingTimeDimension = this.dimensions.controls['parkingTime'] as UntypedFormGroup;
     this.parkingTimeEnabled = this.parkingTimeDimension.controls['parkingTimeEnabled'];
     this.parkingTime = this.parkingTimeDimension.controls['price'];
     this.parkingTimeStepEnabled = this.parkingTimeDimension.controls['stepSizeEnabled'];

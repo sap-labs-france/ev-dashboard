@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { User } from 'types/User';
 
 @Component({
@@ -8,7 +8,7 @@ import { User } from 'types/User';
 })
 // @Injectable()
 export class UserMiscsComponent implements OnInit, OnChanges {
-  @Input() public formGroup: FormGroup;
+  @Input() public formGroup: UntypedFormGroup;
   @Input() public user!: User;
 
   public initialized = false;
@@ -18,8 +18,8 @@ export class UserMiscsComponent implements OnInit, OnChanges {
 
   public ngOnInit(): void {
     // Init the form
-    this.formGroup.addControl('iNumber', new FormControl(''));
-    this.formGroup.addControl('costCenter', new FormControl('',
+    this.formGroup.addControl('iNumber', new UntypedFormControl(''));
+    this.formGroup.addControl('costCenter', new UntypedFormControl('',
       Validators.compose([
         Validators.pattern('^[0-9]*$'),
       ])

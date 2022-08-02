@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormArray, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormArray, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { StatusCodes } from 'http-status-codes';
 import { ChargingStationsAuthorizations } from 'types/Authorization';
@@ -24,8 +24,8 @@ export class ChargingStationOcppParametersComponent implements OnInit {
   @Input() public chargingStation!: ChargingStation;
   @Input() public chargingStationsAuthorizations: ChargingStationsAuthorizations;
 
-  public formGroup!: FormGroup;
-  public parameters!: FormArray;
+  public formGroup!: UntypedFormGroup;
+  public parameters!: UntypedFormArray;
   public userLocales: KeyValue[];
 
   public constructor(
@@ -37,11 +37,11 @@ export class ChargingStationOcppParametersComponent implements OnInit {
     private router: Router,
   ) {
     this.userLocales = this.localeService.getLocales();
-    this.formGroup = new FormGroup({});
+    this.formGroup = new UntypedFormGroup({});
   }
 
   public ngOnInit(): void {
-    this.parameters = new FormArray([], Validators.compose([Validators.required]));
+    this.parameters = new UntypedFormArray([], Validators.compose([Validators.required]));
     this.ocppParametersDataSource.setFormArray(this.parameters);
     this.ocppParametersDataSource.setCharger(this.chargingStation);
     this.loadOcppParameters();

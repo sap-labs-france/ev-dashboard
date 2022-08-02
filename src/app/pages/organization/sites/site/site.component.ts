@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -7,6 +7,7 @@ import { StatusCodes } from 'http-status-codes';
 import { ComponentService } from 'services/component.service';
 import { WindowService } from 'services/window.service';
 import { AbstractTabComponent } from 'shared/component/abstract-tab/abstract-tab.component';
+import { AccountBillingComponent } from 'shared/component/account-billing/account-billing.component';
 import { DialogMode, SitesAuthorizations } from 'types/Authorization';
 
 import { CentralServerService } from '../../../../services/central-server.service';
@@ -34,13 +35,16 @@ export class SiteComponent extends AbstractTabComponent implements OnInit {
 
   @ViewChild('siteMainComponent') public siteMainComponent!: SiteMainComponent;
   @ViewChild('siteOcpiComponent') public siteOcpiComponent!: SiteOcpiComponent;
-
+  @ViewChild('accountBillingComponent') public accountBillingComponent!: AccountBillingComponent;
   public ocpiActive: boolean;
   public ocpiHasVisibleFields: boolean;
 
-  public formGroup!: FormGroup;
+  public formGroup!: UntypedFormGroup;
   public readOnly = true;
   public site!: Site;
+  public isBillingActive = false;
+  public isBillingPlatformActive = false;
+  public accountHasVisibleFields: boolean;
 
   public constructor(
     private centralServerService: CentralServerService,
@@ -54,12 +58,13 @@ export class SiteComponent extends AbstractTabComponent implements OnInit {
     protected windowService: WindowService) {
     super(activatedRoute, windowService, ['main', 'ocpi'], false);
     this.ocpiActive = this.componentService.isActive(TenantComponents.OCPI);
-    this.ocpiHasVisibleFields = true;
+    this.isBillingActive = this.componentService.isActive(TenantComponents.BILLING);
+    this.isBillingPlatformActive = this.componentService.isActive(TenantComponents.BILLING_PLATFORM);
   }
 
   public ngOnInit() {
     // Init the form
-    this.formGroup = new FormGroup({});
+    this.formGroup = new UntypedFormGroup({});
     // Handle Dialog mode
     this.readOnly = this.dialogMode === DialogMode.VIEW;
     Utils.handleDialogMode(this.dialogMode, this.formGroup);
@@ -73,6 +78,8 @@ export class SiteComponent extends AbstractTabComponent implements OnInit {
       this.centralServerService.getSite(this.currentSiteID, false, true).subscribe((site) => {
         this.spinnerService.hide();
         this.site = site;
+        // Check if Account Data is to be displayed
+        this.accountHasVisibleFields = site.projectFields.includes('accountData.accountID');
         // Check if OCPI has to be displayed
         this.ocpiHasVisibleFields = site.projectFields.includes('tariffID');
         if (this.readOnly) {
@@ -153,6 +160,8 @@ export class SiteComponent extends AbstractTabComponent implements OnInit {
     this.spinnerService.show();
     this.siteMainComponent.updateSiteImage(site);
     this.siteMainComponent.updateSiteCoordinates(site);
+    // Set connected account
+    this.accountBillingComponent?.updateEntityConnectedAccount(site);
     // Update
     this.centralServerService.updateSite(site).subscribe((response) => {
       this.spinnerService.hide();

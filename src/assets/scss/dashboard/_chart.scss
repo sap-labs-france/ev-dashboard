@@ -90,15 +90,10 @@
   height:27vh;
 }
 
-.canvas-container {
-  display: flex !important;
-  object-fit: contain !important;
-  height : 68vh !important;
-}
-
 .chart-container-statistics {
   position: relative;
-  width: calc((100vw - 260px) * 0.95);
+  width: 68vw; // adapt to both the barchart and pie
+  margin: auto;
   @media (max-width: 991px) {
     width: 95vw;
     height: calc(95vw * 0.5);

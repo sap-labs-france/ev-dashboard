@@ -5,10 +5,10 @@
   <h3>
     <div class="chart">
       <div [hidden]="(selectedChart === 'month') && chartsInitialized" class="chart-container-statistics">
-        <canvas class="canvas-container" #consumptionPieChart></canvas>
+        <canvas #consumptionPieChart></canvas>
       </div>
       <div [hidden]="(selectedChart !== 'month') && chartsInitialized" class="chart-container-statistics">
-        <canvas class="canvas-container" #consumptionBarChart></canvas>
+        <canvas #consumptionBarChart></canvas>
       </div>
     </div>
   </h3>

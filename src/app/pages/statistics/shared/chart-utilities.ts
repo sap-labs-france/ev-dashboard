@@ -127,7 +127,7 @@ export class SimpleChart {
     if (!this.fontFamily || Utils.isEmptyString(this.fontFamily)) {
       this.fontFamily = 'Roboto, "Helvetica Neue", sans-serif';
     }
-    this.font = { family: this.fontFamily,size: this.chartType === ChartTypeValues.PIE? 30 : 15 };
+    this.font = { family: this.fontFamily, size: 15 };
     this.fontSize = getComputedStyle(this.contextElement.nativeElement).fontSize;
     if (!this.fontSize || Utils.isEmptyString(this.fontSize)
       || !this.fontSize.endsWith('px')) {
@@ -376,7 +376,7 @@ export class SimpleChart {
             color: '',
             font: {
               family: '',
-              size: this.chartType === ChartTypeValues.PIE ?  30 : 15,
+              size: 15,
             }
           }
         };
@@ -400,9 +400,9 @@ export class SimpleChart {
       y.ticks.font = { family: this.fontFamily };
     }
     this.chartOptions.plugins.tooltip.backgroundColor = this.fontColor;
-    this.chartOptions.plugins.tooltip.bodyFont = { family: this.fontFamily, size: 30 };
-    this.chartOptions.plugins.tooltip.footerFont = { family: this.fontFamily, size: 30 };
-    this.chartOptions.plugins.tooltip.titleFont = { family: this.fontFamily, size: 30 };
+    this.chartOptions.plugins.tooltip.bodyFont = { family: this.fontFamily, size: 15 };
+    this.chartOptions.plugins.tooltip.footerFont = { family: this.fontFamily, size: 15 };
+    this.chartOptions.plugins.tooltip.titleFont = { family: this.fontFamily, size: 15 };
     this.chartOptions.plugins.tooltip.bodyColor = this.inversedFontColor;
     this.chartOptions.plugins.tooltip.footerColor = this.inversedFontColor;
     this.chartOptions.plugins.tooltip.titleColor = this.inversedFontColor;

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { StatusCodes } from 'http-status-codes';
 
@@ -19,7 +19,7 @@ import { Utils } from '../../../utils/Utils';
 })
 export class SettingsSmartChargingComponent implements OnInit {
   public isActive = false;
-  public formGroup!: FormGroup;
+  public formGroup!: UntypedFormGroup;
   public smartChargingSettings!: SmartChargingSettings;
 
   public constructor(
@@ -35,7 +35,7 @@ export class SettingsSmartChargingComponent implements OnInit {
   public ngOnInit(): void {
     if (this.isActive) {
       // Build the form
-      this.formGroup = new FormGroup({});
+      this.formGroup = new UntypedFormGroup({});
       // Load the conf
       this.loadConfiguration();
     }

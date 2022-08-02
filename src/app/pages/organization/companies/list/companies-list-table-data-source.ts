@@ -164,7 +164,7 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
     const moreActions = new TableMoreAction([]);
     if (company.canUpdate) {
       rowActions.push(this.editAction);
-    } else if (company.canRead) {
+    } else {
       rowActions.push(this.viewAction);
     }
     moreActions.addActionInMoreActions(openInMaps);

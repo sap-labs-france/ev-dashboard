@@ -5,6 +5,8 @@ config
 src/assets/config*.json
 !src/assets/config-template.json
 manifest.yml
+test/results
+test/results-eslint
 
 # compiled output
 /dist
@@ -46,6 +48,7 @@ speed-measure-plugin*.json
 *~
 
 # misc
+/.angular/cache
 /.sass-cache
 /connect.lock
 /coverage

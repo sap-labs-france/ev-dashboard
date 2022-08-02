@@ -48,18 +48,8 @@ import { TagRoutes } from './tags.routing';
     TagAssignComponent,
     TagsComponent,
   ],
-  entryComponents: [
-    TagStatusFormatterComponent,
-    TagDialogComponent,
-    TagAssignDialogComponent,
-    TagComponent,
-    TagMainComponent,
-    TagAssignComponent
-  ],
-  exports: [
-  ],
-  providers: [
-  ],
+  exports: [],
+  providers: []
 })
 
 export class TagsModule {

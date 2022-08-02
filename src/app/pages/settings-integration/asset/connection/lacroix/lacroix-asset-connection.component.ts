@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 import { AssetLacroixConnectionType } from '../../../../../types/Setting';
 
@@ -8,21 +8,21 @@ import { AssetLacroixConnectionType } from '../../../../../types/Setting';
   templateUrl: 'lacroix-asset-connection.component.html'
 })
 export class LacroixAssetConnectionComponent implements OnInit {
-  @Input() public formGroup!: FormGroup;
+  @Input() public formGroup!: UntypedFormGroup;
   @Input() public lacroixConnection!: AssetLacroixConnectionType;
 
-  public lacroixLoginForm!: FormGroup;
+  public lacroixLoginForm!: UntypedFormGroup;
   public user!: AbstractControl;
   public password!: AbstractControl;
 
   public ngOnInit(): void {
     // Set login credentials form
-    this.lacroixLoginForm = new FormGroup({
-      user: new FormControl('',
+    this.lacroixLoginForm = new UntypedFormGroup({
+      user: new UntypedFormControl('',
         Validators.compose([
           Validators.required,
         ])),
-      password: new FormControl('',
+      password: new UntypedFormControl('',
         Validators.compose([
           Validators.required,
         ])),

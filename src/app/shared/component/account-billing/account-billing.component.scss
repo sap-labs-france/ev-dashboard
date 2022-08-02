@@ -1,0 +1,11 @@
+@import "../../../../assets/scss/core/variables";
+
+.billing-account-detail-card {
+  background: rgba($brand-primary, 0.1);
+  padding-bottom: 30px;
+}
+
+.billing-pricing-detail-card {
+  background: rgba($brand-primary, 0.1);
+  min-height: 90%;
+}

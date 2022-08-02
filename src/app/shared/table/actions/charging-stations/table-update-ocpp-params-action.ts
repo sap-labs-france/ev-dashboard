@@ -1,7 +1,7 @@
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { ButtonActionColor, ButtonAction } from 'types/GlobalType';
+import { ButtonAction, ButtonActionColor } from 'types/GlobalType';
 
 import { CentralServerService } from '../../../../services/central-server.service';
 import { DialogService } from '../../../../services/dialog.service';

@@ -41,7 +41,7 @@
 }
 
 .mat-dialog-container {
-  agm-map {
+  google-map {
     height: 60vh !important;
   }
 }
@@ -50,9 +50,11 @@
   flex: 1 1 auto;
 }
 
-agm-map.app-shadow div[tabindex] div:last-child {
-  color: white !important;
-  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black !important;
+.map-container {
+  height: 500px !important;
+  width: 100% !important;
+  position: relative !important;
+  overflow: hidden !important;
 }
 
 .app-btn-min-max-width {

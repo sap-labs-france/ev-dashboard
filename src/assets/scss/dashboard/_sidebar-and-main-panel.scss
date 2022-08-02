@@ -1,3 +1,4 @@
+@use '@angular/material' as mat;
 .wrapper {
   position: relative;
   top: 0;
@@ -104,7 +105,8 @@
   }
   .nav-content {
     height: calc(95vh - 200px);
-    overflow: auto;
+    overflow-y: scroll;
+    overflow-x: hidden;
   }
   .nav {
     margin-top: 15px;
@@ -131,7 +133,7 @@
       }
       &.active > a,
       &.active > a i {
-        color: mat-color($app-foreground, base) !important;
+        color: mat.get-color-from-palette($app-foreground, base) !important;
       }
       &.separator {
         margin: 15px 0;
@@ -172,8 +174,8 @@
     margin: 10px 15px 0;
     border-radius: $border-radius-base;
     color: white;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-left: 7px;
+    padding-right: 8px;
     text-transform: capitalize;
     font-size: $font-paragraph - 1;
   }

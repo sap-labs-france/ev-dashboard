@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -18,7 +18,7 @@ export class AssetConnectionComponent implements OnInit {
   @Input() public inDialog!: boolean;
   @Input() public dialogRef!: MatDialogRef<AssetConnectionDialogComponent>;
 
-  public formGroup!: FormGroup;
+  public formGroup!: UntypedFormGroup;
   public id!: AbstractControl;
   public description!: AbstractControl;
   public name!: AbstractControl;
@@ -46,27 +46,27 @@ export class AssetConnectionComponent implements OnInit {
 
   public ngOnInit(): void {
     // Init Form
-    this.formGroup = new FormGroup({
-      id: new FormControl(''),
-      name: new FormControl('',
+    this.formGroup = new UntypedFormGroup({
+      id: new UntypedFormControl(''),
+      name: new UntypedFormControl('',
         Validators.compose([
           Validators.required,
           Validators.maxLength(100),
         ])),
-      description: new FormControl('',
+      description: new UntypedFormControl('',
         Validators.compose([
           Validators.required,
         ])),
-      type: new FormControl('',
+      type: new UntypedFormControl('',
         Validators.compose([
           Validators.required,
         ])),
-      url: new FormControl('',
+      url: new UntypedFormControl('',
         Validators.compose([
           Validators.required,
           Validators.pattern(Constants.URL_PATTERN),
         ])),
-      refreshIntervalMins: new FormControl('',
+      refreshIntervalMins: new UntypedFormControl('',
         Validators.compose([
           Validators.min(1),
         ])),

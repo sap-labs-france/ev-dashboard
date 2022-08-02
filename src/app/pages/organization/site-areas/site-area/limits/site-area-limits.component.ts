@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ComponentService } from 'services/component.service';
 import { TenantComponents } from 'types/Tenant';
 
@@ -11,7 +11,7 @@ import { SiteArea } from '../../../../../types/SiteArea';
 })
 export class SiteAreaLimitsComponent implements OnInit, OnChanges {
   @Input() public siteArea!: SiteArea;
-  @Input() public formGroup!: FormGroup;
+  @Input() public formGroup!: UntypedFormGroup;
   @Input() public readOnly: boolean;
 
   public public = false;
@@ -37,23 +37,23 @@ export class SiteAreaLimitsComponent implements OnInit, OnChanges {
 
   public ngOnInit() {
     // Init the form
-    this.formGroup.addControl('smartCharging', new FormControl(false));
-    this.formGroup.addControl('maximumPower', new FormControl(0,
+    this.formGroup.addControl('smartCharging', new UntypedFormControl(false));
+    this.formGroup.addControl('maximumPower', new UntypedFormControl(0,
       Validators.compose([
         Validators.pattern(/^[+-]?([0-9]*[.])?[0-9]+$/),
         Validators.required,
       ])
     ));
-    this.formGroup.addControl('maximumTotalPowerAmps', new FormControl(0));
-    this.formGroup.addControl('maximumPowerAmpsPerPhase', new FormControl(0));
-    this.formGroup.addControl('voltage', new FormControl(230,
+    this.formGroup.addControl('maximumTotalPowerAmps', new UntypedFormControl(0));
+    this.formGroup.addControl('maximumPowerAmpsPerPhase', new UntypedFormControl(0));
+    this.formGroup.addControl('voltage', new UntypedFormControl(230,
       Validators.compose([
         Validators.required,
         Validators.min(1),
         Validators.pattern('^[+]?[0-9]*$'),
       ])
     ));
-    this.formGroup.addControl('numberOfPhases', new FormControl(3,
+    this.formGroup.addControl('numberOfPhases', new UntypedFormControl(3,
       Validators.compose([
         Validators.required,
       ])

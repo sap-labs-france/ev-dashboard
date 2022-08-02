@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
-import { AbstractControl, FormArray, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormArray, UntypedFormControl, UntypedFormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { CentralServerService } from 'services/central-server.service';
@@ -21,8 +21,7 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
   @Input() public chargingStation!: ChargingStation;
   @Input() public connector!: Connector;
   @Input() public chargePoint!: ChargePoint;
-  @Input() public formConnectorsArray: FormArray;
-  @Input() public isAdmin!: boolean;
+  @Input() public formConnectorsArray: UntypedFormArray;
   @Input() public isPublic!: boolean;
   @Input() public readOnly: boolean;
   @Input() public manualConfiguration!: boolean;
@@ -51,7 +50,7 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
   public phaseAssignmentToGridMap = this.phaseAssignmentToGridMapThreePhased;
   public initialized = false;
 
-  public formConnectorGroup: FormGroup;
+  public formConnectorGroup: UntypedFormGroup;
   public connectorID!: AbstractControl;
   public type!: AbstractControl;
   public power!: AbstractControl;
@@ -75,29 +74,29 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
 
   public ngOnInit() {
     // Init connectors
-    this.formConnectorGroup = new FormGroup({
-      connectorId: new FormControl(this.connector.connectorId),
-      type: new FormControl('',
+    this.formConnectorGroup = new UntypedFormGroup({
+      connectorId: new UntypedFormControl(this.connector.connectorId),
+      type: new UntypedFormControl('',
         Validators.compose([
           Validators.required,
           Validators.pattern('^[^U]*$'),
         ])
       ),
-      power: new FormControl(0,
+      power: new UntypedFormControl(0,
         Validators.compose([
           Validators.required,
           Validators.min(1),
           Validators.pattern('^[+]?[0-9]*$'),
         ])
       ),
-      voltage: new FormControl(Voltage.VOLTAGE_230,
+      voltage: new UntypedFormControl(Voltage.VOLTAGE_230,
         Validators.compose([
           Validators.required,
           Validators.min(1),
           Validators.pattern('^[+]?[0-9]*$'),
         ])
       ),
-      amperage: new FormControl(0,
+      amperage: new UntypedFormControl(0,
         Validators.compose([
           Validators.required,
           Validators.min(1),
@@ -105,25 +104,25 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
           this.amperagePhaseValidator.bind(this),
         ])
       ),
-      amperagePerPhase: new FormControl(0,
+      amperagePerPhase: new UntypedFormControl(0,
         Validators.compose([
           Validators.required,
           Validators.min(1),
           Validators.pattern('^[+]?[0-9]*$'),
         ])
       ),
-      numberOfConnectedPhase: new FormControl(3,
+      numberOfConnectedPhase: new UntypedFormControl(3,
         Validators.compose([
           Validators.required,
         ])
       ),
-      phaseAssignmentToGrid: new FormControl('',
+      phaseAssignmentToGrid: new UntypedFormControl('',
         Validators.compose([
           Validators.required,
         ])
       ),
-      currentType: new FormControl(CurrentType.AC),
-      tariffID: new FormControl(null,
+      currentType: new UntypedFormControl(CurrentType.AC),
+      tariffID: new UntypedFormControl(null,
         Validators.compose([
           Validators.maxLength(36)
         ])
@@ -142,7 +141,7 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
     this.phaseAssignmentToGrid = this.formConnectorGroup.controls['phaseAssignmentToGrid'];
     this.tariffID = this.formConnectorGroup.controls['tariffID'];
     this.phaseAssignmentToGrid.enable();
-    if (!this.isAdmin) {
+    if (this.readOnly) {
       this.type.disable();
       this.voltage.disable();
       this.amperagePerPhase.disable();
@@ -185,7 +184,7 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
       this.amperagePerPhase.setValue((this.amperage.value as number) / (this.numberOfConnectedPhase.value as number));
       if (this.chargePoint && !this.manualConfiguration) {
         this.formConnectorGroup.disable();
-        if (this.isAdmin) {
+        if (!this.readOnly) {
           this.phaseAssignmentToGrid.enable();
         }
       } else {

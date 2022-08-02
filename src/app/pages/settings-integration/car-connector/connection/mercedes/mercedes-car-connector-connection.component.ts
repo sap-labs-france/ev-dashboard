@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Constants } from 'utils/Constants';
 
 import { CarConnectorMercedesConnectionType } from '../../../../../types/Setting';
@@ -9,10 +9,10 @@ import { CarConnectorMercedesConnectionType } from '../../../../../types/Setting
   templateUrl: 'mercedes-car-connector-connection.component.html'
 })
 export class MercedesCarConnectorConnectionComponent implements OnInit {
-  @Input() public formGroup!: FormGroup;
+  @Input() public formGroup!: UntypedFormGroup;
   @Input() public mercedesConnection!: CarConnectorMercedesConnectionType;
 
-  public mercedesCredentials!: FormGroup;
+  public mercedesCredentials!: UntypedFormGroup;
   public authenticationUrl!: AbstractControl;
   public apiUrl!: AbstractControl;
   public clientId!: AbstractControl;
@@ -20,22 +20,22 @@ export class MercedesCarConnectorConnectionComponent implements OnInit {
 
   public ngOnInit(): void {
     // Set login credentials form
-    this.mercedesCredentials = new FormGroup({
-      authenticationUrl: new FormControl('',
+    this.mercedesCredentials = new UntypedFormGroup({
+      authenticationUrl: new UntypedFormControl('',
         Validators.compose([
           Validators.required,
           Validators.pattern(Constants.URL_PATTERN),
         ])),
-      apiUrl: new FormControl('',
+      apiUrl: new UntypedFormControl('',
         Validators.compose([
           Validators.required,
           Validators.pattern(Constants.URL_PATTERN),
         ])),
-      clientId: new FormControl('',
+      clientId: new UntypedFormControl('',
         Validators.compose([
           Validators.required,
         ])),
-      clientSecret: new FormControl('',
+      clientSecret: new UntypedFormControl('',
         Validators.compose([
           Validators.required,
         ])),

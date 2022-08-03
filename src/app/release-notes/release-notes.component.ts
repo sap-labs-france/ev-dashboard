@@ -24,6 +24,19 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.7.0',
+        date: new Date('2022-08-03'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Cosmetic changes and UI responsiveness improvements`,
+              `Some fixes regarding authorizations`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.6.10',
         date: new Date('2022-07-26'),
         componentChanges: [

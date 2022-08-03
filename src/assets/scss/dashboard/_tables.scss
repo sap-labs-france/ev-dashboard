@@ -556,3 +556,7 @@ tr.element-row:not(.expanded-row):active {
 .table-warning {
   border-color: $brand-danger !important;
 }
+
+.action-container {
+  margin: 5px;
+}

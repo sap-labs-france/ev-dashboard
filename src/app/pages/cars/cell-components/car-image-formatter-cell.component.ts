@@ -6,7 +6,7 @@ import { Car, CarCatalog } from '../../../types/Car';
 @Component({
   template: `
     <div class="logo-container">
-      <img class="app-car-image"
+      <img class="app-car-image" crossorigin="anonymous"
         [src]="row['carCatalog'] ? row['carCatalog']['image'] : row['image']" alt=""
         onerror="this.src='/assets/img/theme/no-image.png';">
     </div>

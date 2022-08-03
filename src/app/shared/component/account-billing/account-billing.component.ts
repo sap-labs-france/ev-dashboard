@@ -5,16 +5,14 @@ import { AccountsDialogComponent } from 'shared/dialogs/accounts/accounts-dialog
 import { BillingAccount, BillingAccountData } from 'types/Billing';
 import { Utils } from 'utils/Utils';
 
-import { Company } from '../../../../../types/Company';
-
 @Component({
-  selector: 'app-company-billing',
-  templateUrl: 'company-billing.component.html',
-  styleUrls: ['./company-billing.component.scss']
+  selector: 'app-account-billing',
+  templateUrl: 'account-billing.component.html',
+  styleUrls: ['./account-billing.component.scss']
 })
-export class CompanyBillingComponent implements OnInit, OnChanges {
+export class AccountBillingComponent implements OnInit, OnChanges {
   @Input() public formGroup: FormGroup;
-  @Input() public company!: Company;
+  @Input() public entity: { accountData?: BillingAccountData };
   @Input() public readOnly: boolean;
 
   public initialized = false;
@@ -48,17 +46,17 @@ export class CompanyBillingComponent implements OnInit, OnChanges {
     this.flatFee = this.formGroup.controls['flatFee'];
     this.percentage = this.formGroup.controls['percentage'];
     this.initialized = true;
-    this.loadCompany();
+    this.loadEntity();
   }
 
   public ngOnChanges() {
-    this.loadCompany();
+    this.loadEntity();
   }
 
-  public loadCompany() {
-    if (this.initialized && this.company) {
-      if (this.company.accountData) {
-        const accountData = this.company.accountData;
+  public loadEntity() {
+    if (this.initialized && this.entity) {
+      if (this.entity.accountData) {
+        const accountData = this.entity.accountData;
         this.accountID.setValue(accountData.accountID);
         this.companyName.setValue(accountData.account.companyName);
         this.flatFee.setValue(accountData.platformFeeStrategy.flatFeePerSession);
@@ -94,9 +92,9 @@ export class CompanyBillingComponent implements OnInit, OnChanges {
     this.formGroup.markAsDirty();
   }
 
-  public updateCompanyConnectedAccount(company: Company) {
+  public updateEntityConnectedAccount(entity: {accountData?: BillingAccountData }) {
     const accountID = this.accountID.value;
-    company.accountData = {
+    entity.accountData = {
       accountID,
       platformFeeStrategy: {
         flatFeePerSession: (accountID)? this.flatFee.value: 0,

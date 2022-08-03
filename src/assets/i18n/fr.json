@@ -1412,6 +1412,7 @@
       "list": "Virements"
     },
     "tooltips": {
+      "download": "Télécharger la facture de frais de commission",
       "finalize": "Finaliser le virement",
       "send": "Transmettre le virement"
     },
@@ -1431,7 +1432,8 @@
     "transferExternalID": "ID externe",
     "accountOwner": "Responsable business",
     "cannot_finalize_transfer": "L'opération a échoué - Le virement n'a pas pu être finalisé",
-    "cannot_send_transfer": "L'opération a échoué - Le virement n'a pas pu être transmis au système de facturation"
+    "cannot_send_transfer": "L'opération a échoué - Le virement n'a pas pu être transmis au système de facturation",
+    "cannot_download_commission_incoice": "Impossible de télécharger la facture de frais de commission"
   },
   "tags": {
     "id": "RFID",

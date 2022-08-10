@@ -23,7 +23,7 @@
       <span>{{'settings.billing.check_connection' | translate}}</span>
     </button>
     <button mat-raised-button color="warn" (click)="checkConnection(true)"
-      [disabled]="!formGroup.valid || formGroup.dirty || !billingSettings?.billing?.taxID || billingSettings?.billing?.isTransactionBillingActivated">
+      [disabled]="!formGroup.valid || formGroup.dirty || !billingSettings?.billing?.customerTaxID || billingSettings?.billing?.isTransactionBillingActivated">
       <mat-icon>toggle_off</mat-icon>
       <span>{{'settings.billing.transaction_billing_activation' | translate}}</span>
     </button>
@@ -35,5 +35,5 @@
   </div>
   <!-- Stripe -->
   <app-settings-stripe-billing *ngIf="isBillingActive && billingSettings?.type === 'stripe'" [billingSettings]="billingSettings" [formGroup]="formGroup"></app-settings-stripe-billing>
-  <app-billing-accounts *ngIf="isBillingActive && isBillingPlatformActive && isBillingTransactionEnabled"></app-billing-accounts>
+  <app-billing-accounts *ngIf="isBillingActive && isBillingPlatformActive && isBillingTransactionEnabled && isBillingAccountTaxSet"></app-billing-accounts>
 </form>

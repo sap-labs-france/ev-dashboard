@@ -1791,7 +1791,8 @@
         "billing_method": "Abrechnungsmethode",
         "immediate_billing": "Unverzügliche Abrechnung",
         "periodic_billing": "Periodische Abrechnung",
-        "tax": "Steuern",
+        "customer_tax": "Customer Tax",
+        "billing_account_tax": "Billing Account Tax",
         "no_tax": "Keine Steuern"
       }
     },

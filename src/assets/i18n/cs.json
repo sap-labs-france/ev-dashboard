@@ -1792,7 +1792,8 @@
         "billing_method": "Způsob fakturace",
         "immediate_billing": "Okamžitá fakturace",
         "periodic_billing": "Periodická fakturace (ještě nezavedena)",
-        "tax": "Daň",
+        "customer_tax": "Customer Tax",
+        "billing_account_tax": "Billing Account Tax",
         "no_tax": "Bez daně"
       }
     },

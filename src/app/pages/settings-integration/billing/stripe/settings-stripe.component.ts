@@ -1,5 +1,7 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { ComponentService } from 'services/component.service';
+import { TenantComponents } from 'types/Tenant';
 import { Utils } from 'utils/Utils';
 
 import { CentralServerService } from '../../../../services/central-server.service';
@@ -22,15 +24,21 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
   public publicKey!: AbstractControl;
   public immediateBillingAllowed!: AbstractControl;
   public periodicBillingAllowed!: AbstractControl;
-  public taxID!: AbstractControl;
+  public customerTaxID!: AbstractControl;
+  public billingAccountTaxID!: AbstractControl;
   public taxes: BillingTax[] = [];
   public transactionBillingActivated: boolean;
+  public isBillingPlatformActive: boolean;
 
-  public constructor(private centralServerService: CentralServerService) {
+  public constructor(
+    private centralServerService: CentralServerService,
+    private componentService: ComponentService
+  ) {
     this.centralServerService.getBillingTaxes().subscribe((taxes) => {
       this.taxes = taxes.result;
     });
     this.transactionBillingActivated = false;
+    this.isBillingPlatformActive = this.componentService.isActive(TenantComponents.BILLING_PLATFORM);;
   }
 
   public ngOnInit() {
@@ -55,7 +63,12 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
     this.billing = new UntypedFormGroup({
       immediateBillingAllowed: new UntypedFormControl(false),
       periodicBillingAllowed: new UntypedFormControl(false),
-      taxID: new UntypedFormControl('',
+      customerTaxID: new UntypedFormControl('',
+        Validators.compose([
+          // Validators.required,
+        ]),
+      ),
+      billingAccountTaxID: new UntypedFormControl('',
         Validators.compose([
           // Validators.required,
         ]),
@@ -71,7 +84,8 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
     this.publicKey = this.stripe.controls['publicKey'];
     this.immediateBillingAllowed = this.billing.controls['immediateBillingAllowed'];
     this.periodicBillingAllowed = this.billing.controls['periodicBillingAllowed'];
-    this.taxID = this.billing.controls['taxID'];
+    this.customerTaxID = this.billing.controls['customerTaxID'];
+    this.billingAccountTaxID = this.billing.controls['billingAccountTaxID'];
     // Set data
     this.updateFormData();
   }
@@ -124,7 +138,8 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
       const billingSetting = this.billingSettings.billing;
       this.immediateBillingAllowed.setValue(!!billingSetting.immediateBillingAllowed);
       this.periodicBillingAllowed.setValue(!!billingSetting.periodicBillingAllowed);
-      this.taxID.setValue(billingSetting.taxID || '');
+      this.customerTaxID.setValue(billingSetting.customerTaxID || '');
+      this.billingAccountTaxID.setValue(billingSetting.billingAccountTaxID || '');
     }
   }
 }

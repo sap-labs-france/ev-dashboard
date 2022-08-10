@@ -1791,7 +1791,8 @@
         "billing_method": "Método de cobrança",
         "immediate_billing": "Faturamento Imediato",
         "periodic_billing": "Faturamento periódico",
-        "tax": "Imposto",
+        "customer_tax": "Customer Tax",
+        "billing_account_tax": "Billing Account Tax",
         "no_tax": "Sem Imposto"
       }
     },

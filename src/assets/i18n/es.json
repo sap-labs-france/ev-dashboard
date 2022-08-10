@@ -1790,7 +1790,8 @@
         "billing_method": "Método de facturación",
         "immediate_billing": "Facturación inmediata",
         "periodic_billing": "Facturación periódica",
-        "tax": "Impuesto",
+        "customer_tax": "Customer Tax",
+        "billing_account_tax": "Billing Account Tax",
         "no_tax": "Sin impuestos"
       }
     },

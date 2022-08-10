@@ -23,6 +23,7 @@ export class SettingsBillingComponent implements OnInit {
   public isBillingActive = false;
   public isBillingPlatformActive = false;
   public isBillingTransactionEnabled = false;
+  public isBillingAccountTaxSet = false;
 
   public formGroup!: UntypedFormGroup;
   public billingSettings!: BillingSettings;
@@ -58,6 +59,7 @@ export class SettingsBillingComponent implements OnInit {
       // Keep
       this.billingSettings = settings;
       this.isBillingTransactionEnabled = this.billingSettings.billing.isTransactionBillingActivated;
+      this.isBillingAccountTaxSet = !Utils.isEmptyString(this.billingSettings.billing.billingAccountTaxID);
       // Enable additional actions based on the account nature
       this.checkConnectionContext(settings);
       // Init form

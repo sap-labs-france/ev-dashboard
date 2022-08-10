@@ -38,7 +38,7 @@
     "git:spush": "git push --recurse-submodules=on-demand",
     "git:sreset": "git submodule foreach 'git reset --hard'",
     "ng": "ng",
-    "start": "npm version && ng serve --poll 1000 --configuration=development",
+    "start": "npm version && ng serve --configuration=development",
     "start:ssl": "npm version && ng serve --configuration=development --ssl true --ssl-key ./ssl/localhost.key --ssl-cert ./ssl/localhost.cert",
     "start:prod": "npm version && cross-env NODE_OPTIONS=\"--max-old-space-size=4096\" ng serve --configuration production",
     "start:prod:ssl": "npm version && cross-env NODE_OPTIONS=\"--max-old-space-size=4096\" ng serve --configuration production --ssl true --ssl-key ./ssl/localhost.key --ssl-cert ./ssl/localhost.cert",

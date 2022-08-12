@@ -24,8 +24,8 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
   public publicKey!: AbstractControl;
   public immediateBillingAllowed!: AbstractControl;
   public periodicBillingAllowed!: AbstractControl;
-  public customerTaxID!: AbstractControl;
-  public billingAccountTaxID!: AbstractControl;
+  public taxID!: AbstractControl;
+  public platformFeeTaxID!: AbstractControl;
   public taxes: BillingTax[] = [];
   public transactionBillingActivated: boolean;
   public isBillingPlatformActive: boolean;
@@ -63,12 +63,12 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
     this.billing = new UntypedFormGroup({
       immediateBillingAllowed: new UntypedFormControl(false),
       periodicBillingAllowed: new UntypedFormControl(false),
-      customerTaxID: new UntypedFormControl('',
+      taxID: new UntypedFormControl('',
         Validators.compose([
           // Validators.required,
         ]),
       ),
-      billingAccountTaxID: new UntypedFormControl('',
+      platformFeeTaxID: new UntypedFormControl('',
         Validators.compose([
           // Validators.required,
         ]),
@@ -84,8 +84,8 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
     this.publicKey = this.stripe.controls['publicKey'];
     this.immediateBillingAllowed = this.billing.controls['immediateBillingAllowed'];
     this.periodicBillingAllowed = this.billing.controls['periodicBillingAllowed'];
-    this.customerTaxID = this.billing.controls['customerTaxID'];
-    this.billingAccountTaxID = this.billing.controls['billingAccountTaxID'];
+    this.taxID = this.billing.controls['taxID'];
+    this.platformFeeTaxID = this.billing.controls['platformFeeTaxID'];
     // Set data
     this.updateFormData();
   }
@@ -138,8 +138,8 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
       const billingSetting = this.billingSettings.billing;
       this.immediateBillingAllowed.setValue(!!billingSetting.immediateBillingAllowed);
       this.periodicBillingAllowed.setValue(!!billingSetting.periodicBillingAllowed);
-      this.customerTaxID.setValue(billingSetting.customerTaxID || '');
-      this.billingAccountTaxID.setValue(billingSetting.billingAccountTaxID || '');
+      this.taxID.setValue(billingSetting.taxID || '');
+      this.platformFeeTaxID.setValue(billingSetting.platformFeeTaxID || '');
     }
   }
 }

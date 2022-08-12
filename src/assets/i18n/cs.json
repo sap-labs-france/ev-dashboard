@@ -1792,8 +1792,8 @@
         "billing_method": "Způsob fakturace",
         "immediate_billing": "Okamžitá fakturace",
         "periodic_billing": "Periodická fakturace (ještě nezavedena)",
-        "customer_tax": "Customer Tax",
-        "billing_account_tax": "Billing Account Tax",
+        "tax": "Daň",
+        "platform_fee_tax": "Platform Fee Tax",
         "no_tax": "Bez daně"
       }
     },

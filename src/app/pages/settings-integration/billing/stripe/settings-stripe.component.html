@@ -85,7 +85,7 @@
     <div class="row">
       <div class="col-md-6 text-left">
         <mat-form-field>
-          <mat-select [formControl]="customerTaxID" placeholder="{{'settings.billing.stripe.customer_tax' | translate}}">
+          <mat-select [formControl]="taxID" placeholder="{{'settings.billing.stripe.tax' | translate}}">
             <mat-option *ngFor="let tax of taxes" [value]="tax.id">
               {{ tax | appTaxName}}
             </mat-option>
@@ -96,7 +96,7 @@
     <div class="row" *ngIf="isBillingPlatformActive">
       <div class="col-md-6 text-left">
         <mat-form-field>
-          <mat-select [formControl]="billingAccountTaxID" placeholder="{{'settings.billing.stripe.billing_account_tax' | translate}}">
+          <mat-select [formControl]="platformFeeTaxID" placeholder="{{'settings.billing.stripe.platform_fee_tax' | translate}}">
             <mat-option *ngFor="let tax of taxes" [value]="tax.id">
               {{ tax | appTaxName}}
             </mat-option>

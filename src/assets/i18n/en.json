@@ -1791,8 +1791,8 @@
         "billing_method": "Billing Method",
         "immediate_billing": "Immediate Billing",
         "periodic_billing": "Periodic Billing",
-        "customer_tax": "Customer Tax",
-        "billing_account_tax": "Billing Account Tax",
+        "tax": "Tax",
+        "platform_fee_tax": "Platform Fee Tax",
         "no_tax": "No Tax"
       }
     },

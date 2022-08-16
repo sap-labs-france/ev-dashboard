@@ -127,6 +127,7 @@
               ]
             },
             "development": {
+              "poll": 1000,
               "verbose": true
             }
           },

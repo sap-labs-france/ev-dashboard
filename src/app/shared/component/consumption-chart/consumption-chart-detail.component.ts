@@ -8,9 +8,10 @@ import { CellContentTemplateDirective } from '../../table/cell-content-template/
 
 @Component({
   template:
-    `<app-transaction-chart #chartConsumption *ngIf="transactionId" [transactionId]="transactionId" ratio="3"></app-transaction-chart>`,
+    `<app-transaction-chart #chartConsumption *ngIf="transactionId" [transactionId]="transactionId" [inDialog]="inDialog" ratio="3"></app-transaction-chart>`,
 })
 export class ConsumptionChartDetailComponent extends CellContentTemplateDirective implements OnChanges, OnInit {
+  @Input() public inDialog!: boolean;
   @Input() public row!: Connector | Transaction;
   @ViewChild('chartConsumption') public chartComponent!: ConsumptionChartComponent;
   public transactionId!: number;

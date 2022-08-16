@@ -12,7 +12,7 @@
             <app-transaction-header [transaction]="transaction" [loggedUserImage]="loggedUserImage" [carImage]="carImage"></app-transaction-header>
             <!-- chart -->
             <mat-divider class="space-before-chart"></mat-divider>
-            <app-transaction-chart #chartConsumption [transaction]="transaction" [transactionId]="transaction.id" class="w-100" ratio="3"></app-transaction-chart>
+            <app-transaction-chart #chartConsumption [transaction]="transaction" [transactionId]="transaction.id" [inDialog]="inDialog" class="w-100" ratio="3"></app-transaction-chart>
           </div>
         </div>
       </mat-tab>

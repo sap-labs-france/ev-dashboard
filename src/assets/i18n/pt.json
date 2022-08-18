@@ -1792,6 +1792,7 @@
         "immediate_billing": "Faturamento Imediato",
         "periodic_billing": "Faturamento periódico",
         "tax": "Imposto",
+        "platform_fee_tax": "Platform Fee Tax",
         "no_tax": "Sem Imposto"
       }
     },

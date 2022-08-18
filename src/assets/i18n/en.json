@@ -1792,6 +1792,7 @@
         "immediate_billing": "Immediate Billing",
         "periodic_billing": "Periodic Billing",
         "tax": "Tax",
+        "platform_fee_tax": "Platform Fee Tax",
         "no_tax": "No Tax"
       }
     },

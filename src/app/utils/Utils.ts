@@ -303,7 +303,9 @@ export class Utils {
   }
 
   public static isInMobileApp(subDomain: string): boolean {
-    return Utils.getMobileVendor() !== null && subDomain !== 'ezcharge';
+    return false;
+    // Not compatible with White Label
+    // return Utils.getMobileVendor() !== null && subDomain !== 'ezcharge';
   }
 
   public static replaceSpecialCharsInCSVValueParam(value: string): string {

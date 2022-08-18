@@ -3,6 +3,26 @@
       "apps":[],
       "details":[
          {
+            "appID":"28W9F28X2T.com.emotumfr",
+            "paths":["*"],
+            "components":[
+               {
+                  "/":"/auth/verify-email/*",
+                  "?":{
+                     "Email":"?*",
+                     "VerificationToken":"?*",
+                     "ResetToken":"*"
+                  }
+               },
+               {
+                  "/":"/auth/define-password/*",
+                  "?":{
+                     "hash":"?*"
+                  }
+               }
+            ]
+         },
+         {
             "appID":"SG7N28T3A2.com.e-Mobility",
             "paths":["*"],
             "components":[

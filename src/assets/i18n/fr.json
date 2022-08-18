@@ -1792,8 +1792,8 @@
         "billing_method": "Méthode de facturation",
         "immediate_billing": "Facturation immédiate",
         "periodic_billing": "Facturation périodique",
-        "tax": "Taxe",
-        "platform_fee_tax": "Platform Fee Tax",
+        "tax": "Taux de taxe",
+        "platform_fee_tax": "Taux de taxe sur frais de commission",
         "no_tax": "Aucune Taxe"
       }
     },

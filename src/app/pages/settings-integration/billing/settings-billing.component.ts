@@ -59,7 +59,7 @@ export class SettingsBillingComponent implements OnInit {
       // Keep
       this.billingSettings = settings;
       this.isBillingTransactionEnabled = this.billingSettings.billing.isTransactionBillingActivated;
-      this.isBillingAccountTaxSet = !Utils.isEmptyString(this.billingSettings.billing.platformFeeTaxID);
+      this.isBillingAccountTaxSet = !!this.billingSettings.billing.platformFeeTaxID;
       // Enable additional actions based on the account nature
       this.checkConnectionContext(settings);
       // Init form

@@ -38,7 +38,7 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
       this.taxes = taxes.result;
     });
     this.transactionBillingActivated = false;
-    this.isBillingPlatformActive = this.componentService.isActive(TenantComponents.BILLING_PLATFORM);;
+    this.isBillingPlatformActive = this.componentService.isActive(TenantComponents.BILLING_PLATFORM);
   }
 
   public ngOnInit() {
@@ -65,12 +65,10 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
       periodicBillingAllowed: new UntypedFormControl(false),
       taxID: new UntypedFormControl('',
         Validators.compose([
-          // Validators.required,
         ]),
       ),
       platformFeeTaxID: new UntypedFormControl('',
         Validators.compose([
-          // Validators.required,
         ]),
       )
     }, Validators.compose([

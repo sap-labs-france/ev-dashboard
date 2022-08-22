@@ -1,7 +1,7 @@
 <div *ngIf="transaction?.values?.length === 0" class="graph-no-consumption">
   {{'transactions.graph.no_consumption' | translate}}
 </div>
-<div class="fit-screen" [hidden]="transaction?.values?.length === 0">
+<div [ngClass]="{'fit-screen': !inDialog}" [hidden]="transaction?.values?.length === 0">
   <div class="row mt-2">
     <div class="col-auto mt-2 me-auto">
       <mat-checkbox class="mx-auto" (change)="loadAllConsumptionsChanged($event)">

@@ -1414,6 +1414,7 @@
       "list": "Transfers"
     },
     "tooltips": {
+      "download": "Download commission invoice",
       "finalize": "Finalize transfer",
       "send": "Send transfer"
     },
@@ -1434,7 +1435,8 @@
     "transferExternalID": "External ID",
     "accountOwner": "Business Owner",
     "cannot_finalize_transfer": "Operation failed - The transfer could not be finalized",
-    "cannot_send_transfer": "Operation failed - The transfer has not been sent to the billing system"
+    "cannot_send_transfer": "Operation failed - The transfer has not been sent to the billing system",
+    "cannot_download_commission_incoice": "Cannot download commission invoice"
   },
   "tags": {
     "id": "RFID",
@@ -1800,6 +1802,7 @@
         "immediate_billing": "Okamžitá fakturace",
         "periodic_billing": "Periodická fakturace (ještě nezavedena)",
         "tax": "Daň",
+        "platform_fee_tax": "Platform Fee Tax",
         "no_tax": "Bez daně"
       }
     },

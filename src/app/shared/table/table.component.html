@@ -6,39 +6,41 @@
       <div class="left-actions d-flex flex-wrap flex-row mat-toolbar-row ">
         <!-- Create Left Actions -->
         <ng-container *ngFor="let actionDef of dataSource.tableActionsDef; let i=index">
-          <!-- Action Button -->
-          <button mat-raised-button *ngIf="actionDef.type === 'button' && actionDef.id !== 'reset_filters'"
-            [hidden]="actionDef.visible === false || actionDef.visible === undefined || actionDef.visible === null"
-            (click)="actionTriggered(actionDef)" [color]="(actionDef.color ? actionDef.color : '')"
-            [disabled]="actionDef.disabled || (dataSource.tableDef.rowSelection && actionDef.linkedToListSelection && dataSource.selectedRows === 0)"
-            [title]="(actionDef.name ? '' : actionDef.tooltip | translate)">
-            <mat-icon *ngIf="actionDef.icon">{{actionDef.icon}}</mat-icon>
-            <span>{{actionDef.name | translate}}</span>
-          </button>
-          <!-- Reset Filters -->
-          <button mat-raised-button *ngIf="actionDef.type === 'button' && actionDef.id === 'reset_filters'"
-            (click)="resetFilters()" [color]="(actionDef.color ? actionDef.color : '')" appTooltip
-            [title]="(actionDef.name ? '' : actionDef.tooltip | translate)" [disabled]="!dataSource.filterSet">
-            <mat-icon *ngIf="actionDef.icon">{{actionDef.icon}}</mat-icon>
-            <span>{{actionDef.name | translate}}</span>
-          </button>
-          <div *ngIf="actionDef.type === 'dropdown-button'">
-            <mat-menu #dropDownMenu="matMenu" xPosition="before">
-              <ng-template matMenuContent>
-                <ng-container *ngFor="let dropdownAction of actionDef.dropdownActions">
-                  <button mat-menu-item (click)="actionTriggered(actionDef)" [disabled]="dropdownAction.disabled"
-                    [title]="(dropdownAction.name ? '' : dropdownAction.tooltip | translate)">
-                    <mat-icon *ngIf="dropdownAction.icon">{{dropdownAction.icon}}</mat-icon>
-                    <span>{{dropdownAction.name | translate}}</span>
-                  </button>
-                </ng-container>
-              </ng-template>
-            </mat-menu>
-            <button mat-raised-button [matMenuTriggerFor]="dropDownMenu"
-              [color]="(actionDef.color ? actionDef.color : '')" [title]="'analytics.links' | translate">
+          <div class="action-container">
+            <!-- Action Button -->
+            <button mat-raised-button *ngIf="actionDef.type === 'button' && actionDef.id !== 'reset_filters'"
+              [hidden]="actionDef.visible === false || actionDef.visible === undefined || actionDef.visible === null"
+              (click)="actionTriggered(actionDef)" [color]="(actionDef.color ? actionDef.color : '')"
+              [disabled]="actionDef.disabled || (dataSource.tableDef.rowSelection && actionDef.linkedToListSelection && dataSource.selectedRows === 0)"
+              [title]="(actionDef.name ? '' : actionDef.tooltip | translate)">
               <mat-icon *ngIf="actionDef.icon">{{actionDef.icon}}</mat-icon>
               <span>{{actionDef.name | translate}}</span>
             </button>
+            <!-- Reset Filters -->
+            <button mat-raised-button *ngIf="actionDef.type === 'button' && actionDef.id === 'reset_filters'"
+              (click)="resetFilters()" [color]="(actionDef.color ? actionDef.color : '')" appTooltip
+              [title]="(actionDef.name ? '' : actionDef.tooltip | translate)" [disabled]="!dataSource.filterSet">
+              <mat-icon *ngIf="actionDef.icon">{{actionDef.icon}}</mat-icon>
+              <span>{{actionDef.name | translate}}</span>
+            </button>
+            <div *ngIf="actionDef.type === 'dropdown-button'">
+              <mat-menu #dropDownMenu="matMenu" xPosition="before">
+                <ng-template matMenuContent>
+                  <ng-container *ngFor="let dropdownAction of actionDef.dropdownActions">
+                    <button mat-menu-item (click)="actionTriggered(actionDef)" [disabled]="dropdownAction.disabled"
+                      [title]="(dropdownAction.name ? '' : dropdownAction.tooltip | translate)">
+                      <mat-icon *ngIf="dropdownAction.icon">{{dropdownAction.icon}}</mat-icon>
+                      <span>{{dropdownAction.name | translate}}</span>
+                    </button>
+                  </ng-container>
+                </ng-template>
+              </mat-menu>
+              <button mat-raised-button [matMenuTriggerFor]="dropDownMenu"
+                [color]="(actionDef.color ? actionDef.color : '')" [title]="'analytics.links' | translate">
+                <mat-icon *ngIf="actionDef.icon">{{actionDef.icon}}</mat-icon>
+                <span>{{actionDef.name | translate}}</span>
+              </button>
+            </div>
           </div>
         </ng-container>
         <!-- Spacer -->

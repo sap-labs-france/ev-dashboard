@@ -1786,6 +1786,24 @@ export class CentralServerService {
       );
   }
 
+  public downloadCommissionInvoice(transferID: string): Observable<Blob> {
+    this.checkInit();
+    if (!transferID) {
+      return EMPTY;
+    }
+    const url = this.buildRestEndpointUrl(RESTServerRoute.REST_BILLING_DOWNLOAD_TRANSFER, {
+      transferID
+    });
+    return this.httpClient.get(url,
+      {
+        headers: this.buildHttpHeaders(),
+        responseType: 'blob',
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
   public downloadSiteQrCodes(siteID: string): Observable<Blob> {
     this.checkInit();
     const params: { [param: string]: string } = {};

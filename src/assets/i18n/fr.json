@@ -1414,6 +1414,7 @@
       "list": "Virements"
     },
     "tooltips": {
+      "download": "Télécharger la facture de frais de commission",
       "finalize": "Finaliser le virement",
       "send": "Transmettre le virement"
     },
@@ -1433,7 +1434,8 @@
     "transferExternalID": "ID externe",
     "accountOwner": "Responsable business",
     "cannot_finalize_transfer": "L'opération a échoué - Le virement n'a pas pu être finalisé",
-    "cannot_send_transfer": "L'opération a échoué - Le virement n'a pas pu être transmis au système de facturation"
+    "cannot_send_transfer": "L'opération a échoué - Le virement n'a pas pu être transmis au système de facturation",
+    "cannot_download_commission_incoice": "Impossible de télécharger la facture de frais de commission"
   },
   "tags": {
     "id": "Badge ID",
@@ -1562,7 +1564,7 @@
       "onboarding_process_failed": "L'activation de votre compte a échoué - contactez le support pour obtenir de l'aide !"
     },
     "platform_fee": {
-      "platform_fee_group_title": "Commission Appliquée par la plateforme",
+      "platform_fee_group_title": "Commission appliquée par la plateforme",
       "platform_flat_fee": "Frais fixe par session",
       "platform_flat_fee_invalid": "Les frais fixes doivent étre supérieur à zéro",
       "platform_fee_percentage": "Pourcentage de frais de commission",
@@ -1570,7 +1572,7 @@
     }
   },
   "settings": {
-    "settings_not_saved_title": "Changements non Sauvegardé",
+    "settings_not_saved_title": "Changements non sauvegardé",
     "settings_not_saved": "Vous devez d'abord enregistrer vos changements",
     "tabs": {
       "ocpi": "Itinérance",
@@ -1799,7 +1801,8 @@
         "billing_method": "Méthode de facturation",
         "immediate_billing": "Facturation immédiate",
         "periodic_billing": "Facturation périodique",
-        "tax": "Taxe",
+        "tax": "Taux de taxe",
+        "platform_fee_tax": "Taux de taxe sur frais de commission",
         "no_tax": "Aucune Taxe"
       }
     },

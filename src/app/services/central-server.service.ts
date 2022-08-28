@@ -67,18 +67,21 @@ export class CentralServerService {
   public initUserToken(): Observable<void> {
     return new Observable((observer: Observer<void>) => {
       // Read the token
-      this.localStorageService.getItem('token').subscribe((token: string) => {
-        this.currentUserToken = token;
-        this.currentUser = null;
-        // Decode the token
-        if (token) {
-          this.currentUser = new JwtHelperService().decodeToken(token);
+      this.localStorageService.getItem('token').subscribe({
+        next: (token: string) => {
+          this.currentUserToken = token;
+          this.currentUser = null;
+          // Decode the token
+          if (token) {
+            this.currentUser = new JwtHelperService().decodeToken(token);
+          }
+          // Notify User change
+          this.currentUserSubject.next(this.currentUser);
+          observer.complete();
+        },
+        error: (error) => {
+          observer.error(error);
         }
-        // Notify User change
-        this.currentUserSubject.next(this.currentUser);
-        observer.complete();
-      }, (error) => {
-        observer.error(error);
       });
     });
   }
@@ -3553,7 +3556,7 @@ export class CentralServerService {
       errorInfo.message = error.message ?? error.toString();
       errorInfo.details = error.error ?? null;
     }
-    return throwError(errorInfo);
+    return throwError(() => errorInfo);
   }
 
   private processImage(blob: Blob): Observable<string> {

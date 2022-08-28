@@ -54,19 +54,22 @@ export class ChargingStationOcppParametersComponent implements OnInit {
     if (this.chargingStation) {
       this.spinnerService.show();
       this.centralServerService.getChargingStationOcppParameters(this.chargingStation.id)
-        .subscribe((ocppParametersResult: DataResult<OCPPParameter>) => {
-          this.ocppParametersDataSource.setContent(ocppParametersResult.result);
-          this.parameters.markAsPristine();
-          this.spinnerService.hide();
-        }, (error) => {
-          this.spinnerService.hide();
-          switch (error.status) {
-            case StatusCodes.NOT_FOUND:
-              this.messageService.showErrorMessage('chargers.charger_not_found');
-              break;
-            default:
-              Utils.handleHttpError(error, this.router, this.messageService,
-                this.centralServerService, 'general.unexpected_error_backend');
+        .subscribe({
+          next: (ocppParametersResult: DataResult<OCPPParameter>) => {
+            this.ocppParametersDataSource.setContent(ocppParametersResult.result);
+            this.parameters.markAsPristine();
+            this.spinnerService.hide();
+          },
+          error: (error) => {
+            this.spinnerService.hide();
+            switch (error.status) {
+              case StatusCodes.NOT_FOUND:
+                this.messageService.showErrorMessage('chargers.charger_not_found');
+                break;
+              default:
+                Utils.handleHttpError(error, this.router, this.messageService,
+                  this.centralServerService, 'general.unexpected_error_backend');
+            }
           }
         });
     }

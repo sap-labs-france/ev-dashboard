@@ -965,18 +965,8 @@ export class Utils {
     return typeof obj === 'undefined';
   }
 
-  public static copyToClipboard(content: any) {
-    const element = document.createElement('textarea');
-    element.style.position = 'fixed';
-    element.style.left = '0';
-    element.style.top = '0';
-    element.style.opacity = '0';
-    element.value = content;
-    document.body.appendChild(element);
-    element.focus();
-    element.select();
-    document.execCommand('copy');
-    document.body.removeChild(element);
+  public static async copyToClipboard(content: string) {
+    await navigator.clipboard.writeText(content);
   }
 
   // when exporting values

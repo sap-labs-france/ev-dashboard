@@ -8,7 +8,7 @@ import { CentralServerService } from '../../../../services/central-server.servic
 import { LocaleService } from '../../../../services/locale.service';
 import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
-import { ChargingStation, OcppParameter } from '../../../../types/ChargingStation';
+import { ChargingStation, OCPPParameter } from '../../../../types/ChargingStation';
 import { DataResult } from '../../../../types/DataResult';
 import { KeyValue } from '../../../../types/GlobalType';
 import { Utils } from '../../../../utils/Utils';
@@ -54,7 +54,7 @@ export class ChargingStationOcppParametersComponent implements OnInit {
     if (this.chargingStation) {
       this.spinnerService.show();
       this.centralServerService.getChargingStationOcppParameters(this.chargingStation.id)
-        .subscribe((ocppParametersResult: DataResult<OcppParameter>) => {
+        .subscribe((ocppParametersResult: DataResult<OCPPParameter>) => {
           this.ocppParametersDataSource.setContent(ocppParametersResult.result);
           this.parameters.markAsPristine();
           this.spinnerService.hide();

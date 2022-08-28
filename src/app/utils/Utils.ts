@@ -993,19 +993,19 @@ export class Utils {
     return Constants.DEFAULT_LOCALE; // en_US
   }
 
-  public static extractLanguage(locale: string) {
+  public static extractLanguage(locale: string): string {
     return locale.substring(0, locale.indexOf('_'));
   }
 
-  public static convertToLocale(browserLocale: string) {
+  public static convertToLocale(browserLocale: string): string {
     return browserLocale.replace('-', '_');
   }
 
-  public static convertToBrowserLocale(locale: string) {
+  public static convertToBrowserLocale(locale: string): string {
     return locale.replace('_', '-');
   }
 
-  public static convertToMomentLocale(locale: string) {
+  public static convertToMomentLocale(locale: string): string {
     let momentLocale = Utils.convertToBrowserLocale(locale).toLowerCase(); // Converts 'fr-FR' to 'fr-fr'
     const fragments = momentLocale.split('-');
     if (fragments.length === 2 && fragments[0] === fragments[1]) {
@@ -1014,7 +1014,7 @@ export class Utils {
     return momentLocale;
   }
 
-  public static changeMomentLocaleGlobally(currentLocale: string) {
+  public static changeMomentLocaleGlobally(currentLocale: string): void {
     const momentLocale = Utils.convertToMomentLocale(currentLocale);
     if (moment.locale() !== momentLocale) {
       console.log('Attempt to set moment locale to: ' + momentLocale);

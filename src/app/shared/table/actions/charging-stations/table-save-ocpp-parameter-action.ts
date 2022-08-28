@@ -6,7 +6,7 @@ import { CentralServerService } from '../../../../services/central-server.servic
 import { DialogService } from '../../../../services/dialog.service';
 import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
-import { ChargingStation, ChargingStationButtonAction, OCPPConfigurationStatus, OcppParameter } from '../../../../types/ChargingStation';
+import { ChargingStation, ChargingStationButtonAction, OCPPConfigurationStatus, OCPPParameter } from '../../../../types/ChargingStation';
 import { ButtonAction, KeyValue } from '../../../../types/GlobalType';
 import { TableActionDef } from '../../../../types/Table';
 import { Utils } from '../../../../utils/Utils';
@@ -14,7 +14,7 @@ import { TableSaveAction } from '../table-save-action';
 import { TableChargingStationsRebootAction } from './table-charging-stations-reboot-action';
 
 export interface TableSaveOCPPParameterActionDef extends TableActionDef {
-  action: (charger: ChargingStation, param: OcppParameter, dialogService: DialogService,
+  action: (charger: ChargingStation, param: OCPPParameter, dialogService: DialogService,
     translateService: TranslateService, messageService: MessageService, centralServerService: CentralServerService,
     spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) => void;
 }
@@ -31,7 +31,7 @@ export class TableSaveOCPPParameterAction extends TableSaveAction {
     };
   }
 
-  private saveOcppParameter(charger: ChargingStation, param: OcppParameter, dialogService: DialogService,
+  private saveOcppParameter(charger: ChargingStation, param: OCPPParameter, dialogService: DialogService,
     translateService: TranslateService, messageService: MessageService, centralServerService: CentralServerService,
     spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) {
     // Show yes/no dialog only if fields are not empty

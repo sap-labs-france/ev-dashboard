@@ -30,11 +30,14 @@ export class ConfigService {
 
   public initConfig(): Observable<void> {
     return new Observable((observer: Observer<void>) => {
-      this.http.get<Configuration>('/assets/config.json').subscribe((config) => {
-        this.config = config;
-        observer.complete();
-      }, (error) => {
-        observer.error(error);
+      this.http.get<Configuration>('/assets/config.json').subscribe({
+        next: (config) => {
+          this.config = config;
+          observer.complete();
+        },
+        error: (error) => {
+          observer.error(error);
+        }
       });
     });
   }

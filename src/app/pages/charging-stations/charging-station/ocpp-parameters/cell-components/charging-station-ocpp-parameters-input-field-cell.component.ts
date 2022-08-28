@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, Injectable, Input } from '@angular/core';
 
 import { CellContentTemplateDirective } from '../../../../../shared/table/cell-content-template/cell-content-template.directive';
-import { OcppParameter } from '../../../../../types/ChargingStation';
+import { OCPPParameter } from '../../../../../types/ChargingStation';
 import { TableColumnDef } from '../../../../../types/Table';
 
 @Component({
@@ -29,7 +29,7 @@ import { TableColumnDef } from '../../../../../types/Table';
 // @Injectable()
 export class ChargingStationOcppParametersInputFieldCellComponent extends CellContentTemplateDirective implements AfterViewInit {
   public static CUSTOM_OCPP_PARAMETER_ID = 'CustomOcppParameter';
-  @Input() public row!: OcppParameter;
+  @Input() public row!: OCPPParameter;
   public customOcppParameterRowID = ChargingStationOcppParametersInputFieldCellComponent.CUSTOM_OCPP_PARAMETER_ID;
   public tableColumnDef: TableColumnDef;
 

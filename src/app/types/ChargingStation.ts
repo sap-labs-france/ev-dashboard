@@ -86,7 +86,7 @@ export interface ChargingStationPowers {
   currentWatt: number;
 }
 
-export interface OcppCommand {
+export interface OCPPCommand {
   command: string;
   parameters: string[];
 }
@@ -96,7 +96,7 @@ export enum ChargingRateUnitType {
   AMPERE = 'A',
 }
 
-export interface OcppParameter extends TableData {
+export interface OCPPParameter extends TableData {
   key: string;
   value?: string;
   readonly: boolean;

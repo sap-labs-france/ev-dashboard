@@ -3,14 +3,14 @@ import { saveAs } from 'file-saver';
 import { ButtonAction } from 'types/GlobalType';
 
 import { DialogService } from '../../../../services/dialog.service';
-import { ChargingStation, ChargingStationButtonAction, OcppParameter } from '../../../../types/ChargingStation';
+import { ChargingStation, ChargingStationButtonAction, OCPPParameter } from '../../../../types/ChargingStation';
 import { TableActionDef } from '../../../../types/Table';
 import { Constants } from '../../../../utils/Constants';
 import { Utils } from '../../../../utils/Utils';
 import { TableExportAction } from '../table-export-action';
 
 export interface TableExportOCPPParamsLocalActionDef extends TableActionDef {
-  action: (charger: ChargingStation, params: OcppParameter[], dialogService: DialogService, translateService: TranslateService) => void;
+  action: (charger: ChargingStation, params: OCPPParameter[], dialogService: DialogService, translateService: TranslateService) => void;
 }
 
 export class TableExportOCPPParamsLocalAction extends TableExportAction {
@@ -23,7 +23,7 @@ export class TableExportOCPPParamsLocalAction extends TableExportAction {
     };
   }
 
-  public exportOCPPAsCSV(charger: ChargingStation, params: OcppParameter[], dialogService: DialogService, translateService: TranslateService) {
+  public exportOCPPAsCSV(charger: ChargingStation, params: OCPPParameter[], dialogService: DialogService, translateService: TranslateService) {
     dialogService.createAndShowYesNoDialog(
       translateService.instant('chargers.dialog.exportConfig.title'),
       translateService.instant('chargers.dialog.exportConfig.confirm'),

@@ -3,14 +3,14 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { StatusCodes } from 'http-status-codes';
-import { BehaviorSubject, EMPTY, Observable, TimeoutError, of, throwError } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, Observer, TimeoutError, of, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 
 import { Asset, AssetConsumption } from '../types/Asset';
-import { BillingAccount, BillingTax } from '../types/Billing';
+import { BillingAccount } from '../types/Billing';
 import { Car, CarCatalog, CarMaker, ImageObject } from '../types/Car';
 import { ChargingProfile, GetCompositeScheduleCommandResult } from '../types/ChargingProfile';
-import { ChargePoint, ChargingStation, OCPPAvailabilityType, OcppParameter } from '../types/ChargingStation';
+import { ChargePoint, ChargingStation, OCPPAvailabilityType, OCPPParameter } from '../types/ChargingStation';
 import { Company } from '../types/Company';
 import CentralSystemServerConfiguration from '../types/configuration/CentralSystemServerConfiguration';
 import { IntegrationConnection, UserConnection } from '../types/Connection';
@@ -62,6 +62,25 @@ export class CentralServerService {
     public configService: ConfigService) {
     // Default
     this.initialized = false;
+  }
+
+  public initUserToken(): Observable<void> {
+    return new Observable((observer: Observer<void>) => {
+      // Read the token
+      this.localStorageService.getItem('token').subscribe((token: string) => {
+        this.currentUserToken = token;
+        this.currentUser = null;
+        // Decode the token
+        if (token) {
+          this.currentUser = new JwtHelperService().decodeToken(token);
+        }
+        // Notify User change
+        this.currentUserSubject.next(this.currentUser);
+        observer.complete();
+      }, (error) => {
+        observer.error(error);
+      });
+    });
   }
 
   public getWindowService(): WindowService {
@@ -2009,10 +2028,6 @@ export class CentralServerService {
   }
 
   public getLoggedUser(): UserToken {
-    // Get the token
-    if (!this.currentUser) {
-      this.readAndDecodeTokenFromLocalStorage();
-    }
     return this.currentUser;
   }
 
@@ -2938,11 +2953,11 @@ export class CentralServerService {
       );
   }
 
-  public getChargingStationOcppParameters(chargingStationID: string): Observable<DataResult<OcppParameter>> {
+  public getChargingStationOcppParameters(chargingStationID: string): Observable<DataResult<OCPPParameter>> {
     // Verify Init
     this.checkInit();
     // Execute REST Service
-    return this.httpClient.get<DataResult<OcppParameter>>(
+    return this.httpClient.get<DataResult<OCPPParameter>>(
       this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATION_GET_OCPP_PARAMETERS, { id: chargingStationID }),
       {
         headers: this.buildHttpHeaders(),
@@ -3436,24 +3451,7 @@ export class CentralServerService {
   }
 
   private getLoggedUserToken(): string {
-    // Get the token
-    if (!this.currentUserToken) {
-      this.readAndDecodeTokenFromLocalStorage();
-    }
     return this.currentUserToken;
-  }
-
-  private readAndDecodeTokenFromLocalStorage() {
-    // Read the token
-    this.localStorageService.getItem('token').subscribe((token: string) => {
-      this.currentUserToken = token;
-      this.currentUser = null;
-      // Decode the token
-      if (token) {
-        this.currentUser = new JwtHelperService().decodeToken(token);
-      }
-      this.currentUserSubject.next(this.currentUser);
-    });
   }
 
   private clearLoggedUser(): void {

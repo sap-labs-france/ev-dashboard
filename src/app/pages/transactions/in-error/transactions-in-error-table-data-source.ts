@@ -35,7 +35,7 @@ import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-tab
 import { SiteTableFilter } from '../../../shared/table/filters/site-table-filter';
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
-import { ActionResponse, DataResult } from '../../../types/DataResult';
+import { ActionResponse, TransactionInErrorDataResult } from '../../../types/DataResult';
 import { ErrorMessage, TransactionInError, TransactionInErrorType } from '../../../types/InError';
 import { LogButtonAction } from '../../../types/Log';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
@@ -130,17 +130,20 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     this.initDataSource();
   }
 
-  public loadDataImpl(): Observable<DataResult<Transaction>> {
+  public loadDataImpl(): Observable<TransactionInErrorDataResult> {
     return new Observable((observer) => {
       this.centralServerService.getTransactionsInError(this.buildFilterValues(), this.getPaging(), this.getSorting())
-        .subscribe((transactions) => {
-          this.formatErrorMessages(transactions.result);
-          this.deleteManyAction.visible = this.authorizationService.isAdmin();
-          observer.next(transactions);
-          observer.complete();
-        }, (error) => {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-          observer.error(error);
+        .subscribe({
+          next: (transactions) => {
+            this.formatErrorMessages(transactions.result);
+            this.deleteManyAction.visible = this.authorizationService.isAdmin();
+            observer.next(transactions);
+            observer.complete();
+          },
+          error: (error) => {
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+            observer.error(error);
+          }
         });
     });
   }

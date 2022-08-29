@@ -7,17 +7,16 @@ import { BehaviorSubject, EMPTY, Observable, TimeoutError, of, throwError } from
 import { catchError, switchMap } from 'rxjs/operators';
 
 import { Asset, AssetConsumption } from '../types/Asset';
-import { BillingAccount, BillingTax } from '../types/Billing';
+import { BillingAccount } from '../types/Billing';
 import { Car, CarCatalog, CarMaker, ImageObject } from '../types/Car';
 import { ChargingProfile, GetCompositeScheduleCommandResult } from '../types/ChargingProfile';
 import { ChargePoint, ChargingStation, OCPPAvailabilityType, OcppParameter } from '../types/ChargingStation';
 import { Company } from '../types/Company';
 import CentralSystemServerConfiguration from '../types/configuration/CentralSystemServerConfiguration';
 import { IntegrationConnection, UserConnection } from '../types/Connection';
-import { ActionResponse, ActionsResponse, AssetDataResult, AssetInErrorDataResult, BillingAccountDataResult, BillingInvoiceDataResult, BillingOperationResult, BillingPaymentMethodDataResult, BillingTaxDataResult, BillingTransferDataResult, CarCatalogDataResult, CarDataResult, ChargingProfileDataResult, ChargingStationDataResult, ChargingStationInErrorDataResult, CheckAssetConnectionResponse, CheckBillingConnectionResponse, CompanyDataResult, DataResult, LogDataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OICPJobStatusesResponse, OICPPingResponse, Ordering, Paging, PricingDefinitionDataResult, RegistrationTokenDataResult, SiteAreaDataResult, SiteDataResult, TagDataResult, UserDataResult } from '../types/DataResult';
+import { ActionResponse, ActionsResponse, AssetDataResult, AssetInErrorDataResult, BillingAccountDataResult, BillingInvoiceDataResult, BillingOperationResult, BillingPaymentMethodDataResult, BillingTaxDataResult, BillingTransferDataResult, CarCatalogDataResult, CarDataResult, ChargingProfileDataResult, ChargingStationDataResult, ChargingStationInErrorDataResult, CheckAssetConnectionResponse, CheckBillingConnectionResponse, CompanyDataResult, DataResult, LogDataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OICPJobStatusesResponse, OICPPingResponse, Ordering, Paging, PricingDefinitionDataResult, RegistrationTokenDataResult, SiteAreaDataResult, SiteDataResult, TagDataResult, TransactionDataResult, TransactionInErrorDataResult, UserDataResult } from '../types/DataResult';
 import { EndUserLicenseAgreement } from '../types/Eula';
 import { FilterParams, Image, KeyValue } from '../types/GlobalType';
-import { TransactionInError } from '../types/InError';
 import { Log } from '../types/Log';
 import { OCPIEndpoint } from '../types/ocpi/OCPIEndpoint';
 import { OCPPResetType } from '../types/ocpp/OCPP';
@@ -627,7 +626,7 @@ export class CentralServerService {
       );
   }
 
-  public getLastTransaction(chargingStationID: string, connectorID: number): Observable<DataResult<Transaction>> {
+  public getLastTransaction(chargingStationID: string, connectorID: number): Observable<TransactionDataResult> {
     const params: { [param: string]: string } = {};
     params['ConnectorID'] = connectorID.toString();
     params['Limit'] = '1';
@@ -636,7 +635,7 @@ export class CentralServerService {
     params['SortFields'] = '-timestamp';
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<DataResult<Transaction>>(this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATIONS_TRANSACTIONS, { id: chargingStationID }),
+    return this.httpClient.get<TransactionDataResult>(this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATIONS_TRANSACTIONS, { id: chargingStationID }),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -1076,7 +1075,7 @@ export class CentralServerService {
   }
 
   public getTransactions(params: FilterParams,
-    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Transaction>> {
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<TransactionDataResult> {
     // Verify init
     this.checkInit();
     // Build Paging
@@ -1084,7 +1083,7 @@ export class CentralServerService {
     // Build Ordering
     this.getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<DataResult<Transaction>>(this.buildRestEndpointUrl(RESTServerRoute.REST_TRANSACTIONS_COMPLETED),
+    return this.httpClient.get<TransactionDataResult>(this.buildRestEndpointUrl(RESTServerRoute.REST_TRANSACTIONS_COMPLETED),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -1096,7 +1095,7 @@ export class CentralServerService {
 
   public getTransactionsToRefund(params: FilterParams,
     paging: Paging = Constants.DEFAULT_PAGING,
-    ordering: Ordering[] = []): Observable<DataResult<Transaction>> {
+    ordering: Ordering[] = []): Observable<TransactionDataResult> {
     // Verify init
     this.checkInit();
     // Build Paging
@@ -1104,7 +1103,7 @@ export class CentralServerService {
     // Build Ordering
     this.getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<DataResult<Transaction>>(this.buildRestEndpointUrl(RESTServerRoute.REST_TRANSACTIONS_REFUND),
+    return this.httpClient.get<TransactionDataResult>(this.buildRestEndpointUrl(RESTServerRoute.REST_TRANSACTIONS_REFUND),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -1279,7 +1278,7 @@ export class CentralServerService {
   }
 
   public getTransactionsInError(params: FilterParams,
-    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<TransactionInError>> {
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<TransactionInErrorDataResult> {
     // Verify init
     this.checkInit();
     // Build Paging
@@ -1287,7 +1286,7 @@ export class CentralServerService {
     // Build Ordering
     this.getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<DataResult<TransactionInError>>(this.buildRestEndpointUrl(RESTServerRoute.REST_TRANSACTIONS_IN_ERROR),
+    return this.httpClient.get<TransactionInErrorDataResult>(this.buildRestEndpointUrl(RESTServerRoute.REST_TRANSACTIONS_IN_ERROR),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -1298,7 +1297,7 @@ export class CentralServerService {
   }
 
   public getActiveTransactions(params: FilterParams,
-    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Transaction>> {
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<TransactionDataResult> {
     // Verify init
     this.checkInit();
     // Build Paging
@@ -1306,7 +1305,7 @@ export class CentralServerService {
     // Build Ordering
     this.getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<DataResult<Transaction>>(this.buildRestEndpointUrl(RESTServerRoute.REST_TRANSACTIONS_ACTIVE),
+    return this.httpClient.get<TransactionDataResult>(this.buildRestEndpointUrl(RESTServerRoute.REST_TRANSACTIONS_ACTIVE),
       {
         headers: this.buildHttpHeaders(),
         params,

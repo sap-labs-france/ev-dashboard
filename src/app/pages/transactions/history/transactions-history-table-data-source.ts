@@ -161,17 +161,20 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     });
   }
 
-  public loadDataImpl(): Observable<DataResult<Transaction>> {
+  public loadDataImpl(): Observable<TransactionDataResult> {
     return new Observable((observer) => {
       this.centralServerService.getTransactions(this.buildFilterValues(), this.getPaging(), this.getSorting())
-        .subscribe((transactions) => {
-          this.canExport.visible = this.authorizationService.canExportTransactions();
-          this.deleteManyAction.visible = this.authorizationService.canDeleteTransaction();
-          observer.next(transactions);
-          observer.complete();
-        }, (error) => {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-          observer.error(error);
+        .subscribe({
+          next: (transactions) => {
+            this.canExport.visible = this.authorizationService.canExportTransactions();
+            this.deleteManyAction.visible = this.authorizationService.canDeleteTransaction();
+            observer.next(transactions);
+            observer.complete();
+          },
+          error: (error) => {
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+            observer.error(error);
+          }
         });
     },
     );

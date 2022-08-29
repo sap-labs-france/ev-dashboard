@@ -39,7 +39,7 @@ import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-tab
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { CarCatalog } from '../../../types/Car';
-import { DataResult, TransactionRefundDataResult } from '../../../types/DataResult';
+import { TransactionDataResult, TransactionRefundDataResult } from '../../../types/DataResult';
 import { RefundSettings } from '../../../types/Setting';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
 import { TenantComponents } from '../../../types/Tenant';
@@ -92,21 +92,24 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
     this.initDataSource();
   }
 
-  public loadDataImpl(): Observable<DataResult<Transaction>> {
+  public loadDataImpl(): Observable<TransactionDataResult> {
     return new Observable((observer) => {
       const filters = this.buildFilterValues();
       filters['MinimalPrice'] = '0';
       this.centralServerService.getTransactionsToRefund(filters, this.getPaging(), this.getSorting())
-        .subscribe((transactions) => {
-          this.syncRefundAction.visible = true;
-          this.exportTransactionsAction.visible = true;
-          this.refundTransactionsAction.visible = this.refundTransactionEnabled;
-          this.openURLRefundAction.visible = this.refundTransactionEnabled;
-          observer.next(transactions);
-          observer.complete();
-        }, (error) => {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-          observer.error(error);
+        .subscribe({
+          next: (transactions) => {
+            this.syncRefundAction.visible = true;
+            this.exportTransactionsAction.visible = true;
+            this.refundTransactionsAction.visible = this.refundTransactionEnabled;
+            this.openURLRefundAction.visible = this.refundTransactionEnabled;
+            observer.next(transactions);
+            observer.complete();
+          },
+          error: (error) => {
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+            observer.error(error);
+          }
         });
     });
   }

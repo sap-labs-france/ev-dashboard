@@ -367,6 +367,31 @@ export interface ChargingProfileAuthorizationActions extends AuthorizationAction
   canReadSiteArea?: boolean;
 }
 
+export interface TransactionsAuthorizations extends AuthorizationAttributes, TransactionsAuthorizationActions {
+}
+
+export interface TransactionsAuthorizationActions extends DataResultAuthorizationActions {
+  canListUsers?: boolean;
+  canListSites?: boolean;
+  canListSiteAreas?: boolean;
+  canListChargingStations?: boolean;
+  canListTags?: boolean;
+  canListCompanies?: boolean;
+}
+
+export interface TransactionAuthorizationActions extends AuthorizationActions {
+  canSynchronizeRefundedTransaction?: boolean;
+  canRefundTransaction?: boolean;
+  canPushTransactionCDR?: boolean;
+  canGetAdvenirConsumption?: boolean;
+  canRemoteStopTransaction?: boolean;
+  canGetChargingStationTransactions?: boolean;
+  canExportOcpiCdr?: boolean;
+  canListLogs?: boolean;
+  canReadChargingStation?: boolean;
+}
+
+
 export enum DialogMode {
   EDIT = 'E',
   CREATE = 'C',

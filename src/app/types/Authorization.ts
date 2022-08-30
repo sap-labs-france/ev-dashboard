@@ -376,7 +376,8 @@ export interface TransactionsAuthorizationActions extends DataResultAuthorizatio
   canListSiteAreas?: boolean;
   canListChargingStations?: boolean;
   canListTags?: boolean;
-  canListCompanies?: boolean;
+  canExport?: boolean;
+  canDelete?: boolean;
 }
 
 export interface TransactionAuthorizationActions extends AuthorizationActions {

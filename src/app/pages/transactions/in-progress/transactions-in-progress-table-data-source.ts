@@ -283,12 +283,12 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         class: 'text-left col-15p',
       },
       {
-        id: 'carCatalog',
+        id: 'carCatalog.vehicleMake',
         name: 'car.title',
         headerClass: 'text-center col-15p',
         class: 'text-center col-15p',
         sortable: true,
-        formatter: (carCatalog: CarCatalog) => carCatalog ? Utils.buildCarCatalogName(carCatalog) : '-',
+        formatter: (value: string, row: Transaction) => row.carCatalog ? Utils.buildCarCatalogName(row.carCatalog) : '-',
       },
       {
         id: 'car.licensePlate',

@@ -62,19 +62,22 @@ export class TransactionComponent implements OnInit, OnDestroy {
   public loadData() {
     if (!this.transactionID) {
       this.spinnerService.show();
-      this.centralServerService.getLastTransaction(this.chargingStationID, this.connectorID).subscribe((dataResult) => {
-        this.spinnerService.hide();
-        if (!Utils.isEmptyArray(dataResult.result)) {
-          this.transactionID = Utils.convertToInteger(dataResult.result[0].id);
-          this.loadConsumption();
-        } else {
+      this.centralServerService.getLastTransaction(this.chargingStationID, this.connectorID).subscribe({
+        next: (dataResult) => {
           this.spinnerService.hide();
-          this.messageService.showInfoMessage('chargers.no_transaction_found', { chargerID: this.chargingStationID });
-          this.dialogRef.close();
+          if (!Utils.isEmptyArray(dataResult.result)) {
+            this.transactionID = Utils.convertToInteger(dataResult.result[0].id);
+            this.loadConsumption();
+          } else {
+            this.spinnerService.hide();
+            this.messageService.showInfoMessage('chargers.no_transaction_found', { chargerID: this.chargingStationID });
+            this.dialogRef.close();
+          }
+        },
+        error: (error) => {
+          this.spinnerService.hide();
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'transactions.load_transaction_error');
         }
-      }, (error) => {
-        this.spinnerService.hide();
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'transactions.load_transaction_error');
       });
     } else {
       this.loadConsumption();
@@ -83,47 +86,53 @@ export class TransactionComponent implements OnInit, OnDestroy {
 
   public loadConsumption() {
     this.spinnerService.show();
-    this.centralServerService.getTransaction(this.transactionID).subscribe((transaction: Transaction) => {
-      this.spinnerService.hide();
-      this.transaction = transaction;
-      // Transaction in progress?
-      if (!transaction.stop) {
+    this.centralServerService.getTransaction(this.transactionID).subscribe({
+      next: (transaction: Transaction) => {
+        this.spinnerService.hide();
+        this.transaction = transaction;
+        // Transaction in progress?
+        if (!transaction.stop) {
         // Transaction refresh
-        this.createTransactionRefresh();
-      }
-      // Set properties
-      if ( this.isPricingComponentActive && transaction.pricingModel ) {
+          this.createTransactionRefresh();
+        }
+        // Set properties
+        if ( this.isPricingComponentActive && transaction.pricingModel ) {
         // Show pricing dimensions in a second tab
-        this.showPricingDetail = true;
+          this.showPricingDetail = true;
+        }
+        // Load User's image
+        if ((this.loggedUserImage === Constants.USER_NO_PICTURE) && transaction.user) {
+          this.centralServerService.getUserImage(transaction.user.id).subscribe({
+            next: (userImage) => {
+              this.loggedUserImage = userImage ?? Constants.USER_NO_PICTURE;
+            },
+            error: (error) => {
+              switch (error.status) {
+                case StatusCodes.NOT_FOUND:
+                  this.loggedUserImage = Constants.USER_NO_PICTURE;
+                  break;
+                default:
+                  Utils.handleHttpError(error, this.router, this.messageService,
+                    this.centralServerService, 'general.unexpected_error_backend');
+              }
+            }
+          });
+        }
+        // Load Car's image
+        if (this.isCarComponentActive && this.carImage === Constants.NO_IMAGE && transaction?.carCatalogID) {
+          this.centralServerService.getCarCatalogImages(transaction.carCatalogID, {},
+            { limit: 1, skip: Constants.DEFAULT_SKIP }).subscribe((carImage) => {
+            if (carImage.count > 0) {
+              this.carImage = carImage.result[0].image;
+            }
+          });
+        }
+      },
+      error: (error) => {
+        this.spinnerService.hide();
+        this.dialogRef.close();
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'transactions.load_transaction_error');
       }
-      // Load User's image
-      if ((this.loggedUserImage === Constants.USER_NO_PICTURE) && transaction.user) {
-        this.centralServerService.getUserImage(transaction.user.id).subscribe((userImage) => {
-          this.loggedUserImage = userImage ?? Constants.USER_NO_PICTURE;
-        }, (error) => {
-          switch (error.status) {
-            case StatusCodes.NOT_FOUND:
-              this.loggedUserImage = Constants.USER_NO_PICTURE;
-              break;
-            default:
-              Utils.handleHttpError(error, this.router, this.messageService,
-                this.centralServerService, 'general.unexpected_error_backend');
-          }
-        });
-      }
-      // Load Car's image
-      if (this.isCarComponentActive && this.carImage === Constants.NO_IMAGE && transaction?.carCatalogID) {
-        this.centralServerService.getCarCatalogImages(transaction.carCatalogID, {},
-          { limit: 1, skip: Constants.DEFAULT_SKIP }).subscribe((carImage) => {
-          if (carImage.count > 0) {
-            this.carImage = carImage.result[0].image;
-          }
-        });
-      }
-    }, (error) => {
-      this.spinnerService.hide();
-      this.dialogRef.close();
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'transactions.load_transaction_error');
     });
   }
 

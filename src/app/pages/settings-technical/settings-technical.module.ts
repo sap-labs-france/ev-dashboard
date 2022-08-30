@@ -3,12 +3,14 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { AddressModule } from 'shared/address/address.module';
 
 import { MaterialModule } from '../../app.module';
 import { DialogsModule } from '../../shared/dialogs/dialogs.module';
 import { CommonDirectivesModule } from '../../shared/directives/directives.module';
 import { FormattersModule } from '../../shared/formatters/formatters.module';
 import { TableModule } from '../../shared/table/table.module';
+import { TenantCoordinationsComponent } from './coordinations/tenant-coordinations.component';
 import { SettingsCryptoKeyComponent } from './crypto/crypto-key/settings-crypto-key.component';
 import { SettingsCryptoComponent } from './crypto/settings-crypto.component';
 import { SettingsTechnicalComponent } from './settings-technical.component';
@@ -20,7 +22,8 @@ import { SettingsUserComponent } from './users/settings-user.component';
     SettingsTechnicalComponent,
     SettingsCryptoComponent,
     SettingsCryptoKeyComponent,
-    SettingsUserComponent
+    SettingsUserComponent,
+    TenantCoordinationsComponent
   ],
   imports: [
     CommonModule,
@@ -32,7 +35,8 @@ import { SettingsUserComponent } from './users/settings-user.component';
     FormattersModule,
     TableModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AddressModule
   ]
 })
 export class SettingsTechnicalModule { }

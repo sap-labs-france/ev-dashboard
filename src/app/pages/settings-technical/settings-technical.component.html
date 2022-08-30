@@ -17,6 +17,14 @@
         <app-settings-user></app-settings-user>
       </ng-template>
     </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon>business</mat-icon><span>{{'technical_settings.tabs.organization' | translate}}</span>
+      </ng-template>
+      <ng-template matTabContent>
+        <app-tenant-coordinations></app-tenant-coordinations>
+      </ng-template>
+    </mat-tab>
   </mat-tab-group>
 </div>
 

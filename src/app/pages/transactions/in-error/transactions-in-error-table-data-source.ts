@@ -8,7 +8,7 @@ import { TransactionDialogComponent } from 'shared/dialogs/transaction/transacti
 import { AppDurationPipe } from 'shared/formatters/app-duration.pipe';
 import { AppUnitPipe } from 'shared/formatters/app-unit.pipe';
 import { DateRangeTableFilter } from 'shared/table/filters/date-range-table-filter';
-import { IssuerFilter } from 'shared/table/filters/issuer-filter';
+import { TransactionsAuthorizations } from 'types/Authorization';
 import { CarCatalog } from 'types/Car';
 
 import { AuthorizationService } from '../../../services/authorization.service';
@@ -46,11 +46,19 @@ import { Utils } from '../../../utils/Utils';
 
 @Injectable()
 export class TransactionsInErrorTableDataSource extends TableDataSource<TransactionInError> {
-  private isAdmin = false;
-  private isSiteAdmin = false;
   private viewAction = new TableViewTransactionAction().getActionDef();
   private deleteManyAction = new TableDeleteTransactionsAction().getActionDef();
-  private navigateToLogsAction = new TableNavigateToLogsAction().getActionDef();
+
+  private siteFilter: TableFilterDef;
+  private siteAreaFilter: TableFilterDef;
+  private chargingStationFilter: TableFilterDef;
+  private connectorFilter: TableFilterDef;
+  private userFilter: TableFilterDef;
+  private dateRangeFilter: TableFilterDef;
+  private errorFilter: TableFilterDef;
+
+  private transactionsAuthorizations: TransactionsAuthorizations;
+
   private errorTypes = [
     {
       key: TransactionInErrorType.INVALID_START_DATE,
@@ -100,16 +108,12 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     private appDurationPipe: AppDurationPipe,
     private appUnitPipe: AppUnitPipe,
     private componentService: ComponentService,
-    private authorizationService: AuthorizationService,
     private centralServerService: CentralServerService,
     private datePipe: AppDatePipe,
     private appConnectorIdPipe: AppConnectorIdPipe,
     private appUserNamePipe: AppUserNamePipe,
     private windowService: WindowService) {
     super(spinnerService, translateService);
-    // Admin
-    this.isAdmin = this.authorizationService.isAdmin();
-    this.isSiteAdmin = this.authorizationService.hasSitesAdminRights();
     // If pricing is activated check that transactions have been priced
     if (this.componentService.isActive(TenantComponents.PRICING)) {
       this.errorTypes.push({
@@ -135,8 +139,28 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
       this.centralServerService.getTransactionsInError(this.buildFilterValues(), this.getPaging(), this.getSorting())
         .subscribe({
           next: (transactions) => {
+            // Initialize cars authorization
+            this.transactionsAuthorizations = {
+              // Authorization actions
+              canListChargingStations: Utils.convertToBoolean(transactions.canListChargingStations),
+              canListSiteAreas: Utils.convertToBoolean(transactions.canListSiteAreas),
+              canListSites: Utils.convertToBoolean(transactions.canListSites),
+              canListTags: Utils.convertToBoolean(transactions.canListTags),
+              canListUsers: Utils.convertToBoolean(transactions.canListUsers),
+              canExport: Utils.convertToBoolean(transactions.canExport),
+              canDelete: Utils.convertToBoolean(transactions.canDelete),
+              // metadata
+              metadata: transactions.metadata
+            };
+            // Update filters visibility
+            this.siteFilter.visible = this.transactionsAuthorizations.canListSites;
+            this.siteAreaFilter.visible = this.transactionsAuthorizations.canListSiteAreas;
+            this.chargingStationFilter.visible = this.transactionsAuthorizations.canListChargingStations;
+            this.connectorFilter.visible = this.transactionsAuthorizations.canListChargingStations;
+            this.userFilter.visible = this.transactionsAuthorizations.canListUsers;
+            // Update action visibility
+            this.deleteManyAction.visible = this.transactionsAuthorizations.canDelete;
             this.formatErrorMessages(transactions.result);
-            this.deleteManyAction.visible = this.authorizationService.isAdmin();
             observer.next(transactions);
             observer.complete();
           },
@@ -150,13 +174,10 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-    if (this.authorizationService.isAdmin()) {
-      return [
-        this.deleteManyAction,
-        ...tableActionsDef,
-      ];
-    }
-    return tableActionsDef;
+    return [
+      this.deleteManyAction,
+      ...tableActionsDef,
+    ];
   }
 
   public buildTableDef(): TableDef {
@@ -191,9 +212,8 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
       {
         id: 'id',
         name: 'transactions.id',
-        headerClass: 'd-none d-xl-table-cell',
-        class: 'd-none d-xl-table-cell',
-        visible: this.isAdmin
+        headerClass: 'col-10p',
+        class: 'col-10p',
       },
       {
         id: 'timestamp',
@@ -258,12 +278,11 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
         formatter: (stateOfCharge: number, row: Transaction) => stateOfCharge ? `${stateOfCharge}% > ${row.stop.stateOfCharge}%` : '-',
       },
       {
-        id: 'user',
+        id: 'user.name',
         name: 'transactions.user',
         headerClass: 'col-15p',
         class: 'text-left col-15p',
-        formatter: (value: User) => this.appUserNamePipe.transform(value),
-        visible: this.authorizationService.canListUsers()
+        formatter: (value: string, row: TransactionInError) => this.appUserNamePipe.transform(row.user),
       },
       {
         id: 'tagID',
@@ -271,7 +290,6 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
         headerClass: 'col-10p',
         class: 'text-left col-10p',
         formatter: (tagID: string) => tagID ? tagID : '-',
-        visible: this.authorizationService.canListUsers()
       },
       {
         id: 'carCatalog',
@@ -280,7 +298,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
         class: 'text-center col-15p',
         sortable: true,
         formatter: (carCatalog: CarCatalog) => carCatalog ? Utils.buildCarCatalogName(carCatalog) : '-',
-        visible: this.componentService.isActive(TenantComponents.CAR) && this.authorizationService.canListCars()
+        visible: this.componentService.isActive(TenantComponents.CAR)
       },
       {
         id: 'car.licensePlate',
@@ -289,7 +307,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
         class: 'text-center col-15p',
         sortable: true,
         formatter: (licensePlate: string) => licensePlate ? licensePlate : '-',
-        visible: this.componentService.isActive(TenantComponents.CAR) && this.authorizationService.canUpdateCar()
+        visible: this.componentService.isActive(TenantComponents.CAR)
       }
     ];
   }
@@ -299,36 +317,25 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {
-    // Build filters
+
+    // this.issuerFilter = new IssuerFilter().getFilterDef();
+    this.dateRangeFilter = new DateRangeTableFilter({ translateService: this.translateService }).getFilterDef();
+    this.errorFilter = new ErrorTypeTableFilter(this.errorTypes).getFilterDef();
+    this.siteFilter = new SiteTableFilter().getFilterDef();
+    this.siteAreaFilter = new SiteAreaTableFilter([this.siteFilter]).getFilterDef();
+    this.chargingStationFilter = new ChargingStationTableFilter([this.siteFilter, this.siteAreaFilter]).getFilterDef();
+    this.connectorFilter = new ConnectorTableFilter().getFilterDef();
+    this.userFilter = new UserTableFilter([this.siteFilter]).getFilterDef();
+    // Create filters
     const filters: TableFilterDef[] = [
-      new DateRangeTableFilter({
-        translateService: this.translateService
-      }).getFilterDef(),
-      new ErrorTypeTableFilter(this.errorTypes).getFilterDef(),
+      this.dateRangeFilter,
+      this.errorFilter,
+      this.siteFilter,
+      this.siteAreaFilter,
+      this.chargingStationFilter,
+      this.connectorFilter,
+      this.userFilter,
     ];
-    const issuerFilter = new IssuerFilter().getFilterDef();
-    // Show Site Area Filter If Organization component is active
-    if (this.componentService.isActive(TenantComponents.ORGANIZATION)) {
-      const siteFilter = new SiteTableFilter([issuerFilter]).getFilterDef();
-      const siteAreaFilter = new SiteAreaTableFilter([issuerFilter, siteFilter]).getFilterDef();
-      filters.push(siteFilter);
-      filters.push(siteAreaFilter);
-      if (this.authorizationService.canListChargingStations()) {
-        filters.push(new ChargingStationTableFilter([issuerFilter, siteFilter, siteAreaFilter]).getFilterDef());
-        filters.push(new ConnectorTableFilter().getFilterDef());
-      }
-      if (this.authorizationService.canListUsers()) {
-        filters.push(new UserTableFilter([issuerFilter, siteFilter]).getFilterDef());
-      }
-    } else {
-      if (this.authorizationService.canListChargingStations()) {
-        filters.push(new ChargingStationTableFilter([issuerFilter]).getFilterDef());
-        filters.push(new ConnectorTableFilter().getFilterDef());
-      }
-      if (this.authorizationService.canListUsers()) {
-        filters.push(new UserTableFilter([issuerFilter]).getFilterDef());
-      }
-    }
     return filters;
   }
 
@@ -336,23 +343,14 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     const rowActions: TableActionDef[] = [
       this.viewAction
     ];
+    // More action
     const moreActions = new TableMoreAction([]);
-    if (transaction.issuer) {
-      if (transaction.errorCode === TransactionInErrorType.NO_BILLING_DATA) {
-        // TODO - no use-case so far for an explicit 'Create Invoice' action
-        // - Authorization are not in place
-        // moreActions.addActionInMoreActions(this.createInvoice);
-      }
-      if (this.authorizationService.canListLogs()) {
-        moreActions.addActionInMoreActions(this.navigateToLogsAction);
-      }
-      if (!Utils.isEmptyArray(moreActions.getActionsInMoreActions())) {
-        rowActions.push(moreActions.getActionDef());
-      }
-    } else {
-      if (this.authorizationService.canListLogs()) {
-        moreActions.addActionInMoreActions(this.navigateToLogsAction);
-      }
+    if (transaction.canListLogs) {
+      const navigateToLogsAction = new TableNavigateToLogsAction().getActionDef();
+      moreActions.addActionInMoreActions(navigateToLogsAction);
+    }
+    if (!Utils.isEmptyArray(moreActions.getActionsInMoreActions())) {
+      rowActions.push(moreActions.getActionDef());
     }
     return rowActions;
   }

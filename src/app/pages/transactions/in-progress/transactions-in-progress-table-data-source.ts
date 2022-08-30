@@ -256,11 +256,11 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         visible: this.isOrganizationComponentActive
       },
       {
-        id: 'user',
+        id: 'user.name',
         name: 'transactions.user',
         headerClass: 'col-15p',
         class: 'text-left col-15p',
-        formatter: (value: User) => this.appUserNamePipe.transform(value),
+        formatter: (value: string, row: Transaction) => this.appUserNamePipe.transform(row.user),
       },
       {
         id: 'tagID',

@@ -335,11 +335,11 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         visible: this.isOrganizationComponentActive
       },
       {
-        id: 'user',
+        id: 'user.name',
         name: 'transactions.user',
         headerClass: 'col-15p',
         class: 'text-left col-15p',
-        formatter: (user: User) => this.appUserNamePipe.transform(user),
+        formatter: (value: string, row: Transaction) => this.appUserNamePipe.transform(row.user),
       },
       {
         id: 'tagID',

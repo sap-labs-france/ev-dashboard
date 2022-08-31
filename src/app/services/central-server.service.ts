@@ -3356,6 +3356,10 @@ export class CentralServerService {
     this.checkInit();
     // Build Paging
     this.getPaging(paging, params);
+    if (context.entityID) {
+      params['EntityID'] = context.entityID;
+      params['EntityType'] = context.entityType;
+    }
     // Build Ordering
     this.getSorting(ordering, params);
     const url = this.buildRestEndpointUrl(RESTServerRoute.REST_PRICING_DEFINITIONS);
@@ -3365,8 +3369,6 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
         params: {
           ...params,
-          EntityID: context.entityID,
-          EntityType: context.entityType,
         }
       })
       .pipe(

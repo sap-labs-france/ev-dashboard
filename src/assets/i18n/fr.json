@@ -2579,7 +2579,8 @@
         "pricing-detail-unit-price": "Prix unitaire",
         "pricing-detail-consumption": "Consommation",
         "pricing-detail-duration": "Durée",
-        "pricing-detail-amount": "Montant"
+        "pricing-detail-amount": "Montant",
+        "pricing-detail-view-all": "View all"
       }
     },
     "notification": {

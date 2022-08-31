@@ -32,7 +32,7 @@ export class PricingDefinitionsComponent implements OnInit {
 
   public ngOnInit() {
     // Set context with provided entity, will set to tenant by default
-    this.pricingsTableDataSource.setContext(this.currentEntityID, this.currentEntityType, this.currentEntityName);
+    this.pricingsTableDataSource.setDefaultContext(this.currentEntityID, this.currentEntityType, this.currentEntityName);
   }
 
   public close() {

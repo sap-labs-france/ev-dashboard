@@ -69,6 +69,8 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
       this.context.entityType = this.defaultContext.entityType = entityType;
     }
     this.context.entityName = this.defaultContext.entityName = entityName;
+    //Force a table refresh
+    this.initDataSource(true);
   }
 
   public isContextSet() {
@@ -100,15 +102,17 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    return [
+    const tableActions: TableColumnDef[] = [
       {
         id: 'name',
         name: 'chargers.name',
         headerClass: 'col-15p',
         class: 'col-15p',
         sortable: true,
-      },
-      {
+      }
+    ];
+    if(this.viewingAllComponents) {
+      tableActions.push(...[{
         id: 'entityType',
         name: 'transactions.dialog.session.pricing-detail-entity-type',
         headerClass: 'col-15p',
@@ -121,7 +125,9 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
         headerClass: 'col-15p',
         class: 'col-15p',
         visible: this.viewingAllComponents,
-      },
+      }]);
+    }
+    tableActions.push(...[
       {
         id: 'staticRestrictions.validFrom',
         name: 'settings.pricing.valid_from',
@@ -165,8 +171,9 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
         formatter: (price: number) => this.appPricingDimensionsPrice.transform('parking_time_formatted_price', price),
         headerClass: 'col-15p',
         class: 'col-15p',
-      },
-    ];
+      }
+    ]);
+    return tableActions;
   }
 
   public buildTableActionsDef(): TableActionDef[] {
@@ -174,8 +181,7 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
     const actions: TableActionDef[] = [
       this.createAction,
     ];
-    // Doesn't work as this method is called only once and before setting the context
-    if(this.defaultContext.entityType !== PricingEntity.TENANT){
+    if(this.defaultContext.entityType === PricingEntity.TENANT){
       actions.push(this.viewAllAction);
     }
     actions.push(...tableActionsDef);
@@ -270,5 +276,7 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
     this.context.entityID = entityID;
     this.context.entityType = entityType;
     this.context.entityName = entityName;
+    // Force a table refresh
+    this.initDataSource(true);
   }
 }

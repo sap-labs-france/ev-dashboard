@@ -9,9 +9,7 @@ import { AppDurationPipe } from 'shared/formatters/app-duration.pipe';
 import { AppUnitPipe } from 'shared/formatters/app-unit.pipe';
 import { DateRangeTableFilter } from 'shared/table/filters/date-range-table-filter';
 import { TransactionsAuthorizations } from 'types/Authorization';
-import { CarCatalog } from 'types/Car';
 
-import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
@@ -41,7 +39,6 @@ import { LogButtonAction } from '../../../types/Log';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
 import { TenantComponents } from '../../../types/Tenant';
 import { Transaction, TransactionButtonAction } from '../../../types/Transaction';
-import { User } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';
 
 @Injectable()
@@ -240,7 +237,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
         formatter: (connectorId: number) => this.appConnectorIdPipe.transform(connectorId),
       },
       {
-        id: 'errorCodeDetails',
+        id: 'errorCode',
         name: 'errors.details',
         sortable: false,
         headerClass: 'text-center col-10p',
@@ -292,12 +289,12 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
         formatter: (tagID: string) => tagID ? tagID : '-',
       },
       {
-        id: 'carCatalog',
+        id: 'carCatalog.vehicleMake',
         name: 'car.title',
         headerClass: 'text-center col-15p',
         class: 'text-center col-15p',
         sortable: true,
-        formatter: (carCatalog: CarCatalog) => carCatalog ? Utils.buildCarCatalogName(carCatalog) : '-',
+        formatter: (value: string, row: Transaction) => row.carCatalog ? Utils.buildCarCatalogName(row.carCatalog) : '-',
         visible: this.componentService.isActive(TenantComponents.CAR)
       },
       {

@@ -378,6 +378,9 @@ export interface TransactionsAuthorizationActions extends DataResultAuthorizatio
   canListTags?: boolean;
   canExport?: boolean;
   canDelete?: boolean;
+  canSyncRefund?: boolean;
+  canRefund?: boolean;
+  canReadSetting?: boolean;
 }
 
 export interface TransactionAuthorizationActions extends AuthorizationActions {

@@ -13,10 +13,10 @@ import { Constants } from 'utils/Constants';
 import { Utils } from 'utils/Utils';
 
 @Component({
-  selector: 'app-tenant-coordinations',
-  templateUrl: 'tenant-coordinations.component.html',
+  selector: 'app-tenant-data',
+  templateUrl: 'tenant-data.component.html',
 })
-export class TenantCoordinationsComponent implements OnInit, OnChanges {
+export class TenantDataComponent implements OnInit, OnChanges {
 
   public isDisabled: boolean;
   public initialized = false;
@@ -134,7 +134,7 @@ export class TenantCoordinationsComponent implements OnInit, OnChanges {
     this.spinnerService.show();
     this.updateTenantLogo(tenant);
     tenant.id = this.centralServerService.getLoggedUser().tenantID;
-    this.centralServerService.updateTenantCoordinations(tenant).subscribe((response) => {
+    this.centralServerService.updateTenantData(tenant).subscribe((response) => {
       this.spinnerService.hide();
       if (response.status === RestResponse.SUCCESS) {
         this.messageService.showSuccessMessage('tenants.update_success', { name: tenant.name });

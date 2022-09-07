@@ -10,9 +10,9 @@ import { DialogsModule } from '../../shared/dialogs/dialogs.module';
 import { CommonDirectivesModule } from '../../shared/directives/directives.module';
 import { FormattersModule } from '../../shared/formatters/formatters.module';
 import { TableModule } from '../../shared/table/table.module';
-import { TenantCoordinationsComponent } from './coordinations/tenant-coordinations.component';
 import { SettingsCryptoKeyComponent } from './crypto/crypto-key/settings-crypto-key.component';
 import { SettingsCryptoComponent } from './crypto/settings-crypto.component';
+import { TenantDataComponent } from './data/tenant-data.component';
 import { SettingsTechnicalComponent } from './settings-technical.component';
 import { TechnicalSettingsRoutes } from './settings-technical.routing';
 import { SettingsUserComponent } from './users/settings-user.component';
@@ -23,7 +23,7 @@ import { SettingsUserComponent } from './users/settings-user.component';
     SettingsCryptoComponent,
     SettingsCryptoKeyComponent,
     SettingsUserComponent,
-    TenantCoordinationsComponent
+    TenantDataComponent
   ],
   imports: [
     CommonModule,

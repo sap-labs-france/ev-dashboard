@@ -2575,6 +2575,7 @@
         "pricing-detail-description": "Description",
         "pricing-detail-entity-type": "Entity Type",
         "pricing-detail-entity-id": "Entity ID",
+        "pricing-detail-entity-name": "Entity Name",
         "pricing-detail-unit-price": "Unit Price",
         "pricing-detail-consumption": "Consumption",
         "pricing-detail-duration": "Duration",

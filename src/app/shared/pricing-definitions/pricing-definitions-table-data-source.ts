@@ -4,7 +4,8 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { TablePricingOverviewAction } from 'shared/table/actions/pricing/table-pricing-overview-action';
-import { TableViewPricingDefinitionsAction, TableViewPricingDefinitionsActionDef } from 'shared/table/actions/table-view-pricing-definitions-action';
+import { TableViewAction } from 'shared/table/actions/table-view-action';
+import { TableViewPricingDefinitionsActionDef } from 'shared/table/actions/table-view-pricing-definitions-action';
 import { DialogMode } from 'types/Authorization';
 import { ButtonAction } from 'types/GlobalType';
 
@@ -33,16 +34,16 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
   private createAction = new TableCreatePricingDefinitionAction().getActionDef();
   private editAction = new TableEditPricingDefinitionAction().getActionDef();
   private deleteAction = new TableDeletePricingDefinitionAction().getActionDef();
-  private viewAction = new TableViewPricingDefinitionsAction().getActionDef();
+  private viewAction = new TableViewAction().getActionDef();
   private defaultContext = {
-    entityID: '',
-    entityType: '',
-    entityName: ''
+    entityID: null,
+    entityType: null,
+    entityName: null
   };
   private context = {
-    entityID: '',
-    entityType: '',
-    entityName: ''
+    entityID: null,
+    entityType: null,
+    entityName: null
   };
 
   public constructor(
@@ -111,7 +112,7 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
         sortable: true,
       }
     ];
-    if(this.viewingAllComponents) {
+    if (this.viewingAllComponents) {
       tableActions.push(...[{
         id: 'entityType',
         name: 'transactions.dialog.session.pricing-detail-entity-type',
@@ -120,8 +121,8 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
         visible: this.viewingAllComponents,
       },
       {
-        id: 'entityID',
-        name: 'transactions.dialog.session.pricing-detail-entity-id',
+        id: 'entityName',
+        name: 'transactions.dialog.session.pricing-detail-entity-name',
         headerClass: 'col-15p',
         class: 'col-15p',
         visible: this.viewingAllComponents,
@@ -181,7 +182,7 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
     const actions: TableActionDef[] = [
       this.createAction,
     ];
-    if(this.defaultContext.entityType === PricingEntity.TENANT){
+    if (this.defaultContext.entityType === PricingEntity.TENANT) {
       actions.push(this.viewAllAction);
     }
     actions.push(...tableActionsDef);
@@ -213,7 +214,7 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
         }
         break;
       case ButtonAction.OVERVIEW:
-        if(actionDef.id) {
+        if (actionDef.id) {
           actionDef.currentValue = !actionDef.currentValue;
           this.viewingAllComponents = actionDef.currentValue;
           if(this.viewingAllComponents) {
@@ -244,7 +245,7 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
             { dialogData: { ...pricingDefinition, context: this.context } }, this.refreshData.bind(this));
         }
         break;
-      case PricingButtonAction.VIEW_PRICING_DEFINITIONS:
+      case ButtonAction.VIEW:
         if (actionDef.action) {
           (actionDef as TableViewPricingDefinitionsActionDef).action(
             PricingDefinitionDialogComponent, this.dialog,

@@ -6,7 +6,7 @@ import { Company } from '../../../../types/Company';
 @Component({
   template: `
     <div class="logo-container">
-      <img class="app-company-logo" alt="" [src]="row['logo']"
+      <img class="app-company-logo" alt="" crossorigin="anonymous" [src]="row['logo']"
       onerror="this.src='/assets/img/theme/no-image.png';">
     </div>
   `,

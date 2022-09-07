@@ -33,7 +33,8 @@
               "file-saver",
               "ngx-google-places-autocomplete",
               "chartjs-plugin-datalabels",
-              "stripe-js"
+              "stripe-js",
+              "moment-timezone"
             ],
             "assets": [
               {
@@ -125,7 +126,10 @@
                 }
               ]
             },
-            "development": {}
+            "development": {
+              "poll": 1000,
+              "verbose": true
+            }
           },
           "defaultConfiguration": ""
         },

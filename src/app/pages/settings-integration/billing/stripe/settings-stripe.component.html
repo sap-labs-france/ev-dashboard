@@ -93,5 +93,16 @@
         </mat-form-field>
       </div>
     </div>
+    <div class="row" *ngIf="isBillingPlatformActive">
+      <div class="col-md-6 text-left">
+        <mat-form-field>
+          <mat-select [formControl]="platformFeeTaxID" placeholder="{{'settings.billing.stripe.platform_fee_tax' | translate}}">
+            <mat-option *ngFor="let tax of taxes" [value]="tax.id">
+              {{ tax | appTaxName}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
   </div>
 </div>

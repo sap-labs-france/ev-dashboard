@@ -199,6 +199,7 @@ export interface BillingSetting {
   immediateBillingAllowed: boolean;
   periodicBillingAllowed: boolean;
   taxID: string;
+  platformFeeTaxID?: string;
   usersLastSynchronizedOn?: Date;
 }
 

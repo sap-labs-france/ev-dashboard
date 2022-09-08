@@ -85,7 +85,6 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
     private appCurrencyPipe: AppCurrencyPipe,
     private windowService: WindowService) {
     super(spinnerService, translateService);
-
     // Init
     this.setStaticFilters([{
       WithUser: true,

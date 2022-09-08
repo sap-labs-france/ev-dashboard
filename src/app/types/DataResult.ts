@@ -178,7 +178,6 @@ export interface TransactionRefundDataResult extends DataResult<Transaction>, Tr
 export interface TransactionInErrorDataResult extends DataResult<TransactionInError>, TransactionsAuthorizations {
 }
 
-
 export interface Ordering {
   field: string;
 }

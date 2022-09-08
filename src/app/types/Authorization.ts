@@ -395,7 +395,6 @@ export interface TransactionAuthorizationActions extends AuthorizationActions {
   canReadChargingStation?: boolean;
 }
 
-
 export enum DialogMode {
   EDIT = 'E',
   CREATE = 'C',

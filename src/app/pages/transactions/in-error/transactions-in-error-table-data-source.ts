@@ -136,7 +136,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
       this.centralServerService.getTransactionsInError(this.buildFilterValues(), this.getPaging(), this.getSorting())
         .subscribe({
           next: (transactions) => {
-            // Initialize cars authorization
+            // Initialize transactions authorization
             this.transactionsAuthorizations = {
               // Authorization actions
               canListChargingStations: Utils.convertToBoolean(transactions.canListChargingStations),

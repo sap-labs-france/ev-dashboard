@@ -101,7 +101,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
       this.centralServerService.getTransactionsToRefund(filters, this.getPaging(), this.getSorting())
         .subscribe({
           next: (transactions) => {
-            // Initialize cars authorization
+            // Initialize transactions authorization
             this.transactionsAuthorizations = {
               // Authorization actions
               canListChargingStations: Utils.convertToBoolean(transactions.canListChargingStations),

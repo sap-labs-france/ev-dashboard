@@ -92,12 +92,12 @@ export class TransactionComponent implements OnInit, OnDestroy {
         this.transaction = transaction;
         // Transaction in progress?
         if (!transaction.stop) {
-        // Transaction refresh
+          // Transaction refresh
           this.createTransactionRefresh();
         }
         // Set properties
-        if ( this.isPricingComponentActive && transaction.pricingModel ) {
-        // Show pricing dimensions in a second tab
+        if (this.isPricingComponentActive && transaction.pricingModel) {
+          // Show pricing dimensions in a second tab
           this.showPricingDetail = true;
         }
         // Load User's image

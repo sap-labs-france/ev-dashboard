@@ -7,7 +7,6 @@ import { WindowService } from 'services/window.service';
 import { TransactionDialogComponent } from 'shared/dialogs/transaction/transaction-dialog.component';
 import { ConnectorTableFilter } from 'shared/table/filters/connector-table-filter';
 import { TransactionsAuthorizations } from 'types/Authorization';
-import { CarCatalog } from 'types/Car';
 import { Constants } from 'utils/Constants';
 
 import { CentralServerService } from '../../../services/central-server.service';
@@ -43,7 +42,6 @@ import { LogButtonAction } from '../../../types/Log';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
 import { TenantComponents } from '../../../types/Tenant';
 import { Transaction, TransactionButtonAction, TransactionStatisticsType } from '../../../types/Transaction';
-import { User } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';
 import { TransactionsConnectorCellComponent } from '../cell-components/transactions-connector-cell.component';
 import { TransactionsInactivityCellComponent } from '../cell-components/transactions-inactivity-cell.component';
@@ -102,7 +100,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
       this.centralServerService.getActiveTransactions(this.buildFilterValues(), this.getPaging(), this.getSorting())
         .subscribe({
           next: (transactions) => {
-          // Initialize cars authorization
+          // Initialize transactions authorization
             this.transactionsAuthorizations = {
             // Authorization actions
               canListChargingStations: Utils.convertToBoolean(transactions.canListChargingStations),

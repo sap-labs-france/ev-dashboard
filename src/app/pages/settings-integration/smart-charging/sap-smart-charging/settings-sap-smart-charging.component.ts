@@ -19,6 +19,10 @@ export class SettingsSapSmartChargingComponent implements OnInit, OnChanges {
   public stickyLimitation!: AbstractControl;
   public limitBufferDC!: AbstractControl;
   public limitBufferAC!: AbstractControl;
+  public usePrioritizationParameters!: AbstractControl;
+  public defaultSessionTimeHours!: AbstractControl;
+  public defaultInitialStateOfCharge!: AbstractControl;
+  public defaultTargetStateOfCharge!: AbstractControl;
 
   public ngOnInit(): void {
     this.sapSmartCharging = new UntypedFormGroup({
@@ -43,6 +47,28 @@ export class SettingsSapSmartChargingComponent implements OnInit, OnChanges {
       stickyLimitation: new UntypedFormControl(''),
       limitBufferDC: new UntypedFormControl(''),
       limitBufferAC: new UntypedFormControl(''),
+      usePrioritizationParameters: new UntypedFormControl(''),
+      defaultSessionTimeHours: new UntypedFormControl('',
+        Validators.compose([
+          Validators.required,
+          Validators.min(1),
+          Validators.max(20),
+        ])
+      ),
+      defaultInitialStateOfCharge: new UntypedFormControl('',
+        Validators.compose([
+          Validators.required,
+          Validators.min(1),
+          Validators.max(100),
+        ])
+      ),
+      defaultTargetStateOfCharge: new UntypedFormControl('',
+        Validators.compose([
+          Validators.required,
+          Validators.min(1),
+          Validators.max(100),
+        ])
+      ),
     });
     // Add
     this.formGroup.addControl('sapSmartCharging', this.sapSmartCharging);
@@ -53,11 +79,20 @@ export class SettingsSapSmartChargingComponent implements OnInit, OnChanges {
     this.stickyLimitation = this.sapSmartCharging.controls['stickyLimitation'];
     this.limitBufferDC = this.sapSmartCharging.controls['limitBufferDC'];
     this.limitBufferAC = this.sapSmartCharging.controls['limitBufferAC'];
+    this.usePrioritizationParameters = this.sapSmartCharging.controls['usePrioritizationParameters'];
+    this.defaultSessionTimeHours = this.sapSmartCharging.controls['defaultSessionTimeHours'];
+    this.defaultInitialStateOfCharge = this.sapSmartCharging.controls['defaultInitialStateOfCharge'];
+    this.defaultTargetStateOfCharge = this.sapSmartCharging.controls['defaultTargetStateOfCharge'];
     // Set data
     this.updateFormData();
     if (!this.stickyLimitation.value) {
       this.limitBufferDC.disable();
       this.limitBufferAC.disable();
+    }
+    if (!this.usePrioritizationParameters.value) {
+      this.defaultSessionTimeHours.disable();
+      this.defaultInitialStateOfCharge.disable();
+      this.defaultTargetStateOfCharge.disable();
     }
   }
 
@@ -75,6 +110,18 @@ export class SettingsSapSmartChargingComponent implements OnInit, OnChanges {
     }
   }
 
+  public usePrioritizationParametersChanged() {
+    if (this.usePrioritizationParameters.value) {
+      this.defaultSessionTimeHours.enable();
+      this.defaultInitialStateOfCharge.enable();
+      this.defaultTargetStateOfCharge.enable();
+    } else {
+      this.defaultSessionTimeHours.disable();
+      this.defaultInitialStateOfCharge.disable();
+      this.defaultTargetStateOfCharge.disable();
+    }
+  }
+
   public updateFormData() {
     // Set data
     if (this.smartChargingSettings && this.smartChargingSettings.sapSmartCharging && this.sapSmartCharging) {
@@ -84,8 +131,15 @@ export class SettingsSapSmartChargingComponent implements OnInit, OnChanges {
       this.stickyLimitation.setValue(this.smartChargingSettings.sapSmartCharging.stickyLimitation ? this.smartChargingSettings.sapSmartCharging.stickyLimitation : false);
       this.limitBufferDC.setValue(this.smartChargingSettings.sapSmartCharging.limitBufferDC ? this.smartChargingSettings.sapSmartCharging.limitBufferDC : 0);
       this.limitBufferAC.setValue(this.smartChargingSettings.sapSmartCharging.limitBufferAC ? this.smartChargingSettings.sapSmartCharging.limitBufferAC : 0);
+      this.usePrioritizationParameters.setValue(this.smartChargingSettings.sapSmartCharging.usePrioritizationParameters ?
+        this.smartChargingSettings.sapSmartCharging.usePrioritizationParameters : false);
+      this.defaultSessionTimeHours.setValue(this.smartChargingSettings.sapSmartCharging.defaultSessionTimeHours ?
+        this.smartChargingSettings.sapSmartCharging.defaultSessionTimeHours : 0);
+      this.defaultInitialStateOfCharge.setValue(this.smartChargingSettings.sapSmartCharging.defaultInitialStateOfCharge ?
+        this.smartChargingSettings.sapSmartCharging.defaultInitialStateOfCharge : 0);
+      this.defaultTargetStateOfCharge.setValue(this.smartChargingSettings.sapSmartCharging.defaultTargetStateOfCharge ?
+        this.smartChargingSettings.sapSmartCharging.defaultTargetStateOfCharge : 0);
       this.formGroup.markAsPristine();
-
     }
   }
 }

@@ -60,5 +60,58 @@
         </div>
       </div>
     </div>
+    <div class="row mb-2">
+      <div class="col-md-6 col-xl-6 text-left">
+        <div class="form-group">
+          <mat-checkbox [formControl]="usePrioritizationParameters" (change)="usePrioritizationParametersChanged()">
+            {{'settings.smart_charging.sap_smart_charging.use_prioritization_parameters' | translate}}
+          </mat-checkbox>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-2">
+        <div class="form-group">
+          <mat-form-field>
+            <input matInput placeholder="{{'settings.smart_charging.sap_smart_charging.default_session_time' | translate}}"
+              type="number" [formControl]="defaultSessionTimeHours">
+              <mat-error *ngIf="defaultSessionTimeHours.errors?.min">
+                {{"general.error_min_value" | translate:{value: 1} }}
+              </mat-error>
+              <mat-error *ngIf="defaultSessionTimeHours.errors?.max">
+                {{"general.error_max_value" | translate:{value: 20} }}
+              </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="form-group">
+          <mat-form-field>
+            <input matInput placeholder="{{'settings.smart_charging.sap_smart_charging.default_initial_state_of_charge' | translate}}"
+              type="number" [formControl]="defaultInitialStateOfCharge">
+              <mat-error *ngIf="defaultInitialStateOfCharge.errors?.min">
+                {{"general.error_min_value" | translate:{value: 1} }}
+              </mat-error>
+              <mat-error *ngIf="defaultInitialStateOfCharge.errors?.max">
+                {{"general.error_max_value" | translate:{value: 100} }}
+              </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="form-group">
+          <mat-form-field>
+            <input matInput placeholder="{{'settings.smart_charging.sap_smart_charging.default_target_state_of_charge' | translate}}"
+              type="number" [formControl]="defaultTargetStateOfCharge">
+              <mat-error *ngIf="defaultTargetStateOfCharge.errors?.min">
+                {{"general.error_min_value" | translate:{value: 1} }}
+              </mat-error>
+              <mat-error *ngIf="defaultTargetStateOfCharge.errors?.max">
+                {{"general.error_max_value" | translate:{value: 100} }}
+              </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

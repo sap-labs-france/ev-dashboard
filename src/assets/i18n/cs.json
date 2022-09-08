@@ -1825,7 +1825,11 @@
         "additional_settings": "Doplňkové nastavení",
         "sticky_limitation": "Upravit limit podle aktuální spotřeby",
         "limit_buffer_dc": "Vyrovnávací paměť pro limit stejnosměrného proudu (DC)(%)",
-        "limit_buffer_ac": "Vyrovnávací paměť pro limit střídavého proudu (AC)(%)"
+        "limit_buffer_ac": "Vyrovnávací paměť pro limit střídavého proudu (AC)(%)",
+        "use_prioritization_parameters": "Use prioritization parameters for smart charging",
+        "default_session_time": "Default session time (hours)",
+        "default_initial_state_of_charge": "Default initial state of charge (%)",
+        "default_target_state_of_charge": "Default minimum target state of charge (%)"
       },
       "description": "E-mobility může využívat algoritmus Smart nabíjení při optimalizaci distribuce energie a rozpisů nabíjení založených na složitých omezeních",
       "setting_do_not_exist": "Konfigurace nebyla nalezena",

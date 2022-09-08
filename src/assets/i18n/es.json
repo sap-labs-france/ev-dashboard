@@ -1823,7 +1823,11 @@
         "additional_settings":"Additional settings:",
         "sticky_limitation": "Adjust limit according to current consumption",
         "limit_buffer_dc": "Buffer for Limit DC (%)",
-        "limit_buffer_ac": "Buffer for Limit AC (%)"
+        "limit_buffer_ac": "Buffer for Limit AC (%)",
+        "use_prioritization_parameters": "Use prioritization parameters for smart charging",
+        "default_session_time": "Default session time (hours)",
+        "default_initial_state_of_charge": "Default initial state of charge (%)",
+        "default_target_state_of_charge": "Default minimum target state of charge (%)"
       },
       "description": "E-Mobility puede utilizar un algoritmo de carga inteligente para optimizar la potencia distribuida en los cargadores en función de restricciones complejas.",
       "setting_do_not_exist": "La configuración no existe",

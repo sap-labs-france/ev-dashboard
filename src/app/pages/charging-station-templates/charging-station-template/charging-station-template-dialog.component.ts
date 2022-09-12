@@ -22,7 +22,11 @@ export class ChargingStationTemplateDialogComponent implements AfterViewInit {
     @Inject(MAT_DIALOG_DATA) dialogParams: DialogParamsWithAuth<ChargingStationTemplate, ChargingStationTemplateAuthorizations>) {
     this.templateID = dialogParams.dialogData?.id;
     this.dialogMode = dialogParams.dialogMode;
-    this.dialogTitle = dialogParams.dialogData?.id ? dialogParams.dialogData.id : this.translateService.instant('templates.title');
+    if (dialogParams?.dialogData?.template.chargePointVendor && dialogParams?.dialogData?.template.extraFilters.chargePointModel) {
+      this.dialogTitle = dialogParams.dialogData.template.chargePointVendor + ' - ' + dialogParams.dialogData.template.extraFilters.chargePointModel
+    } else {
+      this.dialogTitle = this.translateService.instant('templates.title');
+    }
   }
 
   public ngAfterViewInit() {

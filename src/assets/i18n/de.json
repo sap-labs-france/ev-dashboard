@@ -189,7 +189,8 @@
       "template": "Vorlagen",
       "cars": "Fahrzeuge",
       "invoices": "Rechnungen",
-      "tags": "Badges"
+      "tags": "Badges",
+      "charging_station_templates": "Charging Station Templates"
     },
     "tooltips": {
       "push_cdr": "CDR senden",
@@ -1513,7 +1514,7 @@
     "save_error_billing": "Preisbildung muss für Rechnungslegung aktiv sein",
     "save_error_billing_platform": "Rechnungslegung muss aktiv sein, um die Rechnungslegungsplattform nutzen zu können.",
     "save_error_smart_charging": "Organisation muss für Smart-Charging aktiv sein",
-    "save_error_building": "Organisation muss aktiv sein, um Assets zu nutzen zu können",
+    "save_error_asset": "Organisation muss aktiv sein, um Assets zu nutzen zu können",
     "save_error_car_connector": "Fahrzeug Management muss aktiv sein, um Fahrzeug Verbindungen zu nutzen",
     "smart_charging_still_active_for_site_area": [
       "Smart-Charging ist für ausgewählte Standortbereiche noch immer aktiv.",
@@ -1572,7 +1573,7 @@
       "pricing": "Preisbildung",
       "billing": "Rechnungslegung",
       "analytics": "Analysen",
-      "smartCharging": "Smart-Charging",
+      "smart_charging": "Smart-Charging",
       "asset": "Asset",
       "car_connector": "Fahrzeug-Schnittstellen"
     },
@@ -2664,6 +2665,32 @@
         "action": "Löschen Sie den Ladevorgang oder erstellen Sie eine Rechnung dafür"
       }
     }
+  },
+  "templates": {
+    "title": "Charging Station Template",
+    "tabs": {
+      "charging_station_templates": "Charging Station Templates"
+    },
+    "invalid_json": "Invalid JSON format",
+    "template_not_found": "Template has not been found",
+    "create_success": "The template '{{template}}' has been created successfully",
+    "create_error": "Error occurred while creating the template, check the logs",
+    "update_success": "The template '{{template}}' has been updated successfully",
+    "update_error": "Error occurred while updating the template, check the logs",
+    "delete_confirm": "Do you really want to delete the template '{{template}}'?",
+    "delete_success": "The template '{{template}}' has been deleted successfully",
+    "delete_error": "Error occurred while deleting the template, check the logs",
+    "delete_title": "Delete Template",
+    "dialog": {
+      "export": {
+        "title": "Export charging station templates",
+        "confirm": "Do you really want to export all the charging station templates matching the filters?",
+        "error": "Error occurred while trying to export the charging station templates, check the logs"
+      }
+    },
+    "chargePointVendor": "chargePointVendor",
+    "chargePointModel": "chargePointModel",
+    "chargeBoxSerialNumber": "chargeBoxSerialNumber"
   },
   "geomap": {
     "dialog_geolocation_title": "Geolokation der Ladestation '{{chargeBoxID}}' setzen",

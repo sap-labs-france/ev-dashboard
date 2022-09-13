@@ -70,7 +70,7 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
       this.context.entityType = this.defaultContext.entityType = entityType;
     }
     this.context.entityName = this.defaultContext.entityName = entityName;
-    //Force a table refresh
+    // Rebuild the table as the number of columns changed
     this.initDataSource(true);
   }
 

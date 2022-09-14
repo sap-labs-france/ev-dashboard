@@ -598,6 +598,7 @@ export enum RESTServerRoute {
 
   REST_TENANTS = 'tenants',
   REST_TENANT = 'tenants/:id',
+  REST_TENANT_DATA = 'tenants/:id/data',
   REST_TENANT_LOGO = 'tenants/logo',
 
   REST_COMPANIES = 'companies',

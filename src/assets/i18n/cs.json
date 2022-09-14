@@ -1918,7 +1918,8 @@
   "technical_settings": {
     "tabs": {
       "crypto": "Krypto",
-      "users": "Uživatel"
+      "users": "Uživatel",
+      "organization": "Organizace"
     },
     "crypto": {
       "crypto_key": {

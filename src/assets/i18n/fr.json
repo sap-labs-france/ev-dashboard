@@ -55,8 +55,8 @@
     "remove": "Retirer",
     "location": "Location",
     "address": "Adresse",
-    "address1": "Adresse 1",
-    "address2": "Adresse 2",
+    "address1": "Adresse",
+    "address2": "Complément d'adresse",
     "postal_code": "Code Postal",
     "city": "Ville",
     "region": "Région",
@@ -182,8 +182,8 @@
       "pricing": "Tarification",
       "components": "Composants",
       "settings": "Configuration",
-      "integration_settings": "Paramètres Intégrations",
-      "technical_settings": "Paramètres Techniques",
+      "integration_settings": "Paramètres d'intégration",
+      "technical_settings": "Paramètres techniques",
       "assets": "Ressources",
       "organization": "Organisation",
       "cars": "Voitures",
@@ -1917,7 +1917,8 @@
   "technical_settings": {
     "tabs": {
       "crypto": "Chiffrement",
-      "users": "Utilisateurs"
+      "users": "Utilisateurs",
+      "organization": "Organisation"
     },
     "crypto": {
       "crypto_key": {

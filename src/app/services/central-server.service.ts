@@ -1435,6 +1435,19 @@ export class CentralServerService {
       );
   }
 
+  public updateTenantData(tenant: Tenant): Observable<ActionResponse> {
+    // Verify init
+    this.checkInit();
+    // Execute the REST service
+    return this.httpClient.put<ActionResponse>(this.buildRestEndpointUrl(RESTServerRoute.REST_TENANT_DATA, { id: tenant.id }), tenant,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
   public deleteTenant(id: string): Observable<ActionResponse> {
     this.checkInit();
     // Execute the REST service

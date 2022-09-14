@@ -1917,7 +1917,8 @@
   "technical_settings": {
     "tabs": {
       "crypto": "Crypto",
-      "users": "Users"
+      "users": "Users",
+      "organization": "Organização"
     },
     "crypto": {
       "crypto_key": {

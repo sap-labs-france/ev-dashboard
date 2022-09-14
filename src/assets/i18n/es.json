@@ -189,7 +189,8 @@
       "template": "Plantillas",
       "cars": "Vehículos",
       "invoices": "Facturas",
-      "tags": "Badges"
+      "tags": "Badges",
+      "charging_station_templates": "Charging Station Templates"
     },
     "tooltips": {
       "push_cdr": "Cargar CDR",
@@ -1589,7 +1590,8 @@
       "description": [
         "E-Mobility proporciona un servicio certificado para conectarse a una plataforma externa de E-Roaming.",
         "Esta función expone en tiempo real la infraestructura y disponibilidad de las estaciones de carga a través del protocolo estándar OCPI (Interfaz de punto de carga abierta).",
-        "E-Mobility está utilizando actualmente la plataforma de interoperabilidad de Gireve (IOP)."]
+        "E-Mobility está utilizando actualmente la plataforma de interoperabilidad de Gireve (IOP)."
+      ]
     },
     "oicp": {
       "hubject": {
@@ -2664,6 +2666,32 @@
         "action": "Eliminar sesión o crear una factura."
       }
     }
+  },
+  "templates": {
+    "title": "Charging Station Template",
+    "tabs": {
+      "charging_station_templates": "Charging Station Templates"
+    },
+    "invalid_json": "Invalid JSON format",
+    "template_not_found": "Template has not been found",
+    "create_success": "The template '{{template}}' has been created successfully",
+    "create_error": "Error occurred while creating the template, check the logs",
+    "update_success": "The template '{{template}}' has been updated successfully",
+    "update_error": "Error occurred while updating the template, check the logs",
+    "delete_confirm": "Do you really want to delete the template '{{template}}'?",
+    "delete_success": "The template '{{template}}' has been deleted successfully",
+    "delete_error": "Error occurred while deleting the template, check the logs",
+    "delete_title": "Delete Template",
+    "dialog": {
+      "export": {
+        "title": "Export charging station templates",
+        "confirm": "Do you really want to export all the charging station templates matching the filters?",
+        "error": "Error occurred while trying to export the charging station templates, check the logs"
+      }
+    },
+    "chargePointVendor": "chargePointVendor",
+    "chargePointModel": "chargePointModel",
+    "chargeBoxSerialNumber": "chargeBoxSerialNumber"
   },
   "geomap": {
     "dialog_geolocation_title": "Establecer la geolocalización de '{{componentName}}' '{{itemComponentName}}'",

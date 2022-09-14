@@ -189,7 +189,8 @@
       "cars": "Voitures",
       "template": "Modeles",
       "invoices": "Factures",
-      "tags": "badges"
+      "tags": "badges",
+      "charging_station_templates": "Charging Station Templates"
     },
     "tooltips": {
       "push_cdr": "Push CDR",
@@ -1612,8 +1613,7 @@
       "description": [
         "E-Mobility fournit un service de remboursement pour des systèmes externes.",
         "Cette fonctionnalité permet à l'utilisateur de se faire rembourser des dépenses d'électricité liées à ses transactions.",
-        "E-Mobility utilise actuellement SAP Concur.",
-        "Plus d'informations techniques disponibilite sur "
+        "E-Mobility utilise actuellement SAP Concur. Plus d'informations techniques disponibilite sur "
       ],
       "not_found": "La configuration Remboursement n'est pas disponible",
       "create_success": "La configuration Remboursement a été créé avec succès",
@@ -2666,6 +2666,32 @@
         "action": "Supprimez cette transaction ou créer une facture a partir ce celle-ci."
       }
     }
+  },
+  "templates": {
+    "title": "Charging Station Template",
+    "tabs": {
+      "charging_station_templates": "Charging Station Templates"
+    },
+    "invalid_json": "Invalid JSON format",
+    "template_not_found": "Template has not been found",
+    "create_success": "The template '{{template}}' has been created successfully",
+    "create_error": "Error occurred while creating the template, check the logs",
+    "update_success": "The template '{{template}}' has been updated successfully",
+    "update_error": "Error occurred while updating the template, check the logs",
+    "delete_confirm": "Do you really want to delete the template '{{template}}'?",
+    "delete_success": "The template '{{template}}' has been deleted successfully",
+    "delete_error": "Error occurred while deleting the template, check the logs",
+    "delete_title": "Delete Template",
+    "dialog": {
+      "export": {
+        "title": "Export charging station templates",
+        "confirm": "Do you really want to export all the charging station templates matching the filters?",
+        "error": "Error occurred while trying to export the charging station templates, check the logs"
+      }
+    },
+    "chargePointVendor": "chargePointVendor",
+    "chargePointModel": "chargePointModel",
+    "chargeBoxSerialNumber": "chargeBoxSerialNumber"
   },
   "geomap": {
     "dialog_geolocation_title": "Définir les coordonnées de '{{itemComponentName}}'",

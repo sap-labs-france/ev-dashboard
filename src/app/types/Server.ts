@@ -538,6 +538,9 @@ export enum RESTServerRoute {
   REST_CHARGING_PROFILES = 'charging-profiles',
   REST_CHARGING_PROFILE = 'charging-profiles/:id',
 
+  REST_CHARGING_STATION_TEMPLATES = 'charging-station-templates',
+  REST_CHARGING_STATION_TEMPLATE = 'charging-station-templates/:id',
+
   REST_TRANSACTIONS = 'transactions',
   REST_TRANSACTIONS_IN_ERROR = 'transactions/status/in-error',
   REST_TRANSACTIONS_ACTIVE = 'transactions/status/active',
@@ -595,6 +598,7 @@ export enum RESTServerRoute {
 
   REST_TENANTS = 'tenants',
   REST_TENANT = 'tenants/:id',
+  REST_TENANT_DATA = 'tenants/:id/data',
   REST_TENANT_LOGO = 'tenants/logo',
 
   REST_COMPANIES = 'companies',
@@ -710,6 +714,8 @@ export enum RESTServerRoute {
   REST_BILLING_TRANSFERS = 'billing/transfers',
   REST_BILLING_TRANSFER_FINALIZE = 'billing/transfers/:id/finalize',
   REST_BILLING_TRANSFER_SEND = 'billing/transfers/:id/send',
+  REST_BILLING_DOWNLOAD_TRANSFER = 'tranfers/:transferID/download',
+
 
   // PRICING URLs for Non-CRUD operations
   REST_PRICING_MODEL_RESOLVE = 'pricing-model/resolve',

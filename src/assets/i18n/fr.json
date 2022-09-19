@@ -55,8 +55,8 @@
     "remove": "Retirer",
     "location": "Location",
     "address": "Adresse",
-    "address1": "Adresse 1",
-    "address2": "Adresse 2",
+    "address1": "Adresse",
+    "address2": "Complément d'adresse",
     "postal_code": "Code Postal",
     "city": "Ville",
     "region": "Région",
@@ -182,14 +182,15 @@
       "pricing": "Tarification",
       "components": "Composants",
       "settings": "Configuration",
-      "integration_settings": "Paramètres Intégrations",
-      "technical_settings": "Paramètres Techniques",
+      "integration_settings": "Paramètres d'intégration",
+      "technical_settings": "Paramètres techniques",
       "assets": "Ressources",
       "organization": "Organisation",
       "cars": "Voitures",
       "template": "Modeles",
       "invoices": "Factures",
-      "tags": "badges"
+      "tags": "badges",
+      "charging_station_templates": "Charging Station Templates"
     },
     "tooltips": {
       "push_cdr": "Push CDR",
@@ -1412,6 +1413,7 @@
       "list": "Virements"
     },
     "tooltips": {
+      "download": "Télécharger la facture de frais de commission",
       "finalize": "Finaliser le virement",
       "send": "Transmettre le virement"
     },
@@ -1431,7 +1433,8 @@
     "transferExternalID": "ID externe",
     "accountOwner": "Responsable business",
     "cannot_finalize_transfer": "L'opération a échoué - Le virement n'a pas pu être finalisé",
-    "cannot_send_transfer": "L'opération a échoué - Le virement n'a pas pu être transmis au système de facturation"
+    "cannot_send_transfer": "L'opération a échoué - Le virement n'a pas pu être transmis au système de facturation",
+    "cannot_download_commission_incoice": "Impossible de télécharger la facture de frais de commission"
   },
   "tags": {
     "id": "RFID",
@@ -1553,7 +1556,7 @@
       "onboarding_process_failed": "L'activation de votre compte a échoué - contactez le support pour obtenir de l'aide !"
     },
     "platform_fee": {
-      "platform_fee_group_title": "Commission Appliquée par la plateforme",
+      "platform_fee_group_title": "Commission appliquée par la plateforme",
       "platform_flat_fee": "Frais fixe par session",
       "platform_flat_fee_invalid": "Les frais fixes doivent étre supérieur à zéro",
       "platform_fee_percentage": "Pourcentage de frais de commission",
@@ -1561,7 +1564,7 @@
     }
   },
   "settings": {
-    "settings_not_saved_title": "Changements non Sauvegardé",
+    "settings_not_saved_title": "Changements non sauvegardé",
     "settings_not_saved": "Vous devez d'abord enregistrer vos changements",
     "tabs": {
       "ocpi": "Itinérance",
@@ -1610,8 +1613,7 @@
       "description": [
         "E-Mobility fournit un service de remboursement pour des systèmes externes.",
         "Cette fonctionnalité permet à l'utilisateur de se faire rembourser des dépenses d'électricité liées à ses transactions.",
-        "E-Mobility utilise actuellement SAP Concur.",
-        "Plus d'informations techniques disponibilite sur "
+        "E-Mobility utilise actuellement SAP Concur. Plus d'informations techniques disponibilite sur "
       ],
       "not_found": "La configuration Remboursement n'est pas disponible",
       "create_success": "La configuration Remboursement a été créé avec succès",
@@ -1790,7 +1792,8 @@
         "billing_method": "Méthode de facturation",
         "immediate_billing": "Facturation immédiate",
         "periodic_billing": "Facturation périodique",
-        "tax": "Taxe",
+        "tax": "Taux de taxe",
+        "platform_fee_tax": "Taux de taxe sur frais de commission",
         "no_tax": "Aucune Taxe"
       }
     },
@@ -1914,7 +1917,8 @@
   "technical_settings": {
     "tabs": {
       "crypto": "Chiffrement",
-      "users": "Utilisateurs"
+      "users": "Utilisateurs",
+      "organization": "Organisation"
     },
     "crypto": {
       "crypto_key": {
@@ -2573,10 +2577,12 @@
         "pricing-detail-description": "Description",
         "pricing-detail-entity-type": "Entité",
         "pricing-detail-entity-id": "ID de l'entité",
+        "pricing-detail-entity-name": "Entity Name",
         "pricing-detail-unit-price": "Prix unitaire",
         "pricing-detail-consumption": "Consommation",
         "pricing-detail-duration": "Durée",
-        "pricing-detail-amount": "Montant"
+        "pricing-detail-amount": "Montant",
+        "pricing-detail-view-all": "View all"
       }
     },
     "notification": {
@@ -2662,6 +2668,32 @@
         "action": "Supprimez cette transaction ou créer une facture a partir ce celle-ci."
       }
     }
+  },
+  "templates": {
+    "title": "Charging Station Template",
+    "tabs": {
+      "charging_station_templates": "Charging Station Templates"
+    },
+    "invalid_json": "Invalid JSON format",
+    "template_not_found": "Template has not been found",
+    "create_success": "The template '{{template}}' has been created successfully",
+    "create_error": "Error occurred while creating the template, check the logs",
+    "update_success": "The template '{{template}}' has been updated successfully",
+    "update_error": "Error occurred while updating the template, check the logs",
+    "delete_confirm": "Do you really want to delete the template '{{template}}'?",
+    "delete_success": "The template '{{template}}' has been deleted successfully",
+    "delete_error": "Error occurred while deleting the template, check the logs",
+    "delete_title": "Delete Template",
+    "dialog": {
+      "export": {
+        "title": "Export charging station templates",
+        "confirm": "Do you really want to export all the charging station templates matching the filters?",
+        "error": "Error occurred while trying to export the charging station templates, check the logs"
+      }
+    },
+    "chargePointVendor": "chargePointVendor",
+    "chargePointModel": "chargePointModel",
+    "chargeBoxSerialNumber": "chargeBoxSerialNumber"
   },
   "geomap": {
     "dialog_geolocation_title": "Définir les coordonnées de '{{itemComponentName}}'",

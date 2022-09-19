@@ -7,14 +7,15 @@ import { BehaviorSubject, EMPTY, Observable, TimeoutError, of, throwError } from
 import { catchError, switchMap } from 'rxjs/operators';
 
 import { Asset, AssetConsumption } from '../types/Asset';
-import { BillingAccount, BillingTax } from '../types/Billing';
+import { BillingAccount } from '../types/Billing';
 import { Car, CarCatalog, CarMaker, ImageObject } from '../types/Car';
 import { ChargingProfile, GetCompositeScheduleCommandResult } from '../types/ChargingProfile';
 import { ChargePoint, ChargingStation, OCPPAvailabilityType, OcppParameter } from '../types/ChargingStation';
+import { ChargingStationTemplate } from '../types/ChargingStationTemplate';
 import { Company } from '../types/Company';
 import CentralSystemServerConfiguration from '../types/configuration/CentralSystemServerConfiguration';
 import { IntegrationConnection, UserConnection } from '../types/Connection';
-import { ActionResponse, ActionsResponse, AssetDataResult, AssetInErrorDataResult, BillingAccountDataResult, BillingInvoiceDataResult, BillingOperationResult, BillingPaymentMethodDataResult, BillingTaxDataResult, BillingTransferDataResult, CarCatalogDataResult, CarDataResult, ChargingProfileDataResult, ChargingStationDataResult, ChargingStationInErrorDataResult, CheckAssetConnectionResponse, CheckBillingConnectionResponse, CompanyDataResult, DataResult, LogDataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OICPJobStatusesResponse, OICPPingResponse, Ordering, Paging, PricingDefinitionDataResult, RegistrationTokenDataResult, SiteAreaDataResult, SiteDataResult, TagDataResult, UserDataResult } from '../types/DataResult';
+import { ActionResponse, ActionsResponse, AssetDataResult, AssetInErrorDataResult, BillingAccountDataResult, BillingInvoiceDataResult, BillingOperationResult, BillingPaymentMethodDataResult, BillingTaxDataResult, BillingTransferDataResult, CarCatalogDataResult, CarDataResult, ChargingProfileDataResult, ChargingStationDataResult, ChargingStationInErrorDataResult, ChargingStationTemplateDataResult, CheckAssetConnectionResponse, CheckBillingConnectionResponse, CompanyDataResult, DataResult, LogDataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OICPJobStatusesResponse, OICPPingResponse, Ordering, Paging, PricingDefinitionDataResult, RegistrationTokenDataResult, SiteAreaDataResult, SiteDataResult, TagDataResult, UserDataResult } from '../types/DataResult';
 import { EndUserLicenseAgreement } from '../types/Eula';
 import { FilterParams, Image, KeyValue } from '../types/GlobalType';
 import { TransactionInError } from '../types/InError';
@@ -1434,6 +1435,19 @@ export class CentralServerService {
       );
   }
 
+  public updateTenantData(tenant: Tenant): Observable<ActionResponse> {
+    // Verify init
+    this.checkInit();
+    // Execute the REST service
+    return this.httpClient.put<ActionResponse>(this.buildRestEndpointUrl(RESTServerRoute.REST_TENANT_DATA, { id: tenant.id }), tenant,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
   public deleteTenant(id: string): Observable<ActionResponse> {
     this.checkInit();
     // Execute the REST service
@@ -1775,6 +1789,24 @@ export class CentralServerService {
     }
     const url = this.buildRestEndpointUrl(RESTServerRoute.REST_BILLING_DOWNLOAD_INVOICE, {
       invoiceID
+    });
+    return this.httpClient.get(url,
+      {
+        headers: this.buildHttpHeaders(),
+        responseType: 'blob',
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public downloadCommissionInvoice(transferID: string): Observable<Blob> {
+    this.checkInit();
+    if (!transferID) {
+      return EMPTY;
+    }
+    const url = this.buildRestEndpointUrl(RESTServerRoute.REST_BILLING_DOWNLOAD_TRANSFER, {
+      transferID
     });
     return this.httpClient.get(url,
       {
@@ -3338,6 +3370,12 @@ export class CentralServerService {
     this.checkInit();
     // Build Paging
     this.getPaging(paging, params);
+    if (context.entityID) {
+      params['EntityID'] = context.entityID;
+      params['EntityType'] = context.entityType;
+    } else {
+      params['WithEntityInformation'] = 'true';
+    }
     // Build Ordering
     this.getSorting(ordering, params);
     const url = this.buildRestEndpointUrl(RESTServerRoute.REST_PRICING_DEFINITIONS);
@@ -3347,8 +3385,6 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
         params: {
           ...params,
-          EntityID: context.entityID,
-          EntityType: context.entityType,
         }
       })
       .pipe(
@@ -3379,6 +3415,88 @@ export class CentralServerService {
     const url = this.buildRestEndpointUrl(RESTServerRoute.REST_PRICING_DEFINITION, { id });
     // Execute the REST service
     return this.httpClient.delete<ActionResponse>(url, params)
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public getChargingStationTemplates(params: FilterParams,
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<ChargingStationTemplateDataResult> {
+    // Verify init
+    this.checkInit();
+    // Build Paging
+    this.getPaging(paging, params);
+    // Build Ordering
+    this.getSorting(ordering, params);
+    const url = this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATION_TEMPLATES);
+    // Execute the REST service
+    return this.httpClient.get<ChargingStationTemplateDataResult>(url,
+      {
+        headers: this.buildHttpHeaders(),
+        params
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public getChargingStationTemplate(id: string): Observable<ChargingStationTemplate> {
+    // Verify init
+    this.checkInit();
+    // Execute the REST service
+    if (!id) {
+      return EMPTY;
+    }
+    const url = this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATION_TEMPLATE, { id });
+    return this.httpClient.get<ChargingStationTemplate>(url,
+      {
+        headers: this.buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public createChargingStationTemplate(template: ChargingStationTemplate): Observable<ActionResponse> {
+    // Verify init
+    this.checkInit();
+    const url = this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATION_TEMPLATES);
+    // Execute the REST service
+    return this.httpClient.post<ActionResponse>(url, template,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public updateChargingStationTemplate(template: ChargingStationTemplate): Observable<ActionResponse> {
+    // Verify init
+    this.checkInit();
+    const url = this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATION_TEMPLATE, { id: template.id });
+    // Execute
+    return this.httpClient.put<ActionResponse>(url, template,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public deleteChargingStationTemplate(id: string): Observable<ChargingStationTemplate> {
+    // Verify init
+    this.checkInit();
+    // Execute the REST service
+    if (!id) {
+      return EMPTY;
+    }
+    const url = this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATION_TEMPLATE, { id });
+    return this.httpClient.delete<ChargingStationTemplate>(url,
+      {
+        headers: this.buildHttpHeaders()
+      })
       .pipe(
         catchError(this.handleHttpError),
       );

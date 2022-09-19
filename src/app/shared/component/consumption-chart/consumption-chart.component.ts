@@ -19,6 +19,7 @@ import { AppDecimalPipe } from '../../formatters/app-decimal.pipe';
   templateUrl: 'consumption-chart.component.html',
 })
 export class ConsumptionChartComponent implements AfterViewInit {
+  @Input() public inDialog!: boolean;
   @Input() public transactionId!: number;
   @Input() public transaction!: Transaction;
   @Input() public ratio!: number;

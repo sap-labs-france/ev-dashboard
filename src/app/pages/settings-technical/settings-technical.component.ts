@@ -12,6 +12,6 @@ export class SettingsTechnicalComponent extends AbstractTabComponent {
     activatedRoute: ActivatedRoute,
     windowService: WindowService,
   ) {
-    super(activatedRoute, windowService, ['crypto', 'users']);
+    super(activatedRoute, windowService, ['crypto', 'users', 'organization']);
   }
 }

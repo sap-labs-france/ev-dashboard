@@ -6,7 +6,7 @@
     <h3 class="card-title">{{'settings.pricing.title' | translate}}</h3>
   </div>
   <div class="card-body">
-    <app-table [dataSource]="pricingsTableDataSource"></app-table>
+    <app-table [dataSource]="pricingTableDataSource"></app-table>
   </div>
 </div>
 <div class="main-content vw-90 vh-90 pricing-definitions-dialog-size" *ngIf="inDialog">
@@ -18,7 +18,7 @@
         </ng-template>
         <div class="card-body mat-tab-dialog-body-content">
           <div class="tab-content">
-            <app-table [dataSource]="pricingsTableDataSource"></app-table>
+            <app-table [dataSource]="pricingTableDataSource"></app-table>
           </div>
         </div>
       </mat-tab>

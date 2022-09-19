@@ -1,5 +1,7 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { ComponentService } from 'services/component.service';
+import { TenantComponents } from 'types/Tenant';
 import { Utils } from 'utils/Utils';
 
 import { CentralServerService } from '../../../../services/central-server.service';
@@ -23,14 +25,20 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
   public immediateBillingAllowed!: AbstractControl;
   public periodicBillingAllowed!: AbstractControl;
   public taxID!: AbstractControl;
+  public platformFeeTaxID!: AbstractControl;
   public taxes: BillingTax[] = [];
   public transactionBillingActivated: boolean;
+  public isBillingPlatformActive: boolean;
 
-  public constructor(private centralServerService: CentralServerService) {
+  public constructor(
+    private centralServerService: CentralServerService,
+    private componentService: ComponentService
+  ) {
     this.centralServerService.getBillingTaxes().subscribe((taxes) => {
       this.taxes = taxes.result;
     });
     this.transactionBillingActivated = false;
+    this.isBillingPlatformActive = this.componentService.isActive(TenantComponents.BILLING_PLATFORM);
   }
 
   public ngOnInit() {
@@ -57,7 +65,10 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
       periodicBillingAllowed: new UntypedFormControl(false),
       taxID: new UntypedFormControl('',
         Validators.compose([
-          // Validators.required,
+        ]),
+      ),
+      platformFeeTaxID: new UntypedFormControl('',
+        Validators.compose([
         ]),
       )
     }, Validators.compose([
@@ -72,6 +83,7 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
     this.immediateBillingAllowed = this.billing.controls['immediateBillingAllowed'];
     this.periodicBillingAllowed = this.billing.controls['periodicBillingAllowed'];
     this.taxID = this.billing.controls['taxID'];
+    this.platformFeeTaxID = this.billing.controls['platformFeeTaxID'];
     // Set data
     this.updateFormData();
   }
@@ -125,6 +137,7 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
       this.immediateBillingAllowed.setValue(!!billingSetting.immediateBillingAllowed);
       this.periodicBillingAllowed.setValue(!!billingSetting.periodicBillingAllowed);
       this.taxID.setValue(billingSetting.taxID || '');
+      this.platformFeeTaxID.setValue(billingSetting.platformFeeTaxID || '');
     }
   }
 }

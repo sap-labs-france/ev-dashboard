@@ -31,7 +31,7 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Pricing - new filtering option <View all>`,
-              `Billing Platform [beta] - New module to send fund to Stripe connected accounts`,
+              `Billing Platform [beta] - New module to send funds to Stripe connected accounts`,
               `User interface for maintaining Organization data`,
               `Administration tool to maintain charging station templates`,
             ],

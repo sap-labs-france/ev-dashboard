@@ -155,7 +155,7 @@ export class TransfersTableDataSource extends TableDataSource<BillingTransfer> {
       },
       {
         id: 'invoice.totalAmount',
-        name: 'Fees (incl. taxes)',
+        name: 'transfers.platform_fee_tax_inclusive',
         formatter: (amount: number, transfer: BillingTransfer) => this.appCurrencyPipe.transform(amount, transfer.currency),
         headerClass: 'col-10p',
         class: 'col-10p',

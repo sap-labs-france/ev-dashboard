@@ -5,7 +5,7 @@
     "captcha_text_3": " et l'application des ",
     "captcha_text_4": "Conditions d’utilisation",
     "captcha_text_5": "",
-    "not_authorized": "Vous n'êtes pas autorisé a exécuter cette action",
+    "not_authorized": "Vous n'êtes pas autorisé à exécuter cette action",
     "created_on": "Créé le",
     "created_by": "Créé par",
     "changed_on": "Modifié le",
@@ -22,7 +22,7 @@
     "second": "s",
     "more_records": "Plus",
     "click_here": "cliquez ici",
-    "selected_records": "Selectionnés",
+    "selected_records": "Sélectionnés",
     "nbr_of_records": "Enregistrements",
     "connectors": "Connexions",
     "notifications": "Notifications",
@@ -186,7 +186,7 @@
       "technical_settings": "Paramètres techniques",
       "assets": "Ressources",
       "organization": "Organisation",
-      "cars": "Voitures",
+      "cars": "Véhicules",
       "template": "Modèles",
       "invoices": "Factures",
       "tags": "Badges",
@@ -326,7 +326,7 @@
     "create_success": "L'entreprise '{{companyName}}' a été créée avec succès",
     "create_error": "Une erreur est survenue lors de la création de l'entreprise, vérifiez les logs",
     "logo_size_error": "La taille du logo est trop importante, la limite est de '{{maxPictureKb}}' Ko",
-    "select_companies": "Selection d'une entreprise"
+    "select_companies": "Sélection d'une entreprise"
   },
   "assets": {
     "no_assets": "Aucune ressource n'a été trouvée",
@@ -368,7 +368,7 @@
     "refresh_error": "Une erreur est survenue lors de la récupération de la consommation ou production de la ressource, vérifiez les logs",
     "consumption_error": "Une erreur est survenue lors de la récupération de la consommation",
     "logo_size_error": "La taille de l'image est trop importante, la limite est de '{{maxPictureKb}}' Ko",
-    "select_assets": "Selection d'une ressource",
+    "select_assets": "Sélection d'une ressource",
     "consumption_date": "Date",
     "dialog_tabs": {
       "connection": "Connexion"
@@ -391,7 +391,7 @@
     "user_list_source_title": "Disponibles",
     "user_list_target_title": "Utilisés",
     "no_sites": "Aucun site n'a été trouvé",
-    "select_sites": "Selection d'un site",
+    "select_sites": "Sélection d'un site",
     "site": "Site",
     "assigned_users_to_site": "Utilisateurs assignés à '{{siteName}}'",
     "unassigned": "Non assigné",
@@ -525,7 +525,7 @@
     "remove_assets_title": "Retrait de ressource(s)",
     "remove_assets_confirm": "Voulez-vous vraiment retirer le(les) ressource(s) de cette zone ?",
     "remove_assets_success": "Le(les) ressources(s) ont été retirée(s) avec succès",
-    "remove_assets_error": "Une erreur est survenue lors du retrait des assets, vérifiez les logs",
+    "remove_assets_error": "Une erreur est survenue lors du retrait des ressources, vérifiez les logs",
     "update_assets_success": "Le(les) ressource(s) ont été ajouté(s) avec succès",
     "changed_by_other_user": "La zone '{{siteAreaName}}' a été changée par un autre utilisateur et va être rechargée",
     "update_success": "Le zone '{{siteAreaName}}' a été mise à jour avec succès",
@@ -754,7 +754,7 @@
     "master_slave": "Maître / Esclave",
     "public_url": "URL publique",
     "current_ip": "Route IP actuelle",
-    "select_chargers": "Selection d'une borne",
+    "select_chargers": "Sélection d'une borne",
     "serial_number": "No de série",
     "last_reboot": "Dernier redémarrage",
     "capabilities": "Capacités",
@@ -1206,7 +1206,7 @@
     "search_last_week": "La semaine dernière",
     "search_this_month": "Ce mois",
     "search_last_month": "Le mois Dernier",
-    "select_actions": "Selection actions",
+    "select_actions": "Sélection actions",
     "redirect": "Voir les logs",
     "no_logs": "Aucun log ne correspond aux filtres",
     "dialog": {
@@ -1334,7 +1334,7 @@
     "create_success": "L'utilisateur '{{userFullName}}' a été créé avec succès",
     "create_error": "Une erreur est survenue lors de la création de l'utilisateur, vérifiez les logs",
     "no_users": "Aucun utilisateur n'a été trouvé",
-    "select_users": "Selection des utilisateurs",
+    "select_users": "Sélection des utilisateurs",
     "update_set_site_admin_success": "L'utilisateur est désormais administrateur du site '{{siteName}}'",
     "update_remove_site_admin_success": "L'utilisateur '{{userName}}' n'est désormais plus administrateur du site '{{siteName}}' ",
     "update_site_admin_role_error": "Une erreur est survenue lors de la mise à jour des droits d'accès de l'utilisateur au site '{{siteName}}', vérifiez les logs",
@@ -1467,7 +1467,7 @@
     "update_error": "Une erreur est survenue lors de la mise à jour du badge",
     "tag_error": "Une erreur est survenue lors de la récupération du badge",
     "tag_not_found": "Le badge n'a pas été trouvé",
-    "select_tags": "Selection de badges",
+    "select_tags": "Sélection de badges",
     "tag_id_already_used": "Le badge '{{tagID}}' existe déjà",
     "tag_visual_id_already_used": "Le numéro de badge '{{visualID}}' existe déjà",
     "tag_visual_id_does_not_match_tag": "Le numéro '{{visualID}}' ne correspond a aucun badge",
@@ -1525,7 +1525,7 @@
   "accounts": {
     "title": "Comptes connectés",
     "list": {
-      "select_account": "Selection d'un compte connecté",
+      "select_account": "Sélection d'un compte connecté",
       "add_account": "Ajoût d'un compte connecté",
       "business_owner": "Responsable de l'entreprise",
       "company_name": "Nom de l'entreprise",
@@ -1896,7 +1896,7 @@
         "revoke_success": "Your connection with Mercedes has been successfully revoked",
         "revoke_error": "Error occurred while revoking your connection with Mercedes, check the logs"
       },
-      "description": "E-Mobility peut récupérer en temps réel les données de votre voiture comme le niveau de votre batterie et utiliser cette information avec la charge intelligente pour optimiser vos sessions de recharges.",
+      "description": "E-Mobility peut récupérer en temps réel les données de votre véhicule comme le niveau de votre batterie et utiliser cette information avec la charge intelligente pour optimiser vos sessions de recharges.",
       "setting_do_not_exist": "La configuration du connecteur n'existe pas",
       "setting_not_found": "La configuration du connecteur n'a pas été trouvée",
       "create_success": "La configuration du connecteur a été créée avec succès",
@@ -1909,7 +1909,7 @@
     "car": {
       "synchronize_car_catalogs": "Synchronisation des véhicules",
       "synchronize_car_catalogs_dialog_title": "Synchronisation des Véhicules",
-      "synchronize_car_catalogs_dialog_confirm": "Voulez-vous vraiment lancer la synchronisation des véhicules électriques ?",
+      "synchronize_car_catalogs_dialog_confirm": "Voulez-vous vraiment lancer la synchronisation des véhicules ?",
       "assign_user_to_car_dialog_title": "Ajouter un utilisateur au véhicule",
       "assign_user_to_car_dialog_confirm": "Ce véhicule exite déjà, voulez-vous le réutiliser ?"
     }
@@ -2275,7 +2275,7 @@
     "synchronize_car_catalogs_error": "La synchronisation des véhicules a rencontré une erreur, vérifiez les logs",
     "synchronize_car_catalogs_ongoing": "La synchronisation des véhicules est déjà en cours",
     "synchronize_car_catalogs_up_to_date": "Les véhicules sont déjà tous à jour",
-    "select_car_maker": "Selection Constructeur Véhicules",
+    "select_car_maker": "Sélection du constructeur ",
     "car_makers": "Constructeurs",
     "create_success": "Le véhicule '{{carName}}' a été créé avec succès",
     "update_success": "Le véhicule '{{carName}}' modifié avec succès",
@@ -2284,9 +2284,9 @@
     "assign_car_catalog": "Assigner un véhicule",
     "create_error": "Une erreur est survenue lors de la création du véhicule, vérifiez les logs",
     "update_error": "Une erreur est survenue lors de la modification du véhicule, vérifiez les logs",
-    "car_exist": "Cette voiture existe déjà",
+    "car_exist": "Ce véhicule existe déjà",
     "user_not_owner": "Seul le propriétaire peut mettre à jour ce véhicule (défaut peut être changé)",
-    "car_exist_different_car_catalog": "Cette voiture existe déjà avec un modèle different",
+    "car_exist_different_car_catalog": "Ce véhicule existe déjà avec un modèle different",
     "user_already_assigned": "Vous êtes déjà assigné a ce véhicule",
     "company_car": "Véhicule d'entreprise",
     "invalid_vin": "VIN invalide",
@@ -2315,7 +2315,7 @@
     "delete_title": "Suppression de véhicule",
     "delete_confirm": "Voulez-vous vraiment supprimer le véhicule '{{carName}}' ?",
     "users": "Utilisateurs",
-    "select_car": "Selection d'un véhicule",
+    "select_car": "Sélection d'un véhicule",
     "car_connector_name": "Name of the connexion",
     "car_connector_meter_id": "Meter ID",
     "unit": {
@@ -2333,8 +2333,8 @@
     }
   },
   "car": {
-    "title": "Voiture",
-    "description": "Gérer les voitures des utilisateurs",
+    "title": "Véhicule",
+    "description": "Gérer les véhicules des utilisateurs",
     "tabs": {
       "car_catalogs": "Catalogue des véhicules",
       "cars": "Gestion des véhicules"
@@ -2480,7 +2480,7 @@
     "no_history": "Pas d'historique pendant cette période",
     "refundDate": "Transférée le",
     "reportId": "ID du rapport",
-    "select_report": "Selection du rapport",
+    "select_report": "Sélection du rapport",
     "create_invoice_success": "Facture créée avec succès pour cette session",
     "create_invoice_error": "Une erreur est survenue lors de la création de la facture, vérifiez les logs",
     "redirect": "Naviguer vers les sessions",
@@ -2697,7 +2697,7 @@
   },
   "geomap": {
     "dialog_geolocation_title": "Définir les coordonnées de '{{itemComponentName}}'",
-    "select_geolocation": "Selectionner la Géo",
+    "select_geolocation": "Sélectionner la Géo",
     "search": "Rechercher une place",
     "max_zoom": "Zoom Max",
     "min_zoom": "Zoom Min"

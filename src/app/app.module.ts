@@ -126,7 +126,7 @@ export class MaterialModule {
 }
 
 // Load translations from "/assets/i18n/[lang].json" ([lang] is the lang
-export const HttpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(http);
+export const HttpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(http, './assets/i18n/', '.json?version=2.7.1');
 
 export const getLocalStorage = () => (!Utils.isUndefined(window)) ? window.localStorage : null;
 

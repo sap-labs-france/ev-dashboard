@@ -1050,7 +1050,7 @@
     "stop_transaction_success": "La session de la borne '{{chargeBoxID}}' a été stoppée avec succès",
     "stop_transaction_error": "Une erreur est survenue lors de la tentative d'arrêt de la session, vérifiez les logs",
     "stop_transaction_user_not_allowed": "Vous n'êtes pas autorisé à arrêter cette session",
-    "stop_transaction_missing_active_tag": "La transaction ne peut être démarrée sur la borne '{{chargeBoxID}}', vous devez avoir au moins un badge actif.",
+    "stop_transaction_missing_active_tag": "La session ne peut être démarrée sur la borne '{{chargeBoxID}}', vous devez avoir au moins un badge actif.",
     "start_transaction_title": "Démarrer",
     "start_transaction_button": "Démarrer",
     "start_transaction_confirm": "Voulez-vous vraiment démarrer une nouvelle session pour l'ultilisateur '{{userName}}' sur la borne '{{chargeBoxID}}' ?",
@@ -1612,7 +1612,7 @@
     "refund": {
       "description": [
         "E-Mobility fournit un service de remboursement pour des systèmes externes.",
-        "Cette fonctionnalité permet à l'utilisateur de se faire rembourser des dépenses d'électricité liées à ses transactions.",
+        "Cette fonctionnalité permet à l'utilisateur de se faire rembourser des dépenses d'électricité liées à ses sessions de recharge.",
         "E-Mobility utilise actuellement SAP Concur. Plus d'informations techniques disponibles sur "
       ],
       "not_found": "La configuration Remboursement n'est pas disponible",
@@ -1620,11 +1620,11 @@
       "create_error": "Une erreur est survenue lors de la creation de la configuration Remboursement, vérifiez les logs",
       "update_success": "la configuration Remboursement a été mis à jour avec succès",
       "update_error": "Une erreur est survenue durant la mise à jour de la configuration Remboursement, vérifiez les logs",
-      "synchronize_dialog_refund_title": "Synchroniser Les Transactions Remboursées",
-      "synchronize_dialog_refund_confirm": "Voulez-vous vraiment synchronizer les transactions remboursées ?",
-      "synchronize_started": "La synchronization des transactions remboursées a été démarrée",
-      "synchronize_success": "Les transactions remboursées ont été mises à jour avec succès",
-      "synchronize_error": "Une erreur est survenue durant la synchronization des transactions remboursées, vérifiez les logs",
+      "synchronize_dialog_refund_title": "Synchroniser les sessions remboursées",
+      "synchronize_dialog_refund_confirm": "Voulez-vous vraiment synchronizer les sessions remboursées ?",
+      "synchronize_started": "La synchronization des sessions a été démarrée",
+      "synchronize_success": "Les sessions remboursées ont été mises à jour avec succès",
+      "synchronize_error": "Une erreur est survenue durant la synchronization des sessions, vérifiez les logs",
       "connection_error": "Une erreur est survenue durant la connexion avec le système de remboursement, vérifiez votre connexion dans votre profil",
       "concur": {
         "title": "SAP Concur",
@@ -2658,14 +2658,14 @@
         "action": "Verifiez la configuration de la borne. Assurez-vous que la date émise en début de session est cohérente."
       },
       "missing_user": {
-        "title": "Transaction sans utilisateur",
-        "description": "Aucun utilisateur n'est assigné à cette transaction.",
-        "action": "Supprimez cette transaction ou désactivez le contrôle d'accès de cette zone."
+        "title": "Session sans utilisateur",
+        "description": "Aucun utilisateur n'est assigné à cette session.",
+        "action": "Supprimez cette session ou désactivez le contrôle d'accès de cette zone."
       },
       "no_billing_data": {
-        "title": "Transaction sans données de facturation",
-        "description": "Aucune donnée de facturation n'est assignée à cette transaction.",
-        "action": "Supprimez cette transaction ou créer une facture à partir ce celle-ci."
+        "title": "Session sans données de facturation",
+        "description": "Aucune donnée de facturation n'est assignée à cette session.",
+        "action": "Supprimez cette session ou créer une facture à partir ce celle-ci."
       }
     }
   },

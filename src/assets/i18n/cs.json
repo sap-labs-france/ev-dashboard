@@ -1428,6 +1428,7 @@
     "amount": "Amount",
     "collected_funds": "Collected Funds",
     "platform_fee_amount": "Collected Fee",
+    "platform_fee_tax_inclusive": "Fees (incl. taxes)",
     "document_number": "Invoice",
     "transferAmount": "Transfer",
     "number_of_items": "Sessions",

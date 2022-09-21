@@ -428,7 +428,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
     if (chargingStation.canGenerateQrCode) {
       moreActions.addActionInMoreActions(this.generateQrCodeConnectorAction);
     }
-    if (chargingStation.canListTransactions) {
+    if (chargingStation.canListCompletedTransactions) {
       moreActions.addActionInMoreActions(this.navigateToTransactionsAction);
     }
     // Maps

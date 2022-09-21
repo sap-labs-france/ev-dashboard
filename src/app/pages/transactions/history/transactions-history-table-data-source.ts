@@ -137,6 +137,15 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         this.filterChanged(issuerTableFilter);
       }
     }
+    // Charging Station
+    const chargingStationID = this.windowService.getUrlParameterValue('ChargingStationID');
+    if (chargingStationID) {
+      const chargingStationTableFilter = this.tableFiltersDef.find(filter => filter.id === 'charger');
+      if (chargingStationTableFilter) {
+        chargingStationTableFilter.currentValue = [{ key: chargingStationID, value: chargingStationID }];
+        this.filterChanged(chargingStationTableFilter);
+      }
+    }
   }
 
   public loadUserFilterLabel(userID: string) {

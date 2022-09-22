@@ -129,6 +129,14 @@ export class ChargingStationTemplatesListTableDataSource extends TableDataSource
         headerClass: 'col-30p',
         class: 'col-30p',
       },
+      {
+        id: 'id',
+        name: 'general.id',
+        formatter: (id: string) => id ?? '-',
+        sortable: true,
+        headerClass: 'col-30p',
+        class: 'col-30p',
+      },
     ];
   }
 

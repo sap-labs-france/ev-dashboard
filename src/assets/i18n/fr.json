@@ -2692,9 +2692,9 @@
         "error": "Error occurred while trying to export the charging station templates, check the logs"
       }
     },
-    "chargePointVendor": "chargePointVendor",
-    "chargePointModel": "chargePointModel",
-    "chargeBoxSerialNumber": "chargeBoxSerialNumber"
+    "chargePointVendor": "Constructeur",
+    "chargePointModel": "Filtre sur le modèle",
+    "chargeBoxSerialNumber": "Filtre sur le numéro de série"
   },
   "geomap": {
     "dialog_geolocation_title": "Définir les coordonnées de '{{itemComponentName}}'",

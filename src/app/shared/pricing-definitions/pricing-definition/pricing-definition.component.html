@@ -1,7 +1,7 @@
 <div class="main-content vw-90 vh-90 pricing-dialog-size">
   <div class="card card-profile card-testimonial">
     <form [formGroup]="formGroup" class="form" autocomplete="off">
-      <mat-tab-group animationDuration="0ms" disableRipple="true" class="mat-tab-info" [class]="dialogRef ? 'mat-tabs-with-actions' : 'mat-tabs-with-close-action'">
+      <mat-tab-group animationDuration="0ms" disableRipple="true" class="mat-tab-info" [class]="dialogRef && !readOnly ? 'mat-tabs-with-actions' : 'mat-tabs-with-close-action'">
         <mat-tab>
           <ng-template mat-tab-label>
             <mat-icon>money</mat-icon>

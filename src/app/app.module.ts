@@ -127,7 +127,7 @@ export class MaterialModule {
 }
 
 // Load translations from "/assets/i18n/[lang].json" ([lang] is the lang
-export const httpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(http);
+export const httpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(http, './assets/i18n/', '.json?version=2.7.2');
 
 const initAppFactory = (centralServerService: CentralServerService, configService: ConfigService,
   messageService: MessageService, translateService: TranslateService): () => Observable<void> =>

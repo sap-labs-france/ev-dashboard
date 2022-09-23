@@ -16,6 +16,13 @@
               <mat-icon *ngIf="actionDef.icon">{{actionDef.icon}}</mat-icon>
               <span>{{actionDef.name | translate}}</span>
             </button>
+            <!-- Sliding button -->
+            <ng-container *ngIf="actionDef.type === 'slide'">
+              <mat-slide-toggle (change)="actionTriggered(actionDef)" [checked]="actionDef.currentValue" appTooltip
+                [title]="(actionDef.name ? '' : actionRightDef.tooltip | translate)" class="auto-refresh-slider">
+                {{actionDef.name | translate}}
+              </mat-slide-toggle>
+            </ng-container>
             <!-- Reset Filters -->
             <button mat-raised-button *ngIf="actionDef.type === 'button' && actionDef.id === 'reset_filters'"
               (click)="resetFilters()" [color]="(actionDef.color ? actionDef.color : '')" appTooltip

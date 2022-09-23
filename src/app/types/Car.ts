@@ -9,11 +9,9 @@ export interface CarCatalog extends TableData {
   vehicleMake: string;
   vehicleModelVersion?: string;
   batteryCapacityFull: number;
-  fastchargeChargeSpeed: number;
   performanceTopspeed: number;
   performanceAcceleration: number;
   rangeReal: number;
-  efficiencyReal: number;
   images: string[];
   image: string;
   drivetrainPropulsion: string;
@@ -25,20 +23,12 @@ export interface CarCatalog extends TableData {
   chargePlugLocation: string;
   chargeStandardPower: number;
   chargeStandardPhase: number;
-  chargeStandardChargeSpeed: number;
-  chargeStandardChargeTime: number;
   miscSeats: number;
   miscBody: string;
   miscIsofix: boolean;
   miscTurningCircle: number;
   miscSegment: string;
   miscIsofixSeats: number;
-  chargeOptionPower?: number;
-  chargeAlternativePower?: number;
-  chargeOptionPhase?: number;
-  chargeAlternativePhase?: number;
-  chargeOptionPhaseAmp?: number;
-  chargeAlternativePhaseAmp?: number;
   chargeStandardPhaseAmp?: number;
 }
 

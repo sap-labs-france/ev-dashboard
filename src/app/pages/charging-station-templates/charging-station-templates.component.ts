@@ -4,14 +4,14 @@ import { WindowService } from 'services/window.service';
 import { AbstractTabComponent } from 'shared/component/abstract-tab/abstract-tab.component';
 
 @Component({
-  selector: 'app-settings-technical',
-  templateUrl: 'settings-technical.component.html'
+  selector: 'app-charging-station-templates',
+  templateUrl: 'charging-station-templates.component.html'
 })
-export class SettingsTechnicalComponent extends AbstractTabComponent {
+export class ChargingStationTemplatesComponent extends AbstractTabComponent {
   public constructor(
     activatedRoute: ActivatedRoute,
     windowService: WindowService,
   ) {
-    super(activatedRoute, windowService, ['crypto', 'users', 'organization']);
+    super(activatedRoute, windowService, ['charging-station-templates']);
   }
 }

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Inject, ViewChild } from '@angular/core';
+import { Component, Inject, ViewChild } from '@angular/core';
 import { GoogleMap } from '@angular/google-maps';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
@@ -11,73 +11,80 @@ import { Utils } from '../../../utils/Utils';
 
 export class GeoMapDialogComponent {
   @ViewChild(GoogleMap, { static: false }) public map!: GoogleMap;
-  public markerPosition: { markerLatitude: number; markerLongitude: number };
-  public markers: [];
-  public labelFormatted = {};
-  public label = '';
-  public center;
+  public labelFormatted: google.maps.MarkerLabel = { text: '', color: 'black', fontWeight: 'bold' };
+  public marker: google.maps.LatLngLiteral;
+  public center: google.maps.LatLngLiteral;
   public mapOptions: google.maps.MapOptions;
-  public marker: google.maps.Marker = new google.maps.Marker();
   public zoom = 4;
-  public icon = {
-    url: '../../../../assets/img/map-pin-18x30.svg', scale: 0.2, labelOrigin: { x: 11, y: -10 },
+  public icon: google.maps.Icon = {
+    url: '../../../../assets/img/map-pin-18x30.svg',
+    labelOrigin: { x: 11, y: -10 } as google.maps.Point
   };
   public displayOnly = false;
-  public dialogTitle: string;
-
+  public dialogTitle = '';
 
   public constructor(
     protected dialogRef: MatDialogRef<GeoMapDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data) {
+    @Inject(MAT_DIALOG_DATA) data: { label: string; longitude: number; latitude: number; displayOnly: boolean; dialogTitle: string; markers: { lat: number; lng: number }[] }
+  ) {
     if (data) {
       if (data.label) {
-        this.label = data.label;
-        this.labelFormatted = { text: this.label, color: 'black', fontWeight: 'bold' };
+        this.labelFormatted.text = data.label;
       }
       if (data.latitude && data.longitude) {
         this.zoom = 14;
       }
-      this.center = { lat: data.latitude ? +data.latitude : 51.476852, lng: data.longitude ? +data.longitude : -0.000500 };
-      this.mapOptions = {
-        zoomControl: false
+      this.center = {
+        lat: data.latitude ? +data.latitude : 51.476852,
+        lng: data.longitude ? +data.longitude : -0.000500
       };
-      this.marker.setPosition({ lat: data.latitude ? +data.latitude : 51.476852, lng: data.longitude ? +data.longitude : -0.000500 });
-      this.displayOnly = data.displayOnly ? data.displayOnly : false;
-      this.dialogTitle = data.dialogTitle ? data.dialogTitle : '';
-      this.markers = data.markers ? data.markers : [];
+      this.mapOptions = {
+        zoomControl: true
+      };
+      this.marker = {
+        lat: data.latitude ? +data.latitude : 51.476852,
+        lng: data.longitude ? +data.longitude : -0.000500
+      };
+      this.displayOnly = data.displayOnly ?? false;
+      this.dialogTitle = data.dialogTitle ?? '';
     }
+    console.log(data);
     Utils.registerCloseKeyEvents(this.dialogRef);
   }
 
   public mapClick(event: google.maps.MapMouseEvent) {
     if (!this.displayOnly) {
       if (event.latLng) {
-        this.marker.setPosition(event.latLng);
+        this.marker = event.latLng.toJSON();
       }
     }
   }
 
   public mapTypeIdChange(mapTypeId: google.maps.MapTypeId) {
     mapTypeId = mapTypeId ?? this.map.getMapTypeId() as google.maps.MapTypeId;
+    // Change the color of the label
     switch (mapTypeId) {
       case google.maps.MapTypeId.HYBRID:
       case google.maps.MapTypeId.SATELLITE:
-        this.labelFormatted = this.label ? { text: this.label, color: 'white', fontWeight: 'bold' } : '';
+        this.labelFormatted = { ...this.labelFormatted , color: 'white' };
         break;
       default:
-        this.labelFormatted = this.label ? { text: this.label, color: 'black', fontWeight: 'bold' } : '';
+        this.labelFormatted = { ...this.labelFormatted , color: 'black' };
     }
   }
 
   public setAddress(address: Address) {
     // Set Marker
-    this.marker.setPosition(address.geometry.location);
+    this.marker = address.geometry.location.toJSON();
     // Set center
-    this.center = address.geometry.location;
+    this.center = address.geometry.location.toJSON();
   }
 
   public validate() {
-    this.dialogRef.close({ latitude: this.marker.getPosition().toJSON().lat, longitude: this.marker.getPosition().toJSON().lng });
+    this.dialogRef.close({
+      latitude: this.marker.lat,
+      longitude: this.marker.lng,
+    });
   }
 
   public cancel() {
@@ -86,7 +93,10 @@ export class GeoMapDialogComponent {
 
   public maxZoom() {
     if (this.map) {
-      this.center = Utils.cloneObject(this.marker.getPosition());
+      this.center = {
+        lat: this.marker.lat,
+        lng: this.marker.lng
+      };
       this.zoom = 20;
     }
   }

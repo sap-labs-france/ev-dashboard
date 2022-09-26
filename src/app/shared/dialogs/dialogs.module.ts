@@ -9,7 +9,6 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { MaterialModule } from '../../app.module';
 import { DialogService } from '../../services/dialog.service';
 import { ComponentModule } from '../component/component.module';
-import { ConsumptionChartComponent } from '../component/consumption-chart/consumption-chart.component';
 import { ErrorCodeDetailsComponent } from '../component/error-code-details/error-code-details.component';
 import { AppConnectorIdPipe } from '../formatters/app-connector-id.pipe';
 import { FormattersModule } from '../formatters/formatters.module';

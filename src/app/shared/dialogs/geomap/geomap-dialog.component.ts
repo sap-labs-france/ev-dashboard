@@ -25,7 +25,7 @@ export class GeoMapDialogComponent {
 
   public constructor(
     protected dialogRef: MatDialogRef<GeoMapDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data: { label: string; longitude: number; latitude: number; displayOnly: boolean; dialogTitle: string; markers: { lat: number; lng: number }[] }
+    @Inject(MAT_DIALOG_DATA) data: { label: string; longitude: number; latitude: number; displayOnly: boolean; dialogTitle: string }
   ) {
     if (data) {
       if (data.label) {

@@ -48,7 +48,6 @@ export class GeoMapDialogComponent {
       this.displayOnly = data.displayOnly ?? false;
       this.dialogTitle = data.dialogTitle ?? '';
     }
-    console.log(data);
     Utils.registerCloseKeyEvents(this.dialogRef);
   }
 

@@ -4,8 +4,8 @@
   "homepage": "https://github.com/sap-labs-france/ev-dashboard",
   "version": "2.7.2",
   "engines": {
-    "node": "16.15.x",
-    "npm": "8.11.x"
+    "node": "^16.15.x",
+    "npm": "^8.11.x"
   },
   "repository": {
     "type": "git",
@@ -102,8 +102,8 @@
     "moment-duration-format": "^2.3.2",
     "moment-timezone": "^0.5.34",
     "ng2-file-upload": "^1.4.0",
-    "ngx-captcha": "^11.0.0",
-    "ngx-csv-parser": "^1.1.1",
+    "ngx-captcha": "^12.0.2",
+    "ngx-csv-parser": "^1.2.0",
     "ngx-daterangepicker-material": "^5.0.2",
     "ngx-google-places-autocomplete": "^2.0.5",
     "ngx-moment": "^6.0.2",

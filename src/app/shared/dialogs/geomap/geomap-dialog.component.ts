@@ -2,6 +2,7 @@ import { Component, Inject, ViewChild } from '@angular/core';
 import { GoogleMap } from '@angular/google-maps';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
+import { GeoMapDialogData, GeoMapDialogResult } from 'types/Dialog';
 
 import { Utils } from '../../../utils/Utils';
 
@@ -23,8 +24,8 @@ export class GeoMapDialogComponent {
   public dialogTitle = '';
 
   public constructor(
-    protected dialogRef: MatDialogRef<GeoMapDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data: { label: string; longitude: number; latitude: number; displayOnly: boolean; dialogTitle: string }
+    protected dialogRef: MatDialogRef<GeoMapDialogComponent, GeoMapDialogResult>,
+    @Inject(MAT_DIALOG_DATA) data: GeoMapDialogData
   ) {
     if (data) {
       if (data.label) {

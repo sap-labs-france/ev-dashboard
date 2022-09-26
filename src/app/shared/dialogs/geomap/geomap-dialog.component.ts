@@ -8,7 +8,6 @@ import { Utils } from '../../../utils/Utils';
 @Component({
   templateUrl: 'geomap-dialog.component.html',
 })
-
 export class GeoMapDialogComponent {
   @ViewChild(GoogleMap, { static: false }) public map!: GoogleMap;
   public labelFormatted: google.maps.MarkerLabel = { text: '', color: 'black', fontWeight: 'bold' };

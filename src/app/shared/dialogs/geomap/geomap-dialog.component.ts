@@ -8,7 +8,6 @@ import { Utils } from '../../../utils/Utils';
 @Component({
   templateUrl: 'geomap-dialog.component.html',
 })
-
 export class GeoMapDialogComponent {
   @ViewChild(GoogleMap, { static: false }) public map!: GoogleMap;
   public labelFormatted: google.maps.MarkerLabel = { text: '', color: 'black', fontWeight: 'bold' };
@@ -25,7 +24,7 @@ export class GeoMapDialogComponent {
 
   public constructor(
     protected dialogRef: MatDialogRef<GeoMapDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data: { label: string; longitude: number; latitude: number; displayOnly: boolean; dialogTitle: string; markers: { lat: number; lng: number }[] }
+    @Inject(MAT_DIALOG_DATA) data: { label: string; longitude: number; latitude: number; displayOnly: boolean; dialogTitle: string }
   ) {
     if (data) {
       if (data.label) {
@@ -48,7 +47,6 @@ export class GeoMapDialogComponent {
       this.displayOnly = data.displayOnly ?? false;
       this.dialogTitle = data.dialogTitle ?? '';
     }
-    console.log(data);
     Utils.registerCloseKeyEvents(this.dialogRef);
   }
 

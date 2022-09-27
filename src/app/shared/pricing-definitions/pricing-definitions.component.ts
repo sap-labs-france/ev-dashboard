@@ -26,13 +26,13 @@ export class PricingDefinitionsComponent implements OnInit {
 
   public constructor(
     private componentService: ComponentService,
-    public pricingsTableDataSource: PricingDefinitionsTableDataSource) {
+    public pricingTableDataSource: PricingDefinitionsTableDataSource) {
     this.isActive = this.componentService.isActive(TenantComponents.PRICING);
   }
 
   public ngOnInit() {
     // Set context with provided entity, will set to tenant by default
-    this.pricingsTableDataSource.setContext(this.currentEntityID, this.currentEntityType, this.currentEntityName);
+    this.pricingTableDataSource.setDefaultContext(this.currentEntityID, this.currentEntityType, this.currentEntityName);
   }
 
   public close() {

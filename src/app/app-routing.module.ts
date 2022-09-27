@@ -130,6 +130,25 @@ const routes: Routes = [
         },
       },
       {
+        path: 'charging-station-templates',
+        loadChildren: async () => (await import('./pages/charging-station-templates/charging-station-templates.module')).ChargingStationTemplatesModule,
+        data: {
+          menu: {
+            title: 'charging_station_templates',
+            type: 'link',
+            icon: 'assignment',
+            path: '/charging-station-templates',
+          },
+          auth: {
+            entity: Entity.CHARGING_STATION_TEMPLATE,
+            action: Action.LIST,
+          },
+          activeInSuperTenant: true,
+          displayInSuperTenant: true,
+          component: TenantComponents.CHARGING_STATION_TEMPLATE,
+        },
+      },
+      {
         path: 'tags',
         loadChildren: async () => (await import('./pages/tags/tags.module')).TagsModule,
         data: {

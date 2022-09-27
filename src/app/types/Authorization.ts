@@ -79,6 +79,7 @@ export enum Entity {
   TAG = 'Tag',
   PAYMENT_METHOD = 'PaymentMethod',
   SOURCE = 'Source',
+  CHARGING_STATION_TEMPLATE = 'ChargingStationTemplate',
 }
 
 export enum Action {
@@ -315,6 +316,11 @@ export interface BillingPaymentMethodsAuthorizationActions extends DataResultAut
 export interface BillingPaymentMethodAuthorizationActions extends AuthorizationActions {
 }
 
+export interface ChargingStationTemplateAuthorizations extends AuthorizationAttributes, ChargingStationTemplateAuthorizationActions {
+}
+
+export interface ChargingStationTemplateAuthorizationActions extends DataResultAuthorizationActions {
+}
 export interface ChargingStationsAuthorizations extends AuthorizationAttributes, ChargingStationsAuthorizationActions {
 }
 
@@ -365,6 +371,34 @@ export interface ChargingStationAuthorizationActions extends AuthorizationAction
 
 export interface ChargingProfileAuthorizationActions extends AuthorizationActions {
   canReadSiteArea?: boolean;
+}
+
+export interface TransactionsAuthorizations extends AuthorizationAttributes, TransactionsAuthorizationActions {
+}
+
+export interface TransactionsAuthorizationActions extends DataResultAuthorizationActions {
+  canListUsers?: boolean;
+  canListSites?: boolean;
+  canListSiteAreas?: boolean;
+  canListChargingStations?: boolean;
+  canListTags?: boolean;
+  canExport?: boolean;
+  canDelete?: boolean;
+  canSyncRefund?: boolean;
+  canRefund?: boolean;
+  canReadSetting?: boolean;
+}
+
+export interface TransactionAuthorizationActions extends AuthorizationActions {
+  canSynchronizeRefundedTransaction?: boolean;
+  canRefundTransaction?: boolean;
+  canPushTransactionCDR?: boolean;
+  canGetAdvenirConsumption?: boolean;
+  canRemoteStopTransaction?: boolean;
+  canGetChargingStationTransactions?: boolean;
+  canExportOcpiCdr?: boolean;
+  canListLogs?: boolean;
+  canReadChargingStation?: boolean;
 }
 
 export enum DialogMode {

@@ -1,11 +1,12 @@
 import { Asset } from './Asset';
-import { AssetsAuthorizations, BillingAccountAuthorizations, BillingInvoicesAuthorizations, BillingPaymentMethodsAuthorizationActions, BillingTaxesAuthorizations, BillingTransfersAuthorizations, CarCatalogsAuthorizations, CarsAuthorizations, ChargingProfilesAuthorizations, ChargingStationsAuthorizations, DataResultAuthorizations, LogsAuthorizationActions, SitesAuthorizationActions, TagsAuthorizations, UsersAuthorizations } from './Authorization';
+import { AssetsAuthorizations, BillingAccountAuthorizations, BillingInvoicesAuthorizations, BillingPaymentMethodsAuthorizationActions, BillingTaxesAuthorizations, BillingTransfersAuthorizations, CarCatalogsAuthorizations, CarsAuthorizations, ChargingProfilesAuthorizations, ChargingStationTemplateAuthorizationActions, ChargingStationsAuthorizations, DataResultAuthorizations, LogsAuthorizationActions, SitesAuthorizationActions, TagsAuthorizations, TransactionsAuthorizations, UsersAuthorizations } from './Authorization';
 import { BillingAccount, BillingInvoice, BillingPaymentMethod, BillingTax, BillingTransfer } from './Billing';
 import { Car, CarCatalog } from './Car';
 import { ChargingProfile } from './ChargingProfile';
 import { ChargingStation } from './ChargingStation';
+import { ChargingStationTemplate } from './ChargingStationTemplate';
 import { Company } from './Company';
-import { AssetInError, ChargingStationInError } from './InError';
+import { AssetInError, ChargingStationInError, TransactionInError } from './InError';
 import { Log } from './Log';
 import PricingDefinition from './Pricing';
 import { RegistrationToken } from './RegistrationToken';
@@ -14,7 +15,6 @@ import { SiteArea } from './SiteArea';
 import { Tag } from './Tag';
 import { Transaction } from './Transaction';
 import { User, UserStatus } from './User';
-
 export interface ActionResponse {
   status: string;
   error: string;
@@ -149,9 +149,7 @@ export interface CheckAssetConnectionResponse extends ActionResponse {
   connectionIsValid: boolean;
 }
 
-export interface TransactionDataResult {
-  count: number;
-  result: Transaction[];
+export interface TransactionDataResult extends DataResult<Transaction>, TransactionsAuthorizations {
   stats: {
     count: number;
     firstTimestamp?: Date;
@@ -164,9 +162,7 @@ export interface TransactionDataResult {
   };
 }
 
-export interface TransactionRefundDataResult {
-  count: number;
-  result: Transaction[];
+export interface TransactionRefundDataResult extends DataResult<Transaction>, TransactionsAuthorizations {
   stats: {
     count: number;
     totalConsumptionWattHours: number;
@@ -177,6 +173,11 @@ export interface TransactionRefundDataResult {
     totalPricePending: number;
     currency: string;
   };
+}
+
+export interface TransactionInErrorDataResult extends DataResult<TransactionInError>, TransactionsAuthorizations {
+}
+export interface ChargingStationTemplateDataResult extends DataResult<ChargingStationTemplate>, ChargingStationTemplateAuthorizationActions {
 }
 
 export interface Ordering {

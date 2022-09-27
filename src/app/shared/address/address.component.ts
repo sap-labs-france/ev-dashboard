@@ -168,16 +168,8 @@ export class AddressComponent implements OnInit, OnChanges {
           break;
       }
     }));
-    // build Address 2
-    const address2 = `${streetNumber} ${route}`;
     // Address
     this.address1.setValue(address.name);
-    // Set Address 2 if different from Address 1
-    if (address2 !== address.name) {
-      this.address2.setValue(address2);
-    } else {
-      this.address2.setValue('');
-    }
     // Latitude
     this.latitude.setValue(address.geometry.location.lat());
     this.latitude.markAsTouched();

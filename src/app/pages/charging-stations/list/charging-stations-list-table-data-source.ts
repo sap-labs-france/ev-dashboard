@@ -197,6 +197,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
         name: 'chargers.public_charger',
         headerClass: 'text-center col-5em',
         class: 'text-center col-5em',
+        sortable: true,
         formatter: (publicChargingStation: boolean) => Utils.displayYesNo(this.translateService, publicChargingStation)
       },
       {

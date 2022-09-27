@@ -9,22 +9,15 @@ export const logLevels: KeyValue[] = [
 ];
 
 export const sources: KeyValue[] = [
-  { key: 'Rest', value: 'Rest Server' },
-  { key: 'Soap', value: 'Soap Server' },
-  { key: 'Json', value: 'Json Server' },
-  { key: 'Ocpi', value: 'Ocpi Server' },
-  { key: 'Oicp', value: 'Oicp Server' },
-  { key: 'OData', value: 'OData Server' },
   { key: 'Batch', value: 'Batch Server' },
-].sort((source1, source2) => {
-  if (source1.value.toLocaleLowerCase() < source2.value.toLocaleLowerCase()) {
-    return -1;
-  }
-  if (source1.value.toLocaleLowerCase() > source2.value.toLocaleLowerCase()) {
-    return 1;
-  }
-  return 0;
-});
+  { key: 'Json', value: 'Json Server' },
+  { key: 'Ocpi', value: 'OCPI Server' },
+  { key: 'Oicp', value: 'OICP Server' },
+  { key: 'OData', value: 'OData Server' },
+  { key: 'Soap', value: 'Soap Server' },
+  { key: 'Rest', value: 'Rest Server' },
+  { key: 'CentralServer', value: 'Central Server' }
+];
 
 export const LOG_ACTIONS: KeyValue[] = Object.values(ServerAction)
   .map((value) => ({ key: value, value }))

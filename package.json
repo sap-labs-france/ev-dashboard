@@ -1,7 +1,7 @@
 {
   "name": "ca-ev-dashboard",
   "description": "Dashboard for Electric Vehicle charging station",
-  "homepage": "https://github.com/sap-labs-france/ev-dashboard",
+  "homepage": "https://github.com/charge-angels/ca-ev-dashboard",
   "version": "2.7.2",
   "engines": {
     "node": "^16.15.x",
@@ -9,9 +9,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/sap-labs-france/ev-dashboard.git"
+    "url": "https://github.com/charge-angels/ca-ev-dashboard.git"
   },
-  "author": "Open E-Mobility <open-e-mobility@sap.com>",
+  "author": "Charge Angels <cloud@chargeangels.fr>",
   "license": "Apache-2.0",
   "licenses": [
     {

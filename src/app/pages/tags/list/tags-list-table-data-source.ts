@@ -116,23 +116,26 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
   }
 
   public loadUserFilterLabel(userID: string) {
-    this.centralServerService.getUser(userID).subscribe((user: User) => {
-      const userTableFilter = this.tableFiltersDef.find(filter => filter.id === 'user');
-      if (userTableFilter) {
-        userTableFilter.currentValue = [{
-          key: userID, value: Utils.buildUserFullName(user)
-        }];
-        this.filterChanged(userTableFilter);
-      }
-    }, (error) => {
-      this.spinnerService.hide();
-      switch (error.status) {
-        case StatusCodes.NOT_FOUND:
-          this.messageService.showErrorMessage('users.user_do_not_exist');
-          break;
-        default:
-          Utils.handleHttpError(error, this.router, this.messageService,
-            this.centralServerService, 'general.unexpected_error_backend');
+    this.centralServerService.getUser(userID).subscribe({
+      next: (user: User) => {
+        const userTableFilter = this.tableFiltersDef.find(filter => filter.id === 'user');
+        if (userTableFilter) {
+          userTableFilter.currentValue = [{
+            key: userID, value: Utils.buildUserFullName(user)
+          }];
+          this.filterChanged(userTableFilter);
+        }
+      },
+      error: (error) => {
+        this.spinnerService.hide();
+        switch (error.status) {
+          case StatusCodes.NOT_FOUND:
+            this.messageService.showErrorMessage('users.user_do_not_exist');
+            break;
+          default:
+            Utils.handleHttpError(error, this.router, this.messageService,
+              this.centralServerService, 'general.unexpected_error_backend');
+        }
       }
     });
   }
@@ -141,39 +144,41 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
   public loadDataImpl(): Observable<DataResult<Tag>> {
     return new Observable((observer) => {
       // Get the Tags
-      this.centralServerService.getTags(this.buildFilterValues(),
-        this.getPaging(), this.getSorting()).subscribe((tags) => {
-        // Initialize authorizaiton object
-        this.tagsAuthorizations = {
-          // Authorization action
-          canCreate: Utils.convertToBoolean(tags.canCreate),
-          canAssign: Utils.convertToBoolean(tags.canAssign),
-          canImport: Utils.convertToBoolean(tags.canImport),
-          canExport: Utils.convertToBoolean(tags.canExport),
-          canDelete: Utils.convertToBoolean(tags.canDelete),
-          canUnassign: Utils.convertToBoolean(tags.canUnassign),
-          canListUsers: Utils.convertToBoolean(tags.canListUsers),
-          canListSources: Utils.convertToBoolean(tags.canListSources),
-          // Metadata
-          metadata: tags.metadata,
-          // projected fields
-          projectFields: tags.projectFields
-        };
-        // Update filter visibility
-        this.createAction.visible = this.tagsAuthorizations.canCreate;
-        this.assignAction.visible = this.tagsAuthorizations.canAssign;
-        this.importAction.visible = this.tagsAuthorizations.canImport;
-        this.exportAction.visible = this.tagsAuthorizations.canExport;
-        this.deleteManyAction.visible = this.tagsAuthorizations.canDelete;
-        this.unassignManyAction.visible = this.tagsAuthorizations.canUnassign;
-        this.projectFields = this.tagsAuthorizations.projectFields;
-        this.userFilter.visible = this.tagsAuthorizations.canListUsers;
-        this.issuerFilter.visible = this.tagsAuthorizations.canListSources;
-        observer.next(tags);
-        observer.complete();
-      }, (error) => {
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        observer.error(error);
+      this.centralServerService.getTags(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe({
+        next: (tags) => {
+          // Initialize authorizaiton object
+          this.tagsAuthorizations = {
+            // Authorization action
+            canCreate: Utils.convertToBoolean(tags.canCreate),
+            canAssign: Utils.convertToBoolean(tags.canAssign),
+            canImport: Utils.convertToBoolean(tags.canImport),
+            canExport: Utils.convertToBoolean(tags.canExport),
+            canDelete: Utils.convertToBoolean(tags.canDelete),
+            canUnassign: Utils.convertToBoolean(tags.canUnassign),
+            canListUsers: Utils.convertToBoolean(tags.canListUsers),
+            canListSources: Utils.convertToBoolean(tags.canListSources),
+            // Metadata
+            metadata: tags.metadata,
+            // projected fields
+            projectFields: tags.projectFields
+          };
+          // Update filter visibility
+          this.createAction.visible = this.tagsAuthorizations.canCreate;
+          this.assignAction.visible = this.tagsAuthorizations.canAssign;
+          this.importAction.visible = this.tagsAuthorizations.canImport;
+          this.exportAction.visible = this.tagsAuthorizations.canExport;
+          this.deleteManyAction.visible = this.tagsAuthorizations.canDelete;
+          this.unassignManyAction.visible = this.tagsAuthorizations.canUnassign;
+          this.projectFields = this.tagsAuthorizations.projectFields;
+          this.userFilter.visible = this.tagsAuthorizations.canListUsers;
+          this.issuerFilter.visible = this.tagsAuthorizations.canListSources;
+          observer.next(tags);
+          observer.complete();
+        },
+        error: (error) => {
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          observer.error(error);
+        }
       });
     });
   }

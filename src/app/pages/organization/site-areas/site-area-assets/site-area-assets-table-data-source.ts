@@ -43,14 +43,16 @@ export class SiteAreaAssetsDataSource extends TableDataSource<Asset> {
       // Site Area provided?
       if (this.siteArea) {
         // Yes: Get data
-        this.centralServerService.getAssets(this.buildFilterValues(),
-          this.getPaging(), this.getSorting()).subscribe((assets) => {
-          observer.next(assets);
-          observer.complete();
-        }, (error) => {
-          Utils.handleHttpError(error, this.router, this.messageService,
-            this.centralServerService, 'general.error_backend');
-          observer.error(error);
+        this.centralServerService.getAssets(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe({
+          next: (assets) => {
+            observer.next(assets);
+            observer.complete();
+          },
+          error: (error) => {
+            Utils.handleHttpError(error, this.router, this.messageService,
+              this.centralServerService, 'general.error_backend');
+            observer.error(error);
+          }
         });
       } else {
         observer.next({
@@ -193,18 +195,21 @@ export class SiteAreaAssetsDataSource extends TableDataSource<Asset> {
 
   private removeAssets(assetIDs: string[]) {
     // Remove
-    this.centralServerService.removeAssetsFromSiteArea(this.siteArea.id, assetIDs).subscribe((response) => {
-      if (response.status === RestResponse.SUCCESS) {
-        this.messageService.showSuccessMessage(this.translateService.instant('site_areas.remove_assets_success'));
-        this.refreshData().subscribe();
-        this.clearSelectedRows();
-      } else {
-        Utils.handleError(JSON.stringify(response),
-          this.messageService, this.translateService.instant('site_areas.remove_assets_error'));
+    this.centralServerService.removeAssetsFromSiteArea(this.siteArea.id, assetIDs).subscribe({
+      next: (response) => {
+        if (response.status === RestResponse.SUCCESS) {
+          this.messageService.showSuccessMessage(this.translateService.instant('site_areas.remove_assets_success'));
+          this.refreshData().subscribe();
+          this.clearSelectedRows();
+        } else {
+          Utils.handleError(JSON.stringify(response),
+            this.messageService, this.translateService.instant('site_areas.remove_assets_error'));
+        }
+      },
+      error: (error) => {
+        Utils.handleHttpError(error, this.router, this.messageService,
+          this.centralServerService, 'site_areas.remove_assets_error');
       }
-    }, (error) => {
-      Utils.handleHttpError(error, this.router, this.messageService,
-        this.centralServerService, 'site_areas.remove_assets_error');
     });
   }
 
@@ -213,18 +218,21 @@ export class SiteAreaAssetsDataSource extends TableDataSource<Asset> {
       // Get the IDs
       const assetIDs = assets.map((asset) => asset.key);
       // Add
-      this.centralServerService.addAssetsToSiteArea(this.siteArea.id, assetIDs).subscribe((response) => {
-        if (response.status === RestResponse.SUCCESS) {
-          this.messageService.showSuccessMessage(this.translateService.instant('site_areas.update_assets_success'));
-          this.refreshData().subscribe();
-          this.clearSelectedRows();
-        } else {
-          Utils.handleError(JSON.stringify(response),
-            this.messageService, this.translateService.instant('site_areas.update_error'));
+      this.centralServerService.addAssetsToSiteArea(this.siteArea.id, assetIDs).subscribe({
+        next: (response) => {
+          if (response.status === RestResponse.SUCCESS) {
+            this.messageService.showSuccessMessage(this.translateService.instant('site_areas.update_assets_success'));
+            this.refreshData().subscribe();
+            this.clearSelectedRows();
+          } else {
+            Utils.handleError(JSON.stringify(response),
+              this.messageService, this.translateService.instant('site_areas.update_error'));
+          }
+        },
+        error: (error) => {
+          Utils.handleHttpError(error, this.router, this.messageService,
+            this.centralServerService, 'site_areas.update_error');
         }
-      }, (error) => {
-        Utils.handleHttpError(error, this.router, this.messageService,
-          this.centralServerService, 'site_areas.update_error');
       });
     }
   }

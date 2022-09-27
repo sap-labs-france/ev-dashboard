@@ -38,25 +38,25 @@ export class UserSitesOwnerRadioComponent extends CellContentTemplateDirective {
 
   private setUserSiteOwner(siteUser: SiteUser, siteOwner: boolean) {
     // Update
-    this.centralServerService.updateSiteOwner(siteUser.site.id, siteUser.userID, siteOwner).subscribe((response) => {
-      if (response.status === RestResponse.SUCCESS) {
-        if (siteOwner) {
-          this.messageService.showSuccessMessage('users.update_set_site_owner_success', {siteName: siteUser.site.name});
+    this.centralServerService.updateSiteOwner(siteUser.site.id, siteUser.userID, siteOwner).subscribe({
+      next: (response) => {
+        if (response.status === RestResponse.SUCCESS) {
+          if (siteOwner) {
+            this.messageService.showSuccessMessage('users.update_set_site_owner_success', {siteName: siteUser.site.name});
+          } else {
+            this.messageService.showSuccessMessage('users.update_remove_site_owner_success', {siteName: siteUser.site.name});
+          }
         } else {
-          this.messageService.showSuccessMessage('users.update_remove_site_owner_success', {siteName: siteUser.site.name});
+          Utils.handleError(JSON.stringify(response),
+            this.messageService, 'users.update_site_users_owner_error', {
+              siteName: siteUser.site.name,
+            });
         }
-      } else {
-        Utils.handleError(JSON.stringify(response),
-          this.messageService, 'users.update_site_users_owner_error', {
-            siteName: siteUser.site.name,
-          });
+      },
+      error: (error) => {
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+          'users.update_site_users_owner_error', {siteName: siteUser.site.name});
       }
-    }
-    ,
-    (error) => {
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-        'users.update_site_users_owner_error', {siteName: siteUser.site.name});
-    },
-    );
+    });
   }
 }

@@ -214,17 +214,20 @@ export class UserMainComponent implements OnInit, OnChanges {
       }
       // Load Image
       if (!this.userImageSet) {
-        this.centralServerService.getUserImage(this.user.id).subscribe((userImage) => {
-          this.userImageSet = true;
-          this.image = userImage ?? Constants.USER_NO_PICTURE;
-        }, (error) => {
-          switch (error.status) {
-            case StatusCodes.NOT_FOUND:
-              this.image = Constants.USER_NO_PICTURE;
-              break;
-            default:
-              Utils.handleHttpError(error, this.router, this.messageService,
-                this.centralServerService, 'general.unexpected_error_backend');
+        this.centralServerService.getUserImage(this.user.id).subscribe({
+          next: (userImage) => {
+            this.userImageSet = true;
+            this.image = userImage ?? Constants.USER_NO_PICTURE;
+          },
+          error: (error) => {
+            switch (error.status) {
+              case StatusCodes.NOT_FOUND:
+                this.image = Constants.USER_NO_PICTURE;
+                break;
+              default:
+                Utils.handleHttpError(error, this.router, this.messageService,
+                  this.centralServerService, 'general.unexpected_error_backend');
+            }
           }
         });
       }

@@ -41,25 +41,25 @@ export class SiteUsersOwnerRadioComponent extends CellContentTemplateDirective {
 
   private setUserSiteOwner(userSite: UserSite, siteOwner: boolean) {
     // Update
-    this.centralServerService.updateSiteOwner(userSite.siteID, userSite.user.id, siteOwner).subscribe((response) => {
-      if (response.status === RestResponse.SUCCESS) {
-        if (siteOwner) {
-          this.messageService.showSuccessMessage('sites.update_set_site_owner_success', {userName: Utils.buildUserFullName(userSite.user)});
+    this.centralServerService.updateSiteOwner(userSite.siteID, userSite.user.id, siteOwner).subscribe({
+      next: (response) => {
+        if (response.status === RestResponse.SUCCESS) {
+          if (siteOwner) {
+            this.messageService.showSuccessMessage('sites.update_set_site_owner_success', {userName: Utils.buildUserFullName(userSite.user)});
+          } else {
+            this.messageService.showSuccessMessage('sites.update_remove_site_owner_success', {userName: Utils.buildUserFullName(userSite.user)});
+          }
         } else {
-          this.messageService.showSuccessMessage('sites.update_remove_site_owner_success', {userName: Utils.buildUserFullName(userSite.user)});
+          Utils.handleError(JSON.stringify(response),
+            this.messageService, 'sites.update_site_users_owner_error', {
+              userName: Utils.buildUserFullName(userSite.user),
+            });
         }
-      } else {
-        Utils.handleError(JSON.stringify(response),
-          this.messageService, 'sites.update_site_users_owner_error', {
-            userName: Utils.buildUserFullName(userSite.user),
-          });
+      },
+      error: (error) => {
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+          'sites.update_site_users_owner_error', {userName: Utils.buildUserFullName(userSite.user)});
       }
-    }
-    ,
-    (error) => {
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-        'sites.update_site_users_owner_error', {userName: Utils.buildUserFullName(userSite.user)});
-    },
-    );
+    });
   }
 }

@@ -58,19 +58,21 @@ export class AssetsInErrorTableDataSource extends TableDataSource<AssetInError> 
 
   public loadDataImpl(): Observable<AssetInErrorDataResult> {
     return new Observable((observer) => {
-      this.centralServerService.getAssetsInError(this.buildFilterValues(),
-        this.getPaging(), this.getSorting()).subscribe((assets) => {
-        this.assetsAuthorizations = {
-          canListSiteAreas: assets.canListSiteAreas,
-          canCreate: assets.canCreate,
-          canListSites: assets.canListSites
-        };
-        this.formatErrorMessages(assets.result);
-        observer.next(assets);
-        observer.complete();
-      }, (error) => {
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        observer.error(error);
+      this.centralServerService.getAssetsInError(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe({
+        next: (assets) => {
+          this.assetsAuthorizations = {
+            canListSiteAreas: assets.canListSiteAreas,
+            canCreate: assets.canCreate,
+            canListSites: assets.canListSites
+          };
+          this.formatErrorMessages(assets.result);
+          observer.next(assets);
+          observer.complete();
+        },
+        error: (error) => {
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          observer.error(error);
+        }
       });
     });
   }

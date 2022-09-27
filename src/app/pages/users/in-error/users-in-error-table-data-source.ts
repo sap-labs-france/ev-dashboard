@@ -56,14 +56,16 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
   public loadDataImpl(): Observable<DataResult<User>> {
     return new Observable((observer) => {
       // Get the Tenants
-      this.centralServerService.getUsersInError(this.buildFilterValues(),
-        this.getPaging(), this.getSorting()).subscribe((users) => {
-        this.formatErrorMessages(users.result);
-        observer.next(users);
-        observer.complete();
-      }, (error) => {
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        observer.error(error);
+      this.centralServerService.getUsersInError(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe({
+        next: (users) => {
+          this.formatErrorMessages(users.result);
+          observer.next(users);
+          observer.complete();
+        },
+        error: (error) => {
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          observer.error(error);
+        }
       });
     });
   }

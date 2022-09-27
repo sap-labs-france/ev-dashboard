@@ -49,12 +49,15 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
         this.centralServerService.getSiteUsers(
           { ...this.buildFilterValues(), SiteID: this.site.id },
           this.getPaging(), this.getSorting()
-        ).subscribe((siteUsers) => {
-          observer.next(siteUsers);
-          observer.complete();
-        }, (error) => {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-          observer.error(error);
+        ).subscribe({
+          next: (siteUsers) => {
+            observer.next(siteUsers);
+            observer.complete();
+          },
+          error: (error) => {
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+            observer.error(error);
+          }
         });
       } else {
         observer.next({
@@ -204,20 +207,23 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
 
   private removeUsers(userIDs: string[]) {
     // Yes: Update
-    this.centralServerService.removeUsersFromSite(this.site.id, userIDs).subscribe((response) => {
-      // Ok?
-      if (response.status === RestResponse.SUCCESS) {
-        this.messageService.showSuccessMessage(this.translateService.instant('sites.remove_users_success'));
-        // Refresh
-        this.refreshData().subscribe();
-        // Clear selection
-        this.clearSelectedRows();
-      } else {
-        Utils.handleError(JSON.stringify(response),
-          this.messageService, this.translateService.instant('sites.remove_users_error'));
+    this.centralServerService.removeUsersFromSite(this.site.id, userIDs).subscribe({
+      next: (response) => {
+        // Ok?
+        if (response.status === RestResponse.SUCCESS) {
+          this.messageService.showSuccessMessage(this.translateService.instant('sites.remove_users_success'));
+          // Refresh
+          this.refreshData().subscribe();
+          // Clear selection
+          this.clearSelectedRows();
+        } else {
+          Utils.handleError(JSON.stringify(response),
+            this.messageService, this.translateService.instant('sites.remove_users_error'));
+        }
+      },
+      error: (error) => {
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'sites.remove_users_error');
       }
-    }, (error) => {
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'sites.remove_users_error');
     });
   }
 
@@ -226,20 +232,23 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
       // Get the IDs
       const userIDs = users.map((user) => user.key);
       // Yes: Update
-      this.centralServerService.addUsersToSite(this.site.id, userIDs).subscribe((response) => {
-        // Ok?
-        if (response.status === RestResponse.SUCCESS) {
-          this.messageService.showSuccessMessage(this.translateService.instant('sites.update_users_success'));
-          // Refresh
-          this.refreshData().subscribe();
-          // Clear selection
-          this.clearSelectedRows();
-        } else {
-          Utils.handleError(JSON.stringify(response),
-            this.messageService, this.translateService.instant('sites.update_users_error'));
+      this.centralServerService.addUsersToSite(this.site.id, userIDs).subscribe({
+        next: (response) => {
+          // Ok?
+          if (response.status === RestResponse.SUCCESS) {
+            this.messageService.showSuccessMessage(this.translateService.instant('sites.update_users_success'));
+            // Refresh
+            this.refreshData().subscribe();
+            // Clear selection
+            this.clearSelectedRows();
+          } else {
+            Utils.handleError(JSON.stringify(response),
+              this.messageService, this.translateService.instant('sites.update_users_error'));
+          }
+        },
+        error: (error) => {
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'sites.update_users_error');
         }
-      }, (error) => {
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'sites.update_users_error');
       });
     }
   }

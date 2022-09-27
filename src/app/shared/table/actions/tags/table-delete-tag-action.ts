@@ -34,20 +34,23 @@ export class TableDeleteTagAction extends TableDeleteAction {
     ).subscribe((result) => {
       if (result === ButtonAction.YES) {
         spinnerService.show();
-        centralServerService.deleteTag(tag.id).subscribe((response) => {
-          spinnerService.hide();
-          if (response.status === RestResponse.SUCCESS) {
-            messageService.showSuccessMessage(
-              translateService.instant('tags.delete_success', { id: tag.id }));
-            if (refresh) {
-              refresh().subscribe();
+        centralServerService.deleteTag(tag.id).subscribe({
+          next: (response) => {
+            spinnerService.hide();
+            if (response.status === RestResponse.SUCCESS) {
+              messageService.showSuccessMessage(
+                translateService.instant('tags.delete_success', { id: tag.id }));
+              if (refresh) {
+                refresh().subscribe();
+              }
+            } else {
+              Utils.handleError(JSON.stringify(response), messageService, 'tags.delete_error');
             }
-          } else {
-            Utils.handleError(JSON.stringify(response), messageService, 'tags.delete_error');
+          },
+          error: (error) => {
+            spinnerService.hide();
+            Utils.handleHttpError(error, router, messageService, centralServerService, 'tags.delete_error');
           }
-        }, (error) => {
-          spinnerService.hide();
-          Utils.handleHttpError(error, router, messageService, centralServerService, 'tags.delete_error');
         });
       }
     }

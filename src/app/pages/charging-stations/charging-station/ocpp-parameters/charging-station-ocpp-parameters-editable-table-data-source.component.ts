@@ -12,12 +12,12 @@ import { TableRequestOCPPParamsAction, TableRequestOCPPParamsActionDef } from '.
 import { TableSaveOCPPParameterAction, TableSaveOCPPParameterActionDef } from '../../../../shared/table/actions/charging-stations/table-save-ocpp-parameter-action';
 import { TableUpdateOCPPParamsAction, TableUpdateOCPPParamsActionDef } from '../../../../shared/table/actions/charging-stations/table-update-ocpp-params-action';
 import { EditableTableDataSource } from '../../../../shared/table/editable-table-data-source';
-import { ChargingStation, ChargingStationButtonAction, OCPPParameter } from '../../../../types/ChargingStation';
+import { ChargingStation, ChargingStationButtonAction, OcppParameter } from '../../../../types/ChargingStation';
 import { DropdownItem, TableActionDef, TableColumnDef, TableDef, TableEditType } from '../../../../types/Table';
 import { ChargingStationOcppParametersInputFieldCellComponent } from './cell-components/charging-station-ocpp-parameters-input-field-cell.component';
 
 @Injectable()
-export class ChargingStationOcppParametersEditableTableDataSource extends EditableTableDataSource<OCPPParameter> {
+export class ChargingStationOcppParametersEditableTableDataSource extends EditableTableDataSource<OcppParameter> {
   public chargingStation!: ChargingStation;
   private updateOCPPParamsAction = new TableUpdateOCPPParamsAction().getActionDef();
   private requestOCPPParamsAction = new TableRequestOCPPParamsAction().getActionDef();
@@ -59,7 +59,7 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
     return [];
   }
 
-  public buildTableDynamicRowActions(ocppParameter: OCPPParameter): TableActionDef[] {
+  public buildTableDynamicRowActions(ocppParameter: OcppParameter): TableActionDef[] {
     const rowActions = [];
     if (!ocppParameter.readonly) {
       rowActions.push(new TableSaveOCPPParameterAction().getActionDef());
@@ -105,7 +105,7 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
     this.initDataSource(true);
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, ocppParameter: OCPPParameter, dropdownItem?: DropdownItem, postDataProcessing?: () => void) {
+  public rowActionTriggered(actionDef: TableActionDef, ocppParameter: OcppParameter, dropdownItem?: DropdownItem, postDataProcessing?: () => void) {
     switch (actionDef.id) {
       case ChargingStationButtonAction.SAVE_OCPP_PARAMETER:
         if (actionDef.action) {
@@ -154,7 +154,7 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
     ];
   }
 
-  public createRow(): OCPPParameter {
+  public createRow(): OcppParameter {
     return {
       id: '',
       key: '',
@@ -163,7 +163,7 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
     };
   }
 
-  public setContent(content: OCPPParameter[]) {
+  public setContent(content: OcppParameter[]) {
     // Create custom row
     const customOcppParameterRow = this.createRow();
     customOcppParameterRow.id = ChargingStationOcppParametersInputFieldCellComponent.CUSTOM_OCPP_PARAMETER_ID;
@@ -176,7 +176,7 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
     ]);
   }
 
-  protected isCellDisabled(columnDef: TableColumnDef, editableRow: OCPPParameter): boolean {
+  protected isCellDisabled(columnDef: TableColumnDef, editableRow: OcppParameter): boolean {
     return editableRow.readonly;
   }
 }

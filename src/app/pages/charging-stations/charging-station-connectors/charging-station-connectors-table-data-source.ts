@@ -219,15 +219,18 @@ export class ChargingStationConnectorsTableDataSource extends TableDataSource<Co
         break;
       // Stop Transaction
       case ChargingStationButtonAction.STOP_TRANSACTION:
-        this.centralServerService.getTransaction(connector.currentTransactionID).subscribe((transaction) => {
-          if (actionDef.action) {
-            (actionDef as TableChargingStationsStopTransactionActionDef).action(
-              transaction, this.dialogService,
-              this.translateService, this.messageService, this.centralServerService, this.spinnerService,
-              this.router, this.refreshData.bind(this));
+        this.centralServerService.getTransaction(connector.currentTransactionID).subscribe({
+          next: (transaction) => {
+            if (actionDef.action) {
+              (actionDef as TableChargingStationsStopTransactionActionDef).action(
+                transaction, this.dialogService,
+                this.translateService, this.messageService, this.centralServerService, this.spinnerService,
+                this.router, this.refreshData.bind(this));
+            }
+          },
+          error: (error) => {
+            this.messageService.showErrorMessage('transactions.transaction_id_not_found', { sessionID: connector.currentTransactionID });
           }
-        }, (error) => {
-          this.messageService.showErrorMessage('transactions.transaction_id_not_found', { sessionID: connector.currentTransactionID });
         });
         break;
       // View Transaction

@@ -9,7 +9,6 @@ import { KeyValue } from '../types/GlobalType';
 import { UserToken } from '../types/User';
 import { Utils } from '../utils/Utils';
 import { CentralServerService } from './central-server.service';
-import { ConfigService } from './config.service';
 
 export interface Locale {
   language: string;
@@ -25,7 +24,6 @@ export class LocaleService {
 
   public constructor(
     private translateService: TranslateService,
-    private configService: ConfigService,
     private centralServerService: CentralServerService) {
     this.considerBrowserLocale();
     this.centralServerService.getCurrentUserSubject().subscribe((user) => {

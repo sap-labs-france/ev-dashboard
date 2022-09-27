@@ -10,7 +10,7 @@ import { Asset, AssetConsumption } from '../types/Asset';
 import { BillingAccount } from '../types/Billing';
 import { Car, CarCatalog, CarMaker, ImageObject } from '../types/Car';
 import { ChargingProfile, GetCompositeScheduleCommandResult } from '../types/ChargingProfile';
-import { ChargePoint, ChargingStation, OCPPAvailabilityType, OCPPParameter } from '../types/ChargingStation';
+import { ChargePoint, ChargingStation, OCPPAvailabilityType, OcppParameter } from '../types/ChargingStation';
 import { ChargingStationTemplate } from '../types/ChargingStationTemplate';
 import { Company } from '../types/Company';
 import CentralSystemServerConfiguration from '../types/configuration/CentralSystemServerConfiguration';
@@ -2970,11 +2970,11 @@ export class CentralServerService {
       );
   }
 
-  public getChargingStationOcppParameters(chargingStationID: string): Observable<DataResult<OCPPParameter>> {
+  public getChargingStationOcppParameters(chargingStationID: string): Observable<DataResult<OcppParameter>> {
     // Verify Init
     this.checkInit();
     // Execute REST Service
-    return this.httpClient.get<DataResult<OCPPParameter>>(
+    return this.httpClient.get<DataResult<OcppParameter>>(
       this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATION_GET_OCPP_PARAMETERS, { id: chargingStationID }),
       {
         headers: this.buildHttpHeaders(),

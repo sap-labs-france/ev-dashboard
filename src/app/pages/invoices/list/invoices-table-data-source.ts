@@ -52,19 +52,21 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
   public loadDataImpl(): Observable<BillingInvoiceDataResult> {
     return new Observable((observer) => {
       // Get the Invoices
-      this.centralServerService.getInvoices(this.buildFilterValues(),
-        this.getPaging(), this.getSorting()).subscribe((invoices) => {
-        // Initialise authorizations
-        this.invoicesAuthorizations = {
-          canListUsers:  Utils.convertToBoolean(invoices.canListUsers)
-        };
-        // Update filters visibility
-        this.usersFilter.visible = this.invoicesAuthorizations.canListUsers;
-        observer.next(invoices);
-        observer.complete();
-      }, (error) => {
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'invoices.cannot_retrieve_invoices');
-        observer.error(error);
+      this.centralServerService.getInvoices(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe({
+        next: (invoices) => {
+          // Initialise authorizations
+          this.invoicesAuthorizations = {
+            canListUsers:  Utils.convertToBoolean(invoices.canListUsers)
+          };
+          // Update filters visibility
+          this.usersFilter.visible = this.invoicesAuthorizations.canListUsers;
+          observer.next(invoices);
+          observer.complete();
+        },
+        error: (error) => {
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'invoices.cannot_retrieve_invoices');
+          observer.error(error);
+        }
       });
     });
   }

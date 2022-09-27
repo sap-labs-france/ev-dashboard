@@ -380,13 +380,16 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
   }
 
   protected deleteTransaction(transaction: Transaction) {
-    this.centralServerService.deleteTransaction(transaction.id).subscribe((response: ActionResponse) => {
-      this.messageService.showSuccessMessage(
-        this.translateService.instant('transactions.notification.delete.success',
-          { user: this.appUserNamePipe.transform(transaction.user) }));
-      this.refreshData().subscribe();
-    }, (error) => {
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'transactions.notification.delete.error');
+    this.centralServerService.deleteTransaction(transaction.id).subscribe({
+      next: (response: ActionResponse) => {
+        this.messageService.showSuccessMessage(
+          this.translateService.instant('transactions.notification.delete.success',
+            { user: this.appUserNamePipe.transform(transaction.user) }));
+        this.refreshData().subscribe();
+      },
+      error: (error) => {
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'transactions.notification.delete.error');
+      }
     });
   }
 

@@ -81,14 +81,16 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
   public loadDataImpl(): Observable<DataResult<PricingDefinition>> {
     return new Observable((observer) => {
       // Get the PricingDefinitions
-      this.centralServerService.getPricingDefinitions(this.buildFilterValues(),
-        this.getPaging(), this.getSorting(), this.context).subscribe((pricingDefinition) => {
-        this.createAction.visible = pricingDefinition.canCreate;
-        observer.next(pricingDefinition);
-        observer.complete();
-      }, (error) => {
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        observer.error(error);
+      this.centralServerService.getPricingDefinitions(this.buildFilterValues(), this.getPaging(), this.getSorting(), this.context).subscribe({
+        next: (pricingDefinition) => {
+          this.createAction.visible = pricingDefinition.canCreate;
+          observer.next(pricingDefinition);
+          observer.complete();
+        },
+        error: (error) => {
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          observer.error(error);
+        }
       });
     });
   }

@@ -965,8 +965,8 @@ export class Utils {
     return typeof obj === 'undefined';
   }
 
-  public static async copyToClipboard(content: string) {
-    await navigator.clipboard.writeText(content);
+  public static copyToClipboard(content: any) {
+    void navigator.clipboard.writeText(content);
   }
 
   // when exporting values

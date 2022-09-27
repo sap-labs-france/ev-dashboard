@@ -140,23 +140,26 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
   }
 
   public loadUserFilterLabel(userID: string) {
-    this.centralServerService.getUser(userID).subscribe((user: User) => {
-      const userTableFilter = this.tableFiltersDef.find(filter => filter.id === 'user');
-      if (userTableFilter) {
-        userTableFilter.currentValue = [{
-          key: userID, value: Utils.buildUserFullName(user)
-        }];
-        this.filterChanged(userTableFilter);
-      }
-    }, (error) => {
-      this.spinnerService.hide();
-      switch (error.status) {
-        case StatusCodes.NOT_FOUND:
-          this.messageService.showErrorMessage('users.user_do_not_exist');
-          break;
-        default:
-          Utils.handleHttpError(error, this.router, this.messageService,
-            this.centralServerService, 'general.unexpected_error_backend');
+    this.centralServerService.getUser(userID).subscribe({
+      next: (user: User) => {
+        const userTableFilter = this.tableFiltersDef.find(filter => filter.id === 'user');
+        if (userTableFilter) {
+          userTableFilter.currentValue = [{
+            key: userID, value: Utils.buildUserFullName(user)
+          }];
+          this.filterChanged(userTableFilter);
+        }
+      },
+      error: (error) => {
+        this.spinnerService.hide();
+        switch (error.status) {
+          case StatusCodes.NOT_FOUND:
+            this.messageService.showErrorMessage('users.user_do_not_exist');
+            break;
+          default:
+            Utils.handleHttpError(error, this.router, this.messageService,
+              this.centralServerService, 'general.unexpected_error_backend');
+        }
       }
     });
   }

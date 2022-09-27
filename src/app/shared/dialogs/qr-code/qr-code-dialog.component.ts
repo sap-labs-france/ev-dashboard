@@ -42,13 +42,16 @@ export class QrCodeDialogComponent {
 
   public download() {
     this.spinnerService.show();
-    this.centralServerService.downloadChargingStationQrCodes(this.chargingStationID, this.connectorID).subscribe((result) => {
-      this.spinnerService.hide();
-      FileSaver.saveAs(result, `${this.chargingStationID.toLowerCase()}-${Utils.getConnectorLetterFromConnectorID(this.connectorID).toLowerCase()}-qr-codes.pdf`);
-    }, (error) => {
-      this.spinnerService.hide();
-      Utils.handleHttpError(error, this.router, this.messageService,
-        this.centralServerService, this.translateService.instant('chargers.qr_code_generation_error'));
+    this.centralServerService.downloadChargingStationQrCodes(this.chargingStationID, this.connectorID).subscribe({
+      next: (result) => {
+        this.spinnerService.hide();
+        FileSaver.saveAs(result, `${this.chargingStationID.toLowerCase()}-${Utils.getConnectorLetterFromConnectorID(this.connectorID).toLowerCase()}-qr-codes.pdf`);
+      },
+      error: (error) => {
+        this.spinnerService.hide();
+        Utils.handleHttpError(error, this.router, this.messageService,
+          this.centralServerService, this.translateService.instant('chargers.qr_code_generation_error'));
+      }
     });
   }
 

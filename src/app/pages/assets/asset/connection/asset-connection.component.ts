@@ -109,19 +109,22 @@ export class AssetConnectionComponent implements OnInit, OnChanges {
 
   public loadAssetConnection() {
     this.spinnerService.show();
-    this.componentService.getAssetSettings().subscribe((assetSettings) => {
-      this.spinnerService.hide();
-      if (assetSettings) {
-        const connections = [] as KeyValue[];
-        for (const connection of assetSettings.asset.connections) {
-          connections.push({ key: connection.id, value: connection.name });
+    this.componentService.getAssetSettings().subscribe({
+      next: (assetSettings) => {
+        this.spinnerService.hide();
+        if (assetSettings) {
+          const connections = [] as KeyValue[];
+          for (const connection of assetSettings.asset.connections) {
+            connections.push({ key: connection.id, value: connection.name });
+          }
+          this.assetConnections = connections;
         }
-        this.assetConnections = connections;
+      },
+      error: (error) => {
+        this.spinnerService.hide();
+        Utils.handleHttpError(error, this.router, this.messageService,
+          this.centralServerService, 'assets.asset_settings_error');
       }
-    }, (error) => {
-      this.spinnerService.hide();
-      Utils.handleHttpError(error, this.router, this.messageService,
-        this.centralServerService, 'assets.asset_settings_error');
     });
   }
 }

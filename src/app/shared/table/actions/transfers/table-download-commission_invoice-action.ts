@@ -36,13 +36,16 @@ export class TableDownloadCommissionInvoice implements TableAction {
   private downloadCommissionInvoice(transferID: string, filename: string, translateService: TranslateService, spinnerService: SpinnerService,
     messageService: MessageService, centralServerService: CentralServerService, router: Router) {
     spinnerService.show();
-    centralServerService.downloadCommissionInvoice(transferID).subscribe((result) => {
-      FileSaver.saveAs(result, filename);
-      spinnerService.hide();
-    }, (error) => {
-      spinnerService.hide();
-      Utils.handleHttpError(error, router, messageService,
-        centralServerService, translateService.instant('transfers.cannot_download_commission_incoice'));
+    centralServerService.downloadCommissionInvoice(transferID).subscribe({
+      next: (result) => {
+        FileSaver.saveAs(result, filename);
+        spinnerService.hide();
+      },
+      error: (error) => {
+        spinnerService.hide();
+        Utils.handleHttpError(error, router, messageService,
+          centralServerService, translateService.instant('transfers.cannot_download_commission_incoice'));
+      }
     });
   }
 }

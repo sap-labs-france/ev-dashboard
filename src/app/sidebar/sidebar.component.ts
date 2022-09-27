@@ -69,32 +69,38 @@ export class SidebarComponent {
 
   public logout() {
     // Logoff
-    this.centralServerService.logout().subscribe(() => {
-      // Clear
-      this.centralServerService.clearLoginInformation();
-      // Redirect to login page with the return url
-      void this.router.navigate(['/auth/login']);
-    }, (error) => {
-      // Clear
-      this.centralServerService.clearLoginInformation();
-      // Redirect to login page with the return url
-      void this.router.navigate(['/auth/login']);
+    this.centralServerService.logout().subscribe({
+      next: () => {
+        // Clear
+        this.centralServerService.clearLoginInformation();
+        // Redirect to login page with the return url
+        void this.router.navigate(['/auth/login']);
+      },
+      error: (error) => {
+        // Clear
+        this.centralServerService.clearLoginInformation();
+        // Redirect to login page with the return url
+        void this.router.navigate(['/auth/login']);
+      }
     });
   }
 
   private loadUser() {
     // Get the user's image
     if (this.loggedUser && this.loggedUser.id) {
-      this.centralServerService.getUserImage(this.loggedUser.id).subscribe((userImage) => {
-        this.loggedUserImage = userImage ?? Constants.USER_NO_PICTURE;
-      }, (error) => {
-        switch (error.status) {
-          case StatusCodes.NOT_FOUND:
-            this.loggedUserImage = Constants.USER_NO_PICTURE;
-            break;
-          default:
-            Utils.handleHttpError(error, this.router, this.messageService,
-              this.centralServerService, 'general.unexpected_error_backend');
+      this.centralServerService.getUserImage(this.loggedUser.id).subscribe({
+        next: (userImage) => {
+          this.loggedUserImage = userImage ?? Constants.USER_NO_PICTURE;
+        },
+        error: (error) => {
+          switch (error.status) {
+            case StatusCodes.NOT_FOUND:
+              this.loggedUserImage = Constants.USER_NO_PICTURE;
+              break;
+            default:
+              Utils.handleHttpError(error, this.router, this.messageService,
+                this.centralServerService, 'general.unexpected_error_backend');
+          }
         }
       });
       this.centralServerService.getUser(this.loggedUser.id).subscribe((user) => {
@@ -110,16 +116,19 @@ export class SidebarComponent {
   private loadTenant() {
     // Get Tenant logo
     if (this.loggedUser.tenantID !== 'default') {
-      this.centralServerService.getTenantLogo(this.loggedUser.tenantID).subscribe((tenantLogo) => {
-        this.logo = tenantLogo ?? Constants.NO_IMAGE;
-      }, (error) => {
-        switch (error.status) {
-          case StatusCodes.NOT_FOUND:
-            this.logo = Constants.NO_IMAGE;
-            break;
-          default:
-            Utils.handleHttpError(error, this.router, this.messageService,
-              this.centralServerService, 'general.unexpected_error_backend');
+      this.centralServerService.getTenantLogo(this.loggedUser.tenantID).subscribe({
+        next: (tenantLogo) => {
+          this.logo = tenantLogo ?? Constants.NO_IMAGE;
+        },
+        error: (error) => {
+          switch (error.status) {
+            case StatusCodes.NOT_FOUND:
+              this.logo = Constants.NO_IMAGE;
+              break;
+            default:
+              Utils.handleHttpError(error, this.router, this.messageService,
+                this.centralServerService, 'general.unexpected_error_backend');
+          }
         }
       });
     } else {

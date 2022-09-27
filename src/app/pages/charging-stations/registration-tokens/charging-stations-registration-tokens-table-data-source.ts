@@ -263,7 +263,7 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
             url = registrationToken.ocpp16JSONSecureUrl;
             break;
         }
-        Utils.copyToClipboard(url);
+        void Utils.copyToClipboard(url);
         this.messageService.showInfoMessage('chargers.connections.url_copied');
         break;
     }

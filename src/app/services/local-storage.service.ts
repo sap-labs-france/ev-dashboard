@@ -8,7 +8,6 @@ export class LocalStorageService {
   private requests = [];
 
   public constructor() {
-    // Init
     if (self !== top) {
       this.isInIFrame = true;
     }
@@ -17,7 +16,6 @@ export class LocalStorageService {
   }
 
   public setItem(key: string, value: string) {
-    // iFrame?
     if (this.isInIFrame) {
       // Build request
       const data = {
@@ -37,9 +35,7 @@ export class LocalStorageService {
   }
 
   public getItem(key: string): Observable<any> {
-    // Exec
     return new Observable((observer) => {
-      // iFrame?
       if (this.isInIFrame) {
         const data = {
           request: {
@@ -60,7 +56,6 @@ export class LocalStorageService {
   }
 
   public removeItem(key: string) {
-    // iFrame?
     if (this.isInIFrame) {
       const data = {
         request: {
@@ -78,7 +73,6 @@ export class LocalStorageService {
   }
 
   public clear() {
-    // iFrame?
     if (this.isInIFrame) {
       const data = {
         request: {

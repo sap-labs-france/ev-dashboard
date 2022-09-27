@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { StatusCodes } from 'http-status-codes';
-import { BehaviorSubject, EMPTY, Observable, TimeoutError, of, throwError } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, Observer, TimeoutError, of, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 
 import { Asset, AssetConsumption } from '../types/Asset';
@@ -63,6 +63,28 @@ export class CentralServerService {
     public configService: ConfigService) {
     // Default
     this.initialized = false;
+  }
+
+  public initUserToken(): Observable<void> {
+    return new Observable((observer: Observer<void>) => {
+      // Read the token
+      this.localStorageService.getItem('token').subscribe({
+        next: (token: string) => {
+          this.currentUserToken = token;
+          this.currentUser = null;
+          // Decode the token
+          if (token) {
+            this.currentUser = new JwtHelperService().decodeToken(token);
+          }
+          // Notify User change
+          this.currentUserSubject.next(this.currentUser);
+          observer.complete();
+        },
+        error: (error) => {
+          observer.error(error);
+        }
+      });
+    });
   }
 
   public getWindowService(): WindowService {
@@ -2023,10 +2045,6 @@ export class CentralServerService {
   }
 
   public getLoggedUser(): UserToken {
-    // Get the token
-    if (!this.currentUser) {
-      this.readAndDecodeTokenFromLocalStorage();
-    }
     return this.currentUser;
   }
 
@@ -3536,24 +3554,7 @@ export class CentralServerService {
   }
 
   private getLoggedUserToken(): string {
-    // Get the token
-    if (!this.currentUserToken) {
-      this.readAndDecodeTokenFromLocalStorage();
-    }
     return this.currentUserToken;
-  }
-
-  private readAndDecodeTokenFromLocalStorage() {
-    // Read the token
-    this.localStorageService.getItem('token').subscribe((token: string) => {
-      this.currentUserToken = token;
-      this.currentUser = null;
-      // Decode the token
-      if (token) {
-        this.currentUser = new JwtHelperService().decodeToken(token);
-      }
-      this.currentUserSubject.next(this.currentUser);
-    });
   }
 
   private clearLoggedUser(): void {
@@ -3655,7 +3656,7 @@ export class CentralServerService {
       errorInfo.message = error.message ?? error.toString();
       errorInfo.details = error.error ?? null;
     }
-    return throwError(errorInfo);
+    return throwError(() => errorInfo);
   }
 
   private processImage(blob: Blob): Observable<string> {

@@ -43,7 +43,7 @@ export class TableChargingStationsStopTransactionAction implements TableAction {
     // Get the charging station
     centralServerService.getChargingStation(transaction.chargeBoxID).subscribe({
       next: (chargingStation) => {
-        if (!chargingStation.canStopTransaction) {
+        if (chargingStation.issuer && !chargingStation.canStopTransaction) {
           dialogService.createAndShowOkDialog(
             translateService.instant('chargers.action_error.transaction_stop_title'),
             translateService.instant('chargers.action_error.transaction_stop_not_authorized'));

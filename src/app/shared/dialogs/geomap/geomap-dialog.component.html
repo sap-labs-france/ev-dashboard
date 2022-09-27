@@ -23,7 +23,7 @@
       </div>
     </div>
     <div>
-      <google-map [options]="mapOptions" [center]="center" [zoom]="zoom"
+      <google-map width="100%" [options]="mapOptions" [center]="center" [zoom]="zoom"
           (maptypeidChanged)="mapTypeIdChange($event)" (mapClick)="mapClick($event)">
         <ng-container>
           <map-marker [position]="marker" [icon]="icon" [label]="labelFormatted">

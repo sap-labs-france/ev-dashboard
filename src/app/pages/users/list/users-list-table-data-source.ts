@@ -295,7 +295,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
     if (user.canListTags) {
       moreActions.addActionInMoreActions(this.navigateToTagsAction);
     }
-    if (user.canListTransactions) {
+    if (user.canListCompletedTransactions) {
       moreActions.addActionInMoreActions(this.navigateToTransactionsAction);
     }
     if (user.canDelete) {

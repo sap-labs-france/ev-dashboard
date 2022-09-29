@@ -1,6 +1,6 @@
 {
-  "name": "ca-ev-dashboard",
-  "description": "Dashboard for Electric Vehicle charging station",
+  "name": "ev-dashboard",
+  "description": "Dashboard for monitoring the EV Charging Infrastructure",
   "homepage": "https://github.com/sap-labs-france/ev-dashboard",
   "version": "2.7.2-rc",
   "engines": {

@@ -367,6 +367,7 @@ export interface ChargingStationAuthorizationActions extends AuthorizationAction
   canGetOCPPParams?: boolean;
   canUpdateChargingProfile?: boolean;
   canGetConnectorQRCode?: boolean;
+  canListCompletedTransactions?: boolean;
 }
 
 export interface ChargingProfileAuthorizationActions extends AuthorizationActions {

@@ -189,7 +189,8 @@
       "template": "Templates",
       "cars": "Cars",
       "invoices": "Invoices",
-      "tags": "RFID Cards"
+      "tags": "RFID Cards",
+      "charging_station_templates": "Charging Station Templates"
     },
     "tooltips": {
       "push_cdr": "Push CDR",
@@ -240,6 +241,7 @@
       "force_available_status": "Force Status to Available",
       "force_unavailable_status": "Force Status to Unavailable",
       "display_users": "Display users",
+      "display_sites": "Display sites",
       "pricing": "Pricing"
     }
   },
@@ -1341,6 +1343,7 @@
     "update_remove_site_owner_success": "The user is no more owner of the site '{{siteName}}'",
     "update_site_owner_role_error": "Error occurred while trying to update the user right to the site '{{siteName}}', check the logs",
     "redirect": "Navigate to User",
+    "display_sites": "Display Sites",
     "connectors": {
       "connect": "Connect",
       "revoke": "Revoke",
@@ -1427,6 +1430,7 @@
     "collected_funds": "Collected Funds",
     "document_number": "Invoice",
     "platform_fee_amount": "Collected Fee",
+    "platform_fee_tax_inclusive": "Fees (incl. taxes)",
     "transferAmount": "Transfer",
     "number_of_items": "Sessions",
     "transferExternalID": "External ID",
@@ -1916,7 +1920,8 @@
   "technical_settings": {
     "tabs": {
       "crypto": "Crypto",
-      "users": "Users"
+      "users": "Users",
+      "organization": "Organization"
     },
     "crypto": {
       "crypto_key": {
@@ -2666,6 +2671,32 @@
         "action": "Delete the session or create an invoice from it."
       }
     }
+  },
+  "templates": {
+    "title": "Charging Station Template",
+    "tabs": {
+      "charging_station_templates": "Charging Station Templates"
+    },
+    "invalid_json": "Invalid JSON format",
+    "template_not_found": "Template has not been found",
+    "create_success": "The template '{{template}}' has been created successfully",
+    "create_error": "Error occurred while creating the template, check the logs",
+    "update_success": "The template '{{template}}' has been updated successfully",
+    "update_error": "Error occurred while updating the template, check the logs",
+    "delete_confirm": "Do you really want to delete the template '{{template}}'?",
+    "delete_success": "The template '{{template}}' has been deleted successfully",
+    "delete_error": "Error occurred while deleting the template, check the logs",
+    "delete_title": "Delete Template",
+    "dialog": {
+      "export": {
+        "title": "Export charging station templates",
+        "confirm": "Do you really want to export all the charging station templates matching the filters?",
+        "error": "Error occurred while trying to export the charging station templates, check the logs"
+      }
+    },
+    "chargePointVendor": "Vendor",
+    "chargePointModel": "Model Filter",
+    "chargeBoxSerialNumber": "Serial Number Filter"
   },
   "geomap": {
     "dialog_geolocation_title": "Set Geolocation of '{{componentName}}' '{{itemComponentName}}'",

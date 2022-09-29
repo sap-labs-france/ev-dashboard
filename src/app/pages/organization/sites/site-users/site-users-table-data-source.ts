@@ -12,20 +12,22 @@ import { UsersDialogComponent } from '../../../../shared/dialogs/users/users-dia
 import { TableAddAction } from '../../../../shared/table/actions/table-add-action';
 import { TableRemoveAction } from '../../../../shared/table/actions/table-remove-action';
 import { TableDataSource } from '../../../../shared/table/table-data-source';
+import { SiteUsersAuthorizations } from '../../../../types/Authorization';
 import { DataResult } from '../../../../types/DataResult';
 import { ButtonAction, RestResponse } from '../../../../types/GlobalType';
 import { Site } from '../../../../types/Site';
 import { TableActionDef, TableColumnDef, TableDataSourceMode, TableDef } from '../../../../types/Table';
-import { User, UserSite } from '../../../../types/User';
+import { SiteUser, User } from '../../../../types/User';
 import { Utils } from '../../../../utils/Utils';
 import { SiteUsersAdminCheckboxComponent } from './site-users-admin-checkbox.component';
 import { SiteUsersOwnerRadioComponent } from './site-users-owner-radio.component';
 
 @Injectable()
-export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
+export class SiteUsersTableDataSource extends TableDataSource<SiteUser> {
   private site!: Site;
   private addAction = new TableAddAction().getActionDef();
   private removeAction = new TableRemoveAction().getActionDef();
+  private siteUsersAuthorization: SiteUsersAuthorizations;
 
   public constructor(
     public spinnerService: SpinnerService,
@@ -39,18 +41,24 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
     this.initDataSource();
   }
 
-  public loadDataImpl(): Observable<DataResult<UserSite>> {
+  public loadDataImpl(): Observable<DataResult<SiteUser>> {
     return new Observable((observer) => {
       // Site data provided?
       if (this.site) {
-        this.addAction.visible = this.site.canAssignUsers;
-        this.removeAction.visible = this.site.canUnassignUsers;
         // Yes: Get data
         this.centralServerService.getSiteUsers(
           { ...this.buildFilterValues(), SiteID: this.site.id },
           this.getPaging(), this.getSorting()
-        ).subscribe((siteUsers) => {
-          observer.next(siteUsers);
+        ).subscribe((siteUser) => {
+          // Initialize siteUsers authorization
+          this.siteUsersAuthorization = {
+            // Authorization actions
+            canUpdateSiteUsers: Utils.convertToBoolean(siteUser.canUpdateSiteUsers)
+          };
+          this.setTableColumnDef(this.buildDynamicTableColumnDefs());
+          this.setTableDef(this.buildDynamicTableDef());
+          this.setTableActionDef(this.buildDynamicTableActionsDef());
+          observer.next(siteUser);
           observer.complete();
         }, (error) => {
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
@@ -72,7 +80,34 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
         class: 'table-dialog-list',
         rowFieldNameIdentifier: 'user.email',
         rowSelection: {
-          enabled: this.site?.canAssignUsers || this.site?.canUnassignUsers,
+          enabled: false,
+          multiple: true,
+        },
+        search: {
+          enabled: true,
+        },
+      };
+    }
+    return {
+      class: 'table-dialog-list',
+      rowFieldNameIdentifier: 'user.email',
+      rowSelection: {
+        enabled: false,
+        multiple: false,
+      },
+      search: {
+        enabled: true,
+      },
+    };
+  }
+
+  public buildDynamicTableDef(): TableDef {
+    if (this.getMode() === TableDataSourceMode.READ_WRITE) {
+      return {
+        class: 'table-dialog-list',
+        rowFieldNameIdentifier: 'user.email',
+        rowSelection: {
+          enabled: this.siteUsersAuthorization?.canUpdateSiteUsers,
           multiple: true,
         },
         search: {
@@ -94,7 +129,12 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    return [
+    // need to split into build vs buildDynamic as there are info we don't have at the init time (user "can"s)
+    return [];
+  }
+
+  public buildDynamicTableColumnDefs(): TableColumnDef[] {
+    const columns: TableColumnDef[] = [
       {
         id: 'user.name',
         name: 'users.name',
@@ -120,7 +160,7 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
         name: 'sites.admin_role',
         headerClass: 'text-center',
         class: 'col-10p',
-        visible: this.getMode() === TableDataSourceMode.READ_WRITE,
+        visible: this.siteUsersAuthorization?.canUpdateSiteUsers,
       },
       {
         id: 'siteOwner',
@@ -129,9 +169,9 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
         name: 'sites.owner_role',
         headerClass: 'text-center',
         class: 'col-10p',
-        visible: this.getMode() === TableDataSourceMode.READ_WRITE,
-      }
-    ];
+        visible: this.siteUsersAuthorization?.canUpdateSiteUsers,
+      }];
+    return columns;
   }
 
   public setSite(site: Site) {
@@ -139,14 +179,17 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
   }
 
   public buildTableActionsDef(): TableActionDef[] {
-    const tableActionsDef = super.buildTableActionsDef();
+    return super.buildTableActionsDef();
+  }
+
+  public buildDynamicTableActionsDef(): TableActionDef[] {
+    // Update filters visibility
+    this.addAction.visible = this.site?.canAssignUnassignUsers;
+    this.removeAction.visible = this.site?.canAssignUnassignUsers;
+    const tableActionsDef = [];
     if (this.getMode() === TableDataSourceMode.READ_WRITE) {
-      if (this.site.canAssignUsers) {
-        tableActionsDef.push(this.addAction);
-      }
-      if (this.site.canUnassignUsers) {
-        tableActionsDef.push(this.removeAction);
-      }
+      tableActionsDef.push(this.addAction);
+      tableActionsDef.push(this.removeAction);
     }
     return tableActionsDef;
   }
@@ -158,7 +201,6 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
       case ButtonAction.ADD:
         this.showAddUsersDialog();
         break;
-
       // Remove
       case ButtonAction.REMOVE:
         // Empty?

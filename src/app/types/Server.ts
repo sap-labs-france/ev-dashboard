@@ -15,7 +15,7 @@ export enum ServerAction {
   DEPRECATED_REST_ENDPOINT = 'DeprecatedRestEndpoint',
   LOGIN = 'Login',
   LOGOUT = 'Logout',
-  PASSWORD_RESET = 'Reset',
+  PASSWORD_RESET = 'PasswordReset',
   PING = 'Ping',
   CHECK_CONNECTION = 'CheckConnection',
 
@@ -538,6 +538,9 @@ export enum RESTServerRoute {
   REST_CHARGING_PROFILES = 'charging-profiles',
   REST_CHARGING_PROFILE = 'charging-profiles/:id',
 
+  REST_CHARGING_STATION_TEMPLATES = 'charging-station-templates',
+  REST_CHARGING_STATION_TEMPLATE = 'charging-station-templates/:id',
+
   REST_TRANSACTIONS = 'transactions',
   REST_TRANSACTIONS_IN_ERROR = 'transactions/status/in-error',
   REST_TRANSACTIONS_ACTIVE = 'transactions/status/active',
@@ -595,6 +598,7 @@ export enum RESTServerRoute {
 
   REST_TENANTS = 'tenants',
   REST_TENANT = 'tenants/:id',
+  REST_TENANT_DATA = 'tenants/:id/data',
   REST_TENANT_LOGO = 'tenants/logo',
 
   REST_COMPANIES = 'companies',

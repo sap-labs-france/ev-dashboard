@@ -3,21 +3,21 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { StatusCodes } from 'http-status-codes';
-import { BehaviorSubject, EMPTY, Observable, TimeoutError, of, throwError } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, Observer, TimeoutError, of, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 
 import { Asset, AssetConsumption } from '../types/Asset';
-import { BillingAccount, BillingTax } from '../types/Billing';
+import { BillingAccount } from '../types/Billing';
 import { Car, CarCatalog, CarMaker, ImageObject } from '../types/Car';
 import { ChargingProfile, GetCompositeScheduleCommandResult } from '../types/ChargingProfile';
 import { ChargePoint, ChargingStation, OCPPAvailabilityType, OcppParameter } from '../types/ChargingStation';
+import { ChargingStationTemplate } from '../types/ChargingStationTemplate';
 import { Company } from '../types/Company';
 import CentralSystemServerConfiguration from '../types/configuration/CentralSystemServerConfiguration';
 import { IntegrationConnection, UserConnection } from '../types/Connection';
-import { ActionResponse, ActionsResponse, AssetDataResult, AssetInErrorDataResult, BillingAccountDataResult, BillingInvoiceDataResult, BillingOperationResult, BillingPaymentMethodDataResult, BillingTaxDataResult, BillingTransferDataResult, CarCatalogDataResult, CarDataResult, ChargingProfileDataResult, ChargingStationDataResult, ChargingStationInErrorDataResult, CheckAssetConnectionResponse, CheckBillingConnectionResponse, CompanyDataResult, DataResult, LogDataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OICPJobStatusesResponse, OICPPingResponse, Ordering, Paging, PricingDefinitionDataResult, RegistrationTokenDataResult, SiteAreaDataResult, SiteDataResult, TagDataResult, UserDataResult } from '../types/DataResult';
+import { ActionResponse, ActionsResponse, AssetDataResult, AssetInErrorDataResult, BillingAccountDataResult, BillingInvoiceDataResult, BillingOperationResult, BillingPaymentMethodDataResult, BillingTaxDataResult, BillingTransferDataResult, CarCatalogDataResult, CarDataResult, ChargingProfileDataResult, ChargingStationDataResult, ChargingStationInErrorDataResult, ChargingStationTemplateDataResult, CheckAssetConnectionResponse, CheckBillingConnectionResponse, CompanyDataResult, DataResult, LogDataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OICPJobStatusesResponse, OICPPingResponse, Ordering, Paging, PricingDefinitionDataResult, RegistrationTokenDataResult, SiteAreaDataResult, SiteDataResult, SiteUserDataResult, TagDataResult, TransactionDataResult, TransactionInErrorDataResult, UserDataResult, UserSiteDataResult } from '../types/DataResult';
 import { EndUserLicenseAgreement } from '../types/Eula';
 import { FilterParams, Image, KeyValue } from '../types/GlobalType';
-import { TransactionInError } from '../types/InError';
 import { Log } from '../types/Log';
 import { OCPIEndpoint } from '../types/ocpi/OCPIEndpoint';
 import { OCPPResetType } from '../types/ocpp/OCPP';
@@ -27,13 +27,13 @@ import { RefundReport } from '../types/Refund';
 import { RegistrationToken } from '../types/RegistrationToken';
 import { RESTServerRoute, ServerAction } from '../types/Server';
 import { BillingSettings, SettingDB } from '../types/Setting';
-import { Site, SiteUser } from '../types/Site';
+import { Site } from '../types/Site';
 import { SiteArea, SiteAreaConsumption, SubSiteAreaAction } from '../types/SiteArea';
 import { StatisticData } from '../types/Statistic';
 import { Tag } from '../types/Tag';
 import { Tenant } from '../types/Tenant';
 import { OcpiData, Transaction } from '../types/Transaction';
-import { User, UserDefaultTagCar, UserSite, UserToken } from '../types/User';
+import { User, UserDefaultTagCar, UserToken } from '../types/User';
 import { Constants } from '../utils/Constants';
 import { Utils } from '../utils/Utils';
 import { ConfigService } from './config.service';
@@ -62,6 +62,28 @@ export class CentralServerService {
     public configService: ConfigService) {
     // Default
     this.initialized = false;
+  }
+
+  public initUserToken(): Observable<void> {
+    return new Observable((observer: Observer<void>) => {
+      // Read the token
+      this.localStorageService.getItem('token').subscribe({
+        next: (token: string) => {
+          this.currentUserToken = token;
+          this.currentUser = null;
+          // Decode the token
+          if (token) {
+            this.currentUser = new JwtHelperService().decodeToken(token);
+          }
+          // Notify User change
+          this.currentUserSubject.next(this.currentUser);
+          observer.complete();
+        },
+        error: (error) => {
+          observer.error(error);
+        }
+      });
+    });
   }
 
   public getWindowService(): WindowService {
@@ -356,8 +378,8 @@ export class CentralServerService {
       );
   }
 
-  public getUserSites(params: FilterParams,
-    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<SiteUser>> {
+  public getSiteUsers(params: FilterParams,
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<SiteUserDataResult> {
     // Verify init
     this.checkInit();
     // Build Paging
@@ -365,7 +387,7 @@ export class CentralServerService {
     // Build Ordering
     this.getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<DataResult<SiteUser>>(this.buildRestEndpointUrl(RESTServerRoute.REST_USER_SITES, { id: params.UserID.toString() }),
+    return this.httpClient.get<SiteUserDataResult>(this.buildRestEndpointUrl(RESTServerRoute.REST_SITE_USERS, { id: params.SiteID as string }),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -627,7 +649,7 @@ export class CentralServerService {
       );
   }
 
-  public getLastTransaction(chargingStationID: string, connectorID: number): Observable<DataResult<Transaction>> {
+  public getLastTransaction(chargingStationID: string, connectorID: number): Observable<TransactionDataResult> {
     const params: { [param: string]: string } = {};
     params['ConnectorID'] = connectorID.toString();
     params['Limit'] = '1';
@@ -636,7 +658,7 @@ export class CentralServerService {
     params['SortFields'] = '-timestamp';
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<DataResult<Transaction>>(this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATIONS_TRANSACTIONS, { id: chargingStationID }),
+    return this.httpClient.get<TransactionDataResult>(this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATIONS_TRANSACTIONS, { id: chargingStationID }),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -785,8 +807,8 @@ export class CentralServerService {
       );
   }
 
-  public getSiteUsers(params: FilterParams,
-    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<UserSite>> {
+  public getUserSites(params: FilterParams,
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<UserSiteDataResult> {
     // Verify init
     this.checkInit();
     // Build Paging
@@ -794,7 +816,7 @@ export class CentralServerService {
     // Build Ordering
     this.getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<DataResult<UserSite>>(this.buildRestEndpointUrl(RESTServerRoute.REST_SITE_USERS, { id: params.SiteID as string }),
+    return this.httpClient.get<UserSiteDataResult>(this.buildRestEndpointUrl(RESTServerRoute.REST_USER_SITES, { id: params.UserID.toString() }),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -984,7 +1006,7 @@ export class CentralServerService {
   }
 
   public getUsersInError(params: FilterParams,
-    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<User>> {
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<UserDataResult> {
     // Verify init
     this.checkInit();
     // Build Paging
@@ -992,7 +1014,7 @@ export class CentralServerService {
     // Build Ordering
     this.getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<DataResult<User>>(this.buildRestEndpointUrl(RESTServerRoute.REST_USERS_IN_ERROR),
+    return this.httpClient.get<UserDataResult>(this.buildRestEndpointUrl(RESTServerRoute.REST_USERS_IN_ERROR),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -1076,7 +1098,7 @@ export class CentralServerService {
   }
 
   public getTransactions(params: FilterParams,
-    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Transaction>> {
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<TransactionDataResult> {
     // Verify init
     this.checkInit();
     // Build Paging
@@ -1084,7 +1106,7 @@ export class CentralServerService {
     // Build Ordering
     this.getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<DataResult<Transaction>>(this.buildRestEndpointUrl(RESTServerRoute.REST_TRANSACTIONS_COMPLETED),
+    return this.httpClient.get<TransactionDataResult>(this.buildRestEndpointUrl(RESTServerRoute.REST_TRANSACTIONS_COMPLETED),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -1096,7 +1118,7 @@ export class CentralServerService {
 
   public getTransactionsToRefund(params: FilterParams,
     paging: Paging = Constants.DEFAULT_PAGING,
-    ordering: Ordering[] = []): Observable<DataResult<Transaction>> {
+    ordering: Ordering[] = []): Observable<TransactionDataResult> {
     // Verify init
     this.checkInit();
     // Build Paging
@@ -1104,7 +1126,7 @@ export class CentralServerService {
     // Build Ordering
     this.getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<DataResult<Transaction>>(this.buildRestEndpointUrl(RESTServerRoute.REST_TRANSACTIONS_REFUND),
+    return this.httpClient.get<TransactionDataResult>(this.buildRestEndpointUrl(RESTServerRoute.REST_TRANSACTIONS_REFUND),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -1279,7 +1301,7 @@ export class CentralServerService {
   }
 
   public getTransactionsInError(params: FilterParams,
-    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<TransactionInError>> {
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<TransactionInErrorDataResult> {
     // Verify init
     this.checkInit();
     // Build Paging
@@ -1287,7 +1309,7 @@ export class CentralServerService {
     // Build Ordering
     this.getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<DataResult<TransactionInError>>(this.buildRestEndpointUrl(RESTServerRoute.REST_TRANSACTIONS_IN_ERROR),
+    return this.httpClient.get<TransactionInErrorDataResult>(this.buildRestEndpointUrl(RESTServerRoute.REST_TRANSACTIONS_IN_ERROR),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -1298,7 +1320,7 @@ export class CentralServerService {
   }
 
   public getActiveTransactions(params: FilterParams,
-    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Transaction>> {
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<TransactionDataResult> {
     // Verify init
     this.checkInit();
     // Build Paging
@@ -1306,7 +1328,7 @@ export class CentralServerService {
     // Build Ordering
     this.getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<DataResult<Transaction>>(this.buildRestEndpointUrl(RESTServerRoute.REST_TRANSACTIONS_ACTIVE),
+    return this.httpClient.get<TransactionDataResult>(this.buildRestEndpointUrl(RESTServerRoute.REST_TRANSACTIONS_ACTIVE),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -1426,6 +1448,19 @@ export class CentralServerService {
     this.checkInit();
     // Execute the REST service
     return this.httpClient.put<ActionResponse>(this.buildRestEndpointUrl(RESTServerRoute.REST_TENANT, { id: tenant.id }), tenant,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public updateTenantData(tenant: Tenant): Observable<ActionResponse> {
+    // Verify init
+    this.checkInit();
+    // Execute the REST service
+    return this.httpClient.put<ActionResponse>(this.buildRestEndpointUrl(RESTServerRoute.REST_TENANT_DATA, { id: tenant.id }), tenant,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2009,10 +2044,6 @@ export class CentralServerService {
   }
 
   public getLoggedUser(): UserToken {
-    // Get the token
-    if (!this.currentUser) {
-      this.readAndDecodeTokenFromLocalStorage();
-    }
     return this.currentUser;
   }
 
@@ -3405,6 +3436,88 @@ export class CentralServerService {
       );
   }
 
+  public getChargingStationTemplates(params: FilterParams,
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<ChargingStationTemplateDataResult> {
+    // Verify init
+    this.checkInit();
+    // Build Paging
+    this.getPaging(paging, params);
+    // Build Ordering
+    this.getSorting(ordering, params);
+    const url = this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATION_TEMPLATES);
+    // Execute the REST service
+    return this.httpClient.get<ChargingStationTemplateDataResult>(url,
+      {
+        headers: this.buildHttpHeaders(),
+        params
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public getChargingStationTemplate(id: string): Observable<ChargingStationTemplate> {
+    // Verify init
+    this.checkInit();
+    // Execute the REST service
+    if (!id) {
+      return EMPTY;
+    }
+    const url = this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATION_TEMPLATE, { id });
+    return this.httpClient.get<ChargingStationTemplate>(url,
+      {
+        headers: this.buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public createChargingStationTemplate(template: ChargingStationTemplate): Observable<ActionResponse> {
+    // Verify init
+    this.checkInit();
+    const url = this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATION_TEMPLATES);
+    // Execute the REST service
+    return this.httpClient.post<ActionResponse>(url, template,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public updateChargingStationTemplate(template: ChargingStationTemplate): Observable<ActionResponse> {
+    // Verify init
+    this.checkInit();
+    const url = this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATION_TEMPLATE, { id: template.id });
+    // Execute
+    return this.httpClient.put<ActionResponse>(url, template,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public deleteChargingStationTemplate(id: string): Observable<ChargingStationTemplate> {
+    // Verify init
+    this.checkInit();
+    // Execute the REST service
+    if (!id) {
+      return EMPTY;
+    }
+    const url = this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATION_TEMPLATE, { id });
+    return this.httpClient.delete<ChargingStationTemplate>(url,
+      {
+        headers: this.buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
   public buildImportTagsUsersHttpHeaders(
     autoActivateUserAtImport?: string, autoActivateTagAtImport?: string): { name: string; value: string }[] {
     // Build File Header
@@ -3439,24 +3552,7 @@ export class CentralServerService {
   }
 
   private getLoggedUserToken(): string {
-    // Get the token
-    if (!this.currentUserToken) {
-      this.readAndDecodeTokenFromLocalStorage();
-    }
     return this.currentUserToken;
-  }
-
-  private readAndDecodeTokenFromLocalStorage() {
-    // Read the token
-    this.localStorageService.getItem('token').subscribe((token: string) => {
-      this.currentUserToken = token;
-      this.currentUser = null;
-      // Decode the token
-      if (token) {
-        this.currentUser = new JwtHelperService().decodeToken(token);
-      }
-      this.currentUserSubject.next(this.currentUser);
-    });
   }
 
   private clearLoggedUser(): void {
@@ -3558,7 +3654,7 @@ export class CentralServerService {
       errorInfo.message = error.message ?? error.toString();
       errorInfo.details = error.error ?? null;
     }
-    return throwError(errorInfo);
+    return throwError(() => errorInfo);
   }
 
   private processImage(blob: Blob): Observable<string> {

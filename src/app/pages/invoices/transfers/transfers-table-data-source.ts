@@ -8,7 +8,8 @@ import { WindowService } from 'services/window.service';
 import { TableFinalizeBillingTransferAction } from 'shared/table/actions/invoices/table-finalize-billing-transfer-action';
 import { TableSendBillingTransferAction } from 'shared/table/actions/invoices/table-send-billing-transfer-action';
 import { TableMoreAction } from 'shared/table/actions/table-more-action';
-import { TableViewTransactionAction, TableViewTransactionActionDef, TransactionDialogData } from 'shared/table/actions/transactions/table-view-transaction-action';
+import { TableViewTransactionAction } from 'shared/table/actions/transactions/table-view-transaction-action';
+import { TableDownloadCommissionInvoice } from 'shared/table/actions/transfers/table-download-commission_invoice-action';
 import { DateRangeTableFilter } from 'shared/table/filters/date-range-table-filter';
 import { BillingTransfer, BillingTransferStatus, TransferButtonAction } from 'types/Billing';
 
@@ -32,6 +33,7 @@ import { TransferStatusFormatterComponent } from '../formatters/transfer-status-
 
 @Injectable()
 export class TransfersTableDataSource extends TableDataSource<BillingTransfer> {
+  private downloadCommissionInvoice = new TableDownloadCommissionInvoice().getActionDef();
   private viewAction = new TableViewTransactionAction().getActionDef();
   private finalizeBillingTransferAction = new TableFinalizeBillingTransferAction().getActionDef();
   private sendBillingTransferAction = new TableSendBillingTransferAction().getActionDef();
@@ -54,7 +56,8 @@ export class TransfersTableDataSource extends TableDataSource<BillingTransfer> {
     // Load settings
     // this.loadSettings();
     // Init
-    this.setStaticFilters([{WithUser: true,
+    this.setStaticFilters([{
+      WithUser: true,
     }]);
     this.initDataSource();
   }
@@ -152,7 +155,7 @@ export class TransfersTableDataSource extends TableDataSource<BillingTransfer> {
       },
       {
         id: 'invoice.totalAmount',
-        name: 'Fees (incl. taxes)',
+        name: 'transfers.platform_fee_tax_inclusive',
         formatter: (amount: number, transfer: BillingTransfer) => this.appCurrencyPipe.transform(amount, transfer.currency),
         headerClass: 'col-10p',
         class: 'col-10p',
@@ -239,17 +242,20 @@ export class TransfersTableDataSource extends TableDataSource<BillingTransfer> {
   public buildTableDynamicRowActions(transfer: BillingTransfer): TableActionDef[] {
     const rowActions: TableActionDef[] = [];
     const moreActions = new TableMoreAction([]);
-    if ( transfer.status === BillingTransferStatus.PENDING ) {
+    if (transfer.status === BillingTransferStatus.PENDING) {
       // ACHTUNG - Do not reuse the common instance of the action
       const disabledAction = new TableFinalizeBillingTransferAction().getActionDef();
       disabledAction.disabled = true;
       moreActions.addActionInMoreActions(disabledAction);
     }
-    if ( transfer.status === BillingTransferStatus.DRAFT ) {
+    if (transfer.status === BillingTransferStatus.DRAFT) {
       moreActions.addActionInMoreActions(this.finalizeBillingTransferAction);
     }
-    if ( transfer.status === BillingTransferStatus.FINALIZED ) {
+    if (transfer.status === BillingTransferStatus.FINALIZED) {
       moreActions.addActionInMoreActions(this.sendBillingTransferAction);
+    }
+    if (transfer.invoice && transfer.canDownload) {
+      rowActions.push(this.downloadCommissionInvoice);
     }
     if (!Utils.isEmptyArray(moreActions.getActionsInMoreActions())) {
       rowActions.push(moreActions.getActionDef());
@@ -290,6 +296,14 @@ export class TransfersTableDataSource extends TableDataSource<BillingTransfer> {
         //     { dialogData: { transferID: transfer.id } as TransferDialogData },
         //     this.refreshData.bind(this));
         // }
+        break;
+      case TransferButtonAction.DOWNLOAD_COMMISSION_INCOICE:
+        if (this.downloadCommissionInvoice.action) {
+          this.downloadCommissionInvoice.action(
+            transfer.id, 'invoice_' + transfer.invoice?.invoiceID, this.translateService, this.spinnerService,
+            this.messageService, this.centralServerService, this.router
+          );
+        }
         break;
       case TransferButtonAction.FINALIZE_TRANSFER:
         if (this.finalizeBillingTransferAction.action) {

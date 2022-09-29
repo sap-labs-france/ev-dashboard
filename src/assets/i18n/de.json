@@ -189,7 +189,8 @@
       "template": "Vorlagen",
       "cars": "Fahrzeuge",
       "invoices": "Rechnungen",
-      "tags": "Badges"
+      "tags": "Badges",
+      "charging_station_templates": "Charging Station Templates"
     },
     "tooltips": {
       "push_cdr": "CDR senden",
@@ -472,38 +473,38 @@
     "select_parent_site_area": "Übergeordneten Standortbereich wählen",
     "site_area_hierarchy_error_title": "Standortbereich Hierarchie Fehler",
     "site_area_tree_error": [
-      "An error occurred while modifying the Site Area chain.",
-      "Avoid circular dependencies within the tree.",
-      "For more information please check the logs."
+      "Beim Bearbeiten der Standortbereichshierarchie ist ein Fehler aufgetreten.",
+      "Bitte vermeiden Sie zirkuläre Strukturen.",
+      "Für weitere Informationen überprüfen Sie die Logs."
     ],
     "site_area_tree_error_site": [
-      "An error occurred while modifying the Site Area chain.",
-      "Site Area has children with a different Site.",
-      "Do you want to:",
-      "1 - Update all Site Area chain with the new Site",
-      "2 - Assign the current parent Site Area to all children",
-      "3 - Clear the parent Site Area in all children"
+      "Beim Bearbeiten der Standortbereichshierarchie ist ein Fehler aufgetreten.",
+      "Der Standortbereich hat untergeordnete Bereiche mit einem anderen Standort",
+      "Wollen Sie:",
+      "1 - Alle Standortbereiche der Hierarchie mit dem neuen Standort aktualisieren",
+      "2 - Den aktuellen Standortbereich allen untergeordneten Standorbereichen zuordnen",
+      "3 - Den übergeordneten Standortbereich in allen untergeordneten Standortbereichen löschen"
     ],
-    "site_area_tree_error_site_update": "Update (1)",
-    "site_area_tree_error_site_attach": "Assign (2)",
-    "site_area_tree_error_site_clear": "Clear (3)",
+    "site_area_tree_error_site_update": "Aktualisieren (1)",
+    "site_area_tree_error_site_attach": "Zuordnen (2)",
+    "site_area_tree_error_site_clear": "Löschen (3)",
     "site_area_tree_error_smart_charging": [
-      "An error occurred while modifying the Site Area chain.",
-      "Site Area must have the same Smart Charging value as its parent.",
-      "Do you want change the Smart Charging value to the whole Site Area chain?"
+      "Beim Bearbeiten der Standortbereichshierarchie ist ein Fehler aufgetreten.",
+      "Der Standortbereich muss denselben Smart Charging-Wert haben wie sein übergeordneter Bereich.",
+      "Möchten Sie den Smart Charging-Wert für die gesamte Standortbereichshierarchie ändern?"
     ],
     "site_area_tree_error_voltage": [
-      "An error occurred while modifying the Site Area chain.",
-      "Site Area must have the same Voltage as its parent."
+      "Beim Bearbeiten der Standortbereichshierarchie ist ein Fehler aufgetreten.",
+      "Der Standortbereich muss die gleiche Spannung haben wie sein übergeordneter Bereich."
     ],
     "site_area_tree_error_number_of_phases": [
-      "An error occurred while modifying the Site Area chain.",
-      "Site Area must have the same Number of Phases as its parent."
+      "Beim Bearbeiten der Standortbereichshierarchie ist ein Fehler aufgetreten.",
+      "Der Standortbereich muss die gleiche Anzahl an Phasen haben wie sein übergeordneter Bereich."
     ],
     "site_area_tree_error_multiple_actions_not_supported": [
-      "An error occurred while modifying the Site Area chain.",
-      "Multiple changes are currently not supported (eg. change of Site and Smart Charging.)",
-      "Perform one change at a time."
+      "Beim Bearbeiten der Standortbereichshierarchie ist ein Fehler aufgetreten.",
+      "Mehrfache Änderungen werden derzeit nicht unterstützt (z.B. Wechsel des Standorts und Smart Charging)",
+      "Bitte führen Sie nur eine Änderung auf einmal durch."
     ],
     "site_invalid": "Standortbereich ungültig",
     "site_area_does_not_exist": "Standortbereich existiert nicht",
@@ -1139,16 +1140,16 @@
       "registration_token_creation_confirm": "Wollen Sie wirklich einen Registrierungstoken für Ladestationen dieses Standortbereichs erstellen?",
       "registration_token_creation_success": "Registrierungstoken wurde erfolgreich erstellt",
       "registration_token_creation_error": "Beim Erstellen des Registrierungstoken ist ein Fehler aufgetreten",
-      "registration_token_site_admin_creation_error": "You must provide a site linked to this registration token",
+      "registration_token_site_admin_creation_error": "Es muss ein Standort angegeben werden, der mit diesem Registrierungstoken verknüpft ist",
       "registration_token_revoke_title": "Registierungstoken widerrufen",
       "registration_token_revoke_confirm": "Wollen Sie den Registrierungstoken wirklich widerrufen?",
       "registration_token_revoke_success": "Registrierungstoken wurde erfolgreich widerrufen",
       "registration_token_revoke_error": "Beim Widerrufen des Registrierungstokens ist ein Fehler aufgetreten",
       "registration_token_update_title": "Update Registration Token",
-      "registration_token_update_confirm": "Do you really want to update the registration token ?",
-      "registration_token_update_success": "Registration token has been updated successfully",
-      "registration_token_update_error": "Error occurred while updating a registration token, check the logs",
-      "registration_token_not_found": "Registration token has not been found",
+      "registration_token_update_confirm": "Wollen Sie den Registrierungstoken wirklich aktualisieren??",
+      "registration_token_update_success": "Der Registrierungstoken wurde erfolgreich aktualisiert",
+      "registration_token_update_error": "Beim Aktualisieren eines Registrierungstokens ist ein Fehler aufgetreten, überprüfen Sie die Logs",
+      "registration_token_not_found": "Registrierungstoken wurde nicht gefunden",
       "registration_token_delete_title": "Registrierungstoken löschen",
       "registration_token_delete_confirm": "Wollen Sie den Registrierungstoken wirklich löschen?",
       "registration_token_delete_success": "Registrierungstoken wurde erfolgreich gelöscht",
@@ -1157,7 +1158,7 @@
       "registration_token_valid": "Gültig",
       "registration_token_expired": "Abgelaufen",
       "registration_token_revoked": "Widerrufen",
-      "registration_token_error": "Error occurred while retrieving the token, check the logs",
+      "registration_token_error": "Beim Abrufen des Tokens ist ein Fehler aufgetreten, überprüfen Sie die Logs",
       "token_restrict_site_area": "Zugang auf einen Standortbereich beschränken",
       "url": "OCPP-URL",
       "copy_url_tooltip": "OCPP-URL kopieren",
@@ -1270,8 +1271,8 @@
     "locale_desc_de_DE": "Deutsch",
     "locale_desc_pt_PT": "Portugiesisch",
     "locale_desc_it_IT": "Italienisch",
-    "locale_desc_cs_CZ":"Czech",
-    "locale_desc_en_AU": "Australian",
+    "locale_desc_cs_CZ":"Tschechisch",
+    "locale_desc_en_AU": "Australisch",
     "role_unknown": "Unbekannt",
     "locale_unknown": "Unbekannt",
     "status": "Status",
@@ -1414,6 +1415,7 @@
       "list": "Transfers"
     },
     "tooltips": {
+      "download": "Download commission invoice",
       "finalize": "Finalize transfer",
       "send": "Send transfer"
     },
@@ -1428,12 +1430,14 @@
     "collected_funds": "Collected Funds",
     "document_number": "Invoice",
     "platform_fee_amount": "Collected Fee",
+    "platform_fee_tax_inclusive": "Fees (incl. taxes)",
     "transferAmount": "Transfer",
     "number_of_items": "Sessions",
     "transferExternalID": "External ID",
     "accountOwner": "Business Owner",
     "cannot_finalize_transfer": "Operation failed - The transfer could not be finalized",
-    "cannot_send_transfer": "Operation failed - The transfer has not been sent to the billing system"
+    "cannot_send_transfer": "Operation failed - The transfer has not been sent to the billing system",
+    "cannot_download_commission_incoice": "Cannot download commission invoice"
   },
   "tags": {
     "id": "RFID",
@@ -1511,9 +1515,9 @@
     "save_error_refund": "Preisbildung muss für die Rückerstattung aktiv sein",
     "save_error_roaming": "Sie können nicht gleichzeitig die OCPI- und die OICP-Roaming-Komponente aktivieren.",
     "save_error_billing": "Preisbildung muss für Rechnungslegung aktiv sein",
-    "save_error_billing_platform": "Billing must be active to use Billing Platform",
+    "save_error_billing_platform": "Rechnungslegung muss aktiv sein, um die Rechnungslegungsplattform nutzen zu können.",
     "save_error_smart_charging": "Organisation muss für Smart-Charging aktiv sein",
-    "save_error_building": "Organisation muss aktiv sein, um Assets zu nutzen zu können",
+    "save_error_asset": "Organisation muss aktiv sein, um Assets zu nutzen zu können",
     "save_error_car_connector": "Fahrzeug Management muss aktiv sein, um Fahrzeug Verbindungen zu nutzen",
     "smart_charging_still_active_for_site_area": [
       "Smart-Charging ist für ausgewählte Standortbereiche noch immer aktiv.",
@@ -1572,7 +1576,7 @@
       "pricing": "Preisbildung",
       "billing": "Rechnungslegung",
       "analytics": "Analysen",
-      "smartCharging": "Smart-Charging",
+      "smart_charging": "Smart-Charging",
       "asset": "Asset",
       "car_connector": "Fahrzeug-Schnittstellen"
     },
@@ -1654,16 +1658,16 @@
       "full_description": "Open E-Mobility provides a pricing module which allows a flexible definition of your company's pricing strategy.",
       "pricing_currency_changed_title": "Modification of the currency",
       "pricing_currency_changed_confirm": [
-        "You are about to change the currency. This will force you to reconnect after saving.",
-        "<strong> WARNING ! </strong>Once saved, the currency cannot be modified anymore!",
-        "Do you confirm that the selected value is correct?"
+        "Sie ändern die Währung. Dies erfordert ein erneutes Verbinden nach dem Speichern.",
+        "<strong> WARNUNG ! </strong>Einmal gespeichert, kann die Währung nicht mehr geändert werden!",
+        "Bestätigen Sie, dass der ausgewählte Wert korrekt ist?"
       ],
       "settings": {
         "title": "Preiseinstellungen",
         "price": "Preis (pro kW.h)",
         "currency": "Währung"
       },
-      "end_date_error": "The date must be greater than the valid-from date",
+      "end_date_error": "Das Datum muss nach dem Anfangsdatum liegen.",
       "valid_from": "Gültig ab",
       "valid_to": "Gültig bis",
       "flat_fee": "Pauschalgebühr",
@@ -1792,6 +1796,7 @@
         "immediate_billing": "Unverzügliche Abrechnung",
         "periodic_billing": "Periodische Abrechnung",
         "tax": "Steuern",
+        "platform_fee_tax": "Platform Fee Tax",
         "no_tax": "Keine Steuern"
       }
     },
@@ -1915,7 +1920,8 @@
   "technical_settings": {
     "tabs": {
       "crypto": "Krypto",
-      "users": "Nutzer"
+      "users": "Nutzer",
+      "organization": "Organisation"
     },
     "crypto": {
       "crypto_key": {
@@ -1980,10 +1986,10 @@
     "unregister_success": "Der IOP '{{name}}' wurde erfolgreich abgemeldet",
     "register_error": "Beim Registrieren des IOP ist ein Fehler aufgetreten",
     "unregister_error": "Beim Abmelden des IOP ist ein Fehler aufgetreten",
-    "update_credentials_title": "Update Credentials IOP",
-    "update_credentials_confirm": "Do you want to update the credentials in the IOP '{{name}}'?",
-    "update_credentials_success": "The credentials have been updated successfully in the IOP '{{name}}'",
-    "update_credentials_error": "Error occurred while updating the credentials with the IOP, check the logs",
+    "update_credentials_title": "IOP Zugangsdaten aktualisieren",
+    "update_credentials_confirm": "Wollen Sie die Zugangsdaten im IOP '{{name}}' wirklich aktualisieren?",
+    "update_credentials_success": "Die Zugangsdaten im IOP '{{name}}' wurden erfolgreich aktualisiert",
+    "update_credentials_error": "Beim Aktualisieren der Zugangsdaten im IOP ist ein Fehler aufgetreten, überprüfen Sie die Logs",
     "push_evse_statuses_title": "EVSE Status senden",
     "push_tokens_title": "Nutzer-Token senden",
     "push_evse_statuses_confirm": "Wollen Sie wirklich alle EVSE-Status zu IOP '{{name}}' senden?",
@@ -2039,9 +2045,9 @@
     "start_background_job_confirm": "Wollen Sie die Hintergrundaktivitäten für IOP '{{name}}' starten?",
     "stop_background_job_title": "Stop Hintergrundaktivitäten",
     "stop_background_job_confirm": "Wollen Sie die Hintergrundaktivitäten für IOP '{{name}}' stoppen?",
-    "total_charge_points": "Charging Stations",
-    "total_tokens": "RFID Cards",
-    "total_locations": "Sites",
+    "total_charge_points": "Ladestationen",
+    "total_tokens": "RFID Karten",
+    "total_locations": "Standorte",
     "total": "Gesamt",
     "succeeded": "Erfolgreich",
     "failed": "Fehlgeschlagen"
@@ -2051,9 +2057,9 @@
     "type_placeholder": "Typ",
     "roaming_platforms": "Interoperabilitäts-Plattform",
     "cpo": "Charging Point Operator",
-    "enable_cpo": "Enable Charging Point Operator",
+    "enable_cpo": "Charging Point Operator aktivieren",
     "emsp": "e-Mobility Service Provider",
-    "enable_emsp": "Enable e-Mobility Service Provider",
+    "enable_emsp": "e-Mobility Service Provider aktivieren",
     "tariff_id": "Tarif-ID",
     "description": "Open Charge Point Interface",
     "details": "Identifikation",
@@ -2071,7 +2077,7 @@
     "check_locations": "Standorte überprüfen",
     "check_sessions": "Ladevorgänge überprüfen",
     "check_cdrs": "CDRs überprüfen",
-    "update_credentials": "Update Credentials",
+    "update_credentials": "Zugangsdaten aktualisieren",
     "businessdetails": {
       "name": "Name des Betreibers",
       "website": "Link zur Betreiber-Website",
@@ -2390,8 +2396,8 @@
     }
   },
   "billingPlatform": {
-    "title": "Billing Platform",
-    "description": "Manage several billing accounts"
+    "title": "Rechnungslegungs-Platform",
+    "description": "Verwalten Sie verschiedene Rechnungslegungs-Accounts"
   },
   "transactions": {
     "id": "Id",
@@ -2574,10 +2580,12 @@
         "pricing-detail-description": "Beschreibung",
         "pricing-detail-entity-type": "Entitätstyp",
         "pricing-detail-entity-id": "Entitäts-ID",
+        "pricing-detail-entity-name": "Entity Name",
         "pricing-detail-unit-price": "Preis pro Einheit",
         "pricing-detail-consumption": "Verbrauch",
         "pricing-detail-duration": "Dauer",
-        "pricing-detail-amount": "Betrag"
+        "pricing-detail-amount": "Betrag",
+        "pricing-detail-view-all": "View all"
       }
     },
     "notification": {
@@ -2663,6 +2671,32 @@
         "action": "Löschen Sie den Ladevorgang oder erstellen Sie eine Rechnung dafür"
       }
     }
+  },
+  "templates": {
+    "title": "Charging Station Template",
+    "tabs": {
+      "charging_station_templates": "Charging Station Templates"
+    },
+    "invalid_json": "Invalid JSON format",
+    "template_not_found": "Template has not been found",
+    "create_success": "The template '{{template}}' has been created successfully",
+    "create_error": "Error occurred while creating the template, check the logs",
+    "update_success": "The template '{{template}}' has been updated successfully",
+    "update_error": "Error occurred while updating the template, check the logs",
+    "delete_confirm": "Do you really want to delete the template '{{template}}'?",
+    "delete_success": "The template '{{template}}' has been deleted successfully",
+    "delete_error": "Error occurred while deleting the template, check the logs",
+    "delete_title": "Delete Template",
+    "dialog": {
+      "export": {
+        "title": "Export charging station templates",
+        "confirm": "Do you really want to export all the charging station templates matching the filters?",
+        "error": "Error occurred while trying to export the charging station templates, check the logs"
+      }
+    },
+    "chargePointVendor": "Vendor",
+    "chargePointModel": "Model Filter",
+    "chargeBoxSerialNumber": "Serial Number Filter"
   },
   "geomap": {
     "dialog_geolocation_title": "Geolokation der Ladestation '{{chargeBoxID}}' setzen",

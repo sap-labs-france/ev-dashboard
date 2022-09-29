@@ -17,6 +17,18 @@
     ],
     "target": {
       "namespace": "android_app",
+      "package_name": "com.normatech.lodmi",
+      "sha256_cert_fingerprints": [
+        "D2:B4:FC:74:5F:C8:FB:9C:AB:93:48:C0:75:04:67:E9:BA:05:E3:06:7F:26:53:22:E3:8B:6F:7F:33:EB:E4:51"
+      ]
+    }
+  },
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
       "package_name": "com.chargeangels",
       "sha256_cert_fingerprints": [
         "70:9B:E4:D2:6D:DD:59:44:91:1E:52:69:A7:E9:D5:7F:A7:24:88:DD:21:1F:33:57:04:39:C1:10:3B:40:C0:AB"

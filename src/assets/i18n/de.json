@@ -241,6 +241,7 @@
       "force_available_status": "Status verfügbar erzwingen",
       "force_unavailable_status": "Status nicht verfügbar erzwingen",
       "display_users": "Nutzer anzeigen",
+      "display_sites": "Display sites",
       "pricing": "Manuelle Preisbildung"
     }
   },
@@ -1342,6 +1343,7 @@
     "update_remove_site_owner_success": "Der Nutzer ist nun nicht mehr Eigentümer des Standortes '{{siteName}}'",
     "update_site_owner_role_error": "Beim Versuch die Berechtigungen zu aktualisieren ist am Standort '{{siteName}}' ein Fehler aufgetreten",
     "redirect": "Zum Nutzer navigieren",
+    "display_sites": "Display sites",
     "connectors": {
       "connect": "Verbinden",
       "revoke": "Widerrufen",

@@ -241,6 +241,7 @@
       "force_available_status": "Forza Stato a Disponibile",
       "force_unavailable_status": "Forza Stato a Non Disponibile",
       "display_users": "Display users",
+      "display_sites": "Display sites",
       "pricing": "Pricing"
     }
   },
@@ -1342,6 +1343,7 @@
     "update_remove_site_owner_success": "L'utente non è più proprietario del sito '{{siteName}}'",
     "update_site_owner_role_error": "Si è verificato un errore durante il tentativo di aggiornamento dei diritti utente del sito '{{siteName}}'",
     "redirect": "Navigate to User",
+    "display_sites": "Display sites",
     "connectors": {
       "connect": "Connetti",
       "revoke": "Revoca",

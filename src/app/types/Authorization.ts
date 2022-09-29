@@ -55,7 +55,8 @@ export enum Entity {
   TRANSACTION = 'Transaction',
   REPORT = 'Report',
   USER = 'User',
-  USERS_SITES = 'UsersSites',
+  USER_SITE = 'UserSite',
+  SITE_USER = 'SiteUser',
   LOGGING = 'Logging',
   PRICING = 'Pricing',
   PRICING_DEFINITION = 'PricingDefinition',
@@ -135,8 +136,8 @@ export enum Action {
   TRIGGER_JOB = 'TriggerJob',
   DOWNLOAD = 'Download',
   IMPORT = 'Import',
-  ASSIGN_USERS_TO_SITE = 'AssignUsers',
-  UNASSIGN_USERS_FROM_SITE = 'UnassignUsers',
+  ASSIGN_USERS_TO_SITE = 'AssignUsersToSite',
+  UNASSIGN_USERS_FROM_SITE = 'UnassignUsersFromSite',
   ASSIGN_ASSETS_TO_SITE_AREA = 'AssignAssets',
   UNASSIGN_ASSETS_FROM_SITE_AREA = 'UnassignAssets',
   READ_ASSETS_FROM_SITE_AREA = 'ReadAssets',
@@ -229,8 +230,39 @@ export interface UsersAuthorizations extends AuthorizationAttributes, UsersAutho
 export interface UsersAuthorizationActions extends DataResultAuthorizationActions {
   canImport?: boolean;
   canExport?: boolean;
+  canListTags?: boolean;
+  canListSites?: boolean;
 }
 
+export interface UserAuthorizationActions extends AuthorizationActions {
+  canAssignUnassignSites?: boolean;
+  canListUserSites?: boolean;
+  canListTags?: boolean;
+  canListCompletedTransactions?: boolean;
+  canSynchronizeBillingUser?: boolean;
+}
+
+export interface UserSitesAuthorizations extends AuthorizationAttributes, UserSitesAuthorizationActions {
+  canUpdateUserSites?: boolean;
+}
+
+export interface UserSitesAuthorizationActions extends DataResultAuthorizationActions {
+}
+
+export interface UserSiteAuthorizationActions extends AuthorizationActions {
+}
+
+export interface SiteUsersAuthorizations extends AuthorizationAttributes, SiteUsersAuthorizationActions {
+  canUpdateSiteUsers?: boolean;
+}
+
+export interface SiteUsersAuthorizationActions extends DataResultAuthorizationActions {
+}
+
+export interface SiteUserAuthorizationActions extends AuthorizationActions {
+}
+
+// ASSETS
 export interface AssetsAuthorizations extends AuthorizationAttributes, AssetsAuthorizationActions {
 }
 
@@ -267,9 +299,8 @@ export interface SitesAuthorizationActions extends DataResultAuthorizationAction
 }
 
 export interface SiteAuthorizationActions extends AuthorizationActions {
-  canAssignUsers?: boolean;
-  canUnassignUsers?: boolean;
-  canReadUsers?: boolean;
+  canAssignUnassignUsers?: boolean;
+  canListSiteUsers?: boolean;
   canExportOCPPParams?: boolean;
   canGenerateQrCode?: boolean;
   canMaintainPricingDefinitions?: boolean;

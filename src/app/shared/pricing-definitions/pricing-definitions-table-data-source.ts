@@ -119,14 +119,14 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
         name: 'transactions.dialog.session.pricing-detail-entity-type',
         headerClass: 'col-15p',
         class: 'col-15p',
-        visible: this.viewingAllComponents,
-      },
+      }]);
+    }
+    tableActions.push(...[
       {
         id: 'entityName',
         name: 'transactions.dialog.session.pricing-detail-entity-name',
         headerClass: 'col-15p',
         class: 'col-15p',
-        visible: this.viewingAllComponents,
       },
       {
         id: 'id',
@@ -135,9 +135,7 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
         class: 'text-center table-cell-angular-big-component',
         isAngularComponent: true,
         angularComponent: PricingDefinitionDetailCellComponent,
-      }]);
-    }
-    tableActions.push(...[
+      },
       {
         id: 'staticRestrictions.validFrom',
         name: 'settings.pricing.valid_from',

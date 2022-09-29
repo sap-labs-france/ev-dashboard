@@ -30,7 +30,7 @@ export class PricingDefinitionDetailCellComponent extends CellContentTemplateDir
       );
     }
     if(connectorPowerkW) {
-      connectorText += ` - ${this.translateService.instant('settings.pricing.connector_power')}: ${connectorPowerkW} ${this.translateService.instant('settings.pricing.connector_power_unit')}`
+      connectorText += ` - ${this.translateService.instant('settings.pricing.connector_power')}: ${connectorPowerkW} ${this.translateService.instant('settings.pricing.connector_power_unit')}`;
     }
     return connectorText;
   }
@@ -40,7 +40,7 @@ export class PricingDefinitionDetailCellComponent extends CellContentTemplateDir
     for (const day of this.row?.restrictions?.daysOfWeek) {
       days.push(this.appDayPipe.transform(day));
     }
-    return days.join(',');
+    return days.join(', ');
   }
 
   public getTimeRestrictions(): string{

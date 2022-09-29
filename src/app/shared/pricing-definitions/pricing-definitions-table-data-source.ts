@@ -114,20 +114,22 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
       }
     ];
     if (this.viewingAllComponents) {
-      tableActions.push(...[{
-        id: 'entityType',
-        name: 'transactions.dialog.session.pricing-detail-entity-type',
-        headerClass: 'col-15p',
-        class: 'col-15p',
-      }]);
+      tableActions.push(...[
+        {
+          id: 'entityType',
+          name: 'transactions.dialog.session.pricing-detail-entity-type',
+          headerClass: 'col-15p',
+          class: 'col-15p',
+        },
+        {
+          id: 'entityName',
+          name: 'transactions.dialog.session.pricing-detail-entity-name',
+          headerClass: 'col-15p',
+          class: 'col-15p',
+        }
+      ]);
     }
     tableActions.push(...[
-      {
-        id: 'entityName',
-        name: 'transactions.dialog.session.pricing-detail-entity-name',
-        headerClass: 'col-15p',
-        class: 'col-15p',
-      },
       {
         id: 'id',
         name: 'settings.pricing.restrictions_title',

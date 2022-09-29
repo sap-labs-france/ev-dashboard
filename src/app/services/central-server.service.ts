@@ -3387,10 +3387,11 @@ export class CentralServerService {
     this.checkInit();
     // Build Paging
     this.getPaging(paging, params);
-    params['WithEntityInformation'] = 'true';
     if (context.entityID) {
       params['EntityID'] = context.entityID;
       params['EntityType'] = context.entityType;
+    } else {
+      params['WithEntityInformation'] = 'true';
     }
     // Build Ordering
     this.getSorting(ordering, params);

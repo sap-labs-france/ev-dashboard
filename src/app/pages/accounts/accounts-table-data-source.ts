@@ -151,15 +151,18 @@ export class BillingAccountsTableDataSource extends TableDataSource<BillingAccou
       this.componentService.getBillingAccounts(
         this.getPaging(),
         this.getSorting()
-      ).subscribe((accounts) => {
-        this.accounts = accounts;
-        observer.next({
-          count: this.accounts.length,
-          result: this.accounts,
-        });
-        observer.complete();
-      }, (error) => {
-        observer.error(error);
+      ).subscribe({
+        next: (accounts) => {
+          this.accounts = accounts;
+          observer.next({
+            count: this.accounts.length,
+            result: this.accounts,
+          });
+          observer.complete();
+        },
+        error: (error) => {
+          observer.error(error);
+        }
       });
     });
   }
@@ -189,18 +192,21 @@ export class BillingAccountsTableDataSource extends TableDataSource<BillingAccou
     onboardAction.action(
       account,
       this.centralServerService
-    ).subscribe((response) => {
-      this.spinnerService.hide();
-      if(response) {
-        this.messageService.showSuccessMessage('accounts.message.onboard_success');
-        this.refreshData().subscribe();
-        this.changed.emit(true);
-      } else {
-        Utils.handleError(JSON.stringify(response), this.messageService, 'accounts.message.onboard_error');
+    ).subscribe({
+      next: (response) => {
+        this.spinnerService.hide();
+        if(response) {
+          this.messageService.showSuccessMessage('accounts.message.onboard_success');
+          this.refreshData().subscribe();
+          this.changed.emit(true);
+        } else {
+          Utils.handleError(JSON.stringify(response), this.messageService, 'accounts.message.onboard_error');
+        }
+      },
+      error: (error) => {
+        this.spinnerService.hide();
+        Utils.handleError(JSON.stringify(error), this.messageService, 'accounts.message.onboard_error');
       }
-    }, (error) => {
-      this.spinnerService.hide();
-      Utils.handleError(JSON.stringify(error), this.messageService, 'accounts.message.onboard_error');
     });
   }
 }

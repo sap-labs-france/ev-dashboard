@@ -17,7 +17,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
-import { MAT_DATE_LOCALE, MatRippleModule } from '@angular/material/core';
+import { MatRippleModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -50,6 +50,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ChartModule } from 'angular2-chartjs';
 import { NgxCaptchaModule } from 'ngx-captcha';
 import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
+import { Observable, Observer } from 'rxjs';
 import { UtilsService } from 'services/utils.service';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -126,22 +127,57 @@ export class MaterialModule {
 }
 
 // Load translations from "/assets/i18n/[lang].json" ([lang] is the lang
-export const HttpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(http, './assets/i18n/', '.json?version=2.7.1');
+export const httpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(http, './assets/i18n/', '.json?version=2.7.2-rc');
 
-export const getLocalStorage = () => (!Utils.isUndefined(window)) ? window.localStorage : null;
+const initAppFactory = (centralServerService: CentralServerService, configService: ConfigService,
+  messageService: MessageService, translateService: TranslateService): () => Observable<void> =>
+  () => (new Observable((observer: Observer<void>) => {
+    // Load Configuration
+    configService.initConfig().subscribe({
+      complete: () => {
+        // Load User Token
+        centralServerService.initUserToken().subscribe({
+          complete: () => {
+            // Default
+            let language = translateService.getBrowserLang();
+            // Get current user
+            const loggedUser = centralServerService.getLoggedUser();
+            if (loggedUser?.language) {
+              language = loggedUser.language;
+            }
+            // Init Translate service
+            translateService.addLangs(['en', 'fr', 'es', 'de', 'pt', 'it', 'cs']);
+            translateService.setDefaultLang('en');
+            translateService.use(language.match(/en|fr|es|de|pt|it|cs/) ? language : 'en');
+            // Init Done
+            observer.complete();
+          },
+          error: (error) => {
+            messageService.showErrorMessage('Error while trying to read the current logged user!');
+            console.log(error);
+          }
+        });
+      },
+      error: (error) => {
+        messageService.showErrorMessage('Error while loading the configuration file!');
+        console.log(error);
+      }
+    });
+  }));
 
-export const configFactory = (config: ConfigService) => () => config.getConfig();
-
-export const localeFactory = (centralServerService: CentralServerService, translateService: TranslateService) => {
-  const loggedUser = centralServerService.getLoggedUser();
-  if (loggedUser && loggedUser.locale) {
-    // Locale of the current user (if any)
-    return Utils.convertToMomentLocale(loggedUser.locale);
-  }
-  // Locale of the browser
-  const browserLocale = translateService.getBrowserCultureLang();
-  return Utils.convertToMomentLocale(browserLocale);
-};
+// To be used where the Material Date Time picker is imported (never called in this module)
+export const initMaterialLocaleFactory = (centralServerService: CentralServerService, translateService: TranslateService): () => string =>
+  () => {
+    // Init Material locale
+    const loggedUser = centralServerService.getLoggedUser();
+    if (loggedUser?.locale) {
+      // Locale of the current user (if any)
+      return Utils.convertToMomentLocale(loggedUser.locale);
+    }
+    // Locale of the browser
+    const browserLocale = translateService.getBrowserCultureLang();
+    return Utils.convertToMomentLocale(browserLocale);
+  };
 
 @Injectable()
 class CustomTranslateDefaultParser extends TranslateDefaultParser {
@@ -175,7 +211,7 @@ class CustomTranslateDefaultParser extends TranslateDefaultParser {
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
+        useFactory: httpLoaderFactory,
         deps: [HttpClient],
       },
       parser: {
@@ -209,8 +245,7 @@ class CustomTranslateDefaultParser extends TranslateDefaultParser {
     TranslateService,
     WindowService,
     StripeService,
-    { provide: APP_INITIALIZER, useFactory: configFactory, deps: [ConfigService], multi: true },
-    { provide: MAT_DATE_LOCALE, useFactory: localeFactory, deps: [CentralServerService, TranslateService], multi: true },
+    { provide: APP_INITIALIZER, useFactory: initAppFactory, deps: [CentralServerService, ConfigService, MessageService, TranslateService], multi: true },
     { provide: DatetimeAdapter, useClass: MomentDatetimeAdapter },
   ],
   bootstrap: [AppComponent]

@@ -78,11 +78,11 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
       this.centralServerService.getSites(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((sites) => {
         this.sitesAuthorizations = {
-          canListCompanies: sites.canListCompanies,
-          canCreate: sites.canCreate
+          canListCompanies: Utils.convertToBoolean(sites.canListCompanies),
+          canCreate: Utils.convertToBoolean(sites.canCreate),
         };
-        this.createAction.visible = Utils.convertToBoolean(sites.canCreate);
-        this.companyFilter.visible = Utils.convertToBoolean(sites.canListCompanies);
+        this.createAction.visible = this.sitesAuthorizations.canCreate;
+        this.companyFilter.visible = this.sitesAuthorizations.canListCompanies;
         observer.next(sites);
         observer.complete();
       }, (error) => {
@@ -210,9 +210,9 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
     } else {
       rowActions.push(this.viewAction);
     }
-    if (site.canAssignUsers || site.canUnassignUsers) {
+    if (site.canAssignUnassignUsers) {
       rowActions.push(this.assignUsersToSite);
-    } else if (site.canReadUsers) {
+    } else if (site.canListSiteUsers) {
       rowActions.push(this.viewUsersOfSite);
     }
     if (this.isPricingComponentActive && site.canMaintainPricingDefinitions) {

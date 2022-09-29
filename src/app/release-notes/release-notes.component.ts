@@ -30,7 +30,9 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `Authorization - Transaction and User endpoints have been migrated to the new authorization framework`,
               `Email Notifications - Code improvements and new look and feel`,
+              `Dashboard Improvements - New menu item to navigate from a charger to the corresponding sessions`,
             ],
           },
         ],

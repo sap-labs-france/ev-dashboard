@@ -75,19 +75,23 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
   public loadDataImpl(): Observable<DataResult<Site>> {
     return new Observable((observer) => {
       // Get Sites
-      this.centralServerService.getSites(this.buildFilterValues(),
-        this.getPaging(), this.getSorting()).subscribe((sites) => {
-        this.sitesAuthorizations = {
-          canListCompanies: Utils.convertToBoolean(sites.canListCompanies),
-          canCreate: Utils.convertToBoolean(sites.canCreate),
-        };
-        this.createAction.visible = this.sitesAuthorizations.canCreate;
-        this.companyFilter.visible = this.sitesAuthorizations.canListCompanies;
-        observer.next(sites);
-        observer.complete();
-      }, (error) => {
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        observer.error(error);
+      this.centralServerService.getSites(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe({
+        next: (sites) => {
+          this.sitesAuthorizations = {
+            canListCompanies: sites.canListCompanies,
+            canCreate: sites.canCreate,
+            projectFields: sites.projectFields,
+            metadata: sites.metadata,
+          };
+          this.createAction.visible = Utils.convertToBoolean(sites.canCreate);
+          this.companyFilter.visible = Utils.convertToBoolean(sites.canListCompanies);
+          observer.next(sites);
+          observer.complete();
+        },
+        error: (error) => {
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          observer.error(error);
+        }
       });
     });
   }
@@ -239,7 +243,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
       case SiteButtonAction.CREATE_SITE:
         if (actionDef.action) {
           (actionDef as TableCreateSiteActionDef).action(SiteDialogComponent,
-            this.dialog, this.refreshData.bind(this));
+            this.dialog, { authorizations: this.sitesAuthorizations }, this.refreshData.bind(this));
         }
     }
   }

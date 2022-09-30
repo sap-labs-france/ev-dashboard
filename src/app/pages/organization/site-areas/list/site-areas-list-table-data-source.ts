@@ -45,7 +45,6 @@ import { SiteAreaConsumptionChartDetailComponent } from './consumption-chart/sit
 
 @Injectable()
 export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
-  private siteAreasAuthorizations: SiteAreasAuthorizations;
   private readonly isAssetComponentActive: boolean;
   private editAction = new TableEditSiteAreaAction().getActionDef();
   private assignChargingStationsToSiteAreaAction = new TableAssignChargingStationsToSiteAreaAction().getActionDef();
@@ -57,7 +56,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
   private exportOCPPParamsAction = new TableExportOCPPParamsAction().getActionDef();
   private siteAreaGenerateQrCodeConnectorAction = new TableSiteAreaGenerateQrCodeConnectorAction().getActionDef();
   private createAction = new TableCreateSiteAreaAction().getActionDef();
-
+  private siteAreasAuthorizations: SiteAreasAuthorizations;
 
   public constructor(
     public spinnerService: SpinnerService,
@@ -91,19 +90,23 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
   public loadDataImpl(): Observable<DataResult<SiteArea>> {
     return new Observable((observer) => {
       // Get Site Areas
-      this.centralServerService.getSiteAreas(this.buildFilterValues(),
-        this.getPaging(), this.getSorting()).subscribe((siteAreas) => {
-        this.siteAreasAuthorizations = {
-          canCreate: siteAreas.canCreate
-        };
-        // Build TableDef using the initialized auth object
-        this.setTableDef(this.buildTableDef());
-        this.createAction.visible = this.siteAreasAuthorizations.canCreate;
-        observer.next(siteAreas);
-        observer.complete();
-      }, (error) => {
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        observer.error(error);
+      this.centralServerService.getSiteAreas(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe({
+        next: (siteAreas) => {
+          this.siteAreasAuthorizations = {
+            canCreate: siteAreas.canCreate,
+            projectFields: siteAreas.projectFields,
+            metadata: siteAreas.metadata,
+          };
+          // Build TableDef using the initialized auth object
+          this.setTableDef(this.buildTableDef());
+          this.createAction.visible = this.siteAreasAuthorizations.canCreate;
+          observer.next(siteAreas);
+          observer.complete();
+        },
+        error: (error) => {
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          observer.error(error);
+        }
       });
     });
   }
@@ -280,8 +283,8 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     switch (actionDef.id) {
       case SiteAreaButtonAction.CREATE_SITE_AREA:
         if (actionDef.action) {
-          (actionDef as TableCreateSiteAreaActionDef).action(SiteAreaDialogComponent,
-            this.dialog, this.refreshData.bind(this));
+          (actionDef as TableCreateSiteAreaActionDef).action(SiteAreaDialogComponent, this.dialog,
+            { authorizations: this.siteAreasAuthorizations }, this.refreshData.bind(this));
         }
         break;
     }

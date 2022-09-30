@@ -67,6 +67,8 @@ export class SiteAreaComponent extends AbstractTabComponent implements OnInit {
     // Handle Dialog mode
     this.readOnly = this.dialogMode === DialogMode.VIEW;
     Utils.handleDialogMode(this.dialogMode, this.formGroup);
+    // Check if OCPI has to be displayed
+    this.ocpiHasVisibleFields = this.siteAreasAuthorizations.projectFields.includes('tariffID');
     // Load Site Area
     this.loadSiteArea();
   }
@@ -74,28 +76,29 @@ export class SiteAreaComponent extends AbstractTabComponent implements OnInit {
   public loadSiteArea() {
     if (this.currentSiteAreaID) {
       this.spinnerService.show();
-      this.centralServerService.getSiteArea(this.currentSiteAreaID, true, true).subscribe((siteArea) => {
-        this.spinnerService.hide();
-        this.siteArea = siteArea;
-        // Check if OCPI has to be displayed
-        this.ocpiHasVisibleFields = siteArea.projectFields.includes('tariffID');
-        if (this.readOnly) {
-          // Async call for letting the sub form groups to init
-          setTimeout(() => this.formGroup.disable(), 0);
-        }
-        // Update form group
-        this.formGroup.updateValueAndValidity();
-        this.formGroup.markAsPristine();
-        this.formGroup.markAllAsTouched();
-      }, (error) => {
-        this.spinnerService.hide();
-        switch (error.status) {
-          case StatusCodes.NOT_FOUND:
-            this.messageService.showErrorMessage('site_areas.site_invalid');
-            break;
-          default:
-            Utils.handleHttpError(error, this.router, this.messageService,
-              this.centralServerService, 'general.unexpected_error_backend');
+      this.centralServerService.getSiteArea(this.currentSiteAreaID, true, true).subscribe({
+        next: (siteArea) => {
+          this.spinnerService.hide();
+          this.siteArea = siteArea;
+          if (this.readOnly) {
+            // Async call for letting the sub form groups to init
+            setTimeout(() => this.formGroup.disable(), 0);
+          }
+          // Update form group
+          this.formGroup.updateValueAndValidity();
+          this.formGroup.markAsPristine();
+          this.formGroup.markAllAsTouched();
+        },
+        error: (error) => {
+          this.spinnerService.hide();
+          switch (error.status) {
+            case StatusCodes.NOT_FOUND:
+              this.messageService.showErrorMessage('site_areas.site_invalid');
+              break;
+            default:
+              Utils.handleHttpError(error, this.router, this.messageService,
+                this.centralServerService, 'general.unexpected_error_backend');
+          }
         }
       });
     }
@@ -131,25 +134,28 @@ export class SiteAreaComponent extends AbstractTabComponent implements OnInit {
     // Set coordinates
     this.siteAreaMainComponent.updateSiteAreaCoordinates(siteArea);
     // Create
-    this.centralServerService.createSiteArea(siteArea, subSiteAreaActions).subscribe((response) => {
-      this.spinnerService.hide();
-      if (response.status === RestResponse.SUCCESS) {
-        this.messageService.showSuccessMessage('site_areas.create_success',
-          { siteAreaName: siteArea.name });
-        this.currentSiteAreaID = siteArea.id;
-        this.closeDialog(true);
-      } else {
-        Utils.handleError(JSON.stringify(response),
-          this.messageService, 'site_areas.create_error');
-      }
-    }, (error) => {
-      this.spinnerService.hide();
-      switch (error.status) {
-        case StatusCodes.NOT_FOUND:
-          this.messageService.showErrorMessage('site_areas.site_area_does_not_exist');
-          break;
-        default:
-          this.handleHttpTreeError(siteArea, error, 'site_areas.create_error');
+    this.centralServerService.createSiteArea(siteArea, subSiteAreaActions).subscribe({
+      next: (response) => {
+        this.spinnerService.hide();
+        if (response.status === RestResponse.SUCCESS) {
+          this.messageService.showSuccessMessage('site_areas.create_success',
+            { siteAreaName: siteArea.name });
+          this.currentSiteAreaID = siteArea.id;
+          this.closeDialog(true);
+        } else {
+          Utils.handleError(JSON.stringify(response),
+            this.messageService, 'site_areas.create_error');
+        }
+      },
+      error: (error) => {
+        this.spinnerService.hide();
+        switch (error.status) {
+          case StatusCodes.NOT_FOUND:
+            this.messageService.showErrorMessage('site_areas.site_area_does_not_exist');
+            break;
+          default:
+            this.handleHttpTreeError(siteArea, error, 'site_areas.create_error');
+        }
       }
     });
   }
@@ -161,33 +167,36 @@ export class SiteAreaComponent extends AbstractTabComponent implements OnInit {
     // Set coordinates
     this.siteAreaMainComponent.updateSiteAreaCoordinates(siteArea);
     // Update
-    this.centralServerService.updateSiteArea(siteArea, subSiteAreaActions).subscribe((response) => {
-      this.spinnerService.hide();
-      if (response.status === RestResponse.SUCCESS) {
-        this.messageService.showSuccessMessage('site_areas.update_success', { siteAreaName: siteArea.name });
-        this.closeDialog(true);
-      } else {
-        Utils.handleError(JSON.stringify(response),
-          this.messageService, 'site_areas.update_error');
-      }
-    }, (error) => {
-      this.spinnerService.hide();
-      switch (error.status) {
-        case HTTPError.THREE_PHASE_CHARGER_ON_SINGLE_PHASE_SITE_AREA:
-          this.messageService.showErrorMessage('site_areas.update_phase_error');
-          break;
-        case StatusCodes.NOT_FOUND:
-          this.messageService.showErrorMessage('site_areas.site_area_does_not_exist');
-          break;
-        case HTTPError.CLEAR_CHARGING_PROFILE_NOT_SUCCESSFUL:
-          this.dialogService.createAndShowOkDialog(
-            this.translateService.instant('chargers.smart_charging.clearing_charging_profiles_not_successful_title'),
-            this.translateService.instant('chargers.smart_charging.clearing_charging_profiles_not_successful_body',
-              { siteAreaName: siteArea.name }));
+    this.centralServerService.updateSiteArea(siteArea, subSiteAreaActions).subscribe({
+      next: (response) => {
+        this.spinnerService.hide();
+        if (response.status === RestResponse.SUCCESS) {
+          this.messageService.showSuccessMessage('site_areas.update_success', { siteAreaName: siteArea.name });
           this.closeDialog(true);
-          break;
-        default:
-          this.handleHttpTreeError(siteArea, error, 'site_areas.update_error');
+        } else {
+          Utils.handleError(JSON.stringify(response),
+            this.messageService, 'site_areas.update_error');
+        }
+      },
+      error: (error) => {
+        this.spinnerService.hide();
+        switch (error.status) {
+          case HTTPError.THREE_PHASE_CHARGER_ON_SINGLE_PHASE_SITE_AREA:
+            this.messageService.showErrorMessage('site_areas.update_phase_error');
+            break;
+          case StatusCodes.NOT_FOUND:
+            this.messageService.showErrorMessage('site_areas.site_area_does_not_exist');
+            break;
+          case HTTPError.CLEAR_CHARGING_PROFILE_NOT_SUCCESSFUL:
+            this.dialogService.createAndShowOkDialog(
+              this.translateService.instant('chargers.smart_charging.clearing_charging_profiles_not_successful_title'),
+              this.translateService.instant('chargers.smart_charging.clearing_charging_profiles_not_successful_body',
+                { siteAreaName: siteArea.name }));
+            this.closeDialog(true);
+            break;
+          default:
+            this.handleHttpTreeError(siteArea, error, 'site_areas.update_error');
+        }
       }
     });
   }

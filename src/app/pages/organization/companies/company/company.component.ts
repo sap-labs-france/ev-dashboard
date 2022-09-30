@@ -8,7 +8,7 @@ import { ComponentService } from 'services/component.service';
 import { WindowService } from 'services/window.service';
 import { AbstractTabComponent } from 'shared/component/abstract-tab/abstract-tab.component';
 import { AccountBillingComponent } from 'shared/component/account-billing/account-billing.component';
-import { DialogMode } from 'types/Authorization';
+import { CompaniesAuthorizations, DialogMode } from 'types/Authorization';
 import { TenantComponents } from 'types/Tenant';
 
 import { CentralServerService } from '../../../../services/central-server.service';
@@ -29,6 +29,7 @@ export class CompanyComponent extends AbstractTabComponent implements OnInit {
   @Input() public currentCompanyID!: string;
   @Input() public dialogMode!: DialogMode;
   @Input() public dialogRef!: MatDialogRef<any>;
+  @Input() public companiesAuthorizations!: CompaniesAuthorizations;
 
   @ViewChild('companyMainComponent') public companyMainComponent!: CompanyMainComponent;
   @ViewChild('accountBillingComponent') public accountBillingComponent!: AccountBillingComponent;
@@ -68,28 +69,31 @@ export class CompanyComponent extends AbstractTabComponent implements OnInit {
   public loadCompany() {
     if (this.currentCompanyID) {
       this.spinnerService.show();
-      this.centralServerService.getCompany(this.currentCompanyID).subscribe((company: Company) => {
-        this.spinnerService.hide();
-        this.company = company;
-        // Check if Account Data is to be displayed
-        this.accountHasVisibleFields = company.projectFields.includes('accountData.accountID');
-        if (this.readOnly) {
-          // Async call for letting the sub form groups to init
-          setTimeout(() => this.formGroup.disable(), 0);
-        }
-        // Update form group
-        this.formGroup.updateValueAndValidity();
-        this.formGroup.markAsPristine();
-        this.formGroup.markAllAsTouched();
-      }, (error) => {
-        this.spinnerService.hide();
-        switch (error.status) {
-          case StatusCodes.NOT_FOUND:
-            this.messageService.showErrorMessage('companies.company_not_found');
-            break;
-          default:
-            Utils.handleHttpError(error, this.router, this.messageService,
-              this.centralServerService, 'general.unexpected_error_backend');
+      this.centralServerService.getCompany(this.currentCompanyID).subscribe({
+        next: (company: Company) => {
+          this.spinnerService.hide();
+          this.company = company;
+          // Check if Account Data is to be displayed
+          this.accountHasVisibleFields = company.projectFields.includes('accountData.accountID');
+          if (this.readOnly) {
+            // Async call for letting the sub form groups to init
+            setTimeout(() => this.formGroup.disable(), 0);
+          }
+          // Update form group
+          this.formGroup.updateValueAndValidity();
+          this.formGroup.markAsPristine();
+          this.formGroup.markAllAsTouched();
+        },
+        error: (error) => {
+          this.spinnerService.hide();
+          switch (error.status) {
+            case StatusCodes.NOT_FOUND:
+              this.messageService.showErrorMessage('companies.company_not_found');
+              break;
+            default:
+              Utils.handleHttpError(error, this.router, this.messageService,
+                this.centralServerService, 'general.unexpected_error_backend');
+          }
         }
       });
     }
@@ -123,26 +127,29 @@ export class CompanyComponent extends AbstractTabComponent implements OnInit {
     // Set connected account
     this.accountBillingComponent?.updateEntityConnectedAccount(company);
     // Create
-    this.centralServerService.createCompany(company).subscribe((response) => {
-      this.spinnerService.hide();
-      if (response.status === RestResponse.SUCCESS) {
-        this.messageService.showSuccessMessage('companies.create_success',
-          { companyName: company.name });
-        this.currentCompanyID = company.id;
-        this.closeDialog(true);
-      } else {
-        Utils.handleError(JSON.stringify(response),
-          this.messageService, 'companies.create_error');
-      }
-    }, (error) => {
-      this.spinnerService.hide();
-      switch (error.status) {
-        case StatusCodes.NOT_FOUND:
-          this.messageService.showErrorMessage('companies.company_not_found');
-          break;
-        default:
-          Utils.handleHttpError(error, this.router, this.messageService,
-            this.centralServerService, 'companies.create_error');
+    this.centralServerService.createCompany(company).subscribe({
+      next: (response) => {
+        this.spinnerService.hide();
+        if (response.status === RestResponse.SUCCESS) {
+          this.messageService.showSuccessMessage('companies.create_success',
+            { companyName: company.name });
+          this.currentCompanyID = company.id;
+          this.closeDialog(true);
+        } else {
+          Utils.handleError(JSON.stringify(response),
+            this.messageService, 'companies.create_error');
+        }
+      },
+      error: (error) => {
+        this.spinnerService.hide();
+        switch (error.status) {
+          case StatusCodes.NOT_FOUND:
+            this.messageService.showErrorMessage('companies.company_not_found');
+            break;
+          default:
+            Utils.handleHttpError(error, this.router, this.messageService,
+              this.centralServerService, 'companies.create_error');
+        }
       }
     });
   }
@@ -156,24 +163,27 @@ export class CompanyComponent extends AbstractTabComponent implements OnInit {
     // Set connected account
     this.accountBillingComponent?.updateEntityConnectedAccount(company);
     // Update
-    this.centralServerService.updateCompany(company).subscribe((response) => {
-      this.spinnerService.hide();
-      if (response.status === RestResponse.SUCCESS) {
-        this.messageService.showSuccessMessage('companies.update_success', { companyName: company.name });
-        this.closeDialog(true);
-      } else {
-        Utils.handleError(JSON.stringify(response),
-          this.messageService, 'companies.update_error');
-      }
-    }, (error) => {
-      this.spinnerService.hide();
-      switch (error.status) {
-        case StatusCodes.NOT_FOUND:
-          this.messageService.showErrorMessage('companies.company_not_found');
-          break;
-        default:
-          Utils.handleHttpError(error, this.router, this.messageService,
-            this.centralServerService, 'companies.update_error');
+    this.centralServerService.updateCompany(company).subscribe({
+      next: (response) => {
+        this.spinnerService.hide();
+        if (response.status === RestResponse.SUCCESS) {
+          this.messageService.showSuccessMessage('companies.update_success', { companyName: company.name });
+          this.closeDialog(true);
+        } else {
+          Utils.handleError(JSON.stringify(response),
+            this.messageService, 'companies.update_error');
+        }
+      },
+      error: (error) => {
+        this.spinnerService.hide();
+        switch (error.status) {
+          case StatusCodes.NOT_FOUND:
+            this.messageService.showErrorMessage('companies.company_not_found');
+            break;
+          default:
+            Utils.handleHttpError(error, this.router, this.messageService,
+              this.centralServerService, 'companies.update_error');
+        }
       }
     });
   }

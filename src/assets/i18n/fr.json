@@ -1889,7 +1889,8 @@
       },
       "types": {
         "mercedes": "Connecteur Mercedes",
-        "tronity": "Connecteur Tronity"
+        "tronity": "Connecteur Tronity",
+        "targa_telematics": "Targa Telematics Connector"
       },
       "mercedes": {
         "link_success": "Your account has been successfully linked with Mercedes",

@@ -2077,6 +2077,7 @@
     "emsp": "e-Mobility Service Provider",
     "enable_emsp": "e-Mobility Service Provider aktivieren",
     "tariff_id": "Tarif-ID",
+    "owner_name": "Owner Name",
     "description": "Open Charge Point Interface",
     "details": "Identifikation",
     "country_code": "Ländercode",

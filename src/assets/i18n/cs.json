@@ -183,6 +183,7 @@
       "tenants": "Organizace",
       "pricing": "Ceny",
       "components": "Komponenty",
+      "features": "Features",
       "settings": "Nastavení",
       "integration_settings": "Nastavení integrace",
       "technical_settings": "Technická nastavení",
@@ -1531,6 +1532,14 @@
       "Smart nabíjení je stále ještě aktivní u konkrétních sekcí parkoviště.",
       "Deaktivujte prosím Smart nabíjení v každé sekci parkoviště v účtu nájemce."
     ],
+    "feature": {
+      "charging_station": {
+        "feature_name": "Charging Station",
+        "feature_description": "Charging Station's features",
+        "feature_map_name": "Map",
+        "feature_map_description": "Map with aggregated Charging Stations"
+      }
+    },
     "logo_size_error": "Překročen limit velikosti loga, limit je menší než '{{maxPictureKb}}' Kb"
   },
   "accounts": {

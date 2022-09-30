@@ -183,6 +183,7 @@
       "tenants": "Organizzazioni",
       "pricing": "Tariffa",
       "components": "Componenti",
+      "features": "Features",
       "settings": "Settings",
       "integration_settings": "Integration Settings",
       "technical_settings": "Technical Settings",
@@ -1530,6 +1531,14 @@
       "Carica Smart è ancora attiva per alcune aree del sito.",
       "Si prega di disattivare la Carica Smart per tutte le aree del sito nell'organizzazione."
     ],
+    "feature": {
+      "charging_station": {
+        "feature_name": "Charging Station",
+        "feature_description": "Charging Station's features",
+        "feature_map_name": "Map",
+        "feature_map_description": "Map with aggregated Charging Stations"
+      }
+    },
     "logo_size_error": "Il limite di dimensione del logo è stato superato, il limite è inferiore a {{maxPictureKb}} Kb"
   },
   "accounts": {

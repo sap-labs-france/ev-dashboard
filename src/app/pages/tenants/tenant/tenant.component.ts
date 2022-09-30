@@ -30,6 +30,7 @@ export class TenantComponent extends AbstractTabComponent implements OnInit {
 
   @ViewChild('tenantMainComponent') public tenantMainComponent!: TenantMainComponent;
   @ViewChild('tenantComponentsComponent') public tenantComponentsComponent!: TenantComponentsComponent;
+  @ViewChild('tenantFeaturesComponent') public tenantFeaturesComponent!: TenantComponentsComponent;
 
   public formGroup!: UntypedFormGroup;
   public tenant!: Tenant;

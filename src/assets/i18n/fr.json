@@ -183,6 +183,7 @@
       "tenants": "Organisations",
       "pricing": "Tarification",
       "components": "Composants",
+      "features": "Features",
       "settings": "Configuration",
       "integration_settings": "Paramètres d'intégration",
       "technical_settings": "Paramètres techniques",
@@ -1530,6 +1531,14 @@
       "La charge intelligente est encore active pour certaines zones.",
       "Désactivez la charge intelligente sur ces zones."
     ],
+    "feature": {
+      "charging_station": {
+        "feature_name": "Bornes",
+        "feature_description": "Fonctionnalités des Bornes",
+        "feature_map_name": "Carte",
+        "feature_map_description": "Carte avec aggrégation des Bornes"
+      }
+    },
     "logo_size_error": "La taille de l'image est trop importante, la limite est de {{maxPictureKb}} Ko"
   },
   "accounts": {

@@ -183,6 +183,7 @@
       "tenants": "Organizaciones",
       "pricing": "Precio",
       "components": "Componentes",
+      "features": "Features",
       "settings": "Configuración",
       "integration_settings": "Parámetros de integración",
       "technical_settings": "Parámetros técnicos",
@@ -1530,6 +1531,14 @@
       "La carga inteligente todavía está activada para ciertas áreas del sitio.",
       "Desactive la carga inteligente para cada zona en la organización."
     ],
+    "feature": {
+      "charging_station": {
+        "feature_name": "Charging Station",
+        "feature_description": "Charging Station's features",
+        "feature_map_name": "Map",
+        "feature_map_description": "Map with aggregated Charging Stations"
+      }
+    },
     "logo_size_error": "El límite del logo ha sido excedido, el limite es inferior {{maxPictureKb}} Kb"
   },
   "accounts": {

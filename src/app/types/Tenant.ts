@@ -8,6 +8,7 @@ export interface Tenant extends TableData {
   address: Address;
   subdomain: string;
   components?: TenantComponent;
+  features?: TenantFeature;
   logo: string;
 }
 
@@ -25,6 +26,10 @@ export interface TenantComponent {
   asset?: TenantComponentContent;
   car?: TenantComponentContent;
   carConnector?: TenantComponentContent;
+}
+
+export interface TenantFeature {
+  map?: boolean;
 }
 
 export interface TenantComponentContent {

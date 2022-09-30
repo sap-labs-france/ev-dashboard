@@ -19,6 +19,15 @@
           <app-tenant-components #tenantComponentsComponent [formGroup]="formGroup" [tenant]="tenant"></app-tenant-components>
         </div>
       </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon>checklist</mat-icon>
+          <span>{{'general.menu.features' | translate}}</span>
+        </ng-template>
+        <div class="card-body">
+          <app-tenant-features #tenantFeaturesComponent [formGroup]="formGroup" [tenant]="tenant"></app-tenant-features>
+        </div>
+      </mat-tab>
     </mat-tab-group>
     <div [class]="dialogRef ? 'tabs-actions' : 'tabs-actions-embedded'">
       <button mat-icon-button (click)="saveTenant(formGroup.value)" title="{{'general.save' | translate}}"

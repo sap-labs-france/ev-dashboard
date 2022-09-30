@@ -183,6 +183,7 @@
       "tenants": "Organisationen",
       "pricing": "Preisbildung",
       "components": "Komponenten",
+      "features": "Features",
       "settings": "Einstellungen",
       "integration_settings": "Integrationen",
       "technical_settings": "Technische Einstellungen",
@@ -1530,6 +1531,14 @@
       "Smart-Charging ist für ausgewählte Standortbereiche noch immer aktiv.",
       "Bitte deaktivieren Sie Smart-Charging für alle Standortbereiche des Mandanten."
     ],
+    "feature": {
+      "charging_station": {
+        "feature_name": "Charging Station",
+        "feature_description": "Charging Station's features",
+        "feature_map_name": "Map",
+        "feature_map_description": "Map with aggregated Charging Stations"
+      }
+    },
     "logo_size_error": "Die maximale Bildgröße wurde überschritten, das Bild muss kleiner als {{maxPictureKb}} Kb sein "
   },
   "accounts": {

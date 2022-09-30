@@ -13,6 +13,7 @@ import { TenantLogoFormatterCellComponent } from './cell-components/tenant-logo-
 import { TenantsListTableDataSource } from './list/tenants-list-table-data-source';
 import { TenantsListComponent } from './list/tenants-list.component';
 import { TenantComponentsComponent } from './tenant/components/tenant-components.component';
+import { TenantFeaturesComponent } from './tenant/features/tenant-features.component';
 import { TenantMainComponent } from './tenant/main/tenant-main.component';
 import { TenantDialogComponent } from './tenant/tenant-dialog.component';
 import { TenantComponent } from './tenant/tenant.component';
@@ -37,7 +38,8 @@ import { TenantsRoutes } from './tenants.routing';
     TenantComponent,
     TenantDialogComponent,
     TenantMainComponent,
-    TenantComponentsComponent
+    TenantComponentsComponent,
+    TenantFeaturesComponent,
   ],
   exports: [
     TenantsListComponent,

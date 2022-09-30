@@ -183,6 +183,7 @@
       "tenants": "Organizations",
       "pricing": "Pricing",
       "components": "Components",
+      "features": "Features",
       "settings": "Settings",
       "integration_settings": "Integration Settings",
       "technical_settings": "Technical Settings",
@@ -1530,6 +1531,14 @@
       "Smart Charging is still active for certain Site Areas.",
       "Please deactivate Smart Charging for every Site Area in the tenant."
     ],
+    "feature": {
+      "charging_station": {
+        "feature_name": "Charging Station",
+        "feature_description": "Charging Station's features",
+        "feature_map_name": "Map",
+        "feature_map_description": "Map with aggregated Charging Stations"
+      }
+    },
     "logo_size_error": "The logo size limit exceeded, limit is below {{maxPictureKb}} Kb"
   },
   "accounts": {

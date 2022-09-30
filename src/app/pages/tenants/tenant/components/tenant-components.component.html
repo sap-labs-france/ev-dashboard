@@ -37,7 +37,7 @@
                     {{refundType.value | translate}}
                   </mat-option>
                 </mat-select>
-                <mat-error *ngIf="components['controls'].refund['controls'].active.errors?.required">
+                <mat-error *ngIf="components['controls'].refund['controls'].type.errors?.required">
                   {{"general.mandatory_field" | translate}}
                 </mat-error>
               </mat-form-field>
@@ -62,7 +62,7 @@
                     {{pricingType.value | translate}}
                   </mat-option>
                 </mat-select>
-                <mat-error *ngIf="components['controls'].pricing['controls'].active.errors?.required">
+                <mat-error *ngIf="components['controls'].pricing['controls'].type.errors?.required">
                   {{"general.mandatory_field" | translate}}
                 </mat-error>
               </mat-form-field>
@@ -87,7 +87,7 @@
                     {{billingType.value | translate}}
                   </mat-option>
                 </mat-select>
-                <mat-error *ngIf="components['controls'].billing['controls'].active.errors?.required">
+                <mat-error *ngIf="components['controls'].billing['controls'].type.errors?.required">
                   {{"general.mandatory_field" | translate}}
                 </mat-error>
               </mat-form-field>
@@ -160,7 +160,7 @@
                     {{analyticsType.value | translate}}
                   </mat-option>
                 </mat-select>
-                <mat-error *ngIf="components['controls'].analytics['controls'].active.errors?.required">
+                <mat-error *ngIf="components['controls'].analytics['controls'].type.errors?.required">
                   {{"general.mandatory_field" | translate}}
                 </mat-error>
               </mat-form-field>
@@ -185,7 +185,7 @@
                     {{smartChargingType.value | translate}}
                   </mat-option>
                 </mat-select>
-                <mat-error *ngIf="components['controls'].smartCharging['controls'].active.errors?.required">
+                <mat-error *ngIf="components['controls'].smartCharging['controls'].type.errors?.required">
                   {{"general.mandatory_field" | translate}}
                 </mat-error>
               </mat-form-field>

@@ -67,19 +67,22 @@ export class ChargingStationFirmwareUpdateComponent implements OnInit {
     ).subscribe((result) => {
       if (result === ButtonAction.YES) {
         this.spinnerService.show();
-        this.centralServerService.chargingStationUpdateFirmware(this.chargingStation, this.url.value).subscribe(() => {
-          this.spinnerService.hide();
-          this.messageService.showSuccessMessage(
-            this.translateService.instant('chargers.update_firmware_success', { chargeBoxID: this.chargingStation.id }));
-        }, (error) => {
-          this.spinnerService.hide();
-          switch (error.status) {
-            case StatusCodes.NOT_FOUND:
-              this.messageService.showErrorMessage(this.messages['update_firmware_error']);
-              break;
-            default:
-              Utils.handleHttpError(error, this.router, this.messageService,
-                this.centralServerService, this.messages['update_firmware_error']);
+        this.centralServerService.chargingStationUpdateFirmware(this.chargingStation, this.url.value).subscribe({
+          next: () => {
+            this.spinnerService.hide();
+            this.messageService.showSuccessMessage(
+              this.translateService.instant('chargers.update_firmware_success', { chargeBoxID: this.chargingStation.id }));
+          },
+          error: (error) => {
+            this.spinnerService.hide();
+            switch (error.status) {
+              case StatusCodes.NOT_FOUND:
+                this.messageService.showErrorMessage(this.messages['update_firmware_error']);
+                break;
+              default:
+                Utils.handleHttpError(error, this.router, this.messageService,
+                  this.centralServerService, this.messages['update_firmware_error']);
+            }
           }
         });
       }

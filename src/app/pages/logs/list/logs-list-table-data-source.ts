@@ -118,30 +118,32 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
 
   public loadDataImpl(): Observable<DataResult<Log>> {
     return new Observable((observer) => {
-      this.centralServerService.getLogs(this.buildFilterValues(),
-        this.getPaging(), this.getSorting()).subscribe((logs) => {
-        this.exportAction.visible = logs.canExport;
-        // Add the users in the message
-        for (const log of logs.result) {
-          let user;
-          // Set User
-          if (log.user) {
-            user = Utils.buildUserFullName(log.user);
+      this.centralServerService.getLogs(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe({
+        next: (logs) => {
+          this.exportAction.visible = logs.canExport;
+          // Add the users in the message
+          for (const log of logs.result) {
+            let user;
+            // Set User
+            if (log.user) {
+              user = Utils.buildUserFullName(log.user);
+            }
+            // Set Action On User
+            if (log.actionOnUser) {
+              user = (user ? `${user} > ${Utils.buildUserFullName(log.actionOnUser)}` : Utils.buildUserFullName(log.actionOnUser));
+            }
+            // Set
+            if (user) {
+              log.message = `${user} > ${log.message}`;
+            }
           }
-          // Set Action On User
-          if (log.actionOnUser) {
-            user = (user ? `${user} > ${Utils.buildUserFullName(log.actionOnUser)}` : Utils.buildUserFullName(log.actionOnUser));
-          }
-          // Set
-          if (user) {
-            log.message = `${user} > ${log.message}`;
-          }
+          observer.next(logs);
+          observer.complete();
+        },
+        error: (error) => {
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          observer.error(error);
         }
-        observer.next(logs);
-        observer.complete();
-      }, (error) => {
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        observer.error(error);
       });
     });
   }

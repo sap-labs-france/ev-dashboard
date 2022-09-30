@@ -1,7 +1,7 @@
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { ButtonActionColor, ButtonAction } from 'types/GlobalType';
+import { ButtonAction, ButtonActionColor } from 'types/GlobalType';
 
 import { CentralServerService } from '../../../../services/central-server.service';
 import { DialogService } from '../../../../services/dialog.service';
@@ -45,22 +45,25 @@ export class TableChargingStationsClearCacheAction implements TableAction {
       if (result === ButtonAction.YES) {
         spinnerService.show();
         // Clear cache
-        centralServerService.chargingStationClearCache(chargingStation.id).subscribe((response: ActionResponse) => {
-          spinnerService.hide();
-          if (response.status === OCPPGeneralResponse.ACCEPTED) {
-            messageService.showSuccessMessage(
-              translateService.instant('chargers.clear_cache_success', { chargeBoxID: chargingStation.id }));
-            if (refresh) {
-              refresh().subscribe();
+        centralServerService.chargingStationClearCache(chargingStation.id).subscribe({
+          next: (response: ActionResponse) => {
+            spinnerService.hide();
+            if (response.status === OCPPGeneralResponse.ACCEPTED) {
+              messageService.showSuccessMessage(
+                translateService.instant('chargers.clear_cache_success', { chargeBoxID: chargingStation.id }));
+              if (refresh) {
+                refresh().subscribe();
+              }
+            } else {
+              Utils.handleError(JSON.stringify(response),
+                messageService, 'chargers.clear_cache_error');
             }
-          } else {
-            Utils.handleError(JSON.stringify(response),
-              messageService, 'chargers.clear_cache_error');
+          },
+          error: (error: any) => {
+            spinnerService.hide();
+            Utils.handleHttpError(error, router, messageService,
+              centralServerService, 'chargers.clear_cache_error');
           }
-        }, (error: any) => {
-          spinnerService.hide();
-          Utils.handleHttpError(error, router, messageService,
-            centralServerService, 'chargers.clear_cache_error');
         });
       }
     });

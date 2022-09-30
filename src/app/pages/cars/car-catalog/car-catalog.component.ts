@@ -38,12 +38,15 @@ export class CarCatalogComponent implements OnInit {
       return;
     }
     this.spinnerService.show();
-    this.centralServerService.getCarCatalog(this.currentCarCatalogID).subscribe((carCatalog: CarCatalog) => {
-      this.spinnerService.hide();
-      this.carCatalog = carCatalog;
-    }, (error) => {
-      this.spinnerService.hide();
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'cars.car_error');
+    this.centralServerService.getCarCatalog(this.currentCarCatalogID).subscribe({
+      next: (carCatalog: CarCatalog) => {
+        this.spinnerService.hide();
+        this.carCatalog = carCatalog;
+      },
+      error: (error) => {
+        this.spinnerService.hide();
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'cars.car_error');
+      }
     });
   }
 }

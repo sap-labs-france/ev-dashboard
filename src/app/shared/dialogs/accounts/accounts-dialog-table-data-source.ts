@@ -28,12 +28,15 @@ export class AccountsDialogTableDataSource extends DialogTableDataSource<Billing
 
   public loadDataImpl(): Observable<DataResult<BillingAccount>> {
     return new Observable((observer) => {
-      this.centralServerService.getBillingAccounts(this.getPaging(), this.getSorting()).subscribe((accounts) => {
-        observer.next(accounts);
-        observer.complete();
-      }, (error) => {
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        observer.error(error);
+      this.centralServerService.getBillingAccounts(this.getPaging(), this.getSorting()).subscribe({
+        next: (accounts) => {
+          observer.next(accounts);
+          observer.complete();
+        },
+        error: (error) => {
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          observer.error(error);
+        }
       });
     });
   }

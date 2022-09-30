@@ -50,13 +50,15 @@ export class SettingsOicpEndpointsTableDataSource extends TableDataSource<OicpEn
   public loadDataImpl(): Observable<DataResult<OicpEndpoint>> {
     return new Observable((observer) => {
       // Get the OICP Endpoints
-      this.centralServerService.getOicpEndpoints(this.buildFilterValues(),
-        this.getPaging(), this.getSorting()).subscribe((oicpEndpoints) => {
-        observer.next(oicpEndpoints);
-        observer.complete();
-      }, (error) => {
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        observer.error(error);
+      this.centralServerService.getOicpEndpoints(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe({
+        next: (oicpEndpoints) => {
+          observer.next(oicpEndpoints);
+          observer.complete();
+        },
+        error: (error) => {
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          observer.error(error);
+        }
       });
     });
   }
@@ -225,17 +227,20 @@ export class SettingsOicpEndpointsTableDataSource extends TableDataSource<OicpEn
       this.translateService.instant('oicpendpoints.delete_confirm', { name: oicpendpoint.name }),
     ).subscribe((result) => {
       if (result === ButtonAction.YES) {
-        this.centralServerService.deleteOicpEndpoint(oicpendpoint.id).subscribe((response) => {
-          if (response.status === RestResponse.SUCCESS) {
-            this.messageService.showSuccessMessage('oicpendpoints.delete_success', { name: oicpendpoint.name });
-            this.refreshData().subscribe();
-          } else {
-            Utils.handleError(JSON.stringify(response),
-              this.messageService, 'oicpendpoints.delete_error');
+        this.centralServerService.deleteOicpEndpoint(oicpendpoint.id).subscribe({
+          next: (response) => {
+            if (response.status === RestResponse.SUCCESS) {
+              this.messageService.showSuccessMessage('oicpendpoints.delete_success', { name: oicpendpoint.name });
+              this.refreshData().subscribe();
+            } else {
+              Utils.handleError(JSON.stringify(response),
+                this.messageService, 'oicpendpoints.delete_error');
+            }
+          },
+          error: (error) => {
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+              'oicpendpoints.delete_error');
           }
-        }, (error) => {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            'oicpendpoints.delete_error');
         });
       }
     });
@@ -247,17 +252,20 @@ export class SettingsOicpEndpointsTableDataSource extends TableDataSource<OicpEn
       this.translateService.instant('oicpendpoints.register_confirm', { name: oicpendpoint.name }),
     ).subscribe((result) => {
       if (result === ButtonAction.YES) {
-        this.centralServerService.registerOicpEndpoint(oicpendpoint.id).subscribe((response) => {
-          if (response.status === RestResponse.SUCCESS) {
-            this.messageService.showSuccessMessage('oicpendpoints.register_success', { name: oicpendpoint.name });
-            this.refreshData().subscribe();
-          } else {
-            Utils.handleError(JSON.stringify(response),
-              this.messageService, 'oicpendpoints.register_error');
+        this.centralServerService.registerOicpEndpoint(oicpendpoint.id).subscribe({
+          next: (response) => {
+            if (response.status === RestResponse.SUCCESS) {
+              this.messageService.showSuccessMessage('oicpendpoints.register_success', { name: oicpendpoint.name });
+              this.refreshData().subscribe();
+            } else {
+              Utils.handleError(JSON.stringify(response),
+                this.messageService, 'oicpendpoints.register_error');
+            }
+          },
+          error: (error) => {
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+              'oicpendpoints.register_error');
           }
-        }, (error) => {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            'oicpendpoints.register_error');
         });
       }
     });
@@ -269,17 +277,20 @@ export class SettingsOicpEndpointsTableDataSource extends TableDataSource<OicpEn
       this.translateService.instant('oicpendpoints.unregister_confirm', { name: oicpendpoint.name }),
     ).subscribe((result) => {
       if (result === ButtonAction.YES) {
-        this.centralServerService.unregisterOicpEndpoint(oicpendpoint.id).subscribe((response) => {
-          if (response.status === RestResponse.SUCCESS) {
-            this.messageService.showSuccessMessage('oicpendpoints.unregister_success', { name: oicpendpoint.name });
-            this.refreshData().subscribe();
-          } else {
-            Utils.handleError(JSON.stringify(response),
-              this.messageService, 'oicpendpoints.unregister_error');
+        this.centralServerService.unregisterOicpEndpoint(oicpendpoint.id).subscribe({
+          next: (response) => {
+            if (response.status === RestResponse.SUCCESS) {
+              this.messageService.showSuccessMessage('oicpendpoints.unregister_success', { name: oicpendpoint.name });
+              this.refreshData().subscribe();
+            } else {
+              Utils.handleError(JSON.stringify(response),
+                this.messageService, 'oicpendpoints.unregister_error');
+            }
+          },
+          error: (error) => {
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+              'oicpendpoints.unregister_error');
           }
-        }, (error) => {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            'oicpendpoints.unregister_error');
         });
       }
     });

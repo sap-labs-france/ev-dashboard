@@ -55,23 +55,26 @@ export class SettingsCarConnectorComponent implements OnInit {
 
   public loadConfiguration() {
     this.spinnerService.show();
-    this.componentService.getCarConnectorSettings().subscribe((settings) => {
-      this.spinnerService.hide();
-      // Keep
-      this.carConnectorSettings = settings;
-      // Set
-      this.settingsCarConnectorConnectionTableDataSource.setContent(this.carConnectorSettings.carConnector.connections);
-      // Init form
-      this.formGroup.markAsPristine();
-    }, (error) => {
-      this.spinnerService.hide();
-      switch (error.status) {
-        case StatusCodes.NOT_FOUND:
-          this.messageService.showErrorMessage('settings.car_connector.setting_not_found');
-          break;
-        default:
-          Utils.handleHttpError(error, this.router, this.messageService,
-            this.centralServerService, 'general.unexpected_error_backend');
+    this.componentService.getCarConnectorSettings().subscribe({
+      next: (settings) => {
+        this.spinnerService.hide();
+        // Keep
+        this.carConnectorSettings = settings;
+        // Set
+        this.settingsCarConnectorConnectionTableDataSource.setContent(this.carConnectorSettings.carConnector.connections);
+        // Init form
+        this.formGroup.markAsPristine();
+      },
+      error: (error) => {
+        this.spinnerService.hide();
+        switch (error.status) {
+          case StatusCodes.NOT_FOUND:
+            this.messageService.showErrorMessage('settings.car_connector.setting_not_found');
+            break;
+          default:
+            Utils.handleHttpError(error, this.router, this.messageService,
+              this.centralServerService, 'general.unexpected_error_backend');
+        }
       }
     });
   }
@@ -81,25 +84,28 @@ export class SettingsCarConnectorComponent implements OnInit {
     this.carConnectorSettings.carConnector.connections = this.settingsCarConnectorConnectionTableDataSource.getContent();
     // Save
     this.spinnerService.show();
-    this.componentService.saveCarConnectorConnectionSettings(this.carConnectorSettings).subscribe((response) => {
-      this.spinnerService.hide();
-      if (response.status === RestResponse.SUCCESS) {
-        this.messageService.showSuccessMessage(
-          (!this.carConnectorSettings.id ? 'settings.car_connector.create_success' : 'settings.car_connector.update_success'));
-        this.refresh();
-      } else {
-        Utils.handleError(JSON.stringify(response),
-          this.messageService, (!this.carConnectorSettings.id ? 'settings.car_connector.create_error' : 'settings.car_connector.update_error'));
-      }
-    }, (error) => {
-      this.spinnerService.hide();
-      switch (error.status) {
-        case StatusCodes.NOT_FOUND:
-          this.messageService.showErrorMessage('settings.car_connector.setting_do_not_exist');
-          break;
-        default:
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            (!this.carConnectorSettings.id ? 'settings.car_connector.create_error' : 'settings.car_connector.update_error'));
+    this.componentService.saveCarConnectorConnectionSettings(this.carConnectorSettings).subscribe({
+      next: (response) => {
+        this.spinnerService.hide();
+        if (response.status === RestResponse.SUCCESS) {
+          this.messageService.showSuccessMessage(
+            (!this.carConnectorSettings.id ? 'settings.car_connector.create_success' : 'settings.car_connector.update_success'));
+          this.refresh();
+        } else {
+          Utils.handleError(JSON.stringify(response),
+            this.messageService, (!this.carConnectorSettings.id ? 'settings.car_connector.create_error' : 'settings.car_connector.update_error'));
+        }
+      },
+      error: (error) => {
+        this.spinnerService.hide();
+        switch (error.status) {
+          case StatusCodes.NOT_FOUND:
+            this.messageService.showErrorMessage('settings.car_connector.setting_do_not_exist');
+            break;
+          default:
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+              (!this.carConnectorSettings.id ? 'settings.car_connector.create_error' : 'settings.car_connector.update_error'));
+        }
       }
     });
   }

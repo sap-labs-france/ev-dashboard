@@ -51,8 +51,8 @@ export class SettingsUserComponent implements OnInit {
 
   public save() {
     this.spinnerService.show();
-    this.componentService.saveUserSettings(this.userSettings).subscribe(
-      (response) => {
+    this.componentService.saveUserSettings(this.userSettings).subscribe({
+      next: (response) => {
         this.spinnerService.hide();
         if (response.status === RestResponse.SUCCESS) {
           this.messageService.showSuccessMessage('technical_settings.user.update_success');
@@ -63,7 +63,7 @@ export class SettingsUserComponent implements OnInit {
           );
         }
       },
-      (error) => {
+      error: (error) => {
         this.spinnerService.hide();
         switch (error.status) {
           case StatusCodes.NOT_FOUND:
@@ -75,27 +75,30 @@ export class SettingsUserComponent implements OnInit {
             );
         }
       }
-    );
+    });
   }
 
   // Load with data from db
   public loadSettings() {
     this.spinnerService.show();
-    this.componentService.getUserSettings().subscribe((settings) => {
-      this.spinnerService.hide();
-      // Init values
-      this.isDisabled = true;
-      this.userSettings = settings;
-      this.autoActivateAccountAfterValidation.setValue(this.userSettings.user.autoActivateAccountAfterValidation);
-    }, (error) => {
-      this.spinnerService.hide();
-      switch (error.status) {
-        case StatusCodes.NOT_FOUND:
-          this.messageService.showErrorMessage('technical_settings.user.setting_do_not_exist');
-          break;
-        default:
-          Utils.handleHttpError(error, this.router, this.messageService,
-            this.centralServerService, 'general.unexpected_error_backend');
+    this.componentService.getUserSettings().subscribe({
+      next: (settings) => {
+        this.spinnerService.hide();
+        // Init values
+        this.isDisabled = true;
+        this.userSettings = settings;
+        this.autoActivateAccountAfterValidation.setValue(this.userSettings.user.autoActivateAccountAfterValidation);
+      },
+      error: (error) => {
+        this.spinnerService.hide();
+        switch (error.status) {
+          case StatusCodes.NOT_FOUND:
+            this.messageService.showErrorMessage('technical_settings.user.setting_do_not_exist');
+            break;
+          default:
+            Utils.handleHttpError(error, this.router, this.messageService,
+              this.centralServerService, 'general.unexpected_error_backend');
+        }
       }
     });
   }

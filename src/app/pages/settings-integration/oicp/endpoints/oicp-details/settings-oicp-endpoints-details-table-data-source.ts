@@ -200,23 +200,26 @@ export class SettingsOicpEndpointsDetailsTableDataSource extends TableDataSource
     ).subscribe((result) => {
       if (result === ButtonAction.YES) {
         // Ping
-        this.centralServerService.sendEVSEStatusesOicpEndpoint(oicpendpoint).subscribe((response) => {
-          if (response.failure === 0) {
-            this.messageService.showInfoMessage('oicpendpoints.push_evse_statuses_success', { success: response.success });
-          } else if (response.failure > 0 && response.success > 0) {
-            this.messageService.showWarningMessage('oicpendpoints.push_evse_statuses_partial',
-              { success: response.success, error: response.failure });
-          } else {
-            Utils.handleError(JSON.stringify(response),
-              this.messageService, 'oicpendpoints.push_evse_statuses_error');
+        this.centralServerService.sendEVSEStatusesOicpEndpoint(oicpendpoint).subscribe({
+          next: (response) => {
+            if (response.failure === 0) {
+              this.messageService.showInfoMessage('oicpendpoints.push_evse_statuses_success', { success: response.success });
+            } else if (response.failure > 0 && response.success > 0) {
+              this.messageService.showWarningMessage('oicpendpoints.push_evse_statuses_partial',
+                { success: response.success, error: response.failure });
+            } else {
+              Utils.handleError(JSON.stringify(response),
+                this.messageService, 'oicpendpoints.push_evse_statuses_error');
+            }
+            // reload data
+            this.refreshData().subscribe();
+          },
+          error: (error) => {
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+              'oicpendpoints.push_evse_statuses_error');
+            // reload data
+            this.refreshData().subscribe();
           }
-          // reload data
-          this.refreshData().subscribe();
-        }, (error) => {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            'oicpendpoints.push_evse_statuses_error');
-          // reload data
-          this.refreshData().subscribe();
         });
       }
     });
@@ -229,23 +232,26 @@ export class SettingsOicpEndpointsDetailsTableDataSource extends TableDataSource
     ).subscribe((result) => {
       if (result === ButtonAction.YES) {
         // Ping
-        this.centralServerService.sendEVSEsOicpEndpoint(oicpendpoint).subscribe((response) => {
-          if (response.failure === 0) {
-            this.messageService.showSuccessMessage('oicpendpoints.push_evses_success', { success: response.success });
-          } else if (response.failure > 0 && response.success > 0) {
-            this.messageService.showWarningMessage('oicpendpoints.push_evses_partial',
-              { success: response.success, error: response.failure });
-          } else {
-            Utils.handleError(JSON.stringify(response),
-              this.messageService, 'oicpendpoints.push_evses_error');
+        this.centralServerService.sendEVSEsOicpEndpoint(oicpendpoint).subscribe({
+          next: (response) => {
+            if (response.failure === 0) {
+              this.messageService.showSuccessMessage('oicpendpoints.push_evses_success', { success: response.success });
+            } else if (response.failure > 0 && response.success > 0) {
+              this.messageService.showWarningMessage('oicpendpoints.push_evses_partial',
+                { success: response.success, error: response.failure });
+            } else {
+              Utils.handleError(JSON.stringify(response),
+                this.messageService, 'oicpendpoints.push_evses_error');
+            }
+            // reload data
+            this.refreshData().subscribe();
+          },
+          error: (error) => {
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+              'oicpendpoints.push_evses_error');
+            // reload data
+            this.refreshData().subscribe();
           }
-          // reload data
-          this.refreshData().subscribe();
-        }, (error) => {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            'oicpendpoints.push_evses_error');
-          // reload data
-          this.refreshData().subscribe();
         });
       }
     });
@@ -262,21 +268,24 @@ export class SettingsOicpEndpointsDetailsTableDataSource extends TableDataSource
       if (result === ButtonAction.YES) {
         // Switch background job state
         oicpendpoint.backgroundPatchJob = enable;
-        this.centralServerService.updateOicpEndpoint(oicpendpoint).subscribe((response) => {
-          if (response.status === RestResponse.SUCCESS) {
-            if (oicpendpoint.backgroundPatchJob) {
-              this.messageService.showSuccessMessage('oicpendpoints.background_job_activated');
+        this.centralServerService.updateOicpEndpoint(oicpendpoint).subscribe({
+          next: (response) => {
+            if (response.status === RestResponse.SUCCESS) {
+              if (oicpendpoint.backgroundPatchJob) {
+                this.messageService.showSuccessMessage('oicpendpoints.background_job_activated');
+              } else {
+                this.messageService.showSuccessMessage('oicpendpoints.background_job_deactivated');
+              }
             } else {
-              this.messageService.showSuccessMessage('oicpendpoints.background_job_deactivated');
+              Utils.handleError(JSON.stringify(response),
+                this.messageService, 'oicpendpoints.update_error');
             }
-          } else {
-            Utils.handleError(JSON.stringify(response),
-              this.messageService, 'oicpendpoints.update_error');
+            this.refreshData().subscribe();
+          },
+          error: (error) => {
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+              'oicpendpoints.update_error');
           }
-          this.refreshData().subscribe();
-        }, (error) => {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            'oicpendpoints.update_error');
         });
       }
     });

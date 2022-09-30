@@ -61,27 +61,30 @@ export class TenantComponent extends AbstractTabComponent implements OnInit {
   public loadTenant() {
     if (this.currentTenantID) {
       this.spinnerService.show();
-      this.centralServerService.getTenant(this.currentTenantID).subscribe((tenant) => {
-        this.spinnerService.hide();
-        if (tenant) {
-          this.tenant = tenant;
-          // Update form group
-          this.formGroup.updateValueAndValidity();
-          this.formGroup.markAsPristine();
-          this.formGroup.markAllAsTouched();
+      this.centralServerService.getTenant(this.currentTenantID).subscribe({
+        next: (tenant) => {
+          this.spinnerService.hide();
+          if (tenant) {
+            this.tenant = tenant;
+            // Update form group
+            this.formGroup.updateValueAndValidity();
+            this.formGroup.markAsPristine();
+            this.formGroup.markAllAsTouched();
+          }
+        },
+        error: (error) => {
+          // Hide
+          this.spinnerService.hide();
+          switch (error.status) {
+            case StatusCodes.NOT_FOUND:
+              this.messageService.showErrorMessage('tenants.tenant_not_found');
+              break;
+            default:
+              Utils.handleHttpError(error, this.router, this.messageService,
+                this.centralServerService, 'general.unexpected_error_backend');
+          }
+          this.dialogRef.close();
         }
-      }, (error) => {
-        // Hide
-        this.spinnerService.hide();
-        switch (error.status) {
-          case StatusCodes.NOT_FOUND:
-            this.messageService.showErrorMessage('tenants.tenant_not_found');
-            break;
-          default:
-            Utils.handleHttpError(error, this.router, this.messageService,
-              this.centralServerService, 'general.unexpected_error_backend');
-        }
-        this.dialogRef.close();
       });
     }
   }
@@ -189,23 +192,26 @@ export class TenantComponent extends AbstractTabComponent implements OnInit {
   private createTenant(tenant: Tenant) {
     this.spinnerService.show();
     this.tenantMainComponent.updateTenantLogo(tenant);
-    this.centralServerService.createTenant(tenant).subscribe((response) => {
-      this.spinnerService.hide();
-      if (response.status === RestResponse.SUCCESS) {
-        this.messageService.showSuccessMessage('tenants.create_success', { name: tenant.name });
-        this.dialogRef.close(true);
-      } else {
-        Utils.handleError(JSON.stringify(response), this.messageService, 'tenants.create_error');
-      }
-    }, (error) => {
-      this.spinnerService.hide();
-      switch (error.status) {
-        case HTTPError.TENANT_ALREADY_EXIST:
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tenants.subdomain_already_used', { subdomain: tenant.subdomain });
-          break;
-        default:
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tenants.create_error');
-          break;
+    this.centralServerService.createTenant(tenant).subscribe({
+      next: (response) => {
+        this.spinnerService.hide();
+        if (response.status === RestResponse.SUCCESS) {
+          this.messageService.showSuccessMessage('tenants.create_success', { name: tenant.name });
+          this.dialogRef.close(true);
+        } else {
+          Utils.handleError(JSON.stringify(response), this.messageService, 'tenants.create_error');
+        }
+      },
+      error: (error) => {
+        this.spinnerService.hide();
+        switch (error.status) {
+          case HTTPError.TENANT_ALREADY_EXIST:
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tenants.subdomain_already_used', { subdomain: tenant.subdomain });
+            break;
+          default:
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tenants.create_error');
+            break;
+        }
       }
     });
   }
@@ -213,26 +219,29 @@ export class TenantComponent extends AbstractTabComponent implements OnInit {
   private updateTenant(tenant: Tenant) {
     this.spinnerService.show();
     this.tenantMainComponent.updateTenantLogo(tenant);
-    this.centralServerService.updateTenant(tenant).subscribe((response) => {
-      this.spinnerService.hide();
-      if (response.status === RestResponse.SUCCESS) {
-        this.messageService.showSuccessMessage('tenants.update_success', { name: tenant.name });
-        this.dialogRef.close(true);
-      } else {
-        Utils.handleError(JSON.stringify(response), this.messageService, 'tenants.update_error');
-      }
-    }, (error) => {
-      this.spinnerService.hide();
-      switch (error.status) {
-        case HTTPError.TENANT_ALREADY_EXIST:
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tenants.subdomain_already_used', { subdomain: tenant.subdomain });
-          break;
-        case HTTPError.SMART_CHARGING_STILL_ACTIVE_FOR_SITE_AREA:
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tenants.smart_charging_still_active_for_site_area');
-          break;
-        default:
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tenants.update_error');
-          break;
+    this.centralServerService.updateTenant(tenant).subscribe({
+      next: (response) => {
+        this.spinnerService.hide();
+        if (response.status === RestResponse.SUCCESS) {
+          this.messageService.showSuccessMessage('tenants.update_success', { name: tenant.name });
+          this.dialogRef.close(true);
+        } else {
+          Utils.handleError(JSON.stringify(response), this.messageService, 'tenants.update_error');
+        }
+      },
+      error: (error) => {
+        this.spinnerService.hide();
+        switch (error.status) {
+          case HTTPError.TENANT_ALREADY_EXIST:
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tenants.subdomain_already_used', { subdomain: tenant.subdomain });
+            break;
+          case HTTPError.SMART_CHARGING_STILL_ACTIVE_FOR_SITE_AREA:
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tenants.smart_charging_still_active_for_site_area');
+            break;
+          default:
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tenants.update_error');
+            break;
+        }
       }
     });
   }

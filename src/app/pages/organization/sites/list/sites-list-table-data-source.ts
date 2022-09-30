@@ -79,7 +79,9 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
         next: (sites) => {
           this.sitesAuthorizations = {
             canListCompanies: sites.canListCompanies,
-            canCreate: sites.canCreate
+            canCreate: sites.canCreate,
+            projectFields: sites.projectFields,
+            metadata: sites.metadata,
           };
           this.createAction.visible = Utils.convertToBoolean(sites.canCreate);
           this.companyFilter.visible = Utils.convertToBoolean(sites.canListCompanies);
@@ -241,7 +243,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
       case SiteButtonAction.CREATE_SITE:
         if (actionDef.action) {
           (actionDef as TableCreateSiteActionDef).action(SiteDialogComponent,
-            this.dialog, this.refreshData.bind(this));
+            this.dialog, { authorizations: this.sitesAuthorizations }, this.refreshData.bind(this));
         }
     }
   }

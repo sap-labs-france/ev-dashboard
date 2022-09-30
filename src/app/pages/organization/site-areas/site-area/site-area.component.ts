@@ -67,6 +67,8 @@ export class SiteAreaComponent extends AbstractTabComponent implements OnInit {
     // Handle Dialog mode
     this.readOnly = this.dialogMode === DialogMode.VIEW;
     Utils.handleDialogMode(this.dialogMode, this.formGroup);
+    // Check if OCPI has to be displayed
+    this.ocpiHasVisibleFields = this.siteAreasAuthorizations.projectFields.includes('tariffID');
     // Load Site Area
     this.loadSiteArea();
   }
@@ -78,8 +80,6 @@ export class SiteAreaComponent extends AbstractTabComponent implements OnInit {
         next: (siteArea) => {
           this.spinnerService.hide();
           this.siteArea = siteArea;
-          // Check if OCPI has to be displayed
-          this.ocpiHasVisibleFields = siteArea.projectFields.includes('tariffID');
           if (this.readOnly) {
             // Async call for letting the sub form groups to init
             setTimeout(() => this.formGroup.disable(), 0);

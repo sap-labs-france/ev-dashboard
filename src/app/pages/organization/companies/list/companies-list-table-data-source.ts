@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { CompaniesAuthorizations } from 'types/Authorization';
 
 import { CentralServerService } from '../../../../services/central-server.service';
 import { DialogService } from '../../../../services/dialog.service';
@@ -34,6 +35,7 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
   private deleteAction = new TableDeleteCompanyAction().getActionDef();
   private viewAction = new TableViewCompanyAction().getActionDef();
   private createAction = new TableCreateCompanyAction().getActionDef();
+  private companyAuthorizations: CompaniesAuthorizations;
 
   public constructor(
     public spinnerService: SpinnerService,
@@ -55,6 +57,11 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
       // get companies
       this.centralServerService.getCompanies(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe({
         next: (companies) => {
+          this.companyAuthorizations = {
+            canCreate: companies.canCreate,
+            projectFields: companies.projectFields,
+            metadata: companies.metadata,
+          };
           this.createAction.visible = companies.canCreate;
           observer.next(companies);
           observer.complete();
@@ -186,8 +193,8 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
       // Add
       case CompanyButtonAction.CREATE_COMPANY:
         if (actionDef.action) {
-          (actionDef as TableCreateCompanyActionDef).action(CompanyDialogComponent,
-            this.dialog, this.refreshData.bind(this)
+          (actionDef as TableCreateCompanyActionDef).action(CompanyDialogComponent, this.dialog,
+            { authorizations: this.companyAuthorizations }, this.refreshData.bind(this)
           );
         }
         break;
@@ -199,13 +206,13 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
       case CompanyButtonAction.EDIT_COMPANY:
         if (actionDef.action) {
           (actionDef as TableEditCompanyActionDef).action(CompanyDialogComponent,
-            this.dialog, { dialogData: company }, this.refreshData.bind(this));
+            this.dialog, { dialogData: company, authorizations: this.companyAuthorizations }, this.refreshData.bind(this));
         }
         break;
       case CompanyButtonAction.VIEW_COMPANY:
         if (actionDef.action) {
           (actionDef as TableViewCompanyActionDef).action(CompanyDialogComponent, this.dialog,
-            { dialogData: company }, this.refreshData.bind(this));
+            { dialogData: company, authorizations: this.companyAuthorizations }, this.refreshData.bind(this));
         }
         break;
       case CompanyButtonAction.DELETE_COMPANY:

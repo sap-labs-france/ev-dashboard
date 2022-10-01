@@ -1891,7 +1891,8 @@
       },
       "types": {
         "mercedes": "Mercedes Schnittstelle",
-        "tronity": "Tronity Schnittstelle"
+        "tronity": "Tronity Schnittstelle",
+        "targa_telematics": "Targa Telematics Schnittstelle"
       },
       "mercedes": {
         "link_success": "Ihr Account wurde erfolgreich mit Mercedes verbunden",

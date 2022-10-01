@@ -44,6 +44,10 @@
   }
 }
 
+.material-icons {
+  vertical-align: middle;
+}
+
 .nav-tabs {
   .nav-link {
     border-bottom: $bmd-nav-tabs-border-size solid transparent;
@@ -182,10 +186,6 @@
 
   .mat-tab-labels {
     padding: 11px 7px 7px 7px;
-  }
-
-  .mat-dialog-content {
-    margin: 0;
   }
 }
 

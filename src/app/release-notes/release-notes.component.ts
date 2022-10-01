@@ -36,6 +36,9 @@ export class ReleaseNotesComponent {
               'UI Improvements - New sorting option on charging stations list - public / non public',
               'Performance Improvements - new options to reduce data size when fetching collections',
               'Pricing - New column to preview pricing restrictions in the list',
+              'Car Connectors - Targa Telematics - New connector to get the SoC on AC Charging Stations',
+              'Security - OCPI Tariff IDs not shown to basic users',
+              'OCPI - The owner name can be set per site and sent to the GIREVE Roaming Platform'
             ],
           },
         ],

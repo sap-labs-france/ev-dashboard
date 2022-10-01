@@ -3,6 +3,7 @@ import { AbstractControl, UntypedFormArray, UntypedFormControl, UntypedFormGroup
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { Address as GoogleAddress } from 'ngx-google-places-autocomplete/objects/address';
+import { GeoMapDialogData, GeoMapDialogResult } from 'types/Dialog';
 
 import { Address } from '../../types/Address';
 import { Constants } from '../../utils/Constants';
@@ -186,7 +187,7 @@ export class AddressComponent implements OnInit, OnChanges {
 
   public assignGeoMap() {
     // Create the dialog
-    const dialogConfig = new MatDialogConfig();
+    const dialogConfig = new MatDialogConfig<GeoMapDialogData>();
     dialogConfig.minWidth = '70vw';
     dialogConfig.disableClose = false;
     dialogConfig.panelClass = 'transparent-dialog-container';
@@ -219,8 +220,8 @@ export class AddressComponent implements OnInit, OnChanges {
     // Disable outside click close
     dialogConfig.disableClose = true;
     // Open
-    this.dialog.open(GeoMapDialogComponent, dialogConfig)
-      .afterClosed().subscribe((result) => {
+    this.dialog.open<GeoMapDialogComponent, GeoMapDialogData, GeoMapDialogResult>(GeoMapDialogComponent, dialogConfig)
+      .afterClosed().subscribe((result: GeoMapDialogResult) => {
         if (result) {
           if (result.latitude) {
             this.latitude.setValue(result.latitude);

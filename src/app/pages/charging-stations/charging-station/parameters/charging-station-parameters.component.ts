@@ -3,6 +3,7 @@ import { AbstractControl, UntypedFormArray, UntypedFormControl, UntypedFormGroup
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { ChargingStationsAuthorizations } from 'types/Authorization';
+import { GeoMapDialogData, GeoMapDialogResult } from 'types/Dialog';
 
 import { ComponentService } from '../../../../services/component.service';
 import { DialogService } from '../../../../services/dialog.service';
@@ -263,7 +264,7 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
 
   public assignGeoMap() {
     // Create the dialog
-    const dialogConfig = new MatDialogConfig();
+    const dialogConfig = new MatDialogConfig<GeoMapDialogData>();
     dialogConfig.minWidth = '70vw';
     dialogConfig.disableClose = false;
     dialogConfig.panelClass = 'transparent-dialog-container';
@@ -297,7 +298,7 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
     // disable outside click close
     dialogConfig.disableClose = true;
     // Open
-    this.dialog.open(GeoMapDialogComponent, dialogConfig)
+    this.dialog.open<GeoMapDialogComponent, GeoMapDialogData, GeoMapDialogResult>(GeoMapDialogComponent, dialogConfig)
       .afterClosed().subscribe((result) => {
         if (result) {
           if (result.latitude) {

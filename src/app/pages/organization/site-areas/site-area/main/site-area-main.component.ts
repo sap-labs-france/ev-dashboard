@@ -288,8 +288,8 @@ export class SiteAreaMainComponent implements OnInit, OnChanges {
     }
   }
 
-  public copyUrl(url: string) {
-    Utils.copyToClipboard(url);
+  public copyChargingStationConnectionUrl(url: string) {
+    void Utils.copyToClipboard(url);
     this.messageService.showInfoMessage('chargers.connections.url_copied');
   }
 

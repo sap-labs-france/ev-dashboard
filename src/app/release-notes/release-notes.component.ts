@@ -30,7 +30,12 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
-              `Email Notifications - Code improvements and new look and feel`,
+              'Authorization - Transaction and User endpoints have been migrated to the new authorization framework',
+              'Email Notifications - Code improvements and new look and feel',
+              'UI Improvements - New menu item to navigate from a charger to the corresponding sessions',
+              'UI Improvements - New sorting option on charging stations list - public / non public',
+              'Performance Improvements - new options to reduce data size when fetching collections',
+              'Pricing - New column to preview pricing restrictions in the list',
             ],
           },
         ],

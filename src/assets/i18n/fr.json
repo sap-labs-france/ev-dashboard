@@ -241,6 +241,7 @@
       "force_available_status": "Passer l'état de la borne à 'Disponible'",
       "force_unavailable_status": "Passer l'état de la borne à 'Indisponible'",
       "display_users": "Afficher les utilisateurs",
+      "display_sites": "Afficher les sites",
       "pricing": "Tarification"
     }
   },
@@ -1341,7 +1342,8 @@
     "update_set_site_owner_success": "L'utilisateur est maintenant le propriétaire du site '{{siteName}}'",
     "update_remove_site_owner_success": "L'utilisateur n'est plus le propriétaire du site '{{siteName}}'",
     "update_site_owner_role_error": "Une erreur est survenue lors de la mise à jour des droits d'accès de l'utilisateur au site '{{siteName}}', vérifiez les logs",
-    "redirect": "Naviguer vers 'Utilisateurs'",
+    "redirect": "Naviguer vers la gestion des utilisateurs",
+    "display_sites": "Afficher les sites",
     "connectors": {
       "connect": "Connecter",
       "revoke": "Révoquer",
@@ -2060,6 +2062,7 @@
     "emsp": "Fournisseur de Services de Mobilité",
     "enable_emsp": "Activer le fournisseur de services de mobilité",
     "tariff_id": "Identification du tarif",
+    "owner_name": "Nom du propriétaire",
     "description": "Open Charge Point Interface",
     "details": "Identification",
     "country_code": "Code pays",

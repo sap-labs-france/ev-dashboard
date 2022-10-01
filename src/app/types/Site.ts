@@ -14,6 +14,7 @@ export interface Site extends TableData, CreatedUpdatedProps, SiteAuthorizationA
   company: Company;
   issuer: boolean;
   tariffID?: string;
+  ownerName?: string;
   autoUserSiteAssignment: boolean;
   siteAreas: SiteArea[];
   address: Address;
@@ -28,7 +29,7 @@ export interface Site extends TableData, CreatedUpdatedProps, SiteAuthorizationA
   accountData?: BillingAccountData;
 }
 
-export interface SiteUser extends TableData {
+export interface UserSite extends TableData {
   site: Site;
   userID: string;
   siteAdmin: boolean;

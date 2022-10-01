@@ -241,6 +241,7 @@
       "force_available_status": "Nuceně nastavit stav Je k dispozici ",
       "force_unavailable_status": "Nuceně nastavit stav Není k dispozici",
       "display_users": "Display users",
+      "display_sites": "Display sites",
       "pricing": "Pricing"
     }
   },
@@ -1342,6 +1343,7 @@
     "update_remove_site_owner_success": "Uživatel již není vlastníkem parkoviště '{{siteName}}'",
     "update_site_owner_role_error": "Došlo k chybě při pokusu aktualizovat práva uživatele k parkovišti '{{siteName}}', zkontrolujte protokoly",
     "redirect": "Navigovat k uživateli",
+    "display_sites": "Display sites",
     "connectors": {
       "connect": "Připojit",
       "revoke": "Zrušit",
@@ -2061,6 +2063,7 @@
     "emsp": "e-Mobility Service Provider",
     "enable_emsp": "Enable e-Mobility Service Provider",
     "tariff_id": "Tariff ID",
+    "owner_name": "Owner Name",
     "description": "Otevřít rozhraní nabíjecího místa",
     "details": "Identifikace",
     "country_code": "Kód země",

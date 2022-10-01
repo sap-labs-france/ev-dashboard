@@ -241,6 +241,7 @@
       "force_available_status": "Forçar estado disponível",
       "force_unavailable_status": "Forçar estado indisponível",
       "display_users": "Display users",
+      "display_sites": "Display sites",
       "pricing": "Pricing"
     }
   },
@@ -1342,6 +1343,7 @@
     "update_remove_site_owner_success": "O utilizador não é mais proprietário do site '{{siteName}}'",
     "update_site_owner_role_error": "Ocorreu um erro ao tentar atualizar o direito do utilizador no site '{{siteName}}'",
     "redirect": "Navigate to User",
+    "display_sites": "Display sites",
     "connectors": {
       "connect": "Conectado",
       "revoke": "Revogar",
@@ -2060,6 +2062,7 @@
     "emsp": "e-Mobility Service Provider",
     "enable_emsp": "Enable e-Mobility Service Provider",
     "tariff_id": "Tariff ID",
+    "owner_name": "Owner Name",
     "description": "Interface de ponto de carga aberta",
     "details": "Identificação",
     "country_code": "Código do país",

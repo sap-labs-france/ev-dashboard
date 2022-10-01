@@ -62,8 +62,8 @@ export class UserMercedesCarConnectorComponent implements OnInit, OnChanges {
   }
 
   public revokeMercedesAccount() {
-    this.centralServerService.deleteIntegrationConnection(this.mercedesConnection.id).subscribe(
-      (response: ActionResponse) => {
+    this.centralServerService.deleteIntegrationConnection(this.mercedesConnection.id).subscribe({
+      next: (response: ActionResponse) => {
         if (response.status === RestResponse.SUCCESS) {
           this.messageService.showSuccessMessage('settings.car_connector.mercedes.revoke_success');
         } else {
@@ -71,12 +71,13 @@ export class UserMercedesCarConnectorComponent implements OnInit, OnChanges {
             this.messageService, 'settings.car_connector.mercedes.revoke_error');
         }
         this.connectorChanged.emit();
-      }, (error) => {
+      },
+      error: (error) => {
         Utils.handleError(JSON.stringify(error),
           this.messageService, 'settings.car_connector.mercedes.revoke_error');
         this.connectorChanged.emit();
       }
-    );
+    });
   }
 
   public linkMercedesAccount() {

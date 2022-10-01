@@ -27,15 +27,17 @@ export class AssetsDialogTableDataSource extends DialogTableDataSource<Asset> {
 
   public loadDataImpl(): Observable<DataResult<Asset>> {
     return new Observable((observer) => {
-      this.centralServerService.getAssets(this.buildFilterValues(),
-        this.getPaging(), this.getSorting()).subscribe((assets) => {
-        observer.next(assets);
-        observer.complete();
-      }, (error) => {
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        observer.error(error);
+      this.centralServerService.getAssets(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe({
+        next: (assets) => {
+          observer.next(assets);
+          observer.complete();
+        },
+        error: (error) => {
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          observer.error(error);
+        }
       });
-    });
+  });
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {

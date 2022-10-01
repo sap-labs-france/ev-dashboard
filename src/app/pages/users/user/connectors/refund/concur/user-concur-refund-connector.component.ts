@@ -62,8 +62,8 @@ export class UserConcurRefundConnectorComponent implements OnInit, OnChanges {
   }
 
   public revokeRefundAccount() {
-    this.centralServerService.deleteIntegrationConnection(this.refundConnection.id).subscribe(
-      (response: ActionResponse) => {
+    this.centralServerService.deleteIntegrationConnection(this.refundConnection.id).subscribe({
+      next: (response: ActionResponse) => {
         if (response.status === RestResponse.SUCCESS) {
           this.messageService.showSuccessMessage('settings.refund.concur.revoke_success');
         } else {
@@ -71,12 +71,13 @@ export class UserConcurRefundConnectorComponent implements OnInit, OnChanges {
             this.messageService, 'settings.refund.concur.revoke_error');
         }
         this.connectorChanged.emit();
-      }, (error) => {
+      },
+      error: (error) => {
         Utils.handleError(JSON.stringify(error),
           this.messageService, 'settings.refund.concur.revoke_error');
         this.connectorChanged.emit();
       }
-    );
+    });
   }
 
   public linkRefundAccount() {

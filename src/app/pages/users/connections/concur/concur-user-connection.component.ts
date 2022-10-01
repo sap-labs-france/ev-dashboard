@@ -43,20 +43,22 @@ export class ConcurUserConnectionComponent extends AbstractTabComponent {
             redirectUri: this.windowService.getOrigin() + this.windowService.getPath(),
           },
       };
-      this.centralServerService.createIntegrationConnection(payload).subscribe((response: ActionResponse) => {
-        if (response.status === RestResponse.SUCCESS) {
-          this.messageService.showSuccessMessage('settings.refund.concur.link_success');
-        } else {
-          Utils.handleError(JSON.stringify(response),
+      this.centralServerService.createIntegrationConnection(payload).subscribe({
+        next: (response: ActionResponse) => {
+          if (response.status === RestResponse.SUCCESS) {
+            this.messageService.showSuccessMessage('settings.refund.concur.link_success');
+          } else {
+            Utils.handleError(JSON.stringify(response),
+              this.messageService, 'settings.refund.concur.link_error');
+          }
+          void this.router.navigate([`/users/${state.userId}`], { fragment: 'connections' });
+        },
+        error: (error) => {
+          Utils.handleError(JSON.stringify(error),
             this.messageService, 'settings.refund.concur.link_error');
+          void this.router.navigate([`/users/${state.userId}`], { fragment: 'connections' });
         }
-        void this.router.navigate([`/users/${state.userId}`], { fragment: 'connections' });
-      }, (error) => {
-        Utils.handleError(JSON.stringify(error),
-          this.messageService, 'settings.refund.concur.link_error');
-        void this.router.navigate([`/users/${state.userId}`], { fragment: 'connections' });
-      },
-      );
+      });
     } else if (this.activatedRoute.snapshot.queryParams['error']) {
       Utils.handleError(this.activatedRoute.snapshot.queryParams['error'],
         this.messageService, 'settings.refund.concur.link_error');

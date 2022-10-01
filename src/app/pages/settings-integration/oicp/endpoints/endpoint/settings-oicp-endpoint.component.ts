@@ -167,68 +167,77 @@ export class SettingsOicpEndpointComponent implements OnInit {
 
   public testConnection(oicpendpoint: OicpEndpoint) {
     this.spinnerService.show();
-    this.centralServerService.pingOicpEndpoint(oicpendpoint).subscribe((response) => {
-      this.spinnerService.hide();
-      if (response.status === RestResponse.SUCCESS) {
-        this.messageService.showSuccessMessage('oicpendpoints.success_ping', { name: oicpendpoint.name });
-      } else {
-        // switch message according status code recieved
-        let messageId = 'oicpendpoints.error_ping';
-        switch (response.statusCode) {
-          case StatusCodes.UNAUTHORIZED:
-            messageId = 'oicpendpoints.error_ping_401';
-            break;
-          case StatusCodes.NOT_FOUND:
-            messageId = 'oicpendpoints.error_ping_404';
-            break;
-          case StatusCodes.PRECONDITION_FAILED:
-            messageId = 'oicpendpoints.error_ping_412';
-            break;
-          default:
-            messageId = 'oicpendpoints.error_ping';
+    this.centralServerService.pingOicpEndpoint(oicpendpoint).subscribe({
+      next: (response) => {
+        this.spinnerService.hide();
+        if (response.status === RestResponse.SUCCESS) {
+          this.messageService.showSuccessMessage('oicpendpoints.success_ping', { name: oicpendpoint.name });
+        } else {
+          // switch message according status code recieved
+          let messageId = 'oicpendpoints.error_ping';
+          switch (response.statusCode) {
+            case StatusCodes.UNAUTHORIZED:
+              messageId = 'oicpendpoints.error_ping_401';
+              break;
+            case StatusCodes.NOT_FOUND:
+              messageId = 'oicpendpoints.error_ping_404';
+              break;
+            case StatusCodes.PRECONDITION_FAILED:
+              messageId = 'oicpendpoints.error_ping_412';
+              break;
+            default:
+              messageId = 'oicpendpoints.error_ping';
+          }
+          Utils.handleError(JSON.stringify(response),
+            this.messageService, messageId);
         }
-        Utils.handleError(JSON.stringify(response),
-          this.messageService, messageId);
+      },
+      error: (error) => {
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+          'oicpendpoints.error_ping');
       }
-    }, (error) => {
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-        'oicpendpoints.error_ping');
     });
   }
 
   private createOicpEndpoint(oicpEndpoint: OicpEndpoint) {
     this.spinnerService.show();
-    this.centralServerService.createOicpEndpoint(oicpEndpoint).subscribe((response) => {
-      this.spinnerService.hide();
-      if (response.status === RestResponse.SUCCESS) {
-        this.messageService.showSuccessMessage('oicpendpoints.create_success', { name: oicpEndpoint.name });
-        this.closeDialog(true);
-      } else {
-        Utils.handleError(JSON.stringify(response),
-          this.messageService, 'oicpendpoints.create_error');
+    this.centralServerService.createOicpEndpoint(oicpEndpoint).subscribe({
+      next: (response) => {
+        this.spinnerService.hide();
+        if (response.status === RestResponse.SUCCESS) {
+          this.messageService.showSuccessMessage('oicpendpoints.create_success', { name: oicpEndpoint.name });
+          this.closeDialog(true);
+        } else {
+          Utils.handleError(JSON.stringify(response),
+            this.messageService, 'oicpendpoints.create_error');
+        }
+      },
+      error: (error) => {
+        this.spinnerService.hide();
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+          'oicpendpoints.create_error');
       }
-    }, (error) => {
-      this.spinnerService.hide();
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-        'oicpendpoints.create_error');
     });
   }
 
   private updateOicpEndpoint(oicpEndpoint: OicpEndpoint) {
     this.spinnerService.show();
-    this.centralServerService.updateOicpEndpoint(oicpEndpoint).subscribe((response) => {
-      this.spinnerService.hide();
-      if (response.status === RestResponse.SUCCESS) {
-        this.messageService.showSuccessMessage('oicpendpoints.update_success', { name: oicpEndpoint.name });
-        this.closeDialog(true);
-      } else {
-        Utils.handleError(JSON.stringify(response),
-          this.messageService, 'oicpendpoints.update_error');
+    this.centralServerService.updateOicpEndpoint(oicpEndpoint).subscribe({
+      next: (response) => {
+        this.spinnerService.hide();
+        if (response.status === RestResponse.SUCCESS) {
+          this.messageService.showSuccessMessage('oicpendpoints.update_success', { name: oicpEndpoint.name });
+          this.closeDialog(true);
+        } else {
+          Utils.handleError(JSON.stringify(response),
+            this.messageService, 'oicpendpoints.update_error');
+        }
+      },
+      error: (error) => {
+        this.spinnerService.hide();
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+          'oicpendpoints.update_error');
       }
-    }, (error) => {
-      this.spinnerService.hide();
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-        'oicpendpoints.update_error');
     });
   }
 }

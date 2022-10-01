@@ -182,17 +182,20 @@ export class AssetMainComponent implements OnInit, OnChanges {
       }
       // Get Asset image
       if (!this.imageChanged) {
-        this.centralServerService.getAssetImage(this.asset.id).subscribe((assetImage) => {
-          this.imageChanged = true;
-          this.image = assetImage ?? Constants.NO_IMAGE;
-        }, (error) => {
-          switch (error.status) {
-            case StatusCodes.NOT_FOUND:
-              this.image = Constants.NO_IMAGE;
-              break;
-            default:
-              Utils.handleHttpError(error, this.router, this.messageService,
-                this.centralServerService, 'general.unexpected_error_backend');
+        this.centralServerService.getAssetImage(this.asset.id).subscribe({
+          next: (assetImage) => {
+            this.imageChanged = true;
+            this.image = assetImage ?? Constants.NO_IMAGE;
+          },
+          error: (error) => {
+            switch (error.status) {
+              case StatusCodes.NOT_FOUND:
+                this.image = Constants.NO_IMAGE;
+                break;
+              default:
+                Utils.handleHttpError(error, this.router, this.messageService,
+                  this.centralServerService, 'general.unexpected_error_backend');
+            }
           }
         });
       }

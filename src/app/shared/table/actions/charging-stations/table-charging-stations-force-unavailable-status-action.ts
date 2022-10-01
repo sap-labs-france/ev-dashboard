@@ -46,22 +46,25 @@ export class TableChargingStationsForceUnavailableStatusAction implements TableA
       if (result === ButtonAction.YES) {
         spinnerService.show();
         // Change Availability
-        centralServerService.chargingStationChangeAvailability(chargingStation.id, false).subscribe((response: ActionResponse) => {
-          spinnerService.hide();
-          if (response.status === OCPPAvailabilityStatus.ACCEPTED || response.status === OCPPAvailabilityStatus.SCHEDULED) {
-            messageService.showSuccessMessage(
-              translateService.instant('chargers.force_unavailable_status_success', { chargeBoxID: chargingStation.id }));
-            if (refresh) {
-              refresh().subscribe();
+        centralServerService.chargingStationChangeAvailability(chargingStation.id, false).subscribe({
+          next: (response: ActionResponse) => {
+            spinnerService.hide();
+            if (response.status === OCPPAvailabilityStatus.ACCEPTED || response.status === OCPPAvailabilityStatus.SCHEDULED) {
+              messageService.showSuccessMessage(
+                translateService.instant('chargers.force_unavailable_status_success', { chargeBoxID: chargingStation.id }));
+              if (refresh) {
+                refresh().subscribe();
+              }
+            } else {
+              Utils.handleError(JSON.stringify(response),
+                messageService, 'chargers.force_unavailable_status_error');
             }
-          } else {
-            Utils.handleError(JSON.stringify(response),
-              messageService, 'chargers.force_unavailable_status_error');
+          },
+          error: (error: any) => {
+            spinnerService.hide();
+            Utils.handleHttpError(error, router, messageService,
+              centralServerService, 'chargers.force_unavailable_status_error');
           }
-        }, (error: any) => {
-          spinnerService.hide();
-          Utils.handleHttpError(error, router, messageService,
-            centralServerService, 'chargers.force_unavailable_status_error');
         });
       }
     });

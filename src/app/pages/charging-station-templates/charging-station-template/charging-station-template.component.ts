@@ -59,26 +59,29 @@ export class ChargingStationTemplateComponent extends AbstractTabComponent imple
   public loadChargingStationTemplate() {
     if (this.currentTemplateID) {
       this.spinnerService.show();
-      this.centralServerService.getChargingStationTemplate(this.currentTemplateID).subscribe((chargingStationTemplate) => {
-        this.spinnerService.hide();
-        this.chargingStationTemplate = chargingStationTemplate;
-        if (this.readOnly) {
-          // Async call for letting the sub form groups to init
-          setTimeout(() => this.formGroup.disable(), 0);
-        }
-        // Update form group
-        this.formGroup.updateValueAndValidity();
-        this.formGroup.markAsPristine();
-        this.formGroup.markAllAsTouched();
-      }, (error) => {
-        this.spinnerService.hide();
-        switch (error.status) {
-          case StatusCodes.NOT_FOUND:
-            this.messageService.showErrorMessage('templates.template_not_found');
-            break;
-          default:
-            Utils.handleHttpError(error, this.router, this.messageService,
-              this.centralServerService, 'general.unexpected_error_backend');
+      this.centralServerService.getChargingStationTemplate(this.currentTemplateID).subscribe({
+        next: (chargingStationTemplate) => {
+          this.spinnerService.hide();
+          this.chargingStationTemplate = chargingStationTemplate;
+          if (this.readOnly) {
+            // Async call for letting the sub form groups to init
+            setTimeout(() => this.formGroup.disable(), 0);
+          }
+          // Update form group
+          this.formGroup.updateValueAndValidity();
+          this.formGroup.markAsPristine();
+          this.formGroup.markAllAsTouched();
+        },
+        error: (error) => {
+          this.spinnerService.hide();
+          switch (error.status) {
+            case StatusCodes.NOT_FOUND:
+              this.messageService.showErrorMessage('templates.template_not_found');
+              break;
+            default:
+              Utils.handleHttpError(error, this.router, this.messageService,
+                this.centralServerService, 'general.unexpected_error_backend');
+          }
         }
       });
     }
@@ -110,24 +113,27 @@ export class ChargingStationTemplateComponent extends AbstractTabComponent imple
   private createChargingStationTemplate(template: ChargingStationTemplate) {
     this.spinnerService.show();
     // Create
-    this.centralServerService.createChargingStationTemplate(template).subscribe((response) => {
-      this.spinnerService.hide();
-      if (response.status === RestResponse.SUCCESS) {
-        this.messageService.showSuccessMessage('templates.create_success',
-          { template: template.template.chargePointVendor + ' - ' + template.template.extraFilters.chargePointModel });
-        this.closeDialog(true);
-      } else {
-        Utils.handleError(JSON.stringify(response),
-          this.messageService, 'templates.create_error');
-      }
-    }, (error) => {
-      this.spinnerService.hide();
-      switch (error.status) {
-        case StatusCodes.NOT_FOUND:
-          this.messageService.showErrorMessage('templates.template_not_found');
-          break;
-        default:
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'templates.create_error');
+    this.centralServerService.createChargingStationTemplate(template).subscribe({
+      next: (response) => {
+        this.spinnerService.hide();
+        if (response.status === RestResponse.SUCCESS) {
+          this.messageService.showSuccessMessage('templates.create_success',
+            { template: template.template.chargePointVendor + ' - ' + template.template.extraFilters.chargePointModel });
+          this.closeDialog(true);
+        } else {
+          Utils.handleError(JSON.stringify(response),
+            this.messageService, 'templates.create_error');
+        }
+      },
+      error: (error) => {
+        this.spinnerService.hide();
+        switch (error.status) {
+          case StatusCodes.NOT_FOUND:
+            this.messageService.showErrorMessage('templates.template_not_found');
+            break;
+          default:
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'templates.create_error');
+        }
       }
     });
   }
@@ -135,24 +141,27 @@ export class ChargingStationTemplateComponent extends AbstractTabComponent imple
   private updateChargingStationTemplate(chargingStationTemplate: ChargingStationTemplate) {
     this.spinnerService.show();
     // Update
-    this.centralServerService.updateChargingStationTemplate(chargingStationTemplate).subscribe((response) => {
-      this.spinnerService.hide();
-      if (response.status === RestResponse.SUCCESS) {
-        this.messageService.showSuccessMessage('templates.update_success', { template: chargingStationTemplate.template.chargePointVendor + ' - ' + chargingStationTemplate.template.extraFilters.chargePointModel });
-        this.closeDialog(true);
-      } else {
-        Utils.handleError(JSON.stringify(response),
-          this.messageService, 'templates.update_error');
-      }
-    }, (error) => {
-      this.spinnerService.hide();
-      switch (error.status) {
-        case StatusCodes.NOT_FOUND:
-          this.messageService.showErrorMessage('templates.template_not_found');
-          break;
-        default:
-          Utils.handleHttpError(error, this.router, this.messageService,
-            this.centralServerService, 'templates.update_error');
+    this.centralServerService.updateChargingStationTemplate(chargingStationTemplate).subscribe({
+      next: (response) => {
+        this.spinnerService.hide();
+        if (response.status === RestResponse.SUCCESS) {
+          this.messageService.showSuccessMessage('templates.update_success', { template: chargingStationTemplate.template.chargePointVendor + ' - ' + chargingStationTemplate.template.extraFilters.chargePointModel });
+          this.closeDialog(true);
+        } else {
+          Utils.handleError(JSON.stringify(response),
+            this.messageService, 'templates.update_error');
+        }
+      },
+      error: (error) => {
+        this.spinnerService.hide();
+        switch (error.status) {
+          case StatusCodes.NOT_FOUND:
+            this.messageService.showErrorMessage('templates.template_not_found');
+            break;
+          default:
+            Utils.handleHttpError(error, this.router, this.messageService,
+              this.centralServerService, 'templates.update_error');
+        }
       }
     });
   }

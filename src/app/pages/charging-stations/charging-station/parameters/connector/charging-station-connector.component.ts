@@ -245,32 +245,35 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
 
   public generateQRCode() {
     this.spinnerService.show();
-    this.centralServerService.getConnectorQrCode(this.chargingStation.id, this.connector.connectorId).subscribe((qrCode: Image) => {
-      this.spinnerService.hide();
-      if (qrCode) {
-        // Create the dialog
-        const dialogConfig = new MatDialogConfig();
-        dialogConfig.minWidth = '70vw';
-        dialogConfig.minHeight = '70vh';
-        dialogConfig.disableClose = false;
-        dialogConfig.panelClass = 'transparent-dialog-container';
-        // Set data
-        dialogConfig.data = {
-          qrCode: qrCode.image,
-          connectorID: this.connector.connectorId,
-          chargingStationID: this.chargingStation.id,
-        };
-        // Disable outside click close
-        dialogConfig.disableClose = true;
-        // Open
-        this.dialog.open(QrCodeDialogComponent, dialogConfig)
-          .afterClosed().subscribe((result) => {
-          });
+    this.centralServerService.getConnectorQrCode(this.chargingStation.id, this.connector.connectorId).subscribe({
+      next: (qrCode: Image) => {
+        this.spinnerService.hide();
+        if (qrCode) {
+          // Create the dialog
+          const dialogConfig = new MatDialogConfig();
+          dialogConfig.minWidth = '70vw';
+          dialogConfig.minHeight = '70vh';
+          dialogConfig.disableClose = false;
+          dialogConfig.panelClass = 'transparent-dialog-container';
+          // Set data
+          dialogConfig.data = {
+            qrCode: qrCode.image,
+            connectorID: this.connector.connectorId,
+            chargingStationID: this.chargingStation.id,
+          };
+          // Disable outside click close
+          dialogConfig.disableClose = true;
+          // Open
+          this.dialog.open(QrCodeDialogComponent, dialogConfig)
+            .afterClosed().subscribe((result) => {
+            });
+        }
+      },
+      error: (error) => {
+        this.spinnerService.hide();
+        Utils.handleHttpError(error, this.router, this.messageService,
+          this.centralServerService, 'chargers.qr_code_generation_error');
       }
-    }, (error) => {
-      this.spinnerService.hide();
-      Utils.handleHttpError(error, this.router, this.messageService,
-        this.centralServerService, 'chargers.qr_code_generation_error');
     });
   }
 

@@ -84,25 +84,28 @@ export class ChargingStationsRegistrationTokenComponent implements OnInit {
   public loadRegistrationToken() {
     if (this.currentTokenID) {
       this.spinnerService.show();
-      this.centralServerService.getRegistrationToken(this.currentTokenID).subscribe((registrationToken) => {
-        this.formGroup.markAsPristine();
-        this.spinnerService.hide();
-        this.currentToken = registrationToken;
-        // Init form
-        this.siteArea.setValue(this.currentToken.siteArea ? this.currentToken.siteArea.name : null);
-        this.siteAreaID.setValue(this.currentToken.siteAreaID || null);
-        this.description.setValue(this.currentToken.description);
-        this.expirationDate.setValue(this.currentToken.expirationDate);
-        this.id.setValue(this.currentToken.id);
-      }, (error) => {
-        this.spinnerService.hide();
-        switch (error.status) {
-          case StatusCodes.NOT_FOUND:
-            this.messageService.showErrorMessage('chargers.connections.registration_token_not_found');
-            break;
-          default:
-            Utils.handleHttpError(error, this.router, this.messageService,
-              this.centralServerService, 'chargers.connections.registration_token_error');
+      this.centralServerService.getRegistrationToken(this.currentTokenID).subscribe({
+        next: (registrationToken) => {
+          this.formGroup.markAsPristine();
+          this.spinnerService.hide();
+          this.currentToken = registrationToken;
+          // Init form
+          this.siteArea.setValue(this.currentToken.siteArea ? this.currentToken.siteArea.name : null);
+          this.siteAreaID.setValue(this.currentToken.siteAreaID || null);
+          this.description.setValue(this.currentToken.description);
+          this.expirationDate.setValue(this.currentToken.expirationDate);
+          this.id.setValue(this.currentToken.id);
+        },
+        error: (error) => {
+          this.spinnerService.hide();
+          switch (error.status) {
+            case StatusCodes.NOT_FOUND:
+              this.messageService.showErrorMessage('chargers.connections.registration_token_not_found');
+              break;
+            default:
+              Utils.handleHttpError(error, this.router, this.messageService,
+                this.centralServerService, 'chargers.connections.registration_token_error');
+          }
         }
       });
     }
@@ -135,42 +138,48 @@ export class ChargingStationsRegistrationTokenComponent implements OnInit {
 
   public createToken(token: RegistrationToken) {
     this.spinnerService.show();
-    this.centralServerService.createRegistrationToken(token).subscribe((response) => {
-      this.spinnerService.hide();
-      if (token) {
-        this.messageService.showSuccessMessage('chargers.connections.registration_token_creation_success');
-        this.closeDialog(true);
-      } else {
-        Utils.handleError(null,
-          this.messageService, 'chargers.connections.registration_token_creation_error');
+    this.centralServerService.createRegistrationToken(token).subscribe({
+      next: (response) => {
+        this.spinnerService.hide();
+        if (token) {
+          this.messageService.showSuccessMessage('chargers.connections.registration_token_creation_success');
+          this.closeDialog(true);
+        } else {
+          Utils.handleError(null,
+            this.messageService, 'chargers.connections.registration_token_creation_error');
+        }
+      },
+      error: (error) => {
+        this.spinnerService.hide();
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'chargers.connections.registration_token_creation_error');
       }
-    }, (error) => {
-      this.spinnerService.hide();
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'chargers.connections.registration_token_creation_error');
     });
   }
 
   public updateToken(token: RegistrationToken) {
     this.spinnerService.show();
     // Update
-    this.centralServerService.updateRegistrationToken(token).subscribe((response) => {
-      this.spinnerService.hide();
-      if (response.status === RestResponse.SUCCESS) {
-        this.messageService.showSuccessMessage('chargers.connections.registration_token_update_success');
-        this.closeDialog(true);
-      } else {
-        Utils.handleError(JSON.stringify(response),
-          this.messageService, 'chargers.connections.registration_token_update_error');
-      }
-    }, (error) => {
-      this.spinnerService.hide();
-      switch (error.status) {
-        case StatusCodes.NOT_FOUND:
-          this.messageService.showErrorMessage('chargers.connections.registration_token_not_found');
-          break;
-        default:
-          Utils.handleHttpError(error, this.router, this.messageService,
-            this.centralServerService, 'chargers.connections.registration_token_update_error');
+    this.centralServerService.updateRegistrationToken(token).subscribe({
+      next: (response) => {
+        this.spinnerService.hide();
+        if (response.status === RestResponse.SUCCESS) {
+          this.messageService.showSuccessMessage('chargers.connections.registration_token_update_success');
+          this.closeDialog(true);
+        } else {
+          Utils.handleError(JSON.stringify(response),
+            this.messageService, 'chargers.connections.registration_token_update_error');
+        }
+      },
+      error: (error) => {
+        this.spinnerService.hide();
+        switch (error.status) {
+          case StatusCodes.NOT_FOUND:
+            this.messageService.showErrorMessage('chargers.connections.registration_token_not_found');
+            break;
+          default:
+            Utils.handleHttpError(error, this.router, this.messageService,
+              this.centralServerService, 'chargers.connections.registration_token_update_error');
+        }
       }
     });
   }

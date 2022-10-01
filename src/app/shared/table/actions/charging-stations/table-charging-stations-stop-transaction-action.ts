@@ -41,44 +41,47 @@ export class TableChargingStationsStopTransactionAction implements TableAction {
     centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router,
     refresh?: () => Observable<void>) {
     // Get the charging station
-    centralServerService.getChargingStation(transaction.chargeBoxID).subscribe((chargingStation) => {
-      if (!chargingStation.canStopTransaction) {
-        dialogService.createAndShowOkDialog(
-          translateService.instant('chargers.action_error.transaction_stop_title'),
-          translateService.instant('chargers.action_error.transaction_stop_not_authorized'));
-        return;
-      }
-      // Check authorization
-      dialogService.createAndShowYesNoDialog(
-        translateService.instant('chargers.stop_transaction_title'),
-        translateService.instant('chargers.stop_transaction_confirm', { chargeBoxID: chargingStation.id }),
-      ).subscribe((response) => {
-        if (response === ButtonAction.YES) {
-          // Stop
-          spinnerService.show();
-          centralServerService.stopTransaction(transaction.id).subscribe((res: ActionResponse) => {
-            spinnerService.hide();
-            if (res.status === OCPPGeneralResponse.ACCEPTED) {
-              messageService.showSuccessMessage(
-                translateService.instant('chargers.stop_transaction_success',
-                  { chargeBoxID: transaction.chargeBoxID }));
-              if (refresh) {
-                refresh().subscribe();
-              }
-            } else {
-              messageService.showErrorMessage(
-                translateService.instant('chargers.stop_transaction_error'));
-            }
-          }, (error) => {
-            spinnerService.hide();
-            Utils.handleHttpError(error, router, messageService,
-              centralServerService, 'chargers.stop_transaction_error');
-          });
+    centralServerService.getChargingStation(transaction.chargeBoxID).subscribe({
+      next: (chargingStation) => {
+        if (chargingStation.issuer && !chargingStation.canStopTransaction) {
+          dialogService.createAndShowOkDialog(
+            translateService.instant('chargers.action_error.transaction_stop_title'),
+            translateService.instant('chargers.action_error.transaction_stop_not_authorized'));
+          return;
         }
-      });
-    }, (error) => {
-      Utils.handleHttpError(error, router, messageService,
-        centralServerService, 'chargers.charger_not_found');
+        // Check authorization
+        dialogService.createAndShowYesNoDialog(
+          translateService.instant('chargers.stop_transaction_title'),
+          translateService.instant('chargers.stop_transaction_confirm', { chargeBoxID: chargingStation.id }),
+        ).subscribe((response) => {
+          if (response === ButtonAction.YES) {
+            // Stop
+            spinnerService.show();
+            centralServerService.stopTransaction(transaction.id).subscribe((res: ActionResponse) => {
+              spinnerService.hide();
+              if (res.status === OCPPGeneralResponse.ACCEPTED) {
+                messageService.showSuccessMessage(
+                  translateService.instant('chargers.stop_transaction_success',
+                    { chargeBoxID: transaction.chargeBoxID }));
+                if (refresh) {
+                  refresh().subscribe();
+                }
+              } else {
+                messageService.showErrorMessage(
+                  translateService.instant('chargers.stop_transaction_error'));
+              }
+            }, (error) => {
+              spinnerService.hide();
+              Utils.handleHttpError(error, router, messageService,
+                centralServerService, 'chargers.stop_transaction_error');
+            });
+          }
+        });
+      },
+      error: (error) => {
+        Utils.handleHttpError(error, router, messageService,
+          centralServerService, 'chargers.charger_not_found');
+      }
     });
   }
 }

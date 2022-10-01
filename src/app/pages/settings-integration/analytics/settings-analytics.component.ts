@@ -49,23 +49,26 @@ export class SettingsAnalyticsComponent implements OnInit {
 
   public loadConfiguration() {
     this.spinnerService.show();
-    this.componentService.getSacSettings().subscribe((settings) => {
-      this.spinnerService.hide();
-      this.analyticsSettings = settings;
-      // Set Links
-      this.analyticsLinksTableDataSource.setLinks(settings.links);
-      this.analyticsLinksTableDataSource.loadData().subscribe();
-      // Init form
-      this.formGroup.markAsPristine();
-    }, (error) => {
-      this.spinnerService.hide();
-      switch (error.status) {
-        case StatusCodes.NOT_FOUND:
-          this.messageService.showErrorMessage('settings.analytics.setting_not_found');
-          break;
-        default:
-          Utils.handleHttpError(error, this.router, this.messageService,
-            this.centralServerService, 'general.unexpected_error_backend');
+    this.componentService.getSacSettings().subscribe({
+      next: (settings) => {
+        this.spinnerService.hide();
+        this.analyticsSettings = settings;
+        // Set Links
+        this.analyticsLinksTableDataSource.setLinks(settings.links);
+        this.analyticsLinksTableDataSource.loadData().subscribe();
+        // Init form
+        this.formGroup.markAsPristine();
+      },
+      error: (error) => {
+        this.spinnerService.hide();
+        switch (error.status) {
+          case StatusCodes.NOT_FOUND:
+            this.messageService.showErrorMessage('settings.analytics.setting_not_found');
+            break;
+          default:
+            Utils.handleHttpError(error, this.router, this.messageService,
+              this.centralServerService, 'general.unexpected_error_backend');
+        }
       }
     });
   }
@@ -81,25 +84,28 @@ export class SettingsAnalyticsComponent implements OnInit {
     this.analyticsSettings.links = this.analyticsLinksTableDataSource.getLinks();
     // Save
     this.spinnerService.show();
-    this.componentService.saveSacSettings(this.analyticsSettings).subscribe((response) => {
-      this.spinnerService.hide();
-      if (response.status === RestResponse.SUCCESS) {
-        this.messageService.showSuccessMessage(
-          (!this.analyticsSettings.id ? 'settings.analytics.create_success' : 'settings.analytics.update_success'));
-        this.refresh();
-      } else {
-        Utils.handleError(JSON.stringify(response),
-          this.messageService, (!this.analyticsSettings.id ? 'settings.analytics.create_error' : 'settings.analytics.update_error'));
-      }
-    }, (error) => {
-      this.spinnerService.hide();
-      switch (error.status) {
-        case StatusCodes.NOT_FOUND:
-          this.messageService.showErrorMessage('settings.analytics.setting_do_not_exist');
-          break;
-        default:
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            (!this.analyticsSettings.id ? 'settings.analytics.create_error' : 'settings.analytics.update_error'));
+    this.componentService.saveSacSettings(this.analyticsSettings).subscribe({
+      next: (response) => {
+        this.spinnerService.hide();
+        if (response.status === RestResponse.SUCCESS) {
+          this.messageService.showSuccessMessage(
+            (!this.analyticsSettings.id ? 'settings.analytics.create_success' : 'settings.analytics.update_success'));
+          this.refresh();
+        } else {
+          Utils.handleError(JSON.stringify(response),
+            this.messageService, (!this.analyticsSettings.id ? 'settings.analytics.create_error' : 'settings.analytics.update_error'));
+        }
+      },
+      error: (error) => {
+        this.spinnerService.hide();
+        switch (error.status) {
+          case StatusCodes.NOT_FOUND:
+            this.messageService.showErrorMessage('settings.analytics.setting_do_not_exist');
+            break;
+          default:
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+              (!this.analyticsSettings.id ? 'settings.analytics.create_error' : 'settings.analytics.update_error'));
+        }
       }
     });
   }

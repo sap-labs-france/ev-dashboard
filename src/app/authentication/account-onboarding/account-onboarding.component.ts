@@ -79,33 +79,37 @@ export class AccountOnboardingComponent implements OnInit, OnDestroy {
   }
 
   private navigateToOnboardingPage() {
-    this.centralServerService.refreshBillingAccount(this.accountID).subscribe((billingAccount: BillingAccount) => {
-      this.spinnerService.hide();
-      if (billingAccount.activationLink) {
-        // Redirect to the account onboarding wizard
-        window.location.href = billingAccount.activationLink;
-      } else {
+    this.centralServerService.refreshBillingAccount(this.accountID).subscribe({
+      next: (billingAccount: BillingAccount) => {
+        this.spinnerService.hide();
+        if (billingAccount.activationLink) {
+          // Redirect to the account onboarding wizard
+          window.location.href = billingAccount.activationLink;
+        } else {
+          this.accountActivationFailed = true;
+        }
+      },
+      error: (error) => {
+        this.spinnerService.hide();
         this.accountActivationFailed = true;
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'accounts.onboarding.onboarding_process_failed');
       }
-    }, (error) => {
-      // Hide
-      this.spinnerService.hide();
-      this.accountActivationFailed = true;
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'accounts.onboarding.onboarding_process_failed');
     });
   }
 
   private triggerAccountActivation() {
-    this.centralServerService.activateBillingAccount(this.accountID).subscribe((billingAccount: BillingAccount) => {
-      this.spinnerService.hide();
-      if (!billingAccount.id) {
+    this.centralServerService.activateBillingAccount(this.accountID).subscribe({
+      next: (billingAccount: BillingAccount) => {
+        this.spinnerService.hide();
+        if (!billingAccount.id) {
+          this.accountActivationFailed = true;
+        }
+      },
+      error: (error) => {
+        this.spinnerService.hide();
         this.accountActivationFailed = true;
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'accounts.onboarding.onboarding_process_failed');
       }
-    }, (error) => {
-      // Hide
-      this.spinnerService.hide();
-      this.accountActivationFailed = true;
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'accounts.onboarding.onboarding_process_failed');
     });
   }
 }

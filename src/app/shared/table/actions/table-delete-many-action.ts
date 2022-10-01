@@ -7,7 +7,7 @@ import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { ActionsResponse } from '../../../types/DataResult';
-import { ButtonActionColor, ButtonAction } from '../../../types/GlobalType';
+import { ButtonAction, ButtonActionColor } from '../../../types/GlobalType';
 import { TableActionDef, TableData } from '../../../types/Table';
 import { Utils } from '../../../utils/Utils';
 import { TableAction } from './table-action';
@@ -42,16 +42,19 @@ export class TableDeleteManyAction implements TableAction {
     ).subscribe((response) => {
       if (response === ButtonAction.YES) {
         spinnerService.show();
-        deleteManyData(datas.map((data) => data.id)).subscribe((responseAction: ActionsResponse) => {
-          spinnerService.hide();
-          messageService.showActionsMessage(responseAction, messageSuccess, messageError, messageSuccessAndError, messageNoSuccessNoError);
-          clearSelectedRows();
-          if (refresh) {
-            refresh().subscribe();
+        deleteManyData(datas.map((data) => data.id)).subscribe({
+          next: (responseAction: ActionsResponse) => {
+            spinnerService.hide();
+            messageService.showActionsMessage(responseAction, messageSuccess, messageError, messageSuccessAndError, messageNoSuccessNoError);
+            clearSelectedRows();
+            if (refresh) {
+              refresh().subscribe();
+            }
+          },
+          error: (error) => {
+            Utils.handleHttpError(error, router, messageService, centralServerService, messageUnexpectedError);
+            spinnerService.hide();
           }
-        }, (error) => {
-          Utils.handleHttpError(error, router, messageService, centralServerService, messageUnexpectedError);
-          spinnerService.hide();
         });
       }
     });

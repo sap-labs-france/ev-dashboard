@@ -36,13 +36,16 @@ export class TableDownloadBillingInvoice implements TableAction {
   private downloadInvoice(invoiceID: string, filename: string, translateService: TranslateService, spinnerService: SpinnerService,
     messageService: MessageService, centralServerService: CentralServerService, router: Router) {
     spinnerService.show();
-    centralServerService.downloadInvoice(invoiceID).subscribe((result) => {
-      FileSaver.saveAs(result, filename);
-      spinnerService.hide();
-    }, (error) => {
-      spinnerService.hide();
-      Utils.handleHttpError(error, router, messageService,
-        centralServerService, translateService.instant('invoices.cannot_download_invoice'));
+    centralServerService.downloadInvoice(invoiceID).subscribe({
+      next: (result) => {
+        FileSaver.saveAs(result, filename);
+        spinnerService.hide();
+      },
+      error: (error) => {
+        spinnerService.hide();
+        Utils.handleHttpError(error, router, messageService,
+          centralServerService, translateService.instant('invoices.cannot_download_invoice'));
+      }
     });
   }
 }

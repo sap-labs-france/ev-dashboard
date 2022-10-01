@@ -2062,6 +2062,7 @@
     "emsp": "e-Mobility Service Provider",
     "enable_emsp": "Enable e-Mobility Service Provider",
     "tariff_id": "Tariff ID",
+    "owner_name": "Owner Name",
     "description": "Otevřít rozhraní nabíjecího místa",
     "details": "Identifikace",
     "country_code": "Kód země",

@@ -30,6 +30,7 @@ export interface CarCatalog extends TableData {
   miscSegment: string;
   miscIsofixSeats: number;
   chargeStandardPhaseAmp?: number;
+  rangeWLTP?: number;
 }
 
 export interface Car extends TableData, CreatedUpdatedProps, CarAuthorizationActions {

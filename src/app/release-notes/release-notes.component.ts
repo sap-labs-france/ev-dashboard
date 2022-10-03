@@ -38,7 +38,8 @@ export class ReleaseNotesComponent {
               'Pricing - New column to preview pricing restrictions in the list',
               'Car Connectors - Targa Telematics - New connector to get the SoC on AC Charging Stations',
               'Security - OCPI Tariff IDs not shown to basic users',
-              'OCPI - The owner name can be set per site and sent to the GIREVE Roaming Platform'
+              'OCPI - The owner name can be set per site and sent to the GIREVE Roaming Platform',
+              'Car Catalog - Adaptation to version 29 of the ev-database API'
             ],
           },
         ],

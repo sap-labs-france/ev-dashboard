@@ -207,38 +207,11 @@ export class CarMainComponent implements OnInit, OnChanges {
       amperagePerPhase: this.selectedCarCatalog.chargeStandardPhaseAmp,
       numberOfPhases: this.selectedCarCatalog.chargeStandardPhase,
     };
-    const alternativeConverter: CarConverter = {
-      type: CarConverterType.ALTERNATIVE,
-      powerWatts: this.selectedCarCatalog.chargeAlternativePower,
-      amperagePerPhase: this.selectedCarCatalog.chargeAlternativePhaseAmp,
-      numberOfPhases: this.selectedCarCatalog.chargeAlternativePhase,
-    };
-    const optionalConverter: CarConverter = {
-      type: CarConverterType.OPTION,
-      powerWatts: this.selectedCarCatalog.chargeOptionPower,
-      amperagePerPhase: this.selectedCarCatalog.chargeOptionPhaseAmp,
-      numberOfPhases: this.selectedCarCatalog.chargeOptionPhase,
-    };
     this.carCatalogConverters = [{
       type: CarConverterType.STANDARD,
       value: Utils.buildCarCatalogConverterName(standardConverter, this.translateService),
       converter: standardConverter,
     }];
-    if (this.selectedCarCatalog.chargeAlternativePower) {
-      this.carCatalogConverters.push({
-        type: CarConverterType.ALTERNATIVE,
-        value: Utils.buildCarCatalogConverterName(alternativeConverter, this.translateService),
-        converter: alternativeConverter,
-      });
-    }
-    if (this.selectedCarCatalog.chargeOptionPower > 0 &&
-        this.selectedCarCatalog.chargeOptionPower !== this.selectedCarCatalog.chargeAlternativePower) {
-      this.carCatalogConverters.push({
-        type: CarConverterType.OPTION,
-        value: Utils.buildCarCatalogConverterName(optionalConverter, this.translateService),
-        converter: optionalConverter,
-      });
-    }
     // Set default
     if (this.carCatalogConverters.length === 1) {
       this.converterType.setValue(this.carCatalogConverters[0].type);

@@ -24,8 +24,8 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.7.2-rc',
-        date: new Date('2022-09-21'),
+        version: '2.7.2',
+        date: new Date('2022-10-04'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -33,7 +33,7 @@ export class ReleaseNotesComponent {
               'Authorization - Transaction and User endpoints have been migrated to the new authorization framework',
               'Email Notifications - Code improvements and new look and feel',
               'UI Improvements - New menu item to navigate from a charger to the corresponding sessions',
-              'UI Improvements - New sorting option on charging stations list - public / non public',
+              'UI Improvements - New sorting option on list of charging stations - public / non public',
               'Performance Improvements - new options to reduce data size when fetching collections',
               'Pricing - New column to preview pricing restrictions in the list',
               'Car Connectors - Targa Telematics - New connector to get the SoC on AC Charging Stations',

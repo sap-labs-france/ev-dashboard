@@ -104,23 +104,24 @@ export class TableChargingStationsStartTransactionAction implements TableAction 
           return;
         }
         spinnerService.show();
-        centralServerService.startTransaction(
-          chargingStation.id, connector.connectorId, userID,
-          visualTagID, carID).subscribe((startTransactionResponse: ActionResponse) => {
-          spinnerService.hide();
-          if (startTransactionResponse.status === OCPPGeneralResponse.ACCEPTED) {
-            messageService.showSuccessMessage(
-              translateService.instant('chargers.start_transaction_success', { chargeBoxID: chargingStation.id }));
-            if (refresh) {
-              refresh().subscribe();
+        centralServerService.startTransaction(chargingStation.id, connector.connectorId, userID, visualTagID, carID).subscribe({
+          next: (startTransactionResponse: ActionResponse) => {
+            spinnerService.hide();
+            if (startTransactionResponse.status === OCPPGeneralResponse.ACCEPTED) {
+              messageService.showSuccessMessage(
+                translateService.instant('chargers.start_transaction_success', { chargeBoxID: chargingStation.id }));
+              if (refresh) {
+                refresh().subscribe();
+              }
+            } else {
+              Utils.handleError(JSON.stringify(response),
+                messageService, translateService.instant('chargers.start_transaction_error'));
             }
-          } else {
-            Utils.handleError(JSON.stringify(response),
-              messageService, translateService.instant('chargers.start_transaction_error'));
+          },
+          error: (error) => {
+            spinnerService.hide();
+            Utils.handleHttpError(error, router, messageService, centralServerService, 'chargers.start_transaction_error');
           }
-        }, (error) => {
-          spinnerService.hide();
-          Utils.handleHttpError(error, router, messageService, centralServerService, 'chargers.start_transaction_error');
         });
       }
     });

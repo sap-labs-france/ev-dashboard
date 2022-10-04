@@ -71,21 +71,24 @@ export class AccountDialogComponent implements OnInit{
       id: currentAccount.id,
       companyName: currentAccount.companyName,
       businessOwnerID: currentAccount.userID
-    }).subscribe((response) => {
-      this.spinnerService.hide();
-      if(response) {
-        // handle success message
-        this.messageService.showSuccessMessage('accounts.message.create_success');
-        this.dialogRef.close(true);
-      } else {
-        Utils.handleError(JSON.stringify(response), this.messageService, 'accounts.message.create_error');
+    }).subscribe({
+      next: (response) => {
+        this.spinnerService.hide();
+        if(response) {
+          // handle success message
+          this.messageService.showSuccessMessage('accounts.message.create_success');
+          this.dialogRef.close(true);
+        } else {
+          Utils.handleError(JSON.stringify(response), this.messageService, 'accounts.message.create_error');
+          this.dialogRef.close(false);
+        }
+      },
+      error: (error) => {
+        //handle error here
+        this.spinnerService.hide();
         this.dialogRef.close(false);
+        Utils.handleError(JSON.stringify(error), this.messageService, 'accounts.message.create_error');
       }
-    }, (error) => {
-      //handle error here
-      this.spinnerService.hide();
-      this.dialogRef.close(false);
-      Utils.handleError(JSON.stringify(error), this.messageService, 'accounts.message.create_error');
     });
   }
 

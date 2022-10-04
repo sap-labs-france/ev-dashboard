@@ -156,87 +156,99 @@ export class SettingsOcpiEndpointComponent implements OnInit {
     // Show
     this.spinnerService.show();
     // Generate new local token
-    this.centralServerService.generateLocalTokenOcpiEndpoint(ocpiendpoint).subscribe((response) => {
-      this.spinnerService.hide();
-      if (response.status === RestResponse.SUCCESS) {
-        this.localToken.setValue(response.localToken);
-        this.localToken.markAsDirty();
-      } else {
-        Utils.handleError(JSON.stringify(response),
-          this.messageService, 'ocpiendpoints.error_generate_local_token');
+    this.centralServerService.generateLocalTokenOcpiEndpoint(ocpiendpoint).subscribe({
+      next: (response) => {
+        this.spinnerService.hide();
+        if (response.status === RestResponse.SUCCESS) {
+          this.localToken.setValue(response.localToken);
+          this.localToken.markAsDirty();
+        } else {
+          Utils.handleError(JSON.stringify(response),
+            this.messageService, 'ocpiendpoints.error_generate_local_token');
+        }
+      },
+      error: (error) => {
+        this.spinnerService.hide();
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+          'ocpiendpoints.error_generate_local_token');
       }
-    }, (error) => {
-      this.spinnerService.hide();
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-        'ocpiendpoints.error_generate_local_token');
     });
   }
 
   public testConnection(ocpiEndpoint: OCPIEndpoint) {
     this.spinnerService.show();
-    this.centralServerService.pingOcpiEndpoint(ocpiEndpoint).subscribe((response) => {
-      this.spinnerService.hide();
-      if (response.status === RestResponse.SUCCESS) {
-        this.messageService.showSuccessMessage('ocpiendpoints.success_ping', { name: ocpiEndpoint.name });
-      } else {
-        // switch message according status code recieved
-        let messageID = 'ocpiendpoints.error_ping';
-        switch (response.statusCode) {
-          case StatusCodes.UNAUTHORIZED:
-            messageID = 'ocpiendpoints.error_ping_401';
-            break;
-          case StatusCodes.NOT_FOUND:
-            messageID = 'ocpiendpoints.error_ping_404';
-            break;
-          case StatusCodes.PRECONDITION_FAILED:
-            messageID = 'ocpiendpoints.error_ping_412';
-            break;
-          default:
-            messageID = 'ocpiendpoints.error_ping';
+    this.centralServerService.pingOcpiEndpoint(ocpiEndpoint).subscribe({
+      next: (response) => {
+        this.spinnerService.hide();
+        if (response.status === RestResponse.SUCCESS) {
+          this.messageService.showSuccessMessage('ocpiendpoints.success_ping', { name: ocpiEndpoint.name });
+        } else {
+          // switch message according status code recieved
+          let messageID = 'ocpiendpoints.error_ping';
+          switch (response.statusCode) {
+            case StatusCodes.UNAUTHORIZED:
+              messageID = 'ocpiendpoints.error_ping_401';
+              break;
+            case StatusCodes.NOT_FOUND:
+              messageID = 'ocpiendpoints.error_ping_404';
+              break;
+            case StatusCodes.PRECONDITION_FAILED:
+              messageID = 'ocpiendpoints.error_ping_412';
+              break;
+            default:
+              messageID = 'ocpiendpoints.error_ping';
+          }
+          Utils.handleError(JSON.stringify(response),
+            this.messageService, messageID);
         }
-        Utils.handleError(JSON.stringify(response),
-          this.messageService, messageID);
+      },
+      error: (error) => {
+        this.spinnerService.hide();
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+          'ocpiendpoints.error_ping');
       }
-    }, (error) => {
-      this.spinnerService.hide();
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-        'ocpiendpoints.error_ping');
     });
   }
 
   private createOCPIEndpoint(ocpiEndpoint: OCPIEndpoint) {
     this.spinnerService.show();
-    this.centralServerService.createOcpiEndpoint(ocpiEndpoint).subscribe((response) => {
-      this.spinnerService.hide();
-      if (response.status === RestResponse.SUCCESS) {
-        this.messageService.showSuccessMessage('ocpiendpoints.create_success', { name: ocpiEndpoint.name });
-        this.closeDialog(true);
-      } else {
-        Utils.handleError(JSON.stringify(response),
-          this.messageService, 'ocpiendpoints.create_error');
+    this.centralServerService.createOcpiEndpoint(ocpiEndpoint).subscribe({
+      next: (response) => {
+        this.spinnerService.hide();
+        if (response.status === RestResponse.SUCCESS) {
+          this.messageService.showSuccessMessage('ocpiendpoints.create_success', { name: ocpiEndpoint.name });
+          this.closeDialog(true);
+        } else {
+          Utils.handleError(JSON.stringify(response),
+            this.messageService, 'ocpiendpoints.create_error');
+        }
+      },
+      error: (error) => {
+        this.spinnerService.hide();
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+          'ocpiendpoints.create_error');
       }
-    }, (error) => {
-      this.spinnerService.hide();
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-        'ocpiendpoints.create_error');
     });
   }
 
   private updateOCPIEndpoint(ocpiEndpoint: OCPIEndpoint) {
     this.spinnerService.show();
-    this.centralServerService.updateOcpiEndpoint(ocpiEndpoint).subscribe((response) => {
-      this.spinnerService.hide();
-      if (response.status === RestResponse.SUCCESS) {
-        this.messageService.showSuccessMessage('ocpiendpoints.update_success', { name: ocpiEndpoint.name });
-        this.closeDialog(true);
-      } else {
-        Utils.handleError(JSON.stringify(response),
-          this.messageService, 'ocpiendpoints.update_error');
+    this.centralServerService.updateOcpiEndpoint(ocpiEndpoint).subscribe({
+      next: (response) => {
+        this.spinnerService.hide();
+        if (response.status === RestResponse.SUCCESS) {
+          this.messageService.showSuccessMessage('ocpiendpoints.update_success', { name: ocpiEndpoint.name });
+          this.closeDialog(true);
+        } else {
+          Utils.handleError(JSON.stringify(response),
+            this.messageService, 'ocpiendpoints.update_error');
+        }
+      },
+      error: (error) => {
+        this.spinnerService.hide();
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+          'ocpiendpoints.update_error');
       }
-    }, (error) => {
-      this.spinnerService.hide();
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-        'ocpiendpoints.update_error');
     });
   }
 }

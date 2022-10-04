@@ -28,13 +28,15 @@ export class CarsDialogTableDataSource extends DialogTableDataSource<Car> {
 
   public loadDataImpl(): Observable<DataResult<Car>> {
     return new Observable((observer) => {
-      this.centralServerService.getCars(this.buildFilterValues(),
-        this.getPaging(), this.getSorting()).subscribe((cars) => {
-        observer.next(cars);
-        observer.complete();
-      }, (error) => {
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        observer.error(error);
+      this.centralServerService.getCars(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe({
+        next: (cars) => {
+          observer.next(cars);
+          observer.complete();
+        },
+        error: (error) => {
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          observer.error(error);
+        }
       });
     });
   }

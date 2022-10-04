@@ -241,6 +241,7 @@
       "force_available_status": "Forzar estatus a disponible",
       "force_unavailable_status": "Forzar estatus a no disponible",
       "display_users": "Desplegar usuarios",
+      "display_sites": "Display sites",
       "pricing": "Pricing"
     }
   },
@@ -1342,6 +1343,7 @@
     "update_remove_site_owner_success": "El usuario ya no es propietario del sitio '{{siteName}}'",
     "update_site_owner_role_error": "Se produjo un error al actualizar al usuario en el sitio '{{siteName}}'",
     "redirect": "Navigar al usuario",
+    "display_sites": "Display sites",
     "connectors": {
       "connect": "Conectar",
       "revoke": "Revocar",
@@ -1428,6 +1430,7 @@
     "collected_funds": "Collected Funds",
     "document_number": "Invoice",
     "platform_fee_amount": "Collected Fee",
+    "platform_fee_tax_inclusive": "Fees (incl. taxes)",
     "transferAmount": "Transfer",
     "number_of_items": "Sessions",
     "transferExternalID": "External ID",
@@ -1888,7 +1891,8 @@
       },
       "types": {
         "mercedes": "Mercedes Connector",
-        "tronity": "Tronity Connector"
+        "tronity": "Tronity Connector",
+        "targa_telematics": "Targa Telematics Connector"
       },
       "mercedes": {
         "link_success": "Your account has been successfully linked with Mercedes",
@@ -2058,6 +2062,7 @@
     "emsp": "e-Mobility Service Provider",
     "enable_emsp": "Enable e-Mobility Service Provider",
     "tariff_id": "Tariff ID",
+    "owner_name": "Owner Name",
     "description": "Interfaz de punto de carga abierto",
     "details": "Identificación",
     "country_code": "Código de país",
@@ -2691,9 +2696,9 @@
         "error": "Error occurred while trying to export the charging station templates, check the logs"
       }
     },
-    "chargePointVendor": "chargePointVendor",
-    "chargePointModel": "chargePointModel",
-    "chargeBoxSerialNumber": "chargeBoxSerialNumber"
+    "chargePointVendor": "Vendor",
+    "chargePointModel": "Model Filter",
+    "chargeBoxSerialNumber": "Serial Number Filter"
   },
   "geomap": {
     "dialog_geolocation_title": "Establecer la geolocalización de '{{componentName}}' '{{itemComponentName}}'",

@@ -95,30 +95,33 @@ export class TagAssignComponent implements OnInit {
   public loadTag() {
     if (this.currentTagVisualID) {
       this.spinnerService.show();
-      this.centralServerService.getTagByVisualID(this.currentTagVisualID).subscribe((tag: Tag) => {
-        this.spinnerService.hide();
-        // Init form
-        if (tag.visualID) {
+      this.centralServerService.getTagByVisualID(this.currentTagVisualID).subscribe({
+        next: (tag: Tag) => {
+          this.spinnerService.hide();
+          // Init form
+          if (tag.visualID) {
+            this.visualID.setValue(tag.visualID);
+            this.visualID.disable();
+          }
+          this.description.setValue(tag.description);
           this.visualID.setValue(tag.visualID);
-          this.visualID.disable();
-        }
-        this.description.setValue(tag.description);
-        this.visualID.setValue(tag.visualID);
-        this.default.setValue(tag.default);
-        // Update form group
-        this.formGroup.updateValueAndValidity();
-        this.formGroup.markAsPristine();
-        this.formGroup.markAllAsTouched();
-        // Yes, get image
-      }, (error) => {
-        this.spinnerService.hide();
-        switch (error.status) {
-          case StatusCodes.NOT_FOUND:
-            this.messageService.showErrorMessage('tags.tag_not_found');
-            break;
-          default:
-            Utils.handleHttpError(error, this.router, this.messageService,
-              this.centralServerService, 'tags.tag_error');
+          this.default.setValue(tag.default);
+          // Update form group
+          this.formGroup.updateValueAndValidity();
+          this.formGroup.markAsPristine();
+          this.formGroup.markAllAsTouched();
+          // Yes, get image
+        },
+        error: (error) => {
+          this.spinnerService.hide();
+          switch (error.status) {
+            case StatusCodes.NOT_FOUND:
+              this.messageService.showErrorMessage('tags.tag_not_found');
+              break;
+            default:
+              Utils.handleHttpError(error, this.router, this.messageService,
+                this.centralServerService, 'tags.tag_error');
+          }
         }
       });
     }
@@ -149,47 +152,53 @@ export class TagAssignComponent implements OnInit {
 
   private updateTag(tag: Tag) {
     this.spinnerService.show();
-    this.centralServerService.updateTag(tag).subscribe((response: ActionResponse) => {
-      this.spinnerService.hide();
-      if (response.status === RestResponse.SUCCESS) {
-        this.messageService.showSuccessMessage('tags.update_by_visual_id_success', { visualID: tag.visualID });
-        this.closeDialog(true);
-      } else {
-        Utils.handleError(JSON.stringify(response), this.messageService, 'tags.update_error');
-      }
-    }, (error) => {
-      this.spinnerService.hide();
-      switch (error.status) {
-        case HTTPError.TAG_VISUAL_ID_ALREADY_EXIST_ERROR:
-          this.messageService.showErrorMessage('tags.tag_visual_id_already_used', { visualID: tag.visualID });
-          break;
-        default:
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tags.update_error');
+    this.centralServerService.updateTag(tag).subscribe({
+      next: (response: ActionResponse) => {
+        this.spinnerService.hide();
+        if (response.status === RestResponse.SUCCESS) {
+          this.messageService.showSuccessMessage('tags.update_by_visual_id_success', { visualID: tag.visualID });
+          this.closeDialog(true);
+        } else {
+          Utils.handleError(JSON.stringify(response), this.messageService, 'tags.update_error');
+        }
+      },
+      error: (error) => {
+        this.spinnerService.hide();
+        switch (error.status) {
+          case HTTPError.TAG_VISUAL_ID_ALREADY_EXIST_ERROR:
+            this.messageService.showErrorMessage('tags.tag_visual_id_already_used', { visualID: tag.visualID });
+            break;
+          default:
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tags.update_error');
+        }
       }
     });
   }
 
   private assignTag(tag: Tag) {
     this.spinnerService.show();
-    this.centralServerService.assignTag(tag).subscribe((response: ActionResponse) => {
-      this.spinnerService.hide();
-      if (response.status === RestResponse.SUCCESS) {
-        this.messageService.showSuccessMessage('tags.register_success', { visualID: tag.visualID });
-        this.closeDialog(true);
-      } else {
-        Utils.handleError(JSON.stringify(response), this.messageService, 'tags.register_error');
-      }
-    }, (error) => {
-      this.spinnerService.hide();
-      switch (error.status) {
-        case StatusCodes.NOT_FOUND:
-          this.messageService.showErrorMessage('tags.tag_visual_id_does_not_match_tag', { visualID: tag.visualID });
-          break;
-        case HTTPError.TAG_INACTIVE:
-          this.messageService.showErrorMessage('tags.tag_inactive', { visualID: tag.visualID });
-          break;
-        default:
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tags.register_error');
+    this.centralServerService.assignTag(tag).subscribe({
+      next: (response: ActionResponse) => {
+        this.spinnerService.hide();
+        if (response.status === RestResponse.SUCCESS) {
+          this.messageService.showSuccessMessage('tags.register_success', { visualID: tag.visualID });
+          this.closeDialog(true);
+        } else {
+          Utils.handleError(JSON.stringify(response), this.messageService, 'tags.register_error');
+        }
+      },
+      error: (error) => {
+        this.spinnerService.hide();
+        switch (error.status) {
+          case StatusCodes.NOT_FOUND:
+            this.messageService.showErrorMessage('tags.tag_visual_id_does_not_match_tag', { visualID: tag.visualID });
+            break;
+          case HTTPError.TAG_INACTIVE:
+            this.messageService.showErrorMessage('tags.tag_inactive', { visualID: tag.visualID });
+            break;
+          default:
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tags.register_error');
+        }
       }
     });
   }

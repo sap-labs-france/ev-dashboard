@@ -70,6 +70,13 @@
                   </app-settings-tronity-connection>
                 </div>
               </div>
+              <div class="row" *ngIf="type.value === 'targaTelematics'">
+                <div class="col-md-12">
+                  <app-settings-targa-telematics-connection
+                    [formGroup]="formGroup" [targaTelematicsConnection]="targaTelematicsConnection">
+                  </app-settings-targa-telematics-connection>
+                </div>
+              </div>
             </div>
           </div>
         </div>

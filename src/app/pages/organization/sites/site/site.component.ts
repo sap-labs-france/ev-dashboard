@@ -75,30 +75,33 @@ export class SiteComponent extends AbstractTabComponent implements OnInit {
   public loadSite() {
     if (this.currentSiteID) {
       this.spinnerService.show();
-      this.centralServerService.getSite(this.currentSiteID, false, true).subscribe((site) => {
-        this.spinnerService.hide();
-        this.site = site;
-        // Check if Account Data is to be displayed
-        this.accountHasVisibleFields = site.projectFields.includes('accountData.accountID');
-        // Check if OCPI has to be displayed
-        this.ocpiHasVisibleFields = site.projectFields.includes('tariffID');
-        if (this.readOnly) {
-          // Async call for letting the sub form groups to init
-          setTimeout(() => this.formGroup.disable(), 0);
-        }
-        // Update form group
-        this.formGroup.updateValueAndValidity();
-        this.formGroup.markAsPristine();
-        this.formGroup.markAllAsTouched();
-      }, (error) => {
-        this.spinnerService.hide();
-        switch (error.status) {
-          case StatusCodes.NOT_FOUND:
-            this.messageService.showErrorMessage('sites.site_not_found');
-            break;
-          default:
-            Utils.handleHttpError(error, this.router, this.messageService,
-              this.centralServerService, 'general.unexpected_error_backend');
+      this.centralServerService.getSite(this.currentSiteID, false, true).subscribe({
+        next: (site) => {
+          this.spinnerService.hide();
+          this.site = site;
+          // Check if Account Data is to be displayed
+          this.accountHasVisibleFields = site.projectFields.includes('accountData.accountID');
+          // Check if OCPI has to be displayed
+          this.ocpiHasVisibleFields = site.projectFields.includes('tariffID');
+          if (this.readOnly) {
+            // Async call for letting the sub form groups to init
+            setTimeout(() => this.formGroup.disable(), 0);
+          }
+          // Update form group
+          this.formGroup.updateValueAndValidity();
+          this.formGroup.markAsPristine();
+          this.formGroup.markAllAsTouched();
+        },
+        error: (error) => {
+          this.spinnerService.hide();
+          switch (error.status) {
+            case StatusCodes.NOT_FOUND:
+              this.messageService.showErrorMessage('sites.site_not_found');
+              break;
+            default:
+              Utils.handleHttpError(error, this.router, this.messageService,
+                this.centralServerService, 'general.unexpected_error_backend');
+          }
         }
       });
     }
@@ -134,24 +137,27 @@ export class SiteComponent extends AbstractTabComponent implements OnInit {
     // Set coordinates
     this.siteMainComponent.updateSiteCoordinates(site);
     // Create
-    this.centralServerService.createSite(site).subscribe((response) => {
-      this.spinnerService.hide();
-      if (response.status === RestResponse.SUCCESS) {
-        this.messageService.showSuccessMessage('sites.create_success',
-          { siteName: site.name });
-        this.closeDialog(true);
-      } else {
-        Utils.handleError(JSON.stringify(response),
-          this.messageService, 'sites.create_error');
-      }
-    }, (error) => {
-      this.spinnerService.hide();
-      switch (error.status) {
-        case StatusCodes.NOT_FOUND:
-          this.messageService.showErrorMessage('sites.site_not_found');
-          break;
-        default:
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'sites.create_error');
+    this.centralServerService.createSite(site).subscribe({
+      next: (response) => {
+        this.spinnerService.hide();
+        if (response.status === RestResponse.SUCCESS) {
+          this.messageService.showSuccessMessage('sites.create_success',
+            { siteName: site.name });
+          this.closeDialog(true);
+        } else {
+          Utils.handleError(JSON.stringify(response),
+            this.messageService, 'sites.create_error');
+        }
+      },
+      error: (error) => {
+        this.spinnerService.hide();
+        switch (error.status) {
+          case StatusCodes.NOT_FOUND:
+            this.messageService.showErrorMessage('sites.site_not_found');
+            break;
+          default:
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'sites.create_error');
+        }
       }
     });
   }
@@ -163,27 +169,30 @@ export class SiteComponent extends AbstractTabComponent implements OnInit {
     // Set connected account
     this.accountBillingComponent?.updateEntityConnectedAccount(site);
     // Update
-    this.centralServerService.updateSite(site).subscribe((response) => {
-      this.spinnerService.hide();
-      if (response.status === RestResponse.SUCCESS) {
-        this.messageService.showSuccessMessage('sites.update_success', { siteName: site.name });
-        this.closeDialog(true);
-      } else {
-        Utils.handleError(JSON.stringify(response),
-          this.messageService, 'sites.update_error');
-      }
-    }, (error) => {
-      this.spinnerService.hide();
-      switch (error.status) {
-        case StatusCodes.NOT_FOUND:
-          this.messageService.showErrorMessage('sites.site_not_found');
-          break;
-        case HTTPError.FEATURE_NOT_SUPPORTED_ERROR:
-          this.messageService.showErrorMessage('sites.update_public_site_error', { siteName: site.name });
-          break;
-        default:
-          Utils.handleHttpError(error, this.router, this.messageService,
-            this.centralServerService, 'sites.update_error');
+    this.centralServerService.updateSite(site).subscribe({
+      next: (response) => {
+        this.spinnerService.hide();
+        if (response.status === RestResponse.SUCCESS) {
+          this.messageService.showSuccessMessage('sites.update_success', { siteName: site.name });
+          this.closeDialog(true);
+        } else {
+          Utils.handleError(JSON.stringify(response),
+            this.messageService, 'sites.update_error');
+        }
+      },
+      error: (error) => {
+        this.spinnerService.hide();
+        switch (error.status) {
+          case StatusCodes.NOT_FOUND:
+            this.messageService.showErrorMessage('sites.site_not_found');
+            break;
+          case HTTPError.FEATURE_NOT_SUPPORTED_ERROR:
+            this.messageService.showErrorMessage('sites.update_public_site_error', { siteName: site.name });
+            break;
+          default:
+            Utils.handleHttpError(error, this.router, this.messageService,
+              this.centralServerService, 'sites.update_error');
+        }
       }
     });
   }

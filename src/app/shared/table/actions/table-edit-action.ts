@@ -3,7 +3,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 
 import { AuthorizationAttributes, DialogData, DialogMode, DialogParamsWithAuth } from '../../../types/Authorization';
-import { ButtonActionColor, ButtonAction } from '../../../types/GlobalType';
+import { ButtonAction, ButtonActionColor } from '../../../types/GlobalType';
 import { TableActionDef } from '../../../types/Table';
 import { TableAction } from './table-action';
 

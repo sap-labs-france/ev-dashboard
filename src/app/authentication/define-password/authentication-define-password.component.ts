@@ -83,19 +83,22 @@ export class AuthenticationDefinePasswordComponent implements OnInit, OnDestroy 
     body.classList.add('off-canvas-sidebar');
     if (this.subDomain) {
       // Retrieve tenant's logo
-      this.centralServerService.getTenantLogoBySubdomain(this.subDomain).subscribe((tenantLogo: string) => {
-        if (tenantLogo) {
-          this.tenantLogo = tenantLogo;
-        }
-      }, (error) => {
-        this.spinnerService.hide();
-        switch (error.status) {
-          case StatusCodes.NOT_FOUND:
-            this.tenantLogo = Constants.NO_IMAGE;
-            break;
-          default:
-            Utils.handleHttpError(error, this.router, this.messageService,
-              this.centralServerService, 'general.unexpected_error_backend');
+      this.centralServerService.getTenantLogoBySubdomain(this.subDomain).subscribe({
+        next: (tenantLogo: string) => {
+          if (tenantLogo) {
+            this.tenantLogo = tenantLogo;
+          }
+        },
+        error: (error) => {
+          this.spinnerService.hide();
+          switch (error.status) {
+            case StatusCodes.NOT_FOUND:
+              this.tenantLogo = Constants.NO_IMAGE;
+              break;
+            default:
+              Utils.handleHttpError(error, this.router, this.messageService,
+                this.centralServerService, 'general.unexpected_error_backend');
+          }
         }
       });
     } else {

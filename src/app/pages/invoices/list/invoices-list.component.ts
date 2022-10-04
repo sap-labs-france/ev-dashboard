@@ -30,13 +30,16 @@ export class InvoicesListComponent implements OnInit {
     const invoiceID = this.windowService.getUrlParameterValue('InvoiceID');
     if (invoiceID) {
       const invoiceNumber = this.windowService.getUrlParameterValue('InvoiceNumber');
-      this.centralServerService.downloadInvoice(invoiceID).subscribe((result) => {
-        this.spinnerService.show();
-        FileSaver.saveAs(result, 'invoice_' + (invoiceNumber ?? invoiceID) + '.pdf');
-        this.spinnerService.hide();
-      }, () => {
-        this.spinnerService.hide();
-        this.messageService.showErrorMessage('invoices.failed_download');
+      this.centralServerService.downloadInvoice(invoiceID).subscribe({
+        next: (result) => {
+          this.spinnerService.show();
+          FileSaver.saveAs(result, 'invoice_' + (invoiceNumber ?? invoiceID) + '.pdf');
+          this.spinnerService.hide();
+        },
+        error: () => {
+          this.spinnerService.hide();
+          this.messageService.showErrorMessage('invoices.failed_download');
+        }
       });
     }
   }

@@ -33,21 +33,24 @@ export class TableCheckAssetConnectionAction extends TableCheckConnectionAction 
     } else {
       // Check connection
       spinnerService.show();
-      centralServerService.checkAssetConnection(assetConnection.id).subscribe((response) => {
-        spinnerService.hide();
-        if (response.status && response.status === RestResponse.SUCCESS) {
-          if (response.connectionIsValid) {
-            messageService.showSuccessMessage('settings.asset.connection_success');
+      centralServerService.checkAssetConnection(assetConnection.id).subscribe({
+        next: (response) => {
+          spinnerService.hide();
+          if (response.status && response.status === RestResponse.SUCCESS) {
+            if (response.connectionIsValid) {
+              messageService.showSuccessMessage('settings.asset.connection_success');
+            } else {
+              messageService.showErrorMessage('settings.asset.connection_failed');
+            }
           } else {
-            messageService.showErrorMessage('settings.asset.connection_failed');
+            messageService.showErrorMessage('settings.asset.unknown_connection_error');
           }
-        } else {
-          messageService.showErrorMessage('settings.asset.unknown_connection_error');
+        },
+        error: (error) => {
+          spinnerService.hide();
+          Utils.handleHttpError(error, router, messageService, centralServerService,
+            'settings.asset.unknown_connection_error');
         }
-      }, (error) => {
-        spinnerService.hide();
-        Utils.handleHttpError(error, router, messageService, centralServerService,
-          'settings.asset.unknown_connection_error');
       });
     }
   }

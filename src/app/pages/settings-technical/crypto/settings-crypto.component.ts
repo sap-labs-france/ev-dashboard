@@ -38,15 +38,15 @@ export class SettingsCryptoComponent implements OnInit {
 
   public loadConfiguration() {
     this.spinnerService.show();
-    this.componentService.getCryptoSettings().subscribe(
-      (settings) => {
+    this.componentService.getCryptoSettings().subscribe({
+      next: (settings) => {
         this.spinnerService.hide();
         // Keep
         this.cryptoSettings = settings;
         // Init form
         this.formGroup.markAsPristine();
       },
-      (error) => {
+      error: (error) => {
         this.spinnerService.hide();
         switch (error.status) {
           case StatusCodes.NOT_FOUND:
@@ -62,7 +62,7 @@ export class SettingsCryptoComponent implements OnInit {
             );
         }
       }
-    );
+    });
   }
 
   public save(content: any) {
@@ -78,8 +78,8 @@ export class SettingsCryptoComponent implements OnInit {
     };
     // Save
     this.spinnerService.show();
-    this.componentService.saveCryptoSettings(this.cryptoSettings).subscribe(
-      (response) => {
+    this.componentService.saveCryptoSettings(this.cryptoSettings).subscribe({
+      next: (response) => {
         this.spinnerService.hide();
         if (response.status === RestResponse.SUCCESS) {
           this.messageService.showSuccessMessage('technical_settings.crypto.update_success');
@@ -92,7 +92,7 @@ export class SettingsCryptoComponent implements OnInit {
           );
         }
       },
-      (error) => {
+      error: (error) => {
         this.spinnerService.hide();
         switch (error.status) {
           case StatusCodes.NOT_FOUND:
@@ -120,7 +120,7 @@ export class SettingsCryptoComponent implements OnInit {
             );
         }
       }
-    );
+    });
   }
 
   public refresh() {

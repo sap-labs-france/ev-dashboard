@@ -241,6 +241,7 @@
       "force_available_status": "Nuceně nastavit stav Je k dispozici ",
       "force_unavailable_status": "Nuceně nastavit stav Není k dispozici",
       "display_users": "Display users",
+      "display_sites": "Display sites",
       "pricing": "Pricing"
     }
   },
@@ -1342,6 +1343,7 @@
     "update_remove_site_owner_success": "Uživatel již není vlastníkem parkoviště '{{siteName}}'",
     "update_site_owner_role_error": "Došlo k chybě při pokusu aktualizovat práva uživatele k parkovišti '{{siteName}}', zkontrolujte protokoly",
     "redirect": "Navigovat k uživateli",
+    "display_sites": "Display sites",
     "connectors": {
       "connect": "Připojit",
       "revoke": "Zrušit",
@@ -1428,6 +1430,7 @@
     "amount": "Amount",
     "collected_funds": "Collected Funds",
     "platform_fee_amount": "Collected Fee",
+    "platform_fee_tax_inclusive": "Fees (incl. taxes)",
     "document_number": "Invoice",
     "transferAmount": "Transfer",
     "number_of_items": "Sessions",
@@ -1889,7 +1892,8 @@
       },
       "types": {
         "mercedes": "Konektor Mercedes",
-        "tronity": "Konektor Tronity"
+        "tronity": "Konektor Tronity",
+        "targa_telematics": "Targa Telematics Connector"
       },
       "mercedes": {
         "link_success": "Your account has been successfully linked with Mercedes",
@@ -2059,6 +2063,7 @@
     "emsp": "e-Mobility Service Provider",
     "enable_emsp": "Enable e-Mobility Service Provider",
     "tariff_id": "Tariff ID",
+    "owner_name": "Owner Name",
     "description": "Otevřít rozhraní nabíjecího místa",
     "details": "Identifikace",
     "country_code": "Kód země",
@@ -2692,9 +2697,9 @@
         "error": "Error occurred while trying to export the charging station templates, check the logs"
       }
     },
-    "chargePointVendor": "chargePointVendor",
-    "chargePointModel": "chargePointModel",
-    "chargeBoxSerialNumber": "chargeBoxSerialNumber"
+    "chargePointVendor": "Vendor",
+    "chargePointModel": "Model Filter",
+    "chargeBoxSerialNumber": "Serial Number Filter"
   },
   "geomap": {
     "dialog_geolocation_title": "Nastavit geografickou lokalitu pro '{{componentName}}' '{{itemComponentName}}'",

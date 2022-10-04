@@ -50,22 +50,25 @@ export class SettingsPricingComponent implements OnInit {
 
   public loadConfiguration() {
     this.spinnerService.show();
-    this.componentService.getPricingSettings().subscribe((settings) => {
-      this.spinnerService.hide();
-      // Keep
-      this.pricingSettings = settings;
-      // Check Settings
-      this.checkSettingsContext(settings);
-      // Init form
-      this.formGroup.markAsPristine();
-    }, (error) => {
-      this.spinnerService.hide();
-      switch (error.status) {
-        case StatusCodes.NOT_FOUND:
-          this.messageService.showErrorMessage('settings.pricing.not_found');
-          break;
-        default:
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
+    this.componentService.getPricingSettings().subscribe({
+      next: (settings) => {
+        this.spinnerService.hide();
+        // Keep
+        this.pricingSettings = settings;
+        // Check Settings
+        this.checkSettingsContext(settings);
+        // Init form
+        this.formGroup.markAsPristine();
+      },
+      error: (error) => {
+        this.spinnerService.hide();
+        switch (error.status) {
+          case StatusCodes.NOT_FOUND:
+            this.messageService.showErrorMessage('settings.pricing.not_found');
+            break;
+          default:
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
+        }
       }
     });
   }
@@ -120,25 +123,28 @@ export class SettingsPricingComponent implements OnInit {
   private savePricingSettings() {
     // Save
     this.spinnerService.show();
-    this.componentService.savePricingSettings(this.pricingSettings).subscribe((response) => {
-      this.spinnerService.hide();
-      if (response.status === RestResponse.SUCCESS) {
-        this.messageService.showSuccessMessage(
-          (!this.pricingSettings.id ? 'settings.pricing.create_success' : 'settings.pricing.update_success'));
-        this.refresh();
-      } else {
-        Utils.handleError(JSON.stringify(response),
-          this.messageService, (!this.pricingSettings.id ? 'settings.pricing.create_error' : 'settings.pricing.update_error'));
-      }
-    }, (error) => {
-      this.spinnerService.hide();
-      switch (error.status) {
-        case StatusCodes.NOT_FOUND:
-          this.messageService.showErrorMessage('settings.pricing.setting_do_not_exist');
-          break;
-        default:
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            (!this.pricingSettings.id ? 'settings.pricing.create_error' : 'settings.pricing.update_error'));
+    this.componentService.savePricingSettings(this.pricingSettings).subscribe({
+      next: (response) => {
+        this.spinnerService.hide();
+        if (response.status === RestResponse.SUCCESS) {
+          this.messageService.showSuccessMessage(
+            (!this.pricingSettings.id ? 'settings.pricing.create_success' : 'settings.pricing.update_success'));
+          this.refresh();
+        } else {
+          Utils.handleError(JSON.stringify(response),
+            this.messageService, (!this.pricingSettings.id ? 'settings.pricing.create_error' : 'settings.pricing.update_error'));
+        }
+      },
+      error: (error) => {
+        this.spinnerService.hide();
+        switch (error.status) {
+          case StatusCodes.NOT_FOUND:
+            this.messageService.showErrorMessage('settings.pricing.setting_do_not_exist');
+            break;
+          default:
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+              (!this.pricingSettings.id ? 'settings.pricing.create_error' : 'settings.pricing.update_error'));
+        }
       }
     });
   }

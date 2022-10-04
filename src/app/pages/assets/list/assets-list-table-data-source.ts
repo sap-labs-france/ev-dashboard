@@ -65,26 +65,29 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
   public loadDataImpl(): Observable<AssetDataResult> {
     return new Observable((observer) => {
       // get assets
-      this.centralServerService.getAssets(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe((assets) => {
-        // Initialize cars authorization
-        this.assetsAuthorizations = {
-          // Authorization actions
-          canCreate: Utils.convertToBoolean(assets.canCreate),
-          canListSites: Utils.convertToBoolean(assets.canListSites),
-          canListSiteAreas: Utils.convertToBoolean(assets.canListSiteAreas),
-          // metadata
-          metadata: assets.metadata
-        };
-        // Asset auth
-        this.canCreate.visible = Utils.convertToBoolean(assets.canCreate);
-        // Specific filter authorizations not part of Asset
-        this.siteFilter.visible = Utils.convertToBoolean(assets.canListSites);
-        this.siteAreaFilter.visible = Utils.convertToBoolean(assets.canListSiteAreas);
-        observer.next(assets);
-        observer.complete();
-      }, (error) => {
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        observer.error(error);
+      this.centralServerService.getAssets(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe({
+        next: (assets) => {
+          // Initialize cars authorization
+          this.assetsAuthorizations = {
+            // Authorization actions
+            canCreate: Utils.convertToBoolean(assets.canCreate),
+            canListSites: Utils.convertToBoolean(assets.canListSites),
+            canListSiteAreas: Utils.convertToBoolean(assets.canListSiteAreas),
+            // metadata
+            metadata: assets.metadata
+          };
+          // Asset auth
+          this.canCreate.visible = Utils.convertToBoolean(assets.canCreate);
+          // Specific filter authorizations not part of Asset
+          this.siteFilter.visible = Utils.convertToBoolean(assets.canListSites);
+          this.siteAreaFilter.visible = Utils.convertToBoolean(assets.canListSiteAreas);
+          observer.next(assets);
+          observer.complete();
+        },
+        error: (error) => {
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          observer.error(error);
+        }
       });
     });
   }

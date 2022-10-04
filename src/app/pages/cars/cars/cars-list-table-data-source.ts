@@ -64,25 +64,28 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
   public loadDataImpl(): Observable<DataResult<Car>> {
     return new Observable((observer) => {
       // Get cars
-      this.centralServerService.getCars(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe((cars) => {
-        // Initialize cars authorization
-        this.carsAuthorizations = {
-          // Authorization actions
-          canCreate: Utils.convertToBoolean(cars.canCreate),
-          canListUsers: Utils.convertToBoolean(cars.canListUsers),
-          canListCarCatalog: Utils.convertToBoolean(cars.canListCarCatalog),
-          // metadata
-          metadata: cars.metadata
-        };
-        // Update filters visibility
-        this.createAction.visible = this.carsAuthorizations.canCreate;
-        this.usersFilter.visible = this.carsAuthorizations.canListUsers;
-        this.carMakerFilter.visible = this.carsAuthorizations.canListCarCatalog;
-        observer.next(cars);
-        observer.complete();
-      }, (error) => {
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.cars_error');
-        observer.error(error);
+      this.centralServerService.getCars(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe({
+        next: (cars) => {
+          // Initialize cars authorization
+          this.carsAuthorizations = {
+            // Authorization actions
+            canCreate: Utils.convertToBoolean(cars.canCreate),
+            canListUsers: Utils.convertToBoolean(cars.canListUsers),
+            canListCarCatalog: Utils.convertToBoolean(cars.canListCarCatalog),
+            // metadata
+            metadata: cars.metadata
+          };
+          // Update filters visibility
+          this.createAction.visible = this.carsAuthorizations.canCreate;
+          this.usersFilter.visible = this.carsAuthorizations.canListUsers;
+          this.carMakerFilter.visible = this.carsAuthorizations.canListCarCatalog;
+          observer.next(cars);
+          observer.complete();
+        },
+        error: (error) => {
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.cars_error');
+          observer.error(error);
+        }
       });
     });
   }

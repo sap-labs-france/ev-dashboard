@@ -35,13 +35,16 @@ export class TableSiteGenerateQrCodeConnectorAction implements TableAction {
   private downloadQrCodePDF(site: Site, translateService: TranslateService, spinnerService: SpinnerService,
     messageService: MessageService, centralServerService: CentralServerService, router: Router) {
     spinnerService.show();
-    centralServerService.downloadSiteQrCodes(site.id).subscribe((result) => {
-      spinnerService.hide();
-      FileSaver.saveAs(result, `site-${site.name.toLowerCase()}-qr-codes.pdf`);
-    }, (error) => {
-      spinnerService.hide();
-      Utils.handleHttpError(error, router, messageService,
-        centralServerService, translateService.instant('chargers.qr_code_generation_error'));
+    centralServerService.downloadSiteQrCodes(site.id).subscribe({
+      next: (result) => {
+        spinnerService.hide();
+        FileSaver.saveAs(result, `site-${site.name.toLowerCase()}-qr-codes.pdf`);
+      },
+      error:(error) => {
+        spinnerService.hide();
+        Utils.handleHttpError(error, router, messageService,
+          centralServerService, translateService.instant('chargers.qr_code_generation_error'));
+      }
     });
   }
 }

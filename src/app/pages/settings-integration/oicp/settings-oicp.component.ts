@@ -162,49 +162,52 @@ export class SettingsOicpComponent implements OnInit {
 
   public loadConfiguration() {
     this.spinnerService.show();
-    this.componentService.getOicpSettings().subscribe((settings) => {
-      this.spinnerService.hide();
-      // Keep
-      this.oicpSettings = settings;
-      // CPO identifier
-      if (settings.oicp.cpo) {
-        this.cpoCountryCode.setValue(settings.oicp.cpo.countryCode);
-        this.cpoPartyID.setValue(settings.oicp.cpo.partyID);
-        this.cpoKey.setValue(settings.oicp.cpo.key);
-        this.cpoCert.setValue(settings.oicp.cpo.cert);
-      }
-      // EMSP identifier
-      if (settings.oicp.cpo) {
-        this.emspCountryCode.setValue(settings.oicp.emsp.countryCode);
-        this.emspPartyID.setValue(settings.oicp.emsp.partyID);
-      }
-      // Currency
-      this.currency.setValue(settings.oicp.currency);
-      const businessDetails = settings.oicp.businessDetails;
-      if (businessDetails) {
-        this.name.setValue(businessDetails.name);
-        this.website.setValue(businessDetails.website);
-        if (businessDetails.logo) {
-          const logo = businessDetails.logo;
-          this.logoURL.setValue(logo.url);
-          this.logoThumbnail.setValue(logo.thumbnail);
-          this.logoCategory.setValue(logo.category);
-          this.logoType.setValue(logo.type);
-          this.logoWidth.setValue(logo.width);
-          this.logoHeight.setValue(logo.height);
+    this.componentService.getOicpSettings().subscribe({
+      next: (settings) => {
+        this.spinnerService.hide();
+        // Keep
+        this.oicpSettings = settings;
+        // CPO identifier
+        if (settings.oicp.cpo) {
+          this.cpoCountryCode.setValue(settings.oicp.cpo.countryCode);
+          this.cpoPartyID.setValue(settings.oicp.cpo.partyID);
+          this.cpoKey.setValue(settings.oicp.cpo.key);
+          this.cpoCert.setValue(settings.oicp.cpo.cert);
         }
-      }
-      // Init form
-      this.formGroup.markAsPristine();
-    }, (error) => {
-      this.spinnerService.hide();
-      switch (error.status) {
-        case StatusCodes.NOT_FOUND:
-          this.messageService.showErrorMessage('settings.oicp.setting_not_found');
-          break;
-        default:
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            'general.unexpected_error_backend');
+        // EMSP identifier
+        if (settings.oicp.cpo) {
+          this.emspCountryCode.setValue(settings.oicp.emsp.countryCode);
+          this.emspPartyID.setValue(settings.oicp.emsp.partyID);
+        }
+        // Currency
+        this.currency.setValue(settings.oicp.currency);
+        const businessDetails = settings.oicp.businessDetails;
+        if (businessDetails) {
+          this.name.setValue(businessDetails.name);
+          this.website.setValue(businessDetails.website);
+          if (businessDetails.logo) {
+            const logo = businessDetails.logo;
+            this.logoURL.setValue(logo.url);
+            this.logoThumbnail.setValue(logo.thumbnail);
+            this.logoCategory.setValue(logo.category);
+            this.logoType.setValue(logo.type);
+            this.logoWidth.setValue(logo.width);
+            this.logoHeight.setValue(logo.height);
+          }
+        }
+        // Init form
+        this.formGroup.markAsPristine();
+      },
+      error: (error) => {
+        this.spinnerService.hide();
+        switch (error.status) {
+          case StatusCodes.NOT_FOUND:
+            this.messageService.showErrorMessage('settings.oicp.setting_not_found');
+            break;
+          default:
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+              'general.unexpected_error_backend');
+        }
       }
     });
   }
@@ -213,25 +216,28 @@ export class SettingsOicpComponent implements OnInit {
     this.oicpSettings.oicp = content;
     this.oicpSettings.type = RoamingSettingsType.OICP;
     this.spinnerService.show();
-    this.componentService.saveOicpSettings(this.oicpSettings).subscribe((response) => {
-      this.spinnerService.hide();
-      if (response.status === RestResponse.SUCCESS) {
-        this.messageService.showSuccessMessage(
-          (!this.oicpSettings.id ? 'settings.oicp.create_success' : 'settings.oicp.update_success'));
-        this.refresh();
-      } else {
-        Utils.handleError(JSON.stringify(response),
-          this.messageService, (!this.oicpSettings.id ? 'settings.oicp.create_error' : 'settings.oicp.update_error'));
-      }
-    }, (error) => {
-      this.spinnerService.hide();
-      switch (error.status) {
-        case StatusCodes.NOT_FOUND:
-          this.messageService.showErrorMessage('settings.oicp.setting_do_not_exist');
-          break;
-        default:
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            (!this.oicpSettings.id ? 'settings.oicp.create_error' : 'settings.oicp.update_error'));
+    this.componentService.saveOicpSettings(this.oicpSettings).subscribe({
+      next: (response) => {
+        this.spinnerService.hide();
+        if (response.status === RestResponse.SUCCESS) {
+          this.messageService.showSuccessMessage(
+            (!this.oicpSettings.id ? 'settings.oicp.create_success' : 'settings.oicp.update_success'));
+          this.refresh();
+        } else {
+          Utils.handleError(JSON.stringify(response),
+            this.messageService, (!this.oicpSettings.id ? 'settings.oicp.create_error' : 'settings.oicp.update_error'));
+        }
+      },
+      error: (error) => {
+        this.spinnerService.hide();
+        switch (error.status) {
+          case StatusCodes.NOT_FOUND:
+            this.messageService.showErrorMessage('settings.oicp.setting_do_not_exist');
+            break;
+          default:
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+              (!this.oicpSettings.id ? 'settings.oicp.create_error' : 'settings.oicp.update_error'));
+        }
       }
     });
   }

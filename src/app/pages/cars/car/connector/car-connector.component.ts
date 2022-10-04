@@ -100,17 +100,20 @@ export class CarConnectorComponent implements OnInit, OnChanges {
   }
 
   private loadCarConnectors() {
-    this.componentService.getCarConnectorSettings().subscribe((settings) => {
-      this.carConnectorConnections = settings.carConnector.connections;
-      this.loadCar();
-    }, (error) => {
-      switch (error.status) {
-        case StatusCodes.NOT_FOUND:
-          this.messageService.showErrorMessage('settings.car_connector.setting_not_found');
-          break;
-        default:
-          Utils.handleHttpError(error, this.router, this.messageService,
-            this.centralServerService, 'general.unexpected_error_backend');
+    this.componentService.getCarConnectorSettings().subscribe({
+      next: (settings) => {
+        this.carConnectorConnections = settings.carConnector.connections;
+        this.loadCar();
+      },
+      error: (error) => {
+        switch (error.status) {
+          case StatusCodes.NOT_FOUND:
+            this.messageService.showErrorMessage('settings.car_connector.setting_not_found');
+            break;
+          default:
+            Utils.handleHttpError(error, this.router, this.messageService,
+              this.centralServerService, 'general.unexpected_error_backend');
+        }
       }
     });
   }

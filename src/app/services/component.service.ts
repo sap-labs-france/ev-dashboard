@@ -41,26 +41,29 @@ export class ComponentService {
         identifier: TenantComponents.PRICING,
       } as PricingSettings;
       // Get the Pricing settings
-      this.centralServerService.getSetting(TenantComponents.PRICING).subscribe((settings) => {
-        // Get the currency
-        if (settings) {
-          const config = settings.content;
-          // ID
-          pricingSettings.id = settings.id;
-          pricingSettings.sensitiveData = settings.sensitiveData;
-          // Simple price
-          if (config.simple) {
-            pricingSettings.type = PricingSettingsType.SIMPLE;
-            pricingSettings.simple = {
-              price: config.simple.price ? Utils.convertToFloat(config.simple.price) : 0,
-              currency: config.simple.currency ? config.simple.currency : '',
-            };
+      this.centralServerService.getSetting(TenantComponents.PRICING).subscribe({
+        next: (settings) => {
+          // Get the currency
+          if (settings) {
+            const config = settings.content;
+            // ID
+            pricingSettings.id = settings.id;
+            pricingSettings.sensitiveData = settings.sensitiveData;
+            // Simple price
+            if (config.simple) {
+              pricingSettings.type = PricingSettingsType.SIMPLE;
+              pricingSettings.simple = {
+                price: config.simple.price ? Utils.convertToFloat(config.simple.price) : 0,
+                currency: config.simple.currency ? config.simple.currency : '',
+              };
+            }
           }
+          observer.next(pricingSettings);
+          observer.complete();
+        },
+        error: (error) => {
+          observer.error(error);
         }
-        observer.next(pricingSettings);
-        observer.complete();
-      }, (error) => {
-        observer.error(error);
       });
     });
   }
@@ -206,6 +209,9 @@ export class ComponentService {
         case CarConnectorConnectionType.TRONITY:
           settingsToSave.sensitiveData.push(`content.carConnector.connections[${index}].tronityConnection.clientSecret`);
           break;
+        case CarConnectorConnectionType.TARGA_TELEMATICS:
+          settingsToSave.sensitiveData.push(`content.carConnector.connections[${index}].targaTelematicsConnection.clientSecret`);
+          break;
       }
     });
     // Delete IDS
@@ -254,11 +260,14 @@ export class ComponentService {
   public getBillingSettings(): Observable<BillingSettings> {
     return new Observable((observer) => {
       // Get the Billing settings
-      this.centralServerService.getBillingSettings().subscribe((billingSettings) => {
-        observer.next(billingSettings);
-        observer.complete();
-      }, (error) => {
-        observer.error(error);
+      this.centralServerService.getBillingSettings().subscribe({
+        next: (billingSettings) => {
+          observer.next(billingSettings);
+          observer.complete();
+        },
+        error: (error) => {
+          observer.error(error);
+        }
       });
     });
   }
@@ -266,11 +275,14 @@ export class ComponentService {
   public getBillingAccounts(paging: Paging = Constants.DEFAULT_PAGING,
     ordering: Ordering[] = []): Observable<BillingAccount[]> {
     return new Observable((observer) => {
-      this.centralServerService.getBillingAccounts(paging, ordering).subscribe((accounts) => {
-        observer.next(accounts.result);
-        observer.complete();
-      }, (error) => {
-        observer.error(error);
+      this.centralServerService.getBillingAccounts(paging, ordering).subscribe({
+        next: (accounts) => {
+          observer.next(accounts.result);
+          observer.complete();
+        },
+        error: (error) => {
+          observer.error(error);
+        }
       });
     });
   }
@@ -281,19 +293,22 @@ export class ComponentService {
         identifier: TenantComponents.OCPI,
       } as RoamingSettings;
       // Get the Pricing settings
-      this.centralServerService.getSetting(TenantComponents.OCPI).subscribe((settings) => {
-        // Get the currency
-        if (settings) {
-          const config = settings.content;
-          // Set
-          ocpiSettings.id = settings.id;
-          ocpiSettings.sensitiveData = settings.sensitiveData;
-          ocpiSettings.ocpi = config.ocpi;
+      this.centralServerService.getSetting(TenantComponents.OCPI).subscribe({
+        next: (settings) => {
+          // Get the currency
+          if (settings) {
+            const config = settings.content;
+            // Set
+            ocpiSettings.id = settings.id;
+            ocpiSettings.sensitiveData = settings.sensitiveData;
+            ocpiSettings.ocpi = config.ocpi;
+          }
+          observer.next(ocpiSettings);
+          observer.complete();
+        },
+        error: (error) => {
+          observer.error(error);
         }
-        observer.next(ocpiSettings);
-        observer.complete();
-      }, (error) => {
-        observer.error(error);
       });
     });
   }
@@ -304,19 +319,22 @@ export class ComponentService {
         identifier: TenantComponents.OICP,
       } as RoamingSettings;
       // Get the Pricing settings
-      this.centralServerService.getSetting(TenantComponents.OICP).subscribe((settings) => {
-        // Get the currency
-        if (settings) {
-          const config = settings.content;
-          // Set
-          oicpSettings.id = settings.id;
-          oicpSettings.sensitiveData = settings.sensitiveData;
-          oicpSettings.oicp = config.oicp;
+      this.centralServerService.getSetting(TenantComponents.OICP).subscribe({
+        next: (settings) => {
+          // Get the currency
+          if (settings) {
+            const config = settings.content;
+            // Set
+            oicpSettings.id = settings.id;
+            oicpSettings.sensitiveData = settings.sensitiveData;
+            oicpSettings.oicp = config.oicp;
+          }
+          observer.next(oicpSettings);
+          observer.complete();
+        },
+        error: (error) => {
+          observer.error(error);
         }
-        observer.next(oicpSettings);
-        observer.complete();
-      }, (error) => {
-        observer.error(error);
       });
     });
   }
@@ -327,20 +345,23 @@ export class ComponentService {
         identifier: TenantComponents.ANALYTICS,
       } as AnalyticsSettings;
       // Get the Pricing settings
-      this.centralServerService.getSetting(TenantComponents.ANALYTICS).subscribe((settings) => {
-        // Get the currency
-        if (settings) {
-          const config = settings.content;
-          // Set
-          analyticsSettings.id = settings.id;
-          analyticsSettings.sensitiveData = settings.sensitiveData;
-          analyticsSettings.sac = config.sac;
-          analyticsSettings.links = config.links;
+      this.centralServerService.getSetting(TenantComponents.ANALYTICS).subscribe({
+        next: (settings) => {
+          // Get the currency
+          if (settings) {
+            const config = settings.content;
+            // Set
+            analyticsSettings.id = settings.id;
+            analyticsSettings.sensitiveData = settings.sensitiveData;
+            analyticsSettings.sac = config.sac;
+            analyticsSettings.links = config.links;
+          }
+          observer.next(analyticsSettings);
+          observer.complete();
+        },
+        error: (error) => {
+          observer.error(error);
         }
-        observer.next(analyticsSettings);
-        observer.complete();
-      }, (error) => {
-        observer.error(error);
       });
     });
   }
@@ -351,21 +372,24 @@ export class ComponentService {
         identifier: TenantComponents.REFUND,
       } as RefundSettings;
       // Get the Pricing settings
-      this.centralServerService.getSetting(TenantComponents.REFUND).subscribe((settings) => {
-        // Get the currency
-        if (settings) {
-          const config = settings.content;
-          // ID
-          refundSettings.id = settings.id;
-          // Sensitive data
-          refundSettings.sensitiveData = settings.sensitiveData;
-          // Set
-          refundSettings.concur = config.concur;
+      this.centralServerService.getSetting(TenantComponents.REFUND).subscribe({
+        next: (settings) => {
+          // Get the currency
+          if (settings) {
+            const config = settings.content;
+            // ID
+            refundSettings.id = settings.id;
+            // Sensitive data
+            refundSettings.sensitiveData = settings.sensitiveData;
+            // Set
+            refundSettings.concur = config.concur;
+          }
+          observer.next(refundSettings);
+          observer.complete();
+        },
+        error: (error) => {
+          observer.error(error);
         }
-        observer.next(refundSettings);
-        observer.complete();
-      }, (error) => {
-        observer.error(error);
       });
     });
   }
@@ -376,18 +400,21 @@ export class ComponentService {
         identifier: TenantComponents.SMART_CHARGING,
       } as SmartChargingSettings;
       // Get the SmartCharging settings
-      this.centralServerService.getSetting(TenantComponents.SMART_CHARGING).subscribe((settings) => {
-        if (settings) {
-          const config = settings.content;
-          // Set
-          smartChargingSettings.id = settings.id;
-          smartChargingSettings.sensitiveData = settings.sensitiveData;
-          smartChargingSettings.sapSmartCharging = config.sapSmartCharging;
+      this.centralServerService.getSetting(TenantComponents.SMART_CHARGING).subscribe({
+        next: (settings) => {
+          if (settings) {
+            const config = settings.content;
+            // Set
+            smartChargingSettings.id = settings.id;
+            smartChargingSettings.sensitiveData = settings.sensitiveData;
+            smartChargingSettings.sapSmartCharging = config.sapSmartCharging;
+          }
+          observer.next(smartChargingSettings);
+          observer.complete();
+        },
+        error: (error) => {
+          observer.error(error);
         }
-        observer.next(smartChargingSettings);
-        observer.complete();
-      }, (error) => {
-        observer.error(error);
       });
     });
   }
@@ -398,21 +425,24 @@ export class ComponentService {
         identifier: TenantComponents.ASSET,
       } as AssetSettings;
       // Get the Asset settings
-      this.centralServerService.getSetting(TenantComponents.ASSET).subscribe((settings) => {
-        // Get the currency
-        if (settings) {
-          const config = settings.content;
-          // ID
-          assetSettings.id = settings.id;
-          // Sensitive data
-          assetSettings.sensitiveData = settings.sensitiveData;
-          // Set
-          assetSettings.asset = config.asset;
+      this.centralServerService.getSetting(TenantComponents.ASSET).subscribe({
+        next: (settings) => {
+          // Get the currency
+          if (settings) {
+            const config = settings.content;
+            // ID
+            assetSettings.id = settings.id;
+            // Sensitive data
+            assetSettings.sensitiveData = settings.sensitiveData;
+            // Set
+            assetSettings.asset = config.asset;
+          }
+          observer.next(assetSettings);
+          observer.complete();
+        },
+        error: (error) => {
+          observer.error(error);
         }
-        observer.next(assetSettings);
-        observer.complete();
-      }, (error) => {
-        observer.error(error);
       });
     });
   }
@@ -423,21 +453,24 @@ export class ComponentService {
         identifier: TenantComponents.CAR_CONNECTOR,
       } as CarConnectorSettings;
       // Get the Car Connector settings
-      this.centralServerService.getSetting(TenantComponents.CAR_CONNECTOR).subscribe((settings) => {
-        // Get the currency
-        if (settings) {
-          const config = settings.content;
-          // ID
-          carConnectorsSettings.id = settings.id;
-          // Sensitive data
-          carConnectorsSettings.sensitiveData = settings.sensitiveData;
-          // Set
-          carConnectorsSettings.carConnector = config.carConnector;
+      this.centralServerService.getSetting(TenantComponents.CAR_CONNECTOR).subscribe({
+        next: (settings) => {
+          // Get the currency
+          if (settings) {
+            const config = settings.content;
+            // ID
+            carConnectorsSettings.id = settings.id;
+            // Sensitive data
+            carConnectorsSettings.sensitiveData = settings.sensitiveData;
+            // Set
+            carConnectorsSettings.carConnector = config.carConnector;
+          }
+          observer.next(carConnectorsSettings);
+          observer.complete();
+        },
+        error: (error) => {
+          observer.error(error);
         }
-        observer.next(carConnectorsSettings);
-        observer.complete();
-      }, (error) => {
-        observer.error(error);
       });
     });
   }
@@ -448,22 +481,25 @@ export class ComponentService {
         identifier: TechnicalSettings.CRYPTO,
       } as CryptoSettings;
       // Get the Asset settings
-      this.centralServerService.getSetting(TechnicalSettings.CRYPTO).subscribe((settings) => {
-        // Get the currency
-        if (settings) {
-          // ID
-          cryptoSettings.id = settings.id;
-          // Crypto Key
-          cryptoSettings.crypto = {
-            key: settings.content.crypto.key,
-            keyProperties: settings.content.crypto.keyProperties,
-            migrationToBeDone: settings.content.crypto.migrationToBeDone,
-          };
+      this.centralServerService.getSetting(TechnicalSettings.CRYPTO).subscribe({
+        next: (settings) => {
+          // Get the currency
+          if (settings) {
+            // ID
+            cryptoSettings.id = settings.id;
+            // Crypto Key
+            cryptoSettings.crypto = {
+              key: settings.content.crypto.key,
+              keyProperties: settings.content.crypto.keyProperties,
+              migrationToBeDone: settings.content.crypto.migrationToBeDone,
+            };
+          }
+          observer.next(cryptoSettings);
+          observer.complete();
+        },
+        error: (error) => {
+          observer.error(error);
         }
-        observer.next(cryptoSettings);
-        observer.complete();
-      }, (error) => {
-        observer.error(error);
       });
     });
   }
@@ -486,21 +522,24 @@ export class ComponentService {
   public getUserSettings(): Observable<UserSettings> {
     return new Observable((observer) => {
       // Get the user settings
-      this.centralServerService.getSetting(TechnicalSettings.USER).subscribe((settings) => {
-        let userSettings: UserSettings;
-        // Get the needed settings for update
-        if (settings) {
-          userSettings = {
-            id: settings.id,
-            identifier: TechnicalSettings.USER,
-            type: settings.content.type as UserSettingsType,
-            user: settings.content.user,
-          };
+      this.centralServerService.getSetting(TechnicalSettings.USER).subscribe({
+        next: (settings) => {
+          let userSettings: UserSettings;
+          // Get the needed settings for update
+          if (settings) {
+            userSettings = {
+              id: settings.id,
+              identifier: TechnicalSettings.USER,
+              type: settings.content.type as UserSettingsType,
+              user: settings.content.user,
+            };
+          }
+          observer.next(userSettings);
+          observer.complete();
+        },
+        error: (error) => {
+          observer.error(error);
         }
-        observer.next(userSettings);
-        observer.complete();
-      }, (error) => {
-        observer.error(error);
       });
     });
   }

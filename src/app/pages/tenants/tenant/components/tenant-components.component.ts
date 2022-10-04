@@ -9,6 +9,7 @@ import { Tenant, TenantComponents } from '../../../../types/Tenant';
 @Component({
   selector: 'app-tenant-components',
   templateUrl: 'tenant-components.component.html',
+  styleUrls: ['../tenant.component.scss']
 })
 export class TenantComponentsComponent implements OnInit, OnChanges {
   @Input() public tenant!: Tenant;

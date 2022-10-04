@@ -119,19 +119,22 @@ export class AuthenticationLoginComponent implements OnInit, OnDestroy {
     }
     if (this.subDomain) {
       // Retrieve tenant's logo
-      this.centralServerService.getTenantLogoBySubdomain(this.subDomain).subscribe((tenantLogo: string) => {
-        if (tenantLogo) {
-          this.tenantLogo = tenantLogo;
-        }
-      }, (error) => {
-        this.spinnerService.hide();
-        switch (error.status) {
-          case StatusCodes.NOT_FOUND:
-            this.tenantLogo = Constants.NO_IMAGE;
-            break;
-          default:
-            Utils.handleHttpError(error, this.router, this.messageService,
-              this.centralServerService, 'general.unexpected_error_backend');
+      this.centralServerService.getTenantLogoBySubdomain(this.subDomain).subscribe({
+        next: (tenantLogo: string) => {
+          if (tenantLogo) {
+            this.tenantLogo = tenantLogo;
+          }
+        },
+        error: (error) => {
+          this.spinnerService.hide();
+          switch (error.status) {
+            case StatusCodes.NOT_FOUND:
+              this.tenantLogo = Constants.NO_IMAGE;
+              break;
+            default:
+              Utils.handleHttpError(error, this.router, this.messageService,
+                this.centralServerService, 'general.unexpected_error_backend');
+          }
         }
       });
     } else {
@@ -166,57 +169,60 @@ export class AuthenticationLoginComponent implements OnInit, OnDestroy {
     // clear User and UserAuthorization
     this.authorizationService.cleanUserAndUserAuthorization();
     // Login
-    this.centralServerService.login(user).subscribe((result) => {
-      this.spinnerService.hide();
-      this.centralServerService.loginSucceeded(result.token);
-      // login successful so redirect to return url
-      void this.router.navigateByUrl(this.returnUrl as string);
-    }, (error) => {
-      this.spinnerService.hide();
-      switch (error.status) {
-        // Wrong email or password
-        case StatusCodes.NOT_FOUND:
-          this.messageService.showErrorMessage(this.messages['wrong_email_or_password']);
-          break;
-        // Account is locked
-        case HTTPError.USER_ACCOUNT_LOCKED_ERROR:
-          this.messageService.showErrorMessage(this.messages['account_locked']);
-          break;
-        // Account is inactive
-        case HTTPError.USER_ACCOUNT_INACTIVE_ERROR:
-          this.messageService.showErrorMessage(this.messages['account_inactive']);
-          break;
-        // Account Suspended
-        case HTTPError.USER_ACCOUNT_BLOCKED_ERROR:
-          this.messageService.showErrorMessage(this.messages['account_suspended']);
-          break;
-        // API User
-        case HTTPError.TECHNICAL_USER_CANNOT_LOG_TO_UI_ERROR:
-          this.messageService.showErrorMessage(this.messages['technical_user_cannot_login_to_ui']);
-          break;
-        // Account Pending
-        case HTTPError.USER_ACCOUNT_PENDING_ERROR:
-          // Pending Users from the Super Tenant should not be able to request an activation email
-          if (!Utils.isEmptyString(this.subDomain)) {
-            // Usual Users
-            this.messageService.showWarningMessage(this.messages['account_pending']);
-            // No Create and show dialog data
-            this.dialogService.createAndShowYesNoDialog(
-              this.translateService.instant('authentication.verify_email_title'),
-              this.translateService.instant('authentication.verify_email_resend_confirm'),
-            ).subscribe((response) => {
-              if (response === ButtonAction.YES) {
-                void this.router.navigate(['/auth/verify-email'], { queryParams: { Email: user['email'] } });
-              }
-            });
-          } else {
-            // Super Admin Users
-            this.messageService.showWarningMessage(this.messages['super_user_account_pending']);
-          }
-          break;
-        default:
-          Utils.handleHttpError(error, this.router, this.messageService,
-            this.centralServerService, 'general.unexpected_error_backend');
+    this.centralServerService.login(user).subscribe({
+      next: (result) => {
+        this.spinnerService.hide();
+        this.centralServerService.loginSucceeded(result.token);
+        // login successful so redirect to return url
+        void this.router.navigateByUrl(this.returnUrl as string);
+      },
+      error: (error) => {
+        this.spinnerService.hide();
+        switch (error.status) {
+          // Wrong email or password
+          case StatusCodes.NOT_FOUND:
+            this.messageService.showErrorMessage(this.messages['wrong_email_or_password']);
+            break;
+          // Account is locked
+          case HTTPError.USER_ACCOUNT_LOCKED_ERROR:
+            this.messageService.showErrorMessage(this.messages['account_locked']);
+            break;
+          // Account is inactive
+          case HTTPError.USER_ACCOUNT_INACTIVE_ERROR:
+            this.messageService.showErrorMessage(this.messages['account_inactive']);
+            break;
+          // Account Suspended
+          case HTTPError.USER_ACCOUNT_BLOCKED_ERROR:
+            this.messageService.showErrorMessage(this.messages['account_suspended']);
+            break;
+          // API User
+          case HTTPError.TECHNICAL_USER_CANNOT_LOG_TO_UI_ERROR:
+            this.messageService.showErrorMessage(this.messages['technical_user_cannot_login_to_ui']);
+            break;
+          // Account Pending
+          case HTTPError.USER_ACCOUNT_PENDING_ERROR:
+            // Pending Users from the Super Tenant should not be able to request an activation email
+            if (!Utils.isEmptyString(this.subDomain)) {
+              // Usual Users
+              this.messageService.showWarningMessage(this.messages['account_pending']);
+              // No Create and show dialog data
+              this.dialogService.createAndShowYesNoDialog(
+                this.translateService.instant('authentication.verify_email_title'),
+                this.translateService.instant('authentication.verify_email_resend_confirm'),
+              ).subscribe((response) => {
+                if (response === ButtonAction.YES) {
+                  void this.router.navigate(['/auth/verify-email'], { queryParams: { Email: user['email'] } });
+                }
+              });
+            } else {
+              // Super Admin Users
+              this.messageService.showWarningMessage(this.messages['super_user_account_pending']);
+            }
+            break;
+          default:
+            Utils.handleHttpError(error, this.router, this.messageService,
+              this.centralServerService, 'general.unexpected_error_backend');
+        }
       }
     });
   }

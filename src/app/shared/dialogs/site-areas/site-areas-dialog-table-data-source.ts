@@ -48,13 +48,15 @@ export class SiteAreasDialogTableDataSource extends DialogTableDataSource<SiteAr
       if (this.siteIDs) {
         filterValues['SiteID'] = this.siteIDs;
       }
-      this.centralServerService.getSiteAreas(filterValues,
-        this.getPaging(), this.getSorting()).subscribe((siteAreas) => {
-        observer.next(siteAreas);
-        observer.complete();
-      }, (error) => {
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        observer.error(error);
+      this.centralServerService.getSiteAreas(filterValues, this.getPaging(), this.getSorting()).subscribe({
+        next: (siteAreas) => {
+          observer.next(siteAreas);
+          observer.complete();
+        },
+        error: (error) => {
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          observer.error(error);
+        }
       });
     });
   }

@@ -70,26 +70,29 @@ export class PricingDefinitionComponent extends AbstractTabComponent implements 
   public loadPricingDefinition() {
     if (this.currentPricingDefinitionID) {
       this.spinnerService.show();
-      this.centralServerService.getPricingDefinition(this.currentPricingDefinitionID).subscribe((currentPricingDefinition) => {
-        this.spinnerService.hide();
-        this.pricingDefinition = currentPricingDefinition;
-        if (this.readOnly) {
-          // Async call for letting the sub form groups to init
-          setTimeout(() => this.formGroup.disable(), 0);
-        }
-        // Update form group
-        this.formGroup.updateValueAndValidity();
-        this.formGroup.markAsPristine();
-        this.formGroup.markAllAsTouched();
-      }, (error) => {
-        this.spinnerService.hide();
-        switch (error.status) {
-          case StatusCodes.NOT_FOUND:
-            this.messageService.showErrorMessage('sites.pricing_definition_not_found');
-            break;
-          default:
-            Utils.handleHttpError(error, this.router, this.messageService,
-              this.centralServerService, 'general.unexpected_error_backend');
+      this.centralServerService.getPricingDefinition(this.currentPricingDefinitionID).subscribe({
+        next: (currentPricingDefinition) => {
+          this.spinnerService.hide();
+          this.pricingDefinition = currentPricingDefinition;
+          if (this.readOnly) {
+            // Async call for letting the sub form groups to init
+            setTimeout(() => this.formGroup.disable(), 0);
+          }
+          // Update form group
+          this.formGroup.updateValueAndValidity();
+          this.formGroup.markAsPristine();
+          this.formGroup.markAllAsTouched();
+        },
+        error: (error) => {
+          this.spinnerService.hide();
+          switch (error.status) {
+            case StatusCodes.NOT_FOUND:
+              this.messageService.showErrorMessage('sites.pricing_definition_not_found');
+              break;
+            default:
+              Utils.handleHttpError(error, this.router, this.messageService,
+                this.centralServerService, 'general.unexpected_error_backend');
+          }
         }
       });
     }
@@ -117,41 +120,47 @@ export class PricingDefinitionComponent extends AbstractTabComponent implements 
 
   public createPricingDefinition(pricingDefinition: PricingDefinition) {
     this.spinnerService.show();
-    this.centralServerService.createPricingDefinition(pricingDefinition).subscribe((response: ActionResponse) => {
-      this.spinnerService.hide();
-      if (response.status === RestResponse.SUCCESS) {
-        this.messageService.showSuccessMessage('settings.pricing.pricing_definition_creation_success');
-        this.closeDialog(true);
-      } else {
-        Utils.handleError(JSON.stringify(response),
-          this.messageService, 'settings.pricing.pricing_definition_creation_error');
+    this.centralServerService.createPricingDefinition(pricingDefinition).subscribe({
+      next: (response: ActionResponse) => {
+        this.spinnerService.hide();
+        if (response.status === RestResponse.SUCCESS) {
+          this.messageService.showSuccessMessage('settings.pricing.pricing_definition_creation_success');
+          this.closeDialog(true);
+        } else {
+          Utils.handleError(JSON.stringify(response),
+            this.messageService, 'settings.pricing.pricing_definition_creation_error');
+        }
+      },
+      error: (error) => {
+        this.spinnerService.hide();
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'settings.pricing.pricing_definition_creation_error');
       }
-    }, (error) => {
-      this.spinnerService.hide();
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'settings.pricing.pricing_definition_creation_error');
     });
   }
 
   public updatePricingDefinition(pricingDefinition: PricingDefinition) {
     this.spinnerService.show();
-    this.centralServerService.updatePricingDefinition(pricingDefinition).subscribe((response: ActionResponse) => {
-      this.spinnerService.hide();
-      if (response.status === RestResponse.SUCCESS) {
-        this.messageService.showSuccessMessage('settings.pricing.pricing_definition_update_success');
-        this.closeDialog(true);
-      } else {
-        Utils.handleError(JSON.stringify(response),
-          this.messageService, 'settings.pricing.pricing_definition_update_error');
-      }
-    }, (error) => {
-      this.spinnerService.hide();
-      switch (error.status) {
-        case StatusCodes.NOT_FOUND:
-          this.messageService.showErrorMessage('settings.pricing.pricing_definition_not_found');
-          break;
-        default:
-          Utils.handleHttpError(error, this.router, this.messageService,
-            this.centralServerService, 'settings.pricing.pricing_definition_update_error');
+    this.centralServerService.updatePricingDefinition(pricingDefinition).subscribe({
+      next: (response: ActionResponse) => {
+        this.spinnerService.hide();
+        if (response.status === RestResponse.SUCCESS) {
+          this.messageService.showSuccessMessage('settings.pricing.pricing_definition_update_success');
+          this.closeDialog(true);
+        } else {
+          Utils.handleError(JSON.stringify(response),
+            this.messageService, 'settings.pricing.pricing_definition_update_error');
+        }
+      },
+      error: (error) => {
+        this.spinnerService.hide();
+        switch (error.status) {
+          case StatusCodes.NOT_FOUND:
+            this.messageService.showErrorMessage('settings.pricing.pricing_definition_not_found');
+            break;
+          default:
+            Utils.handleHttpError(error, this.router, this.messageService,
+              this.centralServerService, 'settings.pricing.pricing_definition_update_error');
+        }
       }
     });
   }

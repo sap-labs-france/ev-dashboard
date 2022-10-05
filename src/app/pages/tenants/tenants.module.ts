@@ -9,6 +9,7 @@ import { AddressModule } from '../../shared/address/address.module';
 import { DialogsModule } from '../../shared/dialogs/dialogs.module';
 import { CommonDirectivesModule } from '../../shared/directives/directives.module';
 import { TableModule } from '../../shared/table/table.module';
+import { TenantSupportModule } from '../../shared/tenant-support/tenant-support.module';
 import { TenantLogoFormatterCellComponent } from './cell-components/tenant-logo-formatter-cell.component';
 import { TenantsListTableDataSource } from './list/tenants-list-table-data-source';
 import { TenantsListComponent } from './list/tenants-list.component';
@@ -30,6 +31,7 @@ import { TenantsRoutes } from './tenants.routing';
     CommonDirectivesModule,
     DialogsModule,
     AddressModule,
+    TenantSupportModule
   ],
   declarations: [
     TenantsListComponent,

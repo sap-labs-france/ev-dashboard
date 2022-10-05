@@ -1,5 +1,6 @@
 import { Address } from './Address';
 import { TableData } from './Table';
+import { TenantSupport } from './TenantSupport';
 
 export interface Tenant extends TableData {
   id: string;
@@ -9,6 +10,13 @@ export interface Tenant extends TableData {
   subdomain: string;
   components?: TenantComponent;
   logo: string;
+  legalStatus: string;
+  corporateName: string;
+  website: string;
+  support: TenantSupport;
+  rcs: string;
+  capital: string;
+  siret: string;
 }
 
 export interface TenantComponent {

@@ -1427,7 +1427,6 @@
     },
     "id": "ID",
     "accountExternalID": "Connected Account ID",
-    "amount": "Amount",
     "collected_funds": "Collected Funds",
     "platform_fee_amount": "Collected Fee",
     "platform_fee_tax_inclusive": "Fees (incl. taxes)",
@@ -1921,9 +1920,29 @@
   },
   "technical_settings": {
     "tabs": {
+      "organization": "Business Details",
       "crypto": "Krypto",
-      "users": "Uživatel",
-      "organization": "Organizace"
+      "users": "Uživatel"
+    },
+    "tenant": {
+      "title": "Organization Information",
+      "public_name": "Public Name",
+      "email": "Public Email",
+      "website": "Organization's Website"
+    },
+    "business": {
+      "title": "Business Information",
+      "corporate_name": "Corporate Name",
+      "rcs": "RCS",
+      "capital": "Capital",
+      "legal_status": "Legal Status",
+      "siret": "SIRET",
+      "error_siret_pattern": "Invalid SIRET number"
+    },
+    "support": {
+      "title": "Support Information",
+      "email": "Support Email",
+      "phone": "Support Phone"
     },
     "crypto": {
       "crypto_key": {

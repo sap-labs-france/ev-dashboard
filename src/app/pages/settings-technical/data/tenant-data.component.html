@@ -5,17 +5,17 @@
       <mat-icon>save</mat-icon><span>{{ "general.save" | translate }}</span>
     </button>
   </div>
-  <!-- tenant information -->
+  <!-- business information -->
   <div class="card">
     <div class="card-header card-header-icon card-header-primary">
       <div class="card-icon">
         <mat-icon>business</mat-icon>
       </div>
-      <h3 class="card-title">{{ "technical_settings.tenant.title" | translate }}</h3>
+      <h3 class="card-title">{{ "technical_settings.business.title" | translate }}</h3>
     </div>
     <div class="card-body">
       <div class="row">
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-3">
           <mat-form-field>
             <input [formControl]="name" appAutofocus matInput placeholder="{{'technical_settings.tenant.public_name' | translate}}" required
               type="text">
@@ -25,48 +25,20 @@
             </mat-error>
           </mat-form-field>
         </div>
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-3">
           <mat-form-field>
             <input [formControl]="email" matInput placeholder="{{'technical_settings.tenant.email' | translate}}" required type="text">
             <mat-error *ngIf="email.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
             <mat-error *ngIf="email.errors?.email">{{"authentication.invalid_email" | translate}}</mat-error>
           </mat-form-field>
         </div>
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-6">
           <mat-form-field>
             <input [formControl]="website" matInput placeholder="{{'technical_settings.tenant.website' | translate}}" type="text">
             <mat-error *ngIf="website.errors?.pattern">{{"general.error_url_pattern" | translate}}</mat-error>
           </mat-form-field>
         </div>
       </div>
-    </div>
-  </div>
-  <!-- address information -->
-  <div class="card">
-    <div class="card-header card-header-icon card-header-primary">
-      <div class="card-icon">
-        <mat-icon>edit_location_alt</mat-icon>
-      </div>
-      <h3 class="card-title">{{ "general.address" | translate }}</h3>
-    </div>
-    <div class="card-body">
-      <div class="row">
-        <div class="col-md-12">
-          <app-address [address]="address" [formGroup]="formGroup" componentName="{{'tenants.title' | translate}}"
-            [itemComponentName]="name.value"></app-address>
-        </div>
-      </div>
-    </div>
-  </div>
-   <!-- business information -->
-   <div class="card">
-    <div class="card-header card-header-icon card-header-primary">
-      <div class="card-icon">
-        <mat-icon>assignment</mat-icon>
-      </div>
-      <h3 class="card-title">{{ "technical_settings.business.title" | translate }}</h3>
-    </div>
-    <div class="card-body">
       <div class="row">
         <div class="col-md-3 my-auto">
           <div class="rotating-card-container img-fluid" [ngStyle]="{ 'pointer-events': 'all' }">
@@ -140,6 +112,59 @@
               </mat-form-field>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- tenant information -->
+  <!-- <div class="card">
+    <div class="card-header card-header-icon card-header-primary">
+      <div class="card-icon">
+        <mat-icon>business</mat-icon>
+      </div>
+      <h3 class="card-title">{{ "technical_settings.tenant.title" | translate }}</h3>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="form-group col-md-4">
+          <mat-form-field>
+            <input [formControl]="name" appAutofocus matInput placeholder="{{'technical_settings.tenant.public_name' | translate}}" required
+              type="text">
+            <mat-error *ngIf="name.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+            <mat-error *ngIf="name.errors?.maxlength">
+              <div [translateParams]="{length: 100}" [translate]="'general.error_max_length'"></div>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="form-group col-md-4">
+          <mat-form-field>
+            <input [formControl]="email" matInput placeholder="{{'technical_settings.tenant.email' | translate}}" required type="text">
+            <mat-error *ngIf="email.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+            <mat-error *ngIf="email.errors?.email">{{"authentication.invalid_email" | translate}}</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="form-group col-md-4">
+          <mat-form-field>
+            <input [formControl]="website" matInput placeholder="{{'technical_settings.tenant.website' | translate}}" type="text">
+            <mat-error *ngIf="website.errors?.pattern">{{"general.error_url_pattern" | translate}}</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </div> -->
+  <!-- address information -->
+  <div class="card">
+    <div class="card-header card-header-icon card-header-primary">
+      <div class="card-icon">
+        <mat-icon>edit_location_alt</mat-icon>
+      </div>
+      <h3 class="card-title">{{ "general.address" | translate }}</h3>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-12">
+          <app-address [address]="address" [formGroup]="formGroup" componentName="{{'tenants.title' | translate}}"
+            [itemComponentName]="name.value"></app-address>
         </div>
       </div>
     </div>

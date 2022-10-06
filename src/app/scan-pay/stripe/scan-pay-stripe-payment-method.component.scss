@@ -1,0 +1,17 @@
+@use '@angular/material' as mat;
+@import '../../../../../../../assets/scss/core/variables/theme';
+@import '../../../../../../../assets/scss/core/variables/brand';
+
+.stripe-payment-method-dialog-size {
+  max-width: 500px;
+  max-height: 550px;
+}
+
+.payment-method-user-consent {
+  padding: 1em 1.5em;
+  margin: 1.5em 0em;
+  background: $brand-warning;
+  color: mat.get-color-from-palette($app-grey, 50);
+  text-align: justify;
+}
+

@@ -4,7 +4,7 @@
       "details":[
          {
             "appID":"SG7N28T3A2.com.e-Mobility",
-            "paths":["*"],
+            "paths":["/auth/verify-email/*", "/auth/define-password/*"],
             "components":[
                {
                   "/":"/auth/verify-email/*",

@@ -60,6 +60,12 @@ export enum ServerAction {
   REGISTRATION_TOKEN_REVOKE = 'RegistrationTokenRevoke',
   REGISTRATION_TOKEN_UPDATE = 'RegistrationTokenUpdate',
 
+  CHARGING_STATION_TEMPLATE = 'ChargingStationTemplate',
+  CHARGING_STATION_TEMPLATES = 'ChargingStationTemplates',
+  CHARGING_STATION_TEMPLATE_DELETE = 'ChargingStationTemplateDelete',
+  CHARGING_STATION_TEMPLATE_UPDATE = 'ChargingStationTemplateUpdate',
+  CHARGING_STATION_TEMPLATE_CREATE = 'ChargingStationTemplateCreate',
+
   BOOT_NOTIFICATIONS = 'BootNotifications',
   STATUS_NOTIFICATIONS = 'StatusNotifications',
 
@@ -267,6 +273,7 @@ export enum ServerAction {
   WS_SERVER_CONNECTION_CLOSE = 'WsServerConnectionClose',
   WS_SERVER_CONNECTION_OPEN = 'WsServerConnectionOpen',
   WS_SERVER_CONNECTION_ERROR = 'WsServerConnectionError',
+  WS_SERVER_CONNECTION_BACK_PRESSURE = 'WsServerConnectionBackPressure',
 
   WS_CLIENT_ERROR = 'WsClientError',
   WS_CLIENT_MESSAGE = 'WsClientMessage',
@@ -359,6 +366,7 @@ export enum ServerAction {
   TENANTS = 'Tenants',
   TENANT = 'Tenant',
   TENANT_UPDATE = 'TenantUpdate',
+  TENANT_UPDATE_DATA = 'TenantUpdateData',
   TENANT_DELETE = 'TenantDelete',
   TENANT_LOGO = 'TenantLogo',
 
@@ -445,6 +453,7 @@ export enum ServerAction {
   BILLING_INVOICE = 'BillingInvoice',
   BILLING_PERFORM_OPERATIONS = 'BillingPeriodicOperations',
   BILLING_DOWNLOAD_INVOICE = 'BillingDownloadInvoice',
+  BILLING_DOWNLOAD_TRANSFER = 'BillingDownloadTransfer',
   BILLING_NEW_INVOICE = 'BillingNewInvoice',
   BILLING_SETUP_PAYMENT_METHOD = 'BillingSetupPaymentMethod',
   BILLING_PAYMENT_METHODS = 'BillingPaymentMethods',
@@ -463,6 +472,7 @@ export enum ServerAction {
   BILLING_TRANSFER_PREPARE = 'BillingTransferPrepare',
   BILLING_TRANSFER_FINALIZE = 'BillingTransferFinalize',
   BILLING_TRANSFER_SEND = 'BillingTransferSend',
+  BILLING_TRANSFER_DISPATCH_FUNDS = 'BillingTransferDispatchFunds',
 
   PRICING = 'Pricing',
   PRICING_DEFINITION = 'PricingDefinition',
@@ -495,8 +505,12 @@ export enum RESTServerRoute {
   REST_PASSWORD_RESET = 'password/reset',
   REST_END_USER_LICENSE_AGREEMENT = 'eula',
   REST_END_USER_LICENSE_AGREEMENT_CHECK = 'eula/check',
+  REST_END_USER_LICENSE_AGREEMENT_HTML = 'eula/html',
   REST_MAIL_CHECK = 'mail/check',
   REST_MAIL_RESEND = 'mail/resend',
+
+  REST_CHARGING_STATION_TEMPLATES = 'charging-station-templates',
+  REST_CHARGING_STATION_TEMPLATE = 'charging-station-templates/:id',
 
   REST_CHARGING_STATIONS = 'charging-stations',
   REST_CHARGING_STATION = 'charging-stations/:id',
@@ -538,9 +552,6 @@ export enum RESTServerRoute {
   REST_CHARGING_PROFILES = 'charging-profiles',
   REST_CHARGING_PROFILE = 'charging-profiles/:id',
 
-  REST_CHARGING_STATION_TEMPLATES = 'charging-station-templates',
-  REST_CHARGING_STATION_TEMPLATE = 'charging-station-templates/:id',
-
   REST_TRANSACTIONS = 'transactions',
   REST_TRANSACTIONS_IN_ERROR = 'transactions/status/in-error',
   REST_TRANSACTIONS_ACTIVE = 'transactions/status/active',
@@ -550,6 +561,7 @@ export enum RESTServerRoute {
   REST_TRANSACTION_CDR = 'transactions/:id/ocpi/cdr',
   REST_TRANSACTION_CDR_EXPORT = 'transactions/:id/ocpi/cdr/export',
   REST_TRANSACTION_CONSUMPTIONS = 'transactions/:id/consumptions',
+  REST_TRANSACTION_CONSUMPTIONS_FOR_ADVENIR = 'transactions/:id/consumptions-for-advenir',
   REST_TRANSACTION_START = 'transactions/start',
   REST_TRANSACTION_STOP = 'transactions/:id/stop',
   REST_TRANSACTION_SOFT_STOP = 'transactions/:id/soft-stop',
@@ -706,16 +718,15 @@ export enum RESTServerRoute {
   // BILLING URLs for Non-CRUD operations on INVOICES
   REST_BILLING_DOWNLOAD_INVOICE = 'invoices/:invoiceID/download',
 
-  // PRICING URLs for CRUD operations
-  REST_PRICING_DEFINITIONS = 'pricing-definitions',
-  REST_PRICING_DEFINITION = 'pricing-definitions/:id',
-
-  // Billing Transfers
   REST_BILLING_TRANSFERS = 'billing/transfers',
+  REST_BILLING_TRANSFER = 'billing/transfers/:id',
   REST_BILLING_TRANSFER_FINALIZE = 'billing/transfers/:id/finalize',
   REST_BILLING_TRANSFER_SEND = 'billing/transfers/:id/send',
   REST_BILLING_DOWNLOAD_TRANSFER = 'tranfers/:transferID/download',
 
+  // PRICING URLs for CRUD operations
+  REST_PRICING_DEFINITIONS = 'pricing-definitions',
+  REST_PRICING_DEFINITION = 'pricing-definitions/:id',
 
   // PRICING URLs for Non-CRUD operations
   REST_PRICING_MODEL_RESOLVE = 'pricing-model/resolve',

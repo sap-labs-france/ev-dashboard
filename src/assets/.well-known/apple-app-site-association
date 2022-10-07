@@ -23,6 +23,26 @@
             ]
          },
          {
+            "appID":"5XBG5Q2KVU.com.normatech.lodmi",
+            "paths":["*"],
+            "components":[
+              {
+                "/":"/auth/verify-email/*",
+                "?":{
+                  "Email":"?*",
+                  "VerificationToken":"?*",
+                  "ResetToken":"*"
+                }
+              },
+              {
+                "/":"/auth/define-password/*",
+                "?":{
+                  "hash":"?*"
+                }
+              }
+            ]
+         },
+         {
             "appID":"SG7N28T3A2.com.e-Mobility",
             "paths":["*"],
             "components":[

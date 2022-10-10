@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { TagsAuthorizations } from 'types/Authorization';
+import { DialogMode, TagsAuthorizations } from 'types/Authorization';
 
 import { SpinnerService } from '../../../../services/spinner.service';
 import { UsersDialogComponent } from '../../../../shared/dialogs/users/users-dialog.component';
@@ -17,6 +17,7 @@ export class TagMainComponent implements OnInit, OnChanges {
   @Input() public tag!: Tag;
   @Input() public readOnly: boolean;
   @Input() public tagsAuthorizations!: TagsAuthorizations;
+  @Input() public dialogMode!: DialogMode;
 
   public idVisible = true;
   public initialized = false;
@@ -29,6 +30,8 @@ export class TagMainComponent implements OnInit, OnChanges {
   public default!: AbstractControl;
   public visualID!: AbstractControl;
 
+  public readonly DialogMode = DialogMode;
+
   // eslint-disable-next-line no-useless-constructor
   public constructor(
     public spinnerService: SpinnerService,
@@ -37,28 +40,28 @@ export class TagMainComponent implements OnInit, OnChanges {
 
   public ngOnInit() {
     // Init the form
-    this.formGroup.addControl('id', new UntypedFormControl('',
+    this.formGroup.addControl('id', new FormControl('',
       Validators.compose([
         Validators.required,
         Validators.minLength(1),
         Validators.maxLength(20),
         Validators.pattern('^[a-zA-Z0-9]*$'),
       ])));
-    this.formGroup.addControl('user', new UntypedFormControl(''));
-    this.formGroup.addControl('userID', new UntypedFormControl('', ));
-    this.formGroup.addControl('description', new UntypedFormControl('',
+    this.formGroup.addControl('user', new FormControl(''));
+    this.formGroup.addControl('userID', new FormControl('', ));
+    this.formGroup.addControl('description', new FormControl('',
       Validators.compose([
         Validators.required,
       ])));
-    this.formGroup.addControl('visualID', new UntypedFormControl('',
+    this.formGroup.addControl('visualID', new FormControl('',
       Validators.compose([
         Validators.required,
       ])));
-    this.formGroup.addControl('active', new UntypedFormControl(true,
+    this.formGroup.addControl('active', new FormControl(true,
       Validators.compose([
         Validators.required,
       ])));
-    this.formGroup.addControl('default', new UntypedFormControl(false,
+    this.formGroup.addControl('default', new FormControl(false,
       Validators.compose([
         Validators.required,
       ])));
@@ -100,6 +103,10 @@ export class TagMainComponent implements OnInit, OnChanges {
       }
       this.id.disable();
     }
+  }
+
+  public generateTagID(): void {
+    this.id.setValue(Utils.generateTagID());
   }
 
   public assignUser() {

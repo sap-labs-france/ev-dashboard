@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
-import { TagsAuthorizations } from 'types/Authorization';
+import { DialogMode, TagsAuthorizations } from 'types/Authorization';
 import { Constants } from 'utils/Constants';
 
 import { SpinnerService } from '../../../../services/spinner.service';
@@ -16,6 +16,7 @@ export class TagLimitsComponent implements OnInit, OnChanges {
   @Input() public tag!: Tag;
   @Input() public readOnly: boolean;
   @Input() public tagsAuthorizations!: TagsAuthorizations;
+  @Input() public dialogMode!: DialogMode;
 
   public limitFormGroup!: FormGroup;
   public limitKwhEnabled!: AbstractControl;

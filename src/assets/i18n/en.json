@@ -1,6 +1,7 @@
 {
   "general": {
     "reset": "Reset",
+    "generate": "Generate",
     "history": "History",
     "captcha_text_1": "This site is protected by reCAPTCHA and the Google",
     "captcha_text_2": "Privacy Policy",

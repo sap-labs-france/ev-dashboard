@@ -22,6 +22,10 @@ import { FilterType, TableDataSourceMode, TableFilterDef } from '../types/Table'
 import { Constants } from './Constants';
 
 export class Utils {
+  public static generateTagID(size = 8): string {
+    return [...Array(size)].map(() => Math.floor(Math.random() * 16).toString(16)).join('').toUpperCase();
+  }
+
   public static displayTagLimit(limit: TagLimit): string {
     if (!limit?.limitKwhEnabled) {
       return '-';

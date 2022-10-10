@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, OnInit, Self, SimpleChanges } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { TagsAuthorizations } from 'types/Authorization';
+import { DialogMode, TagsAuthorizations } from 'types/Authorization';
 
 import { Tag } from '../../../../types/Tag';
 import { TagLimitsHistoryTableDataSource } from './tag-limits-history-table-data-source';
@@ -15,6 +15,7 @@ export class TagLimitsHistoryComponent implements OnInit, OnChanges {
   @Input() public tag!: Tag;
   @Input() public readOnly: boolean;
   @Input() public tagsAuthorizations!: TagsAuthorizations;
+  @Input() public dialogMode!: DialogMode;
 
   // eslint-disable-next-line no-useless-constructor
   public constructor(

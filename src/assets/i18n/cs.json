@@ -1,6 +1,7 @@
 {
   "general": {
     "reset": "Reset",
+    "generate": "Generate",
     "history": "History",
     "captcha_text_1": "Tato stránka je chráněná reCAPTCHA a uplatňuje",
     "captcha_text_2": "zásady ochrany soukromí ",

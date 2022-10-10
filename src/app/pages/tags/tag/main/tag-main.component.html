@@ -18,6 +18,14 @@
         </mat-form-field>
       </div>
     </div>
+    <div *ngIf="dialogMode === DialogMode.CREATE" class="col-md-6">
+      <button mat-raised-button [title]="'general.generate' | translate" color="primary" (click)="generateTagID()">
+        <mat-icon>refresh</mat-icon>
+        <ng-container>
+          <span>{{'general.generate' | translate}}</span>
+        </ng-container>
+      </button>
+  </div>
   </div>
   <div class="row">
     <div class="col-md-6">

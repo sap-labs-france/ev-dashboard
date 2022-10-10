@@ -48,7 +48,7 @@
                 "output": "/assets/"
               },
               {
-                "glob": "favicon.ico",
+                "glob": "app-icon.ico",
                 "input": "src/",
                 "output": "/"
               },
@@ -177,7 +177,7 @@
             ],
             "assets": [
               "src/assets",
-              "src/favicon.ico"
+              "src/app-icon.ico"
             ]
           }
         },

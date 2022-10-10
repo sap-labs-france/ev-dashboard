@@ -40,7 +40,7 @@ export class CarMainComponent implements OnInit, OnChanges {
   public carCatalog!: AbstractControl;
   public converterType!: AbstractControl;
   public converter!: AbstractControl;
-  public isDefault!: AbstractControl;
+  public default!: AbstractControl;
   public type!: AbstractControl;
   public noImage = Constants.NO_IMAGE;
   public user!: AbstractControl;
@@ -86,7 +86,7 @@ export class CarMainComponent implements OnInit, OnChanges {
       ])));
     this.formGroup.addControl('user', new UntypedFormControl(''));
     this.formGroup.addControl('userID', new UntypedFormControl(''));
-    this.formGroup.addControl('isDefault', new UntypedFormControl(''));
+    this.formGroup.addControl('default', new UntypedFormControl(''));
     this.formGroup.addControl('type', new UntypedFormControl(CarType.COMPANY,
       Validators.compose([
         Validators.required,
@@ -99,7 +99,7 @@ export class CarMainComponent implements OnInit, OnChanges {
     this.carCatalog = this.formGroup.controls['carCatalog'];
     this.user = this.formGroup.controls['user'];
     this.userID = this.formGroup.controls['userID'];
-    this.isDefault = this.formGroup.controls['isDefault'];
+    this.default = this.formGroup.controls['default'];
     this.converterType = this.formGroup.controls['converterType'];
     this.converter = this.formGroup.controls['converter'];
     this.type = this.formGroup.controls['type'];
@@ -135,7 +135,7 @@ export class CarMainComponent implements OnInit, OnChanges {
       this.converterType.setValue(this.car.converter.type);
       this.carCatalog.setValue(Utils.buildCarCatalogName(this.car.carCatalog));
       this.carCatalogImage = this.car.carCatalog.image;
-      this.isDefault.setValue(this.car.default);
+      this.default.setValue(this.car.default);
       this.userID.setValue(this.car.userID);
       if (this.car.user) {
         this.user.setValue(Utils.buildUserFullName(this.car.user));

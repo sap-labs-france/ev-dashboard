@@ -1,9 +1,15 @@
-import { ButtonActionColor, ButtonAction } from '../../../types/GlobalType';
+import { Utils } from 'utils/Utils';
+
+import { ButtonAction, ButtonActionColor } from '../../../types/GlobalType';
 import { TableActionDef } from '../../../types/Table';
 import { TableAction } from './table-action';
 
+export interface TableOpenInMapsActionDef extends TableActionDef {
+  action: (coordinates: number[]) => boolean;
+}
+
 export class TableOpenInMapsAction implements TableAction {
-  private action: TableActionDef = {
+  private action: TableOpenInMapsActionDef = {
     id: ButtonAction.OPEN_IN_MAPS,
     type: 'button',
     icon: 'location_on',
@@ -13,12 +19,12 @@ export class TableOpenInMapsAction implements TableAction {
     action: this.openInMap,
   };
 
-  public getActionDef(): TableActionDef {
+  public getActionDef(): TableOpenInMapsActionDef {
     return this.action;
   }
 
   private openInMap(coordinates: number[]): boolean {
-    if (coordinates && coordinates.length === 2) {
+    if (Utils.containsGPSCoordinates(coordinates)) {
       window.open(`http://maps.google.com/maps?q=${coordinates[1]},${coordinates[0]}`);
       return true;
     }

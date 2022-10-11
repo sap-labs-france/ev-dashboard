@@ -964,7 +964,7 @@
         "stack_level": "Niveau prio",
         "site_area": "Zone",
         "site_area_limit": "Limite zone",
-        "redirect": "Naviguer vers 'Plans de charge'"
+        "redirect": "Naviguer vers les Plans de Charge"
       }
     },
     "more_actions": {
@@ -1211,7 +1211,7 @@
     "search_this_month": "Ce mois",
     "search_last_month": "Le mois Dernier",
     "select_actions": "Sélection actions",
-    "redirect": "Voir les logs",
+    "redirect": "Naviguer vers les Logs",
     "no_logs": "Aucun log ne correspond aux filtres",
     "dialog": {
       "export": {
@@ -1345,7 +1345,7 @@
     "update_set_site_owner_success": "L'utilisateur est maintenant le propriétaire du site '{{siteName}}'",
     "update_remove_site_owner_success": "L'utilisateur n'est plus le propriétaire du site '{{siteName}}'",
     "update_site_owner_role_error": "Une erreur est survenue lors de la mise à jour des droits d'accès de l'utilisateur au site '{{siteName}}', vérifiez les logs",
-    "redirect": "Naviguer vers 'Utilisateurs'",
+    "redirect": "Naviguer vers les Utilisateurs",
     "connectors": {
       "connect": "Connecter",
       "revoke": "Révoquer",
@@ -1484,7 +1484,7 @@
     "tag_visual_id_already_used": "Le numéro de badge '{{visualID}}' existe déjà",
     "tag_visual_id_does_not_match_tag": "Le numéro '{{visualID}}' ne correspond a aucun badge",
     "tag_inactive": "Le badge numéro '{{visualID}}' est inactif et ne peut pas être assigner",
-    "redirect": "Naviguer vers 'Badges'",
+    "redirect": "Naviguer vers les Badges",
     "title": "Badge",
     "default_tag": "Badge par défaut",
     "delete_tags_title": "Suppression de badge(s)",
@@ -2504,7 +2504,7 @@
     "select_report": "Sélection du rapport",
     "create_invoice_success": "Facture créée avec succès pour cette session",
     "create_invoice_error": "Une erreur est survenue lors de la création de la facture, vérifiez les logs",
-    "redirect": "Naviguer vers les sessions",
+    "redirect": "Naviguer vers les Sessions",
     "error_start_no_payment_method": "Service indisponible, veuillez accéder à votre profil pour fournir un moyen de paiement",
     "error_start_general": "Service temporairement indisponible, veuillez contacter le support",
     "filter": {

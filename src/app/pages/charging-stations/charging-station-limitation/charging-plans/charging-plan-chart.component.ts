@@ -256,7 +256,7 @@ export class ChargingPlanChartComponent implements OnChanges {
         },
         [ConsumptionChartAxis.POWER]: {
           type: 'linear',
-          position: 'left', 
+          position: 'left',
           ticks: {
             callback: (value: number) => parseInt(this.decimalPipe.transform(value, '1.0-2'), 10) + 'kW',
             color: this.defaultColor,

@@ -9,7 +9,7 @@
         <div class="card-body mat-tab-dialog-body-content">
           <div class="m-2">
             <div class="row">
-              <button mat-flat-button color="primary" (click)="file.click();" class="me-2 col-md-2" [disabled]="uploadInProgress">
+              <button mat-flat-button color="primary" (click)="file.click();" class="me-3 col-md-3" [disabled]="uploadInProgress">
                 {{"general.choose_file" | translate}}
                 <div class="d-none">
                   <input #file type="file" ng2FileSelect [uploader]="uploader" accept=".csv" />

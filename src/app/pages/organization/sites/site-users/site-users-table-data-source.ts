@@ -3,6 +3,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { Constants } from 'utils/Constants';
 
 import { CentralServerService } from '../../../../services/central-server.service';
 import { DialogService } from '../../../../services/dialog.service';
@@ -55,9 +56,11 @@ export class SiteUsersTableDataSource extends TableDataSource<SiteUser> {
             // Authorization actions
             canUpdateSiteUsers: Utils.convertToBoolean(siteUser.canUpdateSiteUsers)
           };
-          this.setTableColumnDef(this.buildDynamicTableColumnDefs());
-          this.setTableDef(this.buildDynamicTableDef());
-          this.setTableActionDef(this.buildDynamicTableActionsDef());
+          if (siteUser.count < Constants.DB_RECORD_COUNT_CEIL) {
+            this.setTableColumnDef(this.buildDynamicTableColumnDefs());
+            this.setTableDef(this.buildDynamicTableDef());
+            this.setTableActionDef(this.buildDynamicTableActionsDef());
+          }
           observer.next(siteUser);
           observer.complete();
         }, (error) => {

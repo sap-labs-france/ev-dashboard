@@ -8,6 +8,8 @@ export class Constants {
   public static readonly MAX_PAGE_SIZE = Number.MAX_SAFE_INTEGER;
   public static readonly DEFAULT_PAGE_SIZE = 50;
   public static readonly INFINITE_RECORDS = -1;
+  public static readonly DB_RECORD_COUNT_CEIL = 500;
+
 
   public static readonly MAX_LIMIT = Number.MAX_SAFE_INTEGER;
 

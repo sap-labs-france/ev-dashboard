@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { GoogleMapsModule } from '@angular/google-maps';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -46,6 +47,7 @@ import { ChargingStationChargePointComponent } from './charging-station/paramete
 import { ChargingStationParametersComponent } from './charging-station/parameters/charging-station-parameters.component';
 import { ChargingStationConnectorComponent } from './charging-station/parameters/connector/charging-station-connector.component';
 import { ChargingStationPropertiesComponent } from './charging-station/properties/charging-station-properties.component';
+import { ChargingStationsMapComponent } from './charging-stations-map/charging-stations-map.component';
 import { ChargingStationsComponent } from './charging-stations.component';
 import { ChargingStationsRoutes } from './charging-stations.routing';
 import { ChargingStationsInErrorTableDataSource } from './in-error/charging-stations-in-error-table-data-source';
@@ -74,6 +76,7 @@ import { ChargingStationsRegistrationTokenDialogComponent } from './registration
     ChartModule,
     MomentModule,
     PricingDefinitionsModule,
+    GoogleMapsModule
   ],
   declarations: [
     ChargingStationLimitationComponent,
@@ -117,6 +120,7 @@ import { ChargingStationsRegistrationTokenDialogComponent } from './registration
     ChargingStationsRegistrationTokenComponent,
     ChargingStationsRegistrationTokenDialogComponent,
     ChargingStationsRegistrationTokensComponent,
+    ChargingStationsMapComponent,
   ],
   providers: [
     ChargingStationsInErrorTableDataSource,

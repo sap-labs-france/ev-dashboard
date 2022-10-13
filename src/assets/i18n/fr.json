@@ -200,7 +200,7 @@
       "push_cdr": "Push CDR",
       "activate": "Activer",
       "deactivate": "Désactiver",
-      "export": "Exporter les paramètres OCPP",
+      "export": "Exporter",
       "assign_site_area": "Assigner un site",
       "more": "Actions supplémentaires",
       "smart_charging": "Smart Charging",
@@ -210,6 +210,7 @@
       "more_actions": "Actions supplémentaires",
       "add": "Ajouter",
       "auto_refresh": "Rafraîchissement automatique",
+      "reset_filters": "Réinitialiser les Filtres",
       "create": "Créer",
       "delete": "Supprimer",
       "edit": "Editer",
@@ -1110,9 +1111,16 @@
     "qr_code_generation_error": "Une erreur est survenue lors de la génération des QR codes",
     "tabs": {
       "list": "Bornes",
+      "map": "Carte",
       "charging_plans": "Plans de charge",
       "in_error": "En erreur",
       "connection": "Connecter une nouvelle borne"
+    },
+    "map": {
+      "reset_zoom": "Réinitialiser Zoom",
+      "marker_dialog_text": "Que voulez vous faire avec la borne '{{chargingStationID}}' ?",
+      "copy_map_url": "Copier le lien de la carte",
+      "navigate_to_charging_station": "Naviguer vers la borne"
     },
     "errors": {
       "missing_settings": {

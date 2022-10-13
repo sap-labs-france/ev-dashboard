@@ -8,6 +8,7 @@ import { Utils } from '../../../utils/Utils';
 
 @Component({
   templateUrl: 'geomap-dialog.component.html',
+  styleUrls: ['./geomap-dialog.scss']
 })
 export class GeoMapDialogComponent {
   @ViewChild(GoogleMap, { static: false }) public map!: GoogleMap;
@@ -17,7 +18,7 @@ export class GeoMapDialogComponent {
   public mapOptions: google.maps.MapOptions;
   public zoom = 4;
   public icon: google.maps.Icon = {
-    url: '../../../../assets/img/map-pin-18x30.svg',
+    url: '../../../../assets/img//map/pin.svg',
     labelOrigin: { x: 11, y: -10 } as google.maps.Point
   };
   public displayOnly = false;

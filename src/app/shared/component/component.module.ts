@@ -12,6 +12,7 @@ import { FormattersModule } from '../formatters/formatters.module';
 import { ChartUnitSelectorComponent } from './consumption-chart/chart-unit-selector.component';
 import { ConsumptionChartDetailComponent } from './consumption-chart/consumption-chart-detail.component';
 import { ConsumptionChartComponent } from './consumption-chart/consumption-chart.component';
+import { RefreshComponent } from './refresh/refresh.component';
 
 @NgModule({
   imports: [
@@ -29,10 +30,12 @@ import { ConsumptionChartComponent } from './consumption-chart/consumption-chart
     ConsumptionChartDetailComponent,
     ConsumptionChartComponent,
     ChartUnitSelectorComponent,
+    RefreshComponent,
   ],
   exports: [
     ConsumptionChartComponent,
     ChartUnitSelectorComponent,
+    RefreshComponent,
   ]
 })
 export class ComponentModule {

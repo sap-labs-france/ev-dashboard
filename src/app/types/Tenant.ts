@@ -59,3 +59,7 @@ export enum TenantComponents {
   CAR_CONNECTOR = 'carConnector',
   CHARGING_STATION_TEMPLATE = 'chargingStationTemplate',
 }
+
+export enum TenantFeatures {
+  CHARGING_STATION_MAP = 'map',
+}

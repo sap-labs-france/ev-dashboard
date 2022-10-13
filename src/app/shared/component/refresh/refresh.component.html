@@ -1,0 +1,13 @@
+<div class="refresh-buttons-container">
+  <mat-slide-toggle appTooltip *ngIf="!hideAutoRefresh" (change)="toggleAutoRefresh($event)" [checked]="autoRefreshChecked" class="auto-refresh-slider" title="{{'general.auto_refresh' | translate}}">
+    {{'general.auto_refresh' | translate}}
+  </mat-slide-toggle>
+  <button appTooltip mat-raised-button *ngIf="!hideRefresh" [color]="color" [class.refresh-button-mini]="!refreshName" (click)="triggerRefresh()"  title="{{'general.refresh' | translate}}">
+    <div *ngIf="ongoingRefresh" class="spinner-auto-refresh-mini">
+      <div class="loader"></div>
+    </div>
+    <div *ngIf="!ongoingRefresh">
+      <mat-icon>refresh</mat-icon>
+    </div>
+  </button>
+</div>

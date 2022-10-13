@@ -12,21 +12,21 @@
               [hidden]="actionDef.visible === false || actionDef.visible === undefined || actionDef.visible === null"
               (click)="actionTriggered(actionDef)" [color]="(actionDef.color ? actionDef.color : '')"
               [disabled]="actionDef.disabled || (dataSource.tableDef.rowSelection && actionDef.linkedToListSelection && dataSource.selectedRows === 0)"
-              [title]="(actionDef.name ? '' : actionDef.tooltip | translate)">
+              [title]="actionDef.tooltip ? (actionDef.tooltip | translate) : (actionDef.name | translate)">
               <mat-icon *ngIf="actionDef.icon">{{actionDef.icon}}</mat-icon>
               <span>{{actionDef.name | translate}}</span>
             </button>
             <!-- Sliding button -->
             <ng-container *ngIf="actionDef.type === 'slide'">
               <mat-slide-toggle (change)="actionTriggered(actionDef)" [checked]="actionDef.currentValue" appTooltip
-                [title]="(actionDef.name ? '' : actionRightDef.tooltip | translate)" class="auto-refresh-slider">
+                [title]="actionDef.tooltip ? (actionDef.tooltip | translate) : (actionDef.name | translate)" class="table-slider">
                 {{actionDef.name | translate}}
               </mat-slide-toggle>
             </ng-container>
             <!-- Reset Filters -->
             <button mat-raised-button *ngIf="actionDef.type === 'button' && actionDef.id === 'reset_filters'"
               (click)="resetFilters()" [color]="(actionDef.color ? actionDef.color : '')" appTooltip
-              [title]="(actionDef.name ? '' : actionDef.tooltip | translate)" [disabled]="!dataSource.filterSet">
+              [title]="actionDef.tooltip ? (actionDef.tooltip | translate) : (actionDef.name | translate)" [disabled]="!dataSource.filterSet">
               <mat-icon *ngIf="actionDef.icon">{{actionDef.icon}}</mat-icon>
               <span>{{actionDef.name | translate}}</span>
             </button>
@@ -35,14 +35,14 @@
                 <ng-template matMenuContent>
                   <ng-container *ngFor="let dropdownAction of actionDef.dropdownActions">
                     <button mat-menu-item (click)="actionTriggered(actionDef)" [disabled]="dropdownAction.disabled"
-                      [title]="(dropdownAction.name ? '' : dropdownAction.tooltip | translate)">
+                      [title]="dropdownAction.tooltip ?? dropdownAction.name | translate">
                       <mat-icon *ngIf="dropdownAction.icon">{{dropdownAction.icon}}</mat-icon>
                       <span>{{dropdownAction.name | translate}}</span>
                     </button>
                   </ng-container>
                 </ng-template>
               </mat-menu>
-              <button mat-raised-button [matMenuTriggerFor]="dropDownMenu"
+              <button mat-raised-button [matMenuTriggerFor]="dropDownMenu" [title]="actionDef.tooltip ? (actionDef.tooltip | translate) : (actionDef.name | translate)"
                 [color]="(actionDef.color ? actionDef.color : '')" [title]="'analytics.links' | translate">
                 <mat-icon *ngIf="actionDef.icon">{{actionDef.icon}}</mat-icon>
                 <span>{{actionDef.name | translate}}</span>
@@ -57,40 +57,30 @@
           <ng-container *ngFor="let actionRightDef of dataSource.tableActionsRightDef; let i=index">
             <!-- Action Slide -->
             <ng-container *ngIf="actionRightDef.id !== ButtonAction.AUTO_REFRESH">
-              <mat-slide-toggle (change)="actionTriggered(actionRightDef, $event)"
-                *ngIf="actionRightDef.type === 'slide'" [checked]="actionRightDef.currentValue">
+              <mat-slide-toggle *ngIf="actionRightDef.type === 'slide'"
+                (change)="actionTriggered(actionRightDef, $event)"
+                [title]="actionRightDef.tooltip ? (actionRightDef.tooltip | translate) : (actionRightDef.name | translate)"
+                [checked]="actionRightDef.currentValue">
                 {{actionRightDef.name| translate}}
               </mat-slide-toggle>
             </ng-container>
             <!-- Action Button -->
-            <ng-container *ngIf="actionRightDef.id !== 'refresh'">
+            <ng-container *ngIf="actionRightDef.id !== ButtonAction.REFRESH">
               <button mat-raised-button *ngIf="actionRightDef.type === 'button'"
                 [color]="(actionRightDef.color ? actionRightDef.color : '')" (click)="actionTriggered(actionRightDef)"
-                [title]="(actionRightDef.name ? '' : actionRightDef.tooltip | translate)">
+                [title]="actionRightDef.tooltip ? (actionRightDef.tooltip | translate) : (actionRightDef.name | translate)">
                 <mat-icon *ngIf="actionRightDef.icon">{{actionRightDef.icon}}</mat-icon>
                 <ng-container *ngIf="actionRightDef.name">
                   <span>{{actionRightDef.name | translate}}</span>
                 </ng-container>
               </button>
             </ng-container>
-            <!-- Refresh -->
-            <button mat-raised-button *ngIf="actionRightDef.id === ButtonAction.REFRESH" class="button-refresh"
-              (click)="refresh()" [color]="(actionRightDef.color ? actionRightDef.color : '')" appTooltip
-              [title]="actionRightDef.tooltip | translate">
-              <div *ngIf="ongoingAutoRefresh" class="spinner-autorefresh2">
-                <div class="loader"></div>
-              </div>
-              <div *ngIf="!ongoingAutoRefresh" class="refresh-icon">
-                <mat-icon *ngIf="actionRightDef.icon">{{actionRightDef.icon}}</mat-icon>
-              </div>
-            </button>
-            <!-- Auto Refresh -->
-            <ng-container *ngIf="actionRightDef.id === ButtonAction.AUTO_REFRESH">
-              <mat-slide-toggle (change)="toggleAutoRefresh($event)" [checked]="actionRightDef.currentValue" appTooltip
-                [title]="(actionRightDef.name ? '' : actionRightDef.tooltip | translate)" class="auto-refresh-slider">
-                {{actionRightDef.name| translate}}
-              </mat-slide-toggle>
-            </ng-container>
+            <app-refresh *ngIf="actionRightDef.id === ButtonAction.AUTO_REFRESH" [loading]="loading" [hideRefresh]="true"
+              color="{{(actionRightDef.color ?? '')}}" [autoRefreshInitialValue]="actionRightDef.currentValue" (autoRefresh)="refresh()">
+            </app-refresh>
+            <app-refresh *ngIf="actionRightDef.id === ButtonAction.REFRESH" [loading]="loading" [hideAutoRefresh]="true"
+              color="{{(actionRightDef.color ?? '')}}" [autoRefreshInitialValue]="actionRightDef.currentValue" (refresh)="refresh()">
+            </app-refresh>
           </ng-container>
         </div>
       </div>

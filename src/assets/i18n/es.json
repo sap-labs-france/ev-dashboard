@@ -200,7 +200,7 @@
       "push_cdr": "Cargar CDR",
       "activate": "Activar",
       "deactivate": "Desactivar",
-      "export": "Exportar parámetros OCPP",
+      "export": "Exportar",
       "assign_site_area": "Asignar sitio",
       "more": "Más acciones",
       "smart_charging": "Carga inteligente",
@@ -210,6 +210,7 @@
       "more_actions": "Más acciones",
       "add": "Agregar",
       "auto_refresh": "Actualizar automáticamente",
+      "reset_filters": "Reset Filters",
       "create": "Crear",
       "delete": "Eliminar",
       "edit": "Editar",
@@ -1110,9 +1111,16 @@
     "qr_code_generation_error": "Ocurrió an error al generar el código QR",
     "tabs": {
       "list": "Estaciones de carga",
+      "map": "Map",
       "charging_plans": "Planes de carga",
       "in_error": "Con errores",
       "connection": "Integrar nueva estación"
+    },
+    "map": {
+      "reset_zoom": "Reset Zoom",
+      "marker_dialog_text": "What do you want to do with the Charging Station '{{chargingStationID}}'?",
+      "copy_map_url": "Copy Map Url",
+      "navigate_to_charging_station": "Navigate to Charging Station"
     },
     "errors": {
       "missing_settings": {

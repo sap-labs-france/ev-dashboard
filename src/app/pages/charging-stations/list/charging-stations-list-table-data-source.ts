@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { WindowService } from 'services/window.service';
 import { PricingDefinitionsDialogComponent } from 'shared/pricing-definitions/pricing-definitions.dialog.component';
 import { TableViewChargingStationAction, TableViewChargingStationActionDef } from 'shared/table/actions/charging-stations/table-view-charging-station-action';
 import { ChargingStationsAuthorizations } from 'types/Authorization';
@@ -75,6 +76,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
     private componentService: ComponentService,
     private dialog: MatDialog,
     private dialogService: DialogService,
+    private windowService: WindowService
   ) {
     super(spinnerService, translateService);
     this.isOrganizationComponentActive = this.componentService.isActive(TenantComponents.ORGANIZATION);
@@ -87,6 +89,11 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
       }]);
     }
     this.initDataSource();
+    // Retrieve filter from URL param
+    const searchValue = this.windowService.getUrlParameterValue('Search');
+    if (searchValue) {
+      this.setSearchValue(searchValue);
+    }
   }
 
   public loadDataImpl(): Observable<ChargingStationDataResult> {

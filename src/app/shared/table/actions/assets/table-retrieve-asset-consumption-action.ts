@@ -30,23 +30,26 @@ export class TableRetrieveAssetConsumptionAction extends TableSynchronizeAction 
     centralServerService: CentralServerService, messageService: MessageService,
     router: Router, refresh?: () => Observable<void>) {
     spinnerService.show();
-    centralServerService.tableRetrieveAssetConsumptionAction(asset.id).subscribe((response) => {
-      spinnerService.hide();
-      if (response.status && response.status === RestResponse.SUCCESS) {
-        refresh().subscribe();
-        messageService.showSuccessMessage('assets.refresh_success');
-      }
-    }, (error) => {
-      spinnerService.hide();
-      switch (error.status) {
-        case HTTPError.CANNOT_RETRIEVE_CONSUMPTION:
-          Utils.handleHttpError(error, router, messageService,
-            centralServerService, 'assets.consumption_error');
-          break;
-        default:
-          Utils.handleHttpError(error, router, messageService, centralServerService,
-            'assets.refresh_error');
-          break;
+    centralServerService.tableRetrieveAssetConsumptionAction(asset.id).subscribe({
+      next: (response) => {
+        spinnerService.hide();
+        if (response.status && response.status === RestResponse.SUCCESS) {
+          refresh().subscribe();
+          messageService.showSuccessMessage('assets.refresh_success');
+        }
+      },
+      error: (error) => {
+        spinnerService.hide();
+        switch (error.status) {
+          case HTTPError.CANNOT_RETRIEVE_CONSUMPTION:
+            Utils.handleHttpError(error, router, messageService,
+              centralServerService, 'assets.consumption_error');
+            break;
+          default:
+            Utils.handleHttpError(error, router, messageService, centralServerService,
+              'assets.refresh_error');
+            break;
+        }
       }
     });
   }

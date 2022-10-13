@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TransactionDialogComponent } from 'shared/dialogs/transaction/transaction-dialog.component';
 import { DialogMode } from 'types/Authorization';
-import { Transaction } from 'types/Transaction';
 
 import { WindowService } from '../../../services/window.service';
 import { TableViewTransactionAction, TransactionDialogData } from '../../../shared/table/actions/transactions/table-view-transaction-action';

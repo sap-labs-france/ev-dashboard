@@ -76,7 +76,7 @@ export class SettingsCarConnectorConnectionEditableTableDataSource extends Edita
       {
         id: 'type',
         name: 'Type',
-        formatter: (type: string) => this.translateService.instant(`settings.car_connector.types.${type}`),
+        formatter: (type: string) => this.translateService.instant(`settings.car_connector.types.${type.replace(/[A-Z]/g, letter => '_' + letter.toLowerCase())}`),
         headerClass: 'col-30p',
         class: 'col-30p',
         editType: TableEditType.DISPLAY_ONLY,

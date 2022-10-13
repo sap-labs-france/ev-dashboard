@@ -50,14 +50,16 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OCPIEn
   public loadDataImpl(): Observable<DataResult<OCPIEndpoint>> {
     return new Observable((observer) => {
       // Get the OCPI Endpoints
-      this.centralServerService.getOcpiEndpoints(this.buildFilterValues(),
-        this.getPaging(), this.getSorting()).subscribe((ocpiEndpoints) => {
-        this.createAction.visible = true;
-        observer.next(ocpiEndpoints);
-        observer.complete();
-      }, (error) => {
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        observer.error(error);
+      this.centralServerService.getOcpiEndpoints(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe({
+        next: (ocpiEndpoints) => {
+          this.createAction.visible = true;
+          observer.next(ocpiEndpoints);
+          observer.complete();
+        },
+        error: (error) => {
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          observer.error(error);
+        }
       });
     });
   }
@@ -233,17 +235,20 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OCPIEn
       this.translateService.instant('ocpiendpoints.delete_confirm', { name: ocpiendpoint.name }),
     ).subscribe((result) => {
       if (result === ButtonAction.YES) {
-        this.centralServerService.deleteOcpiEndpoint(ocpiendpoint.id).subscribe((response) => {
-          if (response.status === RestResponse.SUCCESS) {
-            this.messageService.showSuccessMessage('ocpiendpoints.delete_success', { name: ocpiendpoint.name });
-            this.refreshData().subscribe();
-          } else {
-            Utils.handleError(JSON.stringify(response),
-              this.messageService, 'ocpiendpoints.delete_error');
+        this.centralServerService.deleteOcpiEndpoint(ocpiendpoint.id).subscribe({
+          next: (response) => {
+            if (response.status === RestResponse.SUCCESS) {
+              this.messageService.showSuccessMessage('ocpiendpoints.delete_success', { name: ocpiendpoint.name });
+              this.refreshData().subscribe();
+            } else {
+              Utils.handleError(JSON.stringify(response),
+                this.messageService, 'ocpiendpoints.delete_error');
+            }
+          },
+          error: (error) => {
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+              'ocpiendpoints.delete_error');
           }
-        }, (error) => {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            'ocpiendpoints.delete_error');
         });
       }
     });
@@ -255,17 +260,20 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OCPIEn
       this.translateService.instant('ocpiendpoints.register_confirm', { name: ocpiendpoint.name }),
     ).subscribe((result) => {
       if (result === ButtonAction.YES) {
-        this.centralServerService.registerOcpiEndpoint(ocpiendpoint.id).subscribe((response) => {
-          if (response.status === RestResponse.SUCCESS) {
-            this.messageService.showSuccessMessage('ocpiendpoints.register_success', { name: ocpiendpoint.name });
-            this.refreshData().subscribe();
-          } else {
-            Utils.handleError(JSON.stringify(response),
-              this.messageService, 'ocpiendpoints.register_error');
+        this.centralServerService.registerOcpiEndpoint(ocpiendpoint.id).subscribe({
+          next: (response) => {
+            if (response.status === RestResponse.SUCCESS) {
+              this.messageService.showSuccessMessage('ocpiendpoints.register_success', { name: ocpiendpoint.name });
+              this.refreshData().subscribe();
+            } else {
+              Utils.handleError(JSON.stringify(response),
+                this.messageService, 'ocpiendpoints.register_error');
+            }
+          },
+          error: (error) => {
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+              'ocpiendpoints.register_error');
           }
-        }, (error) => {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            'ocpiendpoints.register_error');
         });
       }
     });
@@ -277,17 +285,20 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OCPIEn
       this.translateService.instant('ocpiendpoints.unregister_confirm', { name: ocpiendpoint.name }),
     ).subscribe((result) => {
       if (result === ButtonAction.YES) {
-        this.centralServerService.unregisterOcpiEndpoint(ocpiendpoint.id).subscribe((response) => {
-          if (response.status === RestResponse.SUCCESS) {
-            this.messageService.showSuccessMessage('ocpiendpoints.unregister_success', { name: ocpiendpoint.name });
-            this.refreshData().subscribe();
-          } else {
-            Utils.handleError(JSON.stringify(response),
-              this.messageService, 'ocpiendpoints.unregister_error');
+        this.centralServerService.unregisterOcpiEndpoint(ocpiendpoint.id).subscribe({
+          next: (response) => {
+            if (response.status === RestResponse.SUCCESS) {
+              this.messageService.showSuccessMessage('ocpiendpoints.unregister_success', { name: ocpiendpoint.name });
+              this.refreshData().subscribe();
+            } else {
+              Utils.handleError(JSON.stringify(response),
+                this.messageService, 'ocpiendpoints.unregister_error');
+            }
+          },
+          error: (error) => {
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+              'ocpiendpoints.unregister_error');
           }
-        }, (error) => {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            'ocpiendpoints.unregister_error');
         });
       }
     });
@@ -299,17 +310,20 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OCPIEn
       this.translateService.instant('ocpiendpoints.update_credentials_confirm', { name: ocpiendpoint.name }),
     ).subscribe((result) => {
       if (result === ButtonAction.YES) {
-        this.centralServerService.updateCredentialsOcpiEndpoint(ocpiendpoint.id).subscribe((response) => {
-          if (response.status === RestResponse.SUCCESS) {
-            this.messageService.showSuccessMessage('ocpiendpoints.update_credentials_success', { name: ocpiendpoint.name });
-            this.refreshData().subscribe();
-          } else {
-            Utils.handleError(JSON.stringify(response),
-              this.messageService, 'ocpiendpoints.update_credentials_error');
+        this.centralServerService.updateCredentialsOcpiEndpoint(ocpiendpoint.id).subscribe({
+          next: (response) => {
+            if (response.status === RestResponse.SUCCESS) {
+              this.messageService.showSuccessMessage('ocpiendpoints.update_credentials_success', { name: ocpiendpoint.name });
+              this.refreshData().subscribe();
+            } else {
+              Utils.handleError(JSON.stringify(response),
+                this.messageService, 'ocpiendpoints.update_credentials_error');
+            }
+          },
+          error: (error) => {
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+              'ocpiendpoints.update_credentials_error');
           }
-        }, (error) => {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            'ocpiendpoints.update_credentials_error');
         });
       }
     });

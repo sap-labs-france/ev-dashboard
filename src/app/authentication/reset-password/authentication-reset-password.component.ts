@@ -61,19 +61,22 @@ export class AuthenticationResetPasswordComponent implements OnInit, OnDestroy {
     body.classList.add('off-canvas-sidebar');
     if (this.subDomain) {
       // Retrieve tenant's logo
-      this.centralServerService.getTenantLogoBySubdomain(this.subDomain).subscribe((tenantLogo: string) => {
-        if (tenantLogo) {
-          this.tenantLogo = tenantLogo;
-        }
-      }, (error) => {
-        this.spinnerService.hide();
-        switch (error.status) {
-          case StatusCodes.NOT_FOUND:
-            this.tenantLogo = Constants.NO_IMAGE;
-            break;
-          default:
-            Utils.handleHttpError(error, this.router, this.messageService,
-              this.centralServerService, 'general.unexpected_error_backend');
+      this.centralServerService.getTenantLogoBySubdomain(this.subDomain).subscribe({
+        next: (tenantLogo: string) => {
+          if (tenantLogo) {
+            this.tenantLogo = tenantLogo;
+          }
+        },
+        error: (error) => {
+          this.spinnerService.hide();
+          switch (error.status) {
+            case StatusCodes.NOT_FOUND:
+              this.tenantLogo = Constants.NO_IMAGE;
+              break;
+            default:
+              Utils.handleHttpError(error, this.router, this.messageService,
+                this.centralServerService, 'general.unexpected_error_backend');
+          }
         }
       });
     } else {
@@ -98,16 +101,17 @@ export class AuthenticationResetPasswordComponent implements OnInit, OnDestroy {
       // Show
       this.spinnerService.show();
       // Yes: Update
-      this.centralServerService.resetUserPassword(data).subscribe((response) => {
-        // Hide
-        this.spinnerService.hide();
-        this.messageService.showSuccessMessage('authentication.reset_password_success');
-        void this.router.navigate(['/auth/login']);
-      }, (error) => {
-        // Hide
-        this.spinnerService.hide();
-        this.messageService.showSuccessMessage('authentication.reset_password_success');
-        void this.router.navigate(['/auth/login']);
+      this.centralServerService.resetUserPassword(data).subscribe({
+        next: (response) => {
+          this.spinnerService.hide();
+          this.messageService.showSuccessMessage('authentication.reset_password_success');
+          void this.router.navigate(['/auth/login']);
+        },
+        error: (error) => {
+          this.spinnerService.hide();
+          this.messageService.showSuccessMessage('authentication.reset_password_success');
+          void this.router.navigate(['/auth/login']);
+        }
       });
     });
   }

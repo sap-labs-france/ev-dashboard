@@ -1895,7 +1895,8 @@
       },
       "types": {
         "mercedes": "Mercedes Connector",
-        "tronity": "Tronity Connector"
+        "tronity": "Tronity Connector",
+        "targa_telematics": "Targa Telematics Connector"
       },
       "mercedes": {
         "link_success": "Your account has been successfully linked with Mercedes",
@@ -2065,6 +2066,7 @@
     "emsp": "e-Mobility Service Provider",
     "enable_emsp": "Enable e-Mobility Service Provider",
     "tariff_id": "Tariff ID",
+    "owner_name": "Owner Name",
     "description": "Interface de ponto de carga aberta",
     "details": "Identificação",
     "country_code": "Código do país",

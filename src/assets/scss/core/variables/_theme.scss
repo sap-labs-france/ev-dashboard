@@ -7,14 +7,7 @@ $min-contrast-ratio: 2.5;
 // Material Theming
 @include mat.core();
 
-// Light Theme ---------------------------------
-// Define colors with mat palette
-$app-primary: mat.define-palette(mat.$blue-palette, 700);
-$app-accent: mat.define-palette(mat.$blue-palette, 500);
-$app-danger: mat.define-palette(mat.$red-palette, 700);
-// Create the theme for materials
-$app-theme: mat.define-light-theme($app-primary, $app-accent, $app-danger);
-// Other
+// Global ---------------------------------
 $app-success: mat.define-palette(mat.$green-palette, 700);
 $app-warning: mat.define-palette(mat.$orange-palette, 700);
 $app-yellow: mat.define-palette(mat.$yellow-palette, 700);
@@ -30,34 +23,41 @@ $app-cyan: mat.define-palette(mat.$cyan-palette, 700);
 $app-indigo: mat.define-palette(mat.$indigo-palette, 700);
 $app-pink: mat.define-palette(mat.$pink-palette, 700);
 
+// Light Theme ---------------------------------
+// Define colors
+$app-primary: mat.define-palette(mat.$blue-palette, 700);
+$app-accent: mat.define-palette(mat.$blue-palette, 500);
+$app-danger: mat.define-palette(mat.$red-palette, 700);
+// Create the theme
+$app-theme: mat.define-light-theme($app-primary, $app-accent, $app-danger);
+// Apply theme
+@include mat.all-component-themes($app-theme);
+@include mat-datetimepicker-theme($app-theme);
 // Bg/Fg
 $app-foreground: map-get($app-theme, foreground);
 $app-background: map-get($app-theme, background);
-
-// Use it
-@include mat.all-component-themes($app-theme);
-// Datetime picker
-@include mat-datetimepicker-theme($app-theme);
 // End of Light Theme ---------------------------------
 
 // Dark Theme ---------------------------------
-.dark-theme {
-  // Define colors with mat palette
-  $app-primary: mat.define-palette(mat.$grey-palette, 600);
-  $app-accent: mat.define-palette(mat.$grey-palette, A200, A100, A400);
-  $app-danger: mat.define-palette(mat.$red-palette, 300);
-  // Create the theme for materials
-  $app-theme: mat.define-dark-theme($app-primary, $app-accent, $app-danger);
-  // Other
-  $app-success: mat.define-palette(mat.$green-palette, 300);
-  $app-warning: mat.define-palette(mat.$orange-palette, 300);
-  // Bg/Fg
-  $app-foreground: map-get($app-theme, foreground);
-  $app-background: map-get($app-theme, background);
+// Define colors
+$dark-primary: mat.define-palette(mat.$grey-palette, 600);
+$dark-accent: mat.define-palette(mat.$grey-palette, A200, A100, A400);
+$dark-danger: mat.define-palette(mat.$red-palette, 300);
+// Create the theme
+$dark-theme: mat.define-dark-theme($dark-primary, $dark-accent, $dark-danger);
+// Other
+$dark-success: mat.define-palette(mat.$green-palette, 300);
+$dark-warning: mat.define-palette(mat.$orange-palette, 300);
+// Bg/Fg
+$dark-foreground: map-get($dark-theme, foreground);
+$dark-background: map-get($dark-theme, background);
+// End of Dark Theme ---------------------------------
 
-  // Use it
-  @include mat.all-component-themes($app-theme);
-  // Datetime picker
-  @include mat-datetimepicker-theme($app-theme);
-  // End of Dark Theme ---------------------------------
+// Apply the dark theme only when the `.dark-theme` CSS class is applied
+// to an ancestor element of the components (such as `body`).
+// https://material.angular.io/guide/theming-your-components
+.dark-theme {
+  // Apply theme
+  @include mat.all-component-themes($dark-theme);
+  @include mat-datetimepicker-theme($dark-theme);
 }

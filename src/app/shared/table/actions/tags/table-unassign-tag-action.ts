@@ -38,20 +38,23 @@ export class TableUnassignTagAction implements TableAction {
     ).subscribe((result) => {
       if (result === ButtonAction.YES) {
         spinnerService.show();
-        centralServerService.unassignTag(tag.visualID).subscribe((response) => {
-          spinnerService.hide();
-          if (response.status === RestResponse.SUCCESS) {
-            messageService.showSuccessMessage(
-              translateService.instant('tags.delete_success', { id: tag.visualID }));
-            if (refresh) {
-              refresh().subscribe();
+        centralServerService.unassignTag(tag.visualID).subscribe({
+          next: (response) => {
+            spinnerService.hide();
+            if (response.status === RestResponse.SUCCESS) {
+              messageService.showSuccessMessage(
+                translateService.instant('tags.delete_success', { id: tag.visualID }));
+              if (refresh) {
+                refresh().subscribe();
+              }
+            } else {
+              Utils.handleError(JSON.stringify(response), messageService, 'tags.delete_error');
             }
-          } else {
-            Utils.handleError(JSON.stringify(response), messageService, 'tags.delete_error');
+          },
+          error: (error) => {
+            spinnerService.hide();
+            Utils.handleHttpError(error, router, messageService, centralServerService, 'tags.delete_error');
           }
-        }, (error) => {
-          spinnerService.hide();
-          Utils.handleHttpError(error, router, messageService, centralServerService, 'tags.delete_error');
         });
       }
     }

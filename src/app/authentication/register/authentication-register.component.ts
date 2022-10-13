@@ -120,19 +120,22 @@ export class AuthenticationRegisterComponent implements OnInit, OnDestroy {
     body.classList.add('off-canvas-sidebar');
     if (this.subDomain) {
       // Retrieve tenant's logo
-      this.centralServerService.getTenantLogoBySubdomain(this.subDomain).subscribe((tenantLogo: string) => {
-        if (tenantLogo) {
-          this.tenantLogo = tenantLogo;
-        }
-      }, (error) => {
-        this.spinnerService.hide();
-        switch (error.status) {
-          case StatusCodes.NOT_FOUND:
-            this.tenantLogo = Constants.NO_IMAGE;
-            break;
-          default:
-            Utils.handleHttpError(error, this.router, this.messageService,
-              this.centralServerService, 'general.unexpected_error_backend');
+      this.centralServerService.getTenantLogoBySubdomain(this.subDomain).subscribe({
+        next: (tenantLogo: string) => {
+          if (tenantLogo) {
+            this.tenantLogo = tenantLogo;
+          }
+        },
+        error: (error) => {
+          this.spinnerService.hide();
+          switch (error.status) {
+            case StatusCodes.NOT_FOUND:
+              this.tenantLogo = Constants.NO_IMAGE;
+              break;
+            default:
+              Utils.handleHttpError(error, this.router, this.messageService,
+                this.centralServerService, 'general.unexpected_error_backend');
+          }
         }
       });
     } else {
@@ -165,42 +168,45 @@ export class AuthenticationRegisterComponent implements OnInit, OnDestroy {
       if (this.formGroup.valid) {
         this.updateUserPassword(user);
         this.spinnerService.show();
-        this.centralServerService.registerUser(user).subscribe((response) => {
-          // Hide
-          this.spinnerService.hide();
-          // Ok?
-          if (response.status && response.status === RestResponse.SUCCESS) {
-            // Show success
-            if (Utils.isEmptyString(this.subDomain)) {
-              // Super User in Master Tenant
-              this.messageService.showSuccessMessage(this.messages['register_super_user_success']);
+        this.centralServerService.registerUser(user).subscribe({
+          next: (response) => {
+            // Hide
+            this.spinnerService.hide();
+            // Ok?
+            if (response.status && response.status === RestResponse.SUCCESS) {
+              // Show success
+              if (Utils.isEmptyString(this.subDomain)) {
+                // Super User in Master Tenant
+                this.messageService.showSuccessMessage(this.messages['register_super_user_success']);
+              } else {
+                // User in Tenant
+                this.messageService.showSuccessMessage(this.messages['register_user_success']);
+              }
+              // Login successful so redirect to return url
+              void this.router.navigate(['/auth/login'], { queryParams: { email: this.email.value } });
             } else {
-              // User in Tenant
-              this.messageService.showSuccessMessage(this.messages['register_user_success']);
+              // Unexpected Error
+              Utils.handleError(JSON.stringify(response),
+                this.messageService, this.messages['register_user_error']);
             }
-            // Login successful so redirect to return url
-            void this.router.navigate(['/auth/login'], { queryParams: { email: this.email.value } });
-          } else {
-            // Unexpected Error
-            Utils.handleError(JSON.stringify(response),
-              this.messageService, this.messages['register_user_error']);
-          }
-        }, (error) => {
-          // Hide
-          this.spinnerService.hide();
-          // Check status
-          switch (error.status) {
-            // Email already exists
-            case HTTPError.USER_EMAIL_ALREADY_EXIST_ERROR:
-              this.messageService.showErrorMessage(this.messages['email_already_exists']);
-              break;
-            // User Agreement not checked
-            case HTTPError.USER_EULA_ERROR:
-              this.messageService.showErrorMessage(this.messages['must_accept_eula']);
-              break;
-            // Unexpected error
-            default:
-              Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
+          },
+          error: (error) => {
+            // Hide
+            this.spinnerService.hide();
+            // Check status
+            switch (error.status) {
+              // Email already exists
+              case HTTPError.USER_EMAIL_ALREADY_EXIST_ERROR:
+                this.messageService.showErrorMessage(this.messages['email_already_exists']);
+                break;
+              // User Agreement not checked
+              case HTTPError.USER_EULA_ERROR:
+                this.messageService.showErrorMessage(this.messages['must_accept_eula']);
+                break;
+              // Unexpected error
+              default:
+                Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
+            }
           }
         });
       }

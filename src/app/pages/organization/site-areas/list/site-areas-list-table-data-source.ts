@@ -91,19 +91,21 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
   public loadDataImpl(): Observable<DataResult<SiteArea>> {
     return new Observable((observer) => {
       // Get Site Areas
-      this.centralServerService.getSiteAreas(this.buildFilterValues(),
-        this.getPaging(), this.getSorting()).subscribe((siteAreas) => {
-        this.siteAreasAuthorizations = {
-          canCreate: siteAreas.canCreate
-        };
-        // Build TableDef using the initialized auth object
-        this.setTableDef(this.buildTableDef());
-        this.createAction.visible = this.siteAreasAuthorizations.canCreate;
-        observer.next(siteAreas);
-        observer.complete();
-      }, (error) => {
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        observer.error(error);
+      this.centralServerService.getSiteAreas(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe({
+        next: (siteAreas) => {
+          this.siteAreasAuthorizations = {
+            canCreate: siteAreas.canCreate
+          };
+          // Build TableDef using the initialized auth object
+          this.setTableDef(this.buildTableDef());
+          this.createAction.visible = this.siteAreasAuthorizations.canCreate;
+          observer.next(siteAreas);
+          observer.complete();
+        },
+        error: (error) => {
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          observer.error(error);
+        }
       });
     });
   }

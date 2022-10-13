@@ -50,14 +50,16 @@ export class ChargingStationTemplatesListTableDataSource extends TableDataSource
   public loadDataImpl(): Observable<DataResult<ChargingStationTemplate>> {
     return new Observable((observer) => {
       // Get Sites
-      this.centralServerService.getChargingStationTemplates(this.buildFilterValues(),
-        this.getPaging(), this.getSorting()).subscribe((chargingStationTemplate) => {
-        this.createAction.visible = Utils.convertToBoolean(chargingStationTemplate.canCreate);
-        observer.next(chargingStationTemplate);
-        observer.complete();
-      }, (error) => {
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        observer.error(error);
+      this.centralServerService.getChargingStationTemplates(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe({
+        next: (chargingStationTemplate) => {
+          this.createAction.visible = Utils.convertToBoolean(chargingStationTemplate.canCreate);
+          observer.next(chargingStationTemplate);
+          observer.complete();
+        },
+        error: (error) => {
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          observer.error(error);
+        }
       });
     });
   }

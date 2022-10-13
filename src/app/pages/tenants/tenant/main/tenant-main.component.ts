@@ -86,16 +86,19 @@ export class TenantMainComponent implements OnInit, OnChanges {
         this.address = this.tenant.address;
       }
       // Get Tenant logo
-      this.centralServerService.getTenantLogo(this.tenant.id).subscribe((tenantLogo) => {
-        this.logo = tenantLogo ?? Constants.NO_IMAGE;
-      }, (error) => {
-        switch (error.status) {
-          case StatusCodes.NOT_FOUND:
-            this.logo = Constants.NO_IMAGE;
-            break;
-          default:
-            Utils.handleHttpError(error, this.router, this.messageService,
-              this.centralServerService, 'general.unexpected_error_backend');
+      this.centralServerService.getTenantLogo(this.tenant.id).subscribe({
+        next: (tenantLogo) => {
+          this.logo = tenantLogo ?? Constants.NO_IMAGE;
+        },
+        error: (error) => {
+          switch (error.status) {
+            case StatusCodes.NOT_FOUND:
+              this.logo = Constants.NO_IMAGE;
+              break;
+            default:
+              Utils.handleHttpError(error, this.router, this.messageService,
+                this.centralServerService, 'general.unexpected_error_backend');
+          }
         }
       });
     }

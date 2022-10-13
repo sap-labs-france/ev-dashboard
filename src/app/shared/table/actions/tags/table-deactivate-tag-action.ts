@@ -42,19 +42,22 @@ export class TableDeactivateTagAction extends TableDeactivateAction {
           visualID: tag.visualID,
           active: false,
         } as Tag;
-        centralServerService.updateTag(tagUpdated).subscribe((actionResponse) => {
-          spinnerService.hide();
-          if (actionResponse.status === RestResponse.SUCCESS) {
-            messageService.showSuccessMessage('tags.deactivate_success', { tagID: tag.id });
-            if (refresh) {
-              refresh().subscribe();
+        centralServerService.updateTag(tagUpdated).subscribe({
+          next: (actionResponse) => {
+            spinnerService.hide();
+            if (actionResponse.status === RestResponse.SUCCESS) {
+              messageService.showSuccessMessage('tags.deactivate_success', { tagID: tag.id });
+              if (refresh) {
+                refresh().subscribe();
+              }
+            } else {
+              Utils.handleError(JSON.stringify(response), messageService, 'tags.deactivate_error');
             }
-          } else {
-            Utils.handleError(JSON.stringify(response), messageService, 'tags.deactivate_error');
+          },
+          error: (error) => {
+            spinnerService.hide();
+            Utils.handleHttpError(error, router, messageService, centralServerService, 'tags.deactivate_error');
           }
-        }, (error) => {
-          spinnerService.hide();
-          Utils.handleHttpError(error, router, messageService, centralServerService, 'tags.deactivate_error');
         });
       }
     });

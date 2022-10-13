@@ -2,7 +2,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { ActionsResponse } from 'types/DataResult';
-import { ButtonActionColor, ButtonAction } from 'types/GlobalType';
+import { ButtonAction, ButtonActionColor } from 'types/GlobalType';
 import { Tag, TagButtonAction } from 'types/Tag';
 import { Utils } from 'utils/Utils';
 
@@ -50,15 +50,18 @@ export class TableUnassignTagsAction implements TableAction {
     ).subscribe((response) => {
       if (response === ButtonAction.YES) {
         spinnerService.show();
-        centralServerService.unassignTags(tags.map((tag) => tag.visualID)).subscribe((responseAction: ActionsResponse) => {
-          spinnerService.hide();
-          messageService.showActionsMessage(responseAction, 'tags.delete_tags_success', 'tags.delete_tags_partial', 'tags.delete_tags_error', 'tags.delete_no_tag');
-          clearSelectedRows();
-          if (refresh) {
-            refresh().subscribe();
+        centralServerService.unassignTags(tags.map((tag) => tag.visualID)).subscribe({
+          next: (responseAction: ActionsResponse) => {
+            spinnerService.hide();
+            messageService.showActionsMessage(responseAction, 'tags.delete_tags_success', 'tags.delete_tags_partial', 'tags.delete_tags_error', 'tags.delete_no_tag');
+            clearSelectedRows();
+            if (refresh) {
+              refresh().subscribe();
+            }
+          },
+          error: (error) => {
+            Utils.handleHttpError(error, router, messageService, centralServerService, 'tags.delete_tags_unexpected_error');
           }
-        }, (error) => {
-          Utils.handleHttpError(error, router, messageService, centralServerService, 'tags.delete_tags_unexpected_error');
         });
       }
     });

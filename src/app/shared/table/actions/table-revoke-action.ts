@@ -6,7 +6,7 @@ import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { ActionResponse } from '../../../types/DataResult';
-import { ButtonActionColor, ButtonAction, RestResponse } from '../../../types/GlobalType';
+import { ButtonAction, ButtonActionColor, RestResponse } from '../../../types/GlobalType';
 import { TableActionDef, TableData } from '../../../types/Table';
 import { Utils } from '../../../utils/Utils';
 import { TableAction } from './table-action';
@@ -37,20 +37,23 @@ export class TableRevokeAction implements TableAction {
     ).subscribe((result) => {
       if (result === ButtonAction.YES) {
         spinnerService.show();
-        revokeData(data.id).subscribe((response) => {
-          spinnerService.hide();
-          if (response.status === RestResponse.SUCCESS) {
-            messageService.showSuccessMessage(messageSuccess);
-            if (refresh) {
-              refresh().subscribe();
+        revokeData(data.id).subscribe({
+          next: (response) => {
+            spinnerService.hide();
+            if (response.status === RestResponse.SUCCESS) {
+              messageService.showSuccessMessage(messageSuccess);
+              if (refresh) {
+                refresh().subscribe();
+              }
+            } else {
+              Utils.handleError(JSON.stringify(response),
+                messageService, messageError);
             }
-          } else {
-            Utils.handleError(JSON.stringify(response),
-              messageService, messageError);
+          },
+          error: (error) => {
+            spinnerService.hide();
+            Utils.handleHttpError(error, router, messageService, centralServerService, messageError);
           }
-        }, (error) => {
-          spinnerService.hide();
-          Utils.handleHttpError(error, router, messageService, centralServerService, messageError);
         });
       }
     });

@@ -40,7 +40,7 @@ export class ConfigService {
         }
       });
     });
-    }
+  }
 
   public getConfig(): Configuration {
     return this.config;

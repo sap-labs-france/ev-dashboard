@@ -82,26 +82,6 @@
                   <div class="col-md-7 col-xl-9">{{carCatalog?.chargeStandardPhase ? carCatalog.chargeStandardPhase : '-'}}</div>
                 </div>
               </div>
-              <div class="col-md-12" *ngIf="carCatalog?.chargeOptionPower > 0">
-                <div class="row mt-2">
-                  <div class="col-md-5 col-xl-3 font-weight-bold">{{"cars.charge_option_power" | translate}}</div>
-                  <div class="col-md-7 col-xl-9">{{carCatalog.chargeOptionPower | appDecimal:'1.0-1'}} {{"cars.unit.kilowatt" | translate}}</div>
-                </div>
-                <div class="row mt-2">
-                  <div class="col-md-5 col-xl-3 font-weight-bold">{{"cars.evse_phase_ac_option" | translate}}</div>
-                  <div class="col-md-7 col-xl-9">{{carCatalog.chargeOptionPhase}}</div>
-                </div>
-              </div>
-              <div class="col-md-12" *ngIf="carCatalog?.chargeAlternativePower > 0">
-                <div class="row mt-2">
-                  <div class="col-md-5 col-xl-3 font-weight-bold">{{"cars.charge_alternative_power" | translate}}</div>
-                  <div class="col-md-7 col-xl-9">{{carCatalog.chargeAlternativePower | appDecimal:'1.0-1'}} {{"cars.unit.kilowatt" | translate}}</div>
-                </div>
-                <div class="row mt-2">
-                  <div class="col-md-5 col-xl-3 font-weight-bold">{{"cars.evse_phase_ac_alternative" | translate}}</div>
-                  <div class="col-md-7 col-xl-9">{{carCatalog.chargeAlternativePhase}}</div>
-                </div>
-              </div>
             </div>
             <div class="row mt-3">
               <div class="col-md-5 col-xl-3 font-weight-bold">{{"cars.fast_charge_plug" | translate}}</div>

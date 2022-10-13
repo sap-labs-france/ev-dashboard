@@ -35,23 +35,26 @@ export class TableForceSyncBillingUserAction extends TableSynchronizeAction {
     ).subscribe((response) => {
       if (response === ButtonAction.YES) {
         spinnerService.show();
-        centralServerService.forceSynchronizeUserForBilling(user.id).subscribe((synchronizeResponse) => {
-          spinnerService.hide();
-          if (synchronizeResponse.status === RestResponse.SUCCESS) {
-            if (refresh) {
-              refresh().subscribe();
+        centralServerService.forceSynchronizeUserForBilling(user.id).subscribe({
+          next: (synchronizeResponse) => {
+            spinnerService.hide();
+            if (synchronizeResponse.status === RestResponse.SUCCESS) {
+              if (refresh) {
+                refresh().subscribe();
+              }
+              messageService.showSuccessMessage(
+                translateService.instant('settings.billing.user.force_synchronize_user_success',
+                  { userFullName: Utils.buildUserFullName(user) }));
+            } else {
+              Utils.handleError(JSON.stringify(synchronizeResponse), messageService,
+                'settings.billing.user.force_synchronize_user_failure');
             }
-            messageService.showSuccessMessage(
-              translateService.instant('settings.billing.user.force_synchronize_user_success',
-                { userFullName: Utils.buildUserFullName(user) }));
-          } else {
-            Utils.handleError(JSON.stringify(synchronizeResponse), messageService,
+          },
+          error: (error) => {
+            spinnerService.hide();
+            Utils.handleHttpError(error, router, messageService, centralServerService,
               'settings.billing.user.force_synchronize_user_failure');
           }
-        }, (error) => {
-          spinnerService.hide();
-          Utils.handleHttpError(error, router, messageService, centralServerService,
-            'settings.billing.user.force_synchronize_user_failure');
         });
       }
     });

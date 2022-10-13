@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Site } from 'types/Site';
 import { Utils } from 'utils/Utils';
 
@@ -16,16 +16,21 @@ export class SiteOcpiComponent implements OnInit, OnChanges {
   public initialized = false;
 
   public tariffID: AbstractControl;
+  public ownerName: AbstractControl;
 
   public ngOnInit() {
     // Init the form
-    this.formGroup.addControl('tariffID', new UntypedFormControl(null,
+    this.formGroup.addControl('tariffID', new FormControl('',
       Validators.compose([
         Validators.maxLength(36),
       ])));
-
+    this.formGroup.addControl('ownerName', new FormControl('',
+      Validators.compose([
+        Validators.maxLength(100),
+      ])));
     // Form
     this.tariffID = this.formGroup.controls['tariffID'];
+    this.ownerName = this.formGroup.controls['ownerName'];
     this.enableDisableTariffID();
     this.initialized = true;
     this.loadSite();
@@ -41,6 +46,9 @@ export class SiteOcpiComponent implements OnInit, OnChanges {
       this.enableDisableTariffID();
       if (this.site.tariffID) {
         this.tariffID.setValue(this.site.tariffID);
+      }
+      if (this.site.ownerName) {
+        this.ownerName.setValue(this.site.ownerName);
       }
     }
   }

@@ -3,7 +3,7 @@
 @import "core/mixins";
 
 // Bootstrap
-@import "~bootstrap/scss/bootstrap";
+@import "/node_modules/bootstrap/scss/bootstrap";
 
 // Core Components
 @import "core/recaptcha";
@@ -40,7 +40,6 @@
 @import "dashboard/chart";
 @import "dashboard/recaptcha";
 @import "dashboard/qr-code";
-@import "dashboard/geomap.dialog";
 @import "dashboard/date-picker";
 
 // Views

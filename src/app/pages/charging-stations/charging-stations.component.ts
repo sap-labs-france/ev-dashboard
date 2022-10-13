@@ -22,11 +22,14 @@ export class ChargingStationsComponent extends AbstractTabComponent {
     activatedRoute: ActivatedRoute,
     windowService: WindowService,
   ) {
-    super(activatedRoute, windowService, ['all', 'map', 'chargingplans', 'inerror', 'connection']);
+    super(activatedRoute, windowService, ['all', 'chargingplans', 'inerror', 'connection']);
     this.canListTokens = this.authorizationService.canListTokens();
     this.canListChargingProfiles = this.authorizationService.canListChargingProfiles();
     this.canListChargingStations = this.authorizationService.canListChargingStations();
     this.canListChargingStationsInError = this.authorizationService.canListChargingStationsInError();
     this.mapFeatureIsActive = this.centralServerService.getLoggedUser().activeFeatures?.includes(TenantFeatures.CHARGING_STATION_MAP);
+    if (this.mapFeatureIsActive) {
+      this.setHashArray(['all', 'map', 'chargingplans', 'inerror', 'connection']);
+    }
   }
 }

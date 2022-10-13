@@ -13,6 +13,15 @@ export class AbstractTabComponent implements OnDestroy {
     protected hashArray: string[],
     protected synchronizeRouting: boolean = true,
     protected defaultIndex: number = 0) {
+    this.initHash();
+  }
+
+  public setHashArray(hashArray: string[]) {
+    this.hashArray = hashArray;
+    this.initHash();
+  }
+
+  public initHash() {
     const currentHash = this.windowService.getHash();
     if (currentHash) {
       const indexOf = this.hashArray.indexOf(currentHash);
@@ -27,10 +36,6 @@ export class AbstractTabComponent implements OnDestroy {
         this.windowService.setHash(this.hashArray[this.activeTabIndex]);
       }
     }
-  }
-
-  public setHashArray(hashArray: string[]) {
-    this.hashArray = hashArray;
   }
 
   public updateRoute(index: number) {

@@ -6,7 +6,7 @@ import { TableData } from './Table';
 import { Tag } from './Tag';
 import { StartTransactionErrorCode } from './Transaction';
 
-export interface User extends TableData, CreatedUpdatedProps {
+export interface User extends TableData, CreatedUpdatedProps, UserMobileData {
   id: string;
   issuer: boolean;
   name: string;

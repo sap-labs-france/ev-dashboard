@@ -18,12 +18,12 @@
               <span class="pt-2 col-md-9">{{ fileName }}</span>
             </div>
             <div class="row pt-3">
-              <mat-checkbox (change)="handleAutoActivateUserAtImport($event.checked)">
+              <mat-checkbox (change)="handleAutoActivateUserAtImport($event.checked)" [checked]="autoActivateImportedUsers">
                 {{ "users.import_users_auto_activation" | translate }}
               </mat-checkbox>
             </div>
             <div *ngIf="entity === 'tags'" class="row pt-3">
-              <mat-checkbox (change)="handleAutoActivateTagAtImport($event.checked)">
+              <mat-checkbox (change)="handleAutoActivateTagAtImport($event.checked)" [checked]="autoActivateImportedTags">
                 {{ "tags.import_tags_auto_activation" | translate }}
               </mat-checkbox>
             </div>

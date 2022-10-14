@@ -6,7 +6,7 @@ import { TableData } from './Table';
 import { Tag } from './Tag';
 import { StartTransactionErrorCode } from './Transaction';
 
-export interface User extends TableData, CreatedUpdatedProps {
+export interface User extends TableData, CreatedUpdatedProps, UserMobileData {
   id: string;
   issuer: boolean;
   name: string;
@@ -42,6 +42,15 @@ export interface User extends TableData, CreatedUpdatedProps {
   billingData: BillingUserData;
   technical: boolean;
   freeAccess: boolean;
+}
+
+export interface UserMobileData {
+  mobileOS: 'ios' | 'android' | 'windows' | 'macos' | 'web';
+  mobileToken: string;
+  mobileBundleID: string;
+  mobileAppName: string;
+  mobileVersion: string;
+  mobileLastChangedOn?: Date;
 }
 
 export interface UserNotifications {

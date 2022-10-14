@@ -40,8 +40,18 @@ export interface User extends TableData, CreatedUpdatedProps {
   eulaAcceptedVersion: number;
   eulaAcceptedOn: Date;
   billingData: BillingUserData;
+  mobileData?: UserMobileData;
   technical: boolean;
   freeAccess: boolean;
+}
+
+export interface UserMobileData {
+  mobileOS: 'ios' | 'android' | 'windows' | 'macos' | 'web';
+  mobileToken: string;
+  mobileBundleID: string;
+  mobileAppName: string;
+  mobileVersion: string;
+  mobileLastChangedOn?: Date;
 }
 
 export interface UserNotifications {

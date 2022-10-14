@@ -1342,7 +1342,7 @@
     "update_set_site_owner_success": "L'utilisateur est maintenant le propriétaire du site '{{siteName}}'",
     "update_remove_site_owner_success": "L'utilisateur n'est plus le propriétaire du site '{{siteName}}'",
     "update_site_owner_role_error": "Une erreur est survenue lors de la mise à jour des droits d'accès de l'utilisateur au site '{{siteName}}', vérifiez les logs",
-    "redirect": "Naviguer vers la gestion des utilisateurs",
+    "redirect": "Naviguer vers les utilisateurs",
     "display_sites": "Afficher les sites",
     "connectors": {
       "connect": "Connecter",

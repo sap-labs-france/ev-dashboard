@@ -2,6 +2,7 @@ import { AbstractControl, UntypedFormControl, UntypedFormGroup } from '@angular/
 import { MatDialogRef } from '@angular/material/dialog';
 import { Data, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import copy from 'copy-to-clipboard';
 import { StatusCodes } from 'http-status-codes';
 import * as moment from 'moment';
 import { DialogMode } from 'types/Authorization';
@@ -974,7 +975,7 @@ export class Utils {
   }
 
   public static copyToClipboard(content: any) {
-    void navigator.clipboard.writeText(content);
+    void copy(content);
   }
 
   // when exporting values

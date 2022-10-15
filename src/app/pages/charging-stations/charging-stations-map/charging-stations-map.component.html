@@ -8,7 +8,7 @@
       </button>
     </div>
     <div class="col-auto">
-      <app-refresh [loading]="loading" color="primary" [autoRefreshInitialValue]="false" (refresh)="loadMapData(false)" (autoRefresh)="loadMapData(true)">
+      <app-refresh [loading]="loading" color="primary" [autoRefreshInitialValue]="true" (refresh)="loadMapData(false)" (autoRefresh)="loadMapData(true)">
       </app-refresh>
     </div>
   </div>

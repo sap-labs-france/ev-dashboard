@@ -25,17 +25,17 @@ export class ChargingStationsMapComponent implements OnInit, AfterViewInit {
   @ViewChild(GoogleMap, { static: false }) public googleMapService!: GoogleMap;
   @ViewChild('searchInput') public searchInput!: ElementRef;
 
-  public markers: google.maps.Marker[] = [];
-  public center: google.maps.LatLngLiteral;
   public mapOptions: google.maps.MapOptions;
+  public center: google.maps.LatLngLiteral;
   public zoom = 4;
   public chargingStations: ChargingStation[] = [];
-  public bounds = new google.maps.LatLngBounds();
   public loading = false;
-  public searchValue = '';
 
   private markerCluster: MarkerClusterer;
+  private markersMap: Map<string, google.maps.Marker> = new Map();
   private markerLabelsVisible = false;
+  private bounds = new google.maps.LatLngBounds();
+  private searchValue = '';
 
   public constructor(
     private centralServerService: CentralServerService,
@@ -56,6 +56,7 @@ export class ChargingStationsMapComponent implements OnInit, AfterViewInit {
     this.zoom = 10;
     this.mapOptions = {
       zoomControl: true,
+      mapTypeId: 'terrain',
       styles: [
         {
           featureType: 'poi',
@@ -93,19 +94,6 @@ export class ChargingStationsMapComponent implements OnInit, AfterViewInit {
   }
 
   public loadMapData(autoRefresh = false, initialLoading = false) {
-    if (!Utils.isEmptyArray(this.chargingStations)) {
-      this.chargingStations = [];
-    }
-    // Clear the Map
-    if (!Utils.isEmptyArray(this.markers)) {
-      // Clear marker from clusters
-      this.markerCluster.clearMarkers();
-      // Remove marker from the map
-      for (const marker of this.markers) {
-        marker.setMap(null);
-      }
-      this.markers = [];
-    }
     this.loading = true;
     const params: FilterParams = {
       ProjectFields: 'id|coordinates|connectors.status',
@@ -117,43 +105,17 @@ export class ChargingStationsMapComponent implements OnInit, AfterViewInit {
     }
     this.centralServerService.getChargingStations(params, Constants.MAX_PAGING).subscribe({
       next: (chargingStations) => {
-        let marker: google.maps.Marker;
-        const labelOrigin = new google.maps.Point(15, -10);
+        // Keep the new result
         this.chargingStations = chargingStations.result;
-        // Compute the bounds of the map
-        for (const chargingStation of chargingStations.result) {
-          // Build coordinates
-          const latLng: google.maps.LatLngLiteral = {
-            lng: chargingStation.coordinates[0],
-            lat: chargingStation.coordinates[1]
-          };
-          if (Utils.isNullOrUndefined(latLng.lat) || Utils.isNullOrUndefined(latLng.lng)) {
-            continue;
-          }
-          // Create and add the Marker
-          marker = new google.maps.Marker({
-            title: chargingStation.id,
-            map: this.googleMapService.googleMap,
-            position: latLng,
-            icon: {
-              url: this.getIconColorAccordingToConnectorStatus(chargingStation.connectors),
-              labelOrigin,
-            }
-          });
-          marker.addListener('click', (positionClicked: { latLng: google.maps.LatLng }) => {
-            this.zone.run(() => {
-              this.markerClicked(positionClicked);
-            });
-          });
-          this.markers.push(marker);
-          this.bounds.extend(latLng);
+        // Clean up Markers
+        if (!initialLoading) {
+          this.cleanUpMarkers();
         }
-        // Add markers to cluster
-        this.markerCluster.addMarkers(this.markers);
-        // Show all Markers
-        if (!Utils.isEmptyArray(chargingStations.result) && initialLoading) {
-          this.googleMapService.fitBounds(this.bounds);
-        }
+        // Add or Update Markers
+        this.addOrUpdateMarkers(initialLoading);
+        // Redraw markers
+        this.updateMarkerProps(true);
+        // Hide spinner
         if (initialLoading || !autoRefresh) {
           this.spinnerService.hide();
         }
@@ -166,11 +128,17 @@ export class ChargingStationsMapComponent implements OnInit, AfterViewInit {
   }
 
   public markerClicked(positionClicked: { latLng: google.maps.LatLng }) {
-    const markerClicked = this.markers.find(
-      (marker) => marker.getPosition().equals(positionClicked.latLng));
+    // Find Marker
+    let foundMarker;
+    for (const marker of this.markersMap.values()) {
+      if (marker.getPosition().equals(positionClicked.latLng)) {
+        foundMarker = marker;
+        break;
+      }
+    }
     this.dialogService.createAndShowDialog(
-      markerClicked.getTitle(),
-      `${this.translateService.instant('chargers.map.marker_dialog_text', { chargingStationID: markerClicked.getTitle() })}`,
+      foundMarker.getTitle(),
+      `${this.translateService.instant('chargers.map.marker_dialog_text', { chargingStationID: foundMarker.getTitle() })}`,
       [
         { id: ButtonAction.COPY, color: 'primary', name: 'chargers.map.copy_map_url' },
         { id: ButtonAction.OPEN_URL, color: 'primary', name: 'chargers.map.navigate_to_charging_station' },
@@ -180,11 +148,11 @@ export class ChargingStationsMapComponent implements OnInit, AfterViewInit {
         switch (result) {
           case ButtonAction.COPY:
             Utils.copyToClipboard(
-              Utils.getGoogleMapUrlFromCoordinates([markerClicked.getPosition().lng(), markerClicked.getPosition().lat()])
+              Utils.getGoogleMapUrlFromCoordinates([foundMarker.getPosition().lng(), foundMarker.getPosition().lat()])
             );
             break;
           case ButtonAction.OPEN_URL:
-            this.windowService.openUrl(`charging-stations#all?Search=${markerClicked.getTitle()}`);
+            this.windowService.openUrl(`charging-stations#all?Search=${foundMarker.getTitle()}`);
             break;
         }
       }
@@ -205,12 +173,12 @@ export class ChargingStationsMapComponent implements OnInit, AfterViewInit {
     this.loadMapData();
   }
 
-  private updateMarkerProps() {
-    const updateMarkerLabels = this.canUpdateMarkerLabels();
+  private updateMarkerProps(forceUpdate = false) {
+    const updateMarkerLabels = forceUpdate || this.canUpdateMarkerLabels();
     if (!updateMarkerLabels) {
       return;
     }
-    for (const marker of this.markers) {
+    for (const marker of this.markersMap.values()) {
       if (this.markerLabelsVisible) {
         marker.setLabel({
           text: marker.getTitle(),
@@ -262,5 +230,76 @@ export class ChargingStationsMapComponent implements OnInit, AfterViewInit {
       return '/assets/img/map/ev_station_danger.svg';
     }
     return '/assets/img/map/ev_station_unknown.svg';
+  }
+
+  private addOrUpdateMarkers(initialLoading: boolean) {
+    let marker: google.maps.Marker;
+    const labelOrigin = new google.maps.Point(15, -10);
+    // Compute the bounds of the map
+    for (const chargingStation of this.chargingStations) {
+      // Build coordinates
+      const latLng: google.maps.LatLngLiteral = {
+        lng: chargingStation.coordinates[0],
+        lat: chargingStation.coordinates[1]
+      };
+      if (Utils.isNullOrUndefined(latLng.lat) || Utils.isNullOrUndefined(latLng.lng)) {
+        continue;
+      }
+      // Check in already loaded Markers
+      const foundMarker = this.markersMap.get(chargingStation.id);
+      if (!foundMarker) {
+        // No: Create a new one
+        marker = new google.maps.Marker({
+          title: chargingStation.id,
+          map: this.googleMapService.googleMap,
+          position: latLng,
+          icon: {
+            url: this.getIconColorAccordingToConnectorStatus(chargingStation.connectors),
+            labelOrigin,
+          }
+        });
+        // Add Click event
+        marker.addListener('click', (positionClicked: { latLng: google.maps.LatLng }) => {
+          this.zone.run(() => {
+            this.markerClicked(positionClicked);
+          });
+        });
+        // Keep in cache
+        this.markersMap.set(chargingStation.id, marker);
+        // Add in Cluster Marker
+        this.markerCluster.addMarker(marker);
+      } else {
+        // Only update the existing Marker
+        foundMarker.setMap(this.googleMapService.googleMap);
+        foundMarker.setPosition(latLng);
+        foundMarker.setIcon({
+          url: this.getIconColorAccordingToConnectorStatus(chargingStation.connectors),
+          labelOrigin,
+        });
+      }
+      // Extend only at first loading
+      if (initialLoading) {
+        this.bounds.extend(latLng);
+      }
+    }
+    // Show all Markers
+    if (!Utils.isEmptyArray(this.chargingStations) && initialLoading) {
+      this.googleMapService.fitBounds(this.bounds);
+    }
+  }
+
+  private cleanUpMarkers() {
+    // Get current Charging Station (used to remove deleted CS)
+    const chargingStationIDsToRemoveSet = new Set<string>(
+      this.markersMap.keys());
+    // Compute the Charging Station to remove
+    for (const chargingStation of this.chargingStations) {
+      chargingStationIDsToRemoveSet.delete(chargingStation.id);
+    }
+    for (const chargingStationID of chargingStationIDsToRemoveSet.keys()) {
+      this.markerCluster.removeMarker(
+        this.markersMap.get(chargingStationID));
+      this.markersMap.delete(chargingStationID);
+    }
   }
 }

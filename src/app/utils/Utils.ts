@@ -975,7 +975,7 @@ export class Utils {
   }
 
   public static copyToClipboard(content: any, message: string) {
-    void copy(content, { message });
+    copy(content, { message });
   }
 
   // when exporting values

@@ -199,8 +199,8 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
     if (!asExpired && !isRevoked) {
       rowActions.push(new TableMultiCopyAction(
         copyUrlActions,
-        'chargers.connections.copy_url_tooltip',
-        'chargers.connections.copy_url_tooltip').getActionDef());
+        'chargers.connections.copy_url_to_clipboard',
+        'chargers.connections.copy_url_to_clipboard').getActionDef());
     }
     if (registrationToken.canUpdate) {
       rowActions.push(this.editAction);
@@ -265,8 +265,9 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
             url = registrationToken.ocpp16JSONSecureUrl;
             break;
         }
-        void Utils.copyToClipboard(url);
-        this.messageService.showInfoMessage('chargers.connections.url_copied');
+        void Utils.copyToClipboard(
+          url, this.translateService.instant('chargers.connections.copy_url_to_clipboard'));
+        this.messageService.showInfoMessage('general.url_copied');
         break;
     }
   }

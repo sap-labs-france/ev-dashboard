@@ -974,8 +974,8 @@ export class Utils {
     return typeof obj === 'undefined';
   }
 
-  public static copyToClipboard(content: any) {
-    void copy(content);
+  public static copyToClipboard(content: any, message: string) {
+    void copy(content, { message });
   }
 
   // when exporting values

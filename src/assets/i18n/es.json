@@ -1,5 +1,6 @@
 {
   "general": {
+    "url_copied": "Link has been copied or made available with success",
     "reset": "Reset",
     "generate": "Generate",
     "history": "History",
@@ -1120,6 +1121,7 @@
       "reset_zoom": "Reset Zoom",
       "marker_dialog_text": "What do you want to do with the Charging Station '{{chargingStationID}}'?",
       "copy_map_url": "Copy Map Url",
+      "copy_map_url_to_clipboard": "Copy Google Map link in the clipboard",
       "navigate_to_charging_station": "Navigate to Charging Station"
     },
     "errors": {
@@ -1172,8 +1174,7 @@
       "registration_token_error": "Ocurrió un error al accesar el token, verificar los registros",
       "token_restrict_site_area": "Restringir el acceso a una zona",
       "url": "URL de OCPP",
-      "copy_url_tooltip": "Copiar URL de OCPP",
-      "url_copied": "La URL de OCPP se ha copiado en su portapapeles",
+      "copy_url_to_clipboard": "Copy OCPP connection link in the clipboard",
       "generate_connection_url": "Conectar estación de carga",
       "ocpp_15_soap": "OCPP 1.5 SOAP",
       "ocpp_16_json": "OCPP 1.6 JSON",

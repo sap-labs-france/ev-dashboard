@@ -113,8 +113,6 @@ export class ChargingStationsMapComponent implements OnInit, AfterViewInit {
         }
         // Add or Update Markers
         this.addOrUpdateMarkers(initialLoading);
-        // Redraw markers
-        this.updateMarkerProps(true);
         // Hide spinner
         if (initialLoading || !autoRefresh) {
           this.spinnerService.hide();
@@ -166,7 +164,7 @@ export class ChargingStationsMapComponent implements OnInit, AfterViewInit {
   }
 
   public zoomChanged() {
-    this.updateMarkerProps();
+    this.updateMarkerLabels();
   }
 
   public resetSearchFilter() {
@@ -175,21 +173,26 @@ export class ChargingStationsMapComponent implements OnInit, AfterViewInit {
     this.loadMapData();
   }
 
-  private updateMarkerProps(forceUpdate = false) {
-    const updateMarkerLabels = forceUpdate || this.canUpdateMarkerLabels();
+  private updateMarkerLabels() {
+    const updateMarkerLabels = this.canUpdateMarkerLabels();
     if (!updateMarkerLabels) {
       return;
     }
+    this.markerLabelsVisible = !this.markerLabelsVisible;
     for (const marker of this.markersMap.values()) {
-      if (this.markerLabelsVisible) {
-        marker.setLabel({
-          text: marker.getTitle(),
-          className: 'bg-dark p-1 border border-white rounded opacity-75',
-          color: 'white'
-        });
-      } else {
-        marker.setLabel(null);
-      }
+      this.updateMarkerLabel(marker);
+    }
+  }
+
+  private updateMarkerLabel(marker: google.maps.Marker) {
+    if (this.markerLabelsVisible) {
+      marker.setLabel({
+        text: marker.getTitle(),
+        className: 'bg-dark p-1 border border-white rounded opacity-75',
+        color: 'white'
+      });
+    } else {
+      marker.setLabel(null);
     }
   }
 
@@ -202,7 +205,6 @@ export class ChargingStationsMapComponent implements OnInit, AfterViewInit {
         return updateMarkerLabels;
       }
       updateMarkerLabels = true;
-      this.markerLabelsVisible = true;
     } else {
       // Hide marker labels
       if (!this.markerLabelsVisible) {
@@ -210,7 +212,6 @@ export class ChargingStationsMapComponent implements OnInit, AfterViewInit {
         return updateMarkerLabels;
       }
       updateMarkerLabels = true;
-      this.markerLabelsVisible = false;
     }
     return updateMarkerLabels;
   }
@@ -268,11 +269,12 @@ export class ChargingStationsMapComponent implements OnInit, AfterViewInit {
         });
         // Keep in cache
         this.markersMap.set(chargingStation.id, marker);
+        // Check label
+        this.updateMarkerLabel(marker);
         // Add in Cluster Marker
         this.markerCluster.addMarker(marker);
       } else {
         // Only update the existing Marker
-        foundMarker.setMap(this.googleMapService.googleMap);
         foundMarker.setPosition(latLng);
         foundMarker.setIcon({
           url: this.getIconColorAccordingToConnectorStatus(chargingStation.connectors),
@@ -299,8 +301,10 @@ export class ChargingStationsMapComponent implements OnInit, AfterViewInit {
       chargingStationIDsToRemoveSet.delete(chargingStation.id);
     }
     for (const chargingStationID of chargingStationIDsToRemoveSet.keys()) {
+      // Remove from Cluster Marker
       this.markerCluster.removeMarker(
         this.markersMap.get(chargingStationID));
+      // Remove from cache
       this.markersMap.delete(chargingStationID);
     }
   }

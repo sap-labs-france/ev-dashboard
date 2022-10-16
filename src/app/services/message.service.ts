@@ -89,7 +89,7 @@ export class MessageService {
       },
       {
         type,
-        delay: 300000,
+        delay: 3000,
         timer: 1500,
         allow_dismiss: true,
         placement: {

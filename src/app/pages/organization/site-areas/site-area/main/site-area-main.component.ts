@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { StatusCodes } from 'http-status-codes';
 import * as moment from 'moment';
+import { WindowService } from 'services/window.service';
 import { SiteAreasDialogComponent } from 'shared/dialogs/site-areas/site-areas-dialog.component';
 import { ButtonAction } from 'types/GlobalType';
 
@@ -56,6 +57,7 @@ export class SiteAreaMainComponent implements OnInit, OnChanges {
     private dialog: MatDialog,
     private dialogService: DialogService,
     private router: Router,
+    private windowService: WindowService,
     private translateService: TranslateService,
     private configService: ConfigService) {
     this.maxSize = this.configService.getSiteArea().maxPictureKb;
@@ -295,8 +297,7 @@ export class SiteAreaMainComponent implements OnInit, OnChanges {
   }
 
   public copyChargingStationConnectionUrl(url: string) {
-    void Utils.copyToClipboard(
-      url, this.translateService.instant('chargers.connections.copy_url_to_clipboard'));
+    this.windowService.copyToClipboard(url);
     this.messageService.showInfoMessage('general.url_copied');
   }
 

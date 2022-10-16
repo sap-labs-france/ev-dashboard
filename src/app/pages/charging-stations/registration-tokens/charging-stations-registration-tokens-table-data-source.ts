@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
+import { WindowService } from 'services/window.service';
 import { IssuerFilter } from 'shared/table/filters/issuer-filter';
 import { SiteAreaTableFilter } from 'shared/table/filters/site-area-table-filter';
 import { DataResultAuthorizations } from 'types/Authorization';
@@ -52,8 +53,10 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
     private router: Router,
     private dialog: MatDialog,
     private componentService: ComponentService,
+    private windowService: WindowService,
     private centralServerService: CentralServerService,
-    private datePipe: AppDatePipe) {
+    private datePipe: AppDatePipe
+  ) {
     super(spinnerService, translateService);
     // Init
     this.initDataSource();
@@ -265,8 +268,7 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
             url = registrationToken.ocpp16JSONSecureUrl;
             break;
         }
-        void Utils.copyToClipboard(
-          url, this.translateService.instant('chargers.connections.copy_url_to_clipboard'));
+        this.windowService.copyToClipboard(url);
         this.messageService.showInfoMessage('general.url_copied');
         break;
     }

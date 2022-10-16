@@ -1,20 +1,20 @@
 import { AfterViewInit, Component, ElementRef, NgZone, OnInit, ViewChild } from '@angular/core';
 import { GoogleMap } from '@angular/google-maps';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { MarkerClusterer } from '@googlemaps/markerclusterer';
-import { TranslateService } from '@ngx-translate/core';
 import { debounceTime, distinctUntilChanged, fromEvent, map } from 'rxjs';
 import { CentralServerService } from 'services/central-server.service';
 import { ConfigService } from 'services/config.service';
-import { DialogService } from 'services/dialog.service';
 import { MessageService } from 'services/message.service';
 import { SpinnerService } from 'services/spinner.service';
 import { ChargePointStatus, ChargingStation, Connector } from 'types/ChargingStation';
-import { ButtonAction, FilterParams } from 'types/GlobalType';
+import { ChargingStationsMapActionsDialogData, ChargingStationsMapActionsDialogResult } from 'types/Dialog';
+import { FilterParams } from 'types/GlobalType';
 import { Constants } from 'utils/Constants';
 import { Utils } from 'utils/Utils';
 
-import { WindowService } from '../../../services/window.service';
+import { ChargingStationsMapActionsDialogComponent } from './charging-station-map-actions/charging-station-map-actions-dialog-component';
 import { ChargingStationsMapCustomClusterRenderer } from './charging-stations-map-custom-cluster-renderer';
 
 @Component({
@@ -44,9 +44,7 @@ export class ChargingStationsMapComponent implements OnInit, AfterViewInit {
     private zone: NgZone,
     private messageService: MessageService,
     private configService: ConfigService,
-    private dialogService: DialogService,
-    private translateService: TranslateService,
-    private windowService: WindowService
+    private dialog: MatDialog,
   ) {
     // Set default params
     this.center = {
@@ -126,38 +124,24 @@ export class ChargingStationsMapComponent implements OnInit, AfterViewInit {
   }
 
   public markerClicked(positionClicked: { latLng: google.maps.LatLng }) {
-    // Find Marker
-    let foundMarker;
-    for (const marker of this.markersMap.values()) {
-      if (marker.getPosition().equals(positionClicked.latLng)) {
-        foundMarker = marker;
-        break;
-      }
-    }
-    this.dialogService.createAndShowDialog(
-      foundMarker.getTitle(),
-      `${this.translateService.instant('chargers.map.marker_dialog_text', { chargingStationID: foundMarker.getTitle() })}`,
-      [
-        { id: ButtonAction.COPY, color: 'primary', name: 'chargers.map.copy_map_url' },
-        { id: ButtonAction.OPEN_URL, color: 'primary', name: 'chargers.map.navigate_to_charging_station' },
-      ]
-    ).subscribe({
-      next: (result: ButtonAction) => {
-        switch (result) {
-          case ButtonAction.COPY:
-            Utils.copyToClipboard(
-              Utils.buildGoogleMapUrlFromCoordinates([foundMarker.getPosition().lng(), foundMarker.getPosition().lat()]),
-              this.translateService.instant('chargers.map.copy_map_url_to_clipboard')
-            );
-            this.messageService.showInfoMessage('general.url_copied');
-            break;
-          case ButtonAction.OPEN_URL:
-            this.windowService.openUrl(
-              this.windowService.buildFullUrl(`charging-stations#all?Search=${foundMarker.getTitle()}`));
-            break;
-        }
-      }
-    });
+    // Get the Marker
+    const marker = this.getMarkerByCoordinates(positionClicked);
+    // Get the Charging Station
+    const chargingStation = this.getChargingStationByID(marker.getTitle());
+    // Open the dialog
+    const dialogConfig = new MatDialogConfig<ChargingStationsMapActionsDialogData>();
+    dialogConfig.minWidth = '30vw';
+    dialogConfig.panelClass = '';
+    // Build dialog data
+    dialogConfig.data = {
+      dialogData: {
+        marker,
+        chargingStation,
+      },
+    };
+    // Show
+    this.dialog.open<ChargingStationsMapActionsDialogComponent, ChargingStationsMapActionsDialogData, ChargingStationsMapActionsDialogResult>(
+      ChargingStationsMapActionsDialogComponent, dialogConfig);
   }
 
   public resetZoom() {
@@ -307,6 +291,22 @@ export class ChargingStationsMapComponent implements OnInit, AfterViewInit {
         this.markersMap.get(chargingStationID));
       // Remove from cache
       this.markersMap.delete(chargingStationID);
+    }
+  }
+
+  private getMarkerByCoordinates(coordinates: { latLng: google.maps.LatLng }): google.maps.Marker {
+    for (const marker of this.markersMap.values()) {
+      if (marker.getPosition().equals(coordinates.latLng)) {
+        return marker;
+      }
+    }
+  }
+
+  private getChargingStationByID(chargingStationID: string): ChargingStation {
+    for (const chargingStation of this.chargingStations) {
+      if (chargingStation.id === chargingStationID) {
+        return chargingStation;
+      }
     }
   }
 }

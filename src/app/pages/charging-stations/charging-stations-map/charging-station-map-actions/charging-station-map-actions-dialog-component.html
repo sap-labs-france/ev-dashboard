@@ -1,0 +1,14 @@
+<h2 class="dialog-title" mat-dialog-title>{{chargingStation?.id}}</h2>
+<mat-dialog-content>
+  <div class="row">
+    <div class="col-md-12">
+      {{'chargers.map.marker_dialog_text' | translate: { chargingStationID: chargingStation?.id } }}
+    </div>
+  </div>
+  <div class="clearfix"></div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-raised-button (click)="copyMapURL()" color="primary">{{"chargers.map.copy_map_url" | translate}}</button>
+  <button mat-raised-button (click)="navigateToChargingStation()" color="primary">{{"chargers.map.navigate_to_charging_station" | translate}}</button>
+  <button mat-raised-button (click)="close()">{{'general.close' | translate}}</button>
+</mat-dialog-actions>

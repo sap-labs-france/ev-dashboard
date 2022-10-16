@@ -2,7 +2,6 @@ import { AbstractControl, UntypedFormControl, UntypedFormGroup } from '@angular/
 import { MatDialogRef } from '@angular/material/dialog';
 import { Data, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import copy from 'copy-to-clipboard';
 import { StatusCodes } from 'http-status-codes';
 import * as moment from 'moment';
 import { DialogMode } from 'types/Authorization';
@@ -176,10 +175,10 @@ export class Utils {
     validate: () => void, close: () => void) {
     // listen to keystroke
     dialogRef.keydownEvents().subscribe((keydownEvents) => {
-      if (keydownEvents && keydownEvents.code === 'Escape') {
+      if (close && keydownEvents && keydownEvents.code === 'Escape') {
         dialogRef.close();
       }
-      if (keydownEvents && keydownEvents.code === 'Enter') {
+      if (validate && keydownEvents && keydownEvents.code === 'Enter') {
         validate();
       }
     });
@@ -974,10 +973,6 @@ export class Utils {
 
   public static isUndefined(obj: any): boolean {
     return typeof obj === 'undefined';
-  }
-
-  public static copyToClipboard(content: any, message: string) {
-    copy(content, { message });
   }
 
   // when exporting values

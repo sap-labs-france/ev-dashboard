@@ -1,3 +1,4 @@
+import { ChargingStation } from "./ChargingStation";
 
 export interface GeoMapDialogData {
   label: string;
@@ -10,4 +11,14 @@ export interface GeoMapDialogData {
 export interface GeoMapDialogResult {
   latitude: number;
   longitude: number;
+}
+
+export interface ChargingStationsMapActionsDialogData {
+  dialogData: {
+    marker: google.maps.Marker;
+    chargingStation: ChargingStation;
+  };
+}
+
+export interface ChargingStationsMapActionsDialogResult {
 }

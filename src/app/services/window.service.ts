@@ -1,3 +1,4 @@
+import { Clipboard } from '@angular/cdk/clipboard';
 import { Inject, Injectable } from '@angular/core';
 import { parse } from 'tldts';
 
@@ -7,7 +8,9 @@ import { WINDOW } from '../providers/window.provider';
 export class WindowService {
   // eslint-disable-next-line no-useless-constructor
   public constructor(
-    @Inject(WINDOW) private window: Window) {}
+    @Inject(WINDOW) private window: Window,
+    private clipboard: Clipboard,
+  ) {}
 
   public getHostname(): string {
     return this.window.location.hostname;
@@ -113,6 +116,10 @@ export class WindowService {
 
   public openUrl(url: string) {
     this.window.open(url, '_blank');
+  }
+
+  public copyToClipboard(textToCopy: string) {
+    this.clipboard.copy(textToCopy);
   }
 
   private setUrlQueryParams(queryParams?: string) {

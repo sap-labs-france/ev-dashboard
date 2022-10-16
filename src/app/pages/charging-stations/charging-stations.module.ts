@@ -47,6 +47,7 @@ import { ChargingStationChargePointComponent } from './charging-station/paramete
 import { ChargingStationParametersComponent } from './charging-station/parameters/charging-station-parameters.component';
 import { ChargingStationConnectorComponent } from './charging-station/parameters/connector/charging-station-connector.component';
 import { ChargingStationPropertiesComponent } from './charging-station/properties/charging-station-properties.component';
+import { ChargingStationsMapActionsDialogComponent } from './charging-stations-map/charging-station-map-actions/charging-station-map-actions-dialog-component';
 import { ChargingStationsMapComponent } from './charging-stations-map/charging-stations-map.component';
 import { ChargingStationsComponent } from './charging-stations.component';
 import { ChargingStationsRoutes } from './charging-stations.routing';
@@ -121,6 +122,7 @@ import { ChargingStationsRegistrationTokenDialogComponent } from './registration
     ChargingStationsRegistrationTokenDialogComponent,
     ChargingStationsRegistrationTokensComponent,
     ChargingStationsMapComponent,
+    ChargingStationsMapActionsDialogComponent,
   ],
   providers: [
     ChargingStationsInErrorTableDataSource,

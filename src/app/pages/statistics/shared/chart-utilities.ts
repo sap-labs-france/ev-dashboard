@@ -45,41 +45,6 @@ export class SimpleChart {
     withLegend = false,
     roundedChartLabels = true) {
     Chart.register(ChartDataLabels);
-    // Unregister global activation of Chart labels
-    // Chart.plugins.unregister(ChartDataLabels);
-    // Chart.Tooltip.positioners.customBar = (elements, eventPosition) => {
-    //   // Put the tooltip at the center of the selected bar (or bar section), and not at the top:
-    //   // @param elements {Chart.Element[]} the tooltip elements
-    //   // @param eventPosition {Point} the position of the event in canvas coordinates
-    //   // @returns {Point} the tooltip position
-    //   let yOffset = 0;
-    //   let sum = 0;
-    //   const dataSets = elements[0]._chart.data.datasets;
-    //   if (Array.isArray(dataSets)) {
-    //     if (dataSets.length === 1) {
-    //       yOffset = (elements[0]._chart.scales['y-axis-0'].bottom - elements[0]._model.y) / 2;
-    //     } else {
-    //       for (let i = 0; i < dataSets.length; i++) {
-    //         if (i <= elements[0]._datasetIndex &&
-    //           dataSets[i].stack === dataSets[elements[0]._datasetIndex].stack) {
-    //           sum += dataSets[i].data[elements[0]._index];
-    //         }
-    //       }
-    //       if (sum === 0) {
-    //         yOffset = (elements[0]._chart.scales['y-axis-0'].bottom - elements[0]._model.y) / 2;
-    //       } else {
-    //         yOffset = dataSets[elements[0]._datasetIndex].data[elements[0]._index] / sum;
-    //         yOffset *= (elements[0]._chart.scales['y-axis-0'].bottom - elements[0]._model.y) / 2;
-    //       }
-    //     }
-    //   }
-
-    //   return {
-    //     x: elements[0]._model.x,
-    //     y: elements[0]._model.y + yOffset,
-    //   };
-    // };
-
     this.language = language;
 
     switch (chartType) {
@@ -96,6 +61,8 @@ export class SimpleChart {
 
   public initChart(context: ElementRef): void {
     this.contextElement = context;
+    context.nativeElement.height = '67vh';
+    context.nativeElement.width = '80vw';
     this.chart = new Chart(this.contextElement.nativeElement.getContext('2d'), {
       type: this.chartType,
       plugins: [ChartDataLabels],
@@ -353,9 +320,11 @@ export class SimpleChart {
     };
   }
 
-  private updateChartOptions(chartData: ChartData, mainLabel: string, labelYAxis?: string, toolTipUnit?: string): void {
+  private updateChartOptions(chartData: ChartData, mainLabel: string): void {
     let minValue = 0;
     let minDivisor: any;
+    this.chartOptions.responsive = true;
+    this.chartOptions.maintainAspectRatio = false;
     if(!this.chartOptions.plugins.title){
       this.chartOptions.plugins.title = {};
     }

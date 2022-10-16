@@ -93,10 +93,11 @@
 .chart-container-statistics {
   position: relative;
   margin: auto;
-  width: calc((100vw - 260px) * 0.95);
+  width: 80vw;
+  height: 65vh;
   @media (max-width: 991px) {
-    width: 95vw;
-    height: calc(95vw * 0.5);
+    width: 90vw;
+    height: 60vh;
   }
   .chartjs-render-monitor {
     width: 100% !important;

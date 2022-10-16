@@ -152,7 +152,8 @@ export class ChargingStationsMapComponent implements OnInit, AfterViewInit {
             this.messageService.showInfoMessage('general.url_copied');
             break;
           case ButtonAction.OPEN_URL:
-            this.windowService.openUrl(`charging-stations#all?Search=${foundMarker.getTitle()}`);
+            this.windowService.openUrl(
+              this.windowService.buildFullUrl(`charging-stations#all?Search=${foundMarker.getTitle()}`));
             break;
         }
       }

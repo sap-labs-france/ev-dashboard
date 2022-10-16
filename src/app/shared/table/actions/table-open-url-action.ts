@@ -1,6 +1,6 @@
-
 import { WindowService } from 'services/window.service';
-import { ButtonActionColor, ButtonAction } from '../../../types/GlobalType';
+
+import { ButtonAction, ButtonActionColor } from '../../../types/GlobalType';
 import { TableActionDef } from '../../../types/Table';
 import { TableAction } from './table-action';
 
@@ -25,6 +25,11 @@ export class TableOpenURLAction implements TableAction {
   }
 
   protected openURL(url: string, windowService: WindowService) {
+    // Handle relative URL
+    if (!url.startsWith('http')) {
+      // Build full URL (iPad issue)
+      url = windowService.buildFullUrl(url);
+    }
     windowService.openUrl(url);
   }
 }

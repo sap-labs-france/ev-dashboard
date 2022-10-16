@@ -107,6 +107,10 @@ export class WindowService {
     this.setUrlQueryParams();
   }
 
+  public buildFullUrl(relativeUrl: string) {
+    return `${this.window.location.protocol}//${this.window.location.host}${!relativeUrl.startsWith('/') ? '/' : ''}${relativeUrl}`;
+  }
+
   public openUrl(url: string) {
     this.window.open(url, '_blank');
   }

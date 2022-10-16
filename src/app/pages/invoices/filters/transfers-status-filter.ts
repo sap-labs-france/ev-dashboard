@@ -11,7 +11,6 @@ export class TransfersStatusFilter extends TableFilter {
       httpId: 'Status',
       type: FilterType.DROPDOWN,
       name: 'general.status',
-      class: 'col-md-6 col-lg-4 col-xl-2',
       label: '',
       currentValue: [],
       items: Object.assign([], TRANSFER_STATUS),

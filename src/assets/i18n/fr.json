@@ -1174,7 +1174,7 @@
       "registration_token_error": "Une erreur est survenue lors de la récupération du jeton d'enregistrement, vérifiez les logs",
       "token_restrict_site_area": "Restreindre l'accès à une zone",
       "url": "URL OCPP",
-      "copy_url_to_clipboard": "Copier la lien de la connexion OCPP dans le presse papier",
+      "copy_url_to_clipboard": "Copier la lien OCPP dans le presse papier",
       "generate_connection_url": "Connecter une Borne",
       "ocpp_15_soap": "OCPP 1.5 SOAP",
       "ocpp_16_json": "OCPP 1.6 JSON",

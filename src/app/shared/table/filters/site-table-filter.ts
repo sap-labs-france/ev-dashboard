@@ -14,7 +14,6 @@ export class SiteTableFilter extends TableFilter {
       label: '',
       multiple: true,
       name: 'sites.titles',
-      class: 'col-md-6 col-lg-3 col-xl-2',
       dialogComponent: SitesDialogComponent,
       cleared: true,
       dependentFilters

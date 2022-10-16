@@ -11,7 +11,6 @@ export class StatusFilter extends TableFilter {
       httpId: 'Active',
       type: FilterType.DROPDOWN,
       name: 'tags.status',
-      class: 'col-md-6 col-lg-2 col-xl-2',
       label: '',
       items: Object.assign([], status),
       multiple: true,

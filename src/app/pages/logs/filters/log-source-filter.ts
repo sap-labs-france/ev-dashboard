@@ -11,7 +11,6 @@ export class LogSourceTableFilter extends TableFilter {
       httpId: 'Source',
       type: FilterType.DROPDOWN,
       name: 'logs.source',
-      class: 'col-sm-4 col-md-3 col-lg-2 col-xl-1',
       label: '',
       currentValue: [],
       items: Object.assign([], sources),

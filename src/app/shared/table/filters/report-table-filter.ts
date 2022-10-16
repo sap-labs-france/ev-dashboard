@@ -15,7 +15,6 @@ export class ReportTableFilter extends TableFilter {
       defaultValue: '',
       label: '',
       name: 'transactions.reportId',
-      class: 'col-md-6 col-lg-3 col-xl-2',
       dialogComponent: ReportsDialogComponent,
       multiple: true,
       cleared: true,

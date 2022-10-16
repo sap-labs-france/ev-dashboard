@@ -13,7 +13,6 @@ export class UserFreeAccessFilter extends TableFilter {
       multiple: true,
       exhaustive: true,
       name: 'users.access_mode',
-      class: 'col-md-6 col-lg-3 col-xl-2',
       label: 'users.access_mode',
       cleared: true,
       currentValue: defaultValue,

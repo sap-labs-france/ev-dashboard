@@ -86,7 +86,7 @@
       </div>
       <!-- Filters Row -->
       <div *ngIf="(dataSource.hasFilters || dataSource.isSearchEnabled)"
-        class="d-flex flex-row me-auto flex-wrap mat-toolbar-row filter-row">
+        class="row">
         <!-- Create Filters -->
         <ng-template ngFor let-filterDef [ngForOf]="dataSource.tableFiltersDef">
           <div *ngIf="filterDef.visible !== false"
@@ -158,7 +158,7 @@
           </div>
         </ng-template>
         <!-- Search -->
-        <div *ngIf="dataSource.isSearchEnabled" class="col search-form">
+        <div *ngIf="dataSource.isSearchEnabled" class="col-12 search-form">
           <mat-form-field>
             <input appAutofocus autocomplete="off" #searchInput [placeholder]="searchPlaceholder | translate" matInput>
             <button mat-icon-button matSuffix (click)="resetSearchFilter()" aria-label="Clear">

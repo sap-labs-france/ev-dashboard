@@ -14,7 +14,6 @@ export class UserRoleFilter extends TableFilter {
       httpId: 'Role',
       type: FilterType.DROPDOWN,
       name: 'users.roles',
-      class: 'col-md-6 col-lg-4 col-xl-2',
       label: '',
       currentValue: [],
       items: items ? items : undefined,

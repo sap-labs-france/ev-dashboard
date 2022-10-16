@@ -10,7 +10,6 @@ import { ConfigService } from '../../../services/config.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { ConsumptionChartComponent } from '../../../shared/component/consumption-chart/consumption-chart.component';
-import { Image } from '../../../types/GlobalType';
 import { Transaction } from '../../../types/Transaction';
 import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';

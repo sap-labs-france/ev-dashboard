@@ -12,7 +12,6 @@ export class ChargingStationTableFilter extends TableFilter {
       type: FilterType.DIALOG_TABLE,
       label: '',
       name: 'chargers.titles',
-      class: 'col-md-6 col-lg-3 col-xl-2',
       dialogComponent: ChargingStationsDialogComponent,
       multiple: true,
       cleared: true,

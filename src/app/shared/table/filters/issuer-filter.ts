@@ -11,7 +11,6 @@ export class IssuerFilter extends TableFilter {
       httpId: 'Issuer',
       type: FilterType.DROPDOWN,
       name: 'issuer.title',
-      class: 'col-md-6 col-lg-2 col-xl-2',
       label: '',
       defaultValue: defaultValue ? organizations[0] : organizations[1],
       items: Object.assign([], organizations),

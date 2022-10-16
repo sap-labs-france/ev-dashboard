@@ -13,7 +13,6 @@ export class DateTableFilter extends TableFilter {
       type: FilterType.DATE,
       name: 'general.search_date',
       currentValue: moment().startOf('day').toDate(),
-      class: 'col-sm-6 col-md-4 col-lg-3 col-xl-2',
       reset: () => filterDef.currentValue = moment().startOf('day').toDate(),
     };
     // Set

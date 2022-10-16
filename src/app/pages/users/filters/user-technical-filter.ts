@@ -13,7 +13,6 @@ export class UserTechnicalFilter extends TableFilter {
       multiple: true,
       exhaustive: true,
       name: 'users.technical_user',
-      class: 'col-md-6 col-lg-3 col-xl-2',
       label: 'users.technical',
       cleared: true,
       currentValue: defaultValue,

@@ -376,9 +376,9 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
     // Create filters
     const filters: TableFilterDef[] = [
       this.issuerFilter,
+      this.companyFilter,
       this.siteFilter,
       this.siteAreaFilter,
-      this.companyFilter
     ];
     return filters;
   }

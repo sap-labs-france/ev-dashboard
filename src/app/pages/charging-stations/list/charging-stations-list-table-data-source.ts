@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { WindowService } from 'services/window.service';
 import { PricingDefinitionsDialogComponent } from 'shared/pricing-definitions/pricing-definitions.dialog.component';
 import { TableViewChargingStationAction, TableViewChargingStationActionDef } from 'shared/table/actions/charging-stations/table-view-charging-station-action';
+import { TableOpenURLActionDef } from 'shared/table/actions/table-open-url-action';
 import { ChargingStationsAuthorizations } from 'types/Authorization';
 
 import { CentralServerService } from '../../../services/central-server.service';
@@ -25,7 +26,7 @@ import { TableEditChargingStationAction, TableEditChargingStationActionDef } fro
 import { TableExportChargingStationsAction, TableExportChargingStationsActionDef } from '../../../shared/table/actions/charging-stations/table-export-charging-stations-action';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
 import { TableMoreAction } from '../../../shared/table/actions/table-more-action';
-import { TableOpenInMapsAction, TableOpenInMapsActionDef } from '../../../shared/table/actions/table-open-in-maps-action';
+import { TableOpenInMapsAction } from '../../../shared/table/actions/table-open-in-maps-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { TableViewPricingDefinitionsAction, TableViewPricingDefinitionsActionDef } from '../../../shared/table/actions/table-view-pricing-definitions-action';
 import { CompanyTableFilter } from '../../../shared/table/filters/company-table-filter';
@@ -304,7 +305,8 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
         break;
       case ButtonAction.OPEN_IN_MAPS:
         if (actionDef.action) {
-          (actionDef as TableOpenInMapsActionDef).action(chargingStation.coordinates);
+          (actionDef as TableOpenURLActionDef).action(
+            Utils.buildGoogleMapUrlFromCoordinates(chargingStation.coordinates), this.windowService);
         }
         break;
       case ChargingStationButtonAction.DELETE_CHARGING_STATION:

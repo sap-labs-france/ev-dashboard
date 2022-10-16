@@ -50,8 +50,10 @@ export class Utils {
     return properties;
   }
 
-  public static getGoogleMapUrlFromCoordinates(coordinates: number[]): string {
-    return `http://maps.google.com/maps?q=${coordinates[1]},${coordinates[0]}`;
+  public static buildGoogleMapUrlFromCoordinates(coordinates: number[]): string {
+    if (Utils.containsGPSCoordinates(coordinates)) {
+      return `http://maps.google.com/maps?q=${coordinates[1]},${coordinates[0]}`;
+    }
   }
 
   public static buildDependentFilters(filterDef: TableFilterDef) {

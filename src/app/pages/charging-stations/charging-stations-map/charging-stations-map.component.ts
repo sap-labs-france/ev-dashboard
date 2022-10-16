@@ -146,7 +146,7 @@ export class ChargingStationsMapComponent implements OnInit, AfterViewInit {
         switch (result) {
           case ButtonAction.COPY:
             Utils.copyToClipboard(
-              Utils.getGoogleMapUrlFromCoordinates([foundMarker.getPosition().lng(), foundMarker.getPosition().lat()]),
+              Utils.buildGoogleMapUrlFromCoordinates([foundMarker.getPosition().lng(), foundMarker.getPosition().lat()]),
               this.translateService.instant('chargers.map.copy_map_url_to_clipboard')
             );
             this.messageService.showInfoMessage('general.url_copied');

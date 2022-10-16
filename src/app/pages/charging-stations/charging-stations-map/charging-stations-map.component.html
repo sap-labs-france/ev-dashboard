@@ -11,7 +11,7 @@
         <span>{{'chargers.map.reset_zoom' | translate}}</span>
       </button>
     </div>
-    <div class="col-md-12 col-lg-auto">
+    <div class="col-xs-12 col-md-auto">
       <div class="row">
         <!-- Auto Refresh -->
         <app-refresh
@@ -43,6 +43,6 @@
       </mat-form-field>
     </div>
   </div>
-  <google-map width="100%" height="90%" [options]="mapOptions" [center]="center" [zoom]="zoom" (zoomChanged)="zoomChanged()">
+  <google-map width="100%" height="85%" [options]="mapOptions" [center]="center" [zoom]="zoom" (zoomChanged)="zoomChanged()">
   </google-map>
 </div>

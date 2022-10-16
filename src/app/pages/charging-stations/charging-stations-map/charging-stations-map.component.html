@@ -1,15 +1,36 @@
 <div class="h-100 w-100 overflow-hidden">
   <div class="row">
-    <div class="col-auto me-auto">
-      <button mat-raised-button color="primary" (click)="resetZoom()" [disabled]="chargingStations?.length === 0"
+    <div class="col">
+      <button mat-raised-button
+        class="col-12 me-0 col-md-auto me-md-2 mb-2"
+        color="primary"
+        (click)="resetZoom()"
+        [disabled]="chargingStations?.length === 0"
         [title]="'chargers.map.reset_zoom' | translate">
         <mat-icon>cancel</mat-icon>
         <span>{{'chargers.map.reset_zoom' | translate}}</span>
       </button>
     </div>
-    <div class="col-auto">
-      <app-refresh [loading]="loading" color="primary" [autoRefreshInitialValue]="true" (refresh)="loadMapData(false)" (autoRefresh)="loadMapData(true)">
-      </app-refresh>
+    <div class="col-md-12 col-lg-auto">
+      <div class="row">
+        <!-- Auto Refresh -->
+        <app-refresh
+          class="col mb-2 d-flex"
+          [loading]="loading"
+          color="primary"
+          [hideRefresh]="true"
+          [autoRefreshInitialValue]="true"
+          (autoRefresh)="loadMapData(true)">
+        </app-refresh>
+        <!-- Refresh -->
+        <app-refresh
+          class="col-auto mb-2"
+          [loading]="loading"
+          color="primary"
+          [hideAutoRefresh]="true"
+          (refresh)="loadMapData(false)">
+        </app-refresh>
+      </div>
     </div>
   </div>
   <div class="row mt-2">

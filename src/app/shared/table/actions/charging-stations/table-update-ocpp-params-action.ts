@@ -9,7 +9,7 @@ import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
 import { ChargingStation, ChargingStationButtonAction, OCPPGeneralResponse } from '../../../../types/ChargingStation';
 import { ActionResponse } from '../../../../types/DataResult';
-import { TableActionDef } from '../../../../types/Table';
+import { ActionType, TableActionDef } from '../../../../types/Table';
 import { Utils } from '../../../../utils/Utils';
 import { TableAction } from '../table-action';
 
@@ -22,7 +22,7 @@ export interface TableUpdateOCPPParamsActionDef extends TableActionDef {
 export class TableUpdateOCPPParamsAction implements TableAction {
   private action: TableUpdateOCPPParamsActionDef = {
     id: ChargingStationButtonAction.UPDATE_OCPP_PARAMS,
-    type: 'button',
+    type: ActionType.BUTTON,
     icon: 'system_update_alt',
     color: ButtonActionColor.PRIMARY,
     name: 'chargers.button_force_ocpp_params_update_from_template',

@@ -1115,7 +1115,7 @@
       "map": "Map",
       "charging_plans": "Planes de carga",
       "in_error": "Con errores",
-      "connection": "Integrar nueva estación"
+      "connection": "Onboard New Station"
     },
     "map": {
       "reset_zoom": "Reset Zoom",

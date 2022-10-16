@@ -93,7 +93,6 @@
     "chart.js": "^3.9.1",
     "chartjs-adapter-moment": "^1.0.0",
     "chartjs-plugin-datalabels": "^2.1.0",
-    "copy-to-clipboard": "^3.3.2",
     "file-saver": "^2.0.5",
     "hammerjs": "^2.0.8",
     "http-status-codes": "^2.2.0",

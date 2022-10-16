@@ -3,14 +3,14 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 
 import { AuthorizationAttributes, DialogMode, DialogParamsWithAuth } from '../../../types/Authorization';
-import { ButtonActionColor, ButtonAction } from '../../../types/GlobalType';
-import { TableActionDef, TableData } from '../../../types/Table';
+import { ButtonAction, ButtonActionColor } from '../../../types/GlobalType';
+import { ActionType, TableActionDef, TableData } from '../../../types/Table';
 import { TableAction } from './table-action';
 
 export class TableCreateAction implements TableAction {
   private action: TableActionDef = {
     id: ButtonAction.CREATE,
-    type: 'button',
+    type: ActionType.BUTTON,
     icon: 'add',
     color: ButtonActionColor.PRIMARY,
     name: 'general.create',

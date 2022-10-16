@@ -10,7 +10,7 @@ import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
 import { ChargingStation, ChargingStationButtonAction } from '../../../../types/ChargingStation';
 import { ActionResponse } from '../../../../types/DataResult';
-import { TableActionDef } from '../../../../types/Table';
+import { ActionType, TableActionDef } from '../../../../types/Table';
 import { Utils } from '../../../../utils/Utils';
 import { TableAction } from '../table-action';
 
@@ -23,7 +23,7 @@ export interface TableChargingStationsForceUnavailableStatusActionDef extends Ta
 export class TableChargingStationsForceUnavailableStatusAction implements TableAction {
   private action: TableChargingStationsForceUnavailableStatusActionDef = {
     id: ChargingStationButtonAction.FORCE_UNAVAILABLE_STATUS,
-    type: 'button',
+    type: ActionType.BUTTON,
     icon: 'stop',
     color: ButtonActionColor.WARN,
     name: 'chargers.force_unavailable_status_action',

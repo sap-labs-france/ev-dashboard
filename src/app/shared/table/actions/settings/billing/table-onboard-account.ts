@@ -1,8 +1,8 @@
 import { Observable } from 'rxjs';
 import { CentralServerService } from 'services/central-server.service';
-import { BillingAccount, BillingAccountStatus, BillingButtonAction } from 'types/Billing';
+import { BillingAccount, BillingButtonAction } from 'types/Billing';
 import { ButtonActionColor } from 'types/GlobalType';
-import { TableActionDef } from 'types/Table';
+import { ActionType, TableActionDef } from 'types/Table';
 
 import { TableAction } from '../../table-action';
 
@@ -15,7 +15,7 @@ export interface TableOnboardAccountActionDef extends TableActionDef {
 export class TableOnboardAccountAction implements TableAction {
   private action: TableActionDef = {
     id: BillingButtonAction.ONBOARD_CONNECTED_ACCOUNT,
-    type: 'button',
+    type: ActionType.BUTTON,
     color: ButtonActionColor.PRIMARY,
     icon: 'person_add',
     name: 'accounts.onboarding.onboard_action',

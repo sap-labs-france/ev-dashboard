@@ -10,7 +10,7 @@ import { SpinnerService } from '../../../../services/spinner.service';
 import { ActionsResponse } from '../../../../types/DataResult';
 import { HTTPError } from '../../../../types/HTTPError';
 import { RefundSettings } from '../../../../types/Setting';
-import { TableActionDef } from '../../../../types/Table';
+import { ActionType, TableActionDef } from '../../../../types/Table';
 import { Transaction, TransactionButtonAction } from '../../../../types/Transaction';
 import { Utils } from '../../../../utils/Utils';
 import { TableAction } from '../table-action';
@@ -24,7 +24,7 @@ export interface TableRefundTransactionsActionDef extends TableActionDef {
 export class TableRefundTransactionsAction implements TableAction {
   private action: TableRefundTransactionsActionDef = {
     id: TransactionButtonAction.REFUND_TRANSACTIONS,
-    type: 'button',
+    type: ActionType.BUTTON,
     icon: 'local_atm',
     color: ButtonActionColor.PRIMARY,
     name: 'general.refund',

@@ -1115,7 +1115,7 @@
       "map": "Map",
       "charging_plans": "Ladepläne",
       "in_error": "Fehlerhaft",
-      "connection": "Neue Ladestation anmelden"
+      "connection": "Onboard New Station"
     },
     "map": {
       "reset_zoom": "Reset Zoom",

@@ -1,11 +1,11 @@
-import { ButtonActionColor, ButtonAction } from '../../../types/GlobalType';
-import { TableActionDef } from '../../../types/Table';
+import { ButtonAction, ButtonActionColor } from '../../../types/GlobalType';
+import { ActionType, TableActionDef } from '../../../types/Table';
 import { TableAction } from './table-action';
 
 export class TableMultiCopyAction implements TableAction {
   private action: TableActionDef = {
     id: ButtonAction.MULTI_COPY,
-    type: 'button',
+    type: ActionType.BUTTON,
     icon: 'file_copy',
     color: ButtonActionColor.PRIMARY,
     name: 'general.copy',

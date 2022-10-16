@@ -15,7 +15,7 @@ import { LocaleService } from '../../services/locale.service';
 import { SpinnerService } from '../../services/spinner.service';
 import { WindowService } from '../../services/window.service';
 import { ButtonAction } from '../../types/GlobalType';
-import { DropdownItem, FilterType, TableActionDef, TableColumnDef, TableData, TableEditType, TableFilterDef } from '../../types/Table';
+import { ActionType, DropdownItem, FilterType, TableActionDef, TableColumnDef, TableData, TableEditType, TableFilterDef } from '../../types/Table';
 import { Constants } from '../../utils/Constants';
 import { Utils } from '../../utils/Utils';
 import { TableDataSource } from './table-data-source';
@@ -39,6 +39,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   public readonly FilterType = FilterType;
   public readonly TableEditType = TableEditType;
   public readonly ButtonAction = ButtonAction;
+  public readonly ActionType = ActionType;
 
   private alive!: boolean;
 

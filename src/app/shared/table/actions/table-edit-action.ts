@@ -4,13 +4,13 @@ import { Observable } from 'rxjs';
 
 import { AuthorizationAttributes, DialogData, DialogMode, DialogParamsWithAuth } from '../../../types/Authorization';
 import { ButtonAction, ButtonActionColor } from '../../../types/GlobalType';
-import { TableActionDef } from '../../../types/Table';
+import { ActionType, TableActionDef } from '../../../types/Table';
 import { TableAction } from './table-action';
 
 export class TableEditAction implements TableAction {
   private action: TableActionDef = {
     id: ButtonAction.EDIT,
-    type: 'button',
+    type: ActionType.BUTTON,
     icon: 'edit',
     color: ButtonActionColor.PRIMARY,
     name: 'general.edit',

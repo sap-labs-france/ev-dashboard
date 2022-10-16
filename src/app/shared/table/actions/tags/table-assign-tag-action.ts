@@ -5,7 +5,7 @@ import { ButtonActionColor } from 'types/GlobalType';
 
 import { TableCreateAction } from '../../../../shared/table/actions/table-create-action';
 import { DialogParamsWithAuth, TagsAuthorizations } from '../../../../types/Authorization';
-import { TableActionDef } from '../../../../types/Table';
+import { ActionType, TableActionDef } from '../../../../types/Table';
 import { Tag, TagButtonAction } from '../../../../types/Tag';
 
 export interface TableAssignTagActionDef extends TableActionDef {
@@ -19,7 +19,7 @@ export class TableAssignTagAction extends TableCreateAction {
     return {
       ...super.getActionDef(),
       id: TagButtonAction.ASSIGN_TAG,
-      type: 'button',
+      type: ActionType.BUTTON,
       icon: 'add',
       color: ButtonActionColor.PRIMARY,
       name: 'general.register',

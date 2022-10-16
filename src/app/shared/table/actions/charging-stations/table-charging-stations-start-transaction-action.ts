@@ -13,7 +13,7 @@ import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
 import { ChargePointStatus, ChargingStation, ChargingStationButtonAction, Connector, OCPPGeneralResponse } from '../../../../types/ChargingStation';
 import { ActionResponse } from '../../../../types/DataResult';
-import { TableActionDef } from '../../../../types/Table';
+import { ActionType, TableActionDef } from '../../../../types/Table';
 import { Utils } from '../../../../utils/Utils';
 import { TableAction } from '../table-action';
 
@@ -27,7 +27,7 @@ export interface TableChargingStationsStartTransactionActionDef extends TableAct
 export class TableChargingStationsStartTransactionAction implements TableAction {
   private action: TableChargingStationsStartTransactionActionDef = {
     id: ChargingStationButtonAction.START_TRANSACTION,
-    type: 'button',
+    type: ActionType.BUTTON,
     icon: 'play_arrow',
     color: ButtonActionColor.ACCENT,
     name: 'general.start',

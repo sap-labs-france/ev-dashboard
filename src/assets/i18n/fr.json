@@ -26,8 +26,8 @@
     "second": "s",
     "more_records": "Plus",
     "click_here": "cliquez ici",
-    "selected_records": "Sélectionnés",
-    "nbr_of_records": "Enregistrements",
+    "selected_records": "Sélect.",
+    "nbr_of_records": "Total",
     "connectors": "Connexions",
     "notifications": "Notifications",
     "general": "Général",
@@ -1115,7 +1115,7 @@
       "map": "Carte",
       "charging_plans": "Plans de charge",
       "in_error": "En erreur",
-      "connection": "Connecter une nouvelle borne"
+      "connection": "Connecter une borne"
     },
     "map": {
       "reset_zoom": "Réinitialiser Zoom",

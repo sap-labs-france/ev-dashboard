@@ -1,7 +1,7 @@
 import { WindowService } from 'services/window.service';
 
 import { ButtonAction, ButtonActionColor } from '../../../types/GlobalType';
-import { TableActionDef } from '../../../types/Table';
+import { ActionType, TableActionDef } from '../../../types/Table';
 import { TableAction } from './table-action';
 
 export interface TableOpenURLActionDef extends TableActionDef {
@@ -11,7 +11,7 @@ export interface TableOpenURLActionDef extends TableActionDef {
 export class TableOpenURLAction implements TableAction {
   private action: TableOpenURLActionDef = {
     id: ButtonAction.OPEN_URL,
-    type: 'button',
+    type: ActionType.BUTTON,
     icon: 'open_in_new',
     color: ButtonActionColor.PRIMARY,
     name: 'general.open',

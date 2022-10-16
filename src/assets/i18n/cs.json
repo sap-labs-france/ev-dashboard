@@ -1115,7 +1115,7 @@
       "map": "Map",
       "charging_plans": "Plány nabíjení",
       "in_error": "Chyba",
-      "connection": "Přidat novou stanici"
+      "connection": "Onboard New Station"
     },
     "map": {
       "reset_zoom": "Reset Zoom",

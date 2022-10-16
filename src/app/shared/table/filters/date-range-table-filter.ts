@@ -23,7 +23,6 @@ export class DateRangeTableFilter extends TableFilter {
       httpId: '', //Not used as startDateTimeHttpId and endDateTimeHttpId are used instead
       type: FilterType.DATE_RANGE,
       name: 'general.search_date',
-      class: 'col-md-6 col-lg-5 col-xl-4 col-xxl-3',
       dateRangeTableFilterDef: {
         timePicker: true,
         timePicker24Hour: true,

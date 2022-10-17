@@ -79,7 +79,7 @@
     "display_qr": "Afficher le QR code",
     "save": "Sauvegarder",
     "delete": "Supprimer",
-    "export": "Export",
+    "export": "Exporter",
     "import": "Importer",
     "synchronize": "Synchroniser",
     "force_synchronize": "Forcer la synchronization",

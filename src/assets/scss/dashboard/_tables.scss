@@ -62,7 +62,7 @@ $outer-spinner: $brand-danger !default;
   overflow: auto;
   white-space: nowrap;
   height: 25vh;
-  min-height: 100px;
+  min-height: 25vh;
   background-color: mat.get-color-from-palette($app-background, dialog);
 }
 

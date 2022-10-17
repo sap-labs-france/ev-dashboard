@@ -13,7 +13,7 @@
 </div>
 <div *ngIf="isActive" class="h-100">
   <form class="form h-100" [formGroup]="formGroup">
-    <div class="mat-toolbar-row mat-toolbar-settings row m-0">
+    <div class="mat-toolbar-row mat-toolbar-settings row m-0 p-0">
       <button mat-raised-button color="warn" (click)="save(formGroup.value)"
           class="col-md-auto col-12 mb-2"
           [disabled]="!formGroup.valid || !formGroup.dirty">

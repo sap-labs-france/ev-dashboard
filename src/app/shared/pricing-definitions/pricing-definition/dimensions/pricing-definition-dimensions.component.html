@@ -1,7 +1,7 @@
 <!-- Flat Fee Dimension -->
-<div class="row mb-1">
+<div class="row">
   <!-- Toggle -->
-  <div class="col-md-3 align-self-center">
+  <div class="col-md-3 align-self-center mb-2 mt-2">
     <mat-slide-toggle (change)="toggle($event)" id="flatFee" [formControl]="flatFeeEnabled">
       {{'settings.pricing.flat_fee' | translate}}
     </mat-slide-toggle>
@@ -16,9 +16,9 @@
   </div>
 </div>
 <!-- Energy Dimension -->
-<div class="row mb-1">
+<div class="row">
   <!-- Toggle -->
-  <div class="col-md-3 align-self-center">
+  <div class="col-md-3 align-self-center mb-2 mt-2">
     <mat-slide-toggle (change)="toggle($event)" id="energy" [formControl]="energyEnabled">
       {{'settings.pricing.energy' | translate}}
     </mat-slide-toggle>
@@ -32,7 +32,7 @@
     </mat-form-field>
   </div>
   <!-- Energy Steps -->
-  <div class="col-md-2 offset-1 align-self-center">
+  <div class="col-md-2 offset-md-1 align-self-center">
     <mat-checkbox (change)="toggle($event)" id="energyStep" [formControl]="energyStepEnabled">
       {{'settings.pricing.step_size' | translate}}
     </mat-checkbox>
@@ -47,9 +47,9 @@
   </div>
 </div>
 <!-- Charging Time Dimension -->
-<div class="row mb-1">
+<div class="row">
   <!-- Toggle -->
-  <div class="col-md-3 align-self-center">
+  <div class="col-md-3 align-self-center mb-2 mt-2">
     <mat-slide-toggle (change)="toggle($event)" id="chargingTime" [formControl]="chargingTimeEnabled">
       {{'settings.pricing.charging_time' | translate}}
     </mat-slide-toggle>
@@ -63,7 +63,7 @@
     </mat-form-field>
   </div>
   <!-- Charging Time Step Sizes -->
-  <div class="col-md-2 offset-1 align-self-center">
+  <div class="col-md-2 offset-md-1 align-self-center mb-2 mt-2">
     <mat-checkbox (change)="toggle($event)" id="chargingTimeStep" [formControl]="chargingTimeStepEnabled">
       {{'settings.pricing.step_size' | translate}}
     </mat-checkbox>
@@ -78,9 +78,9 @@
   </div>
 </div>
 <!-- Parking Time Dimension -->
-<div class="row mb-1">
+<div class="row">
   <!-- Toggle -->
-  <div class="col-md-3 align-self-center">
+  <div class="col-md-3 align-self-center mb-2 mt-2">
     <mat-slide-toggle (change)="toggle($event)" id="parkingTime" [formControl]="parkingTimeEnabled">
       {{'settings.pricing.parking_time' | translate}}
     </mat-slide-toggle>
@@ -94,7 +94,7 @@
     </mat-form-field>
   </div>
   <!-- Parking Time Step Sizes -->
-  <div class="col-md-2 offset-1 align-self-center">
+  <div class="col-md-2 offset-md-1 align-self-center mb-2 mt-2">
     <mat-checkbox (change)="toggle($event)" id="parkingTimeStep" [formControl]="parkingTimeStepEnabled">
       {{'settings.pricing.step_size' | translate}}
     </mat-checkbox>

@@ -19,7 +19,9 @@
       <mat-icon>save</mat-icon>
       <span>{{'general.save' | translate}}</span>
     </button>
-    <button mat-raised-button color="primary" (click)="synchronize()" [disabled]="!formGroup.valid || formGroup.dirty">
+    <button mat-raised-button color="primary" (click)="synchronize()"
+        class="col-md-auto col-12 mb-2"
+        [disabled]="!formGroup.valid || formGroup.dirty">
       <mat-icon>sync</mat-icon>
       <span>{{'general.synchronize' | translate}}</span>
     </button>

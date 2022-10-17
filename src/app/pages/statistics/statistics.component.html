@@ -1,7 +1,6 @@
 <div class="main-content">
   <mat-tab-group (selectedIndexChange)="updateRoute($event)" [selectedIndex]="activeTabIndex" animationDuration="0ms"
-                 disableRipple="true" class="h-100 mat-tab-info">
-
+      disableRipple="true" class="h-100 mat-tab-info">
     <mat-tab>
       <ng-template mat-tab-label>
         <mat-icon>power</mat-icon><span>{{'general.menu.consumption' | translate}}</span>
@@ -10,7 +9,6 @@
       <app-statistics-consumption></app-statistics-consumption>
       </ng-template>
     </mat-tab>
-
     <mat-tab>
       <ng-template mat-tab-label>
         <mat-icon>timer</mat-icon><span>{{'general.menu.usage' | translate}}</span>
@@ -19,7 +17,6 @@
         <app-statistics-usage></app-statistics-usage>
       </ng-template>
     </mat-tab>
-
     <mat-tab>
       <ng-template mat-tab-label>
         <mat-icon>timer_off</mat-icon><span>{{'general.menu.inactivity' | translate}}</span>
@@ -28,7 +25,6 @@
         <app-statistics-inactivity></app-statistics-inactivity>
       </ng-template>
     </mat-tab>
-
     <mat-tab>
       <ng-template mat-tab-label>
         <mat-icon>restore</mat-icon><span>{{'general.menu.transactions' | translate}}</span>
@@ -37,7 +33,6 @@
         <app-statistics-transactions></app-statistics-transactions>
       </ng-template>
     </mat-tab>
-
     <mat-tab *ngIf="isPricingActive">
       <ng-template mat-tab-label>
         <mat-icon>money</mat-icon><span>{{'general.menu.pricing' | translate}}</span>

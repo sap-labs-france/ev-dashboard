@@ -452,7 +452,7 @@
     "limits": "Limites",
     "assign_site": "Assigner un Site",
     "smart_charging": "Smart Charging",
-    "export_all_ocpp_params": "Exporter tous les Paramètres OCPP",
+    "export_all_ocpp_params": "Exporter Paramètres OCPP",
     "edit_assets": "Editer les ressources",
     "display_assets": "Afficher les ressources",
     "no_site_areas": "Aucune zone n'a été trouvée",
@@ -1121,7 +1121,7 @@
       "reset_zoom": "Réinitialiser Zoom",
       "marker_dialog_text": "Que voulez vous faire avec la borne '{{chargingStationID}}' ?",
       "copy_map_url": "Copier le lien de la carte",
-      "copy_map_url_to_clipboard": "Copier le lien Google Map dans le presse papier",
+      "copy_map_url_to_clipboard": "Copier le lien Google Map",
       "navigate_to_charging_station": "Naviguer vers la borne"
     },
     "errors": {
@@ -1174,7 +1174,7 @@
       "registration_token_error": "Une erreur est survenue lors de la récupération du jeton d'enregistrement, vérifiez les logs",
       "token_restrict_site_area": "Restreindre l'accès à une zone",
       "url": "URL OCPP",
-      "copy_url_to_clipboard": "Copier la lien OCPP dans le presse papier",
+      "copy_url_to_clipboard": "Copier la lien OCPP",
       "generate_connection_url": "Connecter une Borne",
       "ocpp_15_soap": "OCPP 1.5 SOAP",
       "ocpp_16_json": "OCPP 1.6 JSON",
@@ -1560,7 +1560,7 @@
       "company_name": "Nom de l'entreprise",
       "account_status": "Statut",
       "account_id": "ID du compte connecté",
-      "billing_account": "Compte conecté"
+      "billing_account": "Compte connecté"
     },
     "message": {
       "create_success": "Le compte a été ajoûté avec succès",

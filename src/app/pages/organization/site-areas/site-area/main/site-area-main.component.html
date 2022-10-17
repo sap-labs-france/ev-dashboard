@@ -73,9 +73,10 @@
         </div>
       </div>
       <div *ngIf="!readOnly && siteArea && !formGroup.disabled">
-        <div class="d-flex justify-content-start">
-          <div *ngIf="registrationToken" class="me-2">
-            <button mat-raised-button [matMenuTriggerFor]="ocppUrlMenu" color="primary">
+        <div class="row">
+          <div *ngIf="registrationToken">
+            <button mat-raised-button [matMenuTriggerFor]="ocppUrlMenu" color="primary"
+                class="col-12 col-md-auto mb-3 mb-md-0">
               <mat-icon>file_copy</mat-icon>
               <span>{{'chargers.connections.copy_url_to_clipboard' | translate}}</span>
             </button>

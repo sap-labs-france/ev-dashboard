@@ -89,8 +89,9 @@
       </mat-form-field>
     </div>
   </div>
-  <div class="col-md-1" class="align-self-baseline" *ngIf="!hideGeolocation">
-    <button mat-raised-button color="primary" (click)="showPlace()" [disabled]="!onlyReadGeolocation && (!coordinates.valid || !latitude.value || !longitude.value)">
+  <div class="col-md-auto" *ngIf="!hideGeolocation">
+    <button mat-raised-button class="col-12 col-md-auto" color="primary"
+        (click)="showPlace()" [disabled]="!onlyReadGeolocation && (!coordinates.valid || !latitude.value || !longitude.value)">
       <mat-icon>location_on</mat-icon><span>{{'general.show_place' | translate}}</span>
     </button>
   </div>

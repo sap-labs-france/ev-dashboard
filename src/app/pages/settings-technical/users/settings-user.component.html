@@ -1,6 +1,8 @@
 <form class="form" [formGroup]="formGroup" height="100%">
-  <div class="mat-toolbar-row left-actions">
-    <button mat-raised-button color="warn" (click)="save()" [disabled]="isDisabled">
+  <div class="mat-toolbar-row left-actions row m-0">
+    <button mat-raised-button color="warn"
+        class="col-md-auto col-12 mb-2"
+        (click)="save()" [disabled]="isDisabled">
       <mat-icon>save</mat-icon><span>{{ "general.save" | translate }}</span>
     </button>
   </div>
@@ -13,11 +15,10 @@
     </div>
     <div class="card-body">
       <div class="row">
-        <div class="col-md-6">
+        <div class="col-12">
           <mat-checkbox
             formControlName="autoActivateAccountAfterValidation"
-            (change)="handleAccountActivation()"
-          >
+            (change)="handleAccountActivation()">
             {{ "technical_settings.user.auto_activation" | translate }}
           </mat-checkbox>
         </div>

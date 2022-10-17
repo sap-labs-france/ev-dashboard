@@ -13,10 +13,10 @@ import { Constants } from 'utils/Constants';
 import { Utils } from 'utils/Utils';
 
 @Component({
-  selector: 'app-tenant-data',
-  templateUrl: 'tenant-data.component.html',
+  selector: 'app-settings-tenant',
+  templateUrl: 'settings-tenant.component.html',
 })
-export class TenantDataComponent implements OnInit, OnChanges {
+export class SettingsTenantComponent implements OnInit, OnChanges {
 
   public isDisabled: boolean;
   public initialized = false;

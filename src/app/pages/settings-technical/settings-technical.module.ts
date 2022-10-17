@@ -12,9 +12,9 @@ import { FormattersModule } from '../../shared/formatters/formatters.module';
 import { TableModule } from '../../shared/table/table.module';
 import { SettingsCryptoKeyComponent } from './crypto/crypto-key/settings-crypto-key.component';
 import { SettingsCryptoComponent } from './crypto/settings-crypto.component';
-import { TenantDataComponent } from './data/tenant-data.component';
 import { SettingsTechnicalComponent } from './settings-technical.component';
 import { TechnicalSettingsRoutes } from './settings-technical.routing';
+import { SettingsTenantComponent } from './tenant/settings-tenant.component';
 import { SettingsUserComponent } from './users/settings-user.component';
 
 @NgModule({
@@ -23,7 +23,7 @@ import { SettingsUserComponent } from './users/settings-user.component';
     SettingsCryptoComponent,
     SettingsCryptoKeyComponent,
     SettingsUserComponent,
-    TenantDataComponent
+    SettingsTenantComponent
   ],
   imports: [
     CommonModule,

@@ -19,14 +19,13 @@ export class TableOpenURLAction implements TableAction {
     action: this.openURL
   };
 
-  // Return an action
   public getActionDef(): TableOpenURLActionDef {
     return this.action;
   }
 
   protected openURL(url: string, windowService: WindowService) {
     // Handle relative URL
-    if (!url.startsWith('http')) {
+    if (url && !url.startsWith('http')) {
       // Build full URL (iPad issue)
       url = windowService.buildFullUrl(url);
     }

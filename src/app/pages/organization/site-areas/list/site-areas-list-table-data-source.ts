@@ -25,7 +25,7 @@ import { TableViewChargingStationsOfSiteAreaAction, TableViewChargingStationsOfS
 import { TableViewSiteAreaAction, TableViewSiteAreaActionDef } from '../../../../shared/table/actions/site-areas/table-view-site-area-action';
 import { TableAutoRefreshAction } from '../../../../shared/table/actions/table-auto-refresh-action';
 import { TableMoreAction } from '../../../../shared/table/actions/table-more-action';
-import { TableOpenInMapsAction } from '../../../../shared/table/actions/table-open-in-maps-action';
+import { TableOpenInMapsAction, TableOpenInMapsActionDef } from '../../../../shared/table/actions/table-open-in-maps-action';
 import { TableRefreshAction } from '../../../../shared/table/actions/table-refresh-action';
 import { IssuerFilter } from '../../../../shared/table/filters/issuer-filter';
 import { SiteTableFilter } from '../../../../shared/table/filters/site-table-filter';
@@ -328,7 +328,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
         break;
       case ButtonAction.OPEN_IN_MAPS:
         if (actionDef.action) {
-          actionDef.action(siteArea.address.coordinates);
+          (actionDef as TableOpenInMapsActionDef).action(siteArea.address.coordinates, this.windowService);
         }
         break;
       case ChargingStationButtonAction.EXPORT_OCPP_PARAMS:

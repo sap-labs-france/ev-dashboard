@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { ComponentService } from 'services/component.service';
+import { WindowService } from 'services/window.service';
 import { PricingDefinitionsDialogComponent } from 'shared/pricing-definitions/pricing-definitions.dialog.component';
 import { TableSiteGenerateQrCodeConnectorAction, TableSiteGenerateQrCodeConnectorsActionDef } from 'shared/table/actions/sites/table-site-generate-qr-code-connector-action';
 import { TableViewPricingDefinitionsAction, TableViewPricingDefinitionsActionDef } from 'shared/table/actions/table-view-pricing-definitions-action';
@@ -25,7 +26,7 @@ import { TableEditSiteAction, TableEditSiteActionDef } from '../../../../shared/
 import { TableViewSiteAction, TableViewSiteActionDef } from '../../../../shared/table/actions/sites/table-view-site-action';
 import { TableAutoRefreshAction } from '../../../../shared/table/actions/table-auto-refresh-action';
 import { TableMoreAction } from '../../../../shared/table/actions/table-more-action';
-import { TableOpenInMapsAction } from '../../../../shared/table/actions/table-open-in-maps-action';
+import { TableOpenInMapsAction, TableOpenInMapsActionDef } from '../../../../shared/table/actions/table-open-in-maps-action';
 import { TableRefreshAction } from '../../../../shared/table/actions/table-refresh-action';
 import { CompanyTableFilter } from '../../../../shared/table/filters/company-table-filter';
 import { IssuerFilter } from '../../../../shared/table/filters/issuer-filter';
@@ -63,6 +64,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
     private dialogService: DialogService,
     private router: Router,
     private dialog: MatDialog,
+    private windowService: WindowService,
     private centralServerService: CentralServerService,
     private datePipe: AppDatePipe,
     private componentService: ComponentService) {
@@ -283,7 +285,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
         break;
       case ButtonAction.OPEN_IN_MAPS:
         if (actionDef.action) {
-          actionDef.action(site.address.coordinates);
+          (actionDef as TableOpenInMapsActionDef).action(site.address.coordinates, this.windowService);
         }
         break;
       case ChargingStationButtonAction.EXPORT_OCPP_PARAMS:

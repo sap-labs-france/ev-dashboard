@@ -1239,7 +1239,7 @@
       "billing": "Facturación"
     },
     "security": "Security",
-    "import_users": "Importar usuarios",
+    "import_users": "Importar",
     "import_users_message": "La importación suprimirá todos los usuarios cargados previamente que no hayan sido importados en la base de datos, ¿desea continuar?",
     "import_users_message_auto_activate": "La importación suprimirá todos los usuarios cargados previamente que no hayan sido importados en la base de datos y los usuarios serán automaticamente activados, ¿desea continuar?",
     "import_users_auto_activation": "Activar nuevos usuarios automáticamente",
@@ -1503,7 +1503,7 @@
     "delete_tags_error": "{{inError}} badges failed to be deleted, check the logs",
     "delete_tags_unexpected_error": "Unexpected error occurred while deleting the badges, check the logs",
     "delete_no_tag": "No badge has been deleted",
-    "import_tags": "Import Badges",
+    "import_tags": "Import",
     "import_tags_message": "The import will discard all other previously uploaded badges not yet imported in the database, do you want to continue?",
     "import_tags_message_auto_activate": "The import will discard all other previously uploaded badges not yet imported in the database, do you want to continue?",
     "import_tags_success": "{{inSuccess}} badges have been uploaded successfully and will be processed asynchronously",

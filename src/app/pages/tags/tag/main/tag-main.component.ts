@@ -107,6 +107,7 @@ export class TagMainComponent implements OnInit, OnChanges {
 
   public generateTagID(): void {
     this.id.setValue(Utils.generateTagID());
+    this.formGroup.markAsDirty();
   }
 
   public assignUser() {

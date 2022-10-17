@@ -7,7 +7,7 @@
           <span>{{title}}</span>
         </ng-template>
         <div class="card-body mat-tab-dialog-body-content">
-          <div class="m-2">
+          <div class="ps-2">
             <div class="row">
               <button mat-flat-button color="primary" (click)="file.click()" class="me-2 col-md-3" [disabled]="uploadInProgress">
                 {{"general.choose_file" | translate}}
@@ -22,7 +22,7 @@
                 {{ "users.import_users_auto_activation" | translate }}
               </mat-checkbox>
             </div>
-            <div *ngIf="entity === 'tags'" class="row pt-3">
+            <div *ngIf="entity === 'tags'" class="row pt-1">
               <mat-checkbox (change)="handleAutoActivateTagAtImport($event.checked)" checked>
                 {{ "tags.import_tags_auto_activation" | translate }}
               </mat-checkbox>

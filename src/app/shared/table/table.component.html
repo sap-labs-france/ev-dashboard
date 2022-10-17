@@ -78,7 +78,7 @@
         </div>
       </div>
       <!-- Filters Row -->
-      <div *ngIf="(dataSource.hasFilters || dataSource.isSearchEnabled)" class="row">
+      <div *ngIf="(dataSource.hasFilters || dataSource.isSearchEnabled)" class="row pt-1">
         <!-- Create Filters -->
         <ng-template ngFor let-filterDef [ngForOf]="dataSource.tableFiltersDef">
           <div *ngIf="filterDef.visible !== false"

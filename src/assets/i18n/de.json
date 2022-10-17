@@ -1239,7 +1239,7 @@
       "billing": "Abrechnung"
     },
     "security": "Sicherheit",
-    "import_users": "Nutzer Importieren",
+    "import_users": "Nutzer",
     "import_users_message": "Der Import wird alle hochgeladenen Nutzer die noch nicht importiert wurden verwerfen, möchten Sie fortfahren?",
     "import_users_message_auto_activate": "Der Import verwirft alle anderen zuvor hochgeladenen Nutzer, die noch nicht in die Datenbank importiert wurden. Die Nutzer werden automatisch aktiviert. Wollen Sie fortfahren?",
     "import_users_auto_activation": "Automatische Aktivierung neu registrierter Nutzer",
@@ -1503,7 +1503,7 @@
     "delete_tags_error": "Das Löschen von {{inError}} Badges ist fehlgeschlagen, bitte überprüfen Sie die Logs",
     "delete_tags_unexpected_error": "Beim Löschen der Badges ist ein unerwarteter Fehler aufgetreten, bitte überprüfen Sie die Logs",
     "delete_no_tag": "Es wurden keine Badges gelöscht",
-    "import_tags": "Badges Importieren",
+    "import_tags": "Importieren",
     "import_tags_message": "Der Import wird alle hochgeladenen Badges die noch nicht importiert wurden verwerfen, möchten Sie fortfahren?",
     "import_tags_message_auto_activate": "Der Import verwirft alle anderen zuvor hochgeladenen Badges, die noch nicht in die Datenbank importiert wurden. Möchten Sie fortfahren?",
     "import_tags_success": "{{inSuccess}} Badges wurden erfolgreich hochgeladen und werden nun verarbeitet",

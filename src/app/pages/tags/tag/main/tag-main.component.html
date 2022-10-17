@@ -19,7 +19,8 @@
       </div>
     </div>
     <div *ngIf="dialogMode === DialogMode.CREATE" class="col-md-6">
-      <button mat-raised-button [title]="'general.generate' | translate" color="primary" (click)="generateTagID()">
+      <button mat-raised-button class="col-12 col-md-auto mb-2"
+          [title]="'general.generate' | translate" color="primary" (click)="generateTagID()">
         <mat-icon>refresh</mat-icon>
         <ng-container>
           <span>{{'general.generate' | translate}}</span>

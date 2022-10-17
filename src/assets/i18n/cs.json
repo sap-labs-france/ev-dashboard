@@ -1239,7 +1239,7 @@
       "billing": "Fakturace"
     },
     "security": "Security",
-    "import_users": "Importovat uživatele",
+    "import_users": "Importovat",
     "import_users_message": "Import odstraní všechny ostatní dříve nahrané uživatele, kteří ještě nebyli importování do databáze, chcete pokračovat?",
     "import_users_message_auto_activate": "The import will discard all other previously uploaded users not yet imported in the database and users will be automatically activated, do you want to continue?",
     "import_users_auto_activation": "Automatically activate new users",
@@ -1504,7 +1504,7 @@
     "delete_tags_error": "{{inError}} karty/čipy se nepodařilo vymazat, zkontrolujte protokoly",
     "delete_tags_unexpected_error": "Došlo k chybě při vymazání karet/čipů, zkontrolujte protokoly",
     "delete_no_tag": "Žádné karty/čipy nebyly vymazány",
-    "import_tags": "Importovat karty/čipy",
+    "import_tags": "Importovat",
     "import_tags_message": "Import odstraní všechny ostatní dříve nahrané karty/čipy, které ještě nebyly importovány do databáze, chcete pokračovat?",
     "import_tags_message_auto_activate": "The import will discard all other previously uploaded RFID cards not yet imported in the database, do you want to continue?",
     "import_tags_success": "{{inSuccess}} karty/čipy byly úspěšně nahrány a budou zpracovány asynchronně",

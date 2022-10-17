@@ -5,8 +5,9 @@
     </div>
   </div>
 </mat-dialog-content>
-<mat-dialog-actions class="justify-content-end">
-  <button *ngFor="let button of buttons" mat-raised-button (click)="close(button.id)" [color]="button.color">
+<mat-dialog-actions class="justify-content-end row">
+  <button *ngFor="let button of buttons" mat-raised-button class="col-12 col-md-auto mb-2"
+      (click)="close(button.id)" [color]="button.color">
     {{button.name | translate}}
   </button>
 </mat-dialog-actions>

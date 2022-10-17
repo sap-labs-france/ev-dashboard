@@ -2562,7 +2562,7 @@
       "limit": "Limitation",
       "limit_watts": "Limitation réseau (kW)",
       "limit_amps": "Limitation rRéseau (A)",
-      "load_all_consumptions": "Afficher la résolution maximale de la courbe",
+      "load_all_consumptions": "Afficher la résolution maximale",
       "unit_kilowatts": "kW",
       "unit_amperage": "Amp"
     },

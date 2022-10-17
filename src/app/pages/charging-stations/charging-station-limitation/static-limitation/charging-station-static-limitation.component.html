@@ -28,8 +28,8 @@
               [chargePoint]="chargePoint" (sliderChangedEmitter)="powerSliderChanged(chargePoint, $event)">
             </app-charging-station-power-slider>
           </div>
-          <div class="col-md-12 text-right">
-            <button mat-raised-button color="primary" (click)="applyStaticLimitConfirm(chargePoint)"
+          <div class="row">
+            <button mat-raised-button color="primary" (click)="applyStaticLimitConfirm(chargePoint)" class="col-12 col-md-auto"
               [disabled]="chargingStation.inactive || !chargePoint?.ampCurrentLimit || !chargingStation.canLimitPower || (isSmartChargingComponentActive && chargingStation.siteArea?.smartCharging && chargingStation?.capabilities?.supportChargingProfiles && !chargingStation.excludeFromSmartCharging)">
               <mat-icon>save</mat-icon><span>{{'general.apply' | translate}}</span>
             </button>

@@ -18,7 +18,7 @@
   </div>
   <div class="row pt-3 pb-2 pt-md-0 pb-md-0 component-item">
     <div class="col-12 align-items-center row">
-      <div class="col-12 col-md-7 mb-2 mb-md-0">
+      <div class="col-md-7 mb-2 mb-md-0">
         <mat-slide-toggle [formControl]="components['controls'].refund['controls'].active"
             (change)="toggleDropDownActivation($event, components['controls'].refund['controls'].type)">
           <strong>{{"refund.title" | translate}}</strong>
@@ -26,7 +26,7 @@
         </mat-slide-toggle>
       </div>
       <div *ngIf="components['controls'].refund['controls'].active.value"
-          class="col-12 col-md-5 pt-2 pt-md-0">
+          class="col-md-5 pt-2 pt-md-0">
         <mat-form-field>
           <mat-select [formControl]="components['controls'].refund['controls'].type"
               [placeholder]="'refund.type_placeholder' | translate"
@@ -44,7 +44,7 @@
   </div>
   <div class="row pt-3 pb-2 pt-md-0 pb-md-0 component-item">
     <div class="col-12 align-items-center row">
-      <div class="col-12 col-md-7 mb-2 mb-md-0">
+      <div class="col-md-7 mb-2 mb-md-0">
         <mat-slide-toggle [formControl]="components['controls'].pricing['controls'].active"
             (change)="toggleDropDownActivation($event, components['controls'].pricing['controls'].type)">
           <strong>{{"pricing.title" | translate}}</strong>
@@ -52,7 +52,7 @@
         </mat-slide-toggle>
       </div>
       <div *ngIf="components['controls'].pricing['controls'].active.value"
-          class="col-12 col-md-5 pt-2 pt-md-0">
+          class="col-md-5 pt-2 pt-md-0">
         <mat-form-field>
           <mat-select [formControl]="components['controls'].pricing['controls'].type"
               [placeholder]="'pricing.type_placeholder' | translate"
@@ -70,7 +70,7 @@
   </div>
   <div class="row pt-3 pb-2 pt-md-0 pb-md-0 component-item">
     <div class="col-12 align-items-center row">
-      <div class="col-12 col-md-7 mb-2 mb-md-0">
+      <div class="col-md-7 mb-2 mb-md-0">
         <mat-slide-toggle [formControl]="components['controls'].billing['controls'].active"
             (change)="toggleDropDownActivation($event, components['controls'].billing['controls'].type)">
           <strong>{{"billing.title" | translate}}</strong>
@@ -78,7 +78,7 @@
         </mat-slide-toggle>
       </div>
       <div *ngIf="components['controls'].billing['controls'].active.value"
-          class="col-12 col-md-5 pt-2 pt-md-0">
+          class="col-md-5 pt-2 pt-md-0">
         <mat-form-field>
           <mat-select [formControl]="components['controls'].billing['controls'].type"
               [placeholder]="'billing.type_placeholder' | translate"
@@ -144,7 +144,7 @@
   </div>
   <div class="row pt-3 pb-2 pt-md-0 pb-md-0 component-item">
     <div class="col-12 align-items-center row">
-      <div class="col-12 col-md-7 mb-2 mb-md-0">
+      <div class="col-md-7 mb-2 mb-md-0">
         <mat-slide-toggle [formControl]="components['controls'].analytics['controls'].active"
             (change)="toggleDropDownActivation($event, components['controls'].analytics['controls'].type)">
           <strong>{{"analytics.title" | translate}}</strong>
@@ -152,7 +152,7 @@
         </mat-slide-toggle>
       </div>
       <div *ngIf="components['controls'].analytics['controls'].active.value"
-          class="col-12 col-md-5 pt-2 pt-md-0">
+          class="col-md-5 pt-2 pt-md-0">
         <mat-form-field>
           <mat-select [formControl]="components['controls'].analytics['controls'].type"
               [placeholder]="'analytics.type_placeholder' | translate"
@@ -170,7 +170,7 @@
   </div>
   <div class="row pt-3 pb-2 pt-md-0 pb-md-0 component-item">
     <div class="col-12 align-items-center row">
-      <div class="col-12 col-md-7 mb-2 mb-md-0">
+      <div class="col-md-7 mb-2 mb-md-0">
         <mat-slide-toggle [formControl]="components['controls'].smartCharging['controls'].active"
             (change)="toggleDropDownActivation($event, components['controls'].smartCharging['controls'].type)">
           <strong>{{"smart_charging.title" | translate}}</strong>
@@ -178,7 +178,7 @@
         </mat-slide-toggle>
       </div>
       <div *ngIf="components['controls'].smartCharging['controls'].active.value"
-          class="col-12 col-md-5 pt-2 pt-md-0">
+          class="col-md-5 pt-2 pt-md-0">
         <mat-form-field>
           <mat-select [formControl]="components['controls'].smartCharging['controls'].type"
               [placeholder]="'smart_charging.type_placeholder' | translate"

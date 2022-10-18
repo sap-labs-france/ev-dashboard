@@ -1,7 +1,7 @@
 <form class="form" [formGroup]="formGroup" height="100%">
   <div class="mat-toolbar-row left-actions row m-0">
     <button mat-raised-button color="warn" (click)="saveTenant(formGroup.value)"
-        class="col-md-auto col-12 mb-2"
+        class="col-md-auto mb-2"
         [disabled]="!formGroup.valid || !formGroup.dirty">
       <mat-icon>save</mat-icon><span>{{ "general.save" | translate }}</span>
     </button>

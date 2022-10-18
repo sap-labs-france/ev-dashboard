@@ -6,20 +6,20 @@
     <div class="col">
       <!-- Export data -->
       <button mat-raised-button (click)="exportData()" color="primary" appTooltip
-        class="col-12 me-0 col-md-auto me-md-2 mb-2"
+        class="col-md-auto me-0 me-md-2 mb-2"
         [title]="'general.export' | translate">
         <mat-icon>cloud_download</mat-icon><span>{{'general.export' | translate}}</span>
       </button>
       <!-- Reset Filters -->
       <button mat-raised-button (click)="resetFilters()" color="primary" appTooltip
-        class="col-12 me-0 col-md-auto me-md-2 mb-2"
+        class="col-md-auto me-0 me-md-2 mb-2"
         [title]="'general.reset_filters' | translate">
         <mat-icon>cancel</mat-icon><span>{{'general.reset_filters' | translate}}</span>
       </button>
       <!-- SAC links -->
       <div *ngIf="sacLinksActive">
         <button mat-raised-button [matMenuTriggerFor]="sacLinksButton" color="primary" appTooltip
-          class="col-12 me-0 col-md-auto me-md-2 mb-2"
+          class="col-md-auto me-0 me-md-2 mb-2"
           [title]="'analytics.links' | translate">
           <mat-icon>visibility</mat-icon><span>{{'settings.tabs.analytics' | translate}}</span>
         </button>

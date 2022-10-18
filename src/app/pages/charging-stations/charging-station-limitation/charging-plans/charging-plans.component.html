@@ -13,28 +13,28 @@
     </div>
     <div class="row mb-2">
       <button mat-raised-button color="primary" (click)="saveAndApplyChargingProfile()"
-          class="col-12 col-md-auto mb-2 me-2"
+          class="col-md-auto mb-2 me-2"
           [disabled]="chargingStation.inactive || (isSmartChargingComponentActive && chargingStation.siteArea?.smartCharging && !chargingStation.excludeFromSmartCharging) || !scheduleEditableTableDataSource || scheduleEditableTableDataSource.getContent().length === 0 || !formGroup.dirty || !formGroup.valid">
         <mat-icon>save</mat-icon><span>{{'general.apply' | translate}}</span>
       </button>
       <button mat-raised-button color="primary" (click)="deleteChargingProfile()"
-          class="col-12 col-md-auto mb-2 me-2"
+          class="col-md-auto mb-2 me-2"
           [disabled]="chargingStation.inactive || !chargingStation.canDeleteChargingProfile || (isSmartChargingComponentActive && chargingStation.siteArea?.smartCharging && !chargingStation.excludeFromSmartCharging) || chargingProfiles.length === 0">
         <mat-icon>delete</mat-icon><span>{{'general.delete' | translate}}</span>
       </button>
       <button mat-raised-button color="primary" (click)="refresh()"
-          class="col-12 col-md-auto mb-2 me-2">
+          class="col-md-auto mb-2 me-2">
         <mat-icon>refresh</mat-icon><span>{{'general.refresh' | translate}}</span>
       </button>
       <button mat-raised-button
-        class="col-12 col-md-auto mb-2 me-2"
+        class="col-md-auto mb-2 me-2"
         *ngIf="(isSmartChargingComponentActive && chargingStation.siteArea?.smartCharging && !chargingStation.excludeFromSmartCharging)"
         color="primary" (click)="triggerSmartCharging()">
         <mat-icon>signal_cellular_alt</mat-icon>
         <span>{{'chargers.smart_charging.trigger_smart_charging' | translate}}</span>
       </button>
       <button mat-raised-button color="primary" (click)="navigateToLog()"
-        class="col-12 col-md-auto mb-2 me-2">
+        class="col-md-auto mb-2 me-2">
         <mat-icon>open_in_new</mat-icon><span>{{'logs.redirect' | translate}}</span>
       </button>
       <span class="toolbar-spacer"></span>

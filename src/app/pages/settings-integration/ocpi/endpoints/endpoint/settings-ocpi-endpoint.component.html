@@ -98,7 +98,7 @@
                   </div>
                 </div>
                 <div class="col-md-4 text-start">
-                  <button mat-raised-button class="col-12 col-md-auto" color="primary" (click)="generateLocalToken(formGroup.value)">
+                  <button mat-raised-button class="col-md-auto" color="primary" (click)="generateLocalToken(formGroup.value)">
                     <mat-icon>vpn_key</mat-icon>
                     <span>{{'ocpiendpoints.generate_new_token' | translate}}</span>
                   </button>
@@ -117,7 +117,7 @@
                   </div>
                 </div>
                 <div class="col-md-4 text-start">
-                  <button mat-raised-button class="col-12 col-md-auto" color="primary" (click)="testConnection(formGroup.value)"
+                  <button mat-raised-button class="col-md-auto" color="primary" (click)="testConnection(formGroup.value)"
                       [disabled]="!token.value || baseUrl.errors?.required || baseUrl.errors?.pattern">
                     <mat-icon>touch_app</mat-icon>
                     <span>{{'ocpiendpoints.test_connection' | translate}}</span>

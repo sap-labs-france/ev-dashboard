@@ -13,7 +13,7 @@
 <div *ngIf="isActive" class="d-flex flex-column">
   <div class="mat-toolbar-row mat-toolbar-settings row m-0">
     <button mat-raised-button color="warn" (click)="save(formGroup.value)"
-        class="col-md-auto col-12 mb-2"
+        class="col-md-auto mb-2"
         [disabled]="!formGroup.valid || !formGroup.dirty">
       <mat-icon>save</mat-icon>
       <span>{{'general.save' | translate}}</span>

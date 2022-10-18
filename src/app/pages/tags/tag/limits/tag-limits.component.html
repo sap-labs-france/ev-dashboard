@@ -1,7 +1,7 @@
 <div>
   <form class="form" [formGroup]="formGroup">
     <div class="row align-items-center">
-      <div class="col-md-3 pricing-dimension">
+      <div class="col-md-3 mb-3 pricing-dimension">
         <mat-slide-toggle (change)="toggleLimitKwh($event)" [formControl]="limitKwhEnabled">
           {{'tags.limits_energy' | translate}}
         </mat-slide-toggle>
@@ -20,7 +20,7 @@
         </mat-form-field>
       </div>
       <div class="col-md-2">
-        <button mat-raised-button class="col-12 col-md-auto"
+        <button mat-raised-button class="col-md-auto"
             color="primary" *ngIf="!readOnly" [disabled]="!limitKwhEnabled.value" (click)="resetLimitKwh()">
           <mat-icon>lock_reset</mat-icon>
           <span>{{'general.reset' | translate}}</span>

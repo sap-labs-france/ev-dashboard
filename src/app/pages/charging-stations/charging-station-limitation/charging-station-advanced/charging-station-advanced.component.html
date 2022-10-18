@@ -34,7 +34,7 @@
             </div>
           </div>
           <button mat-raised-button color="primary" (click)="getChargingProfilesForConnector()"
-            class="col-12 col-md-auto"
+            class="col-md-auto"
             [disabled]="chargingStation.inactive || !formGroup.valid">
             <mat-icon>get_app</mat-icon><span>{{'chargers.smart_charging.retrieve_schedule' | translate}}</span>
           </button>

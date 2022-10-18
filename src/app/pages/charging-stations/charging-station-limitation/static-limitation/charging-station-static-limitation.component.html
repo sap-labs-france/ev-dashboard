@@ -29,7 +29,7 @@
             </app-charging-station-power-slider>
           </div>
           <div class="row">
-            <button mat-raised-button color="primary" (click)="applyStaticLimitConfirm(chargePoint)" class="col-12 col-md-auto"
+            <button mat-raised-button color="primary" (click)="applyStaticLimitConfirm(chargePoint)" class="col-md-auto"
               [disabled]="chargingStation.inactive || !chargePoint?.ampCurrentLimit || !chargingStation.canLimitPower || (isSmartChargingComponentActive && chargingStation.siteArea?.smartCharging && chargingStation?.capabilities?.supportChargingProfiles && !chargingStation.excludeFromSmartCharging)">
               <mat-icon>save</mat-icon><span>{{'general.apply' | translate}}</span>
             </button>

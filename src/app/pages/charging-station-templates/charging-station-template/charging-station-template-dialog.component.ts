@@ -23,7 +23,7 @@ export class ChargingStationTemplateDialogComponent implements AfterViewInit {
     this.templateID = dialogParams.dialogData?.id;
     this.dialogMode = dialogParams.dialogMode;
     if (dialogParams?.dialogData?.template.chargePointVendor && dialogParams?.dialogData?.template.extraFilters.chargePointModel) {
-      this.dialogTitle = dialogParams.dialogData.template.chargePointVendor + ' - ' + dialogParams.dialogData.template.extraFilters.chargePointModel
+      this.dialogTitle = dialogParams.dialogData.template.chargePointVendor + ' - ' + dialogParams.dialogData.template.extraFilters.chargePointModel;
     } else {
       this.dialogTitle = this.translateService.instant('templates.title');
     }

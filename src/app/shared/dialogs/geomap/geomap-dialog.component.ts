@@ -8,7 +8,7 @@ import { Utils } from '../../../utils/Utils';
 
 @Component({
   templateUrl: 'geomap-dialog.component.html',
-  styleUrls: ['./geomap-dialog.scss']
+  styleUrls: ['geomap-dialog.component.scss']
 })
 export class GeoMapDialogComponent {
   @ViewChild(GoogleMap, { static: false }) public googleMapService!: GoogleMap;

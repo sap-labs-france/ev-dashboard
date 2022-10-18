@@ -34,10 +34,12 @@
       </div>
     </div>
     <div class="card-footer justify-content-end row">
-      <button mat-raised-button color="primary" (click)="validate()" class="col-12 col-md-auto mb-2 me-0 me-md-2">
+      <button mat-raised-button color="primary" (click)="validate()"
+          class="col-12 col-md-auto mb-2 me-0 me-md-2">
         {{"general.set_coordinates" | translate}}
       </button>
-      <button mat-raised-button *ngIf="!displayOnly" (click)="cancel()" class="col-12 col-md-auto mb-2 me-0 me-md-2">
+      <button mat-raised-button *ngIf="!displayOnly" (click)="cancel()"
+          class="col-12 col-md-auto mb-2 me-0 me-md-2">
         {{"general.cancel" | translate}}
       </button>
     </div>

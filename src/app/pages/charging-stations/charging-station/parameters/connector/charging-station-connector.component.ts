@@ -251,9 +251,6 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
         if (qrCode) {
           // Create the dialog
           const dialogConfig = new MatDialogConfig();
-          dialogConfig.minWidth = '70vw';
-          dialogConfig.minHeight = '70vh';
-          dialogConfig.disableClose = false;
           dialogConfig.panelClass = 'transparent-dialog-container';
           // Set data
           dialogConfig.data = {
@@ -261,12 +258,8 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
             connectorID: this.connector.connectorId,
             chargingStationID: this.chargingStation.id,
           };
-          // Disable outside click close
-          dialogConfig.disableClose = true;
           // Open
-          this.dialog.open(QrCodeDialogComponent, dialogConfig)
-            .afterClosed().subscribe((result) => {
-            });
+          this.dialog.open(QrCodeDialogComponent, dialogConfig);
         }
       },
       error: (error) => {

@@ -5,7 +5,7 @@ import { ConfigService } from 'services/config.service';
 @Component({
   selector: 'app-refresh',
   templateUrl: './refresh.component.html',
-  styleUrls: ['./refresh.component.scss']
+  styleUrls: ['refresh.component.scss']
 })
 
 export class RefreshComponent implements OnInit, OnChanges, OnDestroy {

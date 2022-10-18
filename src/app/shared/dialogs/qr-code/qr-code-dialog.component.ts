@@ -11,6 +11,7 @@ import { SpinnerService } from '../../../services/spinner.service';
 
 @Component({
   templateUrl: 'qr-code-dialog.component.html',
+  styleUrls: ['qr-code-dialog.component.scss']
 })
 export class QrCodeDialogComponent {
   public qrCode: string;

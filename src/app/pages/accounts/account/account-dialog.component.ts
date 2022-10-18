@@ -16,7 +16,7 @@ import { Utils } from 'utils/Utils';
 
 @Component({
   templateUrl: './account-dialog.component.html',
-  styleUrls: ['./account-dialog.component.scss']
+  styleUrls: ['account-dialog.component.scss']
 })
 export class AccountDialogComponent implements OnInit{
   public currentAccount: BillingAccount;

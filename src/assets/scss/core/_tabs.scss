@@ -25,7 +25,7 @@
     .nav-link:focus {
       border: 0 !important;
       color: $brand-background !important;
-      font-weight: $font-weight-bold;
+      font-weight: $fw-bold;
     }
     &.disabled .nav-link,
     &.disabled .nav-link:hover {
@@ -222,7 +222,7 @@
   text-transform: uppercase;
   &:focus {
     border: 0 !important;
-    font-weight: $font-weight-bold;
+    font-weight: $fw-bold;
   }
   &:hover {
     background-color: rgba($brand-background, .1);

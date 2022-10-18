@@ -2,6 +2,6 @@
 // Dropdown buttons (mobile and desktop) https://www.google.com/design/spec/components/buttons.html#buttons-dropdown-buttons
 
 .mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
-  color: $brand-background;
-  background: $brand-primary;
+  color: $brand-background !important;
+  background: $brand-primary !important;
 }

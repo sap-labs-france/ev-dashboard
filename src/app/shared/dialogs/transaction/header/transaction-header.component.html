@@ -5,45 +5,45 @@
     <div *ngIf="transaction.tag?.visualID" class="text-nowrap sub-title">({{transaction.tag.visualID}})</div>
     <div *ngIf="isStoppedByAnotherUser" class="text-nowrap third-text">{{"transactions.stopped_by" | translate}} {{transaction.stop.user | appUserName}}</div>
   </div>
-  <div class="col-12 col-md-2 p-3">
-    <div *ngIf="transaction.stop" class="col-12 col-md-auto text-center mb-3" appTooltip
+  <div class="col-12 col-md-2 p-3 justify-content-center row">
+    <div *ngIf="transaction.stop" class="col-6 col-md-12 text-center mb-3" appTooltip
         title="{{'transactions.dialog.session.tooltips.amount' | translate}}">
       <mat-icon>money</mat-icon>
       <div>{{transaction.stop.priceUnit ? (transaction.stop.roundedPrice | appCurrency:transaction.stop.priceUnit) : '-'}}</div>
     </div>
-    <div *ngIf="!transaction.stop" class="col-12 col-md-auto text-center mb-3" appTooltip
+    <div *ngIf="!transaction.stop" class="col-6 col-md-12 text-center mb-3" appTooltip
         title="{{'transactions.dialog.session.tooltips.current_consumption' | translate}}">
       <mat-icon>flash_on</mat-icon>
       <div>{{transaction.currentInstantWatts | appUnit:'W':'kW'}}</div>
     </div>
-    <div class="col-12 col-md-auto text-center" appTooltip
+    <div class="col-6 col-md-12 text-center" appTooltip
         title="{{'transactions.dialog.session.tooltips.start_date' | translate}}">
       <mat-icon>timelapse</mat-icon>
       <div>{{transaction.timestamp | appDate}}</div>
       <div *ngIf="transaction.stop"><small>({{transaction.stop.timestamp | appDate}})</small></div>
     </div>
   </div>
-  <div class="col-12 col-md-2 p-3">
-    <div class="col-12 col-md-auto text-center mb-3" appTooltip
+  <div class="col-12 col-md-2 p-3 justify-content-center row">
+    <div class="col-6 col-md-12 text-center mb-3" appTooltip
         title="{{'transactions.dialog.session.tooltips.total_consumption' | translate}}">
       <mat-icon>ev_station</mat-icon>
       <div>{{totalConsumptionWh | appUnit:'Wh':'kWh'}}</div>
     </div>
-    <div class="col-12 col-md-auto text-center" appTooltip
+    <div class="col-6 col-md-12 text-center" appTooltip
         title="{{'transactions.dialog.session.tooltips.total_duration' | translate}}">
       <mat-icon>timer</mat-icon>
       <div>{{totalDurationSecs | appDuration}}</div>
     </div>
   </div>
-  <div class="col-12 col-md-2 p-3">
-    <div *ngIf="stateOfChargeIcon" class="col-12 col-md-auto text-center mb-3" appTooltip
+  <div class="col-12 col-md-2 p-3 justify-content-center row">
+    <div *ngIf="stateOfChargeIcon" class="col-6 col-md-12 text-center mb-3" appTooltip
       title="{{'transactions.dialog.session.tooltips.state_of_charge' | translate}}">
       <mat-icon>battery_charging_full</mat-icon>
       <div>{{stateOfCharge | appBatteryPercentage: endStateOfCharge }}</div>
     </div>
     <div appTooltip
         [ngClass]="transaction && (transaction.stop ? transaction.stop.inactivityStatus : transaction.currentInactivityStatus) | appColorByStatus"
-        class="col-12 col-md-auto text-center"
+        class="col-6 col-md-12 text-center"
         title="{{'transactions.dialog.session.tooltips.inactivity' | translate}}">
       <mat-icon >timer_off</mat-icon>
       <div>{{transaction | appInactivity}}</div>

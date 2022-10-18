@@ -461,12 +461,6 @@ tr.element-row:not(.expanded-row):active {
   padding: 10px;
   background: $brand-background;
   z-index: 100;
-
-  .left-bottom-table {
-  }
-  .right-bottom-table {
-    text-align: right;
-  }
 }
 
 .table-no-border {

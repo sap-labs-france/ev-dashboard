@@ -352,10 +352,10 @@
     </div>
   </div>
   <!-- Bottom list -->
-  <div class="bottom-table d-flex justify-content-between"
+  <div class="bottom-table row"
     *ngIf="dataSource.tableDef && !dataSource.tableDef.isSimpleTable">
     <!-- Left side -->
-    <div class="left-bottom-table">
+    <div class="col">
       <!-- Multi-Selection enabled? -->
       <span *ngIf="dataSource.tableDef.rowSelection && dataSource.tableDef.rowSelection.multiple">
         {{'general.selected_records' | translate}}: {{dataSource.selectedRows}}&nbsp;
@@ -364,7 +364,7 @@
       <span [innerHTML]="dataSource.tableFooterStats"></span>
     </div>
     <!-- Right side -->
-    <div class="right-bottom-table">
+    <div class="col-auto">
       {{'general.nbr_of_records' | translate}}:
       <!-- Too many records? -->
       <span *ngIf="dataSource.totalNumberOfRecords === maxRecords">

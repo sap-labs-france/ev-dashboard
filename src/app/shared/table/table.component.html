@@ -9,7 +9,7 @@
           <ng-container *ngFor="let actionDef of dataSource.tableActionsDef; let i=index">
             <!-- Action Button -->
             <button mat-raised-button *ngIf="actionDef.type === ActionType.BUTTON && actionDef.id !== 'reset_filters'"
-              class="col-md-auto me-0 me-md-2 mb-2"
+              class="col-12 col-md-auto me-0 me-md-2 mb-2"
               [hidden]="actionDef.visible === false || actionDef.visible === undefined || actionDef.visible === null"
               (click)="actionTriggered(actionDef)" [color]="(actionDef.color ? actionDef.color : '')"
               [disabled]="actionDef.disabled || (dataSource.tableDef.rowSelection && actionDef.linkedToListSelection && dataSource.selectedRows === 0)"
@@ -19,7 +19,7 @@
             </button>
             <!-- Sliding button -->
             <ng-container *ngIf="actionDef.type === ActionType.SLIDE"
-              class="col-md-auto me-0 me-md-2 mb-2">
+              class="col-12 col-md-auto me-0 me-md-2 mb-2">
               <mat-slide-toggle (change)="actionTriggered(actionDef)" [checked]="actionDef.currentValue" appTooltip
                 [title]="actionDef.tooltip ? (actionDef.tooltip | translate) : (actionDef.name | translate)" class="table-slider">
                 {{actionDef.name | translate}}
@@ -27,7 +27,7 @@
             </ng-container>
             <!-- Reset Filters -->
             <button mat-raised-button *ngIf="actionDef.type === ActionType.BUTTON && actionDef.id === 'reset_filters'"
-              class="col-md-auto me-0 me-md-2 mb-2"
+              class="col-12 col-md-auto me-0 me-md-2 mb-2"
               (click)="resetFilters()" [color]="(actionDef.color ? actionDef.color : '')" appTooltip
               [title]="actionDef.tooltip ? (actionDef.tooltip | translate) : (actionDef.name | translate)" [disabled]="!dataSource.filterSet">
               <mat-icon *ngIf="actionDef.icon">{{actionDef.icon}}</mat-icon>
@@ -35,13 +35,13 @@
             </button>
           </ng-container>
         </div>
-        <div class="col-xs-12 col-md-auto">
+        <div class="col-xs-12 col-12 col-md-auto">
           <div class="row">
             <!-- Create Right Actions -->
             <ng-container *ngFor="let actionRightDef of dataSource.tableActionsRightDef; let i=index">
               <!-- Action Button -->
               <button mat-raised-button *ngIf="actionRightDef.id !== ButtonAction.REFRESH && actionRightDef.type === ActionType.BUTTON"
-                class="col-md-auto me-0 me-md-2 mb-2"
+                class="col-12 col-md-auto me-0 me-md-2 mb-2"
                 [color]="(actionRightDef.color ? actionRightDef.color : '')" (click)="actionTriggered(actionRightDef)"
                 [title]="actionRightDef.tooltip ? (actionRightDef.tooltip | translate) : (actionRightDef.name | translate)">
                 <mat-icon *ngIf="actionRightDef.icon">{{actionRightDef.icon}}</mat-icon>

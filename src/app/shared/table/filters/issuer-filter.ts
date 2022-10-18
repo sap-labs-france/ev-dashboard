@@ -12,20 +12,20 @@ export class IssuerFilter extends TableFilter {
       type: FilterType.DROPDOWN,
       name: 'issuer.title',
       label: '',
-      defaultValue: defaultValue ? organizations[0] : organizations[1],
-      items: Object.assign([], organizations),
+      defaultValue: defaultValue ? Organizations[0] : Organizations[1],
+      items: [...Organizations],
       multiple: true,
       exhaustive: true
     };
     if (!defaultValue) {
-      filterDef.defaultValue = organizations[1];
+      filterDef.defaultValue = Organizations[1];
     }
     // Set
     this.setFilterDef(filterDef);
   }
 }
 
-export const organizations: KeyValue[] = [
+export const Organizations: KeyValue[] = [
   { key: 'true', value: 'issuer.local' },
   { key: 'false', value: 'issuer.foreign' },
 ];

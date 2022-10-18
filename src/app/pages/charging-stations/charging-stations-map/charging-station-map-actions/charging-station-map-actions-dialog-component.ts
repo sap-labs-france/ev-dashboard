@@ -37,7 +37,7 @@ export class ChargingStationsMapActionsDialogComponent {
 
   public navigateToChargingStation() {
     this.windowService.openUrl(
-      this.windowService.buildFullUrl(`charging-stations#all?Search=${this.chargingStation.id}`));
+      this.windowService.buildFullUrl(`charging-stations#all?Search=${this.chargingStation.id}&Issuer=${this.chargingStation.issuer}`));
   }
 
   public close() {

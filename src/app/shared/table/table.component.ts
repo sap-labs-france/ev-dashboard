@@ -123,7 +123,6 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public filterChanged(filterDef: TableFilterDef) {
     this.dataSource.filterChanged(filterDef);
-    // this.updateUrlWithFilters(filterDef);
     this.refresh();
   }
 

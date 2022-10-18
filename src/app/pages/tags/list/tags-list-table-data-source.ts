@@ -19,7 +19,7 @@ import { TableUnassignTagAction, TableUnassignTagActionDef } from 'shared/table/
 import { TableUnassignTagsAction, TableUnassignTagsActionDef } from 'shared/table/actions/tags/table-unassign-tags-action';
 import { TableViewTagAction, TableViewTagActionDef } from 'shared/table/actions/tags/table-view-tag-action';
 import { TableNavigateToTransactionsAction } from 'shared/table/actions/transactions/table-navigate-to-transactions-action';
-import { organizations } from 'shared/table/filters/issuer-filter';
+import { Organizations } from 'shared/table/filters/issuer-filter';
 import { StatusFilter } from 'shared/table/filters/status-filter';
 import { UserTableFilter } from 'shared/table/filters/user-table-filter';
 import { TagsAuthorizations } from 'types/Authorization';
@@ -101,7 +101,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
     if (issuer) {
       const issuerTableFilter = this.tableFiltersDef.find(filter => filter.id === 'issuer');
       if (issuerTableFilter) {
-        issuerTableFilter.currentValue = [organizations.find(organisation => organisation.key === issuer)];
+        issuerTableFilter.currentValue = [Organizations.find(organisation => organisation.key === issuer)];
         this.filterChanged(issuerTableFilter);
       }
     }

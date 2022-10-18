@@ -28,7 +28,7 @@ import { TableDeleteUserAction, TableDeleteUserActionDef } from '../../../shared
 import { TableEditUserAction, TableEditUserActionDef } from '../../../shared/table/actions/users/table-edit-user-action';
 import { TableExportUsersAction, TableExportUsersActionDef } from '../../../shared/table/actions/users/table-export-users-action';
 import { TableForceSyncBillingUserAction } from '../../../shared/table/actions/users/table-force-sync-billing-user-action';
-import { IssuerFilter, organizations } from '../../../shared/table/filters/issuer-filter';
+import { IssuerFilter, Organizations } from '../../../shared/table/filters/issuer-filter';
 import { SiteTableFilter } from '../../../shared/table/filters/site-table-filter';
 import { TagTableFilter } from '../../../shared/table/filters/tag-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
@@ -99,7 +99,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
     if (issuer) {
       const issuerTableFilter = this.tableFiltersDef.find(filter => filter.id === 'issuer');
       if (issuerTableFilter) {
-        issuerTableFilter.currentValue = [organizations.find(organisation => organisation.key === issuer)];
+        issuerTableFilter.currentValue = [Organizations.find(organisation => organisation.key === issuer)];
         this.filterChanged(issuerTableFilter);
       }
     }

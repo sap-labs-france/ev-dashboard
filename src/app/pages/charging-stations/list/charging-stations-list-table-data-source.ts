@@ -29,7 +29,7 @@ import { TableOpenInMapsAction, TableOpenInMapsActionDef } from '../../../shared
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { TableViewPricingDefinitionsAction, TableViewPricingDefinitionsActionDef } from '../../../shared/table/actions/table-view-pricing-definitions-action';
 import { CompanyTableFilter } from '../../../shared/table/filters/company-table-filter';
-import { IssuerFilter } from '../../../shared/table/filters/issuer-filter';
+import { IssuerFilter, Organizations } from '../../../shared/table/filters/issuer-filter';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
 import { SiteTableFilter } from '../../../shared/table/filters/site-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
@@ -93,6 +93,12 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
     const searchValue = this.windowService.getUrlParameterValue('Search');
     if (searchValue) {
       this.setSearchValue(searchValue);
+    }
+    const issuer = this.windowService.getUrlParameterValue('Issuer');
+    if (issuer) {
+      this.issuerFilter.currentValue = [
+        Utils.convertToBoolean(issuer) ? Organizations[0] : Organizations[1]
+      ];
     }
   }
 

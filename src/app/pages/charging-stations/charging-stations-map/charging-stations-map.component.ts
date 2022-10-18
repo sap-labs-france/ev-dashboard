@@ -94,7 +94,7 @@ export class ChargingStationsMapComponent implements OnInit, AfterViewInit {
   public loadMapData(autoRefresh = false, initialLoading = false) {
     this.loading = true;
     const params: FilterParams = {
-      ProjectFields: 'id|coordinates|connectors.status',
+      ProjectFields: 'id|coordinates|issuer|connectors.status',
       WithAuth: 'false',
       Search: this.searchValue,
     };

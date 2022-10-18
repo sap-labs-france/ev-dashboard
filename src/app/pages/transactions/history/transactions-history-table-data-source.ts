@@ -36,7 +36,7 @@ import { TableExportTransactionsAction, TableExportTransactionsActionDef } from 
 import { TablePushTransactionOcpiCdrAction, TablePushTransactionOcpiCdrActionDef } from '../../../shared/table/actions/transactions/table-push-transaction-ocpi-cdr-action';
 import { TableViewTransactionAction, TableViewTransactionActionDef, TransactionDialogData } from '../../../shared/table/actions/transactions/table-view-transaction-action';
 import { ChargingStationTableFilter } from '../../../shared/table/filters/charging-station-table-filter';
-import { IssuerFilter, organizations } from '../../../shared/table/filters/issuer-filter';
+import { IssuerFilter, Organizations } from '../../../shared/table/filters/issuer-filter';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
 import { SiteTableFilter } from '../../../shared/table/filters/site-table-filter';
 import { TagTableFilter } from '../../../shared/table/filters/tag-table-filter';
@@ -133,7 +133,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     if (issuer) {
       const issuerTableFilter = this.tableFiltersDef.find(filter => filter.id === 'issuer');
       if (issuerTableFilter) {
-        issuerTableFilter.currentValue = [organizations.find(organisation => organisation.key === issuer)];
+        issuerTableFilter.currentValue = [Organizations.find(organisation => organisation.key === issuer)];
         this.filterChanged(issuerTableFilter);
       }
     }

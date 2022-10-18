@@ -343,7 +343,7 @@ export abstract class TableDataSource<T extends TableData> {
       for (const filterDef of this.tableFiltersDef) {
         // Check the 'All' value
         if (filterDef.currentValue && filterDef.currentValue !== FilterType.ALL_KEY) {
-          if (filterDef.type === 'date') {
+          if (filterDef.type === FilterType.DATE) {
             // Date
             filterJson[filterDef.httpId] = filterDef.currentValue.toISOString();
           } else if (filterDef.type === FilterType.DATE_RANGE) {
@@ -367,19 +367,19 @@ export abstract class TableDataSource<T extends TableData> {
                   }
                 }
               }
-            // Multiple selections
+            // Multiple selection
             } else {
               if (!Utils.isEmptyArray(filterDef.currentValue)) {
                 filterJson[filterDef.httpId] = filterDef.currentValue.map((obj) => obj.key).join('|');
               }
             }
-          // Dropdown with multiple selections
+          // Dropdown with multiple selection
           } else if (filterDef.type === FilterType.DROPDOWN && filterDef.multiple) {
             if (!Utils.isEmptyArray(filterDef.currentValue) &&
                 (filterDef.currentValue.length < filterDef.items.length || !filterDef.exhaustive)) {
               filterJson[filterDef.httpId] = filterDef.currentValue.map((obj) => obj.key).join('|');
             }
-            // Others
+          // Others
           } else {
             filterJson[filterDef.httpId] = filterDef.currentValue;
           }

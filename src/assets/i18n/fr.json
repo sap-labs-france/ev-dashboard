@@ -961,7 +961,7 @@
         "stack_level": "Niveau prio",
         "site_area": "Zone",
         "site_area_limit": "Limite zone",
-        "redirect": "Naviguer vers 'Plans de charge'"
+        "redirect": "Naviguer vers les plans de charge"
       }
     },
     "more_actions": {
@@ -1475,7 +1475,7 @@
     "tag_visual_id_already_used": "Le numéro de badge '{{visualID}}' existe déjà",
     "tag_visual_id_does_not_match_tag": "Le numéro '{{visualID}}' ne correspond a aucun badge",
     "tag_inactive": "Le badge numéro '{{visualID}}' est inactif et ne peut pas être assigner",
-    "redirect": "Naviguer vers 'Badges'",
+    "redirect": "Naviguer vers les badges",
     "title": "Badge",
     "default_tag": "Badge par défaut",
     "delete_tags_title": "Suppression de badge(s)",

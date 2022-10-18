@@ -29,12 +29,14 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('searchInput') public searchInput!: ElementRef;
   @ViewChildren('ngxDatePickerElement') public datePickerElements!: QueryList<MatFormField>;
   @ViewChildren(DaterangepickerDirective) public datePickers: QueryList<DaterangepickerDirective>;
+
   public searchPlaceholder = '';
   public ongoingAutoRefresh = false;
   public sort: MatSort = new MatSort();
   public maxRecords = Constants.INFINITE_RECORDS;
   public numberOfColumns = 0;
   public loading = false;
+  public isMobile = false;
 
   public readonly FilterType = FilterType;
   public readonly TableEditType = TableEditType;
@@ -52,6 +54,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     private dialog: MatDialog) {
     // Set placeholder
     this.searchPlaceholder = this.translateService.instant('general.search');
+    this.isMobile = Utils.isInMobileApp();
   }
 
   public ngOnInit() {

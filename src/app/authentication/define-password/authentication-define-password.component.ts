@@ -63,13 +63,6 @@ export class AuthenticationDefinePasswordComponent implements OnInit, OnDestroy 
     this.password = this.passwords.controls['password'];
     this.repeatPassword = this.passwords.controls['repeatPassword'];
     this.resetPasswordHash = this.route.snapshot.queryParamMap.get('hash');
-    // Handle Deep Linking
-    if (Utils.isInMobileApp(this.subDomain)) {
-      // Forward to Mobile App
-      const mobileAppURL = Utils.buildMobileAppDeepLink(
-        `resetPassword/${this.windowService.getSubdomain()}/${this.resetPasswordHash}`);
-      window.location.href = mobileAppURL;
-    }
     setTimeout(() => {
       const card = document.getElementsByClassName('card')[0];
       // After 700 ms we add the class animated to the login/register card

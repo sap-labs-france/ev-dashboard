@@ -68,13 +68,6 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
     this.verificationToken = this.route.snapshot.queryParamMap.get('VerificationToken');
     this.resetToken = this.route.snapshot.queryParamMap.get('ResetToken');
     this.verificationEmail = this.route.snapshot.queryParamMap.get('Email');
-    // Handle Deep Linking
-    if (Utils.isInMobileApp(this.subDomain)) {
-      // Forward to Mobile App
-      const mobileAppURL: string = Utils.buildMobileAppDeepLink(
-        `verifyAccount/${this.windowService.getSubdomain()}/${this.verificationEmail}/${this.verificationToken}/${this.resetToken}`);
-      window.location.href = mobileAppURL;
-    }
     setTimeout(() => {
       const card = document.getElementsByClassName('card')[0];
       // After 700 ms we add the class animated to the login/register card
@@ -87,7 +80,7 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
     body.classList.add('lock-page');
     body.classList.add('off-canvas-sidebar');
     // Check email
-    if (this.verificationEmail && !Utils.isInMobileApp(this.subDomain)) {
+    if (this.verificationEmail) {
       // Set email
       this.formGroup.controls.email.setValue(this.verificationEmail);
       // Check if verificationToken

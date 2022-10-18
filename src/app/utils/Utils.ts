@@ -312,10 +312,8 @@ export class Utils {
     messageService.showErrorMessage(errorMessage, params);
   }
 
-  public static isInMobileApp(subDomain: string): boolean {
-    return false;
-    // Not compatible with White Label
-    // return Utils.getMobileVendor() !== null && subDomain !== 'ezcharge';
+  public static isInMobileApp(): boolean {
+    return Utils.getMobileVendor() !== null;
   }
 
   public static replaceSpecialCharsInCSVValueParam(value: string): string {

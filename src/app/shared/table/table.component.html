@@ -152,7 +152,7 @@
         <!-- Search -->
         <div *ngIf="dataSource.isSearchEnabled" class="col-12 search-form">
           <mat-form-field>
-            <input appAutofocus autocomplete="off" #searchInput [placeholder]="searchPlaceholder | translate" matInput>
+            <input [appAutofocus]="!isMobile" autocomplete="off" #searchInput [placeholder]="searchPlaceholder | translate" matInput>
             <button mat-icon-button matSuffix (click)="resetSearchFilter()" aria-label="Clear">
               <mat-icon>clear</mat-icon>
             </button>
@@ -161,7 +161,6 @@
       </div>
     </div>
   </ng-container>
-
   <!-- Table -->
   <div *ngIf="dataSource.tableDef" [id]="dataSource.tableDef.id"
     [class]="(dataSource.tableDef && dataSource.tableDef.class ? dataSource.tableDef.class : 'table-list') + ' table-responsive-md flex-grow-1'">

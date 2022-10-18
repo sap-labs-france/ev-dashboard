@@ -1079,9 +1079,9 @@ export class CentralServerService {
       );
   }
 
-  public getTenantLogoBySubdomain(tenantSubDomain: string): Observable<string> {
+  public getTenantLogoBySubdomain(tenantSubdomain: string): Observable<string> {
     const params: { [param: string]: string } = {};
-    params['Subdomain'] = tenantSubDomain;
+    params['Subdomain'] = tenantSubdomain;
     // Verify init
     this.checkInit();
     // Execute the REST service

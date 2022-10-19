@@ -225,7 +225,7 @@ class CustomTranslateDefaultParser extends TranslateDefaultParser {
     AppComponent,
     AdminLayoutComponent,
     AuthLayoutComponent,
-    ReleaseNotesComponent
+    ReleaseNotesComponent,
   ],
   exports: [
     TranslateModule,

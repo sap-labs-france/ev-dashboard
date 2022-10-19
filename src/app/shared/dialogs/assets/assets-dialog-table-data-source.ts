@@ -37,7 +37,7 @@ export class AssetsDialogTableDataSource extends DialogTableDataSource<Asset> {
           observer.error(error);
         }
       });
-  });
+    });
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {

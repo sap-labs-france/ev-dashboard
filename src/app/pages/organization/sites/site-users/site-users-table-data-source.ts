@@ -41,7 +41,7 @@ export class SiteUsersTableDataSource extends TableDataSource<SiteUser> {
     this.initDataSource();
   }
 
-  public loadDataImpl(): Observable<DataResult<SiteUser>> {
+  public loadDataImpl(requestNumberOfRecords: boolean): Observable<DataResult<SiteUser>> {
     return new Observable((observer) => {
       // Site data provided?
       if (this.site) {
@@ -49,20 +49,26 @@ export class SiteUsersTableDataSource extends TableDataSource<SiteUser> {
         this.centralServerService.getSiteUsers(
           { ...this.buildFilterValues(), SiteID: this.site.id },
           this.getPaging(), this.getSorting()
-        ).subscribe((siteUser) => {
+        ).subscribe({
+          next: (siteUser) => {
           // Initialize siteUsers authorization
-          this.siteUsersAuthorization = {
+            this.siteUsersAuthorization = {
             // Authorization actions
-            canUpdateSiteUsers: Utils.convertToBoolean(siteUser.canUpdateSiteUsers)
-          };
-          this.setTableColumnDef(this.buildDynamicTableColumnDefs());
-          this.setTableDef(this.buildDynamicTableDef());
-          this.setTableActionDef(this.buildDynamicTableActionsDef());
-          observer.next(siteUser);
-          observer.complete();
-        }, (error) => {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-          observer.error(error);
+              canUpdateSiteUsers: Utils.convertToBoolean(siteUser.canUpdateSiteUsers)
+            };
+            // Don't override table def in case of number of record request
+            if (!requestNumberOfRecords) {
+              this.setTableColumnDef(this.buildDynamicTableColumnDefs());
+              this.setTableDef(this.buildDynamicTableDef());
+              this.setTableActionDef(this.buildDynamicTableActionsDef());
+            }
+            observer.next(siteUser);
+            observer.complete();
+          },
+          error: (error) => {
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+            observer.error(error);
+          }
         });
       } else {
         observer.next({
@@ -246,20 +252,23 @@ export class SiteUsersTableDataSource extends TableDataSource<SiteUser> {
 
   private removeUsers(userIDs: string[]) {
     // Yes: Update
-    this.centralServerService.removeUsersFromSite(this.site.id, userIDs).subscribe((response) => {
+    this.centralServerService.removeUsersFromSite(this.site.id, userIDs).subscribe({
+      next: (response) => {
       // Ok?
-      if (response.status === RestResponse.SUCCESS) {
-        this.messageService.showSuccessMessage(this.translateService.instant('sites.remove_users_success'));
-        // Refresh
-        this.refreshData().subscribe();
-        // Clear selection
-        this.clearSelectedRows();
-      } else {
-        Utils.handleError(JSON.stringify(response),
-          this.messageService, this.translateService.instant('sites.remove_users_error'));
+        if (response.status === RestResponse.SUCCESS) {
+          this.messageService.showSuccessMessage(this.translateService.instant('sites.remove_users_success'));
+          // Refresh
+          this.refreshData().subscribe();
+          // Clear selection
+          this.clearSelectedRows();
+        } else {
+          Utils.handleError(JSON.stringify(response),
+            this.messageService, this.translateService.instant('sites.remove_users_error'));
+        }
+      },
+      error: (error) => {
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'sites.remove_users_error');
       }
-    }, (error) => {
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'sites.remove_users_error');
     });
   }
 
@@ -268,20 +277,23 @@ export class SiteUsersTableDataSource extends TableDataSource<SiteUser> {
       // Get the IDs
       const userIDs = users.map((user) => user.key);
       // Yes: Update
-      this.centralServerService.addUsersToSite(this.site.id, userIDs).subscribe((response) => {
+      this.centralServerService.addUsersToSite(this.site.id, userIDs).subscribe({
+        next: (response) => {
         // Ok?
-        if (response.status === RestResponse.SUCCESS) {
-          this.messageService.showSuccessMessage(this.translateService.instant('sites.update_users_success'));
-          // Refresh
-          this.refreshData().subscribe();
-          // Clear selection
-          this.clearSelectedRows();
-        } else {
-          Utils.handleError(JSON.stringify(response),
-            this.messageService, this.translateService.instant('sites.update_users_error'));
+          if (response.status === RestResponse.SUCCESS) {
+            this.messageService.showSuccessMessage(this.translateService.instant('sites.update_users_success'));
+            // Refresh
+            this.refreshData().subscribe();
+            // Clear selection
+            this.clearSelectedRows();
+          } else {
+            Utils.handleError(JSON.stringify(response),
+              this.messageService, this.translateService.instant('sites.update_users_error'));
+          }
+        },
+        error: (error) => {
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'sites.update_users_error');
         }
-      }, (error) => {
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'sites.update_users_error');
       });
     }
   }

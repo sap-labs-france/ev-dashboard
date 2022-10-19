@@ -3,9 +3,8 @@ import { Router } from '@angular/router';
 import { Stripe } from '@stripe/stripe-js';
 import { loadStripe } from '@stripe/stripe-js/pure';
 import { StatusCodes } from 'http-status-codes';
-import { BillingAccount } from 'types/Billing';
-import { HTTPError } from 'types/HTTPError';
 import { BillingSettings } from 'types/Setting';
+import { Constants } from 'utils/Constants';
 import { Utils } from 'utils/Utils';
 
 import { CentralServerService } from './central-server.service';
@@ -32,6 +31,11 @@ export class StripeService {
       if (billingSettings?.stripe?.publicKey) {
         loadStripe.setLoadParameters({ advancedFraudSignals: false });
         StripeService.stripeFacade = await loadStripe(billingSettings.stripe.publicKey);
+        // Set application info to let STRIPE know that the account belongs to our solution
+        StripeService.stripeFacade.registerAppInfo({
+          name: Constants.STRIPE_APP_NAME,
+          partner_id: Constants.STRIPE_PARTNER_ID,
+        });
       }
     }
     return StripeService.stripeFacade;

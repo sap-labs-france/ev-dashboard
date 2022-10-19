@@ -28,6 +28,8 @@ export class ImportDialogComponent implements OnInit {
   public isFileValid = true;
   public title: string;
   public entity: string;
+  public autoActivateImportedUsers = true;
+  public autoActivateImportedTags = true;
   private ngxCsvParser: NgxCsvParser;
   private endpoint: RESTServerRoute;
   private requiredProperties: string[];
@@ -39,8 +41,6 @@ export class ImportDialogComponent implements OnInit {
   private confirmImportTitle: string;
   private confirmImportMessage: string;
   private confirmImportMessageAutoActivate: string;
-  private autoActivateImportedUsers: string;
-  private autoActivateImportedTags: string;
 
   public constructor(
     protected dialogRef: MatDialogRef<ImportDialogComponent>,
@@ -139,13 +139,13 @@ export class ImportDialogComponent implements OnInit {
     this.autoActivateImportedUsers = checked;
     this.uploader.options.headers[this.uploader.options.headers.findIndex(
       option => option.name === 'autoActivateUserAtImport'
-    )].value = this.autoActivateImportedUsers;
+    )].value = this.autoActivateImportedUsers.toString();
   }
 
   public handleAutoActivateTagAtImport(checked) {
     this.autoActivateImportedTags = checked;
     this.uploader.options.headers[this.uploader.options.headers.findIndex(
       option => option.name === 'autoActivateTagAtImport'
-    )].value = this.autoActivateImportedTags;
+    )].value = this.autoActivateImportedTags.toString();
   }
 }

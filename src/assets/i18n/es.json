@@ -2519,7 +2519,7 @@
       "energy_amps": "Energía entregada (A.h)",
       "reset_zoom": "Resetear",
       "no_consumption": "No hay datos de consumo disponibles.",
-      "cumulated_amount": "Cantidad",
+      "cumulated_amount": "Importe",
       "amperage": "Amperaje (A)",
       "amperage_dc": "Amperaje DC (A)",
       "amperage_l1": "Amperaje L1 (A)",

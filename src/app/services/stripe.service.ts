@@ -37,6 +37,17 @@ export class StripeService {
     return StripeService.stripeFacade;
   }
 
+  public async initializeStripeForScanAndPay(): Promise<Stripe> {
+    if (!StripeService.stripeFacade) {
+      const billingSettings = await this.loadBillingConfigurationScanAndPay();
+      if (billingSettings?.stripe?.publicKey) {
+        loadStripe.setLoadParameters({ advancedFraudSignals: false });
+        StripeService.stripeFacade = await loadStripe(billingSettings.stripe.publicKey);
+      }
+    }
+    return StripeService.stripeFacade;
+  }
+
   public getStripeFacade() {
     return StripeService.stripeFacade;
   }
@@ -50,6 +61,22 @@ export class StripeService {
           this.messageService.showErrorMessage('settings.billing.not_found');
           break;
         default:
+          Utils.handleHttpError(error, this.router, this.messageService,
+            this.centralServerService, 'general.unexpected_error_backend');
+      }
+    }
+  }
+
+  private async loadBillingConfigurationScanAndPay(): Promise<BillingSettings> {
+    try {
+      return await this.componentService.getBillingSettingsSanAndPay().toPromise();
+    } catch (error) {
+      switch (error.status) {
+        case StatusCodes.NOT_FOUND:
+          this.messageService.showErrorMessage('settings.billing.not_found');
+          break;
+        default:
+          debugger;
           Utils.handleHttpError(error, this.router, this.messageService,
             this.centralServerService, 'general.unexpected_error_backend');
       }

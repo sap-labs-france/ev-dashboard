@@ -1,4 +1,6 @@
 import { Routes } from '@angular/router';
+import { ScanAndPayEmailComponent } from 'scan-pay/scan-and-pay-email/scan-and-pay-email.component';
+import { ScanPayStripePaymentMethodComponent } from 'scan-pay/stripe/scan-pay-stripe-payment-method.component';
 
 import { AccountOnboardingComponent } from './account-onboarding/account-onboarding.component';
 import { AuthenticationDefinePasswordComponent } from './define-password/authentication-define-password.component';
@@ -37,7 +39,16 @@ export const AuthenticationRoutes: Routes = [
   {
     path: 'account-onboarding',
     component: AccountOnboardingComponent,
-  }, {
+  },
+  {
+    path: 'scan-pay',
+    component: ScanPayStripePaymentMethodComponent,
+  },
+  {
+    path: 'scan-pay-email',
+    component: ScanAndPayEmailComponent,
+  },
+  {
     path: '**',
     redirectTo: 'login',
   },

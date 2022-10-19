@@ -48,11 +48,9 @@ import { MatMomentDatetimeModule, MomentDatetimeAdapter } from '@mat-datetimepic
 import { TranslateDefaultParser, TranslateLoader, TranslateModule, TranslateParser, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ChartModule } from 'angular2-chartjs';
-import { ScanPayComponent } from 'layouts/scan-pay/scan-pay.component';
 import { NgxCaptchaModule } from 'ngx-captcha';
 import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 import { Observable, Observer } from 'rxjs';
-import { ScanPayStripePaymentMethodComponent } from 'scan-pay/stripe/scan-pay-stripe-payment-method.component';
 import { UtilsService } from 'services/utils.service';
 
 import pkg from '../../package.json';
@@ -227,9 +225,7 @@ class CustomTranslateDefaultParser extends TranslateDefaultParser {
     AppComponent,
     AdminLayoutComponent,
     AuthLayoutComponent,
-    ReleaseNotesComponent,
-    ScanPayComponent,
-    ScanPayStripePaymentMethodComponent
+    ReleaseNotesComponent
   ],
   exports: [
     TranslateModule,

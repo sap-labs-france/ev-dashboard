@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ScanPayComponent } from 'layouts/scan-pay/scan-pay.component';
 import { TenantComponents } from 'types/Tenant';
 
 import { BrowserNotSupportedComponent } from './browser-not-supported/browser-not-supported.component';
@@ -13,10 +12,6 @@ const routes: Routes = [
   {
     path: 'auth', component: AuthLayoutComponent,
     loadChildren: async () => (await import('./authentication/authentication.module')).AuthenticationModule,
-  },
-  {
-    path: 'scan-pay', component: ScanPayComponent,
-    loadChildren: async () => (await import('./scan-pay/scan-pay.module')).ScanPayModule,
   },
   {
     path: 'verify-email', redirectTo: 'auth/verify-email', pathMatch: 'full',
@@ -118,22 +113,22 @@ const routes: Routes = [
           component: TenantComponents.CAR,
         },
       },
-      // {
-      //   path: 'users',
-      //   loadChildren: async () => (await import('./pages/users/users.module')).UsersModule,
-      //   data: {
-      //     menu: {
-      //       title: 'users',
-      //       type: 'link',
-      //       icon: 'people',
-      //       path: '/users',
-      //     },
-      //     auth: {
-      //       entity: Entity.USER,
-      //       action: Action.LIST,
-      //     },
-      //   },
-      // },
+      {
+        path: 'users',
+        loadChildren: async () => (await import('./pages/users/users.module')).UsersModule,
+        data: {
+          menu: {
+            title: 'users',
+            type: 'link',
+            icon: 'people',
+            path: '/users',
+          },
+          auth: {
+            entity: Entity.USER,
+            action: Action.LIST,
+          },
+        },
+      },
       {
         path: 'charging-station-templates',
         loadChildren: async () => (await import('./pages/charging-station-templates/charging-station-templates.module')).ChargingStationTemplatesModule,

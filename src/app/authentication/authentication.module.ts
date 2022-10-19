@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { ScanAndPayEmailComponent } from 'scan-pay/scan-and-pay-email/scan-and-pay-email.component';
+import { ScanPayStripePaymentMethodComponent } from 'scan-pay/stripe/scan-pay-stripe-payment-method.component';
 
 import { MaterialModule } from '../app.module';
 import { DialogsModule } from '../shared/dialogs/dialogs.module';
@@ -36,7 +38,9 @@ import { AuthenticationVerifyEmailComponent } from './verify-email/authenticatio
     AuthenticationResetPasswordComponent,
     AuthenticationDefinePasswordComponent,
     AuthenticationVerifyEmailComponent,
-    AccountOnboardingComponent
+    AccountOnboardingComponent,
+    ScanPayStripePaymentMethodComponent,
+    ScanAndPayEmailComponent
   ],
 })
 

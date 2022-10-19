@@ -14,7 +14,6 @@ import { BillingOperationResult } from 'types/DataResult';
 import { TenantComponents } from 'types/Tenant';
 import { Utils } from 'utils/Utils';
 
-
 @Component({
   selector: 'app-scan-pay-stripe-payment-method',
   templateUrl: 'scan-pay-stripe-payment-method.component.html',
@@ -80,15 +79,15 @@ export class ScanPayStripePaymentMethodComponent implements OnInit {
     void this.doCreatePaymentMethod();
   }
 
-  private initialize(): void {
+  private async initialize(): Promise<void> {
     try {
       this.spinnerService.show();
-      // const stripeFacade = await this.stripeService.initializeStripe();
-      // if ( !stripeFacade ) {
-      // this.messageService.showErrorMessage('settings.billing.not_properly_set');
-      // } else {
-      this.initializeCardElements();
-      // }
+      const stripeFacade = await this.stripeService.initializeStripeForScanAndPay();
+      if (!stripeFacade) {
+        this.messageService.showErrorMessage('settings.billing.not_properly_set');
+      } else {
+        this.initializeCardElements();
+      }
     } catch (error) {
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
     } finally {
@@ -175,7 +174,7 @@ export class ScanPayStripePaymentMethodComponent implements OnInit {
   }
 
   private async confirmSetupIntent(setupIntent: any): Promise<{ setupIntent?: SetupIntent; error?: StripeError }> {
-    const result: { setupIntent?: SetupIntent; error?: StripeError } = await this.getStripeFacade().confirmCardSetup( setupIntent.client_secret, {
+    const result: { setupIntent?: SetupIntent; error?: StripeError } = await this.getStripeFacade().confirmCardSetup(setupIntent.client_secret, {
       payment_method: {
         card: this.cardNumber
       },
@@ -183,7 +182,7 @@ export class ScanPayStripePaymentMethodComponent implements OnInit {
     return result;
   }
 
-  private async attachPaymentMethod(operationResult: {setupIntent?: SetupIntent; error?: StripeError}) {
+  private async attachPaymentMethod(operationResult: { setupIntent?: SetupIntent; error?: StripeError }) {
     try {
       this.spinnerService.show();
       const response: BillingOperationResult = await this.centralServerService.setupPaymentMethod({

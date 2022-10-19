@@ -126,7 +126,7 @@
     "@angular-eslint/schematics": "^14.0.0-alpha.4",
     "@angular-eslint/template-parser": "^14.0.0-alpha.4",
     "@angular/cli": "^14.1.1",
-    "@angular/compiler-cli": "^14.1.1",
+    "@angular/compiler-cli": "^14.2.7",
     "@types/bootstrap": "^5.2.0",
     "@types/chart.js": "^2.9.37",
     "@types/convict": "^6.0.2",

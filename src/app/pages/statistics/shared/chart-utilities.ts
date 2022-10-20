@@ -67,7 +67,6 @@ export class SimpleChart {
   }
 
   public updateChart(chartData: ChartData, mainLabel?: string, toolTipUnit?: string, labelYAxis?: string): void {
-    console.log('chartData', JSON.stringify(chartData, null, ' '));
     let anyChart: any;
     if (this.chartType === ChartTypeValues.PIE) {
       if (toolTipUnit) {

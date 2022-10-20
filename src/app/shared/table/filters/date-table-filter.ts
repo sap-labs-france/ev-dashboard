@@ -1,4 +1,4 @@
-import * as moment from 'moment';
+import dayjs from 'dayjs';
 
 import { FilterType, TableFilterDef } from '../../../types/Table';
 import { TableFilter } from './table-filter';
@@ -12,8 +12,8 @@ export class DateTableFilter extends TableFilter {
       httpId: 'Date',
       type: FilterType.DATE,
       name: 'general.search_date',
-      currentValue: moment().startOf('day').toDate(),
-      reset: () => filterDef.currentValue = moment().startOf('day').toDate(),
+      currentValue: dayjs().startOf('day').toDate(),
+      reset: () => filterDef.currentValue = dayjs().startOf('day').toDate(),
     };
     // Set
     this.setFilterDef(filterDef);

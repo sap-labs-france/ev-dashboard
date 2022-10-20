@@ -2,7 +2,7 @@ import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, UntypedFormArray, UntypedFormControl, UntypedFormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import * as moment from 'moment';
+import dayjs from 'dayjs';
 import { Observable } from 'rxjs';
 import { WindowService } from 'services/window.service';
 import { ChargingStationsAuthorizations } from 'types/Authorization';
@@ -119,7 +119,7 @@ export class ChargingPlansComponent implements OnInit, AfterViewInit {
     this.startDateControl = this.formGroup.controls['startDateControl'];
     this.endDateControl = this.formGroup.controls['endDateControl'];
     this.chargingSchedules = this.formGroup.controls['schedules'] as UntypedFormArray;
-    this.startDateControl.setValue(moment().add(10, 'm').startOf('m').toDate());
+    this.startDateControl.setValue(dayjs().add(10, 'm').startOf('m').toDate());
     this.scheduleEditableTableDataSource.startDate = this.startDateControl.value as Date;
     this.profileTypeControl.setValue(this.profileTypeMap[0]);
     // Assign for to editable data source
@@ -141,10 +141,10 @@ export class ChargingPlansComponent implements OnInit, AfterViewInit {
         this.scheduleEditableTableDataSource.tableColumnsDef[0].formatter = (value: Date) => this.datePipe.transform(value, 'shortTime');
         this.scheduleEditableTableDataSource.tableColumnsDef[2].formatter = (value: Date) => this.datePipe.transform(value, 'shortTime');
         // Set the date at midnight next day
-        this.startDateControl.setValue(moment().add(1, 'd').startOf('d').toDate());
+        this.startDateControl.setValue(dayjs().add(1, 'd').startOf('d').toDate());
         this.scheduleEditableTableDataSource.startDate = new Date(this.startDateControl.value);
       } else {
-        this.startDateControl.setValue(moment().add(10, 'm').startOf('m').toDate());
+        this.startDateControl.setValue(dayjs().add(10, 'm').startOf('m').toDate());
         this.scheduleEditableTableDataSource.tableColumnsDef[0].formatter = (value: Date) => this.datePipe.transform(value, 'short');
         this.scheduleEditableTableDataSource.tableColumnsDef[2].formatter = (value: Date) => this.datePipe.transform(value, 'short');
       }
@@ -167,7 +167,7 @@ export class ChargingPlansComponent implements OnInit, AfterViewInit {
   }
 
   public validateDateMustBeInTheFuture(control: AbstractControl): ValidationErrors | null {
-    if (!control.value || (Utils.isValidDate(control.value) && moment(control.value).isAfter(new Date()))) {
+    if (!control.value || (Utils.isValidDate(control.value) && dayjs(control.value).isAfter(new Date()))) {
       return null;
     }
     return { dateNotInFuture: true };
@@ -175,7 +175,7 @@ export class ChargingPlansComponent implements OnInit, AfterViewInit {
 
   public validateEndDateLimitInRecurringPlan(control: AbstractControl): ValidationErrors | null {
     if (!control.value || !this.startDateControl || (Utils.isValidDate(control.value) &&
-      moment(control.value).isBefore(moment(this.startDateControl.value).add('1', 'd').add('1', 'm')))) {
+      dayjs(control.value).isBefore(dayjs(this.startDateControl.value).add(1, 'd').add(1, 'm')))) {
       return null;
     }
     return { endDateOutOfRecurringLimit: true };

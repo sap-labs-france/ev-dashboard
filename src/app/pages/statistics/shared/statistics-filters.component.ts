@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angu
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatDatetimepickerInputEvent } from '@mat-datetimepicker/core';
 import { TranslateService } from '@ngx-translate/core';
-import * as moment from 'moment';
+import dayjs from 'dayjs';
 import { DaterangepickerComponent, DaterangepickerDirective } from 'ngx-daterangepicker-material';
 import { ChargingStationTableFilter } from 'shared/table/filters/charging-station-table-filter';
 import { DateRangeTableFilter } from 'shared/table/filters/date-range-table-filter';
@@ -153,8 +153,8 @@ export class StatisticsFiltersComponent implements OnInit {
       if (dateRange.split('-').length - 1 !== 1) {
         this.setDateRangeFilterYear(false);
       } else {
-        const startDate = moment(dateRange.split('-')[0]);
-        const endDate = moment(dateRange.split('-')[1]);
+        const startDate = dayjs(dateRange.split('-')[0]);
+        const endDate = dayjs(dateRange.split('-')[1]);
         if (!startDate.isValid() || !endDate.isValid()) {
           this.setDateRangeFilterYear(false);
         } else {
@@ -340,22 +340,21 @@ export class StatisticsFiltersComponent implements OnInit {
               filterJson[filterDef.httpId] = filterDef.currentValue.map((obj) => obj.key).join('|');
             }
             // Dropdown with multiple selections
-          } else if (filterDef.type === FilterType.DROPDOWN && filterDef.multiple) {
-            if (filterDef.currentValue.length > 0) {
-              filterJson[filterDef.httpId] = filterDef.currentValue.map((obj) => obj.key).join('|');
-            }
+          } else if (filterDef.type === FilterType.DROPDOWN && filterDef.multiple && filterDef.currentValue.length > 0) {
+            filterJson[filterDef.httpId] = filterDef.currentValue.map((obj) => obj.key).join('|');
             // Others
           } else if (filterDef.type === FilterType.DATE_RANGE) {
             if (!filterDef.currentValue.startDate) {
-              filterJson[filterDef.dateRangeTableFilterDef?.startDateTimeHttpId] = moment().startOf('y').toISOString();
+              filterJson[filterDef.dateRangeTableFilterDef?.startDateTimeHttpId] = dayjs().startOf('y').toISOString();
             } else {
               filterJson[filterDef.dateRangeTableFilterDef?.startDateTimeHttpId] = filterDef.currentValue.startDate.toISOString();
             }
             if (!filterDef.currentValue.endDate) {
-              filterJson[filterDef.dateRangeTableFilterDef?.endDateTimeHttpId] = moment().endOf('d').toISOString();
+              filterJson[filterDef.dateRangeTableFilterDef?.endDateTimeHttpId] = dayjs().endOf('d').toISOString();
             } else {
               filterJson[filterDef.dateRangeTableFilterDef?.endDateTimeHttpId] = filterDef.currentValue.endDate.toISOString();
-            }          // Others
+            }
+          // Others
           } else {
             // Set it
             filterJson[filterDef.httpId] = filterDef.currentValue;
@@ -449,13 +448,13 @@ export class StatisticsFiltersComponent implements OnInit {
         }
         if (this.selectedYear === 0) {
           filterDef.currentValue = {
-            startDate: moment(new Date(this.transactionYears[0], 0, 1)),
-            endDate: moment(),
+            startDate: dayjs(new Date(this.transactionYears[0], 0, 1)),
+            endDate: dayjs(),
           };
         } else {
           filterDef.currentValue = {
-            startDate: moment(new Date(this.selectedYear, 0, 1)),
-            endDate: moment(new Date(this.selectedYear + 1, 0, 1))
+            startDate: dayjs(new Date(this.selectedYear, 0, 1)),
+            endDate: dayjs(new Date(this.selectedYear + 1, 0, 1))
           };
         }
       }

@@ -1,10 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import dayjs from 'dayjs';
 import { StatusCodes } from 'http-status-codes';
-import * as moment from 'moment';
 import { AuthorizationDefinitionFieldMetadata } from 'types/Authorization';
 
 import { CentralServerService } from '../../../../services/central-server.service';
@@ -54,16 +54,16 @@ export class ChargingStationsRegistrationTokenComponent implements OnInit {
 
   public ngOnInit(): void {
     this.formGroup = new UntypedFormGroup({
-      id: new UntypedFormControl(),
-      siteArea: new UntypedFormControl(),
-      siteAreaID: new UntypedFormControl('',
+      id: new FormControl(),
+      siteArea: new FormControl(),
+      siteAreaID: new FormControl('',
         Validators.compose([
         ])),
-      description: new UntypedFormControl('', Validators.compose([
+      description: new FormControl('', Validators.compose([
         Validators.required,
         Validators.maxLength(100),
       ])),
-      expirationDate: new UntypedFormControl(moment().add(1, 'month'),
+      expirationDate: new FormControl(dayjs().add(1, 'month'),
         Validators.compose([
           Validators.required,
         ])),

@@ -3,8 +3,8 @@ import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } fro
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import dayjs from 'dayjs';
 import { StatusCodes } from 'http-status-codes';
-import * as moment from 'moment';
 import { WindowService } from 'services/window.service';
 import { SiteAreasDialogComponent } from 'shared/dialogs/site-areas/site-areas-dialog.component';
 import { ButtonAction } from 'types/GlobalType';
@@ -318,7 +318,7 @@ export class SiteAreaMainComponent implements OnInit, OnChanges {
   }
 
   private isRegistrationTokenValid(registrationToken: RegistrationToken): boolean {
-    const now = moment();
+    const now = dayjs();
     return registrationToken.expirationDate && now.isBefore(registrationToken.expirationDate)
       && (!registrationToken.revocationDate || now.isBefore(registrationToken.revocationDate));
   }

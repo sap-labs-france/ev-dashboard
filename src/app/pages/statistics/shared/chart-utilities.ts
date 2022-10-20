@@ -1,8 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import { ElementRef } from '@angular/core';
 import { Chart, ChartData, ChartDataset, ChartOptions, ChartType } from 'chart.js';
-import ChartDataLabels from 'chartjs-plugin-datalabels';
-import { Font } from 'chartjs-plugin-datalabels/types/options';
 import { ChartTypeValues } from 'types/Chart';
 import { Utils } from 'utils/Utils';
 
@@ -33,7 +31,6 @@ export class SimpleChart {
   private fontSize: string;
   private fontSizeNumber: number;
   private fontFamily: string;
-  private font: Font;
 
   public constructor(
     language: string,
@@ -44,7 +41,6 @@ export class SimpleChart {
     toolTipUnit?: string,
     withLegend = false,
     roundedChartLabels = true) {
-    Chart.register(ChartDataLabels);
     this.language = language;
 
     switch (chartType) {
@@ -65,13 +61,13 @@ export class SimpleChart {
     context.nativeElement.width = '80vw';
     this.chart = new Chart(this.contextElement.nativeElement.getContext('2d'), {
       type: this.chartType,
-      plugins: [ChartDataLabels],
       options: this.chartOptions,
       data: { labels: [], datasets: [] },
     });
   }
 
   public updateChart(chartData: ChartData, mainLabel?: string, toolTipUnit?: string, labelYAxis?: string): void {
+    console.log('chartData', JSON.stringify(chartData, null, ' '));
     let anyChart: any;
     if (this.chartType === ChartTypeValues.PIE) {
       if (toolTipUnit) {
@@ -94,7 +90,6 @@ export class SimpleChart {
     if (!this.fontFamily || Utils.isEmptyString(this.fontFamily)) {
       this.fontFamily = 'Roboto, "Helvetica Neue", sans-serif';
     }
-    this.font = { family: this.fontFamily };
     this.fontSize = getComputedStyle(this.contextElement.nativeElement).fontSize;
     if (!this.fontSize || Utils.isEmptyString(this.fontSize)
       || !this.fontSize.endsWith('px')) {
@@ -208,10 +203,6 @@ export class SimpleChart {
       labels: {},
       position: 'bottom',
     };
-    this.chartOptions.plugins = {};
-    this.chartOptions.plugins.datalabels = {
-      display: (context) => context.dataset.data[context.dataIndex] > 0,
-    };
     this.chartOptions.animation = {
       duration: 2000,
       easing: 'easeOutBounce',
@@ -289,10 +280,6 @@ export class SimpleChart {
       labels: {},
       position: 'bottom',
     };
-    this.chartOptions.plugins = {};
-    this.chartOptions.plugins.datalabels = {
-      display: (context) => context.dataset.data[context.dataIndex] > 0,
-    };
     this.chartOptions.animation = {
       duration: 2000,
       easing: 'easeOutBounce',
@@ -349,7 +336,6 @@ export class SimpleChart {
         };
       }
       this.chartOptions.plugins.legend.labels.color = this.fontColor;
-      this.chartOptions.plugins.legend.labels.font['family'] = this.fontFamily;
     }
     if (this.chartType === ChartTypeValues.PIE) {
       minDivisor = this.constMinDivisorPie;
@@ -397,18 +383,6 @@ export class SimpleChart {
       });
       minValue = minValue / minDivisor;
     }
-    this.chartOptions.plugins.datalabels = {
-      color: this.fontColor,
-      font: this.font,
-      display: (context) => context.dataset.data[context.dataIndex] > minValue,
-      formatter: (value, context) => {
-        if (this.roundedChartLabels) {
-          return Math.round(value).toLocaleString(this.language);
-        } else {
-          return value.toLocaleString(this.language);
-        }
-      },
-    };
   }
 
   private updateChartData(chartData: ChartData) {

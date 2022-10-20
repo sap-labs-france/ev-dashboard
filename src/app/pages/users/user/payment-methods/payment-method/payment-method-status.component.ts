@@ -1,5 +1,5 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import * as moment from 'moment';
+import dayjs from 'dayjs';
 
 import { CellContentTemplateDirective } from '../../../../../shared/table/cell-content-template/cell-content-template.directive';
 import { BillingPaymentMethod } from '../../../../../types/Billing';
@@ -53,10 +53,10 @@ export class AppPaymentMethodStatusPipe implements PipeTransform {
   }
 
   private isExpired(paymentMethod: BillingPaymentMethod): boolean {
-    return paymentMethod.expiringOn && moment().isAfter(moment(paymentMethod.expiringOn));
+    return paymentMethod.expiringOn && dayjs().isAfter(dayjs(paymentMethod.expiringOn));
   }
 
   private expireSoon(paymentMethod: BillingPaymentMethod): boolean {
-    return paymentMethod.expiringOn && (moment(paymentMethod.expiringOn).isBefore(moment().add(2, 'months')));
+    return paymentMethod.expiringOn && (dayjs(paymentMethod.expiringOn).isBefore(dayjs().add(2, 'months')));
   }
 }

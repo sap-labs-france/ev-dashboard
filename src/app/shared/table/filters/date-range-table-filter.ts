@@ -1,5 +1,5 @@
 import { TranslateService } from '@ngx-translate/core';
-import * as moment from 'moment';
+import dayjs, { Dayjs } from 'dayjs';
 import { Utils } from 'utils/Utils';
 
 import { FilterType, TableFilterDef } from '../../../types/Table';
@@ -10,31 +10,34 @@ export class DateRangeTableFilter extends TableFilter {
   private translateService: TranslateService;
 
   public constructor(options: {
-    translateService: TranslateService; showSeconds?: boolean; start?: moment.Moment; end?: moment.Moment;
+    translateService: TranslateService; showSeconds?: boolean; start?: Dayjs; end?: Dayjs;
     id?: string; startDateTimeHttpId?: string; endDateTimeHttpId?: string;
   }) {
     super();
     // Define filter
     this.translateService = options.translateService;
-    const startDate = Utils.isNullOrUndefined(options.start) ? moment().startOf('y') : options.start;
-    const endDate = Utils.isNullOrUndefined(options.end) ? moment().endOf('d') : options.end;
+    const startDate = Utils.isNullOrUndefined(options.start) ? dayjs().startOf('y') : options.start;
+    const endDate = Utils.isNullOrUndefined(options.end) ? dayjs().endOf('d') : options.end;
     const filterDef: TableFilterDef = {
       id: options.id ? options.id : 'dateRange',
       httpId: '', //Not used as startDateTimeHttpId and endDateTimeHttpId are used instead
       type: FilterType.DATE_RANGE,
       name: 'general.search_date',
+      class: 'col-md-6 col-lg-6 col-xl-5 col-xxl-4',
       dateRangeTableFilterDef: {
         timePicker: true,
         timePicker24Hour: true,
+        alwaysShowCalendars: true,
         timePickerSeconds: Utils.isNullOrUndefined(options.showSeconds) ? false : options.showSeconds,
         startDateTimeHttpId: options.startDateTimeHttpId ? options.startDateTimeHttpId : 'StartDateTime',
         endDateTimeHttpId: options.endDateTimeHttpId ? options.endDateTimeHttpId : 'EndDateTime',
         locale: {
-          displayFormat: moment.localeData().longDateFormat('lll'),
+          displayFormat: dayjs.localeData().longDateFormat('lll'),
+          format: 'MM/DD/YYYY',
           applyLabel: options.translateService.instant('general.apply'),
-          daysOfWeek: moment.weekdaysMin(),
-          monthNames: moment.monthsShort(),
-          firstDay: moment.localeData().firstDayOfWeek()
+          daysOfWeek: dayjs.weekdaysMin(),
+          monthNames: dayjs.monthsShort(),
+          firstDay: dayjs.localeData().firstDayOfWeek(),
         },
         ranges: this.allRanges,
         updateRanges: this.createQuickAccessDateRanges.bind(this),
@@ -46,27 +49,27 @@ export class DateRangeTableFilter extends TableFilter {
       items: [],
       reset: () => filterDef.currentValue = { startDate, endDate }
     };
-    // Set
-    this.setFilterDef(filterDef);
-    if (moment.localeData().longDateFormat('lll').match(/A/i)) {
+    if (dayjs.localeData().longDateFormat('lll').match(/A/i)) {
       filterDef.dateRangeTableFilterDef.timePicker24Hour = false;
     }
     this.createQuickAccessDateRanges();
+    // Set
+    this.setFilterDef(filterDef);
   }
 
   private createQuickAccessDateRanges(){
-    const rangeObjects: {key: string; label: string; startValue: moment.Moment; endValue: moment.Moment}[] = [
-      { key: 'search_one_minute', label: 'logs.search_one_minute', startValue: moment().subtract(1, 'minute'), endValue: moment() },
-      { key: 'search_10_minutes', label: 'logs.search_10_minutes', startValue: moment().subtract(10, 'minutes'), endValue: moment() },
-      { key: 'search_30_minutes', label: 'logs.search_30_minutes', startValue: moment().subtract(30, 'minutes'), endValue: moment() },
-      { key: 'search_one_hour', label: 'logs.search_one_hour', startValue: moment().subtract(1, 'hour'), endValue: moment()  },
-      { key: 'search_24_hours', label: 'logs.search_24_hours', startValue: moment().subtract(24, 'hour'), endValue: moment() },
-      { key: 'search_today', label: 'logs.search_today', startValue: moment().startOf('day'), endValue: moment().endOf('day')  },
-      { key: 'search_yesterday', label: 'logs.search_yesterday', startValue: moment().subtract(1, 'day').startOf('day'), endValue: moment().subtract(1, 'day').endOf('day') },
-      { key: 'search_this_week', label: 'logs.search_this_week', startValue: moment().startOf('week'), endValue: moment().endOf('week')  },
-      { key: 'search_last_week', label: 'logs.search_last_week', startValue: moment().subtract(1, 'week').startOf('week'), endValue: moment().subtract(1, 'week').endOf('week')  },
-      { key: 'search_this_month', label: 'logs.search_this_month', startValue: moment().startOf('month'), endValue: moment().endOf('month')  },
-      { key: 'search_last_month', label: 'logs.search_last_month', startValue: moment().subtract(1, 'month').startOf('month'), endValue: moment().subtract(1, 'month').endOf('month') },
+    const rangeObjects: {key: string; label: string; startValue: Dayjs; endValue: Dayjs}[] = [
+      { key: 'search_one_minute', label: 'logs.search_one_minute', startValue: dayjs().subtract(1, 'minute'), endValue: dayjs() },
+      { key: 'search_10_minutes', label: 'logs.search_10_minutes', startValue: dayjs().subtract(10, 'minutes'), endValue: dayjs() },
+      { key: 'search_30_minutes', label: 'logs.search_30_minutes', startValue: dayjs().subtract(30, 'minutes'), endValue: dayjs() },
+      { key: 'search_one_hour', label: 'logs.search_one_hour', startValue: dayjs().subtract(1, 'hour'), endValue: dayjs()  },
+      { key: 'search_24_hours', label: 'logs.search_24_hours', startValue: dayjs().subtract(24, 'hour'), endValue: dayjs() },
+      { key: 'search_today', label: 'logs.search_today', startValue: dayjs().startOf('day'), endValue: dayjs().endOf('day')  },
+      { key: 'search_yesterday', label: 'logs.search_yesterday', startValue: dayjs().subtract(1, 'day').startOf('day'), endValue: dayjs().subtract(1, 'day').endOf('day') },
+      { key: 'search_this_week', label: 'logs.search_this_week', startValue: dayjs().startOf('week'), endValue: dayjs().endOf('week')  },
+      { key: 'search_last_week', label: 'logs.search_last_week', startValue: dayjs().subtract(1, 'week').startOf('week'), endValue: dayjs().subtract(1, 'week').endOf('week')  },
+      { key: 'search_this_month', label: 'logs.search_this_month', startValue: dayjs().startOf('month'), endValue: dayjs().endOf('month')  },
+      { key: 'search_last_month', label: 'logs.search_last_month', startValue: dayjs().subtract(1, 'month').startOf('month'), endValue: dayjs().subtract(1, 'month').endOf('month') },
     ];
     for (const range of rangeObjects) {
       this.allRanges[this.translateService.instant(range.label)] = [range.startValue, range.endValue];

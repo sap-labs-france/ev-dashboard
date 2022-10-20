@@ -6,6 +6,8 @@ import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { MatSort } from '@angular/material/sort';
 import { MatDatetimepickerInputEvent } from '@mat-datetimepicker/core';
 import { TranslateService } from '@ngx-translate/core';
+import dayjs, { Dayjs } from 'dayjs';
+import moment from 'moment';
 import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
 import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, takeWhile } from 'rxjs/operators';
@@ -126,47 +128,38 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     this.refresh();
   }
 
-  public dateRangeChanged(filterDef: TableFilterDef, event: any) {
+  public dateTimeRangeChanged(filterDef: TableFilterDef, event: { startDate: Dayjs; endDate: Dayjs }) {
+    if (!event.startDate || !event.endDate) {
+      return;
+    }
     filterDef.dateRangeTableFilterDef.updateRanges();
     const currentValue = filterDef.currentValue;
     if (currentValue?.startDate !== event.startDate || currentValue?.endDate !== event.endDate) {
       filterDef.currentValue = {
-        startDate: event?.startDate.toDate(),
-        endDate: event?.endDate.toDate()
+        startDate: Utils.adjustDateTimeFromPicker(event?.startDate.toDate()),
+        endDate: Utils.adjustDateTimeFromPicker(event?.endDate.toDate())
       };
-      for (const picker of this.datePickers) {
-        picker.picker.updateCalendars();
-        picker.hide();
+      if (!Utils.isEmptyArray(this.datePickers)) {
+        for (const picker of this.datePickers) {
+          picker.picker.updateCalendars();
+          picker.hide();
+        }
+
       }
       this.filterChanged(filterDef);
     }
   }
 
-  public dateRangeChangedDirectly(parent: MatFormField, filterDef: TableFilterDef) {
-    let startDate;
-    let endDate;
-    const parentHTMLElement = (parent.getConnectedOverlayOrigin().nativeElement as HTMLElement);
-    for(const picker of this.datePickers) {
-      if (parentHTMLElement.contains(picker.picker.pickerContainer.nativeElement as HTMLElement)) {
-        startDate = picker.picker.startDate;
-        endDate = picker.picker.endDate;
-      }
-    }
-    this.dateRangeChanged(filterDef, {
-      startDate,
-      endDate
-    });
-  }
-
-  public openDateTimeRangePicker(parent: MatFormField, filterDef: TableFilterDef) {
+  public dateTimeRangeOpen(parent: MatFormField, filterDef: TableFilterDef) {
     filterDef.dateRangeTableFilterDef.updateRanges();
     const parentHTMLElement = (parent.getConnectedOverlayOrigin().nativeElement as HTMLElement);
-    for (const picker of this.datePickers) {
-      // Close any other open pickers
-      if (parentHTMLElement.contains(picker.picker.pickerContainer.nativeElement as HTMLElement)) {
-        picker.open();
+    for (const datePicker of this.datePickers) {
+      if (parentHTMLElement.contains(datePicker.picker.pickerContainer.nativeElement as HTMLElement)) {
+        // Open it
+        datePicker.open();
       } else {
-        picker.hide();
+        // Close any other open pickers
+        datePicker.hide();
       }
     }
   }

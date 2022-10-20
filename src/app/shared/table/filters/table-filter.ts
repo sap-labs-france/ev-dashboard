@@ -10,7 +10,7 @@ export abstract class TableFilter {
   public setFilterDef(filterDef: TableFilterDef) {
     // Add default style
     if (!filterDef.class) {
-      filterDef.class = 'col-lg-4 col-md-6 col-xl-4 col-xxl-3';
+      filterDef.class = 'col-md-6 col-lg-4 col-xxl-3';
     }
     // Add default reset
     if (!filterDef.reset) {

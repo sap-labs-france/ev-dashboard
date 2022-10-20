@@ -20,7 +20,7 @@
         </mat-form-field>
       </div>
       <div class="col-md-2">
-        <button mat-raised-button class="col-md-auto"
+        <button mat-raised-button class="col-12 col-md-auto"
             color="primary" *ngIf="!readOnly" [disabled]="!limitKwhEnabled.value" (click)="resetLimitKwh()">
           <mat-icon>lock_reset</mat-icon>
           <span>{{'general.reset' | translate}}</span>

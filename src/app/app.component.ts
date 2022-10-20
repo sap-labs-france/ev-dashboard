@@ -19,9 +19,9 @@ export class AppComponent {
     private sanitizer: DomSanitizer) {
     for (const connectorMap of CONNECTOR_ALL_TYPES_MAP) {
       if (connectorMap.svgIconName) {
-        iconRegistry.addSvgIcon(
+        this.iconRegistry.addSvgIcon(
           connectorMap.svgIconName,
-          sanitizer.bypassSecurityTrustResourceUrl(connectorMap.svgIconFile));
+          this.sanitizer.bypassSecurityTrustResourceUrl(connectorMap.svgIconFile));
       }
     }
     Chart.register(...registerables);

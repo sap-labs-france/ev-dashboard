@@ -2,6 +2,7 @@ import { AbstractControl, UntypedFormControl, UntypedFormGroup } from '@angular/
 import { MatDialogRef } from '@angular/material/dialog';
 import { Data, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import dayjs from 'dayjs';
 import { StatusCodes } from 'http-status-codes';
 import * as moment from 'moment';
 import { DialogMode } from 'types/Authorization';
@@ -51,7 +52,7 @@ export class Utils {
 
   public static buildGoogleMapUrlFromCoordinates(coordinates: number[]): string {
     if (Utils.containsGPSCoordinates(coordinates)) {
-      return `http://maps.google.com/maps?q=${coordinates[1]},${coordinates[0]}`;
+      return `https://maps.google.com/maps?q=${coordinates[1]},${coordinates[0]}`;
     }
   }
 
@@ -948,6 +949,13 @@ export class Utils {
     return changedValue;
   }
 
+  public static adjustDateTimeFromPicker(date: Date): Date {
+    // Remove the timezone
+    const dateIso = date.toISOString();
+    const dateWithoutTz = dateIso.substring(0, dateIso.length - 1);
+    return new Date(dateWithoutTz);
+  }
+
   public static convertToFloat(value: any): number {
     let changedValue: number = value;
     if (!value) {
@@ -999,23 +1007,28 @@ export class Utils {
     return locale.replace('_', '-');
   }
 
-  public static convertToMomentLocale(locale: string): string {
-    let momentLocale = Utils.convertToBrowserLocale(locale).toLowerCase(); // Converts 'fr-FR' to 'fr-fr'
-    const fragments = momentLocale.split('-');
+  public static convertToLibLocale(locale: string): string {
+    let nodeLibLocale = Utils.convertToBrowserLocale(locale).toLowerCase(); // Converts 'fr-FR' to 'fr-fr'
+    const fragments = nodeLibLocale.split('-');
     if (fragments.length === 2 && fragments[0] === fragments[1]) {
-      momentLocale = fragments[0];  // Converts 'fr-fr' to 'fr'
+      nodeLibLocale = fragments[0];  // Converts 'fr-fr' to 'fr'
     }
-    return momentLocale;
+    return nodeLibLocale;
   }
 
-  public static changeMomentLocaleGlobally(currentLocale: string): void {
-    const momentLocale = Utils.convertToMomentLocale(currentLocale);
-    if (moment.locale() !== momentLocale) {
-      console.log('Attempt to set moment locale to: ' + momentLocale);
-      moment.locale(momentLocale);
-      console.log('Moment Locale as been set to: ' + moment.locale());
-      console.log('List of loaded locales: ' + moment.locales());
-      console.log('Current format -  Date: ' + moment().format('LL') + '- time: ' + moment().format('LT'));
+  public static changeLibLocaleGlobally(currentLocale: string): void {
+    const locale = Utils.convertToLibLocale(currentLocale);
+    if (moment.locale() !== locale) {
+      moment.locale(locale);
+      console.log('Set moment locale to: ' + locale);
+      console.log('Moment - Locale as been set to: ' + moment.locale());
+      console.log('Moment - Current format -  Date: ' + moment().format('LL') + '- time: ' + moment().format('LT'));
+    }
+    if (dayjs.locale() !== locale) {
+      dayjs.locale(locale);
+      console.log('Attempt to set dayjs locale to: ' + locale);
+      console.log('Dayjs - Locale as been set to: ' + dayjs.locale());
+      console.log('Dayjs - Current format -  Date: ' + dayjs().format('LL') + '- time: ' + dayjs().format('LT'));
     }
   }
 }

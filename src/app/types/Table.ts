@@ -1,6 +1,6 @@
 import { ValidatorFn } from '@angular/forms';
 import { SortDirection } from '@angular/material/sort';
-import * as moment from 'moment';
+import { Dayjs } from 'dayjs';
 
 import { AssetButtonAction } from './Asset';
 import { AuthorizationActions, AuthorizationAttributes } from './Authorization';
@@ -63,8 +63,9 @@ export interface DateRangeTableFilterDef {
   timePicker?: boolean;
   timePicker24Hour?: boolean;
   timePickerSeconds?: boolean;
-  startDate?: moment.Moment;
-  endDate?: moment.Moment;
+  alwaysShowCalendars?: boolean;
+  startDate?: Dayjs;
+  endDate?: Dayjs;
   locale?: Locale;
   startDateTimeHttpId?: string;
   endDateTimeHttpId?: string;
@@ -73,11 +74,18 @@ export interface DateRangeTableFilterDef {
 }
 
 export interface Locale {
+  format?: string; // 'MM/DD/YYYY' could be 'YYYY-MM-DDTHH:mm:ss.SSSSZ'
+  displayFormat?: string; // 'MM/DD/YYYY', default is format value
+  direction?: string; // could be ltr or rtl
+  weekLabel?: string;
+  separator?: string; // default is ' - '
+  cancelLabel?: string; // detault is 'Cancel'
+  applyLabel?: string; // detault is 'Apply'
+  clearLabel?: string; // detault is 'Clear'
+  customRangeLabel?: string; // 'Custom range'
   daysOfWeek?: string[];
   monthNames?: string[];
-  firstDay?: number;
-  displayFormat?: string;
-  applyLabel?: string;
+  firstDay?: number; // first day is monday
 }
 export interface DropdownItem {
   id: string;

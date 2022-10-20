@@ -26,13 +26,10 @@
             "tsConfig": "tsconfig.app.json",
             "polyfills": "src/polyfills.ts",
             "allowedCommonJsDependencies": [
-              "angular2-chartjs",
               "chart.js",
-              "socket.io-client",
               "jquery",
               "file-saver",
               "ngx-google-places-autocomplete",
-              "chartjs-plugin-datalabels",
               "stripe-js",
               "moment-timezone"
             ],

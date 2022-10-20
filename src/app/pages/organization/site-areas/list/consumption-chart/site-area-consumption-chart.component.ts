@@ -2,7 +2,7 @@ import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '
 import { AbstractControl, UntypedFormControl, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { Chart, ChartData, ChartDataset, ChartOptions, Color } from 'chart.js';
-import * as moment from 'moment';
+import dayjs from 'dayjs';
 import { AppUnitPipe } from 'shared/formatters/app-unit.pipe';
 import { SiteAreasAuthorizations } from 'types/Authorization';
 import { ConsumptionChartAxis, ConsumptionChartDatasetOrder } from 'types/Chart';
@@ -34,8 +34,8 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
   public siteAreaConsumption!: SiteAreaConsumption;
   public selectedUnit = ConsumptionUnit.KILOWATT;
   public dateControl!: AbstractControl;
-  public startDate = moment().startOf('d').toDate();
-  public endDate = moment().endOf('d').toDate();
+  public startDate = dayjs().startOf('d').toDate();
+  public endDate = dayjs().endOf('d').toDate();
   private graphCreated = false;
   private lineTension = 0;
   private data: ChartData = {
@@ -128,8 +128,8 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
 
   public dateFilterChanged(value: Date) {
     if (value) {
-      this.startDate = moment(value).startOf('d').toDate();
-      this.endDate = moment(value).endOf('d').toDate();
+      this.startDate = dayjs(value).startOf('d').toDate();
+      this.endDate = dayjs(value).endOf('d').toDate();
       this.refresh();
     }
   }
@@ -254,8 +254,8 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
   }
 
   private getDataSetByOrder(order: number): number[] | null {
-    const dataSet = this.data.datasets.find((d) => d.order === order);
-    return dataSet ? dataSet.data as number[] : null;
+    const foundDataSet = this.data.datasets.find((dataSet) => dataSet.order === order);
+    return foundDataSet ? foundDataSet.data as number[] : null;
   }
 
   private canDisplayGraph() {
@@ -366,37 +366,37 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
               let tooltipLabel = '';
               switch (context.dataset.order) {
                 case ConsumptionChartDatasetOrder.ASSET_CONSUMPTION_WATTS:
-                  tooltipLabel =   ' ' + this.decimalPipe.transform(value / 1000, '2.0-0') + 'kW';
+                  tooltipLabel = ` ${this.decimalPipe.transform(value / 1000, '2.0-0')}kW`;
                   break;
                 case ConsumptionChartDatasetOrder.ASSET_CONSUMPTION_AMPS:
-                  tooltipLabel =   ' ' + this.decimalPipe.transform(value, '2.0-0') + 'A';
+                  tooltipLabel = ` ${this.decimalPipe.transform(value, '2.0-0')}A`;
                   break;
                 case ConsumptionChartDatasetOrder.ASSET_PRODUCTION_WATTS:
-                  tooltipLabel =   ' ' + this.decimalPipe.transform(value / 1000, '2.0-0') + 'kW';
+                  tooltipLabel = ` ${this.decimalPipe.transform(value / 1000, '2.0-0')}kW`;
                   break;
                 case ConsumptionChartDatasetOrder.ASSET_PRODUCTION_AMPS:
-                  tooltipLabel =   ' ' + this.decimalPipe.transform(value, '2.0-0') + 'A';
+                  tooltipLabel = ` ${this.decimalPipe.transform(value, '2.0-0')}A`;
                   break;
                 case ConsumptionChartDatasetOrder.CHARGING_STATION_CONSUMPTION_WATTS:
-                  tooltipLabel =   ' ' + this.decimalPipe.transform(value / 1000, '2.0-0') + 'kW';
+                  tooltipLabel = ` ${this.decimalPipe.transform(value / 1000, '2.0-0')}kW`;
                   break;
                 case ConsumptionChartDatasetOrder.CHARGING_STATION_CONSUMPTION_AMPS:
-                  tooltipLabel =   ' ' + this.decimalPipe.transform(value, '2.0-0') + 'A';
+                  tooltipLabel = ` ${this.decimalPipe.transform(value, '2.0-0')}A`;
                   break;
                 case ConsumptionChartDatasetOrder.NET_CONSUMPTION_WATTS:
-                  tooltipLabel =   ' ' + this.decimalPipe.transform(value / 1000, '2.0-0') + 'kW';
+                  tooltipLabel = ` ${this.decimalPipe.transform(value / 1000, '2.0-0')}kW`;
                   break;
                 case ConsumptionChartDatasetOrder.NET_CONSUMPTION_AMPS:
-                  tooltipLabel =   ' ' + this.decimalPipe.transform(value, '2.0-0') + 'A';
+                  tooltipLabel = ` ${this.decimalPipe.transform(value, '2.0-0')}A`;
                   break;
                 case ConsumptionChartDatasetOrder.LIMIT_WATTS:
-                  tooltipLabel =   ' ' + this.decimalPipe.transform(value / 1000, '2.0-0') + 'kW';
+                  tooltipLabel = ` ${this.decimalPipe.transform(value / 1000, '2.0-0')}kW`;
                   break;
                 case ConsumptionChartDatasetOrder.LIMIT_AMPS:
-                  tooltipLabel =   ' ' + this.decimalPipe.transform(value, '2.0-0') + 'A';
+                  tooltipLabel = ` ${this.decimalPipe.transform(value, '2.0-0')}A`;
                   break;
                 default:
-                  tooltipLabel =   value + '';
+                  tooltipLabel = `${value}`;
               }
               return `${label}: ${tooltipLabel}`;
             },
@@ -416,11 +416,11 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
         [ConsumptionChartAxis.X]:{
           type: 'time',
           time: {
-            tooltipFormat: moment.localeData().longDateFormat('LT'),
+            tooltipFormat: dayjs.localeData().longDateFormat('LT'),
             unit: 'minute',
             displayFormats: {
-              second: moment.localeData().longDateFormat('LTS'),
-              minute: moment.localeData().longDateFormat('LT'),
+              second: dayjs.localeData().longDateFormat('LTS'),
+              minute: dayjs.localeData().longDateFormat('LT'),
             },
           },
           grid: {

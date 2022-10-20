@@ -1,3 +1,10 @@
+import 'dayjs/locale/fr';
+import 'dayjs/locale/de';
+import 'dayjs/locale/es';
+import 'dayjs/locale/it';
+import 'dayjs/locale/en-gb';
+import 'dayjs/locale/pt-br';
+
 import { registerLocaleData } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import localeCs from '@angular/common/locales/cs'; // ACHTUNG - cz does not exists ==> cs-CZ
@@ -47,7 +54,9 @@ import { DatetimeAdapter, MatDatetimepickerModule } from '@mat-datetimepicker/co
 import { MatMomentDatetimeModule, MomentDatetimeAdapter } from '@mat-datetimepicker/moment';
 import { TranslateDefaultParser, TranslateLoader, TranslateModule, TranslateParser, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { ChartModule } from 'angular2-chartjs';
+import dayjs from 'dayjs';
+import localeData from 'dayjs/plugin/localeData';
+import localizedFormat from 'dayjs/plugin/localizedFormat';
 import { NgxCaptchaModule } from 'ngx-captcha';
 import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 import { Observable, Observer } from 'rxjs';
@@ -77,6 +86,7 @@ import { NavbarModule } from './shared/navbar/navbar.module';
 import { SidebarModule } from './sidebar/sidebar.module';
 import { Utils } from './utils/Utils';
 
+// Init locales
 registerLocaleData(localeEn);
 registerLocaleData(localeFr);
 registerLocaleData(localeDe);
@@ -85,6 +95,9 @@ registerLocaleData(localePt);
 registerLocaleData(localeIt);
 registerLocaleData(localeCs);
 registerLocaleData(localeEnAU);
+dayjs.extend(localeData);
+dayjs.extend(localizedFormat);
+
 @NgModule({
   exports: [
     MatAutocompleteModule,
@@ -172,11 +185,11 @@ export const initMaterialLocaleFactory = (centralServerService: CentralServerSer
     const loggedUser = centralServerService.getLoggedUser();
     if (loggedUser?.locale) {
       // Locale of the current user (if any)
-      return Utils.convertToMomentLocale(loggedUser.locale);
+      return Utils.convertToLibLocale(loggedUser.locale);
     }
     // Locale of the browser
     const browserLocale = translateService.getBrowserCultureLang();
-    return Utils.convertToMomentLocale(browserLocale);
+    return Utils.convertToLibLocale(browserLocale);
   };
 
 @Injectable()
@@ -204,7 +217,6 @@ class CustomTranslateDefaultParser extends TranslateDefaultParser {
     NavbarModule,
     FooterModule,
     HttpClientModule,
-    ChartModule,
     BrowserNotSupportedModule,
     NgxDaterangepickerMd.forRoot(),
     GoogleMapsModule,

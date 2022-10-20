@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import * as moment from 'moment';
+import dayjs from 'dayjs';
 import { Observable } from 'rxjs';
 import { WindowService } from 'services/window.service';
 import { IssuerFilter } from 'shared/table/filters/issuer-filter';
@@ -190,7 +190,7 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
   }
 
   public buildTableDynamicRowActions(registrationToken: RegistrationToken): TableActionDef[] {
-    const asExpired = moment(registrationToken.expirationDate).isBefore(new Date());
+    const asExpired = dayjs(registrationToken.expirationDate).isBefore(new Date());
     const isRevoked = registrationToken.revocationDate ? true : false;
     const rowActions: TableActionDef[] = [];
     const moreActions = new TableMoreAction([]);

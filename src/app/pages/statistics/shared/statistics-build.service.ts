@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { ChartData, ChartDataset } from 'chart.js';
-import * as moment from 'moment';
+import dayjs from 'dayjs';
 
 import { LocaleService } from '../../../services/locale.service';
 import { StatisticData } from '../../../types/Statistic';
@@ -66,7 +66,7 @@ export class StatisticsBuildService {
         let totalValuePerMonth = 0;
         let newMonth = false;
         monthIndex = transactionValue.month;
-        monthString = moment().locale(this.language).month(monthIndex).format('MMMM');
+        monthString = dayjs().locale(this.language).month(monthIndex).format('MMMM');
         const currentIndex = labels ? labels.indexOf(monthString) : -1;
         if (currentIndex < 0 && labels) {
           countMonths++;
@@ -78,9 +78,9 @@ export class StatisticsBuildService {
           if ((key !== this.monthLabel) &&
               (key !== this.unitLabel)) {
             // Round
-            transactionValue[key] *= roundingFactor;
+            // transactionValue[key] *= roundingFactor;
             transactionValue[key] = Math.round(transactionValue[key]);
-            transactionValue[key] /= roundingFactor;
+            // transactionValue[key] /= roundingFactor;
             if (transactionValue[key] && transactionValue[key] !== 0) {
               if (addUnitToLabel && (this.unitLabel in transactionValue)) {
                 newKey = key + ` [${transactionValue[this.unitLabel]}]`;
@@ -257,7 +257,7 @@ export class StatisticsBuildService {
         }
       }
     }
-    return totalValue;
+    return Math.floor(totalValue);
   }
 
   public calculateTotalChartDataFromStackedChartData(stackedChartData: ChartData): ChartData {
@@ -361,9 +361,9 @@ export class StatisticsBuildService {
             localNumber = transactionValue[key];
             if (typeof (localNumber) === 'number') {
               // Round
-              localNumber *= roundingFactor;
+              // localNumber *= roundingFactor;
               localNumber = Math.round(localNumber);
-              localNumber /= roundingFactor;
+              // localNumber /= roundingFactor;
               totalWithUnit.value += localNumber;
             }
           }

@@ -2,7 +2,7 @@ import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { TranslateService } from '@ngx-translate/core';
 import { Chart, ChartData, ChartDataset, ChartOptions, Color } from 'chart.js';
-import * as moment from 'moment';
+import dayjs from 'dayjs';
 import { ConsumptionChartAxis, ConsumptionChartDatasetOrder } from 'types/Chart';
 
 import { AuthorizationService } from '../../../services/authorization.service';
@@ -427,8 +427,8 @@ export class ConsumptionChartComponent implements AfterViewInit {
   }
 
   private getDataSetByOrder(order: number): number[] | null {
-    const dataSet = this.data.datasets.find((d) => d.order === order);
-    return dataSet ? dataSet.data as number[] : null;
+    const foundDataSet = this.data.datasets.find((dataSet) => dataSet.order === order);
+    return foundDataSet ? foundDataSet.data as number[] : null;
   }
 
   private canDisplayGraph() {
@@ -681,11 +681,11 @@ export class ConsumptionChartComponent implements AfterViewInit {
       [ConsumptionChartAxis.X]: {
         type: 'time',
         time: {
-          tooltipFormat: moment.localeData().longDateFormat('LT'),
+          tooltipFormat: dayjs.localeData().longDateFormat('LT'),
           unit: 'minute',
           displayFormats: {
-            second: moment.localeData().longDateFormat('LTS'),
-            minute: moment.localeData().longDateFormat('LT'),
+            second: dayjs.localeData().longDateFormat('LTS'),
+            minute: dayjs.localeData().longDateFormat('LT'),
           },
         },
         grid: {

@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatChipsModule } from '@angular/material/chips';
 import { TranslateModule } from '@ngx-translate/core';
-import { ChartModule } from 'angular2-chartjs';
 import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 
 import { MaterialModule } from '../../app.module';
@@ -21,7 +20,6 @@ import { RefreshComponent } from './refresh/refresh.component';
     TranslateModule,
     CommonDirectivesModule,
     FormattersModule,
-    ChartModule,
     MaterialModule,
     FormsModule,
     NgxDaterangepickerMd,

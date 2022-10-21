@@ -1539,7 +1539,7 @@
     "message": {
       "create_success": "Le compte a été ajoûté avec succès",
       "create_error": "Un erreur est survenue lors de l'ajoût du compte, vérifiez les logs",
-      "onboard_success": "Le processus d'embarquement a été déclenché. Le respnsable de l'entreprise va recevoir une invitation par mail",
+      "onboard_success": "Le processus d'embarquement a été déclenché. Le responsable de l'entreprise va recevoir une invitation par mail",
       "onboard_error": "Un erreur est survenue lors du déclenchement du processus d'embarquement du nouveau compte, vérifiez les logs"
     },
     "status": {

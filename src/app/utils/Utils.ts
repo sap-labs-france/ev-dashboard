@@ -1020,13 +1020,13 @@ export class Utils {
     const locale = Utils.convertToLibLocale(currentLocale);
     if (moment.locale() !== locale) {
       moment.locale(locale);
-      console.log('Set moment locale to: ' + locale);
+      console.log('Moment - Set moment locale to: ' + locale);
       console.log('Moment - Locale as been set to: ' + moment.locale());
       console.log('Moment - Current format -  Date: ' + moment().format('LL') + '- time: ' + moment().format('LT'));
     }
     if (dayjs.locale() !== locale) {
       dayjs.locale(locale);
-      console.log('Attempt to set dayjs locale to: ' + locale);
+      console.log('Dayjs - Set dayjs locale to: ' + locale);
       console.log('Dayjs - Locale as been set to: ' + dayjs.locale());
       console.log('Dayjs - Current format -  Date: ' + dayjs().format('LL') + '- time: ' + dayjs().format('LT'));
     }

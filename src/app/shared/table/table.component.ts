@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
+import { DateAdapter } from '@angular/material/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatFormField } from '@angular/material/form-field';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
@@ -7,7 +8,6 @@ import { MatSort } from '@angular/material/sort';
 import { MatDatetimepickerInputEvent } from '@mat-datetimepicker/core';
 import { TranslateService } from '@ngx-translate/core';
 import dayjs, { Dayjs } from 'dayjs';
-import moment from 'moment';
 import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
 import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, takeWhile } from 'rxjs/operators';
@@ -29,7 +29,6 @@ import { TableDataSource } from './table-data-source';
 export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() public dataSource!: TableDataSource<TableData>;
   @ViewChild('searchInput') public searchInput!: ElementRef;
-  @ViewChildren('ngxDatePickerElement') public datePickerElements!: QueryList<MatFormField>;
   @ViewChildren(DaterangepickerDirective) public datePickers: QueryList<DaterangepickerDirective>;
 
   public searchPlaceholder = '';
@@ -53,8 +52,9 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     public spinnerService: SpinnerService,
     protected localService: LocaleService,
     public windowService: WindowService,
+    private dateAdapter: DateAdapter<any>,
     private dialog: MatDialog) {
-    // Set placeholder
+    this.dateAdapter.setLocale(dayjs.locale());
     this.searchPlaceholder = this.translateService.instant('general.search');
     this.isMobile = Utils.isInMobileApp();
   }
@@ -129,29 +129,21 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public dateTimeRangeChanged(filterDef: TableFilterDef, event: { startDate: Dayjs; endDate: Dayjs }) {
-    if (!event.startDate || !event.endDate) {
-      return;
-    }
-    filterDef.dateRangeTableFilterDef.updateRanges();
-    const currentValue = filterDef.currentValue;
-    if (currentValue?.startDate !== event.startDate || currentValue?.endDate !== event.endDate) {
-      filterDef.currentValue = {
-        startDate: Utils.adjustDateTimeFromPicker(event?.startDate.toDate()),
-        endDate: Utils.adjustDateTimeFromPicker(event?.endDate.toDate())
-      };
-      if (!Utils.isEmptyArray(this.datePickers)) {
-        for (const picker of this.datePickers) {
-          picker.picker.updateCalendars();
-          picker.hide();
-        }
-
+    if (event.startDate && event.endDate) {
+      // Fix bug on time zone
+      const eventStartDate = Utils.adjustDateTimeFromPicker(event.startDate.toDate());
+      const eventEndDate = Utils.adjustDateTimeFromPicker(event.endDate.toDate());
+      const currentValue = filterDef.currentValue;
+      if (currentValue?.startDate !== eventStartDate ||
+          currentValue?.endDate !== eventEndDate) {
+        filterDef.currentValue.startDate = eventStartDate;
+        filterDef.currentValue.endDate = eventEndDate;
+        this.filterChanged(filterDef);
       }
-      this.filterChanged(filterDef);
     }
   }
 
   public dateTimeRangeOpen(parent: MatFormField, filterDef: TableFilterDef) {
-    filterDef.dateRangeTableFilterDef.updateRanges();
     const parentHTMLElement = (parent.getConnectedOverlayOrigin().nativeElement as HTMLElement);
     for (const datePicker of this.datePickers) {
       if (parentHTMLElement.contains(datePicker.picker.pickerContainer.nativeElement as HTMLElement)) {

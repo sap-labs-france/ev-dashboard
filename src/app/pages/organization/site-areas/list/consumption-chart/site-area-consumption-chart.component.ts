@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, UntypedFormControl, Validators } from '@angular/forms';
+import { DateAdapter } from '@angular/material/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Chart, ChartData, ChartDataset, ChartOptions, Color } from 'chart.js';
 import dayjs from 'dayjs';
@@ -50,7 +51,6 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
   private netInstantPowerColor!: string;
   private limitColor!: string;
   private defaultColor!: string;
-  private backgroundColor!: string;
   private firstLabel: number;
   private visibleDatasets = [
     ConsumptionChartDatasetOrder.NET_CONSUMPTION_WATTS
@@ -60,15 +60,17 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
     [ConsumptionChartAxis.AMPERAGE]: true,
   };
 
-  // eslint-disable-next-line no-useless-constructor
   public constructor(
     private spinnerService: SpinnerService,
     private centralServerService: CentralServerService,
+    private dateAdapter: DateAdapter<any>,
     private translateService: TranslateService,
     private datePipe: AppDatePipe,
     private durationPipe: AppDurationPipe,
     private decimalPipe: AppDecimalPipe,
-    private unitPipe: AppUnitPipe) {
+    private unitPipe: AppUnitPipe
+  ) {
+    this.dateAdapter.setLocale(dayjs.locale());
   }
 
   public ngOnInit() {
@@ -95,7 +97,6 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
     this.assetConsumptionsInstantPowerColor = this.getStyleColor(this.warningElement.nativeElement);
     this.limitColor = this.getStyleColor(this.dangerElement.nativeElement);
     this.defaultColor = this.getStyleColor(this.chartElement.nativeElement);
-    this.backgroundColor = Utils.toRgba('#FFFFFF', 1);
     if (this.canDisplayGraph()) {
       this.prepareOrUpdateGraph();
     } else {

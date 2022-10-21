@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, UntypedFormArray, UntypedFormControl, UntypedFormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { DateAdapter } from '@angular/material/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import dayjs from 'dayjs';
@@ -47,7 +48,6 @@ export class ChargingPlansComponent implements OnInit, AfterViewInit {
   @Input() public chargingStation!: ChargingStation;
   @Input() public chargingStationsAuthorizations: ChargingStationsAuthorizations;
 
-
   public profileTypeMap: ProfileType[] = [
     {
       key: ChargingProfileKindType.ABSOLUTE, description: 'chargers.smart_charging.profile_types.absolute',
@@ -74,6 +74,7 @@ export class ChargingPlansComponent implements OnInit, AfterViewInit {
     public scheduleEditableTableDataSource: ChargingPlansEditableTableDataSource,
     private translateService: TranslateService,
     private router: Router,
+    private dateAdapter: DateAdapter<any>,
     private datePipe: AppDatePipe,
     private dialogService: DialogService,
     private centralServerService: CentralServerService,
@@ -83,6 +84,7 @@ export class ChargingPlansComponent implements OnInit, AfterViewInit {
     private windowService: WindowService
   ) {
     this.isSmartChargingComponentActive = this.componentService.isActive(TenantComponents.SMART_CHARGING);
+    this.dateAdapter.setLocale(dayjs.locale());
   }
 
   public navigateToLog() {

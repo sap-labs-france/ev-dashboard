@@ -24,7 +24,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
-import { MatRippleModule } from '@angular/material/core';
+import { MAT_DATE_LOCALE, MatRippleModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -57,6 +57,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import dayjs from 'dayjs';
 import localeData from 'dayjs/plugin/localeData';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
+import utc from 'dayjs/plugin/utc';
 import { NgxCaptchaModule } from 'ngx-captcha';
 import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 import { Observable, Observer } from 'rxjs';
@@ -95,8 +96,10 @@ registerLocaleData(localePt);
 registerLocaleData(localeIt);
 registerLocaleData(localeCs);
 registerLocaleData(localeEnAU);
+
 dayjs.extend(localeData);
 dayjs.extend(localizedFormat);
+dayjs.extend(utc);
 
 @NgModule({
   exports: [

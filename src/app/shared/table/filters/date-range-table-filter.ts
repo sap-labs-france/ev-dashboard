@@ -23,7 +23,7 @@ export class DateRangeTableFilter extends TableFilter {
       httpId: '', //Not used as startDateTimeHttpId and endDateTimeHttpId are used instead
       type: FilterType.DATE_RANGE,
       name: 'general.search_date',
-      class: 'col-md-6 col-lg-6 col-xl-5 col-xxl-4',
+      // class: 'col-md-6 col-lg-6 col-xl-5 col-xxl-4',
       dateRangeTableFilterDef: {
         timePicker: true,
         timePicker24Hour: true,
@@ -32,15 +32,14 @@ export class DateRangeTableFilter extends TableFilter {
         startDateTimeHttpId: options.startDateTimeHttpId ? options.startDateTimeHttpId : 'StartDateTime',
         endDateTimeHttpId: options.endDateTimeHttpId ? options.endDateTimeHttpId : 'EndDateTime',
         locale: {
-          displayFormat: dayjs.localeData().longDateFormat('lll'),
-          format: 'MM/DD/YYYY',
+          displayFormat: dayjs.localeData().longDateFormat('llll'),
           applyLabel: options.translateService.instant('general.apply'),
           daysOfWeek: dayjs.weekdaysMin(),
           monthNames: dayjs.monthsShort(),
           firstDay: dayjs.localeData().firstDayOfWeek(),
         },
+        displayRanges: true,
         ranges: this.allRanges,
-        updateRanges: this.createQuickAccessDateRanges.bind(this),
       },
       currentValue: {
         startDate,
@@ -52,12 +51,13 @@ export class DateRangeTableFilter extends TableFilter {
     if (dayjs.localeData().longDateFormat('lll').match(/A/i)) {
       filterDef.dateRangeTableFilterDef.timePicker24Hour = false;
     }
-    this.createQuickAccessDateRanges();
-    // Set
+    if (filterDef.dateRangeTableFilterDef.displayRanges) {
+      this.createQuickAccessDateRanges();
+    }
     this.setFilterDef(filterDef);
   }
 
-  private createQuickAccessDateRanges(){
+  private createQuickAccessDateRanges() {
     const rangeObjects: {key: string; label: string; startValue: Dayjs; endValue: Dayjs}[] = [
       { key: 'search_one_minute', label: 'logs.search_one_minute', startValue: dayjs().subtract(1, 'minute'), endValue: dayjs() },
       { key: 'search_10_minutes', label: 'logs.search_10_minutes', startValue: dayjs().subtract(10, 'minutes'), endValue: dayjs() },

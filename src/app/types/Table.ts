@@ -69,8 +69,8 @@ export interface DateRangeTableFilterDef {
   locale?: Locale;
   startDateTimeHttpId?: string;
   endDateTimeHttpId?: string;
+  displayRanges?: boolean;
   ranges?: any;
-  updateRanges(): void;
 }
 
 export interface Locale {
@@ -87,6 +87,7 @@ export interface Locale {
   monthNames?: string[];
   firstDay?: number; // first day is monday
 }
+
 export interface DropdownItem {
   id: string;
   name: string;
@@ -99,7 +100,7 @@ export interface DropdownItem {
 export enum ActionType {
   BUTTON = 'button',
   SLIDE = 'slide'
-};
+}
 
 export enum FilterType {
   ALL_KEY = 'all',

@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { DateAdapter } from '@angular/material/core';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -44,12 +45,14 @@ export class ChargingStationsRegistrationTokenComponent implements OnInit {
     private centralServerService: CentralServerService,
     private messageService: MessageService,
     private spinnerService: SpinnerService,
+    private dateAdapter: DateAdapter<any>,
     private dialogService: DialogService,
     private componentService: ComponentService,
     private translateService: TranslateService,
     private dialog: MatDialog,
     private router: Router) {
     this.isOrganizationComponentActive = this.componentService.isActive(TenantComponents.ORGANIZATION);
+    this.dateAdapter.setLocale(dayjs.locale());
   }
 
   public ngOnInit(): void {

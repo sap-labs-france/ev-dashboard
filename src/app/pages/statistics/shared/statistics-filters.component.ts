@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { DateAdapter } from '@angular/material/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatDatetimepickerInputEvent } from '@mat-datetimepicker/core';
 import { TranslateService } from '@ngx-translate/core';
@@ -14,7 +15,6 @@ import { UserTableFilter } from 'shared/table/filters/user-table-filter';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
-import { LocaleService } from '../../../services/locale.service';
 import { FilterParams } from '../../../types/GlobalType';
 import { SettingLink } from '../../../types/Setting';
 import { FilterType, TableFilterDef } from '../../../types/Table';
@@ -70,8 +70,10 @@ export class StatisticsFiltersComponent implements OnInit {
     private translateService: TranslateService,
     private componentService: ComponentService,
     private centralServerService: CentralServerService,
-    private localeService: LocaleService,
-    private dialog: MatDialog) {
+    private dateAdapter: DateAdapter<any>,
+    private dialog: MatDialog
+  ) {
+    this.dateAdapter.setLocale(dayjs.locale());
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
     const issuerFilter = new IssuerFilter().getFilterDef();
     const dateRangeFilter = new DateRangeTableFilter({

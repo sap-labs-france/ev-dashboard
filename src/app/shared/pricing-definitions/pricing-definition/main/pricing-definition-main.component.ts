@@ -1,7 +1,9 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { DateAdapter } from '@angular/material/core';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { TranslateService } from '@ngx-translate/core';
+import dayjs from 'dayjs';
 import { Utils } from 'utils/Utils';
 
 import { CONNECTOR_TYPE_SELECTION_MAP } from '../../../../shared/formatters/app-connector-type-selection.pipe';
@@ -13,7 +15,6 @@ import { Constants } from '../../../../utils/Constants';
   selector: 'app-pricing-definition-main',
   templateUrl: 'pricing-definition-main.component.html',
 })
-
 export class PricingDefinitionMainComponent implements OnInit, OnChanges {
   @Input() public formGroup!: UntypedFormGroup;
   @Input() public pricingDefinition: PricingDefinition;
@@ -42,7 +43,9 @@ export class PricingDefinitionMainComponent implements OnInit, OnChanges {
   // eslint-disable-next-line no-useless-constructor
   public constructor(
     public translateService: TranslateService,
-    public dayPipe: AppDayPipe) {
+    public dayPipe: AppDayPipe,
+    private dateAdapter: DateAdapter<any>) {
+    this.dateAdapter.setLocale(dayjs.locale());
   }
 
   public ngOnInit() {

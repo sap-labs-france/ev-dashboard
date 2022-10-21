@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, UntypedFormControl, Validators } from '@angular/forms';
+import { DateAdapter } from '@angular/material/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Chart, ChartData, ChartDataset, ChartOptions, Color } from 'chart.js';
 import dayjs from 'dayjs';
@@ -58,15 +59,16 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
     [ConsumptionChartAxis.PERCENTAGE]: true,
   };
 
-  // eslint-disable-next-line no-useless-constructor
   public constructor(
     private spinnerService: SpinnerService,
     private centralServerService: CentralServerService,
     private translateService: TranslateService,
     private decimalPipe: AppDecimalPipe,
+    private dateAdapter: DateAdapter<any>,
     private unitPipe: AppUnitPipe,
     private datePipe: AppDatePipe,
     private durationPipe: AppDurationPipe) {
+    this.dateAdapter.setLocale(dayjs.locale());
   }
 
   public ngOnInit() {

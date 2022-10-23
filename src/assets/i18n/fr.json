@@ -1247,10 +1247,24 @@
     "import_users_partial": "{{inSuccess}} utilisateurs ont été enregistré(s) avec succès et seront importés de manière asynchrone et {{inError}} ont échoué(s), vérifiez les logs",
     "import_users_error": "{{inError}} utilisateurs n'ont pas pu être enregistré(s)",
     "import_no_users": "Aucun utilisateur n'a été enregistré",
+    "delete_account_title": "Supprimer Compte",
+    "delete_account_description": [
+      "Votre compte sera supprimé avec toutes vos données personnelles et celles-ci ne seront plus récupérables.",
+      "Toutes vos activités et vos historiques ne seront aussi plus récupérables.",
+      "Dans le cas ou vous auriez des factures en cours, vous devrez vous en acquitter avant de supprimer votre compte.",
+      "Une fois que votre compte aura été supprimé, vous serez déconnecté de l'application."
+    ],
+    "delete_account_button": "Je comprends et je veux Supprimer mon Compte",
+    "delete_account_confirm": [
+      "Voulez-vous vraiment supprimer votre compte ?",
+      "TOUTES VOS DONNEES PERSONELLES SERONT PERDUES ET IRRECUPERABLES !!!"
+    ],
+    "delete_account_success": "Your account has been deleted successfully",
+    "delete_account_error": "Error occurred while deleting your account, please contact an administrator",
     "access_mode": "Mode d'accès",
     "allow_free_access": "Accès gratuit à toutes les bornes",
-    "user_without_freeAccess": "Accès payant",
-    "user_with_freeAccess": "Accès gratuit",
+    "user_without_free_access": "Accès payant",
+    "user_with_free_access": "Accès gratuit",
     "number_of_sites": "Nb de sites",
     "number_of_transactions": "Nb de sessions",
     "eula_accepted_on": "CGU acceptée le",

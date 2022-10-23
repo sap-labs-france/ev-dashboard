@@ -3,6 +3,7 @@ import { AbstractControl, UntypedFormArray, UntypedFormControl, UntypedFormGroup
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { Address as GoogleAddress } from 'ngx-google-places-autocomplete/objects/address';
+import { DialogMode } from 'types/Authorization';
 import { GeoMapDialogData, GeoMapDialogResult } from 'types/Dialog';
 
 import { Address } from '../../types/Address';
@@ -21,6 +22,8 @@ export class AddressComponent implements OnInit, OnChanges {
   @Input() public componentName!: string;
   @Input() public itemComponentName!: string;
   @Input() public mandatory!: boolean;
+  @Input() public dialogMode!: DialogMode;
+
   public addressFormGroup!: UntypedFormGroup;
   public address1!: AbstractControl;
   public address2!: AbstractControl;

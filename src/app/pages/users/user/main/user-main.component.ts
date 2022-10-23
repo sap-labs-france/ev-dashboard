@@ -6,7 +6,7 @@ import { CentralServerService } from 'services/central-server.service';
 import { ConfigService } from 'services/config.service';
 import { MessageService } from 'services/message.service';
 import { USER_STATUSES, UserRoles } from 'shared/model/users.model';
-import { AuthorizationDefinitionFieldMetadata } from 'types/Authorization';
+import { AuthorizationDefinitionFieldMetadata, DialogMode } from 'types/Authorization';
 import { KeyValue } from 'types/GlobalType';
 import { User, UserRole, UserStatus } from 'types/User';
 import { Constants } from 'utils/Constants';
@@ -26,6 +26,7 @@ import { TenantComponents } from '../../../../types/Tenant';
 export class UserMainComponent implements OnInit, OnChanges {
   @Input() public formGroup: UntypedFormGroup;
   @Input() public user!: User;
+  @Input() public dialogMode!: DialogMode;
   @Input() public metadata!: Record<string, AuthorizationDefinitionFieldMetadata>;
   @Output() public roleChanged = new EventEmitter<UserRole>();
 

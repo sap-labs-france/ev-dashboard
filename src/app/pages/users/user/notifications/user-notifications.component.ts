@@ -1,5 +1,6 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { AuthorizationDefinitionFieldMetadata, DialogMode } from 'types/Authorization';
 import { User, UserNotifications, UserRole } from 'types/User';
 
 import { AuthorizationService } from '../../../../services/authorization.service';
@@ -13,6 +14,8 @@ import { Utils } from '../../../../utils/Utils';
 export class UserNotificationsComponent implements OnInit, OnChanges {
   @Input() public formGroup: UntypedFormGroup;
   @Input() public user!: User;
+  @Input() public dialogMode!: DialogMode;
+  @Input() public metadata!: Record<string, AuthorizationDefinitionFieldMetadata>;
 
   public isAdmin = false;
   public isSuperAdmin = false;

@@ -23,6 +23,6 @@ export class UserFreeAccessFilter extends TableFilter {
 }
 
 export const freeAccessValues: KeyValue[] = [
-  { key: 'true', value: 'users.user_with_freeAccess' },
-  { key: 'false', value: 'users.user_without_freeAccess' },
+  { key: 'true', value: 'users.user_with_free_access' },
+  { key: 'false', value: 'users.user_without_free_access' },
 ];

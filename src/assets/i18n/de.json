@@ -1247,10 +1247,24 @@
     "import_users_partial": "{{inSuccess}} Nutzer wurden erfolgreich hochgeladen und werden nun verarbeitet und {{inError}} Nutzer sind fehlgeschlagen, bitte überprüfen Sie die Logs",
     "import_users_error": "Das Hochladen von {{inError}} Nutzern ist fehlgeschlagen",
     "import_no_users": "Es wurden keine Nutzer hochgeladen",
+    "delete_account_title": "Delete Account",
+    "delete_account_description": [
+      "Your account will be deleted with all your personal data which will be unrecoverable.",
+      "All of your activities and histories will also be unrecoverable.",
+      "In the case you'd have on-going invoices, you will have to pay all of them before deleting your account.",
+      "Once your account will have been deleted, you will be disconnected from the application."
+    ],
+    "delete_account_button": "I Understand and I want to Delete my Account",
+    "delete_account_confirm": [
+      "Do you really want to delete your account?",
+      "ALL YOUR PERSONAL DATA WILL BE LOST AND UNRECOVERABLE!!!"
+    ],
+    "delete_account_success": "Your account has been deleted successfully",
+    "delete_account_error": "Error occurred while deleting your account, please contact an administrator",
     "access_mode": "Zugriffsmodus",
     "allow_free_access": "Freier Zugriff auf alle Ladestationen",
-    "user_without_freeAccess": "Bezahlter Zugriff",
-    "user_with_freeAccess": "Freier Zugriff",
+    "user_without_free_access": "Bezahlter Zugriff",
+    "user_with_free_access": "Freier Zugriff",
     "number_of_sites": "Anz. Standorte",
     "number_of_transactions": "Anz. Ladevorgänge",
     "eula_accepted_on": "EULA akzeptiert am",

@@ -1,5 +1,6 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { AuthorizationDefinitionFieldMetadata, DialogMode } from 'types/Authorization';
 import { User } from 'types/User';
 import { ParentErrorStateMatcher } from 'utils/ParentStateMatcher';
 import { Users } from 'utils/Users';
@@ -14,6 +15,8 @@ import { Utils } from '../../../../utils/Utils';
 export class UserSecurityComponent implements OnInit, OnChanges {
   @Input() public formGroup: UntypedFormGroup;
   @Input() public user!: User;
+  @Input() public dialogMode!: DialogMode;
+  @Input() public metadata!: Record<string, AuthorizationDefinitionFieldMetadata>;
 
   public parentErrorStateMatcher = new ParentErrorStateMatcher();
   public hidePassword = true;

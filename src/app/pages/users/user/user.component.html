@@ -9,7 +9,7 @@
             <span>{{'users.title' | translate}} - {{formGroup.controls['name'].value}} {{formGroup.controls['firstName'].value}}</span>
           </ng-template>
           <div class="card-body mat-tab-dialog-body-content">
-            <app-user-main #userMainComponent [formGroup]="formGroup" [user]='user' [metadata]='metadata' (roleChanged)="roleChanged($event)">
+            <app-user-main #userMainComponent [formGroup]="formGroup" [user]='user' [metadata]='metadata' [dialogMode]='dialogMode'(roleChanged)="roleChanged($event)">
             </app-user-main>
           </div>
         </mat-tab>
@@ -19,7 +19,7 @@
             <span>{{'general.notifications' | translate}}</span>
           </ng-template>
           <div class="card-body text-left">
-            <app-user-notifications #userNotificationsComponent [formGroup]="formGroup" [user]='user'>
+            <app-user-notifications #userNotificationsComponent [formGroup]="formGroup" [user]='user' [metadata]='metadata' [dialogMode]='dialogMode'>
             </app-user-notifications>
           </div>
         </mat-tab>
@@ -29,7 +29,7 @@
             <span>{{'general.address' | translate}}</span>
           </ng-template>
           <div class="card-body">
-            <app-address [address]="address" [formGroup]="formGroup" [hideGeolocation]="true">
+            <app-address [address]="address" [formGroup]="formGroup" [hideGeolocation]="true" [dialogMode]='dialogMode'>
             </app-address>
           </div>
         </mat-tab>
@@ -39,11 +39,11 @@
             <span>{{'users.security' | translate}}</span>
           </ng-template>
           <div class="card-body">
-            <app-user-security #userSecurityComponent [formGroup]="formGroup" [user]='user'>
+            <app-user-security #userSecurityComponent [formGroup]="formGroup" [user]='user' [metadata]='metadata' [dialogMode]='dialogMode'>
             </app-user-security>
           </div>
         </mat-tab>
-        <mat-tab *ngIf="!isSuperAdmin">
+        <mat-tab>
           <ng-template mat-tab-label>
             <mat-icon>link</mat-icon>
             <span>{{'general.connectors' | translate}}</span>
@@ -55,25 +55,27 @@
             </div>
           </ng-template>
         </mat-tab>
-        <mat-tab>
-          <ng-template mat-tab-label>
-            <mat-icon>more_horiz</mat-icon>
-            <span>{{'users.miscs' | translate}}</span>
-          </ng-template>
-          <div class="card-body">
-            <app-user-miscs [formGroup]="formGroup" [user]='user'>
-            </app-user-miscs>
-          </div>
-        </mat-tab>
-        <mat-tab *ngIf="isBillingComponentActive && canListPaymentMethods && (dialogMode !== 'C')">
+        <mat-tab *ngIf="isBillingComponentActive && canListPaymentMethods && dialogMode !== 'C'">
           <ng-template mat-tab-label>
             <mat-icon>payment</mat-icon>
             <span>{{'users.tabs.billing' | translate}}</span>
           </ng-template>
           <ng-template matTabContent>
             <div class="card-body card-profile">
-              <app-payment-methods [currentUserID]="currentUserID">
+              <app-payment-methods [currentUserID]="currentUserID" [user]='user' [metadata]='metadata' [dialogMode]='dialogMode'>
               </app-payment-methods>
+            </div>
+          </ng-template>
+        </mat-tab>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon>more_horiz</mat-icon>
+            <span>{{'users.miscs' | translate}}</span>
+          </ng-template>
+          <ng-template matTabContent>
+            <div class="card-body">
+              <app-user-miscs [formGroup]="formGroup" [user]='user' [metadata]='metadata' [dialogMode]='dialogMode'>
+              </app-user-miscs>
             </div>
           </ng-template>
         </mat-tab>

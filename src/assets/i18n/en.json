@@ -1247,10 +1247,24 @@
     "import_users_partial": "{{inSuccess}} users have been uploaded successfully and will be processed asynchronously and {{inError}} failed, check the logs",
     "import_users_error": "{{inError}} users failed to be uploaded",
     "import_no_users": "No user have been uploaded",
+    "delete_account_title": "Delete Account",
+    "delete_account_description": [
+      "Your account will be deleted with all your personal data which will be unrecoverable.",
+      "All of your activities and histories will also be unrecoverable.",
+      "In the case you'd have on-going invoices, you will have to pay all of them before deleting your account.",
+      "Once your account will have been deleted, you will be disconnected from the application."
+    ],
+    "delete_account_button": "I Understand and I want to Delete my Account",
+    "delete_account_confirm": [
+      "Do you really want to delete your account?",
+      "ALL YOUR PERSONAL DATA WILL BE LOST AND UNRECOVERABLE!!!"
+    ],
+    "delete_account_success": "Your account has been deleted successfully",
+    "delete_account_error": "Error occurred while deleting your account, please contact an administrator",
     "access_mode": "Access Mode",
     "allow_free_access": "Free access to all charging stations",
-    "user_without_freeAccess": "Paying access",
-    "user_with_freeAccess": "Free access",
+    "user_without_free_access": "Paying access",
+    "user_with_free_access": "Free access",
     "number_of_sites": "Nb Sites",
     "number_of_transactions": "Nb Sessions",
     "eula_accepted_on": "EULA Accepted On",

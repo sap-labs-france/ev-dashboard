@@ -38,7 +38,6 @@ export class AuthenticationLoginComponent implements OnInit, OnDestroy {
   private sidebarVisible: boolean;
   private messages!: Record<string, string>;
   private subDomain: string;
-  private nativeElement: Node;
 
   public constructor(
     private element: ElementRef,
@@ -54,8 +53,6 @@ export class AuthenticationLoginComponent implements OnInit, OnDestroy {
     private authorizationService: AuthorizationService) {
     // Reset the spinner
     this.spinnerService.hide();
-    // Set
-    this.nativeElement = element.nativeElement;
     this.sidebarVisible = false;
     // Load the translated messages
     this.translateService.get('authentication', {}).subscribe((messages) => {

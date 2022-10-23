@@ -2,7 +2,7 @@ import { AbstractControl, UntypedFormControl, UntypedFormGroup } from '@angular/
 import { MatDialogRef } from '@angular/material/dialog';
 import { Data, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import dayjs from 'dayjs';
+import * as dayjs from 'dayjs';
 import { StatusCodes } from 'http-status-codes';
 import * as moment from 'moment';
 import { DialogMode } from 'types/Authorization';
@@ -1007,15 +1007,6 @@ export class Utils {
     return locale.replace('_', '-');
   }
 
-  public static convertToLibLocale(locale: string): string {
-    let nodeLibLocale = Utils.convertToBrowserLocale(locale).toLowerCase(); // Converts 'fr-FR' to 'fr-fr'
-    const fragments = nodeLibLocale.split('-');
-    if (fragments.length === 2 && fragments[0] === fragments[1]) {
-      nodeLibLocale = fragments[0];  // Converts 'fr-fr' to 'fr'
-    }
-    return nodeLibLocale;
-  }
-
   public static changeLibLocaleGlobally(currentLocale: string): void {
     const locale = Utils.convertToLibLocale(currentLocale);
     if (moment.locale() !== locale) {
@@ -1030,5 +1021,14 @@ export class Utils {
       console.log('Dayjs - Locale as been set to: ' + dayjs.locale());
       console.log('Dayjs - Current format -  Date: ' + dayjs().format('LL') + '- time: ' + dayjs().format('LT'));
     }
+  }
+
+  private static convertToLibLocale(locale: string): string {
+    let nodeLibLocale = Utils.convertToBrowserLocale(locale).toLowerCase(); // Converts 'fr-FR' to 'fr-fr'
+    const fragments = nodeLibLocale.split('-');
+    if (fragments.length === 2 && fragments[0] === fragments[1]) {
+      nodeLibLocale = fragments[0];  // Converts 'fr-fr' to 'fr'
+    }
+    return nodeLibLocale;
   }
 }

@@ -1,4 +1,4 @@
-import 'chartjs-adapter-moment';
+import 'chartjs-adapter-date-fns';
 
 import { Component } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
@@ -12,7 +12,7 @@ import { CONNECTOR_ALL_TYPES_MAP } from './shared/model/charging-stations.model'
   templateUrl: 'app.component.html',
 })
 export class AppComponent {
-  public title = 'e-Mobility';
+  public title = 'Charge Angels';
 
   public constructor(
     private iconRegistry: MatIconRegistry,

@@ -3,7 +3,7 @@ import { AbstractControl, UntypedFormControl, Validators } from '@angular/forms'
 import { DateAdapter } from '@angular/material/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Chart, ChartData, ChartDataset, ChartOptions, Color } from 'chart.js';
-import dayjs from 'dayjs';
+import * as dayjs from 'dayjs';
 import { ConsumptionChartAxis, ConsumptionChartDatasetOrder } from 'types/Chart';
 
 import { CentralServerService } from '../../../../services/central-server.service';

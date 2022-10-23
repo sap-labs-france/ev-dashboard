@@ -5,7 +5,6 @@ import { GoogleMapsModule } from '@angular/google-maps';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { MomentModule } from 'ngx-moment';
 import { TagLimitsHistoryTableDataSource } from 'pages/tags/tag/limits-history/tag-limits-history-table-data-source';
 import { PricingDefinitionsModule } from 'shared/pricing-definitions/pricing-definitions.module';
 
@@ -73,7 +72,6 @@ import { ChargingStationsRegistrationTokenDialogComponent } from './registration
     MatProgressBarModule,
     FormattersModule,
     ComponentModule,
-    MomentModule,
     PricingDefinitionsModule,
     GoogleMapsModule
   ],

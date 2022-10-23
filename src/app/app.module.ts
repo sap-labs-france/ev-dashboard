@@ -1,9 +1,11 @@
-import 'dayjs/locale/fr';
+import 'dayjs/locale/cs';
 import 'dayjs/locale/de';
+import 'dayjs/locale/en';
+import 'dayjs/locale/en-au';
 import 'dayjs/locale/es';
+import 'dayjs/locale/fr';
 import 'dayjs/locale/it';
-import 'dayjs/locale/en-gb';
-import 'dayjs/locale/pt-br';
+import 'dayjs/locale/pt';
 
 import { registerLocaleData } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
@@ -24,7 +26,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
-import { MAT_DATE_LOCALE, MatRippleModule } from '@angular/material/core';
+import { MatRippleModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -54,7 +56,7 @@ import { DatetimeAdapter, MatDatetimepickerModule } from '@mat-datetimepicker/co
 import { MatMomentDatetimeModule, MomentDatetimeAdapter } from '@mat-datetimepicker/moment';
 import { TranslateDefaultParser, TranslateLoader, TranslateModule, TranslateParser, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import dayjs from 'dayjs';
+import * as dayjs from 'dayjs';
 import localeData from 'dayjs/plugin/localeData';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
 import utc from 'dayjs/plugin/utc';
@@ -88,15 +90,14 @@ import { SidebarModule } from './sidebar/sidebar.module';
 import { Utils } from './utils/Utils';
 
 // Init locales
-registerLocaleData(localeEn);
-registerLocaleData(localeFr);
-registerLocaleData(localeDe);
-registerLocaleData(localeEs);
-registerLocaleData(localePt);
-registerLocaleData(localeIt);
 registerLocaleData(localeCs);
+registerLocaleData(localeDe);
+registerLocaleData(localeEn);
 registerLocaleData(localeEnAU);
-
+registerLocaleData(localeEs);
+registerLocaleData(localeFr);
+registerLocaleData(localeIt);
+registerLocaleData(localePt);
 dayjs.extend(localeData);
 dayjs.extend(localizedFormat);
 dayjs.extend(utc);
@@ -143,7 +144,8 @@ export class MaterialModule {
 }
 
 // Load translations from "/assets/i18n/[lang].json" ([lang] is the lang
-export const httpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(http, './assets/i18n/', '.json?version=2.7.2');
+export const httpLoaderFactory = (http: HttpClient) =>
+  new TranslateHttpLoader(http, './assets/i18n/', '.json?version=2.7.2');
 
 const initAppFactory = (centralServerService: CentralServerService, configService: ConfigService,
   messageService: MessageService, translateService: TranslateService): () => Observable<void> =>
@@ -180,20 +182,6 @@ const initAppFactory = (centralServerService: CentralServerService, configServic
       }
     });
   }));
-
-// To be used where the Material Date Time picker is imported (never called in this module)
-export const initMaterialLocaleFactory = (centralServerService: CentralServerService, translateService: TranslateService): () => string =>
-  () => {
-    // Init Material locale
-    const loggedUser = centralServerService.getLoggedUser();
-    if (loggedUser?.locale) {
-      // Locale of the current user (if any)
-      return Utils.convertToLibLocale(loggedUser.locale);
-    }
-    // Locale of the browser
-    const browserLocale = translateService.getBrowserCultureLang();
-    return Utils.convertToLibLocale(browserLocale);
-  };
 
 @Injectable()
 class CustomTranslateDefaultParser extends TranslateDefaultParser {

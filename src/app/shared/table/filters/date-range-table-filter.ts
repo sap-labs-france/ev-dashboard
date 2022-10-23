@@ -32,7 +32,7 @@ export class DateRangeTableFilter extends TableFilter {
         startDateTimeHttpId: options.startDateTimeHttpId ? options.startDateTimeHttpId : 'StartDateTime',
         endDateTimeHttpId: options.endDateTimeHttpId ? options.endDateTimeHttpId : 'EndDateTime',
         locale: {
-          displayFormat: dayjs.localeData().longDateFormat('llll'),
+          displayFormat: dayjs.localeData().longDateFormat('lll'),
           applyLabel: options.translateService.instant('general.apply'),
           daysOfWeek: dayjs.weekdaysMin(),
           monthNames: dayjs.monthsShort(),

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { SpinnerService } from 'services/spinner.service';
 
 interface ReleaseNotes {
   version: string;
@@ -18,9 +19,15 @@ interface ComponentChange {
 export class ReleaseNotesComponent {
   public releaseNotes: ReleaseNotes[] = [];
 
-  public constructor() {
+  public constructor(
+    private spinnerService: SpinnerService,
+  ) {
+    if (this.spinnerService.isVisible) {
+      this.spinnerService.hide();
+    }
     this.buildReleaseNotes();
   }
+
   public buildReleaseNotes() {
     this.releaseNotes = [
       {

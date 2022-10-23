@@ -1,5 +1,5 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import dayjs from 'dayjs';
+import * as dayjs from 'dayjs';
 
 import { CellContentTemplateDirective } from '../../../../../shared/table/cell-content-template/cell-content-template.directive';
 import { BillingPaymentMethod } from '../../../../../types/Billing';

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import dayjs from 'dayjs';
+import * as dayjs from 'dayjs';
 import { Observable } from 'rxjs';
 import { WindowService } from 'services/window.service';
 import { IssuerFilter } from 'shared/table/filters/issuer-filter';

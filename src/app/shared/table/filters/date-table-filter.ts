@@ -1,4 +1,4 @@
-import dayjs from 'dayjs';
+import * as dayjs from 'dayjs';
 
 import { FilterType, TableFilterDef } from '../../../types/Table';
 import { TableFilter } from './table-filter';

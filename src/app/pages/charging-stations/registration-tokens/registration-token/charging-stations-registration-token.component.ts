@@ -4,7 +4,7 @@ import { DateAdapter } from '@angular/material/core';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import dayjs from 'dayjs';
+import * as dayjs from 'dayjs';
 import { StatusCodes } from 'http-status-codes';
 import { AuthorizationDefinitionFieldMetadata } from 'types/Authorization';
 

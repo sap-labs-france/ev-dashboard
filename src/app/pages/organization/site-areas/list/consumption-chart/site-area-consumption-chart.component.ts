@@ -3,7 +3,7 @@ import { AbstractControl, UntypedFormControl, Validators } from '@angular/forms'
 import { DateAdapter } from '@angular/material/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Chart, ChartData, ChartDataset, ChartOptions, Color } from 'chart.js';
-import dayjs from 'dayjs';
+import * as dayjs from 'dayjs';
 import { AppUnitPipe } from 'shared/formatters/app-unit.pipe';
 import { SiteAreasAuthorizations } from 'types/Authorization';
 import { ConsumptionChartAxis, ConsumptionChartDatasetOrder } from 'types/Chart';

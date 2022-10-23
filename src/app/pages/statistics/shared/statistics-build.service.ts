@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { ChartData, ChartDataset } from 'chart.js';
-import dayjs from 'dayjs';
+import * as dayjs from 'dayjs';
 
 import { LocaleService } from '../../../services/locale.service';
 import { StatisticData } from '../../../types/Statistic';

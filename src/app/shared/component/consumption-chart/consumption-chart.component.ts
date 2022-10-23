@@ -1,8 +1,8 @@
 import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { TranslateService } from '@ngx-translate/core';
-import { Chart, ChartData, ChartDataset, ChartOptions, Color } from 'chart.js';
-import dayjs from 'dayjs';
+import { CartesianScaleTypeRegistry, Chart, ChartData, ChartDataset, ChartOptions, ChartTypeRegistry, Color, ScaleOptionsByType } from 'chart.js';
+import * as dayjs from 'dayjs';
 import { ConsumptionChartAxis, ConsumptionChartDatasetOrder } from 'types/Chart';
 
 import { AuthorizationService } from '../../../services/authorization.service';
@@ -534,9 +534,8 @@ export class ConsumptionChartComponent implements AfterViewInit {
     this.firstLabel = labels[0];
   }
 
-
   private createOptions(): ChartOptions {
-    const options: ChartOptions | any = {
+    const options: ChartOptions = {
       animation: {
         duration: 0,
       },
@@ -568,7 +567,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
             dataset.hidden = !status;
             this.data.datasets[legendItem.datasetIndex].hidden = !status;
             this.updateVisibleGridLines();
-            legend.chart.options.scales = this.buildScales();
+            // legend.chart.options.scales = this.buildScales();
             legend.chart.update();
           }
         },
@@ -671,106 +670,101 @@ export class ConsumptionChartComponent implements AfterViewInit {
         mode: 'index',
         intersect: false,
       },
-      scales: this.buildScales(),
+      scales: {
+        [ConsumptionChartAxis.X]: {
+          type: 'time',
+          time: {
+            tooltipFormat: dayjs.localeData().longDateFormat('LT'),
+            unit: 'minute',
+            displayFormats: {
+              minute: dayjs.localeData().longDateFormat('LT'),
+            },
+          },
+          grid: {
+            display: true,
+            color: 'rgba(0,0,0,0.2)',
+          },
+          ticks: {
+            autoSkip: true,
+            color: this.defaultColor,
+          },
+        },
+        [ConsumptionChartAxis.POWER]:{
+          type: 'linear',
+          position: 'left',
+          display: 'auto',
+          ticks: {
+            callback: (value: number) => parseInt(this.decimalPipe.transform(value, '1.0-0'), 10) + ((value < 1000) ? 'W' : 'kW'),
+            color: this.defaultColor,
+          },
+          grid: {
+            display: true,
+            drawOnChartArea: this.gridDisplay[ConsumptionChartAxis.POWER],
+            color: 'rgba(0,0,0,0.2)',
+          },
+        },
+        [ConsumptionChartAxis.AMPERAGE]: {
+          type: 'linear',
+          position: 'left',
+          display: 'auto',
+          grid: {
+            display: true,
+            drawOnChartArea: this.gridDisplay[ConsumptionChartAxis.AMPERAGE],
+            color: 'rgba(0,0,0,0.2)',
+          },
+          ticks: {
+            callback: (value: number) => parseInt(this.decimalPipe.transform(value, '1.0-0'), 10) + 'A',
+            color: this.defaultColor,
+          },
+        },
+        [ConsumptionChartAxis.VOLTAGE]: {
+          type: 'linear',
+          position: 'left',
+          display: 'auto',
+          grid: {
+            display: true,
+            drawOnChartArea: this.gridDisplay[ConsumptionChartAxis.VOLTAGE],
+            color: 'rgba(0,0,0,0.2)',
+          },
+          ticks: {
+            callback: (value: number) => parseInt(this.decimalPipe.transform(value, '1.0-0'), 10) + 'V',
+            color: this.defaultColor,
+          },
+        },
+        [ConsumptionChartAxis.PERCENTAGE]: {
+          type: 'linear',
+          position: 'right',
+          display: 'auto',
+          grid: {
+            display: true,
+            drawOnChartArea: this.gridDisplay[ConsumptionChartAxis.PERCENTAGE],
+            color: 'rgba(0,0,0,0.2)',
+          },
+          ticks: {
+            callback: (value) => `${value}%`,
+            color: this.defaultColor,
+          },
+        },
+        [ConsumptionChartAxis.AMOUNT]: {
+          type: 'linear',
+          position: 'right',
+          display: 'auto',
+          min: 0,
+          grid: {
+            display: true,
+            drawOnChartArea: this.gridDisplay[ConsumptionChartAxis.AMOUNT],
+            color: 'rgba(0,0,0,0.2)',
+          },
+          ticks: {
+            callback: (value: number) => {
+              const result = this.appCurrencyPipe.transform(value, this.transaction.priceUnit);
+              return result ? result : '';
+            },
+            color: this.defaultColor,
+          },
+        }
+      },
     };
     return options;
-  }
-
-  private buildScales(): any {
-    return {
-      [ConsumptionChartAxis.X]: {
-        type: 'time',
-        time: {
-          tooltipFormat: dayjs.localeData().longDateFormat('LT'),
-          unit: 'minute',
-          displayFormats: {
-            second: dayjs.localeData().longDateFormat('LTS'),
-            minute: dayjs.localeData().longDateFormat('LT'),
-          },
-        },
-        grid: {
-          display: true,
-          color: 'rgba(0,0,0,0.2)',
-        },
-        ticks: {
-          autoSkip: true,
-          color: this.defaultColor,
-        },
-      },
-      [ConsumptionChartAxis.POWER]:{
-        type: 'linear',
-        position: 'left',
-        display: 'auto',
-        ticks: {
-          callback: (value: number) => parseInt(this.decimalPipe.transform(value, '1.0-0'), 10) + ((value < 1000) ? 'W' : 'kW'),
-          color: this.defaultColor,
-        },
-        grid: {
-          display: true,
-          drawOnChartArea: this.gridDisplay[ConsumptionChartAxis.POWER],
-          color: 'rgba(0,0,0,0.2)',
-        },
-      },
-      [ConsumptionChartAxis.AMPERAGE]: {
-        type: 'linear',
-        position: 'left',
-        display: 'auto',
-        grid: {
-          display: true,
-          drawOnChartArea: this.gridDisplay[ConsumptionChartAxis.AMPERAGE],
-          color: 'rgba(0,0,0,0.2)',
-        },
-        ticks: {
-          callback: (value: number) => parseInt(this.decimalPipe.transform(value, '1.0-0'), 10) + 'A',
-          color: this.defaultColor,
-        },
-      },
-      [ConsumptionChartAxis.VOLTAGE]: {
-        type: 'linear',
-        position: 'left',
-        display: 'auto',
-        grid: {
-          display: true,
-          drawOnChartArea: this.gridDisplay[ConsumptionChartAxis.VOLTAGE],
-          color: 'rgba(0,0,0,0.2)',
-        },
-        ticks: {
-          callback: (value: number) => parseInt(this.decimalPipe.transform(value, '1.0-0'), 10) + 'V',
-          color: this.defaultColor,
-        },
-      },
-      [ConsumptionChartAxis.PERCENTAGE]: {
-        type: 'linear',
-        position: 'right',
-        display: 'auto',
-        grid: {
-          display: true,
-          drawOnChartArea: this.gridDisplay[ConsumptionChartAxis.PERCENTAGE],
-          color: 'rgba(0,0,0,0.2)',
-        },
-        ticks: {
-          callback: (value) => `${value}%`,
-          color: this.defaultColor,
-        },
-      },
-      [ConsumptionChartAxis.AMOUNT]: {
-        type: 'linear',
-        position: 'right',
-        display: 'auto',
-        min: 0,
-        grid: {
-          display: true,
-          drawOnChartArea: this.gridDisplay[ConsumptionChartAxis.AMOUNT],
-          color: 'rgba(0,0,0,0.2)',
-        },
-        ticks: {
-          callback: (value: number) => {
-            const result = this.appCurrencyPipe.transform(value, this.transaction.priceUnit);
-            return result ? result : '';
-          },
-          color: this.defaultColor,
-        },
-      }
-    };
   }
 }

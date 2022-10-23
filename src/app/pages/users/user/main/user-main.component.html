@@ -81,7 +81,7 @@
         </mat-form-field>
       </div>
     </div>
-    <div *ngIf="this.metadata?.status?.visible" class="col-md-6">
+    <div *ngIf="metadata?.status?.visible" class="col-md-6">
       <div class="form-group">
         <mat-form-field>
           <mat-select [formControl]="status" placeholder="{{'users.status' | translate}}" [required]="metadata?.status?.mandatory">

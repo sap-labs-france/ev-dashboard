@@ -1,5 +1,5 @@
 import { Asset } from './Asset';
-import { AssetsAuthorizations, BillingAccountAuthorizations, BillingInvoicesAuthorizations, BillingPaymentMethodsAuthorizationActions, BillingTaxesAuthorizations, BillingTransfersAuthorizations, CarCatalogsAuthorizations, CarsAuthorizations, ChargingProfilesAuthorizations, ChargingStationTemplateAuthorizationActions, ChargingStationsAuthorizations, DataResultAuthorizations, LogsAuthorizationActions, SiteUsersAuthorizations, SitesAuthorizationActions, TagsAuthorizations, TransactionsAuthorizations, UserSitesAuthorizations, UsersAuthorizations } from './Authorization';
+import { AssetsAuthorizations, BillingAccountAuthorizations, BillingInvoicesAuthorizations, BillingPaymentMethodsAuthorizationActions, BillingTaxesAuthorizations, BillingTransfersAuthorizations, CarCatalogsAuthorizations, CarsAuthorizations, ChargingProfilesAuthorizations, ChargingStationTemplateAuthorizationActions, ChargingStationsAuthorizations, DataResultAuthorizations, LogsAuthorizationActions, SettingsAuthorizationActions, SiteUsersAuthorizations, SitesAuthorizationActions, TagsAuthorizations, TransactionsAuthorizations, UserSitesAuthorizations, UsersAuthorizations } from './Authorization';
 import { BillingAccount, BillingInvoice, BillingPaymentMethod, BillingTax, BillingTransfer } from './Billing';
 import { Car, CarCatalog } from './Car';
 import { ChargingProfile } from './ChargingProfile';
@@ -10,6 +10,7 @@ import { AssetInError, ChargingStationInError, TransactionInError } from './InEr
 import { Log } from './Log';
 import PricingDefinition from './Pricing';
 import { RegistrationToken } from './RegistrationToken';
+import { Setting } from './Setting';
 import { Site, UserSite } from './Site';
 import { SiteArea } from './SiteArea';
 import { Tag } from './Tag';
@@ -187,6 +188,10 @@ export interface TransactionInErrorDataResult extends DataResult<TransactionInEr
 export interface ChargingStationTemplateDataResult extends DataResult<ChargingStationTemplate>, ChargingStationTemplateAuthorizationActions {
 }
 
+export interface SettingDataResult extends DataResult<Setting>, SettingsAuthorizationActions {
+}
+
+
 export interface Ordering {
   field: string;
 }
@@ -205,3 +210,5 @@ export interface BillingOperationResult {
   error?: Error;
   internalData?: unknown; // an object returned by the concrete implementation - e.g.: STRIPE
 }
+
+

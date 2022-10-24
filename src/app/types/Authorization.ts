@@ -433,6 +433,15 @@ export interface TransactionAuthorizationActions extends AuthorizationActions {
   canReadChargingStation?: boolean;
 }
 
+export interface SettingsAuthorizations extends AuthorizationAttributes, SettingsAuthorizationActions {
+}
+
+export interface SettingsAuthorizationActions extends DataResultAuthorizationActions {
+}
+
+export interface SettingAuthorizationActions extends AuthorizationActions {
+}
+
 export enum DialogMode {
   EDIT = 'E',
   CREATE = 'C',

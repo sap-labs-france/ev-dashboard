@@ -1826,8 +1826,8 @@ export class CentralServerService {
     if (!transferID) {
       return EMPTY;
     }
-    const url = this.buildRestEndpointUrl(RESTServerRoute.REST_BILLING_DOWNLOAD_TRANSFER, {
-      transferID
+    const url = this.buildRestEndpointUrl(RESTServerRoute.REST_BILLING_TRANSFER_DOWNLOAD_INVOICE, {
+      id: transferID
     });
     return this.httpClient.get(url,
       {

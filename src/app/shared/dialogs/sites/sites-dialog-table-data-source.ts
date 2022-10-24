@@ -27,13 +27,15 @@ export class SitesDialogTableDataSource extends DialogTableDataSource<Site> {
 
   public loadDataImpl(): Observable<DataResult<Site>> {
     return new Observable((observer) => {
-      this.centralServerService.getSites(this.buildFilterValues(),
-        this.getPaging(), this.getSorting()).subscribe((sites) => {
-        observer.next(sites);
-        observer.complete();
-      }, (error) => {
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        observer.error(error);
+      this.centralServerService.getSites(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe({
+        next: (sites) => {
+          observer.next(sites);
+          observer.complete();
+        },
+        error: (error) => {
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          observer.error(error);
+        }
       });
     });
   }

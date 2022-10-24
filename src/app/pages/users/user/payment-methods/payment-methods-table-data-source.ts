@@ -66,25 +66,27 @@ export class PaymentMethodsTableDataSource extends TableDataSource<BillingPaymen
       // User provided?
       if (this.currentUserID) {
         // Yes: Get data
-        this.centralServerService.getPaymentMethods(this.currentUserID, this.buildFilterValues(),
-          this.getPaging(), this.getSorting()).subscribe((paymentMethods) => {
-          // Init authorizations
-          this.paymentsAuthorizations = {
-            canCreate: Utils.convertToBoolean(paymentMethods.canCreate)
-          };
-          // Set action visibility
-          this.createAction.visible = this.paymentsAuthorizations.canCreate;
-          observer.next(paymentMethods);
-          observer.complete();
-        }, (error) => {
-          switch (error.status) {
-            case HTTPError.MISSING_SETTINGS:
-              this.messageService.showErrorMessage('settings.billing.not_properly_set');
-              break;
-            default:
-              Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+        this.centralServerService.getPaymentMethods(this.currentUserID, this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe({
+          next: (paymentMethods) => {
+            // Init authorizations
+            this.paymentsAuthorizations = {
+              canCreate: Utils.convertToBoolean(paymentMethods.canCreate)
+            };
+            // Set action visibility
+            this.createAction.visible = this.paymentsAuthorizations.canCreate;
+            observer.next(paymentMethods);
+            observer.complete();
+          },
+          error:(error) => {
+            switch (error.status) {
+              case HTTPError.MISSING_SETTINGS:
+                this.messageService.showErrorMessage('settings.billing.not_properly_set');
+                break;
+              default:
+                Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+            }
+            observer.error(error);
           }
-          observer.error(error);
         });
       } else {
         observer.next({

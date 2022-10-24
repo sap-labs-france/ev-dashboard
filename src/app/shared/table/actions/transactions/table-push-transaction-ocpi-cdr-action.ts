@@ -1,7 +1,7 @@
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { ButtonActionColor, ButtonAction } from 'types/GlobalType';
+import { ButtonAction, ButtonActionColor } from 'types/GlobalType';
 
 import { CentralServerService } from '../../../../services/central-server.service';
 import { DialogService } from '../../../../services/dialog.service';
@@ -45,38 +45,41 @@ export class TablePushTransactionOcpiCdrAction implements TableAction {
     ).subscribe((response) => {
       if (response === ButtonAction.YES) {
         spinnerService.show();
-        centralServerService.pushTransactionCdr(transaction.id).subscribe((res: ActionsResponse) => {
-          spinnerService.hide();
-          if (res.inError) {
-            messageService.showErrorMessage(
-              translateService.instant('transactions.notification.roaming.error'));
-          } else {
-            messageService.showSuccessMessage(
-              translateService.instant('transactions.notification.roaming.success', { sessionID: transaction.id }));
-            if (refresh) {
-              refresh().subscribe();
+        centralServerService.pushTransactionCdr(transaction.id).subscribe({
+          next: (res: ActionsResponse) => {
+            spinnerService.hide();
+            if (res.inError) {
+              messageService.showErrorMessage(
+                translateService.instant('transactions.notification.roaming.error'));
+            } else {
+              messageService.showSuccessMessage(
+                translateService.instant('transactions.notification.roaming.success', { sessionID: transaction.id }));
+              if (refresh) {
+                refresh().subscribe();
+              }
             }
-          }
-        }, (error: any) => {
-          spinnerService.hide();
-          spinnerService.hide();
-          switch (error.status) {
-            case HTTPError.TRANSACTION_NOT_FROM_TENANT:
-              Utils.handleHttpError(error, router, messageService,
-                centralServerService, 'transactions.notification.roaming.error_not_from_tenant');
-              break;
-            case HTTPError.TRANSACTION_WITH_NO_OCPI_DATA:
-              Utils.handleHttpError(error, router, messageService,
-                centralServerService, 'transactions.notification.roaming.error_no_ocpi');
-              break;
-            case HTTPError.TRANSACTION_CDR_ALREADY_PUSHED:
-              Utils.handleHttpError(error, router, messageService,
-                centralServerService, 'transactions.notification.roaming.error_cdr_already_pushed');
-              break;
-            default:
-              Utils.handleHttpError(error, router, messageService,
-                centralServerService, 'transactions.notification.roaming.error');
-              break;
+          },
+          error: (error: any) => {
+            spinnerService.hide();
+            spinnerService.hide();
+            switch (error.status) {
+              case HTTPError.TRANSACTION_NOT_FROM_TENANT:
+                Utils.handleHttpError(error, router, messageService,
+                  centralServerService, 'transactions.notification.roaming.error_not_from_tenant');
+                break;
+              case HTTPError.TRANSACTION_WITH_NO_OCPI_DATA:
+                Utils.handleHttpError(error, router, messageService,
+                  centralServerService, 'transactions.notification.roaming.error_no_ocpi');
+                break;
+              case HTTPError.TRANSACTION_CDR_ALREADY_PUSHED:
+                Utils.handleHttpError(error, router, messageService,
+                  centralServerService, 'transactions.notification.roaming.error_cdr_already_pushed');
+                break;
+              default:
+                Utils.handleHttpError(error, router, messageService,
+                  centralServerService, 'transactions.notification.roaming.error');
+                break;
+            }
           }
         });
       }

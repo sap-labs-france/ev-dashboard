@@ -111,35 +111,38 @@ export class ChargingStationsStartTransactionDialogComponent implements OnInit {
   public loadUserDefaultTagCar() {
     if (this.userID.value) {
       this.spinnerService.show();
-      this.centralServerService.getUserDefaultTagCar(this.userID.value, this.chargingStationID).subscribe((userDefaultTagCar: UserDefaultTagCar) => {
-        this.spinnerService.hide();
-        // Set Tag
-        this.selectedTag = userDefaultTagCar.tag;
-        this.tag.setValue(userDefaultTagCar.tag ? Utils.buildTagName(userDefaultTagCar.tag) : '');
-        this.visualTagID.setValue(userDefaultTagCar.tag?.visualID);
-        // Set Car
-        this.selectedCar = userDefaultTagCar.car;
-        this.car.setValue(userDefaultTagCar.car ? Utils.buildCarName(userDefaultTagCar.car, this.translateService, false) : '');
-        this.carID.setValue(userDefaultTagCar.car?.id);
-        // Update form
-        this.formGroup.updateValueAndValidity();
-        if (Utils.isEmptyArray(userDefaultTagCar.errorCodes)) {
-          this.formGroup.markAsPristine();
-          this.formGroup.markAllAsTouched();
-        } else {
-          // Setting errors automatically disable start transaction button
-          this.formGroup.setErrors(userDefaultTagCar.errorCodes);
-          // Set mat-error message depending on errorCode provided
-          if (userDefaultTagCar.errorCodes[0] === StartTransactionErrorCode.BILLING_NO_PAYMENT_METHOD) {
-            this.errorMessage = this.translateService.instant('transactions.error_start_no_payment_method');
+      this.centralServerService.getUserDefaultTagCar(this.userID.value, this.chargingStationID).subscribe({
+        next: (userDefaultTagCar: UserDefaultTagCar) => {
+          this.spinnerService.hide();
+          // Set Tag
+          this.selectedTag = userDefaultTagCar.tag;
+          this.tag.setValue(userDefaultTagCar.tag ? Utils.buildTagName(userDefaultTagCar.tag) : '');
+          this.visualTagID.setValue(userDefaultTagCar.tag?.visualID);
+          // Set Car
+          this.selectedCar = userDefaultTagCar.car;
+          this.car.setValue(userDefaultTagCar.car ? Utils.buildCarName(userDefaultTagCar.car, this.translateService, false) : '');
+          this.carID.setValue(userDefaultTagCar.car?.id);
+          // Update form
+          this.formGroup.updateValueAndValidity();
+          if (Utils.isEmptyArray(userDefaultTagCar.errorCodes)) {
+            this.formGroup.markAsPristine();
+            this.formGroup.markAllAsTouched();
           } else {
-            this.errorMessage = this.translateService.instant('transactions.error_start_general');
+            // Setting errors automatically disable start transaction button
+            this.formGroup.setErrors(userDefaultTagCar.errorCodes);
+            // Set mat-error message depending on errorCode provided
+            if (userDefaultTagCar.errorCodes[0] === StartTransactionErrorCode.BILLING_NO_PAYMENT_METHOD) {
+              this.errorMessage = this.translateService.instant('transactions.error_start_no_payment_method');
+            } else {
+              this.errorMessage = this.translateService.instant('transactions.error_start_general');
+            }
           }
+        },
+        error: (error) => {
+          this.spinnerService.hide();
+          Utils.handleHttpError(error, this.router, this.messageService,
+            this.centralServerService, 'general.error_backend');
         }
-      }, (error) => {
-        this.spinnerService.hide();
-        Utils.handleHttpError(error, this.router, this.messageService,
-          this.centralServerService, 'general.error_backend');
       });
     }
   }

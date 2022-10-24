@@ -107,25 +107,28 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     if (this.currentUserID) {
       this.spinnerService.show();
       // eslint-disable-next-line complexity
-      this.centralServerService.getUser(this.currentUserID).subscribe((user) => {
-        this.spinnerService.hide();
-        this.user = user;
-        // Update form group
-        this.formGroup.updateValueAndValidity();
-        this.formGroup.markAsPristine();
-        this.formGroup.markAllAsTouched();
-        if (user.address) {
-          this.address = user.address;
-        }
-      }, (error) => {
-        this.spinnerService.hide();
-        switch (error.status) {
-          case StatusCodes.NOT_FOUND:
-            this.messageService.showErrorMessage('users.user_do_not_exist');
-            break;
-          default:
-            Utils.handleHttpError(error, this.router, this.messageService,
-              this.centralServerService, 'general.unexpected_error_backend');
+      this.centralServerService.getUser(this.currentUserID).subscribe({
+        next: (user) => {
+          this.spinnerService.hide();
+          this.user = user;
+          // Update form group
+          this.formGroup.updateValueAndValidity();
+          this.formGroup.markAsPristine();
+          this.formGroup.markAllAsTouched();
+          if (user.address) {
+            this.address = user.address;
+          }
+        },
+        error: (error) => {
+          this.spinnerService.hide();
+          switch (error.status) {
+            case StatusCodes.NOT_FOUND:
+              this.messageService.showErrorMessage('users.user_do_not_exist');
+              break;
+            default:
+              Utils.handleHttpError(error, this.router, this.messageService,
+                this.centralServerService, 'general.unexpected_error_backend');
+          }
         }
       });
     }
@@ -163,29 +166,32 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.userMainComponent.updateUserImage(user);
     this.userSecurityComponent.updateUserPassword(user);
     this.spinnerService.show();
-    this.centralServerService.createUser(user).subscribe((response: ActionResponse) => {
-      this.spinnerService.hide();
-      if (response.status === RestResponse.SUCCESS) {
-        this.messageService.showSuccessMessage('users.create_success', { userFullName: user.firstName + ' ' + user.name });
-        user.id = response.id ?? '';
-        this.currentUserID = response.id ?? '';
-        this.closeDialog(true);
-      } else {
-        Utils.handleError(JSON.stringify(response), this.messageService, 'users.create_error');
-      }
-    }, (error) => {
-      this.spinnerService.hide();
-      switch (error.status) {
-        // Email already exists
-        case HTTPError.USER_EMAIL_ALREADY_EXIST_ERROR:
-          this.messageService.showErrorMessage('authentication.email_already_exists');
-          break;
-        // User deleted
-        case StatusCodes.NOT_FOUND:
-          this.messageService.showErrorMessage('users.user_do_not_exist');
-          break;
-        default:
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'users.create_error');
+    this.centralServerService.createUser(user).subscribe({
+      next: (response: ActionResponse) => {
+        this.spinnerService.hide();
+        if (response.status === RestResponse.SUCCESS) {
+          this.messageService.showSuccessMessage('users.create_success', { userFullName: user.firstName + ' ' + user.name });
+          user.id = response.id ?? '';
+          this.currentUserID = response.id ?? '';
+          this.closeDialog(true);
+        } else {
+          Utils.handleError(JSON.stringify(response), this.messageService, 'users.create_error');
+        }
+      },
+      error: (error) => {
+        this.spinnerService.hide();
+        switch (error.status) {
+          // Email already exists
+          case HTTPError.USER_EMAIL_ALREADY_EXIST_ERROR:
+            this.messageService.showErrorMessage('authentication.email_already_exists');
+            break;
+          // User deleted
+          case StatusCodes.NOT_FOUND:
+            this.messageService.showErrorMessage('users.user_do_not_exist');
+            break;
+          default:
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'users.create_error');
+        }
       }
     });
   }
@@ -194,27 +200,30 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.userMainComponent.updateUserImage(user);
     this.userSecurityComponent.updateUserPassword(user);
     this.spinnerService.show();
-    this.centralServerService.updateUser(user).subscribe((response) => {
-      this.spinnerService.hide();
-      if (response.status === RestResponse.SUCCESS) {
-        this.messageService.showSuccessMessage('users.update_success', { userFullName: user.firstName + ' ' + user.name });
-        this.closeDialog(true);
-      } else {
-        Utils.handleError(JSON.stringify(response), this.messageService, 'users.update_error');
-      }
-    }, (error) => {
-      this.spinnerService.hide();
-      switch (error.status) {
-        // Email already exists
-        case HTTPError.USER_EMAIL_ALREADY_EXIST_ERROR:
-          this.messageService.showErrorMessage('authentication.email_already_exists');
-          break;
-        // User deleted
-        case StatusCodes.NOT_FOUND:
-          this.messageService.showErrorMessage('users.user_do_not_exist');
-          break;
-        default:
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'users.update_error');
+    this.centralServerService.updateUser(user).subscribe({
+      next: (response) => {
+        this.spinnerService.hide();
+        if (response.status === RestResponse.SUCCESS) {
+          this.messageService.showSuccessMessage('users.update_success', { userFullName: user.firstName + ' ' + user.name });
+          this.closeDialog(true);
+        } else {
+          Utils.handleError(JSON.stringify(response), this.messageService, 'users.update_error');
+        }
+      },
+      error: (error) => {
+        this.spinnerService.hide();
+        switch (error.status) {
+          // Email already exists
+          case HTTPError.USER_EMAIL_ALREADY_EXIST_ERROR:
+            this.messageService.showErrorMessage('authentication.email_already_exists');
+            break;
+          // User deleted
+          case StatusCodes.NOT_FOUND:
+            this.messageService.showErrorMessage('users.user_do_not_exist');
+            break;
+          default:
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'users.update_error');
+        }
       }
     });
   }

@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { WINDOW } from 'providers/window.provider';
+import { Observable, Observer } from 'rxjs';
 import { Utils } from 'utils/Utils';
 
 import AdvancedConfiguration from '../types/configuration/AdvancedConfiguration';
@@ -19,19 +20,30 @@ import UserConfiguration from '../types/configuration/UserConfiguration';
 
 @Injectable()
 export class ConfigService {
-  private static config: Configuration;
+  private config: Configuration;
 
+  // eslint-disable-next-line no-useless-constructor
   public constructor(
     private http: HttpClient,
     @Inject(WINDOW) private window: Window) {
-    this.getConfig();
+  }
+
+  public initConfig(): Observable<void> {
+    return new Observable((observer: Observer<void>) => {
+      this.http.get<Configuration>('/assets/config.json').subscribe({
+        next: (config) => {
+          this.config = config;
+          observer.complete();
+        },
+        error: (error) => {
+          observer.error(error);
+        }
+      });
+    });
   }
 
   public getConfig(): Configuration {
-    if (!ConfigService.config) {
-      this.http.get<Configuration>('/assets/config.json').subscribe((configuration) => ConfigService.config = configuration);
-    }
-    return ConfigService.config;
+    return this.config;
   }
 
   public getCentralSystemServer(): CentralSystemServerConfiguration {

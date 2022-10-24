@@ -52,14 +52,16 @@ export class TenantsListTableDataSource extends TableDataSource<Tenant> {
   public loadDataImpl(): Observable<DataResult<Tenant>> {
     return new Observable((observer) => {
       // Get the Tenants
-      this.centralServerService.getTenants(this.buildFilterValues(),
-        this.getPaging(), this.getSorting()).subscribe((tenants) => {
-        this.createAction.visible = true;
-        observer.next(tenants);
-        observer.complete();
-      }, (error) => {
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        observer.error(error);
+      this.centralServerService.getTenants(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe({
+        next: (tenants) => {
+          this.createAction.visible = true;
+          observer.next(tenants);
+          observer.complete();
+        },
+        error: (error) => {
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          observer.error(error);
+        }
       });
     });
   }

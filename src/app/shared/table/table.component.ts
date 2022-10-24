@@ -305,10 +305,13 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       // Refresh Data
       this.ongoingRefresh = true;
       this.ongoingAutoRefresh = autoRefresh;
-      this.dataSource.refreshData(!this.ongoingAutoRefresh).subscribe(() => {
-        refreshDone();
-      }, (error) => {
-        refreshDone();
+      this.dataSource.refreshData(!this.ongoingAutoRefresh).subscribe({
+        next: () => {
+          refreshDone();
+        },
+        error: (error) => {
+          refreshDone();
+        }
       });
     }
   }
@@ -367,10 +370,13 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     };
     // Start initial loading
     this.loading = true;
-    this.dataSource.loadData().subscribe(() => {
-      loadingDone();
-    }, (error) => {
-      loadingDone();
+    this.dataSource.loadData().subscribe({
+      next: () => {
+        loadingDone();
+      },
+      error: (error) => {
+        loadingDone();
+      }
     });
   }
 

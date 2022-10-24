@@ -35,22 +35,25 @@ export class TableDeletePricingDefinitionAction extends TableDeleteAction {
     ).subscribe((result) => {
       if (result === ButtonAction.YES) {
         spinnerService.show();
-        centralServerService.deletePricingDefinition(pricingDefinition.id).subscribe((response) => {
-          spinnerService.hide();
-          if (response.status === RestResponse.SUCCESS) {
-            messageService.showSuccessMessage(
-              translateService.instant('settings.pricing.pricing_definition_delete_success'));
-            if (refresh) {
-              refresh().subscribe();
+        centralServerService.deletePricingDefinition(pricingDefinition.id).subscribe({
+          next: (response) => {
+            spinnerService.hide();
+            if (response.status === RestResponse.SUCCESS) {
+              messageService.showSuccessMessage(
+                translateService.instant('settings.pricing.pricing_definition_delete_success'));
+              if (refresh) {
+                refresh().subscribe();
+              }
+            } else {
+              Utils.handleError(JSON.stringify(response),
+                messageService, translateService.instant('settings.pricing.pricing_definition_delete_error'));
             }
-          } else {
-            Utils.handleError(JSON.stringify(response),
-              messageService, translateService.instant('settings.pricing.pricing_definition_delete_error'));
+          },
+          error: (error) => {
+            spinnerService.hide();
+            Utils.handleHttpError(error, router, messageService, centralServerService,
+              translateService.instant('settings.pricing.pricing_definition_delete_error'));
           }
-        }, (error) => {
-          spinnerService.hide();
-          Utils.handleHttpError(error, router, messageService, centralServerService,
-            translateService.instant('settings.pricing.pricing_definition_delete_error'));
         });
       }
     });

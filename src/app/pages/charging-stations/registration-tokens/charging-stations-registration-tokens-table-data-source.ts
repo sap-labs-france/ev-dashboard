@@ -62,19 +62,21 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
   public loadDataImpl(): Observable<DataResult<RegistrationToken>> {
     return new Observable((observer) => {
       // Get the Tenants
-      this.centralServerService.getRegistrationTokens(this.buildFilterValues(),
-        this.getPaging(), this.getSorting()).subscribe((registrationTokens) => {
-        this.createAction.visible = registrationTokens.canCreate;
-        // Initialise authorizations
-        this.registrationTokensAuthorizations = {
-          // Metadata
-          metadata: registrationTokens.metadata
-        };
-        observer.next(registrationTokens);
-        observer.complete();
-      }, (error) => {
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        observer.error(error);
+      this.centralServerService.getRegistrationTokens(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe({
+        next: (registrationTokens) => {
+          this.createAction.visible = registrationTokens.canCreate;
+          // Initialise authorizations
+          this.registrationTokensAuthorizations = {
+            // Metadata
+            metadata: registrationTokens.metadata
+          };
+          observer.next(registrationTokens);
+          observer.complete();
+        },
+        error: (error) => {
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          observer.error(error);
+        }
       });
     });
   }
@@ -263,7 +265,7 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
             url = registrationToken.ocpp16JSONSecureUrl;
             break;
         }
-        Utils.copyToClipboard(url);
+        void Utils.copyToClipboard(url);
         this.messageService.showInfoMessage('chargers.connections.url_copied');
         break;
     }

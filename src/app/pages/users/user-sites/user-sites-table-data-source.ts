@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 
-import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
@@ -13,21 +12,22 @@ import { SitesDialogComponent } from '../../../shared/dialogs/sites/sites-dialog
 import { TableAddAction } from '../../../shared/table/actions/table-add-action';
 import { TableRemoveAction } from '../../../shared/table/actions/table-remove-action';
 import { TableDataSource } from '../../../shared/table/table-data-source';
+import { UserSitesAuthorizations } from '../../../types/Authorization';
 import { DataResult } from '../../../types/DataResult';
 import { ButtonAction, RestResponse } from '../../../types/GlobalType';
-import { Site, SiteUser } from '../../../types/Site';
-import { TableActionDef, TableColumnDef, TableDef } from '../../../types/Table';
+import { Site, UserSite } from '../../../types/Site';
+import { TableActionDef, TableColumnDef, TableDataSourceMode, TableDef } from '../../../types/Table';
 import { User } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';
 import { UserSitesAdminCheckboxComponent } from './user-sites-admin-checkbox.component';
 import { UserSitesOwnerRadioComponent } from './user-sites-owner-radio.component';
 
 @Injectable()
-export class UserSitesTableDataSource extends TableDataSource<SiteUser> {
+export class UserSitesTableDataSource extends TableDataSource<UserSite> {
   private user!: User;
   private addAction = new TableAddAction().getActionDef();
   private removeAction = new TableRemoveAction().getActionDef();
-
+  private userSitesAuthorization: UserSitesAuthorizations;
   public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
@@ -35,27 +35,38 @@ export class UserSitesTableDataSource extends TableDataSource<SiteUser> {
     private router: Router,
     private dialog: MatDialog,
     private dialogService: DialogService,
-    private centralServerService: CentralServerService,
-    private authorizationService: AuthorizationService) {
+    private centralServerService: CentralServerService) {
     super(spinnerService, translateService);
     // Init
     this.initDataSource();
   }
 
-  public loadDataImpl(): Observable<DataResult<SiteUser>> {
+  public loadDataImpl(requestNumberOfRecords: boolean): Observable<DataResult<UserSite>> {
     return new Observable((observer) => {
-      this.addAction.visible = this.authorizationService.canAssignUsersSites();
-      this.removeAction.visible = this.authorizationService.canUnassignUsersSites();
       // User provided?
       if (this.user) {
         // Yes: Get data
         this.centralServerService.getUserSites(this.buildFilterValues(),
-          this.getPaging(), this.getSorting()).subscribe((userSites) => {
-          observer.next(userSites);
-          observer.complete();
-        }, (error) => {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-          observer.error(error);
+          this.getPaging(), this.getSorting()).subscribe({
+          next: (userSites) => {
+          // Initialize userSites authorization
+            this.userSitesAuthorization = {
+            // Authorization actions
+              canUpdateUserSites: Utils.convertToBoolean(userSites.canUpdateUserSites)
+            };
+            // Don't override table def in case of number of record request
+            if (!requestNumberOfRecords) {
+              this.setTableColumnDef(this.buildDynamicTableColumnDefs());
+              this.setTableDef(this.buildDynamicTableDef());
+              this.setTableActionDef(this.buildDynamicTableActionsDef());
+            }
+            observer.next(userSites);
+            observer.complete();
+          },
+          error: (error) => {
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+            observer.error(error);
+          }
         });
       } else {
         observer.next({
@@ -68,10 +79,50 @@ export class UserSitesTableDataSource extends TableDataSource<SiteUser> {
   }
 
   public buildTableDef(): TableDef {
+    if (this.getMode() === TableDataSourceMode.READ_WRITE) {
+      return {
+        class: 'table-dialog-list',
+        rowSelection: {
+          enabled: false,
+          multiple: true,
+        },
+        search: {
+          enabled: true,
+        },
+        rowFieldNameIdentifier: 'site.id',
+      };
+    }
     return {
       class: 'table-dialog-list',
       rowSelection: {
+        enabled: false,
+        multiple: true,
+      },
+      search: {
         enabled: true,
+      },
+      rowFieldNameIdentifier: 'site.id',
+    };
+  }
+
+  public buildDynamicTableDef(): TableDef {
+    if (this.getMode() === TableDataSourceMode.READ_WRITE) {
+      return {
+        class: 'table-dialog-list',
+        rowSelection: {
+          enabled: this.userSitesAuthorization?.canUpdateUserSites,
+          multiple: true,
+        },
+        search: {
+          enabled: true,
+        },
+        rowFieldNameIdentifier: 'site.id',
+      };
+    }
+    return {
+      class: 'table-dialog-list',
+      rowSelection: {
+        enabled: false,
         multiple: true,
       },
       search: {
@@ -82,7 +133,12 @@ export class UserSitesTableDataSource extends TableDataSource<SiteUser> {
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    return [
+    // need to split into build vs buildDynamic as there are info we don't have at the init time (user "can"s)
+    return [];
+  }
+
+  public buildDynamicTableColumnDefs(): TableColumnDef[] {
+    const columns: TableColumnDef[] = [
       {
         id: 'site.name',
         name: 'sites.name',
@@ -103,13 +159,16 @@ export class UserSitesTableDataSource extends TableDataSource<SiteUser> {
         name: 'general.country',
         headerClass: 'col-20p',
         class: 'text-left',
-      },
-      {
+      }
+    ];
+    if (this.getMode() === TableDataSourceMode.READ_WRITE) {
+      columns.push({
         id: 'siteAdmin',
         isAngularComponent: true,
         angularComponent: UserSitesAdminCheckboxComponent,
         name: 'sites.admin_role',
         class: 'col-10p',
+        visible: this.userSitesAuthorization?.canUpdateUserSites,
       },
       {
         id: 'siteOwner',
@@ -117,9 +176,10 @@ export class UserSitesTableDataSource extends TableDataSource<SiteUser> {
         angularComponent: UserSitesOwnerRadioComponent,
         name: 'sites.owner_role',
         class: 'col-10p',
-        visible: this.authorizationService.canCreateSiteArea(),
-      }
-    ];
+        visible: this.userSitesAuthorization?.canUpdateUserSites,
+      });
+    }
+    return columns;
   }
 
   public setUser(user: User) {
@@ -132,11 +192,16 @@ export class UserSitesTableDataSource extends TableDataSource<SiteUser> {
   }
 
   public buildTableActionsDef(): TableActionDef[] {
+    return super.buildTableActionsDef();
+  }
+
+  public buildDynamicTableActionsDef(): TableActionDef[] {
+    // Update filters visibility
+    this.addAction.visible = this.user?.canAssignUnassignSites;
+    this.removeAction.visible = this.user?.canAssignUnassignSites;
     const tableActionsDef = super.buildTableActionsDef();
-    if (this.authorizationService.canAssignUsersSites()) {
+    if (this.getMode() === TableDataSourceMode.READ_WRITE) {
       tableActionsDef.push(this.addAction);
-    }
-    if (this.authorizationService.canUnassignUsersSites()) {
       tableActionsDef.push(this.removeAction);
     }
     return tableActionsDef;
@@ -149,7 +214,6 @@ export class UserSitesTableDataSource extends TableDataSource<SiteUser> {
       case ButtonAction.ADD:
         this.showAddSitesDialog();
         break;
-
       // Remove
       case ButtonAction.REMOVE:
         // Empty?
@@ -188,20 +252,23 @@ export class UserSitesTableDataSource extends TableDataSource<SiteUser> {
 
   private removeSites(siteIDs: string[]) {
     // Yes: Update
-    this.centralServerService.removeSitesFromUser(this.user.id, siteIDs).subscribe((response) => {
+    this.centralServerService.removeSitesFromUser(this.user.id, siteIDs).subscribe({
+      next: (response) => {
       // Ok?
-      if (response.status === RestResponse.SUCCESS) {
-        this.messageService.showSuccessMessage(this.translateService.instant('users.remove_sites_success'));
-        // Refresh
-        this.refreshData().subscribe();
-        // Clear selection
-        this.clearSelectedRows();
-      } else {
-        Utils.handleError(JSON.stringify(response),
-          this.messageService, this.translateService.instant('users.remove_sites_error'));
+        if (response.status === RestResponse.SUCCESS) {
+          this.messageService.showSuccessMessage(this.translateService.instant('users.remove_sites_success'));
+          // Refresh
+          this.refreshData().subscribe();
+          // Clear selection
+          this.clearSelectedRows();
+        } else {
+          Utils.handleError(JSON.stringify(response),
+            this.messageService, this.translateService.instant('users.remove_sites_error'));
+        }
+      },
+      error: (error) => {
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'users.remove_sites_error');
       }
-    }, (error) => {
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'users.remove_sites_error');
     });
   }
 

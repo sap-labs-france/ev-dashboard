@@ -1,3 +1,4 @@
+import { TransactionAuthorizationActions } from './Authorization';
 import { BillingTransactionData } from './Billing';
 import { Car, CarCatalog } from './Car';
 import { ChargingStation } from './ChargingStation';
@@ -10,7 +11,7 @@ import { TableData } from './Table';
 import { Tag } from './Tag';
 import { User } from './User';
 
-export interface Transaction extends TableData, AbstractCurrentConsumption {
+export interface Transaction extends TableData, AbstractCurrentConsumption, TransactionAuthorizationActions {
   id: number;
   timestamp: Date;
   chargeBox: ChargingStation;

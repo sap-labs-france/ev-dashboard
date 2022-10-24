@@ -75,19 +75,21 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
   public loadDataImpl(): Observable<DataResult<Site>> {
     return new Observable((observer) => {
       // Get Sites
-      this.centralServerService.getSites(this.buildFilterValues(),
-        this.getPaging(), this.getSorting()).subscribe((sites) => {
-        this.sitesAuthorizations = {
-          canListCompanies: sites.canListCompanies,
-          canCreate: sites.canCreate
-        };
-        this.createAction.visible = Utils.convertToBoolean(sites.canCreate);
-        this.companyFilter.visible = Utils.convertToBoolean(sites.canListCompanies);
-        observer.next(sites);
-        observer.complete();
-      }, (error) => {
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        observer.error(error);
+      this.centralServerService.getSites(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe({
+        next: (sites) => {
+          this.sitesAuthorizations = {
+            canListCompanies: sites.canListCompanies,
+            canCreate: sites.canCreate
+          };
+          this.createAction.visible = Utils.convertToBoolean(sites.canCreate);
+          this.companyFilter.visible = Utils.convertToBoolean(sites.canListCompanies);
+          observer.next(sites);
+          observer.complete();
+        },
+        error: (error) => {
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          observer.error(error);
+        }
       });
     });
   }
@@ -210,9 +212,9 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
     } else {
       rowActions.push(this.viewAction);
     }
-    if (site.canAssignUsers || site.canUnassignUsers) {
+    if (site.canAssignUnassignUsers) {
       rowActions.push(this.assignUsersToSite);
-    } else if (site.canReadUsers) {
+    } else if (site.canListSiteUsers) {
       rowActions.push(this.viewUsersOfSite);
     }
     if (this.isPricingComponentActive && site.canMaintainPricingDefinitions) {

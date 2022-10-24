@@ -55,23 +55,26 @@ export class SettingsAssetComponent implements OnInit {
 
   public loadConfiguration() {
     this.spinnerService.show();
-    this.componentService.getAssetSettings().subscribe((settings) => {
-      this.spinnerService.hide();
-      // Keep
-      this.assetSettings = settings;
-      // Set
-      this.assetConnectionListTableDataSource.setContent(this.assetSettings.asset.connections);
-      // Init form
-      this.formGroup.markAsPristine();
-    }, (error) => {
-      this.spinnerService.hide();
-      switch (error.status) {
-        case StatusCodes.NOT_FOUND:
-          this.messageService.showErrorMessage('settings.asset.setting_not_found');
-          break;
-        default:
-          Utils.handleHttpError(error, this.router, this.messageService,
-            this.centralServerService, 'general.unexpected_error_backend');
+    this.componentService.getAssetSettings().subscribe({
+      next: (settings) => {
+        this.spinnerService.hide();
+        // Keep
+        this.assetSettings = settings;
+        // Set
+        this.assetConnectionListTableDataSource.setContent(this.assetSettings.asset.connections);
+        // Init form
+        this.formGroup.markAsPristine();
+      },
+      error: (error) => {
+        this.spinnerService.hide();
+        switch (error.status) {
+          case StatusCodes.NOT_FOUND:
+            this.messageService.showErrorMessage('settings.asset.setting_not_found');
+            break;
+          default:
+            Utils.handleHttpError(error, this.router, this.messageService,
+              this.centralServerService, 'general.unexpected_error_backend');
+        }
       }
     });
   }
@@ -81,25 +84,28 @@ export class SettingsAssetComponent implements OnInit {
     this.assetSettings.asset.connections = this.assetConnectionListTableDataSource.getContent();
     // Save
     this.spinnerService.show();
-    this.componentService.saveAssetConnectionSettings(this.assetSettings).subscribe((response) => {
-      this.spinnerService.hide();
-      if (response.status === RestResponse.SUCCESS) {
-        this.messageService.showSuccessMessage(
-          (!this.assetSettings.id ? 'settings.asset.create_success' : 'settings.asset.update_success'));
-        this.refresh();
-      } else {
-        Utils.handleError(JSON.stringify(response),
-          this.messageService, (!this.assetSettings.id ? 'settings.asset.create_error' : 'settings.asset.update_error'));
-      }
-    }, (error) => {
-      this.spinnerService.hide();
-      switch (error.status) {
-        case StatusCodes.NOT_FOUND:
-          this.messageService.showErrorMessage('settings.asset.setting_do_not_exist');
-          break;
-        default:
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            (!this.assetSettings.id ? 'settings.asset.create_error' : 'settings.asset.update_error'));
+    this.componentService.saveAssetConnectionSettings(this.assetSettings).subscribe({
+      next: (response) => {
+        this.spinnerService.hide();
+        if (response.status === RestResponse.SUCCESS) {
+          this.messageService.showSuccessMessage(
+            (!this.assetSettings.id ? 'settings.asset.create_success' : 'settings.asset.update_success'));
+          this.refresh();
+        } else {
+          Utils.handleError(JSON.stringify(response),
+            this.messageService, (!this.assetSettings.id ? 'settings.asset.create_error' : 'settings.asset.update_error'));
+        }
+      },
+      error: (error) => {
+        this.spinnerService.hide();
+        switch (error.status) {
+          case StatusCodes.NOT_FOUND:
+            this.messageService.showErrorMessage('settings.asset.setting_do_not_exist');
+            break;
+          default:
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+              (!this.assetSettings.id ? 'settings.asset.create_error' : 'settings.asset.update_error'));
+        }
       }
     });
   }

@@ -44,13 +44,15 @@ export class SiteAreaChargingStationsDataSource extends TableDataSource<Charging
       // siteArea provided?
       if (this.siteArea) {
         // Yes: Get data
-        this.centralServerService.getChargingStations(this.buildFilterValues(),
-          this.getPaging(), this.getSorting()).subscribe((chargingStations) => {
-          observer.next(chargingStations);
-          observer.complete();
-        }, (error) => {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-          observer.error(error);
+        this.centralServerService.getChargingStations(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe({
+          next: (chargingStations) => {
+            observer.next(chargingStations);
+            observer.complete();
+          },
+          error: (error) => {
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+            observer.error(error);
+          }
         });
       } else {
         observer.next({
@@ -181,20 +183,23 @@ export class SiteAreaChargingStationsDataSource extends TableDataSource<Charging
 
   private removeChargers(chargerIDs: string[]) {
     // Yes: Update
-    this.centralServerService.removeChargersFromSiteArea(this.siteArea.id, chargerIDs).subscribe((response) => {
-      // Ok?
-      if (response.status === RestResponse.SUCCESS) {
-        this.messageService.showSuccessMessage(this.translateService.instant('site_areas.remove_chargers_success'));
-        // Refresh
-        this.refreshData().subscribe();
-        // Clear selection
-        this.clearSelectedRows();
-      } else {
-        Utils.handleError(JSON.stringify(response),
-          this.messageService, this.translateService.instant('site_areas.remove_chargers_error'));
+    this.centralServerService.removeChargersFromSiteArea(this.siteArea.id, chargerIDs).subscribe({
+      next: (response) => {
+        // Ok?
+        if (response.status === RestResponse.SUCCESS) {
+          this.messageService.showSuccessMessage(this.translateService.instant('site_areas.remove_chargers_success'));
+          // Refresh
+          this.refreshData().subscribe();
+          // Clear selection
+          this.clearSelectedRows();
+        } else {
+          Utils.handleError(JSON.stringify(response),
+            this.messageService, this.translateService.instant('site_areas.remove_chargers_error'));
+        }
+      },
+      error: (error) => {
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'site_areas.remove_chargers_error');
       }
-    }, (error) => {
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'site_areas.remove_chargers_error');
     });
   }
 
@@ -203,25 +208,28 @@ export class SiteAreaChargingStationsDataSource extends TableDataSource<Charging
       // Get the IDs
       const chargerIDs = chargers.map((charger) => charger.key);
       // Yes: Update
-      this.centralServerService.addChargersToSiteArea(this.siteArea.id, chargerIDs).subscribe((response) => {
-        // Ok?
-        if (response.status === RestResponse.SUCCESS) {
-          this.messageService.showSuccessMessage(this.translateService.instant('site_areas.update_chargers_success'));
-          // Refresh
-          this.refreshData().subscribe();
-          // Clear selection
-          this.clearSelectedRows();
-        } else {
-          Utils.handleError(JSON.stringify(response),
-            this.messageService, this.translateService.instant('site_areas.update_error'));
-        }
-      }, (error) => {
-        switch (error.status) {
-          case HTTPError.THREE_PHASE_CHARGER_ON_SINGLE_PHASE_SITE_AREA:
-            this.messageService.showErrorMessage('chargers.change_config_phase_error');
-            break;
-          default:
-            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'site_areas.update_error');
+      this.centralServerService.addChargersToSiteArea(this.siteArea.id, chargerIDs).subscribe({
+        next: (response) => {
+          // Ok?
+          if (response.status === RestResponse.SUCCESS) {
+            this.messageService.showSuccessMessage(this.translateService.instant('site_areas.update_chargers_success'));
+            // Refresh
+            this.refreshData().subscribe();
+            // Clear selection
+            this.clearSelectedRows();
+          } else {
+            Utils.handleError(JSON.stringify(response),
+              this.messageService, this.translateService.instant('site_areas.update_error'));
+          }
+        },
+        error: (error) => {
+          switch (error.status) {
+            case HTTPError.THREE_PHASE_CHARGER_ON_SINGLE_PHASE_SITE_AREA:
+              this.messageService.showErrorMessage('chargers.change_config_phase_error');
+              break;
+            default:
+              Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'site_areas.update_error');
+          }
         }
       });
     }

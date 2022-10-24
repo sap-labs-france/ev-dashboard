@@ -3,15 +3,14 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { PricingDefinitionsDialogComponent } from 'shared/pricing-definitions/pricing-definitions.dialog.component';
-import { TableViewChargingStationAction, TableViewChargingStationActionDef } from 'shared/table/actions/charging-stations/table-view-charging-station-action';
-import { ChargingStationsAuthorizations } from 'types/Authorization';
+import { WindowService } from 'services/window.service';
 
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
+import { PricingDefinitionsDialogComponent } from '../../../shared/pricing-definitions/pricing-definitions.dialog.component';
 import { TableChargingStationGenerateQrCodeConnectorAction, TableChargingStationGenerateQrCodeConnectorActionDef } from '../../../shared/table/actions/charging-stations/table-charging-station-generate-qr-code-connector-action';
 import { TableChargingStationsClearCacheAction, TableChargingStationsClearCacheActionDef } from '../../../shared/table/actions/charging-stations/table-charging-stations-clear-cache-action';
 import { TableChargingStationsForceAvailableStatusAction, TableChargingStationsForceAvailableStatusActionDef } from '../../../shared/table/actions/charging-stations/table-charging-stations-force-available-status-action';
@@ -22,22 +21,27 @@ import { TableChargingStationsSmartChargingAction, TableChargingStationsSmartCha
 import { TableDeleteChargingStationAction, TableDeleteChargingStationActionDef } from '../../../shared/table/actions/charging-stations/table-delete-charging-station-action';
 import { TableEditChargingStationAction, TableEditChargingStationActionDef } from '../../../shared/table/actions/charging-stations/table-edit-charging-station-action';
 import { TableExportChargingStationsAction, TableExportChargingStationsActionDef } from '../../../shared/table/actions/charging-stations/table-export-charging-stations-action';
+import { TableViewChargingStationAction, TableViewChargingStationActionDef } from '../../../shared/table/actions/charging-stations/table-view-charging-station-action';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
 import { TableMoreAction } from '../../../shared/table/actions/table-more-action';
 import { TableOpenInMapsAction } from '../../../shared/table/actions/table-open-in-maps-action';
+import { TableOpenURLActionDef } from '../../../shared/table/actions/table-open-url-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { TableViewPricingDefinitionsAction, TableViewPricingDefinitionsActionDef } from '../../../shared/table/actions/table-view-pricing-definitions-action';
+import { TableNavigateToTransactionsAction } from '../../../shared/table/actions/transactions/table-navigate-to-transactions-action';
 import { CompanyTableFilter } from '../../../shared/table/filters/company-table-filter';
 import { IssuerFilter } from '../../../shared/table/filters/issuer-filter';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
 import { SiteTableFilter } from '../../../shared/table/filters/site-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
+import { ChargingStationsAuthorizations } from '../../../types/Authorization';
 import { ChargingStation, ChargingStationButtonAction } from '../../../types/ChargingStation';
 import { ChargingStationDataResult } from '../../../types/DataResult';
 import { ButtonAction } from '../../../types/GlobalType';
 import { PricingButtonAction, PricingEntity } from '../../../types/Pricing';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
 import { TenantComponents } from '../../../types/Tenant';
+import { TransactionButtonAction } from '../../../types/Transaction';
 import { Utils } from '../../../utils/Utils';
 import { ChargingStationsConnectorsCellComponent } from '../cell-components/charging-stations-connectors-cell.component';
 import { ChargingStationsFirmwareStatusCellComponent } from '../cell-components/charging-stations-firmware-status-cell.component';
@@ -58,6 +62,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
   private generateQrCodeConnectorAction = new TableChargingStationGenerateQrCodeConnectorAction().getActionDef();
   private canExport = new TableExportChargingStationsAction().getActionDef();
   private maintainPricingDefinitionsAction = new TableViewPricingDefinitionsAction().getActionDef();
+  private navigateToTransactionsAction = new TableNavigateToTransactionsAction().getActionDef();
 
   private issuerFilter: TableFilterDef;
   private siteFilter: TableFilterDef;
@@ -75,6 +80,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
     private componentService: ComponentService,
     private dialog: MatDialog,
     private dialogService: DialogService,
+    private windowService: WindowService
   ) {
     super(spinnerService, translateService);
     this.isOrganizationComponentActive = this.componentService.isActive(TenantComponents.ORGANIZATION);
@@ -91,31 +97,33 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
 
   public loadDataImpl(): Observable<ChargingStationDataResult> {
     return new Observable((observer) => {
-      this.centralServerService.getChargingStations(this.buildFilterValues(),
-        this.getPaging(), this.getSorting()).subscribe((chargingStations) => {
-        // Build auth object
-        this.chargingStationsAuthorizations = {
-          canExport: Utils.convertToBoolean(chargingStations.canExport),
-          canListCompanies: Utils.convertToBoolean(chargingStations.canListCompanies),
-          canListSiteAreas: Utils.convertToBoolean(chargingStations.canListSiteAreas),
-          canListSites: Utils.convertToBoolean(chargingStations.canListSites),
-          metadata: chargingStations.metadata
-        };
-        // Update filters visibility
-        this.canExport.visible = this.chargingStationsAuthorizations.canExport;
-        this.siteFilter.visible = this.chargingStationsAuthorizations.canListSites;
-        this.siteAreaFilter.visible =this.chargingStationsAuthorizations.canListSiteAreas;
-        this.companyFilter.visible = this.chargingStationsAuthorizations.canListCompanies;
-        // Set back the projected fields
-        const tableDef = this.getTableDef();
-        tableDef.rowDetails.additionalParameters = {
-          projectFields: chargingStations.projectFields
-        };
-        observer.next(chargingStations);
-        observer.complete();
-      }, (error) => {
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        observer.error(error);
+      this.centralServerService.getChargingStations(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe({
+        next: (chargingStations) => {
+          // Build auth object
+          this.chargingStationsAuthorizations = {
+            canExport: Utils.convertToBoolean(chargingStations.canExport),
+            canListCompanies: Utils.convertToBoolean(chargingStations.canListCompanies),
+            canListSiteAreas: Utils.convertToBoolean(chargingStations.canListSiteAreas),
+            canListSites: Utils.convertToBoolean(chargingStations.canListSites),
+            metadata: chargingStations.metadata
+          };
+          // Update filters visibility
+          this.canExport.visible = this.chargingStationsAuthorizations.canExport;
+          this.siteFilter.visible = this.chargingStationsAuthorizations.canListSites;
+          this.siteAreaFilter.visible =this.chargingStationsAuthorizations.canListSiteAreas;
+          this.companyFilter.visible = this.chargingStationsAuthorizations.canListCompanies;
+          // Set back the projected fields
+          const tableDef = this.getTableDef();
+          tableDef.rowDetails.additionalParameters = {
+            projectFields: chargingStations.projectFields
+          };
+          observer.next(chargingStations);
+          observer.complete();
+        },
+        error: (error) => {
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          observer.error(error);
+        }
       });
     });
   }
@@ -191,6 +199,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
         name: 'chargers.public_charger',
         headerClass: 'text-center col-5em',
         class: 'text-center col-5em',
+        sortable: true,
         formatter: (publicChargingStation: boolean) => Utils.displayYesNo(this.translateService, publicChargingStation)
       },
       {
@@ -416,6 +425,9 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
     // Generate QR code
     if (chargingStation.canGenerateQrCode) {
       moreActions.addActionInMoreActions(this.generateQrCodeConnectorAction);
+    }
+    if (chargingStation.canListCompletedTransactions) {
+      moreActions.addActionInMoreActions(this.navigateToTransactionsAction);
     }
     // Maps
     const openInMaps = new TableOpenInMapsAction().getActionDef();

@@ -1,9 +1,13 @@
 <form class="form" [formGroup]="formGroup">
   <div class="row">
-    <div class="col-md-5">
+    <div class="col-12">
       <label *ngIf="!public" class="text-danger">
         {{"sites.private_limitation" | translate}}
       </label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-5">
       <mat-form-field>
         <input matInput type="text" placeholder="{{'ocpi.tariff_id' | translate}}"
           [formControl]="tariffID" (input)="tariffIDChanged(tariffID)"/>

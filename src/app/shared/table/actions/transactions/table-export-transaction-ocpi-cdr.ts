@@ -37,14 +37,17 @@ export class TableExportTransactionOcpiCdrAction extends TableExportAction {
     ).subscribe((response) => {
       if (response === ButtonAction.YES) {
         spinnerService.show();
-        centralServerService.exportTransactionOcpiCdr(transactionID).subscribe((result) => {
-          spinnerService.hide();
-          const ocpiData = new Blob([JSON.stringify(result, null, '\t')]);
-          FileSaver.saveAs(ocpiData, `exported-cdr-session-${transactionID}.json`);
-        }, (error) => {
-          spinnerService.hide();
-          Utils.handleHttpError(error, router, messageService,
-            centralServerService, translateService.instant('transactions.export_ocpi_cdr_error', { transactionID }));
+        centralServerService.exportTransactionOcpiCdr(transactionID).subscribe({
+          next: (result) => {
+            spinnerService.hide();
+            const ocpiData = new Blob([JSON.stringify(result, null, '\t')]);
+            FileSaver.saveAs(ocpiData, `exported-cdr-session-${transactionID}.json`);
+          },
+          error: (error) => {
+            spinnerService.hide();
+            Utils.handleHttpError(error, router, messageService,
+              centralServerService, translateService.instant('transactions.export_ocpi_cdr_error', { transactionID }));
+          }
         });
       }
     });

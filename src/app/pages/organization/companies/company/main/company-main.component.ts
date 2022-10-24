@@ -74,17 +74,20 @@ export class CompanyMainComponent implements OnInit, OnChanges {
       }
       // Get Company logo
       if (!this.logoChanged) {
-        this.centralServerService.getCompanyLogo(this.company.id).subscribe((companyLogo) => {
-          this.logoChanged = true;
-          this.logo = companyLogo ?? Constants.NO_IMAGE;
-        }, (error) => {
-          switch (error.status) {
-            case StatusCodes.NOT_FOUND:
-              this.logo = Constants.NO_IMAGE;
-              break;
-            default:
-              Utils.handleHttpError(error, this.router, this.messageService,
-                this.centralServerService, 'general.unexpected_error_backend');
+        this.centralServerService.getCompanyLogo(this.company.id).subscribe({
+          next: (companyLogo) => {
+            this.logoChanged = true;
+            this.logo = companyLogo ?? Constants.NO_IMAGE;
+          },
+          error: (error) => {
+            switch (error.status) {
+              case StatusCodes.NOT_FOUND:
+                this.logo = Constants.NO_IMAGE;
+                break;
+              default:
+                Utils.handleHttpError(error, this.router, this.messageService,
+                  this.centralServerService, 'general.unexpected_error_backend');
+            }
           }
         });
       }

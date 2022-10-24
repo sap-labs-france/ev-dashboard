@@ -1,4 +1,5 @@
 import { Address } from './Address';
+import { UserAuthorizationActions } from './Authorization';
 import { BillingUserData } from './Billing';
 import { Car } from './Car';
 import CreatedUpdatedProps from './CreatedUpdatedProps';
@@ -6,7 +7,7 @@ import { TableData } from './Table';
 import { Tag } from './Tag';
 import { StartTransactionErrorCode } from './Transaction';
 
-export interface User extends TableData, CreatedUpdatedProps {
+export interface User extends TableData, CreatedUpdatedProps, UserAuthorizationActions {
   id: string;
   issuer: boolean;
   name: string;
@@ -99,7 +100,7 @@ export interface UserToken {
   activeComponents?: string[];
 }
 
-export interface UserSite extends TableData {
+export interface SiteUser extends TableData {
   user: User;
   siteID: string;
   siteAdmin: boolean;
@@ -116,7 +117,8 @@ export enum UserButtonAction {
   ASSIGN_SITES_TO_USER = 'assign_sites_to_user',
   EXPORT_USERS = 'export_users',
   IMPORT_USERS = 'import_users',
-  NAVIGATE_TO_USER = 'navigate_to_user'
+  NAVIGATE_TO_USER = 'navigate_to_user',
+  VIEW_SITES_OF_USER = 'view_sites_of_user',
 }
 
 export enum UserStatus {

@@ -133,17 +133,20 @@ export class SiteAreaMainComponent implements OnInit, OnChanges {
       this.loadRegistrationToken();
       // Get Site Area image
       if (!this.imageChanged) {
-        this.centralServerService.getSiteAreaImage(this.siteArea.id).subscribe((siteAreaImage) => {
-          this.imageChanged = true;
-          this.image = siteAreaImage ?? Constants.NO_IMAGE;
-        }, (error) => {
-          switch (error.status) {
-            case StatusCodes.NOT_FOUND:
-              this.image = Constants.NO_IMAGE;
-              break;
-            default:
-              Utils.handleHttpError(error, this.router, this.messageService,
-                this.centralServerService, 'general.unexpected_error_backend');
+        this.centralServerService.getSiteAreaImage(this.siteArea.id).subscribe({
+          next: (siteAreaImage) => {
+            this.imageChanged = true;
+            this.image = siteAreaImage ?? Constants.NO_IMAGE;
+          },
+          error: (error) => {
+            switch (error.status) {
+              case StatusCodes.NOT_FOUND:
+                this.image = Constants.NO_IMAGE;
+                break;
+              default:
+                Utils.handleHttpError(error, this.router, this.messageService,
+                  this.centralServerService, 'general.unexpected_error_backend');
+            }
           }
         });
       }
@@ -269,27 +272,30 @@ export class SiteAreaMainComponent implements OnInit, OnChanges {
             siteAreaID: this.siteArea.id,
             description: this.translateService.instant(
               'chargers.connections.registration_token_site_area_name', { siteAreaName: this.siteArea.name }),
-          }).subscribe((token) => {
-            this.spinnerService.hide();
-            if (token) {
-              this.loadRegistrationToken();
-              this.messageService.showSuccessMessage('chargers.connections.registration_token_creation_success');
-            } else {
-              Utils.handleError(null,
-                this.messageService, 'chargers.connections.registration_token_creation_error');
+          }).subscribe({
+            next: (token) => {
+              this.spinnerService.hide();
+              if (token) {
+                this.loadRegistrationToken();
+                this.messageService.showSuccessMessage('chargers.connections.registration_token_creation_success');
+              } else {
+                Utils.handleError(null,
+                  this.messageService, 'chargers.connections.registration_token_creation_error');
+              }
+            },
+            error: (error) => {
+              this.spinnerService.hide();
+              Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+                'chargers.connections.registration_token_creation_error');
             }
-          }, (error) => {
-            this.spinnerService.hide();
-            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-              'chargers.connections.registration_token_creation_error');
           });
         }
       });
     }
   }
 
-  public copyUrl(url: string) {
-    Utils.copyToClipboard(url);
+  public copyChargingStationConnectionUrl(url: string) {
+    void Utils.copyToClipboard(url);
     this.messageService.showInfoMessage('chargers.connections.url_copied');
   }
 

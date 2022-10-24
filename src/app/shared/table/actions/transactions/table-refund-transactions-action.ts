@@ -1,7 +1,7 @@
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { ButtonActionColor, ButtonAction } from 'types/GlobalType';
+import { ButtonAction, ButtonActionColor } from 'types/GlobalType';
 
 import { CentralServerService } from '../../../../services/central-server.service';
 import { DialogService } from '../../../../services/dialog.service';
@@ -52,8 +52,8 @@ export class TableRefundTransactionsAction implements TableAction {
       ).subscribe((response) => {
         if (response === ButtonAction.YES) {
           spinnerService.show();
-          centralServerService.refundTransactions(transactions.map((transaction) => transaction.id))
-            .subscribe((res: ActionsResponse) => {
+          centralServerService.refundTransactions(transactions.map((transaction) => transaction.id)).subscribe({
+            next: (res: ActionsResponse) => {
               // TODO: use messageService.showActionsMessage(...) method and remove the if statements
               if (res.inError) {
                 messageService.showErrorMessage(
@@ -74,7 +74,8 @@ export class TableRefundTransactionsAction implements TableAction {
               if (refresh) {
                 refresh().subscribe();
               }
-            }, (error: any) => {
+            },
+            error: (error: any) => {
               spinnerService.hide();
               switch (error.status) {
                 case HTTPError.REFUND_SESSION_OTHER_USER_ERROR:
@@ -90,7 +91,8 @@ export class TableRefundTransactionsAction implements TableAction {
                     centralServerService, 'transactions.notification.refund.error');
                   break;
               }
-            });
+            }
+          });
         }
       });
     }

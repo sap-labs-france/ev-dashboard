@@ -241,6 +241,7 @@
       "force_available_status": "Status verfügbar erzwingen",
       "force_unavailable_status": "Status nicht verfügbar erzwingen",
       "display_users": "Nutzer anzeigen",
+      "display_sites": "Display sites",
       "pricing": "Manuelle Preisbildung"
     }
   },
@@ -1342,6 +1343,7 @@
     "update_remove_site_owner_success": "Der Nutzer ist nun nicht mehr Eigentümer des Standortes '{{siteName}}'",
     "update_site_owner_role_error": "Beim Versuch die Berechtigungen zu aktualisieren ist am Standort '{{siteName}}' ein Fehler aufgetreten",
     "redirect": "Zum Nutzer navigieren",
+    "display_sites": "Display sites",
     "connectors": {
       "connect": "Verbinden",
       "revoke": "Widerrufen",
@@ -1428,6 +1430,7 @@
     "collected_funds": "Collected Funds",
     "document_number": "Invoice",
     "platform_fee_amount": "Collected Fee",
+    "platform_fee_tax_inclusive": "Fees (incl. taxes)",
     "transferAmount": "Transfer",
     "number_of_items": "Sessions",
     "transferExternalID": "External ID",
@@ -1888,7 +1891,8 @@
       },
       "types": {
         "mercedes": "Mercedes Schnittstelle",
-        "tronity": "Tronity Schnittstelle"
+        "tronity": "Tronity Schnittstelle",
+        "targa_telematics": "Targa Telematics Schnittstelle"
       },
       "mercedes": {
         "link_success": "Ihr Account wurde erfolgreich mit Mercedes verbunden",
@@ -2058,6 +2062,7 @@
     "emsp": "e-Mobility Service Provider",
     "enable_emsp": "e-Mobility Service Provider aktivieren",
     "tariff_id": "Tarif-ID",
+    "owner_name": "Owner Name",
     "description": "Open Charge Point Interface",
     "details": "Identifikation",
     "country_code": "Ländercode",
@@ -2691,9 +2696,9 @@
         "error": "Error occurred while trying to export the charging station templates, check the logs"
       }
     },
-    "chargePointVendor": "chargePointVendor",
-    "chargePointModel": "chargePointModel",
-    "chargeBoxSerialNumber": "chargeBoxSerialNumber"
+    "chargePointVendor": "Vendor",
+    "chargePointModel": "Model Filter",
+    "chargeBoxSerialNumber": "Serial Number Filter"
   },
   "geomap": {
     "dialog_geolocation_title": "Geolokation der Ladestation '{{chargeBoxID}}' setzen",

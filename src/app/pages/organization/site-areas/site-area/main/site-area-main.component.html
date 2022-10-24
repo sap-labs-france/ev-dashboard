@@ -81,17 +81,17 @@
             </button>
             <mat-menu #ocppUrlMenu="matMenu" yPosition="below" [overlapTrigger]="false" class="dropdown-button">
               <button *ngIf="registrationToken.ocpp15SOAPSecureUrl" mat-menu-item
-                (click)="copyUrl(registrationToken.ocpp15SOAPSecureUrl)">
+                (click)="copyChargingStationConnectionUrl(registrationToken.ocpp15SOAPSecureUrl)">
                 <mat-icon color="primary">file_copy</mat-icon>
                 <span>{{'chargers.connections.ocpp_15_soap_secure' | translate}}</span>
               </button>
               <button *ngIf="registrationToken.ocpp16SOAPSecureUrl" mat-menu-item
-                (click)="copyUrl(registrationToken.ocpp16SOAPSecureUrl)">
+                (click)="copyChargingStationConnectionUrl(registrationToken.ocpp16SOAPSecureUrl)">
                 <mat-icon color="primary">file_copy</mat-icon>
                 <span>{{'chargers.connections.ocpp_16_soap_secure' | translate}}</span>
               </button>
               <button *ngIf="registrationToken.ocpp16JSONSecureUrl" mat-menu-item
-                (click)="copyUrl(registrationToken.ocpp16JSONSecureUrl)">
+                (click)="copyChargingStationConnectionUrl(registrationToken.ocpp16JSONSecureUrl)">
                 <mat-icon color="primary">file_copy</mat-icon>
                 <span>{{'chargers.connections.ocpp_16_json_secure' | translate}}</span>
               </button>

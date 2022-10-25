@@ -9,7 +9,6 @@ import { SettingsOcpiEndpointsTableDataSource } from './settings-ocpi-endpoints-
   providers: [SettingsOcpiEndpointsTableDataSource],
 })
 export class SettingsOcpiEndpointsComponent {
-  public isAdmin!: boolean;
   public formGroup!: UntypedFormGroup;
   public name!: AbstractControl;
   public countryCode!: AbstractControl;

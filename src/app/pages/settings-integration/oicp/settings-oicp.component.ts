@@ -20,6 +20,7 @@ import { Utils } from '../../../utils/Utils';
 })
 export class SettingsOicpComponent implements OnInit {
   public isActive = false;
+  public readOnly = true;
 
   public formGroup!: UntypedFormGroup;
   public logoGroup!: UntypedFormGroup;
@@ -197,6 +198,12 @@ export class SettingsOicpComponent implements OnInit {
         }
         // Init form
         this.formGroup.markAsPristine();
+        // Check auth and disable form
+        this.readOnly = !settings.canUpdate && !settings.canDelete;
+        if (this.readOnly) {
+          // Async call for letting the sub form groups to init
+          setTimeout(() => this.formGroup.disable(), 0);
+        }
       },
       error: (error) => {
         this.spinnerService.hide();

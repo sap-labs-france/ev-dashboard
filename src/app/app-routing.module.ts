@@ -228,7 +228,7 @@ const routes: Routes = [
           },
           auth: {
             entity: Entity.SETTING,
-            action: Action.CREATE,
+            action: Action.LIST,
           },
         },
       },

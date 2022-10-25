@@ -1,0 +1,48 @@
+<div class="main-content stripe-element-dialog-size">
+  <div class="card card-profile card-testimonial">
+    <mat-tab-group animationDuration="0ms" disableRipple="true" class="mat-tab-info" [class]="dialogRef ? 'mat-tabs-with-actions' : 'mat-tabs-with-close-action'">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon>payment</mat-icon>
+          <span>{{'settings.billing.payment_methods_create_title' | translate}}</span>
+        </ng-template>
+        <div class="card-body mat-tab-dialog-body-content">
+          <form class="form" [formGroup]="formGroup">
+            <div id="payment-element">
+              <!-- Mount the Payment Element here -->
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <div class="stripe-user-consent">
+                    {{'settings.billing.payment_methods_conditions' | translate}}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <div>
+                    <mat-checkbox [formControl]="acceptConditions" (change)="handleAcceptConditions()">
+                      {{'settings.billing.payment_methods_check' | translate}}
+                    </mat-checkbox>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+    <div [class]="dialogRef ? 'tabs-actions' : 'tabs-actions-embedded'">
+      <button mat-icon-button (click)="linkCardToAccount()" title="{{'general.save' | translate}}"
+          [disabled]="!hasAcceptedConditions || isSaveClicked">
+        <mat-icon>save</mat-icon>
+      </button>
+      <button mat-icon-button *ngIf="inDialog" (click)="close()" [disabled]="isSaveClicked" title="{{'general.close' | translate}}">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>

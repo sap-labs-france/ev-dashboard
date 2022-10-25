@@ -7,8 +7,10 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MaterialModule } from '../../app.module';
 import { AddressModule } from '../../shared/address/address.module';
 import { DialogsModule } from '../../shared/dialogs/dialogs.module';
+import { PaymentMethodDialogComponent } from '../../shared/dialogs/payment-methods/payment-method.dialog.component';
 import { CommonDirectivesModule } from '../../shared/directives/directives.module';
 import { FormattersModule } from '../../shared/formatters/formatters.module';
+import { StripeElementComponent } from '../../shared/stripe-element/stripe-element.component';
 import { TableModule } from '../../shared/table/table.module';
 import { ConcurUserConnectionComponent } from './connections/concur/concur-user-connection.component';
 import { MercedesUserConnectionComponent } from './connections/mercedes/mercedes-user-connection.component';
@@ -29,7 +31,6 @@ import { UserMainComponent } from './user/main/user-main.component';
 import { UserMiscsComponent } from './user/miscs/user-miscs.component';
 import { UserNotificationsComponent } from './user/notifications/user-notifications.component';
 import { AppPaymentMethodStatusPipe, PaymentMethodStatusComponent } from './user/payment-methods/payment-method/payment-method-status.component';
-import { PaymentMethodDialogComponent } from './user/payment-methods/payment-method/payment-method.dialog.component';
 import { StripePaymentMethodComponent } from './user/payment-methods/payment-method/stripe/stripe-payment-method.component';
 import { PaymentMethodsComponent } from './user/payment-methods/payment-methods.component';
 import { UserSecurityComponent } from './user/security/user-security.component';
@@ -77,7 +78,8 @@ import { UserRoutes } from './users.routing';
     PaymentMethodsComponent,
     PaymentMethodDialogComponent,
     AppPaymentMethodStatusPipe,
-    PaymentMethodStatusComponent
+    PaymentMethodStatusComponent,
+    StripeElementComponent
   ],
   exports: [
     AppUserRolePipe,

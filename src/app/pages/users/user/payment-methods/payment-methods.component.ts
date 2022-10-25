@@ -1,7 +1,6 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { User } from 'types/User';
+import { Component, Input, OnChanges } from '@angular/core';
 
-import { PaymentMethodsTableDataSource } from './payment-methods-table-data-source';
+import { PaymentMethodsTableDataSource } from '../../../../shared/dialogs/payment-methods/payment-methods-table-data-source';
 
 @Component({
   selector: 'app-payment-methods',

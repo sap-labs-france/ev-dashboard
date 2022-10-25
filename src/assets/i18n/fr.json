@@ -1,5 +1,6 @@
 {
   "general": {
+    "generate": "Générer",
     "captcha_text_1": "Ce site est protégé par reCAPTCHA et Google",
     "captcha_text_2": "Règles de confidentialité",
     "captcha_text_3": " et l'application des ",
@@ -75,7 +76,7 @@
     "display_qr": "Afficher le QR code",
     "save": "Sauvegarder",
     "delete": "Supprimer",
-    "export": "Export",
+    "export": "Exporter",
     "import": "Importer",
     "synchronize": "Synchroniser",
     "force_synchronize": "Forcer la synchronization",
@@ -961,7 +962,7 @@
         "stack_level": "Niveau prio",
         "site_area": "Zone",
         "site_area_limit": "Limite zone",
-        "redirect": "Naviguer vers 'Plans de charge'"
+        "redirect": "Naviguer vers les plans de charge"
       }
     },
     "more_actions": {
@@ -1342,7 +1343,7 @@
     "update_set_site_owner_success": "L'utilisateur est maintenant le propriétaire du site '{{siteName}}'",
     "update_remove_site_owner_success": "L'utilisateur n'est plus le propriétaire du site '{{siteName}}'",
     "update_site_owner_role_error": "Une erreur est survenue lors de la mise à jour des droits d'accès de l'utilisateur au site '{{siteName}}', vérifiez les logs",
-    "redirect": "Naviguer vers la gestion des utilisateurs",
+    "redirect": "Naviguer vers les utilisateurs",
     "display_sites": "Afficher les sites",
     "connectors": {
       "connect": "Connecter",
@@ -1475,7 +1476,7 @@
     "tag_visual_id_already_used": "Le numéro de badge '{{visualID}}' existe déjà",
     "tag_visual_id_does_not_match_tag": "Le numéro '{{visualID}}' ne correspond a aucun badge",
     "tag_inactive": "Le badge numéro '{{visualID}}' est inactif et ne peut pas être assigner",
-    "redirect": "Naviguer vers 'Badges'",
+    "redirect": "Naviguer vers les badges",
     "title": "Badge",
     "default_tag": "Badge par défaut",
     "delete_tags_title": "Suppression de badge(s)",
@@ -1539,7 +1540,7 @@
     "message": {
       "create_success": "Le compte a été ajoûté avec succès",
       "create_error": "Un erreur est survenue lors de l'ajoût du compte, vérifiez les logs",
-      "onboard_success": "Le processus d'embarquement a été déclenché. Le respnsable de l'entreprise va recevoir une invitation par mail",
+      "onboard_success": "Le processus d'embarquement a été déclenché. Le responsable de l'entreprise va recevoir une invitation par mail",
       "onboard_error": "Un erreur est survenue lors du déclenchement du processus d'embarquement du nouveau compte, vérifiez les logs"
     },
     "status": {

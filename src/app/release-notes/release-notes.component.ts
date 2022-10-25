@@ -24,6 +24,20 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.7.3',
+        date: new Date('2022-10-25'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              'RFID Cards - New button to generate an RFID when creating cards',
+              'Charging Station List - Navigation from the charger to its session list has been fixed',
+              'Pricing - Restriction on the days of the week is now sorted'
+            ],
+          },
+        ],
+      },
+      {
         version: '2.7.2',
         date: new Date('2022-10-04'),
         componentChanges: [

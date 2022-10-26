@@ -30,10 +30,12 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
-              'Charging Sessions - The export of OCPI CDR has been fixed',
-              'RFID Cards - New button to generate an RFID when creating cards',
+              'Charging Station Error - The subject of the email includes information about the charger',
               'Charging Station List - Navigation from the charger to its session list has been fixed',
-              'Pricing - Restriction on the days of the week is now sorted'
+              'RFID Cards - New button to generate an RFID when creating cards',
+              'Pricing - Restriction on the days of the week is now sorted',
+              'Charging Sessions - fix - User information was missing when exporting to a CSV file',
+              'Charging Sessions - fix - Exporting OCPI CDR was not possible',
             ],
           },
         ],

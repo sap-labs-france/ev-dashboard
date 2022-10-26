@@ -8,7 +8,7 @@ export class IssuerFilter extends TableFilter {
     // Define filter
     const filterDef: TableFilterDef = {
       id: 'issuer',
-      httpId: 'Issuer',
+      httpID: 'Issuer',
       type: FilterType.DROPDOWN,
       name: 'issuer.title',
       label: '',

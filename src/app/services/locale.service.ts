@@ -88,7 +88,6 @@ export class LocaleService {
     if (!this.locale || this.locale.currentLocale !== normalizedLocale) {
       this.locale = this.getSupportedLocale(normalizedLocale);
       this.translateService.use(this.locale.language);
-      // Make sure to inform moment that the locale has been changed
       Utils.changeLibLocaleGlobally(this.locale.currentLocale);
       if (!this.currentLocaleSubject) {
         this.currentLocaleSubject = new BehaviorSubject<Locale>(this.locale);

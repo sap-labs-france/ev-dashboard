@@ -1,10 +1,9 @@
-import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { AbstractControl, UntypedFormControl, Validators } from '@angular/forms';
-import { DateAdapter } from '@angular/material/core';
+import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Chart, ChartData, ChartDataset, ChartOptions, Color } from 'chart.js';
 import * as dayjs from 'dayjs';
 import { ConsumptionChartAxis, ConsumptionChartDatasetOrder } from 'types/Chart';
+import { DateTimeRange } from 'types/Table';
 
 import { CentralServerService } from '../../../../services/central-server.service';
 import { SpinnerService } from '../../../../services/spinner.service';
@@ -21,7 +20,7 @@ import { Utils } from '../../../../utils/Utils';
   templateUrl: 'asset-consumption-chart.component.html',
 })
 
-export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
+export class AssetConsumptionChartComponent implements AfterViewInit {
   @Input() public assetID!: string;
   @Input() public asset!: AssetConsumption;
   @Input() public assetType!: AssetType;
@@ -32,7 +31,6 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
   @ViewChild('chart', { static: true }) public chartElement!: ElementRef;
 
   public selectedUnit = ConsumptionUnit.KILOWATT;
-  public dateControl!: AbstractControl;
   public startDate = dayjs().startOf('d').toDate();
   public endDate = dayjs().endOf('d').toDate();
 
@@ -59,25 +57,15 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
     [ConsumptionChartAxis.PERCENTAGE]: true,
   };
 
+  // eslint-disable-next-line no-useless-constructor
   public constructor(
     private spinnerService: SpinnerService,
     private centralServerService: CentralServerService,
     private translateService: TranslateService,
     private decimalPipe: AppDecimalPipe,
-    private dateAdapter: DateAdapter<any>,
     private unitPipe: AppUnitPipe,
     private datePipe: AppDatePipe,
     private durationPipe: AppDurationPipe) {
-    this.dateAdapter.setLocale(dayjs.locale());
-  }
-
-  public ngOnInit() {
-    // Date control
-    this.dateControl = new UntypedFormControl('dateControl',
-      Validators.compose([
-        Validators.required,
-      ]));
-    this.dateControl.setValue(this.startDate);
   }
 
   public ngAfterViewInit() {
@@ -94,15 +82,17 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
 
   public refresh() {
     this.spinnerService.show();
-    // Change Date for testing e.g.:
     this.centralServerService.getAssetConsumption(this.assetID, this.startDate, this.endDate)
-      .subscribe((assetConsumption: AssetConsumption) => {
-        this.spinnerService.hide();
-        this.asset = assetConsumption;
-        this.prepareOrUpdateGraph();
-      }, (error) => {
-        this.spinnerService.hide();
-        delete this.asset;
+      .subscribe({
+        next: (assetConsumption: AssetConsumption) => {
+          this.spinnerService.hide();
+          this.asset = assetConsumption;
+          this.prepareOrUpdateGraph();
+        },
+        error: (error) => {
+          this.spinnerService.hide();
+          delete this.asset;
+        }
       });
   }
 
@@ -115,12 +105,10 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
     this.spinnerService.hide();
   }
 
-  public dateFilterChanged(value: Date) {
-    if (value) {
-      this.startDate = dayjs(value).startOf('d').toDate();
-      this.endDate = dayjs(value).endOf('d').toDate();
-      this.refresh();
-    }
+  public dateFilterChanged(dateRangeValue: DateTimeRange) {
+    this.startDate = dateRangeValue.startDate;
+    this.endDate = dateRangeValue.endDate;
+    this.refresh();
   }
 
   private updateVisibleDatasets() {

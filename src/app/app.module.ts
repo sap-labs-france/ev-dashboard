@@ -30,6 +30,7 @@ import { MatRippleModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -52,13 +53,13 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
-import { DatetimeAdapter, MatDatetimepickerModule } from '@mat-datetimepicker/core';
-import { MatMomentDatetimeModule, MomentDatetimeAdapter } from '@mat-datetimepicker/moment';
 import { TranslateDefaultParser, TranslateLoader, TranslateModule, TranslateParser, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { DatetimerangepickerModule } from 'angular-datetimerangepicker';
 import * as dayjs from 'dayjs';
 import localeData from 'dayjs/plugin/localeData';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
+import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
 import { NgxCaptchaModule } from 'ngx-captcha';
 import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
@@ -101,6 +102,7 @@ registerLocaleData(localePt);
 dayjs.extend(localeData);
 dayjs.extend(localizedFormat);
 dayjs.extend(utc);
+dayjs.extend(timezone);
 
 @NgModule({
   exports: [
@@ -112,12 +114,12 @@ dayjs.extend(utc);
     MatChipsModule,
     MatStepperModule,
     MatDatepickerModule,
-    MatMomentDatetimeModule,
-    MatDatetimepickerModule,
+    DatetimerangepickerModule,
     MatDialogModule,
     MatExpansionModule,
     MatGridListModule,
     MatIconModule,
+    MatFormFieldModule,
     MatInputModule,
     MatListModule,
     MatMenuModule,
@@ -135,9 +137,6 @@ dayjs.extend(utc);
     MatTableModule,
     MatTabsModule,
     MatToolbarModule,
-  ],
-  providers: [
-    { provide: DatetimeAdapter, useClass: MomentDatetimeAdapter },
   ],
 })
 export class MaterialModule {
@@ -249,7 +248,6 @@ class CustomTranslateDefaultParser extends TranslateDefaultParser {
     WindowService,
     StripeService,
     { provide: APP_INITIALIZER, useFactory: initAppFactory, deps: [CentralServerService, ConfigService, MessageService, TranslateService], multi: true },
-    { provide: DatetimeAdapter, useClass: MomentDatetimeAdapter },
   ],
   bootstrap: [AppComponent]
 })

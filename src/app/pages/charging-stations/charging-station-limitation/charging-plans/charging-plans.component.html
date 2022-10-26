@@ -69,18 +69,18 @@
             </mat-form-field>
           </div>
           <div class="form-group col-md-12 mb-1">
-            <mat-form-field>
-              <mat-datetimepicker #pickerDateStart type="datetime" openOnFocus="false" mode="portrait" timeInterval="1">
-              </mat-datetimepicker>
-              <mat-datetimepicker-toggle matSuffix [for]="pickerDateStart" matSuffix></mat-datetimepicker-toggle>
-              <input matInput placeholder="{{'chargers.smart_charging.start_date' | translate}}" required
-                (dateChange)="startDateFilterChanged($event.value ? $event.value.toDate() : null)"
-                [matDatetimepicker]="pickerDateStart" [formControl]="startDateControl" autocomplete="false">
-              <mat-error *ngIf="startDateControl.errors?.matDatepickerParse">{{"general.invalid_date" | translate}}
-              </mat-error>
-              <mat-error *ngIf="startDateControl.errors?.dateNotInFuture">
-                {{"chargers.smart_charging.date_not_in_past" | translate}}</mat-error>
-            </mat-form-field>
+            <app-date-time ngDefaultControl
+              [timePicker]="true"
+              placeholder="chargers.smart_charging.start_date"
+              [formControl]="startDateControl"
+              (dateTimeChanged)="startDateFilterChanged($event)">
+            </app-date-time>
+            <mat-error *ngIf="startDateControl.errors?.matDatepickerParse">
+              {{"general.invalid_date" | translate}}
+            </mat-error>
+            <mat-error *ngIf="startDateControl.errors?.dateNotInFuture">
+              {{"chargers.smart_charging.date_not_in_past" | translate}}
+            </mat-error>
           </div>
           <div class="form-group col-md-12 mb-1 text-left">
             <mat-error *ngIf="endDateControl.errors?.endDateOutOfRecurringLimit">

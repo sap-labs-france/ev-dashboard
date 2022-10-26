@@ -8,7 +8,7 @@ export class UserFreeAccessFilter extends TableFilter {
     // Define filter
     const filterDef: TableFilterDef = {
       id: 'freeAccess',
-      httpId: 'FreeAccess',
+      httpID: 'FreeAccess',
       type: FilterType.DROPDOWN,
       multiple: true,
       exhaustive: true,

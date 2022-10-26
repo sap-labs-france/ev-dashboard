@@ -1,6 +1,5 @@
 // Create Material custom theme
 @use '@angular/material' as mat;
-@import 'node_modules/@mat-datetimepicker/core/datetimepicker/datetimepicker-theme.scss';
 
 $min-contrast-ratio: 2.5;
 
@@ -32,7 +31,6 @@ $app-danger: mat.define-palette(mat.$red-palette, 700);
 $app-theme: mat.define-light-theme($app-primary, $app-accent, $app-danger);
 // Apply theme
 @include mat.all-component-themes($app-theme);
-@include mat-datetimepicker-theme($app-theme);
 // Bg/Fg
 $app-foreground: map-get($app-theme, foreground);
 $app-background: map-get($app-theme, background);
@@ -59,5 +57,4 @@ $dark-background: map-get($dark-theme, background);
 .dark-theme {
   // Apply theme
   @include mat.all-component-themes($dark-theme);
-  @include mat-datetimepicker-theme($dark-theme);
 }

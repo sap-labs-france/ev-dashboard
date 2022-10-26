@@ -8,7 +8,7 @@ export class InvoiceStatusFilter extends TableFilter {
     // Define filter
     const filterDef: TableFilterDef = {
       id: 'status',
-      httpId: 'Status',
+      httpID: 'Status',
       type: FilterType.DROPDOWN,
       name: 'general.status',
       label: '',

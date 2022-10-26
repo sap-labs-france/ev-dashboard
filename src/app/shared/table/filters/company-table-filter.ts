@@ -8,7 +8,7 @@ export class CompanyTableFilter extends TableFilter {
     // Define filter
     const filterDef: TableFilterDef = {
       id: 'companies',
-      httpId: 'CompanyID',
+      httpID: 'CompanyID',
       type: FilterType.DIALOG_TABLE,
       defaultValue: '',
       label: '',

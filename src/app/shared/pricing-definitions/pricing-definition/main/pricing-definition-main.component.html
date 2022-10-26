@@ -24,25 +24,23 @@
   <!-- From -->
   <div class="col-md-3 mb-1">
     <div class="form-group">
-      <mat-form-field>
-        <mat-datetimepicker #pickerDateStart type="date" openOnFocus="false" mode="portrait" timeInterval="1">
-        </mat-datetimepicker>
-        <mat-datetimepicker-toggle [for]="pickerDateStart" matSuffix></mat-datetimepicker-toggle>
-        <input matInput [formControl]="validFrom" placeholder="{{'settings.pricing.valid_from' | translate}}" [matDatetimepicker]="pickerDateStart">
-        <mat-error *ngIf="validFrom?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
-      </mat-form-field>
+      <app-date-time ngDefaultControl
+        placeholder="settings.pricing.valid_from"
+        [date]="validFrom?.value"
+        [formControl]="validFrom">
+      </app-date-time>
+      <mat-error *ngIf="validFrom?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
     </div>
   </div>
   <!-- To -->
   <div class="col-md-3 mb-2">
     <div class="form-group">
-      <mat-form-field>
-        <mat-datetimepicker #pickerDateEnd type="date" openOnFocus="false" mode="portrait" timeInterval="1">
-        </mat-datetimepicker>
-        <mat-datetimepicker-toggle [for]="pickerDateEnd" matSuffix></mat-datetimepicker-toggle>
-        <input matInput [formControl]="validTo" [min]="minDate" placeholder="{{'settings.pricing.valid_to' | translate}}" [matDatetimepicker]="pickerDateEnd">
-        <mat-error *ngIf="validTo?.errors?.matDatepickerMin">{{'settings.pricing.end_date_error' | translate}}</mat-error>
-      </mat-form-field>
+      <app-date-time ngDefaultControl
+        placeholder="settings.pricing.valid_to"
+        [date]="validTo?.value"
+        [forceEndOfDay]="true"
+        [formControl]="validTo">
+      </app-date-time>
     </div>
   </div>
   <!-- Connector Drop down -->

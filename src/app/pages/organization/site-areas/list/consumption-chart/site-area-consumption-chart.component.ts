@@ -1,12 +1,12 @@
 import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { AbstractControl, UntypedFormControl, Validators } from '@angular/forms';
-import { DateAdapter } from '@angular/material/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Chart, ChartData, ChartDataset, ChartOptions, Color } from 'chart.js';
 import * as dayjs from 'dayjs';
+import { Dayjs } from 'dayjs';
 import { AppUnitPipe } from 'shared/formatters/app-unit.pipe';
 import { SiteAreasAuthorizations } from 'types/Authorization';
 import { ConsumptionChartAxis, ConsumptionChartDatasetOrder } from 'types/Chart';
+import { DateTimeRange } from 'types/Table';
 
 import { CentralServerService } from '../../../../../services/central-server.service';
 import { SpinnerService } from '../../../../../services/spinner.service';
@@ -34,7 +34,6 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
 
   public siteAreaConsumption!: SiteAreaConsumption;
   public selectedUnit = ConsumptionUnit.KILOWATT;
-  public dateControl!: AbstractControl;
   public startDate = dayjs().startOf('d').toDate();
   public endDate = dayjs().endOf('d').toDate();
   private graphCreated = false;
@@ -60,26 +59,19 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
     [ConsumptionChartAxis.AMPERAGE]: true,
   };
 
+  // eslint-disable-next-line no-useless-constructor
   public constructor(
     private spinnerService: SpinnerService,
     private centralServerService: CentralServerService,
-    private dateAdapter: DateAdapter<any>,
     private translateService: TranslateService,
     private datePipe: AppDatePipe,
     private durationPipe: AppDurationPipe,
     private decimalPipe: AppDecimalPipe,
     private unitPipe: AppUnitPipe
   ) {
-    this.dateAdapter.setLocale(dayjs.locale());
   }
 
   public ngOnInit() {
-    // Date control
-    this.dateControl = new UntypedFormControl('dateControl',
-      Validators.compose([
-        Validators.required,
-      ]));
-    this.dateControl.setValue(this.startDate);
     if(this.siteAreasAuthorizations.canCreate && this.siteArea.canUpdate && this.siteArea.canDelete) {
       this.visibleDatasets.push(...[
         ConsumptionChartDatasetOrder.LIMIT_WATTS,
@@ -108,13 +100,16 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
     this.spinnerService.show();
     // Change Date for testing e.g.:
     this.centralServerService.getSiteAreaConsumption(this.siteArea.id, this.startDate, this.endDate)
-      .subscribe((siteAreaData) => {
-        this.spinnerService.hide();
-        this.siteAreaConsumption = siteAreaData;
-        this.prepareOrUpdateGraph();
-      }, (error) => {
-        this.spinnerService.hide();
-        delete this.siteAreaConsumption;
+      .subscribe({
+        next: (siteAreaData) => {
+          this.spinnerService.hide();
+          this.siteAreaConsumption = siteAreaData;
+          this.prepareOrUpdateGraph();
+        },
+        error: (error) => {
+          this.spinnerService.hide();
+          delete this.siteAreaConsumption;
+        }
       });
   }
 
@@ -127,12 +122,10 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
     this.spinnerService.hide();
   }
 
-  public dateFilterChanged(value: Date) {
-    if (value) {
-      this.startDate = dayjs(value).startOf('d').toDate();
-      this.endDate = dayjs(value).endOf('d').toDate();
-      this.refresh();
-    }
+  public dateFilterChanged(dateRangeValue: DateTimeRange) {
+    this.startDate = dateRangeValue.startDate;
+    this.endDate = dateRangeValue.endDate;
+    this.refresh();
   }
 
   private updateVisibleDatasets(){

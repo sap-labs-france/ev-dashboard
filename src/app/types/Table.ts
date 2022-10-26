@@ -37,7 +37,7 @@ export enum TableDataSourceMode {
 
 export interface TableFilterDef {
   id: string;
-  httpId: string;
+  httpID: string;
   type: FilterType;
   name: string;
   label?: string;
@@ -51,41 +51,27 @@ export interface TableFilterDef {
   multiple?: boolean;
   exhaustive?: boolean;
   cleared?: boolean;
-  dateRangeTableFilterDef?: DateRangeTableFilterDef;
+  dateRangeTableFilterDef?: DateTimeTableFilterDef;
   dependentFilters?: TableFilterDef[];
   visible?: boolean;
 }
 
-export interface DateRangeTableFilterDef {
-  singleDatePicker?: boolean;
-  minDate?: Date;
-  maxDate?: Date;
-  timePicker?: boolean;
-  timePicker24Hour?: boolean;
-  timePickerSeconds?: boolean;
-  alwaysShowCalendars?: boolean;
+export interface DateTimeTableFilterDef {
   startDate?: Dayjs;
   endDate?: Dayjs;
-  locale?: Locale;
-  startDateTimeHttpId?: string;
-  endDateTimeHttpId?: string;
+  startDateTimeHttpID?: string;
+  endDateTimeHttpID?: string;
+  singleDatePicker?: boolean;
+  timePicker?: boolean;
+  timePickerSeconds?: boolean;
+  minDate?: Dayjs;
+  maxDate?: Dayjs;
   displayRanges?: boolean;
-  ranges?: any;
 }
 
-export interface Locale {
-  format?: string; // 'MM/DD/YYYY' could be 'YYYY-MM-DDTHH:mm:ss.SSSSZ'
-  displayFormat?: string; // 'MM/DD/YYYY', default is format value
-  direction?: string; // could be ltr or rtl
-  weekLabel?: string;
-  separator?: string; // default is ' - '
-  cancelLabel?: string; // detault is 'Cancel'
-  applyLabel?: string; // detault is 'Apply'
-  clearLabel?: string; // detault is 'Clear'
-  customRangeLabel?: string; // 'Custom range'
-  daysOfWeek?: string[];
-  monthNames?: string[];
-  firstDay?: number; // first day is monday
+export interface DateTimeRange {
+  startDate: Date;
+  endDate: Date;
 }
 
 export interface DropdownItem {

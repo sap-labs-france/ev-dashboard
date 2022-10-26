@@ -116,24 +116,17 @@
             <mat-icon>clear</mat-icon>
           </button>
         </mat-form-field>
-        <!-- Date Filter -->
-        <mat-form-field *ngIf="filterDef.type === 'date'">
-          <mat-datetimepicker #picker type="datetime" openOnFocus="false" mode="portrait" timeInterval="1">
-          </mat-datetimepicker>
-          <mat-datetimepicker-toggle [for]="picker" matSuffix></mat-datetimepicker-toggle>
-          <input matInput [placeholder]="filterDef.name | translate" (dateChange)="dateFilterChanged(filterDef, $event)"
-            [matDatetimepicker]="picker" [value]="filterDef.currentValue" autocomplete="false">
-        </mat-form-field>
         <!-- Date Range Filter -->
-        <mat-form-field *ngIf="filterDef.type === 'date-range'">
-          <input matInput ngxDaterangepickerMd [timePicker]="filterDef.dateRangeTableFilterDef.timePicker"
+        <div *ngIf="filterDef.type === 'date-range'">
+          <app-date-time-range
+            placeholder="site_areas.consumption_date"
+            [timePicker]="filterDef.dateRangeTableFilterDef.timePicker"
             [timePickerSeconds]="filterDef.dateRangeTableFilterDef.timePickerSeconds"
-            [timePicker24Hour]="filterDef.dateRangeTableFilterDef.timePicker24Hour" [(ngModel)]="filterDef.currentValue"
-            [locale]="filterDef.dateRangeTableFilterDef.locale" (change)="dateRangeChange(filterDef,$event)" />
-          <mat-icon matSuffix class="ngx-daterangepicker-action date-range-picker-icon mt-1" (click)="openDateRange()">
-            date_range
-          </mat-icon>
-        </mat-form-field>
+            [startDate]="filterDef.currentValue?.startDate"
+            [endDate]="filterDef.currentValue?.endDate"
+            (dateTimeRangeChanged)="dateTimeRangeChanged(filterDef, $event)">
+          </app-date-time-range>
+        </div>
       </div>
     </ng-template>
   </div>

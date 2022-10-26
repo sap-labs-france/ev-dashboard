@@ -9,7 +9,7 @@ export class ConnectorTableFilter extends TableFilter {
     // Define filter
     const filterDef: TableFilterDef = {
       id: 'connector',
-      httpId: 'ConnectorID',
+      httpID: 'ConnectorID',
       type: FilterType.DROPDOWN,
       name: 'chargers.connector',
       label: '',

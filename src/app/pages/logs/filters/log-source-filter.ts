@@ -8,7 +8,7 @@ export class LogSourceTableFilter extends TableFilter {
     // Define filter
     const filterDef: TableFilterDef = {
       id: 'source',
-      httpId: 'Source',
+      httpID: 'Source',
       type: FilterType.DROPDOWN,
       name: 'logs.source',
       label: '',

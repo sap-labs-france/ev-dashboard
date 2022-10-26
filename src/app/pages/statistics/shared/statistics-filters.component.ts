@@ -1,10 +1,7 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { DateAdapter } from '@angular/material/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { MatDatetimepickerInputEvent } from '@mat-datetimepicker/core';
 import { TranslateService } from '@ngx-translate/core';
 import * as dayjs from 'dayjs';
-import { DaterangepickerComponent, DaterangepickerDirective } from 'ngx-daterangepicker-material';
 import { ChargingStationTableFilter } from 'shared/table/filters/charging-station-table-filter';
 import { DateRangeTableFilter } from 'shared/table/filters/date-range-table-filter';
 import { IssuerFilter } from 'shared/table/filters/issuer-filter';
@@ -17,7 +14,7 @@ import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
 import { FilterParams } from '../../../types/GlobalType';
 import { SettingLink } from '../../../types/Setting';
-import { FilterType, TableFilterDef } from '../../../types/Table';
+import { DateTimeRange, FilterType, TableFilterDef } from '../../../types/Table';
 import { TenantComponents } from '../../../types/Tenant';
 import { Utils } from '../../../utils/Utils';
 
@@ -32,11 +29,7 @@ export interface StatisticsButtonGroup {
   templateUrl: 'statistics-filters.component.html',
 })
 export class StatisticsFiltersComponent implements OnInit {
-  @ViewChild(DaterangepickerComponent) public dateRangePickerComponent: DaterangepickerComponent;
-  @ViewChild(DaterangepickerDirective) public picker: DaterangepickerDirective;
-
   @Input() public allYears ?= false;
-
   @Output() public category = new EventEmitter();
   @Output() public year = new EventEmitter();
   @Output() public dateFrom = new EventEmitter();
@@ -70,15 +63,15 @@ export class StatisticsFiltersComponent implements OnInit {
     private translateService: TranslateService,
     private componentService: ComponentService,
     private centralServerService: CentralServerService,
-    private dateAdapter: DateAdapter<any>,
     private dialog: MatDialog
   ) {
-    this.dateAdapter.setLocale(dayjs.locale());
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
     const issuerFilter = new IssuerFilter().getFilterDef();
     const dateRangeFilter = new DateRangeTableFilter({
       translateService: this.translateService
     }).getFilterDef();
+    dateRangeFilter.dateRangeTableFilterDef.displayRanges = false;
+    dateRangeFilter.dateRangeTableFilterDef.timePicker = false;
     this.tableFiltersDef.push(dateRangeFilter);
     const siteFilter = new SiteTableFilter([issuerFilter]).getFilterDef();
     this.tableFiltersDef.push(siteFilter);
@@ -95,10 +88,6 @@ export class StatisticsFiltersComponent implements OnInit {
     if (this.isAdmin) {
       userFilter.visible = true;
     }
-  }
-
-  public openDateRange() {
-    this.picker.open();
   }
 
   public ngOnInit(): void {
@@ -140,37 +129,14 @@ export class StatisticsFiltersComponent implements OnInit {
       });
     }
     this.setActiveButtonOfScopeGroup();
-    this.setDateFilterYear();
     this.setDateRangeFilterYear(true);
     this.filterParams = this.buildFilterValues();
     this.filters.emit(this.filterParams);
     this.update.emit(true);
   }
 
-  public dateRangeChange(filterDef: TableFilterDef, event): void {
-    if (filterDef.type === 'date-range' && event.hasOwnProperty('startDate') && event.hasOwnProperty('endDate')) {
-      filterDef.currentValue = event ? event : null;
-    } else {
-      const dateRange = event.currentTarget.value;
-      if (dateRange.split('-').length - 1 !== 1) {
-        this.setDateRangeFilterYear(false);
-      } else {
-        const startDate = dayjs(dateRange.split('-')[0]);
-        const endDate = dayjs(dateRange.split('-')[1]);
-        if (!startDate.isValid() || !endDate.isValid()) {
-          this.setDateRangeFilterYear(false);
-        } else {
-          if (startDate > endDate) {
-            this.setDateRangeFilterYear(false);
-          } else {
-            filterDef.currentValue = {
-              startDate,
-              endDate
-            };
-          }
-        }
-      }
-    }
+  public dateTimeRangeChanged(filterDef: TableFilterDef, dateRangeValue: DateTimeRange) {
+    filterDef.currentValue = dateRangeValue;
     // Update filter
     this.filterChanged(filterDef);
     if (!this.initDateRange) {
@@ -249,12 +215,7 @@ export class StatisticsFiltersComponent implements OnInit {
 
   public resetDialogTableFilter(filterDef: TableFilterDef): void {
     let filterIsChanged = false;
-    if (filterDef.type === FilterType.DATE) {
-      filterIsChanged = true;
-      if (filterDef.reset) {
-        filterDef.reset();
-      }
-    } else if ((filterDef.type === FilterType.DROPDOWN)
+    if ((filterDef.type === FilterType.DROPDOWN)
       || (filterDef.type === FilterType.DIALOG_TABLE)) {
       filterIsChanged = !this.testIfFilterIsInitial(filterDef);
       if (filterDef.multiple) {
@@ -317,11 +278,8 @@ export class StatisticsFiltersComponent implements OnInit {
       this.tableFiltersDef.forEach((filterDef: TableFilterDef) => {
         // Check the 'All' value
         if (filterDef.currentValue && filterDef.currentValue !== FilterType.ALL_KEY) {
-          // Date
-          if (filterDef.type === FilterType.DATE) {
-            filterJson[filterDef.httpId] = filterDef.currentValue.toISOString();
           // Dialog without multiple selections
-          } else if (filterDef.type === FilterType.DIALOG_TABLE && !filterDef.multiple) {
+          if (filterDef.type === FilterType.DIALOG_TABLE && !filterDef.multiple) {
             if (filterDef.currentValue.length > 0) {
               if (filterDef.currentValue[0].key !== FilterType.ALL_KEY) {
                 if (filterDef.currentValue.length > 1) {
@@ -330,36 +288,36 @@ export class StatisticsFiltersComponent implements OnInit {
                   for (const value of filterDef.currentValue) {
                     jsonKeys.push(value.key);
                   }
-                  filterJson[filterDef.httpId] = JSON.stringify(jsonKeys);
+                  filterJson[filterDef.httpID] = JSON.stringify(jsonKeys);
                 } else {
-                  filterJson[filterDef.httpId] = filterDef.currentValue[0].key;
+                  filterJson[filterDef.httpID] = filterDef.currentValue[0].key;
                 }
               }
             }
             // Dialog with multiple selections
           } else if (filterDef.type === FilterType.DIALOG_TABLE && filterDef.multiple) {
             if (filterDef.currentValue.length > 0) {
-              filterJson[filterDef.httpId] = filterDef.currentValue.map((obj) => obj.key).join('|');
+              filterJson[filterDef.httpID] = filterDef.currentValue.map((obj) => obj.key).join('|');
             }
             // Dropdown with multiple selections
           } else if (filterDef.type === FilterType.DROPDOWN && filterDef.multiple && filterDef.currentValue.length > 0) {
-            filterJson[filterDef.httpId] = filterDef.currentValue.map((obj) => obj.key).join('|');
+            filterJson[filterDef.httpID] = filterDef.currentValue.map((obj) => obj.key).join('|');
             // Others
           } else if (filterDef.type === FilterType.DATE_RANGE) {
             if (!filterDef.currentValue.startDate) {
-              filterJson[filterDef.dateRangeTableFilterDef?.startDateTimeHttpId] = dayjs().startOf('y').toISOString();
+              filterJson[filterDef.dateRangeTableFilterDef?.startDateTimeHttpID] = dayjs().startOf('y').toISOString();
             } else {
-              filterJson[filterDef.dateRangeTableFilterDef?.startDateTimeHttpId] = filterDef.currentValue.startDate.toISOString();
+              filterJson[filterDef.dateRangeTableFilterDef?.startDateTimeHttpID] = filterDef.currentValue.startDate.toISOString();
             }
             if (!filterDef.currentValue.endDate) {
-              filterJson[filterDef.dateRangeTableFilterDef?.endDateTimeHttpId] = dayjs().endOf('d').toISOString();
+              filterJson[filterDef.dateRangeTableFilterDef?.endDateTimeHttpID] = dayjs().endOf('d').toISOString();
             } else {
-              filterJson[filterDef.dateRangeTableFilterDef?.endDateTimeHttpId] = filterDef.currentValue.endDate.toISOString();
+              filterJson[filterDef.dateRangeTableFilterDef?.endDateTimeHttpID] = filterDef.currentValue.endDate.toISOString();
             }
           // Others
           } else {
             // Set it
-            filterJson[filterDef.httpId] = filterDef.currentValue;
+            filterJson[filterDef.httpID] = filterDef.currentValue;
           }
         }
       });
@@ -386,7 +344,6 @@ export class StatisticsFiltersComponent implements OnInit {
       if (setDate) {
         this.setDateRangeFilterYear();
       }
-      this.setDateFilterYear();
       this.filterParams = this.buildFilterValues();
       this.filters.emit(this.filterParams);
     }
@@ -396,20 +353,6 @@ export class StatisticsFiltersComponent implements OnInit {
     if (refresh) {
       this.update.emit(true);
     }
-  }
-
-  public dateFilterChanged(filterDef: TableFilterDef, event: MatDatetimepickerInputEvent<any>) {
-    // Date?
-    if (filterDef.type === 'date') {
-      filterDef.currentValue = event.value ? event.value.toDate() : null;
-    }
-    // Update filter
-    this.filterChanged(filterDef);
-
-    // set year to -1 to reset filter year
-    this.selectedYear = -1;
-    // update year and filter
-    this.yearChanged();
   }
 
   public refresh(): void {
@@ -458,27 +401,6 @@ export class StatisticsFiltersComponent implements OnInit {
             startDate: dayjs(new Date(this.selectedYear, 0, 1)),
             endDate: dayjs(new Date(this.selectedYear + 1, 0, 1))
           };
-        }
-      }
-    });
-  }
-
-  // set Date Filter to corresponding year
-  private setDateFilterYear(): void {
-    this.tableFiltersDef.forEach((filterDef: TableFilterDef) => {
-      if (filterDef.type === FilterType.DATE) {
-        if (this.selectedYear === 0) {
-          if (filterDef.id === 'dateFrom') {
-            filterDef.currentValue = new Date(this.transactionYears[0], 0, 1);
-          } else if (filterDef.id === 'dateUntil') {
-            filterDef.currentValue = new Date();
-          }
-        } else if (this.selectedYear > 0) {
-          if (filterDef.id === 'dateFrom') {
-            filterDef.currentValue = new Date(this.selectedYear, 0, 1);
-          } else if (filterDef.id === 'dateUntil') {
-            filterDef.currentValue = new Date(this.selectedYear + 1, 0, 1);
-          }
         }
       }
     });

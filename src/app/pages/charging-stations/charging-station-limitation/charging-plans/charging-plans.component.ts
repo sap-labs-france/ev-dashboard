@@ -1,9 +1,9 @@
 import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
-import { AbstractControl, UntypedFormArray, UntypedFormControl, UntypedFormGroup, ValidationErrors, Validators } from '@angular/forms';
-import { DateAdapter } from '@angular/material/core';
+import { AbstractControl, FormControl, UntypedFormArray, UntypedFormControl, UntypedFormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import * as dayjs from 'dayjs';
+import { Dayjs } from 'dayjs';
 import { Observable } from 'rxjs';
 import { WindowService } from 'services/window.service';
 import { ChargingStationsAuthorizations } from 'types/Authorization';
@@ -74,7 +74,6 @@ export class ChargingPlansComponent implements OnInit, AfterViewInit {
     public scheduleEditableTableDataSource: ChargingPlansEditableTableDataSource,
     private translateService: TranslateService,
     private router: Router,
-    private dateAdapter: DateAdapter<any>,
     private datePipe: AppDatePipe,
     private dialogService: DialogService,
     private centralServerService: CentralServerService,
@@ -84,7 +83,6 @@ export class ChargingPlansComponent implements OnInit, AfterViewInit {
     private windowService: WindowService
   ) {
     this.isSmartChargingComponentActive = this.componentService.isActive(TenantComponents.SMART_CHARGING);
-    this.dateAdapter.setLocale(dayjs.locale());
   }
 
   public navigateToLog() {
@@ -96,17 +94,17 @@ export class ChargingPlansComponent implements OnInit, AfterViewInit {
   public ngOnInit(): void {
     // Init the form
     this.formGroup = new UntypedFormGroup({
-      profileTypeControl: new UntypedFormControl('',
+      profileTypeControl: new FormControl('',
         Validators.compose([
           Validators.required,
         ])),
-      chargingProfilesControl: new UntypedFormControl(''),
-      startDateControl: new UntypedFormControl('',
+      chargingProfilesControl: new FormControl(''),
+      startDateControl: new FormControl('',
         Validators.compose([
           Validators.required,
           // this.validateDateMustBeInTheFuture,
         ])),
-      endDateControl: new UntypedFormControl('',
+      endDateControl: new FormControl('',
         Validators.compose([
           this.validateEndDateLimitInRecurringPlan.bind(this),
         ])),
@@ -215,8 +213,8 @@ export class ChargingPlansComponent implements OnInit, AfterViewInit {
     });
   }
 
-  public startDateFilterChanged(value: Date) {
-    this.scheduleEditableTableDataSource.startDate = new Date(value);
+  public startDateFilterChanged(startDate: Date) {
+    this.scheduleEditableTableDataSource.startDate = startDate;
     this.scheduleEditableTableDataSource.refreshChargingSchedules();
     this.endDateControl.setValue(this.scheduleEditableTableDataSource.endDate);
   }

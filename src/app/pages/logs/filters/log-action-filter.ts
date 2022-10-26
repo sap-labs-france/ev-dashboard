@@ -8,7 +8,7 @@ export class LogActionTableFilter extends TableFilter {
     // Define filter
     const filterDef: TableFilterDef = {
       id: 'action',
-      httpId: 'Action',
+      httpID: 'Action',
       type: FilterType.DIALOG_TABLE,
       defaultValue: '',
       label: '',

@@ -345,11 +345,11 @@ export abstract class TableDataSource<T extends TableData> {
         if (filterDef.currentValue && filterDef.currentValue !== FilterType.ALL_KEY) {
           if (filterDef.type === FilterType.DATE) {
             // Date
-            filterJson[filterDef.httpId] = filterDef.currentValue.toISOString();
+            filterJson[filterDef.httpID] = filterDef.currentValue.toISOString();
           } else if (filterDef.type === FilterType.DATE_RANGE) {
             // Date range
-            filterJson[filterDef.dateRangeTableFilterDef?.startDateTimeHttpId] = filterDef.currentValue.startDate.toISOString();
-            filterJson[filterDef.dateRangeTableFilterDef?.endDateTimeHttpId] = filterDef.currentValue.endDate.toISOString();
+            filterJson[filterDef.dateRangeTableFilterDef?.startDateTimeHttpID] = filterDef.currentValue.startDate.toISOString();
+            filterJson[filterDef.dateRangeTableFilterDef?.endDateTimeHttpID] = filterDef.currentValue.endDate.toISOString();
           } else if (filterDef.type === FilterType.DIALOG_TABLE) {
             // Mono selection
             if (!filterDef.multiple) {
@@ -361,27 +361,27 @@ export abstract class TableDataSource<T extends TableData> {
                     for (const value of filterDef.currentValue) {
                       jsonKeys.push(value.key);
                     }
-                    filterJson[filterDef.httpId] = JSON.stringify(jsonKeys);
+                    filterJson[filterDef.httpID] = JSON.stringify(jsonKeys);
                   } else {
-                    filterJson[filterDef.httpId] = filterDef.currentValue[0].key;
+                    filterJson[filterDef.httpID] = filterDef.currentValue[0].key;
                   }
                 }
               }
             // Multiple selection
             } else {
               if (!Utils.isEmptyArray(filterDef.currentValue)) {
-                filterJson[filterDef.httpId] = filterDef.currentValue.map((obj) => obj.key).join('|');
+                filterJson[filterDef.httpID] = filterDef.currentValue.map((obj) => obj.key).join('|');
               }
             }
           // Dropdown with multiple selection
           } else if (filterDef.type === FilterType.DROPDOWN && filterDef.multiple) {
             if (!Utils.isEmptyArray(filterDef.currentValue) &&
                 (filterDef.currentValue.length < filterDef.items.length || !filterDef.exhaustive)) {
-              filterJson[filterDef.httpId] = filterDef.currentValue.map((obj) => obj.key).join('|');
+              filterJson[filterDef.httpID] = filterDef.currentValue.map((obj) => obj.key).join('|');
             }
           // Others
           } else {
-            filterJson[filterDef.httpId] = filterDef.currentValue;
+            filterJson[filterDef.httpID] = filterDef.currentValue;
           }
         }
       }

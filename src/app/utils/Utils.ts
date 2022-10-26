@@ -4,7 +4,6 @@ import { Data, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import * as dayjs from 'dayjs';
 import { StatusCodes } from 'http-status-codes';
-import * as moment from 'moment';
 import { DialogMode } from 'types/Authorization';
 import { HTTPError } from 'types/HTTPError';
 import { Tag, TagLimit } from 'types/Tag';
@@ -69,14 +68,14 @@ export class Utils {
               dependentFilter.exhaustive) {
               continue;
             }
-            filterDef.dialogComponentData.staticFilter[dependentFilter.httpId] =
+            filterDef.dialogComponentData.staticFilter[dependentFilter.httpID] =
               dependentFilter.currentValue.map((obj) => obj.key).join('|');
           } else {
-            filterDef.dialogComponentData.staticFilter[dependentFilter.httpId] =
+            filterDef.dialogComponentData.staticFilter[dependentFilter.httpID] =
               dependentFilter.currentValue[0].key;
           }
         } else {
-          delete filterDef.dialogComponentData.staticFilter[dependentFilter.httpId];
+          delete filterDef.dialogComponentData.staticFilter[dependentFilter.httpID];
         }
       }
     }
@@ -949,13 +948,6 @@ export class Utils {
     return changedValue;
   }
 
-  public static adjustDateTimeFromPicker(date: Date): Date {
-    // Remove the timezone
-    const dateIso = date.toISOString();
-    const dateWithoutTz = dateIso.substring(0, dateIso.length - 1);
-    return new Date(dateWithoutTz);
-  }
-
   public static convertToFloat(value: any): number {
     let changedValue: number = value;
     if (!value) {
@@ -974,7 +966,7 @@ export class Utils {
   }
 
   public static isValidDate(date: any): boolean {
-    return moment(date).isValid();
+    return dayjs(date).isValid();
   }
 
   public static isUndefined(obj: any): boolean {
@@ -1009,17 +1001,12 @@ export class Utils {
 
   public static changeLibLocaleGlobally(currentLocale: string): void {
     const locale = Utils.convertToLibLocale(currentLocale);
-    if (moment.locale() !== locale) {
-      moment.locale(locale);
-      console.log('Moment - Set moment locale to: ' + locale);
-      console.log('Moment - Locale as been set to: ' + moment.locale());
-      console.log('Moment - Current format -  Date: ' + moment().format('LL') + '- time: ' + moment().format('LT'));
-    }
     if (dayjs.locale() !== locale) {
       dayjs.locale(locale);
       console.log('Dayjs - Set dayjs locale to: ' + locale);
       console.log('Dayjs - Locale as been set to: ' + dayjs.locale());
-      console.log('Dayjs - Current format -  Date: ' + dayjs().format('LL') + '- time: ' + dayjs().format('LT'));
+      console.log('Dayjs - Current formatted date: ' + dayjs().format('LL') + ' - time: ' + dayjs().format('LT') + '- Full: ' + dayjs().format('LLLL'));
+      console.log('Dayjs - Current date: ' + dayjs().toDate());
     }
   }
 

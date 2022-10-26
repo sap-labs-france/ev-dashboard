@@ -1,14 +1,10 @@
-import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
-import { DateAdapter } from '@angular/material/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { MatFormField } from '@angular/material/form-field';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { MatSort } from '@angular/material/sort';
-import { MatDatetimepickerInputEvent } from '@mat-datetimepicker/core';
 import { TranslateService } from '@ngx-translate/core';
-import dayjs, { Dayjs } from 'dayjs';
-import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
+import { Dayjs } from 'dayjs';
 import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, takeWhile } from 'rxjs/operators';
 
@@ -17,7 +13,7 @@ import { LocaleService } from '../../services/locale.service';
 import { SpinnerService } from '../../services/spinner.service';
 import { WindowService } from '../../services/window.service';
 import { ButtonAction } from '../../types/GlobalType';
-import { ActionType, DropdownItem, FilterType, TableActionDef, TableColumnDef, TableData, TableEditType, TableFilterDef } from '../../types/Table';
+import { ActionType, DateTimeRange, DropdownItem, FilterType, TableActionDef, TableColumnDef, TableData, TableEditType, TableFilterDef } from '../../types/Table';
 import { Constants } from '../../utils/Constants';
 import { Utils } from '../../utils/Utils';
 import { TableDataSource } from './table-data-source';
@@ -29,10 +25,8 @@ import { TableDataSource } from './table-data-source';
 export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() public dataSource!: TableDataSource<TableData>;
   @ViewChild('searchInput') public searchInput!: ElementRef;
-  @ViewChildren(DaterangepickerDirective) public datePickers: QueryList<DaterangepickerDirective>;
 
   public searchPlaceholder = '';
-  public ongoingAutoRefresh = false;
   public sort: MatSort = new MatSort();
   public maxRecords = Constants.INFINITE_RECORDS;
   public numberOfColumns = 0;
@@ -52,9 +46,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     public spinnerService: SpinnerService,
     protected localService: LocaleService,
     public windowService: WindowService,
-    private dateAdapter: DateAdapter<any>,
     private dialog: MatDialog) {
-    this.dateAdapter.setLocale(dayjs.locale());
     this.searchPlaceholder = this.translateService.instant('general.search');
     this.isMobile = Utils.isInMobileApp();
   }
@@ -128,39 +120,11 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     this.refresh();
   }
 
-  public dateTimeRangeChanged(filterDef: TableFilterDef, event: { startDate: Dayjs; endDate: Dayjs }) {
-    if (event.startDate && event.endDate) {
-      // Fix bug on time zone
-      const eventStartDate = Utils.adjustDateTimeFromPicker(event.startDate.toDate());
-      const eventEndDate = Utils.adjustDateTimeFromPicker(event.endDate.toDate());
-      const currentValue = filterDef.currentValue;
-      if (currentValue?.startDate !== eventStartDate ||
-          currentValue?.endDate !== eventEndDate) {
-        filterDef.currentValue.startDate = eventStartDate;
-        filterDef.currentValue.endDate = eventEndDate;
-        this.filterChanged(filterDef);
-      }
-    }
-  }
-
-  public dateTimeRangeOpen(parent: MatFormField, filterDef: TableFilterDef) {
-    const parentHTMLElement = (parent.getConnectedOverlayOrigin().nativeElement as HTMLElement);
-    for (const datePicker of this.datePickers) {
-      if (parentHTMLElement.contains(datePicker.picker.pickerContainer.nativeElement as HTMLElement)) {
-        // Open it
-        datePicker.open();
-      } else {
-        // Close any other open pickers
-        datePicker.hide();
-      }
-    }
-  }
-
   public updateUrlWithFilters(filter: TableFilterDef) {
     // Update URL with filter value
-    if (filter.httpId && filter.httpId !== 'null') {
+    if (filter.httpID && filter.httpID !== 'null') {
       // Capitalize first letter of search id
-      const filterIdInCap = filter.httpId;
+      const filterIdInCap = filter.httpID;
       if (filter.currentValue === 'null' || !filter.currentValue) {
         this.windowService.deleteUrlParameter(filterIdInCap);
       } else {
@@ -199,13 +163,19 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  public dateFilterChanged(filterDef: TableFilterDef, event: MatDatetimepickerInputEvent<any>) {
-    // Date?
-    if (filterDef.type === FilterType.DATE) {
-      filterDef.currentValue = event.value ? event.value.toDate() : null;
-    }
-    // Update filter
+  public dateTimeChanged(filterDef: TableFilterDef, date: Dayjs) {
+    filterDef.currentValue = date.toDate();
     this.filterChanged(filterDef);
+  }
+
+  public dateTimeRangeChanged(filterDef: TableFilterDef, dateRange: DateTimeRange) {
+    const currentValue = filterDef.currentValue;
+    if (currentValue?.startDate !== dateRange.startDate ||
+        currentValue?.endDate !== dateRange.endDate) {
+      filterDef.currentValue.startDate = dateRange.startDate;
+      filterDef.currentValue.endDate = dateRange.endDate;
+      this.filterChanged(filterDef);
+    }
   }
 
   public resetDialogTableFilter(filterDef: TableFilterDef) {
@@ -254,12 +224,12 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  public refresh() {
+  public refresh(showSpinner = true) {
     // Start refresh
     if (!this.loading) {
       this.loading = true;
       // Refresh Data
-      this.dataSource.refreshData(this.loading).subscribe({
+      this.dataSource.refreshData(showSpinner).subscribe({
         next: () => {
           this.loading = false;
         },

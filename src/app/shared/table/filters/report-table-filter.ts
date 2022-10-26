@@ -10,7 +10,7 @@ export class ReportTableFilter extends TableFilter {
     // Define filter
     const filterDef: TableFilterDef = {
       id: 'refundData',
-      httpId: 'ReportIDs',
+      httpID: 'ReportIDs',
       type: FilterType.DIALOG_TABLE,
       defaultValue: '',
       label: '',

@@ -8,7 +8,7 @@ export class SiteAreaTableFilter extends TableFilter {
     // Define filter
     const filterDef: TableFilterDef = {
       id: 'siteAreas',
-      httpId: 'SiteAreaID',
+      httpID: 'SiteAreaID',
       type: FilterType.DIALOG_TABLE,
       defaultValue: '',
       label: '',

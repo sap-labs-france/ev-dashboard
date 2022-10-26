@@ -7,7 +7,7 @@ export class TransactionsInactivityStatusFilter extends TableFilter {
     super();
     const filterDef: TableFilterDef = {
       id: 'inactivityStatus',
-      httpId: 'InactivityStatus',
+      httpID: 'InactivityStatus',
       type: FilterType.DROPDOWN,
       name: 'transactions.inactivity',
       label: '',

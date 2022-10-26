@@ -63,7 +63,7 @@
                 [hideRefresh]="true"
                 color="{{(actionRightDef.color ?? '')}}"
                 [autoRefreshInitialValue]="actionRightDef.currentValue"
-                (autoRefresh)="refresh()">
+                (autoRefresh)="refresh(false)">
               </app-refresh>
               <!-- Create Refresh -->
               <app-refresh *ngIf="actionRightDef.id === ButtonAction.REFRESH"
@@ -117,37 +117,25 @@
               </button>
             </mat-form-field>
             <!-- Date Filter -->
-            <mat-form-field *ngIf="filterDef.type === FilterType.DATE">
-              <mat-datetimepicker #picker
-                type="datetime"
-                openOnFocus="false"
-                mode="portrait"
-                timeInterval="1"
-              >
-              </mat-datetimepicker>
-              <mat-datetimepicker-toggle [for]="picker" matSuffix>
-              </mat-datetimepicker-toggle>
-              <input [id]="filterDef.id" matInput [placeholder]="filterDef.name | translate"
-                (dateChange)="dateFilterChanged(filterDef, $event)" [matDatetimepicker]="picker"
-                [value]="filterDef.currentValue" autocomplete="false">
-            </mat-form-field>
+            <app-date-time *ngIf="filterDef.type === FilterType.DATE"
+              [id]="filterDef.id"
+              [date]="filterDef.currentValue?.startDate"
+              [timePicker]="filterDef.dateRangeTableFilterDef.timePicker"
+              [timePickerSeconds]="filterDef.dateRangeTableFilterDef.timePickerSeconds"
+              [placeholder]="filterDef.name"
+              (dateTimeChanged)="dateTimeChanged(filterDef, $event)">
+            </app-date-time>
             <!-- Date Range Filter -->
-            <mat-form-field *ngIf="filterDef.type === FilterType.DATE_RANGE" #ngxDatePickerElement>
-              <input type="text" matInput ngxDaterangepickerMd readonly
-                [ngModel]="filterDef.currentValue"
-                (datesUpdated)="dateTimeRangeChanged(filterDef, $event)"
-                [timePicker]="filterDef.dateRangeTableFilterDef.timePicker"
-                [timePickerSeconds]="filterDef.dateRangeTableFilterDef.timePickerSeconds"
-                [timePicker24Hour]="filterDef.dateRangeTableFilterDef.timePicker24Hour"
-                [alwaysShowCalendars]="filterDef.dateRangeTableFilterDef.alwaysShowCalendars"
-                [locale]="filterDef.dateRangeTableFilterDef.locale"
-                [ranges]="filterDef.dateRangeTableFilterDef.ranges"
-              />
-              <mat-icon matSuffix class="ngx-daterangepicker-action date-range-picker-icon mt-1"
-                  (click)="dateTimeRangeOpen(ngxDatePickerElement, filterDef)">
-                date_range
-              </mat-icon>
-            </mat-form-field>
+            <app-date-time-range *ngIf="filterDef.type === FilterType.DATE_RANGE"
+              [id]="filterDef.id"
+              [startDate]="filterDef.currentValue?.startDate"
+              [endDate]="filterDef.currentValue?.endDate"
+              [timePicker]="filterDef.dateRangeTableFilterDef.timePicker"
+              [timePickerSeconds]="filterDef.dateRangeTableFilterDef.timePickerSeconds"
+              [placeholder]="filterDef.name"
+              [displayRanges]="filterDef.dateRangeTableFilterDef.displayRanges"
+              (dateTimeRangeChanged)="dateTimeRangeChanged(filterDef, $event)">
+            </app-date-time-range>
             <!-- All key filter -->
             <mat-form-field *ngIf="filterDef.type === FilterType.ALL_KEY">
               <input [placeholder]="filterDef.name | translate" matInput>

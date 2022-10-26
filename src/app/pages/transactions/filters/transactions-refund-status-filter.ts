@@ -7,7 +7,7 @@ export class TransactionsRefundStatusFilter extends TableFilter {
     super();
     const filterDef: TableFilterDef = {
       id: 'transactionStatus',
-      httpId: 'RefundStatus',
+      httpID: 'RefundStatus',
       type: FilterType.DROPDOWN,
       name: 'transactions.state',
       label: '',

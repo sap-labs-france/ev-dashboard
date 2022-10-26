@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import * as moment from 'moment-timezone';
 
+import timezones from '../../../../../assets/timezone/timezones.json';
 import { AnalyticsSettings } from '../../../../types/Setting';
 import { Constants } from '../../../../utils/Constants';
 import { AnalyticsLinksTableDataSource } from '../analytics-link/analytics-links-table-data-source';
@@ -21,8 +21,7 @@ export class SettingsSacComponent implements OnInit, OnChanges {
 
   public constructor(
     public analyticsLinksTableDataSource: AnalyticsLinksTableDataSource) {
-    // Initialize timezone list from moment-timezone
-    this.timezoneList = (moment as any).tz.names();
+    this.timezoneList = timezones;
   }
 
   public ngOnInit(): void {

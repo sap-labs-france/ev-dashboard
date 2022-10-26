@@ -8,7 +8,7 @@ export class UserTableFilter extends TableFilter {
     // Define filter
     const filterDef: TableFilterDef = {
       id: 'user',
-      httpId: 'UserID',
+      httpID: 'UserID',
       type: FilterType.DIALOG_TABLE,
       defaultValue: '',
       label: '',

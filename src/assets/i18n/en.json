@@ -121,6 +121,7 @@
     "search_date_from": "From",
     "search_date_until": "To",
     "search_date_range": "Dates",
+    "search_date": "Date",
     "search_charging_station": "Charging Station",
     "search_user": "User",
     "search_site": "Site",

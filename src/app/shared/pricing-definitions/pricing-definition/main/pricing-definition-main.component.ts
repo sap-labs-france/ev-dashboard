@@ -1,6 +1,5 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { DateAdapter } from '@angular/material/core';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { TranslateService } from '@ngx-translate/core';
 import * as dayjs from 'dayjs';
@@ -43,9 +42,7 @@ export class PricingDefinitionMainComponent implements OnInit, OnChanges {
   // eslint-disable-next-line no-useless-constructor
   public constructor(
     public translateService: TranslateService,
-    public dayPipe: AppDayPipe,
-    private dateAdapter: DateAdapter<any>) {
-    this.dateAdapter.setLocale(dayjs.locale());
+    public dayPipe: AppDayPipe) {
   }
 
   public ngOnInit() {

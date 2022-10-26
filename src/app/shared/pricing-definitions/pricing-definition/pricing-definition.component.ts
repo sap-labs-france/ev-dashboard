@@ -15,7 +15,6 @@ import { AbstractTabComponent } from '../../../shared/component/abstract-tab/abs
 import { DialogMode } from '../../../types/Authorization';
 import { ActionResponse } from '../../../types/DataResult';
 import { RestResponse } from '../../../types/GlobalType';
-import { HTTPError } from '../../../types/HTTPError';
 import PricingDefinition, { PricingEntity } from '../../../types/Pricing';
 import { Utils } from '../../../utils/Utils';
 import { PricingDefinitionDimensionsComponent } from './dimensions/pricing-definition-dimensions.component';

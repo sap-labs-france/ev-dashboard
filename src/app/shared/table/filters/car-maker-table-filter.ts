@@ -8,7 +8,7 @@ export class CarMakerTableFilter extends TableFilter {
     // Define filter
     const filterDef: TableFilterDef = {
       id: 'carMakers',
-      httpId: 'CarMaker',
+      httpID: 'CarMaker',
       type: FilterType.DIALOG_TABLE,
       defaultValue: '',
       label: '',

@@ -9,7 +9,12 @@ export class DateTableFilter extends TableFilter {
     // Define filter
     const filterDef: TableFilterDef = {
       id: 'timestamp',
-      httpId: 'Date',
+      httpID: 'Date',
+      dateRangeTableFilterDef: {
+        timePicker: false,
+        timePickerSeconds: false,
+        displayRanges: false,
+      },
       type: FilterType.DATE,
       name: 'general.search_date',
       currentValue: dayjs().startOf('day').toDate(),

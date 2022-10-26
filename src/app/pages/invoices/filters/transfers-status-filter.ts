@@ -8,7 +8,7 @@ export class TransfersStatusFilter extends TableFilter {
     super();
     const filterDef: TableFilterDef = {
       id: 'transferStatus',
-      httpId: 'Status',
+      httpID: 'Status',
       type: FilterType.DROPDOWN,
       name: 'general.status',
       label: '',

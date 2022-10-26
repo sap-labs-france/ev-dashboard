@@ -1,17 +1,13 @@
-<div class="row mt-2 ms-2 me-2">
-  <div class="col-auto mt-2 me-auto">
-    <mat-form-field>
-      <mat-datetimepicker #picker type="date" openOnFocus="false" mode="portrait" timeInterval="1">
-      </mat-datetimepicker>
-      <mat-datetimepicker-toggle matSuffix [for]="picker"></mat-datetimepicker-toggle>
-      <input matInput placeholder="{{'site_areas.consumption_date' | translate}}" required
-        (dateChange)="dateFilterChanged($event.value ? $event.value.toDate() : null)" [matDatetimepicker]="picker"
-        [formControl]="dateControl" autocomplete="false">
-      <mat-error *ngIf="dateControl.errors?.matDatepickerParse">{{"general.invalid_date" | translate}}
-      </mat-error>
-    </mat-form-field>
+<div class="row m-2">
+  <div class="col-md-4 col-lg-2">
+    <app-date-time-range
+      placeholder="site_areas.consumption_date"
+      [startDate]="startDate"
+      [endDate]="endDate"
+      (dateTimeRangeChanged)="dateFilterChanged($event)">
+    </app-date-time-range>
   </div>
-  <div class="col-auto" [hidden]="siteAreaConsumption?.values?.length === 0">
+  <div class="col-auto ms-auto" [hidden]="siteAreaConsumption?.values?.length === 0">
     <app-chart-unit-selector (unitChanged)="unitChanged($event)"></app-chart-unit-selector>
   </div>
 </div>

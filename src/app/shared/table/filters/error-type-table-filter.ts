@@ -8,7 +8,7 @@ export class ErrorTypeTableFilter extends TableFilter {
     // Define filter
     const filterDef: TableFilterDef = {
       id: 'errorType',
-      httpId: 'ErrorType',
+      httpID: 'ErrorType',
       type: FilterType.DROPDOWN,
       name: 'errors.title',
       label: '',

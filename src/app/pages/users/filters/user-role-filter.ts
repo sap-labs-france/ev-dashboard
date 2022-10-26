@@ -11,7 +11,7 @@ export class UserRoleFilter extends TableFilter {
     // Define filter
     const filterDef: TableFilterDef = {
       id: 'role',
-      httpId: 'Role',
+      httpID: 'Role',
       type: FilterType.DROPDOWN,
       name: 'users.roles',
       label: '',

@@ -31,7 +31,9 @@
               "file-saver",
               "ngx-google-places-autocomplete",
               "stripe-js",
-              "moment-timezone"
+              "dayjs",
+              "angular-datetimerangepicker",
+              "fast-deep-equal"
             ],
             "assets": [
               {
@@ -72,6 +74,7 @@
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.css",
+              "node_modules/angular-datetimerangepicker/styles/styles.css",
               "src/assets/css/material-dashboard.css",
               "src/assets/scss/material-dashboard.scss"
             ],
@@ -80,13 +83,11 @@
               "node_modules/popper.js/dist/umd/popper.min.js",
               "node_modules/bootstrap/dist/js/bootstrap.js",
               "node_modules/bootstrap-material-design/dist/js/bootstrap-material-design.min.js",
-              "node_modules/moment/min/moment.min.js",
               "node_modules/hammerjs/hammer.min.js",
               "node_modules/bootstrap-notify/bootstrap-notify.min.js",
               "node_modules/bootstrap-select/dist/js/bootstrap-select.min.js",
               "node_modules/jasny-bootstrap/dist/js/jasny-bootstrap.min.js",
-              "node_modules/chart.js/dist/chart.min.js",
-              "node_modules/moment-duration-format/lib/moment-duration-format.js"
+              "node_modules/chart.js/dist/chart.min.js"
             ],
             "vendorChunk": true,
             "extractLicenses": false,

@@ -8,7 +8,7 @@ export class StatusFilter extends TableFilter {
     // Define filter
     const filterDef: TableFilterDef = {
       id: 'status',
-      httpId: 'Active',
+      httpID: 'Active',
       type: FilterType.DROPDOWN,
       name: 'tags.status',
       label: '',

@@ -23,13 +23,11 @@
               </div>
               <div class="row pb-1">
                 <div class="col-md-5">
-                  <mat-form-field class="form-group">
-                    <mat-datetimepicker #picker type="datetime" openOnFocus="false" mode="portrait" timeInterval="1">
-                    </mat-datetimepicker>
-                    <mat-datetimepicker-toggle [for]="picker" matSuffix></mat-datetimepicker-toggle>
-                    <input [formControl]="expirationDate" matInput placeholder="{{'general.expired_on' | translate}}"
-                      [matDatetimepicker]="picker" autocomplete="false">
-                  </mat-form-field>
+                  <app-date-time ngDefaultControl
+                    placeholder="general.expired_on"
+                    [date]="expirationDate?.value"
+                    [formControl]="expirationDate">
+                  </app-date-time>
                 </div>
               </div>
               <div class="row">

@@ -8,7 +8,7 @@ export class LogLevelTableFilter extends TableFilter {
     // Define filter
     const filterDef: TableFilterDef = {
       id: 'level',
-      httpId: 'Level',
+      httpID: 'Level',
       type: FilterType.DROPDOWN,
       name: 'logs.levels',
       label: '',

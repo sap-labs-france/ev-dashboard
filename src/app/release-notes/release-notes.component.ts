@@ -30,6 +30,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              'Charging Sessions - The export of OCPI CDR has been fixed',
               'RFID Cards - New button to generate an RFID when creating cards',
               'Charging Station List - Navigation from the charger to its session list has been fixed',
               'Pricing - Restriction on the days of the week is now sorted'

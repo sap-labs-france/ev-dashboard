@@ -5,10 +5,18 @@
   display: none;
 }
 
+// Hide the Chevron
+.drp-flyout.tooltipChevron:before, .drp-flyout.tooltipChevron:after {
+  content: initial !important;
+}
+
 // For pairing with a Material Input Field, needs to hide the Picker Input and move up the Picker Drop-down Calendar
 .drp-flyout {
-  margin-top: -45px;
+  margin-top: -60px;
+  overflow: auto;
+  max-height: 75vh;
 }
+
 .drp-wrapper input {
   display: none;
 }

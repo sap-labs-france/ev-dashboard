@@ -11,16 +11,12 @@ import { CentralServerService } from './central-server.service';
 
 @Injectable()
 export class ComponentService {
-  private activeComponents!: string[]|null;
+  private activeComponents!: string[];
 
   public constructor(
     private centralServerService: CentralServerService) {
     this.centralServerService.getCurrentUserSubject().subscribe((user) => {
-      if (user && user.activeComponents) {
-        this.activeComponents = user.activeComponents;
-      } else {
-        this.activeComponents = null;
-      }
+      this.activeComponents = user?.activeComponents;
     });
   }
 
@@ -31,7 +27,7 @@ export class ComponentService {
     return false;
   }
 
-  public getActiveComponents(): string[]|null {
+  public getActiveComponents(): string[] {
     return this.activeComponents;
   }
 

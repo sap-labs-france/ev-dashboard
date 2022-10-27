@@ -5,16 +5,12 @@ import { CentralServerService } from './central-server.service';
 
 @Injectable()
 export class FeatureService {
-  private activeFeatures!: string[]|null;
+  private activeFeatures!: string[];
 
   public constructor(
     private centralServerService: CentralServerService) {
     this.centralServerService.getCurrentUserSubject().subscribe((user) => {
-      if (user && user.activeFeatures) {
-        this.activeFeatures = user.activeFeatures;
-      } else {
-        this.activeFeatures = null;
-      }
+      this.activeFeatures = user?.activeFeatures;
     });
   }
 
@@ -23,5 +19,9 @@ export class FeatureService {
       return this.activeFeatures.includes(featureName);
     }
     return false;
+  }
+
+  public getActiveFeatures(): string[] {
+    return this.activeFeatures;
   }
 }

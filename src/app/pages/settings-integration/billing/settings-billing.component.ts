@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { StatusCodes } from 'http-status-codes';
@@ -10,7 +10,6 @@ import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { ButtonAction, RestResponse } from '../../../types/GlobalType';
-import { HTTPError } from '../../../types/HTTPError';
 import { BillingSetting, BillingSettings, BillingSettingsType, StripeBillingSetting } from '../../../types/Setting';
 import { TenantComponents } from '../../../types/Tenant';
 import { Utils } from '../../../utils/Utils';
@@ -25,7 +24,7 @@ export class SettingsBillingComponent implements OnInit {
   public isBillingTransactionEnabled = false;
   public isBillingAccountTaxSet = false;
 
-  public formGroup!: UntypedFormGroup;
+  public formGroup!: FormGroup;
   public billingSettings!: BillingSettings;
   public transactionBillingActivated: boolean; // ##CR - reverting some changes
   public isClearTestDataVisible = false;
@@ -45,7 +44,7 @@ export class SettingsBillingComponent implements OnInit {
 
   public ngOnInit(): void {
     // Build the form
-    this.formGroup = new UntypedFormGroup({});
+    this.formGroup = new FormGroup({});
     // Load the conf
     if (this.isBillingActive) {
       this.loadConfiguration();

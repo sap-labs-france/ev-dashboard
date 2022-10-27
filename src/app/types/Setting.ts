@@ -1,3 +1,4 @@
+import { SettingAuthorizationActions } from './Authorization';
 import CreatedUpdatedProps from './CreatedUpdatedProps';
 import { TableData } from './Table';
 import { TenantComponents } from './Tenant';
@@ -6,7 +7,7 @@ export enum TechnicalSettings {
   USER = 'user',
   CRYPTO = 'crypto'
 }
-export interface Setting extends TableData, CreatedUpdatedProps {
+export interface Setting extends TableData, CreatedUpdatedProps, SettingAuthorizationActions {
   identifier: TenantComponents | TechnicalSettings;
   sensitiveData?: string[];
   category?: 'business' | 'technical';
@@ -169,7 +170,7 @@ export enum RefundSettingsType {
   CONCUR = 'concur',
 }
 
-export interface RefundSettings extends Setting {
+export interface RefundSettings extends SettingDB {
   identifier: TenantComponents.REFUND;
   type: RefundSettingsType;
   concur?: ConcurRefundSetting;

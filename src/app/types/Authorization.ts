@@ -440,6 +440,7 @@ export interface SettingsAuthorizationActions extends DataResultAuthorizationAct
 }
 
 export interface SettingAuthorizationActions extends AuthorizationActions {
+  canSyncRefund?: boolean;
 }
 
 export enum DialogMode {

@@ -368,7 +368,7 @@ export class ComponentService {
 
   public getRefundSettings(): Observable<RefundSettings> {
     return new Observable((observer) => {
-      const refundSettings = {
+      let refundSettings = {
         identifier: TenantComponents.REFUND,
       } as RefundSettings;
       // Get the Pricing settings
@@ -376,12 +376,10 @@ export class ComponentService {
         next: (settings) => {
           // Get the currency
           if (settings) {
+            // Init the setting
+            refundSettings = settings as RefundSettings;
+            // Set specific refund setting
             const config = settings.content;
-            // ID
-            refundSettings.id = settings.id;
-            // Sensitive data
-            refundSettings.sensitiveData = settings.sensitiveData;
-            // Set
             refundSettings.concur = config.concur;
           }
           observer.next(refundSettings);

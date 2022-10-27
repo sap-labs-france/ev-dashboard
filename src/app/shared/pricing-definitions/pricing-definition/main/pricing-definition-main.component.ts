@@ -2,7 +2,7 @@ import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { TranslateService } from '@ngx-translate/core';
-import * as dayjs from 'dayjs';
+import { DialogMode } from 'types/Authorization';
 import { Utils } from 'utils/Utils';
 
 import { CONNECTOR_TYPE_SELECTION_MAP } from '../../../../shared/formatters/app-connector-type-selection.pipe';
@@ -17,7 +17,7 @@ import { Constants } from '../../../../utils/Constants';
 export class PricingDefinitionMainComponent implements OnInit, OnChanges {
   @Input() public formGroup!: UntypedFormGroup;
   @Input() public pricingDefinition: PricingDefinition;
-  @Input() public readOnly: boolean;
+  @Input() public dialogMode!: DialogMode;
 
   public initialized = false;
 

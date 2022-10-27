@@ -134,7 +134,7 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
       {
         id: 'staticRestrictions.validFrom',
         name: 'settings.pricing.valid_from',
-        formatter: (validFrom: Date) => this.datePipe.transform(validFrom, 'shortDate'),
+        formatter: (validFrom: Date) => this.datePipe.transform(validFrom),
         headerClass: 'col-15p',
         class: 'col-15p',
         sortable: true,
@@ -142,7 +142,7 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
       {
         id: 'staticRestrictions.validTo',
         name: 'settings.pricing.valid_to',
-        formatter: (validTo: Date) => this.datePipe.transform(validTo, 'shortDate'),
+        formatter: (validTo: Date) => this.datePipe.transform(validTo),
         headerClass: 'col-15p',
         class: 'col-15p',
         sortable: true,

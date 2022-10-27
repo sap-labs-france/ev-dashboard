@@ -163,8 +163,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  public dateTimeChanged(filterDef: TableFilterDef, date: Dayjs) {
-    filterDef.currentValue = date.toDate();
+  public dateTimeChanged(filterDef: TableFilterDef, date: Date) {
+    filterDef.currentValue = date;
     this.filterChanged(filterDef);
   }
 

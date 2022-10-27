@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { DialogMode } from 'types/Authorization';
 
 import PricingDefinition, { DimensionType, PricingDimension, PricingDimensions } from '../../../../types/Pricing';
 import { Constants } from '../../../../utils/Constants';
@@ -14,7 +15,7 @@ import { PricingHelpers } from '../../../../utils/PricingHelpers';
 export class PricingDefinitionDimensionsComponent implements OnInit, OnChanges {
   @Input() public formGroup!: UntypedFormGroup;
   @Input() public pricingDefinition: PricingDefinition;
-  @Input() public readOnly: boolean;
+  @Input() public dialogMode!: DialogMode;
 
   public initialized = false;
 

@@ -29,10 +29,13 @@ import { DateTimeRange } from 'types/Table';
 export class DateTimeRangeComponent implements OnInit, OnChanges {
   @Input() public startDate: Date;
   @Input() public endDate: Date;
+  @Input() public minDate: Date;
+  @Input() public maxDate: Date;
   @Input() public placeholder: string;
   @Input() public timePicker: boolean;
   @Input() public timePickerSeconds: boolean;
   @Input() public displayRanges: boolean;
+  @Input() public allowClearDate: boolean;
   @Input() public formControl: AbstractControl<DateTimeRange>;
   @Output() public dateTimeRangeChanged = new EventEmitter<DateTimeRange>();
 
@@ -53,7 +56,7 @@ export class DateTimeRangeComponent implements OnInit, OnChanges {
   ];
 
   public dateRangePickerOptions: Options = {
-    minDate: dayjs().add(-120, 'months'),
+    minDate: dayjs().subtract(120, 'months'),
     maxDate: dayjs().add(120, 'months'),
     format: dayjs.localeData().longDateFormat('LL'),
     displayFormat: dayjs.localeData().longDateFormat('LL'),
@@ -63,7 +66,7 @@ export class DateTimeRangeComponent implements OnInit, OnChanges {
     theme: 'light',
     required: false,
     showRanges: false,
-    noDefaultRangeSelected: false,
+    noDefaultRangeSelected: true,
     singleCalendar: false,
     position: 'left',
     disabled: false,
@@ -89,8 +92,20 @@ export class DateTimeRangeComponent implements OnInit, OnChanges {
 
   public ngOnInit(): void {
     // Set Dates
-    this.dateRangePickerOptions.startDate = dayjs(this.startDate);
-    this.dateRangePickerOptions.endDate = dayjs(this.endDate);
+    if (this.startDate) {
+      this.dateRangePickerOptions.startDate = dayjs(this.startDate);
+      this.dateRangePickerOptions.noDefaultRangeSelected = false;
+    }
+    if (this.endDate) {
+      this.dateRangePickerOptions.endDate = dayjs(this.endDate);
+      this.dateRangePickerOptions.noDefaultRangeSelected = false;
+    }
+    if (this.minDate) {
+      this.dateRangePickerOptions.minDate = dayjs(this.minDate);
+    }
+    if (this.maxDate) {
+      this.dateRangePickerOptions.maxDate = dayjs(this.maxDate);
+    }
     // Check Time
     if (this.timePicker) {
       this.dateRangePickerOptions.timePicker = {
@@ -119,10 +134,24 @@ export class DateTimeRangeComponent implements OnInit, OnChanges {
 
   public ngOnChanges(): void {
     // Set Dates (mandatory to force recreate the object)
+    if (this.startDate || this.endDate) {
+      this.dateRangePickerOptions.startDate = dayjs(this.startDate);
+      this.dateRangePickerOptions.endDate = dayjs(this.endDate);
+      this.dateRangePickerOptions.noDefaultRangeSelected = false;
+    }
+    if (this.minDate) {
+      this.dateRangePickerOptions.minDate = dayjs(this.minDate);
+    } else {
+      this.dateRangePickerOptions.minDate = dayjs().subtract(120, 'months');
+    }
+    if (this.maxDate) {
+      this.dateRangePickerOptions.maxDate = dayjs(this.maxDate);
+    } else {
+      this.dateRangePickerOptions.maxDate = dayjs().add(120, 'months');
+    }
+    // Set Dates (mandatory to force recreate the object)
     this.dateRangePickerOptions = {
       ...this.dateRangePickerOptions,
-      startDate: dayjs(this.startDate),
-      endDate: dayjs(this.endDate),
     };
   }
 
@@ -132,7 +161,7 @@ export class DateTimeRangeComponent implements OnInit, OnChanges {
 
   public dateRangeChanged(dateRange: DateRange) {
     // Date Range picker
-    if (dateRange?.start && dateRange?.end) {
+    if (dateRange?.start && dateRange.start?.isValid() && dateRange?.end && dateRange.end?.isValid()) {
       // Force start & end of day if no time picker
       if (!this.timePicker) {
         dateRange.start = dateRange.start.startOf('d');
@@ -159,6 +188,15 @@ export class DateTimeRangeComponent implements OnInit, OnChanges {
         startDate: dateRange.start.toDate(),
         endDate: dateRange.end.toDate(),
       });
+    // Clear the dates (Date are provided but invalid)
+    } else if (dateRange?.start && dateRange.end && this.allowClearDate) {
+      // Update Form control
+      if (this.formControl) {
+        this.formControl.setValue({ startDate: null, endDate: null });
+        this.formControl.markAsDirty();
+      }
+      // Send Event
+      this.dateTimeRangeChanged.emit({ startDate: null, endDate: null });
     }
   }
 }

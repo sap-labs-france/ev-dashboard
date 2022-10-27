@@ -98,7 +98,6 @@
     "ng2-file-upload": "^1.4.0",
     "ngx-captcha": "^12.0.2",
     "ngx-csv-parser": "^1.2.0",
-    "ngx-daterangepicker-material": "^6.0.4",
     "ngx-google-places-autocomplete": "^2.0.5",
     "popper.js": "^1.16.1",
     "rxjs": "^7.5.7",

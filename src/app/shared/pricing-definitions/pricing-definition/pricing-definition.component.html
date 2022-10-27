@@ -8,7 +8,7 @@
             <span>{{'settings.pricing.title' | translate}} - {{context}}</span>
           </ng-template>
           <div class="card-body mat-tab-dialog-body-content">
-            <app-pricing-definition-main #pricingDefinitionMainComponent [formGroup]="formGroup" [pricingDefinition]="pricingDefinition" [readOnly]="readOnly"></app-pricing-definition-main>
+            <app-pricing-definition-main #pricingDefinitionMainComponent [formGroup]="formGroup" [pricingDefinition]="pricingDefinition" [dialogMode]="dialogMode"></app-pricing-definition-main>
           </div>
         </mat-tab>
         <mat-tab>
@@ -17,7 +17,7 @@
             <span>{{'settings.pricing.pricing_dimensions_title' | translate}}</span>
           </ng-template>
           <div class="card-body mat-tab-dialog-body-content">
-            <app-pricing-definition-dimensions #pricingDefinitionDimensionsComponent [formGroup]="formGroup" [pricingDefinition]="pricingDefinition" [readOnly]="readOnly"></app-pricing-definition-dimensions>
+            <app-pricing-definition-dimensions #pricingDefinitionDimensionsComponent [formGroup]="formGroup" [pricingDefinition]="pricingDefinition" [dialogMode]="dialogMode"></app-pricing-definition-dimensions>
           </div>
         </mat-tab>
         <mat-tab>
@@ -26,7 +26,7 @@
             <span>{{'settings.pricing.restrictions_title' | translate}}</span>
           </ng-template>
           <div class="card-body mat-tab-dialog-body-content">
-            <app-pricing-definition-restrictions #pricingDefinitionRestrictionsComponent [formGroup]="formGroup" [pricingDefinition]="pricingDefinition" [readOnly]="readOnly"></app-pricing-definition-restrictions>
+            <app-pricing-definition-restrictions #pricingDefinitionRestrictionsComponent [formGroup]="formGroup" [pricingDefinition]="pricingDefinition" [dialogMode]="dialogMode"></app-pricing-definition-restrictions>
           </div>
         </mat-tab>
       </mat-tab-group>

@@ -27,6 +27,7 @@
       <app-date-time ngDefaultControl
         placeholder="settings.pricing.valid_from"
         [date]="validFrom?.value"
+        [allowClearDate]="true"
         [formControl]="validFrom">
       </app-date-time>
       <mat-error *ngIf="validFrom?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
@@ -38,7 +39,9 @@
       <app-date-time ngDefaultControl
         placeholder="settings.pricing.valid_to"
         [date]="validTo?.value"
+        [minDate]="validFrom?.value"
         [forceEndOfDay]="true"
+        [allowClearDate]="true"
         [formControl]="validTo">
       </app-date-time>
     </div>

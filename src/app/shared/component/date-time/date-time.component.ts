@@ -28,17 +28,20 @@ import { Dayjs } from 'dayjs';
 })
 export class DateTimeComponent implements OnInit, OnChanges {
   @Input() public date: Date;
+  @Input() public minDate: Date;
+  @Input() public maxDate: Date;
   @Input() public placeholder: string;
   @Input() public forceEndOfDay: boolean;
   @Input() public timePicker: boolean;
   @Input() public timePickerSeconds: boolean;
+  @Input() public allowClearDate: boolean;
   @Input() public formControl: AbstractControl<Date>;
   @Output() public dateTimeChanged = new EventEmitter<Date>();
 
   @ViewChild('dateRangePicker', { static: true }) private dateRangePicker!: Daterangepicker;
 
   public dateRangePickerOptions: Options = {
-    minDate: dayjs().add(-120, 'months'),
+    minDate: dayjs().subtract(120, 'months'),
     maxDate: dayjs().add(120, 'months'),
     format: dayjs.localeData().longDateFormat('LL'),
     displayFormat: dayjs.localeData().longDateFormat('LL'),
@@ -48,7 +51,7 @@ export class DateTimeComponent implements OnInit, OnChanges {
     theme: 'light',
     required: false,
     showRanges: false,
-    noDefaultRangeSelected: false,
+    noDefaultRangeSelected: true,
     singleCalendar: true,
     position: 'left',
     disabled: false,
@@ -69,7 +72,19 @@ export class DateTimeComponent implements OnInit, OnChanges {
 
   public ngOnInit(): void {
     // Set Dates
-    this.dateRangePickerOptions.startDate = dayjs(this.date);
+    if (this.date) {
+      this.dateRangePickerOptions.startDate = dayjs(this.date);
+      this.dateRangePickerOptions.noDefaultRangeSelected = false;
+    }
+    console.log("🚀 --------------------------------------------------------🚀");
+    console.log("🚀 ~ DateTimeComponent ~ ngOnInit ~ this.date", this.date);
+    console.log("🚀 --------------------------------------------------------🚀");
+    if (this.minDate) {
+      this.dateRangePickerOptions.minDate = dayjs(this.minDate);
+    }
+    if (this.maxDate) {
+      this.dateRangePickerOptions.maxDate = dayjs(this.maxDate);
+    }
     // Check Time
     if (this.timePicker) {
       this.dateRangePickerOptions.timePicker = {
@@ -93,11 +108,38 @@ export class DateTimeComponent implements OnInit, OnChanges {
   }
 
   public ngOnChanges(): void {
+    if (this.date) {
+      this.dateRangePickerOptions.startDate = dayjs(this.date);
+      this.dateRangePickerOptions.noDefaultRangeSelected = false;
+    }
+    console.log("🚀 -----------------------------------------------------------------🚀");
+    console.log("🚀 ~ DateTimeComponent ~ ngOnChanges ~ this.date", this.date);
+    console.log("🚀 -----------------------------------------------------------------🚀");
+    if (this.minDate) {
+      this.dateRangePickerOptions.minDate = dayjs(this.minDate);
+      // Check constraint
+      if (this.dateRangePickerOptions.startDate?.isBefore(this.minDate)) {
+        setTimeout(() => this.dateChanged(dayjs(this.minDate)), 0);
+      }
+    } else {
+      this.dateRangePickerOptions.minDate = dayjs().subtract(120, 'months');
+    }
+    if (this.maxDate) {
+      this.dateRangePickerOptions.maxDate = dayjs(this.maxDate);
+      // Check constraint
+      if (this.dateRangePickerOptions.endDate?.isAfter(this.maxDate)) {
+        setTimeout(() => this.dateChanged(dayjs(this.maxDate)), 0);
+      }
+    } else {
+      this.dateRangePickerOptions.maxDate = dayjs().add(120, 'months');
+    }
     // Set Dates (mandatory to force recreate the object)
     this.dateRangePickerOptions = {
       ...this.dateRangePickerOptions,
-      startDate: dayjs(this.date),
     };
+    console.log("🚀 -----------------------------------------------------------------------------------------------🚀");
+    console.log("🚀 ~ DateTimeComponent ~ ngOnChanges ~ this.dateRangePickerOptions", this.dateRangePickerOptions);
+    console.log("🚀 -----------------------------------------------------------------------------------------------🚀");
   }
 
   public showCalendar() {
@@ -105,8 +147,11 @@ export class DateTimeComponent implements OnInit, OnChanges {
   }
 
   public dateChanged(date: Dayjs) {
+    console.log("🚀 -------------------------------------------------🚀");
+    console.log("🚀 ~ DateTimeComponent ~ dateChanged ~ date", date);
+    console.log("🚀 -------------------------------------------------🚀");
     // Date picker
-    if (date) {
+    if (date && date.isValid()) {
       // Force start & end of day if no time picker
       if (!this.timePicker) {
         // For time to the end of day
@@ -128,6 +173,17 @@ export class DateTimeComponent implements OnInit, OnChanges {
       }
       // Send Event
       this.dateTimeChanged.emit(date.toDate());
+    // Clear the date
+    } else if (date && this.allowClearDate) {
+      // Update Form control
+      if (this.formControl) {
+        this.formControl.setValue(null);
+        this.formControl.markAsDirty();
+      }
+      // Send Event
+      this.dateTimeChanged.emit(null);
+      // Clear the input field manually
+      this.dateRangePicker['elem'].nativeElement.childNodes[0].childNodes[0].value = '';
     }
   }
 }

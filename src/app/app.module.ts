@@ -62,7 +62,6 @@ import localizedFormat from 'dayjs/plugin/localizedFormat';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
 import { NgxCaptchaModule } from 'ngx-captcha';
-import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 import { Observable, Observer } from 'rxjs';
 import { FeatureService } from 'services/feature.service';
 import { UtilsService } from 'services/utils.service';
@@ -209,7 +208,6 @@ class CustomTranslateDefaultParser extends TranslateDefaultParser {
     FooterModule,
     HttpClientModule,
     BrowserNotSupportedModule,
-    NgxDaterangepickerMd.forRoot(),
     GoogleMapsModule,
     TranslateModule.forRoot({
       loader: {

@@ -10,7 +10,7 @@ export enum PricingEntity {
   SITE = 'Site',
   SITE_AREA = 'SiteArea',
   CHARGING_STATION = 'ChargingStation',
-  // USER = 'User'
+  USER = 'User'
 }
 
 export enum DimensionType {

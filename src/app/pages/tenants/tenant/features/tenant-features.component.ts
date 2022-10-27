@@ -16,16 +16,19 @@ export class TenantFeaturesComponent implements OnInit, OnChanges {
   public initialized = false;
 
   public features!: FormGroup;
-  public map!: AbstractControl;
+  public chargingStationMap!: AbstractControl;
+  public userPricing!: AbstractControl;
 
   public ngOnInit() {
     // Add feature
     this.formGroup.addControl('features', new FormGroup({}));
     this.features = this.formGroup.controls['features'] as UntypedFormGroup;
     // Create features
-    this.features.addControl('map', new FormControl(false));
+    this.features.addControl('chargingStationMap', new FormControl(false));
+    this.features.addControl('userPricing', new FormControl(false));
     // Keep controls
-    this.map = this.features.controls['map'];
+    this.chargingStationMap = this.features.controls['chargingStationMap'];
+    this.userPricing = this.features.controls['userPricing'];
     this.initialized = true;
     this.loadTenant();
   }
@@ -36,7 +39,8 @@ export class TenantFeaturesComponent implements OnInit, OnChanges {
 
   public loadTenant() {
     if (this.initialized && this.tenant) {
-      this.map.setValue(Utils.convertToBoolean(this.tenant.features?.map));
+      this.chargingStationMap.setValue(Utils.convertToBoolean(this.tenant.features?.chargingStationMap));
+      this.userPricing.setValue(Utils.convertToBoolean(this.tenant.features?.userPricing));
     }
   }
 }

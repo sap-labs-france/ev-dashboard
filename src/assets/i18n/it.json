@@ -1559,9 +1559,13 @@
     "feature": {
       "charging_station": {
         "feature_name": "Charging Station",
-        "feature_description": "Charging Station's features",
         "feature_map_name": "Map",
         "feature_map_description": "Map with aggregated Charging Stations"
+      },
+      "user": {
+        "feature_name": "User",
+        "feature_pricing_name": "Pricing",
+        "feature_pricing_description": "Pricing per User"
       }
     },
     "logo_size_error": "Il limite di dimensione del logo è stato superato, il limite è inferiore a {{maxPictureKb}} Kb"

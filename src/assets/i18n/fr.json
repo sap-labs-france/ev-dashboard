@@ -1558,10 +1558,14 @@
     ],
     "feature": {
       "charging_station": {
-        "feature_name": "Bornes",
-        "feature_description": "Fonctionnalités des Bornes",
+        "feature_name": "Borne",
         "feature_map_name": "Carte",
         "feature_map_description": "Carte avec aggrégation des Bornes"
+      },
+      "user": {
+        "feature_name": "Utilisateur",
+        "feature_pricing_name": "Tarification",
+        "feature_pricing_description": "Tarification par Utilisateur"
       }
     },
     "logo_size_error": "La taille de l'image est trop importante, la limite est de {{maxPictureKb}} Ko"

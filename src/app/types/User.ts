@@ -1,4 +1,5 @@
 import { Address } from './Address';
+import { UserAuthorizationActions } from './Authorization';
 import { BillingUserData } from './Billing';
 import { Car } from './Car';
 import CreatedUpdatedProps from './CreatedUpdatedProps';
@@ -6,7 +7,7 @@ import { TableData } from './Table';
 import { Tag } from './Tag';
 import { StartTransactionErrorCode } from './Transaction';
 
-export interface User extends TableData, CreatedUpdatedProps, UserMobileData {
+export interface User extends TableData, CreatedUpdatedProps, UserMobileData, UserAuthorizationActions {
   id: string;
   issuer: boolean;
   name: string;

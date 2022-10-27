@@ -3,9 +3,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { FeatureService } from 'services/feature.service';
 import { ImportDialogComponent } from 'shared/dialogs/import/import-dialog.component';
+import { PricingDefinitionsDialogComponent } from 'shared/pricing-definitions/pricing-definitions.dialog.component';
+import { TableViewPricingDefinitionsAction, TableViewPricingDefinitionsActionDef } from 'shared/table/actions/table-view-pricing-definitions-action';
 import { TableImportUsersAction, TableImportUsersActionDef } from 'shared/table/actions/users/table-import-users-action';
 import { UsersAuthorizations } from 'types/Authorization';
+import { PricingButtonAction, PricingEntity } from 'types/Pricing';
 import { TagButtonAction } from 'types/Tag';
 
 import { AuthorizationService } from '../../../services/authorization.service';
@@ -34,7 +38,7 @@ import { TagTableFilter } from '../../../shared/table/filters/tag-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { DataResult } from '../../../types/DataResult';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
-import { TenantComponents } from '../../../types/Tenant';
+import { TenantComponents, TenantFeatures } from '../../../types/Tenant';
 import { TransactionButtonAction } from '../../../types/Transaction';
 import { User, UserButtonAction } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';
@@ -49,6 +53,7 @@ import { UserDialogComponent } from '../user/user-dialog.component';
 
 @Injectable()
 export class UsersListTableDataSource extends TableDataSource<User> {
+  private readonly isPricingComponentActive: boolean;
   private editAction = new TableEditUserAction().getActionDef();
   private assignSitesToUser = new TableAssignSitesToUserAction().getActionDef();
   private deleteAction = new TableDeleteUserAction().getActionDef();
@@ -58,6 +63,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
   private exportAction = new TableExportUsersAction().getActionDef();
   private importAction = new TableImportUsersAction().getActionDef();
   private createAction = new TableCreateUserAction().getActionDef();
+  private maintainPricingDefinitionsAction = new TableViewPricingDefinitionsAction().getActionDef();
   private usersAuthorizations: UsersAuthorizations;
 
   public constructor(
@@ -70,11 +76,13 @@ export class UsersListTableDataSource extends TableDataSource<User> {
     private centralServerService: CentralServerService,
     private authorizationService: AuthorizationService,
     private componentService: ComponentService,
+    private featureService: FeatureService,
     private appUserRolePipe: AppUserRolePipe,
     private datePipe: AppDatePipe,
     private windowService: WindowService) {
     super(spinnerService, translateService);
     // Init
+    this.isPricingComponentActive = this.componentService.isActive(TenantComponents.PRICING);
     if (this.authorizationService.hasSitesAdminRights()) {
       this.setStaticFilters([{ SiteID: this.authorizationService.getSitesAdmin().join('|') }]);
     }
@@ -293,6 +301,10 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       if (user.canDelete) {
         moreActions.addActionInMoreActions(this.deleteAction);
       }
+      if (this.isPricingComponentActive && user.canMaintainPricingDefinitions &&
+          this.featureService.isActive(TenantFeatures.USER_PRICING)) {
+        rowActions.push(this.maintainPricingDefinitionsAction);
+      }
       if (!Utils.isEmptyArray(moreActions.getActionsInMoreActions())) {
         rowActions.push(moreActions.getActionDef());
       }
@@ -375,6 +387,20 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       case TransactionButtonAction.NAVIGATE_TO_TRANSACTIONS:
         if (actionDef.action) {
           (actionDef as TableOpenURLActionDef).action('transactions#history?UserID=' + user.id + '&Issuer=' + user.issuer, this.windowService);
+        }
+        break;
+      case PricingButtonAction.VIEW_PRICING_DEFINITIONS:
+        if (actionDef.action) {
+          (actionDef as TableViewPricingDefinitionsActionDef).action(PricingDefinitionsDialogComponent, this.dialog, {
+            dialogData: {
+              id: null,
+              context: {
+                entityID: user.id,
+                entityType: PricingEntity.USER,
+                entityName: user.id
+              }
+            },
+          }, this.refreshData.bind(this));
         }
         break;
     }

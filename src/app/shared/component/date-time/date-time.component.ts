@@ -105,10 +105,6 @@ export class DateTimeComponent implements OnInit, OnChanges {
   }
 
   public dateChanged(date: Dayjs) {
-    console.log("🚀 -------------------------------------------------🚀");
-    console.log("🚀 ~ DateTimeComponent ~ dateChanged ~ date", date);
-    console.log("🚀 ~ DateTimeComponent ~ dateChanged ~ date", date.toISOString());
-    console.log("🚀 -------------------------------------------------🚀");
     // Date picker
     if (date) {
       // Force start & end of day if no time picker

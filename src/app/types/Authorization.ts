@@ -231,6 +231,10 @@ export interface UsersAuthorizationActions extends DataResultAuthorizationAction
   canExport?: boolean;
 }
 
+export interface UserAuthorizationActions extends AuthorizationActions {
+  canMaintainPricingDefinitions?: boolean;
+}
+
 export interface AssetsAuthorizations extends AuthorizationAttributes, AssetsAuthorizationActions {
 }
 

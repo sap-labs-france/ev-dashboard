@@ -29,7 +29,8 @@ export interface TenantComponent {
 }
 
 export interface TenantFeature {
-  map?: boolean;
+  chargingStationMap?: boolean;
+  userPricing?: boolean;
 }
 
 export interface TenantComponentContent {
@@ -61,5 +62,6 @@ export enum TenantComponents {
 }
 
 export enum TenantFeatures {
-  CHARGING_STATION_MAP = 'map',
+  CHARGING_STATION_MAP = 'chargingStationMap',
+  USER_PRICING = 'userPricing',
 }

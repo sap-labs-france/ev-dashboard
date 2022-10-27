@@ -76,9 +76,6 @@ export class DateTimeComponent implements OnInit, OnChanges {
       this.dateRangePickerOptions.startDate = dayjs(this.date);
       this.dateRangePickerOptions.noDefaultRangeSelected = false;
     }
-    console.log("🚀 --------------------------------------------------------🚀");
-    console.log("🚀 ~ DateTimeComponent ~ ngOnInit ~ this.date", this.date);
-    console.log("🚀 --------------------------------------------------------🚀");
     if (this.minDate) {
       this.dateRangePickerOptions.minDate = dayjs(this.minDate);
     }
@@ -112,9 +109,6 @@ export class DateTimeComponent implements OnInit, OnChanges {
       this.dateRangePickerOptions.startDate = dayjs(this.date);
       this.dateRangePickerOptions.noDefaultRangeSelected = false;
     }
-    console.log("🚀 -----------------------------------------------------------------🚀");
-    console.log("🚀 ~ DateTimeComponent ~ ngOnChanges ~ this.date", this.date);
-    console.log("🚀 -----------------------------------------------------------------🚀");
     if (this.minDate) {
       this.dateRangePickerOptions.minDate = dayjs(this.minDate);
       // Check constraint
@@ -137,9 +131,6 @@ export class DateTimeComponent implements OnInit, OnChanges {
     this.dateRangePickerOptions = {
       ...this.dateRangePickerOptions,
     };
-    console.log("🚀 -----------------------------------------------------------------------------------------------🚀");
-    console.log("🚀 ~ DateTimeComponent ~ ngOnChanges ~ this.dateRangePickerOptions", this.dateRangePickerOptions);
-    console.log("🚀 -----------------------------------------------------------------------------------------------🚀");
   }
 
   public showCalendar() {
@@ -147,9 +138,6 @@ export class DateTimeComponent implements OnInit, OnChanges {
   }
 
   public dateChanged(date: Dayjs) {
-    console.log("🚀 -------------------------------------------------🚀");
-    console.log("🚀 ~ DateTimeComponent ~ dateChanged ~ date", date);
-    console.log("🚀 -------------------------------------------------🚀");
     // Date picker
     if (date && date.isValid()) {
       // Force start & end of day if no time picker

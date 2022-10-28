@@ -1,8 +1,9 @@
 import { Location, PopStateEvent } from '@angular/common';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { NavigationEnd, NavigationStart, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
+import { WindowService } from 'services/window.service';
+import { Utils } from 'utils/Utils';
 
 import { NavbarComponent } from '../../shared/navbar/navbar.component';
 
@@ -12,18 +13,27 @@ declare const $: any;
   selector: 'app-layout',
   templateUrl: 'admin-layout.component.html',
 })
-
 export class AdminLayoutComponent implements OnInit, AfterViewInit {
   @ViewChild('sidebar') public sidebar: any;
   @ViewChild(NavbarComponent, { static: true }) public navbar!: NavbarComponent;
 
   public url!: string;
   public location: Location;
+  public showSidebar = true;
 
   private lastPoppedUrl!: string | null;
   private yScrollStack: number[] = [];
 
-  public constructor(private router: Router, location: Location) {
+  public constructor(
+    private windowService: WindowService,
+    private router: Router, location: Location
+  ) {
+    // Hide/Show Sidebar
+    const showSidebar = this.windowService.getUrlParameterValue('ShowSidebar');
+    if (!Utils.isNullOrUndefined(showSidebar)) {
+      this.showSidebar = Utils.convertToBoolean(
+        this.windowService.getUrlParameterValue('ShowSidebar'));
+    }
     this.location = location;
   }
 

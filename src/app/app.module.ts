@@ -66,8 +66,8 @@ import { Observable, Observer } from 'rxjs';
 import { FeatureService } from 'services/feature.service';
 import { UtilsService } from 'services/utils.service';
 
-import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { AppRoutingModule } from './app.routing';
 import { BrowserNotSupportedModule } from './browser-not-supported/browser-not-supported.module';
 import { DevEnvGuard } from './guard/development.guard';
 import { RouteGuardService } from './guard/route-guard';
@@ -181,7 +181,6 @@ const initAppFactory = (centralServerService: CentralServerService, configServic
       }
     });
   }));
-
 @Injectable()
 class CustomTranslateDefaultParser extends TranslateDefaultParser {
   public getValue(target: any, key: string): any {

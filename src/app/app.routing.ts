@@ -8,7 +8,7 @@ import { AuthLayoutComponent } from './layouts/auth/auth-layout.component';
 import { ReleaseNotesComponent } from './release-notes/release-notes.component';
 import { Action, Entity } from './types/Authorization';
 
-const routes: Routes = [
+const appRoutes: Routes = [
   {
     path: 'auth', component: AuthLayoutComponent,
     loadChildren: async () => (await import('./authentication/authentication.module')).AuthenticationModule,
@@ -278,7 +278,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {
+  imports: [RouterModule.forRoot(appRoutes, {
     useHash: false,
     scrollPositionRestoration: 'enabled',
   })],

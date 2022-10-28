@@ -1,9 +1,8 @@
-<div class="wrapper">
-  <div class="sidebar" data-image="./assets/img/sidebar-1.jpg">
+<div class="wrapper row ms-0">
+  <div *ngIf="showSidebar" class="sidebar">
     <app-sidebar-cmp></app-sidebar-cmp>
-    <div class="sidebar-background"></div>
   </div>
-  <div class="main-panel d-flex flex-column">
+  <div class="main-panel col">
     <app-navbar></app-navbar>
     <div class="full-content">
       <router-outlet></router-outlet>

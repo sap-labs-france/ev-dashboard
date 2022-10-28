@@ -1,5 +1,6 @@
 {
   "general": {
+    "generate": "Generate",
     "captcha_text_1": "Este site esta protegido com reCAPTCHA e Google",
     "captcha_text_2": "Politica Privada",
     "captcha_text_3": " e ",

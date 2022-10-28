@@ -1,5 +1,6 @@
 {
   "general": {
+    "generate": "Generate",
     "captcha_text_1": "Tato stránka je chráněná reCAPTCHA a uplatňuje",
     "captcha_text_2": "zásady ochrany soukromí ",
     "captcha_text_3": "a",

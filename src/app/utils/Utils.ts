@@ -22,7 +22,11 @@ import { FilterType, TableDataSourceMode, TableFilterDef } from '../types/Table'
 import { Constants } from './Constants';
 
 export class Utils {
-  public static shrinkObjectProperties(properties: any): any {
+  public static generateTagID(size = 8): string {
+    return [...Array(size)].map(() => Math.floor(Math.random() * 16).toString(16)).join('').toUpperCase();
+  }
+
+  public static shrinkObjectProperties(properties: any): any  {
     for (const propertyName in properties) {
       if (!properties[propertyName]) {
         delete properties[propertyName];

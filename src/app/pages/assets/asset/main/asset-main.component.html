@@ -12,7 +12,7 @@
             [ngStyle]="{'background-image': 'url(' + image + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
             <div *ngIf="!readOnly" class="card-body">
               <div class="footer text-center">
-                <button mat-flat-button color="primary" class="me-2">
+                <button mat-flat-button color="primary" class="me-1">
                   <mat-icon (click)="file.click()">mode_edit</mat-icon>
                   <div class="d-none">
                     <input #file type="file" name="..." (change)="onImageChanged($event)"

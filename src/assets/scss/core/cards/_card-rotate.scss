@@ -1,3 +1,4 @@
+
 .rotating-card-container {
   @include perspective(800px);
 
@@ -16,6 +17,7 @@
     position: relative;
 
     .back, .front {
+      @include backface-visibility(hidden);
       // @include shadow-2dp();
       position: absolute;
       background-color: $brand-background;

@@ -59,8 +59,8 @@ export class AccountBillingComponent implements OnInit, OnChanges {
         const accountData = this.entity.accountData;
         this.accountID.setValue(accountData.accountID);
         this.companyName.setValue(accountData.account.companyName);
-        this.flatFee.setValue(accountData.platformFeeStrategy.flatFeePerSession);
-        this.percentage.setValue(accountData.platformFeeStrategy.percentage);
+        this.flatFee.setValue(accountData.platformFeeStrategy?.flatFeePerSession);
+        this.percentage.setValue(accountData.platformFeeStrategy?.percentage);
         this.businessOwnerName = Utils.buildUserFullName(accountData.account.businessOwner);
       }
     }

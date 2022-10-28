@@ -12,7 +12,7 @@
             <div class="col-md-12 col-lg-5 mb-3">
               <div class="card card-background mt-0 mb-0">
                 <img class="front front-background" alt="" crossorigin="anonymous"
-                  [src]="carCatalog.image" onerror="this.src='/assets/img/theme/no-image.png';">
+                  [src]="carCatalog?.image" onerror="this.src='/assets/img/theme/no-image.png';">
               </div>
             </div>
             <div class="col-md-12 col-lg-7 text-left">
@@ -26,27 +26,27 @@
               </div>
               <div class="row mt-3">
                 <div class="col-md-4 fw-bold">{{"cars.vehicle_model_version" | translate}}</div>
-                <div class="col-md-8">{{carCatalog?.vehicleModelVersion ? carCatalog.vehicleModelVersion : '-'}}</div>
+                <div class="col-md-8">{{carCatalog?.vehicleModelVersion ?? '-'}}</div>
               </div>
               <div class="row mt-3">
                 <div class="col-md-4 fw-bold">{{"cars.performance_acceleration" | translate}}</div>
-                <div class="col-md-8">{{carCatalog?.performanceAcceleration ? carCatalog.performanceAcceleration : '-'}} {{"cars.unit.seconde" | translate}}</div>
+                <div class="col-md-8">{{carCatalog?.performanceAcceleration ?? '-'}} {{"cars.unit.seconde" | translate}}</div>
               </div>
               <div class="row mt-3">
                 <div class="col-md-4 fw-bold">{{"cars.drivetrain_torque" | translate}}</div>
-                <div class="col-md-8">{{carCatalog?.drivetrainTorque ? carCatalog.drivetrainTorque : '-'}} {{"cars.unit.newton_metre" | translate}}</div>
+                <div class="col-md-8">{{carCatalog?.drivetrainTorque ?? '-'}} {{"cars.unit.newton_metre" | translate}}</div>
               </div>
               <div class="row mt-3">
                 <div class="col-md-4 fw-bold">{{"cars.performance_top_speed" | translate}}</div>
-                <div class="col-md-8">{{carCatalog?.performanceTopspeed ? carCatalog.performanceTopspeed : '-'}} km/h</div>
+                <div class="col-md-8">{{carCatalog?.performanceTopspeed ?? '-'}} km/h</div>
               </div>
               <div class="row mt-3">
                 <div class="col-md-4 fw-bold">{{"cars.drivetrain_propulsion" | translate}}</div>
-                <div class="col-md-8">{{carCatalog?.drivetrainPropulsion ? carCatalog.drivetrainPropulsion : '-'}}</div>
+                <div class="col-md-8">{{carCatalog?.drivetrainPropulsion ?? '-'}}</div>
               </div>
               <div class="row mt-3">
                 <div class="col-md-4 fw-bold">{{"cars.misc_turning_circle" | translate}}</div>
-                <div class="col-md-8">{{carCatalog?.miscTurningCircle ? carCatalog.miscTurningCircle : '-'}} {{"cars.unit.meters" | translate}}</div>
+                <div class="col-md-8">{{carCatalog?.miscTurningCircle ?? '-'}} {{"cars.unit.meters" | translate}}</div>
               </div>
             </div>
           </div>
@@ -68,7 +68,7 @@
             </div>
             <div class="row mt-3">
               <div class="col-md-5 col-xl-3 fw-bold">{{"cars.charge_plug" | translate}}</div>
-              <div class="col-md-7 col-xl-9">{{carCatalog?.chargePlug ? carCatalog.chargePlug : '-'}}</div>
+              <div class="col-md-7 col-xl-9">{{carCatalog?.chargePlug ?? '-'}}</div>
             </div>
             <div class="row mt-3">
               <div class="col-md-5 col-xl-3 fw-bold">{{"cars.charge_standard_power" | translate}}</div>
@@ -76,27 +76,27 @@
             </div>
             <div class="row mt-3">
               <div class="col-md-5 col-xl-3 fw-bold">{{"cars.evse_phase_ac_standard" | translate}}</div>
-              <div class="col-md-7 col-xl-9">{{carCatalog?.chargeStandardPhase ? carCatalog.chargeStandardPhase : '-'}}</div>
+              <div class="col-md-7 col-xl-9">{{carCatalog?.chargeStandardPhase ?? '-'}}</div>
             </div>
             <div class="row mt-3">
               <div class="col-md-5 col-xl-3 fw-bold">{{"cars.charge_option_power" | translate}}</div>
-              <div class="col-md-7 col-xl-9">{{carCatalog.chargeOptionPower | appDecimal:'1.0-1'}} {{"cars.unit.kilowatt" | translate}}</div>
+              <div class="col-md-7 col-xl-9">{{carCatalog?.chargeOptionPower | appDecimal:'1.0-1'}} {{"cars.unit.kilowatt" | translate}}</div>
             </div>
             <div class="row mt-3">
               <div class="col-md-5 col-xl-3 fw-bold">{{"cars.evse_phase_ac_option" | translate}}</div>
-              <div class="col-md-7 col-xl-9">{{carCatalog.chargeOptionPhase}}</div>
+              <div class="col-md-7 col-xl-9">{{carCatalog?.chargeOptionPhase}}</div>
             </div>
             <div class="row mt-3">
               <div class="col-md-5 col-xl-3 fw-bold">{{"cars.charge_alternative_power" | translate}}</div>
-              <div class="col-md-7 col-xl-9">{{carCatalog.chargeAlternativePower | appDecimal:'1.0-1'}} {{"cars.unit.kilowatt" | translate}}</div>
+              <div class="col-md-7 col-xl-9">{{carCatalog?.chargeAlternativePower | appDecimal:'1.0-1'}} {{"cars.unit.kilowatt" | translate}}</div>
             </div>
             <div class="row mt-3">
               <div class="col-md-5 col-xl-3 fw-bold">{{"cars.evse_phase_ac_alternative" | translate}}</div>
-              <div class="col-md-7 col-xl-9">{{carCatalog.chargeAlternativePhase}}</div>
+              <div class="col-md-7 col-xl-9">{{carCatalog?.chargeAlternativePhase}}</div>
             </div>
             <div class="row mt-3">
               <div class="col-md-5 col-xl-3 fw-bold">{{"cars.fast_charge_plug" | translate}}</div>
-              <div class="col-md-7 col-xl-9">{{carCatalog?.fastChargePlug ? carCatalog.fastChargePlug : '-'}}</div>
+              <div class="col-md-7 col-xl-9">{{carCatalog?.fastChargePlug ?? '-'}}</div>
             </div>
             <div class="row mt-3">
               <div class="col-md-5 col-xl-3 fw-bold">{{"cars.fast_charge_power_max" | translate}}</div>
@@ -104,7 +104,7 @@
             </div>
             <div class="row mt-3">
               <div class="col-md-5 col-xl-3 fw-bold">{{"cars.charge_plug_location" | translate}}</div>
-              <div class="col-md-7 col-xl-9">{{carCatalog?.chargePlugLocation ? carCatalog.chargePlugLocation : '-'}}</div>
+              <div class="col-md-7 col-xl-9">{{carCatalog?.chargePlugLocation ?? '-'}}</div>
             </div>
           </div>
         </div>
@@ -127,23 +127,23 @@
           <div class="col-md-12 w-100 align-items-start text-left">
             <div class="row">
               <div class="col-md-3 col-xl-2 fw-bold">{{"cars.misc_seats" | translate}}</div>
-              <div class="col-md-9 col-xl-10">{{carCatalog?.miscSeats ? carCatalog.miscSeats : '-'}}</div>
+              <div class="col-md-9 col-xl-10">{{carCatalog?.miscSeats ?? '-'}}</div>
             </div>
             <div class="row mt-3">
               <div class="col-md-3 col-xl-2 fw-bold">{{"cars.misc_body" | translate}}</div>
-              <div class="col-md-9 col-xl-10">{{carCatalog?.miscBody ? carCatalog.miscBody : '-'}}</div>
+              <div class="col-md-9 col-xl-10">{{carCatalog?.miscBody ?? '-'}}</div>
             </div>
             <div class="row mt-3">
               <div class="col-md-3 col-xl-2 fw-bold">{{"cars.misc_isofix" | translate}}</div>
-              <div class="col-md-9 col-xl-10">{{carCatalog?.miscIsofix ? carCatalog.miscIsofix : '-'}}</div>
+              <div class="col-md-9 col-xl-10">{{carCatalog?.miscIsofix ?? '-'}}</div>
             </div>
             <div class="row mt-3">
               <div class="col-md-3 col-xl-2 fw-bold">{{"cars.misc_isofix_seats" | translate}}</div>
-              <div class="col-md-9 col-xl-10">{{carCatalog?.miscIsofixSeats ? carCatalog.miscIsofixSeats : '-'}}</div>
+              <div class="col-md-9 col-xl-10">{{carCatalog?.miscIsofixSeats ?? '-'}}</div>
             </div>
             <div class="row mt-3">
               <div class="col-md-3 col-xl-2 fw-bold">{{"cars.misc_segment" | translate}}</div>
-              <div class="col-md-9 col-xl-10">{{carCatalog?.miscSegment ? carCatalog.miscSegment : '-'}}</div>
+              <div class="col-md-9 col-xl-10">{{carCatalog?.miscSegment ?? '-'}}</div>
             </div>
           </div>
         </div>

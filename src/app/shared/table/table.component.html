@@ -145,7 +145,8 @@
         <!-- Search -->
         <div *ngIf="dataSource.isSearchEnabled" class="col-12 search-form">
           <mat-form-field>
-            <input [appAutofocus]="!isMobile" autocomplete="off" #searchInput [placeholder]="searchPlaceholder | translate" matInput>
+            <input *ngIf="isMobile" autocomplete="off" #searchInput [placeholder]="searchPlaceholder | translate" matInput>
+            <input *ngIf="!isMobile" appAutofocus autocomplete="off" #searchInput [placeholder]="searchPlaceholder | translate" matInput>
             <button mat-icon-button matSuffix (click)="resetSearchFilter()" aria-label="Clear">
               <mat-icon>clear</mat-icon>
             </button>

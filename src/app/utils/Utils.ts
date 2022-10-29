@@ -316,6 +316,15 @@ export class Utils {
     return Utils.getMobileVendor() !== null;
   }
 
+  public static getMobileVendor(): MobileType | null {
+    if (navigator.userAgent.match(/iPad/i) || navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPod/i)) {
+      return MobileType.IOS;
+    } else if (navigator.userAgent.match(/Android/i)) {
+      return MobileType.ANDROID;
+    }
+    return null;
+  }
+
   public static replaceSpecialCharsInCSVValueParam(value: string): string {
     return value ? value.replace(/\n/g, '') : '';
   }
@@ -829,15 +838,6 @@ export class Utils {
       converterName += ` - ${converter.amperagePerPhase} A`;
     }
     return converterName;
-  }
-
-  public static getMobileVendor(): MobileType | null {
-    if (navigator.userAgent.match(/iPad/i) || navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPod/i)) {
-      return MobileType.IOS;
-    } else if (navigator.userAgent.match(/Android/i)) {
-      return MobileType.ANDROID;
-    }
-    return null;
   }
 
   public static handleHttpError(error: any, router: Router, messageService: MessageService,

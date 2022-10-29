@@ -48,7 +48,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     public windowService: WindowService,
     private dialog: MatDialog) {
     this.searchPlaceholder = this.translateService.instant('general.search');
-    this.isMobile = Utils.isInMobileApp();
+    this.isMobile = Utils.isMobile();
   }
 
   public ngOnInit() {
@@ -72,7 +72,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public ngAfterViewInit() {
-    // HACK: Avoid ERROR Error: ExpressionChangedAfterItHasBeenCheckedError: Expression has changed after it was checked
+    // Avoid ERROR Error: ExpressionChangedAfterItHasBeenCheckedError: Expression has changed after it was checked
     setTimeout(() => {
       this.alive = true;
       // Init Search

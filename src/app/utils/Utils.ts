@@ -312,7 +312,7 @@ export class Utils {
     messageService.showErrorMessage(errorMessage, params);
   }
 
-  public static isInMobileApp(): boolean {
+  public static isMobile(): boolean {
     return Utils.getMobileVendor() !== null;
   }
 
@@ -832,23 +832,12 @@ export class Utils {
   }
 
   public static getMobileVendor(): MobileType | null {
-    const userAgent: string = navigator.userAgent as string || navigator.vendor as string || window['opera'] as string;
-    if (userAgent.match(/iPad/i) || userAgent.match(/iPhone/i) || userAgent.match(/iPod/i)) {
+    if (navigator.userAgent.match(/iPad/i) || navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPod/i)) {
       return MobileType.IOS;
-    } else if (userAgent.match(/Android/i)) {
+    } else if (navigator.userAgent.match(/Android/i)) {
       return MobileType.ANDROID;
     }
     return null;
-  }
-
-  public static buildMobileAppDeepLink(path: string): string {
-    const mobileVendor = Utils.getMobileVendor();
-    switch (mobileVendor) {
-      case MobileType.IOS:
-        return `eMobility://${path}`;
-      case MobileType.ANDROID:
-        return `intent://${path}#Intent;scheme=eMobility;package=com.chargeangels;end`;
-    }
   }
 
   public static handleHttpError(error: any, router: Router, messageService: MessageService,

@@ -3,6 +3,8 @@ import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core'
 import { ActivatedRoute, NavigationEnd, NavigationStart, Router } from '@angular/router';
 import * as jQuery from 'jquery';
 import { filter } from 'rxjs/operators';
+import { WindowService } from 'services/window.service';
+import { Utils } from 'utils/Utils';
 
 import { RouteGuardService } from '../../guard/route-guard';
 
@@ -16,6 +18,9 @@ export class NavbarComponent implements OnInit {
   public location: Location;
   public mobileMenuVisible: any = 0;
   public sidebarMinimized: boolean;
+  public filterAreaVisible = true;
+  public isMobile = false;
+
   private listTitles!: any[];
   private toggleButton: any;
   private sidebarVisible: boolean;
@@ -25,11 +30,13 @@ export class NavbarComponent implements OnInit {
     private element: ElementRef,
     private router: Router,
     private activatedRoute: ActivatedRoute,
+    public windowService: WindowService,
     private guard: RouteGuardService,
     @Inject(DOCUMENT) private document: Document) {
     this.location = location;
+    this.isMobile = Utils.isMobile();
     this.sidebarVisible = false;
-
+    this.filterAreaVisible = this.windowService.isFilterAreaVisible();
     // On Router Change
     router.events.pipe(
       filter(event => event instanceof NavigationStart)
@@ -38,6 +45,10 @@ export class NavbarComponent implements OnInit {
         this.mobileMenuVisible = 0;
       }
     });
+  }
+
+  public toggleFilterAreaVisible(filterAreaVisible: boolean) {
+    this.windowService.setFilterAreaVisible(filterAreaVisible);
   }
 
   public minimizeSidebar() {

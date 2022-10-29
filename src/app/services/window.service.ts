@@ -1,16 +1,23 @@
 import { Clipboard } from '@angular/cdk/clipboard';
 import { Inject, Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import { parse } from 'tldts';
+import { Utils } from 'utils/Utils';
 
 import { WINDOW } from '../providers/window.provider';
 
 @Injectable()
 export class WindowService {
-  // eslint-disable-next-line no-useless-constructor
+  private filterAreaVisible!: boolean;
+  private filterAreaVisibleSubject = new BehaviorSubject<boolean>(this.filterAreaVisible);
+
   public constructor(
     @Inject(WINDOW) private window: Window,
     private clipboard: Clipboard,
-  ) {}
+  ) {
+    this.filterAreaVisible = !Utils.isMobile();
+    this.filterAreaVisibleSubject.next(this.filterAreaVisible);
+  }
 
   public getHostname(): string {
     return this.window.location.hostname;
@@ -63,6 +70,19 @@ export class WindowService {
     if (this.getHash() !== hash) {
       this.window.history.replaceState({}, '', `${this.getPath()}#${hash}`);
     }
+  }
+
+  public getFilterAreaVisibleSubject(): BehaviorSubject<boolean> {
+    return this.filterAreaVisibleSubject;
+  }
+
+  public setFilterAreaVisible(filtersVisible: boolean) {
+    this.filterAreaVisible = filtersVisible;
+    this.filterAreaVisibleSubject.next(this.filterAreaVisible);
+  }
+
+  public isFilterAreaVisible(): boolean {
+    return this.filterAreaVisible;
   }
 
   public getUrlParameterValue(name: string): string {

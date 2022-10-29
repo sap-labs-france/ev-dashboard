@@ -6,8 +6,9 @@
       <span class="navbar-toggler-icon icon-bar"></span>
       <span class="navbar-toggler-icon icon-bar"></span>
     </button>
-    <div class="navbar-wrapper">
-      <a class="navbar-brand text-center" routerLink="/"> {{'general.app_name' | translate}}</a>
-    </div>
+    <mat-slide-toggle appTooltip *ngIf="isMobile" (change)="toggleFilterAreaVisible($event.checked)"
+      [checked]="filterAreaVisible" class="me-2" title="{{'general.auto_refresh' | translate}}">
+      {{'general.show_filters' | translate}}
+    </mat-slide-toggle>
   </div>
 </nav>

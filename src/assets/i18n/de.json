@@ -1,6 +1,7 @@
 {
   "general": {
     "url_copied": "The link has been copied with success",
+    "show_filters": "Show Filters",
     "reset": "Reset",
     "generate": "Generate",
     "history": "History",

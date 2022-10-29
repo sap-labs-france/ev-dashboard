@@ -32,6 +32,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   public numberOfColumns = 0;
   public loading = false;
   public isMobile = false;
+  public filterAreaVisible = true;
 
   public readonly FilterType = FilterType;
   public readonly TableEditType = TableEditType;
@@ -49,6 +50,9 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     private dialog: MatDialog) {
     this.searchPlaceholder = this.translateService.instant('general.search');
     this.isMobile = Utils.isMobile();
+    this.windowService.getFilterAreaVisibleSubject().subscribe((filterAreaVisible) => {
+      this.filterAreaVisible = filterAreaVisible;
+    });
   }
 
   public ngOnInit() {

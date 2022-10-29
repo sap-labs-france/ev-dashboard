@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import * as dayjs from 'dayjs';
+import { WindowService } from 'services/window.service';
 import { ChargingStationTableFilter } from 'shared/table/filters/charging-station-table-filter';
 import { DateRangeTableFilter } from 'shared/table/filters/date-range-table-filter';
 import { IssuerFilter } from 'shared/table/filters/issuer-filter';
@@ -55,6 +56,7 @@ export class StatisticsFiltersComponent implements OnInit {
   public selectedCategory = 'C';
   public activeButtonOfScopeGroup!: StatisticsButtonGroup;
   public tableFiltersDef?: TableFilterDef[] = [];
+  public filterAreaVisible = true;
 
   private filterParams = {};
 
@@ -62,9 +64,13 @@ export class StatisticsFiltersComponent implements OnInit {
     private authorizationService: AuthorizationService,
     private translateService: TranslateService,
     private componentService: ComponentService,
+    public windowService: WindowService,
     private centralServerService: CentralServerService,
     private dialog: MatDialog
   ) {
+    this.windowService.getFilterAreaVisibleSubject().subscribe((filterAreaVisible) => {
+      this.filterAreaVisible = filterAreaVisible;
+    });
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
     const issuerFilter = new IssuerFilter().getFilterDef();
     const dateRangeFilter = new DateRangeTableFilter({

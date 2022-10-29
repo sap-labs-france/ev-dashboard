@@ -8,6 +8,7 @@ import { CentralServerService } from 'services/central-server.service';
 import { ConfigService } from 'services/config.service';
 import { MessageService } from 'services/message.service';
 import { SpinnerService } from 'services/spinner.service';
+import { WindowService } from 'services/window.service';
 import { ChargePointStatus, ChargingStation, Connector } from 'types/ChargingStation';
 import { ChargingStationsMapActionsDialogData, ChargingStationsMapActionsDialogResult } from 'types/Dialog';
 import { FilterParams } from 'types/GlobalType';
@@ -30,6 +31,7 @@ export class ChargingStationsMapComponent implements OnInit, AfterViewInit {
   public zoom = 4;
   public chargingStations: ChargingStation[] = [];
   public loading = false;
+  public filterAreaVisible = true;
 
   private markerCluster: MarkerClusterer;
   private markersMap: Map<string, google.maps.Marker> = new Map();
@@ -42,10 +44,14 @@ export class ChargingStationsMapComponent implements OnInit, AfterViewInit {
     private spinnerService: SpinnerService,
     private router: Router,
     private zone: NgZone,
+    public windowService: WindowService,
     private messageService: MessageService,
     private configService: ConfigService,
     private dialog: MatDialog,
   ) {
+    this.windowService.getFilterAreaVisibleSubject().subscribe((filterAreaVisible) => {
+      this.filterAreaVisible = filterAreaVisible;
+    });
     // Set default params
     this.center = {
       lat: 51.476852,

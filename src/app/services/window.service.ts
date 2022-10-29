@@ -66,7 +66,7 @@ export class WindowService {
   }
 
   public getUrlParameterValue(name: string): string {
-    let value = '';
+    let value = null;
     if (window.location.search) {
       value = new URLSearchParams(window.location.search).get(name);
     } else if (window.location.hash) {

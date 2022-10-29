@@ -19,7 +19,7 @@ export class AdminLayoutComponent implements OnInit {
 
   public url!: string;
   public location: Location;
-  public showSidebar = true;
+  public sidebarVisible = true;
 
   private lastPoppedUrl!: string | null;
   private yScrollStack: number[] = [];
@@ -30,8 +30,8 @@ export class AdminLayoutComponent implements OnInit {
   ) {
     // Hide/Show Sidebar
     const showSidebar = this.windowService.getUrlParameterValue('ShowSidebar');
-    if (!Utils.isNullOrUndefined(showSidebar)) {
-      this.showSidebar = Utils.convertToBoolean(
+    if (showSidebar) {
+      this.sidebarVisible = Utils.convertToBoolean(
         this.windowService.getUrlParameterValue('ShowSidebar'));
     }
     this.location = location;

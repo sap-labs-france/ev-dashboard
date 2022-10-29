@@ -24,7 +24,7 @@ export const ChargingStationsRoutes: Routes = [
     },
   },
   {
-    path: 'section/map', component: ChargingStationsMapComponent, canActivate: [RouteGuardService], data: {
+    path: 'view/map', component: ChargingStationsMapComponent, canActivate: [RouteGuardService], data: {
       auth: {
         entity: Entity.CHARGING_STATION,
         action: Action.LIST,

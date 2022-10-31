@@ -141,24 +141,26 @@ export class ChargingStationsMapComponent implements OnInit, AfterViewInit {
   }
 
   public markerClicked(positionClicked: { latLng: google.maps.LatLng }) {
-    // Get the Marker
-    const marker = this.getMarkerByCoordinates(positionClicked);
-    // Get the Charging Station
-    const chargingStation = this.getChargingStationByID(marker.getTitle());
-    // Open the dialog
-    const dialogConfig = new MatDialogConfig<ChargingStationsMapActionsDialogData>();
-    dialogConfig.minWidth = '30vw';
-    dialogConfig.panelClass = '';
-    // Build dialog data
-    dialogConfig.data = {
-      dialogData: {
-        marker,
-        chargingStation,
-      },
-    };
-    // Show
-    this.dialog.open<ChargingStationsMapActionsDialogComponent, ChargingStationsMapActionsDialogData, ChargingStationsMapActionsDialogResult>(
-      ChargingStationsMapActionsDialogComponent, dialogConfig);
+    if (this.toolbarVisible) {
+      // Get the Marker
+      const marker = this.getMarkerByCoordinates(positionClicked);
+      // Get the Charging Station
+      const chargingStation = this.getChargingStationByID(marker.getTitle());
+      // Open the dialog
+      const dialogConfig = new MatDialogConfig<ChargingStationsMapActionsDialogData>();
+      dialogConfig.minWidth = '30vw';
+      dialogConfig.panelClass = '';
+      // Build dialog data
+      dialogConfig.data = {
+        dialogData: {
+          marker,
+          chargingStation,
+        },
+      };
+      // Show
+      this.dialog.open<ChargingStationsMapActionsDialogComponent, ChargingStationsMapActionsDialogData, ChargingStationsMapActionsDialogResult>(
+        ChargingStationsMapActionsDialogComponent, dialogConfig);
+    }
   }
 
   public resetZoom() {

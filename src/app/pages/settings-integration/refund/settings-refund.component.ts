@@ -12,7 +12,6 @@ import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { TableSyncRefundTransactionsAction } from '../../../shared/table/actions/transactions/table-sync-refund-transactions-action';
 import { RestResponse } from '../../../types/GlobalType';
-import { HTTPError } from '../../../types/HTTPError';
 import { RefundSettings, RefundSettingsType } from '../../../types/Setting';
 import { TenantComponents } from '../../../types/Tenant';
 import { Utils } from '../../../utils/Utils';

@@ -8,7 +8,6 @@ import { ComponentService } from '../../../services/component.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { RestResponse } from '../../../types/GlobalType';
-import { HTTPError } from '../../../types/HTTPError';
 import { OicpSetting, RoamingSettings, RoamingSettingsType } from '../../../types/Setting';
 import { TenantComponents } from '../../../types/Tenant';
 import { Constants } from '../../../utils/Constants';
@@ -20,7 +19,6 @@ import { Utils } from '../../../utils/Utils';
 })
 export class SettingsOicpComponent implements OnInit {
   public isActive = false;
-  public readOnly = true;
 
   public formGroup!: UntypedFormGroup;
   public logoGroup!: UntypedFormGroup;

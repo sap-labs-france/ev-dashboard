@@ -38,7 +38,7 @@ export class ChargingStationsMapComponent implements OnInit, AfterViewInit {
   private markerCluster: MarkerClusterer;
   private markersMap: Map<string, google.maps.Marker> = new Map();
   private markerLabelsVisible = false;
-  private bounds;
+  private bounds: google.maps.LatLngBounds;
   private searchValue = '';
 
   public constructor(
@@ -110,11 +110,11 @@ export class ChargingStationsMapComponent implements OnInit, AfterViewInit {
       distinctUntilChanged(),
     ).subscribe((text: string) => {
       this.searchValue = text;
-      this.loadMapData();
+      this.loadMapData(false, false ,true);
     });
   }
 
-  public loadMapData(autoRefresh = false, initialLoading = false) {
+  public loadMapData(autoRefresh = false, initialLoading = false, searchTriggered = false) {
     this.loading = true;
     const params: FilterParams = {
       ProjectFields: 'id|coordinates|issuer|connectors.status',
@@ -123,6 +123,9 @@ export class ChargingStationsMapComponent implements OnInit, AfterViewInit {
     };
     if (initialLoading || !autoRefresh) {
       this.spinnerService.show();
+    }
+    if (!this.bounds || initialLoading || searchTriggered) {
+      this.bounds = new google.maps.LatLngBounds();
     }
     this.centralServerService.getChargingStations(params, Constants.MAX_PAGING).subscribe({
       next: (chargingStations) => {
@@ -133,7 +136,7 @@ export class ChargingStationsMapComponent implements OnInit, AfterViewInit {
           this.cleanUpMarkers();
         }
         // Add or Update Markers
-        this.addOrUpdateMarkers(initialLoading);
+        this.addOrUpdateMarkers(initialLoading, searchTriggered);
         // Hide spinner
         if (initialLoading || !autoRefresh) {
           this.spinnerService.hide();
@@ -170,7 +173,7 @@ export class ChargingStationsMapComponent implements OnInit, AfterViewInit {
   }
 
   public resetZoom() {
-    if (this.bounds) {
+    if (!this.loading) {
       this.googleMapService.fitBounds(this.bounds);
     }
   }
@@ -182,7 +185,7 @@ export class ChargingStationsMapComponent implements OnInit, AfterViewInit {
   public resetSearchFilter() {
     this.searchInput.nativeElement.value = '';
     this.searchValue = '';
-    this.loadMapData();
+    this.loadMapData(false, false ,true);
   }
 
   private updateMarkerLabels() {
@@ -247,10 +250,9 @@ export class ChargingStationsMapComponent implements OnInit, AfterViewInit {
     return '/assets/img/map/ev_station_unknown.svg';
   }
 
-  private addOrUpdateMarkers(initialLoading: boolean) {
+  private addOrUpdateMarkers(initialLoading: boolean, searchTriggered: boolean) {
     let marker: google.maps.Marker;
     const labelOrigin = new google.maps.Point(15, -10);
-    this.bounds = new google.maps.LatLngBounds();
     // Add Markers
     for (const chargingStation of this.chargingStations) {
       // Build coordinates
@@ -295,12 +297,12 @@ export class ChargingStationsMapComponent implements OnInit, AfterViewInit {
         });
       }
       // Extend only at first loading
-      if (initialLoading || this.searchValue) {
+      if (initialLoading || searchTriggered) {
         this.bounds.extend(latLng);
       }
     }
     // Show all Markers
-    if (!Utils.isEmptyArray(this.chargingStations) && (initialLoading || this.searchValue)) {
+    if (!Utils.isEmptyArray(this.chargingStations) && (initialLoading || searchTriggered)) {
       this.googleMapService.fitBounds(this.bounds);
     }
   }

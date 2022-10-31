@@ -68,7 +68,7 @@ export class StatisticsFiltersComponent implements OnInit {
     private centralServerService: CentralServerService,
     private dialog: MatDialog
   ) {
-    this.windowService.getFilterAreaVisibleSubject().subscribe((filterAreaVisible) => {
+    this.windowService.getFilterbarVisibleSubject().subscribe((filterAreaVisible) => {
       this.filterAreaVisible = filterAreaVisible;
     });
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();

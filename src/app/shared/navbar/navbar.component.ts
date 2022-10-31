@@ -36,7 +36,7 @@ export class NavbarComponent implements OnInit {
     this.location = location;
     this.isMobile = Utils.isMobile();
     this.sidebarVisible = false;
-    this.filterAreaVisible = this.windowService.isFilterAreaVisible();
+    this.filterAreaVisible = this.windowService.isFilterbarVisible();
     // On Router Change
     router.events.pipe(
       filter(event => event instanceof NavigationStart)
@@ -48,7 +48,7 @@ export class NavbarComponent implements OnInit {
   }
 
   public toggleFilterAreaVisible(filterAreaVisible: boolean) {
-    this.windowService.setFilterAreaVisible(filterAreaVisible);
+    this.windowService.setFilterbarVisible(filterAreaVisible);
   }
 
   public minimizeSidebar() {

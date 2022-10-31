@@ -1,9 +1,9 @@
 <div class="wrapper row ms-0">
-  <div [hidden]="sidebarVisible" class="sidebar">
+  <div [hidden]="!sidebarVisible" class="sidebar">
     <app-sidebar-cmp></app-sidebar-cmp>
   </div>
   <div class="main-panel col">
-    <app-navbar [hidden]="sidebarVisible"></app-navbar>
+    <app-navbar [hidden]="!sidebarVisible"></app-navbar>
     <div class="full-content">
       <router-outlet></router-outlet>
     </div>

@@ -32,7 +32,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   public numberOfColumns = 0;
   public loading = false;
   public isMobile = false;
-  public filterAreaVisible = true;
+  public filterbarVisible = true;
+  public toolbarVisible = true;
 
   public readonly FilterType = FilterType;
   public readonly TableEditType = TableEditType;
@@ -50,9 +51,19 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     private dialog: MatDialog) {
     this.searchPlaceholder = this.translateService.instant('general.search');
     this.isMobile = Utils.isMobile();
-    this.windowService.getFilterAreaVisibleSubject().subscribe((filterAreaVisible) => {
-      this.filterAreaVisible = filterAreaVisible;
+    // Show/Hide Filters
+    this.windowService.getFilterbarVisibleSubject().subscribe((filterAreaVisible) => {
+      this.filterbarVisible = filterAreaVisible;
     });
+    const showFilterbar = this.windowService.getUrlParameterValue('ShowFilterbar');
+    if (showFilterbar) {
+      this.filterbarVisible = Utils.convertToBoolean(showFilterbar);
+    }
+    // Show/Hide Toolbar
+    const showToolbar = this.windowService.getUrlParameterValue('ShowToolbar');
+    if (showToolbar) {
+      this.toolbarVisible = Utils.convertToBoolean(showToolbar);
+    }
   }
 
   public ngOnInit() {

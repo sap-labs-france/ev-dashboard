@@ -8,15 +8,15 @@ import { WINDOW } from '../providers/window.provider';
 
 @Injectable()
 export class WindowService {
-  private filterAreaVisible!: boolean;
-  private filterAreaVisibleSubject = new BehaviorSubject<boolean>(this.filterAreaVisible);
+  private filterbarVisible!: boolean;
+  private filterbarVisibleSubject = new BehaviorSubject<boolean>(this.filterbarVisible);
 
   public constructor(
     @Inject(WINDOW) private window: Window,
     private clipboard: Clipboard,
   ) {
-    this.filterAreaVisible = !Utils.isMobile();
-    this.filterAreaVisibleSubject.next(this.filterAreaVisible);
+    this.filterbarVisible = !Utils.isMobile();
+    this.filterbarVisibleSubject.next(this.filterbarVisible);
   }
 
   public getHostname(): string {
@@ -72,17 +72,17 @@ export class WindowService {
     }
   }
 
-  public getFilterAreaVisibleSubject(): BehaviorSubject<boolean> {
-    return this.filterAreaVisibleSubject;
+  public getFilterbarVisibleSubject(): BehaviorSubject<boolean> {
+    return this.filterbarVisibleSubject;
   }
 
-  public setFilterAreaVisible(filtersVisible: boolean) {
-    this.filterAreaVisible = filtersVisible;
-    this.filterAreaVisibleSubject.next(this.filterAreaVisible);
+  public setFilterbarVisible(filtersVisible: boolean) {
+    this.filterbarVisible = filtersVisible;
+    this.filterbarVisibleSubject.next(this.filterbarVisible);
   }
 
-  public isFilterAreaVisible(): boolean {
-    return this.filterAreaVisible;
+  public isFilterbarVisible(): boolean {
+    return this.filterbarVisible;
   }
 
   public getUrlParameterValue(name: string): string {

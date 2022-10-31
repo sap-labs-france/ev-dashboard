@@ -3,7 +3,7 @@
     <!-- Toolbar -->
     <div *ngIf="dataSource.hasActions || dataSource.hasFilters || dataSource.isSearchEnabled" class="mat-toolbar">
       <!-- Actions  -->
-      <div class="row">
+      <div class="row" [hidden]="!toolbarVisible">
         <div class="col">
           <!-- Create Left Actions -->
           <ng-container *ngFor="let actionDef of dataSource.tableActionsDef; let i=index">
@@ -78,7 +78,7 @@
         </div>
       </div>
       <!-- Filters Row -->
-      <div *ngIf="(dataSource.hasFilters || dataSource.isSearchEnabled)" class="row pt-1" [hidden]="!filterAreaVisible">
+      <div *ngIf="(dataSource.hasFilters || dataSource.isSearchEnabled)" class="row pt-1" [hidden]="!filterbarVisible">
         <!-- Create Filters -->
         <ng-template ngFor let-filterDef [ngForOf]="dataSource.tableFiltersDef">
           <div *ngIf="filterDef.visible !== false"

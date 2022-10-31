@@ -31,8 +31,7 @@ export class AdminLayoutComponent implements OnInit {
     // Hide/Show Sidebar
     const showSidebar = this.windowService.getUrlParameterValue('ShowSidebar');
     if (showSidebar) {
-      this.sidebarVisible = Utils.convertToBoolean(
-        this.windowService.getUrlParameterValue('ShowSidebar'));
+      this.sidebarVisible = Utils.convertToBoolean(showSidebar);
     }
     this.location = location;
   }

@@ -38,7 +38,7 @@ export class ChargingStationsMapComponent implements OnInit, AfterViewInit {
   private markerCluster: MarkerClusterer;
   private markersMap: Map<string, google.maps.Marker> = new Map();
   private markerLabelsVisible = false;
-  private bounds = new google.maps.LatLngBounds();
+  private bounds;
   private searchValue = '';
 
   public constructor(
@@ -170,7 +170,9 @@ export class ChargingStationsMapComponent implements OnInit, AfterViewInit {
   }
 
   public resetZoom() {
-    this.googleMapService.fitBounds(this.bounds);
+    if (this.bounds) {
+      this.googleMapService.fitBounds(this.bounds);
+    }
   }
 
   public zoomChanged() {
@@ -248,7 +250,8 @@ export class ChargingStationsMapComponent implements OnInit, AfterViewInit {
   private addOrUpdateMarkers(initialLoading: boolean) {
     let marker: google.maps.Marker;
     const labelOrigin = new google.maps.Point(15, -10);
-    // Compute the bounds of the map
+    this.bounds = new google.maps.LatLngBounds();
+    // Add Markers
     for (const chargingStation of this.chargingStations) {
       // Build coordinates
       const latLng: google.maps.LatLngLiteral = {
@@ -292,12 +295,12 @@ export class ChargingStationsMapComponent implements OnInit, AfterViewInit {
         });
       }
       // Extend only at first loading
-      if (initialLoading) {
+      if (initialLoading || this.searchValue) {
         this.bounds.extend(latLng);
       }
     }
     // Show all Markers
-    if (!Utils.isEmptyArray(this.chargingStations) && initialLoading) {
+    if (!Utils.isEmptyArray(this.chargingStations) && (initialLoading || this.searchValue)) {
       this.googleMapService.fitBounds(this.bounds);
     }
   }

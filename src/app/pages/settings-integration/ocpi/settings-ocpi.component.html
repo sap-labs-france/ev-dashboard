@@ -1,4 +1,4 @@
-<div *ngIf="!isActive && !readOnly" class="card">
+<div *ngIf="!isActive" class="card">
   <div class="card-header card-header-icon card-header-primary">
     <div class="card-icon">
       <mat-icon>info</mat-icon>
@@ -11,7 +11,7 @@
   </div>
 </div>
 <div *ngIf="isActive" class="d-flex flex-column">
-  <div *ngIf="!readOnly" class="mat-toolbar-row mat-toolbar-settings">
+  <div class="mat-toolbar-row mat-toolbar-settings">
     <button mat-raised-button color="warn" (click)="save(formGroup.value)"
       [disabled]="!formGroup.valid || !formGroup.dirty">
       <mat-icon>save</mat-icon>
@@ -160,7 +160,7 @@
       <div class="card-body">
         <div class="row">
           <div class="col-md-12 mb-2">
-            <mat-checkbox [disabled]="readOnly" [checked]="cpoIsActive" (change)="enableDisableCPO($event.checked)">
+            <mat-checkbox [checked]="cpoIsActive" (change)="enableDisableCPO($event.checked)">
               {{'ocpi.enable_cpo' | translate}}
             </mat-checkbox>
           </div>
@@ -217,7 +217,7 @@
       <div class="card-body">
         <div class="row">
           <div class="col-md-12 mb-2">
-            <mat-checkbox [disabled]="readOnly" [checked]="emspIsActive" (change)="enableDisableEMSP($event.checked)">
+            <mat-checkbox [checked]="emspIsActive" (change)="enableDisableEMSP($event.checked)">
               {{'ocpi.enable_emsp' | translate}}
             </mat-checkbox>
           </div>

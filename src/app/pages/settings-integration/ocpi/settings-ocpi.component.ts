@@ -20,8 +20,6 @@ import { Utils } from '../../../utils/Utils';
 })
 export class SettingsOcpiComponent implements OnInit {
   public isActive = false;
-  public readOnly = true;
-
   public cpoIsActive: boolean;
   public emspIsActive: boolean;
 
@@ -217,12 +215,6 @@ export class SettingsOcpiComponent implements OnInit {
         }
         // Init form
         this.formGroup.markAsPristine();
-        // Check auth and disable form
-        this.readOnly = !settings.canUpdate && !settings.canDelete;
-        if (this.readOnly) {
-          // Async call for letting the sub form groups to init
-          setTimeout(() => this.formGroup.disable(), 0);
-        }
       },
       error: (error) => {
         this.spinnerService.hide();

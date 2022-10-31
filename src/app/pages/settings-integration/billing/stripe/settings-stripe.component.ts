@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ComponentService } from 'services/component.service';
+import { SettingAuthorizationActions } from 'types/Authorization';
 import { TenantComponents } from 'types/Tenant';
 import { Utils } from 'utils/Utils';
 
@@ -16,6 +17,8 @@ import { Constants } from '../../../../utils/Constants';
 export class SettingsStripeComponent implements OnInit, OnChanges {
   @Input() public formGroup!: UntypedFormGroup;
   @Input() public billingSettings!: BillingSettings;
+  @Input() public authorizations!: SettingAuthorizationActions;
+
 
   public stripe!: UntypedFormGroup;
   public billing!: UntypedFormGroup;
@@ -138,6 +141,11 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
       this.periodicBillingAllowed.setValue(!!billingSetting.periodicBillingAllowed);
       this.taxID.setValue(billingSetting.taxID || '');
       this.platformFeeTaxID.setValue(billingSetting.platformFeeTaxID || '');
+    }
+    // Read only
+    if(!this.authorizations.canUpdate) {
+      // Async call for letting the sub form groups to init
+      setTimeout(() => this.formGroup.disable(), 0);
     }
   }
 }

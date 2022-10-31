@@ -3,6 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { StatusCodes } from 'http-status-codes';
+import { SettingAuthorizationActions } from 'types/Authorization';
 
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
@@ -20,6 +21,7 @@ import { Utils } from '../../../utils/Utils';
 })
 export class SettingsBillingComponent implements OnInit {
   public isBillingActive = false;
+  public authorizations: SettingAuthorizationActions;
   public isBillingPlatformActive = false;
   public isBillingTransactionEnabled = false;
   public isBillingAccountTaxSet = false;
@@ -55,6 +57,13 @@ export class SettingsBillingComponent implements OnInit {
     this.spinnerService.show();
     this.componentService.getBillingSettings().subscribe({
       next: (settings) => {
+        // Init Auth
+        this.authorizations = {
+          canUpdate: Utils.convertToBoolean(settings.canUpdate),
+          canCheckBillingConnection: Utils.convertToBoolean(settings.canCheckBillingConnection),
+          canActivateBilling: Utils.convertToBoolean(settings.canUpdate), // Using update auth
+        };
+        console.log(settings);
         this.spinnerService.hide();
         // Keep
         this.billingSettings = settings;

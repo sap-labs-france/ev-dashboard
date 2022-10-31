@@ -441,6 +441,8 @@ export interface SettingsAuthorizationActions extends DataResultAuthorizationAct
 
 export interface SettingAuthorizationActions extends AuthorizationActions {
   canSyncRefund?: boolean;
+  canCheckBillingConnection?: boolean;
+  canActivateBilling?: boolean;
 }
 
 export enum DialogMode {

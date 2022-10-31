@@ -13,16 +13,16 @@
 <form *ngIf="isBillingActive" class="form" [formGroup]="formGroup">
   <div class="mat-toolbar-row left-actions">
     <button mat-raised-button color="warn" (click)="save(formGroup.getRawValue())"
-      [disabled]="!formGroup.valid || !formGroup.dirty">
+      [disabled]="!formGroup.valid || !formGroup.dirty" [hidden]="authorizations && !authorizations.canUpdate">
       <mat-icon>save</mat-icon>
       <span>{{'general.save' | translate}}</span>
     </button>
-    <button mat-raised-button color="primary" (click)="checkConnection()"
+    <button mat-raised-button color="primary" (click)="checkConnection()" [hidden]="authorizations && !authorizations.canCheckBillingConnection"
       [disabled]="!formGroup.valid || formGroup.dirty">
       <mat-icon>insert_link</mat-icon>
       <span>{{'settings.billing.check_connection' | translate}}</span>
     </button>
-    <button mat-raised-button color="warn" (click)="checkConnection(true)"
+    <button mat-raised-button color="warn" (click)="checkConnection(true)" [hidden]="authorizations && !authorizations.canActivateBilling"
       [disabled]="!formGroup.valid || formGroup.dirty || !billingSettings?.billing?.taxID || billingSettings?.billing?.isTransactionBillingActivated">
       <mat-icon>toggle_off</mat-icon>
       <span>{{'settings.billing.transaction_billing_activation' | translate}}</span>
@@ -34,6 +34,12 @@
     </button>
   </div>
   <!-- Stripe -->
-  <app-settings-stripe-billing *ngIf="isBillingActive && billingSettings?.type === 'stripe'" [billingSettings]="billingSettings" [formGroup]="formGroup"></app-settings-stripe-billing>
-  <app-billing-accounts *ngIf="isBillingActive && isBillingPlatformActive && isBillingTransactionEnabled && isBillingAccountTaxSet"></app-billing-accounts>
+  <app-settings-stripe-billing *ngIf="isBillingActive && billingSettings?.type === 'stripe'" 
+    [billingSettings]="billingSettings" 
+    [authorizations]="authorizations"
+    [formGroup]="formGroup">
+  </app-settings-stripe-billing>
+  <app-billing-accounts *ngIf="isBillingActive && isBillingPlatformActive && isBillingTransactionEnabled && isBillingAccountTaxSet"
+    [authorizations]="authorizations">
+  </app-billing-accounts>
 </form>

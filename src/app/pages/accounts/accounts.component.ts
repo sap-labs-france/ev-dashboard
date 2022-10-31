@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { SettingAuthorizationActions } from 'types/Authorization';
 
 import { BillingAccountsTableDataSource } from './accounts-table-data-source';
 
@@ -8,6 +9,8 @@ import { BillingAccountsTableDataSource } from './accounts-table-data-source';
   templateUrl: 'accounts.component.html',
 })
 export class AccountsComponent{
+
+  @Input() public authorizations!: SettingAuthorizationActions;
 
   // eslint-disable-next-line no-useless-constructor
   public constructor(

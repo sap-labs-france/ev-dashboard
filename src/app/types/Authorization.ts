@@ -388,8 +388,6 @@ export enum DialogMode {
 
 export interface DialogData {
   id: string | number;
-  projectFields?: string[];
-  metadata?: Record<string, AuthorizationDefinitionFieldMetadata>;
 }
 
 export interface DialogParams<T extends DialogData> {

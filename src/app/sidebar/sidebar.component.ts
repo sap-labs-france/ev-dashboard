@@ -3,7 +3,6 @@ import { Component, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StatusCodes } from 'http-status-codes';
 import { MessageService } from 'services/message.service';
-import { WindowService } from 'services/window.service';
 import { Utils } from 'utils/Utils';
 
 import pkg from '../../../package.json';

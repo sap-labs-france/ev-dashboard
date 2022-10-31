@@ -33,6 +33,7 @@ export class ChargingStationsMapComponent implements OnInit, AfterViewInit {
   public loading = false;
   public filterbarVisible = true;
   public toolbarVisible = true;
+  public enableAction = true;
 
   private markerCluster: MarkerClusterer;
   private markersMap: Map<string, google.maps.Marker> = new Map();
@@ -62,6 +63,11 @@ export class ChargingStationsMapComponent implements OnInit, AfterViewInit {
     const showToolbar = this.windowService.getUrlParameterValue('ShowToolbar');
     if (showToolbar) {
       this.toolbarVisible = Utils.convertToBoolean(showToolbar);
+    }
+    // Enable Actions
+    const enableAction = this.windowService.getUrlParameterValue('EnableAction');
+    if (enableAction) {
+      this.enableAction = Utils.convertToBoolean(enableAction);
     }
     // Set default params
     this.center = {
@@ -141,7 +147,7 @@ export class ChargingStationsMapComponent implements OnInit, AfterViewInit {
   }
 
   public markerClicked(positionClicked: { latLng: google.maps.LatLng }) {
-    if (this.toolbarVisible) {
+    if (this.enableAction) {
       // Get the Marker
       const marker = this.getMarkerByCoordinates(positionClicked);
       // Get the Charging Station

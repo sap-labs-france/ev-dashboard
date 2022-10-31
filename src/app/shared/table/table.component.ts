@@ -34,6 +34,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   public isMobile = false;
   public filterbarVisible = true;
   public toolbarVisible = true;
+  public enableAction = true;
 
   public readonly FilterType = FilterType;
   public readonly TableEditType = TableEditType;
@@ -63,6 +64,11 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     const showToolbar = this.windowService.getUrlParameterValue('ShowToolbar');
     if (showToolbar) {
       this.toolbarVisible = Utils.convertToBoolean(showToolbar);
+    }
+    // Enable Actions
+    const enableAction = this.windowService.getUrlParameterValue('EnableAction');
+    if (enableAction) {
+      this.enableAction = Utils.convertToBoolean(enableAction);
     }
   }
 

@@ -212,7 +212,7 @@
               </mat-icon>
             </td>
             <!-- Action Cell -->
-            <td *ngIf="dataSource.hasRowActions" class="action-cell text-center align-middle">
+            <td *ngIf="dataSource.hasRowActions" class="action-cell text-center align-middle" [hidden]="!enableAction">
               <ng-container
                 *ngFor="let rowAction of (row['dynamicRowActions'] ? row['dynamicRowActions'] : dataSource.tableRowActionsDef)">
                 <ng-container *ngIf="row['dynamicRowActions'] || row['canDisplayRowAction-' + rowAction.id]">

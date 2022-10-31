@@ -56,7 +56,7 @@ export enum PricingSettingsType {
   SIMPLE = 'simple',
 }
 
-export interface PricingSettings extends Setting {
+export interface PricingSettings extends SettingDB {
   identifier: TenantComponents.PRICING;
   type: PricingSettingsType;
   simple: SimplePricingSetting;

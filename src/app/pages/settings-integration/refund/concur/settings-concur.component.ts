@@ -117,7 +117,7 @@ export class SettingsConcurComponent implements OnInit, OnChanges {
       this.concurPolicyId.setValue(this.refundSettings.concur.policyId ? this.refundSettings.concur.policyId : '');
       this.concurReportName.setValue(this.refundSettings.concur.reportName ? this.refundSettings.concur.reportName : '');
     }
-    // read only
+    // Read only
     if(!this.authorizations.canUpdate) {
       // Async call for letting the sub form groups to init
       setTimeout(() => this.formGroup.disable(), 0);

@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { TablePricingOverviewAction } from 'shared/table/actions/pricing/table-pricing-overview-action';
 import { TableViewAction } from 'shared/table/actions/table-view-action';
 import { TableViewPricingDefinitionsActionDef } from 'shared/table/actions/table-view-pricing-definitions-action';
-import { DialogMode } from 'types/Authorization';
+import { DialogMode, SettingAuthorizationActions } from 'types/Authorization';
 import { ButtonAction } from 'types/GlobalType';
 
 import { CentralServerService } from '../../services/central-server.service';
@@ -31,6 +31,7 @@ import { PricingDefinitionDialogComponent } from './pricing-definition/pricing-d
 @Injectable()
 export class PricingDefinitionsTableDataSource extends DialogTableDataSource<PricingDefinition> {
   private viewingAllComponents = false;
+  private authorizations: SettingAuthorizationActions;
   private viewAllAction = new TablePricingOverviewAction(this.viewingAllComponents).getActionDef();
   private createAction = new TableCreatePricingDefinitionAction().getActionDef();
   private editAction = new TableEditPricingDefinitionAction().getActionDef();
@@ -62,6 +63,10 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
     this.initDataSource();
   }
 
+  public setAuthorizations(authorizations: SettingAuthorizationActions) {
+    this.authorizations = authorizations;
+  }
+
   public setDefaultContext(entityID: string = null, entityType: string = null, entityName: string = null) {
     if(!entityID) {
       this.context.entityID = this.defaultContext.entityID = this.centralServerService.getLoggedUser().tenantID;
@@ -83,13 +88,17 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
     return new Observable((observer) => {
       // Get the PricingDefinitions
       this.centralServerService.getPricingDefinitions(this.buildFilterValues(),
-        this.getPaging(), this.getSorting(), this.context).subscribe((pricingDefinition) => {
-        this.createAction.visible = pricingDefinition.canCreate;
-        observer.next(pricingDefinition);
-        observer.complete();
-      }, (error) => {
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        observer.error(error);
+        this.getPaging(), this.getSorting(), this.context).subscribe({
+        next: (pricingDefinition) => {
+          // Set action visibility
+          this.createAction.visible = pricingDefinition.canCreate;
+          observer.next(pricingDefinition);
+          observer.complete();
+        },
+        error: (error) => {
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          observer.error(error);
+        }
       });
     });
   }
@@ -104,32 +113,28 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    const tableActions: TableColumnDef[] = [
+    return [
       {
         id: 'name',
         name: 'chargers.name',
         headerClass: 'col-15p',
         class: 'col-15p',
         sortable: true,
-      }
-    ];
-    if (this.viewingAllComponents) {
-      tableActions.push(...[
-        {
-          id: 'entityType',
-          name: 'transactions.dialog.session.pricing-detail-entity-type',
-          headerClass: 'col-15p',
-          class: 'col-15p',
-        },
-        {
-          id: 'entityName',
-          name: 'transactions.dialog.session.pricing-detail-entity-name',
-          headerClass: 'col-15p',
-          class: 'col-15p',
-        }
-      ]);
-    }
-    tableActions.push(...[
+      },
+      {
+        id: 'entityType',
+        name: 'transactions.dialog.session.pricing-detail-entity-type',
+        headerClass: 'col-15p',
+        class: 'col-15p',
+        visible: this.viewingAllComponents
+      },
+      {
+        id: 'entityName',
+        name: 'transactions.dialog.session.pricing-detail-entity-name',
+        headerClass: 'col-15p',
+        class: 'col-15p',
+        visible: this.viewingAllComponents
+      },
       {
         id: 'id',
         name: 'settings.pricing.restrictions_title',
@@ -182,8 +187,7 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
         headerClass: 'col-15p',
         class: 'col-15p',
       }
-    ]);
-    return tableActions;
+    ];
   }
 
   public buildTableActionsDef(): TableActionDef[] {

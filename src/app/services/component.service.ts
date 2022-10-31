@@ -37,7 +37,7 @@ export class ComponentService {
 
   public getPricingSettings(): Observable<PricingSettings> {
     return new Observable((observer) => {
-      const pricingSettings = {
+      let pricingSettings = {
         identifier: TenantComponents.PRICING,
       } as PricingSettings;
       // Get the Pricing settings
@@ -45,10 +45,8 @@ export class ComponentService {
         next: (settings) => {
           // Get the currency
           if (settings) {
+            pricingSettings = settings as PricingSettings;
             const config = settings.content;
-            // ID
-            pricingSettings.id = settings.id;
-            pricingSettings.sensitiveData = settings.sensitiveData;
             // Simple price
             if (config.simple) {
               pricingSettings.type = PricingSettingsType.SIMPLE;

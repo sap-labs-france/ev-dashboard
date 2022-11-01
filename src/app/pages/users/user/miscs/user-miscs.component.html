@@ -1,7 +1,7 @@
 <div class="row">
-  <h2 class="col-md-12 fw-bold mb-2 border-bottom">
+  <h3 class="col-md-12 mb-2 border-bottom">
     {{'users.miscs' | translate}}
-  </h2>
+  </h3>
   <div class="col-md-6">
     <div class="form-group">
       <mat-form-field>
@@ -22,9 +22,9 @@
     </div>
   </div>
   <div *ngIf="!dialogMode" class="col-12 mt-3">
-    <h2 class="col-md-12 text-danger fw-bold mb-2 border-bottom border-danger">
+    <h3 class="col-md-12 text-danger mb-2 border-bottom border-danger">
       {{'users.delete_account_title' | translate}}
-    </h2>
+    </h3>
     <div class="col-12 mb-2 text-danger" [innerHTML]="'users.delete_account_description' | translate">
     </div>
     <button mat-raised-button color="warn" class="col-12" (click)="deleteUserAccountConfirm()">

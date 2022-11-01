@@ -14,10 +14,10 @@ import { Tag } from '../../../../types/Tag';
 export class TagLimitsComponent implements OnInit, OnChanges {
   @Input() public formGroup: FormGroup;
   @Input() public tag!: Tag;
-  @Input() public readOnly: boolean;
   @Input() public tagsAuthorizations!: TagsAuthorizations;
   @Input() public dialogMode!: DialogMode;
 
+  public readonly DialogMode = DialogMode;
   public limitFormGroup!: FormGroup;
   public limitKwhEnabled!: AbstractControl;
   public limitKwh!: AbstractControl;
@@ -44,7 +44,7 @@ export class TagLimitsComponent implements OnInit, OnChanges {
     this.limitKwhEnabled = this.limitFormGroup.controls['limitKwhEnabled'];
     this.limitKwh = this.limitFormGroup.controls['limitKwh'];
     this.limitKwhConsumed = this.limitFormGroup.controls['limitKwhConsumed'];
-    if (this.readOnly) {
+    if (this.dialogMode === this.DialogMode.VIEW) {
       this.limitFormGroup.disable();
     }
   }

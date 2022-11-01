@@ -30,6 +30,7 @@ export class TagComponent extends AbstractTabComponent implements OnInit {
   @Input() public tagsAuthorizations!: TagsAuthorizations;
   @Input() public dialogMode!: DialogMode;
 
+  public readonly DialogMode = DialogMode;
   public formGroup!: UntypedFormGroup;
   public readOnly = true;
   public tag!: Tag;
@@ -51,7 +52,6 @@ export class TagComponent extends AbstractTabComponent implements OnInit {
     // Init the form
     this.formGroup = new UntypedFormGroup({});
     // Handle Dialog mode
-    this.readOnly = this.dialogMode === DialogMode.VIEW;
     Utils.handleDialogMode(this.dialogMode, this.formGroup);
     // Load Tag
     this.loadTag();
@@ -68,7 +68,7 @@ export class TagComponent extends AbstractTabComponent implements OnInit {
         next: (tag: Tag) => {
           this.spinnerService.hide();
           this.tag = tag;
-          if (this.readOnly) {
+          if (this.dialogMode === DialogMode.VIEW) {
             // Async call for letting the sub form groups to init
             setTimeout(() => this.formGroup.disable(), 0);
           }
@@ -95,7 +95,7 @@ export class TagComponent extends AbstractTabComponent implements OnInit {
         next: (tag: Tag) => {
           this.spinnerService.hide();
           this.tag = tag;
-          if (this.readOnly) {
+          if (this.dialogMode === DialogMode.VIEW) {
             // Async call for letting the sub form groups to init
             setTimeout(() => this.formGroup.disable(), 0);
           }

@@ -7,6 +7,7 @@ import * as dayjs from 'dayjs';
 import { StatusCodes } from 'http-status-codes';
 import { WindowService } from 'services/window.service';
 import { SiteAreasDialogComponent } from 'shared/dialogs/site-areas/site-areas-dialog.component';
+import { DialogMode } from 'types/Authorization';
 import { ButtonAction } from 'types/GlobalType';
 
 import { CentralServerService } from '../../../../../services/central-server.service';
@@ -29,8 +30,10 @@ import { Utils } from '../../../../../utils/Utils';
 export class SiteAreaMainComponent implements OnInit, OnChanges {
   @Input() public formGroup: UntypedFormGroup;
   @Input() public siteArea!: SiteArea;
-  @Input() public readOnly: boolean;
+  @Input() public dialogMode: DialogMode;
   @Output() public siteChanged = new EventEmitter<Site>();
+
+  public readonly DialogMode = DialogMode;
 
   public image = Constants.NO_IMAGE;
   public imageChanged = false;

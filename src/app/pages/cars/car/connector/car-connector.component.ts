@@ -4,7 +4,7 @@ import { MatSelectChange } from '@angular/material/select';
 import { Router } from '@angular/router';
 import { StatusCodes } from 'http-status-codes';
 import { ComponentService } from 'services/component.service';
-import { CarsAuthorizations } from 'types/Authorization';
+import { CarsAuthorizations, DialogMode } from 'types/Authorization';
 import { CarConnectorConnectionSetting } from 'types/Setting';
 
 import { CentralServerService } from '../../../../services/central-server.service';
@@ -21,11 +21,12 @@ import { Utils } from '../../../../utils/Utils';
 export class CarConnectorComponent implements OnInit, OnChanges {
   @Input() public formGroup: UntypedFormGroup;
   @Input() public car!: Car;
-  @Input() public readOnly: boolean;
+  @Input() public dialogMode: DialogMode;
   @Input() public carsAuthorizations!: CarsAuthorizations;
 
   public initialized = false;
 
+  public readonly DialogMode = DialogMode;
   public carConnectorName!: AbstractControl;
   public carConnectorID!: AbstractControl;
   public carConnectorMeterID!: AbstractControl;

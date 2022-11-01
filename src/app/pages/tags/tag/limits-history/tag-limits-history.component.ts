@@ -13,10 +13,10 @@ import { TagLimitsHistoryTableDataSource } from './tag-limits-history-table-data
 export class TagLimitsHistoryComponent implements OnInit, OnChanges {
   @Input() public formGroup: FormGroup;
   @Input() public tag!: Tag;
-  @Input() public readOnly: boolean;
   @Input() public tagsAuthorizations!: TagsAuthorizations;
   @Input() public dialogMode!: DialogMode;
 
+  public readonly DialogMode = DialogMode;
   // eslint-disable-next-line no-useless-constructor
   public constructor(
     @Self() public tagLimitsHistoryTableDataSource: TagLimitsHistoryTableDataSource) {

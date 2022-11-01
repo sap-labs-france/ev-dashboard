@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { DialogMode } from 'types/Authorization';
 
 import { ANALYTICS_TYPES, BILLING_TYPES, PRICING_TYPES, REFUND_TYPES, SMART_CHARGING_TYPES } from '../../../../shared/model/tenants.model';
 import { KeyValue } from '../../../../types/GlobalType';
@@ -14,7 +15,9 @@ import { Tenant, TenantComponents } from '../../../../types/Tenant';
 export class TenantComponentsComponent implements OnInit, OnChanges {
   @Input() public tenant!: Tenant;
   @Input() public formGroup!: UntypedFormGroup;
+  @Input() public dialogMode: DialogMode;
 
+  public readonly DialogMode = DialogMode;
   public initialized = false;
 
   public id!: AbstractControl;

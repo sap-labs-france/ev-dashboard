@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ComponentService } from 'services/component.service';
+import { DialogMode } from 'types/Authorization';
 import { TenantComponents } from 'types/Tenant';
 
 import { SiteArea } from '../../../../../types/SiteArea';
@@ -12,8 +13,9 @@ import { SiteArea } from '../../../../../types/SiteArea';
 export class SiteAreaLimitsComponent implements OnInit, OnChanges {
   @Input() public siteArea!: SiteArea;
   @Input() public formGroup!: UntypedFormGroup;
-  @Input() public readOnly: boolean;
+  @Input() public dialogMode: DialogMode;
 
+  public readonly DialogMode = DialogMode;
   public public = false;
   public isSmartChargingComponentActive = false;
   public initialized = false;

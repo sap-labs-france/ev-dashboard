@@ -4,7 +4,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { StatusCodes } from 'http-status-codes';
-import { AssetsAuthorizations } from 'types/Authorization';
+import { AssetsAuthorizations, DialogMode } from 'types/Authorization';
 import { GeoMapDialogData, GeoMapDialogResult } from 'types/Dialog';
 
 import { CentralServerService } from '../../../../services/central-server.service';
@@ -27,9 +27,10 @@ import { Utils } from '../../../../utils/Utils';
 export class AssetMainComponent implements OnInit, OnChanges {
   @Input() public formGroup: UntypedFormGroup;
   @Input() public asset!: Asset;
-  @Input() public readOnly: boolean;
+  @Input() public dialogMode: DialogMode;
   @Input() public assetsAuthorizations!: AssetsAuthorizations;
 
+  public readonly DialogMode = DialogMode;
   public image: string = Constants.NO_IMAGE;
   public imageChanged = false;
   public maxSize: number;

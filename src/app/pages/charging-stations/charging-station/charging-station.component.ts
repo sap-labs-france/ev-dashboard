@@ -32,6 +32,7 @@ export class ChargingStationComponent implements OnInit {
 
   @ViewChild('chargingStationParameters', { static: true }) public chargingStationParametersComponent!: ChargingStationParametersComponent;
 
+  public readonly DialogMode = DialogMode;
   public formGroup: UntypedFormGroup;
   public chargingStation: ChargingStation;
   public userLocales: KeyValue[];
@@ -39,7 +40,6 @@ export class ChargingStationComponent implements OnInit {
 
   public canUpdate: boolean;
   public canGetParameters: boolean;
-  public readOnly = true;
   public isPropertiesPaneDisabled = false;
   public isChargerPaneDisabled = false;
   public isOCPPParametersPaneDisabled = false;
@@ -63,7 +63,6 @@ export class ChargingStationComponent implements OnInit {
   public ngOnInit() {
     this.isProdLandscape = this.utilsService.isProdLandscape();
     // Handle Dialog mode
-    this.readOnly = this.dialogMode === DialogMode.VIEW;
     Utils.handleDialogMode(this.dialogMode, this.formGroup);
     // Load Charging Station
     this.loadChargingStation();
@@ -77,7 +76,7 @@ export class ChargingStationComponent implements OnInit {
           this.spinnerService.hide();
           // Init auth
           this.chargingStation = chargingStation;
-          if (this.readOnly || !this.chargingStation.issuer) {
+          if (this.dialogMode === DialogMode.VIEW || !this.chargingStation.issuer) {
             // Async call for letting the sub form groups to init
             setTimeout(() => this.formGroup.disable(), 0);
           }

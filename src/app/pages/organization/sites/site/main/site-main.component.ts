@@ -8,6 +8,7 @@ import { ConfigService } from 'services/config.service';
 import { MessageService } from 'services/message.service';
 import { CompaniesDialogComponent } from 'shared/dialogs/companies/companies-dialog.component';
 import { Address } from 'types/Address';
+import { DialogMode } from 'types/Authorization';
 import { Company } from 'types/Company';
 import { Site } from 'types/Site';
 import { Constants } from 'utils/Constants';
@@ -20,9 +21,10 @@ import { Utils } from 'utils/Utils';
 export class SiteMainComponent implements OnInit, OnChanges {
   @Input() public formGroup: UntypedFormGroup;
   @Input() public site!: Site;
-  @Input() public readOnly: boolean;
+  @Input() public dialogMode: DialogMode;
   @Output() public publicChanged = new EventEmitter<boolean>();
 
+  public readonly DialogMode = DialogMode;
   public image = Constants.NO_IMAGE;
   public imageChanged = false;
   public maxSize: number;

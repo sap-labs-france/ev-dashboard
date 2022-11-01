@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { DialogMode } from 'types/Authorization';
 import { Constants } from 'utils/Constants';
 
 import { CentralServerService } from '../../../services/central-server.service';
@@ -18,6 +19,9 @@ export class CarCatalogComponent implements OnInit {
   @Input() public currentCarCatalogID!: number;
   @Input() public inDialog!: boolean;
   @Input() public dialogRef!: MatDialogRef<any>;
+  @Input() public dialogMode: DialogMode;
+
+  public readonly DialogMode: DialogMode;
   public carCatalog: CarCatalog;
   public noImage = Constants.NO_IMAGE;
 

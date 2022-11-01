@@ -4,7 +4,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatSelectChange } from '@angular/material/select';
 import { TranslateService } from '@ngx-translate/core';
 import { UsersDialogComponent } from 'shared/dialogs/users/users-dialog.component';
-import { CarsAuthorizations } from 'types/Authorization';
+import { CarsAuthorizations, DialogMode } from 'types/Authorization';
 
 import { SpinnerService } from '../../../../services/spinner.service';
 import { CarCatalogsDialogComponent } from '../../../../shared/dialogs/car-catalogs/car-catalogs-dialog.component';
@@ -22,9 +22,10 @@ import { Utils } from '../../../../utils/Utils';
 export class CarMainComponent implements OnInit, OnChanges {
   @Input() public formGroup: UntypedFormGroup;
   @Input() public car!: Car;
-  @Input() public readOnly: boolean;
+  @Input() public dialogMode: DialogMode;
   @Input() public carsAuthorizations!: CarsAuthorizations;
 
+  public readonly DialogMode = DialogMode;
   public carCatalogImage: string;
   public selectedCarCatalog: CarCatalog;
   public carCatalogConverters: { type: CarConverterType; value: string; converter: CarConverter }[] = [];

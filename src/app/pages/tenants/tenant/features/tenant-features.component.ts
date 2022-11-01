@@ -1,5 +1,6 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, UntypedFormGroup } from '@angular/forms';
+import { DialogMode } from 'types/Authorization';
 import { Utils } from 'utils/Utils';
 
 import { Tenant } from '../../../../types/Tenant';
@@ -12,7 +13,9 @@ import { Tenant } from '../../../../types/Tenant';
 export class TenantFeaturesComponent implements OnInit, OnChanges {
   @Input() public tenant!: Tenant;
   @Input() public formGroup!: FormGroup;
+  @Input() public dialogMode: DialogMode;
 
+  public readonly DialogMode = DialogMode;
   public initialized = false;
 
   public features!: FormGroup;

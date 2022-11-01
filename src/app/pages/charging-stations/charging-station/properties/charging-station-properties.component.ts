@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ChargingStationsAuthorizations } from 'types/Authorization';
+import { ChargingStationsAuthorizations, DialogMode } from 'types/Authorization';
 
 import { AppDatePipe } from '../../../../shared/formatters/app-date.pipe';
 import { ChargingStation, ChargingStationCapabilities } from '../../../../types/ChargingStation';
@@ -21,7 +21,9 @@ export interface PropertyDisplay {
 export class ChargingStationPropertiesComponent implements OnInit {
   @Input() public chargingStation!: ChargingStation;
   @Input() public chargingStationsAuthorizations: ChargingStationsAuthorizations;
+  @Input() public dialogMode: DialogMode;
 
+  public readonly DialogMode = DialogMode;
 
   public chargerFormatted: any = {};
   public displayedProperties: PropertyDisplay[] = [

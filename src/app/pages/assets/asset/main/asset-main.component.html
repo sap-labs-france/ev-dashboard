@@ -1,7 +1,7 @@
 <form class="form" [formGroup]="formGroup">
   <div class="row h-xl-100">
     <div class="col-md-12 col-xl-5 h-xl-100">
-      <div class="rotating-card-container h-100" [ngStyle]="{ 'pointer-events': !readOnly ? 'all' : 'none'}">
+      <div class="rotating-card-container h-100" [ngStyle]="{ 'pointer-events': dialogMode !== DialogMode.VIEW ? 'all' : 'none'}">
         <div class="card card-rotate card-background mt-0">
           <div class="front front-background"
             [ngStyle]="{'background-image': 'url(' + image + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
@@ -10,7 +10,7 @@
           </div>
           <div class="back back-background"
             [ngStyle]="{'background-image': 'url(' + image + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
-            <div *ngIf="!readOnly" class="card-body">
+            <div *ngIf="dialogMode !== DialogMode.VIEW" class="card-body">
               <div class="footer text-center">
                 <button mat-flat-button color="primary" class="me-1">
                   <mat-icon (click)="file.click()">mode_edit</mat-icon>
@@ -44,7 +44,7 @@
         <mat-form-field>
           <input matInput type="text" readonly=true placeholder="{{'site_areas.titles' | translate}}"
             class="form-field-popup" (click)="assignSiteArea()" [formControl]="siteArea" required />
-          <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignSiteArea()" [hidden]="readOnly">
+          <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignSiteArea()" [hidden]="dialogMode === DialogMode.VIEW">
             <mat-icon>create</mat-icon>
           </button>
           <mat-error *ngIf="siteArea.errors?.required">
@@ -110,10 +110,10 @@
           <div class="form-group">
             <mat-form-field>
               <input matInput placeholder="{{'general.latitude' | translate}}" type="text"
-                [formControl]="latitude" [readOnly]="readOnly">
+                [formControl]="latitude" readonly="dialogMode === DialogMode.VIEW">
               <mat-error *ngIf="latitude.errors?.pattern">{{"general.invalid_value" | translate}}</mat-error>
               <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignGeoMap()"
-                [hidden]="readOnly">
+                [hidden]="dialogMode === DialogMode.VIEW">
                 <mat-icon>pin_drop</mat-icon>
               </button>
             </mat-form-field>
@@ -123,10 +123,10 @@
           <div class="form-group">
             <mat-form-field>
               <input matInput placeholder="{{'general.longitude' | translate}}" type="text"
-                [formControl]="longitude" [readOnly]="readOnly">
+                [formControl]="longitude" readonly="dialogMode === DialogMode.VIEW">
               <mat-error *ngIf="longitude.errors?.pattern">{{"general.invalid_value" | translate}}</mat-error>
               <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignGeoMap()"
-                [hidden]="readOnly">
+                [hidden]="dialogMode === DialogMode.VIEW">
                 <mat-icon>pin_drop</mat-icon>
               </button>
             </mat-form-field>

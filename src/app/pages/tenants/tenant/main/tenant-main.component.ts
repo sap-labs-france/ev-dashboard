@@ -2,6 +2,7 @@ import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { StatusCodes } from 'http-status-codes';
+import { DialogMode } from 'types/Authorization';
 import { Utils } from 'utils/Utils';
 
 import { CentralServerService } from '../../../../services/central-server.service';
@@ -18,7 +19,9 @@ import { Constants } from '../../../../utils/Constants';
 export class TenantMainComponent implements OnInit, OnChanges {
   @Input() public formGroup: UntypedFormGroup;
   @Input() public tenant!: Tenant;
+  @Input() public dialogMode: DialogMode;
 
+  public readonly DialogMode = DialogMode;
   public initialized = false;
 
   public id!: AbstractControl;

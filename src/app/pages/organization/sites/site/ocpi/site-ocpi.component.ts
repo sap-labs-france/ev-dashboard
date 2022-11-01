@@ -1,5 +1,6 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { DialogMode } from 'types/Authorization';
 import { Site } from 'types/Site';
 import { Utils } from 'utils/Utils';
 
@@ -10,8 +11,9 @@ import { Utils } from 'utils/Utils';
 export class SiteOcpiComponent implements OnInit, OnChanges {
   @Input() public site!: Site;
   @Input() public formGroup!: UntypedFormGroup;
-  @Input() public readOnly: boolean;
+  @Input() public dialogMode: DialogMode;
 
+  public readonly DialogMode = DialogMode;
   public public = false;
   public initialized = false;
 
@@ -63,7 +65,7 @@ export class SiteOcpiComponent implements OnInit, OnChanges {
   }
 
   private enableDisableTariffID() {
-    if (!this.readOnly) {
+    if (this.dialogMode !== DialogMode.VIEW) {
       if (this.public) {
         this.tariffID.enable();
       } else {

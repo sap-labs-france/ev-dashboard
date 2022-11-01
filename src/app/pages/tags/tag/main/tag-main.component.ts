@@ -15,7 +15,6 @@ import { Utils } from '../../../../utils/Utils';
 export class TagMainComponent implements OnInit, OnChanges {
   @Input() public formGroup: UntypedFormGroup;
   @Input() public tag!: Tag;
-  @Input() public readOnly: boolean;
   @Input() public tagsAuthorizations!: TagsAuthorizations;
   @Input() public dialogMode!: DialogMode;
 

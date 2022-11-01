@@ -2,7 +2,8 @@ import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, UntypedFormArray, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
-import { ChargingStationsAuthorizations } from 'types/Authorization';
+import { Dialog } from 'puppeteer';
+import { ChargingStationsAuthorizations, DialogMode } from 'types/Authorization';
 import { GeoMapDialogData, GeoMapDialogResult } from 'types/Dialog';
 
 import { ComponentService } from '../../../../services/component.service';
@@ -25,9 +26,10 @@ import { Utils } from '../../../../utils/Utils';
 export class ChargingStationParametersComponent implements OnInit, OnChanges {
   @Input() public chargingStation!: ChargingStation;
   @Input() public formGroup: UntypedFormGroup;
-  @Input() public readOnly: boolean;
+  @Input() public dialogMode: DialogMode;
   @Input() public chargingStationsAuthorizations: ChargingStationsAuthorizations;
 
+  public readonly DialogMode = DialogMode;
   public userLocales: KeyValue[];
   public ocpiActive: boolean;
   public isSmartChargingComponentActive = false;

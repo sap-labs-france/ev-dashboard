@@ -3,7 +3,7 @@ import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } fro
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { StatusCodes } from 'http-status-codes';
-import { ChargingStationsAuthorizations } from 'types/Authorization';
+import { ChargingStationsAuthorizations, DialogMode } from 'types/Authorization';
 
 import { CentralServerService } from '../../../../services/central-server.service';
 import { DialogService } from '../../../../services/dialog.service';
@@ -21,7 +21,9 @@ import { Utils } from '../../../../utils/Utils';
 export class ChargingStationFirmwareUpdateComponent implements OnInit {
   @Input() public chargingStation!: ChargingStation;
   @Input() public chargingStationsAuthorizations: ChargingStationsAuthorizations;
+  @Input() public dialogMode: DialogMode;
 
+  public readonly DialogMode = DialogMode;
   public formGroup: UntypedFormGroup;
 
   public userLocales: KeyValue[];

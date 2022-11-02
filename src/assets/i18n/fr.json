@@ -37,10 +37,10 @@
     "no_record_found": "Aucun enregistrement n'a été trouvé",
     "no_image_found": "Aucune image n'a été trouvée",
     "no_connector_available": "Aucune connexion disponible",
-    "error_max_length": "Longueur maximale: '{{length}}'",
-    "error_min_length": "Longueur minimale: '{{length}}'",
-    "error_max_value": "Valeur maximale: '{{value}}'",
-    "error_min_value": "Valeur minimale: '{{value}}'",
+    "error_max_length": "Longueur maximale : '{{length}}'",
+    "error_min_length": "Longueur minimale : '{{length}}'",
+    "error_max_value": "Valeur maximale : '{{value}}'",
+    "error_min_value": "Valeur minimale : '{{value}}'",
     "error_url_pattern": "URL invalide",
     "error_number_pattern": "Nombre invalide",
     "invalid_date": "Date invalide",
@@ -2392,7 +2392,7 @@
     "type_placeholder": "Type",
     "description": "Interface de facturation",
     "id": "ID Facturation",
-    "updated_on": "Factures synchronisées le",
+    "updated_on": "Synchronisé le",
     "tabs": {
       "invoices": "Factures",
       "in_error": "En Erreur"

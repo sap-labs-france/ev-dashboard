@@ -2392,7 +2392,7 @@
     "type_placeholder": "Tipo",
     "description": "Interface de Faturação",
     "id": "ID de Faturação",
-    "updated_on": "Faturação sincronizada em",
+    "updated_on": "Sincronizado em",
     "tabs": {
       "invoices": "Faturas",
       "in_error": "Em erro"

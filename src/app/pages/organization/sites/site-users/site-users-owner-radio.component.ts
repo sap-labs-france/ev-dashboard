@@ -14,7 +14,7 @@ import { Utils } from '../../../../utils/Utils';
     <div class="d-flex justify-content-center">
       <mat-radio-button #rbid class="mx-auto"
         [checked]="(row.siteOwner ? row.siteOwner : false)"
-        [disabled]="(!loggedUser.sitesAdmin.includes(row.siteID) && loggedUser.role !== 'A') || row.user?.role === 'A'"
+        [disabled]="(!loggedUser.sitesAdmin.includes(row.siteID) && loggedUser.role !== 'A')"
         (change)="changeRadioButton($event)">
       </mat-radio-button>
     </div>`

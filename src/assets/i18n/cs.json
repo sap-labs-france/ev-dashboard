@@ -2392,7 +2392,7 @@
     "type_placeholder": "Typ",
     "description": "Fakturační rozhraní",
     "id": "Fakturační ID",
-    "updated_on": "Fakturace synchronizována dne",
+    "updated_on": "Synchronizována dne",
     "tabs": {
       "invoices": "Faktury",
       "in_error": "Chyba"

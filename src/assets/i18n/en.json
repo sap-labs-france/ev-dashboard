@@ -2392,7 +2392,7 @@
     "type_placeholder": "Type",
     "description": "Billing Interface",
     "id": "Billing ID",
-    "updated_on": "Billing Synchronized on",
+    "updated_on": "Synchronized on",
     "tabs": {
       "invoices": "Invoices",
       "in_error": "In Error"

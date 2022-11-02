@@ -4,7 +4,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 
 import { KeyValue } from '../../../../types/GlobalType';
-import { CarConnectorConnectionSetting, CarConnectorConnectionType, CarConnectorMercedesConnectionType, CarConnectorTronityConnectionType } from '../../../../types/Setting';
+import { CarConnectorConnectionSetting, CarConnectorConnectionType, CarConnectorMercedesConnectionType, CarConnectorTargaTelematicsConnectionType, CarConnectorTronityConnectionType } from '../../../../types/Setting';
 import { CarConnectorConnectionDialogComponent } from './car-connector-connection.dialog.component';
 
 @Component({
@@ -24,9 +24,11 @@ export class CarConnectorConnectionComponent implements OnInit {
 
   public mercedesConnection!: CarConnectorMercedesConnectionType;
   public tronityConnection!: CarConnectorTronityConnectionType;
+  public targaTelematicsConnection!: CarConnectorTargaTelematicsConnectionType;
   public carConnectorConnectionTypes: KeyValue[] = [
     { key: CarConnectorConnectionType.MERCEDES, value: 'settings.car_connector.types.mercedes' },
-    { key: CarConnectorConnectionType.TRONITY, value: 'settings.car_connector.types.tronity' }
+    { key: CarConnectorConnectionType.TRONITY, value: 'settings.car_connector.types.tronity' },
+    { key: CarConnectorConnectionType.TARGA_TELEMATICS, value: 'settings.car_connector.types.targa_telematics' }
   ];
   public submitButtonTranslation!: any;
 
@@ -87,6 +89,9 @@ export class CarConnectorConnectionComponent implements OnInit {
       case CarConnectorConnectionType.TRONITY:
         this.tronityConnection = this.currentCarConnectorConnection.tronityConnection;
         break;
+      case CarConnectorConnectionType.TARGA_TELEMATICS:
+        this.targaTelematicsConnection = this.currentCarConnectorConnection.targaTelematicsConnection;
+        break;
     }
   }
 
@@ -119,6 +124,9 @@ export class CarConnectorConnectionComponent implements OnInit {
     }
     if (this.tronityConnection && type !== CarConnectorConnectionType.TRONITY) {
       delete this.tronityConnection;
+    }
+    if (this.targaTelematicsConnection && type !== CarConnectorConnectionType.TARGA_TELEMATICS) {
+      delete this.targaTelematicsConnection;
     }
   }
 }

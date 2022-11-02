@@ -5,7 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { DialogMode } from 'types/Authorization';
 
 import { AppDayPipe } from '../../../../shared/formatters/app-day.pipe';
-import PricingDefinition, { PricingRestriction } from '../../../../types/Pricing';
+import PricingDefinition, { DayOfWeek, PricingRestriction } from '../../../../types/Pricing';
 import { PricingHelpers } from '../../../../utils/PricingHelpers';
 import { Utils } from '../../../../utils/Utils';
 
@@ -183,9 +183,9 @@ export class PricingDefinitionRestrictionsComponent implements OnInit, OnChanges
     this.formGroup.markAsDirty();
   }
 
-  public buildPrincingRestrictions(): PricingRestriction {
+  public buildPricingRestrictions(): PricingRestriction {
     const restrictions: PricingRestriction = {
-      daysOfWeek: this.daysOfWeekEnabled.value ? this.selectedDays.value : null,
+      daysOfWeek: this.daysOfWeekEnabled.value ? this.selectedDays.value.sort((day1: DayOfWeek, day2: DayOfWeek) => (day1-day2)) : null,
       timeFrom: this.timeRangeEnabled.value ? this.timeFrom.value : null,
       timeTo: this.timeRangeEnabled.value ? this.timeTo.value : null,
       minEnergyKWh: this.minEnergyKWhEnabled.value ? this.minEnergyKWh.value : null,

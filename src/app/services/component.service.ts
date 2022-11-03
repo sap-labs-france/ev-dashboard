@@ -205,6 +205,9 @@ export class ComponentService {
         case CarConnectorConnectionType.TRONITY:
           settingsToSave.sensitiveData.push(`content.carConnector.connections[${index}].tronityConnection.clientSecret`);
           break;
+        case CarConnectorConnectionType.TARGA_TELEMATICS:
+          settingsToSave.sensitiveData.push(`content.carConnector.connections[${index}].targaTelematicsConnection.clientSecret`);
+          break;
       }
     });
     // Delete IDS

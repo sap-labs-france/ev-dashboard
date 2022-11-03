@@ -2,7 +2,6 @@ import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, UntypedFormArray, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
-import { Dialog } from 'puppeteer';
 import { ChargingStationsAuthorizations, DialogMode } from 'types/Authorization';
 import { GeoMapDialogData, GeoMapDialogResult } from 'types/Dialog';
 

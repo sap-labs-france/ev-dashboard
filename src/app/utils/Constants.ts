@@ -41,4 +41,8 @@ export class Constants {
   public static readonly DEFAULT_CURRENCY_CODE = 'EUR';
 
   public static readonly SELECT_ALL = 'A';
+
+  /* App Info for STRIPE */
+  public static readonly STRIPE_APP_NAME = 'Charge-Angels';
+  public static readonly STRIPE_PARTNER_ID = 'TECH-000685';
 }

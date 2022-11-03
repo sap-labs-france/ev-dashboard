@@ -6,6 +6,8 @@
       </div>
       <h4 class="card-title">
         {{pricingDefinition.name}}
+        <span *ngIf="transaction.stop">({{transaction.stop.priceUnit ? (transaction.stop.roundedPrice | appCurrency:transaction.stop.priceUnit) : '-'}})</span>
+        <span *ngIf="!transaction.stop">({{transaction.priceUnit ? (transaction.currentCumulatedPrice | appCurrency:transaction.priceUnit) : '-'}})</span>
       </h4>
     </div>
     <div class="card-body mat-tab-dialog-body-content">
@@ -49,7 +51,7 @@
                 </div>
                 <div class="card-body">
                   <div class="row">
-                    <div class="col-md-8">
+                    <div class="col-12">
                       <mat-form-field>
                         <mat-label> {{'transactions.dialog.session.pricing-detail-amount' | translate}}</mat-label>
                         <input matInput type="text" readonly=true value="{{pricingDefinition.dimensions.flatFee.pricedData.roundedAmount | appCurrency}}"/>
@@ -72,7 +74,7 @@
                 </div>
                 <div class="card-body">
                   <div class="row">
-                    <div class="col-md-8">
+                    <div class="col-12">
                       <mat-form-field>
                         <mat-label>{{'transactions.dialog.session.pricing-detail-unit-price' | translate}}</mat-label>
                         <input matInput type="text" readonly=true value="{{'energy_formatted_price' | appPricingDimensionsPrice:pricingDefinition.dimensions.energy.pricedData.unitPrice}}"/>
@@ -103,7 +105,7 @@
                 </div>
                 <div class="card-body">
                   <div class="row">
-                    <div class="col-md-8">
+                    <div class="col-12">
                       <mat-form-field>
                         <mat-label>{{'transactions.dialog.session.pricing-detail-unit-price' | translate}}</mat-label>
                         <input matInput type="text" readonly=true value="{{'charging_time_formatted_price' | appPricingDimensionsPrice:pricingDefinition.dimensions.chargingTime.pricedData.unitPrice}}"/>
@@ -126,7 +128,7 @@
               <div class="card session-pricing-detail-card">
                 <div class="card-header card-header-primary card-header-icon">
                   <div class="card-icon">
-                    <mat-icon>history_toggle_off</mat-icon>
+                    <mat-icon>timer_off</mat-icon>
                   </div>
                   <h4 class="card-title">
                     <mat-label>{{'settings.pricing.parking_time' | translate}}</mat-label>
@@ -134,7 +136,7 @@
                 </div>
                 <div class="card-body">
                   <div class="row">
-                    <div class="col-md-8">
+                    <div class="col-12">
                       <mat-form-field>
                         <mat-label>{{'transactions.dialog.session.pricing-detail-unit-price' | translate}}</mat-label>
                         <input matInput type="text" readonly=true value="{{'parking_time_formatted_price' | appPricingDimensionsPrice:pricingDefinition.dimensions.parkingTime.pricedData.unitPrice}}"/>

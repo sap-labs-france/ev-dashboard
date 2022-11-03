@@ -249,6 +249,7 @@
       "force_available_status": "Nuceně nastavit stav Je k dispozici ",
       "force_unavailable_status": "Nuceně nastavit stav Není k dispozici",
       "display_users": "Display users",
+      "display_sites": "Display sites",
       "pricing": "Pricing"
     }
   },
@@ -1371,6 +1372,7 @@
     "update_remove_site_owner_success": "Uživatel již není vlastníkem parkoviště '{{siteName}}'",
     "update_site_owner_role_error": "Došlo k chybě při pokusu aktualizovat práva uživatele k parkovišti '{{siteName}}', zkontrolujte protokoly",
     "redirect": "Navigovat k uživateli",
+    "display_sites": "Display sites",
     "connectors": {
       "connect": "Připojit",
       "revoke": "Zrušit",
@@ -1456,9 +1458,9 @@
     "accountExternalID": "Connected Account ID",
     "amount": "Amount",
     "collected_funds": "Collected Funds",
+    "document_number": "Invoice",
     "platform_fee_amount": "Collected Fee",
     "platform_fee_tax_inclusive": "Fees (incl. taxes)",
-    "document_number": "Invoice",
     "transferAmount": "Transfer",
     "number_of_items": "Sessions",
     "transferExternalID": "External ID",
@@ -1938,7 +1940,8 @@
       },
       "types": {
         "mercedes": "Konektor Mercedes",
-        "tronity": "Konektor Tronity"
+        "tronity": "Konektor Tronity",
+        "targa_telematics": "Targa Telematics Connector"
       },
       "mercedes": {
         "link_success": "Your account has been successfully linked with Mercedes",

@@ -55,7 +55,7 @@
     "cancel": "Annuler",
     "actions": "Action(s)",
     "add": "Ajouter",
-    "select": "Sélectioner",
+    "select": "Sélectionner",
     "set_filter": "Filtrer",
     "remove": "Retirer",
     "location": "Location",
@@ -246,9 +246,10 @@
       "save": "Save",
       "download": "Télécharger",
       "test_connection": "Tester la connexion",
-      "force_available_status": "Forcer le statut en disponible",
-      "force_unavailable_status": "Forcer le statut en indisponible",
+      "force_available_status": "Passer l'état de la borne à 'Disponible'",
+      "force_unavailable_status": "Passer l'état de la borne à 'Indisponible'",
       "display_users": "Afficher les utilisateurs",
+      "display_sites": "Afficher les sites",
       "pricing": "Tarification"
     }
   },
@@ -552,7 +553,7 @@
     "consumption_date": "Date",
     "single_phased": "Monophasé",
     "three_phased": "Triphasé",
-    "redirect": "Naviguer vers les zones"
+    "redirect": "Naviguer vers les Zones"
   },
   "authentication": {
     "accept": "J'accepte les",
@@ -1124,7 +1125,7 @@
       "marker_dialog_text": "Que voulez vous faire avec la borne '{{chargingStationID}}' ?",
       "copy_map_url": "Copier le lien de la carte",
       "copy_map_url_to_clipboard": "Copier le lien Google Map",
-      "navigate_to_charging_station": "Naviguer vers la borne"
+      "navigate_to_charging_station": "Naviguer vers la Borne"
     },
     "errors": {
       "missing_settings": {
@@ -1371,6 +1372,7 @@
     "update_remove_site_owner_success": "L'utilisateur n'est plus le propriétaire du site '{{siteName}}'",
     "update_site_owner_role_error": "Une erreur est survenue lors de la mise à jour des droits d'accès de l'utilisateur au site '{{siteName}}', vérifiez les logs",
     "redirect": "Naviguer vers les Utilisateurs",
+    "display_sites": "Afficher les sites",
     "connectors": {
       "connect": "Connecter",
       "revoke": "Révoquer",
@@ -1585,7 +1587,7 @@
     "message": {
       "create_success": "Le compte a été ajoûté avec succès",
       "create_error": "Un erreur est survenue lors de l'ajoût du compte, vérifiez les logs",
-      "onboard_success": "Le processus d'embarquement a été déclenché. Le respnsable de l'entreprise va recevoir une invitation par mail",
+      "onboard_success": "Le processus d'embarquement a été déclenché. Le responsable de l'entreprise va recevoir une invitation par mail",
       "onboard_error": "Un erreur est survenue lors du déclenchement du processus d'embarquement du nouveau compte, vérifiez les logs"
     },
     "status": {
@@ -1937,7 +1939,8 @@
       },
       "types": {
         "mercedes": "Connecteur Mercedes",
-        "tronity": "Connecteur Tronity"
+        "tronity": "Connecteur Tronity",
+        "targa_telematics": "Targa Telematics Connector"
       },
       "mercedes": {
         "link_success": "Your account has been successfully linked with Mercedes",

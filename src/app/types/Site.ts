@@ -29,7 +29,7 @@ export interface Site extends TableData, CreatedUpdatedProps, SiteAuthorizationA
   accountData?: BillingAccountData;
 }
 
-export interface SiteUser extends TableData {
+export interface UserSite extends TableData {
   site: Site;
   userID: string;
   siteAdmin: boolean;

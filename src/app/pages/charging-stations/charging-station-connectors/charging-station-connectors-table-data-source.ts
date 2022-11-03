@@ -76,9 +76,7 @@ export class ChargingStationConnectorsTableDataSource extends TableDataSource<Co
           }
         });
         for (const connector of this.chargingStation.connectors) {
-          connector.isTransactionDisplayAuthorized =
-            this.authorizationService.canReadTransaction(this.chargingStation.siteArea, connector.currentTagID);
-          connector.hasDetails = !!connector.currentTransactionID && connector.isTransactionDisplayAuthorized;
+          connector.hasDetails = !!connector.currentTransactionID && connector.canReadTransaction;
         }
         observer.next({
           count: this.chargingStation.connectors.length,
@@ -184,7 +182,7 @@ export class ChargingStationConnectorsTableDataSource extends TableDataSource<Co
   public buildTableDynamicRowActions(connector: Connector): TableActionDef[] {
     const rowActions = [];
     if (connector) {
-      if (connector.isTransactionDisplayAuthorized) {
+      if (connector.canReadTransaction) {
         rowActions.push(this.viewTransactionAction);
       }
       if (connector.canRemoteStopTransaction) {
@@ -235,7 +233,7 @@ export class ChargingStationConnectorsTableDataSource extends TableDataSource<Co
         break;
       // View Transaction
       case TransactionButtonAction.VIEW_TRANSACTION:
-        if (!connector.isTransactionDisplayAuthorized) {
+        if (!connector.canReadTransaction) {
           this.dialogService.createAndShowOkDialog(
             this.translateService.instant('chargers.action_error.session_details_title'),
             this.translateService.instant('chargers.action_error.session_details_not_authorized'));

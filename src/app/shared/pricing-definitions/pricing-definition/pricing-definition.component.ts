@@ -176,7 +176,7 @@ export class PricingDefinitionComponent extends AbstractTabComponent implements 
     // Static restrictions
     const staticRestrictions = this.pricingDefinitionMain.buildPricingDefinitions();
     // Dynamic restrictions
-    const restrictions = this.pricingDefinitionRestrictions.buildPrincingRestrictions();
+    const restrictions = this.pricingDefinitionRestrictions.buildPricingRestrictions();
     // Build the pricing definition
     const pricingDefinition: PricingDefinition = {
       id,

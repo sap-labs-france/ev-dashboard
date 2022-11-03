@@ -32,6 +32,7 @@ import { SettingsStripeComponent } from './billing/stripe/settings-stripe.compon
 import { CarConnectorConnectionComponent } from './car-connector/connection/car-connector-connection.component';
 import { CarConnectorConnectionDialogComponent } from './car-connector/connection/car-connector-connection.dialog.component';
 import { MercedesCarConnectorConnectionComponent } from './car-connector/connection/mercedes/mercedes-car-connector-connection.component';
+import { TargaTelematicsCarConnectorConnectionComponent } from './car-connector/connection/targa-telematics/targa-telematics-car-connector-connection.component';
 import { TronityCarConnectorConnectionComponent } from './car-connector/connection/tronity/tronity-car-connector-connection.component';
 import { SettingsCarConnectorConnectionEditableTableDataSource } from './car-connector/settings-car-connector-connections-list-table-data-source';
 import { SettingsCarConnectorComponent } from './car-connector/settings-car-connector.component';
@@ -121,6 +122,7 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     CarConnectorConnectionDialogComponent,
     MercedesCarConnectorConnectionComponent,
     TronityCarConnectorConnectionComponent,
+    TargaTelematicsCarConnectorConnectionComponent,
     OcpiEndpointStatusFormatterComponent,
     OicpEndpointStatusFormatterComponent,
     AppFormatOcpiStatusPipe,

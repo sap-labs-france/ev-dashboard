@@ -8,6 +8,7 @@ import { MaterialModule } from '../../app.module';
 import { CommonDirectivesModule } from '../../shared/directives/directives.module';
 import { FormattersModule } from '../../shared/formatters/formatters.module';
 import { TableModule } from '../table/table.module';
+import { PricingDefinitionDetailCellComponent } from './pricing-definition/cell-components/pricing-defintion-detail-cell-component.component';
 import { PricingDefinitionDimensionsComponent } from './pricing-definition/dimensions/pricing-definition-dimensions.component';
 import { PricingDefinitionMainComponent } from './pricing-definition/main/pricing-definition-main.component';
 import { PricingDefinitionComponent } from './pricing-definition/pricing-definition.component';
@@ -34,7 +35,8 @@ import { PricingDefinitionsDialogComponent } from './pricing-definitions.dialog.
     PricingDefinitionDialogComponent,
     PricingDefinitionMainComponent,
     PricingDefinitionRestrictionsComponent,
-    PricingDefinitionDimensionsComponent
+    PricingDefinitionDimensionsComponent,
+    PricingDefinitionDetailCellComponent
   ],
   exports: [
     PricingDefinitionsComponent,

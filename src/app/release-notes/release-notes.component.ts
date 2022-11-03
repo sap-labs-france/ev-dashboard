@@ -31,13 +31,39 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.7.2',
-        date: new Date('2022-09-21'),
+        version: '2.7.3',
+        date: new Date('2022-10-25'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
-              `Email Notifications - Code improvements and new look and feel`,
+              'Charging Station Error - The subject of the email includes information about the charger',
+              'Charging Station List - Navigation from the charger to its session list has been fixed',
+              'RFID Cards - New button to generate an RFID when creating cards',
+              'Pricing - Restriction on the days of the week is now sorted',
+              'Charging Sessions - fix - User information was missing when exporting to a CSV file',
+              'Charging Sessions - fix - Exporting OCPI CDR was not possible',
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.7.2',
+        date: new Date('2022-10-04'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              'Authorization - Transaction and User endpoints have been migrated to the new authorization framework',
+              'Email Notifications - Code improvements and new look and feel',
+              'UI Improvements - New menu item to navigate from a charger to the corresponding sessions',
+              'UI Improvements - New sorting option on list of charging stations - public / non public',
+              'Performance Improvements - new options to reduce data size when fetching collections',
+              'Pricing - New column to preview pricing restrictions in the list',
+              'Car Connectors - Targa Telematics - New connector to get the SoC on AC Charging Stations',
+              'Security - OCPI Tariff IDs not shown to basic users',
+              'OCPI - The owner name can be set per site and sent to the GIREVE Roaming Platform',
+              'Car Catalog - Adaptation to version 29 of the ev-database API'
             ],
           },
         ],

@@ -249,6 +249,7 @@
       "force_available_status": "Forzar estatus a disponible",
       "force_unavailable_status": "Forzar estatus a no disponible",
       "display_users": "Desplegar usuarios",
+      "display_sites": "Display sites",
       "pricing": "Pricing"
     }
   },
@@ -1371,6 +1372,7 @@
     "update_remove_site_owner_success": "El usuario ya no es propietario del sitio '{{siteName}}'",
     "update_site_owner_role_error": "Se produjo un error al actualizar al usuario en el sitio '{{siteName}}'",
     "redirect": "Navigar al usuario",
+    "display_sites": "Display sites",
     "connectors": {
       "connect": "Conectar",
       "revoke": "Revocar",
@@ -1937,7 +1939,8 @@
       },
       "types": {
         "mercedes": "Mercedes Connector",
-        "tronity": "Tronity Connector"
+        "tronity": "Tronity Connector",
+        "targa_telematics": "Targa Telematics Connector"
       },
       "mercedes": {
         "link_success": "Your account has been successfully linked with Mercedes",
@@ -2564,7 +2567,7 @@
       "energy_amps": "Energía entregada (A.h)",
       "reset_zoom": "Resetear",
       "no_consumption": "No hay datos de consumo disponibles.",
-      "cumulated_amount": "Cantidad",
+      "cumulated_amount": "Importe",
       "amperage": "Amperaje (A)",
       "amperage_dc": "Amperaje DC (A)",
       "amperage_l1": "Amperaje L1 (A)",

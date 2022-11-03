@@ -9,7 +9,7 @@
         <div class="card-body mat-tab-dialog-body-content">
           <div class="ps-2">
             <div class="row">
-              <button mat-flat-button color="primary" (click)="file.click()" class="me-2 col-md-3" [disabled]="uploadInProgress">
+              <button mat-flat-button color="primary" (click)="file.click();" class="me-3 col-md-3" [disabled]="uploadInProgress">
                 {{"general.choose_file" | translate}}
                 <div class="d-none">
                   <input #file type="file" ng2FileSelect [uploader]="uploader" accept=".csv" />
@@ -18,12 +18,12 @@
               <span class="pt-2 col-md-8">{{ fileName }}</span>
             </div>
             <div class="row pt-3">
-              <mat-checkbox (change)="handleAutoActivateUserAtImport($event.checked)" checked>
+              <mat-checkbox (change)="handleAutoActivateUserAtImport($event.checked)" [checked]="autoActivateImportedUsers">
                 {{ "users.import_users_auto_activation" | translate }}
               </mat-checkbox>
             </div>
-            <div *ngIf="entity === 'tags'" class="row pt-1">
-              <mat-checkbox (change)="handleAutoActivateTagAtImport($event.checked)" checked>
+            <div *ngIf="entity === 'tags'" class="row pt-3">
+              <mat-checkbox (change)="handleAutoActivateTagAtImport($event.checked)" [checked]="autoActivateImportedTags">
                 {{ "tags.import_tags_auto_activation" | translate }}
               </mat-checkbox>
             </div>

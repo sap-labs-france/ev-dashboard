@@ -25,6 +25,7 @@ import { TableAutoRefreshAction } from '../table/actions/table-auto-refresh-acti
 import { TableRefreshAction } from '../table/actions/table-refresh-action';
 import { TableCreatePricingDefinitionAction, TableCreatePricingDefinitionActionDef } from '../table/actions/users/table-create-pricing-definition-action';
 import { TableDeletePricingDefinitionAction, TableDeletePricingDefinitionActionDef } from '../table/actions/users/table-delete-pricing-definition';
+import { PricingDefinitionDetailCellComponent } from './pricing-definition/cell-components/pricing-defintion-detail-cell-component.component';
 import { PricingDefinitionDialogComponent } from './pricing-definition/pricing-definition.dialog.component';
 
 @Injectable()
@@ -115,22 +116,30 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
       }
     ];
     if (this.viewingAllComponents) {
-      tableActions.push(...[{
-        id: 'entityType',
-        name: 'transactions.dialog.session.pricing-detail-entity-type',
-        headerClass: 'col-15p',
-        class: 'col-15p',
-        visible: this.viewingAllComponents,
-      },
-      {
-        id: 'entityName',
-        name: 'transactions.dialog.session.pricing-detail-entity-name',
-        headerClass: 'col-15p',
-        class: 'col-15p',
-        visible: this.viewingAllComponents,
-      }]);
+      tableActions.push(...[
+        {
+          id: 'entityType',
+          name: 'transactions.dialog.session.pricing-detail-entity-type',
+          headerClass: 'col-15p',
+          class: 'col-15p',
+        },
+        {
+          id: 'entityName',
+          name: 'transactions.dialog.session.pricing-detail-entity-name',
+          headerClass: 'col-15p',
+          class: 'col-15p',
+        }
+      ]);
     }
     tableActions.push(...[
+      {
+        id: 'id',
+        name: 'settings.pricing.restrictions_title',
+        headerClass: 'text-center',
+        class: 'text-center table-cell-angular-big-component',
+        isAngularComponent: true,
+        angularComponent: PricingDefinitionDetailCellComponent,
+      },
       {
         id: 'staticRestrictions.validFrom',
         name: 'settings.pricing.valid_from',

@@ -16,15 +16,14 @@ import { UsersListTableDataSource } from './users-list-table-data-source';
   providers: [UsersListTableDataSource, UserComponent],
 })
 export class UsersListComponent implements OnInit {
-  public isAdmin: boolean;
 
+  // eslint-disable-next-line no-useless-constructor
   public constructor(
     public usersListTableDataSource: UsersListTableDataSource,
     private authorizationService: AuthorizationService,
     private dialog: MatDialog,
     private activatedRoute: ActivatedRoute,
     private router: Router) {
-    this.isAdmin = this.authorizationService.isAdmin();
   }
 
   public ngOnInit(): void {

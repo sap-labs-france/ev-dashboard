@@ -216,9 +216,9 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
     } else {
       rowActions.push(this.viewAction);
     }
-    if (site.canAssignUsers || site.canUnassignUsers) {
+    if (site.canAssignUnassignUsers) {
       rowActions.push(this.assignUsersToSite);
-    } else if (site.canReadUsers) {
+    } else if (site.canListSiteUsers) {
       rowActions.push(this.viewUsersOfSite);
     }
     if (this.isPricingComponentActive && site.canMaintainPricingDefinitions) {

@@ -33,6 +33,10 @@ import { AssetDialogComponent } from '../asset/asset-dialog.component';
 export class AssetsInErrorTableDataSource extends TableDataSource<AssetInError> {
   private editAction = new TableEditAssetAction().getActionDef();
   private deleteAction = new TableDeleteAssetAction().getActionDef();
+  private issuerFilter: TableFilterDef;
+  private siteFilter: TableFilterDef;
+  private siteAreaFilter: TableFilterDef;
+  private errorTypesFilter: TableFilterDef;
   private assetsAuthorizations: AssetsAuthorizations;
   private errorTypes = [
     {
@@ -146,17 +150,16 @@ export class AssetsInErrorTableDataSource extends TableDataSource<AssetInError> 
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {
-    const issuerFilter = new IssuerFilter().getFilterDef();
+    this.issuerFilter = new IssuerFilter().getFilterDef();
+    this.siteFilter = new SiteTableFilter([this.issuerFilter]).getFilterDef();
+    this.siteAreaFilter = new SiteAreaTableFilter([this.issuerFilter, this.siteFilter]).getFilterDef();
+    this.errorTypesFilter = new ErrorTypeTableFilter(this.errorTypes).getFilterDef();
     const filters: TableFilterDef[] = [
-      issuerFilter,
+      this.issuerFilter,
+      this.siteFilter,
+      this.siteAreaFilter,
+      this.errorTypesFilter,
     ];
-    // Show Site Area Filter If Organization component is active
-    if (this.componentService.isActive(TenantComponents.ORGANIZATION)) {
-      const siteFilter = new SiteTableFilter([issuerFilter]).getFilterDef();
-      filters.push(siteFilter);
-      filters.push(new SiteAreaTableFilter([issuerFilter, siteFilter]).getFilterDef());
-    }
-    filters.push(new ErrorTypeTableFilter(this.errorTypes).getFilterDef());
     return filters;
   }
 

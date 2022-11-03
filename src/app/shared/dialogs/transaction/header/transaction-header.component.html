@@ -7,15 +7,11 @@
   </div>
   <div class="col-md-2 p-3 justify-content-center">
     <div class="row">
-      <div *ngIf="transaction.stop" class="col-6 col-md-12 text-center mb-3" appTooltip
+      <div class="col-6 col-md-12 text-center mb-3" appTooltip
           title="{{'transactions.dialog.session.tooltips.amount' | translate}}">
         <mat-icon>money</mat-icon>
-        <div>{{transaction.stop.priceUnit ? (transaction.stop.roundedPrice | appCurrency:transaction.stop.priceUnit) : '-'}}</div>
-      </div>
-      <div *ngIf="!transaction.stop" class="col-6 col-md-12 text-center mb-3" appTooltip
-          title="{{'transactions.dialog.session.tooltips.current_consumption' | translate}}">
-        <mat-icon>flash_on</mat-icon>
-        <div>{{transaction.currentInstantWatts | appUnit:'W':'kW'}}</div>
+        <div *ngIf="transaction.stop">{{transaction.stop.priceUnit ? (transaction.stop.roundedPrice | appCurrency:transaction.stop.priceUnit) : '-'}}</div>
+        <div *ngIf="!transaction.stop">{{transaction.priceUnit ? (transaction.currentCumulatedPrice | appCurrency:transaction.priceUnit) : '-'}}</div>
       </div>
       <div class="col-6 col-md-12 text-center" appTooltip
           title="{{'transactions.dialog.session.tooltips.start_date' | translate}}">

@@ -125,28 +125,30 @@ export class UsersListTableDataSource extends TableDataSource<User> {
   public loadDataImpl(): Observable<DataResult<User>> {
     return new Observable((observer) => {
       // Get the Tenants
-      this.centralServerService.getUsers(this.buildFilterValues(),
-        this.getPaging(), this.getSorting()).subscribe((users) => {
-        // Initialize authorization actions
-        this.usersAuthorizations = {
-          // Authorization action
-          canCreate: Utils.convertToBoolean(users.canCreate),
-          canImport: Utils.convertToBoolean(users.canImport),
-          canExport: Utils.convertToBoolean(users.canExport),
-          // Metadata
-          metadata: users.metadata
-        };
-        this.createAction.visible = this.usersAuthorizations.canCreate;
-        this.importAction.visible = this.usersAuthorizations.canImport;
-        this.exportAction.visible = this.usersAuthorizations.canExport;
-        this.tagFilter.visible = Utils.convertToBoolean(users.canListTags);
-        this.siteFilter.visible = Utils.convertToBoolean(users.canListSites) && this.componentService.isActive(TenantComponents.ORGANIZATION);
-        this.userFreeAccessFilter.visible = this.componentService.isActive(TenantComponents.BILLING);
-        observer.next(users);
-        observer.complete();
-      }, (error) => {
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        observer.error(error);
+      this.centralServerService.getUsers(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe({
+        next: (users) => {
+          // Initialize authorization actions
+          this.usersAuthorizations = {
+            // Authorization action
+            canCreate: Utils.convertToBoolean(users.canCreate),
+            canImport: Utils.convertToBoolean(users.canImport),
+            canExport: Utils.convertToBoolean(users.canExport),
+            // Metadata
+            metadata: users.metadata
+          };
+          this.createAction.visible = this.usersAuthorizations.canCreate;
+          this.importAction.visible = this.usersAuthorizations.canImport;
+          this.exportAction.visible = this.usersAuthorizations.canExport;
+          this.tagFilter.visible = Utils.convertToBoolean(users.canListTags);
+          this.siteFilter.visible = Utils.convertToBoolean(users.canListSites) && this.componentService.isActive(TenantComponents.ORGANIZATION);
+          this.userFreeAccessFilter.visible = this.componentService.isActive(TenantComponents.BILLING);
+          observer.next(users);
+          observer.complete();
+        },
+        error: (error) => {
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          observer.error(error);
+        }
       });
     });
   }

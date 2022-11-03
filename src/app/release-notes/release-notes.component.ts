@@ -31,6 +31,24 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.7.4',
+        date: new Date('2022-11-02'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              'Security - Libraries have been updated to address security issues and avoid vulnerabilities',
+              'Billing - STRIPE - Code cleanup to avoid using deprecated methods',
+              'Billing - improvement - Some code reorganization for a better abstraction of the underlying implementation',
+              'Authorizations - fix - Authorization check on start charging session has been fixed',
+              'Authorizations - fix - Assignment of site admin and site owner roles',
+              'Authorizations - fix - Admin can refund charging sessions when being site owner',
+              'Logging - improvement - minor change - application errors logged in their tenant'
+            ],
+          },
+        ],
+      },
+      {
         version: '2.7.3',
         date: new Date('2022-10-25'),
         componentChanges: [

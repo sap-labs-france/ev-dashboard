@@ -10,8 +10,8 @@
       <div class="col-6 col-md-12 text-center mb-3" appTooltip
           title="{{'transactions.dialog.session.tooltips.amount' | translate}}">
         <mat-icon>money</mat-icon>
-        <div *ngIf="transaction.stop; else transactionInProgress">{{transaction.stop.priceUnit ? (transaction.stop.roundedPrice | appCurrency:transaction.stop.priceUnit) : '-'}}</div>
-        <div #transactionInProgress>{{transaction.priceUnit ? (transaction.currentCumulatedPrice | appCurrency:transaction.priceUnit) : '-'}}</div>
+        <div *ngIf="transaction.stop">{{transaction.stop.priceUnit ? (transaction.stop.roundedPrice | appCurrency:transaction.stop.priceUnit) : '-'}}</div>
+        <div *ngIf="!transaction.stop">{{transaction.priceUnit ? (transaction.currentCumulatedPrice | appCurrency:transaction.priceUnit) : '-'}}</div>
       </div>
       <div class="col-6 col-md-12 text-center" appTooltip
           title="{{'transactions.dialog.session.tooltips.start_date' | translate}}">

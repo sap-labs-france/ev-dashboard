@@ -1535,7 +1535,7 @@
       "company_name": "Nom de l'entreprise",
       "account_status": "Statut",
       "account_id": "ID du compte connecté",
-      "billing_account": "Compte conecté"
+      "billing_account": "Compte connecté"
     },
     "message": {
       "create_success": "Le compte a été ajoûté avec succès",

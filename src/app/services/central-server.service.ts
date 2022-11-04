@@ -3519,6 +3519,22 @@ export class CentralServerService {
       );
   }
 
+  public verifyScanPayEmail(data: any): Observable<ActionResponse> {
+    // Verify init
+    this.checkInit();
+    // Set the tenant
+    data['tenant'] = this.windowService.getSubdomain();
+    // Execute
+    return this.httpClient.post<ActionResponse>(`${this.restServerAuthURL}/${RESTServerRoute.REST_MAIL_CHECK_SCAN_PAY}`,
+      data,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
   public buildImportTagsUsersHttpHeaders(
     autoActivateUserAtImport?: boolean, autoActivateTagAtImport?: boolean): { name: string; value: string }[] {
     // Build File Header

@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatChipsModule } from '@angular/material/chips';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { MaterialModule } from '../../app.module';
@@ -17,7 +16,6 @@ import { RefreshComponent } from './refresh/refresh.component';
 @NgModule({
   imports: [
     CommonModule,
-    MatChipsModule,
     TranslateModule,
     CommonDirectivesModule,
     FormattersModule,
@@ -38,7 +36,7 @@ import { RefreshComponent } from './refresh/refresh.component';
     RefreshComponent,
     DateTimeComponent,
     DateTimeRangeComponent,
-  ]
+  ],
 })
 export class ComponentModule {
 }

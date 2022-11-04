@@ -66,7 +66,6 @@ export interface DateTimeTableFilterDef {
   timePickerSeconds?: boolean;
   minDate?: Dayjs;
   maxDate?: Dayjs;
-  displayRanges?: boolean;
 }
 
 export interface DateTimeRange {

@@ -199,6 +199,30 @@
       "tags": "Badges",
       "charging_station_templates": "Templates"
     },
+    "components": {
+      "date_time": {
+        "up_second_label": "Add a second",
+        "down_second_label": "Minus a second",
+        "up_minute_label": "Add a minute",
+        "down_minute_label": "Minus a minute",
+        "up_hour_label": "Add a hour",
+        "down_hour_label": "Minus a hour",
+        "prev_month_label": "Previous month",
+        "next_month_label": "Next month",
+        "prev_year_label": "Previous year",
+        "next_year_label": "Next year",
+        "prev_multi_year_label": "Previous 21 years",
+        "next_multi_year_label": "Next 21 years",
+        "switch_to_month_view_label": "Change to month view",
+        "switch_to_multi_year_view_label": "Choose month and year",
+        "cancel_btn_label": "Cancel",
+        "set_btn_label": "Set",
+        "range_from_label": "From",
+        "range_to_label": "To",
+        "hour_12_am_label": "AM",
+        "hour_12_pm_label": "PM"
+      }
+    },
     "tooltips": {
       "push_cdr": "Spingi CDR",
       "activate": "Attivare",

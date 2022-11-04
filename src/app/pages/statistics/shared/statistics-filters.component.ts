@@ -76,7 +76,6 @@ export class StatisticsFiltersComponent implements OnInit {
     const dateRangeFilter = new DateRangeTableFilter({
       translateService: this.translateService
     }).getFilterDef();
-    dateRangeFilter.dateRangeTableFilterDef.displayRanges = false;
     dateRangeFilter.dateRangeTableFilterDef.timePicker = false;
     this.tableFiltersDef.push(dateRangeFilter);
     const siteFilter = new SiteTableFilter([issuerFilter]).getFilterDef();

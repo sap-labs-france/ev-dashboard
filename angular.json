@@ -74,7 +74,7 @@
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.css",
-              "node_modules/angular-datetimerangepicker/styles/styles.css",
+              "node_modules/ng-pick-datetime/assets/style/picker.min.css",
               "src/assets/css/material-dashboard.css",
               "src/assets/scss/material-dashboard.scss"
             ],

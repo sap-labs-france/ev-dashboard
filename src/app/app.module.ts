@@ -55,12 +55,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { TranslateDefaultParser, TranslateLoader, TranslateModule, TranslateParser, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { DatetimerangepickerModule } from 'angular-datetimerangepicker';
 import * as dayjs from 'dayjs';
 import localeData from 'dayjs/plugin/localeData';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
+import { OWL_DATE_TIME_FORMATS, OwlDateTimeIntl, OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { NgxCaptchaModule } from 'ngx-captcha';
 import { Observable, Observer } from 'rxjs';
 import { FeatureService } from 'services/feature.service';
@@ -104,6 +104,49 @@ dayjs.extend(localizedFormat);
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
+@Injectable()
+class OwlDateTimeTranslatedIntl extends OwlDateTimeIntl {
+  public constructor(private translate: TranslateService) {
+    super();
+    this.loadTranslation();
+    this.translate.onLangChange.subscribe(() => {
+      this.loadTranslation();
+    });
+  }
+
+  private loadTranslation() {
+    this.upSecondLabel = this.translate.instant('general.components.date_time.up_second_label');
+    this.downSecondLabel = this.translate.instant('general.components.date_time.down_second_label');
+    this.upMinuteLabel = this.translate.instant('general.components.date_time.up_minute_label');
+    this.downMinuteLabel = this.translate.instant('general.components.date_time.down_minute_label');
+    this.upHourLabel = this.translate.instant('general.components.date_time.up_hour_label');
+    this.downHourLabel = this.translate.instant('general.components.date_time.down_hour_label');
+    this.prevMonthLabel = this.translate.instant('general.components.date_time.prev_month_label');
+    this.nextMonthLabel = this.translate.instant('general.components.date_time.next_month_label');
+    this.prevYearLabel = this.translate.instant('general.components.date_time.prev_year_label');
+    this.nextYearLabel = this.translate.instant('general.components.date_time.next_year_label');
+    this.prevMultiYearLabel = this.translate.instant('general.components.date_time.prev_multi_year_label');
+    this.nextMultiYearLabel = this.translate.instant('general.components.date_time.next_multi_year_label');
+    this.switchToMonthViewLabel = this.translate.instant('general.components.date_time.switch_to_month_view_label');
+    this.switchToMultiYearViewLabel = this.translate.instant('general.components.date_time.switch_to_multi_year_view_label');
+    this.cancelBtnLabel = this.translate.instant('general.components.date_time.cancel_btn_label');
+    this.setBtnLabel = this.translate.instant('general.components.date_time.set_btn_label');
+    this.rangeFromLabel = this.translate.instant('general.components.date_time.range_from_label');
+    this.rangeToLabel = this.translate.instant('general.components.date_time.range_to_label');
+    this.hour12AMLabel = this.translate.instant('general.components.date_time.hour_12_am_label');
+    this.hour12PMLabel = this.translate.instant('general.components.date_time.hour_12_pm_label');
+  }
+};
+
+const OWL_DATE_TIME_CUSTOM_FORMATS = {
+  fullPickerInput: {year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric'},
+  datePickerInput: {year: 'numeric', month: 'short', day: 'numeric'},
+  timePickerInput: {hour: 'numeric', minute: 'numeric'},
+  monthYearLabel: {year: 'numeric', month: 'short'},
+  dateA11yLabel: {year: 'numeric', month: 'long', day: 'numeric'},
+  monthYearA11yLabel: {year: 'numeric', month: 'long'},
+};
+
 @NgModule({
   exports: [
     MatAutocompleteModule,
@@ -114,7 +157,8 @@ dayjs.extend(timezone);
     MatChipsModule,
     MatStepperModule,
     MatDatepickerModule,
-    DatetimerangepickerModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule,
     MatDialogModule,
     MatExpansionModule,
     MatGridListModule,
@@ -138,6 +182,10 @@ dayjs.extend(timezone);
     MatTabsModule,
     MatToolbarModule,
   ],
+  providers: [
+    { provide: OwlDateTimeIntl, useClass: OwlDateTimeTranslatedIntl },
+    { provide: OWL_DATE_TIME_FORMATS, useValue: OWL_DATE_TIME_CUSTOM_FORMATS },
+  ]
 })
 export class MaterialModule {
 }
@@ -181,6 +229,8 @@ const initAppFactory = (centralServerService: CentralServerService, configServic
       }
     });
   }));
+
+
 @Injectable()
 class CustomTranslateDefaultParser extends TranslateDefaultParser {
   public getValue(target: any, key: string): any {

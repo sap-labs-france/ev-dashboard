@@ -25,7 +25,6 @@ export class DateRangeTableFilter extends TableFilter {
         endDateTimeHttpID: options.endDateTimeHttpID ? options.endDateTimeHttpID : 'EndDateTime',
         timePicker: true,
         timePickerSeconds: Utils.isNullOrUndefined(options.showSeconds) ? false : options.showSeconds,
-        displayRanges: true,
       },
       currentValue: {
         startDate,

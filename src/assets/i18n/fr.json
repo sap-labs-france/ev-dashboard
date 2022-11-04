@@ -199,6 +199,30 @@
       "tags": "Badges",
       "charging_station_templates": "Modèles"
     },
+    "components": {
+      "date_time": {
+        "up_second_label": "Ajouter une seconde",
+        "down_second_label": "Enlever une seconde",
+        "up_minute_label": "Ajouter une minute",
+        "down_minute_label": "Enlever une minute",
+        "up_hour_label": "Ajouter une heure",
+        "down_hour_label": "Enlever une heure",
+        "prev_month_label": "Précédent mois",
+        "next_month_label": "Prochain mois",
+        "prev_year_label": "Précédente année",
+        "next_year_label": "Prochaine année",
+        "prev_multi_year_label": "Précédentes 21 années",
+        "next_multi_year_label": "Prochaines 21 années",
+        "switch_to_month_view_label": "Vue mois",
+        "switch_to_multi_year_view_label": "Choisir mois et année",
+        "cancel_btn_label": "Annuler",
+        "set_btn_label": "Valider",
+        "range_from_label": "De",
+        "range_to_label": "A",
+        "hour_12_am_label": "AM",
+        "hour_12_pm_label": "PM"
+      }
+    },
     "tooltips": {
       "push_cdr": "Push CDR",
       "activate": "Activer",

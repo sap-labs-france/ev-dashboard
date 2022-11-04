@@ -13,7 +13,6 @@ export class DateTableFilter extends TableFilter {
       dateRangeTableFilterDef: {
         timePicker: false,
         timePickerSeconds: false,
-        displayRanges: false,
       },
       type: FilterType.DATE,
       name: 'general.search_date',

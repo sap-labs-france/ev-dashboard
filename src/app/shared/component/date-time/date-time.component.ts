@@ -1,29 +1,30 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
-import { Options } from 'angular-datetimerangepicker';
-import { Daterangepicker } from 'angular-datetimerangepicker/daterangepicker/daterangepicker.component';
 import * as dayjs from 'dayjs';
-import { Dayjs } from 'dayjs';
+import { DateTimeAdapter, OwlDateTimeInputDirective } from 'ng-pick-datetime';
 
 @Component({
   selector: 'app-date-time',
   template: `
     <mat-form-field>
-      <input matInput readonly (click)="showCalendar()"
-        [placeholder]="placeholder | translate"
-        [value]="dateRangePicker['elem'].nativeElement.childNodes[0].childNodes[0].value"
+      <input matInput [min]="minDate" [max]="maxDate" [owlDateTime]="dt1"
+        [ngModel]="selectedDate"
+        [placeholder]="placeholder | translate" [selectMode]="'single'"
+        (dateTimeChange)="dateChanged($event)"
+        [owlDateTimeTrigger]="dt1" readonly
       >
-      <button mat-icon-button matSuffix (click)="showCalendar()">
+      <button mat-icon-button matSuffix [owlDateTimeTrigger]="dt1">
         <mat-icon>date_range</mat-icon>
       </button>
+      <owl-date-time #dt1
+        [pickerType]="timePicker ? 'both' : 'calendar'"
+        [firstDayOfWeek]="datePickerOptions.firstDayOfWeek"
+        [showSecondsTimer]="timePickerSeconds"
+        [hour12Timer]="datePickerOptions.hour12Timer"
+      >
+      </owl-date-time>
     </mat-form-field>
-    <daterangepicker
-      #dateRangePicker
-      class="form-control"
-      [options]="dateRangePickerOptions"
-      (rangeSelected)="dateChanged($event.start)">
-    </daterangepicker>
   `,
 })
 export class DateTimeComponent implements OnInit, OnChanges {
@@ -38,131 +39,65 @@ export class DateTimeComponent implements OnInit, OnChanges {
   @Input() public formControl: AbstractControl<Date>;
   @Output() public dateTimeChanged = new EventEmitter<Date>();
 
-  @ViewChild('dateRangePicker', { static: true }) private dateRangePicker!: Daterangepicker;
-
-  public dateRangePickerOptions: Options = {
-    minDate: dayjs().subtract(120, 'months'),
-    maxDate: dayjs().add(120, 'months'),
-    format: dayjs.localeData().longDateFormat('LL'),
-    displayFormat: dayjs.localeData().longDateFormat('LL'),
-    inactiveBeforeStart: false,
-    disableBeforeStart: true,
-    autoApply: true,
-    theme: 'light',
-    required: false,
-    showRanges: false,
-    noDefaultRangeSelected: true,
-    singleCalendar: true,
-    position: 'left',
-    disabled: false,
-    readOnly: true,
-    disableWeekEnds: false,
-    disabledDays: [],
-    disabledDates: [],
-    alwaysOpen: false,
-    weekStartsOn: dayjs.localeData().firstDayOfWeek(),
+  public selectedDate: Date;
+  public datePickerOptions: { firstDayOfWeek: number; hour12Timer: boolean; placeholder: string } = {
+    firstDayOfWeek: dayjs.localeData().firstDayOfWeek(),
+    hour12Timer: true,
+    placeholder: ''
   };
 
   public constructor(
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private dateTimeAdapter: DateTimeAdapter<any>,
   ) {
+    // Set locale
+    this.dateTimeAdapter.setLocale(dayjs.locale());
     // Init
     this.timePicker = false;
-  }
+    if (!dayjs.localeData().longDateFormat('lll').match(/A/i)) {
+      this.datePickerOptions.hour12Timer = false;
+    }
+}
 
   public ngOnInit(): void {
     // Set Dates
     if (this.date) {
-      this.dateRangePickerOptions.startDate = dayjs(this.date);
-      this.dateRangePickerOptions.noDefaultRangeSelected = false;
-    }
-    if (this.minDate) {
-      this.dateRangePickerOptions.minDate = dayjs(this.minDate);
-    }
-    if (this.maxDate) {
-      this.dateRangePickerOptions.maxDate = dayjs(this.maxDate);
-    }
-    // Check Time
-    if (this.timePicker) {
-      this.dateRangePickerOptions.timePicker = {
-        minuteInterval: 1,
-        twentyFourHourFormat: false
-      };
-      if (!dayjs.localeData().longDateFormat('lll').match(/A/i)) {
-        this.dateRangePickerOptions.timePicker.twentyFourHourFormat = true;
-      }
-      // Display time
-      this.dateRangePickerOptions.format = dayjs.localeData().longDateFormat('LLL');
-      this.dateRangePickerOptions.displayFormat = dayjs.localeData().longDateFormat('LLL');
+      this.selectedDate = new Date(this.date);
     }
     if (this.placeholder) {
-      this.dateRangePickerOptions.placeholder = this.translateService.instant(this.placeholder);
+      this.datePickerOptions.placeholder = this.translateService.instant(this.placeholder);
     }
-    // Recreate the object (mandatory to refresh the component when date or format are changed)
-    this.dateRangePickerOptions = {
-      ...this.dateRangePickerOptions,
-    };
   }
 
   public ngOnChanges(): void {
+    // Set Date
     if (this.date) {
-      this.dateRangePickerOptions.startDate = dayjs(this.date);
-      this.dateRangePickerOptions.noDefaultRangeSelected = false;
+      this.selectedDate = new Date(this.date);
     }
-    if (this.minDate) {
-      this.dateRangePickerOptions.minDate = dayjs(this.minDate);
-      // Check constraint
-      if (this.dateRangePickerOptions.startDate?.isBefore(this.minDate)) {
-        setTimeout(() => this.dateChanged(dayjs(this.minDate)), 0);
-      }
-    } else {
-      this.dateRangePickerOptions.minDate = dayjs().subtract(120, 'months');
-    }
-    if (this.maxDate) {
-      this.dateRangePickerOptions.maxDate = dayjs(this.maxDate);
-      // Check constraint
-      if (this.dateRangePickerOptions.endDate?.isAfter(this.maxDate)) {
-        setTimeout(() => this.dateChanged(dayjs(this.maxDate)), 0);
-      }
-    } else {
-      this.dateRangePickerOptions.maxDate = dayjs().add(120, 'months');
-    }
-    // Set Dates (mandatory to force recreate the object)
-    this.dateRangePickerOptions = {
-      ...this.dateRangePickerOptions,
-    };
   }
 
-  public showCalendar() {
-    this.dateRangePicker['elem'].nativeElement.childNodes[0].childNodes[0].dispatchEvent(new Event('mousedown', { bubbles: true }));
-  }
-
-  public dateChanged(date: Dayjs) {
-    // Date picker
-    if (date && date.isValid()) {
-      // Force start & end of day if no time picker
-      if (!this.timePicker) {
-        // For time to the end of day
-        if (this.forceEndOfDay) {
-          date = date.endOf('d');
+  public dateChanged(event: { source: OwlDateTimeInputDirective<Date>; value: Date }) {
+    if (event.value) {
+      let date = dayjs(event.value);
+      // Date picker
+      if (date.isValid()) {
+        // Force start & end of day if no time picker
+        if (!this.timePicker) {
+          // For time to the end of day
+          if (this.forceEndOfDay) {
+            date = date.endOf('d');
+          }
         }
-        // Override (if formControl exists, data will be updated via ngChanges)
-        if (!this.formControl) {
-          this.dateRangePickerOptions = {
-            ...this.dateRangePickerOptions,
-            startDate: dayjs(date),
-          };
+        // Update Form control
+        if (this.formControl) {
+          this.formControl.setValue(date.toDate());
+          this.formControl.markAsDirty();
         }
+        // Send Event
+        this.dateTimeChanged.emit(date.toDate());
       }
-      // Update Form control
-      if (this.formControl) {
-        this.formControl.setValue(date.toDate());
-        this.formControl.markAsDirty();
-      }
-      // Send Event
-      this.dateTimeChanged.emit(date.toDate());
     // Clear the date
-    } else if (date && this.allowClearDate) {
+    } else if (this.allowClearDate) {
       // Update Form control
       if (this.formControl) {
         this.formControl.setValue(null);
@@ -170,8 +105,6 @@ export class DateTimeComponent implements OnInit, OnChanges {
       }
       // Send Event
       this.dateTimeChanged.emit(null);
-      // Clear the input field manually
-      this.dateRangePicker['elem'].nativeElement.childNodes[0].childNodes[0].value = '';
     }
   }
 }

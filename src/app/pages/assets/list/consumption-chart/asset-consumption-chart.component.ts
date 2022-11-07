@@ -220,7 +220,7 @@ export class AssetConsumptionChartComponent implements AfterViewInit {
   }
 
   private canDisplayGraph() {
-    return this.asset?.values?.length > 1;
+    return this.asset?.values?.length > 0;
   }
 
   private refreshDataSets() {

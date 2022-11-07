@@ -37,6 +37,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              'Fixed logo size in side bar',
               'Removed deprecated REST endpoints',
               'Removed assetID parameter in Asset create consumption in Swagger',
               'Security - Libraries have been updated to address security issues and avoid vulnerabilities',

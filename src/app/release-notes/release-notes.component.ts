@@ -32,12 +32,13 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.7.4',
-        date: new Date('2022-11-07'),
+        date: new Date('2022-11-08'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `Allow Updating and Deleting all Pricing Definitions in Tenant's settings`,
+              `Fixed user with Admin role can be set as Site Admin`,
               'Fixed logo size in side bar',
               'Removed deprecated REST endpoints',
               'Removed assetID parameter in Asset create consumption in Swagger',

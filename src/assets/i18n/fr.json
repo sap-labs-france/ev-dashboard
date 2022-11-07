@@ -2580,15 +2580,15 @@
           "total_duration": "Durée totale",
           "inactivity": "Temps inactif"
         },
-        "pricing-detail-description": "Description",
-        "pricing-detail-entity-type": "Entité",
-        "pricing-detail-entity-id": "ID de l'entité",
-        "pricing-detail-entity-name": "Entity Name",
-        "pricing-detail-unit-price": "Prix unitaire",
-        "pricing-detail-consumption": "Consommation",
-        "pricing-detail-duration": "Durée",
-        "pricing-detail-amount": "Montant",
-        "pricing-detail-view-all": "Tout voir"
+        "pricing_detail_description": "Description",
+        "pricing_detail_entity_type": "Entité",
+        "pricing_detail_entity_id": "ID de l'entité",
+        "pricing_detail_entity_name": "Entity Name",
+        "pricing_detail_unit_price": "Prix unitaire",
+        "pricing_detail_consumption": "Consommation",
+        "pricing_detail_duration": "Durée",
+        "pricing_detail_amount": "Montant",
+        "pricing_detail_view_all": "Tout voir"
       }
     },
     "notification": {

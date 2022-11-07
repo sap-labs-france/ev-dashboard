@@ -32,11 +32,12 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.7.4',
-        date: new Date('2022-11-02'),
+        date: new Date('2022-11-07'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              'Removed assetID parameter in Asset create consumption in Swagger',
               'Security - Libraries have been updated to address security issues and avoid vulnerabilities',
               'Billing - STRIPE - Code cleanup to avoid using deprecated methods',
               'Billing - improvement - Some code reorganization for a better abstraction of the underlying implementation',

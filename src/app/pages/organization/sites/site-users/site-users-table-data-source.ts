@@ -19,8 +19,8 @@ import { Site } from '../../../../types/Site';
 import { TableActionDef, TableColumnDef, TableDataSourceMode, TableDef } from '../../../../types/Table';
 import { SiteUser, User } from '../../../../types/User';
 import { Utils } from '../../../../utils/Utils';
-import { SiteUsersAdminCheckboxComponent } from './site-users-admin-checkbox.component';
-import { SiteUsersOwnerRadioComponent } from './site-users-owner-radio.component';
+import { SiteUsersSiteAdminComponent } from './site-users-site-admin.component';
+import { SiteUsersSiteOwnerComponent } from './site-users-site-owner.component';
 
 @Injectable()
 export class SiteUsersTableDataSource extends TableDataSource<SiteUser> {
@@ -51,9 +51,9 @@ export class SiteUsersTableDataSource extends TableDataSource<SiteUser> {
           this.getPaging(), this.getSorting()
         ).subscribe({
           next: (siteUser) => {
-          // Initialize siteUsers authorization
+            // Initialize siteUsers authorization
             this.siteUsersAuthorization = {
-            // Authorization actions
+              // Authorization actions
               canUpdateSiteUsers: Utils.convertToBoolean(siteUser.canUpdateSiteUsers)
             };
             // Don't override table def in case of number of record request
@@ -81,30 +81,7 @@ export class SiteUsersTableDataSource extends TableDataSource<SiteUser> {
   }
 
   public buildTableDef(): TableDef {
-    if (this.getMode() === TableDataSourceMode.READ_WRITE) {
-      return {
-        class: 'table-dialog-list',
-        rowFieldNameIdentifier: 'user.email',
-        rowSelection: {
-          enabled: false,
-          multiple: true,
-        },
-        search: {
-          enabled: true,
-        },
-      };
-    }
-    return {
-      class: 'table-dialog-list',
-      rowFieldNameIdentifier: 'user.email',
-      rowSelection: {
-        enabled: false,
-        multiple: false,
-      },
-      search: {
-        enabled: true,
-      },
-    };
+    return this.buildDynamicTableDef();
   }
 
   public buildDynamicTableDef(): TableDef {
@@ -162,21 +139,30 @@ export class SiteUsersTableDataSource extends TableDataSource<SiteUser> {
       {
         id: 'siteAdmin',
         isAngularComponent: true,
-        angularComponent: SiteUsersAdminCheckboxComponent,
+        angularComponent: SiteUsersSiteAdminComponent,
         name: 'sites.admin_role',
         headerClass: 'text-center',
         class: 'col-10p',
         visible: this.siteUsersAuthorization?.canUpdateSiteUsers,
+        disabled: this.getMode() !== TableDataSourceMode.READ_WRITE,
+        additionalParameters: {
+          site: this.site
+        }
       },
       {
         id: 'siteOwner',
         isAngularComponent: true,
-        angularComponent: SiteUsersOwnerRadioComponent,
+        angularComponent: SiteUsersSiteOwnerComponent,
         name: 'sites.owner_role',
         headerClass: 'text-center',
         class: 'col-10p',
         visible: this.siteUsersAuthorization?.canUpdateSiteUsers,
-      }];
+        disabled: this.getMode() !== TableDataSourceMode.READ_WRITE,
+        additionalParameters: {
+          site: this.site
+        }
+      }
+    ];
     return columns;
   }
 

@@ -34,9 +34,9 @@ import { SiteAreaDialogComponent } from './site-areas/site-area/site-area-dialog
 import { SiteAreaComponent } from './site-areas/site-area/site-area.component';
 import { SitesListTableDataSource } from './sites/list/sites-list-table-data-source';
 import { SitesListComponent } from './sites/list/sites-list.component';
-import { SiteUsersAdminCheckboxComponent } from './sites/site-users/site-users-admin-checkbox.component';
 import { SiteUsersDialogComponent } from './sites/site-users/site-users-dialog.component';
-import { SiteUsersOwnerRadioComponent } from './sites/site-users/site-users-owner-radio.component';
+import { SiteUsersSiteAdminComponent } from './sites/site-users/site-users-site-admin.component';
+import { SiteUsersSiteOwnerComponent } from './sites/site-users/site-users-site-owner.component';
 import { SiteUsersTableDataSource } from './sites/site-users/site-users-table-data-source';
 import { SiteMainComponent } from './sites/site/main/site-main.component';
 import { SiteOcpiComponent } from './sites/site/ocpi/site-ocpi.component';
@@ -80,8 +80,8 @@ import { SiteComponent } from './sites/site/site.component';
     SiteOcpiComponent,
     SiteAreaMainComponent,
     SiteAreaOcpiComponent,
-    SiteUsersAdminCheckboxComponent,
-    SiteUsersOwnerRadioComponent,
+    SiteUsersSiteAdminComponent,
+    SiteUsersSiteOwnerComponent,
     SiteAreaConsumptionChartComponent,
     SiteAreaConsumptionChartDetailComponent
   ],

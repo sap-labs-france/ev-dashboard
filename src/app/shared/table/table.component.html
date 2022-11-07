@@ -264,14 +264,15 @@
                   <input *ngIf="!tableColumnDef.editType || tableColumnDef.editType === TableEditType.INPUT"
                     [name]="tableColumnDef.id" class="form-control text-line"
                     [placeholder]="tableColumnDef.name | translate" [ngModel]="row[tableColumnDef.id]"
-                    [disabled]="row[tableColumnDef.id + 'FormControl']?.disabled"
+                    [disabled]="row[tableColumnDef.id + 'FormControl']?.disabled || tableColumnDef.disabled"
                     (ngModelChange)="rowCellUpdated($event, rowIndex, tableColumnDef)" type="text">
                   <mat-checkbox *ngIf="tableColumnDef.editType === TableEditType.CHECK_BOX"
-                    [(ngModel)]="row[tableColumnDef.id]"
+                    [(ngModel)]="row[tableColumnDef.id]" [disabled]="tableColumnDef.disabled"
                     (ngModelChange)="rowCellUpdated($event, rowIndex, tableColumnDef)">
                   </mat-checkbox>
                   <mat-radio-button *ngIf="tableColumnDef.editType === TableEditType.RADIO_BUTTON" class="pt-2"
-                    [checked]="row[tableColumnDef.id]" (change)="$event.source.checked  = !$event.source.checked;"
+                    [checked]="row[tableColumnDef.id]" [disabled]="tableColumnDef.disabled"
+                    (change)="$event.source.checked = !$event.source.checked;"
                     (click)="rowCellUpdated(!row[tableColumnDef.id], rowIndex, tableColumnDef)">
                   </mat-radio-button>
                   <span *ngIf="tableColumnDef.editType === 'displayonly'" class="text-center">

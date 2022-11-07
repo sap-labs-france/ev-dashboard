@@ -2652,15 +2652,15 @@
           "total_duration": "Celková doba trvání",
           "inactivity": "Doba nečinnosti"
         },
-        "pricing-detail-description": "Description",
-        "pricing-detail-entity-type": "Entity Type",
-        "pricing-detail-entity-id": "Entity ID",
-        "pricing-detail-entity-name": "Entity Name",
-        "pricing-detail-unit-price": "Unit Price",
-        "pricing-detail-consumption": "Consumption",
-        "pricing-detail-duration": "Duration",
-        "pricing-detail-amount": "Amount",
-        "pricing-detail-view-all": "View all"
+        "pricing_detail_description": "Description",
+        "pricing_detail_entity_type": "Entity Type",
+        "pricing_detail_entity_id": "Entity ID",
+        "pricing_detail_entity_name": "Entity Name",
+        "pricing_detail_unit_price": "Unit Price",
+        "pricing_detail_consumption": "Consumption",
+        "pricing_detail_duration": "Duration",
+        "pricing_detail_amount": "Amount",
+        "pricing_detail_view_all": "View all"
       }
     },
     "notification": {

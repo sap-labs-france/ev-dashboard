@@ -37,6 +37,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `Allow Updating and Deleting all Pricing Definitions in Tenant's settings`,
               'Fixed logo size in side bar',
               'Removed deprecated REST endpoints',
               'Removed assetID parameter in Asset create consumption in Swagger',

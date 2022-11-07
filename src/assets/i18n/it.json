@@ -2651,15 +2651,15 @@
           "total_duration": "Durata Totale",
           "inactivity": "Durata inattività"
         },
-        "pricing-detail-description": "Descrizione",
-        "pricing-detail-entity-type": "Entità",
-        "pricing-detail-entity-id": "ID entità",
-        "pricing-detail-entity-name": "Nome entità",
-        "pricing-detail-unit-price": "Unita prezzo",
-        "pricing-detail-consumption": "Consumo",
-        "pricing-detail-duration": "Durata",
-        "pricing-detail-amount": "Ammontare",
-        "pricing-detail-view-all": "Visualizza tutto"
+        "pricing_detail_description": "Descrizione",
+        "pricing_detail_entity_type": "Entità",
+        "pricing_detail_entity_id": "ID entità",
+        "pricing_detail_entity_name": "Nome entità",
+        "pricing_detail_unit_price": "Unita prezzo",
+        "pricing_detail_consumption": "Consumo",
+        "pricing_detail_duration": "Durata",
+        "pricing_detail_amount": "Ammontare",
+        "pricing_detail_view_all": "Visualizza tutto"
       }
     },
     "notification": {

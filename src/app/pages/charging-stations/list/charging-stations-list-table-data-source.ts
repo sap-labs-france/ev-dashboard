@@ -439,7 +439,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
       moreActions.addActionInMoreActions(forceUnavailableStatusAction);
     }
     // Generate QR code
-    if (chargingStation.canGenerateQrCode) {
+    if (chargingStation.canDownloadQRCode) {
       moreActions.addActionInMoreActions(this.generateQrCodeConnectorAction);
     }
     if (chargingStation.canListCompletedTransactions) {

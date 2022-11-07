@@ -50,6 +50,7 @@ export enum Entity {
   SITE_AREA = 'SiteArea',
   COMPANY = 'Company',
   CHARGING_STATION = 'ChargingStation',
+  CHARGING_STATION_TEMPLATE = 'ChargingStationTemplate',
   CONNECTOR = 'Connector',
   TENANT = 'Tenant',
   TRANSACTION = 'Transaction',
@@ -80,7 +81,7 @@ export enum Entity {
   TAG = 'Tag',
   PAYMENT_METHOD = 'PaymentMethod',
   SOURCE = 'Source',
-  CHARGING_STATION_TEMPLATE = 'ChargingStationTemplate',
+  CONSUMPTION = 'Consumption',
 }
 
 export enum Action {
@@ -123,6 +124,8 @@ export enum Action {
   BILLING_PAYMENT_METHODS = 'BillingPaymentMethods',
   BILLING_DELETE_PAYMENT_METHOD = 'BillingDeletePaymentMethod',
   BILLING_CHARGE_INVOICE = 'BillingChargeInvoice',
+  BILLING_ACTIVATE_ACCOUNT = 'BillingAccountActivate',
+  BILLING_ONBOARD_ACCOUNT = 'BillingAccountOnboard',
   BILLING_FINALIZE_TRANSFER = 'BillingFinalizeTransfer',
   BILLING_SEND_TRANSFER = 'BillingSendTransfer',
   CHECK_CONNECTION = 'CheckConnection',
@@ -138,6 +141,10 @@ export enum Action {
   IMPORT = 'Import',
   ASSIGN_USERS_TO_SITE = 'AssignUsersToSite',
   UNASSIGN_USERS_FROM_SITE = 'UnassignUsersFromSite',
+  ASSIGN_SITES_TO_USER = 'AssignSitesToUser',
+  UNASSIGN_SITES_FROM_USER = 'UnassignSitesFromUser',
+  ASSIGN_UNASSIGN_USERS = 'AssignUnassignUsers',
+  ASSIGN_UNASSIGN_SITES = 'AssignUnassignSites',
   ASSIGN_ASSETS_TO_SITE_AREA = 'AssignAssets',
   UNASSIGN_ASSETS_FROM_SITE_AREA = 'UnassignAssets',
   READ_ASSETS_FROM_SITE_AREA = 'ReadAssets',
@@ -145,8 +152,29 @@ export enum Action {
   UNASSIGN_CHARGING_STATIONS_FROM_SITE_AREA = 'UnassignChargingStations',
   READ_CHARGING_STATIONS_FROM_SITE_AREA = 'ReadChargingStationsFromSiteArea',
   EXPORT_OCPP_PARAMS = 'ExportOCPPParams',
-  GENERATE_QR = 'GenerateQrCode',
   MAINTAIN_PRICING_DEFINITIONS = 'MaintainPricingDefinitions',
+  RESOLVE = 'Resolve',
+  GET_STATUS_NOTIFICATION = 'GetStatusNotification',
+  GET_BOOT_NOTIFICATION = 'GetBootNotification',
+  RESERVE_NOW = 'ReserveNow',
+  UPDATE_OCPP_PARAMS = 'UpdateOCPPParams',
+  LIMIT_POWER = 'LimitPower',
+  DELETE_CHARGING_PROFILE = 'DeleteChargingProfile',
+  GET_OCPP_PARAMS = 'GetOCPPParams',
+  UPDATE_CHARGING_PROFILE = 'UpdateChargingProfile',
+  DOWNLOAD_QR_CODE = 'DownloadQRCode',
+  GENERATE_QR_CODE = 'GenerateQRCode',
+  VIEW_USER_DATA = 'ViewUserData',
+  SYNCHRONIZE_REFUNDED_TRANSACTION = 'SynchronizeRefundedTransaction',
+  PUSH_TRANSACTION_CDR = 'PushTransactionCDR',
+  GET_ADVENIR_CONSUMPTION = 'GetAdvenirConsumption',
+  GET_CHARGING_STATION_TRANSACTIONS = 'GetChargingStationTransactions',
+  GET_ACTIVE_TRANSACTION = 'GetActiveTransaction',
+  GET_COMPLETED_TRANSACTION = 'GetCompletedTransaction',
+  GET_REFUNDABLE_TRANSACTION = 'GetRefundableTransaction',
+  GET_REFUND_REPORT = 'GetRefundReport',
+  EXPORT_COMPLETED_TRANSACTION = 'ExportCompletedTransaction',
+  EXPORT_OCPI_CDR = 'ExportOcpiCdr',
 }
 
 export interface AuthorizationContext {
@@ -394,15 +422,17 @@ export interface ChargingStationAuthorizationActions extends AuthorizationAction
   canRemoteStartTransaction?: boolean;
   canUnlockConnector?: boolean;
   canDataTransfer?: boolean;
-  canGenerateQrCode?: boolean;
+  canGenerateQRCode?: boolean;
+  canDownloadQRCode?: boolean;
   canMaintainPricingDefinitions?: boolean;
   canUpdateOCPPParams?: boolean;
   canLimitPower?: boolean;
   canDeleteChargingProfile?: boolean;
   canGetOCPPParams?: boolean;
   canUpdateChargingProfile?: boolean;
-  canGetConnectorQRCode?: boolean;
+  canPushTransactionCDR?: boolean;
   canListCompletedTransactions?: boolean;
+  canAuthorize?: boolean;
 }
 
 export interface ChargingProfileAuthorizationActions extends AuthorizationActions {

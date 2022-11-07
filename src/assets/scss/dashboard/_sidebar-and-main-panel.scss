@@ -12,7 +12,9 @@
   @include shadow-big();
   .logo-img {
     @extend .animation-transition-general;
-    max-height: 75px;
+    max-width: 175px;
+    padding-top: 5px;
+    padding-bottom: 5px;
   }
   .small-logo-img {
     @extend .animation-transition-general;

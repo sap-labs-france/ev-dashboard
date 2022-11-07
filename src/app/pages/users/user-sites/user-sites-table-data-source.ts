@@ -19,8 +19,8 @@ import { Site, UserSite } from '../../../types/Site';
 import { TableActionDef, TableColumnDef, TableDataSourceMode, TableDef } from '../../../types/Table';
 import { User } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';
-import { UserSitesAdminCheckboxComponent } from './user-sites-admin-checkbox.component';
-import { UserSitesOwnerRadioComponent } from './user-sites-owner-radio.component';
+import { UserSitesSiteAdminComponent } from './user-sites-site-admin.component';
+import { UserSitesSiteOwnerComponent } from './user-sites-site-owner.component';
 
 @Injectable()
 export class UserSitesTableDataSource extends TableDataSource<UserSite> {
@@ -49,9 +49,9 @@ export class UserSitesTableDataSource extends TableDataSource<UserSite> {
         this.centralServerService.getUserSites(this.buildFilterValues(),
           this.getPaging(), this.getSorting()).subscribe({
           next: (userSites) => {
-          // Initialize userSites authorization
+            // Initialize userSites authorization
             this.userSitesAuthorization = {
-            // Authorization actions
+              // Authorization actions
               canUpdateUserSites: Utils.convertToBoolean(userSites.canUpdateUserSites)
             };
             // Don't override table def in case of number of record request
@@ -79,30 +79,7 @@ export class UserSitesTableDataSource extends TableDataSource<UserSite> {
   }
 
   public buildTableDef(): TableDef {
-    if (this.getMode() === TableDataSourceMode.READ_WRITE) {
-      return {
-        class: 'table-dialog-list',
-        rowSelection: {
-          enabled: false,
-          multiple: true,
-        },
-        search: {
-          enabled: true,
-        },
-        rowFieldNameIdentifier: 'site.id',
-      };
-    }
-    return {
-      class: 'table-dialog-list',
-      rowSelection: {
-        enabled: false,
-        multiple: true,
-      },
-      search: {
-        enabled: true,
-      },
-      rowFieldNameIdentifier: 'site.id',
-    };
+    return this.buildDynamicTableDef();
   }
 
   public buildDynamicTableDef(): TableDef {
@@ -159,26 +136,32 @@ export class UserSitesTableDataSource extends TableDataSource<UserSite> {
         name: 'general.country',
         headerClass: 'col-20p',
         class: 'text-left',
-      }
-    ];
-    if (this.getMode() === TableDataSourceMode.READ_WRITE) {
-      columns.push({
+      },
+      {
         id: 'siteAdmin',
         isAngularComponent: true,
-        angularComponent: UserSitesAdminCheckboxComponent,
+        angularComponent: UserSitesSiteAdminComponent,
         name: 'sites.admin_role',
         class: 'col-10p',
         visible: this.userSitesAuthorization?.canUpdateUserSites,
+        disabled: this.getMode() !== TableDataSourceMode.READ_WRITE,
+        additionalParameters: {
+          user: this.user
+        }
       },
       {
         id: 'siteOwner',
         isAngularComponent: true,
-        angularComponent: UserSitesOwnerRadioComponent,
+        angularComponent: UserSitesSiteOwnerComponent,
         name: 'sites.owner_role',
         class: 'col-10p',
         visible: this.userSitesAuthorization?.canUpdateUserSites,
-      });
-    }
+        disabled: this.getMode() !== TableDataSourceMode.READ_WRITE,
+        additionalParameters: {
+          user: this.user
+        }
+      }
+    ];
     return columns;
   }
 
@@ -277,20 +260,23 @@ export class UserSitesTableDataSource extends TableDataSource<UserSite> {
       // Get the IDs
       const siteIDs = sites.map((site) => site.key);
       // Yes: Update
-      this.centralServerService.addSitesToUser(this.user.id, siteIDs).subscribe((response) => {
-        // Ok?
-        if (response.status === RestResponse.SUCCESS) {
-          this.messageService.showSuccessMessage(this.translateService.instant('users.update_sites_success'));
-          // Refresh
-          this.refreshData().subscribe();
-          // Clear selection
-          this.clearSelectedRows();
-        } else {
-          Utils.handleError(JSON.stringify(response),
-            this.messageService, this.translateService.instant('users.update_error'));
+      this.centralServerService.addSitesToUser(this.user.id, siteIDs).subscribe({
+        next: (response) => {
+          // Ok?
+          if (response.status === RestResponse.SUCCESS) {
+            this.messageService.showSuccessMessage(this.translateService.instant('users.update_sites_success'));
+            // Refresh
+            this.refreshData().subscribe();
+            // Clear selection
+            this.clearSelectedRows();
+          } else {
+            Utils.handleError(JSON.stringify(response),
+              this.messageService, this.translateService.instant('users.update_error'));
+          }
+        },
+        error: (error) => {
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'users.update_error');
         }
-      }, (error) => {
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'users.update_error');
       });
     }
   }

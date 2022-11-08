@@ -3,13 +3,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 
 import { TableEditAction } from '../../../../shared/table/actions/table-edit-action';
-import { DialogParams } from '../../../../types/Authorization';
+import { CompaniesAuthorizations, DialogParamsWithAuth } from '../../../../types/Authorization';
 import { Company, CompanyButtonAction } from '../../../../types/Company';
 import { TableActionDef } from '../../../../types/Table';
 
 export interface TableEditCompanyActionDef extends TableActionDef {
   action: (companyDialogComponent: ComponentType<unknown>, dialog: MatDialog,
-    dialogParams: DialogParams<Company>, refresh?: () => Observable<void>) => void;
+    dialogParams: DialogParamsWithAuth<Company, CompaniesAuthorizations>, refresh?: () => Observable<void>) => void;
 }
 
 export class TableEditCompanyAction extends TableEditAction {
@@ -22,7 +22,7 @@ export class TableEditCompanyAction extends TableEditAction {
   }
 
   private editCompany(companyDialogComponent: ComponentType<unknown>, dialog: MatDialog,
-    dialogParams: DialogParams<Company>, refresh?: () => Observable<void>) {
+    dialogParams: DialogParamsWithAuth<Company, CompaniesAuthorizations>, refresh?: () => Observable<void>) {
     super.edit(companyDialogComponent, dialog, dialogParams, refresh);
   }
 }

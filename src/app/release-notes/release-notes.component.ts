@@ -37,6 +37,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `Aligned email notifications with the application theme`,
               `Allow Updating and Deleting all Pricing Definitions in Tenant's settings`,
               `Fixed user with Admin role can be set as Site Admin`,
               'Fixed logo size in side bar',

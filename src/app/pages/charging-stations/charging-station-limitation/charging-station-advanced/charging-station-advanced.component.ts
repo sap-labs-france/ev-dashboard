@@ -71,18 +71,19 @@ export class ChargingStationAdvancedComponent implements OnInit {
     }
     // Duration
     const durationSecs = this.durationControl.value as number * 60;
-    this.centralServerService.getChargingStationCompositeSchedule(
-      this.chargingStation.id, connectorID, durationSecs,
-      this.chargingStation.powerLimitUnit).subscribe((chargingSchedule) => {
-      this.scheduleResult = chargingSchedule;
-      this.spinnerService.hide();
-      this.formGroup.markAsPristine();
-    }, (error) => {
-      this.spinnerService.hide();
-      // Unexpected error`
-      Utils.handleHttpError(error, this.router, this.messageService,
-        this.centralServerService, this.translateService.instant('general.unexpected_error_backend'));
-      this.scheduleResult = error;
+    this.centralServerService.getChargingStationCompositeSchedule(this.chargingStation.id, connectorID, durationSecs, this.chargingStation.powerLimitUnit).subscribe({
+      next: (chargingSchedule) => {
+        this.scheduleResult = chargingSchedule;
+        this.spinnerService.hide();
+        this.formGroup.markAsPristine();
+      },
+      error: (error) => {
+        this.spinnerService.hide();
+        // Unexpected error`
+        Utils.handleHttpError(error, this.router, this.messageService,
+          this.centralServerService, this.translateService.instant('general.unexpected_error_backend'));
+        this.scheduleResult = error;
+      }
     });
   }
 }

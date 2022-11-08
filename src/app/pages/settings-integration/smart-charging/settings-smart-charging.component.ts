@@ -43,21 +43,24 @@ export class SettingsSmartChargingComponent implements OnInit {
 
   public loadConfiguration() {
     this.spinnerService.show();
-    this.componentService.getSmartChargingSettings().subscribe((settings) => {
-      this.spinnerService.hide();
-      // Keep
-      this.smartChargingSettings = settings;
-      // Init form
-      this.formGroup.markAsPristine();
-    }, (error) => {
-      this.spinnerService.hide();
-      switch (error.status) {
-        case StatusCodes.NOT_FOUND:
-          this.messageService.showErrorMessage('settings.smart_charging.setting_do_not_exist');
-          break;
-        default:
-          Utils.handleHttpError(error, this.router, this.messageService,
-            this.centralServerService, 'general.unexpected_error_backend');
+    this.componentService.getSmartChargingSettings().subscribe({
+      next: (settings) => {
+        this.spinnerService.hide();
+        // Keep
+        this.smartChargingSettings = settings;
+        // Init form
+        this.formGroup.markAsPristine();
+      },
+      error: (error) => {
+        this.spinnerService.hide();
+        switch (error.status) {
+          case StatusCodes.NOT_FOUND:
+            this.messageService.showErrorMessage('settings.smart_charging.setting_do_not_exist');
+            break;
+          default:
+            Utils.handleHttpError(error, this.router, this.messageService,
+              this.centralServerService, 'general.unexpected_error_backend');
+        }
       }
     });
   }
@@ -72,40 +75,46 @@ export class SettingsSmartChargingComponent implements OnInit {
     }
     // Save
     this.spinnerService.show();
-    this.componentService.saveSmartChargingSettings(this.smartChargingSettings).subscribe((response) => {
-      this.spinnerService.hide();
-      if (response.status === RestResponse.SUCCESS) {
-        this.messageService.showSuccessMessage(
-          (!this.smartChargingSettings.id ? 'settings.smart_charging.create_success' : 'settings.smart_charging.update_success'));
-        this.refresh();
-      } else {
-        Utils.handleError(JSON.stringify(response),
-          this.messageService, (!this.smartChargingSettings.id ? 'settings.smart_charging.create_error' : 'settings.smart_charging.update_error'));
-      }
-    }, (error) => {
-      this.spinnerService.hide();
-      switch (error.status) {
-        case StatusCodes.NOT_FOUND:
-          this.messageService.showErrorMessage('settings.smart_charging.setting_do_not_exist');
-          break;
-        default:
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            (!this.smartChargingSettings.id ? 'settings.smart_charging.create_error' : 'settings.smart_charging.update_error'));
+    this.componentService.saveSmartChargingSettings(this.smartChargingSettings).subscribe({
+      next: (response) => {
+        this.spinnerService.hide();
+        if (response.status === RestResponse.SUCCESS) {
+          this.messageService.showSuccessMessage(
+            (!this.smartChargingSettings.id ? 'settings.smart_charging.create_success' : 'settings.smart_charging.update_success'));
+          this.refresh();
+        } else {
+          Utils.handleError(JSON.stringify(response),
+            this.messageService, (!this.smartChargingSettings.id ? 'settings.smart_charging.create_error' : 'settings.smart_charging.update_error'));
+        }
+      },
+      error: (error) => {
+        this.spinnerService.hide();
+        switch (error.status) {
+          case StatusCodes.NOT_FOUND:
+            this.messageService.showErrorMessage('settings.smart_charging.setting_do_not_exist');
+            break;
+          default:
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+              (!this.smartChargingSettings.id ? 'settings.smart_charging.create_error' : 'settings.smart_charging.update_error'));
+        }
       }
     });
   }
 
   public checkConnection() {
     this.spinnerService.show();
-    this.centralServerService.checkSmartChargingConnection().subscribe((response) => {
-      this.spinnerService.hide();
-      if (response.status === RestResponse.SUCCESS) {
-        this.messageService.showSuccessMessage('settings.smart_charging.connection_success');
+    this.centralServerService.checkSmartChargingConnection().subscribe({
+      next: (response) => {
+        this.spinnerService.hide();
+        if (response.status === RestResponse.SUCCESS) {
+          this.messageService.showSuccessMessage('settings.smart_charging.connection_success');
+        }
+      },
+      error: (error) => {
+        this.spinnerService.hide();
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+          'settings.smart_charging.connection_error');
       }
-    }, (error) => {
-      this.spinnerService.hide();
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-        'settings.smart_charging.connection_error');
     });
   }
 

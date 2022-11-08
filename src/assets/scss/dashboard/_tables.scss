@@ -363,7 +363,7 @@ tr.element-row:not(.expanded-row):active {
     border-bottom-width: 1px;
     position: sticky;
     top: 0px;
-    background: $brand-background;
+    background-color: darken($brand-background, 5%);
     z-index: 100;
   }
 
@@ -400,7 +400,7 @@ tr.element-row:not(.expanded-row):active {
   }
 
   tr:nth-child(even) {
-    background: $brand-background
+    background-color: darken($brand-background, 2%);
   }
 
   .tab-pane & {
@@ -436,7 +436,6 @@ tr.element-row:not(.expanded-row):active {
   > tbody > tr > th,
   > tfoot > tr > th {
     font-size: $font-size-sm;
-    padding: 5px 8px 2px 10px;
     vertical-align: middle;
   }
 

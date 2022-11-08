@@ -176,53 +176,56 @@ export class SettingsOcpiComponent implements OnInit {
 
   public loadConfiguration() {
     this.spinnerService.show();
-    this.componentService.getOcpiSettings().subscribe((settings) => {
-      this.spinnerService.hide();
-      // Keep
-      this.ocpiSettings = settings;
-      // CPO identifier
-      if (settings.ocpi.cpo) {
-        this.cpoCountryCode.setValue(settings.ocpi.cpo.countryCode);
-        this.cpoPartyID.setValue(settings.ocpi.cpo.partyID);
-        this.cpoIsActive = this.cpoCountryCode.value && this.cpoPartyID.value;
-      }
-      this.enableDisableCPO(this.cpoIsActive);
-      // EMSP identifier
-      if (settings.ocpi.emsp) {
-        this.emspCountryCode.setValue(settings.ocpi.emsp.countryCode);
-        this.emspPartyID.setValue(settings.ocpi.emsp.partyID);
-        this.emspIsActive = this.emspCountryCode.value &&this.emspPartyID.value;
-      }
-      this.enableDisableEMSP(this.emspIsActive);
-      // Currency
-      this.currency.setValue(settings.ocpi.currency);
-      // TariffID
-      this.tariffID.setValue(settings.ocpi.tariffID);
-      const businessDetails = settings.ocpi.businessDetails;
-      if (businessDetails) {
-        this.name.setValue(businessDetails.name);
-        this.website.setValue(businessDetails.website);
-        if (businessDetails.logo) {
-          const logo = businessDetails.logo;
-          this.logoURL.setValue(logo.url);
-          this.logoThumbnail.setValue(logo.thumbnail);
-          this.logoCategory.setValue(logo.category);
-          this.logoType.setValue(logo.type);
-          this.logoWidth.setValue(logo.width);
-          this.logoHeight.setValue(logo.height);
+    this.componentService.getOcpiSettings().subscribe({
+      next: (settings) => {
+        this.spinnerService.hide();
+        // Keep
+        this.ocpiSettings = settings;
+        // CPO identifier
+        if (settings.ocpi.cpo) {
+          this.cpoCountryCode.setValue(settings.ocpi.cpo.countryCode);
+          this.cpoPartyID.setValue(settings.ocpi.cpo.partyID);
+          this.cpoIsActive = this.cpoCountryCode.value && this.cpoPartyID.value;
         }
-      }
-      // Init form
-      this.formGroup.markAsPristine();
-    }, (error) => {
-      this.spinnerService.hide();
-      switch (error.status) {
-        case StatusCodes.NOT_FOUND:
-          this.messageService.showErrorMessage('settings.ocpi.setting_not_found');
-          break;
-        default:
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            'general.unexpected_error_backend');
+        this.enableDisableCPO(this.cpoIsActive);
+        // EMSP identifier
+        if (settings.ocpi.emsp) {
+          this.emspCountryCode.setValue(settings.ocpi.emsp.countryCode);
+          this.emspPartyID.setValue(settings.ocpi.emsp.partyID);
+          this.emspIsActive = this.emspCountryCode.value &&this.emspPartyID.value;
+        }
+        this.enableDisableEMSP(this.emspIsActive);
+        // Currency
+        this.currency.setValue(settings.ocpi.currency);
+        // TariffID
+        this.tariffID.setValue(settings.ocpi.tariffID);
+        const businessDetails = settings.ocpi.businessDetails;
+        if (businessDetails) {
+          this.name.setValue(businessDetails.name);
+          this.website.setValue(businessDetails.website);
+          if (businessDetails.logo) {
+            const logo = businessDetails.logo;
+            this.logoURL.setValue(logo.url);
+            this.logoThumbnail.setValue(logo.thumbnail);
+            this.logoCategory.setValue(logo.category);
+            this.logoType.setValue(logo.type);
+            this.logoWidth.setValue(logo.width);
+            this.logoHeight.setValue(logo.height);
+          }
+        }
+        // Init form
+        this.formGroup.markAsPristine();
+      },
+      error: (error) => {
+        this.spinnerService.hide();
+        switch (error.status) {
+          case StatusCodes.NOT_FOUND:
+            this.messageService.showErrorMessage('settings.ocpi.setting_not_found');
+            break;
+          default:
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+              'general.unexpected_error_backend');
+        }
       }
     });
   }
@@ -231,25 +234,28 @@ export class SettingsOcpiComponent implements OnInit {
     this.ocpiSettings.ocpi = content;
     this.ocpiSettings.type = RoamingSettingsType.OCPI;
     this.spinnerService.show();
-    this.componentService.saveOcpiSettings(this.ocpiSettings).subscribe((response) => {
-      this.spinnerService.hide();
-      if (response.status === RestResponse.SUCCESS) {
-        this.messageService.showSuccessMessage(
-          (!this.ocpiSettings.id ? 'settings.ocpi.create_success' : 'settings.ocpi.update_success'));
-        this.refresh();
-      } else {
-        Utils.handleError(JSON.stringify(response),
-          this.messageService, (!this.ocpiSettings.id ? 'settings.ocpi.create_error' : 'settings.ocpi.update_error'));
-      }
-    }, (error) => {
-      this.spinnerService.hide();
-      switch (error.status) {
-        case StatusCodes.NOT_FOUND:
-          this.messageService.showErrorMessage('settings.ocpi.setting_do_not_exist');
-          break;
-        default:
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            (!this.ocpiSettings.id ? 'settings.ocpi.create_error' : 'settings.ocpi.update_error'));
+    this.componentService.saveOcpiSettings(this.ocpiSettings).subscribe({
+      next: (response) => {
+        this.spinnerService.hide();
+        if (response.status === RestResponse.SUCCESS) {
+          this.messageService.showSuccessMessage(
+            (!this.ocpiSettings.id ? 'settings.ocpi.create_success' : 'settings.ocpi.update_success'));
+          this.refresh();
+        } else {
+          Utils.handleError(JSON.stringify(response),
+            this.messageService, (!this.ocpiSettings.id ? 'settings.ocpi.create_error' : 'settings.ocpi.update_error'));
+        }
+      },
+      error: (error) => {
+        this.spinnerService.hide();
+        switch (error.status) {
+          case StatusCodes.NOT_FOUND:
+            this.messageService.showErrorMessage('settings.ocpi.setting_do_not_exist');
+            break;
+          default:
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+              (!this.ocpiSettings.id ? 'settings.ocpi.create_error' : 'settings.ocpi.update_error'));
+        }
       }
     });
   }

@@ -1,7 +1,7 @@
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { ButtonActionColor, ButtonAction } from 'types/GlobalType';
+import { ButtonAction, ButtonActionColor } from 'types/GlobalType';
 
 import { CentralServerService } from '../../../../services/central-server.service';
 import { DialogService } from '../../../../services/dialog.service';
@@ -45,22 +45,25 @@ export class TableChargingStationsRebootAction implements TableAction {
       if (result === ButtonAction.YES) {
         spinnerService.show();
         // Reboot
-        centralServerService.chargingStationReset(chargingStation.id, true).subscribe((response: ActionResponse) => {
-          spinnerService.hide();
-          if (response.status === OCPPGeneralResponse.ACCEPTED) {
-            messageService.showSuccessMessage(
-              translateService.instant('chargers.reboot_success', { chargeBoxID: chargingStation.id }));
-            if (refresh) {
-              refresh().subscribe();
+        centralServerService.chargingStationReset(chargingStation.id, true).subscribe({
+          next: (response: ActionResponse) => {
+            spinnerService.hide();
+            if (response.status === OCPPGeneralResponse.ACCEPTED) {
+              messageService.showSuccessMessage(
+                translateService.instant('chargers.reboot_success', { chargeBoxID: chargingStation.id }));
+              if (refresh) {
+                refresh().subscribe();
+              }
+            } else {
+              Utils.handleError(JSON.stringify(response),
+                messageService, 'chargers.reboot_error');
             }
-          } else {
-            Utils.handleError(JSON.stringify(response),
-              messageService, 'chargers.reboot_error');
+          },
+          error: (error: any) => {
+            spinnerService.hide();
+            Utils.handleHttpError(error, router, messageService,
+              centralServerService, 'chargers.reboot_error');
           }
-        }, (error: any) => {
-          spinnerService.hide();
-          Utils.handleHttpError(error, router, messageService,
-            centralServerService, 'chargers.reboot_error');
         });
       }
     });

@@ -35,18 +35,21 @@ export class TableSyncRefundTransactionsAction extends TableSynchronizeAction {
     ).subscribe((response) => {
       if (response === ButtonAction.YES) {
         messageService.showInfoMessage('settings.refund.synchronize_started');
-        centralServerService.synchronizeRefundedTransactions().subscribe((synchronizeResponse) => {
-          if (synchronizeResponse.status === RestResponse.SUCCESS) {
-            messageService.showSuccessMessage('settings.refund.synchronize_success');
-            if (refresh) {
-              refresh().subscribe();
+        centralServerService.synchronizeRefundedTransactions().subscribe({
+          next: (synchronizeResponse) => {
+            if (synchronizeResponse.status === RestResponse.SUCCESS) {
+              messageService.showSuccessMessage('settings.refund.synchronize_success');
+              if (refresh) {
+                refresh().subscribe();
+              }
+            } else {
+              Utils.handleError(JSON.stringify(synchronizeResponse), messageService, 'settings.refund.synchronize_error');
             }
-          } else {
-            Utils.handleError(JSON.stringify(synchronizeResponse), messageService, 'settings.refund.synchronize_error');
+          },
+          error: (error) => {
+            Utils.handleHttpError(error, router, messageService, centralServerService,
+              'settings.refund.synchronize_error');
           }
-        }, (error) => {
-          Utils.handleHttpError(error, router, messageService, centralServerService,
-            'settings.refund.synchronize_error');
         });
       }
     });

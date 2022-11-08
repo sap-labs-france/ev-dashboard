@@ -84,6 +84,8 @@ export class SiteComponent extends AbstractTabComponent implements OnInit {
           this.site = site;
           // Check if Account Data is to be displayed
           this.accountHasVisibleFields = site.projectFields.includes('accountData.accountID');
+          // Check if OCPI has to be displayed
+          this.ocpiHasVisibleFields = site.projectFields.includes('tariffID');
           if (this.readOnly) {
             // Async call for letting the sub form groups to init
             setTimeout(() => this.formGroup.disable(), 0);

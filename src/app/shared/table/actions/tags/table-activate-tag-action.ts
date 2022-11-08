@@ -42,19 +42,22 @@ export class TableActivateTagAction extends TableActivateAction {
           visualID: tag.visualID,
           active: true,
         } as Tag;
-        centralServerService.updateTag(tagUpdated).subscribe((actionResponse) => {
-          spinnerService.hide();
-          if (actionResponse.status === RestResponse.SUCCESS) {
-            messageService.showSuccessMessage('tags.activate_success', { tagID: tag.id });
-            if (refresh) {
-              refresh().subscribe();
+        centralServerService.updateTag(tagUpdated).subscribe({
+          next: (actionResponse) => {
+            spinnerService.hide();
+            if (actionResponse.status === RestResponse.SUCCESS) {
+              messageService.showSuccessMessage('tags.activate_success', { tagID: tag.id });
+              if (refresh) {
+                refresh().subscribe();
+              }
+            } else {
+              Utils.handleError(JSON.stringify(response), messageService, 'tags.activate_error');
             }
-          } else {
-            Utils.handleError(JSON.stringify(response), messageService, 'tags.activate_error');
+          },
+          error: (error) => {
+            spinnerService.hide();
+            Utils.handleHttpError(error, router, messageService, centralServerService, 'tags.activate_error');
           }
-        }, (error) => {
-          spinnerService.hide();
-          Utils.handleHttpError(error, router, messageService, centralServerService, 'tags.activate_error');
         });
       }
     });

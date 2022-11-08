@@ -34,20 +34,23 @@ export class TableSendBillingTransferAction implements TableAction {
   private sendTransfer(ID: string, translateService: TranslateService, spinnerService: SpinnerService,
     messageService: MessageService, centralServerService: CentralServerService, router: Router, refresh?: () => Observable<void>) {
     spinnerService.show();
-    centralServerService.sendTransfer(ID).subscribe((response) => {
-      spinnerService.hide();
-      if (response.status === RestResponse.SUCCESS) {
-        if (refresh) {
-          refresh().subscribe();
+    centralServerService.sendTransfer(ID).subscribe({
+      next: (response) => {
+        spinnerService.hide();
+        if (response.status === RestResponse.SUCCESS) {
+          if (refresh) {
+            refresh().subscribe();
+          }
+          // TODO - messageService.showSuccessMessage(translateService.instant('transfers.transfer_finalize_success'));
+        } else {
+          // TODO - Utils.handleError(JSON.stringify(response), messageService, 'transfers.transfer_finalize_failure');
         }
-        // TODO - messageService.showSuccessMessage(translateService.instant('transfers.transfer_finalize_success'));
-      } else {
-        // TODO - Utils.handleError(JSON.stringify(response), messageService, 'transfers.transfer_finalize_failure');
+      },
+      error: (error) => {
+        spinnerService.hide();
+        Utils.handleHttpError(error, router, messageService,
+          centralServerService, translateService.instant('transfers.cannot_send_transfer'));
       }
-    }, (error) => {
-      spinnerService.hide();
-      Utils.handleHttpError(error, router, messageService,
-        centralServerService, translateService.instant('transfers.cannot_send_transfer'));
     });
   }
 }

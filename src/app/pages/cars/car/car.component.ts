@@ -75,26 +75,29 @@ export class CarComponent extends AbstractTabComponent implements OnInit {
   public loadCar() {
     if (this.currentCarID) {
       this.spinnerService.show();
-      this.centralServerService.getCar(this.currentCarID).subscribe((car: Car) => {
-        this.spinnerService.hide();
-        this.car = car;
-        if (this.readOnly) {
-          // Async call for letting the sub form groups to init
-          setTimeout(() => this.formGroup.disable(), 0);
-        }
-        // Update form group
-        this.formGroup.updateValueAndValidity();
-        this.formGroup.markAsPristine();
-        this.formGroup.markAllAsTouched();
-      }, (error) => {
-        this.spinnerService.hide();
-        switch (error.status) {
-          case StatusCodes.NOT_FOUND:
-            this.messageService.showErrorMessage('cars.car_not_found');
-            break;
-          default:
-            Utils.handleHttpError(error, this.router, this.messageService,
-              this.centralServerService, 'cars.car_error');
+      this.centralServerService.getCar(this.currentCarID).subscribe({
+        next: (car: Car) => {
+          this.spinnerService.hide();
+          this.car = car;
+          if (this.readOnly) {
+            // Async call for letting the sub form groups to init
+            setTimeout(() => this.formGroup.disable(), 0);
+          }
+          // Update form group
+          this.formGroup.updateValueAndValidity();
+          this.formGroup.markAsPristine();
+          this.formGroup.markAllAsTouched();
+        },
+        error: (error) => {
+          this.spinnerService.hide();
+          switch (error.status) {
+            case StatusCodes.NOT_FOUND:
+              this.messageService.showErrorMessage('cars.car_not_found');
+              break;
+            default:
+              Utils.handleHttpError(error, this.router, this.messageService,
+                this.centralServerService, 'cars.car_error');
+          }
         }
       });
     }
@@ -121,27 +124,30 @@ export class CarComponent extends AbstractTabComponent implements OnInit {
 
   private updateCar(car: Car) {
     this.spinnerService.show();
-    this.centralServerService.updateCar(car).subscribe((response: ActionResponse) => {
-      this.spinnerService.hide();
-      if (response.status === RestResponse.SUCCESS) {
-        this.messageService.showSuccessMessage('cars.update_success', {
-          carName: this.formGroup.controls['carCatalog'].value });
-        this.closeDialog(true);
-      } else {
-        Utils.handleError(JSON.stringify(response), this.messageService, 'cars.update_error');
-      }
-    }, (error) => {
-      this.spinnerService.hide();
-      // Check status
-      switch (error.status) {
-        case HTTPError.USER_NOT_OWNER_OF_THE_CAR:
-          this.messageService.showErrorMessage('cars.user_not_owner');
-          break;
-        case HTTPError.NO_CAR_FOR_USER:
-          this.messageService.showErrorMessage('cars.car_not_found');
-          break;
-        default:
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'cars.update_error');
+    this.centralServerService.updateCar(car).subscribe({
+      next: (response: ActionResponse) => {
+        this.spinnerService.hide();
+        if (response.status === RestResponse.SUCCESS) {
+          this.messageService.showSuccessMessage('cars.update_success', {
+            carName: this.formGroup.controls['carCatalog'].value });
+          this.closeDialog(true);
+        } else {
+          Utils.handleError(JSON.stringify(response), this.messageService, 'cars.update_error');
+        }
+      },
+      error: (error) => {
+        this.spinnerService.hide();
+        // Check status
+        switch (error.status) {
+          case HTTPError.USER_NOT_OWNER_OF_THE_CAR:
+            this.messageService.showErrorMessage('cars.user_not_owner');
+            break;
+          case HTTPError.NO_CAR_FOR_USER:
+            this.messageService.showErrorMessage('cars.car_not_found');
+            break;
+          default:
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'cars.update_error');
+        }
       }
     });
   }
@@ -152,29 +158,32 @@ export class CarComponent extends AbstractTabComponent implements OnInit {
       car.userID = this.centralServerService.getLoggedUser().id;
     }
     this.spinnerService.show();
-    this.centralServerService.createCar(car, forced).subscribe((response: ActionResponse) => {
-      this.spinnerService.hide();
-      if (response.status === RestResponse.SUCCESS) {
-        this.messageService.showSuccessMessage('cars.create_success', {
-          carName: this.formGroup.controls['carCatalog'].value });
-        this.closeDialog(true);
-      } else {
-        Utils.handleError(JSON.stringify(response), this.messageService, 'cars.create_error');
-      }
-    }, (error) => {
-      this.spinnerService.hide();
-      // Check status
-      switch (error.status) {
-        // Car already created by this user
-        case HTTPError.CAR_ALREADY_EXIST_ERROR:
-          this.messageService.showErrorMessage('cars.car_exist');
-          break;
-        // User already assigned
-        case HTTPError.USER_ALREADY_ASSIGNED_TO_CAR:
-          this.messageService.showErrorMessage('cars.user_already_assigned');
-          break;
-        default:
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'cars.create_error');
+    this.centralServerService.createCar(car, forced).subscribe({
+      next: (response: ActionResponse) => {
+        this.spinnerService.hide();
+        if (response.status === RestResponse.SUCCESS) {
+          this.messageService.showSuccessMessage('cars.create_success', {
+            carName: this.formGroup.controls['carCatalog'].value });
+          this.closeDialog(true);
+        } else {
+          Utils.handleError(JSON.stringify(response), this.messageService, 'cars.create_error');
+        }
+      },
+      error: (error) => {
+        this.spinnerService.hide();
+        // Check status
+        switch (error.status) {
+          // Car already created by this user
+          case HTTPError.CAR_ALREADY_EXIST_ERROR:
+            this.messageService.showErrorMessage('cars.car_exist');
+            break;
+          // User already assigned
+          case HTTPError.USER_ALREADY_ASSIGNED_TO_CAR:
+            this.messageService.showErrorMessage('cars.user_already_assigned');
+            break;
+          default:
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'cars.create_error');
+        }
       }
     });
   }

@@ -74,20 +74,28 @@ export class TenantDataComponent implements OnInit, OnChanges {
         this.address = tenant.address;
       }
       this.tenant = tenant;
+      this.formGroup.markAsPristine();
       // Get Tenant logo
-      this.centralServerService.getTenantLogo(this.tenant.id).subscribe((tenantLogo) => {
-        this.logo = tenantLogo ?? Constants.NO_IMAGE;
-      }, (error) => {
-        switch (error.status) {
-          case StatusCodes.NOT_FOUND:
-            this.logo = Constants.NO_IMAGE;
-            break;
-          default:
-            Utils.handleHttpError(error, this.router, this.messageService,
-              this.centralServerService, 'general.unexpected_error_backend');
+      this.centralServerService.getTenantLogo(this.tenant.id).subscribe({
+        next: (tenantLogo) => {
+          this.logo = tenantLogo ?? Constants.NO_IMAGE;
+        },
+        error: (error) => {
+          switch (error.status) {
+            case StatusCodes.NOT_FOUND:
+              this.logo = Constants.NO_IMAGE;
+              break;
+            default:
+              Utils.handleHttpError(error, this.router, this.messageService,
+                this.centralServerService, 'general.unexpected_error_backend');
+          }
         }
       });
     });
+  }
+
+  public refresh(){
+    this.loadTenant();
   }
 
   public onLogoChanged(event: any) {
@@ -134,16 +142,20 @@ export class TenantDataComponent implements OnInit, OnChanges {
     this.spinnerService.show();
     this.updateTenantLogo(tenant);
     tenant.id = this.centralServerService.getLoggedUser().tenantID;
-    this.centralServerService.updateTenantData(tenant).subscribe((response) => {
-      this.spinnerService.hide();
-      if (response.status === RestResponse.SUCCESS) {
-        this.messageService.showSuccessMessage('tenants.update_success', { name: tenant.name });
-      } else {
-        Utils.handleError(JSON.stringify(response), this.messageService, 'tenants.update_error');
+    this.centralServerService.updateTenantData(tenant).subscribe({
+      next: (response) => {
+        this.spinnerService.hide();
+        if (response.status === RestResponse.SUCCESS) {
+          this.messageService.showSuccessMessage('tenants.update_success', { name: tenant.name });
+          this.refresh();
+        } else {
+          Utils.handleError(JSON.stringify(response), this.messageService, 'tenants.update_error');
+        }
+      },
+      error: (error) => {
+        this.spinnerService.hide();
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tenants.update_error');
       }
-    }, (error) => {
-      this.spinnerService.hide();
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tenants.update_error');
     });
   }
 }

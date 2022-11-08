@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { StatusCodes } from 'http-status-codes';
 import { AssetsAuthorizations } from 'types/Authorization';
+import { GeoMapDialogData, GeoMapDialogResult } from 'types/Dialog';
 
 import { CentralServerService } from '../../../../services/central-server.service';
 import { ComponentService } from '../../../../services/component.service';
@@ -181,17 +182,20 @@ export class AssetMainComponent implements OnInit, OnChanges {
       }
       // Get Asset image
       if (!this.imageChanged) {
-        this.centralServerService.getAssetImage(this.asset.id).subscribe((assetImage) => {
-          this.imageChanged = true;
-          this.image = assetImage ?? Constants.NO_IMAGE;
-        }, (error) => {
-          switch (error.status) {
-            case StatusCodes.NOT_FOUND:
-              this.image = Constants.NO_IMAGE;
-              break;
-            default:
-              Utils.handleHttpError(error, this.router, this.messageService,
-                this.centralServerService, 'general.unexpected_error_backend');
+        this.centralServerService.getAssetImage(this.asset.id).subscribe({
+          next: (assetImage) => {
+            this.imageChanged = true;
+            this.image = assetImage ?? Constants.NO_IMAGE;
+          },
+          error: (error) => {
+            switch (error.status) {
+              case StatusCodes.NOT_FOUND:
+                this.image = Constants.NO_IMAGE;
+                break;
+              default:
+                Utils.handleHttpError(error, this.router, this.messageService,
+                  this.centralServerService, 'general.unexpected_error_backend');
+            }
           }
         });
       }
@@ -264,7 +268,7 @@ export class AssetMainComponent implements OnInit, OnChanges {
 
   public assignGeoMap() {
     // Create the dialog
-    const dialogConfig = new MatDialogConfig();
+    const dialogConfig = new MatDialogConfig<GeoMapDialogData>();
     dialogConfig.minWidth = '70vw';
     dialogConfig.disableClose = true;
     dialogConfig.panelClass = 'transparent-dialog-container';
@@ -276,8 +280,8 @@ export class AssetMainComponent implements OnInit, OnChanges {
       label: this.name.value ?? 'Asset',
     };
     // Open
-    this.dialog.open(GeoMapDialogComponent, dialogConfig)
-      .afterClosed().subscribe((result) => {
+    this.dialog.open<GeoMapDialogComponent, GeoMapDialogData, GeoMapDialogResult>(GeoMapDialogComponent, dialogConfig)
+      .afterClosed().subscribe((result: GeoMapDialogResult) => {
         if (result) {
           if (result.latitude) {
             this.latitude.setValue(result.latitude);

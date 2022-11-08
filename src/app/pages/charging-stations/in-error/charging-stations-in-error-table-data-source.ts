@@ -72,25 +72,27 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
 
   public loadDataImpl(): Observable<ChargingStationInErrorDataResult> {
     return new Observable((observer) => {
-      this.centralServerService.getChargingStationsInError(this.buildFilterValues(),
-        this.getPaging(), this.getSorting()).subscribe((chargingStations) => {
-        // Build auth object
-        this.chargingStationsAthorizations = {
-          canExport: Utils.convertToBoolean(chargingStations.canExport),
-          canListCompanies: Utils.convertToBoolean(chargingStations.canListCompanies),
-          canListSiteAreas: Utils.convertToBoolean(chargingStations.canListSiteAreas),
-          canListSites: Utils.convertToBoolean(chargingStations.canListSites),
-          metadata: chargingStations.metadata
-        };
-        // Update filters visibility
-        this.siteFilter.visible = this.chargingStationsAthorizations.canListSites;
-        this.siteAreaFilter.visible = this.chargingStationsAthorizations.canListSiteAreas;
-        this.formatErrorMessages(chargingStations.result);
-        observer.next(chargingStations);
-        observer.complete();
-      }, (error) => {
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        observer.error(error);
+      this.centralServerService.getChargingStationsInError(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe({
+        next: (chargingStations) => {
+          // Build auth object
+          this.chargingStationsAthorizations = {
+            canExport: Utils.convertToBoolean(chargingStations.canExport),
+            canListCompanies: Utils.convertToBoolean(chargingStations.canListCompanies),
+            canListSiteAreas: Utils.convertToBoolean(chargingStations.canListSiteAreas),
+            canListSites: Utils.convertToBoolean(chargingStations.canListSites),
+            metadata: chargingStations.metadata
+          };
+          // Update filters visibility
+          this.siteFilter.visible = this.chargingStationsAthorizations.canListSites;
+          this.siteAreaFilter.visible = this.chargingStationsAthorizations.canListSiteAreas;
+          this.formatErrorMessages(chargingStations.result);
+          observer.next(chargingStations);
+          observer.complete();
+        },
+        error: (error) => {
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          observer.error(error);
+        }
       });
     });
   }

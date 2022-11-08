@@ -1,5 +1,6 @@
 {
   "general": {
+    "generate": "Generate",
     "captcha_text_1": "Este site esta protegido com reCAPTCHA e Google",
     "captcha_text_2": "Politica Privada",
     "captcha_text_3": " e ",
@@ -1891,7 +1892,8 @@
       },
       "types": {
         "mercedes": "Mercedes Connector",
-        "tronity": "Tronity Connector"
+        "tronity": "Tronity Connector",
+        "targa_telematics": "Targa Telematics Connector"
       },
       "mercedes": {
         "link_success": "Your account has been successfully linked with Mercedes",
@@ -2061,6 +2063,7 @@
     "emsp": "e-Mobility Service Provider",
     "enable_emsp": "Enable e-Mobility Service Provider",
     "tariff_id": "Tariff ID",
+    "owner_name": "Owner Name",
     "description": "Interface de ponto de carga aberta",
     "details": "Identificação",
     "country_code": "Código do país",
@@ -2389,7 +2392,7 @@
     "type_placeholder": "Tipo",
     "description": "Interface de Faturação",
     "id": "ID de Faturação",
-    "updated_on": "Faturação sincronizada em",
+    "updated_on": "Sincronizado em",
     "tabs": {
       "invoices": "Faturas",
       "in_error": "Em erro"

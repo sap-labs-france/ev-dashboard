@@ -7,7 +7,7 @@ import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
-import { ButtonActionColor, ButtonAction, FilterParams } from '../../../types/GlobalType';
+import { ButtonAction, ButtonActionColor, FilterParams } from '../../../types/GlobalType';
 import { TableActionDef } from '../../../types/Table';
 import { Utils } from '../../../utils/Utils';
 import { TableAction } from './table-action';
@@ -38,13 +38,16 @@ export class TableExportAction implements TableAction {
     ).subscribe((response) => {
       if (response === ButtonAction.YES) {
         spinnerService.show();
-        exportData(filters).subscribe((result) => {
-          spinnerService.hide();
-          FileSaver.saveAs(result, exportedFilename);
-        }, (error) => {
-          spinnerService.hide();
-          Utils.handleHttpError(error, router, messageService,
-            centralServerService, translateService.instant(messageError));
+        exportData(filters).subscribe({
+          next: (result) => {
+            spinnerService.hide();
+            FileSaver.saveAs(result, exportedFilename);
+          },
+          error: (error) => {
+            spinnerService.hide();
+            Utils.handleHttpError(error, router, messageService,
+              centralServerService, translateService.instant(messageError));
+          }
         });
       }
     });

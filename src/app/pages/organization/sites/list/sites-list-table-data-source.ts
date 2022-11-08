@@ -81,7 +81,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
             canListCompanies: sites.canListCompanies,
             canCreate: sites.canCreate,
             projectFields: sites.projectFields,
-            metadata: sites.metadata,
+            metadata: sites.metadata
           };
           this.createAction.visible = Utils.convertToBoolean(sites.canCreate);
           this.companyFilter.visible = Utils.convertToBoolean(sites.canListCompanies);

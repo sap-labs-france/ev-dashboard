@@ -37,28 +37,31 @@ export class TableSyncCarCatalogsAction extends TableSynchronizeAction {
     ).subscribe((response) => {
       if (response === ButtonAction.YES) {
         spinnerService.show();
-        centralServerService.synchronizeCarsCatalog().subscribe((synchronizeResponse) => {
-          spinnerService.hide();
-          if (synchronizeResponse.status === Constants.REST_RESPONSE_SUCCESS) {
-            messageService.showInfoMessage('cars.synchronize_car_catalogs_success');
-          } else {
-            Utils.handleError(JSON.stringify(response),
-              messageService, 'cars.synchronize_car_catalogs_error');
-          }
-          if (refresh) {
-            refresh().subscribe();
-          }
-        }, (error) => {
-          spinnerService.hide();
-          // Check status
-          switch (error.status) {
-            // Email already exists
-            case HTTPError.CANNOT_ACQUIRE_LOCK:
-              messageService.showWarningMessage('cars.synchronize_car_catalogs_ongoing');
-              break;
-            // Unexpected error`
-            default:
-              Utils.handleHttpError(error, router, messageService, centralServerService, 'cars.synchronize_car_catalogs_error');
+        centralServerService.synchronizeCarsCatalog().subscribe({
+          next: (synchronizeResponse) => {
+            spinnerService.hide();
+            if (synchronizeResponse.status === Constants.REST_RESPONSE_SUCCESS) {
+              messageService.showInfoMessage('cars.synchronize_car_catalogs_success');
+            } else {
+              Utils.handleError(JSON.stringify(response),
+                messageService, 'cars.synchronize_car_catalogs_error');
+            }
+            if (refresh) {
+              refresh().subscribe();
+            }
+          },
+          error: (error) => {
+            spinnerService.hide();
+            // Check status
+            switch (error.status) {
+              // Email already exists
+              case HTTPError.CANNOT_ACQUIRE_LOCK:
+                messageService.showWarningMessage('cars.synchronize_car_catalogs_ongoing');
+                break;
+              // Unexpected error`
+              default:
+                Utils.handleHttpError(error, router, messageService, centralServerService, 'cars.synchronize_car_catalogs_error');
+            }
           }
         });
       }

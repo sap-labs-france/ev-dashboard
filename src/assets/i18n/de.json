@@ -1,5 +1,6 @@
 {
   "general": {
+    "generate": "Generate",
     "captcha_text_1": "Diese Seite wird durch reCAPTCHA und Google geschützt",
     "captcha_text_2": "Datenschutzbestimmungen",
     "captcha_text_3": " und ",
@@ -1891,7 +1892,8 @@
       },
       "types": {
         "mercedes": "Mercedes Schnittstelle",
-        "tronity": "Tronity Schnittstelle"
+        "tronity": "Tronity Schnittstelle",
+        "targa_telematics": "Targa Telematics Schnittstelle"
       },
       "mercedes": {
         "link_success": "Ihr Account wurde erfolgreich mit Mercedes verbunden",
@@ -2061,6 +2063,7 @@
     "emsp": "e-Mobility Service Provider",
     "enable_emsp": "e-Mobility Service Provider aktivieren",
     "tariff_id": "Tarif-ID",
+    "owner_name": "Owner Name",
     "description": "Open Charge Point Interface",
     "details": "Identifikation",
     "country_code": "Ländercode",

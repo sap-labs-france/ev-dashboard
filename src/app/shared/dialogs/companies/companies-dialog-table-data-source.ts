@@ -27,13 +27,15 @@ export class CompaniesDialogTableDataSource extends DialogTableDataSource<Compan
 
   public loadDataImpl(): Observable<DataResult<Company>> {
     return new Observable((observer) => {
-      this.centralServerService.getCompanies(this.buildFilterValues(),
-        this.getPaging(), this.getSorting()).subscribe((companies) => {
-        observer.next(companies);
-        observer.complete();
-      }, (error) => {
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        observer.error(error);
+      this.centralServerService.getCompanies(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe({
+        next: (companies) => {
+          observer.next(companies);
+          observer.complete();
+        },
+        error: (error) => {
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          observer.error(error);
+        }
       });
     });
   }

@@ -41,27 +41,32 @@ export class UserSitesTableDataSource extends TableDataSource<UserSite> {
     this.initDataSource();
   }
 
-  public loadDataImpl(): Observable<DataResult<UserSite>> {
+  public loadDataImpl(requestNumberOfRecords: boolean): Observable<DataResult<UserSite>> {
     return new Observable((observer) => {
       // User provided?
       if (this.user) {
         // Yes: Get data
         this.centralServerService.getUserSites(this.buildFilterValues(),
-          this.getPaging(), this.getSorting()).subscribe((userSites) => {
+          this.getPaging(), this.getSorting()).subscribe({
+          next: (userSites) => {
           // Initialize userSites authorization
-          this.userSitesAuthorization = {
+            this.userSitesAuthorization = {
             // Authorization actions
-            canUpdateUserSites: Utils.convertToBoolean(userSites.canUpdateUserSites)
-          };
-          // Set table column def with userSitesAuthorization set
-          this.setTableColumnDef(this.buildDynamicTableColumnDefs());
-          this.setTableDef(this.buildDynamicTableDef());
-          this.setTableActionDef(this.buildDynamicTableActionsDef());
-          observer.next(userSites);
-          observer.complete();
-        }, (error) => {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-          observer.error(error);
+              canUpdateUserSites: Utils.convertToBoolean(userSites.canUpdateUserSites)
+            };
+            // Don't override table def in case of number of record request
+            if (!requestNumberOfRecords) {
+              this.setTableColumnDef(this.buildDynamicTableColumnDefs());
+              this.setTableDef(this.buildDynamicTableDef());
+              this.setTableActionDef(this.buildDynamicTableActionsDef());
+            }
+            observer.next(userSites);
+            observer.complete();
+          },
+          error: (error) => {
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+            observer.error(error);
+          }
         });
       } else {
         observer.next({
@@ -247,20 +252,23 @@ export class UserSitesTableDataSource extends TableDataSource<UserSite> {
 
   private removeSites(siteIDs: string[]) {
     // Yes: Update
-    this.centralServerService.removeSitesFromUser(this.user.id, siteIDs).subscribe((response) => {
+    this.centralServerService.removeSitesFromUser(this.user.id, siteIDs).subscribe({
+      next: (response) => {
       // Ok?
-      if (response.status === RestResponse.SUCCESS) {
-        this.messageService.showSuccessMessage(this.translateService.instant('users.remove_sites_success'));
-        // Refresh
-        this.refreshData().subscribe();
-        // Clear selection
-        this.clearSelectedRows();
-      } else {
-        Utils.handleError(JSON.stringify(response),
-          this.messageService, this.translateService.instant('users.remove_sites_error'));
+        if (response.status === RestResponse.SUCCESS) {
+          this.messageService.showSuccessMessage(this.translateService.instant('users.remove_sites_success'));
+          // Refresh
+          this.refreshData().subscribe();
+          // Clear selection
+          this.clearSelectedRows();
+        } else {
+          Utils.handleError(JSON.stringify(response),
+            this.messageService, this.translateService.instant('users.remove_sites_error'));
+        }
+      },
+      error: (error) => {
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'users.remove_sites_error');
       }
-    }, (error) => {
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'users.remove_sites_error');
     });
   }
 

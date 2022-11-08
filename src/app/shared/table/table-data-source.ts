@@ -443,53 +443,56 @@ export abstract class TableDataSource<T extends TableData> {
         this.spinnerService.show();
       }
       // Load data source
-      this.loadDataImpl().pipe(first()).subscribe((data) => {
-        // Set nbr of records
-        this.setTotalNumberOfRecords(data.count);
-        // Display only projected fields
-        if (!Utils.isEmptyArray(data.projectFields)) {
-          // Format createdBy/lastChangeBy properties Ids
-          data.projectFields = data.projectFields.map(projectedField => {
-            if (projectedField.split('.')[0] === 'createdBy' || projectedField.split('.')[0] === 'lastChangedBy') {
-              return projectedField.split('.')[0];
-            } else {
-              return projectedField;
+      this.loadDataImpl().pipe(first()).subscribe({
+        next: (data) => {
+          // Set nbr of records
+          this.setTotalNumberOfRecords(data.count);
+          // Display only projected fields
+          if (!Utils.isEmptyArray(data.projectFields)) {
+            // Format createdBy/lastChangeBy properties Ids
+            data.projectFields = data.projectFields.map(projectedField => {
+              if (projectedField.split('.')[0] === 'createdBy' || projectedField.split('.')[0] === 'lastChangedBy') {
+                return projectedField.split('.')[0];
+              } else {
+                return projectedField;
+              }
+            });
+            for (const tableColumnDef of this.tableColumnsDef) {
+              tableColumnDef.visible = data.projectFields.includes(tableColumnDef.id);
             }
-          });
-          for (const tableColumnDef of this.tableColumnsDef) {
-            tableColumnDef.visible = data.projectFields.includes(tableColumnDef.id);
-          }
-        // No projected fields, display all
-        } else {
-          for (const tableColumnDef of this.tableColumnsDef) {
-            // Only if prop is not provided
-            if (!Utils.objectHasProperty(tableColumnDef, 'visible')) {
-              tableColumnDef.visible = true;
+          // No projected fields, display all
+          } else {
+            for (const tableColumnDef of this.tableColumnsDef) {
+              // Only if prop is not provided
+              if (!Utils.objectHasProperty(tableColumnDef, 'visible')) {
+                tableColumnDef.visible = true;
+              }
             }
           }
-        }
-        // Build stats
-        this.tableFooterStats = this.buildTableFooterStats(data);
-        this.setData(data.result);
-        // Loading on going?
-        if (!this.loadingNumberOfRecords) {
-          if (this.data.length !== this.totalNumberOfRecords &&  // Already have all the records?
-            this.totalNumberOfRecords === Constants.INFINITE_RECORDS) {
-            // Load records
-            this.requestNumberOfRecords();
+          // Build stats
+          this.tableFooterStats = this.buildTableFooterStats(data);
+          this.setData(data.result);
+          // Loading on going?
+          if (!this.loadingNumberOfRecords) {
+            if (this.data.length !== this.totalNumberOfRecords &&  // Already have all the records?
+              this.totalNumberOfRecords === Constants.INFINITE_RECORDS) {
+              // Load records
+              this.requestNumberOfRecords();
+            }
           }
+          if (showSpinner) {
+            this.spinnerService.hide();
+          }
+          this.firstLoad = true;
+          observer.next();
+          observer.complete();
+        },
+        error: (error) => {
+          if (showSpinner) {
+            this.spinnerService.hide();
+          }
+          observer.error(error);
         }
-        if (showSpinner) {
-          this.spinnerService.hide();
-        }
-        this.firstLoad = true;
-        observer.next();
-        observer.complete();
-      }, (error) => {
-        if (showSpinner) {
-          this.spinnerService.hide();
-        }
-        observer.error(error);
       });
     });
   }
@@ -532,7 +535,7 @@ export abstract class TableDataSource<T extends TableData> {
     // Set
     this.setStaticFilters(staticFilters);
     // Load data
-    this.loadDataImpl().pipe(first()).subscribe((data) => {
+    this.loadDataImpl(true).pipe(first()).subscribe((data) => {
       this.setTotalNumberOfRecords(data.count);
       this.tableFooterStats = this.buildTableFooterStats(data);
       // Loading ended
@@ -737,5 +740,5 @@ export abstract class TableDataSource<T extends TableData> {
 
   public abstract buildTableColumnDefs(): TableColumnDef[];
 
-  public abstract loadDataImpl(): Observable<DataResult<T>>;
+  public abstract loadDataImpl(requestNumberOfRecords?: boolean): Observable<DataResult<T>>;
 }

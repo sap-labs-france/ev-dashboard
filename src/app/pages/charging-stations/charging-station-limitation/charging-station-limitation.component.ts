@@ -44,18 +44,21 @@ export class ChargingStationLimitationComponent implements OnInit {
   public loadChargingStation() {
     if (this.chargingStationID) {
       this.spinnerService.show();
-      this.centralServerService.getChargingStation(this.chargingStationID).subscribe((chargingStation) => {
-        this.spinnerService.hide();
-        this.chargingStation = chargingStation;
-      }, (error) => {
-        this.spinnerService.hide();
-        switch (error.status) {
-          case StatusCodes.NOT_FOUND:
-            this.messageService.showErrorMessage('chargers.charger_not_found');
-            break;
-          default:
-            Utils.handleHttpError(error, this.router, this.messageService,
-              this.centralServerService, 'chargers.charger_not_found');
+      this.centralServerService.getChargingStation(this.chargingStationID).subscribe({
+        next: (chargingStation) => {
+          this.spinnerService.hide();
+          this.chargingStation = chargingStation;
+        },
+        error: (error) => {
+          this.spinnerService.hide();
+          switch (error.status) {
+            case StatusCodes.NOT_FOUND:
+              this.messageService.showErrorMessage('chargers.charger_not_found');
+              break;
+            default:
+              Utils.handleHttpError(error, this.router, this.messageService,
+                this.centralServerService, 'chargers.charger_not_found');
+          }
         }
       });
     }

@@ -49,20 +49,23 @@ export class SettingsRefundComponent implements OnInit {
 
   public loadConfiguration() {
     this.spinnerService.show();
-    this.componentService.getRefundSettings().subscribe((settings) => {
-      this.spinnerService.hide();
-      // Keep
-      this.refundSettings = settings;
-      // Init form
-      this.formGroup.markAsPristine();
-    }, (error) => {
-      this.spinnerService.hide();
-      switch (error.status) {
-        case StatusCodes.NOT_FOUND:
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'settings.refund.setting_not_found');
-          break;
-        default:
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
+    this.componentService.getRefundSettings().subscribe({
+      next: (settings) => {
+        this.spinnerService.hide();
+        // Keep
+        this.refundSettings = settings;
+        // Init form
+        this.formGroup.markAsPristine();
+      },
+      error: (error) => {
+        this.spinnerService.hide();
+        switch (error.status) {
+          case StatusCodes.NOT_FOUND:
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'settings.refund.setting_not_found');
+            break;
+          default:
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
+        }
       }
     });
   }
@@ -77,25 +80,28 @@ export class SettingsRefundComponent implements OnInit {
     }
     // Save
     this.spinnerService.show();
-    this.componentService.saveRefundSettings(this.refundSettings).subscribe((response) => {
-      this.spinnerService.hide();
-      if (response.status === RestResponse.SUCCESS) {
-        this.messageService.showSuccessMessage(
-          (!this.refundSettings.id ? 'settings.refund.create_success' : 'settings.refund.update_success'));
-        this.refresh();
-      } else {
-        Utils.handleError(JSON.stringify(response),
-          this.messageService, (!this.refundSettings.id ? 'settings.refund.create_error' : 'settings.refund.update_error'));
-      }
-    }, (error) => {
-      this.spinnerService.hide();
-      switch (error.status) {
-        case StatusCodes.NOT_FOUND:
-          this.messageService.showErrorMessage('settings.refund.setting_do_not_exist');
-          break;
-        default:
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            (!this.refundSettings.id ? 'settings.refund.create_error' : 'settings.refund.update_error'));
+    this.componentService.saveRefundSettings(this.refundSettings).subscribe({
+      next: (response) => {
+        this.spinnerService.hide();
+        if (response.status === RestResponse.SUCCESS) {
+          this.messageService.showSuccessMessage(
+            (!this.refundSettings.id ? 'settings.refund.create_success' : 'settings.refund.update_success'));
+          this.refresh();
+        } else {
+          Utils.handleError(JSON.stringify(response),
+            this.messageService, (!this.refundSettings.id ? 'settings.refund.create_error' : 'settings.refund.update_error'));
+        }
+      },
+      error: (error) => {
+        this.spinnerService.hide();
+        switch (error.status) {
+          case StatusCodes.NOT_FOUND:
+            this.messageService.showErrorMessage('settings.refund.setting_do_not_exist');
+            break;
+          default:
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+              (!this.refundSettings.id ? 'settings.refund.create_error' : 'settings.refund.update_error'));
+        }
       }
     });
   }

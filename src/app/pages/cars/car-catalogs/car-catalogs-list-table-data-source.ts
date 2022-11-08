@@ -53,13 +53,16 @@ export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> 
   public loadDataImpl(): Observable<DataResult<CarCatalog>> {
     return new Observable((observer) => {
       // Get cars
-      this.centralServerService.getCarCatalogs(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe((carCatalogs) => {
-        observer.next(carCatalogs);
-        this.tableSyncCarCatalogsAction.visible = carCatalogs.canSync;
-        observer.complete();
-      }, (error) => {
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.car_catalogs_error');
-        observer.error(error);
+      this.centralServerService.getCarCatalogs(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe({
+        next: (carCatalogs) => {
+          observer.next(carCatalogs);
+          this.tableSyncCarCatalogsAction.visible = carCatalogs.canSync;
+          observer.complete();
+        },
+        error: (error) => {
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.car_catalogs_error');
+          observer.error(error);
+        }
       });
     });
   }

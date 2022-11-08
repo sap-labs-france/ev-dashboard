@@ -193,18 +193,21 @@ export class ChargingPlansComponent implements OnInit, AfterViewInit {
     ).subscribe((result) => {
       if (result === ButtonAction.YES) {
         this.spinnerService.show();
-        this.centralServerService.triggerSmartCharging(this.chargingStation.siteArea.id).subscribe((response) => {
-          this.spinnerService.hide();
-          if (response.status === RestResponse.SUCCESS) {
-            this.messageService.showSuccessMessage(this.translateService.instant('chargers.smart_charging.trigger_smart_charging_success'));
-          } else {
-            Utils.handleError(JSON.stringify(response), this.messageService,
-              this.translateService.instant('chargers.smart_charging.trigger_smart_charging_error'));
+        this.centralServerService.triggerSmartCharging(this.chargingStation.siteArea.id).subscribe({
+          next: (response) => {
+            this.spinnerService.hide();
+            if (response.status === RestResponse.SUCCESS) {
+              this.messageService.showSuccessMessage(this.translateService.instant('chargers.smart_charging.trigger_smart_charging_success'));
+            } else {
+              Utils.handleError(JSON.stringify(response), this.messageService,
+                this.translateService.instant('chargers.smart_charging.trigger_smart_charging_error'));
+            }
+          },
+          error: (error) => {
+            this.spinnerService.hide();
+            Utils.handleHttpError(error, this.router, this.messageService,
+              this.centralServerService, 'chargers.smart_charging.trigger_smart_charging_error');
           }
-        }, (error) => {
-          this.spinnerService.hide();
-          Utils.handleHttpError(error, this.router, this.messageService,
-            this.centralServerService, 'chargers.smart_charging.trigger_smart_charging_error');
         });
       }
     });
@@ -219,40 +222,43 @@ export class ChargingPlansComponent implements OnInit, AfterViewInit {
   public loadChargingProfiles() {
     if (this.chargingStation) {
       this.spinnerService.show();
-      this.centralServerService.getChargingProfiles({ ChargingStationID: this.chargingStation.id }).subscribe((chargingProfiles) => {
-        this.spinnerService.hide();
-        this.formGroup.markAsPristine();
-        // Set Profile
-        this.chargingProfiles = chargingProfiles.result;
-        // Default
-        this.scheduleEditableTableDataSource.setContent([]);
-        this.currentChargingSchedules = [];
-        // Init
-        if (chargingProfiles.count > 0) {
-          if (this.chargingProfilesControl.value) {
-            // Find the same ID
-            const selectedChargingProfile = this.chargingProfiles.find((chargingProfile: ChargingProfile) =>
-              chargingProfile.id === this.chargingProfilesControl.value.id);
-            if (selectedChargingProfile) {
-              // Found: Reset the current one
-              this.chargingProfilesControl.setValue(selectedChargingProfile);
+      this.centralServerService.getChargingProfiles({ ChargingStationID: this.chargingStation.id }).subscribe({
+        next: (chargingProfiles) => {
+          this.spinnerService.hide();
+          this.formGroup.markAsPristine();
+          // Set Profile
+          this.chargingProfiles = chargingProfiles.result;
+          // Default
+          this.scheduleEditableTableDataSource.setContent([]);
+          this.currentChargingSchedules = [];
+          // Init
+          if (chargingProfiles.count > 0) {
+            if (this.chargingProfilesControl.value) {
+              // Find the same ID
+              const selectedChargingProfile = this.chargingProfiles.find((chargingProfile: ChargingProfile) =>
+                chargingProfile.id === this.chargingProfilesControl.value.id);
+              if (selectedChargingProfile) {
+                // Found: Reset the current one
+                this.chargingProfilesControl.setValue(selectedChargingProfile);
+              } else {
+                // Not Found: Set the first one
+                this.chargingProfilesControl.setValue(this.chargingProfiles[0]);
+              }
             } else {
-              // Not Found: Set the first one
+              // Set the first one
               this.chargingProfilesControl.setValue(this.chargingProfiles[0]);
             }
           } else {
-            // Set the first one
-            this.chargingProfilesControl.setValue(this.chargingProfiles[0]);
+            this.scheduleEditableTableDataSource.setChargingStation(
+              this.chargingStation, this.chargingStation.chargePoints[0]);
+            this.scheduleTableDataSource.setChargingStation(
+              this.chargingStation, this.chargingStation.chargePoints[0]);
           }
-        } else {
-          this.scheduleEditableTableDataSource.setChargingStation(
-            this.chargingStation, this.chargingStation.chargePoints[0]);
-          this.scheduleTableDataSource.setChargingStation(
-            this.chargingStation, this.chargingStation.chargePoints[0]);
+        },
+        error: (error) => {
+          this.spinnerService.hide();
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
         }
-      }, (error) => {
-        this.spinnerService.hide();
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
       });
     }
   }
@@ -267,26 +273,29 @@ export class ChargingPlansComponent implements OnInit, AfterViewInit {
         // Build charging profile
         const chargingProfile = this.buildChargingProfile();
         this.spinnerService.show();
-        this.centralServerService.deleteChargingProfile(chargingProfile.id).subscribe((response) => {
-          this.spinnerService.hide();
-          if (response.status === RestResponse.SUCCESS) {
-            // Remove from array
-            this.messageService.showSuccessMessage(this.translateService.instant('chargers.smart_charging.clear_profile_success',
-              { chargeBoxID: this.chargingStation.id }));
-            this.refresh();
-          } else {
-            Utils.handleError(JSON.stringify(response),
-              this.messageService, this.translateService.instant('chargers.smart_charging.clear_profile_error'));
-          }
-        }, (error: any) => {
-          this.spinnerService.hide();
-          switch (error.status) {
-            case HTTPError.CLEAR_CHARGING_PROFILE_NOT_SUCCESSFUL:
-              this.messageService.showErrorMessage('chargers.smart_charging.clear_profile_not_accepted');
-              break;
-            default:
-              Utils.handleHttpError(error, this.router, this.messageService,
-                this.centralServerService, 'chargers.smart_charging.clear_profile_error');
+        this.centralServerService.deleteChargingProfile(chargingProfile.id).subscribe({
+          next: (response) => {
+            this.spinnerService.hide();
+            if (response.status === RestResponse.SUCCESS) {
+              // Remove from array
+              this.messageService.showSuccessMessage(this.translateService.instant('chargers.smart_charging.clear_profile_success',
+                { chargeBoxID: this.chargingStation.id }));
+              this.refresh();
+            } else {
+              Utils.handleError(JSON.stringify(response),
+                this.messageService, this.translateService.instant('chargers.smart_charging.clear_profile_error'));
+            }
+          },
+          error: (error: any) => {
+            this.spinnerService.hide();
+            switch (error.status) {
+              case HTTPError.CLEAR_CHARGING_PROFILE_NOT_SUCCESSFUL:
+                this.messageService.showErrorMessage('chargers.smart_charging.clear_profile_not_accepted');
+                break;
+              default:
+                Utils.handleHttpError(error, this.router, this.messageService,
+                  this.centralServerService, 'chargers.smart_charging.clear_profile_error');
+            }
           }
         });
       }
@@ -311,26 +320,29 @@ export class ChargingPlansComponent implements OnInit, AfterViewInit {
           // Charging profile doesn't exists : create it
           restRequest = this.centralServerService.createChargingProfile.bind(this.centralServerService);
         }
-        restRequest(chargingProfile).subscribe((response) => {
-          this.spinnerService.hide();
-          if (response.status === RestResponse.SUCCESS) {
-            this.messageService.showSuccessMessage(
-              this.translateService.instant('chargers.smart_charging.power_limit_plan_success',
-                { chargeBoxID: this.chargingStation.id }));
-            this.refresh();
-          } else {
-            Utils.handleError(JSON.stringify(response),
-              this.messageService, this.translateService.instant('chargers.smart_charging.power_limit_plan_error'));
-          }
-        }, (error) => {
-          this.spinnerService.hide();
-          switch (error.status) {
-            case HTTPError.SET_CHARGING_PROFILE_ERROR:
-              this.messageService.showErrorMessage('chargers.smart_charging.power_limit_plan_not_accepted');
-              break;
-            default:
-              Utils.handleHttpError(error, this.router, this.messageService,
-                this.centralServerService, 'chargers.smart_charging.power_limit_plan_error');
+        restRequest(chargingProfile).subscribe({
+          next: (response) => {
+            this.spinnerService.hide();
+            if (response.status === RestResponse.SUCCESS) {
+              this.messageService.showSuccessMessage(
+                this.translateService.instant('chargers.smart_charging.power_limit_plan_success',
+                  { chargeBoxID: this.chargingStation.id }));
+              this.refresh();
+            } else {
+              Utils.handleError(JSON.stringify(response),
+                this.messageService, this.translateService.instant('chargers.smart_charging.power_limit_plan_error'));
+            }
+          },
+          error: (error) => {
+            this.spinnerService.hide();
+            switch (error.status) {
+              case HTTPError.SET_CHARGING_PROFILE_ERROR:
+                this.messageService.showErrorMessage('chargers.smart_charging.power_limit_plan_not_accepted');
+                break;
+              default:
+                Utils.handleHttpError(error, this.router, this.messageService,
+                  this.centralServerService, 'chargers.smart_charging.power_limit_plan_error');
+            }
           }
         });
       }

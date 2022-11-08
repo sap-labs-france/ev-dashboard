@@ -1,5 +1,6 @@
 {
   "general": {
+    "generate": "Generate",
     "captcha_text_1": "Tato stránka je chráněná reCAPTCHA a uplatňuje",
     "captcha_text_2": "zásady ochrany soukromí ",
     "captcha_text_3": "a",
@@ -1428,9 +1429,9 @@
     "id": "ID",
     "accountExternalID": "Connected Account ID",
     "collected_funds": "Collected Funds",
+    "document_number": "Invoice",
     "platform_fee_amount": "Collected Fee",
     "platform_fee_tax_inclusive": "Fees (incl. taxes)",
-    "document_number": "Invoice",
     "transferAmount": "Transfer",
     "number_of_items": "Sessions",
     "transferExternalID": "External ID",
@@ -2410,7 +2411,7 @@
     "type_placeholder": "Typ",
     "description": "Fakturační rozhraní",
     "id": "Fakturační ID",
-    "updated_on": "Fakturace synchronizována dne",
+    "updated_on": "Synchronizována dne",
     "tabs": {
       "invoices": "Faktury",
       "in_error": "Chyba"

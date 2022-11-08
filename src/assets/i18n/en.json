@@ -1,5 +1,6 @@
 {
   "general": {
+    "generate": "Generate",
     "captcha_text_1": "This site is protected by reCAPTCHA and the Google",
     "captcha_text_2": "Privacy Policy",
     "captcha_text_3": " and ",
@@ -2410,7 +2411,7 @@
     "type_placeholder": "Type",
     "description": "Billing Interface",
     "id": "Billing ID",
-    "updated_on": "Billing Synchronized on",
+    "updated_on": "Synchronized on",
     "tabs": {
       "invoices": "Invoices",
       "in_error": "In Error"

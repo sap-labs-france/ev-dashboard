@@ -535,7 +535,7 @@ export abstract class TableDataSource<T extends TableData> {
     // Set
     this.setStaticFilters(staticFilters);
     // Load data
-    this.loadDataImpl().pipe(first()).subscribe((data) => {
+    this.loadDataImpl(true).pipe(first()).subscribe((data) => {
       this.setTotalNumberOfRecords(data.count);
       this.tableFooterStats = this.buildTableFooterStats(data);
       // Loading ended
@@ -740,5 +740,5 @@ export abstract class TableDataSource<T extends TableData> {
 
   public abstract buildTableColumnDefs(): TableColumnDef[];
 
-  public abstract loadDataImpl(): Observable<DataResult<T>>;
+  public abstract loadDataImpl(requestNumberOfRecords?: boolean): Observable<DataResult<T>>;
 }

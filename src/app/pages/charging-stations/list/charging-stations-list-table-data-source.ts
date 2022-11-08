@@ -110,7 +110,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
           // Update filters visibility
           this.canExport.visible = this.chargingStationsAuthorizations.canExport;
           this.siteFilter.visible = this.chargingStationsAuthorizations.canListSites;
-          this.siteAreaFilter.visible =this.chargingStationsAuthorizations.canListSiteAreas;
+          this.siteAreaFilter.visible = this.chargingStationsAuthorizations.canListSiteAreas;
           this.companyFilter.visible = this.chargingStationsAuthorizations.canListCompanies;
           // Set back the projected fields
           const tableDef = this.getTableDef();
@@ -360,6 +360,11 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
               }
             },
           }, this.refreshData.bind(this));
+        }
+        break;
+      case TransactionButtonAction.NAVIGATE_TO_TRANSACTIONS:
+        if (actionDef.action) {
+          (actionDef as TableOpenURLActionDef).action('transactions#history?ChargingStationID=' + chargingStation.id + '&Issuer=' + chargingStation.issuer, this.windowService);
         }
         break;
     }

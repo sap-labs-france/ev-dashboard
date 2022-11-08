@@ -126,6 +126,7 @@ export class TenantDataComponent implements OnInit, OnChanges {
         this.tenantSupport = tenant.support;
       }
       this.tenant = tenant;
+      this.formGroup.markAsPristine();
       // Get Tenant logo
       this.centralServerService.getTenantLogo(this.tenant.id).subscribe({
         next: (tenantLogo) => {
@@ -147,6 +148,10 @@ export class TenantDataComponent implements OnInit, OnChanges {
       this.formGroup.markAsPristine();
       this.formGroup.markAllAsTouched();
     });
+  }
+
+  public refresh(){
+    this.loadTenant();
   }
 
   public onLogoChanged(event: any) {
@@ -203,7 +208,7 @@ export class TenantDataComponent implements OnInit, OnChanges {
         this.spinnerService.hide();
         if (response.status === RestResponse.SUCCESS) {
           this.messageService.showSuccessMessage('tenants.update_success', { name: tenant.name });
-          this.formGroup.markAsPristine();
+          this.refresh();
         } else {
           Utils.handleError(JSON.stringify(response), this.messageService, 'tenants.update_error');
         }

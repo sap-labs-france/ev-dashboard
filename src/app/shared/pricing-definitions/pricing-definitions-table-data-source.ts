@@ -68,7 +68,7 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
   }
 
   public setDefaultContext(entityID: string = null, entityType: string = null, entityName: string = null) {
-    if(!entityID) {
+    if (!entityID) {
       this.context.entityID = this.defaultContext.entityID = this.centralServerService.getLoggedUser().tenantID;
       this.context.entityType = this.defaultContext.entityType = PricingEntity.TENANT;
     } else {
@@ -204,13 +204,13 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
 
   public buildTableDynamicRowActions(pricingDefinition: PricingDefinition): TableActionDef[] {
     const rowActions: TableActionDef[] = [];
-    if (pricingDefinition.canUpdate && !this.viewingAllComponents) {
+    if (pricingDefinition.canUpdate) {
       rowActions.push(this.editAction);
     }
-    if (pricingDefinition.canDelete && !this.viewingAllComponents) {
+    if (pricingDefinition.canDelete) {
       rowActions.push(this.deleteAction);
     }
-    if (this.viewingAllComponents) {
+    if (Utils.isEmptyArray(rowActions)) {
       rowActions.push(this.viewAction);
     }
     return rowActions;
@@ -230,7 +230,7 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
         if (actionDef.id) {
           actionDef.currentValue = !actionDef.currentValue;
           this.viewingAllComponents = actionDef.currentValue;
-          if(this.viewingAllComponents) {
+          if (this.viewingAllComponents) {
             // Disable the create button
             this.createAction.disabled = true;
             // Make network request call to fetch all items
@@ -255,14 +255,27 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
         if (actionDef.action) {
           (actionDef as TableEditPricingDefinitionActionDef).action(
             PricingDefinitionDialogComponent, this.dialog,
-            { dialogData: { ...pricingDefinition, context: this.context } }, this.refreshData.bind(this));
+            {
+              dialogData: {
+                ...pricingDefinition,
+                context: { entityID: pricingDefinition.entityID, entityType: pricingDefinition.entityType, entityName: pricingDefinition.entityName }
+              }
+            },
+            this.refreshData.bind(this));
         }
         break;
       case ButtonAction.VIEW:
         if (actionDef.action) {
           (actionDef as TableViewPricingDefinitionsActionDef).action(
             PricingDefinitionDialogComponent, this.dialog,
-            { dialogData: { ...pricingDefinition, context: this.context }, dialogMode: DialogMode.VIEW }, this.refreshData.bind(this));
+            {
+              dialogData: {
+                ...pricingDefinition,
+                context: { entityID: pricingDefinition.entityID, entityType: pricingDefinition.entityType, entityName: pricingDefinition.entityName }
+              },
+              dialogMode: DialogMode.VIEW
+            },
+            this.refreshData.bind(this));
         }
         break;
       case PricingButtonAction.DELETE_PRICING_DEFINITION:

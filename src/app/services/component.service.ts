@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { BillingAccount } from 'types/Billing';
 import { Constants } from 'utils/Constants';
 
-import { ActionResponse, Ordering, Paging } from '../types/DataResult';
-import { AnalyticsSettings, AssetConnectionType, AssetSettings, AssetSettingsType, BillingSettings, BillingSettingsType, CarConnectorConnectionType, CarConnectorSetting, CarConnectorSettings, CarConnectorSettingsType, CryptoSettings, PricingSettings, PricingSettingsType, RefundSettings, RefundSettingsType, RoamingSettings, RoamingSettingsType, SmartChargingSettings, SmartChargingSettingsType, TechnicalSettings, UserSettings, UserSettingsType } from '../types/Setting';
+import { ActionResponse, BillingAccountDataResult, Ordering, Paging } from '../types/DataResult';
+import { AnalyticsSettings, AssetConnectionType, AssetSettings, AssetSettingsType, BillingSettings, BillingSettingsType, CarConnectorConnectionType, CarConnectorSettings, CarConnectorSettingsType, CryptoSettings, PricingSettings, PricingSettingsType, RefundSettings, RefundSettingsType, RoamingSettings, SmartChargingSettings, SmartChargingSettingsType, TechnicalSettings, UserSettings, UserSettingsType } from '../types/Setting';
 import { TenantComponents } from '../types/Tenant';
 import { Utils } from '../utils/Utils';
 import { CentralServerService } from './central-server.service';
@@ -271,11 +270,11 @@ export class ComponentService {
   }
 
   public getBillingAccounts(paging: Paging = Constants.DEFAULT_PAGING,
-    ordering: Ordering[] = []): Observable<BillingAccount[]> {
+    ordering: Ordering[] = []): Observable<BillingAccountDataResult> {
     return new Observable((observer) => {
       this.centralServerService.getBillingAccounts(paging, ordering).subscribe({
         next: (accounts) => {
-          observer.next(accounts.result);
+          observer.next(accounts);
           observer.complete();
         },
         error: (error) => {

@@ -280,6 +280,9 @@ export interface AssetAuthorizationActions extends AuthorizationActions {
 export interface SiteAreasAuthorizations extends AuthorizationAttributes, DataResultAuthorizationActions {
 }
 
+export interface CompaniesAuthorizations extends AuthorizationAttributes, DataResultAuthorizationActions {
+}
+
 export interface SiteAreaAuthorizationActions extends AuthorizationActions {
   canAssignAssets?: boolean;
   canUnassignAssets?: boolean;

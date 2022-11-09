@@ -67,6 +67,8 @@ export class SiteAreaComponent extends AbstractTabComponent implements OnInit {
     // Handle Dialog mode
     this.readOnly = this.dialogMode === DialogMode.VIEW;
     Utils.handleDialogMode(this.dialogMode, this.formGroup);
+    // Check if OCPI has to be displayed
+    this.ocpiHasVisibleFields = this.siteAreasAuthorizations.projectFields.includes('tariffID');
     // Load Site Area
     this.loadSiteArea();
   }

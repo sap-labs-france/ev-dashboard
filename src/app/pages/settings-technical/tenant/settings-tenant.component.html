@@ -5,6 +5,10 @@
         [disabled]="!formGroup.valid || !formGroup.dirty">
       <mat-icon>save</mat-icon><span>{{ "general.save" | translate }}</span>
     </button>
+    <button class="col-md-auto mb-2" type="button" mat-raised-button color="primary" (click)="generateQRCode()">
+      <mat-icon>qr_code</mat-icon>
+      <span>{{'general.display_qr' | translate}}</span>
+    </button>
   </div>
   <div class="card">
     <div class="card-header card-header-icon card-header-primary">

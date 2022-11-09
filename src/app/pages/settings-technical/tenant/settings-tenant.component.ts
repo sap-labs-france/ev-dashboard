@@ -1,13 +1,15 @@
 import { Component, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { StatusCodes } from 'http-status-codes';
 import { CentralServerService } from 'services/central-server.service';
 import { ConfigService } from 'services/config.service';
 import { MessageService } from 'services/message.service';
 import { SpinnerService } from 'services/spinner.service';
+import { QrCodeDialogComponent } from 'shared/dialogs/qr-code/qr-code-dialog.component';
 import { Address } from 'types/Address';
-import { RestResponse } from 'types/GlobalType';
+import { Image, RestResponse } from 'types/GlobalType';
 import { Tenant } from 'types/Tenant';
 import { Constants } from 'utils/Constants';
 import { Utils } from 'utils/Utils';
@@ -34,7 +36,8 @@ export class SettingsTenantComponent implements OnInit, OnChanges {
     private router: Router,
     private messageService: MessageService,
     private configService: ConfigService,
-    private spinnerService: SpinnerService) {
+    private spinnerService: SpinnerService,
+    private dialog: MatDialog,) {
     this.logoMaxSize = this.configService.getTenant().maxLogoKb;
     this.isDisabled = false;
   }
@@ -149,6 +152,32 @@ export class SettingsTenantComponent implements OnInit, OnChanges {
       error: (error) => {
         this.spinnerService.hide();
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tenants.update_error');
+      }
+    });
+  }
+
+  public generateQRCode() {
+    this.spinnerService.show();
+    this.centralServerService.getTenantQrCode(this.tenant.id).subscribe({
+      next: (qrCode: Image) => {
+        this.spinnerService.hide();
+        if (qrCode) {
+          // Create the dialog
+          const dialogConfig = new MatDialogConfig();
+          dialogConfig.panelClass = 'transparent-dialog-container';
+          // Set data
+          dialogConfig.data = {
+            tenant: this.tenant,
+            qrCode: qrCode.image,
+          };
+          // Open
+          this.dialog.open(QrCodeDialogComponent, dialogConfig);
+        }
+      },
+      error: (error) => {
+        this.spinnerService.hide();
+        Utils.handleHttpError(error, this.router, this.messageService,
+          this.centralServerService, 'chargers.qr_code_generation_error');
       }
     });
   }

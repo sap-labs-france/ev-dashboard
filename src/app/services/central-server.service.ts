@@ -778,7 +778,20 @@ export class CentralServerService {
       return EMPTY;
     }
     // Execute the REST service
-    return this.httpClient.get<Image>(this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATIONS_QRCODE_GENERATE, { id: chargingStationID, connectorId: connectorID}),
+    return this.httpClient.get<Image>(this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATIONS_QR_CODE_GENERATE, { id: chargingStationID, connectorId: connectorID}),
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public getTenantQrCode(tenantID: string): Observable<Image> {
+    // Verify init
+    this.checkInit();
+    // Execute the REST service
+    return this.httpClient.get<Image>(this.buildRestEndpointUrl(RESTServerRoute.REST_TENANT_QR_CODE_GENERATE, { id: tenantID }),
       {
         headers: this.buildHttpHeaders(),
       })
@@ -1843,7 +1856,7 @@ export class CentralServerService {
     this.checkInit();
     const params: { [param: string]: string } = {};
     params['SiteID'] = siteID;
-    return this.httpClient.get(this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATIONS_QRCODE_DOWNLOAD),
+    return this.httpClient.get(this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATIONS_QR_CODE_DOWNLOAD),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -1858,7 +1871,7 @@ export class CentralServerService {
     this.checkInit();
     const params: { [param: string]: string } = {};
     params['SiteAreaID'] = siteAreaID;
-    return this.httpClient.get(this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATIONS_QRCODE_DOWNLOAD),
+    return this.httpClient.get(this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATIONS_QR_CODE_DOWNLOAD),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -1876,10 +1889,22 @@ export class CentralServerService {
     if (connectorID) {
       params['ConnectorID'] = connectorID.toString();
     }
-    return this.httpClient.get(this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATIONS_QRCODE_DOWNLOAD),
+    return this.httpClient.get(this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATIONS_QR_CODE_DOWNLOAD),
       {
         headers: this.buildHttpHeaders(),
         params,
+        responseType: 'blob',
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public downloadTenantQrCode(tenantID: string): Observable<Blob> {
+    this.checkInit();
+    return this.httpClient.get(this.buildRestEndpointUrl(RESTServerRoute.REST_TENANT_QR_CODE_DOWNLOAD, {id: tenantID}),
+      {
+        headers: this.buildHttpHeaders(),
         responseType: 'blob',
       })
       .pipe(

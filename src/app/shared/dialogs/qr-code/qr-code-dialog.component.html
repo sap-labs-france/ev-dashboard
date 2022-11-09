@@ -2,7 +2,7 @@
   <div class="card">
     <div class="card-header card-header-tabs card-header-primary">
       <div class="nav-tabs-navigation">
-        <h4 class="nav-tabs-title">{{chargingStationID}} - {{'chargers.connector' | translate}} {{connectorID | appConnectorId}}</h4>
+        <h4 class="nav-tabs-title">{{title}}</h4>
         <ul class="nav nav-tabs" data-tabs="tabs">
           <span class="toolbar-spacer"></span>
           <button mat-icon-button mat-dialog-close>
@@ -16,7 +16,7 @@
         <img [src]="qrCode"/>
       </div>
       <div class="text-center">
-        {{chargingStationID}} / {{'chargers.connector' | translate}} {{connectorID | appConnectorId}}
+        {{title}}
       </div>
     </div>
     <div class="card-footer justify-content-end row">

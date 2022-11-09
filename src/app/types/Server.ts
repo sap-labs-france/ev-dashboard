@@ -39,7 +39,8 @@ export enum ServerAction {
 
   CHARGING_STATION_REQUEST_OCPP_PARAMETERS = 'ChargingStationRequestOcppParameters',
   CHARGING_STATION_CLIENT_INITIALIZATION = 'ChargingStationClientInitialization',
-  CHARGING_STATION_DOWNLOAD_QR_CODE_PDF = 'ChargingStationDownloadQrCodePdf',
+  CHARGING_STATION_DOWNLOAD_QR_CODE = 'ChargingStationDownloadQrCode',
+  CHARGING_STATION_GENERATE_QR_CODE = 'ChargingStationGenerateQrCode',
   CHARGING_STATIONS_EXPORT = 'ChargingStationsExport',
   CHARGING_STATIONS_OCPP_PARAMS_EXPORT = 'ChargingStationsOcppParamsExport',
   CHARGING_STATION = 'ChargingStation',
@@ -100,7 +101,6 @@ export enum ServerAction {
   CHARGING_PROFILE_DELETE = 'ChargingProfileDelete',
   CHARGING_PROFILE_UPDATE = 'ChargingProfileUpdate',
   CHARGING_PROFILE_CREATE = 'ChargingProfileCreate',
-  GENERATE_QR_CODE_FOR_CONNECTOR = 'GenerateQrCodeForConnector',
   OCPP_PARAM_UPDATE = 'OcppParamUpdate',
   RESEND_VERIFICATION_MAIL = 'ResendVerificationEmail',
   END_USER_LICENSE_AGREEMENT = 'EndUserLicenseAgreement',
@@ -369,6 +369,8 @@ export enum ServerAction {
   TENANT_UPDATE_DATA = 'TenantUpdateData',
   TENANT_DELETE = 'TenantDelete',
   TENANT_LOGO = 'TenantLogo',
+  TENANT_GENERATE_QR_CODE = 'TenantGenerateQrCode',
+  TENANT_DOWNLOAD_QR_CODE = 'TenantDownloadQrCode',
 
   COMPANY_CREATE = 'CompanyCreate',
   COMPANIES = 'Companies',
@@ -418,7 +420,7 @@ export enum ServerAction {
   USER_CREATE = 'UserCreate',
   USER_DELETE = 'UserDelete',
   USER_UPDATE = 'UserUpdate',
-  USER_UPDATE_MOBILE_TOKEN = 'UpdateUserMobileToken',
+  USER_UPDATE_MOBILE_DATA = 'UpdateUserMobileData',
   USERS = 'Users',
   USER_SITES = 'UserSites',
   USERS_IN_ERROR = 'UsersInError',
@@ -531,8 +533,8 @@ export enum RESTServerRoute {
   REST_CHARGING_STATIONS_CANCEL_RESERVATION = 'charging-stations/:id/reservation/cancel',
 
   REST_CHARGING_STATIONS_DOWNLOAD_FIRMWARE = 'charging-stations/firmware/download',
-  REST_CHARGING_STATIONS_QRCODE_GENERATE = 'charging-stations/:id/connectors/:connectorId/qrcode/generate',
-  REST_CHARGING_STATIONS_QRCODE_DOWNLOAD = 'charging-stations/qrcode/download',
+  REST_CHARGING_STATIONS_QR_CODE_GENERATE = 'charging-stations/:id/connectors/:connectorId/qrcode/generate',
+  REST_CHARGING_STATIONS_QR_CODE_DOWNLOAD = 'charging-stations/qrcode/download',
 
   REST_CHARGING_STATION_GET_OCPP_PARAMETERS = 'charging-stations/:id/ocpp/parameters',
   REST_CHARGING_STATIONS_REQUEST_OCPP_PARAMETERS = 'charging-stations/ocpp/parameters',
@@ -576,6 +578,7 @@ export enum RESTServerRoute {
   REST_USER_DEFAULT_TAG_CAR = 'users/:id/default-car-tag',
   REST_USER_SITES = 'users/:id/sites',
   REST_USER_UPDATE_MOBILE_TOKEN = 'users/:id/mobile-token',
+  REST_USER_UPDATE_MOBILE_DATA = 'users/:id/mobile-data',
   REST_USER_IMAGE = 'users/:id/image',
   REST_USERS_IN_ERROR = 'users/status/in-error',
   REST_USERS_IMPORT = 'users/action/import',
@@ -612,6 +615,8 @@ export enum RESTServerRoute {
   REST_TENANT = 'tenants/:id',
   REST_TENANT_DATA = 'tenants/:id/data',
   REST_TENANT_LOGO = 'tenants/logo',
+  REST_TENANT_QR_CODE_GENERATE = 'tenants/:id/qrcode/generate',
+  REST_TENANT_QR_CODE_DOWNLOAD = 'tenants/:id/qrcode/download',
 
   REST_COMPANIES = 'companies',
   REST_COMPANY = 'companies/:id',

@@ -17,7 +17,7 @@ import { TagsDialogComponent } from '../../../shared/dialogs/tags/tags-dialog.co
 import { UsersDialogComponent } from '../../../shared/dialogs/users/users-dialog.component';
 import { TenantComponents } from '../../../types/Tenant';
 import { StartTransaction, StartTransactionErrorCode } from '../../../types/Transaction';
-import { User, UserDefaultTagCar, UserToken } from '../../../types/User';
+import { User, UserSessionContext, UserToken } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';
 
 @Component({
@@ -100,7 +100,7 @@ export class ChargingStationsStartTransactionDialogComponent implements OnInit {
     this.visualTagID = this.formGroup.controls['visualTagID'];
     this.user.setValue(Utils.buildUserFullName(this.loggedUser));
     this.userID.setValue(this.loggedUser.id);
-    this.loadUserDefaultTagCar();
+    this.loadUserSessionContext();
   }
 
   public resetCar() {
@@ -108,30 +108,30 @@ export class ChargingStationsStartTransactionDialogComponent implements OnInit {
     this.carID.reset();
   }
 
-  public loadUserDefaultTagCar() {
+  public loadUserSessionContext() {
     if (this.userID.value) {
       this.spinnerService.show();
-      this.centralServerService.getUserDefaultTagCar(this.userID.value, this.chargingStationID).subscribe({
-        next: (userDefaultTagCar: UserDefaultTagCar) => {
+      this.centralServerService.getUserSessionContext(this.userID.value, this.chargingStationID).subscribe({
+        next: (userSessionContext: UserSessionContext) => {
           this.spinnerService.hide();
           // Set Tag
-          this.selectedTag = userDefaultTagCar.tag;
-          this.tag.setValue(userDefaultTagCar.tag ? Utils.buildTagName(userDefaultTagCar.tag) : '');
-          this.visualTagID.setValue(userDefaultTagCar.tag?.visualID);
+          this.selectedTag = userSessionContext.tag;
+          this.tag.setValue(userSessionContext.tag ? Utils.buildTagName(userSessionContext.tag) : '');
+          this.visualTagID.setValue(userSessionContext.tag?.visualID);
           // Set Car
-          this.selectedCar = userDefaultTagCar.car;
-          this.car.setValue(userDefaultTagCar.car ? Utils.buildCarName(userDefaultTagCar.car, this.translateService, false) : '');
-          this.carID.setValue(userDefaultTagCar.car?.id);
+          this.selectedCar = userSessionContext.car;
+          this.car.setValue(userSessionContext.car ? Utils.buildCarName(userSessionContext.car, this.translateService, false) : '');
+          this.carID.setValue(userSessionContext.car?.id);
           // Update form
           this.formGroup.updateValueAndValidity();
-          if (Utils.isEmptyArray(userDefaultTagCar.errorCodes)) {
+          if (Utils.isEmptyArray(userSessionContext.errorCodes)) {
             this.formGroup.markAsPristine();
             this.formGroup.markAllAsTouched();
           } else {
             // Setting errors automatically disable start transaction button
-            this.formGroup.setErrors(userDefaultTagCar.errorCodes);
+            this.formGroup.setErrors(userSessionContext.errorCodes);
             // Set mat-error message depending on errorCode provided
-            if (userDefaultTagCar.errorCodes[0] === StartTransactionErrorCode.BILLING_NO_PAYMENT_METHOD) {
+            if (userSessionContext.errorCodes[0] === StartTransactionErrorCode.BILLING_NO_PAYMENT_METHOD) {
               this.errorMessage = this.translateService.instant('transactions.error_start_no_payment_method');
             } else {
               this.errorMessage = this.translateService.instant('transactions.error_start_general');
@@ -168,7 +168,7 @@ export class ChargingStationsStartTransactionDialogComponent implements OnInit {
       this.visualTagID.setValue('');
       this.car.setValue('');
       this.carID.setValue('');
-      this.loadUserDefaultTagCar();
+      this.loadUserSessionContext();
     });
   }
 

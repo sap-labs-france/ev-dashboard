@@ -3,6 +3,7 @@ import { UserAuthorizationActions } from './Authorization';
 import { BillingUserData } from './Billing';
 import { Car } from './Car';
 import CreatedUpdatedProps from './CreatedUpdatedProps';
+import { PrioritizationParameters } from './Setting';
 import { TableData } from './Table';
 import { Tag } from './Tag';
 import { StartTransactionErrorCode } from './Transaction';
@@ -70,10 +71,11 @@ export interface UserNotifications {
   sendAdminAccountVerificationNotification: boolean;
 }
 
-export interface UserDefaultTagCar {
+export interface UserSessionContext {
   car?: Car;
   tag?: Tag;
   errorCodes?: StartTransactionErrorCode[];
+  prioritizationParameters?: PrioritizationParameters;
 }
 
 export interface UserToken {

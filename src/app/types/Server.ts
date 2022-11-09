@@ -562,7 +562,7 @@ export enum RESTServerRoute {
 
   REST_USERS = 'users',
   REST_USER = 'users/:id',
-  REST_USER_DEFAULT_TAG_CAR = 'users/:id/default-car-tag',
+  REST_USER_SESSION_CONTEXT= 'users/:id/session-context',
   REST_USER_SITES = 'users/:id/sites',
   REST_USER_UPDATE_MOBILE_TOKEN = 'users/:id/mobile-token',
   REST_USER_IMAGE = 'users/:id/image',

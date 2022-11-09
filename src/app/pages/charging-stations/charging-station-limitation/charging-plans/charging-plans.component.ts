@@ -253,6 +253,7 @@ export class ChargingPlansComponent implements OnInit, AfterViewInit {
               this.chargingStation, this.chargingStation.chargePoints[0]);
             this.scheduleTableDataSource.setChargingStation(
               this.chargingStation, this.chargingStation.chargePoints[0]);
+            this.chargingProfilesControl.setValue(null);
           }
         },
         error: (error) => {
